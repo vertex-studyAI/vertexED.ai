@@ -1,7 +1,12 @@
 import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
+import { useAuth } from "@/contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
+  const { login } = useAuth();
+  const navigate = useNavigate();
+
   return (
     <>
       <Helmet>
@@ -10,13 +15,16 @@ export default function Login() {
         <link rel="canonical" href={typeof window!== 'undefined' ? window.location.href : '/login'} />
       </Helmet>
       <div className="relative min-h-[70vh] flex items-center justify-center">
-        <img src="/lovable-uploads/0d04af06-7de4-4e3c-af57-3823e3054d90.png" alt="Brain illustration background" className="absolute inset-0 w-full h-full object-cover opacity-20 dark:opacity-30 pointer-events-none" />
         <motion.form
           initial={{ opacity: 0, scale: 0.98 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.4 }}
           className="relative neu-card w-full max-w-md p-8"
-          onSubmit={(e) => e.preventDefault()}
+          onSubmit={(e) => {
+            e.preventDefault();
+            login();
+            navigate("/main");
+          }}
         >
           <h1 className="text-3xl font-semibold mb-6 text-center">Log in</h1>
           <div className="space-y-4">

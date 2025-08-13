@@ -16,6 +16,9 @@ import ImageAnswer from "@/pages/ImageAnswer";
 import About from "@/pages/About";
 import NotFound from "./pages/NotFound";
 import { HelmetProvider } from "react-helmet-async";
+import PaperMaker from "@/pages/PaperMaker";
+import UserSettings from "@/pages/UserSettings";
+import { AuthProvider } from "@/contexts/AuthContext";
 
 const queryClient = new QueryClient();
 
@@ -25,23 +28,27 @@ const App = () => (
       <HelmetProvider>
         <Toaster />
         <Sonner />
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<SiteLayout />}> 
-              <Route index element={<Home />} />
-              <Route path="login" element={<Login />} />
-              <Route path="signup" element={<Signup />} />
-              <Route path="main" element={<Main />} />
-              <Route path="notetaker" element={<NotetakerQuiz />} />
-              <Route path="study-zone" element={<StudyZone />} />
-              <Route path="chatbot" element={<AIChatbot />} />
-              <Route path="planner" element={<StudyPlanner />} />
-              <Route path="image-answer" element={<ImageAnswer />} />
-              <Route path="about" element={<About />} />
-            </Route>
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
+        <AuthProvider>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<SiteLayout />}> 
+                <Route index element={<Home />} />
+                <Route path="login" element={<Login />} />
+                <Route path="signup" element={<Signup />} />
+                <Route path="main" element={<Main />} />
+                <Route path="notetaker" element={<NotetakerQuiz />} />
+                <Route path="study-zone" element={<StudyZone />} />
+                <Route path="chatbot" element={<AIChatbot />} />
+                <Route path="planner" element={<StudyPlanner />} />
+                <Route path="image-answer" element={<ImageAnswer />} />
+                <Route path="paper-maker" element={<PaperMaker />} />
+                <Route path="about" element={<About />} />
+                <Route path="settings" element={<UserSettings />} />
+              </Route>
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </BrowserRouter>
+        </AuthProvider>
       </HelmetProvider>
     </TooltipProvider>
   </QueryClientProvider>

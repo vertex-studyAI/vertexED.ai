@@ -1,7 +1,12 @@
 import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
+import { useAuth } from "@/contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 export default function Signup() {
+  const { login } = useAuth();
+  const navigate = useNavigate();
+
   return (
     <>
       <Helmet>
@@ -10,14 +15,16 @@ export default function Signup() {
         <link rel="canonical" href={typeof window!== 'undefined' ? window.location.href : '/signup'} />
       </Helmet>
       <div className="relative min-h-[70vh] flex items-center justify-center overflow-hidden">
-        <img src="/lovable-uploads/a24e6fd2-fbe6-4adf-8ee7-85b706876918.png" alt="Spinning record background left" className="absolute -left-24 -top-10 w-80 opacity-25 animate-spin-slow" />
-        <img src="/lovable-uploads/a24e6fd2-fbe6-4adf-8ee7-85b706876918.png" alt="Spinning record background right" className="absolute -right-24 bottom-0 w-80 opacity-25 animate-spin-slow-reverse" />
         <motion.form
           initial={{ opacity: 0, scale: 0.98 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.4 }}
           className="relative neu-card w-full max-w-md p-8"
-          onSubmit={(e) => e.preventDefault()}
+          onSubmit={(e) => {
+            e.preventDefault();
+            login();
+            navigate("/main");
+          }}
         >
           <h1 className="text-3xl font-semibold mb-6 text-center">Sign up</h1>
           <div className="space-y-4">
