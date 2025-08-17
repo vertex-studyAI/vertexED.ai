@@ -1,4 +1,3 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
 import SiteLayout from "@/components/layout/SiteLayout";
 import Home from "@/pages/Home";
 import Login from "@/pages/Login";
@@ -10,11 +9,12 @@ import AIChatbot from "@/pages/AIChatbot";
 import StudyPlanner from "@/pages/StudyPlanner";
 import ImageAnswer from "@/pages/ImageAnswer";
 import About from "@/pages/About";
-import NotFound from "./pages/NotFound";
-import { HelmetProvider } from "react-helmet-async";
+import NotFound from "@/pages/NotFound";
 import PaperMaker from "@/pages/PaperMaker";
 import UserSettings from "@/pages/UserSettings";
 import { AuthProvider } from "@/contexts/AuthContext";
+import { HelmetProvider } from "react-helmet-async";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 const App = () => (
   <HelmetProvider>
@@ -38,7 +38,7 @@ const App = () => (
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
-  </AuthProvider>
+    </AuthProvider>
   </HelmetProvider>
 );
 

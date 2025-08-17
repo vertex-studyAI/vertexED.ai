@@ -1,5 +1,4 @@
 import { Helmet } from "react-helmet-async";
-import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useAuth } from "@/contexts/AuthContext";
@@ -19,12 +18,7 @@ export default function Home() {
         <link rel="canonical" href={typeof window!== 'undefined' ? window.location.href : '/'} />
       </Helmet>
 
-      <motion.section
-        initial={{ opacity: 0, y: 12 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="relative overflow-hidden neu-hero px-6 py-14 md:py-20 rounded-3xl"
-      >
+  <section className="relative overflow-hidden neu-hero px-6 py-14 md:py-20 rounded-3xl animate-fade-in">
         <div className="relative z-10 max-w-3xl">
           <h1 className="text-4xl md:text-6xl font-semibold leading-tight mb-4">The only study tool you need</h1>
           <p className="text-lg opacity-90 mb-8 max-w-2xl">All-in-one AI toolkit for students—planner, notes, flashcards, quizzes, chatbot, and more in one elegant workspace.</p>
@@ -33,7 +27,7 @@ export default function Home() {
             <Link to="/about" className="neu-button subtle px-6 py-3 text-base">Learn more</Link>
           </div>
         </div>
-      </motion.section>
+  </section>
 
       <section className="mt-12 max-w-4xl">
         <p className="opacity-90 text-lg md:text-xl leading-relaxed mb-8">

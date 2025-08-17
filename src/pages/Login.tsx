@@ -1,5 +1,4 @@
 import { Helmet } from "react-helmet-async";
-import { motion } from "framer-motion";
 import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 
@@ -15,11 +14,8 @@ export default function Login() {
         <link rel="canonical" href={typeof window!== 'undefined' ? window.location.href : '/login'} />
       </Helmet>
       <div className="relative min-h-[70vh] flex items-center justify-center">
-        <motion.form
-          initial={{ opacity: 0, scale: 0.98 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.4 }}
-          className="relative neu-card w-full max-w-md p-8"
+        <form
+          className="relative neu-card w-full max-w-md p-8 animate-fade-in"
           onSubmit={(e) => {
             e.preventDefault();
             login();
@@ -39,7 +35,7 @@ export default function Login() {
           <p className="text-center mt-4 text-sm opacity-80">
             No account? <a href="/signup" className="sketch-underline">Sign up</a>
           </p>
-        </motion.form>
+  </form>
       </div>
     </>
   );
