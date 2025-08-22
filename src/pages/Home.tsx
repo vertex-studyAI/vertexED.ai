@@ -17,23 +17,48 @@ export default function Home() {
         <meta name="description" content="Vertex is a modern AI-powered study toolkit with planner, chatbot, notes, flashcards and quizzes." />
         <link rel="canonical" href={typeof window!== 'undefined' ? window.location.href : '/'} />
       </Helmet>
+  {/* Gradient background now provided by SiteLayout when on home route */}
 
-  <section className="relative overflow-hidden neu-hero px-6 py-14 md:py-20 rounded-3xl animate-fade-in">
+  <section
+    className="relative overflow-hidden px-6 py-14 md:py-20 rounded-3xl animate-fade-in"
+    style={{ background: 'linear-gradient(to bottom left, #326E85 0%, #6D848D 100%)' }}
+  >
         <div className="relative z-10 max-w-3xl">
-          <h1 className="text-4xl md:text-6xl font-semibold leading-tight mb-4">The only study tool you need</h1>
-          <p className="text-lg opacity-90 mb-8 max-w-2xl">All-in-one AI toolkit for students—planner, notes, flashcards, quizzes, chatbot, and more in one elegant workspace.</p>
+          <h1 className="text-4xl md:text-6xl font-semibold leading-tight mb-4 text-black">The only study tool you need</h1>
+          <p className="text-lg opacity-90 mb-8 max-w-2xl text-black">All-in-one AI toolkit for students—planner, notes, flashcards, quizzes, chatbot, and more in one elegant workspace.</p>
           <div className="flex gap-4 flex-wrap">
-            <Link to="/main" className="neu-button px-6 py-3 text-base">Get Started</Link>
-            <Link to="/about" className="neu-button subtle px-6 py-3 text-base">Learn more</Link>
+            <Link to="/main" className="px-6 py-3 rounded-2xl text-black" style={{ background: 'linear-gradient(to bottom left, #92A3AA 0%, #D9DFE1 100%)' }}>Get Started</Link>
+            <Link to="/about" className="subtle px-6 py-3 rounded-2xl text-black" style={{ background: 'linear-gradient(to bottom left, #92A3AA 0%, #D9DFE1 100%)' }}>Learn more</Link>
           </div>
         </div>
   </section>
 
-      <section className="mt-12 max-w-4xl">
-        <p className="opacity-90 text-lg md:text-xl leading-relaxed mb-8">
-          Vertex revolutionizes the way students approach learning by unifying planning, note-taking, flashcards, quizzes, AI chat, and specialized tools like IB/IGCSE paper makers into one seamless, elegant workspace. Born from the minds of three ambitious high school students, Vertex is designed for focus and flow—it's fast, minimal, intuitive, and perfectly crafted for your study routine. Whether you're preparing for exams, organizing complex projects, or seeking AI-powered assistance with challenging concepts, Vertex adapts to your unique learning style and helps you achieve academic excellence.
-        </p>
-        <blockquote className="mt-8 border-l-4 border-primary pl-6 italic opacity-90 text-xl font-medium">
+      <section className="mt-12 w-full px-4 md:px-8">
+        <div className="mx-auto w-full max-w-[1400px] grid grid-cols-2 md:grid-cols-4 gap-5 md:gap-6 mb-8">
+          {[
+            { title: 'AI Powered Notes', icon: '/notes.png', desc: 'Summarize learning in seconds' },
+            { title: 'Smart Flashcards', icon: '/flashcards.png', desc: 'Revise quickly and efficiently' },
+            { title: 'Custom Study Planner', icon: '/studyplanner.png', desc: 'Spend less time planning,\nmore time doing' },
+            { title: 'Mock Paper Generator', icon: '/mockpaper.png', desc: 'Test yourself on any topic\ninstantly' },
+          ].map(card => (
+            <div
+              key={card.title}
+              className="group relative rounded-xl shadow-sm border border-border/40 overflow-hidden"
+              style={{ background: 'linear-gradient(to bottom, #FFFFFF 0%, #B1B1B1 100%)' }}
+            >
+              <div className="flex flex-col h-full aspect-[5/3] p-3 sm:p-4 md:p-5 items-center justify-center text-center gap-3">
+                <img src={card.icon} alt="" className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 object-contain transition-all duration-300" loading="lazy" />
+                <h3 className="text-base sm:text-lg md:text-xl font-semibold text-neutral-900 leading-snug tracking-tight">
+                  {card.title}
+                </h3>
+                <p className="mt-1 text-[10px] sm:text-[11px] md:text-xs font-medium text-neutral-700 whitespace-pre-line leading-relaxed tracking-tight max-w-[90%]">
+                  {card.desc}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+  <blockquote className="mt-8 border-l-4 border-[#326E85] pl-6 italic text-xl font-medium bg-gradient-to-r from-[#FFFFFF] to-[#6D848D] text-transparent bg-clip-text">
           "The only study tool you'll ever need."
         </blockquote>
       </section>
