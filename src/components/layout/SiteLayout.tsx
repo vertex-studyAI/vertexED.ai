@@ -45,8 +45,7 @@ export default function SiteLayout() {
               ))}
               <Link
                 to="/signup"
-                className="rounded-full px-4 py-2 text-sm font-semibold shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#6D848D] transition-colors"
-                style={{ background: 'linear-gradient(to right, #6D848D 0%, #FFFFFF 100%)', color: '#0f1416' }}
+                className="rounded-full px-4 py-2 text-sm font-semibold shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[hsl(var(--ring))] transition-colors brand-cta brand-ink-dark"
               >
                 Try Now
               </Link>
@@ -56,8 +55,7 @@ export default function SiteLayout() {
             <div className="flex md:hidden items-center gap-2 ml-auto">
               <Link
                 to="/signup"
-                className="rounded-full px-3 py-1.5 text-xs font-semibold shadow-sm"
-                style={{ background: 'linear-gradient(to right, #6D848D 0%, #FFFFFF 100%)', color: '#0f1416' }}
+                className="rounded-full px-3 py-1.5 text-xs font-semibold shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[hsl(var(--ring))] brand-cta brand-ink-dark"
               >
                 Try
               </Link>
@@ -91,8 +89,7 @@ export default function SiteLayout() {
             <Link
               to="/signup"
               onClick={() => setMenuOpen(false)}
-              className="mt-2 rounded-full px-4 py-2 text-sm font-semibold shadow-sm text-[#0f1416]"
-              style={{ background: 'linear-gradient(to right, #6D848D 0%, #FFFFFF 100%)' }}
+              className="mt-2 rounded-full px-4 py-2 text-sm font-semibold shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[hsl(var(--ring))] brand-cta brand-ink-dark"
             >
               Try Now
             </Link>

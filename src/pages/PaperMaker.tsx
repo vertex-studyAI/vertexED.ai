@@ -1,6 +1,7 @@
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import NeumorphicCard from "@/components/NeumorphicCard";
+import PageSection from "@/components/PageSection";
 
 export default function PaperMaker() {
   return (
@@ -11,11 +12,11 @@ export default function PaperMaker() {
         <link rel="canonical" href={typeof window!== 'undefined' ? window.location.href : '/paper-maker'} />
       </Helmet>
 
-      <div className="mb-6">
-        <Link to="/main" className="neu-button px-4 py-2 text-sm">← Back to Main</Link>
-      </div>
-      
-      <div className="grid md:grid-cols-2 gap-8">
+      <PageSection>
+        <div className="mb-6">
+          <Link to="/main" className="neu-button px-4 py-2 text-sm">← Back to Main</Link>
+        </div>
+        <div className="grid md:grid-cols-2 gap-8">
         <NeumorphicCard className="p-8 min-h-96" title="Paper Configuration" info="Customize your IB/IGCSE practice paper with specific settings.">
           <div className="grid gap-6 mt-4">
             <div className="grid grid-cols-2 gap-4">
@@ -65,7 +66,8 @@ export default function PaperMaker() {
             </div>
           </div>
         </NeumorphicCard>
-      </div>
+        </div>
+      </PageSection>
     </>
   );
 }

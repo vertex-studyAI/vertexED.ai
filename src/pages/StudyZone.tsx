@@ -1,6 +1,7 @@
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import NeumorphicCard from "@/components/NeumorphicCard";
+import PageSection from "@/components/PageSection";
 
 export default function StudyZone() {
   return (
@@ -10,10 +11,10 @@ export default function StudyZone() {
         <meta name="description" content="Focused study zone with timers and task lists." />
         <link rel="canonical" href={typeof window!== 'undefined' ? window.location.href : '/study-zone'} />
       </Helmet>
+      <PageSection>
         <div className="mb-6">
           <Link to="/main" className="neu-button px-4 py-2 text-sm">← Back to Main</Link>
         </div>
-        
         <div className="grid md:grid-cols-3 gap-6">
         <NeumorphicCard className="p-8 md:col-span-2 h-80">
           <h2 className="text-xl font-medium mb-4">Focus Timer</h2>
@@ -23,7 +24,8 @@ export default function StudyZone() {
           <h2 className="text-xl font-medium mb-4">Study Tasks</h2>
           <p className="opacity-70 text-lg">Organize and prioritize your study tasks with AI-powered scheduling recommendations.</p>
         </NeumorphicCard>
-      </div>
+        </div>
+      </PageSection>
     </>
   );
 }

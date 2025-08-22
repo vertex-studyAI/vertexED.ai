@@ -18,16 +18,17 @@ All colors MUST be HSL.
     --popover: 216 18% 14%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 165 72% 40%;
+  /* Primary and Accent now use the homepage blue gradient hues */
+  --primary: 199 45% 36%; /* matches --brand-1 */
     --primary-foreground: 216 18% 14%;
 
-    --secondary: 217.2 32.6% 17.5%;
+  --secondary: 217.2 32.6% 17.5%;
     --secondary-foreground: 210 40% 98%;
 
-    --muted: 217.2 32.6% 17.5%;
+  --muted: 217.2 32.6% 17.5%;
     --muted-foreground: 215 20.2% 65.1%;
 
-    --accent: 173 65% 40%;
+  --accent: 200 13% 49%; /* matches --brand-2 */
     --accent-foreground: 210 40% 98%;
 
     --destructive: 0 62.8% 30.6%;
@@ -35,7 +36,7 @@ All colors MUST be HSL.
 
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
-    --ring: 165 72% 46%;
+  --ring: 199 45% 36%;
 
     --radius: 1rem;
 
@@ -47,6 +48,14 @@ All colors MUST be HSL.
     --sidebar-accent-foreground: 240 4.8% 95.9%;
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+
+  /* Brand palette derived from existing homepage look (HSL only) */
+  --brand-1: 199 45% 36%; /* was #326E85 */
+  --brand-2: 200 13% 49%; /* was #6D848D */
+  --brand-cta-1: 200 13% 62%; /* was #92A3AA */
+  --brand-cta-2: 200 20% 88%; /* was #D9DFE1 */
+  --brand-tile-1: 0 0% 100%;   /* white */
+  --brand-tile-2: 0 0% 69%;    /* was #B1B1B1 */
 
     /* Neumorphic tokens */
     --shadow-soft: 10px 10px 24px hsl(216 20% 6% / 0.65), -10px -10px 24px hsl(0 0% 100% / 0.04);
@@ -80,6 +89,60 @@ All colors MUST be HSL.
   .neu-lift { transform: translateY(-2px); box-shadow: var(--glow); }
   .neu-hero { background: var(--gradient-hero); box-shadow: var(--shadow-soft); }
 
+  /* Brand utilities for consistent accents/text effects */
+  .brand-text-gradient {
+    /* Foreground -> Primary gradient for headings/quotes */
+    background-image: linear-gradient(90deg, hsl(var(--foreground)) 0%, hsl(var(--primary)) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .brand-accent-border {
+    border-color: hsl(var(--primary));
+  }
+
+  /* Brand surfaces to match homepage visuals globally */
+  .brand-hero {
+    background-image: linear-gradient(to bottom left, hsl(var(--brand-1)) 0%, hsl(var(--brand-2)) 100%);
+  }
+  .brand-cta {
+    background-image: linear-gradient(to bottom left, hsl(var(--brand-cta-1)) 0%, hsl(var(--brand-cta-2)) 100%);
+  }
+  .brand-tile {
+    background-image: linear-gradient(to bottom, hsl(var(--brand-tile-1)) 0%, hsl(var(--brand-tile-2)) 100%);
+  }
+
+  /* Diagonal accent utilities (for auth pages, etc.) */
+  .diagonal-accent-left {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: min(65vw, 1100px);
+    pointer-events: none;
+    background-image: linear-gradient(135deg, hsl(var(--brand-2)) 0%, hsl(var(--brand-1)) 100%);
+    clip-path: polygon(0 0, 100% 0, 65% 100%, 0% 100%);
+    opacity: 0.95;
+  }
+  .diagonal-accent-top {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 38vh;
+    pointer-events: none;
+    background-image: linear-gradient(135deg, hsl(var(--brand-2)) 0%, hsl(var(--brand-1)) 100%);
+    clip-path: polygon(0 0, 100% 0, 100% 62%, 0 85%);
+    opacity: 0.95;
+  }
+  @media (min-width: 768px) {
+    .diagonal-accent-top { display: none; }
+  }
+  @media (max-width: 767px) {
+    .diagonal-accent-left { display: none; }
+  }
+  .brand-ink-dark { color: hsl(206 18% 9%); }
+
   .neu-button { @apply inline-flex items-center justify-center rounded-full px-4 py-2 transition-all; background: linear-gradient(145deg, hsl(var(--primary)/0.15), hsl(var(--primary)/0.05)); box-shadow: var(--shadow-soft); }
   .neu-button:hover { box-shadow: var(--glow); transform: translateY(-1px); }
   .neu-button.subtle { background: linear-gradient(145deg, hsl(var(--muted)), hsl(var(--card))); }
@@ -104,9 +167,9 @@ All colors MUST be HSL.
   .animate-fade-in { animation: fade-in .45s ease forwards; opacity: 0; }
 
   /* Orb gradients */
-  .orb-gradient { background: radial-gradient(circle at 30% 30%, #6D848D, #326E85 60%, transparent 75%); filter: blur(70px); opacity: .28; mix-blend-mode: screen; }
-  .orb-gradient-secondary { background: radial-gradient(circle at 60% 40%, #ffffff, #6D848D 55%, transparent 75%); filter: blur(80px); opacity: .18; mix-blend-mode: screen; }
-  .orb-gradient-accent { background: radial-gradient(circle at 40% 60%, #92A3AA, #326E85 55%, transparent 75%); filter: blur(65px); opacity: .22; mix-blend-mode: screen; }
+  .orb-gradient { background: radial-gradient(circle at 30% 30%, hsl(var(--brand-2)), hsl(var(--brand-1)) 60%, transparent 75%); filter: blur(70px); opacity: .28; mix-blend-mode: screen; }
+  .orb-gradient-secondary { background: radial-gradient(circle at 60% 40%, #ffffff, hsl(var(--brand-2)) 55%, transparent 75%); filter: blur(80px); opacity: .18; mix-blend-mode: screen; }
+  .orb-gradient-accent { background: radial-gradient(circle at 40% 60%, hsl(var(--brand-2)), hsl(var(--brand-1)) 55%, transparent 75%); filter: blur(65px); opacity: .22; mix-blend-mode: screen; }
 
   @keyframes drift-slow { 0%,100% { transform: translate3d(0,0,0) scale(1); } 50% { transform: translate3d(50px,-30px,0) scale(1.08); } }
   @keyframes drift-medium { 0%,100% { transform: translate3d(0,0,0) scale(1); } 50% { transform: translate3d(-60px,40px,0) scale(1.05); } }
@@ -130,7 +193,7 @@ All colors MUST be HSL.
     width: 1100px;
     height: 1100px;
     transform: translateX(-50%);
-    background: radial-gradient(circle at 50% 45%, #6D848D 0%, #326E85 55%, transparent 72%);
+  background: radial-gradient(circle at 50% 45%, hsl(var(--brand-2)) 0%, hsl(var(--brand-1)) 55%, transparent 72%);
     filter: blur(140px);
     opacity: 0.32;
     mix-blend-mode: lighten;

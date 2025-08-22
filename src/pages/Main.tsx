@@ -1,6 +1,7 @@
 import { Helmet } from "react-helmet-async";
 import NeumorphicCard from "@/components/NeumorphicCard";
 import { Link } from "react-router-dom";
+import PageSection from "@/components/PageSection";
 
 export default function Main() {
   const tiles = [
@@ -20,16 +21,18 @@ export default function Main() {
         <link rel="canonical" href={typeof window!== 'undefined' ? window.location.href : '/main'} />
       </Helmet>
 
-      <div className="grid md:grid-cols-3 gap-6">
-        {tiles.map((t) => (
-          <Link to={t.to} key={t.title} className={t.span}>
-            <NeumorphicCard className="p-8 h-full min-h-52" info={t.info} title={t.title}>
-              <p className="opacity-70 text-lg">Open {t.title.toLowerCase()} →</p>
-              <p className="text-sm opacity-60 mt-3">Access powerful AI tools designed to enhance your study experience and improve learning outcomes.</p>
-            </NeumorphicCard>
-          </Link>
-        ))}
-      </div>
+      <PageSection>
+        <div className="grid md:grid-cols-3 gap-6">
+          {tiles.map((t) => (
+            <Link to={t.to} key={t.title} className={t.span}>
+              <NeumorphicCard className="p-8 h-full min-h-52" info={t.info} title={t.title}>
+                <p className="opacity-70 text-lg">Open {t.title.toLowerCase()} →</p>
+                <p className="text-sm opacity-60 mt-3">Access powerful AI tools designed to enhance your study experience and improve learning outcomes.</p>
+              </NeumorphicCard>
+            </Link>
+          ))}
+        </div>
+      </PageSection>
     </>
   );
 }

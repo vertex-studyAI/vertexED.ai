@@ -1,5 +1,6 @@
 import { Helmet } from "react-helmet-async";
 import NeumorphicCard from "@/components/NeumorphicCard";
+import PageSection from "@/components/PageSection";
 import { Github, Linkedin, Globe } from "lucide-react";
 
 export default function About() {
@@ -11,8 +12,8 @@ export default function About() {
         <link rel="canonical" href={typeof window!== 'undefined' ? window.location.href : '/about'} />
       </Helmet>
 
-      <section className="max-w-6xl">
-        <h1 className="text-3xl font-semibold mb-6">About Vertex</h1>
+      <PageSection>
+        <h1 className="text-3xl md:text-4xl font-semibold mb-6 brand-text-gradient">About Vertex</h1>
         <p className="opacity-90 text-base md:text-lg mb-8">
           Vertex began as an Oakridge 2025 Codefest idea — three classmates building a seamless AI study workspace. We study at the same school and crafted Vertex to bring planning, notes, flashcards, quizzes, and AI help into one elegant experience. After receiving over $500 in prize money at Bangalore's largest overnight hackathon for high schoolers, we decided to turn our vision into reality and create the ultimate study companion for students worldwide.
         </p>
@@ -46,7 +47,7 @@ export default function About() {
           </NeumorphicCard>
         </div>
         
-        <div className="flex items-center justify-center gap-6 mt-12">
+  <div className="flex items-center justify-center gap-6 mt-12">
           <p className="text-sm opacity-70">Follow our journey:</p>
           <div className="flex gap-4">
             <a href="#" aria-label="Instagram" className="neu-button px-3 py-2">
@@ -61,7 +62,7 @@ export default function About() {
             </a>
           </div>
         </div>
-      </section>
+      </PageSection>
     </>
   );
 }

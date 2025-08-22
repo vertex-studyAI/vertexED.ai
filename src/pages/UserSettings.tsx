@@ -3,6 +3,7 @@ import NeumorphicCard from "@/components/NeumorphicCard";
 import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { User, LogOut, Settings } from "lucide-react";
+import PageSection from "@/components/PageSection";
 
 export default function UserSettings() {
   const { logout } = useAuth();
@@ -21,8 +22,8 @@ export default function UserSettings() {
         <link rel="canonical" href={typeof window!== 'undefined' ? window.location.href : '/settings'} />
       </Helmet>
 
-      <section className="max-w-2xl mx-auto">
-        <h1 className="text-3xl font-semibold mb-6 flex items-center gap-3">
+      <PageSection className="max-w-2xl">
+        <h1 className="text-3xl font-semibold mb-6 flex items-center gap-3 brand-text-gradient">
           <Settings className="h-8 w-8" />
           Account Settings
         </h1>
@@ -74,7 +75,7 @@ export default function UserSettings() {
             </div>
           </NeumorphicCard>
         </div>
-      </section>
+  </PageSection>
     </>
   );
 }

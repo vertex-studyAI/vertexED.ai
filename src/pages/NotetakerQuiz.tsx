@@ -1,6 +1,7 @@
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import NeumorphicCard from "@/components/NeumorphicCard";
+import PageSection from "@/components/PageSection";
 
 export default function NotetakerQuiz() {
   return (
@@ -11,11 +12,12 @@ export default function NotetakerQuiz() {
         <link rel="canonical" href={typeof window!== 'undefined' ? window.location.href : '/notetaker'} />
       </Helmet>
 
-      <div className="mb-6">
-        <Link to="/main" className="neu-button px-4 py-2 text-sm">← Back to Main</Link>
-      </div>
+      <PageSection>
+        <div className="mb-6">
+          <Link to="/main" className="neu-button px-4 py-2 text-sm">← Back to Main</Link>
+        </div>
 
-      <div className="grid lg:grid-cols-3 gap-8">
+        <div className="grid lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 space-y-8">
           <NeumorphicCard className="p-8">
             <h2 className="text-xl font-medium mb-4">Topic and Format</h2>
@@ -73,8 +75,9 @@ export default function NotetakerQuiz() {
               </div>
             </div>
           </NeumorphicCard>
+          </div>
         </div>
-      </div>
+      </PageSection>
     </>
   );
 }
