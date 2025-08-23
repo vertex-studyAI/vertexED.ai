@@ -1,6 +1,6 @@
 {
   "buildCommand": "ROLLUP_SKIP_NODEJS_NATIVE=true npm run build",
-  "installCommand": "npm install",
+  "installCommand": "npm install --no-package-lock",
   "framework": null,
   "build": {
     "env": {
