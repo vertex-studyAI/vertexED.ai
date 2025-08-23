@@ -15,6 +15,8 @@ import UserSettings from "@/pages/UserSettings";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { HelmetProvider } from "react-helmet-async";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { SpeedInsights } from "@vercel/speed-insights/react";
+import { Analytics } from "@vercel/analytics/next"
 
 const App = () => (
   <HelmetProvider>
@@ -38,6 +40,8 @@ const App = () => (
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
+  <SpeedInsights />
+  <Analytics />
     </AuthProvider>
   </HelmetProvider>
 );
