@@ -16,4 +16,8 @@ export default defineConfig(({ mode }) => ({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  build: {
+    // Placeholder for Rollup options; keeps JS fallback if native isn't present
+    rollupOptions: {}
+  }
 }));
