@@ -39,9 +39,9 @@ const App = () => (
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
+        <SpeedInsights />
+        <Analytics />
       </BrowserRouter>
-  <SpeedInsights />
-  <Analytics />
   </AuthProvider>
   </HelmetProvider>
 );
