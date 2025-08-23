@@ -1,5 +1,14 @@
 {
-  "buildCommand": "npm run build",
+  "buildCommand": "ROLLUP_SKIP_NODEJS_NATIVE=true npm run build",
   "installCommand": "npm install",
-  "framework": null
+  "framework": null,
+  "build": {
+    "env": {
+      "ROLLUP_SKIP_NODEJS_NATIVE": "true",
+      "NODE_VERSION": "20"
+    }
+  },
+  "env": {
+    "ROLLUP_SKIP_NODEJS_NATIVE": "true"
+  }
 }
