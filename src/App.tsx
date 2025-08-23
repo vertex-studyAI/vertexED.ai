@@ -14,6 +14,8 @@ import NotFound from "./pages/NotFound";
 import { HelmetProvider } from "react-helmet-async";
 import PaperMaker from "@/pages/PaperMaker";
 import UserSettings from "@/pages/UserSettings";
+import { Analytics } from "@vercel/analytics/react"
+import { SpeedInsights } from "@vercel/speed-insights/react"
 import { AuthProvider } from "@/contexts/AuthContext";
 
 const App = () => (
@@ -38,6 +40,8 @@ const App = () => (
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
+  <SpeedInsights />
+  <Analytics />
   </AuthProvider>
   </HelmetProvider>
 );
