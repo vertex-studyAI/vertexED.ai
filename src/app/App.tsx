@@ -1,17 +1,18 @@
 import SiteLayout from "@/components/layout/SiteLayout";
 import Home from "@/pages/Home";
-import Login from "@/pages/Login";
-import Signup from "@/pages/Signup";
-import Main from "@/pages/Main";
-import NotetakerQuiz from "@/pages/NotetakerQuiz";
-import StudyZone from "@/pages/StudyZone";
-import AIChatbot from "@/pages/AIChatbot";
-import StudyPlanner from "@/pages/StudyPlanner";
-import ImageAnswer from "@/pages/ImageAnswer";
-import About from "@/pages/About";
-import NotFound from "@/pages/NotFound";
-import PaperMaker from "@/pages/PaperMaker";
-import UserSettings from "@/pages/UserSettings";
+import { lazy, Suspense } from "react";
+const Login = lazy(() => import("@/pages/Login"));
+const Signup = lazy(() => import("@/pages/Signup"));
+const Main = lazy(() => import("@/pages/Main"));
+const NotetakerQuiz = lazy(() => import("@/pages/NotetakerQuiz"));
+const StudyZone = lazy(() => import("@/pages/StudyZone"));
+const AIChatbot = lazy(() => import("@/pages/AIChatbot"));
+const StudyPlanner = lazy(() => import("@/pages/StudyPlanner"));
+const ImageAnswer = lazy(() => import("@/pages/ImageAnswer"));
+const About = lazy(() => import("@/pages/About"));
+const NotFound = lazy(() => import("@/pages/NotFound"));
+const PaperMaker = lazy(() => import("@/pages/PaperMaker"));
+const UserSettings = lazy(() => import("@/pages/UserSettings"));
 import { AuthProvider } from "@/contexts/AuthContext";
 import { HelmetProvider } from "react-helmet-async";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -22,6 +23,7 @@ const App = () => (
   <HelmetProvider>
     <AuthProvider>
       <BrowserRouter>
+        <Suspense fallback={null}>
         <Routes>
           <Route path="/" element={<SiteLayout />}> 
             <Route index element={<Home />} />
@@ -39,6 +41,7 @@ const App = () => (
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
+        </Suspense>
       </BrowserRouter>
   <SpeedInsights />
   <Analytics />

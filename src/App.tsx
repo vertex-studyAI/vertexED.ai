@@ -1,48 +1,51 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import SiteLayout from "@/components/layout/SiteLayout";
 import Home from "@/pages/Home";
-import Login from "@/pages/Login";
-import Signup from "@/pages/Signup";
-import Main from "@/pages/Main";
-import NotetakerQuiz from "@/pages/NotetakerQuiz";
-import StudyZone from "@/pages/StudyZone";
-import AIChatbot from "@/pages/AIChatbot";
-import StudyPlanner from "@/pages/StudyPlanner";
-import ImageAnswer from "@/pages/ImageAnswer";
-import About from "@/pages/About";
-import NotFound from "./pages/NotFound";
 import { HelmetProvider } from "react-helmet-async";
-import PaperMaker from "@/pages/PaperMaker";
-import UserSettings from "@/pages/UserSettings";
-import { Analytics } from "@vercel/analytics/react"
-import { SpeedInsights } from "@vercel/speed-insights/react"
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/react";
 import { AuthProvider } from "@/contexts/AuthContext";
+import { lazy, Suspense } from "react";
+const Login = lazy(() => import("@/pages/Login"));
+const Signup = lazy(() => import("@/pages/Signup"));
+const Main = lazy(() => import("@/pages/Main"));
+const NotetakerQuiz = lazy(() => import("@/pages/NotetakerQuiz"));
+const StudyZone = lazy(() => import("@/pages/StudyZone"));
+const AIChatbot = lazy(() => import("@/pages/AIChatbot"));
+const StudyPlanner = lazy(() => import("@/pages/StudyPlanner"));
+const ImageAnswer = lazy(() => import("@/pages/ImageAnswer"));
+const About = lazy(() => import("@/pages/About"));
+const NotFound = lazy(() => import("./pages/NotFound"));
+const PaperMaker = lazy(() => import("@/pages/PaperMaker"));
+const UserSettings = lazy(() => import("@/pages/UserSettings"));
 
 const App = () => (
   <HelmetProvider>
     <AuthProvider>
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<SiteLayout />}> 
-            <Route index element={<Home />} />
-            <Route path="login" element={<Login />} />
-            <Route path="signup" element={<Signup />} />
-            <Route path="main" element={<Main />} />
-            <Route path="notetaker" element={<NotetakerQuiz />} />
-            <Route path="study-zone" element={<StudyZone />} />
-            <Route path="chatbot" element={<AIChatbot />} />
-            <Route path="planner" element={<StudyPlanner />} />
-            <Route path="image-answer" element={<ImageAnswer />} />
-            <Route path="paper-maker" element={<PaperMaker />} />
-            <Route path="about" element={<About />} />
-            <Route path="settings" element={<UserSettings />} />
-          </Route>
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <Suspense fallback={null}>
+          <Routes>
+            <Route path="/" element={<SiteLayout />}> 
+              <Route index element={<Home />} />
+              <Route path="login" element={<Login />} />
+              <Route path="signup" element={<Signup />} />
+              <Route path="main" element={<Main />} />
+              <Route path="notetaker" element={<NotetakerQuiz />} />
+              <Route path="study-zone" element={<StudyZone />} />
+              <Route path="chatbot" element={<AIChatbot />} />
+              <Route path="planner" element={<StudyPlanner />} />
+              <Route path="image-answer" element={<ImageAnswer />} />
+              <Route path="paper-maker" element={<PaperMaker />} />
+              <Route path="about" element={<About />} />
+              <Route path="settings" element={<UserSettings />} />
+            </Route>
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Suspense>
         <SpeedInsights />
         <Analytics />
       </BrowserRouter>
-  </AuthProvider>
+    </AuthProvider>
   </HelmetProvider>
 );
 

@@ -70,7 +70,7 @@ All colors MUST be HSL.
 @layer base {
   * { @apply border-border; }
   body {
-    @apply bg-background text-foreground antialiased;
+  @apply bg-background text-foreground antialiased;
   font-family: 'Sen', Helvetica, Arial, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
   }
   /* Prevent white overscroll glow / bounce */
@@ -84,7 +84,7 @@ All colors MUST be HSL.
   /* Neumorphic utilities */
   .neu-surface { background: var(--gradient-surface); box-shadow: var(--shadow-soft); border-radius: var(--radius); }
   .neu-surface\/blur { background: var(--gradient-surface); box-shadow: var(--shadow-soft); }
-  .neu-card { background: var(--gradient-surface); box-shadow: var(--shadow-soft); border-radius: calc(var(--radius) * 1.5); }
+  .neu-card { background: var(--gradient-surface); box-shadow: var(--shadow-soft); border-radius: calc(var(--radius) * 1.5); backdrop-filter: saturate(120%) blur(2px); }
   .neu-pressed { box-shadow: var(--shadow-pressed); }
   .neu-lift { transform: translateY(-2px); box-shadow: var(--glow); }
   .neu-hero { background: var(--gradient-hero); box-shadow: var(--shadow-soft); }
@@ -197,6 +197,7 @@ All colors MUST be HSL.
     filter: blur(140px);
     opacity: 0.32;
     mix-blend-mode: lighten;
+  will-change: transform, opacity;
     animation: orb-drift 60s ease-in-out infinite;
   }
   @keyframes orb-drift {
@@ -211,4 +212,24 @@ All colors MUST be HSL.
   @media (prefers-reduced-motion: reduce) {
     .orb-single { animation: none; }
   }
+
+  /* Soft grid pattern for depth */
+  .bg-grid-soft {
+    background-image: radial-gradient(hsl(0 0% 100% / 0.06) 1px, transparent 0);
+    background-size: 22px 22px;
+    background-position: -11px -11px;
+  }
+
+  /* Subtle glass effect utility */
+  .glass { background: hsl(216 18% 10% / 0.35); backdrop-filter: saturate(140%) blur(8px); }
+
+  /* Ambient corner radials */
+  .ambient-corner { position: absolute; width: 680px; height: 680px; border-radius: 9999px; filter: blur(60px); opacity: 0.18; pointer-events: none; background: radial-gradient(circle at 50% 50%, hsl(var(--brand-2)), hsl(var(--brand-1)) 55%, transparent 70%); }
+
+  /* Focus ring unify */
+  :focus-visible { outline: 2px solid hsl(var(--ring) / 0.7); outline-offset: 2px; }
+
+  /* Card hover refinement */
+  .card-hover { transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease; }
+  .card-hover:hover { transform: translateY(-2px); box-shadow: var(--glow); border-color: hsl(var(--primary) / 0.35); }
 }

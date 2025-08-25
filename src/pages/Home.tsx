@@ -45,7 +45,7 @@ export default function Home() {
               className="group relative rounded-xl shadow-sm border border-border/40 overflow-hidden brand-tile"
             >
               <div className="flex flex-col h-full aspect-[5/3] p-3 sm:p-4 md:p-5 items-center justify-center text-center gap-3">
-                <img src={card.icon} alt="" className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 object-contain transition-all duration-300" loading="lazy" />
+                <img src={card.icon} alt="" className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 object-contain transition-all duration-300" loading="lazy" decoding="async" sizes="(min-width: 768px) 3rem, 2.5rem" />
                 <h3 className="text-base sm:text-lg md:text-xl font-semibold text-neutral-900 leading-snug tracking-tight">
                   {card.title}
                 </h3>
