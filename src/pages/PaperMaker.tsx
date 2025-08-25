@@ -7,9 +7,14 @@ export default function PaperMaker() {
   return (
     <>
       <Helmet>
-        <title>Vertex — IB/IGCSE Paper Maker</title>
-        <meta name="description" content="Generate IB/IGCSE-style practice papers from topics (UI placeholder)." />
-        <link rel="canonical" href={typeof window!== 'undefined' ? window.location.href : '/paper-maker'} />
+  <title>IB/IGCSE Practice Paper Generator | Vertex</title>
+  <meta name="description" content="Generate IB and IGCSE-style practice papers from your topics (UI placeholder)." />
+  <link rel="canonical" href="https://vertex-ai-rho.vercel.app/paper-maker" />
+  <meta property="og:title" content="IB/IGCSE Practice Paper Generator | Vertex" />
+  <meta property="og:description" content="Create custom practice papers based on your syllabus." />
+  <meta property="og:url" content="https://vertex-ai-rho.vercel.app/paper-maker" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://vertex-ai-rho.vercel.app/socialpreview.jpg" />
       </Helmet>
 
       <PageSection>

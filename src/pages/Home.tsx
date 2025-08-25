@@ -13,9 +13,26 @@ export default function Home() {
   return (
     <>
       <Helmet>
-        <title>Vertex — AI Study Toolkit | Home</title>
-        <meta name="description" content="Vertex is a modern AI-powered study toolkit with planner, chatbot, notes, flashcards and quizzes." />
-        <link rel="canonical" href={typeof window!== 'undefined' ? window.location.href : '/'} />
+        <title>AI Study Tools for Students — Notes, Flashcards, Planner | Vertex</title>
+        <meta name="description" content="Study smarter with Vertex: AI-powered notes, flashcards, quizzes, planner, and chatbot. The all-in-one study tool for students." />
+        <link rel="canonical" href="https://vertex-ai-rho.vercel.app/" />
+        <meta property="og:title" content="AI Study Tools for Students — Notes, Flashcards, Planner | Vertex" />
+        <meta property="og:description" content="All-in-one AI study toolkit for students: notes, flashcards, quizzes, planner, chatbot." />
+        <meta property="og:url" content="https://vertex-ai-rho.vercel.app/" />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content="https://vertex-ai-rho.vercel.app/socialpreview.jpg" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="AI Study Tools for Students — Notes, Flashcards, Planner | Vertex" />
+        <meta name="twitter:description" content="All-in-one AI study toolkit for students: notes, flashcards, quizzes, planner, chatbot." />
+        <meta name="twitter:image" content="https://vertex-ai-rho.vercel.app/socialpreview.jpg" />
+        <script type="application/ld+json">{`
+        {
+          "@context":"https://schema.org",
+          "@type":"WebPage",
+          "name":"AI Study Tools — Vertex",
+          "url":"https://vertex-ai-rho.vercel.app/",
+          "description":"AI-powered study tools: notes, flashcards, quizzes, planner, and chatbot."
+        }`}</script>
       </Helmet>
   {/* Gradient background now provided by SiteLayout when on home route */}
 
@@ -23,7 +40,7 @@ export default function Home() {
     className="relative overflow-hidden px-6 py-14 md:py-20 rounded-3xl animate-fade-in brand-hero"
   >
         <div className="relative z-10 max-w-3xl">
-          <h1 className="text-4xl md:text-6xl font-semibold leading-tight mb-4 text-black">The only study tool you need</h1>
+          <h1 className="text-4xl md:text-6xl font-semibold leading-tight mb-4 text-black">AI study tools for students</h1>
           <p className="text-lg opacity-90 mb-8 max-w-2xl text-black">All-in-one AI toolkit for students—planner, notes, flashcards, quizzes, chatbot, and more in one elegant workspace.</p>
           <div className="flex gap-4 flex-wrap">
             <Link to="/main" className="px-6 py-3 rounded-2xl brand-cta brand-ink-dark">Get Started</Link>

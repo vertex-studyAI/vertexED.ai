@@ -16,9 +16,10 @@ export default function Main() {
   return (
     <>
       <Helmet>
-        <title>Vertex — Main</title>
-        <meta name="description" content="Your Vertex dashboard with quick access to all AI study tools." />
-        <link rel="canonical" href={typeof window!== 'undefined' ? window.location.href : '/main'} />
+  <title>Dashboard — Vertex AI Study Tools</title>
+  <meta name="description" content="Your Vertex dashboard with quick access to all AI study tools." />
+  <link rel="canonical" href="https://vertex-ai-rho.vercel.app/main" />
+  <meta name="robots" content="noindex, nofollow" />
       </Helmet>
 
       <PageSection>

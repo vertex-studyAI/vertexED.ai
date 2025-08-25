@@ -7,9 +7,14 @@ export default function ImageAnswer() {
   return (
     <>
       <Helmet>
-        <title>Vertex — Image Answer</title>
-        <meta name="description" content="Upload an image of a question to get guided help (placeholder)." />
-        <link rel="canonical" href={typeof window!== 'undefined' ? window.location.href : '/image-answer'} />
+  <title>Solve Questions from Images — AI Image Answer | Vertex</title>
+  <meta name="description" content="Upload an image of a question to get step-by-step guidance (UI placeholder)." />
+  <link rel="canonical" href="https://vertex-ai-rho.vercel.app/image-answer" />
+  <meta property="og:title" content="AI Image Answer — Vertex" />
+  <meta property="og:description" content="Upload an image of a question to get help." />
+  <meta property="og:url" content="https://vertex-ai-rho.vercel.app/image-answer" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://vertex-ai-rho.vercel.app/socialpreview.jpg" />
       </Helmet>
       <PageSection>
         <div className="mb-6">

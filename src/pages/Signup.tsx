@@ -12,7 +12,8 @@ export default function Signup() {
       <Helmet>
         <title>Vertex — Sign up</title>
         <meta name="description" content="Create your Vertex account to unlock the AI-powered study toolkit." />
-        <link rel="canonical" href={typeof window!== 'undefined' ? window.location.href : '/signup'} />
+  <link rel="canonical" href="https://vertex-ai-rho.vercel.app/signup" />
+  <meta name="robots" content="noindex, nofollow" />
       </Helmet>
   <PageSection className="relative min-h-[70vh] flex items-center justify-center overflow-hidden px-4">
         <form

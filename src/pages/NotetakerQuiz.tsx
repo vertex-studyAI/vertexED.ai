@@ -7,9 +7,14 @@ export default function NotetakerQuiz() {
   return (
     <>
       <Helmet>
-        <title>Vertex — AI Notetaker & Quiz</title>
-        <meta name="description" content="Take notes, generate flashcards, and practice with quizzes in one place." />
-        <link rel="canonical" href={typeof window!== 'undefined' ? window.location.href : '/notetaker'} />
+  <title>AI Notetaker, Flashcards & Quiz Generator | Vertex</title>
+  <meta name="description" content="Create AI-powered notes, generate flashcards, and practice with quizzes in one place." />
+  <link rel="canonical" href="https://vertex-ai-rho.vercel.app/notetaker" />
+  <meta property="og:title" content="AI Notetaker, Flashcards & Quiz Generator | Vertex" />
+  <meta property="og:description" content="Create notes, flashcards, and quizzes with AI to study faster." />
+  <meta property="og:url" content="https://vertex-ai-rho.vercel.app/notetaker" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://vertex-ai-rho.vercel.app/socialpreview.jpg" />
       </Helmet>
 
       <PageSection>

@@ -12,7 +12,8 @@ export default function Login() {
       <Helmet>
         <title>Vertex — Log in</title>
         <meta name="description" content="Log into Vertex to access your unified AI study workspace." />
-        <link rel="canonical" href={typeof window!== 'undefined' ? window.location.href : '/login'} />
+  <link rel="canonical" href="https://vertex-ai-rho.vercel.app/login" />
+  <meta name="robots" content="noindex, nofollow" />
       </Helmet>
   <PageSection className="relative min-h-[70vh] flex items-center justify-center px-4">
         <form

@@ -19,7 +19,8 @@ export default function UserSettings() {
       <Helmet>
         <title>Vertex — Account Settings</title>
         <meta name="description" content="Manage your Vertex account settings and preferences." />
-        <link rel="canonical" href={typeof window!== 'undefined' ? window.location.href : '/settings'} />
+  <link rel="canonical" href="https://vertex-ai-rho.vercel.app/settings" />
+  <meta name="robots" content="noindex, nofollow" />
       </Helmet>
 
       <PageSection className="max-w-2xl">
