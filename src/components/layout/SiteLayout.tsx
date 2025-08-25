@@ -1,4 +1,5 @@
 import { Outlet, Link } from "react-router-dom";
+import { Suspense } from "react";
 import { useState, useEffect } from "react";
 
 export default function SiteLayout() {
@@ -90,7 +91,9 @@ export default function SiteLayout() {
       </header>
 
       <main className="relative z-10 flex-1 container mx-auto px-4 md:px-6 py-8 animate-fade-in">
-        <Outlet />
+        <Suspense fallback={<div className="min-h-[40vh]" />}> 
+          <Outlet />
+        </Suspense>
       </main>
     </div>
   );
