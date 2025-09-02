@@ -13,7 +13,7 @@ export default function Home() {
   return (
     <>
       <Helmet>
-        <title>AI Study Tools for Students — Notes, Flashcards, Planner | Vertex</title>
+        <title>AI Study Tools for Students — Notes, Flashcards, Planner | VertexED</title>
         <meta name="description" content="Study smarter with Vertex: AI-powered notes, flashcards, quizzes, planner, and chatbot. The all-in-one study tool for students." />
         <link rel="canonical" href="https://vertex-ai-rho.vercel.app/" />
         <meta property="og:title" content="AI Study Tools for Students — Notes, Flashcards, Planner | Vertex" />
@@ -29,7 +29,7 @@ export default function Home() {
         {
           "@context":"https://schema.org",
           "@type":"WebPage",
-          "name":"AI Study Tools — Vertex",
+          "name":"AI Study Tools — VertexED",
           "url":"https://vertex-ai-rho.vercel.app/",
           "description":"AI-powered study tools: notes, flashcards, quizzes, planner, and chatbot."
         }`}</script>
