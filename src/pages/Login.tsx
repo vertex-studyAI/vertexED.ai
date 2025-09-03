@@ -1,4 +1,5 @@
 import { Helmet } from "react-helmet-async";
+import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import PageSection from "@/components/PageSection";
@@ -7,41 +8,81 @@ export default function Login() {
   const { login } = useAuth();
   const navigate = useNavigate();
 
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState<string | null>(null);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError(null);
+
+    try {
+      await login(email, password); 
+      navigate("/main"); 
+    } catch (err) {
+      setError((err as Error).message);
+    }
+  };
+
   return (
     <>
       <Helmet>
         <title>Vertex — Log in</title>
-        <meta name="description" content="Log into Vertex to access your unified AI study workspace." />
-  <link rel="canonical" href="https://vertex-ai-rho.vercel.app/login" />
-  <meta name="robots" content="noindex, nofollow" />
+        <meta
+          name="description"
+          content="Log into Vertex to access your unified AI study workspace."
+        />
+        <link rel="canonical" href="https://vertex-ai-rho.vercel.app/login" />
+        <meta name="robots" content="noindex, nofollow" />
       </Helmet>
-  <PageSection className="relative min-h-[70vh] flex items-center justify-center px-4">
+
+      <PageSection className="relative min-h-[70vh] flex items-center justify-center px-4">
         <form
           className="relative neu-card w-full max-w-md p-8 md:p-10 rounded-2xl border border-white/5 animate-fade-in"
-          onSubmit={(e) => {
-          const { data, error } = await supabase.auth.signInWithPassword({
-          email,
-          password,
-          });
-
-          }}
+          onSubmit={handleSubmit}
         >
-          <h1 className="text-3xl font-semibold mb-2 text-center text-white">Log in</h1>
+          <h1 className="text-3xl font-semibold mb-2 text-center text-white">
+            Log in
+          </h1>
           <p className="text-center mb-6 text-sm opacity-80">Welcome back</p>
+
           <div className="space-y-4">
             <div className="neu-input">
-              <input aria-label="Email" placeholder="Email" className="neu-input-el" />
+              <input
+                aria-label="Email"
+                placeholder="Email"
+                className="neu-input-el"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
             </div>
             <div className="neu-input">
-              <input aria-label="Password" placeholder="Password" type="password" className="neu-input-el" />
+              <input
+                aria-label="Password"
+                placeholder="Password"
+                type="password"
+                className="neu-input-el"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
             </div>
-            <button className="w-full neu-button py-3 mt-2">Continue</button>
+            <button type="submit" className="w-full neu-button py-3 mt-2">
+              Continue
+            </button>
           </div>
+
+          {error && (
+            <p className="text-center mt-4 text-sm text-red-500">{error}</p>
+          )}
+
           <p className="text-center mt-4 text-sm opacity-80">
-            No account? <a href="/signup" className="sketch-underline">Sign up</a>
+            No account?{" "}
+            <a href="/signup" className="sketch-underline">
+              Sign up
+            </a>
           </p>
-  </form>
-  </PageSection>
+        </form>
+      </PageSection>
     </>
   );
 }
