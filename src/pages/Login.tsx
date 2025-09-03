@@ -19,9 +19,11 @@ export default function Login() {
         <form
           className="relative neu-card w-full max-w-md p-8 md:p-10 rounded-2xl border border-white/5 animate-fade-in"
           onSubmit={(e) => {
-            e.preventDefault();
-            login();
-            navigate("/main");
+          const { data, error } = await supabase.auth.signInWithPassword({
+          email,
+          password,
+          });
+
           }}
         >
           <h1 className="text-3xl font-semibold mb-2 text-center text-white">Log in</h1>
