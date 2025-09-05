@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import PageSection from "@/components/PageSection";
 
 export default function Signup() {
-  const { signUp } = useAuth();
+  const { signUp, loginWithGoogle } = useAuth();
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -42,6 +42,21 @@ export default function Signup() {
           <h1 className="text-3xl font-semibold mb-2 text-center text-white">Sign up</h1>
           <p className="text-center mb-6 text-sm opacity-80">Create your account</p>
           <div className="space-y-4">
+            <button
+              type="button"
+              onClick={async () => {
+                try {
+                  await loginWithGoogle();
+                } catch (err) {
+                  setError((err as Error).message);
+                }
+              }}
+              className="w-full neu-button py-3 flex items-center justify-center gap-2"
+            >
+              <img src="/logo.png" alt="Google" className="w-5 h-5 rounded-full" />
+              Continue with Google
+            </button>
+            <div className="text-center text-xs opacity-60">or</div>
             <div className="neu-input">
               <input
                 aria-label="Email"

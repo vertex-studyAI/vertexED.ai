@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import PageSection from "@/components/PageSection";
 
 export default function Login() {
-  const { login } = useAuth();
+  const { login, loginWithGoogle } = useAuth();
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
@@ -47,6 +47,21 @@ export default function Login() {
           <p className="text-center mb-6 text-sm opacity-80">Welcome back</p>
 
           <div className="space-y-4">
+            <button
+              type="button"
+              onClick={async () => {
+                try {
+                  await loginWithGoogle();
+                } catch (err) {
+                  setError((err as Error).message);
+                }
+              }}
+              className="w-full neu-button py-3 flex items-center justify-center gap-2"
+            >
+              <img src="/logo.png" alt="Google" className="w-5 h-5 rounded-full" />
+              Continue with Google
+            </button>
+            <div className="text-center text-xs opacity-60">or</div>
             <div className="neu-input">
               <input
                 aria-label="Email"
