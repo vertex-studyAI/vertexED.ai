@@ -37,6 +37,13 @@ export function AuthProvider({ children }: PropsWithChildren<{}>) {
     let isMounted = true;
 
     const init = async () => {
+      if (!supabase) {
+        // Graceful fallback when env vars are missing; treat as signed-out.
+        setSession(null);
+        setUser(null);
+        setLoading(false);
+        return;
+      }
       const { data, error } = await supabase.auth.getSession();
       if (!isMounted) return;
       if (error) {
@@ -48,6 +55,8 @@ export function AuthProvider({ children }: PropsWithChildren<{}>) {
     };
 
     init();
+
+    if (!supabase) return () => { isMounted = false; };
 
     const { data: sub } = supabase.auth.onAuthStateChange((_event, newSession) => {
       setSession(newSession);
@@ -65,6 +74,7 @@ export function AuthProvider({ children }: PropsWithChildren<{}>) {
    * Throws on error; on success, context user/session are updated.
    */
   const login = async (email: string, password: string) => {
+    if (!supabase) throw new Error("Auth is disabled: Supabase not configured.");
     const { data, error } = await supabase.auth.signInWithPassword({ email, password });
     if (error) throw error;
     setSession(data.session);
@@ -80,6 +90,7 @@ export function AuthProvider({ children }: PropsWithChildren<{}>) {
     password: string,
     metadata?: Record<string, any>
   ) => {
+    if (!supabase) throw new Error("Auth is disabled: Supabase not configured.");
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
@@ -94,6 +105,11 @@ export function AuthProvider({ children }: PropsWithChildren<{}>) {
 
   /** Sign out current user and clear auth state. */
   const logout = async () => {
+    if (!supabase) {
+      setSession(null);
+      setUser(null);
+      return;
+    }
     const { error } = await supabase.auth.signOut();
     if (error) throw error;
     setSession(null);
