@@ -1,44 +1,119 @@
-import { createContext, useContext, useState, ReactNode } from "react";
+import { createContext, useContext, useEffect, useMemo, useState, PropsWithChildren } from "react";
+import type { Session, User } from "@supabase/supabase-js";
 import { supabase } from "@/lib/supabaseClient";
 
-interface AuthContextType {
-  user: any;
+type AuthContextType = {
+  user: User | null;
+  session: Session | null;
+  isAuthenticated: boolean;
+  loading: boolean;
   login: (email: string, password: string) => Promise<void>;
-  signup: (email: string, password: string) => Promise<void>;
+  signUp: (
+    email: string,
+    password: string,
+    metadata?: Record<string, any>
+  ) => Promise<{ user: User | null; session: Session | null; needsConfirmation: boolean }>;
   logout: () => Promise<void>;
-}
+};
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+const AuthContext = createContext<AuthContextType>({
+  user: null,
+  session: null,
+  isAuthenticated: false,
+  loading: true,
+  // no-op defaults; real implementations provided in Provider
+  login: async () => {},
+  signUp: async () => ({ user: null, session: null, needsConfirmation: true }),
+  logout: async () => {},
+});
 
-export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<any>(null);
+export function AuthProvider({ children }: PropsWithChildren<{}>) {
+  const [user, setUser] = useState<User | null>(null);
+  const [session, setSession] = useState<Session | null>(null);
+  const [loading, setLoading] = useState(true);
 
+  // Initialize auth state and subscribe to changes
+  useEffect(() => {
+    let isMounted = true;
+
+    const init = async () => {
+      const { data, error } = await supabase.auth.getSession();
+      if (!isMounted) return;
+      if (error) {
+        console.error("Supabase getSession error:", error);
+      }
+      setSession(data.session ?? null);
+      setUser(data.session?.user ?? null);
+      setLoading(false);
+    };
+
+    init();
+
+    const { data: sub } = supabase.auth.onAuthStateChange((_event, newSession) => {
+      setSession(newSession);
+      setUser(newSession?.user ?? null);
+    });
+
+    return () => {
+      isMounted = false;
+      sub.subscription.unsubscribe();
+    };
+  }, []);
+
+  /**
+   * Sign in with email/password via Supabase.
+   * Throws on error; on success, context user/session are updated.
+   */
   const login = async (email: string, password: string) => {
     const { data, error } = await supabase.auth.signInWithPassword({ email, password });
     if (error) throw error;
+    setSession(data.session);
     setUser(data.user);
   };
 
-  const signup = async (email: string, password: string) => {
-    const { data, error } = await supabase.auth.signUp({ email, password });
+  /**
+   * Sign up a new user. If email confirmation is enabled, returns needsConfirmation=true
+   * and does not navigate automatically.
+   */
+  const signUp = async (
+    email: string,
+    password: string,
+    metadata?: Record<string, any>
+  ) => {
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: metadata ? { data: metadata } : undefined,
+    });
     if (error) throw error;
-    setUser(data.user);
+    // If email confirmation is ON, session may be null until confirmed.
+    setSession(data.session ?? null);
+    setUser(data.user ?? null);
+    return { user: data.user ?? null, session: data.session ?? null, needsConfirmation: !data.session };
   };
 
+  /** Sign out current user and clear auth state. */
   const logout = async () => {
-    await supabase.auth.signOut();
+    const { error } = await supabase.auth.signOut();
+    if (error) throw error;
+    setSession(null);
     setUser(null);
   };
 
-  return (
-    <AuthContext.Provider value={{ user, login, signup, logout }}>
-      {children}
-    </AuthContext.Provider>
+  const value = useMemo<AuthContextType>(
+    () => ({
+      user,
+      session,
+      isAuthenticated: !!user,
+      loading,
+      login,
+      signUp,
+      logout,
+    }),
+    [user, session, loading]
   );
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
-export function useAuth() {
-  const context = useContext(AuthContext);
-  if (!context) throw new Error("useAuth must be used inside AuthProvider");
-  return context;
-}
+export const useAuth = () => useContext(AuthContext);
