@@ -59,8 +59,8 @@ function App() {
               <Route path="paper-maker" element={<PaperMaker />} />
               <Route path="about" element={<About />} />
               <Route path="settings" element={<UserSettings />} />
+              <Route path="*" element={<NotFound />} />
             </Route>
-            <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
     <SpeedInsights />

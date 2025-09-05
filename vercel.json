@@ -2,6 +2,9 @@
   "buildCommand": "ROLLUP_SKIP_NODEJS_NATIVE=true npm run build",
   "installCommand": "npm install --no-package-lock",
   "framework": null,
+  "rewrites": [
+    { "source": "/((?!api|.*\\..*).*)", "destination": "/index.html" }
+  ],
   "headers": [
     {
       "source": "/(.*)\\.(js|css|png|jpg|jpeg|gif|svg|ico|webp|avif)",

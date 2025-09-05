@@ -1,7 +1,7 @@
 import { Helmet } from "react-helmet-async";
 import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import PageSection from "@/components/PageSection";
 
 export default function Login() {
@@ -92,9 +92,9 @@ export default function Login() {
 
           <p className="text-center mt-4 text-sm opacity-80">
             No account?{" "}
-            <a href="/signup" className="sketch-underline">
+            <Link to="/signup" className="sketch-underline">
               Sign up
-            </a>
+            </Link>
           </p>
         </form>
       </PageSection>
