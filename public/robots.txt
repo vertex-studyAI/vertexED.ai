@@ -13,4 +13,4 @@ Allow: /
 User-agent: *
 Allow: /
 
-Sitemap: https://vertex-ai-rho.vercel.app/sitemap.xml
+Sitemap: https://www.vertexed.app/sitemap.xml
