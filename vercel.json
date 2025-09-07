@@ -1,4 +1,5 @@
 {
+  "$schema": "https://openapi.vercel.sh/vercel.json",
   "buildCommand": "ROLLUP_SKIP_NODEJS_NATIVE=true npm run build",
   "installCommand": "npm install --no-package-lock",
   "framework": null,
@@ -27,16 +28,17 @@
     }
   ],
   "redirects": [
-    { "source": "https://vertex-ai-rho.vercel.app/(.*)", "destination": "https://www.vertexed.app/$1", "permanent": true },
-    { "source": "https://vertexed.app/(.*)", "destination": "https://www.vertexed.app/$1", "permanent": true }
-  ],
-  "build": {
-    "env": {
-      "ROLLUP_SKIP_NODEJS_NATIVE": "true",
-      "NODE_VERSION": "20"
+    {
+      "source": "/:path*",
+      "has": [ { "type": "host", "value": "vertex-ai-rho.vercel.app" } ],
+      "destination": "https://www.vertexed.app/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/:path*",
+      "has": [ { "type": "host", "value": "vertexed.app" } ],
+      "destination": "https://www.vertexed.app/:path*",
+      "permanent": true
     }
-  },
-  "env": {
-    "ROLLUP_SKIP_NODEJS_NATIVE": "true"
-  }
+  ]
 }
