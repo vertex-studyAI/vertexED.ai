@@ -7,14 +7,12 @@ export default function AIChatbot() {
   return (
     <>
       <Helmet>
-  <title>AI Study Chatbot — Get Help and Explanations | Vertex</title>
-  <meta name="description" content="Chat with an AI study helper to understand topics and plan your study sessions." />
-  <link rel="canonical" href="https://vertex-ai-rho.vercel.app/chatbot" />
-  <meta property="og:title" content="AI Study Chatbot — Vertex" />
-  <meta property="og:description" content="Chat with an AI study helper to get explanations and plan." />
-  <meta property="og:url" content="https://vertex-ai-rho.vercel.app/chatbot" />
-  <meta property="og:type" content="website" />
-  <meta property="og:image" content="https://vertex-ai-rho.vercel.app/socialpreview.jpg" />
+  <title>AI Chatbot for Homework Help | VertexED</title>
+  <meta name="description" content="Get instant AI help with assignments and study questions using VertexED's AI chatbot." />
+  <link rel="canonical" href="https://www.vertexed.app/chatbot" />
+  <meta property="og:title" content="AI Chatbot for Homework Help | VertexED" />
+  <meta property="og:description" content="Get instant AI help with assignments and study questions using VertexED's AI chatbot." />
+  <meta property="og:url" content="https://www.vertexed.app/chatbot" />
       </Helmet>
       <PageSection>
         <div className="mb-6">

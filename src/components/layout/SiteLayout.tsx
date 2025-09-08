@@ -1,6 +1,7 @@
 import { Outlet, Link } from "react-router-dom";
 import { Suspense } from "react";
 import { useState, useEffect } from "react";
+import { Helmet } from "react-helmet-async";
 
 export default function SiteLayout() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -19,6 +20,14 @@ export default function SiteLayout() {
 
   return (
     <div className="relative min-h-screen flex flex-col bg-background text-foreground overflow-hidden">
+      <Helmet>
+        <title>VertexED — AI Study Toolkit</title>
+        <meta name="description" content="VertexED: AI-powered study toolkit with notes, flashcards, quizzes, planner, and chatbot." />
+        <meta property="og:site_name" content="VertexED" />
+        <meta property="og:image" content="https://www.vertexed.app/socialpreview.jpg" />
+        <meta property="og:locale" content="en_US" />
+        <meta name="theme-color" content="#0f172a" />
+      </Helmet>
       <div className="pointer-events-none absolute inset-0 z-0">
         <div className="absolute inset-0 bg-grid-soft opacity-[0.22]" />
         <div className="orb-single" />

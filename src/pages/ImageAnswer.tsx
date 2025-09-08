@@ -9,12 +9,12 @@ export default function ImageAnswer() {
 			<Helmet>
 				<title>Image Answer — Solve from Photos | Vertex</title>
 				<meta name="description" content="Upload a photo of a question and get step-by-step help. Coming soon." />
-				<link rel="canonical" href="https://vertex-ai-rho.vercel.app/image-answer" />
+				<link rel="canonical" href="https://www.vertexed.app/image-answer" />
 				<meta property="og:title" content="Image Answer — Vertex" />
 				<meta property="og:description" content="Solve questions from images with AI. Coming soon." />
-				<meta property="og:url" content="https://vertex-ai-rho.vercel.app/image-answer" />
+				<meta property="og:url" content="https://www.vertexed.app/image-answer" />
 				<meta property="og:type" content="website" />
-				<meta property="og:image" content="https://vertex-ai-rho.vercel.app/socialpreview.jpg" />
+				<meta property="og:image" content="https://www.vertexed.app/socialpreview.jpg" />
 			</Helmet>
 
 			<PageSection>

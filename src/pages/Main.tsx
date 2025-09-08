@@ -18,7 +18,7 @@ export default function Main() {
       <Helmet>
   <title>Dashboard — Vertex AI Study Tools</title>
   <meta name="description" content="Your Vertex dashboard with quick access to all AI study tools." />
-  <link rel="canonical" href="https://vertex-ai-rho.vercel.app/main" />
+  <link rel="canonical" href="https://www.vertexed.app/main" />
   <meta name="robots" content="noindex, nofollow" />
       </Helmet>
 

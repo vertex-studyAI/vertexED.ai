@@ -18,7 +18,7 @@ const NotFound = () => {
       <Helmet>
         <title>404 — Page Not Found | Vertex</title>
         <meta name="robots" content="noindex, nofollow" />
-        <link rel="canonical" href={`https://vertex-ai-rho.vercel.app${location.pathname}`} />
+  <link rel="canonical" href={`https://www.vertexed.app${location.pathname}`} />
       </Helmet>
       <PageSection className="flex items-center justify-center min-h-[60vh]">
         <div className="text-center neu-card p-10">

@@ -9,22 +9,22 @@ export default function StudyZone() {
       <Helmet>
         <title>Best AI Study Tools — Focus Timer & Tasks | Vertex</title>
         <meta name="description" content="Use Vertex’s AI study tools to focus longer and get more done. Pomodoro timers, task planning, and productivity insights for students." />
-        <link rel="canonical" href="https://vertex-ai-rho.vercel.app/study-zone" />
+  <link rel="canonical" href="https://www.vertexed.app/study-zone" />
         <meta property="og:title" content="Best AI Study Tools — Focus Timer & Tasks | Vertex" />
         <meta property="og:description" content="AI-powered focus timers and study task planning to boost productivity." />
-        <meta property="og:url" content="https://vertex-ai-rho.vercel.app/study-zone" />
+  <meta property="og:url" content="https://www.vertexed.app/study-zone" />
         <meta property="og:type" content="website" />
-        <meta property="og:image" content="https://vertex-ai-rho.vercel.app/socialpreview.jpg" />
+  <meta property="og:image" content="https://www.vertexed.app/socialpreview.jpg" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Best AI Study Tools — Focus Timer & Tasks | Vertex" />
         <meta name="twitter:description" content="AI-powered focus timers and study task planning to boost productivity." />
-        <meta name="twitter:image" content="https://vertex-ai-rho.vercel.app/socialpreview.jpg" />
+  <meta name="twitter:image" content="https://www.vertexed.app/socialpreview.jpg" />
         <script type="application/ld+json">{`
         {
           "@context":"https://schema.org",
           "@type":"WebPage",
           "name":"AI Study Tools — Study Zone",
-          "url":"https://vertex-ai-rho.vercel.app/study-zone",
+          "url":"https://www.vertexed.app/study-zone",
           "description":"AI-powered focus timers and task planning for students."
         }`}</script>
       </Helmet>

@@ -32,7 +32,7 @@ export default function Login() {
           name="description"
           content="Log into Vertex to access your unified AI study workspace."
         />
-        <link rel="canonical" href="https://vertex-ai-rho.vercel.app/login" />
+  <link rel="canonical" href="https://www.vertexed.app/login" />
         <meta name="robots" content="noindex, nofollow" />
       </Helmet>
 

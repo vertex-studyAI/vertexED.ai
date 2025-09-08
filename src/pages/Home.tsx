@@ -13,24 +13,24 @@ export default function Home() {
   return (
     <>
       <Helmet>
-        <title>AI Study Tools for Students — Notes, Flashcards, Planner | VertexED</title>
+  <title>AI Study Tools for Students — Notes, Flashcards, Planner | VertexED</title>
         <meta name="description" content="Study smarter with Vertex: AI-powered notes, flashcards, quizzes, planner, and chatbot. The all-in-one study tool for students." />
-        <link rel="canonical" href="https://vertex-ai-rho.vercel.app/" />
-        <meta property="og:title" content="AI Study Tools for Students — Notes, Flashcards, Planner | Vertex" />
+  <link rel="canonical" href="https://www.vertexed.app/" />
+  <meta property="og:title" content="AI Study Tools for Students — Notes, Flashcards, Planner | VertexED" />
         <meta property="og:description" content="All-in-one AI study toolkit for students: notes, flashcards, quizzes, planner, chatbot." />
-        <meta property="og:url" content="https://vertex-ai-rho.vercel.app/" />
+  <meta property="og:url" content="https://www.vertexed.app/" />
         <meta property="og:type" content="website" />
-        <meta property="og:image" content="https://vertex-ai-rho.vercel.app/socialpreview.jpg" />
+  <meta property="og:image" content="https://www.vertexed.app/socialpreview.jpg" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="AI Study Tools for Students — Notes, Flashcards, Planner | Vertex" />
+  <meta name="twitter:title" content="AI Study Tools for Students — Notes, Flashcards, Planner | VertexED" />
         <meta name="twitter:description" content="All-in-one AI study toolkit for students: notes, flashcards, quizzes, planner, chatbot." />
-        <meta name="twitter:image" content="https://vertex-ai-rho.vercel.app/socialpreview.jpg" />
+  <meta name="twitter:image" content="https://www.vertexed.app/socialpreview.jpg" />
         <script type="application/ld+json">{`
         {
           "@context":"https://schema.org",
           "@type":"WebPage",
           "name":"AI Study Tools — VertexED",
-          "url":"https://vertex-ai-rho.vercel.app/",
+          "url":"https://www.vertexed.app/",
           "description":"AI-powered study tools: notes, flashcards, quizzes, planner, and chatbot."
         }`}</script>
       </Helmet>

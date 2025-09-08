@@ -9,22 +9,22 @@ export default function StudyPlanner() {
       <Helmet>
         <title>AI Study Planner & Calendar — Organize Your Study Plan | Vertex</title>
         <meta name="description" content="Plan study sessions, track deadlines, and optimize schedules with Vertex’s AI study planner and calendar." />
-        <link rel="canonical" href="https://vertex-ai-rho.vercel.app/planner" />
+  <link rel="canonical" href="https://www.vertexed.app/planner" />
         <meta property="og:title" content="AI Study Planner & Calendar — Vertex" />
         <meta property="og:description" content="Plan sessions, track deadlines, and optimize your study schedule with AI." />
-        <meta property="og:url" content="https://vertex-ai-rho.vercel.app/planner" />
+  <meta property="og:url" content="https://www.vertexed.app/planner" />
         <meta property="og:type" content="website" />
-        <meta property="og:image" content="https://vertex-ai-rho.vercel.app/socialpreview.jpg" />
+  <meta property="og:image" content="https://www.vertexed.app/socialpreview.jpg" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="AI Study Planner & Calendar — Vertex" />
         <meta name="twitter:description" content="Plan sessions, track deadlines, and optimize your study schedule with AI." />
-        <meta name="twitter:image" content="https://vertex-ai-rho.vercel.app/socialpreview.jpg" />
+  <meta name="twitter:image" content="https://www.vertexed.app/socialpreview.jpg" />
         <script type="application/ld+json">{`
         {
           "@context":"https://schema.org",
           "@type":"WebPage",
           "name":"AI Study Planner",
-          "url":"https://vertex-ai-rho.vercel.app/planner",
+          "url":"https://www.vertexed.app/planner",
           "description":"AI-powered study planner and calendar for students."
         }`}</script>
       </Helmet>

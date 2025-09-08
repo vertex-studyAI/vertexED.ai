@@ -9,12 +9,12 @@ export default function PaperMaker() {
       <Helmet>
   <title>IB/IGCSE Practice Paper Generator | Vertex</title>
   <meta name="description" content="Generate IB and IGCSE-style practice papers from your topics (UI placeholder)." />
-  <link rel="canonical" href="https://vertex-ai-rho.vercel.app/paper-maker" />
+  <link rel="canonical" href="https://www.vertexed.app/paper-maker" />
   <meta property="og:title" content="IB/IGCSE Practice Paper Generator | Vertex" />
   <meta property="og:description" content="Create custom practice papers based on your syllabus." />
-  <meta property="og:url" content="https://vertex-ai-rho.vercel.app/paper-maker" />
+  <meta property="og:url" content="https://www.vertexed.app/paper-maker" />
   <meta property="og:type" content="website" />
-  <meta property="og:image" content="https://vertex-ai-rho.vercel.app/socialpreview.jpg" />
+  <meta property="og:image" content="https://www.vertexed.app/socialpreview.jpg" />
       </Helmet>
 
       <PageSection>

@@ -9,12 +9,12 @@ export default function About() {
       <Helmet>
   <title>About Vertex — AI Study Tools</title>
   <meta name="description" content="Learn about Vertex, the all-in-one AI study tools platform, and the founding team." />
-  <link rel="canonical" href="https://vertex-ai-rho.vercel.app/about" />
+  <link rel="canonical" href="https://www.vertexed.app/about" />
   <meta property="og:title" content="About Vertex — AI Study Tools" />
   <meta property="og:description" content="The story behind Vertex and our mission to help students study smarter." />
-  <meta property="og:url" content="https://vertex-ai-rho.vercel.app/about" />
+  <meta property="og:url" content="https://www.vertexed.app/about" />
   <meta property="og:type" content="website" />
-  <meta property="og:image" content="https://vertex-ai-rho.vercel.app/socialpreview.jpg" />
+  <meta property="og:image" content="https://www.vertexed.app/socialpreview.jpg" />
       </Helmet>
 
       <PageSection>
