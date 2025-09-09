@@ -24,16 +24,16 @@ export default function About() {
         </p>
         
         <div className="grid md:grid-cols-3 gap-8 mt-12">
-          <NeumorphicCard className="p-8 text-center min-h-96" title="Ryan Gomez" info="Co‑founder & Creative Director">
+          <NeumorphicCard className="p-8 text-center min-h-96" title="Ryan Gomez" info="Co‑founder, CFO and Head of AI product devlopment">
             <p className="text-sm opacity-80 mb-6 text-left leading-relaxed">
               Ryan Gomez is a Sophomore at Oakridge International School Bangalore with a passion for creating. Whilst winning awards at international model UN conferences and regional olympiads, he has founded initiatives and startups like obscured records, finance_debriefed and even oak-ridges junior codefest. Whilst also having played international level football, writing books on quantum mechanics and being a champion scholar at the world scholars cup he enjoys his time on CFB 25 and playing the Guitar. He also loves working at various startups and projects.
             </p>
             <div className="flex items-center justify-center gap-3">
-              <a href="#" aria-label="Ryan on LinkedIn" className="neu-button px-3 py-2"><Linkedin className="h-4 w-4" /></a>
+              <a href="https://www.linkedin.com/in/ryan-gomez-03701b363/?originalSubdomain=in" aria-label="Ryan on LinkedIn" className="neu-button px-3 py-2"><Linkedin className="h-4 w-4" /></a>
             </div>
           </NeumorphicCard>
           
-          <NeumorphicCard className="p-8 text-center min-h-96" title="Pratyush Vel Shankar" info="Co‑founder & CEO">
+          <NeumorphicCard className="p-8 text-center min-h-96" title="Pratyush Vel Shankar" info="Co‑founde, CEO and head of vision office">
             <p className="text-sm opacity-80 mb-6 text-left leading-relaxed">
               Pratyush Vel Shankar is Sophomore at Oakridge International School Bangalore, who had the core idea months before you saw this website. After receiving over $500 in prize money for coding Vertex during Bangalores largest overnight hackathon for high schoolers, he proceeded to co-found OneVertex.AI. Whilst also receiving perfect PSAT scores, leading Oakridges tech club and winning awards in various olympiads he explores his free time through playing on the Nintendo switch or simply coding another big idea. He also excels at math competitions as well.
             </p>
@@ -42,7 +42,7 @@ export default function About() {
             </div>
           </NeumorphicCard>
           
-          <NeumorphicCard className="p-8 text-center min-h-96" title="Ritayush Dey" info="Co‑founder & CTO">
+          <NeumorphicCard className="p-8 text-center min-h-96" title="Ritayush Dey" info="Co‑founder, CTO and head of finance oversight">
             <p className="text-sm opacity-80 mb-6 text-left leading-relaxed">
               Ritayush Dey is Sophomore at Oakridge International School Bangalore who is in love with excellence. Whilst also winning awards at the world scholars cup, leading Oakridges tech club, receiving 7's in MYP Spanish extended and receiving honours in olympiads, he also pursues guitar at trinity grade 6 and loves tutoring the rest of the peers in his free time. He also is a national level cricketer, whilst also having captaining Oakridges high school cricket team numeorus times when he was still in junior high. He is also currently organising India's largest overnight school-level hackathon.
             </p>
