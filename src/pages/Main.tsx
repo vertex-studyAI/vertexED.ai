@@ -5,12 +5,12 @@ import PageSection from "@/components/PageSection";
 
 export default function Main() {
   const tiles = [
-    { title: "Study Zone", to: "/study-zone", info: "Focused pomodoro and resources." },
-    { title: "AI Chatbot", to: "/chatbot", info: "Ask questions and get help." },
-    { title: "Study Planner", to: "/planner", info: "Plan sessions and deadlines." },
-    { title: "Image Answer", to: "/image-answer", info: "Solve from photos of questions." },
-    { title: "IB/IGCSE Paper Maker", to: "/paper-maker", info: "Create syllabus-aligned papers." },
-    { title: "Note taker + Flashcards + Quiz", to: "/notetaker", span: "md:row-span-2", info: "Notes to cards to quizzes." },
+    { title: "Study Zone", to: "/study-zone", info: "All in 1 tool section for your calculators, activity logs and more." },
+    { title: "AI Chatbot", to: "/chatbot", info: "Ask questions and get help on general topics or just simply have a discussion on academics." },
+    { title: "Study Planner", to: "/planner", info: "Plan sessions and deadlines for your busy schedule in an instant." },
+    { title: "Answer Reviewer", to: "/AnswerReviewer", info: "Not just a basic reviewer; a strict teacher of sorts which also gives the best feedback on how you can improve" },
+    { title: "IB/IGCSE Paper Maker", to: "/paper-maker", info: "Create syllabus-aligned papers which are actually helpful." },
+    { title: "Note taker + Flashcards + Quiz", to: "/notetaker", span: "md:row-span-2", info: "Notes to cards to quizzes all in 1 place for those late night revision sessions" },
   ];
 
   return (
