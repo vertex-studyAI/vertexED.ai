@@ -76,3 +76,4 @@ export default function AIChatbot() {
     </PageSection>
   );
 }
+//ai now has debug
