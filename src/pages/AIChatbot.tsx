@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import NeumorphicCard from "@/components/NeumorphicCard";
 import PageSection from "@/components/PageSection";
@@ -7,14 +7,6 @@ export default function AIChatbot() {
   const [userInput, setUserInput] = useState("");
   const [chatMessages, setChatMessages] = useState([]);
   const [loading, setLoading] = useState(false);
-  const messagesEndRef = useRef(null);
-
-  // Auto-scroll messages area
-  useEffect(() => {
-    if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
-    }
-  }, [chatMessages, loading]);
 
   const handleSend = async () => {
     if (!userInput.trim()) return;
@@ -52,12 +44,11 @@ export default function AIChatbot() {
       </div>
 
       <NeumorphicCard className="p-8 h-[70vh] flex flex-col">
-        {/* Scrollable messages area */}
-        <div className="flex-1 neu-surface inset p-6 rounded-2xl mb-4 overflow-y-auto" style={{ maxHeight: '100%' }}>
+        {/* Messages area without auto-scroll */}
+        <div className="flex-1 neu-surface inset p-6 rounded-2xl mb-4 overflow-y-auto">
           {chatMessages.map((msg, idx) => (
             <p
               key={idx}
-              placeholder="Your answer will appear here"
               className={
                 msg.sender === "bot"
                   ? "text-blue-500 animate-fade-in mb-2"
@@ -68,7 +59,6 @@ export default function AIChatbot() {
             </p>
           ))}
           {loading && <p className="text-gray-500 animate-pulse">AI is typing...</p>}
-          <div ref={messagesEndRef}></div>
         </div>
 
         {/* Input area stays fixed at the bottom */}
