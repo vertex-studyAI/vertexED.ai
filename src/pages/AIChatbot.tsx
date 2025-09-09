@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import NeumorphicCard from "@/components/NeumorphicCard";
 import PageSection from "@/components/PageSection";
@@ -7,6 +7,14 @@ export default function AIChatbot() {
   const [userInput, setUserInput] = useState("");
   const [chatMessages, setChatMessages] = useState([]);
   const [loading, setLoading] = useState(false);
+  const chatEndRef = useRef(null);
+
+  // Auto-scroll to bottom
+  useEffect(() => {
+    if (chatEndRef.current) {
+      chatEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [chatMessages, loading]);
 
   const handleSend = async () => {
     if (!userInput.trim()) return;
@@ -22,10 +30,16 @@ export default function AIChatbot() {
       });
 
       const data = await response.json();
-      setChatMessages(prev => [...prev, { sender: "bot", text: data.answer }]);
+
+      // Display OpenAI error if exists
+      if (data.error) {
+        setChatMessages(prev => [...prev, { sender: "bot", text: `Error: ${data.error}` }]);
+      } else {
+        setChatMessages(prev => [...prev, { sender: "bot", text: data.answer }]);
+      }
     } catch (error) {
       console.error(error);
-      setChatMessages(prev => [...prev, { sender: "bot", text: "Something went wrong." }]);
+      setChatMessages(prev => [...prev, { sender: "bot", text: `Error: ${error.message}` }]);
     } finally {
       setLoading(false);
       setUserInput("");
@@ -41,11 +55,19 @@ export default function AIChatbot() {
       <NeumorphicCard className="p-8 h-[70vh] flex flex-col">
         <div className="flex-1 neu-surface inset p-6 rounded-2xl mb-6 overflow-y-auto">
           {chatMessages.map((msg, idx) => (
-            <p key={idx} className={msg.sender === "bot" ? "text-blue-500" : "text-gray-700 font-semibold"}>
+            <p
+              key={idx}
+              className={
+                msg.sender === "bot"
+                  ? "text-blue-500 animate-fade-in"
+                  : "text-gray-700 font-semibold animate-fade-in"
+              }
+            >
               <strong>{msg.sender === "bot" ? "AI:" : "You:"}</strong> {msg.text}
             </p>
           ))}
-          {loading && <p className="text-gray-500">AI is typing...</p>}
+          {loading && <p className="text-gray-500 animate-pulse">AI is typing...</p>}
+          <div ref={chatEndRef}></div>
         </div>
 
         <div className="neu-input flex">
