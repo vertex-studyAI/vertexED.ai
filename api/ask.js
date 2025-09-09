@@ -1,5 +1,13 @@
 const OPENAI_API_KEY = process.env.ChatbotKey;
 
+if (!OPENAI_API_KEY) {
+  return res.status(500).json({ error: "OpenAI API key not set" });
+}
+
+export default async function handler(req, res) {
+  console.log("API Key:", process.env.OPENAI_API_KEY); // server-side only
+  res.status(200).json({ test: "check logs" });
+
 export default async function handler(req, res) {
   if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
 
