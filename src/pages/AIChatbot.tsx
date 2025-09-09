@@ -7,12 +7,12 @@ export default function AIChatbot() {
   const [userInput, setUserInput] = useState("");
   const [chatMessages, setChatMessages] = useState([]);
   const [loading, setLoading] = useState(false);
-  const chatEndRef = useRef(null);
+  const messagesEndRef = useRef(null);
 
-  // Auto-scroll to bottom
+  // Auto-scroll messages area
   useEffect(() => {
-    if (chatEndRef.current) {
-      chatEndRef.current.scrollIntoView({ behavior: "smooth" });
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [chatMessages, loading]);
 
@@ -31,7 +31,6 @@ export default function AIChatbot() {
 
       const data = await response.json();
 
-      // Display OpenAI error if exists
       if (data.error) {
         setChatMessages(prev => [...prev, { sender: "bot", text: `Error: ${data.error}` }]);
       } else {
@@ -53,24 +52,27 @@ export default function AIChatbot() {
       </div>
 
       <NeumorphicCard className="p-8 h-[70vh] flex flex-col">
-        <div className="flex-1 neu-surface inset p-6 rounded-2xl mb-6 overflow-y-auto">
+        {/* Scrollable messages area */}
+        <div className="flex-1 neu-surface inset p-6 rounded-2xl mb-4 overflow-y-auto" style={{ maxHeight: '100%' }}>
           {chatMessages.map((msg, idx) => (
             <p
               key={idx}
+              placeholder="Your answer will appear here"
               className={
                 msg.sender === "bot"
-                  ? "text-blue-500 animate-fade-in"
-                  : "text-gray-700 font-semibold animate-fade-in"
+                  ? "text-blue-500 animate-fade-in mb-2"
+                  : "text-gray-700 font-semibold animate-fade-in mb-2"
               }
             >
               <strong>{msg.sender === "bot" ? "AI:" : "You:"}</strong> {msg.text}
             </p>
           ))}
           {loading && <p className="text-gray-500 animate-pulse">AI is typing...</p>}
-          <div ref={chatEndRef}></div>
+          <div ref={messagesEndRef}></div>
         </div>
 
-        <div className="neu-input flex">
+        {/* Input area stays fixed at the bottom */}
+        <div className="neu-input flex mt-auto">
           <input
             className="neu-input-el flex-grow"
             placeholder="Ask me anything..."
