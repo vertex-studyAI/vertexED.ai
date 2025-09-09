@@ -33,7 +33,7 @@ export default function About() {
             </div>
           </NeumorphicCard>
           
-          <NeumorphicCard className="p-8 text-center min-h-96" title="Pratyush Vel Shankar" info="Co‑founde, CEO and head of vision office">
+          <NeumorphicCard className="p-8 text-center min-h-96" title="Pratyush Vel Shankar" info="Co‑founder, CEO and head of vision office">
             <p className="text-sm opacity-80 mb-6 text-left leading-relaxed">
               Pratyush Vel Shankar is Sophomore at Oakridge International School Bangalore, who had the core idea months before you saw this website. After receiving over $500 in prize money for coding Vertex during Bangalores largest overnight hackathon for high schoolers, he proceeded to co-found OneVertex.AI. Whilst also receiving perfect PSAT scores, leading Oakridges tech club and winning awards in various olympiads he explores his free time through playing on the Nintendo switch or simply coding another big idea. He also excels at math competitions as well.
             </p>
