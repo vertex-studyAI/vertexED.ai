@@ -8,7 +8,7 @@ const NotetakerQuiz = lazy(() => import("@/pages/NotetakerQuiz"));
 const StudyZone = lazy(() => import("@/pages/StudyZone"));
 const AIChatbot = lazy(() => import("@/pages/AIChatbot"));
 const StudyPlanner = lazy(() => import("@/pages/StudyPlanner"));
-const ImageAnswer = lazy(() => import("@/pages/ImageAnswer"));
+const AnswerReviewer = lazy(() => import("@/pages/AnswerReviewer"));
 const About = lazy(() => import("@/pages/About"));
 const NotFound = lazy(() => import("@/pages/NotFound"));
 const PaperMaker = lazy(() => import("@/pages/PaperMaker"));
