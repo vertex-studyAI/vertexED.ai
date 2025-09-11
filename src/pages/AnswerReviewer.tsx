@@ -29,12 +29,10 @@ export default function AIAnswerReview() {
 
     const prompt = `
 You are an expert teacher. Review the student's answer.
-
 Curriculum: ${formData.curriculum}
 Subject: ${formData.subject}
 Grade: ${formData.grade}
 Marks: Out of ${formData.marks}
-
 Question: ${formData.question}
 Student Answer: ${formData.answer}
 Additional Information: ${formData.additional}
@@ -48,9 +46,7 @@ Provide:
     try {
       const res = await fetch("/api/review", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ prompt }),
       });
 
@@ -88,7 +84,7 @@ Provide:
                   name="curriculum"
                   value={formData.curriculum}
                   onChange={handleChange}
-                  className="w-full p-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500"
+                  className="w-full p-3 rounded-xl border border-gray-300 bg-gray-900 text-white focus:ring-2 focus:ring-blue-500"
                 >
                   <option value="">Select Curriculum</option>
                   <option value="IB">IB</option>
@@ -104,7 +100,7 @@ Provide:
                   name="subject"
                   value={formData.subject}
                   onChange={handleChange}
-                  className="w-full p-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500"
+                  className="w-full p-3 rounded-xl border border-gray-300 bg-gray-900 text-white focus:ring-2 focus:ring-blue-500"
                 >
                   <option value="">Select Subject</option>
                   <option value="Math">Math</option>
@@ -123,7 +119,7 @@ Provide:
                   name="grade"
                   value={formData.grade}
                   onChange={handleChange}
-                  className="w-full p-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500"
+                  className="w-full p-3 rounded-xl border border-gray-300 bg-gray-900 text-white focus:ring-2 focus:ring-blue-500"
                 >
                   <option value="">Select Grade</option>
                   <option value="9">Grade 9</option>
@@ -141,7 +137,7 @@ Provide:
                   value={formData.marks}
                   onChange={handleChange}
                   placeholder="Enter maximum marks"
-                  className="w-full p-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500"
+                  className="w-full p-3 rounded-xl border border-gray-300 bg-gray-900 text-white focus:ring-2 focus:ring-blue-500"
                 />
               </div>
 
@@ -153,7 +149,7 @@ Provide:
                   onChange={handleChange}
                   placeholder="Paste or type the question here..."
                   rows={4}
-                  className="w-full p-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500"
+                  className="w-full p-3 rounded-xl border border-gray-300 bg-gray-900 text-white focus:ring-2 focus:ring-blue-500"
                 />
               </div>
 
@@ -165,7 +161,7 @@ Provide:
                   onChange={handleChange}
                   placeholder="Paste or type the student's answer here..."
                   rows={4}
-                  className="w-full p-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500"
+                  className="w-full p-3 rounded-xl border border-gray-300 bg-gray-900 text-white focus:ring-2 focus:ring-blue-500"
                 />
               </div>
 
@@ -177,14 +173,14 @@ Provide:
                   onChange={handleChange}
                   placeholder="Provide any context or notes here..."
                   rows={3}
-                  className="w-full p-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500"
+                  className="w-full p-3 rounded-xl border border-gray-300 bg-gray-900 text-white focus:ring-2 focus:ring-blue-500"
                 />
               </div>
 
               <div className="pt-4">
                 <button
                   type="submit"
-                  className="px-6 py-3 bg-blue-600 text-grey rounded-full shadow-md hover:bg-blue-700 transition"
+                  className="px-6 py-3 bg-blue-600 text-white rounded-full shadow-md hover:bg-blue-700 transition"
                 >
                   {loading ? "Reviewing..." : "Submit for Review →"}
                 </button>
@@ -196,7 +192,7 @@ Provide:
               <h2 className="text-lg font-semibold">AI Review</h2>
               <div className="flex-1 p-6 rounded-2xl overflow-y-auto bg-gray-900">
                 {response ? (
-                  <div className="self-start max-w-lg px-4 py-3 bg-gray-800 text-grey rounded-2xl shadow-md blackspace-pre-wrap">
+                  <div className="self-start max-w-lg px-4 py-3 bg-gray-800 text-blue-400 rounded-2xl shadow-md whitespace-pre-wrap">
                     {response}
                   </div>
                 ) : (
