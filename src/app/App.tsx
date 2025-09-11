@@ -55,7 +55,7 @@ function App() {
               <Route path="study-zone" element={<StudyZone />} />
               <Route path="chatbot" element={<AIChatbot />} />
               <Route path="planner" element={<StudyPlanner />} />
-              <Route path="image-answer" element={<ImageAnswer />} />
+              <Route path="Answer-Reviewer" element={<AnswerReviewer />} />
               <Route path="paper-maker" element={<PaperMaker />} />
               <Route path="about" element={<About />} />
               <Route path="settings" element={<UserSettings />} />
