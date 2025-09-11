@@ -28,7 +28,7 @@ export default function Main() {
             <Link to={t.to} key={t.title} className={t.span}>
               <NeumorphicCard className="p-8 h-full min-h-52" info={t.info} title={t.title}>
                 <p className="opacity-70 text-lg">Open {t.title.toLowerCase()} →</p>
-                <p className="text-sm opacity-60 mt-3">Access powerful AI tools designed to enhance your study experience and improve learning outcomes.</p>
+                <p className="text-sm opacity-60 mt-3">Feature is under beta testing. You can still use it</p>
               </NeumorphicCard>
             </Link>
           ))}
