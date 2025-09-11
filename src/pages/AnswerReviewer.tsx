@@ -184,7 +184,7 @@ Provide:
               <div className="pt-4">
                 <button
                   type="submit"
-                  className="px-6 py-3 bg-blue-600 text-black rounded-full shadow-md hover:bg-blue-700 transition"
+                  className="px-6 py-3 bg-blue-600 text-grey rounded-full shadow-md hover:bg-blue-700 transition"
                 >
                   {loading ? "Reviewing..." : "Submit for Review →"}
                 </button>
@@ -196,7 +196,7 @@ Provide:
               <h2 className="text-lg font-semibold">AI Review</h2>
               <div className="flex-1 p-6 rounded-2xl overflow-y-auto bg-gray-900">
                 {response ? (
-                  <div className="self-start max-w-lg px-4 py-3 bg-gray-800 text-black rounded-2xl shadow-md blackspace-pre-wrap">
+                  <div className="self-start max-w-lg px-4 py-3 bg-gray-800 text-grey rounded-2xl shadow-md blackspace-pre-wrap">
                     {response}
                   </div>
                 ) : (
