@@ -26,7 +26,6 @@ export default function AIAnswerReview() {
     setLoading(true);
     setResponse("");
 
-    // Build the AI prompt
     const prompt = `
 You are an expert teacher. Review the following answer question for accuracy, depth, and clarity. 
 Curriculum: ${formData.curriculum}
@@ -43,12 +42,11 @@ Please provide:
     `;
 
     try {
-      // Example API call (replace with your backend endpoint)
       const res = await fetch("https://your-backend-api.com/review", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${process.env.REACT_APP_API_KEY}`, // or pass key securely via backend
+          "Authorization": `Bearer ${process.env.REACT_APP_API_KEY}`,
         },
         body: JSON.stringify({ prompt }),
       });
@@ -57,7 +55,7 @@ Please provide:
       setResponse(data.output || "No response received.");
     } catch (err) {
       console.error(err);
-      setResponse("❌ Error: Could not get review. Please try again.");
+      setResponse("Error: Could not get review. Please try again.");
     } finally {
       setLoading(false);
     }
