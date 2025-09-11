@@ -10,6 +10,7 @@ export default function AIAnswerReview() {
     grade: "",
     marks: "",
     question: "",
+    answer: "", // NEW FIELD
     additional: "",
   });
 
@@ -27,17 +28,20 @@ export default function AIAnswerReview() {
     setResponse("");
 
     const prompt = `
-You are an expert teacher. Review the following answer question for accuracy, depth, and clarity. 
+You are an expert teacher. Review the student's answer.
+
 Curriculum: ${formData.curriculum}
 Subject: ${formData.subject}
 Grade: ${formData.grade}
 Marks: Out of ${formData.marks}
+
 Question: ${formData.question}
+Student Answer: ${formData.answer}
 Additional Information: ${formData.additional}
 
-Please provide:
-1. Detailed feedback as a strict teacher.
-2. A suggested mark (out of ${formData.marks}).
+Provide:
+1. Strict teacher-style feedback (clarity, depth, accuracy).
+2. Suggested marks (out of ${formData.marks}).
 3. Key improvements the student can make.
     `;
 
@@ -154,6 +158,18 @@ Please provide:
               </div>
 
               <div>
+                <label className="block text-sm font-medium mb-2">Student Answer</label>
+                <textarea
+                  name="answer"
+                  value={formData.answer}
+                  onChange={handleChange}
+                  placeholder="Paste or type the student's answer here..."
+                  rows={4}
+                  className="w-full p-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+
+              <div>
                 <label className="block text-sm font-medium mb-2">Additional Information</label>
                 <textarea
                   name="additional"
@@ -168,7 +184,7 @@ Please provide:
               <div className="pt-4">
                 <button
                   type="submit"
-                  className="px-6 py-3 bg-blue-600 text-white rounded-xl shadow-md hover:bg-blue-700 transition"
+                  className="px-6 py-3 bg-blue-600 text-white rounded-full shadow-md hover:bg-blue-700 transition"
                 >
                   {loading ? "Reviewing..." : "Submit for Review →"}
                 </button>
@@ -178,13 +194,15 @@ Please provide:
             {/* Right column → Output */}
             <div className="flex flex-col space-y-4">
               <h2 className="text-lg font-semibold">AI Review</h2>
-              <div className="flex-1 neu-surface inset p-6 rounded-2xl overflow-y-auto">
+              <div className="flex-1 p-6 rounded-2xl overflow-y-auto bg-gray-900">
                 {response ? (
-                  <div className="bg-gray-200 text-gray-800 p-4 rounded-2xl shadow-md whitespace-pre-wrap">
+                  <div className="self-start max-w-lg px-4 py-3 bg-gray-800 text-white rounded-2xl shadow-md whitespace-pre-wrap">
                     {response}
                   </div>
                 ) : (
-                  <p className="text-gray-400 italic">AI feedback will appear here after submission...</p>
+                  <p className="text-gray-500 italic">
+                    AI feedback will appear here after submission...
+                  </p>
                 )}
               </div>
             </div>
