@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import ScrollTrigger from "gsap/ScrollTrigger";
 
 export default function Home() {
   const { isAuthenticated } = useAuth();
@@ -16,7 +16,9 @@ export default function Home() {
   useEffect(() => {
     if (typeof window !== "undefined") {
       gsap.registerPlugin(ScrollTrigger);
-      gsap.utils.toArray(".fade-up").forEach((el) => {
+
+      const elements = gsap.utils.toArray<HTMLElement>(".fade-up");
+      elements.forEach((el) => {
         gsap.fromTo(
           el,
           { y: 50, opacity: 0 },
