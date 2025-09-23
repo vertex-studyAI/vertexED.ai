@@ -5,8 +5,6 @@ import { useAuth } from "@/contexts/AuthContext";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-gsap.registerPlugin(ScrollTrigger);
-
 export default function Home() {
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
@@ -16,28 +14,33 @@ export default function Home() {
   }, [isAuthenticated, navigate]);
 
   useEffect(() => {
-    gsap.utils.toArray(".fade-up").forEach((el) => {
-      gsap.fromTo(
-        el,
-        { y: 50, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 1.2,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: el,
-            start: "top 80%",
-          },
-        }
-      );
-    });
+    if (typeof window !== "undefined") {
+      gsap.registerPlugin(ScrollTrigger);
+      gsap.utils.toArray(".fade-up").forEach((el) => {
+        gsap.fromTo(
+          el,
+          { y: 50, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 1.2,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: el,
+              start: "top 80%",
+            },
+          }
+        );
+      });
+    }
   }, []);
 
   return (
     <>
       <Helmet>
-        <title>AI Study Tools for Students — Notes, Flashcards, Planner | VertexED</title>
+        <title>
+          AI Study Tools for Students — Notes, Flashcards, Planner | VertexED
+        </title>
         <meta
           name="description"
           content="Study smarter with Vertex: AI-powered notes, flashcards, quizzes, planner, and chatbot. The all-in-one study tool for students."
@@ -70,23 +73,26 @@ export default function Home() {
           name="twitter:image"
           content="https://www.vertexed.app/socialpreview.jpg"
         />
-        <script type="application/ld+json">{`
-          {
-            "@context":"https://schema.org",
-            "@type":"WebPage",
-            "name":"AI Study Tools — VertexED",
-            "url":"https://www.vertexed.app/",
-            "description":"AI-powered study tools: notes, flashcards, quizzes, planner, and chatbot."
-          }
-        `}</script>
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            name: "AI Study Tools — VertexED",
+            url: "https://www.vertexed.app/",
+            description:
+              "AI-powered study tools: notes, flashcards, quizzes, planner, and chatbot.",
+          })}
+        </script>
       </Helmet>
+
       <section className="relative overflow-hidden px-6 py-20 rounded-3xl animate-fade-in brand-hero bg-gradient-to-b from-slate-50/90 to-slate-100/60 backdrop-blur-xl">
         <div className="relative z-10 max-w-3xl mx-auto text-center">
           <h1 className="text-5xl md:text-7xl font-semibold leading-tight mb-6 text-neutral-900 tracking-tight fade-up">
             AI study tools for students
           </h1>
           <p className="text-lg opacity-90 mb-10 max-w-2xl mx-auto text-neutral-800 fade-up">
-            All-in-one AI toolkit for students—planner, notes, flashcards, quizzes, chatbot, and more in one elegant workspace.
+            All-in-one AI toolkit for students—planner, notes, flashcards,
+            quizzes, chatbot, and more in one elegant workspace.
           </p>
           <div className="flex gap-4 justify-center flex-wrap fade-up">
             <Link
@@ -104,6 +110,7 @@ export default function Home() {
           </div>
         </div>
       </section>
+
       <section className="mt-20 w-full px-4 md:px-8">
         <div className="mx-auto w-full max-w-[1400px] grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
           {[
@@ -135,7 +142,7 @@ export default function Home() {
               <div className="flex flex-col h-full aspect-[5/3] p-6 items-center justify-center text-center gap-4">
                 <img
                   src={card.icon}
-                  alt=""
+                  alt={card.title}
                   className="w-12 h-12 object-contain"
                   loading="lazy"
                   decoding="async"
