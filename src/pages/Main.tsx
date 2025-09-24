@@ -16,17 +16,18 @@ export default function Main() {
   return (
     <>
       <Helmet>
-  <title>Dashboard — Vertex AI Study Tools</title>
-  <meta name="description" content="Your Vertex dashboard with quick access to all AI study tools." />
-  <link rel="canonical" href="https://www.vertexed.app/main" />
-  <meta name="robots" content="noindex, nofollow" />
+        <title>Dashboard — Vertex AI Study Tools</title>
+        <meta name="description" content="Your Vertex dashboard with quick access to all AI study tools." />
+        <link rel="canonical" href="https://www.vertexed.app/main" />
+        <meta name="robots" content="noindex, nofollow" />
       </Helmet>
 
       <PageSection>
-        <div className="grid md:grid-cols-3 gap-6">
+        {/* Horizontal scroll container */}
+        <div className="flex space-x-6 overflow-x-auto py-6 px-2 scrollbar-hide">
           {tiles.map((t) => (
-            <Link to={t.to} key={t.title} className={t.span}>
-              <NeumorphicCard className="p-8 h-full min-h-52" info={t.info} title={t.title}>
+            <Link to={t.to} key={t.title} className={`flex-shrink-0 w-80 md:w-96 ${t.span || ""}`}>
+              <NeumorphicCard className="p-10 h-64 md:h-80" info={t.info} title={t.title}>
                 <p className="opacity-70 text-lg">Open {t.title.toLowerCase()} →</p>
                 <p className="text-sm opacity-60 mt-3">Feature is under beta testing. You can still use it</p>
               </NeumorphicCard>
