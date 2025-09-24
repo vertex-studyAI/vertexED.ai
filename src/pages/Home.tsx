@@ -208,7 +208,7 @@ export default function Home() {
               </div>
               <div className="flex-1 text-slate-300 text-lg md:text-xl leading-relaxed text-center md:text-left">
                 {i % 2 === 0
-                  ? "Here’s why this feature matters — it tackles one of the biggest pain points students face."
+                  ? "The all in 1 hub for your study sessions with all the tools one could ask for."
                   : "Designed to keep you motivated and productive, no matter how overwhelming your syllabus seems."}
               </div>
             </div>
