@@ -180,11 +180,9 @@ export default function Home() {
         </div>
       </section>
 
-        {/* Solution */}
+      {/* Solution */}
       <section className="max-w-5xl mx-auto px-6 mt-20 fade-up">
-        <h3 className="text-3xl font-semibold text-white mb-4">
-          The Solution
-        </h3>
+        <h3 className="text-3xl font-semibold text-white mb-4">The Solution</h3>
         <p className="text-lg text-slate-200">
           VertexED unifies everything in one elegant, AI-powered platform. Study
           smarter with notes, flashcards, planner, quizzes, chatbot, and answer
@@ -203,3 +201,6 @@ export default function Home() {
           and effective.
         </p>
       </section>
+    </>
+  );
+}
