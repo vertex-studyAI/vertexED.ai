@@ -180,11 +180,26 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Solution */}
+        {/* Solution */}
       <section className="max-w-5xl mx-auto px-6 mt-20 fade-up">
         <h3 className="text-3xl font-semibold text-white mb-4">
           The Solution
         </h3>
         <p className="text-lg text-slate-200">
           VertexED unifies everything in one elegant, AI-powered platform. Study
-          smarter with notes, flashcards, planner, quiz
+          smarter with notes, flashcards, planner, quizzes, chatbot, and answer
+          reviewer all in a seamless flow.
+        </p>
+      </section>
+
+      {/* Why should you use it? */}
+      <section className="max-w-5xl mx-auto px-6 mt-20 fade-up">
+        <h3 className="text-3xl font-semibold text-white mb-4">
+          Why should you use it?
+        </h3>
+        <p className="text-lg text-slate-200">
+          Because we’re students too. We know the frustration, the wasted hours,
+          and the stress. VertexED is built to make studying efficient, elegant,
+          and effective.
+        </p>
+      </section>
