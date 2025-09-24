@@ -16,7 +16,6 @@ export default function Home() {
   useEffect(() => {
     if (typeof window !== "undefined") {
       gsap.registerPlugin(ScrollTrigger);
-
       const elements = gsap.utils.toArray<HTMLElement>(".fade-up");
       elements.forEach((el) => {
         gsap.fromTo(
@@ -40,54 +39,16 @@ export default function Home() {
   return (
     <>
       <Helmet>
-        <title>
-          AI Study Tools for Students — Notes, Flashcards, Planner | VertexED
-        </title>
+        <title>AI Study Tools for Students | VertexED</title>
         <meta
           name="description"
-          content="Study smarter with Vertex: AI-powered notes, flashcards, quizzes, planner, and chatbot. The all-in-one study tool for students."
+          content="VertexED — Apple-inspired AI toolkit for students: smarter notes, flashcards, planner, and more."
         />
         <link rel="canonical" href="https://www.vertexed.app/" />
-        <meta
-          property="og:title"
-          content="AI Study Tools for Students — Notes, Flashcards, Planner | VertexED"
-        />
-        <meta
-          property="og:description"
-          content="All-in-one AI study toolkit for students: notes, flashcards, quizzes, planner, chatbot."
-        />
-        <meta property="og:url" content="https://www.vertexed.app/" />
-        <meta property="og:type" content="website" />
-        <meta
-          property="og:image"
-          content="https://www.vertexed.app/socialpreview.jpg"
-        />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta
-          name="twitter:title"
-          content="AI Study Tools for Students — Notes, Flashcards, Planner | VertexED"
-        />
-        <meta
-          name="twitter:description"
-          content="All-in-one AI study toolkit for students: notes, flashcards, quizzes, planner, chatbot."
-        />
-        <meta
-          name="twitter:image"
-          content="https://www.vertexed.app/socialpreview.jpg"
-        />
-        <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "WebPage",
-            name: "AI Study Tools — VertexED",
-            url: "https://www.vertexed.app/",
-            description:
-              "AI-powered study tools: notes, flashcards, quizzes, planner, and chatbot.",
-          })}
-        </script>
       </Helmet>
 
-      <section className="relative overflow-hidden px-6 py-20 rounded-3xl animate-fade-in brand-hero bg-gradient-to-b from-slate-50/90 to-slate-100/60 backdrop-blur-xl">
+      {/* Hero Section */}
+      <section className="relative overflow-hidden px-6 py-20 rounded-3xl bg-gradient-to-b from-slate-50/90 to-slate-100/60 backdrop-blur-xl">
         <div className="relative z-10 max-w-3xl mx-auto text-center">
           <h1 className="text-5xl md:text-7xl font-semibold leading-tight mb-6 text-neutral-900 tracking-tight fade-up">
             AI study tools for students
@@ -113,52 +74,92 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="mt-20 w-full px-4 md:px-8">
-        <div className="mx-auto w-full max-w-[1400px] grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+      {/* Problem Statement */}
+      <section className="mt-32 px-6 max-w-4xl mx-auto text-center fade-up">
+        <h2 className="text-4xl md:text-5xl font-semibold text-neutral-900 mb-6">
+          We hate the way we study
+        </h2>
+        <p className="text-xl text-neutral-600 mb-10">Who wouldn’t?</p>
+      </section>
+
+      {/* The Problem */}
+      <section className="mt-16 px-6 max-w-5xl mx-auto fade-up">
+        <div className="rounded-3xl bg-white/60 backdrop-blur-lg p-10 shadow-xl">
+          <h3 className="text-2xl md:text-3xl font-semibold text-neutral-900 mb-6">
+            The Problem
+          </h3>
+          <ul className="space-y-3 text-neutral-700 text-lg">
+            <li>• Lack of relevant resources</li>
+            <li>• Too much effort into note-taking</li>
+            <li>• Lack of rigor-appropriate test papers</li>
+            <li>• Extremely tedious, easy to procrastinate</li>
+            <li>• Multiple apps, scattered workflow</li>
+          </ul>
+        </div>
+      </section>
+
+      {/* The Solution */}
+      <section className="mt-24 px-6 max-w-5xl mx-auto fade-up text-center">
+        <h3 className="text-3xl md:text-4xl font-semibold text-neutral-900 mb-6">
+          The Solution
+        </h3>
+        <p className="text-lg text-neutral-700 max-w-3xl mx-auto">
+          VertexED.AI brings everything into one elegant, Apple-like workspace —
+          powered by AI. Notes, flashcards, planner, quizzes, and more, designed
+          to make studying easier, smarter, and more productive.
+        </p>
+      </section>
+
+      {/* What We Offer */}
+      <section className="mt-24 px-6 max-w-6xl mx-auto fade-up">
+        <h3 className="text-3xl md:text-4xl font-semibold text-neutral-900 text-center mb-12">
+          What We Offer
+        </h3>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {[
-            {
-              title: "AI Powered Notes",
-              icon: "/notes.png",
-              desc: "Summarize learning in seconds",
-            },
-            {
-              title: "Smart Flashcards",
-              icon: "/flashcards.png",
-              desc: "Revise quickly and efficiently",
-            },
-            {
-              title: "Custom Study Planner",
-              icon: "/studyplanner.png",
-              desc: "Spend less time planning,\nmore time doing",
-            },
-            {
-              title: "Mock Paper Generator",
-              icon: "/mockpaper.png",
-              desc: "Test yourself on any topic\ninstantly",
-            },
-          ].map((card) => (
+            { title: "Smarter Notes", desc: "Summarize instantly, never waste hours writing." },
+            { title: "Flashcards on Demand", desc: "AI builds your flashcards while you learn." },
+            { title: "Mock Papers", desc: "Practice with AI-generated test papers." },
+            { title: "Study Planner", desc: "Custom-tailored plans that adapt to you." },
+            { title: "AI Tutor", desc: "Your own chatbot mentor for any subject." },
+          ].map((item) => (
             <div
-              key={card.title}
-              className="group relative rounded-2xl bg-white/80 backdrop-blur-md shadow-lg border border-slate-200/70 overflow-hidden transform transition-transform duration-300 hover:-translate-y-1 hover:shadow-xl fade-up"
+              key={item.title}
+              className="rounded-2xl bg-white/70 backdrop-blur-xl p-8 text-center shadow-lg hover:shadow-2xl transition-all"
             >
-              <div className="flex flex-col h-full aspect-[5/3] p-6 items-center justify-center text-center gap-4">
-                <img
-                  src={card.icon}
-                  alt={card.title}
-                  className="w-12 h-12 object-contain"
-                  loading="lazy"
-                  decoding="async"
-                />
-                <h3 className="text-lg md:text-xl font-semibold text-neutral-900 leading-snug tracking-tight">
-                  {card.title}
-                </h3>
-                <p className="mt-1 text-xs md:text-sm font-medium text-neutral-700 whitespace-pre-line leading-relaxed tracking-tight max-w-[90%]">
-                  {card.desc}
-                </p>
-              </div>
+              <h4 className="text-xl font-semibold mb-3 text-neutral-900">
+                {item.title}
+              </h4>
+              <p className="text-neutral-700">{item.desc}</p>
             </div>
           ))}
         </div>
+      </section>
+
+      {/* What Makes Us Special */}
+      <section className="mt-28 px-6 max-w-5xl mx-auto fade-up text-center">
+        <h3 className="text-3xl md:text-4xl font-semibold text-neutral-900 mb-6">
+          What Makes Us Special
+        </h3>
+        <p className="text-lg text-neutral-700 max-w-3xl mx-auto">
+          Unlike other tools, VertexED.AI is designed by students, for students.
+          We know the pain of endless hours, scattered apps, and unproductive
+          studying. Our liquid-glass design, AI-powered features, and
+          all-in-one approach make learning as elegant as it is powerful.
+        </p>
+      </section>
+
+      {/* End CTA */}
+      <section className="mt-32 mb-24 text-center fade-up">
+        <h3 className="text-3xl md:text-4xl font-semibold text-neutral-900 mb-8">
+          Ready to get started?
+        </h3>
+        <button
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          className="px-10 py-5 rounded-full bg-neutral-900 text-white hover:bg-neutral-800 transition-colors shadow-lg"
+        >
+          Back to Top
+        </button>
       </section>
     </>
   );
