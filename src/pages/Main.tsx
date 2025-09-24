@@ -6,63 +6,56 @@ import { motion } from "framer-motion";
 
 export default function Main() {
   const tiles = [
-    { title: "Study Zone", to: "/study-zone", info: "All in 1 tool section for your calculators, activity logs and more.", size: "md:col-span-2" },
+    { title: "Study Zone", to: "/study-zone", info: "All in 1 tool section for your calculators, activity logs and more.", size: "md:col-span-2 md:row-span-2" },
     { title: "AI Chatbot", to: "/chatbot", info: "Ask questions and get help on general topics or just simply have a discussion on academics.", size: "md:row-span-2" },
-    { title: "Study Planner", to: "/planner", info: "Plan sessions and deadlines for your busy schedule in an instant." },
-    { title: "Answer Reviewer", to: "/answer-reviewer", info: "Not just a basic reviewer; a strict teacher of sorts which also gives the best feedback on how you can improve" },
-    { title: "IB/IGCSE Paper Maker", to: "/paper-maker", info: "Create syllabus-aligned papers which are actually helpful." },
-    { title: "Note taker + Flashcards + Quiz", to: "/notetaker", info: "Notes to cards to quizzes all in 1 place for those late night revision sessions", size: "md:col-span-2" },
+    { title: "Study Planner", to: "/planner", info: "Plan sessions and deadlines for your busy schedule in an instant.", size: "md:col-span-1" },
+    { title: "Answer Reviewer", to: "/answer-reviewer", info: "Not just a basic reviewer; a strict teacher of sorts which also gives the best feedback on how you can improve", size: "md:col-span-1" },
+    { title: "IB/IGCSE Paper Maker", to: "/paper-maker", info: "Create syllabus-aligned papers which are actually helpful.", size: "md:col-span-2" },
+    { title: "Note taker + Flashcards + Quiz", to: "/notetaker", info: "Notes to cards to quizzes all in 1 place for those late night revision sessions", size: "md:col-span-2 md:row-span-2" },
   ];
 
   return (
     <>
       <Helmet>
         <title>Dashboard — Vertex AI Study Tools</title>
-        <meta
-          name="description"
-          content="Your Vertex dashboard with quick access to all AI study tools."
-        />
+        <meta name="description" content="Your Vertex dashboard with quick access to all AI study tools." />
         <link rel="canonical" href="https://www.vertexed.app/main" />
         <meta name="robots" content="noindex, nofollow" />
       </Helmet>
 
-      <PageSection className="relative min-h-screen bg-gradient-to-b from-white to-slate-50 overflow-hidden">
-        {/* Grid layout */}
-        <div className="relative z-10 grid grid-cols-1 md:grid-cols-3 gap-6 max-w-[98%] mx-auto py-12">
+      <PageSection className="relative min-h-screen bg-gradient-to-b from-slate-900 to-slate-800 overflow-hidden">
+        <div className="relative z-10 grid grid-cols-1 md:grid-cols-3 auto-rows-[220px] gap-8 max-w-[95%] mx-auto py-16">
           {tiles.map((t, i) => (
-            <Link
-              to={t.to}
-              key={t.title}
-              className={`${t.size || ""} group relative`}
-            >
+            <Link to={t.to} key={t.title} className={`${t.size || ""} group relative`}>
               <motion.div
-                initial={{ opacity: 0, y: 40 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: i * 0.1 }}
-                whileHover={{ scale: 1.05 }}
+                initial={{ opacity: 0, y: 50, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ duration: 0.7, delay: i * 0.12, ease: "easeOut" }}
+                whileHover={{ scale: 1.06, rotate: 0.5 }}
                 whileTap={{ scale: 0.97 }}
               >
                 <NeumorphicCard
-                  className="relative h-64 md:h-80 p-8 rounded-2xl shadow-xl
-                             bg-gradient-to-br from-white to-slate-100
-                             border border-slate-200
-                             group-hover:border-slate-400
-                             overflow-hidden transition-all duration-300"
+                  className="relative h-full p-8 rounded-3xl shadow-2xl
+                             bg-gradient-to-br from-slate-800/80 to-slate-900/90
+                             border border-slate-700 backdrop-blur-md
+                             group-hover:border-slate-500
+                             group-hover:shadow-[0_10px_40px_rgba(0,0,0,0.5)]
+                             transition-all duration-500 ease-out"
                   title={t.title}
                   info={t.info}
                 >
                   {/* Title */}
-                  <h3 className="text-xl font-semibold text-neutral-900 group-hover:text-neutral-700 transition-colors duration-300">
+                  <h3 className="text-2xl font-semibold text-slate-100 group-hover:text-slate-50 transition-colors duration-300">
                     {t.title}
                   </h3>
 
-                  {/* Call to action */}
-                  <p className="opacity-70 text-base mt-3 group-hover:opacity-100 group-hover:text-neutral-800 transition duration-300">
+                  {/* CTA */}
+                  <p className="opacity-70 text-lg mt-3 group-hover:opacity-100 group-hover:text-indigo-300 transition duration-500">
                     Open {t.title.toLowerCase()} →
                   </p>
 
                   {/* Info */}
-                  <p className="text-sm opacity-60 mt-2 leading-relaxed group-hover:opacity-80">
+                  <p className="text-sm opacity-60 mt-2 leading-relaxed group-hover:opacity-90 text-slate-300">
                     {t.info}
                   </p>
                 </NeumorphicCard>
