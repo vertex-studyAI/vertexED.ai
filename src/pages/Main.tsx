@@ -26,21 +26,9 @@ export default function Main() {
         <meta name="robots" content="noindex, nofollow" />
       </Helmet>
 
-      <PageSection className="relative min-h-screen bg-gradient-to-br from-neutral-950 via-neutral-900 to-neutral-950 overflow-hidden">
-        {/* Animated background accents */}
-        <motion.div
-          className="absolute -left-40 top-1/4 w-96 h-96 rounded-full bg-purple-500/10 blur-3xl"
-          animate={{ y: [0, 40, 0], opacity: [0.5, 0.8, 0.5] }}
-          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-        />
-        <motion.div
-          className="absolute -right-40 bottom-1/4 w-96 h-96 rounded-full bg-blue-500/10 blur-3xl"
-          animate={{ y: [0, -30, 0], opacity: [0.6, 0.9, 0.6] }}
-          transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-        />
-
+      <PageSection className="relative min-h-screen bg-gradient-to-b from-white to-slate-50 overflow-hidden">
         {/* Grid layout */}
-        <div className="relative z-10 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-[95%] mx-auto py-12">
+        <div className="relative z-10 grid grid-cols-1 md:grid-cols-3 gap-6 max-w-[98%] mx-auto py-12">
           {tiles.map((t, i) => (
             <Link
               to={t.to}
@@ -56,29 +44,25 @@ export default function Main() {
               >
                 <NeumorphicCard
                   className="relative h-64 md:h-80 p-8 rounded-2xl shadow-xl
-                             bg-gradient-to-br from-neutral-900/80 to-neutral-800/70
-                             border border-neutral-700/50
-                             group-hover:border-purple-400/40
-                             backdrop-blur-md overflow-hidden
-                             transition-all duration-300"
+                             bg-gradient-to-br from-white to-slate-100
+                             border border-slate-200
+                             group-hover:border-slate-400
+                             overflow-hidden transition-all duration-300"
                   title={t.title}
                   info={t.info}
                 >
-                  {/* Subtle radial overlay */}
-                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.04),transparent)] pointer-events-none" />
-
                   {/* Title */}
-                  <h3 className="text-xl font-semibold text-neutral-200 group-hover:text-white transition-colors duration-300">
+                  <h3 className="text-xl font-semibold text-neutral-900 group-hover:text-neutral-700 transition-colors duration-300">
                     {t.title}
                   </h3>
 
                   {/* Call to action */}
-                  <p className="opacity-60 text-base mt-3 group-hover:opacity-90 group-hover:text-purple-200 transition duration-300">
+                  <p className="opacity-70 text-base mt-3 group-hover:opacity-100 group-hover:text-neutral-800 transition duration-300">
                     Open {t.title.toLowerCase()} →
                   </p>
 
                   {/* Info */}
-                  <p className="text-sm opacity-50 mt-2 leading-relaxed group-hover:opacity-70">
+                  <p className="text-sm opacity-60 mt-2 leading-relaxed group-hover:opacity-80">
                     {t.info}
                   </p>
                 </NeumorphicCard>
