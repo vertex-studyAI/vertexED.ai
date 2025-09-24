@@ -16,6 +16,8 @@ export default function Home() {
   useEffect(() => {
     if (typeof window !== "undefined") {
       gsap.registerPlugin(ScrollTrigger);
+
+      // Animate all fade-up elements
       const elements = gsap.utils.toArray<HTMLElement>(".fade-up");
       elements.forEach((el) => {
         gsap.fromTo(
@@ -33,6 +35,24 @@ export default function Home() {
           }
         );
       });
+
+      // Animate feature cards with stagger
+      const featureCards = gsap.utils.toArray<HTMLElement>(".feature-card");
+      gsap.fromTo(
+        featureCards,
+        { y: 40, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1.2,
+          ease: "power3.out",
+          stagger: 0.15,
+          scrollTrigger: {
+            trigger: ".features-grid",
+            start: "top 85%",
+          },
+        }
+      );
     }
   }, []);
 
@@ -56,6 +76,10 @@ export default function Home() {
     {
       stat: "75%",
       text: "use 3+ different apps for studying, which makes their workflow scattered and inefficient.",
+    },
+    {
+      stat: "50%",
+      text: "wish there was a single platform that combines planning, practice, and AI-powered help in one place.",
     },
   ];
 
@@ -147,7 +171,7 @@ export default function Home() {
             <div
               key={i}
               onClick={() => toggleFlip(i)}
-              className="group relative h-56 bg-gradient-to-br from-slate-800 to-slate-900 text-white rounded-2xl shadow-2xl cursor-pointer transition-all duration-500 hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.15)] perspective"
+              className="group relative h-56 bg-white text-slate-900 rounded-2xl shadow-xl cursor-pointer transition-all duration-500 hover:scale-105 hover:shadow-[0_0_30px_rgba(0,0,0,0.1)] perspective"
             >
               <div
                 className={`absolute inset-0 flex items-center justify-center p-6 text-center transition-transform duration-700 transform ${
@@ -162,13 +186,13 @@ export default function Home() {
                   } transition-opacity`}
                 >
                   <span>{p.stat}</span>
-                  <span className="text-sm text-slate-400 italic group-hover:text-slate-200 transition-colors">
+                  <span className="text-sm text-slate-500 italic group-hover:text-slate-700 transition-colors">
                     Click to find out
                   </span>
                 </div>
                 {/* Back */}
                 <div
-                  className={`absolute inset-0 flex items-center justify-center p-4 text-lg leading-relaxed bg-slate-700 rounded-2xl ${
+                  className={`absolute inset-0 flex items-center justify-center p-4 text-lg leading-relaxed bg-slate-50 rounded-2xl ${
                     flipped[i] ? "opacity-100" : "opacity-0"
                   } transition-opacity`}
                 >
@@ -200,6 +224,24 @@ export default function Home() {
           and the stress. VertexED is built to make studying efficient, elegant,
           and effective.
         </p>
+      </section>
+
+      {/* Features */}
+      <section className="max-w-6xl mx-auto px-6 mt-28 features-grid">
+        <h3 className="text-3xl md:text-4xl font-semibold text-white mb-12 text-center">
+          Explore Our Features
+        </h3>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+          {features.map((f, i) => (
+            <div
+              key={i}
+              className="feature-card bg-white rounded-2xl shadow-xl p-6 transition-all duration-500 hover:scale-105 hover:shadow-2xl"
+            >
+              <h4 className="text-xl font-bold mb-3">{f.title}</h4>
+              <p className="text-slate-700">{f.desc}</p>
+            </div>
+          ))}
+        </div>
       </section>
     </>
   );
