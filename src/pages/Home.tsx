@@ -217,14 +217,20 @@ export default function Home() {
       </section>
 
       {/* CTA */}
-      <section className="text-center mt-28 fade-up">
-        <button
-          onClick={scrollToTop}
-          className="px-10 py-4 rounded-full bg-white text-slate-900 font-semibold shadow-xl hover:scale-105 hover:bg-slate-200 transition-all duration-500"
-        >
-          Ready to Get Started?
-        </button>
-      </section>
-    </>
+{/* Ready to Get Started Section */}
+<section className="mt-28 text-center px-6 fade-up">
+  <h3 className="text-3xl md:text-4xl font-semibold text-white mb-6">
+    Ready to get started?
+    We guarentee a change!
+  </h3>
+  <button
+    onClick={() => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }}
+    className="mt-4 px-8 py-4 rounded-full bg-white text-slate-900 shadow-xl hover:scale-105 hover:bg-slate-200 transition-all duration-500 ease-in-out"
+  >
+    Back to Top
+  </button>
+</section>
   );
 }
