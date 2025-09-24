@@ -78,7 +78,6 @@ const NavigationMenuContent = React.forwardRef<
 ))
 NavigationMenuContent.displayName = NavigationMenuPrimitive.Content.displayName
 
-const NavigationMenuLink = NavigationMenuPrimitive.Link
 const NavigationMenuLink = React.forwardRef<
   React.ElementRef<typeof NavigationMenuPrimitive.Link>,
   React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Link>
@@ -93,7 +92,6 @@ const NavigationMenuLink = React.forwardRef<
   />
 ))
 NavigationMenuLink.displayName = NavigationMenuPrimitive.Link.displayName
-
 
 const NavigationMenuViewport = React.forwardRef<
   React.ElementRef<typeof NavigationMenuPrimitive.Viewport>,
@@ -130,6 +128,29 @@ const NavigationMenuIndicator = React.forwardRef<
 ))
 NavigationMenuIndicator.displayName =
   NavigationMenuPrimitive.Indicator.displayName
+
+// ✅ Navbar with Home + Features tabs
+export function Navbar() {
+  return (
+    <NavigationMenu>
+      <NavigationMenuList>
+        {/* Home Tab */}
+        <NavigationMenuItem>
+          <NavigationMenuLink asChild>
+            <Link to="/home">Home</Link>
+          </NavigationMenuLink>
+        </NavigationMenuItem>
+
+        {/* Features Tab */}
+        <NavigationMenuItem>
+          <NavigationMenuLink asChild>
+            <Link to="/features">Features</Link>
+          </NavigationMenuLink>
+        </NavigationMenuItem>
+      </NavigationMenuList>
+    </NavigationMenu>
+  )
+}
 
 export {
   navigationMenuTriggerStyle,
