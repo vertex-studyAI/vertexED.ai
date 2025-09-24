@@ -5,6 +5,9 @@ import { useAuth } from "@/contexts/AuthContext";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
+// Import typing effect
+import { TypeAnimation } from "react-type-animation";
+
 export default function Home() {
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
@@ -85,6 +88,16 @@ export default function Home() {
 
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
 
+  // Custom external texts for features
+  const featureSideText = [
+    "This is your go to place for those late nights, early mornings, at the library or simply anywhere you are doing independent learning.",
+    "Not just another bot, it learns and adapts to you; your strengths, passions and limitations and moreover your progress.",
+    "Better organize your sessions and activities so you end up with more done and less energy spent so you can focus on what really matters; life.",
+    "Like a teacher built in, constantly finding limitations you would never find and providing the ways to become even closer to perfection",
+    "It's like having infinite practice papers ready to go. Non Stop practice based on material which already exists.",
+    "This is just the beginning! more features are on their way as you read this."
+  ];
+
   return (
     <>
       <Helmet>
@@ -98,8 +111,15 @@ export default function Home() {
             AI study tools for students
           </h1>
           <p className="text-lg text-slate-200 mb-10 fade-up">
-            An all-in-one toolkit made for you: planner, notes, flashcards,
-            quizzes, chatbot, answer reviewer, and more.
+            <TypeAnimation
+              sequence={[
+                1000, // wait 1 second
+                "An all-in-one toolkit made for you: planner, notes, flashcards, quizzes, chatbot, answer reviewer, and more.",
+              ]}
+              speed={40}
+              wrapper="span"
+              cursor={true}
+            />
           </p>
           <div className="flex gap-4 justify-center fade-up">
             <Link
@@ -207,16 +227,13 @@ export default function Home() {
                 <p>{f.desc}</p>
               </div>
               <div className="flex-1 text-slate-300 text-lg md:text-xl leading-relaxed text-center md:text-left">
-                {i % 2 === 0
-                  ? "The all in 1 hub for your study sessions with all the tools one could ask for."
-                  : "Designed to keep you motivated and productive, no matter how overwhelming your syllabus seems."}
+                {featureSideText[i]}
               </div>
             </div>
           ))}
         </div>
       </section>
 
-      {/* CTA */}
       {/* CTA */}
       <section className="mt-28 text-center px-6 fade-up">
         <h3 className="text-3xl md:text-4xl font-semibold text-white mb-6">
@@ -228,9 +245,10 @@ export default function Home() {
           onClick={scrollToTop}
           className="mt-4 px-8 py-4 rounded-full bg-white text-slate-900 shadow-xl hover:scale-105 hover:bg-slate-200 transition-all duration-500 ease-in-out"
         >
-          Back to Top
+          Back to the Top?
         </button>
       </section>
     </>
   );
 }
+/*end*/
