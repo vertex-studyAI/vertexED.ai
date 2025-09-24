@@ -70,30 +70,73 @@ export default function Home() {
       </Helmet>
 
       {/* Hero */}
-      <section className="relative overflow-hidden px-6 py-24 bg-gradient-to-b from-slate-900 to-slate-800 text-center">
+      <section className="relative overflow-hidden px-6 py-24 bg-gradient-to-b from-white to-slate-100 text-center rounded-3xl shadow-xl">
         <div className="max-w-3xl mx-auto">
-          <h1 className="text-5xl md:text-7xl font-semibold text-white leading-tight mb-6 fade-up">
+          <h1 className="text-5xl md:text-7xl font-semibold text-neutral-900 leading-tight mb-6 fade-up">
             AI study tools for students
           </h1>
-          <p className="text-lg text-slate-200 mb-10 fade-up">
-            An all-in-one Apple-inspired toolkit: planner, notes, flashcards,
+          <p className="text-lg text-neutral-700 mb-10 fade-up">
+            An all-in-one toolkit made for you: planner, notes, flashcards,
             quizzes, chatbot, answer reviewer, and more.
           </p>
           <div className="flex gap-4 justify-center fade-up">
             <Link
               to="/main"
-              className="px-8 py-4 rounded-full bg-white text-slate-900 hover:bg-slate-200 transition-all shadow-lg hover:scale-105"
+              className="px-8 py-4 rounded-full bg-neutral-900 text-white hover:bg-neutral-800 transition-all shadow-lg hover:scale-105"
             >
               Get Started
             </Link>
             <Link
               to="/about"
-              className="px-8 py-4 rounded-full bg-slate-800 border border-white/20 text-white hover:bg-slate-700 hover:text-slate-100 transition-all shadow-md hover:scale-105"
+              className="px-8 py-4 rounded-full bg-neutral-200 text-neutral-900 hover:bg-neutral-300 transition-all shadow-md hover:scale-105"
             >
               Learn more
             </Link>
           </div>
         </div>
+      </section>
+
+      {/* Storytelling */}
+      <section className="mt-28 text-center px-6 fade-up">
+        <h2 className="text-4xl md:text-5xl font-semibold text-neutral-900 mb-6">
+          We hate the way we study
+        </h2>
+        <p className="text-lg text-neutral-600 mb-12">Who wouldn’t?</p>
+      </section>
+
+      <section className="max-w-5xl mx-auto px-6 fade-up">
+        <h3 className="text-3xl font-semibold text-neutral-900 mb-4">
+          Why is this a problem?
+        </h3>
+        <ul className="list-disc list-inside text-neutral-700 space-y-2">
+          <li>Lack of relevant resources</li>
+          <li>Too much effort into note-taking</li>
+          <li>Lack of rigor-appropriate test papers</li>
+          <li>Extremely tedious, easy to procrastinate</li>
+          <li>Multiple apps, scattered workflow</li>
+        </ul>
+      </section>
+
+      <section className="max-w-5xl mx-auto px-6 mt-20 fade-up">
+        <h3 className="text-3xl font-semibold text-neutral-900 mb-4">
+          The Solution
+        </h3>
+        <p className="text-lg text-neutral-700">
+          VertexED unifies everything in one elegant, AI-powered platform.
+          Study smarter with notes, flashcards, planner, quizzes, chatbot,
+          and answer reviewer all in a seamless flow.
+        </p>
+      </section>
+
+      <section className="max-w-5xl mx-auto px-6 mt-20 fade-up">
+        <h3 className="text-3xl font-semibold text-neutral-900 mb-4">
+          Why should you use it?
+        </h3>
+        <p className="text-lg text-neutral-700">
+          Because we’re students too. We know the frustration, the wasted
+          hours, and the stress. VertexED is built to make studying
+          efficient, elegant, and effective.
+        </p>
       </section>
 
       {/* Features cinematic flow */}
@@ -106,18 +149,18 @@ export default function Home() {
             }`}
           >
             {/* Card */}
-            <div className="flex-1 rounded-3xl bg-slate-800/60 backdrop-blur-xl shadow-xl p-10 text-white transition-all transform hover:scale-105 hover:shadow-2xl">
-              <h3 className="text-2xl font-semibold mb-4 hover:text-slate-300 transition-colors">
+            <div className="flex-1 rounded-3xl bg-slate-100 shadow-xl p-10 text-neutral-900 transition-all transform hover:scale-105 hover:shadow-2xl">
+              <h3 className="text-2xl font-semibold mb-4 hover:text-neutral-700 transition-colors">
                 {f.title}
               </h3>
-              <p className="text-slate-300 text-lg leading-relaxed">
+              <p className="text-neutral-700 text-lg leading-relaxed">
                 {f.desc}
               </p>
             </div>
 
             {/* Cinematic description */}
             <div className="flex-1">
-              <p className="text-xl md:text-2xl text-slate-200 leading-relaxed">
+              <p className="text-xl md:text-2xl text-neutral-800 leading-relaxed">
                 {f.desc} This is where VertexED transforms a tedious process
                 into something elegant — like a movie scene unfolding as you
                 study.
@@ -129,10 +172,10 @@ export default function Home() {
 
       {/* Special */}
       <section className="mt-32 text-center px-6 fade-up">
-        <h3 className="text-4xl md:text-5xl font-semibold text-white mb-6">
+        <h3 className="text-4xl md:text-5xl font-semibold text-neutral-900 mb-6">
           What Makes Us Special
         </h3>
-        <p className="max-w-3xl mx-auto text-lg text-slate-300">
+        <p className="max-w-3xl mx-auto text-lg text-neutral-700">
           Built by students who live the same struggles. Every feature is
           crafted not just to look elegant but to solve real problems in the
           smartest way possible. Sleek, powerful, and truly student-first.
@@ -141,12 +184,12 @@ export default function Home() {
 
       {/* End CTA */}
       <section className="mt-32 mb-24 text-center fade-up">
-        <h3 className="text-3xl md:text-4xl font-semibold text-white mb-8">
+        <h3 className="text-3xl md:text-4xl font-semibold text-neutral-900 mb-8">
           Ready to get started?
         </h3>
         <button
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          className="px-10 py-5 rounded-full bg-white text-slate-900 hover:bg-slate-200 transition-all shadow-xl hover:scale-105"
+          className="px-10 py-5 rounded-full bg-neutral-900 text-white hover:bg-neutral-800 transition-all shadow-xl hover:scale-105"
         >
           Back to Top
         </button>
