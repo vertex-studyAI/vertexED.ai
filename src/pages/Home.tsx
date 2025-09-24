@@ -17,7 +17,6 @@ export default function Home() {
     if (typeof window !== "undefined") {
       gsap.registerPlugin(ScrollTrigger);
 
-      // Animate all fade-up elements
       const elements = gsap.utils.toArray<HTMLElement>(".fade-up");
       elements.forEach((el) => {
         gsap.fromTo(
@@ -36,11 +35,10 @@ export default function Home() {
         );
       });
 
-      // Animate feature cards with stagger
-      const featureCards = gsap.utils.toArray<HTMLElement>(".feature-row");
-      featureCards.forEach((card, i) => {
+      const featureRows = gsap.utils.toArray<HTMLElement>(".feature-row");
+      featureRows.forEach((row, i) => {
         gsap.fromTo(
-          card,
+          row,
           { x: i % 2 === 0 ? -80 : 80, opacity: 0 },
           {
             x: 0,
@@ -48,7 +46,7 @@ export default function Home() {
             duration: 1.2,
             ease: "power3.out",
             scrollTrigger: {
-              trigger: card,
+              trigger: row,
               start: "top 85%",
             },
           }
@@ -67,30 +65,12 @@ export default function Home() {
   ];
 
   const features = [
-    {
-      title: "Study Zone",
-      desc: "All-in-one tool for your calculators, activity logs, and more. A space designed for clarity where everything you need to study lives in one place.",
-    },
-    {
-      title: "AI Chatbot",
-      desc: "Your personal academic companion. Ask questions, get explanations, and engage in real discussions to deepen your understanding of any subject.",
-    },
-    {
-      title: "Study Planner",
-      desc: "Never miss a beat. Our planner adapts to your schedule, deadlines, and pace — making your study plan smarter, not harder.",
-    },
-    {
-      title: "Answer Reviewer",
-      desc: "Not just a reviewer, but a mentor. Receive strict yet constructive feedback on your answers, showing you exactly how to improve.",
-    },
-    {
-      title: "IB/IGCSE Paper Maker",
-      desc: "Create syllabus-aligned test papers instantly. No fluff, no generic questions — just rigorous practice that actually helps you prepare.",
-    },
-    {
-      title: "Notes + Flashcards + Quiz",
-      desc: "From notes to flashcards to quizzes, all in one seamless workflow. Perfect for late-night revision or quick practice sessions.",
-    },
+    { title: "Study Zone", desc: "All-in-one tool for your calculators, activity logs, and more. A space designed for clarity where everything you need to study lives in one place." },
+    { title: "AI Chatbot", desc: "Your personal academic companion. Ask questions, get explanations, and engage in real discussions to deepen your understanding of any subject." },
+    { title: "Study Planner", desc: "Never miss a beat. Our planner adapts to your schedule, deadlines, and pace — making your study plan smarter, not harder." },
+    { title: "Answer Reviewer", desc: "Not just a reviewer, but a mentor. Receive strict yet constructive feedback on your answers, showing you exactly how to improve." },
+    { title: "IB/IGCSE Paper Maker", desc: "Create syllabus-aligned test papers instantly. No fluff, no generic questions — just rigorous practice that actually helps you prepare." },
+    { title: "Notes + Flashcards + Quiz", desc: "From notes to flashcards to quizzes, all in one seamless workflow. Perfect for late-night revision or quick practice sessions." },
   ];
 
   const [flipped, setFlipped] = useState(Array(problems.length).fill(false));
@@ -177,7 +157,7 @@ export default function Home() {
                 </div>
                 {/* Back */}
                 <div
-                  className={`absolute inset-0 flex items-center justify-center p-4 text-lg leading-relaxed bg-slate-50 rounded-2xl ${
+                  className={`absolute inset-0 flex items-center justify-center p-4 text-lg leading-relaxed bg-slate-50 rounded-2xl text-slate-800 ${
                     flipped[i] ? "opacity-100" : "opacity-0"
                   } transition-opacity`}
                 >
@@ -189,20 +169,20 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Mission / Creative Paragraph */}
+      {/* Mission Paragraph */}
       <section className="max-w-4xl mx-auto mt-24 px-6 text-center fade-up">
-        <div className="bg-gradient-to-r from-slate-800 to-slate-900 rounded-3xl shadow-2xl p-10">
-          <p className="text-lg md:text-xl text-slate-200 leading-relaxed">
+        <div className="bg-white text-slate-800 rounded-3xl shadow-2xl p-10">
+          <p className="text-lg md:text-xl leading-relaxed">
             Studying has become harder than ever. With too much information to know what to do with,
             resources which never seem to construct real progress, tools which just seem to make
             problems worse and the lack of a space which not only adapts to your learning, but
             constructs an environment where learning never stops is a problem we all face today.
           </p>
-          <p className="text-lg md:text-xl text-slate-200 mt-6 leading-relaxed">
+          <p className="text-lg md:text-xl mt-6 leading-relaxed">
             Marks aren't everything and we agree. But in today's world if learning requires people to
             score arbitrary marks on a piece of paper, we might as well take out 2 birds with 1 stone.
           </p>
-          <p className="text-lg md:text-xl text-slate-200 mt-6 leading-relaxed">
+          <p className="text-lg md:text-xl mt-6 leading-relaxed">
             We aim to not only improve your score on a paper with evidence based tools but also
             foster an environment for learning like no other.
           </p>
@@ -222,9 +202,9 @@ export default function Home() {
                 i % 2 !== 0 ? "md:flex-row-reverse" : ""
               }`}
             >
-              <div className="flex-1 bg-white rounded-2xl shadow-xl p-6">
+              <div className="flex-1 bg-white rounded-2xl shadow-xl p-6 text-slate-800">
                 <h4 className="text-xl font-bold mb-3">{f.title}</h4>
-                <p className="text-slate-700">{f.desc}</p>
+                <p>{f.desc}</p>
               </div>
               <div className="flex-1 text-slate-300 text-lg md:text-xl leading-relaxed text-center md:text-left">
                 {i % 2 === 0
