@@ -37,6 +37,8 @@ const App = () => (
               <Route path="AnswerReviewer" element={<AnswerReviewer />} />
               <Route path="paper-maker" element={<PaperMaker />} />
               <Route path="about" element={<About />} />
+              <Route path="features" element={<Features />} />
+              <Route path="home" element={<About />} />
               <Route path="settings" element={<UserSettings />} />
             </Route>
             <Route path="*" element={<NotFound />} />
