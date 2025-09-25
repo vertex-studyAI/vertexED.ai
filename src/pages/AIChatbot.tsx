@@ -5,6 +5,7 @@ import PageSection from "@/components/PageSection";
 import ReactMarkdown from "react-markdown";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
+import 'katex/dist/katex.min.css'; // <-- Required for KaTeX styling
 
 export default function AIChatbot() {
   const [userInput, setUserInput] = useState("");
@@ -29,7 +30,9 @@ export default function AIChatbot() {
       if (data.error) {
         setChatMessages(prev => [...prev, { sender: "bot", text: `Error: ${data.error}` }]);
       } else {
-        setChatMessages(prev => [...prev, { sender: "bot", text: data.answer }]);
+        // Wrap LaTeX output properly in $$ for block or $ for inline if needed
+        const botAnswer = data.answer;
+        setChatMessages(prev => [...prev, { sender: "bot", text: botAnswer }]);
       }
     } catch (error) {
       console.error(error);
@@ -84,4 +87,3 @@ export default function AIChatbot() {
     </PageSection>
   );
 }
-// ai now supports Markdown + LaTeX
