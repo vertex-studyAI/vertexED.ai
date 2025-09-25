@@ -18,13 +18,38 @@ export default function Main() {
     <>
       <Helmet>
         <title>Dashboard — Vertex AI Study Tools</title>
-        <meta name="description" content="Your Vertex dashboard with quick access to all AI study tools." />
+        <meta
+          name="description"
+          content="Your Vertex dashboard with quick access to all AI study tools."
+        />
         <link rel="canonical" href="https://www.vertexed.app/main" />
         <meta name="robots" content="noindex, nofollow" />
       </Helmet>
 
-      <PageSection className="relative min-h-screen bg-gradient-to-b from-slate-900 to-slate-800 overflow-hidden">
-        <div className="relative z-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto py-16">
+      <PageSection className="relative min-h-screen bg-gradient-to-b from-slate-900 to-slate-800 overflow-hidden flex flex-col">
+        {/* Header Section */}
+        <div className="text-center max-w-3xl mx-auto pt-12 pb-8">
+          <motion.h1
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-4xl sm:text-5xl font-bold text-slate-100"
+          >
+            Welcome to <span className="text-indigo-400">Vertex AI</span>
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3, duration: 0.8 }}
+            className="mt-4 text-slate-300 text-lg"
+          >
+            Your all-in-one AI-powered study companion. Pick a tool below and get
+            started 🚀
+          </motion.p>
+        </div>
+
+        {/* Grid of Tools */}
+        <div className="relative z-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto py-16 flex-1">
           {tiles.map((t, i) => (
             <Link to={t.to} key={t.title} className="group relative">
               <motion.div
@@ -63,6 +88,13 @@ export default function Main() {
             </Link>
           ))}
         </div>
+
+        {/* Footer */}
+        <footer className="text-center py-6 border-t border-slate-700 mt-auto">
+          <p className="text-xs text-slate-400">
+            © {new Date().getFullYear()} Vertex AI — All rights reserved.
+          </p>
+        </footer>
       </PageSection>
     </>
   );
