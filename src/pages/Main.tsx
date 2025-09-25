@@ -24,7 +24,7 @@ export default function Main() {
       </Helmet>
 
       <PageSection className="relative min-h-screen bg-gradient-to-b from-slate-900 to-slate-800 overflow-hidden">
-        <div className="relative z-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto py-16">
+        <div className="relative z-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto py-16">
           {tiles.map((t, i) => (
             <Link to={t.to} key={t.title} className="group relative">
               <motion.div
@@ -35,7 +35,7 @@ export default function Main() {
                 whileTap={{ scale: 0.97 }}
               >
                 <NeumorphicCard
-                  className="relative h-full p-6 rounded-2xl shadow-xl
+                  className="relative h-full aspect-square p-6 rounded-2xl shadow-xl
                              bg-gradient-to-br from-slate-800/80 to-slate-900/90
                              border border-slate-700 backdrop-blur-md
                              group-hover:border-slate-500
