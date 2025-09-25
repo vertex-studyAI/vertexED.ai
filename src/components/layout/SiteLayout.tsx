@@ -12,12 +12,11 @@ export default function SiteLayout() {
   }, [menuOpen]);
 
   const navLinks = [
-    { to: '/home', label: 'Home' },       // ✅ New Home page
-    { to: '/features', label: 'Features' }, // ✅ Features page
-    { to: '/about', label: 'About' },
-    { to: '/#pricing', label: 'Pricing' },
-    { to: '/login', label: 'Login' },
-  ];
+  { to: '/home', label: 'Home' },
+  { to: '/features', label: 'Features' },
+  { to: '/about', label: 'About' },
+  { to: '/login', label: 'Login' },
+];
 
   return (
     <div className="relative min-h-screen flex flex-col bg-background text-foreground overflow-hidden">
