@@ -1,13 +1,15 @@
-import { useState, useRef, useEffect } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import NeumorphicCard from "@/components/NeumorphicCard";
 import PageSection from "@/components/PageSection";
+import ReactMarkdown from "react-markdown";
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
 
 export default function AIChatbot() {
   const [userInput, setUserInput] = useState("");
   const [chatMessages, setChatMessages] = useState([]);
   const [loading, setLoading] = useState(false);
-  const messagesEndRef = useRef(null);
 
   const handleSend = async () => {
     if (!userInput.trim()) return;
@@ -44,47 +46,42 @@ export default function AIChatbot() {
         <Link to="/main" className="neu-button px-4 py-2 text-sm">← Back to Main</Link>
       </div>
 
-      <NeumorphicCard className="p-4 h-[70vh] flex flex-col relative">
+      <NeumorphicCard className="p-8 h-[70vh] flex flex-col">
         {/* Messages area */}
-        <div className="flex-1 overflow-y-auto p-4 rounded-2xl space-y-3 mb-4 bg-slate-50 shadow-inner">
+        <div className="flex-1 neu-surface inset p-6 rounded-2xl mb-4 overflow-y-auto">
           {chatMessages.map((msg, idx) => (
             <div
               key={idx}
-              className={`max-w-[75%] px-4 py-2 rounded-2xl break-words ${
+              className={
                 msg.sender === "bot"
-                  ? "bg-blue-100 text-blue-800 self-start"
-                  : "bg-gray-200 text-gray-900 self-end"
-              }`}
+                  ? "text-blue-500 animate-fade-in mb-2"
+                  : "text-gray-700 font-semibold animate-fade-in mb-2"
+              }
             >
-              {msg.text}
+              <strong>{msg.sender === "bot" ? "AI:" : "You:"}</strong>{" "}
+              <ReactMarkdown
+                children={msg.text}
+                remarkPlugins={[remarkMath]}
+                rehypePlugins={[rehypeKatex]}
+              />
             </div>
           ))}
-          {loading && (
-            <div className="text-gray-500 italic animate-pulse">
-              AI is typing...
-            </div>
-          )}
-          <div ref={messagesEndRef} />
+          {loading && <p className="text-gray-500 animate-pulse">AI is typing...</p>}
         </div>
 
-        {/* Input area */}
-        <div className="flex mt-auto gap-2">
+        {/* Input area stays fixed at the bottom */}
+        <div className="neu-input flex mt-auto">
           <input
-            className="flex-grow p-3 rounded-xl border border-gray-300 shadow-inner focus:outline-none focus:ring-2 focus:ring-blue-300"
+            className="neu-input-el flex-grow"
             placeholder="Ask me anything..."
             value={userInput}
             onChange={e => setUserInput(e.target.value)}
             onKeyDown={e => e.key === "Enter" && handleSend()}
           />
-          <button
-            className="neu-button px-6 py-3"
-            onClick={handleSend}
-            disabled={loading}
-          >
-            Send
-          </button>
+          <button className="neu-button px-4 ml-2" onClick={handleSend}>Send</button>
         </div>
       </NeumorphicCard>
     </PageSection>
   );
 }
+// ai now supports Markdown + LaTeX
