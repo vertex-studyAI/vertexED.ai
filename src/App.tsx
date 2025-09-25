@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import SiteLayout from "@/components/layout/SiteLayout";
 import Home from "@/pages/Home";
-import Features from "@/pages/Features"; // ✅ import Features
+import Features from "@/pages/Features"; 
 import { HelmetProvider } from "react-helmet-async";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
