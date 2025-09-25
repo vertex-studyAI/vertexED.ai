@@ -31,7 +31,7 @@
   "framer-motion": "^11.0.0",
   "debug": "^4.3.7",
   "react-markdown": "^8.0.7",
-  "remark-math": "^6.0.1",
+  "remark-math": "^5.1.1",
   "rehype-katex": "^6.0.0"
 },
   "devDependencies": {
