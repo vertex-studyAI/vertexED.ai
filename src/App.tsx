@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import SiteLayout from "@/components/layout/SiteLayout";
 import Home from "@/pages/Home";
 import Features from "@/pages/Features"; 
+
 import { HelmetProvider } from "react-helmet-async";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
@@ -28,10 +29,14 @@ const App = () => (
         <Suspense fallback={null}>
           <Routes>
             <Route path="/" element={<SiteLayout />}> 
+              {/*Home page (index + /home) */}
               <Route index element={<Home />} />
-              <Route path="home" element={<Home />} />          {/* ✅ Home page */}
-              <Route path="features" element={<Features />} />  {/* ✅ Features page */}
-              
+              <Route path="home" element={<Home />} />          
+
+              {/*eatures page */}
+              <Route path="features" element={<Features />} />  
+
+              {/* Other routes */}
               <Route path="login" element={<Login />} />
               <Route path="signup" element={<Signup />} />
               <Route path="main" element={<Main />} />
@@ -39,11 +44,13 @@ const App = () => (
               <Route path="study-zone" element={<StudyZone />} />
               <Route path="chatbot" element={<AIChatbot />} />
               <Route path="planner" element={<StudyPlanner />} />
-              <Route path="AnswerReviewer" element={<AnswerReviewer />} />
+              <Route path="answer-reviewer" element={<AnswerReviewer />} />
               <Route path="paper-maker" element={<PaperMaker />} />
               <Route path="about" element={<About />} />
               <Route path="settings" element={<UserSettings />} />
             </Route>
+
+            {/* Catch-all 404 */}
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>
