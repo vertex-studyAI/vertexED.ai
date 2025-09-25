@@ -9,11 +9,6 @@ export default function AIChatbot() {
   const [loading, setLoading] = useState(false);
   const messagesEndRef = useRef(null);
 
-  // Auto-scroll to bottom on new message
-  useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [chatMessages, loading]);
-
   const handleSend = async () => {
     if (!userInput.trim()) return;
 
