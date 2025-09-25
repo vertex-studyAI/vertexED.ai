@@ -2,8 +2,6 @@ import { Helmet } from "react-helmet-async";
 import { useState } from "react";
 import PageSection from "@/components/PageSection";
 import NeumorphicCard from "@/components/NeumorphicCard";
-
-// NEW IMPORTS
 import ReactMarkdown from "react-markdown";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
@@ -22,18 +20,17 @@ export default function AIAnswerReview() {
   const [loading, setLoading] = useState(false);
   const [response, setResponse] = useState("");
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setResponse("");
 
-    const prompt = `
-You are an expert teacher. Review the student's answer.
+    const prompt = `You are an expert teacher. Review the student's answer.
 Curriculum: ${formData.curriculum}
 Subject: ${formData.subject}
 Grade: ${formData.grade}
@@ -46,7 +43,7 @@ Provide:
 1. Strict teacher-style feedback (clarity, depth, accuracy).
 2. Suggested marks (out of ${formData.marks}).
 3. Key improvements the student can make.
-    `;
+`;
 
     try {
       const res = await fetch("/api/review", {
@@ -54,10 +51,9 @@ Provide:
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ prompt }),
       });
-
       const data = await res.json();
       setResponse(data.output || "No response received.");
-    } catch (err) {
+    } catch (err: any) {
       console.error(err);
       setResponse("Error: Could not get review. Please try again.");
     } finally {
@@ -83,8 +79,105 @@ Provide:
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* Left column → Form */}
             <form onSubmit={handleSubmit} className="space-y-6">
-              {/* form fields unchanged */}
-              {/* ... */}
+              <div>
+                <label className="block text-sm font-medium mb-2">Curriculum</label>
+                <select
+                  name="curriculum"
+                  value={formData.curriculum}
+                  onChange={handleChange}
+                  className="w-full p-3 rounded-xl border border-gray-300 bg-gray-900 text-white focus:ring-2 focus:ring-blue-500"
+                >
+                  <option value="">Select Curriculum</option>
+                  <option value="IB">IB</option>
+                  <option value="IGCSE">IGCSE</option>
+                  <option value="CBSE">CBSE</option>
+                  <option value="AP">AP</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium mb-2">Subject</label>
+                <select
+                  name="subject"
+                  value={formData.subject}
+                  onChange={handleChange}
+                  className="w-full p-3 rounded-xl border border-gray-300 bg-gray-900 text-white focus:ring-2 focus:ring-blue-500"
+                >
+                  <option value="">Select Subject</option>
+                  <option value="Math">Math</option>
+                  <option value="Physics">Physics</option>
+                  <option value="Chemistry">Chemistry</option>
+                  <option value="Biology">Biology</option>
+                  <option value="Economics">Economics</option>
+                  <option value="History">History</option>
+                  <option value="English">English</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium mb-2">Grade</label>
+                <select
+                  name="grade"
+                  value={formData.grade}
+                  onChange={handleChange}
+                  className="w-full p-3 rounded-xl border border-gray-300 bg-gray-900 text-white focus:ring-2 focus:ring-blue-500"
+                >
+                  <option value="">Select Grade</option>
+                  <option value="9">Grade 9</option>
+                  <option value="10">Grade 10</option>
+                  <option value="11">Grade 11</option>
+                  <option value="12">Grade 12</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium mb-2">Marks (out of)</label>
+                <input
+                  type="number"
+                  name="marks"
+                  value={formData.marks}
+                  onChange={handleChange}
+                  placeholder="Enter maximum marks"
+                  className="w-full p-3 rounded-xl border border-gray-300 bg-gray-900 text-white focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium mb-2">Question Segment</label>
+                <textarea
+                  name="question"
+                  value={formData.question}
+                  onChange={handleChange}
+                  placeholder="Paste or type the question here..."
+                  rows={4}
+                  className="w-full p-3 rounded-xl border border-gray-300 bg-gray-900 text-white focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium mb-2">Student Answer</label>
+                <textarea
+                  name="answer"
+                  value={formData.answer}
+                  onChange={handleChange}
+                  placeholder="Paste or type the student's answer here..."
+                  rows={4}
+                  className="w-full p-3 rounded-xl border border-gray-300 bg-gray-900 text-white focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium mb-2">Additional Information</label>
+                <textarea
+                  name="additional"
+                  value={formData.additional}
+                  onChange={handleChange}
+                  placeholder="Provide any context or notes here..."
+                  rows={3}
+                  className="w-full p-3 rounded-xl border border-gray-300 bg-gray-900 text-white focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+
               <div className="pt-4">
                 <button
                   type="submit"
@@ -100,13 +193,12 @@ Provide:
               <h2 className="text-lg font-semibold">AI Review</h2>
               <div className="flex-1 p-6 rounded-2xl overflow-y-auto bg-gray-900">
                 {response ? (
-                  <div className="self-start max-w-lg px-4 py-3 bg-gray-800 text-blue-400 rounded-2xl shadow-md overflow-x-auto prose prose-invert">
-                    <ReactMarkdown
-                      children={response}
-                      remarkPlugins={[remarkMath]}
-                      rehypePlugins={[rehypeKatex]}
-                    />
-                  </div>
+                  <ReactMarkdown
+                    children={response}
+                    remarkPlugins={[remarkMath]}
+                    rehypePlugins={[rehypeKatex]}
+                    className="self-start max-w-lg px-4 py-3 bg-gray-800 text-blue-400 rounded-2xl shadow-md whitespace-pre-wrap"
+                  />
                 ) : (
                   <p className="text-gray-500 italic">
                     AI feedback will appear here after submission...
