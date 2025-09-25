@@ -8,7 +8,8 @@
     "build": "cross-env ROLLUP_SKIP_NODEJS_NATIVE=true vite build",
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "debug": "cross-env DEBUG=ai:* vite" // 🔹 run with debug logs for AI routes
   },
   "engines": {
     "node": "20.x"
@@ -27,7 +28,8 @@
     "tailwind-merge": "^2.6.0",
     "react-type-animation": "^3.2.0",
     "tailwindcss-animate": "^1.0.7",
-    "framer-motion": "^11.0.0"
+    "framer-motion": "^11.0.0",
+    "debug": "^4.3.7" // 🔹 lightweight logger used for AI debug mode
   },
   "devDependencies": {
     "@eslint/js": "^9.32.0",
