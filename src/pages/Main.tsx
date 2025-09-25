@@ -44,7 +44,7 @@ export default function Main() {
             className="mt-4 text-slate-300 text-lg"
           >
             Your all-in-one AI-powered study companion. Pick a tool below and get
-            started 🚀
+            started
           </motion.p>
         </div>
 
