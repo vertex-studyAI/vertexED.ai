@@ -17,7 +17,7 @@ export default function NotetakerQuiz() {
     if (!topic) return alert("Please enter a topic");
     setLoading(true);
     try {
-      const res = await fetch("/api/notes", { // must match backend file
+      const res = await fetch("/api/note", { // must match backend file
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ topic, format }),
