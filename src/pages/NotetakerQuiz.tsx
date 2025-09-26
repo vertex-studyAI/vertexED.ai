@@ -17,13 +17,13 @@ export default function NotetakerQuiz() {
     if (!topic) return alert("Please enter a topic");
     setLoading(true);
     try {
-      const res = await fetch("/api/note", {
+      const res = await fetch("/api/notes", { // ensure matches your backend file name
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ topic, format }),
       });
       const data = await res.json();
-      setNotes(data.notes);
+      setNotes(data.result); // <-- use 'result' from backend
     } catch (err) {
       console.error(err);
       alert("Failed to generate notes");
@@ -105,7 +105,7 @@ export default function NotetakerQuiz() {
                 <textarea
                   className="neu-input-el h-full"
                   placeholder="Start typing your notes here..."
-                  value={notes}
+                  value={notes} // editable, includes AI-generated notes
                   onChange={(e) => setNotes(e.target.value)}
                 />
               </div>
