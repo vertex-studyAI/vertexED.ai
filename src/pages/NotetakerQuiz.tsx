@@ -12,7 +12,6 @@ export default function NotetakerQuiz() {
   const [generatedQuestions, setGeneratedQuestions] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  // Answers and submission state
   const [userAnswers, setUserAnswers] = useState({});
   const [quizSubmitted, setQuizSubmitted] = useState(false);
   const [quizResults, setQuizResults] = useState(null);
@@ -27,10 +26,8 @@ export default function NotetakerQuiz() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ topic, format }),
       });
-
       if (!res.ok) throw new Error(`Failed: ${res.status}`);
       const data = await res.json();
-
       setNotes(data?.result || "");
     } catch (err) {
       console.error(err);
@@ -51,18 +48,9 @@ export default function NotetakerQuiz() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ notes, quizType }),
       });
-
       if (!res.ok) throw new Error(`Failed: ${res.status}`);
       const data = await res.json();
-
-      const questionsArray = Array.isArray(data?.questions) ? data.questions : [];
-
-      // Normalize: convert strings to objects
-      const cleanQuestions = questionsArray.map((q) =>
-        typeof q === "string" ? { question: q, options: [] } : q
-      );
-
-      setGeneratedQuestions(cleanQuestions);
+      setGeneratedQuestions(data.questions || []);
       setUserAnswers({});
       setQuizSubmitted(false);
       setQuizResults(null);
@@ -75,33 +63,19 @@ export default function NotetakerQuiz() {
     }
   };
 
-  // Submit quiz answers
-  const handleSubmitQuiz = async () => {
+  // Submit quiz and grade
+  const handleSubmitQuiz = () => {
     if (!generatedQuestions.length) return;
-    setLoading(true);
-    try {
-      const res = await fetch("/api/submit-quiz", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          quizType,
-          questions: generatedQuestions,
-          answers: userAnswers,
-        }),
-      });
 
-      if (!res.ok) throw new Error(`Failed: ${res.status}`);
-      const data = await res.json();
+    const results = generatedQuestions.map((q, i) => ({
+      question: q.question,
+      selected: userAnswers[i] || "",
+      correctAnswer: q.answer,
+      isCorrect: userAnswers[i] === q.answer,
+    }));
 
-      setQuizResults(data || { score: 0, feedback: "No response received." });
-      setQuizSubmitted(true);
-    } catch (err) {
-      console.error(err);
-      alert("Failed to submit quiz. Please try again.");
-      setQuizResults(null);
-    } finally {
-      setLoading(false);
-    }
+    setQuizResults(results);
+    setQuizSubmitted(true);
   };
 
   return (
@@ -250,6 +224,19 @@ export default function NotetakerQuiz() {
                           className="neu-input-el mt-1 w-full"
                         />
                       )}
+
+                      {/* Show MCQ result if submitted */}
+                      {quizSubmitted && quizType === "Multiple Choice" && quizResults && (
+                        <p
+                          className={`mt-1 font-medium ${
+                            quizResults[i].isCorrect ? "text-green-600" : "text-red-600"
+                          }`}
+                        >
+                          {quizResults[i].isCorrect
+                            ? "Correct ✅"
+                            : `Incorrect ❌ (Correct: ${quizResults[i].correctAnswer})`}
+                        </p>
+                      )}
                     </div>
                   ))
                 ) : (
@@ -269,8 +256,8 @@ export default function NotetakerQuiz() {
                   </button>
                 )}
 
-                {/* Quiz Results */}
-                {quizSubmitted && quizResults && (
+                {/* Quiz Results for Free Response / Interactive */}
+                {quizSubmitted && quizResults && quizType !== "Multiple Choice" && (
                   <div className="mt-4 p-4 bg-green-50 rounded-lg">
                     <h3 className="font-semibold mb-2">Quiz Results</h3>
                     <pre className="whitespace-pre-wrap text-sm">
