@@ -12,7 +12,7 @@ export default function NotetakerQuiz() {
   const [generatedQuestions, setGeneratedQuestions] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  // Call your note API
+  // Generate notes
   const handleGenerateNotes = async () => {
     if (!topic) return alert("Please enter a topic");
     setLoading(true);
@@ -23,7 +23,7 @@ export default function NotetakerQuiz() {
         body: JSON.stringify({ topic, format }),
       });
       const data = await res.json();
-      setNotes(data.result); // backend returns 'result'
+      setNotes(data.result || "");
     } catch (err) {
       console.error(err);
       alert("Failed to generate notes");
@@ -32,7 +32,7 @@ export default function NotetakerQuiz() {
     }
   };
 
-  // Call your quiz API
+  // Generate quiz
   const handleGenerateQuiz = async () => {
     if (!notes) return alert("Please generate notes first");
     setLoading(true);
@@ -43,12 +43,17 @@ export default function NotetakerQuiz() {
         body: JSON.stringify({ notes, quizType }),
       });
       const data = await res.json();
-      // Remove markdown headers (#) and preserve line breaks
-      const cleanQuestions = data.questions.map(q => q.replace(/^#+\s*/, ""));
+
+      // Ensure questions is always an array
+      const questionsArray = Array.isArray(data.questions) ? data.questions : [];
+
+      // Remove markdown headers and trim
+      const cleanQuestions = questionsArray.map(q => q.replace(/^#+\s*/gm, "").trim());
       setGeneratedQuestions(cleanQuestions);
     } catch (err) {
       console.error(err);
       alert("Failed to generate quiz");
+      setGeneratedQuestions([]);
     } finally {
       setLoading(false);
     }
