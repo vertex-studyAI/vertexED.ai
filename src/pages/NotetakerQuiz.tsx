@@ -27,11 +27,15 @@ export default function NotetakerQuiz() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ topic, format }),
       });
+
+      if (!res.ok) throw new Error(`Failed: ${res.status}`);
       const data = await res.json();
-      setNotes(data.result || "");
+
+      setNotes(data?.result || "");
     } catch (err) {
       console.error(err);
-      alert("Failed to generate notes");
+      alert("Failed to generate notes. Please try again.");
+      setNotes("");
     } finally {
       setLoading(false);
     }
@@ -47,23 +51,24 @@ export default function NotetakerQuiz() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ notes, quizType }),
       });
+
+      if (!res.ok) throw new Error(`Failed: ${res.status}`);
       const data = await res.json();
 
-      const questionsArray = Array.isArray(data.questions) ? data.questions : [];
+      const questionsArray = Array.isArray(data?.questions) ? data.questions : [];
 
       // Normalize: convert strings to objects
-      const cleanQuestions = questionsArray.map(q =>
+      const cleanQuestions = questionsArray.map((q) =>
         typeof q === "string" ? { question: q, options: [] } : q
       );
-      setGeneratedQuestions(cleanQuestions);
 
-      // Reset answers and submission
+      setGeneratedQuestions(cleanQuestions);
       setUserAnswers({});
       setQuizSubmitted(false);
       setQuizResults(null);
     } catch (err) {
       console.error(err);
-      alert("Failed to generate quiz");
+      alert("Failed to generate quiz. Please try again.");
       setGeneratedQuestions([]);
     } finally {
       setLoading(false);
@@ -72,6 +77,7 @@ export default function NotetakerQuiz() {
 
   // Submit quiz answers
   const handleSubmitQuiz = async () => {
+    if (!generatedQuestions.length) return;
     setLoading(true);
     try {
       const res = await fetch("/api/submit-quiz", {
@@ -83,12 +89,16 @@ export default function NotetakerQuiz() {
           answers: userAnswers,
         }),
       });
+
+      if (!res.ok) throw new Error(`Failed: ${res.status}`);
       const data = await res.json();
-      setQuizResults(data); // Backend should return score, feedback, correct answers
+
+      setQuizResults(data || { score: 0, feedback: "No response received." });
       setQuizSubmitted(true);
     } catch (err) {
       console.error(err);
-      alert("Failed to submit quiz");
+      alert("Failed to submit quiz. Please try again.");
+      setQuizResults(null);
     } finally {
       setLoading(false);
     }
@@ -106,7 +116,9 @@ export default function NotetakerQuiz() {
 
       <PageSection>
         <div className="mb-6">
-          <Link to="/main" className="neu-button px-4 py-2 text-sm">← Back to Main</Link>
+          <Link to="/main" className="neu-button px-4 py-2 text-sm">
+            ← Back to Main
+          </Link>
         </div>
 
         <div className="grid lg:grid-cols-3 gap-8">
@@ -163,15 +175,19 @@ export default function NotetakerQuiz() {
             <NeumorphicCard className="p-8">
               <h2 className="text-xl font-medium mb-4">Quiz Type</h2>
               <div className="flex gap-3 flex-wrap mb-4">
-                {["Interactive Quiz", "Multiple Choice", "Free Response"].map((type) => (
-                  <button
-                    key={type}
-                    className={`neu-button px-4 py-3 ${quizType === type ? "bg-gray-300" : ""}`}
-                    onClick={() => setQuizType(type)}
-                  >
-                    {type}
-                  </button>
-                ))}
+                {["Interactive Quiz", "Multiple Choice", "Free Response"].map(
+                  (type) => (
+                    <button
+                      key={type}
+                      className={`neu-button px-4 py-3 ${
+                        quizType === type ? "bg-gray-300" : ""
+                      }`}
+                      onClick={() => setQuizType(type)}
+                    >
+                      {type}
+                    </button>
+                  )
+                )}
               </div>
               <button
                 className="neu-button mt-2 px-4 py-2"
@@ -247,8 +263,9 @@ export default function NotetakerQuiz() {
                   <button
                     className="neu-button mt-4 px-4 py-2"
                     onClick={handleSubmitQuiz}
+                    disabled={loading}
                   >
-                    Submit Quiz
+                    {loading ? "Submitting..." : "Submit Quiz"}
                   </button>
                 )}
 
@@ -256,7 +273,7 @@ export default function NotetakerQuiz() {
                 {quizSubmitted && quizResults && (
                   <div className="mt-4 p-4 bg-green-50 rounded-lg">
                     <h3 className="font-semibold mb-2">Quiz Results</h3>
-                    <pre className="whitespace-pre-wrap">
+                    <pre className="whitespace-pre-wrap text-sm">
                       {JSON.stringify(quizResults, null, 2)}
                     </pre>
                   </div>
