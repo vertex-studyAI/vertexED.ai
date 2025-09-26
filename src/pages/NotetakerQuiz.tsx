@@ -4,10 +4,6 @@ import { useState } from "react";
 import NeumorphicCard from "@/components/NeumorphicCard";
 import PageSection from "@/components/PageSection";
 
-import { generateNotes } from "@/api/note";
-import { generateQuiz } from "@/api/quiz";
-import { correctAnswer } from "@/api/corrector";
-
 export default function NotetakerQuiz() {
   const [topic, setTopic] = useState("");
   const [format, setFormat] = useState("Smart Notes");
@@ -16,12 +12,18 @@ export default function NotetakerQuiz() {
   const [generatedQuestions, setGeneratedQuestions] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  // Call your note API via fetch
   const handleGenerateNotes = async () => {
     if (!topic) return alert("Please enter a topic");
     setLoading(true);
     try {
-      const response = await generateNotes(topic, format);
-      setNotes(response.notes);
+      const res = await fetch("/api/note", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ topic, format }),
+      });
+      const data = await res.json();
+      setNotes(data.notes);
     } catch (err) {
       console.error(err);
       alert("Failed to generate notes");
@@ -30,12 +32,18 @@ export default function NotetakerQuiz() {
     }
   };
 
+  // Call your quiz API via fetch
   const handleGenerateQuiz = async () => {
     if (!notes) return alert("Please generate notes first");
     setLoading(true);
     try {
-      const response = await generateQuiz(notes, quizType);
-      setGeneratedQuestions(response.questions);
+      const res = await fetch("/api/quiz", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ notes, quizType }),
+      });
+      const data = await res.json();
+      setGeneratedQuestions(data.questions);
     } catch (err) {
       console.error(err);
       alert("Failed to generate quiz");
