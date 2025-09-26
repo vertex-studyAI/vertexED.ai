@@ -4,10 +4,9 @@ import { useState } from "react";
 import NeumorphicCard from "@/components/NeumorphicCard";
 import PageSection from "@/components/PageSection";
 
-// Import your request functions
-import { generateNotes } from "@/requests/note";
-import { generateQuiz } from "@/requests/quiz";
-import { correctAnswer } from "@/requests/corrector";
+import { generateNotes } from "@/api/note";
+import { generateQuiz } from "@/api/quiz";
+import { correctAnswer } from "@/api/corrector";
 
 export default function NotetakerQuiz() {
   const [topic, setTopic] = useState("");
@@ -17,7 +16,6 @@ export default function NotetakerQuiz() {
   const [generatedQuestions, setGeneratedQuestions] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  // Handle notes generation
   const handleGenerateNotes = async () => {
     if (!topic) return alert("Please enter a topic");
     setLoading(true);
@@ -32,7 +30,6 @@ export default function NotetakerQuiz() {
     }
   };
 
-  // Handle quiz generation
   const handleGenerateQuiz = async () => {
     if (!notes) return alert("Please generate notes first");
     setLoading(true);
@@ -65,17 +62,17 @@ export default function NotetakerQuiz() {
               <h2 className="text-xl font-medium mb-4">Topic and Format</h2>
               <div className="grid md:grid-cols-2 gap-4">
                 <div className="neu-input">
-                  <input 
-                    className="neu-input-el" 
+                  <input
+                    className="neu-input-el"
                     placeholder="Enter your study topic..."
                     value={topic}
                     onChange={(e) => setTopic(e.target.value)}
                   />
                 </div>
                 <div className="neu-input">
-                  <select 
-                    className="neu-input-el" 
-                    value={format} 
+                  <select
+                    className="neu-input-el"
+                    value={format}
                     onChange={(e) => setFormat(e.target.value)}
                   >
                     <option>Smart Notes</option>
@@ -85,7 +82,11 @@ export default function NotetakerQuiz() {
                   </select>
                 </div>
               </div>
-              <button className="neu-button mt-3 px-4 py-2" onClick={handleGenerateNotes} disabled={loading}>
+              <button
+                className="neu-button mt-3 px-4 py-2"
+                onClick={handleGenerateNotes}
+                disabled={loading}
+              >
                 {loading ? "Generating..." : "Generate Notes"}
               </button>
             </NeumorphicCard>
@@ -93,9 +94,9 @@ export default function NotetakerQuiz() {
             <NeumorphicCard className="p-8">
               <h2 className="text-xl font-medium mb-4">Notes</h2>
               <div className="neu-textarea h-96">
-                <textarea 
-                  className="neu-input-el h-full" 
-                  placeholder="Your notes will appear here..."
+                <textarea
+                  className="neu-input-el h-full"
+                  placeholder="Start typing your notes here..."
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
                 />
@@ -107,9 +108,9 @@ export default function NotetakerQuiz() {
             <NeumorphicCard className="p-8">
               <h2 className="text-xl font-medium mb-4">Quiz Type</h2>
               <div className="flex gap-3 flex-wrap mb-4">
-                {["Interactive Quiz", "Multiple Choice", "Free Response"].map(type => (
-                  <button 
-                    key={type} 
+                {["Interactive Quiz", "Multiple Choice", "Free Response"].map((type) => (
+                  <button
+                    key={type}
                     className={`neu-button px-4 py-3 ${quizType === type ? "bg-gray-300" : ""}`}
                     onClick={() => setQuizType(type)}
                   >
@@ -117,7 +118,11 @@ export default function NotetakerQuiz() {
                   </button>
                 ))}
               </div>
-              <button className="neu-button mt-2 px-4 py-2" onClick={handleGenerateQuiz} disabled={loading}>
+              <button
+                className="neu-button mt-2 px-4 py-2"
+                onClick={handleGenerateQuiz}
+                disabled={loading}
+              >
                 {loading ? "Generating..." : "Generate Quiz"}
               </button>
             </NeumorphicCard>
@@ -128,7 +133,9 @@ export default function NotetakerQuiz() {
                 {generatedQuestions.length ? (
                   generatedQuestions.map((q, i) => <p key={i}>{q}</p>)
                 ) : (
-                  <p className="text-sm opacity-70">AI-generated questions based on your notes will appear here</p>
+                  <p className="text-sm opacity-70">
+                    AI-generated questions based on your notes will appear here
+                  </p>
                 )}
               </div>
             </NeumorphicCard>
