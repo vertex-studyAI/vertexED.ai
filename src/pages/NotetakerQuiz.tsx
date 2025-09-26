@@ -12,7 +12,7 @@ export default function NotetakerQuiz() {
   const [generatedQuestions, setGeneratedQuestions] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  // New state for answers
+  // Answers and submission state
   const [userAnswers, setUserAnswers] = useState({});
   const [quizSubmitted, setQuizSubmitted] = useState(false);
   const [quizResults, setQuizResults] = useState(null);
@@ -51,11 +51,13 @@ export default function NotetakerQuiz() {
 
       const questionsArray = Array.isArray(data.questions) ? data.questions : [];
 
-      // Remove markdown headers and trim
-      const cleanQuestions = questionsArray.map(q => q.replace(/^#+\s*/gm, "").trim());
+      // Normalize: convert strings to objects
+      const cleanQuestions = questionsArray.map(q =>
+        typeof q === "string" ? { question: q, options: [] } : q
+      );
       setGeneratedQuestions(cleanQuestions);
 
-      // Reset answers and submission state
+      // Reset answers and submission
       setUserAnswers({});
       setQuizSubmitted(false);
       setQuizResults(null);
@@ -82,7 +84,7 @@ export default function NotetakerQuiz() {
         }),
       });
       const data = await res.json();
-      setQuizResults(data); // Backend returns score, correct answers, feedback etc.
+      setQuizResults(data); // Backend should return score, feedback, correct answers
       setQuizSubmitted(true);
     } catch (err) {
       console.error(err);
@@ -186,7 +188,7 @@ export default function NotetakerQuiz() {
                 {generatedQuestions.length ? (
                   generatedQuestions.map((q, i) => (
                     <div key={i} className="mb-4">
-                      <p className="font-medium">{`Q${i + 1}: ${q.question || q}`}</p>
+                      <p className="font-medium">{`Q${i + 1}: ${q.question}`}</p>
 
                       {/* Interactive Quiz */}
                       {quizType === "Interactive Quiz" && (
@@ -202,7 +204,7 @@ export default function NotetakerQuiz() {
                       )}
 
                       {/* Multiple Choice */}
-                      {quizType === "Multiple Choice" && q.options && (
+                      {quizType === "Multiple Choice" && q.options.length > 0 && (
                         <div className="flex flex-col gap-2 mt-1">
                           {q.options.map((opt, idx) => (
                             <label key={idx} className="flex items-center gap-2">
@@ -250,7 +252,7 @@ export default function NotetakerQuiz() {
                   </button>
                 )}
 
-                {/* Results */}
+                {/* Quiz Results */}
                 {quizSubmitted && quizResults && (
                   <div className="mt-4 p-4 bg-green-50 rounded-lg">
                     <h3 className="font-semibold mb-2">Quiz Results</h3>
