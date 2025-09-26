@@ -1,73 +1,46 @@
-// src/api/note.js
-const API_URL = "https://your-backend-api.com"; // replace with your backend URL
-const API_KEY = import.meta.env.VITE_API_KEY;   // store key in .env
-
-// --- Generate Notes ---
-export async function generateNotes({ topic, format, notes }) {
-  try {
-    const response = await fetch(`${API_URL}/notes`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${API_KEY}`,
-      },
-      body: JSON.stringify({
-        topic,   // e.g., "Photosynthesis"
-        format,  // e.g., "Study Guide", "Flashcards"
-        notes,   // user’s raw notes
-      }),
-    });
-
-    if (!response.ok) throw new Error("Failed to generate notes");
-    return await response.json();
-  } catch (err) {
-    console.error("generateNotes error:", err);
-    throw err;
+// /api/notes.js
+export default async function handler(req, res) {
+  if (req.method !== "POST") {
+    return res.status(405).json({ error: "Method not allowed" });
   }
-}
 
-// --- Generate Quiz ---
-export async function generateQuiz({ notes, quizType }) {
-  try {
-    const response = await fetch(`${API_URL}/quiz`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${API_KEY}`,
-      },
-      body: JSON.stringify({
-        notes,     // text from Notes textarea
-        quizType,  // "Interactive Quiz" | "Multiple Choice" | "Free Response"
-      }),
-    });
+  const OPENAI_API_KEY = process.env.ChatbotKey;
 
-    if (!response.ok) throw new Error("Failed to generate quiz");
-    return await response.json();
-  } catch (err) {
-    console.error("generateQuiz error:", err);
-    throw err;
+  if (!OPENAI_API_KEY) {
+    return res.status(500).json({ error: "OpenAI API key not set" });
   }
-}
 
-// --- Review Answer ---
-export async function reviewAnswer({ question, userAnswer }) {
   try {
-    const response = await fetch(`${API_URL}/review`, {
+    const { topic, format, notes } = req.body;
+
+    if (!topic && !notes) {
+      return res.status(400).json({ error: "Missing topic or notes" });
+    }
+
+    const prompt = `You are a study assistant. Format the following into a clear ${format || "study guide"}:\n\nTopic: ${topic}\nNotes: ${notes}`;
+
+    const response = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${API_KEY}`,
+        Authorization: `Bearer ${OPENAI_API_KEY}`,
       },
       body: JSON.stringify({
-        question,    // question text
-        userAnswer,  // what user typed
+        model: "gpt-3.5-turbo",
+        messages: [{ role: "user", content: prompt }],
       }),
     });
 
-    if (!response.ok) throw new Error("Failed to review answer");
-    return await response.json();
-  } catch (err) {
-    console.error("reviewAnswer error:", err);
-    throw err;
+    const data = await response.json();
+    const answer = data.choices?.[0]?.message?.content;
+
+    if (!answer) {
+      return res.status(500).json({ error: "Invalid response from OpenAI API" });
+    }
+
+    return res.status(200).json({ result: answer });
+  } catch (error) {
+    console.error("Notes API error:", error);
+    return res.status(500).json({ error: "Something went wrong." });
   }
 }
