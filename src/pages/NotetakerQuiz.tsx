@@ -12,25 +12,18 @@ export default function NotetakerQuiz() {
   const [generatedQuestions, setGeneratedQuestions] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  // Call your notes API
+  // Call your note API
   const handleGenerateNotes = async () => {
     if (!topic) return alert("Please enter a topic");
     setLoading(true);
     try {
-      const res = await fetch("/api/note", { // must match backend file
+      const res = await fetch("/api/note", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ topic, format }),
       });
-
-      if (!res.ok) {
-        const text = await res.text();
-        console.error("API Error:", text);
-        throw new Error("Failed to generate notes");
-      }
-
       const data = await res.json();
-      setNotes(data.result || ""); // use 'result' from backend
+      setNotes(data.result); // backend returns 'result'
     } catch (err) {
       console.error(err);
       alert("Failed to generate notes");
@@ -49,15 +42,10 @@ export default function NotetakerQuiz() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ notes, quizType }),
       });
-
-      if (!res.ok) {
-        const text = await res.text();
-        console.error("API Error:", text);
-        throw new Error("Failed to generate quiz");
-      }
-
       const data = await res.json();
-      setGeneratedQuestions(data.questions || []);
+      // Remove markdown headers (#) and preserve line breaks
+      const cleanQuestions = data.questions.map(q => q.replace(/^#+\s*/, ""));
+      setGeneratedQuestions(cleanQuestions);
     } catch (err) {
       console.error(err);
       alert("Failed to generate quiz");
@@ -79,6 +67,7 @@ export default function NotetakerQuiz() {
         </div>
 
         <div className="grid lg:grid-cols-3 gap-8">
+          {/* Notes Section */}
           <div className="lg:col-span-2 space-y-8">
             <NeumorphicCard className="p-8">
               <h2 className="text-xl font-medium mb-4">Topic and Format</h2>
@@ -126,6 +115,7 @@ export default function NotetakerQuiz() {
             </NeumorphicCard>
           </div>
 
+          {/* Quiz Section */}
           <div className="space-y-8">
             <NeumorphicCard className="p-8">
               <h2 className="text-xl font-medium mb-4">Quiz Type</h2>
@@ -153,7 +143,9 @@ export default function NotetakerQuiz() {
               <h2 className="text-xl font-medium mb-4">Generated Questions</h2>
               <div className="neu-surface inset p-4 rounded-2xl mb-4">
                 {generatedQuestions.length ? (
-                  generatedQuestions.map((q, i) => <p key={i}>{q}</p>)
+                  generatedQuestions.map((q, i) => (
+                    <div key={i} className="mb-3 whitespace-pre-wrap">{q}</div>
+                  ))
                 ) : (
                   <p className="text-sm opacity-70">
                     AI-generated questions based on your notes will appear here
