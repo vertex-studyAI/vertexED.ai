@@ -12,18 +12,25 @@ export default function NotetakerQuiz() {
   const [generatedQuestions, setGeneratedQuestions] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  // Call your note API via fetch
+  // Call your notes API
   const handleGenerateNotes = async () => {
     if (!topic) return alert("Please enter a topic");
     setLoading(true);
     try {
-      const res = await fetch("/api/notes", { // ensure matches your backend file name
+      const res = await fetch("/api/notes", { // must match backend file
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ topic, format }),
       });
+
+      if (!res.ok) {
+        const text = await res.text();
+        console.error("API Error:", text);
+        throw new Error("Failed to generate notes");
+      }
+
       const data = await res.json();
-      setNotes(data.result); // <-- use 'result' from backend
+      setNotes(data.result || ""); // use 'result' from backend
     } catch (err) {
       console.error(err);
       alert("Failed to generate notes");
@@ -32,7 +39,7 @@ export default function NotetakerQuiz() {
     }
   };
 
-  // Call your quiz API via fetch
+  // Call your quiz API
   const handleGenerateQuiz = async () => {
     if (!notes) return alert("Please generate notes first");
     setLoading(true);
@@ -42,8 +49,15 @@ export default function NotetakerQuiz() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ notes, quizType }),
       });
+
+      if (!res.ok) {
+        const text = await res.text();
+        console.error("API Error:", text);
+        throw new Error("Failed to generate quiz");
+      }
+
       const data = await res.json();
-      setGeneratedQuestions(data.questions);
+      setGeneratedQuestions(data.questions || []);
     } catch (err) {
       console.error(err);
       alert("Failed to generate quiz");
@@ -105,7 +119,7 @@ export default function NotetakerQuiz() {
                 <textarea
                   className="neu-input-el h-full"
                   placeholder="Start typing your notes here..."
-                  value={notes} // editable, includes AI-generated notes
+                  value={notes}
                   onChange={(e) => setNotes(e.target.value)}
                 />
               </div>
