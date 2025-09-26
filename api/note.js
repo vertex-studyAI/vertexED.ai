@@ -11,13 +11,14 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { topic, format, notes } = req.body;
+    const { topic, format } = req.body;
 
-    if (!topic && !notes) {
-      return res.status(400).json({ error: "Missing topic or notes" });
+    if (!topic) {
+      return res.status(400).json({ error: "Missing topic" });
     }
 
-    const prompt = `You are a study assistant. Format the following into a clear ${format || "study guide"}:\n\nTopic: ${topic}\nNotes: ${notes}`;
+    // Construct prompt for AI
+    const prompt = `You are a study assistant. Format the following into a clear ${format || "study guide"}:\n\nTopic: ${topic}`;
 
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
@@ -38,6 +39,7 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: "Invalid response from OpenAI API" });
     }
 
+    // Return AI-generated notes
     return res.status(200).json({ result: answer });
   } catch (error) {
     console.error("Notes API error:", error);
