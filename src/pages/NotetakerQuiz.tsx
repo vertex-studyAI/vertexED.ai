@@ -12,6 +12,11 @@ export default function NotetakerQuiz() {
   const [generatedQuestions, setGeneratedQuestions] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  // New state for answers
+  const [userAnswers, setUserAnswers] = useState({});
+  const [quizSubmitted, setQuizSubmitted] = useState(false);
+  const [quizResults, setQuizResults] = useState(null);
+
   // Generate notes
   const handleGenerateNotes = async () => {
     if (!topic) return alert("Please enter a topic");
@@ -44,12 +49,16 @@ export default function NotetakerQuiz() {
       });
       const data = await res.json();
 
-      // Ensure questions is always an array
       const questionsArray = Array.isArray(data.questions) ? data.questions : [];
 
       // Remove markdown headers and trim
       const cleanQuestions = questionsArray.map(q => q.replace(/^#+\s*/gm, "").trim());
       setGeneratedQuestions(cleanQuestions);
+
+      // Reset answers and submission state
+      setUserAnswers({});
+      setQuizSubmitted(false);
+      setQuizResults(null);
     } catch (err) {
       console.error(err);
       alert("Failed to generate quiz");
@@ -59,11 +68,38 @@ export default function NotetakerQuiz() {
     }
   };
 
+  // Submit quiz answers
+  const handleSubmitQuiz = async () => {
+    setLoading(true);
+    try {
+      const res = await fetch("/api/submit-quiz", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          quizType,
+          questions: generatedQuestions,
+          answers: userAnswers,
+        }),
+      });
+      const data = await res.json();
+      setQuizResults(data); // Backend returns score, correct answers, feedback etc.
+      setQuizSubmitted(true);
+    } catch (err) {
+      console.error(err);
+      alert("Failed to submit quiz");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <>
       <Helmet>
         <title>AI Notetaker, Flashcards & Quiz Generator | Vertex</title>
-        <meta name="description" content="Create AI-powered notes, generate flashcards, and practice with quizzes in one place." />
+        <meta
+          name="description"
+          content="Create AI-powered notes, generate flashcards, and practice with quizzes in one place."
+        />
       </Helmet>
 
       <PageSection>
@@ -149,12 +185,79 @@ export default function NotetakerQuiz() {
               <div className="neu-surface inset p-4 rounded-2xl mb-4">
                 {generatedQuestions.length ? (
                   generatedQuestions.map((q, i) => (
-                    <div key={i} className="mb-3 whitespace-pre-wrap">{q}</div>
+                    <div key={i} className="mb-4">
+                      <p className="font-medium">{`Q${i + 1}: ${q.question || q}`}</p>
+
+                      {/* Interactive Quiz */}
+                      {quizType === "Interactive Quiz" && (
+                        <input
+                          type="text"
+                          placeholder="Type your answer..."
+                          value={userAnswers[i] || ""}
+                          onChange={(e) =>
+                            setUserAnswers({ ...userAnswers, [i]: e.target.value })
+                          }
+                          className="neu-input-el mt-1 w-full"
+                        />
+                      )}
+
+                      {/* Multiple Choice */}
+                      {quizType === "Multiple Choice" && q.options && (
+                        <div className="flex flex-col gap-2 mt-1">
+                          {q.options.map((opt, idx) => (
+                            <label key={idx} className="flex items-center gap-2">
+                              <input
+                                type="radio"
+                                name={`q${i}`}
+                                value={opt}
+                                checked={userAnswers[i] === opt}
+                                onChange={() =>
+                                  setUserAnswers({ ...userAnswers, [i]: opt })
+                                }
+                              />
+                              {opt}
+                            </label>
+                          ))}
+                        </div>
+                      )}
+
+                      {/* Free Response */}
+                      {quizType === "Free Response" && (
+                        <textarea
+                          placeholder="Write your answer..."
+                          value={userAnswers[i] || ""}
+                          onChange={(e) =>
+                            setUserAnswers({ ...userAnswers, [i]: e.target.value })
+                          }
+                          className="neu-input-el mt-1 w-full"
+                        />
+                      )}
+                    </div>
                   ))
                 ) : (
                   <p className="text-sm opacity-70">
                     AI-generated questions based on your notes will appear here
                   </p>
+                )}
+
+                {/* Submit Button */}
+                {generatedQuestions.length > 0 && !quizSubmitted && (
+                  <button
+                    className="neu-button mt-4 px-4 py-2"
+                    onClick={handleSubmitQuiz}
+                  >
+                    Submit Quiz
+                  </button>
+                )}
+
+                {/* Results */}
+                {quizSubmitted && quizResults && (
+                  <div className="mt-4 p-4 bg-green-50 rounded-lg">
+                    <h3 className="font-semibold mb-2">Quiz Results</h3>
+                    <pre className="whitespace-pre-wrap">
+                      {JSON.stringify(quizResults, null, 2)}
+                    </pre>
+                  </div>
                 )}
               </div>
             </NeumorphicCard>
