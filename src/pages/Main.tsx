@@ -27,7 +27,6 @@ export default function Main() {
       </Helmet>
 
       {/* Clean rectangular layout */}
-      <div className="relative min-h-screen bg-gradient-to-b from-slate-900 to-slate-800 flex flex-col items-center justify-start p-8">
         <PageSection className="relative w-full max-w-6xl bg-slate-900/70 rounded-2xl border border-slate-700 shadow-xl backdrop-blur-md overflow-hidden p-10 flex flex-col">
           {/* Header Section */}
           <div className="text-center mb-12">
