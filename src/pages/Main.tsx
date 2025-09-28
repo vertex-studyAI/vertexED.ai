@@ -26,18 +26,18 @@ export default function Main() {
         <meta name="robots" content="noindex, nofollow" />
       </Helmet>
 
-      {/* Gradient applied here */}
-      <div className="relative min-h-screen bg-gradient-to-b from-slate-900 to-slate-800 flex flex-col">
-        <PageSection className="relative flex flex-col flex-1 bg-transparent overflow-hidden">
+      {/* Clean rectangular layout */}
+      <div className="relative min-h-screen bg-gradient-to-b from-slate-900 to-slate-800 flex flex-col items-center justify-start p-8">
+        <PageSection className="relative w-full max-w-6xl bg-slate-900/70 rounded-2xl border border-slate-700 shadow-xl backdrop-blur-md overflow-hidden p-10 flex flex-col">
           {/* Header Section */}
-          <div className="text-center max-w-3xl mx-auto pt-12 pb-8">
+          <div className="text-center mb-12">
             <motion.h1
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
-              className="text-4xl sm:text-5xl font-bold text-slate-100"
+              className="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent"
             >
-              Welcome to <span className="text-indigo-400">Vertex AI</span>
+              Welcome to Vertex AI
             </motion.h1>
             <motion.p
               initial={{ opacity: 0 }}
@@ -45,39 +45,37 @@ export default function Main() {
               transition={{ delay: 0.3, duration: 0.8 }}
               className="mt-4 text-slate-300 text-lg"
             >
-              Your all-in-one AI-powered study companion. Pick a tool below and get
-              started
+              Your all-in-one AI-powered study companion. Pick a tool below and get started
             </motion.p>
           </div>
 
-          {/* Grid of Tools */}
-          <div className="relative z-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto py-16 flex-1">
+          {/* Rectangular Grid of Tools */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full">
             {tiles.map((t, i) => (
               <Link to={t.to} key={t.title} className="group relative">
                 <motion.div
                   initial={{ opacity: 0, y: 30, scale: 0.95 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   transition={{ duration: 0.6, delay: i * 0.1, ease: "easeOut" }}
-                  whileHover={{ scale: 1.05 }}
+                  whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.97 }}
                 >
                   <NeumorphicCard
-                    className="relative h-full aspect-square p-6 rounded-2xl shadow-xl
+                    className="w-full h-full p-6 rounded-xl shadow-lg
                                bg-gradient-to-br from-slate-800/80 to-slate-900/90
                                border border-slate-700 backdrop-blur-md
-                               group-hover:border-slate-500
-                               group-hover:shadow-[0_8px_30px_rgba(0,0,0,0.5)]
+                               group-hover:border-indigo-400 group-hover:shadow-[0_8px_30px_rgba(0,0,0,0.5)]
                                transition-all duration-500 ease-out"
                     title={t.title}
                     info={t.info}
                   >
                     {/* Title */}
-                    <h3 className="text-xl font-semibold text-slate-100 group-hover:text-slate-50 transition-colors duration-300">
+                    <h3 className="text-xl font-semibold text-slate-100 group-hover:text-indigo-300 transition-colors duration-300">
                       {t.title}
                     </h3>
 
                     {/* CTA */}
-                    <p className="opacity-70 text-sm mt-2 group-hover:opacity-100 group-hover:text-indigo-300 transition duration-500">
+                    <p className="opacity-70 text-sm mt-2 group-hover:opacity-100 group-hover:text-indigo-400 transition duration-500">
                       Open {t.title.toLowerCase()} →
                     </p>
 
@@ -92,7 +90,7 @@ export default function Main() {
           </div>
 
           {/* Footer */}
-          <footer className="text-center py-6 border-t border-slate-700 mt-auto">
+          <footer className="text-center py-6 border-t border-slate-700 mt-12">
             <p className="text-xs text-slate-400">
               © {new Date().getFullYear()} Vertex AI — All rights reserved.
             </p>
