@@ -385,9 +385,9 @@ export default function NotetakerQuiz() {
                     </div>
 
                     <div className="mt-4 flex items-center gap-3">
-                      <button className="neu-button px-3 py-1" onClick={prevFlash}>Previous</button>
-                      <button className="neu-button px-3 py-1" onClick={() => (flashRevealed ? nextFlash() : revealFlash())}>{flashRevealed ? "Next (revealed)" : "Reveal"}</button>
-                      <button className="neu-button px-3 py-1" onClick={nextFlash}>Next</button>
+                      <button className="neu-button px-3 py-1 text-[#1f2937]" onClick={prevFlash}>Previous</button>
+                      <button className="neu-button px-3 py-1 text-[#1f2937]" onClick={() => (flashRevealed ? nextFlash() : revealFlash())}>{flashRevealed ? "Next (revealed)" : "Reveal"}</button>
+                      <button className="neu-button px-3 py-1 text-[#1f2937]" onClick={nextFlash}>Next</button>
                       <div className="ml-auto text-sm text-gray-500">Card {currentFlashIndex + 1}/{flashcards.length}</div>
                     </div>
                   </div>
@@ -458,7 +458,7 @@ export default function NotetakerQuiz() {
                                   checked={userAnswers[q.id] === opt}
                                   onChange={(e) => setUserAnswers({ ...userAnswers, [q.id]: e.target.value })}
                                 />
-                                <span className="ml-1 text-gray-800">{opt}</span>
+                                <span className="ml-1 text-white">{opt}</span>
                               </label>
                             ))}
                           </div>
