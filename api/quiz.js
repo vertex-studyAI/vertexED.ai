@@ -3,7 +3,6 @@ export default async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
   }
-
   const OPENAI_API_KEY = process.env.ChatbotKey;
   if (!OPENAI_API_KEY) {
     return res.status(500).json({ error: "OpenAI API key not set" });
@@ -11,23 +10,25 @@ export default async function handler(req, res) {
 
   try {
     const body = req.body || {};
-    const action = body.action || "generate"; // "generate" or "grade"
+    const action = body.action || "generate";
 
     // --------- GENERATE MODE ---------
     if (action === "generate") {
-      const { notes, quizType } = body;
+      const { notes, quizType, difficulty = "Medium", frqLength = "short" } = body;
       if (!notes) return res.status(400).json({ error: "Missing notes" });
 
-      // Ask the model to produce a strict JSON structure for questions.
-      // For MCQ provide options and answer text; for FRQ include an expected answer & rubric.
-      const prompt = `
-Create a ${quizType || "Multiple Choice"} quiz based on the following notes.
+      // Build difficulty hints
+      const difficultyHint = difficulty === "Easy" ? "Make questions straightforward and focused on basic facts and understanding."
+        : difficulty === "Hard" ? "Include challenging, synthesis/analysis-style questions that require multi-step reasoning."
+        : "Include a mix of conceptual and application questions at a moderate level of difficulty.";
 
-Notes:
-${notes}
+      const frqLengthHint = frqLength === "short" ? "Expected FRQ length: short (1-3 sentences)." :
+        frqLength === "long" ? "Expected FRQ length: detailed (3-6 sentences)" : "Expected FRQ length: medium (2-4 sentences).";
+
+      const prompt = `Create a ${quizType || "Multiple Choice"} quiz based on the following notes. ${difficultyHint} ${frqLengthHint}
+Notes: ${notes}
 
 Output STRICTLY valid JSON (no extra text) with this shape:
-
 {
   "questions": [
     {
@@ -37,17 +38,17 @@ Output STRICTLY valid JSON (no extra text) with this shape:
       // For multiple_choice:
       "options": ["option text 1", "option text 2", "option text 3", "option text 4"],
       "answer": "the exact correct option text",
+      "explanations": ["explain option 1", "explain option 2", ...], // explanation for each option
       // For frq:
       "expected": "brief expected answer or key points",
       "maxScore": 2,
-      "rubric": "short rubric to grade from 0 to 2"
+      "rubric": "short rubric to grade from 0 to 2",
+      "inclusions": "short text of what should be included in a full answer"
     }
   ]
 }
 
-Notes may contain LaTeX; keep expected/rubric concise (1-2 sentences).
-Make sure the correct answer is the option text (not a letter). Provide at least 3 questions.
-`;
+Notes may contain LaTeX; keep expected/rubric concise (1-2 sentences). Ensure the number of questions >= 3. For MCQ, explanations should explain why each option is correct/incorrect and indicate briefly why the correct option is correct. For FRQ, provide 'inclusions' to say what should be included even if the student is correct (useful as guidance).`;
 
       const response = await fetch("https://api.openai.com/v1/chat/completions", {
         method: "POST",
@@ -64,19 +65,23 @@ Make sure the correct answer is the option text (not a letter). Provide at least
 
       const data = await response.json();
       const raw = data.choices?.[0]?.message?.content;
-
       if (!raw) {
         console.error("OpenAI response invalid:", data);
         return res.status(500).json({ error: "Invalid response from OpenAI" });
       }
 
-      // Try parse JSON — models sometimes embed JSON in markdown; try to extract
+      // extract JSON if wrapped in fences or extra text
       let jsonStr = raw.trim();
-      // remove markdown fences if present
       if (jsonStr.startsWith("```")) {
         const firstLineBreak = jsonStr.indexOf("\n");
         jsonStr = jsonStr.slice(firstLineBreak + 1);
         if (jsonStr.endsWith("```")) jsonStr = jsonStr.slice(0, -3);
+      }
+      // attempt to extract first {...}
+      const firstBrace = jsonStr.indexOf("{");
+      const lastBrace = jsonStr.lastIndexOf("}");
+      if (firstBrace !== -1 && lastBrace !== -1 && lastBrace > firstBrace) {
+        jsonStr = jsonStr.slice(firstBrace, lastBrace + 1);
       }
 
       let parsed = {};
@@ -87,23 +92,34 @@ Make sure the correct answer is the option text (not a letter). Provide at least
         return res.status(500).json({ error: "Could not parse quiz JSON output" });
       }
 
-      // Post-process: ensure options exist for MCQ and shuffle options so correct answer isn't always "A"
+      // Post-process: ensure options exist for MCQ and shuffle options while keeping the correct text
       const questions = (parsed.questions || []).map((q, idx) => {
         const out = { id: q.id ?? idx + 1, type: q.type ?? "interactive", question: q.question ?? "" };
 
         if (q.type === "multiple_choice") {
           const opts = Array.isArray(q.options) && q.options.length >= 2 ? q.options : ["A", "B", "C", "D"];
-          // shuffle while keeping track of correct option text
+          // shuffle options but keep answer text intact
           const shuffled = opts
             .map((o) => ({ o, r: Math.random() }))
             .sort((a, b) => a.r - b.r)
             .map((x) => x.o);
           out.options = shuffled;
           out.answer = q.answer ?? opts[0];
+          // remap explanations if provided
+          if (Array.isArray(q.explanations) && q.explanations.length === opts.length) {
+            // try to align explanations to shuffled order by matching option text
+            out.explanations = shuffled.map((s) => {
+              const i = opts.indexOf(s);
+              return i >= 0 ? q.explanations[i] : "";
+            });
+          } else {
+            out.explanations = q.explanations || [];
+          }
         } else if (q.type === "frq") {
           out.expected = q.expected || q.answer || "";
           out.maxScore = typeof q.maxScore === "number" ? q.maxScore : 2;
           out.rubric = q.rubric || "Score 0-2 based on completeness and correctness.";
+          out.inclusions = q.inclusions || q.whatToInclude || "";
         } else {
           // interactive - short answer
           out.answer = q.answer || q.expected || "";
@@ -117,40 +133,31 @@ Make sure the correct answer is the option text (not a letter). Provide at least
 
     // --------- GRADE MODE ---------
     if (action === "grade") {
-      // Expect: { action: "grade", questions: [...], userAnswers: { "<id>": "user text" } }
       const { questions, userAnswers } = body;
       if (!questions || !Array.isArray(questions)) return res.status(400).json({ error: "Missing questions to grade" });
 
-      // Build a grading prompt: ask the model to grade each FRQ / interactive answer 0-2 with brief feedback.
-      // We'll send the questions and user's answers and request a strict JSON return of scores and feedback.
       const gradingPayload = {
         model: "gpt-3.5-turbo",
         messages: [
           {
             role: "system",
             content:
-              "You are an objective grader. For each question provided, return a score (integer 0-2) and a one-sentence feedback. Return STRICT JSON only."
+              "You are an objective grader. For each provided question of type FRQ or interactive, return a score (integer 0-2), a one-sentence feedback, and list what should have been included (if anything). For multiple_choice, confirm score (2 for exact correct, 0 otherwise) and provide a one-sentence explanation why the correct option is correct. Return STRICT JSON only.",
           },
           {
             role: "user",
-            content: `Grade these student answers.
+            content: `Grade these student answers. Questions (with rubric/expected when available): ${JSON.stringify(
+              questions,
+              null,
+              2
+            )}
 
-Questions (with rubric/expected when available):
-${JSON.stringify(questions, null, 2)}
-
-Student answers:
-${JSON.stringify(userAnswers, null, 2)}
+Student answers: ${JSON.stringify(userAnswers, null, 2)}
 
 For each question id, produce:
-{
- "id": <id>,
- "score": 0|1|2,
- "maxScore": <maxScore>,
- "feedback": "one sentence feedback"
-}
+{ "id": <id>, "score": 0|1|2, "maxScore": <maxScore>, "feedback": "one sentence feedback", "includes": "what should be included or missing" }
 
-Return JSON: { "grades": [ ... ] }
-Only grade questions of type "frq" or "interactive". For multiple_choice you may assign full (2) or zero/partial if the selected option matches the correct answer.`
+Return JSON: { "grades": [ ... ] } Only grade questions of type "frq" or "interactive". For multiple_choice you may assign full (2) or zero/partial if the selected option matches the correct answer.`
           }
         ],
         temperature: 0,
@@ -167,7 +174,6 @@ Only grade questions of type "frq" or "interactive". For multiple_choice you may
 
       const gradeData = await gradeRes.json();
       const gradeRaw = gradeData.choices?.[0]?.message?.content || "";
-
       if (!gradeRaw) {
         console.error("OpenAI grading invalid:", gradeData);
         return res.status(500).json({ error: "Invalid grading response from OpenAI" });
@@ -179,6 +185,11 @@ Only grade questions of type "frq" or "interactive". For multiple_choice you may
         gradeJson = gradeJson.slice(firstLineBreak + 1);
         if (gradeJson.endsWith("```")) gradeJson = gradeJson.slice(0, -3);
       }
+      const firstBrace = gradeJson.indexOf("{");
+      const lastBrace = gradeJson.lastIndexOf("}");
+      if (firstBrace !== -1 && lastBrace !== -1 && lastBrace > firstBrace) {
+        gradeJson = gradeJson.slice(firstBrace, lastBrace + 1);
+      }
 
       let parsedGrades = {};
       try {
@@ -188,7 +199,6 @@ Only grade questions of type "frq" or "interactive". For multiple_choice you may
         return res.status(500).json({ error: "Could not parse grading JSON output" });
       }
 
-      // Return grades array (id, score, maxScore, feedback)
       return res.status(200).json({ grades: parsedGrades.grades || [] });
     }
 
@@ -199,3 +209,4 @@ Only grade questions of type "frq" or "interactive". For multiple_choice you may
     return res.status(500).json({ error: "Failed to handle quiz request" });
   }
 }
+//finito
