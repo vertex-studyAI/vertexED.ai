@@ -234,8 +234,8 @@ export default function NotetakerQuiz() {
                 <span className="sr-only">Copy</span>
               </button>
             </div>
-            <div className="neu-textarea max-h-[36rem] overflow-auto p-4">
-              <div className="prose max-w-full" dangerouslySetInnerHTML={{ __html: notes }} />
+            <div className="neu-textarea max-h-[128rem] overflow-auto p-4">
+              <textarea className="neu-input-el w-full h-[36rem] p-4" value={notes} onChange={(e) => setNotes(e.target.value)}/>
             </div>
           </NeumorphicCard>
 
