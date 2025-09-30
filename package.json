@@ -33,7 +33,7 @@
     "react-markdown": "^8.0.7",
     "remark-math": "^5.1.1",
     "rehype-katex": "^6.0.0",
-    "katex": "^0.16.8"
+    "katex": "^0.16.8",
     "file-saver": "^2.0.5",
     "jspdf": "^2.7.1",
     "html-docx-js-typescript": "^0.4.0"
