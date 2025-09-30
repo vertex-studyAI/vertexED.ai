@@ -35,7 +35,7 @@
     "rehype-katex": "^6.0.0",
     "katex": "^0.16.8",
     "file-saver": "^2.0.5",
-    "jspdf": "^2.7.1",
+    "jspdf": "^2.5.1",
     "docx": "^8.3.0"
   },
   "devDependencies": {
