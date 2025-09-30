@@ -338,7 +338,40 @@ export default function NotetakerQuiz() {
       console.error("Clipboard failed:", err);
       alert("Failed to copy to clipboard.");
     }
-  };
+  }; 
+  <div id="notes-section" className="p-4 border rounded bg-white">
+  <h1 className="text-xl font-bold mb-2">Study Notes</h1>
+  <p>{notes}</p>
+
+  {flashcards?.length > 0 && (
+    <div className="mt-4">
+      <h2 className="text-lg font-semibold">Flashcards</h2>
+      {flashcards.map((f, i) => (
+        <div key={i} className="mt-2">
+          <p><b>Q{i + 1}:</b> {f.front}</p>
+          <p><i>A:</i> {f.back}</p>
+        </div>
+      ))}
+    </div>
+  )}
+</div>
+
+{/* Export Buttons */}
+<div className="flex gap-2 mt-4">
+  <button
+    onClick={() => exportToWord(notes, flashcards)}
+    className="px-4 py-2 bg-blue-600 text-white rounded"
+  >
+    Export Word
+  </button>
+
+  <button
+    onClick={() => exportToPDF("notes-section")}
+    className="px-4 py-2 bg-red-600 text-white rounded"
+  >
+    Export PDF
+  </button>
+</div>
 
   const toggleTimer = () => setShowTimer((s) => !s);
 
