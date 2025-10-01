@@ -819,65 +819,53 @@ const sendNotesToCards = async (count = 6) => {
                 </div>
 
                 <div id="notes-section" className="neu-textarea max-h-[128rem] overflow-auto p-4 bg-white rounded">
-const NotetakerQuiz = () => {
-  const [notes, setNotes] = useState("");
-  const [showPreview, setShowPreview] = useState(false); // <-- define state here
-  const notesRef = useRef(null);
-
-  const handleNotesChange = (value) => setNotes(value);
-  const handleNotesBlur = () => {
-    // any blur logic you want
-  };
 
   const markdownComponents = {
     // your custom ReactMarkdown components if any
   };
+                  return (
+    <div id="notes-section" className="neu-textarea max-h-[128rem] overflow-auto p-4 bg-white rounded">
+    <textarea
+      ref={notesRef}
+      className="neu-input-el w-full h-[32rem] p-4 transition-transform duration-150 whitespace-pre-wrap"
+      value={notes}
+      onChange={(e) => handleNotesChange(e.target.value)}
+      onBlur={handleNotesBlur}
+      placeholder="Your notes will appear here. Type or generate..."
+    />
 
-  return (
-    <div>
-      <textarea
-        ref={notesRef}
-        className="neu-input-el w-full h-[32rem] p-4 transition-transform duration-150 whitespace-pre-wrap"
-        value={notes}
-        onChange={(e) => handleNotesChange(e.target.value)}
-        onBlur={handleNotesBlur}
-        placeholder="Your notes will appear here. Type or generate..."
-      />
-
-      {/* Preview toggle button outside notes box */}
-      <div className="mt-4 flex justify-end">
-        <button
-          onClick={() => setShowPreview(!showPreview)}
-          className="px-4 py-2 rounded-lg bg-blue-500 text-white hover:bg-blue-600 transition"
-        >
-          {showPreview ? "Hide Preview" : "Show Preview"}
-        </button>
-      </div>
-
-      {/* Conditional Preview */}
-      {showPreview && (
-        <div className="mt-4">
-          <div className="flex items-center justify-between mb-2">
-            <div className="text-sm font-medium text-black">Preview</div>
-            <div className="text-xs text-gray-500">Rendered Markdown (tables, LaTeX)</div>
-          </div>
-          <div
-            className="overflow-auto rounded border p-3 bg-white text-black"
-            style={{ minHeight: "32rem" }}
-          >
-            <ReactMarkdown
-              remarkPlugins={[remarkMath]}
-              rehypePlugins={[rehypeKatex]}
-              components={markdownComponents}
-            >
-              {notes || "_No content yet_"}
-            </ReactMarkdown>
-          </div>
-        </div>
-      )}
+    {/* Preview toggle button */}
+    <div className="mt-4 flex justify-end">
+      <button
+        onClick={() => setShowPreview(!showPreview)}
+        className="px-4 py-2 rounded-lg bg-blue-500 text-white hover:bg-blue-600 transition"
+      >
+        {showPreview ? "Hide Preview" : "Show Preview"}
+      </button>
     </div>
-  );
-};
+
+    {/* Conditional Preview */}
+    {showPreview && (
+      <div className="mt-4">
+        <div className="flex items-center justify-between mb-2">
+          <div className="text-sm font-medium text-black">Preview</div>
+          <div className="text-xs text-gray-500">Rendered Markdown (tables, LaTeX)</div>
+        </div>
+        <div className="overflow-auto rounded border p-3 bg-white text-black" style={{ minHeight: "32rem" }}>
+          <ReactMarkdown
+            remarkPlugins={[remarkMath]}
+            rehypePlugins={[rehypeKatex]}
+            components={markdownComponents}
+          >
+            {notes || "_No content yet_"}
+          </ReactMarkdown>
+        </div>
+      </div>
+    )}
+  </div>
+);
+
+ 
                 <div className="mt-3 flex gap-2 items-center">
                   <span className="text-sm text-gray-600 mr-2">Insert:</span>
                   <button className="neu-button px-3 py-1 text-sm" onClick={() => insertAtCursor("$$E = mc^2$$")}>LaTeX</button>
