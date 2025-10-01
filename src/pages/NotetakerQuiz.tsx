@@ -933,7 +933,7 @@ const sendNotesToCards = async (count = 6) => {
                   <canvas ref={audioCanvasRef} width={400} height={60} className="w-full rounded border" />
                 </div>
 
-                <p className="text-xs mt-3 text-gray-500">Recording stored locally. If you implement <code>/api/transcribe</code>, the file will be uploaded automatically and the returned transcript appended to notes.</p>
+                <p className="text-xs mt-3 text-gray-500">Recording stored locally no worries! Record your lectures and we can either give you the key points or the whole transcription!</p>
               </NeumorphicCard>
 
               <NeumorphicCard className="p-4">
