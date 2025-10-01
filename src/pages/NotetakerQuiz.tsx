@@ -601,7 +601,7 @@ const sendNotesToCards = async (count = 6) => {
     source.connect(analyser);
     const bufferLength = analyser.frequencyBinCount;
     const dataArray = new Uint8Array(bufferLength);
-    const canvas = audioaudioCanvasRef.current;
+    const canvas = audioCanvasRef.current;
     if (!canvas) return;
     const canvasCtx = canvas.getContext("2d");
     const draw = () => {
@@ -930,7 +930,7 @@ const sendNotesToCards = async (count = 6) => {
                 </div>
 
                 <div className="mt-3">
-                  <canvas ref={audioaudioCanvasRef} width={400} height={60} className="w-full rounded border" />
+                  <canvas ref={audioCanvasRef} width={400} height={60} className="w-full rounded border" />
                 </div>
 
                 <p className="text-xs mt-3 text-gray-500">Recording stored locally. If you implement <code>/api/transcribe</code>, the file will be uploaded automatically and the returned transcript appended to notes.</p>
