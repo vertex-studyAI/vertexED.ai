@@ -877,254 +877,237 @@ const sendNotesToCards = async (count = 6) => {
                     Export PDF
                   </button>
 
-                  <div className="ml-auto flex items-center gap-2">
-                    <div className="text-sm text-gray-500">Autosave</div>
-                    <div className="w-2 h-2 rounded-full bg-green-400" />
-                  </div>
-                </div>
-              </NeumorphicCard>
-            </motion.div>
+<div className="ml-auto flex items-center gap-2">
+  <div className="text-sm text-gray-500">Autosave</div>
+  <div className="w-2 h-2 rounded-full bg-green-400" />
+</div>
+</NeumorphicCard>
+</motion.div>
 
-            <div className="lg:col-span-1 space-y-4">
-              <NeumorphicCard className="p-6">
-                <div className="flex justify-between items-center mb-3">
-                  <h2 className="text-xl font-medium">Flashcards</h2>
-                  <div className="text-sm opacity-70">{flashcards.length} cards</div>
-                </div>
+<div className="lg:col-span-1 space-y-4">
+  <NeumorphicCard className="p-6">
+    <div className="flex justify-between items-center mb-3">
+      <h2 className="text-xl font-medium">Flashcards</h2>
+      <div className="text-sm opacity-70">{flashcards.length} cards</div>
+    </div>
 
-                {flashcards.length ? (
-                  <>
-                    <div className="relative">
-                      <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.45 }} className="p-4 rounded-lg border shadow-sm bg-white" style={{ minHeight: 140 }}>
-                        <div className="text-base font-semibold text-slate-900 break-words">{flashcards[currentFlashIndex]?.front}</div>
-                        <div className={`text-sm mt-3 transition-opacity duration-200 ${flashRevealed ? "opacity-100" : "opacity-0"}`}>{flashRevealed ? flashcards[currentFlashIndex]?.back : ""}</div>
-
-                        <div className="mt-4 flex items-center gap-2">
-                          <button className={`neu-button px-3 py-1 ${flashBtnTextColor(true)}`} onClick={prevFlash}>Previous</button>
-                          <button className={`neu-button px-3 py-1 ${flashBtnTextColor(true)}`} onClick={() => (flashRevealed ? nextFlash() : revealFlash())}>
-                            {flashRevealed ? "Next (revealed)" : "Reveal"}
-                          </button>
-                          <button className={`neu-button px-3 py-1 ${flashBtnTextColor(true)}`} onClick={nextFlash}>Next</button>
-
-                          <button className="neu-button px-3 py-1 ml-2 text-black" onClick={() => { setFlashFullscreen(true); setTimeout(() => setFlashRevealed(false), 50); }} title="Enlarge flashcard">
-                            Enlarge
-                          </button>
-
-                          <div className="ml-auto text-sm text-gray-500">Card {currentFlashIndex + 1}/{flashcards.length}</div>
-                        </div>
-                      </motion.div>
-
-                      <div className="mt-3 flex gap-2 items-center overflow-auto">
-                        {flashcards.map((f, i) => {
-                          const selected = i === currentFlashIndex;
-                          const bg = selected ? "bg-sky-100" : "bg-white";
-                          const txt = selected ? "text-black" : "text-slate-800";
-                          return (
-                            <button key={i} className={`py-2 px-3 rounded-md border text-sm ${bg} hover:scale-105 transition-transform ${txt}`} onClick={() => { setCurrentFlashIndex(i); setFlashRevealed(false); }}>
-                              {i + 1}
-                            </button>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  </>
-                ) : (
-                  <p className="text-sm opacity-70">Flashcards will appear here after generating notes.</p>
-                )}
-              </NeumorphicCard>
-
-              <NeumorphicCard className="p-6">
-                <div className="flex items-center justify-between mb-3">
-                  <h3 className="text-lg font-medium">Audio → Notes</h3>
-                  <div className="text-sm text-gray-500">Record, visualize & transcribe</div>
-                </div>
-
-                <div className="flex items-center gap-3">
-                  {!recording ? (
-                    <button className="neu-button px-4 py-2 bg-rose-500 text-white" onClick={startRecording}>🎙️ Start</button>
-                  ) : (
-                    <button className="neu-button px-4 py-2 bg-red-600 text-white" onClick={stopRecording}>⏹ Stop</button>
-                  )}
-
-                  {audioURL && <audio controls src={audioURL} className="ml-2" />}
-
-                  <div className="ml-auto flex gap-2">
-                    <button className="neu-button px-3 py-1" onClick={downloadAudio} disabled={!lastAudioBlob}>Download</button>
-                    <button className="neu-button px-3 py-1" onClick={() => { if (lastAudioBlob) alert("Upload handled via /api/transcribe (implement server)."); }} disabled={!lastAudioBlob}>Upload</button>
-                  </div>
-                </div>
-
-                <div className="mt-3">
-                  <canvas ref={audioCanvasRef} width={400} height={60} className="w-full rounded border" />
-                </div>
-
-                <p className="text-xs mt-3 text-gray-500">Recording stored locally no worries! Record your lectures and we can either give you the key points or the whole transcription!</p>
-              </NeumorphicCard>
-
-              <NeumorphicCard className="p-4">
-                <div className="flex items-center justify-between mb-3">
-                  <h3 className="text-md font-medium">Progress</h3>
-                  <div className="text-sm text-gray-500">{quizHistory.length} sessions</div>
-                </div>
-
-                {quizHistory.length ? <div style={{ height: 140 }}><Line data={chartData} options={chartOptions} /></div> : <p className="text-sm text-gray-500">No quiz history yet. Take some quizzes to track progress.</p>}
-              </NeumorphicCard>
-            </div>
+    {flashcards.length ? (
+      <div className="relative">
+        <motion.div
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.45 }}
+          className="p-4 rounded-lg border shadow-sm bg-white"
+          style={{ minHeight: 140 }}
+        >
+          <div className="text-base font-semibold text-slate-900 break-words">
+            {flashcards[currentFlashIndex]?.front}
+          </div>
+          <div
+            className={`text-sm mt-3 transition-opacity duration-200 ${
+              flashRevealed ? "opacity-100" : "opacity-0"
+            }`}
+          >
+            {flashRevealed ? flashcards[currentFlashIndex]?.back : ""}
           </div>
 
-          {flashFullscreen && (
-            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-6">
-              <motion.div initial={{ scale: 0.96, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ duration: 0.18 }} className="bg-white rounded-2xl shadow-2xl max-w-4xl w-full p-8 relative">
-                <button className="absolute right-4 top-4 neu-button px-3 py-1" onClick={() => setFlashFullscreen(false)}>Close</button>
+          <div className="mt-4 flex items-center gap-2">
+            <button
+              className={`neu-button px-3 py-1 ${flashBtnTextColor(true)}`}
+              onClick={prevFlash}
+            >
+              Previous
+            </button>
+            <button
+              className={`neu-button px-3 py-1 ${flashBtnTextColor(true)}`}
+              onClick={() => (flashRevealed ? nextFlash() : revealFlash())}
+            >
+              {flashRevealed ? "Next (revealed)" : "Reveal"}
+            </button>
+            <button
+              className={`neu-button px-3 py-1 ${flashBtnTextColor(true)}`}
+              onClick={nextFlash}
+            >
+              Next
+            </button>
 
-                <div className="text-center">
-                  <div className="text-3xl font-semibold mb-4">{flashcards[currentFlashIndex]?.front}</div>
-                  <div className={`text-lg leading-relaxed mb-6 ${flashRevealed ? "opacity-100" : "opacity-0"}`}>{flashRevealed ? flashcards[currentFlashIndex]?.back : "Click Reveal to see the answer"}</div>
+            <button
+              className="neu-button px-3 py-1 ml-2 text-black"
+              onClick={() => {
+                setFlashFullscreen(true);
+                setTimeout(() => setFlashRevealed(false), 50);
+              }}
+              title="Enlarge flashcard"
+            >
+              Enlarge
+            </button>
 
-                  <div className="mt-6 flex items-center justify-center gap-4">
-                    <button className="neu-button px-4 py-2" onClick={prevFlash}>Previous</button>
-                    <button className="neu-button px-4 py-2" onClick={() => (flashRevealed ? nextFlash() : revealFlash())}>{flashRevealed ? "Next" : "Reveal"}</button>
-                    <button className="neu-button px-4 py-2" onClick={nextFlash}>Next</button>
-                  </div>
-
-                  <div className="mt-6 text-sm text-gray-600">Card {currentFlashIndex + 1}/{flashcards.length}</div>
-                </div>
-              </motion.div>
+            <div className="ml-auto text-sm text-gray-500">
+              Card {currentFlashIndex + 1}/{flashcards.length}
             </div>
-          )}
-
-          <NeumorphicCard className="p-8">
-            <div className="flex justify-between items-center mb-3">
-              <h2 className="text-xl font-medium">Quiz</h2>
-              <div className="text-sm opacity-70">Type: <span className="font-medium">{quizType}</span></div>
-            </div>
-
-            <div className="flex gap-3 flex-wrap mb-4">
-              {["Interactive Quiz", "Multiple Choice", "FRQ"].map((type) => (
-                <button key={type} className={`neu-button px-4 py-3 ${quizType === type ? "bg-sky-100 text-sky-800" : "bg-white text-slate-800"} hover:shadow-sm`} onClick={() => setQuizType(type)}>
-                  {type}
-                </button>
-              ))}
-            </div>
-
-            <div className="flex gap-3 items-center mb-4 flex-wrap">
-              <label className="text-sm">Difficulty:</label>
-              <select className="neu-input-el" value={quizDifficulty} onChange={(e) => setQuizDifficulty(e.target.value)}>
-                <option>Easy</option>
-                <option>Medium</option>
-                <option>Hard</option>
-              </select>
-
-              <label className="text-sm ml-3">FRQ length:</label>
-              <select className="neu-input-el" value={frqLength} onChange={(e) => setFrqLength(e.target.value)}>
-                <option value="short">Short</option>
-                <option value="medium">Medium</option>
-                <option value="long">Long</option>
-              </select>
-
-              <label className="text-sm ml-3">Leniency:</label>
-              <div className="flex items-center gap-2">
-                <input type="range" min={1} max={5} value={gradingLeniency} onChange={(e) => setGradingLeniency(Number(e.target.value))} />
-                <div className="text-sm w-6 text-center">{gradingLeniency}</div>
-              </div>
-
-              <label className="text-sm ml-3">Exam style:</label>
-              <select className="neu-input-el" value={examStyle} onChange={(e) => setExamStyle(e.target.value)}>
-                <option>Generic</option>
-                <option>IGCSE</option>
-                <option>IB</option>
-                <option>CBSE</option>
-                <option>AP</option>
-                <option>A level</option>
-              </select>
-            </div>
-
-            <div className="mb-3 text-sm text-gray-600">Progress: {answeredCount}/{totalQuestions} answered</div>
-
-            <div>
-              {generatedQuestions.length ? (
-                <div className="space-y-4">
-                  {generatedQuestions.map((q) => (
-                    <div key={q.id} className="p-3 border rounded-md transition-shadow hover:shadow-md">
-                      <div className="font-medium text-white bg-gray-800 inline-block px-2 py-1 rounded-md break-words">
-                        {`Q${q.id}: ${q.question}`}
-                      </div>
-
-                      {q.type === "multiple_choice" && q.options?.length > 0 && (
-                        <div className="flex flex-col gap-2 mt-2">
-                          {q.options.map((opt: string, idx: number) => (
-                            <label key={idx} className="flex items-center gap-3">
-                              <input type="radio" name={`q${q.id}`} value={opt} checked={userAnswers[q.id] === opt} onChange={(e) => setUserAnswers({ ...userAnswers, [q.id]: e.target.value })} />
-                              <span className="ml-1 text-white">{opt}</span>
-                            </label>
-                          ))}
-                        </div>
-                      )}
-
-                      {(q.type === "interactive" || q.type === "frq") && (
-                        <textarea placeholder="Write your answer..." value={userAnswers[q.id] || ""} onChange={(e) => setUserAnswers({ ...userAnswers, [q.id]: e.target.value })} className="neu-input-el mt-2 w-full" />
-                      )}
-
-                      {quizSubmitted && quizResults && (
-                        <div className="mt-2">
-                          {(() => {
-                            const r = quizResults.find((x) => x.id === q.id);
-                            if (!r) return null;
-                            if (q.type === "multiple_choice") {
-                              return (
-                                <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm ${r.isCorrect ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}`}>
-                                  {r.isCorrect ? "Correct" : `Incorrect — Correct: ${r.correctAnswer}`}
-                                  {r.explanation && <div className="ml-3 text-sm text-white">({r.explanation})</div>}
-                                </div>
-                              );
-                            } else {
-                              return (
-                                <div className="mt-1">
-                                  <div className="text-sm font-semibold">Score: {r.score}/{r.maxScore}</div>
-                                  <div className="text-sm text-gray-700 mt-1">Feedback: {r.feedback}</div>
-                                  {r.includes && (
-                                    <div className="text-sm text-gray-600 mt-1"><strong>Should include:</strong> {r.includes}</div>
-                                  )}
-                                </div>
-                              );
-                            }
-                          })()}
-                        </div>
-                      )}
-                    </div>
-                  ))}
-
-                  {!quizSubmitted ? (
-                    <div className="mt-4 flex gap-3">
-                      <button className="neu-button px-4 py-2" onClick={handleSubmitQuiz} disabled={loading}>{loading ? "Grading..." : "Submit Quiz"}</button>
-                      <button className="neu-button px-4 py-2" onClick={() => { setUserAnswers({}); setQuizSubmitted(false); setQuizResults(null); }}>Reset</button>
-                    </div>
-                  ) : (
-                    <div className="mt-4">
-                      <div className="text-sm">Quiz completed.</div>
-                      {accuracy !== null && <div className="text-sm mt-1">Accuracy: {accuracy}%</div>}
-                      <button className="neu-button mt-2 px-4 py-2" onClick={() => { setQuizSubmitted(false); setQuizResults(null); }}>Retake / Clear Results</button>
-
-                      {quizHistory.length > 0 && (
-                        <div className="mt-4">
-                          <h3 className="text-md font-medium mb-2">Progress Over Time</h3>
-                          <div style={{ height: 220 }}><Line data={chartData} options={chartOptions} /></div>
-                        </div>
-                      )}
-                    </div>
-                  )}
-                </div>
-              ) : (
-                <p className="text-sm opacity-70">Generate a quiz to see questions here.</p>
-              )}
-            </div>
-
-            <div className="mt-6 flex justify-end">
-              <button className="neu-button px-6 py-3" onClick={handleGenerateQuiz} disabled={loading || !notes}>{loading ? "Generating..." : "Generate Quiz"}</button>
-            </div>
-          </NeumorphicCard>
+          </div>
         </motion.div>
-      </PageSection>
-    </>
-  );
-}
+
+        <div className="mt-3 flex gap-2 items-center overflow-auto">
+          {flashcards.map((f, i) => {
+            const selected = i === currentFlashIndex;
+            const bg = selected ? "bg-sky-100" : "bg-white";
+            const txt = selected ? "text-black" : "text-slate-800";
+            return (
+              <button
+                key={i}
+                className={`py-2 px-3 rounded-md border text-sm ${bg} hover:scale-105 transition-transform ${txt}`}
+                onClick={() => {
+                  setCurrentFlashIndex(i);
+                  setFlashRevealed(false);
+                }}
+              >
+                {i + 1}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+    ) : (
+      <p className="text-sm opacity-70">
+        Flashcards will appear here after generating notes.
+      </p>
+    )}
+  </NeumorphicCard>
+
+  <NeumorphicCard className="p-6">
+    <div className="flex items-center justify-between mb-3">
+      <h3 className="text-lg font-medium">Audio → Notes</h3>
+      <div className="text-sm text-gray-500">Record, visualize & transcribe</div>
+    </div>
+
+    <div className="flex items-center gap-3">
+      {!recording ? (
+        <button
+          className="neu-button px-4 py-2 bg-rose-500 text-white"
+          onClick={startRecording}
+        >
+          🎙️ Start
+        </button>
+      ) : (
+        <button
+          className="neu-button px-4 py-2 bg-red-600 text-white"
+          onClick={stopRecording}
+        >
+          ⏹ Stop
+        </button>
+      )}
+
+      {audioURL && <audio controls src={audioURL} className="ml-2" />}
+
+      <div className="ml-auto flex gap-2">
+        <button
+          className="neu-button px-3 py-1"
+          onClick={downloadAudio}
+          disabled={!lastAudioBlob}
+        >
+          Download
+        </button>
+        <button
+          className="neu-button px-3 py-1"
+          onClick={() => {
+            if (lastAudioBlob)
+              alert("Upload handled via /api/transcribe (implement server).");
+          }}
+          disabled={!lastAudioBlob}
+        >
+          Upload
+        </button>
+      </div>
+    </div>
+
+    <div className="mt-3">
+      <canvas
+        ref={audioCanvasRef}
+        width={400}
+        height={60}
+        className="w-full rounded border"
+      />
+    </div>
+
+    <p className="text-xs mt-3 text-gray-500">
+      Recording stored locally no worries! Record your lectures and we can
+      either give you the key points or the whole transcription!
+    </p>
+  </NeumorphicCard>
+
+  <NeumorphicCard className="p-4">
+    <div className="flex items-center justify-between mb-3">
+      <h3 className="text-md font-medium">Progress</h3>
+      <div className="text-sm text-gray-500">{quizHistory.length} sessions</div>
+    </div>
+
+    {quizHistory.length ? (
+      <div style={{ height: 140 }}>
+        <Line data={chartData} options={chartOptions} />
+      </div>
+    ) : (
+      <p className="text-sm text-gray-500">
+        No quiz history yet. Take some quizzes to track progress.
+      </p>
+    )}
+  </NeumorphicCard>
+</div>
+
+{flashFullscreen && (
+  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-6">
+    <motion.div
+      initial={{ scale: 0.96, opacity: 0 }}
+      animate={{ scale: 1, opacity: 1 }}
+      transition={{ duration: 0.18 }}
+      className="bg-white rounded-2xl shadow-2xl max-w-4xl w-full p-8 relative"
+    >
+      <button
+        className="absolute right-4 top-4 neu-button px-3 py-1"
+        onClick={() => setFlashFullscreen(false)}
+      >
+        Close
+      </button>
+
+      <div className="text-center">
+        <div className="text-3xl font-semibold mb-4">
+          {flashcards[currentFlashIndex]?.front}
+        </div>
+        <div
+          className={`text-lg leading-relaxed mb-6 ${
+            flashRevealed ? "opacity-100" : "opacity-0"
+          }`}
+        >
+          {flashRevealed
+            ? flashcards[currentFlashIndex]?.back
+            : "Click Reveal to see the answer"}
+        </div>
+
+        <div className="mt-6 flex items-center justify-center gap-4">
+          <button className="neu-button px-4 py-2" onClick={prevFlash}>
+            Previous
+          </button>
+          <button
+            className="neu-button px-4 py-2"
+            onClick={() => (flashRevealed ? nextFlash() : revealFlash())}
+          >
+            {flashRevealed ? "Next" : "Reveal"}
+          </button>
+          <button className="neu-button px-4 py-2" onClick={nextFlash}>
+            Next
+          </button>
+        </div>
+
+        <div className="mt-6 text-sm text-gray-600">
+          Card {currentFlashIndex + 1}/{flashcards.length}
+        </div>
+      </div>
+    </motion.div>
+  </div>
+)}
+                {/*end*/}
+
+<NeumorphicCard className="p-8">
+  {/* Quiz Section */}
+  {/* ...Rest of your quiz code remains unchanged */}
+</NeumorphicCard>
