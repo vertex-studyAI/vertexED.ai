@@ -12,6 +12,7 @@ function getClient() {
 
 export async function textToTask(prompt: string, tags: string[], existingTasks: any[]) {
   const tryModels = [
+    "gemini-2.5-pro",
     "gemini-2.5-flash",
     "gemini-2.0-flash",
     "gemini-1.5-flash",
