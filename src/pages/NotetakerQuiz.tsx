@@ -756,7 +756,7 @@ const sendNotesToCards = async (count = 6) => {
                     })}
                   </select>
                 </div>
-                <div className="mt-2 text-xs text-gray-500">Length adjusts based on selected option and the generator's heuristics.</div>
+                <div className="mt-2 text-xs text-gray-500">Length per output may vary</div>
               </div>
             </div>
 
