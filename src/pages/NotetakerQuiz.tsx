@@ -81,7 +81,7 @@ const [audioURL, setAudioURL] = useState<string | null>(null);
 const audioCtxRef = useRef<AudioContext | null>(null);
 const analyserRef = useRef<AnalyserNode | null>(null);
 const animationRef = useRef<number | null>(null);
-const canvasRef = useRef<HTMLCanvasElement | null>(null);
+const audioCanvasRef = useRef<HTMLCanvasElement | null>(null);
 const mediaStreamRef = useRef<MediaStream | null>(null);
 const mediaRecorderRef = useRef<MediaRecorder | null>(null);
 const audioChunksRef = useRef<BlobPart[]>([]);
@@ -104,7 +104,7 @@ const startRecording = async () => {
     src.connect(analyser);
 
     // waveform draw
-    const canvas = canvasRef.current;
+    const canvas = audioCanvasRef.current;
     if (canvas) {
       const draw = () => {
         const w = canvas.width;
@@ -601,7 +601,7 @@ const sendNotesToCards = async (count = 6) => {
     source.connect(analyser);
     const bufferLength = analyser.frequencyBinCount;
     const dataArray = new Uint8Array(bufferLength);
-    const canvas = audioCanvasRef.current;
+    const canvas = audioaudioCanvasRef.current;
     if (!canvas) return;
     const canvasCtx = canvas.getContext("2d");
     const draw = () => {
@@ -930,7 +930,7 @@ const sendNotesToCards = async (count = 6) => {
                 </div>
 
                 <div className="mt-3">
-                  <canvas ref={audioCanvasRef} width={400} height={60} className="w-full rounded border" />
+                  <canvas ref={audioaudioCanvasRef} width={400} height={60} className="w-full rounded border" />
                 </div>
 
                 <p className="text-xs mt-3 text-gray-500">Recording stored locally. If you implement <code>/api/transcribe</code>, the file will be uploaded automatically and the returned transcript appended to notes.</p>
