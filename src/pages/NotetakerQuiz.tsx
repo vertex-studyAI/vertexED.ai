@@ -72,23 +72,29 @@ export default function NotetakerQuiz(): JSX.Element {
   const [mounted, setMounted] = useState(false);
   const [quizHistory, setQuizHistory] = useState<number[]>([]);
 
-  // audio recorder + visualizer
-// --- frontend patch: replace old audio code with this ---
-// add these new state refs near other hooks:
+// --- state + refs ---
+// add these with your other hooks at the top of NotetakerQuiz
+const [recording, setRecording] = useState(false);
+const [lastAudioBlob, setLastAudioBlob] = useState<Blob | null>(null);
+const [audioURL, setAudioURL] = useState<string | null>(null);
+
 const audioCtxRef = useRef<AudioContext | null>(null);
 const analyserRef = useRef<AnalyserNode | null>(null);
 const animationRef = useRef<number | null>(null);
 const canvasRef = useRef<HTMLCanvasElement | null>(null);
 const mediaStreamRef = useRef<MediaStream | null>(null);
+const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+const audioChunksRef = useRef<BlobPart[]>([]);
 
-// new startRecording with analyser + waveform
+// --- start recording + visualizer ---
 const startRecording = async () => {
   try {
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
     mediaStreamRef.current = stream;
 
     // setup AudioContext + analyser
-    const AudioContextClass = (window as any).AudioContext || (window as any).webkitAudioContext;
+    const AudioContextClass =
+      (window as any).AudioContext || (window as any).webkitAudioContext;
     const ctx = new AudioContextClass();
     audioCtxRef.current = ctx;
     const src = ctx.createMediaStreamSource(stream);
@@ -97,7 +103,7 @@ const startRecording = async () => {
     analyserRef.current = analyser;
     src.connect(analyser);
 
-    // draw waveform to canvas
+    // waveform draw
     const canvas = canvasRef.current;
     if (canvas) {
       const draw = () => {
@@ -105,13 +111,12 @@ const startRecording = async () => {
         const h = canvas.height;
         const data = new Uint8Array(analyser.frequencyBinCount);
         analyser.getByteTimeDomainData(data);
+
         const ctx2 = canvas.getContext("2d");
         if (ctx2) {
           ctx2.clearRect(0, 0, w, h);
-          ctx2.fillStyle = "transparent";
-          ctx2.fillRect(0, 0, w, h);
           ctx2.lineWidth = 2;
-          ctx2.strokeStyle = "#60a5fa"; // sky-400
+          ctx2.strokeStyle = "#60a5fa"; // tailwind sky-400
           ctx2.beginPath();
           const slice = w / data.length;
           for (let i = 0; i < data.length; i++) {
@@ -128,47 +133,50 @@ const startRecording = async () => {
       animationRef.current = requestAnimationFrame(draw);
     }
 
-    // start MediaRecorder
+    // setup MediaRecorder
     const mr = new MediaRecorder(stream);
     mediaRecorderRef.current = mr;
     audioChunksRef.current = [];
+
     mr.ondataavailable = (ev: BlobEvent) => {
       if (ev.data && ev.data.size > 0) audioChunksRef.current.push(ev.data);
     };
+
     mr.onstop = async () => {
       if (animationRef.current) cancelAnimationFrame(animationRef.current);
-      try { analyserRef.current?.disconnect(); } catch (e) {}
-      try { audioCtxRef.current?.close(); } catch (e) {}
+      try {
+        analyserRef.current?.disconnect();
+      } catch {}
+      try {
+        audioCtxRef.current?.close();
+      } catch {}
       audioCtxRef.current = null;
       analyserRef.current = null;
 
-      // build blob
+      // build blob + URL
       const blob = new Blob(audioChunksRef.current, { type: "audio/webm" });
       setLastAudioBlob(blob);
       const url = URL.createObjectURL(blob);
       setAudioURL(url);
 
-      // auto-upload via multipart form to /api/transcribe to get transcription + cards
+      // auto-upload to /api/transcribe (you already have this)
       try {
         const fd = new FormData();
         fd.append("file", blob, `recording_${Date.now()}.webm`);
         fd.append("createCards", "true");
         fd.append("flashCount", String(flashCount || 6));
-        // optional: fd.append("language", "en");
+
         const r = await fetch("/api/transcribe", { method: "POST", body: fd });
         if (r.ok) {
           const json = await r.json();
-          // put transcript into notes (append)
           const time = new Date().toLocaleString();
           const text = json.transcription || json.summary || "";
           if (text) {
-            const insertText = `\n\n---\n\n[Audio recorded ${time}]${text ? `\n\n${text}\n\n` : ""}`;
+            const insertText = `\n\n---\n\n[Audio recorded ${time}]\n\n${text}\n\n`;
             setNotes((prev) => (prev ? `${prev}${insertText}` : insertText));
             setFlashcards((prev) => {
-              // merge server flashcards if present
               const serverCards = Array.isArray(json.flashcards) ? json.flashcards : [];
               if (!serverCards.length) return prev;
-              // replace or append (choose to append)
               return [...serverCards.slice(0, flashCount), ...prev];
             });
             setIsDirty(true);
@@ -182,7 +190,7 @@ const startRecording = async () => {
       }
 
       // stop tracks
-      try { mediaStreamRef.current?.getTracks().forEach(t => t.stop()); } catch (e) {}
+      mediaStreamRef.current?.getTracks().forEach((t) => t.stop());
       mediaStreamRef.current = null;
     };
 
@@ -194,18 +202,24 @@ const startRecording = async () => {
   }
 };
 
-// stop recording
+// --- stop recording ---
 const stopRecording = () => {
-  try { mediaRecorderRef.current?.stop(); } catch (e) { console.warn(e); }
+  try {
+    mediaRecorderRef.current?.stop();
+  } catch (e) {
+    console.warn(e);
+  }
   setRecording(false);
   if (animationRef.current) {
     cancelAnimationFrame(animationRef.current);
     animationRef.current = null;
   }
-  try { audioCtxRef.current?.suspend(); } catch (e) {}
+  try {
+    audioCtxRef.current?.suspend();
+  } catch {}
 };
 
-// download audio (unchanged)
+// --- download audio ---
 const downloadAudio = () => {
   if (!lastAudioBlob) return alert("No audio recorded");
   const url = URL.createObjectURL(lastAudioBlob);
@@ -216,20 +230,19 @@ const downloadAudio = () => {
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 };
 
-// send current notes text to server /api/cards to generate flashcards
+// --- send notes to server for flashcards (use /api/notes) ---
 const sendNotesToCards = async (count = 6) => {
   if (!notes || !notes.trim()) return alert("No notes to convert");
   try {
-    const r = await fetch("/api/cards", {
+    const r = await fetch("/api/notes", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ text: notes, flashCount: count }),
     });
-    if (!r.ok) throw new Error(`Cards failed: ${r.status}`);
+    if (!r.ok) throw new Error(`Notes request failed: ${r.status}`);
     const json = await r.json();
     if (Array.isArray(json.flashcards) && json.flashcards.length) {
       setFlashcards(json.flashcards);
-      // push snapshot
       pushNotesSnapshot(notes);
       alert("Flashcards generated from notes.");
     } else {
@@ -240,7 +253,6 @@ const sendNotesToCards = async (count = 6) => {
     alert("Failed to generate flashcards from notes.");
   }
 };
-
 
   useEffect(() => {
     setMounted(true);
