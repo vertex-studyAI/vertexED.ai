@@ -72,187 +72,189 @@ export default function NotetakerQuiz(): JSX.Element {
   const [mounted, setMounted] = useState(false);
   const [quizHistory, setQuizHistory] = useState<number[]>([]);
 
-// --- state + refs ---
-// add these with your other hooks at the top of NotetakerQuiz
-const [recording, setRecording] = useState(false);
-const [lastAudioBlob, setLastAudioBlob] = useState<Blob | null>(null);
-const [audioURL, setAudioURL] = useState<string | null>(null);
+  // preview state (was referenced but not declared)
+  const [showPreview, setShowPreview] = useState(false);
 
-const audioCtxRef = useRef<AudioContext | null>(null);
-const analyserRef = useRef<AnalyserNode | null>(null);
-const animationRef = useRef<number | null>(null);
-const audioCanvasRef = useRef<HTMLCanvasElement | null>(null);
-const mediaStreamRef = useRef<MediaStream | null>(null);
-const mediaRecorderRef = useRef<MediaRecorder | null>(null);
-const audioChunksRef = useRef<BlobPart[]>([]);
+  // --- state + refs for audio ---
+  const [recording, setRecording] = useState(false);
+  const [lastAudioBlob, setLastAudioBlob] = useState<Blob | null>(null);
+  const [audioURL, setAudioURL] = useState<string | null>(null);
 
-// --- start recording + visualizer ---
-const startRecording = async () => {
-  try {
-    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-    mediaStreamRef.current = stream;
+  const audioCtxRef = useRef<AudioContext | null>(null);
+  const analyserRef = useRef<AnalyserNode | null>(null);
+  const animationRef = useRef<number | null>(null);
+  const audioCanvasRef = useRef<HTMLCanvasElement | null>(null);
+  const mediaStreamRef = useRef<MediaStream | null>(null);
+  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+  const audioChunksRef = useRef<BlobPart[]>([]);
 
-    // setup AudioContext + analyser
-    const AudioContextClass =
-      (window as any).AudioContext || (window as any).webkitAudioContext;
-    const ctx = new AudioContextClass();
-    audioCtxRef.current = ctx;
-    const src = ctx.createMediaStreamSource(stream);
-    const analyser = ctx.createAnalyser();
-    analyser.fftSize = 2048;
-    analyserRef.current = analyser;
-    src.connect(analyser);
+  // --- start recording + visualizer ---
+  const startRecording = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      mediaStreamRef.current = stream;
 
-    // waveform draw
-    const canvas = audioCanvasRef.current;
-    if (canvas) {
-      const draw = () => {
-        const w = canvas.width;
-        const h = canvas.height;
-        const data = new Uint8Array(analyser.frequencyBinCount);
-        analyser.getByteTimeDomainData(data);
+      // setup AudioContext + analyser
+      const AudioContextClass =
+        (window as any).AudioContext || (window as any).webkitAudioContext;
+      const ctx = new AudioContextClass();
+      audioCtxRef.current = ctx;
+      const src = ctx.createMediaStreamSource(stream);
+      const analyser = ctx.createAnalyser();
+      analyser.fftSize = 2048;
+      analyserRef.current = analyser;
+      src.connect(analyser);
 
-        const ctx2 = canvas.getContext("2d");
-        if (ctx2) {
-          ctx2.clearRect(0, 0, w, h);
-          ctx2.lineWidth = 2;
-          ctx2.strokeStyle = "#60a5fa"; // tailwind sky-400
-          ctx2.beginPath();
-          const slice = w / data.length;
-          for (let i = 0; i < data.length; i++) {
-            const v = data[i] / 128.0;
-            const y = (v * h) / 2;
-            if (i === 0) ctx2.moveTo(0, y);
-            else ctx2.lineTo(i * slice, y);
+      // waveform draw
+      const canvas = audioCanvasRef.current;
+      if (canvas) {
+        const draw = () => {
+          const w = canvas.width;
+          const h = canvas.height;
+          const data = new Uint8Array(analyser.frequencyBinCount);
+          analyser.getByteTimeDomainData(data);
+
+          const ctx2 = canvas.getContext("2d");
+          if (ctx2) {
+            ctx2.clearRect(0, 0, w, h);
+            ctx2.lineWidth = 2;
+            ctx2.strokeStyle = "#60a5fa"; // tailwind sky-400
+            ctx2.beginPath();
+            const slice = w / data.length;
+            for (let i = 0; i < data.length; i++) {
+              const v = data[i] / 128.0;
+              const y = (v * h) / 2;
+              if (i === 0) ctx2.moveTo(0, y);
+              else ctx2.lineTo(i * slice, y);
+            }
+            ctx2.lineTo(w, h / 2);
+            ctx2.stroke();
           }
-          ctx2.lineTo(w, h / 2);
-          ctx2.stroke();
-        }
+          animationRef.current = requestAnimationFrame(draw);
+        };
         animationRef.current = requestAnimationFrame(draw);
-      };
-      animationRef.current = requestAnimationFrame(draw);
-    }
-
-    // setup MediaRecorder
-    const mr = new MediaRecorder(stream);
-    mediaRecorderRef.current = mr;
-    audioChunksRef.current = [];
-
-    mr.ondataavailable = (ev: BlobEvent) => {
-      if (ev.data && ev.data.size > 0) audioChunksRef.current.push(ev.data);
-    };
-
-    mr.onstop = async () => {
-      if (animationRef.current) cancelAnimationFrame(animationRef.current);
-      try {
-        analyserRef.current?.disconnect();
-      } catch {}
-      try {
-        audioCtxRef.current?.close();
-      } catch {}
-      audioCtxRef.current = null;
-      analyserRef.current = null;
-
-      // build blob + URL
-      const blob = new Blob(audioChunksRef.current, { type: "audio/webm" });
-      setLastAudioBlob(blob);
-      const url = URL.createObjectURL(blob);
-      setAudioURL(url);
-
-      // auto-upload to /api/transcribe (you already have this)
-      try {
-        const fd = new FormData();
-        fd.append("file", blob, `recording_${Date.now()}.webm`);
-        fd.append("createCards", "true");
-        fd.append("flashCount", String(flashCount || 6));
-
-        const r = await fetch("/api/transcribe", { method: "POST", body: fd });
-        if (r.ok) {
-          const json = await r.json();
-          const time = new Date().toLocaleString();
-          const text = json.transcription || json.summary || "";
-          if (text) {
-            const insertText = `\n\n---\n\n[Audio recorded ${time}]\n\n${text}\n\n`;
-            setNotes((prev) => (prev ? `${prev}${insertText}` : insertText));
-            setFlashcards((prev) => {
-              const serverCards = Array.isArray(json.flashcards) ? json.flashcards : [];
-              if (!serverCards.length) return prev;
-              return [...serverCards.slice(0, flashCount), ...prev];
-            });
-            setIsDirty(true);
-          }
-        } else {
-          console.error("Transcribe upload failed", await r.text().catch(() => ""));
-          alert("Upload failed. You can still download the audio locally.");
-        }
-      } catch (err) {
-        console.error("Upload error:", err);
       }
 
-      // stop tracks
-      mediaStreamRef.current?.getTracks().forEach((t) => t.stop());
-      mediaStreamRef.current = null;
-    };
+      // setup MediaRecorder
+      const mr = new MediaRecorder(stream);
+      mediaRecorderRef.current = mr;
+      audioChunksRef.current = [];
 
-    mr.start();
-    setRecording(true);
-  } catch (err) {
-    console.error("Audio start failed", err);
-    alert("Could not access microphone. Please check permissions.");
-  }
-};
+      mr.ondataavailable = (ev: BlobEvent) => {
+        if (ev.data && ev.data.size > 0) audioChunksRef.current.push(ev.data);
+      };
 
-// --- stop recording ---
-const stopRecording = () => {
-  try {
-    mediaRecorderRef.current?.stop();
-  } catch (e) {
-    console.warn(e);
-  }
-  setRecording(false);
-  if (animationRef.current) {
-    cancelAnimationFrame(animationRef.current);
-    animationRef.current = null;
-  }
-  try {
-    audioCtxRef.current?.suspend();
-  } catch {}
-};
+      mr.onstop = async () => {
+        if (animationRef.current) cancelAnimationFrame(animationRef.current);
+        try {
+          analyserRef.current?.disconnect();
+        } catch {}
+        try {
+          audioCtxRef.current?.close();
+        } catch {}
+        audioCtxRef.current = null;
+        analyserRef.current = null;
 
-// --- download audio ---
-const downloadAudio = () => {
-  if (!lastAudioBlob) return alert("No audio recorded");
-  const url = URL.createObjectURL(lastAudioBlob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = `recording_${Date.now()}.webm`;
-  a.click();
-  setTimeout(() => URL.revokeObjectURL(url), 1000);
-};
+        // build blob + URL
+        const blob = new Blob(audioChunksRef.current, { type: "audio/webm" });
+        setLastAudioBlob(blob);
+        const url = URL.createObjectURL(blob);
+        setAudioURL(url);
 
-// --- send notes to server for flashcards (use /api/notes) ---
-const sendNotesToCards = async (count = 6) => {
-  if (!notes || !notes.trim()) return alert("No notes to convert");
-  try {
-    const r = await fetch("/api/notes", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ text: notes, flashCount: count }),
-    });
-    if (!r.ok) throw new Error(`Notes request failed: ${r.status}`);
-    const json = await r.json();
-    if (Array.isArray(json.flashcards) && json.flashcards.length) {
-      setFlashcards(json.flashcards);
-      pushNotesSnapshot(notes);
-      alert("Flashcards generated from notes.");
-    } else {
-      alert("No flashcards generated.");
+        // auto-upload to /api/transcribe (you already have this)
+        try {
+          const fd = new FormData();
+          fd.append("file", blob, `recording_${Date.now()}.webm`);
+          fd.append("createCards", "true");
+          fd.append("flashCount", String(flashCount || 6));
+
+          const r = await fetch("/api/transcribe", { method: "POST", body: fd });
+          if (r.ok) {
+            const json = await r.json();
+            const time = new Date().toLocaleString();
+            const text = json.transcription || json.summary || "";
+            if (text) {
+              const insertText = `\n\n---\n\n[Audio recorded ${time}]\n\n${text}\n\n`;
+              setNotes((prev) => (prev ? `${prev}${insertText}` : insertText));
+              setFlashcards((prev) => {
+                const serverCards = Array.isArray(json.flashcards) ? json.flashcards : [];
+                if (!serverCards.length) return prev;
+                return [...serverCards.slice(0, flashCount), ...prev];
+              });
+              setIsDirty(true);
+            }
+          } else {
+            console.error("Transcribe upload failed", await r.text().catch(() => ""));
+            alert("Upload failed. You can still download the audio locally.");
+          }
+        } catch (err) {
+          console.error("Upload error:", err);
+        }
+
+        // stop tracks
+        mediaStreamRef.current?.getTracks().forEach((t) => t.stop());
+        mediaStreamRef.current = null;
+      };
+
+      mr.start();
+      setRecording(true);
+    } catch (err) {
+      console.error("Audio start failed", err);
+      alert("Could not access microphone. Please check permissions.");
     }
-  } catch (err) {
-    console.error("sendNotesToCards error", err);
-    alert("Failed to generate flashcards from notes.");
-  }
-};
+  };
+
+  // --- stop recording ---
+  const stopRecording = () => {
+    try {
+      mediaRecorderRef.current?.stop();
+    } catch (e) {
+      console.warn(e);
+    }
+    setRecording(false);
+    if (animationRef.current) {
+      cancelAnimationFrame(animationRef.current);
+      animationRef.current = null;
+    }
+    try {
+      audioCtxRef.current?.suspend();
+    } catch {}
+  };
+
+  // --- download audio ---
+  const downloadAudio = () => {
+    if (!lastAudioBlob) return alert("No audio recorded");
+    const url = URL.createObjectURL(lastAudioBlob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `recording_${Date.now()}.webm`;
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  };
+
+  // --- send notes to server for flashcards (use /api/notes) ---
+  const sendNotesToCards = async (count = 6) => {
+    if (!notes || !notes.trim()) return alert("No notes to convert");
+    try {
+      const r = await fetch("/api/notes", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text: notes, flashCount: count }),
+      });
+      if (!r.ok) throw new Error(`Notes request failed: ${r.status}`);
+      const json = await r.json();
+      if (Array.isArray(json.flashcards) && json.flashcards.length) {
+        setFlashcards(json.flashcards);
+        pushNotesSnapshot(notes);
+        alert("Flashcards generated from notes.");
+      } else {
+        alert("No flashcards generated.");
+      }
+    } catch (err) {
+      console.error("sendNotesToCards error", err);
+      alert("Failed to generate flashcards from notes.");
+    }
+  };
 
   useEffect(() => {
     setMounted(true);
@@ -631,7 +633,11 @@ const sendNotesToCards = async (count = 6) => {
   const stopVisualizer = () => {
     if (animationRef.current) cancelAnimationFrame(animationRef.current);
     animationRef.current = null;
-    if (analyserRef.current) analyserRef.current.disconnect();
+    if (analyserRef.current) {
+      try {
+        analyserRef.current.disconnect();
+      } catch {}
+    }
     analyserRef.current = null;
     if (audioCtxRef.current) {
       try {
@@ -818,296 +824,301 @@ const sendNotesToCards = async (count = 6) => {
                   </div>
                 </div>
 
-                <div id="notes-section" className="neu-textarea max-h-[128rem] overflow-auto p-4 bg-white rounded">
+                <div className="neu-textarea max-h-[128rem] overflow-auto p-4 bg-white rounded">
+                  <textarea
+                    ref={notesRef}
+                    className="neu-input-el w-full h-[32rem] p-4 transition-transform duration-150 whitespace-pre-wrap"
+                    value={notes}
+                    onChange={(e) => handleNotesChange(e.target.value)}
+                    onBlur={handleNotesBlur}
+                    placeholder="Your notes will appear here. Type or generate..."
+                  />
 
-                  <div id="notes-section" className="neu-textarea max-h-[128rem] overflow-auto p-4 bg-white rounded">
-  <textarea
-    ref={notesRef}
-    className="neu-input-el w-full h-[32rem] p-4 transition-transform duration-150 whitespace-pre-wrap"
-    value={notes}
-    onChange={(e) => handleNotesChange(e.target.value)}
-    onBlur={handleNotesBlur}
-    placeholder="Your notes will appear here. Type or generate..."
-  />
+                  {/* Preview toggle button */}
+                  <div className="mt-4 flex justify-end">
+                    <button
+                      onClick={() => setShowPreview(!showPreview)}
+                      className="px-4 py-2 rounded-lg bg-blue-500 text-white hover:bg-blue-600 transition"
+                    >
+                      {showPreview ? "Hide Preview" : "Show Preview"}
+                    </button>
+                  </div>
 
-  {/* Preview toggle button */}
-  <div className="mt-4 flex justify-end">
-    <button
-      onClick={() => setShowPreview(!showPreview)}
-      className="px-4 py-2 rounded-lg bg-blue-500 text-white hover:bg-blue-600 transition"
-    >
-      {showPreview ? "Hide Preview" : "Show Preview"}
-    </button>
-  </div>
+                  {/* Conditional Preview */}
+                  {showPreview && (
+                    <div className="mt-4">
+                      <div className="flex items-center justify-between mb-2">
+                        <div className="text-sm font-medium text-black">Preview</div>
+                        <div className="text-xs text-gray-500">Rendered Markdown (tables, LaTeX)</div>
+                      </div>
+                      <div className="overflow-auto rounded border p-3 bg-white text-black" style={{ minHeight: "32rem" }}>
+                        <ReactMarkdown
+                          remarkPlugins={[remarkMath]}
+                          rehypePlugins={[rehypeKatex]}
+                          components={markdownComponents}
+                        >
+                          {notes || "_No content yet_"}
+                        </ReactMarkdown>
+                      </div>
+                    </div>
+                  )}
 
-  {/* Conditional Preview */}
-  {showPreview && (
-    <div className="mt-4">
-      <div className="flex items-center justify-between mb-2">
-        <div className="text-sm font-medium text-black">Preview</div>
-        <div className="text-xs text-gray-500">Rendered Markdown (tables, LaTeX)</div>
-      </div>
-      <div className="overflow-auto rounded border p-3 bg-white text-black" style={{ minHeight: "32rem" }}>
-        <ReactMarkdown
-          remarkPlugins={[remarkMath]}
-          rehypePlugins={[rehypeKatex]}
-          components={markdownComponents}
-        >
-          {notes || "_No content yet_"}
-        </ReactMarkdown>
-      </div>
-    </div>
-  )}
-</div>
- 
-                <div className="mt-3 flex gap-2 items-center">
-                  <span className="text-sm text-gray-600 mr-2">Insert:</span>
-                  <button className="neu-button px-3 py-1 text-sm" onClick={() => insertAtCursor("$$E = mc^2$$")}>LaTeX</button>
-                  <button className="neu-button px-3 py-1 text-sm" onClick={() => insertAtCursor("$$\\int_a^b f(x)\\,dx$$")}>Integral</button>
-                  <button className="neu-button px-3 py-1 text-sm" onClick={() => insertAtCursor("**Table (Markdown)**\n\n| Header 1 | Header 2 |\n|---|---|\n| Row1Col1 | Row1Col2 |\n")}>Table</button>
-                  <button className="neu-button px-3 py-1 text-sm" onClick={() => insertAtCursor("• Bullet 1\n• Bullet 2\n")}>Bullets</button>
-                  <div className="ml-auto text-sm text-gray-500">Tip: Use $$...$$ for LaTeX.</div>
+                  <div className="mt-3 flex gap-2 items-center">
+                    <span className="text-sm text-gray-600 mr-2">Insert:</span>
+                    <button className="neu-button px-3 py-1 text-sm" onClick={() => insertAtCursor("$$E = mc^2$$")}>LaTeX</button>
+                    <button className="neu-button px-3 py-1 text-sm" onClick={() => insertAtCursor("$$\\int_a^b f(x)\\,dx$$")}>Integral</button>
+                    <button className="neu-button px-3 py-1 text-sm" onClick={() => insertAtCursor("**Table (Markdown)**\n\n| Header 1 | Header 2 |\n|---|---|\n| Row1Col1 | Row1Col2 |\n")}>Table</button>
+                    <button className="neu-button px-3 py-1 text-sm" onClick={() => insertAtCursor("• Bullet 1\n• Bullet 2\n")}>Bullets</button>
+                    <div className="ml-auto text-sm text-gray-500">Tip: Use $$...$$ for LaTeX.</div>
+                  </div>
+
+                  <div className="mt-4 flex gap-2 items-center">
+                    <button onClick={() => exportToWord(notes, flashcards)} className="neu-button px-4 py-2 bg-blue-600 text-white hover:shadow-md">
+                      Export Word
+                    </button>
+                    <button onClick={() => exportToPDF("notes-section-export")} className="neu-button px-4 py-2 bg-red-600 text-white hover:shadow-md">
+                      Export PDF
+                    </button>
+
+                    <div className="ml-auto flex items-center gap-2">
+                      <div className="text-sm text-gray-500">Autosave</div>
+                      <div className="w-2 h-2 rounded-full bg-green-400" />
+                    </div>
+                  </div>
+                </div>
+              </NeumorphicCard>
+            </motion.div>
+
+            <div className="lg:col-span-1 space-y-4">
+              <NeumorphicCard className="p-6">
+                <div className="flex justify-between items-center mb-3">
+                  <h2 className="text-xl font-medium">Flashcards</h2>
+                  <div className="text-sm opacity-70">{flashcards.length} cards</div>
                 </div>
 
-                <div className="mt-4 flex gap-2 items-center">
-                  <button onClick={() => exportToWord(notes, flashcards)} className="neu-button px-4 py-2 bg-blue-600 text-white hover:shadow-md">
-                    Export Word
-                  </button>
-                  <button onClick={() => exportToPDF("notes-section")} className="neu-button px-4 py-2 bg-red-600 text-white hover:shadow-md">
-                    Export PDF
-                  </button>
+                {flashcards.length ? (
+                  <div className="relative">
+                    <motion.div
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.45 }}
+                      className="p-4 rounded-lg border shadow-sm bg-white"
+                      style={{ minHeight: 140 }}
+                    >
+                      <div className="text-base font-semibold text-slate-900 break-words">
+                        {flashcards[currentFlashIndex]?.front}
+                      </div>
+                      <div
+                        className={`text-sm mt-3 transition-opacity duration-200 ${
+                          flashRevealed ? "opacity-100" : "opacity-0"
+                        }`}
+                      >
+                        {flashRevealed ? flashcards[currentFlashIndex]?.back : ""}
+                      </div>
 
-<div className="ml-auto flex items-center gap-2">
-  <div className="text-sm text-gray-500">Autosave</div>
-  <div className="w-2 h-2 rounded-full bg-green-400" />
-</div>
-</NeumorphicCard>
-</motion.div>
+                      <div className="mt-4 flex items-center gap-2">
+                        <button
+                          className={`neu-button px-3 py-1 ${flashBtnTextColor(true)}`}
+                          onClick={prevFlash}
+                        >
+                          Previous
+                        </button>
+                        <button
+                          className={`neu-button px-3 py-1 ${flashBtnTextColor(true)}`}
+                          onClick={() => (flashRevealed ? nextFlash() : revealFlash())}
+                        >
+                          {flashRevealed ? "Next (revealed)" : "Reveal"}
+                        </button>
+                        <button
+                          className={`neu-button px-3 py-1 ${flashBtnTextColor(true)}`}
+                          onClick={nextFlash}
+                        >
+                          Next
+                        </button>
 
-<div className="lg:col-span-1 space-y-4">
-  <NeumorphicCard className="p-6">
-    <div className="flex justify-between items-center mb-3">
-      <h2 className="text-xl font-medium">Flashcards</h2>
-      <div className="text-sm opacity-70">{flashcards.length} cards</div>
-    </div>
+                        <button
+                          className="neu-button px-3 py-1 ml-2 text-black"
+                          onClick={() => {
+                            setFlashFullscreen(true);
+                            setTimeout(() => setFlashRevealed(false), 50);
+                          }}
+                          title="Enlarge flashcard"
+                        >
+                          Enlarge
+                        </button>
 
-    {flashcards.length ? (
-      <div className="relative">
-        <motion.div
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.45 }}
-          className="p-4 rounded-lg border shadow-sm bg-white"
-          style={{ minHeight: 140 }}
-        >
-          <div className="text-base font-semibold text-slate-900 break-words">
-            {flashcards[currentFlashIndex]?.front}
-          </div>
-          <div
-            className={`text-sm mt-3 transition-opacity duration-200 ${
-              flashRevealed ? "opacity-100" : "opacity-0"
-            }`}
-          >
-            {flashRevealed ? flashcards[currentFlashIndex]?.back : ""}
-          </div>
+                        <div className="ml-auto text-sm text-gray-500">
+                          Card {currentFlashIndex + 1}/{flashcards.length}
+                        </div>
+                      </div>
+                    </motion.div>
 
-          <div className="mt-4 flex items-center gap-2">
-            <button
-              className={`neu-button px-3 py-1 ${flashBtnTextColor(true)}`}
-              onClick={prevFlash}
-            >
-              Previous
-            </button>
-            <button
-              className={`neu-button px-3 py-1 ${flashBtnTextColor(true)}`}
-              onClick={() => (flashRevealed ? nextFlash() : revealFlash())}
-            >
-              {flashRevealed ? "Next (revealed)" : "Reveal"}
-            </button>
-            <button
-              className={`neu-button px-3 py-1 ${flashBtnTextColor(true)}`}
-              onClick={nextFlash}
-            >
-              Next
-            </button>
+                    <div className="mt-3 flex gap-2 items-center overflow-auto">
+                      {flashcards.map((f, i) => {
+                        const selected = i === currentFlashIndex;
+                        const bg = selected ? "bg-sky-100" : "bg-white";
+                        const txt = selected ? "text-black" : "text-slate-800";
+                        return (
+                          <button
+                            key={i}
+                            className={`py-2 px-3 rounded-md border text-sm ${bg} hover:scale-105 transition-transform ${txt}`}
+                            onClick={() => {
+                              setCurrentFlashIndex(i);
+                              setFlashRevealed(false);
+                            }}
+                          >
+                            {i + 1}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                ) : (
+                  <p className="text-sm opacity-70">
+                    Flashcards will appear here after generating notes.
+                  </p>
+                )}
+              </NeumorphicCard>
 
-            <button
-              className="neu-button px-3 py-1 ml-2 text-black"
-              onClick={() => {
-                setFlashFullscreen(true);
-                setTimeout(() => setFlashRevealed(false), 50);
-              }}
-              title="Enlarge flashcard"
-            >
-              Enlarge
-            </button>
+              <NeumorphicCard className="p-6">
+                <div className="flex items-center justify-between mb-3">
+                  <h3 className="text-lg font-medium">Audio → Notes</h3>
+                  <div className="text-sm text-gray-500">Record, visualize & transcribe</div>
+                </div>
 
-            <div className="ml-auto text-sm text-gray-500">
-              Card {currentFlashIndex + 1}/{flashcards.length}
+                <div className="flex items-center gap-3">
+                  {!recording ? (
+                    <button
+                      className="neu-button px-4 py-2 bg-rose-500 text-white"
+                      onClick={startRecording}
+                    >
+                      🎙️ Start
+                    </button>
+                  ) : (
+                    <button
+                      className="neu-button px-4 py-2 bg-red-600 text-white"
+                      onClick={stopRecording}
+                    >
+                      ⏹ Stop
+                    </button>
+                  )}
+
+                  {audioURL && <audio controls src={audioURL} className="ml-2" />}
+
+                  <div className="ml-auto flex gap-2">
+                    <button
+                      className="neu-button px-3 py-1"
+                      onClick={downloadAudio}
+                      disabled={!lastAudioBlob}
+                    >
+                      Download
+                    </button>
+                    <button
+                      className="neu-button px-3 py-1"
+                      onClick={() => {
+                        if (lastAudioBlob)
+                          alert("Upload handled via /api/transcribe (implement server).");
+                      }}
+                      disabled={!lastAudioBlob}
+                    >
+                      Upload
+                    </button>
+                  </div>
+                </div>
+
+                <div className="mt-3">
+                  <canvas
+                    ref={audioCanvasRef}
+                    width={400}
+                    height={60}
+                    className="w-full rounded border"
+                  />
+                </div>
+
+                <p className="text-xs mt-3 text-gray-500">
+                  Recording stored locally no worries! Record your lectures and we can
+                  either give you the key points or the whole transcription!
+                </p>
+              </NeumorphicCard>
+
+              <NeumorphicCard className="p-4">
+                <div className="flex items-center justify-between mb-3">
+                  <h3 className="text-md font-medium">Progress</h3>
+                  <div className="text-sm text-gray-500">{quizHistory.length} sessions</div>
+                </div>
+
+                {quizHistory.length ? (
+                  <div style={{ height: 140 }}>
+                    <Line data={chartData} options={chartOptions} />
+                  </div>
+                ) : (
+                  <p className="text-sm text-gray-500">
+                    No quiz history yet. Take some quizzes to track progress.
+                  </p>
+                )}
+              </NeumorphicCard>
             </div>
           </div>
-        </motion.div>
 
-        <div className="mt-3 flex gap-2 items-center overflow-auto">
-          {flashcards.map((f, i) => {
-            const selected = i === currentFlashIndex;
-            const bg = selected ? "bg-sky-100" : "bg-white";
-            const txt = selected ? "text-black" : "text-slate-800";
-            return (
-              <button
-                key={i}
-                className={`py-2 px-3 rounded-md border text-sm ${bg} hover:scale-105 transition-transform ${txt}`}
-                onClick={() => {
-                  setCurrentFlashIndex(i);
-                  setFlashRevealed(false);
-                }}
+          {flashFullscreen && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-6">
+              <motion.div
+                initial={{ scale: 0.96, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ duration: 0.18 }}
+                className="bg-white rounded-2xl shadow-2xl max-w-4xl w-full p-8 relative"
               >
-                {i + 1}
-              </button>
-            );
-          })}
-        </div>
-      </div>
-    ) : (
-      <p className="text-sm opacity-70">
-        Flashcards will appear here after generating notes.
-      </p>
-    )}
-  </NeumorphicCard>
+                <button
+                  className="absolute right-4 top-4 neu-button px-3 py-1"
+                  onClick={() => setFlashFullscreen(false)}
+                >
+                  Close
+                </button>
 
-  <NeumorphicCard className="p-6">
-    <div className="flex items-center justify-between mb-3">
-      <h3 className="text-lg font-medium">Audio → Notes</h3>
-      <div className="text-sm text-gray-500">Record, visualize & transcribe</div>
-    </div>
+                <div className="text-center">
+                  <div className="text-3xl font-semibold mb-4">
+                    {flashcards[currentFlashIndex]?.front}
+                  </div>
+                  <div
+                    className={`text-lg leading-relaxed mb-6 ${
+                      flashRevealed ? "opacity-100" : "opacity-0"
+                    }`}
+                  >
+                    {flashRevealed
+                      ? flashcards[currentFlashIndex]?.back
+                      : "Click Reveal to see the answer"}
+                  </div>
 
-    <div className="flex items-center gap-3">
-      {!recording ? (
-        <button
-          className="neu-button px-4 py-2 bg-rose-500 text-white"
-          onClick={startRecording}
-        >
-          🎙️ Start
-        </button>
-      ) : (
-        <button
-          className="neu-button px-4 py-2 bg-red-600 text-white"
-          onClick={stopRecording}
-        >
-          ⏹ Stop
-        </button>
-      )}
+                  <div className="mt-6 flex items-center justify-center gap-4">
+                    <button className="neu-button px-4 py-2" onClick={prevFlash}>
+                      Previous
+                    </button>
+                    <button
+                      className="neu-button px-4 py-2"
+                      onClick={() => (flashRevealed ? nextFlash() : revealFlash())}
+                    >
+                      {flashRevealed ? "Next" : "Reveal"}
+                    </button>
+                    <button className="neu-button px-4 py-2" onClick={nextFlash}>
+                      Next
+                    </button>
+                  </div>
 
-      {audioURL && <audio controls src={audioURL} className="ml-2" />}
+                  <div className="mt-6 text-sm text-gray-600">
+                    Card {currentFlashIndex + 1}/{flashcards.length}
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+          )}
 
-      <div className="ml-auto flex gap-2">
-        <button
-          className="neu-button px-3 py-1"
-          onClick={downloadAudio}
-          disabled={!lastAudioBlob}
-        >
-          Download
-        </button>
-        <button
-          className="neu-button px-3 py-1"
-          onClick={() => {
-            if (lastAudioBlob)
-              alert("Upload handled via /api/transcribe (implement server).");
-          }}
-          disabled={!lastAudioBlob}
-        >
-          Upload
-        </button>
-      </div>
-    </div>
-
-    <div className="mt-3">
-      <canvas
-        ref={audioCanvasRef}
-        width={400}
-        height={60}
-        className="w-full rounded border"
-      />
-    </div>
-
-    <p className="text-xs mt-3 text-gray-500">
-      Recording stored locally no worries! Record your lectures and we can
-      either give you the key points or the whole transcription!
-    </p>
-  </NeumorphicCard>
-
-  <NeumorphicCard className="p-4">
-    <div className="flex items-center justify-between mb-3">
-      <h3 className="text-md font-medium">Progress</h3>
-      <div className="text-sm text-gray-500">{quizHistory.length} sessions</div>
-    </div>
-
-    {quizHistory.length ? (
-      <div style={{ height: 140 }}>
-        <Line data={chartData} options={chartOptions} />
-      </div>
-    ) : (
-      <p className="text-sm text-gray-500">
-        No quiz history yet. Take some quizzes to track progress.
-      </p>
-    )}
-  </NeumorphicCard>
-</div>
-
-{flashFullscreen && (
-  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-6">
-    <motion.div
-      initial={{ scale: 0.96, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1 }}
-      transition={{ duration: 0.18 }}
-      className="bg-white rounded-2xl shadow-2xl max-w-4xl w-full p-8 relative"
-    >
-      <button
-        className="absolute right-4 top-4 neu-button px-3 py-1"
-        onClick={() => setFlashFullscreen(false)}
-      >
-        Close
-      </button>
-
-      <div className="text-center">
-        <div className="text-3xl font-semibold mb-4">
-          {flashcards[currentFlashIndex]?.front}
-        </div>
-        <div
-          className={`text-lg leading-relaxed mb-6 ${
-            flashRevealed ? "opacity-100" : "opacity-0"
-          }`}
-        >
-          {flashRevealed
-            ? flashcards[currentFlashIndex]?.back
-            : "Click Reveal to see the answer"}
-        </div>
-
-        <div className="mt-6 flex items-center justify-center gap-4">
-          <button className="neu-button px-4 py-2" onClick={prevFlash}>
-            Previous
-          </button>
-          <button
-            className="neu-button px-4 py-2"
-            onClick={() => (flashRevealed ? nextFlash() : revealFlash())}
-          >
-            {flashRevealed ? "Next" : "Reveal"}
-          </button>
-          <button className="neu-button px-4 py-2" onClick={nextFlash}>
-            Next
-          </button>
-        </div>
-
-        <div className="mt-6 text-sm text-gray-600">
-          Card {currentFlashIndex + 1}/{flashcards.length}
-        </div>
-      </div>
-    </motion.div>
-  </div>
-)}
-                {/*end*/}
-
-<NeumorphicCard className="p-8">
-  {/* Quiz Section */}
-  {/* ...Rest of your quiz code remains unchanged */}
-</NeumorphicCard>
+          <NeumorphicCard className="p-8">
+            {/* Quiz Section */}
+            {/* ...Rest of your quiz code remains unchanged */}
+            {/* Place your quiz UI/controls here as before */}
+          </NeumorphicCard>
+        </motion.div>
+      </PageSection>
+    </>
+  );
+}
