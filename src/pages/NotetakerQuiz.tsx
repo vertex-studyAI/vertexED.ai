@@ -819,21 +819,47 @@ const sendNotesToCards = async (count = 6) => {
                 </div>
 
                 <div id="notes-section" className="neu-textarea max-h-[128rem] overflow-auto p-4 bg-white rounded">
-                  <div className="grid md:grid-cols-2 gap-4">
-                    <textarea ref={notesRef} className="neu-input-el w-full h-[32rem] p-4 transition-transform duration-150 whitespace-pre-wrap" value={notes} onChange={(e) => handleNotesChange(e.target.value)} onBlur={handleNotesBlur} placeholder="Your notes will appear here. Type or generate..." />
-                    <div className="flex flex-col">
-                      <div className="flex items-center justify-between mb-2">
-                        <div className="text-sm font-medium">Preview</div>
-                        <div className="text-xs text-gray-500">Rendered Markdown (tables, LaTeX)</div>
-                      </div>
-                      <div className="overflow-auto rounded border p-3 bg-white" style={{ minHeight: "32rem" }}>
-                        <ReactMarkdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex]} components={markdownComponents}>
-                          {notes || "_No content yet_"}
-                        </ReactMarkdown>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+  <textarea
+    ref={notesRef}
+    className="neu-input-el w-full h-[32rem] p-4 transition-transform duration-150 whitespace-pre-wrap"
+    value={notes}
+    onChange={(e) => handleNotesChange(e.target.value)}
+    onBlur={handleNotesBlur}
+    placeholder="Your notes will appear here. Type or generate..."
+  />
+</div>
+
+{/* Preview toggle button outside notes box */}
+<div className="mt-4 flex justify-end">
+  <button
+    onClick={() => setShowPreview(!showPreview)}
+    className="px-4 py-2 rounded-lg bg-blue-500 text-white hover:bg-blue-600 transition"
+  >
+    {showPreview ? "Hide Preview" : "Show Preview"}
+  </button>
+</div>
+
+{/* Conditional Preview */}
+{showPreview && (
+  <div className="mt-4">
+    <div className="flex items-center justify-between mb-2">
+      <div className="text-sm font-medium text-black">Preview</div>
+      <div className="text-xs text-gray-500">Rendered Markdown (tables, LaTeX)</div>
+    </div>
+    <div
+      className="overflow-auto rounded border p-3 bg-white text-black"
+      style={{ minHeight: "32rem" }}
+    >
+      <ReactMarkdown
+        remarkPlugins={[remarkMath]}
+        rehypePlugins={[rehypeKatex]}
+        components={markdownComponents}
+      >
+        {notes || "_No content yet_"}
+      </ReactMarkdown>
+    </div>
+  </div>
+)}
 
                 <div className="mt-3 flex gap-2 items-center">
                   <span className="text-sm text-gray-600 mr-2">Insert:</span>
@@ -881,7 +907,7 @@ const sendNotesToCards = async (count = 6) => {
                           </button>
                           <button className={`neu-button px-3 py-1 ${flashBtnTextColor(true)}`} onClick={nextFlash}>Next</button>
 
-                          <button className="neu-button px-3 py-1 ml-2 text-sky-700" onClick={() => { setFlashFullscreen(true); setTimeout(() => setFlashRevealed(false), 50); }} title="Enlarge flashcard">
+                          <button className="neu-button px-3 py-1 ml-2 text-black" onClick={() => { setFlashFullscreen(true); setTimeout(() => setFlashRevealed(false), 50); }} title="Enlarge flashcard">
                             Enlarge
                           </button>
 
@@ -893,7 +919,7 @@ const sendNotesToCards = async (count = 6) => {
                         {flashcards.map((f, i) => {
                           const selected = i === currentFlashIndex;
                           const bg = selected ? "bg-sky-100" : "bg-white";
-                          const txt = selected ? "text-sky-800" : "text-slate-800";
+                          const txt = selected ? "text-black" : "text-slate-800";
                           return (
                             <button key={i} className={`py-2 px-3 rounded-md border text-sm ${bg} hover:scale-105 transition-transform ${txt}`} onClick={() => { setCurrentFlashIndex(i); setFlashRevealed(false); }}>
                               {i + 1}
@@ -1030,7 +1056,7 @@ const sendNotesToCards = async (count = 6) => {
                           {q.options.map((opt: string, idx: number) => (
                             <label key={idx} className="flex items-center gap-3">
                               <input type="radio" name={`q${q.id}`} value={opt} checked={userAnswers[q.id] === opt} onChange={(e) => setUserAnswers({ ...userAnswers, [q.id]: e.target.value })} />
-                              <span className="ml-1 text-slate-800">{opt}</span>
+                              <span className="ml-1 text-white">{opt}</span>
                             </label>
                           ))}
                         </div>
@@ -1048,8 +1074,8 @@ const sendNotesToCards = async (count = 6) => {
                             if (q.type === "multiple_choice") {
                               return (
                                 <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm ${r.isCorrect ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}`}>
-                                  {r.isCorrect ? "Correct ✅" : `Incorrect ❌ — Correct: ${r.correctAnswer}`}
-                                  {r.explanation && <div className="ml-3 text-sm text-gray-700">({r.explanation})</div>}
+                                  {r.isCorrect ? "Correct" : `Incorrect — Correct: ${r.correctAnswer}`}
+                                  {r.explanation && <div className="ml-3 text-sm text-white">({r.explanation})</div>}
                                 </div>
                               );
                             } else {
