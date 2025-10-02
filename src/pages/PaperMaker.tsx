@@ -6,6 +6,15 @@ import { ArrowLeft, Sparkles, FileText, ImagePlus, Download } from "lucide-react
 import NeumorphicCard from "@/components/NeumorphicCard";
 import PageSection from "@/components/PageSection";
 
+/**
+ * PaperMaker (improved)
+ * - uploads images as base64
+ * - sends anythingElse & priorPapers
+ * - calls /api/paper-generator
+ * - renders returned JSON paper
+ * - exports PDF and DOCX
+ */
+
 export default function PaperMaker({ priorPapers = [] /* optional array of prior paper text/summaries */ }) {
   const BOARDS = ["IB MYP", "IB DP", "IGCSE", "A Levels", "CBSE", "ICSE"];
   const GRADE_RANGES = {
