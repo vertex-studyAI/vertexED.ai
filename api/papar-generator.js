@@ -1,0 +1,232 @@
+export default async function handler(req, res) {
+  try {
+    if (req.method !== "POST") {
+      res.setHeader("Allow", "POST");
+      return res.status(405).json({ success: false, error: "Method not allowed" });
+    }
+
+    const OPENAI_API_KEY = process.env.OPENAI_API_KEY || process.env.ChatbotKey;
+    const OPENAI_MODEL = process.env.OPENAI_MODEL || "gpt-4";
+
+    if (!OPENAI_API_KEY) {
+      return res.status(500).json({ success: false, error: "OpenAI API key not configured (OPENAI_API_KEY)" });
+    }
+
+    // Accept JSON body
+    const payload = req.body ?? {};
+
+    // Basic normalization & safety checks
+    const board = String(payload.board ?? "IB MYP");
+    const grade = payload.grade ?? null;
+    const subject = String(payload.subject ?? "");
+    const topicsRaw = payload.topics ?? [];
+    const topics = Array.isArray(topicsRaw)
+      ? topicsRaw.map(String).map((t) => t.trim()).filter(Boolean)
+      : String(topicsRaw).split(",").map((t) => t.trim()).filter(Boolean);
+    const marks = typeof payload.marks === "number" ? payload.marks : null;
+    const criteria = payload.criteria ?? null;
+    const numQuestions = Number(payload.numQuestions ?? 10);
+    const format = payload.format ?? "Mixed Format";
+    const difficulty = payload.difficulty ?? "Medium";
+    const teacherNotes = String(payload.teacherNotes ?? "");
+    const imagesInput = Array.isArray(payload.images) ? payload.images : [];
+
+    // Guardrails for input sizes (prevent huge uploads)
+    // Max base64 bytes per image ~ 3MB (approx). Adjust as needed.
+    const MAX_BASE64_BYTES = 3 * 1024 * 1024; // 3 MB
+
+    // Validate images metadata
+    const images = [];
+    for (const img of imagesInput) {
+      const name = img?.name ?? img?.filename ?? null;
+      const mime = img?.mime ?? null;
+      const url = img?.url ?? null;
+      const b64 = img?.b64 ?? null;
+      const caption = img?.caption ?? null;
+
+      if (b64 && typeof b64 === "string") {
+        // crude size check: base64 length -> bytes estimate
+        const approxBytes = Math.ceil((b64.length * 3) / 4);
+        if (approxBytes > MAX_BASE64_BYTES) {
+          return res.status(400).json({
+            success: false,
+            error: `Image "${name || "unnamed"}" exceeds size limit (~${Math.round(approxBytes / 1024)} KB). Reduce size.`,
+          });
+        }
+      }
+
+      images.push({ name, mime, url, b64, caption });
+    }
+
+    // Build system prompt (strict JSON schema required)
+    const systemPrompt = `
+You are a concise, professional exam paper generator experienced with IB MYP, IB DP, IGCSE, A-Levels, CBSE, and ICSE.
+Return ONLY a single, valid JSON object and NOTHING else. The JSON must adhere to this schema (types and keys):
+
+{
+  "title": string,
+  "metadata": {
+    "board": string,
+    "grade": number | string,
+    "subject": string,
+    "format": string,
+    "difficulty": "Easy"|"Medium"|"Hard",
+    "numQuestions": integer,
+    "totalMarks": integer | null,
+    "criteriaMode": boolean
+  },
+  "sections": [
+    {
+      "id": string,
+      "title": string,
+      "instructions": string,
+      "questions": [
+        {
+          "id": string,
+          "type": "short_answer"|"structured"|"essay"|"mcq"|"problem",
+          "question": string,
+          "marks": integer | null,
+          "approxTime": string | null,
+          "imageRefs": [ "filename" ],
+          "modelAnswerOutline": string
+        }
+      ]
+    }
+  ],
+  "rubricNotes": [ string ],
+  "images": [
+    { "name": string, "mime": string | null, "url": string | null, "b64": string | null, "caption": string | null }
+  ]
+}
+
+Rules:
+- If criteriaMode is true, set totalMarks to null and include recommended marking distribution in rubricNotes and modelAnswerOutline.
+- Distribute question cognitive demand based on difficulty.
+- If images are referenced, ensure the filenames match names in the images array.
+- Provide realistic marks when totalMarks provided. Otherwise include recommended weightings.
+- Do not include any commentary outside the JSON. Do not include markdown fences.
+`;
+
+    // Build user prompt with context
+    const userPrompt = `
+Board: ${board}
+Grade: ${grade ?? "(not specified)"}
+Subject: ${subject || "(general)"}
+Topics: ${topics.length ? topics.join(", ") : "(broad coverage)"}
+Format: ${format}
+Difficulty: ${difficulty}
+Number of questions: ${numQuestions}
+Marks: ${marks === null ? "(criteria-based / not provided)" : marks}
+Criteria: ${criteria ?? "(none)"}
+Teacher notes: ${teacherNotes || "(none)"}
+Images provided: ${images.length} (names: ${images.map((i) => i.name || i.url || "unnamed").join(", ")})
+Generate a practice paper JSON following the system schema exactly.
+`;
+
+    const messages = [
+      { role: "system", content: systemPrompt },
+      { role: "user", content: userPrompt },
+    ];
+
+    // Call OpenAI
+    const openaiResp = await fetch("https://api.openai.com/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${OPENAI_API_KEY}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        model: OPENAI_MODEL,
+        messages,
+        temperature: 0.18,
+        max_tokens: 3000,
+        top_p: 1,
+        n: 1,
+      }),
+    });
+
+    if (!openaiResp.ok) {
+      const text = await openaiResp.text();
+      console.error("OpenAI error:", openaiResp.status, text);
+      return res.status(502).json({ success: false, error: "OpenAI API error", details: text });
+    }
+
+    const openaiJson = await openaiResp.json();
+    const rawText = openaiJson?.choices?.[0]?.message?.content ?? openaiJson?.choices?.[0]?.text ?? "";
+
+    // Helper: find balanced JSON object in text (returns string or null)
+    function extractFirstJsonObject(text) {
+      const firstBrace = text.indexOf("{");
+      if (firstBrace === -1) return null;
+      let depth = 0;
+      for (let i = firstBrace; i < text.length; i++) {
+        const ch = text[i];
+        if (ch === "{") depth++;
+        else if (ch === "}") {
+          depth--;
+          if (depth === 0) {
+            const candidate = text.slice(firstBrace, i + 1);
+            return candidate;
+          }
+        }
+      }
+      return null;
+    }
+
+    let parsed = null;
+    let parsedOk = false;
+
+    // Try direct parse, then balanced-brace extraction
+    try {
+      parsed = JSON.parse(rawText);
+      parsedOk = true;
+    } catch (e) {
+      // attempt extraction
+      const candidate = extractFirstJsonObject(rawText);
+      if (candidate) {
+        try {
+          parsed = JSON.parse(candidate);
+          parsedOk = true;
+        } catch (e2) {
+          parsedOk = false;
+        }
+      } else {
+        parsedOk = false;
+      }
+    }
+
+    // Final validation: ensure parsed has minimal required keys
+    if (parsedOk && parsed && typeof parsed === "object") {
+      const hasMeta = parsed.metadata && parsed.sections;
+      if (!hasMeta) {
+        // consider parsed invalid
+        parsedOk = false;
+      }
+    }
+
+    // Build safe images response (we echo what we received)
+    const imagesSafe = images.map((img) => ({
+      name: img.name ?? null,
+      mime: img.mime ?? null,
+      url: img.url ?? null,
+      b64: img.b64 ?? null,
+      caption: img.caption ?? null,
+    }));
+
+    // Return
+    return res.status(200).json({
+      success: true,
+      parsed: parsedOk,
+      paper: parsedOk ? parsed : null,
+      raw: rawText,
+      images: imagesSafe,
+      openai: {
+        model: OPENAI_MODEL,
+        usage: openaiJson?.usage ?? null,
+      },
+    });
+  } catch (err) {
+    console.error("Server error /api/paper-generator:", err);
+    return res.status(500).json({ success: false, error: "Server error", details: String(err) });
+  }
+}
