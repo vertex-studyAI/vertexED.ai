@@ -1,6 +1,6 @@
 import { Helmet } from "react-helmet-async";
 import { Link, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -9,6 +9,8 @@ import { TypeAnimation } from "react-type-animation";
 export default function Home() {
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
+  const missionRef = useRef<HTMLDivElement | null>(null);
+  const rafRef = useRef<number | null>(null);
 
   useEffect(() => {
     if (isAuthenticated) navigate("/main", { replace: true });
@@ -19,19 +21,21 @@ export default function Home() {
       gsap.registerPlugin(ScrollTrigger);
 
       const elements = gsap.utils.toArray<HTMLElement>(".fade-up");
-      elements.forEach((el) => {
+      elements.forEach((el, idx) => {
         gsap.fromTo(
           el,
-          { y: 60, opacity: 0 },
+          { y: 70, opacity: 0, scale: 0.995 },
           {
             y: 0,
             opacity: 1,
-            duration: 1.3,
-            ease: "power3.out",
+            scale: 1,
+            duration: 1.4,
+            ease: "power4.out",
             scrollTrigger: {
               trigger: el,
               start: "top 85%",
             },
+            stagger: 0.04,
           }
         );
       });
@@ -40,12 +44,12 @@ export default function Home() {
       featureRows.forEach((row, i) => {
         gsap.fromTo(
           row,
-          { x: i % 2 === 0 ? -80 : 80, opacity: 0 },
+          { x: i % 2 === 0 ? -90 : 90, opacity: 0 },
           {
             x: 0,
             opacity: 1,
-            duration: 1.2,
-            ease: "power3.out",
+            duration: 1.35,
+            ease: "power4.out",
             scrollTrigger: {
               trigger: row,
               start: "top 85%",
@@ -95,6 +99,47 @@ export default function Home() {
     "This is just the beginning! more features are on their way as you read this."
   ];
 
+  // mission panel tilt handlers
+  useEffect(() => {
+    const el = missionRef.current;
+    if (!el) return;
+
+    let bound = el.getBoundingClientRect();
+
+    const onMove = (e: MouseEvent) => {
+      if (!el) return;
+      const x = e.clientX - bound.left;
+      const y = e.clientY - bound.top;
+      const halfW = bound.width / 2;
+      const halfH = bound.height / 2;
+      const rotY = ((x - halfW) / halfW) * 6; // -6 to 6 deg
+      const rotX = ((halfH - y) / halfH) * 6;
+
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      rafRef.current = requestAnimationFrame(() => {
+        el.style.transform = `perspective(1200px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateZ(8px)`;
+      });
+    };
+
+    const onLeave = () => {
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      el.style.transform = "perspective(1200px) rotateX(0deg) rotateY(0deg) translateZ(0px)";
+    };
+
+    const onResize = () => { bound = el.getBoundingClientRect(); };
+
+    el.addEventListener("mousemove", onMove);
+    el.addEventListener("mouseleave", onLeave);
+    window.addEventListener("resize", onResize);
+
+    return () => {
+      el.removeEventListener("mousemove", onMove);
+      el.removeEventListener("mouseleave", onLeave);
+      window.removeEventListener("resize", onResize);
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    };
+  }, []);
+
   return (
     <>
       <Helmet>
@@ -105,31 +150,38 @@ export default function Home() {
       <section className="relative overflow-hidden px-6 py-24 bg-gradient-to-b from-slate-900 to-slate-800 text-center rounded-3xl shadow-xl">
         <div className="max-w-3xl mx-auto">
           <h1 className="text-5xl md:text-7xl font-semibold text-white leading-tight mb-6 fade-up">
-            AI study tools for students
-          </h1>
-          <p className="text-lg text-slate-200 mb-10 fade-up">
-            An all-in-one toolkit made for you: planner, notes, flashcards,
-            quizzes, chatbot, answer reviewer, and more.
             <TypeAnimation
               sequence={[
-                1000,
-                "An all-in-one toolkit made for you: planner, notes, flashcards, quizzes, chatbot, answer reviewer, and more.",
+                1200,
+                "AI study tools for students.",
+                1800,
+                "Focused learning. Real results.",
+                1800,
+                "Bold. Premium. Built for learners.",
+                1800,
+                "Study smarter, not longer.",
               ]}
-              speed={40}
+              speed={45}
               wrapper="span"
               cursor={true}
+              repeat={Infinity}
             />
+          </h1>
+
+          <p className="text-lg text-slate-200 mb-10 fade-up">
+            An all-in-one toolkit: planner, notes, flashcards, quizzes, chatbot, answer reviewer — built around research-backed learning methods like active recall, spaced repetition, and retrieval practice.
           </p>
+
           <div className="flex gap-4 justify-center fade-up">
             <Link
               to="/main"
-              className="px-8 py-4 rounded-full bg-white text-slate-900 hover:bg-slate-200 transition-all duration-500 ease-in-out shadow-lg hover:scale-105"
+              className="px-8 py-4 rounded-full bg-white text-slate-900 hover:bg-slate-200 transition-transform duration-400 ease-in-out shadow-xl hover:scale-105 ring-1 ring-white/10"
             >
               Get Started
             </Link>
             <Link
               to="/about"
-              className="px-8 py-4 rounded-full bg-slate-800 border border-white/20 text-white hover:bg-slate-700 transition-all duration-500 ease-in-out shadow-md hover:scale-105"
+              className="px-8 py-4 rounded-full bg-transparent border border-white/20 text-white hover:bg-white/5 transition-transform duration-400 ease-in-out shadow-md hover:scale-105"
             >
               Learn more
             </Link>
@@ -140,7 +192,13 @@ export default function Home() {
       {/* Storytelling */}
       <section className="mt-28 text-center px-6 fade-up">
         <h2 className="text-4xl md:text-5xl font-semibold text-white mb-6">
-          We hate the way we study
+          <TypeAnimation
+            sequence={[1200, "We hate the way we study.", 1400, "We hate cramming.", 1400, "We hate wasted time.", 1400, "We hate inefficient tools."]}
+            speed={40}
+            wrapper="span"
+            cursor={true}
+            repeat={Infinity}
+          />
         </h2>
         <p className="text-lg text-slate-200 mb-12">Who wouldn’t?</p>
       </section>
@@ -155,32 +213,33 @@ export default function Home() {
             <div
               key={i}
               onClick={() => toggleFlip(i)}
-              className="group relative h-56 bg-white text-slate-900 rounded-2xl shadow-xl cursor-pointer transition-all duration-500 hover:scale-105 hover:shadow-[0_0_30px_rgba(0,0,0,0.1)] perspective"
+              className="group relative h-56 bg-white text-slate-900 rounded-2xl shadow-xl cursor-pointer transition-all duration-500 hover:scale-[1.03] hover:shadow-[0_10px_40px_rgba(2,6,23,0.4)] perspective"
             >
               <div
-                className={`absolute inset-0 flex items-center justify-center p-6 text-center transition-transform duration-700 transform ${
-                  flipped[i] ? "rotate-y-180" : ""
-                }`}
-                style={{ transformStyle: "preserve-3d" }}
+                className="absolute inset-0 transition-transform duration-700 transform"
+                style={{
+                  transformStyle: "preserve-3d",
+                  transform: flipped[i] ? "rotateY(180deg)" : "rotateY(0deg)",
+                }}
               >
                 {/* Front */}
                 <div
-                  className={`absolute inset-0 flex flex-col items-center justify-center gap-3 text-4xl font-bold ${
-                    flipped[i] ? "opacity-0" : "opacity-100"
-                  } transition-opacity`}
+                  className="absolute inset-0 flex flex-col items-center justify-center gap-3 text-4xl font-bold backface-hidden"
+                  style={{ backfaceVisibility: "hidden" }}
                 >
                   <span>{p.stat}</span>
-                  <span className="text-sm text-slate-500 italic group-hover:text-slate-700 transition-colors">
-                    Click to find out
-                  </span>
+                  <span className="text-sm text-slate-500 italic group-hover:text-slate-700 transition-colors">Click to find out</span>
                 </div>
+
                 {/* Back */}
                 <div
-                  className={`absolute inset-0 flex items-center justify-center p-4 text-lg leading-relaxed bg-slate-50 rounded-2xl text-slate-800 ${
-                    flipped[i] ? "opacity-100" : "opacity-0"
-                  } transition-opacity`}
+                  className="absolute inset-0 flex items-center justify-center p-4 text-lg leading-relaxed bg-slate-50 rounded-2xl text-slate-800"
+                  style={{ transform: "rotateY(180deg)", backfaceVisibility: "hidden" }}
                 >
-                  {p.text}
+                  <div>
+                    <div>{p.text}</div>
+                    <div className="mt-3 text-xs text-slate-500 italic">Backed by research-backed principles: active recall, spaced repetition and retrieval practice.</div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -190,19 +249,31 @@ export default function Home() {
 
       {/* Mission Paragraph */}
       <section className="max-w-4xl mx-auto mt-24 px-6 text-center fade-up">
-        <div className="bg-white text-slate-800 rounded-3xl shadow-2xl p-10">
+        <div
+          ref={missionRef}
+          className="bg-white text-slate-800 rounded-3xl shadow-2xl p-10 transform transition-transform duration-300"
+          aria-label="Mission panel"
+        >
           <p className="text-lg md:text-xl leading-relaxed">
             Studying has become harder than ever. With too much information to know what to do with,
             resources which never seem to construct real progress, tools which just seem to make
             problems worse and the lack of a space which not only adapts to your learning, but
             constructs an environment where learning never stops is a problem we all face today.
           </p>
+
+          <ul className="text-left mt-6 space-y-3">
+            <li className="font-semibold">• Improving the way you approach learning</li>
+            <li className="font-semibold">• Improving your performance on exams</li>
+            <li className="font-semibold">• Improving the way you understand information</li>
+          </ul>
+
           <p className="text-lg md:text-xl mt-6 leading-relaxed">
-            Marks aren't everything and we agree. But in today's world if learning requires people to
-            score arbitrary marks on a piece of paper, we might as well take out 2 birds with 1 stone.
+            Whilst also focusing on developing a passion for learning, making connections across
+            subjects, and progressing at your own pace.
           </p>
-          <p className="text-lg md:text-xl mt-6 leading-relaxed">
-            We aim to not only improve your score on a paper with evidence based tools but also
+
+          <p className="text-lg md:text-xl mt-6 leading-relaxed font-semibold">
+            We aim to not only improve your score on a paper with evidence-based tools but also
             foster an environment for learning like no other.
           </p>
         </div>
@@ -210,9 +281,20 @@ export default function Home() {
 
       {/* Features */}
       <section className="max-w-6xl mx-auto px-6 mt-28">
-        <h3 className="text-3xl md:text-4xl font-semibold text-white mb-16 text-center">
-          Explore Our Features
+        <h3 className="text-3xl md:text-4xl font-semibold text-white mb-6 text-center fade-up">
+          <Link to="/features" className="hover:underline">
+            Explore Our Features
+          </Link>
         </h3>
+        <div className="text-center mb-8">
+          <Link
+            to="/features"
+            className="inline-block px-6 py-3 rounded-full border border-white/20 text-white hover:bg-white/5 transition duration-300"
+          >
+            See full features
+          </Link>
+        </div>
+
         <div className="space-y-20">
           {features.map((f, i) => (
             <div
@@ -224,13 +306,17 @@ export default function Home() {
               <div className="flex-1 bg-white rounded-2xl shadow-xl p-6 text-slate-800">
                 <h4 className="text-xl font-bold mb-3">{f.title}</h4>
                 <p>{f.desc}</p>
+                <div className="mt-4 text-sm text-slate-500">Built around proven learning techniques.</div>
               </div>
-              <div className="flex-1 text-slate-300 text-lg md:text-xl leading-relaxed text-center md:text-left">
+              <Link
+                to="/features"
+                className="flex-1 text-slate-300 text-lg md:text-xl leading-relaxed text-center md:text-left"
+              >
                 {i % 2 === 0
                   ? "The all in 1 hub for your study sessions with all the tools one could ask for."
                   : "Designed to keep you motivated and productive, no matter how overwhelming your syllabus seems."}
-                {featureSideText[i]}
-              </div>
+                <div className="mt-4 text-slate-400">{featureSideText[i]}</div>
+              </Link>
             </div>
           ))}
         </div>
@@ -249,6 +335,11 @@ export default function Home() {
         >
           Back to Top
         </button>
+      </section>
+
+      {/* Closing */}
+      <section className="mt-16 text-center px-6">
+        <p className="text-lg text-slate-200">Learning was never difficult, it just needed a new perspective. Vertex is here to deliver it.</p>
       </section>
     </>
   );
