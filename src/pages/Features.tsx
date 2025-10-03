@@ -2,9 +2,10 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { motion, AnimatePresence } from "framer-motion";
 import {
+  import {
   Calendar as CalendarIcon,
   FileText,
-  Chat,
+  MessageSquare,
   Zap,
   Bookmark,
   Play,
@@ -908,7 +909,7 @@ export default function FeaturesInteractive() {
 
           <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <ChatbotPlayground />
+              <MessageSquare />
             </div>
             <div>
               <div className="rounded-2xl bg-white/80 p-6 border">
