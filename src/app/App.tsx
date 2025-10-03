@@ -62,9 +62,10 @@ return (
 <Route path="Answer-Reviewer" element={<AnswerReviewer />} />
 <Route path="paper-maker" element={<PaperMaker />} />
 <Route path="about" element={<About />} />
-<Route path="features" element={<Features />} /> {/* <-- ADDED route for /features */}
+<Route path="features" element={<Features />} /> 
 <Route path="settings" element={<UserSettings />} />
 <Route path="*" element={<NotFound />} />
+  
 </Route>
 </Routes>
 </BrowserRouter>
