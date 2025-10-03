@@ -19,20 +19,17 @@ import {
 /**
  * FeaturesInteractive.tsx
  *
- * A long, immersive single-file React page that transforms the original
- * static features grid into an experience-driven, scroll-led tour.
+ * Interactive, self-contained React page showcasing VertexED features.
+ * - Tailwind CSS classes (no external stylesheet required; keep your tailwind config).
+ * - Framer Motion micro-animations.
+ * - Several mock widgets (calendar, flashcards, smart notes, audio, reviewer, paper maker, chatbot, study zone).
  *
- * Guidelines followed:
- * - Tailwind-based UI (no external CSS files required)
- * - Framer Motion animations for scroll/hover micro-interactions
- * - Single-file export default React component for easy preview
- * - Several interactive mock widgets: calendar + flashcards, smart notes,
- *   audio transcription stub, answer reviewer, paper-maker, chatbot preview,
- *   study zone with activity log + calculator placeholder.
+ * Fixes applied:
+ * - Replaced problematic character sequences that break JSX parsing (e.g. `->`) with a safe Unicode arrow `→`.
+ * - Ensured all JSX template strings and attributes are properly quoted.
+ * - Kept component structure modular but single-file for easy drop-in.
  *
- * NOTE: This component is a demo/experience. Integrations (AI calls, real
- * databases, Desmos embed APIs, past-paper scraping) are represented with
- * interactive mocks and clear placeholders so you can wire them to your APIs.
+ * Note: This is a demo file. Replace mock/timeouts with real API integrations as you wire up backend services.
  */
 
 type Feature = {
@@ -74,11 +71,10 @@ const FEATURES: Feature[] = [
   },
 ];
 
-// ------------------------- Helper: tiny utils ---------------------------
+// ------------------------- Helper functions ---------------------------
 function clamp(v: number, a: number, b: number) {
   return Math.max(a, Math.min(b, v));
 }
-
 function formatMinutes(m: number) {
   const h = Math.floor(m / 60);
   const mm = m % 60;
@@ -86,9 +82,8 @@ function formatMinutes(m: number) {
   return `${h}h ${mm}m`;
 }
 
-// ------------------------- Mini: faux calendar + scheduler -----------------
+// ------------------------- Fake schedule hook -------------------------
 function useMockSchedule() {
-  // A small mock schedule demonstrating optimization suggestions
   const [events, setEvents] = useState(
     () =>
       [
@@ -108,14 +103,15 @@ function useMockSchedule() {
   }
 
   function optimizeAll() {
-    // A mock "optimizer" that balances durations
-    setEvents((s) => s.map((e) => ({ ...e, duration: clamp(Math.round(e.duration * 0.85), 20, 120) })));
+    setEvents((s) =>
+      s.map((e) => ({ ...e, duration: clamp(Math.round(e.duration * 0.85), 20, 120) }))
+    );
   }
 
   return { events, addSuggested, optimizeAll, setEvents };
 }
 
-// ------------------------- Flashcard mini widget ------------------------
+// ------------------------- Flashcard component ------------------------
 function FlashcardDeck({ onClose }: { onClose?: () => void }) {
   const cards = useMemo(
     () => [
@@ -181,16 +177,17 @@ function FlashcardDeck({ onClose }: { onClose?: () => void }) {
   );
 }
 
-// ------------------------- Smart Notes widget ---------------------------
+// ------------------------- Smart Notes card ---------------------------
 function SmartNotesCard() {
-  const [notes, setNotes] = useState(`Type or paste your lecture notes here.\n- Use headings to separate concepts.\n- Add timestamps for audio summaries.`);
+  const [notes, setNotes] = useState(
+    `Type or paste your lecture notes here.\n- Use headings to separate concepts.\n- Add timestamps for audio summaries.`
+  );
   const [summary, setSummary] = useState<string | null>(null);
   const [exportFormat, setExportFormat] = useState<"pdf" | "docx">("pdf");
   const [generating, setGenerating] = useState(false);
 
   function generateSummary() {
     setGenerating(true);
-    // Mock "AI" summary: produce the first sentence + a helpful tip.
     setTimeout(() => {
       const first = notes.split(". ")[0] || notes.slice(0, 80);
       setSummary(`${first}.\n\nTip: Convert key lines into flashcards for active recall.`);
@@ -199,8 +196,6 @@ function SmartNotesCard() {
   }
 
   function exportDocument() {
-    // Mock export: we don't create a real file here, but in a real app you'd call
-    // a serverless function to render PDF/DOCX and return a blob.
     alert(`Exporting as ${exportFormat.toUpperCase()} — wire this to a backend to produce a real file.`);
   }
 
@@ -226,13 +221,19 @@ function SmartNotesCard() {
             <div className="flex gap-2 items-center">
               <button onClick={generateSummary} className="px-3 py-1 rounded-md border">
                 {generating ? (
-                  <span className="flex items-center gap-2"><Loader2 className="w-4 h-4 animate-spin" /> Summarizing</span>
+                  <span className="flex items-center gap-2">
+                    <Loader2 className="w-4 h-4 animate-spin" /> Summarizing
+                  </span>
                 ) : (
                   "Generate Summary"
                 )}
               </button>
 
-              <select value={exportFormat} onChange={(e) => setExportFormat(e.target.value as any)} className="px-2 py-1 border rounded">
+              <select
+                value={exportFormat}
+                onChange={(e) => setExportFormat(e.target.value as any)}
+                className="px-2 py-1 border rounded"
+              >
                 <option value="pdf">PDF</option>
                 <option value="docx">Word (.docx)</option>
               </select>
@@ -242,7 +243,7 @@ function SmartNotesCard() {
               </button>
             </div>
 
-            <div className="text-xs text-slate-500">Supports: markdown, timestamps, audio -> transcript</div>
+            <div className="text-xs text-slate-500">Supports: markdown, timestamps, audio → transcript</div>
           </div>
 
           {summary && (
@@ -257,7 +258,7 @@ function SmartNotesCard() {
   );
 }
 
-// ------------------------- Audio Recorder (mock-friendly) -----------------
+// ------------------------- Audio recorder (mock) -----------------------
 function AudioRecorder({ onTranscribe }: { onTranscribe?: (t: string) => void }) {
   const [recording, setRecording] = useState(false);
   const [permission, setPermission] = useState<"idle" | "granted" | "denied">("idle");
@@ -274,7 +275,7 @@ function AudioRecorder({ onTranscribe }: { onTranscribe?: (t: string) => void })
       media.ondataavailable = (e) => chunksRef.current.push(e.data);
       media.onstop = () => {
         const blob = new Blob(chunksRef.current, { type: "audio/webm" });
-        // In a real app you'd send blob to an ASR/transcription service.
+        // In real app: send blob to ASR. Here produce fake transcript.
         const fakeTranscript = "(Mock) This audio was transcribed: key points on spaced repetition and active recall.";
         onTranscribe?.(fakeTranscript);
       };
@@ -287,9 +288,7 @@ function AudioRecorder({ onTranscribe }: { onTranscribe?: (t: string) => void })
   }
 
   function stop() {
-    if (mediaRef.current && mediaRef.current.state !== "inactive") {
-      mediaRef.current.stop();
-    }
+    if (mediaRef.current && mediaRef.current.state !== "inactive") mediaRef.current.stop();
     setRecording(false);
   }
 
@@ -306,9 +305,13 @@ function AudioRecorder({ onTranscribe }: { onTranscribe?: (t: string) => void })
           </div>
           <div className="mt-2 flex items-center gap-2">
             {!recording ? (
-              <button onClick={start} className="px-3 py-1 rounded bg-green-600 text-white text-sm">Start</button>
+              <button onClick={start} className="px-3 py-1 rounded bg-green-600 text-white text-sm">
+                Start
+              </button>
             ) : (
-              <button onClick={stop} className="px-3 py-1 rounded bg-red-600 text-white text-sm">Stop</button>
+              <button onClick={stop} className="px-3 py-1 rounded bg-red-600 text-white text-sm">
+                Stop
+              </button>
             )}
             <div className="text-xs text-slate-500">Permission: {permission}</div>
           </div>
@@ -318,7 +321,7 @@ function AudioRecorder({ onTranscribe }: { onTranscribe?: (t: string) => void })
   );
 }
 
-// ------------------------- Answer Reviewer mock --------------------------
+// ------------------------- Answer reviewer -----------------------------
 function AnswerReviewerCard() {
   const [answer, setAnswer] = useState(`Write your long-form answer here.\nMake it as detailed as you like.`);
   const [report, setReport] = useState<string | null>(null);
@@ -328,15 +331,23 @@ function AnswerReviewerCard() {
     setGrading(true);
     setReport(null);
     setTimeout(() => {
-      // Mock evaluation: find strengths/weaknesses heuristically
       const strengths: string[] = [];
       const weaknesses: string[] = [];
       if (answer.length > 300) strengths.push("Depth & detail present");
       else weaknesses.push("Expand examples & evidence");
       if (answer.includes("because") || answer.includes("therefore")) strengths.push("Shows causal reasoning");
-      if (answer.match(/\bthe\b/g)?.length ?? 0 > 30) weaknesses.push("Watch repetition of filler words");
+      if ((answer.match(/\bthe\b/g)?.length ?? 0) > 30) weaknesses.push("Watch repetition of filler words");
 
-      const final = `Score: ${Math.round(60 + Math.min(answer.length / 10, 40))}/100\n\nStrengths:\n- ${strengths.join("\n- ") || "Clear topic focus"}\n\nAreas to improve:\n- ${weaknesses.join("\n- ") || "Use more exam-specific command terms & evidence"}\n\nRevision suggestion:\n- Start with a 2-sentence thesis. Use 2 specific examples. Finish with a linking sentence to the question.`;
+      const final = `Score: ${Math.round(60 + Math.min(answer.length / 10, 40))}/100
+
+Strengths:
+- ${strengths.join("\n- ") || "Clear topic focus"}
+
+Areas to improve:
+- ${weaknesses.join("\n- ") || "Use more exam-specific command terms & evidence"}
+
+Revision suggestion:
+- Start with a 2-sentence thesis. Use 2 specific examples. Finish with a linking sentence to the question.`;
       setReport(final);
       setGrading(false);
     }, 900 + Math.random() * 700);
@@ -387,7 +398,7 @@ function AnswerReviewerCard() {
   );
 }
 
-// ------------------------- Paper Maker mock -------------------------------
+// ------------------------- Paper maker -------------------------------
 function PaperMakerCard() {
   const [curriculum, setCurriculum] = useState("IB");
   const [subject, setSubject] = useState("Mathematics");
@@ -399,7 +410,15 @@ function PaperMakerCard() {
     setGenerating(true);
     setPaperPreview(null);
     setTimeout(() => {
-      setPaperPreview(`Generated ${curriculum} mock paper — ${subject} — ${numMarks} marks\n\n1. Define key term X. (4 marks)\n2. Answer the extended response on topic Y. (20 marks)\n3. Short structured questions across syllabus.\n\n(Questions adapted from aggregated past paper styles; wire to your database of past papers to produce exam-accurate distributions.)`);
+      setPaperPreview(
+        `Generated ${curriculum} mock paper — ${subject} — ${numMarks} marks
+
+1. Define key term X. (4 marks)
+2. Answer the extended response on topic Y. (20 marks)
+3. Short structured questions across syllabus.
+
+(Questions adapted from aggregated past paper styles; wire to your database of past papers to produce exam-accurate distributions.)`
+      );
       setGenerating(false);
     }, 1200 + Math.random() * 800);
   }
@@ -431,7 +450,13 @@ function PaperMakerCard() {
               <option>Economics</option>
             </select>
             <div className="col-span-2 flex items-center gap-2">
-              <input type="range" min={20} max={200} value={numMarks} onChange={(e) => setNumMarks(Number(e.target.value))} />
+              <input
+                type="range"
+                min={20}
+                max={200}
+                value={numMarks}
+                onChange={(e) => setNumMarks(Number(e.target.value))}
+              />
               <div className="text-xs text-slate-600">{numMarks} marks</div>
             </div>
           </div>
@@ -454,7 +479,7 @@ function PaperMakerCard() {
   );
 }
 
-// ------------------------- Chatbot playground (mock) ---------------------
+// ------------------------- Chatbot playground --------------------------
 function ChatbotPlayground() {
   const [messages, setMessages] = useState<{ id: number; role: "user" | "bot"; text: string }[]>([
     { id: 1, role: "bot", text: "Hi — I'm your Math tutor. Ask me to explain a concept or generate worked examples." },
@@ -467,7 +492,6 @@ function ChatbotPlayground() {
     setMessages((m) => [...m, { id, role: "user", text: input }]);
     setInput("");
 
-    // Mock bot reply
     setTimeout(() => {
       const reply = {
         id: id + 1,
@@ -497,14 +521,71 @@ function ChatbotPlayground() {
       </div>
 
       <div className="mt-3 flex gap-2">
-        <input value={input} onChange={(e) => setInput(e.target.value)} className="flex-1 p-2 border rounded" placeholder="Ask about a concept, exam technique, or worked example" />
-        <button onClick={send} className="px-3 py-1 rounded bg-slate-900 text-white">Send</button>
+        <input
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          className="flex-1 p-2 border rounded"
+          placeholder="Ask about a concept, exam technique, or worked example"
+        />
+        <button onClick={send} className="px-3 py-1 rounded bg-slate-900 text-white">
+          Send
+        </button>
       </div>
     </div>
   );
 }
 
-// ------------------------- Study Zone: activity log + small tools ------------
+// ------------------------- Study Zone & Small calculator ----------------
+function SmallCalculator({ onUse }: { onUse?: (result: string) => void }) {
+  const [expr, setExpr] = useState("");
+  const [result, setResult] = useState<string | null>(null);
+
+  function run() {
+    try {
+      if (!/^[0-9+\-*/().\s]+$/.test(expr)) {
+        setResult("Invalid characters");
+        return;
+      }
+      // eslint-disable-next-line no-eval
+      const r = eval(expr);
+      setResult(String(r));
+      onUse?.(`${expr} = ${r}`);
+    } catch (err) {
+      setResult("Error");
+    }
+  }
+
+  return (
+    <div className="mt-2">
+      <input
+        value={expr}
+        onChange={(e) => setExpr(e.target.value)}
+        className="w-full p-2 border rounded text-sm"
+        placeholder="e.g. (12+5)*3"
+      />
+      <div className="flex gap-2 mt-2">
+        <button onClick={run} className="px-3 py-1 rounded bg-slate-900 text-white text-sm">
+          Calc
+        </button>
+        <button
+          onClick={() => {
+            setExpr("");
+            setResult(null);
+          }}
+          className="px-3 py-1 rounded border text-sm"
+        >
+          Clear
+        </button>
+      </div>
+      {result && (
+        <div className="mt-2 text-sm">
+          Result: <span className="font-mono">{result}</span>
+        </div>
+      )}
+    </div>
+  );
+}
+
 function StudyZone() {
   const [activity, setActivity] = useState<string[]>([
     "Logged 45min study — Physics past paper",
@@ -533,12 +614,18 @@ function StudyZone() {
           <div className="text-xs text-slate-500 mb-2">Activity Log</div>
           <div className="max-h-[160px] overflow-auto p-2 border rounded bg-white/80">
             {activity.map((a, i) => (
-              <div key={i} className="text-sm py-1 border-b last:border-b-0">{a}</div>
+              <div key={i} className="text-sm py-1 border-b last:border-b-0">
+                {a}
+              </div>
             ))}
           </div>
           <div className="mt-2 flex gap-2">
-            <button onClick={() => pushActivity("Ran a quick calculator session — 15m")} className="px-2 py-1 rounded border text-sm">Log Quick</button>
-            <button onClick={() => pushActivity("Generated flashcards from notes") } className="px-2 py-1 rounded border text-sm">Log Flashcards</button>
+            <button onClick={() => pushActivity("Ran a quick calculator session — 15m")} className="px-2 py-1 rounded border text-sm">
+              Log Quick
+            </button>
+            <button onClick={() => pushActivity("Generated flashcards from notes")} className="px-2 py-1 rounded border text-sm">
+              Log Flashcards
+            </button>
           </div>
         </div>
 
@@ -554,58 +641,35 @@ function StudyZone() {
 
       <div className="mt-4 bg-slate-50 p-3 rounded">
         <div className="text-xs text-slate-600">Desmos & Graphing</div>
-        <div className="mt-2 border rounded bg-white p-4 min-h-[120px] flex items-center justify-center text-slate-500">Desmos embed placeholder — wire iframe or official SDK here.</div>
+        <div className="mt-2 border rounded bg-white p-4 min-h-[120px] flex items-center justify-center text-slate-500">
+          Desmos embed placeholder — wire iframe or official SDK here.
+        </div>
       </div>
     </div>
   );
 }
 
-function SmallCalculator({ onUse }: { onUse?: (result: string) => void }) {
-  const [expr, setExpr] = useState("");
-  const [result, setResult] = useState<string | null>(null);
-
-  function run() {
-    try {
-      // Very small arithmetic evaluator — keep safe
-      // eslint-disable-next-line no-eval
-      // NOTE: never use eval with untrusted input on servers. Here it's local demo only.
-      // We'll restrict to digits, whitespace and math operators.
-      if (!/^[0-9+\-*/().\s]+$/.test(expr)) {
-        setResult("Invalid characters");
-        return;
-      }
-      // eslint-disable-next-line no-eval
-      const r = eval(expr);
-      setResult(String(r));
-      onUse?.(`${expr} = ${r}`);
-    } catch (err) {
-      setResult("Error");
-    }
-  }
-
-  return (
-    <div className="mt-2">
-      <input value={expr} onChange={(e) => setExpr(e.target.value)} className="w-full p-2 border rounded text-sm" placeholder="e.g. (12+5)*3" />
-      <div className="flex gap-2 mt-2">
-        <button onClick={run} className="px-3 py-1 rounded bg-slate-900 text-white text-sm">Calc</button>
-        <button onClick={() => { setExpr(""); setResult(null); }} className="px-3 py-1 rounded border text-sm">Clear</button>
-      </div>
-      {result && <div className="mt-2 text-sm">Result: <span className="font-mono">{result}</span></div>}
-    </div>
-  );
-}
-
-// ------------------------- Page: layout + sections -----------------------
+// ------------------------- Main page layout ----------------------------
 export default function FeaturesInteractive() {
   const { events, addSuggested, optimizeAll } = useMockSchedule();
   const [showFlashcards, setShowFlashcards] = useState(false);
   const [transcript, setTranscript] = useState<string | null>(null);
 
+  useEffect(() => {
+    // small accessibility: clear transcript if showFlashcards toggled off
+    if (!showFlashcards) {
+      // no-op for now
+    }
+  }, [showFlashcards]);
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 text-slate-900">
       <Helmet>
         <title>Features — VertexED (Interactive)</title>
-        <meta name="description" content="Interactive tour of VertexED features — personalized study, AI calendar, smart notes, review, paper maker and study zone." />
+        <meta
+          name="description"
+          content="Interactive tour of VertexED features — personalized study, AI calendar, smart notes, review, paper maker and study zone."
+        />
       </Helmet>
 
       <header className="py-6 px-8 max-w-[1400px] mx-auto flex items-center gap-4">
@@ -628,11 +692,19 @@ export default function FeaturesInteractive() {
         {/* HERO */}
         <section className="relative overflow-hidden px-6 py-20 rounded-3xl animate-fade-in bg-gradient-to-b from-slate-50/90 to-slate-100/60 backdrop-blur-xl">
           <div className="relative z-10 max-w-4xl mx-auto text-center">
-            <h1 className="text-5xl md:text-7xl font-semibold leading-tight mb-6 text-neutral-900 tracking-tight">Powerful AI Features that improve learning & exam performance</h1>
-            <p className="text-lg opacity-90 mb-10 max-w-2xl mx-auto text-neutral-800">We provide the complete toolkit — personalized, evidence-based learning workflows that build intuition and lift exam performance. As you scroll, explore how each part works together: schedule, recall, feedback, and real mock exams.</p>
+            <h1 className="text-5xl md:text-7xl font-semibold leading-tight mb-6 text-neutral-900 tracking-tight">
+              Powerful AI Features that improve learning & exam performance
+            </h1>
+            <p className="text-lg opacity-90 mb-10 max-w-2xl mx-auto text-neutral-800">
+              We provide the complete toolkit — personalized, evidence-based learning workflows that build intuition and lift exam performance. As you scroll, explore how each part works together: schedule, recall, feedback, and real mock exams.
+            </p>
             <div className="mt-6 flex justify-center gap-3">
-              <button onClick={() => window.scrollTo({ top: 620, behavior: 'smooth' })} className="px-4 py-2 rounded bg-slate-900 text-white">Explore features</button>
-              <button onClick={() => window.scrollTo({ top: 1100, behavior: 'smooth' })} className="px-4 py-2 rounded border text-slate-900">See demo widgets</button>
+              <button onClick={() => window.scrollTo({ top: 620, behavior: "smooth" })} className="px-4 py-2 rounded bg-slate-900 text-white">
+                Explore features
+              </button>
+              <button onClick={() => window.scrollTo({ top: 1100, behavior: "smooth" })} className="px-4 py-2 rounded border text-slate-900">
+                See demo widgets
+              </button>
             </div>
           </div>
         </section>
@@ -657,7 +729,9 @@ export default function FeaturesInteractive() {
                           <div key={e.id} className="mt-2 flex items-center justify-between">
                             <div>
                               <div className="font-medium">{e.title}</div>
-                              <div className="text-xs text-slate-500">{e.day} · {formatMinutes(e.duration)}</div>
+                              <div className="text-xs text-slate-500">
+                                {e.day} · {formatMinutes(e.duration)}
+                              </div>
                             </div>
                             <div className="text-xs text-slate-400">{e.id}</div>
                           </div>
@@ -667,10 +741,16 @@ export default function FeaturesInteractive() {
                       <div className="p-3 rounded border bg-slate-50 flex flex-col gap-2">
                         <div className="text-xs text-slate-500">Calendar actions</div>
                         <div className="flex gap-2">
-                          <button onClick={() => addSuggested()} className="px-3 py-1 rounded border text-sm">Add suggestion</button>
-                          <button onClick={() => optimizeAll()} className="px-3 py-1 rounded bg-slate-900 text-white text-sm">Auto-optimize</button>
+                          <button onClick={() => addSuggested()} className="px-3 py-1 rounded border text-sm">
+                            Add suggestion
+                          </button>
+                          <button onClick={() => optimizeAll()} className="px-3 py-1 rounded bg-slate-900 text-white text-sm">
+                            Auto-optimize
+                          </button>
                         </div>
-                        <div className="mt-2 text-xs text-slate-600">Tip: click "Auto-optimize" to compress long sessions into higher-effort shorter sessions — better for retention and concentration.</div>
+                        <div className="mt-2 text-xs text-slate-600">
+                          Tip: click "Auto-optimize" to compress long sessions into higher-effort shorter sessions — better for retention and concentration.
+                        </div>
 
                         <div className="mt-3">
                           <div className="flex items-center justify-between">
@@ -678,7 +758,9 @@ export default function FeaturesInteractive() {
                             <div className="text-xs text-slate-500">Contextual tips</div>
                           </div>
                           <div className="mt-2">
-                            <button onClick={() => setShowFlashcards(true)} className="px-3 py-2 rounded border">Open flashcards</button>
+                            <button onClick={() => setShowFlashcards(true)} className="px-3 py-2 rounded border">
+                              Open flashcards
+                            </button>
                           </div>
                         </div>
                       </div>
@@ -688,7 +770,13 @@ export default function FeaturesInteractive() {
                 </div>
               </motion.div>
 
-              <AnimatePresence>{showFlashcards && <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="mt-4"><FlashcardDeck onClose={() => setShowFlashcards(false)} /></motion.div>}</AnimatePresence>
+              <AnimatePresence>
+                {showFlashcards && (
+                  <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="mt-4">
+                    <FlashcardDeck onClose={() => setShowFlashcards(false)} />
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
 
             <div className="md:col-span-1">
@@ -696,7 +784,9 @@ export default function FeaturesInteractive() {
                 <div className="rounded-2xl bg-white/80 p-4 border">
                   <div className="text-xs text-slate-500">Why this matters</div>
                   <h3 className="text-lg font-semibold mt-2">Evidence-based scheduling</h3>
-                  <p className="text-sm text-slate-600 mt-1">Research shows spacing, interleaving and testing-effect lead to better long-term retention. Our calendar schedules these scientifically-proven elements automatically.</p>
+                  <p className="text-sm text-slate-600 mt-1">
+                    Research shows spacing, interleaving and testing-effect lead to better long-term retention. Our calendar schedules these scientifically-proven elements automatically.
+                  </p>
 
                   <div className="mt-3 grid grid-cols-2 gap-2">
                     <div className="p-2 rounded bg-slate-50 text-center">Spacing</div>
@@ -707,7 +797,6 @@ export default function FeaturesInteractive() {
                 </div>
               </div>
             </div>
-
           </div>
         </section>
 
@@ -721,13 +810,19 @@ export default function FeaturesInteractive() {
                 </div>
                 <div className="flex-1">
                   <h2 className="text-xl font-semibold">Smart Notes — adapt to how you learn</h2>
-                  <p className="text-sm text-slate-600 mt-1">Our notes tool recognizes structure and converts headings, lists, and highlights into flashcards and quick quizzes. Upload audio, transcribe and summarise in one click.</p>
+                  <p className="text-sm text-slate-600 mt-1">
+                    Our notes tool recognizes structure and converts headings, lists, and highlights into flashcards and quick quizzes. Upload audio, transcribe and summarise in one click.
+                  </p>
 
                   <div className="mt-4 grid grid-cols-1 gap-3">
                     <SmartNotesCard />
                     <div className="mt-2">
                       <AudioRecorder onTranscribe={(t) => setTranscript(t)} />
-                      {transcript && <div className="mt-3 text-xs bg-slate-50 p-2 rounded">Transcription preview: <span className="font-mono block mt-1">{transcript}</span></div>}
+                      {transcript && (
+                        <div className="mt-3 text-xs bg-slate-50 p-2 rounded">
+                          Transcription preview: <span className="font-mono block mt-1">{transcript}</span>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -740,8 +835,12 @@ export default function FeaturesInteractive() {
               <div className="rounded-2xl bg-white/80 p-4 border">
                 <div className="text-xs text-slate-500">From notes → quizzes</div>
                 <h3 className="text-lg font-semibold mt-2">One-click active recall</h3>
-                <p className="text-sm text-slate-600 mt-1">Convert any highlighted passage into a set of flashcards or a quick quiz to test key points. Add timestamps from recordings to link evidence and context.</p>
-                <div className="mt-3"><button className="px-3 py-2 rounded border">Create flashcards</button></div>
+                <p className="text-sm text-slate-600 mt-1">
+                  Convert any highlighted passage into a set of flashcards or a quick quiz to test key points. Add timestamps from recordings to link evidence and context.
+                </p>
+                <div className="mt-3">
+                  <button className="px-3 py-2 rounded border">Create flashcards</button>
+                </div>
               </div>
             </div>
           </div>
@@ -750,7 +849,9 @@ export default function FeaturesInteractive() {
         {/* Answer Reviewer */}
         <section id="answer-review" className="mt-20">
           <motion.h3 className="text-2xl font-semibold">Answer Reviewer — teacher-level feedback</motion.h3>
-          <p className="text-sm text-slate-600 mt-2">Detailed rubric-driven feedback that explains strengths, highlights curriculum-specific gaps, and suggests rewrites to improve both learning and exam performance.</p>
+          <p className="text-sm text-slate-600 mt-2">
+            Detailed rubric-driven feedback that explains strengths, highlights curriculum-specific gaps, and suggests rewrites to improve both learning and exam performance.
+          </p>
 
           <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
@@ -765,7 +866,9 @@ export default function FeaturesInteractive() {
                   <li>Provide a scored rubric + a rewrite suggestion (thesis, examples, linking sentence).</li>
                 </ol>
 
-                <div className="mt-4 text-xs text-slate-500">Note: The reviewer models IB/IGCSE-style expectations, but you can configure it for any syllabus or marking scheme by providing rubric templates.</div>
+                <div className="mt-4 text-xs text-slate-500">
+                  Note: The reviewer models IB/IGCSE-style expectations, but you can configure it for any syllabus or marking scheme by providing rubric templates.
+                </div>
               </div>
             </div>
           </div>
@@ -774,7 +877,9 @@ export default function FeaturesInteractive() {
         {/* Paper Maker */}
         <section id="paper-maker" className="mt-20">
           <motion.h3 className="text-2xl font-semibold">Paper Maker — realistic mock exams</motion.h3>
-          <p className="text-sm text-slate-600 mt-2">Constructs papers using distributions that mirror past questions, allows you to choose exam board, difficulty and mark allocation.</p>
+          <p className="text-sm text-slate-600 mt-2">
+            Constructs papers using distributions that mirror past questions, allows you to choose exam board, difficulty and mark allocation.
+          </p>
 
           <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
@@ -783,8 +888,12 @@ export default function FeaturesInteractive() {
             <div>
               <div className="rounded-2xl bg-white/80 p-6 border">
                 <div className="text-sm font-semibold">Why this improves performance</div>
-                <p className="mt-2 text-sm text-slate-600">Regular practice under exam-like conditions calibrates time management and exposes recurring question-types. Our paper maker helps you practice with tailored, graded mocks.</p>
-                <div className="mt-3 text-xs text-slate-500">You can export papers to PDF and even attach mark schemes for self-marking or teacher review.</div>
+                <p className="mt-2 text-sm text-slate-600">
+                  Regular practice under exam-like conditions calibrates time management and exposes recurring question-types. Our paper maker helps you practice with tailored, graded mocks.
+                </p>
+                <div className="mt-3 text-xs text-slate-500">
+                  You can export papers to PDF and even attach mark schemes for self-marking or teacher review.
+                </div>
               </div>
             </div>
           </div>
@@ -793,7 +902,9 @@ export default function FeaturesInteractive() {
         {/* Chatbot */}
         <section id="chatbot" className="mt-20">
           <motion.h3 className="text-2xl font-semibold">Academic Chatbot — build intuition, not just memorization</motion.h3>
-          <p className="text-sm text-slate-600 mt-2">A conversational tutor that helps students explore concepts, generate worked examples, and encourages active exploration of topics beyond rote learning.</p>
+          <p className="text-sm text-slate-600 mt-2">
+            A conversational tutor that helps students explore concepts, generate worked examples, and encourages active exploration of topics beyond rote learning.
+          </p>
 
           <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
@@ -802,7 +913,9 @@ export default function FeaturesInteractive() {
             <div>
               <div className="rounded-2xl bg-white/80 p-6 border">
                 <div className="text-sm font-semibold">Instructor mode</div>
-                <p className="mt-2 text-sm text-slate-600">Teachers can seed the bot with curriculum priorities and example answers to nudge feedback towards assessment objectives.</p>
+                <p className="mt-2 text-sm text-slate-600">
+                  Teachers can seed the bot with curriculum priorities and example answers to nudge feedback towards assessment objectives.
+                </p>
                 <div className="mt-3 text-xs text-slate-500">Use instructor mode to produce model answers, exam-style hints, and scaffolding prompts for students.</div>
               </div>
             </div>
@@ -830,12 +943,9 @@ export default function FeaturesInteractive() {
             </div>
           </div>
         </section>
-
       </main>
 
-      <footer className="py-10 text-center text-sm text-slate-400">
-        © {new Date().getFullYear()} VertexED — Built for learners & teachers
-      </footer>
+      <footer className="py-10 text-center text-sm text-slate-400">© {new Date().getFullYear()} VertexED — Built for learners & teachers</footer>
     </div>
   );
 }
