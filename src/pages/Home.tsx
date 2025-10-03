@@ -118,7 +118,7 @@ export default function Home() {
     { title: "Study Planner", desc: "Adapts to your schedule, deadlines, and pace. Study smarter, not harder." },
     { title: "Answer Reviewer", desc: "Strict but constructive feedback that shows exactly how to improve." },
     { title: "IB/IGCSE Paper Maker", desc: "Instant syllabus-aligned test papers for rigorous practice." },
-    { title: "Notes + Flashcards + Quiz", desc: "Seamless workflow from notes to practice sessions." },
+    { title: "Notes with Flashcards and Quiz", desc: "Seamless workflow from notes to practice sessions." },
   ];
 
   const featureSideText = [
@@ -459,4 +459,4 @@ export default function Home() {
     { title: "Study Planner", desc: "Adapts to your schedule, deadlines, and pace. Study smarter, not harder." },
     { title: "Answer Reviewer", desc: "Strict but constructive feedback that shows exactly how to improve." },
     { title: "IB/IGCSE Paper Maker", desc: "Instant syllabus-aligned test papers for rigorous practice." },
-    { title: "Notes +
+    { title: "Notes },
