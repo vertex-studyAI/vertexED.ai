@@ -1,102 +1,67 @@
-import { Helmet } from "react-helmet-async";
 import NeumorphicCard from "@/components/NeumorphicCard";
 import { Link } from "react-router-dom";
-import PageSection from "@/components/PageSection";
 import { motion } from "framer-motion";
+import React from "react";
 
 export default function Main() {
   const tiles = [
-    { title: "Study Zone", to: "/study-zone", info: "All in 1 tool section for your calculators, activity logs and more." },
-    { title: "AI Chatbot", to: "/chatbot", info: "Ask questions and get help on general topics or just simply have a discussion on academics." },
-    { title: "Study Planner", to: "/planner", info: "Plan sessions and deadlines for your busy schedule in an instant." },
-    { title: "Answer Reviewer", to: "/answer-reviewer", info: "Not just a basic reviewer; a strict teacher of sorts which also gives the best feedback on how you can improve." },
-    { title: "IB/IGCSE Paper Maker", to: "/paper-maker", info: "Create syllabus-aligned papers which are actually helpful." },
-    { title: "Note taker + Flashcards + Quiz", to: "/notetaker", info: "Notes to cards to quizzes all in 1 place for those late night revision sessions." },
+    { title: "Study Zone", to: "/study-zone", info: "All-in-1 workspace: calculators, activity logs, and focused-session helpers." },
+    { title: "AI Chatbot", to: "/chatbot", info: "A discussion-first agent for explanations, research prompts and step-by-step help." },
+    { title: "Study Planner", to: "/planner", info: "Adaptive schedule builder that fits practice around life and priorities." },
+    { title: "Answer Reviewer", to: "/answer-reviewer", info: "Rubric-aware feedback with clear, actionable steps to raise your grade." },
+    { title: "Paper Maker", to: "/paper-maker", info: "Board-aligned practice papers with authentic phrasing and mark schemes." },
+    { title: "Note Taker + Flashcards", to: "/notetaker", info: "Capture lectures, auto-summarise and turn notes into flashcards & quizzes." },
   ];
 
   return (
-    <>
-      <Helmet>
-        <title>Dashboard — Vertex AI Study Tools</title>
-        <meta
-          name="description"
-          content="Your Vertex dashboard with quick access to all AI study tools."
-        />
-        <link rel="canonical" href="https://www.vertexed.app/main" />
-        <meta name="robots" content="noindex, nofollow" />
-      </Helmet>
-
-      {/* Clean rectangular layout */}
-      <div className="relative min-h-screen flex flex-col items-center justify-start p-8">
-        <PageSection className="relative w-full max-w-6xl bg-slate-900/70 rounded-2xl border border-slate-700 shadow-xl backdrop-blur-md overflow-hidden p-10 flex flex-col">
-          {/* Header Section */}
-          <div className="text-center mb-12">
-            <motion.h1
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              className="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent"
-            >
-              Welcome to Vertex AI
-            </motion.h1>
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.3, duration: 0.8 }}
-              className="mt-4 text-slate-300 text-lg"
-            >
-              Your all-in-one AI-powered study companion. Pick a tool below and get started
-            </motion.p>
-          </div>
-
-          {/* Rectangular Grid of Tools */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full">
-            {tiles.map((t, i) => (
-              <Link to={t.to} key={t.title} className="group relative">
-                <motion.div
-                  initial={{ opacity: 0, y: 30, scale: 0.95 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  transition={{ duration: 0.6, delay: i * 0.1, ease: "easeOut" }}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.97 }}
+    // Minimal wrapper — integrates into your existing page template / backdrop
+    <div className="w-full max-w-7xl mx-auto px-4 py-8">
+      {/* The outer rectangle: purely stylistic container so the tiles read as one large rectangle */}
+      <div className="relative rounded-3xl overflow-hidden border border-slate-700 bg-gradient-to-br from-slate-900/70 to-slate-800/60 shadow-2xl">
+        {/* subtle grid outline to make the tiles read as one block */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-8 md:p-10">
+          {tiles.map((t, i) => (
+            <Link to={t.to} key={t.title} className="group block">
+              <motion.div
+                initial={{ opacity: 0, y: 18, scale: 0.99 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ duration: 0.6, delay: i * 0.06 }}
+                whileHover={{ y: -6, scale: 1.02 }}
+                whileTap={{ scale: 0.99 }}
+                className="h-56 md:h-64 w-full"
+              >
+                <NeumorphicCard
+                  className={
+                    "h-full p-6 rounded-xl flex flex-col justify-between bg-gradient-to-br from-slate-800/60 to-slate-900/80 border border-slate-700 shadow-md transition-all duration-400 group-hover:shadow-[0_18px_50px_rgba(12,18,40,0.6)] group-hover:border-indigo-500"
+                  }
+                  title={t.title}
+                  info={t.info}
                 >
-                  <NeumorphicCard
-                    className="w-full h-full p-6 rounded-xl shadow-lg
-                               bg-gradient-to-br from-slate-800/80 to-slate-900/90
-                               border border-slate-700 backdrop-blur-md
-                               group-hover:border-indigo-400 group-hover:shadow-[0_8px_30px_rgba(0,0,0,0.5)]
-                               transition-all duration-500 ease-out"
-                    title={t.title}
-                    info={t.info}
-                  >
-                    {/* Title */}
-                    <h3 className="text-xl font-semibold text-slate-100 group-hover:text-indigo-300 transition-colors duration-300">
-                      {t.title}
-                    </h3>
+                  <div>
+                    <div className="flex items-center gap-3 mb-2">
+                      {/* visual accent circle */}
+                      <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-indigo-500 to-pink-500 flex items-center justify-center text-white font-bold shadow-sm">
+                        {t.title.split(" ").map((s) => s[0]).slice(0, 2).join("")}
+                      </div>
+                      <h3 className="text-2xl font-semibold text-slate-100">{t.title}</h3>
+                    </div>
 
-                    {/* CTA */}
-                    <p className="opacity-70 text-sm mt-2 group-hover:opacity-100 group-hover:text-indigo-400 transition duration-500">
-                      Open {t.title.toLowerCase()} →
-                    </p>
+                    <p className="text-sm text-slate-300 leading-relaxed">{t.info}</p>
+                  </div>
 
-                    {/* Info */}
-                    <p className="text-xs opacity-60 mt-2 leading-relaxed group-hover:opacity-90 text-slate-300">
-                      {t.info}
-                    </p>
-                  </NeumorphicCard>
-                </motion.div>
-              </Link>
-            ))}
-          </div>
+                  <div className="flex items-center justify-between mt-4">
+                    <span className="text-xs text-slate-400">Quick open</span>
+                    <span className="text-sm text-indigo-300 font-medium">Open →</span>
+                  </div>
+                </NeumorphicCard>
+              </motion.div>
+            </Link>
+          ))}
+        </div>
 
-          {/* Footer */}
-          <footer className="text-center py-6 border-t border-slate-700 mt-12">
-            <p className="text-xs text-slate-400">
-              © {new Date().getFullYear()} Vertex AI — All rights reserved.
-            </p>
-          </footer>
-        </PageSection>
+        {/* Decorative border highlight when the block is hovered (parent-level) */}
+        <div className="pointer-events-none absolute inset-0 rounded-3xl ring-0 transition-all duration-500"></div>
       </div>
-    </>
+    </div>
   );
 }
