@@ -1,7 +1,7 @@
 // File: /src/App.tsx
 import SiteLayout from "@/components/layout/SiteLayout";
-import Home from "@/pages/home"; // <-- changed to lowercase path to match filesystems that care about case
-import Features from "@/pages/features"; // <-- added Features import
+import Home from "@/pages/Home"; 
+import Features from "@/pages/Features";
 import { lazy } from "react";
 const Login = lazy(() => import("@/pages/Login"));
 const Signup = lazy(() => import("@/pages/Signup"));
