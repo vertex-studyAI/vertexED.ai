@@ -1,7 +1,9 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import SiteLayout from "@/components/layout/SiteLayout";
+
+// Import pages
 import Home from "@/pages/Home";
-import Features from "@/pages/Features"; 
+import Features from "@/pages/Features";
 
 import { HelmetProvider } from "react-helmet-async";
 import { Analytics } from "@vercel/analytics/react";
@@ -9,6 +11,7 @@ import { SpeedInsights } from "@vercel/speed-insights/react";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { lazy, Suspense } from "react";
 
+// Lazy-loaded pages
 const Login = lazy(() => import("@/pages/Login"));
 const Signup = lazy(() => import("@/pages/Signup"));
 const Main = lazy(() => import("@/pages/Main"));
@@ -18,7 +21,7 @@ const AIChatbot = lazy(() => import("@/pages/AIChatbot"));
 const StudyPlanner = lazy(() => import("@/pages/StudyPlanner"));
 const AnswerReviewer = lazy(() => import("@/pages/AnswerReviewer"));
 const About = lazy(() => import("@/pages/About"));
-const NotFound = lazy(() => import("./pages/NotFound"));
+const NotFound = lazy(() => import("@/pages/NotFound"));
 const PaperMaker = lazy(() => import("@/pages/PaperMaker"));
 const UserSettings = lazy(() => import("@/pages/UserSettings"));
 
@@ -28,13 +31,13 @@ const App = () => (
       <BrowserRouter>
         <Suspense fallback={null}>
           <Routes>
-            <Route path="/" element={<SiteLayout />}> 
-              {/*Home page (index + /home) */}
+            <Route path="/" element={<SiteLayout />}>
+              {/* Home page */}
               <Route index element={<Home />} />
-              <Route path="home" element={<Home />} />          
+              <Route path="home" element={<Home />} />
 
-              {/*eatures page */}
-              <Route path="features" element={<Features />} />  
+              {/* Features page */}
+              <Route path="features" element={<Features />} />
 
               {/* Other routes */}
               <Route path="login" element={<Login />} />
