@@ -5,7 +5,11 @@ import { useAuth } from "@/contexts/AuthContext";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { TypeAnimation } from "react-type-animation";
-import { Zap, CheckCircle, Activity } from "lucide-react"; // ✅ Added icons
+import { Zap, CheckCircle, Activity } from "lucide-react";
+
+/**
+ * Home.tsx (fixed + improved)
+ */
 
 export default function Home() {
   const { isAuthenticated } = useAuth();
@@ -71,61 +75,43 @@ export default function Home() {
     {
       stat: "39%",
       text: "of students report struggling to find trustworthy or relevant learning resources when researching topics or exam preparation.",
-      source: {
-        label: "ACT Research",
-        href: "https://leadershipblog.act.org/2024/09/students-college-information-sources.html",
-      },
+      source: { label: "ACT Research", href: "https://leadershipblog.act.org/2024/09/students-college-information-sources.html" },
     },
     {
       stat: "~66%",
       text: "report low engagement or that classroom content often feels irrelevant, affecting motivation to study effectively.",
-      source: {
-        label: "eSchoolNews reporting",
-        href: "https://www.eschoolnews.com/featured/2022/08/29/students-desperately-need-to-see-relevance-in-their-learning/",
-      },
+      source: { label: "eSchoolNews reporting", href: "https://www.eschoolnews.com/featured/2022/08/29/students-desperately-need-to-see-relevance-in-their-learning/" },
     },
     {
       stat: "~60%",
       text: "show high levels of academic procrastination, delaying study and reducing final performance.",
-      source: {
-        label: "Literature review (PubMed)",
-        href: "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC11353834/",
-      },
+      source: { label: "Literature review (PubMed)", href: "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC11353834/" },
     },
     {
       stat: "81%",
       text: "changed study habits after the pandemic — many now use multiple digital tools and workflows.",
-      source: {
-        label: "McGraw Hill Trends",
-        href: "https://www.mheducation.com/about-us/news-insights/blog/mcgraw-hill-study-trends-report.html",
-      },
+      source: { label: "McGraw Hill Trends", href: "https://www.mheducation.com/about-us/news-insights/blog/mcgraw-hill-study-trends-report.html" },
     },
     {
       stat: "Study-backed",
       text: "Strategic study techniques (spacing, retrieval practice) reliably improve exam scores more than simply increasing hours.",
-      source: {
-        label: "Stanford // strategic study insights",
-        href: "https://news.stanford.edu/stories/2017/05/studying-strategically-equals-improved-exam-scores",
-      },
+      source: { label: "Stanford // strategic study insights", href: "https://news.stanford.edu/stories/2017/05/studying-strategically-equals-improved-exam-scores" },
     },
     {
       stat: "Many",
       text: "use 3+ apps to study — fragmentation kills focus and adds friction to learning.",
-      source: {
-        label: "McGraw Hill Trends (summary)",
-        href: "https://www.mheducation.com/about-us/news-insights/blog/mcgraw-hill-study-trends-report.html",
-      },
+      source: { label: "McGraw Hill Trends (summary)", href: "https://www.mheducation.com/about-us/news-insights/blog/mcgraw-hill-study-trends-report.html" },
     },
   ];
 
-  // Short features preview for home
+  // Features preview
   const features = [
     { title: "Study Zone", desc: "All-in-one tool for calculators, logs, and more. Everything in one place." },
     { title: "AI Chatbot", desc: "Your personal academic companion — adaptive and conversational." },
     { title: "Study Planner", desc: "Adapts to your schedule, deadlines, and pace. Study smarter, not harder." },
     { title: "Answer Reviewer", desc: "Strict but constructive feedback that shows exactly how to improve." },
     { title: "IB/IGCSE Paper Maker", desc: "Instant syllabus-aligned test papers for rigorous practice." },
-    { title: "Notes with Flashcards and Quiz", desc: "Seamless workflow from notes to practice sessions." },
+    { title: "Notes + Flashcards + Quiz", desc: "Seamless workflow from notes to practice sessions." },
   ];
 
   const [flipped, setFlipped] = useState(Array(problems.length).fill(false));
@@ -181,21 +167,16 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Storytelling */}
-      <section className="mt-28 text-center px-6 fade-up">
-        <h2 className="text-4xl md:text-5xl font-semibold text-white mb-6">We hate the way we study</h2>
-        <p className="text-lg text-slate-200 mb-12">Who wouldn’t?</p>
-      </section>
-
-      {/* Problems */}
+      {/* Problems Section */}
       <section className="max-w-6xl mx-auto px-6 mt-28 fade-up">
         <h3 className="text-3xl md:text-4xl font-semibold text-white mb-10 text-center">Why is this a problem?</h3>
+
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
           {problems.map((p, i) => (
             <div
               key={i}
               onClick={() => toggleFlip(i)}
-              className="group relative h-56 bg-white text-slate-900 rounded-2xl shadow-xl cursor-pointer transition-all duration-500 hover:scale-105 perspective"
+              className="group relative h-56 bg-white text-slate-900 rounded-2xl shadow-xl cursor-pointer transition-all duration-500 hover:scale-105 hover:shadow-[0_0_30px_rgba(0,0,0,0.1)] perspective"
             >
               <div
                 className={`absolute inset-0 flex items-center justify-center p-6 text-center transition-transform duration-700 transform ${flipped[i] ? "rotate-y-180" : ""}`}
@@ -204,8 +185,9 @@ export default function Home() {
                 {/* Front */}
                 <div className={`absolute inset-0 flex flex-col items-center justify-center gap-3 text-4xl font-bold ${flipped[i] ? "opacity-0" : "opacity-100"} transition-opacity`}>
                   <span>{p.stat}</span>
-                  <span className="text-sm text-slate-500 italic group-hover:text-slate-700">Click to find out</span>
+                  <span className="text-sm text-slate-500 italic group-hover:text-slate-700 transition-colors">Click to find out</span>
                 </div>
+
                 {/* Back */}
                 <div className={`absolute inset-0 flex items-center justify-center p-4 text-lg leading-relaxed bg-slate-50 rounded-2xl text-slate-800 ${flipped[i] ? "opacity-100" : "opacity-0"} transition-opacity`}>
                   <div>
@@ -224,101 +206,11 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Mission */}
-      <section className="max-w-4xl mx-auto mt-24 px-6 text-center fade-up">
-        <div className="bg-white text-slate-800 rounded-3xl shadow-2xl p-10">
-          <p className="text-lg md:text-xl leading-relaxed">
-            Studying has become harder than ever. With too much information and scattered tools, progress feels elusive. We’re building a space that adapts to your learning style and keeps progress continuous.
-          </p>
-          <p className="text-lg md:text-xl mt-6 leading-relaxed">
-            Marks aren't everything, but they matter. If exams demand performance, our platform makes sure learning and scoring go hand-in-hand.
-          </p>
-          <p className="text-lg md:text-xl mt-6 leading-relaxed">
-            We aim to not only improve your score with evidence-based tools but also create a space where true learning never stops.
-          </p>
-        </div>
-      </section>
-
-      {/* Three major goals */}
-      <section className="mt-20 px-6 fade-up">
-        <div className="max-w-4xl mx-auto bg-white text-slate-800 rounded-3xl shadow-2xl p-10">
-          <h3 className="text-2xl font-semibold">Our mission — three clear goals</h3>
-          <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="p-4 rounded-2xl border bg-slate-50 text-center">
-              <div className="text-xl font-semibold mb-2">Improve learning beyond the classroom</div>
-              <div className="text-sm text-slate-600">We help students build learning routines that connect classroom topics to broader understanding and projects.</div>
-            </div>
-            <div className="p-4 rounded-2xl border bg-slate-50 text-center">
-              <div className="text-xl font-semibold mb-2">Improve performance on papers</div>
-              <div className="text-sm text-slate-600">Practice with real-style mocks, targeted feedback, and timing drills so exam performance becomes predictable.</div>
-            </div>
-            <div className="p-4 rounded-2xl border bg-slate-50 text-center">
-              <div className="text-xl font-semibold mb-2">Improve depth of understanding</div>
-              <div className="text-sm text-slate-600">From notes to flashcards to application tasks — we aim for conceptual depth across subjects.</div>
-            </div>
-          </div>
-          <div className="mt-6 text-sm text-slate-700">
-            Beyond these goals we want students to develop a genuine passion for learning and applying knowledge — skills that last long after exams.
-          </div>
-        </div>
-      </section>
-
-      {/* How we stand out */}
-      <section className="mt-20 px-6 fade-up">
-        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
-          <div className="md:col-span-2">
-            <h3 className="text-2xl font-semibold">How we tackle the bigger picture</h3>
-            <p className="mt-3 text-slate-300">
-              We aren’t another single-function tool. VertexED brings together three pillars that are rarely combined: personalization, curriculum-grounded feedback, and compact workflows that reduce friction. The result: faster learning loops and clearer progress.
-            </p>
-
-            <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
-              <div className="p-4 rounded-2xl bg-white text-slate-800 border">
-                <div className="flex items-center gap-3">
-                  <div className="p-2 rounded bg-slate-100">
-                    <Zap className="w-5 h-5" />
-                  </div>
-                  <div className="font-medium">Personalized</div>
-                </div>
-                <div className="text-xs mt-2 text-slate-600">Learner models adapt to your pace, strengths, and exam targets.</div>
-              </div>
-              <div className="p-4 rounded-2xl bg-white text-slate-800 border">
-                <div className="flex items-center gap-3">
-                  <div className="p-2 rounded bg-slate-100">
-                    <CheckCircle className="w-5 h-5" />
-                  </div>
-                  <div className="font-medium">Curriculum-aware</div>
-                </div>
-                <div className="text-xs mt-2 text-slate-600">Marking rubrics and past-paper distributions are baked into feedback and paper creation.</div>
-              </div>
-              <div className="p-4 rounded-2xl bg-white text-slate-800 border">
-                <div className="flex items-center gap-3">
-                  <div className="p-2 rounded bg-slate-100">
-                    <Activity className="w-5 h-5" />
-                  </div>
-                  <div className="font-medium">To-the-point</div>
-                </div>
-                <div className="text-xs mt-2 text-slate-600">Minimal friction: convert notes → flashcards → quiz in a click; get targeted review that tells you exactly what to fix.</div>
-              </div>
-            </div>
-
-            <div className="mt-6 text-sm text-slate-300">
-              <strong>Holistic approach:</strong> we pair scheduling, active recall, and high-quality feedback so students don’t just memorize — they understand and apply.
-            </div>
-          </div>
-          <aside className="hidden md:block sticky top-24">
-            <div className="bg-white/90 p-6 rounded-2xl shadow-lg text-slate-900">
-              <div className="text-sm font-semibold">Impact</div>
-              <div className="mt-2 text-xs text-slate-600">Strategic study beats raw hours: small, science-backed changes can raise average grades and reduce wasted time.</div>
-            </div>
-          </aside>
-        </div>
-      </section>
-
       {/* Features preview */}
       <section className="mt-20 px-6 fade-up">
         <div className="max-w-6xl mx-auto">
           <h3 className="text-3xl font-semibold text-white text-center mb-8">Explore Our Features</h3>
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {features.map((f, i) => (
               <div key={i} className="rounded-2xl bg-white p-6 shadow-lg">
@@ -327,6 +219,7 @@ export default function Home() {
               </div>
             ))}
           </div>
+
           <div className="flex justify-center mt-12">
             <Link to="/features" className="px-10 py-4 rounded-full bg-indigo-600 text-white hover:bg-indigo-500 transition-all duration-300">
               Explore Features
@@ -335,22 +228,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Final CTA */}
-      <section className="mt-20 px-6 text-center fade-up">
-        <div className="max-w-4xl mx-auto bg-white/95 rounded-3xl p-10 shadow-xl">
-          <h3 className="text-2xl font-semibold">A more focused, evidence-based way to learn</h3>
-          <p className="mt-3 text-slate-700">
-            VertexED combines scheduling, retrieval practice, and exam-style feedback in one workspace — so students spend less time deciding what to do, and more time doing the right thing.
-          </p>
-          <div className="mt-6 flex gap-3 justify-center">
-            <Link to="/signup" className="px-6 py-3 rounded bg-slate-900 text-white">
-              Get started — free
-            </Link>
-            <button onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} className="px-6 py-3 rounded border">
-              Back to top
-            </button>
-          </div>
-        </div>
-      </section>
-
-      <footer className="py-10 text-center text-sm text-s
+      <footer className="py-10 text-center text-sm text-slate-400 mt-10">© {new Date().getFullYear()} VertexED — Built for learners & teachers</footer>
+    </>
+  );
+}
