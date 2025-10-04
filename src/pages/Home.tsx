@@ -9,57 +9,69 @@ import { TypeAnimation } from "react-type-animation";
 export default function Home() {
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
+
+  // refs
   const missionRef = useRef<HTMLDivElement | null>(null);
-  const rafRef = useRef<number | null>(null);
+
+  // keep a ref for cleaning up tilt handlers
+  const tiltHandlersRef = useRef<Array<() => void>>([]);
 
   useEffect(() => {
     if (isAuthenticated) navigate("/main", { replace: true });
   }, [isAuthenticated, navigate]);
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      gsap.registerPlugin(ScrollTrigger);
+    if (typeof window === "undefined") return;
+    gsap.registerPlugin(ScrollTrigger);
 
-      const elements = gsap.utils.toArray<HTMLElement>(".fade-up");
-      elements.forEach((el, idx) => {
-        gsap.fromTo(
-          el,
-          { y: 70, opacity: 0, scale: 0.995 },
-          {
-            y: 0,
-            opacity: 1,
-            scale: 1,
-            duration: 1.4,
-            ease: "power4.out",
-            scrollTrigger: {
-              trigger: el,
-              start: "top 85%",
-            },
-            stagger: 0.04,
-          }
-        );
-      });
+    // fade-up elements: subtle y + scale + opacity
+    const elements = gsap.utils.toArray<HTMLElement>(".fade-up");
+    gsap.fromTo(
+      elements,
+      { y: 50, opacity: 0, scale: 0.995 },
+      {
+        y: 0,
+        opacity: 1,
+        scale: 1,
+        duration: 1.1,
+        ease: "power3.out",
+        stagger: 0.08,
+        scrollTrigger: {
+          trigger: elements[0] || document.body,
+          start: "top 95%",
+          // every element will create its own trigger automatically
+          markers: false,
+        },
+      }
+    );
 
-      const featureRows = gsap.utils.toArray<HTMLElement>(".feature-row");
-      featureRows.forEach((row, i) => {
-        gsap.fromTo(
-          row,
-          { x: i % 2 === 0 ? -90 : 90, opacity: 0 },
-          {
-            x: 0,
-            opacity: 1,
-            duration: 1.35,
-            ease: "power4.out",
-            scrollTrigger: {
-              trigger: row,
-              start: "top 85%",
-            },
-          }
-        );
-      });
-    }
+    // feature rows: slide from left/right + subtle rotation
+    const featureRows = gsap.utils.toArray<HTMLElement>(".feature-row");
+    featureRows.forEach((row, i) => {
+      gsap.fromTo(
+        row,
+        { x: i % 2 === 0 ? -60 : 60, opacity: 0, rotateX: 2 },
+        {
+          x: 0,
+          opacity: 1,
+          rotateX: 0,
+          duration: 1.05,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: row,
+            start: "top 92%",
+          },
+        }
+      );
+    });
+
+    return () => {
+      // kill ScrollTriggers created by GSAP on unmount
+      ScrollTrigger.getAll().forEach((t) => t.kill());
+    };
   }, []);
 
+  // content arrays
   const problems = [
     { stat: "65%", text: "of students report struggling to find relevant resources despite studying for long hours." },
     { stat: "70%", text: "say note-taking takes up more time than actual learning, making revision less effective." },
@@ -79,14 +91,7 @@ export default function Home() {
   ];
 
   const [flipped, setFlipped] = useState(Array(problems.length).fill(false));
-
-  const toggleFlip = (index: number) => {
-    setFlipped((prev) => {
-      const updated = [...prev];
-      updated[index] = !updated[index];
-      return updated;
-    });
-  };
+  const toggleFlip = (index: number) => setFlipped((prev) => { const updated = [...prev]; updated[index] = !updated[index]; return updated; });
 
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
 
@@ -99,47 +104,188 @@ export default function Home() {
     "This is just the beginning! more features are on their way as you read this."
   ];
 
-  // mission panel tilt handlers
+  // -------------------
+  // Tilt helper: attach subtle tilt to .tilt-card elements
+  // -------------------
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    // clean up array
+    tiltHandlersRef.current = [];
+
+    const els = Array.from(document.querySelectorAll<HTMLElement>(".tilt-card"));
+
+    els.forEach((el) => {
+      let rect = el.getBoundingClientRect();
+      let targetX = 0;
+      let targetY = 0;
+      let curX = 0;
+      let curY = 0;
+      let raf = 0;
+
+      const options = { maxTilt: 3, perspective: 1000, translateZ: 8, ease: 0.12 };
+
+      const onMove = (e: MouseEvent) => {
+        rect = el.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const halfW = rect.width / 2;
+        const halfH = rect.height / 2;
+        targetY = ((x - halfW) / halfW) * options.maxTilt; // rotateY
+        targetX = ((halfH - y) / halfH) * options.maxTilt; // rotateX
+
+        if (!raf) raf = requestAnimationFrame(update);
+      };
+
+      const update = () => {
+        curX += (targetX - curX) * options.ease;
+        curY += (targetY - curY) * options.ease;
+        el.style.transform = `perspective(${options.perspective}px) rotateX(${curX}deg) rotateY(${curY}deg) translateZ(${options.translateZ}px)`;
+        raf = 0;
+      };
+
+      const onLeave = () => {
+        targetX = 0; targetY = 0;
+        if (raf) cancelAnimationFrame(raf);
+        // gently animate back
+        el.style.transition = "transform 420ms cubic-bezier(0.22,1,0.36,1)";
+        el.style.transform = `perspective(${options.perspective}px) rotateX(0deg) rotateY(0deg) translateZ(0px)`;
+        setTimeout(() => { el.style.transition = ""; }, 450);
+      };
+
+      const onEnter = () => { el.style.transition = ""; };
+
+      el.addEventListener("mousemove", onMove);
+      el.addEventListener("mouseleave", onLeave);
+      el.addEventListener("mouseenter", onEnter);
+
+      // store cleanup
+      tiltHandlersRef.current.push(() => {
+        el.removeEventListener("mousemove", onMove);
+        el.removeEventListener("mouseleave", onLeave);
+        el.removeEventListener("mouseenter", onEnter);
+        if (raf) cancelAnimationFrame(raf);
+      });
+    });
+
+    return () => {
+      tiltHandlersRef.current.forEach((fn) => fn());
+      tiltHandlersRef.current = [];
+    };
+  }, []);
+
+  // Mission panel has slightly different behavior: small, ultra-smooth lerp and small translate
   useEffect(() => {
     const el = missionRef.current;
-    if (!el) return;
+    if (!el || typeof window === "undefined") return;
 
-    let bound = el.getBoundingClientRect();
+    let rect = el.getBoundingClientRect();
+    let tX = 0, tY = 0, cX = 0, cY = 0;
+    let raf = 0;
+    const opts = { maxTilt: 2.6, perspective: 1200, translateZ: 6, ease: 0.08 };
 
     const onMove = (e: MouseEvent) => {
-      if (!el) return;
-      const x = e.clientX - bound.left;
-      const y = e.clientY - bound.top;
-      const halfW = bound.width / 2;
-      const halfH = bound.height / 2;
-      const rotY = ((x - halfW) / halfW) * 6; // -6 to 6 deg
-      const rotX = ((halfH - y) / halfH) * 6;
+      rect = el.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const halfW = rect.width / 2;
+      const halfH = rect.height / 2;
+      tY = ((x - halfW) / halfW) * opts.maxTilt; // rotateY
+      tX = ((halfH - y) / halfH) * opts.maxTilt; // rotateX
+      if (!raf) raf = requestAnimationFrame(update);
+    };
 
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
-      rafRef.current = requestAnimationFrame(() => {
-        el.style.transform = `perspective(1200px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateZ(8px)`;
-      });
+    const update = () => {
+      cX += (tX - cX) * opts.ease;
+      cY += (tY - cY) * opts.ease;
+      el.style.transform = `perspective(${opts.perspective}px) rotateX(${cX}deg) rotateY(${cY}deg) translateZ(${opts.translateZ}px)`;
+      raf = 0;
     };
 
     const onLeave = () => {
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
-      el.style.transform = "perspective(1200px) rotateX(0deg) rotateY(0deg) translateZ(0px)";
+      tX = 0; tY = 0;
+      if (raf) cancelAnimationFrame(raf);
+      el.style.transition = "transform 480ms cubic-bezier(0.22,1,0.36,1)";
+      el.style.transform = `perspective(${opts.perspective}px) rotateX(0deg) rotateY(0deg) translateZ(0px)`;
+      setTimeout(() => { el.style.transition = ""; }, 500);
     };
-
-    const onResize = () => { bound = el.getBoundingClientRect(); };
 
     el.addEventListener("mousemove", onMove);
     el.addEventListener("mouseleave", onLeave);
-    window.addEventListener("resize", onResize);
+    window.addEventListener("resize", () => { rect = el.getBoundingClientRect(); });
 
     return () => {
       el.removeEventListener("mousemove", onMove);
       el.removeEventListener("mouseleave", onLeave);
-      window.removeEventListener("resize", onResize);
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      window.removeEventListener("resize", () => { /* noop */ });
+      if (raf) cancelAnimationFrame(raf);
     };
   }, []);
 
+  // -------------------
+  // Subcomponents
+  // -------------------
+  function ProblemCard({ p, i }: { p: { stat: string; text: string }; i: number }) {
+    return (
+      <div
+        key={i}
+        onClick={() => toggleFlip(i)}
+        className="group relative h-56 bg-white text-slate-900 rounded-2xl shadow-xl cursor-pointer transition-all duration-500 hover:scale-[1.03] hover:shadow-[0_10px_40px_rgba(2,6,23,0.28)] perspective tilt-card"
+      >
+        <div
+          className="absolute inset-0 transition-transform duration-700 transform"
+          style={{
+            transformStyle: "preserve-3d",
+            transform: flipped[i] ? "rotateY(180deg)" : "rotateY(0deg)",
+          }}
+        >
+          {/* Front */}
+          <div
+            className="absolute inset-0 flex flex-col items-center justify-center gap-3 text-4xl font-bold backface-hidden"
+            style={{ backfaceVisibility: "hidden" }}
+          >
+            <span>{p.stat}</span>
+            <span className="text-sm text-slate-500 italic group-hover:text-slate-700 transition-colors">Click to find out</span>
+          </div>
+
+          {/* Back */}
+          <div
+            className="absolute inset-0 flex items-center justify-center p-4 text-lg leading-relaxed bg-slate-50 rounded-2xl text-slate-800"
+            style={{ transform: "rotateY(180deg)", backfaceVisibility: "hidden" }}
+          >
+            <div>
+              <div>{p.text}</div>
+              <div className="mt-3 text-xs text-slate-500 italic">Backed by research-backed principles: active recall, spaced repetition and retrieval practice.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  function FeatureRow({ f, i }: { f: { title: string; desc: string }; i: number }) {
+    return (
+      <div
+        key={i}
+        className={`feature-row flex flex-col md:flex-row items-center gap-10 ${i % 2 !== 0 ? "md:flex-row-reverse" : ""}`}
+      >
+        <div className="flex-1 bg-white rounded-2xl shadow-xl p-6 text-slate-800 tilt-card">
+          <h4 className="text-xl font-bold mb-3">{f.title}</h4>
+          <p>{f.desc}</p>
+          <div className="mt-4 text-sm text-slate-500">Built around proven learning techniques.</div>
+        </div>
+        <Link
+          to="/features"
+          className="flex-1 text-slate-300 text-lg md:text-xl leading-relaxed text-center md:text-left"
+        >
+          {i % 2 === 0
+            ? "The all in 1 hub for your study sessions with all the tools one could ask for."
+            : "Designed to keep you motivated and productive, no matter how overwhelming your syllabus seems."}
+          <div className="mt-4 text-slate-400">{featureSideText[i]}</div>
+        </Link>
+      </div>
+    );
+  }
   return (
     <>
       <Helmet>
@@ -205,44 +351,10 @@ export default function Home() {
 
       {/* Why is this a problem? */}
       <section className="max-w-6xl mx-auto px-6 mt-28 fade-up">
-        <h3 className="text-3xl md:text-4xl font-semibold text-white mb-10 text-center">
-          Why is this a problem?
-        </h3>
+        <h3 className="text-3xl md:text-4xl font-semibold text-white mb-10 text-center">Why is this a problem?</h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
           {problems.map((p, i) => (
-            <div
-              key={i}
-              onClick={() => toggleFlip(i)}
-              className="group relative h-56 bg-white text-slate-900 rounded-2xl shadow-xl cursor-pointer transition-all duration-500 hover:scale-[1.03] hover:shadow-[0_10px_40px_rgba(2,6,23,0.4)] perspective"
-            >
-              <div
-                className="absolute inset-0 transition-transform duration-700 transform"
-                style={{
-                  transformStyle: "preserve-3d",
-                  transform: flipped[i] ? "rotateY(180deg)" : "rotateY(0deg)",
-                }}
-              >
-                {/* Front */}
-                <div
-                  className="absolute inset-0 flex flex-col items-center justify-center gap-3 text-4xl font-bold backface-hidden"
-                  style={{ backfaceVisibility: "hidden" }}
-                >
-                  <span>{p.stat}</span>
-                  <span className="text-sm text-slate-500 italic group-hover:text-slate-700 transition-colors">Click to find out</span>
-                </div>
-
-                {/* Back */}
-                <div
-                  className="absolute inset-0 flex items-center justify-center p-4 text-lg leading-relaxed bg-slate-50 rounded-2xl text-slate-800"
-                  style={{ transform: "rotateY(180deg)", backfaceVisibility: "hidden" }}
-                >
-                  <div>
-                    <div>{p.text}</div>
-                    <div className="mt-3 text-xs text-slate-500 italic">Backed by research-backed principles: active recall, spaced repetition and retrieval practice.</div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <ProblemCard key={i} p={p} i={i} />
           ))}
         </div>
       </section>
@@ -256,25 +368,25 @@ export default function Home() {
         >
           <p className="text-lg md:text-xl leading-relaxed">
             Studying has become harder than ever. With too much information to know what to do with,
-            resources which never seem to construct real progress, tools which just seem to make
-            problems worse and the lack of a space which not only adapts to your learning, but
-            constructs an environment where learning never stops is a problem we all face today.
+            resources that rarely construct measurable progress, and tools that sometimes make things
+            worse, students need a learning space that adapts to them and encourages continuous
+            improvement.
           </p>
 
           <ul className="text-left mt-6 space-y-3">
-            <li className="font-semibold">• Improving the way you approach learning</li>
-            <li className="font-semibold">• Improving your performance on exams</li>
-            <li className="font-semibold">• Improving the way you understand information</li>
+            <li className="font-semibold">• Improve the way you approach learning</li>
+            <li className="font-semibold">• Improve your performance on exams</li>
+            <li className="font-semibold">• Improve comprehension and long-term retention</li>
           </ul>
 
           <p className="text-lg md:text-xl mt-6 leading-relaxed">
-            Whilst also focusing on developing a passion for learning, making connections across
-            subjects, and progressing at your own pace.
+            We focus equally on progress and curiosity: building tools that help you connect ideas,
+            practice deliberately, and grow at your own pace.
           </p>
 
           <p className="text-lg md:text-xl mt-6 leading-relaxed font-semibold">
-            We aim to not only improve your score on a paper with evidence-based tools but also
-            foster an environment for learning like no other.
+            Our aim is not only to raise scores using evidence-based techniques, but to create an
+            environment where learning becomes rewarding and sustainable.
           </p>
         </div>
       </section>
@@ -282,9 +394,7 @@ export default function Home() {
       {/* Features */}
       <section className="max-w-6xl mx-auto px-6 mt-28">
         <h3 className="text-3xl md:text-4xl font-semibold text-white mb-6 text-center fade-up">
-          <Link to="/features" className="hover:underline">
-            Explore Our Features
-          </Link>
+          <Link to="/features" className="hover:underline">Explore Our Features</Link>
         </h3>
         <div className="text-center mb-8">
           <Link
@@ -297,27 +407,7 @@ export default function Home() {
 
         <div className="space-y-20">
           {features.map((f, i) => (
-            <div
-              key={i}
-              className={`feature-row flex flex-col md:flex-row items-center gap-10 ${
-                i % 2 !== 0 ? "md:flex-row-reverse" : ""
-              }`}
-            >
-              <div className="flex-1 bg-white rounded-2xl shadow-xl p-6 text-slate-800">
-                <h4 className="text-xl font-bold mb-3">{f.title}</h4>
-                <p>{f.desc}</p>
-                <div className="mt-4 text-sm text-slate-500">Built around proven learning techniques.</div>
-              </div>
-              <Link
-                to="/features"
-                className="flex-1 text-slate-300 text-lg md:text-xl leading-relaxed text-center md:text-left"
-              >
-                {i % 2 === 0
-                  ? "The all in 1 hub for your study sessions with all the tools one could ask for."
-                  : "Designed to keep you motivated and productive, no matter how overwhelming your syllabus seems."}
-                <div className="mt-4 text-slate-400">{featureSideText[i]}</div>
-              </Link>
-            </div>
+            <FeatureRow key={i} f={f} i={i} />
           ))}
         </div>
       </section>
