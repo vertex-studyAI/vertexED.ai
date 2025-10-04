@@ -24,26 +24,28 @@ export default function Home() {
     if (typeof window === "undefined") return;
     gsap.registerPlugin(ScrollTrigger);
 
-    // fade-up elements: subtle y + scale + opacity
+    // Fade-up elements: create an individual animation for each element
     const elements = gsap.utils.toArray<HTMLElement>(".fade-up");
-    gsap.fromTo(
-      elements,
-      { y: 50, opacity: 0, scale: 0.995 },
-      {
-        y: 0,
-        opacity: 1,
-        scale: 1,
-        duration: 1.1,
-        ease: "power3.out",
-        stagger: 0.08,
-        scrollTrigger: {
-          trigger: elements[0] || document.body,
-          start: "top 95%",
-          // every element will create its own trigger automatically
-          markers: false,
-        },
-      }
-    );
+    elements.forEach((el) => {
+      gsap.fromTo(
+        el,
+        { y: 40, opacity: 0, scale: 0.995 },
+        {
+          y: 0,
+          opacity: 1,
+          scale: 1,
+          duration: 0.9,
+          ease: "power3.out",
+          stagger: 0.04,
+          scrollTrigger: {
+            trigger: el,
+            start: "top 92%",
+            end: "bottom 30%",
+            toggleActions: "play none none reverse",
+          },
+        }
+      );
+    });
 
     // feature rows: slide from left/right + subtle rotation
     const featureRows = gsap.utils.toArray<HTMLElement>(".feature-row");
@@ -55,11 +57,12 @@ export default function Home() {
           x: 0,
           opacity: 1,
           rotateX: 0,
-          duration: 1.05,
+          duration: 0.95,
           ease: "power3.out",
           scrollTrigger: {
             trigger: row,
             start: "top 92%",
+            toggleActions: "play none none reverse",
           },
         }
       );
@@ -123,7 +126,7 @@ export default function Home() {
       let curY = 0;
       let raf = 0;
 
-      const options = { maxTilt: 3, perspective: 1000, translateZ: 8, ease: 0.12 };
+      const options = { maxTilt: 3.2, perspective: 1000, translateZ: 6, ease: 0.12 };
 
       const onMove = (e: MouseEvent) => {
         rect = el.getBoundingClientRect();
@@ -230,7 +233,7 @@ export default function Home() {
       <div
         key={i}
         onClick={() => toggleFlip(i)}
-        className="group relative h-56 bg-white text-slate-900 rounded-2xl shadow-xl cursor-pointer transition-all duration-500 hover:scale-[1.03] hover:shadow-[0_10px_40px_rgba(2,6,23,0.28)] perspective tilt-card"
+        className="group relative h-56 bg-white text-slate-900 rounded-2xl shadow-xl cursor-pointer transition-all duration-500 hover:scale-[1.03] hover:shadow-[0_10px_40px_rgba(2,6,23,0.28)] perspective tilt-card fade-up"
       >
         <div
           className="absolute inset-0 transition-transform duration-700 transform"
@@ -267,9 +270,9 @@ export default function Home() {
     return (
       <div
         key={i}
-        className={`feature-row flex flex-col md:flex-row items-center gap-10 ${i % 2 !== 0 ? "md:flex-row-reverse" : ""}`}
+        className={`feature-row flex flex-col md:flex-row items-center gap-10 fade-up ${i % 2 !== 0 ? "md:flex-row-reverse" : ""}`}
       >
-        <div className="flex-1 bg-white rounded-2xl shadow-xl p-6 text-slate-800 tilt-card">
+        <div className="flex-1 bg-white rounded-2xl shadow-xl p-6 text-slate-800 tilt-card planner-card">
           <h4 className="text-xl font-bold mb-3">{f.title}</h4>
           <p>{f.desc}</p>
           <div className="mt-4 text-sm text-slate-500">Built around proven learning techniques.</div>
@@ -286,6 +289,7 @@ export default function Home() {
       </div>
     );
   }
+  
   return (
     <>
       <Helmet>
