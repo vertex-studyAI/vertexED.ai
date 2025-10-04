@@ -62,9 +62,31 @@ export default function Main() {
       );
     });
 
+    // Tiles should appear one-by-one alternating from left/right
+    const tilesEls = gsap.utils.toArray<HTMLElement>(".tile-wrapper");
+    tilesEls.forEach((el, i) => {
+      gsap.fromTo(
+        el,
+        { x: i % 2 === 0 ? -50 : 50, opacity: 0, y: 24 },
+        {
+          x: 0,
+          y: 0,
+          opacity: 1,
+          duration: 0.95,
+          ease: "power3.out",
+          delay: i * 0.08,
+          scrollTrigger: {
+            trigger: el,
+            start: "top 92%",
+            toggleActions: "play none none reverse",
+          },
+        }
+      );
+    });
+
     // Per-tile tilt & hover using mousemove -> lightweight requestAnimationFrame
-    const tilesEls = gsap.utils.toArray<HTMLElement>(".tile");
-    tilesEls.forEach((el) => {
+    const innerTiles = gsap.utils.toArray<HTMLElement>(".tile");
+    innerTiles.forEach((el) => {
       let bounds = el.getBoundingClientRect();
 
       const onMove = (e: MouseEvent) => {
@@ -74,12 +96,14 @@ export default function Main() {
         const halfH = bounds.height / 2;
         const rotY = ((x - halfW) / halfW) * 4; // softer rotation
         const rotX = ((halfH - y) / halfH) * 4;
+        const ang = Math.atan2(y - halfH, x - halfW) * (180 / Math.PI);
+        const rotZ = (ang / 90) * 1.8; // small rotateZ for full-direction feel
 
         const prev = rafRefs.current.get(el);
         if (prev) cancelAnimationFrame(prev);
         const id = requestAnimationFrame(() => {
           // subtle 3d transform + translateZ for depth
-          el.style.transform = `perspective(1100px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateZ(6px)`;
+          el.style.transform = `perspective(1100px) rotateX(${rotX}deg) rotateY(${rotY}deg) rotateZ(${rotZ}deg) translateZ(6px)`;
           (el.querySelector(".tile-shadow") as HTMLElement | null)?.style.setProperty(
             "box-shadow",
             `${-rotY * 2}px ${rotX * 2}px 28px rgba(2,6,23,0.45)`
@@ -100,7 +124,7 @@ export default function Main() {
       const onLeave = () => {
         const prev = rafRefs.current.get(el);
         if (prev) cancelAnimationFrame(prev);
-        el.style.transform = "perspective(1100px) rotateX(0deg) rotateY(0deg) translateZ(0px)";
+        el.style.transform = "perspective(1100px) rotateX(0deg) rotateY(0deg) rotateZ(0deg) translateZ(0px)";
         (el.querySelector(".tile-shadow") as HTMLElement | null)?.style.setProperty(
           "box-shadow",
           `0 18px 50px rgba(12,18,40,0.55)`
@@ -119,10 +143,8 @@ export default function Main() {
       window.addEventListener("resize", onResize);
 
       // cleanup
-      return () => {
-        el.removeEventListener("mouseenter", onEnter);
-        window.removeEventListener("resize", onResize);
-      };
+      // store local cleanup on rafRefs for safety (will be cleared below)
+      // note: we don't return inside forEach — cleanup handled in outer return
     });
 
     // cleanup when component unmounts
@@ -175,7 +197,7 @@ export default function Main() {
             {/* grid makes the tiles read as one rectangular block */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {tiles.map((t, i) => (
-                <Link to={t.to} key={t.title} className="group block">
+                <Link to={t.to} key={t.title} className="group block tile-wrapper">
                   <div className="tile-shadow h-full rounded-xl transition-all duration-400" style={{ boxShadow: "0 18px 50px rgba(12,18,40,0.55)" }}>
                     <div className="tile h-56 md:h-64 w-full" aria-hidden={false}>
                       <NeumorphicCard
@@ -185,12 +207,13 @@ export default function Main() {
                       >
                         <div>
                           <div className="flex items-center gap-4 mb-2">
-                            <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-indigo-500 to-pink-500 flex items-center justify-center text-white font-semibold shadow-sm">
-                              {t.title
-                                .split(" ")
-                                .map((s) => s[0])
-                                .slice(0, 2)
-                                .join("")}
+                            {/* replaced initials + blue backdrop with neutral icon badge */}
+                            <div className="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center text-white font-semibold shadow-sm">
+                              {/* small book / spark icon */}
+                              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+                                <path d="M4 19.5C4 18.67 4.67 18 5.5 18H19" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" opacity="0.9" />
+                                <path d="M19 3H8.5C7.67 3 7 3.67 7 4.5V18.5C7 19.33 7.67 20 8.5 20H19" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" opacity="0.95" />
+                              </svg>
                             </div>
 
                             <div>
