@@ -1,6 +1,6 @@
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
-import React, { useEffect } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { TypeAnimation } from "react-type-animation";
@@ -11,7 +11,7 @@ export default function Features() {
     gsap.registerPlugin(ScrollTrigger);
 
     // Fade-up animations (same style as Home)
-    const elements = gsap.utils.toArray<HTMLElement>(".fade-up");
+    const elements = gsap.utils.toArray(".fade-up");
     elements.forEach((el) => {
       gsap.fromTo(
         el,
@@ -32,7 +32,7 @@ export default function Features() {
     });
 
     // Feature row slide-in (left/right)
-    const featureRows = gsap.utils.toArray<HTMLElement>(".feature-row");
+    const featureRows = gsap.utils.toArray(".feature-row");
     featureRows.forEach((row, i) => {
       gsap.fromTo(
         row,
@@ -61,7 +61,96 @@ export default function Features() {
     "A Level",
   ];
 
-  // content kept explanatory — no demos or mock inputs (per your request)
+  // Small reusable interactive components (no live data or external calls)
+  function ExpandableCard({ title, children, compact = false }) {
+    const [open, setOpen] = useState(false);
+    return (
+      <div
+        className={`rounded-2xl p-4 ${compact ? "p-3" : "p-4"} bg-white/4 border border-white/6 shadow-sm`}
+      >
+        <button
+          onClick={() => setOpen((s) => !s)}
+          className="w-full text-left flex items-center justify-between gap-4"
+          aria-expanded={open}
+        >
+          <div>
+            <div className="font-semibold text-white">{title}</div>
+            <div className="text-xs text-slate-300 mt-1">{open ? "Tap to collapse" : "Tap to expand for details"}</div>
+          </div>
+          <div className={`text-slate-300 text-sm transition-transform ${open ? "rotate-180" : ""}`}>
+            ▼
+          </div>
+        </button>
+
+        <div
+          className={`mt-3 text-slate-300 text-sm transition-[max-height,opacity] overflow-hidden ${
+            open ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+          }`}
+        >
+          {children}
+        </div>
+      </div>
+    );
+  }
+
+  function FeatureCard({ heading, blurb, bullets = [], right }) {
+    const [showMore, setShowMore] = useState(false);
+    return (
+      <div className="rounded-2xl bg-white/4 p-6 border border-white/6 flex flex-col gap-4">
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <h3 className="text-lg font-semibold text-white">{heading}</h3>
+            <p className="text-slate-300 mt-2 text-sm">{blurb}</p>
+          </div>
+
+          {right}
+        </div>
+
+        <ul className="list-disc ml-5 text-slate-300 text-sm">
+          {bullets.slice(0, showMore ? bullets.length : 3).map((b, i) => (
+            <li key={i}>{b}</li>
+          ))}
+        </ul>
+
+        {bullets.length > 3 && (
+          <button
+            onClick={() => setShowMore((s) => !s)}
+            className="self-start text-xs mt-1 text-white/80 hover:underline"
+          >
+            {showMore ? "Show less" : "Show more"}
+          </button>
+        )}
+      </div>
+    );
+  }
+
+  // A small persona toggle that fills horizontal empty space in hero — purely client-side UI
+  function PersonaToggle() {
+    const [persona, setPersona] = useState("student");
+    return (
+      <div className="mt-6 inline-flex items-center gap-2 bg-white/3 p-1 rounded-full">
+        <button
+          onClick={() => setPersona("student")}
+          className={`px-3 py-1 rounded-full text-sm font-medium transition ${
+            persona === "student" ? "bg-white text-slate-900" : "text-white/80"
+          }`}
+        >
+          Student
+        </button>
+        <button
+          onClick={() => setPersona("teacher")}
+          className={`px-3 py-1 rounded-full text-sm font-medium transition ${
+            persona === "teacher" ? "bg-white text-slate-900" : "text-white/80"
+          }`}
+        >
+          Teacher
+        </button>
+
+        <div className="ml-4 text-xs text-slate-300">Persona: <span className="font-medium text-white">{persona}</span></div>
+      </div>
+    );
+  }
+
   return (
     <>
       <Helmet>
@@ -74,12 +163,7 @@ export default function Features() {
           <div className="flex-1">
             <h1 className="text-4xl md:text-5xl font-semibold text-white leading-tight mb-4">
               <TypeAnimation
-                sequence={[
-                  700,
-                  "AI study tools for students.",
-                  1200,
-                  "Deep learning meets exam-ready practice.",
-                ]}
+                sequence={[700, "AI study tools for students.", 1200, "Deep learning meets exam-ready practice."]}
                 wrapper="span"
                 cursor={true}
               />
@@ -89,7 +173,7 @@ export default function Features() {
               Focus on one tool at a time and discover the specific ways VertexED raises exam performance while deepening understanding.
             </p>
 
-            <div className="mt-6 flex gap-4">
+            <div className="mt-6 flex gap-4 items-center">
               <Link
                 to="/login"
                 className="inline-block px-6 py-3 rounded-full bg-white text-slate-900 font-semibold shadow-md hover:scale-105 transition-transform duration-300"
@@ -102,6 +186,18 @@ export default function Features() {
               >
                 Back
               </Link>
+
+              {/* Persona toggle fills empty spacing in hero without changing design language */}
+              <div className="ml-auto md:ml-0">
+                <PersonaToggle />
+              </div>
+            </div>
+
+            {/* Small explanatory chips that live in the hero whitespace */}
+            <div className="mt-6 flex gap-2 flex-wrap">
+              <div className="px-3 py-1 bg-white/5 text-slate-300 rounded-full text-xs">Spaced repetition</div>
+              <div className="px-3 py-1 bg-white/5 text-slate-300 rounded-full text-xs">Exam-style practice</div>
+              <div className="px-3 py-1 bg-white/5 text-slate-300 rounded-full text-xs">Rubric-aligned feedback</div>
             </div>
           </div>
 
@@ -113,6 +209,23 @@ export default function Features() {
                 targeted papers, and adaptive review — ensure every minute moves you closer to mastery.
               </p>
               <div className="mt-4 text-xs text-slate-400">Outcomes: faster improvement, targeted revision, measurable confidence gains.</div>
+
+              {/* Add a compact expandable card to use vertical empty space */}
+              <div className="mt-4">
+                <ExpandableCard title="Quick metrics" compact>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className="text-xs">
+                      <div className="text-slate-300">Avg session</div>
+                      <div className="font-semibold text-white">26 min</div>
+                    </div>
+                    <div className="text-xs">
+                      <div className="text-slate-300">Recall boost</div>
+                      <div className="font-semibold text-white">+14%</div>
+                    </div>
+                  </div>
+                  <div className="mt-3 text-xs text-slate-400">These are illustrative placeholders to show how micro-stats would appear in the UI.</div>
+                </ExpandableCard>
+              </div>
             </div>
           </aside>
         </div>
@@ -136,6 +249,27 @@ export default function Features() {
                 <li>Schedules session types (recall bursts, problem-solving blocks, mock-test slots) based on upcoming assessments.</li>
                 <li>Builds spaced-repetition review automatically for weaker topics to reduce forgetting and boost retention.</li>
               </ul>
+
+              {/* Interactive mini-card grid fills whitespace and explains variants */}
+              <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <FeatureCard
+                  heading="Quick session"
+                  blurb="A 15–25 minute focused recall burst."
+                  bullets={["2–3 focused questions", "Immediate feedback", "Short explanation + 1 worked example"]}
+                />
+
+                <FeatureCard
+                  heading="Problem block"
+                  blurb="A longer, mixed-difficulty practice block."
+                  bullets={["Timed questions", "Exam-style phrasing", "Progressive difficulty", "Model answer review"]}
+                />
+
+                <FeatureCard
+                  heading="Weekly plan"
+                  blurb="Balanced distribution across topics."
+                  bullets={["Mix of recall & practice", "Spaced review schedule", "Recovery buffer for busy days"]}
+                />
+              </div>
             </div>
 
             <div className="flex-1 text-slate-300">
@@ -144,6 +278,17 @@ export default function Features() {
                 Distributed and mixed practice are proven to improve retention and transfer. The calendar turns research into a weekly plan
                 you can actually follow — increasing efficient learning and reducing burnout.
               </p>
+
+              {/* Add an expandable card that sits in empty right-hand space */}
+              <div className="mt-6">
+                <ExpandableCard title="Scheduling rules">
+                  <ul className="list-disc ml-5 text-slate-300">
+                    <li>Short retrieval bursts early in the week for new topics.</li>
+                    <li>Problem blocks aligned to days with longer free periods.</li>
+                    <li>Automatic review days for topics with lower performance.</li>
+                  </ul>
+                </ExpandableCard>
+              </div>
             </div>
           </div>
         </div>
@@ -174,6 +319,19 @@ export default function Features() {
                 Deep understanding requires structure. The Discussion Agent turns curiosity into a focused plan — ideal for enrichment,
                 extended essays, science fairs and higher-level exploration while still linking back to syllabus needs.
               </p>
+
+              {/* Small interactive card: switch between 'essay' and 'research' modes to illustrate how the agent frames support */}
+              <div className="mt-6">
+                <ExpandableCard title="Use-case preview">
+                  <div className="text-sm text-slate-300">
+                    <div className="font-medium text-white">Essay prep</div>
+                    <div className="mt-2">Thesis scaffolding, counter-arguments and paragraph roadmaps.</div>
+
+                    <div className="font-medium text-white mt-4">Research project</div>
+                    <div className="mt-2">Hypothesis sketch, suggested readings and small experiments.</div>
+                  </div>
+                </ExpandableCard>
+              </div>
             </div>
           </div>
         </div>
@@ -204,6 +362,20 @@ export default function Features() {
                 Specific, rubric-aligned feedback moves the needle. When students know precisely what to work on and get small wins, exam performance
                 and confidence improve together.
               </p>
+
+              {/* Example interactive card showing rubric highlights */}
+              <div className="mt-6">
+                <FeatureCard
+                  heading="Rubric snapshot"
+                  blurb="Shows where marks were gained and lost."
+                  bullets={[
+                    "Knowledge & understanding: 4/6",
+                    "Application: 3/5",
+                    "Analysis & evaluation: 2/6",
+                    "Missing key example(s) and clearer linkage",
+                  ]}
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -239,6 +411,19 @@ export default function Features() {
               <p className="mt-4 text-slate-300 leading-relaxed">
                 Regular practice with authentic papers reduces anxiety and builds fluent exam technique — directly improving test day performance.
               </p>
+
+              {/* Fill whitespace with a compact card showing paper composition examples */}
+              <div className="mt-6">
+                <FeatureCard
+                  heading="Sample composition"
+                  blurb="How a mixed paper might be composed."
+                  bullets={[
+                    "Section A: 10 short-answer recall (20%)",
+                    "Section B: 6 structured responses (45%)",
+                    "Section C: 2 extended essays (35%)",
+                  ]}
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -269,6 +454,21 @@ export default function Features() {
                 Keeping tools in one workspace preserves focus. Over time, analytics reveal the study patterns that actually correlate with improvement,
                 so you can repeat what works.
               </p>
+
+              {/* Add interactive cards that explain components of the Study Zone */}
+              <div className="mt-6 grid grid-cols-1 gap-4">
+                <FeatureCard
+                  heading="Session analytics"
+                  blurb="Quick view of time on task and accuracy trends."
+                  bullets={["Daily / weekly time-on-task", "Topic-wise accuracy", "Retention graph hints"]}
+                />
+
+                <FeatureCard
+                  heading="Quick helpers"
+                  blurb="Tools surfaced in context so you don't leave flow."
+                  bullets={["Mini-graphing window", "Step-by-step idea hints", "Paste a worked problem to compare"]}
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -299,6 +499,24 @@ export default function Features() {
                 Students who convert notes into active practice retain far more than those who only re-read. The Note Taker intentionally makes that
                 conversion simple and fast: capture → condense → practise.
               </p>
+
+              {/* Fill right-hand whitespace with an example card and an expandable sample flashcard */}
+              <div className="mt-6 grid grid-cols-1 gap-4">
+                <FeatureCard
+                  heading="Lecture snapshot"
+                  blurb="Timestamps + highlights for quick review."
+                  bullets={["Highlighted quotes", "Timestamped Q/A", "Exportable flashcards"]}
+                />
+
+                <ExpandableCard title="Sample flashcard">
+                  <div className="text-sm text-slate-300">
+                    <div className="font-medium text-white">Front:</div>
+                    <div className="mt-1">Explain distributed practice and why it helps retention.</div>
+                    <div className="font-medium text-white mt-3">Back:</div>
+                    <div className="mt-1">Distributed practice spaces learning over time which reduces forgetting and strengthens retrieval pathways.</div>
+                  </div>
+                </ExpandableCard>
+              </div>
             </div>
           </div>
         </div>
@@ -307,19 +525,4 @@ export default function Features() {
       {/* CTA */}
       <section className="fade-up px-6 py-12">
         <div className="max-w-4xl mx-auto text-center">
-          <h3 className="text-2xl md:text-3xl font-semibold text-white mb-4">Designed to improve scores and understanding</h3>
-          <p className="text-slate-300 mb-6">
-            VertexED balances exam fluency with conceptual learning. Every feature maps to measurable outcomes — improved exam technique,
-            stronger long-term retention, and clear next steps for what to practise next.
-          </p>
-
-          <Link to="/login" className="inline-block px-8 py-3 rounded-full bg-white text-slate-900 font-semibold shadow-md hover:scale-105 transition-transform duration-300">
-            Get started
-          </Link>
-
-          <div className="mt-6 text-xs text-slate-400">Personalisation analyses your strengths and weaknesses and proposes concrete next steps — not generic advice.</div>
-        </div>
-      </section>
-    </>
-  );
-}
+          <h3 className="text-2xl md:text-3xl font-semibold text-white mb-4">Designed to
