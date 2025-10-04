@@ -525,4 +525,19 @@ export default function Features() {
       {/* CTA */}
       <section className="fade-up px-6 py-12">
         <div className="max-w-4xl mx-auto text-center">
-          <h3 className="text-2xl md:text-3xl font-semibold text-white mb-4">Designed to
+          <h3 className="text-2xl md:text-3xl font-semibold text-white mb-4">Designed to improve scores and understanding</h3>
+          <p className="text-slate-300 mb-6">
+            VertexED balances exam fluency with conceptual learning. Every feature maps to measurable outcomes — improved exam technique,
+            stronger long-term retention, and clear next steps for what to practise next.
+          </p>
+
+          <Link to="/login" className="inline-block px-8 py-3 rounded-full bg-white text-slate-900 font-semibold shadow-md hover:scale-105 transition-transform duration-300">
+            Get started
+          </Link>
+
+          <div className="mt-6 text-xs text-slate-400">Personalisation analyses your strengths and weaknesses and proposes concrete next steps — not generic advice.</div>
+        </div>
+      </section>
+    </>
+  );
+}
