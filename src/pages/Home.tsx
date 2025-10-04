@@ -59,6 +59,7 @@ export default function Home() {
           rotateX: 0,
           duration: 0.95,
           ease: "power3.out",
+          delay: i * 0.08, // one-by-one effect as they enter
           scrollTrigger: {
             trigger: row,
             start: "top 92%",
@@ -122,8 +123,10 @@ export default function Home() {
       let rect = el.getBoundingClientRect();
       let targetX = 0;
       let targetY = 0;
+      let targetZ = 0;
       let curX = 0;
       let curY = 0;
+      let curZ = 0;
       let raf = 0;
 
       const options = { maxTilt: 3.2, perspective: 1000, translateZ: 6, ease: 0.12 };
@@ -137,22 +140,27 @@ export default function Home() {
         targetY = ((x - halfW) / halfW) * options.maxTilt; // rotateY
         targetX = ((halfH - y) / halfH) * options.maxTilt; // rotateX
 
+        // subtle rotateZ based on angle
+        const ang = Math.atan2(y - halfH, x - halfW) * (180 / Math.PI); // -180..180
+        targetZ = (ang / 90) * 1.6; // small twist (-1.6deg .. 1.6deg approx)
+
         if (!raf) raf = requestAnimationFrame(update);
       };
 
       const update = () => {
         curX += (targetX - curX) * options.ease;
         curY += (targetY - curY) * options.ease;
-        el.style.transform = `perspective(${options.perspective}px) rotateX(${curX}deg) rotateY(${curY}deg) translateZ(${options.translateZ}px)`;
+        curZ += (targetZ - curZ) * options.ease;
+        el.style.transform = `perspective(${options.perspective}px) rotateX(${curX}deg) rotateY(${curY}deg) rotateZ(${curZ}deg) translateZ(${options.translateZ}px)`;
         raf = 0;
       };
 
       const onLeave = () => {
-        targetX = 0; targetY = 0;
+        targetX = 0; targetY = 0; targetZ = 0;
         if (raf) cancelAnimationFrame(raf);
         // gently animate back
         el.style.transition = "transform 420ms cubic-bezier(0.22,1,0.36,1)";
-        el.style.transform = `perspective(${options.perspective}px) rotateX(0deg) rotateY(0deg) translateZ(0px)`;
+        el.style.transform = `perspective(${options.perspective}px) rotateX(0deg) rotateY(0deg) rotateZ(0deg) translateZ(0px)`;
         setTimeout(() => { el.style.transition = ""; }, 450);
       };
 
@@ -183,7 +191,7 @@ export default function Home() {
     if (!el || typeof window === "undefined") return;
 
     let rect = el.getBoundingClientRect();
-    let tX = 0, tY = 0, cX = 0, cY = 0;
+    let tX = 0, tY = 0, tZ = 0, cX = 0, cY = 0, cZ = 0;
     let raf = 0;
     const opts = { maxTilt: 2.6, perspective: 1200, translateZ: 6, ease: 0.08 };
 
@@ -195,21 +203,26 @@ export default function Home() {
       const halfH = rect.height / 2;
       tY = ((x - halfW) / halfW) * opts.maxTilt; // rotateY
       tX = ((halfH - y) / halfH) * opts.maxTilt; // rotateX
+
+      const ang = Math.atan2(y - halfH, x - halfW) * (180 / Math.PI);
+      tZ = (ang / 90) * 1.0; // tiny rotateZ
+
       if (!raf) raf = requestAnimationFrame(update);
     };
 
     const update = () => {
       cX += (tX - cX) * opts.ease;
       cY += (tY - cY) * opts.ease;
-      el.style.transform = `perspective(${opts.perspective}px) rotateX(${cX}deg) rotateY(${cY}deg) translateZ(${opts.translateZ}px)`;
+      cZ += (tZ - cZ) * opts.ease;
+      el.style.transform = `perspective(${opts.perspective}px) rotateX(${cX}deg) rotateY(${cY}deg) rotateZ(${cZ}deg) translateZ(${opts.translateZ}px)`;
       raf = 0;
     };
 
     const onLeave = () => {
-      tX = 0; tY = 0;
+      tX = 0; tY = 0; tZ = 0;
       if (raf) cancelAnimationFrame(raf);
       el.style.transition = "transform 480ms cubic-bezier(0.22,1,0.36,1)";
-      el.style.transform = `perspective(${opts.perspective}px) rotateX(0deg) rotateY(0deg) translateZ(0px)`;
+      el.style.transform = `perspective(${opts.perspective}px) rotateX(0deg) rotateY(0deg) rotateZ(0deg) translateZ(0px)`;
       setTimeout(() => { el.style.transition = ""; }, 500);
     };
 
@@ -289,7 +302,10 @@ export default function Home() {
       </div>
     );
   }
-  
+
+  // -------------------
+  // Render
+  // -------------------
   return (
     <>
       <Helmet>
