@@ -10,6 +10,7 @@ export default function Features() {
     if (typeof window === "undefined") return;
     gsap.registerPlugin(ScrollTrigger);
 
+    // Fade-up animations (same style as Home)
     const elements = gsap.utils.toArray(".fade-up");
     elements.forEach((el) => {
       gsap.fromTo(
