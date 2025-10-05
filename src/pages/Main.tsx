@@ -22,7 +22,6 @@ export default function Main() {
     if (typeof window === "undefined") return;
     gsap.registerPlugin(ScrollTrigger);
 
-    // Fade-up for headings / intro (same behavior as Home)
     const fadeUps = gsap.utils.toArray<HTMLElement>(".fade-up");
     fadeUps.forEach((el) => {
       gsap.fromTo(
@@ -43,7 +42,6 @@ export default function Main() {
       );
     });
 
-    // Feature rows slide in left/right (consistent with Home)
     const rows = gsap.utils.toArray<HTMLElement>(".feature-row");
     rows.forEach((row, i) => {
       gsap.fromTo(
@@ -62,7 +60,6 @@ export default function Main() {
       );
     });
 
-    // Tiles should appear one-by-one alternating from left/right
     const tilesEls = gsap.utils.toArray<HTMLElement>(".tile-wrapper");
     tilesEls.forEach((el, i) => {
       gsap.fromTo(
@@ -84,7 +81,6 @@ export default function Main() {
       );
     });
 
-    // Per-tile tilt & hover using mousemove -> lightweight requestAnimationFrame
     const innerTiles = gsap.utils.toArray<HTMLElement>(".tile");
     innerTiles.forEach((el) => {
       let bounds = el.getBoundingClientRect();
@@ -94,15 +90,14 @@ export default function Main() {
         const y = e.clientY - bounds.top;
         const halfW = bounds.width / 2;
         const halfH = bounds.height / 2;
-        const rotY = ((x - halfW) / halfW) * 4; // softer rotation
+        const rotY = ((x - halfW) / halfW) * 4;
         const rotX = ((halfH - y) / halfH) * 4;
         const ang = Math.atan2(y - halfH, x - halfW) * (180 / Math.PI);
-        const rotZ = (ang / 90) * 1.8; // small rotateZ for full-direction feel
+        const rotZ = (ang / 90) * 1.8;
 
         const prev = rafRefs.current.get(el);
         if (prev) cancelAnimationFrame(prev);
         const id = requestAnimationFrame(() => {
-          // subtle 3d transform + translateZ for depth
           el.style.transform = `perspective(1100px) rotateX(${rotX}deg) rotateY(${rotY}deg) rotateZ(${rotZ}deg) translateZ(6px)`;
           (el.querySelector(".tile-shadow") as HTMLElement | null)?.style.setProperty(
             "box-shadow",
@@ -135,22 +130,11 @@ export default function Main() {
       };
 
       el.addEventListener("mouseenter", onEnter);
-
-      // update bounds on resize
-      const onResize = () => {
-        bounds = el.getBoundingClientRect();
-      };
-      window.addEventListener("resize", onResize);
-
-      // cleanup
-      // store local cleanup on rafRefs for safety (will be cleared below)
-      // note: we don't return inside forEach — cleanup handled in outer return
+      window.addEventListener("resize", () => (bounds = el.getBoundingClientRect()));
     });
 
-    // cleanup when component unmounts
     return () => {
       ScrollTrigger.getAll().forEach((t) => t.kill());
-      // cancel RAFs
       rafRefs.current.forEach((id) => cancelAnimationFrame(id));
       rafRefs.current.clear();
     };
@@ -158,7 +142,7 @@ export default function Main() {
 
   return (
     <>
-      {/* Intro — inline with existing layout/backdrop (no header/meta) */}
+      {/* Intro */}
       <section className="fade-up px-6 py-10">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-8">
           <div className="flex-1">
@@ -187,14 +171,13 @@ export default function Main() {
         </div>
       </section>
 
-      {/* The unified rectangle containing all tiles (fits into existing backdrop) */}
+      {/* Tiles */}
       <section className="px-6 pb-12">
         <div className="max-w-7xl mx-auto">
           <div
             ref={containerRef}
             className="relative rounded-3xl overflow-hidden border border-slate-700 bg-gradient-to-br from-slate-900/65 to-slate-800/60 shadow-2xl p-6 md:p-8"
           >
-            {/* grid makes the tiles read as one rectangular block */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {tiles.map((t, i) => (
                 <Link to={t.to} key={t.title} className="group block tile-wrapper">
@@ -207,9 +190,7 @@ export default function Main() {
                       >
                         <div>
                           <div className="flex items-center gap-4 mb-2">
-                            {/* replaced initials + blue backdrop with neutral icon badge */}
                             <div className="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center text-white font-semibold shadow-sm">
-                              {/* small book / spark icon */}
                               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
                                 <path d="M4 19.5C4 18.67 4.67 18 5.5 18H19" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" opacity="0.9" />
                                 <path d="M19 3H8.5C7.67 3 7 3.67 7 4.5V18.5C7 19.33 7.67 20 8.5 20H19" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" opacity="0.95" />
@@ -234,13 +215,22 @@ export default function Main() {
               ))}
             </div>
 
-            {/* subtle decorative outline */}
+            {/* New Archives Button */}
+            <div className="text-center mt-10 fade-up">
+              <Link
+                to="/archives"
+                className="inline-block px-8 py-3 rounded-full bg-indigo-500/90 text-white font-semibold shadow-lg hover:scale-105 hover:bg-indigo-400 transition-transform duration-300"
+              >
+                📚 Explore The Archives
+              </Link>
+            </div>
+
             <div className="pointer-events-none absolute inset-0 rounded-3xl ring-0 transition-all duration-500" />
           </div>
         </div>
       </section>
 
-      {/* Footer CTA area (keeps styling consistent with Home) */}
+      {/* Footer CTA */}
       <section className="fade-up px-6 pb-12">
         <div className="max-w-6xl mx-auto text-center">
           <h3 className="text-2xl md:text-3xl font-semibold text-white mb-4">Ready to get back into flow?</h3>
@@ -248,7 +238,10 @@ export default function Main() {
             Use the dashboard to jump straight into focused work — all the tools you need, in one elegant rectangle.
           </p>
 
-          <Link to="/study-zone" className="inline-block px-8 py-3 rounded-full bg-white text-slate-900 font-semibold shadow-md hover:scale-105 transition-transform duration-300">
+          <Link
+            to="/study-zone"
+            className="inline-block px-8 py-3 rounded-full bg-white text-slate-900 font-semibold shadow-md hover:scale-105 transition-transform duration-300"
+          >
             Start a session
           </Link>
         </div>
