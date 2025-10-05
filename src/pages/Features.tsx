@@ -10,7 +10,6 @@ export default function Features() {
     if (typeof window === "undefined") return;
     gsap.registerPlugin(ScrollTrigger);
 
-    // Fade-up animations (same style as Home)
     const elements = gsap.utils.toArray(".fade-up");
     elements.forEach((el) => {
       gsap.fromTo(
@@ -60,6 +59,9 @@ export default function Features() {
     "AP",
     "A Level",
   ];
+
+  // Lift persona state so other components can react to it
+  const [persona, setPersona] = useState("student");
 
   // Small reusable interactive components (no live data or external calls)
   function ExpandableCard({ title, children, compact = false }) {
@@ -124,9 +126,8 @@ export default function Features() {
     );
   }
 
-  // A small persona toggle that fills horizontal empty space in hero — purely client-side UI
-  function PersonaToggle() {
-    const [persona, setPersona] = useState("student");
+  // Persona toggle now controlled by parent so other parts of the UI can change subtext
+  function PersonaToggle({ persona, setPersona }) {
     return (
       <div className="mt-6 inline-flex items-center gap-2 bg-white/3 p-1 rounded-full">
         <button
@@ -151,6 +152,73 @@ export default function Features() {
     );
   }
 
+  // Interactive topic card used in Note Taker — cycles between topics
+  function InteractiveTopicCard({ topics, persona }) {
+    const [index, setIndex] = useState(0);
+    function nextTopic() {
+      setIndex((i) => (i + 1) % topics.length);
+    }
+    function prevTopic() {
+      setIndex((i) => (i - 1 + topics.length) % topics.length);
+    }
+
+    return (
+      <div className="rounded-2xl p-4 bg-white/6 border border-white/6">
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <h4 className="text-white font-semibold">{topics[index].title}</h4>
+            <p className="text-slate-300 text-sm mt-2">{topics[index].excerpt}</p>
+
+            <div className="mt-3 text-xs text-slate-400">
+              {persona === "student" ? topics[index].studentHint : topics[index].teacherHint}
+            </div>
+
+            <div className="mt-3 text-xs text-slate-300">Example flashcard:</div>
+            <div className="mt-1 text-sm text-slate-300">{topics[index].flashcard}</div>
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <button onClick={nextTopic} className="px-3 py-1 rounded-full bg-white/5 text-white text-sm">Next</button>
+            <button onClick={prevTopic} className="px-3 py-1 rounded-full bg-white/5 text-white text-sm">Prev</button>
+          </div>
+        </div>
+
+        <div className="mt-3 text-xs text-slate-400">Click Next/Prev to browse curated note examples for quick practice.</div>
+      </div>
+    );
+  }
+
+  // Topics to cycle through in the Note Taker interactive card
+  const noteTopics = [
+    {
+      title: "Potsdam Conference (1945)",
+      excerpt:
+        "Key decisions at Potsdam shaped post-war Europe: zones of occupation, reparations, and the outline for Germany's administration.",
+      studentHint: "Student tip: focus on who attended, main outcomes, and consequences for Germany and Eastern Europe.",
+      teacherHint: "Teacher note: useful for scaffolded prompts — ask students to compare Potsdam with Yalta and evaluate shifts in Allied priorities.",
+      flashcard:
+        "Front: What were the three main agreements at Potsdam? — Back: Division of Germany, reparations approach, and boundaries/Poland administration."
+    },
+    {
+      title: "Transformation of Functions",
+      excerpt:
+        "A quick review of how translations, stretches, reflections and compressions alter y = f(x) — essential for algebra and precalculus.",
+      studentHint: "Student tip: practice by sketching a base function and applying one transformation at a time.",
+      teacherHint: "Teacher note: use ordered practice (translate, then scale) and ask students to explain inverse operations.",
+      flashcard:
+        "Front: How does y = f(x - 3) differ from y = f(x)? — Back: It's translated 3 units right."
+    },
+    {
+      title: "Photosynthesis — quick summary",
+      excerpt:
+        "Capture the light-dependent and Calvin cycle steps in concise bullets to convert lecture notes into active practice.",
+      studentHint: "Student tip: memorise the inputs/outputs of each stage and link them to cellular location.",
+      teacherHint: "Teacher note: provide prompts that require linking structure to function (e.g., thylakoid role).",
+      flashcard:
+        "Front: Where does the Calvin cycle occur? — Back: In the stroma of the chloroplast."
+    },
+  ];
+
   return (
     <>
       <Helmet>
@@ -173,6 +241,15 @@ export default function Features() {
               Focus on one tool at a time and discover the specific ways VertexED raises exam performance while deepening understanding.
             </p>
 
+            {/* persona-specific subtext */}
+            <div className="mt-3 text-sm text-slate-400">
+              {persona === "student" ? (
+                "Student view — focused examples, quick-practice flows, and study-facing tips."
+              ) : (
+                "Teacher view — rubric-aligned suggestions, assignment framing, and class-level guidance."
+              )}
+            </div>
+
             <div className="mt-6 flex gap-4 items-center">
               <Link
                 to="/login"
@@ -189,7 +266,7 @@ export default function Features() {
 
               {/* Persona toggle fills empty spacing in hero without changing design language */}
               <div className="ml-auto md:ml-0">
-                <PersonaToggle />
+                <PersonaToggle persona={persona} setPersona={setPersona} />
               </div>
             </div>
 
@@ -507,6 +584,9 @@ export default function Features() {
                   blurb="Timestamps + highlights for quick review."
                   bullets={["Highlighted quotes", "Timestamped Q/A", "Exportable flashcards"]}
                 />
+
+                {/* Interactive topic card that alternates between curated topics on click */}
+                <InteractiveTopicCard topics={noteTopics} persona={persona} />
 
                 <ExpandableCard title="Sample flashcard">
                   <div className="text-sm text-slate-300">
