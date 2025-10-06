@@ -135,9 +135,13 @@ const Schedule = ({
                 borderColor: tagColor,
                 background: `repeating-linear-gradient(45deg, ${tagColor}33, ${tagColor}33 10px, transparent 10px, transparent 20px)`
               }}
+              role="button"
+              tabIndex={0}
+              aria-label={`${task["task name"] || task.taskName} starting at ${task["start time"]} for ${duration} minutes. Press Enter to edit or Delete to complete.`}
               onClick={() => handleTaskClick(task)}
+              onKeyDown={(e) => { if (e.key === 'Enter') { handleTaskClick(task); } if (e.key === 'Delete') { onTaskComplete(task.id);} }}
             >
-              <button onClick={(e) => { e.stopPropagation(); onTaskComplete(task.id); }} className="complete-task-button">✔</button>
+              <button onClick={(e) => { e.stopPropagation(); onTaskComplete(task.id); }} className="complete-task-button" aria-label="Mark task complete" type="button">✔</button>
               {task["task name"] || task.taskName}
             </div>
           );
@@ -168,9 +172,13 @@ const Schedule = ({
                   borderColor: tagColor,
                   background: `repeating-linear-gradient(45deg, ${tagColor}33, ${tagColor}33 10px, transparent 10px, transparent 20px)`
                 }}
+                role="button"
+                tabIndex={0}
+                aria-label={`${task["task name"] || task.taskName} starting at ${task["start time"]} for ${duration} minutes. Press Enter to edit or Delete to complete.`}
                 onClick={() => handleTaskClick(task)}
+                onKeyDown={(e) => { if (e.key === 'Enter') { handleTaskClick(task);} if (e.key === 'Delete') { onTaskComplete(task.id);} }}
               >
-                <button onClick={(e) => { e.stopPropagation(); onTaskComplete(task.id); }} className="complete-task-button">✔</button>
+                <button onClick={(e) => { e.stopPropagation(); onTaskComplete(task.id); }} className="complete-task-button" aria-label="Mark task complete" type="button">✔</button>
                 {task["task name"] || task.taskName}
               </div>
             );

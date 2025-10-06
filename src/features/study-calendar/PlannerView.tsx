@@ -267,42 +267,100 @@ const PlannerView: React.FC = () => {
         Add with AI
       </button>
       {aiOpen && (
-        <div className="blur-background">
-          <div className="popup task-popup" style={{ padding: '1rem' }}>
-            <button className="complete-task-button" style={{ position: 'absolute', right: 10, top: 10 }} onClick={() => setAiOpen(false)}>✕</button>
-            <h3 style={{ marginBottom: 8 }}>Add task with AI</h3>
-            <input
-              type="text"
-              className="neu-input-el"
-              placeholder="Enter your task (natural language)"
-              value={aiInput}
-              onChange={(e) => setAiInput(e.target.value)}
-              style={{ width: '100%', border: '1px solid hsl(var(--foreground)/0.2)', borderRadius: 8, padding: '0.6rem' }}
-            />
-
-            <button onClick={() => setShowMoreOptions(v => !v)} className="planner-today" style={{ marginTop: 10 }}>
-              {showMoreOptions ? 'Hide options' : 'View more options'}
-            </button>
-            {showMoreOptions && (
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginTop: 10 }}>
-                <label style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-                  <span>Date</span>
-                  <input type="date" value={taskDate} onChange={(e) => setTaskDate(e.target.value)} className="neu-input-el" style={{ border: '1px solid hsl(var(--foreground)/0.2)', borderRadius: 8, padding: '0.5rem' }} />
-                </label>
-                <label style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-                  <span>Start time</span>
-                  <input type="time" value={taskStartTime} onChange={(e) => setTaskStartTime(e.target.value)} className="neu-input-el" style={{ border: '1px solid hsl(var(--foreground)/0.2)', borderRadius: 8, padding: '0.5rem' }} />
-                </label>
-                <label style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-                  <span>Duration (min)</span>
-                  <input type="number" min={0} step={15} value={taskDuration} onChange={(e) => setTaskDuration(e.target.value)} className="neu-input-el" style={{ border: '1px solid hsl(var(--foreground)/0.2)', borderRadius: 8, padding: '0.5rem' }} />
-                </label>
+        <div className="blur-background" aria-modal="true" role="dialog" aria-label="Add task with AI">
+          <div
+            className="popup"
+            style={{
+              width: 'min(520px, 92vw)',
+              height: 'auto',
+              maxHeight: '80vh',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '1rem',
+              justifyContent: 'center',
+              padding: '1.1rem 1.2rem 1.25rem'
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.75rem' }}>
+              <h3 style={{ fontSize: '1rem', fontWeight: 600, margin: 0 }}>Add task with AI</h3>
+              <button
+                className="complete-task-button"
+                style={{ position: 'static', marginLeft: 'auto' }}
+                aria-label="Close"
+                onClick={() => setAiOpen(false)}
+              >
+                ✕
+              </button>
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+              <input
+                type="text"
+                className="neu-input-el"
+                placeholder="Enter your task (natural language)"
+                value={aiInput}
+                onChange={(e) => setAiInput(e.target.value)}
+                style={{ width: '100%', border: '1px solid hsl(var(--foreground)/0.2)', borderRadius: 10, padding: '0.7rem 0.9rem', fontSize: '.85rem' }}
+              />
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <button
+                  onClick={() => setShowMoreOptions(v => !v)}
+                  className="planner-today"
+                  style={{ marginTop: 0 }}
+                  aria-expanded={showMoreOptions}
+                  aria-controls="ai-extra-options"
+                >
+                  {showMoreOptions ? 'Hide options' : 'View more options'}
+                </button>
+                <div style={{ display: 'flex', gap: '0.5rem' }}>
+                  <button className="planner-today" onClick={() => setAiOpen(false)}>Cancel</button>
+                  <button className="planner-new" onClick={addTaskFromAI} disabled={aiBusy || !aiInput.trim()}>{aiBusy ? 'Adding…' : 'Add task'}</button>
+                </div>
               </div>
-            )}
-
-            <div style={{ display: 'flex', gap: 8, marginTop: 14, justifyContent: 'flex-end' }}>
-              <button className="planner-today" onClick={() => setAiOpen(false)}>Cancel</button>
-              <button className="planner-new" onClick={addTaskFromAI} disabled={aiBusy || !aiInput.trim()}>{aiBusy ? 'Adding…' : 'Add task'}</button>
+              {showMoreOptions && (
+                <div
+                  id="ai-extra-options"
+                  style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(auto-fit,minmax(140px,1fr))',
+                    gap: 14,
+                    marginTop: 4,
+                    alignItems: 'start'
+                  }}
+                >
+                  <label style={{ display: 'flex', flexDirection: 'column', gap: 6, fontSize: '.7rem' }}>
+                    <span style={{ opacity: 0.8 }}>Date</span>
+                    <input
+                      type="date"
+                      value={taskDate}
+                      onChange={(e) => setTaskDate(e.target.value)}
+                      className="neu-input-el"
+                      style={{ border: '1px solid hsl(var(--foreground)/0.2)', borderRadius: 8, padding: '0.5rem', fontSize: '.75rem' }}
+                    />
+                  </label>
+                  <label style={{ display: 'flex', flexDirection: 'column', gap: 6, fontSize: '.7rem' }}>
+                    <span style={{ opacity: 0.8 }}>Start time</span>
+                    <input
+                      type="time"
+                      value={taskStartTime}
+                      onChange={(e) => setTaskStartTime(e.target.value)}
+                      className="neu-input-el"
+                      style={{ border: '1px solid hsl(var(--foreground)/0.2)', borderRadius: 8, padding: '0.5rem', fontSize: '.75rem' }}
+                    />
+                  </label>
+                  <label style={{ display: 'flex', flexDirection: 'column', gap: 6, fontSize: '.7rem' }}>
+                    <span style={{ opacity: 0.8 }}>Duration (min)</span>
+                    <input
+                      type="number"
+                      min={0}
+                      step={15}
+                      value={taskDuration}
+                      onChange={(e) => setTaskDuration(e.target.value)}
+                      className="neu-input-el"
+                      style={{ border: '1px solid hsl(var(--foreground)/0.2)', borderRadius: 8, padding: '0.5rem', fontSize: '.75rem' }}
+                    />
+                  </label>
+                </div>
+              )}
             </div>
           </div>
         </div>

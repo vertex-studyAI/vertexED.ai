@@ -34,11 +34,15 @@ const Calendar: React.FC<CalendarProps> = ({ selectedDate, onDateChange, mode })
       <div
         key={"prev" + i}
         className="calendar-day previous-month"
+        role="button"
+        tabIndex={0}
+        aria-label={`Previous month day ${daysInPreviousMonth - i}`}
         onClick={() => {
           const newDate = new Date(previousMonthYear, previousMonth, daysInPreviousMonth - i);
           setCurrentDate(newDate);
           onDateChange(newDate);
         }}
+        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); const newDate = new Date(previousMonthYear, previousMonth, daysInPreviousMonth - i); setCurrentDate(newDate); onDateChange(newDate);} }}
       >
         {daysInPreviousMonth - i}
       </div>
@@ -50,11 +54,16 @@ const Calendar: React.FC<CalendarProps> = ({ selectedDate, onDateChange, mode })
       <div
         key={i}
         className={`calendar-day ${i === currentDay ? "accent" : ""} ${isHighlighted ? "highlight" : ""}`}
+        role="button"
+        tabIndex={0}
+        aria-current={i === currentDay ? 'date' : undefined}
+        aria-label={`Select ${new Date(currentYear, currentMonth, i).toLocaleDateString('en-US', { weekday:'long', month:'long', day:'numeric', year:'numeric'})}`}
         onClick={() => {
           const newDate = new Date(currentYear, currentMonth, i);
           setCurrentDate(newDate);
           onDateChange(newDate);
         }}
+        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); const newDate = new Date(currentYear, currentMonth, i); setCurrentDate(newDate); onDateChange(newDate);} }}
       >
         {i}
       </div>
@@ -65,11 +74,15 @@ const Calendar: React.FC<CalendarProps> = ({ selectedDate, onDateChange, mode })
       <div
         key={"next" + i}
         className="calendar-day next-month"
+        role="button"
+        tabIndex={0}
+        aria-label={`Next month day ${i}`}
         onClick={() => {
           const newDate = new Date(nextMonthYear, nextMonth, i);
           setCurrentDate(newDate);
           onDateChange(newDate);
         }}
+        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); const newDate = new Date(nextMonthYear, nextMonth, i); setCurrentDate(newDate); onDateChange(newDate);} }}
       >
         {i}
       </div>
@@ -90,21 +103,21 @@ const Calendar: React.FC<CalendarProps> = ({ selectedDate, onDateChange, mode })
 
   return (
     <div>
-      <div className="calendar">
-        <div className="calendar-header">
-          <button onClick={handlePreviousMonth} className="calendar-arrow" aria-label="Previous month">
+      <div className="calendar" role="group" aria-label="Calendar date picker">
+        <div className="calendar-header" role="heading" aria-level={2}>
+          <button onClick={handlePreviousMonth} className="calendar-arrow" aria-label="Previous month" type="button">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </button>
-          {currentDate.toLocaleDateString("en-US", { month: "long", year: "numeric" })}
-          <button onClick={handleNextMonth} className="calendar-arrow" aria-label="Next month">
+          <span aria-live="polite">{currentDate.toLocaleDateString("en-US", { month: "long", year: "numeric" })}</span>
+          <button onClick={handleNextMonth} className="calendar-arrow" aria-label="Next month" type="button">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M9 18L15 12L9 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </button>
         </div>
-        <div className="calendar-grid">
+        <div className="calendar-grid" role="grid">
           {days}
         </div>
       </div>
