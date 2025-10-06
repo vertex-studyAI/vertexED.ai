@@ -21,6 +21,7 @@ const PlannerView: React.FC = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [mode, setMode] = useState("Day");
   const [tasks, setTasks] = useState<TaskItem[]>([]);
+  const [isMobile, setIsMobile] = useState<boolean>(() => (typeof window !== 'undefined') ? window.matchMedia('(max-width: 900px)').matches : false);
   const [aiOpen, setAiOpen] = useState(false);
   const [aiInput, setAiInput] = useState("");
   const [aiBusy, setAiBusy] = useState(false);
@@ -52,6 +53,24 @@ const PlannerView: React.FC = () => {
   }, []);
   useEffect(() => { localStorage.setItem("planner_tasks", JSON.stringify(tasks)); }, [tasks]);
   useEffect(() => { localStorage.setItem("planner_mode", mode); }, [mode]);
+
+  // Listen for viewport changes to determine mobile
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const mq = window.matchMedia('(max-width: 900px)');
+    const handler = (e: MediaQueryListEvent | MediaQueryList) => {
+      const match = (e as MediaQueryList).matches;
+      setIsMobile(match);
+    };
+    handler(mq);
+    mq.addEventListener ? mq.addEventListener('change', handler) : mq.addListener(handler as any);
+    return () => { mq.removeEventListener ? mq.removeEventListener('change', handler) : mq.removeListener(handler as any); };
+  }, []);
+
+  // Force Day mode on mobile if Week was set
+  useEffect(() => {
+    if (isMobile && mode === 'Week') setMode('Day');
+  }, [isMobile, mode]);
 
   const formattedHeaderDate = useMemo(() => {
     const day = selectedDate.getDate();
@@ -251,10 +270,12 @@ const PlannerView: React.FC = () => {
       <div className="planner-header">
         <h1 className="planner-title">{formattedHeaderDate}</h1>
         <div className="planner-controls">
-          <select className="planner-select" value={mode} onChange={(e) => setMode(e.target.value)}>
-            <option value="Day">Day</option>
-            <option value="Week">Week</option>
-          </select>
+          {!isMobile && (
+            <select className="planner-select" value={mode} onChange={(e) => setMode(e.target.value)}>
+              <option value="Day">Day</option>
+              <option value="Week">Week</option>
+            </select>
+          )}
           <button className="planner-today" onClick={() => setSelectedDate(new Date())}>Today</button>
         </div>
 	<div className="planner-actions">
