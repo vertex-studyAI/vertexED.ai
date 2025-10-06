@@ -36,7 +36,7 @@ export default function SiteLayout() {
       </div>
 
       {/* Header */}
-      <header className="w-full bg-transparent z-50 sticky top-0 md:relative">
+  <header className="w-full z-50 fixed top-0 left-0 md:relative bg-[#0f172a]/85 backdrop-blur supports-[backdrop-filter]:bg-[#0f172a]/70 border-b border-white/10 md:bg-transparent md:backdrop-blur-0 md:supports-[backdrop-filter]:bg-transparent md:border-b-0">
         <div className="mx-auto w-full max-w-[1400px] px-4 md:px-6 h-14 flex items-center justify-between gap-4">
           <Link to="/" className="flex items-center gap-2 shrink-0">
             <img
@@ -112,7 +112,7 @@ export default function SiteLayout() {
         {/* Mobile nav dropdown */}
         <div
           className={`md:hidden fixed inset-x-0 top-14 origin-top shadow-lg border-t border-white/10 bg-[#1d1d1d]/95 backdrop-blur-lg transition-[max-height] overflow-hidden z-40 ${
-            menuOpen ? "max-h-[400px]" : "max-h-0"
+            menuOpen ? "max-h-[420px]" : "max-h-0"
           }`}
         >
           <nav className="flex flex-col px-6 py-4 gap-4 text-sm font-medium">
@@ -138,7 +138,7 @@ export default function SiteLayout() {
       </header>
 
       {/* Main */}
-      <main className="relative z-10 flex-1 container mx-auto px-4 md:px-6 py-8 animate-fade-in">
+  <main className="relative z-10 flex-1 container mx-auto px-4 md:px-6 pt-24 md:pt-8 pb-8 animate-fade-in">
         <Suspense fallback={<div className="min-h-[40vh]" />}>
           <Outlet />
         </Suspense>

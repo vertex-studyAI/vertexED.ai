@@ -313,26 +313,34 @@ export default function Home() {
       </Helmet>
 
       {/* Hero */}
-      <section className="relative overflow-hidden px-6 py-24 bg-gradient-to-b from-slate-900 to-slate-800 text-center rounded-3xl shadow-xl">
+  <section className="relative overflow-hidden px-6 pt-24 pb-16 bg-gradient-to-b from-slate-900 to-slate-800 text-center rounded-3xl shadow-xl">
         <div className="max-w-3xl mx-auto">
-          <h1 className="text-5xl md:text-7xl font-semibold text-white leading-tight mb-6 fade-up">
-            <TypeAnimation
-              sequence={[
-                1200,
-                "AI study tools for students.",
-                1800,
-                "Focused learning. Real results.",
-                1800,
-                "Bold. Premium. Built for learners.",
-                1800,
-                "Study smarter, not longer.",
-              ]}
-              speed={45}
-              wrapper="span"
-              cursor={true}
-              repeat={Infinity}
-            />
-          </h1>
+          <div className="mb-6 fade-up">
+            <div className="relative w-full h-[6.75rem] md:h-[9.25rem] flex items-center justify-center">
+              {/* We render the animated text inside a flex column that auto-detects wrap */}
+              <h1
+                className="text-5xl md:text-7xl font-semibold text-white leading-tight text-center flex flex-col justify-center [--gap:0.4rem] md:[--gap:0.6rem]"
+                style={{ lineHeight: 1.05 }}
+              >
+                <TypeAnimation
+                  sequence={[
+                    1200,
+                    "AI study tools for students.",
+                    1800,
+                    "Focused learning. Real results.",
+                    1800,
+                    "Bold. Premium. Built for learners.",
+                    1800,
+                    "Study smarter, not longer.",
+                  ]}
+                  speed={45}
+                  wrapper="span"
+                  cursor={true}
+                  repeat={Infinity}
+                />
+              </h1>
+            </div>
+          </div>
 
           <p className="text-lg text-slate-200 mb-10 fade-up">
             An all-in-one toolkit: planner, notes, flashcards, quizzes, chatbot, answer reviewer — built around research-backed learning methods like active recall, spaced repetition, and retrieval practice.
@@ -357,15 +365,17 @@ export default function Home() {
 
       {/* Storytelling */}
       <section className="mt-28 text-center px-6 fade-up">
-        <h2 className="text-4xl md:text-5xl font-semibold text-white mb-6">
-          <TypeAnimation
-            sequence={[1200, "We hate the way we study.", 1400, "We hate cramming.", 1400, "We hate wasted time.", 1400, "We hate inefficient tools."]}
-            speed={40}
-            wrapper="span"
-            cursor={true}
-            repeat={Infinity}
-          />
-        </h2>
+        <div className="w-full mx-auto h-[4.8rem] md:h-auto flex items-center justify-center mb-6">
+          <h2 className="text-4xl md:text-5xl font-semibold text-white leading-tight flex flex-col justify-center">
+            <TypeAnimation
+              sequence={[1200, "We hate the way we study.", 1400, "We hate cramming.", 1400, "We hate wasted time.", 1400, "We hate inefficient tools."]}
+              speed={40}
+              wrapper="span"
+              cursor={true}
+              repeat={Infinity}
+            />
+          </h2>
+        </div>
         <p className="text-lg text-slate-200 mb-12">Who wouldn’t?</p>
       </section>
 
