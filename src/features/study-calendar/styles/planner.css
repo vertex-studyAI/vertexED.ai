@@ -30,6 +30,28 @@
 .current-time-line { position: absolute; left: 0; right: 0; height: 2px; background: linear-gradient(90deg,hsl(var(--primary)),hsl(var(--accent))); z-index: 2; box-shadow:0 0 0 1px hsl(var(--primary) / 0.4),0 0 10px -2px hsl(var(--primary) / 0.6); }
 .time-slot:last-child { border-bottom: none; }
 
+/* Mobile-only variable-based timeline for Day view */
+
+@media (max-width:900px) {
+	:root { --hour-height: 72px; --time-gutter: 4.05rem; }
+	.schedule-container.mobile.day-view { position: relative; overflow-y:auto; /* remove padding-left so gutter is free */ padding:0 0.75rem 0 0; scrollbar-width: none; }
+	.schedule-container.mobile.day-view::-webkit-scrollbar { width:0; height:0; }
+	/* Timeline + time gutter */
+	.timeline { position:absolute; inset:0 0 0 0; pointer-events:none; }
+	.timeline-row { position:relative; height: var(--hour-height); display:flex; align-items:flex-start; }
+	/* Visible time gutter using absolute labels area */
+	.tl-label { position:absolute; left:0; width:calc(var(--time-gutter) - 0.4rem); text-align:right; padding-right:.4rem; top:4px; font-size:.62rem; font-weight:600; letter-spacing:.5px; color:hsl(var(--foreground)/0.55); text-transform:lowercase; z-index:6; }
+	/* Add faint vertical separator for gutter */
+	.timeline-row::before { content:""; position:absolute; left:0; top:0; bottom:0; width:1px; background:hsl(var(--foreground)/0.15); }
+	.tl-label .period { font-size:.55rem; margin-left:2px; opacity:.6; }
+	.tl-line { position:absolute; left:0; right:0; top:0; height:1px; background:hsl(var(--foreground)/0.14); }
+	.now-marker { position:absolute; left:0; right:0; height:2px; background:linear-gradient(90deg,hsl(var(--primary)),hsl(var(--accent))); box-shadow:0 0 0 1px hsl(var(--primary)/0.4),0 0 10px -2px hsl(var(--primary)/0.6); z-index:6; }
+	/* Mobile striped task - higher specificity so it beats .task */
+	.schedule-container.mobile.day-view .task.task-day { position:absolute; left:var(--time-gutter); right:0.35rem; width:auto; display:flex; justify-content:center; align-items:center; text-align:center; padding:.45rem .65rem; font-size:.68rem; }
+	/* (Removed duplicate padding-left override to preserve gutter) */
+}
+@media (max-width:520px) { :root { --hour-height: 64px; } .task-day { font-size:.62rem; } }
+
 /* Tasks */
 .task { position: absolute; border: 1.5px solid hsl(var(--primary) / 0.4); box-sizing: border-box; width: 91.67%; border-radius: 14px; font-family:'Sen',Helvetica,Arial,sans-serif; font-weight:600; left: 7.82%; z-index: 5; display: flex; justify-content: center; align-items: center; text-align: center; color: hsl(var(--foreground)); backdrop-filter: blur(10px); background: linear-gradient(145deg,hsl(var(--primary) / 0.18),hsl(var(--accent) / 0.18)); font-size:.73rem; line-height:1.2; padding: .3rem .55rem; box-shadow:0 4px 14px -4px hsl(var(--primary) / 0.5), 0 2px 6px hsl(var(--primary) / 0.25); transition: transform .4s cubic-bezier(.22,1,.36,1), box-shadow .4s, background .4s; letter-spacing:.3px; }
 .task:hover { transform: translateY(-2px) scale(1.02); box-shadow:0 10px 32px -8px hsl(var(--primary) / 0.55), 0 4px 10px hsl(var(--primary) / 0.35); background: linear-gradient(145deg,hsl(var(--primary) / 0.28),hsl(var(--accent) / 0.25)); }
@@ -57,6 +79,10 @@
 .planner-new:hover { transform: translateY(-2px) scale(1.03); box-shadow: var(--glow); background: linear-gradient(145deg,hsl(var(--primary) / 0.35),hsl(var(--primary) / 0.15)); }
 .planner-new:focus-visible { outline:3px solid hsl(var(--primary)); outline-offset:2px; }
 
+/* Action buttons grouping */
+.planner-actions { display:flex; align-items:center; gap:.6rem; }
+@media (max-width:900px) { .planner-actions { order:3; } }
+
 /* Removed light/dark divergence: app uses unified dark theme tokens */
 
 /* Modal overlay */
@@ -67,3 +93,52 @@
 .modal-title { font-size:1.125rem; font-weight:600; }
 .modal-footer button { min-width: 96px; }
 @keyframes popup-enter { from { transform: translateY(18px) scale(.96); opacity:0; } to { transform: translateY(0) scale(1); opacity:1; } }
+
+/* -------------------- Responsive (Portrait / Small Screens) -------------------- */
+@media (max-width: 900px) {
+	.planner-root { padding: 0.75rem 0.85rem 5rem; display:flex; flex-direction:column; gap:0.9rem; }
+	.planner-header { position: static; width: 100%; top: auto; left: auto; padding: 0.25rem 0.25rem 0.5rem; grid-template-columns: 1fr auto; gap:0.65rem; }
+	.planner-title { font-size: clamp(1.25rem, 7vw, 1.8rem); }
+	.planner-controls { order: 2; }
+	.planner-new { order: 3; width: fit-content; }
+
+	/* Calendar becomes collapsible block */
+	.calendar { position: static; width: 100%; order: 4; margin-top: 0.25rem; transform-origin: top; }
+	.mobile-cal-toggle-wrapper { width:100%; display:flex; justify-content:flex-start; }
+	.mobile-cal-toggle { font-size: .7rem; }
+	.mobile-calendar-wrapper { max-height:0; overflow:hidden; transition:max-height .45s cubic-bezier(.22,1,.36,1); }
+	.mobile-calendar-wrapper.open { max-height:600px; }
+
+	/* Schedule */
+		.schedule-container { position: static; width: 100%; height: min(66vh, 640px); top:auto; left:auto; order:5; padding-left:0; }
+	.time-slot { font-size: .65rem; padding: 0 .6rem; }
+	.task { left: 4%; width: 92%; font-size: .62rem; }
+	.complete-task-button { left:4px; top:4px; padding:2px 5px; }
+	.current-time-line { box-shadow:none; }
+
+	/* Time left widget moves to bottom sticky bar */
+	.time-left-widget { position: fixed; left: 0; right: 0; bottom: 0; top: auto; width:100%; display:grid; grid-template-columns:repeat(auto-fit,minmax(120px,1fr)); gap:.75rem; border-radius:18px 18px 0 0; padding: .75rem .9rem .95rem; backdrop-filter: blur(8px) saturate(120%); z-index: 9999; }
+	.time-left-widget h4 { font-size:.7rem; }
+	.time-bar { font-size:.6rem; }
+
+	/* Floating AI button reposition */
+	.planner-new[style*="position: fixed"] { right: 1rem !important; bottom: 1rem !important; }
+
+	/* Hide week dividers if week view gets cramped */
+	.week-divider { display:none; }
+}
+
+@media (max-width: 520px) {
+	.planner-root { padding-bottom:6.5rem; }
+	.planner-title { letter-spacing:.25px; }
+	.task { font-size:.58rem; }
+	.planner-select, .planner-today { font-size:.65rem; padding:.45rem .65rem; }
+	.planner-new { font-size:.65rem; padding:.5rem 1rem; }
+	.calendar-day { font-size:.72rem; }
+	.calendar-header { font-size:.8rem; }
+}
+
+/* Hide mobile calendar toggle on desktop */
+@media (min-width: 901px) {
+	.mobile-cal-toggle-wrapper, .mobile-cal-toggle { display: none !important; }
+}

@@ -28,6 +28,8 @@ const PlannerView: React.FC = () => {
   const [taskDate, setTaskDate] = useState(""); // yyyy-mm-dd from input[type=date]
   const [taskStartTime, setTaskStartTime] = useState(""); // HH:MM from input[type=time]
   const [taskDuration, setTaskDuration] = useState(""); // minutes string
+  // Mobile calendar collapse
+  const [mobileCalOpen, setMobileCalOpen] = useState(false);
   // tags removed
 
   // Edit modal state
@@ -245,7 +247,7 @@ const PlannerView: React.FC = () => {
   };
 
   return (
-    <div>
+    <div className="planner-root">
       <div className="planner-header">
         <h1 className="planner-title">{formattedHeaderDate}</h1>
         <div className="planner-controls">
@@ -255,17 +257,25 @@ const PlannerView: React.FC = () => {
           </select>
           <button className="planner-today" onClick={() => setSelectedDate(new Date())}>Today</button>
         </div>
-  <button className="planner-new" onClick={() => { setAiOpen(true); setShowMoreOptions(false); }}>New Task</button>
+	<div className="planner-actions">
+	  <button className="planner-new" onClick={() => { setAiOpen(true); setShowMoreOptions(false); }}>New Task</button>
+	  <button
+	    type="button"
+	    className="mobile-cal-toggle planner-today"
+	    onClick={() => setMobileCalOpen(o => !o)}
+	    aria-expanded={mobileCalOpen}
+	    aria-controls="planner-mobile-calendar"
+	  >
+	    {mobileCalOpen ? 'Hide calendar' : 'Show calendar'}
+	  </button>
+	</div>
       </div>
-
-      <Calendar onDateChange={setSelectedDate} selectedDate={selectedDate} mode={mode} />
+      <div id="planner-mobile-calendar" className={`mobile-calendar-wrapper ${mobileCalOpen ? 'open' : ''}`}>
+        <Calendar onDateChange={setSelectedDate} selectedDate={selectedDate} mode={mode} />
+      </div>
   <Schedule mode={mode} selectedDate={selectedDate} tasks={tasks} onTaskComplete={handleTaskComplete} onEditTask={handleEditTask} />
   <TimeLeftWidget />
 
-      {/* AI quick add floating button */}
-      <button className="planner-new" style={{ position: 'fixed', right: '2rem', bottom: '2rem' }} onClick={() => { setAiOpen(true); setShowMoreOptions(false); }}>
-        Add with AI
-      </button>
       {aiOpen && (
         <div className="blur-background" aria-modal="true" role="dialog" aria-label="Add task with AI">
           <div
