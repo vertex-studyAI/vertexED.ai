@@ -64,6 +64,11 @@ All colors MUST be HSL.
 
     --gradient-surface: linear-gradient(145deg, hsl(216 18% 14%), hsl(216 18% 12%));
     --gradient-hero: linear-gradient(135deg, hsl(var(--primary) / 0.2), hsl(216 18% 12%));
+
+    /* Light surface tokens for subtle gray gradient boxes (used on Home white boxes) */
+  --surface-light-1: 0 0% 98%;    /* lighter near-white */
+  --surface-light-2: 210 12% 92%; /* soft cool gray for bottom */
+  --surface-light-border: 210 12% 82%; /* balanced border */
   }
 }
 
@@ -88,6 +93,15 @@ All colors MUST be HSL.
   .neu-pressed { box-shadow: var(--shadow-pressed); }
   .neu-lift { transform: translateY(-2px); box-shadow: var(--glow); }
   .neu-hero { background: var(--gradient-hero); box-shadow: var(--shadow-soft); }
+
+  /* Subtle light surface gradient for text boxes */
+  .surface-light {
+    background-color: hsl(var(--surface-light-1));
+    /* Top-to-bottom subtle gradient: brighter top, slightly darker bottom */
+    background-image:
+      linear-gradient(to bottom, hsl(var(--surface-light-1)), hsl(var(--surface-light-2)));
+    border: 1px solid hsl(var(--surface-light-border) / 0.65);
+  }
 
   /* Brand utilities for consistent accents/text effects */
   .brand-text-gradient {
