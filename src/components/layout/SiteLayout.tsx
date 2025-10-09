@@ -30,7 +30,15 @@ export default function SiteLayout() {
       </Helmet>
       <div className="pointer-events-none absolute inset-0 z-0">
         <div className="absolute inset-0 bg-grid-soft opacity-[0.22]" />
-        <div className="orb-single" />
+        {/* Multi-orb background covering full page length */}
+        <div className="orb-field">
+          <div className="orb o1" />
+          <div className="orb o2" />
+          <div className="orb o3" />
+          <div className="orb o4" />
+          <div className="orb o5" />
+          <div className="orb o6" />
+        </div>
         <div className="ambient-corner top-[-10%] left-[-10%]" />
         <div className="ambient-corner bottom-[-20%] right-[-15%]" />
       </div>
