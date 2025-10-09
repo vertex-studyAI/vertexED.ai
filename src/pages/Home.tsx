@@ -16,8 +16,14 @@ export default function Home() {
   // keep a ref for cleaning up tilt handlers
   const tiltHandlersRef = useRef<Array<() => void>>([]);
 
+  // Avoid redirecting search engine bots; let them index the homepage content directly
   useEffect(() => {
-    if (isAuthenticated) navigate("/main", { replace: true });
+    if (!isAuthenticated) return;
+    const ua = typeof navigator !== "undefined" ? navigator.userAgent.toLowerCase() : "";
+    const isBot = /bot|crawl|spider|slurp|facebookexternalhit|whatsapp|telegram|linkedinbot|embedly|quora|pinterest|vkshare|facebot|outbrain|ia_archiver/.test(ua);
+    if (!isBot) {
+      navigate("/main", { replace: true });
+    }
   }, [isAuthenticated, navigate]);
 
   useEffect(() => {
@@ -310,6 +316,7 @@ export default function Home() {
     <>
       <Helmet>
         <title>AI Study Tools for Students | VertexED</title>
+        <link rel="canonical" href="https://www.vertexed.app/" />
       </Helmet>
 
       {/* Hero */}
