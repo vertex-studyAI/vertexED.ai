@@ -1,4 +1,5 @@
 import { Helmet } from "react-helmet-async";
+import SEO from "@/components/SEO";
 import { Link, useNavigate } from "react-router-dom";
 import React, { useEffect, useRef, useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
@@ -314,10 +315,22 @@ export default function Home() {
   // -------------------
   return (
     <>
-      <Helmet>
-        <title>AI Study Tools for Students | VertexED</title>
-        <link rel="canonical" href="https://www.vertexed.app/" />
-      </Helmet>
+      <SEO
+        title="VertexED | AI Study Tools for Students"
+        description="VertexED is an all-in-one AI study toolkit: planner, notes, flashcards, quizzes, chatbot, and answer reviewer. Research-backed methods like active recall and spaced repetition."
+        canonical="https://www.vertexed.app/"
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          name: "VertexED — AI Study Toolkit",
+          url: "https://www.vertexed.app/",
+          potentialAction: {
+            "@type": "SearchAction",
+            target: "https://www.vertexed.app/?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+          }
+        }}
+      />
 
       {/* Hero */}
   <section
@@ -468,7 +481,7 @@ export default function Home() {
 
       {/* Closing */}
       <section className="mt-16 text-center px-6">
-        <p className="text-lg text-slate-200">Learning was never difficult, it just needed a new perspective. Vertex is here to deliver it.</p>
+        <p className="text-lg text-slate-200">Learning was never difficult, it just needed a new perspective. VertexED — sometimes written as <strong>Vertex ED</strong> — is here to deliver it.</p>
       </section>
     </>
   );

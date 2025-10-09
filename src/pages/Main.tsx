@@ -4,6 +4,7 @@ import React, { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { TypeAnimation } from "react-type-animation";
+import { Helmet } from "react-helmet-async";
 
 export default function Main() {
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -142,6 +143,12 @@ export default function Main() {
 
   return (
     <>
+      <Helmet>
+        <title>Dashboard — VertexED Study Tools</title>
+        <meta name="description" content="Choose from Study Zone, AI Chatbot, Planner, Paper Maker, Answer Reviewer, and Notetaker — all in one dashboard." />
+        <link rel="canonical" href="https://www.vertexed.app/main" />
+        <meta name="robots" content="noindex, follow" />
+      </Helmet>
       {/* Intro */}
       <section className="fade-up px-6 py-10">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-8">

@@ -15,6 +15,7 @@ const About = lazy(() => import("@/pages/About"));
 const NotFound = lazy(() => import("@/pages/NotFound"));
 const PaperMaker = lazy(() => import("@/pages/PaperMaker"));
 const UserSettings = lazy(() => import("@/pages/UserSettings"));
+const Brand = lazy(() => import("@/pages/Brand"));
 import { AuthProvider } from "@/contexts/AuthContext";
 import { HelmetProvider } from "react-helmet-async";
 import { useEffect } from "react";
@@ -64,6 +65,7 @@ return (
 <Route path="paper-maker" element={<PaperMaker />} />
 <Route path="about" element={<About />} />
 <Route path="features" element={<Features />} /> 
+<Route path="vertex-ed" element={<Brand />} />
 <Route path="settings" element={<UserSettings />} />
 <Route path="*" element={<NotFound />} />
   

@@ -696,6 +696,11 @@ export default function NotetakerQuiz(): JSX.Element {
   return (
     <>
       <Helmet>
+        <title>AI Notes, Flashcards, and Quizzes — VertexED</title>
+        <meta name="description" content="Turn notes into smart summaries, flashcards, and quizzes. Includes audio transcription and interactive practice." />
+        <link rel="canonical" href="https://www.vertexed.app/notetaker" />
+      </Helmet>
+      <Helmet>
         <title>AI Notetaker, Flashcards & Quiz Generator | Vertex</title>
         <meta name="description" content="Create AI-powered notes, generate flashcards, and practice with quizzes in one place." />
       </Helmet>

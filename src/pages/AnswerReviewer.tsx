@@ -69,6 +69,20 @@ Provide:
           name="description"
           content="Submit your answers for AI-powered review with strict teacher-style feedback."
         />
+        <link rel="canonical" href="https://www.vertexed.app/answer-reviewer" />
+        <meta property="og:title" content="A.I Answer Review — Vertex AI Study Tools" />
+        <meta property="og:description" content="Submit your answers for AI-powered review with strict teacher-style feedback." />
+        <meta property="og:url" content="https://www.vertexed.app/answer-reviewer" />
+        <meta property="og:image" content="https://www.vertexed.app/socialpreview.jpg" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <script type="application/ld+json">{`
+        {
+          "@context":"https://schema.org",
+          "@type":"WebPage",
+          "name":"AI Answer Reviewer",
+          "url":"https://www.vertexed.app/answer-reviewer",
+          "description":"Submit your answers for AI-powered review with strict teacher-style feedback."
+        }`}</script>
       </Helmet>
 
       <PageSection>

@@ -1,4 +1,5 @@
 import { Helmet } from "react-helmet-async";
+import SEO from "@/components/SEO";
 import { Link } from "react-router-dom";
 import React, { useEffect, useState, useRef } from "react";
 import { gsap } from "gsap";
@@ -11,10 +12,10 @@ export default function Features() {
     gsap.registerPlugin(ScrollTrigger);
 
     // Fade-up animations (same style as Home)
-    const elements = gsap.utils.toArray(".fade-up");
+    const elements = gsap.utils.toArray<HTMLElement>(".fade-up");
     elements.forEach((el) => {
       gsap.fromTo(
-        el,
+        el as any,
         { y: 60, opacity: 0, scale: 0.995 },
         {
           y: 0,
@@ -32,10 +33,10 @@ export default function Features() {
     });
 
     // Feature row slide-in (left/right)
-    const featureRows = gsap.utils.toArray(".feature-row");
+    const featureRows = gsap.utils.toArray<HTMLElement>(".feature-row");
     featureRows.forEach((row, i) => {
       gsap.fromTo(
-        row,
+        row as any,
         { x: i % 2 === 0 ? -80 : 80, opacity: 0 },
         {
           x: 0,
@@ -43,7 +44,7 @@ export default function Features() {
           duration: 1.2,
           ease: "power4.out",
           scrollTrigger: {
-            trigger: row,
+            trigger: row as any,
             start: "top 85%",
           },
         }
@@ -65,7 +66,7 @@ export default function Features() {
   const [persona, setPersona] = useState("student");
 
   // Small reusable interactive components (no live data or external calls)
-  function ExpandableCard({ title, children, compact = false }) {
+  function ExpandableCard({ title, children, compact = false }: { title: string; children: React.ReactNode; compact?: boolean }) {
     const [open, setOpen] = useState(false);
     return (
       <div
@@ -96,7 +97,7 @@ export default function Features() {
     );
   }
 
-  function FeatureCard({ heading, blurb, bullets = [], right }) {
+  function FeatureCard({ heading, blurb, bullets = [], right }: { heading: React.ReactNode; blurb: React.ReactNode; bullets?: React.ReactNode[]; right?: React.ReactNode }) {
     const [showMore, setShowMore] = useState(false);
     return (
       <div className="rounded-2xl bg-white/4 p-6 border border-white/6 flex flex-col gap-4">
@@ -128,7 +129,7 @@ export default function Features() {
   }
 
   // Persona toggle now controlled by parent so other parts of the UI can change subtext
-  function PersonaToggle({ persona, setPersona }) {
+  function PersonaToggle({ persona, setPersona }: { persona: string; setPersona: (p: string) => void }) {
     return (
       <div className="mt-6 inline-flex items-center gap-2 bg-white/3 p-1 rounded-full">
         <button
@@ -154,7 +155,7 @@ export default function Features() {
   }
 
   // Interactive topic card used in Note Taker — cycles between topics
-  function InteractiveTopicCard({ topics, persona }) {
+  function InteractiveTopicCard({ topics, persona }: { topics: { title: string; excerpt: string; studentHint: string; teacherHint: string; flashcard: string }[]; persona: string }) {
     const [index, setIndex] = useState(0);
     function nextTopic() {
       setIndex((i) => (i + 1) % topics.length);
@@ -222,9 +223,11 @@ export default function Features() {
 
   return (
     <>
-      <Helmet>
-        <title>Features · VertexED</title>
-      </Helmet>
+      <SEO
+        title="Features · VertexED AI Study Toolkit"
+        description="Explore VertexED features: AI Calendar, Discussion Agent, Study Zone, Paper Maker, Answer Reviewer, Notes, Flashcards, and Quizzes."
+        canonical="https://www.vertexed.app/features"
+      />
 
       {/* Hero — lightweight (no boxed panel) so it sits in your existing backdrop */}
       <section className="pt-12 pb-16 px-6 fade-up">

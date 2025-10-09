@@ -247,7 +247,13 @@ export default function PaperMaker({ priorPapers = [] /* optional array of prior
   return (
     <>
       <Helmet>
-        <title>Paper Maker • Vertex</title>
+        <title>IB/IGCSE Practice Paper Generator — VertexED</title>
+        <meta name="description" content="Create syllabus-aligned IB, IGCSE, CBSE, and A-Level practice papers instantly with rubric-style guidance and model answers." />
+        <link rel="canonical" href="https://www.vertexed.app/paper-maker" />
+        <meta property="og:title" content="IB/IGCSE Practice Paper Generator — VertexED" />
+        <meta property="og:description" content="Generate syllabus-aligned practice papers with authentic phrasing and mark schemes." />
+        <meta property="og:url" content="https://www.vertexed.app/paper-maker" />
+        <meta property="og:image" content="https://www.vertexed.app/socialpreview.jpg" />
       </Helmet>
 
       <PageSection>

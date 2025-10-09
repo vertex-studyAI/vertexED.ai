@@ -6,6 +6,7 @@ import ReactMarkdown from "react-markdown";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import 'katex/dist/katex.min.css'; // <-- Required for KaTeX styling
+import SEO from "@/components/SEO";
 
 export default function AIChatbot() {
   const [userInput, setUserInput] = useState("");
@@ -44,7 +45,20 @@ export default function AIChatbot() {
   };
 
   return (
-    <PageSection>
+    <>
+      <SEO
+        title="AI Study Chatbot for Students | VertexED"
+        description="Ask questions and get clear, step-by-step explanations with the VertexED AI study chatbot. Supports math, science, and more with LaTeX rendering."
+        canonical="https://www.vertexed.app/chatbot"
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "WebPage",
+          name: "AI Study Chatbot",
+          url: "https://www.vertexed.app/chatbot",
+          description: "Ask questions and get clear, step-by-step explanations with the VertexED AI study chatbot."
+        }}
+      />
+      <PageSection>
       <div className="mb-6">
         <Link to="/main" className="neu-button px-4 py-2 text-sm">← Back to Main</Link>
       </div>
@@ -85,5 +99,6 @@ export default function AIChatbot() {
         </div>
       </NeumorphicCard>
     </PageSection>
+    </>
   );
 }
