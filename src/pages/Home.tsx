@@ -313,7 +313,9 @@ export default function Home() {
       </Helmet>
 
       {/* Hero */}
-  <section className="relative overflow-hidden px-6 pt-24 pb-16 bg-gradient-to-b from-slate-900 to-slate-800 text-center rounded-3xl shadow-xl">
+  <section
+        className="relative overflow-hidden px-6 pt-24 pb-16 text-center rounded-3xl shadow-2xl border border-white/10 ring-1 ring-white/10 backdrop-blur-sm md:backdrop-blur-md bg-gradient-to-b from-[hsl(var(--brand-1)/0.28)] via-[hsl(216_18%_14%/0.18)] to-[hsl(var(--brand-2)/0.14)]"
+      >
         <div className="max-w-3xl mx-auto">
           <div className="mb-6 fade-up">
             <div className="relative w-full h-[6.75rem] md:h-[9.25rem] flex items-center justify-center">
