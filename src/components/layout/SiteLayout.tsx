@@ -12,7 +12,7 @@ export default function SiteLayout() {
   }, [menuOpen]);
 
   const navLinks = [
-  { to: '/home', label: 'Home' },
+  { to: '/', label: 'Home' },
   { to: '/features', label: 'Features' },
   { to: '/about', label: 'About' },
   { to: '/login', label: 'Login' },
