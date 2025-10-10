@@ -14,7 +14,8 @@ type SemanticHeadingsProps = {
 export function SemanticHeadings({ title, h2 = [], h3 = [] }: SemanticHeadingsProps) {
   return (
     <div className="sr-only">
-      <h1>{title}</h1>
+      {/* Use an ARIA-level 1 heading to avoid a duplicate real <h1> */}
+      <div role="heading" aria-level={1}>{title}</div>
       {h2.slice(0, 2).map((txt, i) => (
         <h2 key={`h2-${i}`}>{txt}</h2>
       ))}

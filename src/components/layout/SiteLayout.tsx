@@ -23,8 +23,8 @@ export default function SiteLayout() {
   return (
     <div className="relative min-h-screen flex flex-col bg-background text-foreground overflow-hidden">
       <Helmet>
-        <title>VertexED — AI Study Toolkit</title>
-        <meta name="description" content="AI study tools for students — IB & IGCSE paper maker, study planner & calendar, notes, flashcards, quiz generator, answer reviewer, AI chatbot, and transcription — all in one place." />
+        <title>VertexED — AI Study Tools for Students | Planner, Notes & Quizzes</title>
+        <meta name="description" content="All‑in‑one AI study toolkit with planner, calendar, notes, flashcards, quizzes, chatbot, answer reviewer, and transcription — built on active recall." />
         <meta property="og:site_name" content="VertexED" />
         <meta property="og:image" content="https://www.vertexed.app/socialpreview.jpg" />
         <meta property="og:locale" content="en_US" />
