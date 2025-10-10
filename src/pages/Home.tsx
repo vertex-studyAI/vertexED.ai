@@ -378,8 +378,9 @@ export default function Home() {
             <Link
               to="/about"
               className="px-8 py-4 rounded-full bg-transparent border border-white/20 text-white hover:bg-white/5 transition-transform duration-400 ease-in-out shadow-md hover:scale-105"
+              aria-label="Learn more about VertexED on the About page"
             >
-              Learn more
+              Learn more about VertexED
             </Link>
           </div>
         </div>
