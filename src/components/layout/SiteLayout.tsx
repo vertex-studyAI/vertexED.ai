@@ -2,6 +2,8 @@ import { Outlet, Link } from "react-router-dom";
 import { Suspense } from "react";
 import { useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
+import { RouteSemanticHeadings } from "@/components/SemanticHeadings";
+import BreadcrumbsJsonLd from "@/components/BreadcrumbsJsonLd";
 
 export default function SiteLayout() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -42,6 +44,9 @@ export default function SiteLayout() {
         <div className="ambient-corner top-[-10%] left-[-10%]" />
         <div className="ambient-corner bottom-[-20%] right-[-15%]" />
       </div>
+
+    {/* JSON-LD breadcrumbs aligned with route headings */}
+    <BreadcrumbsJsonLd />
 
       {/* Header */}
   <header className="w-full z-50 fixed top-0 left-0 md:relative bg-[#0f172a]/85 backdrop-blur supports-[backdrop-filter]:bg-[#0f172a]/70 border-b border-white/10 md:bg-transparent md:backdrop-blur-0 md:supports-[backdrop-filter]:bg-transparent md:border-b-0">
@@ -147,6 +152,8 @@ export default function SiteLayout() {
 
       {/* Main */}
   <main className="relative z-10 flex-1 container mx-auto px-4 md:px-6 pt-24 md:pt-8 pb-8 animate-fade-in">
+        {/* Hidden semantic headings for SEO & accessibility; no visual impact */}
+        <RouteSemanticHeadings />
         <Suspense fallback={<div className="min-h-[40vh]" />}>
           <Outlet />
         </Suspense>
