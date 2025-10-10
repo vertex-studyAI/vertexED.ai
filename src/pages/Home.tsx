@@ -316,8 +316,8 @@ export default function Home() {
   return (
     <>
       <SEO
-        title="VertexED — AI Study Tools for Students | Planner, Notes & Quizzes"
-        description="All‑in‑one AI study toolkit with planner, calendar, notes, flashcards, quizzes, chatbot, answer reviewer, and transcription — built on active recall and spaced repetition."
+        title="VertexED — AI Study Tools for Students - AI Based Methods"
+        description="All‑in‑one AI study toolkit with planner, calendar, notes, flashcards, quizzes, chatbot, answer reviewer, and transcription."
         canonical="https://www.vertexed.app/"
         jsonLd={{
           "@context": "https://schema.org",
