@@ -238,16 +238,6 @@ export default function Main() {
               ))}
             </div>
 
-            {/* New Archives Button */}
-            <div className="text-center mt-10 fade-up">
-              <Link
-                to="/archives"
-                className="inline-block px-8 py-3 rounded-full bg-indigo-500/90 text-white font-semibold shadow-lg hover:scale-105 hover:bg-indigo-400 transition-transform duration-300"
-              >
-                📚 Explore The Archives
-              </Link>
-            </div>
-
             <div className="pointer-events-none absolute inset-0 rounded-3xl ring-0 transition-all duration-500" />
           </div>
         </div>
