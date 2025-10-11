@@ -66,8 +66,8 @@ All colors MUST be HSL.
     --gradient-hero: linear-gradient(135deg, hsl(var(--primary) / 0.2), hsl(216 18% 12%));
 
     /* Light surface tokens for subtle gray gradient boxes (used on Home white boxes) */
-  --surface-light-1: 0 0% 98%;    /* lighter near-white */
-  --surface-light-2: 210 12% 92%; /* soft cool gray for bottom */
+  --surface-light-1: 0 0% 99%;    /* lighter near-white */
+  --surface-light-2: 225 12% 87%; /* soft cool gray for bottom */
   --surface-light-border: 210 12% 82%; /* balanced border */
   }
 
