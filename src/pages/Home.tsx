@@ -522,7 +522,7 @@ export default function Home() {
 
       {/* Closing */}
       <section className="mt-16 text-center px-6">
-        <p className="text-lg text-slate-200">Learning was never difficult, it just needed a new perspective. VertexED — sometimes written as <strong>Vertex ED</strong> — is here to deliver it.</p>
+        <p className="text-lg text-slate-200">Learning was never difficult, it just needed a new perspective. VertexED — (<strong>Vertex ED</strong>) — is here to deliver it.</p>
       </section>
     </>
   );
