@@ -385,6 +385,12 @@ export default function Home() {
           </div>
         </div>
       </section>
+      {/* Subtle resources link below hero for crawl paths/brand queries */}
+      <div className="max-w-3xl mx-auto px-6 mt-3">
+        <div className="text-xs text-slate-400 text-center">
+          Looking for how‑to guides? <Link to="/resources" className="underline">Explore resources</Link>
+        </div>
+      </div>
 
       {/* Storytelling */}
       <section className="mt-28 text-center px-6 fade-up">

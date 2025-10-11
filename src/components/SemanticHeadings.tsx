@@ -133,6 +133,31 @@ export const routeHeadingsMap: Record<string, HeadingEntry> = {
     h2: ["Profile", "Preferences"],
     h3: ["Privacy", "Notifications"],
   },
+  "/resources": {
+    title: "Resources",
+    h2: ["Guides", "Deep dives"],
+    h3: ["Planner", "Paper Maker"],
+  },
+  "/resources/ai-study-planner": {
+    title: "AI Study Planner & Calendar",
+    h2: ["Auto-schedule", "Spaced retrieval"],
+    h3: ["Time-boxing", "Logs"],
+  },
+  "/resources/ib-igcse-paper-maker": {
+    title: "IB/IGCSE Paper Maker",
+    h2: ["Topics", "Difficulty"],
+    h3: ["Marks", "Export"],
+  },
+  "/resources/notes-to-flashcards": {
+    title: "Notes to Flashcards",
+    h2: ["Summarise", "Generate"],
+    h3: ["Quiz", "Spaced repetition"],
+  },
+  "/resources/ai-answer-reviewer": {
+    title: "AI Answer Reviewer",
+    h2: ["Rubrics", "Feedback"],
+    h3: ["Improvements", "Marks"],
+  },
 };
 
 export function getHeadingsForPath(pathname: string): HeadingEntry {

@@ -254,7 +254,7 @@ export default function Features() {
               )}
             </div>
 
-            <div className="mt-6 flex gap-4 items-center">
+              <div className="mt-6 flex gap-4 items-center">
               <Link
                 to="/login"
                 className="inline-block px-6 py-3 rounded-full bg-white text-slate-900 font-semibold shadow-md hover:scale-105 transition-transform duration-300"
@@ -279,6 +279,7 @@ export default function Features() {
               <div className="px-3 py-1 bg-white/5 text-slate-300 rounded-full text-xs">Spaced repetition</div>
               <div className="px-3 py-1 bg-white/5 text-slate-300 rounded-full text-xs">Exam-style practice</div>
               <div className="px-3 py-1 bg-white/5 text-slate-300 rounded-full text-xs">Rubric-aligned feedback</div>
+              <Link to="/resources" className="px-3 py-1 bg-white/5 text-slate-200 rounded-full text-xs underline">Guides</Link>
             </div>
           </div>
 

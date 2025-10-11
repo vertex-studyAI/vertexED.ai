@@ -16,6 +16,14 @@ const NotFound = lazy(() => import("@/pages/NotFound"));
 const PaperMaker = lazy(() => import("@/pages/PaperMaker"));
 const UserSettings = lazy(() => import("@/pages/UserSettings"));
 const Brand = lazy(() => import("@/pages/Brand"));
+const ResourcesIndex = lazy(() => import("@/pages/resources/Index"));
+const AIStudyPlannerArticle = lazy(() => import("@/pages/resources/AIStudyPlanner"));
+const PaperMakerGuide = lazy(() => import("@/pages/resources/PaperMakerGuide"));
+const NotesToFlashcardsArticle = lazy(() => import("@/pages/resources/NotesToFlashcards"));
+const AIAnswerReviewerArticle = lazy(() => import("@/pages/resources/AIAnswerReviewer"));
+const StudyTechniquesActiveRecall = lazy(() => import("@/pages/resources/StudyTechniquesActiveRecall"));
+const ExamStrategyTimeManagement = lazy(() => import("@/pages/resources/ExamStrategyTimeManagement"));
+const SubjectGuidesCommonMistakes = lazy(() => import("@/pages/resources/SubjectGuidesCommonMistakes"));
 import { AuthProvider } from "@/contexts/AuthContext";
 import { HelmetProvider } from "react-helmet-async";
 import { useEffect } from "react";
@@ -54,6 +62,14 @@ return (
 <Route path="/" element={<SiteLayout />}>
 <Route index element={<Home />} />
 <Route path="home" element={<Home />} />
+						<Route path="resources" element={<ResourcesIndex />} />
+						<Route path="resources/ai-study-planner" element={<AIStudyPlannerArticle />} />
+						<Route path="resources/ib-igcse-paper-maker" element={<PaperMakerGuide />} />
+						<Route path="resources/notes-to-flashcards" element={<NotesToFlashcardsArticle />} />
+						<Route path="resources/ai-answer-reviewer" element={<AIAnswerReviewerArticle />} />
+						<Route path="resources/active-recall-spaced-repetition" element={<StudyTechniquesActiveRecall />} />
+						<Route path="resources/exam-strategy-time-management" element={<ExamStrategyTimeManagement />} />
+						<Route path="resources/subject-guides-common-mistakes" element={<SubjectGuidesCommonMistakes />} />
 <Route path="login" element={<Login />} />
 <Route path="signup" element={<Signup />} />
 <Route path="main" element={<Main />} />

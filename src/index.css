@@ -70,6 +70,14 @@ All colors MUST be HSL.
   --surface-light-2: 210 12% 92%; /* soft cool gray for bottom */
   --surface-light-border: 210 12% 82%; /* balanced border */
   }
+
+  /* Blog typography overrides */
+  .prose-invert :where(p):not(:where(.not-prose *)) { margin-top: 1em; margin-bottom: 1em; }
+  .prose-invert :where(h2):not(:where(.not-prose *)) { margin-top: 1.6em; margin-bottom: 0.8em; color: hsl(var(--foreground)); }
+  .prose-invert :where(h3):not(:where(.not-prose *)) { margin-top: 1.4em; margin-bottom: 0.6em; color: hsl(var(--foreground)); }
+  .prose-invert :where(ul,ol):not(:where(.not-prose *)) { margin-top: 0.9em; margin-bottom: 0.9em; }
+  .prose-invert :where(li)>:where(p) { margin: 0.35em 0; }
+  .prose-invert a { text-decoration: underline; text-underline-offset: 2px; }
 }
 
 @layer base {
