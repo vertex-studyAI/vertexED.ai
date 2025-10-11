@@ -26,7 +26,10 @@ async function ping(sitemapUrl) {
   for (const engineUrl of engines) {
     try {
       const code = await httpGet(engineUrl)
-      console.log(`[PING] ${engineUrl} -> ${code}`)
+      const note = (code === 404 || code === 410)
+        ? 'endpoint deprecated; this is expected'
+        : ''
+      console.log(`[PING] ${engineUrl} -> ${code} ${note}`)
     } catch (e) {
       console.warn(`[PING] Failed ${engineUrl}:`, e.message)
     }

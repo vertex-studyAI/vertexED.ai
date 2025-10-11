@@ -7,7 +7,7 @@
     "dev": "vite",
     "prebuild": "node scripts/indexnow.mjs --host=https://www.vertexed.app --ensureKeyOnly",
     "build": "cross-env ROLLUP_SKIP_NODEJS_NATIVE=true vite build",
-    "postbuild": "npm run seo:ping && npm run seo:indexnow",
+    "postbuild": "node scripts/update-sitemap-lastmod.mjs public/sitemap.xml && npm run seo:ping && npm run seo:indexnow",
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
     "preview": "vite preview",
