@@ -2,54 +2,75 @@ import { Helmet } from "react-helmet-async";
 import SEO from "@/components/SEO";
 import { Link } from "react-router-dom";
 import React, { useEffect, useState, useRef } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+// Defer gsap to runtime to avoid pulling it into the initial vendor chunk
 import { TypeAnimation } from "react-type-animation";
 
 export default function Features() {
   useEffect(() => {
     if (typeof window === "undefined") return;
-    gsap.registerPlugin(ScrollTrigger);
 
-    // Fade-up animations (same style as Home)
-    const elements = gsap.utils.toArray<HTMLElement>(".fade-up");
-    elements.forEach((el) => {
-      gsap.fromTo(
-        el as any,
-        { y: 60, opacity: 0, scale: 0.995 },
-        {
-          y: 0,
-          opacity: 1,
-          scale: 1,
-          duration: 1.3,
-          ease: "power4.out",
-          scrollTrigger: {
-            trigger: el,
-            start: "top 85%",
-          },
-          stagger: 0.04,
-        }
-      );
-    });
+    let cleanup: () => void = () => {};
+    const idle = (cb: () => void) =>
+      // @ts-ignore
+      typeof requestIdleCallback !== 'undefined' ? requestIdleCallback(cb, { timeout: 1500 }) : setTimeout(cb, 400);
+    const cancel = (id: any) =>
+      // @ts-ignore
+      typeof cancelIdleCallback !== 'undefined' ? cancelIdleCallback(id) : clearTimeout(id);
 
-    // Feature row slide-in (left/right)
-    const featureRows = gsap.utils.toArray<HTMLElement>(".feature-row");
-    featureRows.forEach((row, i) => {
-      gsap.fromTo(
-        row as any,
-        { x: i % 2 === 0 ? -80 : 80, opacity: 0 },
-        {
-          x: 0,
-          opacity: 1,
-          duration: 1.2,
-          ease: "power4.out",
-          scrollTrigger: {
-            trigger: row as any,
-            start: "top 85%",
-          },
-        }
-      );
-    });
+    const run = async () => {
+      const [{ gsap }, { ScrollTrigger }] = await Promise.all([
+        import("gsap"),
+        import("gsap/ScrollTrigger"),
+      ]);
+      gsap.registerPlugin(ScrollTrigger);
+
+      // Fade-up animations (same style as Home)
+      const elements = gsap.utils.toArray<HTMLElement>(".fade-up");
+      elements.forEach((el) => {
+        gsap.fromTo(
+          el as any,
+          { y: 60, opacity: 0, scale: 0.995 },
+          {
+            y: 0,
+            opacity: 1,
+            scale: 1,
+            duration: 1.3,
+            ease: "power4.out",
+            scrollTrigger: {
+              trigger: el,
+              start: "top 85%",
+            },
+            stagger: 0.04,
+          }
+        );
+      });
+
+      // Feature row slide-in (left/right)
+      const featureRows = gsap.utils.toArray<HTMLElement>(".feature-row");
+      featureRows.forEach((row, i) => {
+        gsap.fromTo(
+          row as any,
+          { x: i % 2 === 0 ? -80 : 80, opacity: 0 },
+          {
+            x: 0,
+            opacity: 1,
+            duration: 1.2,
+            ease: "power4.out",
+            scrollTrigger: {
+              trigger: row as any,
+              start: "top 85%",
+            },
+          }
+        );
+      });
+
+      cleanup = () => {
+        ScrollTrigger.getAll().forEach((t) => t.kill());
+      };
+    };
+
+    const id = idle(run);
+    return () => { cancel(id); cleanup(); };
   }, []);
 
   const supportedBoards = [

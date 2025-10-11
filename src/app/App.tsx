@@ -34,23 +34,37 @@ import { Analytics } from "@vercel/analytics/react";
 
 function App() {
 useEffect(() => {
-const idle = (cb: () => void) => {
-// @ts-ignore
-return typeof requestIdleCallback !== 'undefined' ? requestIdleCallback(cb, { timeout: 1500 }) : setTimeout(cb, 500);
-};
-const cancel = (id: any) => {
-// @ts-ignore
-return typeof cancelIdleCallback !== 'undefined' ? cancelIdleCallback(id) : clearTimeout(id);
-};
-const warm = () => {
-import("@/pages/Login");
-import("@/pages/Signup");
-import("@/pages/About");
-import("@/pages/Main");
-import("@/pages/StudyPlanner");
-};
-const id = idle(warm);
-return () => cancel(id);
+	// Avoid prefetching on constrained networks or touch-only devices to improve mobile TTI
+	const isFinePointer = typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(hover:hover) and (pointer:fine)').matches : true;
+	// @ts-ignore
+	const connection = (navigator as any).connection;
+	const saveData = !!connection?.saveData;
+	const slow = ['slow-2g','2g','3g'].includes(connection?.effectiveType || '');
+	if (!isFinePointer || saveData || slow) return;
+
+	const idle = (cb: () => void) => {
+		// @ts-ignore
+		return typeof requestIdleCallback !== 'undefined' ? requestIdleCallback(cb, { timeout: 3000 }) : setTimeout(cb, 1200);
+	};
+	const cancel = (id: any) => {
+		// @ts-ignore
+		return typeof cancelIdleCallback !== 'undefined' ? cancelIdleCallback(id) : clearTimeout(id);
+	};
+
+	const warm = () => {
+		// Wait until after the main load event to avoid competing with critical path
+		const start = () => {
+			import("@/pages/Login");
+			import("@/pages/Signup");
+			import("@/pages/About");
+			import("@/pages/Main");
+			import("@/pages/StudyPlanner");
+		};
+		if (document.readyState === 'complete') start();
+		else window.addEventListener('load', start, { once: true });
+	};
+	const id = idle(warm);
+	return () => cancel(id);
 }, []);
 
 

@@ -54,11 +54,12 @@ export default function SiteLayout() {
           <Link to="/" className="flex items-center gap-2 shrink-0">
             <img
               src="/logo.png"
+              srcSet="/favicon-32x32.png 32w, /favicon-48x48.png 48w, /apple-touch-icon.png 180w, /logo.png 500w"
+              sizes="36px"
               alt="Vertex AI Logo"
               className="w-9 h-9 rounded-full object-cover select-none"
               draggable={false}
               loading="eager"
-              fetchPriority="high"
               decoding="async"
               width="36"
               height="36"

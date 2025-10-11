@@ -1,8 +1,6 @@
 import NeumorphicCard from "@/components/NeumorphicCard";
 import { Link } from "react-router-dom";
 import React, { useEffect, useRef } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { TypeAnimation } from "react-type-animation";
 import { Helmet } from "react-helmet-async";
 
@@ -21,7 +19,20 @@ export default function Main() {
 
   useEffect(() => {
     if (typeof window === "undefined") return;
-    gsap.registerPlugin(ScrollTrigger);
+    let cleanup: () => void = () => {};
+    const idle = (cb: () => void) =>
+      // @ts-ignore
+      typeof requestIdleCallback !== 'undefined' ? requestIdleCallback(cb, { timeout: 1500 }) : setTimeout(cb, 400);
+    const cancel = (id: any) =>
+      // @ts-ignore
+      typeof cancelIdleCallback !== 'undefined' ? cancelIdleCallback(id) : clearTimeout(id);
+
+    const run = async () => {
+      const [{ gsap }, { ScrollTrigger }] = await Promise.all([
+        import("gsap"),
+        import("gsap/ScrollTrigger"),
+      ]);
+      gsap.registerPlugin(ScrollTrigger);
 
     const fadeUps = gsap.utils.toArray<HTMLElement>(".fade-up");
     fadeUps.forEach((el) => {
@@ -61,8 +72,8 @@ export default function Main() {
       );
     });
 
-    const tilesEls = gsap.utils.toArray<HTMLElement>(".tile-wrapper");
-    tilesEls.forEach((el, i) => {
+  const tilesEls = gsap.utils.toArray<HTMLElement>(".tile-wrapper");
+  tilesEls.forEach((el, i) => {
       gsap.fromTo(
         el,
         { x: i % 2 === 0 ? -50 : 50, opacity: 0, y: 24 },
@@ -82,8 +93,9 @@ export default function Main() {
       );
     });
 
-    const innerTiles = gsap.utils.toArray<HTMLElement>(".tile");
-    innerTiles.forEach((el) => {
+  const innerTiles = gsap.utils.toArray<HTMLElement>(".tile");
+  const canHover = window.matchMedia ? window.matchMedia('(hover:hover) and (pointer:fine)').matches : true;
+  if (canHover) innerTiles.forEach((el) => {
       let bounds = el.getBoundingClientRect();
 
       const onMove = (e: MouseEvent) => {
@@ -134,11 +146,15 @@ export default function Main() {
       window.addEventListener("resize", () => (bounds = el.getBoundingClientRect()));
     });
 
-    return () => {
-      ScrollTrigger.getAll().forEach((t) => t.kill());
-      rafRefs.current.forEach((id) => cancelAnimationFrame(id));
-      rafRefs.current.clear();
+      cleanup = () => {
+        ScrollTrigger.getAll().forEach((t) => t.kill());
+        rafRefs.current.forEach((id) => cancelAnimationFrame(id));
+        rafRefs.current.clear();
+      };
     };
+
+    const id = idle(run);
+    return () => { cancel(id); cleanup(); };
   }, []);
 
   return (

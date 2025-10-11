@@ -3,8 +3,6 @@ import SEO from "@/components/SEO";
 import { Link, useNavigate } from "react-router-dom";
 import React, { useEffect, useRef, useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { TypeAnimation } from "react-type-animation";
 
 export default function Home() {
@@ -29,56 +27,80 @@ export default function Home() {
 
   useEffect(() => {
     if (typeof window === "undefined") return;
-    gsap.registerPlugin(ScrollTrigger);
 
-    // Fade-up elements: create an individual animation for each element
-    const elements = gsap.utils.toArray<HTMLElement>(".fade-up");
-    elements.forEach((el) => {
-      gsap.fromTo(
-        el,
-        { y: 40, opacity: 0, scale: 0.995 },
-        {
-          y: 0,
-          opacity: 1,
-          scale: 1,
-          duration: 0.9,
-          ease: "power3.out",
-          stagger: 0.04,
-          scrollTrigger: {
-            trigger: el,
-            start: "top 92%",
-            end: "bottom 30%",
-            toggleActions: "play none none reverse",
-          },
-        }
-      );
-    });
+    // Defer loading GSAP until the browser is idle; this keeps initial JS small on mobile
+    const idle = (cb: () => void) =>
+      // @ts-ignore
+      typeof requestIdleCallback !== "undefined"
+        ? // @ts-ignore
+          requestIdleCallback(cb, { timeout: 1200 })
+        : (setTimeout(cb, 250) as unknown as number);
+    const cancelIdle = (id: any) =>
+      // @ts-ignore
+      typeof cancelIdleCallback !== "undefined" ? cancelIdleCallback(id) : clearTimeout(id);
 
-    // feature rows: slide from left/right + subtle rotation
-    const featureRows = gsap.utils.toArray<HTMLElement>(".feature-row");
-    featureRows.forEach((row, i) => {
-      gsap.fromTo(
-        row,
-        { x: i % 2 === 0 ? -60 : 60, opacity: 0, rotateX: 2 },
-        {
-          x: 0,
-          opacity: 1,
-          rotateX: 0,
-          duration: 0.95,
-          ease: "power3.out",
-          delay: i * 0.08, // one-by-one effect as they enter
-          scrollTrigger: {
-            trigger: row,
-            start: "top 92%",
-            toggleActions: "play none none reverse",
-          },
-        }
-      );
-    });
+    let cleanup: () => void = () => {};
+    const run = async () => {
+      const [{ gsap }, { ScrollTrigger }] = await Promise.all([
+        import("gsap"),
+        import("gsap/ScrollTrigger"),
+      ]);
+      gsap.registerPlugin(ScrollTrigger);
 
+      // Fade-up elements: create an individual animation for each element
+      const elements = gsap.utils.toArray<HTMLElement>(".fade-up");
+      elements.forEach((el) => {
+        gsap.fromTo(
+          el,
+          { y: 40, opacity: 0, scale: 0.995 },
+          {
+            y: 0,
+            opacity: 1,
+            scale: 1,
+            duration: 0.9,
+            ease: "power3.out",
+            stagger: 0.04,
+            scrollTrigger: {
+              trigger: el,
+              start: "top 92%",
+              end: "bottom 30%",
+              toggleActions: "play none none reverse",
+            },
+          }
+        );
+      });
+
+      // feature rows: slide from left/right + subtle rotation
+      const featureRows = gsap.utils.toArray<HTMLElement>(".feature-row");
+      featureRows.forEach((row, i) => {
+        gsap.fromTo(
+          row,
+          { x: i % 2 === 0 ? -60 : 60, opacity: 0, rotateX: 2 },
+          {
+            x: 0,
+            opacity: 1,
+            rotateX: 0,
+            duration: 0.95,
+            ease: "power3.out",
+            delay: i * 0.08, // one-by-one effect as they enter
+            scrollTrigger: {
+              trigger: row,
+              start: "top 92%",
+              toggleActions: "play none none reverse",
+            },
+          }
+        );
+      });
+
+      cleanup = () => {
+        ScrollTrigger.getAll().forEach((t) => t.kill());
+      };
+    };
+
+    const idleId = idle(run);
     return () => {
-      // kill ScrollTriggers created by GSAP on unmount
-      ScrollTrigger.getAll().forEach((t) => t.kill());
+      cancelIdle(idleId);
+      cleanup();
     };
   }, []);
 
@@ -120,6 +142,12 @@ export default function Home() {
   // -------------------
   useEffect(() => {
     if (typeof window === "undefined") return;
+
+    // Avoid attaching listeners on touch-only devices; keeps mobile main thread lighter
+    const canTilt = window.matchMedia
+      ? window.matchMedia("(hover:hover) and (pointer:fine)").matches
+      : true;
+    if (!canTilt) return;
 
     // clean up array
     tiltHandlersRef.current = [];
@@ -197,6 +225,11 @@ export default function Home() {
     const el = missionRef.current;
     if (!el || typeof window === "undefined") return;
 
+    const canTilt = window.matchMedia
+      ? window.matchMedia("(hover:hover) and (pointer:fine)").matches
+      : true;
+    if (!canTilt) return;
+
     let rect = el.getBoundingClientRect();
     let tX = 0, tY = 0, tZ = 0, cX = 0, cY = 0, cZ = 0;
     let raf = 0;
@@ -233,14 +266,15 @@ export default function Home() {
       setTimeout(() => { el.style.transition = ""; }, 500);
     };
 
-    el.addEventListener("mousemove", onMove);
-    el.addEventListener("mouseleave", onLeave);
-    window.addEventListener("resize", () => { rect = el.getBoundingClientRect(); });
+  const onResize = () => { rect = el.getBoundingClientRect(); };
+  el.addEventListener("mousemove", onMove);
+  el.addEventListener("mouseleave", onLeave);
+  window.addEventListener("resize", onResize);
 
     return () => {
       el.removeEventListener("mousemove", onMove);
       el.removeEventListener("mouseleave", onLeave);
-      window.removeEventListener("resize", () => { /* noop */ });
+      window.removeEventListener("resize", onResize);
       if (raf) cancelAnimationFrame(raf);
     };
   }, []);
@@ -392,8 +426,8 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Storytelling */}
-      <section className="mt-28 text-center px-6 fade-up">
+  {/* Storytelling */}
+  <section className="mt-12 md:mt-24 text-center px-6 fade-up">
         <div className="w-full mx-auto h-[4.8rem] md:h-auto flex items-center justify-center mb-6">
           <h2 className="text-4xl md:text-5xl font-semibold text-white leading-tight flex flex-col justify-center">
             <TypeAnimation
