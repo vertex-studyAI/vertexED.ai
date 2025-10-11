@@ -427,7 +427,7 @@ export default function Home() {
       </div>
 
   {/* Storytelling */}
-  <section className="mt-12 md:mt-24 text-center px-6 fade-up">
+  <section className="mt-12 md:mt-15 text-center px-6 fade-up">
         <div className="w-full mx-auto h-[4.8rem] md:h-auto flex items-center justify-center mb-6">
           <h2 className="text-4xl md:text-5xl font-semibold text-white leading-tight flex flex-col justify-center">
             <TypeAnimation
