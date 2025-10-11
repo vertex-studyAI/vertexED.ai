@@ -288,3 +288,33 @@ All colors MUST be HSL.
   .card-hover { transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease; }
   .card-hover:hover { transform: translateY(-2px); box-shadow: var(--glow); border-color: hsl(var(--primary) / 0.35); }
 }
+
+/* Reusable glass components (match hero section style) */
+@layer base {
+  /* Large glassy container like the Home hero CTA */
+  .glass-card {
+    @apply relative overflow-hidden rounded-3xl shadow-2xl border border-white/10 ring-1 ring-white/10 backdrop-blur-sm md:backdrop-blur-md;
+    /* Gradient uses brand tokens to mirror hero */
+    background-image: linear-gradient(
+      to bottom,
+      hsl(var(--brand-1)/0.28),
+      hsl(216 18% 14% / 0.18),
+      hsl(var(--brand-2)/0.14)
+    );
+    -webkit-backdrop-filter: blur(6px) saturate(130%);
+    backdrop-filter: blur(6px) saturate(130%);
+  }
+
+  /* Card/tile variant for grid items */
+  .glass-tile {
+    @apply rounded-xl border border-white/10 ring-1 ring-white/10 backdrop-blur-sm md:backdrop-blur-md shadow-none;
+    background-image: linear-gradient(
+      to bottom,
+      hsl(var(--brand-1)/0.22),
+      hsl(216 18% 14% / 0.14),
+      hsl(var(--brand-2)/0.10)
+    );
+    -webkit-backdrop-filter: blur(5px) saturate(125%);
+    backdrop-filter: blur(5px) saturate(125%);
+  }
+}

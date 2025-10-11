@@ -287,7 +287,7 @@ export default function Home() {
       <div
         key={i}
         onClick={() => toggleFlip(i)}
-        className="group relative h-56 surface-light text-slate-900 rounded-2xl shadow-xl cursor-pointer transition-all duration-500 hover:scale-[1.03] hover:shadow-[0_10px_40px_rgba(2,6,23,0.28)] perspective tilt-card fade-up"
+        className="group relative h-56 glass-tile text-slate-100 rounded-2xl shadow-xl cursor-pointer transition-all duration-500 hover:scale-[1.03] hover:shadow-[0_10px_40px_rgba(2,6,23,0.28)] perspective tilt-card fade-up"
       >
         <div
           className="absolute inset-0 transition-transform duration-700 transform"
@@ -302,12 +302,12 @@ export default function Home() {
             style={{ backfaceVisibility: "hidden" }}
           >
             <span>{p.stat}</span>
-            <span className="text-sm text-slate-500 italic group-hover:text-slate-700 transition-colors">Click to find out</span>
+            <span className="text-sm text-slate-400 italic group-hover:text-slate-300 transition-colors">Click to find out</span>
           </div>
 
           {/* Back */}
           <div
-            className="absolute inset-0 flex items-center justify-center p-4 text-lg leading-relaxed surface-light rounded-2xl text-slate-800"
+            className="absolute inset-0 flex items-center justify-center p-4 text-lg leading-relaxed glass-tile rounded-2xl text-slate-200"
             style={{ transform: "rotateY(180deg)", backfaceVisibility: "hidden" }}
           >
             <div>
@@ -326,7 +326,7 @@ export default function Home() {
         key={i}
         className={`feature-row flex flex-col md:flex-row items-center gap-10 fade-up ${i % 2 !== 0 ? "md:flex-row-reverse" : ""}`}
       >
-  <div className="flex-1 surface-light rounded-2xl shadow-xl p-6 text-slate-800 tilt-card planner-card">
+  <div className="flex-1 glass-tile rounded-2xl shadow-xl p-6 text-slate-100 tilt-card planner-card">
           <h4 className="text-xl font-bold mb-3">{f.title}</h4>
           <p>{f.desc}</p>
           <div className="mt-4 text-sm text-slate-500">Built around proven learning techniques.</div>
@@ -366,10 +366,10 @@ export default function Home() {
         }}
       />
 
-      {/* Hero */}
+  {/* Hero */}
   <section
-        className="relative overflow-hidden px-6 pt-24 pb-16 text-center rounded-3xl shadow-2xl border border-white/10 ring-1 ring-white/10 backdrop-blur-sm md:backdrop-blur-md bg-gradient-to-b from-[hsl(var(--brand-1)/0.28)] via-[hsl(216_18%_14%/0.18)] to-[hsl(var(--brand-2)/0.14)]"
-      >
+    className="glass-card px-6 pt-24 pb-16 text-center"
+  >
         <div className="max-w-3xl mx-auto">
           <div className="mb-6 fade-up">
             <div className="relative w-full h-[6.75rem] md:h-[9.25rem] flex items-center justify-center">
@@ -456,7 +456,7 @@ export default function Home() {
       <section className="max-w-4xl mx-auto mt-24 px-6 text-center fade-up">
         <div
           ref={missionRef}
-          className="surface-light text-slate-800 rounded-3xl shadow-2xl p-10 transform transition-transform duration-300"
+          className="glass-card text-slate-100 rounded-3xl shadow-2xl p-10 transform transition-transform duration-300"
           aria-label="Mission panel"
         >
           <p className="text-lg md:text-xl leading-relaxed">

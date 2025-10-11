@@ -199,7 +199,7 @@ export default function Main() {
         <div className="max-w-7xl mx-auto">
           <div
             ref={containerRef}
-            className="relative rounded-3xl overflow-hidden border border-slate-700 bg-gradient-to-br from-slate-900/65 to-slate-800/60 shadow-2xl p-6 md:p-8"
+            className="glass-card p-6 md:p-8"
           >
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {tiles.map((t, i) => (
@@ -207,7 +207,7 @@ export default function Main() {
                   <div className="tile-shadow h-full rounded-xl transition-all duration-400" style={{ boxShadow: "0 18px 50px rgba(12,18,40,0.55)" }}>
                     <div className="tile h-56 md:h-64 w-full" aria-hidden={false}>
                       <NeumorphicCard
-                        className="h-full p-6 rounded-xl flex flex-col justify-between bg-gradient-to-br from-slate-800/40 to-slate-900/60 border border-slate-700 shadow-none transition-all duration-400 group-hover:border-indigo-400"
+                        className="h-full p-6 glass-tile flex flex-col justify-between transition-all duration-400 group-hover:ring-indigo-400/40 group-hover:border-indigo-300/30"
                         title={t.title}
                         info={t.info}
                       >
