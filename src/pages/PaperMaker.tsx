@@ -2,20 +2,11 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowLeft, Sparkles, FileText, ImagePlus, Download } from "lucide-react";
+import { ArrowLeft, Sparkles, FileText, ImagePlus, Download, Grid, FileArchive } from "lucide-react";
 import NeumorphicCard from "@/components/NeumorphicCard";
 import PageSection from "@/components/PageSection";
 
-/**
- * PaperMaker (improved)
- * - uploads images as base64
- * - sends anythingElse & priorPapers
- * - calls /api/paper-generator
- * - renders returned JSON paper
- * - exports PDF and DOCX
- */
-
-export default function PaperMaker({ priorPapers = [] /* optional array of prior paper text/summaries */ }) {
+export default function PaperMaker({ priorPapers = [] }) {
   const BOARDS = ["IB MYP", "IB DP", "IGCSE", "A Levels", "CBSE", "ICSE"];
   const GRADE_RANGES = {
     "IB MYP": range(6, 10),
@@ -25,6 +16,7 @@ export default function PaperMaker({ priorPapers = [] /* optional array of prior
     CBSE: range(6, 12),
     ICSE: range(6, 12),
   };
+  
   const SUBJECTS = {
     "IB MYP": ["Physics", "Chemistry", "Biology", "History", "Geography", "Math Standard", "Language and Literature", "Spanish", "French", "Hindi"],
     "IB DP": ["History", "Geography", "Math AA", "Math AI", "Business Management", "Economics", "IB English Literature", "Language B - Spanish", "Language B - German", "Language B - French", "Language B - Hindi", "Language AB Initio - Spanish"],
@@ -38,7 +30,6 @@ export default function PaperMaker({ priorPapers = [] /* optional array of prior
     "IB DP": ["Paper 1", "Paper 2", "Internal Assessment", "Extended Essay"],
   };
 
-  // form state
   const [board, setBoard] = useState(BOARDS[0]);
   const [grade, setGrade] = useState(null);
   const [subject, setSubject] = useState("");
@@ -51,13 +42,13 @@ export default function PaperMaker({ priorPapers = [] /* optional array of prior
   const [criteria, setCriteria] = useState("");
   const [useCriteria, setUseCriteria] = useState(false);
   const [anythingElse, setAnythingElse] = useState("");
-  const [files, setFiles] = useState([]); // { name, mime, b64 }
+  const [files, setFiles] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [paper, setPaper] = useState(null);
   const [raw, setRaw] = useState(null);
 
-  const previewRef = useRef();
+  const previewRef = useRef(null);
 
   const gradesForBoard = useMemo(() => GRADE_RANGES[board] || [], [board]);
 
@@ -66,15 +57,12 @@ export default function PaperMaker({ priorPapers = [] /* optional array of prior
     if (board === "IB MYP") {
       if (grade === 10 && !list.includes("Math Extended")) list.push("Math Extended");
       if (grade >= 8 && grade <= 10) {
-        ["Spanish (Extended)", "French (Extended)", "Hindi (Extended)"].forEach((s) => {
-          if (!list.includes(s)) list.push(s);
-        });
+        ["Spanish (Extended)", "French (Extended)", "Hindi (Extended)"].forEach((s) => { if (!list.includes(s)) list.push(s); });
       }
     }
     return list;
   }, [board, grade]);
 
-  // reset dependents when board changes
   useEffect(() => {
     setGrade(null);
     setSubject("");
@@ -88,6 +76,9 @@ export default function PaperMaker({ priorPapers = [] /* optional array of prior
     setUseCriteria(board === "IB MYP" || board === "IB DP");
     setAnythingElse("");
     setFiles([]);
+    setPaper(null);
+    setRaw(null);
+    setError("");
   }, [board]);
 
   useEffect(() => {
@@ -104,25 +95,21 @@ export default function PaperMaker({ priorPapers = [] /* optional array of prior
     return true;
   }, [board, grade, subject, useCriteria, criteria, marks]);
 
-  // convert FileList to base64 array
   async function handleFilesChange(ev) {
     const list = Array.from(ev.target.files || []);
     const converted = await Promise.all(list.map(fileToBase64Safe));
-    setFiles(converted);
+    setFiles((prev) => [...prev, ...converted]);
   }
 
-  // file -> { name, mime, b64 }
   async function fileToBase64Safe(file) {
-    const maxBytes = 3 * 1024 * 1024; // 3MB
+    const maxBytes = 3 * 1024 * 1024;
     if (file.size > maxBytes) {
-      // try to continue but warn user
       setError(`File ${file.name} is larger than ${Math.round(maxBytes / 1024)} KB; please reduce size.`);
     }
     return new Promise((resolve) => {
       const reader = new FileReader();
       reader.onload = () => {
         const result = reader.result;
-        // result is data:<mime>;base64,AAAA...
         const b64 = typeof result === "string" ? result.split(",")[1] : null;
         resolve({ name: file.name, mime: file.type, b64 });
       };
@@ -131,7 +118,6 @@ export default function PaperMaker({ priorPapers = [] /* optional array of prior
     });
   }
 
-  // call API
   async function handleGenerate(e) {
     e?.preventDefault?.();
     setError("");
@@ -150,7 +136,7 @@ export default function PaperMaker({ priorPapers = [] /* optional array of prior
       format,
       difficulty: difficulty === 1 ? "Easy" : difficulty === 2 ? "Medium" : "Hard",
       anythingElse,
-      priorPapers, // optional: pass-in prop or populate dynamically elsewhere
+      priorPapers,
       images: files.map((f) => ({ name: f.name, mime: f.mime, b64: f.b64 })),
     };
 
@@ -170,7 +156,6 @@ export default function PaperMaker({ priorPapers = [] /* optional array of prior
       if (data.parsed && data.paper) {
         setPaper(data.paper);
       } else {
-        // show raw for debugging
         setRaw(data.raw ?? "No response");
       }
     } catch (err) {
@@ -179,7 +164,6 @@ export default function PaperMaker({ priorPapers = [] /* optional array of prior
     }
   }
 
-  /* Export functions - dynamic import for SSR-safety */
   async function exportPDF() {
     if (!paper && !previewRef.current) return;
     try {
@@ -189,7 +173,6 @@ export default function PaperMaker({ priorPapers = [] /* optional array of prior
       const canvas = await html2canvas(node, { scale: 2, useCORS: true });
       const imgData = canvas.toDataURL("image/png");
       const pdf = new jsPDF({ unit: "pt", format: "a4" });
-      // fit image to page
       const pageWidth = pdf.internal.pageSize.getWidth();
       const pageHeight = pdf.internal.pageSize.getHeight();
       const ratio = Math.min(pageWidth / canvas.width, pageHeight / canvas.height);
@@ -198,7 +181,6 @@ export default function PaperMaker({ priorPapers = [] /* optional array of prior
       pdf.addImage(imgData, "PNG", (pageWidth - w) / 2, 20, w, h);
       pdf.save(`${(paper?.title || "practice-paper").replace(/\s+/g, "_")}.pdf`);
     } catch (err) {
-      console.error("PDF export failed", err);
       setError("PDF export failed: " + String(err));
     }
   }
@@ -212,10 +194,10 @@ export default function PaperMaker({ priorPapers = [] /* optional array of prior
       doc.addSection({
         children: [
           new Paragraph({ children: [new TextRun({ text: paper.title || "Practice Paper", bold: true, size: 28 })] }),
-          new Paragraph(""),
-          new Paragraph({ children: [new TextRun({ text: `Board: ${paper?.metadata?.board || ""}`, bold: false })] }),
+          new Paragraph("") ,
+          new Paragraph({ children: [new TextRun({ text: `Board: ${paper?.metadata?.board || ""}` })] }),
           new Paragraph({ children: [new TextRun({ text: `Grade: ${paper?.metadata?.grade || ""}` })] }),
-          new Paragraph(""),
+          new Paragraph("") ,
           ...flattenSectionsToParagraphs(paper.sections || []),
         ],
       });
@@ -223,23 +205,21 @@ export default function PaperMaker({ priorPapers = [] /* optional array of prior
       const blob = await packer.toBlob(doc);
       saveAs(blob, `${(paper?.title || "practice-paper").replace(/\s+/g, "_")}.docx`);
     } catch (err) {
-      console.error("DOCX export failed", err);
       setError("DOCX export failed: " + String(err));
     }
   }
 
-  // small helpers
   function flattenSectionsToParagraphs(sections) {
     const paras = [];
     for (const s of sections) {
-      paras.push(new Paragraph({ children: [new TextRun({ text: s.title || "", bold: true })] }));
-      if (s.instructions) paras.push(new Paragraph(s.instructions));
+      paras.push(new (require("docx").Paragraph)({ children: [new (require("docx").TextRun)({ text: s.title || "", bold: true })] }));
+      if (s.instructions) paras.push(new (require("docx").Paragraph)(s.instructions));
       for (const q of s.questions || []) {
-        paras.push(new Paragraph({ children: [new TextRun({ text: `Q: ${q.question}`, break: 1 })] }));
-        if (q.modelAnswerOutline) paras.push(new Paragraph({ children: [new TextRun({ text: `Model answer / rubric: ${q.modelAnswerOutline}` })] }));
-        paras.push(new Paragraph({ children: [new TextRun("")] }));
+        paras.push(new (require("docx").Paragraph)({ children: [new (require("docx").TextRun)({ text: `Q: ${q.question}`, break: 1 })] }));
+        if (q.modelAnswerOutline) paras.push(new (require("docx").Paragraph)({ children: [new (require("docx").TextRun)({ text: `Model answer / rubric: ${q.modelAnswerOutline}` })] }));
+        paras.push(new (require("docx").Paragraph)({ children: [new (require("docx").TextRun)({ text: "" })] }));
       }
-      paras.push(new Paragraph({ children: [new TextRun({ text: "" })] }));
+      paras.push(new (require("docx").Paragraph)({ children: [new (require("docx").TextRun)({ text: "" })] }));
     }
     return paras;
   }
@@ -267,7 +247,6 @@ export default function PaperMaker({ priorPapers = [] /* optional array of prior
         </div>
 
         <div className="grid md:grid-cols-2 gap-8">
-          {/* Left: config */}
           <NeumorphicCard className="p-6 min-h-[28rem]" title="Paper Configuration" info="Customize your practice paper.">
             <form className="grid gap-5" onSubmit={handleGenerate}>
               <div className="grid grid-cols-2 gap-4">
@@ -305,7 +284,7 @@ export default function PaperMaker({ priorPapers = [] /* optional array of prior
                       <option value="">Select Criteria / Component</option>
                       {(CRITERIA[board] || []).map(c => <option key={c} value={c}>{c}</option>)}
                     </select>
-                    <div className="text-xs opacity-60 mt-1">Criteria mode hides total marks and uses rubric weightings.</div>
+                    <div className="text-xs text-gray-500 mt-1">Criteria mode hides total marks and uses rubric weightings.</div>
                   </motion.div>
                 ) : (
                   <motion.div whileHover={{ scale: 1.02 }} className="neu-input">
@@ -319,13 +298,18 @@ export default function PaperMaker({ priorPapers = [] /* optional array of prior
 
               <div className="grid grid-cols-2 gap-4">
                 <motion.div whileHover={{ scale: 1.01 }} className="neu-input">
-                  <select className="neu-input-el" value={format} onChange={(e) => setFormat(e.target.value)}><option>Mixed Format</option><option>Short Answer Only</option><option>Structured Questions</option><option>Essay Format</option></select>
+                  <select className="neu-input-el" value={format} onChange={(e) => setFormat(e.target.value)}>
+                    <option>Mixed Format</option>
+                    <option>Short Answer Only</option>
+                    <option>Structured Questions</option>
+                    <option>Essay Format</option>
+                  </select>
                 </motion.div>
 
                 <motion.div whileHover={{ translateY: -2 }} className="neu-input p-4">
-                  <label className="block text-xs opacity-70 mb-2">Difficulty</label>
+                  <label className="block text-xs text-gray-500 mb-2">Difficulty</label>
                   <input aria-label="Difficulty" type="range" min={1} max={3} step={1} value={difficulty} onChange={(e) => setDifficulty(Number(e.target.value))} />
-                  <div className="flex justify-between text-xs opacity-70 mt-1"><span>Easy</span><span>Medium</span><span>Hard</span></div>
+                  <div className="flex justify-between text-xs text-gray-500 mt-1"><span>Easy</span><span>Medium</span><span>Hard</span></div>
                 </motion.div>
               </div>
 
@@ -334,48 +318,55 @@ export default function PaperMaker({ priorPapers = [] /* optional array of prior
               </motion.div>
 
               <motion.div whileHover={{ scale: 1.01 }} className="neu-input">
-                <label className="flex items-center gap-2 cursor-pointer">
+                <label className="flex items-center gap-2 cursor-pointer text-sm">
                   <ImagePlus /> <span>Attach images (diagrams) - optional</span>
                   <input type="file" className="sr-only" accept="image/*" multiple onChange={handleFilesChange} />
                 </label>
-                <div className="mt-2 flex gap-2 flex-wrap">
-                  {files.map(f => <div key={f.name} className="text-xs px-2 py-1 rounded bg-gray-800/30">{f.name}</div>)}
+                <div className="mt-2 grid grid-cols-3 gap-2">
+                  {files.map((f) => {
+                    const src = f.b64 ? `data:${f.mime};base64,${f.b64}` : null;
+                    return (
+                      <div key={f.name} className="flex flex-col items-center text-xs bg-gray-50 rounded p-2">
+                        {src ? <img src={src} alt={f.name} style={{ maxWidth: 120, maxHeight: 80, objectFit: 'contain' }} /> : <FileArchive />}
+                        <div className="mt-1 truncate w-full text-center text-sm">{f.name}</div>
+                      </div>
+                    );
+                  })}
                 </div>
               </motion.div>
 
-              {error && <div className="text-red-400 text-sm">{error}</div>}
+              {error && <div className="text-red-500 text-sm">{error}</div>}
 
-              <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className={`neu-button py-4 text-lg font-medium ${formComplete ? "" : "opacity-50 cursor-not-allowed"}`} disabled={!formComplete || loading} type="submit">
-                <FileText size={16} className="inline-block mr-2" /> {loading ? "Generating..." : "Generate Practice Paper"}
+              <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className={`neu-button py-4 text-lg font-medium flex items-center justify-center gap-3 ${formComplete ? "" : "opacity-50 cursor-not-allowed"}`} disabled={!formComplete || loading} type="submit">
+                <FileText size={16} /> {loading ? "Generating..." : "Generate Practice Paper"}
               </motion.button>
             </form>
           </NeumorphicCard>
 
-          {/* Right: preview */}
           <NeumorphicCard className="p-6 min-h-[28rem]" title="Paper Preview" info="Live preview. Export to PDF / Word after generating.">
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.35 }} className="neu-surface inset p-6 rounded-2xl h-full overflow-auto">
               {!paper && !raw ? (
-                <div className="h-full flex flex-col items-center justify-center text-center p-4">
+                <div className="h-full flex flex-col items-center justify-center text-center p-4 text-gray-500">
                   <p className="opacity-70 text-lg mb-4">Your custom practice paper preview will appear here</p>
                   <p className="text-sm opacity-60">After generation you can export to PDF or Word.</p>
                 </div>
               ) : raw && !paper ? (
-                <div className="text-sm text-yellow-200"><pre className="whitespace-pre-wrap">{raw}</pre></div>
+                <div className="text-sm text-yellow-700"><pre className="whitespace-pre-wrap">{raw}</pre></div>
               ) : (
                 <div>
-                  <div ref={previewRef} id="paper-preview" className="space-y-4">
+                  <div ref={previewRef} id="paper-preview" className="space-y-4 text-gray-900">
                     <div className="flex items-start justify-between">
                       <div>
                         <h3 className="text-lg font-semibold">{paper.title || `${paper.metadata.board} — Grade ${paper.metadata.grade}`}</h3>
-                        <div className="text-sm opacity-70">{paper.metadata.subject} • {paper.metadata.format} • {paper.metadata.numQuestions} questions</div>
+                        <div className="text-sm text-gray-600">{paper.metadata.subject} • {paper.metadata.format} • {paper.metadata.numQuestions} questions</div>
                       </div>
-                      <div className="text-xs opacity-60">Generated: {new Date().toLocaleString()}</div>
+                      <div className="text-xs text-gray-600">Generated: {new Date().toLocaleString()}</div>
                     </div>
 
-                    <div className="p-4 border rounded bg-gray-900/30">
-                      <div className="text-sm opacity-80 mb-2">Specification</div>
-                      <ul className="list-disc pl-5 text-sm">
-                        <li>Topics: {(paper.sections?.[0]?.questions?.[0]?.question && topicTags.length === 0) ? "(auto)" : (topicTags.length ? topicTags.join(", ") : "(none)")}</li>
+                    <div className="p-4 border rounded bg-white">
+                      <div className="text-sm text-gray-700 mb-2">Specification</div>
+                      <ul className="list-disc pl-5 text-sm text-gray-700">
+                        <li>Topics: {(topicTags.length ? topicTags.join(", ") : "(none)")}</li>
                         <li>Total marks: {paper.metadata.totalMarks ?? "(criteria-based)"}</li>
                         <li>Criteria / component: {paper.metadata.criteriaMode ? "Criteria-mode" : "Fixed marks"}</li>
                         <li>Difficulty: {paper.metadata.difficulty}</li>
@@ -383,21 +374,20 @@ export default function PaperMaker({ priorPapers = [] /* optional array of prior
                     </div>
 
                     {paper.sections?.map((s) => (
-                      <div key={s.id} className="border rounded p-4">
-                        <div className="font-medium mb-2">{s.title}</div>
-                        {s.instructions && <div className="text-sm opacity-70 mb-2">{s.instructions}</div>}
-                        <ol className="list-decimal pl-6 space-y-3">
+                      <div key={s.id} className="border rounded p-4 bg-white">
+                        <div className="font-medium mb-2 text-gray-800">{s.title}</div>
+                        {s.instructions && <div className="text-sm text-gray-600 mb-2">{s.instructions}</div>}
+                        <ol className="list-decimal pl-6 space-y-3 text-gray-800">
                           {s.questions.map((q) => (
                             <li key={q.id}>
                               <div className="font-medium">{q.question}</div>
-                              <div className="text-xs opacity-60">Marks: {q.marks ?? "(see rubric)"} • Time: {q.approxTime ?? "—"}</div>
-                              <div className="text-sm mt-1 opacity-80">Rubric: {q.modelAnswerOutline}</div>
+                              <div className="text-xs text-gray-500">Marks: {q.marks ?? "(see rubric)"} • Time: {q.approxTime ?? "—"}</div>
+                              <div className="text-sm mt-1 text-gray-700">Rubric: {q.modelAnswerOutline}</div>
                               {q.imageRefs?.length ? (
                                 <div className="mt-2 space-x-2">
                                   {q.imageRefs.map((n) => {
                                     const img = (paper.images || []).find(i => i.name === n);
-                                    if (!img) return <span key={n} className="text-xs opacity-60">[missing image: {n}]</span>;
-                                    // if b64 present, create data url
+                                    if (!img) return <span key={n} className="text-xs text-gray-500">[missing image: {n}]</span>;
                                     const src = img.b64 ? `data:${img.mime};base64,${img.b64}` : img.url;
                                     return <img key={n} src={src} alt={img.caption || n} style={{ maxWidth: 320, display: "block", marginTop: 8 }} />;
                                   })}
@@ -409,12 +399,13 @@ export default function PaperMaker({ priorPapers = [] /* optional array of prior
                       </div>
                     ))}
 
-                    {paper.rubricNotes?.length ? <div className="p-3 border rounded bg-gray-800/40"><div className="font-medium">Rubric notes</div><ul className="list-disc pl-5 text-sm">{paper.rubricNotes.map((r,i)=> <li key={i}>{r}</li>)}</ul></div> : null}
+                    {paper.rubricNotes?.length ? <div className="p-3 border rounded bg-white"><div className="font-medium">Rubric notes</div><ul className="list-disc pl-5 text-sm text-gray-700">{paper.rubricNotes.map((r,i)=> <li key={i}>{r}</li>)}</ul></div> : null}
                   </div>
 
                   <div className="flex gap-3 mt-4">
-                    <motion.button whileHover={{ scale: 1.02 }} className="neu-button px-4 py-2" onClick={exportPDF}><Download size={16} className="mr-2 inline-block" />Export PDF</motion.button>
-                    <motion.button whileHover={{ scale: 1.02 }} className="neu-button px-4 py-2" onClick={exportDocx}><Download size={16} className="mr-2 inline-block" />Export Word</motion.button>
+                    <motion.button whileHover={{ scale: 1.02 }} className="neu-button px-4 py-2 flex items-center gap-2" onClick={exportPDF}><Download size={16} />Export PDF</motion.button>
+                    <motion.button whileHover={{ scale: 1.02 }} className="neu-button px-4 py-2 flex items-center gap-2" onClick={exportDocx}><Download size={16} />Export Word</motion.button>
+                    <div className="ml-auto text-sm text-gray-600 flex items-center gap-2"><Grid size={14} /> <span>{(paper?.sections || []).reduce((c, s) => c + (s.questions?.length || 0), 0)} questions</span></div>
                   </div>
                 </div>
               )}
@@ -426,7 +417,6 @@ export default function PaperMaker({ priorPapers = [] /* optional array of prior
   );
 }
 
-// helpers
 function range(a, b) {
   const r = [];
   for (let i = a; i <= b; i++) r.push(i);
