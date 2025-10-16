@@ -252,13 +252,13 @@ export default function PaperMaker({ priorPapers = [] }) {
               <div className="grid grid-cols-2 gap-4">
                 <motion.div whileHover={{ scale: 1.02 }} className="neu-input">
                   <label className="sr-only">Board</label>
-                  <select className="neu-input-el bg-[#071026] text-white" value={board} onChange={(e) => setBoard(e.target.value)} aria-label="Board">
+                  <select className="neu-input-el" value={board} onChange={(e) => setBoard(e.target.value)} aria-label="Board">
                     {BOARDS.map((b) => <option key={b} value={b}>{b}</option>)}
                   </select>
                 </motion.div>
 
                 <motion.div whileHover={{ scale: 1.02 }} className="neu-input">
-                  <select className="neu-input-el bg-[#071026] text-white" value={grade ?? ""} onChange={(e) => setGrade(Number(e.target.value))} aria-label="Grade">
+                  <select className="neu-input-el" value={grade ?? ""} onChange={(e) => setGrade(Number(e.target.value))} aria-label="Grade">
                     <option value="">Select Grade</option>
                     {gradesForBoard.map(g => <option key={g} value={g}>{g}</option>)}
                   </select>
@@ -266,39 +266,39 @@ export default function PaperMaker({ priorPapers = [] }) {
               </div>
 
               <motion.div whileHover={{ scale: 1.01 }} className="neu-input">
-                <select className="neu-input-el bg-[#071026] text-white" value={subject} onChange={(e) => setSubject(e.target.value)} aria-label="Subject" disabled={!grade}>
+                <select className="neu-input-el" value={subject} onChange={(e) => setSubject(e.target.value)} aria-label="Subject" disabled={!grade}>
                   <option value="">Select Subject</option>
                   {subjectsForBoard.map(s => <option key={s} value={s}>{s}</option>)}
                 </select>
               </motion.div>
 
               <motion.div whileHover={{ translateY: -2 }} className="neu-input">
-                <input className="neu-input-el bg-[#071026] text-white" placeholder="Specific topics (comma separated)" value={topics} onChange={(e) => setTopics(e.target.value)} aria-label="Topics" />
-                <div className="mt-2 flex flex-wrap gap-2">{topicTags.map(t => <motion.span key={t} className="px-3 py-1 rounded-full text-xs bg-slate-800 text-white border">{t}</motion.span>)}</div>
+                <input className="neu-input-el" placeholder="Specific topics (comma separated)" value={topics} onChange={(e) => setTopics(e.target.value)} aria-label="Topics" />
+                <div className="mt-2 flex flex-wrap gap-2">{topicTags.map(t => <motion.span key={t} className="px-3 py-1 rounded-full text-xs bg-gray-100 border">{t}</motion.span>)}</div>
               </motion.div>
 
               <div className="grid grid-cols-2 gap-4">
                 {useCriteria ? (
                   <motion.div whileHover={{ scale: 1.02 }} className="neu-input">
-                    <select className="neu-input-el bg-[#071026] text-white" value={criteria} onChange={(e) => setCriteria(e.target.value)}>
+                    <select className="neu-input-el" value={criteria} onChange={(e) => setCriteria(e.target.value)}>
                       <option value="">Select Criteria / Component</option>
                       {(CRITERIA[board] || []).map(c => <option key={c} value={c}>{c}</option>)}
                     </select>
-                    <div className="text-xs text-gray-400 mt-1">Criteria mode hides total marks and uses rubric weightings.</div>
+                    <div className="text-xs text-gray-500 mt-1">Criteria mode hides total marks and uses rubric weightings.</div>
                   </motion.div>
                 ) : (
                   <motion.div whileHover={{ scale: 1.02 }} className="neu-input">
-                    <input className="neu-input-el bg-[#071026] text-white" type="number" min={32} max={100} value={marks ?? ""} onChange={(e) => setMarks(Number(e.target.value))} placeholder="Total marks (32-100)" />
+                    <input className="neu-input-el" type="number" min={32} max={100} value={marks ?? ""} onChange={(e) => setMarks(Number(e.target.value))} placeholder="Total marks (32-100)" />
                   </motion.div>
                 )}
                 <motion.div whileHover={{ scale: 1.02 }} className="neu-input">
-                  <input className="neu-input-el bg-[#071026] text-white" type="number" min={1} max={100} value={numQuestions} onChange={(e) => setNumQuestions(Number(e.target.value))} placeholder="Number of questions" />
+                  <input className="neu-input-el" type="number" min={1} max={100} value={numQuestions} onChange={(e) => setNumQuestions(Number(e.target.value))} placeholder="Number of questions" />
                 </motion.div>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <motion.div whileHover={{ scale: 1.01 }} className="neu-input">
-                  <select className="neu-input-el bg-[#071026] text-white" value={format} onChange={(e) => setFormat(e.target.value)}>
+                  <select className="neu-input-el" value={format} onChange={(e) => setFormat(e.target.value)}>
                     <option>Mixed Format</option>
                     <option>Short Answer Only</option>
                     <option>Structured Questions</option>
@@ -306,19 +306,19 @@ export default function PaperMaker({ priorPapers = [] }) {
                   </select>
                 </motion.div>
 
-                <motion.div whileHover={{ translateY: -2 }} className="neu-input p-4 bg-[#071026]">
-                  <label className="block text-xs text-gray-400 mb-2">Difficulty</label>
+                <motion.div whileHover={{ translateY: -2 }} className="neu-input p-4">
+                  <label className="block text-xs text-gray-500 mb-2">Difficulty</label>
                   <input aria-label="Difficulty" type="range" min={1} max={3} step={1} value={difficulty} onChange={(e) => setDifficulty(Number(e.target.value))} />
-                  <div className="flex justify-between text-xs text-gray-400 mt-1"><span>Easy</span><span>Medium</span><span>Hard</span></div>
+                  <div className="flex justify-between text-xs text-gray-500 mt-1"><span>Easy</span><span>Medium</span><span>Hard</span></div>
                 </motion.div>
               </div>
 
               <motion.div whileHover={{ scale: 1.01 }} className="neu-input">
-                <textarea className="neu-input-el h-20 bg-[#071026] text-white" value={anythingElse} onChange={(e) => setAnythingElse(e.target.value)} placeholder="Anything else? (teacher notes, style preferences, past paper references...)" />
+                <textarea className="neu-input-el h-20" value={anythingElse} onChange={(e) => setAnythingElse(e.target.value)} placeholder="Anything else? (teacher notes, style preferences, past paper references...)" />
               </motion.div>
 
               <motion.div whileHover={{ scale: 1.01 }} className="neu-input">
-                <label className="flex items-center gap-2 cursor-pointer text-sm text-gray-200">
+                <label className="flex items-center gap-2 cursor-pointer text-sm">
                   <ImagePlus /> <span>Attach images (diagrams) - optional</span>
                   <input type="file" className="sr-only" accept="image/*" multiple onChange={handleFilesChange} />
                 </label>
@@ -326,16 +326,16 @@ export default function PaperMaker({ priorPapers = [] }) {
                   {files.map((f) => {
                     const src = f.b64 ? `data:${f.mime};base64,${f.b64}` : null;
                     return (
-                      <div key={f.name} className="flex flex-col items-center text-xs bg-slate-900/40 rounded p-2">
+                      <div key={f.name} className="flex flex-col items-center text-xs bg-gray-50 rounded p-2">
                         {src ? <img src={src} alt={f.name} style={{ maxWidth: 120, maxHeight: 80, objectFit: 'contain' }} /> : <FileArchive />}
-                        <div className="mt-1 truncate w-full text-center">{f.name}</div>
+                        <div className="mt-1 truncate w-full text-center text-sm">{f.name}</div>
                       </div>
                     );
                   })}
                 </div>
               </motion.div>
 
-              {error && <div className="text-red-400 text-sm">{error}</div>}
+              {error && <div className="text-red-500 text-sm">{error}</div>}
 
               <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className={`neu-button py-4 text-lg font-medium flex items-center justify-center gap-3 ${formComplete ? "" : "opacity-50 cursor-not-allowed"}`} disabled={!formComplete || loading} type="submit">
                 <FileText size={16} /> {loading ? "Generating..." : "Generate Practice Paper"}
@@ -344,28 +344,28 @@ export default function PaperMaker({ priorPapers = [] }) {
           </NeumorphicCard>
 
           <NeumorphicCard className="p-6 min-h-[28rem]" title="Paper Preview" info="Live preview. Export to PDF / Word after generating.">
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.35 }} className="neu-surface inset p-6 rounded-2xl h-full overflow-auto bg-[#071026]">
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.35 }} className="neu-surface inset p-6 rounded-2xl h-full overflow-auto">
               {!paper && !raw ? (
-                <div className="h-full flex flex-col items-center justify-center text-center p-4 text-slate-400">
+                <div className="h-full flex flex-col items-center justify-center text-center p-4 text-gray-500">
                   <p className="opacity-70 text-lg mb-4">Your custom practice paper preview will appear here</p>
                   <p className="text-sm opacity-60">After generation you can export to PDF or Word.</p>
                 </div>
               ) : raw && !paper ? (
-                <div className="text-sm text-yellow-200"><pre className="whitespace-pre-wrap">{raw}</pre></div>
+                <div className="text-sm text-yellow-700"><pre className="whitespace-pre-wrap">{raw}</pre></div>
               ) : (
                 <div>
-                  <div ref={previewRef} id="paper-preview" className="space-y-4 text-slate-200">
+                  <div ref={previewRef} id="paper-preview" className="space-y-4 text-gray-900">
                     <div className="flex items-start justify-between">
                       <div>
                         <h3 className="text-lg font-semibold">{paper.title || `${paper.metadata.board} — Grade ${paper.metadata.grade}`}</h3>
-                        <div className="text-sm text-slate-400">{paper.metadata.subject} • {paper.metadata.format} • {paper.metadata.numQuestions} questions</div>
+                        <div className="text-sm text-gray-600">{paper.metadata.subject} • {paper.metadata.format} • {paper.metadata.numQuestions} questions</div>
                       </div>
-                      <div className="text-xs text-slate-400">Generated: {new Date().toLocaleString()}</div>
+                      <div className="text-xs text-gray-600">Generated: {new Date().toLocaleString()}</div>
                     </div>
 
-                    <div className="p-4 border rounded bg-slate-900/40 text-slate-300">
-                      <div className="text-sm text-slate-300 mb-2">Specification</div>
-                      <ul className="list-disc pl-5 text-sm">
+                    <div className="p-4 border rounded bg-white">
+                      <div className="text-sm text-gray-700 mb-2">Specification</div>
+                      <ul className="list-disc pl-5 text-sm text-gray-700">
                         <li>Topics: {(topicTags.length ? topicTags.join(", ") : "(none)")}</li>
                         <li>Total marks: {paper.metadata.totalMarks ?? "(criteria-based)"}</li>
                         <li>Criteria / component: {paper.metadata.criteriaMode ? "Criteria-mode" : "Fixed marks"}</li>
@@ -374,20 +374,20 @@ export default function PaperMaker({ priorPapers = [] }) {
                     </div>
 
                     {paper.sections?.map((s) => (
-                      <div key={s.id} className="border rounded p-4 bg-slate-800/40">
-                        <div className="font-medium mb-2 text-slate-100">{s.title}</div>
-                        {s.instructions && <div className="text-sm text-slate-300 mb-2">{s.instructions}</div>}
-                        <ol className="list-decimal pl-6 space-y-3 text-slate-200">
+                      <div key={s.id} className="border rounded p-4 bg-white">
+                        <div className="font-medium mb-2 text-gray-800">{s.title}</div>
+                        {s.instructions && <div className="text-sm text-gray-600 mb-2">{s.instructions}</div>}
+                        <ol className="list-decimal pl-6 space-y-3 text-gray-800">
                           {s.questions.map((q) => (
                             <li key={q.id}>
                               <div className="font-medium">{q.question}</div>
-                              <div className="text-xs text-slate-400">Marks: {q.marks ?? "(see rubric)"} • Time: {q.approxTime ?? "—"}</div>
-                              <div className="text-sm mt-1 text-slate-300">Rubric: {q.modelAnswerOutline}</div>
+                              <div className="text-xs text-gray-500">Marks: {q.marks ?? "(see rubric)"} • Time: {q.approxTime ?? "—"}</div>
+                              <div className="text-sm mt-1 text-gray-700">Rubric: {q.modelAnswerOutline}</div>
                               {q.imageRefs?.length ? (
                                 <div className="mt-2 space-x-2">
                                   {q.imageRefs.map((n) => {
                                     const img = (paper.images || []).find(i => i.name === n);
-                                    if (!img) return <span key={n} className="text-xs text-slate-400">[missing image: {n}]</span>;
+                                    if (!img) return <span key={n} className="text-xs text-gray-500">[missing image: {n}]</span>;
                                     const src = img.b64 ? `data:${img.mime};base64,${img.b64}` : img.url;
                                     return <img key={n} src={src} alt={img.caption || n} style={{ maxWidth: 320, display: "block", marginTop: 8 }} />;
                                   })}
@@ -399,13 +399,13 @@ export default function PaperMaker({ priorPapers = [] }) {
                       </div>
                     ))}
 
-                    {paper.rubricNotes?.length ? <div className="p-3 border rounded bg-slate-900/30 text-slate-300"><div className="font-medium">Rubric notes</div><ul className="list-disc pl-5 text-sm">{paper.rubricNotes.map((r,i)=> <li key={i}>{r}</li>)}</ul></div> : null}
+                    {paper.rubricNotes?.length ? <div className="p-3 border rounded bg-white"><div className="font-medium">Rubric notes</div><ul className="list-disc pl-5 text-sm text-gray-700">{paper.rubricNotes.map((r,i)=> <li key={i}>{r}</li>)}</ul></div> : null}
                   </div>
 
                   <div className="flex gap-3 mt-4">
                     <motion.button whileHover={{ scale: 1.02 }} className="neu-button px-4 py-2 flex items-center gap-2" onClick={exportPDF}><Download size={16} />Export PDF</motion.button>
                     <motion.button whileHover={{ scale: 1.02 }} className="neu-button px-4 py-2 flex items-center gap-2" onClick={exportDocx}><Download size={16} />Export Word</motion.button>
-                    <div className="ml-auto text-sm text-slate-400 flex items-center gap-2"><Grid size={14} /> <span>{(paper?.sections || []).reduce((c, s) => c + (s.questions?.length || 0), 0)} questions</span></div>
+                    <div className="ml-auto text-sm text-gray-600 flex items-center gap-2"><Grid size={14} /> <span>{(paper?.sections || []).reduce((c, s) => c + (s.questions?.length || 0), 0)} questions</span></div>
                   </div>
                 </div>
               )}
