@@ -1,16 +1,8 @@
-User-agent: Googlebot
-Allow: /
-
-User-agent: Bingbot
-Allow: /
-
-User-agent: Twitterbot
-Allow: /
-
-User-agent: facebookexternalhit
-Allow: /
+# Robots.txt for VertexED
+# Purpose: Allow crawling of the entire site and advertise the XML sitemap.
 
 User-agent: *
 Allow: /
 
+# XML Sitemaps
 Sitemap: https://www.vertexed.app/sitemap.xml
