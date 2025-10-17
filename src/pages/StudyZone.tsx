@@ -1,8 +1,9 @@
-// Inline sparkline used instead of an external charting library (keeps build dependency-free)
-
+import React, { useEffect, useMemo, useRef, useState } from "react";
+import { Helmet } from "react-helmet-async";
+import { Link } from "react-router-dom";
+import NeumorphicCard from "@/components/NeumorphicCard";
+import PageSection from "@/components/PageSection";
 import ReactMarkdown from "react-markdown";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 /*
   StudyZone (Vercel-ready, client-first)
@@ -13,14 +14,12 @@ import "react-toastify/dist/ReactToastify.css";
       POST /api/aiassistant    { prompt } -> { reply }
       POST /api/aitasks       { tasks }  -> { prioritizedTasks }
       POST /api/sync          { payload } -> { ok }
-  - Recommended packages:
-      axios, uuid, recharts, react-markdown, react-toastify, mathjs (optional)
 */
 
 const AMBIENT_SOUNDS = [
   { id: "none", name: "None", url: null },
   { id: "rain", name: "Rain", url: "/assets/sounds/rain.mp3" },
-  { id: "lofi", name: "Lo‑fi", url: "/assets/sounds/lofi.mp3" },
+  { id: "lofi", name: "Lo-fi", url: "/assets/sounds/lofi.mp3" },
   { id: "cafe", name: "Café", url: "/assets/sounds/cafe.mp3" },
 ];
 
@@ -33,8 +32,13 @@ const STORAGE_KEYS = {
   settings: "vz:settings:v1",
 };
 
-function useLocalStorage(key, initial) {
-  const [state, setState] = useState(() => {
+// lightweight id generator (no uuid dependency)
+function uid() {
+  return Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 9);
+}
+
+function useLocalStorage(key: string, initial: any) {
+  const [state, setState] = useState<any>(() => {
     try {
       const raw = localStorage.getItem(key);
       return raw ? JSON.parse(raw) : initial;
@@ -49,7 +53,7 @@ function useLocalStorage(key, initial) {
       // ignore
     }
   }, [key, state]);
-  return [state, setState];
+  return [state, setState] as const;
 }
 
 // SimpleSparkline: small, dependency-free SVG line chart for progress data
@@ -73,7 +77,14 @@ function SimpleSparkline({ data = [], height = 140 }: { data?: any[]; height?: n
 
   return (
     <svg viewBox={`0 0 ${w} ${h}`} preserveAspectRatio="none" className="w-full h-full">
-      <polyline fill="none" stroke="#4f46e5" strokeWidth="2" points={points} strokeLinejoin="round" strokeLinecap="round" />
+      <polyline
+        fill="none"
+        stroke="#4f46e5"
+        strokeWidth="2"
+        points={points}
+        strokeLinejoin="round"
+        strokeLinecap="round"
+      />
     </svg>
   );
 }
@@ -88,7 +99,6 @@ export default function StudyZone() {
   });
 
   useEffect(() => {
-    // Apply theme to document
     const root = document.documentElement;
     const preferDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
     const theme = settings.theme === "auto" ? (settings.autoDark && preferDark ? "dark" : "light") : settings.theme;
@@ -96,11 +106,19 @@ export default function StudyZone() {
     else root.classList.remove("dark");
   }, [settings]);
 
+  // ===== in-app toast system (no react-toastify) =====
+  const [toasts, setToasts] = useState<{ id: string; message: string; type: "info" | "success" | "error" }[]>([]);
+  function notify(message: string, type: "info" | "success" | "error" = "info") {
+    const id = uid();
+    setToasts((t) => [...t, { id, message, type }]);
+    setTimeout(() => setToasts((t) => t.filter((x) => x.id !== id)), 4000);
+  }
+
   // ===== Activity log =====
   const [activity, setActivity] = useLocalStorage(STORAGE_KEYS.activity, []);
-  function log(type, detail = null) {
-    const entry = { id: uuidv4(), ts: new Date().toISOString(), type, detail };
-    setActivity((prev) => [entry, ...prev].slice(0, 500));
+  function log(type: string, detail: string | null = null) {
+    const entry = { id: uid(), ts: new Date().toISOString(), type, detail };
+    setActivity((prev: any[]) => [entry, ...prev].slice(0, 500));
   }
 
   // ===== Tasks =====
@@ -110,17 +128,17 @@ export default function StudyZone() {
 
   function addTask() {
     if (!taskText.trim()) return;
-    const t = { id: uuidv4(), text: taskText.trim(), priority: taskPriority, done: false, createdAt: new Date().toISOString() };
-    setTasks((p) => [t, ...p]);
+    const t = { id: uid(), text: taskText.trim(), priority: taskPriority, done: false, createdAt: new Date().toISOString() };
+    setTasks((p: any[]) => [t, ...p]);
     setTaskText("");
     log("TaskAdded", t.text);
   }
-  function toggleTask(id) {
-    setTasks((p) => p.map((t) => (t.id === id ? { ...t, done: !t.done } : t)));
+  function toggleTask(id: string) {
+    setTasks((p: any[]) => p.map((t: any) => (t.id === id ? { ...t, done: !t.done } : t)));
     log("TaskToggled", id);
   }
-  function removeTask(id) {
-    setTasks((p) => p.filter((t) => t.id !== id));
+  function removeTask(id: string) {
+    setTasks((p: any[]) => p.filter((t: any) => t.id !== id));
     log("TaskRemoved", id);
   }
 
@@ -134,21 +152,24 @@ export default function StudyZone() {
       const data = await res.json();
       if (data?.tasks) {
         setTasks(data.tasks);
-        toast.success("Tasks prioritized by AI");
+        notify("Tasks prioritized by AI", "success");
         log("AI", "Prioritized tasks");
       } else {
-        toast.error("AI prioritization failed");
+        notify("AI prioritization failed", "error");
       }
     } catch (e) {
-      toast.error("AI prioritization error");
+      notify("AI prioritization error", "error");
     }
   }
 
-  // ===== Notes (Markdown) ===== (Markdown) =====
-  const [notes, setNotes] = useLocalStorage(STORAGE_KEYS.notes, `# Notes
+  // ===== Notes (Markdown) =====
+  const [notes, setNotes] = useLocalStorage(
+    STORAGE_KEYS.notes,
+    `# Notes
 
 Start typing your study notes...
-`);
+`
+  );
 
   // ===== Flashcards =====
   const [flashcards, setFlashcards] = useLocalStorage(STORAGE_KEYS.flashcards, []);
@@ -159,15 +180,15 @@ Start typing your study notes...
 
   function addFlashcard() {
     if (!qText.trim()) return;
-    const f = { id: uuidv4(), q: qText.trim(), a: aText.trim() };
-    setFlashcards((p) => [f, ...p]);
+    const f = { id: uid(), q: qText.trim(), a: aText.trim() };
+    setFlashcards((p: any[]) => [f, ...p]);
     setQText("");
     setAText("");
     log("FlashcardAdded", f.q);
   }
 
   // ===== Ambient Sound =====
-  const audioRef = useRef(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
   const [sound, setSound] = useState("none");
 
   useEffect(() => {
@@ -194,9 +215,9 @@ Start typing your study notes...
   const [progress, setProgress] = useLocalStorage(STORAGE_KEYS.progress, []); // [{date: '2025-10-17', minutes: 25}]
   function recordProgress(minutes = 25) {
     const today = new Date().toLocaleDateString();
-    setProgress((p) => {
+    setProgress((p: any[]) => {
       const copy = [...p];
-      const idx = copy.findIndex((d) => d.date === today);
+      const idx = copy.findIndex((d: any) => d.date === today);
       if (idx >= 0) copy[idx].minutes += minutes;
       else copy.push({ date: today, minutes });
       return copy;
@@ -214,9 +235,9 @@ Start typing your study notes...
     a.click();
     URL.revokeObjectURL(url);
     log("Export", "Exported all data");
-    toast.success("Exported data");
+    notify("Exported data", "success");
   }
-  async function importAll(file) {
+  async function importAll(file: File | null) {
     if (!file) return;
     const text = await file.text();
     try {
@@ -227,10 +248,10 @@ Start typing your study notes...
       if (parsed.flashcards) setFlashcards(parsed.flashcards);
       if (parsed.progress) setProgress(parsed.progress);
       if (parsed.settings) setSettings(parsed.settings);
-      toast.success("Imported data");
+      notify("Imported data", "success");
       log("Import", "Imported backup");
     } catch (e) {
-      toast.error("Invalid backup file");
+      notify("Invalid backup file", "error");
     }
   }
 
@@ -243,13 +264,13 @@ Start typing your study notes...
         body: JSON.stringify({ tasks, activity, notes, flashcards, progress }),
       });
       if (res.ok) {
-        toast.success("Synced to server");
+        notify("Synced to server", "success");
         log("Sync", "Pushed to server");
       } else {
-        toast.error("Sync failed");
+        notify("Sync failed", "error");
       }
     } catch (e) {
-      toast.error("Sync failed");
+      notify("Sync failed", "error");
     }
   }
 
@@ -271,7 +292,7 @@ Start typing your study notes...
       log("AIQuery", aiPrompt);
       setAiPrompt("");
     } catch (e) {
-      toast.error("AI request failed");
+      notify("AI request failed", "error");
     } finally {
       setAiLoading(false);
     }
@@ -283,7 +304,7 @@ Start typing your study notes...
   const [isRunning, setIsRunning] = useState(false);
   const [onBreak, setOnBreak] = useState(false);
   const [seconds, setSeconds] = useState(sessionMins * 60);
-  const timerRef = useRef(null);
+  const timerRef = useRef<number | null>(null);
 
   useEffect(() => {
     setSeconds((onBreak ? breakMins : sessionMins) * 60);
@@ -295,7 +316,9 @@ Start typing your study notes...
       timerRef.current = window.setInterval(() => {
         setSeconds((s) => s - 1);
       }, 1000);
-      return () => clearInterval(timerRef.current);
+      return () => {
+        if (timerRef.current) clearInterval(timerRef.current);
+      };
     } else {
       if (timerRef.current) clearInterval(timerRef.current);
     }
@@ -303,15 +326,13 @@ Start typing your study notes...
 
   useEffect(() => {
     if (seconds <= 0) {
-      // play sound alert
       if (settings.enableSoundAlerts) {
         const beep = new Audio("/assets/sounds/notification.mp3");
         beep.volume = settings.soundVolume ?? 0.45;
         beep.play().catch(() => {});
       }
-      // record session if ending a focus
       if (!onBreak) {
-        recordProgress((sessionMins));
+        recordProgress(sessionMins);
         log("FocusComplete", `${sessionMins}m`);
       }
       setOnBreak((b) => !b);
@@ -331,7 +352,7 @@ Start typing your study notes...
     log("TimerReset");
   }
 
-  function fmt(s) {
+  function fmt(s: number) {
     const mm = Math.floor(Math.max(0, s) / 60)
       .toString()
       .padStart(2, "0");
@@ -351,7 +372,7 @@ Start typing your study notes...
     setFlashcards([]);
     setProgress([]);
     log("Reset", "User cleared data");
-    toast.info("Data reset");
+    notify("Data reset", "info");
   }
 
   // ===== Render =====
@@ -364,9 +385,26 @@ Start typing your study notes...
       </Helmet>
 
       <PageSection>
-        <ToastContainer position="top-right" />
+        {/* in-app toasts */}
+        {toasts.length > 0 && (
+          <div className="fixed top-4 right-4 z-50 flex flex-col gap-2">
+            {toasts.map((t) => (
+              <div
+                key={t.id}
+                className={`px-3 py-2 rounded-md text-sm text-white shadow ${
+                  t.type === "success" ? "bg-green-600" : t.type === "error" ? "bg-red-600" : "bg-gray-700"
+                }`}
+              >
+                {t.message}
+              </div>
+            ))}
+          </div>
+        )}
+
         <div className="mb-6">
-          <Link to="/main" className="neu-button px-4 py-2 text-sm">← Back to Main</Link>
+          <Link to="/main" className="neu-button px-4 py-2 text-sm">
+            ← Back to Main
+          </Link>
         </div>
 
         <h1 className="text-2xl font-semibold mb-4">Study Zone — Focus & Flow</h1>
@@ -386,8 +424,12 @@ Start typing your study notes...
               <div className="text-5xl font-mono">{fmt(seconds)}</div>
               <div className="flex flex-col gap-2">
                 <div className="flex gap-2">
-                  <button className="neu-button px-4 py-2" onClick={startStop}>{isRunning ? "Pause" : "Start"}</button>
-                  <button className="neu-button px-4 py-2" onClick={resetTimer}>Reset</button>
+                  <button className="neu-button px-4 py-2" onClick={startStop}>
+                    {isRunning ? "Pause" : "Start"}
+                  </button>
+                  <button className="neu-button px-4 py-2" onClick={resetTimer}>
+                    Reset
+                  </button>
                 </div>
                 <div className="flex gap-2 items-center mt-2">
                   <label className="text-sm opacity-70">Session</label>
@@ -395,9 +437,17 @@ Start typing your study notes...
                   <label className="text-sm opacity-70">Break</label>
                   <input type="number" min={1} max={60} value={breakMins} onChange={(e) => setBreakMins(Number(e.target.value))} className="w-24" />
                 </div>
-                <div className="text-sm opacity-70 mt-2">Quick presets: <button className="neu-button px-2 py-1 ml-2" onClick={() => { setSessionMins(25); setBreakMins(5); setSeconds(25 * 60); }}>25/5</button>
-                  <button className="neu-button px-2 py-1 ml-2" onClick={() => { setSessionMins(50); setBreakMins(10); setSeconds(50 * 60); }}>50/10</button>
-                  <button className="neu-button px-2 py-1 ml-2" onClick={() => { setSessionMins(90); setBreakMins(15); setSeconds(90 * 60); }}>90/15</button>
+                <div className="text-sm opacity-70 mt-2">
+                  Quick presets:
+                  <button className="neu-button px-2 py-1 ml-2" onClick={() => { setSessionMins(25); setBreakMins(5); setSeconds(25 * 60); }}>
+                    25/5
+                  </button>
+                  <button className="neu-button px-2 py-1 ml-2" onClick={() => { setSessionMins(50); setBreakMins(10); setSeconds(50 * 60); }}>
+                    50/10
+                  </button>
+                  <button className="neu-button px-2 py-1 ml-2" onClick={() => { setSessionMins(90); setBreakMins(15); setSeconds(90 * 60); }}>
+                    90/15
+                  </button>
                 </div>
               </div>
 
@@ -405,7 +455,9 @@ Start typing your study notes...
                 <h3 className="font-medium">Ambient</h3>
                 <div className="flex gap-2 mt-2">
                   {AMBIENT_SOUNDS.map((s) => (
-                    <button key={s.id} className={`neu-button px-3 py-1 ${sound === s.id ? "ring-2" : ""}`} onClick={() => setSound(sound === s.id ? "none" : s.id)}>{s.name}</button>
+                    <button key={s.id} className={`neu-button px-3 py-1 ${sound === s.id ? "ring-2" : ""}`} onClick={() => setSound(sound === s.id ? "none" : s.id)}>
+                      {s.name}
+                    </button>
                   ))}
                 </div>
                 <div className="text-sm opacity-70 mt-3">Tip: use headphones for best focus. Volume in settings.</div>
@@ -449,7 +501,7 @@ Start typing your study notes...
 
             <div className="mt-3 space-y-2">
               {tasks.length === 0 ? <div className="opacity-60">No tasks yet — add one.</div> : null}
-              {tasks.map((t) => (
+              {tasks.map((t: any) => (
                 <div key={t.id} className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <input type="checkbox" checked={t.done} onChange={() => toggleTask(t.id)} />
@@ -470,7 +522,7 @@ Start typing your study notes...
               <button className="neu-button px-3 py-1" onClick={() => { exportAll(); }}>Export</button>
               <label className="neu-button px-3 py-1 cursor-pointer">
                 Import
-                <input type="file" className="hidden" onChange={(e) => importAll(e.target.files?.[0])} />
+                <input type="file" className="hidden" onChange={(e) => importAll(e.target.files?.[0] ?? null)} />
               </label>
               <button className="neu-button px-3 py-1" onClick={() => pushSync()}>Sync</button>
             </div>
@@ -495,7 +547,7 @@ Start typing your study notes...
             <h3 className="font-medium mb-2">Activity Log</h3>
             <div className="h-44 overflow-auto text-sm space-y-2">
               {activity.length === 0 ? <div className="opacity-60">No activity yet — start a session or add a task.</div> : null}
-              {activity.map((a) => (
+              {activity.map((a: any) => (
                 <div key={a.id} className="text-xs">
                   <div className="font-medium">{a.type}</div>
                   <div className="opacity-70">{a.detail}</div>
@@ -581,7 +633,6 @@ Start typing your study notes...
             </div>
           </NeumorphicCard>
         </div>
-
       </PageSection>
     </>
   );
