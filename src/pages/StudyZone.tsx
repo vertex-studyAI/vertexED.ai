@@ -5,24 +5,6 @@ import NeumorphicCard from "@/components/NeumorphicCard";
 import PageSection from "@/components/PageSection";
 import ReactMarkdown from "react-markdown";
 
-/*
-  StudyZone (Vercel-ready, client-first)
-  - No calendar
-  - Features: Enhanced Pomodoro, Tasks (AI-prioritize), Activity log, Notes (Markdown), Flashcards,
-    Ambient sounds, Desmos iframe, Progress charts, Export/Import, Theme settings, AI Assistant
-  - Optional API routes to add in /api/ (Next.js / Vercel functions):
-      POST /api/aiassistant    { prompt } -> { reply }
-      POST /api/aitasks       { tasks }  -> { prioritizedTasks }
-      POST /api/sync          { payload } -> { ok }
-*/
-
-const AMBIENT_SOUNDS = [
-  { id: "none", name: "None", url: null },
-  { id: "rain", name: "Rain", url: "/assets/sounds/rain.mp3" },
-  { id: "lofi", name: "Lo-fi", url: "/assets/sounds/lofi.mp3" },
-  { id: "cafe", name: "Café", url: "/assets/sounds/cafe.mp3" },
-];
-
 const STORAGE_KEYS = {
   tasks: "vz:tasks:v1",
   activity: "vz:activity:v1",
@@ -32,35 +14,33 @@ const STORAGE_KEYS = {
   settings: "vz:settings:v1",
 };
 
-// lightweight id generator (no uuid dependency)
+// tiny uid() to avoid uuid dependency
 function uid() {
   return Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 9);
 }
 
-function useLocalStorage(key: string, initial: any) {
-  const [state, setState] = useState<any>(() => {
+function useLocalStorage<T>(key: string, initial: T) {
+  const [state, setState] = useState<T>(() => {
     try {
       const raw = localStorage.getItem(key);
-      return raw ? JSON.parse(raw) : initial;
-    } catch (e) {
+      return raw ? (JSON.parse(raw) as T) : initial;
+    } catch {
       return initial;
     }
   });
   useEffect(() => {
     try {
       localStorage.setItem(key, JSON.stringify(state));
-    } catch (e) {
+    } catch {
       // ignore
     }
   }, [key, state]);
   return [state, setState] as const;
 }
 
-// SimpleSparkline: small, dependency-free SVG line chart for progress data
+// Inline lightweight sparkline (no external chart lib)
 function SimpleSparkline({ data = [], height = 140 }: { data?: any[]; height?: number }) {
-  if (!data || data.length === 0) {
-    return <div className="h-full flex items-center justify-center opacity-60">No data</div>;
-  }
+  if (!data || data.length === 0) return <div className="h-full flex items-center justify-center opacity-50">No data</div>;
   const values = data.map((d: any) => d.minutes || 0);
   const max = Math.max(...values, 1);
   const min = Math.min(...values, 0);
@@ -74,72 +54,55 @@ function SimpleSparkline({ data = [], height = 140 }: { data?: any[]; height?: n
       return `${x.toFixed(2)},${y.toFixed(2)}`;
     })
     .join(" ");
-
   return (
     <svg viewBox={`0 0 ${w} ${h}`} preserveAspectRatio="none" className="w-full h-full">
-      <polyline
-        fill="none"
-        stroke="#4f46e5"
-        strokeWidth="2"
-        points={points}
-        strokeLinejoin="round"
-        strokeLinecap="round"
-      />
+      <polyline fill="none" stroke="#111827" strokeWidth="2" points={points} strokeLinejoin="round" strokeLinecap="round" />
     </svg>
   );
 }
 
 export default function StudyZone() {
-  // ===== Settings =====
+  // ===== Settings (minimal) =====
   const [settings, setSettings] = useLocalStorage(STORAGE_KEYS.settings, {
-    theme: "auto", // 'light' | 'dark' | 'auto'
-    autoDark: true,
-    soundVolume: 0.45,
-    enableSoundAlerts: true,
+    // kept minimal so we removed theme & sounds
+    version: 1,
   });
 
-  useEffect(() => {
-    const root = document.documentElement;
-    const preferDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
-    const theme = settings.theme === "auto" ? (settings.autoDark && preferDark ? "dark" : "light") : settings.theme;
-    if (theme === "dark") root.classList.add("dark");
-    else root.classList.remove("dark");
-  }, [settings]);
-
-  // ===== in-app toast system (no react-toastify) =====
-  const [toasts, setToasts] = useState<{ id: string; message: string; type: "info" | "success" | "error" }[]>([]);
+  // ===== in-app toasts (simple) =====
+  const [toasts, setToasts] = useState<{ id: string; message: string; type?: "info" | "success" | "error" }[]>([]);
   function notify(message: string, type: "info" | "success" | "error" = "info") {
     const id = uid();
     setToasts((t) => [...t, { id, message, type }]);
-    setTimeout(() => setToasts((t) => t.filter((x) => x.id !== id)), 4000);
+    setTimeout(() => setToasts((t) => t.filter((x) => x.id !== id)), 3500);
   }
 
   // ===== Activity log =====
-  const [activity, setActivity] = useLocalStorage(STORAGE_KEYS.activity, []);
+  const [activity, setActivity] = useLocalStorage<any[]>(STORAGE_KEYS.activity, []);
   function log(type: string, detail: string | null = null) {
-    const entry = { id: uid(), ts: new Date().toISOString(), type, detail };
-    setActivity((prev: any[]) => [entry, ...prev].slice(0, 500));
+    setActivity((prev) => [{ id: uid(), ts: new Date().toISOString(), type, detail }, ...prev].slice(0, 500));
   }
 
   // ===== Tasks =====
-  const [tasks, setTasks] = useLocalStorage(STORAGE_KEYS.tasks, []);
+  const [tasks, setTasks] = useLocalStorage<any[]>(STORAGE_KEYS.tasks, []);
   const [taskText, setTaskText] = useState("");
   const [taskPriority, setTaskPriority] = useState("medium");
 
   function addTask() {
     if (!taskText.trim()) return;
     const t = { id: uid(), text: taskText.trim(), priority: taskPriority, done: false, createdAt: new Date().toISOString() };
-    setTasks((p: any[]) => [t, ...p]);
+    setTasks((p) => [t, ...p]);
     setTaskText("");
     log("TaskAdded", t.text);
+    notify("Task added", "success");
   }
   function toggleTask(id: string) {
-    setTasks((p: any[]) => p.map((t: any) => (t.id === id ? { ...t, done: !t.done } : t)));
+    setTasks((p) => p.map((t) => (t.id === id ? { ...t, done: !t.done } : t)));
     log("TaskToggled", id);
   }
   function removeTask(id: string) {
-    setTasks((p: any[]) => p.filter((t: any) => t.id !== id));
+    setTasks((p) => p.filter((t) => t.id !== id));
     log("TaskRemoved", id);
+    notify("Task removed", "info");
   }
 
   async function aiPrioritizeTasks() {
@@ -163,16 +126,13 @@ export default function StudyZone() {
   }
 
   // ===== Notes (Markdown) =====
-  const [notes, setNotes] = useLocalStorage(
-    STORAGE_KEYS.notes,
-    `# Notes
+  const [notes, setNotes] = useLocalStorage(STORAGE_KEYS.notes, `# Notes
 
 Start typing your study notes...
-`
-  );
+`);
 
   // ===== Flashcards =====
-  const [flashcards, setFlashcards] = useLocalStorage(STORAGE_KEYS.flashcards, []);
+  const [flashcards, setFlashcards] = useLocalStorage<any[]>(STORAGE_KEYS.flashcards, []);
   const [qText, setQText] = useState("");
   const [aText, setAText] = useState("");
   const [fcIndex, setFcIndex] = useState(0);
@@ -181,43 +141,20 @@ Start typing your study notes...
   function addFlashcard() {
     if (!qText.trim()) return;
     const f = { id: uid(), q: qText.trim(), a: aText.trim() };
-    setFlashcards((p: any[]) => [f, ...p]);
+    setFlashcards((p) => [f, ...p]);
     setQText("");
     setAText("");
     log("FlashcardAdded", f.q);
+    notify("Flashcard added", "success");
   }
 
-  // ===== Ambient Sound =====
-  const audioRef = useRef<HTMLAudioElement | null>(null);
-  const [sound, setSound] = useState("none");
-
-  useEffect(() => {
-    if (audioRef.current) {
-      audioRef.current.pause();
-      audioRef.current = null;
-    }
-    const s = AMBIENT_SOUNDS.find((it) => it.id === sound);
-    if (!s || !s.url) return;
-    const a = new Audio(s.url);
-    a.loop = true;
-    a.volume = settings.soundVolume ?? 0.45;
-    a.play().catch(() => {});
-    audioRef.current = a;
-    return () => {
-      a.pause();
-    };
-  }, [sound, settings.soundVolume]);
-
-  // ===== Desmos iframe source (embed) =====
-  const desmosSrc = useMemo(() => "https://www.desmos.com/calculator?embed&lang=en", []);
-
-  // ===== Progress data & charts =====
-  const [progress, setProgress] = useLocalStorage(STORAGE_KEYS.progress, []); // [{date: '2025-10-17', minutes: 25}]
+  // ===== Progress =====
+  const [progress, setProgress] = useLocalStorage<any[]>(STORAGE_KEYS.progress, []);
   function recordProgress(minutes = 25) {
     const today = new Date().toLocaleDateString();
-    setProgress((p: any[]) => {
+    setProgress((p) => {
       const copy = [...p];
-      const idx = copy.findIndex((d: any) => d.date === today);
+      const idx = copy.findIndex((d) => d.date === today);
       if (idx >= 0) copy[idx].minutes += minutes;
       else copy.push({ date: today, minutes });
       return copy;
@@ -250,12 +187,12 @@ Start typing your study notes...
       if (parsed.settings) setSettings(parsed.settings);
       notify("Imported data", "success");
       log("Import", "Imported backup");
-    } catch (e) {
+    } catch {
       notify("Invalid backup file", "error");
     }
   }
 
-  // ===== Sync to Vercel (optional) =====
+  // ===== Sync placeholder =====
   async function pushSync() {
     try {
       const res = await fetch("/api/sync", {
@@ -269,7 +206,7 @@ Start typing your study notes...
       } else {
         notify("Sync failed", "error");
       }
-    } catch (e) {
+    } catch {
       notify("Sync failed", "error");
     }
   }
@@ -291,14 +228,15 @@ Start typing your study notes...
       setAiReply(data?.reply ?? "(no reply)");
       log("AIQuery", aiPrompt);
       setAiPrompt("");
-    } catch (e) {
+      notify("AI replied", "success");
+    } catch {
       notify("AI request failed", "error");
     } finally {
       setAiLoading(false);
     }
   }
 
-  // ===== Enhanced Pomodoro Timer =====
+  // ===== Timer =====
   const [sessionMins, setSessionMins] = useState(25);
   const [breakMins, setBreakMins] = useState(5);
   const [isRunning, setIsRunning] = useState(false);
@@ -308,14 +246,11 @@ Start typing your study notes...
 
   useEffect(() => {
     setSeconds((onBreak ? breakMins : sessionMins) * 60);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sessionMins, breakMins]);
 
   useEffect(() => {
     if (isRunning) {
-      timerRef.current = window.setInterval(() => {
-        setSeconds((s) => s - 1);
-      }, 1000);
+      timerRef.current = window.setInterval(() => setSeconds((s) => s - 1), 1000);
       return () => {
         if (timerRef.current) clearInterval(timerRef.current);
       };
@@ -326,17 +261,14 @@ Start typing your study notes...
 
   useEffect(() => {
     if (seconds <= 0) {
-      if (settings.enableSoundAlerts) {
-        const beep = new Audio("/assets/sounds/notification.mp3");
-        beep.volume = settings.soundVolume ?? 0.45;
-        beep.play().catch(() => {});
-      }
+      // record without sound
       if (!onBreak) {
         recordProgress(sessionMins);
         log("FocusComplete", `${sessionMins}m`);
       }
       setOnBreak((b) => !b);
       setSeconds((prev) => (onBreak ? sessionMins * 60 : breakMins * 60));
+      notify(onBreak ? "Back to Focus" : "Break finished", "info");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [seconds]);
@@ -362,7 +294,6 @@ Start typing your study notes...
     return `${mm}:${ss}`;
   }
 
-  // ===== Small helpers =====
   function clearAllData() {
     if (!confirm("Reset all Study Zone data? This cannot be undone.")) return;
     setTasks([]);
@@ -375,7 +306,10 @@ Start typing your study notes...
     notify("Data reset", "info");
   }
 
-  // ===== Render =====
+  // Dedicated Desmos embeds (2D iframe + 3D iframe)
+  const desmos2dSrc = useMemo(() => "https://www.desmos.com/calculator?embed&lang=en", []);
+  const desmos3dSrc = useMemo(() => "https://www.desmos.com/calculator3d?embed&lang=en", []); // iframe embed for 3D where available
+
   return (
     <>
       <Helmet>
@@ -385,16 +319,11 @@ Start typing your study notes...
       </Helmet>
 
       <PageSection>
-        {/* in-app toasts */}
+        {/* toasts */}
         {toasts.length > 0 && (
           <div className="fixed top-4 right-4 z-50 flex flex-col gap-2">
             {toasts.map((t) => (
-              <div
-                key={t.id}
-                className={`px-3 py-2 rounded-md text-sm text-white shadow ${
-                  t.type === "success" ? "bg-green-600" : t.type === "error" ? "bg-red-600" : "bg-gray-700"
-                }`}
-              >
+              <div key={t.id} className={`px-3 py-2 rounded-md text-sm shadow ${t.type === "success" ? "bg-green-600 text-white" : t.type === "error" ? "bg-red-600 text-white" : "bg-gray-100 text-black"}`}>
                 {t.message}
               </div>
             ))}
@@ -402,20 +331,18 @@ Start typing your study notes...
         )}
 
         <div className="mb-6">
-          <Link to="/main" className="neu-button px-4 py-2 text-sm">
-            ← Back to Main
-          </Link>
+          <Link to="/main" className="neu-button px-4 py-2 text-sm">← Back to Main</Link>
         </div>
 
         <h1 className="text-2xl font-semibold mb-4">Study Zone — Focus & Flow</h1>
 
         <div className="grid md:grid-cols-3 gap-6">
-          {/* Left: Timer, Desmos */}
+          {/* Timer + Desmos 2D */}
           <NeumorphicCard className="p-6 md:col-span-2 h-96 overflow-auto">
             <div className="flex justify-between items-start">
               <div>
                 <h2 className="text-xl font-medium">Focus Timer</h2>
-                <p className="opacity-70">Customizable Pomodoro with analytics, auto-recording and ambient environment.</p>
+                <p className="opacity-70">Customizable Pomodoro with auto-recording and quick presets.</p>
               </div>
               <div className="text-sm opacity-60">{onBreak ? "On Break" : "Focus"}</div>
             </div>
@@ -424,43 +351,29 @@ Start typing your study notes...
               <div className="text-5xl font-mono">{fmt(seconds)}</div>
               <div className="flex flex-col gap-2">
                 <div className="flex gap-2">
-                  <button className="neu-button px-4 py-2" onClick={startStop}>
-                    {isRunning ? "Pause" : "Start"}
-                  </button>
-                  <button className="neu-button px-4 py-2" onClick={resetTimer}>
-                    Reset
-                  </button>
+                  <button className="neu-button px-4 py-2" onClick={startStop}>{isRunning ? "Pause" : "Start"}</button>
+                  <button className="neu-button px-4 py-2" onClick={resetTimer}>Reset</button>
                 </div>
+
                 <div className="flex gap-2 items-center mt-2">
                   <label className="text-sm opacity-70">Session</label>
                   <input type="number" min={5} max={180} value={sessionMins} onChange={(e) => setSessionMins(Number(e.target.value))} className="w-24" />
                   <label className="text-sm opacity-70">Break</label>
                   <input type="number" min={1} max={60} value={breakMins} onChange={(e) => setBreakMins(Number(e.target.value))} className="w-24" />
                 </div>
-                <div className="text-sm opacity-70 mt-2">
-                  Quick presets:
-                  <button className="neu-button px-2 py-1 ml-2" onClick={() => { setSessionMins(25); setBreakMins(5); setSeconds(25 * 60); }}>
-                    25/5
-                  </button>
-                  <button className="neu-button px-2 py-1 ml-2" onClick={() => { setSessionMins(50); setBreakMins(10); setSeconds(50 * 60); }}>
-                    50/10
-                  </button>
-                  <button className="neu-button px-2 py-1 ml-2" onClick={() => { setSessionMins(90); setBreakMins(15); setSeconds(90 * 60); }}>
-                    90/15
-                  </button>
+
+                <div className="text-sm opacity-70 mt-2">Quick presets:
+                  <button className="neu-button px-2 py-1 ml-2" onClick={() => { setSessionMins(25); setBreakMins(5); setSeconds(25 * 60); }}>25/5</button>
+                  <button className="neu-button px-2 py-1 ml-2" onClick={() => { setSessionMins(50); setBreakMins(10); setSeconds(50 * 60); }}>50/10</button>
                 </div>
               </div>
 
               <div className="flex-1">
-                <h3 className="font-medium">Ambient</h3>
-                <div className="flex gap-2 mt-2">
-                  {AMBIENT_SOUNDS.map((s) => (
-                    <button key={s.id} className={`neu-button px-3 py-1 ${sound === s.id ? "ring-2" : ""}`} onClick={() => setSound(sound === s.id ? "none" : s.id)}>
-                      {s.name}
-                    </button>
-                  ))}
+                <h3 className="font-medium">Desmos (2D)</h3>
+                <div className="border rounded mt-2 h-36 overflow-hidden">
+                  <iframe title="Desmos 2D" src={desmos2dSrc} className="w-full h-full" />
                 </div>
-                <div className="text-sm opacity-70 mt-3">Tip: use headphones for best focus. Volume in settings.</div>
+                <div className="text-sm opacity-70 mt-2">Click the Desmos area to interact. See notes below for how to add the Desmos JS API and save/load graphs.</div>
               </div>
             </div>
 
@@ -475,16 +388,16 @@ Start typing your study notes...
               </div>
 
               <div>
-                <h3 className="font-medium">Desmos Graphing</h3>
+                <h3 className="font-medium">Desmos (3D)</h3>
                 <div className="border rounded mt-2 h-36 overflow-hidden">
-                  <iframe title="Desmos" src={desmosSrc} className="w-full h-full" />
+                  <iframe title="Desmos 3D" src={desmos3dSrc} className="w-full h-full" />
                 </div>
-                <div className="text-sm opacity-70 mt-2">Direct Desmos integration: to save & load graphs add a Desmos API proxy on your serverless functions.</div>
+                <div className="text-sm opacity-70 mt-2">If Desmos 3D embed is supported, it will appear here. Otherwise use iframe or external 3D math viewers (Three.js/GeoGebra).</div>
               </div>
             </div>
           </NeumorphicCard>
 
-          {/* Right column: Tasks + AI Assistant */}
+          {/* Tasks + AI */}
           <NeumorphicCard className="p-6 h-96 overflow-auto">
             <h2 className="text-xl font-medium">Study Tasks</h2>
             <p className="opacity-70">Organize tasks, mark done, and let AI suggest priorities.</p>
@@ -501,7 +414,7 @@ Start typing your study notes...
 
             <div className="mt-3 space-y-2">
               {tasks.length === 0 ? <div className="opacity-60">No tasks yet — add one.</div> : null}
-              {tasks.map((t: any) => (
+              {tasks.map((t) => (
                 <div key={t.id} className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <input type="checkbox" checked={t.done} onChange={() => toggleTask(t.id)} />
@@ -530,24 +443,27 @@ Start typing your study notes...
             <hr className="my-3" />
 
             <h3 className="font-medium">AI Assistant</h3>
-            <textarea value={aiPrompt} onChange={(e) => setAiPrompt(e.target.value)} placeholder="Ask: e.g. 'Plan a 2-hour revision for Calculus'" className="w-full h-20 p-2" />
+
+            <textarea value={aiPrompt} onChange={(e) => setAiPrompt(e.target.value)} placeholder="Ask: e.g. 'Plan a 2-hour revision for Calculus'" className="w-full h-20 p-2 bg-white text-black" />
+
             <div className="flex gap-2 mt-2">
               <button className="neu-button px-3 py-1" onClick={() => askAI()} disabled={aiLoading}>{aiLoading ? "Thinking..." : "Ask AI"}</button>
               <button className="neu-button px-3 py-1" onClick={() => { setAiReply(""); setAiPrompt(""); }}>Clear</button>
             </div>
-            <div className="mt-3 p-3 border rounded min-h-[80px]">
+
+            <div className="mt-3 p-3 border rounded min-h-[80px] bg-white text-black">
               <ReactMarkdown>{aiReply || "AI replies will appear here."}</ReactMarkdown>
             </div>
           </NeumorphicCard>
         </div>
 
-        {/* Second row: Activity, Notes, Flashcards */}
+        {/* Second row */}
         <div className="grid md:grid-cols-3 gap-6 mt-6">
           <NeumorphicCard className="p-6 h-64">
             <h3 className="font-medium mb-2">Activity Log</h3>
             <div className="h-44 overflow-auto text-sm space-y-2">
               {activity.length === 0 ? <div className="opacity-60">No activity yet — start a session or add a task.</div> : null}
-              {activity.map((a: any) => (
+              {activity.map((a) => (
                 <div key={a.id} className="text-xs">
                   <div className="font-medium">{a.type}</div>
                   <div className="opacity-70">{a.detail}</div>
@@ -559,10 +475,10 @@ Start typing your study notes...
 
           <NeumorphicCard className="p-6 h-64">
             <h3 className="font-medium mb-2">Quick Notes (Markdown)</h3>
-            <textarea className="w-full h-40 p-2 border rounded" value={notes} onChange={(e) => setNotes(e.target.value)} />
+            <textarea className="w-full h-40 p-2 border rounded bg-white text-black" value={notes} onChange={(e) => setNotes(e.target.value)} />
             <div className="mt-2">
               <div className="font-medium">Preview</div>
-              <div className="mt-2 p-2 border rounded h-24 overflow-auto bg-white/5">
+              <div className="mt-2 p-2 border rounded h-24 overflow-auto bg-white text-black">
                 <ReactMarkdown>{notes}</ReactMarkdown>
               </div>
             </div>
@@ -579,7 +495,7 @@ Start typing your study notes...
             <div className="mt-3">
               {flashcards.length > 0 ? (
                 <div>
-                  <div className="p-3 border rounded min-h-[60px]">
+                  <div className="p-3 border rounded min-h-[60px] bg-white text-black">
                     <div className="font-medium">Q: {flashcards[fcIndex]?.q}</div>
                     {showAnswer ? <div className="mt-2 opacity-80">A: {flashcards[fcIndex]?.a}</div> : null}
                   </div>
@@ -596,7 +512,7 @@ Start typing your study notes...
           </NeumorphicCard>
         </div>
 
-        {/* Third row: Tools & Settings */}
+        {/* Tools & settings row */}
         <div className="mt-6 grid md:grid-cols-2 gap-6">
           <NeumorphicCard className="p-6 h-64">
             <h3 className="font-medium mb-2">Tools</h3>
@@ -615,21 +531,8 @@ Start typing your study notes...
           <NeumorphicCard className="p-6 h-64">
             <h3 className="font-medium mb-2">Settings</h3>
             <div className="space-y-2 text-sm">
-              <div>
-                <label className="block">Theme</label>
-                <select value={settings.theme} onChange={(e) => setSettings({ ...settings, theme: e.target.value })}>
-                  <option value="auto">Auto</option>
-                  <option value="light">Light</option>
-                  <option value="dark">Dark</option>
-                </select>
-              </div>
-              <div>
-                <label className="block">Sound volume</label>
-                <input type="range" min={0} max={1} step={0.01} value={settings.soundVolume} onChange={(e) => setSettings({ ...settings, soundVolume: Number(e.target.value) })} />
-              </div>
-              <div>
-                <label className="flex items-center gap-2"><input type="checkbox" checked={settings.enableSoundAlerts} onChange={(e) => setSettings({ ...settings, enableSoundAlerts: e.target.checked })} /> Enable sound alerts</label>
-              </div>
+              <div>Minimal settings — theme & sounds removed per request.</div>
+              <div className="text-xs opacity-60">You can add per-user sync or cloud backup in the /api routes.</div>
             </div>
           </NeumorphicCard>
         </div>
