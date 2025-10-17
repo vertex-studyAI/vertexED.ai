@@ -118,10 +118,10 @@ export default function StudyZone() {
   }
 
   // ===== Notes (Markdown) =====
-  const [notes, setNotes] = useLocalStorage(STORAGE_KEYS.notes, "# Notes
+  const [notes, setNotes] = useLocalStorage(STORAGE_KEYS.notes, `# Notes
 
 Start typing your study notes...
-");
+`);
 
   // ===== Flashcards =====
   const [flashcards, setFlashcards] = useLocalStorage(STORAGE_KEYS.flashcards, []);
