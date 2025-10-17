@@ -1,20 +1,5 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
-import { Helmet } from "react-helmet-async";
-import { Link } from "react-router-dom";
-import NeumorphicCard from "@/components/NeumorphicCard";
-import PageSection from "@/components/PageSection";
-import { v4 as uuidv4 } from "uuid";
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  Tooltip,
-  ResponsiveContainer,
-  CartesianGrid,
-  BarChart,
-  Bar,
-} from "recharts";
+// Inline sparkline used instead of an external charting library (keeps build dependency-free)
+
 import ReactMarkdown from "react-markdown";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -65,6 +50,32 @@ function useLocalStorage(key, initial) {
     }
   }, [key, state]);
   return [state, setState];
+}
+
+// SimpleSparkline: small, dependency-free SVG line chart for progress data
+function SimpleSparkline({ data = [], height = 140 }: { data?: any[]; height?: number }) {
+  if (!data || data.length === 0) {
+    return <div className="h-full flex items-center justify-center opacity-60">No data</div>;
+  }
+  const values = data.map((d: any) => d.minutes || 0);
+  const max = Math.max(...values, 1);
+  const min = Math.min(...values, 0);
+  const w = Math.max(200, values.length * 30);
+  const h = height;
+  const step = values.length > 1 ? w / (values.length - 1) : w;
+  const points = values
+    .map((v: number, i: number) => {
+      const x = i * step;
+      const y = h - ((v - min) / (max - min || 1)) * (h - 10) - 5;
+      return `${x.toFixed(2)},${y.toFixed(2)}`;
+    })
+    .join(" ");
+
+  return (
+    <svg viewBox={`0 0 ${w} ${h}`} preserveAspectRatio="none" className="w-full h-full">
+      <polyline fill="none" stroke="#4f46e5" strokeWidth="2" points={points} strokeLinejoin="round" strokeLinecap="round" />
+    </svg>
+  );
 }
 
 export default function StudyZone() {
@@ -405,15 +416,9 @@ Start typing your study notes...
               <div>
                 <h3 className="font-medium">Progress (last 14 days)</h3>
                 <div className="h-36 mt-2">
-                  <ResponsiveContainer width="100%" height={140}>
-                    <LineChart data={progress.slice(-14)}>
-                      <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis dataKey="date" />
-                      <YAxis />
-                      <Tooltip />
-                      <Line type="monotone" dataKey="minutes" stroke="#4f46e5" strokeWidth={2} />
-                    </LineChart>
-                  </ResponsiveContainer>
+                  <div className="w-full h-[140px]">
+                    <SimpleSparkline data={progress.slice(-14)} height={140} />
+                  </div>
                 </div>
               </div>
 
