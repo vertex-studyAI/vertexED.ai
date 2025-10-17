@@ -306,8 +306,8 @@ Start typing your study notes...
     if (!confirm("Reset all Study Zone data? This cannot be undone.")) return;
     setTasks([]);
     setActivity([]);
-    setNotes("# Notes
-");
+    setNotes(`# Notes
+`);
     setFlashcards([]);
     setProgress([]);
     log("Reset", "User cleared data");
