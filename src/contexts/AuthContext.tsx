@@ -41,6 +41,7 @@ export function AuthProvider({ children }: PropsWithChildren<{}>) {
   // Initialize auth state and subscribe to changes
   useEffect(() => {
     let isMounted = true;
+    let loadingSafetyTimer: number | undefined;
 
     const init = async () => {
       if (!supabase) {
@@ -51,6 +52,12 @@ export function AuthProvider({ children }: PropsWithChildren<{}>) {
         setLoading(false);
         return;
       }
+      // Safety: ensure we don't stay in loading forever due to a flaky network
+      // @ts-ignore - window.setTimeout typing differences
+      loadingSafetyTimer = window.setTimeout(() => {
+        if (isMounted) setLoading(false);
+      }, 4000);
+
       const { data, error } = await supabase.auth.getSession();
       if (!isMounted) return;
       if (error) {
@@ -58,7 +65,8 @@ export function AuthProvider({ children }: PropsWithChildren<{}>) {
       }
       setSession(data.session ?? null);
       setUser(data.session?.user ?? null);
-      if (data.session?.user) await refreshProfile(data.session.user.id);
+      // Don't block app on profile fetch; fire and forget
+      if (data.session?.user) refreshProfile(data.session.user.id);
       setLoading(false);
     };
 
@@ -67,17 +75,22 @@ export function AuthProvider({ children }: PropsWithChildren<{}>) {
   if (!supabase) return () => { isMounted = false; };
 
     const { data: sub } = supabase.auth.onAuthStateChange(async (_event, newSession) => {
+      if (!isMounted) return;
       setSession(newSession);
       setUser(newSession?.user ?? null);
       if (newSession?.user) {
-        await refreshProfile(newSession.user.id);
+        // Update profile in background
+        refreshProfile(newSession.user.id);
       } else {
         setProfile(null);
       }
+      // Any auth event implies we can render
+      setLoading(false);
     });
 
     return () => {
       isMounted = false;
+      if (loadingSafetyTimer) clearTimeout(loadingSafetyTimer);
       sub.subscription.unsubscribe();
     };
   }, []);

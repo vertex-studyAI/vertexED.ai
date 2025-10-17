@@ -3,9 +3,11 @@ import { Suspense } from "react";
 import { useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { RouteSemanticHeadings } from "@/components/SemanticHeadings";
+import { useAuth } from "@/contexts/AuthContext";
 import BreadcrumbsJsonLd from "@/components/BreadcrumbsJsonLd";
 
 export default function SiteLayout() {
+  const { isAuthenticated } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
@@ -17,7 +19,7 @@ export default function SiteLayout() {
   { to: '/', label: 'Home' },
   { to: '/features', label: 'Features' },
   { to: '/about', label: 'About' },
-  { to: '/login', label: 'Login' },
+  ...(!isAuthenticated ? [{ to: '/login', label: 'Login' as const }] : []),
 ];
 
   return (
@@ -80,22 +82,26 @@ export default function SiteLayout() {
                 {l.label}
               </Link>
             ))}
-            <Link
-              to="/signup"
-              className="rounded-full px-4 py-2 text-sm font-semibold shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[hsl(var(--ring))] transition-colors brand-cta brand-ink-dark"
-            >
-              Try Now
-            </Link>
+            {!isAuthenticated && (
+              <Link
+                to="/signup"
+                className="rounded-full px-4 py-2 text-sm font-semibold shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[hsl(var(--ring))] transition-colors brand-cta brand-ink-dark"
+              >
+                Try Now
+              </Link>
+            )}
           </nav>
 
           {/* Mobile nav button */}
           <div className="flex md:hidden items-center gap-2 ml-auto">
-            <Link
-              to="/signup"
-              className="rounded-full px-3 py-1.5 text-xs font-semibold shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[hsl(var(--ring))] brand-cta brand-ink-dark"
-            >
-              Try
-            </Link>
+            {!isAuthenticated && (
+              <Link
+                to="/signup"
+                className="rounded-full px-3 py-1.5 text-xs font-semibold shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[hsl(var(--ring))] brand-cta brand-ink-dark"
+              >
+                Try
+              </Link>
+            )}
             <button
               aria-label="Toggle navigation menu"
               onClick={() => setMenuOpen((o) => !o)}
@@ -140,13 +146,15 @@ export default function SiteLayout() {
                 {l.label}
               </Link>
             ))}
-            <Link
-              to="/signup"
-              onClick={() => setMenuOpen(false)}
-              className="mt-2 rounded-full px-4 py-2 text-sm font-semibold shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[hsl(var(--ring))] brand-cta brand-ink-dark"
-            >
-              Try Now
-            </Link>
+            {!isAuthenticated && (
+              <Link
+                to="/signup"
+                onClick={() => setMenuOpen(false)}
+                className="mt-2 rounded-full px-4 py-2 text-sm font-semibold shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[hsl(var(--ring))] brand-cta brand-ink-dark"
+              >
+                Try Now
+              </Link>
+            )}
           </nav>
         </div>
       </header>
