@@ -1,8 +1,9 @@
 import NeumorphicCard from "@/components/NeumorphicCard";
 import { Link } from "react-router-dom";
-import React, { useEffect, useRef, useCallback } from "react";
+import React, { useEffect, useRef } from "react";
 import { TypeAnimation } from "react-type-animation";
 import { Helmet } from "react-helmet-async";
+import { Settings as SettingsIcon } from "lucide-react";
 
 type Tile = {
   title: string;
@@ -13,19 +14,19 @@ type Tile = {
 
 export default function Main() {
   const containerRef = useRef<HTMLDivElement | null>(null);
-  const tilesRef = useRef(new Map<HTMLElement, {
-    targetRotX: number;
-    targetRotY: number;
-    targetRotZ: number;
-    rotX: number;
-    rotY: number;
-    rotZ: number;
-    rafId?: number;
-    bounds: DOMRect | null;
-    onMove?: (e: MouseEvent) => void;
-    onEnter?: () => void;
-    onLeave?: () => void;
-  }>());
+  const tilesRef = useRef(
+    new Map<
+      HTMLElement,
+      {
+        targetRotX: number;
+        targetRotY: number;
+        rotX: number;
+        rotY: number;
+        rafId?: number;
+        bounds: DOMRect | null;
+      }
+    >()
+  );
 
   const tiles: Tile[] = [
     { title: "Study Zone", to: "/study-zone", info: "All-in-1 workspace: calculators, activity logs, and focused-session helpers.", icon: studyIcon() },
@@ -34,195 +35,129 @@ export default function Main() {
     { title: "Answer Reviewer", to: "/answer-reviewer", info: "Rubric-aware feedback with clear, actionable steps to raise your grade.", icon: reviewIcon() },
     { title: "Paper Maker", to: "/paper-maker", info: "Board-aligned practice papers with authentic phrasing and mark schemes.", icon: paperIcon() },
     { title: "Note Taker + Flashcards", to: "/notetaker", info: "Capture lectures, auto-summarise and turn notes into flashcards & quizzes.", icon: notesIcon() },
-    // New routes the user asked for
     { title: "Archives Subjects", to: "/archives-subjects", info: "Browse subject-wise archived papers, curated by topic and difficulty.", icon: archiveIcon() },
-    { title: "User Settings", to: "/user-settings", info: "Personalise your experience: themes, notifications, and account preferences.", icon: settingsIcon() },
+    // keep settings separate (rendered as small control in header)
   ];
 
   useEffect(() => {
     if (typeof window === "undefined") return;
-    let cleanup: () => void = () => {};
+    const tileEls = Array.from(document.querySelectorAll<HTMLElement>(".tile"));
 
-    const idle = (cb: () => void) =>
-      // @ts-ignore
-      typeof requestIdleCallback !== "undefined" ? requestIdleCallback(cb, { timeout: 1500 }) : setTimeout(cb, 400);
-    const cancelIdle = (id: any) =>
-      // @ts-ignore
-      typeof cancelIdleCallback !== "undefined" ? cancelIdleCallback(id) : clearTimeout(id);
+    // helper lerp
+    const lerp = (a: number, b: number, n: number) => (1 - n) * a + n * b;
 
-    const run = async () => {
-      const [{ gsap }, { ScrollTrigger }] = await Promise.all([
-        import("gsap"),
-        import("gsap/ScrollTrigger"),
-      ]);
-      gsap.registerPlugin(ScrollTrigger);
+    tileEls.forEach((el) => {
+      const state = {
+        targetRotX: 0,
+        targetRotY: 0,
+        rotX: 0,
+        rotY: 0,
+        rafId: undefined as number | undefined,
+        bounds: el.getBoundingClientRect(),
+      };
+      tilesRef.current.set(el, state);
 
-      // subtle entrance animations for groups
-      const fadeUps = gsap.utils.toArray<HTMLElement>(".fade-up");
-      fadeUps.forEach((el) => {
-        gsap.fromTo(
-          el,
-          { y: 60, opacity: 0, scale: 0.995 },
-          {
-            y: 0,
-            opacity: 1,
-            scale: 1,
-            duration: 0.9,
-            ease: "power3.out",
-            scrollTrigger: { trigger: el, start: "top 88%" },
-            stagger: 0.04,
-          }
-        );
-      });
+      const updateBounds = () => (state.bounds = el.getBoundingClientRect());
+      window.addEventListener("resize", updateBounds);
 
-      const rows = gsap.utils.toArray<HTMLElement>(".feature-row");
-      rows.forEach((row, i) => {
-        gsap.fromTo(
-          row,
-          { x: i % 2 === 0 ? -60 : 60, opacity: 0 },
-          { x: 0, opacity: 1, duration: 1, ease: "power3.out", scrollTrigger: { trigger: row, start: "top 88%" } }
-        );
-      });
+      const onMove = (e: MouseEvent) => {
+        const b = state.bounds || el.getBoundingClientRect();
+        const x = e.clientX - b.left;
+        const y = e.clientY - b.top;
+        const halfW = b.width / 2;
+        const halfH = b.height / 2;
 
-      // tiles entrance with nicer stagger
-      const tilesEls = gsap.utils.toArray<HTMLElement>(".tile-wrapper");
-      gsap.fromTo(
-        tilesEls,
-        { y: 18, opacity: 0, scale: 0.995 },
-        { y: 0, opacity: 1, scale: 1, duration: 0.8, ease: "power2.out", stagger: 0.06, delay: 0.08 }
-      );
-
-      // Setup enhanced tilt for pointer devices
-      const innerTiles = Array.from(document.querySelectorAll<HTMLElement>(".tile"));
-      const canHover = window.matchMedia ? window.matchMedia('(hover:hover) and (pointer:fine)').matches : true;
-
-      innerTiles.forEach((el) => {
-        if (!canHover) return;
-        const state = {
-          targetRotX: 0,
-          targetRotY: 0,
-          targetRotZ: 0,
-          rotX: 0,
-          rotY: 0,
-          rotZ: 0,
-          rafId: undefined as number | undefined,
-          bounds: el.getBoundingClientRect(),
-        };
-        tilesRef.current.set(el, state);
-
-        // smoother motion: store target from mousemove, apply via rAF with lerp
-        const onMove = (e: MouseEvent) => {
-          const b = state.bounds || el.getBoundingClientRect();
-          const x = e.clientX - b.left;
-          const y = e.clientY - b.top;
-          const halfW = b.width / 2;
-          const halfH = b.height / 2;
-          const rotY = ((x - halfW) / halfW) * 7; // bigger max angle
-          const rotX = ((halfH - y) / halfH) * 7;
-          const ang = Math.atan2(y - halfH, x - halfW) * (180 / Math.PI);
-          const rotZ = (ang / 90) * 2.2;
-
-          state.targetRotX = rotX;
-          state.targetRotY = rotY;
-          state.targetRotZ = rotZ;
-        };
-
-        const lerp = (a: number, b: number, n: number) => (1 - n) * a + n * b;
-
-        const step = () => {
-          // ease factor - higher = snappier
-          state.rotX = lerp(state.rotX, state.targetRotX, 0.16);
-          state.rotY = lerp(state.rotY, state.targetRotY, 0.16);
-          state.rotZ = lerp(state.rotZ, state.targetRotZ, 0.12);
-
-          el.style.transform = `perspective(1200px) rotateX(${state.rotX.toFixed(3)}deg) rotateY(${state.rotY.toFixed(3)}deg) rotateZ(${state.rotZ.toFixed(3)}deg) translateZ(8px)`;
-          const shadow = (el.querySelector(".tile-shadow") as HTMLElement | null);
-          if (shadow) {
-            const sx = -state.rotY * 3;
-            const sy = state.rotX * 3 + 6;
-            shadow.style.setProperty("box-shadow", `${sx}px ${sy}px 48px rgba(2,6,23,0.45)`);
-          }
-
-          state.rafId = requestAnimationFrame(step);
-        };
-
-        const onEnter = () => {
-          el.style.transition = "transform 180ms cubic-bezier(.22,.9,.3,1)";
-          el.style.willChange = "transform";
-          state.bounds = el.getBoundingClientRect();
-          el.addEventListener("mousemove", onMove);
-          el.addEventListener("mouseleave", onLeave);
-          el.classList.add("tile-hovering");
-          if (!state.rafId) state.rafId = requestAnimationFrame(step);
-        };
-
-        const onLeave = () => {
-          const prev = state.rafId;
-          if (prev) cancelAnimationFrame(prev);
-          state.targetRotX = 0;
-          state.targetRotY = 0;
-          state.targetRotZ = 0;
-          // smooth reset
-          const resetLoop = () => {
-            state.rotX = lerp(state.rotX, 0, 0.18);
-            state.rotY = lerp(state.rotY, 0, 0.18);
-            state.rotZ = lerp(state.rotZ, 0, 0.14);
-            el.style.transform = `perspective(1200px) rotateX(${state.rotX.toFixed(3)}deg) rotateY(${state.rotY.toFixed(3)}deg) rotateZ(${state.rotZ.toFixed(3)}deg) translateZ(0px)`;
-            const shadow = (el.querySelector(".tile-shadow") as HTMLElement | null);
-            if (shadow) shadow.style.setProperty("box-shadow", `0 18px 50px rgba(12,18,40,0.55)`);
-            const nearlyDone = Math.abs(state.rotX) < 0.02 && Math.abs(state.rotY) < 0.02 && Math.abs(state.rotZ) < 0.02;
-            if (!nearlyDone) state.rafId = requestAnimationFrame(resetLoop);
-            else {
-              state.rotX = state.rotY = state.rotZ = 0;
-              state.rafId = undefined;
-            }
-          };
-
-          el.removeEventListener("mousemove", onMove);
-          el.removeEventListener("mouseleave", onLeave);
-          el.classList.remove("tile-hovering");
-          state.rafId = requestAnimationFrame(resetLoop);
-        };
-
-        el.addEventListener("mouseenter", onEnter);
-        // keep references for cleanup
-        const stored = tilesRef.current.get(el)!;
-        stored.onMove = onMove;
-        stored.onEnter = onEnter;
-        stored.onLeave = onLeave;
-
-        // update bounds on resize
-        const onResize = () => (state.bounds = el.getBoundingClientRect());
-        window.addEventListener("resize", onResize);
-
-        // cleanup per tile
-        const tileCleanup = () => {
-          el.removeEventListener("mouseenter", onEnter);
-          el.removeEventListener("mousemove", onMove);
-          el.removeEventListener("mouseleave", onLeave);
-          window.removeEventListener("resize", onResize);
-          if (state.rafId) cancelAnimationFrame(state.rafId);
-        };
-
-        // store cleanup to run later
-        const prevCleanup = cleanup;
-        cleanup = () => { tileCleanup(); prevCleanup(); };
-      });
-
-      // global cleanup
-      const globalCleanup = () => {
-        ScrollTrigger.getAll().forEach((t) => t.kill());
-        tilesRef.current.forEach((v, k) => {
-          if (v.rafId) cancelAnimationFrame(v.rafId);
-        });
-        tilesRef.current.clear();
+        // amount to tilt: -max..+max degrees based on pointer offset
+        const maxTilt = 6; // degrees (subtle)
+        const rotY = ((x - halfW) / halfW) * maxTilt; // pointer left/right -> rotateY
+        const rotX = ((halfH - y) / halfH) * maxTilt; // pointer up/down -> rotateX (inverse)
+        state.targetRotX = rotX;
+        state.targetRotY = rotY;
       };
 
-      cleanup = () => { globalCleanup(); };
-    };
+      const step = () => {
+        // smooth towards target
+        state.rotX = lerp(state.rotX, state.targetRotX, 0.14);
+        state.rotY = lerp(state.rotY, state.targetRotY, 0.14);
 
-    const id = idle(run);
-    return () => { cancelIdle(id); cleanup(); };
+        // apply transform — keep modest translateZ for depth
+        el.style.transform = `perspective(900px) translateZ(6px) rotateX(${state.rotX.toFixed(3)}deg) rotateY(${state.rotY.toFixed(
+          3
+        )}deg)`;
+
+        // shadow follow (optional element .tile-shadow)
+        const shadow = el.closest(".tile-wrapper")?.querySelector(".tile-shadow") as HTMLElement | null;
+        if (shadow) {
+          const sx = -state.rotY * 3;
+          const sy = state.rotX * 3 + 12;
+          shadow.style.boxShadow = `${sx}px ${sy}px 40px rgba(12,18,40,0.45)`;
+        }
+
+        state.rafId = requestAnimationFrame(step);
+      };
+
+      const onEnter = () => {
+        el.style.willChange = "transform";
+        el.style.transition = "transform 220ms cubic-bezier(.22,.9,.3,1)";
+        updateBounds();
+        el.addEventListener("mousemove", onMove);
+        el.addEventListener("mouseleave", onLeave);
+        // start animation loop if not running
+        if (!state.rafId) state.rafId = requestAnimationFrame(step);
+      };
+
+      const onLeave = () => {
+        el.removeEventListener("mousemove", onMove);
+        el.removeEventListener("mouseleave", onLeave);
+        // gently reset targets to zero
+        state.targetRotX = 0;
+        state.targetRotY = 0;
+
+        // let the loop run for a short while to ease back to zero, then cancel
+        const resetCheck = () => {
+          state.rotX = lerp(state.rotX, 0, 0.14);
+          state.rotY = lerp(state.rotY, 0, 0.14);
+          el.style.transform = `perspective(900px) translateZ(0px) rotateX(${state.rotX.toFixed(3)}deg) rotateY(${state.rotY.toFixed(3)}deg)`;
+          const nearlyDone = Math.abs(state.rotX) < 0.02 && Math.abs(state.rotY) < 0.02;
+          if (!nearlyDone) {
+            state.rafId = requestAnimationFrame(resetCheck);
+          } else {
+            if (state.rafId) cancelAnimationFrame(state.rafId);
+            state.rafId = undefined;
+            el.style.transform = "";
+            el.style.willChange = "";
+            el.style.transition = "";
+            const shadow = el.closest(".tile-wrapper")?.querySelector(".tile-shadow") as HTMLElement | null;
+            if (shadow) shadow.style.boxShadow = `0 18px 50px rgba(12,18,40,0.55)`;
+          }
+        };
+        state.rafId = requestAnimationFrame(resetCheck);
+      };
+
+      el.addEventListener("mouseenter", onEnter);
+
+      // cleanup for this element when effect tears down
+      const cleanup = () => {
+        el.removeEventListener("mouseenter", onEnter);
+        el.removeEventListener("mousemove", onMove);
+        el.removeEventListener("mouseleave", onLeave);
+        window.removeEventListener("resize", updateBounds);
+        if (state.rafId) cancelAnimationFrame(state.rafId);
+        tilesRef.current.delete(el);
+      };
+
+      // store cleanup on the element dataset so we can call it later in a loop
+      (el as any).__tiltCleanup = cleanup;
+    });
+
+    // overall cleanup on unmount
+    return () => {
+      tilesRef.current.forEach((_, el) => {
+        const cleanup = (el as any).__tiltCleanup;
+        if (typeof cleanup === "function") cleanup();
+      });
+      tilesRef.current.clear();
+    };
   }, []);
 
   return (
@@ -247,7 +182,7 @@ export default function Main() {
             </p>
           </div>
 
-          <div className="w-full md:w-1/3 text-slate-300">
+          <div className="w-full md:w-1/3 text-slate-300 flex items-start justify-end gap-3">
             <div className="p-4 rounded-2xl bg-white/5">
               <h4 className="font-semibold mb-1">Quick tips</h4>
               <div className="text-xs text-slate-400">
@@ -255,6 +190,16 @@ export default function Main() {
                 Answer Reviewer to sharpen exam technique.
               </div>
             </div>
+
+            {/* Settings (separate small control) */}
+            <button
+              aria-label="Settings"
+              title="Settings"
+              className="ml-3 p-3 rounded-full bg-white/6 hover:bg-white/10 transition flex items-center justify-center"
+              onClick={() => window.location.assign("/user-settings")}
+            >
+              <SettingsIcon size={16} color="white" />
+            </button>
           </div>
         </div>
       </section>
@@ -263,11 +208,18 @@ export default function Main() {
       <section className="px-6 pb-12">
         <div className="max-w-7xl mx-auto">
           <div ref={containerRef} className="glass-card p-6 md:p-8 relative">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {/* force a 2-column layout (2 x N) as requested */}
+            <div className="grid grid-cols-2 gap-6">
               {tiles.map((t) => (
-                <Link to={t.to} key={t.title} className="group block tile-wrapper">
+                <Link to={t.to} key={t.title} className="group block tile-wrapper" aria-label={`${t.title} — ${t.info}`}>
                   <div className="tile-shadow h-full rounded-xl transition-all duration-400" style={{ boxShadow: "0 18px 50px rgba(12,18,40,0.55)" }}>
-                    <div className="tile h-56 md:h-64 w-full" aria-hidden={false} role="button" tabIndex={0} aria-label={`${t.title} — ${t.info}`}>
+                    <div
+                      className="tile h-56 md:h-64 w-full"
+                      role="button"
+                      tabIndex={0}
+                      aria-hidden={false}
+                      style={{ transformStyle: "preserve-3d", willChange: "transform" }}
+                    >
                       <NeumorphicCard
                         className="h-full p-6 glass-tile flex flex-col justify-between transition-all duration-400 group-hover:ring-indigo-400/40 group-hover:border-indigo-300/30"
                         title={t.title}
@@ -378,14 +330,6 @@ function archiveIcon() {
       <rect x="3" y="3" width="18" height="4" rx="1" stroke="currentColor" strokeWidth="1.4" />
       <path d="M21 7v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
       <path d="M9 11h6" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
-function settingsIcon() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
-      <path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.13a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06A2 2 0 1 1 3.94 16l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.13c.7 0 1.32-.41 1.51-1a1.65 1.65 0 0 0-.33-1.82L4.45 3.94A2 2 0 1 1 7.28 1.11l.06.06c.46.46 1 .75 1.64.85.56.08 1.06-.02 1.49-.33.44-.31 1-.31 1.44 0 .43.3.93.41 1.49.33.64-.1 1.18-.39 1.64-.85l.06-.06A2 2 0 1 1 20.06 4.45l-.06.06c-.3.44-.4 1-.33 1.49.1.64.39 1.18.85 1.64l.06.06A2 2 0 1 1 22.89 9.55l-.06.06c-.3.44-.4 1-.33 1.49.1.64.39 1.18.85 1.64z" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }
