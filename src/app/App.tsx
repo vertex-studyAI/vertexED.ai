@@ -6,6 +6,7 @@ import { lazy } from "react";
 const Login = lazy(() => import("@/pages/Login"));
 const Signup = lazy(() => import("@/pages/Signup"));
 const Main = lazy(() => import("@/pages/Main"));
+const AuthCallback = lazy(() => import("@/pages/AuthCallback"));
 const NotetakerQuiz = lazy(() => import("@/pages/NotetakerQuiz"));
 const StudyZone = lazy(() => import("@/pages/StudyZone"));
 const AIChatbot = lazy(() => import("@/pages/AIChatbot"));
@@ -28,6 +29,7 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import { HelmetProvider } from "react-helmet-async";
 import { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import ProtectedRoute from "@/components/ProtectedRoute";
 import { SpeedInsights } from "@vercel/speed-insights/react";
 import { Analytics } from "@vercel/analytics/react";
 
@@ -86,13 +88,14 @@ return (
 						<Route path="resources/subject-guides-common-mistakes" element={<SubjectGuidesCommonMistakes />} />
 <Route path="login" element={<Login />} />
 <Route path="signup" element={<Signup />} />
-<Route path="main" element={<Main />} />
-<Route path="notetaker" element={<NotetakerQuiz />} />
-<Route path="study-zone" element={<StudyZone />} />
-<Route path="chatbot" element={<AIChatbot />} />
-<Route path="planner" element={<StudyPlanner />} />
-<Route path="answer-reviewer" element={<AnswerReviewer />} />
-<Route path="paper-maker" element={<PaperMaker />} />
+<Route path="auth/callback" element={<AuthCallback />} />
+<Route path="main" element={<ProtectedRoute><Main /></ProtectedRoute>} />
+<Route path="notetaker" element={<ProtectedRoute><NotetakerQuiz /></ProtectedRoute>} />
+<Route path="study-zone" element={<ProtectedRoute><StudyZone /></ProtectedRoute>} />
+<Route path="chatbot" element={<ProtectedRoute><AIChatbot /></ProtectedRoute>} />
+<Route path="planner" element={<ProtectedRoute><StudyPlanner /></ProtectedRoute>} />
+<Route path="answer-reviewer" element={<ProtectedRoute><AnswerReviewer /></ProtectedRoute>} />
+<Route path="paper-maker" element={<ProtectedRoute><PaperMaker /></ProtectedRoute>} />
 <Route path="about" element={<About />} />
 <Route path="features" element={<Features />} /> 
 <Route path="vertex-ed" element={<Brand />} />
