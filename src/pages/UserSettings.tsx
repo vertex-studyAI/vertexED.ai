@@ -10,9 +10,15 @@ export default function UserSettings() {
   const { logout } = useAuth();
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    logout();
-    navigate("/");
+  const handleLogout = async () => {
+    try {
+      await logout();
+      navigate("/", { replace: true });
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.error("Logout error", e);
+      navigate("/", { replace: true });
+    }
   };
 
   const exportAccountData = () => {
@@ -38,7 +44,7 @@ export default function UserSettings() {
       <Helmet>
         <title>Vertex — Account Settings</title>
         <meta name="description" content="Manage your Vertex account settings and preferences." />
-        <link rel="canonical" href="https://www.vertexed.app/settings" />
+  <link rel="canonical" href="https://www.vertexed.app/user-settings" />
         <meta name="robots" content="noindex, nofollow" />
       </Helmet>
 

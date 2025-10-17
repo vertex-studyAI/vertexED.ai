@@ -99,7 +99,7 @@ return (
 <Route path="about" element={<About />} />
 <Route path="features" element={<Features />} /> 
 <Route path="vertex-ed" element={<Brand />} />
-<Route path="settings" element={<UserSettings />} />
+<Route path="user-settings" element={<ProtectedRoute><UserSettings /></ProtectedRoute>} />
 <Route path="*" element={<NotFound />} />
   
 </Route>

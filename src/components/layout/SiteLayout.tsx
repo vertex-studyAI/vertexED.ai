@@ -7,7 +7,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import BreadcrumbsJsonLd from "@/components/BreadcrumbsJsonLd";
 
 export default function SiteLayout() {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, logout } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
@@ -82,6 +82,14 @@ export default function SiteLayout() {
                 {l.label}
               </Link>
             ))}
+            {isAuthenticated && (
+              <Link
+                to="/user-settings"
+                className="text-white/90 hover:text-white transition-colors"
+              >
+                Account
+              </Link>
+            )}
             {!isAuthenticated && (
               <Link
                 to="/signup"
@@ -146,6 +154,15 @@ export default function SiteLayout() {
                 {l.label}
               </Link>
             ))}
+            {isAuthenticated && (
+              <Link
+                to="/user-settings"
+                onClick={() => setMenuOpen(false)}
+                className="py-2 border-b border-white/5 last:border-b-0 text-white/90 hover:text-white"
+              >
+                Account
+              </Link>
+            )}
             {!isAuthenticated && (
               <Link
                 to="/signup"
@@ -154,6 +171,14 @@ export default function SiteLayout() {
               >
                 Try Now
               </Link>
+            )}
+            {isAuthenticated && (
+              <button
+                onClick={async () => { await logout(); setMenuOpen(false); }}
+                className="mt-2 rounded-full px-4 py-2 text-sm font-semibold shadow-sm bg-white/5 hover:bg-white/10"
+              >
+                Sign Out
+              </button>
             )}
           </nav>
         </div>
