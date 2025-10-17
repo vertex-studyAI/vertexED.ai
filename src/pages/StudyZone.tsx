@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import NeumorphicCard from "@/components/NeumorphicCard";
 import PageSection from "@/components/PageSection";
 import { v4 as uuidv4 } from "uuid";
-import axios from "axios";
 import {
   LineChart,
   Line,
@@ -19,6 +18,19 @@ import {
 import ReactMarkdown from "react-markdown";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
+/*
+  StudyZone (Vercel-ready, client-first)
+  - No calendar
+  - Features: Enhanced Pomodoro, Tasks (AI-prioritize), Activity log, Notes (Markdown), Flashcards,
+    Ambient sounds, Desmos iframe, Progress charts, Export/Import, Theme settings, AI Assistant
+  - Optional API routes to add in /api/ (Next.js / Vercel functions):
+      POST /api/aiassistant    { prompt } -> { reply }
+      POST /api/aitasks       { tasks }  -> { prioritizedTasks }
+      POST /api/sync          { payload } -> { ok }
+  - Recommended packages:
+      axios, uuid, recharts, react-markdown, react-toastify, mathjs (optional)
+*/
 
 const AMBIENT_SOUNDS = [
   { id: "none", name: "None", url: null },
@@ -102,11 +114,15 @@ export default function StudyZone() {
   }
 
   async function aiPrioritizeTasks() {
-    // Send simple list of tasks to /api/aitasks — backend should call OpenAI or Vertex and return an ordered list
     try {
-      const res = await axios.post("/api/aitasks", { tasks });
-      if (res.data?.tasks) {
-        setTasks(res.data.tasks);
+      const res = await fetch("/api/aitasks", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ tasks }),
+      });
+      const data = await res.json();
+      if (data?.tasks) {
+        setTasks(data.tasks);
         toast.success("Tasks prioritized by AI");
         log("AI", "Prioritized tasks");
       } else {
@@ -117,7 +133,7 @@ export default function StudyZone() {
     }
   }
 
-  // ===== Notes (Markdown) =====
+  // ===== Notes (Markdown) ===== (Markdown) =====
   const [notes, setNotes] = useLocalStorage(STORAGE_KEYS.notes, `# Notes
 
 Start typing your study notes...
@@ -210,9 +226,17 @@ Start typing your study notes...
   // ===== Sync to Vercel (optional) =====
   async function pushSync() {
     try {
-      await axios.post("/api/sync", { tasks, activity, notes, flashcards, progress });
-      toast.success("Synced to server");
-      log("Sync", "Pushed to server");
+      const res = await fetch("/api/sync", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ tasks, activity, notes, flashcards, progress }),
+      });
+      if (res.ok) {
+        toast.success("Synced to server");
+        log("Sync", "Pushed to server");
+      } else {
+        toast.error("Sync failed");
+      }
     } catch (e) {
       toast.error("Sync failed");
     }
@@ -226,8 +250,13 @@ Start typing your study notes...
     if (!aiPrompt.trim()) return;
     setAiLoading(true);
     try {
-      const res = await axios.post("/api/aiassistant", { prompt: aiPrompt });
-      setAiReply(res.data?.reply ?? "(no reply)");
+      const res = await fetch("/api/aiassistant", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ prompt: aiPrompt }),
+      });
+      const data = await res.json();
+      setAiReply(data?.reply ?? "(no reply)");
       log("AIQuery", aiPrompt);
       setAiPrompt("");
     } catch (e) {
