@@ -5,6 +5,17 @@ import NeumorphicCard from "@/components/NeumorphicCard";
 import PageSection from "@/components/PageSection";
 import ReactMarkdown from "react-markdown";
 
+/*
+  StudyZone (Vercel-ready, client-first)
+  - No calendar
+  - Features: Enhanced Pomodoro, Tasks (AI-prioritize), Activity log, Notes (Markdown), Flashcards,
+    Ambient sounds, Desmos iframe, Progress charts, Export/Import, Theme settings, AI Assistant
+  - Optional API routes to add in /api/ (Next.js / Vercel functions):
+      POST /api/aiassistant    { prompt } -> { reply }
+      POST /api/aitasks       { tasks }  -> { prioritizedTasks }
+      POST /api/sync          { payload } -> { ok }
+*/
+
 const AMBIENT_SOUNDS = [
   { id: "none", name: "None", url: null },
   { id: "rain", name: "Rain", url: "/assets/sounds/rain.mp3" },
