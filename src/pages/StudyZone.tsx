@@ -5,17 +5,6 @@ import NeumorphicCard from "@/components/NeumorphicCard";
 import PageSection from "@/components/PageSection";
 import ReactMarkdown from "react-markdown";
 
-/*
-  StudyZone (Vercel-ready, client-first)
-  - No calendar
-  - Features: Enhanced Pomodoro, Tasks (AI-prioritize), Activity log, Notes (Markdown), Flashcards,
-    Ambient sounds, Desmos iframe, Progress charts, Export/Import, Theme settings, AI Assistant
-  - Optional API routes to add in /api/ (Next.js / Vercel functions):
-      POST /api/aiassistant    { prompt } -> { reply }
-      POST /api/aitasks       { tasks }  -> { prioritizedTasks }
-      POST /api/sync          { payload } -> { ok }
-*/
-
 const AMBIENT_SOUNDS = [
   { id: "none", name: "None", url: null },
   { id: "rain", name: "Rain", url: "/assets/sounds/rain.mp3" },
@@ -37,11 +26,11 @@ function uid() {
   return Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 9);
 }
 
-function useLocalStorage(key: string, initial: any) {
-  const [state, setState] = useState<any>(() => {
+function useLocalStorage<T>(key: string, initial: T) {
+  const [state, setState] = useState<T>(() => {
     try {
       const raw = localStorage.getItem(key);
-      return raw ? JSON.parse(raw) : initial;
+      return raw ? (JSON.parse(raw) as T) : initial;
     } catch (e) {
       return initial;
     }
@@ -77,14 +66,7 @@ function SimpleSparkline({ data = [], height = 140 }: { data?: any[]; height?: n
 
   return (
     <svg viewBox={`0 0 ${w} ${h}`} preserveAspectRatio="none" className="w-full h-full">
-      <polyline
-        fill="none"
-        stroke="#4f46e5"
-        strokeWidth="2"
-        points={points}
-        strokeLinejoin="round"
-        strokeLinecap="round"
-      />
+      <polyline fill="none" stroke="#4f46e5" strokeWidth="2" points={points} strokeLinejoin="round" strokeLinecap="round" />
     </svg>
   );
 }
@@ -115,31 +97,33 @@ export default function StudyZone() {
   }
 
   // ===== Activity log =====
-  const [activity, setActivity] = useLocalStorage(STORAGE_KEYS.activity, []);
+  const [activity, setActivity] = useLocalStorage<any[]>(STORAGE_KEYS.activity, []);
   function log(type: string, detail: string | null = null) {
     const entry = { id: uid(), ts: new Date().toISOString(), type, detail };
-    setActivity((prev: any[]) => [entry, ...prev].slice(0, 500));
+    setActivity((prev) => [entry, ...prev].slice(0, 500));
   }
 
   // ===== Tasks =====
-  const [tasks, setTasks] = useLocalStorage(STORAGE_KEYS.tasks, []);
+  const [tasks, setTasks] = useLocalStorage<any[]>(STORAGE_KEYS.tasks, []);
   const [taskText, setTaskText] = useState("");
   const [taskPriority, setTaskPriority] = useState("medium");
 
   function addTask() {
     if (!taskText.trim()) return;
     const t = { id: uid(), text: taskText.trim(), priority: taskPriority, done: false, createdAt: new Date().toISOString() };
-    setTasks((p: any[]) => [t, ...p]);
+    setTasks((p) => [t, ...p]);
     setTaskText("");
     log("TaskAdded", t.text);
+    notify("Task added", "success");
   }
   function toggleTask(id: string) {
-    setTasks((p: any[]) => p.map((t: any) => (t.id === id ? { ...t, done: !t.done } : t)));
+    setTasks((p) => p.map((t) => (t.id === id ? { ...t, done: !t.done } : t)));
     log("TaskToggled", id);
   }
   function removeTask(id: string) {
-    setTasks((p: any[]) => p.filter((t: any) => t.id !== id));
+    setTasks((p) => p.filter((t) => t.id !== id));
     log("TaskRemoved", id);
+    notify("Task removed", "info");
   }
 
   async function aiPrioritizeTasks() {
@@ -163,16 +147,13 @@ export default function StudyZone() {
   }
 
   // ===== Notes (Markdown) =====
-  const [notes, setNotes] = useLocalStorage(
-    STORAGE_KEYS.notes,
-    `# Notes
+  const [notes, setNotes] = useLocalStorage(STORAGE_KEYS.notes, `# Notes
 
 Start typing your study notes...
-`
-  );
+`);
 
   // ===== Flashcards =====
-  const [flashcards, setFlashcards] = useLocalStorage(STORAGE_KEYS.flashcards, []);
+  const [flashcards, setFlashcards] = useLocalStorage<any[]>(STORAGE_KEYS.flashcards, []);
   const [qText, setQText] = useState("");
   const [aText, setAText] = useState("");
   const [fcIndex, setFcIndex] = useState(0);
@@ -181,10 +162,11 @@ Start typing your study notes...
   function addFlashcard() {
     if (!qText.trim()) return;
     const f = { id: uid(), q: qText.trim(), a: aText.trim() };
-    setFlashcards((p: any[]) => [f, ...p]);
+    setFlashcards((p) => [f, ...p]);
     setQText("");
     setAText("");
     log("FlashcardAdded", f.q);
+    notify("Flashcard added", "success");
   }
 
   // ===== Ambient Sound =====
@@ -212,12 +194,12 @@ Start typing your study notes...
   const desmosSrc = useMemo(() => "https://www.desmos.com/calculator?embed&lang=en", []);
 
   // ===== Progress data & charts =====
-  const [progress, setProgress] = useLocalStorage(STORAGE_KEYS.progress, []); // [{date: '2025-10-17', minutes: 25}]
+  const [progress, setProgress] = useLocalStorage<any[]>(STORAGE_KEYS.progress, []);
   function recordProgress(minutes = 25) {
     const today = new Date().toLocaleDateString();
-    setProgress((p: any[]) => {
+    setProgress((p) => {
       const copy = [...p];
-      const idx = copy.findIndex((d: any) => d.date === today);
+      const idx = copy.findIndex((d) => d.date === today);
       if (idx >= 0) copy[idx].minutes += minutes;
       else copy.push({ date: today, minutes });
       return copy;
