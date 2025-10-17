@@ -155,7 +155,7 @@ export default function SiteLayout() {
   <main className="relative z-10 flex-1 container mx-auto px-4 md:px-6 pt-24 md:pt-8 pb-8 animate-fade-in">
         {/* Hidden semantic headings for SEO & accessibility; no visual impact */}
         <RouteSemanticHeadings />
-        <Suspense fallback={<div className="min-h-[40vh]" />}>
+        <Suspense fallback={<div className="min-h-[40vh] flex items-center justify-center text-slate-300">Loading…</div>}>
           <Outlet />
         </Suspense>
       </main>

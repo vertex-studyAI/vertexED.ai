@@ -21,7 +21,12 @@ export default function Home() {
     const ua = typeof navigator !== "undefined" ? navigator.userAgent.toLowerCase() : "";
     const isBot = /bot|crawl|spider|slurp|facebookexternalhit|whatsapp|telegram|linkedinbot|embedly|quora|pinterest|vkshare|facebot|outbrain|ia_archiver/.test(ua);
     if (!isBot) {
-      navigate("/main", { replace: true });
+      // Warm up the Main route chunk before navigating to avoid a blank flash
+      const warm = () => import("@/pages/Main").catch(() => {});
+      // Give the prefetch a short head start, then navigate
+      warm().finally(() => {
+        navigate("/main", { replace: true });
+      });
     }
   }, [isAuthenticated, navigate]);
 
