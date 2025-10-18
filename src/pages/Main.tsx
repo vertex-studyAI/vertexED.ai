@@ -35,7 +35,7 @@ export default function Main() {
     { title: "Answer Reviewer", to: "/answer-reviewer", info: "Rubric-aware feedback with clear, actionable steps to raise your grade.", icon: reviewIcon() },
     { title: "Paper Maker", to: "/paper-maker", info: "Board-aligned practice papers with authentic phrasing and mark schemes.", icon: paperIcon() },
     { title: "Note Taker + Flashcards", to: "/notetaker", info: "Capture lectures, auto-summarise and turn notes into flashcards & quizzes.", icon: notesIcon() },
-    { title: "Archives Subjects", to: "/archives-subjects", info: "Browse subject-wise archived papers, curated by topic and difficulty.", icon: archiveIcon() },
+    { title: "Archives Subjects", to: "/archives", info: "Browse subject-wise archived papers, curated by topic and difficulty.", icon: archiveIcon() },
     // keep settings separate (rendered as small control in header)
   ];
 
