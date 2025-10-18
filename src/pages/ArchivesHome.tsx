@@ -27,7 +27,7 @@ export default function ArchivesHome(): JSX.Element {
 
           <div className="grid sm:grid-cols-3 gap-6 mt-6">
             <Link
-              to="/archives/lnl"
+              to="/archives-lnl"
               className="block rounded-2xl bg-white text-slate-900 p-6 shadow-md hover:scale-[1.02] transition-transform"
             >
               <h2 className="text-2xl font-semibold mb-1">Language &amp; Literature</h2>
@@ -35,7 +35,7 @@ export default function ArchivesHome(): JSX.Element {
             </Link>
 
             <Link
-              to="/archives/history"
+              to="/archives-history"
               className="block rounded-2xl bg-white text-slate-900 p-6 shadow-md hover:scale-[1.02] transition-transform"
             >
               <h2 className="text-2xl font-semibold mb-1">History</h2>
@@ -43,7 +43,7 @@ export default function ArchivesHome(): JSX.Element {
             </Link>
 
             <Link
-              to="/archives/geography"
+              to="/archives-geography"
               className="block rounded-2xl bg-white text-slate-900 p-6 shadow-md hover:scale-[1.02] transition-transform"
             >
               <h2 className="text-2xl font-semibold mb-1">Geography</h2>
