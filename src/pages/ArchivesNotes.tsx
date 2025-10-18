@@ -1,73 +1,51 @@
+// src/pages/archives/LnL.tsx
+import React from "react";
 import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
-import { gsap } from "gsap";
+import { Helmet } from "react-helmet-async";
 
-const mockNotes = [
-  {
-    id: "1",
-    title: "Trigonometric Identities Simplified",
-    summary: "Understand and apply core trigonometric relationships easily.",
-    content:
-      "Trigonometric identities are mathematical equations involving trigonometric functions that are true for all values of the variable. They include reciprocal, Pythagorean, and cofunction identities...",
-  },
-  {
-    id: "2",
-    title: "Introduction to Calculus",
-    summary: "A quick walkthrough of limits and derivatives.",
-    content:
-      "Calculus is the study of continuous change. The two main branches are differential calculus (derivatives) and integral calculus (integrals). The concept of limit forms its foundation...",
-  },
-];
-
-export default function ArchivesNotes() {
-  const router = useRouter();
-  const { curriculum, subject } = router.query;
-  const [openNote, setOpenNote] = useState<string | null>(null);
-
-  useEffect(() => {
-    gsap.utils.toArray(".fade-up").forEach((el: any) => {
-      gsap.fromTo(el, { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, ease: "power3.out" });
-    });
-  }, []);
-
+export default function ArchivesLnL(): JSX.Element {
   return (
-    <section className="min-h-screen px-6 py-20 bg-gradient-to-b from-slate-900 to-slate-800 text-center">
-      <h1 className="text-4xl font-semibold text-white mb-10 fade-up capitalize">
-        {decodeURIComponent(subject as string)?.replace(/-/g, " ")}
-      </h1>
+    <>
+      <Helmet>
+        <title>Archives — Language &amp; Literature (LnL)</title>
+        <meta
+          name="description"
+          content="Language & Literature archive: notes, model responses and curated close readings (IB MYP focus)."
+        />
+      </Helmet>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto fade-up">
-        {mockNotes.map((note) => {
-          const isOpen = openNote === note.id;
-          return (
-            <div
-              key={note.id}
-              className={`relative bg-white text-slate-900 rounded-2xl shadow-xl p-8 transition-all duration-500 cursor-pointer hover:scale-[1.02] ${
-                isOpen ? "z-50 fixed top-0 left-0 w-full h-full p-10 overflow-y-auto bg-white" : ""
-              }`}
-              onClick={() => setOpenNote(isOpen ? null : note.id)}
-            >
-              <h3 className="text-2xl font-bold mb-2">{note.title}</h3>
-              {!isOpen && <p className="text-slate-600">{note.summary}</p>}
-              {isOpen && (
-                <div className="mt-6 text-left text-lg leading-relaxed text-slate-800">
-                  <p>{note.content}</p>
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setOpenNote(null);
-                    }}
-                    className="mt-8 px-6 py-3 bg-slate-900 text-white rounded-full hover:bg-slate-700 transition"
-                  >
-                    Close
-                  </button>
-                </div>
-              )}
-            </div>
-          );
-        })}
-      </div>
-    </section>
+      <section className="min-h-screen px-6 py-20 bg-gradient-to-b from-slate-900 to-slate-800 text-slate-100">
+        <div className="max-w-4xl mx-auto">
+          <h1 className="text-4xl font-semibold mb-4">Language &amp; Literature — Archives</h1>
+
+          <p className="text-slate-300 mb-6">
+            This page is a repository for Language &amp; Literature notes and curated sample answers.
+            It is primarily prepared to support IB MYP students. Paste topic notes, annotated excerpts,
+            sample essays and practice questions into the content area below.
+          </p>
+
+          <div className="rounded-md border bg-slate-900 p-6 text-slate-300">
+            <h3 className="text-lg font-medium mb-2">Content placeholder</h3>
+            <p className="text-sm mb-4">
+              No LnL content yet. When ready, add headings, excerpts, and model responses here. Use
+              clear subheadings to keep the archive organized.
+            </p>
+
+            <ul className="list-disc list-inside text-slate-400 text-sm">
+              <li>Topic overviews</li>
+              <li>Close reading notes</li>
+              <li>Annotated sample responses</li>
+              <li>Practice questions</li>
+            </ul>
+          </div>
+
+          <div className="mt-8 flex gap-3">
+            <Link to="/archives" className="neu-button px-4 py-2">Back to Archives</Link>
+            <Link to="/archives/history" className="neu-button px-4 py-2">History</Link>
+            <Link to="/archives/geography" className="neu-button px-4 py-2">Geography</Link>
+          </div>
+        </div>
+      </section>
+    </>
   );
 }
