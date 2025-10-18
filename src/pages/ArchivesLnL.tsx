@@ -1,4 +1,4 @@
-// src/pages/archives/LnL.tsx
+// src/pages/ArchivesLnL.tsx
 import React from "react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
