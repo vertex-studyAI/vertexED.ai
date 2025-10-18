@@ -16,7 +16,7 @@ const About = lazy(() => import("@/pages/About"));
 const NotFound = lazy(() => import("@/pages/NotFound"));
 const ArchivesHome = lazy(() => import("@/pages/ArchivesHome"));
 const ArchivesNotes = lazy(() => import("@/pages/ArchivesNotes"));
-const ArchivesSubjects = lazy (() =>import("@/pages/ArchivesSubjects"));
+const ArchivesSubjects = lazy(() => import("@/pages/ArchivesSubjects"));
 const PaperMaker = lazy(() => import("@/pages/PaperMaker"));
 const UserSettings = lazy(() => import("@/pages/UserSettings"));
 const Brand = lazy(() => import("@/pages/Brand"));
@@ -99,6 +99,12 @@ return (
 <Route path="planner" element={<ProtectedRoute><StudyPlanner /></ProtectedRoute>} />
 <Route path="answer-reviewer" element={<ProtectedRoute><AnswerReviewer /></ProtectedRoute>} />
 <Route path="paper-maker" element={<ProtectedRoute><PaperMaker /></ProtectedRoute>} />
+
+						{/* Archives routes */}
+						<Route path="archives" element={<ArchivesHome />} />
+						<Route path="archives/notes" element={<ArchivesNotes />} />
+						<Route path="archives-subjects" element={<ArchivesSubjects />} />
+
 <Route path="about" element={<About />} />
 <Route path="features" element={<Features />} /> 
 <Route path="vertex-ed" element={<Brand />} />
