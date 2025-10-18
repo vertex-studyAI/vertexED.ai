@@ -75,7 +75,8 @@ Rules:
         Authorization: `Bearer ${OPENAI_API_KEY}`,
       },
       body: JSON.stringify({
-        model: "gpt-4o-mini", // use GPT-4 class model for more reliable structured JSON
+        // ⬇️ Updated model reference here
+        model: "ft:gpt-4o-mini-2024-07-18:verteded:notes:CRuakY3O",
         messages: [systemMessage, userMessage],
         temperature: 0.45,
         max_tokens: 1600,
@@ -135,7 +136,7 @@ Rules:
         back: (f.back || f.answer || "").toString().trim(),
       }));
 
-    // --- Sanitize tables (add options array if missing) ---
+    // --- Sanitize tables ---
     const finalTables = (parsed.tables || []).map((t) => ({
       headers: t.headers || [],
       rows: t.rows || [],
