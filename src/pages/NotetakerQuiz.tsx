@@ -88,6 +88,7 @@ export default function NotetakerQuiz(): JSX.Element {
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioChunksRef = useRef<BlobPart[]>([]);
 
+  // Start audio recording + visualizer
   const startRecording = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -127,6 +128,7 @@ export default function NotetakerQuiz(): JSX.Element {
         };
         animationRef.current = requestAnimationFrame(draw);
       }
+      
       const mr = new MediaRecorder(stream);
       mediaRecorderRef.current = mr;
       audioChunksRef.current = [];
@@ -163,7 +165,8 @@ export default function NotetakerQuiz(): JSX.Element {
               setFlashcards((prev) => {
                 const serverCards = Array.isArray(json.flashcards) ? json.flashcards : [];
                 if (!serverCards.length) return prev;
-                return [...serverCards.slice(0, flashCount), ...prev];
+                // prepend server cards but clamp to flashCount
+                return [...serverCards.slice(0, flashCount), ...prev].slice(0, Math.max(flashCount, prev.length));
               });
               setIsDirty(true);
             }
@@ -222,8 +225,10 @@ export default function NotetakerQuiz(): JSX.Element {
       if (!r.ok) throw new Error(`Notes request failed: ${r.status}`);
       const json = await r.json();
       if (Array.isArray(json.flashcards) && json.flashcards.length) {
-        setFlashcards(json.flashcards);
+        setFlashcards(json.flashcards.slice(0, flashCount));
         pushNotesSnapshot(notes);
+        // reset flash index to safe bound
+        setCurrentFlashIndex(0);
         alert("Flashcards generated from notes.");
       } else {
         alert("No flashcards generated.");
@@ -310,29 +315,24 @@ export default function NotetakerQuiz(): JSX.Element {
 
   const exportToWord = async (notesText: string, cards: any[]) => {
     try {
-      const doc = new Document({
-        sections: [
-          {
-            children: [
-              new Paragraph({ children: [new TextRun({ text: "Study Notes", bold: true })] }),
-              new Paragraph(notesText || ""),
-              ...(cards && cards.length
-                ? [
-                    new Paragraph({ children: [new TextRun({ text: "Flashcards", bold: true })] }),
-                    ...cards.map((f: any, i: number) =>
-                      new Paragraph({
-                        children: [
-                          new TextRun({ text: `Q${i + 1}: ${f.front}` }),
-                          new TextRun({ text: `\nA: ${f.back}` }),
-                        ],
-                      })
-                    ),
-                  ]
-                : []),
-            ],
-          },
-        ],
-      });
+      const children: any[] = [
+        new Paragraph({ children: [new TextRun({ text: "Study Notes", bold: true })] }),
+        new Paragraph(notesText || ""),
+      ];
+      if (cards && cards.length) {
+        children.push(new Paragraph({ children: [new TextRun({ text: "Flashcards", bold: true })] }));
+        cards.forEach((f: any, i: number) => {
+          children.push(
+            new Paragraph({
+              children: [
+                new TextRun({ text: `Q${i + 1}: ${f.front}` }),
+                new TextRun({ text: `\nA: ${f.back}` }),
+              ],
+            })
+          );
+        });
+      }
+      const doc = new Document({ sections: [{ children }] });
       const blob = await Packer.toBlob(doc);
       saveAs(blob, "notes.docx");
     } catch (err) {
@@ -341,16 +341,44 @@ export default function NotetakerQuiz(): JSX.Element {
     }
   };
 
+  // Improved PDF export with basic pagination slicing when content is taller than a page
   const exportToPDF = async (elementId: string) => {
     try {
       const element = document.getElementById(elementId);
       if (!element) return alert("Nothing to export");
-      const canvas = await html2canvas(element, { scale: 2, useCORS: true });
+      // make sure element is rendered fully
+      const canvas = await html2canvas(element, { scale: 2, useCORS: true, logging: false });
       const imgData = canvas.toDataURL("image/png");
       const pdf = new jsPDF("p", "mm", "a4");
       const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-      pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+      const pdfHeight = pdf.internal.pageSize.getHeight();
+      // image dimensions in mm
+      const imgHeightMm = (canvas.height * pdfWidth) / canvas.width;
+      if (imgHeightMm <= pdfHeight) {
+        pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, imgHeightMm);
+        pdf.save("notes.pdf");
+        return;
+      }
+
+      // If taller than a page, slice into page-sized chunks
+      const pxPerMm = canvas.height / imgHeightMm; // pixels per mm
+      const pageHeightPx = Math.floor(pdfHeight * pxPerMm);
+      let yPosPx = 0;
+      while (yPosPx < canvas.height) {
+        const sliceHeight = Math.min(pageHeightPx, canvas.height - yPosPx);
+        const canvasPage = document.createElement("canvas");
+        canvasPage.width = canvas.width;
+        canvasPage.height = sliceHeight;
+        const ctx = canvasPage.getContext("2d");
+        if (!ctx) break;
+        // draw portion of source canvas onto page canvas
+        ctx.drawImage(canvas, 0, yPosPx, canvas.width, sliceHeight, 0, 0, canvas.width, sliceHeight);
+        const imgPage = canvasPage.toDataURL("image/png");
+        const imgPageHeightMm = (sliceHeight * pdfWidth) / canvas.width;
+        pdf.addImage(imgPage, "PNG", 0, 0, pdfWidth, imgPageHeightMm);
+        yPosPx += sliceHeight;
+        if (yPosPx < canvas.height) pdf.addPage();
+      }
       pdf.save("notes.pdf");
     } catch (err) {
       console.error("PDF export failed", err);
@@ -384,13 +412,14 @@ export default function NotetakerQuiz(): JSX.Element {
         const divider = `\n\n---\n\n### AI-generated Notes (${format === "Custom" ? (customFormatText || "Custom") : format})\n\n`;
         return `${trimmedPrev}${divider}${toInsert}`;
       });
-      setFlashcards(Array.isArray(data?.flashcards) ? data.flashcards.slice(0, flashCount) : []);
+      const serverCards = Array.isArray(data?.flashcards) ? data.flashcards.slice(0, flashCount) : [];
+      setFlashcards(serverCards);
+      setCurrentFlashIndex(0);
       pushNotesSnapshot((notes ?? "") + "\n\n" + plainNotes);
       setGeneratedQuestions([]);
       setUserAnswers({});
       setQuizSubmitted(false);
       setQuizResults(null);
-      setCurrentFlashIndex(0);
       setFlashRevealed(false);
     } catch (err) {
       console.error(err);
@@ -439,7 +468,7 @@ export default function NotetakerQuiz(): JSX.Element {
       const id = q.id;
       const user = userAnswers[id] ?? "";
       if (q.type === "multiple_choice") {
-        const isCorrect = q.answer && user === q.answer;
+        const isCorrect = q.answer && String(user) === String(q.answer);
         return {
           id,
           selected: user,
@@ -549,7 +578,7 @@ export default function NotetakerQuiz(): JSX.Element {
     return typeof a !== "undefined" && String(a).trim() !== "";
   }).length;
 
-  let accuracy = null;
+  let accuracy: number | null = null;
   if (quizSubmitted && quizResults && Array.isArray(quizResults)) {
     const totalScore = quizResults.reduce((s, r) => s + (Number(r.score) || 0), 0);
     const totalMax = quizResults.reduce((s, r) => s + (Number(r.maxScore) || 0), 0) || 0;
@@ -558,6 +587,16 @@ export default function NotetakerQuiz(): JSX.Element {
 
   const displayFormatLabel = format === "Custom" ? (customFormatText || "Custom") : format;
   const appearClass = mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2";
+
+  // Ensure currentFlashIndex stays in bounds when flashcards array changes
+  useEffect(() => {
+    if (!flashcards || flashcards.length === 0) {
+      setCurrentFlashIndex(0);
+      setFlashRevealed(false);
+      return;
+    }
+    if (currentFlashIndex >= flashcards.length) setCurrentFlashIndex(0);
+  }, [flashcards]);
 
   const startVisualizer = (stream: MediaStream) => {
     stopVisualizer();
@@ -579,7 +618,6 @@ export default function NotetakerQuiz(): JSX.Element {
     const draw = () => {
       if (!analyserRef.current || !canvasCtx) return;
       analyserRef.current.getByteTimeDomainData(dataArray);
-      canvasCtx.fillStyle = "rgba(0,0,0,0)";
       canvasCtx.clearRect(0, 0, canvas.width, canvas.height);
       canvasCtx.lineWidth = 2;
       canvasCtx.strokeStyle = "#2563EB";
@@ -826,9 +864,7 @@ export default function NotetakerQuiz(): JSX.Element {
                     <div className="flex items-center gap-2 text-sm text-gray-600 mr-2">Insert:</div>
                     <button className="neu-button px-3 py-1 text-sm flex items-center gap-2" onClick={() => insertAtCursor("$$E = mc^2$$")}>LaTeX</button>
                     <button className="neu-button px-3 py-1 text-sm flex items-center gap-2" onClick={() => insertAtCursor("$$\\int_a^b f(x)\\,dx$$")}>Integral</button>
-                    <button className="neu-button px-3 py-1 text-sm flex items-center gap-2" onClick={() => insertAtCursor("**Table (Markdown)**\n\n| Header 1 | Header 2 |\n|---|---|\n| Row1Col1 | Row1Col2 |\n")}>
-                      Table
-                    </button>
+                    <button className="neu-button px-3 py-1 text-sm flex items-center gap-2" onClick={() => insertAtCursor("**Table (Markdown)**\n\n| Header 1 | Header 2 |\n|---|---|\n| Row1Col1 | Row1Col2 |\n")}>Table</button>
                     <button className="neu-button px-3 py-1 text-sm flex items-center gap-2" onClick={() => insertAtCursor("• Bullet 1\n• Bullet 2\n")}>Bullets</button>
 
                     <div className="ml-auto flex items-center gap-2">
@@ -869,9 +905,9 @@ export default function NotetakerQuiz(): JSX.Element {
 
                 {flashcards.length ? (
                   <div className="relative">
-                    <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.45 }} className="p-4 rounded-lg border shadow-sm bg-white" style={{ minHeight: 140 }}>
-                      <div className="text-base font-semibold text-slate-900 break-words">{flashcards[currentFlashIndex]?.front}</div>
-                      <div className={`text-sm mt-3 transition-opacity duration-200 ${flashRevealed ? "opacity-100" : "opacity-0"}`}>{flashRevealed ? flashcards[currentFlashIndex]?.back : ""}</div>
+                    <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.45 }} className="p-4 rounded-lg border shadow-sm bg-white" style={{ minHeight: 160 }}>
+                      <div className="text-base font-semibold text-slate-900 break-words whitespace-pre-wrap">{flashcards[currentFlashIndex]?.front}</div>
+                      <div className={`text-sm mt-3 transition-opacity duration-200 ${flashRevealed ? "opacity-100" : "opacity-0"}`} style={{ minHeight: 36 }}>{flashRevealed ? flashcards[currentFlashIndex]?.back : ""}</div>
 
                       <div className="mt-4 flex items-center gap-2">
                         <button className={`neu-button px-3 py-1 ${flashBtnTextColor(true)}`} onClick={prevFlash}><ChevronsLeft size={14} /> Prev</button>
@@ -890,7 +926,7 @@ export default function NotetakerQuiz(): JSX.Element {
                         const bg = selected ? "bg-sky-100" : "bg-white";
                         const txt = selected ? "text-black" : "text-slate-800";
                         return (
-                          <button key={i} className={`py-2 px-3 rounded-md border text-sm ${bg} hover:scale-105 transition-transform ${txt}`} onClick={() => { setCurrentFlashIndex(i); setFlashRevealed(false); }}>{i + 1}</button>
+                          <button key={`${i}_${String(f.front).slice(0, 8)}`} className={`py-2 px-3 rounded-md border text-sm ${bg} hover:scale-105 transition-transform ${txt}`} onClick={() => { setCurrentFlashIndex(i); setFlashRevealed(false); }}>{i + 1}</button>
                         );
                       })}
                     </div>
@@ -957,8 +993,8 @@ export default function NotetakerQuiz(): JSX.Element {
                 <button className="absolute right-4 top-4 neu-button px-3 py-1" onClick={() => setFlashFullscreen(false)}><X size={14} /></button>
 
                 <div className="text-center">
-                  <div className="text-3xl font-semibold mb-4">{flashcards[currentFlashIndex]?.front}</div>
-                  <div className={`text-lg leading-relaxed mb-6 ${flashRevealed ? "opacity-100" : "opacity-0"}`}>{flashRevealed ? flashcards[currentFlashIndex]?.back : "Click Reveal to see the answer"}</div>
+                  <div className="text-3xl font-semibold mb-4 text-black">{flashcards[currentFlashIndex]?.front}</div>
+                  <div className={`text-lg leading-relaxed mb-6 text-black ${flashRevealed ? "opacity-100" : "opacity-50"}`}>{flashRevealed ? flashcards[currentFlashIndex]?.back : "Click Reveal to see the answer"}</div>
 
                   <div className="mt-6 flex items-center justify-center gap-4">
                     <button className="neu-button px-4 py-2" onClick={prevFlash}>Previous</button>
@@ -1012,9 +1048,9 @@ export default function NotetakerQuiz(): JSX.Element {
                           <div className="mb-2 text-sm text-slate-900 break-words">{q.prompt || q.question}</div>
                           {q.type === "multiple_choice" && (
                             <div className="space-y-2">
-                              {Array.isArray(q.choices) ? q.choices.map((c: any) => (
-                                <label className="flex items-center gap-2" key={c}>
-                                  <input type="radio" name={`q_${q.id}`} value={c} checked={userAnswers[q.id] === c} onChange={(e) => setUserAnswers((u) => ({ ...u, [q.id]: e.target.value }))} />
+                              {Array.isArray(q.choices) ? q.choices.map((c: any, i: number) => (
+                                <label className="flex items-center gap-2" key={`${q.id}_${i}`}>
+                                  <input type="radio" name={`q_${q.id}`} value={c} checked={String(userAnswers[q.id]) === String(c)} onChange={(e) => setUserAnswers((u) => ({ ...u, [q.id]: e.target.value }))} />
                                   <span className="text-sm">{c}</span>
                                 </label>
                               )) : null}
@@ -1062,6 +1098,7 @@ export default function NotetakerQuiz(): JSX.Element {
                   <div className="ml-auto flex items-center gap-2">
                     <button className="neu-button px-3 py-1" onClick={() => { setGeneratedQuestions([]); setQuizSubmitted(false); setQuizResults(null); }}>Reset</button>
                     <button className="neu-button px-3 py-1" onClick={() => { if (quizResults) exportToWord(JSON.stringify(quizResults, null, 2), []); }}>Export Results</button>
+                    <button className="neu-button px-3 py-1" onClick={() => exportToPDF("notes-section-export")}>Export PDF</button>
                   </div>
                 </div>
               )}
