@@ -15,8 +15,9 @@ const AnswerReviewer = lazy(() => import("@/pages/AnswerReviewer"));
 const About = lazy(() => import("@/pages/About"));
 const NotFound = lazy(() => import("@/pages/NotFound"));
 const ArchivesHome = lazy(() => import("@/pages/ArchivesHome"));
-const ArchivesNotes = lazy(() => import("@/pages/ArchivesNotes"));
-const ArchivesSubjects = lazy(() => import("@/pages/ArchivesSubjects"));
+const ArchivesLnL = lazy(() => import("@/pages/ArchivesLnL"));
+const ArchivesHistory = lazy(() => import("@/pages/ArchivesHistory"));
+const ArchivesGeography = lazy(() => import("@/pages/ArchivesGeography"));
 const PaperMaker = lazy(() => import("@/pages/PaperMaker"));
 const UserSettings = lazy(() => import("@/pages/UserSettings"));
 const Brand = lazy(() => import("@/pages/Brand"));
@@ -102,8 +103,9 @@ return (
 
 						{/* Archives routes */}
 						<Route path="archives" element={<ArchivesHome />} />
-						<Route path="archives/notes" element={<ArchivesNotes />} />
-						<Route path="archives-subjects" element={<ArchivesSubjects />} />
+						<Route path="archives-lnl" element={<ArchivesLnL />} />
+						<Route path="archives-history" element={<ArchivesHistory />} />
+	<Route path="archives-geography" element={<ArchivesGeography />} />
 
 <Route path="about" element={<About />} />
 <Route path="features" element={<Features />} /> 
