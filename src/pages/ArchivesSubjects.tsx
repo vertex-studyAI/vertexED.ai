@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router-dom";
-import Link from "next/link";
 import { useEffect } from "react";
 import { gsap } from "gsap";
 
