@@ -45,7 +45,7 @@ export default function About() {
             {
               name: "Ryan Gomez",
               role: "Co-founder · CFO · Head of AI Product Development",
-              bio: `Ryan Gomez is a Sophomore at Oakridge International School Bangalore with a passion for creating. Whilst winning awards at international model UN conferences and regional olympiads, he has founded initiatives and startups like obscured records, finance_debriefed and Oakridge Junior Codefest. He has also played international football, written books on quantum mechanics, and been a champion scholar at the World Scholars Cup.`,
+              bio: `Ryan Gomez is a Sophomore at the Oakridge International School of Bangalore with a passion for being a maximalist especially outside the classroom. Whilst receiving awards at various International Model UN conferences and being a champion scholar, international olympiads and having his research published internationally whilst being an author of a quantum mechanics book, he has founded initiatives like obscured records, expanded upon a UNICEF recognised non profit and has ran Oakridge Junior codefest for 5 years running now. He has also played international football and works at various projects like he’s the next Soham Parekh. In his “free time”, he loves to explore his hobbies like the guitar or work on his assortment of projects. He also loves learning at an astronomical rate per se.`,
               linkedin:
                 "https://www.linkedin.com/in/ryan-gomez-03701b363/?originalSubdomain=in",
             },
