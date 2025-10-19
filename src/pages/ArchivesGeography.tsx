@@ -1,44 +1,53 @@
-// src/pages/ArchivesGeography.tsx
 import React from "react";
-import { Link } from "react-router-dom";
-import { Helmet } from "react-helmet-async";
+
 
 export default function ArchivesGeography(): JSX.Element {
-  return (
-    <>
-      <Helmet>
-        <title>Archives — Geography</title>
-        <meta name="description" content="Geography archive: case studies, maps and model answers (IB MYP focus)." />
-      </Helmet>
+return (
+<>
+<Helmet>
+<title>Archives — Geography</title>
+<meta name="description" content="Geography archive: case studies, maps and model answers (IB MYP focus)." />
+</Helmet>
 
-      <section className="min-h-screen px-6 py-20 bg-gradient-to-b from-slate-900 to-slate-800 text-slate-100">
-        <div className="max-w-4xl mx-auto">
-          <h1 className="text-4xl font-semibold mb-4">Geography — Archives</h1>
 
-          <p className="text-slate-300 mb-6">
-            This page contains Geography notes and curated answers. Designed for IB MYP support.
-            Add case studies, annotated maps, practice questions and model answers here.
-          </p>
+<section className="min-h-screen px-6 py-16 bg-gradient-to-b from-slate-900 to-slate-800 text-slate-100">
+<div className="max-w-4xl mx-auto">
+<div className="flex items-center justify-between mb-6">
+<h1 className="text-3xl sm:text-4xl font-semibold">Geography — Archives</h1>
+<nav aria-label="breadcrumb" className="text-sm text-slate-400">
+<Link to="/archives" className="hover:underline">Archives</Link>
+<span className="mx-2">/</span>
+<span className="text-slate-200">Geography</span>
+</nav>
+</div>
 
-          <div className="rounded-md border bg-slate-900 p-6 text-slate-300">
-            <h3 className="text-lg font-medium mb-2">Content placeholder</h3>
-            <p className="text-sm mb-4">No Geography content yet. Paste case studies, diagrams and question banks here when ready.</p>
 
-            <ul className="list-disc list-inside text-slate-400 text-sm">
-              <li>Key concepts and definitions</li>
-              <li>Case studies</li>
-              <li>Maps / diagrams (annotated)</li>
-              <li>Model answers & practice prompts</li>
-            </ul>
-          </div>
+<p className="text-slate-300 mb-6 text-sm">
+Geography notes, case studies, annotated maps and curated practice questions to support IB MYP.
+</p>
 
-          <div className="mt-8 flex gap-3">
-            <Link to="/archives" className="neu-button px-4 py-2">Back to Archives</Link>
-            <Link to="/archives/lnl" className="neu-button px-4 py-2">LnL</Link>
-            <Link to="/archives/history" className="neu-button px-4 py-2">History</Link>
-          </div>
-        </div>
-      </section>
-    </>
-  );
+
+<div className="rounded-md border border-slate-700 bg-slate-900 p-6 text-slate-300">
+<h3 className="text-lg font-medium mb-2">Content placeholder</h3>
+<p className="text-sm mb-4">No Geography content yet. Paste case studies, diagrams and question banks here when ready.</p>
+
+
+<ul className="list-disc list-inside text-slate-400 text-sm space-y-1">
+<li>Key concepts and definitions</li>
+<li>Case studies (annotated)</li>
+<li>Maps / diagrams with labels</li>
+<li>Model answers & practice prompts</li>
+</ul>
+
+
+<div className="mt-6 flex flex-wrap gap-3">
+<Link to="/archives" className="inline-flex items-center gap-2 rounded-2xl px-4 py-2 text-sm bg-white/5 hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500">Back to Archives</Link>
+<Link to="/archives/lnl" className="inline-flex items-center gap-2 rounded-2xl px-4 py-2 text-sm bg-white/5 hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500">LnL</Link>
+<Link to="/archives/history" className="inline-flex items-center gap-2 rounded-2xl px-4 py-2 text-sm bg-white/5 hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500">History</Link>
+</div>
+</div>
+</div>
+</section>
+</>
+);
 }
