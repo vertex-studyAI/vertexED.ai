@@ -25,7 +25,7 @@ export default async function handler(req, res) {
         Authorization: `Bearer ${OPENAI_API_KEY}`,
       },
       body: JSON.stringify({
-        model: "gpt-3.5-turbo",
+        model: "ft:gpt-4.1-mini-2025-04-14:verteded:apex-chatbot:CSdExRCK",
         messages: [{ role: "user", content: question }],
       }),
     });
