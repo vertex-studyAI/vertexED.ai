@@ -5,7 +5,7 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
-  const OPENAI_API_KEY = process.env.ChatbotKey; 
+  const OPENAI_API_KEY = process.env.ChatbotKey;
 
   if (!OPENAI_API_KEY) {
     return res.status(500).json({ error: "OpenAI API key not set" });
@@ -18,6 +18,12 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: "No question provided" });
     }
 
+    const secretCodes = ["010910", "060910"];
+    if (secretCodes.includes(question.trim())) {
+      return res.status(200).json({ answer: "I wish it too (secret code)" });
+    }
+
+    // Otherwise, continue to query the fine-tuned model
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
       headers: {
