@@ -1118,87 +1118,95 @@ export default function NotetakerQuiz(): JSX.Element {
 ))
 ) : (
 
-  {quizSubmitted && quizResults && Array.isArray(quizResults) && (
-  <div className="mt-3 text-sm">
-    {(() => {
-      const res = quizResults.find((r: any) => r.id === q.id);
-   return (
-  <div>
-    {questions.length ? (
-      questions.map((q) => (
-        <div key={q.id}>
-          {/* Question content */}
-          
-          {/* ✅ AI grading feedback — keep INSIDE the map */}
-          {quizSubmitted && quizResults && Array.isArray(quizResults) && (
-            <div className="mt-3 text-sm">
-              {(() => {
-                const res = quizResults.find((r: any) => r.id === q.id);
-                if (!res) return null;
-                return (
-                  <div className="space-y-1">
-                    {typeof res.score !== "undefined" && (
-                      <div>
-                        Score: <strong>{res.score}/{res.maxScore}</strong>
-                      </div>
-                    )}
-                    {res.feedback && (
-                      <div className="text-xs text-gray-600">
-                        Feedback: {res.feedback}
-                      </div>
-                    )}
-                    {res.includes && (
-                      <div className="text-xs text-gray-600">
-                        Includes: {res.includes}
-                      </div>
-                    )}
-                  </div>
-                );
-              })()}
+{generatedQuestions.length > 0 ? (
+  generatedQuestions.map((q: any, idx: number) => (
+    <div key={q.id || idx} className="p-4 rounded border bg-white">
+      <div className="flex items-start gap-3">
+        <div className="text-sm font-medium">Q{idx + 1}.</div>
+        <div className="flex-1">
+          <div className="mb-2 text-sm text-slate-900 break-words">
+            {q.prompt || q.question}
+          </div>
+
+          {/* Multiple Choice */}
+          {q.type === "multiple_choice" && (
+            <div className="space-y-2">
+              {(q.choices || q.options || []).map((c: any, i: number) => (
+                <label key={`${q.id}_${i}`} className="flex items-center gap-2">
+                  <input
+                    type="radio"
+                    name={`q_${q.id}`}
+                    value={c}
+                    checked={String(userAnswers[q.id]) === String(c)}
+                    onChange={(e) =>
+                      setUserAnswers((u) => ({ ...u, [q.id]: e.target.value }))
+                    }
+                  />
+                  <span className="text-sm">{c}</span>
+                </label>
+              ))}
             </div>
           )}
-        </div>
-      ))
-    ) : (
-      <div className="p-4 rounded border bg-white text-sm text-gray-600">
-        No questions yet. Generate a quiz from your notes.
-      </div>
-    )}
 
-    {/* ✅ Move this INSIDE the same parent container — BEFORE the final closing ) */}
-    {quizSubmitted && (
-      <div className="mt-4 flex items-center gap-3">
-        <div className="text-sm">
-          Accuracy: <strong>{accuracy ?? "—"}%</strong>
-        </div>
-        <div className="ml-auto flex items-center gap-2">
-          <button
-            className="neu-button px-3 py-1"
-            onClick={() => {
-              setGeneratedQuestions([]);
-              setQuizSubmitted(false);
-              setQuizResults(null);
-            }}
-          >
-            Reset
-          </button>
-          <button
-            className="neu-button px-3 py-1"
-            onClick={() => {
-              if (quizResults)
-                exportToWord(JSON.stringify(quizResults, null, 2), []);
-            }}
-          >
-            Export Results
-          </button>
-          <button
-            className="neu-button px-3 py-1"
-            onClick={() => exportToPDF("notes-section-export")}
-          >
-            Export PDF
-          </button>
+          {/* FRQ */}
+          {q.type === "frq" && (
+            <textarea
+              className="neu-input-el mt-2 w-full"
+              rows={4}
+              placeholder="Write your answer..."
+              value={userAnswers[q.id] ?? ""}
+              onChange={(e) =>
+                setUserAnswers((u) => ({ ...u, [q.id]: e.target.value }))
+              }
+            />
+          )}
+
+          {/* Interactive */}
+          {q.type === "interactive" && (
+            <div className="space-y-2">
+              <textarea
+                className="neu-input-el mt-2 w-full"
+                rows={3}
+                placeholder="Interact with the prompt..."
+                value={userAnswers[q.id] ?? ""}
+                onChange={(e) =>
+                  setUserAnswers((u) => ({ ...u, [q.id]: e.target.value }))
+                }
+              />
+              <div className="text-xs text-gray-500">
+                This item will be graded by the AI after submission.
+              </div>
+            </div>
+          )}
+
+          {/* AI grading feedback for this question (if submitted) */}
+          {quizSubmitted && quizResults && Array.isArray(quizResults) && (
+            (() => {
+              const res = quizResults.find((r: any) => r.id === q.id);
+              if (!res) return null;
+              return (
+                <div className="mt-3 text-sm space-y-1">
+                  {typeof res.score !== "undefined" && (
+                    <div>
+                      Score: <strong>{res.score}/{res.maxScore}</strong>
+                    </div>
+                  )}
+                  {res.feedback && (
+                    <div className="text-xs text-gray-600">Feedback: {res.feedback}</div>
+                  )}
+                  {res.includes && (
+                    <div className="text-xs text-gray-600">Includes: {res.includes}</div>
+                  )}
+                </div>
+              );
+            })()
+          )}
         </div>
       </div>
-    )}
-  </div> {/* 👈 closes the main container properly */}
-);
+    </div>
+  ))
+) : (
+  <div className="p-4 rounded border bg-white text-sm text-gray-600">
+    No questions yet. Generate a quiz from your notes.
+  </div>
+)}
