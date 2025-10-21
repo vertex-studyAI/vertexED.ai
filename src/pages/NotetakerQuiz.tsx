@@ -1164,22 +1164,41 @@ export default function NotetakerQuiz(): JSX.Element {
         No questions yet. Generate a quiz from your notes.
       </div>
     )}
-  </div>
+
+    {/* ✅ Move this INSIDE the same parent container — BEFORE the final closing ) */}
+    {quizSubmitted && (
+      <div className="mt-4 flex items-center gap-3">
+        <div className="text-sm">
+          Accuracy: <strong>{accuracy ?? "—"}%</strong>
+        </div>
+        <div className="ml-auto flex items-center gap-2">
+          <button
+            className="neu-button px-3 py-1"
+            onClick={() => {
+              setGeneratedQuestions([]);
+              setQuizSubmitted(false);
+              setQuizResults(null);
+            }}
+          >
+            Reset
+          </button>
+          <button
+            className="neu-button px-3 py-1"
+            onClick={() => {
+              if (quizResults)
+                exportToWord(JSON.stringify(quizResults, null, 2), []);
+            }}
+          >
+            Export Results
+          </button>
+          <button
+            className="neu-button px-3 py-1"
+            onClick={() => exportToPDF("notes-section-export")}
+          >
+            Export PDF
+          </button>
+        </div>
+      </div>
+    )}
+  </div> {/* 👈 closes the main container properly */}
 );
-              {quizSubmitted && (
-                <div className="mt-4 flex items-center gap-3">
-                  <div className="text-sm">Accuracy: <strong>{accuracy ?? "—"}%</strong></div>
-                  <div className="ml-auto flex items-center gap-2">
-                    <button className="neu-button px-3 py-1" onClick={() => { setGeneratedQuestions([]); setQuizSubmitted(false); setQuizResults(null); }}>Reset</button>
-                    <button className="neu-button px-3 py-1" onClick={() => { if (quizResults) exportToWord(JSON.stringify(quizResults, null, 2), []); }}>Export Results</button>
-                    <button className="neu-button px-3 py-1" onClick={() => exportToPDF("notes-section-export")}>Export PDF</button>
-                  </div>
-                </div>
-              )}
-            </div>
-          </NeumorphicCard>
-        </motion.div>
-      </PageSection>
-    </>
-  );
-}
