@@ -1179,28 +1179,26 @@ export default function NotetakerQuiz(): JSX.Element {
             </div>
           )}
 
-          {/* AI grading feedback for this question (if submitted) */}
-          {quizSubmitted && quizResults && Array.isArray(quizResults) && (
-            (() => {
-              const res = quizResults.find((r: any) => r.id === q.id);
-              if (!res) return null;
-              return (
-                <div className="mt-3 text-sm space-y-1">
-                  {typeof res.score !== "undefined" && (
-                    <div>
-                      Score: <strong>{res.score}/{res.maxScore}</strong>
-                    </div>
-                  )}
-                  {res.feedback && (
-                    <div className="text-xs text-gray-600">Feedback: {res.feedback}</div>
-                  )}
-                  {res.includes && (
-                    <div className="text-xs text-gray-600">Includes: {res.includes}</div>
-                  )}
-                </div>
-              );
-            })()
-          )}
+          {/* Per-question AI grading feedback (if available) */}
+          {quizSubmitted && quizResults && Array.isArray(quizResults) && (() => {
+            const res = quizResults.find((r: any) => r.id === q.id);
+            if (!res) return null;
+            return (
+              <div className="mt-3 text-sm space-y-1">
+                {typeof res.score !== "undefined" && (
+                  <div>
+                    Score: <strong>{res.score}/{res.maxScore}</strong>
+                  </div>
+                )}
+                {res.feedback && (
+                  <div className="text-xs text-gray-600">Feedback: {res.feedback}</div>
+                )}
+                {res.includes && (
+                  <div className="text-xs text-gray-600">Includes: {res.includes}</div>
+                )}
+              </div>
+            );
+          })()}
         </div>
       </div>
     </div>
@@ -1208,5 +1206,40 @@ export default function NotetakerQuiz(): JSX.Element {
 ) : (
   <div className="p-4 rounded border bg-white text-sm text-gray-600">
     No questions yet. Generate a quiz from your notes.
+  </div>
+)}
+{/* end generatedQuestions rendering */}
+{/* Quiz summary / actions (shown after the question list) */}
+{quizSubmitted && (
+  <div className="mt-4 flex items-center gap-3">
+    <div className="text-sm">
+      Accuracy: <strong>{accuracy ?? "—"}%</strong>
+    </div>
+    <div className="ml-auto flex items-center gap-2">
+      <button
+        className="neu-button px-3 py-1"
+        onClick={() => {
+          setGeneratedQuestions([]);
+          setQuizSubmitted(false);
+          setQuizResults(null);
+        }}
+      >
+        Reset
+      </button>
+      <button
+        className="neu-button px-3 py-1"
+        onClick={() => {
+          if (quizResults) exportToWord(JSON.stringify(quizResults, null, 2), []);
+        }}
+      >
+        Export Results
+      </button>
+      <button
+        className="neu-button px-3 py-1"
+        onClick={() => exportToPDF("notes-section-export")}
+      >
+        Export PDF
+      </button>
+    </div>
   </div>
 )}
