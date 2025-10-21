@@ -44,7 +44,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
 
 export default function NotetakerQuiz(): JSX.Element {
   const [topic, setTopic] = useState("");
-  const [format, setFormat] = useState("Smart Notes");
+  const [format, setFormat] = useState("Quick Notes"); // removed "Smart Notes" per request
   const [customFormatText, setCustomFormatText] = useState("");
   const [notes, setNotes] = useState("");
   const [notesLength, setNotesLength] = useState("medium");
@@ -88,6 +88,9 @@ export default function NotetakerQuiz(): JSX.Element {
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioChunksRef = useRef<BlobPart[]>([]);
 
+  // NEW: how many MCQ options to show (2-5)
+  const [mcqOptionCount, setMcqOptionCount] = useState<number>(4);
+
   // Start audio recording + visualizer
   const startRecording = async () => {
     try {
@@ -128,7 +131,7 @@ export default function NotetakerQuiz(): JSX.Element {
         };
         animationRef.current = requestAnimationFrame(draw);
       }
-      
+
       const mr = new MediaRecorder(stream);
       mediaRecorderRef.current = mr;
       audioChunksRef.current = [];
@@ -405,17 +408,26 @@ export default function NotetakerQuiz(): JSX.Element {
       if (!res.ok) throw new Error(`Failed: ${res.status}`);
       const data = await res.json();
       const plainNotes = data?.result || "";
+
+      // Use updater and return newNotes so we can push snapshot reliably (avoids stale closure)
+      let newNotesFinal = "";
       setNotes((prev) => {
         const trimmedPrev = (prev ?? "").trim();
         const toInsert = plainNotes.trim();
-        if (!trimmedPrev) return toInsert;
+        if (!trimmedPrev) {
+          newNotesFinal = toInsert;
+          return toInsert;
+        }
         const divider = `\n\n---\n\n### AI-generated Notes (${format === "Custom" ? (customFormatText || "Custom") : format})\n\n`;
-        return `${trimmedPrev}${divider}${toInsert}`;
+        newNotesFinal = `${trimmedPrev}${divider}${toInsert}`;
+        return newNotesFinal;
       });
+
       const serverCards = Array.isArray(data?.flashcards) ? data.flashcards.slice(0, flashCount) : [];
       setFlashcards(serverCards);
       setCurrentFlashIndex(0);
-      pushNotesSnapshot((notes ?? "") + "\n\n" + plainNotes);
+      // push snapshot with the new notes value (not relying on stale notes variable)
+      pushNotesSnapshot(newNotesFinal);
       setGeneratedQuestions([]);
       setUserAnswers({});
       setQuizSubmitted(false);
@@ -659,7 +671,8 @@ export default function NotetakerQuiz(): JSX.Element {
     }
   };
 
-  const flashBtnTextColor = (bgIsLight: boolean) => (bgIsLight ? "text-slate-800" : "text-white");
+  // Keep flashcard buttons consistently slate/black (no white text)
+  const flashBtnTextColor = (bgIsLight: boolean) => "text-slate-800";
 
   const chartData = {
     labels: quizHistory.map((_, i) => `S${i + 1}`),
@@ -668,17 +681,27 @@ export default function NotetakerQuiz(): JSX.Element {
         label: "Accuracy (%)",
         data: quizHistory,
         borderColor: "#2563EB",
-        backgroundColor: "rgba(37,99,235,0.15)",
-        tension: 0.3,
-        pointRadius: 4,
+        backgroundColor: "rgba(37,99,235,0.12)",
+        tension: 0.25,
+        pointRadius: 6,
+        pointHoverRadius: 8,
+        borderWidth: 2,
       },
     ],
   };
 
   const chartOptions: any = {
     responsive: true,
-    plugins: { legend: { display: false }, tooltip: { enabled: true } },
-    scales: { y: { beginAtZero: true, max: 100 } },
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: { enabled: true, mode: "index", intersect: false },
+    },
+    elements: { line: { borderWidth: 2 } },
+    scales: {
+      x: { grid: { display: false }, ticks: { maxRotation: 0, autoSkip: true } },
+      y: { beginAtZero: true, max: 100, ticks: { stepSize: 10 } },
+    },
   };
 
   const sectionVariant = { hidden: { opacity: 0, y: 18 }, visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } } };
@@ -752,7 +775,7 @@ export default function NotetakerQuiz(): JSX.Element {
 
               <div className="neu-input">
                 <select className="neu-input-el" value={format} onChange={(e) => setFormat(e.target.value)}>
-                  <option>Smart Notes</option>
+                  {/* removed "Smart Notes" as requested */}
                   <option>Quick Notes</option>
                   <option>Cornell Notes</option>
                   <option>Research Oriented</option>
@@ -830,7 +853,7 @@ export default function NotetakerQuiz(): JSX.Element {
                 <div className="flex justify-between items-center mb-2">
                   <h2 className="text-xl font-medium flex items-center gap-2">Notes <FileText size={16} /></h2>
 
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-3 flex-wrap">
                     <div className="text-sm text-gray-500 mr-2">Words: {wordCount}</div>
 
                     <div className="relative">
@@ -841,10 +864,14 @@ export default function NotetakerQuiz(): JSX.Element {
                       {copyToastVisible && <div className="absolute right-0 -top-10 bg-gray-800 text-white text-xs px-3 py-1 rounded shadow-sm">Copied!</div>}
                     </div>
 
-                    <div className="ml-2">
+                    <div className="ml-2 flex items-center gap-2">
                       <button className="neu-button px-3 py-1 text-sm flex items-center gap-2" onClick={() => exportToWord(notes, flashcards)}>
                         <DownloadCloud size={16} />
                         <span className="ml-1">Word</span>
+                      </button>
+                      <button className="neu-button px-3 py-1 text-sm flex items-center gap-2" onClick={() => exportToPDF("notes-section-export")}>
+                        <DownloadCloud size={16} />
+                        <span className="ml-1">PDF</span>
                       </button>
                     </div>
                   </div>
@@ -909,12 +936,12 @@ export default function NotetakerQuiz(): JSX.Element {
                       <div className="text-base font-semibold text-slate-900 break-words whitespace-pre-wrap">{flashcards[currentFlashIndex]?.front}</div>
                       <div className={`text-sm mt-3 transition-opacity duration-200 ${flashRevealed ? "opacity-100" : "opacity-0"}`} style={{ minHeight: 36 }}>{flashRevealed ? flashcards[currentFlashIndex]?.back : ""}</div>
 
-                      <div className="mt-4 flex items-center gap-2">
+                      <div className="mt-4 flex items-center gap-2 flex-wrap">
                         <button className={`neu-button px-3 py-1 ${flashBtnTextColor(true)}`} onClick={prevFlash}><ChevronsLeft size={14} /> Prev</button>
                         <button className={`neu-button px-3 py-1 ${flashBtnTextColor(true)}`} onClick={() => (flashRevealed ? nextFlash() : revealFlash())}>{flashRevealed ? "Next (revealed)" : "Reveal"}</button>
                         <button className={`neu-button px-3 py-1 ${flashBtnTextColor(true)}`} onClick={nextFlash}><ChevronsRight size={14} /> Next</button>
 
-                        <button className="neu-button px-3 py-1 ml-2 text-black" onClick={() => { setFlashFullscreen(true); setTimeout(() => setFlashRevealed(false), 50); }} title="Enlarge flashcard">Enlarge</button>
+                        <button className="neu-button px-3 py-1 ml-2 text-slate-800" onClick={() => { setFlashFullscreen(true); setTimeout(() => setFlashRevealed(false), 50); }} title="Enlarge flashcard">Enlarge</button>
 
                         <div className="ml-auto text-sm text-gray-500">Card {currentFlashIndex + 1}/{flashcards.length}</div>
                       </div>
@@ -924,7 +951,7 @@ export default function NotetakerQuiz(): JSX.Element {
                       {flashcards.map((f, i) => {
                         const selected = i === currentFlashIndex;
                         const bg = selected ? "bg-sky-100" : "bg-white";
-                        const txt = selected ? "text-black" : "text-slate-800";
+                        const txt = "text-slate-800";
                         return (
                           <button key={`${i}_${String(f.front).slice(0, 8)}`} className={`py-2 px-3 rounded-md border text-sm ${bg} hover:scale-105 transition-transform ${txt}`} onClick={() => { setCurrentFlashIndex(i); setFlashRevealed(false); }}>{i + 1}</button>
                         );
@@ -942,7 +969,7 @@ export default function NotetakerQuiz(): JSX.Element {
                   <div className="text-sm text-gray-500">Record, visualize & transcribe</div>
                 </div>
 
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-3 flex-wrap">
                   {!recording ? (
                     <button className="neu-button px-4 py-2 bg-rose-500 text-white flex items-center gap-2" onClick={startRecording}>
                       <Mic size={16} />
@@ -1033,213 +1060,96 @@ export default function NotetakerQuiz(): JSX.Element {
                   <option value="long">Multipul Choise Question</option>
                 </select>
 
-                <div className="ml-auto flex items-center gap-2">
+                {/* NEW MCQ options selector */}
+                <div className="flex items-center gap-2">
+                  <label className="text-xs text-gray-600">MCQ options</label>
+                  <select className="neu-input-el" value={mcqOptionCount} onChange={(e) => setMcqOptionCount(Number(e.target.value))}>
+                    <option value={2}>2</option>
+                    <option value={3}>3</option>
+                    <option value={4}>4</option>
+                    <option value={5}>5</option>
+                  </select>
+                </div>
+
+                <div className="ml-auto flex items-center gap-2 flex-wrap">
                   <button className="neu-button px-4 py-2" onClick={handleGenerateQuiz} disabled={loading || !notes}>{loading ? "Generating..." : "Generate"}</button>
                   <button className="neu-button px-4 py-2" onClick={handleSubmitQuiz} disabled={!generatedQuestions.length || loading}>Submit</button>
                 </div>
               </div>
 
-<div className="space-y-3">
-  {generatedQuestions.length > 0 ? (
-    generatedQuestions.map((q: any, idx: number) => (
-      <div key={q.id || idx} className="p-4 rounded border bg-white">
-        <div className="flex items-start gap-3">
-          <div className="text-sm font-medium">Q{idx + 1}.</div>
-          <div className="flex-1">
-            <div className="mb-2 text-sm text-slate-900 break-words">
-              {q.prompt || q.question}
-            </div>
+              <div className="space-y-3">
+                {generatedQuestions.length ? (
+                  generatedQuestions.map((q: any, idx: number) => (
+                    <div key={q.id || idx} className="p-4 rounded border bg-white">
+                      <div className="flex items-start gap-3">
+                        <div className="text-sm font-medium">Q{idx + 1}.</div>
+                        <div className="flex-1">
+                          <div className="mb-2 text-sm text-slate-900 break-words">{q.prompt || q.question}</div>
+                          {q.type === "multiple_choice" && (
+                            <div className="space-y-2">
+                              {Array.isArray(q.choices) || Array.isArray(q.options) ? (
+                                ((q.choices || q.options || []).slice(0, mcqOptionCount)).map((c: any, i: number) => (
+                                  <label className="flex items-center gap-2" key={`${q.id}_${i}`}>
+                                    <input type="radio" name={`q_${q.id}`} value={c} checked={String(userAnswers[q.id]) === String(c)} onChange={(e) => setUserAnswers((u) => ({ ...u, [q.id]: e.target.value }))} />
+                                    <span className="text-sm">{c}</span>
+                                  </label>
+                                ))
+                              ) : (
+                                // fallback: if no choices array, try to render options from q.optionText or similar
+                                <div className="text-xs text-gray-500">No choices available for this question.</div>
+                              )}
+                            </div>
+                          )}
 
-            {/* ✅ Multiple Choice */}
-            {q.type === "multiple_choice" && (
-              <div className="space-y-2">
-                {(q.choices || q.options || []).map((c: any, i: number) => (
-                  <label
-                    className="flex items-center gap-2"
-                    key={`${q.id}_${i}`}
-                  >
-                    <input
-                      type="radio"
-                      name={`q_${q.id}`}
-                      value={c}
-                      checked={String(userAnswers[q.id]) === String(c)}
-                      onChange={(e) =>
-                        setUserAnswers((u) => ({
-                          ...u,
-                          [q.id]: e.target.value,
-                        }))
-                      }
-                    />
-                    <span className="text-sm">{c}</span>
-                  </label>
-                ))}
+                          {q.type === "frq" && (
+                            <textarea className="neu-input-el mt-2 w-full" rows={4} placeholder="Write your answer..." value={userAnswers[q.id] ?? ""} onChange={(e) => setUserAnswers((u) => ({ ...u, [q.id]: e.target.value }))} />
+                          )}
+
+                          {q.type === "interactive" && (
+                            <div className="space-y-2">
+                              <textarea className="neu-input-el mt-2 w-full" rows={3} placeholder="Interact with the prompt..." value={userAnswers[q.id] ?? ""} onChange={(e) => setUserAnswers((u) => ({ ...u, [q.id]: e.target.value }))} />
+                              <div className="text-xs text-gray-500">This item will be graded by the AI after submission.</div>
+                            </div>
+                          )}
+
+                          {quizSubmitted && quizResults && Array.isArray(quizResults) && (
+                            <div className="mt-3 text-sm">
+                              {(() => {
+                                const res = quizResults.find((r: any) => r.id === q.id);
+                                if (!res) return null;
+                                return (
+                                  <div className="space-y-1">
+                                    {typeof res.score !== 'undefined' && <div>Score: <strong>{res.score}/{res.maxScore}</strong></div>}
+                                    {res.feedback && <div className="text-xs text-gray-600">Feedback: {res.feedback}</div>}
+                                    {res.includes && <div className="text-xs text-gray-600">Includes: {res.includes}</div>}
+                                  </div>
+                                );
+                              })()}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <div className="p-4 rounded border bg-white text-sm text-gray-600">No questions yet. Generate a quiz from your notes.</div>
+                )}
               </div>
-            )}
 
-            {/* FRQ */}
-            {q.type === "frq" && (
-              <textarea
-                className="neu-input-el mt-2 w-full"
-                rows={4}
-                placeholder="Write your answer..."
-                value={userAnswers[q.id] ?? ""}
-                onChange={(e) =>
-                  setUserAnswers((u) => ({
-                    ...u,
-                    [q.id]: e.target.value,
-                  }))
-                }
-              />
-            )}
-
-{/* Interactive */}
-{q.type === "interactive" && (
-  <div className="space-y-2">
-    <textarea
-      className="neu-input-el mt-2 w-full"
-      rows={3}
-      placeholder="Interact with the prompt..."
-      value={userAnswers[q.id] ?? ""}
-      onChange={(e) =>
-        setUserAnswers((u) => ({
-          ...u,
-          [q.id]: e.target.value,
-        }))
-      }
-    />
-    <div className="text-xs text-gray-500">
-      This item will be graded by the AI after submission.
-    </div>
-  </div>
-)}
-</div>
-</div>
-</div>
-))
-) : (
-
-{generatedQuestions.length > 0 ? (
-  generatedQuestions.map((q: any, idx: number) => (
-    <div key={q.id || idx} className="p-4 rounded border bg-white">
-      <div className="flex items-start gap-3">
-        <div className="text-sm font-medium">Q{idx + 1}.</div>
-        <div className="flex-1">
-          <div className="mb-2 text-sm text-slate-900 break-words">
-            {q.prompt || q.question}
-          </div>
-
-          {/* Multiple Choice */}
-          {q.type === "multiple_choice" && (
-            <div className="space-y-2">
-              {(q.choices || q.options || []).map((c: any, i: number) => (
-                <label key={`${q.id}_${i}`} className="flex items-center gap-2">
-                  <input
-                    type="radio"
-                    name={`q_${q.id}`}
-                    value={c}
-                    checked={String(userAnswers[q.id]) === String(c)}
-                    onChange={(e) =>
-                      setUserAnswers((u) => ({ ...u, [q.id]: e.target.value }))
-                    }
-                  />
-                  <span className="text-sm">{c}</span>
-                </label>
-              ))}
-            </div>
-          )}
-
-          {/* FRQ */}
-          {q.type === "frq" && (
-            <textarea
-              className="neu-input-el mt-2 w-full"
-              rows={4}
-              placeholder="Write your answer..."
-              value={userAnswers[q.id] ?? ""}
-              onChange={(e) =>
-                setUserAnswers((u) => ({ ...u, [q.id]: e.target.value }))
-              }
-            />
-          )}
-
-          {/* Interactive */}
-          {q.type === "interactive" && (
-            <div className="space-y-2">
-              <textarea
-                className="neu-input-el mt-2 w-full"
-                rows={3}
-                placeholder="Interact with the prompt..."
-                value={userAnswers[q.id] ?? ""}
-                onChange={(e) =>
-                  setUserAnswers((u) => ({ ...u, [q.id]: e.target.value }))
-                }
-              />
-              <div className="text-xs text-gray-500">
-                This item will be graded by the AI after submission.
-              </div>
-            </div>
-          )}
-
-          {/* Per-question AI grading feedback (if available) */}
-          {quizSubmitted && quizResults && Array.isArray(quizResults) && (() => {
-            const res = quizResults.find((r: any) => r.id === q.id);
-            if (!res) return null;
-            return (
-              <div className="mt-3 text-sm space-y-1">
-                {typeof res.score !== "undefined" && (
-                  <div>
-                    Score: <strong>{res.score}/{res.maxScore}</strong>
+              {quizSubmitted && (
+                <div className="mt-4 flex items-center gap-3">
+                  <div className="text-sm">Accuracy: <strong>{accuracy ?? "—"}%</strong></div>
+                  <div className="ml-auto flex items-center gap-2">
+                    <button className="neu-button px-3 py-1" onClick={() => { setGeneratedQuestions([]); setQuizSubmitted(false); setQuizResults(null); }}>Reset</button>
+                    <button className="neu-button px-3 py-1" onClick={() => { if (quizResults) exportToWord(JSON.stringify(quizResults, null, 2), []); }}>Export Results</button>
+                    <button className="neu-button px-3 py-1" onClick={() => exportToPDF("notes-section-export")}>Export PDF</button>
                   </div>
-                )}
-                {res.feedback && (
-                  <div className="text-xs text-gray-600">Feedback: {res.feedback}</div>
-                )}
-                {res.includes && (
-                  <div className="text-xs text-gray-600">Includes: {res.includes}</div>
-                )}
-              </div>
-            );
-          })()}
-        </div>
-      </div>
-    </div>
-  ))
-) : (
-  <div className="p-4 rounded border bg-white text-sm text-gray-600">
-    No questions yet. Generate a quiz from your notes.
-  </div>
-)}
-{/* end generatedQuestions rendering */}
-{/* Quiz summary / actions (shown after the question list) */}
-{quizSubmitted && (
-  <div className="mt-4 flex items-center gap-3">
-    <div className="text-sm">
-      Accuracy: <strong>{accuracy ?? "—"}%</strong>
-    </div>
-    <div className="ml-auto flex items-center gap-2">
-      <button
-        className="neu-button px-3 py-1"
-        onClick={() => {
-          setGeneratedQuestions([]);
-          setQuizSubmitted(false);
-          setQuizResults(null);
-        }}
-      >
-        Reset
-      </button>
-      <button
-        className="neu-button px-3 py-1"
-        onClick={() => {
-          if (quizResults) exportToWord(JSON.stringify(quizResults, null, 2), []);
-        }}
-      >
-        Export Results
-      </button>
-      <button
-        className="neu-button px-3 py-1"
-        onClick={() => exportToPDF("notes-section-export")}
-      >
-        Export PDF
-      </button>
-    </div>
-  </div>
-)}
+                </div>
+              )}
+            </div>
+          </NeumorphicCard>
+        </motion.div>
+      </PageSection>
+    </>
+  );
+}
