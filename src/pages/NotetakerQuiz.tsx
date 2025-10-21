@@ -1122,42 +1122,50 @@ export default function NotetakerQuiz(): JSX.Element {
   <div className="mt-3 text-sm">
     {(() => {
       const res = quizResults.find((r: any) => r.id === q.id);
-      if (!res) return null;
-      return (
-        <div className="space-y-1">
-          {typeof res.score !== "undefined" && (
-            <div>
-              Score: <strong>{res.score}/{res.maxScore}</strong>
-            </div>
-          )}
-          {res.feedback && (
-            <div className="text-xs text-gray-600">
-              Feedback: {res.feedback}
-            </div>
-          )}
-          {res.includes && (
-            <div className="text-xs text-gray-600">
-              Includes: {res.includes}
+   return (
+  <div>
+    {questions.length ? (
+      questions.map((q) => (
+        <div key={q.id}>
+          {/* Question content */}
+          
+          {/* ✅ AI grading feedback — keep INSIDE the map */}
+          {quizSubmitted && quizResults && Array.isArray(quizResults) && (
+            <div className="mt-3 text-sm">
+              {(() => {
+                const res = quizResults.find((r: any) => r.id === q.id);
+                if (!res) return null;
+                return (
+                  <div className="space-y-1">
+                    {typeof res.score !== "undefined" && (
+                      <div>
+                        Score: <strong>{res.score}/{res.maxScore}</strong>
+                      </div>
+                    )}
+                    {res.feedback && (
+                      <div className="text-xs text-gray-600">
+                        Feedback: {res.feedback}
+                      </div>
+                    )}
+                    {res.includes && (
+                      <div className="text-xs text-gray-600">
+                        Includes: {res.includes}
+                      </div>
+                    )}
+                  </div>
+                );
+              })()}
             </div>
           )}
         </div>
-      );
-    })()}
+      ))
+    ) : (
+      <div className="p-4 rounded border bg-white text-sm text-gray-600">
+        No questions yet. Generate a quiz from your notes.
+      </div>
+    )}
   </div>
-)}
-
-{/* existing end of map / conditional */}
-</div>
-</div>
-</div>
-))
-) : (
-  <div className="p-4 rounded border bg-white text-sm text-gray-600">
-    No questions yet. Generate a quiz from your notes.
-  </div>
-)}
-</div>
-
+);
               {quizSubmitted && (
                 <div className="mt-4 flex items-center gap-3">
                   <div className="text-sm">Accuracy: <strong>{accuracy ?? "—"}%</strong></div>
