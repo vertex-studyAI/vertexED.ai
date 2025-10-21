@@ -1039,47 +1039,65 @@ export default function NotetakerQuiz(): JSX.Element {
                 </div>
               </div>
 
-              <div className="space-y-3">
-                {generatedQuestions.length ? (
-                  generatedQuestions.map((q: any, idx: number) => (
-                    <div key={q.id || idx} className="p-4 rounded border bg-white">
-                      <div className="flex items-start gap-3">
-                        <div className="text-sm font-medium">Q{idx + 1}.</div>
-                        <div className="flex-1">
-                          <div className="mb-2 text-sm text-slate-900 break-words">{q.prompt || q.question}</div>
-                          {q.type === "multiple_choice" && (
-                            <div className="space-y-2">
-                              {Array.isArray(q.choices || q.options)
-                                ? (q.choices || q.options).map((c: any, i: number) => (
-                                    <label className="flex items-center gap-2" key={`${q.id}_${i}`}>
-                                      <input
-                                        type="radio"
-                                        name={`q_${q.id}`}
-                                        value={c}
-                                        checked={String(userAnswers[q.id]) === String(c)}
-                                        onChange={(e) =>
-                                          setUserAnswers((u) => ({ ...u, [q.id]: e.target.value }))
-                                        }
-                                      />
-                                      <span className="text-sm">{c}</span>
-                                    </label>
-                                  ))
-                                : null}
-                            </div>
-                          )}
-                          <div className="space-y-2">
-                              {Array.isArray(q.choices) ? q.choices.map((c: any, i: number) => (
-                                <label className="flex items-center gap-2" key={`${q.id}_${i}`}>
-                                  <input type="radio" name={`q_${q.id}`} value={c} checked={String(userAnswers[q.id]) === String(c)} onChange={(e) => setUserAnswers((u) => ({ ...u, [q.id]: e.target.value }))} />
-                                  <span className="text-sm">{c}</span>
-                                </label>
-                              )) : null}
-                            </div>
-                          )}
+          <div className="space-y-3">
+  {generatedQuestions.length ? (
+    generatedQuestions.map((q: any, idx: number) => (
+      <div key={q.id || idx} className="p-4 rounded border bg-white">
+        <div className="flex items-start gap-3">
+          <div className="text-sm font-medium">Q{idx + 1}.</div>
+          <div className="flex-1">
+            <div className="mb-2 text-sm text-slate-900 break-words">
+              {q.prompt || q.question}
+            </div>
 
-                          {q.type === "frq" && (
-                            <textarea className="neu-input-el mt-2 w-full" rows={4} placeholder="Write your answer..." value={userAnswers[q.id] ?? ""} onChange={(e) => setUserAnswers((u) => ({ ...u, [q.id]: e.target.value }))} />
-                          )}
+            {/* ✅ Multiple Choice Section */}
+            {q.type === "multiple_choice" && (
+              <div className="space-y-2">
+                {(q.choices || q.options || []).map((c: any, i: number) => (
+                  <label className="flex items-center gap-2" key={`${q.id}_${i}`}>
+                    <input
+                      type="radio"
+                      name={`q_${q.id}`}
+                      value={c}
+                      checked={String(userAnswers[q.id]) === String(c)}
+                      onChange={(e) =>
+                        setUserAnswers((u) => ({
+                          ...u,
+                          [q.id]: e.target.value,
+                        }))
+                      }
+                    />
+                    <span className="text-sm">{c}</span>
+                  </label>
+                ))}
+              </div>
+            )}
+
+            {     }
+            {q.type === "frq" && (
+              <textarea
+                className="neu-input-el mt-2 w-full"
+                rows={4}
+                placeholder="Write your answer..."
+                value={userAnswers[q.id] ?? ""}
+                onChange={(e) =>
+                  setUserAnswers((u) => ({
+                    ...u,
+                    [q.id]: e.target.value,
+                  }))
+                }
+              />
+            )}
+          </div>
+        </div>
+      </div>
+    ))
+  ) : (
+    <div className="p-4 rounded border bg-white text-sm text-gray-600">
+      No questions yet. Generate a quiz from your notes.
+    </div>
+  )}
+</div>
 
                           {q.type === "interactive" && (
                             <div className="space-y-2">
