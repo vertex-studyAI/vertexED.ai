@@ -1092,36 +1092,7 @@ export default function NotetakerQuiz(): JSX.Element {
               />
             )}
 
-            {/* Interactive */}
-            {q.type === "interactive" && (
-              <div className="space-y-2">
-                <textarea
-                  className="neu-input-el mt-2 w-full"
-                  rows={3}
-                  placeholder="Interact with the prompt..."
-                  value={userAnswers[q.id] ?? ""}
-                  onChange={(e) =>
-                    setUserAnswers((u) => ({
-                      ...u,
-                      [q.id]: e.target.value,
-                    }))
-                  }
-                />
-                <div className="text-xs text-gray-500">
-                  This item will be graded by the AI after submission.
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
-    ))
-  ) : (
-    <div className="p-4 rounded border bg-white text-sm text-gray-600">
-      No questions yet. Generate a quiz from your notes.
-    </div>
-  )
-
+{/* Interactive */}
 {q.type === "interactive" && (
   <div className="space-y-2">
     <textarea
@@ -1130,11 +1101,26 @@ export default function NotetakerQuiz(): JSX.Element {
       placeholder="Interact with the prompt..."
       value={userAnswers[q.id] ?? ""}
       onChange={(e) =>
-        setUserAnswers((u) => ({ ...u, [q.id]: e.target.value }))
+        setUserAnswers((u) => ({
+          ...u,
+          [q.id]: e.target.value,
+        }))
       }
     />
+    <div className="text-xs text-gray-500">
+      This item will be graded by the AI after submission.
+    </div>
   </div>
 )}
+</div>
+</div>
+</div>
+))
+) : (
+  <div className="p-4 rounded border bg-white text-sm text-gray-600">
+    No questions yet. Generate a quiz from your notes.
+  </div>
+)
                           {quizSubmitted && quizResults && Array.isArray(quizResults) && (
                             <div className="mt-3 text-sm">
                               {(() => {
