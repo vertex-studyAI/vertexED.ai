@@ -1017,9 +1017,10 @@ export default function NotetakerQuiz(): JSX.Element {
             <div className="space-y-4">
               <div className="flex flex-wrap gap-2 items-center mb-2">
                 <select className="neu-input-el" value={quizType} onChange={(e) => setQuizType(e.target.value)}>
-                  <option>Interactive Quiz</option>
-                  <option>Practice Mode</option>
-                  <option>Exam Style</option>
+                  <option>Adaptive Learning</option>
+                  <option>Knowledge Application Based</option>
+                  <option>Fundemental Oriented</option>
+                  <option>Exam Oriented</option>
                 </select>
                 <select className="neu-input-el" value={quizDifficulty} onChange={(e) => setQuizDifficulty(e.target.value)}>
                   <option>Easy</option>
@@ -1028,8 +1029,8 @@ export default function NotetakerQuiz(): JSX.Element {
                 </select>
                 <select className="neu-input-el" value={frqLength} onChange={(e) => setFrqLength(e.target.value)}>
                   <option value="short">Short FRQ</option>
-                  <option value="medium">Medium FRQ</option>
-                  <option value="long">Long FRQ</option>
+                  <option value="medium">Long FRQ</option>
+                  <option value="long">Multipul Choise Question</option>
                 </select>
 
                 <div className="ml-auto flex items-center gap-2">
