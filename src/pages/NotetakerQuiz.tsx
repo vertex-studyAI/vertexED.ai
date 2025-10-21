@@ -1039,8 +1039,8 @@ export default function NotetakerQuiz(): JSX.Element {
                 </div>
               </div>
 
-          <div className="space-y-3">
-  {generatedQuestions.length ? (
+<div className="space-y-3">
+  {generatedQuestions.length > 0 ? (
     generatedQuestions.map((q: any, idx: number) => (
       <div key={q.id || idx} className="p-4 rounded border bg-white">
         <div className="flex items-start gap-3">
@@ -1050,11 +1050,14 @@ export default function NotetakerQuiz(): JSX.Element {
               {q.prompt || q.question}
             </div>
 
-            {/* ✅ Multiple Choice Section */}
+            {/* ✅ Multiple Choice */}
             {q.type === "multiple_choice" && (
               <div className="space-y-2">
                 {(q.choices || q.options || []).map((c: any, i: number) => (
-                  <label className="flex items-center gap-2" key={`${q.id}_${i}`}>
+                  <label
+                    className="flex items-center gap-2"
+                    key={`${q.id}_${i}`}
+                  >
                     <input
                       type="radio"
                       name={`q_${q.id}`}
@@ -1073,7 +1076,7 @@ export default function NotetakerQuiz(): JSX.Element {
               </div>
             )}
 
-            {     }
+            {/* FRQ */}
             {q.type === "frq" && (
               <textarea
                 className="neu-input-el mt-2 w-full"
@@ -1088,6 +1091,27 @@ export default function NotetakerQuiz(): JSX.Element {
                 }
               />
             )}
+
+            {/* Interactive */}
+            {q.type === "interactive" && (
+              <div className="space-y-2">
+                <textarea
+                  className="neu-input-el mt-2 w-full"
+                  rows={3}
+                  placeholder="Interact with the prompt..."
+                  value={userAnswers[q.id] ?? ""}
+                  onChange={(e) =>
+                    setUserAnswers((u) => ({
+                      ...u,
+                      [q.id]: e.target.value,
+                    }))
+                  }
+                />
+                <div className="text-xs text-gray-500">
+                  This item will be graded by the AI after submission.
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -1098,6 +1122,7 @@ export default function NotetakerQuiz(): JSX.Element {
     </div>
   )}
 </div>
+
 
                           {q.type === "interactive" && (
                             <div className="space-y-2">
