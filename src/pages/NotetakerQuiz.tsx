@@ -1120,8 +1120,9 @@ export default function NotetakerQuiz(): JSX.Element {
     <div className="p-4 rounded border bg-white text-sm text-gray-600">
       No questions yet. Generate a quiz from your notes.
     </div>
+  )
 
-                          {q.type === "interactive" && (
+{q.type === "interactive" && (
   <div className="space-y-2">
     <textarea
       className="neu-input-el mt-2 w-full"
@@ -1134,7 +1135,6 @@ export default function NotetakerQuiz(): JSX.Element {
     />
   </div>
 )}
-
                           {quizSubmitted && quizResults && Array.isArray(quizResults) && (
                             <div className="mt-3 text-sm">
                               {(() => {
