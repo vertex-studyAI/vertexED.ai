@@ -1122,11 +1122,18 @@ export default function NotetakerQuiz(): JSX.Element {
     </div>
 
                           {q.type === "interactive" && (
-                            <div className="space-y-2">
-                              <textarea className="neu-input-el mt-2 w-full" rows={3} placeholder="Interact with the prompt..." value={userAnswers[q.id] ?? ""} onChange={(e) => setUserAnswers((u) => ({ ...u, [q.id]: e.target.value }))} />
-                              <div className="text-xs text-gray-500">This item will be graded by the AI after submission.</div>
-                            </div>
-                          )}
+  <div className="space-y-2">
+    <textarea
+      className="neu-input-el mt-2 w-full"
+      rows={3}
+      placeholder="Interact with the prompt..."
+      value={userAnswers[q.id] ?? ""}
+      onChange={(e) =>
+        setUserAnswers((u) => ({ ...u, [q.id]: e.target.value }))
+      }
+    />
+  </div>
+)}
 
                           {quizSubmitted && quizResults && Array.isArray(quizResults) && (
                             <div className="mt-3 text-sm">
