@@ -1049,6 +1049,25 @@ export default function NotetakerQuiz(): JSX.Element {
                           <div className="mb-2 text-sm text-slate-900 break-words">{q.prompt || q.question}</div>
                           {q.type === "multiple_choice" && (
                             <div className="space-y-2">
+                              {Array.isArray(q.choices || q.options)
+                                ? (q.choices || q.options).map((c: any, i: number) => (
+                                    <label className="flex items-center gap-2" key={`${q.id}_${i}`}>
+                                      <input
+                                        type="radio"
+                                        name={`q_${q.id}`}
+                                        value={c}
+                                        checked={String(userAnswers[q.id]) === String(c)}
+                                        onChange={(e) =>
+                                          setUserAnswers((u) => ({ ...u, [q.id]: e.target.value }))
+                                        }
+                                      />
+                                      <span className="text-sm">{c}</span>
+                                    </label>
+                                  ))
+                                : null}
+                            </div>
+                          )}
+                          <div className="space-y-2">
                               {Array.isArray(q.choices) ? q.choices.map((c: any, i: number) => (
                                 <label className="flex items-center gap-2" key={`${q.id}_${i}`}>
                                   <input type="radio" name={`q_${q.id}`} value={c} checked={String(userAnswers[q.id]) === String(c)} onChange={(e) => setUserAnswers((u) => ({ ...u, [q.id]: e.target.value }))} />
