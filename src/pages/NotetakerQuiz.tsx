@@ -1120,9 +1120,6 @@ export default function NotetakerQuiz(): JSX.Element {
     <div className="p-4 rounded border bg-white text-sm text-gray-600">
       No questions yet. Generate a quiz from your notes.
     </div>
-  )}
-</div>
-
 
                           {q.type === "interactive" && (
                             <div className="space-y-2">
