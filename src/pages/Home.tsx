@@ -356,7 +356,7 @@ export default function Home() {
     <>
       <SEO
         title="VertexED — AI Study Tools for Students - AI Based Methods"
-        description="All‑in‑one AI study toolkit with planner, calendar, notes, flashcards, quizzes, chatbot, answer reviewer, and transcription."
+        description="All-in-one AI study toolkit with planner, calendar, notes, flashcards, quizzes, chatbot, answer reviewer, and transcription."
         canonical="https://www.vertexed.app/"
         jsonLd={{
           "@context": "https://schema.org",
@@ -427,7 +427,7 @@ export default function Home() {
       {/* Subtle resources link below hero for crawl paths/brand queries */}
       <div className="max-w-3xl mx-auto px-6 mt-3">
         <div className="text-xs text-slate-400 text-center">
-          Looking for how‑to guides? <Link to="/resources" className="underline">Explore resources</Link>
+          Looking for how-to guides? <Link to="/resources" className="underline">Explore resources</Link>
         </div>
       </div>
 
@@ -528,6 +528,54 @@ export default function Home() {
       {/* Closing */}
       <section className="mt-16 text-center px-6">
         <p className="text-lg text-slate-200">Learning was never difficult, it just needed a new perspective. VertexED — (<strong>Vertex ED</strong>) — is here to deliver it.</p>
+      </section>
+
+      {/* Contact Us (Formspree) */}
+      <section className="mt-12 px-6 mb-12">
+        <div className="max-w-3xl mx-auto glass-card rounded-2xl p-8 text-slate-100 shadow-xl">
+          <h3 className="text-2xl font-semibold mb-4">Contact Us</h3>
+          <p className="text-slate-400 mb-4">Have a question? Fill out the form and we'll get back to you.</p>
+
+          <form
+            action="https://formspree.io/f/mldpklqk"
+            method="POST"
+            className="space-y-4"
+          >
+            <label className="block text-left">
+              <span className="text-sm text-slate-300 mb-1 block">Your email</span>
+              <input
+                name="email"
+                type="email"
+                placeholder="steve.jobs@gmail.com"
+                required
+                className="w-full rounded-md p-3 bg-white/5 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-500"
+              />
+              <div className="text-xs text-slate-500 mt-1">Example: steve.jobs@gmail.com</div>
+            </label>
+
+            <label className="block text-left">
+              <span className="text-sm text-slate-300 mb-1 block">Your message</span>
+              <textarea
+                name="message"
+                rows={5}
+                placeholder="Hi — I'm interested in learning more about VertexED..."
+                required
+                className="w-full rounded-md p-3 bg-white/5 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-500"
+              ></textarea>
+              <div className="text-xs text-slate-500 mt-1">Briefly tell us what you'd like help with.</div>
+            </label>
+
+            <div className="flex items-center justify-between">
+              <button
+                type="submit"
+                className="px-6 py-3 rounded-full bg-white text-slate-900 shadow hover:scale-105 transition"
+              >
+                Send
+              </button>
+              <p className="text-sm text-slate-400">We’ll reply as soon as we can.</p>
+            </div>
+          </form>
+        </div>
       </section>
     </>
   );
