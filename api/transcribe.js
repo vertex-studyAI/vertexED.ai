@@ -67,12 +67,88 @@ export default async function handler(req, res) {
       if (nlMatch) noteLength = String(nlMatch[1]).trim();
     } else {
       const body = req.body || {};
-      const { audioBase64, filename: fn, language: lang, createCards: cCards = false, flashCount: fCount = 6, summaryOnly: sOnly = false, createNotes: cNotes = false, noteFormat: nFormat = "Quick Notes", length: nLen = "medium" } = body;
+      const {
+        audioBase64,
+        filename: fn,
+        language: lang,
+        createCards: cCards = false,
+        flashCount: fCount = 6,
+        summaryOnly: sOnly = false,
+        createNotes: cNotes = false,
+        noteFormat: nFormat = "Quick Notes",
+        length: nLen = "medium"
+      } = body;
+
       if (!audioBase64) {
         return res.status(400).json({ error: "Missing audioBase64 (or send multipart/form-data)" });
       }
+
       audioBuffer = Buffer.from(audioBase64, "base64");
       if (fn) filename = fn;
       language = lang;
       createCards = !!cCards;
-      flashCount
+      flashCount = Math.max(4, Math.min(16, Number(fCount)));
+      summaryOnly = !!sOnly;
+      createNotes = !!cNotes;
+      noteFormat = nFormat;
+      noteLength = nLen;
+    }
+
+    if (!audioBuffer) {
+      return res.status(400).json({ error: "No audio buffer received" });
+    }
+
+    const fetch = (await import("node-fetch")).default;
+    const formData = new (await import("form-data")).default();
+    formData.append("file", audioBuffer, { filename });
+    formData.append("model", "gpt-4o-mini-transcribe");
+    if (language) formData.append("language", language);
+
+    const response = await fetch("https://api.openai.com/v1/audio/transcriptions", {
+      method: "POST",
+      headers: { Authorization: `Bearer ${OPENAI_API_KEY}` },
+      body: formData,
+    });
+
+    if (!response.ok) {
+      const txt = await response.text();
+      return res.status(500).json({ error: `OpenAI API error: ${txt}` });
+    }
+
+    const transcription = await response.json();
+    let transcriptText = transcription.text || "";
+
+    if (createNotes) {
+      const prompt = `Convert this lecture transcript into ${noteFormat} style notes in ${noteLength} length. Ensure chronological order and capture all key points:\n\n${transcriptText}`;
+      const aiResponse = await fetch("https://api.openai.com/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${OPENAI_API_KEY}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          model: "gpt-4o-mini",
+          messages: [
+            { role: "system", content: "You are a precise, structured academic notetaker." },
+            { role: "user", content: prompt }
+          ],
+          temperature: 0.3
+        })
+      });
+      const noteData = await aiResponse.json();
+      transcriptText = noteData.choices?.[0]?.message?.content || transcriptText;
+    }
+
+    return res.status(200).json({
+      success: true,
+      transcript: transcriptText,
+      createdCards: createCards,
+      summaryOnly,
+      noteFormat,
+      noteLength
+    });
+  } catch (error) {
+    console.error("Transcribe error:", error);
+    return res.status(500).json({ error: "Server error during transcription" });
+  }
+}
