@@ -1,5 +1,3 @@
-import { FormData, File } from "undici";
-
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
@@ -101,7 +99,7 @@ export default async function handler(req, res) {
     }
 
     const formData = new FormData();
-    formData.append("file", new File([audioBuffer], filename, { type: "audio/webm" }));
+    formData.append("file", new Blob([audioBuffer], { type: "audio/webm" }), filename);
     formData.append("model", "gpt-4o-mini-transcribe");
     if (language) formData.append("language", language);
 
