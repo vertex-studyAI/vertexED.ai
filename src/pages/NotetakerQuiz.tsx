@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useMemo } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import NeumorphicCard from "@/components/NeumorphicCard";
@@ -44,7 +44,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
 
 export default function NotetakerQuiz(): JSX.Element {
   const [topic, setTopic] = useState("");
-  const [format, setFormat] = useState("Quick Notes"); // removed "Smart Notes" per request
+  const [format, setFormat] = useState("Quick Notes");
   const [customFormatText, setCustomFormatText] = useState("");
   const [notes, setNotes] = useState("");
   const [notesLength, setNotesLength] = useState("medium");
@@ -87,160 +87,12 @@ export default function NotetakerQuiz(): JSX.Element {
   const mediaStreamRef = useRef<MediaStream | null>(null);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioChunksRef = useRef<BlobPart[]>([]);
-
-  // NEW: how many MCQ options to show (2-5)
   const [mcqOptionCount, setMcqOptionCount] = useState<number>(4);
-
-  // Start audio recording + visualizer
-  const startRecording = async () => {
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      mediaStreamRef.current = stream;
-      const AudioContextClass = (window as any).AudioContext || (window as any).webkitAudioContext;
-      const ctx = new AudioContextClass();
-      audioCtxRef.current = ctx;
-      const src = ctx.createMediaStreamSource(stream);
-      const analyser = ctx.createAnalyser();
-      analyser.fftSize = 2048;
-      analyserRef.current = analyser;
-      src.connect(analyser);
-      const canvas = audioCanvasRef.current;
-      if (canvas) {
-        const draw = () => {
-          const w = canvas.width;
-          const h = canvas.height;
-          const data = new Uint8Array(analyser.frequencyBinCount);
-          analyser.getByteTimeDomainData(data);
-          const ctx2 = canvas.getContext("2d");
-          if (ctx2) {
-            ctx2.clearRect(0, 0, w, h);
-            ctx2.lineWidth = 2;
-            ctx2.strokeStyle = "#60a5fa";
-            ctx2.beginPath();
-            const slice = w / data.length;
-            for (let i = 0; i < data.length; i++) {
-              const v = data[i] / 128.0;
-              const y = (v * h) / 2;
-              if (i === 0) ctx2.moveTo(0, y);
-              else ctx2.lineTo(i * slice, y);
-            }
-            ctx2.lineTo(w, h / 2);
-            ctx2.stroke();
-          }
-          animationRef.current = requestAnimationFrame(draw);
-        };
-        animationRef.current = requestAnimationFrame(draw);
-      }
-
-      const mr = new MediaRecorder(stream);
-      mediaRecorderRef.current = mr;
-      audioChunksRef.current = [];
-      mr.ondataavailable = (ev: BlobEvent) => {
-        if (ev.data && ev.data.size > 0) audioChunksRef.current.push(ev.data);
-      };
-      mr.onstop = async () => {
-        if (animationRef.current) cancelAnimationFrame(animationRef.current);
-        try {
-          analyserRef.current?.disconnect();
-        } catch {}
-        try {
-          audioCtxRef.current?.close();
-        } catch {}
-        audioCtxRef.current = null;
-        analyserRef.current = null;
-        const blob = new Blob(audioChunksRef.current, { type: "audio/webm" });
-        setLastAudioBlob(blob);
-        const url = URL.createObjectURL(blob);
-        setAudioURL(url);
-        try {
-          const fd = new FormData();
-          fd.append("file", blob, `recording_${Date.now()}.webm`);
-          fd.append("createCards", "true");
-          fd.append("flashCount", String(flashCount || 6));
-          const r = await fetch("/api/transcribe", { method: "POST", body: fd });
-          if (r.ok) {
-            const json = await r.json();
-            const time = new Date().toLocaleString();
-            const text = json.transcription || json.summary || "";
-            if (text) {
-              const insertText = `\n\n---\n\n[Audio recorded ${time}]\n\n${text}\n\n`;
-              setNotes((prev) => (prev ? `${prev}${insertText}` : insertText));
-              setFlashcards((prev) => {
-                const serverCards = Array.isArray(json.flashcards) ? json.flashcards : [];
-                if (!serverCards.length) return prev;
-                // prepend server cards but clamp to flashCount
-                return [...serverCards.slice(0, flashCount), ...prev].slice(0, Math.max(flashCount, prev.length));
-              });
-              setIsDirty(true);
-            }
-          } else {
-            console.error("Transcribe upload failed", await r.text().catch(() => ""));
-            alert("Upload failed. You can still download the audio locally.");
-          }
-        } catch (err) {
-          console.error("Upload error:", err);
-        }
-        mediaStreamRef.current?.getTracks().forEach((t) => t.stop());
-        mediaStreamRef.current = null;
-      };
-      mr.start();
-      setRecording(true);
-    } catch (err) {
-      console.error("Audio start failed", err);
-      alert("Could not access microphone. Please check permissions.");
-    }
-  };
-
-  const stopRecording = () => {
-    try {
-      mediaRecorderRef.current?.stop();
-    } catch (e) {
-      console.warn(e);
-    }
-    setRecording(false);
-    if (animationRef.current) {
-      cancelAnimationFrame(animationRef.current);
-      animationRef.current = null;
-    }
-    try {
-      audioCtxRef.current?.suspend();
-    } catch {}
-  };
-
-  const downloadAudio = () => {
-    if (!lastAudioBlob) return alert("No audio recorded");
-    const url = URL.createObjectURL(lastAudioBlob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `recording_${Date.now()}.webm`;
-    a.click();
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
-  };
-
-  const sendNotesToCards = async (count = 6) => {
-    if (!notes || !notes.trim()) return alert("No notes to convert");
-    try {
-      const r = await fetch("/api/notes", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text: notes, flashCount: count }),
-      });
-      if (!r.ok) throw new Error(`Notes request failed: ${r.status}`);
-      const json = await r.json();
-      if (Array.isArray(json.flashcards) && json.flashcards.length) {
-        setFlashcards(json.flashcards.slice(0, flashCount));
-        pushNotesSnapshot(notes);
-        // reset flash index to safe bound
-        setCurrentFlashIndex(0);
-        alert("Flashcards generated from notes.");
-      } else {
-        alert("No flashcards generated.");
-      }
-    } catch (err) {
-      console.error("sendNotesToCards error", err);
-      alert("Failed to generate flashcards from notes.");
-    }
-  };
+  const [recordingSeconds, setRecordingSeconds] = useState<number>(0);
+  const recordingTimerRef = useRef<any>(null);
+  const RECORDING_MAX_SECONDS = 3600;
+  const [targetMin, setTargetMin] = useState<number>(70);
+  const [targetMax, setTargetMax] = useState<number>(90);
 
   useEffect(() => {
     setMounted(true);
@@ -249,6 +101,7 @@ export default function NotetakerQuiz(): JSX.Element {
       if (timerRef.current) clearInterval(timerRef.current);
       if (autosaveTimer.current) clearTimeout(autosaveTimer.current);
       stopVisualizer();
+      if (recordingTimerRef.current) clearInterval(recordingTimerRef.current);
     };
   }, []);
 
@@ -344,27 +197,22 @@ export default function NotetakerQuiz(): JSX.Element {
     }
   };
 
-  // Improved PDF export with basic pagination slicing when content is taller than a page
   const exportToPDF = async (elementId: string) => {
     try {
       const element = document.getElementById(elementId);
       if (!element) return alert("Nothing to export");
-      // make sure element is rendered fully
       const canvas = await html2canvas(element, { scale: 2, useCORS: true, logging: false });
       const imgData = canvas.toDataURL("image/png");
       const pdf = new jsPDF("p", "mm", "a4");
       const pdfWidth = pdf.internal.pageSize.getWidth();
       const pdfHeight = pdf.internal.pageSize.getHeight();
-      // image dimensions in mm
       const imgHeightMm = (canvas.height * pdfWidth) / canvas.width;
       if (imgHeightMm <= pdfHeight) {
         pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, imgHeightMm);
         pdf.save("notes.pdf");
         return;
       }
-
-      // If taller than a page, slice into page-sized chunks
-      const pxPerMm = canvas.height / imgHeightMm; // pixels per mm
+      const pxPerMm = canvas.height / imgHeightMm;
       const pageHeightPx = Math.floor(pdfHeight * pxPerMm);
       let yPosPx = 0;
       while (yPosPx < canvas.height) {
@@ -374,7 +222,6 @@ export default function NotetakerQuiz(): JSX.Element {
         canvasPage.height = sliceHeight;
         const ctx = canvasPage.getContext("2d");
         if (!ctx) break;
-        // draw portion of source canvas onto page canvas
         ctx.drawImage(canvas, 0, yPosPx, canvas.width, sliceHeight, 0, 0, canvas.width, sliceHeight);
         const imgPage = canvasPage.toDataURL("image/png");
         const imgPageHeightMm = (sliceHeight * pdfWidth) / canvas.width;
@@ -408,8 +255,6 @@ export default function NotetakerQuiz(): JSX.Element {
       if (!res.ok) throw new Error(`Failed: ${res.status}`);
       const data = await res.json();
       const plainNotes = data?.result || "";
-
-      // Use updater and return newNotes so we can push snapshot reliably (avoids stale closure)
       let newNotesFinal = "";
       setNotes((prev) => {
         const trimmedPrev = (prev ?? "").trim();
@@ -422,11 +267,9 @@ export default function NotetakerQuiz(): JSX.Element {
         newNotesFinal = `${trimmedPrev}${divider}${toInsert}`;
         return newNotesFinal;
       });
-
       const serverCards = Array.isArray(data?.flashcards) ? data.flashcards.slice(0, flashCount) : [];
       setFlashcards(serverCards);
       setCurrentFlashIndex(0);
-      // push snapshot with the new notes value (not relying on stale notes variable)
       pushNotesSnapshot(newNotesFinal);
       setGeneratedQuestions([]);
       setUserAnswers({});
@@ -600,7 +443,6 @@ export default function NotetakerQuiz(): JSX.Element {
   const displayFormatLabel = format === "Custom" ? (customFormatText || "Custom") : format;
   const appearClass = mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2";
 
-  // Ensure currentFlashIndex stays in bounds when flashcards array changes
   useEffect(() => {
     if (!flashcards || flashcards.length === 0) {
       setCurrentFlashIndex(0);
@@ -613,7 +455,7 @@ export default function NotetakerQuiz(): JSX.Element {
   const startVisualizer = (stream: MediaStream) => {
     stopVisualizer();
     mediaStreamRef.current = stream;
-    const AudioContextClass = (window.AudioContext || (window as any).webkitAudioContext);
+    const AudioContextClass = (window as any).AudioContext || (window as any).webkitAudioContext;
     if (!AudioContextClass) return;
     const ctx = new AudioContextClass();
     audioCtxRef.current = ctx;
@@ -671,40 +513,261 @@ export default function NotetakerQuiz(): JSX.Element {
     }
   };
 
-  // Keep flashcard buttons consistently slate/black (no white text)
-  const flashBtnTextColor = (bgIsLight: boolean) => "text-slate-800";
+  const flashBtnTextColor = () => "text-slate-900";
 
-  const chartData = {
-    labels: quizHistory.map((_, i) => `S${i + 1}`),
-    datasets: [
-      {
-        label: "Accuracy (%)",
-        data: quizHistory,
-        borderColor: "#2563EB",
-        backgroundColor: "rgba(37,99,235,0.12)",
-        tension: 0.25,
-        pointRadius: 6,
-        pointHoverRadius: 8,
-        borderWidth: 2,
+  const chartData = useMemo(() => {
+    return {
+      labels: quizHistory.map((_, i) => `S${i + 1}`),
+      datasets: [
+        {
+          label: "Accuracy (%)",
+          data: quizHistory,
+          borderColor: "#2563EB",
+          backgroundColor: "rgba(37,99,235,0.12)",
+          tension: 0.25,
+          pointRadius: 6,
+          pointHoverRadius: 8,
+          borderWidth: 2,
+        },
+      ],
+    };
+  }, [quizHistory]);
+
+  const chartOptions = useMemo(() => {
+    return {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: { enabled: true, mode: "index", intersect: false },
+        targetZone: {
+          min: Math.min(targetMin, targetMax),
+          max: Math.max(targetMin, targetMax),
+        },
       },
-    ],
+      elements: { line: { borderWidth: 2 } },
+      scales: {
+        x: { grid: { display: false }, ticks: { maxRotation: 0, autoSkip: true } },
+        y: { beginAtZero: true, max: 100, ticks: { stepSize: 10 } },
+      },
+    };
+  }, [targetMin, targetMax]);
+
+  const targetZonePlugin = useMemo(() => {
+    return {
+      id: "targetZonePlugin",
+      beforeDatasetsDraw: (chart: any, args: any, options: any) => {
+        const min = options.min ?? 0;
+        const max = options.max ?? 100;
+        const yScale = chart.scales?.y;
+        const chartArea = chart.chartArea;
+        if (!yScale || !chartArea) return;
+        const y1 = yScale.getPixelForValue(max);
+        const y2 = yScale.getPixelForValue(min);
+        const ctx = chart.ctx;
+        ctx.save();
+        ctx.fillStyle = "rgba(34,197,94,0.12)";
+        ctx.fillRect(chartArea.left, y1, chartArea.right - chartArea.left, y2 - y1);
+        ctx.restore();
+      },
+    };
+  }, []);
+
+  const startRecording = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      mediaStreamRef.current = stream;
+      const AudioContextClass = (window as any).AudioContext || (window as any).webkitAudioContext;
+      const ctx = new AudioContextClass();
+      audioCtxRef.current = ctx;
+      const src = ctx.createMediaStreamSource(stream);
+      const analyser = ctx.createAnalyser();
+      analyser.fftSize = 2048;
+      analyserRef.current = analyser;
+      src.connect(analyser);
+      const canvas = audioCanvasRef.current;
+      if (canvas) {
+        const draw = () => {
+          const w = canvas.width;
+          const h = canvas.height;
+          const data = new Uint8Array(analyser.frequencyBinCount);
+          analyser.getByteTimeDomainData(data);
+          const ctx2 = canvas.getContext("2d");
+          if (ctx2) {
+            ctx2.clearRect(0, 0, w, h);
+            ctx2.lineWidth = 2;
+            ctx2.strokeStyle = "#60a5fa";
+            ctx2.beginPath();
+            const slice = w / data.length;
+            for (let i = 0; i < data.length; i++) {
+              const v = data[i] / 128.0;
+              const y = (v * h) / 2;
+              if (i === 0) ctx2.moveTo(0, y);
+              else ctx2.lineTo(i * slice, y);
+            }
+            ctx2.lineTo(w, h / 2);
+            ctx2.stroke();
+          }
+          animationRef.current = requestAnimationFrame(draw);
+        };
+        animationRef.current = requestAnimationFrame(draw);
+      }
+      const mr = new MediaRecorder(stream);
+      mediaRecorderRef.current = mr;
+      audioChunksRef.current = [];
+      mr.ondataavailable = (ev: BlobEvent) => {
+        if (ev.data && ev.data.size > 0) audioChunksRef.current.push(ev.data);
+      };
+      mr.onstop = async () => {
+        if (animationRef.current) cancelAnimationFrame(animationRef.current);
+        try {
+          analyserRef.current?.disconnect();
+        } catch {}
+        try {
+          audioCtxRef.current?.close();
+        } catch {}
+        audioCtxRef.current = null;
+        analyserRef.current = null;
+        if (recordingTimerRef.current) {
+          clearInterval(recordingTimerRef.current);
+          recordingTimerRef.current = null;
+        }
+        setRecordingSeconds(0);
+        const blob = new Blob(audioChunksRef.current, { type: "audio/webm" });
+        setLastAudioBlob(blob);
+        const url = URL.createObjectURL(blob);
+        setAudioURL(url);
+        try {
+          const fd = new FormData();
+          fd.append("file", blob, `recording_${Date.now()}.webm`);
+          fd.append("createCards", "true");
+          fd.append("createNotes", "true");
+          fd.append("noteFormat", displayFormatLabel);
+          fd.append("length", notesLength);
+          fd.append("flashCount", String(flashCount || 6));
+          const r = await fetch("/api/transcribe", { method: "POST", body: fd });
+          if (r.ok) {
+            const json = await r.json();
+            const time = new Date().toLocaleString();
+            const text = json.notes || json.transcription || json.summary || "";
+            if (text) {
+              const insertText = `\n\n---\n\n[Audio recorded ${time}]\n\n${text}\n\n`;
+              setNotes((prev) => (prev ? `${prev}${insertText}` : insertText));
+              setFlashcards((prev) => {
+                const serverCards = Array.isArray(json.flashcards) ? json.flashcards : [];
+                if (!serverCards.length) return prev;
+                return [...serverCards.slice(0, flashCount), ...prev].slice(0, Math.max(flashCount, prev.length));
+              });
+              setIsDirty(true);
+            }
+          } else {
+            console.error("Transcribe upload failed", await r.text().catch(() => ""));
+            alert("Upload failed. You can still download the audio locally.");
+          }
+        } catch (err) {
+          console.error("Upload error:", err);
+        }
+        mediaStreamRef.current?.getTracks().forEach((t) => t.stop());
+        mediaStreamRef.current = null;
+      };
+      mr.start();
+      setRecording(true);
+      setRecordingSeconds(0);
+      recordingTimerRef.current = setInterval(() => {
+        setRecordingSeconds((s) => {
+          const next = s + 1;
+          if (next >= RECORDING_MAX_SECONDS) {
+            try {
+              mediaRecorderRef.current?.stop();
+            } catch {}
+            setRecording(false);
+            if (recordingTimerRef.current) clearInterval(recordingTimerRef.current);
+            recordingTimerRef.current = null;
+            alert("Maximum recording time reached (1 hour). Recording stopped automatically.");
+            return RECORDING_MAX_SECONDS;
+          }
+          return next;
+        });
+      }, 1000);
+    } catch (err) {
+      console.error("Audio start failed", err);
+      alert("Could not access microphone. Please check permissions.");
+    }
   };
 
-  const chartOptions: any = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: { display: false },
-      tooltip: { enabled: true, mode: "index", intersect: false },
-    },
-    elements: { line: { borderWidth: 2 } },
-    scales: {
-      x: { grid: { display: false }, ticks: { maxRotation: 0, autoSkip: true } },
-      y: { beginAtZero: true, max: 100, ticks: { stepSize: 10 } },
-    },
+  const stopRecording = () => {
+    try {
+      mediaRecorderRef.current?.stop();
+    } catch (e) {
+      console.warn(e);
+    }
+    setRecording(false);
+    if (animationRef.current) {
+      cancelAnimationFrame(animationRef.current);
+      animationRef.current = null;
+    }
+    try {
+      audioCtxRef.current?.suspend();
+    } catch {}
+    if (recordingTimerRef.current) {
+      clearInterval(recordingTimerRef.current);
+      recordingTimerRef.current = null;
+    }
+    setRecordingSeconds(0);
   };
 
-  const sectionVariant = { hidden: { opacity: 0, y: 18 }, visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } } };
+  const downloadAudio = () => {
+    if (!lastAudioBlob) return alert("No audio recorded");
+    const url = URL.createObjectURL(lastAudioBlob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `recording_${Date.now()}.webm`;
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  };
+
+  const sendNotesToCards = async (count = 6) => {
+    if (!notes || !notes.trim()) return alert("No notes to convert");
+    try {
+      const r = await fetch("/api/notes", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text: notes, flashCount: count }),
+      });
+      if (!r.ok) throw new Error(`Notes request failed: ${r.status}`);
+      const json = await r.json();
+      if (Array.isArray(json.flashcards) && json.flashcards.length) {
+        setFlashcards(json.flashcards.slice(0, flashCount));
+        pushNotesSnapshot(notes);
+        setCurrentFlashIndex(0);
+        alert("Flashcards generated from notes.");
+      } else {
+        alert("No flashcards generated.");
+      }
+    } catch (err) {
+      console.error("sendNotesToCards error", err);
+      alert("Failed to generate flashcards from notes.");
+    }
+  };
+
+  const handleFlashClick = (i: number) => {
+    setCurrentFlashIndex(i);
+    setFlashRevealed(false);
+  };
+
+  const recordingTimeDisplay = useMemo(() => {
+    const sec = recordingSeconds || 0;
+    const mm = Math.floor(sec / 60)
+      .toString()
+      .padStart(2, "0");
+    const ss = (sec % 60).toString().padStart(2, "0");
+    const remaining = Math.max(0, RECORDING_MAX_SECONDS - sec);
+    const rmm = Math.floor(remaining / 60)
+      .toString()
+      .padStart(2, "0");
+    const rss = (remaining % 60).toString().padStart(2, "0");
+    return { elapsed: `${mm}:${ss}`, remaining: `${rmm}:${rss}`, elapsedSec: sec };
+  }, [recordingSeconds]);
 
   const markdownComponents = {
     table: (props: any) => (
@@ -728,10 +791,6 @@ export default function NotetakerQuiz(): JSX.Element {
         <meta name="description" content="Turn notes into smart summaries, flashcards, and quizzes. Includes audio transcription and interactive practice." />
         <link rel="canonical" href="https://www.vertexed.app/notetaker" />
       </Helmet>
-      <Helmet>
-        <title>AI Notetaker, Flashcards & Quiz Generator | Vertex</title>
-        <meta name="description" content="Create AI-powered notes, generate flashcards, and practice with quizzes in one place." />
-      </Helmet>
 
       <PageSection>
         <div className="mb-6 flex items-center justify-between">
@@ -748,7 +807,7 @@ export default function NotetakerQuiz(): JSX.Element {
           </div>
         </div>
 
-        <motion.div initial="hidden" animate="visible" variants={sectionVariant} className={`space-y-8 transition-all duration-300 ${appearClass}`}>
+        <motion.div initial="hidden" animate="visible" variants={{ hidden: { opacity: 0, y: 18 }, visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } } }} className={`space-y-8 transition-all duration-300 ${appearClass}`}>
           <NeumorphicCard className="p-8">
             <div className="flex items-start justify-between gap-4">
               <div>
@@ -775,7 +834,6 @@ export default function NotetakerQuiz(): JSX.Element {
 
               <div className="neu-input">
                 <select className="neu-input-el" value={format} onChange={(e) => setFormat(e.target.value)}>
-                  {/* removed "Smart Notes" as requested */}
                   <option>Quick Notes</option>
                   <option>Cornell Notes</option>
                   <option>Research Oriented</option>
@@ -880,7 +938,7 @@ export default function NotetakerQuiz(): JSX.Element {
                 <div className="neu-textarea max-h-[128rem] overflow-auto p-4 bg-white rounded">
                   <textarea
                     ref={notesRef}
-                    className="neu-input-el w-full h-[28rem] p-4 transition-transform duration-150 whitespace-pre-wrap"
+                    className="neu-input-el w-full h-[28rem] p-4 transition-transform duration-150 whitespace-pre-wrap text-slate-900"
                     value={notes}
                     onChange={(e) => handleNotesChange(e.target.value)}
                     onBlur={handleNotesBlur}
@@ -933,15 +991,17 @@ export default function NotetakerQuiz(): JSX.Element {
                 {flashcards.length ? (
                   <div className="relative">
                     <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.45 }} className="p-4 rounded-lg border shadow-sm bg-white" style={{ minHeight: 160 }}>
-                      <div className="text-base font-semibold text-slate-900 break-words whitespace-pre-wrap">{flashcards[currentFlashIndex]?.front}</div>
-                      <div className={`text-sm mt-3 transition-opacity duration-200 ${flashRevealed ? "opacity-100" : "opacity-0"}`} style={{ minHeight: 36 }}>{flashRevealed ? flashcards[currentFlashIndex]?.back : ""}</div>
+                      <div className="text-base font-semibold text-black break-words whitespace-pre-wrap">{flashcards[currentFlashIndex]?.front}</div>
+                      <div className={`text-sm mt-3 transition-opacity duration-200 ${flashRevealed ? "opacity-100" : "opacity-0"}`} style={{ minHeight: 36 }}>
+                        {flashRevealed ? <div className="text-black">{flashcards[currentFlashIndex]?.back}</div> : ""}
+                      </div>
 
                       <div className="mt-4 flex items-center gap-2 flex-wrap">
-                        <button className={`neu-button px-3 py-1 ${flashBtnTextColor(true)}`} onClick={prevFlash}><ChevronsLeft size={14} /> Prev</button>
-                        <button className={`neu-button px-3 py-1 ${flashBtnTextColor(true)}`} onClick={() => (flashRevealed ? nextFlash() : revealFlash())}>{flashRevealed ? "Next (revealed)" : "Reveal"}</button>
-                        <button className={`neu-button px-3 py-1 ${flashBtnTextColor(true)}`} onClick={nextFlash}><ChevronsRight size={14} /> Next</button>
+                        <button className="py-2 px-3 rounded-md border text-sm bg-slate-100 text-slate-900 hover:shadow-md transition-transform" onClick={prevFlash}><ChevronsLeft size={14} /> Prev</button>
+                        <button className="py-2 px-3 rounded-md border text-sm bg-slate-100 text-slate-900 hover:shadow-md transition-transform" onClick={() => (flashRevealed ? nextFlash() : revealFlash())}>{flashRevealed ? "Next (revealed)" : "Reveal"}</button>
+                        <button className="py-2 px-3 rounded-md border text-sm bg-slate-100 text-slate-900 hover:shadow-md transition-transform" onClick={nextFlash}><ChevronsRight size={14} /> Next</button>
 
-                        <button className="neu-button px-3 py-1 ml-2 text-slate-800" onClick={() => { setFlashFullscreen(true); setTimeout(() => setFlashRevealed(false), 50); }} title="Enlarge flashcard">Enlarge</button>
+                        <button className="py-2 px-3 rounded-md border text-sm bg-slate-100 text-slate-900 hover:shadow-md transition-transform ml-2" onClick={() => { setFlashFullscreen(true); setTimeout(() => setFlashRevealed(false), 50); }} title="Enlarge flashcard">Enlarge</button>
 
                         <div className="ml-auto text-sm text-gray-500">Card {currentFlashIndex + 1}/{flashcards.length}</div>
                       </div>
@@ -951,9 +1011,8 @@ export default function NotetakerQuiz(): JSX.Element {
                       {flashcards.map((f, i) => {
                         const selected = i === currentFlashIndex;
                         const bg = selected ? "bg-sky-100" : "bg-white";
-                        const txt = "text-slate-800";
                         return (
-                          <button key={`${i}_${String(f.front).slice(0, 8)}`} className={`py-2 px-3 rounded-md border text-sm ${bg} hover:scale-105 transition-transform ${txt}`} onClick={() => { setCurrentFlashIndex(i); setFlashRevealed(false); }}>{i + 1}</button>
+                          <button key={`${i}_${String(f.front).slice(0, 8)}`} className={`py-2 px-3 rounded-md border text-sm ${bg} hover:scale-105 transition-transform text-slate-900`} onClick={() => handleFlashClick(i)}>{i + 1}</button>
                         );
                       })}
                     </div>
@@ -984,7 +1043,10 @@ export default function NotetakerQuiz(): JSX.Element {
 
                   {audioURL && <audio controls src={audioURL} className="ml-2" />}
 
-                  <div className="ml-auto flex gap-2">
+                  <div className="ml-auto flex gap-2 items-center">
+                    <div className="text-xs text-gray-600 mr-2">Recording</div>
+                    <div className="text-sm font-medium">{recording ? `Elapsed ${recordingTimeDisplay.elapsed}` : "Idle"}</div>
+                    <div className="text-xs text-gray-500 ml-2">{recording ? `Remaining ${recordingTimeDisplay.remaining}` : ""}</div>
                     <button className="neu-button px-3 py-1 flex items-center gap-2" onClick={downloadAudio} disabled={!lastAudioBlob}><DownloadCloud size={16} /> Download</button>
                     <button className="neu-button px-3 py-1 flex items-center gap-2" onClick={() => { if (lastAudioBlob) alert("Upload handled via /api/transcribe (implement server)."); }} disabled={!lastAudioBlob}><UploadCloud size={16} /> Upload</button>
                   </div>
@@ -1004,8 +1066,17 @@ export default function NotetakerQuiz(): JSX.Element {
                 </div>
 
                 {quizHistory.length ? (
-                  <div style={{ height: 140 }}>
-                    <Line data={chartData} options={chartOptions} />
+                  <div>
+                    <div className="mb-2 flex items-center gap-2">
+                      <label className="text-xs text-gray-700">Target min</label>
+                      <input className="neu-input-el w-16" type="number" value={targetMin} onChange={(e) => setTargetMin(Number(e.target.value))} />
+                      <label className="text-xs text-gray-700 ml-2">Target max</label>
+                      <input className="neu-input-el w-16" type="number" value={targetMax} onChange={(e) => setTargetMax(Number(e.target.value))} />
+                      <div className="text-xs text-gray-500 ml-auto">Set a target zone on the chart</div>
+                    </div>
+                    <div style={{ height: 140 }}>
+                      <Line data={chartData} options={chartOptions} plugins={[targetZonePlugin]} />
+                    </div>
                   </div>
                 ) : (
                   <p className="text-sm text-gray-500">No quiz history yet. Take some quizzes to track progress.</p>
@@ -1060,7 +1131,6 @@ export default function NotetakerQuiz(): JSX.Element {
                   <option value="long">Multipul Choise Question</option>
                 </select>
 
-                {/* NEW MCQ options selector */}
                 <div className="flex items-center gap-2">
                   <label className="text-xs text-gray-600">MCQ options</label>
                   <select className="neu-input-el" value={mcqOptionCount} onChange={(e) => setMcqOptionCount(Number(e.target.value))}>
@@ -1091,11 +1161,10 @@ export default function NotetakerQuiz(): JSX.Element {
                                 ((q.choices || q.options || []).slice(0, mcqOptionCount)).map((c: any, i: number) => (
                                   <label className="flex items-center gap-2" key={`${q.id}_${i}`}>
                                     <input type="radio" name={`q_${q.id}`} value={c} checked={String(userAnswers[q.id]) === String(c)} onChange={(e) => setUserAnswers((u) => ({ ...u, [q.id]: e.target.value }))} />
-                                    <span className="text-sm">{c}</span>
+                                    <span className="text-sm text-slate-900">{c}</span>
                                   </label>
                                 ))
                               ) : (
-                                // fallback: if no choices array, try to render options from q.optionText or similar
                                 <div className="text-xs text-gray-500">No choices available for this question.</div>
                               )}
                             </div>
