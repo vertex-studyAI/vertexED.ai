@@ -1,3 +1,5 @@
+import { FormData, File } from "undici";
+
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
@@ -98,16 +100,15 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: "No audio buffer received" });
     }
 
-    const fetch = (await import("node-fetch")).default;
-    const formData = new (await import("form-data")).default();
-    formData.append("file", audioBuffer, { filename });
+    const formData = new FormData();
+    formData.append("file", new File([audioBuffer], filename, { type: "audio/webm" }));
     formData.append("model", "gpt-4o-mini-transcribe");
     if (language) formData.append("language", language);
 
     const response = await fetch("https://api.openai.com/v1/audio/transcriptions", {
       method: "POST",
       headers: { Authorization: `Bearer ${OPENAI_API_KEY}` },
-      body: formData,
+      body: formData
     });
 
     if (!response.ok) {
