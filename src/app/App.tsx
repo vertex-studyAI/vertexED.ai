@@ -29,6 +29,7 @@ const AIAnswerReviewerArticle = lazy(() => import("@/pages/resources/AIAnswerRev
 const StudyTechniquesActiveRecall = lazy(() => import("@/pages/resources/StudyTechniquesActiveRecall"));
 const ExamStrategyTimeManagement = lazy(() => import("@/pages/resources/ExamStrategyTimeManagement"));
 const SubjectGuidesCommonMistakes = lazy(() => import("@/pages/resources/SubjectGuidesCommonMistakes"));
+const Onboarding = lazy(() => import("@/pages/Onboarding"));
 import { AuthProvider } from "@/contexts/AuthContext";
 import { HelmetProvider } from "react-helmet-async";
 import { useEffect } from "react";
@@ -93,6 +94,7 @@ return (
 <Route path="login" element={<Login />} />
 <Route path="signup" element={<Signup />} />
 <Route path="auth/callback" element={<AuthCallback />} />
+<Route path="onboarding" element={<ProtectedRoute><Onboarding /></ProtectedRoute>} />
 <Route path="main" element={<ProtectedRoute><Main /></ProtectedRoute>} />
 <Route path="notetaker" element={<ProtectedRoute><NotetakerQuiz /></ProtectedRoute>} />
 <Route path="study-zone" element={<ProtectedRoute><StudyZone /></ProtectedRoute>} />

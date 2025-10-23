@@ -23,14 +23,23 @@ export default function AuthCallback() {
           return;
         }
 
+        const go = (toMainIfOnboarded = true) => {
+          const u = supabase.auth.getUser ? undefined : undefined; // placeholder to satisfy lints where needed
+        };
+
         if (data.session) {
-          navigate("/main", { replace: true });
+          const md = data.session.user.user_metadata;
+          const hasUsername = !!md?.username;
+          navigate(hasUsername ? "/main" : "/onboarding", { replace: true });
           return;
         }
 
         // If not yet ready, listen for a quick auth state change
         const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
-          if (session) navigate("/main", { replace: true });
+          if (session) {
+            const hasUsername = !!session.user.user_metadata?.username;
+            navigate(hasUsername ? "/main" : "/onboarding", { replace: true });
+          }
         });
         // Fallback timeout to show error after a few seconds
         // @ts-ignore - window.setTimeout typing
