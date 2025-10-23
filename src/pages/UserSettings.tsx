@@ -7,7 +7,7 @@ import PageSection from "@/components/PageSection";
 import React from "react";
 
 export default function UserSettings() {
-  const { logout } = useAuth();
+  const { logout, user, profile } = useAuth();
   const navigate = useNavigate();
 
   const handleLogout = async () => {
@@ -27,6 +27,8 @@ export default function UserSettings() {
       accountType: "Free Tier",
       memberSince: "Today",
       studySessions: 0,
+      username: user?.user_metadata?.username || null,
+      email: user?.email || null,
     };
     const blob = new Blob([JSON.stringify(data, null, 2)], {
       type: "application/json",
@@ -38,6 +40,11 @@ export default function UserSettings() {
     a.click();
     URL.revokeObjectURL(url);
   };
+
+  const displayName = (user?.user_metadata?.username as string | undefined)
+    || profile?.full_name
+    || (user?.email ? user.email.split("@")[0] : null)
+    || "Student";
 
   return (
     <>
@@ -61,7 +68,7 @@ export default function UserSettings() {
                 <User className="h-8 w-8 text-primary" />
               </div>
               <div>
-                <h3 className="text-xl font-medium">Guest User</h3>
+                <h3 className="text-xl font-medium">{displayName}</h3>
                 <p className="opacity-70">Vertex Student Account</p>
               </div>
             </div>

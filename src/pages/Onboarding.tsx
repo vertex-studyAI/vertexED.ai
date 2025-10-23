@@ -10,7 +10,6 @@ export default function Onboarding() {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [studyGoal, setStudyGoal] = useState<string>("");
-  const [subjects, setSubjects] = useState<string[]>([]);
   const [gradeLevel, setGradeLevel] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -22,10 +21,6 @@ export default function Onboarding() {
       navigate("/main", { replace: true });
     }
   }, [user, navigate]);
-
-  const toggleSubject = (s: string) => {
-    setSubjects((prev) => (prev.includes(s) ? prev.filter((x) => x !== s) : [...prev, s]));
-  };
 
   const save = async (withPreferences: boolean) => {
     setError(null);
@@ -40,7 +35,6 @@ export default function Onboarding() {
       if (withPreferences) {
         const prefs: Record<string, any> = {};
         if (studyGoal) prefs.studyGoal = studyGoal;
-        if (subjects.length) prefs.subjects = subjects;
         if (gradeLevel) prefs.gradeLevel = gradeLevel;
         if (Object.keys(prefs).length) metadata.preferences = prefs;
       }
@@ -63,7 +57,7 @@ export default function Onboarding() {
       <PageSection className="relative min-h-[70vh] flex items-center justify-center overflow-hidden px-4">
         <div className="relative neu-card w-full max-w-md p-8 md:p-10 rounded-2xl border border-white/5 animate-fade-in">
           <h1 className="text-3xl font-semibold mb-2 text-center text-white">Choose a username</h1>
-          <p className="text-center mb-6 text-sm opacity-80">We’ll also offer a few optional questions to tailor your experience.</p>
+          <p className="text-center mb-6 text-sm opacity-80">We’ll also offer a couple of optional questions to tailor your experience.</p>
 
           <div className="space-y-4">
             <div className="neu-input">
@@ -77,7 +71,7 @@ export default function Onboarding() {
             </div>
 
             <details className="neu-surface rounded-md p-4">
-              <summary className="cursor-pointer select-none text-sm opacity-80">Optional: Add a few preferences</summary>
+              <summary className="cursor-pointer select-none text-sm opacity-80">Optional: A couple of preferences</summary>
               <div className="mt-4 space-y-4">
                 <div>
                   <label className="block text-sm mb-2 opacity-80">What's your study goal?</label>
@@ -89,17 +83,6 @@ export default function Onboarding() {
                       <option value="build_habits">Build study habits</option>
                       <option value="understand_better">Understand subjects better</option>
                     </select>
-                  </div>
-                </div>
-                <div>
-                  <label className="block text-sm mb-2 opacity-80">Favorite subjects (optional)</label>
-                  <div className="grid grid-cols-2 gap-2">
-                    {["Math", "Science", "History", "Geography", "English", "Computer Science"].map((s) => (
-                      <label key={s} className="flex items-center gap-2 neu-surface px-3 py-2 rounded-md cursor-pointer">
-                        <input type="checkbox" checked={subjects.includes(s)} onChange={() => toggleSubject(s)} />
-                        <span className="text-sm">{s}</span>
-                      </label>
-                    ))}
                   </div>
                 </div>
                 <div>
