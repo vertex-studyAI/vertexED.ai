@@ -799,7 +799,7 @@ export default function NotetakerQuiz(): JSX.Element {
             <span>Back to Main</span>
           </Link>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3">+
             <button className="neu-button px-3 py-1 text-sm transition-colors" title={showTimer ? "Hide timer" : "Show timer"} onClick={toggleTimer}>
               {showTimer ? "Hide Timer" : "Show Timer"}
             </button>
@@ -953,7 +953,7 @@ export default function NotetakerQuiz(): JSX.Element {
                     <button className="neu-button px-3 py-1 text-sm flex items-center gap-2" onClick={() => insertAtCursor("• Bullet 1\n• Bullet 2\n")}>Bullets</button>
 
                     <div className="ml-auto flex items-center gap-2">
-                      <button onClick={() => setShowPreview(!showPreview)} className="px-4 py-2 rounded-lg bg-blue-500 text-white hover:bg-blue-600 transition flex items-center gap-2">
+                      <button onClick={() => setShowPreview(!showPreview)} className="px-4 py-2 rounded-lg bg-white text-white hover:bg-blue-600 transition flex items-center gap-2">
                         <Eye size={14} />
                         <span>{showPreview ? "Hide Preview" : "Show Preview"}</span>
                       </button>
