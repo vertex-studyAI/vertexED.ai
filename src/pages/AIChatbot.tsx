@@ -55,7 +55,7 @@ export default function AIChatbot() {
           });
           i++;
           if (i >= botAnswer.length) clearInterval(interval);
-        }, 20); // 20ms per character
+        }, 20);
       }
     } catch (error) {
       console.error(error);
@@ -89,22 +89,26 @@ export default function AIChatbot() {
         <NeumorphicCard className="p-6 h-[70vh] flex flex-col">
           {/* Header */}
           <div className="mb-4">
-            <h2 className="text-xl font-semibold mb-1">AI Study Chatbot</h2>
+            <h2 className="text-xl font-semibold mb-1 text-gray-800">AI Study Chatbot</h2>
             <p className="text-gray-500 text-sm">Ask questions and get step-by-step answers. Supports LaTeX.</p>
           </div>
 
           {/* Messages area */}
           <div
             ref={chatPanelRef}
-            className="flex-1 bg-gray-50 dark:bg-gray-800 p-4 rounded-2xl mb-4 overflow-y-auto space-y-3"
+            className="flex-1 p-4 mb-4 overflow-y-auto space-y-3"
           >
             {chatMessages.map((msg, idx) => (
               <div
                 key={idx}
                 className={`flex ${msg.sender === "bot" ? "justify-start" : "justify-end"}`}
               >
-                <div className={`max-w-[75%] px-4 py-2 rounded-2xl shadow-md
-                  ${msg.sender === "bot" ? "bg-blue-100 text-blue-900" : "bg-green-100 text-green-900"}`}
+                <div
+                  className={`max-w-[75%] px-4 py-2 rounded-2xl shadow-inner
+                    ${msg.sender === "bot"
+                      ? "bg-blue-100 text-blue-900" // bot: soft blue
+                      : "bg-green-100 text-green-900" // user: soft green
+                    }`}
                 >
                   <div className="text-xs font-semibold mb-1">
                     {msg.sender === "bot" ? "AI" : "You"}
@@ -121,10 +125,10 @@ export default function AIChatbot() {
 
             {loading && (
               <div className="flex justify-start">
-                <div className="max-w-[75%] px-4 py-2 rounded-2xl shadow-md bg-blue-100 text-blue-900 flex items-center space-x-2 animate-pulse">
-                  <span className="dot w-2 h-2 rounded-full bg-blue-700 animate-bounce" />
-                  <span className="dot w-2 h-2 rounded-full bg-blue-700 animate-bounce delay-200" />
-                  <span className="dot w-2 h-2 rounded-full bg-blue-700 animate-bounce delay-400" />
+                <div className="max-w-[75%] px-4 py-2 rounded-2xl shadow-inner bg-blue-100 text-blue-900 flex items-center space-x-2 animate-pulse">
+                  <span className="w-2 h-2 rounded-full bg-blue-700 animate-bounce" />
+                  <span className="w-2 h-2 rounded-full bg-blue-700 animate-bounce delay-200" />
+                  <span className="w-2 h-2 rounded-full bg-blue-700 animate-bounce delay-400" />
                   <span className="text-xs font-semibold ml-2">AI is typing...</span>
                 </div>
               </div>
@@ -134,7 +138,7 @@ export default function AIChatbot() {
           {/* Input area */}
           <div className="flex mt-auto space-x-2">
             <input
-              className="flex-grow px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-400 focus:outline-none"
+              className="flex-grow px-4 py-2 rounded-lg shadow-inner border border-gray-300 focus:ring-2 focus:ring-blue-400 focus:outline-none"
               placeholder="Ask me anything..."
               value={userInput}
               onChange={e => setUserInput(e.target.value)}
