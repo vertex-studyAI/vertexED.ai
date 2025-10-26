@@ -8,7 +8,7 @@ export default async function handler(req, res) {
   const OPENAI_API_KEY = process.env.ChatbotKey;
 
   if (!OPENAI_API_KEY) {
-    return res.status(500).json({ error: "OpenAI API key not set" });
+    return res.status(500).json({ error: "We have a problem, don't worry it'll be fixed soon" });
   }
 
   try {
@@ -42,7 +42,7 @@ export default async function handler(req, res) {
     const answer = data.choices?.[0]?.message?.content;
     if (!answer) {
       console.error("OpenAI response invalid:", data);
-      return res.status(500).json({ error: "Invalid response from OpenAI API" });
+      return res.status(500).json({ error: "Sorry, A.I is currently under maintance" });
     }
 
     // Send JSON back to frontend
