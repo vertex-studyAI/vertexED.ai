@@ -6,7 +6,7 @@ export default async function handler(req, res) {
 
   const OPENAI_API_KEY = process.env.ChatbotKey;
   if (!OPENAI_API_KEY) {
-    return res.status(500).json({ error: "OpenAI API key not set" });
+    return res.status(500).json({ error: "AI not set" });
   }
 
   try {
