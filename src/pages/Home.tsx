@@ -1,216 +1,582 @@
+import { Helmet } from "react-helmet-async";
+import SEO from "@/components/SEO";
+import { Link, useNavigate } from "react-router-dom";
 import React, { useEffect, useRef, useState } from "react";
+import { useAuth } from "@/contexts/AuthContext";
 import { TypeAnimation } from "react-type-animation";
-import { Link } from "react-router-dom";
 
-// Hero-only component — drop into your page where the navbar and layout already exist.
-// Uses Tailwind for layout and some small scoped CSS for animations.
+export default function Home() {
+  const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
 
-export default function Hero() {
-  const blobA = useRef<HTMLDivElement | null>(null);
-  const blobB = useRef<HTMLDivElement | null>(null);
-  const cursorCanvas = useRef<HTMLCanvasElement | null>(null);
-  const [mounted, setMounted] = useState(false);
-  const [focusText, setFocusText] = useState("Study smarter, not longer.");
+  // refs
+  const missionRef = useRef<HTMLDivElement | null>(null);
 
-  // small local styles (scoped to this component by insertion)
-  const styles = `
-    .hero-blob { filter: blur(36px) saturate(1.05); opacity: 0.9; transform-origin: center; }
-    .pulse-cta { animation: pulse 4.2s infinite; }
-    @keyframes pulse { 0% { transform: translateY(0) } 50% { transform: translateY(-6px) } 100% { transform: translateY(0) } }
-    .glow-text { background: linear-gradient(90deg, rgba(255,255,255,0.98), rgba(255,255,255,0.75)); -webkit-background-clip: text; background-clip: text; color: transparent; }
-  `;
+  // keep a ref for cleaning up tilt handlers
+  const tiltHandlersRef = useRef<Array<() => void>>([]);
 
-  // animate background blobs with a smooth, lightweight RAF loop
+  // Avoid redirecting search engine bots; let them index the homepage content directly
   useEffect(() => {
-    let raf = 0;
-    let t = 0;
-    setMounted(true);
-
-    function loop() {
-      t += 0.006; // slow progress
-      if (blobA.current) {
-        const x = Math.sin(t * 0.9) * 48; // px
-        const y = Math.cos(t * 0.7) * 32;
-        const rot = Math.sin(t * 0.4) * 8;
-        blobA.current.style.transform = `translate3d(${x}px, ${y}px, 0) rotate(${rot}deg)`;
-      }
-      if (blobB.current) {
-        const x = Math.cos(t * 0.8) * 56;
-        const y = Math.sin(t * 0.6) * 28;
-        const rot = Math.cos(t * 0.33) * -6;
-        blobB.current.style.transform = `translate3d(${x}px, ${y}px, 0) rotate(${rot}deg)`;
-      }
-      raf = requestAnimationFrame(loop);
+    if (!isAuthenticated) return;
+    const ua = typeof navigator !== "undefined" ? navigator.userAgent.toLowerCase() : "";
+    const isBot = /bot|crawl|spider|slurp|facebookexternalhit|whatsapp|telegram|linkedinbot|embedly|quora|pinterest|vkshare|facebot|outbrain|ia_archiver/.test(ua);
+    if (!isBot) {
+      // Warm up the Main route chunk before navigating to avoid a blank flash
+      const warm = () => import("@/pages/Main").catch(() => {});
+      // Give the prefetch a short head start, then navigate
+      warm().finally(() => {
+        navigate("/main", { replace: true });
+      });
     }
+  }, [isAuthenticated, navigate]);
 
-    raf = requestAnimationFrame(loop);
-    return () => cancelAnimationFrame(raf);
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    // Defer loading GSAP until the browser is idle; this keeps initial JS small on mobile
+    const idle = (cb: () => void) =>
+      // @ts-ignore
+      typeof requestIdleCallback !== "undefined"
+        ? // @ts-ignore
+          requestIdleCallback(cb, { timeout: 1200 })
+        : (setTimeout(cb, 250) as unknown as number);
+    const cancelIdle = (id: any) =>
+      // @ts-ignore
+      typeof cancelIdleCallback !== "undefined" ? cancelIdleCallback(id) : clearTimeout(id);
+
+    let cleanup: () => void = () => {};
+    const run = async () => {
+      const [{ gsap }, { ScrollTrigger }] = await Promise.all([
+        import("gsap"),
+        import("gsap/ScrollTrigger"),
+      ]);
+      gsap.registerPlugin(ScrollTrigger);
+
+      // Fade-up elements: create an individual animation for each element
+      const elements = gsap.utils.toArray<HTMLElement>(".fade-up");
+      elements.forEach((el) => {
+        gsap.fromTo(
+          el,
+          { y: 40, opacity: 0, scale: 0.995 },
+          {
+            y: 0,
+            opacity: 1,
+            scale: 1,
+            duration: 0.9,
+            ease: "power3.out",
+            stagger: 0.04,
+            scrollTrigger: {
+              trigger: el,
+              start: "top 92%",
+              end: "bottom 30%",
+              toggleActions: "play none none reverse",
+            },
+          }
+        );
+      });
+
+      // feature rows: slide from left/right + subtle rotation
+      const featureRows = gsap.utils.toArray<HTMLElement>(".feature-row");
+      featureRows.forEach((row, i) => {
+        gsap.fromTo(
+          row,
+          { x: i % 2 === 0 ? -60 : 60, opacity: 0, rotateX: 2 },
+          {
+            x: 0,
+            opacity: 1,
+            rotateX: 0,
+            duration: 0.95,
+            ease: "power3.out",
+            delay: i * 0.08, // one-by-one effect as they enter
+            scrollTrigger: {
+              trigger: row,
+              start: "top 92%",
+              toggleActions: "play none none reverse",
+            },
+          }
+        );
+      });
+
+      cleanup = () => {
+        ScrollTrigger.getAll().forEach((t) => t.kill());
+      };
+    };
+
+    const idleId = idle(run);
+    return () => {
+      cancelIdle(idleId);
+      cleanup();
+    };
   }, []);
 
-  // Cursor-follow particle on a canvas — lightweight dots that ease toward cursor
+  // content arrays
+  const problems = [
+    { stat: "65%", text: "of students report struggling to find relevant resources despite studying for long hours." },
+    { stat: "70%", text: "say note-taking takes up more time than actual learning, making revision less effective." },
+    { stat: "80%", text: "feel that current test papers lack rigor and fail to prepare them for real exams." },
+    { stat: "60%", text: "admit procrastination is easier because studying feels overwhelming and tedious." },
+    { stat: "75%", text: "use 3+ different apps for studying, which makes their workflow scattered and inefficient." },
+    { stat: "50%", text: "wish there was a single platform that combines planning, practice, and AI-powered help in one place." },
+  ];
+
+  const features = [
+    { title: "Study Zone", desc: "All-in-one tool for your calculators, activity logs, and more. A space designed for clarity where everything you need to study lives in one place." },
+    { title: "AI Chatbot", desc: "Your personal academic companion. Ask questions, get explanations, and engage in real discussions to deepen your understanding of any subject." },
+    { title: "Study Planner", desc: "Never miss a beat. Our planner adapts to your schedule, deadlines, and pace — making your study plan smarter, not harder." },
+    { title: "Answer Reviewer", desc: "Not just a reviewer, but a mentor. Receive strict yet constructive feedback on your answers, showing you exactly how to improve." },
+    { title: "IB/IGCSE Paper Maker", desc: "Create syllabus-aligned test papers instantly. No fluff, no generic questions — just rigorous practice that actually helps you prepare." },
+    { title: "Notes + Flashcards + Quiz", desc: "From notes to flashcards to quizzes, all in one seamless workflow. Perfect for late-night revision or quick practice sessions." },
+  ];
+
+  const [flipped, setFlipped] = useState(Array(problems.length).fill(false));
+  const toggleFlip = (index: number) => setFlipped((prev) => { const updated = [...prev]; updated[index] = !updated[index]; return updated; });
+
+  const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
+
+  const featureSideText = [
+    "This is your go to place for those late nights, early mornings, at the library or simply anywhere you are doing independent learning.",
+    "Not just another bot, it learns and adapts to you; your strengths, passions and limitations and moreover your progress.",
+    "Better organize your sessions and activities so you end up with more done and less energy spent so you can focus on what really matters; life.",
+    "Like a teacher built in, constantly finding limitations you would never find and providing the ways to become even closer to perfection",
+    "It's like having infinite practice papers ready to go. Non Stop practice based on material which already exists.",
+    "This is just the beginning! more features are on their way as you read this."
+  ];
+
+  // -------------------
+  // Tilt helper: attach subtle tilt to .tilt-card elements
+  // -------------------
   useEffect(() => {
-    if (!mounted) return;
-    const canvas = cursorCanvas.current; if (!canvas) return;
-    const ctx = canvas.getContext("2d"); if (!ctx) return;
+    if (typeof window === "undefined") return;
 
-    let w = (canvas.width = window.innerWidth);
-    let h = (canvas.height = window.innerHeight);
-    const particles = new Array(20).fill(null).map(() => ({ x: Math.random()*w, y: Math.random()*h, vx:0, vy:0, r: 2+Math.random()*2 }));
-    const mouse = { x: w/2, y: h/2 };
+    // Avoid attaching listeners on touch-only devices; keeps mobile main thread lighter
+    const canTilt = window.matchMedia
+      ? window.matchMedia("(hover:hover) and (pointer:fine)").matches
+      : true;
+    if (!canTilt) return;
 
-    function resize() { w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; }
-    window.addEventListener("resize", resize);
+    // clean up array
+    tiltHandlersRef.current = [];
 
-    function onMove(e: MouseEvent) { mouse.x = e.clientX; mouse.y = e.clientY; }
-    function onTouch(e: TouchEvent) { const t = e.touches[0]; if (t) { mouse.x = t.clientX; mouse.y = t.clientY; } }
-    window.addEventListener("mousemove", onMove);
-    window.addEventListener("touchmove", onTouch, { passive: true } as any);
+    const els = Array.from(document.querySelectorAll<HTMLElement>(".tilt-card"));
 
-    let raf = 0;
-    function draw() {
-      ctx.clearRect(0,0,w,h);
-      for (let p of particles) {
-        // pull toward mouse with easing
-        const dx = mouse.x - p.x; const dy = mouse.y - p.y;
-        p.vx += dx * 0.002; p.vy += dy * 0.002;
-        p.vx *= 0.92; p.vy *= 0.92;
-        p.x += p.vx; p.y += p.vy;
+    els.forEach((el) => {
+      let rect = el.getBoundingClientRect();
+      let targetX = 0;
+      let targetY = 0;
+      let targetZ = 0;
+      let curX = 0;
+      let curY = 0;
+      let curZ = 0;
+      let raf = 0;
 
-        // draw soft dot
-        ctx.beginPath();
-        const grd = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r*6);
-        grd.addColorStop(0, 'rgba(255,255,255,0.9)');
-        grd.addColorStop(0.2, 'rgba(255,255,255,0.45)');
-        grd.addColorStop(1, 'rgba(255,255,255,0)');
-        ctx.fillStyle = grd;
-        ctx.fillRect(p.x - p.r*6, p.y - p.r*6, p.r*12, p.r*12);
-      }
-      raf = requestAnimationFrame(draw);
-    }
-    raf = requestAnimationFrame(draw);
+      const options = { maxTilt: 3.2, perspective: 1000, translateZ: 6, ease: 0.12 };
+
+      const onMove = (e: MouseEvent) => {
+        rect = el.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const halfW = rect.width / 2;
+        const halfH = rect.height / 2;
+        targetY = ((x - halfW) / halfW) * options.maxTilt; // rotateY
+        targetX = ((halfH - y) / halfH) * options.maxTilt; // rotateX
+
+        // subtle rotateZ based on angle
+        const ang = Math.atan2(y - halfH, x - halfW) * (180 / Math.PI); // -180..180
+        targetZ = (ang / 90) * 1.6; // small twist (-1.6deg .. 1.6deg approx)
+
+        if (!raf) raf = requestAnimationFrame(update);
+      };
+
+      const update = () => {
+        curX += (targetX - curX) * options.ease;
+        curY += (targetY - curY) * options.ease;
+        curZ += (targetZ - curZ) * options.ease;
+        el.style.transform = `perspective(${options.perspective}px) rotateX(${curX}deg) rotateY(${curY}deg) rotateZ(${curZ}deg) translateZ(${options.translateZ}px)`;
+        raf = 0;
+      };
+
+      const onLeave = () => {
+        targetX = 0; targetY = 0; targetZ = 0;
+        if (raf) cancelAnimationFrame(raf);
+        // gently animate back
+        el.style.transition = "transform 420ms cubic-bezier(0.22,1,0.36,1)";
+        el.style.transform = `perspective(${options.perspective}px) rotateX(0deg) rotateY(0deg) rotateZ(0deg) translateZ(0px)`;
+        setTimeout(() => { el.style.transition = ""; }, 450);
+      };
+
+      const onEnter = () => { el.style.transition = ""; };
+
+      el.addEventListener("mousemove", onMove);
+      el.addEventListener("mouseleave", onLeave);
+      el.addEventListener("mouseenter", onEnter);
+
+      // store cleanup
+      tiltHandlersRef.current.push(() => {
+        el.removeEventListener("mousemove", onMove);
+        el.removeEventListener("mouseleave", onLeave);
+        el.removeEventListener("mouseenter", onEnter);
+        if (raf) cancelAnimationFrame(raf);
+      });
+    });
 
     return () => {
-      cancelAnimationFrame(raf);
-      window.removeEventListener("resize", resize);
-      window.removeEventListener("mousemove", onMove);
-      window.removeEventListener("touchmove", onTouch as any);
+      tiltHandlersRef.current.forEach((fn) => fn());
+      tiltHandlersRef.current = [];
     };
-  }, [mounted]);
+  }, []);
 
-  // small interactive demo: type something to see the micro-answer bubble animate
-  const [input, setInput] = useState("");
-  const bubbleRef = useRef<HTMLDivElement | null>(null);
+  // Mission panel has slightly different behavior: small, ultra-smooth lerp and small translate
   useEffect(() => {
-    if (!bubbleRef.current) return;
-    bubbleRef.current.animate(
-      [
-        { transform: 'translateY(6px) scale(0.98)', opacity: 0 },
-        { transform: 'translateY(0px) scale(1)', opacity: 1 }
-      ],
-      { duration: 420, easing: 'cubic-bezier(.22,1,.36,1)', fill: 'forwards' }
+    const el = missionRef.current;
+    if (!el || typeof window === "undefined") return;
+
+    const canTilt = window.matchMedia
+      ? window.matchMedia("(hover:hover) and (pointer:fine)").matches
+      : true;
+    if (!canTilt) return;
+
+    let rect = el.getBoundingClientRect();
+    let tX = 0, tY = 0, tZ = 0, cX = 0, cY = 0, cZ = 0;
+    let raf = 0;
+    const opts = { maxTilt: 2.6, perspective: 1200, translateZ: 6, ease: 0.08 };
+
+    const onMove = (e: MouseEvent) => {
+      rect = el.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const halfW = rect.width / 2;
+      const halfH = rect.height / 2;
+      tY = ((x - halfW) / halfW) * opts.maxTilt; // rotateY
+      tX = ((halfH - y) / halfH) * opts.maxTilt; // rotateX
+
+      const ang = Math.atan2(y - halfH, x - halfW) * (180 / Math.PI);
+      tZ = (ang / 90) * 1.0; // tiny rotateZ
+
+      if (!raf) raf = requestAnimationFrame(update);
+    };
+
+    const update = () => {
+      cX += (tX - cX) * opts.ease;
+      cY += (tY - cY) * opts.ease;
+      cZ += (tZ - cZ) * opts.ease;
+      el.style.transform = `perspective(${opts.perspective}px) rotateX(${cX}deg) rotateY(${cY}deg) rotateZ(${cZ}deg) translateZ(${opts.translateZ}px)`;
+      raf = 0;
+    };
+
+    const onLeave = () => {
+      tX = 0; tY = 0; tZ = 0;
+      if (raf) cancelAnimationFrame(raf);
+      el.style.transition = "transform 480ms cubic-bezier(0.22,1,0.36,1)";
+      el.style.transform = `perspective(${opts.perspective}px) rotateX(0deg) rotateY(0deg) rotateZ(0deg) translateZ(0px)`;
+      setTimeout(() => { el.style.transition = ""; }, 500);
+    };
+
+  const onResize = () => { rect = el.getBoundingClientRect(); };
+  el.addEventListener("mousemove", onMove);
+  el.addEventListener("mouseleave", onLeave);
+  window.addEventListener("resize", onResize);
+
+    return () => {
+      el.removeEventListener("mousemove", onMove);
+      el.removeEventListener("mouseleave", onLeave);
+      window.removeEventListener("resize", onResize);
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }, []);
+
+  // -------------------
+  // Subcomponents
+  // -------------------
+  function ProblemCard({ p, i }: { p: { stat: string; text: string }; i: number }) {
+    return (
+      <div
+        key={i}
+        onClick={() => toggleFlip(i)}
+        className="group relative h-56 glass-tile text-slate-100 rounded-2xl shadow-xl cursor-pointer transition-all duration-500 hover:scale-[1.03] hover:shadow-[0_10px_40px_rgba(2,6,23,0.28)] perspective tilt-card fade-up"
+      >
+        <div
+          className="absolute inset-0 transition-transform duration-700 transform"
+          style={{
+            transformStyle: "preserve-3d",
+            transform: flipped[i] ? "rotateY(180deg)" : "rotateY(0deg)",
+          }}
+        >
+          {/* Front */}
+          <div
+            className="absolute inset-0 flex flex-col items-center justify-center gap-3 text-4xl font-bold backface-hidden"
+            style={{ backfaceVisibility: "hidden" }}
+          >
+            <span>{p.stat}</span>
+            <span className="text-sm text-slate-400 italic group-hover:text-slate-300 transition-colors">Click to find out</span>
+          </div>
+
+          {/* Back */}
+          <div
+            className="absolute inset-0 flex items-center justify-center p-4 text-lg leading-relaxed glass-tile rounded-2xl text-slate-200"
+            style={{ transform: "rotateY(180deg)", backfaceVisibility: "hidden" }}
+          >
+            <div>
+              <div>{p.text}</div>
+              <div className="mt-3 text-xs text-slate-500 italic">Backed by research-backed principles: active recall, spaced repetition and retrieval practice.</div>
+            </div>
+          </div>
+        </div>
+      </div>
     );
-  }, [input]);
+  }
 
+  function FeatureRow({ f, i }: { f: { title: string; desc: string }; i: number }) {
+    return (
+      <div
+        key={i}
+        className={`feature-row flex flex-col md:flex-row items-center gap-10 fade-up ${i % 2 !== 0 ? "md:flex-row-reverse" : ""}`}
+      >
+  <div className="flex-1 glass-tile rounded-2xl shadow-xl p-6 text-slate-100 tilt-card planner-card">
+          <h4 className="text-xl font-bold mb-3">{f.title}</h4>
+          <p>{f.desc}</p>
+          <div className="mt-4 text-sm text-slate-500">Built around proven learning techniques.</div>
+        </div>
+        <Link
+          to="/features"
+          className="flex-1 text-slate-300 text-lg md:text-xl leading-relaxed text-center md:text-left"
+        >
+          {i % 2 === 0
+            ? "The all in 1 hub for your study sessions with all the tools one could ask for."
+            : "Designed to keep you motivated and productive, no matter how overwhelming your syllabus seems."}
+          <div className="mt-4 text-slate-400">{featureSideText[i]}</div>
+        </Link>
+      </div>
+    );
+  }
+
+  // -------------------
+  // Render
+  // -------------------
   return (
-    <section className="relative isolate pt-24 pb-14 overflow-hidden">
-      <style>{styles}</style>
+    <>
+      <SEO
+        title="VertexED — AI Study Tools for Students - AI Based Methods"
+        description="All-in-one AI study toolkit with planner, calendar, notes, flashcards, quizzes, chatbot, answer reviewer, and transcription."
+        canonical="https://www.vertexed.app/"
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          name: "VertexED — AI Study Toolkit",
+          url: "https://www.vertexed.app/",
+          potentialAction: {
+            "@type": "SearchAction",
+            target: "https://www.vertexed.app/?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+          }
+        }}
+      />
 
-      {/* canvas for subtle cursor particles */}
-      <canvas ref={cursorCanvas} className="pointer-events-none fixed inset-0 -z-10" aria-hidden />
-
-      {/* background blobs (large soft gradients) */}
-      <div aria-hidden className="absolute -left-32 -top-40 w-[56rem] h-[56rem] rounded-full bg-gradient-to-tr from-[#ff7ab6] via-[#7c5cff] to-[#4dd0e1] hero-blob -z-20" ref={blobA} style={{ mixBlendMode: 'overlay' }} />
-      <div aria-hidden className="absolute -right-36 bottom-8 w-[40rem] h-[40rem] rounded-full bg-gradient-to-br from-[#ffd37a] via-[#ff7a7a] to-[#9b6bff] hero-blob -z-20" ref={blobB} style={{ mixBlendMode: 'overlay' }} />
-
-      <div className="max-w-6xl mx-auto px-6">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-
-          {/* left: headline + micro demo */}
-          <div className="relative z-10">
-            <h1 className="text-4xl md:text-6xl leading-tight font-extrabold text-white mb-6">
-              <span className="block">Make every session count.</span>
-              <span className="block mt-2 text-3xl md:text-4xl font-semibold text-slate-100">
+  {/* Hero */}
+  <section
+    className="glass-card px-6 pt-24 pb-16 text-center"
+  >
+        <div className="max-w-3xl mx-auto">
+          <div className="mb-6 fade-up">
+            <div className="relative w-full h-[6.75rem] md:h-[9.25rem] flex items-center justify-center">
+              {/* We render the animated text inside a flex column that auto-detects wrap */}
+              <h1
+                className="text-5xl md:text-7xl font-semibold text-white leading-tight text-center flex flex-col justify-center [--gap:0.4rem] md:[--gap:0.6rem]"
+                style={{ lineHeight: 1.05 }}
+              >
                 <TypeAnimation
-                  sequence={[800, 'Focus that actually lasts.', 1400, 'Plan. Practice. Master.', 1400, 'Built for learners who want results.']}
-                  speed={40}
+                  sequence={[
+                    1200,
+                    "AI study tools for students.",
+                    1800,
+                    "Focused learning. Real results.",
+                    1800,
+                    "Bold. Premium. Built for learners.",
+                    1800,
+                    "Study smarter, not longer.",
+                  ]}
+                  speed={45}
                   wrapper="span"
                   cursor={true}
                   repeat={Infinity}
                 />
-              </span>
-            </h1>
-
-            <p className="text-slate-300 max-w-xl mb-6">
-              VertexED combines attention-first design with research-backed study techniques. Lightweight, fast and kind to your attention.
-            </p>
-
-            <div className="flex items-center gap-4">
-              <Link to="/main" className="inline-flex items-center gap-3 px-5 py-3 rounded-full bg-gradient-to-r from-indigo-500 to-fuchsia-500 text-white font-semibold shadow-lg transform-gpu hover:scale-[1.03] transition">Try it free</Link>
-              <button onClick={() => setFocusText('Start a 10-minute focused session')} className="px-4 py-2 rounded-full bg-white/6 border border-white/6 text-white">10-min ritual</button>
+              </h1>
             </div>
-
-            {/* interactive micro-demo: tiny input that animates answer bubble */}
-            <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4 items-start">
-              <input
-                aria-label="Try a quick prompt"
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                placeholder="Type a study topic, e.g. "
-                className="w-full rounded-lg p-3 bg-white/6 placeholder:text-slate-400 text-white focus:outline-none"
-              />
-
-              <div ref={bubbleRef} className="rounded-lg p-3 bg-gradient-to-r from-white/6 to-white/4 border border-white/8 text-slate-100">
-                <div className="text-sm font-medium">Micro-answer</div>
-                <div className="mt-2 text-sm text-slate-300">{input ? `Quick tip for “${input}”: try breaking it into 3 sub-ideas and recall them for 3 minutes.` : 'Type a topic to get a sample micro-answer.'}</div>
-              </div>
-            </div>
-
-            <div className="mt-6 text-xs text-slate-400">Built around spaced repetition, active recall and deliberate practice.</div>
           </div>
 
-          {/* right: floating study card with tilt (pointer events) */}
-          <div className="relative z-10 flex items-center justify-center">
-            <div
-              className="w-full max-w-md rounded-3xl p-6 bg-gradient-to-br from-white/6 to-white/4 border border-white/8 shadow-2xl tilt-card"
-              onMouseMove={(e) => {
-                const el = e.currentTarget as HTMLDivElement;
-                const rect = el.getBoundingClientRect();
-                const x = e.clientX - rect.left - rect.width/2;
-                const y = e.clientY - rect.top - rect.height/2;
-                const rx = (-y / rect.height) * 10;
-                const ry = (x / rect.width) * 12;
-                el.style.transform = `perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg) scale(1.01)`;
-              }}
-              onMouseLeave={(e) => { (e.currentTarget as HTMLDivElement).style.transform = 'perspective(900px) rotateX(0deg) rotateY(0deg) scale(1)'; }}
+          <p className="text-lg text-slate-200 mb-10 fade-up">
+            An all-in-one toolkit: planner, notes, flashcards, quizzes, chatbot, answer reviewer — built around research-backed learning methods like active recall, spaced repetition, and retrieval practice.
+          </p>
+
+          <div className="flex gap-4 justify-center fade-up">
+            <Link
+              to="/main"
+              className="px-8 py-4 rounded-full bg-white text-slate-900 hover:bg-slate-200 transition-transform duration-400 ease-in-out shadow-xl hover:scale-105 ring-1 ring-white/10"
             >
-              <div className="flex items-center justify-between">
-                <div>
-                  <div className="text-sm font-semibold text-slate-200">Next practice</div>
-                  <div className="mt-2 font-bold text-2xl text-white">Algebra — Practice Paper</div>
-                </div>
-                <div className="text-xs text-slate-400">45 min</div>
-              </div>
-
-              <div className="mt-4 grid grid-cols-2 gap-3">
-                <div className="p-3 bg-white/5 rounded-lg">
-                  <div className="text-xs text-slate-300">Questions</div>
-                  <div className="font-semibold text-white">18</div>
-                </div>
-                <div className="p-3 bg-white/5 rounded-lg">
-                  <div className="text-xs text-slate-300">Accuracy</div>
-                  <div className="font-semibold text-white">72%</div>
-                </div>
-              </div>
-
-              <div className="mt-4 flex gap-3">
-                <button className="flex-1 px-4 py-3 rounded-full bg-indigo-600/90 text-white font-semibold">Start</button>
-                <button className="px-4 py-3 rounded-full bg-white/6 border border-white/8 text-white">Preview</button>
-              </div>
-            </div>
+              Get Started
+            </Link>
+            <Link
+              to="/about"
+              className="px-8 py-4 rounded-full bg-transparent border border-white/20 text-white hover:bg-white/5 transition-transform duration-400 ease-in-out shadow-md hover:scale-105"
+              aria-label="Learn more about VertexED on the About page"
+            >
+              Learn more about VertexED
+            </Link>
           </div>
-
+        </div>
+      </section>
+      {/* Subtle resources link below hero for crawl paths/brand queries */}
+      <div className="max-w-3xl mx-auto px-6 mt-3">
+        <div className="text-xs text-slate-400 text-center">
+          Looking for how-to guides? <Link to="/resources" className="underline">Explore resources</Link>
         </div>
       </div>
-    </section>
+
+  {/* Storytelling */}
+  <section className="mt-12 md:mt-15 text-center px-6 fade-up">
+        <div className="w-full mx-auto h-[4.8rem] md:h-auto flex items-center justify-center mb-6">
+          <h2 className="text-4xl md:text-5xl font-semibold text-white leading-tight flex flex-col justify-center">
+            <TypeAnimation
+              sequence={[1200, "We hate the way we study.", 1400, "We hate cramming.", 1400, "We hate wasted time.", 1400, "We hate inefficient tools."]}
+              speed={40}
+              wrapper="span"
+              cursor={true}
+              repeat={Infinity}
+            />
+          </h2>
+        </div>
+        <p className="text-lg text-slate-200 mb-12">Who wouldn’t?</p>
+      </section>
+
+      {/* Why is this a problem? */}
+      <section className="max-w-6xl mx-auto px-6 mt-28 fade-up">
+        <h3 className="text-3xl md:text-4xl font-semibold text-white mb-10 text-center">Why is this a problem?</h3>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
+          {problems.map((p, i) => (
+            <ProblemCard key={i} p={p} i={i} />
+          ))}
+        </div>
+      </section>
+
+      {/* Mission Paragraph */}
+      <section className="max-w-4xl mx-auto mt-24 px-6 text-center fade-up">
+        <div
+          ref={missionRef}
+          className="glass-card text-slate-100 rounded-3xl shadow-2xl p-10 transform transition-transform duration-300"
+          aria-label="Mission panel"
+        >
+          <p className="text-lg md:text-xl leading-relaxed">
+            Studying has become harder than ever. With too much information to know what to do with,
+            resources that rarely construct measurable progress, and tools that sometimes make things
+            worse, students need a learning space that adapts to them and encourages continuous
+            improvement.
+          </p>
+
+          <ul className="text-left mt-6 space-y-3">
+            <li className="font-semibold">• Improve the way you approach learning</li>
+            <li className="font-semibold">• Improve your performance on exams</li>
+            <li className="font-semibold">• Improve comprehension and long-term retention</li>
+          </ul>
+
+          <p className="text-lg md:text-xl mt-6 leading-relaxed">
+            We focus equally on progress and curiosity: building tools that help you connect ideas,
+            practice deliberately, and grow at your own pace.
+          </p>
+
+          <p className="text-lg md:text-xl mt-6 leading-relaxed font-semibold">
+            Our aim is not only to raise scores using evidence-based techniques, but to create an
+            environment where learning becomes rewarding and sustainable.
+          </p>
+        </div>
+      </section>
+
+      {/* Features */}
+      <section className="max-w-6xl mx-auto px-6 mt-28">
+        <h3 className="text-3xl md:text-4xl font-semibold text-white mb-6 text-center fade-up">
+          <Link to="/features" className="hover:underline">Explore Our Features</Link>
+        </h3>
+        <div className="text-center mb-8">
+          <Link
+            to="/features"
+            className="inline-block px-6 py-3 rounded-full border border-white/20 text-white hover:bg-white/5 transition duration-300"
+          >
+            See full features
+          </Link>
+        </div>
+
+        <div className="space-y-20">
+          {features.map((f, i) => (
+            <FeatureRow key={i} f={f} i={i} />
+          ))}
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="mt-28 text-center px-6 fade-up">
+        <h3 className="text-3xl md:text-4xl font-semibold text-white mb-6">
+          Ready to get started?
+          <br />
+          We guarantee a change!
+        </h3>
+        <button
+          onClick={scrollToTop}
+          className="mt-4 px-8 py-4 rounded-full bg-white text-slate-900 shadow-xl hover:scale-105 hover:bg-slate-200 transition-all duration-500 ease-in-out"
+        >
+          Back to Top
+        </button>
+      </section>
+
+      {/* Closing */}
+      <section className="mt-16 text-center px-6">
+        <p className="text-lg text-slate-200">Learning was never difficult, it just needed a new perspective. VertexED — (<strong>Vertex ED</strong>) — is here to deliver it.</p>
+      </section>
+
+      {/* Contact Us (Formspree) */}
+      <section className="mt-12 px-6 mb-12">
+        <div className="max-w-3xl mx-auto glass-card rounded-2xl p-8 text-slate-100 shadow-xl">
+          <h3 className="text-2xl font-semibold mb-4">Contact Us</h3>
+          <p className="text-slate-400 mb-4">Have a question? Fill out the form and we'll get back to you.</p>
+
+          <form
+            action="https://formspree.io/f/mldpklqk"
+            method="POST"
+            className="space-y-4"
+          >
+            <label className="block text-left">
+              <span className="text-sm text-slate-300 mb-1 block">Your email</span>
+              <input
+                name="email"
+                type="email"
+                placeholder="steve.jobs@gmail.com"
+                required
+                className="w-full rounded-md p-3 bg-white/5 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-500"
+              />
+              <div className="text-xs text-slate-500 mt-1">Example: steve.jobs@gmail.com</div>
+            </label>
+
+            <label className="block text-left">
+              <span className="text-sm text-slate-300 mb-1 block">Your message</span>
+              <textarea
+                name="message"
+                rows={5}
+                placeholder="Hi — I'm interested in learning more about VertexED..."
+                required
+                className="w-full rounded-md p-3 bg-white/5 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-500"
+              ></textarea>
+              <div className="text-xs text-slate-500 mt-1">Briefly tell us what you'd like help with.</div>
+            </label>
+
+            <div className="flex items-center justify-between">
+              <button
+                type="submit"
+                className="px-6 py-3 rounded-full bg-white text-slate-900 shadow hover:scale-105 transition"
+              >
+                Send
+              </button>
+              <p className="text-sm text-slate-400">We’ll reply as soon as we can.</p>
+            </div>
+          </form>
+        </div>
+      </section>
+    </>
   );
 }
