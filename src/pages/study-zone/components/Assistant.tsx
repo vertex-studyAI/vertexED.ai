@@ -5,6 +5,7 @@ import {
 	primaryButtonStyle,
 	subtleTextStyle,
 } from "../styles";
+import { fetchChatbotAnswer } from "@/lib/chatbotApi";
 
 type Sender = "user" | "assistant";
 
@@ -78,26 +79,53 @@ const Assistant: React.FC<AssistantProps> = ({ accent, onClose }) => {
 		setIsLoading(true);
 
 		try {
-			const response = await fetch("/api/ask", {
-				method: "POST",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({ question: trimmed }),
-			});
+			const data = await fetchChatbotAnswer(trimmed);
 
-			if (!response.ok) {
-				throw new Error(`Request failed with status ${response.status}`);
+			if (data.error) {
+				setMessages((prev) => [
+					...prev,
+					{
+						id: `${Date.now()}-assistant-error`,
+						sender: "assistant",
+						text: `Error: ${data.error}`,
+					},
+				]);
+				return;
 			}
 
-			const data: { answer?: string } = await response.json();
-			const assistantReply = data.answer?.trim() || "I'm still thinking about that one.";
+			const botAnswer = data.answer?.trim() ?? "I'm still thinking about that one.";
+			const typingId = `${Date.now()}-assistant`;
 			setMessages((prev) => [
 				...prev,
 				{
-					id: `${Date.now()}-assistant`,
+					id: typingId,
 					sender: "assistant",
-					text: assistantReply,
+					text: "",
 				},
 			]);
+
+			let index = 0;
+			const interval = window.setInterval(() => {
+				setMessages((prev) => {
+					const updated = [...prev];
+					const messageIndex = updated.findIndex((message) => message.id === typingId);
+					if (messageIndex === -1) {
+						window.clearInterval(interval);
+						return prev;
+					}
+					const currentMessage = updated[messageIndex];
+					updated[messageIndex] = {
+						...currentMessage,
+						text: currentMessage.text + (botAnswer[index] ?? ""),
+					};
+					return updated;
+				});
+
+				index += 1;
+				if (index >= botAnswer.length) {
+					window.clearInterval(interval);
+				}
+			}, 20);
 		} catch (error) {
 			console.error("Assistant error:", error);
 			setMessages((prev) => [

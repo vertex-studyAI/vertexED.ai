@@ -1,13 +1,17 @@
 // /api/ask.js
+import { GoogleGenerativeAI } from "@google/generative-ai";
+
+const MODEL_NAME = "gemini-1.5-flash-latest";
+
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
-  const OPENAI_API_KEY = process.env.ChatbotKey;
-  if (!OPENAI_API_KEY) {
-    // Friendly message for users; still log for operators
-    console.error("Missing ChatbotKey env var (process.env.ChatbotKey)");
+  const GEMINI_API_KEY =
+    process.env.VITE_GEMINI_API_KEY || process.env.GEMINI_API_KEY || process.env.ChatbotKey;
+  if (!GEMINI_API_KEY) {
+    console.error("Missing Gemini API key (process.env.VITE_GEMINI_API_KEY or GEMINI_API_KEY)");
     return res.status(500).json({ error: "We have a problem, don't worry it'll be fixed soon" });
   }
 
@@ -22,76 +26,36 @@ export default async function handler(req, res) {
       return res.status(200).json({ answer: "I wish it too (secret code)" });
     }
 
-    const payload = {
-      // Note: corrected prefix "ft:" and proper quoted string
-      model: "ft:gpt-4.1-mini-2025-04-14:verteded:apex-chatbot:CSgJ1mRt",
-      messages: [{ role: "user", content: question }],
-      // optionally include: max_tokens, temperature, etc.
-    };
-
-    const response = await fetch("https://api.openai.com/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${OPENAI_API_KEY}`,
+    const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
+    const model = genAI.getGenerativeModel({
+      model: MODEL_NAME,
+      generationConfig: {
+        temperature: 0.7,
+        topP: 0.95,
+        topK: 40,
+        maxOutputTokens: 1024,
       },
-      body: JSON.stringify(payload),
     });
 
-    // Read raw text (always safe)
-    const raw = await response.text();
+    const result = await model.generateContent({
+      contents: [
+        {
+          role: "user",
+          parts: [{ text: question }],
+        },
+      ],
+    });
 
-    // Log helpful debug info
-    console.log("OpenAI status:", response.status, response.statusText);
-    console.log("OpenAI content-type:", response.headers.get("content-type"));
-    console.log("OpenAI raw body (truncated 2000 chars):", raw?.slice?.(0, 2000));
-
-    // If non-OK, return useful info for debugging (remove raw body in prod)
-    if (!response.ok) {
-      let parsedError = null;
-      const ct = (response.headers.get("content-type") || "").toLowerCase();
-      if (ct.includes("application/json")) {
-        try { parsedError = JSON.parse(raw); } catch (e) { parsedError = raw; }
-      } else {
-        parsedError = raw;
-      }
-      console.error("OpenAI returned non-OK:", response.status, parsedError);
-      return res.status(response.status).json({
-        error: "OpenAI API error",
-        details: parsedError,
-      });
-    }
-
-    // Parse JSON only if content-type says JSON
-    let data = null;
-    const contentType = (response.headers.get("content-type") || "").toLowerCase();
-    if (contentType.includes("application/json")) {
-      try {
-        data = JSON.parse(raw);
-      } catch (e) {
-        console.error("Failed to parse JSON from OpenAI:", e, "raw:", raw);
-        return res.status(500).json({ error: "Invalid JSON from OpenAI", raw_body: raw });
-      }
-    } else {
-      // Unexpected but handle gracefully
-      console.warn("OpenAI returned non-JSON success response. Raw:", raw);
-      return res.status(500).json({ error: "Unexpected response format from AI", raw_body: raw });
-    }
-
-    // Accept chat or completion style shapes
-    const answer =
-      data?.choices?.[0]?.message?.content ??
-      data?.choices?.[0]?.text ??
-      null;
+    const answer = result?.response?.text?.()?.trim?.();
 
     if (!answer) {
-      console.error("OpenAI response missing expected fields:", data);
-      return res.status(500).json({ error: "Sorry, A.I is currently under maintenance", raw: data });
+      console.error("Gemini response missing expected fields:", result);
+      return res.status(500).json({ error: "Sorry, A.I is currently under maintenance", raw: result });
     }
 
     return res.status(200).json({ answer });
   } catch (error) {
     console.error("Server error:", error);
-    return res.status(500).json({ error: "Something went wrong." });
+    return res.status(500).json({ error: "Something went wrong.", details: error?.message || error });
   }
 }

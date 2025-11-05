@@ -6,8 +6,9 @@ import PageSection from "@/components/PageSection";
 import ReactMarkdown from "react-markdown";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
-import 'katex/dist/katex.min.css';
+import "katex/dist/katex.min.css";
 import SEO from "@/components/SEO";
+import { fetchChatbotAnswer } from "@/lib/chatbotApi";
 
 export default function AIChatbot() {
   const [userInput, setUserInput] = useState("");
@@ -30,27 +31,28 @@ export default function AIChatbot() {
     setLoading(true);
 
     try {
-      const response = await fetch("/api/ask", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ question: userInput }),
-      });
-
-      const data = await response.json();
+      const data = await fetchChatbotAnswer(userInput);
 
       if (data.error) {
         setChatMessages(prev => [...prev, { sender: "bot", text: `Error: ${data.error}` }]);
       } else {
-        // Dynamic "typing effect" for bot answer
-        const botAnswer = data.answer;
+        const botAnswer = data.answer?.trim() ?? "";
         let i = 0;
-        setChatMessages(prev => [...prev, { sender: "bot", text: "" }]); // placeholder
+        setChatMessages(prev => [...prev, { sender: "bot", text: "" }]);
 
         const interval = setInterval(() => {
           setChatMessages(prev => {
             const messagesCopy = [...prev];
-            const last = messagesCopy[messagesCopy.length - 1];
-            last.text += botAnswer[i];
+            const lastIndex = messagesCopy.length - 1;
+            const last = messagesCopy[lastIndex];
+            if (!last) {
+              clearInterval(interval);
+              return prev;
+            }
+            messagesCopy[lastIndex] = {
+              ...last,
+              text: last.text + (botAnswer[i] ?? ""),
+            };
             return messagesCopy;
           });
           i++;
@@ -59,7 +61,7 @@ export default function AIChatbot() {
       }
     } catch (error) {
       console.error(error);
-      setChatMessages(prev => [...prev, { sender: "bot", text: `Error: ${error.message}` }]);
+      setChatMessages(prev => [...prev, { sender: "bot", text: `Error: ${error instanceof Error ? error.message : String(error)}` }]);
     } finally {
       setLoading(false);
       setUserInput("");
