@@ -54,6 +54,20 @@ const timeDisplayStyle: React.CSSProperties = {
 	color: "#F5F7FF",
 };
 
+const pomodoroTimeStyle: React.CSSProperties = {
+	...timeDisplayStyle,
+	fontSize: "40px",
+	letterSpacing: "0.04em",
+	whiteSpace: "nowrap",
+};
+
+const timerCircleTimeStyle: React.CSSProperties = {
+	...timeDisplayStyle,
+	fontSize: "42px",
+	letterSpacing: "0.05em",
+	whiteSpace: "nowrap",
+};
+
 const circleTrackColor = "rgba(231, 234, 255, 0.18)";
 
 const formatTimerDisplay = (valueMs: number) => {
@@ -190,7 +204,7 @@ const Timer: React.FC<{ accent: string }> = ({ accent }) => {
 						gap: "6px",
 					}}
 				>
-					<span style={timeDisplayStyle}>{formatTimerDisplay(timeMs)}</span>
+					<span style={timerCircleTimeStyle}>{formatTimerDisplay(timeMs)}</span>
 					<span style={subtleTextStyle}>{status}</span>
 				</div>
 			</div>
@@ -408,7 +422,7 @@ const PomodoroTimer: React.FC<{ accent: string }> = ({ accent }) => {
 						gap: "6px",
 					}}
 				>
-					<span style={timeDisplayStyle}>{formatSecondsDisplay(timeSeconds)}</span>
+					<span style={pomodoroTimeStyle}>{formatSecondsDisplay(timeSeconds)}</span>
 					<span style={subtleTextStyle}>{mode === "focus" ? "Deep work" : "Recharge"}</span>
 				</div>
 			</div>
