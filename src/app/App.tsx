@@ -8,7 +8,7 @@ const Signup = lazy(() => import("@/pages/Signup"));
 const Main = lazy(() => import("@/pages/Main"));
 const AuthCallback = lazy(() => import("@/pages/AuthCallback"));
 const NotetakerQuiz = lazy(() => import("@/pages/NotetakerQuiz"));
-const StudyZone = lazy(() => import("@/pages/StudyZone"));
+const StudyZone = lazy(() => import("@/pages/study-zone/StudyZonePage"));
 const AIChatbot = lazy(() => import("@/pages/AIChatbot"));
 const StudyPlanner = lazy(() => import("@/pages/StudyPlanner"));
 const AnswerReviewer = lazy(() => import("@/pages/AnswerReviewer"));
