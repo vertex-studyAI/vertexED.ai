@@ -9,6 +9,7 @@ import HabitTracker from "./components/HabitTracker";
 import Meditation from "./components/Meditation";
 import NoteTaker from "./components/NoteTaker";
 import TimerApp from "./components/TimerApp";
+import GraphingSuite from "./components/GraphingSuite";
 import { sectionHeadingStyle, subtleBadgeStyle, subtleTextStyle, surfaceStyle } from "./styles";
 
 type WidgetKey =
@@ -19,6 +20,7 @@ type WidgetKey =
   | "calculator"
   | "habits"
   | "meditation"
+  | "graphing"
   | "notes";
 
 interface WidgetMeta {
@@ -148,6 +150,14 @@ const StudyZonePage: React.FC = () => {
         accent: "hsl(47 92% 68%)",
       },
       {
+        key: "graphing",
+        title: "Graphing Suite",
+        description: "Launch Desmos classic and 3D graphing environments without leaving Study Zone.",
+        accent: "hsl(199 82% 65%)",
+        badge: "New",
+        span: "wide",
+      },
+      {
         key: "habits",
         title: "Habit Tracker",
         description: "Design routines, monitor streaks, and keep momentum every single day.",
@@ -182,6 +192,8 @@ const StudyZonePage: React.FC = () => {
         return <Calendar accent={accent} />;
       case "calculator":
         return <Calculator accent={accent} />;
+      case "graphing":
+        return <GraphingSuite accent={accent} />;
       case "habits":
         return <HabitTracker accent={accent} />;
       case "meditation":
@@ -197,7 +209,7 @@ const StudyZonePage: React.FC = () => {
     <div style={pageWrapperStyle}>
       <Helmet>
         <title>Vertex — Study Zone</title>
-        <meta name="description" content="ProductivityHub-inspired study dashboard with timers, notes, AI, meditation, and more." />
+        <meta name="description" content="A curated study dashboard with timers, notes, AI, meditation, graphing, and more." />
         <link rel="canonical" href="https://www.vertexed.app/study-zone" />
       </Helmet>
 
@@ -210,11 +222,11 @@ const StudyZonePage: React.FC = () => {
 
       <header style={heroWrapperStyle}>
         <span style={{ fontSize: "13px", letterSpacing: "0.18em", textTransform: "uppercase", color: "hsla(199, 45%, 72%, 0.75)" }}>
-          Study Zone 2.0
+          Study Zone
         </span>
         <h1 style={heroTitleStyle}>Craft Your Focus Command Center</h1>
         <p style={heroSubtitleStyle}>
-          Everything from ProductivityHub reimagined for Vertex — timers, AI coaching, notes, and restorative breathing, all flowing directly on this page.
+          Timers, AI coaching, notes, restorative breathing, and graphing tools — every study aid flows directly on this page in one continuous workspace.
         </p>
       </header>
 
