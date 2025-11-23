@@ -20,28 +20,28 @@ export default function AIChatbot() {
   useEffect(() => {
     chatPanelRef.current?.scrollTo({
       top: chatPanelRef.current.scrollHeight,
-      behavior: "smooth"
+      behavior: "smooth",
     });
   }, [chatMessages, loading]);
 
   const handleSend = async () => {
     if (!userInput.trim()) return;
 
-    setChatMessages(prev => [...prev, { sender: "user", text: userInput }]);
+    setChatMessages((prev) => [...prev, { sender: "user", text: userInput }]);
     setLoading(true);
 
     try {
       const data = await fetchChatbotAnswer(userInput);
 
       if (data.error) {
-        setChatMessages(prev => [...prev, { sender: "bot", text: `Error: ${data.error}` }]);
+        setChatMessages((prev) => [...prev, { sender: "bot", text: `Error: ${data.error}` }]);
       } else {
         const botAnswer = data.answer?.trim() ?? "";
         let i = 0;
-        setChatMessages(prev => [...prev, { sender: "bot", text: "" }]);
+        setChatMessages((prev) => [...prev, { sender: "bot", text: "" }]);
 
         const interval = setInterval(() => {
-          setChatMessages(prev => {
+          setChatMessages((prev) => {
             const messagesCopy = [...prev];
             const lastIndex = messagesCopy.length - 1;
             const last = messagesCopy[lastIndex];
@@ -61,7 +61,7 @@ export default function AIChatbot() {
       }
     } catch (error) {
       console.error(error);
-      setChatMessages(prev => [...prev, { sender: "bot", text: `Error: ${error instanceof Error ? error.message : String(error)}` }]);
+      setChatMessages((prev) => [...prev, { sender: "bot", text: `Error: ${error instanceof Error ? error.message : String(error)}` }]);
     } finally {
       setLoading(false);
       setUserInput("");
@@ -79,7 +79,7 @@ export default function AIChatbot() {
           "@type": "WebPage",
           name: "AI Study Chatbot",
           url: "https://www.vertexed.app/chatbot",
-          description: "Ask questions and get clear, step-by-step explanations with the VertexED AI study chatbot."
+          description: "Ask questions and get clear, step-by-step explanations with the VertexED AI study chatbot.",
         }}
       />
 
@@ -88,17 +88,17 @@ export default function AIChatbot() {
           <Link to="/main" className="neu-button px-4 py-2 text-sm">← Back to Main</Link>
         </div>
 
-        <NeumorphicCard className="p-6 h-[70vh] flex flex-col">
+        <NeumorphicCard className="p-6 h-[70vh] flex flex-col bg-white/60 backdrop-blur-sm">
           {/* Header */}
           <div className="mb-4">
-            <h2 className="text-xl font-semibold mb-1 text-gray-800">AI Study Chatbot</h2>
-            <p className="text-gray-500 text-sm">Ask questions and get step-by-step answers. Supports LaTeX.</p>
+            <h2 className="text-2xl font-semibold mb-1 text-sky-700">AI Study Chatbot</h2>
+            <p className="text-slate-500 text-sm">Ask questions and get step-by-step answers. Supports LaTeX.</p>
           </div>
 
           {/* Messages area */}
           <div
             ref={chatPanelRef}
-            className="flex-1 p-4 mb-4 overflow-y-auto space-y-3"
+            className="flex-1 p-4 mb-4 overflow-y-auto space-y-3 rounded-lg"
           >
             {chatMessages.map((msg, idx) => (
               <div
@@ -106,13 +106,13 @@ export default function AIChatbot() {
                 className={`flex ${msg.sender === "bot" ? "justify-start" : "justify-end"}`}
               >
                 <div
-                  className={`max-w-[75%] px-4 py-2 rounded-2xl shadow-inner
+                  className={`max-w-[75%] px-4 py-3 rounded-2xl shadow-sm border
                     ${msg.sender === "bot"
-                      ? "bg-blue-100 text-blue-900" // bot: soft blue
-                      : "bg-green-100 text-green-900" // user: soft green
+                      ? "bg-gradient-to-b from-blue-50 to-white/60 text-sky-800 border-blue-100"
+                      : "bg-gradient-to-b from-green-50 to-white/60 text-green-800 border-green-100"
                     }`}
                 >
-                  <div className="text-xs font-semibold mb-1">
+                  <div className="text-xs font-semibold mb-1 opacity-90">
                     {msg.sender === "bot" ? "AI" : "You"}
                   </div>
                   <ReactMarkdown
@@ -127,10 +127,10 @@ export default function AIChatbot() {
 
             {loading && (
               <div className="flex justify-start">
-                <div className="max-w-[75%] px-4 py-2 rounded-2xl shadow-inner bg-blue-100 text-blue-900 flex items-center space-x-2 animate-pulse">
-                  <span className="w-2 h-2 rounded-full bg-blue-700 animate-bounce" />
-                  <span className="w-2 h-2 rounded-full bg-blue-700 animate-bounce delay-200" />
-                  <span className="w-2 h-2 rounded-full bg-blue-700 animate-bounce delay-400" />
+                <div className="max-w-[75%] px-4 py-2 rounded-2xl shadow-sm bg-gradient-to-b from-blue-50 to-white/60 text-sky-800 flex items-center space-x-3">
+                  <span className="w-2 h-2 rounded-full bg-sky-600 animate-bounce" />
+                  <span className="w-2 h-2 rounded-full bg-sky-600 animate-bounce delay-200" />
+                  <span className="w-2 h-2 rounded-full bg-sky-600 animate-bounce delay-400" />
                   <span className="text-xs font-semibold ml-2">AI is typing...</span>
                 </div>
               </div>
@@ -140,15 +140,17 @@ export default function AIChatbot() {
           {/* Input area */}
           <div className="flex mt-auto space-x-2">
             <input
-              className="flex-grow px-4 py-2 rounded-lg shadow-inner border border-gray-300 focus:ring-2 focus:ring-blue-400 focus:outline-none"
+              aria-label="Type your question"
+              className="flex-grow px-4 py-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-sky-300 focus:outline-none placeholder:text-sky-300 text-sky-600 placeholder:italic"
               placeholder="Ask me anything..."
               value={userInput}
-              onChange={e => setUserInput(e.target.value)}
-              onKeyDown={e => e.key === "Enter" && handleSend()}
+              onChange={(e) => setUserInput(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && handleSend()}
               disabled={loading}
             />
             <button
-              className="px-4 py-2 bg-blue-500 text-blue rounded-lg hover:bg-blue-600 disabled:opacity-50"
+              aria-label="Send message"
+              className="px-4 py-3 bg-gradient-to-r from-sky-500 to-blue-600 text-white rounded-lg hover:from-sky-600 hover:to-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
               onClick={handleSend}
               disabled={loading}
             >
