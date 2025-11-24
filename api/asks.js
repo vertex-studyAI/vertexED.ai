@@ -31,7 +31,7 @@ export default async function handler(req, res) {
     }
 
     // ✔ Secret codes preserved exactly
-    const secretCodes = ["010910", "060910"];
+    const secretCodes = ["010910+060910"];
     if (secretCodes.includes(question.trim())) {
       return res.status(200).json({
         answer: "I wish it too (secret code)",
