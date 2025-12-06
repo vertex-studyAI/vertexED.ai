@@ -25,7 +25,7 @@ export default function Home() {
     // Try runtime import — will be requested only in browser. If missing, we silently continue.
     (async () => {
       try {
-        const mod = await import("@/components/FluidCursor");
+        const mod = await import("@/components/FluidCursor.vue");
         const C = (mod && (mod.default || mod)) as React.ComponentType<any>;
         if (mounted && C) setFluidCursorComp(() => C);
       } catch (err) {
