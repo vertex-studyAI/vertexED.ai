@@ -379,7 +379,7 @@ export default function Home() {
 
       <div className="scribble scribble--math" style={{ left: "72%", top: "20%", width: 160, height: 80, position: "absolute", zIndex: 30 }}>
         <svg width="160" height="80">
-          <text x="0" y="20" fontSize="14" fill="rgba(255,255,255,0.12)">∑_{n=1}^∞ 1/n² = π²/6</text>
+          <text x="0" y="20" fontSize="14" fill="rgba(255,255,255,0.12)">{'∑_{n=1}^∞ 1/n² = π²/6'}</text>
           <text x="0" y="40" fontSize="12" fill="rgba(14,165,233,0.08)">E = mc²</text>
           <text x="0" y="60" fontSize="12" fill="rgba(255,255,255,0.08)">f'(x) = lim h→0 (f(x+h)-f(x))/h</text>
         </svg>
