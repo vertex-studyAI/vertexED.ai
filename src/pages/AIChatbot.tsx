@@ -28,7 +28,6 @@ function uid(prefix = "id") {
   return `${prefix}_${Math.random().toString(36).slice(2, 9)}`;
 }
 
-// tiny local storage helpers for optional persistence
 const storage = {
   get(key, fallback) {
     try {
@@ -48,51 +47,27 @@ const storage = {
 };
 
 // -----------------------------------------------------------------------------
-// Main Chat App component
+// Main Chat App component (modified: removed accent picker + inner chat box)
 // -----------------------------------------------------------------------------
 
 export default function AIChatbotFullRedo() {
-  // Core chat state
   const [chats, setChats] = useState(() => storage.get('chats_list', []));
-  // activeChat will store current messages and metadata in memory; we'll keep list separate.
   const [activeChatId, setActiveChatId] = useState(() => storage.get('active_chat', null));
   const [messages, setMessages] = useState(() => storage.get('messages_' + (storage.get('active_chat') || 'root'), []));
   const [userInput, setUserInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(true);
   const [widgetsVisible, setWidgetsVisible] = useState(false);
-  const [accent, setAccent] = useState('#0ea5e9'); // sky
-  const [bubbleStyle, setBubbleStyle] = useState('neumorphic');
+  const [accent, setAccent] = useState('#0ea5e9'); // used for shadow accents
 
   const panelRef = useRef(null);
   const inputRef = useRef(null);
 
-  // save states periodically
-  useEffect(() => {
-    storage.set('chats_list', chats);
-  }, [chats]);
+  useEffect(() => { storage.set('chats_list', chats); }, [chats]);
+  useEffect(() => { storage.set('active_chat', activeChatId); }, [activeChatId]);
+  useEffect(() => { storage.set('messages_' + (activeChatId || 'root'), messages); }, [messages, activeChatId]);
+  useEffect(() => { panelRef.current?.scrollTo({ top: panelRef.current?.scrollHeight || 0, behavior: 'smooth' }); }, [messages, widgetsVisible]);
 
-  useEffect(() => {
-    storage.set('active_chat', activeChatId);
-  }, [activeChatId]);
-
-  useEffect(() => {
-    storage.set('messages_' + (activeChatId || 'root'), messages);
-  }, [messages, activeChatId]);
-
-  useEffect(() => {
-    // autoscroll to bottom on new messages
-    panelRef.current?.scrollTo({
-      top: panelRef.current?.scrollHeight || 0,
-      behavior: 'smooth',
-    });
-  }, [messages, widgetsVisible]);
-
-  useEffect(() => {
-    // subtle background static animation via CSS class toggling or similar — handled below in markup
-  }, []);
-
-  // create a new chat
   function createNewChat(title = 'New Chat') {
     const id = uid('chat');
     const it = { id, title, createdAt: Date.now() };
@@ -103,7 +78,6 @@ export default function AIChatbotFullRedo() {
     inputRef.current?.focus();
   }
 
-  // select chat
   function openChat(id) {
     setActiveChatId(id);
     const loaded = storage.get('messages_' + id, []);
@@ -112,17 +86,12 @@ export default function AIChatbotFullRedo() {
     inputRef.current?.focus();
   }
 
-  // delete chat
   function removeChat(id) {
     setChats(prev => prev.filter(c => c.id !== id));
     storage.set('messages_' + id, []);
-    if (activeChatId === id) {
-      setActiveChatId(null);
-      setMessages([]);
-    }
+    if (activeChatId === id) { setActiveChatId(null); setMessages([]); }
   }
 
-  // send user prompt
   async function sendMessage() {
     const text = userInput.trim();
     if (!text || loading) return;
@@ -133,64 +102,28 @@ export default function AIChatbotFullRedo() {
     setWidgetsVisible(false);
 
     try {
-      // small delay for UX
       await sleep(220);
-      // fetch answer
       const data = await fetchChatbotAnswer(text);
       const answer = data?.answer?.trim() ?? 'Sorry — no response available.';
-
-      // push bot message with neat show effect
       const botMsg = { id: uid('m'), sender: 'bot', text: answer, ts: Date.now() };
       setMessages(prev => [...prev, botMsg]);
-
-      // reveal widgets after a short delay
       setTimeout(() => setWidgetsVisible(true), 360);
     } catch (err) {
       const errText = `Error: ${err instanceof Error ? err.message : String(err)}`;
       setMessages(prev => [...prev, { id: uid('m'), sender: 'bot', text: errText, ts: Date.now() }]);
       setWidgetsVisible(true);
-    } finally {
-      setLoading(false);
-    }
+    } finally { setLoading(false); }
   }
 
   function sleep(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
+  function clearMessages() { setMessages([]); setWidgetsVisible(false); }
+  async function copyText(text) { try { await navigator.clipboard.writeText(text); } catch (e) { console.error(e); } }
 
-  function clearMessages() {
-    setMessages([]);
-    setWidgetsVisible(false);
-  }
-
-  // copy message text
-  async function copyText(text) {
-    try { await navigator.clipboard.writeText(text); }
-    catch (e) { console.error(e); }
-  }
-
-  // small helpers for UI tokens matching the Note Taker style
-  const ui = useMemo(() => ({
-    bg: '#071023', // deep background
-    panelBg: 'rgba(9,12,20,0.65)',
-    accent: accent,
-    soft: 'rgba(255,255,255,0.04)',
-  }), [accent]);
-
-  // keyboard handler
-  function onKeyDown(e) {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      sendMessage();
-    }
-  }
-
-  // ---------------------------------------------------------------------------
-  // Render
-  // ---------------------------------------------------------------------------
+  function onKeyDown(e) { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); } }
 
   return (
     <div className="min-h-screen w-full text-white relative" style={{ background: 'radial-gradient(ellipse at 10% 80%, rgba(64,85,102,0.12), transparent 8%), radial-gradient(circle at 92% 20%, rgba(26,35,52,0.12), transparent 8%), linear-gradient(180deg, #08101a 0%, #081018 100%)' }}>
 
-      {/* Subtle animated overlay — static sheen & parallax shimmer */}
       <BackgroundShimmer accent={accent} />
 
       <div className="max-w-6xl mx-auto px-8 py-10">
@@ -204,7 +137,7 @@ export default function AIChatbotFullRedo() {
           </div>
 
           <div className="flex items-center space-x-3">
-            <ThemeAccentPicker accent={accent} onChange={(c) => setAccent(c)} />
+            {/* top accent picker removed as requested */}
             <button className="neu-btn px-3 py-2" title="Settings">
               <Settings size={16} />
             </button>
@@ -213,7 +146,7 @@ export default function AIChatbotFullRedo() {
 
         <div className="grid grid-cols-12 gap-6">
 
-          {/* LEFT: Chat log drawer (tab-like) */}
+          {/* LEFT: Chat log drawer */}
           <aside className={`col-span-3 transition-all duration-300 ${drawerOpen ? 'opacity-100 translate-x-0' : '-translate-x-6 opacity-30'}`}>
             <div className="rounded-2xl p-4 bg-white/4 border border-white/6 backdrop-blur-md h-[80vh] flex flex-col">
               <div className="flex items-center justify-between mb-4">
@@ -230,16 +163,13 @@ export default function AIChatbotFullRedo() {
                 </div>
               </div>
 
-              {/* Tab label as empty state per request (chat log should be empty) */}
               <div className="flex-1 overflow-auto">
                 <div className="text-sm text-white/50 mb-4">Select or create a chat — this side panel is your chat log. It's intentionally empty to start.</div>
 
                 <div className="space-y-3">
                   {chats.length === 0 && (
-                    <div className="p-4 rounded-lg bg-white/3 border border-white/6">
-                      <div className="font-medium">No chats yet</div>
-                      <div className="text-xs text-white/60 mt-1">Create a new chat to get started. Chats you create will appear here as tabs.</div>
-                    </div>
+                    /* removed the small boxed card; replaced by plain inline hint as requested */
+                    <div className="px-2 text-white/60">No chats yet — create a new chat to get started. Chats will appear here.</div>
                   )}
 
                   {chats.map((c) => (
@@ -270,11 +200,10 @@ export default function AIChatbotFullRedo() {
             </div>
           </aside>
 
-          {/* MAIN: Big chat area (central) */}
+          {/* MAIN: Big chat area (central) — inner box removed so panel feels single-surface */}
           <main className="col-span-9">
             <div className="rounded-2xl p-6 bg-white/6 border border-white/6 backdrop-blur-md h-[80vh] flex flex-col">
 
-              {/* Header of chat area */}
               <div className="flex items-center justify-between mb-4">
                 <div>
                   <h2 className="text-xl font-semibold">AI Chat</h2>
@@ -287,10 +216,10 @@ export default function AIChatbotFullRedo() {
                 </div>
               </div>
 
-              {/* The chat panel itself */}
-              <div ref={panelRef} className="flex-1 overflow-auto p-3 rounded-lg border border-white/5 bg-gradient-to-b from-[rgba(255,255,255,0.02)] to-transparent shadow-inner">
+              {/* <-- REMOVED inner rounded "box" here: make the chat surface one continuous panel --> */}
+              <div ref={panelRef} className="flex-1 overflow-auto p-4">
 
-                {/* If no messages show center prompt */}
+                {/* Empty state centered */}
                 <div className="min-h-[40vh] flex flex-col justify-center items-center">
                   {messages.length === 0 ? (
                     <div className="text-center text-white/50 max-w-lg">
@@ -301,10 +230,9 @@ export default function AIChatbotFullRedo() {
 
                 </div>
 
-                {/* Messages list */}
                 <div className="space-y-4 mt-2">
                   <AnimatePresence initial={false}>
-                    {messages.map((m, i) => (
+                    {messages.map((m) => (
                       <motion.div key={m.id} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 6 }} transition={{ duration: 0.26 }}>
                         <ChatBubble msg={m} accent={accent} onCopy={() => copyText(m.text)} />
                       </motion.div>
@@ -314,7 +242,6 @@ export default function AIChatbotFullRedo() {
 
               </div>
 
-              {/* translucent input area */}
               <div className="mt-4">
                 <div className="flex items-center space-x-3">
                   <div className="flex-1 relative">
@@ -328,7 +255,6 @@ export default function AIChatbotFullRedo() {
                       style={{ caretColor: 'white' }}
                     />
 
-                    {/* small helper hint */}
                     <div className="absolute right-3 bottom-3 text-xs text-white/60">Press Enter to send</div>
                   </div>
 
@@ -364,18 +290,22 @@ export default function AIChatbotFullRedo() {
     </div>
   );
 
-  // widget handlers (placeholder actions)
   function handleWidget(action) {
     if (action === 'expand') {
       const last = [...messages].reverse().find(m => m.sender === 'bot');
       if (!last) return alert('No AI answer to expand.');
-      // simulate expanded answer
-      const expanded = last.text + '\n\n*Expanded explanation:* ' + 'Here is an expanded walkthrough of the above content.';
+      const expanded = last.text + '
+
+*Expanded explanation:* ' + 'Here is an expanded walkthrough of the above content.';
       setMessages(prev => [...prev, { id: uid('m'), sender: 'bot', text: expanded, ts: Date.now() }]);
     } else if (action === 'quiz') {
       const last = [...messages].reverse().find(m => m.sender === 'bot');
       if (!last) return alert('No answer to quiz from.');
-      setMessages(prev => [...prev, { id: uid('m'), sender: 'bot', text: 'Generating a quick 3-question quiz...\n\n1) Q1?\n2) Q2?\n3) Q3?', ts: Date.now() }]);
+      setMessages(prev => [...prev, { id: uid('m'), sender: 'bot', text: 'Generating a quick 3-question quiz...
+
+1) Q1?
+2) Q2?
+3) Q3?', ts: Date.now() }]);
     } else if (action === 'resources') {
       alert('Open resources panel — implement your resources viewer here.');
     }
@@ -383,7 +313,7 @@ export default function AIChatbotFullRedo() {
 }
 
 // -----------------------------------------------------------------------------
-// Subcomponents: ChatBubble, FeatureWidget, BackgroundShimmer, ThemeAccentPicker
+// Subcomponents: ChatBubble, FeatureWidget, BackgroundShimmer
 // -----------------------------------------------------------------------------
 
 function ChatBubble({ msg, accent, onCopy }) {
@@ -428,7 +358,6 @@ function FeatureWidget({ title, subtitle, icon, onClick, color = '#0ea5e9' }) {
 }
 
 function BackgroundShimmer({ accent = '#0ea5e9' }) {
-  // a decorative component that adds soft radial highlights and a slowly moving linear gradient
   return (
     <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
       <svg className="absolute left-[-20%] top-[-10%] opacity-30" width="700" height="700" viewBox="0 0 700 700" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -445,22 +374,7 @@ function BackgroundShimmer({ accent = '#0ea5e9' }) {
 
       <div className="absolute inset-0 animate-shimmer" style={{ background: `linear-gradient(90deg, transparent 0%, ${hexToRgba('#0ea5e9', 0.02)} 50%, transparent 100%)` }} />
 
-      <style>{`
-        @keyframes shimmerMove { 0% { transform: translateX(-30%)} 100% { transform: translateX(30%)} }
-        .animate-shimmer { animation: shimmerMove 12s linear infinite; opacity: 0.6; }
-      `}</style>
-    </div>
-  );
-}
-
-function ThemeAccentPicker({ accent, onChange }) {
-  const presets = ['#0ea5e9', '#60a5fa', '#7c3aed', '#06b6d4'];
-  return (
-    <div className="flex items-center space-x-2">
-      {presets.map(p => (
-        <button key={p} onClick={() => onChange(p)} className={`w-7 h-7 rounded-full border-2 ${accent === p ? 'ring-2 ring-offset-1' : ''}`} style={{ background: p }} />
-      ))}
-      <input type="color" value={accent} onChange={(e) => onChange(e.target.value)} className="w-8 h-8 p-0 bg-transparent border-0" />
+      <style>{`@keyframes shimmerMove { 0% { transform: translateX(-30%)} 100% { transform: translateX(30%)} } .animate-shimmer { animation: shimmerMove 12s linear infinite; opacity: 0.6; }`}</style>
     </div>
   );
 }
