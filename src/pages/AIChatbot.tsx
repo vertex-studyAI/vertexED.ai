@@ -17,7 +17,7 @@ import ReactMarkdown from "react-markdown";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import "katex/dist/katex.min.css";
-import "@/styles/custom.css";
+import "@/pages/custom.css";
 import { fetchChatbotAnswer } from "@/lib/chatbotApi"; // expected to exist in your project
 
 // -----------------------------------------------------------------------------
