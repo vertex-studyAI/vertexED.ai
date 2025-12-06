@@ -4,15 +4,16 @@ import { Link, useNavigate } from "react-router-dom";
 import SEO from "@/components/SEO";
 import { useAuth } from "@/contexts/AuthContext";
 import { TypeAnimation } from "react-type-animation";
-import FluidCursor from "@/components/fluidcursor"; // keeps your existing import
 
 /**
- * Cleaned Home.tsx
- * - Uses FluidCursor component (canvas/fluid logic should live there)
- * - All important sections have pop-up classes (IntersectionObserver)
- * - Problem flashcards use a stable layout (front/back flip) and inverted-light front
- * - Lightweight tilt interactions retained
- * - Highlight/pop-up text swap handled on intersection (once)
+ * Home.tsx — cleaned & fixed
+ * - Removed external Vue/Fluid import (caused build errors)
+ * - Embedded a lightweight 2D "topographic / fluid" cursor canvas (React + TS)
+ * - Pop-in, swap-span, highlight-once via IntersectionObserver
+ * - Tilt interactions for .tilt-card elements
+ * - Flashcards use the inverted front + dark back layout (stable markup)
+ *
+ * NOTE: This file intentionally keeps logic self-contained to avoid circular imports.
  */
 
 export default function Home() {
@@ -21,6 +22,7 @@ export default function Home() {
 
   // refs
   const missionRef = useRef<HTMLDivElement | null>(null);
+  const cursorCanvasRef = useRef<HTMLCanvasElement | null>(null);
   const tiltHandlersRef = useRef<Array<() => void>>([]);
   const observerRef = useRef<IntersectionObserver | null>(null);
 
@@ -56,7 +58,7 @@ export default function Home() {
   const [flipped, setFlipped] = useState<boolean[]>(Array(problems.length).fill(false));
   const toggleFlip = (i: number) => setFlipped(prev => { const c = [...prev]; c[i] = !c[i]; return c; });
 
-  const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
+  const scrollToTop = () => typeof window !== "undefined" && window.scrollTo({ top: 0, behavior: "smooth" });
 
   // warm up and redirect (keeps SEO behaviour)
   useEffect(() => {
@@ -213,9 +215,128 @@ export default function Home() {
     };
   }, []);
 
-  // -------------------
+  // --------- Cursor Canvas (topographic / fluid-like) -----------
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    // respect reduced motion
+    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const canvas = cursorCanvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    let dpr = Math.max(1, window.devicePixelRatio || 1);
+
+    const resize = () => {
+      dpr = Math.max(1, window.devicePixelRatio || 1);
+      canvas.width = Math.floor(window.innerWidth * dpr);
+      canvas.height = Math.floor(window.innerHeight * dpr);
+      canvas.style.width = `${window.innerWidth}px`;
+      canvas.style.height = `${window.innerHeight}px`;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    };
+    resize();
+    window.addEventListener("resize", resize);
+
+    let mouseX = window.innerWidth / 2;
+    let mouseY = window.innerHeight / 2;
+    let px = mouseX;
+    let py = mouseY;
+    let vx = 0;
+    let vy = 0;
+    let raf = 0;
+    let lastTime = performance.now();
+    let active = false;
+    const interactiveSelector = "a, button, input, textarea, .tilt-card, .glass-tile";
+
+    const onMove = (e: MouseEvent) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      active = true;
+    };
+
+    const render = (t: number) => {
+      const dt = Math.max(1, t - lastTime);
+      lastTime = t;
+      // smooth lerp towards mouse
+      px += (mouseX - px) * 0.12;
+      py += (mouseY - py) * 0.12;
+      // velocity estimated by difference
+      vx = (mouseX - px) / Math.max(1, dt) * 16;
+      vy = (mouseY - py) / Math.max(1, dt) * 16;
+      const speed = Math.min(120, Math.hypot(vx, vy));
+      const angle = Math.atan2(vy, vx);
+
+      // clear
+      ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+
+      // draw layered topographic rings
+      const baseR = 44 + (speed * 0.45);
+      const layers = 5;
+      for (let i = layers; i >= 1; i--) {
+        const tFactor = i / layers;
+        const r = baseR * (0.6 + 0.18 * i) * (1 - tFactor * 0.06);
+        const offset = (1 - tFactor) * 12;
+        const ox = Math.cos(angle) * offset * (i / layers);
+        const oy = Math.sin(angle) * offset * (i / layers);
+        const alpha = 0.06 + (0.14 * (1 - tFactor));
+        ctx.beginPath();
+        // bias ellipse by angle for "flow" look
+        const rx = r * (1 - (i * 0.03));
+        const ry = r * (0.68 - (i * 0.02));
+        ctx.ellipse(px + ox, py + oy, rx, ry, angle + (i * 0.02), 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(99,102,241,${alpha})`;
+        ctx.fill();
+      }
+
+      // subtle inner sheen ring
+      ctx.beginPath();
+      ctx.ellipse(px, py, baseR * 0.55, baseR * 0.32, angle, 0, Math.PI * 2);
+      ctx.fillStyle = "rgba(14,165,233,0.06)";
+      ctx.fill();
+
+      raf = requestAnimationFrame(render);
+    };
+
+    // interactive detector to tighten blob
+    const onDocOver = (e: MouseEvent) => {
+      const t = e.target as HTMLElement | null;
+      if (!t) return;
+      const hit = t.closest(interactiveSelector);
+      if (hit) {
+        canvas.classList.add("cursor--active");
+      } else {
+        canvas.classList.remove("cursor--active");
+      }
+    };
+
+    document.addEventListener("mousemove", onMove, { passive: true });
+    document.addEventListener("mousemove", onDocOver, { passive: true });
+
+    // start only after first movement to save work
+    const handleFirst = (e: MouseEvent) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      px = mouseX;
+      py = mouseY;
+      lastTime = performance.now();
+      raf = requestAnimationFrame(render);
+      document.body.removeEventListener("mousemove", handleFirst);
+    };
+    document.body.addEventListener("mousemove", handleFirst);
+
+    return () => {
+      document.removeEventListener("mousemove", onMove);
+      document.removeEventListener("mousemove", onDocOver);
+      window.removeEventListener("resize", resize);
+      if (raf) cancelAnimationFrame(raf);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    };
+  }, []);
+
   // Subcomponents
-  // -------------------
   function ProblemCard({ p, i }: { p: { stat: string; text: string }; i: number }) {
     return (
       <div
@@ -231,7 +352,7 @@ export default function Home() {
             transform: flipped[i] ? "rotateY(180deg)" : "rotateY(0deg)",
           }}
         >
-          {/* Flashcard front — inverted light with subtle liquid-glass gloss */}
+          {/* Front — inverted light with subtle liquid-glass gloss */}
           <div
             className="absolute inset-0 flex flex-col items-center justify-center gap-3 text-4xl font-bold rounded-2xl"
             style={{
@@ -289,9 +410,7 @@ export default function Home() {
     );
   }
 
-  // -------------------
   // Render
-  // -------------------
   return (
     <>
       <SEO
@@ -311,10 +430,24 @@ export default function Home() {
         }}
       />
 
-      {/* Fluid cursor component (canvas & logic in component) */}
-      <FluidCursor />
+      {/* Cursor Canvas (2D topographic / fluid-like) */}
+      <canvas
+        ref={cursorCanvasRef}
+        className="cursor-canvas"
+        aria-hidden
+        style={{
+          position: "fixed",
+          left: 0,
+          top: 0,
+          pointerEvents: "none",
+          zIndex: 1400,
+          width: "100%",
+          height: "100%",
+          mixBlendMode: "screen",
+        }}
+      />
 
-      {/* minimal inline CSS for pop-in & highlights (keeps it in one file for iteration) */}
+      {/* inline styles for pop-in/hl and canvas active state */}
       <style>{`
         /* POP-IN: global */
         .pop-up { opacity: 0; transform: translateY(14px) scale(0.995); transition: transform 520ms cubic-bezier(.2,.9,.3,1), opacity 420ms ease-out; will-change: transform, opacity; }
@@ -336,8 +469,15 @@ export default function Home() {
           backdrop-filter: blur(8px) saturate(110%);
         }
 
+        /* canvas interactive 'tightening' state — toggled by JS adding class (canvas element gets CSS via classList) */
+        .cursor-canvas.cursor--active {
+          mix-blend-mode: overlay;
+        }
+
+        /* reduced motion */
         @media (prefers-reduced-motion: reduce) {
           .pop-up { transition: none !important; transform: none !important; opacity: 1 !important; }
+          .cursor-canvas { display: none !important; }
         }
       `}</style>
 
