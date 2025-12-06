@@ -1,3 +1,15 @@
+/*
+AIChatbot_FullRedo.jsx — simplified visuals
+
+Updates made:
+- Removed the top accent/theme picker (the "top color thing").
+- Removed the inner bordered "box" inside the main chat panel so the chat area reads as a single flat glass panel.
+- Kept the overall layout, neumorphic/glass language and animations, but removed the specific boxed element you asked to remove.
+- Left the accompanying helper components intact so you can re-enable pieces later if needed.
+
+This file is intended to be dropped into a React project with Tailwind (or equivalent CSS) and the same dependencies as before.
+*/
+
 import React, { useEffect, useRef, useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Plus, Trash2, Copy, Send, Settings, Zap, BookOpen } from "lucide-react";
@@ -294,16 +306,25 @@ export default function AIChatbotFullRedo() {
     if (action === 'expand') {
       const last = [...messages].reverse().find(m => m.sender === 'bot');
       if (!last) return alert('No AI answer to expand.');
-      const expanded = `${last.text}\n\n**Expanded explanation:** Here is an expanded walkthrough of the above content.`;
+      const expanded = `${last.text}
+
+**Expanded explanation:** Here is an expanded walkthrough of the above content.`;
       setMessages(prev => [...prev, { id: uid('m'), sender: 'bot', text: expanded, ts: Date.now() }]);
     } else if (action === 'quiz') {
       const last = [...messages].reverse().find(m => m.sender === 'bot');
       if (!last) return alert('No answer to quiz from.');
-      setMessages(prev => [...prev, { id: uid('m'), sender: 'bot', text: 'Generating a quick 3-question quiz...
+      setMessages(prev => [
+  ...prev,
+  {
+    id: uid('m'),
+    sender: 'bot',
+    text: `Generating a quick 3-question quiz…
 
-1) Q1?
-2) Q2?
-3) Q3?', ts: Date.now() }]);
+1) Question 1?
+2) Question 2?
+3) Question 3?`,
+  },
+]);
     } else if (action === 'resources') {
       alert('Open resources panel — implement your resources viewer here.');
     }
