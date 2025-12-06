@@ -16,8 +16,7 @@ export default function Home() {
   // keep a ref for cleaning up tilt handlers
   const tiltHandlersRef = useRef<Array<() => void>>([]);
 
-  // --- fluid cursor refs
-  const cursorDotRef = useRef<HTMLDivElement | null>(null);
+  // only a blob (no white dot) — the "Lando mask"
   const cursorBlobRef = useRef<HTMLDivElement | null>(null);
 
   // Avoid redirecting search engine bots; let them index the homepage content directly
@@ -290,23 +289,23 @@ export default function Home() {
   }, []);
 
   // -------------------
-  // FLUID CURSOR: lightweight, respects prefers-reduced-motion
+  // FLUID CURSOR (Lando-like mask) — only blob, reacts to interactive elements
   // -------------------
   useEffect(() => {
     if (typeof window === "undefined") return;
     if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-    const dot = cursorDotRef.current;
     const blob = cursorBlobRef.current;
-    if (!dot || !blob) return;
+    if (!blob) return;
 
     let mouseX = window.innerWidth / 2;
     let mouseY = window.innerHeight / 2;
-    let dotX = mouseX;
-    let dotY = mouseY;
     let blobX = mouseX;
     let blobY = mouseY;
-    let raf = 0;
+    let rafId = 0;
+
+    // interactive selectors: when over them, blob tightens / becomes more opaque
+    const interactiveSelector = "a, button, input, textarea, .tilt-card, .glass-tile";
 
     const onMove = (e: MouseEvent) => {
       mouseX = e.clientX;
@@ -314,45 +313,49 @@ export default function Home() {
     };
 
     const render = () => {
-      dotX += (mouseX - dotX) * 0.22;
-      dotY += (mouseY - dotY) * 0.22;
+      // slow lerp for that masked/laggy feel
       blobX += (mouseX - blobX) * 0.08;
       blobY += (mouseY - blobY) * 0.08;
-
-      dot.style.transform = `translate3d(${dotX - 6}px, ${dotY - 6}px, 0)`;
-      blob.style.transform = `translate3d(${blobX - 80}px, ${blobY - 80}px, 0)`;
-
-      raf = requestAnimationFrame(render);
+      blob.style.transform = `translate3d(${blobX - 120}px, ${blobY - 120}px, 0)`;
+      rafId = requestAnimationFrame(render);
     };
 
     const onDown = () => {
-      dot.style.transition = "transform 120ms ease-out";
-      blob.style.transition = "transform 180ms ease-out";
-      // apply small press-scale
-      dot.style.transform = `translate3d(${mouseX - 6}px, ${mouseY - 6}px, 0) scale(0.86)`;
-      blob.style.transform = `translate3d(${mouseX - 80}px, ${mouseY - 80}px, 0) scale(0.98)`;
+      blob.style.transition = "transform 160ms ease-out, opacity 200ms";
+      blob.style.transform = `translate3d(${mouseX - 120}px, ${mouseY - 120}px, 0) scale(0.92)`;
+      blob.style.opacity = "0.95";
     };
 
     const onUp = () => {
-      // remove immediate scale by resetting (we let render loop catch up)
-      dot.style.transition = "transform 220ms cubic-bezier(0.22,1,0.36,1)";
-      blob.style.transition = "transform 360ms cubic-bezier(0.22,1,0.36,1)";
-      // ensure transform returns to follow positions (render loop will overwrite)
-      dot.style.transform = `translate3d(${mouseX - 6}px, ${mouseY - 6}px, 0)`;
-      blob.style.transform = `translate3d(${mouseX - 80}px, ${mouseY - 80}px, 0)`;
+      blob.style.transition = "transform 300ms cubic-bezier(0.22,1,0.36,1), opacity 300ms";
+      // render loop will take over the transform shortly after
     };
 
-    document.addEventListener("mousemove", onMove);
+    // toggle when over interactive elements
+    const onDocOver = (e: MouseEvent) => {
+      const t = e.target as HTMLElement | null;
+      if (!t) return;
+      const hit = t.closest(interactiveSelector);
+      if (hit) {
+        blob.classList.add("cursor-blob--active");
+      } else {
+        blob.classList.remove("cursor-blob--active");
+      }
+    };
+
+    document.addEventListener("mousemove", onMove, { passive: true });
+    document.addEventListener("mousemove", onDocOver, { passive: true });
     document.addEventListener("mousedown", onDown);
     document.addEventListener("mouseup", onUp);
 
-    raf = requestAnimationFrame(render);
+    rafId = requestAnimationFrame(render);
 
     return () => {
       document.removeEventListener("mousemove", onMove);
+      document.removeEventListener("mousemove", onDocOver);
       document.removeEventListener("mousedown", onDown);
       document.removeEventListener("mouseup", onUp);
-      if (raf) cancelAnimationFrame(raf);
+      if (rafId) cancelAnimationFrame(rafId);
     };
   }, []);
 
@@ -360,11 +363,12 @@ export default function Home() {
   // Subcomponents
   // -------------------
   function ProblemCard({ p, i }: { p: { stat: string; text: string }; i: number }) {
+    // Inverted color scheme: front = light (white bg + dark text), back = dark (existing glass-tile)
     return (
       <div
         key={i}
         onClick={() => toggleFlip(i)}
-        className="group relative h-56 glass-tile text-slate-100 rounded-2xl shadow-xl cursor-pointer transition-all duration-500 hover:scale-[1.03] hover:shadow-[0_10px_40px_rgba(2,6,23,0.28)] perspective tilt-card fade-up"
+        className="group relative h-56 rounded-2xl shadow-xl cursor-pointer transition-all duration-500 hover:scale-[1.03] hover:shadow-[0_10px_40px_rgba(2,6,23,0.28)] perspective tilt-card fade-up"
       >
         <div
           className="absolute inset-0 transition-transform duration-700 transform"
@@ -373,23 +377,23 @@ export default function Home() {
             transform: flipped[i] ? "rotateY(180deg)" : "rotateY(0deg)",
           }}
         >
-          {/* Front */}
+          {/* Front — inverted (white) */}
           <div
-            className="absolute inset-0 flex flex-col items-center justify-center gap-3 text-4xl font-bold backface-hidden"
-            style={{ backfaceVisibility: "hidden" }}
+            className="absolute inset-0 flex flex-col items-center justify-center gap-3 text-4xl font-bold rounded-2xl"
+            style={{ backfaceVisibility: "hidden", background: "linear-gradient(180deg,#ffffff,#f8fafc)", color: "#04263b" }}
           >
-            <span>{p.stat}</span>
-            <span className="text-sm text-slate-400 italic group-hover:text-slate-300 transition-colors">Click to find out</span>
+            <span style={{ fontFeatureSettings: "'tnum' 1" }}>{p.stat}</span>
+            <span className="text-sm italic" style={{ color: "rgba(4,38,59,0.6)" }}>Click to find out</span>
           </div>
 
-          {/* Back */}
+          {/* Back — keep dark/glass feel */}
           <div
-            className="absolute inset-0 flex items-center justify-center p-4 text-lg leading-relaxed glass-tile rounded-2xl text-slate-200"
-            style={{ transform: "rotateY(180deg)", backfaceVisibility: "hidden" }}
+            className="absolute inset-0 flex items-center justify-center p-4 text-lg leading-relaxed rounded-2xl"
+            style={{ transform: "rotateY(180deg)", backfaceVisibility: "hidden", background: "linear-gradient(180deg, rgba(8,12,20,0.9), rgba(11,16,22,0.85))", color: "var(--tw-text-opacity,1)" }}
           >
-            <div>
+            <div style={{ color: "#e6eef6" }}>
               <div>{p.text}</div>
-              <div className="mt-3 text-xs text-slate-500 italic">Backed by research-backed principles: active recall, spaced repetition and retrieval practice.</div>
+              <div className="mt-3 text-xs italic" style={{ color: "rgba(226,236,246,0.65)" }}>Backed by research-backed principles: active recall, spaced repetition and retrieval practice.</div>
             </div>
           </div>
         </div>
@@ -443,11 +447,57 @@ export default function Home() {
         }}
       />
 
-      {/* fluid cursor elements (dot + blurred blob) */}
-      <div ref={cursorBlobRef} className="fixed z-[1400] pointer-events-none -translate-x-1/2 -translate-y-1/2">
-        <div className="w-[160px] h-[160px] rounded-full blur-3xl bg-gradient-to-tr from-indigo-500/30 to-sky-400/25"></div>
+      {/* Inline minimal styles for cursor blob and flashcard tweaks */}
+      <style>{`
+        /* Cursor blob styles (Lando-like mask) */
+        .cursor-blob {
+          position: fixed;
+          left: 0;
+          top: 0;
+          width: 240px;
+          height: 240px;
+          pointer-events: none;
+          z-index: 1400;
+          transform: translate3d(-120px, -120px, 0);
+          transition: transform 220ms linear, opacity 220ms linear;
+          opacity: 0.72;
+          mix-blend-mode: screen;
+          will-change: transform, opacity;
+        }
+        .cursor-blob > .inner {
+          width: 100%;
+          height: 100%;
+          border-radius: 9999px;
+          filter: blur(34px);
+          background: radial-gradient(circle at 30% 30%, rgba(99,102,241,0.28) 0%, rgba(14,165,233,0.2) 25%, rgba(14,165,233,0.06) 60%, rgba(2,6,23,0) 100%);
+        }
+        /* when over interactive elements, tighten and increase opacity */
+        .cursor-blob.cursor-blob--active {
+          width: 120px;
+          height: 120px;
+          transform: translate3d(-60px, -60px, 0) scale(0.88);
+          opacity: 0.95;
+        }
+        .cursor-blob.cursor-blob--active > .inner {
+          filter: blur(18px);
+          background: radial-gradient(circle at 30% 30%, rgba(99,102,241,0.5) 0%, rgba(14,165,233,0.35) 30%, rgba(14,165,233,0.12) 65%, rgba(2,6,23,0) 100%);
+        }
+
+        /* Flashcard front: use subtle border to look premium on light bg */
+        .problem-card-front {
+          border: 1px solid rgba(6,10,15,0.04);
+        }
+
+        /* small accessibility improvements */
+        @media (prefers-reduced-motion: reduce) {
+          .cursor-blob { display: none; }
+        }
+      `}</style>
+
+      {/* Cursor blob only (no white dot) */}
+      <div ref={cursorBlobRef} className="cursor-blob" aria-hidden>
+        <div className="inner" />
       </div>
-      <div ref={cursorDotRef} className="fixed z-[1500] w-3 h-3 rounded-full bg-white shadow-lg pointer-events-none -translate-x-1/2 -translate-y-1/2"></div>
 
       {/* Hero */}
       <section
