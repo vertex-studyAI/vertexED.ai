@@ -1,20 +1,18 @@
 // src/pages/Home.tsx
-import { Helmet } from "react-helmet-async";
-import SEO from "@/components/SEO";
-import { Link, useNavigate } from "react-router-dom";
 import React, { useEffect, useRef, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import SEO from "@/components/SEO";
 import { useAuth } from "@/contexts/AuthContext";
 import { TypeAnimation } from "react-type-animation";
-import FluidCursor from "@/components/fluidcursor";
+import FluidCursor from "@/components/fluidcursor"; // keeps your existing import
 
 /**
- * Home — interactive page with:
- * - lightweight 2D fluid/topographic cursor (canvas)
- * - pop-in / highlight-once animations via IntersectionObserver
- * - tilt interactions for many elements (existing)
- * - liquid-glass look for cards + inverted flashcards
- *
- * Keep content unchanged. Paste this file over your existing Home.tsx.
+ * Cleaned Home.tsx
+ * - Uses FluidCursor component (canvas/fluid logic should live there)
+ * - All important sections have pop-up classes (IntersectionObserver)
+ * - Problem flashcards use a stable layout (front/back flip) and inverted-light front
+ * - Lightweight tilt interactions retained
+ * - Highlight/pop-up text swap handled on intersection (once)
  */
 
 export default function Home() {
@@ -23,11 +21,10 @@ export default function Home() {
 
   // refs
   const missionRef = useRef<HTMLDivElement | null>(null);
-  const cursorCanvasRef = useRef<HTMLCanvasElement | null>(null);
   const tiltHandlersRef = useRef<Array<() => void>>([]);
   const observerRef = useRef<IntersectionObserver | null>(null);
 
-  // state for flips
+  // content
   const problems = [
     { stat: "65%", text: "of students report struggling to find relevant resources despite studying for long hours." },
     { stat: "70%", text: "say note-taking takes up more time than actual learning, making revision less effective." },
@@ -46,10 +43,22 @@ export default function Home() {
     { title: "Notes + Flashcards + Quiz", desc: "From notes to flashcards to quizzes, all in one seamless workflow. Perfect for late-night revision or quick practice sessions." },
   ];
 
-  const [flipped, setFlipped] = useState(Array(problems.length).fill(false));
+  const featureSideText = [
+    "This is your go to place for those late nights, early mornings, at the library or simply anywhere you are doing independent learning.",
+    "Not just another bot, it learns and adapts to you; your strengths, passions and limitations and moreover your progress.",
+    "Better organize your sessions and activities so you end up with more done and less energy spent so you can focus on what really matters; life.",
+    "Like a teacher built in, constantly finding limitations you would never find and providing the ways to become even closer to perfection",
+    "It's like having infinite practice papers ready to go. Non Stop practice based on material which already exists.",
+    "This is just the beginning! more features are on their way as you read this."
+  ];
+
+  // state
+  const [flipped, setFlipped] = useState<boolean[]>(Array(problems.length).fill(false));
   const toggleFlip = (i: number) => setFlipped(prev => { const c = [...prev]; c[i] = !c[i]; return c; });
 
-  // keep search engines happy & warm main chunk
+  const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
+
+  // warm up and redirect (keeps SEO behaviour)
   useEffect(() => {
     if (!isAuthenticated) return;
     const ua = typeof navigator !== "undefined" ? navigator.userAgent.toLowerCase() : "";
@@ -60,9 +69,7 @@ export default function Home() {
     }
   }, [isAuthenticated, navigate]);
 
-  const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
-
-  // intersection observer to trigger pop-in/hightlight-once & span pop-up text switch
+  // IntersectionObserver => pop-in & single-run highlights / swap-span pop
   useEffect(() => {
     if (typeof window === "undefined") return;
     const opts = { threshold: 0.12 };
@@ -70,35 +77,32 @@ export default function Home() {
       entries.forEach(entry => {
         const el = entry.target as HTMLElement;
         if (entry.isIntersecting) {
-          // add pop-in
           el.classList.add("pop-in");
-          // text highlight: find .highlight-clip child and animate
+          // highlight inner
           const hl = el.querySelector<HTMLElement>(".highlight-clip .hl-inner");
           if (hl && !hl.dataset.animated) {
             hl.dataset.animated = "1";
             hl.classList.add("hl-pop");
           }
-          // span pop swap effect - look for .swap-span
+          // swap-span pop
           const swap = el.querySelector<HTMLElement>(".swap-span");
           if (swap && !swap.dataset.popped) {
             swap.dataset.popped = "1";
             swap.classList.add("swap-pop");
           }
-          observer.unobserve(el); // only once
+          observer.unobserve(el); // run once per element
         }
       });
     }, opts);
-    observerRef.current = observer;
 
+    observerRef.current = observer;
     document.querySelectorAll<HTMLElement>(".pop-up").forEach(el => observer.observe(el));
     return () => { observer.disconnect(); observerRef.current = null; };
   }, []);
 
-  // GSAP-ish animations replacement: simple, lightweight CSS + intersection above triggers
-  // Tilt handlers for interactive cards (existing logic improved)
+  // Tilt interactions (for .tilt-card). lightweight and reusable
   useEffect(() => {
     if (typeof window === "undefined") return;
-
     const canTilt = window.matchMedia ? window.matchMedia("(hover:hover) and (pointer:fine)").matches : true;
     if (!canTilt) return;
 
@@ -155,7 +159,7 @@ export default function Home() {
     return () => { handlers.forEach(fn => fn()); tiltHandlersRef.current = []; };
   }, []);
 
-  // mission small tilt
+  // mission small tilt - identical to prior but scoped
   useEffect(() => {
     const el = missionRef.current;
     if (!el || typeof window === "undefined") return;
@@ -209,96 +213,6 @@ export default function Home() {
     };
   }, []);
 
-  // lightweight topographic "fluid" cursor (2D canvas). Inspired by Inspira UI fluid cursor concept
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-
-    const canvas = cursorCanvasRef.current;
-    if (!canvas) return;
-    let ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    let dpr = Math.max(1, window.devicePixelRatio || 1);
-    const resize = () => {
-      dpr = Math.max(1, window.devicePixelRatio || 1);
-      canvas.width = Math.floor(window.innerWidth * dpr);
-      canvas.height = Math.floor(window.innerHeight * dpr);
-      canvas.style.width = `${window.innerWidth}px`;
-      canvas.style.height = `${window.innerHeight}px`;
-      ctx = canvas.getContext("2d")!;
-      ctx.scale(dpr, dpr);
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-    };
-    resize();
-    window.addEventListener("resize", resize);
-
-    let mouseX = window.innerWidth / 2;
-    let mouseY = window.innerHeight / 2;
-    let px = mouseX;
-    let py = mouseY;
-    let vx = 0;
-    let vy = 0;
-    let raf = 0;
-    let lastTime = performance.now();
-
-    const onMove = (e: MouseEvent) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-    };
-
-    // draw a layered "topographic" blob: radius based on speed, skew based on direction
-    const render = (t: number) => {
-      const dt = Math.max(1, t - lastTime);
-      lastTime = t;
-
-      // lerp position
-      px += (mouseX - px) * 0.12;
-      py += (mouseY - py) * 0.12;
-
-      vx = (mouseX - px) / Math.max(1, dt) * 16;
-      vy = (mouseY - py) / Math.max(1, dt) * 16;
-      const speed = Math.min(120, Math.hypot(vx, vy));
-      const angle = Math.atan2(vy, vx);
-
-      ctx!.clearRect(0, 0, window.innerWidth, window.innerHeight);
-
-      // background blending is handled with CSS mix-blend-mode: screen for a nice topographic effect.
-      // draw concentric rings with offsets to create a layered shift based on angle
-      const baseR = 56 + (speed * 0.45); // radius base changes with speed
-      const layers = 5;
-      for (let i = layers; i >= 1; i--) {
-        const tFactor = i / layers;
-        const r = baseR * (0.6 + 0.18 * i) * (1 - tFactor * 0.06);
-        const offset = (1 - tFactor) * 12;
-        // calculate jitter offset in cursor direction
-        const ox = Math.cos(angle) * offset * (i / layers);
-        const oy = Math.sin(angle) * offset * (i / layers);
-        const alpha = 0.08 + (0.14 * (1 - tFactor)); // inner more opaque
-        ctx!.beginPath();
-        ctx!.fillStyle = `rgba(99,102,241,${alpha})`;
-        // draw a soft blob (ellipse) biased by angle
-        ctx!.ellipse(px + ox, py + oy, r * (1 - (i * 0.03)), r * (0.7 - (i * 0.02)), angle + (i * 0.02), 0, Math.PI * 2);
-        ctx!.fill();
-      }
-
-      raf = requestAnimationFrame(render);
-    };
-
-    document.addEventListener("mousemove", onMove, { passive: true });
-
-    raf = requestAnimationFrame(render);
-    return () => {
-      document.removeEventListener("mousemove", onMove);
-      window.removeEventListener("resize", resize);
-      if (raf) cancelAnimationFrame(raf);
-      ctx!.clearRect(0, 0, canvas.width, canvas.height);
-    };
-  }, []);
-
-  // small accessibility: hide cursor canvas if reduced motion
-  // (handled above via media query)
-
   // -------------------
   // Subcomponents
   // -------------------
@@ -307,7 +221,7 @@ export default function Home() {
       <div
         key={i}
         onClick={() => toggleFlip(i)}
-        className="group relative h-56 rounded-2xl shadow-xl cursor-pointer transition-transform duration-400 hover:scale-[1.03] perspective tilt-card pop-up"
+        className="group relative h-56 rounded-2xl transition-transform duration-400 hover:scale-[1.03] perspective tilt-card pop-up"
         aria-label={`Problem card ${i + 1}`}
       >
         <div
@@ -317,9 +231,9 @@ export default function Home() {
             transform: flipped[i] ? "rotateY(180deg)" : "rotateY(0deg)",
           }}
         >
-          {/* Front — inverted light flashcard with liquid-glass gloss */}
+          {/* Flashcard front — inverted light with subtle liquid-glass gloss */}
           <div
-            className="absolute inset-0 flex flex-col items-center justify-center gap-3 text-4xl font-bold rounded-2xl problem-card-front"
+            className="absolute inset-0 flex flex-col items-center justify-center gap-3 text-4xl font-bold rounded-2xl"
             style={{
               backfaceVisibility: "hidden",
               background: "linear-gradient(180deg,#ffffff,#f7fbff)",
@@ -328,7 +242,7 @@ export default function Home() {
               border: "1px solid rgba(6,10,15,0.04)",
             }}
           >
-            <span style={{ fontFeatureSettings: "'tnum' 1" }}>{p.stat}</span>
+            <span style={{ fontFeatureSettings: "'tnum' 1", letterSpacing: "-0.01em" }}>{p.stat}</span>
             <span className="text-sm italic" style={{ color: "rgba(4,38,59,0.62)" }}>Click to find out</span>
           </div>
 
@@ -356,10 +270,7 @@ export default function Home() {
 
   function FeatureRow({ f, i }: { f: { title: string; desc: string }; i: number }) {
     return (
-      <div
-        key={i}
-        className={`feature-row flex flex-col md:flex-row items-center gap-10 pop-up ${i % 2 !== 0 ? "md:flex-row-reverse" : ""}`}
-      >
+      <div key={i} className={`feature-row flex flex-col md:flex-row items-center gap-10 pop-up ${i % 2 !== 0 ? "md:flex-row-reverse" : ""}`}>
         <div className="flex-1 glass-tile rounded-2xl shadow-xl p-6 text-slate-100 tilt-card">
           <h4 className="text-xl font-bold mb-3 pop-up swap-span">{f.title}</h4>
           <p className="pop-up highlight-clip" style={{ maxWidth: 640 }}>
@@ -367,11 +278,12 @@ export default function Home() {
           </p>
           <div className="mt-4 text-sm text-slate-400">Built around proven learning techniques.</div>
         </div>
+
         <div className="flex-1 text-slate-300 text-lg md:text-xl leading-relaxed text-center md:text-left pop-up">
           {i % 2 === 0
             ? "The all in 1 hub for your study sessions with all the tools one could ask for."
             : "Designed to keep you motivated and productive, no matter how overwhelming your syllabus seems."}
-          <div className="mt-4 text-slate-400">{/* side text kept simple */}</div>
+          <div className="mt-4 text-slate-400">{featureSideText[i]}</div>
         </div>
       </div>
     );
@@ -399,56 +311,35 @@ export default function Home() {
         }}
       />
 
-      {/* Inline styles (cursor + pop-in + highlight + liquid glass) */}
+      {/* Fluid cursor component (canvas & logic in component) */}
+      <FluidCursor />
+
+      {/* minimal inline CSS for pop-in & highlights (keeps it in one file for iteration) */}
       <style>{`
-        /* ----- POP-IN (global) ----- */
+        /* POP-IN: global */
         .pop-up { opacity: 0; transform: translateY(14px) scale(0.995); transition: transform 520ms cubic-bezier(.2,.9,.3,1), opacity 420ms ease-out; will-change: transform, opacity; }
         .pop-in { opacity: 1; transform: translateY(0px) scale(1); }
 
-        /* small stagger helper for children */
-        .pop-up > * { transition-delay: 0ms; }
-        .pop-in .hl-inner { transition-delay: 60ms; }
-
-        /* highlight clip / hl-inner pop */
+        /* highlight clip */
         .highlight-clip { display: inline-block; overflow: hidden; vertical-align: middle; }
-        .hl-inner { display: inline-block; transform-origin: left center; transform: translateY(8px) scaleX(1); transition: transform 520ms cubic-bezier(.2,.9,.3,1), color 360ms; }
+        .hl-inner { display: inline-block; transform-origin: left center; transform: translateY(8px); transition: transform 520ms cubic-bezier(.2,.9,.3,1), color 360ms; }
         .hl-pop { transform: translateY(0px); color: #DDEBFF; }
 
-        /* swap-span pop (heading pop + small font / weight change) */
-        .swap-span { display: inline-block; transition: transform 520ms cubic-bezier(.2,.9,.3,1), font-weight 220ms; transform: translateY(8px); }
+        /* swap-span pop */
+        .swap-span { display: inline-block; transform: translateY(8px); transition: transform 520ms cubic-bezier(.2,.9,.3,1), font-weight 220ms; }
         .swap-pop { transform: translateY(0px); font-weight: 700; }
 
-        /* liquid glass basic tokens */
+        /* glass tile base */
         .glass-tile {
           background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
           border: 1px solid rgba(255,255,255,0.04);
           backdrop-filter: blur(8px) saturate(110%);
         }
-        .problem-card-front { /* subtle premium border already set inline */ }
 
-        /* Cursor canvas */
-        .cursor-canvas {
-          position: fixed;
-          left: 0;
-          top: 0;
-          pointer-events: none;
-          z-index: 1400;
-          width: 100%;
-          height: 100%;
-          mix-blend-mode: screen;
-        }
-
-        /* interactive state class (applied by JS via closest interactive) */
-        .cursor-blob--active { opacity: 0.98 !important; transform-origin: center; }
-        /* small accessibility improvements */
         @media (prefers-reduced-motion: reduce) {
           .pop-up { transition: none !important; transform: none !important; opacity: 1 !important; }
-          .cursor-canvas { display: none !important; }
         }
       `}</style>
-
-      {/* Cursor canvas (2D topographic) */}
-      <canvas ref={cursorCanvasRef} className="cursor-canvas" aria-hidden />
 
       {/* HERO */}
       <section className="glass-card px-6 pt-24 pb-16 text-center pop-up">
@@ -487,7 +378,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Subtle resources link */}
+      {/* resources */}
       <div className="max-w-3xl mx-auto px-6 mt-3 pop-up">
         <div className="text-xs text-slate-400 text-center">
           Looking for how-to guides? <Link to="/resources" className="underline">Explore resources</Link>
@@ -510,7 +401,7 @@ export default function Home() {
         <p className="text-lg text-slate-200 mb-12 pop-up">Who wouldn’t?</p>
       </section>
 
-      {/* why is this a problem */}
+      {/* problems */}
       <section className="max-w-6xl mx-auto px-6 mt-28 pop-up">
         <h3 className="text-3xl md:text-4xl font-semibold text-white mb-10 text-center swap-span">Why is this a problem?</h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
@@ -544,7 +435,10 @@ export default function Home() {
       {/* features */}
       <section className="max-w-6xl mx-auto px-6 mt-28 pop-up">
         <h3 className="text-3xl md:text-4xl font-semibold text-white mb-6 text-center pop-up"><Link to="/features" className="hover:underline">Explore Our Features</Link></h3>
-        <div className="text-center mb-8 pop-up"><Link to="/features" className="inline-block px-6 py-3 rounded-full border border-white/20 text-white hover:bg-white/5 transition duration-300">See full features</Link></div>
+        <div className="text-center mb-8 pop-up">
+          <Link to="/features" className="inline-block px-6 py-3 rounded-full border border-white/20 text-white hover:bg-white/5 transition duration-300">See full features</Link>
+        </div>
+
         <div className="space-y-20">
           {features.map((f, i) => <FeatureRow key={i} f={f} i={i} />)}
         </div>
@@ -577,7 +471,7 @@ export default function Home() {
             <label className="block text-left">
               <span className="text-sm text-slate-300 mb-1 block">Your message</span>
               <textarea name="message" rows={5} placeholder="Hi — I'm interested in learning more about VertexED..." required className="w-full rounded-md p-3 bg-white/5 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-500"></textarea>
-              <div className="text-xs text-slate-500 mt-1">Briefly tell us what you'd like help with.</div>
+              <div className="text-xs text-slate-500 mt-1">Briefly tell us what you'd like help with</div>
             </label>
             <div className="flex items-center justify-between">
               <button type="submit" className="px-6 py-3 rounded-full bg-white text-slate-900 shadow hover:scale-105 transition">Send</button>
