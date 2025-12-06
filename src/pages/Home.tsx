@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import React, { useEffect, useRef, useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { TypeAnimation } from "react-type-animation";
+import FluidCursor from "@/components/fluidcursor";
 
 /**
  * Home — interactive page with:
