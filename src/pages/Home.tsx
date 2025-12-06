@@ -4,19 +4,9 @@ import { Link, useNavigate } from "react-router-dom";
 import SEO from "@/components/SEO";
 import { useAuth } from "@/contexts/AuthContext";
 
-const ScrollToPlugin = ScrollToPluginModule?.default ?? ScrollToPluginModule;
-gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
-
 /**
- * Cinematic Home page:
- * - Full-screen cover with scribble logo + per-letter headline reveal
- * - Cover pins + zooms out on scroll (ScrollTrigger scrub)
- * - Flowing words & horizontal movement + static decorative elements
- * - Gentle section reveals after the hero
- *
- * Notes:
- *  - Requires `gsap` (npm i gsap). We lazy-import gsap + ScrollTrigger at runtime.
- *  - Add the small CSS snippet after this file into your global stylesheet.
+ * Cinematic Home page
+ * NOTE: GSAP must be loaded *inside* useEffect — not at module top.
  */
 
 export default function Home() {
@@ -34,6 +24,36 @@ export default function Home() {
 
   // UI state
   const [introDone, setIntroDone] = useState(false);
+
+  // -------------------------------
+  // FIXED: Lazy-load GSAP correctly
+  // -------------------------------
+  useEffect(() => {
+    let gsap: any;
+    let ScrollTrigger: any;
+    let ScrollToPlugin: any;
+
+    async function loadGSAP() {
+      try {
+        const gsapModule = await import("gsap");
+        gsap = gsapModule.default ?? gsapModule;
+
+        const ScrollTriggerModule = await import("gsap/ScrollTrigger");
+        ScrollTrigger = ScrollTriggerModule.default ?? ScrollTriggerModule;
+
+        const ScrollToPluginModule = await import("gsap/ScrollToPlugin");
+        ScrollToPlugin = ScrollToPluginModule.default ?? ScrollToPluginModule;
+
+        gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+
+        console.log("GSAP + ScrollTrigger + ScrollToPlugin loaded");
+      } catch (e) {
+        console.error("GSAP load error:", e);
+      }
+    }
+
+    loadGSAP();
+  }, []);
 
   // Content (kept from your original)
   const problems = [
