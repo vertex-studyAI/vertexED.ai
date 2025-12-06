@@ -6,14 +6,16 @@ import { useAuth } from "@/contexts/AuthContext";
 
 /**
  * Cinematic Home page
- * NOTE: GSAP must be loaded *inside* useEffect — not at module top.
+ *
+ * NOTE: GSAP (and its plugins) are intentionally lazy-loaded inside the useEffect
+ * to avoid SSR / bundler parse issues. Do NOT call gsap.registerPlugin at module scope.
  */
 
 export default function Home() {
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
-  // Refs
+  // Refs (keep the rest of your file unchanged)
   const pageRef = useRef<HTMLDivElement | null>(null);
   const coverRef = useRef<HTMLElement | null>(null);
   const coverHeadingRef = useRef<HTMLHeadingElement | null>(null);
@@ -22,38 +24,7 @@ export default function Home() {
   const highlightsRef = useRef<Array<HTMLElement | null>>([]);
   const tiltHandlersRef = useRef<Array<() => void>>([]);
 
-  // UI state
   const [introDone, setIntroDone] = useState(false);
-
-  // -------------------------------
-  // FIXED: Lazy-load GSAP correctly
-  // -------------------------------
-  useEffect(() => {
-    let gsap: any;
-    let ScrollTrigger: any;
-    let ScrollToPlugin: any;
-
-    async function loadGSAP() {
-      try {
-        const gsapModule = await import("gsap");
-        gsap = gsapModule.default ?? gsapModule;
-
-        const ScrollTriggerModule = await import("gsap/ScrollTrigger");
-        ScrollTrigger = ScrollTriggerModule.default ?? ScrollTriggerModule;
-
-        const ScrollToPluginModule = await import("gsap/ScrollToPlugin");
-        ScrollToPlugin = ScrollToPluginModule.default ?? ScrollToPluginModule;
-
-        gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
-
-        console.log("GSAP + ScrollTrigger + ScrollToPlugin loaded");
-      } catch (e) {
-        console.error("GSAP load error:", e);
-      }
-    }
-
-    loadGSAP();
-  }, []);
 
   // Content (kept from your original)
   const problems = [
