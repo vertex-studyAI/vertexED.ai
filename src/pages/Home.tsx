@@ -4,6 +4,9 @@ import { Link, useNavigate } from "react-router-dom";
 import SEO from "@/components/SEO";
 import { useAuth } from "@/contexts/AuthContext";
 
+const ScrollToPlugin = ScrollToPluginModule?.default ?? ScrollToPluginModule;
+gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+
 /**
  * Cinematic Home page:
  * - Full-screen cover with scribble logo + per-letter headline reveal
