@@ -294,9 +294,7 @@ export default function AIChatbotFullRedo() {
     if (action === 'expand') {
       const last = [...messages].reverse().find(m => m.sender === 'bot');
       if (!last) return alert('No AI answer to expand.');
-      const expanded = last.text + '
-
-*Expanded explanation:* ' + 'Here is an expanded walkthrough of the above content.';
+      const expanded = `${last.text}\n\n**Expanded explanation:** Here is an expanded walkthrough of the above content.`;
       setMessages(prev => [...prev, { id: uid('m'), sender: 'bot', text: expanded, ts: Date.now() }]);
     } else if (action === 'quiz') {
       const last = [...messages].reverse().find(m => m.sender === 'bot');
