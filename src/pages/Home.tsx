@@ -6,27 +6,43 @@ import { useAuth } from "@/contexts/AuthContext";
 import { TypeAnimation } from "react-type-animation";
 
 /**
- * Home.tsx — cleaned & fixed
- * - Removed external Vue/Fluid import (caused build errors)
- * - Embedded a lightweight 2D "topographic / fluid" cursor canvas (React + TS)
- * - Pop-in, swap-span, highlight-once via IntersectionObserver
- * - Tilt interactions for .tilt-card elements
- * - Flashcards use the inverted front + dark back layout (stable markup)
- *
- * NOTE: This file intentionally keeps logic self-contained to avoid circular imports.
+ * Home.tsx
+ * - Runtime-imports FluidCursor component (won't cause build-time failure if loader differs)
+ * - Adds scribbles/math decorations
+ * - Pop-in + highlight-once + swap-span pop for heading spans (appearance effect from your recording)
+ * - Keeps flashcards visible & tilt interactions
  */
 
 export default function Home() {
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
+  // dynamic FluidCursor component (loaded at runtime)
+  const [FluidCursorComp, setFluidCursorComp] = useState<React.ComponentType<any> | null>(null);
+
+  useEffect(() => {
+    let mounted = true;
+    // Try runtime import — will be requested only in browser. If missing, we silently continue.
+    (async () => {
+      try {
+        const mod = await import("@/components/fluidcursor");
+        const C = (mod && (mod.default || mod)) as React.ComponentType<any>;
+        if (mounted && C) setFluidCursorComp(() => C);
+      } catch (err) {
+        // If import fails (wrong extension / file missing) we fallback to our passive canvas in render
+        // console.warn("FluidCursor import failed:", err);
+      }
+    })();
+    return () => { mounted = false; };
+  }, []);
+
   // refs
   const missionRef = useRef<HTMLDivElement | null>(null);
-  const cursorCanvasRef = useRef<HTMLCanvasElement | null>(null);
+  const canvasFallbackRef = useRef<HTMLCanvasElement | null>(null);
   const tiltHandlersRef = useRef<Array<() => void>>([]);
   const observerRef = useRef<IntersectionObserver | null>(null);
 
-  // content
+  // content arrays (kept same)
   const problems = [
     { stat: "65%", text: "of students report struggling to find relevant resources despite studying for long hours." },
     { stat: "70%", text: "say note-taking takes up more time than actual learning, making revision less effective." },
@@ -54,13 +70,13 @@ export default function Home() {
     "This is just the beginning! more features are on their way as you read this."
   ];
 
-  // state
+  // state for flashcard flips
   const [flipped, setFlipped] = useState<boolean[]>(Array(problems.length).fill(false));
   const toggleFlip = (i: number) => setFlipped(prev => { const c = [...prev]; c[i] = !c[i]; return c; });
 
   const scrollToTop = () => typeof window !== "undefined" && window.scrollTo({ top: 0, behavior: "smooth" });
 
-  // warm up and redirect (keeps SEO behaviour)
+  // warm up + redirect (unchanged)
   useEffect(() => {
     if (!isAuthenticated) return;
     const ua = typeof navigator !== "undefined" ? navigator.userAgent.toLowerCase() : "";
@@ -71,7 +87,7 @@ export default function Home() {
     }
   }, [isAuthenticated, navigate]);
 
-  // IntersectionObserver => pop-in & single-run highlights / swap-span pop
+  // IntersectionObserver for pop-in, single-run highlight and span swap/pop
   useEffect(() => {
     if (typeof window === "undefined") return;
     const opts = { threshold: 0.12 };
@@ -96,13 +112,12 @@ export default function Home() {
         }
       });
     }, opts);
-
     observerRef.current = observer;
     document.querySelectorAll<HTMLElement>(".pop-up").forEach(el => observer.observe(el));
     return () => { observer.disconnect(); observerRef.current = null; };
   }, []);
 
-  // Tilt interactions (for .tilt-card). lightweight and reusable
+  // tilt interactions (same stable implementation)
   useEffect(() => {
     if (typeof window === "undefined") return;
     const canTilt = window.matchMedia ? window.matchMedia("(hover:hover) and (pointer:fine)").matches : true;
@@ -161,182 +176,39 @@ export default function Home() {
     return () => { handlers.forEach(fn => fn()); tiltHandlersRef.current = []; };
   }, []);
 
-  // mission small tilt - identical to prior but scoped
-  useEffect(() => {
-    const el = missionRef.current;
-    if (!el || typeof window === "undefined") return;
-    const canTilt = window.matchMedia ? window.matchMedia("(hover:hover) and (pointer:fine)").matches : true;
-    if (!canTilt) return;
-
-    let rect = el.getBoundingClientRect();
-    let tX = 0, tY = 0, tZ = 0, cX = 0, cY = 0, cZ = 0;
-    let raf = 0;
-    const opts = { maxTilt: 2.4, perspective: 1200, translateZ: 6, ease: 0.08 };
-
-    const onMove = (e: MouseEvent) => {
-      rect = el.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      const halfW = rect.width / 2;
-      const halfH = rect.height / 2;
-      tY = ((x - halfW) / halfW) * opts.maxTilt;
-      tX = ((halfH - y) / halfH) * opts.maxTilt;
-      const ang = Math.atan2(y - halfH, x - halfW) * (180 / Math.PI);
-      tZ = (ang / 90) * 0.9;
-      if (!raf) raf = requestAnimationFrame(update);
-    };
-
-    const update = () => {
-      cX += (tX - cX) * opts.ease;
-      cY += (tY - cY) * opts.ease;
-      cZ += (tZ - cZ) * opts.ease;
-      el.style.transform = `perspective(${opts.perspective}px) rotateX(${cX}deg) rotateY(${cY}deg) rotateZ(${cZ}deg) translateZ(${opts.translateZ}px)`;
-      raf = 0;
-    };
-
-    const onLeave = () => {
-      tX = tY = tZ = 0;
-      if (raf) cancelAnimationFrame(raf);
-      el.style.transition = "transform 480ms cubic-bezier(0.22,1,0.36,1)";
-      el.style.transform = `perspective(${opts.perspective}px) rotateX(0deg) rotateY(0deg) rotateZ(0deg) translateZ(0px)`;
-      setTimeout(() => { el.style.transition = ""; }, 500);
-    };
-
-    const onResize = () => { rect = el.getBoundingClientRect(); };
-    el.addEventListener("mousemove", onMove);
-    el.addEventListener("mouseleave", onLeave);
-    window.addEventListener("resize", onResize);
-
-    return () => {
-      el.removeEventListener("mousemove", onMove);
-      el.removeEventListener("mouseleave", onLeave);
-      window.removeEventListener("resize", onResize);
-      if (raf) cancelAnimationFrame(raf);
-    };
-  }, []);
-
-  // --------- Cursor Canvas (topographic / fluid-like) -----------
+  // fallback canvas tiny behavior: just clear and leave — only used if FluidCursor not available
   useEffect(() => {
     if (typeof window === "undefined") return;
-    // respect reduced motion
-    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-
-    const canvas = cursorCanvasRef.current;
+    if (FluidCursorComp) return;
+    const canvas = canvasFallbackRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    let dpr = Math.max(1, window.devicePixelRatio || 1);
-
+    let raf = 0;
     const resize = () => {
-      dpr = Math.max(1, window.devicePixelRatio || 1);
-      canvas.width = Math.floor(window.innerWidth * dpr);
-      canvas.height = Math.floor(window.innerHeight * dpr);
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
       canvas.style.width = `${window.innerWidth}px`;
       canvas.style.height = `${window.innerHeight}px`;
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
     };
     resize();
     window.addEventListener("resize", resize);
 
-    let mouseX = window.innerWidth / 2;
-    let mouseY = window.innerHeight / 2;
-    let px = mouseX;
-    let py = mouseY;
-    let vx = 0;
-    let vy = 0;
-    let raf = 0;
-    let lastTime = performance.now();
-    let active = false;
-    const interactiveSelector = "a, button, input, textarea, .tilt-card, .glass-tile";
-
-    const onMove = (e: MouseEvent) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-      active = true;
-    };
-
-    const render = (t: number) => {
-      const dt = Math.max(1, t - lastTime);
-      lastTime = t;
-      // smooth lerp towards mouse
-      px += (mouseX - px) * 0.12;
-      py += (mouseY - py) * 0.12;
-      // velocity estimated by difference
-      vx = (mouseX - px) / Math.max(1, dt) * 16;
-      vy = (mouseY - py) / Math.max(1, dt) * 16;
-      const speed = Math.min(120, Math.hypot(vx, vy));
-      const angle = Math.atan2(vy, vx);
-
-      // clear
-      ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-
-      // draw layered topographic rings
-      const baseR = 44 + (speed * 0.45);
-      const layers = 5;
-      for (let i = layers; i >= 1; i--) {
-        const tFactor = i / layers;
-        const r = baseR * (0.6 + 0.18 * i) * (1 - tFactor * 0.06);
-        const offset = (1 - tFactor) * 12;
-        const ox = Math.cos(angle) * offset * (i / layers);
-        const oy = Math.sin(angle) * offset * (i / layers);
-        const alpha = 0.06 + (0.14 * (1 - tFactor));
-        ctx.beginPath();
-        // bias ellipse by angle for "flow" look
-        const rx = r * (1 - (i * 0.03));
-        const ry = r * (0.68 - (i * 0.02));
-        ctx.ellipse(px + ox, py + oy, rx, ry, angle + (i * 0.02), 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(99,102,241,${alpha})`;
-        ctx.fill();
-      }
-
-      // subtle inner sheen ring
-      ctx.beginPath();
-      ctx.ellipse(px, py, baseR * 0.55, baseR * 0.32, angle, 0, Math.PI * 2);
-      ctx.fillStyle = "rgba(14,165,233,0.06)";
-      ctx.fill();
-
+    const render = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
       raf = requestAnimationFrame(render);
     };
-
-    // interactive detector to tighten blob
-    const onDocOver = (e: MouseEvent) => {
-      const t = e.target as HTMLElement | null;
-      if (!t) return;
-      const hit = t.closest(interactiveSelector);
-      if (hit) {
-        canvas.classList.add("cursor--active");
-      } else {
-        canvas.classList.remove("cursor--active");
-      }
-    };
-
-    document.addEventListener("mousemove", onMove, { passive: true });
-    document.addEventListener("mousemove", onDocOver, { passive: true });
-
-    // start only after first movement to save work
-    const handleFirst = (e: MouseEvent) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-      px = mouseX;
-      py = mouseY;
-      lastTime = performance.now();
-      raf = requestAnimationFrame(render);
-      document.body.removeEventListener("mousemove", handleFirst);
-    };
-    document.body.addEventListener("mousemove", handleFirst);
+    raf = requestAnimationFrame(render);
 
     return () => {
-      document.removeEventListener("mousemove", onMove);
-      document.removeEventListener("mousemove", onDocOver);
       window.removeEventListener("resize", resize);
       if (raf) cancelAnimationFrame(raf);
       ctx.clearRect(0, 0, canvas.width, canvas.height);
     };
-  }, []);
+  }, [FluidCursorComp]);
 
-  // Subcomponents
+  // ---- Subcomponents ----
   function ProblemCard({ p, i }: { p: { stat: string; text: string }; i: number }) {
     return (
       <div
@@ -354,7 +226,7 @@ export default function Home() {
         >
           {/* Front — inverted light with subtle liquid-glass gloss */}
           <div
-            className="absolute inset-0 flex flex-col items-center justify-center gap-3 text-4xl font-bold rounded-2xl"
+            className="absolute inset-0 flex flex-col items-center justify-center gap-3 text-4xl font-bold rounded-2xl problem-card-front"
             style={{
               backfaceVisibility: "hidden",
               background: "linear-gradient(180deg,#ffffff,#f7fbff)",
@@ -410,7 +282,7 @@ export default function Home() {
     );
   }
 
-  // Render
+  // ----- Render -----
   return (
     <>
       <SEO
@@ -430,85 +302,122 @@ export default function Home() {
         }}
       />
 
-      {/* Cursor Canvas (2D topographic / fluid-like) */}
-      <canvas
-        ref={cursorCanvasRef}
-        className="cursor-canvas"
-        aria-hidden
-        style={{
-          position: "fixed",
-          left: 0,
-          top: 0,
-          pointerEvents: "none",
-          zIndex: 1400,
-          width: "100%",
-          height: "100%",
-          mixBlendMode: "screen",
-        }}
-      />
+      {/* Fluid cursor: try runtime component first, fallback to simple canvas */}
+      <div aria-hidden>
+        {FluidCursorComp ? (
+          // render the imported component (no props assumed; if it requires props adjust here)
+          React.createElement(FluidCursorComp, {})
+        ) : (
+          <canvas
+            ref={canvasFallbackRef}
+            className="cursor-canvas"
+            aria-hidden
+            style={{
+              position: "fixed",
+              left: 0,
+              top: 0,
+              pointerEvents: "none",
+              zIndex: 1400,
+              width: "100%",
+              height: "100%",
+              mixBlendMode: "screen",
+            }}
+          />
+        )}
+      </div>
 
-      {/* inline styles for pop-in/hl and canvas active state */}
+      {/* Inline styles for pop-in / highlight / swap-span / scribbles */}
       <style>{`
-        /* POP-IN: global */
-        .pop-up { opacity: 0; transform: translateY(14px) scale(0.995); transition: transform 520ms cubic-bezier(.2,.9,.3,1), opacity 420ms ease-out; will-change: transform, opacity; }
+        /* POP-IN */
+        .pop-up { opacity: 0; transform: translateY(14px) scale(0.995); transition: transform 480ms cubic-bezier(.2,.9,.3,1), opacity 380ms ease-out; will-change: transform, opacity; }
         .pop-in { opacity: 1; transform: translateY(0px) scale(1); }
 
-        /* highlight clip */
+        /* Highlight clip */
         .highlight-clip { display: inline-block; overflow: hidden; vertical-align: middle; }
-        .hl-inner { display: inline-block; transform-origin: left center; transform: translateY(8px); transition: transform 520ms cubic-bezier(.2,.9,.3,1), color 360ms; }
-        .hl-pop { transform: translateY(0px); color: #DDEBFF; }
+        .hl-inner { display: inline-block; transform-origin: left center; transform: translateY(10px); transition: transform 520ms cubic-bezier(.2,.9,.3,1), color 360ms; }
+        .hl-pop { transform: translateY(0px); color: #DDEBFF; text-shadow: 0 6px 24px rgba(14,165,233,0.08); }
 
-        /* swap-span pop */
-        .swap-span { display: inline-block; transform: translateY(8px); transition: transform 520ms cubic-bezier(.2,.9,.3,1), font-weight 220ms; }
-        .swap-pop { transform: translateY(0px); font-weight: 700; }
+        /* swap-span pop: used for heading span pop-up & font emphasis */
+        .swap-span { display: inline-block; transform: translateY(8px); transition: transform 520ms cubic-bezier(.2,.9,.3,1), font-weight 220ms, font-size 220ms; }
+        .swap-pop { transform: translateY(0px); font-weight: 800; font-size: 1.06em; color: #E6F0FF; letter-spacing: -0.01em; }
 
-        /* glass tile base */
-        .glass-tile {
-          background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-          border: 1px solid rgba(255,255,255,0.04);
-          backdrop-filter: blur(8px) saturate(110%);
+        /* glass tile basics */
+        .glass-tile { background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border: 1px solid rgba(255,255,255,0.04); backdrop-filter: blur(8px) saturate(110%); }
+
+        /* scribbles & formula accent */
+        .scribble {
+          position: absolute;
+          pointer-events: none;
+          opacity: 0.12;
+          transform-origin: center;
+          filter: blur(0.2px);
+          animation: scribbleFloat 6s ease-in-out infinite;
+        }
+        .scribble--small { opacity: 0.10; transform: rotate(-6deg); }
+        .scribble--math { opacity: 0.14; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", monospace; }
+
+        @keyframes scribbleFloat {
+          0% { transform: translateY(0) rotate(-3deg); }
+          50% { transform: translateY(-6px) rotate(2deg); }
+          100% { transform: translateY(0) rotate(-3deg); }
         }
 
-        /* canvas interactive 'tightening' state — toggled by JS adding class (canvas element gets CSS via classList) */
-        .cursor-canvas.cursor--active {
-          mix-blend-mode: overlay;
-        }
+        /* card front polish */
+        .problem-card-front { border: 1px solid rgba(6,10,15,0.04); }
 
-        /* reduced motion */
         @media (prefers-reduced-motion: reduce) {
           .pop-up { transition: none !important; transform: none !important; opacity: 1 !important; }
-          .cursor-canvas { display: none !important; }
+          .scribble { animation: none !important; }
         }
       `}</style>
 
+      {/* small absolute SVG scribbles & math bits (non-interactive, decorative) */}
+      <svg className="scribble scribble--small" width="220" height="120" style={{ left: 28, top: 160, position: "absolute", zIndex: 30 }}>
+        <path d="M6 80 C 40 20, 80 120, 210 40" stroke="rgba(255,255,255,0.12)" strokeWidth="2" fill="none" strokeLinecap="round" />
+        <path d="M10 40 C 60 60, 120 0, 210 50" stroke="rgba(14,165,233,0.06)" strokeWidth="3" fill="none" strokeLinecap="round" />
+      </svg>
+
+      <div className="scribble scribble--math" style={{ left: "72%", top: "20%", width: 160, height: 80, position: "absolute", zIndex: 30 }}>
+        <svg width="160" height="80">
+          <text x="0" y="20" fontSize="14" fill="rgba(255,255,255,0.12)">∑_{n=1}^∞ 1/n² = π²/6</text>
+          <text x="0" y="40" fontSize="12" fill="rgba(14,165,233,0.08)">E = mc²</text>
+          <text x="0" y="60" fontSize="12" fill="rgba(255,255,255,0.08)">f'(x) = lim h→0 (f(x+h)-f(x))/h</text>
+        </svg>
+      </div>
+
       {/* HERO */}
-      <section className="glass-card px-6 pt-24 pb-16 text-center pop-up">
+      <section className="glass-card px-6 pt-24 pb-16 text-center pop-up" style={{ position: "relative" }}>
         <div className="max-w-3xl mx-auto">
           <div className="mb-6 pop-up">
             <div className="relative w-full h-[6.75rem] md:h-[9.25rem] flex items-center justify-center">
-              <h1 className="text-5xl md:text-7xl font-semibold text-white leading-tight text-center flex flex-col justify-center [--gap:0.4rem] md:[--gap:0.6rem] pop-up swap-span">
-                <TypeAnimation
-                  sequence={[
-                    1200,
-                    "AI study tools for students.",
-                    1800,
-                    "Focused learning. Real results.",
-                    1800,
-                    "Bold. Premium. Built for learners.",
-                    1800,
-                    "Study smarter, not longer.",
-                  ]}
-                  speed={45}
-                  wrapper="span"
-                  cursor={true}
-                  repeat={Infinity}
-                />
+              <h1 className="text-5xl md:text-7xl font-semibold text-white leading-tight text-center flex flex-col justify-center [--gap:0.4rem] md:[--gap:0.6rem] pop-up">
+                {/* We wrap each key phrase in a span.swap-span so observer triggers the pop for the first appearance */}
+                <span className="swap-span">
+                  <TypeAnimation
+                    sequence={[
+                      1200,
+                      "AI study tools for students.",
+                      1800,
+                      "Focused learning. Real results.",
+                      1800,
+                      "Bold. Premium. Built for learners.",
+                      1800,
+                      "Study smarter, not longer.",
+                    ]}
+                    speed={45}
+                    wrapper="span"
+                    cursor={true}
+                    repeat={Infinity}
+                  />
+                </span>
               </h1>
             </div>
           </div>
 
-          <p className="text-lg text-slate-200 mb-10 pop-up highlight-clip">
-            <span className="hl-inner">An all-in-one toolkit: planner, notes, flashcards, quizzes, chatbot, answer reviewer — built around research-backed learning methods like active recall, spaced repetition, and retrieval practice.</span>
+          <p className="text-lg text-slate-200 mb-10 pop-up highlight-clip" style={{ position: "relative" }}>
+            <span className="hl-inner">
+              An all-in-one toolkit: planner, notes, flashcards, quizzes, chatbot, answer reviewer — built around research-backed learning methods like active recall, spaced repetition, and retrieval practice.
+            </span>
           </p>
 
           <div className="flex gap-4 justify-center pop-up">
@@ -526,7 +435,7 @@ export default function Home() {
       </div>
 
       {/* storytelling */}
-      <section className="mt-12 md:mt-15 text-center px-6 pop-up">
+      <section className="mt-12 md:mt-15 text-center px-6 pop-up" style={{ position: "relative" }}>
         <div className="w-full mx-auto h-[4.8rem] md:h-auto flex items-center justify-center mb-6">
           <h2 className="text-4xl md:text-5xl font-semibold text-white leading-tight flex flex-col justify-center swap-span">
             <TypeAnimation
@@ -541,7 +450,7 @@ export default function Home() {
         <p className="text-lg text-slate-200 mb-12 pop-up">Who wouldn’t?</p>
       </section>
 
-      {/* problems */}
+      {/* Why is this a problem */}
       <section className="max-w-6xl mx-auto px-6 mt-28 pop-up">
         <h3 className="text-3xl md:text-4xl font-semibold text-white mb-10 text-center swap-span">Why is this a problem?</h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
@@ -549,9 +458,9 @@ export default function Home() {
         </div>
       </section>
 
-      {/* mission */}
+      {/* Mission panel with the exact text you specified, plus scribble math nearby */}
       <section className="max-w-4xl mx-auto mt-24 px-6 text-center pop-up">
-        <div ref={missionRef} className="glass-card text-slate-100 rounded-3xl shadow-2xl p-10 transform transition-transform duration-300" aria-label="Mission panel">
+        <div ref={missionRef} className="glass-card text-slate-100 rounded-3xl shadow-2xl p-10 transform transition-transform duration-300" aria-label="Mission panel" style={{ position: "relative" }}>
           <p className="text-lg md:text-xl leading-relaxed pop-up">
             Studying has become harder than ever. With too much information to know what to do with, resources that rarely construct measurable progress, and tools that sometimes make things worse, students need a learning space that adapts to them and encourages continuous improvement.
           </p>
@@ -569,16 +478,19 @@ export default function Home() {
           <p className="text-lg md:text-xl mt-6 leading-relaxed font-semibold pop-up">
             Our aim is not only to raise scores using evidence-based techniques, but to create an environment where learning becomes rewarding and sustainable.
           </p>
+
+          {/* tiny formula scribble anchored to mission */}
+          <svg width="120" height="60" style={{ position: "absolute", right: -8, top: -10, opacity: 0.12 }}>
+            <text x="0" y="20" fontSize="14" fill="white">∫_0^1 x² dx = 1/3</text>
+            <path d="M8 36 C 28 10, 80 60, 112 26" stroke="rgba(14,165,233,0.06)" strokeWidth="2" fill="none"/>
+          </svg>
         </div>
       </section>
 
-      {/* features */}
+      {/* Features */}
       <section className="max-w-6xl mx-auto px-6 mt-28 pop-up">
         <h3 className="text-3xl md:text-4xl font-semibold text-white mb-6 text-center pop-up"><Link to="/features" className="hover:underline">Explore Our Features</Link></h3>
-        <div className="text-center mb-8 pop-up">
-          <Link to="/features" className="inline-block px-6 py-3 rounded-full border border-white/20 text-white hover:bg-white/5 transition duration-300">See full features</Link>
-        </div>
-
+        <div className="text-center mb-8 pop-up"><Link to="/features" className="inline-block px-6 py-3 rounded-full border border-white/20 text-white hover:bg-white/5 transition duration-300">See full features</Link></div>
         <div className="space-y-20">
           {features.map((f, i) => <FeatureRow key={i} f={f} i={i} />)}
         </div>
@@ -592,12 +504,12 @@ export default function Home() {
         <button onClick={scrollToTop} className="mt-4 px-8 py-4 rounded-full bg-white text-slate-900 shadow-xl hover:scale-105 hover:bg-slate-200 transition-all duration-500 ease-in-out tilt-card">Back to Top</button>
       </section>
 
-      {/* closing */}
+      {/* Closing */}
       <section className="mt-16 text-center px-6 pop-up">
         <p className="text-lg text-slate-200">Learning was never difficult, it just needed a new perspective. VertexED — (<strong>Vertex ED</strong>) — is here to deliver it.</p>
       </section>
 
-      {/* contact */}
+      {/* Contact */}
       <section className="mt-12 px-6 mb-12 pop-up">
         <div className="max-w-3xl mx-auto glass-card rounded-2xl p-8 text-slate-100 shadow-xl">
           <h3 className="text-2xl font-semibold mb-4 pop-up">Contact Us</h3>
