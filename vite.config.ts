@@ -1,9 +1,8 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
-import vue from "@vitejs/plugin-vue"; // Added Vue plugin
+import vue from "@vitejs/plugin-vue"; 
 import path from "path";
 
-// https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
   server: {
     host: "::",
@@ -11,7 +10,7 @@ export default defineConfig(({ mode }) => ({
   },
   plugins: [
     react(),
-    vue(), // Added Vue support
+    vue(),
   ],
   resolve: {
     alias: {
@@ -19,7 +18,6 @@ export default defineConfig(({ mode }) => ({
     },
   },
   build: {
-    // Placeholder for Rollup options; keeps JS fallback if native isn't present
-    rollupOptions: {},
-  },
+    rollupOptions: {}
+  }
 }));
