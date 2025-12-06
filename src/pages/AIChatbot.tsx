@@ -592,12 +592,3 @@ export default function Home() {
     </>
   );
 }
-
-export const EXTRA_CSS = `
-/* Add this into your global Tailwind CSS (globals.css or tailwind.css) */
-@layer components {
-  .glass-tile { @apply bg-white/3 border border-white/6; }
-  .glass-card { @apply bg-gradient-to-br from-slate-900/60 to-slate-800/40; }
-  .char { @apply inline-block will-change-transform; }
-}
-` }
