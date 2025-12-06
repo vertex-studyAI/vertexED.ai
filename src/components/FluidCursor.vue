@@ -395,7 +395,7 @@ onMounted(() => {
     gl.FRAGMENT_SHADER,
     `
         precision mediump float;
-        precision mediump sampler2D;
+        
         varying highp vec2 vUv;
         uniform sampler2D uTexture;
     
@@ -409,7 +409,7 @@ onMounted(() => {
     gl.FRAGMENT_SHADER,
     `
         precision mediump float;
-        precision mediump sampler2D;
+        
         varying highp vec2 vUv;
         uniform sampler2D uTexture;
         uniform float value;
@@ -422,7 +422,7 @@ onMounted(() => {
 
   const displayShaderSource = `
         precision highp float;
-        precision highp sampler2D;
+        
         varying vec2 vUv;
         varying vec2 vL;
         varying vec2 vR;
@@ -465,7 +465,7 @@ onMounted(() => {
     gl.FRAGMENT_SHADER,
     `
         precision highp float;
-        precision highp sampler2D;
+        
         varying vec2 vUv;
         uniform sampler2D uTarget;
         uniform float aspectRatio;
@@ -487,7 +487,7 @@ onMounted(() => {
     gl.FRAGMENT_SHADER,
     `
         precision highp float;
-        precision highp sampler2D;
+        
         varying vec2 vUv;
         uniform sampler2D uVelocity;
         uniform sampler2D uSource;
@@ -528,7 +528,7 @@ onMounted(() => {
     gl.FRAGMENT_SHADER,
     `
         precision mediump float;
-        precision mediump sampler2D;
+        
         varying highp vec2 vUv;
         varying highp vec2 vL;
         varying highp vec2 vR;
@@ -558,7 +558,7 @@ onMounted(() => {
     gl.FRAGMENT_SHADER,
     `
         precision mediump float;
-        precision mediump sampler2D;
+        
         varying highp vec2 vUv;
         varying highp vec2 vL;
         varying highp vec2 vR;
@@ -581,7 +581,7 @@ onMounted(() => {
     gl.FRAGMENT_SHADER,
     `
         precision highp float;
-        precision highp sampler2D;
+        
         varying vec2 vUv;
         varying vec2 vL;
         varying vec2 vR;
@@ -616,7 +616,7 @@ onMounted(() => {
     gl.FRAGMENT_SHADER,
     `
         precision mediump float;
-        precision mediump sampler2D;
+        
         varying highp vec2 vUv;
         varying highp vec2 vL;
         varying highp vec2 vR;
@@ -642,7 +642,7 @@ onMounted(() => {
     gl.FRAGMENT_SHADER,
     `
         precision mediump float;
-        precision mediump sampler2D;
+        
         varying highp vec2 vUv;
         varying highp vec2 vL;
         varying highp vec2 vR;
