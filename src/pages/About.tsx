@@ -2,24 +2,42 @@ import { Helmet } from "react-helmet-async";
 import { Linkedin } from "lucide-react";
 import PageSection from "@/components/PageSection";
 
+// Utility component for per-letter hover animations
+function AnimatedText({ text }: { text: string }) {
+  return (
+    <span className="inline-block overflow-hidden">
+      {text.split("").map((char, i) => (
+        <span
+          key={i}
+          className="inline-block transform transition-transform duration-300 ease-out hover:-translate-y-2"
+          style={{ transitionDelay: `${i * 30}ms` }}
+        >
+          {char === " " ? "\u00A0" : char}
+        </span>
+      ))}
+    </span>
+  );
+}
+
 export default function About() {
   const team = [
     {
       name: "Ryan Gomez",
       role: "Co-founder · CFO · Head of AI Product Development",
-      bio: `Ryan Gomez is a Sophomore at the Oakridge International School of Bangalore with a passion for being a maximalist especially outside the classroom. ...`,
-      linkedin: "https://www.linkedin.com/in/ryan-gomez-03701b363/?originalSubdomain=in",
+      bio: `Ryan Gomez is a Sophomore at the Oakridge International School of Bangalore with a passion for being a maximalist especially outside the classroom. Whilst receiving awards at various International Model UN conferences and being a champion scholar, international olympiads and having his research published internationally whilst being an author of a quantum mechanics book, he has founded initiatives like obscured records, expanded upon a UNICEF recognised non profit and has ran Oakridge Junior codefest for 5 years running now. He has also played international football and works at various projects like he’s the next Soham Parekh. In his “free time”, he loves to explore his hobbies like the guitar or work on his assortment of projects. He also loves learning at an astronomical rate per se.`,
+      linkedin:
+        "https://www.linkedin.com/in/ryan-gomez-03701b363/?originalSubdomain=in",
     },
     {
       name: "Pratyush Vel Shankar",
       role: "Co-founder · CEO · Head of Vision",
-      bio: `Pratyush Vel Shankar is a Sophomore at Oakridge who had the core idea behind Vertex. ...`,
+      bio: `Pratyush Vel Shankar is a Sophomore at Oakridge who had the core idea behind Vertex. After winning $500 in Bangalore’s largest hackathon, he co-founded OneVertex.AI. With perfect PSAT scores, leading Oakridge’s tech club, and winning Olympiads, he spends his free time coding big ideas or playing on his Nintendo Switch.`,
       linkedin: "#",
     },
     {
       name: "Ritayush Dey",
       role: "Co-founder · CTO · Finance Oversight",
-      bio: `Ritayush Dey is a Sophomore at Oakridge with a love for excellence. ...`,
+      bio: `Ritayush Dey is a Sophomore at Oakridge with a love for excellence. He has won awards at World Scholars Cup, captained Oakridge’s cricket team, and pursued music at Trinity Grade 6. Alongside academics and leadership, he is currently organizing India’s largest overnight school-level hackathon.`,
       linkedin: "#",
     },
   ];
@@ -48,8 +66,8 @@ export default function About() {
 
       <PageSection className="relative px-6 md:px-12">
         {/* Heading */}
-        <h1 className="text-4xl md:text-5xl font-bold mb-6 tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-red-400">
-          About Vertex
+        <h1 className="text-4xl md:text-5xl font-semibold mb-6 tracking-tight bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent">
+          <AnimatedText text="About Vertex" />
         </h1>
 
         {/* Description */}
@@ -64,24 +82,27 @@ export default function About() {
         </p>
 
         {/* Team Grid */}
-        <div className="grid md:grid-cols-3 gap-10 mt-16">
+        <div className="grid md:grid-cols-3 gap-10 mt-20">
           {team.map((person) => (
             <div
               key={person.name}
-              className="rounded-3xl p-8 bg-gray-900/30 backdrop-blur-md border border-gray-700/30 shadow-lg hover:shadow-2xl hover:scale-105 transition-transform duration-300 group"
+              className="rounded-3xl p-8 bg-white/5 backdrop-blur-xl border border-white/10 shadow-xl hover:shadow-2xl hover:scale-[1.02] transition-transform duration-300"
             >
-              <h3 className="text-xl font-semibold text-white mb-2 group-hover:text-purple-400 transition-colors">
-                {person.name}
+              <h3 className="text-xl font-semibold text-white mb-2">
+                <AnimatedText text={person.name} />
               </h3>
               <p className="text-sm text-gray-300 mb-4">{person.role}</p>
-              <p className="text-sm leading-relaxed text-gray-400 mb-6">{person.bio}</p>
-              <div className="flex gap-3">
+              <p className="text-sm leading-relaxed text-gray-400 mb-6">
+                {person.bio}
+              </p>
+              <div className="flex justify-start gap-3">
                 <a
                   href={person.linkedin}
                   aria-label={`${person.name} on LinkedIn`}
-                  className="inline-flex items-center justify-center rounded-full p-3 bg-gradient-to-tr from-gray-700 to-gray-900 hover:from-blue-500 hover:to-indigo-500 transition-all"
+                  className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-gray-700 to-gray-900 p-3 hover:from-blue-500 hover:to-indigo-500 transition-all"
                 >
-                  <Linkedin className="h-5 w-5 text-white" />
+                  <AnimatedText text="LinkedIn" />
+                  <Linkedin className="h-4 w-4 text-white ml-2" />
                 </a>
               </div>
             </div>
@@ -96,10 +117,11 @@ export default function About() {
             <a
               href="#"
               aria-label="Instagram"
-              className="p-4 rounded-full bg-gray-800/30 hover:bg-gradient-to-r hover:from-pink-500 hover:to-yellow-500 transition-all"
+              className="p-3 rounded-full bg-white/5 backdrop-blur hover:bg-gradient-to-r hover:from-pink-500 hover:to-yellow-500 transition-all"
             >
+              <AnimatedText text="IG" />
               <svg
-                className="h-6 w-6 text-white"
+                className="h-5 w-5 text-gray-300 ml-1 inline-block"
                 fill="currentColor"
                 viewBox="0 0 24 24"
               >
@@ -111,10 +133,11 @@ export default function About() {
             <a
               href="#"
               aria-label="YouTube"
-              className="p-4 rounded-full bg-gray-800/30 hover:bg-gradient-to-r hover:from-red-500 hover:to-orange-500 transition-all"
+              className="p-3 rounded-full bg-white/5 backdrop-blur hover:bg-gradient-to-r hover:from-red-500 hover:to-orange-500 transition-all"
             >
+              <AnimatedText text="YT" />
               <svg
-                className="h-6 w-6 text-white"
+                className="h-5 w-5 text-gray-300 ml-1 inline-block"
                 fill="currentColor"
                 viewBox="0 0 24 24"
               >
