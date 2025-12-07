@@ -7,9 +7,11 @@ import { TypeAnimation } from "react-type-animation";
 
 /**
  * Home.tsx
- * - Replaced broken runtime import of a .vue file with a React lazy-loaded component.
- * - Suspense fallback is a simple canvas (same behavior as your previous fallback).
- * - Cleaned up effects (observer, tilt interaction, fallback canvas).
+ * - Lazy-loads FluidCursor (React) via Suspense.
+ * - Uses MutationObserver to re-bind tilt & intersection observers when DOM changes
+ *   (fixes cards disappearing / event listeners not attached to late nodes).
+ * - Ensures ProblemCard doesn't use duplicate keys.
+ * - Keeps visual effects (pop-in, swap-span, highlight) but cleans up and stabilizes lifecycle.
  */
 
 const FluidCursor = React.lazy(() =>
@@ -20,13 +22,13 @@ export default function Home() {
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
-  // refs
+  // refs & state
   const missionRef = useRef<HTMLDivElement | null>(null);
-  const canvasFallbackRef = useRef<HTMLCanvasElement | null>(null);
-  const tiltHandlersRef = useRef<Array<() => void>>([]);
   const observerRef = useRef<IntersectionObserver | null>(null);
+  const tiltCleanupRef = useRef<Array<() => void>>([]);
+  const mutationObserverRef = useRef<MutationObserver | null>(null);
 
-  // content arrays
+  // content arrays (unchanged)
   const problems = [
     { stat: "65%", text: "of students report struggling to find relevant resources despite studying for long hours." },
     { stat: "70%", text: "say note-taking takes up more time than actual learning, making revision less effective." },
@@ -54,13 +56,17 @@ export default function Home() {
     "This is just the beginning! more features are on their way as you read this."
   ];
 
-  // state for flashcard flips
+  // flips
   const [flipped, setFlipped] = useState<boolean[]>(Array(problems.length).fill(false));
-  const toggleFlip = (i: number) => setFlipped(prev => { const c = [...prev]; c[i] = !c[i]; return c; });
+  const toggleFlip = (i: number) => setFlipped(prev => {
+    const c = [...prev];
+    c[i] = !c[i];
+    return c;
+  });
 
   const scrollToTop = () => typeof window !== "undefined" && window.scrollTo({ top: 0, behavior: "smooth" });
 
-  // warm up + redirect
+  // warm up + redirect (unchanged)
   useEffect(() => {
     if (!isAuthenticated) return;
     const ua = typeof navigator !== "undefined" ? navigator.userAgent.toLowerCase() : "";
@@ -71,9 +77,15 @@ export default function Home() {
     }
   }, [isAuthenticated, navigate]);
 
-  // IntersectionObserver for pop-in / highlight-once / swap-span
-  useEffect(() => {
+  // IntersectionObserver: pop-in, highlight-once, swap-pop
+  function setupIntersectionObserver() {
     if (typeof window === "undefined") return;
+    // disconnect old
+    if (observerRef.current) {
+      observerRef.current.disconnect();
+      observerRef.current = null;
+    }
+
     const opts = { threshold: 0.12 };
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
@@ -94,18 +106,23 @@ export default function Home() {
         }
       });
     }, opts);
+
     observerRef.current = observer;
     const nodes = Array.from(document.querySelectorAll<HTMLElement>(".pop-up"));
     nodes.forEach(el => observer.observe(el));
-    return () => {
-      observer.disconnect();
-      observerRef.current = null;
-    };
-  }, []);
+  }
 
-  // tilt card interactions
-  useEffect(() => {
+  // tilt interactions using per-element listeners (rebinding supported)
+  function bindTiltCards() {
+    // cleanup previous
+    tiltCleanupRef.current.forEach(fn => fn());
+    tiltCleanupRef.current = [];
+
     if (typeof window === "undefined") return;
+    // prefer-reduced-motion check
+    const reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduce) return;
+
     const canTilt = window.matchMedia ? window.matchMedia("(hover:hover) and (pointer:fine)").matches : true;
     if (!canTilt) return;
 
@@ -161,46 +178,51 @@ export default function Home() {
       });
     });
 
-    tiltHandlersRef.current = handlers;
-    return () => { handlers.forEach(fn => fn()); tiltHandlersRef.current = []; };
-  }, []);
+    tiltCleanupRef.current = handlers;
+  }
 
-  // fallback canvas tiny behavior: just clear and leave — only used when Suspense fallback renders the canvas
+  // Re-bind observers / tilt on mount and whenever the DOM mutates (fixes elements added later)
   useEffect(() => {
-    if (typeof window === "undefined") return;
-    const canvas = canvasFallbackRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
+    setupIntersectionObserver();
+    bindTiltCards();
 
-    let raf = 0;
-    const resize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-      canvas.style.width = `${window.innerWidth}px`;
-      canvas.style.height = `${window.innerHeight}px`;
-    };
-    resize();
-    window.addEventListener("resize", resize);
-
-    const render = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      raf = requestAnimationFrame(render);
-    };
-    raf = requestAnimationFrame(render);
+    // Setup a MutationObserver to watch for added/removed nodes that may need binding
+    if (typeof window !== "undefined") {
+      const mo = new MutationObserver(() => {
+        // small debounce
+        requestAnimationFrame(() => {
+          setupIntersectionObserver();
+          bindTiltCards();
+        });
+      });
+      mo.observe(document.body, { childList: true, subtree: true });
+      mutationObserverRef.current = mo;
+    }
 
     return () => {
-      window.removeEventListener("resize", resize);
-      if (raf) cancelAnimationFrame(raf);
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      // cleanups
+      if (observerRef.current) {
+        observerRef.current.disconnect();
+        observerRef.current = null;
+      }
+      tiltCleanupRef.current.forEach(fn => fn());
+      tiltCleanupRef.current = [];
+      if (mutationObserverRef.current) {
+        mutationObserverRef.current.disconnect();
+        mutationObserverRef.current = null;
+      }
     };
-  }, []); // no dependency on lazy state — canvas used only as fallback
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // run once
+
+  // fallback: if SSR, guard lazy render (FluidCursor is client-only visual)
+  const renderFluidCursor = typeof window !== "undefined";
 
   // ---- Subcomponents ----
   function ProblemCard({ p, i }: { p: { stat: string; text: string }; i: number }) {
+    // NOTE: key must be applied by the map caller to avoid duplicates — we do NOT set inner key here.
     return (
       <div
-        key={i}
         onClick={() => toggleFlip(i)}
         className="group relative h-56 rounded-2xl transition-transform duration-400 hover:scale-[1.03] perspective tilt-card pop-up"
         aria-label={`Problem card ${i + 1}`}
@@ -290,31 +312,14 @@ export default function Home() {
         }}
       />
 
-      {/* Fluid cursor: lazy-loaded React component with canvas fallback in Suspense */}
+      {/* Fluid cursor (lazy + client-only) */}
       <div aria-hidden>
-        <Suspense fallback={
-          <canvas
-            ref={canvasFallbackRef}
-            className="cursor-canvas"
-            aria-hidden
-            style={{
-              position: "fixed",
-              left: 0,
-              top: 0,
-              pointerEvents: "none",
-              zIndex: 1400,
-              width: "100%",
-              height: "100%",
-              mixBlendMode: "screen",
-            }}
-          />
-        }>
-          {/* Only render the fluid cursor on client to avoid SSR issues */}
-          {typeof window !== "undefined" ? <FluidCursor /> : null}
+        <Suspense fallback={null}>
+          {renderFluidCursor ? <FluidCursor /> : null}
         </Suspense>
       </div>
 
-      {/* Inline styles for pop-in / highlight / swap-span / scribbles */}
+      {/* Inline styles preserved */}
       <style>{`
         /* POP-IN */
         .pop-up { opacity: 0; transform: translateY(14px) scale(0.995); transition: transform 480ms cubic-bezier(.2,.9,.3,1), opacity 380ms ease-out; will-change: transform, opacity; }
@@ -325,7 +330,7 @@ export default function Home() {
         .hl-inner { display: inline-block; transform-origin: left center; transform: translateY(10px); transition: transform 520ms cubic-bezier(.2,.9,.3,1), color 360ms; }
         .hl-pop { transform: translateY(0px); color: #DDEBFF; text-shadow: 0 6px 24px rgba(14,165,233,0.08); }
 
-        /* swap-span pop */
+        /* swap-span pop: used for heading span pop-up & font emphasis */
         .swap-span { display: inline-block; transform: translateY(8px); transition: transform 520ms cubic-bezier(.2,.9,.3,1), font-weight 220ms, font-size 220ms; }
         .swap-pop { transform: translateY(0px); font-weight: 800; font-size: 1.06em; color: #E6F0FF; letter-spacing: -0.01em; }
 
@@ -359,10 +364,7 @@ export default function Home() {
         }
       `}</style>
 
-      {/* rest of markup (SVG scribbles, hero, features, mission, CTA, contact, …) */}
-      {/* ... (kept identical to your original markup to preserve effects) */}
-
-      {/* small absolute SVG scribbles & math bits (non-interactive, decorative) */}
+      {/* decorative scribbles */}
       <svg className="scribble scribble--small" width="220" height="120" style={{ left: 28, top: 160, position: "absolute", zIndex: 30 }}>
         <path d="M6 80 C 40 20, 80 120, 210 40" stroke="rgba(255,255,255,0.12)" strokeWidth="2" fill="none" strokeLinecap="round" />
         <path d="M10 40 C 60 60, 120 0, 210 50" stroke="rgba(14,165,233,0.06)" strokeWidth="3" fill="none" strokeLinecap="round" />
@@ -376,7 +378,7 @@ export default function Home() {
         </svg>
       </div>
 
-      {/* HERO */}
+      {/* Hero */}
       <section className="glass-card px-6 pt-24 pb-16 text-center pop-up" style={{ position: "relative" }}>
         <div className="max-w-3xl mx-auto">
           <div className="mb-6 pop-up">
@@ -417,13 +419,14 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Resources, storytelling, grid of problems, mission panel, features, CTA, contact — unchanged to preserve behavior */}
+      {/* small resources */}
       <div className="max-w-3xl mx-auto px-6 mt-3 pop-up">
         <div className="text-xs text-slate-400 text-center">
           Looking for how-to guides? <Link to="/resources" className="underline">Explore resources</Link>
         </div>
       </div>
 
+      {/* story */}
       <section className="mt-12 md:mt-15 text-center px-6 pop-up" style={{ position: "relative" }}>
         <div className="w-full mx-auto h-[4.8rem] md:h-auto flex items-center justify-center mb-6">
           <h2 className="text-4xl md:text-5xl font-semibold text-white leading-tight flex flex-col justify-center swap-span">
@@ -439,13 +442,15 @@ export default function Home() {
         <p className="text-lg text-slate-200 mb-12 pop-up">Who wouldn’t?</p>
       </section>
 
+      {/* problems grid */}
       <section className="max-w-6xl mx-auto px-6 mt-28 pop-up">
         <h3 className="text-3xl md:text-4xl font-semibold text-white mb-10 text-center swap-span">Why is this a problem?</h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
-          {problems.map((p, i) => <ProblemCard key={i} p={p} i={i} />)}
+          {problems.map((p, i) => <React.Fragment key={i}><ProblemCard p={p} i={i} /></React.Fragment>)}
         </div>
       </section>
 
+      {/* mission */}
       <section className="max-w-4xl mx-auto mt-24 px-6 text-center pop-up">
         <div ref={missionRef} className="glass-card text-slate-100 rounded-3xl shadow-2xl p-10 transform transition-transform duration-300" aria-label="Mission panel" style={{ position: "relative" }}>
           <p className="text-lg md:text-xl leading-relaxed pop-up">
@@ -473,6 +478,7 @@ export default function Home() {
         </div>
       </section>
 
+      {/* features */}
       <section className="max-w-6xl mx-auto px-6 mt-28 pop-up">
         <h3 className="text-3xl md:text-4xl font-semibold text-white mb-6 text-center pop-up"><Link to="/features" className="hover:underline">Explore Our Features</Link></h3>
         <div className="text-center mb-8 pop-up"><Link to="/features" className="inline-block px-6 py-3 rounded-full border border-white/20 text-white hover:bg-white/5 transition duration-300">See full features</Link></div>
@@ -481,6 +487,7 @@ export default function Home() {
         </div>
       </section>
 
+      {/* CTA */}
       <section className="mt-28 text-center px-6 pop-up">
         <h3 className="text-3xl md:text-4xl font-semibold text-white mb-6 pop-up">
           Ready to get started?<br/>We guarantee a change!
@@ -488,10 +495,12 @@ export default function Home() {
         <button onClick={scrollToTop} className="mt-4 px-8 py-4 rounded-full bg-white text-slate-900 shadow-xl hover:scale-105 hover:bg-slate-200 transition-all duration-500 ease-in-out tilt-card">Back to Top</button>
       </section>
 
+      {/* closing */}
       <section className="mt-16 text-center px-6 pop-up">
         <p className="text-lg text-slate-200">Learning was never difficult, it just needed a new perspective. VertexED — (<strong>Vertex ED</strong>) — is here to deliver it.</p>
       </section>
 
+      {/* contact */}
       <section className="mt-12 px-6 mb-12 pop-up">
         <div className="max-w-3xl mx-auto glass-card rounded-2xl p-8 text-slate-100 shadow-xl">
           <h3 className="text-2xl font-semibold mb-4 pop-up">Contact Us</h3>
