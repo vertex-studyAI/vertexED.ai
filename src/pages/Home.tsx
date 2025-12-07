@@ -698,7 +698,7 @@ export default function Home() {
                 </span>
 
                 <span className="mt-2 pop-up" aria-hidden>
-                  <LandoSwapText from="VertexED" to="Vertex ED" triggerMs={2800} />
+                  <LandoSwapText from="Vertex" to="VertexED" triggerMs={2800} />
                 </span>
               </h1>
             </div>
