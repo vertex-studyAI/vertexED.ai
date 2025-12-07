@@ -1,4 +1,3 @@
-// src/pages/Home.tsx
 import React, { useEffect, useRef, useState, Suspense } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import SEO from "@/components/SEO";
@@ -12,11 +11,152 @@ import { TypeAnimation } from "react-type-animation";
  *   (fixes cards disappearing / event listeners not attached to late nodes).
  * - Ensures ProblemCard doesn't use duplicate keys.
  * - Keeps visual effects (pop-in, swap-span, highlight) but cleans up and stabilizes lifecycle.
+ *
+ * Added animation components inspired by the Inspira-UI snippets the user linked:
+ * - FlipWords: flip-between words with a 3D flip animation
+ * - MorphingText: gentle morph / crossfade of phrases
+ * - LetterPullUp: letter-by-letter pull-up reveal
+ * - TextScrollReveal: IntersectionObserver-driven scroll reveal (clip/slide)
+ * - TextReveal: character clip reveal similar to "highlight letter text reveal"
+ * - LandoSwapText: Lando Norris style per-letter translate-up-and-switch effect
+ *
+ * These components are intentionally minimal, self-contained, accessible, and respect
+ * "prefers-reduced-motion".
  */
 
 const FluidCursor = React.lazy(() =>
   import("@/components/FluidCursor").catch(() => ({ default: () => null })),
 );
+
+/* ---------------------- Small animation components ---------------------- */
+
+type FlipWordsProps = { words: string[]; interval?: number; className?: string };
+const FlipWords: React.FC<FlipWordsProps> = ({ words, interval = 2200, className }) => {
+  const [idx, setIdx] = useState(0);
+  const [phase, setPhase] = useState<"in" | "out">("in");
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduced) return; // no animation
+    const t = setInterval(() => {
+      setPhase("out");
+      setTimeout(() => {
+        setIdx(i => (i + 1) % words.length);
+        setPhase("in");
+      }, 260);
+    }, interval);
+    return () => clearInterval(t);
+  }, [words.length, interval]);
+
+  return (
+    <span className={`flip-words inline-block ${className || ""}`} aria-live="polite">
+      <span className={`fw-word fw-${phase}`}>{words[idx]}</span>
+    </span>
+  );
+};
+
+type MorphingTextProps = { phrases: string[]; interval?: number; wrapper?: string; className?: string };
+const MorphingText: React.FC<MorphingTextProps> = ({ phrases, interval = 2400, wrapper = "span", className }) => {
+  const [i, setI] = useState(0);
+  useEffect(() => {
+    const reduced = typeof window !== "undefined" && window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduced) return;
+    const id = setInterval(() => setI(v => (v + 1) % phrases.length), interval);
+    return () => clearInterval(id);
+  }, [phrases.length, interval]);
+
+  const Tag = wrapper as any;
+  return (
+    <Tag className={`morph-text ${className || ""}`} aria-hidden={false}>
+      {phrases.map((p, idx) => (
+        <span key={idx} className={`morph-phrase ${idx === i ? "morph-visible" : "morph-hidden"}`}>{p}</span>
+      ))}
+    </Tag>
+  );
+};
+
+type LetterPullUpProps = { text: string; delay?: number; className?: string };
+const LetterPullUp: React.FC<LetterPullUpProps> = ({ text, delay = 40, className }) => {
+  return (
+    <span className={`letter-pullup ${className || ""}`} aria-hidden={false}>
+      {Array.from(text).map((ch, i) => (
+        <span key={i} aria-hidden className="lp-char" style={{ transitionDelay: `${i * delay}ms` }}>{ch}</span>
+      ))}
+    </span>
+  );
+};
+
+// Reveals when scrolled into view using a clip-path / translateY effect
+const TextScrollReveal: React.FC<{ children: React.ReactNode; className?: string }> = ({ children, className }) => {
+  const ref = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const node = ref.current;
+    if (!node) return;
+    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      node.classList.add("tsr-visible");
+      return;
+    }
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          node.classList.add("tsr-visible");
+          obs.unobserve(node);
+        }
+      });
+    }, { threshold: 0.12 });
+    obs.observe(node);
+    return () => obs.disconnect();
+  }, []);
+
+  return <div ref={ref} className={`text-scroll-reveal ${className || ""}`}>{children}</div>;
+};
+
+// Character-based clip reveal (similar to highlight letter reveal)
+const TextReveal: React.FC<{ text: string; className?: string }> = ({ text, className }) => {
+  return (
+    <span className={`text-reveal ${className || ""}`}>{Array.from(text).map((c, i) => (
+      <span aria-hidden key={i} className="tr-char" style={{ transitionDelay: `${i * 28}ms` }}>{c}</span>
+    ))}</span>
+  );
+};
+
+// "Lando Norris" like text effect: per-letter translate up and switch
+const LandoSwapText: React.FC<{ from: string; to: string; triggerMs?: number; className?: string }> = ({ from, to, triggerMs = 2200, className }) => {
+  const [current, setCurrent] = useState(from);
+  const [animKey, setAnimKey] = useState(0);
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduced) return;
+
+    const id = setInterval(() => {
+      // sequence: animate out by bumping key, then swap content
+      setAnimKey(k => k + 1);
+      setTimeout(() => setCurrent(c => c === from ? to : from), 300);
+    }, triggerMs);
+    return () => clearInterval(id);
+  }, [from, to, triggerMs]);
+
+  // ensure both strings have same length to simplify animation; pad with spaces
+  const maxLen = Math.max(from.length, to.length);
+  const pad = (s: string) => s.padEnd(maxLen, " ");
+  const a = pad(current === from ? from : to);
+  const b = pad(current === from ? to : from);
+
+  return (
+    <span className={`lando-swap ${className || ""}`} data-key={animKey} aria-live="polite">
+      {Array.from({ length: maxLen }).map((_, i) => (
+        <span key={i} className="ls-letter">
+          <span className="ls-front" aria-hidden>{a[i]}</span>
+          <span className="ls-back" aria-hidden>{b[i]}</span>
+        </span>
+      ))}
+    </span>
+  );
+};
+
+/* -------------------------------------------------------------------------- */
 
 export default function Home() {
   const { isAuthenticated } = useAuth();
@@ -275,7 +415,7 @@ export default function Home() {
     return (
       <div key={i} className={`feature-row flex flex-col md:flex-row items-center gap-10 pop-up ${i % 2 !== 0 ? "md:flex-row-reverse" : ""}`}>
         <div className="flex-1 glass-tile rounded-2xl shadow-xl p-6 text-slate-100 tilt-card">
-          <h4 className="text-xl font-bold mb-3 pop-up swap-span">{f.title}</h4>
+          <h4 className="text-xl font-bold mb-3 pop-up swap-span"><LetterPullUp text={f.title} /></h4>
           <p className="pop-up highlight-clip" style={{ maxWidth: 640 }}>
             <span className="hl-inner">{f.desc}</span>
           </p>
@@ -319,7 +459,7 @@ export default function Home() {
         </Suspense>
       </div>
 
-      {/* Inline styles preserved */}
+      {/* Inline styles preserved + new animation styles */}
       <style>{`
         /* POP-IN */
         .pop-up { opacity: 0; transform: translateY(14px) scale(0.995); transition: transform 480ms cubic-bezier(.2,.9,.3,1), opacity 380ms ease-out; will-change: transform, opacity; }
@@ -358,9 +498,48 @@ export default function Home() {
         /* card front polish */
         .problem-card-front { border: 1px solid rgba(6,10,15,0.04); }
 
+        /* ---------------- new animation styles ---------------- */
+
+        /* Flip words */
+        .flip-words { perspective: 700px; display: inline-block; vertical-align: middle; }
+        .fw-word { display:inline-block; backface-visibility: hidden; transform-origin: center; transition: transform 260ms cubic-bezier(.2,.9,.3,1), opacity 260ms; }
+        .fw-in { transform: rotateX(0deg) translateY(0); opacity:1; }
+        .fw-out { transform: rotateX(-90deg) translateY(-6px); opacity:0; }
+
+        /* Morphing text: crossfade + subtle scale */
+        .morph-text { position: relative; display:inline-block; }
+        .morph-phrase { position: absolute; left:0; top:0; transform-origin:center; opacity:0; transform: scale(0.98); transition: all 420ms ease; white-space:nowrap; }
+        .morph-visible { opacity:1; transform: scale(1); z-index:2; }
+        .morph-hidden { opacity:0; z-index:1; }
+
+        /* Letter pull up */
+        .letter-pullup { display:inline-block; overflow:visible; }
+        .lp-char { display:inline-block; transform: translateY(18px); opacity:0; transition: transform 520ms cubic-bezier(.2,.9,.3,1), opacity 420ms; }
+        .pop-in .lp-char { transform: translateY(0); opacity:1; }
+
+        /* Text scroll reveal */
+        .text-scroll-reveal { overflow: hidden; display:inline-block; transform: translateY(12px); opacity:0; transition: transform 520ms cubic-bezier(.2,.9,.3,1), opacity 420ms; }
+        .text-scroll-reveal.tsr-visible { transform: translateY(0); opacity:1; }
+
+        /* Text reveal (char clip) */
+        .text-reveal { display:inline-block; vertical-align:middle; }
+        .tr-char { display:inline-block; transform: translateY(14px); opacity:0; transition: transform 420ms ease, opacity 360ms; }
+        .text-reveal .tr-char { /* will be animated on appear */ }
+        .pop-in .text-reveal .tr-char { transform: translateY(0); opacity:1; }
+
+        /* Lando swap effect */
+        .lando-swap { display:inline-block; line-height:1; font-variant-ligatures: none; }
+        .ls-letter { display:inline-block; position:relative; overflow:visible; width:0.62ch; text-align:center; }
+        .ls-front, .ls-back { display:block; transform-origin:center; position:relative; transition: transform 320ms cubic-bezier(.2,.9,.3,1), opacity 300ms; }
+        .ls-front { transform: translateY(0); opacity:1; }
+        .ls-back { position:absolute; left:0; top:0; transform: translateY(100%); opacity:0; }
+        .lando-swap[data-key] .ls-front { transform: translateY(-100%); opacity:0; }
+        .lando-swap[data-key] .ls-back { transform: translateY(0%); opacity:1; }
+
         @media (prefers-reduced-motion: reduce) {
           .pop-up { transition: none !important; transform: none !important; opacity: 1 !important; }
           .scribble { animation: none !important; }
+          .fw-word, .morph-phrase, .lp-char, .tr-char, .ls-front, .ls-back { transition: none !important; transform: none !important; opacity:1 !important; }
         }
       `}</style>
 
@@ -385,6 +564,7 @@ export default function Home() {
             <div className="relative w-full h-[6.75rem] md:h-[9.25rem] flex items-center justify-center">
               <h1 className="text-5xl md:text-7xl font-semibold text-white leading-tight text-center flex flex-col justify-center [--gap:0.4rem] md:[--gap:0.6rem] pop-up">
                 <span className="swap-span">
+                  {/* Keep the TypeAnimation fallback; also add FlipWords example */}
                   <TypeAnimation
                     sequence={[
                       1200,
@@ -401,6 +581,9 @@ export default function Home() {
                     cursor={true}
                     repeat={Infinity}
                   />
+                </span>
+                <span style={{ marginTop: 6, fontSize: '1rem', opacity: 0.85 }} className="pop-up">
+                  <FlipWords words={["fast feedback","real practice","mastered concepts","confident test-takers"]} interval={2400} />
                 </span>
               </h1>
             </div>
@@ -430,13 +613,8 @@ export default function Home() {
       <section className="mt-12 md:mt-15 text-center px-6 pop-up" style={{ position: "relative" }}>
         <div className="w-full mx-auto h-[4.8rem] md:h-auto flex items-center justify-center mb-6">
           <h2 className="text-4xl md:text-5xl font-semibold text-white leading-tight flex flex-col justify-center swap-span">
-            <TypeAnimation
-              sequence={[1200, "We hate the way we study.", 1400, "We hate cramming.", 1400, "We hate wasted time.", 1400, "We hate inefficient tools."]}
-              speed={40}
-              wrapper="span"
-              cursor={true}
-              repeat={Infinity}
-            />
+            {/* Use MorphingText here to create the rotating phrases */}
+            <MorphingText phrases={["We hate the way we study.", "We hate cramming.", "We hate wasted time.", "We hate inefficient tools."]} />
           </h2>
         </div>
         <p className="text-lg text-slate-200 mb-12 pop-up">Who wouldn’t?</p>
