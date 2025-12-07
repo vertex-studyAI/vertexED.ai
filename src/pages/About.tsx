@@ -2,10 +2,10 @@ import { Helmet } from "react-helmet-async";
 import { Linkedin } from "lucide-react";
 import PageSection from "@/components/PageSection";
 
-// Utility component for per-letter hover animations
+// Utility component for per-letter hover animations with gradient fix
 function AnimatedText({ text }: { text: string }) {
   return (
-    <span className="inline-block overflow-hidden">
+    <span className="bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent inline-block">
       {text.split("").map((char, i) => (
         <span
           key={i}
@@ -66,7 +66,7 @@ export default function About() {
 
       <PageSection className="relative px-6 md:px-12">
         {/* Heading */}
-        <h1 className="text-4xl md:text-5xl font-semibold mb-6 tracking-tight bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent">
+        <h1 className="text-4xl md:text-5xl font-semibold mb-6 tracking-tight">
           <AnimatedText text="About Vertex" />
         </h1>
 
