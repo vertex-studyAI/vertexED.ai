@@ -66,7 +66,6 @@ const LetterPullUp: React.FC<LetterPullUpProps> = ({ text, delay = 40, className
   );
 };
 
-// Reveals when scrolled into view using a clip-path / translateY effect
 const TextScrollReveal: React.FC<{ children: React.ReactNode; className?: string }> = ({ children, className }) => {
   const ref = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
@@ -92,7 +91,6 @@ const TextScrollReveal: React.FC<{ children: React.ReactNode; className?: string
   return <div ref={ref} className={`text-scroll-reveal ${className || ""}`}>{children}</div>;
 };
 
-// Character-based clip reveal (similar to highlight letter reveal)
 const TextReveal: React.FC<{ text: string; className?: string }> = ({ text, className }) => {
   return (
     <span className={`text-reveal ${className || ""}`}>{Array.from(text).map((c, i) => (
@@ -101,7 +99,6 @@ const TextReveal: React.FC<{ text: string; className?: string }> = ({ text, clas
   );
 };
 
-// "Lando Norris" like text effect: per-letter translate up and switch
 const LandoSwapText: React.FC<{ from: string; to: string; triggerMs?: number; className?: string }> = ({ from, to, triggerMs = 2200, className }) => {
   const [current, setCurrent] = useState(from);
   const [animKey, setAnimKey] = useState(0);
@@ -111,21 +108,19 @@ const LandoSwapText: React.FC<{ from: string; to: string; triggerMs?: number; cl
     if (reduced) return;
 
     const id = setInterval(() => {
-      // sequence: animate out by bumping key, then swap content
       setAnimKey(k => k + 1);
-      setTimeout(() => setCurrent(c => c === from ? to : from), 300);
+      setTimeout(() => setCurrent(c => (c === from ? to : from)), 300);
     }, triggerMs);
     return () => clearInterval(id);
   }, [from, to, triggerMs]);
 
-  // ensure both strings have same length to simplify animation; pad with spaces
   const maxLen = Math.max(from.length, to.length);
   const pad = (s: string) => s.padEnd(maxLen, " ");
   const a = pad(current === from ? from : to);
   const b = pad(current === from ? to : from);
 
   return (
-    <span className={`lando-swap ${className || ""}`} data-key={animKey} aria-live="polite">
+    <span className={`lando-swap ${className || ""}`} data-key={animKey} aria-live="polite" style={{ whiteSpace: "nowrap" }}>
       {Array.from({ length: maxLen }).map((_, i) => (
         <span key={i} className="ls-letter">
           <span className="ls-front" aria-hidden>{a[i]}</span>
@@ -148,7 +143,6 @@ export default function Home() {
   const tiltCleanupRef = useRef<Array<() => void>>([]);
   const mutationObserverRef = useRef<MutationObserver | null>(null);
 
-  // content arrays (unchanged)
   const problems = [
     { stat: "65%", text: "of students report struggling to find relevant resources despite studying for long hours." },
     { stat: "70%", text: "say note-taking takes up more time than actual learning, making revision less effective." },
@@ -186,7 +180,7 @@ export default function Home() {
 
   const scrollToTop = () => typeof window !== "undefined" && window.scrollTo({ top: 0, behavior: "smooth" });
 
-  // warm up + redirect (unchanged)
+  // warm up + redirect
   useEffect(() => {
     if (!isAuthenticated) return;
     const ua = typeof navigator !== "undefined" ? navigator.userAgent.toLowerCase() : "";
@@ -200,7 +194,6 @@ export default function Home() {
   // IntersectionObserver: pop-in, highlight-once, swap-pop
   function setupIntersectionObserver() {
     if (typeof window === "undefined") return;
-    // disconnect old
     if (observerRef.current) {
       observerRef.current.disconnect();
       observerRef.current = null;
@@ -234,12 +227,10 @@ export default function Home() {
 
   // tilt interactions using per-element listeners (rebinding supported)
   function bindTiltCards() {
-    // cleanup previous
     tiltCleanupRef.current.forEach(fn => fn());
     tiltCleanupRef.current = [];
 
     if (typeof window === "undefined") return;
-    // prefer-reduced-motion check
     const reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduce) return;
 
@@ -301,15 +292,13 @@ export default function Home() {
     tiltCleanupRef.current = handlers;
   }
 
-  // Re-bind observers / tilt on mount and whenever the DOM mutates (fixes elements added later)
+  // Re-bind observers / tilt on mount and whenever the DOM mutates
   useEffect(() => {
     setupIntersectionObserver();
     bindTiltCards();
 
-    // Setup a MutationObserver to watch for added/removed nodes that may need binding
     if (typeof window !== "undefined") {
       const mo = new MutationObserver(() => {
-        // small debounce
         requestAnimationFrame(() => {
           setupIntersectionObserver();
           bindTiltCards();
@@ -320,7 +309,6 @@ export default function Home() {
     }
 
     return () => {
-      // cleanups
       if (observerRef.current) {
         observerRef.current.disconnect();
         observerRef.current = null;
@@ -333,17 +321,26 @@ export default function Home() {
       }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); // run once
+  }, []);
 
-  // fallback: if SSR, guard lazy render (FluidCursor is client-only visual)
   const renderFluidCursor = typeof window !== "undefined";
 
   // ---- Subcomponents ----
   function ProblemCard({ p, i }: { p: { stat: string; text: string }; i: number }) {
-    // NOTE: key must be applied by the map caller to avoid duplicates — we do NOT set inner key here.
+    const onKeyDown = (e: React.KeyboardEvent) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        toggleFlip(i);
+      }
+    };
+
     return (
       <div
         onClick={() => toggleFlip(i)}
+        onKeyDown={onKeyDown}
+        role="button"
+        tabIndex={0}
+        aria-pressed={flipped[i]}
         className="group relative h-56 rounded-2xl transition-transform duration-400 hover:scale-[1.03] perspective tilt-card pop-up"
         aria-label={`Problem card ${i + 1}`}
       >
@@ -392,8 +389,9 @@ export default function Home() {
   }
 
   function FeatureRow({ f, i }: { f: { title: string; desc: string }; i: number }) {
+    // removed key here — key should be on the mapped element in parent
     return (
-      <div key={i} className={`feature-row flex flex-col md:flex-row items-center gap-10 pop-up ${i % 2 !== 0 ? "md:flex-row-reverse" : ""}`}>
+      <div className={`feature-row flex flex-col md:flex-row items-center gap-10 pop-up ${i % 2 !== 0 ? "md:flex-row-reverse" : ""}`}>
         <div className="flex-1 glass-tile rounded-2xl shadow-xl p-6 text-slate-100 tilt-card">
           <h4 className="text-xl font-bold mb-3 pop-up swap-span"><LetterPullUp text={f.title} /></h4>
           <p className="pop-up highlight-clip" style={{ maxWidth: 640 }}>
@@ -432,7 +430,6 @@ export default function Home() {
         }}
       />
 
-      {/* Fluid cursor (lazy + client-only) - rendered in a fixed root so it can visually cover the page */}
       {renderFluidCursor && (
         <div id="fluid-cursor-root" style={{ position: "fixed", inset: 0, pointerEvents: "none", zIndex: 999999 }}>
           <Suspense fallback={null}>
@@ -441,82 +438,54 @@ export default function Home() {
         </div>
       )}
 
-      {/* Inline styles preserved + new animation styles */}
       <style>{`
-        /* Layout + smooth snap */
         html { scroll-behavior: smooth; scroll-snap-type: y proximity; }
         body { scroll-padding-top: 72px; }
         section { scroll-snap-align: start; scroll-snap-stop: always; }
 
-        /* POP-IN */
         .pop-up { opacity: 0; transform: translateY(14px) scale(0.995); transition: transform 480ms cubic-bezier(.2,.9,.3,1), opacity 380ms ease-out; will-change: transform, opacity; }
         .pop-in { opacity: 1; transform: translateY(0px) scale(1); }
 
-        /* Highlight clip */
         .highlight-clip { display: inline-block; overflow: hidden; vertical-align: middle; }
         .hl-inner { display: inline-block; transform-origin: left center; transform: translateY(10px); transition: transform 520ms cubic-bezier(.2,.9,.3,1), color 360ms; }
         .hl-pop { transform: translateY(0px); color: #DDEBFF; text-shadow: 0 6px 24px rgba(14,165,233,0.08); }
 
-        /* swap-span pop: used for heading span pop-up & font emphasis */
-        .swap-span { display: inline-block; transform: translateY(8px); transition: transform 520ms cubic-bezier(.2,.9,.3,1), font-weight 220ms, font-size 220ms; }
+        .swap-span { display: inline-block; transform: translateY(8px); transition: transform 520ms cubic-bezier(.2,.9,.3,1), font-weight 220ms, font-size 220ms; white-space: nowrap; }
         .swap-pop { transform: translateY(0px); font-weight: 800; font-size: 1.06em; color: #E6F0FF; letter-spacing: -0.01em; }
 
-        /* glass tile basics */
         .glass-tile { background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border: 1px solid rgba(255,255,255,0.04); backdrop-filter: blur(8px) saturate(110%); }
 
-        /* scribbles & formula accent */
-        .scribble {
-          position: absolute;
-          pointer-events: none;
-          opacity: 0.12;
-          transform-origin: center;
-          filter: blur(0.2px);
-          animation: scribbleFloat 6s ease-in-out infinite;
-        }
+        .scribble { position: absolute; pointer-events: none; opacity: 0.12; transform-origin: center; filter: blur(0.2px); animation: scribbleFloat 6s ease-in-out infinite; }
         .scribble--small { opacity: 0.10; transform: rotate(-6deg); }
         .scribble--math { opacity: 0.14; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", monospace; }
 
-        @keyframes scribbleFloat {
-          0% { transform: translateY(0) rotate(-3deg); }
-          50% { transform: translateY(-6px) rotate(2deg); }
-          100% { transform: translateY(0) rotate(-3deg); }
-        }
+        @keyframes scribbleFloat { 0% { transform: translateY(0) rotate(-3deg); } 50% { transform: translateY(-6px) rotate(2deg); } 100% { transform: translateY(0) rotate(-3deg); } }
 
-        /* card front polish */
         .problem-card-front { border: 1px solid rgba(6,10,15,0.04); }
 
-        /* ---------------- new animation styles ---------------- */
-
-        /* Flip words */
         .flip-words { perspective: 700px; display: inline-block; vertical-align: middle; }
         .fw-word { display:inline-block; backface-visibility: hidden; transform-origin: center; transition: transform 260ms cubic-bezier(.2,.9,.3,1), opacity 260ms; }
         .fw-in { transform: rotateX(0deg) translateY(0); opacity:1; }
         .fw-out { transform: rotateX(-90deg) translateY(-6px); opacity:0; }
 
-        /* Morphing text: crossfade + subtle scale */
         .morph-text { position: relative; display:inline-block; }
         .morph-phrase { position: absolute; left:0; top:0; transform-origin:center; opacity:0; transform: scale(0.98); transition: all 420ms ease; white-space:nowrap; }
         .morph-visible { opacity:1; transform: scale(1); z-index:2; }
         .morph-hidden { opacity:0; z-index:1; }
 
-        /* Letter pull up */
         .letter-pullup { display:inline-block; overflow:visible; }
         .lp-char { display:inline-block; transform: translateY(18px); opacity:0; transition: transform 520ms cubic-bezier(.2,.9,.3,1), opacity 420ms; }
         .pop-in .lp-char { transform: translateY(0); opacity:1; }
 
-        /* Text scroll reveal */
         .text-scroll-reveal { overflow: hidden; display:inline-block; transform: translateY(12px); opacity:0; transition: transform 520ms cubic-bezier(.2,.9,.3,1), opacity 420ms; }
         .text-scroll-reveal.tsr-visible { transform: translateY(0); opacity:1; }
 
-        /* Text reveal (char clip) */
         .text-reveal { display:inline-block; vertical-align:middle; }
         .tr-char { display:inline-block; transform: translateY(14px); opacity:0; transition: transform 420ms ease, opacity 360ms; }
-        .text-reveal .tr-char { /* will be animated on appear */ }
         .pop-in .text-reveal .tr-char { transform: translateY(0); opacity:1; }
 
-        /* Lando swap effect */
-        .lando-swap { display:inline-block; line-height:1; font-variant-ligatures: none; }
-        .ls-letter { display:inline-block; position:relative; overflow:visible; width:0.62ch; text-align:center; }
+        .lando-swap { display:inline-block; line-height:1; font-variant-ligatures: none; white-space:nowrap; }
+        .ls-letter { display:inline-block; position:relative; overflow:visible; width:auto; min-width:0.5ch; text-align:center; }
         .ls-front, .ls-back { display:block; transform-origin:center; position:relative; transition: transform 320ms cubic-bezier(.2,.9,.3,1), opacity 300ms; }
         .ls-front { transform: translateY(0); opacity:1; }
         .ls-back { position:absolute; left:0; top:0; transform: translateY(100%); opacity:0; }
@@ -551,7 +520,6 @@ export default function Home() {
             <div className="relative w-full h-[6.75rem] md:h-[9.25rem] flex items-center justify-center">
               <h1 className="text-5xl md:text-7xl font-semibold text-white leading-tight text-center flex flex-col justify-center [--gap:0.4rem] md:[--gap:0.6rem] pop-up">
                 <span className="swap-span">
-                  {/* Keep the TypeAnimation fallback; also add FlipWords example */}
                   <TypeAnimation
                     sequence={[
                       1200,
@@ -573,7 +541,6 @@ export default function Home() {
                   <FlipWords words={["fast feedback","real practice","mastered concepts","confident test-takers"]} interval={2400} />
                 </span>
 
-                {/* subtle static accent using LandoSwapText (non-intrusive) */}
                 <span className="mt-2 pop-up" aria-hidden>
                   <LandoSwapText from="VertexED" to="Vertex ED" triggerMs={2800} />
                 </span>
@@ -594,7 +561,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* small resources */}
       <div className="max-w-3xl mx-auto px-6 mt-3 pop-up">
         <div className="text-xs text-slate-400 text-center">
           Looking for how-to guides? <Link to="/resources" className="underline">Explore resources</Link>
@@ -605,7 +571,6 @@ export default function Home() {
       <section className="mt-12 md:mt-15 text-center px-6 pop-up" style={{ position: "relative" }}>
         <div className="w-full mx-auto h-[4.8rem] md:h-auto flex items-center justify-center mb-6">
           <h2 className="text-4xl md:text-5xl font-semibold text-white leading-tight flex flex-col justify-center swap-span">
-            {/* Use MorphingText here to create the rotating phrases */}
             <TextScrollReveal>
               <MorphingText phrases={["We hate the way we study.", "We hate cramming.", "We hate wasted time.", "We hate inefficient tools."]} />
             </TextScrollReveal>
@@ -618,7 +583,7 @@ export default function Home() {
       <section className="max-w-6xl mx-auto px-6 mt-28 pop-up">
         <h3 className="text-3xl md:text-4xl font-semibold text-white mb-10 text-center swap-span"><TextReveal text="Why is this a problem?" /></h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
-          {problems.map((p, i) => <React.Fragment key={i}><ProblemCard p={p} i={i} /></React.Fragment>)}
+          {problems.map((p, i) => <ProblemCard key={i} p={p} i={i} />)}
         </div>
       </section>
 
