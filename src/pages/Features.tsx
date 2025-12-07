@@ -2,7 +2,6 @@ import { Helmet } from "react-helmet-async";
 import SEO from "@/components/SEO";
 import { Link } from "react-router-dom";
 import React, { useEffect, useState, useRef } from "react";
-// Defer gsap to runtime to avoid pulling it into the initial vendor chunk
 import { TypeAnimation } from "react-type-animation";
 
 export default function Features() {
@@ -256,22 +255,22 @@ export default function Features() {
           <div className="flex-1">
             <h1 className="text-4xl md:text-5xl font-semibold text-white leading-tight mb-4">
               <TypeAnimation
-                sequence={[700, "AI study tools for students.", 1200, "Deep learning meets exam-ready practice."]}
+                sequence={[700, "Meet your tools ready to transform you", 1200, "Where deep learning meets exam driven performance"]}
                 wrapper="span"
                 cursor={true}
               />
             </h1>
             <p className="text-slate-300 max-w-2xl">
-              Each feature below is engineered to be research-aligned and learner-first — designed to actually change how you study.
-              Focus on one tool at a time and discover the specific ways VertexED raises exam performance while deepening understanding.
+              Each feature below is engineered to be research-aligned and learner-first, designed to actually change how you study.
+              Focus on one tool at a time and discover the specific ways VertexED raises exam performance whist deepening your understanding.
             </p>
 
             {/* persona-specific subtext */}
             <div className="mt-3 text-sm text-slate-400">
               {persona === "student" ? (
-                "Student view — focused examples, quick-practice flows, and study-facing tips."
+                "What yoy gain — Effective learning, Limitless Resources, Endless Practes"
               ) : (
-                "Teacher view — rubric-aligned suggestions, assignment framing, and class-level guidance."
+                "What your teachers gain — More material, Easier grading, Quicker Learning"
               )}
             </div>
 
@@ -297,36 +296,36 @@ export default function Features() {
 
             {/* Small explanatory chips that live in the hero whitespace */}
             <div className="mt-6 flex gap-2 flex-wrap">
-              <div className="px-3 py-1 bg-white/5 text-slate-300 rounded-full text-xs">Spaced repetition</div>
-              <div className="px-3 py-1 bg-white/5 text-slate-300 rounded-full text-xs">Exam-style practice</div>
-              <div className="px-3 py-1 bg-white/5 text-slate-300 rounded-full text-xs">Rubric-aligned feedback</div>
+              <div className="px-3 py-1 bg-white/5 text-slate-300 rounded-full text-xs">Exam Driven Performance</div>
+              <div className="px-3 py-1 bg-white/5 text-slate-300 rounded-full text-xs">Inquiry Based Iearning</div>
+              <div className="px-3 py-1 bg-white/5 text-slate-300 rounded-full text-xs">Limitless Opportunities</div>
               <Link to="/resources" className="px-3 py-1 bg-white/5 text-slate-200 rounded-full text-xs underline">Guides</Link>
             </div>
           </div>
 
           <aside className="w-full md:w-1/3 text-slate-300">
             <div className="p-6 rounded-2xl bg-white/5">
-              <h4 className="font-semibold mb-2">Personalisation at the core</h4>
+              <h4 className="font-semibold mb-2">Performance, Understanding and Personalization at the core</h4>
               <p className="text-sm">
-                VertexED models what you know and how you learn. Short, measurable actions — scheduled practice,
-                targeted papers, and adaptive review — ensure every minute moves you closer to mastery.
+                VertexED models what you know and how you learn. From studying resources made by students just like you
+                to constant practice, review and access to a new way of learning, ensure every minute moves you closer to mastery.
               </p>
-              <div className="mt-4 text-xs text-slate-400">Outcomes: faster improvement, targeted revision, measurable confidence gains.</div>
+              <div className="mt-4 text-xs text-slate-400">The Outcome? : Better Understanding, Quicker Progress, Better Perfromances.</div>
 
               {/* Add a compact expandable card to use vertical empty space */}
               <div className="mt-4">
                 <ExpandableCard title="Quick metrics" compact>
                   <div className="grid grid-cols-2 gap-3">
                     <div className="text-xs">
-                      <div className="text-slate-300">Avg session</div>
-                      <div className="font-semibold text-white">26 min</div>
+                      <div className="text-slate-300">Average Beta Test Session</div>
+                      <div className="font-semibold text-white">28 min</div>
                     </div>
                     <div className="text-xs">
                       <div className="text-slate-300">Recall boost</div>
                       <div className="font-semibold text-white">+14%</div>
                     </div>
                   </div>
-                  <div className="mt-3 text-xs text-slate-400">These are illustrative placeholders to show how micro-stats would appear in the UI.</div>
+                  <div className="mt-3 text-xs text-slate-400">These numbers are just the beginning; get ready to see updates real soon</div>
                 </ExpandableCard>
               </div>
             </div>
@@ -342,53 +341,56 @@ export default function Features() {
               <h2 className="text-2xl md:text-3xl font-semibold text-white mb-3">AI Calendar — schedule optimizer</h2>
               <p className="text-slate-300 leading-relaxed mb-4">
                 The AI Calendar constructs an evidence-based study layout tailored to your commitments. Rather than undirected hours,
-                VertexED suggests compact, goal-centred sessions aligned to the learning type you need: concept-building, problem practice,
-                or retrieval drills.
+                VertexED suggests compact, goal-centred sessions aligned to what you need to do: learning sessions, problem practice,
+                or retrieval drills all whilst keeping your priorities in mind.
               </p>
 
               <h4 className="font-semibold mt-3 text-white">How it helps</h4>
               <ul className="list-disc ml-6 mt-2 text-slate-300">
                 <li>Balances extracurriculars and coursework so practice is realistic and sustainable.</li>
                 <li>Schedules session types (recall bursts, problem-solving blocks, mock-test slots) based on upcoming assessments.</li>
-                <li>Builds spaced-repetition review automatically for weaker topics to reduce forgetting and boost retention.</li>
+                <li>Builds a system where room is kept to review for weaker topics; reducing stress and boosting retention.</li>
               </ul>
 
               {/* Interactive mini-card grid fills whitespace and explains variants */}
               <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <FeatureCard
-                  heading="Quick session"
-                  blurb="A 15–25 minute focused recall burst."
-                  bullets={["2–3 focused questions", "Immediate feedback", "Short explanation + 1 worked example"]}
+                  heading="Post School Study Session?"
+                  blurb="The calanders there ready to sort your evening out"
+                  bullets={["20 minutes of active recall", "2 hours of homework", "1 hour practice paper"]}
                 />
 
                 <FeatureCard
-                  heading="Problem block"
-                  blurb="A longer, mixed-difficulty practice block."
-                  bullets={["Timed questions", "Exam-style phrasing", "Progressive difficulty", "Model answer review"]}
+                  heading="Running tight on time"
+                  blurb="The calanders there to help chart your schedule and help you decide whats best"
+                  bullets={["Formative Assessment Prep, School Project Work, Research Paper Drafting"]}
                 />
 
                 <FeatureCard
                   heading="Weekly plan"
-                  blurb="Balanced distribution across topics."
-                  bullets={["Mix of recall & practice", "Spaced review schedule", "Recovery buffer for busy days"]}
+                  blurb="Sort your week (or even month) out with us with you in charge"
+                  bullets={["Extracurricular Commitments, E-Assessment Mocks, Lab Work"]}
                 />
               </div>
             </div>
 
             <div className="flex-1 text-slate-300">
-              <p className="mb-2 font-semibold">Why it matters</p>
+              <p className="mb-2 font-semibold">Why it matters?</p>
               <p className="text-slate-300 leading-relaxed">
-                Distributed and mixed practice are proven to improve retention and transfer. The calendar turns research into a weekly plan
-                you can actually follow — increasing efficient learning and reducing burnout.
+                Distributed and mixed practice are proven to improve retention and transfer, even for the most sproadic of people. The calendar turns a mess into a weekly plan
+                you can actually follow with you in control of what to change, increasing efficient learning and reducing burnout.
               </p>
 
               {/* Add an expandable card that sits in empty right-hand space */}
               <div className="mt-6">
-                <ExpandableCard title="Scheduling rules">
+                <ExpandableCard title="What we reccomened">
                   <ul className="list-disc ml-5 text-slate-300">
-                    <li>Short retrieval bursts early in the week for new topics.</li>
-                    <li>Problem blocks aligned to days with longer free periods.</li>
-                    <li>Automatic review days for topics with lower performance.</li>
+                    <li>Plan your evenings effectively in advance to increase productivity</li>
+                    <li>This would take less than 5 minutes a day and keep you in flow</li>
+                    <li>Always leave room for the unpredictable or if you feel the session may go a little overboard</li>
+                    <li>For Exam Season, let it handle the draft plan</li>
+                    <li>Yet remember, you're in charge</li>
+                    <li>Feel free to customize the plan to what you want or if any last minute changes come up</li>
                   </ul>
                 </ExpandableCard>
               </div>
@@ -402,36 +404,36 @@ export default function Features() {
         <div className="max-w-6xl mx-auto">
           <div className="feature-row flex flex-col md:flex-row items-start gap-8 md:gap-16">
             <div className="flex-1 text-slate-300 md:order-2">
-              <h2 className="text-2xl md:text-3xl font-semibold text-white mb-3">AI Discussion Agent — learn beyond the textbook</h2>
+              <h2 className="text-2xl md:text-3xl font-semibold text-white mb-3">Apex; Your new learning buddy</h2>
               <p className="leading-relaxed mb-4">
-                A guided research partner that frames complex topics, suggests structured reading, and helps you build argumentative or investigative
-                lines of thought. It provides layered perspectives and clear next steps — not shallow Q&A.
+                A guided learning partner that frames complex topics, suggests structured reading, and helps you build argumentative or investigative
+                lines of thought. It may be efficent yet small now, but trust me when we say it; Apex is set to grow and expand in a way like never before.
               </p>
 
-              <h4 className="font-semibold mt-3 text-white">What it provides</h4>
+              <h4 className="font-semibold mt-3 text-white">What can Apex provide?</h4>
               <ul className="list-disc ml-6 mt-2 text-slate-300">
-                <li>Annotated reading lists and concise summaries to bridge gaps in textbooks.</li>
-                <li>Argument maps and counter-positions to prepare essays, debates or extended projects.</li>
-                <li>Research prompts and hypothesis suggestions for inquiry-based work.</li>
+                <li>Detailed doubt explanations and clarifications for when your understanding needs correction</li>
+                <li>Helps explain new concepts in an approachable manner keeping your caliber in mind.</li>
+                <li>Open to discussion and deliberation on various perspectives across numerous topics</li>
               </ul>
             </div>
 
             <div className="flex-1 md:order-1">
-              <p className="mb-2 font-semibold text-white">Why it matters</p>
+              <p className="mb-2 font-semibold text-white">Why it matters?</p>
               <p className="text-slate-300 leading-relaxed">
-                Deep understanding requires structure. The Discussion Agent turns curiosity into a focused plan — ideal for enrichment,
-                extended essays, science fairs and higher-level exploration while still linking back to syllabus needs.
+                Deep understanding requires guidance. Apex is here to help bridge the gap, being patient and open to
+                academic investigations and discussions. Moreover, it's here to help bridge the gap between doubt and understanding.
               </p>
 
               {/* Small interactive card: switch between 'essay' and 'research' modes to illustrate how the agent frames support */}
               <div className="mt-6">
-                <ExpandableCard title="Use-case preview">
+                <ExpandableCard title="Example Use-Cases">
                   <div className="text-sm text-slate-300">
-                    <div className="font-medium text-white">Essay prep</div>
-                    <div className="mt-2">Thesis scaffolding, counter-arguments and paragraph roadmaps.</div>
-
-                    <div className="font-medium text-white mt-4">Research project</div>
-                    <div className="mt-2">Hypothesis sketch, suggested readings and small experiments.</div>
+                    <div className="font-medium text-white">Discussions on histographys and merits of perspectives which can be replicated in essays</div>
+                    <div className="mt-2">Explaining the applications of harmonic series in real life whilst also enforcing conceptual understanding</div>
+                    <div className="font-medium text-white mt-4">Deliberating the merits and limitations of physics models whilst understanding their core concepts</div>
+                    <div className="font-medium text-white mt-4">Learning the sequence of DNA translation whilst also understanding a cells structure</div>
+                    <div className="mt-2">Understanding patterns in a language whilst also building familarity.</div>
                   </div>
                 </ExpandableCard>
               </div>
@@ -445,7 +447,7 @@ export default function Features() {
         <div className="max-w-6xl mx-auto">
           <div className="feature-row flex flex-col md:flex-row items-start gap-8">
             <div className="flex-1">
-              <h2 className="text-2xl md:text-3xl font-semibold text-white mb-3">AI Answer Reviewer — curriculum-aware feedback</h2>
+              <h2 className="text-2xl md:text-3xl font-semibold text-white mb-3">AI Answer Reviewer: curriculum-aware feedback</h2>
               <p className="text-slate-300 leading-relaxed mb-4">
                 The Reviewer grades responses using rubric-aware analysis, highlights marks gained and missing ideas, and prescribes a short,
                 actionable improvement plan tied to concrete practice items.
@@ -492,19 +494,19 @@ export default function Features() {
               <h2 className="text-2xl md:text-3xl font-semibold text-white mb-3">AI Paper Maker — board-aligned practice papers</h2>
               <p className="text-slate-300 leading-relaxed mb-4">
                 Produce practice papers that mimic the tone, phrasing and mark schemes of your board. Papers are crafted to reproduce the cognitive
-                load of actual exams: clear command words, progressive difficulty and realistic timing.
+                load of actual exams: clear command words, progressive difficulty and realistic timing. If a paper seems too long, try a question segment!
               </p>
 
               <h4 className="font-semibold mt-3 text-white">How it helps</h4>
               <ul className="list-disc ml-6 mt-2 text-slate-300">
                 <li>Tailors question phrasing and mark schemes to your syllabus.</li>
-                <li>Provides model answers and marking tips so you learn examiner expectations.</li>
-                <li>Mixes recall, structured response and extended writing to mirror real tests.</li>
+                <li>Helps test conceptual understanding and application with the same intent your board aims to</li>
+                <li>Aims to mix high order thinking and understanding with critical and creative exam based task performance demands.</li>
               </ul>
             </div>
 
             <div className="flex-1">
-              <p className="mb-2 font-semibold text-white">Supported boards (representative)</p>
+              <p className="mb-2 font-semibold text-white">Supported boards (unaffiliated)</p>
               <div className="inline-flex gap-2 flex-wrap">
                 {supportedBoards.map((b) => (
                   <div key={b} className="px-3 py-1 bg-white/5 text-slate-300 rounded-full text-sm">{b}</div>
@@ -518,12 +520,13 @@ export default function Features() {
               {/* Fill whitespace with a compact card showing paper composition examples */}
               <div className="mt-6">
                 <FeatureCard
-                  heading="Sample composition"
-                  blurb="How a mixed paper might be composed."
+                  heading="Sample composition (IB MYP)"
+                  blurb="How a mixed Chemistry Paper may be composed (E-Assessment)"
                   bullets={[
-                    "Section A: 10 short-answer recall (20%)",
-                    "Section B: 6 structured responses (45%)",
-                    "Section C: 2 extended essays (35%)",
+                    "Criteria A: 24",
+                    "Criteria B:23",
+                    "Criteria C: 27 extended essays (35%)",
+                    "Criteria D: 26 Marks",
                   ]}
                 />
               </div>
