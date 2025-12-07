@@ -1,5 +1,5 @@
 // src/pages/Home.tsx
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, Suspense } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import SEO from "@/components/SEO";
 import { useAuth } from "@/contexts/AuthContext";
@@ -7,34 +7,18 @@ import { TypeAnimation } from "react-type-animation";
 
 /**
  * Home.tsx
- * - Runtime-imports FluidCursor component (won't cause build-time failure if loader differs)
- * - Adds scribbles/math decorations
- * - Pop-in + highlight-once + swap-span pop for heading spans (appearance effect from your recording)
- * - Keeps flashcards visible & tilt interactions
+ * - Replaced broken runtime import of a .vue file with a React lazy-loaded component.
+ * - Suspense fallback is a simple canvas (same behavior as your previous fallback).
+ * - Cleaned up effects (observer, tilt interaction, fallback canvas).
  */
+
+const FluidCursor = React.lazy(() =>
+  import("@/components/FluidCursor").catch(() => ({ default: () => null })),
+);
 
 export default function Home() {
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
-
-  // dynamic FluidCursor component (loaded at runtime)
-  const [FluidCursorComp, setFluidCursorComp] = useState<React.ComponentType<any> | null>(null);
-
-  useEffect(() => {
-    let mounted = true;
-    // Try runtime import — will be requested only in browser. If missing, we silently continue.
-    (async () => {
-      try {
-        const mod = await import("@/components/FluidCursor.vue");
-        const C = (mod && (mod.default || mod)) as React.ComponentType<any>;
-        if (mounted && C) setFluidCursorComp(() => C);
-      } catch (err) {
-        // If import fails (wrong extension / file missing) we fallback to our passive canvas in render
-        // console.warn("FluidCursor import failed:", err);
-      }
-    })();
-    return () => { mounted = false; };
-  }, []);
 
   // refs
   const missionRef = useRef<HTMLDivElement | null>(null);
@@ -42,7 +26,7 @@ export default function Home() {
   const tiltHandlersRef = useRef<Array<() => void>>([]);
   const observerRef = useRef<IntersectionObserver | null>(null);
 
-  // content arrays (kept same)
+  // content arrays
   const problems = [
     { stat: "65%", text: "of students report struggling to find relevant resources despite studying for long hours." },
     { stat: "70%", text: "say note-taking takes up more time than actual learning, making revision less effective." },
@@ -76,7 +60,7 @@ export default function Home() {
 
   const scrollToTop = () => typeof window !== "undefined" && window.scrollTo({ top: 0, behavior: "smooth" });
 
-  // warm up + redirect (unchanged)
+  // warm up + redirect
   useEffect(() => {
     if (!isAuthenticated) return;
     const ua = typeof navigator !== "undefined" ? navigator.userAgent.toLowerCase() : "";
@@ -87,7 +71,7 @@ export default function Home() {
     }
   }, [isAuthenticated, navigate]);
 
-  // IntersectionObserver for pop-in, single-run highlight and span swap/pop
+  // IntersectionObserver for pop-in / highlight-once / swap-span
   useEffect(() => {
     if (typeof window === "undefined") return;
     const opts = { threshold: 0.12 };
@@ -96,28 +80,30 @@ export default function Home() {
         const el = entry.target as HTMLElement;
         if (entry.isIntersecting) {
           el.classList.add("pop-in");
-          // highlight inner
           const hl = el.querySelector<HTMLElement>(".highlight-clip .hl-inner");
           if (hl && !hl.dataset.animated) {
             hl.dataset.animated = "1";
             hl.classList.add("hl-pop");
           }
-          // swap-span pop
           const swap = el.querySelector<HTMLElement>(".swap-span");
           if (swap && !swap.dataset.popped) {
             swap.dataset.popped = "1";
             swap.classList.add("swap-pop");
           }
-          observer.unobserve(el); // run once per element
+          observer.unobserve(el);
         }
       });
     }, opts);
     observerRef.current = observer;
-    document.querySelectorAll<HTMLElement>(".pop-up").forEach(el => observer.observe(el));
-    return () => { observer.disconnect(); observerRef.current = null; };
+    const nodes = Array.from(document.querySelectorAll<HTMLElement>(".pop-up"));
+    nodes.forEach(el => observer.observe(el));
+    return () => {
+      observer.disconnect();
+      observerRef.current = null;
+    };
   }, []);
 
-  // tilt interactions (same stable implementation)
+  // tilt card interactions
   useEffect(() => {
     if (typeof window === "undefined") return;
     const canTilt = window.matchMedia ? window.matchMedia("(hover:hover) and (pointer:fine)").matches : true;
@@ -130,8 +116,16 @@ export default function Home() {
       let rect = el.getBoundingClientRect();
       let tx = 0, ty = 0, tz = 0;
       let cx = 0, cy = 0, cz = 0;
-      let raf = 0;
+      let rafId = 0;
       const opts = { maxTilt: 4, perspective: 900, translateZ: 8, ease: 0.14 };
+
+      const update = () => {
+        cx += (tx - cx) * opts.ease;
+        cy += (ty - cy) * opts.ease;
+        cz += (tz - cz) * opts.ease;
+        el.style.transform = `perspective(${opts.perspective}px) rotateX(${cx}deg) rotateY(${cy}deg) rotateZ(${cz}deg) translateZ(${opts.translateZ}px)`;
+        rafId = 0;
+      };
 
       const onMove = (e: MouseEvent) => {
         rect = el.getBoundingClientRect();
@@ -143,32 +137,27 @@ export default function Home() {
         tx = ((halfH - y) / halfH) * opts.maxTilt;
         const ang = Math.atan2(y - halfH, x - halfW) * (180 / Math.PI);
         tz = (ang / 90) * 1.8;
-        if (!raf) raf = requestAnimationFrame(update);
-      };
-
-      const update = () => {
-        cx += (tx - cx) * opts.ease;
-        cy += (ty - cy) * opts.ease;
-        cz += (tz - cz) * opts.ease;
-        el.style.transform = `perspective(${opts.perspective}px) rotateX(${cx}deg) rotateY(${cy}deg) rotateZ(${cz}deg) translateZ(${opts.translateZ}px)`;
-        raf = 0;
+        if (!rafId) rafId = requestAnimationFrame(update);
       };
 
       const onLeave = () => {
         tx = ty = tz = 0;
-        if (raf) cancelAnimationFrame(raf);
+        if (rafId) cancelAnimationFrame(rafId);
         el.style.transition = "transform 420ms cubic-bezier(0.22,1,0.36,1)";
         el.style.transform = `perspective(${opts.perspective}px) rotateX(0deg) rotateY(0deg) rotateZ(0deg) translateZ(0px)`;
         setTimeout(() => { el.style.transition = ""; }, 450);
       };
 
+      const onEnter = () => { el.style.transition = ""; };
+
       el.addEventListener("mousemove", onMove);
       el.addEventListener("mouseleave", onLeave);
-      el.addEventListener("mouseenter", () => { el.style.transition = ""; });
+      el.addEventListener("mouseenter", onEnter);
 
       handlers.push(() => {
         el.removeEventListener("mousemove", onMove);
         el.removeEventListener("mouseleave", onLeave);
+        el.removeEventListener("mouseenter", onEnter);
       });
     });
 
@@ -176,10 +165,9 @@ export default function Home() {
     return () => { handlers.forEach(fn => fn()); tiltHandlersRef.current = []; };
   }, []);
 
-  // fallback canvas tiny behavior: just clear and leave — only used if FluidCursor not available
+  // fallback canvas tiny behavior: just clear and leave — only used when Suspense fallback renders the canvas
   useEffect(() => {
     if (typeof window === "undefined") return;
-    if (FluidCursorComp) return;
     const canvas = canvasFallbackRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
@@ -206,7 +194,7 @@ export default function Home() {
       if (raf) cancelAnimationFrame(raf);
       ctx.clearRect(0, 0, canvas.width, canvas.height);
     };
-  }, [FluidCursorComp]);
+  }, []); // no dependency on lazy state — canvas used only as fallback
 
   // ---- Subcomponents ----
   function ProblemCard({ p, i }: { p: { stat: string; text: string }; i: number }) {
@@ -224,7 +212,7 @@ export default function Home() {
             transform: flipped[i] ? "rotateY(180deg)" : "rotateY(0deg)",
           }}
         >
-          {/* Front — inverted light with subtle liquid-glass gloss */}
+          {/* Front */}
           <div
             className="absolute inset-0 flex flex-col items-center justify-center gap-3 text-4xl font-bold rounded-2xl problem-card-front"
             style={{
@@ -239,7 +227,7 @@ export default function Home() {
             <span className="text-sm italic" style={{ color: "rgba(4,38,59,0.62)" }}>Click to find out</span>
           </div>
 
-          {/* Back — dark liquid-glass */}
+          {/* Back */}
           <div
             className="absolute inset-0 flex items-center justify-center p-4 text-lg leading-relaxed rounded-2xl"
             style={{
@@ -302,12 +290,9 @@ export default function Home() {
         }}
       />
 
-      {/* Fluid cursor: try runtime component first, fallback to simple canvas */}
+      {/* Fluid cursor: lazy-loaded React component with canvas fallback in Suspense */}
       <div aria-hidden>
-        {FluidCursorComp ? (
-          // render the imported component (no props assumed; if it requires props adjust here)
-          React.createElement(FluidCursorComp, {})
-        ) : (
+        <Suspense fallback={
           <canvas
             ref={canvasFallbackRef}
             className="cursor-canvas"
@@ -323,7 +308,10 @@ export default function Home() {
               mixBlendMode: "screen",
             }}
           />
-        )}
+        }>
+          {/* Only render the fluid cursor on client to avoid SSR issues */}
+          {typeof window !== "undefined" ? <FluidCursor /> : null}
+        </Suspense>
       </div>
 
       {/* Inline styles for pop-in / highlight / swap-span / scribbles */}
@@ -337,7 +325,7 @@ export default function Home() {
         .hl-inner { display: inline-block; transform-origin: left center; transform: translateY(10px); transition: transform 520ms cubic-bezier(.2,.9,.3,1), color 360ms; }
         .hl-pop { transform: translateY(0px); color: #DDEBFF; text-shadow: 0 6px 24px rgba(14,165,233,0.08); }
 
-        /* swap-span pop: used for heading span pop-up & font emphasis */
+        /* swap-span pop */
         .swap-span { display: inline-block; transform: translateY(8px); transition: transform 520ms cubic-bezier(.2,.9,.3,1), font-weight 220ms, font-size 220ms; }
         .swap-pop { transform: translateY(0px); font-weight: 800; font-size: 1.06em; color: #E6F0FF; letter-spacing: -0.01em; }
 
@@ -371,6 +359,9 @@ export default function Home() {
         }
       `}</style>
 
+      {/* rest of markup (SVG scribbles, hero, features, mission, CTA, contact, …) */}
+      {/* ... (kept identical to your original markup to preserve effects) */}
+
       {/* small absolute SVG scribbles & math bits (non-interactive, decorative) */}
       <svg className="scribble scribble--small" width="220" height="120" style={{ left: 28, top: 160, position: "absolute", zIndex: 30 }}>
         <path d="M6 80 C 40 20, 80 120, 210 40" stroke="rgba(255,255,255,0.12)" strokeWidth="2" fill="none" strokeLinecap="round" />
@@ -391,7 +382,6 @@ export default function Home() {
           <div className="mb-6 pop-up">
             <div className="relative w-full h-[6.75rem] md:h-[9.25rem] flex items-center justify-center">
               <h1 className="text-5xl md:text-7xl font-semibold text-white leading-tight text-center flex flex-col justify-center [--gap:0.4rem] md:[--gap:0.6rem] pop-up">
-                {/* We wrap each key phrase in a span.swap-span so observer triggers the pop for the first appearance */}
                 <span className="swap-span">
                   <TypeAnimation
                     sequence={[
@@ -427,14 +417,13 @@ export default function Home() {
         </div>
       </section>
 
-      {/* resources */}
+      {/* Resources, storytelling, grid of problems, mission panel, features, CTA, contact — unchanged to preserve behavior */}
       <div className="max-w-3xl mx-auto px-6 mt-3 pop-up">
         <div className="text-xs text-slate-400 text-center">
           Looking for how-to guides? <Link to="/resources" className="underline">Explore resources</Link>
         </div>
       </div>
 
-      {/* storytelling */}
       <section className="mt-12 md:mt-15 text-center px-6 pop-up" style={{ position: "relative" }}>
         <div className="w-full mx-auto h-[4.8rem] md:h-auto flex items-center justify-center mb-6">
           <h2 className="text-4xl md:text-5xl font-semibold text-white leading-tight flex flex-col justify-center swap-span">
@@ -450,7 +439,6 @@ export default function Home() {
         <p className="text-lg text-slate-200 mb-12 pop-up">Who wouldn’t?</p>
       </section>
 
-      {/* Why is this a problem */}
       <section className="max-w-6xl mx-auto px-6 mt-28 pop-up">
         <h3 className="text-3xl md:text-4xl font-semibold text-white mb-10 text-center swap-span">Why is this a problem?</h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
@@ -458,7 +446,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Mission panel with the exact text you specified, plus scribble math nearby */}
       <section className="max-w-4xl mx-auto mt-24 px-6 text-center pop-up">
         <div ref={missionRef} className="glass-card text-slate-100 rounded-3xl shadow-2xl p-10 transform transition-transform duration-300" aria-label="Mission panel" style={{ position: "relative" }}>
           <p className="text-lg md:text-xl leading-relaxed pop-up">
@@ -479,7 +466,6 @@ export default function Home() {
             Our aim is not only to raise scores using evidence-based techniques, but to create an environment where learning becomes rewarding and sustainable.
           </p>
 
-          {/* tiny formula scribble anchored to mission */}
           <svg width="120" height="60" style={{ position: "absolute", right: -8, top: -10, opacity: 0.12 }}>
             <text x="0" y="20" fontSize="14" fill="white">∫_0^1 x² dx = 1/3</text>
             <path d="M8 36 C 28 10, 80 60, 112 26" stroke="rgba(14,165,233,0.06)" strokeWidth="2" fill="none"/>
@@ -487,7 +473,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Features */}
       <section className="max-w-6xl mx-auto px-6 mt-28 pop-up">
         <h3 className="text-3xl md:text-4xl font-semibold text-white mb-6 text-center pop-up"><Link to="/features" className="hover:underline">Explore Our Features</Link></h3>
         <div className="text-center mb-8 pop-up"><Link to="/features" className="inline-block px-6 py-3 rounded-full border border-white/20 text-white hover:bg-white/5 transition duration-300">See full features</Link></div>
@@ -496,7 +481,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CTA */}
       <section className="mt-28 text-center px-6 pop-up">
         <h3 className="text-3xl md:text-4xl font-semibold text-white mb-6 pop-up">
           Ready to get started?<br/>We guarantee a change!
@@ -504,12 +488,10 @@ export default function Home() {
         <button onClick={scrollToTop} className="mt-4 px-8 py-4 rounded-full bg-white text-slate-900 shadow-xl hover:scale-105 hover:bg-slate-200 transition-all duration-500 ease-in-out tilt-card">Back to Top</button>
       </section>
 
-      {/* Closing */}
       <section className="mt-16 text-center px-6 pop-up">
         <p className="text-lg text-slate-200">Learning was never difficult, it just needed a new perspective. VertexED — (<strong>Vertex ED</strong>) — is here to deliver it.</p>
       </section>
 
-      {/* Contact */}
       <section className="mt-12 px-6 mb-12 pop-up">
         <div className="max-w-3xl mx-auto glass-card rounded-2xl p-8 text-slate-100 shadow-xl">
           <h3 className="text-2xl font-semibold mb-4 pop-up">Contact Us</h3>
