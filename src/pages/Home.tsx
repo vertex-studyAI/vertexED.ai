@@ -8,8 +8,6 @@ const FluidCursor = React.lazy(() =>
   import("@/components/FluidCursor").catch(() => ({ default: () => null })),
 );
 
-/* ---------------------- Small animation components ---------------------- */
-
 type FlipWordsProps = { words: string[]; interval?: number; className?: string };
 const FlipWords: React.FC<FlipWordsProps> = ({ words, interval = 2200, className }) => {
   const [idx, setIdx] = useState(0);
@@ -156,21 +154,21 @@ export default function Home() {
   ];
 
   const features = [
-    { title: "Study Zone", desc: "All-in-one tool for your calculators, activity logs, and more. A space designed for clarity where everything you need to study lives in one place." },
-    { title: "AI Chatbot", desc: "Your personal academic companion. Ask questions, get explanations, and engage in real discussions to deepen your understanding of any subject." },
-    { title: "Study Planner", desc: "Never miss a beat. Our planner adapts to your schedule, deadlines, and pace — making your study plan smarter, not harder." },
-    { title: "Answer Reviewer", desc: "Not just a reviewer, but a mentor. Receive strict yet constructive feedback on your answers, showing you exactly how to improve." },
-    { title: "IB/IGCSE Paper Maker", desc: "Create syllabus-aligned test papers instantly. No fluff, no generic questions — just rigorous practice that actually helps you prepare." },
-    { title: "Notes + Flashcards + Quiz", desc: "From notes to flashcards to quizzes, all in one seamless workflow. Perfect for late-night revision or quick practice sessions." },
+    { title: "Study Zone", desc: "All-in-one tool for your calculators, activity logs, and more for those long nights, early mornings or when you simply want to study and have a few resources to spare" },
+    { title: "Apex", desc: "Your personalized academic companion who truly gets what learning is. Ask questions, get explanations, and engage in real discussions to deepen your understanding of any subject." },
+    { title: "Study Planner", desc: "Never miss a beat. You are in control to your schedule, deadlines, and activities, allowing you to organize those long sessions which can make a difference" },
+    { title: "Answer Reviewer", desc: "Not just a reviewer, but a mentor. Receive strict yet constructive feedback on your answers, showing you exactly how to improve and helping you deliver when it really matters." },
+    { title: "IB/IGCSE Paper Maker", desc: "Create syllabus-aligned test papers instantly. No fluff, no generic questions — just rigorous practice that actually helps you prepare based on real papers from the past." },
+    { title: "Notes + Flashcards + Quiz", desc: "From note takers to flashcards to quizzes, all in one seamless workflow. Perfect for when procastination caught the best of you and typing feels too hard" },
   ];
 
   const featureSideText = [
-    "This is your go to place for those late nights, early mornings, at the library or simply anywhere you are doing independent learning.",
-    "Not just another bot, it learns and adapts to you; your strengths, passions and limitations and moreover your progress.",
+    "This is the perfect tool for when independent study needs assistance; from graphing calculators to even a simple activity log to track progress, we got your back",
+    "Not just a souless bot, it learns and adapts to you and actually understands what it means to help teach and explain a concept in ways which make sense to you",
     "Better organize your sessions and activities so you end up with more done and less energy spent so you can focus on what really matters; life.",
-    "Like a teacher built in, constantly finding limitations you would never find and providing the ways to become even closer to perfection",
-    "It's like having infinite practice papers ready to go. Non Stop practice based on material which already exists.",
-    "This is just the beginning! more features are on their way as you read this."
+    "Like a teacher built in, it may be a little strict at first but with its feedback you can produce output which truly scores when the time comes",
+    "It's like having infinite practice papers ready to go. Non Stop practice based on material which already exist.",
+    "This is just the beginning! more features are on their way as you read this and whatever you see now will improve as we grow."
   ];
 
   // flips
@@ -284,7 +282,6 @@ export default function Home() {
     };
   }, []);
 
-  // IntersectionObserver: pop-in, highlight-once, swap-pop (original)
   function setupIntersectionObserver() {
     if (typeof window === "undefined") return;
     if (observerRef.current) {
@@ -568,8 +565,8 @@ export default function Home() {
   return (
     <>
       <SEO
-        title="VertexED — AI Study Tools for Students - AI Based Methods"
-        description="All-in-one AI study toolkit with planner, calendar, notes, flashcards, quizzes, chatbot, answer reviewer, and transcription."
+        title="VertexED — AI Study Tools for Students"
+        description="An all-in-one AI study toolkit with an assortment of features aimed at helping you score higher and learn better"
         canonical="https://www.vertexed.app/"
         jsonLd={{
           "@context": "https://schema.org",
@@ -679,11 +676,11 @@ export default function Home() {
                   <TypeAnimation
                     sequence={[
                       1200,
-                      "AI study tools for students.",
+                      "The future of learning awaits...",
                       1800,
-                      "Focused learning. Real results.",
+                      "Meet tools that actually make a difference",
                       1800,
-                      "Bold. Premium. Built for learners.",
+                      "Where performance meets intuition",
                       1800,
                       "Study smarter, not longer.",
                     ]}
@@ -694,19 +691,19 @@ export default function Home() {
                   />
                 </span>
                 <span style={{ marginTop: 6, fontSize: '1rem', opacity: 0.85 }} className="pop-up">
-                  <FlipWords words={["fast feedback","real practice","mastered concepts","confident test-takers"]} interval={2400} />
+                  <FlipWords words={["Learn quicker than ever before","Unlock endless resources","Gain feedback for when it really matters","Understand beyond the book"]} interval={2400} />
                 </span>
 
-                <span className="mt-2 pop-up" aria-hidden>
-                  <LandoSwapText from="Vertex" to="VertexED" triggerMs={2800} />
-                </span>
+                <span className="mt-2 pop-up" aria-hidden style={{ fontSize: "0.8rem" }}>
+  <LandoSwapText from="VertexED" to="VertexED" triggerMs={2800} />
+</span>
               </h1>
             </div>
           </div>
 
           <p className="text-lg text-slate-200 mb-10 pop-up highlight-clip" style={{ position: "relative" }}>
             <span className="hl-inner">
-              An all-in-one toolkit: planner, notes, flashcards, quizzes, chatbot, answer reviewer — built around research-backed learning methods like active recall, spaced repetition, and retrieval practice.
+              You asked, we delivered. Welcome to a place where you can truly learn, explore and grow in knowledge all whilst being able to put them on the pieces of paper which give you numbers you can feel proud of. You're welcome.
             </span>
           </p>
 
@@ -719,7 +716,7 @@ export default function Home() {
 
       <div className="max-w-3xl mx-auto px-6 mt-3 pop-up">
         <div className="text-xs text-slate-400 text-center">
-          Looking for how-to guides? <Link to="/resources" className="underline">Explore resources</Link>
+          Feeling lost... <Link to="/resources" className="underline">Explore resources</Link>
         </div>
       </div>
 
@@ -728,7 +725,7 @@ export default function Home() {
         <div className="w-full mx-auto h-[4.8rem] md:h-auto flex items-center justify-center mb-6">
           <h2 className="text-4xl md:text-5xl font-semibold text-white leading-tight flex flex-col justify-center swap-span">
             <TextScrollReveal>
-              <MorphingText phrases={["We hate the way we study.", "We hate cramming.", "We hate wasted time.", "We hate inefficient tools."]} />
+              <MorphingText phrases={["We hate the way studying has become.", "We hate cramming before an exam.", "We hate compromising.", "We hate inefficient tools."]} />
             </TextScrollReveal>
           </h2>
         </div>
@@ -737,7 +734,7 @@ export default function Home() {
 
       {/* problems grid */}
       <section className="max-w-6xl mx-auto px-6 mt-28 pop-up">
-        <h3 className="text-3xl md:text-4xl font-semibold text-white mb-10 text-center swap-span"><TextReveal text="Why is this a problem?" /></h3>
+        <h3 className="text-3xl md:text-4xl font-semibold text-white mb-10 text-center swap-span"><TextReveal text="Why is this a problem for you?" /></h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
           {problems.map((p, i) => <ProblemCard key={i} p={p} i={i} />)}
         </div>
@@ -761,7 +758,7 @@ export default function Home() {
           </p>
 
           <p className="text-lg md:text-xl mt-6 leading-relaxed font-semibold pop-up">
-            Our aim is not only to raise scores using evidence-based techniques, but to create an environment where learning becomes rewarding and sustainable.
+            Our aim is not only to raise yoyr scores using evidence-based techniques and on resources which match your exams, but to create an environment where learning becomes rewarding and sustainable.
           </p>
 
           <svg width="120" height="60" style={{ position: "absolute", right: -8, top: -10, opacity: 0.12 }}>
@@ -790,7 +787,7 @@ export default function Home() {
 
       {/* closing */}
       <section className="mt-16 text-center px-6 pop-up">
-        <p className="text-lg text-slate-200">Learning was never difficult, it just needed a new perspective. VertexED — (<strong>Vertex ED</strong>) — is here to deliver it.</p>
+        <p className="text-lg text-slate-200">Education was never faulted; it just needed a fresh perspective. VertexED — (<strong>Vertex ED</strong>) — is here to deliver it.</p>
       </section>
 
       {/* contact */}
