@@ -1159,12 +1159,21 @@ export default function FluidCursor(props: Props) {
       return delta;
     }
 
+    // ---- Color generation: restricted to blue/turquoise/light-indigo ----
     function generateColor(): ColorRGB {
-      const c = HSVtoRGB(Math.random(), 1.0, 1.0);
-      c.r *= 0.15;
-      c.g *= 0.15;
-      c.b *= 0.15;
-      return c;
+      // Hue range approx: 0.50 (cyan/turquoise) to 0.72 (light indigo)
+      const hueMin = 0.50;
+      const hueMax = 0.72;
+      const h = hueMin + Math.random() * (hueMax - hueMin);
+
+      // Slightly varied saturation and value so the blues aren't all identical.
+      const s = 0.6 + Math.random() * 0.4; // 0.6 - 1.0
+      const v = 0.7 + Math.random() * 0.3; // 0.7 - 1.0
+
+      const c = HSVtoRGB(h, s, v);
+
+      // Keep the original low-intensity multiplier so colors blend nicely in the fluid.
+      return { r: c.r * 0.15, g: c.g * 0.15, b: c.b * 0.15 };
     }
 
     function HSVtoRGB(h: number, s: number, v: number): ColorRGB {
