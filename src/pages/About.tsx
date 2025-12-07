@@ -3,6 +3,27 @@ import { Linkedin } from "lucide-react";
 import PageSection from "@/components/PageSection";
 
 export default function About() {
+  const team = [
+    {
+      name: "Ryan Gomez",
+      role: "Co-founder · CFO · Head of AI Product Development",
+      bio: `Ryan Gomez is a Sophomore at the Oakridge International School of Bangalore with a passion for being a maximalist especially outside the classroom. ...`,
+      linkedin: "https://www.linkedin.com/in/ryan-gomez-03701b363/?originalSubdomain=in",
+    },
+    {
+      name: "Pratyush Vel Shankar",
+      role: "Co-founder · CEO · Head of Vision",
+      bio: `Pratyush Vel Shankar is a Sophomore at Oakridge who had the core idea behind Vertex. ...`,
+      linkedin: "#",
+    },
+    {
+      name: "Ritayush Dey",
+      role: "Co-founder · CTO · Finance Oversight",
+      bio: `Ritayush Dey is a Sophomore at Oakridge with a love for excellence. ...`,
+      linkedin: "#",
+    },
+  ];
+
   return (
     <>
       <Helmet>
@@ -25,11 +46,14 @@ export default function About() {
         />
       </Helmet>
 
-      <PageSection className="relative">
-        <h1 className="text-4xl md:text-5xl font-semibold mb-6 tracking-tight bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent">
+      <PageSection className="relative px-6 md:px-12">
+        {/* Heading */}
+        <h1 className="text-4xl md:text-5xl font-bold mb-6 tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-red-400">
           About Vertex
         </h1>
-        <p className="opacity-90 text-lg md:text-xl max-w-3xl leading-relaxed">
+
+        {/* Description */}
+        <p className="opacity-90 text-lg md:text-xl max-w-3xl leading-relaxed text-gray-200">
           Vertex began as an Oakridge 2025 Codefest idea — three classmates
           building a seamless AI study workspace. We study at the same school
           and crafted Vertex to bring planning, notes, flashcards, quizzes, and
@@ -39,77 +63,58 @@ export default function About() {
           ultimate study companion for students worldwide.
         </p>
 
-        {/* Team grid */}
-        <div className="grid md:grid-cols-3 gap-10 mt-20">
-          {[
-            {
-              name: "Ryan Gomez",
-              role: "Co-founder · CFO · Head of AI Product Development",
-              bio: `Ryan Gomez is a Sophomore at the Oakridge International School of Bangalore with a passion for being a maximalist especially outside the classroom. Whilst receiving awards at various International Model UN conferences and being a champion scholar, international olympiads and having his research published internationally whilst being an author of a quantum mechanics book, he has founded initiatives like obscured records, expanded upon a UNICEF recognised non profit and has ran Oakridge Junior codefest for 5 years running now. He has also played international football and works at various projects like he’s the next Soham Parekh. In his “free time”, he loves to explore his hobbies like the guitar or work on his assortment of projects. He also loves learning at an astronomical rate per se.`,
-              linkedin:
-                "https://www.linkedin.com/in/ryan-gomez-03701b363/?originalSubdomain=in",
-            },
-            {
-              name: "Pratyush Vel Shankar",
-              role: "Co-founder · CEO · Head of Vision",
-              bio: `Pratyush Vel Shankar is a Sophomore at Oakridge who had the core idea behind Vertex. After winning $500 in Bangalore’s largest hackathon, he co-founded OneVertex.AI. With perfect PSAT scores, leading Oakridge’s tech club, and winning Olympiads, he spends his free time coding big ideas or playing on his Nintendo Switch.`,
-              linkedin: "#",
-            },
-            {
-              name: "Ritayush Dey",
-              role: "Co-founder · CTO · Finance Oversight",
-              bio: `Ritayush Dey is a Sophomore at Oakridge with a love for excellence. He has won awards at World Scholars Cup, captained Oakridge’s cricket team, and pursued music at Trinity Grade 6. Alongside academics and leadership, he is currently organizing India’s largest overnight school-level hackathon.`,
-              linkedin: "#",
-            },
-          ].map((person) => (
+        {/* Team Grid */}
+        <div className="grid md:grid-cols-3 gap-10 mt-16">
+          {team.map((person) => (
             <div
               key={person.name}
-              className="rounded-3xl p-8 bg-white/5 backdrop-blur-xl border border-white/10 shadow-xl hover:shadow-2xl hover:scale-[1.02] transition-transform duration-300"
+              className="rounded-3xl p-8 bg-gray-900/30 backdrop-blur-md border border-gray-700/30 shadow-lg hover:shadow-2xl hover:scale-105 transition-transform duration-300 group"
             >
-              <h3 className="text-xl font-semibold text-white mb-2">
+              <h3 className="text-xl font-semibold text-white mb-2 group-hover:text-purple-400 transition-colors">
                 {person.name}
               </h3>
               <p className="text-sm text-gray-300 mb-4">{person.role}</p>
-              <p className="text-sm leading-relaxed text-gray-400 mb-6">
-                {person.bio}
-              </p>
-              <div className="flex justify-start gap-3">
+              <p className="text-sm leading-relaxed text-gray-400 mb-6">{person.bio}</p>
+              <div className="flex gap-3">
                 <a
                   href={person.linkedin}
                   aria-label={`${person.name} on LinkedIn`}
-                  className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-gray-700 to-gray-900 p-3 hover:from-blue-500 hover:to-indigo-500 transition-all"
+                  className="inline-flex items-center justify-center rounded-full p-3 bg-gradient-to-tr from-gray-700 to-gray-900 hover:from-blue-500 hover:to-indigo-500 transition-all"
                 >
-                  <Linkedin className="h-4 w-4 text-white" />
+                  <Linkedin className="h-5 w-5 text-white" />
                 </a>
               </div>
             </div>
           ))}
         </div>
 
-        {/* Social footer */}
+        {/* Social Footer */}
         <div className="flex flex-col items-center gap-4 mt-20">
           <p className="text-sm text-gray-400">Follow our journey</p>
           <div className="flex gap-6">
+            {/* Instagram */}
             <a
               href="#"
               aria-label="Instagram"
-              className="p-3 rounded-full bg-white/5 backdrop-blur hover:bg-gradient-to-r hover:from-pink-500 hover:to-yellow-500 transition-all"
+              className="p-4 rounded-full bg-gray-800/30 hover:bg-gradient-to-r hover:from-pink-500 hover:to-yellow-500 transition-all"
             >
               <svg
-                className="h-5 w-5 text-gray-300"
+                className="h-6 w-6 text-white"
                 fill="currentColor"
                 viewBox="0 0 24 24"
               >
                 <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 6.62 5.367 11.987 11.988 11.987 6.62 0 11.987-5.367 11.987-11.987C24.014 5.367 18.637.001 12.017.001zM8.449 16.988c-1.297 0-2.348-1.051-2.348-2.348s1.051-2.348 2.348-2.348 2.348 1.051 2.348 2.348-1.051 2.348-2.348 2.348zm7.718 0c-1.297 0-2.348-1.051-2.348-2.348s1.051-2.348 2.348-2.348c1.297 0 2.348 1.051 2.348 2.348s-1.051 2.348-2.348 2.348z" />
               </svg>
             </a>
+
+            {/* YouTube */}
             <a
               href="#"
               aria-label="YouTube"
-              className="p-3 rounded-full bg-white/5 backdrop-blur hover:bg-gradient-to-r hover:from-red-500 hover:to-orange-500 transition-all"
+              className="p-4 rounded-full bg-gray-800/30 hover:bg-gradient-to-r hover:from-red-500 hover:to-orange-500 transition-all"
             >
               <svg
-                className="h-5 w-5 text-gray-300"
+                className="h-6 w-6 text-white"
                 fill="currentColor"
                 viewBox="0 0 24 24"
               >
