@@ -4,26 +4,6 @@ import SEO from "@/components/SEO";
 import { useAuth } from "@/contexts/AuthContext";
 import { TypeAnimation } from "react-type-animation";
 
-/**
- * Home.tsx
- * - Lazy-loads FluidCursor (React) via Suspense.
- * - Uses MutationObserver to re-bind tilt & intersection observers when DOM changes
- *   (fixes cards disappearing / event listeners not attached to late nodes).
- * - Ensures ProblemCard doesn't use duplicate keys.
- * - Keeps visual effects (pop-in, swap-span, highlight) but cleans up and stabilizes lifecycle.
- *
- * Added animation components inspired by the Inspira-UI snippets the user linked:
- * - FlipWords: flip-between words with a 3D flip animation
- * - MorphingText: gentle morph / crossfade of phrases
- * - LetterPullUp: letter-by-letter pull-up reveal
- * - TextScrollReveal: IntersectionObserver-driven scroll reveal (clip/slide)
- * - TextReveal: character clip reveal similar to "highlight letter text reveal"
- * - LandoSwapText: Lando Norris style per-letter translate-up-and-switch effect
- *
- * These components are intentionally minimal, self-contained, accessible, and respect
- * "prefers-reduced-motion".
- */
-
 const FluidCursor = React.lazy(() =>
   import("@/components/FluidCursor").catch(() => ({ default: () => null })),
 );
@@ -452,15 +432,22 @@ export default function Home() {
         }}
       />
 
-      {/* Fluid cursor (lazy + client-only) */}
-      <div aria-hidden>
-        <Suspense fallback={null}>
-          {renderFluidCursor ? <FluidCursor /> : null}
-        </Suspense>
-      </div>
+      {/* Fluid cursor (lazy + client-only) - rendered in a fixed root so it can visually cover the page */}
+      {renderFluidCursor && (
+        <div id="fluid-cursor-root" style={{ position: "fixed", inset: 0, pointerEvents: "none", zIndex: 999999 }}>
+          <Suspense fallback={null}>
+            <FluidCursor />
+          </Suspense>
+        </div>
+      )}
 
       {/* Inline styles preserved + new animation styles */}
       <style>{`
+        /* Layout + smooth snap */
+        html { scroll-behavior: smooth; scroll-snap-type: y proximity; }
+        body { scroll-padding-top: 72px; }
+        section { scroll-snap-align: start; scroll-snap-stop: always; }
+
         /* POP-IN */
         .pop-up { opacity: 0; transform: translateY(14px) scale(0.995); transition: transform 480ms cubic-bezier(.2,.9,.3,1), opacity 380ms ease-out; will-change: transform, opacity; }
         .pop-in { opacity: 1; transform: translateY(0px) scale(1); }
@@ -585,6 +572,11 @@ export default function Home() {
                 <span style={{ marginTop: 6, fontSize: '1rem', opacity: 0.85 }} className="pop-up">
                   <FlipWords words={["fast feedback","real practice","mastered concepts","confident test-takers"]} interval={2400} />
                 </span>
+
+                {/* subtle static accent using LandoSwapText (non-intrusive) */}
+                <span className="mt-2 pop-up" aria-hidden>
+                  <LandoSwapText from="VertexED" to="Vertex ED" triggerMs={2800} />
+                </span>
               </h1>
             </div>
           </div>
@@ -614,7 +606,9 @@ export default function Home() {
         <div className="w-full mx-auto h-[4.8rem] md:h-auto flex items-center justify-center mb-6">
           <h2 className="text-4xl md:text-5xl font-semibold text-white leading-tight flex flex-col justify-center swap-span">
             {/* Use MorphingText here to create the rotating phrases */}
-            <MorphingText phrases={["We hate the way we study.", "We hate cramming.", "We hate wasted time.", "We hate inefficient tools."]} />
+            <TextScrollReveal>
+              <MorphingText phrases={["We hate the way we study.", "We hate cramming.", "We hate wasted time.", "We hate inefficient tools."]} />
+            </TextScrollReveal>
           </h2>
         </div>
         <p className="text-lg text-slate-200 mb-12 pop-up">Who wouldn’t?</p>
@@ -622,7 +616,7 @@ export default function Home() {
 
       {/* problems grid */}
       <section className="max-w-6xl mx-auto px-6 mt-28 pop-up">
-        <h3 className="text-3xl md:text-4xl font-semibold text-white mb-10 text-center swap-span">Why is this a problem?</h3>
+        <h3 className="text-3xl md:text-4xl font-semibold text-white mb-10 text-center swap-span"><TextReveal text="Why is this a problem?" /></h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
           {problems.map((p, i) => <React.Fragment key={i}><ProblemCard p={p} i={i} /></React.Fragment>)}
         </div>
