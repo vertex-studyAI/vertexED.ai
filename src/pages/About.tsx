@@ -45,7 +45,9 @@ export default function About() {
   return (
     <>
       <Helmet>
-        <title>About Vertex — AI Study Tools</title>
+        <h1 className="text-white text-4xl md:text-5xl font-semibold mb-6 tracking-tight">
+  <AnimatedText text="About Vertex" />
+</h1>
         <meta
           name="description"
           content="Learn about Vertex, the all-in-one AI study tools platform, and the founding team."
