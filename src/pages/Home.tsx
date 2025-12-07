@@ -143,6 +143,9 @@ export default function Home() {
   const tiltCleanupRef = useRef<Array<() => void>>([]);
   const mutationObserverRef = useRef<MutationObserver | null>(null);
 
+  // keep a ref for cleaning up any GSAP cleanup if needed (from new code)
+  const gsapCleanupRef = useRef<() => void>(() => {});
+
   const problems = [
     { stat: "65%", text: "of students report struggling to find relevant resources despite studying for long hours." },
     { stat: "70%", text: "say note-taking takes up more time than actual learning, making revision less effective." },
@@ -180,7 +183,7 @@ export default function Home() {
 
   const scrollToTop = () => typeof window !== "undefined" && window.scrollTo({ top: 0, behavior: "smooth" });
 
-  // warm up + redirect
+  // warm up + redirect (kept from new code — prefetch then navigate; avoid bot redirects)
   useEffect(() => {
     if (!isAuthenticated) return;
     const ua = typeof navigator !== "undefined" ? navigator.userAgent.toLowerCase() : "";
@@ -191,7 +194,97 @@ export default function Home() {
     }
   }, [isAuthenticated, navigate]);
 
-  // IntersectionObserver: pop-in, highlight-once, swap-pop
+  // GSAP lazy-load + ScrollTrigger (NEW feature — keeps it but doesn't remove the old intersection logic)
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const idle = (cb: () => void) =>
+      // @ts-ignore
+      typeof requestIdleCallback !== "undefined"
+        ? // @ts-ignore
+          requestIdleCallback(cb, { timeout: 1200 })
+        : (setTimeout(cb, 250) as unknown as number);
+    const cancelIdle = (id: any) =>
+      // @ts-ignore
+      typeof cancelIdleCallback !== "undefined" ? cancelIdleCallback(id) : clearTimeout(id);
+
+    let cleanup = () => {};
+    const run = async () => {
+      try {
+        const [{ default: gsap }, ScrollTriggerModule] = await Promise.all([
+          import("gsap"),
+          import("gsap/ScrollTrigger"),
+        ]);
+        const ScrollTrigger = (ScrollTriggerModule as any).default ?? (ScrollTriggerModule as any);
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Fade-up elements
+        const elements = gsap.utils.toArray<HTMLElement>(".fade-up");
+        elements.forEach((el, idx) => {
+          gsap.fromTo(
+            el,
+            { y: 40, opacity: 0, scale: 0.995 },
+            {
+              y: 0,
+              opacity: 1,
+              scale: 1,
+              duration: 0.9,
+              ease: "power3.out",
+              stagger: 0.02,
+              scrollTrigger: {
+                trigger: el,
+                start: "top 92%",
+                end: "bottom 30%",
+                toggleActions: "play none none reverse",
+              },
+            }
+          );
+        });
+
+        // feature rows: slide + rotation
+        const featureRows = gsap.utils.toArray<HTMLElement>(".feature-row");
+        featureRows.forEach((row, i) => {
+          gsap.fromTo(
+            row,
+            { x: i % 2 === 0 ? -60 : 60, opacity: 0, rotateX: 2 },
+            {
+              x: 0,
+              opacity: 1,
+              rotateX: 0,
+              duration: 0.95,
+              ease: "power3.out",
+              delay: i * 0.06,
+              scrollTrigger: {
+                trigger: row,
+                start: "top 92%",
+                toggleActions: "play none none reverse",
+              },
+            }
+          );
+        });
+
+        cleanup = () => {
+          try {
+            if (ScrollTrigger && typeof ScrollTrigger.getAll === "function") {
+              ScrollTrigger.getAll().forEach((t: any) => t.kill && t.kill());
+            }
+          } catch (e) {}
+        };
+        gsapCleanupRef.current = cleanup;
+      } catch (e) {
+        // fail gracefully if GSAP not available
+      }
+    };
+
+    const idleId = idle(run);
+    return () => {
+      cancelIdle(idleId);
+      try { gsapCleanupRef.current(); } catch (e) {}
+      cleanup();
+    };
+  }, []);
+
+  // IntersectionObserver: pop-in, highlight-once, swap-pop (original)
   function setupIntersectionObserver() {
     if (typeof window === "undefined") return;
     if (observerRef.current) {
@@ -225,7 +318,7 @@ export default function Home() {
     nodes.forEach(el => observer.observe(el));
   }
 
-  // tilt interactions using per-element listeners (rebinding supported)
+  // tilt interactions using per-element listeners (original implementation restored)
   function bindTiltCards() {
     tiltCleanupRef.current.forEach(fn => fn());
     tiltCleanupRef.current = [];
@@ -286,6 +379,7 @@ export default function Home() {
         el.removeEventListener("mousemove", onMove);
         el.removeEventListener("mouseleave", onLeave);
         el.removeEventListener("mouseenter", onEnter);
+        if (rafId) cancelAnimationFrame(rafId);
       });
     });
 
@@ -319,8 +413,68 @@ export default function Home() {
         mutationObserverRef.current.disconnect();
         mutationObserverRef.current = null;
       }
+      try { gsapCleanupRef.current(); } catch (e) {}
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Mission-specific tilt (kept as original behavior — subtle)
+  useEffect(() => {
+    const el = missionRef.current;
+    if (!el || typeof window === "undefined") return;
+
+    const canTilt = window.matchMedia
+      ? window.matchMedia("(hover:hover) and (pointer:fine)").matches
+      : true;
+    if (!canTilt) return;
+
+    let rect = el.getBoundingClientRect();
+    let tX = 0, tY = 0, tZ = 0, cX = 0, cY = 0, cZ = 0;
+    let raf = 0;
+    const opts = { maxTilt: 2.6, perspective: 1200, translateZ: 6, ease: 0.08 };
+
+    const onMove = (e: MouseEvent) => {
+      rect = el.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const halfW = rect.width / 2;
+      const halfH = rect.height / 2;
+      tY = ((x - halfW) / halfW) * opts.maxTilt; // rotateY
+      tX = ((halfH - y) / halfH) * opts.maxTilt; // rotateX
+
+      const ang = Math.atan2(y - halfH, x - halfW) * (180 / Math.PI);
+      tZ = (ang / 90) * 1.0; // tiny rotateZ
+
+      if (!raf) raf = requestAnimationFrame(update);
+    };
+
+    const update = () => {
+      cX += (tX - cX) * opts.ease;
+      cY += (tY - cY) * opts.ease;
+      cZ += (tZ - cZ) * opts.ease;
+      el.style.transform = `perspective(${opts.perspective}px) rotateX(${cX}deg) rotateY(${cY}deg) rotateZ(${cZ}deg) translateZ(${opts.translateZ}px)`;
+      raf = 0;
+    };
+
+    const onLeave = () => {
+      tX = 0; tY = 0; tZ = 0;
+      if (raf) cancelAnimationFrame(raf);
+      el.style.transition = "transform 480ms cubic-bezier(0.22,1,0.36,1)";
+      el.style.transform = `perspective(${opts.perspective}px) rotateX(0deg) rotateY(0deg) rotateZ(0deg) translateZ(0px)`;
+      setTimeout(() => { el.style.transition = ""; }, 500);
+    };
+
+    const onResize = () => { rect = el.getBoundingClientRect(); };
+    el.addEventListener("mousemove", onMove);
+    el.addEventListener("mouseleave", onLeave);
+    window.addEventListener("resize", onResize);
+
+    return () => {
+      el.removeEventListener("mousemove", onMove);
+      el.removeEventListener("mouseleave", onLeave);
+      window.removeEventListener("resize", onResize);
+      if (raf) cancelAnimationFrame(raf);
+    };
   }, []);
 
   const renderFluidCursor = typeof window !== "undefined";
@@ -389,7 +543,7 @@ export default function Home() {
   }
 
   function FeatureRow({ f, i }: { f: { title: string; desc: string }; i: number }) {
-    // removed key here — key should be on the mapped element in parent
+    // kept original structure (LetterPullUp + side text)
     return (
       <div className={`feature-row flex flex-col md:flex-row items-center gap-10 pop-up ${i % 2 !== 0 ? "md:flex-row-reverse" : ""}`}>
         <div className="flex-1 glass-tile rounded-2xl shadow-xl p-6 text-slate-100 tilt-card">
@@ -491,6 +645,8 @@ export default function Home() {
         .ls-back { position:absolute; left:0; top:0; transform: translateY(100%); opacity:0; }
         .lando-swap[data-key] .ls-front { transform: translateY(-100%); opacity:0; }
         .lando-swap[data-key] .ls-back { transform: translateY(0%); opacity:1; }
+
+        .fw-word, .morph-phrase, .lp-char, .tr-char, .ls-front, .ls-back { will-change: transform, opacity; }
 
         @media (prefers-reduced-motion: reduce) {
           .pop-up { transition: none !important; transform: none !important; opacity: 1 !important; }
