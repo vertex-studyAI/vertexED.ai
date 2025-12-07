@@ -720,17 +720,28 @@ export default function Home() {
         </div>
       </div>
 
-      {/* story */}
-      <section className="mt-12 md:mt-15 text-center px-6 pop-up" style={{ position: "relative" }}>
-        <div className="w-full mx-auto h-[4.8rem] md:h-auto flex items-center justify-center mb-6">
-          <h2 className="text-4xl md:text-5xl font-semibold text-white leading-tight flex flex-col justify-center swap-span">
-            <TextScrollReveal>
-              <MorphingText phrases={["We hate the way studying has become.", "We hate cramming before an exam.", "We hate compromising.", "We hate inefficient tools."]} />
-            </TextScrollReveal>
-          </h2>
-        </div>
-        <p className="text-lg text-slate-200 mb-12 pop-up">Who wouldn’t?</p>
-      </section>
+    {/* story */}
+<section
+  className="mt-12 md:mt-15 text-center px-6 pop-up"
+  style={{ position: "relative" }}
+>
+  <div className="w-full mx-auto flex items-center justify-center mb-6">
+    <h2 className="text-4xl md:text-5xl font-semibold text-white leading-tight flex flex-col justify-center swap-span">
+      <TextScrollReveal>
+        <MorphingText
+          phrases={[
+            "We hate the way studying has become.",
+            "We hate cramming before an exam.",
+            "We hate compromising.",
+            "We hate inefficient tools.",
+          ]}
+        />
+      </TextScrollReveal>
+    </h2>
+  </div>
+
+  <p className="text-lg text-slate-200 mb-12 pop-up">Who wouldn’t?</p>
+</section>
 
       {/* problems grid */}
       <section className="max-w-6xl mx-auto px-6 mt-28 pop-up">
