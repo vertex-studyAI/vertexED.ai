@@ -94,6 +94,26 @@ export default function FluidCursor(props: Props) {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
+    // Helper: map clientX/clientY -> canvas pixel coords (taking bounding rect + canvas pixel ratio into account)
+    function clientToCanvasPixel(clientX: number, clientY: number) {
+      const rect = canvas.getBoundingClientRect();
+      // If rect width/height are 0 fallback to full viewport
+      const cssWidth = rect.width || window.innerWidth;
+      const cssHeight = rect.height || window.innerHeight;
+      // canvas.width / cssWidth = pixelRatio used internally
+      const pixelRatioX = canvas.width / cssWidth;
+      const pixelRatioY = canvas.height / cssHeight;
+
+      let x = (clientX - rect.left) * pixelRatioX;
+      let y = (clientY - rect.top) * pixelRatioY;
+
+      // clamp to ensure it stays inside canvas (inclusive)
+      x = Math.max(0, Math.min(x, canvas.width));
+      y = Math.max(0, Math.min(y, canvas.height));
+
+      return { x, y };
+    }
+
     // Pointers and config
     const pointers: Pointer[] = [pointerPrototype()];
 
@@ -1206,39 +1226,35 @@ export default function FluidCursor(props: Props) {
     // -------------------- Event Listeners --------------------
     const onMouseDown = (e: MouseEvent) => {
       const pointer = pointers[0];
-      const posX = scaleByPixelRatio(e.clientX);
-      const posY = scaleByPixelRatio(e.clientY);
-      updatePointerDownData(pointer, -1, posX, posY);
+      const pos = clientToCanvasPixel(e.clientX, e.clientY);
+      updatePointerDownData(pointer, -1, pos.x, pos.y);
       clickSplat(pointer);
     };
 
     let firstMouseMoveHandler: ((e: MouseEvent) => void) | null = (e: MouseEvent) => {
       const pointer = pointers[0];
-      const posX = scaleByPixelRatio(e.clientX);
-      const posY = scaleByPixelRatio(e.clientY);
+      const pos = clientToCanvasPixel(e.clientX, e.clientY);
       const color = generateColor();
       updateFrame();
-      updatePointerMoveData(pointer, posX, posY, color);
+      updatePointerMoveData(pointer, pos.x, pos.y, color);
       document.body.removeEventListener("mousemove", firstMouseMoveHandler!);
       firstMouseMoveHandler = null;
     };
 
     const onMouseMove = (e: MouseEvent) => {
       const pointer = pointers[0];
-      const posX = scaleByPixelRatio(e.clientX);
-      const posY = scaleByPixelRatio(e.clientY);
+      const pos = clientToCanvasPixel(e.clientX, e.clientY);
       const color = pointer.color;
-      updatePointerMoveData(pointer, posX, posY, color);
+      updatePointerMoveData(pointer, pos.x, pos.y, color);
     };
 
     const onTouchStartFirst = (e: TouchEvent) => {
       const touches = e.targetTouches;
       const pointer = pointers[0];
       for (let i = 0; i < touches.length; i++) {
-        const posX = scaleByPixelRatio(touches[i].clientX);
-        const posY = scaleByPixelRatio(touches[i].clientY);
+        const pos = clientToCanvasPixel(touches[i].clientX, touches[i].clientY);
         updateFrame();
-        updatePointerDownData(pointer, touches[i].identifier, posX, posY);
+        updatePointerDownData(pointer, touches[i].identifier, pos.x, pos.y);
       }
       document.body.removeEventListener("touchstart", onTouchStartFirst);
     };
@@ -1247,9 +1263,8 @@ export default function FluidCursor(props: Props) {
       const touches = e.targetTouches;
       const pointer = pointers[0];
       for (let i = 0; i < touches.length; i++) {
-        const posX = scaleByPixelRatio(touches[i].clientX);
-        const posY = scaleByPixelRatio(touches[i].clientY);
-        updatePointerDownData(pointer, touches[i].identifier, posX, posY);
+        const pos = clientToCanvasPixel(touches[i].clientX, touches[i].clientY);
+        updatePointerDownData(pointer, touches[i].identifier, pos.x, pos.y);
       }
     };
 
@@ -1257,9 +1272,8 @@ export default function FluidCursor(props: Props) {
       const touches = e.targetTouches;
       const pointer = pointers[0];
       for (let i = 0; i < touches.length; i++) {
-        const posX = scaleByPixelRatio(touches[i].clientX);
-        const posY = scaleByPixelRatio(touches[i].clientY);
-        updatePointerMoveData(pointer, posX, posY, pointer.color);
+        const pos = clientToCanvasPixel(touches[i].clientX, touches[i].clientY);
+        updatePointerMoveData(pointer, pos.x, pos.y, pointer.color);
       }
     };
 
