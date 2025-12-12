@@ -73,14 +73,20 @@ export default function AIAnswerReview() {
     try {
       // POST to /api/review using the workflow schema: input_as_text, register, strictness
       const res = await fetch("/api/review", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          input_as_text,
-          register: false,
-          strictness: strictnessNum,
-        }),
-      });
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ input_as_text, register: false, strictness: strictnessNum }),
+});
+
+const data = await res.json();
+
+if (!res.ok) {
+  setResponse(`Error: ${data.error ?? "Unknown error"}\n\n${JSON.stringify(data.details ?? data, null, 2)}`);
+  return;
+}
+
+const out = data.output ?? "No output returned";
+setResponse(typeof out === "string" ? out : JSON.stringify(out, null, 2));
 
       // read body safely
       const text = await res.text();
