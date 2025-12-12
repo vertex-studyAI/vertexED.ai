@@ -37,28 +37,46 @@ export default function AIAnswerReview() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  // Build a single, consistent input string containing all form fields.
   const buildInputAsText = () => {
-    const parts: string[] = [];
+    // Use safe defaults and trim text fields for cleanliness
+    const curriculum = formData.curriculum?.trim() || "N/A";
+    const subject = formData.subject?.trim() || "N/A";
+    const grade = formData.grade?.trim() || "N/A";
+    const marks = formData.marks?.toString().trim() || "N/A";
+    const question = formData.question?.trim() || "[No question provided]";
+    const answer = formData.answer?.trim() || "[No answer provided]";
+    const additional = formData.additional?.trim() || "None";
+    const strictness = formData.strictness?.trim() || "5";
 
-    if (formData.curriculum) parts.push(`Curriculum: ${formData.curriculum}`);
-    if (formData.subject) parts.push(`Subject: ${formData.subject}`);
-    if (formData.grade) parts.push(`Grade: ${formData.grade}`);
-    if (formData.marks) parts.push(`Marks (out of): ${formData.marks}`);
+    return `
+Curriculum: ${curriculum}
+Subject: ${subject}
+Grade: ${grade}
+Marks (out of): ${marks}
 
-    parts.push("Question:");
-    parts.push(formData.question || "[No question provided]");
+------------------------------
+QUESTION
+------------------------------
+${question}
 
-    parts.push("\nStudent Answer:");
-    parts.push(formData.answer || "[No answer provided]");
+------------------------------
+STUDENT ANSWER
+------------------------------
+${answer}
 
-    if (formData.additional) {
-      parts.push("\nAdditional Information:");
-      parts.push(formData.additional);
-    }
+------------------------------
+ADDITIONAL INFORMATION
+------------------------------
+${additional}
 
-    parts.push(`\nDesired strictness (1-10): ${formData.strictness}`);
+------------------------------
+STRICTNESS LEVEL
+------------------------------
+${strictness}
 
-    return parts.join("\n\n");
+END OF INPUT
+`.trim();
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -67,59 +85,76 @@ export default function AIAnswerReview() {
     setResponse("");
 
     const input_as_text = buildInputAsText();
-    const strictnessNum = Number(formData.strictness || 5);
 
     try {
       const res = await fetch("/api/review", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ input_as_text, register: false, strictness: strictnessNum }),
+        // Only send one field called input_as_text to match the workflow requirement.
+        body: JSON.stringify({ input_as_text }),
       });
 
-      // Read JSON once only
-      let data;
+      // Read raw text first to avoid json.parse exceptions on HTML/error pages.
+      const text = await res.text();
+      let data: any = null;
+
       try {
-        data = await res.json();
+        data = text ? JSON.parse(text) : {};
       } catch {
-        data = {};
+        // not valid json — keep raw text so we can display it
+        data = { _raw: text };
       }
 
       if (!res.ok) {
-        setResponse(
-          `Error: ${data?.error ?? "Unknown error"}\n\n${JSON.stringify(
-            data?.details ?? data,
-            null,
-            2
-          )}`
-        );
+        // Provide helpful debug info: status + any parsed fields or raw text
+        const statusInfo = `Status: ${res.status} ${res.statusText || ""}`.trim();
+        const details =
+          data && typeof data === "object"
+            ? JSON.stringify(data, null, 2)
+            : String(data);
+        setResponse(`Error: ${data?.error ?? "Unknown error"}\n\n${statusInfo}\n\n${details}`);
         return;
       }
 
+      // Prefer widely-used fields but fall back to sensible alternatives
       const out =
         data?.output ??
         data?.result?.output ??
         data?.data ??
-        (typeof data === "string" ? data : JSON.stringify(data, null, 2));
+        data?.review ??
+        (typeof data === "string" ? data : JSON.stringify(data, null, 2)) ??
+        data?._raw ??
+        "No response received.";
 
+      // Give a tiny delay to make UI feel smoother (keeps your previous behavior)
       setTimeout(() => setResponse(out ?? "No response received."), 150);
 
+      // Post-process: if we received an actual string result, save a post record.
+      // Only attempt if `out` is a non-empty string.
       try {
-        await fetch("/api/review-post", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            review: out,
-            strictness: strictnessNum,
-            metadata: {
-              curriculum: formData.curriculum,
-              subject: formData.subject,
-              grade: formData.grade,
-            },
-          }),
-        });
-      } catch {}
-
+        if (out && typeof out === "string" && out.trim().length > 0) {
+          await fetch("/api/review-post", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              // keep the stored review as the server response (not the form fields)
+              review: out,
+              // also include minimal metadata for your DB (optional but useful)
+              metadata: {
+                curriculum: formData.curriculum,
+                subject: formData.subject,
+                grade: formData.grade,
+              },
+            }),
+          });
+        }
+      } catch (err) {
+        // Do not crash UI if post saving fails; just log silently
+        // eslint-disable-next-line no-console
+        console.warn("Failed to save review post:", err);
+      }
     } catch (err) {
+      // eslint-disable-next-line no-console
       console.error("Submit error:", err);
       setResponse("Error: Could not get review. Please try again.");
     } finally {
