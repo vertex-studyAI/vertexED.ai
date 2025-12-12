@@ -12,17 +12,20 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   if (!OPENAI_API_KEY || !WORKFLOW_ID) {
     console.error("Missing OPENAI_API_KEY or WORKFLOW_ID");
-    return res.status(500).json({ error: "Server misconfiguration: missing API key or workflow ID" });
+    return res.status(500).json({
+      error: "Server misconfiguration: missing API key or workflow ID",
+    });
   }
 
   try {
-    const { input_as_text, prompt, strictness = 5, register = false } = req.body ?? {};
+    const { input_as_text, prompt } = req.body ?? {};
     const combinedInput = (input_as_text || prompt || "").toString().trim();
 
     if (!combinedInput) {
       return res.status(400).json({ error: "No input provided" });
     }
 
+    // ---- SEND EXACTLY WHAT THE WORKFLOW EXPECTS ----
     const workflowResp = await fetch(
       `https://api.openai.com/v1/workflows/${WORKFLOW_ID}/runs`,
       {
@@ -32,7 +35,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           Authorization: `Bearer ${OPENAI_API_KEY}`,
         },
         body: JSON.stringify({
-          input: { input_as_text: combinedInput, strictness, register },
+          input_as_text: combinedInput, // ❤️ EXACT MATCH
         }),
       }
     );
@@ -40,55 +43,38 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const rawText = await workflowResp.text();
     let data: any;
 
+    // Try parsing the workflow result
     try {
       data = rawText ? JSON.parse(rawText) : {};
-    } catch (e) {
-      data = { raw: rawText };
+    } catch {
+      // Workflow returned plain text instead of JSON — return it raw
+      return res.status(200).json({ output: rawText });
     }
 
     if (!workflowResp.ok) {
-      console.error("OpenAI workflow error:", workflowResp.status, data);
-      const msg = data?.error ?? data;
+      console.error("Workflow error:", workflowResp.status, data);
       return res.status(502).json({
         error: "Workflow call failed",
         status: workflowResp.status,
-        details: msg,
+        details: data,
       });
     }
 
-    // Extract output from common locations
+    // ---- Extract output safely ----
     const aiOutput =
-      data?.result?.output ??
-      data?.result?.output_text ??
       data?.output ??
+      data?.result?.output ??
       data?.result ??
-      data?.raw ??
-      data;
+      data ??
+      rawText;
 
-    // ----  SCHEMA ENFORCEMENT  ----
-    const schemaSafe = {
-      task_context: {
-        curriculum: aiOutput?.task_context?.curriculum || "",
-        subject: aiOutput?.task_context?.subject || "",
-        year_band: aiOutput?.task_context?.year_band || "",
-        task_type: aiOutput?.task_context?.task_type || "",
-        criteria_assessed: Array.isArray(aiOutput?.task_context?.criteria_assessed)
-          ? aiOutput.task_context.criteria_assessed
-          : [],
-      },
-      marks: typeof aiOutput?.marks === "object" && aiOutput.marks !== null
-        ? aiOutput.marks
-        : {},
-      justification: typeof aiOutput?.justification === "object" && aiOutput.justification !== null
-        ? aiOutput.justification
-        : {},
-      strengths: aiOutput?.strengths || "",
-      improvements: aiOutput?.improvements || "",
-      actionable_steps: aiOutput?.actionable_steps || "",
-      overall_comment: aiOutput?.overall_comment || "",
-    };
+    // The workflow returns plain text → send it directly
+    if (typeof aiOutput === "string") {
+      return res.status(200).json({ output: aiOutput });
+    }
 
-    return res.status(200).json({ output: schemaSafe });
+    // If it's an object, return it normally
+    return res.status(200).json({ output: aiOutput });
   } catch (err: any) {
     console.error("Unexpected error calling workflow:", err);
     return res.status(500).json({
