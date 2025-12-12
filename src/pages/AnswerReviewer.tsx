@@ -37,7 +37,6 @@ export default function AIAnswerReview() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Build a single input_as_text that matches the workflow's expected single input
   const buildInputAsText = () => {
     const parts: string[] = [];
 
@@ -71,59 +70,57 @@ export default function AIAnswerReview() {
     const strictnessNum = Number(formData.strictness || 5);
 
     try {
-      // POST to /api/review using the workflow schema: input_as_text, register, strictness
       const res = await fetch("/api/review", {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({ input_as_text, register: false, strictness: strictnessNum }),
-});
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          input_as_text,
+          register: false,
+          strictness: strictnessNum,
+        }),
+      });
 
-const data = await res.json();
+      // Read raw text body once
+      const raw = await res.text();
 
-if (!res.ok) {
-  setResponse(`Error: ${data.error ?? "Unknown error"}\n\n${JSON.stringify(data.details ?? data, null, 2)}`);
-  return;
-}
-
-const out = data.output ?? "No output returned";
-setResponse(typeof out === "string" ? out : JSON.stringify(out, null, 2));
-
-      // read body safely
-      const text = await res.text();
-      let data;
+      // Parse safely
+      let parsed: any;
       try {
-        data = text ? JSON.parse(text) : {};
-      } catch (err) {
-        // non-JSON body — keep raw text
-        data = { raw: text };
+        parsed = raw ? JSON.parse(raw) : {};
+      } catch {
+        parsed = { raw };
       }
 
       if (!res.ok) {
-        // prefer returned details if available
-        const details = data?.details ?? data?.raw ?? data;
+        const details = parsed?.details ?? parsed?.raw ?? parsed;
         console.error("Review API returned error:", res.status, details);
-        setResponse(`Error: Workflow call failed (${res.status}).\n\n${JSON.stringify(details, null, 2)}`);
+        setResponse(
+          `Error: Workflow call failed (${res.status}).\n\n${JSON.stringify(
+            details,
+            null,
+            2
+          )}`
+        );
         return;
       }
 
-      // Accept multiple output shapes: { output }, { result: { output } }, or raw text
-      const out =
-        data?.output ??
-        data?.result?.output ??
-        data?.data ??
-        data?.raw ??
-        (typeof data === "string" ? data : JSON.stringify(data, null, 2));
+      // Support multiple output shapes
+      const output =
+        parsed?.output ??
+        parsed?.result?.output ??
+        parsed?.data ??
+        parsed?.raw ??
+        (typeof parsed === "string" ? parsed : JSON.stringify(parsed, null, 2));
 
-      // slight delay so spinner shows briefly
-      setTimeout(() => setResponse(out ?? "No response received."), 150);
+      setTimeout(() => setResponse(output ?? "No response received."), 150);
 
-      // Attempt to attach post (separate endpoint). If it 404s or fails, don't break the user flow.
+      // Attach post (fails silently)
       try {
         const attachRes = await fetch("/api/review-post", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            review: out,
+            review: output,
             strictness: strictnessNum,
             metadata: {
               curriculum: formData.curriculum,
@@ -136,7 +133,6 @@ setResponse(typeof out === "string" ? out : JSON.stringify(out, null, 2));
         if (!attachRes.ok) {
           const rawAttach = await attachRes.text();
           console.warn("Attach post failed:", attachRes.status, rawAttach);
-          // optional: show lightweight non-blocking message to user (kept console-only here)
         }
       } catch (err) {
         console.warn("Attach post failed (network):", err);
@@ -152,10 +148,10 @@ setResponse(typeof out === "string" ? out : JSON.stringify(out, null, 2));
   const handleCopy = async () => {
     try {
       await navigator.clipboard.writeText(response);
-      // micro-feedback (could be replaced with a toast)
       const el = document.createElement("div");
       el.textContent = "Copied!";
-      el.className = "fixed right-6 bottom-6 bg-slate-900 text-white px-3 py-2 rounded shadow-lg";
+      el.className =
+        "fixed right-6 bottom-6 bg-slate-900 text-white px-3 py-2 rounded shadow-lg";
       document.body.appendChild(el);
       setTimeout(() => el.remove(), 1200);
     } catch (e) {
@@ -176,7 +172,10 @@ setResponse(typeof out === "string" ? out : JSON.stringify(out, null, 2));
     <>
       <Helmet>
         <title>A.I Answer Review — Vertex AI Study Tools</title>
-        <meta name="description" content="Submit your answers for AI-powered review with strict teacher-style feedback." />
+        <meta
+          name="description"
+          content="Submit your answers for AI-powered review with strict teacher-style feedback."
+        />
       </Helmet>
 
       <PageSection>
@@ -186,23 +185,33 @@ setResponse(typeof out === "string" ? out : JSON.stringify(out, null, 2));
           transition={{ duration: 0.45, ease: "easeOut" }}
         >
           <NeumorphicCard className="p-8 max-w-6xl mx-auto relative overflow-hidden">
-            {/* subtle animated gradient "shine" */}
             <motion.div
               aria-hidden
               className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-br from-[#041226] via-[#07182a] to-[#031022]"
               initial={{ scale: 1.02 }}
               animate={{ scale: 1 }}
-              transition={{ repeat: Infinity, repeatType: "reverse", duration: 8 }}
+              transition={{
+                repeat: Infinity,
+                repeatType: "reverse",
+                duration: 8,
+              }}
             />
 
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-3">
-                <motion.div whileHover={{ scale: 1.06 }} className="p-2 rounded-full bg-gradient-to-br from-sky-700 to-indigo-600 text-white">
+                <motion.div
+                  whileHover={{ scale: 1.06 }}
+                  className="p-2 rounded-full bg-gradient-to-br from-sky-700 to-indigo-600 text-white"
+                >
                   <FileText size={20} />
                 </motion.div>
                 <div>
-                  <h1 className="text-2xl md:text-3xl font-semibold">A.I Answer Review</h1>
-                  <p className="text-sm text-gray-400">Teacher-style feedback & concise rubrics</p>
+                  <h1 className="text-2xl md:text-3xl font-semibold">
+                    A.I Answer Review
+                  </h1>
+                  <p className="text-sm text-gray-400">
+                    Teacher-style feedback & concise rubrics
+                  </p>
                 </div>
               </div>
 
@@ -223,10 +232,14 @@ setResponse(typeof out === "string" ? out : JSON.stringify(out, null, 2));
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {/* FORM */}
               <form onSubmit={handleSubmit} className="space-y-6">
+                {/* Curriculum / Subject */}
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium mb-2">Curriculum</label>
+                    <label className="block text-sm font-medium mb-2">
+                      Curriculum
+                    </label>
                     <select
                       name="curriculum"
                       value={formData.curriculum}
@@ -242,7 +255,9 @@ setResponse(typeof out === "string" ? out : JSON.stringify(out, null, 2));
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium mb-2">Subject</label>
+                    <label className="block text-sm font-medium mb-2">
+                      Subject
+                    </label>
                     <select
                       name="subject"
                       value={formData.subject}
@@ -261,9 +276,12 @@ setResponse(typeof out === "string" ? out : JSON.stringify(out, null, 2));
                   </div>
                 </div>
 
+                {/* Grade / Marks */}
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium mb-2">Grade</label>
+                    <label className="block text-sm font-medium mb-2">
+                      Grade
+                    </label>
                     <select
                       name="grade"
                       value={formData.grade}
@@ -279,7 +297,9 @@ setResponse(typeof out === "string" ? out : JSON.stringify(out, null, 2));
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium mb-2">Marks (out of)</label>
+                    <label className="block text-sm font-medium mb-2">
+                      Marks (out of)
+                    </label>
                     <input
                       type="number"
                       name="marks"
@@ -291,8 +311,11 @@ setResponse(typeof out === "string" ? out : JSON.stringify(out, null, 2));
                   </div>
                 </div>
 
+                {/* Question */}
                 <div>
-                  <label className="block text-sm font-medium mb-2">Question Segment</label>
+                  <label className="block text-sm font-medium mb-2">
+                    Question Segment
+                  </label>
                   <textarea
                     name="question"
                     value={formData.question}
@@ -303,8 +326,11 @@ setResponse(typeof out === "string" ? out : JSON.stringify(out, null, 2));
                   />
                 </div>
 
+                {/* Answer */}
                 <div>
-                  <label className="block text-sm font-medium mb-2">Student Answer</label>
+                  <label className="block text-sm font-medium mb-2">
+                    Student Answer
+                  </label>
                   <textarea
                     name="answer"
                     value={formData.answer}
@@ -315,8 +341,11 @@ setResponse(typeof out === "string" ? out : JSON.stringify(out, null, 2));
                   />
                 </div>
 
+                {/* Additional */}
                 <div>
-                  <label className="block text-sm font-medium mb-2">Additional Information</label>
+                  <label className="block text-sm font-medium mb-2">
+                    Additional Information
+                  </label>
                   <textarea
                     name="additional"
                     value={formData.additional}
@@ -327,9 +356,12 @@ setResponse(typeof out === "string" ? out : JSON.stringify(out, null, 2));
                   />
                 </div>
 
+                {/* Strictness */}
                 <div className="grid grid-cols-2 gap-4 items-center">
                   <div>
-                    <label className="block text-sm font-medium mb-2">Strictness (1-10)</label>
+                    <label className="block text-sm font-medium mb-2">
+                      Strictness (1-10)
+                    </label>
                     <div className="flex gap-3 items-center">
                       <select
                         name="strictness"
@@ -346,7 +378,9 @@ setResponse(typeof out === "string" ? out : JSON.stringify(out, null, 2));
                           );
                         })}
                       </select>
-                      <div className="text-sm text-gray-400">Controls how strict the AI grades</div>
+                      <div className="text-sm text-gray-400">
+                        Controls how strict the AI grades
+                      </div>
                     </div>
                   </div>
 
@@ -356,14 +390,33 @@ setResponse(typeof out === "string" ? out : JSON.stringify(out, null, 2));
                       className="inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-sky-500 to-indigo-600 text-white rounded-2xl shadow-2xl hover:opacity-95 focus:outline-none"
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
-                      transition={{ type: "spring", stiffness: 400, damping: 18 }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 400,
+                        damping: 18,
+                      }}
                       disabled={loading}
                     >
                       <span className="flex items-center gap-2">
                         {loading ? (
-                          <svg className="w-4 h-4 animate-spin" viewBox="0 0 24 24">
-                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="white" strokeWidth="4" fill="none"></circle>
-                            <path className="opacity-75" fill="white" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+                          <svg
+                            className="w-4 h-4 animate-spin"
+                            viewBox="0 0 24 24"
+                          >
+                            <circle
+                              className="opacity-25"
+                              cx="12"
+                              cy="12"
+                              r="10"
+                              stroke="white"
+                              strokeWidth="4"
+                              fill="none"
+                            ></circle>
+                            <path
+                              className="opacity-75"
+                              fill="white"
+                              d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                            ></path>
                           </svg>
                         ) : (
                           <ArrowRight size={16} />
@@ -375,16 +428,25 @@ setResponse(typeof out === "string" ? out : JSON.stringify(out, null, 2));
                 </div>
               </form>
 
+              {/* OUTPUT SECTION */}
               <div className="flex flex-col space-y-4">
                 <div className="flex items-center justify-between">
-                  <h2 className="text-lg md:text-xl font-semibold flex items-center gap-2">AI Review</h2>
+                  <h2 className="text-lg md:text-xl font-semibold flex items-center gap-2">
+                    AI Review
+                  </h2>
                   <div className="flex items-center gap-3">
                     <div className="text-xs text-gray-400">Strictness</div>
-                    <div className="px-2 py-1 rounded bg-slate-800 text-sm text-white">{formData.strictness}/10</div>
+                    <div className="px-2 py-1 rounded bg-slate-800 text-sm text-white">
+                      {formData.strictness}/10
+                    </div>
                   </div>
                 </div>
 
-                <div className="flex-1 p-6 rounded-2xl overflow-y-auto bg-[#031827]" ref={responseRef} style={{ minHeight: 240 }}>
+                <div
+                  className="flex-1 p-6 rounded-2xl overflow-y-auto bg-[#031827]"
+                  ref={responseRef}
+                  style={{ minHeight: 240 }}
+                >
                   <AnimatePresence>
                     {response ? (
                       <motion.div
@@ -395,23 +457,41 @@ setResponse(typeof out === "string" ? out : JSON.stringify(out, null, 2));
                         transition={{ duration: 0.32 }}
                         className="max-w-full px-4 py-3 bg-[#07182a] text-sky-200 rounded-2xl shadow-md"
                       >
-                        <ReactMarkdown children={response} remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex]} />
+                        <ReactMarkdown
+                          children={response}
+                          remarkPlugins={[remarkMath]}
+                          rehypePlugins={[rehypeKatex]}
+                        />
 
                         <div className="mt-4 flex items-center gap-3">
-                          <button onClick={handleCopy} className="neu-button inline-flex items-center gap-2 px-3 py-1 rounded-2xl bg-[#07172a] hover:scale-102 transition">
+                          <button
+                            onClick={handleCopy}
+                            className="neu-button inline-flex items-center gap-2 px-3 py-1 rounded-2xl bg-[#07172a] hover:scale-102 transition"
+                          >
                             <Copy size={14} /> Copy Review
                           </button>
 
-                          <button onClick={handleDownload} className="neu-button inline-flex items-center gap-2 px-3 py-1 rounded-2xl bg-[#07172a] hover:scale-102 transition">
+                          <button
+                            onClick={handleDownload}
+                            className="neu-button inline-flex items-center gap-2 px-3 py-1 rounded-2xl bg-[#07172a] hover:scale-102 transition"
+                          >
                             <Download size={14} /> Download
                           </button>
 
-                          <div className="ml-auto text-sm text-gray-400">Attached post created</div>
+                          <div className="ml-auto text-sm text-gray-400">
+                            Attached post created
+                          </div>
                         </div>
                       </motion.div>
                     ) : (
-                      <motion.div key="empty" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-                        <div className="text-gray-400 italic">AI feedback will appear here after submission...</div>
+                      <motion.div
+                        key="empty"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                      >
+                        <div className="text-gray-400 italic">
+                          AI feedback will appear here after submission...
+                        </div>
                       </motion.div>
                     )}
                   </AnimatePresence>
