@@ -77,8 +77,6 @@ export default function AIAnswerReview() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           input_as_text,
-          // register is included so your workflow state var 'register' is set if needed.
-          // Keep it false if you don't want the workflow to create persistent posts automatically.
           register: false,
           strictness: strictnessNum,
         }),
