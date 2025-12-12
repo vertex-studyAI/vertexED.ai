@@ -37,54 +37,108 @@ export default function AIAnswerReview() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  // Build a single input_as_text that matches the workflow's expected single input
+  const buildInputAsText = () => {
+    const parts: string[] = [];
+
+    if (formData.curriculum) parts.push(`Curriculum: ${formData.curriculum}`);
+    if (formData.subject) parts.push(`Subject: ${formData.subject}`);
+    if (formData.grade) parts.push(`Grade: ${formData.grade}`);
+    if (formData.marks) parts.push(`Marks (out of): ${formData.marks}`);
+
+    parts.push("Question:");
+    parts.push(formData.question || "[No question provided]");
+
+    parts.push("\nStudent Answer:");
+    parts.push(formData.answer || "[No answer provided]");
+
+    if (formData.additional) {
+      parts.push("\nAdditional Information:");
+      parts.push(formData.additional);
+    }
+
+    parts.push(`\nDesired strictness (1-10): ${formData.strictness}`);
+
+    return parts.join("\n\n");
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setResponse("");
 
-    const prompt = `You are an expert teacher. Review the student's answer.
-Curriculum: ${formData.curriculum}
-Subject: ${formData.subject}
-Grade: ${formData.grade}
-Marks: Out of ${formData.marks}
-Desired strictness (1-10): ${formData.strictness}
-Question: ${formData.question}
-Student Answer: ${formData.answer}
-Additional Information: ${formData.additional}
-
-Provide:
-1. Strict teacher-style feedback (clarity, depth, accuracy).
-2. Suggested marks (out of ${formData.marks}).
-3. Key improvements the student can make.
-4. A concise rubric bullet list.
-`;
+    const input_as_text = buildInputAsText();
+    const strictnessNum = Number(formData.strictness || 5);
 
     try {
+      // POST to /api/review using the workflow schema: input_as_text, register, strictness
       const res = await fetch("/api/review", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ prompt, strictness: formData.strictness }),
+        body: JSON.stringify({
+          input_as_text,
+          // register is included so your workflow state var 'register' is set if needed.
+          // Keep it false if you don't want the workflow to create persistent posts automatically.
+          register: false,
+          strictness: strictnessNum,
+        }),
       });
-      const data = await res.json();
-      const out = data.output || "No response received.";
-      // small entry animation: set after a short delay to let spinner show
-      setTimeout(() => setResponse(out), 250);
 
+      // read body safely
+      const text = await res.text();
+      let data;
       try {
-        await fetch("/api/review-post", {
+        data = text ? JSON.parse(text) : {};
+      } catch (err) {
+        // non-JSON body — keep raw text
+        data = { raw: text };
+      }
+
+      if (!res.ok) {
+        // prefer returned details if available
+        const details = data?.details ?? data?.raw ?? data;
+        console.error("Review API returned error:", res.status, details);
+        setResponse(`Error: Workflow call failed (${res.status}).\n\n${JSON.stringify(details, null, 2)}`);
+        return;
+      }
+
+      // Accept multiple output shapes: { output }, { result: { output } }, or raw text
+      const out =
+        data?.output ??
+        data?.result?.output ??
+        data?.data ??
+        data?.raw ??
+        (typeof data === "string" ? data : JSON.stringify(data, null, 2));
+
+      // slight delay so spinner shows briefly
+      setTimeout(() => setResponse(out ?? "No response received."), 150);
+
+      // Attempt to attach post (separate endpoint). If it 404s or fails, don't break the user flow.
+      try {
+        const attachRes = await fetch("/api/review-post", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             review: out,
-            strictness: formData.strictness,
-            metadata: { curriculum: formData.curriculum, subject: formData.subject, grade: formData.grade },
+            strictness: strictnessNum,
+            metadata: {
+              curriculum: formData.curriculum,
+              subject: formData.subject,
+              grade: formData.grade,
+            },
           }),
         });
+
+        if (!attachRes.ok) {
+          const rawAttach = await attachRes.text();
+          console.warn("Attach post failed:", attachRes.status, rawAttach);
+          // optional: show lightweight non-blocking message to user (kept console-only here)
+        }
       } catch (err) {
-        console.warn("Attach post failed", err);
+        console.warn("Attach post failed (network):", err);
       }
     } catch (err: any) {
-      console.error(err);
+      console.error("Submit error:", err);
       setResponse("Error: Could not get review. Please try again.");
     } finally {
       setLoading(false);
