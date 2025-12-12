@@ -73,30 +73,21 @@ export default function AIAnswerReview() {
       const res = await fetch("/api/review", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          input_as_text,
-          register: false,
-          strictness: strictnessNum,
-        }),
+        body: JSON.stringify({ input_as_text, register: false, strictness: strictnessNum }),
       });
 
-      // Read raw text body once
-      const raw = await res.text();
-
-      // Parse safely
-      let parsed: any;
+      // Read JSON once only
+      let data;
       try {
-        parsed = raw ? JSON.parse(raw) : {};
+        data = await res.json();
       } catch {
-        parsed = { raw };
+        data = {};
       }
 
       if (!res.ok) {
-        const details = parsed?.details ?? parsed?.raw ?? parsed;
-        console.error("Review API returned error:", res.status, details);
         setResponse(
-          `Error: Workflow call failed (${res.status}).\n\n${JSON.stringify(
-            details,
+          `Error: ${data?.error ?? "Unknown error"}\n\n${JSON.stringify(
+            data?.details ?? data,
             null,
             2
           )}`
@@ -104,23 +95,20 @@ export default function AIAnswerReview() {
         return;
       }
 
-      // Support multiple output shapes
-      const output =
-        parsed?.output ??
-        parsed?.result?.output ??
-        parsed?.data ??
-        parsed?.raw ??
-        (typeof parsed === "string" ? parsed : JSON.stringify(parsed, null, 2));
+      const out =
+        data?.output ??
+        data?.result?.output ??
+        data?.data ??
+        (typeof data === "string" ? data : JSON.stringify(data, null, 2));
 
-      setTimeout(() => setResponse(output ?? "No response received."), 150);
+      setTimeout(() => setResponse(out ?? "No response received."), 150);
 
-      // Attach post (fails silently)
       try {
-        const attachRes = await fetch("/api/review-post", {
+        await fetch("/api/review-post", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            review: output,
+            review: out,
             strictness: strictnessNum,
             metadata: {
               curriculum: formData.curriculum,
@@ -129,15 +117,9 @@ export default function AIAnswerReview() {
             },
           }),
         });
+      } catch {}
 
-        if (!attachRes.ok) {
-          const rawAttach = await attachRes.text();
-          console.warn("Attach post failed:", attachRes.status, rawAttach);
-        }
-      } catch (err) {
-        console.warn("Attach post failed (network):", err);
-      }
-    } catch (err: any) {
+    } catch (err) {
       console.error("Submit error:", err);
       setResponse("Error: Could not get review. Please try again.");
     } finally {
@@ -154,9 +136,7 @@ export default function AIAnswerReview() {
         "fixed right-6 bottom-6 bg-slate-900 text-white px-3 py-2 rounded shadow-lg";
       document.body.appendChild(el);
       setTimeout(() => el.remove(), 1200);
-    } catch (e) {
-      console.warn("Copy failed", e);
-    }
+    } catch {}
   };
 
   const handleDownload = () => {
@@ -190,11 +170,7 @@ export default function AIAnswerReview() {
               className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-br from-[#041226] via-[#07182a] to-[#031022]"
               initial={{ scale: 1.02 }}
               animate={{ scale: 1 }}
-              transition={{
-                repeat: Infinity,
-                repeatType: "reverse",
-                duration: 8,
-              }}
+              transition={{ repeat: Infinity, repeatType: "reverse", duration: 8 }}
             />
 
             <div className="flex items-center justify-between mb-6">
@@ -232,9 +208,8 @@ export default function AIAnswerReview() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {/* FORM */}
+              {/* LEFT FORM */}
               <form onSubmit={handleSubmit} className="space-y-6">
-                {/* Curriculum / Subject */}
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium mb-2">
@@ -276,7 +251,6 @@ export default function AIAnswerReview() {
                   </div>
                 </div>
 
-                {/* Grade / Marks */}
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium mb-2">
@@ -311,7 +285,6 @@ export default function AIAnswerReview() {
                   </div>
                 </div>
 
-                {/* Question */}
                 <div>
                   <label className="block text-sm font-medium mb-2">
                     Question Segment
@@ -326,7 +299,6 @@ export default function AIAnswerReview() {
                   />
                 </div>
 
-                {/* Answer */}
                 <div>
                   <label className="block text-sm font-medium mb-2">
                     Student Answer
@@ -341,7 +313,6 @@ export default function AIAnswerReview() {
                   />
                 </div>
 
-                {/* Additional */}
                 <div>
                   <label className="block text-sm font-medium mb-2">
                     Additional Information
@@ -356,7 +327,6 @@ export default function AIAnswerReview() {
                   />
                 </div>
 
-                {/* Strictness */}
                 <div className="grid grid-cols-2 gap-4 items-center">
                   <div>
                     <label className="block text-sm font-medium mb-2">
@@ -390,19 +360,12 @@ export default function AIAnswerReview() {
                       className="inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-sky-500 to-indigo-600 text-white rounded-2xl shadow-2xl hover:opacity-95 focus:outline-none"
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
-                      transition={{
-                        type: "spring",
-                        stiffness: 400,
-                        damping: 18,
-                      }}
+                      transition={{ type: "spring", stiffness: 400, damping: 18 }}
                       disabled={loading}
                     >
                       <span className="flex items-center gap-2">
                         {loading ? (
-                          <svg
-                            className="w-4 h-4 animate-spin"
-                            viewBox="0 0 24 24"
-                          >
+                          <svg className="w-4 h-4 animate-spin" viewBox="0 0 24 24">
                             <circle
                               className="opacity-25"
                               cx="12"
@@ -428,7 +391,7 @@ export default function AIAnswerReview() {
                 </div>
               </form>
 
-              {/* OUTPUT SECTION */}
+              {/* RIGHT PANEL */}
               <div className="flex flex-col space-y-4">
                 <div className="flex items-center justify-between">
                   <h2 className="text-lg md:text-xl font-semibold flex items-center gap-2">
