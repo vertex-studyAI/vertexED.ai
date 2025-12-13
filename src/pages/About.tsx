@@ -13,9 +13,7 @@ interface Person {
 // Simple text wrapper (NO animations)
 function AnimatedText({ text, className = "" }: { text: string; className?: string }) {
   return (
-    <span
-      className={`bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent ${className}`}
-    >
+    <span className={`bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent ${className}`}>
       {text}
     </span>
   );
@@ -43,7 +41,8 @@ export default function About(): JSX.Element {
     },
   ];
 
-  const isExternal = (url: string) => /^https?:\\/\\//i.test(url);
+  // simple + safe external link check (NO regex escaping issues)
+  const isExternal = (url: string) => url.startsWith("http");
 
   return (
     <>
@@ -75,9 +74,7 @@ export default function About(): JSX.Element {
                 <AnimatedText text={person.name} />
               </h3>
               <p className="text-sm text-gray-300 mb-4">{person.role}</p>
-              <p className="text-sm leading-relaxed text-gray-400 mb-6">
-                {person.bio}
-              </p>
+              <p className="text-sm leading-relaxed text-gray-400 mb-6">{person.bio}</p>
 
               <a
                 href={person.linkedin}
