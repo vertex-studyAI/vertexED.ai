@@ -609,12 +609,6 @@ export default function Home() {
 
         .glass-tile { background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border: 1px solid rgba(255,255,255,0.04); backdrop-filter: blur(8px) saturate(110%); }
 
-        .scribble { position: absolute; pointer-events: none; opacity: 0.12; transform-origin: center; filter: blur(0.2px); animation: scribbleFloat 6s ease-in-out infinite; }
-        .scribble--small { opacity: 0.10; transform: rotate(-6deg); }
-        .scribble--math { opacity: 0.14; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", monospace; }
-
-        @keyframes scribbleFloat { 0% { transform: translateY(0) rotate(-3deg); } 50% { transform: translateY(-6px) rotate(2deg); } 100% { transform: translateY(0) rotate(-3deg); } }
-
         .problem-card-front { border: 1px solid rgba(6,10,15,0.04); }
 
         .flip-words { perspective: 700px; display: inline-block; vertical-align: middle; }
@@ -650,24 +644,9 @@ export default function Home() {
 
         @media (prefers-reduced-motion: reduce) {
           .pop-up { transition: none !important; transform: none !important; opacity: 1 !important; }
-          .scribble { animation: none !important; }
           .fw-word, .morph-phrase, .lp-char, .tr-char, .ls-front, .ls-back { transition: none !important; transform: none !important; opacity:1 !important; }
         }
       `}</style>
-
-      {/* decorative scribbles */}
-      <svg className="scribble scribble--small" width="220" height="120" style={{ left: 28, top: 160, position: "absolute", zIndex: 30 }}>
-        <path d="M6 80 C 40 20, 80 120, 210 40" stroke="rgba(255,255,255,0.12)" strokeWidth="2" fill="none" strokeLinecap="round" />
-        <path d="M10 40 C 60 60, 120 0, 210 50" stroke="rgba(14,165,233,0.06)" strokeWidth="3" fill="none" strokeLinecap="round" />
-      </svg>
-
-      <div className="scribble scribble--math" style={{ left: "72%", top: "20%", width: 160, height: 80, position: "absolute", zIndex: 30 }}>
-        <svg width="160" height="80">
-          <text x="0" y="20" fontSize="14" fill="rgba(255,255,255,0.12)">{'∑_{n=1}^∞ 1/n² = π²/6'}</text>
-          <text x="0" y="40" fontSize="12" fill="rgba(14,165,233,0.08)">E = mc²</text>
-          <text x="0" y="60" fontSize="12" fill="rgba(255,255,255,0.08)">f'(x) = lim h→0 (f(x+h)-f(x))/h</text>
-        </svg>
-      </div>
 
       {/* Hero */}
       <section className="glass-card px-6 pt-24 pb-16 text-center pop-up" style={{ position: "relative" }}>
@@ -698,8 +677,8 @@ export default function Home() {
                 </span>
 
                 <span className="mt-2 pop-up" aria-hidden style={{ fontSize: "0.8rem" }}>
-  <LandoSwapText from="VertexED" to="VertexED" triggerMs={2800} />
-</span>
+                  <LandoSwapText from="VertexED" to="VertexED" triggerMs={2800} />
+                </span>
               </h1>
             </div>
           </div>
@@ -723,55 +702,36 @@ export default function Home() {
         </div>
       </div>
 
-    {/* story */}
-<section
-  className="mt-12 md:mt-15 text-center px-6 pop-up"
-  style={{ position: "relative" }}
->
-<section
-  className="mt-12 md:mt-15 text-center px-6"
-  style={{ position: "relative" }}
->
-  {/* Headline */}
-  <div className="w-full mx-auto flex items-center justify-center mb-6 pop-up">
-    <h2 className="text-4xl md:text-5xl font-semibold text-white leading-tight text-center">
-      {/* height locked wrapper */}
-      <div className="relative h-[3.2rem] md:h-[4rem] flex items-center justify-center overflow-hidden">
-        <TextScrollReveal>
-          <MorphingText
-            phrases={[
-              "We hate the way studying has become.",
-              "We hate cramming before an exam.",
-              "We hate compromising.",
-              "We hate inefficient tools.",
-            ]}
-            className="block"
-          />
-        </TextScrollReveal>
-      </div>
-    </h2>
-  </div>
+      {/* story */}
+      <section className="mt-12 md:mt-15 text-center px-6" style={{ position: "relative" }}>
+        <div className="w-full mx-auto flex items-center justify-center mb-6 pop-up">
+          <h2 className="text-4xl md:text-5xl font-semibold text-white leading-tight text-center">
+            <div className="relative h-[3.2rem] md:h-[4rem] flex items-center justify-center overflow-hidden">
+              <TextScrollReveal>
+                <MorphingText
+                  phrases={[
+                    "We hate the way studying has become.",
+                    "We hate cramming before an exam.",
+                    "We hate compromising.",
+                    "We hate inefficient tools.",
+                  ]}
+                  className="block"
+                />
+              </TextScrollReveal>
+            </div>
+          </h2>
+        </div>
 
-  {/* Subtext */}
-  <p className="text-lg text-white mb-12 pop-up">
-    Who wouldn’t?
-  </p>
-</section>
+        <p className="text-lg text-white mb-12 pop-up">Who wouldn’t?</p>
+      </section>
 
-{/* problems grid */}
-<section className="max-w-6xl mx-auto px-6 mt-28">
-  <h3 className="text-3xl md:text-4xl font-semibold text-white mb-10 text-center pop-up">
-    <TextReveal text="Why is this a problem for you?" />
-  </h3>
-
-  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
-    {problems.map((p, i) => (
-      <div key={i} className="pop-up">
-        <ProblemCard p={p} i={i} />
-      </div>
-    ))}
-  </div>
-</section>
+      {/* problems grid */}
+      <section className="max-w-6xl mx-auto px-6 mt-28">
+        <h3 className="text-3xl md:text-4xl font-semibold text-white mb-10 text-center pop-up"><TextReveal text="Why is this a problem for you?" /></h3>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
+          {problems.map((p, i) => <div key={i} className="pop-up"><ProblemCard p={p} i={i} /></div>)}
+        </div>
+      </section>
 
       {/* mission */}
       <section className="max-w-4xl mx-auto mt-24 px-6 text-center pop-up">
