@@ -74,6 +74,7 @@ const TextScrollReveal: React.FC<{ children: React.ReactNode; className?: string
       node.classList.add("tsr-visible");
       return;
     }
+    // increased "tension": trigger a bit earlier (lower threshold)
     const obs = new IntersectionObserver(entries => {
       entries.forEach(e => {
         if (e.isIntersecting) {
@@ -81,7 +82,7 @@ const TextScrollReveal: React.FC<{ children: React.ReactNode; className?: string
           obs.unobserve(node);
         }
       });
-    }, { threshold: 0.12 });
+    }, { threshold: 0.08 });
     obs.observe(node);
     return () => obs.disconnect();
   }, []);
@@ -226,7 +227,7 @@ export default function Home() {
               y: 0,
               opacity: 1,
               scale: 1,
-              duration: 0.9,
+              duration: 0.85,
               ease: "power3.out",
               stagger: 0.02,
               scrollTrigger: {
@@ -249,9 +250,9 @@ export default function Home() {
               x: 0,
               opacity: 1,
               rotateX: 0,
-              duration: 0.95,
+              duration: 0.9,
               ease: "power3.out",
-              delay: i * 0.06,
+              delay: i * 0.05,
               scrollTrigger: {
                 trigger: row,
                 start: "top 92%",
@@ -289,7 +290,8 @@ export default function Home() {
       observerRef.current = null;
     }
 
-    const opts = { threshold: 0.12 };
+    // increased "tension": trigger a bit earlier (lower threshold)
+    const opts = { threshold: 0.08 };
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         const el = entry.target as HTMLElement;
@@ -495,7 +497,7 @@ export default function Home() {
         role="button"
         tabIndex={0}
         aria-pressed={flipped[i]}
-        className="group relative h-56 rounded-2xl transition-transform duration-400 hover:scale-[1.03] perspective tilt-card pop-up"
+        className="group relative h-56 rounded-2xl transition-transform duration-360 hover:scale-[1.03] perspective tilt-card pop-up"
         aria-label={`Problem card ${i + 1}`}
       >
         <div
@@ -597,15 +599,16 @@ export default function Home() {
         body { scroll-padding-top: 72px; }
         section { scroll-snap-align: start; scroll-snap-stop: always; }
 
-        .pop-up { opacity: 0; transform: translateY(14px) scale(0.995); transition: transform 480ms cubic-bezier(.2,.9,.3,1), opacity 380ms ease-out; will-change: transform, opacity; }
+        /* snappier pop-up for increased tension */
+        .pop-up { opacity: 0; transform: translateY(8px) scale(0.995); transition: transform 360ms cubic-bezier(.2,.9,.3,1), opacity 320ms ease-out; will-change: transform, opacity; }
         .pop-in { opacity: 1; transform: translateY(0px) scale(1); }
 
         .highlight-clip { display: inline-block; overflow: hidden; vertical-align: middle; }
-        .hl-inner { display: inline-block; transform-origin: left center; transform: translateY(10px); transition: transform 520ms cubic-bezier(.2,.9,.3,1), color 360ms; }
+        .hl-inner { display: inline-block; transform-origin: left center; transform: translateY(10px); transition: transform 420ms cubic-bezier(.2,.9,.3,1), color 300ms; }
         .hl-pop { transform: translateY(0px); color: #DDEBFF; text-shadow: 0 6px 24px rgba(14,165,233,0.08); }
 
-        .swap-span { display: inline-block; transform: translateY(8px); transition: transform 520ms cubic-bezier(.2,.9,.3,1), font-weight 220ms, font-size 220ms; white-space: nowrap; }
-        .swap-pop { transform: translateY(0px); font-weight: 800; font-size: 1.06em; color: #E6F0FF; letter-spacing: -0.01em; }
+        /* allow typed text to wrap */
+        .swap-span { display: inline-block; transform: translateY(6px); transition: transform 420ms cubic-bezier(.2,.9,.3,1), font-weight 220ms, font-size 220ms; white-space: normal; word-break: break-word; max-width: 100%; }
 
         .glass-tile { background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border: 1px solid rgba(255,255,255,0.04); backdrop-filter: blur(8px) saturate(110%); }
 
@@ -625,7 +628,7 @@ export default function Home() {
         .lp-char { display:inline-block; transform: translateY(18px); opacity:0; transition: transform 520ms cubic-bezier(.2,.9,.3,1), opacity 420ms; }
         .pop-in .lp-char { transform: translateY(0); opacity:1; }
 
-        .text-scroll-reveal { overflow: hidden; display:inline-block; transform: translateY(12px); opacity:0; transition: transform 520ms cubic-bezier(.2,.9,.3,1), opacity 420ms; }
+        .text-scroll-reveal { overflow: hidden; display:inline-block; transform: translateY(12px); opacity:0; transition: transform 480ms cubic-bezier(.2,.9,.3,1), opacity 380ms; }
         .text-scroll-reveal.tsr-visible { transform: translateY(0); opacity:1; }
 
         .text-reveal { display:inline-block; vertical-align:middle; }
@@ -667,7 +670,7 @@ export default function Home() {
                       "Study smarter, not longer.",
                     ]}
                     speed={45}
-                    wrapper="span"
+                    wrapper="div" /* allow wrapping */
                     cursor={true}
                     repeat={Infinity}
                   />
@@ -702,44 +705,27 @@ export default function Home() {
         </div>
       </div>
 
-{/* story */}
-<section className="mt-16 text-center px-6 relative">
-  <div className="max-w-4xl mx-auto mb-10 pop-up">
-    <h2 className="text-4xl md:text-5xl font-semibold text-white leading-tight">
-      <span className="relative inline-flex items-center justify-center overflow-hidden">
-        <TextScrollReveal>
-          <MorphingText
-            phrases={[
-              "We hate the way studying has become.",
-              "We hate cramming before an exam.",
-              "We hate compromising.",
-              "We hate inefficient tools.",
-            ]}
-            className="whitespace-nowrap"
-          />
-        </TextScrollReveal>
-      </span>
-    </h2>
-  </div>
-
+      {/* story */}
+      <section className="mt-16 text-center px-6 relative">
+        <div className="max-w-4xl mx-auto mb-10 pop-up">
+          <h2 className="text-4xl md:text-5xl font-semibold text-white leading-tight">
+            <span className="relative inline-flex items-center justify-center overflow-hidden">
+              {/* static text only per request (no swapping) */}
+              <span className="text-center block">We hate the way studying has become.</span>
+            </span>
+          </h2>
+        </div>
 
         <p className="text-lg text-white mb-12 pop-up">Who wouldn’t?</p>
       </section>
 
-  {/* problems grid */}
-<section className="max-w-6xl mx-auto px-6 mt-28">
-  <h3 className="text-3xl md:text-4xl font-semibold text-white mb-10 text-center pop-up">
-    Why is this a problem for you?
-  </h3>
-
-  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
-    {problems.map((p, i) => (
-      <div key={i} className="pop-up">
-        <ProblemCard p={p} i={i} />
-      </div>
-    ))}
-  </div>
-</section>
+      {/* problems grid */}
+      <section className="max-w-6xl mx-auto px-6 mt-28">
+        <h3 className="text-3xl md:text-4xl font-semibold text-white mb-10 text-center pop-up"><TextReveal text="Why is this a problem for you?" /></h3>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
+          {problems.map((p, i) => <div key={i} className="pop-up"><ProblemCard p={p} i={i} /></div>)}
+        </div>
+      </section>
 
       {/* mission */}
       <section className="max-w-4xl mx-auto mt-24 px-6 text-center pop-up">
