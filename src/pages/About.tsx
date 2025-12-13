@@ -11,11 +11,14 @@ interface Person {
 }
 
 // Utility component for per-letter hover animations with gradient fix
-// Simple text wrapper without per-letter animations
+// Simple text wrapper without animations
 function AnimatedText({ text, className = "" }: { text: string; className?: string }) {
   return (
     <span className={`bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent ${className}`}>
       {text}
+    </span>
+  );
+}
     </span>
   );
 }
