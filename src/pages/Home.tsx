@@ -702,32 +702,34 @@ export default function Home() {
         </div>
       </div>
 
-      {/* story */}
-      <section className="mt-12 md:mt-15 text-center px-6" style={{ position: "relative" }}>
-        <div className="w-full mx-auto flex items-center justify-center mb-6 pop-up">
-          <h2 className="text-4xl md:text-5xl font-semibold text-white leading-tight text-center">
-            <div className="relative h-[3.2rem] md:h-[4rem] flex items-center justify-center overflow-hidden">
-              <TextScrollReveal>
-                <MorphingText
-                  phrases={[
-                    "We hate the way studying has become.",
-                    "We hate cramming before an exam.",
-                    "We hate compromising.",
-                    "We hate inefficient tools.",
-                  ]}
-                  className="block"
-                />
-              </TextScrollReveal>
-            </div>
-          </h2>
-        </div>
+{/* story */}
+<section className="mt-16 text-center px-6 relative">
+  <div className="max-w-4xl mx-auto mb-10 pop-up">
+    <h2 className="text-4xl md:text-5xl font-semibold text-white leading-tight">
+      <span className="relative inline-flex items-center justify-center overflow-hidden">
+        <TextScrollReveal>
+          <MorphingText
+            phrases={[
+              "We hate the way studying has become.",
+              "We hate cramming before an exam.",
+              "We hate compromising.",
+              "We hate inefficient tools.",
+            ]}
+            className="whitespace-nowrap"
+          />
+        </TextScrollReveal>
+      </span>
+    </h2>
+  </div>
+</section>
+
 
         <p className="text-lg text-white mb-12 pop-up">Who wouldn’t?</p>
       </section>
 
       {/* problems grid */}
       <section className="max-w-6xl mx-auto px-6 mt-28">
-        <h3 className="text-3xl md:text-4xl font-semibold text-white mb-10 text-center pop-up"><TextReveal text="Why is this a problem for you?" /></h3>
+        <h3 className="text-3xl md:text-4xl font-semibold text-white mb-10 text-center pop-up"><"Why is this a problem for you?" /></h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
           {problems.map((p, i) => <div key={i} className="pop-up"><ProblemCard p={p} i={i} /></div>)}
         </div>
