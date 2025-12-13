@@ -726,13 +726,20 @@ export default function Home() {
         <p className="text-lg text-white mb-12 pop-up">Who wouldn’t?</p>
       </section>
 
-      {/* problems grid */}
-      <section className="max-w-6xl mx-auto px-6 mt-28">
-        <h3 className="text-3xl md:text-4xl font-semibold text-white mb-10 text-center pop-up"><"Why is this a problem for you?" /></h3>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
-          {problems.map((p, i) => <div key={i} className="pop-up"><ProblemCard p={p} i={i} /></div>)}
-        </div>
-      </section>
+  {/* problems grid */}
+<section className="max-w-6xl mx-auto px-6 mt-28">
+  <h3 className="text-3xl md:text-4xl font-semibold text-white mb-10 text-center pop-up">
+    Why is this a problem for you?
+  </h3>
+
+  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
+    {problems.map((p, i) => (
+      <div key={i} className="pop-up">
+        <ProblemCard p={p} i={i} />
+      </div>
+    ))}
+  </div>
+</section>
 
       {/* mission */}
       <section className="max-w-4xl mx-auto mt-24 px-6 text-center pop-up">
