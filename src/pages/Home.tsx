@@ -743,7 +743,7 @@ export default function Home() {
     </h2>
   </div>
 
-  <p className="text-lg text-slate-200 mb-12 pop-up">Who wouldn’t?</p>
+  <p className="text-lg text-white mb-12 pop-up">Who wouldn’t?</p>
 </section>
 
       {/* problems grid */}
