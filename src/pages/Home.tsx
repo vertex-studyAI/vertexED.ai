@@ -312,7 +312,10 @@ export default function Home() {
 
     observerRef.current = observer;
     const nodes = Array.from(document.querySelectorAll<HTMLElement>(".pop-up"));
-    nodes.forEach(el => observer.observe(el));
+    // ensure observation happens after layout paint so in-view elements are correctly detected
+    requestAnimationFrame(() => {
+      nodes.forEach(el => observer.observe(el));
+    });
   }
 
   // tilt interactions using per-element listeners (original implementation restored)
