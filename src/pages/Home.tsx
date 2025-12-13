@@ -721,7 +721,6 @@ export default function Home() {
       </span>
     </h2>
   </div>
-</section>
 
 
         <p className="text-lg text-white mb-12 pop-up">Who wouldn’t?</p>
