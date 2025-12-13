@@ -11,12 +11,14 @@ interface Person {
 }
 
 // Utility component for per-letter hover animations with gradient fix
+// Simple text wrapper without per-letter animations
 function AnimatedText({ text, className = "" }: { text: string; className?: string }) {
-  if (!text) return null;
-
   return (
-    <span
-      className={`bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent inline-block ${className}`}
+    <span className={`bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent ${className}`}>
+      {text}
+    </span>
+  );
+}
     >
       {text.split("").map((char, i) => (
         <span
@@ -106,13 +108,12 @@ export default function About(): JSX.Element {
                 <a
                   href={person.linkedin}
                   aria-label={`${person.name} on LinkedIn`}
-                  className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-gray-700 to-gray-900 p-3 hover:from-blue-500 hover:to-indigo-500 transition-all"
+                  className="inline-flex items-center justify-center h-11 w-11 rounded-full bg-gray-800 hover:bg-blue-600 transition-colors"
                   {...(isExternal(person.linkedin)
                     ? { target: "_blank", rel: "noopener noreferrer" }
                     : {})}
                 >
-                  <AnimatedText text="LinkedIn" />
-                  <Linkedin className="h-4 w-4 text-white ml-2" aria-hidden="true" />
+                  <Linkedin className="h-5 w-5 text-white" aria-hidden="true" />
                 </a>
               </div>
             </article>
