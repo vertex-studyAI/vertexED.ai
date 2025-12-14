@@ -431,16 +431,16 @@ export default function Home() {
 
     els.forEach(el => {
       let rect = el.getBoundingClientRect();
-      let tx = 0, ty = 0, tz = 0;
-      let cx = 0, cy = 0, cz = 0;
+      let targetX = 0, targetY = 0, targetZ = 0;
+      let curX = 0, curY = 0, curZ = 0;
       let rafId = 0;
       const opts = { maxTilt: 6, perspective: 1000, translateZ: 12, ease: 0.12 };
 
       const update = () => {
-        cx += (tx - cx) * opts.ease;
-        cy += (ty - cy) * opts.ease;
-        cz += (tz - cz) * opts.ease;
-        el.style.transform = `perspective(${opts.perspective}px) rotateX(${cx}deg) rotateY(${cy}deg) rotateZ(${cz}deg) translateZ(${opts.translateZ}px)`;
+        curX += (targetX - curX) * opts.ease;
+        curY += (targetY - curY) * opts.ease;
+        curZ += (targetZ - curZ) * opts.ease;
+        el.style.transform = `perspective(${opts.perspective}px) rotateX(${curX}deg) rotateY(${curY}deg) rotateZ(${curZ}deg) translateZ(${opts.translateZ}px)`;
         rafId = 0;
       };
 
@@ -448,17 +448,19 @@ export default function Home() {
         rect = el.getBoundingClientRect();
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
-        const halfW = rect.width / 2;
-        const halfH = rect.height / 2;
-        ty = ((x - halfW) / halfW) * opts.maxTilt;
-        tx = ((halfH - y) / halfH) * opts.maxTilt;
-        const ang = Math.atan2(y - halfH, x - halfW) * (180 / Math.PI);
-        tz = (ang / 90) * 2;
+        // normalized coordinates from -0.5 to 0.5
+        const nx = (x / rect.width) - 0.5;
+        const ny = (y / rect.height) - 0.5;
+        // map to tilt: rotateY depends on horizontal movement, rotateX depends on vertical movement (inverted)
+        targetY = nx * opts.maxTilt * 2;           // rotateY
+        targetX = -ny * opts.maxTilt * 2;          // rotateX (invert so moving down tilts forward)
+        // slight z rotation based on horizontal offset
+        targetZ = nx * (opts.maxTilt * 0.25);
         if (!rafId) rafId = requestAnimationFrame(update);
       };
 
       const onLeave = () => {
-        tx = ty = tz = 0;
+        targetX = targetY = targetZ = 0;
         if (rafId) cancelAnimationFrame(rafId);
         el.style.transition = "transform 500ms cubic-bezier(0.34, 1.56, 0.64, 1)";
         el.style.transform = `perspective(${opts.perspective}px) rotateX(0deg) rotateY(0deg) rotateZ(0deg) translateZ(0px)`;
@@ -526,25 +528,25 @@ export default function Home() {
     let raf = 0;
     const opts = { maxTilt: 3, perspective: 1200, translateZ: 8, ease: 0.1 };
 
-    const onMove = (e: MouseEvent) => {
-      rect = el.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      const halfW = rect.width / 2;
-      const halfH = rect.height / 2;
-      tY = ((x - halfW) / halfW) * opts.maxTilt;
-      tX = ((halfH - y) / halfH) * opts.maxTilt;
-      const ang = Math.atan2(y - halfH, x - halfW) * (180 / Math.PI);
-      tZ = (ang / 90) * 1.2;
-      if (!raf) raf = requestAnimationFrame(update);
-    };
-
     const update = () => {
       cX += (tX - cX) * opts.ease;
       cY += (tY - cY) * opts.ease;
       cZ += (tZ - cZ) * opts.ease;
       el.style.transform = `perspective(${opts.perspective}px) rotateX(${cX}deg) rotateY(${cY}deg) rotateZ(${cZ}deg) translateZ(${opts.translateZ}px)`;
       raf = 0;
+    };
+
+    const onMove = (e: MouseEvent) => {
+      rect = el.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const nx = (x / rect.width) - 0.5;
+      const ny = (y / rect.height) - 0.5;
+      tY = nx * opts.maxTilt * 2;
+      tX = -ny * opts.maxTilt * 2;
+      const ang = Math.atan2(ny, nx) * (180 / Math.PI);
+      tZ = nx * 1.1; // slight z rotation based on horizontal fraction
+      if (!raf) raf = requestAnimationFrame(update);
     };
 
     const onLeave = () => {
@@ -680,7 +682,18 @@ export default function Home() {
       />
 
       {renderFluidCursor && (
-        <div id="fluid-cursor-root" style={{ position: "fixed", inset: 0, pointerEvents: "none", zIndex: 999999 }}>
+        <div
+          id="fluid-cursor-root"
+          style={{
+            position: "fixed",
+            inset: 0,
+            width: "100vw",
+            height: "100vh",
+            pointerEvents: "none",
+            zIndex: 999999,
+            overflow: "visible",
+          }}
+        >
           <Suspense fallback={null}>
             <FluidCursor />
           </Suspense>
@@ -708,7 +721,8 @@ export default function Home() {
 
         .hero-section {
           scroll-snap-align: start;
-          min-height: 100vh;
+          /* top box smaller so other sections start to appear on normal zoom */
+          min-height: 70vh;
         }
 
         /* Pop animations */
@@ -978,20 +992,35 @@ export default function Home() {
             opacity: 1 !important; 
           }
         }
+
+        /* Ensure fluid cursor root children can expand if component uses absolute positioning */
+        #fluid-cursor-root, #fluid-cursor-root > * {
+          position: relative;
+          width: 100%;
+          height: 100%;
+        }
+
+        /* Reduced vertical spacing tweaks to bring sections closer */
+        .hero-section .max-w-4xl { padding-top: 6px; padding-bottom: 6px; }
+        .hero-parallax-1 { margin-bottom: 8px; }
+        .hero-parallax-2 .text-2xl { margin-top: 6px; }
+
+        /* tighten story -> problems spacing */
+        .story-tight { margin-top: 0.6rem; margin-bottom: 0.8rem; }
       `}</style>
 
       {/* Hero Section */}
-      <section className="hero-section glass-card px-6 pt-32 pb-24 text-center pop-up relative overflow-hidden flex items-center justify-center">
+      <section className="hero-section glass-card px-6 pt-24 pb-16 text-center pop-up relative overflow-hidden flex items-center justify-center">
         {/* Floating hand-drawn decorations */}
-        <HandDrawnCircle className="hand-drawn-deco float-deco-1 absolute top-24 right-16 text-sky-400 opacity-20" style={{ width: 140, height: 140 }} />
-        <HandDrawnScribble className="hand-drawn-deco float-deco-2 absolute bottom-40 left-20 text-purple-400 opacity-18" style={{ width: 200 }} />
-        <HandDrawnArrow className="hand-drawn-deco float-deco-3 absolute top-1/3 left-1/4 text-emerald-400 opacity-25" style={{ transform: "rotate(-18deg)", width: 160 }} />
-        <HandDrawnSparkles className="hand-drawn-deco float-deco-1 absolute bottom-32 right-1/4 text-amber-400 opacity-22" />
+        <HandDrawnCircle className="hand-drawn-deco float-deco-1 absolute top-20 right-16 text-sky-400 opacity-20" style={{ width: 140, height: 140 }} />
+        <HandDrawnScribble className="hand-drawn-deco float-deco-2 absolute bottom-36 left-16 text-purple-400 opacity-18" style={{ width: 200 }} />
+        <HandDrawnArrow className="hand-drawn-deco float-deco-3 absolute top-1/4 left-1/4 text-emerald-400 opacity-25" style={{ transform: "rotate(-18deg)", width: 160 }} />
+        <HandDrawnSparkles className="hand-drawn-deco float-deco-1 absolute bottom-28 right-1/4 text-amber-400 opacity-22" />
         
         <div className="max-w-4xl mx-auto relative z-10">
-          <div className="mb-10 hero-parallax-1">
-            <div className="relative w-full min-h-[12rem] flex items-center justify-center">
-              <h1 className="text-6xl md:text-8xl font-bold text-white leading-tight text-center flex flex-col justify-center gap-4 pop-up hover-text-morph">
+          <div className="mb-6 hero-parallax-1">
+            <div className="relative w-full min-h-[9rem] flex items-center justify-center">
+              <h1 className="text-5xl md:text-7xl font-bold text-white leading-tight text-center flex flex-col justify-center gap-3 pop-up hover-text-morph">
                 <span className="swap-span hero-parallax-2">
                   <TypeAnimation
                     sequence={[
@@ -1010,82 +1039,82 @@ export default function Home() {
                     repeat={Infinity}
                   />
                 </span>
-                <span className="text-2xl md:text-3xl font-semibold mt-3 opacity-90">
+                <span className="text-xl md:text-2xl font-semibold mt-2 opacity-90">
                   <FlipWords words={["Learn quicker than ever before","Unlock endless resources","Gain feedback for when it really matters","Understand beyond the book"]} interval={2400} />
                 </span>
 
-                <span className="mt-4 text-xl" aria-hidden>
+                <span className="mt-3 text-lg" aria-hidden>
                   <LandoSwapText from="VertexED" to="VertexED" triggerMs={2800} />
                 </span>
               </h1>
             </div>
           </div>
 
-          <p className="text-2xl text-slate-200 mb-14 pop-up highlight-clip leading-relaxed max-w-3xl mx-auto hero-parallax-1">
+          <p className="text-lg md:text-xl text-slate-200 mb-8 pop-up highlight-clip leading-relaxed max-w-3xl mx-auto hero-parallax-1">
             <span className="hl-inner">
               You asked, we delivered. Welcome to a place where you can truly learn, explore and grow in knowledge all whilst being able to put them on the pieces of paper which give you numbers you can feel proud of. You're welcome.
             </span>
           </p>
 
           <div className="flex gap-6 justify-center pop-up flex-wrap">
-            <Link to="/main" className="btn-cinematic px-10 py-5 rounded-full bg-white text-slate-900 text-lg font-semibold shadow-2xl ring-2 ring-white/20 tilt-card">
+            <Link to="/main" className="btn-cinematic px-8 py-4 rounded-full bg-white text-slate-900 text-lg font-semibold shadow-2xl ring-2 ring-white/20 tilt-card">
               Get Started
             </Link>
-            <Link to="/about" className="btn-cinematic px-10 py-5 rounded-full bg-transparent border-2 border-white/30 text-white text-lg font-semibold shadow-xl hover:bg-white/10 tilt-card" aria-label="Learn more about VertexED on the About page">
+            <Link to="/about" className="btn-cinematic px-8 py-4 rounded-full bg-transparent border-2 border-white/30 text-white text-lg font-semibold shadow-xl hover:bg-white/10 tilt-card" aria-label="Learn more about VertexED on the About page">
               Learn more about VertexED
             </Link>
           </div>
         </div>
         
-        <HandDrawnUnderline className="hand-drawn-deco hand-drawn-reveal absolute bottom-20 left-1/2 transform -translate-x-1/2 text-sky-300 opacity-28" style={{ width: 320 }} />
+        <HandDrawnUnderline className="hand-drawn-deco hand-drawn-reveal absolute bottom-16 left-1/2 transform -translate-x-1/2 text-sky-300 opacity-28" style={{ width: 320 }} />
       </section>
 
-      <div className="max-w-3xl mx-auto px-6 mt-8 pop-up cinematic-text">
+      <div className="max-w-3xl mx-auto px-6 mt-6 pop-up cinematic-text">
         <div className="text-sm text-slate-400 text-center">
           Feeling lost... <Link to="/resources" className="link-underline-animate">Explore resources</Link>
         </div>
       </div>
 
-      {/* Story Section */}
-      <section className="mt-28 text-center px-6 relative cinematic-section">
+      {/* Story Section (reduced spacing so heading shows on normal zoom) */}
+      <section className="mt-12 text-center px-6 relative cinematic-section story-tight">
         <HandDrawnCircle className="hand-drawn-deco hand-drawn-reveal float-deco-2 absolute top-0 left-24 text-rose-400 opacity-20" style={{ width: 110 }} />
         
-        <div className="max-w-5xl mx-auto mb-12">
-          <h2 className="text-5xl md:text-7xl font-bold text-white leading-tight hover-text-morph transition-all duration-300">
+        <div className="max-w-5xl mx-auto mb-6">
+          <h2 className="text-4xl md:text-6xl font-bold text-white leading-tight hover-text-morph transition-all duration-300">
             We hate the way studying has become.
           </h2>
         </div>
 
-        <p className="text-3xl text-white mb-16 font-light cinematic-text">Who wouldn't?</p>
+        <p className="text-2xl text-white mb-8 font-light cinematic-text">Who wouldn't?</p>
         
         <HandDrawnScribble className="hand-drawn-deco hand-drawn-reveal float-deco-3 absolute bottom-0 right-24 text-amber-400 opacity-20" />
       </section>
 
       {/* Problems Grid */}
-      <section className="max-w-7xl mx-auto px-6 mt-32 cinematic-section">
-        <div className="relative mb-16">
-          <h3 className="text-4xl md:text-6xl font-bold text-white text-center hover-text-morph transition-all duration-300">
+      <section className="max-w-7xl mx-auto px-6 mt-12 cinematic-section">
+        <div className="relative mb-12">
+          <h3 className="text-4xl md:text-5xl font-bold text-white text-center hover-text-morph transition-all duration-300">
             <TextReveal text="Why is this a problem for you?" />
           </h3>
-          <HandDrawnUnderline className="hand-drawn-deco hand-drawn-reveal mx-auto mt-6 text-sky-400 opacity-30" style={{ display: "block", width: 420 }} />
+          <HandDrawnUnderline className="hand-drawn-deco hand-drawn-reveal mx-auto mt-5 text-sky-400 opacity-30" style={{ display: "block", width: 420 }} />
         </div>
         
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {problems.map((p, i) => <ProblemCard key={i} p={p} i={i} />)}
         </div>
       </section>
 
       {/* Mission Section */}
-      <section className="max-w-5xl mx-auto mt-32 px-6 text-center cinematic-section relative">
+      <section className="max-w-5xl mx-auto mt-16 px-6 text-center cinematic-section relative">
         <HandDrawnArrow className="hand-drawn-deco hand-drawn-reveal float-deco-1 absolute top-10 right-0 text-purple-400 opacity-25" style={{ transform: "rotate(45deg)" }} />
         <HandDrawnStar className="hand-drawn-deco hand-drawn-reveal float-deco-2 absolute bottom-10 left-0 text-amber-400 opacity-20" style={{ width: 90 }} />
         
-        <div ref={missionRef} className="glass-tile text-slate-100 rounded-3xl shadow-2xl p-12 transform transition-all duration-500 hover:scale-[1.02] tilt-card" aria-label="Mission panel">
-          <p className="text-xl md:text-2xl leading-relaxed font-light mb-6 cinematic-text">
+        <div ref={missionRef} className="glass-tile text-slate-100 rounded-3xl shadow-2xl p-10 transform transition-all duration-500 hover:scale-[1.02] tilt-card" aria-label="Mission panel">
+          <p className="text-lg md:text-xl leading-relaxed font-light mb-5 cinematic-text">
             Studying has become harder than ever. With too much information to know what to do with, resources that rarely construct measurable progress, and tools that sometimes make things worse, students need a learning space that adapts to them and encourages continuous improvement.
           </p>
 
-          <ul className="text-left mt-8 space-y-4 max-w-2xl mx-auto text-lg cinematic-text">
+          <ul className="text-left mt-6 space-y-3 max-w-2xl mx-auto text-lg cinematic-text">
             <li className="font-semibold flex items-center gap-3">
               <span className="text-sky-400 text-2xl">•</span>
               <span>Improve the way you approach learning</span>
@@ -1100,62 +1129,62 @@ export default function Home() {
             </li>
           </ul>
 
-          <p className="text-xl md:text-2xl mt-8 leading-relaxed font-light cinematic-text">
+          <p className="text-lg md:text-xl mt-6 leading-relaxed font-light cinematic-text">
             We focus equally on progress and curiosity: building tools that help you connect ideas, practice deliberately, and grow at your own pace.
           </p>
 
-          <p className="text-xl md:text-2xl mt-8 leading-relaxed font-bold cinematic-text">
+          <p className="text-lg md:text-xl mt-6 leading-relaxed font-bold cinematic-text">
             Our aim is not only to raise yoyr scores using evidence-based techniques and on resources which match your exams, but to create an environment where learning becomes rewarding and sustainable.
           </p>
         </div>
       </section>
 
       {/* Features Section */}
-      <section className="max-w-7xl mx-auto px-6 mt-32 cinematic-section">
-        <div className="relative mb-12">
-          <h3 className="text-4xl md:text-6xl font-bold text-white mb-8 text-center hover-text-morph transition-all duration-300">
+      <section className="max-w-7xl mx-auto px-6 mt-20 cinematic-section">
+        <div className="relative mb-10">
+          <h3 className="text-4xl md:text-5xl font-bold text-white mb-6 text-center hover-text-morph transition-all duration-300">
             <Link to="/features" className="link-underline-animate">Explore Our Features</Link>
           </h3>
-          <div className="text-center mb-12">
+          <div className="text-center mb-10">
             <Link to="/features" className="btn-cinematic inline-block px-8 py-4 rounded-full border-2 border-white/30 text-white text-lg hover:bg-white/10">
               See full features
             </Link>
           </div>
         </div>
         
-        <div className="space-y-24">
+        <div className="space-y-16">
           {features.map((f, i) => <FeatureRow key={i} f={f} i={i} />)}
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="mt-32 text-center px-6 cinematic-section relative">
+      <section className="mt-20 text-center px-6 cinematic-section relative">
         <HandDrawnSparkles className="hand-drawn-deco hand-drawn-reveal float-deco-1 absolute top-0 left-1/4 text-sky-400 opacity-25" />
         <HandDrawnCircle className="hand-drawn-deco hand-drawn-reveal float-deco-3 absolute bottom-0 right-1/4 text-purple-400 opacity-18" style={{ width: 100 }} />
         
-        <h3 className="text-4xl md:text-6xl font-bold text-white mb-8 hover-text-morph transition-all duration-300">
+        <h3 className="text-4xl md:text-5xl font-bold text-white mb-6 hover-text-morph transition-all duration-300">
           Ready to get started?<br/>We guarantee a change!
         </h3>
-        <button onClick={scrollToTop} className="btn-cinematic mt-6 px-10 py-5 rounded-full bg-white text-slate-900 text-lg font-semibold shadow-2xl tilt-card">
+        <button onClick={scrollToTop} className="btn-cinematic mt-4 px-10 py-4 rounded-full bg-white text-slate-900 text-lg font-semibold shadow-2xl tilt-card">
           Back to Top
         </button>
       </section>
 
       {/* Closing Section */}
-      <section className="mt-20 text-center px-6 cinematic-text">
-        <p className="text-2xl text-slate-200 font-light max-w-3xl mx-auto">
+      <section className="mt-12 text-center px-6 cinematic-text">
+        <p className="text-xl md:text-2xl text-slate-200 font-light max-w-3xl mx-auto">
           Education was never faulted; it just needed a fresh perspective. VertexED — (<strong>Vertex ED</strong>) — is here to deliver it.
         </p>
       </section>
 
       {/* Contact Section */}
-      <section className="mt-16 px-6 mb-16 cinematic-section">
-        <div className="max-w-3xl mx-auto glass-card rounded-3xl p-10 text-slate-100 shadow-2xl relative">
+      <section className="mt-8 px-6 mb-12 cinematic-section">
+        <div className="max-w-3xl mx-auto glass-card rounded-3xl p-8 text-slate-100 shadow-2xl relative">
           <HandDrawnArrow className="hand-drawn-deco hand-drawn-reveal absolute -top-8 -right-8 text-emerald-400 opacity-20" style={{ transform: "rotate(120deg)" }} />
           
-          <h3 className="text-3xl font-bold mb-6 hover-text-morph transition-all duration-300">Contact Us</h3>
+          <h3 className="text-3xl font-bold mb-4 hover-text-morph transition-all duration-300">Contact Us</h3>
           <p className="text-slate-300 mb-6 text-lg">Have a question? Fill out the form and we'll get back to you.</p>
-          <form action="https://formspree.io/f/mldpklqk" method="POST" className="space-y-6">
+          <form action="https://formspree.io/f/mldpklqk" method="POST" className="space-y-4">
             <label className="block text-left">
               <span className="text-base text-slate-300 mb-2 block font-medium">Your email</span>
               <input 
@@ -1163,7 +1192,7 @@ export default function Home() {
                 type="email" 
                 placeholder="steve.jobs@gmail.com" 
                 required 
-                className="w-full rounded-xl p-4 bg-white/10 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-sky-400 transition-all text-white border border-white/20" 
+                className="w-full rounded-xl p-3 bg-white/10 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-sky-400 transition-all text-white border border-white/20" 
               />
               <div className="text-sm text-slate-400 mt-2">Example: steve.jobs@gmail.com</div>
             </label>
@@ -1171,15 +1200,15 @@ export default function Home() {
               <span className="text-base text-slate-300 mb-2 block font-medium">Your message</span>
               <textarea 
                 name="message" 
-                rows={5} 
+                rows={4} 
                 placeholder="Hi — I'm interested in learning more about VertexED..." 
                 required 
-                className="w-full rounded-xl p-4 bg-white/10 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-sky-400 transition-all text-white border border-white/20"
+                className="w-full rounded-xl p-3 bg-white/10 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-sky-400 transition-all text-white border border-white/20"
               ></textarea>
               <div className="text-sm text-slate-400 mt-2">Briefly tell us what you'd like help with</div>
             </label>
             <div className="flex items-center justify-between flex-wrap gap-4">
-              <button type="submit" className="btn-cinematic px-8 py-4 rounded-full bg-white text-slate-900 shadow-xl font-semibold">
+              <button type="submit" className="btn-cinematic px-6 py-3 rounded-full bg-white text-slate-900 shadow-xl font-semibold">
                 Send
               </button>
               <p className="text-base text-slate-400">We'll reply as soon as we can.</p>
