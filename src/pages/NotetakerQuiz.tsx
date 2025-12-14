@@ -51,6 +51,7 @@ ChartJS.register(
 );
 
 export default function NotetakerQuiz(): JSX.Element {
+  // state (unchanged)
   const [topic, setTopic] = useState("");
   const [format, setFormat] = useState("Quick Notes");
   const [customFormatText, setCustomFormatText] = useState("");
@@ -94,7 +95,6 @@ export default function NotetakerQuiz(): JSX.Element {
   const audioCanvasRef = useRef<HTMLCanvasElement | null>(null);
   const mediaStreamRef = useRef<MediaStream | null>(null);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
-
   const audioChunksRef = useRef<BlobPart[]>([]);
   const [mcqOptionCount, setMcqOptionCount] = useState<number>(4);
   const [recordingSeconds, setRecordingSeconds] = useState<number>(0);
@@ -103,6 +103,7 @@ export default function NotetakerQuiz(): JSX.Element {
   const [targetMin, setTargetMin] = useState<number>(70);
   const [targetMax, setTargetMax] = useState<number>(90);
 
+  // lifecycle & timers (unchanged)
   useEffect(() => {
     setMounted(true);
     timerRef.current = setInterval(() => setTimeSpent((t) => t + 1), 1000);
@@ -112,9 +113,9 @@ export default function NotetakerQuiz(): JSX.Element {
       stopVisualizer();
       if (recordingTimerRef.current) clearInterval(recordingTimerRef.current);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // history helpers (unchanged)
   const pushNotesSnapshot = (snapshot?: string) => {
     setNotesHistory((h) => {
       const next = h.slice(0, historyIndex + 1);
@@ -154,7 +155,6 @@ export default function NotetakerQuiz(): JSX.Element {
     if (!isDirty) return;
     if (autosaveTimer.current) clearTimeout(autosaveTimer.current);
     autosaveTimer.current = setTimeout(() => pushNotesSnapshot(notes), 2000);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [notes, isDirty]);
 
   const insertAtCursor = (text: string) => {
@@ -180,6 +180,7 @@ export default function NotetakerQuiz(): JSX.Element {
     setIsDirty(true);
   };
 
+  // export helpers (unchanged)
   const exportToWord = async (notesText: string, cards: any[]) => {
     try {
       const children: any[] = [
@@ -245,6 +246,7 @@ export default function NotetakerQuiz(): JSX.Element {
     }
   };
 
+  // --- API interaction handlers (unchanged except small UI logic) ---
   const handleGenerateNotes = async () => {
     if (!topic) return alert("Please enter a topic");
     setLoading(true);
@@ -464,9 +466,9 @@ export default function NotetakerQuiz(): JSX.Element {
       return;
     }
     if (currentFlashIndex >= flashcards.length) setCurrentFlashIndex(0);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [flashcards]);
 
+  // visualizer & recorder logic - unchanged except ensuring safe cleanup (kept original code)
   const startVisualizer = (stream: MediaStream) => {
     stopVisualizer();
     mediaStreamRef.current = stream;
@@ -491,7 +493,7 @@ export default function NotetakerQuiz(): JSX.Element {
       analyserRef.current.getByteTimeDomainData(dataArray);
       canvasCtx.clearRect(0, 0, canvas.width, canvas.height);
       canvasCtx.lineWidth = 2;
-      canvasCtx.strokeStyle = "#2563EB";
+      canvasCtx.strokeStyle = "#60a5fa";
       canvasCtx.beginPath();
       const sliceWidth = (canvas.width * 1.0) / bufferLength;
       let x = 0;
@@ -530,66 +532,6 @@ export default function NotetakerQuiz(): JSX.Element {
       mediaStreamRef.current = null;
     }
   };
-
-  const flashBtnTextColor = () => "text-slate-900";
-
-  const chartData = useMemo(() => {
-    return {
-      labels: quizHistory.map((_, i) => `S${i + 1}`),
-      datasets: [
-        {
-          label: "Accuracy (%)",
-          data: quizHistory,
-          borderColor: "#2563EB",
-          backgroundColor: "rgba(37,99,235,0.12)",
-          tension: 0.25,
-          pointRadius: 6,
-          pointHoverRadius: 8,
-          borderWidth: 2,
-        },
-      ],
-    };
-  }, [quizHistory]);
-
-  const chartOptions = useMemo(() => {
-    return {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: { display: false },
-        tooltip: { enabled: true, mode: "index", intersect: false },
-        targetZone: {
-          min: Math.min(targetMin, targetMax),
-          max: Math.max(targetMin, targetMax),
-        },
-      },
-      elements: { line: { borderWidth: 2 } },
-      scales: {
-        x: { grid: { display: false }, ticks: { maxRotation: 0, autoSkip: true } },
-        y: { beginAtZero: true, max: 100, ticks: { stepSize: 10 } },
-      },
-    };
-  }, [targetMin, targetMax]);
-
-  const targetZonePlugin = useMemo(() => {
-    return {
-      id: "targetZonePlugin",
-      beforeDatasetsDraw: (chart: any, args: any, options: any) => {
-        const min = options.min ?? 0;
-        const max = options.max ?? 100;
-        const yScale = chart.scales?.y;
-        const chartArea = chart.chartArea;
-        if (!yScale || !chartArea) return;
-        const y1 = yScale.getPixelForValue(max);
-        const y2 = yScale.getPixelForValue(min);
-        const ctx = chart.ctx;
-        ctx.save();
-        ctx.fillStyle = "rgba(34,197,94,0.12)";
-        ctx.fillRect(chartArea.left, y1, chartArea.right - chartArea.left, y2 - y1);
-        ctx.restore();
-      },
-    };
-  }, []);
 
   const startRecording = async () => {
     try {
@@ -783,20 +725,83 @@ export default function NotetakerQuiz(): JSX.Element {
     return { elapsed: `${mm}:${ss}`, remaining: `${rmm}:${rss}`, elapsedSec: sec };
   }, [recordingSeconds]);
 
+  // markdown components — updated so preview tables & code are styled for dark preview (white text)
   const markdownComponents = {
     table: (props: any) => (
       <div className="overflow-auto rounded-md border">
-        <table className="min-w-full table-auto text-sm divide-y">
-          <thead className="bg-slate-50">{props.children.props?.children?.[0]}</thead>
-          <tbody className="bg-white">{props.children.props?.children?.[1]}</tbody>
+        <table className="min-w-full table-auto text-sm divide-y text-white">
+          <thead className="bg-slate-700">{props.children.props?.children?.[0]}</thead>
+          <tbody className="bg-slate-800">{props.children.props?.children?.[1]}</tbody>
         </table>
       </div>
     ),
-    th: (props: any) => <th className="px-3 py-2 text-left text-xs font-medium text-slate-700">{props.children}</th>,
-    td: (props: any) => <td className="px-3 py-2 align-top text-slate-800">{props.children}</td>,
+    th: (props: any) => <th className="px-3 py-2 text-left text-xs font-medium text-white">{props.children}</th>,
+    td: (props: any) => <td className="px-3 py-2 align-top text-white">{props.children}</td>,
     pre: (props: any) => <pre className="p-3 bg-slate-900 text-white rounded-md overflow-auto">{props.children}</pre>,
-    code: (props: any) => <code className="rounded px-1 py-0.5 bg-slate-100 text-xs text-slate-900">{props.children}</code>,
+    code: (props: any) => <code className="rounded px-1 py-0.5 bg-slate-700 text-xs text-white">{props.children}</code>,
   };
+
+  // chart config (unchanged except colors simplified)
+  const chartData = useMemo(() => {
+    return {
+      labels: quizHistory.map((_, i) => `S${i + 1}`),
+      datasets: [
+        {
+          label: "Accuracy (%)",
+          data: quizHistory,
+          borderColor: "#2563EB",
+          backgroundColor: "rgba(37,99,235,0.12)",
+          tension: 0.25,
+          pointRadius: 6,
+          pointHoverRadius: 8,
+          borderWidth: 2,
+        },
+      ],
+    };
+  }, [quizHistory]);
+
+  const chartOptions = useMemo(() => {
+    return {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: { enabled: true, mode: "index", intersect: false },
+        targetZone: {
+          min: Math.min(targetMin, targetMax),
+          max: Math.max(targetMin, targetMax),
+        },
+      },
+      elements: { line: { borderWidth: 2 } },
+      scales: {
+        x: { grid: { display: false }, ticks: { maxRotation: 0, autoSkip: true } },
+        y: { beginAtZero: true, max: 100, ticks: { stepSize: 10 } },
+      },
+    };
+  }, [targetMin, targetMax]);
+
+  const targetZonePlugin = useMemo(() => {
+    return {
+      id: "targetZonePlugin",
+      beforeDatasetsDraw: (chart: any, args: any, options: any) => {
+        const min = options.min ?? 0;
+        const max = options.max ?? 100;
+        const yScale = chart.scales?.y;
+        const chartArea = chart.chartArea;
+        if (!yScale || !chartArea) return;
+        const y1 = yScale.getPixelForValue(max);
+        const y2 = yScale.getPixelForValue(min);
+        const ctx = chart.ctx;
+        ctx.save();
+        ctx.fillStyle = "rgba(34,197,94,0.12)";
+        ctx.fillRect(chartArea.left, y1, chartArea.right - chartArea.left, y2 - y1);
+        ctx.restore();
+      },
+    };
+  }, []);
+
+  // small UI helper
+  const flashBtnTextColor = () => "text-slate-900";
 
   return (
     <>
@@ -828,9 +833,9 @@ export default function NotetakerQuiz(): JSX.Element {
           initial="hidden"
           animate="visible"
           variants={{ hidden: { opacity: 0, y: 18 }, visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } } }}
-          className={`space-y-8 transition-all duration-300 ${appearClass}`}
+          className={`space-y-8 transition-all duration-300 ${appearClass} font-sans`}
         >
-          <NeumorphicCard className="p-8">
+          <NeumorphicCard className="p-6">
             <div className="flex items-start justify-between gap-4">
               <div>
                 <h2 className="text-xl font-medium mb-2 flex items-center gap-2">
@@ -849,13 +854,18 @@ export default function NotetakerQuiz(): JSX.Element {
               </div>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-4 mt-4">
+            <div className="grid md:grid-cols-3 gap-4 mt-4 items-end">
               <div className="neu-input">
-                <input className="neu-input-el" placeholder="Enter your study topic..." value={topic} onChange={(e) => setTopic(e.target.value)} />
+                <input
+                  className="neu-input-el h-10"
+                  placeholder="Enter your study topic..."
+                  value={topic}
+                  onChange={(e) => setTopic(e.target.value)}
+                />
               </div>
 
               <div className="neu-input">
-                <select className="neu-input-el" value={format} onChange={(e) => setFormat(e.target.value)}>
+                <select className="neu-input-el h-10" value={format} onChange={(e) => setFormat(e.target.value)}>
                   <option>Quick Notes</option>
                   <option>Cornell Notes</option>
                   <option>Research Oriented</option>
@@ -868,7 +878,7 @@ export default function NotetakerQuiz(): JSX.Element {
                 {format === "Custom" && (
                   <div className="mt-2">
                     <input
-                      className="neu-input-el text-sm"
+                      className="neu-input-el text-sm h-9"
                       placeholder="Describe custom format (max 64 chars)"
                       maxLength={64}
                       value={customFormatText}
@@ -882,7 +892,7 @@ export default function NotetakerQuiz(): JSX.Element {
               <div className="neu-input">
                 <div className="flex gap-2 items-center">
                   <select
-                    className="neu-input-el"
+                    className="neu-input-el h-10"
                     value={notesLength}
                     onChange={(e) => setNotesLength(e.target.value)}
                     title="Choose short, medium or long — generator will adjust content density accordingly"
@@ -892,7 +902,7 @@ export default function NotetakerQuiz(): JSX.Element {
                     <option value="long">Long notes</option>
                   </select>
 
-                  <select className="neu-input-el" value={flashCount} onChange={(e) => setFlashCount(Number(e.target.value))}>
+                  <select className="neu-input-el h-10" value={flashCount} onChange={(e) => setFlashCount(Number(e.target.value))}>
                     {Array.from({ length: 13 }).map((_, i) => {
                       const v = 4 + i;
                       return (
@@ -937,7 +947,7 @@ export default function NotetakerQuiz(): JSX.Element {
             <div className="mt-4">
               <label className="text-sm font-medium">Additional Information (optional)</label>
               <textarea
-                className="neu-input-el mt-2 w-full"
+                className="neu-input-el mt-2 w-full h-16"
                 rows={2}
                 placeholder="Anything extra for the generator? (e.g., focus on dates, include equations, exam-style hints)"
                 value={additionalInfo}
@@ -948,7 +958,7 @@ export default function NotetakerQuiz(): JSX.Element {
 
           <div className="grid lg:grid-cols-3 gap-6">
             <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: hideNotesArea ? 0.3 : 1, y: 0 }} transition={{ duration: 0.45 }} className={`lg:col-span-2 transition-all duration-300 ${hideNotesArea ? "max-h-0 overflow-hidden" : ""}`}>
-              <NeumorphicCard className="p-6">
+              <NeumorphicCard className="p-4">
                 <div className="flex justify-between items-center mb-2">
                   <h2 className="text-xl font-medium flex items-center gap-2">
                     Notes <FileText size={16} />
@@ -978,18 +988,20 @@ export default function NotetakerQuiz(): JSX.Element {
                   </div>
                 </div>
 
-                <div className="neu-textarea max-h-[128rem] overflow-auto p-4 bg-white rounded">
+                {/* NOTE: changed the notes area to dark background with white text (output), smaller height */}
+                <div className="neu-textarea max-h-[90rem] overflow-auto p-4 bg-slate-900 rounded">
                   <textarea
                     ref={notesRef}
-                    className="neu-input-el w-full h-[28rem] p-4 transition-transform duration-150 whitespace-pre-wrap text-slate-900"
+                    className="neu-input-el w-full h-[20rem] p-4 transition-transform duration-150 whitespace-pre-wrap text-white bg-transparent font-sans"
                     value={notes}
                     onChange={(e) => handleNotesChange(e.target.value)}
                     onBlur={handleNotesBlur}
                     placeholder="Your notes will appear here. Type or generate..."
+                    style={{ resize: "vertical", minHeight: "10rem" }}
                   />
 
                   <div className="mt-4 flex flex-wrap items-center gap-2">
-                    <div className="flex items-center gap-2 text-sm text-gray-600 mr-2">Insert:</div>
+                    <div className="flex items-center gap-2 text-sm text-gray-300 mr-2">Insert:</div>
                     <button className="neu-button px-3 py-1 text-sm flex items-center gap-2" onClick={() => insertAtCursor("$$E = mc^2$$")}>
                       LaTeX
                     </button>
@@ -1010,7 +1022,7 @@ export default function NotetakerQuiz(): JSX.Element {
                     </button>
 
                     <div className="ml-auto flex items-center gap-2">
-                      <button onClick={() => setShowPreview(!showPreview)} className="px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition flex items-center gap-2">
+                      <button onClick={() => setShowPreview(!showPreview)} className="px-3 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition flex items-center gap-2 text-sm">
                         <Eye size={14} />
                         <span>{showPreview ? "Hide Preview" : "Show Preview"}</span>
                       </button>
@@ -1020,10 +1032,10 @@ export default function NotetakerQuiz(): JSX.Element {
                   {showPreview && (
                     <div className="mt-4">
                       <div className="flex items-center justify-between mb-2">
-                        <div className="text-sm font-medium text-black">Preview</div>
-                        <div className="text-xs text-gray-500">Rendered Markdown (tables, LaTeX)</div>
+                        <div className="text-sm font-medium text-white">Preview</div>
+                        <div className="text-xs text-gray-400">Rendered Markdown (tables, LaTeX)</div>
                       </div>
-                      <div id="notes-section-export" className="overflow-auto rounded border p-3 bg-white text-black" style={{ minHeight: "24rem" }}>
+                      <div id="notes-section-export" className="overflow-auto rounded border p-3 bg-slate-800 text-white" style={{ minHeight: "18rem" }}>
                         <ReactMarkdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex]} components={markdownComponents}>
                           {notes || "_No content yet_"}
                         </ReactMarkdown>
@@ -1032,7 +1044,7 @@ export default function NotetakerQuiz(): JSX.Element {
                   )}
 
                   <div className="mt-3 flex gap-2 items-center">
-                    <div className="text-xs text-gray-500">Tip: Use $$...$$ for LaTeX.</div>
+                    <div className="text-xs text-gray-400">Tip: Use $$...$$ for LaTeX.</div>
                     <div className="ml-auto text-sm text-gray-500">Autosave</div>
                     <div className="w-2 h-2 rounded-full bg-green-400" />
                   </div>
@@ -1040,8 +1052,9 @@ export default function NotetakerQuiz(): JSX.Element {
               </NeumorphicCard>
             </motion.div>
 
+            {/* Flashcards column */}
             <div className="lg:col-span-1 space-y-4">
-              <NeumorphicCard className="p-6">
+              <NeumorphicCard className="p-4">
                 <div className="flex justify-between items-center mb-3">
                   <h2 className="text-xl font-medium flex items-center gap-2">
                     Flashcards <CheckCircle size={16} />
@@ -1049,45 +1062,59 @@ export default function NotetakerQuiz(): JSX.Element {
                   <div className="text-sm opacity-70">{flashcards.length} cards</div>
                 </div>
 
-                {flashcards.length ? (
-                  <div className="relative">
-                    <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.45 }} className="p-4 rounded-lg border shadow-sm bg-white" style={{ minHeight: 160 }}>
-                      <div className="text-base font-semibold text-black break-words whitespace-pre-wrap">{String(flashcards[currentFlashIndex]?.front ?? "")}</div>
-                      <div className={`text-sm mt-3 transition-opacity duration-200 ${flashRevealed ? "opacity-100" : "opacity-0"}`} style={{ minHeight: 36 }}>
-                        {flashRevealed ? <div className="text-black">{flashcards[currentFlashIndex]?.back}</div> : ""}
+                {/* Always show flashcard area; if none, show helpful CTA */}
+                <div className="relative">
+                  <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.45 }} className="p-3 rounded-lg border shadow-sm bg-white" style={{ minHeight: 140 }}>
+                    {flashcards.length ? (
+                      <>
+                        <div className="text-base font-semibold text-black break-words whitespace-pre-wrap">{String(flashcards[currentFlashIndex]?.front ?? "")}</div>
+                        <div className={`text-sm mt-3 transition-opacity duration-200 ${flashRevealed ? "opacity-100" : "opacity-0"}`} style={{ minHeight: 36 }}>
+                          {flashRevealed ? <div className="text-black">{flashcards[currentFlashIndex]?.back}</div> : ""}
+                        </div>
+                      </>
+                    ) : (
+                      <div className="text-sm text-gray-600">
+                        No flashcards yet. Generate notes to create flashcards automatically.
                       </div>
+                    )}
 
-                      <div className="mt-4 flex items-center gap-2 flex-wrap">
-                        <button className="py-2 px-3 rounded-md border text-sm bg-slate-100 text-slate-900 hover:shadow-md transition-transform" onClick={prevFlash}>
-                          <ChevronsLeft size={14} /> Prev
-                        </button>
-                        <button
-                          className="py-2 px-3 rounded-md border text-sm bg-slate-100 text-slate-900 hover:shadow-md transition-transform"
-                          onClick={() => (flashRevealed ? nextFlash() : revealFlash())}
-                        >
-                          {flashRevealed ? "Next (revealed)" : "Reveal"}
-                        </button>
-                        <button className="py-2 px-3 rounded-md border text-sm bg-slate-100 text-slate-900 hover:shadow-md transition-transform" onClick={nextFlash}>
-                          <ChevronsRight size={14} /> Next
-                        </button>
+                    <div className="mt-4 flex items-center gap-2 flex-wrap">
+                      <button className="py-2 px-3 rounded-md border text-sm bg-slate-100 text-slate-900 hover:shadow-md transition-transform" onClick={prevFlash} disabled={!flashcards.length}>
+                        <ChevronsLeft size={14} /> Prev
+                      </button>
 
-                        <button
-                          className="py-2 px-3 rounded-md border text-sm bg-slate-100 text-slate-900 hover:shadow-md transition-transform ml-2"
-                          onClick={() => {
-                            setFlashFullscreen(true);
-                            setTimeout(() => setFlashRevealed(false), 50);
-                          }}
-                          title="Enlarge flashcard"
-                        >
-                          Enlarge
-                        </button>
+                      <button
+                        className="py-2 px-3 rounded-md border text-sm bg-slate-100 text-slate-900 hover:shadow-md transition-transform"
+                        onClick={() => (flashRevealed ? nextFlash() : revealFlash())}
+                        disabled={!flashcards.length}
+                      >
+                        {flashRevealed ? "Next (revealed)" : "Reveal"}
+                      </button>
 
-                        <div className="ml-auto text-sm text-gray-500">Card {currentFlashIndex + 1}/{flashcards.length}</div>
-                      </div>
-                    </motion.div>
+                      <button className="py-2 px-3 rounded-md border text-sm bg-slate-100 text-slate-900 hover:shadow-md transition-transform" onClick={nextFlash} disabled={!flashcards.length}>
+                        <ChevronsRight size={14} /> Next
+                      </button>
 
-                    <div className="mt-3 flex gap-2 items-center overflow-auto">
-                      {flashcards.map((f, i) => {
+                      {/* Enlarge button — always available once notes exist */}
+                      <button
+                        className={`py-2 px-3 rounded-md border text-sm bg-slate-100 text-slate-900 hover:shadow-md transition-transform ml-2 ${!notes ? "opacity-60 cursor-not-allowed" : ""}`}
+                        onClick={() => {
+                          if (!notes) return;
+                          setFlashFullscreen(true);
+                          setTimeout(() => setFlashRevealed(false), 50);
+                        }}
+                        title="Enlarge flashcard"
+                      >
+                        Enlarge
+                      </button>
+
+                      <div className="ml-auto text-sm text-gray-500">Card {Math.min(currentFlashIndex + 1, Math.max(1, flashcards.length))}/{Math.max(1, flashcards.length)}</div>
+                    </div>
+                  </motion.div>
+
+                  <div className="mt-3 flex gap-2 items-center overflow-auto">
+                    {flashcards.length ? (
+                      flashcards.map((f, i) => {
                         const selected = i === currentFlashIndex;
                         const bg = selected ? "bg-sky-100" : "bg-white";
                         return (
@@ -1095,15 +1122,23 @@ export default function NotetakerQuiz(): JSX.Element {
                             {i + 1}
                           </button>
                         );
-                      })}
-                    </div>
+                      })
+                    ) : (
+                      <>
+                        {/* If notes exist, provide one-click generate */}
+                        {notes ? (
+                          <div className="flex gap-2">
+                            <button className="neu-button px-3 py-1" onClick={() => sendNotesToCards(flashCount)}>Generate Flashcards</button>
+                            <div className="text-sm text-gray-500 self-center">or wait for automatic generation when you generate notes</div>
+                          </div>
+                        ) : null}
+                      </>
+                    )}
                   </div>
-                ) : (
-                  <p className="text-sm opacity-70">Flashcards will appear here after generating notes.</p>
-                )}
+                </div>
               </NeumorphicCard>
 
-              <NeumorphicCard className="p-6">
+              <NeumorphicCard className="p-4">
                 <div className="flex items-center justify-between mb-3">
                   <h3 className="text-lg font-medium flex items-center gap-2">Audio → Notes <Mic size={16} /></h3>
                   <div className="text-sm text-gray-500">Record, visualize & transcribe</div>
@@ -1158,9 +1193,9 @@ export default function NotetakerQuiz(): JSX.Element {
                   <div>
                     <div className="mb-2 flex items-center gap-2">
                       <label className="text-xs text-gray-700">Target min</label>
-                      <input className="neu-input-el w-16" type="number" value={targetMin} onChange={(e) => setTargetMin(Number(e.target.value))} />
+                      <input className="neu-input-el w-16 h-9" type="number" value={targetMin} onChange={(e) => setTargetMin(Number(e.target.value))} />
                       <label className="text-xs text-gray-700 ml-2">Target max</label>
-                      <input className="neu-input-el w-16" type="number" value={targetMax} onChange={(e) => setTargetMax(Number(e.target.value))} />
+                      <input className="neu-input-el w-16 h-9" type="number" value={targetMax} onChange={(e) => setTargetMax(Number(e.target.value))} />
                       <div className="text-xs text-gray-500 ml-auto">Set a target zone on the chart</div>
                     </div>
                     <div style={{ height: 140 }}>
@@ -1174,13 +1209,14 @@ export default function NotetakerQuiz(): JSX.Element {
             </div>
           </div>
 
+          {/* Flashcard fullscreen modal */}
           {flashFullscreen && (
             <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-6">
-              <motion.div initial={{ scale: 0.96, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ duration: 0.18 }} className="bg-white rounded-2xl shadow-2xl max-w-4xl w-full p-8 relative">
+              <motion.div initial={{ scale: 0.96, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ duration: 0.18 }} className="bg-white rounded-2xl shadow-2xl max-w-3xl w-full p-6 relative font-sans">
                 <button className="absolute right-4 top-4 neu-button px-3 py-1" onClick={() => setFlashFullscreen(false)}><X size={14} /></button>
 
                 <div className="text-center">
-                  <div className="text-3xl font-semibold mb-4 text-black">{flashcards[currentFlashIndex]?.front}</div>
+                  <div className="text-2xl font-semibold mb-4 text-black">{flashcards[currentFlashIndex]?.front ?? "No card"}</div>
 
                   <div className={`text-lg leading-relaxed mb-6 text-black ${flashRevealed ? "opacity-100" : "opacity-50"}`}>{flashRevealed ? flashcards[currentFlashIndex]?.back : "Click Reveal to see the answer"}</div>
 
@@ -1196,7 +1232,7 @@ export default function NotetakerQuiz(): JSX.Element {
             </div>
           )}
 
-          <NeumorphicCard className="p-8">
+          <NeumorphicCard className="p-6">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-xl font-medium">Quiz</h2>
               <div className="text-sm text-gray-500">{totalQuestions} questions • {answeredCount} answered</div>
@@ -1204,18 +1240,18 @@ export default function NotetakerQuiz(): JSX.Element {
 
             <div className="space-y-4">
               <div className="flex flex-wrap gap-2 items-center mb-2">
-                <select className="neu-input-el" value={quizType} onChange={(e) => setQuizType(e.target.value)}>
+                <select className="neu-input-el h-10" value={quizType} onChange={(e) => setQuizType(e.target.value)}>
                   <option>Adaptive Learning</option>
                   <option>Knowledge Application Based</option>
                   <option>Fundemental Oriented</option>
                   <option>Exam Oriented</option>
                 </select>
-                <select className="neu-input-el" value={quizDifficulty} onChange={(e) => setQuizDifficulty(e.target.value)}>
+                <select className="neu-input-el h-10" value={quizDifficulty} onChange={(e) => setQuizDifficulty(e.target.value)}>
                   <option>Easy</option>
                   <option>Medium</option>
                   <option>Hard</option>
                 </select>
-                <select className="neu-input-el" value={frqLength} onChange={(e) => setFrqLength(e.target.value)}>
+                <select className="neu-input-el h-10" value={frqLength} onChange={(e) => setFrqLength(e.target.value)}>
                   <option value="short">Short FRQ</option>
                   <option value="medium">Long FRQ</option>
                   <option value="long">Multipul Choise Question</option>
@@ -1223,7 +1259,7 @@ export default function NotetakerQuiz(): JSX.Element {
 
                 <div className="flex items-center gap-2">
                   <label className="text-xs text-gray-600">MCQ options</label>
-                  <select className="neu-input-el" value={mcqOptionCount} onChange={(e) => setMcqOptionCount(Number(e.target.value))}>
+                  <select className="neu-input-el h-10" value={mcqOptionCount} onChange={(e) => setMcqOptionCount(Number(e.target.value))}>
                     <option value={2}>2</option>
                     <option value={3}>3</option>
                     <option value={4}>4</option>
@@ -1247,8 +1283,9 @@ export default function NotetakerQuiz(): JSX.Element {
                     <div key={q.id || idx} className="p-4 rounded border bg-white">
                       <div className="flex items-start gap-3">
                         <div className="text-sm font-medium">Q{idx + 1}.</div>
-                        <div className="flex-1">
+                        <div className="flex-1 font-sans text-black">
                           <div className="mb-2 text-sm text-slate-900 break-words">{q.prompt || q.question}</div>
+
                           {q.type === "multiple_choice" && (
                             <div className="space-y-2">
                               {Array.isArray(q.choices) || Array.isArray(q.options) ? (
@@ -1264,11 +1301,12 @@ export default function NotetakerQuiz(): JSX.Element {
                             </div>
                           )}
 
-                          {q.type === "frq" && <textarea className="neu-input-el mt-2 w-full" rows={4} placeholder="Write your answer..." value={userAnswers[q.id] ?? ""} onChange={(e) => setUserAnswers((u) => ({ ...u, [q.id]: e.target.value }))} />}
+                          {/* FRQ & interactive answers should be black on white and use a simple font */}
+                          {q.type === "frq" && <textarea className="neu-input-el mt-2 w-full bg-white text-black font-sans" rows={4} placeholder="Write your answer..." value={userAnswers[q.id] ?? ""} onChange={(e) => setUserAnswers((u) => ({ ...u, [q.id]: e.target.value }))} />}
 
                           {q.type === "interactive" && (
                             <div className="space-y-2">
-                              <textarea className="neu-input-el mt-2 w-full" rows={3} placeholder="Interact with the prompt..." value={userAnswers[q.id] ?? ""} onChange={(e) => setUserAnswers((u) => ({ ...u, [q.id]: e.target.value }))} />
+                              <textarea className="neu-input-el mt-2 w-full bg-white text-black font-sans" rows={3} placeholder="Interact with the prompt..." value={userAnswers[q.id] ?? ""} onChange={(e) => setUserAnswers((u) => ({ ...u, [q.id]: e.target.value }))} />
                               <div className="text-xs text-gray-500">This item will be graded by the AI after submission.</div>
                             </div>
                           )}
