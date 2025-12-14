@@ -1,9 +1,8 @@
 // /pages/api/review.ts
-import type { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
+  req,
+  res
 ) {
   if (req.method !== "POST") {
     res.setHeader("Allow", ["POST"]);
@@ -21,12 +20,27 @@ export default async function handler(
   }
 
   try {
-    const { input_as_text, prompt } = req.body ?? {};
-    const combinedInput = String(input_as_text || prompt || "").trim();
+    const { input_as_text, prompt, questionImages, answerImages } = req.body ?? {};
+    let combinedInput = String(input_as_text || prompt || "").trim();
 
-    if (!combinedInput) {
+    const hasQuestionImages = questionImages && questionImages.length > 0;
+    const hasAnswerImages = answerImages && answerImages.length > 0;
+
+    if (!combinedInput && !hasQuestionImages && !hasAnswerImages) {
       return res.status(400).json({ error: "No input provided" });
     }
+
+    if (hasQuestionImages) {
+      combinedInput += `\n\n[User has attached ${questionImages.length} image(s) for the QUESTION]`;
+    }
+    if (hasAnswerImages) {
+      combinedInput += `\n\n[User has attached ${answerImages.length} image(s) for the ANSWER]`;
+    }
+
+    // Combine all images into a single array for the workflow, but we rely on the text prompt 
+    // (or potentially order if the workflow supports it) to distinguish them. 
+    // Ideally, the workflow should accept structured image inputs, but assuming a flat list:
+    const allImages = [...(questionImages || []), ...(answerImages || [])];
 
     const workflowResp = await fetch(
       `https://api.openai.com/v1/workflows/${WORKFLOW_ID}/runs`,
@@ -38,7 +52,8 @@ export default async function handler(
         },
         body: JSON.stringify({
           input: {
-            input_as_text: combinedInput, 
+            input_as_text: combinedInput,
+            images: allImages,
           },
         }),
       }
@@ -55,7 +70,7 @@ export default async function handler(
       });
     }
 
-    let data: any;
+    let data;
     try {
       data = rawText ? JSON.parse(rawText) : {};
     } catch {
@@ -70,7 +85,7 @@ export default async function handler(
       data;
 
     return res.status(200).json({ output });
-  } catch (err: any) {
+  } catch (err) {
     console.error("Unexpected error:", err);
     return res.status(500).json({
       error: "Unexpected server error",

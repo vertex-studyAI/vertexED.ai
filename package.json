@@ -13,7 +13,7 @@
     "preview": "vite preview",
     "generate:favicons": "node scripts/generate-icons.mjs",
     "seo:ping": "node scripts/ping-sitemaps.mjs https://www.vertexed.app/sitemap.xml",
-  "seo:indexnow": "node scripts/indexnow.mjs --host=https://www.vertexed.app --fromSitemap=public/sitemap.xml",
+    "seo:indexnow": "node scripts/indexnow.mjs --host=https://www.vertexed.app --fromSitemap=public/sitemap.xml",
     "debug": "cross-env DEBUG=ai:* vite"
   },
   "engines": {
@@ -22,10 +22,10 @@
   "dependencies": {
     "@google/genai": "^1.21.0",
     "@google/generative-ai": "^0.24.1",
+    "@openai/agents": "^0.3.4",
+    "@openai/guardrails": "^0.2.0",
     "@supabase/supabase-js": "^2.57.0",
     "@vercel/analytics": "^1.5.0",
-    "vue": "^3.3.0",
-    "vue-router": "^4.3.3",
     "@vercel/speed-insights": "^1.2.0",
     "chart.js": "^4.4.6",
     "clsx": "^2.1.1",
@@ -36,8 +36,9 @@
     "gsap": "^3.12.5",
     "jspdf": "^2.5.1",
     "katex": "^0.16.8",
+    "lodash.debounce": "^4.0.8",
     "lucide-react": "^0.462.0",
-  "lodash.debounce": "^4.0.8",
+    "openai": "^6.10.0",
     "react": "^18.3.1",
     "react-chartjs-2": "^5.3.0",
     "react-dom": "^18.3.1",
@@ -48,16 +49,19 @@
     "rehype-katex": "^6.0.0",
     "remark-math": "^5.1.1",
     "tailwind-merge": "^2.6.0",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "vue": "^3.3.0",
+    "vue-router": "^4.3.3",
+    "zod": "^3.25.76"
   },
   "devDependencies": {
     "@eslint/js": "^9.32.0",
-    "@vitejs/plugin-vue": "^5.2.0",
     "@tailwindcss/typography": "^0.5.16",
     "@types/node": "^22.16.5",
     "@types/react": "^18.3.23",
     "@types/react-dom": "^18.3.7",
     "@vitejs/plugin-react-swc": "^3.11.0",
+    "@vitejs/plugin-vue": "^5.2.0",
     "autoprefixer": "^10.4.21",
     "cross-env": "^10.0.0",
     "eslint": "^9.32.0",
@@ -65,10 +69,10 @@
     "eslint-plugin-react-refresh": "^0.4.20",
     "globals": "^15.15.0",
     "postcss": "^8.5.6",
+    "sharp": "^0.33.5",
     "tailwindcss": "^3.4.17",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.38.0",
-    "vite": "^5.4.19",
-    "sharp": "^0.33.5"
+    "vite": "^5.4.19"
   }
 }

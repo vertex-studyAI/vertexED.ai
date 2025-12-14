@@ -5,7 +5,7 @@ import NeumorphicCard from "@/components/NeumorphicCard";
 import ReactMarkdown from "react-markdown";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
-import { Sliders, ArrowRight, FileText, Copy, Download } from "lucide-react";
+import { Sliders, ArrowRight, FileText, Copy, Download, Image as ImageIcon, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function AIAnswerReview() {
@@ -20,6 +20,8 @@ export default function AIAnswerReview() {
     strictness: "5",
   });
 
+  const [questionImages, setQuestionImages] = useState<string[]>([]);
+  const [answerImages, setAnswerImages] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const [response, setResponse] = useState("");
   const responseRef = useRef<HTMLDivElement | null>(null);
@@ -35,6 +37,52 @@ export default function AIAnswerReview() {
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>, type: 'question' | 'answer') => {
+    const files = e.target.files;
+    if (files) {
+      Array.from(files).forEach((file) => {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          if (type === 'question') {
+            setQuestionImages((prev) => [...prev, reader.result as string]);
+          } else {
+            setAnswerImages((prev) => [...prev, reader.result as string]);
+          }
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+  };
+
+  const handlePaste = (e: React.ClipboardEvent, type: 'question' | 'answer') => {
+    const items = e.clipboardData.items;
+    for (let i = 0; i < items.length; i++) {
+      if (items[i].type.indexOf("image") !== -1) {
+        const blob = items[i].getAsFile();
+        if (blob) {
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            if (type === 'question') {
+              setQuestionImages((prev) => [...prev, reader.result as string]);
+            } else {
+              setAnswerImages((prev) => [...prev, reader.result as string]);
+            }
+          };
+          reader.readAsDataURL(blob);
+          e.preventDefault();
+        }
+      }
+    }
+  };
+
+  const removeImage = (index: number, type: 'question' | 'answer') => {
+    if (type === 'question') {
+      setQuestionImages((prev) => prev.filter((_, i) => i !== index));
+    } else {
+      setAnswerImages((prev) => prev.filter((_, i) => i !== index));
+    }
   };
 
   // Build a single, consistent input string containing all form fields.
@@ -91,7 +139,7 @@ END OF INPUT
         method: "POST",
         headers: { "Content-Type": "application/json" },
         // Only send one field called input_as_text to match the workflow requirement.
-        body: JSON.stringify({ input_as_text }),
+        body: JSON.stringify({ input_as_text, questionImages, answerImages }),
       });
 
       // Read raw text first to avoid json.parse exceptions on HTML/error pages.
@@ -328,10 +376,36 @@ END OF INPUT
                     name="question"
                     value={formData.question}
                     onChange={handleChange}
+                    onPaste={(e) => handlePaste(e, 'question')}
                     placeholder="Paste or type the question here..."
                     rows={4}
                     className="w-full p-3 rounded-2xl border border-slate-700 bg-[#071126] text-white focus:outline-none focus:ring-2 focus:ring-sky-500 transition resize-none"
                   />
+                  <div className="flex flex-wrap gap-3 mt-3">
+                    {questionImages.map((img, idx) => (
+                      <div key={idx} className="relative w-20 h-20 rounded-lg overflow-hidden border border-slate-700 group">
+                        <img src={img} alt={`Question Upload ${idx}`} className="w-full h-full object-cover" />
+                        <button
+                          type="button"
+                          onClick={() => removeImage(idx, 'question')}
+                          className="absolute top-1 right-1 bg-black/50 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition"
+                        >
+                          <X size={12} />
+                        </button>
+                      </div>
+                    ))}
+                    <label className="w-20 h-20 flex flex-col items-center justify-center rounded-lg border border-dashed border-slate-600 bg-[#071126] hover:bg-slate-800 cursor-pointer transition text-gray-400 hover:text-white">
+                      <ImageIcon size={20} />
+                      <span className="text-[10px] mt-1">Upload Q</span>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        multiple
+                        onChange={(e) => handleImageUpload(e, 'question')}
+                        className="hidden"
+                      />
+                    </label>
+                  </div>
                 </div>
 
                 <div>
@@ -342,10 +416,42 @@ END OF INPUT
                     name="answer"
                     value={formData.answer}
                     onChange={handleChange}
+                    onPaste={(e) => handlePaste(e, 'answer')}
                     placeholder="Paste or type the student's answer here..."
                     rows={6}
                     className="w-full p-3 rounded-2xl border border-slate-700 bg-[#071126] text-white focus:outline-none focus:ring-2 focus:ring-sky-500 transition resize-none"
                   />
+                  <div className="flex flex-wrap gap-3 mt-3">
+                    {answerImages.map((img, idx) => (
+                      <div key={idx} className="relative w-20 h-20 rounded-lg overflow-hidden border border-slate-700 group">
+                        <img src={img} alt={`Answer Upload ${idx}`} className="w-full h-full object-cover" />
+                        <button
+                          type="button"
+                          onClick={() => removeImage(idx, 'answer')}
+                          className="absolute top-1 right-1 bg-black/50 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition"
+                        >
+                          <X size={12} />
+                        </button>
+                      </div>
+                    ))}
+                    <label className="w-20 h-20 flex flex-col items-center justify-center rounded-lg border border-dashed border-slate-600 bg-[#071126] hover:bg-slate-800 cursor-pointer transition text-gray-400 hover:text-white">
+                      <ImageIcon size={20} />
+                      <span className="text-[10px] mt-1">Upload A</span>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        multiple
+                        onChange={(e) => handleImageUpload(e, 'answer')}
+                        className="hidden"
+                      />
+                    </label>
+                  </div>
+                </div>
+
+                <div>
+                  <p className="text-xs text-gray-500">
+                    Paste images directly into the text areas or use the upload buttons.
+                  </p>
                 </div>
 
                 <div>

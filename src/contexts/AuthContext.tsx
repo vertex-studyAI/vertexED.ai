@@ -165,13 +165,14 @@ export function AuthProvider({ children }: PropsWithChildren<{}>) {
     if (!supabase) return;
     const { data, error } = await supabase
       .from("profiles")
-      .select("id, email, full_name, avatar_url, created_at, updated_at")
+      .select("id, full_name, avatar_url, created_at, updated_at")
       .eq("id", userId)
       .maybeSingle();
     if (error) {
       console.error("profiles fetch error:", error);
       return;
     }
+    // Manually merge email from auth user if needed, or just ignore it if not in profile table
     setProfile((data as Profile) ?? null);
   };
 
@@ -180,7 +181,7 @@ export function AuthProvider({ children }: PropsWithChildren<{}>) {
     if (!supabase) return;
     const payload = {
       id: u.id,
-      email: u.email,
+      // email: u.email, // Removed as column does not exist
       full_name: metadata?.full_name ?? u.user_metadata?.full_name ?? null,
       avatar_url: metadata?.avatar_url ?? u.user_metadata?.avatar_url ?? null,
       updated_at: new Date().toISOString(),
