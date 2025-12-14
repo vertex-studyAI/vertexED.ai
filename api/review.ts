@@ -1,3 +1,5 @@
+import { runWorkflow } from './agentWorkflow';
+
 export const config = {
   maxDuration: 60,
 };
@@ -8,7 +10,7 @@ export default async function handler(req: any, res: any) {
     return;
   }
 
-  const apiKey = process.env.ChatbotKey;
+  const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) {
     console.error("OPENAI_API_KEY is missing in environment variables");
     res.status(500).json({ error: "Server configuration error: Missing API Key" });
@@ -36,10 +38,6 @@ export default async function handler(req: any, res: any) {
     const allImages = [...(questionImages || []), ...(answerImages || [])];
 
     console.log("Executing OpenAI Agent Workflow...");
-
-    // Dynamic import to handle potential initialization errors gracefully
-    // and to ensure environment variables are available
-    const { runWorkflow } = await import('./agentWorkflow');
 
     const result = await runWorkflow({
       input_as_text: combinedInput,
