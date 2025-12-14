@@ -98,7 +98,7 @@ export default defineConfig(({ mode }) => {
                     process.env.OPENAI_API_KEY = OPENAI_API_KEY;
 
                     // Dynamic import to ensure env vars are set and to load the TS file
-                    const { runWorkflow } = await import('./src/api/agentWorkflow.ts');
+                    const { runWorkflow } = await import('./api/agentWorkflow.ts');
 
                     const result = await runWorkflow({
                       input_as_text: combinedInput,

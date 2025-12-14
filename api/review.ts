@@ -1,5 +1,3 @@
-import { runWorkflow } from '../src/api/agentWorkflow';
-
 export const config = {
   maxDuration: 60,
 };
@@ -7,6 +5,13 @@ export const config = {
 export default async function handler(req: any, res: any) {
   if (req.method !== 'POST') {
     res.status(405).json({ error: 'Method not allowed' });
+    return;
+  }
+
+  const apiKey = process.env.OPENAI_API_KEY;
+  if (!apiKey) {
+    console.error("OPENAI_API_KEY is missing in environment variables");
+    res.status(500).json({ error: "Server configuration error: Missing API Key" });
     return;
   }
 
@@ -32,6 +37,10 @@ export default async function handler(req: any, res: any) {
 
     console.log("Executing OpenAI Agent Workflow...");
 
+    // Dynamic import to handle potential initialization errors gracefully
+    // and to ensure environment variables are available
+    const { runWorkflow } = await import('./agentWorkflow');
+
     const result = await runWorkflow({
       input_as_text: combinedInput,
       images: allImages
@@ -40,6 +49,6 @@ export default async function handler(req: any, res: any) {
     res.status(200).json(result);
   } catch (error: any) {
     console.error("Workflow execution failed:", error);
-    res.status(500).json({ error: "Workflow execution failed", details: error.message });
+    res.status(500).json({ error: "Workflow execution failed", details: error.message, stack: error.stack });
   }
 }
