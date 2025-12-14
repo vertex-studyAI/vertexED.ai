@@ -334,13 +334,34 @@ export const runWorkflow = async (workflow: WorkflowInput) => {
     const state = {
       register: false
     };
+
+    if (workflow.images && workflow.images.length > 0) {
+      try {
+        const response = await client.chat.completions.create({
+          model: "gpt-4o",
+          messages: [
+            {
+              role: "user",
+              content: [
+                { type: "text", text: "Analyze these images and provide a detailed description of their content, especially any text, diagrams, or questions present, to be used as context." },
+                ...workflow.images.map((img) => ({
+                  type: "image_url" as const,
+                  image_url: { url: img },
+                })),
+              ],
+            },
+          ],
+        });
+        const imageDescription = response.choices[0]?.message?.content;
+        if (imageDescription) {
+          workflow.input_as_text += `\n\n[Image Context]: ${imageDescription}`;
+        }
+      } catch (e) {
+        console.error("Failed to process images", e);
+      }
+    }
     
     const content: any[] = [{ type: "input_text", text: workflow.input_as_text }];
-    if (workflow.images && workflow.images.length > 0) {
-      workflow.images.forEach(img => {
-        content.push({ type: "image_url", image_url: { url: img } });
-      });
-    }
 
     const conversationHistory: AgentInputItem[] = [
       { role: "user", content }
