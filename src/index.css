@@ -318,6 +318,91 @@ All colors MUST be HSL.
     backdrop-filter: blur(5px) saturate(125%);
   }
 
+  /* Dark glassy container - more transparency, less blue */
+  .glass-card-dark {
+    @apply relative overflow-hidden rounded-3xl shadow-2xl border border-white/10 ring-1 ring-white/5 backdrop-blur-xl;
+    background: linear-gradient(
+      145deg,
+      rgba(0, 0, 0, 0.5),
+      rgba(20, 20, 25, 0.4),
+      rgba(0, 0, 0, 0.55)
+    );
+    -webkit-backdrop-filter: blur(20px) saturate(120%);
+    backdrop-filter: blur(20px) saturate(120%);
+  }
+
+  /* Dark tile variant - glassy with black tones */
+  .glass-tile-dark {
+    @apply rounded-xl border border-white/10 ring-1 ring-white/5 backdrop-blur-lg shadow-lg;
+    background: linear-gradient(
+      145deg,
+      rgba(0, 0, 0, 0.45),
+      rgba(15, 15, 20, 0.35),
+      rgba(0, 0, 0, 0.5)
+    );
+    -webkit-backdrop-filter: blur(16px) saturate(115%);
+    backdrop-filter: blur(16px) saturate(115%);
+    box-shadow: 
+      0 4px 30px rgba(0, 0, 0, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  }
+  .glass-tile-dark:hover {
+    background: linear-gradient(
+      145deg,
+      rgba(10, 10, 15, 0.5),
+      rgba(20, 20, 28, 0.4),
+      rgba(10, 10, 15, 0.55)
+    );
+    border-color: rgba(255, 255, 255, 0.15);
+  }
+
+  /* Translucent glass panel - frosted glass effect */
+  .glass-panel {
+    @apply relative overflow-hidden rounded-3xl border border-white/15 ring-1 ring-white/5;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.05),
+      rgba(255, 255, 255, 0.02),
+      rgba(0, 0, 0, 0.1)
+    );
+    -webkit-backdrop-filter: blur(24px) saturate(140%);
+    backdrop-filter: blur(24px) saturate(140%);
+    box-shadow: 
+      0 8px 32px rgba(0, 0, 0, 0.15),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+  }
+
+  /* Translucent tile - lighter frosted glass */
+  .glass-tile-translucent {
+    @apply rounded-xl border border-white/15 backdrop-blur-xl;
+    background: linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.08),
+      rgba(255, 255, 255, 0.03),
+      rgba(0, 0, 0, 0.05)
+    );
+    -webkit-backdrop-filter: blur(20px) saturate(130%);
+    backdrop-filter: blur(20px) saturate(130%);
+    box-shadow: 
+      0 4px 24px rgba(0, 0, 0, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.15),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+  }
+  .glass-tile-translucent:hover {
+    background: linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.12),
+      rgba(255, 255, 255, 0.06),
+      rgba(0, 0, 0, 0.03)
+    );
+    box-shadow: 
+      0 8px 32px rgba(0, 0, 0, 0.15),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.05);
+  }
+
   /* ProductivityHub-like grid helpers for Study Zone */
   .ph-grid {
     display: grid;

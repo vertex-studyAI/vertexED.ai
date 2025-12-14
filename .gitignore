@@ -37,6 +37,6 @@ dist-ssr
 *.suo
 *.ntvs*
 *.njsproj
-*.sln
+*.sl
 *.sw?
 .env

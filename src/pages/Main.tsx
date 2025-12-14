@@ -1,4 +1,6 @@
 import NeumorphicCard from "@/components/NeumorphicCard";
+import DotGrid from "@/components/DotGrid";
+import SplashCursor from "@/components/SplashCursor";
 import { Link } from "react-router-dom";
 import React, { useEffect, useRef } from "react";
 import { TypeAnimation } from "react-type-animation";
@@ -88,9 +90,9 @@ export default function Main() {
         // shadow follow (optional element .tile-shadow)
         const shadow = el.closest(".tile-wrapper")?.querySelector(".tile-shadow") as HTMLElement | null;
         if (shadow) {
-          const sx = -state.rotY * 3;
-          const sy = state.rotX * 3 + 12;
-          shadow.style.boxShadow = `${sx}px ${sy}px 40px rgba(12,18,40,0.45)`;
+          const sx = -state.rotY * 2;
+          const sy = state.rotX * 2 + 8;
+          shadow.style.boxShadow = `${sx}px ${sy}px 30px rgba(0,0,0,0.2)`;
         }
 
         state.rafId = requestAnimationFrame(step);
@@ -128,7 +130,7 @@ export default function Main() {
             el.style.willChange = "";
             el.style.transition = "";
             const shadow = el.closest(".tile-wrapper")?.querySelector(".tile-shadow") as HTMLElement | null;
-            if (shadow) shadow.style.boxShadow = `0 18px 50px rgba(12,18,40,0.55)`;
+            if (shadow) shadow.style.boxShadow = `0 12px 40px rgba(0,0,0,0.25)`;
           }
         };
         state.rafId = requestAnimationFrame(resetCheck);
@@ -169,6 +171,25 @@ export default function Main() {
         <meta name="robots" content="noindex, follow" />
       </Helmet>
 
+      {/* Dot Grid Background */}
+      <div className="fixed inset-0 -z-5 pointer-events-none">
+        <DotGrid
+          dotSize={3}
+          gap={25}
+          baseColor="#3a3a4a"
+          activeColor="#4A9BB8"
+          proximity={120}
+          shockRadius={250}
+          shockStrength={5}
+          resistance={750}
+          returnDuration={1.5}
+          style={{ opacity: 0.5 }}
+        />
+      </div>
+
+      {/* Splash Cursor Effect */}
+      <SplashCursor />
+
       {/* Intro */}
       <section className="fade-up px-6 py-10">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-8">
@@ -183,7 +204,7 @@ export default function Main() {
           </div>
 
           <div className="w-full md:w-1/3 text-slate-300 flex items-start justify-end gap-3">
-            <div className="p-4 rounded-2xl bg-white/5">
+            <div className="p-4 rounded-2xl bg-white/5 backdrop-blur-xl border border-white/15 shadow-lg shadow-black/10">
               <h4 className="font-semibold mb-1">Quick tips</h4>
               <div className="text-xs text-slate-400">
                 Hover a tile to preview its depth. Use Study Zone for deep sessions, Paper Maker for board-specific practice, and the
@@ -195,7 +216,7 @@ export default function Main() {
             <button
               aria-label="Settings"
               title="Settings"
-              className="ml-3 p-3 rounded-full bg-white/6 hover:bg-white/10 transition flex items-center justify-center"
+              className="ml-3 p-3 rounded-full bg-white/5 backdrop-blur-xl border border-white/15 hover:bg-white/15 hover:border-white/25 transition flex items-center justify-center"
               onClick={() => window.location.assign("/user-settings")}
             >
               <SettingsIcon size={16} color="white" />
@@ -207,12 +228,12 @@ export default function Main() {
       {/* Tiles */}
       <section className="px-6 pb-12">
         <div className="max-w-7xl mx-auto">
-          <div ref={containerRef} className="glass-card p-6 md:p-8 relative">
+          <div ref={containerRef} className="glass-panel p-6 md:p-8 relative">
             {/* force a 2-column layout (2 x N) as requested */}
             <div className="grid grid-cols-2 gap-6">
               {tiles.map((t) => (
                 <Link to={t.to} key={t.title} className="group block tile-wrapper" aria-label={`${t.title} — ${t.info}`}>
-                  <div className="tile-shadow h-full rounded-xl transition-all duration-400" style={{ boxShadow: "0 18px 50px rgba(12,18,40,0.55)" }}>
+                  <div className="tile-shadow h-full rounded-xl transition-all duration-400" style={{ boxShadow: "0 12px 40px rgba(0,0,0,0.25)" }}>
                     <div
                       className="tile h-56 md:h-64 w-full"
                       role="button"
@@ -221,13 +242,13 @@ export default function Main() {
                       style={{ transformStyle: "preserve-3d", willChange: "transform" }}
                     >
                       <NeumorphicCard
-                        className="h-full p-6 glass-tile flex flex-col justify-between transition-all duration-400 group-hover:ring-indigo-400/40 group-hover:border-indigo-300/30"
+                        className="h-full p-6 glass-tile-translucent flex flex-col justify-between transition-all duration-400 group-hover:border-white/25 group-hover:bg-white/10"
                         title={t.title}
                         info={t.info}
                       >
                         <div>
                           <div className="flex items-center gap-4 mb-2">
-                            <div className="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center text-white font-semibold shadow-sm" aria-hidden>
+                            <div className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white font-semibold shadow-lg shadow-black/10" aria-hidden>
                               {t.icon}
                             </div>
 
@@ -242,8 +263,8 @@ export default function Main() {
                         </div>
 
                         <div className="flex items-center justify-between mt-3">
-                          <span className="text-xs text-slate-400">Quick open</span>
-                          <span className="text-sm text-indigo-300 font-medium">Open →</span>
+                          <span className="text-xs text-slate-500">Quick open</span>
+                          <span className="text-sm text-white/70 font-medium group-hover:text-white transition-colors">Open →</span>
                         </div>
                       </NeumorphicCard>
                     </div>
@@ -265,7 +286,7 @@ export default function Main() {
             Use the dashboard to jump straight into focused work — all the tools you need, in one elegant rectangle.
           </p>
 
-          <Link to="/study-zone" className="inline-block px-8 py-3 rounded-full bg-white text-slate-900 font-semibold shadow-md hover:scale-105 transition-transform duration-300">
+          <Link to="/study-zone" className="inline-block px-8 py-3 rounded-full bg-white/10 backdrop-blur-xl border border-white/25 text-white font-semibold shadow-lg shadow-black/10 hover:bg-white/20 hover:border-white/35 hover:scale-105 transition-all duration-300">
             Start a session
           </Link>
         </div>
