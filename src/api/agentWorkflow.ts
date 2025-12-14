@@ -366,12 +366,7 @@ export const runWorkflow = async (workflow: WorkflowInput) => {
     const conversationHistory: AgentInputItem[] = [
       { role: "user", content }
     ];
-    const runner = new Runner({
-      traceMetadata: {
-        __trace_source__: "agent-builder",
-        workflow_id: "wf_68fc9c500b4081909cf4ae5fc5f3294f04983f13b9d3301f"
-      }
-    });
+    const runner = new Runner();
     state.register = state.register == true;
     const guardrailsInputText = workflow.input_as_text;
     const { hasTripwire: guardrailsHasTripwire, safeText: guardrailsAnonymizedText, failOutput: guardrailsFailOutput, passOutput: guardrailsPassOutput } = await runAndApplyGuardrails(guardrailsInputText, guardrailsConfig, conversationHistory, workflow);
