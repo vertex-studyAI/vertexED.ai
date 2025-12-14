@@ -320,9 +320,11 @@ const ibMypSummativeAgent = new Agent({
 
 **IMPORTANT**: The input contains "Marks (out of): X" which tells you the maximum marks/levels for this assessment. Use this value when calculating the final grade.
 
+**CRITERIA NOTE**: A question may assess one criterion only, or multiple criteria together. Determine which criteria are being assessed based on the question's demands (e.g., knowledge recall, analysis, communication, reflection). Split marks reasonably across the applicable criteria.
+
 **Format your response as follows:**
 1. **Assessment Type**: Confirm MYP summative assessment, subject, and year level.
-2. **Criterion Breakdown**: For each criterion/strand, state level awarded with brief justification (1-2 sentences each).
+2. **Criterion Breakdown**: For each applicable criterion/strand, state level awarded with brief justification (1-2 sentences each).
 3. **Strengths**: 2-3 bullet points (reasoning, communication, terminology, application).
 4. **Improvements**: 2-3 constructive, achievable next steps.
 
@@ -340,9 +342,11 @@ const ibMypMarkBasedAgent = new Agent({
 
 **IMPORTANT**: The input contains "Marks (out of): X" which tells you the maximum marks for this question. Use this value as the denominator when grading.
 
+**CRITERIA NOTE**: A question may assess one criterion only, or multiple criteria together. Determine which criteria are being assessed based on the question's demands (e.g., knowledge recall, analysis, communication, reflection). Split marks reasonably across the applicable criteria.
+
 **Format your response as follows:**
 1. **Task Info**: Identify MYP subject, year band, and applicable criteria/strands.
-2. **Level Breakdown**: For each strand, state level awarded with brief justification (1-2 sentences each).
+2. **Level Breakdown**: For each applicable strand, state level awarded with brief justification (1-2 sentences each).
 3. **Strengths**: 2-3 bullet points (organisation, clarity, thinking, creativity).
 4. **Improvements**: 2-3 encouraging, actionable steps with extension suggestion for strong performers.
 
