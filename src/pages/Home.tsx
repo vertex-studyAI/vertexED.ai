@@ -15,7 +15,7 @@ const FlipWords: React.FC<FlipWordsProps> = ({ words, interval = 2200, className
   useEffect(() => {
     if (typeof window === "undefined") return;
     const reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduced) return; // no animation
+    if (reduced) return;
     const t = setInterval(() => {
       setPhase("out");
       setTimeout(() => {
@@ -33,26 +33,6 @@ const FlipWords: React.FC<FlipWordsProps> = ({ words, interval = 2200, className
   );
 };
 
-type MorphingTextProps = { phrases: string[]; interval?: number; wrapper?: string; className?: string };
-const MorphingText: React.FC<MorphingTextProps> = ({ phrases, interval = 2400, wrapper = "span", className }) => {
-  const [i, setI] = useState(0);
-  useEffect(() => {
-    const reduced = typeof window !== "undefined" && window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduced) return;
-    const id = setInterval(() => setI(v => (v + 1) % phrases.length), interval);
-    return () => clearInterval(id);
-  }, [phrases.length, interval]);
-
-  const Tag = wrapper as any;
-  return (
-    <Tag className={`morph-text ${className || ""}`} aria-hidden={false}>
-      {phrases.map((p, idx) => (
-        <span key={idx} className={`morph-phrase ${idx === i ? "morph-visible" : "morph-hidden"}`}>{p}</span>
-      ))}
-    </Tag>
-  );
-};
-
 type LetterPullUpProps = { text: string; delay?: number; className?: string };
 const LetterPullUp: React.FC<LetterPullUpProps> = ({ text, delay = 40, className }) => {
   return (
@@ -62,32 +42,6 @@ const LetterPullUp: React.FC<LetterPullUpProps> = ({ text, delay = 40, className
       ))}
     </span>
   );
-};
-
-const TextScrollReveal: React.FC<{ children: React.ReactNode; className?: string }> = ({ children, className }) => {
-  const ref = useRef<HTMLDivElement | null>(null);
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    const node = ref.current;
-    if (!node) return;
-    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      node.classList.add("tsr-visible");
-      return;
-    }
-    // increased "tension": trigger a bit earlier (lower threshold)
-    const obs = new IntersectionObserver(entries => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          node.classList.add("tsr-visible");
-          obs.unobserve(node);
-        }
-      });
-    }, { threshold: 0.08 });
-    obs.observe(node);
-    return () => obs.disconnect();
-  }, []);
-
-  return <div ref={ref} className={`text-scroll-reveal ${className || ""}`}>{children}</div>;
 };
 
 const TextReveal: React.FC<{ text: string; className?: string }> = ({ text, className }) => {
@@ -130,19 +84,58 @@ const LandoSwapText: React.FC<{ from: string; to: string; triggerMs?: number; cl
   );
 };
 
-/* -------------------------------------------------------------------------- */
+// Hand-drawn decorative SVG elements
+const HandDrawnArrow = ({ className = "", style = {} }) => (
+  <svg className={className} style={style} width="140" height="90" viewBox="0 0 140 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M10 45 Q 45 30, 80 45 T 130 40" stroke="currentColor" strokeWidth="3" fill="none" strokeLinecap="round" strokeLinejoin="round" opacity="0.5"/>
+    <path d="M115 33 L 130 40 L 120 50" stroke="currentColor" strokeWidth="3" fill="none" strokeLinecap="round" strokeLinejoin="round" opacity="0.5"/>
+  </svg>
+);
+
+const HandDrawnCircle = ({ className = "", style = {} }) => (
+  <svg className={className} style={style} width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M60 15 Q 100 18, 103 60 Q 100 102, 60 105 Q 20 102, 17 60 Q 20 18, 60 15" stroke="currentColor" strokeWidth="3" fill="none" strokeLinecap="round" opacity="0.4"/>
+    <path d="M60 25 Q 92 27, 94 60 Q 92 93, 60 95 Q 28 93, 26 60 Q 28 27, 60 25" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" opacity="0.25"/>
+  </svg>
+);
+
+const HandDrawnUnderline = ({ className = "", style = {} }) => (
+  <svg className={className} style={style} width="250" height="25" viewBox="0 0 250 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M5 12 Q 65 8, 125 14 T 245 12" stroke="currentColor" strokeWidth="3.5" fill="none" strokeLinecap="round" opacity="0.45"/>
+    <path d="M5 18 Q 65 14, 125 20 T 245 18" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" opacity="0.25"/>
+  </svg>
+);
+
+const HandDrawnScribble = ({ className = "", style = {} }) => (
+  <svg className={className} style={style} width="180" height="120" viewBox="0 0 180 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M25 60 Q 35 35, 60 55 T 95 42 Q 120 60, 145 48 T 165 65" stroke="currentColor" strokeWidth="2.5" fill="none" strokeLinecap="round" opacity="0.35"/>
+    <path d="M30 70 Q 42 50, 65 68 T 100 58" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" opacity="0.25"/>
+  </svg>
+);
+
+const HandDrawnStar = ({ className = "", style = {} }) => (
+  <svg className={className} style={style} width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M50 15 L55 40 L80 45 L58 60 L62 85 L50 70 L38 85 L42 60 L20 45 L45 40 Z" stroke="currentColor" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round" opacity="0.4"/>
+  </svg>
+);
+
+const HandDrawnSparkles = ({ className = "", style = {} }) => (
+  <svg className={className} style={style} width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M20 20 L25 25 L20 30 L15 25 Z" stroke="currentColor" strokeWidth="2" fill="none" opacity="0.5"/>
+    <path d="M55 15 L58 18 L55 21 L52 18 Z" stroke="currentColor" strokeWidth="2" fill="none" opacity="0.5"/>
+    <path d="M65 50 L70 55 L65 60 L60 55 Z" stroke="currentColor" strokeWidth="2" fill="none" opacity="0.4"/>
+    <path d="M30 60 L33 63 L30 66 L27 63 Z" stroke="currentColor" strokeWidth="2" fill="none" opacity="0.45"/>
+  </svg>
+);
 
 export default function Home() {
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
-  // refs & state
   const missionRef = useRef<HTMLDivElement | null>(null);
   const observerRef = useRef<IntersectionObserver | null>(null);
   const tiltCleanupRef = useRef<Array<() => void>>([]);
   const mutationObserverRef = useRef<MutationObserver | null>(null);
-
-  // keep a ref for cleaning up any GSAP cleanup if needed (from new code)
   const gsapCleanupRef = useRef<() => void>(() => {});
 
   const problems = [
@@ -172,7 +165,6 @@ export default function Home() {
     "This is just the beginning! more features are on their way as you read this and whatever you see now will improve as we grow."
   ];
 
-  // flips
   const [flipped, setFlipped] = useState<boolean[]>(Array(problems.length).fill(false));
   const toggleFlip = (i: number) => setFlipped(prev => {
     const c = [...prev];
@@ -182,7 +174,6 @@ export default function Home() {
 
   const scrollToTop = () => typeof window !== "undefined" && window.scrollTo({ top: 0, behavior: "smooth" });
 
-  // warm up + redirect (kept from new code — prefetch then navigate; avoid bot redirects)
   useEffect(() => {
     if (!isAuthenticated) return;
     const ua = typeof navigator !== "undefined" ? navigator.userAgent.toLowerCase() : "";
@@ -193,18 +184,15 @@ export default function Home() {
     }
   }, [isAuthenticated, navigate]);
 
-  // GSAP lazy-load + ScrollTrigger (NEW feature — keeps it but doesn't remove the old intersection logic)
+  // Enhanced GSAP with cinematic animations
   useEffect(() => {
     if (typeof window === "undefined") return;
 
     const idle = (cb: () => void) =>
-      // @ts-ignore
       typeof requestIdleCallback !== "undefined"
-        ? // @ts-ignore
-          requestIdleCallback(cb, { timeout: 1200 })
+        ? requestIdleCallback(cb, { timeout: 1200 })
         : (setTimeout(cb, 250) as unknown as number);
     const cancelIdle = (id: any) =>
-      // @ts-ignore
       typeof cancelIdleCallback !== "undefined" ? cancelIdleCallback(id) : clearTimeout(id);
 
     let cleanup = () => {};
@@ -217,47 +205,158 @@ export default function Home() {
         const ScrollTrigger = (ScrollTriggerModule as any).default ?? (ScrollTriggerModule as any);
         gsap.registerPlugin(ScrollTrigger);
 
-        // Fade-up elements
-        const elements = gsap.utils.toArray<HTMLElement>(".fade-up");
-        elements.forEach((el, idx) => {
-          gsap.fromTo(
-            el,
-            { y: 40, opacity: 0, scale: 0.995 },
+        // Hero parallax layers
+        gsap.to(".hero-parallax-1", {
+          y: 120,
+          opacity: 0.4,
+          scale: 1.05,
+          scrollTrigger: {
+            trigger: ".hero-section",
+            start: "top top",
+            end: "bottom top",
+            scrub: 1.8,
+          }
+        });
+
+        gsap.to(".hero-parallax-2", {
+          y: 180,
+          opacity: 0.2,
+          scale: 1.1,
+          scrollTrigger: {
+            trigger: ".hero-section",
+            start: "top top",
+            end: "bottom top",
+            scrub: 2.2,
+          }
+        });
+
+        // Floating hand-drawn elements
+        gsap.to(".float-deco-1", {
+          y: -25,
+          x: 10,
+          rotation: 8,
+          duration: 4,
+          ease: "sine.inOut",
+          repeat: -1,
+          yoyo: true,
+        });
+
+        gsap.to(".float-deco-2", {
+          y: -18,
+          x: -8,
+          rotation: -6,
+          duration: 3.5,
+          ease: "sine.inOut",
+          repeat: -1,
+          yoyo: true,
+          delay: 0.5,
+        });
+
+        gsap.to(".float-deco-3", {
+          y: -22,
+          x: 12,
+          rotation: 10,
+          duration: 4.5,
+          ease: "sine.inOut",
+          repeat: -1,
+          yoyo: true,
+          delay: 1,
+        });
+
+        // Cinematic section reveals
+        gsap.utils.toArray<HTMLElement>(".cinematic-section").forEach((section, idx) => {
+          gsap.fromTo(section,
+            { scale: 0.92, opacity: 0, y: 100 },
             {
-              y: 0,
-              opacity: 1,
               scale: 1,
-              duration: 0.85,
+              opacity: 1,
+              y: 0,
+              duration: 1.4,
               ease: "power3.out",
-              stagger: 0.02,
               scrollTrigger: {
-                trigger: el,
-                start: "top 92%",
-                end: "bottom 30%",
+                trigger: section,
+                start: "top 82%",
+                end: "top 35%",
                 toggleActions: "play none none reverse",
-              },
+              }
             }
           );
         });
 
-        // feature rows: slide + rotation
-        const featureRows = gsap.utils.toArray<HTMLElement>(".feature-row");
-        featureRows.forEach((row, i) => {
-          gsap.fromTo(
-            row,
-            { x: i % 2 === 0 ? -60 : 60, opacity: 0, rotateX: 2 },
+        // Feature rows with alternating slide
+        gsap.utils.toArray<HTMLElement>(".feature-row").forEach((row, i) => {
+          gsap.fromTo(row,
+            { x: i % 2 === 0 ? -120 : 120, opacity: 0, rotateY: 12 },
             {
               x: 0,
               opacity: 1,
-              rotateX: 0,
-              duration: 0.9,
-              ease: "power3.out",
-              delay: i * 0.05,
+              rotateY: 0,
+              duration: 1.6,
+              ease: "power4.out",
               scrollTrigger: {
                 trigger: row,
-                start: "top 92%",
+                start: "top 88%",
                 toggleActions: "play none none reverse",
-              },
+              }
+            }
+          );
+        });
+
+        // Problem cards with stagger
+        gsap.utils.toArray<HTMLElement>(".problem-card-container").forEach((card, i) => {
+          gsap.fromTo(card,
+            { scale: 0.75, opacity: 0, rotateZ: -8, y: 60 },
+            {
+              scale: 1,
+              opacity: 1,
+              rotateZ: 0,
+              y: 0,
+              duration: 1,
+              ease: "back.out(1.6)",
+              delay: i * 0.1,
+              scrollTrigger: {
+                trigger: card,
+                start: "top 90%",
+                toggleActions: "play none none reverse",
+              }
+            }
+          );
+        });
+
+        // Text animations
+        gsap.utils.toArray<HTMLElement>(".cinematic-text").forEach(text => {
+          gsap.fromTo(text,
+            { y: 60, opacity: 0 },
+            {
+              y: 0,
+              opacity: 1,
+              duration: 1.2,
+              ease: "power2.out",
+              scrollTrigger: {
+                trigger: text,
+                start: "top 90%",
+                toggleActions: "play none none reverse",
+              }
+            }
+          );
+        });
+
+        // Hand-drawn element reveals
+        gsap.utils.toArray<HTMLElement>(".hand-drawn-reveal").forEach((el, i) => {
+          gsap.fromTo(el,
+            { scale: 0, rotation: -15, opacity: 0 },
+            {
+              scale: 1,
+              rotation: 0,
+              opacity: 1,
+              duration: 0.8,
+              ease: "back.out(2)",
+              delay: i * 0.15,
+              scrollTrigger: {
+                trigger: el,
+                start: "top 85%",
+                toggleActions: "play none none reverse",
+              }
             }
           );
         });
@@ -270,9 +369,7 @@ export default function Home() {
           } catch (e) {}
         };
         gsapCleanupRef.current = cleanup;
-      } catch (e) {
-        // fail gracefully if GSAP not available
-      }
+      } catch (e) {}
     };
 
     const idleId = idle(run);
@@ -290,7 +387,6 @@ export default function Home() {
       observerRef.current = null;
     }
 
-    // increased "tension": trigger a bit earlier (lower threshold)
     const opts = { threshold: 0.08 };
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
@@ -314,13 +410,11 @@ export default function Home() {
 
     observerRef.current = observer;
     const nodes = Array.from(document.querySelectorAll<HTMLElement>(".pop-up"));
-    // ensure observation happens after layout paint so in-view elements are correctly detected
     requestAnimationFrame(() => {
       nodes.forEach(el => observer.observe(el));
     });
   }
 
-  // tilt interactions using per-element listeners (original implementation restored)
   function bindTiltCards() {
     tiltCleanupRef.current.forEach(fn => fn());
     tiltCleanupRef.current = [];
@@ -340,7 +434,7 @@ export default function Home() {
       let tx = 0, ty = 0, tz = 0;
       let cx = 0, cy = 0, cz = 0;
       let rafId = 0;
-      const opts = { maxTilt: 4, perspective: 900, translateZ: 8, ease: 0.14 };
+      const opts = { maxTilt: 6, perspective: 1000, translateZ: 12, ease: 0.12 };
 
       const update = () => {
         cx += (tx - cx) * opts.ease;
@@ -359,16 +453,16 @@ export default function Home() {
         ty = ((x - halfW) / halfW) * opts.maxTilt;
         tx = ((halfH - y) / halfH) * opts.maxTilt;
         const ang = Math.atan2(y - halfH, x - halfW) * (180 / Math.PI);
-        tz = (ang / 90) * 1.8;
+        tz = (ang / 90) * 2;
         if (!rafId) rafId = requestAnimationFrame(update);
       };
 
       const onLeave = () => {
         tx = ty = tz = 0;
         if (rafId) cancelAnimationFrame(rafId);
-        el.style.transition = "transform 420ms cubic-bezier(0.22,1,0.36,1)";
+        el.style.transition = "transform 500ms cubic-bezier(0.34, 1.56, 0.64, 1)";
         el.style.transform = `perspective(${opts.perspective}px) rotateX(0deg) rotateY(0deg) rotateZ(0deg) translateZ(0px)`;
-        setTimeout(() => { el.style.transition = ""; }, 450);
+        setTimeout(() => { el.style.transition = ""; }, 520);
       };
 
       const onEnter = () => { el.style.transition = ""; };
@@ -388,7 +482,6 @@ export default function Home() {
     tiltCleanupRef.current = handlers;
   }
 
-  // Re-bind observers / tilt on mount and whenever the DOM mutates
   useEffect(() => {
     setupIntersectionObserver();
     bindTiltCards();
@@ -417,10 +510,8 @@ export default function Home() {
       }
       try { gsapCleanupRef.current(); } catch (e) {}
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Mission-specific tilt (kept as original behavior — subtle)
   useEffect(() => {
     const el = missionRef.current;
     if (!el || typeof window === "undefined") return;
@@ -433,7 +524,7 @@ export default function Home() {
     let rect = el.getBoundingClientRect();
     let tX = 0, tY = 0, tZ = 0, cX = 0, cY = 0, cZ = 0;
     let raf = 0;
-    const opts = { maxTilt: 2.6, perspective: 1200, translateZ: 6, ease: 0.08 };
+    const opts = { maxTilt: 3, perspective: 1200, translateZ: 8, ease: 0.1 };
 
     const onMove = (e: MouseEvent) => {
       rect = el.getBoundingClientRect();
@@ -441,12 +532,10 @@ export default function Home() {
       const y = e.clientY - rect.top;
       const halfW = rect.width / 2;
       const halfH = rect.height / 2;
-      tY = ((x - halfW) / halfW) * opts.maxTilt; // rotateY
-      tX = ((halfH - y) / halfH) * opts.maxTilt; // rotateX
-
+      tY = ((x - halfW) / halfW) * opts.maxTilt;
+      tX = ((halfH - y) / halfH) * opts.maxTilt;
       const ang = Math.atan2(y - halfH, x - halfW) * (180 / Math.PI);
-      tZ = (ang / 90) * 1.0; // tiny rotateZ
-
+      tZ = (ang / 90) * 1.2;
       if (!raf) raf = requestAnimationFrame(update);
     };
 
@@ -461,9 +550,9 @@ export default function Home() {
     const onLeave = () => {
       tX = 0; tY = 0; tZ = 0;
       if (raf) cancelAnimationFrame(raf);
-      el.style.transition = "transform 480ms cubic-bezier(0.22,1,0.36,1)";
+      el.style.transition = "transform 550ms cubic-bezier(0.34, 1.56, 0.64, 1)";
       el.style.transform = `perspective(${opts.perspective}px) rotateX(0deg) rotateY(0deg) rotateZ(0deg) translateZ(0px)`;
-      setTimeout(() => { el.style.transition = ""; }, 500);
+      setTimeout(() => { el.style.transition = ""; }, 580);
     };
 
     const onResize = () => { rect = el.getBoundingClientRect(); };
@@ -481,7 +570,6 @@ export default function Home() {
 
   const renderFluidCursor = typeof window !== "undefined";
 
-  // ---- Subcomponents ----
   function ProblemCard({ p, i }: { p: { stat: string; text: string }; i: number }) {
     const onKeyDown = (e: React.KeyboardEvent) => {
       if (e.key === "Enter" || e.key === " ") {
@@ -491,52 +579,52 @@ export default function Home() {
     };
 
     return (
-      <div
-        onClick={() => toggleFlip(i)}
-        onKeyDown={onKeyDown}
-        role="button"
-        tabIndex={0}
-        aria-pressed={flipped[i]}
-        className="group relative h-56 rounded-2xl transition-transform duration-360 hover:scale-[1.03] perspective tilt-card pop-up"
-        aria-label={`Problem card ${i + 1}`}
-      >
+      <div className="problem-card-container">
         <div
-          className="absolute inset-0 transition-transform duration-700 transform"
-          style={{
-            transformStyle: "preserve-3d",
-            transform: flipped[i] ? "rotateY(180deg)" : "rotateY(0deg)",
-          }}
+          onClick={() => toggleFlip(i)}
+          onKeyDown={onKeyDown}
+          role="button"
+          tabIndex={0}
+          aria-pressed={flipped[i]}
+          className="group relative h-64 rounded-3xl transition-all duration-500 hover:scale-105 perspective tilt-card pop-up cursor-pointer"
+          aria-label={`Problem card ${i + 1}`}
         >
-          {/* Front */}
           <div
-            className="absolute inset-0 flex flex-col items-center justify-center gap-3 text-4xl font-bold rounded-2xl problem-card-front"
+            className="absolute inset-0 transition-transform duration-700 transform"
             style={{
-              backfaceVisibility: "hidden",
-              background: "linear-gradient(180deg,#ffffff,#f7fbff)",
-              color: "#04263b",
-              boxShadow: "0 6px 28px rgba(6,10,15,0.06)",
-              border: "1px solid rgba(6,10,15,0.04)",
+              transformStyle: "preserve-3d",
+              transform: flipped[i] ? "rotateY(180deg)" : "rotateY(0deg)",
             }}
           >
-            <span style={{ fontFeatureSettings: "'tnum' 1", letterSpacing: "-0.01em" }}>{p.stat}</span>
-            <span className="text-sm italic" style={{ color: "rgba(4,38,59,0.62)" }}>Click to find out</span>
-          </div>
+            <div
+              className="absolute inset-0 flex flex-col items-center justify-center gap-5 text-6xl font-bold rounded-3xl problem-card-front"
+              style={{
+                backfaceVisibility: "hidden",
+                background: "linear-gradient(135deg,#ffffff,#f0f9ff)",
+                color: "#04263b",
+                boxShadow: "0 12px 48px rgba(6,10,15,0.1)",
+                border: "2px solid rgba(6,10,15,0.08)",
+              }}
+            >
+              <span className="stat-number" style={{ fontFeatureSettings: "'tnum' 1", letterSpacing: "-0.02em" }}>{p.stat}</span>
+              <span className="text-lg italic opacity-70 font-normal">Click to find out</span>
+            </div>
 
-          {/* Back */}
-          <div
-            className="absolute inset-0 flex items-center justify-center p-4 text-lg leading-relaxed rounded-2xl"
-            style={{
-              transform: "rotateY(180deg)",
-              backfaceVisibility: "hidden",
-              background: "linear-gradient(180deg, rgba(8,12,20,0.86), rgba(11,16,22,0.82))",
-              color: "#e6eef6",
-              border: "1px solid rgba(255,255,255,0.03)",
-              backdropFilter: "blur(6px) saturate(110%)",
-            }}
-          >
-            <div>
-              <div>{p.text}</div>
-              <div className="mt-3 text-xs italic" style={{ color: "rgba(226,236,246,0.65)" }}>Backed by research-backed principles: active recall, spaced repetition and retrieval practice.</div>
+            <div
+              className="absolute inset-0 flex items-center justify-center p-7 text-xl leading-relaxed rounded-3xl"
+              style={{
+                transform: "rotateY(180deg)",
+                backfaceVisibility: "hidden",
+                background: "linear-gradient(135deg, rgba(8,12,20,0.95), rgba(11,16,22,0.92))",
+                color: "#e6eef6",
+                border: "2px solid rgba(255,255,255,0.1)",
+                backdropFilter: "blur(16px) saturate(130%)",
+              }}
+            >
+              <div>
+                <div className="font-medium">{p.text}</div>
+                <div className="mt-5 text-sm italic opacity-80">Backed by research-backed principles: active recall, spaced repetition and retrieval practice.</div>
+              </div>
             </div>
           </div>
         </div>
@@ -545,28 +633,33 @@ export default function Home() {
   }
 
   function FeatureRow({ f, i }: { f: { title: string; desc: string }; i: number }) {
-    // kept original structure (LetterPullUp + side text)
     return (
-      <div className={`feature-row flex flex-col md:flex-row items-center gap-10 pop-up ${i % 2 !== 0 ? "md:flex-row-reverse" : ""}`}>
-        <div className="flex-1 glass-tile rounded-2xl shadow-xl p-6 text-slate-100 tilt-card">
-          <h4 className="text-xl font-bold mb-3 pop-up swap-span"><LetterPullUp text={f.title} /></h4>
-          <p className="pop-up highlight-clip" style={{ maxWidth: 640 }}>
-            <span className="hl-inner">{f.desc}</span>
-          </p>
-          <div className="mt-4 text-sm text-slate-400">Built around proven learning techniques.</div>
+      <div className={`feature-row flex flex-col md:flex-row items-center gap-14 pop-up ${i % 2 !== 0 ? "md:flex-row-reverse" : ""}`}>
+        <div className="flex-1 glass-tile rounded-3xl shadow-2xl p-9 text-slate-100 tilt-card feature-card relative overflow-hidden">
+          <div className="relative z-10">
+            <h4 className="text-3xl font-bold mb-5 pop-up swap-span hover-text-morph transition-all duration-400">
+              <LetterPullUp text={f.title} />
+            </h4>
+            <p className="pop-up highlight-clip text-lg leading-relaxed">
+              <span className="hl-inner">{f.desc}</span>
+            </p>
+            <div className="mt-6 text-base text-slate-400">Built around proven learning techniques.</div>
+          </div>
+          <div className="feature-glow"></div>
         </div>
 
-        <div className="flex-1 text-slate-300 text-lg md:text-xl leading-relaxed text-center md:text-left pop-up">
-          {i % 2 === 0
-            ? "The all in 1 hub for your study sessions with all the tools one could ask for."
-            : "Designed to keep you motivated and productive, no matter how overwhelming your syllabus seems."}
-          <div className="mt-4 text-slate-400">{featureSideText[i]}</div>
+        <div className="flex-1 text-slate-300 text-xl md:text-2xl leading-relaxed text-center md:text-left pop-up cinematic-text">
+          <div className="font-semibold mb-4 hover-text-morph transition-all duration-300">
+            {i % 2 === 0
+              ? "The all in 1 hub for your study sessions with all the tools one could ask for."
+              : "Designed to keep you motivated and productive, no matter how overwhelming your syllabus seems."}
+          </div>
+          <div className="text-lg text-slate-400 opacity-90">{featureSideText[i]}</div>
         </div>
       </div>
     );
   }
 
-  // ----- Render -----
   return (
     <>
       <SEO
@@ -595,69 +688,311 @@ export default function Home() {
       )}
 
       <style>{`
-        html { scroll-behavior: smooth; scroll-snap-type: y proximity; }
-        body { scroll-padding-top: 72px; }
-        section { scroll-snap-align: start; scroll-snap-stop: always; }
+        * { box-sizing: border-box; }
+        html { 
+          scroll-behavior: smooth; 
+          scroll-snap-type: y proximity;
+          overflow-x: hidden;
+        }
+        body { 
+          scroll-padding-top: 80px;
+          margin: 0;
+          padding: 0;
+          overflow-x: hidden;
+        }
+        section { 
+          scroll-snap-align: start; 
+          scroll-snap-stop: normal;
+          min-height: 50vh;
+        }
 
-        /* snappier pop-up for increased tension */
-        .pop-up { opacity: 0; transform: translateY(8px) scale(0.995); transition: transform 360ms cubic-bezier(.2,.9,.3,1), opacity 320ms ease-out; will-change: transform, opacity; }
-        .pop-in { opacity: 1; transform: translateY(0px) scale(1); }
+        .hero-section {
+          scroll-snap-align: start;
+          min-height: 100vh;
+        }
 
-        .highlight-clip { display: inline-block; overflow: hidden; vertical-align: middle; }
-        .hl-inner { display: inline-block; transform-origin: left center; transform: translateY(10px); transition: transform 420ms cubic-bezier(.2,.9,.3,1), color 300ms; }
-        .hl-pop { transform: translateY(0px); color: #DDEBFF; text-shadow: 0 6px 24px rgba(14,165,233,0.08); }
+        /* Pop animations */
+        .pop-up { 
+          opacity: 0; 
+          transform: translateY(12px) scale(0.98); 
+          transition: transform 450ms cubic-bezier(0.34, 1.56, 0.64, 1), opacity 400ms ease-out; 
+          will-change: transform, opacity; 
+        }
+        .pop-in { 
+          opacity: 1; 
+          transform: translateY(0px) scale(1); 
+        }
 
-        /* allow typed text to wrap */
-        .swap-span { display: inline-block; transform: translateY(6px); transition: transform 420ms cubic-bezier(.2,.9,.3,1), font-weight 220ms, font-size 220ms; white-space: normal; word-break: break-word; max-width: 100%; }
+        /* Highlight animations */
+        .highlight-clip { 
+          display: inline-block; 
+          overflow: hidden; 
+          vertical-align: middle; 
+        }
+        .hl-inner { 
+          display: inline-block; 
+          transform-origin: left center; 
+          transform: translateY(12px); 
+          transition: transform 500ms cubic-bezier(0.34, 1.56, 0.64, 1), color 350ms; 
+        }
+        .hl-pop { 
+          transform: translateY(0px); 
+          color: #DDEBFF; 
+          text-shadow: 0 8px 32px rgba(14,165,233,0.12); 
+        }
 
-        .glass-tile { background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border: 1px solid rgba(255,255,255,0.04); backdrop-filter: blur(8px) saturate(110%); }
+        .swap-span { 
+          display: inline-block; 
+          transform: translateY(8px); 
+          transition: transform 500ms cubic-bezier(0.34, 1.56, 0.64, 1); 
+          white-space: normal; 
+          word-break: break-word; 
+          max-width: 100%; 
+        }
 
-        .problem-card-front { border: 1px solid rgba(6,10,15,0.04); }
+        /* Glass morphism */
+        .glass-card {
+          background: linear-gradient(135deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+          border: 1px solid rgba(255,255,255,0.08);
+          backdrop-filter: blur(24px) saturate(160%);
+        }
 
-        .flip-words { perspective: 700px; display: inline-block; vertical-align: middle; }
-        .fw-word { display:inline-block; backface-visibility: hidden; transform-origin: center; transition: transform 260ms cubic-bezier(.2,.9,.3,1), opacity 260ms; }
-        .fw-in { transform: rotateX(0deg) translateY(0); opacity:1; }
-        .fw-out { transform: rotateX(-90deg) translateY(-6px); opacity:0; }
+        .glass-tile { 
+          background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02)); 
+          border: 1px solid rgba(255,255,255,0.1); 
+          backdrop-filter: blur(20px) saturate(140%); 
+        }
 
-        .morph-text { position: relative; display:inline-block; }
-        .morph-phrase { position: absolute; left:0; top:0; transform-origin:center; opacity:0; transform: scale(0.98); transition: all 420ms ease; white-space:nowrap; }
-        .morph-visible { opacity:1; transform: scale(1); z-index:2; }
-        .morph-hidden { opacity:0; z-index:1; }
+        /* Feature card effects */
+        .feature-card {
+          transition: all 600ms cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
 
-        .letter-pullup { display:inline-block; overflow:visible; }
-        .lp-char { display:inline-block; transform: translateY(18px); opacity:0; transition: transform 520ms cubic-bezier(.2,.9,.3,1), opacity 420ms; }
-        .pop-in .lp-char { transform: translateY(0); opacity:1; }
+        .feature-card:hover {
+          transform: translateY(-10px) scale(1.02);
+          box-shadow: 0 24px 72px rgba(14,165,233,0.2);
+          border-color: rgba(14,165,233,0.4);
+        }
 
-        .text-scroll-reveal { overflow: hidden; display:inline-block; transform: translateY(12px); opacity:0; transition: transform 480ms cubic-bezier(.2,.9,.3,1), opacity 380ms; }
-        .text-scroll-reveal.tsr-visible { transform: translateY(0); opacity:1; }
+        .feature-glow {
+          position: absolute;
+          inset: -60%;
+          background: radial-gradient(circle at center, rgba(14,165,233,0.18), transparent 70%);
+          opacity: 0;
+          transition: opacity 700ms ease;
+          pointer-events: none;
+        }
 
-        .text-reveal { display:inline-block; vertical-align:middle; }
-        .tr-char { display:inline-block; transform: translateY(14px); opacity:0; transition: transform 420ms ease, opacity 360ms; }
-        .pop-in .text-reveal .tr-char { transform: translateY(0); opacity:1; }
+        .feature-card:hover .feature-glow {
+          opacity: 1;
+        }
 
-        .lando-swap { display:inline-block; line-height:1; font-variant-ligatures: none; white-space:nowrap; }
-        .ls-letter { display:inline-block; position:relative; overflow:visible; width:auto; min-width:0.5ch; text-align:center; }
-        .ls-front, .ls-back { display:block; transform-origin:center; position:relative; transition: transform 320ms cubic-bezier(.2,.9,.3,1), opacity 300ms; }
-        .ls-front { transform: translateY(0); opacity:1; }
-        .ls-back { position:absolute; left:0; top:0; transform: translateY(100%); opacity:0; }
-        .lando-swap[data-key] .ls-front { transform: translateY(-100%); opacity:0; }
-        .lando-swap[data-key] .ls-back { transform: translateY(0%); opacity:1; }
+        /* Hover text morphing */
+        .hover-text-morph {
+          cursor: pointer;
+        }
 
-        .fw-word, .morph-phrase, .lp-char, .tr-char, .ls-front, .ls-back { will-change: transform, opacity; }
+        .hover-text-morph:hover {
+          font-weight: 700;
+          letter-spacing: 0.015em;
+          transform: scale(1.02) translateY(-2px);
+          text-shadow: 0 4px 16px rgba(255,255,255,0.15);
+        }
 
+        /* Problem card stat animation */
+        .stat-number {
+          display: inline-block;
+          animation: statPulse 3s ease-in-out infinite;
+        }
+
+        @keyframes statPulse {
+          0%, 100% { transform: scale(1) translateY(0); }
+          50% { transform: scale(1.05) translateY(-4px); }
+        }
+
+        /* Flip words */
+        .flip-words { 
+          perspective: 800px; 
+          display: inline-block; 
+          vertical-align: middle; 
+        }
+        .fw-word { 
+          display:inline-block; 
+          backface-visibility: hidden; 
+          transform-origin: center; 
+          transition: transform 350ms cubic-bezier(0.34, 1.56, 0.64, 1), opacity 320ms; 
+        }
+        .fw-in { 
+          transform: rotateX(0deg) translateY(0); 
+          opacity:1; 
+        }
+        .fw-out { 
+          transform: rotateX(-90deg) translateY(-12px); 
+          opacity:0; 
+        }
+
+        /* Letter pull up */
+        .letter-pullup { 
+          display:inline-block; 
+          overflow:visible; 
+        }
+        .lp-char { 
+          display:inline-block; 
+          transform: translateY(28px) rotateX(-15deg); 
+          opacity:0; 
+          transition: transform 650ms cubic-bezier(0.34, 1.56, 0.64, 1), opacity 550ms; 
+        }
+        .pop-in .lp-char { 
+          transform: translateY(0) rotateX(0deg); 
+          opacity:1; 
+        }
+
+        /* Text reveal */
+        .text-reveal { 
+          display:inline-block; 
+          vertical-align:middle; 
+        }
+        .tr-char { 
+          display:inline-block; 
+          transform: translateY(22px) rotateX(-20deg); 
+          opacity:0; 
+          transition: transform 550ms cubic-bezier(0.34, 1.56, 0.64, 1), opacity 480ms; 
+        }
+        .pop-in .text-reveal .tr-char { 
+          transform: translateY(0) rotateX(0deg); 
+          opacity:1; 
+        }
+
+        /* Lando swap */
+        .lando-swap { 
+          display:inline-block; 
+          line-height:1; 
+          font-variant-ligatures: none; 
+          white-space:nowrap; 
+        }
+        .ls-letter { 
+          display:inline-block; 
+          position:relative; 
+          overflow:visible; 
+          width:auto; 
+          min-width:0.5ch; 
+          text-align:center; 
+        }
+        .ls-front, .ls-back { 
+          display:block; 
+          transform-origin:center; 
+          position:relative; 
+          transition: transform 400ms cubic-bezier(0.34, 1.56, 0.64, 1), opacity 350ms; 
+        }
+        .ls-front { 
+          transform: translateY(0); 
+          opacity:1; 
+        }
+        .ls-back { 
+          position:absolute; 
+          left:0; 
+          top:0; 
+          transform: translateY(120%); 
+          opacity:0; 
+        }
+        .lando-swap[data-key] .ls-front { 
+          transform: translateY(-120%); 
+          opacity:0; 
+        }
+        .lando-swap[data-key] .ls-back { 
+          transform: translateY(0%); 
+          opacity:1; 
+        }
+
+        /* Hand-drawn elements */
+        .hand-drawn-deco {
+          pointer-events: none;
+          user-select: none;
+        }
+
+        /* Perspective */
+        .perspective { 
+          perspective: 1200px; 
+        }
+
+        /* Button enhancements */
+        .btn-cinematic {
+          position: relative;
+          overflow: hidden;
+          transition: all 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .btn-cinematic::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(135deg, rgba(255,255,255,0.3), transparent);
+          opacity: 0;
+          transition: opacity 400ms;
+        }
+
+        .btn-cinematic:hover::before {
+          opacity: 1;
+        }
+
+        .btn-cinematic:hover {
+          transform: translateY(-4px) scale(1.05);
+          box-shadow: 0 20px 48px rgba(255,255,255,0.25);
+        }
+
+        /* Link hover effect */
+        .link-underline-animate {
+          position: relative;
+          transition: all 300ms ease;
+        }
+
+        .link-underline-animate::after {
+          content: '';
+          position: absolute;
+          bottom: -2px;
+          left: 0;
+          width: 0;
+          height: 2px;
+          background: currentColor;
+          transition: width 400ms cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .link-underline-animate:hover::after {
+          width: 100%;
+        }
+
+        .link-underline-animate:hover {
+          color: rgba(14,165,233,1);
+        }
+
+        /* Reduced motion */
         @media (prefers-reduced-motion: reduce) {
-          .pop-up { transition: none !important; transform: none !important; opacity: 1 !important; }
-          .fw-word, .morph-phrase, .lp-char, .tr-char, .ls-front, .ls-back { transition: none !important; transform: none !important; opacity:1 !important; }
+          *, *::before, *::after {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+          }
+          .pop-up { 
+            transition: none !important; 
+            transform: none !important; 
+            opacity: 1 !important; 
+          }
         }
       `}</style>
 
-      {/* Hero */}
-      <section className="glass-card px-6 pt-24 pb-16 text-center pop-up" style={{ position: "relative" }}>
-        <div className="max-w-3xl mx-auto">
-          <div className="mb-6 pop-up">
-            <div className="relative w-full h-[6.75rem] md:h-[9.25rem] flex items-center justify-center">
-              <h1 className="text-5xl md:text-7xl font-semibold text-white leading-tight text-center flex flex-col justify-center [--gap:0.4rem] md:[--gap:0.6rem] pop-up">
-                <span className="swap-span">
+      {/* Hero Section */}
+      <section className="hero-section glass-card px-6 pt-32 pb-24 text-center pop-up relative overflow-hidden flex items-center justify-center">
+        {/* Floating hand-drawn decorations */}
+        <HandDrawnCircle className="hand-drawn-deco float-deco-1 absolute top-24 right-16 text-sky-400 opacity-20" style={{ width: 140, height: 140 }} />
+        <HandDrawnScribble className="hand-drawn-deco float-deco-2 absolute bottom-40 left-20 text-purple-400 opacity-18" style={{ width: 200 }} />
+        <HandDrawnArrow className="hand-drawn-deco float-deco-3 absolute top-1/3 left-1/4 text-emerald-400 opacity-25" style={{ transform: "rotate(-18deg)", width: 160 }} />
+        <HandDrawnSparkles className="hand-drawn-deco float-deco-1 absolute bottom-32 right-1/4 text-amber-400 opacity-22" />
+        
+        <div className="max-w-4xl mx-auto relative z-10">
+          <div className="mb-10 hero-parallax-1">
+            <div className="relative w-full min-h-[12rem] flex items-center justify-center">
+              <h1 className="text-6xl md:text-8xl font-bold text-white leading-tight text-center flex flex-col justify-center gap-4 pop-up hover-text-morph">
+                <span className="swap-span hero-parallax-2">
                   <TypeAnimation
                     sequence={[
                       1200,
@@ -670,132 +1005,184 @@ export default function Home() {
                       "Study smarter, not longer.",
                     ]}
                     speed={45}
-                    wrapper="div" /* allow wrapping */
+                    wrapper="div"
                     cursor={true}
                     repeat={Infinity}
                   />
                 </span>
-                <span style={{ marginTop: 6, fontSize: '1rem', opacity: 0.85 }} className="pop-up">
+                <span className="text-2xl md:text-3xl font-semibold mt-3 opacity-90">
                   <FlipWords words={["Learn quicker than ever before","Unlock endless resources","Gain feedback for when it really matters","Understand beyond the book"]} interval={2400} />
                 </span>
 
-                <span className="mt-2 pop-up" aria-hidden style={{ fontSize: "0.8rem" }}>
+                <span className="mt-4 text-xl" aria-hidden>
                   <LandoSwapText from="VertexED" to="VertexED" triggerMs={2800} />
                 </span>
               </h1>
             </div>
           </div>
 
-          <p className="text-lg text-slate-200 mb-10 pop-up highlight-clip" style={{ position: "relative" }}>
+          <p className="text-2xl text-slate-200 mb-14 pop-up highlight-clip leading-relaxed max-w-3xl mx-auto hero-parallax-1">
             <span className="hl-inner">
               You asked, we delivered. Welcome to a place where you can truly learn, explore and grow in knowledge all whilst being able to put them on the pieces of paper which give you numbers you can feel proud of. You're welcome.
             </span>
           </p>
 
-          <div className="flex gap-4 justify-center pop-up">
-            <Link to="/main" className="px-8 py-4 rounded-full bg-white text-slate-900 hover:bg-slate-200 transition-transform duration-400 ease-in-out shadow-xl hover:scale-105 ring-1 ring-white/10 tilt-card">Get Started</Link>
-            <Link to="/about" className="px-8 py-4 rounded-full bg-transparent border border-white/20 text-white hover:bg-white/5 transition-transform duration-400 ease-in-out shadow-md hover:scale-105 tilt-card" aria-label="Learn more about VertexED on the About page">Learn more about VertexED</Link>
+          <div className="flex gap-6 justify-center pop-up flex-wrap">
+            <Link to="/main" className="btn-cinematic px-10 py-5 rounded-full bg-white text-slate-900 text-lg font-semibold shadow-2xl ring-2 ring-white/20 tilt-card">
+              Get Started
+            </Link>
+            <Link to="/about" className="btn-cinematic px-10 py-5 rounded-full bg-transparent border-2 border-white/30 text-white text-lg font-semibold shadow-xl hover:bg-white/10 tilt-card" aria-label="Learn more about VertexED on the About page">
+              Learn more about VertexED
+            </Link>
           </div>
         </div>
+        
+        <HandDrawnUnderline className="hand-drawn-deco hand-drawn-reveal absolute bottom-20 left-1/2 transform -translate-x-1/2 text-sky-300 opacity-28" style={{ width: 320 }} />
       </section>
 
-      <div className="max-w-3xl mx-auto px-6 mt-3 pop-up">
-        <div className="text-xs text-slate-400 text-center">
-          Feeling lost... <Link to="/resources" className="underline">Explore resources</Link>
+      <div className="max-w-3xl mx-auto px-6 mt-8 pop-up cinematic-text">
+        <div className="text-sm text-slate-400 text-center">
+          Feeling lost... <Link to="/resources" className="link-underline-animate">Explore resources</Link>
         </div>
       </div>
 
-      {/* story */}
-      <section className="mt-16 text-center px-6 relative">
-        <div className="max-w-4xl mx-auto mb-10 pop-up">
-          <h2 className="text-4xl md:text-5xl font-semibold text-white leading-tight">
-            <span className="relative inline-flex items-center justify-center overflow-hidden">
-              {/* static text only per request (no swapping) */}
-              <span className="text-center block">We hate the way studying has become.</span>
-            </span>
+      {/* Story Section */}
+      <section className="mt-28 text-center px-6 relative cinematic-section">
+        <HandDrawnCircle className="hand-drawn-deco hand-drawn-reveal float-deco-2 absolute top-0 left-24 text-rose-400 opacity-20" style={{ width: 110 }} />
+        
+        <div className="max-w-5xl mx-auto mb-12">
+          <h2 className="text-5xl md:text-7xl font-bold text-white leading-tight hover-text-morph transition-all duration-300">
+            We hate the way studying has become.
           </h2>
         </div>
 
-        <p className="text-lg text-white mb-12 pop-up">Who wouldn’t?</p>
+        <p className="text-3xl text-white mb-16 font-light cinematic-text">Who wouldn't?</p>
+        
+        <HandDrawnScribble className="hand-drawn-deco hand-drawn-reveal float-deco-3 absolute bottom-0 right-24 text-amber-400 opacity-20" />
       </section>
 
-      {/* problems grid */}
-      <section className="max-w-6xl mx-auto px-6 mt-28">
-        <h3 className="text-3xl md:text-4xl font-semibold text-white mb-10 text-center pop-up"><TextReveal text="Why is this a problem for you?" /></h3>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
-          {problems.map((p, i) => <div key={i} className="pop-up"><ProblemCard p={p} i={i} /></div>)}
+      {/* Problems Grid */}
+      <section className="max-w-7xl mx-auto px-6 mt-32 cinematic-section">
+        <div className="relative mb-16">
+          <h3 className="text-4xl md:text-6xl font-bold text-white text-center hover-text-morph transition-all duration-300">
+            <TextReveal text="Why is this a problem for you?" />
+          </h3>
+          <HandDrawnUnderline className="hand-drawn-deco hand-drawn-reveal mx-auto mt-6 text-sky-400 opacity-30" style={{ display: "block", width: 420 }} />
+        </div>
+        
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          {problems.map((p, i) => <ProblemCard key={i} p={p} i={i} />)}
         </div>
       </section>
 
-      {/* mission */}
-      <section className="max-w-4xl mx-auto mt-24 px-6 text-center pop-up">
-        <div ref={missionRef} className="glass-card text-slate-100 rounded-3xl shadow-2xl p-10 transform transition-transform duration-300" aria-label="Mission panel" style={{ position: "relative" }}>
-          <p className="text-lg md:text-xl leading-relaxed pop-up">
+      {/* Mission Section */}
+      <section className="max-w-5xl mx-auto mt-32 px-6 text-center cinematic-section relative">
+        <HandDrawnArrow className="hand-drawn-deco hand-drawn-reveal float-deco-1 absolute top-10 right-0 text-purple-400 opacity-25" style={{ transform: "rotate(45deg)" }} />
+        <HandDrawnStar className="hand-drawn-deco hand-drawn-reveal float-deco-2 absolute bottom-10 left-0 text-amber-400 opacity-20" style={{ width: 90 }} />
+        
+        <div ref={missionRef} className="glass-tile text-slate-100 rounded-3xl shadow-2xl p-12 transform transition-all duration-500 hover:scale-[1.02] tilt-card" aria-label="Mission panel">
+          <p className="text-xl md:text-2xl leading-relaxed font-light mb-6 cinematic-text">
             Studying has become harder than ever. With too much information to know what to do with, resources that rarely construct measurable progress, and tools that sometimes make things worse, students need a learning space that adapts to them and encourages continuous improvement.
           </p>
 
-          <ul className="text-left mt-6 space-y-3 pop-up">
-            <li className="font-semibold">• Improve the way you approach learning</li>
-            <li className="font-semibold">• Improve your performance on exams</li>
-            <li className="font-semibold">• Improve comprehension and long-term retention</li>
+          <ul className="text-left mt-8 space-y-4 max-w-2xl mx-auto text-lg cinematic-text">
+            <li className="font-semibold flex items-center gap-3">
+              <span className="text-sky-400 text-2xl">•</span>
+              <span>Improve the way you approach learning</span>
+            </li>
+            <li className="font-semibold flex items-center gap-3">
+              <span className="text-purple-400 text-2xl">•</span>
+              <span>Improve your performance on exams</span>
+            </li>
+            <li className="font-semibold flex items-center gap-3">
+              <span className="text-emerald-400 text-2xl">•</span>
+              <span>Improve comprehension and long-term retention</span>
+            </li>
           </ul>
 
-          <p className="text-lg md:text-xl mt-6 leading-relaxed pop-up">
+          <p className="text-xl md:text-2xl mt-8 leading-relaxed font-light cinematic-text">
             We focus equally on progress and curiosity: building tools that help you connect ideas, practice deliberately, and grow at your own pace.
           </p>
 
-          <p className="text-lg md:text-xl mt-6 leading-relaxed font-semibold pop-up">
+          <p className="text-xl md:text-2xl mt-8 leading-relaxed font-bold cinematic-text">
             Our aim is not only to raise yoyr scores using evidence-based techniques and on resources which match your exams, but to create an environment where learning becomes rewarding and sustainable.
           </p>
-
-          <svg width="120" height="60" style={{ position: "absolute", right: -8, top: -10, opacity: 0.12 }}>
-            <text x="0" y="20" fontSize="14" fill="white">∫_0^1 x² dx = 1/3</text>
-            <path d="M8 36 C 28 10, 80 60, 112 26" stroke="rgba(14,165,233,0.06)" strokeWidth="2" fill="none"/>
-          </svg>
         </div>
       </section>
 
-      {/* features */}
-      <section className="max-w-6xl mx-auto px-6 mt-28 pop-up">
-        <h3 className="text-3xl md:text-4xl font-semibold text-white mb-6 text-center pop-up"><Link to="/features" className="hover:underline">Explore Our Features</Link></h3>
-        <div className="text-center mb-8 pop-up"><Link to="/features" className="inline-block px-6 py-3 rounded-full border border-white/20 text-white hover:bg-white/5 transition duration-300">See full features</Link></div>
-        <div className="space-y-20">
+      {/* Features Section */}
+      <section className="max-w-7xl mx-auto px-6 mt-32 cinematic-section">
+        <div className="relative mb-12">
+          <h3 className="text-4xl md:text-6xl font-bold text-white mb-8 text-center hover-text-morph transition-all duration-300">
+            <Link to="/features" className="link-underline-animate">Explore Our Features</Link>
+          </h3>
+          <div className="text-center mb-12">
+            <Link to="/features" className="btn-cinematic inline-block px-8 py-4 rounded-full border-2 border-white/30 text-white text-lg hover:bg-white/10">
+              See full features
+            </Link>
+          </div>
+        </div>
+        
+        <div className="space-y-24">
           {features.map((f, i) => <FeatureRow key={i} f={f} i={i} />)}
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="mt-28 text-center px-6 pop-up">
-        <h3 className="text-3xl md:text-4xl font-semibold text-white mb-6 pop-up">
+      {/* CTA Section */}
+      <section className="mt-32 text-center px-6 cinematic-section relative">
+        <HandDrawnSparkles className="hand-drawn-deco hand-drawn-reveal float-deco-1 absolute top-0 left-1/4 text-sky-400 opacity-25" />
+        <HandDrawnCircle className="hand-drawn-deco hand-drawn-reveal float-deco-3 absolute bottom-0 right-1/4 text-purple-400 opacity-18" style={{ width: 100 }} />
+        
+        <h3 className="text-4xl md:text-6xl font-bold text-white mb-8 hover-text-morph transition-all duration-300">
           Ready to get started?<br/>We guarantee a change!
         </h3>
-        <button onClick={scrollToTop} className="mt-4 px-8 py-4 rounded-full bg-white text-slate-900 shadow-xl hover:scale-105 hover:bg-slate-200 transition-all duration-500 ease-in-out tilt-card">Back to Top</button>
+        <button onClick={scrollToTop} className="btn-cinematic mt-6 px-10 py-5 rounded-full bg-white text-slate-900 text-lg font-semibold shadow-2xl tilt-card">
+          Back to Top
+        </button>
       </section>
 
-      {/* closing */}
-      <section className="mt-16 text-center px-6 pop-up">
-        <p className="text-lg text-slate-200">Education was never faulted; it just needed a fresh perspective. VertexED — (<strong>Vertex ED</strong>) — is here to deliver it.</p>
+      {/* Closing Section */}
+      <section className="mt-20 text-center px-6 cinematic-text">
+        <p className="text-2xl text-slate-200 font-light max-w-3xl mx-auto">
+          Education was never faulted; it just needed a fresh perspective. VertexED — (<strong>Vertex ED</strong>) — is here to deliver it.
+        </p>
       </section>
 
-      {/* contact */}
-      <section className="mt-12 px-6 mb-12 pop-up">
-        <div className="max-w-3xl mx-auto glass-card rounded-2xl p-8 text-slate-100 shadow-xl">
-          <h3 className="text-2xl font-semibold mb-4 pop-up">Contact Us</h3>
-          <p className="text-slate-400 mb-4 pop-up">Have a question? Fill out the form and we'll get back to you.</p>
-          <form action="https://formspree.io/f/mldpklqk" method="POST" className="space-y-4 pop-up">
+      {/* Contact Section */}
+      <section className="mt-16 px-6 mb-16 cinematic-section">
+        <div className="max-w-3xl mx-auto glass-card rounded-3xl p-10 text-slate-100 shadow-2xl relative">
+          <HandDrawnArrow className="hand-drawn-deco hand-drawn-reveal absolute -top-8 -right-8 text-emerald-400 opacity-20" style={{ transform: "rotate(120deg)" }} />
+          
+          <h3 className="text-3xl font-bold mb-6 hover-text-morph transition-all duration-300">Contact Us</h3>
+          <p className="text-slate-300 mb-6 text-lg">Have a question? Fill out the form and we'll get back to you.</p>
+          <form action="https://formspree.io/f/mldpklqk" method="POST" className="space-y-6">
             <label className="block text-left">
-              <span className="text-sm text-slate-300 mb-1 block">Your email</span>
-              <input name="email" type="email" placeholder="steve.jobs@gmail.com" required className="w-full rounded-md p-3 bg-white/5 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-500" />
-              <div className="text-xs text-slate-500 mt-1">Example: steve.jobs@gmail.com</div>
+              <span className="text-base text-slate-300 mb-2 block font-medium">Your email</span>
+              <input 
+                name="email" 
+                type="email" 
+                placeholder="steve.jobs@gmail.com" 
+                required 
+                className="w-full rounded-xl p-4 bg-white/10 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-sky-400 transition-all text-white border border-white/20" 
+              />
+              <div className="text-sm text-slate-400 mt-2">Example: steve.jobs@gmail.com</div>
             </label>
             <label className="block text-left">
-              <span className="text-sm text-slate-300 mb-1 block">Your message</span>
-              <textarea name="message" rows={5} placeholder="Hi — I'm interested in learning more about VertexED..." required className="w-full rounded-md p-3 bg-white/5 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-500"></textarea>
-              <div className="text-xs text-slate-500 mt-1">Briefly tell us what you'd like help with</div>
+              <span className="text-base text-slate-300 mb-2 block font-medium">Your message</span>
+              <textarea 
+                name="message" 
+                rows={5} 
+                placeholder="Hi — I'm interested in learning more about VertexED..." 
+                required 
+                className="w-full rounded-xl p-4 bg-white/10 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-sky-400 transition-all text-white border border-white/20"
+              ></textarea>
+              <div className="text-sm text-slate-400 mt-2">Briefly tell us what you'd like help with</div>
             </label>
-            <div className="flex items-center justify-between">
-              <button type="submit" className="px-6 py-3 rounded-full bg-white text-slate-900 shadow hover:scale-105 transition">Send</button>
-              <p className="text-sm text-slate-400">We’ll reply as soon as we can.</p>
+            <div className="flex items-center justify-between flex-wrap gap-4">
+              <button type="submit" className="btn-cinematic px-8 py-4 rounded-full bg-white text-slate-900 shadow-xl font-semibold">
+                Send
+              </button>
+              <p className="text-base text-slate-400">We'll reply as soon as we can.</p>
             </div>
           </form>
         </div>
