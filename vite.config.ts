@@ -38,31 +38,31 @@ export default defineConfig(({ mode }) => {
                   };
                   
                   const nextRes = {
-                    status: (code) => {
+                    status: (code: number) => {
                       res.statusCode = code;
                       return nextRes;
                     },
-                    json: (data) => {
+                    json: (data: any) => {
                       res.setHeader('Content-Type', 'application/json');
                       res.end(JSON.stringify(data));
                       return nextRes;
                     },
-                    setHeader: (k, v) => res.setHeader(k, v),
-                    end: (data) => res.end(data),
+                    setHeader: (k: string, v: string | number | readonly string[]) => res.setHeader(k, v),
+                    end: (data: any) => res.end(data),
                   };
 
                   // Ensure env vars are available
-                  const OPENAI_API_KEY = env.ChatbotKey || process.env.ChatbotKey;
+                  const ChatbotKey = env.ChatbotKey || process.env.ChatbotKey;
                   const WORKFLOW_ID = env.WORKFLOW_ID || process.env.WORKFLOW_ID;
 
-                  if (!OPENAI_API_KEY || !WORKFLOW_ID) {
+                  if (!ChatbotKey || !WORKFLOW_ID) {
                     console.error("Missing ChatbotKey or WORKFLOW_ID");
                     res.statusCode = 500;
                     res.setHeader('Content-Type', 'application/json');
                     res.end(JSON.stringify({
                       error: "Server misconfiguration: Missing ChatbotKey or WORKFLOW_ID. Check .env.local",
                       missingKeys: {
-                        ChatbotKey: !OPENAI_API_KEY,
+                        ChatbotKey: !ChatbotKey,
                         WORKFLOW_ID: !WORKFLOW_ID
                       }
                     }));
@@ -95,7 +95,7 @@ export default defineConfig(({ mode }) => {
                     console.log("Executing local OpenAI Agent Workflow...");
                     
                     // Set the env var expected by the agent workflow
-                    process.env.OPENAI_API_KEY = OPENAI_API_KEY;
+                    process.env.ChatbotKey = ChatbotKey;
 
                     // Dynamic import to ensure env vars are set and to load the TS file
                     const { runWorkflow } = await import('./api/agentWorkflow.ts');

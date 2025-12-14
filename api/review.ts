@@ -8,7 +8,7 @@ export default async function handler(req: any, res: any) {
     return;
   }
 
-  const apiKey = process.env.OPENAI_API_KEY;
+  const apiKey = process.env.ChatbotKey;
   if (!apiKey) {
     console.error("OPENAI_API_KEY is missing in environment variables");
     res.status(500).json({ error: "Server configuration error: Missing API Key" });
