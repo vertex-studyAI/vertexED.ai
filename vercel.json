@@ -6,11 +6,8 @@
   "functions": {
     "api/review.ts": {
       "memory": 1024,
-      "maxDuration": 60
-    },
-    "api/agentWorkflow.ts": {
-      "memory": 1024,
-      "maxDuration": 60
+      "maxDuration": 60,
+      "includeFiles": "api/**"
     }
   },
   "rewrites": [

@@ -1,5 +1,4 @@
-// Dynamic import to catch module-level errors
-let runWorkflow: any = null;
+import { runWorkflow } from './agentWorkflow';
 
 export const config = {
   maxDuration: 60,
@@ -26,14 +25,6 @@ export default async function handler(req: any, res: any) {
   }
 
   try {
-    // Dynamically import to catch any module loading errors
-    if (!runWorkflow) {
-      console.log("[review.ts] Loading agentWorkflow module...");
-      const module = await import('./agentWorkflow');
-      runWorkflow = module.runWorkflow;
-      console.log("[review.ts] agentWorkflow module loaded successfully");
-    }
-    
     const { input_as_text, prompt, questionImages, answerImages } = req.body ?? {};
     let combinedInput = String(input_as_text || prompt || "").trim();
 
