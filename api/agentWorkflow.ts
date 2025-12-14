@@ -3,41 +3,66 @@ import { OpenAI } from "openai";
 import { runGuardrails } from "@openai/guardrails";
 import { z } from "zod";
 
+// Lazy initialization to avoid issues with serverless cold starts
+let _client: OpenAI | null = null;
+let _toolsInitialized = false;
 
-// Tool definitions
-const fileSearch = fileSearchTool([
-  "vs_693a6523963481918e0ceb7f103280be"
-])
-const webSearchPreview = webSearchTool({
-  searchContextSize: "high",
-  userLocation: {
-    type: "approximate"
-  }
-})
-const fileSearch1 = fileSearchTool([
-  "vs_693a6588fc108191afa8d0981785112f"
-])
-const webSearchPreview1 = webSearchTool({
-  searchContextSize: "low",
-  userLocation: {
-    type: "approximate"
-  }
-})
-const fileSearch2 = fileSearchTool([
-  "vs_693a580fe3a081918528169f66577f46"
-])
-const fileSearch3 = fileSearchTool([
-  "vs_68fc9d9025d0819188abbf31892ce1a6"
-])
-const webSearchPreview2 = webSearchTool({
-  searchContextSize: "medium",
-  userLocation: {
-    type: "approximate"
-  }
-})
+// Tool definitions - will be initialized lazily
+let fileSearch: ReturnType<typeof fileSearchTool>;
+let webSearchPreview: ReturnType<typeof webSearchTool>;
+let fileSearch1: ReturnType<typeof fileSearchTool>;
+let webSearchPreview1: ReturnType<typeof webSearchTool>;
+let fileSearch2: ReturnType<typeof fileSearchTool>;
+let fileSearch3: ReturnType<typeof fileSearchTool>;
+let webSearchPreview2: ReturnType<typeof webSearchTool>;
 
-// Shared client for guardrails and file search
-const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+function getClient(): OpenAI {
+  if (!_client) {
+    const apiKey = process.env.ChatbotKey;
+    if (!apiKey) {
+      throw new Error("ChatbotKey is not set");
+    }
+    _client = new OpenAI({ apiKey });
+  }
+  return _client;
+}
+
+function initializeTools() {
+  if (_toolsInitialized) return;
+  
+  fileSearch = fileSearchTool([
+    "vs_693a6523963481918e0ceb7f103280be"
+  ]);
+  webSearchPreview = webSearchTool({
+    searchContextSize: "high",
+    userLocation: {
+      type: "approximate"
+    }
+  });
+  fileSearch1 = fileSearchTool([
+    "vs_693a6588fc108191afa8d0981785112f"
+  ]);
+  webSearchPreview1 = webSearchTool({
+    searchContextSize: "low",
+    userLocation: {
+      type: "approximate"
+    }
+  });
+  fileSearch2 = fileSearchTool([
+    "vs_693a580fe3a081918528169f66577f46"
+  ]);
+  fileSearch3 = fileSearchTool([
+    "vs_68fc9d9025d0819188abbf31892ce1a6"
+  ]);
+  webSearchPreview2 = webSearchTool({
+    searchContextSize: "medium",
+    userLocation: {
+      type: "approximate"
+    }
+  });
+  
+  _toolsInitialized = true;
+}
 
 // Guardrails definitions
 const guardrailsConfig = {
@@ -56,7 +81,10 @@ const guardrailsConfig1 = {
     { name: "NSFW Text", config: { model: "gpt-4.1-mini", confidence_threshold: 0.7 } }
   ]
 };
-const context = { guardrailLlm: client };
+
+function getContext() {
+  return { guardrailLlm: getClient() };
+}
 
 function guardrailsHasTripwire(results: any[]): boolean {
     return (results ?? []).some((r) => r?.tripwireTriggered === true);
@@ -77,7 +105,7 @@ async function scrubConversationHistory(history: any[], piiOnly: any): Promise<v
         const content = Array.isArray(msg?.content) ? msg.content : [];
         for (const part of content) {
             if (part && typeof part === "object" && part.type === "input_text" && typeof part.text === "string") {
-                const res = await runGuardrails(part.text, piiOnly, context, true);
+                const res = await runGuardrails(part.text, piiOnly, getContext(), true);
                 part.text = getGuardrailSafeText(res, part.text);
             }
         }
@@ -88,13 +116,13 @@ async function scrubWorkflowInput(workflow: any, inputKey: string, piiOnly: any)
     if (!workflow || typeof workflow !== "object") return;
     const value = workflow?.[inputKey];
     if (typeof value !== "string") return;
-    const res = await runGuardrails(value, piiOnly, context, true);
+    const res = await runGuardrails(value, piiOnly, getContext(), true);
     workflow[inputKey] = getGuardrailSafeText(res, value);
 }
 
 async function runAndApplyGuardrails(inputText: string, config: any, history: any[], workflow: any) {
     const guardrails = Array.isArray(config?.guardrails) ? config.guardrails : [];
-    const results = await runGuardrails(inputText, config, context, true);
+    const results = await runGuardrails(inputText, config, getContext(), true);
     const shouldMaskPII = guardrails.find((g) => (g?.name === "Contains PII") && g?.config && g.config.block === false);
     if (shouldMaskPII) {
         const piiOnly = { guardrails: [shouldMaskPII] };
@@ -228,10 +256,7 @@ const igcseAgent = new Agent({
   instructions: `Begin by identifying the board, syllabus code, and tier if applicable. Apply the mark scheme faithfully but with an understanding of what exam-pressure responses look like—reward correct method, clear reasoning, and partially correct explanations even if the student’s phrasing is not perfect. Use the Assessment Objectives as your guide, but remain fair and generous when a student clearly demonstrates the intended skill. For each part of the question, give a straightforward justification for marks awarded, pointing out both correctly applied ideas and areas where detail or clarity was lacking. After scoring, offer a short, human-centred evaluation highlighting strengths such as clear thinking, relevant examples, or logical working, along with focused, achievable targets for improvement. End with practical suggestions tailored to IGCSE expectations, such as practicing command terms, improving precision, or strengthening analysis.
 Ensure it provides the accurate marks and justifies why this, explains what were the strengths, what could be improved, how to improve, and speaks humanely about the student’s work.`,
   model: "gpt-4.1",
-  tools: [
-    fileSearch,
-    webSearchPreview
-  ],
+  get tools() { initializeTools(); return [fileSearch, webSearchPreview]; },
   modelSettings: {
     temperature: 1,
     topP: 1,
@@ -245,10 +270,7 @@ const cbseAgent = new Agent({
   instructions: `Identify the class and subject, then apply CBSE marking norms with accuracy while keeping in mind the fast-paced nature of board exams. Award method marks consistently and give credit wherever the student shows understanding, even if minor errors appear because of time pressure. Provide a clear question-wise breakdown, explaining the reasoning behind every mark in a friendly, easy-to-understand way. Follow this with a short, balanced evaluation of the student’s strengths—such as conceptual clarity, structured working, or good recall—and give specific suggestions on which areas need refinement. Conclude with 3–4 practical improvement strategies tied directly to the subject, whether that’s solving more numericals, practising writing frames, or refining diagrams and reasoning.
 Ensure it provides the accurate marks and justifies why this, explains what were the strengths, what could be improved, how to improve, and speaks humanely about the student’s work.`,
   model: "gpt-4.1",
-  tools: [
-    fileSearch1,
-    webSearchPreview1
-  ],
+  get tools() { initializeTools(); return [fileSearch1, webSearchPreview1]; },
   modelSettings: {
     temperature: 1,
     topP: 1,
@@ -262,10 +284,7 @@ const icseAgent = new Agent({
   instructions: `Identify the subject and class level, then apply the ICSE marking scheme with accuracy but without unnecessary harshness—students often answer under tight exam settings, and partial understanding deserves fair partial credit. Follow the official mark breakdown, awarding method and reasoning marks wherever the student shows clear conceptual grasp even if the final step is incomplete. For each question or sub-part, provide a simple explanation of why marks were gained or lost, keeping the tone supportive and focused on learning rather than punishment. Summarise the student’s overall performance, calling attention to strong areas such as clarity, correct logic, neat working, or solid recall, along with gentle suggestions for improvement. Conclude with realistic, subject-specific advice that helps them improve in future exams, such as practicing structured answers, revising formulas, or improving time management.
 Ensure it provides the accurate marks and justifies why this, explains what were the strengths, what could be improved, how to improve, and speaks humanely about the student’s work.`,
   model: "gpt-4.1",
-  tools: [
-    fileSearch2,
-    webSearchPreview
-  ],
+  get tools() { initializeTools(); return [fileSearch2, webSearchPreview]; },
   modelSettings: {
     temperature: 1,
     topP: 1,
@@ -279,9 +298,7 @@ const ibdpAgent = new Agent({
   instructions: `Begin by identifying the task as IBDP HL/SL and determine which Assessment Objectives apply. Mark according to IB standards while acknowledging that exam conditions naturally limit the depth students can provide, whereas coursework allows for richer development—adjust the tone of evaluation accordingly. When assigning marks, focus on whether the student demonstrates conceptual mastery, logical development, and appropriate use of subject-specific methodology rather than expecting perfection. Provide a transparent, AO-linked breakdown of where marks were earned and where they slipped, phrased clearly and supportively so the student understands your reasoning. Include a brief qualitative summary of their strengths—such as argument coherence, analytical insight, creativity, or accuracy—and highlight 2–3 areas that would meaningfully lift their level. Conclude with actionable suggestions suited to DP standards (e.g., deeper analysis, better data handling, clearer structuring), plus an optional extension pathway for high achievers.
 Ensure it provides the accurate marks and justifies why this, explains what were the strengths, what could be improved, how to improve, and speaks humanely about the student’s work.`,
   model: "gpt-4.1",
-  tools: [
-    webSearchPreview
-  ],
+  get tools() { initializeTools(); return [webSearchPreview]; },
   modelSettings: {
     temperature: 1,
     topP: 1,
@@ -296,10 +313,7 @@ const ibMypSummativeAgent = new Agent({
 Ensure it provides the accurate marks and justifies why this, explains what were the strengths, what could be improved, how to improve, and speaks humanely about the student’s work.
 Rarely ever do provide full 8's for humanities except for MYP 1 and 2 Answers where it can be provided more often. Only an exceptional masterpiece relative to age must be given an 8, often a grade level higher than expected.`,
   model: "gpt-4.1",
-  tools: [
-    fileSearch3,
-    webSearchPreview2
-  ],
+  get tools() { initializeTools(); return [fileSearch3, webSearchPreview2]; },
   modelSettings: {
     temperature: 1,
     topP: 1,
@@ -313,10 +327,7 @@ const ibMypMarkBasedAgent = new Agent({
   instructions: `Begin by identifying the task as MYP, noting the subject, year band, and which criteria and strands apply. When grading, use the MYP descriptors faithfully but interpret them with a fair, balanced view of what students at that age typically produce—leaning slightly toward accuracy and generosity when the work clearly demonstrates understanding, even if expression isn’t perfect. Consider exam timing, pressure, and the natural constraints students work under, ensuring that marks reflect genuine understanding rather than harsh penalization for minor slips. After assigning levels for each strand, provide a clear explanation for every awarded mark, tying the student’s evidence to the descriptor while acknowledging strengths in organisation, clarity, thinking, or creativity. Follow this with a short qualitative paragraph summarizing what the student did well, where the largest growth areas lie, and how they can make targeted improvements. Close with encouraging, actionable steps that match the subject (e.g., improving structure, sharpening explanations, citing evidence) and offer an extension suggestion for students already performing strongly.
 Ensure it provides the accurate marks and justifies why this, explains what were the strengths, what could be improved, how to improve, and speaks humanely about the student’s work.`,
   model: "gpt-4.1",
-  tools: [
-    fileSearch3,
-    webSearchPreview1
-  ],
+  get tools() { initializeTools(); return [fileSearch3, webSearchPreview1]; },
   modelSettings: {
     temperature: 1,
     topP: 1,
@@ -330,6 +341,9 @@ type WorkflowInput = { input_as_text: string; images?: string[] };
 
 // Main code entrypoint
 export const runWorkflow = async (workflow: WorkflowInput) => {
+  // Initialize tools and client lazily
+  initializeTools();
+  
   return await withTrace("New workflow", async () => {
     const state = {
       register: false
@@ -337,7 +351,7 @@ export const runWorkflow = async (workflow: WorkflowInput) => {
 
     if (workflow.images && workflow.images.length > 0) {
       try {
-        const response = await client.chat.completions.create({
+        const response = await getClient().chat.completions.create({
           model: "gpt-4o",
           messages: [
             {
@@ -455,7 +469,7 @@ export const runWorkflow = async (workflow: WorkflowInput) => {
               return { output: guardrailsOutput1.safe_text };
             }
           } else {
-            const filesearchResult = (await client.vectorStores.search("vs_68fc9d9025d0819188abbf31892ce1a6", {query: `""`,
+            const filesearchResult = (await getClient().vectorStores.search("vs_68fc9d9025d0819188abbf31892ce1a6", {query: `""`,
             max_num_results: 5})).data.map((result) => {
               return {
                 id: result.file_id,

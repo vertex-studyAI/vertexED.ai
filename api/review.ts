@@ -2,20 +2,27 @@ import { runWorkflow } from './agentWorkflow';
 
 export const config = {
   maxDuration: 60,
+  runtime: 'nodejs',
+  memory: 1024,
 };
 
 export default async function handler(req: any, res: any) {
+  // Add detailed error logging at the start
+  console.log("[review.ts] Handler invoked, method:", req.method);
+  
   if (req.method !== 'POST') {
     res.status(405).json({ error: 'Method not allowed' });
     return;
   }
 
-  const apiKey = process.env.OPENAI_API_KEY;
+  const apiKey = process.env.ChatbotKey;
   if (!apiKey) {
-    console.error("OPENAI_API_KEY is missing in environment variables");
+    console.error("ChatbotKey is missing in environment variables");
     res.status(500).json({ error: "Server configuration error: Missing API Key" });
     return;
   }
+  
+  console.log("[review.ts] ChatbotKey is set, proceeding...");
 
   try {
     const { input_as_text, prompt, questionImages, answerImages } = req.body ?? {};

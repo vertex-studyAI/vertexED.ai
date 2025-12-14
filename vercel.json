@@ -3,6 +3,16 @@
   "buildCommand": "ROLLUP_SKIP_NODEJS_NATIVE=true npm run build",
   "installCommand": "npm install --no-package-lock",
   "framework": null,
+  "functions": {
+    "api/review.ts": {
+      "memory": 1024,
+      "maxDuration": 60
+    },
+    "api/agentWorkflow.ts": {
+      "memory": 1024,
+      "maxDuration": 60
+    }
+  },
   "rewrites": [
     { "source": "/((?!api|.*\\..*).*)", "destination": "/index.html" }
   ],
