@@ -1,6 +1,6 @@
 import NeumorphicCard from "@/components/NeumorphicCard";
 import DotGrid from "@/components/DotGrid";
-import SplashCursor from "@/components/SplashCursor";
+
 import { Link } from "react-router-dom";
 import React, { useEffect, useRef } from "react";
 import { TypeAnimation } from "react-type-animation";
@@ -187,8 +187,7 @@ export default function Main() {
         />
       </div>
 
-      {/* Splash Cursor Effect */}
-      <SplashCursor />
+
 
       {/* Intro */}
       <section className="fade-up px-6 py-10">

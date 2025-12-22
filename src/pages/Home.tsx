@@ -4,9 +4,7 @@ import SEO from "@/components/SEO";
 import { useAuth } from "@/contexts/AuthContext";
 import { TypeAnimation } from "react-type-animation";
 
-const FluidCursor = React.lazy(() =>
-  import("@/components/FluidCursor").catch(() => ({ default: () => null })),
-);
+
 
 type FlipWordsProps = { words: string[]; interval?: number; className?: string };
 const FlipWords: React.FC<FlipWordsProps> = ({ words, interval = 2200, className }) => {
@@ -570,7 +568,7 @@ export default function Home() {
     };
   }, []);
 
-  const renderFluidCursor = typeof window !== "undefined";
+
 
   function ProblemCard({ p, i }: { p: { stat: string; text: string }; i: number }) {
     const onKeyDown = (e: React.KeyboardEvent) => {
@@ -681,24 +679,7 @@ export default function Home() {
         }}
       />
 
-      {renderFluidCursor && (
-        <div
-          id="fluid-cursor-root"
-          style={{
-            position: "fixed",
-            inset: 0,
-            width: "100vw",
-            height: "100vh",
-            pointerEvents: "none",
-            zIndex: 999999,
-            overflow: "visible",
-          }}
-        >
-          <Suspense fallback={null}>
-            <FluidCursor />
-          </Suspense>
-        </div>
-      )}
+
 
       <style>{`
         * { box-sizing: border-box; }
@@ -716,7 +697,7 @@ export default function Home() {
         section { 
           scroll-snap-align: start; 
           scroll-snap-stop: normal;
-          min-height: 50vh;
+          /* min-height removed to fix large gaps */
         }
 
         .hero-section {
@@ -1000,17 +981,10 @@ export default function Home() {
           height: 100%;
         }
 
-        /* Reduced vertical spacing tweaks to bring sections closer */
-        .hero-section .max-w-4xl { padding-top: 6px; padding-bottom: 6px; }
-        .hero-parallax-1 { margin-bottom: 8px; }
-        .hero-parallax-2 .text-2xl { margin-top: 6px; }
-
-        /* tighten story -> problems spacing */
-        .story-tight { margin-top: 0.6rem; margin-bottom: 0.8rem; }
       `}</style>
 
       {/* Hero Section */}
-      <section className="hero-section glass-card px-6 pt-24 pb-16 text-center pop-up relative overflow-hidden flex items-center justify-center">
+      <section className="hero-section glass-card px-6 pt-20 pb-12 text-center pop-up relative overflow-hidden flex items-center justify-center">
         {/* Floating hand-drawn decorations */}
         <HandDrawnCircle className="hand-drawn-deco float-deco-1 absolute top-20 right-16 text-sky-400 opacity-20" style={{ width: 140, height: 140 }} />
         <HandDrawnScribble className="hand-drawn-deco float-deco-2 absolute bottom-36 left-16 text-purple-400 opacity-18" style={{ width: 200 }} />
@@ -1018,10 +992,10 @@ export default function Home() {
         <HandDrawnSparkles className="hand-drawn-deco float-deco-1 absolute bottom-28 right-1/4 text-amber-400 opacity-22" />
         
         <div className="max-w-4xl mx-auto relative z-10">
-          <div className="mb-6 hero-parallax-1">
-            <div className="relative w-full min-h-[9rem] flex items-center justify-center">
-              <h1 className="text-5xl md:text-7xl font-bold text-white leading-tight text-center flex flex-col justify-center gap-3 pop-up hover-text-morph">
-                <span className="swap-span hero-parallax-2">
+          <div className="mb-4">
+            <div className="relative w-full min-h-[7rem] flex items-center justify-center">
+              <h1 className="text-5xl md:text-7xl font-bold text-white leading-tight text-center flex flex-col justify-center gap-2 pop-up hover-text-morph">
+                <span className="swap-span">
                   <TypeAnimation
                     sequence={[
                       1200,
@@ -1050,7 +1024,7 @@ export default function Home() {
             </div>
           </div>
 
-          <p className="text-lg md:text-xl text-slate-200 mb-8 pop-up highlight-clip leading-relaxed max-w-3xl mx-auto hero-parallax-1">
+          <p className="text-lg md:text-xl text-slate-200 mb-6 pop-up highlight-clip leading-relaxed max-w-3xl mx-auto">
             <span className="hl-inner">
               You asked, we delivered. Welcome to a place where you can truly learn, explore and grow in knowledge all whilst being able to put them on the pieces of paper which give you numbers you can feel proud of. You're welcome.
             </span>
@@ -1076,27 +1050,27 @@ export default function Home() {
       </div>
 
       {/* Story Section (reduced spacing so heading shows on normal zoom) */}
-      <section className="mt-12 text-center px-6 relative cinematic-section story-tight">
+      <section className="mt-8 text-center px-6 relative cinematic-section">
         <HandDrawnCircle className="hand-drawn-deco hand-drawn-reveal float-deco-2 absolute top-0 left-24 text-rose-400 opacity-20" style={{ width: 110 }} />
         
-        <div className="max-w-5xl mx-auto mb-6">
+        <div className="max-w-5xl mx-auto mb-4">
           <h2 className="text-4xl md:text-6xl font-bold text-white leading-tight hover-text-morph transition-all duration-300">
             We hate the way studying has become.
           </h2>
         </div>
 
-        <p className="text-2xl text-white mb-8 font-light cinematic-text">Who wouldn't?</p>
+        <p className="text-2xl text-white mb-2 font-light cinematic-text">Who wouldn't?</p>
         
         <HandDrawnScribble className="hand-drawn-deco hand-drawn-reveal float-deco-3 absolute bottom-0 right-24 text-amber-400 opacity-20" />
       </section>
 
       {/* Problems Grid */}
-      <section className="max-w-7xl mx-auto px-6 mt-12 cinematic-section">
-        <div className="relative mb-12">
+      <section className="max-w-7xl mx-auto px-6 mt-2 cinematic-section">
+        <div className="relative mb-6">
           <h3 className="text-4xl md:text-5xl font-bold text-white text-center hover-text-morph transition-all duration-300">
             <TextReveal text="Why is this a problem for you?" />
           </h3>
-          <HandDrawnUnderline className="hand-drawn-deco hand-drawn-reveal mx-auto mt-5 text-sky-400 opacity-30" style={{ display: "block", width: 420 }} />
+          <HandDrawnUnderline className="hand-drawn-deco hand-drawn-reveal mx-auto mt-2 text-sky-400 opacity-30" style={{ display: "block", width: 420 }} />
         </div>
         
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">

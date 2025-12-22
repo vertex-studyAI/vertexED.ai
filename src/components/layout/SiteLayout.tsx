@@ -1,7 +1,11 @@
 import { Outlet, Link } from "react-router-dom";
-import { Suspense } from "react";
-import { useState, useEffect } from "react";
+import React, { Suspense, useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
+
+const FluidCursor = React.lazy(() =>
+  import("@/components/FluidCursor").catch(() => ({ default: () => null })),
+);
+
 import { RouteSemanticHeadings } from "@/components/SemanticHeadings";
 import { useAuth } from "@/contexts/AuthContext";
 import BreadcrumbsJsonLd from "@/components/BreadcrumbsJsonLd";
@@ -192,6 +196,23 @@ export default function SiteLayout() {
           <Outlet />
         </Suspense>
       </main>
+      {/* Fluid Cursor Global */}
+      <div
+        id="fluid-cursor-root"
+        style={{
+          position: "fixed",
+          inset: 0,
+          width: "100vw",
+          height: "100vh",
+          pointerEvents: "none",
+          zIndex: 999999,
+          overflow: "visible",
+        }}
+      >
+        <Suspense fallback={null}>
+          <FluidCursor />
+        </Suspense>
+      </div>
     </div>
   );
 }
