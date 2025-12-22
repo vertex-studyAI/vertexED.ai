@@ -1,17 +1,20 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import {
   ArrowRight,
   BookOpen,
   Layers,
   UploadCloud,
 } from "lucide-react";
+
 import PageSection from "@/components/PageSection";
 import NeumorphicCard from "@/components/NeumorphicCard";
 
 export default function ArchivesHome(): JSX.Element {
+  const reduceMotion = useReducedMotion();
+
   return (
     <>
       <Helmet>
@@ -24,37 +27,43 @@ export default function ArchivesHome(): JSX.Element {
 
       <PageSection>
         {/* Header */}
-        <div className="mb-10">
+        <header className="mb-10">
           <h1 className="text-2xl font-medium flex items-center gap-2">
-            <BookOpen size={20} />
+            <BookOpen size={20} aria-hidden />
             Archives
           </h1>
           <p className="text-sm text-gray-500 mt-1 max-w-4xl">
             A structured knowledge base of curated notes and exemplar answers,
             organized by subject and built for long-term academic use.
           </p>
-        </div>
+        </header>
 
         {/* Main Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Left: Explanation Panel */}
           <NeumorphicCard className="p-6 lg:col-span-1 h-full">
             <h2 className="text-lg font-medium mb-4 flex items-center gap-2">
-              <Layers size={18} />
+              <Layers size={18} aria-hidden />
               What the Archives Do
             </h2>
 
-            <ul className="space-y-4 text-sm text-gray-600 leading-relaxed">
+            <ul className="list-disc pl-5 space-y-4 text-sm text-gray-600 leading-relaxed">
               <li>
-                • Provide <span className="text-gray-800 font-medium">exam-aligned notes</span>,
-                exemplar responses, and structured explanations across subjects.
+                Provide{" "}
+                <span className="text-gray-800 font-medium">
+                  exam-aligned notes
+                </span>
+                , exemplar responses, and structured explanations.
               </li>
               <li>
-                • Act as a <span className="text-gray-800 font-medium">reference library</span> —
-                not a feed. Content is added deliberately, not algorithmically.
+                Act as a{" "}
+                <span className="text-gray-800 font-medium">
+                  reference library
+                </span>{" "}
+                — not a feed. Content is added deliberately.
               </li>
               <li>
-                • Help students understand{" "}
+                Teach{" "}
                 <span className="text-gray-800 font-medium">
                   how high-quality answers are built
                 </span>
@@ -64,16 +73,17 @@ export default function ArchivesHome(): JSX.Element {
 
             <div className="mt-6 pt-4 border-t border-black/5">
               <div className="flex items-start gap-3 text-sm text-gray-600">
-                <UploadCloud size={18} className="mt-0.5" />
+                <UploadCloud size={18} className="mt-0.5" aria-hidden />
                 <p>
                   You can contribute notes, exemplars, or study material.
                   Submissions are reviewed before being added.
                   <br />
-                  <span className="block mt-2 text-gray-800 font-medium">
-                    Send contributions to:
-                    <br />
+                  <a
+                    href="mailto:vertexed.25@gmail.com"
+                    className="block mt-2 font-medium text-gray-800 hover:underline"
+                  >
                     vertexed.25@gmail.com
-                  </span>
+                  </a>
                 </p>
               </div>
             </div>
@@ -85,18 +95,21 @@ export default function ArchivesHome(): JSX.Element {
               to="/archives/english"
               title="English — Language & Literature"
               description="Literary analysis, annotated texts, close readings, and exemplar responses across prose, poetry, and non-fiction."
+              reduceMotion={reduceMotion}
             />
 
             <ArchiveCard
               to="/archives/history"
               title="History"
               description="Clear timelines, cause–consequence analysis, structured arguments, and source-based exemplars."
+              reduceMotion={reduceMotion}
             />
 
             <ArchiveCard
               to="/archives/geography"
               title="Geography"
               description="Case studies, spatial frameworks, diagrams, and exam-focused explanations for physical and human geography."
+              reduceMotion={reduceMotion}
             />
           </div>
         </div>
@@ -105,23 +118,31 @@ export default function ArchivesHome(): JSX.Element {
   );
 }
 
+type ArchiveCardProps = {
+  to: string;
+  title: string;
+  description: string;
+  reduceMotion: boolean;
+};
+
 function ArchiveCard({
   to,
   title,
   description,
-}: {
-  to: string;
-  title: string;
-  description: string;
-}) {
+  reduceMotion,
+}: ArchiveCardProps) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 8 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.25 }}
+      initial={reduceMotion ? false : { opacity: 0, y: 8 }}
+      animate={reduceMotion ? {} : { opacity: 1, y: 0 }}
+      transition={{ duration: 0.25, ease: "easeOut" }}
     >
-      <Link to={to} aria-label={`Open ${title}`}>
-        <NeumorphicCard className="p-6 hover:scale-[1.01] transition-transform">
+      <Link
+        to={to}
+        aria-label={`Open ${title}`}
+        className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-black/30 rounded-xl"
+      >
+        <NeumorphicCard className="p-6 transition-transform hover:scale-[1.01]">
           <div className="flex items-center justify-between gap-6">
             <div>
               <h3 className="text-base font-medium mb-1">{title}</h3>
@@ -130,7 +151,10 @@ function ArchiveCard({
               </p>
             </div>
 
-            <ArrowRight className="w-5 h-5 text-gray-400 shrink-0" />
+            <ArrowRight
+              className="w-5 h-5 text-gray-400 shrink-0"
+              aria-hidden
+            />
           </div>
         </NeumorphicCard>
       </Link>
