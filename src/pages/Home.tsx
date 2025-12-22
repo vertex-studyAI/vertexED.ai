@@ -126,6 +126,108 @@ const HandDrawnSparkles = ({ className = "", style = {} }) => (
   </svg>
 );
 
+const featureSideText = [
+  "This is the perfect tool for when independent study needs assistance; from graphing calculators to even a simple activity log to track progress, we got your back",
+  "Not just a souless bot, it learns and adapts to you and actually understands what it means to help teach and explain a concept in ways which make sense to you",
+  "Better organize your sessions and activities so you end up with more done and less energy spent so you can focus on what really matters; life.",
+  "Like a teacher built in, it may be a little strict at first but with its feedback you can produce output which truly scores when the time comes",
+  "It's like having infinite practice papers ready to go. Non Stop practice based on material which already exist.",
+  "This is just the beginning! more features are on their way as you read this and whatever you see now will improve as we grow."
+];
+
+function ProblemCard({ p, i, flipped, toggleFlip }: { p: { stat: string; text: string }; i: number; flipped: boolean; toggleFlip: (i: number) => void }) {
+  const onKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      toggleFlip(i);
+    }
+  };
+
+  return (
+    <div className="problem-card-container">
+      <div
+        onClick={() => toggleFlip(i)}
+        onKeyDown={onKeyDown}
+        role="button"
+        tabIndex={0}
+        aria-pressed={flipped}
+        className="group relative h-64 rounded-3xl perspective tilt-card pop-up cursor-pointer"
+        aria-label={`Problem card ${i + 1}`}
+      >
+        <div
+          className="absolute inset-0 w-full h-full"
+          style={{
+            transformStyle: "preserve-3d",
+            transform: flipped ? "rotateY(180deg)" : "rotateY(0deg)",
+            transition: "transform 0.6s cubic-bezier(0.4, 0.0, 0.2, 1)",
+          }}
+        >
+          <div
+            className="absolute inset-0 flex flex-col items-center justify-center gap-5 text-6xl font-bold rounded-3xl problem-card-front"
+            style={{
+              backfaceVisibility: "hidden",
+              background: "rgba(255, 255, 255, 0.05)",
+              backdropFilter: "blur(12px)",
+              border: "1px solid rgba(255, 255, 255, 0.1)",
+              boxShadow: "0 8px 32px 0 rgba(0, 0, 0, 0.2)",
+              color: "#ffffff",
+            }}
+          >
+            <span className="stat-number" style={{ fontFeatureSettings: "'tnum' 1", letterSpacing: "-0.02em", textShadow: "0 0 20px rgba(255,255,255,0.3)" }}>{p.stat}</span>
+            <span className="text-lg italic opacity-70 font-normal">Click to find out</span>
+          </div>
+
+          <div
+            className="absolute inset-0 flex items-center justify-center p-7 text-xl leading-relaxed rounded-3xl"
+            style={{
+              transform: "rotateY(180deg)",
+              backfaceVisibility: "hidden",
+              background: "rgba(255, 255, 255, 0.05)",
+              backdropFilter: "blur(12px)",
+              border: "1px solid rgba(255, 255, 255, 0.1)",
+              color: "#e6eef6",
+              boxShadow: "0 8px 32px 0 rgba(0, 0, 0, 0.2)",
+            }}
+          >
+            <div>
+              <div className="font-medium">{p.text}</div>
+              <div className="mt-5 text-sm italic opacity-80">Backed by research-backed principles: active recall, spaced repetition and retrieval practice.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function FeatureRow({ f, i }: { f: { title: string; desc: string }; i: number }) {
+  return (
+    <div className={`feature-row flex flex-col md:flex-row items-center gap-14 pop-up ${i % 2 !== 0 ? "md:flex-row-reverse" : ""}`}>
+      <div className="flex-1 glass-tile rounded-3xl shadow-2xl p-9 text-slate-100 tilt-card feature-card relative overflow-hidden">
+        <div className="relative z-10">
+          <h4 className="text-3xl font-bold mb-5 pop-up swap-span hover-text-morph transition-all duration-400">
+            <LetterPullUp text={f.title} />
+          </h4>
+          <p className="pop-up highlight-clip text-lg leading-relaxed">
+            <span className="hl-inner">{f.desc}</span>
+          </p>
+          <div className="mt-6 text-base text-slate-400">Built around proven learning techniques.</div>
+        </div>
+        <div className="feature-glow"></div>
+      </div>
+
+      <div className="flex-1 text-slate-300 text-xl md:text-2xl leading-relaxed text-center md:text-left pop-up cinematic-text">
+        <div className="font-semibold mb-4 hover-text-morph transition-all duration-300">
+          {i % 2 === 0
+            ? "The all in 1 hub for your study sessions with all the tools one could ask for."
+            : "Designed to keep you motivated and productive, no matter how overwhelming your syllabus seems."}
+        </div>
+        <div className="text-lg text-slate-400 opacity-90">{featureSideText[i]}</div>
+      </div>
+    </div>
+  );
+}
+
 export default function Home() {
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
@@ -152,15 +254,6 @@ export default function Home() {
     { title: "Answer Reviewer", desc: "Not just a reviewer, but a mentor. Receive strict yet constructive feedback on your answers, showing you exactly how to improve and helping you deliver when it really matters." },
     { title: "IB/IGCSE Paper Maker", desc: "Create syllabus-aligned test papers instantly. No fluff, no generic questions — just rigorous practice that actually helps you prepare based on real papers from the past." },
     { title: "Notes + Flashcards + Quiz", desc: "From note takers to flashcards to quizzes, all in one seamless workflow. Perfect for when procastination caught the best of you and typing feels too hard" },
-  ];
-
-  const featureSideText = [
-    "This is the perfect tool for when independent study needs assistance; from graphing calculators to even a simple activity log to track progress, we got your back",
-    "Not just a souless bot, it learns and adapts to you and actually understands what it means to help teach and explain a concept in ways which make sense to you",
-    "Better organize your sessions and activities so you end up with more done and less energy spent so you can focus on what really matters; life.",
-    "Like a teacher built in, it may be a little strict at first but with its feedback you can produce output which truly scores when the time comes",
-    "It's like having infinite practice papers ready to go. Non Stop practice based on material which already exist.",
-    "This is just the beginning! more features are on their way as you read this and whatever you see now will improve as we grow."
   ];
 
   const [flipped, setFlipped] = useState<boolean[]>(Array(problems.length).fill(false));
@@ -567,98 +660,6 @@ export default function Home() {
       if (raf) cancelAnimationFrame(raf);
     };
   }, []);
-
-
-
-  function ProblemCard({ p, i }: { p: { stat: string; text: string }; i: number }) {
-    const onKeyDown = (e: React.KeyboardEvent) => {
-      if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        toggleFlip(i);
-      }
-    };
-
-    return (
-      <div className="problem-card-container">
-        <div
-          onClick={() => toggleFlip(i)}
-          onKeyDown={onKeyDown}
-          role="button"
-          tabIndex={0}
-          aria-pressed={flipped[i]}
-          className="group relative h-64 rounded-3xl transition-all duration-500 hover:scale-105 perspective tilt-card pop-up cursor-pointer"
-          aria-label={`Problem card ${i + 1}`}
-        >
-          <div
-            className="absolute inset-0 transition-transform duration-700 transform"
-            style={{
-              transformStyle: "preserve-3d",
-              transform: flipped[i] ? "rotateY(180deg)" : "rotateY(0deg)",
-            }}
-          >
-            <div
-              className="absolute inset-0 flex flex-col items-center justify-center gap-5 text-6xl font-bold rounded-3xl problem-card-front"
-              style={{
-                backfaceVisibility: "hidden",
-                background: "linear-gradient(135deg,#ffffff,#f0f9ff)",
-                color: "#04263b",
-                boxShadow: "0 12px 48px rgba(6,10,15,0.1)",
-                border: "2px solid rgba(6,10,15,0.08)",
-              }}
-            >
-              <span className="stat-number" style={{ fontFeatureSettings: "'tnum' 1", letterSpacing: "-0.02em" }}>{p.stat}</span>
-              <span className="text-lg italic opacity-70 font-normal">Click to find out</span>
-            </div>
-
-            <div
-              className="absolute inset-0 flex items-center justify-center p-7 text-xl leading-relaxed rounded-3xl"
-              style={{
-                transform: "rotateY(180deg)",
-                backfaceVisibility: "hidden",
-                background: "linear-gradient(135deg, rgba(8,12,20,0.95), rgba(11,16,22,0.92))",
-                color: "#e6eef6",
-                border: "2px solid rgba(255,255,255,0.1)",
-                backdropFilter: "blur(16px) saturate(130%)",
-              }}
-            >
-              <div>
-                <div className="font-medium">{p.text}</div>
-                <div className="mt-5 text-sm italic opacity-80">Backed by research-backed principles: active recall, spaced repetition and retrieval practice.</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  function FeatureRow({ f, i }: { f: { title: string; desc: string }; i: number }) {
-    return (
-      <div className={`feature-row flex flex-col md:flex-row items-center gap-14 pop-up ${i % 2 !== 0 ? "md:flex-row-reverse" : ""}`}>
-        <div className="flex-1 glass-tile rounded-3xl shadow-2xl p-9 text-slate-100 tilt-card feature-card relative overflow-hidden">
-          <div className="relative z-10">
-            <h4 className="text-3xl font-bold mb-5 pop-up swap-span hover-text-morph transition-all duration-400">
-              <LetterPullUp text={f.title} />
-            </h4>
-            <p className="pop-up highlight-clip text-lg leading-relaxed">
-              <span className="hl-inner">{f.desc}</span>
-            </p>
-            <div className="mt-6 text-base text-slate-400">Built around proven learning techniques.</div>
-          </div>
-          <div className="feature-glow"></div>
-        </div>
-
-        <div className="flex-1 text-slate-300 text-xl md:text-2xl leading-relaxed text-center md:text-left pop-up cinematic-text">
-          <div className="font-semibold mb-4 hover-text-morph transition-all duration-300">
-            {i % 2 === 0
-              ? "The all in 1 hub for your study sessions with all the tools one could ask for."
-              : "Designed to keep you motivated and productive, no matter how overwhelming your syllabus seems."}
-          </div>
-          <div className="text-lg text-slate-400 opacity-90">{featureSideText[i]}</div>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <>
@@ -1074,7 +1075,7 @@ export default function Home() {
         </div>
         
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {problems.map((p, i) => <ProblemCard key={i} p={p} i={i} />)}
+          {problems.map((p, i) => <ProblemCard key={i} p={p} i={i} flipped={flipped[i]} toggleFlip={toggleFlip} />)}
         </div>
       </section>
 
