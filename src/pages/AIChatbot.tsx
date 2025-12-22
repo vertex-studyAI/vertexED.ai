@@ -1,4 +1,3 @@
-// src/pages/AIChatbot.jsx
 import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
@@ -13,48 +12,19 @@ import { fetchChatbotAnswer } from "@/lib/chatbotApi";
 
 const TABS = ["Chat", "Examples", "How it works"];
 
-const EXAMPLES = [
-  "Solve ∫x e^x dx step by step",
-  "Explain price elasticity of demand with a real-life example",
-  "Derive the quadratic formula",
-  "Explain Newton’s Second Law intuitively",
-];
-
-/* ---------------- SUBJECT AUTO TAGGING ---------------- */
 const detectSubject = (text = "") => {
   const t = text.toLowerCase();
 
-  if (
-    t.includes("integral") ||
-    t.includes("derivative") ||
-    t.includes("solve") ||
-    t.includes("equation")
-  )
-    return { label: "Math", color: "bg-indigo-100 text-indigo-700" };
+  if (t.includes("integral") || t.includes("derivative") || t.includes("solve"))
+    return { label: "Math", color: "bg-indigo-100 text-indigo-800" };
 
-  if (
-    t.includes("force") ||
-    t.includes("velocity") ||
-    t.includes("newton") ||
-    t.includes("energy")
-  )
-    return { label: "Physics", color: "bg-purple-100 text-purple-700" };
+  if (t.includes("force") || t.includes("velocity") || t.includes("newton"))
+    return { label: "Physics", color: "bg-purple-100 text-purple-800" };
 
-  if (
-    t.includes("demand") ||
-    t.includes("supply") ||
-    t.includes("elasticity") ||
-    t.includes("market")
-  )
-    return { label: "Economics", color: "bg-emerald-100 text-emerald-700" };
+  if (t.includes("demand") || t.includes("elasticity") || t.includes("market"))
+    return { label: "Economics", color: "bg-emerald-100 text-emerald-800" };
 
-  return { label: "General", color: "bg-slate-100 text-slate-700" };
-};
-
-/* ---------------- ANIMATIONS ---------------- */
-const messageAnim = {
-  hidden: { opacity: 0, y: 6 },
-  visible: { opacity: 1, y: 0 },
+  return { label: "General", color: "bg-slate-100 text-slate-800" };
 };
 
 export default function AIChatbot() {
@@ -85,7 +55,7 @@ export default function AIChatbot() {
 
     try {
       const data = await fetchChatbotAnswer(userInput);
-      const botAnswer =
+      const answer =
         data?.answer?.trim() ||
         "Sorry — I couldn't generate a response.";
 
@@ -98,18 +68,18 @@ export default function AIChatbot() {
       const interval = setInterval(() => {
         setChatMessages((prev) => {
           const copy = [...prev];
-          copy[copy.length - 1].text += botAnswer[i] ?? "";
+          copy[copy.length - 1].text += answer[i] ?? "";
           return copy;
         });
         i++;
-        if (i >= botAnswer.length) clearInterval(interval);
+        if (i >= answer.length) clearInterval(interval);
       }, 18);
     } catch {
       setChatMessages((prev) => [
         ...prev,
         {
           sender: "bot",
-          text: "An error occurred while fetching the response.",
+          text: "An error occurred.",
           subject: detectSubject(""),
         },
       ]);
@@ -123,7 +93,7 @@ export default function AIChatbot() {
     <>
       <SEO
         title="AI Study Chatbot | VertexED"
-        description="Academic AI assistant with reasoning, math rendering, subject detection, and animations."
+        description="Step-by-step academic reasoning with math support."
       />
 
       <PageSection>
@@ -133,35 +103,44 @@ export default function AIChatbot() {
           </Link>
         </div>
 
-        <NeumorphicCard className="p-6 bg-white/60 backdrop-blur-md hover:shadow-lg transition">
+        {/* MAIN GLASS CARD */}
+        <NeumorphicCard
+          className="
+            p-6
+            bg-white/25
+            backdrop-blur-2xl
+            border border-white/20
+            shadow-[0_20px_60px_rgba(0,0,0,0.35)]
+          "
+        >
           {/* Header */}
           <div className="mb-6">
-            <h1 className="text-2xl font-semibold text-sky-700 mb-1">
+            <h1 className="text-2xl font-semibold text-sky-400 mb-1">
               AI Study Assistant
             </h1>
-            <p className="text-sm text-slate-500 max-w-2xl">
+            <p className="text-sm text-slate-300 max-w-2xl">
               Step-by-step academic reasoning with subject detection and math
               support.
             </p>
           </div>
 
           {/* Tabs */}
-          <div className="flex gap-6 mb-6 border-b">
+          <div className="flex gap-6 mb-6 border-b border-white/20">
             {TABS.map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
                 className={`relative pb-2 text-sm transition ${
                   activeTab === tab
-                    ? "text-sky-700"
-                    : "text-slate-500 hover:text-sky-600"
+                    ? "text-sky-400"
+                    : "text-slate-400 hover:text-sky-300"
                 }`}
               >
                 {tab}
                 {activeTab === tab && (
                   <motion.span
                     layoutId="tab"
-                    className="absolute left-0 -bottom-[1px] w-full h-0.5 bg-sky-500 rounded-full"
+                    className="absolute left-0 -bottom-[1px] w-full h-0.5 bg-sky-400 rounded-full"
                   />
                 )}
               </button>
@@ -173,19 +152,19 @@ export default function AIChatbot() {
             <div className="h-[65vh] flex flex-col">
               <div
                 ref={chatPanelRef}
-                className="flex-1 p-4 mb-4 overflow-y-auto space-y-4 rounded-lg scrollbar-thin scrollbar-thumb-sky-300"
+                className="flex-1 p-4 mb-4 overflow-y-auto space-y-4 rounded-lg"
               >
                 <AnimatePresence>
                   {chatMessages.length === 0 && !loading && (
                     <motion.div
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
-                      className="h-full flex flex-col items-center justify-center text-center text-slate-400"
+                      className="h-full flex flex-col items-center justify-center text-center"
                     >
-                      <h3 className="text-lg font-semibold text-sky-600 mb-2">
+                      <h3 className="text-lg font-semibold text-sky-400 mb-2">
                         Ask anything you’re studying
                       </h3>
-                      <p className="text-sm max-w-md">
+                      <p className="text-sm text-slate-400">
                         Math, Physics, Economics — explained step by step.
                       </p>
                     </motion.div>
@@ -194,9 +173,8 @@ export default function AIChatbot() {
                   {chatMessages.map((msg, idx) => (
                     <motion.div
                       key={idx}
-                      variants={messageAnim}
-                      initial="hidden"
-                      animate="visible"
+                      initial={{ opacity: 0, y: 6 }}
+                      animate={{ opacity: 1, y: 0 }}
                       className={`flex ${
                         msg.sender === "bot"
                           ? "justify-start"
@@ -204,15 +182,18 @@ export default function AIChatbot() {
                       }`}
                     >
                       <div
-                        className={`max-w-[75%] px-4 py-3 rounded-2xl border backdrop-blur-md shadow-sm
-                          ${
-                            msg.sender === "bot"
-                              ? "bg-sky-50/60 border-sky-200 rounded-tl-sm"
-                              : "bg-emerald-50/60 border-emerald-200 rounded-tr-sm"
-                          }`}
+                        className="
+                          max-w-[75%]
+                          px-4 py-3
+                          rounded-2xl
+                          bg-white/35
+                          backdrop-blur-lg
+                          border border-white/30
+                          shadow-md
+                        "
                       >
                         <div className="flex items-center gap-2 mb-1">
-                          <span className="text-xs font-semibold opacity-70">
+                          <span className="text-xs font-semibold text-slate-800">
                             {msg.sender === "bot" ? "AI" : "You"}
                           </span>
                           <span
@@ -225,7 +206,7 @@ export default function AIChatbot() {
                         <ReactMarkdown
                           remarkPlugins={[remarkMath]}
                           rehypePlugins={[rehypeKatex]}
-                          className="prose prose-sm prose-sky"
+                          className="prose prose-sm text-slate-900"
                         >
                           {msg.text}
                         </ReactMarkdown>
@@ -243,19 +224,35 @@ export default function AIChatbot() {
                 )}
               </div>
 
-              {/* Input */}
+              {/* INPUT BAR — FIXED TEXT COLOR + GLASS */}
               <motion.div
                 layout
-                className="flex gap-2 p-3 rounded-xl bg-white/70 backdrop-blur-md border shadow-md"
+                className="
+                  flex gap-2 p-3
+                  rounded-2xl
+                  bg-white/40
+                  backdrop-blur-xl
+                  border border-white/30
+                  shadow-[0_8px_30px_rgba(0,0,0,0.12)]
+                "
               >
                 <input
-                  className="flex-1 px-4 py-3 rounded-lg border focus:ring-2 focus:ring-sky-300"
+                  className="
+                    flex-1 px-4 py-3 rounded-lg
+                    bg-white/90
+                    text-black
+                    placeholder:text-slate-500
+                    border border-slate-300
+                    focus:ring-2 focus:ring-sky-300
+                    focus:outline-none
+                  "
                   placeholder="Ask a math, physics, or economics question…"
                   value={userInput}
                   onChange={(e) => setUserInput(e.target.value)}
                   onKeyDown={(e) => e.key === "Enter" && handleSend()}
                   disabled={loading}
                 />
+
                 <button
                   onClick={handleSend}
                   disabled={loading}
@@ -268,33 +265,6 @@ export default function AIChatbot() {
                   Send
                 </button>
               </motion.div>
-            </div>
-          )}
-
-          {/* EXAMPLES */}
-          {activeTab === "Examples" && (
-            <div className="space-y-3">
-              {EXAMPLES.map((ex) => (
-                <button
-                  key={ex}
-                  onClick={() => {
-                    setUserInput(ex);
-                    setActiveTab("Chat");
-                  }}
-                  className="block w-full text-left px-4 py-3 rounded-lg bg-slate-50 hover:bg-sky-50 border transition"
-                >
-                  {ex}
-                </button>
-              ))}
-            </div>
-          )}
-
-          {/* HOW IT WORKS */}
-          {activeTab === "How it works" && (
-            <div className="text-sm text-slate-500 max-w-3xl leading-relaxed">
-              The assistant auto-detects subjects, explains concepts step by step,
-              and renders mathematical notation using LaTeX. Designed for
-              academic clarity over short answers.
             </div>
           )}
         </NeumorphicCard>
