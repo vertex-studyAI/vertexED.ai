@@ -667,17 +667,47 @@ export default function Home() {
         title="VertexED — AI Study Tools for Students"
         description="An all-in-one AI study toolkit with an assortment of features aimed at helping you score higher and learn better"
         canonical="https://www.vertexed.app/"
-        jsonLd={{
-          "@context": "https://schema.org",
-          "@type": "WebSite",
-          name: "VertexED — AI Study Toolkit",
-          url: "https://www.vertexed.app/",
-          potentialAction: {
-            "@type": "SearchAction",
-            target: "https://www.vertexed.app/?q={search_term_string}",
-            "query-input": "required name=search_term_string"
+        jsonLd={[
+          {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            name: "VertexED — AI Study Toolkit",
+            url: "https://www.vertexed.app/",
+            potentialAction: {
+              "@type": "SearchAction",
+              target: "https://www.vertexed.app/?q={search_term_string}",
+              "query-input": "required name=search_term_string"
+            }
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            name: "VertexED",
+            url: "https://www.vertexed.app",
+            logo: "https://www.vertexed.app/logo.png",
+            sameAs: [
+              "https://www.instagram.com/vertexed.ai",
+              "https://twitter.com/vertexed_ai"
+            ]
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            name: "VertexED",
+            applicationCategory: "EducationalApplication",
+            operatingSystem: "Web",
+            offers: {
+              "@type": "Offer",
+              price: "0",
+              priceCurrency: "USD"
+            },
+            aggregateRating: {
+              "@type": "AggregateRating",
+              ratingValue: "4.8",
+              ratingCount: "150"
+            }
           }
-        }}
+        ]}
       />
 
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { Helmet } from "react-helmet-async";
+import SEO from "@/components/SEO";
 import { Linkedin } from "lucide-react";
 import PageSection from "@/components/PageSection";
 
@@ -46,14 +46,28 @@ export default function About(): JSX.Element {
 
   return (
     <>
-      <Helmet>
-        <title>About Vertex — AI Study Tools</title>
-        <meta
-          name="description"
-          content="Learn about Vertex, the all-in-one AI study tools platform, and the founding team."
-        />
-        <link rel="canonical" href="https://www.vertexed.app/about" />
-      </Helmet>
+      <SEO
+        title="About Vertex — AI Study Tools"
+        description="Learn about Vertex, the all-in-one AI study tools platform, and the founding team."
+        canonical="https://www.vertexed.app/about"
+        jsonLd={[
+          {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            name: "VertexED",
+            url: "https://www.vertexed.app",
+            logo: "https://www.vertexed.app/logo.png",
+            foundingDate: "2025",
+            founders: team.map(p => ({
+              "@type": "Person",
+              name: p.name,
+              jobTitle: p.role,
+              description: p.bio,
+              sameAs: p.linkedin !== "#" ? [p.linkedin] : []
+            }))
+          }
+        ]}
+      />
 
       <PageSection className="relative px-6 md:px-12">
         <h1 className="text-4xl md:text-5xl font-semibold mb-6 tracking-tight">

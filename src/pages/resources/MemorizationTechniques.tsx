@@ -11,6 +11,59 @@ export default function MemorizationTechniques() {
         description="Struggling to remember facts? Compare the best memorization techniques: The Memory Palace (Loci Method), Spaced Repetition, and Active Recall. Learn which one fits your learning style."
         canonical="https://www.vertexed.app/resources/how-to-memorize-anything-fast"
         keywords="how to memorize fast, memory palace technique, method of loci, spaced repetition, active recall, mnemonics, study hacks, VertexED, remembering facts"
+        jsonLd={[
+          {
+            "@context": "https://schema.org",
+            "@type": "Article",
+            headline: "How to Memorize Anything Fast: The Memory Palace vs. Spaced Repetition",
+            description: "Struggling to remember facts? Compare the best memorization techniques.",
+            author: {
+              "@type": "Organization",
+              name: "VertexED Team",
+              url: "https://www.vertexed.app"
+            },
+            publisher: {
+              "@type": "Organization",
+              name: "VertexED",
+              logo: {
+                "@type": "ImageObject",
+                url: "https://www.vertexed.app/logo.png"
+              }
+            },
+            datePublished: "2025-12-24",
+            dateModified: "2025-12-24"
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            mainEntity: [
+              {
+                "@type": "Question",
+                name: "Can I combine them?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "Yes! Put your Memory Palace images onto Flashcards in Notetaker."
+                }
+              },
+              {
+                "@type": "Question",
+                name: "Why do I forget so fast?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "The 'Forgetting Curve' is steep. You lose 50% of new info within an hour unless you review it."
+                }
+              },
+              {
+                "@type": "Question",
+                name: "Is photographic memory real?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "Mostly no. People with 'good memories' just use these techniques instinctively."
+                }
+              }
+            ]
+          }
+        ]}
       />
       <Article
         title="How to Memorize Anything Fast: The Memory Palace vs. Spaced Repetition"

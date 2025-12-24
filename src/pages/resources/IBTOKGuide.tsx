@@ -11,6 +11,59 @@ export default function IBTOKGuide() {
         description="Struggling with Theory of Knowledge? Learn how to use AI to brainstorm Real Life Situations (RLS), develop Knowledge Questions, and explore AOKs/WOKs."
         canonical="https://www.vertexed.app/resources/ib-tok-guide-ai"
         keywords="IB TOK, Theory of Knowledge, TOK Essay AI, TOK Exhibition AI, Real Life Situations RLS, Knowledge Questions, Areas of Knowledge, Ways of Knowing, IB Diploma, VertexED"
+        jsonLd={[
+          {
+            "@context": "https://schema.org",
+            "@type": "Article",
+            headline: "Using AI for IB TOK: Essays & Exhibitions",
+            description: "Struggling with Theory of Knowledge? Learn how to use AI to brainstorm Real Life Situations (RLS).",
+            author: {
+              "@type": "Organization",
+              name: "VertexED Team",
+              url: "https://www.vertexed.app"
+            },
+            publisher: {
+              "@type": "Organization",
+              name: "VertexED",
+              logo: {
+                "@type": "ImageObject",
+                url: "https://www.vertexed.app/logo.png"
+              }
+            },
+            datePublished: "2025-12-24",
+            dateModified: "2025-12-24"
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            mainEntity: [
+              {
+                "@type": "Question",
+                name: "Can I use AI examples?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "Yes, but verify them. AI might invent a 'study' or a 'historical event.' Always Google the RLS to ensure it actually happened."
+                }
+              },
+              {
+                "@type": "Question",
+                name: "What if my RLS is too common?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "Ask the AI for 'niche' or 'under-represented' examples. Avoid the standard ones like 'Flat Earth Theory' or 'The Mandela Effect.'"
+                }
+              },
+              {
+                "@type": "Question",
+                name: "How do I structure the essay?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "Use the standard structure: Intro, Body 1 (Claim + Counter + Mini-Conclusion), Body 2 (Claim + Counter + Mini-Conclusion), Conclusion. Ask AI to check your flow."
+                }
+              }
+            ]
+          }
+        ]}
       />
       <Article
         title="Using AI for IB TOK: Essays & Exhibitions"

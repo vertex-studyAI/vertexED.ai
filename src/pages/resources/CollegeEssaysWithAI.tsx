@@ -11,6 +11,59 @@ export default function CollegeEssaysWithAI() {
         description="Applying to college? Learn how to use AI to brainstorm, structure, and refine your Common App or UCAS Personal Statement without losing your unique voice."
         canonical="https://www.vertexed.app/resources/college-essays-with-ai"
         keywords="college essay AI, Common App essay AI, UCAS personal statement AI, university application help, AI for admissions essays, brainstorming college essays, VertexED, ethical AI for college prep"
+        jsonLd={[
+          {
+            "@context": "https://schema.org",
+            "@type": "Article",
+            headline: "Writing College Essays with AI: How to Stand Out",
+            description: "Applying to college? Learn how to use AI to brainstorm, structure, and refine your Common App or UCAS Personal Statement.",
+            author: {
+              "@type": "Organization",
+              name: "VertexED Team",
+              url: "https://www.vertexed.app"
+            },
+            publisher: {
+              "@type": "Organization",
+              name: "VertexED",
+              logo: {
+                "@type": "ImageObject",
+                url: "https://www.vertexed.app/logo.png"
+              }
+            },
+            datePublished: "2025-12-24",
+            dateModified: "2025-12-24"
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            mainEntity: [
+              {
+                "@type": "Question",
+                name: "Do colleges check for AI?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "Yes. And even if they don't use detectors, they can smell 'AI syntax' (perfect grammar, zero soul) a mile away."
+                }
+              },
+              {
+                "@type": "Question",
+                name: "Can I use AI for supplemental essays?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "Yes, especially for the 'Why Us?' essay. Use AI to research specific professors or clubs at the university to mention."
+                }
+              },
+              {
+                "@type": "Question",
+                name: "Should I mention AI in my essay?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "Generally, no. Unless you are applying for Computer Science and building AI models is your passion."
+                }
+              }
+            ]
+          }
+        ]}
       />
       <Article
         title="Writing College Essays with AI: How to Stand Out"

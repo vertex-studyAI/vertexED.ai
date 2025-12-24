@@ -11,6 +11,59 @@ export default function AcademicBurnoutGuide() {
         description="Feeling exhausted? You might be burnt out. Learn the difference between stress and burnout, and discover the 'Minimum Viable Studying' method to recover."
         canonical="https://www.vertexed.app/resources/academic-burnout-guide"
         keywords="academic burnout, student burnout, study motivation, mental health for students, recovering from burnout, minimum viable studying, VertexED, exam stress"
+        jsonLd={[
+          {
+            "@context": "https://schema.org",
+            "@type": "Article",
+            headline: "Academic Burnout: Signs, Symptoms, and How to Recover",
+            description: "Feeling exhausted? You might be burnt out. Learn the difference between stress and burnout.",
+            author: {
+              "@type": "Organization",
+              name: "VertexED Team",
+              url: "https://www.vertexed.app"
+            },
+            publisher: {
+              "@type": "Organization",
+              name: "VertexED",
+              logo: {
+                "@type": "ImageObject",
+                url: "https://www.vertexed.app/logo.png"
+              }
+            },
+            datePublished: "2025-12-24",
+            dateModified: "2025-12-24"
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            mainEntity: [
+              {
+                "@type": "Question",
+                name: "Should I take a gap year?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "That's a big decision. Try a 'gap week' first. Complete detachment for 7 days often provides clarity."
+                }
+              },
+              {
+                "@type": "Question",
+                name: "Is it my fault?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "No. The modern education system is a pressure cooker. Burnout is a systemic response to chronic stress."
+                }
+              },
+              {
+                "@type": "Question",
+                name: "How do I explain this to my parents?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "Show them the data. Explain that rest is productive. 'I am resting now so I can sprint later.'"
+                }
+              }
+            ]
+          }
+        ]}
       />
       <Article
         title="Academic Burnout: Signs, Symptoms, and How to Recover"

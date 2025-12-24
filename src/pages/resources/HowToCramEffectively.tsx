@@ -11,6 +11,59 @@ export default function HowToCramEffectively() {
         description="Exam tomorrow? Don't panic. Here is a science-backed guide to emergency studying, triage, and high-yield revision using AI."
         canonical="https://www.vertexed.app/resources/how-to-cram-effectively"
         keywords="how to cram for exams, last minute study tips, emergency revision, high yield studying, Pareto principle studying, all-nighter tips, VertexED, exam panic"
+        jsonLd={[
+          {
+            "@context": "https://schema.org",
+            "@type": "Article",
+            headline: "How to Cram Effectively (When You Have No Time Left)",
+            description: "Exam tomorrow? Don't panic. Here is a science-backed guide to emergency studying.",
+            author: {
+              "@type": "Organization",
+              name: "VertexED Team",
+              url: "https://www.vertexed.app"
+            },
+            publisher: {
+              "@type": "Organization",
+              name: "VertexED",
+              logo: {
+                "@type": "ImageObject",
+                url: "https://www.vertexed.app/logo.png"
+              }
+            },
+            datePublished: "2025-12-24",
+            dateModified: "2025-12-24"
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            mainEntity: [
+              {
+                "@type": "Question",
+                name: "Should I drink coffee?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "Yes, but stop 6 hours before your planned sleep time. Caffeine jitters + exam anxiety = disaster."
+                }
+              },
+              {
+                "@type": "Question",
+                name: "What if I don't understand a concept?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "Skip it. If it takes more than 15 minutes to understand, it's not worth the time investment right now. Focus on memorizing facts you can retain."
+                }
+              },
+              {
+                "@type": "Question",
+                name: "How do I prevent this next time?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "Use the VertexED Planner. It automatically schedules your revision so you never have to cram again."
+                }
+              }
+            ]
+          }
+        ]}
       />
       <Article
         title="How to Cram Effectively (When You Have No Time Left)"

@@ -11,6 +11,59 @@ export default function IsUsingAICheating() {
         description="Confused about AI ethics? Learn the difference between AI-assisted learning and plagiarism. A guide to Turnitin, AI detection, and safe usage policies."
         canonical="https://www.vertexed.app/resources/is-using-ai-cheating"
         keywords="is using AI cheating, AI plagiarism, Turnitin AI detection, academic integrity AI, ChatGPT in schools, ethical AI use for students, university AI policies, VertexED"
+        jsonLd={[
+          {
+            "@context": "https://schema.org",
+            "@type": "Article",
+            headline: "Is Using AI Cheating? The Student's Guide to Academic Integrity",
+            description: "Confused about AI ethics? Learn the difference between AI-assisted learning and plagiarism.",
+            author: {
+              "@type": "Organization",
+              name: "VertexED Team",
+              url: "https://www.vertexed.app"
+            },
+            publisher: {
+              "@type": "Organization",
+              name: "VertexED",
+              logo: {
+                "@type": "ImageObject",
+                url: "https://www.vertexed.app/logo.png"
+              }
+            },
+            datePublished: "2025-12-24",
+            dateModified: "2025-12-24"
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            mainEntity: [
+              {
+                "@type": "Question",
+                name: "Will VertexED get me banned?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "No. VertexED is designed for study (quizzes, planning, feedback), not for generation of submission work. We help you learn, not cheat."
+                }
+              },
+              {
+                "@type": "Question",
+                name: "Can teachers tell if I used AI?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "Often, yes. Not because of detectors, but because the 'voice' changes. If your essay uses vocabulary you've never used in class, it's suspicious."
+                }
+              },
+              {
+                "@type": "Question",
+                name: "What if I'm falsely accused?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "Stay calm. Show your document version history. Show your planning notes. Demonstrate that you know the material by discussing it verbally."
+                }
+              }
+            ]
+          }
+        ]}
       />
       <Article
         title="Is Using AI Cheating? The Student's Guide to Academic Integrity"

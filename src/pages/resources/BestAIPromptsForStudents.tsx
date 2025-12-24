@@ -11,6 +11,59 @@ export default function BestAIPromptsForStudents() {
         description="Stop asking basic questions. Here is a curated list of the most powerful ChatGPT/AI prompts for students. Unlock deep explanations, quiz generation, and essay feedback."
         canonical="https://www.vertexed.app/resources/best-ai-prompts-for-students"
         keywords="best AI prompts for students, ChatGPT prompts for studying, prompt engineering for education, math prompts, essay writing prompts, science explanation prompts, VertexED, study hacks"
+        jsonLd={[
+          {
+            "@context": "https://schema.org",
+            "@type": "Article",
+            headline: "The 50 Best AI Prompts for Students: Math, Science & Essays",
+            description: "Stop asking basic questions. Here is a curated list of the most powerful ChatGPT/AI prompts for students.",
+            author: {
+              "@type": "Organization",
+              name: "VertexED Team",
+              url: "https://www.vertexed.app"
+            },
+            publisher: {
+              "@type": "Organization",
+              name: "VertexED",
+              logo: {
+                "@type": "ImageObject",
+                url: "https://www.vertexed.app/logo.png"
+              }
+            },
+            datePublished: "2025-12-24",
+            dateModified: "2025-12-24"
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            mainEntity: [
+              {
+                "@type": "Question",
+                name: "Can I save these prompts?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "Yes, keep a 'Prompt Library' in your notes app or use VertexED's built-in prompt templates."
+                }
+              },
+              {
+                "@type": "Question",
+                name: "Why does AI sometimes ignore constraints?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "Models can be forgetful. If it ignores you, reply with 'You forgot the constraint: [Constraint]. Try again.'"
+                }
+              },
+              {
+                "@type": "Question",
+                name: "Which model is best?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "For logic/math, use GPT-4o or Claude 3.5 (available in VertexED). For creative writing, basic models are often sufficient."
+                }
+              }
+            ]
+          }
+        ]}
       />
       <Article
         title="The 50 Best AI Prompts for Students: Math, Science & Essays"
