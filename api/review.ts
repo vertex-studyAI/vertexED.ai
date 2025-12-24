@@ -401,6 +401,28 @@ export const runWorkflow = async (workflow: WorkflowInput) => {
     const state = {
       register: false
     };
+
+    if (workflow.images && workflow.images.length > 0) {
+      try {
+        const response = await client.chat.completions.create({
+          model: "gpt-4o",
+          messages: [{
+            role: "user",
+            content: [
+              { type: "text", text: "Analyze these images and provide a detailed description of their content, especially any text, diagrams, or questions present, to be used as context." },
+              ...workflow.images.map((img) => ({ type: "image_url" as const, image_url: { url: img } })),
+            ],
+          }],
+        });
+        const imageDescription = response.choices[0]?.message?.content;
+        if (imageDescription) {
+          workflow.input_as_text += `\n\n[Image Context]: ${imageDescription}`;
+        }
+      } catch (e) {
+        console.error("Failed to process images", e);
+      }
+    }
+
     const conversationHistory: AgentInputItem[] = [
       { role: "user", content: [{ type: "input_text", text: workflow.input_as_text }] }
     ];
@@ -489,7 +511,7 @@ export const runWorkflow = async (workflow: WorkflowInput) => {
             const ibMypSummativeAgentResult = {
               output_text: ibMypSummativeAgentResultTemp.finalOutput ?? ""
             };
-            const guardrailsInputText1 = workflow.input_as_text;
+            const guardrailsInputText1 = ibMypSummativeAgentResult.output_text;
             const { hasTripwire: guardrailsHasTripwire1, safeText: guardrailsAnonymizedText1, failOutput: guardrailsFailOutput1, passOutput: guardrailsPassOutput1 } = await runAndApplyGuardrails(guardrailsInputText1, guardrailsConfig1, conversationHistory, workflow);
             const guardrailsOutput1 = (guardrailsHasTripwire1 ? guardrailsFailOutput1 : guardrailsPassOutput1);
             if (guardrailsHasTripwire1) {
@@ -521,7 +543,7 @@ export const runWorkflow = async (workflow: WorkflowInput) => {
             const ibMypMarkBasedAgentResult = {
               output_text: ibMypMarkBasedAgentResultTemp.finalOutput ?? ""
             };
-            const guardrailsInputText1 = workflow.input_as_text;
+            const guardrailsInputText1 = ibMypMarkBasedAgentResult.output_text;
             const { hasTripwire: guardrailsHasTripwire1, safeText: guardrailsAnonymizedText1, failOutput: guardrailsFailOutput1, passOutput: guardrailsPassOutput1 } = await runAndApplyGuardrails(guardrailsInputText1, guardrailsConfig1, conversationHistory, workflow);
             const guardrailsOutput1 = (guardrailsHasTripwire1 ? guardrailsFailOutput1 : guardrailsPassOutput1);
             if (guardrailsHasTripwire1) {
@@ -546,7 +568,7 @@ export const runWorkflow = async (workflow: WorkflowInput) => {
           const ibdpAgentResult = {
             output_text: ibdpAgentResultTemp.finalOutput ?? ""
           };
-          const guardrailsInputText1 = workflow.input_as_text;
+          const guardrailsInputText1 = ibdpAgentResult.output_text;
           const { hasTripwire: guardrailsHasTripwire1, safeText: guardrailsAnonymizedText1, failOutput: guardrailsFailOutput1, passOutput: guardrailsPassOutput1 } = await runAndApplyGuardrails(guardrailsInputText1, guardrailsConfig1, conversationHistory, workflow);
           const guardrailsOutput1 = (guardrailsHasTripwire1 ? guardrailsFailOutput1 : guardrailsPassOutput1);
           if (guardrailsHasTripwire1) {
@@ -571,7 +593,7 @@ export const runWorkflow = async (workflow: WorkflowInput) => {
         const igcseAgentResult = {
           output_text: igcseAgentResultTemp.finalOutput ?? ""
         };
-        const guardrailsInputText1 = workflow.input_as_text;
+        const guardrailsInputText1 = igcseAgentResult.output_text;
         const { hasTripwire: guardrailsHasTripwire1, safeText: guardrailsAnonymizedText1, failOutput: guardrailsFailOutput1, passOutput: guardrailsPassOutput1 } = await runAndApplyGuardrails(guardrailsInputText1, guardrailsConfig1, conversationHistory, workflow);
         const guardrailsOutput1 = (guardrailsHasTripwire1 ? guardrailsFailOutput1 : guardrailsPassOutput1);
         if (guardrailsHasTripwire1) {
@@ -595,7 +617,7 @@ export const runWorkflow = async (workflow: WorkflowInput) => {
         const icseAgentResult = {
           output_text: icseAgentResultTemp.finalOutput ?? ""
         };
-        const guardrailsInputText1 = workflow.input_as_text;
+        const guardrailsInputText1 = icseAgentResult.output_text;
         const { hasTripwire: guardrailsHasTripwire1, safeText: guardrailsAnonymizedText1, failOutput: guardrailsFailOutput1, passOutput: guardrailsPassOutput1 } = await runAndApplyGuardrails(guardrailsInputText1, guardrailsConfig1, conversationHistory, workflow);
         const guardrailsOutput1 = (guardrailsHasTripwire1 ? guardrailsFailOutput1 : guardrailsPassOutput1);
         if (guardrailsHasTripwire1) {
@@ -619,7 +641,7 @@ export const runWorkflow = async (workflow: WorkflowInput) => {
         const cbseAgentResult = {
           output_text: cbseAgentResultTemp.finalOutput ?? ""
         };
-        const guardrailsInputText1 = workflow.input_as_text;
+        const guardrailsInputText1 = cbseAgentResult.output_text;
         const { hasTripwire: guardrailsHasTripwire1, safeText: guardrailsAnonymizedText1, failOutput: guardrailsFailOutput1, passOutput: guardrailsPassOutput1 } = await runAndApplyGuardrails(guardrailsInputText1, guardrailsConfig1, conversationHistory, workflow);
         const guardrailsOutput1 = (guardrailsHasTripwire1 ? guardrailsFailOutput1 : guardrailsPassOutput1);
         if (guardrailsHasTripwire1) {
@@ -643,7 +665,7 @@ export const runWorkflow = async (workflow: WorkflowInput) => {
         const aLevelsAgentResult = {
           output_text: aLevelsAgentResultTemp.finalOutput ?? ""
         };
-        const guardrailsInputText1 = workflow.input_as_text;
+        const guardrailsInputText1 = aLevelsAgentResult.output_text;
         const { hasTripwire: guardrailsHasTripwire1, safeText: guardrailsAnonymizedText1, failOutput: guardrailsFailOutput1, passOutput: guardrailsPassOutput1 } = await runAndApplyGuardrails(guardrailsInputText1, guardrailsConfig1, conversationHistory, workflow);
         const guardrailsOutput1 = (guardrailsHasTripwire1 ? guardrailsFailOutput1 : guardrailsPassOutput1);
         if (guardrailsHasTripwire1) {
@@ -667,7 +689,7 @@ export const runWorkflow = async (workflow: WorkflowInput) => {
         const gcseAgentResult = {
           output_text: gcseAgentResultTemp.finalOutput ?? ""
         };
-        const guardrailsInputText1 = workflow.input_as_text;
+        const guardrailsInputText1 = gcseAgentResult.output_text;
         const { hasTripwire: guardrailsHasTripwire1, safeText: guardrailsAnonymizedText1, failOutput: guardrailsFailOutput1, passOutput: guardrailsPassOutput1 } = await runAndApplyGuardrails(guardrailsInputText1, guardrailsConfig1, conversationHistory, workflow);
         const guardrailsOutput1 = (guardrailsHasTripwire1 ? guardrailsFailOutput1 : guardrailsPassOutput1);
         if (guardrailsHasTripwire1) {
@@ -691,7 +713,7 @@ export const runWorkflow = async (workflow: WorkflowInput) => {
         const apExamAgentResult = {
           output_text: apExamAgentResultTemp.finalOutput ?? ""
         };
-        const guardrailsInputText1 = workflow.input_as_text;
+        const guardrailsInputText1 = apExamAgentResult.output_text;
         const { hasTripwire: guardrailsHasTripwire1, safeText: guardrailsAnonymizedText1, failOutput: guardrailsFailOutput1, passOutput: guardrailsPassOutput1 } = await runAndApplyGuardrails(guardrailsInputText1, guardrailsConfig1, conversationHistory, workflow);
         const guardrailsOutput1 = (guardrailsHasTripwire1 ? guardrailsFailOutput1 : guardrailsPassOutput1);
         if (guardrailsHasTripwire1) {
@@ -715,7 +737,7 @@ export const runWorkflow = async (workflow: WorkflowInput) => {
         const generalEducationResult = {
           output_text: generalEducationResultTemp.finalOutput ?? ""
         };
-        const guardrailsInputText1 = workflow.input_as_text;
+        const guardrailsInputText1 = generalEducationResult.output_text;
         const { hasTripwire: guardrailsHasTripwire1, safeText: guardrailsAnonymizedText1, failOutput: guardrailsFailOutput1, passOutput: guardrailsPassOutput1 } = await runAndApplyGuardrails(guardrailsInputText1, guardrailsConfig1, conversationHistory, workflow);
         const guardrailsOutput1 = (guardrailsHasTripwire1 ? guardrailsFailOutput1 : guardrailsPassOutput1);
         if (guardrailsHasTripwire1) {
