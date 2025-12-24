@@ -78,18 +78,34 @@ export default function SubjectGuidesCommonMistakes() {
           <li><strong>Humanities:</strong> Clear thesis? Evidence + analysis? Command term satisfied?</li>
         </ul>
 
+        <h2>FAQ</h2>
+        <p><strong>How do I find my specific mistakes?</strong> Use the <Link to="/answer-reviewer">Answer Reviewer</Link> to track your recurring errors. Look for patterns (e.g., "I always lose marks on definitions").</p>
+        <p><strong>Is this list exhaustive?</strong> No, it covers the most common 80% of errors. Your specific weaknesses might be different.</p>
+        <p><strong>Can AI help me fix them?</strong> Yes, ask the Chatbot to "Generate questions that force me to practice [Specific Mistake]" (e.g., "Give me unit conversion problems").</p>
+
         <div className="not-prose mt-8 flex gap-3 flex-wrap">
           <Link to="/planner" className="neu-button">Schedule subject drills</Link>
           <Link to="/study-zone" className="neu-button">Generate practice prompts</Link>
           <Link to="/answer-reviewer" className="neu-button">Get feedback fast</Link>
         </div>
 
+        <h2 className="mt-10">Evidence & references</h2>
+        <ul>
+          <li>Examiner Reports (Cambridge, IB, College Board) 2023-2024 — direct insights from the people who mark your exams.</li>
+          <li>Hattie, J. (2012): Visible Learning for Teachers — maximizing impact on learning.</li>
+        </ul>
+
+        <div className="mt-8 text-xs text-slate-400 border-t border-white/10 pt-4">
+          Editorial note: Reviewed for clarity and usefulness. Always cross‑check with your official syllabus and teacher guidance.
+          <div className="mt-1">Last updated: 2025-12-24 · Author: VertexED Team</div>
+        </div>
+
         <hr className="my-8 border-white/10" />
         <h3>Related guides</h3>
         <ul>
+          <li><Link to="/resources/igcse-science-revision">IGCSE Science Revision</Link></li>
+          <li><Link to="/resources/essay-writing-with-ai">Mastering Essay Writing with AI</Link></li>
           <li><Link to="/resources/notes-to-flashcards">From Notes to Flashcards</Link></li>
-          <li><Link to="/resources/ai-study-planner">AI Study Planner & Calendar</Link></li>
-          <li><Link to="/resources/exam-strategy-time-management">Exam Strategy & Time Management</Link></li>
         </ul>
       </Article>
     </>

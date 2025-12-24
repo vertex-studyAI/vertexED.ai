@@ -114,9 +114,9 @@ export default function AIStudyPlannerArticle() {
         </ul>
 
         <h2>FAQ</h2>
-        <p><strong>How often should I schedule micro‑reviews?</strong> 2–3 per week across subjects is enough—keep them short.</p>
-        <p><strong>Can I drag sessions around?</strong> Yes. The planner resolves conflicts and keeps spacing logic intact.</p>
-        <p><strong>How do I add exam practice?</strong> Use <Link to="/paper-maker">Paper Maker</Link> for 20–30 mark mini‑sets weekly.</p>
+        <p><strong>Does it sync with Google Calendar?</strong> We are working on a 2-way sync. For now, you can export your VertexED plan to an `.ics` file to import into Google Calendar or Outlook.</p>
+        <p><strong>What if I miss a day?</strong> Life happens. The AI automatically detects missed tasks and prompts you to "Reschedule" them. It will intelligently slot them into future free blocks without overloading you.</p>
+        <p><strong>How does it know what I need to study?</strong> It combines your exam date (deadline) with your self-reported confidence levels. Low confidence + near deadline = High Priority.</p>
 
         <div className="not-prose mt-8 flex gap-3">
           <Link to="/planner" className="neu-button">Open Planner</Link>
@@ -125,12 +125,23 @@ export default function AIStudyPlannerArticle() {
           <Link to="/paper-maker" className="neu-button">Practice Papers</Link>
         </div>
 
+        <h2 className="mt-10">Evidence & references</h2>
+        <ul>
+          <li>Ebbinghaus, H. (1885): Memory: A Contribution to Experimental Psychology — the origin of the Forgetting Curve.</li>
+          <li>Karpicke, J. D., & Roediger, H. L. (2008): The critical importance of retrieval for learning — why planning for <em>output</em> is better than planning for <em>input</em>.</li>
+        </ul>
+
+        <div className="mt-8 text-xs text-slate-400 border-t border-white/10 pt-4">
+          Editorial note: Reviewed for clarity and usefulness. Always cross‑check with your official syllabus and teacher guidance.
+          <div className="mt-1">Last updated: 2025-12-24 · Author: VertexED Team</div>
+        </div>
+
         <hr className="my-8 border-white/10" />
         <h3>Related guides</h3>
         <ul>
-          <li><Link to="/resources/notes-to-flashcards">From Notes to Flashcards (and Quizzes)</Link></li>
-          <li><Link to="/resources/exam-strategy-time-management">Exam Strategy & Time Management</Link></li>
           <li><Link to="/resources/active-recall-spaced-repetition">Active Recall & Spaced Repetition</Link></li>
+          <li><Link to="/resources/exam-strategy-time-management">Exam Strategy & Time Management</Link></li>
+          <li><Link to="/resources/best-ai-study-tools-2025">Best AI Study Tools 2025</Link></li>
         </ul>
       </Article>
     </>

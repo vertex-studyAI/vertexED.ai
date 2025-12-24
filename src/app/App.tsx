@@ -29,6 +29,21 @@ const AIAnswerReviewerArticle = lazy(() => import("@/pages/resources/AIAnswerRev
 const StudyTechniquesActiveRecall = lazy(() => import("@/pages/resources/StudyTechniquesActiveRecall"));
 const ExamStrategyTimeManagement = lazy(() => import("@/pages/resources/ExamStrategyTimeManagement"));
 const SubjectGuidesCommonMistakes = lazy(() => import("@/pages/resources/SubjectGuidesCommonMistakes"));
+const BestAIStudyTools2025 = lazy(() => import("@/pages/resources/BestAIStudyTools2025"));
+const AutomatedNoteTakingGuide = lazy(() => import("@/pages/resources/AutomatedNoteTakingGuide"));
+const HowToUseAIForStudying = lazy(() => import("@/pages/resources/HowToUseAIForStudying"));
+const AIChatbotTutorGuide = lazy(() => import("@/pages/resources/AIChatbotTutorGuide"));
+const IBMathGuide = lazy(() => import("@/pages/resources/IBMathGuide"));
+const IGCSEScienceGuide = lazy(() => import("@/pages/resources/IGCSEScienceGuide"));
+const EssayWritingGuide = lazy(() => import("@/pages/resources/EssayWritingGuide"));
+const ALevelAPGuide = lazy(() => import("@/pages/resources/ALevelAPGuide"));
+const IsUsingAICheating = lazy(() => import("@/pages/resources/IsUsingAICheating"));
+const HowToCramEffectively = lazy(() => import("@/pages/resources/HowToCramEffectively"));
+const IBTOKGuide = lazy(() => import("@/pages/resources/IBTOKGuide"));
+const BestAIPromptsForStudents = lazy(() => import("@/pages/resources/BestAIPromptsForStudents"));
+const AcademicBurnoutGuide = lazy(() => import("@/pages/resources/AcademicBurnoutGuide"));
+const MemorizationTechniques = lazy(() => import("@/pages/resources/MemorizationTechniques"));
+const CollegeEssaysWithAI = lazy(() => import("@/pages/resources/CollegeEssaysWithAI"));
 const Onboarding = lazy(() => import("@/pages/Onboarding"));
 import { AuthProvider } from "@/contexts/AuthContext";
 import { HelmetProvider } from "react-helmet-async";
@@ -91,6 +106,21 @@ return (
 						<Route path="resources/active-recall-spaced-repetition" element={<StudyTechniquesActiveRecall />} />
 						<Route path="resources/exam-strategy-time-management" element={<ExamStrategyTimeManagement />} />
 						<Route path="resources/subject-guides-common-mistakes" element={<SubjectGuidesCommonMistakes />} />
+						<Route path="resources/best-ai-study-tools-2025" element={<BestAIStudyTools2025 />} />
+						<Route path="resources/automated-note-taking-guide" element={<AutomatedNoteTakingGuide />} />
+						<Route path="resources/how-to-use-ai-for-studying" element={<HowToUseAIForStudying />} />
+						<Route path="resources/ai-chatbot-tutor" element={<AIChatbotTutorGuide />} />
+						<Route path="resources/ib-math-aa-ai-guide" element={<IBMathGuide />} />
+						<Route path="resources/igcse-science-revision" element={<IGCSEScienceGuide />} />
+						<Route path="resources/essay-writing-with-ai" element={<EssayWritingGuide />} />
+						<Route path="resources/alevel-ap-exam-prep" element={<ALevelAPGuide />} />
+						<Route path="resources/is-using-ai-cheating" element={<IsUsingAICheating />} />
+						<Route path="resources/how-to-cram-effectively" element={<HowToCramEffectively />} />
+						<Route path="resources/ib-tok-guide-ai" element={<IBTOKGuide />} />
+						<Route path="resources/best-ai-prompts-for-students" element={<BestAIPromptsForStudents />} />
+						<Route path="resources/academic-burnout-guide" element={<AcademicBurnoutGuide />} />
+						<Route path="resources/how-to-memorize-anything-fast" element={<MemorizationTechniques />} />
+						<Route path="resources/college-essays-with-ai" element={<CollegeEssaysWithAI />} />
 <Route path="login" element={<Login />} />
 <Route path="signup" element={<Signup />} />
 <Route path="auth/callback" element={<AuthCallback />} />

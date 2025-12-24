@@ -48,6 +48,18 @@ export default function SEO({
       <meta property="og:site_name" content={SITE_NAME} />
       <meta property="og:type" content={ogType} />
       <meta property="og:title" content={title} />
+      <meta property="og:description" content={description} />
+      {image && <meta property="og:image" content={image} />}
+      {canonical && <meta property="og:url" content={canonical} />}
+
+      {/* Twitter Card */}
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:site" content="@VertexED_AI" />
+      <meta name="twitter:title" content={title} />
+      <meta name="twitter:description" content={description} />
+      {image && <meta name="twitter:image" content={image} />}
+
+      {/* Hreflang */}
       {description && <meta property="og:description" content={description} />}
       {canonical && <meta property="og:url" content={canonical} />}
       {image && <meta property="og:image" content={image} />}      

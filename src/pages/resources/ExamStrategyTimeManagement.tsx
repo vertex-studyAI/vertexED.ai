@@ -90,30 +90,35 @@ export default function ExamStrategyTimeManagement() {
           <li>Q3: Extended response (10 marks) — thesis, 2–3 arguments with evidence, conclusion, 10 minutes.</li>
         </ul>
 
+        <h2>FAQ</h2>
+        <p><strong>Should I read the whole paper first?</strong> Yes, spend the first 5 minutes scanning. Identify the "easy wins" to build confidence and momentum before tackling the hard questions.</p>
+        <p><strong>What if I panic?</strong> It happens. Use the "Box Breathing" technique: Inhale for 4s, Hold for 4s, Exhale for 4s, Hold for 4s. It resets your nervous system.</p>
+        <p><strong>How do I speed up?</strong> Practice with a timer set to 90% of the actual time. If a paper is 60 minutes, practice doing it in 54 minutes.</p>
+
         <div className="not-prose mt-8 flex gap-3 flex-wrap">
           <Link to="/paper-maker" className="neu-button">Generate a timed set</Link>
           <Link to="/answer-reviewer" className="neu-button">Check against rubric</Link>
           <Link to="/planner" className="neu-button">Schedule rehearsal</Link>
         </div>
 
-        <h2 className="mt-10">Accuracy & scope</h2>
-        <p>
-          Paper formats and mark schemes vary by year and board. Treat this guide as practical strategy; always verify
-          specifics against your current syllabus and official past papers.
-        </p>
+        <h2 className="mt-10">Evidence & references</h2>
+        <ul>
+          <li>Dunlosky et al. (2013): Improving Students’ Learning with Effective Learning Techniques.</li>
+          <li>Beilock, S. (2010): Choke: What the Secrets of the Brain Reveal About Getting It Right When You Have To.</li>
+        </ul>
 
         <div className="mt-8 text-xs text-slate-400 border-t border-white/10 pt-4">
           Editorial note: Reviewed for clarity and usefulness. If you spot a discrepancy with your board’s guidance,
           use your board’s mark scheme as the source of truth.
-          <div className="mt-1">Last updated: 2025‑10‑11 · Author: VertexED Team</div>
+          <div className="mt-1">Last updated: 2025-12-24 · Author: VertexED Team</div>
         </div>
 
         <hr className="my-8 border-white/10" />
         <h3>Related guides</h3>
         <ul>
-          <li><Link to="/resources/ib-igcse-paper-maker">IB/IGCSE Paper Maker</Link></li>
-          <li><Link to="/resources/ai-answer-reviewer">AI Answer Reviewer</Link></li>
           <li><Link to="/resources/active-recall-spaced-repetition">Active Recall & Spaced Repetition</Link></li>
+          <li><Link to="/resources/ib-math-aa-ai-guide">IB Math AA & AI Guide</Link></li>
+          <li><Link to="/resources/ai-study-planner">AI Study Planner</Link></li>
         </ul>
       </Article>
     </>

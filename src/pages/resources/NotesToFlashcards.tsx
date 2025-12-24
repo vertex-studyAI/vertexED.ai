@@ -152,9 +152,9 @@ export default function NotesToFlashcardsArticle() {
         </ul>
 
         <h2>FAQ</h2>
-        <p><strong>How long should I spend per deck?</strong> 10–20 minutes per session is enough for quality recall.</p>
-        <p><strong>When do I add more cards?</strong> Only when old ones feel solid during reviews or after a quiz.</p>
-        <p><strong>Can I export?</strong> Use summaries to copy essentials; most learners benefit from keeping practice inside VertexED.</p>
+        <p><strong>How many cards should I make?</strong> Aim for quality over quantity. 20 high-quality, active-recall cards are better than 100 passive ones.</p>
+        <p><strong>Can I edit the cards?</strong> Yes, always review and edit AI-generated cards to ensure they match your specific mental model and syllabus requirements.</p>
+        <p><strong>Does it support images?</strong> Yes, you can add diagrams to the back of cards to test your ability to label or interpret visual data.</p>
 
         <h2>Get started</h2>
         <p>
@@ -169,6 +169,18 @@ export default function NotesToFlashcardsArticle() {
           <Link to="/study-zone" className="neu-button">Take a Quiz</Link>
         </div>
 
+        <h2 className="mt-10">Evidence & references</h2>
+        <ul>
+          <li>Leitner, S. (1972): So lernt man lernen — the foundation of the "Leitner System" for flashcards.</li>
+          <li>Brown, Roediger, & McDaniel (2014): Make It Stick: The Science of Successful Learning.</li>
+        </ul>
+
+        <div className="mt-8 text-xs text-slate-400 border-t border-white/10 pt-4">
+          Editorial note: Examples and prompts are illustrative and designed to be unique to VertexED’s workflows.
+          Always verify subject specifics against your syllabus.
+          <div className="mt-1">Last updated: 2025-12-24 · Author: VertexED Team</div>
+        </div>
+
         <hr className="my-8 border-white/10" />
         <h3>Related guides</h3>
         <ul>
@@ -176,12 +188,6 @@ export default function NotesToFlashcardsArticle() {
           <li><Link to="/resources/active-recall-spaced-repetition">Active Recall & Spaced Repetition</Link></li>
           <li><Link to="/resources/ai-answer-reviewer">AI Answer Reviewer</Link></li>
         </ul>
-
-        <div className="mt-8 text-xs text-slate-400 border-t border-white/10 pt-4">
-          Editorial note: Examples and prompts are illustrative and designed to be unique to VertexED’s workflows.
-          Always verify subject specifics against your syllabus.
-          <div className="mt-1">Last updated: 2025‑10‑11 · Author: VertexED Team</div>
-        </div>
       </Article>
     </>
   );

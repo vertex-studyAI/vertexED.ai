@@ -78,14 +78,25 @@ export default function AIAnswerReviewerArticle() {
         </ul>
 
         <h2>FAQ</h2>
-        <p><strong>Is the mark final?</strong> Treat it as a guidance band; use it to spot missing elements quickly.</p>
-        <p><strong>Can I supply a rubric?</strong> Yes—paste criteria or describe expectations for even tighter alignment.</p>
-        <p><strong>What about bias?</strong> Provide board/grade/context to reduce ambiguity; always sanity‑check feedback.</p>
+        <p><strong>Can it grade handwriting?</strong> Yes, as long as it is legible. The OCR technology converts your handwriting to text before analyzing it.</p>
+        <p><strong>Is the grading harsh?</strong> You can set the "persona" of the reviewer. We recommend "Strict Examiner" mode for the most realistic preparation.</p>
+        <p><strong>Does it know the rubric?</strong> Yes, VertexED has built-in knowledge of major exam board rubrics (IB, Cambridge, College Board). You can also paste a custom rubric.</p>
 
         <div className="not-prose mt-8 flex gap-3">
           <Link to="/answer-reviewer" className="neu-button">Try Answer Reviewer</Link>
           <Link to="/paper-maker" className="neu-button">Make a Paper</Link>
           <Link to="/planner" className="neu-button">Schedule a Review Loop</Link>
+        </div>
+
+        <h2 className="mt-10">Evidence & references</h2>
+        <ul>
+          <li>Hattie, J., & Timperley, H. (2007): The Power of Feedback — feedback is one of the most powerful influences on learning and achievement.</li>
+          <li>Black, P., & Wiliam, D. (1998): Assessment and Classroom Learning — the value of formative assessment.</li>
+        </ul>
+
+        <div className="mt-8 text-xs text-slate-400 border-t border-white/10 pt-4">
+          Transparency: Feedback is guidance, not a final grade. Always compare against your official rubric/mark scheme.
+          <div className="mt-1">Last updated: 2025-12-24 · Author: VertexED Team</div>
         </div>
 
         <hr className="my-8 border-white/10" />
@@ -95,11 +106,6 @@ export default function AIAnswerReviewerArticle() {
           <li><Link to="/resources/exam-strategy-time-management">Exam Strategy & Time Management</Link></li>
           <li><Link to="/resources/notes-to-flashcards">From Notes to Flashcards</Link></li>
         </ul>
-
-        <div className="mt-8 text-xs text-slate-400 border-t border-white/10 pt-4">
-          Transparency: Feedback is guidance, not a final grade. Always compare against your official rubric/mark scheme.
-          <div className="mt-1">Last updated: 2025‑10‑11 · Author: VertexED Team</div>
-        </div>
       </Article>
     </>
   );
