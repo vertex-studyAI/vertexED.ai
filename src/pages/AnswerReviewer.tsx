@@ -166,6 +166,8 @@ END OF INPUT
 
       // Prefer widely-used fields but fall back to sensible alternatives
       const out =
+        data?.safe_text ??
+        data?.passOutput?.safe_text ??
         data?.output ??
         data?.result?.output ??
         data?.data ??
