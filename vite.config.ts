@@ -137,7 +137,17 @@ export default defineConfig(({ mode }) => {
       },
     },
     build: {
-      rollupOptions: {}
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            vendor: ['react', 'react-dom', 'react-router-dom', 'react-helmet-async'],
+            ui: ['framer-motion', 'gsap', 'lucide-react', 'clsx'],
+            charts: ['chart.js', 'react-chartjs-2'],
+            pdf: ['jspdf', 'docx', 'file-saver'],
+            ai: ['@google/generative-ai', 'openai']
+          }
+        }
+      }
     }
   };
 });
