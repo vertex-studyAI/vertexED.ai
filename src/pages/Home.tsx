@@ -664,7 +664,7 @@ export default function Home() {
   return (
     <>
       <SEO
-        title="VertexED — AI Study Tools for Students"
+        title="VertexED: AI Study Tools, Planner & Notes"
         description="An all-in-one AI study toolkit with an assortment of features aimed at helping you score higher and learn better"
         canonical="https://www.vertexed.app/"
         jsonLd={[
@@ -1025,7 +1025,8 @@ export default function Home() {
         <div className="max-w-4xl mx-auto relative z-10">
           <div className="mb-4">
             <div className="relative w-full min-h-[7rem] flex items-center justify-center">
-              <h1 className="text-5xl md:text-7xl font-bold text-white leading-tight text-center flex flex-col justify-center gap-2 pop-up hover-text-morph">
+              <h1 className="sr-only">VertexED: AI Study Tools for Students</h1>
+              <div className="text-5xl md:text-7xl font-bold text-white leading-tight text-center flex flex-col justify-center gap-2 pop-up hover-text-morph">
                 <span className="swap-span">
                   <TypeAnimation
                     sequence={[
@@ -1051,7 +1052,7 @@ export default function Home() {
                 <span className="mt-3 text-lg" aria-hidden>
                   <LandoSwapText from="VertexED" to="VertexED" triggerMs={2800} />
                 </span>
-              </h1>
+              </div>
             </div>
           </div>
 
@@ -1140,6 +1141,31 @@ export default function Home() {
 
           <p className="text-lg md:text-xl mt-6 leading-relaxed font-bold cinematic-text">
             Our aim is not only to raise yoyr scores using evidence-based techniques and on resources which match your exams, but to create an environment where learning becomes rewarding and sustainable.
+          </p>
+        </div>
+      </section>
+
+      {/* Detailed Overview Section for SEO */}
+      <section className="max-w-5xl mx-auto mt-20 px-6 cinematic-section">
+        <div className="text-slate-200 space-y-8 leading-relaxed text-lg md:text-xl font-light">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">Comprehensive AI Study Tools for Every Student</h2>
+          <p>
+            VertexED is more than just a study aid; it is a complete ecosystem designed to revolutionize how students prepare for exams like IB, IGCSE, AP, and A-Levels. By leveraging advanced artificial intelligence, we provide a suite of tools that cater to every aspect of the learning process, from planning and organization to active recall and self-assessment.
+          </p>
+          <p>
+            Our <strong>AI Study Planner</strong> takes the guesswork out of scheduling. Instead of manually creating timetables, simply input your subjects and exam dates, and let our intelligent algorithm generate a personalized study plan that adapts to your progress. This ensures you cover all necessary topics without burning out, optimizing your time for maximum retention.
+          </p>
+          <p>
+            For content mastery, our <strong>Note Taker</strong> and <strong>Flashcard Generator</strong> transform raw information into structured learning materials. Whether you're summarizing a lecture or converting textbook chapters into revision cards, VertexED automates the tedious parts of studying so you can focus on understanding the core concepts.
+          </p>
+          <p>
+            Testing your knowledge is crucial, and our <strong>Quiz Generator</strong> and <strong>Paper Maker</strong> allow you to create custom practice tests tailored to your specific syllabus. With instant feedback and detailed explanations, you can identify your weak areas and address them immediately. The <strong>Answer Reviewer</strong> goes a step further by analyzing your written responses, providing grading based on official mark schemes, and offering constructive feedback to improve your exam technique.
+          </p>
+          <p>
+            We believe in the power of <strong>Active Recall</strong> and <strong>Spaced Repetition</strong>. Our platform is built on these evidence-based learning strategies to ensure that what you learn stays with you for the long term. By constantly challenging your brain to retrieve information, VertexED helps you build stronger neural connections and achieve higher grades with less stress.
+          </p>
+          <p>
+            Join thousands of students who are already studying smarter with VertexED. Experience the future of education today and unlock your full academic potential with tools that are as ambitious as you are.
           </p>
         </div>
       </section>
