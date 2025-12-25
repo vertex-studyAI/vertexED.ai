@@ -47,6 +47,7 @@ export default function Signup() {
         >
           <h1 className="text-3xl font-semibold mb-2 text-center text-white">Join Waitlist</h1>
           <p className="text-center mb-6 text-sm opacity-80">We are currently in private beta.</p>
+          <p className="text-center mb-6 text-sm opacity-80">If you want, <a href="https://tally.so/r/ODD6b8" target="_blank" rel="noopener noreferrer" className="underline hover:opacity-100 transition">give us some more information here</a>.</p>
           
           {!success ? (
             <div className="space-y-4">
