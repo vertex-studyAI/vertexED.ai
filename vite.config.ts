@@ -19,39 +19,6 @@ export default defineConfig(({ mode }) => {
       {
         name: 'api-middleware',
         configureServer(server) {
-          // Middleware for /api/check-access
-          server.middlewares.use('/api/check-access', async (req, res, next) => {
-            if (req.method === 'POST') {
-              let body = '';
-              req.on('data', chunk => body += chunk);
-              req.on('end', async () => {
-                try {
-                  const parsedBody = body ? JSON.parse(body) : {};
-                  const nextReq = { ...req, body: parsedBody, query: {}, method: req.method };
-                  const nextRes = {
-                    status: (code: number) => { res.statusCode = code; return nextRes; },
-                    json: (data: any) => {
-                      res.setHeader('Content-Type', 'application/json');
-                      res.end(JSON.stringify(data));
-                      return nextRes;
-                    },
-                    setHeader: (k: string, v: string) => res.setHeader(k, v)
-                  };
-                  
-                  const { default: handler } = await import('./api/check-access.js');
-                  await handler(nextReq, nextRes);
-                } catch (e: any) {
-                  console.error('Check Access API Error:', e);
-                  res.statusCode = 500;
-                  res.setHeader('Content-Type', 'application/json');
-                  res.end(JSON.stringify({ error: e.message }));
-                }
-              });
-            } else {
-              next();
-            }
-          });
-
           // Middleware for /api/waitlist
           server.middlewares.use('/api/waitlist', async (req, res, next) => {
             if (req.method === 'POST') {

@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { supabase } from "@/lib/supabaseClient";
 
 export default function AuthCallback() {
   const navigate = useNavigate();
-  const location = useLocation();
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -22,55 +21,25 @@ export default function AuthCallback() {
           setError(error.message);
           return;
         }
-
-        const handleSession = async (session: any) => {
-            // Check for invite/recovery flow
-            const hash = window.location.hash;
-            if (hash && (hash.includes("type=invite") || hash.includes("type=recovery"))) {
-                navigate("/update-password", { replace: true });
-                return;
-            }
-
-            // Check access via API
-            try {
-                const res = await fetch('/api/check-access', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ token: session.access_token })
-                });
-                
-                if (!res.ok) {
-                    throw new Error('Failed to verify access');
-                }
-
-                const result = await res.json();
-                if (!result.allowed) {
-                    await supabase.auth.signOut();
-                    setError("You are not on the invite list. Please join the waitlist.");
-                    setTimeout(() => navigate("/"), 3000);
-                    return;
-                }
-
-                const md = session.user.user_metadata;
-                const hasUsername = !!md?.username;
-                navigate(hasUsername ? "/main" : "/onboarding", { replace: true });
-
-            } catch (err: any) {
-                console.error(err);
-                setError("Error verifying access. Please try again.");
-            }
+        const go = (toMainIfOnboarded = true) => {
+          const u = supabase.auth.getUser ? undefined : undefined; // placeholder to satisfy lints where needed
         };
 
         if (data.session) {
-          await handleSession(data.session);
+          const md = data.session.user.user_metadata;
+          const hasUsername = !!md?.username;
+          navigate(hasUsername ? "/main" : "/onboarding", { replace: true });
           return;
         }
 
-        const { data: sub } = supabase.auth.onAuthStateChange(async (_event, session) => {
+        const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
           if (session) {
-            await handleSession(session);
+            const hasUsername = !!session.user.user_metadata?.username;
+            navigate(hasUsername ? "/main" : "/onboarding", { replace: true });
           }
         });
+        // Fallback timeout to show error after a few seconds
+        // @ts-ignore - window.setTimeout typing
 
         timeout = window.setTimeout(() => {
           sub.subscription.unsubscribe();
@@ -85,7 +54,7 @@ export default function AuthCallback() {
     return () => {
       if (timeout) clearTimeout(timeout);
     };
-  }, [navigate, location]);
+  }, [navigate]);
 
   return (
     <>
