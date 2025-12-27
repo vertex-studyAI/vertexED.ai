@@ -1025,8 +1025,7 @@ export default function Home() {
         <div className="max-w-4xl mx-auto relative z-10">
           <div className="mb-4">
             <div className="relative w-full min-h-[7rem] flex items-center justify-center">
-              <h1 className="sr-only">VertexED: AI Study Tools for Students</h1>
-              <div className="text-5xl md:text-7xl font-bold text-white leading-tight text-center flex flex-col justify-center gap-2 pop-up hover-text-morph">
+              <h1 className="text-5xl md:text-7xl font-bold text-white leading-tight text-center flex flex-col justify-center gap-2 pop-up hover-text-morph">
                 <span className="swap-span">
                   <TypeAnimation
                     sequence={[
@@ -1040,7 +1039,7 @@ export default function Home() {
                       "Study smarter, not longer.",
                     ]}
                     speed={45}
-                    wrapper="div"
+                    wrapper="span"
                     cursor={true}
                     repeat={Infinity}
                   />
@@ -1052,7 +1051,7 @@ export default function Home() {
                 <span className="mt-3 text-lg" aria-hidden>
                   <LandoSwapText from="VertexED" to="VertexED" triggerMs={2800} />
                 </span>
-              </div>
+              </h1>
             </div>
           </div>
 
