@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "prebuild": "node scripts/indexnow.mjs --host=https://www.vertexed.app --ensureKeyOnly",
+    "prebuild": "node scripts/indexnow.mjs --host=https://www.vertexed.app --key=7e9f2a1b8c3d4e5f6a7b8c9d0e1f2a3b --ensureKeyOnly",
     "build": "cross-env ROLLUP_SKIP_NODEJS_NATIVE=true vite build",
     "postbuild": "node scripts/update-sitemap-lastmod.mjs public/sitemap.xml && npm run seo:ping && npm run seo:indexnow",
     "build:dev": "vite build --mode development",
@@ -13,7 +13,7 @@
     "preview": "vite preview",
     "generate:favicons": "node scripts/generate-icons.mjs",
     "seo:ping": "node scripts/ping-sitemaps.mjs https://www.vertexed.app/sitemap.xml",
-    "seo:indexnow": "node scripts/indexnow.mjs --host=https://www.vertexed.app --fromSitemap=public/sitemap.xml",
+    "seo:indexnow": "node scripts/indexnow.mjs --host=https://www.vertexed.app --key=7e9f2a1b8c3d4e5f6a7b8c9d0e1f2a3b --fromSitemap=public/sitemap.xml",
     "debug": "cross-env DEBUG=ai:* vite"
   },
   "engines": {
