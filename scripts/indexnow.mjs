@@ -38,6 +38,7 @@ function readUrlsFromSitemap(filePath) {
 
 function submitIndexNow(host, key, keyLocation, urls) {
   const payload = JSON.stringify({ host, key, keyLocation, urlList: urls })
+  console.log('[IndexNow] Payload:', payload)
 
   return new Promise((resolve, reject) => {
     const req = https.request(
