@@ -228,8 +228,8 @@ export default function Main() {
       <section className="px-6 pb-12">
         <div className="max-w-7xl mx-auto">
           <div ref={containerRef} className="glass-panel p-6 md:p-8 relative">
-            {/* force a 2-column layout (2 x N) as requested */}
-            <div className="grid grid-cols-2 gap-6">
+            {/* Responsive grid: 1 col on mobile, 2 cols on md+ */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {tiles.map((t) => (
                 <Link to={t.to} key={t.title} className="group block tile-wrapper" aria-label={`${t.title} — ${t.info}`}>
                   <div className="tile-shadow h-full rounded-xl transition-all duration-400" style={{ boxShadow: "0 12px 40px rgba(0,0,0,0.25)" }}>
@@ -242,8 +242,6 @@ export default function Main() {
                     >
                       <NeumorphicCard
                         className="h-full p-6 glass-tile-translucent flex flex-col justify-between transition-all duration-400 group-hover:border-white/25 group-hover:bg-white/10"
-                        title={t.title}
-                        info={t.info}
                       >
                         <div>
                           <div className="flex items-center gap-4 mb-2">
