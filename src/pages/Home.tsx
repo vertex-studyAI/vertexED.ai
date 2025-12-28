@@ -4,8 +4,6 @@ import SEO from "@/components/SEO";
 import { useAuth } from "@/contexts/AuthContext";
 import { TypeAnimation } from "react-type-animation";
 
-
-
 type FlipWordsProps = { words: string[]; interval?: number; className?: string };
 const FlipWords: React.FC<FlipWordsProps> = ({ words, interval = 2200, className }) => {
   const [idx, setIdx] = useState(0);
@@ -452,6 +450,60 @@ export default function Home() {
           );
         });
 
+        // --- NEW: Detailed Overview animations (keeps original text/layout but adds cinematic reveals)
+        // heading reveal
+        gsap.fromTo(".detailed-overview .overview-heading",
+          { y: 36, opacity: 0, scale: 0.995 },
+          {
+            y: 0,
+            opacity: 1,
+            scale: 1,
+            duration: 1,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: ".detailed-overview .overview-heading",
+              start: "top 85%",
+              toggleActions: "play none none reverse",
+            }
+          }
+        );
+
+        // paragraph stagger reveal
+        gsap.fromTo(".detailed-overview .overview-par",
+          { y: 28, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.9,
+            ease: "power2.out",
+            stagger: 0.16,
+            scrollTrigger: {
+              trigger: ".detailed-overview",
+              start: "top 82%",
+              toggleActions: "play none none reverse",
+            }
+          }
+        );
+
+        // subtle parallax on individual sentences: small x/y micro-moves while in viewport
+        gsap.utils.toArray<HTMLElement>(".detailed-overview .overview-par").forEach((el, i) => {
+          gsap.to(el, {
+            y: i % 2 === 0 ? -8 : -4,
+            x: i % 2 === 0 ? -3 : 3,
+            ease: "sine.inOut",
+            duration: 6 + (i * 0.6),
+            repeat: -1,
+            yoyo: true,
+            opacity: 0.98,
+            delay: i * 0.2,
+          });
+        });
+
+        // ensure feature-card and overview steps have a soft stagger when grouped
+        gsap.utils.toArray<HTMLElement>(".feature-card, .overview-par").forEach((_, idx) => {
+          // no-op collector for future chaining if needed
+        });
+
         cleanup = () => {
           try {
             if (ScrollTrigger && typeof ScrollTrigger.getAll === "function") {
@@ -460,7 +512,9 @@ export default function Home() {
           } catch (e) {}
         };
         gsapCleanupRef.current = cleanup;
-      } catch (e) {}
+      } catch (e) {
+        // fail silently - don't block page if GSAP fails
+      }
     };
 
     const idleId = idle(run);
@@ -1144,26 +1198,26 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Detailed Overview Section for SEO */}
-      <section className="max-w-5xl mx-auto mt-20 px-6 cinematic-section">
+      {/* Detailed Overview Section for SEO (original text kept mostly identical; added classes for GSAP hooks) */}
+      <section className="max-w-5xl mx-auto mt-20 px-6 cinematic-section detailed-overview">
         <div className="text-slate-200 space-y-8 leading-relaxed text-lg md:text-xl font-light">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">Comprehensive AI Study Tools for Every Student</h2>
-          <p>
+          <h2 className="overview-heading text-3xl md:text-4xl font-bold text-white mb-6 cinematic-text">Comprehensive AI Study Tools for Every Student</h2>
+          <p className="overview-par">
             VertexED is more than just a study aid; it is a complete ecosystem designed to revolutionize how students prepare for exams like IB, IGCSE, AP, and A-Levels. By leveraging advanced artificial intelligence, we provide a suite of tools that cater to every aspect of the learning process, from planning and organization to active recall and self-assessment.
           </p>
-          <p>
+          <p className="overview-par">
             Our <strong>AI Study Planner</strong> takes the guesswork out of scheduling. Instead of manually creating timetables, simply input your subjects and exam dates, and let our intelligent algorithm generate a personalized study plan that adapts to your progress. This ensures you cover all necessary topics without burning out, optimizing your time for maximum retention.
           </p>
-          <p>
+          <p className="overview-par">
             For content mastery, our <strong>Note Taker</strong> and <strong>Flashcard Generator</strong> transform raw information into structured learning materials. Whether you're summarizing a lecture or converting textbook chapters into revision cards, VertexED automates the tedious parts of studying so you can focus on understanding the core concepts.
           </p>
-          <p>
+          <p className="overview-par">
             Testing your knowledge is crucial, and our <strong>Quiz Generator</strong> and <strong>Paper Maker</strong> allow you to create custom practice tests tailored to your specific syllabus. With instant feedback and detailed explanations, you can identify your weak areas and address them immediately. The <strong>Answer Reviewer</strong> goes a step further by analyzing your written responses, providing grading based on official mark schemes, and offering constructive feedback to improve your exam technique.
           </p>
-          <p>
+          <p className="overview-par">
             We believe in the power of <strong>Active Recall</strong> and <strong>Spaced Repetition</strong>. Our platform is built on these evidence-based learning strategies to ensure that what you learn stays with you for the long term. By constantly challenging your brain to retrieve information, VertexED helps you build stronger neural connections and achieve higher grades with less stress.
           </p>
-          <p>
+          <p className="overview-par">
             Join thousands of students who are already studying smarter with VertexED. Experience the future of education today and unlock your full academic potential with tools that are as ambitious as you are.
           </p>
         </div>
