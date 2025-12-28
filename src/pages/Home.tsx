@@ -1,12 +1,12 @@
+// src/pages/Home.tsx
 import React, { useEffect, useRef, useState, Suspense, useMemo } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import SEO from "@/components/SEO";
 import { useAuth } from "@/contexts/AuthContext";
 import { TypeAnimation } from "react-type-animation";
 
-
-// --- New: FallingShapes component ---
-const FALL_SHAPES = ["circle", "square", "triangle", "star"] as const;
+// --- New: FallingShapes component + draggable behaviour ---
+const FALL_SHAPES = ["circle", "square", "triangle", "star", "diamond", "hex"] as const;
 type ShapeType = typeof FALL_SHAPES[number];
 
 const ShapeSVG = ({ type }: { type: ShapeType }) => {
@@ -35,42 +35,125 @@ const ShapeSVG = ({ type }: { type: ShapeType }) => {
           <path d="M12 2 L14.6 8.9 L21.7 9.6 L16 14.1 L17.7 21.1 L12 17.7 L6.3 21.1 L8 14.1 L2.3 9.6 L9.4 8.9 Z" fill="currentColor" />
         </svg>
       );
+    case "diamond":
+      return (
+        <svg viewBox="0 0 24 24" width="100%" height="100%" aria-hidden>
+          <path d="M12 2 L20 12 L12 22 L4 12 Z" fill="currentColor" />
+        </svg>
+      );
+    case "hex":
+      return (
+        <svg viewBox="0 0 24 24" width="100%" height="100%" aria-hidden>
+          <path d="M12 2 L19 6.5 V17.5 L12 22 L5 17.5 V6.5 Z" fill="currentColor" />
+        </svg>
+      );
     default:
       return null;
   }
 };
 
-const FallingShapes: React.FC<{ count?: number; palette?: string[] }> = ({ count = 12, palette }) => {
-  // generate stable random seeds so shapes don't reposition every render
+/**
+ * FallingShapes v2
+ * - generates a stable pool (useMemo)
+ * - each shape is draggable: pointerdown pauses animation & follows pointer; pointerup releases and resumes fall
+ * - respects prefers-reduced-motion
+ */
+const FallingShapes: React.FC<{ count?: number; palette?: string[] }> = ({ count = 14, palette }) => {
   const pool = useMemo(() => {
-    const arr: Array<{ left: string; size: string; dur: string; delay: string; shape: ShapeType; hue: string; rotate: number }> = [];
+    const arr: Array<{ id: string; left: string; size: string; dur: string; delay: string; shape: ShapeType; hue: string; rotate: number }> = [];
     for (let i = 0; i < count; i++) {
-      const left = Math.round(Math.random() * 100) + "%";
-      const sizePx = 14 + Math.round(Math.random() * 36); // 14 - 50
-      const dur = (8 + Math.random() * 10).toFixed(2) + "s"; // 8-18s
-      const delay = (-(Math.random() * 12)).toFixed(2) + "s"; // negative to spread start
+      const left = Math.round(Math.random() * 92) + "%"; // within width
+      const sizePx = 12 + Math.round(Math.random() * 44); // 12 - 56
+      const dur = (7 + Math.random() * 12).toFixed(2) + "s"; // 7-19s
+      const delay = (-(Math.random() * 18)).toFixed(2) + "s"; // negative to spread start
       const shape = FALL_SHAPES[Math.floor(Math.random() * FALL_SHAPES.length)];
-      const hue = palette ? palette[Math.floor(Math.random() * palette.length)] : `hsl(${Math.floor(Math.random() * 60) + 190} 70% 68%)`;
+      const hue = palette ? palette[Math.floor(Math.random() * palette.length)] : `hsl(${Math.floor(Math.random() * 60) + 200} 72% 66%)`;
       const rotate = Math.round(Math.random() * 360);
-      arr.push({ left, size: `${sizePx}px`, dur, delay, shape, hue, rotate });
+      arr.push({ id: `shape-${i}-${Math.round(Math.random() * 1e6)}`, left, size: `${sizePx}px`, dur, delay, shape, hue, rotate });
     }
     return arr;
   }, [count, palette]);
 
-  // Respect reduced motion preference
+  const draggingRef = useRef<HTMLElement | null>(null);
+  const startOffsetRef = useRef<{ x: number; y: number; origLeft: number } | null>(null);
+
   useEffect(() => {
     if (typeof window === "undefined") return;
     const mq = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)");
-    // no-op if reduced motion
-    return () => {};
+    if (mq && mq.matches) return;
+
+    // pointer move/up listeners for dragging
+    const onPointerMove = (ev: PointerEvent) => {
+      const el = draggingRef.current;
+      if (!el) return;
+      ev.preventDefault();
+      const start = startOffsetRef.current!;
+      const dx = ev.clientX - start.x;
+      const dy = ev.clientY - start.y;
+      el.style.transform = `translate(${dx}px, ${dy}px) rotate(${el.dataset.rotate ?? 0}deg) scale(1.06)`;
+      el.style.zIndex = "9999";
+      el.style.opacity = "1";
+    };
+
+    const onPointerUp = (ev: PointerEvent) => {
+      const el = draggingRef.current;
+      if (!el) return;
+      ev.preventDefault();
+      // compute new left (percentage)
+      const rect = el.getBoundingClientRect();
+      const percentLeft = Math.max(0, Math.min(100, (rect.left + rect.width / 2) / window.innerWidth * 100));
+      el.style.left = `${percentLeft}%`;
+      // remove transform and resume animation
+      el.style.transform = "";
+      el.style.zIndex = "";
+      el.style.transition = "transform 320ms ease";
+      setTimeout(() => { el.style.transition = ""; }, 320);
+      el.style.animationPlayState = "running";
+      // restart animation from top (quick resume) by resetting animationDelay
+      el.style.animationDelay = "0s";
+      el.dataset.dragging = "0";
+      draggingRef.current = null;
+      startOffsetRef.current = null;
+      window.removeEventListener("pointermove", onPointerMove);
+      window.removeEventListener("pointerup", onPointerUp);
+    };
+
+    window.addEventListener("pointermove", onPointerMove);
+    window.addEventListener("pointerup", onPointerUp);
+    return () => {
+      window.removeEventListener("pointermove", onPointerMove);
+      window.removeEventListener("pointerup", onPointerUp);
+    };
   }, []);
+
+  // pointerdown handler attached to each shape
+  const handlePointerDown = (e: React.PointerEvent<HTMLSpanElement>, id: string) => {
+    if (typeof window === "undefined") return;
+    const target = e.currentTarget as HTMLElement;
+    const mq = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (mq && mq.matches) return;
+    e.currentTarget.setPointerCapture(e.pointerId);
+    draggingRef.current = target;
+    startOffsetRef.current = { x: e.clientX, y: e.clientY, origLeft: parseFloat(target.style.left || "0") };
+    target.dataset.dragging = "1";
+    target.style.animationPlayState = "paused";
+  };
 
   return (
     <div aria-hidden className="falling-shapes-root" style={{ pointerEvents: "none" }}>
-      {pool.map((s, i) => (
+      {pool.map((s) => (
         <span
-          key={i}
-          className="falling-shape"
+          key={s.id}
+          className="falling-shape draggable-shape"
+          role="presentation"
+          onPointerDown={(ev) => {
+            // allow drag only with primary button
+            if ((ev as any).button && (ev as any).button !== 0) return;
+            // enable pointer events during drag
+            (ev.currentTarget as HTMLElement).style.pointerEvents = "auto";
+            handlePointerDown(ev, s.id);
+          }}
+          data-rotate={s.rotate}
           style={{
             left: s.left,
             width: s.size,
@@ -79,16 +162,21 @@ const FallingShapes: React.FC<{ count?: number; palette?: string[] }> = ({ count
             animationDelay: s.delay,
             color: s.hue,
             transform: `rotate(${s.rotate}deg)`,
+            pointerEvents: "none", // default; set to auto on pointerdown
           }}
         >
           <ShapeSVG type={s.shape} />
         </span>
       ))}
+
+      {/* Small extra dynamic ribbons (pure CSS) */}
+      <div className="floating-ribbon ribbon-1" aria-hidden />
+      <div className="floating-ribbon ribbon-2" aria-hidden />
     </div>
   );
 };
 
-
+// ---------- existing micro-animations components (fixed/trimmed) ----------
 type FlipWordsProps = { words: string[]; interval?: number; className?: string };
 const FlipWords: React.FC<FlipWordsProps> = ({ words, interval = 2200, className }) => {
   const [idx, setIdx] = useState(0);
@@ -114,8 +202,6 @@ const FlipWords: React.FC<FlipWordsProps> = ({ words, interval = 2200, className
   );
 };
 
-// ... (rest of the original components remain unchanged) -- keeping them but slightly trimmed for clarity
-
 type LetterPullUpProps = { text: string; delay?: number; className?: string };
 const LetterPullUp: React.FC<LetterPullUpProps> = ({ text, delay = 40, className }) => {
   return (
@@ -135,20 +221,39 @@ const TextReveal: React.FC<{ text: string; className?: string }> = ({ text, clas
   );
 };
 
+/**
+ * LandoSwapText: safer swap animation
+ * - if from === to -> returns a static span (prevents repeated weirdness)
+ * - otherwise retains the original two-line swap behaviour
+ */
 const LandoSwapText: React.FC<{ from: string; to: string; triggerMs?: number; className?: string }> = ({ from, to, triggerMs = 2200, className }) => {
   const [current, setCurrent] = useState(from);
   const [animKey, setAnimKey] = useState(0);
+
   useEffect(() => {
     if (typeof window === "undefined") return;
     const reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduced) return;
+    if (reduced) {
+      setCurrent(from);
+      return;
+    }
+    // If both strings equal, don't animate
+    if (from === to) {
+      setCurrent(from);
+      return;
+    }
 
     const id = setInterval(() => {
       setAnimKey(k => k + 1);
+      // small flip delay so front/back have a nice stagger
       setTimeout(() => setCurrent(c => (c === from ? to : from)), 300);
     }, triggerMs);
     return () => clearInterval(id);
   }, [from, to, triggerMs]);
+
+  if (from === to) {
+    return <span className={`lando-swap ${className || ""}`}>{from}</span>;
+  }
 
   const maxLen = Math.max(from.length, to.length);
   const pad = (s: string) => s.padEnd(maxLen, " ");
@@ -167,41 +272,37 @@ const LandoSwapText: React.FC<{ from: string; to: string; triggerMs?: number; cl
   );
 };
 
-// Hand-drawn decorative SVG elements (unchanged)
+// Hand-drawn decorative SVGs (unchanged; kept for brevity)
+
 const HandDrawnArrow = ({ className = "", style = {} }: any) => (
   <svg className={className} style={style} width="140" height="90" viewBox="0 0 140 90" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M10 45 Q 45 30, 80 45 T 130 40" stroke="currentColor" strokeWidth="3" fill="none" strokeLinecap="round" strokeLinejoin="round" opacity="0.5"/>
     <path d="M115 33 L 130 40 L 120 50" stroke="currentColor" strokeWidth="3" fill="none" strokeLinecap="round" strokeLinejoin="round" opacity="0.5"/>
   </svg>
 );
-
 const HandDrawnCircle = ({ className = "", style = {} }: any) => (
   <svg className={className} style={style} width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M60 15 Q 100 18, 103 60 Q 100 102, 60 105 Q 20 102, 17 60 Q 20 18, 60 15" stroke="currentColor" strokeWidth="3" fill="none" strokeLinecap="round" opacity="0.4"/>
     <path d="M60 25 Q 92 27, 94 60 Q 92 93, 60 95 Q 28 93, 26 60 Q 28 27, 60 25" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" opacity="0.25"/>
   </svg>
 );
-
 const HandDrawnUnderline = ({ className = "", style = {} }: any) => (
   <svg className={className} style={style} width="250" height="25" viewBox="0 0 250 25" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M5 12 Q 65 8, 125 14 T 245 12" stroke="currentColor" strokeWidth="3.5" fill="none" strokeLinecap="round" opacity="0.45"/>
     <path d="M5 18 Q 65 14, 125 20 T 245 18" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" opacity="0.25"/>
   </svg>
 );
-
 const HandDrawnScribble = ({ className = "", style = {} }: any) => (
   <svg className={className} style={style} width="180" height="120" viewBox="0 0 180 120" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M25 60 Q 35 35, 60 55 T 95 42 Q 120 60, 145 48 T 165 65" stroke="currentColor" strokeWidth="2.5" fill="none" strokeLinecap="round" opacity="0.35"/>
     <path d="M30 70 Q 42 50, 65 68 T 100 58" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" opacity="0.25"/>
   </svg>
 );
-
 const HandDrawnStar = ({ className = "", style = {} }: any) => (
   <svg className={className} style={style} width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M50 15 L55 40 L80 45 L58 60 L62 85 L50 70 L38 85 L42 60 L20 45 L45 40 Z" stroke="currentColor" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round" opacity="0.4"/>
   </svg>
 );
-
 const HandDrawnSparkles = ({ className = "", style = {} }: any) => (
   <svg className={className} style={style} width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M20 20 L25 25 L20 30 L15 25 Z" stroke="currentColor" strokeWidth="2" fill="none" opacity="0.5"/>
@@ -211,8 +312,7 @@ const HandDrawnSparkles = ({ className = "", style = {} }: any) => (
   </svg>
 );
 
-// ... featureText and cards remain the same (omitted here for brevity in this preview but present in the actual file)
-
+// featureSideText, ProblemCard, FeatureRow remain mostly unchanged (kept as in your original file)
 const featureSideText = [
   "This is the perfect tool for when independent study needs assistance; from graphing calculators to even a simple activity log to track progress, we got your back",
   "Not just a souless bot, it learns and adapts to you and actually understands what it means to help teach and explain a concept in ways which make sense to you",
@@ -239,14 +339,16 @@ function ProblemCard({ p, i, flipped, toggleFlip }: { p: { stat: string; text: s
         tabIndex={0}
         aria-pressed={flipped}
         className="group relative h-64 rounded-3xl perspective tilt-card pop-up cursor-pointer"
-        aria-label={`Problem card ${i + 1}`}>
+        aria-label={`Problem card ${i + 1}`}
+      >
         <div
           className="absolute inset-0 w-full h-full"
           style={{
             transformStyle: "preserve-3d",
             transform: flipped ? "rotateY(180deg)" : "rotateY(0deg)",
             transition: "transform 0.6s cubic-bezier(0.4, 0.0, 0.2, 1)",
-          }}>
+          }}
+        >
           <div
             className="absolute inset-0 flex flex-col items-center justify-center gap-5 text-6xl font-bold rounded-3xl problem-card-front"
             style={{
@@ -256,7 +358,8 @@ function ProblemCard({ p, i, flipped, toggleFlip }: { p: { stat: string; text: s
               border: "1px solid rgba(255, 255, 255, 0.08)",
               boxShadow: "0 8px 32px 0 rgba(0, 0, 0, 0.25)",
               color: "#ffffff",
-            }}>
+            }}
+          >
             <span className="stat-number" style={{ fontFeatureSettings: "'tnum' 1", letterSpacing: "-0.02em", textShadow: "0 0 20px rgba(255,255,255,0.3)" }}>{p.stat}</span>
             <span className="text-lg italic opacity-70 font-normal">Click to find out</span>
           </div>
@@ -271,7 +374,8 @@ function ProblemCard({ p, i, flipped, toggleFlip }: { p: { stat: string; text: s
               border: "1px solid rgba(255, 255, 255, 0.08)",
               color: "#e6eef6",
               boxShadow: "0 8px 32px 0 rgba(0, 0, 0, 0.25)",
-            }}>
+            }}
+          >
             <div>
               <div className="font-medium">{p.text}</div>
               <div className="mt-5 text-sm italic opacity-80">Backed by research-backed principles: active recall, spaced repetition and retrieval practice.</div>
@@ -311,6 +415,7 @@ function FeatureRow({ f, i }: { f: { title: string; desc: string }; i: number })
   );
 }
 
+// -------------------- Home component --------------------
 export default function Home() {
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
@@ -358,7 +463,7 @@ export default function Home() {
     }
   }, [isAuthenticated, navigate]);
 
-  // Enhanced GSAP with cinematic animations
+  // Enhanced GSAP with cinematic animations (kept from original)
   useEffect(() => {
     if (typeof window === "undefined") return;
 
@@ -622,13 +727,10 @@ export default function Home() {
         rect = el.getBoundingClientRect();
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
-        // normalized coordinates from -0.5 to 0.5
         const nx = (x / rect.width) - 0.5;
         const ny = (y / rect.height) - 0.5;
-        // map to tilt: rotateY depends on horizontal movement, rotateX depends on vertical movement (inverted)
-        targetY = nx * opts.maxTilt * 2;           // rotateY
-        targetX = -ny * opts.maxTilt * 2;          // rotateX (invert so moving down tilts forward)
-        // slight z rotation based on horizontal offset
+        targetY = nx * opts.maxTilt * 2;
+        targetX = -ny * opts.maxTilt * 2;
         targetZ = nx * (opts.maxTilt * 0.25);
         if (!rafId) rafId = requestAnimationFrame(update);
       };
@@ -793,8 +895,6 @@ export default function Home() {
         ]}
       />
 
-
-
       <style>{`
         * { box-sizing: border-box; }
         html { 
@@ -820,17 +920,17 @@ export default function Home() {
           min-height: 70vh;
         }
 
-        /* --- New: Falling shapes styles --- */
+        /* --- Falling shapes styles --- */
         .falling-shapes-root {
           position: fixed;
           inset: 0;
           pointer-events: none;
-          z-index: 5;
+          z-index: 6;
         }
 
         .falling-shape {
           position: absolute;
-          top: -12vh;
+          top: -14vh;
           display: inline-flex;
           align-items: center;
           justify-content: center;
@@ -842,16 +942,49 @@ export default function Home() {
           animation-timing-function: linear;
           animation-iteration-count: infinite;
           mix-blend-mode: screen;
+          pointer-events: none; /* becomes auto on pointerdown */
         }
 
+        /* CSS fall animation -- simpler vertical translate */
         @keyframes fall {
           0% { transform: translateY(-10vh) rotate(0deg) scale(1); opacity: 1; }
           70% { opacity: 0.92; }
           100% { transform: translateY(110vh) rotate(360deg) scale(0.78); opacity: 0; }
         }
 
+        /* When a shape is marked dragging (dataset) we allow pointer interactions */
+        .draggable-shape[data-dragging="1"] {
+          pointer-events: auto;
+          animation-play-state: paused !important;
+        }
+
+        /* Floating ribbons */
+        .floating-ribbon {
+          position: absolute;
+          width: 260px;
+          height: 56px;
+          border-radius: 999px;
+          background: linear-gradient(90deg, rgba(14,165,233,0.08), rgba(168,85,247,0.06));
+          opacity: 0.08;
+          transform: translate3d(0,0,0);
+          filter: blur(8px);
+          mix-blend-mode: screen;
+          z-index: 4;
+          pointer-events: none;
+          animation: ribbonFloat 8s ease-in-out infinite;
+        }
+        .floating-ribbon.ribbon-1 { left: 6%; top: 10%; animation-delay: 0s; transform: rotate(-8deg) }
+        .floating-ribbon.ribbon-2 { right: 8%; top: 55%; animation-delay: 2.1s; transform: rotate(12deg) }
+
+        @keyframes ribbonFloat {
+          0% { transform: translateY(0) rotate(0deg); opacity: 0.09 }
+          50% { transform: translateY(-22px) rotate(6deg); opacity: 0.12 }
+          100% { transform: translateY(0) rotate(0deg); opacity: 0.09 }
+        }
+
         @media (prefers-reduced-motion: reduce) {
           .falling-shape { animation: none !important; opacity: 0 !important; }
+          .floating-ribbon { animation: none !important; opacity: 0.05 !important; }
         }
 
         /* Pop animations */
@@ -887,7 +1020,6 @@ export default function Home() {
           box-shadow: 0 10px 40px rgba(2,6,23,0.35);
         }
 
-        /* Subtle inner sheen for tiles */
         .glass-tile::after {
           content: '';
           position: absolute;
@@ -900,7 +1032,6 @@ export default function Home() {
           z-index: 0;
         }
 
-        /* Feature card effects */
         .feature-card {
           transition: transform 420ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 420ms;
         }
@@ -922,7 +1053,6 @@ export default function Home() {
 
         .feature-card:hover .feature-glow { opacity: 1; }
 
-        /* Button enhancements */
         .btn-cinematic {
           position: relative;
           overflow: hidden;
@@ -942,51 +1072,28 @@ export default function Home() {
         .btn-cinematic:hover::before { opacity: 1; }
         .btn-cinematic:focus { outline: none; box-shadow: 0 8px 32px rgba(14,165,233,0.14); transform: translateY(-3px) scale(1.02); }
 
-        /* Highlight animations */
-        .highlight-clip { 
-          display: inline-block; 
-          overflow: hidden; 
-          vertical-align: middle; 
-        }
-        .hl-inner { 
-          display: inline-block; 
-          transform-origin: left center; 
-          transform: translateY(12px); 
-          transition: transform 500ms cubic-bezier(0.34, 1.56, 0.64, 1), color 350ms; 
-        }
-        .hl-pop { 
-          transform: translateY(0px); 
-          color: #DDEBFF; 
-          text-shadow: 0 8px 32px rgba(14,165,233,0.12); 
-        }
+        .highlight-clip { display: inline-block; overflow: hidden; vertical-align: middle; }
+        .hl-inner { display: inline-block; transform-origin: left center; transform: translateY(12px); transition: transform 500ms cubic-bezier(0.34, 1.56, 0.64, 1), color 350ms; }
+        .hl-pop { transform: translateY(0px); color: #DDEBFF; text-shadow: 0 8px 32px rgba(14,165,233,0.12); }
 
-        /* ... rest of existing styles are preserved (trimmed for brevity) ... */
+        /* small helper to avoid weird text glitch from earlier: ensure fixed width fonts for stat numbers */
+        .stat-number { font-feature-settings: 'tnum' 1; }
 
-        /* Reduced motion */
         @media (prefers-reduced-motion: reduce) {
           *, *::before, *::after {
             animation-duration: 0.01ms !important;
             animation-iteration-count: 1 !important;
             transition-duration: 0.01ms !important;
           }
-          .pop-up { 
-            transition: none !important; 
-            transform: none !important; 
-            opacity: 1 !important; 
-          }
+          .pop-up { transition: none !important; transform: none !important; opacity: 1 !important; }
         }
 
-        /* Ensure fluid cursor root children can expand if component uses absolute positioning */
-        #fluid-cursor-root, #fluid-cursor-root > * {
-          position: relative;
-          width: 100%;
-          height: 100%;
-        }
+        #fluid-cursor-root, #fluid-cursor-root > * { position: relative; width: 100%; height: 100%; }
 
       `}</style>
 
       {/* Falling shapes overlay */}
-      <FallingShapes count={14} palette={["hsl(200 80% 65%)","hsl(215 70% 65%)","hsl(280 70% 70%)","hsl(210 60% 72%)"]} />
+      <FallingShapes count={18} palette={["hsl(200 80% 65%)","hsl(215 70% 65%)","hsl(280 70% 70%)","hsl(210 60% 72%)","hsl(310 70% 70%)"]} />
 
       {/* Hero Section */}
       <section className="hero-section glass-card px-6 pt-20 pb-12 text-center pop-up relative overflow-hidden flex items-center justify-center">
@@ -1023,6 +1130,7 @@ export default function Home() {
                 </span>
 
                 <span className="mt-3 text-lg" aria-hidden>
+                  {/* FIX: when both props identical, LandoSwapText returns a static label (no jitter) */}
                   <LandoSwapText from="VertexED" to="VertexED" triggerMs={2800} />
                 </span>
               </h1>
@@ -1054,7 +1162,7 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Story Section (reduced spacing so heading shows on normal zoom) */}
+      {/* Story Section */}
       <section className="mt-8 text-center px-6 relative cinematic-section">
         <HandDrawnCircle className="hand-drawn-deco hand-drawn-reveal float-deco-2 absolute top-0 left-24 text-rose-400 opacity-20" style={{ width: 110 }} />
         
@@ -1113,7 +1221,7 @@ export default function Home() {
           </p>
 
           <p className="text-lg md:text-xl mt-6 leading-relaxed font-bold cinematic-text">
-            Our aim is not only to raise yoyr scores using evidence-based techniques and on resources which match your exams, but to create an environment where learning becomes rewarding and sustainable.
+            Our aim is not only to raise your scores using evidence-based techniques and on resources which match your exams, but to create an environment where learning becomes rewarding and sustainable.
           </p>
         </div>
       </section>
