@@ -25,6 +25,7 @@ struct HomeView: View {
                     VStack(alignment: .leading, spacing: 6) {
                         Text("NUTRIFINDER.AI")
                             .font(.system(size: 34, weight: .semibold, design: .rounded))
+                            .accessibilityAddTraits(.isHeader)
 
                         Text("Ingredient intelligence, uncompromised.")
                             .font(.footnote)
@@ -354,10 +355,15 @@ struct NavRow<Destination: View>: View {
     }
 }
 
-// MARK: - GLASS + BACKGROUND
+// MARK: - GLASS + BACKGROUND + STYLE HELPERS
+
+fileprivate enum Style {
+    static let cardCorner: CGFloat = 16
+    static let largeCorner: CGFloat = 20
+}
 
 extension View {
-    func glassCard(cornerRadius: CGFloat = 20) -> some View {
+    func glassCard(cornerRadius: CGFloat = Style.largeCorner) -> some View {
         self
             .background {
                 RoundedRectangle(cornerRadius: cornerRadius)
@@ -379,6 +385,8 @@ extension View {
             }
     }
 }
+
+// MARK: - LIQUID BACKGROUND
 
 struct LiquidBackground: View {
     var body: some View {
