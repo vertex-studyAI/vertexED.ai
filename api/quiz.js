@@ -1,13 +1,21 @@
+export const runtime = "nodejs";
+
 import { NextResponse } from "next/server";
 import OpenAI from "openai";
 
+// ---- ENV SAFETY ----
+if (!process.env.OPENAI_API_KEY) {
+  throw new Error("Missing OPENAI_API_KEY");
+}
+
 const client = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY!,
+  apiKey: process.env.OPENAI_API_KEY,
 });
 
 export async function POST(req: Request) {
   try {
     const body = await req.json();
+
     const {
       mode = "notes",          // "notes" | "flashcards"
       source = "topic",        // "topic" | "notes" | "audio"
@@ -15,7 +23,7 @@ export async function POST(req: Request) {
       text,
       flashCount = 6,
       length = "medium",
-    } = body;
+    } = body ?? {};
 
     let prompt = "";
 
@@ -30,12 +38,16 @@ export async function POST(req: Request) {
         }
 
         prompt = `
-Create clear, student-friendly study notes on the topic:
+Create clear, student-friendly study notes on the topic below.
+
+Topic:
 "${topic}"
 
-Length: ${length}
-Avoid bullet overload.
-Explain concepts naturally.
+Guidelines:
+- Length: ${length}
+- Natural explanation style
+- Minimal bullets
+- Clear reasoning
         `;
       }
 
@@ -48,9 +60,10 @@ Explain concepts naturally.
         }
 
         prompt = `
-Convert the following transcription into structured study notes.
-Make it concise but clear.
+Convert the following transcription into clean study notes.
+Make them clear, structured, and concise.
 
+Transcription:
 ${text}
         `;
       }
@@ -69,14 +82,15 @@ ${text}
 Generate ${flashCount} flashcards from the notes below.
 
 Rules:
-- Each flashcard must have a "question" and "answer"
-- Keep answers short but precise
-- No markdown, no extra text
+- JSON ONLY
+- No markdown
+- No explanations
+- Each item must have "question" and "answer"
 
 Notes:
 ${text}
 
-Return JSON ONLY in this format:
+Return EXACTLY:
 {
   "flashcards": [
     { "question": "...", "answer": "..." }
@@ -85,23 +99,44 @@ Return JSON ONLY in this format:
       `;
     }
 
-    // ---------- LLM CALL ----------
+    // ---------- SAFETY GUARD ----------
+    if (!prompt.trim()) {
+      return NextResponse.json(
+        { error: "Invalid mode/source combination" },
+        { status: 400 }
+      );
+    }
+
+    // ---------- OPENAI CALL ----------
     const completion = await client.chat.completions.create({
       model: "gpt-4o-mini",
       messages: [{ role: "user", content: prompt }],
       temperature: 0.4,
+      max_tokens: 900,
     });
 
-    const raw = completion.choices[0].message.content ?? "";
+    const raw = completion.choices?.[0]?.message?.content ?? "";
+
+    if (!raw.trim()) {
+      return NextResponse.json(
+        { error: "Empty AI response" },
+        { status: 500 }
+      );
+    }
 
     // ---------- FLASHCARD PARSING ----------
     if (mode === "flashcards") {
       try {
-        const parsed = JSON.parse(raw);
+        const start = raw.indexOf("{");
+        const end = raw.lastIndexOf("}") + 1;
+        const clean = raw.slice(start, end);
+        const parsed = JSON.parse(clean);
+
         return NextResponse.json({
           flashcards: parsed.flashcards ?? [],
         });
-      } catch {
+      } catch (err) {
+        console.error("Flashcard parse error:", raw);
         return NextResponse.json(
           { error: "Failed to parse flashcards" },
           { status: 500 }
@@ -113,8 +148,9 @@ Return JSON ONLY in this format:
     return NextResponse.json({
       notes: raw.trim(),
     });
+
   } catch (err) {
-    console.error("API /api/note error:", err);
+    console.error("API /api/note crash:", err);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 }
