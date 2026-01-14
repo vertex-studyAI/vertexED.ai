@@ -686,29 +686,45 @@ export default function NotetakerQuiz(): JSX.Element {
     setTimeout(() => URL.revokeObjectURL(url), 1000);
   };
 
-  const sendNotesToCards = async (count = 6) => {
-    if (!notes || !notes.trim()) return alert("No notes to convert");
-    try {
-      const r = await fetch("/api/notes", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text: notes, flashCount: count }),
-      });
-      if (!r.ok) throw new Error(`Notes request failed: ${r.status}`);
-      const json = await r.json();
-      if (Array.isArray(json.flashcards) && json.flashcards.length) {
-        setFlashcards(json.flashcards.slice(0, flashCount));
-        pushNotesSnapshot(notes);
-        setCurrentFlashIndex(0);
-        alert("Flashcards generated from notes.");
-      } else {
-        alert("No flashcards generated.");
-      }
-    } catch (err) {
-      console.error("sendNotesToCards error", err);
-      alert("Failed to generate flashcards from notes.");
+const sendNotesToCards = async (count = 6) => {
+  if (!notes.trim()) {
+    alert("No notes available to convert.");
+    return;
+  }
+
+  try {
+    const res = await fetch("/api/note", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        mode: "flashcards",
+        source: "notes",
+        text: notes,
+        flashCount: count,
+      }),
+    });
+
+    if (!res.ok) {
+      throw new Error(`Request failed: ${res.status}`);
     }
-  };
+
+    const data = await res.json();
+
+    if (!Array.isArray(data.flashcards)) {
+      throw new Error("Invalid flashcard response");
+    }
+
+    setFlashcards(data.flashcards.slice(0, count));
+    setCurrentFlashIndex(0);
+    pushNotesSnapshot(notes);
+
+    alert("Flashcards generated successfully.");
+  } catch (err) {
+    console.error("sendNotesToCards error:", err);
+    alert("Failed to generate flashcards.");
+  }
+};
+
 
   const handleFlashClick = (i: number) => {
     setCurrentFlashIndex(i);
