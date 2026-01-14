@@ -1,4 +1,4 @@
-import { Outlet, Link } from "react-router-dom";
+import { Outlet, Link, useLocation } from "react-router-dom";
 import React, { Suspense, useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 
@@ -12,6 +12,7 @@ import BreadcrumbsJsonLd from "@/components/BreadcrumbsJsonLd";
 
 export default function SiteLayout() {
   const { isAuthenticated, logout } = useAuth();
+  const location = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
@@ -197,6 +198,7 @@ export default function SiteLayout() {
         </Suspense>
       </main>
       {/* Fluid Cursor Global */}
+      {!isAuthenticated && location.pathname !== '/' && location.pathname !== '/home' && (
       <div
         id="fluid-cursor-root"
         style={{
@@ -213,6 +215,7 @@ export default function SiteLayout() {
           <FluidCursor />
         </Suspense>
       </div>
+      )}
     </div>
   );
 }
