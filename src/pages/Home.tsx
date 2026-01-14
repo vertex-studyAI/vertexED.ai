@@ -1,11 +1,182 @@
-import React, { useEffect, useRef, useState, Suspense } from "react";
+// src/pages/Home.tsx
+import React, { useEffect, useRef, useState, Suspense, useMemo } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import SEO from "@/components/SEO";
 import { useAuth } from "@/contexts/AuthContext";
 import { TypeAnimation } from "react-type-animation";
 
+// --- New: FallingShapes component + draggable behaviour ---
+const FALL_SHAPES = ["circle", "square", "triangle", "star", "diamond", "hex"] as const;
+type ShapeType = typeof FALL_SHAPES[number];
 
+const ShapeSVG = ({ type }: { type: ShapeType }) => {
+  switch (type) {
+    case "circle":
+      return (
+        <svg viewBox="0 0 24 24" width="100%" height="100%" aria-hidden>
+          <circle cx="12" cy="12" r="10" fill="currentColor" />
+        </svg>
+      );
+    case "square":
+      return (
+        <svg viewBox="0 0 24 24" width="100%" height="100%" aria-hidden>
+          <rect x="4" y="4" width="16" height="16" rx="3" fill="currentColor" />
+        </svg>
+      );
+    case "triangle":
+      return (
+        <svg viewBox="0 0 24 24" width="100%" height="100%" aria-hidden>
+          <path d="M12 4 L20 18 H4 Z" fill="currentColor" />
+        </svg>
+      );
+    case "star":
+      return (
+        <svg viewBox="0 0 24 24" width="100%" height="100%" aria-hidden>
+          <path d="M12 2 L14.6 8.9 L21.7 9.6 L16 14.1 L17.7 21.1 L12 17.7 L6.3 21.1 L8 14.1 L2.3 9.6 L9.4 8.9 Z" fill="currentColor" />
+        </svg>
+      );
+    case "diamond":
+      return (
+        <svg viewBox="0 0 24 24" width="100%" height="100%" aria-hidden>
+          <path d="M12 2 L20 12 L12 22 L4 12 Z" fill="currentColor" />
+        </svg>
+      );
+    case "hex":
+      return (
+        <svg viewBox="0 0 24 24" width="100%" height="100%" aria-hidden>
+          <path d="M12 2 L19 6.5 V17.5 L12 22 L5 17.5 V6.5 Z" fill="currentColor" />
+        </svg>
+      );
+    default:
+      return null;
+  }
+};
 
+/**
+ * FallingShapes v2
+ * - generates a stable pool (useMemo)
+ * - each shape is draggable: pointerdown pauses animation & follows pointer; pointerup releases and resumes fall
+ * - respects prefers-reduced-motion
+ */
+const FallingShapes: React.FC<{ count?: number; palette?: string[] }> = ({ count = 14, palette }) => {
+  const pool = useMemo(() => {
+    const arr: Array<{ id: string; left: string; size: string; dur: string; delay: string; shape: ShapeType; hue: string; rotate: number }> = [];
+    for (let i = 0; i < count; i++) {
+      const left = Math.round(Math.random() * 92) + "%"; // within width
+      const sizePx = 12 + Math.round(Math.random() * 44); // 12 - 56
+      const dur = (7 + Math.random() * 12).toFixed(2) + "s"; // 7-19s
+      const delay = (-(Math.random() * 18)).toFixed(2) + "s"; // negative to spread start
+      const shape = FALL_SHAPES[Math.floor(Math.random() * FALL_SHAPES.length)];
+      const hue = palette ? palette[Math.floor(Math.random() * palette.length)] : `hsl(${Math.floor(Math.random() * 60) + 200} 72% 66%)`;
+      const rotate = Math.round(Math.random() * 360);
+      arr.push({ id: `shape-${i}-${Math.round(Math.random() * 1e6)}`, left, size: `${sizePx}px`, dur, delay, shape, hue, rotate });
+    }
+    return arr;
+  }, [count, palette]);
+
+  const draggingRef = useRef<HTMLElement | null>(null);
+  const startOffsetRef = useRef<{ x: number; y: number; origLeft: number } | null>(null);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const mq = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (mq && mq.matches) return;
+
+    // pointer move/up listeners for dragging
+    const onPointerMove = (ev: PointerEvent) => {
+      const el = draggingRef.current;
+      if (!el) return;
+      ev.preventDefault();
+      const start = startOffsetRef.current!;
+      const dx = ev.clientX - start.x;
+      const dy = ev.clientY - start.y;
+      el.style.transform = `translate(${dx}px, ${dy}px) rotate(${el.dataset.rotate ?? 0}deg) scale(1.06)`;
+      el.style.zIndex = "9999";
+      el.style.opacity = "1";
+    };
+
+    const onPointerUp = (ev: PointerEvent) => {
+      const el = draggingRef.current;
+      if (!el) return;
+      ev.preventDefault();
+      // compute new left (percentage)
+      const rect = el.getBoundingClientRect();
+      const percentLeft = Math.max(0, Math.min(100, (rect.left + rect.width / 2) / window.innerWidth * 100));
+      el.style.left = `${percentLeft}%`;
+      // remove transform and resume animation
+      el.style.transform = "";
+      el.style.zIndex = "";
+      el.style.transition = "transform 320ms ease";
+      setTimeout(() => { el.style.transition = ""; }, 320);
+      el.style.animationPlayState = "running";
+      // restart animation from top (quick resume) by resetting animationDelay
+      el.style.animationDelay = "0s";
+      el.dataset.dragging = "0";
+      draggingRef.current = null;
+      startOffsetRef.current = null;
+      window.removeEventListener("pointermove", onPointerMove);
+      window.removeEventListener("pointerup", onPointerUp);
+    };
+
+    window.addEventListener("pointermove", onPointerMove);
+    window.addEventListener("pointerup", onPointerUp);
+    return () => {
+      window.removeEventListener("pointermove", onPointerMove);
+      window.removeEventListener("pointerup", onPointerUp);
+    };
+  }, []);
+
+  // pointerdown handler attached to each shape
+  const handlePointerDown = (e: React.PointerEvent<HTMLSpanElement>, id: string) => {
+    if (typeof window === "undefined") return;
+    const target = e.currentTarget as HTMLElement;
+    const mq = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (mq && mq.matches) return;
+    e.currentTarget.setPointerCapture(e.pointerId);
+    draggingRef.current = target;
+    startOffsetRef.current = { x: e.clientX, y: e.clientY, origLeft: parseFloat(target.style.left || "0") };
+    target.dataset.dragging = "1";
+    target.style.animationPlayState = "paused";
+  };
+
+  return (
+    <div aria-hidden className="falling-shapes-root" style={{ pointerEvents: "none" }}>
+      {pool.map((s) => (
+        <span
+          key={s.id}
+          className="falling-shape draggable-shape"
+          role="presentation"
+          onPointerDown={(ev) => {
+            // allow drag only with primary button
+            if ((ev as any).button && (ev as any).button !== 0) return;
+            // enable pointer events during drag
+            (ev.currentTarget as HTMLElement).style.pointerEvents = "auto";
+            handlePointerDown(ev, s.id);
+          }}
+          data-rotate={s.rotate}
+          style={{
+            left: s.left,
+            width: s.size,
+            height: s.size,
+            animationDuration: s.dur,
+            animationDelay: s.delay,
+            color: s.hue,
+            transform: `rotate(${s.rotate}deg)`,
+            pointerEvents: "none", // default; set to auto on pointerdown
+          }}
+        >
+          <ShapeSVG type={s.shape} />
+        </span>
+      ))}
+
+      {/* Small extra dynamic ribbons (pure CSS) */}
+      <div className="floating-ribbon ribbon-1" aria-hidden />
+      <div className="floating-ribbon ribbon-2" aria-hidden />
+    </div>
+  );
+};
+
+// ---------- existing micro-animations components (fixed/trimmed) ----------
 type FlipWordsProps = { words: string[]; interval?: number; className?: string };
 const FlipWords: React.FC<FlipWordsProps> = ({ words, interval = 2200, className }) => {
   const [idx, setIdx] = useState(0);
@@ -50,20 +221,39 @@ const TextReveal: React.FC<{ text: string; className?: string }> = ({ text, clas
   );
 };
 
+/**
+ * LandoSwapText: safer swap animation
+ * - if from === to -> returns a static span (prevents repeated weirdness)
+ * - otherwise retains the original two-line swap behaviour
+ */
 const LandoSwapText: React.FC<{ from: string; to: string; triggerMs?: number; className?: string }> = ({ from, to, triggerMs = 2200, className }) => {
   const [current, setCurrent] = useState(from);
   const [animKey, setAnimKey] = useState(0);
+
   useEffect(() => {
     if (typeof window === "undefined") return;
     const reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduced) return;
+    if (reduced) {
+      setCurrent(from);
+      return;
+    }
+    // If both strings equal, don't animate
+    if (from === to) {
+      setCurrent(from);
+      return;
+    }
 
     const id = setInterval(() => {
       setAnimKey(k => k + 1);
+      // small flip delay so front/back have a nice stagger
       setTimeout(() => setCurrent(c => (c === from ? to : from)), 300);
     }, triggerMs);
     return () => clearInterval(id);
   }, [from, to, triggerMs]);
+
+  if (from === to) {
+    return <span className={`lando-swap ${className || ""}`}>{from}</span>;
+  }
 
   const maxLen = Math.max(from.length, to.length);
   const pad = (s: string) => s.padEnd(maxLen, " ");
@@ -82,42 +272,38 @@ const LandoSwapText: React.FC<{ from: string; to: string; triggerMs?: number; cl
   );
 };
 
-// Hand-drawn decorative SVG elements
-const HandDrawnArrow = ({ className = "", style = {} }) => (
+// Hand-drawn decorative SVGs (unchanged; kept for brevity)
+
+const HandDrawnArrow = ({ className = "", style = {} }: any) => (
   <svg className={className} style={style} width="140" height="90" viewBox="0 0 140 90" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M10 45 Q 45 30, 80 45 T 130 40" stroke="currentColor" strokeWidth="3" fill="none" strokeLinecap="round" strokeLinejoin="round" opacity="0.5"/>
     <path d="M115 33 L 130 40 L 120 50" stroke="currentColor" strokeWidth="3" fill="none" strokeLinecap="round" strokeLinejoin="round" opacity="0.5"/>
   </svg>
 );
-
-const HandDrawnCircle = ({ className = "", style = {} }) => (
+const HandDrawnCircle = ({ className = "", style = {} }: any) => (
   <svg className={className} style={style} width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M60 15 Q 100 18, 103 60 Q 100 102, 60 105 Q 20 102, 17 60 Q 20 18, 60 15" stroke="currentColor" strokeWidth="3" fill="none" strokeLinecap="round" opacity="0.4"/>
     <path d="M60 25 Q 92 27, 94 60 Q 92 93, 60 95 Q 28 93, 26 60 Q 28 27, 60 25" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" opacity="0.25"/>
   </svg>
 );
-
-const HandDrawnUnderline = ({ className = "", style = {} }) => (
+const HandDrawnUnderline = ({ className = "", style = {} }: any) => (
   <svg className={className} style={style} width="250" height="25" viewBox="0 0 250 25" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M5 12 Q 65 8, 125 14 T 245 12" stroke="currentColor" strokeWidth="3.5" fill="none" strokeLinecap="round" opacity="0.45"/>
     <path d="M5 18 Q 65 14, 125 20 T 245 18" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" opacity="0.25"/>
   </svg>
 );
-
-const HandDrawnScribble = ({ className = "", style = {} }) => (
+const HandDrawnScribble = ({ className = "", style = {} }: any) => (
   <svg className={className} style={style} width="180" height="120" viewBox="0 0 180 120" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M25 60 Q 35 35, 60 55 T 95 42 Q 120 60, 145 48 T 165 65" stroke="currentColor" strokeWidth="2.5" fill="none" strokeLinecap="round" opacity="0.35"/>
     <path d="M30 70 Q 42 50, 65 68 T 100 58" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" opacity="0.25"/>
   </svg>
 );
-
-const HandDrawnStar = ({ className = "", style = {} }) => (
+const HandDrawnStar = ({ className = "", style = {} }: any) => (
   <svg className={className} style={style} width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M50 15 L55 40 L80 45 L58 60 L62 85 L50 70 L38 85 L42 60 L20 45 L45 40 Z" stroke="currentColor" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round" opacity="0.4"/>
   </svg>
 );
-
-const HandDrawnSparkles = ({ className = "", style = {} }) => (
+const HandDrawnSparkles = ({ className = "", style = {} }: any) => (
   <svg className={className} style={style} width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M20 20 L25 25 L20 30 L15 25 Z" stroke="currentColor" strokeWidth="2" fill="none" opacity="0.5"/>
     <path d="M55 15 L58 18 L55 21 L52 18 Z" stroke="currentColor" strokeWidth="2" fill="none" opacity="0.5"/>
@@ -126,6 +312,7 @@ const HandDrawnSparkles = ({ className = "", style = {} }) => (
   </svg>
 );
 
+// featureSideText, ProblemCard, FeatureRow remain mostly unchanged (kept as in your original file)
 const featureSideText = [
   "This is the perfect tool for when independent study needs assistance; from graphing calculators to even a simple activity log to track progress, we got your back",
   "Not just a souless bot, it learns and adapts to you and actually understands what it means to help teach and explain a concept in ways which make sense to you",
@@ -166,10 +353,10 @@ function ProblemCard({ p, i, flipped, toggleFlip }: { p: { stat: string; text: s
             className="absolute inset-0 flex flex-col items-center justify-center gap-5 text-6xl font-bold rounded-3xl problem-card-front"
             style={{
               backfaceVisibility: "hidden",
-              background: "rgba(255, 255, 255, 0.05)",
+              background: "linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02))",
               backdropFilter: "blur(12px)",
-              border: "1px solid rgba(255, 255, 255, 0.1)",
-              boxShadow: "0 8px 32px 0 rgba(0, 0, 0, 0.2)",
+              border: "1px solid rgba(255, 255, 255, 0.08)",
+              boxShadow: "0 8px 32px 0 rgba(0, 0, 0, 0.25)",
               color: "#ffffff",
             }}
           >
@@ -182,11 +369,11 @@ function ProblemCard({ p, i, flipped, toggleFlip }: { p: { stat: string; text: s
             style={{
               transform: "rotateY(180deg)",
               backfaceVisibility: "hidden",
-              background: "rgba(255, 255, 255, 0.05)",
+              background: "linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02))",
               backdropFilter: "blur(12px)",
-              border: "1px solid rgba(255, 255, 255, 0.1)",
+              border: "1px solid rgba(255, 255, 255, 0.08)",
               color: "#e6eef6",
-              boxShadow: "0 8px 32px 0 rgba(0, 0, 0, 0.2)",
+              boxShadow: "0 8px 32px 0 rgba(0, 0, 0, 0.25)",
             }}
           >
             <div>
@@ -203,7 +390,7 @@ function ProblemCard({ p, i, flipped, toggleFlip }: { p: { stat: string; text: s
 function FeatureRow({ f, i }: { f: { title: string; desc: string }; i: number }) {
   return (
     <div className={`feature-row flex flex-col md:flex-row items-center gap-14 pop-up ${i % 2 !== 0 ? "md:flex-row-reverse" : ""}`}>
-      <div className="flex-1 glass-tile rounded-3xl shadow-2xl p-9 text-slate-100 tilt-card feature-card relative overflow-hidden">
+      <div className="flex-1 glass-tile rounded-3xl shadow-2xl p-9 text-slate-100 tilt-card relative overflow-hidden">
         <div className="relative z-10">
           <h4 className="text-3xl font-bold mb-5 pop-up swap-span hover-text-morph transition-all duration-400">
             <LetterPullUp text={f.title} />
@@ -228,6 +415,7 @@ function FeatureRow({ f, i }: { f: { title: string; desc: string }; i: number })
   );
 }
 
+// -------------------- Home component --------------------
 export default function Home() {
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
@@ -275,7 +463,7 @@ export default function Home() {
     }
   }, [isAuthenticated, navigate]);
 
-  // Enhanced GSAP with cinematic animations
+  // Enhanced GSAP with cinematic animations (kept from original)
   useEffect(() => {
     if (typeof window === "undefined") return;
 
@@ -539,13 +727,10 @@ export default function Home() {
         rect = el.getBoundingClientRect();
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
-        // normalized coordinates from -0.5 to 0.5
         const nx = (x / rect.width) - 0.5;
         const ny = (y / rect.height) - 0.5;
-        // map to tilt: rotateY depends on horizontal movement, rotateX depends on vertical movement (inverted)
-        targetY = nx * opts.maxTilt * 2;           // rotateY
-        targetX = -ny * opts.maxTilt * 2;          // rotateX (invert so moving down tilts forward)
-        // slight z rotation based on horizontal offset
+        targetY = nx * opts.maxTilt * 2;
+        targetX = -ny * opts.maxTilt * 2;
         targetZ = nx * (opts.maxTilt * 0.25);
         if (!rafId) rafId = requestAnimationFrame(update);
       };
@@ -710,8 +895,6 @@ export default function Home() {
         ]}
       />
 
-
-
       <style>{`
         * { box-sizing: border-box; }
         html { 
@@ -724,17 +907,84 @@ export default function Home() {
           margin: 0;
           padding: 0;
           overflow-x: hidden;
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
         }
         section { 
           scroll-snap-align: start; 
           scroll-snap-stop: normal;
-          /* min-height removed to fix large gaps */
         }
 
         .hero-section {
           scroll-snap-align: start;
-          /* top box smaller so other sections start to appear on normal zoom */
           min-height: 70vh;
+        }
+
+        /* --- Falling shapes styles --- */
+        .falling-shapes-root {
+          position: fixed;
+          inset: 0;
+          pointer-events: none;
+          z-index: 6;
+        }
+
+        .falling-shape {
+          position: absolute;
+          top: -14vh;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          opacity: 0.95;
+          filter: drop-shadow(0 8px 18px rgba(2,6,23,0.25));
+          transform-origin: center;
+          will-change: transform, opacity;
+          animation-name: fall;
+          animation-timing-function: linear;
+          animation-iteration-count: infinite;
+          mix-blend-mode: screen;
+          pointer-events: none; /* becomes auto on pointerdown */
+        }
+
+        /* CSS fall animation -- simpler vertical translate */
+        @keyframes fall {
+          0% { transform: translateY(-10vh) rotate(0deg) scale(1); opacity: 1; }
+          70% { opacity: 0.92; }
+          100% { transform: translateY(110vh) rotate(360deg) scale(0.78); opacity: 0; }
+        }
+
+        /* When a shape is marked dragging (dataset) we allow pointer interactions */
+        .draggable-shape[data-dragging="1"] {
+          pointer-events: auto;
+          animation-play-state: paused !important;
+        }
+
+        /* Floating ribbons */
+        .floating-ribbon {
+          position: absolute;
+          width: 260px;
+          height: 56px;
+          border-radius: 999px;
+          background: linear-gradient(90deg, rgba(14,165,233,0.08), rgba(168,85,247,0.06));
+          opacity: 0.08;
+          transform: translate3d(0,0,0);
+          filter: blur(8px);
+          mix-blend-mode: screen;
+          z-index: 4;
+          pointer-events: none;
+          animation: ribbonFloat 8s ease-in-out infinite;
+        }
+        .floating-ribbon.ribbon-1 { left: 6%; top: 10%; animation-delay: 0s; transform: rotate(-8deg) }
+        .floating-ribbon.ribbon-2 { right: 8%; top: 55%; animation-delay: 2.1s; transform: rotate(12deg) }
+
+        @keyframes ribbonFloat {
+          0% { transform: translateY(0) rotate(0deg); opacity: 0.09 }
+          50% { transform: translateY(-22px) rotate(6deg); opacity: 0.12 }
+          100% { transform: translateY(0) rotate(0deg); opacity: 0.09 }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .falling-shape { animation: none !important; opacity: 0 !important; }
+          .floating-ribbon { animation: none !important; opacity: 0.05 !important; }
         }
 
         /* Pop animations */
@@ -749,270 +999,101 @@ export default function Home() {
           transform: translateY(0px) scale(1); 
         }
 
-        /* Highlight animations */
-        .highlight-clip { 
-          display: inline-block; 
-          overflow: hidden; 
-          vertical-align: middle; 
-        }
-        .hl-inner { 
-          display: inline-block; 
-          transform-origin: left center; 
-          transform: translateY(12px); 
-          transition: transform 500ms cubic-bezier(0.34, 1.56, 0.64, 1), color 350ms; 
-        }
-        .hl-pop { 
-          transform: translateY(0px); 
-          color: #DDEBFF; 
-          text-shadow: 0 8px 32px rgba(14,165,233,0.12); 
+        /* Liquid/glass refinements */
+        :root {
+          --glass-boost: rgba(255,255,255,0.06);
+          --glass-edge: rgba(255,255,255,0.12);
+          --glass-inner-shadow: rgba(2,6,23,0.35);
         }
 
-        .swap-span { 
-          display: inline-block; 
-          transform: translateY(8px); 
-          transition: transform 500ms cubic-bezier(0.34, 1.56, 0.64, 1); 
-          white-space: normal; 
-          word-break: break-word; 
-          max-width: 100%; 
-        }
-
-        /* Glass morphism */
         .glass-card {
-          background: linear-gradient(135deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
-          border: 1px solid rgba(255,255,255,0.08);
-          backdrop-filter: blur(24px) saturate(160%);
+          background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+          border: 1px solid var(--glass-edge);
+          backdrop-filter: blur(22px) saturate(150%);
+          box-shadow: 0 8px 48px var(--glass-inner-shadow);
         }
 
         .glass-tile { 
-          background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02)); 
-          border: 1px solid rgba(255,255,255,0.1); 
+          background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01)); 
+          border: 1px solid rgba(255,255,255,0.08); 
           backdrop-filter: blur(20px) saturate(140%); 
+          box-shadow: 0 10px 40px rgba(2,6,23,0.35);
         }
 
-        /* Feature card effects */
+        .glass-tile::after {
+          content: '';
+          position: absolute;
+          left: -10%;
+          top: -10%;
+          width: 120%;
+          height: 120%;
+          background: radial-gradient(60% 40% at 10% 10%, rgba(255,255,255,0.04), transparent 20%);
+          pointer-events: none;
+          z-index: 0;
+        }
+
         .feature-card {
-          transition: all 600ms cubic-bezier(0.34, 1.56, 0.64, 1);
+          transition: transform 420ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 420ms;
         }
 
         .feature-card:hover {
           transform: translateY(-10px) scale(1.02);
-          box-shadow: 0 24px 72px rgba(14,165,233,0.2);
-          border-color: rgba(14,165,233,0.4);
+          box-shadow: 0 24px 72px rgba(14,165,233,0.14);
+          border-color: rgba(14,165,233,0.28);
         }
 
         .feature-glow {
           position: absolute;
           inset: -60%;
-          background: radial-gradient(circle at center, rgba(14,165,233,0.18), transparent 70%);
+          background: radial-gradient(circle at center, rgba(14,165,233,0.12), transparent 70%);
           opacity: 0;
           transition: opacity 700ms ease;
           pointer-events: none;
         }
 
-        .feature-card:hover .feature-glow {
-          opacity: 1;
-        }
+        .feature-card:hover .feature-glow { opacity: 1; }
 
-        /* Hover text morphing */
-        .hover-text-morph {
-          cursor: pointer;
-        }
-
-        .hover-text-morph:hover {
-          font-weight: 700;
-          letter-spacing: 0.015em;
-          transform: scale(1.02) translateY(-2px);
-          text-shadow: 0 4px 16px rgba(255,255,255,0.15);
-        }
-
-        /* Problem card stat animation */
-        .stat-number {
-          display: inline-block;
-          animation: statPulse 3s ease-in-out infinite;
-        }
-
-        @keyframes statPulse {
-          0%, 100% { transform: scale(1) translateY(0); }
-          50% { transform: scale(1.05) translateY(-4px); }
-        }
-
-        /* Flip words */
-        .flip-words { 
-          perspective: 800px; 
-          display: inline-block; 
-          vertical-align: middle; 
-        }
-        .fw-word { 
-          display:inline-block; 
-          backface-visibility: hidden; 
-          transform-origin: center; 
-          transition: transform 350ms cubic-bezier(0.34, 1.56, 0.64, 1), opacity 320ms; 
-        }
-        .fw-in { 
-          transform: rotateX(0deg) translateY(0); 
-          opacity:1; 
-        }
-        .fw-out { 
-          transform: rotateX(-90deg) translateY(-12px); 
-          opacity:0; 
-        }
-
-        /* Letter pull up */
-        .letter-pullup { 
-          display:inline-block; 
-          overflow:visible; 
-        }
-        .lp-char { 
-          display:inline-block; 
-          transform: translateY(28px) rotateX(-15deg); 
-          opacity:0; 
-          transition: transform 650ms cubic-bezier(0.34, 1.56, 0.64, 1), opacity 550ms; 
-        }
-        .pop-in .lp-char { 
-          transform: translateY(0) rotateX(0deg); 
-          opacity:1; 
-        }
-
-        /* Text reveal */
-        .text-reveal { 
-          display:inline-block; 
-          vertical-align:middle; 
-        }
-        .tr-char { 
-          display:inline-block; 
-          transform: translateY(22px) rotateX(-20deg); 
-          opacity:0; 
-          transition: transform 550ms cubic-bezier(0.34, 1.56, 0.64, 1), opacity 480ms; 
-        }
-        .pop-in .text-reveal .tr-char { 
-          transform: translateY(0) rotateX(0deg); 
-          opacity:1; 
-        }
-
-        /* Lando swap */
-        .lando-swap { 
-          display:inline-block; 
-          line-height:1; 
-          font-variant-ligatures: none; 
-          white-space:nowrap; 
-        }
-        .ls-letter { 
-          display:inline-block; 
-          position:relative; 
-          overflow:visible; 
-          width:auto; 
-          min-width:0.5ch; 
-          text-align:center; 
-        }
-        .ls-front, .ls-back { 
-          display:block; 
-          transform-origin:center; 
-          position:relative; 
-          transition: transform 400ms cubic-bezier(0.34, 1.56, 0.64, 1), opacity 350ms; 
-        }
-        .ls-front { 
-          transform: translateY(0); 
-          opacity:1; 
-        }
-        .ls-back { 
-          position:absolute; 
-          left:0; 
-          top:0; 
-          transform: translateY(120%); 
-          opacity:0; 
-        }
-        .lando-swap[data-key] .ls-front { 
-          transform: translateY(-120%); 
-          opacity:0; 
-        }
-        .lando-swap[data-key] .ls-back { 
-          transform: translateY(0%); 
-          opacity:1; 
-        }
-
-        /* Hand-drawn elements */
-        .hand-drawn-deco {
-          pointer-events: none;
-          user-select: none;
-        }
-
-        /* Perspective */
-        .perspective { 
-          perspective: 1200px; 
-        }
-
-        /* Button enhancements */
         .btn-cinematic {
           position: relative;
           overflow: hidden;
-          transition: all 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
+          transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 260ms;
         }
 
         .btn-cinematic::before {
           content: '';
           position: absolute;
           inset: 0;
-          background: linear-gradient(135deg, rgba(255,255,255,0.3), transparent);
+          background: linear-gradient(135deg, rgba(255,255,255,0.12), transparent);
           opacity: 0;
-          transition: opacity 400ms;
+          transition: opacity 300ms;
+          pointer-events: none;
         }
 
-        .btn-cinematic:hover::before {
-          opacity: 1;
-        }
+        .btn-cinematic:hover::before { opacity: 1; }
+        .btn-cinematic:focus { outline: none; box-shadow: 0 8px 32px rgba(14,165,233,0.14); transform: translateY(-3px) scale(1.02); }
 
-        .btn-cinematic:hover {
-          transform: translateY(-4px) scale(1.05);
-          box-shadow: 0 20px 48px rgba(255,255,255,0.25);
-        }
+        .highlight-clip { display: inline-block; overflow: hidden; vertical-align: middle; }
+        .hl-inner { display: inline-block; transform-origin: left center; transform: translateY(12px); transition: transform 500ms cubic-bezier(0.34, 1.56, 0.64, 1), color 350ms; }
+        .hl-pop { transform: translateY(0px); color: #DDEBFF; text-shadow: 0 8px 32px rgba(14,165,233,0.12); }
 
-        /* Link hover effect */
-        .link-underline-animate {
-          position: relative;
-          transition: all 300ms ease;
-        }
+        /* small helper to avoid weird text glitch from earlier: ensure fixed width fonts for stat numbers */
+        .stat-number { font-feature-settings: 'tnum' 1; }
 
-        .link-underline-animate::after {
-          content: '';
-          position: absolute;
-          bottom: -2px;
-          left: 0;
-          width: 0;
-          height: 2px;
-          background: currentColor;
-          transition: width 400ms cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-
-        .link-underline-animate:hover::after {
-          width: 100%;
-        }
-
-        .link-underline-animate:hover {
-          color: rgba(14,165,233,1);
-        }
-
-        /* Reduced motion */
         @media (prefers-reduced-motion: reduce) {
           *, *::before, *::after {
             animation-duration: 0.01ms !important;
             animation-iteration-count: 1 !important;
             transition-duration: 0.01ms !important;
           }
-          .pop-up { 
-            transition: none !important; 
-            transform: none !important; 
-            opacity: 1 !important; 
-          }
+          .pop-up { transition: none !important; transform: none !important; opacity: 1 !important; }
         }
 
-        /* Ensure fluid cursor root children can expand if component uses absolute positioning */
-        #fluid-cursor-root, #fluid-cursor-root > * {
-          position: relative;
-          width: 100%;
-          height: 100%;
-        }
+        #fluid-cursor-root, #fluid-cursor-root > * { position: relative; width: 100%; height: 100%; }
 
       `}</style>
+
+      {/* Falling shapes overlay */}
+      <FallingShapes count={18} palette={["hsl(200 80% 65%)","hsl(215 70% 65%)","hsl(280 70% 70%)","hsl(210 60% 72%)","hsl(310 70% 70%)"]} />
 
       {/* Hero Section */}
       <section className="hero-section glass-card px-6 pt-20 pb-12 text-center pop-up relative overflow-hidden flex items-center justify-center">
@@ -1049,6 +1130,7 @@ export default function Home() {
                 </span>
 
                 <span className="mt-3 text-lg" aria-hidden>
+                  {/* FIX: when both props identical, LandoSwapText returns a static label (no jitter) */}
                   <LandoSwapText from="VertexED" to="VertexED" triggerMs={2800} />
                 </span>
               </h1>
@@ -1080,7 +1162,7 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Story Section (reduced spacing so heading shows on normal zoom) */}
+      {/* Story Section */}
       <section className="mt-8 text-center px-6 relative cinematic-section">
         <HandDrawnCircle className="hand-drawn-deco hand-drawn-reveal float-deco-2 absolute top-0 left-24 text-rose-400 opacity-20" style={{ width: 110 }} />
         
@@ -1139,32 +1221,32 @@ export default function Home() {
           </p>
 
           <p className="text-lg md:text-xl mt-6 leading-relaxed font-bold cinematic-text">
-            Our aim is not only to raise yoyr scores using evidence-based techniques and on resources which match your exams, but to create an environment where learning becomes rewarding and sustainable.
+            Our aim is not only to raise your scores using evidence-based techniques and on resources which match your exams, but to create an environment where learning becomes rewarding and sustainable.
           </p>
         </div>
       </section>
 
-      {/* Detailed Overview Section for SEO */}
+      {/* Detailed Overview Section for SEO (spiced up) */}
       <section className="max-w-5xl mx-auto mt-20 px-6 cinematic-section">
         <div className="text-slate-200 space-y-8 leading-relaxed text-lg md:text-xl font-light">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">Comprehensive AI Study Tools for Every Student</h2>
           <p>
-            VertexED is more than just a study aid; it is a complete ecosystem designed to revolutionize how students prepare for exams like IB, IGCSE, AP, and A-Levels. By leveraging advanced artificial intelligence, we provide a suite of tools that cater to every aspect of the learning process, from planning and organization to active recall and self-assessment.
+            VertexED is more than just a study aid; it is a living ecosystem designed to transform the way you prepare for exams. Think less busywork and more impact — automatic summaries, intelligent revision schedules, and practice that actually forces the knowledge to stick.
           </p>
           <p>
-            Our <strong>AI Study Planner</strong> takes the guesswork out of scheduling. Instead of manually creating timetables, simply input your subjects and exam dates, and let our intelligent algorithm generate a personalized study plan that adapts to your progress. This ensures you cover all necessary topics without burning out, optimizing your time for maximum retention.
+            Our <strong>AI Study Planner</strong> replaces guessing and guilt with clear plans: tell us your exam dates and weak spots, and we will craft a timetable that adapts as you improve so burnout stays far away.
           </p>
           <p>
-            For content mastery, our <strong>Note Taker</strong> and <strong>Flashcard Generator</strong> transform raw information into structured learning materials. Whether you're summarizing a lecture or converting textbook chapters into revision cards, VertexED automates the tedious parts of studying so you can focus on understanding the core concepts.
+            For content mastery, our <strong>Note Taker</strong> and <strong>Flashcard Generator</strong> turn dense chapters into crisp, memorable learning bites. The goal: fewer hours, deeper understanding.
           </p>
           <p>
-            Testing your knowledge is crucial, and our <strong>Quiz Generator</strong> and <strong>Paper Maker</strong> allow you to create custom practice tests tailored to your specific syllabus. With instant feedback and detailed explanations, you can identify your weak areas and address them immediately. The <strong>Answer Reviewer</strong> goes a step further by analyzing your written responses, providing grading based on official mark schemes, and offering constructive feedback to improve your exam technique.
+            Testing becomes intentional with our <strong>Quiz Generator</strong> and <strong>Paper Maker</strong>. Build mock exams that mirror real papers, get instant, actionable feedback, and repeat until your answers read like top-mark responses. The <strong>Answer Reviewer</strong> grades using official rubrics and gives precise tips on structure, clarity, and ideas to lift your score.
           </p>
           <p>
-            We believe in the power of <strong>Active Recall</strong> and <strong>Spaced Repetition</strong>. Our platform is built on these evidence-based learning strategies to ensure that what you learn stays with you for the long term. By constantly challenging your brain to retrieve information, VertexED helps you build stronger neural connections and achieve higher grades with less stress.
+            We embed <strong>Active Recall</strong> and <strong>Spaced Repetition</strong> into every touchpoint — because remembering is the whole point. With VertexED you study smarter, reduce stress, and keep the momentum going.
           </p>
           <p>
-            Join thousands of students who are already studying smarter with VertexED. Experience the future of education today and unlock your full academic potential with tools that are as ambitious as you are.
+            Thousands of students are already using VertexED to level up. Join them: less guessing, more progress, and study sessions you actually want to keep coming back to.
           </p>
         </div>
       </section>

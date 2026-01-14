@@ -247,14 +247,6 @@ export default function Features() {
         title="Features · VertexED AI Study Toolkit"
         description="Explore VertexED features: AI Calendar, Discussion Agent, Study Zone, Paper Maker, Answer Reviewer, Notes, Flashcards, and Quizzes."
         canonical="https://www.vertexed.app/features"
-        jsonLd={{
-          "@context": "https://schema.org",
-          "@type": "SoftwareApplication",
-          name: "VertexED Features",
-          applicationCategory: "EducationalApplication",
-          operatingSystem: "Web",
-          featureList: "AI Study Planner, Paper Maker, Answer Reviewer, Automated Note Taking, Flashcard Generator, Quiz Generator, Study Zone, AI Chatbot Tutor"
-        }}
       />
 
       {/* Hero — lightweight (no boxed panel) so it sits in your existing backdrop */}
