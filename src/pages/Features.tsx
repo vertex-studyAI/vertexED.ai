@@ -1,417 +1,109 @@
-import SwiftUI
+import React from "react";
+import SEO from "@/components/SEO";
+import { Linkedin } from "lucide-react";
+import PageSection from "@/components/PageSection";
 
-// MARK: - ROOT
-
-struct ContentView: View {
-    var body: some View {
-        NavigationStack {
-            HomeView()
-        }
-        .preferredColorScheme(.dark)
-    }
+interface Person {
+  name: string;
+  role: string;
+  bio: string;
+  linkedin: string;
 }
 
-// MARK: - HOME
-
-struct HomeView: View {
-    var body: some View {
-        ZStack {
-            LiquidBackground()
-
-            ScrollView {
-                VStack(alignment: .leading, spacing: 28) {
-
-                    // Header
-                    VStack(alignment: .leading, spacing: 6) {
-                        Text("NUTRIFINDER.AI")
-                            .font(.system(size: 34, weight: .semibold, design: .rounded))
-                            .accessibilityAddTraits(.isHeader)
-
-                        Text("Ingredient intelligence, uncompromised.")
-                            .font(.footnote)
-                            .foregroundStyle(.secondary)
-                    }
-                    .padding(.horizontal, 24)
-
-                    ScanHeroCard()
-
-                    VStack(spacing: 12) {
-                        NavRow(title: "SCAN HISTORY", icon: "clock", destination: HistoryView())
-                        NavRow(title: "ABOUT SYSTEM", icon: "info.circle", destination: AboutView())
-                    }
-                    .padding(.horizontal, 24)
-                }
-                .padding(.top, 24)
-                .padding(.bottom, 40)
-            }
-        }
-    }
+// Simple text wrapper (NO animations)
+function AnimatedText({ text, className = "" }: { text: string; className?: string }) {
+  return (
+    <span className={`bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent ${className}`}>
+      {text}
+    </span>
+  );
 }
 
-// MARK: - HERO CARD
+export default function About(): JSX.Element {
+  const team: Person[] = [
+    {
+      name: "Ryan Gomez",
+      role: "Co-founder · CFO · Head of AI Product Development",
+      bio: `Ryan Gomez is a Sophomore at the Oakridge International School of Bangalore with a passion for being a maximalist especially outside the classroom. Whilst receiving awards at various International Model UN conferences and being a champion scholar, international olympiads and having his research published internationally whilst being an author of a quantum mechanics book, he has founded initiatives like obscured records, expanded upon a UNICEF recognised non profit and has ran Oakridge Junior codefest for 5 years running now. He has also played international football and works at various projects like he’s the next Soham Parekh. In his “free time”, he loves to explore his hobbies like the guitar or work on his assortment of projects. He also loves learning at an astronomical rate per se.`,
+      linkedin: "https://www.linkedin.com/in/ryan-gomez-03701b363/?originalSubdomain=in",
+    },
+    {
+      name: "Pratyush Vel Shankar",
+      role: "Co-founder · CEO · Head of Vision",
+      bio: `Pratyush Vel Shankar is a Sophomore at Oakridge who had the core idea behind Vertex. After winning $500 in Bangalore’s largest hackathon, he co-founded OneVertex.AI. With perfect PSAT scores, leading Oakridge’s tech club, and winning Olympiads, he spends his free time coding big ideas or playing on his Nintendo Switch.`,
+      linkedin: "#",
+    },
+    {
+      name: "Ritayush Dey",
+      role: "Co-founder · CTO · Finance Oversight",
+      bio: `Ritayush Dey is a Sophomore at Oakridge with a love for excellence. He has won awards at World Scholars Cup, captained Oakridge’s cricket team, and pursued music at Trinity Grade 6. Alongside academics and leadership, he is currently organizing India’s largest overnight school-level hackathon.`,
+      linkedin: "#",
+    },
+  ];
 
-struct ScanHeroCard: View {
-    var body: some View {
-        NavigationLink {
-            ScanView()
-        } label: {
-            VStack(alignment: .leading, spacing: 18) {
+  // simple + safe external link check (NO regex escaping issues)
+  const isExternal = (url: string) => url.startsWith("http");
 
-                HStack {
-                    Image(systemName: "barcode.viewfinder")
-                        .font(.system(size: 36))
-                    Spacer()
-                    Text("v0.1")
-                        .font(.caption2)
-                        .foregroundStyle(.secondary)
-                }
+  return (
+    <>
+      <SEO
+        title="About Vertex — AI Study Tools"
+        description="Learn about Vertex, the all-in-one AI study tools platform, and the founding team."
+        canonical="https://www.vertexed.app/about"
+        jsonLd={[
+          {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            name: "VertexED",
+            url: "https://www.vertexed.app",
+            logo: "https://www.vertexed.app/logo.png",
+            foundingDate: "2025",
+            founders: team.map(p => ({
+              "@type": "Person",
+              name: p.name,
+              jobTitle: p.role,
+              description: p.bio,
+              sameAs: p.linkedin !== "#" ? [p.linkedin] : []
+            }))
+          }
+        ]}
+      />
 
-                Text("SCAN FOOD PRODUCT")
-                    .font(.system(size: 22, weight: .semibold, design: .rounded))
+      <PageSection className="relative px-6 md:px-12">
+        <h1 className="text-4xl md:text-5xl font-semibold mb-6 tracking-tight">
+          <AnimatedText text="About Vertex" />
+        </h1>
 
-                Text("Identify additives. Assess risk. Receive alternatives.")
-                    .font(.footnote)
-                    .foregroundStyle(.secondary)
+        <p className="opacity-90 text-lg md:text-xl max-w-3xl leading-relaxed text-gray-200">
+          Vertex began as an Oakridge 2025 Codefest idea — three classmates building a seamless AI study workspace. We study at the same school and crafted Vertex to bring planning, notes, flashcards, quizzes, and AI help into one elegant experience. After receiving over $500 in prize money at Bangalore&apos;s largest overnight hackathon for high schoolers, we decided to turn our vision into reality and create the ultimate study companion for students worldwide.
+        </p>
 
-                Divider().opacity(0.6)
+        <div className="grid md:grid-cols-3 gap-10 mt-20">
+          {team.map((person) => (
+            <article
+              key={person.name}
+              className="rounded-3xl p-8 bg-white/5 backdrop-blur-xl border border-white/10 shadow-xl"
+            >
+              <h3 className="text-xl font-semibold text-white mb-2">
+                <AnimatedText text={person.name} />
+              </h3>
+              <p className="text-sm text-gray-300 mb-4">{person.role}</p>
+              <p className="text-sm leading-relaxed text-gray-400 mb-6">{person.bio}</p>
 
-                HStack {
-                    Text("EXECUTE SCAN")
-                        .font(.headline)
-                    Spacer()
-                    Image(systemName: "arrow.right")
-                }
-            }
-            .padding(24)
-            .frame(maxWidth: .infinity)
-            .glassCard()
-        }
-        .padding(.horizontal, 20)
-        .buttonStyle(.plain)
-    }
-}
-
-// MARK: - SCAN PAGE
-
-struct ScanView: View {
-    @State private var goToResults = false
-
-    var body: some View {
-        ZStack {
-            LiquidBackground()
-
-            VStack(spacing: 26) {
-
-                Image(systemName: "camera.viewfinder")
-                    .font(.system(size: 72))
-                    .opacity(0.9)
-
-                Text("SCANNING MODULE")
-                    .font(.system(size: 20, weight: .semibold, design: .rounded))
-
-                Text("Barcode / OCR pipeline placeholder")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-
-                Button {
-                    goToResults = true
-                } label: {
-                    Text("TERMINATE SCAN")
-                        .frame(maxWidth: .infinity)
-                        .glassButton()
-                }
-
-                NavigationLink(
-                    destination: ScanResultView(),
-                    isActive: $goToResults
-                ) { EmptyView() }
-            }
-            .padding()
-        }
-        .navigationTitle("Scan")
-        .navigationBarTitleDisplayMode(.inline)
-    }
-}
-
-// MARK: - RESULTS PAGE
-
-struct ScanResultView: View {
-    var body: some View {
-        ZStack {
-            LiquidBackground()
-
-            ScrollView {
-                VStack(alignment: .leading, spacing: 18) {
-
-                    Text("DETECTED CHEMICALS")
-                        .font(.system(size: 22, weight: .semibold, design: .rounded))
-
-                    NavigationLink {
-                        ChemicalDetailView(
-                            name: "Sodium Benzoate",
-                            origin: "Synthetic preservative",
-                            purpose: "Prevents microbial growth",
-                            effects: "Linked to hyperactivity in children",
-                            alternatives: "Vitamin C, refrigeration"
-                        )
-                    } label: {
-                        ChemicalRow(name: "SODIUM BENZOATE", risk: "MEDIUM RISK")
-                    }
-
-                    NavigationLink {
-                        ChemicalDetailView(
-                            name: "High Fructose Corn Syrup",
-                            origin: "Corn-derived sweetener",
-                            purpose: "Low-cost sugar replacement",
-                            effects: "Obesity, insulin resistance",
-                            alternatives: "Honey, jaggery, cane sugar"
-                        )
-                    } label: {
-                        ChemicalRow(name: "HFCS", risk: "HIGH RISK")
-                    }
-
-                    NavigationLink {
-                        HistoryView()
-                    } label: {
-                        Text("VIEW HISTORY")
-                            .frame(maxWidth: .infinity)
-                            .glassButton()
-                    }
-                    .padding(.top, 12)
-                }
-                .padding()
-            }
-        }
-        .navigationTitle("Results")
-        .navigationBarTitleDisplayMode(.inline)
-    }
-}
-
-// MARK: - CHEMICAL DETAIL
-
-struct ChemicalDetailView: View {
-    let name: String
-    let origin: String
-    let purpose: String
-    let effects: String
-    let alternatives: String
-
-    var body: some View {
-        ZStack {
-            LiquidBackground()
-
-            ScrollView {
-                VStack(alignment: .leading, spacing: 18) {
-
-                    Text(name.uppercased())
-                        .font(.system(size: 24, weight: .semibold, design: .rounded))
-
-                    InfoCard(title: "ORIGIN", text: origin)
-                    InfoCard(title: "PURPOSE", text: purpose)
-                    InfoCard(title: "HEALTH EFFECTS", text: effects)
-                    InfoCard(title: "ALTERNATIVES", text: alternatives)
-                }
-                .padding()
-            }
-        }
-        .navigationTitle("Detail")
-        .navigationBarTitleDisplayMode(.inline)
-    }
-}
-
-// MARK: - HISTORY
-
-struct HistoryView: View {
-    var body: some View {
-        ZStack {
-            LiquidBackground()
-
-            ScrollView {
-                VStack(alignment: .leading, spacing: 14) {
-
-                    Text("SCAN HISTORY")
-                        .font(.system(size: 22, weight: .semibold, design: .rounded))
-
-                    HistoryRow(food: "SOFT DRINK", date: "YESTERDAY")
-                    HistoryRow(food: "PACKAGED BREAD", date: "2 DAYS AGO")
-                    HistoryRow(food: "PROTEIN BAR", date: "LAST WEEK")
-                }
-                .padding()
-            }
-        }
-        .navigationTitle("History")
-        .navigationBarTitleDisplayMode(.inline)
-    }
-}
-
-// MARK: - ABOUT
-
-struct AboutView: View {
-    var body: some View {
-        ZStack {
-            LiquidBackground()
-
-            ScrollView {
-                VStack(alignment: .leading, spacing: 16) {
-
-                    Text("ABOUT SYSTEM")
-                        .font(.system(size: 22, weight: .semibold, design: .rounded))
-
-                    Text("""
-NutriFinder is an ingredient intelligence system.
-
-It analyzes food labels, flags chemical risks,
-and proposes safer consumption alternatives.
-""")
-                    .font(.footnote)
-                    .foregroundStyle(.secondary)
-                }
-                .padding()
-            }
-        }
-        .navigationTitle("About")
-        .navigationBarTitleDisplayMode(.inline)
-    }
-}
-
-// MARK: - COMPONENTS
-
-struct ChemicalRow: View {
-    let name: String
-    let risk: String
-
-    var body: some View {
-        HStack {
-            VStack(alignment: .leading, spacing: 4) {
-                Text(name)
-                    .font(.headline)
-                Text(risk)
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-            }
-            Spacer()
-            Image(systemName: "chevron.right")
-                .foregroundStyle(.secondary)
-        }
-        .padding()
-        .glassCard(cornerRadius: 16)
-    }
-}
-
-struct InfoCard: View {
-    let title: String
-    let text: String
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 6) {
-            Text(title)
-                .font(.caption)
-                .foregroundStyle(.secondary)
-            Text(text)
-                .font(.footnote)
-        }
-        .padding()
-        .glassCard(cornerRadius: 16)
-    }
-}
-
-struct HistoryRow: View {
-    let food: String
-    let date: String
-
-    var body: some View {
-        HStack {
-            VStack(alignment: .leading, spacing: 4) {
-                Text(food)
-                Text(date)
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-            }
-            Spacer()
-        }
-        .padding()
-        .glassCard(cornerRadius: 16)
-    }
-}
-
-struct NavRow<Destination: View>: View {
-    let title: String
-    let icon: String
-    let destination: Destination
-
-    var body: some View {
-        NavigationLink(destination: destination) {
-            HStack {
-                Image(systemName: icon)
-                Text(title)
-                    .font(.headline)
-                Spacer()
-                Image(systemName: "chevron.right")
-            }
-            .padding()
-            .glassCard(cornerRadius: 16)
-        }
-        .foregroundStyle(.primary)
-    }
-}
-
-// MARK: - GLASS + BACKGROUND + STYLE HELPERS
-
-fileprivate enum Style {
-    static let cardCorner: CGFloat = 16
-    static let largeCorner: CGFloat = 20
-}
-
-extension View {
-    func glassCard(cornerRadius: CGFloat = Style.largeCorner) -> some View {
-        self
-            .background {
-                RoundedRectangle(cornerRadius: cornerRadius)
-                    .fill(.ultraThinMaterial)
-                    .overlay {
-                        RoundedRectangle(cornerRadius: cornerRadius)
-                            .stroke(Color.white.opacity(0.25), lineWidth: 1)
-                    }
-            }
-    }
-
-    func glassButton() -> some View {
-        self
-            .font(.headline)
-            .padding()
-            .background {
-                RoundedRectangle(cornerRadius: 16)
-                    .fill(.thinMaterial)
-            }
-    }
-}
-
-// MARK: - LIQUID BACKGROUND
-
-struct LiquidBackground: View {
-    var body: some View {
-        ZStack {
-            LinearGradient(
-                colors: [
-                    Color.black,
-                    Color.blue.opacity(0.35),
-                    Color.green.opacity(0.15)
-                ],
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            )
-            .ignoresSafeArea()
-
-            Circle()
-                .fill(Color.green.opacity(0.18))
-                .blur(radius: 140)
-                .offset(x: 140, y: -200)
-        }
-    }
-}
-
-// MARK: - PREVIEW
-
-#Preview {
-    ContentView()
+              <a
+                href={person.linkedin}
+                aria-label={`${person.name} on LinkedIn`}
+                className="inline-flex items-center justify-center h-11 w-11 rounded-full bg-gray-800 hover:bg-blue-600 transition-colors"
+                {...(isExternal(person.linkedin)
+                  ? { target: "_blank", rel: "noopener noreferrer" }
+                  : {})}
+              >
+                <Linkedin className="h-5 w-5 text-white" />
+              </a>
+            </article>
+          ))}
+        </div>
+      </PageSection>
+    </>
+  );
 }
