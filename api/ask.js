@@ -1,42 +1,41 @@
-// /pages/api/ask.js  (IMPORTANT: must be under /pages/api, not /api root)
-
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
-  const OPENAI_API_KEY = process.env.ChatbotKey;
+  const OPENAI_API_KEY = process.env.CHATBOT_KEY;
 
   if (!OPENAI_API_KEY) {
-    console.error("❌ Missing ChatbotKey env var");
+    console.error("❌ Missing CHATBOT_KEY env var");
     return res.status(500).json({
-      error: "Server configuration error. Please try again later.",
+      error: "Server configuration error",
     });
   }
 
   try {
-    // ✅ Ensure body is parsed
-    const { question } = req.body || {};
+    const { question } = req.body ?? {};
 
-    if (!question || typeof question !== "string") {
+    if (typeof question !== "string" || !question.trim()) {
       return res.status(400).json({ error: "No question provided" });
     }
 
-    // ✅ Secret code logic (safe)
+    // 🔐 Secret code logic
     const secretCodes = ["010910", "060910"];
     if (secretCodes.includes(question.trim())) {
-      return res.status(200).json({ answer: "I wish it too (secret code)" });
+      return res.status(200).json({
+        answer: "I wish it too (secret code)",
+      });
     }
 
-    // ✅ Correct payload for Chat Completions
+    // ✅ Use Responses API (CURRENT)
     const payload = {
       model: "ft:gpt-4.1-mini-2025-04-14:verteded:apex-chatbot:CSgJ1mRt",
-      messages: [{ role: "user", content: question }],
+      input: question,
       temperature: 0.4,
-      max_tokens: 600,
+      max_output_tokens: 600,
     };
 
-    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+    const response = await fetch("https://api.openai.com/v1/responses", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -47,7 +46,6 @@ export default async function handler(req, res) {
 
     const raw = await response.text();
 
-    // 🔍 Debug logging (safe to keep during dev)
     console.log("OpenAI status:", response.status);
     console.log("OpenAI raw:", raw.slice(0, 1000));
 
@@ -69,15 +67,19 @@ export default async function handler(req, res) {
     let data;
     try {
       data = JSON.parse(raw);
-    } catch (err) {
+    } catch {
       console.error("❌ Invalid JSON from OpenAI:", raw);
       return res.status(500).json({ error: "Invalid AI response format" });
     }
 
-    const answer = data?.choices?.[0]?.message?.content;
+    // ✅ Robust extraction (no assumptions)
+    const answer =
+      data?.output_text ??
+      data?.output?.[0]?.content?.[0]?.text ??
+      null;
 
     if (!answer) {
-      console.error("❌ Missing answer field:", data);
+      console.error("❌ No answer in OpenAI response:", data);
       return res.status(500).json({
         error: "AI returned no answer",
       });
