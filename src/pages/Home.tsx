@@ -721,8 +721,6 @@ export default function Home() {
         * { box-sizing: border-box; }
         html {
           scroll-behavior: smooth;
-          scroll-snap-type: y proximity;
-          overflow-x: hidden;
         }
         body {
           margin: 0;

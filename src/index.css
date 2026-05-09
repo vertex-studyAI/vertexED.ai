@@ -87,12 +87,10 @@ All colors MUST be HSL.
   font-family: 'Sen', Helvetica, Arial, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
   }
   /* Prevent white overscroll glow / bounce */
-  html, body { overscroll-behavior: none; background-color: #181818; }
+  html, body { background-color: #181818; }
 
   /* Slim scrollbar (Chromium/WebKit) */
-    /* Hide scrollbar (all major browsers) */
-    html { -ms-overflow-style: none; scrollbar-width: none; }
-    html::-webkit-scrollbar { display: none; }
+  /* Remove scrollbar-hiding styles to fix Edge scroll issues */
 
   /* Neumorphic utilities */
   .neu-surface { background: var(--gradient-surface); box-shadow: var(--shadow-soft); border-radius: var(--radius); }
