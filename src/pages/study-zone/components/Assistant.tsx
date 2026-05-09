@@ -56,6 +56,16 @@ const Assistant: React.FC<AssistantProps> = ({ accent, onClose }) => {
 	const [input, setInput] = useState("");
 	const [isLoading, setIsLoading] = useState(false);
 	const scrollRef = useRef<HTMLDivElement | null>(null);
+	const typingIntervalRef = useRef<number | null>(null);
+
+	useEffect(() => {
+		return () => {
+			if (typingIntervalRef.current !== null) {
+				window.clearInterval(typingIntervalRef.current);
+				typingIntervalRef.current = null;
+			}
+		};
+	}, []);
 
 	useEffect(() => {
 		if (messages.length > 0) {
@@ -67,6 +77,11 @@ const Assistant: React.FC<AssistantProps> = ({ accent, onClose }) => {
 		const trimmed = input.trim();
 		if (!trimmed || isLoading) {
 			return;
+		}
+
+		if (typingIntervalRef.current !== null) {
+			window.clearInterval(typingIntervalRef.current);
+			typingIntervalRef.current = null;
 		}
 
 		const userMessage: Message = {
@@ -102,6 +117,46 @@ const Assistant: React.FC<AssistantProps> = ({ accent, onClose }) => {
 					text: botAnswer,
 				},
 			]);
+
+			await new Promise<void>((resolve) => {
+				if (!botAnswer.length) {
+					resolve();
+					return;
+				}
+
+				let index = 0;
+				typingIntervalRef.current = window.setInterval(() => {
+					const nextText = botAnswer.slice(0, index + 1);
+
+					setMessages((prev) => {
+						const updated = [...prev];
+						const messageIndex = updated.findIndex((message) => message.id === typingId);
+						if (messageIndex === -1) {
+							if (typingIntervalRef.current !== null) {
+								window.clearInterval(typingIntervalRef.current);
+								typingIntervalRef.current = null;
+							}
+							resolve();
+							return prev;
+						}
+						const currentMessage = updated[messageIndex];
+						updated[messageIndex] = {
+							...currentMessage,
+							text: nextText,
+						};
+						return updated;
+					});
+
+					index += 1;
+					if (index >= botAnswer.length) {
+						if (typingIntervalRef.current !== null) {
+							window.clearInterval(typingIntervalRef.current);
+							typingIntervalRef.current = null;
+						}
+						resolve();
+					}
+				}, 20);
+			});
 		} catch (error) {
 			console.error("Assistant error:", error);
 			setMessages((prev) => [

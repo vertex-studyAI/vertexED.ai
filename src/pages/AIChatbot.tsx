@@ -72,7 +72,37 @@ export default function AIChatbot() {
           ? data.answer.trim()
           : "Sorry — I couldn't generate a response.";
 
-      setChatMessages((prev) => [...prev, { sender: "bot", text: answer, subject }]);
+      setChatMessages((prev) => [...prev, { sender: "bot", text: "", subject }]);
+
+      await new Promise<void>((resolve) => {
+        if (!answer.length) {
+          resolve();
+          return;
+        }
+
+        let i = 0;
+        typingIntervalRef.current = window.setInterval(() => {
+          const nextText = answer.slice(0, i + 1);
+
+          setChatMessages((prev) => {
+            if (!prev.length) return prev;
+            const last = prev[prev.length - 1];
+            if (last.sender !== "bot") return prev;
+            const next = [...prev];
+            next[next.length - 1] = { ...last, text: nextText };
+            return next;
+          });
+
+          i += 1;
+          if (i >= answer.length) {
+            if (typingIntervalRef.current !== null) {
+              window.clearInterval(typingIntervalRef.current);
+              typingIntervalRef.current = null;
+            }
+            resolve();
+          }
+        }, 18);
+      });
     } catch (error) {
       console.warn("Chatbot send failed", error);
       setChatMessages((prev) => [
