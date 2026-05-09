@@ -965,11 +965,11 @@ export default function Home() {
             We hate the way studying has become.
           </h2>
         </div>
-        <p className="text-2xl text-white mb-2 font-light cinematic-text">Who would not?</p>
+        <p className="text-2xl text-white mb-20 font-light cinematic-text">Who would not?</p>
         <HandDrawnScribble className="hand-drawn-deco hand-drawn-reveal float-deco-3 absolute bottom-0 right-24 text-amber-400 opacity-20" />
       </section>
 
-      <section className="max-w-7xl mx-auto px-6 mt-2 cinematic-section">
+      <section className="max-w-7xl mx-auto px-6 mt-32 cinematic-section">
         <div className="relative mb-6">
           <h3 className="text-4xl md:text-5xl font-bold text-white text-center hover-text-morph transition-all duration-300">
             <TextReveal text="Why is this a problem for you?" />
