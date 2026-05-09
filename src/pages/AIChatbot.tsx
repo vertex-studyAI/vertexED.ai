@@ -47,16 +47,6 @@ export default function AIChatbot() {
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
   const [loading, setLoading] = useState(false);
   const chatPanelRef = useRef<HTMLDivElement | null>(null);
-  const typingIntervalRef = useRef<number | null>(null);
-
-  useEffect(() => {
-    return () => {
-      if (typingIntervalRef.current !== null) {
-        window.clearInterval(typingIntervalRef.current);
-        typingIntervalRef.current = null;
-      }
-    };
-  }, []);
 
   useEffect(() => {
     chatPanelRef.current?.scrollTo({
@@ -71,11 +61,6 @@ export default function AIChatbot() {
 
     const subject = detectSubject(question);
 
-    if (typingIntervalRef.current !== null) {
-      window.clearInterval(typingIntervalRef.current);
-      typingIntervalRef.current = null;
-    }
-
     setChatMessages((prev) => [...prev, { sender: "user", text: question, subject }]);
     setUserInput("");
     setLoading(true);
@@ -87,35 +72,7 @@ export default function AIChatbot() {
           ? data.answer.trim()
           : "Sorry — I couldn't generate a response.";
 
-      setChatMessages((prev) => [...prev, { sender: "bot", text: "", subject }]);
-
-      await new Promise<void>((resolve) => {
-        if (!answer.length) {
-          resolve();
-          return;
-        }
-
-        let i = 0;
-        typingIntervalRef.current = window.setInterval(() => {
-          setChatMessages((prev) => {
-            if (!prev.length) return prev;
-            const last = prev[prev.length - 1];
-            if (last.sender !== "bot") return prev;
-            const next = [...prev];
-            next[next.length - 1] = { ...last, text: last.text + (answer[i] ?? "") };
-            return next;
-          });
-
-          i += 1;
-          if (i >= answer.length) {
-            if (typingIntervalRef.current !== null) {
-              window.clearInterval(typingIntervalRef.current);
-              typingIntervalRef.current = null;
-            }
-            resolve();
-          }
-        }, 18);
-      });
+      setChatMessages((prev) => [...prev, { sender: "bot", text: answer, subject }]);
     } catch (error) {
       console.warn("Chatbot send failed", error);
       setChatMessages((prev) => [

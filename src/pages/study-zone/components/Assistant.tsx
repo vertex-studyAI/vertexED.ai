@@ -94,38 +94,14 @@ const Assistant: React.FC<AssistantProps> = ({ accent, onClose }) => {
 			}
 
 			const botAnswer = data.answer?.trim() ?? "I'm still thinking about that one.";
-			const typingId = `${Date.now()}-assistant`;
 			setMessages((prev) => [
 				...prev,
 				{
-					id: typingId,
+					id: `${Date.now()}-assistant`,
 					sender: "assistant",
-					text: "",
+					text: botAnswer,
 				},
 			]);
-
-			let index = 0;
-			const interval = window.setInterval(() => {
-				setMessages((prev) => {
-					const updated = [...prev];
-					const messageIndex = updated.findIndex((message) => message.id === typingId);
-					if (messageIndex === -1) {
-						window.clearInterval(interval);
-						return prev;
-					}
-					const currentMessage = updated[messageIndex];
-					updated[messageIndex] = {
-						...currentMessage,
-						text: currentMessage.text + (botAnswer[index] ?? ""),
-					};
-					return updated;
-				});
-
-				index += 1;
-				if (index >= botAnswer.length) {
-					window.clearInterval(interval);
-				}
-			}, 20);
 		} catch (error) {
 			console.error("Assistant error:", error);
 			setMessages((prev) => [
