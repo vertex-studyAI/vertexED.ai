@@ -89,8 +89,12 @@ All colors MUST be HSL.
   /* Prevent white overscroll glow / bounce */
   html, body { background-color: #181818; }
 
-  /* Slim scrollbar (Chromium/WebKit) */
-  /* Remove scrollbar-hiding styles to fix Edge scroll issues */
+  /* Custom Desktop Scrollbar */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.15); border-radius: 10px; }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.25); }
+  html { scrollbar-width: thin; scrollbar-color: rgba(255, 255, 255, 0.15) transparent; }
 
   /* Neumorphic utilities */
   .neu-surface { background: var(--gradient-surface); box-shadow: var(--shadow-soft); border-radius: var(--radius); }
