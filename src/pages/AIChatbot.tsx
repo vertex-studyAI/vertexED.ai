@@ -97,12 +97,14 @@ export default function AIChatbot() {
 
         let i = 0;
         typingIntervalRef.current = window.setInterval(() => {
+          const nextText = answer.slice(0, i + 1);
+
           setChatMessages((prev) => {
             if (!prev.length) return prev;
             const last = prev[prev.length - 1];
             if (last.sender !== "bot") return prev;
             const next = [...prev];
-            next[next.length - 1] = { ...last, text: last.text + (answer[i] ?? "") };
+            next[next.length - 1] = { ...last, text: nextText };
             return next;
           });
 
