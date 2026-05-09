@@ -12,8 +12,6 @@ const buildEndpoints = (): string[] => {
 	const configuredFallback = typeof import.meta !== "undefined" ? import.meta.env?.VITE_CHATBOT_API_URL : undefined;
 	if (configuredFallback) {
 		endpoints.push(configuredFallback);
-	} else if (typeof import.meta !== "undefined" && import.meta.env?.DEV) {
-		endpoints.push(FALLBACK_ENDPOINT);
 	}
 	return Array.from(new Set(endpoints.filter(Boolean)));
 };
@@ -47,8 +45,17 @@ export const fetchChatbotAnswer = async (question: string): Promise<ChatbotRespo
 				continue;
 			}
 
-			if (!response.ok && !data.error) {
-				lastError = new Error(`Request failed with status ${response.status}`);
+			if (!response.ok) {
+				lastError = new Error(
+					(typeof data.error === "string" && data.error.trim())
+						? data.error
+						: `Request failed with status ${response.status}`,
+				);
+				continue;
+			}
+
+			if (typeof data.error === "string" && data.error.trim()) {
+				lastError = new Error(data.error);
 				continue;
 			}
 
