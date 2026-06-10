@@ -1,0 +1,220 @@
+// @ts-nocheck
+import { defineConfig, loadEnv } from "vite";
+import react from "@vitejs/plugin-react-swc";
+import vue from "@vitejs/plugin-vue"; 
+import path from "path";
+
+export default defineConfig(({ mode }) => {
+  const env = loadEnv(mode, process.cwd(), '');
+  // Polyfill process.env for the API handlers
+  Object.assign(process.env, env);
+
+  return {
+    server: {
+      host: "::",
+      port: 8080,
+    },
+    plugins: [
+      react(),
+      vue(),
+      {
+        name: 'api-middleware',
+        configureServer(server) {
+          // Middleware for /api/waitlist
+          server.middlewares.use('/api/waitlist', async (req, res, next) => {
+            if (req.method === 'POST') {
+              let body = '';
+              req.on('data', chunk => body += chunk);
+              req.on('end', async () => {
+                try {
+                  const parsedBody = body ? JSON.parse(body) : {};
+                  const nextReq = { ...req, body: parsedBody, query: {}, method: req.method };
+                  const nextRes = {
+                    status: (code: number) => { res.statusCode = code; return nextRes; },
+                    json: (data: any) => {
+                      res.setHeader('Content-Type', 'application/json');
+                      res.end(JSON.stringify(data));
+                      return nextRes;
+                    },
+                    setHeader: (k: string, v: string) => res.setHeader(k, v)
+                  };
+                  
+                  const { default: handler } = await import('./api/waitlist.js');
+                  await handler(nextReq, nextRes);
+                } catch (e: any) {
+                  console.error('Waitlist API Error:', e);
+                  res.statusCode = 500;
+                  res.setHeader('Content-Type', 'application/json');
+                  res.end(JSON.stringify({ error: e.message }));
+                }
+              });
+            } else {
+              next();
+            }
+          });
+
+          // Middleware for /api/ask (AI Chatbot)
+          server.middlewares.use('/api/ask', async (req, res, next) => {
+            if (req.method === 'POST') {
+              let body = '';
+              req.on('data', chunk => body += chunk);
+              req.on('end', async () => {
+                try {
+                  const parsedBody = body ? JSON.parse(body) : {};
+                  const nextReq = { ...req, body: parsedBody, query: {}, method: req.method, headers: req.headers };
+                  const nextRes = {
+                    status: (code: number) => { res.statusCode = code; return nextRes; },
+                    json: (data: any) => {
+                      res.setHeader('Content-Type', 'application/json');
+                      res.end(JSON.stringify(data));
+                      return nextRes;
+                    },
+                    setHeader: (k: string, v: string) => res.setHeader(k, v)
+                  };
+
+                  const { default: handler } = await import('./api/ask.js');
+                  await handler(nextReq, nextRes);
+                } catch (e: any) {
+                  console.error('Chatbot API Error:', e);
+                  res.statusCode = 500;
+                  res.setHeader('Content-Type', 'application/json');
+                  res.end(JSON.stringify({ error: e.message }));
+                }
+              });
+            } else {
+              next();
+            }
+          });
+
+          server.middlewares.use('/api/review', async (req, res, next) => {
+            if (req.method === 'POST') {
+              let body = '';
+              req.on('data', chunk => body += chunk);
+              req.on('end', async () => {
+                try {
+                  // Basic body parsing
+                  const parsedBody = body ? JSON.parse(body) : {};
+                  
+                  // Mock Next.js Request/Response
+                  const nextReq = { 
+                    ...req, 
+                    body: parsedBody, 
+                    query: {},
+                    method: req.method,
+                    headers: req.headers // Pass headers through
+                  };
+                  
+                  const nextRes = {
+                    status: (code: number) => {
+                      res.statusCode = code;
+                      return nextRes;
+                    },
+                    json: (data: any) => {
+                      res.setHeader('Content-Type', 'application/json');
+                      res.end(JSON.stringify(data));
+                      return nextRes;
+                    },
+                    setHeader: (k: string, v: string | number | readonly string[]) => res.setHeader(k, v),
+                    end: (data: any) => res.end(data),
+                  };
+
+                  // Ensure env vars are available
+                  const ChatbotKey = env.ChatbotKey || process.env.ChatbotKey;
+                  const WORKFLOW_ID = env.WORKFLOW_ID || process.env.WORKFLOW_ID;
+
+                  if (!ChatbotKey || !WORKFLOW_ID) {
+                    console.error("Missing ChatbotKey or WORKFLOW_ID");
+                    res.statusCode = 500;
+                    res.setHeader('Content-Type', 'application/json');
+                    res.end(JSON.stringify({
+                      error: "Server misconfiguration: Missing ChatbotKey or WORKFLOW_ID. Check .env.local",
+                      missingKeys: {
+                        ChatbotKey: !ChatbotKey,
+                        WORKFLOW_ID: !WORKFLOW_ID
+                      }
+                    }));
+                    return;
+                  }
+
+                  try {
+                    const { input_as_text, prompt, questionImages, answerImages } = parsedBody;
+                    let combinedInput = String(input_as_text || prompt || "").trim();
+
+                    const hasQuestionImages = questionImages && questionImages.length > 0;
+                    const hasAnswerImages = answerImages && answerImages.length > 0;
+
+                    if (!combinedInput && !hasQuestionImages && !hasAnswerImages) {
+                      res.statusCode = 400;
+                      res.setHeader('Content-Type', 'application/json');
+                      res.end(JSON.stringify({ error: "No input provided" }));
+                      return;
+                    }
+
+                    if (hasQuestionImages) {
+                      combinedInput += `\n\n[User has attached ${questionImages.length} image(s) for the QUESTION]`;
+                    }
+                    if (hasAnswerImages) {
+                      combinedInput += `\n\n[User has attached ${answerImages.length} image(s) for the ANSWER]`;
+                    }
+
+                    const allImages = [...(questionImages || []), ...(answerImages || [])];
+
+                    console.log("Executing local OpenAI Agent Workflow...");
+                    
+                    // Set the env var expected by the agent workflow
+                    process.env.ChatbotKey = ChatbotKey;
+
+                    // Dynamic import to ensure env vars are set and to load the TS file
+                    const { runWorkflow } = await import('./api/agentWorkflow.ts');
+
+                    const result = await runWorkflow({
+                      input_as_text: combinedInput,
+                      images: allImages
+                    });
+
+                    console.log("Workflow execution successful");
+
+                    res.statusCode = 200;
+                    res.setHeader('Content-Type', 'application/json');
+                    res.end(JSON.stringify(result));
+
+
+                  } catch (innerError) {
+                    console.error("Inner API Logic Error:", innerError);
+                    throw innerError;
+                  }
+
+                } catch (e) {
+                  console.error('API Middleware Error:', e);
+                  res.statusCode = 500;
+                  res.setHeader('Content-Type', 'application/json');
+                  res.end(JSON.stringify({ error: e.message, stack: e.stack }));
+                }
+              });
+            } else {
+              next();
+            }
+          });
+        }
+      }
+    ],
+    resolve: {
+      alias: {
+        "@": path.resolve(__dirname, "./src"),
+      },
+    },
+    build: {
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            vendor: ['react', 'react-dom', 'react-router-dom', 'react-helmet-async'],
+            ui: ['framer-motion', 'gsap', 'lucide-react', 'clsx'],
+            charts: ['chart.js', 'react-chartjs-2'],
+            pdf: ['jspdf', 'docx', 'file-saver'],
+            ai: ['@google/generative-ai', 'openai']
+          }
+        }
+      }
+    }
+  };
+});
