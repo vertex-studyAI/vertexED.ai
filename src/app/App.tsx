@@ -33,7 +33,7 @@ const ArchivesGeography = lazy(() => import("@/pages/ArchivesGeography"));
 const PaperMaker = lazy(() => import("@/pages/PaperMaker"));
 const UserSettings = lazy(() => import("@/pages/UserSettings"));
 const Brand = lazy(() => import("@/pages/Brand"));
-const SiteLayout = lazy(() => import("@/components/layout/SiteLayout"));
+import SiteLayout from "@/components/layout/SiteLayout";
 const ResourcesIndex = lazy(() => import("@/pages/resources/Index"));
 const AIStudyPlannerArticle = lazy(() => import("@/pages/resources/AIStudyPlanner"));
 const PaperMakerGuide = lazy(() => import("@/pages/resources/PaperMakerGuide"));
