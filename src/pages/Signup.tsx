@@ -24,7 +24,7 @@ export default function Signup() {
       </Helmet>
       <PageSection className="relative min-h-[70vh] flex items-center justify-center overflow-hidden px-4">
         <form
-          className="relative neu-card w-full max-w-md p-8 md:p-10 rounded-2xl border border-white/5 animate-fade-in"
+          className="relative glass-panel w-full max-w-md p-8 md:p-10 animate-fade-in"
           onSubmit={async (e) => {
             e.preventDefault();
             setError(null);

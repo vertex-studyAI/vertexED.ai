@@ -120,7 +120,7 @@ export default function Onboarding() {
           <meta name="robots" content="noindex, nofollow" />
         </Helmet>
         <PageSection className="relative min-h-[70vh] flex items-center justify-center px-4">
-          <div className="w-full max-w-md rounded-3xl border border-white/10 bg-white/5 p-8 text-center text-white shadow-2xl backdrop-blur-xl">
+          <div className="glass-panel w-full max-w-md p-8 text-center text-white">
             <div className="mx-auto mb-4 h-12 w-12 animate-spin rounded-full border-2 border-white/20 border-t-white/80" />
             <h1 className="text-2xl font-semibold">Taking you to your dashboard…</h1>
             <p className="mt-2 text-sm text-white/70">Your profile is already set up.</p>
@@ -141,9 +141,9 @@ export default function Onboarding() {
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(59,130,246,0.18),transparent_35%),radial-gradient(circle_at_80%_20%,rgba(168,85,247,0.14),transparent_30%),linear-gradient(180deg,rgba(2,6,23,0.15),rgba(2,6,23,0.55))]" />
 
         <div className="relative mx-auto w-full max-w-2xl">
-          <div className="rounded-[28px] border border-white/10 bg-white/6 p-6 shadow-[0_30px_120px_rgba(0,0,0,0.45)] backdrop-blur-2xl md:p-10">
+          <div className="glass-panel p-6 md:p-10">
             <div className="mb-8 text-center">
-              <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl border border-white/10 bg-white/10 text-2xl text-white shadow-lg">
+              <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl border border-white/15 bg-white/10 text-2xl text-white">
                 ✦
               </div>
               <h1 className="text-3xl font-semibold tracking-tight text-white md:text-4xl">Choose your username</h1>
@@ -163,7 +163,7 @@ export default function Onboarding() {
                 <label htmlFor="username" className="mb-2 block text-sm font-medium text-white/80">
                   Username
                 </label>
-                <div className="rounded-2xl border border-white/10 bg-black/20 p-1 shadow-inner">
+                <div className="rounded-2xl border border-white/15 bg-black/20 p-1">
                   <input
                     id="username"
                     aria-label="Username"
@@ -192,7 +192,7 @@ export default function Onboarding() {
                 )}
               </div>
 
-              <details className="group rounded-2xl border border-white/10 bg-white/5 p-5 transition hover:bg-white/7">
+              <details className="group rounded-2xl border border-white/15 bg-white/8 p-5 transition hover:bg-white/12">
                 <summary className="cursor-pointer select-none list-none text-sm font-medium text-white/85">
                   <span className="flex items-center justify-between gap-3">
                     <span>Optional preferences</span>
@@ -203,7 +203,7 @@ export default function Onboarding() {
                 <div className="mt-5 grid gap-4 md:grid-cols-2">
                   <div>
                     <label className="mb-2 block text-sm text-white/75">Study goal</label>
-                    <div className="rounded-2xl border border-white/10 bg-black/20 p-1">
+                    <div className="rounded-2xl border border-white/15 bg-black/20 p-1">
                       <select
                         className="w-full rounded-xl bg-transparent px-4 py-3 text-white outline-none"
                         value={studyGoal}
@@ -226,7 +226,7 @@ export default function Onboarding() {
 
                   <div>
                     <label className="mb-2 block text-sm text-white/75">Grade level</label>
-                    <div className="rounded-2xl border border-white/10 bg-black/20 p-1">
+                    <div className="rounded-2xl border border-white/15 bg-black/20 p-1">
                       <select
                         className="w-full rounded-xl bg-transparent px-4 py-3 text-white outline-none"
                         value={gradeLevel}
@@ -255,7 +255,7 @@ export default function Onboarding() {
                   type="button"
                   onClick={() => save(false)}
                   disabled={!canSave}
-                  className="w-full rounded-2xl border border-white/10 bg-white/5 px-5 py-3 font-medium text-white transition hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-50"
+                  className="w-full rounded-2xl border border-white/20 bg-white/10 px-5 py-3 font-medium text-white transition hover:bg-white/15 disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   {loading ? "Saving…" : "Skip personalization"}
                 </button>

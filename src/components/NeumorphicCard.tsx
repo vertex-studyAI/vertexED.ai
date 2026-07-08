@@ -11,7 +11,7 @@ interface NeumorphicCardProps {
 export default function NeumorphicCard({ className, title, children, onClick, info }: PropsWithChildren<NeumorphicCardProps>) {
   const [showInfo, setShowInfo] = useState(false);
   return (
-    <section onClick={onClick} className={cn("relative neu-card hover:neu-lift hover-scale transition-transform", className)}>
+    <section onClick={onClick} className={cn("relative glass-tile p-5 hover-scale", className)}>
       {title && (
         <div className="mb-2 flex items-start justify-between gap-2">
           <h2 className="text-lg font-medium">{title}</h2>
@@ -25,7 +25,7 @@ export default function NeumorphicCard({ className, title, children, onClick, in
         </div>
       )}
       {showInfo && info && (
-        <div className="mb-2 text-xs rounded-md border px-3 py-2 bg-background/60">
+        <div className="mb-2 text-xs rounded-xl border border-white/15 px-3 py-2 bg-white/5 backdrop-blur-md">
           {info}
         </div>
       )}

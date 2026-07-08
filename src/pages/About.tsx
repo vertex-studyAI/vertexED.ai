@@ -82,7 +82,7 @@ export default function About(): JSX.Element {
           {team.map((person) => (
             <article
               key={person.name}
-              className="rounded-3xl p-8 bg-white/5 backdrop-blur-xl border border-white/10 shadow-xl"
+              className="rounded-3xl p-8 glass-tile"
             >
               <h3 className="text-xl font-semibold text-white mb-2">
                 <AnimatedText text={person.name} />
@@ -93,7 +93,7 @@ export default function About(): JSX.Element {
               <a
                 href={person.linkedin}
                 aria-label={`${person.name} on LinkedIn`}
-                className="inline-flex items-center justify-center h-11 w-11 rounded-full bg-gray-800 hover:bg-blue-600 transition-colors"
+                className="inline-flex items-center justify-center h-11 w-11 rounded-full border border-white/15 bg-white/8 hover:bg-sky-500/80 hover:border-sky-300/40 transition-colors"
                 {...(isExternal(person.linkedin)
                   ? { target: "_blank", rel: "noopener noreferrer" }
                   : {})}

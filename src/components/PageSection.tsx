@@ -7,7 +7,12 @@ interface PageSectionProps {
 }
 
 export default function PageSection({ className, children, surface = "none" }: PropsWithChildren<PageSectionProps>) {
-  const surfaceClass = surface === "card" ? "neu-card p-6 md:p-8" : surface === "hero" ? "neu-hero p-6 md:p-10 rounded-2xl" : "";
+  const surfaceClass =
+    surface === "card"
+      ? "glass-panel p-6 md:p-8"
+      : surface === "hero"
+        ? "glass-card p-6 md:p-10"
+        : "";
   return (
     <section className={cn("max-w-6xl mx-auto w-full", surfaceClass, className)}>
       {children}

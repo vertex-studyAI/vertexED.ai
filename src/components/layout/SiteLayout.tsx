@@ -2,10 +2,6 @@ import { Outlet, Link, useLocation } from "react-router-dom";
 import React, { Suspense, useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 
-const FluidCursor = React.lazy(() =>
-  import("@/components/FluidCursor").catch(() => ({ default: () => null })),
-);
-
 import { RouteSemanticHeadings } from "@/components/SemanticHeadings";
 import { useAuth } from "@/contexts/AuthContext";
 import BreadcrumbsJsonLd from "@/components/BreadcrumbsJsonLd";
@@ -18,74 +14,66 @@ export default function SiteLayout() {
     location.pathname === to || (to !== "/" && location.pathname.startsWith(`${to}/`));
 
   useEffect(() => {
-    document.body.style.overflow = menuOpen ? 'hidden' : '';
-    return () => { document.body.style.overflow = ''; };
+    document.body.style.overflow = menuOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
   }, [menuOpen]);
 
   const navLinks = [
-  { to: '/', label: 'Home' },
-  { to: '/features', label: 'Features' },
-  { to: '/about', label: 'About' },
-  ...(!isAuthenticated ? [{ to: '/login', label: 'Login' as const }] : []),
-];
+    { to: "/", label: "Home" },
+    { to: "/features", label: "Features" },
+    { to: "/about", label: "About" },
+    ...(!isAuthenticated ? [{ to: "/login", label: "Login" as const }] : []),
+  ];
 
   return (
-    <div className="relative min-h-screen flex flex-col bg-background text-foreground overflow-hidden">
+    <div className="relative min-h-screen flex flex-col bg-transparent text-foreground overflow-x-hidden">
       <Helmet>
         <title>VertexED — AI Study Tools for Students | Planner, Notes & Quizzes</title>
-        <meta name="description" content="All‑in‑one AI study toolkit with planner, calendar, notes, flashcards, quizzes, chatbot, answer reviewer, and transcription — built on active recall." />
+        <meta
+          name="description"
+          content="All‑in‑one AI study toolkit with planner, calendar, notes, flashcards, quizzes, chatbot, answer reviewer, and transcription — built on active recall."
+        />
         <meta property="og:site_name" content="VertexED" />
         <meta property="og:image" content="https://www.vertexed.app/socialpreview.jpg" />
         <meta property="og:locale" content="en_US" />
-        <meta name="theme-color" content="#0f172a" />
+        <meta name="theme-color" content="#070b14" />
       </Helmet>
-      <div className="pointer-events-none absolute inset-0 z-0">
-        <div className="absolute inset-0 bg-grid-soft opacity-[0.22]" />
-        {/* Multi-orb background covering full page length */}
-        <div className="orb-field">
-          <div className="orb o1" />
-          <div className="orb o2" />
-          <div className="orb o3" />
-          <div className="orb o4" />
-          <div className="orb o5" />
-          <div className="orb o6" />
-        </div>
-        <div className="ambient-corner top-[-10%] left-[-10%]" />
-        <div className="ambient-corner bottom-[-20%] right-[-15%]" />
+
+      <div className="pointer-events-none fixed inset-0 z-0">
+        <div className="absolute inset-0 bg-grid-soft opacity-40" />
       </div>
 
-    {/* JSON-LD breadcrumbs aligned with route headings */}
-    <BreadcrumbsJsonLd />
+      <BreadcrumbsJsonLd />
 
-      {/* Header */}
-  <header className="w-full z-50 fixed top-0 left-0 md:relative bg-[#0f172a]/85 backdrop-blur supports-[backdrop-filter]:bg-[#0f172a]/70 border-b border-white/10 md:bg-transparent md:backdrop-blur-0 md:supports-[backdrop-filter]:bg-transparent md:border-b-0">
-        <div className="mx-auto w-full max-w-[1400px] px-4 md:px-6 h-14 flex items-center justify-between gap-4">
-          <Link to="/" className="flex items-center gap-2 shrink-0">
+      <header className="w-full z-50 sticky top-0 glass-nav">
+        <div className="mx-auto w-full max-w-[1400px] px-4 md:px-6 h-16 flex items-center justify-between gap-4">
+          <Link to="/" className="flex items-center gap-2.5 shrink-0 group">
             <img
               src="/logo.png"
               srcSet="/favicon-32x32.png 32w, /favicon-48x48.png 48w, /apple-touch-icon.png 180w, /logo.png 500w"
               sizes="36px"
               alt="Vertex AI Logo"
-              className="w-9 h-9 rounded-full object-cover select-none"
+              className="w-9 h-9 rounded-full object-cover select-none ring-1 ring-white/20 group-hover:ring-white/40 transition"
               draggable={false}
               loading="eager"
               decoding="async"
               width="36"
               height="36"
             />
-            <span className="font-semibold tracking-wide text-sm md:text-base text-[#ffffff]">
+            <span className="font-semibold tracking-wide text-sm md:text-base text-white">
               Vertex AI
             </span>
           </Link>
 
-          {/* Desktop nav */}
-          <nav className="hidden md:flex items-center gap-8 text-sm font-medium">
+          <nav className="hidden md:flex items-center gap-2 text-sm font-medium">
             {navLinks.map((l) => (
               <Link
                 key={l.label}
                 to={l.to}
-                className={`transition-colors ${
-                  isActive(l.to) ? "text-white" : "text-white/75 hover:text-white"
+                className={`nav-link-pill ${
+                  isActive(l.to) ? "is-active text-white" : "text-white/70 hover:text-white hover:bg-white/10"
                 }`}
               >
                 {l.label}
@@ -94,8 +82,10 @@ export default function SiteLayout() {
             {isAuthenticated && (
               <Link
                 to="/user-settings"
-                className={`transition-colors ${
-                  isActive("/user-settings") ? "text-white" : "text-white/75 hover:text-white"
+                className={`nav-link-pill ${
+                  isActive("/user-settings")
+                    ? "is-active text-white"
+                    : "text-white/70 hover:text-white hover:bg-white/10"
                 }`}
               >
                 Account
@@ -104,8 +94,10 @@ export default function SiteLayout() {
             {isAuthenticated && (
               <Link
                 to="/admin/waitlist"
-                className={`transition-colors ${
-                  isActive("/admin/waitlist") ? "text-white" : "text-white/75 hover:text-white"
+                className={`nav-link-pill ${
+                  isActive("/admin/waitlist")
+                    ? "is-active text-white"
+                    : "text-white/70 hover:text-white hover:bg-white/10"
                 }`}
               >
                 Admin
@@ -114,19 +106,18 @@ export default function SiteLayout() {
             {!isAuthenticated && (
               <Link
                 to="/signup"
-                className="rounded-full px-4 py-2 text-sm font-semibold shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[hsl(var(--ring))] transition-colors brand-cta brand-ink-dark"
+                className="ml-2 rounded-full px-4 py-2 text-sm font-semibold brand-cta brand-ink-dark transition hover:brightness-110"
               >
                 Try Now
               </Link>
             )}
           </nav>
 
-          {/* Mobile nav button */}
           <div className="flex md:hidden items-center gap-2 ml-auto">
             {!isAuthenticated && (
               <Link
                 to="/signup"
-                className="rounded-full px-3 py-1.5 text-xs font-semibold shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[hsl(var(--ring))] brand-cta brand-ink-dark"
+                className="rounded-full px-3 py-1.5 text-xs font-semibold brand-cta brand-ink-dark"
               >
                 Try
               </Link>
@@ -134,7 +125,7 @@ export default function SiteLayout() {
             <button
               aria-label="Toggle navigation menu"
               onClick={() => setMenuOpen((o) => !o)}
-              className="relative w-10 h-10 inline-flex items-center justify-center rounded-lg border border-white/10 hover:border-white/25 transition-colors"
+              className="relative w-10 h-10 inline-flex items-center justify-center rounded-xl border border-white/15 bg-white/8 hover:bg-white/14 hover:border-white/25 transition backdrop-blur-md"
             >
               <span className="sr-only">Menu</span>
               <div className="flex flex-col gap-1.5">
@@ -142,36 +133,35 @@ export default function SiteLayout() {
                   className={`block h-0.5 w-5 bg-white transition-transform ${
                     menuOpen ? "translate-y-1.5 rotate-45" : ""
                   }`}
-                ></span>
+                />
                 <span
                   className={`block h-0.5 w-5 bg-white transition-opacity ${
                     menuOpen ? "opacity-0" : "opacity-100"
                   }`}
-                ></span>
+                />
                 <span
                   className={`block h-0.5 w-5 bg-white transition-transform ${
                     menuOpen ? "-translate-y-1.5 -rotate-45" : ""
                   }`}
-                ></span>
+                />
               </div>
             </button>
           </div>
         </div>
 
-        {/* Mobile nav dropdown */}
         <div
-          className={`md:hidden fixed inset-x-0 top-14 origin-top shadow-lg border-t border-white/10 bg-[#1d1d1d]/95 backdrop-blur-lg transition-[max-height] overflow-hidden z-40 ${
-            menuOpen ? "max-h-[420px]" : "max-h-0"
+          className={`md:hidden overflow-hidden transition-[max-height,opacity] duration-300 border-t border-white/10 ${
+            menuOpen ? "max-h-[460px] opacity-100" : "max-h-0 opacity-0"
           }`}
         >
-          <nav className="flex flex-col px-6 py-4 gap-4 text-sm font-medium">
+          <nav className="flex flex-col px-5 py-4 gap-1 text-sm font-medium bg-black/25 backdrop-blur-xl">
             {navLinks.map((l) => (
               <Link
                 key={l.label}
                 to={l.to}
                 onClick={() => setMenuOpen(false)}
-                className={`py-2 border-b border-white/5 last:border-b-0 ${
-                  isActive(l.to) ? "text-white" : "text-white/80 hover:text-white"
+                className={`rounded-xl px-3 py-2.5 ${
+                  isActive(l.to) ? "bg-white/12 text-white border border-white/20" : "text-white/80 hover:bg-white/10 hover:text-white"
                 }`}
               >
                 {l.label}
@@ -181,8 +171,10 @@ export default function SiteLayout() {
               <Link
                 to="/user-settings"
                 onClick={() => setMenuOpen(false)}
-                className={`py-2 border-b border-white/5 last:border-b-0 ${
-                  isActive("/user-settings") ? "text-white" : "text-white/80 hover:text-white"
+                className={`rounded-xl px-3 py-2.5 ${
+                  isActive("/user-settings")
+                    ? "bg-white/12 text-white border border-white/20"
+                    : "text-white/80 hover:bg-white/10 hover:text-white"
                 }`}
               >
                 Account
@@ -192,8 +184,10 @@ export default function SiteLayout() {
               <Link
                 to="/admin/waitlist"
                 onClick={() => setMenuOpen(false)}
-                className={`py-2 border-b border-white/5 last:border-b-0 ${
-                  isActive("/admin/waitlist") ? "text-white" : "text-white/80 hover:text-white"
+                className={`rounded-xl px-3 py-2.5 ${
+                  isActive("/admin/waitlist")
+                    ? "bg-white/12 text-white border border-white/20"
+                    : "text-white/80 hover:bg-white/10 hover:text-white"
                 }`}
               >
                 Admin
@@ -203,15 +197,18 @@ export default function SiteLayout() {
               <Link
                 to="/signup"
                 onClick={() => setMenuOpen(false)}
-                className="mt-2 rounded-full px-4 py-2 text-sm font-semibold shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[hsl(var(--ring))] brand-cta brand-ink-dark"
+                className="mt-2 rounded-full px-4 py-2.5 text-sm font-semibold text-center brand-cta brand-ink-dark"
               >
                 Try Now
               </Link>
             )}
             {isAuthenticated && (
               <button
-                onClick={async () => { await logout(); setMenuOpen(false); }}
-                className="mt-2 rounded-full px-4 py-2 text-sm font-semibold shadow-sm bg-white/5 hover:bg-white/10"
+                onClick={async () => {
+                  await logout();
+                  setMenuOpen(false);
+                }}
+                className="mt-2 rounded-full px-4 py-2.5 text-sm font-semibold border border-white/20 bg-white/10 hover:bg-white/15 transition"
               >
                 Sign Out
               </button>
@@ -220,40 +217,19 @@ export default function SiteLayout() {
         </div>
       </header>
 
-      {/* Main */}
-  <main className="relative z-10 flex-1 container mx-auto px-4 md:px-6 pt-24 md:pt-8 pb-8 animate-fade-in">
-        {/* Hidden semantic headings for SEO & accessibility; no visual impact */}
+      <main className="relative z-10 flex-1 container mx-auto px-4 md:px-6 pt-6 md:pt-8 pb-10 animate-fade-in">
         <RouteSemanticHeadings />
         <Suspense
           fallback={
             <div className="min-h-[40vh] flex flex-col items-center justify-center gap-3 text-slate-300">
-              <div className="h-8 w-8 rounded-full border-2 border-white/25 border-t-white animate-spin" />
-              <p className="text-sm text-slate-300/90">Loading page…</p>
+              <div className="h-9 w-9 rounded-full border-2 border-white/20 border-t-white/90 animate-spin" />
+              <p className="text-sm text-white/70">Loading…</p>
             </div>
           }
         >
           <Outlet />
         </Suspense>
       </main>
-      {/* Fluid Cursor Global */}
-      {!isAuthenticated && location.pathname !== '/' && location.pathname !== '/home' && (
-      <div
-        id="fluid-cursor-root"
-        style={{
-          position: "fixed",
-          inset: 0,
-          width: "100vw",
-          height: "100vh",
-          pointerEvents: "none",
-          zIndex: 999999,
-          overflow: "visible",
-        }}
-      >
-        <Suspense fallback={null}>
-          <FluidCursor />
-        </Suspense>
-      </div>
-      )}
     </div>
   );
 }

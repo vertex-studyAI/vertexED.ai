@@ -90,7 +90,7 @@ export default function Features() {
     const [open, setOpen] = useState(false);
     return (
       <div
-        className={`rounded-2xl p-4 ${compact ? "p-3" : "p-4"} bg-white/4 border border-white/6 shadow-sm`}
+        className={`glass-tile ${compact ? "p-3" : "p-4"}`}
       >
         <button
           onClick={() => setOpen((s) => !s)}
@@ -120,7 +120,7 @@ export default function Features() {
   function FeatureCard({ heading, blurb, bullets = [], right }: { heading: React.ReactNode; blurb: React.ReactNode; bullets?: React.ReactNode[]; right?: React.ReactNode }) {
     const [showMore, setShowMore] = useState(false);
     return (
-      <div className="rounded-2xl bg-white/4 p-6 border border-white/6 flex flex-col gap-4">
+      <div className="glass-tile p-6 flex flex-col gap-4">
         <div className="flex items-start justify-between gap-4">
           <div>
             <h3 className="text-lg font-semibold text-white">{heading}</h3>
@@ -151,11 +151,11 @@ export default function Features() {
   // Persona toggle now controlled by parent so other parts of the UI can change subtext
   function PersonaToggle({ persona, setPersona }: { persona: string; setPersona: (p: string) => void }) {
     return (
-      <div className="mt-6 inline-flex items-center gap-2 bg-white/3 p-1 rounded-full">
+      <div className="mt-6 inline-flex items-center gap-2 p-1 rounded-full border border-white/15 bg-white/8 backdrop-blur-md">
         <button
           onClick={() => setPersona("student")}
           className={`px-3 py-1 rounded-full text-sm font-medium transition ${
-            persona === "student" ? "bg-white text-slate-900" : "text-white/80"
+            persona === "student" ? "bg-white text-slate-900 shadow-sm" : "text-white/80 hover:bg-white/10"
           }`}
         >
           Student
@@ -163,7 +163,7 @@ export default function Features() {
         <button
           onClick={() => setPersona("teacher")}
           className={`px-3 py-1 rounded-full text-sm font-medium transition ${
-            persona === "teacher" ? "bg-white text-slate-900" : "text-white/80"
+            persona === "teacher" ? "bg-white text-slate-900 shadow-sm" : "text-white/80 hover:bg-white/10"
           }`}
         >
           Teacher
@@ -185,7 +185,7 @@ export default function Features() {
     }
 
     return (
-      <div className="rounded-2xl p-4 bg-white/6 border border-white/6">
+      <div className="glass-tile p-4">
         <div className="flex items-start justify-between gap-4">
           <div>
             <h4 className="text-white font-semibold">{topics[index].title}</h4>
@@ -200,8 +200,8 @@ export default function Features() {
           </div>
 
           <div className="flex flex-col gap-2">
-            <button onClick={nextTopic} className="px-3 py-1 rounded-full bg-white/5 text-white text-sm">Next</button>
-            <button onClick={prevTopic} className="px-3 py-1 rounded-full bg-white/5 text-white text-sm">Prev</button>
+            <button onClick={nextTopic} className="glass-chip hover:bg-white/10 transition">Next</button>
+            <button onClick={prevTopic} className="glass-chip hover:bg-white/10 transition">Prev</button>
           </div>
         </div>
 
@@ -249,9 +249,8 @@ export default function Features() {
         canonical="https://www.vertexed.app/features"
       />
 
-      {/* Hero — lightweight (no boxed panel) so it sits in your existing backdrop */}
-      <section className="pt-12 pb-16 px-6 fade-up">
-        <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-8">
+      <section className="pt-8 pb-14 px-2 fade-up">
+        <div className="max-w-6xl mx-auto glass-panel p-8 md:p-10 flex flex-col md:flex-row items-center gap-8">
           <div className="flex-1">
             <h1 className="text-4xl md:text-5xl font-semibold text-white leading-tight mb-4">
               <TypeAnimation
@@ -260,59 +259,48 @@ export default function Features() {
                 cursor={true}
               />
             </h1>
-            <p className="text-slate-300 max-w-2xl">
+            <p className="text-slate-300/90 max-w-2xl leading-relaxed">
               Each feature below is engineered to be research-aligned and learner-first, designed to actually change how you study.
               Focus on one tool at a time and discover the specific ways VertexED raises exam performance whist deepening your understanding.
             </p>
 
-            {/* persona-specific subtext */}
             <div className="mt-3 text-sm text-slate-400">
               {persona === "student" ? (
-                "What yoy gain — Effective learning, Limitless Resources, Endless Practes"
+                "What you gain — Effective learning, Limitless Resources, Endless Practice"
               ) : (
                 "What your teachers gain — More material, Easier grading, Quicker Learning"
               )}
             </div>
 
-              <div className="mt-6 flex gap-4 items-center">
-              <Link
-                to="/login"
-                className="inline-block px-6 py-3 rounded-full bg-white text-slate-900 font-semibold shadow-md hover:scale-105 transition-transform duration-300"
-              >
+            <div className="mt-6 flex gap-3 items-center flex-wrap">
+              <Link to="/login" className="btn-solid">
                 Get started
               </Link>
-              <Link
-                to="/"
-                className="inline-block px-6 py-3 rounded-full border border-white/20 text-white hover:bg-white/5 transition duration-300"
-              >
+              <Link to="/" className="btn-glass">
                 Back
               </Link>
-
-              {/* Persona toggle fills empty spacing in hero without changing design language */}
-              <div className="ml-auto md:ml-0">
+              <div className="w-full sm:w-auto sm:ml-auto">
                 <PersonaToggle persona={persona} setPersona={setPersona} />
               </div>
             </div>
 
-            {/* Small explanatory chips that live in the hero whitespace */}
             <div className="mt-6 flex gap-2 flex-wrap">
-              <div className="px-3 py-1 bg-white/5 text-slate-300 rounded-full text-xs">Exam Driven Performance</div>
-              <div className="px-3 py-1 bg-white/5 text-slate-300 rounded-full text-xs">Inquiry Based Iearning</div>
-              <div className="px-3 py-1 bg-white/5 text-slate-300 rounded-full text-xs">Limitless Opportunities</div>
-              <Link to="/resources" className="px-3 py-1 bg-white/5 text-slate-200 rounded-full text-xs underline">Guides</Link>
+              <span className="glass-chip">Exam Driven Performance</span>
+              <span className="glass-chip">Inquiry Based Learning</span>
+              <span className="glass-chip">Limitless Opportunities</span>
+              <Link to="/resources" className="glass-chip underline decoration-white/30 hover:bg-white/10">Guides</Link>
             </div>
           </div>
 
           <aside className="w-full md:w-1/3 text-slate-300">
-            <div className="p-6 rounded-2xl bg-white/5">
-              <h4 className="font-semibold mb-2">Performance, Understanding and Personalization at the core</h4>
-              <p className="text-sm">
+            <div className="glass-tile p-6">
+              <h4 className="font-semibold mb-2 text-white">Performance, Understanding and Personalization at the core</h4>
+              <p className="text-sm text-slate-300/90 leading-relaxed">
                 VertexED models what you know and how you learn. From studying resources made by students just like you
                 to constant practice, review and access to a new way of learning, ensure every minute moves you closer to mastery.
               </p>
-              <div className="mt-4 text-xs text-slate-400">The Outcome? : Better Understanding, Quicker Progress, Better Perfromances.</div>
+              <div className="mt-4 text-xs text-slate-400">The outcome: better understanding, quicker progress, stronger performances.</div>
 
-              {/* Add a compact expandable card to use vertical empty space */}
               <div className="mt-4">
                 <ExpandableCard title="Quick metrics" compact>
                   <div className="grid grid-cols-2 gap-3">
@@ -509,7 +497,7 @@ export default function Features() {
               <p className="mb-2 font-semibold text-white">Supported boards (unaffiliated)</p>
               <div className="inline-flex gap-2 flex-wrap">
                 {supportedBoards.map((b) => (
-                  <div key={b} className="px-3 py-1 bg-white/5 text-slate-300 rounded-full text-sm">{b}</div>
+                  <div key={b} className="glass-chip">{b}</div>
                 ))}
               </div>
 
@@ -640,7 +628,7 @@ export default function Features() {
             stronger long-term retention, and clear next steps for what to practise next.
           </p>
 
-          <Link to="/login" className="inline-block px-8 py-3 rounded-full bg-white text-slate-900 font-semibold shadow-md hover:scale-105 transition-transform duration-300">
+          <Link to="/login" className="btn-solid px-8">
             Get started
           </Link>
 

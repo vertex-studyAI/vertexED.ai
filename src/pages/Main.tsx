@@ -1,5 +1,4 @@
 import NeumorphicCard from "@/components/NeumorphicCard";
-import DotGrid from "@/components/DotGrid";
 
 import { Link } from "react-router-dom";
 import React, { useEffect, useRef } from "react";
@@ -38,7 +37,7 @@ export default function Main() {
     { title: "Paper Maker", to: "/paper-maker", info: "Board-aligned practice papers with authentic phrasing and mark schemes.", icon: paperIcon() },
     { title: "Note Taker + Flashcards", to: "/notetaker", info: "Capture lectures, auto-summarise and turn notes into flashcards & quizzes.", icon: notesIcon() },
     { title: "Archives Subjects", to: "/archives", info: "Browse subject-wise archived papers, curated by topic and difficulty.", icon: archiveIcon() },
-    // keep settings separate (rendered as small control in header)
+    // settings rendered in header
   ];
 
   useEffect(() => {
@@ -171,56 +170,30 @@ export default function Main() {
         <meta name="robots" content="noindex, follow" />
       </Helmet>
 
-      {/* Dot Grid Background */}
-      <div className="fixed inset-0 -z-5 pointer-events-none">
-        <DotGrid
-          dotSize={3}
-          gap={25}
-          baseColor="#3a3a4a"
-          activeColor="#4A9BB8"
-          proximity={120}
-          shockRadius={250}
-          shockStrength={5}
-          resistance={750}
-          returnDuration={1.5}
-          style={{ opacity: 0.5 }}
-        />
-      </div>
-
-
-
       {/* Intro */}
       <section className="fade-up px-6 py-10">
-        <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-8">
+        <div className="max-w-6xl mx-auto glass-panel p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center gap-6">
           <div className="flex-1">
             <h1 className="text-4xl md:text-5xl font-semibold text-white leading-tight">
               <TypeAnimation sequence={[700, "Welcome to Vertex AI", 1200, "Pick a tool and get into flow."]} wrapper="span" cursor={false} />
             </h1>
-            <p className="mt-4 text-slate-300 max-w-2xl">
-              Your dashboard — a single rectangle that groups all powerful study tools. Tap any tile to open a focused workspace
-              designed around research-backed learning.
+            <p className="mt-4 text-white/70 max-w-2xl leading-relaxed">
+              Your dashboard groups every study tool in one place. Tap a tile to open a focused workspace designed around
+              research-backed learning.
+            </p>
+            <p className="mt-3 text-xs text-white/45 max-w-xl">
+              Use Study Zone for deep sessions, Paper Maker for board-specific practice, and Answer Reviewer to sharpen exam technique.
             </p>
           </div>
 
-          <div className="w-full md:w-1/3 text-slate-300 flex items-start justify-end gap-3">
-            <div className="p-4 rounded-2xl bg-white/5 backdrop-blur-xl border border-white/15 shadow-lg shadow-black/10">
-              <h4 className="font-semibold mb-1">Quick tips</h4>
-              <div className="text-xs text-slate-400">
-                Hover a tile to preview its depth. Use Study Zone for deep sessions, Paper Maker for board-specific practice, and the
-                Answer Reviewer to sharpen exam technique.
-              </div>
-            </div>
-
-            {/* Settings (separate small control) */}
-            <button
-              aria-label="Settings"
-              title="Settings"
-              className="ml-3 p-3 rounded-full bg-white/5 backdrop-blur-xl border border-white/15 hover:bg-white/15 hover:border-white/25 transition flex items-center justify-center"
-              onClick={() => window.location.assign("/user-settings")}
-            >
-              <SettingsIcon size={16} color="white" />
-            </button>
-          </div>
+          <button
+            aria-label="Settings"
+            title="Settings"
+            className="shrink-0 p-3 rounded-2xl glass-tile hover:border-white/30 transition flex items-center justify-center"
+            onClick={() => window.location.assign("/user-settings")}
+          >
+            <SettingsIcon size={18} color="white" />
+          </button>
         </div>
       </section>
 
@@ -245,7 +218,7 @@ export default function Main() {
                       >
                         <div>
                           <div className="flex items-center gap-4 mb-2">
-                            <div className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white font-semibold shadow-lg shadow-black/10" aria-hidden>
+                            <div className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white font-semibold" aria-hidden>
                               {t.icon}
                             </div>
 
@@ -283,7 +256,7 @@ export default function Main() {
             Use the dashboard to jump straight into focused work — all the tools you need, in one elegant rectangle.
           </p>
 
-          <Link to="/study-zone" className="inline-block px-8 py-3 rounded-full bg-white/10 backdrop-blur-xl border border-white/25 text-white font-semibold shadow-lg shadow-black/10 hover:bg-white/20 hover:border-white/35 hover:scale-105 transition-all duration-300">
+          <Link to="/study-zone" className="btn-glass px-8">
             Start a session
           </Link>
         </div>
