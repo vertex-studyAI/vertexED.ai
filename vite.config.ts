@@ -182,6 +182,8 @@ export default defineConfig(({ mode }) => {
       },
     },
     build: {
+      // PDF/KaTeX bundles are large by nature; warn only for truly extreme outliers
+      chunkSizeWarningLimit: 1000,
       rollupOptions: {
         output: {
           manualChunks: {
@@ -189,10 +191,9 @@ export default defineConfig(({ mode }) => {
             ui: ['framer-motion', 'gsap', 'lucide-react', 'clsx'],
             charts: ['chart.js', 'react-chartjs-2'],
             pdf: ['jspdf', 'docx', 'file-saver'],
-            ai: ['@google/generative-ai', 'openai']
-          }
-        }
-      }
-    }
+          },
+        },
+      },
+    },
   };
 });

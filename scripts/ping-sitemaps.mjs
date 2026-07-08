@@ -1,13 +1,15 @@
-// Pings sitemap URLs to search engines (Google and Bing)
-// Usage: node scripts/ping-sitemaps.mjs https://www.vertexed.app/sitemap.xml [more...]
+// Legacy Google/Bing sitemap ping endpoints are deprecated (404/410).
+ // IndexNow (npm run seo:indexnow) is the supported notification path.
+ // This script is kept for manual/historical use and no-ops by default.
 
 import https from 'https'
+import http from 'http'
 import { URL } from 'url'
 
 function httpGet(url) {
   return new Promise((resolve, reject) => {
     const u = new URL(url)
-    const lib = u.protocol === 'https:' ? https : require('http')
+    const lib = u.protocol === 'https:' ? https : http
     const req = lib.get(u, (res) => {
       const { statusCode } = res
       res.resume()
@@ -37,6 +39,11 @@ async function ping(sitemapUrl) {
 }
 
 async function main() {
+  if (process.env.FORCE_LEGACY_SEO_PING !== 'true') {
+    console.log('[PING] Skipped: Google/Bing sitemap ping endpoints are deprecated. Use IndexNow instead.')
+    return
+  }
+
   const args = process.argv.slice(2)
   if (args.length === 0) {
     console.error('Provide at least one sitemap URL.')

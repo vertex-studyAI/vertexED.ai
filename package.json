@@ -8,7 +8,7 @@
     "prebuild": "node scripts/indexnow.mjs --host=https://www.vertexed.app --key=07fe36c13a0c4aee8856c99f640ebf98 --ensureKeyOnly",
     "build": "ROLLUP_SKIP_NODEJS_NATIVE=true vite build",
     "build:ci": "ROLLUP_SKIP_NODEJS_NATIVE=true vite build",
-    "postbuild": "node scripts/update-sitemap-lastmod.mjs public/sitemap.xml && npm run seo:ping && npm run seo:indexnow",
+    "postbuild": "node scripts/update-sitemap-lastmod.mjs public/sitemap.xml && npm run seo:indexnow",
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
     "lint:ci": "eslint api/lib tests",

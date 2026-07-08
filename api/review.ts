@@ -6,7 +6,6 @@ import { z } from "zod";
 export const config = {
   maxDuration: 60,
   runtime: 'nodejs',
-  memory: 1024,
 };
 
 // Tool definitions

@@ -3,7 +3,6 @@
 export const config = {
   maxDuration: 60,
   runtime: 'nodejs',
-  memory: 1024,
 };
 
 export default async function handler(req: any, res: any) {

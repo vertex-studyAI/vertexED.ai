@@ -5,7 +5,6 @@
   "framework": null,
   "functions": {
     "api/review.ts": {
-      "memory": 1024,
       "maxDuration": 60,
       "includeFiles": "api/**"
     }
