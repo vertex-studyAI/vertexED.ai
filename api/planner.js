@@ -1,5 +1,5 @@
 import { GoogleGenAI } from '@google/genai';
-import { verifyAuthUser, readJsonBody, rejectOversizedJsonBody } from './lib/auth.js';
+import { verifyAuthUser, readJsonBody, rejectOversizedJsonBody } from './_lib/auth.js';
 
 const TRY_MODELS = [
   'gemini-2.5-flash',

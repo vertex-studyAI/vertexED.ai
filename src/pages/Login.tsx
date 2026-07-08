@@ -1,26 +1,32 @@
 import { Helmet } from "react-helmet-async";
 import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 import PageSection from "@/components/PageSection";
 
 export default function Login() {
   const { login, loginWithGoogle } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = (location.state as { from?: string } | null)?.from || "/main";
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
+    setLoading(true);
 
     try {
-      await login(email, password); 
-      navigate("/main"); 
+      await login(email, password);
+      navigate(from, { replace: true });
     } catch (err) {
       setError((err as Error).message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -49,14 +55,18 @@ export default function Login() {
           <div className="space-y-4">
             <button
               type="button"
+              disabled={loading}
               onClick={async () => {
                 try {
+                  setLoading(true);
+                  setError(null);
                   await loginWithGoogle();
                 } catch (err) {
                   setError((err as Error).message);
+                  setLoading(false);
                 }
               }}
-              className="w-full neu-button py-3 flex items-center justify-center gap-2"
+              className="w-full neu-button py-3 flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
               aria-label="Continue with Google"
             >
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" className="w-5 h-5" aria-hidden>
@@ -87,19 +97,32 @@ export default function Login() {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
-            <button type="submit" className="w-full neu-button py-3 mt-2">
-              Continue
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full neu-button py-3 mt-2 disabled:opacity-60 disabled:cursor-not-allowed"
+            >
+              {loading ? (
+                <span className="inline-flex items-center justify-center gap-2">
+                  <span className="h-4 w-4 rounded-full border-2 border-white/30 border-t-white animate-spin" />
+                  Signing in…
+                </span>
+              ) : (
+                "Continue"
+              )}
             </button>
           </div>
 
           {error && (
-            <p className="text-center mt-4 text-sm text-red-500">{error}</p>
+            <div className="mt-4 rounded-lg border border-red-500/35 bg-red-500/10 px-3 py-2 text-center text-sm text-red-200">
+              {error}
+            </div>
           )}
 
-          <p className="text-center mt-4 text-sm opacity-80">
+          <p className="text-center mt-4 text-sm text-white/70">
             No account?{" "}
-            <Link to="/signup" className="sketch-underline">
-              Sign up
+            <Link to="/signup" className="sketch-underline text-white/90 hover:text-white">
+              Join waitlist
             </Link>
           </p>
         </form>

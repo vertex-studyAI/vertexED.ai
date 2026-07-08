@@ -59,16 +59,16 @@ export default function Signup() {
           }}
         >
           <h1 className="text-3xl font-semibold mb-2 text-center text-white">Join the Waitlist</h1>
-          <p className="text-center mb-4 text-sm opacity-80">
-            Vertex is in private beta. Joining the waitlist does <strong>not</strong> create an account — we&apos;ll email you when you can sign up.
+          <p className="text-center mb-4 text-sm text-white/70 leading-relaxed">
+            Vertex is in private beta. Joining the waitlist does <strong className="text-white/90">not</strong> create an account — we&apos;ll email you when you can sign up.
           </p>
-          <p className="text-center mb-6 text-sm opacity-80">
+          <p className="text-center mb-6 text-sm text-white/70">
             Optional:{" "}
             <a
               href="https://tally.so/r/ODD6b8"
               target="_blank"
               rel="noopener noreferrer"
-              className="underline hover:opacity-100 transition"
+              className="underline text-white/85 hover:text-white transition"
             >
               tell us more about yourself
             </a>
@@ -101,24 +101,39 @@ export default function Signup() {
                   required
                 />
               </div>
-              <button className="w-full neu-button py-3 mt-2" disabled={loading} type="submit">
-                {loading ? "Joining..." : "Join Waitlist"}
+              <button
+                className="w-full neu-button py-3 mt-2 disabled:opacity-60 disabled:cursor-not-allowed transition"
+                disabled={loading}
+                type="submit"
+              >
+                {loading ? (
+                  <span className="inline-flex items-center justify-center gap-2">
+                    <span className="h-4 w-4 rounded-full border-2 border-white/30 border-t-white animate-spin" />
+                    Joining…
+                  </span>
+                ) : (
+                  "Join Waitlist"
+                )}
               </button>
             </div>
           ) : (
-            <div className="text-center py-4">
-              <p className="text-emerald-500 font-medium mb-2">You&apos;re on the list!</p>
-              <p className="text-sm opacity-80">
-                We&apos;ve saved <span className="font-medium text-white/90">{normalizeEmailInput(email)}</span>. We&apos;ll email you when your spot is ready — no account has been created yet.
+            <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-5 text-center">
+              <p className="text-emerald-300 font-medium mb-2">You&apos;re on the list!</p>
+              <p className="text-sm text-white/75 leading-relaxed">
+                We&apos;ve saved <span className="font-medium text-white">{normalizeEmailInput(email)}</span>. We&apos;ll email you when your spot is ready — no account has been created yet.
               </p>
             </div>
           )}
 
-          {error && <p className="text-center mt-4 text-sm text-red-500">{error}</p>}
+          {error && (
+            <div className="mt-4 rounded-lg border border-red-500/35 bg-red-500/10 px-3 py-2 text-center text-sm text-red-200">
+              {error}
+            </div>
+          )}
 
-          <p className="text-center mt-6 text-sm opacity-80">
+          <p className="text-center mt-6 text-sm text-white/70">
             Already invited and have an account?{" "}
-            <Link to="/login" className="sketch-underline">
+            <Link to="/login" className="sketch-underline text-white/90 hover:text-white">
               Log in
             </Link>
           </p>

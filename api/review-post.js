@@ -1,4 +1,4 @@
-import { verifyAuthUser, readJsonBody, rejectOversizedJsonBody } from './lib/auth.js';
+import { verifyAuthUser, readJsonBody, rejectOversizedJsonBody } from './_lib/auth.js';
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {

@@ -1,4 +1,4 @@
-import { verifyAuthUser, MAX_AUDIO_BYTES } from './lib/auth.js';
+import { verifyAuthUser, MAX_AUDIO_BYTES } from './_lib/auth.js';
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {

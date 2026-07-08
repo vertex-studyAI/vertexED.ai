@@ -1,4 +1,4 @@
-import { verifyAuthUser, readJsonBody, rejectOversizedJsonBody } from './lib/auth.js';
+import { verifyAuthUser, readJsonBody, rejectOversizedJsonBody } from './_lib/auth.js';
 
 function parseJsonBody(req) {
   let body = req.body ?? {};

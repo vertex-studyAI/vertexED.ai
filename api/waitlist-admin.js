@@ -1,6 +1,6 @@
 import { createClient } from '@supabase/supabase-js';
-import { verifyAuthUser, readJsonBody, rejectOversizedJsonBody } from './lib/auth.js';
-import { requireAdmin } from './lib/admin.js';
+import { verifyAuthUser, readJsonBody, rejectOversizedJsonBody } from './_lib/auth.js';
+import { requireAdmin } from './_lib/admin.js';
 
 const VALID_STATUSES = new Set(['pending', 'approved', 'rejected']);
 

@@ -5,6 +5,7 @@ export function createMocks({
 } = {}) {
   let statusCode = 200;
   let jsonBody = null;
+  const responseHeaders = {};
 
   const res = {
     status(code) {
@@ -13,6 +14,10 @@ export function createMocks({
     },
     json(data) {
       jsonBody = data;
+      return res;
+    },
+    setHeader(key, value) {
+      responseHeaders[key] = value;
       return res;
     },
   };
@@ -29,5 +34,6 @@ export function createMocks({
     res,
     getStatus: () => statusCode,
     getJson: () => jsonBody,
+    getHeaders: () => responseHeaders,
   };
 }

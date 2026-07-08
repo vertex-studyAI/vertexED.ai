@@ -11,7 +11,7 @@
     "postbuild": "node scripts/update-sitemap-lastmod.mjs public/sitemap.xml && npm run seo:indexnow",
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
-    "lint:ci": "eslint api/lib tests",
+    "lint:ci": "eslint api/_lib tests",
     "test": "node --test tests/*.test.mjs",
     "test:smoke": "node scripts/smoke-deploy.mjs",
     "ci": "npm run lint:ci && npm test && npm run build:ci",

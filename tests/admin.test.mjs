@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { getAdminEmails, isAdminUser } from '../api/lib/admin.js';
+import { getAdminEmails, isAdminUser } from '../api/_lib/admin.js';
 
 test('getAdminEmails parses comma-separated list', () => {
   const previous = process.env.ADMIN_EMAILS;

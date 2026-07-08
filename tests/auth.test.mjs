@@ -5,7 +5,7 @@ import {
   readJsonBody,
   rejectOversizedJsonBody,
   verifyAuthUser,
-} from '../api/lib/auth.js';
+} from '../api/_lib/auth.js';
 import { createMocks } from './helpers/mock-http.mjs';
 
 test('getBearerToken returns null when header is missing', () => {

@@ -761,7 +761,7 @@ export default async function handler(req: any, res: any) {
     return;
   }
 
-  const { verifyAuthUser } = await import('./lib/auth.js');
+  const { verifyAuthUser } = await import('./_lib/auth.js');
   const user = await verifyAuthUser(req, res);
   if (!user) return;
 
