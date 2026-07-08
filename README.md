@@ -98,7 +98,7 @@ When adding new components, ensure:
 
 ## Development
 
-Install & run (Node 20.x recommended — see `engines` in `package.json`):
+Install & run (Node 22.x recommended — see `engines` in `package.json`):
 
 ```
 npm install

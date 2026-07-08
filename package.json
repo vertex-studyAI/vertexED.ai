@@ -22,8 +22,9 @@
     "debug": "DEBUG=ai:* vite"
   },
   "engines": {
-    "node": "20.x"
+    "node": "22.x"
   },
+  "packageManager": "npm@10.9.7",
   "dependencies": {
     "@google/genai": "^1.21.0",
     "@google/generative-ai": "^0.24.1",

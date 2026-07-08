@@ -1,9 +1,6 @@
 # Dependencies
 node_modules/
 
-# Platform-specific lockfile
-package-lock.json
-
 # Build output
 dist/
 
