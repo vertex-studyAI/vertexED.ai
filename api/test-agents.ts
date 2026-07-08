@@ -60,15 +60,9 @@ export default async function handler(req: any, res: any) {
     results.push(`❌ @openai/guardrails import: ${e.message}`);
   }
   
-  // Test 5: Can we import agentWorkflow?
-  try {
-    await import('./agentWorkflow');
-    results.push('✅ agentWorkflow import: OK');
-  } catch (e: any) {
-    results.push(`❌ agentWorkflow import: ${e.message}`);
-    results.push(`   Stack: ${e.stack?.split('\n').slice(0, 5).join('\n   ')}`);
-  }
-  
+  // agentWorkflow was removed; keep a note for diagnostics
+  results.push('ℹ️ agentWorkflow: not present (archived as agentWorkflow.ts.backup)');
+
   res.status(200).json({ 
     results,
     env: {
