@@ -25,11 +25,37 @@ export default async function handler(req, res) {
   try {
     const body = readJsonBody(req);
 
-    const { question } = body ?? {};
+    const { question, history, context } = body ?? {};
 
     if (typeof question !== "string" || !question.trim()) {
       return res.status(400).json({ error: "No question provided" });
     }
+
+    const buildMessages = () => {
+      const messages = [];
+
+      if (context && typeof context === "object") {
+        const label = typeof context.label === "string" ? context.label : "VertexED";
+        const hint = typeof context.hint === "string" ? context.hint : "";
+        messages.push({
+          role: "system",
+          content: `You are Apex, a discussion-first study assistant on VertexED. The student is currently on: ${label}. ${hint} Deliberate step-by-step; ask clarifying questions when helpful.`,
+        });
+      }
+
+      if (Array.isArray(history)) {
+        for (const entry of history.slice(-10)) {
+          const role = entry?.role === "assistant" ? "assistant" : "user";
+          const text = typeof entry?.text === "string" ? entry.text.trim() : "";
+          if (text) messages.push({ role, content: text.slice(0, 2000) });
+        }
+      }
+
+      messages.push({ role: "user", content: question.trim() });
+      return messages;
+    };
+
+    const chatMessages = buildMessages();
 
     const PRIMARY_MODEL =
       process.env.CHATBOT_MODEL ||
@@ -55,7 +81,7 @@ export default async function handler(req, res) {
     const callOpenAI = async (model) => {
       const payload = {
         model,
-        messages: [{ role: "user", content: question }],
+        messages: chatMessages,
         temperature: 0.4,
         max_tokens: 600,
       };

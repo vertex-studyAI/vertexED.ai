@@ -260,15 +260,15 @@ export default function Features() {
               />
             </h1>
             <p className="text-slate-300/90 max-w-2xl leading-relaxed">
-              Each feature below is engineered to be research-aligned and learner-first, designed to actually change how you study.
-              Focus on one tool at a time and discover the specific ways VertexED raises exam performance whist deepening your understanding.
+              Each tool below is built around how students actually learn — not buzzwords.
+              Pick one, try it out, and see what clicks for you.
             </p>
 
             <div className="mt-3 text-sm text-slate-400">
               {persona === "student" ? (
-                "What you gain — Effective learning, Limitless Resources, Endless Practice"
+                "What you get — smarter studying, more practice, less guesswork"
               ) : (
-                "What your teachers gain — More material, Easier grading, Quicker Learning"
+                "What teachers get — more material, easier grading, faster feedback"
               )}
             </div>
 
@@ -296,10 +296,10 @@ export default function Features() {
             <div className="glass-tile p-6">
               <h4 className="font-semibold mb-2 text-white">Performance, Understanding and Personalization at the core</h4>
               <p className="text-sm text-slate-300/90 leading-relaxed">
-                VertexED models what you know and how you learn. From studying resources made by students just like you
-                to constant practice, review and access to a new way of learning, ensure every minute moves you closer to mastery.
+                VertexED learns what you know and how you study best. From resources built by students like you
+                to practice that actually sticks — every minute here moves you closer to understanding, not just memorizing.
               </p>
-              <div className="mt-4 text-xs text-slate-400">The outcome: better understanding, quicker progress, stronger performances.</div>
+              <div className="mt-4 text-xs text-slate-400">The result: better understanding, faster progress, stronger exam days.</div>
 
               <div className="mt-4">
                 <ExpandableCard title="Quick metrics" compact>

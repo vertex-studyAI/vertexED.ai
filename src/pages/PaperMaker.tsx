@@ -2,10 +2,13 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowLeft, Sparkles, FileText, ImagePlus, Download, Grid, FileArchive } from "lucide-react";
+import { ArrowLeft, Sparkles, FileText, ImagePlus, Download, Grid, FileArchive, Clock } from "lucide-react";
 import NeumorphicCard from "@/components/NeumorphicCard";
 import PageSection from "@/components/PageSection";
 import { authFetch } from "@/lib/apiAuth";
+import MockExamMode from "@/components/MockExamMode";
+import { saveStudyArtifact } from "@/lib/userContent";
+import { recordStudySession } from "@/lib/studyStats";
 
 export default function PaperMaker({ priorPapers = [] }) {
   const BOARDS = ["IB MYP", "IB DP", "IGCSE", "A Levels", "CBSE", "ICSE"];
@@ -48,6 +51,8 @@ export default function PaperMaker({ priorPapers = [] }) {
   const [error, setError] = useState("");
   const [paper, setPaper] = useState(null);
   const [raw, setRaw] = useState(null);
+  const [mockExamOpen, setMockExamOpen] = useState(false);
+  const [saveStatus, setSaveStatus] = useState("");
 
   const previewRef = useRef(null);
 
@@ -169,6 +174,11 @@ export default function PaperMaker({ priorPapers = [] }) {
       if (paperData && typeof paperData === "object") {
         setPaper(paperData);
         setRaw(null);
+        recordStudySession();
+        const title = paperData.title || `${board} ${subject} paper`;
+        saveStudyArtifact("paper", title, { paper: paperData, board, subject, grade }).then((r) => {
+          setSaveStatus(r.ok ? "Saved to your account" : "");
+        });
       } else if (data.raw) {
         setRaw(data.raw);
       } else {
@@ -263,7 +273,7 @@ export default function PaperMaker({ priorPapers = [] }) {
         </div>
 
         <div className="grid md:grid-cols-2 gap-8">
-          <NeumorphicCard className="p-6 min-h-[28rem]" title="Paper Configuration" info="Customize your practice paper.">
+          <NeumorphicCard className="p-6 min-h-[28rem]" title="Paper Configuration" info="Pick your board, subject, and topics — we'll handle the rest.">
             <form className="grid gap-5" onSubmit={handleGenerate}>
               <div className="grid grid-cols-2 gap-4">
                 <motion.div whileHover={{ scale: 1.02 }} className="neu-input">
@@ -359,7 +369,7 @@ export default function PaperMaker({ priorPapers = [] }) {
             </form>
           </NeumorphicCard>
 
-          <NeumorphicCard className="p-6 min-h-[28rem]" title="Paper Preview" info="Live preview. Export to PDF / Word after generating.">
+          <NeumorphicCard className="p-6 min-h-[28rem]" title="Paper Preview" info="Your paper shows up here. Export to PDF or Word when you're ready.">
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.35 }} className="neu-surface inset p-6 rounded-2xl h-full overflow-auto">
               {!paper && !raw ? (
                 <div className="h-full flex flex-col items-center justify-center text-center p-4 text-gray-500">
@@ -370,7 +380,7 @@ export default function PaperMaker({ priorPapers = [] }) {
                 <div className="text-sm text-yellow-700"><pre className="whitespace-pre-wrap">{raw}</pre></div>
               ) : (
                 <div>
-                  <div ref={previewRef} id="paper-preview" className="space-y-4 text-gray-900">
+                  <div ref={previewRef} id="paper-preview" className="space-y-4 text-foreground">
                     <div className="flex items-start justify-between">
                       <div>
                         <h3 className="text-lg font-semibold">{paper.title || `${paper.metadata.board} — Grade ${paper.metadata.grade}`}</h3>
@@ -379,9 +389,9 @@ export default function PaperMaker({ priorPapers = [] }) {
                       <div className="text-xs text-gray-600">Generated: {new Date().toLocaleString()}</div>
                     </div>
 
-                    <div className="p-4 border rounded bg-white">
-                      <div className="text-sm text-gray-700 mb-2">Specification</div>
-                      <ul className="list-disc pl-5 text-sm text-gray-700">
+                    <div className="p-4 border border-white/10 rounded bg-white/5">
+                      <div className="text-sm text-muted-foreground mb-2">Specification</div>
+                      <ul className="list-disc pl-5 text-sm text-muted-foreground">
                         <li>Topics: {(topicTags.length ? topicTags.join(", ") : "(none)")}</li>
                         <li>Total marks: {paper.metadata.totalMarks ?? "(criteria-based)"}</li>
                         <li>Criteria / component: {paper.metadata.criteriaMode ? "Criteria-mode" : "Fixed marks"}</li>
@@ -390,15 +400,15 @@ export default function PaperMaker({ priorPapers = [] }) {
                     </div>
 
                     {paper.sections?.map((s) => (
-                      <div key={s.id} className="border rounded p-4 bg-white">
-                        <div className="font-medium mb-2 text-gray-800">{s.title}</div>
-                        {s.instructions && <div className="text-sm text-gray-600 mb-2">{s.instructions}</div>}
-                        <ol className="list-decimal pl-6 space-y-3 text-gray-800">
+                      <div key={s.id} className="border border-white/10 rounded p-4 bg-white/5">
+                        <div className="font-medium mb-2">{s.title}</div>
+                        {s.instructions && <div className="text-sm text-muted-foreground mb-2">{s.instructions}</div>}
+                        <ol className="list-decimal pl-6 space-y-3">
                           {s.questions.map((q) => (
                             <li key={q.id}>
                               <div className="font-medium">{q.question}</div>
-                              <div className="text-xs text-gray-500">Marks: {q.marks ?? "(see rubric)"} • Time: {q.approxTime ?? "—"}</div>
-                              <div className="text-sm mt-1 text-gray-700">Rubric: {q.modelAnswerOutline}</div>
+                              <div className="text-xs text-muted-foreground">Marks: {q.marks ?? "(see rubric)"} • Time: {q.approxTime ?? "—"}</div>
+                              <div className="text-sm mt-1 text-muted-foreground">Rubric: {q.modelAnswerOutline}</div>
                               {q.imageRefs?.length ? (
                                 <div className="mt-2 space-x-2">
                                   {q.imageRefs.map((n) => {
@@ -418,10 +428,14 @@ export default function PaperMaker({ priorPapers = [] }) {
                     {paper.rubricNotes?.length ? <div className="p-3 border rounded bg-white"><div className="font-medium">Rubric notes</div><ul className="list-disc pl-5 text-sm text-gray-700">{paper.rubricNotes.map((r,i)=> <li key={i}>{r}</li>)}</ul></div> : null}
                   </div>
 
-                  <div className="flex gap-3 mt-4">
+                  <div className="flex flex-wrap gap-3 mt-4 items-center">
                     <motion.button whileHover={{ scale: 1.02 }} className="neu-button px-4 py-2 flex items-center gap-2" onClick={exportPDF}><Download size={16} />Export PDF</motion.button>
                     <motion.button whileHover={{ scale: 1.02 }} className="neu-button px-4 py-2 flex items-center gap-2" onClick={exportDocx}><Download size={16} />Export Word</motion.button>
-                    <div className="ml-auto text-sm text-gray-600 flex items-center gap-2"><Grid size={14} /> <span>{(paper?.sections || []).reduce((c, s) => c + (s.questions?.length || 0), 0)} questions</span></div>
+                    <motion.button whileHover={{ scale: 1.02 }} className="neu-button px-4 py-2 flex items-center gap-2 bg-primary/15 border-primary/25" onClick={() => setMockExamOpen(true)}>
+                      <Clock size={16} />Take timed exam
+                    </motion.button>
+                    {saveStatus && <span className="text-xs text-emerald-400">{saveStatus}</span>}
+                    <div className="ml-auto text-sm text-muted-foreground flex items-center gap-2"><Grid size={14} /> <span>{(paper?.sections || []).reduce((c, s) => c + (s.questions?.length || 0), 0)} questions</span></div>
                   </div>
                 </div>
               )}
@@ -429,6 +443,10 @@ export default function PaperMaker({ priorPapers = [] }) {
           </NeumorphicCard>
         </div>
       </PageSection>
+
+      {mockExamOpen && paper && (
+        <MockExamMode paper={paper} onClose={() => setMockExamOpen(false)} />
+      )}
     </>
   );
 }

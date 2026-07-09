@@ -21,6 +21,7 @@ const ArchivesGeography = lazy(() => import("@/pages/ArchivesGeography"));
 const PaperMaker = lazy(() => import("@/pages/PaperMaker"));
 const UserSettings = lazy(() => import("@/pages/UserSettings"));
 const Brand = lazy(() => import("@/pages/Brand"));
+const StudyTools = lazy(() => import("@/pages/StudyTools"));
 const ResourcesIndex = lazy(() => import("@/pages/resources/Index"));
 const AIStudyPlannerArticle = lazy(() => import("@/pages/resources/AIStudyPlanner"));
 const PaperMakerGuide = lazy(() => import("@/pages/resources/PaperMakerGuide"));
@@ -54,6 +55,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import { SpeedInsights } from "@vercel/speed-insights/react";
 import { Analytics } from "@vercel/analytics/react";
+import { Toaster } from "@/components/ui/toaster";
+import { Navigate } from "react-router-dom";
 
 
 function App() {
@@ -139,10 +142,15 @@ return (
 						<Route path="archives" element={<ArchivesHome />} />
 						<Route path="archives-lnl" element={<ArchivesLnL />} />
 						<Route path="archives-history" element={<ArchivesHistory />} />
-	<Route path="archives-geography" element={<ArchivesGeography />} />
+						<Route path="archives-geography" element={<ArchivesGeography />} />
+						{/* Legacy archive paths → current routes */}
+						<Route path="archives/english" element={<Navigate to="/archives-lnl" replace />} />
+						<Route path="archives/history" element={<Navigate to="/archives-history" replace />} />
+						<Route path="archives/geography" element={<Navigate to="/archives-geography" replace />} />
 
 <Route path="about" element={<About />} />
 <Route path="features" element={<Features />} /> 
+<Route path="study-tools" element={<StudyTools />} />
 <Route path="vertex-ed" element={<Brand />} />
 <Route path="user-settings" element={<ProtectedRoute><UserSettings /></ProtectedRoute>} />
 <Route path="admin/waitlist" element={<AdminRoute><WaitlistAdmin /></AdminRoute>} />
@@ -151,6 +159,7 @@ return (
 </Route>
 </Routes>
 </BrowserRouter>
+<Toaster />
 <SpeedInsights />
 <Analytics />
 </AuthProvider>

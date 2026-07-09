@@ -8,8 +8,8 @@ import rehypeKatex from "rehype-katex";
 import "katex/dist/katex.min.css";
 import SEO from "@/components/SEO";
 import { fetchChatbotAnswer } from "@/lib/chatbotApi";
-
-const TABS = ["Chat", "Examples", "How it works"];
+import { animateTypewriter } from "@/lib/typewriter";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 type SubjectBadge = { label: string; color: string };
 type ChatMessage = { sender: "user" | "bot"; text: string; subject: SubjectBadge };
@@ -42,7 +42,7 @@ const detectSubject = (text = ""): SubjectBadge => {
 };
 
 export default function AIChatbot() {
-  const [activeTab, setActiveTab] = useState("Chat");
+  const [activeTab, setActiveTab] = useState("chat");
   const [userInput, setUserInput] = useState("");
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
   const [loading, setLoading] = useState(false);
@@ -69,7 +69,13 @@ export default function AIChatbot() {
     const question = userInput.trim();
     if (!question || loading) return;
 
+    if (typingIntervalRef.current !== null) {
+      window.clearInterval(typingIntervalRef.current);
+      typingIntervalRef.current = null;
+    }
+
     const subject = detectSubject(question);
+    const botIndex = chatMessages.length + 1;
 
     setChatMessages((prev) => [...prev, { sender: "user", text: question, subject }]);
     setUserInput("");
@@ -84,35 +90,20 @@ export default function AIChatbot() {
 
       setChatMessages((prev) => [...prev, { sender: "bot", text: "", subject }]);
 
-      await new Promise<void>((resolve) => {
-        if (!answer.length) {
-          resolve();
-          return;
-        }
-
-        let i = 0;
-        typingIntervalRef.current = window.setInterval(() => {
-          const nextText = answer.slice(0, i + 1);
-
+      await animateTypewriter(
+        answer,
+        (nextText) => {
           setChatMessages((prev) => {
-            if (!prev.length) return prev;
-            const last = prev[prev.length - 1];
-            if (last.sender !== "bot") return prev;
+            if (botIndex >= prev.length) return prev;
             const next = [...prev];
-            next[next.length - 1] = { ...last, text: nextText };
+            const current = next[botIndex];
+            if (current?.sender !== "bot") return prev;
+            next[botIndex] = { ...current, text: nextText };
             return next;
           });
-
-          i += 1;
-          if (i >= answer.length) {
-            if (typingIntervalRef.current !== null) {
-              window.clearInterval(typingIntervalRef.current);
-              typingIntervalRef.current = null;
-            }
-            resolve();
-          }
-        }, 18);
-      });
+        },
+        { intervalMs: 18, intervalRef: typingIntervalRef },
+      );
     } catch (error) {
       console.warn("Chatbot send failed", error);
       setChatMessages((prev) => [
@@ -150,40 +141,31 @@ export default function AIChatbot() {
               AI Study Assistant
             </h1>
             <p className="text-sm text-muted-foreground max-w-2xl">
-              Step-by-step academic reasoning with subject detection and math
-              support.
+              Ask anything you're working on — math, essays, concepts — and get step-by-step help, not just the answer.
             </p>
           </div>
 
-          {/* Tabs */}
-          <div className="flex gap-6 mb-6 border-b border-white/10">
-            {TABS.map((tab) => (
-              <button
-                key={tab}
-                onClick={() => setActiveTab(tab)}
-                className={`relative pb-2 text-sm transition ${
-                  activeTab === tab
-                    ? "text-primary"
-                    : "text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                {tab}
-                {activeTab === tab && (
-                  <motion.span
-                    layoutId="tab"
-                    className="absolute left-0 -bottom-[1px] w-full h-0.5 bg-primary rounded-full"
-                  />
-                )}
-              </button>
-            ))}
-          </div>
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+            <TabsList className="mb-6 w-full justify-start gap-2 bg-white/5 border border-white/10 p-1 h-auto">
+              <TabsTrigger value="chat" className="data-[state=active]:bg-primary/20 data-[state=active]:text-primary">
+                Chat
+              </TabsTrigger>
+              <TabsTrigger value="examples" className="data-[state=active]:bg-primary/20 data-[state=active]:text-primary">
+                Examples
+              </TabsTrigger>
+              <TabsTrigger value="how" className="data-[state=active]:bg-primary/20 data-[state=active]:text-primary">
+                How it works
+              </TabsTrigger>
+            </TabsList>
 
-          {/* CHAT */}
-          {activeTab === "Chat" && (
+            <TabsContent value="chat" className="mt-0">
             <div className="h-[65vh] flex flex-col">
               <div
                 ref={chatPanelRef}
                 className="flex-1 p-4 mb-4 overflow-y-auto space-y-4 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl"
+                aria-live="polite"
+                aria-relevant="additions text"
+                aria-label="Chat messages"
               >
                 <AnimatePresence>
                   {chatMessages.length === 0 && !loading && (
@@ -196,7 +178,7 @@ export default function AIChatbot() {
                         Ask anything you’re studying
                       </h3>
                       <p className="text-sm text-muted-foreground">
-                        Math, Physics, Economics — explained step by step.
+                        Math, physics, economics — we'll walk you through it, one step at a time.
                       </p>
                     </motion.div>
                   )}
@@ -278,9 +260,9 @@ export default function AIChatbot() {
                 </button>
               </motion.div>
             </div>
-          )}
+            </TabsContent>
 
-          {activeTab === "Examples" && (
+            <TabsContent value="examples" className="mt-0">
             <div className="grid gap-4 md:grid-cols-2">
               {[
                 {
@@ -304,7 +286,7 @@ export default function AIChatbot() {
                   key={example.prompt}
                   type="button"
                   onClick={() => {
-                    setActiveTab("Chat");
+                    setActiveTab("chat");
                     setUserInput(example.prompt);
                   }}
                   className="text-left rounded-2xl border border-white/10 bg-white/5 p-4 hover:bg-white/10 transition"
@@ -314,20 +296,21 @@ export default function AIChatbot() {
                 </button>
               ))}
             </div>
-          )}
+            </TabsContent>
 
-          {activeTab === "How it works" && (
+            <TabsContent value="how" className="mt-0">
             <div className="space-y-4 max-w-2xl">
               <ol className="list-decimal pl-5 space-y-3 text-sm text-muted-foreground">
-                <li>Ask a question in plain language — paste a problem, essay prompt, or concept you are stuck on.</li>
-                <li>Vertex detects the subject area and responds with step-by-step reasoning (not just the final answer).</li>
-                <li>Math uses LaTeX rendering; you can follow up in the same chat for clarification.</li>
+                <li>Type your question in plain language — a problem, essay prompt, or concept you're stuck on.</li>
+                <li>Vertex figures out the subject and walks you through the reasoning, not just the final answer.</li>
+                <li>Math renders with LaTeX. Follow up in the same chat if something still doesn't click.</li>
               </ol>
               <p className="text-sm text-muted-foreground">
-                Tip: Be specific about your exam board, grade level, or what you have tried already for more targeted help.
+                Tip: mention your exam board, grade level, or what you've already tried — you'll get more useful answers.
               </p>
             </div>
-          )}
+            </TabsContent>
+          </Tabs>
         </div>
       </PageSection>
     </>

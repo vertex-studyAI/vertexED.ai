@@ -9,6 +9,8 @@ import {
 	subtleTextStyle,
 	textareaFieldStyle,
 } from "../styles";
+import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { recordStudySession } from "@/lib/studyStats";
 
 type FormatCommand = "bold" | "italic" | "underline";
 
@@ -56,7 +58,7 @@ const createNoteId = () =>
 		: `${Date.now()}-${Math.random().toString(16).slice(2)}`;
 
 const NoteTaker: React.FC<NoteTakerProps> = ({ accent }) => {
-	const [notes, setNotes] = useState<Note[]>([]);
+	const [notes, setNotes] = useLocalStorage<Note[]>("studyzone_notes", []);
 	const [activeId, setActiveId] = useState<string | null>(null);
 	const [title, setTitle] = useState("");
 	const [content, setContent] = useState("");
@@ -119,6 +121,7 @@ const NoteTaker: React.FC<NoteTakerProps> = ({ accent }) => {
 			...prev,
 		]);
 		setActiveId(newId);
+		recordStudySession();
 	};
 
 	const handleDelete = (id: string) => {
@@ -160,7 +163,7 @@ const NoteTaker: React.FC<NoteTakerProps> = ({ accent }) => {
 					<div style={{ ...scrollAreaStyle, maxHeight: "320px" }}>
 						{sortedNotes.length === 0 ? (
 							<p style={{ ...subtleTextStyle, textAlign: "center", margin: "40px 0" }}>
-								No notes yet — capture your first insight on the right.
+								Nothing here yet — jot down your first thought on the right.
 							</p>
 						) : (
 							sortedNotes.map((note) => (

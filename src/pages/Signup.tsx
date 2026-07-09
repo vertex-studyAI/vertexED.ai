@@ -60,7 +60,7 @@ export default function Signup() {
         >
           <h1 className="text-3xl font-semibold mb-2 text-center text-white">Join the Waitlist</h1>
           <p className="text-center mb-4 text-sm text-white/70 leading-relaxed">
-            Vertex is in private beta. Joining the waitlist does <strong className="text-white/90">not</strong> create an account — we&apos;ll email you when you can sign up.
+            Vertex is in private beta right now. Joining the waitlist doesn&apos;t create an account — we&apos;ll email you when it&apos;s your turn.
           </p>
           <p className="text-center mb-6 text-sm text-white/70">
             Optional:{" "}

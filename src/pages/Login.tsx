@@ -50,7 +50,7 @@ export default function Login() {
           <h1 className="text-3xl font-semibold mb-2 text-center text-white">
             Log in
           </h1>
-          <p className="text-center mb-6 text-sm opacity-80">Welcome back</p>
+          <p className="text-center mb-6 text-sm opacity-80">Good to see you again.</p>
 
           <div className="space-y-4">
             <button
@@ -120,7 +120,7 @@ export default function Login() {
           )}
 
           <p className="text-center mt-4 text-sm text-white/70">
-            No account?{" "}
+            Don&apos;t have an account yet?{" "}
             <Link to="/signup" className="sketch-underline text-white/90 hover:text-white">
               Join waitlist
             </Link>

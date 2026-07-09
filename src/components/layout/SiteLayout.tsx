@@ -5,9 +5,13 @@ import { Helmet } from "react-helmet-async";
 import { RouteSemanticHeadings } from "@/components/SemanticHeadings";
 import { useAuth } from "@/contexts/AuthContext";
 import BreadcrumbsJsonLd from "@/components/BreadcrumbsJsonLd";
+import RouteErrorBoundary from "@/components/RouteErrorBoundary";
+import { isAdminUser } from "@/lib/admin";
+import GlobalChatPanel from "@/components/chat/GlobalChatPanel";
 
 export default function SiteLayout() {
-  const { isAuthenticated, logout } = useAuth();
+  const { isAuthenticated, logout, user } = useAuth();
+  const showAdmin = isAuthenticated && isAdminUser(user);
   const location = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
   const isActive = (to: string) =>
@@ -23,12 +27,20 @@ export default function SiteLayout() {
   const navLinks = [
     { to: "/", label: "Home" },
     { to: "/features", label: "Features" },
+    { to: "/resources", label: "Resources" },
+    { to: "/study-tools", label: "Study Tools" },
     { to: "/about", label: "About" },
     ...(!isAuthenticated ? [{ to: "/login", label: "Login" as const }] : []),
   ];
 
   return (
     <div className="relative min-h-screen flex flex-col bg-transparent text-foreground overflow-x-hidden">
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[100] focus:rounded-lg focus:bg-primary focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-primary-foreground"
+      >
+        Skip to content
+      </a>
       <Helmet>
         <title>VertexED — AI Study Tools for Students | Planner, Notes & Quizzes</title>
         <meta
@@ -91,7 +103,7 @@ export default function SiteLayout() {
                 Account
               </Link>
             )}
-            {isAuthenticated && (
+            {showAdmin && (
               <Link
                 to="/admin/waitlist"
                 className={`nav-link-pill ${
@@ -180,7 +192,7 @@ export default function SiteLayout() {
                 Account
               </Link>
             )}
-            {isAuthenticated && (
+            {showAdmin && (
               <Link
                 to="/admin/waitlist"
                 onClick={() => setMenuOpen(false)}
@@ -217,19 +229,26 @@ export default function SiteLayout() {
         </div>
       </header>
 
-      <main className="relative z-10 flex-1 container mx-auto px-4 md:px-6 pt-6 md:pt-8 pb-10 animate-fade-in">
+      <main
+        id="main-content"
+        className="relative z-10 flex-1 container mx-auto px-4 md:px-6 pt-6 md:pt-8 pb-10 animate-fade-in"
+      >
         <RouteSemanticHeadings />
-        <Suspense
-          fallback={
-            <div className="min-h-[40vh] flex flex-col items-center justify-center gap-3 text-slate-300">
-              <div className="h-9 w-9 rounded-full border-2 border-white/20 border-t-white/90 animate-spin" />
-              <p className="text-sm text-white/70">Loading…</p>
-            </div>
-          }
-        >
-          <Outlet />
-        </Suspense>
+        <RouteErrorBoundary>
+          <Suspense
+            fallback={
+              <div className="min-h-[40vh] flex flex-col items-center justify-center gap-3 text-slate-300">
+                <div className="h-9 w-9 rounded-full border-2 border-white/20 border-t-white/90 animate-spin" />
+                <p className="text-sm text-white/70">Just a moment…</p>
+              </div>
+            }
+          >
+            <Outlet />
+          </Suspense>
+        </RouteErrorBoundary>
       </main>
+
+      <GlobalChatPanel />
     </div>
   );
 }

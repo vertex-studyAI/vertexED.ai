@@ -11,10 +11,10 @@ type StudyGoal = "" | "ace_exams" | "catch_up" | "build_habits" | "understand_be
 type GradeLevel = "" | "middle_school" | "high_school" | "undergraduate" | "other";
 
 const goalOptions: Array<{ value: Exclude<StudyGoal, "">; label: string; detail: string }> = [
-  { value: "ace_exams", label: "Ace upcoming exams", detail: "Build a plan around deadlines and practice." },
-  { value: "catch_up", label: "Catch up on topics", detail: "Focus on missing foundations first." },
-  { value: "build_habits", label: "Build study habits", detail: "Create a steady routine you can keep." },
-  { value: "understand_better", label: "Understand subjects better", detail: "Improve clarity and long-term recall." },
+  { value: "ace_exams", label: "Ace upcoming exams", detail: "We'll help you plan around deadlines and practice what counts." },
+  { value: "catch_up", label: "Catch up on topics", detail: "Start with the gaps — we'll meet you where you are." },
+  { value: "build_habits", label: "Build study habits", detail: "Small routines that stick, not heroic all-nighters." },
+  { value: "understand_better", label: "Understand subjects better", detail: "Go beyond memorizing — actually get it." },
 ];
 
 const gradeOptions: Array<{ value: Exclude<GradeLevel, "">; label: string }> = [
@@ -62,11 +62,11 @@ export default function Onboarding() {
   const canSave = usernameValid && !loading && !redirecting;
 
   const helperText = useMemo(() => {
-    if (!trimmedUsername) return "Pick a clean username that matches your style.";
-    if (trimmedUsername.length < 3) return "Use at least 3 characters.";
+    if (!trimmedUsername) return "Pick something that feels like you.";
+    if (trimmedUsername.length < 3) return "At least 3 characters — you've got this.";
     if (trimmedUsername.length > 20) return "Keep it to 20 characters or fewer.";
-    if (!USERNAME_REGEX.test(trimmedUsername)) return "Use letters, numbers, underscores, dots, or hyphens only.";
-    return "Looks good.";
+    if (!USERNAME_REGEX.test(trimmedUsername)) return "Letters, numbers, underscores, dots, or hyphens only.";
+    return "Looks good — you're all set.";
   }, [trimmedUsername]);
 
   const save = async (withPreferences: boolean) => {
@@ -123,7 +123,7 @@ export default function Onboarding() {
           <div className="glass-panel w-full max-w-md p-8 text-center text-white">
             <div className="mx-auto mb-4 h-12 w-12 animate-spin rounded-full border-2 border-white/20 border-t-white/80" />
             <h1 className="text-2xl font-semibold">Taking you to your dashboard…</h1>
-            <p className="mt-2 text-sm text-white/70">Your profile is already set up.</p>
+            <p className="mt-2 text-sm text-white/70">You're already set up — heading to your dashboard.</p>
           </div>
         </PageSection>
       </>
@@ -148,7 +148,7 @@ export default function Onboarding() {
               </div>
               <h1 className="text-3xl font-semibold tracking-tight text-white md:text-4xl">Choose your username</h1>
               <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-white/70 md:text-base">
-                This helps personalise your space, save preferences, and make your study flow feel more yours.
+                This is how we'll greet you and remember your preferences. Make it yours.
               </p>
             </div>
 
@@ -269,7 +269,7 @@ export default function Onboarding() {
               </div>
 
               <p className="text-center text-xs leading-relaxed text-white/50">
-                You can change these later from your profile settings.
+                Don't worry — you can change any of this later in settings.
               </p>
             </form>
           </div>

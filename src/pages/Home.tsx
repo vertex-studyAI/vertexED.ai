@@ -639,10 +639,10 @@ export default function Home() {
                 <span className="text-xl md:text-2xl font-semibold mt-2 opacity-90">
                   <FlipWords
                     words={[
-                      "Learn quicker than ever before",
-                      "Unlock endless resources",
-                      "Gain feedback for when it really matters",
-                      "Understand beyond the book",
+                      "Learn faster without burning out",
+                      "Find resources that actually help",
+                      "Get feedback when it counts",
+                      "Go deeper than the textbook",
                     ]}
                     interval={2400}
                   />
@@ -656,7 +656,7 @@ export default function Home() {
 
           <p className="text-lg md:text-xl text-slate-200 mb-6 pop-up highlight-clip leading-relaxed max-w-3xl mx-auto">
             <span className="hl-inner">
-              You asked, we delivered. Welcome to a place where you can truly learn, explore and grow in knowledge while putting it into the kind of work that earns results.
+              You asked for better study tools — here they are. Learn deeply, practice smart, and watch it show up in your results.
             </span>
           </p>
 
@@ -673,7 +673,7 @@ export default function Home() {
 
       <div className="max-w-3xl mx-auto px-6 mt-6 pop-up cinematic-text">
         <div className="text-sm text-slate-400 text-center">
-          Feeling lost... <Link to="/resources" className="link-underline-animate">Explore resources</Link>
+          Feeling lost? <Link to="/resources" className="link-underline-animate">Browse our study guides</Link>
         </div>
       </div>
 
@@ -766,7 +766,7 @@ export default function Home() {
       <section className="mt-8 px-6 mb-12 cinematic-section">
         <div className="max-w-3xl mx-auto glass-panel p-8 text-slate-100 relative">
           <h3 className="text-3xl font-bold mb-4 hover-text-morph transition-all duration-300">Contact Us</h3>
-          <p className="text-slate-300 mb-6 text-lg">Have a question? Fill out the form and we will get back to you.</p>
+          <p className="text-slate-300 mb-6 text-lg">Got a question? Drop us a line and we'll get back to you.</p>
           <form action="https://formspree.io/f/mldpklqk" method="POST" className="space-y-4">
             <label className="block text-left">
               <span className="text-base text-slate-300 mb-2 block font-medium">Your email</span>
@@ -777,7 +777,7 @@ export default function Home() {
                 required
                 className="w-full rounded-xl p-3 bg-white/8 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-sky-400/60 transition-all text-white border border-white/18 backdrop-blur-md"
               />
-              <div className="text-sm text-slate-400 mt-2">Example: steve.jobs@gmail.com</div>
+              <div className="text-sm text-slate-400 mt-2">e.g. steve.jobs@gmail.com</div>
             </label>
             <label className="block text-left">
               <span className="text-base text-slate-300 mb-2 block font-medium">Your message</span>
@@ -788,7 +788,7 @@ export default function Home() {
                 required
                 className="w-full rounded-xl p-3 bg-white/8 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-sky-400/60 transition-all text-white border border-white/18 backdrop-blur-md"
               />
-              <div className="text-sm text-slate-400 mt-2">Briefly tell us what you'd like help with</div>
+              <div className="text-sm text-slate-400 mt-2">Tell us what's on your mind — no need to be formal</div>
             </label>
             <div className="flex items-center justify-between flex-wrap gap-4">
               <button type="submit" className="btn-cinematic btn-solid">

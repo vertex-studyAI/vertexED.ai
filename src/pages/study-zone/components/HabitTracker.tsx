@@ -9,6 +9,8 @@ import {
 	selectFieldStyle,
 	subtleTextStyle,
 } from "../styles";
+import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { recordStudySession } from "@/lib/studyStats";
 
 interface Habit {
 	name: string;
@@ -44,7 +46,7 @@ const progressTrackStyle: React.CSSProperties = {
 };
 
 const HabitTracker: React.FC<HabitTrackerProps> = ({ accent }) => {
-	const [habits, setHabits] = useState<Habit[]>([]);
+	const [habits, setHabits] = useLocalStorage<Habit[]>("studyzone_habits", []);
 	const [draftName, setDraftName] = useState("");
 	const [frequency, setFrequency] = useState("Daily");
 	const [editingIndex, setEditingIndex] = useState<number | null>(null);
@@ -112,6 +114,7 @@ const HabitTracker: React.FC<HabitTrackerProps> = ({ accent }) => {
 					: habit,
 			),
 		);
+		if (!habits[index]?.completed) recordStudySession();
 	};
 
 	const editHabit = (index: number) => {

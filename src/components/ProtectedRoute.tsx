@@ -8,7 +8,7 @@ export default function ProtectedRoute({ children }: { children: JSX.Element }) 
     return (
       <div className="min-h-[50vh] flex flex-col items-center justify-center gap-3 text-slate-300">
         <div className="h-8 w-8 rounded-full border-2 border-white/25 border-t-white animate-spin" />
-        <p className="text-sm text-slate-300/90">Checking your session…</p>
+        <p className="text-sm text-slate-300/90">Hang on — checking your session…</p>
       </div>
     );
   }

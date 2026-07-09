@@ -76,7 +76,7 @@ const heroSubtitleStyle: React.CSSProperties = {
 
 const widgetGridStyle: React.CSSProperties = {
   display: "grid",
-  gridTemplateColumns: "repeat(auto-fit, minmax(360px, 1fr))",
+  gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 300px), 1fr))",
   gap: "28px",
 };
 
@@ -118,7 +118,7 @@ const StudyZonePage: React.FC = () => {
       {
         key: "timer",
         title: "Timer Suite",
-        description: "Classic countdown, stopwatch, and Pomodoro flows for structured focus blocks.",
+        description: "Countdown, stopwatch, or Pomodoro — whatever helps you lock in.",
         accent: "hsl(199 84% 62%)",
         badge: "Focus",
         span: "wide",
@@ -126,7 +126,7 @@ const StudyZonePage: React.FC = () => {
       {
         key: "assistant",
         title: "AI Assistant",
-        description: "Chat with Vertex AI for study plans, clarifications, or quick brainstorming.",
+        description: "Need a plan or a quick explanation? Just ask.",
         accent: "hsl(168 72% 58%)",
         badge: "AI",
         span: "wide",
@@ -134,25 +134,25 @@ const StudyZonePage: React.FC = () => {
       {
         key: "activity",
         title: "Activity Log",
-        description: "Capture wins, setbacks, and milestones across your study journey.",
+        description: "Jot down wins, rough patches, and milestones as you go.",
         accent: "hsl(12 78% 64%)",
       },
       {
         key: "calendar",
         title: "Monthly Calendar",
-        description: "Visualize upcoming work, anchor habits, and plan deep work rotations.",
+        description: "See what's coming up and block time for the work that matters.",
         accent: "hsl(222 74% 72%)",
       },
       {
         key: "calculator",
         title: "Scientific Calculator",
-        description: "Evaluate expressions with trig, logs, roots, and constants at your fingertips.",
+        description: "Trig, logs, roots, constants — the usual suspects, built in.",
         accent: "hsl(47 92% 68%)",
       },
       {
         key: "graphing",
         title: "Graphing Suite",
-        description: "Launch Desmos classic and 3D graphing environments without leaving Study Zone.",
+        description: "Open Desmos classic or 3D without leaving the page.",
         accent: "hsl(199 82% 65%)",
         badge: "New",
         span: "wide",
@@ -160,20 +160,20 @@ const StudyZonePage: React.FC = () => {
       {
         key: "habits",
         title: "Habit Tracker",
-        description: "Design routines, monitor streaks, and keep momentum every single day.",
+        description: "Set small routines, track streaks, and keep showing up.",
         accent: "hsl(199 68% 60%)",
         badge: "New",
       },
       {
         key: "meditation",
         title: "Breath Meditation",
-        description: "Reset with inhale/exhale guidance tuned to your ideal cadence.",
+        description: "A few guided breaths when you need to reset.",
         accent: "hsl(266 72% 74%)",
       },
       {
         key: "notes",
-        title: "Note Taker",
-        description: "Rich-text capture for lecture notes, quick ideas, or revision prompts.",
+        title: "Quick Notes",
+        description: "Quick capture for ideas mid-session. (For full AI notes, head to AI Notes.)",
         accent: "hsl(199 62% 60%)",
       },
     ],
@@ -226,7 +226,7 @@ const StudyZonePage: React.FC = () => {
         </span>
         <h1 style={heroTitleStyle}>Craft Your Focus Command Center</h1>
         <p style={heroSubtitleStyle}>
-          Timers, AI coaching, notes, restorative breathing, and graphing tools — every study aid flows directly on this page in one continuous workspace.
+          Timers, AI help, quick notes, breathing exercises, and graphing — all on one page, so you never have to tab-hop.
         </p>
       </header>
 

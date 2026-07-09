@@ -1,4 +1,16 @@
 import { authFetch } from '@/lib/apiAuth';
+import type { StudyPageContext } from '@/lib/studyContext';
+
+export interface ChatbotMessage {
+  role: 'user' | 'assistant';
+  text: string;
+}
+
+export interface ChatbotRequest {
+  question: string;
+  history?: ChatbotMessage[];
+  context?: StudyPageContext;
+}
 
 interface ChatbotResponse {
 	answer?: string;
@@ -27,8 +39,20 @@ const parseJsonSafe = async (response: Response): Promise<ChatbotResponse | null
 	}
 };
 
-export const fetchChatbotAnswer = async (question: string): Promise<ChatbotResponse> => {
-	const payload = JSON.stringify({ question });
+export const fetchChatbotAnswer = async (
+  questionOrRequest: string | ChatbotRequest,
+): Promise<ChatbotResponse> => {
+  const request: ChatbotRequest =
+    typeof questionOrRequest === "string"
+      ? { question: questionOrRequest }
+      : questionOrRequest;
+
+  const payload = JSON.stringify({
+    question: request.question,
+    history: request.history?.slice(-10),
+    context: request.context,
+  });
+
 	const endpoints = buildEndpoints();
 	let lastError: unknown = null;
 

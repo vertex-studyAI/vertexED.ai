@@ -1,10 +1,11 @@
 import NeumorphicCard from "@/components/NeumorphicCard";
 
 import { Link } from "react-router-dom";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { TypeAnimation } from "react-type-animation";
 import { Helmet } from "react-helmet-async";
-import { Settings as SettingsIcon } from "lucide-react";
+import { Flame, Settings as SettingsIcon, Sparkles, Target, TrendingUp } from "lucide-react";
+import { getStudyStats, type StudyStats } from "@/lib/studyStats";
 
 type Tile = {
   title: string;
@@ -14,6 +15,7 @@ type Tile = {
 };
 
 export default function Main() {
+  const [stats, setStats] = useState<StudyStats | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const tilesRef = useRef(
     new Map<
@@ -30,15 +32,23 @@ export default function Main() {
   );
 
   const tiles: Tile[] = [
-    { title: "Study Zone", to: "/study-zone", info: "All-in-1 workspace: calculators, activity logs, and focused-session helpers.", icon: studyIcon() },
-    { title: "AI Chatbot", to: "/chatbot", info: "A discussion-first agent for explanations, research prompts and step-by-step help.", icon: chatIcon() },
-    { title: "Study Planner", to: "/planner", info: "Adaptive schedule builder that fits practice around life and priorities.", icon: plannerIcon() },
-    { title: "Answer Reviewer", to: "/answer-reviewer", info: "Rubric-aware feedback with clear, actionable steps to raise your grade.", icon: reviewIcon() },
-    { title: "Paper Maker", to: "/paper-maker", info: "Board-aligned practice papers with authentic phrasing and mark schemes.", icon: paperIcon() },
-    { title: "Note Taker + Flashcards", to: "/notetaker", info: "Capture lectures, auto-summarise and turn notes into flashcards & quizzes.", icon: notesIcon() },
-    { title: "Archives Subjects", to: "/archives", info: "Browse subject-wise archived papers, curated by topic and difficulty.", icon: archiveIcon() },
+    { title: "Study Zone", to: "/study-zone", info: "Your all-in-one desk — timers, notes, graphing, and more.", icon: studyIcon() },
+    { title: "AI Chatbot", to: "/chatbot", info: "Stuck on something? Ask for explanations, steps, or ideas.", icon: chatIcon() },
+    { title: "Study Planner", to: "/planner", info: "Build a schedule that actually fits around your life.", icon: plannerIcon() },
+    { title: "Answer Reviewer", to: "/answer-reviewer", info: "Get honest feedback and see exactly where to improve.", icon: reviewIcon() },
+    { title: "Paper Maker", to: "/paper-maker", info: "Practice papers that sound like the real thing, with mark schemes.", icon: paperIcon() },
+    { title: "AI Notes + Flashcards", to: "/notetaker", info: "Turn lectures into notes, flashcards, and quizzes.", icon: notesIcon() },
+    { title: "Study Tools Hub", to: "/study-tools", info: "Formula sheets, study techniques, and quick tool links.", icon: toolsIcon() },
+    { title: "Archives Subjects", to: "/archives", info: "Curated notes and exemplars, sorted by subject.", icon: archiveIcon() },
     // settings rendered in header
   ];
+
+  useEffect(() => {
+    setStats(getStudyStats());
+    const onFocus = () => setStats(getStudyStats());
+    window.addEventListener("focus", onFocus);
+    return () => window.removeEventListener("focus", onFocus);
+  }, []);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -178,11 +188,10 @@ export default function Main() {
               <TypeAnimation sequence={[700, "Welcome to Vertex AI", 1200, "Pick a tool and get into flow."]} wrapper="span" cursor={false} />
             </h1>
             <p className="mt-4 text-white/70 max-w-2xl leading-relaxed">
-              Your dashboard groups every study tool in one place. Tap a tile to open a focused workspace designed around
-              research-backed learning.
+              Everything you need to study lives here. Pick a tool and jump straight in — no hunting through menus.
             </p>
             <p className="mt-3 text-xs text-white/45 max-w-xl">
-              Use Study Zone for deep sessions, Paper Maker for board-specific practice, and Answer Reviewer to sharpen exam technique.
+              Study Zone for deep focus, Paper Maker for practice papers, Answer Reviewer when you want a second pair of eyes.
             </p>
           </div>
 
@@ -197,6 +206,17 @@ export default function Main() {
         </div>
       </section>
 
+      {stats && (
+        <section className="px-6 pb-8 fade-up">
+          <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-4">
+            <StatCard icon={<Flame className="h-5 w-5 text-orange-400" />} label="Study streak" value={`${stats.studyStreak} day${stats.studyStreak === 1 ? "" : "s"}`} />
+            <StatCard icon={<Target className="h-5 w-5 text-primary" />} label="Habits done" value={`${stats.habitsDoneToday}/${stats.habitCount}`} />
+            <StatCard icon={<TrendingUp className="h-5 w-5 text-emerald-400" />} label="Activity log" value={String(stats.activityEntries)} />
+            <StatCard icon={<Sparkles className="h-5 w-5 text-violet-400" />} label="Quick notes" value={String(stats.quickNotes)} />
+          </div>
+        </section>
+      )}
+
       {/* Tiles */}
       <section className="px-6 pb-12">
         <div className="max-w-7xl mx-auto">
@@ -208,9 +228,6 @@ export default function Main() {
                   <div className="tile-shadow h-full rounded-xl transition-all duration-400" style={{ boxShadow: "0 12px 40px rgba(0,0,0,0.25)" }}>
                     <div
                       className="tile h-56 md:h-64 w-full"
-                      role="button"
-                      tabIndex={0}
-                      aria-hidden={false}
                       style={{ transformStyle: "preserve-3d", willChange: "transform" }}
                     >
                       <NeumorphicCard
@@ -229,7 +246,7 @@ export default function Main() {
                           </div>
 
                           {/* icon description for screen readers */}
-                          <div className="sr-only">{t.title} icon — {t.info}</div>
+                          <span className="sr-only">{t.title} — {t.info}</span>
                         </div>
 
                         <div className="flex items-center justify-between mt-3">
@@ -253,7 +270,7 @@ export default function Main() {
         <div className="max-w-6xl mx-auto text-center">
           <h3 className="text-2xl md:text-3xl font-semibold text-white mb-4">Ready to get back into flow?</h3>
           <p className="text-slate-300 mb-6">
-            Use the dashboard to jump straight into focused work — all the tools you need, in one elegant rectangle.
+            Pick up where you left off — your tools are right here whenever you're ready.
           </p>
 
           <Link to="/study-zone" className="btn-glass px-8">
@@ -322,5 +339,24 @@ function archiveIcon() {
       <path d="M21 7v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
       <path d="M9 11h6" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
+  );
+}
+function toolsIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+      <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function StatCard({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) {
+  return (
+    <div className="glass-tile rounded-2xl border border-white/10 px-4 py-3 flex items-center gap-3">
+      <div className="shrink-0">{icon}</div>
+      <div>
+        <p className="text-xs text-white/50">{label}</p>
+        <p className="text-lg font-semibold text-white">{value}</p>
+      </div>
+    </div>
   );
 }

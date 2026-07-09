@@ -185,7 +185,7 @@ const Calculator: React.FC<CalculatorProps> = ({ accent }) => {
 		>
 			<div>
 				<h2 style={{ margin: 0, fontSize: "20px", fontWeight: 600 }}>Scientific Calculator</h2>
-				<p style={subtleTextStyle}>Includes trig, logarithms, square roots, constants, and more.</p>
+				<p style={subtleTextStyle}>Trig, logs, square roots, constants — the math you reach for most often.</p>
 			</div>
 
 			<div style={displayStyle}>

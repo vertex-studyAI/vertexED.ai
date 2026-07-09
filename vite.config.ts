@@ -93,6 +93,7 @@ export default defineConfig(({ mode }) => {
           mountJsonApi('/api/paper-generator', './api/paper-generator.js');
           mountJsonApi('/api/planner', './api/planner.js');
           mountJsonApi('/api/review-post', './api/review-post.js');
+          mountJsonApi('/api/user-content', './api/user-content.js');
 
           server.middlewares.use('/api/review', (req, res, next) => {
             if (req.method !== 'POST') {

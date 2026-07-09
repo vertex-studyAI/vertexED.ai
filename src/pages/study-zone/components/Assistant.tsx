@@ -6,6 +6,7 @@ import {
 	subtleTextStyle,
 } from "../styles";
 import { fetchChatbotAnswer } from "@/lib/chatbotApi";
+import { animateTypewriter } from "@/lib/typewriter";
 
 type Sender = "user" | "assistant";
 
@@ -119,45 +120,19 @@ const Assistant: React.FC<AssistantProps> = ({ accent, onClose }) => {
 				},
 			]);
 
-			await new Promise<void>((resolve) => {
-				if (!botAnswer.length) {
-					resolve();
-					return;
-				}
-
-				let index = 0;
-				typingIntervalRef.current = window.setInterval(() => {
-					const nextText = botAnswer.slice(0, index + 1);
-
+			await animateTypewriter(
+				botAnswer,
+				(nextText) => {
 					setMessages((prev) => {
 						const updated = [...prev];
 						const messageIndex = updated.findIndex((message) => message.id === assistantId);
-						if (messageIndex === -1) {
-							if (typingIntervalRef.current !== null) {
-								window.clearInterval(typingIntervalRef.current);
-								typingIntervalRef.current = null;
-							}
-							resolve();
-							return prev;
-						}
-						const currentMessage = updated[messageIndex];
-						updated[messageIndex] = {
-							...currentMessage,
-							text: nextText,
-						};
+						if (messageIndex === -1) return prev;
+						updated[messageIndex] = { ...updated[messageIndex], text: nextText };
 						return updated;
 					});
-
-					index += 1;
-					if (index >= botAnswer.length) {
-						if (typingIntervalRef.current !== null) {
-							window.clearInterval(typingIntervalRef.current);
-							typingIntervalRef.current = null;
-						}
-						resolve();
-					}
-				}, 20);
-			});
+				},
+				{ intervalMs: 20, intervalRef: typingIntervalRef },
+			);
 		} catch (error) {
 			console.error("Assistant error:", error);
 			setMessages((prev) => [
@@ -195,7 +170,7 @@ const Assistant: React.FC<AssistantProps> = ({ accent, onClose }) => {
 					/>
 					<div>
 						<h2 style={{ margin: 0, fontSize: "20px", fontWeight: 600 }}>AI Assistant</h2>
-						<p style={subtleTextStyle}>Ask for study plans, explanations, or brainstorming help.</p>
+						<p style={subtleTextStyle}>Ask for a study plan, an explanation, or help thinking something through.</p>
 					</div>
 				</div>
 				{typeof onClose === "function" ? (
@@ -205,10 +180,15 @@ const Assistant: React.FC<AssistantProps> = ({ accent, onClose }) => {
 				) : null}
 			</div>
 
-			<div style={chatSurfaceStyle}>
+			<div
+				style={chatSurfaceStyle}
+				aria-live="polite"
+				aria-relevant="additions text"
+				aria-label="Chat messages"
+			>
 				{messages.length === 0 ? (
 					<div style={{ ...subtleTextStyle, textAlign: "center", marginTop: "auto", marginBottom: "auto" }}>
-						Say hello! Ask for a revision schedule or a quick explanation.
+						Say hello — ask for a revision plan or a quick explanation of anything you're stuck on.
 					</div>
 				) : (
 					messages.map((message) => (

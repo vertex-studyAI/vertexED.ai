@@ -8,6 +8,8 @@ import {
 	primaryButtonStyle,
 	subtleTextStyle,
 } from "../styles";
+import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { recordStudySession } from "@/lib/studyStats";
 
 interface ActivityLogEntry {
 	id: string;
@@ -41,7 +43,7 @@ const metaTextStyle: React.CSSProperties = {
 };
 
 const ActivityLog: React.FC<ActivityLogProps> = ({ accent }) => {
-	const [entries, setEntries] = useState<ActivityLogEntry[]>([]);
+	const [entries, setEntries] = useLocalStorage<ActivityLogEntry[]>("studyzone_activity", []);
 	const [draft, setDraft] = useState("");
 
 	const addEntry = () => {
@@ -56,6 +58,7 @@ const ActivityLog: React.FC<ActivityLogProps> = ({ accent }) => {
 		};
 		setEntries((prev) => [entry, ...prev]);
 		setDraft("");
+		recordStudySession();
 	};
 
 	const removeEntry = (id: string) => {
@@ -69,7 +72,7 @@ const ActivityLog: React.FC<ActivityLogProps> = ({ accent }) => {
 			<div style={sectionHeaderStyle}>
 				<div>
 					<h2 style={{ margin: 0, fontSize: "20px", fontWeight: 600 }}>Activity Log</h2>
-					<p style={subtleTextStyle}>Capture quick wins, session notes, or reflections.</p>
+					<p style={subtleTextStyle}>Log wins, rough notes, or anything worth remembering.</p>
 				</div>
 				<div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
 					<span style={accentDotStyle(accent)} />

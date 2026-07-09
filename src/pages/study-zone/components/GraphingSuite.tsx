@@ -61,7 +61,7 @@ const GraphingSuite: React.FC<GraphingSuiteProps> = ({ accent }) => {
 			</div>
 
 			<p style={descriptionStyle}>
-				Start plotting instantly. Use the calculator tab for classics like parabolas and trig functions or switch to 3D to explore surfaces and vectors. Saved state lives locally in your browser.
+				Start plotting right away — parabolas, trig, surfaces, vectors. Switch between 2D and 3D anytime. Your work saves locally in your browser.
 			</p>
 		</div>
 	);

@@ -25,25 +25,25 @@ const NotFound = () => {
           <h1 className="text-6xl font-bold mb-2 brand-text-gradient">404</h1>
           <h2 className="text-2xl font-semibold text-slate-200 mb-6">Page Not Found</h2>
           <p className="text-lg text-slate-400 mb-8">
-            The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.
+            This page doesn't exist — maybe it moved, or maybe the link was off. Either way, you're not lost for long.
           </p>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8 text-left">
             <Link to="/" className="glass-tile p-4 transition-colors group">
               <span className="block text-sky-400 font-semibold mb-1 group-hover:text-sky-300">Home</span>
-              <span className="text-sm text-slate-400">Return to the main page</span>
+              <span className="text-sm text-slate-400">Back to the start</span>
             </Link>
             <Link to="/features" className="glass-tile p-4 transition-colors group">
               <span className="block text-purple-400 font-semibold mb-1 group-hover:text-purple-300">Features</span>
-              <span className="text-sm text-slate-400">Explore our tools</span>
+              <span className="text-sm text-slate-400">See what Vertex can do</span>
             </Link>
             <Link to="/resources" className="glass-tile p-4 transition-colors group">
               <span className="block text-emerald-400 font-semibold mb-1 group-hover:text-emerald-300">Resources</span>
-              <span className="text-sm text-slate-400">Study guides & tips</span>
+              <span className="text-sm text-slate-400">Study guides and tips</span>
             </Link>
             <Link to="/login" className="glass-tile p-4 transition-colors group">
               <span className="block text-amber-400 font-semibold mb-1 group-hover:text-amber-300">Login</span>
-              <span className="text-sm text-slate-400">Access your account</span>
+              <span className="text-sm text-slate-400">Sign in to your account</span>
             </Link>
           </div>
 

@@ -3,6 +3,8 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import PageSection from "@/components/PageSection";
 import NeumorphicCard from "@/components/NeumorphicCard";
 import { authFetch } from "@/lib/apiAuth";
+import { setChatHandoff } from "@/lib/userContent";
+import { Link, useNavigate } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
@@ -110,6 +112,7 @@ function uniqueId() {
 }
 
 export default function AIAnswerReview() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState<FormState>(initialFormState);
   const [questionImages, setQuestionImages] = useState<Attachment[]>([]);
   const [answerImages, setAnswerImages] = useState<Attachment[]>([]);
@@ -371,7 +374,7 @@ export default function AIAnswerReview() {
                     <Badge><Sparkles size={12} /> Strict feedback</Badge>
                   </div>
                   <p className="mt-2 max-w-2xl text-sm leading-relaxed text-white/65">
-                    Submit a question and answer set for detailed grading, rubric-style feedback, and a polished review you can copy or download.
+                    Paste your question and answer. We'll grade it like a teacher would — with clear feedback you can copy or download.
                   </p>
                 </div>
               </div>
@@ -576,7 +579,7 @@ export default function AIAnswerReview() {
                           <option key={v} value={String(v)}>{v}</option>
                         ))}
                       </select>
-                      <div className="text-sm text-white/55">Higher values make the AI harsher and more detail-focused.</div>
+                      <div className="text-sm text-white/55">Higher = tougher grading and more detail in the feedback.</div>
                     </div>
                   </div>
 
@@ -672,6 +675,22 @@ export default function AIAnswerReview() {
                             <button onClick={handleDownload} className="neu-button inline-flex items-center gap-2 rounded-2xl px-3 py-2 text-sm">
                               <Download size={14} /> Download
                             </button>
+                            <button
+                              type="button"
+                              className="neu-button inline-flex items-center gap-2 rounded-2xl px-3 py-2 text-sm bg-primary/15 border-primary/25"
+                              onClick={() => {
+                                setChatHandoff({
+                                  source: "answer-reviewer",
+                                  subject: formData.subject,
+                                  question: formData.question,
+                                  answer: formData.answer,
+                                  feedback: response.slice(0, 2000),
+                                });
+                                navigate("/chatbot");
+                              }}
+                            >
+                              <MessageSquareQuote size={14} /> Discuss in Chat
+                            </button>
                             <button onClick={() => setShowRaw((s) => !s)} className="neu-button px-3 py-2 text-sm">
                               {showRaw ? "Hide raw" : "Show raw"}
                             </button>
@@ -699,7 +718,7 @@ export default function AIAnswerReview() {
                             </div>
                             <div className="text-base font-medium text-white/80">Your AI feedback will appear here.</div>
                             <p className="mx-auto mt-2 max-w-sm text-sm leading-relaxed text-white/55">
-                              Add a question and answer, choose a strictness level, and submit for teacher-style review.
+                              Add your question and answer, choose how strict you want the feedback, and hit submit.
                             </p>
                           </div>
                         </motion.div>
