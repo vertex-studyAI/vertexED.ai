@@ -11,6 +11,12 @@ export type StudyArtifact = {
   updated_at: string;
 };
 
+export type StudyArtifactListResult = {
+  ok: boolean;
+  items: StudyArtifact[];
+  error?: string;
+};
+
 export async function saveStudyArtifact(
   kind: StudyArtifactKind,
   title: string,
@@ -31,14 +37,31 @@ export async function saveStudyArtifact(
 }
 
 export async function listStudyArtifacts(kind?: StudyArtifactKind): Promise<StudyArtifact[]> {
+  const result = await listStudyArtifactsDetailed(kind);
+  return result.items;
+}
+
+export async function listStudyArtifactsDetailed(
+  kind?: StudyArtifactKind,
+): Promise<StudyArtifactListResult> {
   try {
     const qs = kind ? `?kind=${kind}&limit=30` : '?limit=30';
     const res = await authFetch(`/api/user-content${qs}`);
-    const data = await res.json();
-    if (!res.ok) return [];
-    return Array.isArray(data?.items) ? data.items : [];
-  } catch {
-    return [];
+    const data = await res.json().catch(() => null);
+    if (!res.ok) {
+      return {
+        ok: false,
+        items: [],
+        error: data?.error || 'Unable to load saved study work',
+      };
+    }
+    return { ok: true, items: Array.isArray(data?.items) ? data.items : [] };
+  } catch (err) {
+    return {
+      ok: false,
+      items: [],
+      error: err instanceof Error ? err.message : 'Unable to load saved study work',
+    };
   }
 }
 

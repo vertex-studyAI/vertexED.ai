@@ -2,11 +2,15 @@ import { Helmet } from "react-helmet-async";
 import NeumorphicCard from "@/components/NeumorphicCard";
 import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
-import { User, LogOut, Settings } from "lucide-react";
+import { User, LogOut, Settings, RefreshCw, AlertTriangle } from "lucide-react";
 import PageSection from "@/components/PageSection";
 import { useEffect, useState } from "react";
 import { getStudyStats } from "@/lib/studyStats";
-import { listStudyArtifacts, type StudyArtifact } from "@/lib/userContent";
+import {
+  listStudyArtifacts,
+  listStudyArtifactsDetailed,
+  type StudyArtifact,
+} from "@/lib/userContent";
 
 function formatMemberSince(createdAt?: string | null): string {
   if (!createdAt) return "—";
@@ -25,9 +29,19 @@ export default function UserSettings() {
   const { logout, user, profile } = useAuth();
   const navigate = useNavigate();
   const [artifacts, setArtifacts] = useState<StudyArtifact[]>([]);
+  const [loadingArtifacts, setLoadingArtifacts] = useState(true);
+  const [artifactError, setArtifactError] = useState<string | null>(null);
+
+  const loadArtifacts = async () => {
+    setLoadingArtifacts(true);
+    const result = await listStudyArtifactsDetailed();
+    setArtifacts(result.items);
+    setArtifactError(result.ok ? null : result.error || "Unable to load saved work.");
+    setLoadingArtifacts(false);
+  };
 
   useEffect(() => {
-    listStudyArtifacts().then(setArtifacts);
+    void loadArtifacts();
   }, []);
 
   const handleLogout = async () => {
@@ -121,12 +135,32 @@ export default function UserSettings() {
           </NeumorphicCard>
 
           <NeumorphicCard className="p-8" title="Saved Study Work">
-            {artifacts.length === 0 ? (
+            {loadingArtifacts ? (
+              <p className="text-sm text-muted-foreground">Loading saved study work...</p>
+            ) : artifactError ? (
+              <div className="space-y-3">
+                <p className="text-sm text-amber-300 flex items-start gap-2">
+                  <AlertTriangle className="h-4 w-4 mt-0.5 shrink-0" />
+                  <span>{artifactError}</span>
+                </p>
+                <button
+                  onClick={() => void loadArtifacts()}
+                  className="neu-button px-3 py-2 text-sm inline-flex items-center gap-2"
+                >
+                  <RefreshCw className="h-3.5 w-3.5" />
+                  Retry loading
+                </button>
+              </div>
+            ) : artifacts.length === 0 ? (
               <p className="text-sm text-muted-foreground">
                 Generate notes, papers, or reviews — they&apos;ll appear here when cloud save is active.
               </p>
             ) : (
-              <ul className="space-y-3 text-sm">
+              <div className="space-y-3">
+                <div className="text-xs text-muted-foreground">
+                  {artifacts.length} saved item{artifacts.length === 1 ? "" : "s"}
+                </div>
+                <ul className="space-y-3 text-sm">
                 {artifacts.slice(0, 12).map((item) => (
                   <li
                     key={item.id}
@@ -136,7 +170,8 @@ export default function UserSettings() {
                     <span className="text-muted-foreground shrink-0 capitalize">{item.kind}</span>
                   </li>
                 ))}
-              </ul>
+                </ul>
+              </div>
             )}
           </NeumorphicCard>
 
