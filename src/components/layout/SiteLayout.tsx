@@ -8,6 +8,7 @@ import BreadcrumbsJsonLd from "@/components/BreadcrumbsJsonLd";
 import RouteErrorBoundary from "@/components/RouteErrorBoundary";
 import { isAdminUser } from "@/lib/admin";
 import GlobalChatPanel from "@/components/chat/GlobalChatPanel";
+import CloudSaveBanner from "@/components/CloudSaveBanner";
 
 export default function SiteLayout() {
   const { isAuthenticated, logout, user } = useAuth();
@@ -234,6 +235,7 @@ export default function SiteLayout() {
         className="relative z-10 flex-1 container mx-auto px-4 md:px-6 pt-6 md:pt-8 pb-10 animate-fade-in"
       >
         <RouteSemanticHeadings />
+        <CloudSaveBanner />
         <RouteErrorBoundary>
           <Suspense
             fallback={

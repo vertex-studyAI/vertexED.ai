@@ -4,8 +4,10 @@ import { Link } from "react-router-dom";
 import React, { useEffect, useRef, useState } from "react";
 import { TypeAnimation } from "react-type-animation";
 import { Helmet } from "react-helmet-async";
-import { Flame, Settings as SettingsIcon, Sparkles, Target, TrendingUp } from "lucide-react";
+import { Flame, Settings as SettingsIcon, Sparkles, Target, TrendingUp, Zap, Brain, FileText, MessageCircle, BookOpen } from "lucide-react";
 import { getStudyStats, type StudyStats } from "@/lib/studyStats";
+import { getDueFlashcardCount } from "@/lib/srDeck";
+import { listStudyArtifactsDetailed, type StudyArtifact } from "@/lib/userContent";
 
 type Tile = {
   title: string;
@@ -16,6 +18,8 @@ type Tile = {
 
 export default function Main() {
   const [stats, setStats] = useState<StudyStats | null>(null);
+  const [dueFlashcards, setDueFlashcards] = useState(0);
+  const [recentArtifacts, setRecentArtifacts] = useState<StudyArtifact[]>([]);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const tilesRef = useRef(
     new Map<
@@ -44,10 +48,14 @@ export default function Main() {
   ];
 
   useEffect(() => {
-    setStats(getStudyStats());
-    const onFocus = () => setStats(getStudyStats());
-    window.addEventListener("focus", onFocus);
-    return () => window.removeEventListener("focus", onFocus);
+    const refresh = () => {
+      setStats(getStudyStats());
+      setDueFlashcards(getDueFlashcardCount());
+    };
+    refresh();
+    void listStudyArtifactsDetailed().then((r) => setRecentArtifacts(r.items.slice(0, 4)));
+    window.addEventListener("focus", refresh);
+    return () => window.removeEventListener("focus", refresh);
   }, []);
 
   useEffect(() => {
@@ -171,6 +179,16 @@ export default function Main() {
     };
   }, []);
 
+  const suggestions = stats
+    ? [
+        dueFlashcards > 0 && `Review ${dueFlashcards} flashcard${dueFlashcards === 1 ? "" : "s"} due today`,
+        stats.habitsDoneToday < stats.habitCount &&
+          stats.habitCount > 0 &&
+          `Complete ${stats.habitCount - stats.habitsDoneToday} habit${stats.habitCount - stats.habitsDoneToday === 1 ? "" : "s"} in Study Zone`,
+        stats.studyStreak === 0 && "Start a session to begin your study streak",
+      ].filter((tip): tip is string => Boolean(tip))
+    : [];
+
   return (
     <>
       <Helmet>
@@ -213,6 +231,52 @@ export default function Main() {
             <StatCard icon={<Target className="h-5 w-5 text-primary" />} label="Habits done" value={`${stats.habitsDoneToday}/${stats.habitCount}`} />
             <StatCard icon={<TrendingUp className="h-5 w-5 text-emerald-400" />} label="Activity log" value={String(stats.activityEntries)} />
             <StatCard icon={<Sparkles className="h-5 w-5 text-violet-400" />} label="Quick notes" value={String(stats.quickNotes)} />
+          </div>
+        </section>
+      )}
+
+      <section className="px-6 pb-6 fade-up">
+        <div className="max-w-6xl mx-auto">
+          <div className="glass-panel p-4 md:p-5">
+            <p className="text-xs uppercase tracking-widest text-white/45 mb-3">Quick actions</p>
+            <div className="flex flex-wrap gap-2">
+              <QuickAction to="/study-zone" icon={<Zap className="h-4 w-4" />} label="Start session" />
+              <QuickAction to="/notetaker" icon={<Brain className="h-4 w-4" />} label={dueFlashcards > 0 ? `Review ${dueFlashcards} cards` : "AI Notes"} />
+              <QuickAction to="/paper-maker" icon={<FileText className="h-4 w-4" />} label="Mock paper" />
+              <QuickAction to="/chatbot" icon={<MessageCircle className="h-4 w-4" />} label="Ask AI" />
+              <QuickAction to="/study-tools" icon={<BookOpen className="h-4 w-4" />} label="Formulas" />
+            </div>
+            {suggestions.length > 0 && (
+              <ul className="mt-4 space-y-1.5 text-sm text-white/65">
+                {suggestions.map((tip) => (
+                  <li key={tip} className="flex items-start gap-2">
+                    <span className="text-primary mt-0.5">•</span>
+                    <span>{tip}</span>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </div>
+      </section>
+
+      {recentArtifacts.length > 0 && (
+        <section className="px-6 pb-8 fade-up">
+          <div className="max-w-6xl mx-auto glass-panel p-5">
+            <div className="flex items-center justify-between gap-3 mb-3">
+              <h2 className="text-sm font-semibold text-white">Recent saved work</h2>
+              <Link to="/user-settings" className="text-xs text-primary hover:underline">
+                View all →
+              </Link>
+            </div>
+            <ul className="grid sm:grid-cols-2 gap-2 text-sm">
+              {recentArtifacts.map((item) => (
+                <li key={item.id} className="rounded-lg border border-white/10 bg-white/5 px-3 py-2 flex justify-between gap-2">
+                  <span className="text-white/90 truncate">{item.title || item.kind}</span>
+                  <span className="text-white/45 capitalize shrink-0">{item.kind}</span>
+                </li>
+              ))}
+            </ul>
           </div>
         </section>
       )}
@@ -358,5 +422,17 @@ function StatCard({ icon, label, value }: { icon: React.ReactNode; label: string
         <p className="text-lg font-semibold text-white">{value}</p>
       </div>
     </div>
+  );
+}
+
+function QuickAction({ to, icon, label }: { to: string; icon: React.ReactNode; label: string }) {
+  return (
+    <Link
+      to={to}
+      className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/8 px-3.5 py-2 text-sm text-white/90 hover:bg-white/14 hover:border-white/25 transition"
+    >
+      {icon}
+      {label}
+    </Link>
   );
 }

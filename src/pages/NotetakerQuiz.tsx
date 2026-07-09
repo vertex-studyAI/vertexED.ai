@@ -36,6 +36,7 @@ import {
 } from "@/lib/spacedRepetition";
 import { recordStudySession } from "@/lib/studyStats";
 import { saveStudyArtifact } from "@/lib/userContent";
+import { toast } from "@/hooks/use-toast";
 import {
   FileText,
   Edit3,
@@ -456,10 +457,20 @@ export default function NotetakerQuiz(): JSX.Element {
       setFlashRevealed(false);
       pushNotesSnapshot(nextNotes);
       recordStudySession();
-      saveStudyArtifact("note", topic.trim(), {
+      void saveStudyArtifact("note", topic.trim(), {
         notes: nextNotes,
         format: displayFormatLabel,
         flashcards: data?.flashcards ?? [],
+      }).then((r) => {
+        if (r.ok) {
+          toast({ title: "Notes saved", description: "Your notes are stored in your account." });
+        } else if (r.error) {
+          toast({
+            title: "Cloud save unavailable",
+            description: r.error,
+            variant: "destructive",
+          });
+        }
       });
     } catch (err) {
       console.error(err);

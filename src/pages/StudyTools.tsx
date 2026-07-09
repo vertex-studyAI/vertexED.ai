@@ -16,7 +16,7 @@ import SEO from "@/components/SEO";
 import PageSection from "@/components/PageSection";
 import NeumorphicCard from "@/components/NeumorphicCard";
 
-type FormulaTab = "math" | "physics" | "chemistry";
+type FormulaTab = "math" | "physics" | "chemistry" | "biology";
 
 const FORMULAS: Record<FormulaTab, { name: string; expr: string }[]> = {
   math: [
@@ -43,6 +43,14 @@ const FORMULAS: Record<FormulaTab, { name: string; expr: string }[]> = {
     { name: "Percent yield", expr: "% yield = (actual / theoretical) × 100" },
     { name: "Avogadro", expr: "N = n × 6.02×10²³" },
   ],
+  biology: [
+    { name: "Photosynthesis", expr: "6CO₂ + 6H₂O → C₆H₁₂O₆ + 6O₂" },
+    { name: "Respiration", expr: "C₆H₁₂O₆ + 6O₂ → 6CO₂ + 6H₂O + ATP" },
+    { name: "Magnification", expr: "M = image size / actual size" },
+    { name: "Population growth", expr: "Nₜ = N₀ × rᵗ" },
+    { name: "Hardy-Weinberg", expr: "p² + 2pq + q² = 1" },
+    { name: "Water potential", expr: "Ψ = Ψₛ + Ψₚ" },
+  ],
 };
 
 const TECHNIQUES = [
@@ -52,6 +60,14 @@ const TECHNIQUES = [
   { title: "Feynman Technique", desc: "Explain a concept in simple words to find gaps.", to: "/chatbot" },
   { title: "Past Papers", desc: "Board-aligned mocks with Paper Maker, then review answers.", to: "/paper-maker" },
   { title: "Rubric Review", desc: "Upload drafts to Answer Reviewer for examiner-style feedback.", to: "/answer-reviewer" },
+];
+
+const EXAM_CHECKLIST = [
+  "Skim the full paper and mark high-mark questions first",
+  "Leave 5 minutes at the end to check units and significant figures",
+  "Underline command terms: explain, evaluate, justify, discuss",
+  "For essays: plan 2 minutes, write, then add a one-line conclusion",
+  "After the exam, paste one answer into Answer Reviewer for targeted fixes",
 ];
 
 const QUICK_TOOLS = [
@@ -103,7 +119,7 @@ export default function StudyTools() {
           </div>
 
           <div className="flex flex-wrap gap-2 mb-6">
-            {(["math", "physics", "chemistry"] as FormulaTab[]).map((key) => (
+            {(["math", "physics", "chemistry", "biology"] as FormulaTab[]).map((key) => (
               <button
                 key={key}
                 type="button"
@@ -117,6 +133,7 @@ export default function StudyTools() {
                 {key === "math" && <Calculator className="inline h-3.5 w-3.5 mr-1 -mt-0.5" />}
                 {key === "physics" && <Zap className="inline h-3.5 w-3.5 mr-1 -mt-0.5" />}
                 {key === "chemistry" && <FlaskConical className="inline h-3.5 w-3.5 mr-1 -mt-0.5" />}
+                {key === "biology" && <BookOpen className="inline h-3.5 w-3.5 mr-1 -mt-0.5" />}
                 {key}
               </button>
             ))}
@@ -152,6 +169,20 @@ export default function StudyTools() {
               </Link>
             ))}
           </div>
+        </NeumorphicCard>
+
+        <NeumorphicCard className="p-6 mb-10">
+          <div className="flex items-center gap-2 mb-4">
+            <Clock className="h-5 w-5 text-primary" />
+            <h2 className="text-xl font-semibold">Exam Day Checklist</h2>
+          </div>
+          <ol className="space-y-2 text-sm text-muted-foreground list-decimal list-inside">
+            {EXAM_CHECKLIST.map((item) => (
+              <li key={item} className="leading-relaxed">
+                {item}
+              </li>
+            ))}
+          </ol>
         </NeumorphicCard>
 
         <div className="text-center">

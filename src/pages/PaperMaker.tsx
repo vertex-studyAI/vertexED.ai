@@ -9,6 +9,7 @@ import { authFetch } from "@/lib/apiAuth";
 import MockExamMode from "@/components/MockExamMode";
 import { saveStudyArtifact } from "@/lib/userContent";
 import { recordStudySession } from "@/lib/studyStats";
+import { toast } from "@/hooks/use-toast";
 
 export default function PaperMaker({ priorPapers = [] }) {
   const BOARDS = ["IB MYP", "IB DP", "IGCSE", "A Levels", "CBSE", "ICSE"];
@@ -177,7 +178,16 @@ export default function PaperMaker({ priorPapers = [] }) {
         recordStudySession();
         const title = paperData.title || `${board} ${subject} paper`;
         saveStudyArtifact("paper", title, { paper: paperData, board, subject, grade }).then((r) => {
-          setSaveStatus(r.ok ? "Saved to your account" : "");
+          if (r.ok) {
+            setSaveStatus("Saved to your account");
+            toast({ title: "Paper saved", description: "Your mock paper is in your account." });
+          } else if (r.error) {
+            toast({
+              title: "Cloud save unavailable",
+              description: r.error,
+              variant: "destructive",
+            });
+          }
         });
       } else if (data.raw) {
         setRaw(data.raw);

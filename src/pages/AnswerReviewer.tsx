@@ -125,6 +125,7 @@ export default function AIAnswerReview() {
   const [showRaw, setShowRaw] = useState(false);
   const [lastSubmittedAt, setLastSubmittedAt] = useState<string | null>(null);
   const [submitCount, setSubmitCount] = useState(0);
+  const [examImportNote, setExamImportNote] = useState<string | null>(null);
   const responseRef = useRef<HTMLDivElement | null>(null);
   const fileInputQuestionRef = useRef<HTMLInputElement | null>(null);
   const fileInputAnswerRef = useRef<HTMLInputElement | null>(null);
@@ -146,6 +147,39 @@ export default function AIAnswerReview() {
     const id = window.setTimeout(() => setSavedPost(false), 1800);
     return () => window.clearTimeout(id);
   }, [savedPost]);
+
+  useEffect(() => {
+    const raw = sessionStorage.getItem("vertex_exam_answers");
+    if (!raw) return;
+    sessionStorage.removeItem("vertex_exam_answers");
+    try {
+      const data = JSON.parse(raw) as {
+        paperTitle?: string;
+        questions?: { id?: string; question?: string }[];
+        answers?: Record<string, string>;
+      };
+      const questions = data.questions ?? [];
+      const questionText = questions
+        .map((q, i) => `${i + 1}. ${q.question || "Question"}`)
+        .join("\n\n");
+      const answerText = questions
+        .map((q, i) => {
+          const id = q.id ?? String(i);
+          const answer = data.answers?.[id]?.trim();
+          return `Answer ${i + 1}:\n${answer || "[No answer written]"}`;
+        })
+        .join("\n\n");
+      setFormData((prev) => ({
+        ...prev,
+        question: `Mock exam: ${data.paperTitle || "Practice paper"}\n\n${questionText}`,
+        answer: answerText,
+        additional: "Imported from timed mock exam in Paper Maker.",
+      }));
+      setExamImportNote("Mock exam answers imported — run a review when you're ready.");
+    } catch {
+      setError("Could not import mock exam answers.");
+    }
+  }, []);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -392,6 +426,13 @@ export default function AIAnswerReview() {
                 </button>
               </div>
             </div>
+
+            {examImportNote && (
+              <div className="mb-4 rounded-xl border border-emerald-500/25 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-100 flex items-center gap-2">
+                <CheckCircle2 className="h-4 w-4 shrink-0" />
+                <span>{examImportNote}</span>
+              </div>
+            )}
 
             <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr]">
               <form onSubmit={handleSubmit} className="space-y-6">

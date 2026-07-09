@@ -68,7 +68,14 @@ export default async function handler(req, res) {
         .select('id, kind, title, created_at, updated_at')
         .single();
 
-      if (error) throw error;
+      if (error) {
+        if (error.code === '42P01') {
+          return res.status(503).json({
+            error: 'Run supabase/migrations/20260709_user_study_artifacts.sql in Supabase first.',
+          });
+        }
+        throw error;
+      }
       return res.status(201).json({ ok: true, item: data });
     }
 
