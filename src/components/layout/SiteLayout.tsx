@@ -125,6 +125,15 @@ export default function SiteLayout() {
                 Admin
               </Link>
             )}
+            {isAuthenticated && (
+              <button
+                type="button"
+                onClick={() => void logout()}
+                className="nav-link-pill text-white/60 hover:text-white hover:bg-white/10"
+              >
+                Sign out
+              </button>
+            )}
             {!isAuthenticated && (
               <Link
                 to="/signup"
@@ -173,7 +182,7 @@ export default function SiteLayout() {
 
         <div
           className={`md:hidden overflow-hidden transition-[max-height,opacity] duration-300 border-t border-white/10 ${
-            menuOpen ? "max-h-[460px] opacity-100" : "max-h-0 opacity-0"
+            menuOpen ? "max-h-[560px] opacity-100" : "max-h-0 opacity-0"
           }`}
         >
           <nav className="flex flex-col px-5 py-4 gap-1 text-sm font-medium bg-black/25 backdrop-blur-xl">
@@ -260,6 +269,28 @@ export default function SiteLayout() {
       </main>
 
       <GlobalChatPanel />
+
+      <footer className="relative z-10 border-t border-white/10 bg-black/20 backdrop-blur-sm">
+        <div className="mx-auto w-full max-w-[1400px] px-4 md:px-6 py-8 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-white/50">
+          <p>© {new Date().getFullYear()} VertexED — AI study tools for students.</p>
+          <nav className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2">
+            {isAuthenticated ? (
+              <>
+                <Link to="/main" className="hover:text-white transition">Dashboard</Link>
+                <Link to="/learning-hub" className="hover:text-white transition">Learning Hub</Link>
+                <Link to="/user-settings" className="hover:text-white transition">Account</Link>
+              </>
+            ) : (
+              <>
+                <Link to="/features" className="hover:text-white transition">Features</Link>
+                <Link to="/study-tools" className="hover:text-white transition">Study Tools</Link>
+                <Link to="/about" className="hover:text-white transition">About</Link>
+              </>
+            )}
+            <a href="mailto:vertexed.25@gmail.com" className="hover:text-white transition">Contact</a>
+          </nav>
+        </div>
+      </footer>
     </div>
   );
 }

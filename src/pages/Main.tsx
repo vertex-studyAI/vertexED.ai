@@ -366,17 +366,21 @@ export default function Main() {
         </div>
       </section>
 
-      {/* Footer CTA */}
       <section className="fade-up px-6 pb-12">
-        <div className="max-w-6xl mx-auto text-center">
+        <div className="max-w-6xl mx-auto text-center glass-panel p-8 md:p-10">
           <h3 className="text-2xl md:text-3xl font-semibold text-white mb-4">Ready to get back into flow?</h3>
-          <p className="text-slate-300 mb-6">
-            Pick up where you left off — your tools are right here whenever you're ready.
+          <p className="text-slate-300 mb-6 max-w-2xl mx-auto">
+            Your ecosystem remembers where you left off — planner tasks, flashcards due, and saved work are one click away.
           </p>
 
-          <Link to="/study-zone" className="btn-glass px-8">
-            Start a session
-          </Link>
+          <div className="flex flex-wrap items-center justify-center gap-3">
+            <Link to="/learning-hub" className="btn-glass px-8">
+              Open Learning Hub
+            </Link>
+            <Link to="/study-zone?focus=timer" className="rounded-full border border-white/20 bg-white/8 px-8 py-3 text-sm text-white/90 hover:bg-white/14 transition">
+              Start focus session
+            </Link>
+          </div>
         </div>
       </section>
     </>

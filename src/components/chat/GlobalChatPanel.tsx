@@ -33,11 +33,10 @@ export default function GlobalChatPanel() {
 
   const protectedRoute =
     isAuthenticated &&
-    !["/login", "/signup", "/auth/callback", "/"].includes(location.pathname) &&
-    !location.pathname.startsWith("/resources") &&
-    location.pathname !== "/home" &&
-    location.pathname !== "/about" &&
-    location.pathname !== "/features";
+    !["/login", "/signup", "/auth/callback", "/onboarding", "/", "/home", "/about", "/features"].includes(
+      location.pathname,
+    ) &&
+    !location.pathname.startsWith("/resources");
 
   useEffect(() => {
     window.localStorage.setItem(STORAGE_KEY, open ? "1" : "0");

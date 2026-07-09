@@ -86,6 +86,7 @@ useEffect(() => {
 			import("@/pages/Signup");
 			import("@/pages/About");
 			import("@/pages/Main");
+			import("@/pages/LearningHub");
 			import("@/pages/StudyPlanner");
 		};
 		if (document.readyState === 'complete') start();

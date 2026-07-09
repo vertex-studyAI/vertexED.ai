@@ -205,7 +205,14 @@ export default function UserSettings() {
                 onClick={() => navigate("/main")}
                 className="w-full neu-button text-left justify-start gap-3 py-4"
               >
-                ← Back to Dashboard
+                ← Dashboard
+              </button>
+
+              <button
+                onClick={() => navigate("/learning-hub")}
+                className="w-full neu-button text-left justify-start gap-3 py-4 bg-white/5 hover:bg-white/10"
+              >
+                Learning Hub
               </button>
 
               <button

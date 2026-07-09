@@ -90,8 +90,13 @@ export const routeHeadingsMap: Record<string, HeadingEntry> = {
   },
   "/main": {
     title: "Dashboard",
-    h2: ["Overview", "Recent activity"],
-    h3: ["Shortcuts", "Tips"],
+    h2: ["Today's focus", "Learning path"],
+    h3: ["Quick actions", "Saved work"],
+  },
+  "/learning-hub": {
+    title: "Learning Hub",
+    h2: ["Learning path", "Subject tracks"],
+    h3: ["Daily progress", "Quick launch"],
   },
   "/notetaker": {
     title: "Notetaker & Quiz",
@@ -128,10 +133,20 @@ export const routeHeadingsMap: Record<string, HeadingEntry> = {
     h2: ["Identity", "Usage"],
     h3: ["Logos", "Colors"],
   },
-  "/settings": {
-    title: "User Settings",
-    h2: ["Profile", "Preferences"],
-    h3: ["Privacy", "Notifications"],
+  "/study-tools": {
+    title: "Study Tools Hub",
+    h2: ["Formula sheets", "Study techniques"],
+    h3: ["Exam checklist", "Tool links"],
+  },
+  "/user-settings": {
+    title: "Account Settings",
+    h2: ["Profile", "Saved work"],
+    h3: ["Export data", "Preferences"],
+  },
+  "/archives": {
+    title: "Archives",
+    h2: ["Subject exemplars", "Curated notes"],
+    h3: ["Language & Literature", "History"],
   },
   "/resources": {
     title: "Resources",

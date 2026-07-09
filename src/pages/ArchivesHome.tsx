@@ -41,7 +41,11 @@ export default function ArchivesHome() {
           <div className="flex items-start gap-3">
             <Clock className="h-5 w-5 text-primary shrink-0 mt-0.5" aria-hidden />
             <p className="text-sm text-muted-foreground">
-              Starter guides and exemplars are live for LnL, History, and Geography — with more subjects on the way. Browse below or try{" "}
+              Starter guides and exemplars are live for LnL, History, and Geography — with more subjects on the way. Browse below, explore the{" "}
+              <Link to="/learning-hub" className="text-primary hover:underline">
+                Learning Hub
+              </Link>
+              , or try{" "}
               <Link to="/paper-maker" className="text-primary hover:underline">
                 Paper Maker
               </Link>{" "}

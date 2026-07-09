@@ -619,6 +619,32 @@ export default function Features() {
         </div>
       </section>
 
+      {/* Learning ecosystem */}
+      <section className="fade-up px-6 py-12">
+        <div className="max-w-6xl mx-auto glass-panel p-8">
+          <h2 className="text-2xl md:text-3xl font-semibold text-white mb-3">Connected learning ecosystem</h2>
+          <p className="text-slate-300 leading-relaxed mb-6 max-w-3xl">
+            Vertex is not nine separate apps — it is one study journey. The Learning Hub ties your goals, planner, habits, flashcards, and saved work into a single daily flow: learn, practice, review, remember.
+          </p>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+            {[
+              { step: "Learn", detail: "Archives, resources, AI notes" },
+              { step: "Practice", detail: "Mock papers and quizzes" },
+              { step: "Review", detail: "Rubric feedback and AI chat" },
+              { step: "Remember", detail: "Spaced repetition flashcards" },
+            ].map((item) => (
+              <div key={item.step} className="rounded-xl border border-white/10 bg-white/5 p-4">
+                <p className="text-xs uppercase tracking-widest text-primary mb-1">{item.step}</p>
+                <p className="text-sm text-slate-300">{item.detail}</p>
+              </div>
+            ))}
+          </div>
+          <Link to="/signup" className="btn-glass px-5 py-2 text-sm inline-block">
+            Start your ecosystem →
+          </Link>
+        </div>
+      </section>
+
       {/* Study Tools Hub & Archives */}
       <section className="fade-up px-6 py-12">
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-8">
