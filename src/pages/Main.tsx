@@ -8,6 +8,7 @@ import { Flame, Settings as SettingsIcon, Sparkles, Target, TrendingUp, Zap, Bra
 import { getStudyStats, type StudyStats } from "@/lib/studyStats";
 import { getDueFlashcardCount } from "@/lib/srDeck";
 import { listStudyArtifactsDetailed, type StudyArtifact } from "@/lib/userContent";
+import SavedWorkList from "@/components/SavedWorkList";
 
 type Tile = {
   title: string;
@@ -20,6 +21,9 @@ export default function Main() {
   const [stats, setStats] = useState<StudyStats | null>(null);
   const [dueFlashcards, setDueFlashcards] = useState(0);
   const [recentArtifacts, setRecentArtifacts] = useState<StudyArtifact[]>([]);
+  const [showWelcome, setShowWelcome] = useState(
+    () => typeof window !== "undefined" && sessionStorage.getItem("vertex_welcome") === "1",
+  );
   const containerRef = useRef<HTMLDivElement | null>(null);
   const tilesRef = useRef(
     new Map<
@@ -55,8 +59,9 @@ export default function Main() {
     refresh();
     void listStudyArtifactsDetailed().then((r) => setRecentArtifacts(r.items.slice(0, 4)));
     window.addEventListener("focus", refresh);
+    if (showWelcome) sessionStorage.removeItem("vertex_welcome");
     return () => window.removeEventListener("focus", refresh);
-  }, []);
+  }, [showWelcome]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -224,6 +229,17 @@ export default function Main() {
         </div>
       </section>
 
+      {showWelcome && (
+        <section className="px-6 pb-4 fade-up">
+          <div className="max-w-6xl mx-auto rounded-xl border border-primary/25 bg-primary/10 px-5 py-4 text-sm text-white/90">
+            <p className="font-medium text-primary">Welcome to Vertex — you&apos;re all set.</p>
+            <p className="mt-1 text-white/70">
+              Start with Study Zone for a focused session, or generate notes and a mock paper from the dashboard.
+            </p>
+          </div>
+        </section>
+      )}
+
       {stats && (
         <section className="px-6 pb-8 fade-up">
           <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -269,16 +285,11 @@ export default function Main() {
                 View all →
               </Link>
             </div>
-            <ul className="grid sm:grid-cols-2 gap-2 text-sm">
-              {recentArtifacts.map((item) => (
-                <li key={item.id} className="rounded-lg border border-white/10 bg-white/5 px-3 py-2 flex justify-between gap-2">
-                  <span className="text-white/90 truncate">{item.title || item.kind}</span>
-                  <span className="text-white/45 capitalize shrink-0">
-                    {item.localOnly ? "device" : item.kind}
-                  </span>
-                </li>
-              ))}
-            </ul>
+            <SavedWorkList
+              items={recentArtifacts}
+              compact
+              onChanged={() => void listStudyArtifactsDetailed().then((r) => setRecentArtifacts(r.items.slice(0, 4)))}
+            />
           </div>
         </section>
       )}

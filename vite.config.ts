@@ -192,6 +192,7 @@ export default defineConfig(({ mode }) => {
             ui: ['framer-motion', 'gsap', 'lucide-react', 'clsx'],
             charts: ['chart.js', 'react-chartjs-2'],
             pdf: ['jspdf', 'docx', 'file-saver'],
+            markdown: ['react-markdown', 'remark-math', 'rehype-katex'],
           },
         },
       },

@@ -1,9 +1,6 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, lazy, Suspense } from "react";
 import { useLocation } from "react-router-dom";
 import { MessageCircle, Minimize2, X } from "lucide-react";
-import ReactMarkdown from "react-markdown";
-import remarkMath from "remark-math";
-import rehypeKatex from "rehype-katex";
 
 import { useAuth } from "@/contexts/AuthContext";
 import { fetchChatbotAnswer, type ChatbotMessage } from "@/lib/chatbotApi";
@@ -11,6 +8,8 @@ import { getStudyContext } from "@/lib/studyContext";
 import { animateTypewriter } from "@/lib/typewriter";
 import { recordStudySession } from "@/lib/studyStats";
 import { consumeChatHandoff } from "@/lib/userContent";
+
+const ChatMarkdown = lazy(() => import("@/components/chat/ChatMarkdown"));
 
 type PanelMessage = ChatbotMessage & { id: string };
 
@@ -195,13 +194,9 @@ export default function GlobalChatPanel() {
                 }`}
               >
                 {msg.role === "assistant" ? (
-                  <ReactMarkdown
-                    remarkPlugins={[remarkMath]}
-                    rehypePlugins={[rehypeKatex]}
-                    className="prose prose-sm prose-invert max-w-none"
-                  >
-                    {msg.text || "…"}
-                  </ReactMarkdown>
+                  <Suspense fallback={<span className="text-muted-foreground">…</span>}>
+                    <ChatMarkdown>{msg.text || "…"}</ChatMarkdown>
+                  </Suspense>
                 ) : (
                   msg.text
                 )}

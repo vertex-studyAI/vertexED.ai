@@ -104,6 +104,7 @@ export default function Onboarding() {
       const { error: updErr } = await supabase.auth.updateUser({ data: metadata });
       if (updErr) throw updErr;
 
+      sessionStorage.setItem("vertex_welcome", "1");
       navigate("/main", { replace: true });
     } catch (e: unknown) {
       setError(getErrorMessage(e));

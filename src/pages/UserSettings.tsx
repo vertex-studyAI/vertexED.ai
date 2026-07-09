@@ -1,5 +1,6 @@
 import { Helmet } from "react-helmet-async";
 import NeumorphicCard from "@/components/NeumorphicCard";
+import SavedWorkList from "@/components/SavedWorkList";
 import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { User, LogOut, Settings, RefreshCw, AlertTriangle } from "lucide-react";
@@ -145,7 +146,7 @@ export default function UserSettings() {
           <NeumorphicCard className="p-8" title="Saved Study Work">
             {cloudUnavailable && (
               <p className="text-xs text-sky-300/90 mb-3">
-                Cloud sync is off — showing work saved on this device.
+                Cloud sync is off — your work is saved on this device and can be reopened anytime.
               </p>
             )}
             {loadingArtifacts ? (
@@ -164,28 +165,21 @@ export default function UserSettings() {
                   Retry loading
                 </button>
               </div>
-            ) : artifacts.length === 0 ? (
-              <p className="text-sm text-muted-foreground">
-                Generate notes, papers, or reviews — they&apos;ll appear here when cloud save is active.
-              </p>
             ) : (
               <div className="space-y-3">
-                <div className="text-xs text-muted-foreground">
-                  {artifacts.length} saved item{artifacts.length === 1 ? "" : "s"}
-                </div>
-                <ul className="space-y-3 text-sm">
-                {artifacts.slice(0, 12).map((item) => (
-                  <li
-                    key={item.id}
-                    className="flex justify-between gap-3 border-b border-white/10 pb-2 last:border-0"
+                <div className="flex items-center justify-between gap-3">
+                  <p className="text-xs text-muted-foreground">
+                    {artifacts.length} saved item{artifacts.length === 1 ? "" : "s"}
+                  </p>
+                  <button
+                    onClick={() => void loadArtifacts()}
+                    className="text-xs text-primary hover:underline inline-flex items-center gap-1"
                   >
-                    <span className="text-foreground truncate">{item.title || item.kind}</span>
-                    <span className="text-muted-foreground shrink-0 capitalize">
-                      {item.localOnly ? "device" : item.kind}
-                    </span>
-                  </li>
-                ))}
-                </ul>
+                    <RefreshCw className="h-3 w-3" />
+                    Refresh
+                  </button>
+                </div>
+                <SavedWorkList items={artifacts} onChanged={loadArtifacts} />
               </div>
             )}
           </NeumorphicCard>

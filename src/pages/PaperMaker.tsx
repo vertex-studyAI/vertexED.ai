@@ -7,7 +7,7 @@ import NeumorphicCard from "@/components/NeumorphicCard";
 import PageSection from "@/components/PageSection";
 import { authFetch } from "@/lib/apiAuth";
 import MockExamMode from "@/components/MockExamMode";
-import { saveStudyArtifact } from "@/lib/userContent";
+import { saveStudyArtifact, consumeArtifactRestore } from "@/lib/userContent";
 import { recordStudySession } from "@/lib/studyStats";
 import { toast } from "@/hooks/use-toast";
 
@@ -69,6 +69,17 @@ export default function PaperMaker({ priorPapers = [] }) {
     }
     return list;
   }, [board, grade]);
+
+  useEffect(() => {
+    const restored = consumeArtifactRestore();
+    if (!restored || restored.kind !== "paper") return;
+    const paperData = (restored.payload?.paper ?? restored.payload) as Record<string, unknown> | null;
+    if (paperData && typeof paperData === "object") {
+      setPaper(paperData);
+      setSaveStatus("Restored from saved work");
+      toast({ title: "Paper restored", description: restored.title || "Your saved paper is ready." });
+    }
+  }, []);
 
   useEffect(() => {
     setGrade(null);

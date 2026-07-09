@@ -3,7 +3,7 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import PageSection from "@/components/PageSection";
 import NeumorphicCard from "@/components/NeumorphicCard";
 import { authFetch } from "@/lib/apiAuth";
-import { setChatHandoff } from "@/lib/userContent";
+import { setChatHandoff, saveStudyArtifact, consumeArtifactRestore } from "@/lib/userContent";
 import { Link, useNavigate } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import remarkMath from "remark-math";
@@ -149,6 +149,23 @@ export default function AIAnswerReview() {
   }, [savedPost]);
 
   useEffect(() => {
+    const restored = consumeArtifactRestore();
+    if (restored?.kind === "review") {
+      const payload = restored.payload;
+      const reviewText = typeof payload.review === "string" ? payload.review : "";
+      const metadata = (payload.metadata ?? {}) as Record<string, string>;
+      if (reviewText) setResponse(reviewText);
+      setFormData((prev) => ({
+        ...prev,
+        curriculum: metadata.curriculum || prev.curriculum,
+        subject: metadata.subject || prev.subject,
+        question: metadata.question || prev.question,
+        answer: metadata.answer || prev.answer,
+      }));
+      setExamImportNote("Saved review restored — you can re-run or discuss in chat.");
+      return;
+    }
+
     const raw = sessionStorage.getItem("vertex_exam_answers");
     if (!raw) return;
     sessionStorage.removeItem("vertex_exam_answers");
@@ -333,10 +350,25 @@ export default function AIAnswerReview() {
                 grade: formData.grade,
                 marks: formData.marks,
                 strictness: formData.strictness,
+                question: formData.question,
+                answer: formData.answer,
               },
             }),
           });
           setSavedPost(true);
+          void saveStudyArtifact(
+            "review",
+            `${formData.curriculum || "Review"} ${formData.subject || ""}`.trim(),
+            {
+              review: out,
+              metadata: {
+                curriculum: formData.curriculum,
+                subject: formData.subject,
+                question: formData.question,
+                answer: formData.answer,
+              },
+            },
+          );
         }
       } catch (err) {
         console.warn("Failed to save review post:", err);

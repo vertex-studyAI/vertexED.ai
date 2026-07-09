@@ -35,7 +35,7 @@ import {
   type SrRating,
 } from "@/lib/spacedRepetition";
 import { recordStudySession } from "@/lib/studyStats";
-import { saveStudyArtifact } from "@/lib/userContent";
+import { saveStudyArtifact, consumeArtifactRestore } from "@/lib/userContent";
 import { toast } from "@/hooks/use-toast";
 import {
   FileText,
@@ -223,6 +223,16 @@ export default function NotetakerQuiz(): JSX.Element {
 
   useEffect(() => {
     setMounted(true);
+    const restored = consumeArtifactRestore();
+    if (restored?.kind === "note") {
+      const payload = restored.payload;
+      if (typeof payload.notes === "string") setNotes(payload.notes);
+      if (Array.isArray(payload.flashcards)) {
+        setFlashcards(payload.flashcards as Flashcard[]);
+      }
+      if (restored.title) setTopic(restored.title);
+      toast({ title: "Notes restored", description: "Your saved notes are ready to study." });
+    }
     timerRef.current = window.setInterval(() => setTimeSpent((t) => t + 1), 1000);
 
     return () => {
