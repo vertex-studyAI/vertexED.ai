@@ -31,12 +31,20 @@ export default function UserSettings() {
   const [artifacts, setArtifacts] = useState<StudyArtifact[]>([]);
   const [loadingArtifacts, setLoadingArtifacts] = useState(true);
   const [artifactError, setArtifactError] = useState<string | null>(null);
+  const [cloudUnavailable, setCloudUnavailable] = useState(false);
 
   const loadArtifacts = async () => {
     setLoadingArtifacts(true);
     const result = await listStudyArtifactsDetailed();
     setArtifacts(result.items);
-    setArtifactError(result.ok ? null : result.error || "Unable to load saved work.");
+    setCloudUnavailable(Boolean(result.cloudUnavailable));
+    setArtifactError(
+      result.cloudUnavailable
+        ? null
+        : result.ok
+          ? null
+          : result.error || "Unable to load saved work.",
+    );
     setLoadingArtifacts(false);
   };
 
@@ -135,6 +143,11 @@ export default function UserSettings() {
           </NeumorphicCard>
 
           <NeumorphicCard className="p-8" title="Saved Study Work">
+            {cloudUnavailable && (
+              <p className="text-xs text-sky-300/90 mb-3">
+                Cloud sync is off — showing work saved on this device.
+              </p>
+            )}
             {loadingArtifacts ? (
               <p className="text-sm text-muted-foreground">Loading saved study work...</p>
             ) : artifactError ? (
@@ -167,7 +180,9 @@ export default function UserSettings() {
                     className="flex justify-between gap-3 border-b border-white/10 pb-2 last:border-0"
                   >
                     <span className="text-foreground truncate">{item.title || item.kind}</span>
-                    <span className="text-muted-foreground shrink-0 capitalize">{item.kind}</span>
+                    <span className="text-muted-foreground shrink-0 capitalize">
+                      {item.localOnly ? "device" : item.kind}
+                    </span>
                   </li>
                 ))}
                 </ul>

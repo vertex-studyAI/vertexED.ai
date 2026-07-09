@@ -619,6 +619,41 @@ export default function Features() {
         </div>
       </section>
 
+      {/* Study Tools Hub & Archives */}
+      <section className="fade-up px-6 py-12">
+        <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-8">
+          <div className="feature-row glass-panel p-6">
+            <h2 className="text-2xl font-semibold text-white mb-3">Study Tools Hub — formulas & exam playbooks</h2>
+            <p className="text-slate-300 leading-relaxed mb-4">
+              Quick-reference math, physics, chemistry, and biology formulas, evidence-based study techniques, and one-click links into every Vertex tool — built for revision sessions before mocks.
+            </p>
+            <ul className="list-disc ml-6 text-slate-300 text-sm space-y-1 mb-4">
+              <li>Subject formula sheets with tabbed navigation</li>
+              <li>Exam-day checklist and technique links</li>
+              <li>Shortcuts into Study Zone, Paper Maker, and AI Notes</li>
+            </ul>
+            <Link to="/study-tools" className="btn-glass px-5 py-2 text-sm inline-block">
+              Open Study Tools →
+            </Link>
+          </div>
+
+          <div className="feature-row glass-panel p-6">
+            <h2 className="text-2xl font-semibold text-white mb-3">Archives — curated subject exemplars</h2>
+            <p className="text-slate-300 leading-relaxed mb-4">
+              Language & Literature, History, and Geography archives with starter close readings, timelines, case studies, and practice prompts — the kind of material students actually revise from.
+            </p>
+            <ul className="list-disc ml-6 text-slate-300 text-sm space-y-1 mb-4">
+              <li>Tabbed content: overviews, exemplars, practice questions</li>
+              <li>IB-style prompts and technique guides</li>
+              <li>Expanding student-contributed archive set</li>
+            </ul>
+            <Link to="/archives" className="btn-glass px-5 py-2 text-sm inline-block">
+              Browse Archives →
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* CTA */}
       <section className="fade-up px-6 py-12">
         <div className="max-w-4xl mx-auto text-center">

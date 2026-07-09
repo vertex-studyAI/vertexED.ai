@@ -41,7 +41,7 @@ export default function ArchivesHome() {
           <div className="flex items-start gap-3">
             <Clock className="h-5 w-5 text-primary shrink-0 mt-0.5" aria-hidden />
             <p className="text-sm text-muted-foreground">
-              We're still building these out. Browse what's planned below — or try{" "}
+              Starter guides and exemplars are live for LnL, History, and Geography — with more subjects on the way. Browse below or try{" "}
               <Link to="/paper-maker" className="text-primary hover:underline">
                 Paper Maker
               </Link>{" "}
@@ -49,7 +49,7 @@ export default function ArchivesHome() {
               <Link to="/answer-reviewer" className="text-primary hover:underline">
                 Answer Reviewer
               </Link>{" "}
-              today.
+              for custom practice.
             </p>
           </div>
         </NeumorphicCard>

@@ -179,11 +179,16 @@ export default function PaperMaker({ priorPapers = [] }) {
         const title = paperData.title || `${board} ${subject} paper`;
         saveStudyArtifact("paper", title, { paper: paperData, board, subject, grade }).then((r) => {
           if (r.ok) {
-            setSaveStatus("Saved to your account");
-            toast({ title: "Paper saved", description: "Your mock paper is in your account." });
+            setSaveStatus(r.localOnly ? "Saved on this device" : "Saved to your account");
+            toast({
+              title: r.localOnly ? "Saved on this device" : "Paper saved",
+              description: r.localOnly
+                ? "Cloud sync pending — your paper is stored locally for now."
+                : "Your mock paper is in your account.",
+            });
           } else if (r.error) {
             toast({
-              title: "Cloud save unavailable",
+              title: "Save failed",
               description: r.error,
               variant: "destructive",
             });

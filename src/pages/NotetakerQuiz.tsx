@@ -463,10 +463,15 @@ export default function NotetakerQuiz(): JSX.Element {
         flashcards: data?.flashcards ?? [],
       }).then((r) => {
         if (r.ok) {
-          toast({ title: "Notes saved", description: "Your notes are stored in your account." });
+          toast({
+            title: r.localOnly ? "Saved on this device" : "Notes saved",
+            description: r.localOnly
+              ? "Cloud sync pending — your notes are stored locally for now."
+              : "Your notes are stored in your account.",
+          });
         } else if (r.error) {
           toast({
-            title: "Cloud save unavailable",
+            title: "Save failed",
             description: r.error,
             variant: "destructive",
           });

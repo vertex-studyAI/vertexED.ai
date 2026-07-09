@@ -16,7 +16,7 @@ import SEO from "@/components/SEO";
 import PageSection from "@/components/PageSection";
 import NeumorphicCard from "@/components/NeumorphicCard";
 
-type FormulaTab = "math" | "physics" | "chemistry" | "biology";
+type FormulaTab = "math" | "physics" | "chemistry" | "biology" | "economics";
 
 const FORMULAS: Record<FormulaTab, { name: string; expr: string }[]> = {
   math: [
@@ -50,6 +50,14 @@ const FORMULAS: Record<FormulaTab, { name: string; expr: string }[]> = {
     { name: "Population growth", expr: "Nₜ = N₀ × rᵗ" },
     { name: "Hardy-Weinberg", expr: "p² + 2pq + q² = 1" },
     { name: "Water potential", expr: "Ψ = Ψₛ + Ψₚ" },
+  ],
+  economics: [
+    { name: "Price elasticity of demand", expr: "PED = %ΔQd / %ΔP" },
+    { name: "GDP", expr: "GDP = C + I + G + (X − M)" },
+    { name: "Multiplier", expr: "k = 1 / (1 − MPC)" },
+    { name: "Opportunity cost", expr: "Value of next best alternative foregone" },
+    { name: "Real GDP growth", expr: "%Δ real GDP = %Δ nominal GDP − inflation" },
+    { name: "Balance of payments", expr: "CA + KA + FA = 0" },
   ],
 };
 
@@ -119,7 +127,7 @@ export default function StudyTools() {
           </div>
 
           <div className="flex flex-wrap gap-2 mb-6">
-            {(["math", "physics", "chemistry", "biology"] as FormulaTab[]).map((key) => (
+            {(["math", "physics", "chemistry", "biology", "economics"] as FormulaTab[]).map((key) => (
               <button
                 key={key}
                 type="button"

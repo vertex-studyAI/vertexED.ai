@@ -273,7 +273,9 @@ export default function Main() {
               {recentArtifacts.map((item) => (
                 <li key={item.id} className="rounded-lg border border-white/10 bg-white/5 px-3 py-2 flex justify-between gap-2">
                   <span className="text-white/90 truncate">{item.title || item.kind}</span>
-                  <span className="text-white/45 capitalize shrink-0">{item.kind}</span>
+                  <span className="text-white/45 capitalize shrink-0">
+                    {item.localOnly ? "device" : item.kind}
+                  </span>
                 </li>
               ))}
             </ul>
