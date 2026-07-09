@@ -1,6 +1,6 @@
 import { Helmet } from "react-helmet-async";
 import NeumorphicCard from "@/components/NeumorphicCard";
-import SavedWorkList from "@/components/SavedWorkList";
+import SavedWorkList, { ArtifactKindFilter } from "@/components/SavedWorkList";
 import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { User, LogOut, Settings, RefreshCw, AlertTriangle } from "lucide-react";
@@ -11,6 +11,7 @@ import {
   listStudyArtifacts,
   listStudyArtifactsDetailed,
   type StudyArtifact,
+  type StudyArtifactKind,
 } from "@/lib/userContent";
 
 function formatMemberSince(createdAt?: string | null): string {
@@ -33,10 +34,13 @@ export default function UserSettings() {
   const [loadingArtifacts, setLoadingArtifacts] = useState(true);
   const [artifactError, setArtifactError] = useState<string | null>(null);
   const [cloudUnavailable, setCloudUnavailable] = useState(false);
+  const [kindFilter, setKindFilter] = useState<StudyArtifactKind | "all">("all");
 
   const loadArtifacts = async () => {
     setLoadingArtifacts(true);
-    const result = await listStudyArtifactsDetailed();
+    const result = await listStudyArtifactsDetailed(
+      kindFilter === "all" ? undefined : kindFilter,
+    );
     setArtifacts(result.items);
     setCloudUnavailable(Boolean(result.cloudUnavailable));
     setArtifactError(
@@ -51,7 +55,7 @@ export default function UserSettings() {
 
   useEffect(() => {
     void loadArtifacts();
-  }, []);
+  }, [kindFilter]);
 
   const handleLogout = async () => {
     try {
@@ -165,8 +169,16 @@ export default function UserSettings() {
                   Retry loading
                 </button>
               </div>
+            ) : artifacts.length === 0 ? (
+              <div className="space-y-3">
+                <ArtifactKindFilter value={kindFilter} onChange={setKindFilter} />
+                <p className="text-sm text-muted-foreground">
+                  No saved {kindFilter === "all" ? "work" : `${kindFilter}s`} yet — generate some in the tools above.
+                </p>
+              </div>
             ) : (
               <div className="space-y-3">
+                <ArtifactKindFilter value={kindFilter} onChange={setKindFilter} />
                 <div className="flex items-center justify-between gap-3">
                   <p className="text-xs text-muted-foreground">
                     {artifacts.length} saved item{artifacts.length === 1 ? "" : "s"}

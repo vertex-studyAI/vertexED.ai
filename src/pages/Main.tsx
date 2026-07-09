@@ -288,6 +288,7 @@ export default function Main() {
             <SavedWorkList
               items={recentArtifacts}
               compact
+              variant="dashboard"
               onChanged={() => void listStudyArtifactsDetailed().then((r) => setRecentArtifacts(r.items.slice(0, 4)))}
             />
           </div>

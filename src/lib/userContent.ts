@@ -110,7 +110,9 @@ export function consumeArtifactRestore(): StudyArtifact | null {
 
 export function formatArtifactDate(iso: string): string {
   try {
-    return new Date(iso).toLocaleDateString(undefined, {
+    const date = new Date(iso);
+    if (Number.isNaN(date.getTime())) return '—';
+    return date.toLocaleDateString(undefined, {
       month: 'short',
       day: 'numeric',
       year: 'numeric',

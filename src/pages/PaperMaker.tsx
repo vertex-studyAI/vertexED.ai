@@ -56,6 +56,7 @@ export default function PaperMaker({ priorPapers = [] }) {
   const [saveStatus, setSaveStatus] = useState("");
 
   const previewRef = useRef(null);
+  const prevBoardRef = useRef(board);
 
   const gradesForBoard = useMemo(() => GRADE_RANGES[board] || [], [board]);
 
@@ -82,6 +83,8 @@ export default function PaperMaker({ priorPapers = [] }) {
   }, []);
 
   useEffect(() => {
+    if (prevBoardRef.current === board) return;
+    prevBoardRef.current = board;
     setGrade(null);
     setSubject("");
     setTopics("");

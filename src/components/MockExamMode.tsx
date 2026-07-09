@@ -48,17 +48,14 @@ export default function MockExamMode({ paper, onClose }: Props) {
   useEffect(() => {
     if (submitted) return;
     const id = window.setInterval(() => {
-      setSecondsLeft((s) => {
-        if (s <= 1) {
-          window.clearInterval(id);
-          setSubmitted(true);
-          return 0;
-        }
-        return s - 1;
-      });
+      setSecondsLeft((s) => (s <= 1 ? 0 : s - 1));
     }, 1000);
     return () => window.clearInterval(id);
   }, [submitted]);
+
+  useEffect(() => {
+    if (!submitted && secondsLeft === 0) setSubmitted(true);
+  }, [secondsLeft, submitted]);
 
   const current = questions[index];
   const currentId = current?.id ?? String(index);

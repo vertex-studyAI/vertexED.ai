@@ -339,39 +339,23 @@ export default function AIAnswerReview() {
 
       try {
         if (typeof out === "string" && out.trim()) {
-          await authFetch("/api/review-post", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              review: out,
-              metadata: {
-                curriculum: formData.curriculum,
-                subject: formData.subject,
-                grade: formData.grade,
-                marks: formData.marks,
-                strictness: formData.strictness,
-                question: formData.question,
-                answer: formData.answer,
-              },
-            }),
-          });
-          setSavedPost(true);
-          void saveStudyArtifact(
-            "review",
-            `${formData.curriculum || "Review"} ${formData.subject || ""}`.trim(),
-            {
-              review: out,
-              metadata: {
-                curriculum: formData.curriculum,
-                subject: formData.subject,
-                question: formData.question,
-                answer: formData.answer,
-              },
+          const title = `${formData.curriculum || "Review"} ${formData.subject || ""}`.trim() || "Answer review";
+          const saved = await saveStudyArtifact("review", title, {
+            review: out,
+            metadata: {
+              curriculum: formData.curriculum,
+              subject: formData.subject,
+              grade: formData.grade,
+              marks: formData.marks,
+              strictness: formData.strictness,
+              question: formData.question,
+              answer: formData.answer,
             },
-          );
+          });
+          if (saved.ok) setSavedPost(true);
         }
       } catch (err) {
-        console.warn("Failed to save review post:", err);
+        console.warn("Failed to save review:", err);
       }
     } catch (err) {
       console.error("Submit error:", err);
