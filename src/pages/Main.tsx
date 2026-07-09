@@ -4,11 +4,13 @@ import { Link } from "react-router-dom";
 import React, { useEffect, useRef, useState } from "react";
 import { TypeAnimation } from "react-type-animation";
 import { Helmet } from "react-helmet-async";
-import { Flame, Settings as SettingsIcon, Sparkles, Target, TrendingUp, Zap, Brain, FileText, MessageCircle, BookOpen } from "lucide-react";
-import { getStudyStats, type StudyStats } from "@/lib/studyStats";
-import { getDueFlashcardCount } from "@/lib/srDeck";
+import { Flame, Settings as SettingsIcon, Target, TrendingUp, Zap, Brain, FileText, MessageCircle, BookOpen, Route } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
+import { buildEcosystemBrief, type EcosystemBrief } from "@/lib/studyEcosystem";
+import { gradeLevelLabel, studyGoalLabel } from "@/lib/learnerProfile";
 import { listStudyArtifactsDetailed, type StudyArtifact } from "@/lib/userContent";
 import SavedWorkList from "@/components/SavedWorkList";
+import EcosystemPanel from "@/components/EcosystemPanel";
 
 type Tile = {
   title: string;
@@ -18,8 +20,8 @@ type Tile = {
 };
 
 export default function Main() {
-  const [stats, setStats] = useState<StudyStats | null>(null);
-  const [dueFlashcards, setDueFlashcards] = useState(0);
+  const { user } = useAuth();
+  const [brief, setBrief] = useState<EcosystemBrief | null>(null);
   const [recentArtifacts, setRecentArtifacts] = useState<StudyArtifact[]>([]);
   const [showWelcome, setShowWelcome] = useState(
     () => typeof window !== "undefined" && sessionStorage.getItem("vertex_welcome") === "1",
@@ -40,6 +42,7 @@ export default function Main() {
   );
 
   const tiles: Tile[] = [
+    { title: "Learning Hub", to: "/learning-hub", info: "Your connected study ecosystem — paths, subjects, and daily progress.", icon: hubIcon() },
     { title: "Study Zone", to: "/study-zone", info: "Your all-in-one desk — timers, notes, graphing, and more.", icon: studyIcon() },
     { title: "AI Chatbot", to: "/chatbot", info: "Stuck on something? Ask for explanations, steps, or ideas.", icon: chatIcon() },
     { title: "Study Planner", to: "/planner", info: "Build a schedule that actually fits around your life.", icon: plannerIcon() },
@@ -52,16 +55,13 @@ export default function Main() {
   ];
 
   useEffect(() => {
-    const refresh = () => {
-      setStats(getStudyStats());
-      setDueFlashcards(getDueFlashcardCount());
-    };
+    const refresh = () => setBrief(buildEcosystemBrief(user));
     refresh();
     void listStudyArtifactsDetailed().then((r) => setRecentArtifacts(r.items.slice(0, 4)));
     window.addEventListener("focus", refresh);
     if (showWelcome) sessionStorage.removeItem("vertex_welcome");
     return () => window.removeEventListener("focus", refresh);
-  }, [showWelcome]);
+  }, [showWelcome, user]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -184,15 +184,11 @@ export default function Main() {
     };
   }, []);
 
-  const suggestions = stats
-    ? [
-        dueFlashcards > 0 && `Review ${dueFlashcards} flashcard${dueFlashcards === 1 ? "" : "s"} due today`,
-        stats.habitsDoneToday < stats.habitCount &&
-          stats.habitCount > 0 &&
-          `Complete ${stats.habitCount - stats.habitsDoneToday} habit${stats.habitCount - stats.habitsDoneToday === 1 ? "" : "s"} in Study Zone`,
-        stats.studyStreak === 0 && "Start a session to begin your study streak",
-      ].filter((tip): tip is string => Boolean(tip))
-    : [];
+  const suggestions = brief?.suggestions ?? [];
+  const goalLabel = brief ? studyGoalLabel(brief.profile.studyGoal) : null;
+  const gradeLabel = brief ? gradeLevelLabel(brief.profile.gradeLevel) : null;
+  const dueFlashcards = brief?.dueFlashcards ?? 0;
+  const stats = brief?.stats ?? null;
 
   return (
     <>
@@ -207,14 +203,31 @@ export default function Main() {
       <section className="fade-up px-6 py-10">
         <div className="max-w-6xl mx-auto glass-panel p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center gap-6">
           <div className="flex-1">
+            <p className="text-sm text-primary/80 mb-2">
+              {brief ? `${brief.greeting}, ${brief.profile.displayName}` : "Welcome to Vertex AI"}
+            </p>
             <h1 className="text-4xl md:text-5xl font-semibold text-white leading-tight">
-              <TypeAnimation sequence={[700, "Welcome to Vertex AI", 1200, "Pick a tool and get into flow."]} wrapper="span" cursor={false} />
+              <TypeAnimation sequence={[700, "Your study ecosystem", 1200, "Learn. Practice. Review. Remember."]} wrapper="span" cursor={false} />
             </h1>
             <p className="mt-4 text-white/70 max-w-2xl leading-relaxed">
-              Everything you need to study lives here. Pick a tool and jump straight in — no hunting through menus.
+              Everything connects here — notes flow into flashcards, papers into reviews, and progress follows you across every tool.
             </p>
+            {(goalLabel || gradeLabel) && (
+              <div className="mt-3 flex flex-wrap gap-2">
+                {goalLabel && (
+                  <span className="rounded-full border border-primary/25 bg-primary/10 px-3 py-1 text-xs text-primary">
+                    {goalLabel}
+                  </span>
+                )}
+                {gradeLabel && (
+                  <span className="rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs text-white/55">
+                    {gradeLabel}
+                  </span>
+                )}
+              </div>
+            )}
             <p className="mt-3 text-xs text-white/45 max-w-xl">
-              Study Zone for deep focus, Paper Maker for practice papers, Answer Reviewer when you want a second pair of eyes.
+              Study Zone for deep focus, Learning Hub for your path, Paper Maker and Answer Reviewer for exam prep.
             </p>
           </div>
 
@@ -240,15 +253,24 @@ export default function Main() {
         </section>
       )}
 
-      {stats && (
+      {stats && brief && (
         <section className="px-6 pb-8 fade-up">
           <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-4">
-            <StatCard icon={<Flame className="h-5 w-5 text-orange-400" />} label="Study streak" value={`${stats.studyStreak} day${stats.studyStreak === 1 ? "" : "s"}`} />
-            <StatCard icon={<Target className="h-5 w-5 text-primary" />} label="Habits done" value={`${stats.habitsDoneToday}/${stats.habitCount}`} />
-            <StatCard icon={<TrendingUp className="h-5 w-5 text-emerald-400" />} label="Activity log" value={String(stats.activityEntries)} />
-            <StatCard icon={<Sparkles className="h-5 w-5 text-violet-400" />} label="Quick notes" value={String(stats.quickNotes)} />
+            <StatCard to="/study-zone" icon={<Flame className="h-5 w-5 text-orange-400" />} label="Study streak" value={`${stats.studyStreak} day${stats.studyStreak === 1 ? "" : "s"}`} />
+            <StatCard to="/study-zone" icon={<Target className="h-5 w-5 text-primary" />} label="Habits done" value={`${stats.habitsDoneToday}/${stats.habitCount}`} />
+            <StatCard to="/notetaker" icon={<Brain className="h-5 w-5 text-violet-400" />} label="Due flashcards" value={String(brief.dueFlashcards)} />
+            <StatCard to="/planner" icon={<TrendingUp className="h-5 w-5 text-emerald-400" />} label="Tasks today" value={String(brief.todayTasks.length)} />
           </div>
         </section>
+      )}
+
+      {brief && (
+        <EcosystemPanel
+          todayTasks={brief.todayTasks}
+          recentActivity={brief.recentActivity}
+          learningPath={brief.learningPath}
+          dailyProgress={brief.dailyProgress}
+        />
       )}
 
       <section className="px-6 pb-6 fade-up">
@@ -256,7 +278,8 @@ export default function Main() {
           <div className="glass-panel p-4 md:p-5">
             <p className="text-xs uppercase tracking-widest text-white/45 mb-3">Quick actions</p>
             <div className="flex flex-wrap gap-2">
-              <QuickAction to="/study-zone" icon={<Zap className="h-4 w-4" />} label="Start session" />
+              <QuickAction to="/learning-hub" icon={<Route className="h-4 w-4" />} label="Learning Hub" />
+              <QuickAction to="/study-zone?focus=timer" icon={<Zap className="h-4 w-4" />} label="Focus session" />
               <QuickAction to="/notetaker" icon={<Brain className="h-4 w-4" />} label={dueFlashcards > 0 ? `Review ${dueFlashcards} cards` : "AI Notes"} />
               <QuickAction to="/paper-maker" icon={<FileText className="h-4 w-4" />} label="Mock paper" />
               <QuickAction to="/chatbot" icon={<MessageCircle className="h-4 w-4" />} label="Ask AI" />
@@ -363,6 +386,15 @@ export default function Main() {
 // ----------------------------
 // Small inline SVG icon helpers to provide clearer icons + descriptions
 // ----------------------------
+function hubIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+      <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="1.4" />
+      <path d="M12 2v4M12 18v4M2 12h4M18 12h4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+      <path d="M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+    </svg>
+  );
+}
 function studyIcon() {
   return (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
@@ -427,14 +459,26 @@ function toolsIcon() {
   );
 }
 
-function StatCard({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) {
-  return (
-    <div className="glass-tile rounded-2xl border border-white/10 px-4 py-3 flex items-center gap-3">
+function StatCard({ to, icon, label, value }: { to?: string; icon: React.ReactNode; label: string; value: string }) {
+  const inner = (
+    <>
       <div className="shrink-0">{icon}</div>
       <div>
         <p className="text-xs text-white/50">{label}</p>
         <p className="text-lg font-semibold text-white">{value}</p>
       </div>
+    </>
+  );
+  if (to) {
+    return (
+      <Link to={to} className="glass-tile rounded-2xl border border-white/10 px-4 py-3 flex items-center gap-3 hover:border-white/25 hover:bg-white/8 transition">
+        {inner}
+      </Link>
+    );
+  }
+  return (
+    <div className="glass-tile rounded-2xl border border-white/10 px-4 py-3 flex items-center gap-3">
+      {inner}
     </div>
   );
 }

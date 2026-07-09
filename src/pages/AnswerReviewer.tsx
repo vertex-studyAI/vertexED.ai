@@ -4,6 +4,7 @@ import PageSection from "@/components/PageSection";
 import NeumorphicCard from "@/components/NeumorphicCard";
 import { authFetch } from "@/lib/apiAuth";
 import { setChatHandoff, saveStudyArtifact, consumeArtifactRestore } from "@/lib/userContent";
+import { recordStudySession } from "@/lib/studyStats";
 import { Link, useNavigate } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import remarkMath from "remark-math";
@@ -352,7 +353,10 @@ export default function AIAnswerReview() {
               answer: formData.answer,
             },
           });
-          if (saved.ok) setSavedPost(true);
+          if (saved.ok) {
+            setSavedPost(true);
+            recordStudySession();
+          }
         }
       } catch (err) {
         console.warn("Failed to save review:", err);

@@ -10,6 +10,7 @@ import {
 	subtleBadgeStyle,
 	subtleTextStyle,
 } from "../styles";
+import { recordStudySession } from "@/lib/studyStats";
 
 type TimerTab = "timer" | "stopwatch" | "pomodoro";
 
@@ -103,6 +104,7 @@ const Timer: React.FC<{ accent: string }> = ({ accent }) => {
 	const [hours, setHours] = useState(0);
 	const [minutes, setMinutes] = useState(25);
 	const [seconds, setSeconds] = useState(0);
+	const completedRef = useRef(false);
 
 	useEffect(() => {
 		if (!isRunning) {
@@ -118,7 +120,14 @@ const Timer: React.FC<{ accent: string }> = ({ accent }) => {
 		if (timeMs <= 0 && isRunning) {
 			setIsRunning(false);
 		}
-	}, [timeMs, isRunning]);
+		if (timeMs <= 0 && !isRunning && totalMs > 0 && !completedRef.current) {
+			completedRef.current = true;
+			recordStudySession();
+		}
+		if (timeMs > 0) {
+			completedRef.current = false;
+		}
+	}, [timeMs, isRunning, totalMs]);
 
 	const computeTotal = () => (hours * 3600 + minutes * 60 + seconds) * 1000;
 
@@ -330,6 +339,7 @@ const PomodoroTimer: React.FC<{ accent: string }> = ({ accent }) => {
 	const modeRef = useRef<"focus" | "break">("focus");
 	const [timeSeconds, setTimeSeconds] = useState(focusMinutes * 60);
 	const [isRunning, setIsRunning] = useState(false);
+	const focusCompletedRef = useRef(false);
 
 	useEffect(() => {
 		modeRef.current = mode;
@@ -348,9 +358,17 @@ const PomodoroTimer: React.FC<{ accent: string }> = ({ accent }) => {
 		const intervalId = window.setInterval(() => {
 			setTimeSeconds((prev) => {
 				if (prev <= 1) {
-					const nextMode = modeRef.current === "focus" ? "break" : "focus";
+					const wasFocus = modeRef.current === "focus";
+					const nextMode = wasFocus ? "break" : "focus";
 					modeRef.current = nextMode;
 					setMode(nextMode);
+					if (wasFocus && !focusCompletedRef.current) {
+						focusCompletedRef.current = true;
+						recordStudySession();
+					}
+					if (!wasFocus) {
+						focusCompletedRef.current = false;
+					}
 					return (nextMode === "focus" ? focusMinutes : breakMinutes) * 60;
 				}
 				return prev - 1;

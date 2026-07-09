@@ -9,6 +9,7 @@ export type StudyStats = {
 
 const STREAK_KEY = "vertex_study_streak";
 const LAST_DATE_KEY = "vertex_last_study_date";
+const HABITS_RESET_KEY = "studyzone_habits_reset_date";
 
 function readJson<T>(key: string, fallback: T): T {
   if (typeof window === "undefined") return fallback;
@@ -22,6 +23,21 @@ function readJson<T>(key: string, fallback: T): T {
 
 function todayKey(): string {
   return new Date().toISOString().slice(0, 10);
+}
+
+/** Reset daily habit completion flags at the start of a new day. */
+export function ensureDailyHabitReset(): void {
+  if (typeof window === "undefined") return;
+  const today = todayKey();
+  const lastReset = window.localStorage.getItem(HABITS_RESET_KEY);
+  if (lastReset === today) return;
+
+  const habits = readJson<Array<{ completed?: boolean }>>("studyzone_habits", []);
+  if (habits.some((habit) => habit.completed)) {
+    const reset = habits.map((habit) => ({ ...habit, completed: false }));
+    window.localStorage.setItem("studyzone_habits", JSON.stringify(reset));
+  }
+  window.localStorage.setItem(HABITS_RESET_KEY, today);
 }
 
 /** Call when user completes a meaningful study action. */
@@ -45,6 +61,7 @@ export function recordStudySession(): void {
 }
 
 export function getStudyStats(): StudyStats {
+  ensureDailyHabitReset();
   const habits = readJson<{ completed?: boolean }[]>("studyzone_habits", []);
   const entries = readJson<unknown[]>("studyzone_activity", []);
   const notes = readJson<unknown[]>("studyzone_notes", []);

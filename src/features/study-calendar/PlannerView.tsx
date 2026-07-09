@@ -4,6 +4,7 @@ import Schedule, { TaskItem } from "./components/Schedule";
 import TimeLeftWidget from "./components/TimeLeftWidget";
 import "./styles/planner.css";
 import { textToTask } from "./ai/gemini";
+import { recordStudySession } from "@/lib/studyStats";
 
 function getOrdinalSuffix(day: number) {
   if (day > 3 && day < 21) return 'th';
@@ -97,7 +98,10 @@ const PlannerView: React.FC = () => {
     setTasks((prev) => [...prev, task]);
   };
 
-  const handleTaskComplete = (id: string) => setTasks((prev) => prev.filter((t) => t.id !== id));
+  const handleTaskComplete = (id: string) => {
+    setTasks((prev) => prev.filter((t) => t.id !== id));
+    recordStudySession();
+  };
   const handleEditTask = (task: TaskItem) => {
     setEditTask(task);
     setEditName(String(task["task name"] || ""));

@@ -5,6 +5,11 @@ export type StudyPageContext = {
 };
 
 const ROUTE_CONTEXT: Record<string, StudyPageContext> = {
+  "/learning-hub": {
+    page: "learning-hub",
+    label: "Learning Hub",
+    hint: "Guide the student through their connected learning path and subject tracks.",
+  },
   "/main": {
     page: "dashboard",
     label: "Dashboard",

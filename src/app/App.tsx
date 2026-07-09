@@ -8,6 +8,7 @@ const Signup = lazy(() => import("@/pages/Signup"));
 const Main = lazy(() => import("@/pages/Main"));
 const AuthCallback = lazy(() => import("@/pages/AuthCallback"));
 const NotetakerQuiz = lazy(() => import("@/pages/NotetakerQuiz"));
+const LearningHub = lazy(() => import("@/pages/LearningHub"));
 const StudyZone = lazy(() => import("@/pages/study-zone/StudyZonePage"));
 const AIChatbot = lazy(() => import("@/pages/AIChatbot"));
 const StudyPlanner = lazy(() => import("@/pages/StudyPlanner"));
@@ -131,6 +132,7 @@ return (
 <Route path="auth/callback" element={<AuthCallback />} />
 <Route path="onboarding" element={<ProtectedRoute><Onboarding /></ProtectedRoute>} />
 <Route path="main" element={<ProtectedRoute><Main /></ProtectedRoute>} />
+<Route path="learning-hub" element={<ProtectedRoute><LearningHub /></ProtectedRoute>} />
 <Route path="notetaker" element={<ProtectedRoute><NotetakerQuiz /></ProtectedRoute>} />
 <Route path="study-zone" element={<ProtectedRoute><StudyZone /></ProtectedRoute>} />
 <Route path="chatbot" element={<ProtectedRoute><AIChatbot /></ProtectedRoute>} />

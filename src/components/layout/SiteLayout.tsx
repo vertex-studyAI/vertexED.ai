@@ -25,14 +25,23 @@ export default function SiteLayout() {
     };
   }, [menuOpen]);
 
-  const navLinks = [
-    { to: "/", label: "Home" },
-    { to: "/features", label: "Features" },
-    { to: "/resources", label: "Resources" },
-    { to: "/study-tools", label: "Study Tools" },
-    { to: "/about", label: "About" },
-    ...(!isAuthenticated ? [{ to: "/login", label: "Login" as const }] : []),
-  ];
+  const navLinks = isAuthenticated
+    ? [
+        { to: "/main", label: "Dashboard" },
+        { to: "/learning-hub", label: "Learning Hub" },
+        { to: "/study-zone", label: "Study Zone" },
+        { to: "/notetaker", label: "Notes" },
+        { to: "/resources", label: "Resources" },
+        { to: "/study-tools", label: "Study Tools" },
+      ]
+    : [
+        { to: "/", label: "Home" },
+        { to: "/features", label: "Features" },
+        { to: "/resources", label: "Resources" },
+        { to: "/study-tools", label: "Study Tools" },
+        { to: "/about", label: "About" },
+        { to: "/login", label: "Login" },
+      ];
 
   return (
     <div className="relative min-h-screen flex flex-col bg-transparent text-foreground overflow-x-hidden">
@@ -62,7 +71,7 @@ export default function SiteLayout() {
 
       <header className="w-full z-50 sticky top-0 glass-nav">
         <div className="mx-auto w-full max-w-[1400px] px-4 md:px-6 h-16 flex items-center justify-between gap-4">
-          <Link to="/" className="flex items-center gap-2.5 shrink-0 group">
+          <Link to={isAuthenticated ? "/main" : "/"} className="flex items-center gap-2.5 shrink-0 group">
             <img
               src="/logo.png"
               srcSet="/favicon-32x32.png 32w, /favicon-48x48.png 48w, /apple-touch-icon.png 180w, /logo.png 500w"

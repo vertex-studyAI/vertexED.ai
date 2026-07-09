@@ -95,6 +95,12 @@ export default function Onboarding() {
       };
 
       if (withPreferences) {
+        if (studyGoal) {
+          metadata.study_goal = studyGoal;
+        }
+        if (gradeLevel) {
+          metadata.grade_level = gradeLevel;
+        }
         const prefs: Record<string, any> = {};
         if (studyGoal) prefs.studyGoal = studyGoal;
         if (gradeLevel) prefs.gradeLevel = gradeLevel;

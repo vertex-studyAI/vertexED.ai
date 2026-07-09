@@ -1,6 +1,6 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
 import { Helmet } from "react-helmet-async";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import ActivityLog from "./components/ActivityLog";
 import Assistant from "./components/Assistant";
 import Calendar from "./components/Calendar";
@@ -113,6 +113,16 @@ const sectionWrapperStyle = (accent: string, span?: "default" | "wide"): React.C
 });
 
 const StudyZonePage: React.FC = () => {
+  const [searchParams] = useSearchParams();
+
+  useEffect(() => {
+    if (searchParams.get("focus") !== "timer") return;
+    const id = window.setTimeout(() => {
+      document.getElementById("study-zone-timer")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 300);
+    return () => window.clearTimeout(id);
+  }, [searchParams]);
+
   const widgetMeta = useMemo<WidgetMeta[]>(
     () => [
       {
@@ -213,10 +223,13 @@ const StudyZonePage: React.FC = () => {
         <link rel="canonical" href="https://www.vertexed.app/study-zone" />
       </Helmet>
 
-      <div>
+      <div style={{ display: "flex", flexWrap: "wrap", gap: "12px" }}>
         <Link to="/main" style={backLinkStyle}>
           <span aria-hidden="true">←</span>
-          Back to main
+          Dashboard
+        </Link>
+        <Link to="/learning-hub" style={backLinkStyle}>
+          Learning Hub
         </Link>
       </div>
 
@@ -232,7 +245,11 @@ const StudyZonePage: React.FC = () => {
 
       <div style={widgetGridStyle}>
         {widgetMeta.map((meta) => (
-          <section key={meta.key} style={sectionWrapperStyle(meta.accent, meta.span)}>
+          <section
+            key={meta.key}
+            id={meta.key === "timer" ? "study-zone-timer" : undefined}
+            style={sectionWrapperStyle(meta.accent, meta.span)}
+          >
             <div style={sectionHeaderStyle}>
               <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
                 <span style={accentDotStyle(meta.accent)} />

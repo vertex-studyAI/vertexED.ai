@@ -7,6 +7,7 @@ import { User, LogOut, Settings, RefreshCw, AlertTriangle } from "lucide-react";
 import PageSection from "@/components/PageSection";
 import { useEffect, useState } from "react";
 import { getStudyStats } from "@/lib/studyStats";
+import { getLearnerProfile, gradeLevelLabel, studyGoalLabel } from "@/lib/learnerProfile";
 import {
   listStudyArtifacts,
   listStudyArtifactsDetailed,
@@ -70,13 +71,14 @@ export default function UserSettings() {
   const exportAccountData = async () => {
     const saved = await listStudyArtifacts();
     const stats = getStudyStats();
+    const learner = getLearnerProfile(user);
     const data = {
       exportedAt: new Date().toISOString(),
       account: {
         username: user?.user_metadata?.username ?? null,
         email: user?.email ?? null,
-        studyGoal: user?.user_metadata?.study_goal ?? null,
-        gradeLevel: user?.user_metadata?.grade_level ?? null,
+        studyGoal: learner.studyGoal,
+        gradeLevel: learner.gradeLevel,
         memberSince: profile?.created_at ?? user?.created_at ?? null,
         profileName: profile?.full_name ?? null,
       },
@@ -101,8 +103,9 @@ export default function UserSettings() {
     "Student";
 
   const memberSince = formatMemberSince(profile?.created_at ?? user?.created_at);
-  const studyGoal = (user?.user_metadata?.study_goal as string | undefined) || "—";
-  const gradeLevel = (user?.user_metadata?.grade_level as string | undefined) || "—";
+  const learnerProfile = getLearnerProfile(user);
+  const studyGoal = studyGoalLabel(learnerProfile.studyGoal) || "—";
+  const gradeLevel = gradeLevelLabel(learnerProfile.gradeLevel) || "—";
 
   return (
     <>
