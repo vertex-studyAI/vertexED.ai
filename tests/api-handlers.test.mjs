@@ -1,7 +1,7 @@
 import { test, before, after } from 'node:test';
 import assert from 'node:assert/strict';
-import askHandler from '../api/ask.js';
-import waitlistHandler from '../api/waitlist.js';
+import askHandler from '../api/_handlers/ask.js';
+import waitlistHandler from '../api/_handlers/waitlist.js';
 import { createMocks } from './helpers/mock-http.mjs';
 
 const savedEnv = {

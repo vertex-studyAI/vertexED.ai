@@ -1,5 +1,5 @@
-import { verifyAuthUser, rejectOversizedJsonBody } from './_lib/auth.js';
-import { rateLimitUserEndpoint } from './_lib/rateLimit.js';
+import { verifyAuthUser, rejectOversizedJsonBody } from '../_lib/auth.js';
+import { rateLimitUserEndpoint } from '../_lib/rateLimit.js';
 
 const OPENAI_URL = "https://api.openai.com/v1/chat/completions";
 const DEFAULT_MODEL = "gpt-4.1";

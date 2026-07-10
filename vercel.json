@@ -4,16 +4,10 @@
   "installCommand": "npm ci",
   "framework": null,
   "functions": {
-    "api/review.ts": {
+    "api/[[...path]].js": {
       "maxDuration": 60,
       "includeFiles": "api/**"
-    },
-    "api/paper-generator.js": { "maxDuration": 60 },
-    "api/planner.js": { "maxDuration": 60 },
-    "api/quiz.js": { "maxDuration": 60 },
-    "api/ask.js": { "maxDuration": 60 },
-    "api/transcribe.js": { "maxDuration": 60 },
-    "api/note.js": { "maxDuration": 30 }
+    }
   },
   "rewrites": [
     { "source": "/((?!api|.*\\..*).*)", "destination": "/index.html" }

@@ -1,5 +1,5 @@
-import { verifyAuthUser, readJsonBody, rejectOversizedJsonBody } from './_lib/auth.js';
-import { getSupabaseAdmin } from './_lib/supabaseAdmin.js';
+import { verifyAuthUser, readJsonBody, rejectOversizedJsonBody } from '../_lib/auth.js';
+import { getSupabaseAdmin } from '../_lib/supabaseAdmin.js';
 
 const ALLOWED_KINDS = new Set(['note', 'review', 'paper']);
 

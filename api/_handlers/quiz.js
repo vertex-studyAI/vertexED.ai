@@ -1,5 +1,5 @@
-import { verifyAuthUser, readJsonBody, rejectOversizedJsonBody } from './_lib/auth.js';
-import { rateLimitUserEndpoint } from './_lib/rateLimit.js';
+import { verifyAuthUser, readJsonBody, rejectOversizedJsonBody } from '../_lib/auth.js';
+import { rateLimitUserEndpoint } from '../_lib/rateLimit.js';
 
 function parseJsonBody(req) {
   let body = req.body ?? {};

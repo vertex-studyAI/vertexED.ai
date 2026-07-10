@@ -1,6 +1,6 @@
 import { GoogleGenAI } from '@google/genai';
-import { verifyAuthUser, readJsonBody, rejectOversizedJsonBody } from './_lib/auth.js';
-import { rateLimitUserEndpoint } from './_lib/rateLimit.js';
+import { verifyAuthUser, readJsonBody, rejectOversizedJsonBody } from '../_lib/auth.js';
+import { rateLimitUserEndpoint } from '../_lib/rateLimit.js';
 
 const TRY_MODELS = [
   'gemini-2.5-flash',
