@@ -49,6 +49,7 @@ const CollegeEssaysWithAI = lazy(() => import("@/pages/resources/CollegeEssaysWi
 const Onboarding = lazy(() => import("@/pages/Onboarding"));
 const WaitlistAdmin = lazy(() => import("@/pages/admin/WaitlistAdmin"));
 import { AuthProvider } from "@/contexts/AuthContext";
+import { AppPreferencesProvider } from "@/contexts/AppPreferencesContext";
 import AdminRoute from "@/components/AdminRoute";
 import { HelmetProvider } from "react-helmet-async";
 import { useEffect } from "react";
@@ -100,6 +101,7 @@ useEffect(() => {
 return (
 <HelmetProvider>
 <AuthProvider>
+<AppPreferencesProvider>
 <BrowserRouter>
 <Routes>
 <Route path="/" element={<SiteLayout />}>
@@ -165,6 +167,7 @@ return (
 <Toaster />
 <SpeedInsights />
 <Analytics />
+</AppPreferencesProvider>
 </AuthProvider>
 </HelmetProvider>
 );

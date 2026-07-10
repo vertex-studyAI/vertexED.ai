@@ -15,6 +15,7 @@ import type { CurriculumPreference } from "@/types/curriculum";
 import { supabase } from "@/lib/supabaseClient";
 import { toast } from "@/hooks/use-toast";
 import { useAccessibility } from "@/hooks/useAccessibility";
+import ThemeToggle from "@/components/ThemeToggle";
 import {
   listStudyArtifacts,
   listStudyArtifactsDetailed,
@@ -210,8 +211,13 @@ export default function UserSettings() {
             </button>
           </NeumorphicCard>
 
-          <NeumorphicCard className="p-8" title="Accessibility">
-            <div className="space-y-4 text-sm">
+          <NeumorphicCard className="p-8" title="Appearance & Accessibility">
+            <div className="space-y-6">
+              <div>
+                <p className="text-sm text-muted-foreground mb-3">Color theme</p>
+                <ThemeToggle />
+              </div>
+              <div className="space-y-4 text-sm border-t border-border/50 pt-5">
               <label className="flex items-center justify-between gap-4">
                 <span>High contrast mode</span>
                 <input type="checkbox" checked={a11y.highContrast} onChange={(e) => updateA11y({ highContrast: e.target.checked })} />
@@ -235,6 +241,7 @@ export default function UserSettings() {
                   <option value="large">Large</option>
                   <option value="xlarge">Extra large</option>
                 </select>
+              </div>
               </div>
             </div>
           </NeumorphicCard>

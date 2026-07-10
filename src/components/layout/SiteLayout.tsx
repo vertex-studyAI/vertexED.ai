@@ -4,15 +4,18 @@ import { Helmet } from "react-helmet-async";
 
 import { RouteSemanticHeadings } from "@/components/SemanticHeadings";
 import { useAuth } from "@/contexts/AuthContext";
+import { useAppPreferences } from "@/contexts/AppPreferencesContext";
 import BreadcrumbsJsonLd from "@/components/BreadcrumbsJsonLd";
 import RouteErrorBoundary from "@/components/RouteErrorBoundary";
 import { isAdminUser } from "@/lib/admin";
 import GlobalChatPanel from "@/components/chat/GlobalChatPanel";
 import CloudSaveBanner from "@/components/CloudSaveBanner";
+import ThemeToggle from "@/components/ThemeToggle";
 import { useStudySessionTracker } from "@/hooks/useStudySessionTracker";
 
 export default function SiteLayout() {
   const { isAuthenticated, logout, user } = useAuth();
+  const { themeColor } = useAppPreferences();
   const showAdmin = isAuthenticated && isAdminUser(user);
   const location = useLocation();
   useStudySessionTracker(isAuthenticated);
@@ -62,7 +65,7 @@ export default function SiteLayout() {
         <meta property="og:site_name" content="VertexED" />
         <meta property="og:image" content="https://www.vertexed.app/socialpreview.jpg" />
         <meta property="og:locale" content="en_US" />
-        <meta name="theme-color" content="#070b14" />
+        <meta name="theme-color" content={themeColor} />
       </Helmet>
 
       <div className="pointer-events-none fixed inset-0 z-0">
@@ -79,14 +82,14 @@ export default function SiteLayout() {
               srcSet="/favicon-32x32.png 32w, /favicon-48x48.png 48w, /apple-touch-icon.png 180w, /logo.png 500w"
               sizes="36px"
               alt="Vertex AI Logo"
-              className="w-9 h-9 rounded-full object-cover select-none ring-1 ring-white/20 group-hover:ring-white/40 transition"
+              className="w-9 h-9 rounded-full object-cover select-none ring-1 ring-border/60 group-hover:ring-primary/40 transition"
               draggable={false}
               loading="eager"
               decoding="async"
               width="36"
               height="36"
             />
-            <span className="font-semibold tracking-wide text-sm md:text-base text-white">
+            <span className="font-semibold tracking-wide text-sm md:text-base text-foreground">
               Vertex AI
             </span>
           </Link>
@@ -96,9 +99,7 @@ export default function SiteLayout() {
               <Link
                 key={l.label}
                 to={l.to}
-                className={`nav-link-pill ${
-                  isActive(l.to) ? "is-active text-white" : "text-white/70 hover:text-white hover:bg-white/10"
-                }`}
+                className={`nav-link-pill ${isActive(l.to) ? "is-active" : ""}`}
               >
                 {l.label}
               </Link>
@@ -106,11 +107,7 @@ export default function SiteLayout() {
             {isAuthenticated && (
               <Link
                 to="/user-settings"
-                className={`nav-link-pill ${
-                  isActive("/user-settings")
-                    ? "is-active text-white"
-                    : "text-white/70 hover:text-white hover:bg-white/10"
-                }`}
+                className={`nav-link-pill ${isActive("/user-settings") ? "is-active" : ""}`}
               >
                 Account
               </Link>
@@ -118,20 +115,17 @@ export default function SiteLayout() {
             {showAdmin && (
               <Link
                 to="/admin/waitlist"
-                className={`nav-link-pill ${
-                  isActive("/admin/waitlist")
-                    ? "is-active text-white"
-                    : "text-white/70 hover:text-white hover:bg-white/10"
-                }`}
+                className={`nav-link-pill ${isActive("/admin/waitlist") ? "is-active" : ""}`}
               >
                 Admin
               </Link>
             )}
+            <ThemeToggle compact className="ml-1" />
             {isAuthenticated && (
               <button
                 type="button"
                 onClick={() => void logout()}
-                className="nav-link-pill text-white/60 hover:text-white hover:bg-white/10"
+                className="nav-link-pill"
               >
                 Sign out
               </button>
@@ -147,6 +141,7 @@ export default function SiteLayout() {
           </nav>
 
           <div className="flex md:hidden items-center gap-2 ml-auto">
+            <ThemeToggle compact />
             {!isAuthenticated && (
               <Link
                 to="/signup"
@@ -158,22 +153,22 @@ export default function SiteLayout() {
             <button
               aria-label="Toggle navigation menu"
               onClick={() => setMenuOpen((o) => !o)}
-              className="relative w-10 h-10 inline-flex items-center justify-center rounded-xl border border-white/15 bg-white/8 hover:bg-white/14 hover:border-white/25 transition backdrop-blur-md"
+              className="relative w-10 h-10 inline-flex items-center justify-center rounded-xl border border-border/60 bg-background/50 hover:bg-accent/20 transition backdrop-blur-md"
             >
               <span className="sr-only">Menu</span>
               <div className="flex flex-col gap-1.5">
                 <span
-                  className={`block h-0.5 w-5 bg-white transition-transform ${
+                  className={`block h-0.5 w-5 bg-foreground transition-transform ${
                     menuOpen ? "translate-y-1.5 rotate-45" : ""
                   }`}
                 />
                 <span
-                  className={`block h-0.5 w-5 bg-white transition-opacity ${
+                  className={`block h-0.5 w-5 bg-foreground transition-opacity ${
                     menuOpen ? "opacity-0" : "opacity-100"
                   }`}
                 />
                 <span
-                  className={`block h-0.5 w-5 bg-white transition-transform ${
+                  className={`block h-0.5 w-5 bg-foreground transition-transform ${
                     menuOpen ? "-translate-y-1.5 -rotate-45" : ""
                   }`}
                 />
@@ -183,18 +178,20 @@ export default function SiteLayout() {
         </div>
 
         <div
-          className={`md:hidden overflow-hidden transition-[max-height,opacity] duration-300 border-t border-white/10 ${
+          className={`md:hidden overflow-hidden transition-[max-height,opacity] duration-300 border-t border-border/60 ${
             menuOpen ? "max-h-[560px] opacity-100" : "max-h-0 opacity-0"
           }`}
         >
-          <nav className="flex flex-col px-5 py-4 gap-1 text-sm font-medium bg-black/25 backdrop-blur-xl">
+          <nav className="flex flex-col px-5 py-4 gap-1 text-sm font-medium bg-background/80 backdrop-blur-xl">
             {navLinks.map((l) => (
               <Link
                 key={l.label}
                 to={l.to}
                 onClick={() => setMenuOpen(false)}
                 className={`rounded-xl px-3 py-2.5 ${
-                  isActive(l.to) ? "bg-white/12 text-white border border-white/20" : "text-white/80 hover:bg-white/10 hover:text-white"
+                  isActive(l.to)
+                    ? "bg-primary/12 text-foreground border border-primary/25"
+                    : "text-muted-foreground hover:bg-accent/30 hover:text-foreground"
                 }`}
               >
                 {l.label}
@@ -206,8 +203,8 @@ export default function SiteLayout() {
                 onClick={() => setMenuOpen(false)}
                 className={`rounded-xl px-3 py-2.5 ${
                   isActive("/user-settings")
-                    ? "bg-white/12 text-white border border-white/20"
-                    : "text-white/80 hover:bg-white/10 hover:text-white"
+                    ? "bg-primary/12 text-foreground border border-primary/25"
+                    : "text-muted-foreground hover:bg-accent/30 hover:text-foreground"
                 }`}
               >
                 Account
@@ -219,8 +216,8 @@ export default function SiteLayout() {
                 onClick={() => setMenuOpen(false)}
                 className={`rounded-xl px-3 py-2.5 ${
                   isActive("/admin/waitlist")
-                    ? "bg-white/12 text-white border border-white/20"
-                    : "text-white/80 hover:bg-white/10 hover:text-white"
+                    ? "bg-primary/12 text-foreground border border-primary/25"
+                    : "text-muted-foreground hover:bg-accent/30 hover:text-foreground"
                 }`}
               >
                 Admin
@@ -241,7 +238,7 @@ export default function SiteLayout() {
                   await logout();
                   setMenuOpen(false);
                 }}
-                className="mt-2 rounded-full px-4 py-2.5 text-sm font-semibold border border-white/20 bg-white/10 hover:bg-white/15 transition"
+                className="mt-2 rounded-full px-4 py-2.5 text-sm font-semibold border border-border bg-accent/20 hover:bg-accent/30 transition"
               >
                 Sign Out
               </button>
@@ -259,9 +256,9 @@ export default function SiteLayout() {
         <RouteErrorBoundary>
           <Suspense
             fallback={
-              <div className="min-h-[40vh] flex flex-col items-center justify-center gap-3 text-slate-300">
-                <div className="h-9 w-9 rounded-full border-2 border-white/20 border-t-white/90 animate-spin" />
-                <p className="text-sm text-white/70">Just a moment…</p>
+              <div className="min-h-[40vh] flex flex-col items-center justify-center gap-3 text-muted-foreground">
+                <div className="h-9 w-9 rounded-full border-2 border-border border-t-primary animate-spin" />
+                <p className="text-sm">Just a moment…</p>
               </div>
             }
           >
@@ -272,24 +269,24 @@ export default function SiteLayout() {
 
       <GlobalChatPanel />
 
-      <footer className="relative z-10 border-t border-white/10 bg-black/20 backdrop-blur-sm">
-        <div className="mx-auto w-full max-w-[1400px] px-4 md:px-6 py-8 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-white/50">
+      <footer className="relative z-10 border-t border-border/60 bg-background/50 backdrop-blur-sm">
+        <div className="mx-auto w-full max-w-[1400px] px-4 md:px-6 py-8 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
           <p>© {new Date().getFullYear()} VertexED — AI study tools for students.</p>
           <nav className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2">
             {isAuthenticated ? (
               <>
-                <Link to="/main" className="hover:text-white transition">Dashboard</Link>
-                <Link to="/learning-hub" className="hover:text-white transition">Learning Hub</Link>
-                <Link to="/user-settings" className="hover:text-white transition">Account</Link>
+                <Link to="/main" className="hover:text-foreground transition">Dashboard</Link>
+                <Link to="/learning-hub" className="hover:text-foreground transition">Learning Hub</Link>
+                <Link to="/user-settings" className="hover:text-foreground transition">Account</Link>
               </>
             ) : (
               <>
-                <Link to="/features" className="hover:text-white transition">Features</Link>
-                <Link to="/study-tools" className="hover:text-white transition">Study Tools</Link>
-                <Link to="/about" className="hover:text-white transition">About</Link>
+                <Link to="/features" className="hover:text-foreground transition">Features</Link>
+                <Link to="/study-tools" className="hover:text-foreground transition">Study Tools</Link>
+                <Link to="/about" className="hover:text-foreground transition">About</Link>
               </>
             )}
-            <a href="mailto:vertexed.25@gmail.com" className="hover:text-white transition">Contact</a>
+            <a href="mailto:vertexed.25@gmail.com" className="hover:text-foreground transition">Contact</a>
           </nav>
         </div>
       </footer>

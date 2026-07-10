@@ -8,37 +8,30 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Single dark theme (light mode removed) */
+    --radius: 1.15rem;
+    color-scheme: dark light;
+  }
+
+  .dark {
     --background: 216 22% 7%;
     --foreground: 210 40% 98%;
-
     --card: 216 20% 11%;
     --card-foreground: 210 40% 98%;
-
     --popover: 216 20% 11%;
     --popover-foreground: 210 40% 98%;
-
     --primary: 199 55% 48%;
     --primary-foreground: 216 22% 8%;
-
     --secondary: 217 28% 16%;
     --secondary-foreground: 210 40% 98%;
-
     --muted: 217 24% 15%;
     --muted-foreground: 215 16% 68%;
-
     --accent: 200 18% 55%;
     --accent-foreground: 210 40% 98%;
-
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
-
     --border: 217 20% 20%;
     --input: 217 20% 18%;
     --ring: 199 55% 48%;
-
-    --radius: 1.15rem;
-
     --sidebar-background: 216 22% 7%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 199 55% 48%;
@@ -47,15 +40,12 @@ All colors MUST be HSL.
     --sidebar-accent-foreground: 240 4.8% 95.9%;
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 199 55% 48%;
-
     --brand-1: 199 55% 42%;
     --brand-2: 200 18% 52%;
     --brand-cta-1: 200 18% 72%;
     --brand-cta-2: 200 24% 92%;
     --brand-tile-1: 0 0% 100%;
     --brand-tile-2: 0 0% 69%;
-
-    /* Liquid glass depth */
     --shadow-soft:
       0 4px 24px hsl(216 50% 2% / 0.35),
       0 18px 50px hsl(216 50% 2% / 0.45),
@@ -66,7 +56,6 @@ All colors MUST be HSL.
       0 0 0 1px hsl(var(--primary) / 0.4),
       0 14px 44px hsl(var(--primary) / 0.22),
       inset 0 1px 0 hsl(0 0% 100% / 0.2);
-
     --glass-fill: linear-gradient(
       160deg,
       hsl(0 0% 100% / 0.14) 0%,
@@ -83,13 +72,104 @@ All colors MUST be HSL.
     );
     --glass-border: hsl(0 0% 100% / 0.18);
     --glass-highlight: inset 0 1px 0 hsl(0 0% 100% / 0.22);
-
     --gradient-surface: var(--glass-fill);
     --gradient-hero: var(--glass-fill-strong);
-
     --surface-light-1: 0 0% 99%;
     --surface-light-2: 225 12% 87%;
     --surface-light-border: 210 12% 82%;
+    --page-bg-base: #070b14;
+    --page-bg-image:
+      radial-gradient(ellipse 90% 60% at 12% -8%, hsl(199 70% 42% / 0.32), transparent 52%),
+      radial-gradient(ellipse 70% 45% at 92% 8%, hsl(230 55% 45% / 0.2), transparent 48%),
+      radial-gradient(ellipse 50% 35% at 70% 60%, hsl(199 40% 30% / 0.12), transparent 55%),
+      radial-gradient(ellipse 65% 40% at 40% 110%, hsl(210 35% 18% / 0.35), transparent 50%),
+      linear-gradient(180deg, #070b14 0%, #0a1220 50%, #070b14 100%);
+    --nav-fg: 0 0% 100%;
+    --nav-muted: 0 0% 100% / 0.7;
+    --nav-border: 0 0% 100% / 0.1;
+    --nav-hover-bg: 0 0% 100% / 0.1;
+    --grid-line: 0 0% 100% / 0.025;
+    --scrollbar-thumb: 0 0% 100% / 0.14;
+    --scrollbar-thumb-hover: 0 0% 100% / 0.26;
+    --placeholder: 0 0% 100% / 0.4;
+  }
+
+  .light {
+    --background: 210 40% 98%;
+    --foreground: 216 28% 12%;
+    --card: 0 0% 100%;
+    --card-foreground: 216 28% 12%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 216 28% 12%;
+    --primary: 199 62% 38%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 210 28% 94%;
+    --secondary-foreground: 216 28% 16%;
+    --muted: 210 24% 94%;
+    --muted-foreground: 215 14% 42%;
+    --accent: 199 35% 92%;
+    --accent-foreground: 216 28% 14%;
+    --destructive: 0 72% 48%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 214 22% 86%;
+    --input: 214 22% 90%;
+    --ring: 199 62% 38%;
+    --sidebar-background: 210 40% 97%;
+    --sidebar-foreground: 216 28% 14%;
+    --sidebar-primary: 199 62% 38%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 210 28% 94%;
+    --sidebar-accent-foreground: 216 28% 14%;
+    --sidebar-border: 214 22% 88%;
+    --sidebar-ring: 199 62% 38%;
+    --brand-1: 199 62% 38%;
+    --brand-2: 200 30% 48%;
+    --brand-cta-1: 199 55% 42%;
+    --brand-cta-2: 199 45% 32%;
+    --brand-tile-1: 0 0% 100%;
+    --brand-tile-2: 210 20% 94%;
+    --shadow-soft:
+      0 4px 20px hsl(216 30% 20% / 0.06),
+      0 12px 36px hsl(216 30% 20% / 0.08),
+      inset 0 1px 0 hsl(0 0% 100% / 0.9);
+    --shadow-pressed: inset 0 2px 10px hsl(216 30% 20% / 0.08);
+    --glow:
+      0 0 0 1px hsl(var(--primary) / 0.22),
+      0 12px 32px hsl(var(--primary) / 0.12),
+      inset 0 1px 0 hsl(0 0% 100% / 0.95);
+    --glass-fill: linear-gradient(
+      160deg,
+      hsl(0 0% 100% / 0.92) 0%,
+      hsl(210 40% 98% / 0.88) 40%,
+      hsl(210 30% 96% / 0.85) 100%
+    );
+    --glass-fill-strong: linear-gradient(
+      155deg,
+      hsl(0 0% 100% / 0.96) 0%,
+      hsl(199 40% 96% / 0.9) 35%,
+      hsl(210 28% 94% / 0.88) 100%
+    );
+    --glass-border: hsl(214 22% 86% / 0.9);
+    --glass-highlight: inset 0 1px 0 hsl(0 0% 100% / 1);
+    --gradient-surface: var(--glass-fill);
+    --gradient-hero: var(--glass-fill-strong);
+    --surface-light-1: 0 0% 100%;
+    --surface-light-2: 210 24% 96%;
+    --surface-light-border: 214 18% 88%;
+    --page-bg-base: #f4f7fb;
+    --page-bg-image:
+      radial-gradient(ellipse 90% 60% at 12% -8%, hsl(199 70% 72% / 0.28), transparent 52%),
+      radial-gradient(ellipse 70% 45% at 92% 8%, hsl(230 55% 75% / 0.18), transparent 48%),
+      radial-gradient(ellipse 50% 35% at 70% 60%, hsl(199 40% 80% / 0.12), transparent 55%),
+      linear-gradient(180deg, #f8fafc 0%, #f4f7fb 50%, #eef2f7 100%);
+    --nav-fg: 216 28% 14%;
+    --nav-muted: 215 14% 42%;
+    --nav-border: 214 22% 86%;
+    --nav-hover-bg: 199 40% 94%;
+    --grid-line: 216 28% 20% / 0.04;
+    --scrollbar-thumb: 216 20% 70% / 0.45;
+    --scrollbar-thumb-hover: 216 20% 55% / 0.55;
+    --placeholder: 215 14% 50% / 0.75;
   }
 
   .prose-invert :where(p):not(:where(.not-prose *)) { margin-top: 1em; margin-bottom: 1em; }
@@ -107,23 +187,22 @@ All colors MUST be HSL.
     font-family: 'Sen', Helvetica, Arial, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
   }
 
+  html {
+    transition: background-color 0.25s ease, color 0.25s ease;
+  }
+
   html, body {
-    background-color: #070b14;
-    background-image:
-      radial-gradient(ellipse 90% 60% at 12% -8%, hsl(199 70% 42% / 0.32), transparent 52%),
-      radial-gradient(ellipse 70% 45% at 92% 8%, hsl(230 55% 45% / 0.2), transparent 48%),
-      radial-gradient(ellipse 50% 35% at 70% 60%, hsl(199 40% 30% / 0.12), transparent 55%),
-      radial-gradient(ellipse 65% 40% at 40% 110%, hsl(210 35% 18% / 0.35), transparent 50%),
-      linear-gradient(180deg, #070b14 0%, #0a1220 50%, #070b14 100%);
+    background-color: var(--page-bg-base);
+    background-image: var(--page-bg-image);
     background-attachment: fixed;
     min-height: 100%;
   }
 
   ::-webkit-scrollbar { width: 6px; height: 6px; }
   ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.14); border-radius: 10px; }
-  ::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.26); }
-  html { scrollbar-width: thin; scrollbar-color: rgba(255, 255, 255, 0.14) transparent; }
+  ::-webkit-scrollbar-thumb { background: hsl(var(--scrollbar-thumb)); border-radius: 10px; }
+  ::-webkit-scrollbar-thumb:hover { background: hsl(var(--scrollbar-thumb-hover)); }
+  html { scrollbar-width: thin; scrollbar-color: hsl(var(--scrollbar-thumb)) transparent; }
 
   /* Glass surfaces — neu-* kept as aliases */
   .neu-surface,
@@ -163,11 +242,9 @@ All colors MUST be HSL.
     background-image: linear-gradient(to bottom left, hsl(var(--brand-1)) 0%, hsl(var(--brand-2)) 100%);
   }
   .brand-cta {
-    background-image: linear-gradient(135deg, hsl(0 0% 100% / 0.95) 0%, hsl(200 24% 90% / 0.9) 100%);
-    border: 1px solid hsl(0 0% 100% / 0.5);
-    box-shadow:
-      0 10px 32px hsl(216 40% 4% / 0.4),
-      inset 0 1px 0 hsl(0 0% 100% / 0.85);
+    background-image: linear-gradient(135deg, hsl(var(--brand-cta-1)) 0%, hsl(var(--brand-cta-2)) 100%);
+    border: 1px solid hsl(var(--primary) / 0.25);
+    box-shadow: var(--shadow-soft);
   }
   .brand-tile {
     background-image: linear-gradient(to bottom, hsl(var(--brand-tile-1)) 0%, hsl(var(--brand-tile-2)) 100%);
@@ -175,7 +252,8 @@ All colors MUST be HSL.
 
   .diagonal-accent-left,
   .diagonal-accent-top { display: none !important; }
-  .brand-ink-dark { color: hsl(206 22% 12%); }
+  .brand-ink-dark { color: hsl(var(--primary-foreground)); }
+  .light .brand-ink-dark { color: hsl(0 0% 100%); }
 
   .neu-button {
     @apply inline-flex items-center justify-center rounded-full px-4 py-2 transition-all;
@@ -208,7 +286,7 @@ All colors MUST be HSL.
     @apply w-full rounded-[inherit] bg-transparent px-4 py-3 outline-none;
     color: hsl(var(--foreground));
   }
-  .neu-input-el::placeholder { color: hsl(0 0% 100% / 0.4); }
+  .neu-input-el::placeholder { color: hsl(var(--placeholder)); }
 
   .neu-toggle {
     @apply flex items-center gap-2 px-2 py-1 rounded-full;
@@ -243,8 +321,8 @@ All colors MUST be HSL.
   /* Soft mesh only — no ornate shape effects */
   .bg-grid-soft {
     background-image:
-      linear-gradient(hsl(0 0% 100% / 0.025) 1px, transparent 1px),
-      linear-gradient(90deg, hsl(0 0% 100% / 0.025) 1px, transparent 1px);
+      linear-gradient(hsl(var(--grid-line)) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(var(--grid-line)) 1px, transparent 1px);
     background-size: 56px 56px;
     mask-image: radial-gradient(ellipse 80% 70% at 50% 30%, black 15%, transparent 72%);
   }
@@ -356,55 +434,56 @@ All colors MUST be HSL.
 
   .glass-chip {
     @apply inline-flex items-center rounded-full px-3 py-1 text-xs;
-    background: hsl(0 0% 100% / 0.06);
-    border: 1px solid hsl(0 0% 100% / 0.12);
-    color: hsl(0 0% 100% / 0.78);
+    background: hsl(var(--foreground) / 0.06);
+    border: 1px solid hsl(var(--border));
+    color: hsl(var(--muted-foreground));
     -webkit-backdrop-filter: blur(12px);
     backdrop-filter: blur(12px);
   }
 
   .glass-nav {
-    background: linear-gradient(
-      180deg,
-      hsl(216 32% 8% / 0.82) 0%,
-      hsl(216 30% 7% / 0.62) 100%
-    );
-    border-bottom: 1px solid hsl(0 0% 100% / 0.1);
+    background: hsl(var(--background) / 0.78);
+    border-bottom: 1px solid hsl(var(--nav-border));
     -webkit-backdrop-filter: blur(24px) saturate(180%);
     backdrop-filter: blur(24px) saturate(180%);
-    box-shadow: 0 10px 36px hsl(216 50% 2% / 0.28);
+    box-shadow: var(--shadow-soft);
   }
 
   .nav-link-pill {
     @apply rounded-full px-3.5 py-1.5 transition-all;
+    color: hsl(var(--nav-muted));
+  }
+  .nav-link-pill:hover {
+    color: hsl(var(--nav-fg));
+    background: hsl(var(--nav-hover-bg));
   }
   .nav-link-pill.is-active {
-    background: linear-gradient(155deg, hsl(0 0% 100% / 0.14), hsl(199 40% 40% / 0.12));
-    box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.14);
-    border: 1px solid hsl(0 0% 100% / 0.1);
-    color: white;
+    background: hsl(var(--primary) / 0.14);
+    box-shadow: inset 0 1px 0 hsl(var(--foreground) / 0.08);
+    border: 1px solid hsl(var(--primary) / 0.22);
+    color: hsl(var(--nav-fg));
   }
 
   .btn-glass {
     @apply inline-flex items-center justify-center rounded-full px-6 py-3 font-semibold transition-all;
-    background: linear-gradient(155deg, hsl(0 0% 100% / 0.12), hsl(216 20% 12% / 0.35));
-    border: 1px solid hsl(0 0% 100% / 0.22);
-    color: white;
+    background: hsl(var(--foreground) / 0.08);
+    border: 1px solid hsl(var(--border));
+    color: hsl(var(--foreground));
     -webkit-backdrop-filter: blur(16px);
     backdrop-filter: blur(16px);
-    box-shadow: 0 8px 28px hsl(216 40% 4% / 0.3), inset 0 1px 0 hsl(0 0% 100% / 0.12);
+    box-shadow: var(--shadow-soft);
   }
   .btn-glass:hover {
-    background: linear-gradient(155deg, hsl(0 0% 100% / 0.18), hsl(199 40% 30% / 0.2));
-    border-color: hsl(0 0% 100% / 0.35);
+    background: hsl(var(--primary) / 0.12);
+    border-color: hsl(var(--primary) / 0.3);
     transform: translateY(-1px);
   }
   .btn-solid {
     @apply inline-flex items-center justify-center rounded-full px-6 py-3 font-semibold transition-all;
-    background: linear-gradient(135deg, hsl(0 0% 100% / 0.98), hsl(200 20% 92% / 0.95));
-    color: hsl(216 30% 10%);
-    border: 1px solid hsl(0 0% 100% / 0.5);
-    box-shadow: 0 12px 36px hsl(216 40% 4% / 0.4), inset 0 1px 0 hsl(0 0% 100% / 0.9);
+    background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--brand-2)) 100%);
+    color: hsl(var(--primary-foreground));
+    border: 1px solid hsl(var(--primary) / 0.35);
+    box-shadow: var(--glow);
   }
   .btn-solid:hover {
     filter: brightness(1.05);
@@ -453,17 +532,23 @@ body.study-focus-mode {
   }
 }
 
-html.high-contrast {
+html.high-contrast.light {
+  --foreground: 216 28% 6%;
+  --muted-foreground: 216 20% 22%;
+  --glass-border: 199 62% 32%;
+}
+
+html.high-contrast.dark,
+html.high-contrast:not(.light) {
   --foreground: 0 0% 100%;
   --muted-foreground: 0 0% 85%;
   --glass-bg: 216 22% 4%;
   --glass-border: 199 60% 60%;
 }
-
 html.high-contrast .glass-panel,
 html.high-contrast .glass-tile {
-  border-color: hsl(199 60% 60% / 0.5);
-  background: hsl(216 22% 6% / 0.95);
+  border-color: hsl(var(--glass-border) / 0.65);
+  background: hsl(var(--background) / 0.98);
 }
 
 html.dyslexia-font body {
