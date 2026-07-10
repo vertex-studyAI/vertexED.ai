@@ -17,6 +17,10 @@ export const ROUTES = {
     loader: () => import('../_handlers/waitlist.js'),
     methods: ['POST'],
   },
+  'signup-invite': {
+    loader: () => import('../_handlers/signup-invite.js'),
+    methods: ['POST'],
+  },
   'waitlist-admin': {
     loader: () => import('../_handlers/waitlist-admin.js'),
     methods: ['POST'],

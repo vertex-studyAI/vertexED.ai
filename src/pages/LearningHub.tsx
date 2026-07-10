@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { useMemo, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import {
@@ -45,11 +45,16 @@ const PHASE_STYLES: Record<LearningPathStep['phase'], string> = {
 export default function LearningHub() {
   const { user } = useAuth();
   const [searchParams] = useSearchParams();
-  const brief = useMemo(() => buildEcosystemBrief(user), [user]);
-  const pulse = useMemo(
-    () => buildRetrievalPulse(brief.profile, brief.adaptivePlan.recommendations),
-    [brief],
+  const [brief, setBrief] = useState(() => buildEcosystemBrief(user));
+  const [pulse, setPulse] = useState(() =>
+    buildRetrievalPulse(brief.profile, brief.adaptivePlan.recommendations),
   );
+
+  useEffect(() => {
+    const next = buildEcosystemBrief(user);
+    setBrief(next);
+    setPulse(buildRetrievalPulse(next.profile, next.adaptivePlan.recommendations));
+  }, [user]);
   const cramFromUrl = searchParams.get('mode') === 'cram';
 
   useEffect(() => {

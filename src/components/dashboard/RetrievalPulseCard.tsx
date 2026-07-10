@@ -1,6 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { ArrowRight, Bot, Zap } from 'lucide-react';
 import type { RetrievalPulse } from '@/lib/retrievalPulse';
+import LiquidGlass from '@/components/LiquidGlass';
 import ExamReadinessRing from '@/components/dashboard/ExamReadinessRing';
 import StudyLoopRing from '@/components/dashboard/StudyLoopRing';
 import ApexPromptChips from '@/components/chat/ApexPromptChips';
@@ -30,7 +31,7 @@ export default function RetrievalPulseCard({ pulse, className }: Props) {
   };
 
   return (
-    <section className={cn('retrieval-pulse-card neu-card overflow-hidden', className)}>
+    <LiquidGlass as="section" variant="panel" className={cn('retrieval-pulse-card rounded-2xl', className)}>
       <div className="retrieval-pulse-glow" aria-hidden />
 
       <div className="relative p-5 md:p-6 grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
@@ -95,6 +96,6 @@ export default function RetrievalPulseCard({ pulse, className }: Props) {
           }}
         />
       </div>
-    </section>
+    </LiquidGlass>
   );
 }

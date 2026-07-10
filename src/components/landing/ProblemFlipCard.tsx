@@ -1,5 +1,24 @@
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import type { LandingProblem } from "@/content/landing";
+
+function DispersiveFace({
+  children,
+  className,
+  style,
+}: {
+  children: ReactNode;
+  className?: string;
+  style?: React.CSSProperties;
+}) {
+  return (
+    <div className={`problem-card-face liquid-glass-dispersive absolute inset-0 ${className ?? ""}`} style={style}>
+      <span className="liquid-caustic liquid-caustic-a" aria-hidden />
+      <span className="liquid-caustic liquid-caustic-b" aria-hidden />
+      <span className="liquid-prism-ring" aria-hidden />
+      <div className="liquid-glass-content h-full flex flex-col items-center justify-center">{children}</div>
+    </div>
+  );
+}
 
 type Props = {
   problem: LandingProblem;
@@ -34,7 +53,7 @@ export default function ProblemFlipCard({ problem, index }: Props) {
             transform: flipped ? "rotateY(180deg)" : "rotateY(0deg)",
           }}
         >
-          <div className="problem-card-face problem-card-front absolute inset-0 flex flex-col items-center justify-center gap-4 p-6 text-center">
+          <DispersiveFace className="problem-card-front gap-4 p-6 text-center">
             <span className="stat-number text-5xl md:text-6xl font-bold tabular-nums text-foreground">
               {problem.stat}
             </span>
@@ -42,17 +61,17 @@ export default function ProblemFlipCard({ problem, index }: Props) {
               {problem.title}
             </span>
             <span className="text-xs italic text-muted-foreground">Tap to read</span>
-          </div>
+          </DispersiveFace>
 
-          <div
-            className="problem-card-face problem-card-back absolute inset-0 flex items-center justify-center p-7"
+          <DispersiveFace
+            className="problem-card-back p-7"
             style={{ transform: "rotateY(180deg)" }}
           >
-            <div className="text-left">
+            <div className="text-left w-full">
               <p className="text-xs uppercase tracking-widest text-primary mb-2">Insight {index + 1}</p>
               <p className="text-base leading-relaxed text-foreground/90">{problem.text}</p>
             </div>
-          </div>
+          </DispersiveFace>
         </div>
       </div>
     </div>

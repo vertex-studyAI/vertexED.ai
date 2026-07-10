@@ -5,6 +5,7 @@ export default function AmbientBackground() {
       <div className="ambient-orb ambient-orb-b" />
       <div className="ambient-orb ambient-orb-c" />
       <div className="ambient-glass-sheen" />
+      <div className="ambient-mesh" />
     </div>
   );
 }

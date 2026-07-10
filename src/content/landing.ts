@@ -8,6 +8,9 @@ export type LandingFeature = {
   title: string;
   desc: string;
   side: string;
+  loop: 'plan' | 'focus' | 'practise' | 'review' | 'remember';
+  href: string;
+  outcome: string;
 };
 
 export type FloatingInsight = {
@@ -76,33 +79,51 @@ export const FLOATING_INSIGHTS: FloatingInsight[] = [
 
 export const LANDING_FEATURES: LandingFeature[] = [
   {
-    title: "Study Zone",
-    desc: "Timers, logs, calculator, habits — one room for the sessions that actually stick.",
-    side: "Stop leaving the desk every time you need a graph, a break timer, or a note on what felt shaky.",
+    title: 'Study Planner',
+    desc: 'Map the week around mocks, sport, and sleep — not fantasy six-hour blocks.',
+    side: 'You see what fits before Sunday panic. Tasks link to the tools that actually run them.',
+    loop: 'plan',
+    href: '/planner',
+    outcome: 'Closes the Plan step in your revision loop',
   },
   {
-    title: "Apex",
-    desc: "An AI layer that stress-tests your reasoning before you commit pen to paper.",
-    side: "Not answers on demand — explanations, follow-ups, and pushback when your argument skips a step.",
+    title: 'Study Zone',
+    desc: 'Timers, habits, calculator, logs — one desk for the session you said you would run.',
+    side: 'Focus mode that does not nag you to open twelve other tabs mid-block.',
+    loop: 'focus',
+    href: '/study-zone',
+    outcome: 'Closes the Focus step — minutes that count',
   },
   {
-    title: "Study Planner",
-    desc: "Block time around real deadlines, not fantasy six-hour sessions.",
-    side: "See the week: mocks, essays, retrieval blocks — sized so you can still have a life outside school.",
+    title: 'Paper Maker',
+    desc: 'Board-shaped mocks with mark schemes — IB, IGCSE, CBSE, AP, A Level, and more.',
+    side: 'Train pace and command words on papers that respect how your board actually asks questions.',
+    loop: 'practise',
+    href: '/paper-maker',
+    outcome: 'Closes the Practise step under exam conditions',
   },
   {
-    title: "Answer Reviewer",
-    desc: "Feedback that names marks earned and marks lost — command terms, examples, structure.",
-    side: "Photograph handwritten work. Get rubric-shaped notes you can act on before the next attempt.",
+    title: 'Answer Reviewer',
+    desc: 'Rubric feedback that names marks earned and marks lost — structure, examples, command terms.',
+    side: 'Photograph handwritten work. Know what to fix before the next attempt, not after results day.',
+    loop: 'review',
+    href: '/answer-reviewer',
+    outcome: 'Closes the Review step with actionable gaps',
   },
   {
-    title: "Paper Maker",
-    desc: "Mocks aligned to syllabus patterns — IB, IGCSE, CBSE, AP, A Level, and more.",
-    side: "Train pace and technique on papers that respect how your board actually asks questions.",
+    title: 'Notes · Flashcards · Quiz',
+    desc: 'Turn lectures into retrieval — spaced cards and quizzes, not a highlight graveyard.',
+    side: 'If it does not become practice, it does not count. Same notes feed the deck on a schedule.',
+    loop: 'remember',
+    href: '/notetaker',
+    outcome: 'Closes the Remember step — memory on a clock',
   },
   {
-    title: "Notes · Flashcards · Quiz",
-    desc: "Turn lectures into retrieval — cards on a schedule, not the night before.",
-    side: "If it doesn't become practice, it doesn't count. Same notes feed quizzes and spaced repetition.",
+    title: 'Apex',
+    desc: 'Discussion-first AI that stress-tests reasoning before you commit pen to paper.',
+    side: 'Socratic follow-ups, mock strategy, rubric sense — not a copy-paste machine.',
+    loop: 'review',
+    href: '/chatbot',
+    outcome: 'Threads through every loop step when you are stuck',
   },
 ];

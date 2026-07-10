@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { ArrowRight, Brain, Clock, Target, Zap } from 'lucide-react';
+import LiquidGlass from '@/components/LiquidGlass';
 import type { AdaptiveRecommendation } from '@/lib/adaptiveLearning';
 import { cn } from '@/lib/utils';
 
@@ -35,7 +36,8 @@ export default function AdaptiveLearningPanel({
   if (recommendations.length === 0) return null;
 
   return (
-    <div className={cn('neu-card p-5', className)}>
+    <LiquidGlass variant="panel" className={cn('rounded-2xl', className)}>
+      <div className="p-5">
       <div className="flex items-center justify-between gap-3 mb-4">
         <div>
           <p className="text-xs uppercase tracking-widest text-muted-foreground">Adaptive learning</p>
@@ -75,6 +77,7 @@ export default function AdaptiveLearningPanel({
           );
         })}
       </div>
-    </div>
+      </div>
+    </LiquidGlass>
   );
 }

@@ -47,10 +47,10 @@ export default function Login() {
           className="relative glass-panel w-full max-w-md p-8 md:p-10 animate-fade-in"
           onSubmit={handleSubmit}
         >
-          <h1 className="text-3xl font-semibold mb-2 text-center text-white">
+          <h1 className="text-3xl font-semibold mb-2 text-center text-foreground">
             Log in
           </h1>
-          <p className="text-center mb-6 text-sm opacity-80">Good to see you again.</p>
+          <p className="text-center mb-6 text-sm text-muted-foreground">Back to your desk — planner, mocks, and Apex where you left off.</p>
 
           <div className="space-y-4">
             <button
@@ -119,10 +119,10 @@ export default function Login() {
             </div>
           )}
 
-          <p className="text-center mt-4 text-sm text-white/70">
-            Don&apos;t have an account yet?{" "}
-            <Link to="/signup" className="sketch-underline text-white/90 hover:text-white">
-              Join waitlist
+          <p className="text-center mt-4 text-sm text-muted-foreground">
+            Don&apos;t have an account?{" "}
+            <Link to="/signup" className="sketch-underline text-foreground hover:text-primary">
+              Waitlist or invite signup
             </Link>
           </p>
         </form>

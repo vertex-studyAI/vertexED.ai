@@ -9,6 +9,8 @@ All colors MUST be HSL.
 @layer base {
   :root {
     --radius: 1.15rem;
+    --pointer-x: 50%;
+    --pointer-y: 40%;
     color-scheme: dark light;
   }
 
@@ -216,9 +218,28 @@ All colors MUST be HSL.
       0 1px 0 hsl(0 0% 100% / 0.14) inset,
       0 -1px 0 hsl(216 40% 4% / 0.18) inset;
     border-radius: calc(var(--radius) * 1.5);
-    -webkit-backdrop-filter: blur(28px) saturate(180%);
-    backdrop-filter: blur(28px) saturate(180%);
+    -webkit-backdrop-filter: blur(28px) saturate(190%);
+    backdrop-filter: blur(28px) saturate(190%);
     position: relative;
+    overflow: hidden;
+    --lg-x: var(--pointer-x, 50%);
+    --lg-y: var(--pointer-y, 40%);
+  }
+  .neu-card::before,
+  .neu-hero::before {
+    content: "";
+    position: absolute;
+    width: 70%;
+    height: 55%;
+    left: calc(var(--lg-x) - 35%);
+    top: calc(var(--lg-y) - 30%);
+    border-radius: 50%;
+    background: radial-gradient(circle, hsl(var(--primary) / 0.18) 0%, transparent 70%);
+    filter: blur(36px);
+    pointer-events: none;
+    z-index: 0;
+    animation: liquid-drift-a 13s ease-in-out infinite;
+    mix-blend-mode: plus-lighter;
   }
   .neu-card::after,
   .neu-hero::after {
@@ -416,6 +437,16 @@ All colors MUST be HSL.
       0 -1px 0 hsl(216 40% 4% / 0.2) inset;
     -webkit-backdrop-filter: blur(24px) saturate(170%);
     backdrop-filter: blur(24px) saturate(170%);
+    border-radius: 1.5rem;
+  }
+  .problem-card-front .liquid-caustic,
+  .problem-card-back .liquid-caustic {
+    opacity: 0.42;
+    filter: blur(32px);
+  }
+  .problem-card-back .liquid-glass-content {
+    align-items: flex-start;
+    justify-content: center;
   }
   .stat-number {
     font-feature-settings: "tnum" 1;
@@ -1045,21 +1076,38 @@ All colors MUST be HSL.
 
   .retrieval-pulse-card {
     position: relative;
-    border: 1px solid hsl(var(--primary) / 0.15);
-    background: linear-gradient(
-      145deg,
-      hsl(var(--primary) / 0.06) 0%,
-      hsl(var(--foreground) / 0.02) 40%,
-      hsl(var(--background)) 100%
-    );
+    border: 1px solid hsl(var(--primary) / 0.22);
+    overflow: hidden;
+    --lg-x: var(--pointer-x, 50%);
+    --lg-y: var(--pointer-y, 35%);
+  }
+
+  .retrieval-pulse-card::before {
+    content: "";
+    position: absolute;
+    inset: -20%;
+    background:
+      radial-gradient(circle at var(--lg-x) var(--lg-y), hsl(var(--primary) / 0.2) 0%, transparent 42%),
+      radial-gradient(circle at calc(var(--lg-x) + 15%) calc(var(--lg-y) + 10%), hsl(230 60% 58% / 0.12) 0%, transparent 38%);
+    filter: blur(28px);
+    pointer-events: none;
+    z-index: 0;
+    animation: liquid-drift-b 16s ease-in-out infinite;
   }
 
   .retrieval-pulse-glow {
     position: absolute;
     inset: -40% -20% auto;
     height: 60%;
-    background: radial-gradient(ellipse at 30% 50%, hsl(var(--primary) / 0.12), transparent 70%);
+    background: radial-gradient(ellipse at var(--lg-x) 50%, hsl(var(--primary) / 0.16), transparent 70%);
     pointer-events: none;
+    z-index: 0;
+  }
+
+  .retrieval-pulse-card .liquid-glass-content,
+  .retrieval-pulse-card > div:not(.retrieval-pulse-glow) {
+    position: relative;
+    z-index: 1;
   }
 
   .pulse-signal-chip {
@@ -1238,6 +1286,247 @@ All colors MUST be HSL.
   .light .hover\:bg-white\/10:hover,
   .light .group-hover\:bg-white\/10:hover { background-color: hsl(var(--foreground) / 0.05); }
 
+  /* Liquid glass — dispersive caustics + prism border */
+  .liquid-glass-dispersive {
+    --lg-x: var(--pointer-x, 50%);
+    --lg-y: var(--pointer-y, 40%);
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .liquid-glass-content {
+    position: relative;
+    z-index: 2;
+  }
+
+  .liquid-caustic {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    filter: blur(42px);
+    mix-blend-mode: plus-lighter;
+    z-index: 0;
+    opacity: 0.55;
+    will-change: transform, opacity;
+  }
+  .liquid-caustic-a {
+    width: 55%;
+    height: 45%;
+    left: calc(var(--lg-x) - 28%);
+    top: calc(var(--lg-y) - 22%);
+    background: radial-gradient(circle, hsl(var(--primary) / 0.45) 0%, transparent 68%);
+    animation: liquid-drift-a 11s ease-in-out infinite;
+  }
+  .liquid-caustic-b {
+    width: 42%;
+    height: 38%;
+    left: calc(var(--lg-x) - 10%);
+    top: calc(var(--lg-y) + 8%);
+    background: radial-gradient(circle, hsl(230 70% 62% / 0.32) 0%, transparent 70%);
+    animation: liquid-drift-b 14s ease-in-out infinite;
+  }
+  .liquid-caustic-c {
+    width: 36%;
+    height: 32%;
+    left: calc(var(--lg-x) - 45%);
+    top: calc(var(--lg-y) - 5%);
+    background: radial-gradient(circle, hsl(199 80% 72% / 0.22) 0%, transparent 72%);
+    animation: liquid-drift-c 9s ease-in-out infinite;
+  }
+
+  .liquid-prism-ring {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    z-index: 1;
+    padding: 1px;
+    background: conic-gradient(
+      from 0deg at var(--lg-x) var(--lg-y),
+      hsl(var(--primary) / 0.55),
+      transparent 18%,
+      hsl(230 65% 62% / 0.4) 38%,
+      transparent 58%,
+      hsl(199 75% 68% / 0.35) 78%,
+      transparent 92%,
+      hsl(var(--primary) / 0.5)
+    );
+  }
+  .liquid-prism-ring::before {
+    content: "";
+    position: absolute;
+    inset: 1px;
+    border-radius: inherit;
+    background: inherit;
+    filter: blur(8px);
+    opacity: 0.35;
+  }
+
+  .liquid-glass-hero {
+    background: var(--glass-fill-strong);
+    border: 1px solid hsl(var(--primary) / 0.2);
+    box-shadow:
+      var(--shadow-soft),
+      0 0 80px hsl(var(--primary) / 0.12),
+      inset 0 1px 0 hsl(0 0% 100% / 0.2);
+    -webkit-backdrop-filter: blur(32px) saturate(200%);
+    backdrop-filter: blur(32px) saturate(200%);
+  }
+  .liquid-glass-panel,
+  .liquid-glass-card {
+    background: var(--glass-fill);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--shadow-soft);
+    -webkit-backdrop-filter: blur(28px) saturate(190%);
+    backdrop-filter: blur(28px) saturate(190%);
+  }
+  .liquid-glass-tile {
+    background: var(--glass-fill);
+    border: 1px solid hsl(var(--border) / 0.7);
+    -webkit-backdrop-filter: blur(22px) saturate(175%);
+    backdrop-filter: blur(22px) saturate(175%);
+  }
+
+  @keyframes liquid-drift-a {
+    0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.5; }
+    50% { transform: translate(4%, -3%) scale(1.08); opacity: 0.75; }
+  }
+  @keyframes liquid-drift-b {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(-5%, 4%) scale(1.12); }
+  }
+  @keyframes liquid-drift-c {
+    0%, 100% { transform: translate(0, 0) scale(0.95); opacity: 0.35; }
+    50% { transform: translate(6%, 2%) scale(1.05); opacity: 0.55; }
+  }
+
+  .loop-phase-chip {
+    @apply inline-flex rounded-full border border-primary/30 bg-primary/10 px-2.5 py-0.5 text-[10px] uppercase tracking-widest text-primary font-medium;
+  }
+
+  /* Legacy liquid-glass sheen — merged into dispersive */
+  .liquid-glass:not(.liquid-glass-dispersive)::after {
+    content: "";
+    position: absolute;
+    inset: -50% -30%;
+    pointer-events: none;
+    background: linear-gradient(
+      105deg,
+      transparent 38%,
+      hsl(0 0% 100% / 0.12) 48%,
+      hsl(var(--primary) / 0.08) 52%,
+      transparent 62%
+    );
+    animation: liquid-sheen 9s ease-in-out infinite;
+    z-index: 0;
+  }
+  @keyframes liquid-sheen {
+    0%, 100% { transform: translateX(-20%) rotate(8deg); opacity: 0.5; }
+    50% { transform: translateX(25%) rotate(8deg); opacity: 0.85; }
+  }
+
+  .neu-card.liquid-glass-dispersive .liquid-prism-ring,
+  .glass-panel.liquid-glass-dispersive .liquid-prism-ring,
+  .liquid-glass-dispersive > .liquid-prism-ring {
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    -webkit-mask-composite: xor;
+  }
+
+  .landing-loop-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+  }
+  @media (min-width: 768px) {
+    .landing-loop-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+  @media (min-width: 1024px) {
+    .landing-loop-grid {
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 0.5rem;
+    }
+  }
+  .landing-loop-item {
+    display: flex;
+    align-items: stretch;
+    gap: 0.35rem;
+  }
+  .landing-loop-tile {
+    flex: 1;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  .landing-loop-tile:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--glow);
+  }
+  .landing-loop-arrow {
+    align-self: center;
+    color: hsl(var(--muted-foreground));
+    font-size: 1.1rem;
+    opacity: 0.5;
+    flex-shrink: 0;
+  }
+
+  .insight-carousel-card-active {
+    box-shadow:
+      var(--shadow-soft),
+      var(--glow),
+      0 0 48px hsl(var(--primary) / 0.18);
+    border-color: hsl(var(--primary) / 0.28);
+  }
+
+  .ambient-mesh {
+    position: absolute;
+    inset: 0;
+    opacity: 0.35;
+    background-image:
+      radial-gradient(circle at 20% 30%, hsl(var(--primary) / 0.12) 0%, transparent 42%),
+      radial-gradient(circle at 80% 70%, hsl(230 60% 58% / 0.08) 0%, transparent 40%);
+    animation: ambient-mesh-drift 24s ease-in-out infinite alternate;
+  }
+  .light .ambient-mesh { opacity: 0.55; }
+
+  .light .liquid-caustic { opacity: 0.38; mix-blend-mode: multiply; }
+  .light .liquid-glass-hero { box-shadow: var(--shadow-soft), 0 0 48px hsl(var(--primary) / 0.08); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .liquid-caustic,
+    .liquid-prism-ring,
+    .ambient-mesh,
+    .neu-card::before,
+    .neu-hero::before {
+      animation: none !important;
+    }
+    .liquid-caustic { opacity: 0.25; }
+  }
+
+  @keyframes ambient-mesh-drift {
+    from { transform: scale(1) translate(0, 0); }
+    to { transform: scale(1.06) translate(2%, -1%); }
+  }
+
+  .particle-drift-canvas {
+    opacity: 0.55;
+  }
+  .light .particle-drift-canvas {
+    opacity: 0.35;
+  }
+
+  .insight-carousel-nav {
+    @apply inline-flex h-9 w-9 items-center justify-center rounded-full border border-border/60 bg-foreground/[0.04] text-foreground hover:bg-foreground/[0.08] hover:border-primary/30 transition;
+  }
+
+  .glass-panel,
+  .neu-card {
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+  }
+
   /* Light mode: remap legacy hardcoded white text */
   .light .text-white { color: hsl(var(--foreground)); }
   .light .text-slate-100,
@@ -1317,16 +1606,34 @@ All colors MUST be HSL.
     box-shadow: var(--shadow-soft);
     -webkit-backdrop-filter: blur(32px) saturate(185%);
     backdrop-filter: blur(32px) saturate(185%);
+    --lg-x: var(--pointer-x, 50%);
+    --lg-y: var(--pointer-y, 40%);
   }
   .glass-card::before,
   .glass-panel::before {
+    content: "";
+    position: absolute;
+    width: 65%;
+    height: 50%;
+    left: calc(var(--lg-x) - 32%);
+    top: calc(var(--lg-y) - 28%);
+    border-radius: 50%;
+    pointer-events: none;
+    background: radial-gradient(circle, hsl(var(--primary) / 0.16) 0%, transparent 68%);
+    filter: blur(40px);
+    mix-blend-mode: plus-lighter;
+    z-index: 0;
+    animation: liquid-drift-b 16s ease-in-out infinite;
+  }
+  .glass-card::after,
+  .glass-panel::after {
     content: "";
     position: absolute;
     inset: 0;
     pointer-events: none;
     background:
       linear-gradient(180deg, hsl(0 0% 100% / 0.14) 0%, transparent 42%),
-      radial-gradient(ellipse 80% 50% at 10% 0%, hsl(199 70% 60% / 0.08), transparent 50%);
+      radial-gradient(ellipse 80% 50% at var(--lg-x) 0%, hsl(199 70% 60% / 0.1), transparent 50%);
     opacity: 0.9;
     z-index: 0;
   }
@@ -1350,10 +1657,29 @@ All colors MUST be HSL.
     -webkit-backdrop-filter: blur(22px) saturate(165%);
     backdrop-filter: blur(22px) saturate(165%);
     transition: transform 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease;
+    --lg-x: var(--pointer-x, 50%);
+    --lg-y: var(--pointer-y, 40%);
   }
   .glass-tile::before,
   .glass-tile-dark::before,
   .glass-tile-translucent::before {
+    content: "";
+    position: absolute;
+    width: 55%;
+    height: 45%;
+    left: calc(var(--lg-x) - 28%);
+    top: calc(var(--lg-y) - 20%);
+    border-radius: 50%;
+    pointer-events: none;
+    background: radial-gradient(circle, hsl(var(--primary) / 0.12) 0%, transparent 70%);
+    filter: blur(28px);
+    mix-blend-mode: plus-lighter;
+    z-index: 0;
+    animation: liquid-drift-c 12s ease-in-out infinite;
+  }
+  .glass-tile::after,
+  .glass-tile-dark::after,
+  .glass-tile-translucent::after {
     content: "";
     position: absolute;
     inset: 0;

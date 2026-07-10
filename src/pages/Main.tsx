@@ -3,7 +3,7 @@ import BoardBadge from "@/components/curriculum/BoardBadge";
 import ExamCountdown from "@/components/curriculum/ExamCountdown";
 
 import { Link } from "react-router-dom";
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, lazy, Suspense } from "react";
 import { TypeAnimation } from "react-type-animation";
 import { Helmet } from "react-helmet-async";
 import { Flame, Settings as SettingsIcon, Target, TrendingUp, Zap, Brain, FileText, MessageCircle, BookOpen, Route } from "lucide-react";
@@ -19,8 +19,9 @@ import AdaptiveLearningPanel from "@/components/AdaptiveLearningPanel";
 import ProgressAnalyticsCard from "@/components/ProgressAnalyticsCard";
 import { getProgressTrend, type ProgressTrend } from "@/lib/progressAnalytics";
 import WeaknessHeatmap from "@/components/WeaknessHeatmap";
-import RetrievalPulseCard from "@/components/dashboard/RetrievalPulseCard";
-import { buildRetrievalPulse } from "@/lib/retrievalPulse";
+import { buildRetrievalPulse, type RetrievalPulse } from "@/lib/retrievalPulse";
+
+const RetrievalPulseCard = lazy(() => import("@/components/dashboard/RetrievalPulseCard"));
 
 type Tile = {
   title: string;
@@ -205,10 +206,16 @@ export default function Main() {
   const dueFlashcards = brief?.dueFlashcards ?? 0;
   const stats = brief?.stats ?? null;
   const heroMessage = getBoardHeroMessage(board);
-  const pulse = useMemo(
-    () => (brief ? buildRetrievalPulse(brief.profile, brief.adaptivePlan.recommendations) : null),
-    [brief],
-  );
+  const [pulse, setPulse] = useState<RetrievalPulse | null>(null);
+
+  useEffect(() => {
+    if (!brief) {
+      setPulse(null);
+      return;
+    }
+    setPulse(buildRetrievalPulse(brief.profile, brief.adaptivePlan.recommendations));
+  }, [brief]);
+
   useEffect(() => {
     if (!brief) {
       setProgressTrend(null);
@@ -303,9 +310,11 @@ export default function Main() {
       <ContinueSessionBanner />
 
       {pulse && (
-        <section className="px-6 pb-6 fade-up">
+        <section className="px-6 pb-5 fade-up">
           <div className="max-w-6xl mx-auto">
-            <RetrievalPulseCard pulse={pulse} />
+            <Suspense fallback={<div className="neu-card h-48 animate-pulse rounded-2xl" aria-hidden />}>
+              <RetrievalPulseCard pulse={pulse} />
+            </Suspense>
           </div>
         </section>
       )}

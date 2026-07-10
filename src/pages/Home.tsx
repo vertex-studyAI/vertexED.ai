@@ -5,7 +5,9 @@ import { useAuth } from "@/contexts/AuthContext";
 import { TypeAnimation } from "react-type-animation";
 import ProblemFlipCard from "@/components/landing/ProblemFlipCard";
 import LandingFeatureRow from "@/components/landing/LandingFeatureRow";
+import LandingStudyLoopStrip from "@/components/landing/LandingStudyLoopStrip";
 import FloatingInsightDeck from "@/components/landing/FloatingInsightDeck";
+import LiquidGlass from "@/components/LiquidGlass";
 import { LANDING_FEATURES, LANDING_PROBLEMS } from "@/content/landing";
 
 const prefersReducedMotion = () => {
@@ -188,8 +190,8 @@ export default function Home() {
         ]}
       />
 
-      <section className="hero-section neu-hero px-6 md:px-10 pt-20 md:pt-28 pb-20 text-center relative overflow-hidden cinematic-section">
-        <div className="max-w-5xl mx-auto relative z-10">
+      <LiquidGlass as="section" variant="hero" className="hero-section px-6 md:px-10 pt-16 md:pt-24 pb-16 md:pb-20 text-center cinematic-section">
+        <div className="max-w-5xl mx-auto">
           <p className="glass-chip mb-8 mx-auto w-fit">Built for exam season — and the weeks before it</p>
 
           <h1 className="text-[clamp(2.5rem,8vw,4.5rem)] font-bold text-foreground leading-[1.05] tracking-tight">
@@ -213,9 +215,9 @@ export default function Home() {
             Most study tools add features. Few help you maximise marks while actually learning the material.
           </p>
 
-          <p className="mt-6 text-lg text-muted-foreground leading-relaxed max-w-2xl mx-auto">
-            VertexED connects planning, focused sessions, board-shaped mocks, and rubric feedback in one loop —
-            without the bloat of a dozen disconnected apps.
+          <p className="mt-6 text-lg md:text-xl text-muted-foreground leading-relaxed max-w-2xl mx-auto">
+            VertexED is one loop — plan the week, run a focus block, practise under time, get rubric feedback,
+            then retrieve it on schedule. Not twelve tabs. Not generic AI answers.
           </p>
 
           <div className="flex gap-4 justify-center mt-12 flex-wrap">
@@ -223,7 +225,9 @@ export default function Home() {
             <Link to="/features" className="btn-glass text-lg">How it works</Link>
           </div>
         </div>
-      </section>
+      </LiquidGlass>
+
+      <LandingStudyLoopStrip />
 
       <FloatingInsightDeck />
 
@@ -298,14 +302,14 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="max-w-3xl mx-auto px-6 mt-28 mb-20 text-center cinematic-section">
+      <section className="max-w-3xl mx-auto px-6 mt-20 mb-16 text-center cinematic-section">
         <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-5">Ready when you are</h2>
         <p className="text-lg text-muted-foreground leading-relaxed mb-8">
-          No credit card, no sales call. Create an account, set your board, and run one focused session.
-          If it clicks, stay — if not, tell us what is missing.
+          Waitlist if you&apos;re early. Invite code if someone on the team fast-tracked you.
+          Either way — one focused session tonight tells you if this fits how you actually study.
         </p>
         <div className="flex gap-4 justify-center flex-wrap">
-          <Link to="/signup" className="btn-solid text-lg">Create account</Link>
+          <Link to="/signup" className="btn-solid text-lg">Get started</Link>
           <a href="mailto:vertexed.25@gmail.com" className="btn-glass text-lg">Say hello</a>
         </div>
       </section>

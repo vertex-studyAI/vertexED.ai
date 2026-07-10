@@ -11,14 +11,31 @@ import { isAdminUser } from "@/lib/admin";
 import GlobalChatPanel from "@/components/chat/GlobalChatPanel";
 import CloudSaveBanner from "@/components/CloudSaveBanner";
 import ThemeToggle from "@/components/ThemeToggle";
+import ParticleDrift from "@/components/ParticleDrift";
 import AmbientBackground from "@/components/AmbientBackground";
 import FluidCursorLayer from "@/components/FluidCursorLayer";
 import PageLoader from "@/components/PageLoader";
 import { useStudySessionTracker } from "@/hooks/useStudySessionTracker";
 
+function usePointerGlass() {
+  const { settings } = useAppPreferences();
+
+  useEffect(() => {
+    if (settings.reducedMotion) return;
+    const root = document.documentElement;
+    const onMove = (e: MouseEvent) => {
+      root.style.setProperty("--pointer-x", `${(e.clientX / window.innerWidth) * 100}%`);
+      root.style.setProperty("--pointer-y", `${(e.clientY / window.innerHeight) * 100}%`);
+    };
+    window.addEventListener("mousemove", onMove, { passive: true });
+    return () => window.removeEventListener("mousemove", onMove);
+  }, [settings.reducedMotion]);
+}
+
 export default function SiteLayout() {
   const { isAuthenticated, logout, user } = useAuth();
   const { themeColor } = useAppPreferences();
+  usePointerGlass();
   const showAdmin = isAuthenticated && isAdminUser(user);
   const location = useLocation();
   useStudySessionTracker(isAuthenticated);
@@ -70,6 +87,7 @@ export default function SiteLayout() {
       </Helmet>
 
       <AmbientBackground />
+      <ParticleDrift />
       <FluidCursorLayer />
 
       <BreadcrumbsJsonLd />
