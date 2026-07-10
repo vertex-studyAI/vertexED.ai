@@ -562,6 +562,196 @@ All colors MUST be HSL.
     color: hsl(var(--primary));
   }
 
+  .feat-loop-rail {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: stretch;
+  }
+  .feat-loop-rail-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex: 1 1 140px;
+    min-width: 0;
+  }
+  .feat-loop-rail-link {
+    flex: 1;
+    display: block;
+    padding: 1rem 1.1rem;
+    border-radius: 1rem;
+    border: 1px solid hsl(var(--border) / 0.85);
+    background: hsl(var(--foreground) / 0.02);
+    transition: border-color 0.25s ease, transform 0.25s ease, background 0.25s ease;
+  }
+  .feat-loop-rail-link:hover {
+    border-color: hsl(var(--primary) / 0.35);
+    background: hsl(var(--primary) / 0.06);
+    transform: translateY(-2px);
+  }
+  .feat-loop-rail-link .feat-loop-index {
+    margin-bottom: 0.5rem;
+  }
+  .feat-loop-connector {
+    color: hsl(var(--muted-foreground) / 0.5);
+    font-size: 1.25rem;
+    flex-shrink: 0;
+  }
+
+  .feat-timeline-rail {
+    display: grid;
+    gap: 0;
+  }
+  @media (min-width: 768px) {
+    .feat-timeline-rail {
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 1rem;
+    }
+  }
+  .feat-timeline-card {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1rem;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 0.75rem;
+  }
+  @media (min-width: 768px) {
+    .feat-timeline-card {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 0;
+      min-height: 220px;
+    }
+  }
+  .feat-timeline-marker {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 0.35rem;
+  }
+  .feat-timeline-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: hsl(var(--primary));
+    box-shadow: 0 0 0 4px hsl(var(--primary) / 0.15);
+    flex-shrink: 0;
+  }
+  .feat-timeline-line {
+    width: 2px;
+    flex: 1;
+    min-height: 2rem;
+    margin-top: 0.5rem;
+    background: linear-gradient(180deg, hsl(var(--primary) / 0.45), hsl(var(--border)));
+  }
+  @media (min-width: 768px) {
+    .feat-timeline-line { display: none; }
+  }
+
+  .feat-compare-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.65rem 1.25rem;
+    font-size: 0.9rem;
+  }
+  .feat-compare-head {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-weight: 600;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid hsl(var(--border) / 0.7);
+  }
+  .feat-compare-cell {
+    padding: 0.85rem 1rem;
+    border-radius: 0.75rem;
+    line-height: 1.5;
+    color: hsl(var(--foreground) / 0.9);
+    background: hsl(var(--foreground) / 0.03);
+    border: 1px solid hsl(var(--border) / 0.5);
+  }
+  .feat-compare-muted {
+    color: hsl(var(--muted-foreground));
+    background: transparent;
+    border-style: dashed;
+  }
+
+  .feat-eco-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 0.85rem;
+    background: hsl(var(--primary) / 0.1);
+    border: 1px solid hsl(var(--primary) / 0.2);
+    color: hsl(var(--primary));
+    flex-shrink: 0;
+  }
+  .feat-eco-card {
+    display: block;
+    text-decoration: none;
+    transition: border-color 0.25s ease, transform 0.25s ease;
+  }
+  .feat-eco-card:hover {
+    transform: translateY(-3px);
+    border-color: hsl(var(--primary) / 0.28);
+  }
+
+  .feat-callout {
+    padding: 1rem 1.15rem;
+    border-radius: 0.85rem;
+    border: 1px solid hsl(var(--border) / 0.65);
+    background: hsl(var(--foreground) / 0.02);
+  }
+  .feat-callout-use {
+    border-color: hsl(var(--primary) / 0.2);
+    background: hsl(var(--primary) / 0.04);
+  }
+  .feat-callout-not {
+    background: transparent;
+  }
+
+  .feat-faq-item {
+    padding: 0;
+    overflow: hidden;
+  }
+  .feat-faq-summary {
+    cursor: pointer;
+    list-style: none;
+    padding: 1.15rem 1.35rem;
+    font-weight: 600;
+    color: hsl(var(--foreground));
+    transition: color 0.2s ease;
+  }
+  .feat-faq-summary::-webkit-details-marker { display: none; }
+  .feat-faq-summary::after {
+    content: "+";
+    float: right;
+    font-weight: 400;
+    color: hsl(var(--primary));
+    transition: transform 0.2s ease;
+  }
+  .feat-faq-item[open] .feat-faq-summary::after {
+    content: "−";
+  }
+  .feat-faq-item[open] .feat-faq-summary {
+    border-bottom: 1px solid hsl(var(--border) / 0.6);
+  }
+  .feat-faq-answer {
+    padding: 1rem 1.35rem 1.25rem;
+    font-size: 0.925rem;
+    line-height: 1.65;
+    color: hsl(var(--muted-foreground));
+  }
+
+  .feat-cta-glow {
+    box-shadow:
+      0 0 0 1px hsl(var(--primary) / 0.12),
+      0 24px 80px hsl(var(--primary) / 0.08);
+  }
+
   /* Light mode: remap legacy hardcoded white text */
   .light .text-white { color: hsl(var(--foreground)); }
   .light .text-slate-100,

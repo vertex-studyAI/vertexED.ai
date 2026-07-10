@@ -5,11 +5,11 @@ import RichMarkdown from "@/components/RichMarkdown";
 import { useAuth } from "@/contexts/AuthContext";
 import { TypeAnimation } from "react-type-animation";
 import FeatureShowcase from "@/components/features/FeatureShowcase";
+import { StudyLoopRail } from "@/components/features/FeatureSections";
 import {
   MATH_DEMO_LINES,
   PLATFORM_FEATURES,
   PROBLEM_INSIGHTS,
-  STUDY_LOOP,
 } from "@/content/features";
 
 const prefersReducedMotion = () => {
@@ -201,13 +201,9 @@ export default function Home() {
           Six tools, one loop. Each does a specific job — the full walkthrough with real session examples lives on the features page.
         </p>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-3 mb-12">
-          {STUDY_LOOP.map((item, i) => (
-            <div key={item.step} className="feat-loop-step text-center sm:text-left">
-              <span className="feat-loop-index mx-auto sm:mx-0">{i + 1}</span>
-              <p className="font-semibold text-foreground text-sm">{item.step}</p>
-            </div>
-          ))}
+        <div className="mb-12 glass-panel p-5 md:p-6">
+          <p className="text-xs uppercase tracking-[0.18em] text-primary mb-4 text-center">The loop</p>
+          <StudyLoopRail />
         </div>
 
         <div className="space-y-6">
