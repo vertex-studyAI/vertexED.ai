@@ -11,6 +11,7 @@ import {
 	subtleTextStyle,
 } from "../styles";
 import { recordStudySession } from "@/lib/studyStats";
+import { recordLoopStep } from "@/lib/studyLoopTracker";
 import { logStudyActivity } from "@/lib/studyActivity";
 
 type TimerTab = "timer" | "stopwatch" | "pomodoro";
@@ -124,6 +125,7 @@ const Timer: React.FC<{ accent: string }> = ({ accent }) => {
 		if (timeMs <= 0 && !isRunning && totalMs > 0 && !completedRef.current) {
 			completedRef.current = true;
 			recordStudySession();
+			recordLoopStep("focus");
 			logStudyActivity(`Completed a ${Math.round(totalMs / 60000)}-minute focus session`);
 		}
 		if (timeMs > 0) {

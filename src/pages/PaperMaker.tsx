@@ -9,6 +9,7 @@ import { authFetch } from "@/lib/apiAuth";
 import MockExamMode from "@/components/MockExamMode";
 import { saveStudyArtifact, consumeArtifactRestore } from "@/lib/userContent";
 import { recordStudySession } from "@/lib/studyStats";
+import { recordLoopStep } from "@/lib/studyLoopTracker";
 import { toast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
 import {
@@ -202,6 +203,7 @@ export default function PaperMaker({ priorPapers = [] }) {
         setPaper(paperData);
         setRaw(null);
         recordStudySession();
+        recordLoopStep("practise");
         const title = paperData.title || `${boardApiLabel} ${subject} paper`;
         saveStudyArtifact("paper", title, { paper: paperData, board: boardApiLabel, subject, grade }).then((r) => {
           if (r.ok) {

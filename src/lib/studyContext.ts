@@ -27,8 +27,8 @@ const ROUTE_CONTEXT: Record<string, StudyPageContext> = {
   },
   "/chatbot": {
     page: "chatbot",
-    label: "AI Chatbot",
-    hint: "Deliberate step-by-step on concepts; ask clarifying questions.",
+    label: "Apex",
+    hint: "Deliberate step-by-step on concepts; ask clarifying questions before giving full solutions.",
   },
   "/planner": {
     page: "planner",

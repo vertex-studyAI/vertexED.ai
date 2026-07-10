@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 
 import { getStudyContext } from '@/lib/studyContext';
 import { rememberStudySession } from '@/lib/studyActivity';
+import { recordLoopStep, ROUTE_LOOP_STEP } from '@/lib/studyLoopTracker';
 
 const TRACKED_PREFIXES = [
   '/main',
@@ -26,5 +27,10 @@ export function useStudySessionTracker(enabled: boolean): void {
     if (!tracked) return;
     const context = getStudyContext(pathname);
     rememberStudySession(pathname, context.label);
+
+    const loopStep = Object.entries(ROUTE_LOOP_STEP).find(
+      ([prefix]) => pathname === prefix || pathname.startsWith(`${prefix}/`),
+    )?.[1];
+    if (loopStep) recordLoopStep(loopStep);
   }, [enabled, pathname]);
 }

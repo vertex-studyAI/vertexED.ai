@@ -1,227 +1,71 @@
-import React, { useEffect, useRef, useState } from "react";
-import {
-	ghostButtonStyle,
-	inputFieldStyle,
-	primaryButtonStyle,
-	subtleTextStyle,
-} from "../styles";
-import { fetchChatbotAnswer } from "@/lib/chatbotApi";
-import { animateTypewriter } from "@/lib/typewriter";
+import { useEffect, useRef } from "react";
+import { Bot } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
+import { getStudyContext } from "@/lib/studyContext";
+import { useApexChat } from "@/hooks/useApexChat";
+import { recordStudySession } from "@/lib/studyStats";
+import ApexMessageList from "@/components/chat/ApexMessageList";
+import ApexPromptChips from "@/components/chat/ApexPromptChips";
+import ApexChatInput from "@/components/chat/ApexChatInput";
 
-type Sender = "user" | "assistant";
+type Props = {
+  onClose?: () => void;
+};
 
-interface Message {
-	id: string;
-	sender: Sender;
-	text: string;
+export default function Assistant({ onClose }: Props) {
+  const { user } = useAuth();
+  const studyContext = getStudyContext("/study-zone", user);
+  const scrollRef = useRef<HTMLDivElement | null>(null);
+
+  const { messages, input, setInput, loading, sendMessage } = useApexChat({
+    context: studyContext,
+    onSessionRecord: recordStudySession,
+  });
+
+  useEffect(() => {
+    scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
+  }, [messages, loading]);
+
+  return (
+    <div className="flex flex-col gap-4 h-full min-h-0">
+      <div className="flex items-start justify-between gap-3">
+        <div className="flex items-center gap-3">
+          <span className="apex-avatar">
+            <Bot className="h-5 w-5" aria-hidden />
+          </span>
+          <div>
+            <h2 className="text-lg font-semibold text-foreground">Apex</h2>
+            <p className="text-xs text-muted-foreground">In-session help — explanations, not answers on tap.</p>
+          </div>
+        </div>
+        {onClose && (
+          <button type="button" onClick={onClose} className="neu-button text-xs px-3 py-1.5">
+            Close
+          </button>
+        )}
+      </div>
+
+      {messages.length === 0 && !loading && (
+        <ApexPromptChips
+          context={studyContext}
+          onSelect={(text) => void sendMessage(text)}
+          disabled={loading}
+          compact
+        />
+      )}
+
+      <div ref={scrollRef} className="apex-chat-surface flex-1 min-h-[280px] max-h-[360px] overflow-y-auto">
+        <ApexMessageList messages={messages} loading={loading} context={studyContext} compact />
+      </div>
+
+      <ApexChatInput
+        value={input}
+        onChange={setInput}
+        onSend={() => void sendMessage()}
+        loading={loading}
+        placeholder="Ask Apex mid-session…"
+        compact
+      />
+    </div>
+  );
 }
-
-interface AssistantProps {
-	accent: string;
-	onClose?: () => void;
-}
-
-const headerStyle: React.CSSProperties = {
-	display: "flex",
-	justifyContent: "space-between",
-	alignItems: "center",
-	gap: "16px",
-	flexWrap: "wrap",
-};
-
-const chatSurfaceStyle: React.CSSProperties = {
-	background: "linear-gradient(180deg, hsla(216, 18%, 14%, 0.82), hsla(216, 18%, 10%, 0.9))",
-	border: "1px solid hsla(199, 45%, 36%, 0.18)",
-	borderRadius: "20px",
-	padding: "20px",
-	display: "flex",
-	flexDirection: "column",
-	gap: "12px",
-	height: "360px",
-	overflowY: "auto",
-};
-
-const bubbleStyle = (sender: Sender, accent: string): React.CSSProperties => ({
-	alignSelf: sender === "user" ? "flex-end" : "flex-start",
-	maxWidth: "70%",
-	padding: "12px 16px",
-	borderRadius: sender === "user" ? "16px 4px 16px 16px" : "4px 16px 16px 16px",
-	background: sender === "user" ? accent : "hsla(216, 18%, 18%, 0.6)",
-	color: sender === "user" ? "hsl(216, 18%, 12%)" : "hsl(var(--foreground))",
-	boxShadow: sender === "user" ? `${accent}33 0 18px 24px` : "none",
-	lineHeight: 1.5,
-});
-
-const Assistant: React.FC<AssistantProps> = ({ accent, onClose }) => {
-	const [messages, setMessages] = useState<Message[]>([]);
-	const [input, setInput] = useState("");
-	const [isLoading, setIsLoading] = useState(false);
-	const scrollRef = useRef<HTMLDivElement | null>(null);
-	const typingIntervalRef = useRef<number | null>(null);
-
-	useEffect(() => {
-		return () => {
-			if (typingIntervalRef.current !== null) {
-				window.clearInterval(typingIntervalRef.current);
-				typingIntervalRef.current = null;
-			}
-		};
-	}, []);
-
-	useEffect(() => {
-		if (messages.length > 0) {
-			scrollRef.current?.scrollIntoView({ behavior: "smooth" });
-		}
-	}, [messages]);
-
-	const sendMessage = async () => {
-		const trimmed = input.trim();
-		if (!trimmed || isLoading) {
-			return;
-		}
-
-		if (typingIntervalRef.current !== null) {
-			window.clearInterval(typingIntervalRef.current);
-			typingIntervalRef.current = null;
-		}
-
-		const userMessage: Message = {
-			id: `${Date.now()}-user`,
-			sender: "user",
-			text: trimmed,
-		};
-		setMessages((prev) => [...prev, userMessage]);
-		setInput("");
-		setIsLoading(true);
-
-		try {
-			const data = await fetchChatbotAnswer(trimmed);
-
-			if (data.error) {
-				setMessages((prev) => [
-					...prev,
-					{
-						id: `${Date.now()}-assistant-error`,
-						sender: "assistant",
-						text: `Error: ${data.error}`,
-					},
-				]);
-				return;
-			}
-
-			const botAnswer = data.answer?.trim() ?? "I'm still thinking about that one.";
-			const assistantId = `${Date.now()}-assistant`;
-			setMessages((prev) => [
-				...prev,
-				{
-					id: assistantId,
-					sender: "assistant",
-					text: "",
-				},
-			]);
-
-			await animateTypewriter(
-				botAnswer,
-				(nextText) => {
-					setMessages((prev) => {
-						const updated = [...prev];
-						const messageIndex = updated.findIndex((message) => message.id === assistantId);
-						if (messageIndex === -1) return prev;
-						updated[messageIndex] = { ...updated[messageIndex], text: nextText };
-						return updated;
-					});
-				},
-				{ intervalMs: 20, intervalRef: typingIntervalRef },
-			);
-		} catch (error) {
-			console.error("Assistant error:", error);
-			setMessages((prev) => [
-				...prev,
-				{
-					id: `${Date.now()}-assistant-error`,
-					sender: "assistant",
-					text: "I ran into a server issue. Try again in a moment.",
-				},
-			]);
-		} finally {
-			setIsLoading(false);
-		}
-	};
-
-	const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-		if (event.key === "Enter") {
-			event.preventDefault();
-			sendMessage();
-		}
-	};
-
-	return (
-		<div style={{ display: "grid", gap: "18px", height: "100%" }}>
-			<div style={headerStyle}>
-				<div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-					<span
-						style={{
-							width: "12px",
-							height: "12px",
-							borderRadius: "999px",
-							background: accent,
-							boxShadow: `${accent}55 0 0 18px`,
-						}}
-					/>
-					<div>
-						<h2 style={{ margin: 0, fontSize: "20px", fontWeight: 600 }}>AI Assistant</h2>
-						<p style={subtleTextStyle}>Ask for a study plan, an explanation, or help thinking something through.</p>
-					</div>
-				</div>
-				{typeof onClose === "function" ? (
-					<button type="button" onClick={onClose} style={ghostButtonStyle}>
-						Close
-					</button>
-				) : null}
-			</div>
-
-			<div
-				style={chatSurfaceStyle}
-				aria-live="polite"
-				aria-relevant="additions text"
-				aria-label="Chat messages"
-			>
-				{messages.length === 0 ? (
-					<div style={{ ...subtleTextStyle, textAlign: "center", marginTop: "auto", marginBottom: "auto" }}>
-						Say hello — ask for a revision plan or a quick explanation of anything you're stuck on.
-					</div>
-				) : (
-					messages.map((message) => (
-						<div key={message.id} style={bubbleStyle(message.sender, accent)}>
-							{message.text}
-						</div>
-					))
-				)}
-				<div ref={scrollRef} />
-			</div>
-
-			<div style={{ display: "flex", flexWrap: "wrap", gap: "12px" }}>
-				<input
-					type="text"
-					value={input}
-					onChange={(event) => setInput(event.target.value)}
-					onKeyDown={handleKeyDown}
-					placeholder="Ask Vertex..."
-					style={{ ...inputFieldStyle, flex: 1, minWidth: "220px" }}
-					disabled={isLoading}
-				/>
-				<button
-					type="button"
-					onClick={sendMessage}
-					style={primaryButtonStyle(accent)}
-					disabled={isLoading}
-				>
-					{isLoading ? "Thinking..." : "Send"}
-				</button>
-			</div>
-		</div>
-	);
-};
-
-export default Assistant;
-

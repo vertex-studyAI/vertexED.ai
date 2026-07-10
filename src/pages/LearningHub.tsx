@@ -19,8 +19,12 @@ import {
 
 import PageSection from '@/components/PageSection';
 import NeumorphicCard from '@/components/NeumorphicCard';
+import BoardBadge from '@/components/curriculum/BoardBadge';
+import ExamCountdown from '@/components/curriculum/ExamCountdown';
 import CramModePanel from '@/components/CramModePanel';
 import AdaptiveLearningPanel from '@/components/AdaptiveLearningPanel';
+import RetrievalPulseCard from '@/components/dashboard/RetrievalPulseCard';
+import { buildRetrievalPulse } from '@/lib/retrievalPulse';
 import CommandTermsGlossary from '@/components/curriculum/CommandTermsGlossary';
 import { useAuth } from '@/contexts/AuthContext';
 import { buildEcosystemBrief } from '@/lib/studyEcosystem';
@@ -42,6 +46,10 @@ export default function LearningHub() {
   const { user } = useAuth();
   const [searchParams] = useSearchParams();
   const brief = useMemo(() => buildEcosystemBrief(user), [user]);
+  const pulse = useMemo(
+    () => buildRetrievalPulse(brief.profile, brief.adaptivePlan.recommendations),
+    [brief],
+  );
   const cramFromUrl = searchParams.get('mode') === 'cram';
 
   useEffect(() => {
@@ -110,6 +118,8 @@ export default function LearningHub() {
         </header>
 
         <ExamCountdown examDate={brief.profile.curriculum.examDate} boardLabel={brief.boardLabel} />
+
+        <RetrievalPulseCard pulse={pulse} />
 
         <div id="cram-mode">
           <CramModePanel board={board} examDaysLeft={brief.examDaysLeft} />
@@ -210,7 +220,7 @@ export default function LearningHub() {
             <div className="grid gap-2">
               <HubAction to="/study-zone?focus=timer" icon={<Zap className="h-4 w-4" />} label="Focus session" />
               <HubAction to="/planner" icon={<Calendar className="h-4 w-4" />} label="Open planner" />
-              <HubAction to="/chatbot" icon={<MessageCircle className="h-4 w-4" />} label="Ask AI tutor" />
+              <HubAction to="/chatbot" icon={<MessageCircle className="h-4 w-4" />} label="Ask Apex" />
               <HubAction to="/main" icon={<Route className="h-4 w-4" />} label="Back to dashboard" />
             </div>
             {brief.suggestions.length > 0 && (

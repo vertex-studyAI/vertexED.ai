@@ -828,6 +828,366 @@ All colors MUST be HSL.
       0 24px 80px hsl(var(--primary) / 0.08);
   }
 
+  /* Apex chat UI */
+  .apex-avatar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 1rem;
+    background: linear-gradient(145deg, hsl(var(--primary) / 0.22), hsl(var(--primary) / 0.08));
+    border: 1px solid hsl(var(--primary) / 0.28);
+    color: hsl(var(--primary));
+    box-shadow: 0 8px 24px hsl(var(--primary) / 0.15);
+  }
+  .apex-avatar-sm {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 0.65rem;
+  }
+
+  .apex-fab {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    z-index: 60;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-radius: 9999px;
+    border: 1px solid hsl(var(--primary) / 0.35);
+    background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--brand-2)));
+    color: hsl(var(--primary-foreground));
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    box-shadow: 0 12px 40px hsl(var(--primary) / 0.35);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .apex-fab:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 16px 48px hsl(var(--primary) / 0.42);
+  }
+
+  .apex-panel {
+    position: fixed;
+    z-index: 60;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid hsl(var(--border) / 0.85);
+    background: hsl(var(--background) / 0.94);
+    backdrop-filter: blur(24px) saturate(180%);
+    box-shadow: 0 24px 80px hsl(216 50% 2% / 0.45);
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: min(560px, 88vh);
+  }
+  @media (min-width: 640px) {
+    .apex-panel {
+      bottom: 1.5rem;
+      right: 1.5rem;
+      width: min(420px, calc(100vw - 2rem));
+      height: min(560px, 85vh);
+      border-radius: 1.25rem;
+    }
+  }
+  .apex-panel-minimized {
+    height: 3.5rem;
+    width: 18rem;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    border-radius: 1rem;
+  }
+
+  .apex-panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    border-bottom: 1px solid hsl(var(--border) / 0.7);
+    padding: 0.75rem 1rem;
+    flex-shrink: 0;
+  }
+  .apex-panel-icon-btn {
+    border-radius: 0.5rem;
+    padding: 0.45rem;
+    color: hsl(var(--muted-foreground));
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+  .apex-panel-icon-btn:hover {
+    background: hsl(var(--foreground) / 0.06);
+    color: hsl(var(--foreground));
+  }
+
+  .apex-panel-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0.75rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .apex-panel-footer {
+    border-top: 1px solid hsl(var(--border) / 0.7);
+    padding: 0.75rem;
+    flex-shrink: 0;
+  }
+
+  .apex-chat-surface {
+    border-radius: 1rem;
+    border: 1px solid hsl(var(--border) / 0.65);
+    background: hsl(var(--foreground) / 0.03);
+    padding: 0.75rem 1rem;
+  }
+
+  .apex-chat-messages {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .apex-chat-empty {
+    text-align: center;
+    padding: 2rem 1rem;
+  }
+
+  .apex-bubble {
+    max-width: 92%;
+    border-radius: 1rem;
+    padding: 0.65rem 0.85rem;
+    border: 1px solid hsl(var(--border) / 0.55);
+  }
+  .apex-bubble-user {
+    margin-left: auto;
+    background: hsl(var(--primary) / 0.12);
+    border-color: hsl(var(--primary) / 0.22);
+  }
+  .apex-bubble-assistant {
+    margin-right: auto;
+    background: hsl(var(--foreground) / 0.04);
+  }
+  .apex-bubble-label {
+    font-size: 0.65rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: hsl(var(--muted-foreground));
+    margin-bottom: 0.35rem;
+  }
+
+  .apex-typing {
+    display: flex;
+    gap: 0.35rem;
+    padding-left: 0.25rem;
+  }
+  .apex-typing span {
+    width: 0.45rem;
+    height: 0.45rem;
+    border-radius: 50%;
+    background: hsl(var(--primary));
+    animation: apex-bounce 1s ease-in-out infinite;
+  }
+  .apex-typing span:nth-child(2) { animation-delay: 0.15s; }
+  .apex-typing span:nth-child(3) { animation-delay: 0.3s; }
+  @keyframes apex-bounce {
+    0%, 100% { transform: translateY(0); opacity: 0.45; }
+    50% { transform: translateY(-4px); opacity: 1; }
+  }
+
+  .apex-prompt-chips {
+    display: grid;
+    gap: 0.5rem;
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 640px) {
+    .apex-prompt-chips:not(.apex-prompt-chips-compact) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  .apex-prompt-chip {
+    text-align: left;
+    border-radius: 0.85rem;
+    border: 1px solid hsl(var(--border) / 0.7);
+    background: hsl(var(--foreground) / 0.03);
+    padding: 0.65rem 0.85rem;
+    font-size: 0.75rem;
+    transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+  }
+  .apex-prompt-chip:hover:not(:disabled) {
+    border-color: hsl(var(--primary) / 0.3);
+    background: hsl(var(--primary) / 0.06);
+    transform: translateY(-1px);
+  }
+  .apex-prompt-chip:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .apex-chat-input-row {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    padding: 0.5rem;
+    border-radius: 1rem;
+    border: 1px solid hsl(var(--border) / 0.65);
+    background: hsl(var(--foreground) / 0.03);
+  }
+
+  .apex-quick-ask {
+    background: linear-gradient(
+      135deg,
+      hsl(var(--primary) / 0.08) 0%,
+      hsl(var(--foreground) / 0.02) 55%,
+      transparent 100%
+    );
+  }
+
+  .retrieval-pulse-card {
+    position: relative;
+    border: 1px solid hsl(var(--primary) / 0.15);
+    background: linear-gradient(
+      145deg,
+      hsl(var(--primary) / 0.06) 0%,
+      hsl(var(--foreground) / 0.02) 40%,
+      hsl(var(--background)) 100%
+    );
+  }
+
+  .retrieval-pulse-glow {
+    position: absolute;
+    inset: -40% -20% auto;
+    height: 60%;
+    background: radial-gradient(ellipse at 30% 50%, hsl(var(--primary) / 0.12), transparent 70%);
+    pointer-events: none;
+  }
+
+  .pulse-signal-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.15rem;
+    padding: 0.35rem 0.65rem;
+    border-radius: 9999px;
+    border: 1px solid;
+    font-size: 0.7rem;
+  }
+
+  .exam-readiness-svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .exam-readiness-track {
+    stroke: hsl(var(--foreground) / 0.08);
+  }
+
+  .exam-readiness-fill {
+    stroke: hsl(var(--primary));
+    transition: stroke-dashoffset 0.6s ease;
+  }
+
+  .exam-readiness-score {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+  }
+
+  .exam-readiness-sm .exam-readiness-score {
+    font-size: 0.85rem;
+  }
+
+  .study-loop-nodes {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.25rem;
+  }
+
+  .study-loop-node-wrap {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .study-loop-node-wrap:last-child {
+    flex: 0;
+  }
+
+  .study-loop-connector {
+    flex: 1;
+    height: 2px;
+    margin: 0 0.15rem;
+    margin-top: 1.1rem;
+    background: hsl(var(--foreground) / 0.1);
+    border-radius: 1px;
+    transition: background 0.3s ease;
+  }
+
+  .study-loop-connector.is-live {
+    background: linear-gradient(90deg, hsl(var(--primary) / 0.5), hsl(var(--primary)));
+  }
+
+  .study-loop-node {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+    text-align: center;
+    padding: 0.35rem;
+    border-radius: 0.75rem;
+    transition: background 0.2s ease;
+  }
+
+  .study-loop-node:hover {
+    background: hsl(var(--foreground) / 0.04);
+  }
+
+  .study-loop-node-num {
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: 9999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.65rem;
+    font-weight: 600;
+    border: 2px solid hsl(var(--foreground) / 0.15);
+    color: hsl(var(--muted-foreground));
+    transition: all 0.25s ease;
+  }
+
+  .study-loop-node.is-done .study-loop-node-num {
+    border-color: hsl(var(--primary));
+    background: hsl(var(--primary) / 0.15);
+    color: hsl(var(--primary));
+  }
+
+  .study-loop-node-label {
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: hsl(var(--muted-foreground));
+    max-width: 3.5rem;
+    line-height: 1.2;
+  }
+
+  .study-loop-node.is-done .study-loop-node-label {
+    color: hsl(var(--foreground) / 0.85);
+  }
+
+  .apex-drill-panel {
+    border: 1px solid hsl(var(--primary) / 0.12);
+    background: linear-gradient(
+      160deg,
+      hsl(var(--primary) / 0.04) 0%,
+      hsl(var(--foreground) / 0.02) 100%
+    );
+  }
+
   /* Light mode: remap legacy hardcoded white text */
   .light .text-white { color: hsl(var(--foreground)); }
   .light .text-slate-100,

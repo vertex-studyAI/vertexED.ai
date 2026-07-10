@@ -3,7 +3,7 @@ import BoardBadge from "@/components/curriculum/BoardBadge";
 import ExamCountdown from "@/components/curriculum/ExamCountdown";
 
 import { Link } from "react-router-dom";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { TypeAnimation } from "react-type-animation";
 import { Helmet } from "react-helmet-async";
 import { Flame, Settings as SettingsIcon, Target, TrendingUp, Zap, Brain, FileText, MessageCircle, BookOpen, Route } from "lucide-react";
@@ -19,6 +19,8 @@ import AdaptiveLearningPanel from "@/components/AdaptiveLearningPanel";
 import ProgressAnalyticsCard from "@/components/ProgressAnalyticsCard";
 import { getProgressTrend, type ProgressTrend } from "@/lib/progressAnalytics";
 import WeaknessHeatmap from "@/components/WeaknessHeatmap";
+import RetrievalPulseCard from "@/components/dashboard/RetrievalPulseCard";
+import { buildRetrievalPulse } from "@/lib/retrievalPulse";
 
 type Tile = {
   title: string;
@@ -53,7 +55,7 @@ export default function Main() {
   const tiles: Tile[] = [
     { title: "Learning Hub", to: "/learning-hub", info: "Your connected study ecosystem — paths, subjects, and daily progress.", icon: hubIcon() },
     { title: "Study Zone", to: "/study-zone", info: "Your all-in-one desk — timers, notes, graphing, and more.", icon: studyIcon() },
-    { title: "AI Chatbot", to: "/chatbot", info: "Stuck on something? Ask for explanations, steps, or ideas.", icon: chatIcon() },
+    { title: "Apex", to: "/chatbot", info: "Discussion-first AI — stress-test ideas, get step-by-step explanations.", icon: chatIcon() },
     { title: "Study Planner", to: "/planner", info: "Build a schedule that actually fits around your life.", icon: plannerIcon() },
     { title: "Answer Reviewer", to: "/answer-reviewer", info: "Get honest feedback and see exactly where to improve.", icon: reviewIcon() },
     { title: "Paper Maker", to: "/paper-maker", info: "Practice papers that sound like the real thing, with mark schemes.", icon: paperIcon() },
@@ -203,6 +205,10 @@ export default function Main() {
   const dueFlashcards = brief?.dueFlashcards ?? 0;
   const stats = brief?.stats ?? null;
   const heroMessage = getBoardHeroMessage(board);
+  const pulse = useMemo(
+    () => (brief ? buildRetrievalPulse(brief.profile, brief.adaptivePlan.recommendations) : null),
+    [brief],
+  );
   useEffect(() => {
     if (!brief) {
       setProgressTrend(null);
@@ -296,6 +302,14 @@ export default function Main() {
 
       <ContinueSessionBanner />
 
+      {pulse && (
+        <section className="px-6 pb-6 fade-up">
+          <div className="max-w-6xl mx-auto">
+            <RetrievalPulseCard pulse={pulse} />
+          </div>
+        </section>
+      )}
+
       {stats && brief && (
         <section className="px-6 pb-8 fade-up">
           <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -347,7 +361,7 @@ export default function Main() {
               <QuickAction to="/study-zone?focus=timer" icon={<Zap className="h-4 w-4" />} label="Focus session" />
               <QuickAction to="/notetaker" icon={<Brain className="h-4 w-4" />} label={dueFlashcards > 0 ? `Review ${dueFlashcards} cards` : "AI Notes"} />
               <QuickAction to="/paper-maker" icon={<FileText className="h-4 w-4" />} label="Mock paper" />
-              <QuickAction to="/chatbot" icon={<MessageCircle className="h-4 w-4" />} label="Ask AI" />
+              <QuickAction to="/chatbot" icon={<MessageCircle className="h-4 w-4" />} label="Ask Apex" />
               <QuickAction to="/study-tools" icon={<BookOpen className="h-4 w-4" />} label="Formulas" />
             </div>
             {weekFocus.length > 0 && (

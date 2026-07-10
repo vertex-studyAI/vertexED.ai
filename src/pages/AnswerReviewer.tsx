@@ -5,6 +5,7 @@ import NeumorphicCard from "@/components/NeumorphicCard";
 import { authFetch } from "@/lib/apiAuth";
 import { setChatHandoff, saveStudyArtifact, consumeArtifactRestore } from "@/lib/userContent";
 import { recordStudySession } from "@/lib/studyStats";
+import { recordLoopStep } from "@/lib/studyLoopTracker";
 import { consumeMockReviewHandoff } from "@/lib/examFlow";
 import { recordWeakness } from "@/lib/weaknessTracker";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
@@ -434,6 +435,7 @@ export default function AIAnswerReview() {
           if (saved.ok) {
             setSavedPost(true);
             recordStudySession();
+            recordLoopStep("review");
             logStudyActivity(`Reviewed ${formData.subject || "answer"} with AI feedback`);
             const maxMarks = parseInt(formData.marks, 10) || 10;
             const scoreMatch = out.match(/(\d+)\s*\/\s*(\d+)/);
@@ -851,7 +853,7 @@ export default function AIAnswerReview() {
                                 navigate("/chatbot");
                               }}
                             >
-                              <MessageSquareQuote size={14} /> Discuss in Chat
+                              <MessageSquareQuote size={14} /> Discuss with Apex
                             </button>
                             <button onClick={() => setShowRaw((s) => !s)} className="neu-button px-3 py-2 text-sm">
                               {showRaw ? "Hide raw" : "Show raw"}

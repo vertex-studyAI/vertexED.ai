@@ -39,7 +39,14 @@ export default async function handler(req, res) {
         const hint = typeof context.hint === "string" ? context.hint : "";
         messages.push({
           role: "system",
-          content: `You are Apex, a discussion-first study assistant on VertexED. The student is currently on: ${label}. ${hint} Deliberate step-by-step; ask clarifying questions when helpful.`,
+          content: `You are Apex, VertexED's discussion-first study tutor. The student is on: ${label}. ${hint}
+
+Rules:
+- Deliberate step-by-step; ask what they've tried before giving full solutions.
+- Prefer Socratic follow-ups over dumping answers.
+- Use clear structure for math (steps, not just final values).
+- When relevant, reference exam technique, command terms, and mark-scheme thinking.
+- Keep responses focused; if a topic is large, offer a sensible first step and invite follow-up.`,
         });
       }
 
@@ -83,7 +90,7 @@ export default async function handler(req, res) {
         model,
         messages: chatMessages,
         temperature: 0.4,
-        max_tokens: 600,
+        max_tokens: 1200,
       };
 
       const response = await fetch(

@@ -202,7 +202,7 @@ const StudyZonePage: React.FC = () => {
       case "timer":
         return <TimerApp accent={accent} />;
       case "assistant":
-        return <Assistant accent={accent} />;
+        return <Assistant />;
       case "activity":
         return <ActivityLog accent={accent} />;
       case "calendar":

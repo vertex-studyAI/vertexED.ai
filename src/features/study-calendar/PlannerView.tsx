@@ -5,6 +5,7 @@ import TimeLeftWidget from "./components/TimeLeftWidget";
 import "./styles/planner.css";
 import { textToTask, suggestWeekPlan } from "./ai/gemini";
 import { recordStudySession } from "@/lib/studyStats";
+import { recordLoopStep } from "@/lib/studyLoopTracker";
 import { logStudyActivity } from "@/lib/studyActivity";
 import { useAuth } from "@/contexts/AuthContext";
 import { getLearnerProfile } from "@/lib/learnerProfile";
@@ -112,6 +113,7 @@ const PlannerView: React.FC = () => {
     const task = tasks.find((t) => t.id === id);
     setTasks((prev) => prev.filter((t) => t.id !== id));
     recordStudySession();
+    recordLoopStep("plan");
     const name = task ? String(task["task name"] || task.taskName || "Study task") : "Study task";
     logStudyActivity(`Completed planner task: ${name}`);
   };

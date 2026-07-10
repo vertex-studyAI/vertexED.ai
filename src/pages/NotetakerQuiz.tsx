@@ -40,6 +40,7 @@ import {
   type SrRating,
 } from "@/lib/spacedRepetition";
 import { recordStudySession } from "@/lib/studyStats";
+import { recordLoopStep } from "@/lib/studyLoopTracker";
 import { saveStudyArtifact, consumeArtifactRestore } from "@/lib/userContent";
 import { toast } from "@/hooks/use-toast";
 import {
@@ -706,6 +707,7 @@ export default function NotetakerQuiz(): JSX.Element {
     const updated = rateCard(current, rating);
     setSrDeck((prev) => prev.map((c) => (c.id === updated.id ? updated : c)));
     if (studyIndex + 1 >= studyQueue.length) {
+      recordLoopStep("remember");
       setStudyModeOpen(false);
       setStudyQueue([]);
       return;
