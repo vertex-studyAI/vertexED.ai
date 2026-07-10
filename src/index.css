@@ -211,10 +211,29 @@ All colors MUST be HSL.
   .neu-hero {
     background: var(--glass-fill);
     border: 1px solid var(--glass-border);
-    box-shadow: var(--shadow-soft);
+    box-shadow:
+      var(--shadow-soft),
+      0 1px 0 hsl(0 0% 100% / 0.14) inset,
+      0 -1px 0 hsl(216 40% 4% / 0.18) inset;
     border-radius: calc(var(--radius) * 1.5);
     -webkit-backdrop-filter: blur(28px) saturate(180%);
     backdrop-filter: blur(28px) saturate(180%);
+    position: relative;
+  }
+  .neu-card::after,
+  .neu-hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    background: linear-gradient(145deg, hsl(0 0% 100% / 0.12) 0%, transparent 42%, hsl(216 40% 4% / 0.06) 100%);
+    z-index: 0;
+  }
+  .neu-card > *,
+  .neu-hero > * {
+    position: relative;
+    z-index: 1;
   }
   .neu-hero { background: var(--glass-fill-strong); }
   .neu-pressed { box-shadow: var(--shadow-pressed); }
@@ -360,9 +379,10 @@ All colors MUST be HSL.
     position: absolute;
     inset: 0;
     background:
-      linear-gradient(125deg, hsl(0 0% 100% / 0.06) 0%, transparent 38%),
-      linear-gradient(305deg, hsl(var(--primary) / 0.04) 0%, transparent 42%);
-    opacity: 0.9;
+      linear-gradient(125deg, hsl(0 0% 100% / 0.04) 0%, transparent 38%),
+      linear-gradient(305deg, hsl(var(--primary) / 0.03) 0%, transparent 42%);
+    opacity: 0.55;
+    pointer-events: none;
   }
   .light .ambient-orb { opacity: 0.38; filter: blur(96px); }
   .light .ambient-glass-sheen {
@@ -378,6 +398,62 @@ All colors MUST be HSL.
   }
 
   .hero-section { min-height: 68vh; }
+
+  .perspective { perspective: 1200px; }
+  .duration-600 { transition-duration: 600ms; }
+
+  .problem-card-face {
+    backface-visibility: hidden;
+    border-radius: 1.5rem;
+  }
+  .problem-card-front,
+  .problem-card-back {
+    background: var(--glass-fill-strong);
+    border: 1px solid hsl(var(--border) / 0.85);
+    box-shadow:
+      0 16px 48px hsl(216 50% 2% / 0.32),
+      0 1px 0 hsl(0 0% 100% / 0.16) inset,
+      0 -1px 0 hsl(216 40% 4% / 0.2) inset;
+    -webkit-backdrop-filter: blur(24px) saturate(170%);
+    backdrop-filter: blur(24px) saturate(170%);
+  }
+  .stat-number {
+    font-feature-settings: "tnum" 1;
+    letter-spacing: -0.02em;
+    text-shadow: 0 0 28px hsl(var(--primary) / 0.25);
+  }
+
+  .insight-deck-section {
+    position: relative;
+    overflow: hidden;
+  }
+  .insight-deck-stack {
+    perspective: 1400px;
+  }
+  .insight-float-card {
+    transform-origin: center top;
+    will-change: transform, opacity;
+    box-shadow:
+      0 20px 60px hsl(216 50% 2% / 0.38),
+      0 1px 0 hsl(0 0% 100% / 0.18) inset;
+  }
+
+  .feature-card {
+    position: relative;
+    overflow: hidden;
+  }
+  .feature-card-glow {
+    position: absolute;
+    inset: -40% -20% auto -20%;
+    height: 60%;
+    background: radial-gradient(ellipse, hsl(var(--primary) / 0.12), transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .cinematic-section {
+    opacity: 1;
+  }
 
   .flip-words .fw-word {
     display: inline-block;
@@ -857,8 +933,10 @@ All colors MUST be HSL.
     background: var(--glass-fill);
     border: 1px solid hsl(0 0% 100% / 0.15);
     box-shadow:
-      0 10px 32px hsl(216 50% 2% / 0.32),
-      inset 0 1px 0 hsl(0 0% 100% / 0.16);
+      0 14px 40px hsl(216 50% 2% / 0.34),
+      0 1px 0 hsl(0 0% 100% / 0.18) inset,
+      0 -1px 0 hsl(216 40% 4% / 0.22) inset,
+      inset 0 0 0 1px hsl(0 0% 100% / 0.04);
     -webkit-backdrop-filter: blur(22px) saturate(165%);
     backdrop-filter: blur(22px) saturate(165%);
     transition: transform 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease;

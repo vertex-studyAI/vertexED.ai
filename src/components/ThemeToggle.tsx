@@ -11,7 +11,7 @@ type Props = {
 const MODES: { id: ThemeMode; label: string; icon: typeof Sun }[] = [
   { id: 'light', label: 'Light', icon: Sun },
   { id: 'dark', label: 'Dark', icon: Moon },
-  { id: 'system', label: 'System', icon: Monitor },
+  { id: 'system', label: 'Auto', icon: Monitor },
 ];
 
 export default function ThemeToggle({ className, compact = false }: Props) {
@@ -19,13 +19,13 @@ export default function ThemeToggle({ className, compact = false }: Props) {
   const active = settings.theme;
 
   if (compact) {
-    const next: ThemeMode = active === 'dark' ? 'light' : active === 'light' ? 'system' : 'dark';
-    const Icon = active === 'light' ? Sun : active === 'dark' ? Moon : Monitor;
+    const next: ThemeMode = active === 'dark' ? 'light' : 'dark';
+    const Icon = active === 'light' ? Sun : Moon;
     return (
       <button
         type="button"
-        aria-label={`Theme: ${active}. Click to switch.`}
-        title={`Theme: ${active}`}
+        aria-label={`Theme: ${active === 'light' ? 'light' : 'dark'}. Click to switch.`}
+        title={active === 'light' ? 'Light mode — switch to dark' : 'Dark mode — switch to light'}
         onClick={() => update({ theme: next })}
         className={cn(
           'inline-flex h-9 w-9 items-center justify-center rounded-xl border border-border/60 bg-background/50 text-foreground/80 transition hover:bg-accent/20 hover:text-foreground',
