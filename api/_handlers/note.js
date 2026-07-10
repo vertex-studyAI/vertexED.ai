@@ -1,6 +1,7 @@
 // api/note.js
 
 import { verifyAuthUser, readJsonBody, rejectOversizedJsonBody } from '../_lib/auth.js';
+import { rateLimitUserEndpoint } from '../_lib/rateLimit.js';
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
@@ -11,6 +12,7 @@ export default async function handler(req, res) {
   if (!user) return;
 
   if (rejectOversizedJsonBody(req, res)) return;
+  if (!rateLimitUserEndpoint(user.id, 'note', res)) return;
 
   const OPENAI_API_KEY =
     process.env.ChatbotKey || process.env.OPENAI_API_KEY || process.env.CHATBOT_KEY;

@@ -77,7 +77,9 @@ export default function RetrievalPulseCard({ pulse, className }: Props) {
         </div>
 
         <div className="space-y-4">
-          <ExamReadinessRing readiness={pulse.readiness} showFactors />
+          <div className="rounded-xl border border-border/50 bg-foreground/[0.02] p-4">
+            <ExamReadinessRing readiness={pulse.readiness} showFactors />
+          </div>
           <StudyLoopRing />
         </div>
       </div>

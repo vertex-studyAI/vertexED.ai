@@ -83,7 +83,7 @@ export default function AIChatbot() {
           </div>
 
           <Tabs defaultValue="chat" className="w-full">
-            <TabsList className="mb-6 w-full justify-start gap-2 neu-card p-1 h-auto border-0 shadow-none">
+            <TabsList className="mb-6 w-full justify-start gap-2 rounded-xl border border-border/50 bg-foreground/[0.03] p-1 h-auto shadow-none">
               <TabsTrigger value="chat" className="data-[state=active]:bg-primary/15 data-[state=active]:text-primary">
                 Chat
               </TabsTrigger>

@@ -129,7 +129,7 @@ export default async function handler(req, res) {
 
     if (await authAccountExists(supabase, email)) {
       return res.status(409).json({
-        error: 'This email already has an account. Please log in instead.',
+        error: 'This email is already registered. Try logging in or check your inbox.',
       });
     }
 
@@ -145,8 +145,7 @@ export default async function handler(req, res) {
 
     if (existingWaitlist) {
       return res.status(409).json({
-        error: 'This email is already on the waitlist.',
-        status: existingWaitlist.status,
+        error: 'This email is already registered. Try logging in or check your inbox.',
       });
     }
 
@@ -156,7 +155,7 @@ export default async function handler(req, res) {
 
     if (dbError) {
       if (dbError.code === '23505') {
-        return res.status(409).json({ error: 'This email is already on the waitlist.' });
+        return res.status(409).json({ error: 'This email is already registered. Try logging in or check your inbox.' });
       }
       throw dbError;
     }

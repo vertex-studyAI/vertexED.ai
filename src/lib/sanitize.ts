@@ -1,25 +1,23 @@
-/**
- * Sanitize user-generated markdown/HTML before render.
- */
-const DANGEROUS_PATTERNS = [
-  /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi,
-  /javascript:/gi,
-  /on\w+\s*=/gi,
-  /<iframe\b/gi,
-  /<object\b/gi,
-  /<embed\b/gi,
-  /data:\s*text\/html/gi,
-];
+import DOMPurify from 'dompurify';
 
+const MARKDOWN_ALLOWED_TAGS = ['p', 'br', 'strong', 'em', 'code', 'pre', 'ul', 'ol', 'li', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'span', 'a'];
+
+/**
+ * Sanitize user-generated HTML before render.
+ */
 export function sanitizeHtml(input: string): string {
-  let out = input;
-  for (const pattern of DANGEROUS_PATTERNS) {
-    out = out.replace(pattern, '');
-  }
-  return out;
+  if (!input) return '';
+  return DOMPurify.sanitize(input, {
+    ALLOWED_TAGS: [...MARKDOWN_ALLOWED_TAGS, 'blockquote', 'hr'],
+    ALLOWED_ATTR: ['href', 'title', 'class'],
+    ALLOW_DATA_ATTR: false,
+  });
 }
 
 export function sanitizeMarkdown(input: string): string {
-  return sanitizeHtml(input)
-    .replace(/<(?!\/?(p|br|strong|em|code|pre|ul|ol|li|h[1-6]|span)\b)[^>]+>/gi, '');
+  return DOMPurify.sanitize(input, {
+    ALLOWED_TAGS: MARKDOWN_ALLOWED_TAGS,
+    ALLOWED_ATTR: ['href', 'title', 'class'],
+    ALLOW_DATA_ATTR: false,
+  });
 }

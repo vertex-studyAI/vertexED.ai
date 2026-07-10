@@ -1,4 +1,11 @@
-import { verifyAuthUser, readJsonBody } from '../_lib/auth.js';
+import { verifyAuthUser, readJsonBody, rejectOversizedJsonBody } from '../_lib/auth.js';
+import { rateLimitUserEndpoint } from '../_lib/rateLimit.js';
+
+const MAX_QUESTION_CHARS = 4000;
+
+function respondAiFailure(res) {
+  return res.status(502).json({ error: 'AI request failed. Please try again shortly.' });
+}
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
@@ -7,6 +14,9 @@ export default async function handler(req, res) {
 
   const user = await verifyAuthUser(req, res);
   if (!user) return;
+
+  if (rejectOversizedJsonBody(req, res, 256 * 1024)) return;
+  if (!rateLimitUserEndpoint(user.id, 'ask', res)) return;
 
   const OPENAI_API_KEY =
     process.env.OPENAI_API_KEY ||
@@ -30,6 +40,12 @@ export default async function handler(req, res) {
     if (typeof question !== "string" || !question.trim()) {
       return res.status(400).json({ error: "No question provided" });
     }
+
+    if (question.length > MAX_QUESTION_CHARS) {
+      return res.status(400).json({ error: `Question too long (max ${MAX_QUESTION_CHARS} characters).` });
+    }
+
+    const trimmedQuestion = question.trim();
 
     const buildMessages = () => {
       const messages = [];
@@ -58,7 +74,7 @@ Rules:
         }
       }
 
-      messages.push({ role: "user", content: question.trim() });
+      messages.push({ role: "user", content: trimmedQuestion });
       return messages;
     };
 
@@ -120,22 +136,10 @@ Rules:
     }
 
     console.log("OpenAI status:", response.status, "model:", model);
-    console.log("OpenAI raw:", raw.slice(0, 1000));
 
     if (!response.ok) {
-      let details;
-      try {
-        details = JSON.parse(raw);
-      } catch {
-        details = raw;
-      }
-
-      console.error("❌ OpenAI error:", details);
-      return res.status(response.status).json({
-        error: "AI request failed",
-        model,
-        details,
-      });
+      console.error("❌ OpenAI error:", response.status, model);
+      return respondAiFailure(res);
     }
 
     let data;
@@ -160,22 +164,10 @@ Rules:
       response = fallbackCall.response;
 
       console.log("OpenAI status:", response.status, "model:", model);
-      console.log("OpenAI raw:", raw.slice(0, 1000));
 
       if (!response.ok) {
-        let details;
-        try {
-          details = JSON.parse(raw);
-        } catch {
-          details = raw;
-        }
-
-        console.error("❌ OpenAI error:", details);
-        return res.status(response.status).json({
-          error: "AI request failed",
-          model,
-          details,
-        });
+        console.error("❌ OpenAI fallback error:", response.status, model);
+        return respondAiFailure(res, 502);
       }
 
       try {

@@ -1,6 +1,7 @@
 import { Moon, Sun, Monitor } from 'lucide-react';
 import { useAppPreferences } from '@/contexts/AppPreferencesContext';
 import type { ThemeMode } from '@/lib/theme';
+import { resolveIsDark } from '@/lib/theme';
 import { cn } from '@/lib/utils';
 
 type Props = {
@@ -14,18 +15,24 @@ const MODES: { id: ThemeMode; label: string; icon: typeof Sun }[] = [
   { id: 'system', label: 'Auto', icon: Monitor },
 ];
 
+const COMPACT_CYCLE: ThemeMode[] = ['light', 'dark', 'system'];
+
 export default function ThemeToggle({ className, compact = false }: Props) {
   const { settings, update } = useAppPreferences();
   const active = settings.theme;
+  const isDark = resolveIsDark(active);
 
   if (compact) {
-    const next: ThemeMode = active === 'dark' ? 'light' : 'dark';
-    const Icon = active === 'light' ? Sun : Moon;
+    const currentIndex = COMPACT_CYCLE.indexOf(active);
+    const next = COMPACT_CYCLE[(currentIndex + 1) % COMPACT_CYCLE.length];
+    const Icon = active === 'system' ? Monitor : isDark ? Moon : Sun;
+    const label = active === 'system' ? 'Auto' : isDark ? 'Dark' : 'Light';
+
     return (
       <button
         type="button"
-        aria-label={`Theme: ${active === 'light' ? 'light' : 'dark'}. Click to switch.`}
-        title={active === 'light' ? 'Light mode — switch to dark' : 'Dark mode — switch to light'}
+        aria-label={`Theme: ${label}. Click to switch.`}
+        title={`${label} mode — click to cycle`}
         onClick={() => update({ theme: next })}
         className={cn(
           'inline-flex h-9 w-9 items-center justify-center rounded-xl border border-border/60 bg-background/50 text-foreground/80 transition hover:bg-accent/20 hover:text-foreground',

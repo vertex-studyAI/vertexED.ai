@@ -34,7 +34,7 @@ export default function ExamReadinessRing({ readiness, size = 'md', showFactors 
               fill="none"
             />
             <circle
-              className="exam-readiness-fill"
+              className={cn('exam-readiness-fill', `exam-readiness-fill--${readiness.band}`)}
               cx={r + stroke}
               cy={r + stroke}
               r={r}
@@ -65,7 +65,10 @@ export default function ExamReadinessRing({ readiness, size = 'md', showFactors 
               <span className="w-24 shrink-0 text-muted-foreground">{f.name}</span>
               <span className="flex-1 h-1.5 rounded-full bg-foreground/10 overflow-hidden">
                 <span
-                  className="block h-full rounded-full bg-primary/70 transition-all"
+                  className={cn(
+                    'block h-full rounded-full transition-all',
+                    f.score / f.max >= 0.7 ? 'bg-emerald-500/70' : f.score / f.max >= 0.4 ? 'bg-primary/70' : 'bg-amber-500/70',
+                  )}
                   style={{ width: `${(f.score / f.max) * 100}%` }}
                 />
               </span>

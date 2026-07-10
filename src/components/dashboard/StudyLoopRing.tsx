@@ -6,7 +6,7 @@ export default function StudyLoopRing({ className }: { className?: string }) {
   const { completed, completionPercent, weekKey } = getLoopWeekStatus();
 
   return (
-    <div className={cn('study-loop-ring', className)}>
+    <div className={cn('study-loop-ring rounded-xl border border-border/50 bg-foreground/[0.02] p-4', className)}>
       <div className="flex items-center justify-between gap-3 mb-4">
         <div>
           <p className="text-xs uppercase tracking-widest text-muted-foreground">Study loop</p>
@@ -15,7 +15,7 @@ export default function StudyLoopRing({ className }: { className?: string }) {
         <span className="text-[10px] text-muted-foreground tabular-nums">{weekKey}</span>
       </div>
 
-      <div className="study-loop-nodes">
+      <div className="study-loop-nodes overflow-x-auto pb-1 -mx-1 px-1">
         {LOOP_STEPS.map((step, i) => {
           const done = completed.includes(step.id);
           const prevDone = i > 0 && completed.includes(LOOP_STEPS[i - 1].id);

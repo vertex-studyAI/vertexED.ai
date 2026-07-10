@@ -247,17 +247,17 @@ export default function Main() {
                 </span>
               )}
               {gradeLabel && (
-                <span className="rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs text-foreground/55">
+                <span className="rounded-full border border-border bg-foreground/[0.04] px-3 py-1 text-xs text-muted-foreground">
                   {gradeLabel}
                 </span>
               )}
               {subjects.slice(0, 4).map((s) => (
-                <span key={s} className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-foreground/60">
+                <span key={s} className="rounded-full border border-border/60 bg-foreground/[0.03] px-3 py-1 text-xs text-muted-foreground">
                   {s}
                 </span>
               ))}
               {subjects.length > 4 && (
-                <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-foreground/45">
+                <span className="rounded-full border border-border/60 bg-foreground/[0.03] px-3 py-1 text-xs text-muted-foreground/80">
                   +{subjects.length - 4} more
                 </span>
               )}
@@ -280,7 +280,7 @@ export default function Main() {
             <button
             aria-label="Settings"
             title="Settings"
-            className="shrink-0 p-3 rounded-2xl glass-tile hover:border-white/30 transition flex items-center justify-center"
+            className="shrink-0 p-3 rounded-2xl glass-tile hover:border-primary/25 transition flex items-center justify-center"
             onClick={() => window.location.assign("/user-settings")}
           >
             <SettingsIcon size={18} className="text-foreground" />
@@ -365,7 +365,7 @@ export default function Main() {
               <QuickAction to="/study-tools" icon={<BookOpen className="h-4 w-4" />} label="Formulas" />
             </div>
             {weekFocus.length > 0 && (
-              <div className="mt-4 rounded-xl border border-white/10 bg-white/5 px-4 py-3">
+              <div className="mt-4 rounded-xl border border-border/60 bg-foreground/[0.03] px-4 py-3">
                 <p className="text-xs uppercase tracking-widest text-foreground/45 mb-2">This week&apos;s focus</p>
                 <ul className="space-y-1.5 text-sm text-foreground/75">
                   {weekFocus.map((item) => (
@@ -418,23 +418,23 @@ export default function Main() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {tiles.map((t) => (
                 <Link to={t.to} key={t.title} className="group block tile-wrapper" aria-label={`${t.title} — ${t.info}`}>
-                  <div className="tile-shadow h-full rounded-xl transition-all duration-400" style={{ boxShadow: "0 12px 40px rgba(0,0,0,0.25)" }}>
+                  <div className="tile-shadow h-full rounded-xl transition-all duration-400 shadow-[var(--shadow-soft)]">
                     <div
                       className="tile h-56 md:h-64 w-full"
                       style={{ transformStyle: "preserve-3d", willChange: "transform" }}
                     >
                       <NeumorphicCard
-                        className="h-full p-6 glass-tile-translucent flex flex-col justify-between transition-all duration-400 group-hover:border-white/25 group-hover:bg-white/10"
+                        className="h-full p-6 glass-tile-translucent flex flex-col justify-between transition-all duration-400 group-hover:border-primary/25 group-hover:bg-foreground/[0.04]"
                       >
                         <div>
                           <div className="flex items-center gap-4 mb-2">
-                            <div className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-foreground font-semibold" aria-hidden>
+                            <div className="w-10 h-10 rounded-full bg-foreground/[0.06] backdrop-blur-md border border-border flex items-center justify-center text-foreground font-semibold" aria-hidden>
                               {t.icon}
                             </div>
 
                             <div>
-                              <h3 className="text-2xl font-semibold text-slate-100">{t.title}</h3>
-                              <p className="text-xs text-slate-400 mt-1">{t.info}</p>
+                              <h3 className="text-2xl font-semibold text-foreground">{t.title}</h3>
+                              <p className="text-xs text-muted-foreground mt-1">{t.info}</p>
                             </div>
                           </div>
 
@@ -443,7 +443,7 @@ export default function Main() {
                         </div>
 
                         <div className="flex items-center justify-between mt-3">
-                          <span className="text-xs text-slate-500">Quick open</span>
+                          <span className="text-xs text-muted-foreground">Quick open</span>
                           <span className="text-sm text-foreground/70 font-medium group-hover:text-foreground transition-colors">Open →</span>
                         </div>
                       </NeumorphicCard>
@@ -461,7 +461,7 @@ export default function Main() {
       <section className="fade-up px-6 pb-12">
         <div className="max-w-6xl mx-auto text-center glass-panel p-8 md:p-10">
           <h3 className="text-2xl md:text-3xl font-semibold text-foreground mb-4">Ready to get back into flow?</h3>
-          <p className="text-slate-300 mb-6 max-w-2xl mx-auto">
+          <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
             Your ecosystem remembers where you left off — planner tasks, flashcards due, and saved work are one click away.
           </p>
 
@@ -469,7 +469,7 @@ export default function Main() {
             <Link to="/learning-hub" className="btn-glass px-8">
               Open Learning Hub
             </Link>
-            <Link to="/study-zone?focus=timer" className="rounded-full border border-white/20 bg-white/8 px-8 py-3 text-sm text-foreground/90 hover:bg-white/14 transition">
+            <Link to="/study-zone?focus=timer" className="rounded-full border border-border bg-foreground/[0.05] px-8 py-3 text-sm text-foreground hover:bg-foreground/[0.08] transition">
               Start focus session
             </Link>
           </div>
@@ -567,13 +567,13 @@ function StatCard({ to, icon, label, value }: { to?: string; icon: React.ReactNo
   );
   if (to) {
     return (
-      <Link to={to} className="glass-tile rounded-2xl border border-white/10 px-4 py-3 flex items-center gap-3 hover:border-white/25 hover:bg-white/8 transition">
+      <Link to={to} className="glass-tile rounded-2xl border border-border/60 px-4 py-3 flex items-center gap-3 hover:border-primary/25 hover:bg-foreground/[0.04] transition">
         {inner}
       </Link>
     );
   }
   return (
-    <div className="glass-tile rounded-2xl border border-white/10 px-4 py-3 flex items-center gap-3">
+    <div className="glass-tile rounded-2xl border border-border/60 px-4 py-3 flex items-center gap-3">
       {inner}
     </div>
   );
@@ -583,7 +583,7 @@ function QuickAction({ to, icon, label }: { to: string; icon: React.ReactNode; l
   return (
     <Link
       to={to}
-      className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/8 px-3.5 py-2 text-sm text-foreground/90 hover:bg-white/14 hover:border-white/25 transition"
+      className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-foreground/[0.04] px-3.5 py-2 text-sm text-foreground hover:bg-foreground/[0.07] hover:border-primary/25 transition"
     >
       {icon}
       {label}

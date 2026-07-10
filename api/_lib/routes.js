@@ -3,6 +3,8 @@
  * Individual handlers live in api/_handlers/ (underscore-prefixed paths are not deployed as functions).
  */
 
+import { MAX_JSON_BODY_BYTES } from './auth.js';
+
 export const API_VERSION = '1';
 
 /** @type {Record<string, { loader: () => Promise<{ default: Function }>, methods?: string[], rawBody?: boolean }>} */
@@ -87,11 +89,29 @@ export async function ensureJsonBody(req) {
   if (contentType.includes('multipart/form-data')) return;
 
   const chunks = [];
-  await new Promise((resolve, reject) => {
-    req.on('data', (chunk) => chunks.push(chunk));
-    req.on('end', resolve);
-    req.on('error', reject);
-  });
+  let totalBytes = 0;
+
+  try {
+    await new Promise((resolve, reject) => {
+      req.on('data', (chunk) => {
+        totalBytes += chunk.length;
+        if (totalBytes > MAX_JSON_BODY_BYTES) {
+          reject(new Error('BODY_TOO_LARGE'));
+          return;
+        }
+        chunks.push(chunk);
+      });
+      req.on('end', resolve);
+      req.on('error', reject);
+    });
+  } catch (err) {
+    if (err instanceof Error && err.message === 'BODY_TOO_LARGE') {
+      req.body = null;
+      req._bodyTooLarge = true;
+      return;
+    }
+    throw err;
+  }
 
   const raw = Buffer.concat(chunks).toString('utf8');
   if (!raw) {
@@ -126,8 +146,6 @@ export async function dispatchRoute(routeKey, req, res) {
   if (!route) {
     res.status(404).json({
       error: 'API route not found',
-      route: key,
-      available: Object.keys(ROUTES),
     });
     return;
   }
@@ -140,6 +158,11 @@ export async function dispatchRoute(routeKey, req, res) {
 
   if (!route.rawBody) {
     await ensureJsonBody(req);
+  }
+
+  if (req._bodyTooLarge) {
+    res.status(413).json({ error: 'Request body too large.' });
+    return;
   }
 
   const mod = await route.loader();
