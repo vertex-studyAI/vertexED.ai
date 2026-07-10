@@ -39,7 +39,7 @@ async function request(path, options = {}) {
       body = await response.text();
     }
 
-    return { status: response.status, body };
+    return { status: response.status, body, headers: response.headers };
   } finally {
     clearTimeout(timer);
   }
@@ -52,11 +52,24 @@ async function main() {
     const health = await request('/api/health', { method: 'GET', headers: {} });
     if (health.status !== 200 || !health.body?.ok) {
       fail(`/api/health returned ${health.status}`);
+    } else if (health.headers.get('x-vertex-api') !== '1') {
+      fail('/api/health missing X-Vertex-API header (router may not be active)');
     } else {
-      pass('/api/health returns ok');
+      pass(`/api/health returns ok (routes=${health.body.routes ?? '?'})`);
     }
   } catch (error) {
     fail(`/api/health check failed: ${error.message}`);
+  }
+
+  try {
+    const unknown = await request('/api/not-a-real-route', { method: 'GET', headers: {} });
+    if (unknown.status !== 404) {
+      fail(`/api/not-a-real-route returned ${unknown.status} (expected 404)`);
+    } else {
+      pass('/api router returns 404 for unknown routes');
+    }
+  } catch (error) {
+    fail(`/api 404 check failed: ${error.message}`);
   }
 
   try {
@@ -98,6 +111,20 @@ async function main() {
     }
   } catch (error) {
     fail(`/api/ask check failed: ${error.message}`);
+  }
+
+  try {
+    const userContent = await request('/api/user-content', {
+      method: 'GET',
+      headers: {},
+    });
+    if (userContent.status !== 401) {
+      fail(`/api/user-content without auth returned ${userContent.status}`);
+    } else {
+      pass('/api/user-content requires authentication (401)');
+    }
+  } catch (error) {
+    fail(`/api/user-content check failed: ${error.message}`);
   }
 
   if (process.exitCode) {

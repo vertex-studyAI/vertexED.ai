@@ -1,5 +1,6 @@
 import { verifyAuthUser, readJsonBody, rejectOversizedJsonBody } from '../_lib/auth.js';
 import { getSupabaseAdmin } from '../_lib/supabaseAdmin.js';
+import { getQueryNumber, getQueryParam } from '../_lib/query.js';
 
 const ALLOWED_KINDS = new Set(['note', 'review', 'paper']);
 
@@ -17,9 +18,8 @@ export default async function handler(req, res) {
 
   try {
     if (req.method === 'GET') {
-      const url = new URL(req.url, 'http://localhost');
-      const kind = url.searchParams.get('kind');
-      const limit = Math.min(Number(url.searchParams.get('limit') || 20), 50);
+      const kind = getQueryParam(req, 'kind');
+      const limit = getQueryNumber(req, 'limit', 20, 50);
 
       let query = supabase
         .from('user_study_artifacts')

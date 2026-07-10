@@ -5,7 +5,7 @@
 
 export const API_VERSION = '1';
 
-/** @type {Record<string, { loader: () => Promise<{ default: Function }>, methods?: string[], maxDuration?: number, rawBody?: boolean }>} */
+/** @type {Record<string, { loader: () => Promise<{ default: Function }>, methods?: string[], rawBody?: boolean }>} */
 export const ROUTES = {
   health: {
     loader: () => import('../_handlers/health.js'),
@@ -22,32 +22,26 @@ export const ROUTES = {
   ask: {
     loader: () => import('../_handlers/ask.js'),
     methods: ['POST'],
-    maxDuration: 60,
   },
   quiz: {
     loader: () => import('../_handlers/quiz.js'),
     methods: ['POST'],
-    maxDuration: 60,
   },
   note: {
     loader: () => import('../_handlers/note.js'),
     methods: ['POST'],
-    maxDuration: 30,
   },
   planner: {
     loader: () => import('../_handlers/planner.js'),
     methods: ['POST'],
-    maxDuration: 60,
   },
   'paper-generator': {
     loader: () => import('../_handlers/paper-generator.js'),
     methods: ['POST'],
-    maxDuration: 60,
   },
   review: {
     loader: () => import('../_handlers/review.ts'),
     methods: ['POST'],
-    maxDuration: 60,
   },
   'review-post': {
     loader: () => import('../_handlers/review-post.js'),
@@ -60,22 +54,24 @@ export const ROUTES = {
   transcribe: {
     loader: () => import('../_handlers/transcribe.js'),
     methods: ['POST'],
-    maxDuration: 60,
     rawBody: true,
   },
 };
 
 const TEST_AGENTS_ROUTE = 'test-agents';
+const BODY_METHODS = new Set(['POST', 'PUT', 'PATCH', 'DELETE']);
 
 export function resolveRouteKey(req) {
   const segments = req.query?.path;
-  if (Array.isArray(segments) && segments.length > 0) {
-    return segments.join('/');
+  let key = 'health';
+
+  if (Array.isArray(segments)) {
+    key = segments.filter(Boolean).join('/');
+  } else if (typeof segments === 'string' && segments.trim()) {
+    key = segments.trim();
   }
-  if (typeof segments === 'string' && segments) {
-    return segments;
-  }
-  return 'health';
+
+  return key.replace(/^\/+|\/+$/g, '') || 'health';
 }
 
 export function isTestAgentsEnabled() {
@@ -85,10 +81,10 @@ export function isTestAgentsEnabled() {
 
 export async function ensureJsonBody(req) {
   if (req.body !== undefined && req.body !== null) return;
-  if (req.method !== 'POST' && req.method !== 'PUT' && req.method !== 'PATCH') return;
+  if (!BODY_METHODS.has(req.method)) return;
 
   const contentType = String(req.headers['content-type'] || '').toLowerCase();
-  if (!contentType.includes('application/json')) return;
+  if (contentType.includes('multipart/form-data')) return;
 
   const chunks = [];
   await new Promise((resolve, reject) => {
@@ -96,34 +92,41 @@ export async function ensureJsonBody(req) {
     req.on('end', resolve);
     req.on('error', reject);
   });
+
   const raw = Buffer.concat(chunks).toString('utf8');
   if (!raw) {
     req.body = {};
     return;
   }
-  try {
-    req.body = JSON.parse(raw);
-  } catch {
-    req.body = {};
+
+  if (contentType.includes('application/json') || raw.trim().startsWith('{') || raw.trim().startsWith('[')) {
+    try {
+      req.body = JSON.parse(raw);
+      return;
+    } catch {
+      req.body = {};
+      return;
+    }
   }
+
+  req.body = raw;
 }
 
 export async function dispatchRoute(routeKey, req, res) {
-  let key = routeKey;
+  const key = routeKey.replace(/^\/+|\/+$/g, '') || 'health';
   let route = ROUTES[key];
 
   if (!route && key === TEST_AGENTS_ROUTE && isTestAgentsEnabled()) {
     route = {
       loader: () => import('../../scripts/test-agents.ts'),
       methods: ['GET', 'POST'],
-      maxDuration: 60,
     };
   }
 
   if (!route) {
     res.status(404).json({
       error: 'API route not found',
-      route: routeKey,
+      route: key,
       available: Object.keys(ROUTES),
     });
     return;

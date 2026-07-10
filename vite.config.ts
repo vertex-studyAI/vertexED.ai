@@ -24,8 +24,10 @@ export default defineConfig(({ mode }) => {
             }
 
             const pathname = req.url.split('?')[0];
+            const search = req.url.includes('?') ? req.url.slice(req.url.indexOf('?') + 1) : '';
             const routeKey = pathname.replace(/^\/api\/?/, '') || 'health';
             const isMultipart = String(req.headers['content-type'] || '').includes('multipart/form-data');
+            const queryParams = Object.fromEntries(new URLSearchParams(search));
 
             const run = async (body: unknown) => {
               try {
@@ -33,7 +35,7 @@ export default defineConfig(({ mode }) => {
                 const nextReq = {
                   ...req,
                   url: req.url,
-                  query: { path: routeKey.split('/').filter(Boolean) },
+                  query: { ...queryParams, path: routeKey.split('/').filter(Boolean) },
                   method: req.method,
                   headers: req.headers,
                   body,
