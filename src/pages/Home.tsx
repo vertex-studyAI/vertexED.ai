@@ -1,9 +1,14 @@
-import React, { useEffect, useMemo, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import SEO from "@/components/SEO";
 import RichMarkdown from "@/components/RichMarkdown";
 import { useAuth } from "@/contexts/AuthContext";
 import { TypeAnimation } from "react-type-animation";
+import {
+  MATH_DEMO_LINES,
+  PLATFORM_FEATURES,
+  PROBLEM_INSIGHTS,
+} from "@/content/features";
 
 const prefersReducedMotion = () => {
   if (typeof window === "undefined" || !window.matchMedia) return true;
@@ -11,7 +16,7 @@ const prefersReducedMotion = () => {
 };
 
 type FlipWordsProps = { words: string[]; interval?: number; className?: string };
-const FlipWords: React.FC<FlipWordsProps> = ({ words, interval = 2400, className }) => {
+const FlipWords: React.FC<FlipWordsProps> = ({ words, interval = 2800, className }) => {
   const [idx, setIdx] = React.useState(0);
   const [phase, setPhase] = React.useState<"in" | "out">("in");
 
@@ -22,7 +27,7 @@ const FlipWords: React.FC<FlipWordsProps> = ({ words, interval = 2400, className
       window.setTimeout(() => {
         setIdx((i) => (i + 1) % words.length);
         setPhase("in");
-      }, 260);
+      }, 280);
     }, interval);
     return () => window.clearInterval(t);
   }, [words.length, interval]);
@@ -43,56 +48,7 @@ const founders = [
 export default function Home() {
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
-  const missionRef = useRef<HTMLDivElement | null>(null);
   const gsapCleanupRef = useRef<() => void>(() => {});
-
-  const problems = useMemo(
-    () => [
-      {
-        stat: "65%",
-        title: "Resources that don't connect",
-        text: "Most students spend hours hunting through PDFs, YouTube playlists, and random problem sets — but still can't tell if they're actually getting closer to exam-ready. The information is there; the structure isn't.",
-      },
-      {
-        stat: "70%",
-        title: "Notes that never become recall",
-        text: "Highlighting feels productive until you close the notebook and realise nothing stuck. Without deliberate retrieval practice, revision becomes passive re-reading — and exams punish that every time.",
-      },
-      {
-        stat: "80%",
-        title: "Practice that misses the mark",
-        text: "Generic quizzes rarely mirror the phrasing, rigour, or mark schemes of real papers. Students train on the wrong shape of question — then wonder why the exam room feels unfamiliar.",
-      },
-    ],
-    [],
-  );
-
-  const pillars = useMemo(
-    () => [
-      {
-        title: "Study Zone",
-        desc: "A single calm workspace for calculators, timers, activity logs, and deep-focus sessions. No tab-hopping, no context switching — just the tools you reach for when it's actually time to work.",
-      },
-      {
-        title: "Apex",
-        desc: "An academic companion that explains ideas in plain language first, then builds depth. Ask why a step works, not just what the answer is. It adapts to how you think, not how a textbook is organised.",
-      },
-      {
-        title: "Exam prep",
-        desc: "Paper Maker and Answer Reviewer mirror real mark schemes. Generate syllabus-aligned mocks, submit responses, and get feedback on structure and precision — the kind of detail that moves grades.",
-      },
-    ],
-    [],
-  );
-
-  const mathExamples = useMemo(
-    () => [
-      "The area under f(x) from 0 to 2 is given by ∫_0^2 f(x) dx.",
-      "For y = x^3, the derivative dy/dx = 3x^2.",
-      "Quadratic roots: x = (-b ± √(b^2 - 4ac)) / 2a.",
-    ],
-    [],
-  );
 
   useEffect(() => {
     if (!isAuthenticated) return;
@@ -126,28 +82,43 @@ export default function Home() {
         gsap.utils.toArray<HTMLElement>(".reveal-section").forEach((section) => {
           gsap.fromTo(
             section,
-            { y: 48, opacity: 0 },
+            { y: 56, opacity: 0 },
             {
               y: 0,
               opacity: 1,
-              duration: 1.1,
+              duration: 1.15,
               ease: "power3.out",
-              scrollTrigger: { trigger: section, start: "top 85%", toggleActions: "play none none reverse" },
+              scrollTrigger: { trigger: section, start: "top 86%", toggleActions: "play none none reverse" },
             },
           );
         });
 
-        gsap.utils.toArray<HTMLElement>(".reveal-card").forEach((card, i) => {
+        gsap.utils.toArray<HTMLElement>(".reveal-card, .feature-strip").forEach((el, i) => {
           gsap.fromTo(
-            card,
-            { y: 32, opacity: 0 },
+            el,
+            { y: 40, opacity: 0 },
             {
               y: 0,
               opacity: 1,
-              duration: 0.9,
-              delay: i * 0.08,
+              duration: 0.95,
+              delay: (i % 4) * 0.06,
               ease: "power2.out",
-              scrollTrigger: { trigger: card, start: "top 90%", toggleActions: "play none none reverse" },
+              scrollTrigger: { trigger: el, start: "top 92%", toggleActions: "play none none reverse" },
+            },
+          );
+        });
+
+        gsap.utils.toArray<HTMLElement>(".lando-line").forEach((line) => {
+          gsap.fromTo(
+            line,
+            { y: 24, opacity: 0 },
+            {
+              y: 0,
+              opacity: 1,
+              duration: 0.85,
+              stagger: 0.08,
+              ease: "power2.out",
+              scrollTrigger: { trigger: line, start: "top 90%", toggleActions: "play none none reverse" },
             },
           );
         });
@@ -173,84 +144,99 @@ export default function Home() {
     <>
       <SEO
         title="VertexED — Study tools that respect how you learn"
-        description="VertexED brings planning, practice, notes, and AI feedback into one calm study space — built by students, for students who want to learn deeply and perform on exam day."
+        description="VertexED brings planning, practice, notes, and AI feedback into one calm study space — built for students who want to learn deeply and perform on exam day."
         canonical="https://www.vertexed.app/"
         jsonLd={[
-          {
-            "@context": "https://schema.org",
-            "@type": "WebSite",
-            name: "VertexED",
-            url: "https://www.vertexed.app/",
-          },
-          {
-            "@context": "https://schema.org",
-            "@type": "Organization",
-            name: "VertexED",
-            url: "https://www.vertexed.app",
-            logo: "https://www.vertexed.app/logo.png",
-          },
+          { "@context": "https://schema.org", "@type": "WebSite", name: "VertexED", url: "https://www.vertexed.app/" },
+          { "@context": "https://schema.org", "@type": "Organization", name: "VertexED", url: "https://www.vertexed.app", logo: "https://www.vertexed.app/logo.png" },
         ]}
       />
 
-      <section className="hero-section glass-card px-6 md:px-10 pt-16 md:pt-24 pb-16 text-center relative overflow-hidden">
-        <div className="max-w-4xl mx-auto relative z-10">
-          <p className="glass-chip mb-6 mx-auto w-fit">Built at Oakridge · For students who care about the work</p>
+      <section className="hero-section glass-card px-6 md:px-10 pt-20 md:pt-28 pb-20 text-center relative overflow-hidden">
+        <div className="max-w-5xl mx-auto relative z-10">
+          <p className="glass-chip mb-8 mx-auto w-fit lando-line">For students who care about the work</p>
 
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-foreground leading-[1.08] tracking-tight">
+          <h1 className="text-[clamp(2.5rem,8vw,4.75rem)] font-bold text-foreground leading-[1.02] tracking-tight lando-line">
             <TypeAnimation
-              sequence={[
-                1000,
-                "Study with intention.",
-                2200,
-                "Practice with precision.",
-                2200,
-                "Remember what matters.",
-              ]}
-              speed={42}
+              sequence={[900, "Learn deeply.", 2000, "Practice deliberately.", 2000, "Perform on exam day."]}
+              speed={40}
               wrapper="span"
               cursor
               repeat={Infinity}
             />
           </h1>
 
-          <p className="mt-5 text-xl md:text-2xl font-medium text-muted-foreground">
+          <p className="mt-6 text-xl md:text-2xl font-medium text-muted-foreground lando-line">
             <FlipWords
               words={[
-                "Less noise. More understanding.",
+                "One workspace. Zero tab chaos.",
                 "Feedback that reads like a teacher.",
-                "Math that actually looks like math.",
-                "One place for the whole workflow.",
+                "Math that renders like your textbook.",
+                "Built around how memory actually works.",
               ]}
             />
           </p>
 
-          <p className="mt-8 text-lg md:text-xl text-foreground/85 leading-relaxed max-w-2xl mx-auto">
-            VertexED is not another chatbot bolted onto a PDF viewer. It is a study environment —
-            planner, notes, mock papers, and an AI companion — designed around how memory actually
-            works: retrieval, spacing, and honest feedback when your answer is almost there but not quite.
+          <p className="mt-10 text-lg md:text-xl text-foreground/88 leading-relaxed max-w-2xl mx-auto lando-line">
+            VertexED is a study environment — not a chatbot stapled to a PDF viewer. Planner, notes, mock papers,
+            spaced repetition, and an AI layer that explains before it answers. Everything connects: you plan a session,
+            work in Study Zone, generate a paper, submit an answer, and see exactly what to fix next.
           </p>
 
-          <div className="flex gap-4 justify-center mt-10 flex-wrap">
-            <Link to="/signup" className="btn-solid text-lg">
-              Start free
-            </Link>
-            <Link to="/about" className="btn-glass text-lg">
-              Meet the founders
-            </Link>
+          <div className="flex gap-4 justify-center mt-12 flex-wrap lando-line">
+            <Link to="/signup" className="btn-solid text-lg">Start free</Link>
+            <Link to="/about" className="btn-glass text-lg">Meet the team</Link>
           </div>
         </div>
       </section>
 
-      <section className="max-w-4xl mx-auto px-6 mt-20 reveal-section">
-        <h2 className="text-3xl md:text-4xl font-bold text-foreground text-center mb-3">
-          Math should look like math
+      <section className="max-w-6xl mx-auto px-6 mt-28 reveal-section">
+        <p className="text-xs uppercase tracking-[0.2em] text-primary mb-3 text-center">The toolkit</p>
+        <h2 className="text-3xl md:text-5xl font-bold text-foreground text-center leading-tight mb-4">
+          Everything you need.<br className="hidden sm:block" /> Nothing you don&apos;t.
         </h2>
+        <p className="text-center text-muted-foreground text-lg leading-relaxed mb-16 max-w-2xl mx-auto">
+          Six tools, one loop. Each one is built to do real work — not fill a feature grid.
+        </p>
+
+        <div className="space-y-8">
+          {PLATFORM_FEATURES.map((f, i) => (
+            <article
+              key={f.id}
+              className={`feature-strip glass-panel p-8 md:p-10 flex flex-col ${i % 2 === 1 ? "md:flex-row-reverse" : "md:flex-row"} gap-8 md:gap-12 items-start`}
+            >
+              <div className="shrink-0">
+                <span className="text-5xl md:text-6xl font-bold text-primary/25 tabular-nums">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-medium text-primary mb-1">{f.tagline}</p>
+                <h3 className="text-2xl md:text-3xl font-semibold text-foreground mb-4">{f.title}</h3>
+                <p className="text-foreground/90 leading-relaxed mb-4">{f.body}</p>
+                <p className="text-muted-foreground leading-relaxed mb-5">{f.detail}</p>
+                <ul className="space-y-2 text-sm text-foreground/85">
+                  {f.bullets.map((b) => (
+                    <li key={b} className="flex gap-2">
+                      <span className="text-primary shrink-0">—</span>
+                      <span>{b}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="max-w-4xl mx-auto px-6 mt-28 reveal-section">
+        <h2 className="text-3xl md:text-4xl font-bold text-foreground text-center mb-3">Math should look like math</h2>
         <p className="text-center text-muted-foreground text-lg leading-relaxed mb-10 max-w-2xl mx-auto">
-          Integrals, derivatives, and roots render properly across the app — no LaTeX typing required.
-          We parse the notation you already use and display it the way your textbook does.
+          Integrals, derivatives, and roots render across the app — no LaTeX typing required.
+          We parse the notation you already write and display it the way your textbook does.
         </p>
         <div className="grid gap-4">
-          {mathExamples.map((ex) => (
+          {MATH_DEMO_LINES.map((ex) => (
             <div key={ex} className="glass-tile p-6 reveal-card text-left">
               <RichMarkdown className="prose-base">{ex}</RichMarkdown>
             </div>
@@ -258,19 +244,19 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="max-w-5xl mx-auto px-6 mt-24 reveal-section text-center">
-        <h2 className="text-3xl md:text-5xl font-bold text-foreground leading-tight">
+      <section className="max-w-5xl mx-auto px-6 mt-28 reveal-section text-center">
+        <h2 className="text-3xl md:text-5xl font-bold text-foreground leading-tight lando-line">
           Studying broke somewhere along the way.
         </h2>
-        <p className="mt-5 text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-          It is not that students lack motivation — it is that the tools scatter attention, reward
-          passive reading, and rarely tell you whether tonight&apos;s session moved the needle. We built
-          VertexED because we felt that gap every week during IB prep.
+        <p className="mt-6 text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed lando-line">
+          It is rarely motivation that fails — it is structure. Tools scatter attention, reward passive reading,
+          and almost never tell you whether tonight&apos;s session moved the needle. We built VertexED because
+          we lived that gap during exam season and wanted one place that actually helped.
         </p>
       </section>
 
       <section className="max-w-6xl mx-auto px-6 mt-16 grid grid-cols-1 md:grid-cols-3 gap-6">
-        {problems.map((p) => (
+        {PROBLEM_INSIGHTS.map((p) => (
           <article key={p.title} className="glass-tile p-8 reveal-card text-left h-full">
             <p className="text-4xl font-bold text-primary mb-2 tabular-nums">{p.stat}</p>
             <h3 className="text-xl font-semibold text-foreground mb-3">{p.title}</h3>
@@ -279,50 +265,32 @@ export default function Home() {
         ))}
       </section>
 
-      <section className="max-w-4xl mx-auto mt-20 px-6 reveal-section">
-        <div ref={missionRef} className="glass-panel p-10 md:p-12 text-left">
-          <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-5">What we are building toward</h2>
+      <section className="max-w-4xl mx-auto mt-24 px-6 reveal-section">
+        <div className="glass-panel p-10 md:p-12 text-left">
+          <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-5">How we think about learning</h2>
           <p className="text-lg leading-relaxed text-foreground/90 mb-5">
-            Education was never the problem — access to the right structure was. VertexED connects
-            planning to practice to review in one loop: you set a goal, work in Study Zone, generate
-            papers aligned to your syllabus, and get feedback that names what to fix next — not a vague
-            &ldquo;good effort.&rdquo;
+            Education was never the problem — access to the right structure was. VertexED connects planning to
+            practice to review in one loop: set a goal, work in Study Zone, generate papers aligned to your syllabus,
+            and get feedback that names what to fix — not a vague &ldquo;good effort.&rdquo;
           </p>
-          <p className="text-lg leading-relaxed text-muted-foreground mb-5">
-            We care as much about curiosity as scores. The aim is an environment where a Sunday
-            afternoon session feels purposeful: you know what to do, you can see progress, and the
-            material stays with you past the week of the test.
+          <p className="text-lg leading-relaxed text-muted-foreground mb-6">
+            We care as much about curiosity as scores. A Sunday afternoon session should feel purposeful: you know
+            what to do, you can see progress, and the material stays with you past the week of the test.
           </p>
           <ul className="space-y-3 text-foreground/90">
-            <li className="flex gap-3"><span className="text-primary font-bold">→</span> Active recall woven into notes, flashcards, and quizzes</li>
-            <li className="flex gap-3"><span className="text-primary font-bold">→</span> Mock papers that respect mark schemes, not generic trivia</li>
+            <li className="flex gap-3"><span className="text-primary font-bold">→</span> Active recall in notes, flashcards, and quizzes</li>
+            <li className="flex gap-3"><span className="text-primary font-bold">→</span> Mock papers that respect mark schemes</li>
             <li className="flex gap-3"><span className="text-primary font-bold">→</span> An AI layer that explains, not just answers</li>
           </ul>
         </div>
       </section>
 
-      <section className="max-w-6xl mx-auto px-6 mt-24 reveal-section">
-        <h2 className="text-3xl md:text-4xl font-bold text-foreground text-center mb-4">Three pillars</h2>
-        <p className="text-center text-muted-foreground text-lg mb-12 max-w-2xl mx-auto leading-relaxed">
-          Everything else in the product hangs off these — we would rather do a few things properly than list twenty that sound impressive.
-        </p>
-        <div className="grid md:grid-cols-3 gap-6">
-          {pillars.map((p) => (
-            <article key={p.title} className="glass-tile p-8 reveal-card">
-              <h3 className="text-xl font-semibold text-foreground mb-3">{p.title}</h3>
-              <p className="text-muted-foreground leading-relaxed">{p.desc}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="max-w-5xl mx-auto px-6 mt-24 reveal-section">
+      <section className="max-w-5xl mx-auto px-6 mt-28 reveal-section">
         <div className="glass-panel p-10 md:p-12 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">The people behind it</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">Built by students, used by students</h2>
           <p className="text-lg text-muted-foreground leading-relaxed max-w-2xl mx-auto mb-10">
-            Vertex started at Oakridge Codefest — three classmates who wanted one workspace instead of
-            twelve tabs. We still use the product ourselves during exam season; that keeps us honest
-            about what actually helps at 11pm on a Tuesday.
+            Three co-founders who wanted one workspace instead of twelve tabs. We still use VertexED during
+            exam season — that keeps us honest about what actually helps when the clock matters.
           </p>
           <div className="grid sm:grid-cols-3 gap-6 mb-10">
             {founders.map((f) => (
@@ -332,13 +300,11 @@ export default function Home() {
               </div>
             ))}
           </div>
-          <Link to="/about" className="btn-glass">
-            Read our story
-          </Link>
+          <Link to="/about" className="btn-glass">Read our story</Link>
         </div>
       </section>
 
-      <section className="max-w-3xl mx-auto px-6 mt-24 mb-16 text-center reveal-section">
+      <section className="max-w-3xl mx-auto px-6 mt-28 mb-20 text-center reveal-section">
         <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-5">Ready when you are</h2>
         <p className="text-lg text-muted-foreground leading-relaxed mb-8">
           No credit card, no sales call. Create an account, set your board, and run one focused session.

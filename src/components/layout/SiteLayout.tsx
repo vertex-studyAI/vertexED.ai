@@ -13,6 +13,7 @@ import CloudSaveBanner from "@/components/CloudSaveBanner";
 import ThemeToggle from "@/components/ThemeToggle";
 import AmbientBackground from "@/components/AmbientBackground";
 import FluidCursorLayer from "@/components/FluidCursorLayer";
+import PageLoader from "@/components/PageLoader";
 import { useStudySessionTracker } from "@/hooks/useStudySessionTracker";
 
 export default function SiteLayout() {
@@ -252,14 +253,7 @@ export default function SiteLayout() {
         <RouteSemanticHeadings />
         <CloudSaveBanner />
         <RouteErrorBoundary>
-          <Suspense
-            fallback={
-              <div className="min-h-[40vh] flex flex-col items-center justify-center gap-3 text-muted-foreground">
-                <div className="h-9 w-9 rounded-full border-2 border-border border-t-primary animate-spin" />
-                <p className="text-sm">Just a moment…</p>
-              </div>
-            }
-          >
+          <Suspense fallback={<PageLoader label="Opening" />}>
             <Outlet />
           </Suspense>
         </RouteErrorBoundary>

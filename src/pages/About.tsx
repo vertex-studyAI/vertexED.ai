@@ -65,10 +65,10 @@ export default function About(): JSX.Element {
         </h1>
 
         <p className="text-lg md:text-xl max-w-3xl leading-relaxed text-muted-foreground">
-          Vertex began as an Oakridge 2025 Codefest project — three classmates who wanted planning,
+          Vertex began as a late-night hackathon project — three classmates who wanted planning,
           notes, flashcards, quizzes, and AI help in one place that actually felt good to open. After
-          winning over $500 at Bangalore&apos;s largest overnight hackathon for high schoolers, we kept
-          building because we needed it ourselves during exam season.
+          winning prize money at a major overnight student hackathon, we kept building because we
+          needed it ourselves during exam season.
         </p>
         <p className="mt-5 text-lg md:text-xl max-w-3xl leading-relaxed text-foreground/90">
           We are not trying to replace teachers or shortcut the work. We are trying to remove the

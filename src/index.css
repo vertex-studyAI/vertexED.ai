@@ -392,6 +392,35 @@ All colors MUST be HSL.
     transform: translateY(0);
   }
 
+  .fluid-cursor-subtle {
+    opacity: 0.35;
+    mix-blend-mode: multiply;
+  }
+  .dark .fluid-cursor-subtle {
+    opacity: 1;
+    mix-blend-mode: normal;
+  }
+
+  .loader-reveal {
+    animation: loader-fade 0.8s ease forwards;
+  }
+  .loader-reveal-delay {
+    animation: loader-fade 0.8s ease 0.15s forwards;
+    opacity: 0;
+  }
+  @keyframes loader-fade {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .feature-strip {
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  .feature-strip:hover {
+    border-color: hsl(var(--primary) / 0.22);
+    box-shadow: var(--glow);
+  }
+
   /* Light mode: remap legacy hardcoded white text */
   .light .text-white { color: hsl(var(--foreground)); }
   .light .text-slate-100,
