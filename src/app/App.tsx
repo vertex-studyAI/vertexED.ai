@@ -47,6 +47,9 @@ const AcademicBurnoutGuide = lazy(() => import("@/pages/resources/AcademicBurnou
 const MemorizationTechniques = lazy(() => import("@/pages/resources/MemorizationTechniques"));
 const CollegeEssaysWithAI = lazy(() => import("@/pages/resources/CollegeEssaysWithAI"));
 const Onboarding = lazy(() => import("@/pages/Onboarding"));
+const StudyNotebook = lazy(() => import("@/pages/StudyNotebook"));
+const ResourceLibrary = lazy(() => import("@/pages/ResourceLibrary"));
+const WorldModel = lazy(() => import("@/pages/WorldModel"));
 const WaitlistAdmin = lazy(() => import("@/pages/admin/WaitlistAdmin"));
 import { AuthProvider } from "@/contexts/AuthContext";
 import { AppPreferencesProvider } from "@/contexts/AppPreferencesContext";
@@ -137,6 +140,9 @@ return (
 <Route path="main" element={<ProtectedRoute><Main /></ProtectedRoute>} />
 <Route path="learning-hub" element={<ProtectedRoute><LearningHub /></ProtectedRoute>} />
 <Route path="notetaker" element={<ProtectedRoute><NotetakerQuiz /></ProtectedRoute>} />
+<Route path="study-notebook" element={<ProtectedRoute><StudyNotebook /></ProtectedRoute>} />
+<Route path="resource-library" element={<ProtectedRoute><ResourceLibrary /></ProtectedRoute>} />
+<Route path="world-model" element={<ProtectedRoute><WorldModel /></ProtectedRoute>} />
 <Route path="study-zone" element={<ProtectedRoute><StudyZone /></ProtectedRoute>} />
 <Route path="chatbot" element={<ProtectedRoute><AIChatbot /></ProtectedRoute>} />
 <Route path="planner" element={<ProtectedRoute><StudyPlanner /></ProtectedRoute>} />

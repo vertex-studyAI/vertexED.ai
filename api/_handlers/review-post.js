@@ -1,5 +1,6 @@
 import { verifyAuthUser, readJsonBody, rejectOversizedJsonBody } from '../_lib/auth.js';
 import { getSupabaseAdmin } from '../_lib/supabaseAdmin.js';
+import { checkRateLimit } from '../_lib/rateLimit.js';
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
@@ -8,6 +9,14 @@ export default async function handler(req, res) {
 
   const user = await verifyAuthUser(req, res);
   if (!user) return;
+
+  const rate = checkRateLimit(`${user.id}:review-post`, 30, 60 * 1000);
+  if (!rate.allowed) {
+    return res.status(429).json({
+      error: 'Too many review saves. Try again shortly.',
+      retryAfter: rate.retryAfterSec,
+    });
+  }
 
   if (rejectOversizedJsonBody(req, res, 256_000)) return;
 

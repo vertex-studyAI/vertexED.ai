@@ -18,10 +18,21 @@ export default function Login() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
+
+    const normalizedEmail = email.trim().toLowerCase();
+    if (!normalizedEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalizedEmail)) {
+      setError("Enter a valid email address.");
+      return;
+    }
+    if (password.length < 8) {
+      setError("Password must be at least 8 characters.");
+      return;
+    }
+
     setLoading(true);
 
     try {
-      await login(email, password);
+      await login(normalizedEmail, password);
       navigate(from, { replace: true });
     } catch (err) {
       setError((err as Error).message);
@@ -61,6 +72,7 @@ export default function Login() {
                   setLoading(true);
                   setError(null);
                   await loginWithGoogle();
+                  window.setTimeout(() => setLoading(false), 4000);
                 } catch (err) {
                   setError((err as Error).message);
                   setLoading(false);
@@ -83,6 +95,7 @@ export default function Login() {
                 aria-label="Email"
                 placeholder="Email"
                 className="neu-input-el"
+                autoComplete="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
@@ -93,6 +106,7 @@ export default function Login() {
                 placeholder="Password"
                 type="password"
                 className="neu-input-el"
+                autoComplete="current-password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />

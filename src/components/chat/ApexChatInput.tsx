@@ -3,6 +3,7 @@ type Props = {
   onChange: (value: string) => void;
   onSend: () => void;
   loading?: boolean;
+  disabled?: boolean;
   placeholder?: string;
   compact?: boolean;
 };
@@ -12,9 +13,11 @@ export default function ApexChatInput({
   onChange,
   onSend,
   loading,
+  disabled,
   placeholder = 'Discuss, deliberate, ask…',
   compact,
 }: Props) {
+  const isDisabled = disabled || loading;
   return (
     <div className={`apex-chat-input-row ${compact ? 'apex-chat-input-compact' : ''}`}>
       <input
@@ -22,15 +25,15 @@ export default function ApexChatInput({
         placeholder={placeholder}
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        onKeyDown={(e) => e.key === 'Enter' && !e.shiftKey && onSend()}
-        disabled={loading}
+        onKeyDown={(e) => e.key === 'Enter' && !e.shiftKey && !isDisabled && onSend()}
+        disabled={isDisabled}
         aria-label="Message to Apex"
       />
       <button
         type="button"
         className="btn-solid text-sm px-4 py-2 shrink-0 disabled:opacity-50"
         onClick={onSend}
-        disabled={loading || !value.trim()}
+        disabled={isDisabled || !value.trim()}
       >
         Send
       </button>

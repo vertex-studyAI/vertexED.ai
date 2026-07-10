@@ -1,12 +1,21 @@
 import { verifyAuthUser, readJsonBody, rejectOversizedJsonBody } from '../_lib/auth.js';
 import { getSupabaseAdmin } from '../_lib/supabaseAdmin.js';
 import { getQueryNumber, getQueryParam } from '../_lib/query.js';
+import { checkRateLimit } from '../_lib/rateLimit.js';
 
 const ALLOWED_KINDS = new Set(['note', 'review', 'paper']);
 
 export default async function handler(req, res) {
   const user = await verifyAuthUser(req, res);
   if (!user) return;
+
+  const rate = checkRateLimit(`${user.id}:user-content`, 120, 60 * 1000);
+  if (!rate.allowed) {
+    return res.status(429).json({
+      error: 'Too many requests. Slow down and try again.',
+      retryAfter: rate.retryAfterSec,
+    });
+  }
 
   let supabase;
   try {

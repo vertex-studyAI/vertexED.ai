@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { ArrowRight, Calendar, Clock } from 'lucide-react';
+import { ArrowRight, Clock } from 'lucide-react';
 
 import type { ActivityEntry, PlannerTaskPreview } from '@/lib/studyEcosystem';
 import type { LearningPathStep } from '@/lib/learnerProfile';
@@ -27,9 +27,10 @@ export default function EcosystemPanel({
   return (
     <section className="px-6 pb-8 fade-up">
       <div className="max-w-6xl mx-auto grid gap-4 lg:grid-cols-3">
-        <div className="glass-panel p-5 lg:col-span-1">
+        <div className="glass-panel p-5 lg:col-span-1 liquid-glass-dispersive">
+          <div className="liquid-glass-content">
           <div className="flex items-center justify-between gap-3 mb-4">
-            <h2 className="text-sm font-semibold text-foreground">Today&apos;s focus</h2>
+            <h2 className="text-sm font-semibold text-foreground">Recent activity</h2>
             <div className="flex items-center gap-2 text-xs text-muted-foreground">
               <svg className="h-8 w-8 -rotate-90" viewBox="0 0 36 36" aria-hidden>
                 <circle cx="18" cy="18" r="15" fill="none" stroke="hsl(var(--foreground) / 0.1)" strokeWidth="3" />
@@ -45,37 +46,35 @@ export default function EcosystemPanel({
                   pathLength={100}
                 />
               </svg>
-              {dailyProgress}% complete
+              {dailyProgress}%
             </div>
           </div>
 
-          {todayTasks.length > 0 ? (
+          {recentActivity.length > 0 ? (
             <ul className="space-y-2 mb-4">
-              {todayTasks.slice(0, 3).map((task) => (
+              {recentActivity.slice(0, 4).map((entry) => (
                 <li
-                  key={task.id}
+                  key={`${entry.at}-${entry.label}`}
                   className="flex items-center gap-2 rounded-lg border border-border/60 bg-foreground/[0.03] px-3 py-2 text-sm text-foreground/90"
                 >
-                  <Calendar className="h-3.5 w-3.5 text-primary shrink-0" />
-                  <span className="truncate flex-1">{task.name}</span>
-                  {task.startTime && (
-                    <span className="text-xs text-muted-foreground shrink-0">{task.startTime}</span>
-                  )}
+                  <Clock className="h-3.5 w-3.5 text-primary shrink-0" />
+                  <span className="truncate flex-1">{entry.label}</span>
                 </li>
               ))}
             </ul>
           ) : (
             <p className="text-sm text-muted-foreground mb-4">
-              No planner tasks today — add blocks in your study planner.
+              No sessions logged yet — start in Study Zone.
             </p>
           )}
 
           <Link
-            to="/planner"
+            to="/study-zone"
             className="text-xs text-primary hover:underline inline-flex items-center gap-1"
           >
-            Open planner <ArrowRight className="h-3 w-3" />
+            Open Study Zone <ArrowRight className="h-3 w-3" />
           </Link>
+          </div>
         </div>
 
         <div className="glass-panel p-5 lg:col-span-1">

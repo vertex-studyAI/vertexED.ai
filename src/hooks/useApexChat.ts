@@ -33,10 +33,11 @@ function saveMessages(messages: ApexChatMessage[]) {
 
 type Options = {
   context: StudyPageContext;
+  sources?: import('@/lib/notebook').GroundedSourcePayload[];
   onSessionRecord?: () => void;
 };
 
-export function useApexChat({ context, onSessionRecord }: Options) {
+export function useApexChat({ context, sources, onSessionRecord }: Options) {
   const [messages, setMessages] = useState<ApexChatMessage[]>(loadMessages);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
@@ -86,7 +87,7 @@ export function useApexChat({ context, onSessionRecord }: Options) {
       onSessionRecord?.();
 
       try {
-        const data = await fetchChatbotAnswer({ question, history: priorHistory, context });
+        const data = await fetchChatbotAnswer({ question, history: priorHistory, context, sources });
         const answer =
           typeof data?.answer === 'string' && data.answer.trim()
             ? data.answer.trim()
@@ -113,7 +114,7 @@ export function useApexChat({ context, onSessionRecord }: Options) {
         setLoading(false);
       }
     },
-    [context, input, loading, messages, onSessionRecord],
+    [context, sources, input, loading, messages, onSessionRecord],
   );
 
   return {

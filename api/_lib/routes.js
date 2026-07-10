@@ -62,6 +62,14 @@ export const ROUTES = {
     methods: ['POST'],
     rawBody: true,
   },
+  notebook: {
+    loader: () => import('../_handlers/notebook.js'),
+    methods: ['POST'],
+  },
+  'board-resource': {
+    loader: () => import('../_handlers/board-resource.js'),
+    methods: ['POST'],
+  },
 };
 
 const TEST_AGENTS_ROUTE = 'test-agents';

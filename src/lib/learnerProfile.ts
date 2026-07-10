@@ -1,14 +1,31 @@
 import type { CurriculumPreference } from '@/types/curriculum';
-import { getCurriculumPreference } from '@/lib/curriculum';
+import { getCurriculumPreference, daysUntilExam, BOARD_CONFIGS } from '@/lib/curriculum';
+import { getWeakestTopics } from '@/lib/weaknessTracker';
+import { getConfidenceRatings } from '@/lib/portalFeatures';
 
 export type StudyGoal = 'ace_exams' | 'catch_up' | 'build_habits' | 'understand_better';
 export type GradeLevel = 'middle_school' | 'high_school' | 'undergraduate' | 'other';
+export type AiStyle = 'socratic' | 'direct' | 'balanced';
+export type ExplanationDepth = 'concise' | 'standard' | 'detailed';
+
+export type LearnerPreferences = {
+  aiStyle: AiStyle;
+  sessionMinutes: number;
+  explanationDepth: ExplanationDepth;
+};
 
 export type LearnerProfile = {
   displayName: string;
   studyGoal: StudyGoal | null;
   gradeLevel: GradeLevel | null;
   curriculum: CurriculumPreference;
+  preferences: LearnerPreferences;
+};
+
+export type ProfileCompleteness = {
+  score: number;
+  missing: string[];
+  nudge: string | null;
 };
 
 type UserLike = {
@@ -30,6 +47,12 @@ const GRADE_LABELS: Record<GradeLevel, string> = {
   other: 'Student',
 };
 
+const DEFAULT_PREFS: LearnerPreferences = {
+  aiStyle: 'socratic',
+  sessionMinutes: 25,
+  explanationDepth: 'standard',
+};
+
 function readPref<T extends string>(
   metadata: Record<string, unknown> | null | undefined,
   flatKey: string,
@@ -45,6 +68,36 @@ function readPref<T extends string>(
     if (typeof nested === 'string' && (allowed as readonly string[]).includes(nested)) return nested as T;
   }
   return null;
+}
+
+function readLearnerPreferences(metadata: Record<string, unknown>): LearnerPreferences {
+  const prefs = metadata.preferences;
+  const nested =
+    prefs && typeof prefs === 'object' ? (prefs as Record<string, unknown>) : {};
+
+  const aiStyle = readPref(
+    { preferences: nested },
+    'ai_style',
+    'aiStyle',
+    ['socratic', 'direct', 'balanced'] as const,
+  );
+  const explanationDepth = readPref(
+    { preferences: nested },
+    'explanation_depth',
+    'explanationDepth',
+    ['concise', 'standard', 'detailed'] as const,
+  );
+  const sessionRaw = nested.sessionMinutes ?? metadata.session_minutes;
+  const sessionMinutes =
+    typeof sessionRaw === 'number' && sessionRaw >= 15 && sessionRaw <= 120
+      ? sessionRaw
+      : DEFAULT_PREFS.sessionMinutes;
+
+  return {
+    aiStyle: aiStyle ?? DEFAULT_PREFS.aiStyle,
+    sessionMinutes,
+    explanationDepth: explanationDepth ?? DEFAULT_PREFS.explanationDepth,
+  };
 }
 
 export function getLearnerProfile(user: UserLike): LearnerProfile {
@@ -69,7 +122,138 @@ export function getLearnerProfile(user: UserLike): LearnerProfile {
       'other',
     ] as const),
     curriculum: getCurriculumPreference(user),
+    preferences: readLearnerPreferences(metadata),
   };
+}
+
+export function buildLearnerMetadataPatch(
+  patch: {
+    studyGoal?: StudyGoal | null;
+    gradeLevel?: GradeLevel | null;
+    preferences?: Partial<LearnerPreferences>;
+  },
+  existing: Record<string, unknown> = {},
+): Record<string, unknown> {
+  const prefs =
+    existing.preferences && typeof existing.preferences === 'object'
+      ? { ...(existing.preferences as Record<string, unknown>) }
+      : {};
+
+  if (patch.studyGoal !== undefined) {
+    if (patch.studyGoal) {
+      existing.study_goal = patch.studyGoal;
+      prefs.studyGoal = patch.studyGoal;
+    }
+  }
+  if (patch.gradeLevel !== undefined) {
+    if (patch.gradeLevel) {
+      existing.grade_level = patch.gradeLevel;
+      prefs.gradeLevel = patch.gradeLevel;
+    }
+  }
+  if (patch.preferences) {
+    if (patch.preferences.aiStyle) {
+      existing.ai_style = patch.preferences.aiStyle;
+      prefs.aiStyle = patch.preferences.aiStyle;
+    }
+    if (patch.preferences.explanationDepth) {
+      existing.explanation_depth = patch.preferences.explanationDepth;
+      prefs.explanationDepth = patch.preferences.explanationDepth;
+    }
+    if (patch.preferences.sessionMinutes != null) {
+      existing.session_minutes = patch.preferences.sessionMinutes;
+      prefs.sessionMinutes = patch.preferences.sessionMinutes;
+    }
+  }
+
+  return { ...existing, preferences: prefs };
+}
+
+export function getProfileCompleteness(profile: LearnerProfile): ProfileCompleteness {
+  const missing: string[] = [];
+  if (!profile.studyGoal) missing.push('study goal');
+  if (!profile.gradeLevel) missing.push('year group');
+  if (!profile.curriculum.board) missing.push('exam board');
+  if (profile.curriculum.subjects.length === 0) missing.push('subjects');
+  if (!profile.curriculum.examDate) missing.push('exam date');
+
+  const total = 5;
+  const score = Math.round(((total - missing.length) / total) * 100);
+
+  let nudge: string | null = null;
+  if (missing.length > 0) {
+    const first = missing[0];
+    nudge =
+      first === 'exam date'
+        ? 'Add your exam date so we can prioritise cram mode and countdown.'
+        : first === 'subjects'
+          ? 'Tell us your subjects — mastery and interleaving work better with them.'
+          : `Complete your ${first} in settings for sharper recommendations.`;
+  }
+
+  return { score, missing, nudge };
+}
+
+export function getPersonalizedSubline(profile: LearnerProfile): string {
+  const goal = profile.studyGoal;
+  const examDays = daysUntilExam(profile.curriculum.examDate ?? null);
+  const boardLabel = profile.curriculum.board
+    ? BOARD_CONFIGS[profile.curriculum.board]?.label
+    : null;
+
+  if (examDays != null && examDays <= 14) {
+    return examDays === 0
+      ? `Exam day — trust retrieval, sleep, and calm execution.`
+      : `${examDays} day${examDays === 1 ? '' : 's'} to ${boardLabel ?? 'your exam'} — every session should move a mark.`;
+  }
+
+  switch (goal) {
+    case 'ace_exams':
+      return 'Train for mark schemes, not just understanding — mocks and rubric feedback are your edge.';
+    case 'catch_up':
+      return 'Close gaps in order: notes → targeted quiz → rubric review. No heroic all-nighters needed.';
+    case 'build_habits':
+      return 'Small, repeatable blocks beat marathon sessions. Your streak and planner are the lever.';
+    case 'understand_better':
+      return 'Ask why until it clicks — then lock it in with retrieval so it survives exam pressure.';
+    default:
+      return 'One loop: plan the week, focus, practise under time, review against rubrics, retrieve on schedule.';
+  }
+}
+
+export function buildLearnerContextForAi(profile: LearnerProfile): string {
+  const parts: string[] = [];
+  const board = profile.curriculum.board;
+  if (board) parts.push(`Board: ${BOARD_CONFIGS[board].label}`);
+  if (profile.gradeLevel) parts.push(`Level: ${gradeLevelLabel(profile.gradeLevel)}`);
+  if (profile.studyGoal) parts.push(`Goal: ${studyGoalLabel(profile.studyGoal)}`);
+  if (profile.curriculum.subjects.length) {
+    parts.push(`Subjects: ${profile.curriculum.subjects.join(', ')}`);
+  }
+  const examDays = daysUntilExam(profile.curriculum.examDate ?? null);
+  if (examDays != null) {
+    parts.push(examDays === 0 ? 'Exam: today' : `Exam in ${examDays} days`);
+  }
+
+  const weak = getWeakestTopics(3);
+  if (weak.length) {
+    parts.push(
+      `Weak topics: ${weak.map((w) => `${w.topic} (${Math.round(w.avgPercent)}%)`).join('; ')}`,
+    );
+  }
+
+  const confidence = getConfidenceRatings(profile.curriculum.subjects);
+  const lowConf = confidence.filter((c) => c.rating <= 2);
+  if (lowConf.length) {
+    parts.push(`Low confidence: ${lowConf.map((c) => c.subject).join(', ')}`);
+  }
+
+  const { aiStyle, explanationDepth, sessionMinutes } = profile.preferences;
+  parts.push(
+    `Tutor style: ${aiStyle}; depth: ${explanationDepth}; typical session ${sessionMinutes} min`,
+  );
+
+  return parts.join('. ') + '.';
 }
 
 export function studyGoalLabel(goal: StudyGoal | null): string | null {
@@ -100,7 +284,7 @@ export function getGoalLearningPath(goal: StudyGoal | null): LearningPathStep[] 
       return [
         { phase: 'learn', title: 'AI notes', description: 'Generate structured notes on weak topics.', to: '/notetaker' },
         { phase: 'practice', title: 'Targeted quiz', description: 'Test yourself on what you just learned.', to: '/notetaker' },
-        { phase: 'review', title: 'Ask AI tutor', description: 'Clarify gaps step by step.', to: '/chatbot' },
+        { phase: 'review', title: 'Ask Apex', description: 'Clarify gaps step by step.', to: '/chatbot' },
         { phase: 'remember', title: 'Archive exemplars', description: 'See how strong answers are built.', to: '/archives' },
       ];
     case 'build_habits':
@@ -113,7 +297,7 @@ export function getGoalLearningPath(goal: StudyGoal | null): LearningPathStep[] 
     case 'understand_better':
       return [
         { phase: 'learn', title: 'Deep-dive notes', description: 'Turn lectures into clear explanations.', to: '/notetaker' },
-        { phase: 'practice', title: 'Discuss with AI', description: 'Ask why, not just what.', to: '/chatbot' },
+        { phase: 'practice', title: 'Discuss with Apex', description: 'Ask why, not just what.', to: '/chatbot' },
         { phase: 'review', title: 'Resource guides', description: 'Active recall and study techniques.', to: '/resources/active-recall-spaced-repetition' },
         { phase: 'remember', title: 'Flashcards', description: 'Reinforce concepts over time.', to: '/notetaker' },
       ];

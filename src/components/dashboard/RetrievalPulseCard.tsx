@@ -8,6 +8,7 @@ import ApexPromptChips from '@/components/chat/ApexPromptChips';
 import { getStudyContext } from '@/lib/studyContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { cn } from '@/lib/utils';
+import { LOOP_STEPS } from '@/lib/studyLoopTracker';
 
 type Props = {
   pulse: RetrievalPulse;
@@ -47,6 +48,12 @@ export default function RetrievalPulseCard({ pulse, className }: Props) {
           <p className="text-sm text-muted-foreground leading-relaxed mb-5 max-w-xl">
             {pulse.narrative}
           </p>
+
+          {pulse.loopGap && (
+            <p className="text-xs text-amber-600 dark:text-amber-400 mb-3">
+              Loop gap: missing <span className="font-semibold">{LOOP_STEPS.find((s) => s.id === pulse.loopGap)?.label ?? pulse.loopGap}</span> this week
+            </p>
+          )}
 
           <div className="flex flex-wrap gap-2 mb-5">
             {pulse.signals.map((s) => (

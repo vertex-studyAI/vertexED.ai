@@ -56,6 +56,7 @@ export default function SiteLayout() {
         { to: "/learning-hub", label: "Learning Hub" },
         { to: "/study-zone", label: "Study Zone" },
         { to: "/notetaker", label: "Notes" },
+        { to: "/study-notebook", label: "Notebook" },
         { to: "/resources", label: "Resources" },
         { to: "/study-tools", label: "Study Tools" },
       ]

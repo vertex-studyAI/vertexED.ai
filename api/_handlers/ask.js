@@ -1,5 +1,6 @@
 import { verifyAuthUser, readJsonBody, rejectOversizedJsonBody } from '../_lib/auth.js';
 import { rateLimitUserEndpoint } from '../_lib/rateLimit.js';
+import { formatSourcesForPrompt, GROUNDED_CHAT_RULES } from '../_lib/grounding.js';
 
 const MAX_QUESTION_CHARS = 4000;
 
@@ -35,7 +36,7 @@ export default async function handler(req, res) {
   try {
     const body = readJsonBody(req);
 
-    const { question, history, context } = body ?? {};
+    const { question, history, context, sources } = body ?? {};
 
     if (typeof question !== "string" || !question.trim()) {
       return res.status(400).json({ error: "No question provided" });
@@ -51,8 +52,14 @@ export default async function handler(req, res) {
       const messages = [];
 
       if (context && typeof context === "object") {
-        const label = typeof context.label === "string" ? context.label : "VertexED";
-        const hint = typeof context.hint === "string" ? context.hint : "";
+        const label =
+          typeof context.label === "string"
+            ? context.label.trim().slice(0, 120)
+            : "VertexED";
+        const hint =
+          typeof context.hint === "string"
+            ? context.hint.trim().slice(0, 2000)
+            : "";
         messages.push({
           role: "system",
           content: `You are Apex, VertexED's discussion-first study tutor. The student is on: ${label}. ${hint}
@@ -63,6 +70,16 @@ Rules:
 - Use clear structure for math (steps, not just final values).
 - When relevant, reference exam technique, command terms, and mark-scheme thinking.
 - Keep responses focused; if a topic is large, offer a sensible first step and invite follow-up.`,
+        });
+      }
+
+      const sourceBlock = formatSourcesForPrompt(sources);
+      if (sourceBlock && messages.length > 0) {
+        messages[0].content += `\n\n${GROUNDED_CHAT_RULES}\n\n${sourceBlock}`;
+      } else if (sourceBlock) {
+        messages.push({
+          role: "system",
+          content: `${GROUNDED_CHAT_RULES}\n\n${sourceBlock}`,
         });
       }
 

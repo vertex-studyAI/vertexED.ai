@@ -10,6 +10,7 @@ import Meditation from "./components/Meditation";
 import NoteTaker from "./components/NoteTaker";
 import TimerApp from "./components/TimerApp";
 import GraphingSuite from "./components/GraphingSuite";
+import SketchPad from "@/components/sketch/SketchPad";
 import { sectionHeadingStyle, subtleBadgeStyle, subtleTextStyle, surfaceStyle } from "./styles";
 
 type WidgetKey =
@@ -21,6 +22,7 @@ type WidgetKey =
   | "habits"
   | "meditation"
   | "graphing"
+  | "sketch"
   | "notes";
 
 interface WidgetMeta {
@@ -117,9 +119,11 @@ const StudyZonePage: React.FC = () => {
   const focusMode = searchParams.get("focus") === "timer";
 
   useEffect(() => {
-    if (searchParams.get("focus") !== "timer") return;
+    const focus = searchParams.get("focus");
+    if (focus !== "timer" && focus !== "sketch") return;
+    const targetId = focus === "sketch" ? "study-zone-sketch" : "study-zone-timer";
     const id = window.setTimeout(() => {
-      document.getElementById("study-zone-timer")?.scrollIntoView({ behavior: "smooth", block: "start" });
+      document.getElementById(targetId)?.scrollIntoView({ behavior: "smooth", block: "start" });
     }, 300);
     return () => window.clearTimeout(id);
   }, [searchParams]);
@@ -188,6 +192,14 @@ const StudyZonePage: React.FC = () => {
         accent: "hsl(266 72% 74%)",
       },
       {
+        key: "sketch",
+        title: "Sketch Notepad",
+        description: "Draw diagrams, annotate problems, and send sketches to your Study Notebook — built for iPad and Apple Pencil.",
+        accent: "hsl(280 68% 68%)",
+        badge: "iPad",
+        span: "wide",
+      },
+      {
         key: "notes",
         title: "Quick Notes",
         description: "Quick capture for ideas mid-session. (For full AI notes, head to AI Notes.)",
@@ -215,6 +227,8 @@ const StudyZonePage: React.FC = () => {
         return <HabitTracker accent={accent} />;
       case "meditation":
         return <Meditation accent={accent} />;
+      case "sketch":
+        return <SketchPad accent={accent} />;
       case "notes":
         return <NoteTaker accent={accent} />;
       default:
@@ -258,7 +272,13 @@ const StudyZonePage: React.FC = () => {
         {widgetMeta.map((meta) => (
           <section
             key={meta.key}
-            id={meta.key === "timer" ? "study-zone-timer" : undefined}
+            id={
+              meta.key === "timer"
+                ? "study-zone-timer"
+                : meta.key === "sketch"
+                  ? "study-zone-sketch"
+                  : undefined
+            }
             style={{
               ...sectionWrapperStyle(meta.accent, meta.span),
               ...(focusMode && meta.key !== "timer"

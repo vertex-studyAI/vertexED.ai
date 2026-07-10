@@ -9,7 +9,17 @@ import { User, LogOut, Settings, RefreshCw, AlertTriangle, Save } from "lucide-r
 import PageSection from "@/components/PageSection";
 import { useEffect, useState } from "react";
 import { getStudyStats } from "@/lib/studyStats";
-import { getLearnerProfile, gradeLevelLabel, studyGoalLabel } from "@/lib/learnerProfile";
+import {
+  getLearnerProfile,
+  getProfileCompleteness,
+  gradeLevelLabel,
+  studyGoalLabel,
+  buildLearnerMetadataPatch,
+  type StudyGoal,
+  type GradeLevel,
+  type AiStyle,
+  type ExplanationDepth,
+} from "@/lib/learnerProfile";
 import { buildCurriculumMetadata } from "@/lib/curriculum";
 import type { CurriculumPreference } from "@/types/curriculum";
 import { supabase } from "@/lib/supabaseClient";
@@ -45,12 +55,27 @@ export default function UserSettings() {
   const [cloudUnavailable, setCloudUnavailable] = useState(false);
   const [kindFilter, setKindFilter] = useState<StudyArtifactKind | "all">("all");
   const learnerProfile = getLearnerProfile(user);
+  const profileCompleteness = getProfileCompleteness(learnerProfile);
   const [curriculum, setCurriculum] = useState<CurriculumPreference>(learnerProfile.curriculum);
+  const [studyGoal, setStudyGoal] = useState<StudyGoal | "">(learnerProfile.studyGoal ?? "");
+  const [gradeLevel, setGradeLevel] = useState<GradeLevel | "">(learnerProfile.gradeLevel ?? "");
+  const [aiStyle, setAiStyle] = useState<AiStyle>(learnerProfile.preferences.aiStyle);
+  const [explanationDepth, setExplanationDepth] = useState<ExplanationDepth>(
+    learnerProfile.preferences.explanationDepth,
+  );
+  const [sessionMinutes, setSessionMinutes] = useState(learnerProfile.preferences.sessionMinutes);
   const [savingCurriculum, setSavingCurriculum] = useState(false);
+  const [savingProfile, setSavingProfile] = useState(false);
   const { settings: a11y, update: updateA11y } = useAccessibility();
 
   useEffect(() => {
-    setCurriculum(getLearnerProfile(user).curriculum);
+    const profile = getLearnerProfile(user);
+    setCurriculum(profile.curriculum);
+    setStudyGoal(profile.studyGoal ?? "");
+    setGradeLevel(profile.gradeLevel ?? "");
+    setAiStyle(profile.preferences.aiStyle);
+    setExplanationDepth(profile.preferences.explanationDepth);
+    setSessionMinutes(profile.preferences.sessionMinutes);
   }, [user]);
 
   const saveCurriculum = async () => {
@@ -65,6 +90,39 @@ export default function UserSettings() {
       toast({ title: "Could not save", description: e instanceof Error ? e.message : "Try again.", variant: "destructive" });
     } finally {
       setSavingCurriculum(false);
+    }
+  };
+
+  const saveLearningProfile = async () => {
+    if (!supabase) return;
+    setSavingProfile(true);
+    try {
+      const metadata = buildLearnerMetadataPatch(
+        {
+          studyGoal: studyGoal || null,
+          gradeLevel: gradeLevel || null,
+          preferences: {
+            aiStyle,
+            explanationDepth,
+            sessionMinutes,
+          },
+        },
+        user?.user_metadata ?? {},
+      );
+      const { error } = await supabase.auth.updateUser({ data: metadata });
+      if (error) throw error;
+      toast({
+        title: "Learning profile saved",
+        description: "Apex, adaptive plans, and session lengths now match your preferences.",
+      });
+    } catch (e) {
+      toast({
+        title: "Could not save",
+        description: e instanceof Error ? e.message : "Try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setSavingProfile(false);
     }
   };
 
@@ -135,8 +193,8 @@ export default function UserSettings() {
     "Student";
 
   const memberSince = formatMemberSince(profile?.created_at ?? user?.created_at);
-  const studyGoal = studyGoalLabel(learnerProfile.studyGoal) || "—";
-  const gradeLevel = gradeLevelLabel(learnerProfile.gradeLevel) || "—";
+  const studyGoalDisplay = studyGoalLabel(learnerProfile.studyGoal) || "—";
+  const gradeLevelDisplay = gradeLevelLabel(learnerProfile.gradeLevel) || "—";
 
   return (
     <>
@@ -159,10 +217,26 @@ export default function UserSettings() {
               <div className="neu-surface p-4 rounded-full">
                 <User className="h-8 w-8 text-primary" />
               </div>
-              <div>
+              <div className="flex-1 min-w-0">
                 <h3 className="text-xl font-medium">{displayName}</h3>
                 <p className="opacity-70">{user?.email ?? "Vertex Student Account"}</p>
               </div>
+            </div>
+
+            <div className="rounded-xl border border-primary/20 bg-primary/5 px-4 py-3 mb-5">
+              <div className="flex items-center justify-between gap-3 mb-2">
+                <span className="text-sm font-medium">Profile completeness</span>
+                <span className="text-sm tabular-nums text-primary">{profileCompleteness.score}%</span>
+              </div>
+              <div className="h-1.5 rounded-full bg-foreground/10 overflow-hidden">
+                <div
+                  className="h-full rounded-full bg-gradient-to-r from-primary to-violet-500 transition-all"
+                  style={{ width: `${profileCompleteness.score}%` }}
+                />
+              </div>
+              {profileCompleteness.nudge && (
+                <p className="text-xs text-muted-foreground mt-2">{profileCompleteness.nudge}</p>
+              )}
             </div>
 
             <div className="space-y-4 text-sm opacity-80">
@@ -178,17 +252,99 @@ export default function UserSettings() {
               </div>
               <div className="flex justify-between gap-4">
                 <span>Study goal:</span>
-                <span className="text-right">{studyGoal}</span>
+                <span className="text-right">{studyGoalDisplay}</span>
               </div>
               <div className="flex justify-between gap-4">
                 <span>Grade level:</span>
-                <span className="text-right">{gradeLevel}</span>
+                <span className="text-right">{gradeLevelDisplay}</span>
               </div>
               <div className="flex justify-between gap-4">
                 <span>Member since:</span>
                 <span className="text-right">{memberSince}</span>
               </div>
             </div>
+          </NeumorphicCard>
+
+          <NeumorphicCard className="p-8" title="Learning Profile">
+            <p className="text-sm text-muted-foreground mb-5">
+              These choices shape Apex&apos;s tone, your adaptive recommendations, and default session lengths across the portal.
+            </p>
+            <div className="space-y-5">
+              <label className="block">
+                <span className="text-sm text-muted-foreground mb-1.5 block">Study goal</span>
+                <select
+                  className="neu-input-el w-full"
+                  value={studyGoal}
+                  onChange={(e) => setStudyGoal(e.target.value as StudyGoal | "")}
+                >
+                  <option value="">Not set</option>
+                  <option value="ace_exams">Ace upcoming exams</option>
+                  <option value="catch_up">Catch up on topics</option>
+                  <option value="build_habits">Build study habits</option>
+                  <option value="understand_better">Understand subjects better</option>
+                </select>
+              </label>
+              <label className="block">
+                <span className="text-sm text-muted-foreground mb-1.5 block">Year group</span>
+                <select
+                  className="neu-input-el w-full"
+                  value={gradeLevel}
+                  onChange={(e) => setGradeLevel(e.target.value as GradeLevel | "")}
+                >
+                  <option value="">Not set</option>
+                  <option value="middle_school">Middle School</option>
+                  <option value="high_school">High School</option>
+                  <option value="undergraduate">Undergraduate</option>
+                  <option value="other">Other</option>
+                </select>
+              </label>
+              <label className="block">
+                <span className="text-sm text-muted-foreground mb-1.5 block">Apex tutoring style</span>
+                <select
+                  className="neu-input-el w-full"
+                  value={aiStyle}
+                  onChange={(e) => setAiStyle(e.target.value as AiStyle)}
+                >
+                  <option value="socratic">Socratic — asks what you&apos;ve tried first</option>
+                  <option value="balanced">Balanced — mix of hints and explanations</option>
+                  <option value="direct">Direct — clear steps when you&apos;re stuck</option>
+                </select>
+              </label>
+              <label className="block">
+                <span className="text-sm text-muted-foreground mb-1.5 block">Explanation depth</span>
+                <select
+                  className="neu-input-el w-full"
+                  value={explanationDepth}
+                  onChange={(e) => setExplanationDepth(e.target.value as ExplanationDepth)}
+                >
+                  <option value="concise">Concise — bullet points and key steps</option>
+                  <option value="standard">Standard — balanced detail</option>
+                  <option value="detailed">Detailed — full walkthroughs</option>
+                </select>
+              </label>
+              <label className="block">
+                <span className="text-sm text-muted-foreground mb-1.5 block">
+                  Typical focus session ({sessionMinutes} min)
+                </span>
+                <input
+                  type="range"
+                  min={15}
+                  max={90}
+                  step={5}
+                  value={sessionMinutes}
+                  onChange={(e) => setSessionMinutes(Number(e.target.value))}
+                  className="w-full"
+                />
+              </label>
+            </div>
+            <button
+              onClick={() => void saveLearningProfile()}
+              disabled={savingProfile}
+              className="mt-6 neu-button inline-flex items-center gap-2"
+            >
+              <Save className="h-4 w-4" />
+              {savingProfile ? "Saving…" : "Save learning profile"}
+            </button>
           </NeumorphicCard>
 
           <NeumorphicCard className="p-8" title="Curriculum Preferences">

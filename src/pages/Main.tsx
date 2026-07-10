@@ -1,16 +1,11 @@
 import NeumorphicCard from "@/components/NeumorphicCard";
-import BoardBadge from "@/components/curriculum/BoardBadge";
-import ExamCountdown from "@/components/curriculum/ExamCountdown";
 
 import { Link } from "react-router-dom";
-import React, { useEffect, useRef, useState, lazy, Suspense } from "react";
-import { TypeAnimation } from "react-type-animation";
+import React, { useEffect, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
-import { Flame, Settings as SettingsIcon, Target, TrendingUp, Zap, Brain, FileText, MessageCircle, BookOpen, Route } from "lucide-react";
+import { Zap, Brain, FileText, MessageCircle, BookOpen, Route } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { buildEcosystemBrief, type EcosystemBrief } from "@/lib/studyEcosystem";
-import { gradeLevelLabel, studyGoalLabel } from "@/lib/learnerProfile";
-import { getBoardHeroMessage } from "@/lib/curriculum";
 import { listStudyArtifactsDetailed, type StudyArtifact } from "@/lib/userContent";
 import SavedWorkList from "@/components/SavedWorkList";
 import EcosystemPanel from "@/components/EcosystemPanel";
@@ -19,9 +14,16 @@ import AdaptiveLearningPanel from "@/components/AdaptiveLearningPanel";
 import ProgressAnalyticsCard from "@/components/ProgressAnalyticsCard";
 import { getProgressTrend, type ProgressTrend } from "@/lib/progressAnalytics";
 import WeaknessHeatmap from "@/components/WeaknessHeatmap";
+import SubjectMasteryCard from "@/components/dashboard/SubjectMasteryCard";
+import TodayPlanPanel from "@/components/dashboard/TodayPlanPanel";
 import { buildRetrievalPulse, type RetrievalPulse } from "@/lib/retrievalPulse";
-
-const RetrievalPulseCard = lazy(() => import("@/components/dashboard/RetrievalPulseCard"));
+import { buildTodayPlanItems } from "@/lib/todayPlan";
+import { buildPortalIntelligence, type PortalIntelligence } from "@/lib/portalFeatures";
+import PortalCommandCenter from "@/components/portal/PortalCommandCenter";
+import FeatureDiscoveryRibbon from "@/components/portal/FeatureDiscoveryRibbon";
+import PortalEngagementRow from "@/components/portal/PortalEngagementRow";
+import PortalIntelligenceGrid from "@/components/portal/PortalIntelligenceGrid";
+import DashboardStatGrid from "@/components/portal/DashboardStatGrid";
 
 type Tile = {
   title: string;
@@ -61,6 +63,9 @@ export default function Main() {
     { title: "Answer Reviewer", to: "/answer-reviewer", info: "Get honest feedback and see exactly where to improve.", icon: reviewIcon() },
     { title: "Paper Maker", to: "/paper-maker", info: "Practice papers that sound like the real thing, with mark schemes.", icon: paperIcon() },
     { title: "AI Notes + Flashcards", to: "/notetaker", info: "Turn lectures into notes, flashcards, and quizzes.", icon: notesIcon() },
+    { title: "Study Notebook", to: "/study-notebook", info: "NotebookLM-style workspace — sources, grounded chat, study guides, and audio scripts.", icon: notebookIcon() },
+    { title: "World Model", to: "/world-model", info: "Interactive concept graph — foundations, weak nodes, and exam simulations.", icon: hubIcon() },
+    { title: "Board Library", to: "/resource-library", info: "1000+ word IB, AP, IGCSE, and ICSE guides tailored to your board.", icon: archiveIcon() },
     { title: "Study Tools Hub", to: "/study-tools", info: "Formula sheets, study techniques, and quick tool links.", icon: toolsIcon() },
     { title: "Archives Subjects", to: "/archives", info: "Curated notes and exemplars, sorted by subject.", icon: archiveIcon() },
     // settings rendered in header
@@ -198,15 +203,9 @@ export default function Main() {
 
   const suggestions = brief?.suggestions ?? [];
   const weekFocus = brief?.weekFocus ?? [];
-  const goalLabel = brief ? studyGoalLabel(brief.profile.studyGoal) : null;
-  const gradeLabel = brief ? gradeLevelLabel(brief.profile.gradeLevel) : null;
-  const curriculum = brief?.profile.curriculum;
-  const board = curriculum?.board ?? null;
-  const subjects = curriculum?.subjects ?? [];
   const dueFlashcards = brief?.dueFlashcards ?? 0;
-  const stats = brief?.stats ?? null;
-  const heroMessage = getBoardHeroMessage(board);
   const [pulse, setPulse] = useState<RetrievalPulse | null>(null);
+  const [intel, setIntel] = useState<PortalIntelligence | null>(null);
 
   useEffect(() => {
     if (!brief) {
@@ -217,6 +216,14 @@ export default function Main() {
   }, [brief]);
 
   useEffect(() => {
+    if (!brief || !pulse) {
+      setIntel(null);
+      return;
+    }
+    setIntel(buildPortalIntelligence(brief.profile, brief.stats, brief.adaptivePlan, pulse));
+  }, [brief, pulse]);
+
+  useEffect(() => {
     if (!brief) {
       setProgressTrend(null);
       return;
@@ -224,77 +231,36 @@ export default function Main() {
     setProgressTrend(getProgressTrend(true));
   }, [brief]);
 
+  const todayPlanItems = brief
+    ? buildTodayPlanItems(
+        brief.todayTasks,
+        brief.adaptivePlan.recommendations,
+        pulse
+          ? {
+              label: pulse.nextAction.label,
+              href: pulse.nextAction.href,
+              reason: pulse.nextAction.reason,
+            }
+          : undefined,
+      )
+    : [];
+
   return (
     <>
       <Helmet>
         <title>Dashboard — VertexED Study Tools</title>
-        <meta name="description" content="Choose from Study Zone, AI Chatbot, Planner, Paper Maker, Answer Reviewer, and Notetaker — all in one dashboard." />
+        <meta name="description" content="Your personalised study command center — retrieval pulse, today's plan, subject mastery, and every Vertex tool wired to your exam board and goals." />
         <link rel="canonical" href="https://www.vertexed.app/main" />
         <meta name="robots" content="noindex, follow" />
       </Helmet>
 
-      {/* Intro */}
-      <section className="fade-up px-6 py-10">
-        <div className="max-w-6xl mx-auto glass-panel p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center gap-6">
-          <div className="flex-1">
-            <p className="text-sm text-primary/80 mb-2">
-              {brief ? `${brief.greeting}, ${brief.profile.displayName}` : "Welcome to Vertex AI"}
-            </p>
-            <h1 className="text-4xl md:text-5xl font-semibold text-foreground leading-tight">
-              <TypeAnimation sequence={[700, "Your study ecosystem", 1200, "Learn. Practice. Review. Remember."]} wrapper="span" cursor={false} />
-            </h1>
-            <p className="mt-4 text-foreground/70 max-w-2xl leading-relaxed">
-              {heroMessage}
-            </p>
-            <div className="mt-3 flex flex-wrap gap-2">
-              {board && <BoardBadge board={board} size="md" />}
-              {goalLabel && (
-                <span className="rounded-full border border-primary/25 bg-primary/10 px-3 py-1 text-xs text-primary">
-                  {goalLabel}
-                </span>
-              )}
-              {gradeLabel && (
-                <span className="rounded-full border border-border bg-foreground/[0.04] px-3 py-1 text-xs text-muted-foreground">
-                  {gradeLabel}
-                </span>
-              )}
-              {subjects.slice(0, 4).map((s) => (
-                <span key={s} className="rounded-full border border-border/60 bg-foreground/[0.03] px-3 py-1 text-xs text-muted-foreground">
-                  {s}
-                </span>
-              ))}
-              {subjects.length > 4 && (
-                <span className="rounded-full border border-border/60 bg-foreground/[0.03] px-3 py-1 text-xs text-muted-foreground/80">
-                  +{subjects.length - 4} more
-                </span>
-              )}
-            </div>
-            {!board && (
-              <p className="mt-3 text-xs text-primary/80">
-                <Link to="/user-settings" className="hover:underline">Set your exam board</Link> to personalize tools and learning paths.
-              </p>
-            )}
-            <p className="mt-3 text-xs text-foreground/45 max-w-xl">
-              Study Zone for deep focus, Learning Hub for your path, Paper Maker and Answer Reviewer for exam prep.
-            </p>
-          </div>
-
-          <div className="shrink-0 flex flex-col gap-3 w-full md:w-56">
-            <ExamCountdown
-              examDate={curriculum?.examDate ?? null}
-              boardLabel={brief?.boardLabel}
-            />
-            <button
-            aria-label="Settings"
-            title="Settings"
-            className="shrink-0 p-3 rounded-2xl glass-tile hover:border-primary/25 transition flex items-center justify-center"
-            onClick={() => window.location.assign("/user-settings")}
-          >
-            <SettingsIcon size={18} className="text-foreground" />
-          </button>
-          </div>
+      {brief && pulse && intel && (
+        <div className="fade-up">
+          <PortalCommandCenter brief={brief} pulse={pulse} intel={intel} />
         </div>
-      </section>
+      )}
+
+      <FeatureDiscoveryRibbon />
 
       {showWelcome && (
         <section className="px-6 pb-4 fade-up">
@@ -309,36 +275,48 @@ export default function Main() {
 
       <ContinueSessionBanner />
 
-      {pulse && (
-        <section className="px-6 pb-5 fade-up">
+      {brief && todayPlanItems.length > 0 && (
+        <section id="today-plan" className="px-6 pb-6 fade-up portal-rise portal-stagger-1">
           <div className="max-w-6xl mx-auto">
-            <Suspense fallback={<div className="neu-card h-48 animate-pulse rounded-2xl" aria-hidden />}>
-              <RetrievalPulseCard pulse={pulse} />
-            </Suspense>
-          </div>
-        </section>
-      )}
-
-      {stats && brief && (
-        <section className="px-6 pb-8 fade-up">
-          <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-4">
-            <StatCard to="/study-zone" icon={<Flame className="h-5 w-5 text-orange-400" />} label="Study streak" value={`${stats.studyStreak} day${stats.studyStreak === 1 ? "" : "s"}`} />
-            <StatCard to="/study-zone" icon={<Target className="h-5 w-5 text-primary" />} label="Habits done" value={`${stats.habitsDoneToday}/${stats.habitCount}`} />
-            <StatCard to="/notetaker" icon={<Brain className="h-5 w-5 text-violet-400" />} label="Due flashcards" value={String(brief.dueFlashcards)} />
-            <StatCard to="/planner" icon={<TrendingUp className="h-5 w-5 text-emerald-400" />} label="Tasks today" value={String(brief.todayTasks.length)} />
+            <TodayPlanPanel items={todayPlanItems} />
           </div>
         </section>
       )}
 
       {brief && (
-        <section className="px-6 pb-6 fade-up">
+        <section className="portal-section px-6 pb-6 fade-up portal-rise portal-stagger-2">
+          <div className="max-w-6xl mx-auto space-y-6">
+            <DashboardStatGrid brief={brief} />
+            {intel && (
+              <>
+                <PortalEngagementRow profile={brief.profile} />
+                <PortalIntelligenceGrid intel={intel} profile={brief.profile} stats={brief.stats} />
+              </>
+            )}
+          </div>
+        </section>
+      )}
+
+      {brief && (
+        <section id="subject-mastery" className="px-6 pb-6 fade-up portal-rise portal-stagger-3">
           <div className="max-w-6xl mx-auto grid gap-6 lg:grid-cols-2">
             <AdaptiveLearningPanel
               recommendations={brief.adaptivePlan.recommendations}
               cramModeActive={brief.adaptivePlan.cramModeActive}
               estimatedMinutes={brief.adaptivePlan.estimatedMinutesToday}
             />
-            {progressTrend && <ProgressAnalyticsCard trend={progressTrend} />}
+            <SubjectMasteryCard
+              mastery={brief.adaptivePlan.masteryBySubject}
+              focusSubject={brief.adaptivePlan.focusSubject}
+            />
+          </div>
+        </section>
+      )}
+
+      {brief && progressTrend && (
+        <section className="px-6 pb-6 fade-up">
+          <div className="max-w-6xl mx-auto">
+            <ProgressAnalyticsCard trend={progressTrend} />
           </div>
         </section>
       )}
@@ -366,6 +344,7 @@ export default function Main() {
           <div className="glass-panel p-4 md:p-5">
             <p className="text-xs uppercase tracking-widest text-foreground/45 mb-3">Quick actions</p>
             <div className="flex flex-wrap gap-2">
+              <QuickAction to="/study-notebook" icon={<BookOpen className="h-4 w-4" />} label="Study Notebook" />
               <QuickAction to="/learning-hub" icon={<Route className="h-4 w-4" />} label="Learning Hub" />
               <QuickAction to="/study-zone?focus=timer" icon={<Zap className="h-4 w-4" />} label="Focus session" />
               <QuickAction to="/notetaker" icon={<Brain className="h-4 w-4" />} label={dueFlashcards > 0 ? `Review ${dueFlashcards} cards` : "AI Notes"} />
@@ -547,6 +526,15 @@ function notesIcon() {
     </svg>
   );
 }
+function notebookIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+      <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+      <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" />
+      <path d="M8 7h8M8 11h6" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+    </svg>
+  );
+}
 function archiveIcon() {
   return (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
@@ -561,30 +549,6 @@ function toolsIcon() {
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
       <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
-  );
-}
-
-function StatCard({ to, icon, label, value }: { to?: string; icon: React.ReactNode; label: string; value: string }) {
-  const inner = (
-    <>
-      <div className="shrink-0">{icon}</div>
-      <div>
-        <p className="text-xs text-foreground/50">{label}</p>
-        <p className="text-lg font-semibold text-foreground">{value}</p>
-      </div>
-    </>
-  );
-  if (to) {
-    return (
-      <Link to={to} className="glass-tile rounded-2xl border border-border/60 px-4 py-3 flex items-center gap-3 hover:border-primary/25 hover:bg-foreground/[0.04] transition">
-        {inner}
-      </Link>
-    );
-  }
-  return (
-    <div className="glass-tile rounded-2xl border border-border/60 px-4 py-3 flex items-center gap-3">
-      {inner}
-    </div>
   );
 }
 

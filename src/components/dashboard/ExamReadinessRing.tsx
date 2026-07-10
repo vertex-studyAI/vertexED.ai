@@ -5,6 +5,7 @@ type Props = {
   readiness: ExamReadiness;
   size?: 'sm' | 'md';
   showFactors?: boolean;
+  ringOnly?: boolean;
 };
 
 const BAND_COLORS = {
@@ -14,15 +15,15 @@ const BAND_COLORS = {
   unknown: 'text-muted-foreground',
 };
 
-export default function ExamReadinessRing({ readiness, size = 'md', showFactors = false }: Props) {
+export default function ExamReadinessRing({ readiness, size = 'md', showFactors = false, ringOnly = false }: Props) {
   const r = size === 'sm' ? 36 : 52;
   const stroke = size === 'sm' ? 5 : 7;
   const c = 2 * Math.PI * r;
   const offset = c - (readiness.score / 100) * c;
 
   return (
-    <div className={cn('exam-readiness', size === 'sm' && 'exam-readiness-sm')}>
-      <div className="flex items-center gap-4">
+    <div className={cn('exam-readiness', size === 'sm' && 'exam-readiness-sm', ringOnly && 'exam-readiness-ring-only')}>
+      <div className={cn('flex items-center gap-4', ringOnly && 'justify-center')}>
         <div className="relative shrink-0" style={{ width: (r + stroke) * 2, height: (r + stroke) * 2 }}>
           <svg className="exam-readiness-svg" viewBox={`0 0 ${(r + stroke) * 2} ${(r + stroke) * 2}`} aria-hidden>
             <circle
@@ -50,12 +51,14 @@ export default function ExamReadinessRing({ readiness, size = 'md', showFactors 
             <span className="tabular-nums font-bold text-foreground">{readiness.score}</span>
           </div>
         </div>
+        {!ringOnly && (
         <div className="min-w-0">
           <p className="text-xs uppercase tracking-widest text-muted-foreground">Exam readiness</p>
           <p className={cn('text-sm font-semibold mt-0.5', BAND_COLORS[readiness.band])}>
             {readiness.label}
           </p>
         </div>
+        )}
       </div>
 
       {showFactors && (

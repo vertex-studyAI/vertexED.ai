@@ -1785,6 +1785,307 @@ All colors MUST be HSL.
       grid-row: auto;
     }
   }
+
+  /* ── Portal command center & bento grid ── */
+  .portal-eyebrow {
+    @apply text-xs uppercase tracking-[0.2em] text-primary font-medium;
+  }
+  .portal-hero-title {
+    font-size: clamp(2rem, 5vw, 3.25rem);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, hsl(var(--foreground)) 0%, hsl(var(--primary)) 120%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .portal-hero-brief {
+    @apply text-base md:text-lg text-muted-foreground leading-relaxed max-w-2xl;
+  }
+  .portal-chip {
+    @apply inline-flex items-center rounded-full border border-primary/25 bg-primary/10 px-3 py-1 text-xs text-primary;
+  }
+  .portal-chip-muted {
+    @apply inline-flex items-center rounded-full border border-border/60 bg-foreground/[0.04] px-3 py-1 text-xs text-muted-foreground;
+  }
+  .portal-command-center {
+    margin: 0 1.5rem 0;
+    border-radius: calc(var(--radius) * 2);
+  }
+  .portal-ring-card {
+    @apply rounded-2xl border border-border/50 bg-foreground/[0.03] p-4 min-w-[9rem];
+  }
+  .portal-daily-ring {
+    width: 5.5rem;
+    height: 5.5rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .portal-daily-ring-inner {
+    width: 4.25rem;
+    height: 4.25rem;
+    border-radius: 50%;
+    background: hsl(var(--background) / 0.92);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .portal-streak-row {
+    display: flex;
+    gap: 0.35rem;
+    justify-content: center;
+    padding-top: 0.5rem;
+    border-top: 1px solid hsl(var(--border) / 0.5);
+  }
+  .portal-streak-day {
+    width: 1.75rem;
+    height: 0.45rem;
+    border-radius: 999px;
+    background: hsl(var(--foreground) / 0.08);
+    transition: background 0.2s ease, box-shadow 0.2s ease;
+  }
+  .portal-streak-day-active {
+    background: linear-gradient(90deg, hsl(var(--primary)), hsl(230 65% 58%));
+    box-shadow: 0 0 12px hsl(var(--primary) / 0.35);
+  }
+  .portal-discovery-track {
+    display: flex;
+    gap: 0.75rem;
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+  }
+  .portal-discovery-card {
+    flex: 0 0 min(16rem, 78vw);
+    scroll-snap-align: start;
+    @apply rounded-2xl border border-border/50 bg-foreground/[0.03] p-4;
+    transition: border-color 0.2s ease, transform 0.2s ease;
+  }
+  .portal-discovery-card:hover {
+    border-color: hsl(var(--primary) / 0.35);
+    transform: translateY(-2px);
+  }
+  .portal-bento-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+  }
+  .portal-engagement-row {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+  }
+  .portal-span-2 { grid-column: span 2; }
+  .portal-span-3 { grid-column: span 3; }
+  .portal-widget-icon {
+    @apply flex h-8 w-8 items-center justify-center rounded-xl bg-primary/10 text-primary shrink-0;
+  }
+  .portal-mini-row {
+    @apply flex items-center justify-between gap-2 rounded-lg border border-border/40 bg-foreground/[0.02] px-2.5 py-1.5;
+  }
+  .portal-widget-cta {
+    @apply text-xs text-primary hover:underline inline-flex items-center gap-1;
+  }
+  .portal-progress-track {
+    @apply relative h-1.5 rounded-full bg-foreground/10 overflow-hidden;
+  }
+  .portal-progress-fill {
+    @apply absolute inset-y-0 left-0 rounded-full bg-primary/70;
+  }
+  .portal-progress-target {
+    @apply absolute top-0 bottom-0 w-0.5 bg-emerald-500/80;
+    transform: translateX(-50%);
+  }
+  .portal-capture-input {
+    @apply rounded-xl border border-border/60 bg-foreground/[0.03] px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/40 focus:ring-1 focus:ring-primary/20;
+  }
+  .portal-confidence-dot {
+    @apply h-2.5 flex-1 rounded-full bg-foreground/10 transition-colors;
+  }
+  .portal-confidence-dot-active {
+    @apply bg-primary;
+  }
+  .portal-drill-card {
+    @apply rounded-xl border border-primary/20 bg-primary/5 p-4 w-full transition hover:border-primary/35;
+  }
+  .portal-stat-cell {
+    @apply rounded-xl border border-border/40 bg-foreground/[0.02] p-4 transition hover:border-primary/25 hover:bg-primary/5;
+  }
+  .portal-section .portal-stat-grid-widget .portal-widget-body {
+    padding: 0.75rem;
+  }
+  @media (max-width: 1024px) {
+    .portal-bento-grid,
+    .portal-engagement-row {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .portal-span-2,
+    .portal-span-3 {
+      grid-column: span 2;
+    }
+  }
+  @media (max-width: 640px) {
+    .portal-bento-grid,
+    .portal-engagement-row {
+      grid-template-columns: 1fr;
+    }
+    .portal-span-2,
+    .portal-span-3 {
+      grid-column: span 1;
+    }
+    .portal-command-center {
+      margin: 0 1rem;
+    }
+  }
+
+  .portal-rise {
+    animation: portal-rise 0.55s ease-out both;
+  }
+  .portal-stagger-1 { animation-delay: 0.06s; }
+  .portal-stagger-2 { animation-delay: 0.12s; }
+  .portal-stagger-3 { animation-delay: 0.18s; }
+  @keyframes portal-rise {
+    from {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  .portal-highlight-flash {
+    animation: portal-highlight 1.1s ease-out;
+  }
+  @keyframes portal-highlight {
+    0%, 100% { box-shadow: none; }
+    35% { box-shadow: 0 0 0 3px hsl(var(--primary) / 0.45); }
+  }
+
+  .immersive-hero {
+    background:
+      radial-gradient(ellipse 80% 60% at 20% 0%, hsl(266 60% 40% / 0.18), transparent 55%),
+      radial-gradient(ellipse 70% 50% at 90% 20%, hsl(199 70% 45% / 0.12), transparent 50%),
+      linear-gradient(165deg, hsl(216 22% 10% / 0.85), hsl(222 18% 8% / 0.92));
+    backdrop-filter: blur(12px);
+  }
+
+  .world-model-glow {
+    box-shadow:
+      0 0 80px hsl(266 60% 50% / 0.08),
+      inset 0 1px 0 hsl(0 0% 100% / 0.06);
+  }
+
+  .world-model-svg .world-model-node {
+    transition: transform 0.2s ease;
+  }
+  .world-model-svg .world-model-node:hover {
+    transform: scale(1.05);
+    transform-origin: center;
+    transform-box: fill-box;
+  }
+
+  .immersive-reading {
+    line-height: 1.75;
+    letter-spacing: 0.01em;
+  }
+
+  .prose-scroll::-webkit-scrollbar {
+    width: 6px;
+  }
+  .prose-scroll::-webkit-scrollbar-thumb {
+    background: hsl(var(--primary) / 0.25);
+    border-radius: 999px;
+  }
+  .portal-discovery-card:not(:disabled) {
+    cursor: pointer;
+  }
+  .portal-discovery-card:disabled {
+    opacity: 0.88;
+    cursor: default;
+  }
+  .portal-profile-nudge {
+    @apply rounded-xl border border-primary/20 bg-primary/5 px-4 py-3 max-w-xl;
+  }
+  .portal-profile-bar {
+    @apply h-1.5 rounded-full bg-foreground/10 overflow-hidden;
+  }
+  .portal-profile-bar-fill {
+    @apply h-full rounded-full bg-gradient-to-r from-primary to-violet-500 transition-all duration-500;
+  }
+  .portal-exam-check {
+    @apply flex items-start gap-3 text-sm rounded-lg px-2 py-2 -mx-2 hover:bg-foreground/[0.04] transition-colors;
+  }
+  .portal-exam-check-box {
+    @apply shrink-0 w-5 h-5 rounded border border-primary/40 flex items-center justify-center text-xs text-primary mt-0.5;
+  }
+  .portal-exam-check-done .portal-exam-check-box {
+    @apply bg-primary/15 border-primary;
+  }
+
+  /* ── Study Notebook (NotebookLM-inspired) ── */
+  .notebook-layout {
+    min-height: calc(100vh - 12rem);
+  }
+  .notebook-list-item {
+    @apply flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-colors;
+  }
+  .notebook-list-item:hover {
+    @apply bg-foreground/[0.04];
+  }
+  .notebook-list-item-active {
+    @apply bg-primary/10 text-primary border border-primary/20;
+  }
+  .notebook-source-card {
+    @apply rounded-xl border border-border/50 bg-foreground/[0.02] p-3;
+  }
+  .notebook-input {
+    @apply w-full rounded-xl border border-border/60 bg-background/80 px-3 py-2 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30;
+  }
+  .notebook-title-input {
+    @apply text-foreground placeholder:text-muted-foreground;
+  }
+  .notebook-tab {
+    @apply inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs text-muted-foreground border border-transparent transition-all;
+  }
+  .notebook-tab:hover {
+    @apply bg-foreground/[0.04] text-foreground;
+  }
+  .notebook-tab-active {
+    @apply bg-primary/10 text-primary border-primary/25;
+  }
+  .notebook-tab-dot {
+    @apply w-1.5 h-1.5 rounded-full bg-emerald-500;
+  }
+  .notebook-output {
+    font-family: inherit;
+  }
+  .notebook-quiz-card {
+    @apply bg-foreground/[0.02];
+  }
+  .notebook-suggest-q {
+    @apply transition-colors;
+  }
+  .notebook-tts {
+    @apply rounded-xl border border-border/50 bg-foreground/[0.03] px-4 py-3;
+  }
+  .notebook-modal-backdrop {
+    @apply fixed inset-0 z-50 flex items-center justify-center p-4 bg-background/70 backdrop-blur-sm;
+  }
+  .notebook-modal {
+    @apply w-full max-w-2xl rounded-2xl border border-border/60 bg-background p-6 shadow-xl;
+  }
+  @media (max-width: 1023px) {
+    .notebook-layout {
+      grid-template-columns: 1fr;
+    }
+  }
 }
 
 body.study-focus-mode {
