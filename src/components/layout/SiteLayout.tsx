@@ -44,6 +44,7 @@ export default function SiteLayout() {
       ]
     : [
         { to: "/", label: "Home" },
+        { to: "/features", label: "Features" },
         { to: "/about", label: "About" },
         { to: "/login", label: "Login" },
       ];
@@ -273,6 +274,7 @@ export default function SiteLayout() {
               </>
             ) : (
               <>
+                <Link to="/features" className="hover:text-foreground transition">Features</Link>
                 <Link to="/about" className="hover:text-foreground transition">About</Link>
                 <Link to="/login" className="hover:text-foreground transition">Login</Link>
               </>

@@ -4,10 +4,12 @@ import SEO from "@/components/SEO";
 import RichMarkdown from "@/components/RichMarkdown";
 import { useAuth } from "@/contexts/AuthContext";
 import { TypeAnimation } from "react-type-animation";
+import FeatureShowcase from "@/components/features/FeatureShowcase";
 import {
   MATH_DEMO_LINES,
   PLATFORM_FEATURES,
   PROBLEM_INSIGHTS,
+  STUDY_LOOP,
 } from "@/content/features";
 
 const prefersReducedMotion = () => {
@@ -195,37 +197,27 @@ export default function Home() {
         <h2 className="text-3xl md:text-5xl font-bold text-foreground text-center leading-tight mb-4">
           Everything you need.<br className="hidden sm:block" /> Nothing you don&apos;t.
         </h2>
-        <p className="text-center text-muted-foreground text-lg leading-relaxed mb-16 max-w-2xl mx-auto">
-          Six tools, one loop. Each one is built to do real work — not fill a feature grid.
+        <p className="text-center text-muted-foreground text-lg leading-relaxed mb-10 max-w-2xl mx-auto">
+          Six tools, one loop. Each does a specific job — the full walkthrough with real session examples lives on the features page.
         </p>
 
-        <div className="space-y-8">
-          {PLATFORM_FEATURES.map((f, i) => (
-            <article
-              key={f.id}
-              className={`feature-strip glass-panel p-8 md:p-10 flex flex-col ${i % 2 === 1 ? "md:flex-row-reverse" : "md:flex-row"} gap-8 md:gap-12 items-start`}
-            >
-              <div className="shrink-0">
-                <span className="text-5xl md:text-6xl font-bold text-primary/25 tabular-nums">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-primary mb-1">{f.tagline}</p>
-                <h3 className="text-2xl md:text-3xl font-semibold text-foreground mb-4">{f.title}</h3>
-                <p className="text-foreground/90 leading-relaxed mb-4">{f.body}</p>
-                <p className="text-muted-foreground leading-relaxed mb-5">{f.detail}</p>
-                <ul className="space-y-2 text-sm text-foreground/85">
-                  {f.bullets.map((b) => (
-                    <li key={b} className="flex gap-2">
-                      <span className="text-primary shrink-0">—</span>
-                      <span>{b}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </article>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-3 mb-12">
+          {STUDY_LOOP.map((item, i) => (
+            <div key={item.step} className="feat-loop-step text-center sm:text-left">
+              <span className="feat-loop-index mx-auto sm:mx-0">{i + 1}</span>
+              <p className="font-semibold text-foreground text-sm">{item.step}</p>
+            </div>
           ))}
+        </div>
+
+        <div className="space-y-6">
+          {PLATFORM_FEATURES.slice(0, 3).map((f, i) => (
+            <FeatureShowcase key={f.id} feature={f} index={i} compact />
+          ))}
+        </div>
+
+        <div className="mt-10 text-center">
+          <Link to="/features" className="btn-glass">See all six tools in depth →</Link>
         </div>
       </section>
 
