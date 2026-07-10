@@ -6,6 +6,7 @@ import ReactMarkdown from "react-markdown";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import "katex/dist/katex.min.css";
+import { enrichMathInText } from "@/lib/mathText";
 import SEO from "@/components/SEO";
 import { fetchChatbotAnswer } from "@/lib/chatbotApi";
 import { animateTypewriter } from "@/lib/typewriter";
@@ -215,9 +216,9 @@ export default function AIChatbot() {
                         <ReactMarkdown
                           remarkPlugins={[remarkMath]}
                           rehypePlugins={[rehypeKatex]}
-                          className="prose prose-sm prose-invert max-w-none"
+                          className="prose prose-sm max-w-none dark:prose-invert prose-headings:text-foreground prose-p:text-foreground/90"
                         >
-                          {msg.text}
+                          {enrichMathInText(msg.text)}
                         </ReactMarkdown>
                       </div>
                     </motion.div>

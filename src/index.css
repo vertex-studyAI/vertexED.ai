@@ -320,12 +320,107 @@ All colors MUST be HSL.
 
   /* Soft mesh only — no ornate shape effects */
   .bg-grid-soft {
-    background-image:
-      linear-gradient(hsl(var(--grid-line)) 1px, transparent 1px),
-      linear-gradient(90deg, hsl(var(--grid-line)) 1px, transparent 1px);
-    background-size: 56px 56px;
-    mask-image: radial-gradient(ellipse 80% 70% at 50% 30%, black 15%, transparent 72%);
+    display: none !important;
   }
+
+  .ambient-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.55;
+    will-change: transform;
+    animation: ambient-drift 22s ease-in-out infinite;
+  }
+  .ambient-orb-a {
+    width: min(52vw, 520px);
+    height: min(52vw, 520px);
+    top: -12%;
+    left: -8%;
+    background: radial-gradient(circle, hsl(var(--primary) / 0.45), transparent 68%);
+  }
+  .ambient-orb-b {
+    width: min(44vw, 440px);
+    height: min(44vw, 440px);
+    top: 28%;
+    right: -10%;
+    background: radial-gradient(circle, hsl(230 60% 58% / 0.28), transparent 70%);
+    animation-delay: -7s;
+    animation-duration: 26s;
+  }
+  .ambient-orb-c {
+    width: min(38vw, 380px);
+    height: min(38vw, 380px);
+    bottom: -8%;
+    left: 32%;
+    background: radial-gradient(circle, hsl(199 50% 50% / 0.22), transparent 72%);
+    animation-delay: -14s;
+    animation-duration: 30s;
+  }
+  .ambient-glass-sheen {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(125deg, hsl(0 0% 100% / 0.06) 0%, transparent 38%),
+      linear-gradient(305deg, hsl(var(--primary) / 0.04) 0%, transparent 42%);
+    opacity: 0.9;
+  }
+  .light .ambient-orb { opacity: 0.38; filter: blur(96px); }
+  .light .ambient-glass-sheen {
+    background:
+      linear-gradient(125deg, hsl(0 0% 100% / 0.55) 0%, transparent 40%),
+      linear-gradient(305deg, hsl(var(--primary) / 0.08) 0%, transparent 45%);
+  }
+
+  @keyframes ambient-drift {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(3%, 2%) scale(1.04); }
+    66% { transform: translate(-2%, 3%) scale(0.97); }
+  }
+
+  .hero-section { min-height: 68vh; }
+
+  .flip-words .fw-word {
+    display: inline-block;
+    transition: opacity 260ms ease, transform 260ms ease;
+  }
+  .flip-words .fw-out { opacity: 0; transform: translateY(8px); }
+  .flip-words .fw-in { opacity: 1; transform: translateY(0); }
+
+  .reveal-section,
+  .reveal-card {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Light mode: remap legacy hardcoded white text */
+  .light .text-white { color: hsl(var(--foreground)); }
+  .light .text-slate-100,
+  .light .text-slate-200,
+  .light .text-slate-300 { color: hsl(var(--foreground) / 0.88); }
+  .light .text-slate-400,
+  .light .text-gray-200,
+  .light .text-gray-300,
+  .light .text-gray-400 { color: hsl(var(--muted-foreground)); }
+  .light .text-white\/90 { color: hsl(var(--foreground) / 0.92); }
+  .light .text-white\/80 { color: hsl(var(--foreground) / 0.85); }
+  .light .text-white\/75 { color: hsl(var(--foreground) / 0.8); }
+  .light .text-white\/70 { color: hsl(var(--muted-foreground)); }
+  .light .text-white\/65 { color: hsl(var(--muted-foreground)); }
+  .light .text-white\/60 { color: hsl(var(--muted-foreground)); }
+  .light .text-white\/55 { color: hsl(var(--muted-foreground)); }
+  .light .text-white\/50 { color: hsl(var(--muted-foreground)); }
+  .light .text-white\/45 { color: hsl(var(--muted-foreground) / 0.9); }
+  .light .border-white\/15,
+  .light .border-white\/20,
+  .light .border-white\/10 { border-color: hsl(var(--border)); }
+  .light .bg-white\/5,
+  .light .bg-white\/8,
+  .light .bg-white\/10 { background-color: hsl(var(--foreground) / 0.05); }
+  .light .bg-white\/14 { background-color: hsl(var(--foreground) / 0.08); }
+  .light .hover\:bg-white\/14:hover { background-color: hsl(var(--foreground) / 0.08); }
+  .light .from-white { --tw-gradient-from: hsl(var(--foreground)) var(--tw-gradient-from-position); }
+  .light .via-gray-200 { --tw-gradient-via: hsl(var(--muted-foreground) / 0.5) var(--tw-gradient-via-position); }
+  .light .to-gray-400 { --tw-gradient-to: hsl(var(--muted-foreground)) var(--tw-gradient-to-position); }
 
   .glass {
     background: var(--glass-fill);

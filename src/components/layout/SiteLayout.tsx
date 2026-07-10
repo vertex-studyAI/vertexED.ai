@@ -11,6 +11,8 @@ import { isAdminUser } from "@/lib/admin";
 import GlobalChatPanel from "@/components/chat/GlobalChatPanel";
 import CloudSaveBanner from "@/components/CloudSaveBanner";
 import ThemeToggle from "@/components/ThemeToggle";
+import AmbientBackground from "@/components/AmbientBackground";
+import FluidCursorLayer from "@/components/FluidCursorLayer";
 import { useStudySessionTracker } from "@/hooks/useStudySessionTracker";
 
 export default function SiteLayout() {
@@ -41,9 +43,6 @@ export default function SiteLayout() {
       ]
     : [
         { to: "/", label: "Home" },
-        { to: "/features", label: "Features" },
-        { to: "/resources", label: "Resources" },
-        { to: "/study-tools", label: "Study Tools" },
         { to: "/about", label: "About" },
         { to: "/login", label: "Login" },
       ];
@@ -68,9 +67,8 @@ export default function SiteLayout() {
         <meta name="theme-color" content={themeColor} />
       </Helmet>
 
-      <div className="pointer-events-none fixed inset-0 z-0">
-        <div className="absolute inset-0 bg-grid-soft opacity-40" />
-      </div>
+      <AmbientBackground />
+      <FluidCursorLayer />
 
       <BreadcrumbsJsonLd />
 
@@ -281,9 +279,8 @@ export default function SiteLayout() {
               </>
             ) : (
               <>
-                <Link to="/features" className="hover:text-foreground transition">Features</Link>
-                <Link to="/study-tools" className="hover:text-foreground transition">Study Tools</Link>
                 <Link to="/about" className="hover:text-foreground transition">About</Link>
+                <Link to="/login" className="hover:text-foreground transition">Login</Link>
               </>
             )}
             <a href="mailto:vertexed.25@gmail.com" className="hover:text-foreground transition">Contact</a>

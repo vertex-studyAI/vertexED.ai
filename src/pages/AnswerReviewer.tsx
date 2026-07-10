@@ -20,6 +20,7 @@ import type { ExamBoard } from "@/types/curriculum";
 import ReactMarkdown from "react-markdown";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
+import { enrichMathInText } from "@/lib/mathText";
 import { Sliders, ArrowRight, FileText, Copy, Download, Image as ImageIcon, X, Sparkles, Shield, MessageSquareQuote, CheckCircle2, ClipboardCheck, Loader2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -826,7 +827,7 @@ export default function AIAnswerReview() {
                               <pre className="overflow-auto rounded-2xl bg-slate-950 p-4 text-white shadow-inner"><code>{children}</code></pre>
                             ),
                           }}>
-                            {response}
+                            {enrichMathInText(response)}
                           </ReactMarkdown>
 
                           <div className="flex flex-wrap items-center gap-3 border-t border-white/10 pt-4">

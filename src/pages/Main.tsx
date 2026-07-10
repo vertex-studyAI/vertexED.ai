@@ -227,10 +227,10 @@ export default function Main() {
             <p className="text-sm text-primary/80 mb-2">
               {brief ? `${brief.greeting}, ${brief.profile.displayName}` : "Welcome to Vertex AI"}
             </p>
-            <h1 className="text-4xl md:text-5xl font-semibold text-white leading-tight">
+            <h1 className="text-4xl md:text-5xl font-semibold text-foreground leading-tight">
               <TypeAnimation sequence={[700, "Your study ecosystem", 1200, "Learn. Practice. Review. Remember."]} wrapper="span" cursor={false} />
             </h1>
-            <p className="mt-4 text-white/70 max-w-2xl leading-relaxed">
+            <p className="mt-4 text-foreground/70 max-w-2xl leading-relaxed">
               {heroMessage}
             </p>
             <div className="mt-3 flex flex-wrap gap-2">
@@ -241,17 +241,17 @@ export default function Main() {
                 </span>
               )}
               {gradeLabel && (
-                <span className="rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs text-white/55">
+                <span className="rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs text-foreground/55">
                   {gradeLabel}
                 </span>
               )}
               {subjects.slice(0, 4).map((s) => (
-                <span key={s} className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/60">
+                <span key={s} className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-foreground/60">
                   {s}
                 </span>
               ))}
               {subjects.length > 4 && (
-                <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/45">
+                <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-foreground/45">
                   +{subjects.length - 4} more
                 </span>
               )}
@@ -261,7 +261,7 @@ export default function Main() {
                 <Link to="/user-settings" className="hover:underline">Set your exam board</Link> to personalize tools and learning paths.
               </p>
             )}
-            <p className="mt-3 text-xs text-white/45 max-w-xl">
+            <p className="mt-3 text-xs text-foreground/45 max-w-xl">
               Study Zone for deep focus, Learning Hub for your path, Paper Maker and Answer Reviewer for exam prep.
             </p>
           </div>
@@ -277,7 +277,7 @@ export default function Main() {
             className="shrink-0 p-3 rounded-2xl glass-tile hover:border-white/30 transition flex items-center justify-center"
             onClick={() => window.location.assign("/user-settings")}
           >
-            <SettingsIcon size={18} color="white" />
+            <SettingsIcon size={18} className="text-foreground" />
           </button>
           </div>
         </div>
@@ -285,9 +285,9 @@ export default function Main() {
 
       {showWelcome && (
         <section className="px-6 pb-4 fade-up">
-          <div className="max-w-6xl mx-auto rounded-xl border border-primary/25 bg-primary/10 px-5 py-4 text-sm text-white/90">
+          <div className="max-w-6xl mx-auto rounded-xl border border-primary/25 bg-primary/10 px-5 py-4 text-sm text-foreground/90">
             <p className="font-medium text-primary">Welcome to Vertex — you&apos;re all set.</p>
-            <p className="mt-1 text-white/70">
+            <p className="mt-1 text-foreground/70">
               Start with Study Zone for a focused session, or generate notes and a mock paper from the dashboard.
             </p>
           </div>
@@ -323,7 +323,7 @@ export default function Main() {
       {brief && (
         <section className="px-6 pb-6 fade-up">
           <div className="max-w-6xl mx-auto glass-panel p-5">
-            <h2 className="text-sm font-semibold text-white mb-3">Weakness heatmap</h2>
+            <h2 className="text-sm font-semibold text-foreground mb-3">Weakness heatmap</h2>
             <WeaknessHeatmap compact />
           </div>
         </section>
@@ -341,7 +341,7 @@ export default function Main() {
       <section className="px-6 pb-6 fade-up">
         <div className="max-w-6xl mx-auto">
           <div className="glass-panel p-4 md:p-5">
-            <p className="text-xs uppercase tracking-widest text-white/45 mb-3">Quick actions</p>
+            <p className="text-xs uppercase tracking-widest text-foreground/45 mb-3">Quick actions</p>
             <div className="flex flex-wrap gap-2">
               <QuickAction to="/learning-hub" icon={<Route className="h-4 w-4" />} label="Learning Hub" />
               <QuickAction to="/study-zone?focus=timer" icon={<Zap className="h-4 w-4" />} label="Focus session" />
@@ -352,8 +352,8 @@ export default function Main() {
             </div>
             {weekFocus.length > 0 && (
               <div className="mt-4 rounded-xl border border-white/10 bg-white/5 px-4 py-3">
-                <p className="text-xs uppercase tracking-widest text-white/45 mb-2">This week&apos;s focus</p>
-                <ul className="space-y-1.5 text-sm text-white/75">
+                <p className="text-xs uppercase tracking-widest text-foreground/45 mb-2">This week&apos;s focus</p>
+                <ul className="space-y-1.5 text-sm text-foreground/75">
                   {weekFocus.map((item) => (
                     <li key={item} className="flex items-start gap-2">
                       <span className="text-primary mt-0.5">→</span>
@@ -364,7 +364,7 @@ export default function Main() {
               </div>
             )}
             {suggestions.length > 0 && (
-              <ul className="mt-4 space-y-1.5 text-sm text-white/65">
+              <ul className="mt-4 space-y-1.5 text-sm text-foreground/65">
                 {suggestions.map((tip) => (
                   <li key={tip} className="flex items-start gap-2">
                     <span className="text-primary mt-0.5">•</span>
@@ -381,7 +381,7 @@ export default function Main() {
         <section className="px-6 pb-8 fade-up">
           <div className="max-w-6xl mx-auto glass-panel p-5">
             <div className="flex items-center justify-between gap-3 mb-3">
-              <h2 className="text-sm font-semibold text-white">Recent saved work</h2>
+              <h2 className="text-sm font-semibold text-foreground">Recent saved work</h2>
               <Link to="/user-settings" className="text-xs text-primary hover:underline">
                 View all →
               </Link>
@@ -414,7 +414,7 @@ export default function Main() {
                       >
                         <div>
                           <div className="flex items-center gap-4 mb-2">
-                            <div className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white font-semibold" aria-hidden>
+                            <div className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-foreground font-semibold" aria-hidden>
                               {t.icon}
                             </div>
 
@@ -430,7 +430,7 @@ export default function Main() {
 
                         <div className="flex items-center justify-between mt-3">
                           <span className="text-xs text-slate-500">Quick open</span>
-                          <span className="text-sm text-white/70 font-medium group-hover:text-white transition-colors">Open →</span>
+                          <span className="text-sm text-foreground/70 font-medium group-hover:text-foreground transition-colors">Open →</span>
                         </div>
                       </NeumorphicCard>
                     </div>
@@ -446,7 +446,7 @@ export default function Main() {
 
       <section className="fade-up px-6 pb-12">
         <div className="max-w-6xl mx-auto text-center glass-panel p-8 md:p-10">
-          <h3 className="text-2xl md:text-3xl font-semibold text-white mb-4">Ready to get back into flow?</h3>
+          <h3 className="text-2xl md:text-3xl font-semibold text-foreground mb-4">Ready to get back into flow?</h3>
           <p className="text-slate-300 mb-6 max-w-2xl mx-auto">
             Your ecosystem remembers where you left off — planner tasks, flashcards due, and saved work are one click away.
           </p>
@@ -455,7 +455,7 @@ export default function Main() {
             <Link to="/learning-hub" className="btn-glass px-8">
               Open Learning Hub
             </Link>
-            <Link to="/study-zone?focus=timer" className="rounded-full border border-white/20 bg-white/8 px-8 py-3 text-sm text-white/90 hover:bg-white/14 transition">
+            <Link to="/study-zone?focus=timer" className="rounded-full border border-white/20 bg-white/8 px-8 py-3 text-sm text-foreground/90 hover:bg-white/14 transition">
               Start focus session
             </Link>
           </div>
@@ -546,8 +546,8 @@ function StatCard({ to, icon, label, value }: { to?: string; icon: React.ReactNo
     <>
       <div className="shrink-0">{icon}</div>
       <div>
-        <p className="text-xs text-white/50">{label}</p>
-        <p className="text-lg font-semibold text-white">{value}</p>
+        <p className="text-xs text-foreground/50">{label}</p>
+        <p className="text-lg font-semibold text-foreground">{value}</p>
       </div>
     </>
   );
@@ -569,7 +569,7 @@ function QuickAction({ to, icon, label }: { to: string; icon: React.ReactNode; l
   return (
     <Link
       to={to}
-      className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/8 px-3.5 py-2 text-sm text-white/90 hover:bg-white/14 hover:border-white/25 transition"
+      className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/8 px-3.5 py-2 text-sm text-foreground/90 hover:bg-white/14 hover:border-white/25 transition"
     >
       {icon}
       {label}
