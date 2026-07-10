@@ -17,7 +17,7 @@ import EcosystemPanel from "@/components/EcosystemPanel";
 import ContinueSessionBanner from "@/components/ContinueSessionBanner";
 import AdaptiveLearningPanel from "@/components/AdaptiveLearningPanel";
 import ProgressAnalyticsCard from "@/components/ProgressAnalyticsCard";
-import { getProgressTrend } from "@/lib/progressAnalytics";
+import { getProgressTrend, type ProgressTrend } from "@/lib/progressAnalytics";
 import WeaknessHeatmap from "@/components/WeaknessHeatmap";
 
 type Tile = {
@@ -31,6 +31,7 @@ export default function Main() {
   const { user } = useAuth();
   const [brief, setBrief] = useState<EcosystemBrief | null>(null);
   const [recentArtifacts, setRecentArtifacts] = useState<StudyArtifact[]>([]);
+  const [progressTrend, setProgressTrend] = useState<ProgressTrend | null>(null);
   const [showWelcome, setShowWelcome] = useState(
     () => typeof window !== "undefined" && sessionStorage.getItem("vertex_welcome") === "1",
   );
@@ -202,7 +203,13 @@ export default function Main() {
   const dueFlashcards = brief?.dueFlashcards ?? 0;
   const stats = brief?.stats ?? null;
   const heroMessage = getBoardHeroMessage(board);
-  const progressTrend = brief ? getProgressTrend() : null;
+  useEffect(() => {
+    if (!brief) {
+      setProgressTrend(null);
+      return;
+    }
+    setProgressTrend(getProgressTrend(true));
+  }, [brief]);
 
   return (
     <>

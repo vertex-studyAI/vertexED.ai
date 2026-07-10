@@ -7,7 +7,7 @@ import { setChatHandoff, saveStudyArtifact, consumeArtifactRestore } from "@/lib
 import { recordStudySession } from "@/lib/studyStats";
 import { consumeMockReviewHandoff } from "@/lib/examFlow";
 import { recordWeakness } from "@/lib/weaknessTracker";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import {
   boardToApiLabel,
@@ -122,6 +122,7 @@ function uniqueId() {
 export default function AIAnswerReview() {
   const navigate = useNavigate();
   const { user } = useAuth();
+  const [searchParams] = useSearchParams();
   const [board, setBoard] = useState<ExamBoard | "">("");
   const [formData, setFormData] = useState<FormState>(initialFormState);
   const [questionImages, setQuestionImages] = useState<Attachment[]>([]);
@@ -166,6 +167,22 @@ export default function AIAnswerReview() {
       setFormData((prev) => ({ ...prev, subject: String(rawSubjects[0]) }));
     }
   }, [user]);
+
+  useEffect(() => {
+    const subjectParam = searchParams.get("subject");
+    const topicParam = searchParams.get("topic");
+    if (!subjectParam && !topicParam) return;
+    setFormData((prev) => ({
+      ...prev,
+      subject: subjectParam || prev.subject,
+      question: topicParam
+        ? prev.question || `Review my understanding of: ${topicParam}`
+        : prev.question,
+      additional: topicParam
+        ? prev.additional || `Adaptive focus topic: ${topicParam}`
+        : prev.additional,
+    }));
+  }, [searchParams]);
 
   useEffect(() => {
     if (responseRef.current) {

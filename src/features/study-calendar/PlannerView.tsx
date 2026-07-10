@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Calendar from "./components/Calendar";
 import Schedule, { TaskItem } from "./components/Schedule";
 import TimeLeftWidget from "./components/TimeLeftWidget";
@@ -26,7 +26,8 @@ function getOrdinalSuffix(day: number) {
 
 const PlannerView: React.FC = () => {
   const { user } = useAuth();
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const weekPlanTriggered = useRef(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [mode, setMode] = useState("Day");
   const [tasks, setTasks] = useState<TaskItem[]>([]);
@@ -223,12 +224,7 @@ const PlannerView: React.FC = () => {
     return { s: 8*60, e: 8*60 + durationMin, date: dateNext };
   };
 
-  useEffect(() => {
-    if (searchParams.get("suggest") !== "1") return;
-    void suggestWeekFromAI();
-  }, [searchParams]);
-
-  const suggestWeekFromAI = async () => {
+  const suggestWeekFromAI = useCallback(async () => {
     setWeekPlanBusy(true);
     try {
       const profile = getLearnerProfile(user);
@@ -246,13 +242,24 @@ const PlannerView: React.FC = () => {
       }));
       setTasks((prev) => [...prev, ...withIds]);
       logStudyActivity("AI generated adaptive week study plan");
+      setSearchParams((prev) => {
+        const next = new URLSearchParams(prev);
+        next.delete("suggest");
+        return next;
+      }, { replace: true });
     } catch (e) {
       console.error(e);
       alert(e instanceof Error ? e.message : "Could not generate week plan");
     } finally {
       setWeekPlanBusy(false);
     }
-  };
+  }, [user, tasks, setSearchParams]);
+
+  useEffect(() => {
+    if (searchParams.get("suggest") !== "1" || weekPlanTriggered.current) return;
+    weekPlanTriggered.current = true;
+    void suggestWeekFromAI();
+  }, [searchParams, suggestWeekFromAI]);
 
   const addTaskFromAI = async () => {
     if (!aiInput.trim()) return;

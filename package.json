@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "prebuild": "node scripts/indexnow.mjs --host=https://www.vertexed.app --key=07fe36c13a0c4aee8856c99f640ebf98 --ensureKeyOnly",
+    "prebuild": "npx --yes update-browserslist-db@latest --quiet && node scripts/indexnow.mjs --host=https://www.vertexed.app --key=07fe36c13a0c4aee8856c99f640ebf98 --ensureKeyOnly",
     "build": "ROLLUP_SKIP_NODEJS_NATIVE=true vite build",
     "build:ci": "ROLLUP_SKIP_NODEJS_NATIVE=true vite build",
     "postbuild": "node scripts/update-sitemap-lastmod.mjs public/sitemap.xml && npm run seo:indexnow",
@@ -82,9 +82,13 @@
     "vite": "^5.4.19"
   },
   "overrides": {
-    "dompurify": "^3.2.5",
+    "dompurify": "^3.2.6",
     "uuid": "^11.1.1"
   },
+  "browserslist": [
+    "defaults",
+    "not IE 11"
+  ],
   "optionalDependencies": {
     "@rollup/rollup-darwin-arm64": "^4.24.0",
     "@rollup/rollup-linux-x64-gnu": "^4.24.0",

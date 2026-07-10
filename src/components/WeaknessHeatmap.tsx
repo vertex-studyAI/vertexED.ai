@@ -1,8 +1,25 @@
-import { getWeaknessHeatmap } from '@/lib/weaknessTracker';
+import { useCallback, useEffect, useState } from 'react';
+import { getWeaknessHeatmap, type TopicHeat } from '@/lib/weaknessTracker';
 import { Link } from 'react-router-dom';
 
 export default function WeaknessHeatmap({ compact = false }: { compact?: boolean }) {
-  const topics = getWeaknessHeatmap(compact ? 5 : 10);
+  const limit = compact ? 5 : 10;
+  const [topics, setTopics] = useState<TopicHeat[]>(() => getWeaknessHeatmap(limit));
+
+  const refresh = useCallback(() => {
+    setTopics(getWeaknessHeatmap(limit));
+  }, [limit]);
+
+  useEffect(() => {
+    refresh();
+    const onFocus = () => refresh();
+    window.addEventListener('focus', onFocus);
+    window.addEventListener('storage', onFocus);
+    return () => {
+      window.removeEventListener('focus', onFocus);
+      window.removeEventListener('storage', onFocus);
+    };
+  }, [refresh]);
 
   if (topics.length === 0) {
     return (

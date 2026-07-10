@@ -61,8 +61,9 @@ export function recordDailySnapshot() {
   writeSnapshots(snapshots);
 }
 
-export function getProgressTrend(): ProgressTrend {
-  recordDailySnapshot();
+/** Read trend data; optionally record today's snapshot first (call once per mount, not on every render). */
+export function getProgressTrend(recordSnapshot = false): ProgressTrend {
+  if (recordSnapshot) recordDailySnapshot();
   const snapshots = readSnapshots();
   const stats = getStudyStats();
   const last7 = snapshots.slice(-7);

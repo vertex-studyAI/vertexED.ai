@@ -183,15 +183,25 @@ export default defineConfig(({ mode }) => {
       },
     },
     build: {
+      target: 'es2020',
+      cssCodeSplit: true,
       // PDF/KaTeX bundles are large by nature; warn only for truly extreme outliers
       chunkSizeWarningLimit: 1000,
       rollupOptions: {
         output: {
           manualChunks(id) {
             if (!id.includes('node_modules')) {
-              if (id.includes('/src/lib/studyEcosystem') || id.includes('/src/lib/learnerProfile')) {
-                return 'ecosystem';
-              }
+              const appChunk =
+                id.includes('/src/lib/studyEcosystem') ||
+                id.includes('/src/lib/learnerProfile') ||
+                id.includes('/src/lib/adaptiveLearning') ||
+                id.includes('/src/lib/weaknessTracker') ||
+                id.includes('/src/lib/progressAnalytics') ||
+                id.includes('/src/lib/cramMode') ||
+                id.includes('/src/lib/curriculum') ||
+                id.includes('/src/lib/studyStats') ||
+                id.includes('/src/lib/srDeck');
+              if (appChunk) return 'ecosystem';
               if (id.includes('/src/components/chat/ChatMarkdown')) {
                 return 'chat-markdown';
               }

@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
-import { Link } from 'react-router-dom';
+import { useMemo, useEffect } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import {
   ArrowRight,
@@ -39,7 +40,15 @@ const PHASE_STYLES: Record<LearningPathStep['phase'], string> = {
 
 export default function LearningHub() {
   const { user } = useAuth();
-  const brief = buildEcosystemBrief(user);
+  const [searchParams] = useSearchParams();
+  const brief = useMemo(() => buildEcosystemBrief(user), [user]);
+  const cramFromUrl = searchParams.get('mode') === 'cram';
+
+  useEffect(() => {
+    if (!cramFromUrl) return;
+    document.getElementById('cram-mode')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, [cramFromUrl]);
+
   const goalLabel = studyGoalLabel(brief.profile.studyGoal);
   const gradeLabel = gradeLevelLabel(brief.profile.gradeLevel);
   const board = brief.profile.curriculum.board;
@@ -102,7 +111,9 @@ export default function LearningHub() {
 
         <ExamCountdown examDate={brief.profile.curriculum.examDate} boardLabel={brief.boardLabel} />
 
-        <CramModePanel board={board} examDaysLeft={brief.examDaysLeft} />
+        <div id="cram-mode">
+          <CramModePanel board={board} examDaysLeft={brief.examDaysLeft} />
+        </div>
 
         <AdaptiveLearningPanel
           recommendations={brief.adaptivePlan.recommendations}

@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowLeft, Sparkles, FileText, ImagePlus, Download, Grid, FileArchive, Clock } from "lucide-react";
 import NeumorphicCard from "@/components/NeumorphicCard";
@@ -16,14 +16,15 @@ import {
   EXAM_BOARDS,
   boardToApiLabel,
   daysUntilExam,
+  getCurriculumPreference,
   getGradesForBoard,
   getSubjectsForBoard,
 } from "@/lib/curriculum";
-import { getCurriculumPreference } from "@/lib/curriculum";
 import type { ExamBoard } from "@/types/curriculum";
 
 export default function PaperMaker({ priorPapers = [] }) {
   const { user } = useAuth();
+  const [searchParams] = useSearchParams();
   const [board, setBoard] = useState<ExamBoard>("IB_MYP");
   const [grade, setGrade] = useState(null);
   const [subject, setSubject] = useState("");
@@ -68,6 +69,19 @@ export default function PaperMaker({ priorPapers = [] }) {
     const rawSubjects = pref.subjects ?? (pref.preferences as Record<string, unknown> | undefined)?.subjects;
     if (Array.isArray(rawSubjects) && rawSubjects[0]) setSubject(String(rawSubjects[0]));
   }, [user]);
+
+  useEffect(() => {
+    const subjectParam = searchParams.get("subject");
+    if (!subjectParam) return;
+    setSubject((current) => current || subjectParam);
+    const topicParam = searchParams.get("topic");
+    if (topicParam) {
+      setTopics((current) => current || topicParam);
+    }
+    if (searchParams.get("cram") === "1") {
+      setMockCramMode(true);
+    }
+  }, [searchParams]);
 
   useEffect(() => {
     const restored = consumeArtifactRestore();

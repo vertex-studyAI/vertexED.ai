@@ -132,7 +132,7 @@ export function buildAdaptivePlan(input: BuildAdaptiveInput): AdaptivePlan {
       kind: 'review',
       title: `Strengthen: ${w.topic.slice(0, 40)}`,
       description: `${w.subject} — scoring ${Math.round(w.avgPercent)}% on recent attempts`,
-      to: '/answer-reviewer',
+      to: `/answer-reviewer?subject=${encodeURIComponent(w.subject)}&topic=${encodeURIComponent(w.topic)}`,
       subject: w.subject,
       topic: w.topic,
       score: w.avgPercent,
