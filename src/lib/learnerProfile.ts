@@ -1,3 +1,6 @@
+import type { CurriculumPreference } from '@/types/curriculum';
+import { getCurriculumPreference } from '@/lib/curriculum';
+
 export type StudyGoal = 'ace_exams' | 'catch_up' | 'build_habits' | 'understand_better';
 export type GradeLevel = 'middle_school' | 'high_school' | 'undergraduate' | 'other';
 
@@ -5,6 +8,7 @@ export type LearnerProfile = {
   displayName: string;
   studyGoal: StudyGoal | null;
   gradeLevel: GradeLevel | null;
+  curriculum: CurriculumPreference;
 };
 
 type UserLike = {
@@ -64,6 +68,7 @@ export function getLearnerProfile(user: UserLike): LearnerProfile {
       'undergraduate',
       'other',
     ] as const),
+    curriculum: getCurriculumPreference(user),
   };
 }
 

@@ -16,9 +16,9 @@ type PanelMessage = ChatbotMessage & { id: string };
 const STORAGE_KEY = "vertex_global_chat_open";
 
 export default function GlobalChatPanel() {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, user } = useAuth();
   const location = useLocation();
-  const studyContext = getStudyContext(location.pathname);
+  const studyContext = getStudyContext(location.pathname, user);
 
   const [open, setOpen] = useState(() => {
     if (typeof window === "undefined") return false;

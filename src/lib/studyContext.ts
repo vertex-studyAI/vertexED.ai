@@ -57,9 +57,23 @@ const ROUTE_CONTEXT: Record<string, StudyPageContext> = {
   },
 };
 
-export function getStudyContext(pathname: string): StudyPageContext {
+export function getStudyContext(
+  pathname: string,
+  user?: { user_metadata?: Record<string, unknown> | null } | null,
+): StudyPageContext {
   const base = pathname.split("?")[0];
-  if (ROUTE_CONTEXT[base]) return ROUTE_CONTEXT[base];
+  const board = user?.user_metadata?.board;
+  const boardHint =
+    typeof board === "string"
+      ? ` Student studies ${board}. Use board-appropriate terminology and rubrics.`
+      : "";
+
+  if (ROUTE_CONTEXT[base]) {
+    return {
+      ...ROUTE_CONTEXT[base],
+      hint: ROUTE_CONTEXT[base].hint + boardHint,
+    };
+  }
 
   if (base.startsWith("/resources")) {
     return {

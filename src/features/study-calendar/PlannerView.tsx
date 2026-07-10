@@ -3,9 +3,14 @@ import Calendar from "./components/Calendar";
 import Schedule, { TaskItem } from "./components/Schedule";
 import TimeLeftWidget from "./components/TimeLeftWidget";
 import "./styles/planner.css";
-import { textToTask } from "./ai/gemini";
+import { textToTask, suggestWeekPlan } from "./ai/gemini";
 import { recordStudySession } from "@/lib/studyStats";
 import { logStudyActivity } from "@/lib/studyActivity";
+import { useAuth } from "@/contexts/AuthContext";
+import { getLearnerProfile } from "@/lib/learnerProfile";
+import { daysUntilExam } from "@/lib/curriculum";
+import { getWeakestTopics } from "@/lib/weaknessTracker";
+import { useSearchParams } from "react-router-dom";
 
 function getOrdinalSuffix(day: number) {
   if (day > 3 && day < 21) return 'th';
@@ -20,6 +25,8 @@ function getOrdinalSuffix(day: number) {
 // Tags removed
 
 const PlannerView: React.FC = () => {
+  const { user } = useAuth();
+  const [searchParams] = useSearchParams();
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [mode, setMode] = useState("Day");
   const [tasks, setTasks] = useState<TaskItem[]>([]);
@@ -27,6 +34,7 @@ const PlannerView: React.FC = () => {
   const [aiOpen, setAiOpen] = useState(false);
   const [aiInput, setAiInput] = useState("");
   const [aiBusy, setAiBusy] = useState(false);
+  const [weekPlanBusy, setWeekPlanBusy] = useState(false);
   const [showMoreOptions, setShowMoreOptions] = useState(false);
   const [taskDate, setTaskDate] = useState(""); // yyyy-mm-dd from input[type=date]
   const [taskStartTime, setTaskStartTime] = useState(""); // HH:MM from input[type=time]
@@ -215,6 +223,37 @@ const PlannerView: React.FC = () => {
     return { s: 8*60, e: 8*60 + durationMin, date: dateNext };
   };
 
+  useEffect(() => {
+    if (searchParams.get("suggest") !== "1") return;
+    void suggestWeekFromAI();
+  }, [searchParams]);
+
+  const suggestWeekFromAI = async () => {
+    setWeekPlanBusy(true);
+    try {
+      const profile = getLearnerProfile(user);
+      const weak = getWeakestTopics(5).map((w) => `${w.subject}: ${w.topic}`);
+      const planned = await suggestWeekPlan({
+        weaknesses: weak,
+        subjects: profile.curriculum.subjects,
+        examDaysLeft: daysUntilExam(profile.curriculum.examDate),
+        hoursPerDay: 2,
+        existingTasks: tasks,
+      });
+      const withIds = planned.map((t) => ({
+        ...t,
+        id: crypto.randomUUID?.() || String(Date.now() + Math.random()),
+      }));
+      setTasks((prev) => [...prev, ...withIds]);
+      logStudyActivity("AI generated adaptive week study plan");
+    } catch (e) {
+      console.error(e);
+      alert(e instanceof Error ? e.message : "Could not generate week plan");
+    } finally {
+      setWeekPlanBusy(false);
+    }
+  };
+
   const addTaskFromAI = async () => {
     if (!aiInput.trim()) return;
     setAiBusy(true);
@@ -287,7 +326,10 @@ const PlannerView: React.FC = () => {
           <button className="planner-today" onClick={() => setSelectedDate(new Date())}>Today</button>
         </div>
 	<div className="planner-actions">
-	  <button className="planner-new" onClick={() => { setAiOpen(true); setShowMoreOptions(false); }}>New Task</button>
+          <button className="planner-new" onClick={() => { setAiOpen(true); setShowMoreOptions(false); }}>New Task</button>
+          <button className="planner-today" disabled={weekPlanBusy} onClick={() => void suggestWeekFromAI()}>
+            {weekPlanBusy ? "Planning…" : "AI week plan"}
+          </button>
 	  <button
 	    type="button"
 	    className="mobile-cal-toggle planner-today"

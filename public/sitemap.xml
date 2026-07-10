@@ -13,6 +13,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://www.vertexed.app/learning-hub</loc>
+    <lastmod>2026-07-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
     <loc>https://www.vertexed.app/study-zone</loc>
     <lastmod>2026-07-08</lastmod>
     <changefreq>weekly</changefreq>

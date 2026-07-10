@@ -15,6 +15,7 @@ import {
 import SEO from "@/components/SEO";
 import PageSection from "@/components/PageSection";
 import NeumorphicCard from "@/components/NeumorphicCard";
+import CommandTermsGlossary from "@/components/curriculum/CommandTermsGlossary";
 
 type FormulaTab = "math" | "physics" | "chemistry" | "biology" | "economics";
 
@@ -191,6 +192,14 @@ export default function StudyTools() {
               </li>
             ))}
           </ol>
+        </NeumorphicCard>
+
+        <NeumorphicCard className="p-6 mb-10">
+          <div className="flex items-center gap-2 mb-4">
+            <BookOpen className="h-5 w-5 text-primary" />
+            <h2 className="text-xl font-semibold">Command terms glossary</h2>
+          </div>
+          <CommandTermsGlossary />
         </NeumorphicCard>
 
         <div className="text-center">

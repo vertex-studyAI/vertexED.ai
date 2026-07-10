@@ -10,32 +10,21 @@ import MockExamMode from "@/components/MockExamMode";
 import { saveStudyArtifact, consumeArtifactRestore } from "@/lib/userContent";
 import { recordStudySession } from "@/lib/studyStats";
 import { toast } from "@/hooks/use-toast";
+import { useAuth } from "@/contexts/AuthContext";
+import {
+  BOARD_CONFIGS,
+  EXAM_BOARDS,
+  boardToApiLabel,
+  daysUntilExam,
+  getGradesForBoard,
+  getSubjectsForBoard,
+} from "@/lib/curriculum";
+import { getCurriculumPreference } from "@/lib/curriculum";
+import type { ExamBoard } from "@/types/curriculum";
 
 export default function PaperMaker({ priorPapers = [] }) {
-  const BOARDS = ["IB MYP", "IB DP", "IGCSE", "A Levels", "CBSE", "ICSE"];
-  const GRADE_RANGES = {
-    "IB MYP": range(6, 10),
-    IGCSE: range(6, 10),
-    "IB DP": range(11, 12),
-    "A Levels": range(11, 12),
-    CBSE: range(6, 12),
-    ICSE: range(6, 12),
-  };
-  
-  const SUBJECTS = {
-    "IB MYP": ["Physics", "Chemistry", "Biology", "History", "Geography", "Math Standard", "Language and Literature", "Spanish", "French", "Hindi"],
-    "IB DP": ["History", "Geography", "Math AA", "Math AI", "Business Management", "Economics", "IB English Literature", "Language B - Spanish", "Language B - German", "Language B - French", "Language B - Hindi", "Language AB Initio - Spanish"],
-    IGCSE: ["Mathematics", "Physics", "Chemistry", "Biology", "English", "History", "Geography", "Business Studies", "Computer Science", "Economics"],
-    "A Levels": ["Mathematics", "Further Mathematics", "Physics", "Chemistry", "Biology", "Economics", "History", "English Literature", "Business", "Computer Science"],
-    CBSE: ["Mathematics", "Physics", "Chemistry", "Biology", "English", "Hindi", "Social Science", "Computer Science"],
-    ICSE: ["Mathematics", "Physics", "Chemistry", "Biology", "English", "History", "Geography", "Computer Applications"],
-  };
-  const CRITERIA = {
-    "IB MYP": ["Criterion A", "Criterion B", "Criterion C", "Criterion D"],
-    "IB DP": ["Paper 1", "Paper 2", "Internal Assessment", "Extended Essay"],
-  };
-
-  const [board, setBoard] = useState(BOARDS[0]);
+  const { user } = useAuth();
+  const [board, setBoard] = useState<ExamBoard>("IB_MYP");
   const [grade, setGrade] = useState(null);
   const [subject, setSubject] = useState("");
   const [topics, setTopics] = useState("");
@@ -53,23 +42,32 @@ export default function PaperMaker({ priorPapers = [] }) {
   const [paper, setPaper] = useState(null);
   const [raw, setRaw] = useState(null);
   const [mockExamOpen, setMockExamOpen] = useState(false);
+  const [mockCramMode, setMockCramMode] = useState(false);
   const [saveStatus, setSaveStatus] = useState("");
+  const examDaysLeft = daysUntilExam(getCurriculumPreference(user).examDate);
 
   const previewRef = useRef(null);
   const prevBoardRef = useRef(board);
+  const boardApiLabel = boardToApiLabel(board);
+  const criteriaOptions = BOARD_CONFIGS[board].criteria ?? [];
 
-  const gradesForBoard = useMemo(() => GRADE_RANGES[board] || [], [board]);
+  const gradesForBoard = useMemo(() => getGradesForBoard(board), [board]);
 
-  const subjectsForBoard = useMemo(() => {
-    let list = SUBJECTS[board] ? [...SUBJECTS[board]] : [];
-    if (board === "IB MYP") {
-      if (grade === 10 && !list.includes("Math Extended")) list.push("Math Extended");
-      if (grade >= 8 && grade <= 10) {
-        ["Spanish (Extended)", "French (Extended)", "Hindi (Extended)"].forEach((s) => { if (!list.includes(s)) list.push(s); });
-      }
+  const subjectsForBoard = useMemo(() => getSubjectsForBoard(board, grade), [board, grade]);
+
+  useEffect(() => {
+    const pref = user?.user_metadata;
+    if (!pref) return;
+    const rawBoard = pref.board ?? (pref.preferences as Record<string, unknown> | undefined)?.board;
+    if (typeof rawBoard === "string" && EXAM_BOARDS.includes(rawBoard as ExamBoard)) {
+      setBoard(rawBoard as ExamBoard);
     }
-    return list;
-  }, [board, grade]);
+    const rawGrade = pref.grade ?? (pref.preferences as Record<string, unknown> | undefined)?.grade;
+    if (typeof rawGrade === "number") setGrade(rawGrade);
+    else if (typeof rawGrade === "string" && rawGrade) setGrade(Number(rawGrade));
+    const rawSubjects = pref.subjects ?? (pref.preferences as Record<string, unknown> | undefined)?.subjects;
+    if (Array.isArray(rawSubjects) && rawSubjects[0]) setSubject(String(rawSubjects[0]));
+  }, [user]);
 
   useEffect(() => {
     const restored = consumeArtifactRestore();
@@ -94,7 +92,7 @@ export default function PaperMaker({ priorPapers = [] }) {
     setFormat("Mixed Format");
     setDifficulty(2);
     setCriteria("");
-    setUseCriteria(board === "IB MYP" || board === "IB DP");
+    setUseCriteria(board === "IB_MYP" || board === "IB_DP");
     setAnythingElse("");
     setFiles([]);
     setPaper(null);
@@ -147,7 +145,7 @@ export default function PaperMaker({ priorPapers = [] }) {
     setRaw(null);
 
     const payload = {
-      board,
+      board: boardApiLabel,
       grade,
       subject,
       topics: topicTags,
@@ -190,8 +188,8 @@ export default function PaperMaker({ priorPapers = [] }) {
         setPaper(paperData);
         setRaw(null);
         recordStudySession();
-        const title = paperData.title || `${board} ${subject} paper`;
-        saveStudyArtifact("paper", title, { paper: paperData, board, subject, grade }).then((r) => {
+        const title = paperData.title || `${boardApiLabel} ${subject} paper`;
+        saveStudyArtifact("paper", title, { paper: paperData, board: boardApiLabel, subject, grade }).then((r) => {
           if (r.ok) {
             setSaveStatus(r.localOnly ? "Saved on this device" : "Saved to your account");
             toast({
@@ -307,8 +305,8 @@ export default function PaperMaker({ priorPapers = [] }) {
               <div className="grid grid-cols-2 gap-4">
                 <motion.div whileHover={{ scale: 1.02 }} className="neu-input">
                   <label className="sr-only">Board</label>
-                  <select className="neu-input-el" value={board} onChange={(e) => setBoard(e.target.value)} aria-label="Board">
-                    {BOARDS.map((b) => <option key={b} value={b}>{b}</option>)}
+                  <select className="neu-input-el" value={board} onChange={(e) => setBoard(e.target.value as ExamBoard)} aria-label="Board">
+                    {EXAM_BOARDS.map((b) => <option key={b} value={b}>{BOARD_CONFIGS[b].label}</option>)}
                   </select>
                 </motion.div>
 
@@ -337,7 +335,7 @@ export default function PaperMaker({ priorPapers = [] }) {
                   <motion.div whileHover={{ scale: 1.02 }} className="neu-input">
                     <select className="neu-input-el" value={criteria} onChange={(e) => setCriteria(e.target.value)}>
                       <option value="">Select Criteria / Component</option>
-                      {(CRITERIA[board] || []).map(c => <option key={c} value={c}>{c}</option>)}
+                      {(criteriaOptions).map(c => <option key={c} value={c}>{c}</option>)}
                     </select>
                     <div className="text-xs text-gray-500 mt-1">Criteria mode hides total marks and uses rubric weightings.</div>
                   </motion.div>
@@ -460,9 +458,14 @@ export default function PaperMaker({ priorPapers = [] }) {
                   <div className="flex flex-wrap gap-3 mt-4 items-center">
                     <motion.button whileHover={{ scale: 1.02 }} className="neu-button px-4 py-2 flex items-center gap-2" onClick={exportPDF}><Download size={16} />Export PDF</motion.button>
                     <motion.button whileHover={{ scale: 1.02 }} className="neu-button px-4 py-2 flex items-center gap-2" onClick={exportDocx}><Download size={16} />Export Word</motion.button>
-                    <motion.button whileHover={{ scale: 1.02 }} className="neu-button px-4 py-2 flex items-center gap-2 bg-primary/15 border-primary/25" onClick={() => setMockExamOpen(true)}>
+                    <motion.button whileHover={{ scale: 1.02 }} className="neu-button px-4 py-2 flex items-center gap-2 bg-primary/15 border-primary/25" onClick={() => { setMockCramMode(false); setMockExamOpen(true); }}>
                       <Clock size={16} />Take timed exam
                     </motion.button>
+                    {examDaysLeft !== null && examDaysLeft >= 0 && examDaysLeft <= 7 && (
+                      <motion.button whileHover={{ scale: 1.02 }} className="neu-button px-4 py-2 flex items-center gap-2 bg-amber-500/15 border-amber-400/25" onClick={() => { setMockCramMode(true); setMockExamOpen(true); }}>
+                        <Clock size={16} />Cram mock ({examDaysLeft}d left)
+                      </motion.button>
+                    )}
                     {saveStatus && <span className="text-xs text-emerald-400">{saveStatus}</span>}
                     <div className="ml-auto text-sm text-muted-foreground flex items-center gap-2"><Grid size={14} /> <span>{(paper?.sections || []).reduce((c, s) => c + (s.questions?.length || 0), 0)} questions</span></div>
                   </div>
@@ -474,14 +477,16 @@ export default function PaperMaker({ priorPapers = [] }) {
       </PageSection>
 
       {mockExamOpen && paper && (
-        <MockExamMode paper={paper} onClose={() => setMockExamOpen(false)} />
+        <MockExamMode
+          paper={paper}
+          board={board}
+          subject={subject}
+          grade={grade}
+          cramMode={mockCramMode}
+          onClose={() => setMockExamOpen(false)}
+        />
       )}
     </>
   );
 }
 
-function range(a, b) {
-  const r = [];
-  for (let i = a; i <= b; i++) r.push(i);
-  return r;
-}

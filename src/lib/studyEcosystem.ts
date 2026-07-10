@@ -8,6 +8,12 @@ import {
   type LearningPathStep,
 } from '@/lib/learnerProfile';
 import { type ActivityEntry } from '@/lib/studyActivity';
+import {
+  boardLabel,
+  daysUntilExam,
+  getThisWeekFocus,
+} from '@/lib/curriculum';
+import { buildAdaptivePlan, type AdaptivePlan } from '@/lib/adaptiveLearning';
 
 export type { ActivityEntry };
 
@@ -27,6 +33,10 @@ export type EcosystemBrief = {
   learningPath: LearningPathStep[];
   dailyProgress: number;
   suggestions: string[];
+  weekFocus: string[];
+  examDaysLeft: number | null;
+  boardLabel: string | null;
+  adaptivePlan: AdaptivePlan;
 };
 
 function todayUsDate(): string {
@@ -108,6 +118,34 @@ export function buildEcosystemBrief(
     suggestions.push('Run a mock paper under timed conditions');
   }
 
+  const { curriculum } = profile;
+  const examDaysLeft = daysUntilExam(curriculum.examDate);
+  if (examDaysLeft !== null && examDaysLeft >= 0 && examDaysLeft <= 21) {
+    suggestions.unshift(
+      `${examDaysLeft} day${examDaysLeft === 1 ? '' : 's'} to exam — run a timed mock and review weak topics`,
+    );
+  }
+  if (curriculum.board && !curriculum.subjects.length) {
+    suggestions.push(`Add your ${boardLabel(curriculum.board)} subjects in settings for personalized paths`);
+  }
+
+  const weekFocus = getThisWeekFocus(curriculum.board, curriculum.subjects, examDaysLeft);
+
+  const adaptivePlan = buildAdaptivePlan({
+    profile,
+    stats,
+    dueFlashcards,
+    examDaysLeft,
+    todayTaskCount: todayTasks.length,
+  });
+
+  const adaptiveSuggestions = adaptivePlan.recommendations
+    .slice(0, 2)
+    .map((r) => r.title);
+  for (const s of adaptiveSuggestions) {
+    if (!suggestions.includes(s)) suggestions.unshift(s);
+  }
+
   return {
     stats,
     profile,
@@ -118,5 +156,9 @@ export function buildEcosystemBrief(
     learningPath,
     dailyProgress,
     suggestions: suggestions.slice(0, 4),
+    weekFocus,
+    examDaysLeft,
+    boardLabel: boardLabel(curriculum.board),
+    adaptivePlan,
   };
 }

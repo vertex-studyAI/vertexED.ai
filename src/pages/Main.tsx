@@ -1,4 +1,6 @@
 import NeumorphicCard from "@/components/NeumorphicCard";
+import BoardBadge from "@/components/curriculum/BoardBadge";
+import ExamCountdown from "@/components/curriculum/ExamCountdown";
 
 import { Link } from "react-router-dom";
 import React, { useEffect, useRef, useState } from "react";
@@ -8,10 +10,15 @@ import { Flame, Settings as SettingsIcon, Target, TrendingUp, Zap, Brain, FileTe
 import { useAuth } from "@/contexts/AuthContext";
 import { buildEcosystemBrief, type EcosystemBrief } from "@/lib/studyEcosystem";
 import { gradeLevelLabel, studyGoalLabel } from "@/lib/learnerProfile";
+import { getBoardHeroMessage } from "@/lib/curriculum";
 import { listStudyArtifactsDetailed, type StudyArtifact } from "@/lib/userContent";
 import SavedWorkList from "@/components/SavedWorkList";
 import EcosystemPanel from "@/components/EcosystemPanel";
 import ContinueSessionBanner from "@/components/ContinueSessionBanner";
+import AdaptiveLearningPanel from "@/components/AdaptiveLearningPanel";
+import ProgressAnalyticsCard from "@/components/ProgressAnalyticsCard";
+import { getProgressTrend } from "@/lib/progressAnalytics";
+import WeaknessHeatmap from "@/components/WeaknessHeatmap";
 
 type Tile = {
   title: string;
@@ -186,10 +193,16 @@ export default function Main() {
   }, []);
 
   const suggestions = brief?.suggestions ?? [];
+  const weekFocus = brief?.weekFocus ?? [];
   const goalLabel = brief ? studyGoalLabel(brief.profile.studyGoal) : null;
   const gradeLabel = brief ? gradeLevelLabel(brief.profile.gradeLevel) : null;
+  const curriculum = brief?.profile.curriculum;
+  const board = curriculum?.board ?? null;
+  const subjects = curriculum?.subjects ?? [];
   const dueFlashcards = brief?.dueFlashcards ?? 0;
   const stats = brief?.stats ?? null;
+  const heroMessage = getBoardHeroMessage(board);
+  const progressTrend = brief ? getProgressTrend() : null;
 
   return (
     <>
@@ -211,28 +224,47 @@ export default function Main() {
               <TypeAnimation sequence={[700, "Your study ecosystem", 1200, "Learn. Practice. Review. Remember."]} wrapper="span" cursor={false} />
             </h1>
             <p className="mt-4 text-white/70 max-w-2xl leading-relaxed">
-              Everything connects here — notes flow into flashcards, papers into reviews, and progress follows you across every tool.
+              {heroMessage}
             </p>
-            {(goalLabel || gradeLabel) && (
-              <div className="mt-3 flex flex-wrap gap-2">
-                {goalLabel && (
-                  <span className="rounded-full border border-primary/25 bg-primary/10 px-3 py-1 text-xs text-primary">
-                    {goalLabel}
-                  </span>
-                )}
-                {gradeLabel && (
-                  <span className="rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs text-white/55">
-                    {gradeLabel}
-                  </span>
-                )}
-              </div>
+            <div className="mt-3 flex flex-wrap gap-2">
+              {board && <BoardBadge board={board} size="md" />}
+              {goalLabel && (
+                <span className="rounded-full border border-primary/25 bg-primary/10 px-3 py-1 text-xs text-primary">
+                  {goalLabel}
+                </span>
+              )}
+              {gradeLabel && (
+                <span className="rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs text-white/55">
+                  {gradeLabel}
+                </span>
+              )}
+              {subjects.slice(0, 4).map((s) => (
+                <span key={s} className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/60">
+                  {s}
+                </span>
+              ))}
+              {subjects.length > 4 && (
+                <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/45">
+                  +{subjects.length - 4} more
+                </span>
+              )}
+            </div>
+            {!board && (
+              <p className="mt-3 text-xs text-primary/80">
+                <Link to="/user-settings" className="hover:underline">Set your exam board</Link> to personalize tools and learning paths.
+              </p>
             )}
             <p className="mt-3 text-xs text-white/45 max-w-xl">
               Study Zone for deep focus, Learning Hub for your path, Paper Maker and Answer Reviewer for exam prep.
             </p>
           </div>
 
-          <button
+          <div className="shrink-0 flex flex-col gap-3 w-full md:w-56">
+            <ExamCountdown
+              examDate={curriculum?.examDate ?? null}
+              boardLabel={brief?.boardLabel}
+            />
+            <button
             aria-label="Settings"
             title="Settings"
             className="shrink-0 p-3 rounded-2xl glass-tile hover:border-white/30 transition flex items-center justify-center"
@@ -240,6 +272,7 @@ export default function Main() {
           >
             <SettingsIcon size={18} color="white" />
           </button>
+          </div>
         </div>
       </section>
 
@@ -268,6 +301,28 @@ export default function Main() {
       )}
 
       {brief && (
+        <section className="px-6 pb-6 fade-up">
+          <div className="max-w-6xl mx-auto grid gap-6 lg:grid-cols-2">
+            <AdaptiveLearningPanel
+              recommendations={brief.adaptivePlan.recommendations}
+              cramModeActive={brief.adaptivePlan.cramModeActive}
+              estimatedMinutes={brief.adaptivePlan.estimatedMinutesToday}
+            />
+            {progressTrend && <ProgressAnalyticsCard trend={progressTrend} />}
+          </div>
+        </section>
+      )}
+
+      {brief && (
+        <section className="px-6 pb-6 fade-up">
+          <div className="max-w-6xl mx-auto glass-panel p-5">
+            <h2 className="text-sm font-semibold text-white mb-3">Weakness heatmap</h2>
+            <WeaknessHeatmap compact />
+          </div>
+        </section>
+      )}
+
+      {brief && (
         <EcosystemPanel
           todayTasks={brief.todayTasks}
           recentActivity={brief.recentActivity}
@@ -288,6 +343,19 @@ export default function Main() {
               <QuickAction to="/chatbot" icon={<MessageCircle className="h-4 w-4" />} label="Ask AI" />
               <QuickAction to="/study-tools" icon={<BookOpen className="h-4 w-4" />} label="Formulas" />
             </div>
+            {weekFocus.length > 0 && (
+              <div className="mt-4 rounded-xl border border-white/10 bg-white/5 px-4 py-3">
+                <p className="text-xs uppercase tracking-widest text-white/45 mb-2">This week&apos;s focus</p>
+                <ul className="space-y-1.5 text-sm text-white/75">
+                  {weekFocus.map((item) => (
+                    <li key={item} className="flex items-start gap-2">
+                      <span className="text-primary mt-0.5">→</span>
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
             {suggestions.length > 0 && (
               <ul className="mt-4 space-y-1.5 text-sm text-white/65">
                 {suggestions.map((tip) => (

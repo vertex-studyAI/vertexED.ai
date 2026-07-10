@@ -1,4 +1,5 @@
 import { verifyAuthUser, readJsonBody, rejectOversizedJsonBody } from './_lib/auth.js';
+import { rateLimitUserEndpoint } from './_lib/rateLimit.js';
 
 function parseJsonBody(req) {
   let body = req.body ?? {};
@@ -75,6 +76,9 @@ async function handleGenerate(body, apiKey, res) {
     frqLength = "short",
     examStyle = "Generic",
     mcqOptionCount = 4,
+    adaptiveTopics = [],
+    board = null,
+    subjects = [],
   } = body ?? {};
 
   if (!notes || !String(notes).trim()) {
@@ -84,12 +88,20 @@ async function handleGenerate(body, apiKey, res) {
   const optionCount = Math.max(2, Math.min(5, Number(mcqOptionCount) || 4));
   const counts = questionCounts(frqLength);
 
+  const adaptiveHint =
+    quizType === "Adaptive Learning" && Array.isArray(adaptiveTopics) && adaptiveTopics.length
+      ? `\nPrioritize these weak/high-yield topics: ${adaptiveTopics.join(", ")}.`
+      : "";
+  const boardHint = board
+    ? `\nStudent board: ${board}. Subjects: ${(subjects || []).join(", ") || "general"}. Use board-appropriate command terms.`
+    : "";
+
   const prompt = `Generate a quiz from the study notes below.
 
 Quiz style: ${quizType}
 Difficulty: ${difficulty}
 Exam style: ${examStyle}
-FRQ length preference: ${frqLength}
+FRQ length preference: ${frqLength}${adaptiveHint}${boardHint}
 
 Create exactly ${counts.mcq} multiple_choice questions, ${counts.frq} frq questions, and ${counts.interactive} interactive questions.
 Each multiple_choice question must include exactly ${optionCount} choices in "choices".
@@ -191,6 +203,7 @@ export default async function handler(req, res) {
 
   const user = await verifyAuthUser(req, res);
   if (!user) return;
+  if (!rateLimitUserEndpoint(user.id, 'quiz', res)) return;
 
   if (rejectOversizedJsonBody(req, res)) return;
 

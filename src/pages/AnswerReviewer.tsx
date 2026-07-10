@@ -5,8 +5,18 @@ import NeumorphicCard from "@/components/NeumorphicCard";
 import { authFetch } from "@/lib/apiAuth";
 import { setChatHandoff, saveStudyArtifact, consumeArtifactRestore } from "@/lib/userContent";
 import { recordStudySession } from "@/lib/studyStats";
-import { logStudyActivity } from "@/lib/studyActivity";
+import { consumeMockReviewHandoff } from "@/lib/examFlow";
+import { recordWeakness } from "@/lib/weaknessTracker";
 import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
+import {
+  boardToApiLabel,
+  getGradesForBoard,
+  getSubjectsForBoard,
+  BOARD_CONFIGS,
+  EXAM_BOARDS,
+} from "@/lib/curriculum";
+import type { ExamBoard } from "@/types/curriculum";
 import ReactMarkdown from "react-markdown";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
@@ -42,10 +52,6 @@ const initialFormState: FormState = {
   additional: "",
   strictness: "5",
 };
-
-const curriculumOptions = ["IB", "IGCSE", "CBSE", "AP"];
-const subjectOptions = ["Math", "Physics", "Chemistry", "Biology", "Economics", "History", "English", "Computer Science", "Business"];
-const gradeOptions = ["9", "10", "11", "12"];
 
 const safeText = (value: unknown) => {
   if (typeof value === "string") return value;
@@ -115,6 +121,8 @@ function uniqueId() {
 
 export default function AIAnswerReview() {
   const navigate = useNavigate();
+  const { user } = useAuth();
+  const [board, setBoard] = useState<ExamBoard | "">("");
   const [formData, setFormData] = useState<FormState>(initialFormState);
   const [questionImages, setQuestionImages] = useState<Attachment[]>([]);
   const [answerImages, setAnswerImages] = useState<Attachment[]>([]);
@@ -131,6 +139,33 @@ export default function AIAnswerReview() {
   const responseRef = useRef<HTMLDivElement | null>(null);
   const fileInputQuestionRef = useRef<HTMLInputElement | null>(null);
   const fileInputAnswerRef = useRef<HTMLInputElement | null>(null);
+
+  const gradeNum = formData.grade ? parseInt(formData.grade, 10) : null;
+  const subjectOptions = useMemo(
+    () => (board ? getSubjectsForBoard(board, gradeNum) : []),
+    [board, gradeNum],
+  );
+  const gradeOptions = useMemo(
+    () => (board ? getGradesForBoard(board).map(String) : []),
+    [board],
+  );
+
+  useEffect(() => {
+    const pref = user?.user_metadata;
+    if (!pref) return;
+    const rawBoard = pref.board ?? (pref.preferences as Record<string, unknown> | undefined)?.board;
+    if (typeof rawBoard === "string" && EXAM_BOARDS.includes(rawBoard as ExamBoard)) {
+      const b = rawBoard as ExamBoard;
+      setBoard(b);
+      setFormData((prev) => ({ ...prev, curriculum: boardToApiLabel(b) }));
+    }
+    const rawGrade = pref.grade ?? (pref.preferences as Record<string, unknown> | undefined)?.grade;
+    if (rawGrade) setFormData((prev) => ({ ...prev, grade: String(rawGrade) }));
+    const rawSubjects = pref.subjects ?? (pref.preferences as Record<string, unknown> | undefined)?.subjects;
+    if (Array.isArray(rawSubjects) && rawSubjects[0]) {
+      setFormData((prev) => ({ ...prev, subject: String(rawSubjects[0]) }));
+    }
+  }, [user]);
 
   useEffect(() => {
     if (responseRef.current) {
@@ -168,6 +203,24 @@ export default function AIAnswerReview() {
       return;
     }
 
+    const handoff = consumeMockReviewHandoff();
+    if (handoff?.questions?.length) {
+      const questionText = handoff.questions
+        .map((q, i) => `${i + 1}. ${q.question}`)
+        .join("\n\n");
+      setFormData((prev) => ({
+        ...prev,
+        curriculum: handoff.boardLabel ?? prev.curriculum,
+        subject: handoff.subject || prev.subject,
+        grade: handoff.grade ? String(handoff.grade) : prev.grade,
+        question: `Mock exam: ${handoff.paperTitle || "Practice paper"}\n\n${questionText}`,
+        additional: "Imported from Paper Maker mock exam.",
+      }));
+      if (handoff.board) setBoard(handoff.board);
+      setExamImportNote("Mock paper imported — add your answers and submit for rubric feedback.");
+      return;
+    }
+
     const raw = sessionStorage.getItem("vertex_exam_answers");
     if (!raw) return;
     sessionStorage.removeItem("vertex_exam_answers");
@@ -176,6 +229,7 @@ export default function AIAnswerReview() {
         paperTitle?: string;
         questions?: { id?: string; question?: string }[];
         answers?: Record<string, string>;
+        rubricNotes?: string[];
       };
       const questions = data.questions ?? [];
       const questionText = questions
@@ -192,7 +246,12 @@ export default function AIAnswerReview() {
         ...prev,
         question: `Mock exam: ${data.paperTitle || "Practice paper"}\n\n${questionText}`,
         answer: answerText,
-        additional: "Imported from timed mock exam in Paper Maker.",
+        additional: [
+          "Imported from timed mock exam in Paper Maker.",
+          data.rubricNotes?.length
+            ? `\nMark scheme notes:\n${data.rubricNotes.map((n) => `• ${n}`).join("\n")}`
+            : "",
+        ].join(""),
       }));
       setExamImportNote("Mock exam answers imported — run a review when you're ready.");
     } catch {
@@ -358,6 +417,17 @@ export default function AIAnswerReview() {
             setSavedPost(true);
             recordStudySession();
             logStudyActivity(`Reviewed ${formData.subject || "answer"} with AI feedback`);
+            const maxMarks = parseInt(formData.marks, 10) || 10;
+            const scoreMatch = out.match(/(\d+)\s*\/\s*(\d+)/);
+            const score = scoreMatch ? parseInt(scoreMatch[1], 10) : Math.round(maxMarks * 0.6);
+            recordWeakness({
+              topic: formData.question.slice(0, 80) || "General",
+              subject: formData.subject || "Unknown",
+              board: formData.curriculum,
+              score,
+              maxScore: scoreMatch ? parseInt(scoreMatch[2], 10) : maxMarks,
+              source: "review",
+            });
           }
         }
       } catch (err) {
@@ -463,12 +533,23 @@ export default function AIAnswerReview() {
                     <label className="mb-2 block text-sm font-medium text-white/80">Curriculum</label>
                     <select
                       name="curriculum"
-                      value={formData.curriculum}
-                      onChange={handleChange}
+                      value={board}
+                      onChange={(e) => {
+                        const next = e.target.value as ExamBoard | "";
+                        setBoard(next);
+                        setFormData((prev) => ({
+                          ...prev,
+                          curriculum: next ? boardToApiLabel(next) : "",
+                          subject: "",
+                          grade: "",
+                        }));
+                      }}
                       className="w-full rounded-2xl border border-white/10 bg-[#071126] p-3 text-white shadow-inner outline-none transition focus:ring-2 focus:ring-sky-500"
                     >
                       <option value="">Select curriculum</option>
-                      {curriculumOptions.map((opt) => <option key={opt} value={opt}>{opt}</option>)}
+                      {EXAM_BOARDS.map((b) => (
+                        <option key={b} value={b}>{BOARD_CONFIGS[b].label}</option>
+                      ))}
                     </select>
                   </div>
 

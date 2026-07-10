@@ -442,3 +442,42 @@ All colors MUST be HSL.
 body.study-focus-mode {
   background: radial-gradient(ellipse at top, hsl(216 28% 12%) 0%, hsl(216 22% 8%) 45%, hsl(216 20% 6%) 100%);
 }
+
+/* Phase 3: Accessibility modes */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+html.high-contrast {
+  --foreground: 0 0% 100%;
+  --muted-foreground: 0 0% 85%;
+  --glass-bg: 216 22% 4%;
+  --glass-border: 199 60% 60%;
+}
+
+html.high-contrast .glass-panel,
+html.high-contrast .glass-tile {
+  border-color: hsl(199 60% 60% / 0.5);
+  background: hsl(216 22% 6% / 0.95);
+}
+
+html.dyslexia-font body {
+  font-family: "OpenDyslexic", "Comic Sans MS", Sen, system-ui, sans-serif;
+}
+
+html[data-font-size="large"] body {
+  font-size: 18px;
+}
+
+html[data-font-size="xlarge"] body {
+  font-size: 20px;
+}
+
+html.simple-mode .tile-wrapper:nth-child(n+7) {
+  display: none;
+}

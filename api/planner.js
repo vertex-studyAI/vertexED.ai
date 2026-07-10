@@ -1,5 +1,6 @@
 import { GoogleGenAI } from '@google/genai';
 import { verifyAuthUser, readJsonBody, rejectOversizedJsonBody } from './_lib/auth.js';
+import { rateLimitUserEndpoint } from './_lib/rateLimit.js';
 
 const TRY_MODELS = [
   'gemini-2.5-flash',
@@ -50,6 +51,66 @@ function extractText(resp) {
   );
 }
 
+async function handleWeekPlan(body, apiKey, res) {
+  const weaknesses = Array.isArray(body.weaknesses) ? body.weaknesses : [];
+  const subjects = Array.isArray(body.subjects) ? body.subjects : [];
+  const examDaysLeft = body.examDaysLeft ?? null;
+  const existingTasks = Array.isArray(body.existingTasks) ? body.existingTasks : [];
+  const hoursPerDay = clamp(Number(body.hoursPerDay) || 2, 1, 6);
+
+  const now = new Date();
+  const currentDate = now.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  });
+
+  const sysPrompt = `You are a study planner. Create a realistic 7-day study plan as JSON array.
+Each task: { "task name", "start time" (hh:mm AM/PM), "task duration" (minutes), "end time", "date" (MM/DD/YYYY), "tag" }.
+Student has ~${hoursPerDay} hours/day. Exam in ${examDaysLeft ?? 'unknown'} days.
+Weak topics: ${weaknesses.join(', ') || 'none yet'}.
+Subjects: ${subjects.join(', ') || 'general'}.
+Avoid overlaps with: ${JSON.stringify(existingTasks)}.
+Balance: learn → practice → review → flashcards. Return ONLY JSON: { "tasks": [...] }`;
+
+  const client = new GoogleGenAI({ apiKey });
+  try {
+    const resp = await client.models.generateContent({
+      model: TRY_MODELS[0],
+      contents: sysPrompt,
+      generationConfig: { responseMimeType: 'application/json' },
+    });
+    const text = extractText(resp);
+    let raw;
+    try {
+      raw = JSON.parse(text);
+    } catch {
+      const s = text.indexOf('{');
+      const e = text.lastIndexOf('}') + 1;
+      raw = JSON.parse(text.slice(s, e));
+    }
+    const tasks = (Array.isArray(raw?.tasks) ? raw.tasks : []).map((t) => {
+      const name = String(t['task name'] || t.taskName || 'Study block').trim();
+      const dateStr = String(t.date || currentDate);
+      const start = String(t['start time'] || t.startTime || '05:00 PM');
+      const dur = clamp(parseInt(String(t['task duration'] || t.taskDuration || 45), 10) || 45, 15, 120);
+      const startMin = toMinutes(start);
+      return {
+        'task name': name,
+        date: dateStr,
+        'start time': start,
+        'task duration': dur,
+        'end time': toTime12(startMin + dur),
+        tag: String(t.tag || 'Study'),
+      };
+    });
+    return res.status(200).json({ tasks });
+  } catch (e) {
+    console.error('Week plan error:', e);
+    return res.status(500).json({ error: e?.message || 'Failed to generate week plan' });
+  }
+}
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
@@ -57,6 +118,7 @@ export default async function handler(req, res) {
 
   const user = await verifyAuthUser(req, res);
   if (!user) return;
+  if (!rateLimitUserEndpoint(user.id, 'planner', res)) return;
 
   if (rejectOversizedJsonBody(req, res)) return;
 
@@ -66,6 +128,12 @@ export default async function handler(req, res) {
   }
 
   const body = readJsonBody(req);
+  const mode = String(body.mode || 'single').trim();
+
+  if (mode === 'week') {
+    return handleWeekPlan(body, apiKey, res);
+  }
+
   const prompt = String(body.prompt || '').trim();
   const tags = Array.isArray(body.tags) ? body.tags.map(String) : [];
   const existingTasks = Array.isArray(body.existingTasks) ? body.existingTasks : [];

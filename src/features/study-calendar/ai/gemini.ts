@@ -32,3 +32,24 @@ export async function textToTask(
 
   return data as PlannerTask;
 }
+
+export type WeekPlanInput = {
+  weaknesses: string[];
+  subjects: string[];
+  examDaysLeft: number | null;
+  hoursPerDay?: number;
+  existingTasks: unknown[];
+};
+
+export async function suggestWeekPlan(input: WeekPlanInput): Promise<PlannerTask[]> {
+  const res = await authFetch('/api/planner', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ mode: 'week', ...input }),
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) {
+    throw new Error(typeof data?.error === 'string' ? data.error : `Week plan failed (${res.status})`);
+  }
+  return Array.isArray(data.tasks) ? data.tasks : [];
+}

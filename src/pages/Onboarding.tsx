@@ -3,7 +3,10 @@ import { useEffect, useMemo, useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import PageSection from "@/components/PageSection";
+import CurriculumSelector from "@/components/curriculum/CurriculumSelector";
 import { supabase } from "@/lib/supabaseClient";
+import { buildCurriculumMetadata } from "@/lib/curriculum";
+import type { CurriculumPreference } from "@/types/curriculum";
 
 const USERNAME_REGEX = /^([a-zA-Z0-9_.-]{3,20})$/;
 
@@ -24,10 +27,17 @@ const gradeOptions: Array<{ value: Exclude<GradeLevel, "">; label: string }> = [
   { value: "other", label: "Other" },
 ];
 
+const emptyCurriculum: CurriculumPreference = {
+  board: null,
+  grade: null,
+  subjects: [],
+  examDate: null,
+};
+
 function getErrorMessage(err: unknown) {
   if (typeof err === "string") return err;
-  if (err && typeof err === "object" && "message" in err && typeof (err as any).message === "string") {
-    return (err as any).message;
+  if (err && typeof err === "object" && "message" in err && typeof (err as { message: unknown }).message === "string") {
+    return (err as { message: string }).message;
   }
   return "Could not save. Try again.";
 }
@@ -36,9 +46,11 @@ export default function Onboarding() {
   const { user } = useAuth();
   const navigate = useNavigate();
 
+  const [step, setStep] = useState(1);
   const [username, setUsername] = useState("");
   const [studyGoal, setStudyGoal] = useState<StudyGoal>("");
   const [gradeLevel, setGradeLevel] = useState<GradeLevel>("");
+  const [curriculum, setCurriculum] = useState<CurriculumPreference>(emptyCurriculum);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [redirecting, setRedirecting] = useState(false);
@@ -59,7 +71,8 @@ export default function Onboarding() {
   const trimmedUsername = username.trim();
   const usernameValid = USERNAME_REGEX.test(trimmedUsername);
   const usernameLength = trimmedUsername.length;
-  const canSave = usernameValid && !loading && !redirecting;
+  const canAdvanceStep1 = usernameValid && !loading && !redirecting;
+  const canSave = canAdvanceStep1 && !loading && !redirecting;
 
   const helperText = useMemo(() => {
     if (!trimmedUsername) return "Pick something that feels like you.";
@@ -89,22 +102,22 @@ export default function Onboarding() {
         throw new Error("Auth is disabled: Supabase not configured.");
       }
 
-      const metadata: Record<string, any> = {
+      let metadata: Record<string, unknown> = {
         ...(user?.user_metadata ?? {}),
         username: trimmedUsername,
       };
 
       if (withPreferences) {
-        if (studyGoal) {
-          metadata.study_goal = studyGoal;
-        }
-        if (gradeLevel) {
-          metadata.grade_level = gradeLevel;
-        }
-        const prefs: Record<string, any> = {};
+        if (studyGoal) metadata.study_goal = studyGoal;
+        if (gradeLevel) metadata.grade_level = gradeLevel;
+        const prefs: Record<string, unknown> = {};
         if (studyGoal) prefs.studyGoal = studyGoal;
         if (gradeLevel) prefs.gradeLevel = gradeLevel;
         if (Object.keys(prefs).length > 0) metadata.preferences = prefs;
+
+        if (curriculum.board) {
+          metadata = buildCurriculumMetadata(curriculum, metadata);
+        }
       }
 
       const { error: updErr } = await supabase.auth.updateUser({ data: metadata });
@@ -123,7 +136,7 @@ export default function Onboarding() {
     return (
       <>
         <Helmet>
-          <title>Welcome — Let’s personalize</title>
+          <title>Welcome — Let's personalize</title>
           <meta name="robots" content="noindex, nofollow" />
         </Helmet>
         <PageSection className="relative min-h-[70vh] flex items-center justify-center px-4">
@@ -140,7 +153,7 @@ export default function Onboarding() {
   return (
     <>
       <Helmet>
-        <title>Welcome — Let’s personalize</title>
+        <title>Welcome — Let's personalize</title>
         <meta name="robots" content="noindex, nofollow" />
       </Helmet>
 
@@ -149,136 +162,183 @@ export default function Onboarding() {
 
         <div className="relative mx-auto w-full max-w-2xl">
           <div className="glass-panel p-6 md:p-10">
-            <div className="mb-8 text-center">
-              <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl border border-white/15 bg-white/10 text-2xl text-white">
-                ✦
-              </div>
-              <h1 className="text-3xl font-semibold tracking-tight text-white md:text-4xl">Choose your username</h1>
-              <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-white/70 md:text-base">
-                This is how we'll greet you and remember your preferences. Make it yours.
-              </p>
+            <div className="mb-6 flex items-center justify-center gap-2">
+              {[1, 2].map((s) => (
+                <div
+                  key={s}
+                  className={`h-1.5 w-12 rounded-full transition ${step >= s ? "bg-primary" : "bg-white/20"}`}
+                  aria-hidden
+                />
+              ))}
             </div>
 
-            <form
-              className="space-y-6"
-              onSubmit={(e) => {
-                e.preventDefault();
-                void save(true);
-              }}
-            >
-              <div>
-                <label htmlFor="username" className="mb-2 block text-sm font-medium text-white/80">
-                  Username
-                </label>
-                <div className="rounded-2xl border border-white/15 bg-black/20 p-1">
-                  <input
-                    id="username"
-                    aria-label="Username"
-                    aria-invalid={touched && !usernameValid}
-                    aria-describedby="username-help username-error"
-                    autoComplete="username"
-                    autoCapitalize="none"
-                    autoCorrect="off"
-                    spellCheck={false}
-                    placeholder="Pick a username"
-                    className="w-full rounded-xl bg-transparent px-4 py-3 text-white outline-none placeholder:text-white/35"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    onBlur={() => setTouched(true)}
-                    maxLength={20}
-                  />
-                </div>
-                <div className="mt-2 flex items-center justify-between gap-3 text-xs text-white/55" id="username-help">
-                  <span>{helperText}</span>
-                  <span>{usernameLength}/20</span>
-                </div>
-                {touched && !usernameValid && trimmedUsername.length > 0 && (
-                  <p id="username-error" className="mt-2 text-sm text-red-300">
-                    Usernames must be 3-20 characters and may include letters, numbers, underscores, dots, and hyphens.
+            {step === 1 && (
+              <>
+                <div className="mb-8 text-center">
+                  <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl border border-white/15 bg-white/10 text-2xl text-white">
+                    ✦
+                  </div>
+                  <h1 className="text-3xl font-semibold tracking-tight text-white md:text-4xl">Choose your username</h1>
+                  <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-white/70 md:text-base">
+                    This is how we'll greet you across every tool. Make it yours.
                   </p>
-                )}
-              </div>
+                </div>
 
-              <details className="group rounded-2xl border border-white/15 bg-white/8 p-5 transition hover:bg-white/12">
-                <summary className="cursor-pointer select-none list-none text-sm font-medium text-white/85">
-                  <span className="flex items-center justify-between gap-3">
-                    <span>Optional preferences</span>
-                    <span className="text-white/45 transition group-open:rotate-180">⌄</span>
-                  </span>
-                </summary>
-
-                <div className="mt-5 grid gap-4 md:grid-cols-2">
+                <form
+                  className="space-y-6"
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    if (canAdvanceStep1) setStep(2);
+                  }}
+                >
                   <div>
-                    <label className="mb-2 block text-sm text-white/75">Study goal</label>
+                    <label htmlFor="username" className="mb-2 block text-sm font-medium text-white/80">
+                      Username
+                    </label>
                     <div className="rounded-2xl border border-white/15 bg-black/20 p-1">
-                      <select
-                        className="w-full rounded-xl bg-transparent px-4 py-3 text-white outline-none"
-                        value={studyGoal}
-                        onChange={(e) => setStudyGoal(e.target.value as StudyGoal)}
-                      >
-                        <option value="">Select one (optional)</option>
-                        {goalOptions.map((opt) => (
-                          <option key={opt.value} value={opt.value}>
-                            {opt.label}
-                          </option>
-                        ))}
-                      </select>
+                      <input
+                        id="username"
+                        aria-label="Username"
+                        aria-invalid={touched && !usernameValid}
+                        aria-describedby="username-help username-error"
+                        autoComplete="username"
+                        autoCapitalize="none"
+                        autoCorrect="off"
+                        spellCheck={false}
+                        placeholder="Pick a username"
+                        className="w-full rounded-xl bg-transparent px-4 py-3 text-white outline-none placeholder:text-white/35"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                        onBlur={() => setTouched(true)}
+                        maxLength={20}
+                      />
                     </div>
-                    {studyGoal && (
-                      <p className="mt-2 text-xs text-white/50">
-                        {goalOptions.find((g) => g.value === studyGoal)?.detail}
+                    <div className="mt-2 flex items-center justify-between gap-3 text-xs text-white/55" id="username-help">
+                      <span>{helperText}</span>
+                      <span>{usernameLength}/20</span>
+                    </div>
+                    {touched && !usernameValid && trimmedUsername.length > 0 && (
+                      <p id="username-error" className="mt-2 text-sm text-red-300">
+                        Usernames must be 3-20 characters and may include letters, numbers, underscores, dots, and hyphens.
                       </p>
                     )}
                   </div>
 
-                  <div>
-                    <label className="mb-2 block text-sm text-white/75">Grade level</label>
-                    <div className="rounded-2xl border border-white/15 bg-black/20 p-1">
-                      <select
-                        className="w-full rounded-xl bg-transparent px-4 py-3 text-white outline-none"
-                        value={gradeLevel}
-                        onChange={(e) => setGradeLevel(e.target.value as GradeLevel)}
-                      >
-                        <option value="">Select (optional)</option>
-                        {gradeOptions.map((opt) => (
-                          <option key={opt.value} value={opt.value}>
-                            {opt.label}
-                          </option>
-                        ))}
-                      </select>
+                  {error && (
+                    <div className="rounded-2xl border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm text-red-100">
+                      {error}
+                    </div>
+                  )}
+
+                  <button
+                    type="submit"
+                    disabled={!canAdvanceStep1}
+                    className="w-full rounded-2xl bg-white px-5 py-3 font-semibold text-slate-950 transition hover:translate-y-[-1px] hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-50"
+                  >
+                    Continue
+                  </button>
+                </form>
+              </>
+            )}
+
+            {step === 2 && (
+              <>
+                <div className="mb-8 text-center">
+                  <h1 className="text-3xl font-semibold tracking-tight text-white md:text-4xl">Set up your curriculum</h1>
+                  <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-white/70 md:text-base">
+                    Pick your board once — dashboard, tools, and AI responses will match your exam path.
+                  </p>
+                </div>
+
+                <form
+                  className="space-y-6"
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    void save(true);
+                  }}
+                >
+                  <CurriculumSelector
+                    value={curriculum}
+                    onChange={setCurriculum}
+                    showExamDate
+                    showSubjects
+                  />
+
+                  <div className="grid gap-4 md:grid-cols-2">
+                    <div>
+                      <label className="mb-2 block text-sm text-white/75">Study goal</label>
+                      <div className="rounded-2xl border border-white/15 bg-black/20 p-1">
+                        <select
+                          className="w-full rounded-xl bg-transparent px-4 py-3 text-white outline-none"
+                          value={studyGoal}
+                          onChange={(e) => setStudyGoal(e.target.value as StudyGoal)}
+                        >
+                          <option value="">Select one (optional)</option>
+                          {goalOptions.map((opt) => (
+                            <option key={opt.value} value={opt.value}>
+                              {opt.label}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="mb-2 block text-sm text-white/75">Grade level</label>
+                      <div className="rounded-2xl border border-white/15 bg-black/20 p-1">
+                        <select
+                          className="w-full rounded-xl bg-transparent px-4 py-3 text-white outline-none"
+                          value={gradeLevel}
+                          onChange={(e) => setGradeLevel(e.target.value as GradeLevel)}
+                        >
+                          <option value="">Select (optional)</option>
+                          {gradeOptions.map((opt) => (
+                            <option key={opt.value} value={opt.value}>
+                              {opt.label}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </details>
 
-              {error && (
-                <div className="rounded-2xl border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm text-red-100">
-                  {error}
-                </div>
-              )}
+                  {error && (
+                    <div className="rounded-2xl border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm text-red-100">
+                      {error}
+                    </div>
+                  )}
 
-              <div className="flex flex-col gap-3 sm:flex-row">
-                <button
-                  type="button"
-                  onClick={() => save(false)}
-                  disabled={!canSave}
-                  className="w-full rounded-2xl border border-white/20 bg-white/10 px-5 py-3 font-medium text-white transition hover:bg-white/15 disabled:cursor-not-allowed disabled:opacity-50"
-                >
-                  {loading ? "Saving…" : "Skip personalization"}
-                </button>
-                <button
-                  type="submit"
-                  disabled={!canSave}
-                  className="w-full rounded-2xl bg-white px-5 py-3 font-semibold text-slate-950 transition hover:translate-y-[-1px] hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-50"
-                >
-                  {loading ? "Saving…" : "Save and continue"}
-                </button>
-              </div>
+                  <div className="flex flex-col gap-3 sm:flex-row">
+                    <button
+                      type="button"
+                      onClick={() => setStep(1)}
+                      className="w-full rounded-2xl border border-white/20 bg-white/10 px-5 py-3 font-medium text-white transition hover:bg-white/15"
+                    >
+                      Back
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => save(false)}
+                      disabled={!canSave}
+                      className="w-full rounded-2xl border border-white/20 bg-white/10 px-5 py-3 font-medium text-white transition hover:bg-white/15 disabled:cursor-not-allowed disabled:opacity-50"
+                    >
+                      {loading ? "Saving…" : "Skip curriculum"}
+                    </button>
+                    <button
+                      type="submit"
+                      disabled={!canSave}
+                      className="w-full rounded-2xl bg-white px-5 py-3 font-semibold text-slate-950 transition hover:translate-y-[-1px] hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-50"
+                    >
+                      {loading ? "Saving…" : "Save and continue"}
+                    </button>
+                  </div>
 
-              <p className="text-center text-xs leading-relaxed text-white/50">
-                Don't worry — you can change any of this later in settings.
-              </p>
-            </form>
+                  <p className="text-center text-xs leading-relaxed text-white/50">
+                    You can change your board and subjects anytime in settings.
+                  </p>
+                </form>
+              </>
+            )}
           </div>
         </div>
       </PageSection>

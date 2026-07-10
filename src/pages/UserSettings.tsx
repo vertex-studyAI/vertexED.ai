@@ -1,13 +1,20 @@
 import { Helmet } from "react-helmet-async";
 import NeumorphicCard from "@/components/NeumorphicCard";
 import SavedWorkList, { ArtifactKindFilter } from "@/components/SavedWorkList";
+import CurriculumSelector from "@/components/curriculum/CurriculumSelector";
+import BoardBadge from "@/components/curriculum/BoardBadge";
 import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
-import { User, LogOut, Settings, RefreshCw, AlertTriangle } from "lucide-react";
+import { User, LogOut, Settings, RefreshCw, AlertTriangle, Save } from "lucide-react";
 import PageSection from "@/components/PageSection";
 import { useEffect, useState } from "react";
 import { getStudyStats } from "@/lib/studyStats";
 import { getLearnerProfile, gradeLevelLabel, studyGoalLabel } from "@/lib/learnerProfile";
+import { buildCurriculumMetadata } from "@/lib/curriculum";
+import type { CurriculumPreference } from "@/types/curriculum";
+import { supabase } from "@/lib/supabaseClient";
+import { toast } from "@/hooks/use-toast";
+import { useAccessibility } from "@/hooks/useAccessibility";
 import {
   listStudyArtifacts,
   listStudyArtifactsDetailed,
@@ -36,6 +43,29 @@ export default function UserSettings() {
   const [artifactError, setArtifactError] = useState<string | null>(null);
   const [cloudUnavailable, setCloudUnavailable] = useState(false);
   const [kindFilter, setKindFilter] = useState<StudyArtifactKind | "all">("all");
+  const learnerProfile = getLearnerProfile(user);
+  const [curriculum, setCurriculum] = useState<CurriculumPreference>(learnerProfile.curriculum);
+  const [savingCurriculum, setSavingCurriculum] = useState(false);
+  const { settings: a11y, update: updateA11y } = useAccessibility();
+
+  useEffect(() => {
+    setCurriculum(getLearnerProfile(user).curriculum);
+  }, [user]);
+
+  const saveCurriculum = async () => {
+    if (!supabase) return;
+    setSavingCurriculum(true);
+    try {
+      const metadata = buildCurriculumMetadata(curriculum, user?.user_metadata ?? {});
+      const { error } = await supabase.auth.updateUser({ data: metadata });
+      if (error) throw error;
+      toast({ title: "Curriculum saved", description: "Your board and subjects are updated across all tools." });
+    } catch (e) {
+      toast({ title: "Could not save", description: e instanceof Error ? e.message : "Try again.", variant: "destructive" });
+    } finally {
+      setSavingCurriculum(false);
+    }
+  };
 
   const loadArtifacts = async () => {
     setLoadingArtifacts(true);
@@ -79,6 +109,7 @@ export default function UserSettings() {
         email: user?.email ?? null,
         studyGoal: learner.studyGoal,
         gradeLevel: learner.gradeLevel,
+        curriculum: learner.curriculum,
         memberSince: profile?.created_at ?? user?.created_at ?? null,
         profileName: profile?.full_name ?? null,
       },
@@ -103,7 +134,6 @@ export default function UserSettings() {
     "Student";
 
   const memberSince = formatMemberSince(profile?.created_at ?? user?.created_at);
-  const learnerProfile = getLearnerProfile(user);
   const studyGoal = studyGoalLabel(learnerProfile.studyGoal) || "—";
   const gradeLevel = gradeLevelLabel(learnerProfile.gradeLevel) || "—";
 
@@ -135,6 +165,16 @@ export default function UserSettings() {
             </div>
 
             <div className="space-y-4 text-sm opacity-80">
+              <div className="flex justify-between gap-4 items-center">
+                <span>Exam board:</span>
+                <span className="text-right">
+                  {learnerProfile.curriculum.board ? (
+                    <BoardBadge board={learnerProfile.curriculum.board} />
+                  ) : (
+                    "—"
+                  )}
+                </span>
+              </div>
               <div className="flex justify-between gap-4">
                 <span>Study goal:</span>
                 <span className="text-right">{studyGoal}</span>
@@ -146,6 +186,55 @@ export default function UserSettings() {
               <div className="flex justify-between gap-4">
                 <span>Member since:</span>
                 <span className="text-right">{memberSince}</span>
+              </div>
+            </div>
+          </NeumorphicCard>
+
+          <NeumorphicCard className="p-8" title="Curriculum Preferences">
+            <p className="text-sm text-muted-foreground mb-5">
+              Your board drives tool defaults, learning paths, and AI terminology across Vertex.
+            </p>
+            <CurriculumSelector
+              value={curriculum}
+              onChange={setCurriculum}
+              showExamDate
+              showSubjects
+            />
+            <button
+              onClick={() => void saveCurriculum()}
+              disabled={savingCurriculum}
+              className="mt-6 neu-button inline-flex items-center gap-2"
+            >
+              <Save className="h-4 w-4" />
+              {savingCurriculum ? "Saving…" : "Save curriculum"}
+            </button>
+          </NeumorphicCard>
+
+          <NeumorphicCard className="p-8" title="Accessibility">
+            <div className="space-y-4 text-sm">
+              <label className="flex items-center justify-between gap-4">
+                <span>High contrast mode</span>
+                <input type="checkbox" checked={a11y.highContrast} onChange={(e) => updateA11y({ highContrast: e.target.checked })} />
+              </label>
+              <label className="flex items-center justify-between gap-4">
+                <span>Dyslexia-friendly font</span>
+                <input type="checkbox" checked={a11y.dyslexiaFont} onChange={(e) => updateA11y({ dyslexiaFont: e.target.checked })} />
+              </label>
+              <label className="flex items-center justify-between gap-4">
+                <span>Simple mode (fewer tiles)</span>
+                <input type="checkbox" checked={a11y.simpleMode} onChange={(e) => updateA11y({ simpleMode: e.target.checked })} />
+              </label>
+              <div className="flex items-center justify-between gap-4">
+                <span>Font size</span>
+                <select
+                  className="neu-input-el max-w-[10rem]"
+                  value={a11y.fontSize}
+                  onChange={(e) => updateA11y({ fontSize: e.target.value as typeof a11y.fontSize })}
+                >
+                  <option value="base">Default</option>
+                  <option value="large">Large</option>
+                  <option value="xlarge">Extra large</option>
+                </select>
               </div>
             </div>
           </NeumorphicCard>

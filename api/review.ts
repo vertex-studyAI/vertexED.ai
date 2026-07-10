@@ -762,8 +762,10 @@ export default async function handler(req: any, res: any) {
   }
 
   const { verifyAuthUser } = await import('./_lib/auth.js');
+  const { rateLimitUserEndpoint } = await import('./_lib/rateLimit.js');
   const user = await verifyAuthUser(req, res);
   if (!user) return;
+  if (!rateLimitUserEndpoint(user.id, 'review', res)) return;
 
   if (!process.env.OPENAI_API_KEY && !process.env.ChatbotKey) {
     console.error("No API key found");

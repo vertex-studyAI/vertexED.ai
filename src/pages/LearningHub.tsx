@@ -18,6 +18,9 @@ import {
 
 import PageSection from '@/components/PageSection';
 import NeumorphicCard from '@/components/NeumorphicCard';
+import CramModePanel from '@/components/CramModePanel';
+import AdaptiveLearningPanel from '@/components/AdaptiveLearningPanel';
+import CommandTermsGlossary from '@/components/curriculum/CommandTermsGlossary';
 import { useAuth } from '@/contexts/AuthContext';
 import { buildEcosystemBrief } from '@/lib/studyEcosystem';
 import {
@@ -25,6 +28,7 @@ import {
   studyGoalLabel,
   type LearningPathStep,
 } from '@/lib/learnerProfile';
+import { getTracksForBoard } from '@/lib/curriculum';
 
 const PHASE_STYLES: Record<LearningPathStep['phase'], string> = {
   learn: 'from-sky-500/20 to-blue-600/10 border-sky-400/25',
@@ -33,50 +37,13 @@ const PHASE_STYLES: Record<LearningPathStep['phase'], string> = {
   remember: 'from-emerald-500/20 to-teal-600/10 border-emerald-400/25',
 };
 
-const SUBJECT_TRACKS = [
-  {
-    title: 'English — Language & Literature',
-    to: '/archives-lnl',
-    tools: [
-      { label: 'Exemplars', to: '/archives-lnl' },
-      { label: 'Essay review', to: '/answer-reviewer' },
-      { label: 'AI notes', to: '/notetaker' },
-    ],
-  },
-  {
-    title: 'History',
-    to: '/archives-history',
-    tools: [
-      { label: 'Timelines', to: '/archives-history' },
-      { label: 'Mock paper', to: '/paper-maker' },
-      { label: 'Source review', to: '/answer-reviewer' },
-    ],
-  },
-  {
-    title: 'Geography',
-    to: '/archives-geography',
-    tools: [
-      { label: 'Case studies', to: '/archives-geography' },
-      { label: 'Formulas', to: '/study-tools' },
-      { label: 'Practice quiz', to: '/notetaker' },
-    ],
-  },
-  {
-    title: 'Math & Sciences',
-    to: '/study-tools',
-    tools: [
-      { label: 'Formula sheets', to: '/study-tools' },
-      { label: 'IB Math guide', to: '/resources/ib-math-aa-ai-guide' },
-      { label: 'Mock paper', to: '/paper-maker' },
-    ],
-  },
-];
-
 export default function LearningHub() {
   const { user } = useAuth();
   const brief = buildEcosystemBrief(user);
   const goalLabel = studyGoalLabel(brief.profile.studyGoal);
   const gradeLabel = gradeLevelLabel(brief.profile.gradeLevel);
+  const board = brief.profile.curriculum.board;
+  const subjectTracks = getTracksForBoard(board);
 
   return (
     <>
@@ -101,8 +68,9 @@ export default function LearningHub() {
               <p className="mt-3 text-muted-foreground max-w-2xl">
                 One connected journey across notes, practice, review, and memory — built around how you actually study.
               </p>
-              {(goalLabel || gradeLabel) && (
+              {(goalLabel || gradeLabel || board) && (
                 <div className="mt-4 flex flex-wrap gap-2">
+                  {board && <BoardBadge board={board} />}
                   {goalLabel && (
                     <span className="rounded-full border border-primary/25 bg-primary/10 px-3 py-1 text-xs text-primary">
                       {goalLabel}
@@ -131,6 +99,16 @@ export default function LearningHub() {
             </div>
           </div>
         </header>
+
+        <ExamCountdown examDate={brief.profile.curriculum.examDate} boardLabel={brief.boardLabel} />
+
+        <CramModePanel board={board} examDaysLeft={brief.examDaysLeft} />
+
+        <AdaptiveLearningPanel
+          recommendations={brief.adaptivePlan.recommendations}
+          cramModeActive={brief.adaptivePlan.cramModeActive}
+          estimatedMinutes={brief.adaptivePlan.estimatedMinutesToday}
+        />
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           <HubStat icon={<Flame className="h-4 w-4 text-orange-400" />} label="Streak" value={`${brief.stats.studyStreak}d`} />
@@ -165,12 +143,14 @@ export default function LearningHub() {
           </div>
         </NeumorphicCard>
 
-        <NeumorphicCard className="p-6" title="Subject tracks">
+        <NeumorphicCard className="p-6" title={board ? `${brief.boardLabel} subject tracks` : 'Subject tracks'}>
           <p className="text-sm text-muted-foreground mb-5">
-            Jump into a subject and follow the thread from content to practice.
+            {board
+              ? 'Paths tuned to your exam board — from content to practice.'
+              : 'Set your board in settings for personalized subject tracks.'}
           </p>
           <div className="grid gap-4 md:grid-cols-2">
-            {SUBJECT_TRACKS.map((track) => (
+            {subjectTracks.map((track) => (
               <div key={track.title} className="rounded-xl border border-white/10 bg-white/5 p-4">
                 <Link to={track.to} className="font-medium hover:text-primary transition">
                   {track.title}

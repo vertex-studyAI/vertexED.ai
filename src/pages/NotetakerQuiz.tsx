@@ -27,6 +27,11 @@ import ReactMarkdown from "react-markdown";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { useSearchParams } from "react-router-dom";
+import { getCramDueCards } from "@/lib/srDeck";
+import { getAdaptiveTopicsForQuiz } from "@/lib/adaptiveLearning";
+import { getLearnerProfile } from "@/lib/learnerProfile";
+import { useAuth } from "@/contexts/AuthContext";
 import {
   cardsFromFlashcards,
   dueCards,
@@ -159,6 +164,10 @@ function getApiError(err: unknown) {
 }
 
 export default function NotetakerQuiz(): JSX.Element {
+  const { user } = useAuth();
+  const [searchParams] = useSearchParams();
+  const cramStudy = searchParams.get("cram") === "1";
+  const learner = getLearnerProfile(user);
   const [topic, setTopic] = useState("");
   const [format, setFormat] = useState<(typeof NOTE_FORMATS)[number]>("Quick Notes");
   const [customFormatText, setCustomFormatText] = useState("");
@@ -503,6 +512,15 @@ export default function NotetakerQuiz(): JSX.Element {
 
     setLoading(true);
     try {
+      const adaptiveTopics =
+        quizType === "Adaptive Learning"
+          ? getAdaptiveTopicsForQuiz(
+              learner.curriculum.board,
+              learner.curriculum.subjects,
+              5,
+            )
+          : undefined;
+
       const res = await authFetch("/api/quiz", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -515,6 +533,9 @@ export default function NotetakerQuiz(): JSX.Element {
           gradingLeniency,
           examStyle,
           mcqOptionCount,
+          adaptiveTopics,
+          board: learner.curriculum.board,
+          subjects: learner.curriculum.subjects,
         }),
       });
 
@@ -661,8 +682,8 @@ export default function NotetakerQuiz(): JSX.Element {
 
   const dueCount = useMemo(() => dueCards(srDeck).length, [srDeck]);
 
-  const startStudyMode = () => {
-    const due = dueCards(srDeck);
+  const startStudyMode = (cram = false) => {
+    const due = cram ? getCramDueCards(20) : dueCards(srDeck);
     const queue = due.length ? due : srDeck;
     if (!queue.length) return;
     setStudyQueue(queue);
@@ -671,6 +692,13 @@ export default function NotetakerQuiz(): JSX.Element {
     setStudyModeOpen(true);
     recordStudySession();
   };
+
+  useEffect(() => {
+    if (searchParams.get("mode") !== "study") return;
+    if (!srDeck.length) return;
+    const id = window.setTimeout(() => startStudyMode(cramStudy), 400);
+    return () => window.clearTimeout(id);
+  }, [searchParams, srDeck.length, cramStudy]);
 
   const rateStudyCard = (rating: SrRating) => {
     const current = studyQueue[studyIndex];

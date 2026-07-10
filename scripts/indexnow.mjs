@@ -108,5 +108,10 @@ async function main() {
 
 main().catch((e) => {
   console.error('[IndexNow] Error:', e)
+  // SEO ping must not block production deploys
+  if (process.env.VERCEL || process.env.CI) {
+    console.warn('[IndexNow] Non-fatal in CI/Vercel — continuing build')
+    process.exit(0)
+  }
   process.exit(1)
 })
