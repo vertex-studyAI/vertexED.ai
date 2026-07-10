@@ -11,6 +11,7 @@ import {
 	subtleTextStyle,
 } from "../styles";
 import { recordStudySession } from "@/lib/studyStats";
+import { logStudyActivity } from "@/lib/studyActivity";
 
 type TimerTab = "timer" | "stopwatch" | "pomodoro";
 
@@ -123,6 +124,7 @@ const Timer: React.FC<{ accent: string }> = ({ accent }) => {
 		if (timeMs <= 0 && !isRunning && totalMs > 0 && !completedRef.current) {
 			completedRef.current = true;
 			recordStudySession();
+			logStudyActivity(`Completed a ${Math.round(totalMs / 60000)}-minute focus session`);
 		}
 		if (timeMs > 0) {
 			completedRef.current = false;
@@ -365,6 +367,7 @@ const PomodoroTimer: React.FC<{ accent: string }> = ({ accent }) => {
 					if (wasFocus && !focusCompletedRef.current) {
 						focusCompletedRef.current = true;
 						recordStudySession();
+						logStudyActivity(`Finished a ${focusMinutes}-minute Pomodoro focus block`);
 					}
 					if (!wasFocus) {
 						focusCompletedRef.current = false;

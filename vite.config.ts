@@ -187,12 +187,28 @@ export default defineConfig(({ mode }) => {
       chunkSizeWarningLimit: 1000,
       rollupOptions: {
         output: {
-          manualChunks: {
-            vendor: ['react', 'react-dom', 'react-router-dom', 'react-helmet-async'],
-            ui: ['framer-motion', 'gsap', 'lucide-react', 'clsx'],
-            charts: ['chart.js', 'react-chartjs-2'],
-            pdf: ['jspdf', 'docx', 'file-saver'],
-            markdown: ['react-markdown', 'remark-math', 'rehype-katex'],
+          manualChunks(id) {
+            if (!id.includes('node_modules')) {
+              if (id.includes('/src/lib/studyEcosystem') || id.includes('/src/lib/learnerProfile')) {
+                return 'ecosystem';
+              }
+              if (id.includes('/src/components/chat/ChatMarkdown')) {
+                return 'chat-markdown';
+              }
+              return undefined;
+            }
+            if (id.includes('@supabase/supabase-js')) return 'supabase';
+            if (id.includes('react-type-animation')) return 'typewriter';
+            if (id.includes('react-markdown') || id.includes('remark-') || id.includes('rehype-') || id.includes('katex')) {
+              return 'markdown';
+            }
+            if (id.includes('chart.js') || id.includes('react-chartjs')) return 'charts';
+            if (id.includes('jspdf') || id.includes('docx') || id.includes('file-saver')) return 'pdf';
+            if (id.includes('framer-motion') || id.includes('gsap') || id.includes('lucide-react')) return 'ui';
+            if (id.includes('react') || id.includes('react-dom') || id.includes('react-router') || id.includes('react-helmet')) {
+              return 'vendor';
+            }
+            return undefined;
           },
         },
       },

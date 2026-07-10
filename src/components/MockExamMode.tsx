@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { Clock, X } from "lucide-react";
 
@@ -44,9 +44,11 @@ export default function MockExamMode({ paper, onClose }: Props) {
   const [index, setIndex] = useState(0);
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [submitted, setSubmitted] = useState(false);
+  const timerStartedRef = useRef(false);
 
   useEffect(() => {
     if (submitted) return;
+    timerStartedRef.current = true;
     const id = window.setInterval(() => {
       setSecondsLeft((s) => (s <= 1 ? 0 : s - 1));
     }, 1000);
@@ -54,7 +56,7 @@ export default function MockExamMode({ paper, onClose }: Props) {
   }, [submitted]);
 
   useEffect(() => {
-    if (!submitted && secondsLeft === 0) setSubmitted(true);
+    if (!submitted && secondsLeft === 0 && timerStartedRef.current) setSubmitted(true);
   }, [secondsLeft, submitted]);
 
   const current = questions[index];

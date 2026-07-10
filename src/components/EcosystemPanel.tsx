@@ -31,10 +31,20 @@ export default function EcosystemPanel({
           <div className="flex items-center justify-between gap-3 mb-4">
             <h2 className="text-sm font-semibold text-white">Today&apos;s focus</h2>
             <div className="flex items-center gap-2 text-xs text-white/50">
-              <span
-                className="inline-block h-2 w-2 rounded-full bg-primary"
-                style={{ opacity: Math.max(0.3, dailyProgress / 100) }}
-              />
+              <svg className="h-8 w-8 -rotate-90" viewBox="0 0 36 36" aria-hidden>
+                <circle cx="18" cy="18" r="15" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="3" />
+                <circle
+                  cx="18"
+                  cy="18"
+                  r="15"
+                  fill="none"
+                  stroke="hsl(var(--primary))"
+                  strokeWidth="3"
+                  strokeLinecap="round"
+                  strokeDasharray={`${dailyProgress} 100`}
+                  pathLength={100}
+                />
+              </svg>
               {dailyProgress}% complete
             </div>
           </div>

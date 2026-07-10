@@ -7,12 +7,9 @@ import {
   type LearnerProfile,
   type LearningPathStep,
 } from '@/lib/learnerProfile';
+import { type ActivityEntry } from '@/lib/studyActivity';
 
-export type ActivityEntry = {
-  id: string;
-  message: string;
-  createdAt: string;
-};
+export type { ActivityEntry };
 
 export type PlannerTaskPreview = {
   id: string;
@@ -64,8 +61,14 @@ export function getTodayPlannerTasks(): PlannerTaskPreview[] {
 }
 
 export function getRecentActivity(limit = 4): ActivityEntry[] {
-  const entries = readJson<ActivityEntry[]>('studyzone_activity', []);
-  return entries.slice(0, limit);
+  if (typeof window === 'undefined') return [];
+  try {
+    const raw = window.localStorage.getItem('studyzone_activity');
+    const entries = raw ? (JSON.parse(raw) as ActivityEntry[]) : [];
+    return entries.slice(0, limit);
+  } catch {
+    return [];
+  }
 }
 
 export function buildEcosystemBrief(

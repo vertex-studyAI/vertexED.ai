@@ -9,11 +9,13 @@ import RouteErrorBoundary from "@/components/RouteErrorBoundary";
 import { isAdminUser } from "@/lib/admin";
 import GlobalChatPanel from "@/components/chat/GlobalChatPanel";
 import CloudSaveBanner from "@/components/CloudSaveBanner";
+import { useStudySessionTracker } from "@/hooks/useStudySessionTracker";
 
 export default function SiteLayout() {
   const { isAuthenticated, logout, user } = useAuth();
   const showAdmin = isAuthenticated && isAdminUser(user);
   const location = useLocation();
+  useStudySessionTracker(isAuthenticated);
   const [menuOpen, setMenuOpen] = useState(false);
   const isActive = (to: string) =>
     location.pathname === to || (to !== "/" && location.pathname.startsWith(`${to}/`));

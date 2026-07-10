@@ -114,6 +114,7 @@ const sectionWrapperStyle = (accent: string, span?: "default" | "wide"): React.C
 
 const StudyZonePage: React.FC = () => {
   const [searchParams] = useSearchParams();
+  const focusMode = searchParams.get("focus") === "timer";
 
   useEffect(() => {
     if (searchParams.get("focus") !== "timer") return;
@@ -122,6 +123,12 @@ const StudyZonePage: React.FC = () => {
     }, 300);
     return () => window.clearTimeout(id);
   }, [searchParams]);
+
+  useEffect(() => {
+    if (!focusMode) return;
+    document.body.classList.add("study-focus-mode");
+    return () => document.body.classList.remove("study-focus-mode");
+  }, [focusMode]);
 
   const widgetMeta = useMemo<WidgetMeta[]>(
     () => [
@@ -235,11 +242,15 @@ const StudyZonePage: React.FC = () => {
 
       <header style={heroWrapperStyle}>
         <span style={{ fontSize: "13px", letterSpacing: "0.18em", textTransform: "uppercase", color: "hsla(199, 45%, 72%, 0.75)" }}>
-          Study Zone
+          {focusMode ? "Focus session" : "Study Zone"}
         </span>
-        <h1 style={heroTitleStyle}>Craft Your Focus Command Center</h1>
+        <h1 style={heroTitleStyle}>
+          {focusMode ? "Deep work starts here" : "Craft Your Focus Command Center"}
+        </h1>
         <p style={heroSubtitleStyle}>
-          Timers, AI help, quick notes, breathing exercises, and graphing — all on one page, so you never have to tab-hop.
+          {focusMode
+            ? "Timer is ready below — block distractions, set your duration, and lock in."
+            : "Timers, AI help, quick notes, breathing exercises, and graphing — all on one page, so you never have to tab-hop."}
         </p>
       </header>
 
@@ -248,7 +259,17 @@ const StudyZonePage: React.FC = () => {
           <section
             key={meta.key}
             id={meta.key === "timer" ? "study-zone-timer" : undefined}
-            style={sectionWrapperStyle(meta.accent, meta.span)}
+            style={{
+              ...sectionWrapperStyle(meta.accent, meta.span),
+              ...(focusMode && meta.key !== "timer"
+                ? { opacity: 0.45, filter: "saturate(0.7)" }
+                : {}),
+              ...(focusMode && meta.key === "timer"
+                ? {
+                    boxShadow: `0 0 0 2px ${withAlpha(meta.accent, 0.55)}, 0 32px 74px rgba(5, 9, 18, 0.52)`,
+                  }
+                : {}),
+            }}
           >
             <div style={sectionHeaderStyle}>
               <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>

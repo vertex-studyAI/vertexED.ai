@@ -11,6 +11,7 @@ import { gradeLevelLabel, studyGoalLabel } from "@/lib/learnerProfile";
 import { listStudyArtifactsDetailed, type StudyArtifact } from "@/lib/userContent";
 import SavedWorkList from "@/components/SavedWorkList";
 import EcosystemPanel from "@/components/EcosystemPanel";
+import ContinueSessionBanner from "@/components/ContinueSessionBanner";
 
 type Tile = {
   title: string;
@@ -252,6 +253,8 @@ export default function Main() {
           </div>
         </section>
       )}
+
+      <ContinueSessionBanner />
 
       {stats && brief && (
         <section className="px-6 pb-8 fade-up">

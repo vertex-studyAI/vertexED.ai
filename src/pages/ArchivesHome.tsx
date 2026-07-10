@@ -1,6 +1,6 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
+import { Link } from "react-router-dom";
 import { motion, useReducedMotion } from "framer-motion";
 import {
   ArrowRight,
@@ -12,9 +12,13 @@ import {
 
 import PageSection from "@/components/PageSection";
 import NeumorphicCard from "@/components/NeumorphicCard";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function ArchivesHome() {
   const reduceMotion = useReducedMotion();
+  const { isAuthenticated } = useAuth();
+  const hubTarget = isAuthenticated ? "/learning-hub" : "/signup";
+  const hubLabel = isAuthenticated ? "Learning Hub" : "sign up for Learning Hub";
 
   return (
     <>
@@ -42,8 +46,8 @@ export default function ArchivesHome() {
             <Clock className="h-5 w-5 text-primary shrink-0 mt-0.5" aria-hidden />
             <p className="text-sm text-muted-foreground">
               Starter guides and exemplars are live for LnL, History, and Geography — with more subjects on the way. Browse below, explore the{" "}
-              <Link to="/learning-hub" className="text-primary hover:underline">
-                Learning Hub
+              <Link to={hubTarget} className="text-primary hover:underline">
+                {hubLabel}
               </Link>
               , or try{" "}
               <Link to="/paper-maker" className="text-primary hover:underline">

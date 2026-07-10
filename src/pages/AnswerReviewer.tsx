@@ -5,6 +5,7 @@ import NeumorphicCard from "@/components/NeumorphicCard";
 import { authFetch } from "@/lib/apiAuth";
 import { setChatHandoff, saveStudyArtifact, consumeArtifactRestore } from "@/lib/userContent";
 import { recordStudySession } from "@/lib/studyStats";
+import { logStudyActivity } from "@/lib/studyActivity";
 import { Link, useNavigate } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import remarkMath from "remark-math";
@@ -356,6 +357,7 @@ export default function AIAnswerReview() {
           if (saved.ok) {
             setSavedPost(true);
             recordStudySession();
+            logStudyActivity(`Reviewed ${formData.subject || "answer"} with AI feedback`);
           }
         }
       } catch (err) {
