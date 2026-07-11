@@ -1,6 +1,7 @@
 import { Helmet } from "react-helmet-async";
 import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
+import { supabase } from "@/lib/supabaseClient";
 import { useNavigate, Link, useLocation } from "react-router-dom";
 import PageSection from "@/components/PageSection";
 
@@ -13,15 +14,29 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [info, setInfo] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [resetLoading, setResetLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
+    setInfo(null);
+
+    const normalizedEmail = email.trim().toLowerCase();
+    if (!normalizedEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalizedEmail)) {
+      setError("Enter a valid email address.");
+      return;
+    }
+    if (password.length < 8) {
+      setError("Password must be at least 8 characters.");
+      return;
+    }
+
     setLoading(true);
 
     try {
-      await login(email, password);
+      await login(normalizedEmail, password);
       navigate(from, { replace: true });
     } catch (err) {
       setError((err as Error).message);
@@ -30,13 +45,40 @@ export default function Login() {
     }
   };
 
+  const handleResetPassword = async () => {
+    setError(null);
+    setInfo(null);
+    const normalizedEmail = email.trim().toLowerCase();
+    if (!normalizedEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalizedEmail)) {
+      setError("Enter your email above, then request a reset link.");
+      return;
+    }
+    if (!supabase) {
+      setError("Password reset is unavailable — auth is not configured.");
+      return;
+    }
+
+    setResetLoading(true);
+    try {
+      const { error: resetError } = await supabase.auth.resetPasswordForEmail(normalizedEmail, {
+        redirectTo: `${window.location.origin}/auth/callback`,
+      });
+      if (resetError) throw resetError;
+      setInfo("If an account exists for that email, we sent a password reset link.");
+    } catch (err) {
+      setError((err as Error).message);
+    } finally {
+      setResetLoading(false);
+    }
+  };
+
   return (
     <>
       <Helmet>
-        <title>Vertex — Log in</title>
+        <title>Log in — VertexED</title>
         <meta
           name="description"
-          content="Log into Vertex to access your unified AI study workspace."
+          content="Sign in to VertexED — planner, mocks, flashcards, and Apex where you left them."
         />
   <link rel="canonical" href="https://www.vertexed.app/login" />
         <meta name="robots" content="noindex, nofollow" />
@@ -47,10 +89,12 @@ export default function Login() {
           className="relative glass-panel w-full max-w-md p-8 md:p-10 animate-fade-in"
           onSubmit={handleSubmit}
         >
-          <h1 className="text-3xl font-semibold mb-2 text-center text-white">
+          <h1 className="text-3xl font-semibold mb-2 text-center text-foreground">
             Log in
           </h1>
-          <p className="text-center mb-6 text-sm opacity-80">Good to see you again.</p>
+          <p className="text-center mb-6 text-sm text-muted-foreground leading-relaxed">
+            Your planner tasks, saved mocks, and due flashcards are waiting on the dashboard.
+          </p>
 
           <div className="space-y-4">
             <button
@@ -60,7 +104,9 @@ export default function Login() {
                 try {
                   setLoading(true);
                   setError(null);
+                  setInfo(null);
                   await loginWithGoogle();
+                  window.setTimeout(() => setLoading(false), 4000);
                 } catch (err) {
                   setError((err as Error).message);
                   setLoading(false);
@@ -83,6 +129,7 @@ export default function Login() {
                 aria-label="Email"
                 placeholder="Email"
                 className="neu-input-el"
+                autoComplete="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
@@ -93,9 +140,20 @@ export default function Login() {
                 placeholder="Password"
                 type="password"
                 className="neu-input-el"
+                autoComplete="current-password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
+            </div>
+            <div className="flex justify-end">
+              <button
+                type="button"
+                disabled={loading || resetLoading}
+                onClick={() => void handleResetPassword()}
+                className="text-xs text-muted-foreground hover:text-primary transition disabled:opacity-60"
+              >
+                {resetLoading ? "Sending reset link…" : "Forgot password?"}
+              </button>
             </div>
             <button
               type="submit"
@@ -104,7 +162,7 @@ export default function Login() {
             >
               {loading ? (
                 <span className="inline-flex items-center justify-center gap-2">
-                  <span className="h-4 w-4 rounded-full border-2 border-white/30 border-t-white animate-spin" />
+                  <span className="h-4 w-4 rounded-full border-2 border-primary-foreground/30 border-t-primary-foreground animate-spin" />
                   Signing in…
                 </span>
               ) : (
@@ -113,16 +171,22 @@ export default function Login() {
             </button>
           </div>
 
+          {info && (
+            <div className="mt-4 rounded-xl border border-emerald-500/25 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-100 text-center" role="status">
+              {info}
+            </div>
+          )}
+
           {error && (
-            <div className="mt-4 rounded-lg border border-red-500/35 bg-red-500/10 px-3 py-2 text-center text-sm text-red-200">
+            <div className="mt-4 alert-error text-center" role="alert">
               {error}
             </div>
           )}
 
-          <p className="text-center mt-4 text-sm text-white/70">
-            Don&apos;t have an account yet?{" "}
-            <Link to="/signup" className="sketch-underline text-white/90 hover:text-white">
-              Join waitlist
+          <p className="text-center mt-4 text-sm text-muted-foreground">
+            Don&apos;t have an account?{" "}
+            <Link to="/signup" className="sketch-underline text-foreground hover:text-primary">
+              Waitlist or invite signup
             </Link>
           </p>
         </form>

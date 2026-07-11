@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowLeft, Sparkles, FileText, ImagePlus, Download, Grid, FileArchive, Clock } from "lucide-react";
 import NeumorphicCard from "@/components/NeumorphicCard";
@@ -9,6 +9,7 @@ import { authFetch } from "@/lib/apiAuth";
 import MockExamMode from "@/components/MockExamMode";
 import { saveStudyArtifact, consumeArtifactRestore } from "@/lib/userContent";
 import { recordStudySession } from "@/lib/studyStats";
+import { recordLoopStep } from "@/lib/studyLoopTracker";
 import { toast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
 import {
@@ -16,14 +17,15 @@ import {
   EXAM_BOARDS,
   boardToApiLabel,
   daysUntilExam,
+  getCurriculumPreference,
   getGradesForBoard,
   getSubjectsForBoard,
 } from "@/lib/curriculum";
-import { getCurriculumPreference } from "@/lib/curriculum";
 import type { ExamBoard } from "@/types/curriculum";
 
 export default function PaperMaker({ priorPapers = [] }) {
   const { user } = useAuth();
+  const [searchParams] = useSearchParams();
   const [board, setBoard] = useState<ExamBoard>("IB_MYP");
   const [grade, setGrade] = useState(null);
   const [subject, setSubject] = useState("");
@@ -68,6 +70,19 @@ export default function PaperMaker({ priorPapers = [] }) {
     const rawSubjects = pref.subjects ?? (pref.preferences as Record<string, unknown> | undefined)?.subjects;
     if (Array.isArray(rawSubjects) && rawSubjects[0]) setSubject(String(rawSubjects[0]));
   }, [user]);
+
+  useEffect(() => {
+    const subjectParam = searchParams.get("subject");
+    if (!subjectParam) return;
+    setSubject((current) => current || subjectParam);
+    const topicParam = searchParams.get("topic");
+    if (topicParam) {
+      setTopics((current) => current || topicParam);
+    }
+    if (searchParams.get("cram") === "1") {
+      setMockCramMode(true);
+    }
+  }, [searchParams]);
 
   useEffect(() => {
     const restored = consumeArtifactRestore();
@@ -188,6 +203,7 @@ export default function PaperMaker({ priorPapers = [] }) {
         setPaper(paperData);
         setRaw(null);
         recordStudySession();
+        recordLoopStep("practise");
         const title = paperData.title || `${boardApiLabel} ${subject} paper`;
         saveStudyArtifact("paper", title, { paper: paperData, board: boardApiLabel, subject, grade }).then((r) => {
           if (r.ok) {
@@ -243,36 +259,33 @@ export default function PaperMaker({ priorPapers = [] }) {
     try {
       const { Document, Packer, Paragraph, TextRun } = await import("docx");
       const { saveAs } = await import("file-saver");
-      const doc = new Document();
-      doc.addSection({
-        children: [
-          new Paragraph({ children: [new TextRun({ text: paper.title || "Practice Paper", bold: true, size: 28 })] }),
-          new Paragraph("") ,
-          new Paragraph({ children: [new TextRun({ text: `Board: ${paper?.metadata?.board || ""}` })] }),
-          new Paragraph({ children: [new TextRun({ text: `Grade: ${paper?.metadata?.grade || ""}` })] }),
-          new Paragraph("") ,
-          ...flattenSectionsToParagraphs(paper.sections || []),
-        ],
-      });
-      const packer = new Packer();
-      const blob = await packer.toBlob(doc);
+      const children = [
+        new Paragraph({ children: [new TextRun({ text: paper.title || "Practice Paper", bold: true, size: 28 })] }),
+        new Paragraph(""),
+        new Paragraph({ children: [new TextRun({ text: `Board: ${paper?.metadata?.board || ""}` })] }),
+        new Paragraph({ children: [new TextRun({ text: `Grade: ${paper?.metadata?.grade || ""}` })] }),
+        new Paragraph(""),
+        ...flattenSectionsToParagraphs(paper.sections || [], Paragraph, TextRun),
+      ];
+      const doc = new Document({ sections: [{ children }] });
+      const blob = await Packer.toBlob(doc);
       saveAs(blob, `${(paper?.title || "practice-paper").replace(/\s+/g, "_")}.docx`);
     } catch (err) {
       setError("DOCX export failed: " + String(err));
     }
   }
 
-  function flattenSectionsToParagraphs(sections) {
+  function flattenSectionsToParagraphs(sections, Paragraph, TextRun) {
     const paras = [];
     for (const s of sections) {
-      paras.push(new (require("docx").Paragraph)({ children: [new (require("docx").TextRun)({ text: s.title || "", bold: true })] }));
-      if (s.instructions) paras.push(new (require("docx").Paragraph)(s.instructions));
+      paras.push(new Paragraph({ children: [new TextRun({ text: s.title || "", bold: true })] }));
+      if (s.instructions) paras.push(new Paragraph(s.instructions));
       for (const q of s.questions || []) {
-        paras.push(new (require("docx").Paragraph)({ children: [new (require("docx").TextRun)({ text: `Q: ${q.question}`, break: 1 })] }));
-        if (q.modelAnswerOutline) paras.push(new (require("docx").Paragraph)({ children: [new (require("docx").TextRun)({ text: `Model answer / rubric: ${q.modelAnswerOutline}` })] }));
-        paras.push(new (require("docx").Paragraph)({ children: [new (require("docx").TextRun)({ text: "" })] }));
+        paras.push(new Paragraph({ children: [new TextRun({ text: `Q: ${q.question}`, break: 1 })] }));
+        if (q.modelAnswerOutline) paras.push(new Paragraph({ children: [new TextRun({ text: `Model answer / rubric: ${q.modelAnswerOutline}` })] }));
+        paras.push(new Paragraph({ children: [new TextRun({ text: "" })] }));
       }
-      paras.push(new (require("docx").Paragraph)({ children: [new (require("docx").TextRun)({ text: "" })] }));
+      paras.push(new Paragraph({ children: [new TextRun({ text: "" })] }));
     }
     return paras;
   }
@@ -300,7 +313,7 @@ export default function PaperMaker({ priorPapers = [] }) {
         </div>
 
         <div className="grid md:grid-cols-2 gap-8">
-          <NeumorphicCard className="p-6 min-h-[28rem]" title="Paper Configuration" info="Pick your board, subject, and topics — we'll handle the rest.">
+          <NeumorphicCard className="p-6 min-h-[28rem]" title="Paper Configuration" info="Choose board, subject, grade, topics, and total marks. Add teacher notes or past-paper style hints if you have them.">
             <form className="grid gap-5" onSubmit={handleGenerate}>
               <div className="grid grid-cols-2 gap-4">
                 <motion.div whileHover={{ scale: 1.02 }} className="neu-input">
@@ -337,7 +350,7 @@ export default function PaperMaker({ priorPapers = [] }) {
                       <option value="">Select Criteria / Component</option>
                       {(criteriaOptions).map(c => <option key={c} value={c}>{c}</option>)}
                     </select>
-                    <div className="text-xs text-gray-500 mt-1">Criteria mode hides total marks and uses rubric weightings.</div>
+                    <div className="text-xs text-muted-foreground mt-1">Criteria mode hides total marks and uses rubric weightings.</div>
                   </motion.div>
                 ) : (
                   <motion.div whileHover={{ scale: 1.02 }} className="neu-input">
@@ -360,9 +373,9 @@ export default function PaperMaker({ priorPapers = [] }) {
                 </motion.div>
 
                 <motion.div whileHover={{ translateY: -2 }} className="neu-input p-4">
-                  <label className="block text-xs text-gray-500 mb-2">Difficulty</label>
+                  <label className="block text-xs text-muted-foreground mb-2">Difficulty</label>
                   <input aria-label="Difficulty" type="range" min={1} max={3} step={1} value={difficulty} onChange={(e) => setDifficulty(Number(e.target.value))} />
-                  <div className="flex justify-between text-xs text-gray-500 mt-1"><span>Easy</span><span>Medium</span><span>Hard</span></div>
+                  <div className="flex justify-between text-xs text-muted-foreground mt-1"><span>Easy</span><span>Medium</span><span>Hard</span></div>
                 </motion.div>
               </div>
 
@@ -396,27 +409,27 @@ export default function PaperMaker({ priorPapers = [] }) {
             </form>
           </NeumorphicCard>
 
-          <NeumorphicCard className="p-6 min-h-[28rem]" title="Paper Preview" info="Your paper shows up here. Export to PDF or Word when you're ready.">
+          <NeumorphicCard className="p-6 min-h-[28rem]" title="Paper Preview" info="Generated sections and mark schemes appear here. Export to PDF or Word, or open mock mode to sit the paper under time.">
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.35 }} className="neu-surface inset p-6 rounded-2xl h-full overflow-auto">
               {!paper && !raw ? (
-                <div className="h-full flex flex-col items-center justify-center text-center p-4 text-gray-500">
-                  <p className="opacity-70 text-lg mb-4">Your custom practice paper preview will appear here</p>
-                  <p className="text-sm opacity-60">After generation you can export to PDF or Word.</p>
+                <div className="h-full flex flex-col items-center justify-center text-center p-4 text-muted-foreground">
+                  <p className="text-lg mb-4">Your custom practice paper preview will appear here</p>
+                  <p className="text-sm opacity-80">After generation you can export to PDF or Word.</p>
                 </div>
               ) : raw && !paper ? (
-                <div className="text-sm text-yellow-700"><pre className="whitespace-pre-wrap">{raw}</pre></div>
+                <div className="text-sm text-amber-700 dark:text-amber-300"><pre className="whitespace-pre-wrap">{raw}</pre></div>
               ) : (
                 <div>
                   <div ref={previewRef} id="paper-preview" className="space-y-4 text-foreground">
                     <div className="flex items-start justify-between">
                       <div>
                         <h3 className="text-lg font-semibold">{paper.title || `${paper.metadata.board} — Grade ${paper.metadata.grade}`}</h3>
-                        <div className="text-sm text-gray-600">{paper.metadata.subject} • {paper.metadata.format} • {paper.metadata.numQuestions} questions</div>
+                        <div className="text-sm text-muted-foreground">{paper.metadata.subject} • {paper.metadata.format} • {paper.metadata.numQuestions} questions</div>
                       </div>
-                      <div className="text-xs text-gray-600">Generated: {new Date().toLocaleString()}</div>
+                      <div className="text-xs text-muted-foreground">Generated: {new Date().toLocaleString()}</div>
                     </div>
 
-                    <div className="p-4 border border-white/10 rounded bg-white/5">
+                    <div className="surface-tile p-4">
                       <div className="text-sm text-muted-foreground mb-2">Specification</div>
                       <ul className="list-disc pl-5 text-sm text-muted-foreground">
                         <li>Topics: {(topicTags.length ? topicTags.join(", ") : "(none)")}</li>
@@ -427,7 +440,7 @@ export default function PaperMaker({ priorPapers = [] }) {
                     </div>
 
                     {paper.sections?.map((s) => (
-                      <div key={s.id} className="border border-white/10 rounded p-4 bg-white/5">
+                      <div key={s.id} className="surface-tile p-4">
                         <div className="font-medium mb-2">{s.title}</div>
                         {s.instructions && <div className="text-sm text-muted-foreground mb-2">{s.instructions}</div>}
                         <ol className="list-decimal pl-6 space-y-3">
@@ -440,7 +453,7 @@ export default function PaperMaker({ priorPapers = [] }) {
                                 <div className="mt-2 space-x-2">
                                   {q.imageRefs.map((n) => {
                                     const img = (paper.images || []).find(i => i.name === n);
-                                    if (!img) return <span key={n} className="text-xs text-gray-500">[missing image: {n}]</span>;
+                                    if (!img) return <span key={n} className="text-xs text-muted-foreground">[missing image: {n}]</span>;
                                     const src = img.b64 ? `data:${img.mime};base64,${img.b64}` : img.url;
                                     return <img key={n} src={src} alt={img.caption || n} style={{ maxWidth: 320, display: "block", marginTop: 8 }} />;
                                   })}
@@ -452,7 +465,7 @@ export default function PaperMaker({ priorPapers = [] }) {
                       </div>
                     ))}
 
-                    {paper.rubricNotes?.length ? <div className="p-3 border rounded bg-white"><div className="font-medium">Rubric notes</div><ul className="list-disc pl-5 text-sm text-gray-700">{paper.rubricNotes.map((r,i)=> <li key={i}>{r}</li>)}</ul></div> : null}
+                    {paper.rubricNotes?.length ? <div className="surface-tile p-3"><div className="font-medium text-foreground">Rubric notes</div><ul className="list-disc pl-5 text-sm text-muted-foreground">{paper.rubricNotes.map((r,i)=> <li key={i}>{r}</li>)}</ul></div> : null}
                   </div>
 
                   <div className="flex flex-wrap gap-3 mt-4 items-center">

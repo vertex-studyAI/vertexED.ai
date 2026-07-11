@@ -1,24 +1,29 @@
 import NeumorphicCard from "@/components/NeumorphicCard";
-import BoardBadge from "@/components/curriculum/BoardBadge";
-import ExamCountdown from "@/components/curriculum/ExamCountdown";
 
 import { Link } from "react-router-dom";
 import React, { useEffect, useRef, useState } from "react";
-import { TypeAnimation } from "react-type-animation";
 import { Helmet } from "react-helmet-async";
-import { Flame, Settings as SettingsIcon, Target, TrendingUp, Zap, Brain, FileText, MessageCircle, BookOpen, Route } from "lucide-react";
+import { Zap, Brain, FileText, MessageCircle, BookOpen, Route } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { buildEcosystemBrief, type EcosystemBrief } from "@/lib/studyEcosystem";
-import { gradeLevelLabel, studyGoalLabel } from "@/lib/learnerProfile";
-import { getBoardHeroMessage } from "@/lib/curriculum";
 import { listStudyArtifactsDetailed, type StudyArtifact } from "@/lib/userContent";
 import SavedWorkList from "@/components/SavedWorkList";
 import EcosystemPanel from "@/components/EcosystemPanel";
 import ContinueSessionBanner from "@/components/ContinueSessionBanner";
 import AdaptiveLearningPanel from "@/components/AdaptiveLearningPanel";
 import ProgressAnalyticsCard from "@/components/ProgressAnalyticsCard";
-import { getProgressTrend } from "@/lib/progressAnalytics";
+import { getProgressTrend, type ProgressTrend } from "@/lib/progressAnalytics";
 import WeaknessHeatmap from "@/components/WeaknessHeatmap";
+import SubjectMasteryCard from "@/components/dashboard/SubjectMasteryCard";
+import TodayPlanPanel from "@/components/dashboard/TodayPlanPanel";
+import { buildRetrievalPulse, type RetrievalPulse } from "@/lib/retrievalPulse";
+import { buildTodayPlanItems } from "@/lib/todayPlan";
+import { buildPortalIntelligence, type PortalIntelligence } from "@/lib/portalFeatures";
+import PortalCommandCenter from "@/components/portal/PortalCommandCenter";
+import FeatureDiscoveryRibbon from "@/components/portal/FeatureDiscoveryRibbon";
+import PortalEngagementRow from "@/components/portal/PortalEngagementRow";
+import PortalIntelligenceGrid from "@/components/portal/PortalIntelligenceGrid";
+import DashboardStatGrid from "@/components/portal/DashboardStatGrid";
 
 type Tile = {
   title: string;
@@ -31,6 +36,7 @@ export default function Main() {
   const { user } = useAuth();
   const [brief, setBrief] = useState<EcosystemBrief | null>(null);
   const [recentArtifacts, setRecentArtifacts] = useState<StudyArtifact[]>([]);
+  const [progressTrend, setProgressTrend] = useState<ProgressTrend | null>(null);
   const [showWelcome, setShowWelcome] = useState(
     () => typeof window !== "undefined" && sessionStorage.getItem("vertex_welcome") === "1",
   );
@@ -50,15 +56,18 @@ export default function Main() {
   );
 
   const tiles: Tile[] = [
-    { title: "Learning Hub", to: "/learning-hub", info: "Your connected study ecosystem — paths, subjects, and daily progress.", icon: hubIcon() },
-    { title: "Study Zone", to: "/study-zone", info: "Your all-in-one desk — timers, notes, graphing, and more.", icon: studyIcon() },
-    { title: "AI Chatbot", to: "/chatbot", info: "Stuck on something? Ask for explanations, steps, or ideas.", icon: chatIcon() },
-    { title: "Study Planner", to: "/planner", info: "Build a schedule that actually fits around your life.", icon: plannerIcon() },
-    { title: "Answer Reviewer", to: "/answer-reviewer", info: "Get honest feedback and see exactly where to improve.", icon: reviewIcon() },
-    { title: "Paper Maker", to: "/paper-maker", info: "Practice papers that sound like the real thing, with mark schemes.", icon: paperIcon() },
-    { title: "AI Notes + Flashcards", to: "/notetaker", info: "Turn lectures into notes, flashcards, and quizzes.", icon: notesIcon() },
-    { title: "Study Tools Hub", to: "/study-tools", info: "Formula sheets, study techniques, and quick tool links.", icon: toolsIcon() },
-    { title: "Archives Subjects", to: "/archives", info: "Curated notes and exemplars, sorted by subject.", icon: archiveIcon() },
+    { title: "Learning Hub", to: "/learning-hub", info: "Your exam path in one view — today's plan, subject tracks, command terms, and links into every tool.", icon: hubIcon() },
+    { title: "Study Zone", to: "/study-zone", info: "Timers, habits, calculator, graphing, and session notes on one page — built for 25-minute blocks.", icon: studyIcon() },
+    { title: "Apex", to: "/chatbot", info: "Discussion-first AI — asks what you've tried, then walks through reasoning, rubrics, and exam technique.", icon: chatIcon() },
+    { title: "Study Planner", to: "/planner", info: "Calendar and tasks sized to real life — mocks, school, sport, and sleep — not six-hour fantasy blocks.", icon: plannerIcon() },
+    { title: "Answer Reviewer", to: "/answer-reviewer", info: "Upload or paste answers; get mark-scheme feedback on structure, command terms, and missing evidence.", icon: reviewIcon() },
+    { title: "Paper Maker", to: "/paper-maker", info: "Generate board-shaped mocks (IB, IGCSE, CBSE, AP, A Level) with topics, timing, and mark schemes.", icon: paperIcon() },
+    { title: "AI Notes + Flashcards", to: "/notetaker", info: "Turn a topic or lecture into notes, spaced flashcards, and quizzes — retrieval on a schedule.", icon: notesIcon() },
+    { title: "Study Notebook", to: "/study-notebook", info: "Source-based workspace — grounded chat, study guides, deep dives, and audio scripts from your materials.", icon: notebookIcon() },
+    { title: "World Model", to: "/world-model", info: "Concept map of your subject — see foundations, weak nodes, and run short exam-style simulations.", icon: hubIcon() },
+    { title: "Board Library", to: "/resource-library", info: "Long-form guides for your board — TOK, Math AA, sciences, essays — generated to syllabus depth.", icon: archiveIcon() },
+    { title: "Study Tools Hub", to: "/study-tools", info: "Formula sheets by subject, evidence-based techniques, command-term glossary, and exam checklist.", icon: toolsIcon() },
+    { title: "Archives Subjects", to: "/archives", info: "Curated notes and exemplars for English, History, and Geography — organised by subject.", icon: archiveIcon() },
     // settings rendered in header
   ];
 
@@ -194,94 +203,71 @@ export default function Main() {
 
   const suggestions = brief?.suggestions ?? [];
   const weekFocus = brief?.weekFocus ?? [];
-  const goalLabel = brief ? studyGoalLabel(brief.profile.studyGoal) : null;
-  const gradeLabel = brief ? gradeLevelLabel(brief.profile.gradeLevel) : null;
-  const curriculum = brief?.profile.curriculum;
-  const board = curriculum?.board ?? null;
-  const subjects = curriculum?.subjects ?? [];
   const dueFlashcards = brief?.dueFlashcards ?? 0;
-  const stats = brief?.stats ?? null;
-  const heroMessage = getBoardHeroMessage(board);
-  const progressTrend = brief ? getProgressTrend() : null;
+  const [pulse, setPulse] = useState<RetrievalPulse | null>(null);
+  const [intel, setIntel] = useState<PortalIntelligence | null>(null);
+
+  useEffect(() => {
+    if (!brief) {
+      setPulse(null);
+      return;
+    }
+    setPulse(buildRetrievalPulse(brief.profile, brief.adaptivePlan.recommendations));
+  }, [brief]);
+
+  useEffect(() => {
+    if (!brief || !pulse) {
+      setIntel(null);
+      return;
+    }
+    setIntel(buildPortalIntelligence(brief.profile, brief.stats, brief.adaptivePlan, pulse));
+  }, [brief, pulse]);
+
+  useEffect(() => {
+    if (!brief) {
+      setProgressTrend(null);
+      return;
+    }
+    setProgressTrend(getProgressTrend(true));
+  }, [brief]);
+
+  const todayPlanItems = brief
+    ? buildTodayPlanItems(
+        brief.todayTasks,
+        brief.adaptivePlan.recommendations,
+        pulse
+          ? {
+              label: pulse.nextAction.label,
+              href: pulse.nextAction.href,
+              reason: pulse.nextAction.reason,
+            }
+          : undefined,
+      )
+    : [];
 
   return (
     <>
       <Helmet>
         <title>Dashboard — VertexED Study Tools</title>
-        <meta name="description" content="Choose from Study Zone, AI Chatbot, Planner, Paper Maker, Answer Reviewer, and Notetaker — all in one dashboard." />
+        <meta name="description" content="Your VertexED dashboard — today's plan, retrieval pulse, subject mastery, weakness heatmap, and every study tool wired to your board and goals." />
         <link rel="canonical" href="https://www.vertexed.app/main" />
         <meta name="robots" content="noindex, follow" />
       </Helmet>
 
-      {/* Intro */}
-      <section className="fade-up px-6 py-10">
-        <div className="max-w-6xl mx-auto glass-panel p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center gap-6">
-          <div className="flex-1">
-            <p className="text-sm text-primary/80 mb-2">
-              {brief ? `${brief.greeting}, ${brief.profile.displayName}` : "Welcome to Vertex AI"}
-            </p>
-            <h1 className="text-4xl md:text-5xl font-semibold text-white leading-tight">
-              <TypeAnimation sequence={[700, "Your study ecosystem", 1200, "Learn. Practice. Review. Remember."]} wrapper="span" cursor={false} />
-            </h1>
-            <p className="mt-4 text-white/70 max-w-2xl leading-relaxed">
-              {heroMessage}
-            </p>
-            <div className="mt-3 flex flex-wrap gap-2">
-              {board && <BoardBadge board={board} size="md" />}
-              {goalLabel && (
-                <span className="rounded-full border border-primary/25 bg-primary/10 px-3 py-1 text-xs text-primary">
-                  {goalLabel}
-                </span>
-              )}
-              {gradeLabel && (
-                <span className="rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs text-white/55">
-                  {gradeLabel}
-                </span>
-              )}
-              {subjects.slice(0, 4).map((s) => (
-                <span key={s} className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/60">
-                  {s}
-                </span>
-              ))}
-              {subjects.length > 4 && (
-                <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/45">
-                  +{subjects.length - 4} more
-                </span>
-              )}
-            </div>
-            {!board && (
-              <p className="mt-3 text-xs text-primary/80">
-                <Link to="/user-settings" className="hover:underline">Set your exam board</Link> to personalize tools and learning paths.
-              </p>
-            )}
-            <p className="mt-3 text-xs text-white/45 max-w-xl">
-              Study Zone for deep focus, Learning Hub for your path, Paper Maker and Answer Reviewer for exam prep.
-            </p>
-          </div>
-
-          <div className="shrink-0 flex flex-col gap-3 w-full md:w-56">
-            <ExamCountdown
-              examDate={curriculum?.examDate ?? null}
-              boardLabel={brief?.boardLabel}
-            />
-            <button
-            aria-label="Settings"
-            title="Settings"
-            className="shrink-0 p-3 rounded-2xl glass-tile hover:border-white/30 transition flex items-center justify-center"
-            onClick={() => window.location.assign("/user-settings")}
-          >
-            <SettingsIcon size={18} color="white" />
-          </button>
-          </div>
+      {brief && pulse && intel && (
+        <div className="fade-up">
+          <PortalCommandCenter brief={brief} pulse={pulse} intel={intel} />
         </div>
-      </section>
+      )}
+
+      <FeatureDiscoveryRibbon />
 
       {showWelcome && (
         <section className="px-6 pb-4 fade-up">
-          <div className="max-w-6xl mx-auto rounded-xl border border-primary/25 bg-primary/10 px-5 py-4 text-sm text-white/90">
-            <p className="font-medium text-primary">Welcome to Vertex — you&apos;re all set.</p>
-            <p className="mt-1 text-white/70">
-              Start with Study Zone for a focused session, or generate notes and a mock paper from the dashboard.
+          <div className="max-w-6xl mx-auto rounded-xl border border-primary/25 bg-primary/10 px-5 py-4 text-sm text-foreground/90">
+            <p className="font-medium text-primary">Welcome to VertexED — you&apos;re set up.</p>
+            <p className="mt-1 text-foreground/70">
+              Start with a 25-minute Study Zone block, or open Paper Maker for a timed mock. Your planner tasks and due flashcards are on this page when you&apos;re ready.
             </p>
           </div>
         </section>
@@ -289,26 +275,48 @@ export default function Main() {
 
       <ContinueSessionBanner />
 
-      {stats && brief && (
-        <section className="px-6 pb-8 fade-up">
-          <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-4">
-            <StatCard to="/study-zone" icon={<Flame className="h-5 w-5 text-orange-400" />} label="Study streak" value={`${stats.studyStreak} day${stats.studyStreak === 1 ? "" : "s"}`} />
-            <StatCard to="/study-zone" icon={<Target className="h-5 w-5 text-primary" />} label="Habits done" value={`${stats.habitsDoneToday}/${stats.habitCount}`} />
-            <StatCard to="/notetaker" icon={<Brain className="h-5 w-5 text-violet-400" />} label="Due flashcards" value={String(brief.dueFlashcards)} />
-            <StatCard to="/planner" icon={<TrendingUp className="h-5 w-5 text-emerald-400" />} label="Tasks today" value={String(brief.todayTasks.length)} />
+      {brief && todayPlanItems.length > 0 && (
+        <section id="today-plan" className="px-6 pb-6 fade-up portal-rise portal-stagger-1">
+          <div className="max-w-6xl mx-auto">
+            <TodayPlanPanel items={todayPlanItems} />
           </div>
         </section>
       )}
 
       {brief && (
-        <section className="px-6 pb-6 fade-up">
+        <section className="portal-section px-6 pb-6 fade-up portal-rise portal-stagger-2">
+          <div className="max-w-6xl mx-auto space-y-6">
+            <DashboardStatGrid brief={brief} />
+            {intel && (
+              <>
+                <PortalEngagementRow profile={brief.profile} />
+                <PortalIntelligenceGrid intel={intel} profile={brief.profile} stats={brief.stats} />
+              </>
+            )}
+          </div>
+        </section>
+      )}
+
+      {brief && (
+        <section id="subject-mastery" className="px-6 pb-6 fade-up portal-rise portal-stagger-3">
           <div className="max-w-6xl mx-auto grid gap-6 lg:grid-cols-2">
             <AdaptiveLearningPanel
               recommendations={brief.adaptivePlan.recommendations}
               cramModeActive={brief.adaptivePlan.cramModeActive}
               estimatedMinutes={brief.adaptivePlan.estimatedMinutesToday}
             />
-            {progressTrend && <ProgressAnalyticsCard trend={progressTrend} />}
+            <SubjectMasteryCard
+              mastery={brief.adaptivePlan.masteryBySubject}
+              focusSubject={brief.adaptivePlan.focusSubject}
+            />
+          </div>
+        </section>
+      )}
+
+      {brief && progressTrend && (
+        <section className="px-6 pb-6 fade-up">
+          <div className="max-w-6xl mx-auto">
+            <ProgressAnalyticsCard trend={progressTrend} />
           </div>
         </section>
       )}
@@ -316,7 +324,7 @@ export default function Main() {
       {brief && (
         <section className="px-6 pb-6 fade-up">
           <div className="max-w-6xl mx-auto glass-panel p-5">
-            <h2 className="text-sm font-semibold text-white mb-3">Weakness heatmap</h2>
+            <h2 className="text-sm font-semibold text-foreground mb-3">Weakness heatmap</h2>
             <WeaknessHeatmap compact />
           </div>
         </section>
@@ -334,19 +342,20 @@ export default function Main() {
       <section className="px-6 pb-6 fade-up">
         <div className="max-w-6xl mx-auto">
           <div className="glass-panel p-4 md:p-5">
-            <p className="text-xs uppercase tracking-widest text-white/45 mb-3">Quick actions</p>
+            <p className="text-xs uppercase tracking-widest text-foreground/45 mb-3">Quick actions</p>
             <div className="flex flex-wrap gap-2">
+              <QuickAction to="/study-notebook" icon={<BookOpen className="h-4 w-4" />} label="Study Notebook" />
               <QuickAction to="/learning-hub" icon={<Route className="h-4 w-4" />} label="Learning Hub" />
               <QuickAction to="/study-zone?focus=timer" icon={<Zap className="h-4 w-4" />} label="Focus session" />
               <QuickAction to="/notetaker" icon={<Brain className="h-4 w-4" />} label={dueFlashcards > 0 ? `Review ${dueFlashcards} cards` : "AI Notes"} />
               <QuickAction to="/paper-maker" icon={<FileText className="h-4 w-4" />} label="Mock paper" />
-              <QuickAction to="/chatbot" icon={<MessageCircle className="h-4 w-4" />} label="Ask AI" />
+              <QuickAction to="/chatbot" icon={<MessageCircle className="h-4 w-4" />} label="Ask Apex" />
               <QuickAction to="/study-tools" icon={<BookOpen className="h-4 w-4" />} label="Formulas" />
             </div>
             {weekFocus.length > 0 && (
-              <div className="mt-4 rounded-xl border border-white/10 bg-white/5 px-4 py-3">
-                <p className="text-xs uppercase tracking-widest text-white/45 mb-2">This week&apos;s focus</p>
-                <ul className="space-y-1.5 text-sm text-white/75">
+              <div className="mt-4 rounded-xl border border-border/60 bg-foreground/[0.03] px-4 py-3">
+                <p className="text-xs uppercase tracking-widest text-foreground/45 mb-2">This week&apos;s focus</p>
+                <ul className="space-y-1.5 text-sm text-foreground/75">
                   {weekFocus.map((item) => (
                     <li key={item} className="flex items-start gap-2">
                       <span className="text-primary mt-0.5">→</span>
@@ -357,7 +366,7 @@ export default function Main() {
               </div>
             )}
             {suggestions.length > 0 && (
-              <ul className="mt-4 space-y-1.5 text-sm text-white/65">
+              <ul className="mt-4 space-y-1.5 text-sm text-foreground/65">
                 {suggestions.map((tip) => (
                   <li key={tip} className="flex items-start gap-2">
                     <span className="text-primary mt-0.5">•</span>
@@ -374,7 +383,7 @@ export default function Main() {
         <section className="px-6 pb-8 fade-up">
           <div className="max-w-6xl mx-auto glass-panel p-5">
             <div className="flex items-center justify-between gap-3 mb-3">
-              <h2 className="text-sm font-semibold text-white">Recent saved work</h2>
+              <h2 className="text-sm font-semibold text-foreground">Recent saved work</h2>
               <Link to="/user-settings" className="text-xs text-primary hover:underline">
                 View all →
               </Link>
@@ -397,23 +406,23 @@ export default function Main() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {tiles.map((t) => (
                 <Link to={t.to} key={t.title} className="group block tile-wrapper" aria-label={`${t.title} — ${t.info}`}>
-                  <div className="tile-shadow h-full rounded-xl transition-all duration-400" style={{ boxShadow: "0 12px 40px rgba(0,0,0,0.25)" }}>
+                  <div className="tile-shadow h-full rounded-xl transition-all duration-400 shadow-[var(--shadow-soft)]">
                     <div
                       className="tile h-56 md:h-64 w-full"
                       style={{ transformStyle: "preserve-3d", willChange: "transform" }}
                     >
                       <NeumorphicCard
-                        className="h-full p-6 glass-tile-translucent flex flex-col justify-between transition-all duration-400 group-hover:border-white/25 group-hover:bg-white/10"
+                        className="h-full p-6 glass-tile-translucent flex flex-col justify-between transition-all duration-400 group-hover:border-primary/25 group-hover:bg-foreground/[0.04]"
                       >
                         <div>
                           <div className="flex items-center gap-4 mb-2">
-                            <div className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white font-semibold" aria-hidden>
+                            <div className="w-10 h-10 rounded-full bg-foreground/[0.06] backdrop-blur-md border border-border flex items-center justify-center text-foreground font-semibold" aria-hidden>
                               {t.icon}
                             </div>
 
                             <div>
-                              <h3 className="text-2xl font-semibold text-slate-100">{t.title}</h3>
-                              <p className="text-xs text-slate-400 mt-1">{t.info}</p>
+                              <h3 className="text-2xl font-semibold text-foreground">{t.title}</h3>
+                              <p className="text-xs text-muted-foreground mt-1">{t.info}</p>
                             </div>
                           </div>
 
@@ -422,8 +431,8 @@ export default function Main() {
                         </div>
 
                         <div className="flex items-center justify-between mt-3">
-                          <span className="text-xs text-slate-500">Quick open</span>
-                          <span className="text-sm text-white/70 font-medium group-hover:text-white transition-colors">Open →</span>
+                          <span className="text-xs text-muted-foreground">Quick open</span>
+                          <span className="text-sm text-foreground/70 font-medium group-hover:text-foreground transition-colors">Open →</span>
                         </div>
                       </NeumorphicCard>
                     </div>
@@ -439,16 +448,17 @@ export default function Main() {
 
       <section className="fade-up px-6 pb-12">
         <div className="max-w-6xl mx-auto text-center glass-panel p-8 md:p-10">
-          <h3 className="text-2xl md:text-3xl font-semibold text-white mb-4">Ready to get back into flow?</h3>
-          <p className="text-slate-300 mb-6 max-w-2xl mx-auto">
-            Your ecosystem remembers where you left off — planner tasks, flashcards due, and saved work are one click away.
+          <h3 className="text-2xl md:text-3xl font-semibold text-foreground mb-4">Pick up where you left off</h3>
+          <p className="text-muted-foreground mb-6 max-w-2xl mx-auto leading-relaxed">
+            Your planner tasks, due flashcards, and saved mocks stay on this dashboard. Learning Hub shows the full path;
+            Study Zone runs the next focus block when you have twenty-five minutes.
           </p>
 
           <div className="flex flex-wrap items-center justify-center gap-3">
             <Link to="/learning-hub" className="btn-glass px-8">
               Open Learning Hub
             </Link>
-            <Link to="/study-zone?focus=timer" className="rounded-full border border-white/20 bg-white/8 px-8 py-3 text-sm text-white/90 hover:bg-white/14 transition">
+            <Link to="/study-zone?focus=timer" className="rounded-full border border-border bg-foreground/[0.05] px-8 py-3 text-sm text-foreground hover:bg-foreground/[0.08] transition">
               Start focus session
             </Link>
           </div>
@@ -517,6 +527,15 @@ function notesIcon() {
     </svg>
   );
 }
+function notebookIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+      <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+      <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" />
+      <path d="M8 7h8M8 11h6" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+    </svg>
+  );
+}
 function archiveIcon() {
   return (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
@@ -534,35 +553,11 @@ function toolsIcon() {
   );
 }
 
-function StatCard({ to, icon, label, value }: { to?: string; icon: React.ReactNode; label: string; value: string }) {
-  const inner = (
-    <>
-      <div className="shrink-0">{icon}</div>
-      <div>
-        <p className="text-xs text-white/50">{label}</p>
-        <p className="text-lg font-semibold text-white">{value}</p>
-      </div>
-    </>
-  );
-  if (to) {
-    return (
-      <Link to={to} className="glass-tile rounded-2xl border border-white/10 px-4 py-3 flex items-center gap-3 hover:border-white/25 hover:bg-white/8 transition">
-        {inner}
-      </Link>
-    );
-  }
-  return (
-    <div className="glass-tile rounded-2xl border border-white/10 px-4 py-3 flex items-center gap-3">
-      {inner}
-    </div>
-  );
-}
-
 function QuickAction({ to, icon, label }: { to: string; icon: React.ReactNode; label: string }) {
   return (
     <Link
       to={to}
-      className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/8 px-3.5 py-2 text-sm text-white/90 hover:bg-white/14 hover:border-white/25 transition"
+      className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-foreground/[0.04] px-3.5 py-2 text-sm text-foreground hover:bg-foreground/[0.07] hover:border-primary/25 transition"
     >
       {icon}
       {label}

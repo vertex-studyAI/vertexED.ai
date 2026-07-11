@@ -36,8 +36,9 @@ export default function ArchivesHome() {
             <BookOpen size={20} aria-hidden />
             Archives
           </h1>
-          <p className="text-sm text-muted-foreground mt-1 max-w-4xl">
-            Notes, exemplars, and study material organized by subject — built to last beyond one exam season.
+          <p className="text-sm text-muted-foreground mt-1 max-w-4xl leading-relaxed">
+            Subject-wise notes, exemplars, and study material — English Language &amp; Literature, History, and Geography.
+            Built to reference during revision, not replace your own notes or teacher feedback.
           </p>
         </header>
 
@@ -84,7 +85,7 @@ export default function ArchivesHome() {
               </li>
             </ul>
 
-            <div className="mt-6 pt-4 border-t border-white/10">
+            <div className="mt-6 pt-4 border-t border-border/60">
               <div className="flex items-start gap-3 text-sm text-muted-foreground">
                 <UploadCloud size={18} className="mt-0.5 shrink-0" aria-hidden />
                 <p>

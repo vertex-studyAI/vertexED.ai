@@ -1,0 +1,93 @@
+import { useCallback, useEffect, useState } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { FLOATING_INSIGHTS } from "@/content/landing";
+import LiquidGlass from "@/components/LiquidGlass";
+
+const prefersReducedMotion = () =>
+  typeof window === "undefined" || !window.matchMedia
+    ? true
+    : window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+export default function FloatingInsightDeck() {
+  const [active, setActive] = useState(0);
+  const total = FLOATING_INSIGHTS.length;
+  const item = FLOATING_INSIGHTS[active];
+
+  const go = useCallback(
+    (delta: number) => {
+      setActive((i) => (i + delta + total) % total);
+    },
+    [total],
+  );
+
+  useEffect(() => {
+    if (prefersReducedMotion()) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "ArrowLeft") go(-1);
+      if (e.key === "ArrowRight") go(1);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [go]);
+
+  return (
+    <section className="insight-deck-section px-6 py-16 md:py-20">
+      <div className="max-w-5xl mx-auto">
+        <p className="text-xs uppercase tracking-[0.2em] text-primary mb-3 text-center">Why we exist</p>
+        <h2 className="text-3xl md:text-4xl font-bold text-foreground text-center leading-tight mb-4 max-w-3xl mx-auto">
+          More tools, same problem
+        </h2>
+        <p className="text-center text-muted-foreground text-base md:text-lg leading-relaxed max-w-2xl mx-auto mb-10">
+          You can find a PDF or video for almost any topic. Exam weeks still fall apart on the basics:
+          what to do tonight, whether practice matches the paper, and whether your notes ever turn into recall.
+        </p>
+
+        <div className="insight-carousel relative mx-auto max-w-xl">
+          <LiquidGlass
+            key={item.label}
+            as="article"
+            variant="card"
+            aria-live="polite"
+            className="insight-carousel-card insight-carousel-card-active p-6 md:p-8 rounded-[1.35rem]"
+          >
+            <p className="text-xs uppercase tracking-widest text-primary mb-2">{item.label}</p>
+            <h3 className="text-xl font-semibold text-foreground mb-3 leading-snug">{item.headline}</h3>
+            <p className="text-sm md:text-base text-muted-foreground leading-relaxed">{item.body}</p>
+          </LiquidGlass>
+        </div>
+
+        <div className="flex items-center justify-center gap-4 mt-8">
+          <button
+            type="button"
+            onClick={() => go(-1)}
+            className="insight-carousel-nav"
+            aria-label="Previous insight"
+          >
+            <ChevronLeft className="h-4 w-4" />
+          </button>
+          <div className="flex gap-2" role="tablist" aria-label="Insight cards">
+            {FLOATING_INSIGHTS.map((entry, i) => (
+              <button
+                key={entry.label}
+                type="button"
+                role="tab"
+                aria-selected={i === active}
+                aria-label={entry.label}
+                onClick={() => setActive(i)}
+                className={`h-2 rounded-full transition-all duration-300 ${i === active ? "w-6 bg-primary" : "w-2 bg-foreground/20 hover:bg-foreground/35"}`}
+              />
+            ))}
+          </div>
+          <button
+            type="button"
+            onClick={() => go(1)}
+            className="insight-carousel-nav"
+            aria-label="Next insight"
+          >
+            <ChevronRight className="h-4 w-4" />
+          </button>
+        </div>
+      </div>
+    </section>
+  );
+}

@@ -104,8 +104,8 @@ export default function StudyTools() {
           <h1 className="text-3xl md:text-4xl font-semibold brand-text-gradient inline-block mt-2">
             Study Tools & Resources
           </h1>
-          <p className="text-muted-foreground mt-3 max-w-2xl">
-            Formulas, evidence-based techniques, and shortcuts to every VertexED tool — built for exam prep sessions.
+          <p className="text-muted-foreground mt-3 max-w-2xl leading-relaxed">
+            Formula sheets by subject, study techniques with links to guides, command-term glossary, exam-day checklist, and one-click access to core tools.
           </p>
         </div>
 
@@ -136,7 +136,7 @@ export default function StudyTools() {
                 className={`rounded-full px-4 py-1.5 text-sm capitalize transition ${
                   tab === key
                     ? "bg-primary/20 text-primary border border-primary/30"
-                    : "bg-white/5 text-muted-foreground border border-white/10 hover:text-foreground"
+                    : "bg-foreground/[0.04] text-muted-foreground border border-border/60 hover:text-foreground"
                 }`}
               >
                 {key === "math" && <Calculator className="inline h-3.5 w-3.5 mr-1 -mt-0.5" />}
@@ -152,7 +152,7 @@ export default function StudyTools() {
             {formulas.map((f) => (
               <div
                 key={f.name}
-                className="rounded-xl border border-white/10 bg-white/5 px-4 py-3"
+                className="rounded-xl border border-border/60 bg-foreground/[0.04] px-4 py-3"
               >
                 <p className="text-xs text-muted-foreground mb-1">{f.name}</p>
                 <p className="font-mono text-sm text-foreground">{f.expr}</p>
@@ -171,7 +171,7 @@ export default function StudyTools() {
               <Link
                 key={t.title}
                 to={t.to}
-                className="rounded-xl border border-white/10 bg-white/5 p-4 hover:bg-white/10 transition"
+                className="rounded-xl border border-border/60 bg-foreground/[0.04] p-4 hover:bg-foreground/[0.07] transition"
               >
                 <h3 className="font-medium text-foreground">{t.title}</h3>
                 <p className="text-sm text-muted-foreground mt-1">{t.desc}</p>

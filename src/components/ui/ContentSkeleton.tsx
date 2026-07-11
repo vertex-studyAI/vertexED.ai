@@ -7,11 +7,11 @@ type ContentSkeletonProps = {
 
 export function ContentSkeleton({ lines = 3, className }: ContentSkeletonProps) {
   return (
-    <div className={cn('animate-pulse space-y-3', className)} aria-hidden>
+    <div className={cn('space-y-3', className)} aria-hidden>
       {Array.from({ length: lines }).map((_, i) => (
         <div
           key={i}
-          className="h-4 rounded-lg bg-white/10"
+          className="h-4 rounded-lg skeleton-shimmer"
           style={{ width: `${100 - i * 12}%` }}
         />
       ))}
@@ -22,10 +22,10 @@ export function ContentSkeleton({ lines = 3, className }: ContentSkeletonProps) 
 export function CardSkeleton({ className }: { className?: string }) {
   return (
     <div
-      className={cn('animate-pulse rounded-2xl border border-white/10 bg-white/5 p-6', className)}
+      className={cn('rounded-2xl border border-border/60 bg-foreground/[0.03] p-6', className)}
       aria-hidden
     >
-      <div className="mb-4 h-6 w-1/3 rounded-lg bg-white/10" />
+      <div className="mb-4 h-6 w-1/3 rounded-lg skeleton-shimmer" />
       <ContentSkeleton lines={4} />
     </div>
   );

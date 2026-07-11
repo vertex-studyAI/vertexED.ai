@@ -7,8 +7,8 @@ export default function ExamStrategyTimeManagement() {
   return (
     <>
       <SEO
-        title="Exam Strategy, Timing, and Marking Schemes | VertexED"
-        description="Master IB/IGCSE exam strategy: time management, command terms, marking schemes, and weekly rehearsal using VertexED’s Paper Maker and Answer Reviewer."
+        title="Exam strategy and time management for IB/IGCSE | VertexED"
+        description="Command terms, mark-scheme checklists, and weekly timed rehearsals — so exam day feels like practice, not a surprise."
         canonical={canonical}
         ogType="article"
         jsonLd={{
@@ -23,14 +23,14 @@ export default function ExamStrategyTimeManagement() {
         }}
       />
       <Article
-        title="Exam Strategy & Time Management"
-        subtitle="Turn mark schemes and timing into muscle memory before test day."
+        title="Exam strategy and time management"
+        subtitle="Mark schemes and timing as habits you practise weekly — not rules you read the night before."
         kicker="Exam Skills"
       >
-        <p>
-          Strong content knowledge is essential, but exams reward precision under time pressure. This
-          guide converts marking schemes and command terms into concrete behaviors you can practice each
-          week, so exam day feels like a familiar routine—not a surprise.
+        <p className="lead">
+          Knowing the content is not enough. Exams reward precision under time — command terms met,
+          easy marks secured early, a buffer left at the end. This guide turns mark schemes into
+          behaviours you rehearse each week with Paper Maker and Answer Reviewer.
         </p>
 
         <h2>Decode the paper before you start</h2>
@@ -107,13 +107,13 @@ export default function ExamStrategyTimeManagement() {
           <li>Beilock, S. (2010): Choke: What the Secrets of the Brain Reveal About Getting It Right When You Have To.</li>
         </ul>
 
-        <div className="mt-8 text-xs text-slate-400 border-t border-white/10 pt-4">
+        <div className="article-footer">
           Editorial note: Reviewed for clarity and usefulness. If you spot a discrepancy with your board’s guidance,
           use your board’s mark scheme as the source of truth.
           <div className="mt-1">Last updated: 2025-12-24 · Author: VertexED Team</div>
         </div>
 
-        <hr className="my-8 border-white/10" />
+        <hr className="article-divider" />
         <h3>Related guides</h3>
         <ul>
           <li><Link to="/resources/active-recall-spaced-repetition">Active Recall & Spaced Repetition</Link></li>

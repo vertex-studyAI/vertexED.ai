@@ -18,9 +18,6 @@ type CurriculumSelectorProps = {
   className?: string;
 };
 
-const selectClass =
-  'w-full rounded-xl border border-white/15 bg-black/20 px-4 py-3 text-white outline-none focus:border-primary/40 transition';
-
 export default function CurriculumSelector({
   value,
   onChange,
@@ -64,12 +61,12 @@ export default function CurriculumSelector({
     <div className={cn('space-y-4', className)}>
       <div className={compact ? 'grid gap-4 md:grid-cols-2' : 'space-y-4'}>
         <div>
-          <label htmlFor="curriculum-board" className="mb-2 block text-sm text-white/75">
+          <label htmlFor="curriculum-board" className="form-label">
             Exam board
           </label>
           <select
             id="curriculum-board"
-            className={selectClass}
+            className="form-control-select"
             value={value.board ?? ''}
             onChange={(e) => handleBoardChange(e.target.value as ExamBoard)}
           >
@@ -84,12 +81,12 @@ export default function CurriculumSelector({
 
         {value.board && (
           <div>
-            <label htmlFor="curriculum-grade" className="mb-2 block text-sm text-white/75">
+            <label htmlFor="curriculum-grade" className="form-label">
               Grade / year
             </label>
             <select
               id="curriculum-grade"
-              className={selectClass}
+              className="form-control-select"
               value={value.grade ?? ''}
               onChange={(e) =>
                 onChange({
@@ -112,13 +109,13 @@ export default function CurriculumSelector({
 
       {showExamDate && (
         <div>
-          <label htmlFor="curriculum-exam-date" className="mb-2 block text-sm text-white/75">
+          <label htmlFor="curriculum-exam-date" className="form-label">
             Exam date (optional)
           </label>
           <input
             id="curriculum-exam-date"
             type="date"
-            className={selectClass}
+            className="form-control"
             value={value.examDate ?? ''}
             onChange={(e) => onChange({ ...value, examDate: e.target.value || null })}
           />
@@ -127,7 +124,7 @@ export default function CurriculumSelector({
 
       {showSubjects && value.board && subjects.length > 0 && (
         <div>
-          <p className="mb-2 text-sm text-white/75">
+          <p className="form-label">
             Subjects {multiSubject ? '(select all that apply)' : ''}
           </p>
           <div className="flex flex-wrap gap-2">
@@ -139,10 +136,10 @@ export default function CurriculumSelector({
                   type="button"
                   onClick={() => toggleSubject(subject)}
                   className={cn(
-                    'rounded-full border px-3 py-1.5 text-sm transition',
+                    'rounded-full border px-3 py-1.5 text-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
                     selected
                       ? 'border-primary/40 bg-primary/15 text-primary'
-                      : 'border-white/15 bg-white/5 text-white/70 hover:border-white/25 hover:bg-white/10',
+                      : 'surface-chip text-muted-foreground hover:text-foreground hover:border-primary/25 hover:bg-foreground/[0.07]',
                   )}
                   aria-pressed={selected}
                 >

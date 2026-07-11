@@ -1,13 +1,4 @@
 import React, { useMemo, useState } from "react";
-import {
-	fieldLabelStyle,
-	ghostButtonStyle,
-	inputFieldStyle,
-	listItemStyle,
-	listSurfaceStyle,
-	primaryButtonStyle,
-	subtleTextStyle,
-} from "../styles";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { recordStudySession } from "@/lib/studyStats";
 
@@ -20,27 +11,6 @@ interface ActivityLogEntry {
 interface ActivityLogProps {
 	accent: string;
 }
-
-const sectionHeaderStyle: React.CSSProperties = {
-	display: "flex",
-	justifyContent: "space-between",
-	alignItems: "center",
-	gap: "12px",
-	flexWrap: "wrap",
-};
-
-const accentDotStyle = (accent: string): React.CSSProperties => ({
-	width: "10px",
-	height: "10px",
-	borderRadius: "999px",
-	background: accent,
-	boxShadow: `${accent} 0 0 14px 0`,
-});
-
-const metaTextStyle: React.CSSProperties = {
-	...subtleTextStyle,
-	fontSize: "12px",
-};
 
 const ActivityLog: React.FC<ActivityLogProps> = ({ accent }) => {
 	const [entries, setEntries] = useLocalStorage<ActivityLogEntry[]>("studyzone_activity", []);
@@ -68,19 +38,23 @@ const ActivityLog: React.FC<ActivityLogProps> = ({ accent }) => {
 	const formattedEntries = useMemo(() => entries, [entries]);
 
 	return (
-		<div style={{ display: "grid", gap: "18px" }}>
-			<div style={sectionHeaderStyle}>
+		<div className="zone-stack">
+			<div className="flex flex-wrap items-center justify-between gap-3">
 				<div>
-					<h2 style={{ margin: 0, fontSize: "20px", fontWeight: 600 }}>Activity Log</h2>
-					<p style={subtleTextStyle}>Log wins, rough notes, or anything worth remembering.</p>
+					<h2 className="zone-heading">Activity Log</h2>
+					<p className="zone-subtle">Log wins, rough notes, or anything worth remembering.</p>
 				</div>
-				<div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-					<span style={accentDotStyle(accent)} />
-					<span style={metaTextStyle}>{formattedEntries.length} entries</span>
+				<div className="flex items-center gap-2">
+					<span
+						className="h-2.5 w-2.5 rounded-full"
+						style={{ background: accent, boxShadow: `0 0 14px ${accent}` }}
+						aria-hidden
+					/>
+					<span className="text-xs text-muted-foreground">{formattedEntries.length} entries</span>
 				</div>
 			</div>
 
-			<div style={{ display: "flex", flexWrap: "wrap", gap: "12px" }}>
+			<div className="flex flex-wrap gap-3">
 				<input
 					type="text"
 					value={draft}
@@ -92,15 +66,15 @@ const ActivityLog: React.FC<ActivityLogProps> = ({ accent }) => {
 							addEntry();
 						}
 					}}
-					style={{ ...inputFieldStyle, flex: 1, minWidth: "220px" }}
+					className="form-control min-w-[220px] flex-1"
 				/>
-				<button type="button" onClick={addEntry} style={primaryButtonStyle(accent)}>
+				<button type="button" onClick={addEntry} className="zone-btn-primary">
 					Add
 				</button>
 				<button
 					type="button"
 					onClick={() => setEntries([])}
-					style={{ ...ghostButtonStyle, paddingInline: "18px" }}
+					className="zone-btn-ghost !px-4"
 					disabled={entries.length === 0}
 				>
 					Clear
@@ -108,22 +82,22 @@ const ActivityLog: React.FC<ActivityLogProps> = ({ accent }) => {
 			</div>
 
 			{formattedEntries.length === 0 ? (
-				<div style={{ ...listSurfaceStyle, alignItems: "center", justifyContent: "center", color: "rgba(231,234,255,0.6)" }}>
+				<div className="zone-list-surface zone-empty-hint items-center justify-center">
 					Nothing logged yet. Start a session or jot a quick note.
 				</div>
 			) : (
-				<div style={{ ...listSurfaceStyle, maxHeight: "360px", overflowY: "auto" }}>
+				<div className="zone-list-surface max-h-[360px] overflow-y-auto">
 					{formattedEntries.map((entry) => (
-						<div key={entry.id} style={{ ...listItemStyle, alignItems: "flex-start" }}>
-							<div style={{ display: "flex", flexDirection: "column", gap: "6px", flex: 1 }}>
-								<span style={{ color: accent, fontWeight: 600 }}>{entry.message}</span>
-								<span style={metaTextStyle}>{new Date(entry.createdAt).toLocaleString()}</span>
+						<div key={entry.id} className="zone-list-item items-start">
+							<div className="flex flex-1 flex-col gap-1.5">
+								<span style={{ color: accent }} className="font-semibold">
+									{entry.message}
+								</span>
+								<span className="text-xs text-muted-foreground">
+									{new Date(entry.createdAt).toLocaleString()}
+								</span>
 							</div>
-							<button
-								type="button"
-								onClick={() => removeEntry(entry.id)}
-								style={{ ...ghostButtonStyle, padding: "6px 12px" }}
-							>
+							<button type="button" onClick={() => removeEntry(entry.id)} className="zone-btn-ghost !px-3 !py-2 text-sm">
 								Remove
 							</button>
 						</div>
@@ -135,4 +109,3 @@ const ActivityLog: React.FC<ActivityLogProps> = ({ accent }) => {
 };
 
 export default ActivityLog;
-

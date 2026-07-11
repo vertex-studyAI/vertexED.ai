@@ -7,16 +7,16 @@ export default function HowToCramEffectively() {
   return (
     <>
       <SEO
-        title="How to Cram Effectively (When You Have No Time Left) | VertexED"
-        description="Exam tomorrow? Don't panic. Here is a science-backed guide to emergency studying, triage, and high-yield revision using AI."
+        title="How to cram when the exam is tomorrow | VertexED"
+        description="Not ideal — but if you are down to one day, triage high-yield topics, blurting, cheat sheets, and six hours of sleep beat an all-nighter."
         canonical="https://www.vertexed.app/resources/how-to-cram-effectively"
-        keywords="how to cram for exams, last minute study tips, emergency revision, high yield studying, Pareto principle studying, all-nighter tips, VertexED, exam panic"
+        keywords="how to cram for exams, last minute study tips, emergency revision, high yield studying, exam panic, VertexED"
         jsonLd={[
           {
             "@context": "https://schema.org",
             "@type": "Article",
-            headline: "How to Cram Effectively (When You Have No Time Left)",
-            description: "Exam tomorrow? Don't panic. Here is a science-backed guide to emergency studying.",
+            headline: "How to cram when the exam is tomorrow",
+            description: "Triage, blurting, cheat sheets, and sleep — an honest emergency protocol when revision week never happened.",
             author: {
               "@type": "Organization",
               name: "VertexED Team",
@@ -42,7 +42,7 @@ export default function HowToCramEffectively() {
                 name: "Should I drink coffee?",
                 acceptedAnswer: {
                   "@type": "Answer",
-                  text: "Yes, but stop 6 hours before your planned sleep time. Caffeine jitters + exam anxiety = disaster."
+                  text: "A moderate amount can help — but stop six hours before you plan to sleep. Jitters plus exam anxiety rarely help."
                 }
               },
               {
@@ -50,7 +50,7 @@ export default function HowToCramEffectively() {
                 name: "What if I don't understand a concept?",
                 acceptedAnswer: {
                   "@type": "Answer",
-                  text: "Skip it. If it takes more than 15 minutes to understand, it's not worth the time investment right now. Focus on memorizing facts you can retain."
+                  text: "If it takes more than fifteen minutes, park it. Focus on definitions and facts you can retain overnight."
                 }
               },
               {
@@ -58,7 +58,7 @@ export default function HowToCramEffectively() {
                 name: "How do I prevent this next time?",
                 acceptedAnswer: {
                   "@type": "Answer",
-                  text: "Use the VertexED Planner. It automatically schedules your revision so you never have to cram again."
+                  text: "Block revision across the term in the Planner — mocks, retrieval slots, and lighter evenings built in from the start."
                 }
               }
             ]
@@ -66,86 +66,86 @@ export default function HowToCramEffectively() {
         ]}
       />
       <Article
-        title="How to Cram Effectively (When You Have No Time Left)"
-        subtitle="We don't recommend cramming. But sometimes, life happens. If you have 12 hours until the exam, here is how to survive."
+        title="How to cram when the exam is tomorrow"
+        subtitle="Cramming is a survival tactic, not a strategy — but if you are here, this is the least-bad protocol."
         kicker="Study Strategy"
       >
         <p className="lead">
-          Ideally, you would use <Link to="/planner">VertexED's Planner</Link> to study over weeks. 
-          But you didn't. The exam is tomorrow. You are panicking.
-          Stop. Panic burns energy you need for your brain. Follow this emergency protocol.
+          Ideally you would have used the <Link to="/planner">Planner</Link> across the term. You did not.
+          The exam is tomorrow. Panic wastes the energy you need for retrieval. This is an honest
+          emergency protocol — triage, blurting, cheat sheets, and sleep.
         </p>
 
-        <h2>Step 1: Triage (The 80/20 Rule)</h2>
+        <h2>Step 1: Triage (pick your battles)</h2>
         <p>
-          You cannot learn everything. You must accept this.
-          The Pareto Principle states that 80% of the marks come from 20% of the curriculum.
+          You cannot cover the full syllabus in twelve hours. Accept that and focus on what past papers
+          actually repeat.
         </p>
         <p>
-          <strong>Action:</strong> Go to the <Link to="/chatbot">Chatbot</Link>.
-          <br /><em>"I have an exam on [Subject] tomorrow. I have done zero study. List the top 5 'High Yield' topics that appear most frequently on past papers. Ignore the niche topics."</em>
+          <strong>Action:</strong> Open <Link to="/chatbot">Apex</Link>.
+          <br /><em>&ldquo;I have an exam on [subject] tomorrow and have not revised. List the five highest-yield topics on [board] past papers. Skip niche content.&rdquo;</em>
         </p>
 
-        <h2>Step 2: The "Blurting" Method</h2>
+        <h2>Step 2: Blurting (not rereading)</h2>
         <p>
-          Passive reading is useless now. You need to force information into your brain.
+          Passive reading will not stick overnight. Force retrieval:
         </p>
         <ol>
-          <li>Read a summary of Topic 1 for 10 minutes.</li>
+          <li>Read a summary of Topic 1 for ten minutes.</li>
           <li>Close the book.</li>
-          <li>Write down everything you remember on a blank sheet of paper.</li>
+          <li>Write everything you remember on blank paper.</li>
           <li>Check what you missed.</li>
           <li>Repeat.</li>
         </ol>
 
-        <h2>Step 3: Use AI for "Cheat Sheet" Synthesis</h2>
+        <h2>Step 3: One-page cheat sheet</h2>
         <p>
-          You don't have time to read the textbook.
-          <br /><strong>Action:</strong> Upload your notes to <Link to="/notetaker">Notetaker</Link>.
-          <br /><em>"Summarize this entire unit into a one-page 'Cheat Sheet' containing only definitions, formulas, and key dates."</em>
+          You do not have time for the full textbook.
+          <br /><strong>Action:</strong> Upload notes to <Link to="/notetaker">Notetaker</Link>.
+          <br /><em>&ldquo;Summarize this unit into one page — definitions, formulas, and key dates only.&rdquo;</em>
         </p>
 
-        <h2>Step 4: Sleep (Yes, Really)</h2>
+        <h2>Step 4: Sleep (non-negotiable)</h2>
         <p>
-          The "All-Nighter" is a myth. If you stay up all night, your working memory drops by 40%. You will fail.
+          All-nighters drop working memory sharply. You will perform worse with zero sleep than with six hours.
         </p>
         <p>
-          <strong>The Strategy:</strong> Study until 12 AM. Sleep for 6 hours. Wake up at 6 AM.
-          Those 6 hours of sleep will consolidate what you studied. 0 hours of sleep means you will forget everything by the time you sit down.
+          <strong>Practical split:</strong> Study until midnight. Sleep six hours. Wake at 6 AM.
+          Sleep consolidates what you crammed; skipping it means most of tonight&apos;s work evaporates by Paper 1.
         </p>
 
-        <h2>Step 5: The Morning Of</h2>
+        <h2>Step 5: Morning of the exam</h2>
         <p>
-          Do not learn new things. Only review what you crammed last night.
-          Use <Link to="/study-zone">Study Zone</Link> for a quick 10-minute active recall session to warm up your brain.
+          Do not learn new topics. Review only what you blurred last night.
+          Run a ten-minute active recall warm-up in <Link to="/study-zone">Study Zone</Link>.
         </p>
 
         <h2>FAQ</h2>
-        <p><strong>Should I drink coffee?</strong> Yes, but stop 6 hours before your planned sleep time. Caffeine jitters + exam anxiety = disaster.</p>
-        <p><strong>What if I don't understand a concept?</strong> Skip it. If it takes more than 15 minutes to understand, it's not worth the time investment right now. Focus on memorizing facts you <em>can</em> retain.</p>
-        <p><strong>How do I prevent this next time?</strong> Use the <Link to="/planner">VertexED Planner</Link>. It automatically schedules your revision so you never have to cram again.</p>
+        <p><strong>Should I drink coffee?</strong> A moderate amount can help — stop six hours before sleep. Jitters plus exam anxiety rarely help.</p>
+        <p><strong>What if I don&apos;t understand a concept?</strong> If it takes more than fifteen minutes, park it. Focus on facts you can retain overnight.</p>
+        <p><strong>How do I prevent this next time?</strong> Block revision across the term in the <Link to="/planner">Planner</Link> — mocks, retrieval, and realistic evenings from week one.</p>
 
         <div className="not-prose mt-8 flex gap-3 flex-wrap">
-          <Link to="/notetaker" className="neu-button">Generate Cheat Sheets</Link>
-          <Link to="/chatbot" className="neu-button">Find High Yield Topics</Link>
+          <Link to="/notetaker" className="neu-button">Build cheat sheet</Link>
+          <Link to="/chatbot" className="neu-button">Find high-yield topics</Link>
         </div>
 
-        <h2 className="mt-10">Evidence & references</h2>
+        <h2 className="mt-10">Evidence &amp; references</h2>
         <ul>
-          <li>Walker, M. (2017): Why We Sleep — the impact of sleep deprivation on memory formation.</li>
-          <li>Dunlosky et al. (2013): The low utility of re-reading vs. the high utility of self-testing.</li>
+          <li>Walker, M. (2017): Why We Sleep — sleep deprivation and memory formation.</li>
+          <li>Dunlosky et al. (2013): Re-reading scores low; self-testing scores high.</li>
         </ul>
 
-        <div className="mt-8 text-xs text-slate-400 border-t border-white/10 pt-4">
+        <div className="article-footer">
           Editorial note: Cramming is a survival tactic, not a long-term strategy.
           <div className="mt-1">Last updated: 2025-12-24 · Author: VertexED Team</div>
         </div>
 
-        <hr className="my-8 border-white/10" />
+        <hr className="article-divider" />
         <h3>Related guides</h3>
         <ul>
-          <li><Link to="/resources/exam-strategy-time-management">Exam Strategy & Time Management</Link></li>
-          <li><Link to="/resources/active-recall-spaced-repetition">Active Recall & Spaced Repetition</Link></li>
+          <li><Link to="/resources/exam-strategy-time-management">Exam Strategy &amp; Time Management</Link></li>
+          <li><Link to="/resources/active-recall-spaced-repetition">Active Recall &amp; Spaced Repetition</Link></li>
           <li><Link to="/resources/subject-guides-common-mistakes">Subject Guides: Common Mistakes</Link></li>
         </ul>
       </Article>

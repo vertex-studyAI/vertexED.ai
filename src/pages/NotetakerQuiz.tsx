@@ -7,7 +7,6 @@ import { authFetch, getAccessToken } from "@/lib/apiAuth";
 import { Document, Packer, Paragraph, TextRun } from "docx";
 import { saveAs } from "file-saver";
 import jsPDF from "jspdf";
-import html2canvas from "html2canvas";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -40,6 +39,7 @@ import {
   type SrRating,
 } from "@/lib/spacedRepetition";
 import { recordStudySession } from "@/lib/studyStats";
+import { recordLoopStep } from "@/lib/studyLoopTracker";
 import { saveStudyArtifact, consumeArtifactRestore } from "@/lib/userContent";
 import { toast } from "@/hooks/use-toast";
 import {
@@ -142,20 +142,20 @@ const fmtTime = (seconds: number) => {
 
 const markdownComponents = {
   table: ({ children }: any) => (
-    <div className="overflow-auto rounded-2xl border border-white/10 bg-slate-950/40">
-      <table className="min-w-full border-collapse text-sm text-white">{children}</table>
+    <div className="overflow-auto rounded-2xl border border-border/60 bg-muted/40">
+      <table className="min-w-full border-collapse text-sm text-foreground">{children}</table>
     </div>
   ),
-  thead: ({ children }: any) => <thead className="bg-white/5">{children}</thead>,
+  thead: ({ children }: any) => <thead className="bg-foreground/[0.04]">{children}</thead>,
   tbody: ({ children }: any) => <tbody>{children}</tbody>,
-  tr: ({ children }: any) => <tr className="border-b border-white/10 last:border-b-0">{children}</tr>,
-  th: ({ children }: any) => <th className="px-3 py-2 text-left text-xs font-semibold uppercase tracking-wide text-white/85">{children}</th>,
-  td: ({ children }: any) => <td className="px-3 py-2 align-top text-white/90">{children}</td>,
-  pre: ({ children }: any) => <pre className="overflow-auto rounded-2xl bg-slate-950 p-4 text-white shadow-inner">{children}</pre>,
+  tr: ({ children }: any) => <tr className="border-b border-border/60 last:border-b-0">{children}</tr>,
+  th: ({ children }: any) => <th className="px-3 py-2 text-left text-xs font-semibold uppercase tracking-wide text-foreground/90">{children}</th>,
+  td: ({ children }: any) => <td className="px-3 py-2 align-top text-muted-foreground">{children}</td>,
+  pre: ({ children }: any) => <pre className="overflow-auto rounded-2xl bg-muted p-4 text-foreground shadow-inner">{children}</pre>,
   code: ({ className, children }: any) => (
-    <code className={`rounded-md bg-white/10 px-1.5 py-0.5 text-[0.85em] text-white ${className || ""}`}>{children}</code>
+    <code className={`rounded-md bg-foreground/10 px-1.5 py-0.5 text-[0.85em] text-foreground ${className || ""}`}>{children}</code>
   ),
-  p: ({ children }: any) => <p className="leading-relaxed text-white/95">{children}</p>,
+  p: ({ children }: any) => <p className="leading-relaxed text-muted-foreground">{children}</p>,
 };
 
 function getApiError(err: unknown) {
@@ -395,6 +395,7 @@ export default function NotetakerQuiz(): JSX.Element {
         return;
       }
 
+      const html2canvas = (await import("html2canvas")).default;
       const canvas = await html2canvas(element, { scale: 2, useCORS: true, logging: false, backgroundColor: null });
       const imgData = canvas.toDataURL("image/png");
       const pdf = new jsPDF("p", "mm", "a4");
@@ -706,6 +707,7 @@ export default function NotetakerQuiz(): JSX.Element {
     const updated = rateCard(current, rating);
     setSrDeck((prev) => prev.map((c) => (c.id === updated.id ? updated : c)));
     if (studyIndex + 1 >= studyQueue.length) {
+      recordLoopStep("remember");
       setStudyModeOpen(false);
       setStudyQueue([]);
       return;
@@ -1054,7 +1056,9 @@ export default function NotetakerQuiz(): JSX.Element {
                   <FileText size={18} />
                   Topic and Format
                 </h2>
-                <div className="text-sm text-muted-foreground">Drop in a topic and we'll turn it into notes, flashcards, and quizzes you can export.</div>
+                <div className="text-sm text-muted-foreground leading-relaxed max-w-xl">
+                  Enter a topic or paste material. Choose a note shape, generate, then build flashcards and a quiz from the same source — export or schedule cards for spaced review.
+                </div>
               </div>
 
               <div className="flex flex-wrap items-center gap-3">
@@ -1072,7 +1076,7 @@ export default function NotetakerQuiz(): JSX.Element {
 
             <div className="mt-5 grid gap-4 md:grid-cols-3 items-end">
               <div className="neu-input">
-                <input className="neu-input-el h-11" placeholder="Enter your study topic..." value={topic} onChange={(e) => setTopic(e.target.value)} />
+                <input className="neu-input-el h-11" placeholder="e.g. IB Biology — photosynthesis, or paste after generating" value={topic} onChange={(e) => setTopic(e.target.value)} />
               </div>
 
               <div className="neu-input">
@@ -1143,7 +1147,7 @@ export default function NotetakerQuiz(): JSX.Element {
 
             <div className="mt-4">
               <label className="mb-2 block text-sm font-medium">Additional Information (optional)</label>
-              <textarea className="neu-input-el mt-2 w-full min-h-20" placeholder="Anything extra for the generator? (focus, equations, exam style, etc.)" value={additionalInfo} onChange={(e) => setAdditionalInfo(e.target.value)} />
+              <textarea className="neu-input-el mt-2 w-full min-h-20" placeholder="Board, command words, equations to include, or topics to emphasise (optional)" value={additionalInfo} onChange={(e) => setAdditionalInfo(e.target.value)} />
             </div>
           </NeumorphicCard>
 
@@ -1174,7 +1178,7 @@ export default function NotetakerQuiz(): JSX.Element {
                             initial={{ opacity: 0, y: -6 }}
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: -6 }}
-                            className="absolute right-0 -top-10 rounded-lg bg-slate-900 px-3 py-1 text-xs text-white shadow-lg"
+                            className="absolute right-0 -top-10 rounded-lg bg-foreground px-3 py-1 text-xs text-background shadow-lg"
                           >
                             Copied!
                           </motion.div>
@@ -1195,25 +1199,25 @@ export default function NotetakerQuiz(): JSX.Element {
                   </div>
                 </div>
 
-                <div id="notes-section-export" className="rounded-3xl bg-slate-950/95 p-4 text-white shadow-inner">
+                <div id="notes-section-export" className="rounded-3xl border border-border/60 bg-muted/30 p-4 text-foreground shadow-inner">
                   <textarea
                     ref={notesRef}
-                    className="neu-input-el w-full min-h-[20rem] resize-y bg-transparent p-4 font-sans text-white placeholder:text-white/40"
+                    className="neu-input-el w-full min-h-[20rem] resize-y bg-transparent p-4 font-sans text-foreground placeholder:text-muted-foreground/60"
                     value={notes}
                     onChange={(e) => handleNotesChange(e.target.value)}
                     onBlur={handleNotesBlur}
-                    placeholder="Your notes will appear here. Type or generate..."
+                    placeholder="Notes appear here after generation — edit, then create flashcards and quiz from this text"
                   />
 
                   <div className="mt-4 flex flex-wrap items-center gap-2">
-                    <div className="text-sm text-white/70">Insert:</div>
+                    <div className="text-sm text-muted-foreground">Insert:</div>
                     <button className="neu-button px-3 py-2 text-sm" onClick={() => insertAtCursor("$$E = mc^2$$")}>LaTeX</button>
                     <button className="neu-button px-3 py-2 text-sm" onClick={() => insertAtCursor("$$\\int_a^b f(x)\\,dx$$")}>Integral</button>
                     <button className="neu-button px-3 py-2 text-sm" onClick={() => insertAtCursor("**Table (Markdown)**\n\n| Header 1 | Header 2 |\n|---|---|\n| Row1Col1 | Row1Col2 |\n")}>Table</button>
                     <button className="neu-button px-3 py-2 text-sm" onClick={() => insertAtCursor("• Bullet 1\n• Bullet 2\n")}>Bullets</button>
 
                     <div className="ml-auto flex items-center gap-2">
-                      <button className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-blue-700" onClick={() => setShowPreview((s) => !s)}>
+                      <button className="btn-solid inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm" onClick={() => setShowPreview((s) => !s)}>
                         <Eye size={14} />
                         <span>{showPreview ? "Hide Preview" : "Show Preview"}</span>
                       </button>
@@ -1229,10 +1233,10 @@ export default function NotetakerQuiz(): JSX.Element {
                         className="mt-4"
                       >
                         <div className="mb-2 flex items-center justify-between">
-                          <div className="text-sm font-medium text-white">Preview</div>
-                          <div className="text-xs text-white/45">Rendered Markdown and LaTeX</div>
+                          <div className="text-sm font-medium text-foreground">Preview</div>
+                          <div className="text-xs text-muted-foreground">Rendered Markdown and LaTeX</div>
                         </div>
-                        <div className="max-h-[28rem] overflow-auto rounded-2xl border border-white/10 bg-slate-900/90 p-4 text-white">
+                        <div className="max-h-[28rem] overflow-auto rounded-2xl border border-border/60 bg-muted/40 p-4 text-foreground">
                           <ReactMarkdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex]} components={markdownComponents as any}>
                             {notes || "_No content yet_"}
                           </ReactMarkdown>
@@ -1241,7 +1245,7 @@ export default function NotetakerQuiz(): JSX.Element {
                     )}
                   </AnimatePresence>
 
-                  <div className="mt-3 flex items-center gap-2 text-xs text-white/45">
+                  <div className="mt-3 flex items-center gap-2 text-xs text-muted-foreground">
                     <div>Tip: Use $$...$$ for LaTeX.</div>
                     <div className="ml-auto flex items-center gap-2">
                       <span>Autosave</span>
@@ -1268,7 +1272,7 @@ export default function NotetakerQuiz(): JSX.Element {
                   </div>
                 </div>
 
-                <div className="relative rounded-2xl border border-white/10 bg-white/5 p-4 shadow-sm" style={{ minHeight: 180 }}>
+                <div className="relative rounded-2xl border border-border/60 bg-foreground/[0.03] p-4 shadow-sm" style={{ minHeight: 180 }}>
                   {flashcards.length ? (
                     <>
                       <div className="text-base font-semibold text-foreground break-words whitespace-pre-wrap">
@@ -1306,7 +1310,7 @@ export default function NotetakerQuiz(): JSX.Element {
 
                     <button
                       className="neu-button px-3 py-2 text-sm bg-primary/15 border-primary/25"
-                      onClick={startStudyMode}
+                      onClick={() => startStudyMode()}
                       disabled={!srDeck.length}
                     >
                       Study Mode
@@ -1334,7 +1338,7 @@ export default function NotetakerQuiz(): JSX.Element {
                     flashcards.map((f, i) => (
                       <button
                         key={`${i}_${safeText(f.front).slice(0, 10)}`}
-                        className={`rounded-xl border border-white/10 px-3 py-2 text-sm text-foreground transition hover:scale-105 ${i === currentFlashIndex ? "bg-primary/20 border-primary/30" : "bg-white/5"}`}
+                        className={`rounded-xl border border-border/60 px-3 py-2 text-sm text-foreground transition hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${i === currentFlashIndex ? "bg-primary/20 border-primary/30" : "bg-foreground/[0.04]"}`}
                         onClick={() => handleFlashClick(i)}
                       >
                         {i + 1}
@@ -1345,7 +1349,7 @@ export default function NotetakerQuiz(): JSX.Element {
                       <button className="neu-button px-3 py-2" onClick={() => sendNotesToCards(flashCount)}>
                         Generate Flashcards
                       </button>
-                      <div className="self-center text-sm text-muted-foreground">Or just generate notes — cards come along for the ride.</div>
+                      <div className="self-center text-sm text-muted-foreground">Generate notes first — flashcards and quiz use the same source material.</div>
                     </div>
                   ) : null}
                 </div>
@@ -1366,12 +1370,12 @@ export default function NotetakerQuiz(): JSX.Element {
                     <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} transition={{ duration: 0.25 }}>
                       <div className="flex flex-wrap items-center gap-3">
                         {!recording ? (
-                          <button className="neu-button inline-flex items-center gap-2 bg-rose-500 px-4 py-2 text-white" onClick={startRecording}>
+                          <button className="neu-button inline-flex items-center gap-2 bg-destructive/90 px-4 py-2 text-destructive-foreground" onClick={startRecording}>
                             <Mic size={16} />
                             <span>Start</span>
                           </button>
                         ) : (
-                          <button className="neu-button inline-flex items-center gap-2 bg-red-600 px-4 py-2 text-white" onClick={stopRecording}>
+                          <button className="neu-button inline-flex items-center gap-2 bg-destructive px-4 py-2 text-destructive-foreground" onClick={stopRecording}>
                             <StopCircle size={16} />
                             <span>Stop</span>
                           </button>
@@ -1397,7 +1401,7 @@ export default function NotetakerQuiz(): JSX.Element {
                       </div>
 
                       <div className="mt-3">
-                        <canvas ref={audioCanvasRef} width={900} height={90} className="h-24 w-full rounded-2xl border border-white/10 bg-slate-950" />
+                        <canvas ref={audioCanvasRef} width={900} height={90} className="h-24 w-full rounded-2xl border border-border/60 bg-muted" />
                       </div>
 
                       <div className="mt-3 text-xs text-muted-foreground">Record a lecture and we'll help turn it into study material.</div>
@@ -1450,7 +1454,7 @@ export default function NotetakerQuiz(): JSX.Element {
                 exit={{ opacity: 0 }}
                 className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-6 backdrop-blur-sm"
               >
-                <motion.div initial={{ scale: 0.96, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.96, opacity: 0 }} transition={{ duration: 0.18 }} className="relative w-full max-w-3xl rounded-3xl glass-panel border border-white/10 p-6 font-sans shadow-2xl">
+                <motion.div initial={{ scale: 0.96, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.96, opacity: 0 }} transition={{ duration: 0.18 }} className="relative w-full max-w-3xl rounded-3xl glass-panel p-6 font-sans shadow-2xl">
                   <button className="absolute right-4 top-4 neu-button px-3 py-2" onClick={() => setFlashFullscreen(false)}>
                     <X size={14} />
                   </button>
@@ -1504,7 +1508,7 @@ export default function NotetakerQuiz(): JSX.Element {
                   </div>
 
                   {studyRevealed ? (
-                    <div className="text-base text-muted-foreground mb-6 border-t border-white/10 pt-4">
+                    <div className="text-base text-muted-foreground mb-6 border-t border-border/60 pt-4">
                       {studyQueue[studyIndex].back}
                     </div>
                   ) : (
@@ -1587,7 +1591,7 @@ export default function NotetakerQuiz(): JSX.Element {
                     const currentAnswer = userAnswers[q.id] ?? "";
                     const choices = (q.choices || q.options || []).slice(0, clamp(mcqOptionCount, 2, 5));
                     return (
-                      <div key={q.id ?? idx} className="rounded-2xl border border-white/10 bg-white/5 p-4 shadow-sm">
+                      <div key={q.id ?? idx} className="rounded-2xl border border-border/60 bg-foreground/[0.03] p-4 shadow-sm">
                         <div className="flex items-start gap-3">
                           <div className="text-sm font-medium text-foreground">Q{idx + 1}.</div>
                           <div className="flex-1 text-foreground">
@@ -1596,7 +1600,7 @@ export default function NotetakerQuiz(): JSX.Element {
                             {q.type === "multiple_choice" && (
                               <div className="space-y-2">
                                 {choices.length ? choices.map((choice, i) => (
-                                  <label className="flex cursor-pointer items-center gap-2 rounded-xl border border-white/10 px-3 py-2 transition hover:bg-white/5" key={`${q.id}_${i}`}>
+                                  <label className="flex cursor-pointer items-center gap-2 rounded-xl border border-border/60 px-3 py-2 transition hover:bg-foreground/[0.04] has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-ring" key={`${q.id}_${i}`}>
                                     <input
                                       type="radio"
                                       name={`q_${q.id}`}
@@ -1638,7 +1642,7 @@ export default function NotetakerQuiz(): JSX.Element {
                     );
                   })
                 ) : (
-                  <div className="rounded-2xl border border-white/10 bg-white/5 p-4 text-sm text-muted-foreground">No questions yet — generate a quiz from your notes to get started.</div>
+                  <div className="rounded-2xl border border-dashed border-border/60 bg-foreground/[0.03] p-4 text-sm text-muted-foreground">No questions yet — generate a quiz from your notes to get started.</div>
                 )}
               </div>
 

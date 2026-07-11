@@ -308,10 +308,11 @@ export const BOARD_LEARNING_TRACKS: BoardLearningTrack[] = [
   },
   {
     title: 'TOK & Extended Essay',
-    to: '/resources/ib-tok-guide',
+    to: '/resources/ib-tok-guide-ai',
     boards: ['IB_DP'],
     tools: [
-      { label: 'TOK guide', to: '/resources/ib-tok-guide' },
+      { label: 'TOK guide', to: '/resources/ib-tok-guide-ai' },
+      { label: 'Board library', to: '/resource-library' },
       { label: 'Essay review', to: '/answer-reviewer' },
       { label: 'AI notes', to: '/notetaker' },
     ],
@@ -332,6 +333,7 @@ export const BOARD_LEARNING_TRACKS: BoardLearningTrack[] = [
     boards: ['CBSE', 'ICSE'],
     tools: [
       { label: 'Chapter notes', to: '/notetaker' },
+      { label: 'Board library', to: '/resource-library' },
       { label: 'Long answers', to: '/answer-reviewer' },
       { label: 'Mock paper', to: '/paper-maker' },
     ],

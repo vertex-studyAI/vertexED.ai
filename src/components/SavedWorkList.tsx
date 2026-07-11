@@ -10,6 +10,7 @@ import {
   type StudyArtifactKind,
 } from "@/lib/userContent";
 import { toast } from "@/hooks/use-toast";
+import { cn } from "@/lib/utils";
 
 type Props = {
   items: StudyArtifact[];
@@ -28,7 +29,6 @@ export default function SavedWorkList({
 }: Props) {
   const navigate = useNavigate();
   const visible = limit ? items.slice(0, limit) : items;
-  const isDashboard = variant === "dashboard";
 
   const openItem = (item: StudyArtifact) => {
     queueArtifactRestore(item);
@@ -54,7 +54,7 @@ export default function SavedWorkList({
 
   if (!visible.length) {
     return (
-      <p className={`text-sm ${isDashboard ? "text-white/60" : "text-muted-foreground"}`}>
+      <p className="text-sm text-muted-foreground">
         Generate notes, papers, or reviews — they&apos;ll appear here automatically.
       </p>
     );
@@ -65,19 +65,16 @@ export default function SavedWorkList({
       {visible.map((item) => (
         <li
           key={item.id}
-          className={`flex items-center gap-2 border rounded-lg border-white/10 bg-white/5 ${
-            compact ? "px-3 py-2" : "px-4 py-3"
-          }`}
+          className={cn(
+            "surface-tile flex items-center gap-2",
+            compact ? "px-3 py-2" : "px-4 py-3",
+          )}
         >
           <div className="flex-1 min-w-0">
-            <p
-              className={`truncate font-medium ${
-                isDashboard ? "text-white/90" : "text-foreground"
-              }`}
-            >
+            <p className="truncate font-medium text-foreground">
               {item.title || item.kind}
             </p>
-            <p className={`text-xs mt-0.5 ${isDashboard ? "text-white/50" : "text-muted-foreground"}`}>
+            <p className="text-xs mt-0.5 text-muted-foreground">
               <span className="capitalize">{item.kind}</span>
               {" · "}
               {formatArtifactDate(item.updated_at)}
@@ -96,11 +93,7 @@ export default function SavedWorkList({
           <button
             type="button"
             onClick={() => void removeItem(item)}
-            className={`rounded-lg p-1.5 transition shrink-0 ${
-              isDashboard
-                ? "text-white/50 hover:text-red-300 hover:bg-red-500/10"
-                : "text-muted-foreground hover:text-red-300 hover:bg-red-500/10"
-            }`}
+            className="rounded-lg p-1.5 transition shrink-0 text-muted-foreground hover:text-destructive hover:bg-destructive/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             aria-label={`Delete ${item.title || item.kind}`}
           >
             <Trash2 className="h-3.5 w-3.5" />
@@ -126,17 +119,19 @@ export function ArtifactKindFilter({
   ];
 
   return (
-    <div className="flex flex-wrap gap-2 mb-4">
+    <div className="flex flex-wrap gap-2 mb-4" role="group" aria-label="Filter saved work">
       {options.map((opt) => (
         <button
           key={opt.value}
           type="button"
           onClick={() => onChange(opt.value)}
-          className={`rounded-full px-3 py-1 text-xs capitalize transition ${
+          aria-pressed={value === opt.value}
+          className={cn(
+            "rounded-full px-3 py-1 text-xs capitalize transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
             value === opt.value
               ? "bg-primary/20 text-primary border border-primary/30"
-              : "bg-white/5 text-muted-foreground border border-white/10 hover:text-foreground"
-          }`}
+              : "surface-chip text-muted-foreground hover:text-foreground",
+          )}
         >
           {opt.label}
         </button>

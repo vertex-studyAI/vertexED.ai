@@ -1,5 +1,6 @@
 import { authFetch } from '@/lib/apiAuth';
 import type { StudyPageContext } from '@/lib/studyContext';
+import type { GroundedSourcePayload } from '@/lib/notebook';
 
 export interface ChatbotMessage {
   role: 'user' | 'assistant';
@@ -10,12 +11,23 @@ export interface ChatbotRequest {
   question: string;
   history?: ChatbotMessage[];
   context?: StudyPageContext;
+  sources?: GroundedSourcePayload[];
 }
 
 interface ChatbotResponse {
 	answer?: string;
 	error?: string;
 	[key: string]: unknown;
+}
+
+export class ChatbotApiError extends Error {
+	status: number;
+
+	constructor(message: string, status: number) {
+		super(message);
+		this.name = "ChatbotApiError";
+		this.status = status;
+	}
 }
 
 const DEFAULT_ENDPOINT = "/api/ask";
@@ -51,6 +63,7 @@ export const fetchChatbotAnswer = async (
     question: request.question,
     history: request.history?.slice(-10),
     context: request.context,
+    sources: request.sources?.slice(0, 20),
   });
 
 	const endpoints = buildEndpoints();
@@ -71,16 +84,16 @@ export const fetchChatbotAnswer = async (
 			}
 
 			if (!response.ok) {
-				lastError = new Error(
+				const message =
 					(typeof data.error === "string" && data.error.trim())
 						? data.error
-						: `Request failed with status ${response.status}`,
-				);
+						: `Request failed with status ${response.status}`;
+				lastError = new ChatbotApiError(message, response.status);
 				continue;
 			}
 
 			if (typeof data.error === "string" && data.error.trim()) {
-				lastError = new Error(data.error);
+				lastError = new ChatbotApiError(data.error, response.status);
 				continue;
 			}
 

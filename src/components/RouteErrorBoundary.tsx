@@ -18,9 +18,9 @@ export default class RouteErrorBoundary extends React.Component<Props, State> {
   render() {
     if (this.state.hasError) {
       return (
-        <div className="min-h-[50vh] flex flex-col items-center justify-center gap-4 text-center px-4">
-          <h2 className="text-xl font-semibold text-white">Something went wrong</h2>
-          <p className="text-sm text-white/60 max-w-md">
+        <div className="min-h-[50vh] flex flex-col items-center justify-center gap-4 text-center px-4" role="alert">
+          <h2 className="text-xl font-semibold text-foreground">Something went wrong</h2>
+          <p className="text-sm text-muted-foreground max-w-md leading-relaxed">
             Something broke on this page. Try refreshing, or head back to your dashboard.
           </p>
           <div className="flex gap-3">
@@ -31,8 +31,8 @@ export default class RouteErrorBoundary extends React.Component<Props, State> {
             >
               Try again
             </button>
-            <Link to="/main" className="neu-button px-4 py-2 text-sm">
-              Back to Main
+            <Link to="/main" className="btn-solid px-4 py-2 text-sm">
+              Back to dashboard
             </Link>
           </div>
         </div>

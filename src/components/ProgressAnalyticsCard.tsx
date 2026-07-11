@@ -11,26 +11,26 @@ export default function ProgressAnalyticsCard({ trend, className }: Props) {
   const maxStreak = Math.max(...trend.snapshots.map((s) => s.studyStreak), 1);
 
   return (
-    <div className={cn('glass-panel p-5', className)}>
-      <p className="text-xs uppercase tracking-widest text-white/45 mb-3">Progress analytics</p>
+    <div id="streak-calendar" className={cn('neu-card p-5', className)}>
+      <p className="text-xs uppercase tracking-widest text-muted-foreground mb-3">Progress analytics</p>
 
       <div className="grid grid-cols-3 gap-4 mb-5">
         <div>
-          <p className="text-2xl font-semibold text-white">{trend.streakDays}d</p>
-          <p className="text-xs text-white/50">Study streak</p>
+          <p className="text-2xl font-semibold text-foreground">{trend.streakDays}d</p>
+          <p className="text-xs text-muted-foreground">Study streak</p>
         </div>
         <div>
-          <p className="text-2xl font-semibold text-white flex items-center gap-1">
+          <p className="text-2xl font-semibold text-foreground flex items-center gap-1">
             {trend.avgMastery}%
-            {trend.masteryTrend === 'up' && <TrendingUp className="h-4 w-4 text-emerald-400" />}
-            {trend.masteryTrend === 'down' && <TrendingDown className="h-4 w-4 text-amber-400" />}
-            {trend.masteryTrend === 'flat' && <Minus className="h-4 w-4 text-white/40" />}
+            {trend.masteryTrend === 'up' && <TrendingUp className="h-4 w-4 text-emerald-500" />}
+            {trend.masteryTrend === 'down' && <TrendingDown className="h-4 w-4 text-amber-500" />}
+            {trend.masteryTrend === 'flat' && <Minus className="h-4 w-4 text-muted-foreground" />}
           </p>
-          <p className="text-xs text-white/50">Avg mastery</p>
+          <p className="text-xs text-muted-foreground">Avg mastery</p>
         </div>
         <div>
-          <p className="text-2xl font-semibold text-white">{trend.reviewsThisWeek}</p>
-          <p className="text-xs text-white/50">Reviews (7d)</p>
+          <p className="text-2xl font-semibold text-foreground">{trend.reviewsThisWeek}</p>
+          <p className="text-xs text-muted-foreground">Reviews (7d)</p>
         </div>
       </div>
 

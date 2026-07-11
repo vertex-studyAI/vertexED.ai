@@ -2,6 +2,7 @@ import type { ExamBoard } from '@/types/curriculum';
 import { BOARD_CONFIGS, daysUntilExam } from '@/lib/curriculum';
 import { getWeakestTopics, type TopicHeat } from '@/lib/weaknessTracker';
 import { getDueFlashcardCount, getCramDueCount } from '@/lib/srDeck';
+import { getConfidenceRatings } from '@/lib/portalFeatures';
 import type { LearnerProfile } from '@/lib/learnerProfile';
 import type { StudyStats } from '@/lib/studyStats';
 
@@ -112,6 +113,50 @@ export function buildAdaptivePlan(input: BuildAdaptiveInput): AdaptivePlan {
     });
   }
 
+  const confidenceSubjects =
+    curriculum.subjects.length > 0
+      ? curriculum.subjects
+      : masteryBySubject.map((m) => m.subject);
+  const confidenceRatings = getConfidenceRatings(confidenceSubjects);
+
+  for (const c of confidenceRatings.filter((r) => r.rating <= 2 && r.subject)) {
+    const weakInSubject = weaknesses.find((w) => w.subject === c.subject);
+    recs.push({
+      id: `confidence-${c.subject}`,
+      priority: 'high',
+      kind: 'review',
+      title: `Rebuild confidence: ${c.subject}`,
+      description: weakInSubject
+        ? `You rated this subject low — review ${weakInSubject.topic.slice(0, 36)} with rubric feedback`
+        : 'You rated this subject low — a short rubric review can shift how it feels on exam day',
+      to: weakInSubject
+        ? `/answer-reviewer?subject=${encodeURIComponent(c.subject)}&topic=${encodeURIComponent(weakInSubject.topic)}`
+        : `/answer-reviewer?subject=${encodeURIComponent(c.subject)}`,
+      subject: c.subject,
+      topic: weakInSubject?.topic,
+    });
+  }
+
+  if (profile.gradeLevel === 'middle_school') {
+    recs.push({
+      id: 'foundations-quiz',
+      priority: 'medium',
+      kind: 'practice',
+      title: 'Foundation quiz',
+      description: 'Shorter questions with clear steps — build confidence before harder papers',
+      to: '/notetaker',
+    });
+  } else if (profile.gradeLevel === 'undergraduate') {
+    recs.push({
+      id: 'deep-synthesis',
+      priority: 'low',
+      kind: 'learn',
+      title: 'Synthesis notes',
+      description: 'Connect ideas across topics — undergraduate exams reward links, not isolated facts',
+      to: '/notetaker',
+    });
+  }
+
   if (examDaysLeft !== null && examDaysLeft >= 0 && examDaysLeft <= 14) {
     recs.push({
       id: 'timed-mock',
@@ -132,7 +177,7 @@ export function buildAdaptivePlan(input: BuildAdaptiveInput): AdaptivePlan {
       kind: 'review',
       title: `Strengthen: ${w.topic.slice(0, 40)}`,
       description: `${w.subject} — scoring ${Math.round(w.avgPercent)}% on recent attempts`,
-      to: '/answer-reviewer',
+      to: `/answer-reviewer?subject=${encodeURIComponent(w.subject)}&topic=${encodeURIComponent(w.topic)}`,
       subject: w.subject,
       topic: w.topic,
       score: w.avgPercent,

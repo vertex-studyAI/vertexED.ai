@@ -134,6 +134,7 @@ See `.env.example` for the full list and optional overrides.
 1. Create a project at [supabase.com](https://supabase.com).
 2. Run `supabase/schema.sql` in **SQL Editor** (creates `profiles`, `waitlist`, rate-limit table, and RPCs).
    - If you already ran an older schema, also run `supabase/migrations/20260708_phase3_waitlist_auth.sql`.
+   - For planner cloud sync: run `supabase/migrations/20260711_planner_artifact_kind.sql`.
 3. Enable **Email** auth under Authentication → Providers.
 4. Enable **Google** OAuth if using Google login; set redirect URL to:
    - Local: `http://localhost:8080/auth/callback`
@@ -147,9 +148,10 @@ See `.env.example` for the full list and optional overrides.
 - Duplicate emails and existing auth accounts are rejected with clear errors.
 - Rate limited to **5 submissions per IP per minute** (stored in `waitlist_rate_limits`).
 - Optional env: `WAITLIST_RATE_LIMIT_SALT` to salt IP hashes.
+- **Account creation** (`/api/signup-invite`): requires either a valid team invite code **or** `waitlist.status = approved` for that email. Pending/rejected waitlist emails cannot create accounts without a code.
 
 ### Security (AI routes)
-- All AI API routes (`/api/ask`, `/api/note`, `/api/quiz`, `/api/transcribe`, `/api/paper-generator`, `/api/review`, `/api/review-post`, `/api/planner`) require a valid Supabase session token (`Authorization: Bearer <jwt>`).
+- All AI API routes (`/api/ask`, `/api/note`, `/api/quiz`, `/api/transcribe`, `/api/paper-generator`, `/api/review`, `/api/planner`) require a valid Supabase session token (`Authorization: Bearer <jwt>`).
 - `/api/waitlist` remains public (no auth).
 - `/api/waitlist-admin` requires auth + email in `ADMIN_EMAILS`.
 - `GET /api/health` is public (deploy monitoring).

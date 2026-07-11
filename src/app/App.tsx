@@ -1,6 +1,6 @@
 // File: /src/App.tsx
 import SiteLayout from "@/components/layout/SiteLayout";
-import Home from "@/pages/Home"; 
+import AuthLandingRedirect from "@/components/AuthLandingRedirect";
 import Features from "@/pages/Features";
 import { lazy } from "react";
 const Login = lazy(() => import("@/pages/Login"));
@@ -47,8 +47,14 @@ const AcademicBurnoutGuide = lazy(() => import("@/pages/resources/AcademicBurnou
 const MemorizationTechniques = lazy(() => import("@/pages/resources/MemorizationTechniques"));
 const CollegeEssaysWithAI = lazy(() => import("@/pages/resources/CollegeEssaysWithAI"));
 const Onboarding = lazy(() => import("@/pages/Onboarding"));
+const StudyNotebook = lazy(() => import("@/pages/StudyNotebook"));
+const ResourceLibrary = lazy(() => import("@/pages/ResourceLibrary"));
+const WorldModel = lazy(() => import("@/pages/WorldModel"));
 const WaitlistAdmin = lazy(() => import("@/pages/admin/WaitlistAdmin"));
+const PrivacyPolicy = lazy(() => import("@/pages/PrivacyPolicy"));
+const TermsOfService = lazy(() => import("@/pages/TermsOfService"));
 import { AuthProvider } from "@/contexts/AuthContext";
+import { AppPreferencesProvider } from "@/contexts/AppPreferencesContext";
 import AdminRoute from "@/components/AdminRoute";
 import { HelmetProvider } from "react-helmet-async";
 import { useEffect } from "react";
@@ -100,11 +106,12 @@ useEffect(() => {
 return (
 <HelmetProvider>
 <AuthProvider>
+<AppPreferencesProvider>
 <BrowserRouter>
 <Routes>
 <Route path="/" element={<SiteLayout />}>
-<Route index element={<Home />} />
-<Route path="home" element={<Home />} />
+<Route index element={<AuthLandingRedirect />} />
+<Route path="home" element={<AuthLandingRedirect />} />
 						<Route path="resources" element={<ResourcesIndex />} />
 						<Route path="resources/ai-study-planner" element={<AIStudyPlannerArticle />} />
 						<Route path="resources/ib-igcse-paper-maker" element={<PaperMakerGuide />} />
@@ -135,6 +142,9 @@ return (
 <Route path="main" element={<ProtectedRoute><Main /></ProtectedRoute>} />
 <Route path="learning-hub" element={<ProtectedRoute><LearningHub /></ProtectedRoute>} />
 <Route path="notetaker" element={<ProtectedRoute><NotetakerQuiz /></ProtectedRoute>} />
+<Route path="study-notebook" element={<ProtectedRoute><StudyNotebook /></ProtectedRoute>} />
+<Route path="resource-library" element={<ProtectedRoute><ResourceLibrary /></ProtectedRoute>} />
+<Route path="world-model" element={<ProtectedRoute><WorldModel /></ProtectedRoute>} />
 <Route path="study-zone" element={<ProtectedRoute><StudyZone /></ProtectedRoute>} />
 <Route path="chatbot" element={<ProtectedRoute><AIChatbot /></ProtectedRoute>} />
 <Route path="planner" element={<ProtectedRoute><StudyPlanner /></ProtectedRoute>} />
@@ -152,6 +162,8 @@ return (
 						<Route path="archives/geography" element={<Navigate to="/archives-geography" replace />} />
 
 <Route path="about" element={<About />} />
+<Route path="privacy" element={<PrivacyPolicy />} />
+<Route path="terms" element={<TermsOfService />} />
 <Route path="features" element={<Features />} /> 
 <Route path="study-tools" element={<StudyTools />} />
 <Route path="vertex-ed" element={<Brand />} />
@@ -165,6 +177,7 @@ return (
 <Toaster />
 <SpeedInsights />
 <Analytics />
+</AppPreferencesProvider>
 </AuthProvider>
 </HelmetProvider>
 );

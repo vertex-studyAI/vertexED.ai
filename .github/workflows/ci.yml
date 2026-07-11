@@ -22,11 +22,23 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
           cache: npm
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Typecheck
+        run: npx tsc --noEmit -p tsconfig.app.json
+
+      - name: Lint API, frontend, and tests
+        run: npm run lint:ci
+
+      - name: Validate Vercel function layout
+        run: node scripts/validate-vercel-functions.mjs
+
+      - name: Audit production dependencies
+        run: npm run audit:prod
 
       - name: Run API unit tests
         run: npm test

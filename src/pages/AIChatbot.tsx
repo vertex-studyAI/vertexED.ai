@@ -1,314 +1,157 @@
-import { useState, useRef, useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
+import { Bot, Trash2 } from "lucide-react";
 import PageSection from "@/components/PageSection";
-import ReactMarkdown from "react-markdown";
-import remarkMath from "remark-math";
-import rehypeKatex from "rehype-katex";
-import "katex/dist/katex.min.css";
 import SEO from "@/components/SEO";
-import { fetchChatbotAnswer } from "@/lib/chatbotApi";
-import { animateTypewriter } from "@/lib/typewriter";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-
-type SubjectBadge = { label: string; color: string };
-type ChatMessage = { sender: "user" | "bot"; text: string; subject: SubjectBadge };
-
-const detectSubject = (text = ""): SubjectBadge => {
-  const t = text.toLowerCase();
-
-  if (t.includes("integral") || t.includes("derivative") || t.includes("solve"))
-    return {
-      label: "Math",
-      color: "bg-primary/15 text-primary border-primary/25",
-    };
-
-  if (t.includes("force") || t.includes("velocity") || t.includes("newton"))
-    return {
-      label: "Physics",
-      color: "bg-accent/15 text-accent border-accent/25",
-    };
-
-  if (t.includes("demand") || t.includes("elasticity") || t.includes("market"))
-    return {
-      label: "Economics",
-      color: "bg-primary/10 text-primary border-primary/20",
-    };
-
-  return {
-    label: "General",
-    color: "bg-white/5 text-white/70 border-white/10",
-  };
-};
+import { useAuth } from "@/contexts/AuthContext";
+import { getStudyContext } from "@/lib/studyContext";
+import { consumeChatHandoff } from "@/lib/userContent";
+import { useApexChat } from "@/hooks/useApexChat";
+import { APEX_TAGLINE, formatHandoffPrefill } from "@/content/apex";
+import { recordStudySession } from "@/lib/studyStats";
+import ApexMessageList from "@/components/chat/ApexMessageList";
+import ApexPromptChips from "@/components/chat/ApexPromptChips";
+import ApexChatInput from "@/components/chat/ApexChatInput";
+import ApexSocraticDrill from "@/components/chat/ApexSocraticDrill";
 
 export default function AIChatbot() {
-  const [activeTab, setActiveTab] = useState("chat");
-  const [userInput, setUserInput] = useState("");
-  const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
-  const [loading, setLoading] = useState(false);
+  const { user } = useAuth();
+  const studyContext = getStudyContext("/chatbot", user);
   const chatPanelRef = useRef<HTMLDivElement | null>(null);
-  const typingIntervalRef = useRef<number | null>(null);
+  const handoffHandled = useRef(false);
+
+  const { messages, input, setInput, loading, streamingMessageId, sendMessage, cancelMessage, clearChat } = useApexChat({
+    context: studyContext,
+    threadKey: 'apex-main',
+    onSessionRecord: recordStudySession,
+  });
 
   useEffect(() => {
-    return () => {
-      if (typingIntervalRef.current !== null) {
-        window.clearInterval(typingIntervalRef.current);
-        typingIntervalRef.current = null;
-      }
-    };
-  }, []);
+    chatPanelRef.current?.scrollTo({ top: chatPanelRef.current.scrollHeight, behavior: "smooth" });
+  }, [messages, loading]);
 
   useEffect(() => {
-    chatPanelRef.current?.scrollTo({
-      top: chatPanelRef.current.scrollHeight,
-      behavior: "smooth",
-    });
-  }, [chatMessages, loading]);
-
-  const handleSend = async () => {
-    const question = userInput.trim();
-    if (!question || loading) return;
-
-    if (typingIntervalRef.current !== null) {
-      window.clearInterval(typingIntervalRef.current);
-      typingIntervalRef.current = null;
+    const prefill = sessionStorage.getItem("vertex_apex_prefill");
+    if (prefill) {
+      sessionStorage.removeItem("vertex_apex_prefill");
+      setInput(prefill);
     }
+  }, [setInput]);
 
-    const subject = detectSubject(question);
-    const botIndex = chatMessages.length + 1;
+  useEffect(() => {
+    if (handoffHandled.current) return;
+    const handoff = consumeChatHandoff();
+    if (!handoff) return;
+    handoffHandled.current = true;
+    const text = formatHandoffPrefill(handoff);
+    void sendMessage(text);
+  }, [sendMessage]);
 
-    setChatMessages((prev) => [...prev, { sender: "user", text: question, subject }]);
-    setUserInput("");
-    setLoading(true);
-
-    try {
-      const data = await fetchChatbotAnswer(question);
-      const answer =
-        typeof data?.answer === "string" && data.answer.trim()
-          ? data.answer.trim()
-          : "Sorry — I couldn't generate a response.";
-
-      setChatMessages((prev) => [...prev, { sender: "bot", text: "", subject }]);
-
-      await animateTypewriter(
-        answer,
-        (nextText) => {
-          setChatMessages((prev) => {
-            if (botIndex >= prev.length) return prev;
-            const next = [...prev];
-            const current = next[botIndex];
-            if (current?.sender !== "bot") return prev;
-            next[botIndex] = { ...current, text: nextText };
-            return next;
-          });
-        },
-        { intervalMs: 18, intervalRef: typingIntervalRef },
-      );
-    } catch (error) {
-      console.warn("Chatbot send failed", error);
-      setChatMessages((prev) => [
-        ...prev,
-        {
-          sender: "bot",
-          text: "Sorry — the AI service is temporarily unavailable. Please try again in a moment.",
-          subject: detectSubject(""),
-        },
-      ]);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const send = () => void sendMessage();
 
   return (
     <>
-      <SEO
-        title="AI Study Chatbot | VertexED"
-        description="Step-by-step academic reasoning with math support."
-      />
+      <SEO title="Apex — AI Study Tutor | VertexED" description={APEX_TAGLINE} />
 
       <PageSection>
         <div className="mb-6">
           <Link to="/main" className="neu-button px-4 py-2 text-sm">
-            ← Back to Main
+            ← Back to Dashboard
           </Link>
         </div>
 
-        {/* MAIN CONTAINER (match homepage/dashboard glass theme) */}
-        <div className="glass-panel p-6 md:p-8">
-          {/* Header */}
-          <div className="mb-6">
-            <h1 className="text-2xl font-semibold mb-1 brand-text-gradient inline-block">
-              AI Study Assistant
-            </h1>
-            <p className="text-sm text-muted-foreground max-w-2xl">
-              Ask anything you're working on — math, essays, concepts — and get step-by-step help, not just the answer.
-            </p>
+        <div className="neu-card p-6 md:p-8">
+          <div className="flex flex-wrap items-start justify-between gap-4 mb-6">
+            <div className="flex items-start gap-3">
+              <span className="apex-avatar">
+                <Bot className="h-6 w-6" aria-hidden />
+              </span>
+              <div>
+                <h1 className="text-2xl md:text-3xl font-bold text-foreground">Apex</h1>
+                <p className="text-sm text-muted-foreground max-w-2xl mt-1">{APEX_TAGLINE}</p>
+                <p className="text-xs text-primary/80 mt-2">
+                  Discussion-first · step-by-step · board-aware when you mention yours
+                </p>
+              </div>
+            </div>
+            {messages.length > 0 && (
+              <button type="button" onClick={clearChat} className="btn-glass text-xs inline-flex items-center gap-1.5">
+                <Trash2 className="h-3.5 w-3.5" />
+                Clear thread
+              </button>
+            )}
           </div>
 
-          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-            <TabsList className="mb-6 w-full justify-start gap-2 bg-white/5 border border-white/10 p-1 h-auto">
-              <TabsTrigger value="chat" className="data-[state=active]:bg-primary/20 data-[state=active]:text-primary">
+          <Tabs defaultValue="chat" className="w-full">
+            <TabsList className="mb-6 w-full justify-start gap-2 rounded-xl border border-border/50 bg-foreground/[0.03] p-1 h-auto shadow-none">
+              <TabsTrigger value="chat" className="data-[state=active]:bg-primary/15 data-[state=active]:text-primary">
                 Chat
               </TabsTrigger>
-              <TabsTrigger value="examples" className="data-[state=active]:bg-primary/20 data-[state=active]:text-primary">
-                Examples
+              <TabsTrigger value="how" className="data-[state=active]:bg-primary/15 data-[state=active]:text-primary">
+                How Apex works
               </TabsTrigger>
-              <TabsTrigger value="how" className="data-[state=active]:bg-primary/20 data-[state=active]:text-primary">
-                How it works
+              <TabsTrigger value="drill" className="data-[state=active]:bg-primary/15 data-[state=active]:text-primary">
+                Socratic Drill
               </TabsTrigger>
             </TabsList>
 
             <TabsContent value="chat" className="mt-0">
-            <div className="h-[65vh] flex flex-col">
-              <div
-                ref={chatPanelRef}
-                className="flex-1 p-4 mb-4 overflow-y-auto space-y-4 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl"
-                aria-live="polite"
-                aria-relevant="additions text"
-                aria-label="Chat messages"
-              >
-                <AnimatePresence>
-                  {chatMessages.length === 0 && !loading && (
-                    <motion.div
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      className="h-full flex flex-col items-center justify-center text-center"
-                    >
-                      <h3 className="text-lg font-semibold mb-2 brand-text-gradient inline-block">
-                        Ask anything you’re studying
-                      </h3>
-                      <p className="text-sm text-muted-foreground">
-                        Math, physics, economics — we'll walk you through it, one step at a time.
-                      </p>
-                    </motion.div>
-                  )}
-
-                  {chatMessages.map((msg, idx) => (
-                    <motion.div
-                      key={idx}
-                      initial={{ opacity: 0, y: 6 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className={`flex ${
-                        msg.sender === "bot"
-                          ? "justify-start"
-                          : "justify-end"
-                      }`}
-                    >
-                      <div
-                        className={`max-w-[75%] px-4 py-3 rounded-2xl border shadow-md backdrop-blur-xl ${
-                          msg.sender === "user"
-                            ? "bg-primary/15 border-primary/25"
-                            : "bg-white/5 border-white/10"
-                        }`}
-                      >
-                        <div className="flex items-center gap-2 mb-1">
-                          <span className="text-xs font-semibold text-white/80">
-                            {msg.sender === "bot" ? "AI" : "You"}
-                          </span>
-                          <span
-                            className={`text-[10px] px-2 py-0.5 rounded-full border ${msg.subject?.color}`}
-                          >
-                            {msg.subject?.label}
-                          </span>
-                        </div>
-
-                        <ReactMarkdown
-                          remarkPlugins={[remarkMath]}
-                          rehypePlugins={[rehypeKatex]}
-                          className="prose prose-sm prose-invert max-w-none"
-                        >
-                          {msg.text}
-                        </ReactMarkdown>
-                      </div>
-                    </motion.div>
-                  ))}
-                </AnimatePresence>
-
-                {loading && (
-                  <div className="flex gap-1 pl-2">
-                    <span className="w-2 h-2 bg-primary/80 rounded-full animate-bounce" />
-                    <span className="w-2 h-2 bg-primary/80 rounded-full animate-bounce delay-150" />
-                    <span className="w-2 h-2 bg-primary/80 rounded-full animate-bounce delay-300" />
-                  </div>
+              <div className="h-[min(68vh,640px)] flex flex-col gap-3">
+                {messages.length === 0 && !loading && (
+                  <ApexPromptChips context={studyContext} onSelect={(text) => void sendMessage(text)} disabled={loading} />
                 )}
-              </div>
 
-              {/* INPUT BAR — FIXED TEXT COLOR + GLASS */}
-              <motion.div
-                layout
-                className="flex gap-2 p-3 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl"
-              >
-                <div className="flex-1 neu-input">
-                  <input
-                    className="neu-input-el placeholder:text-muted-foreground"
-                    placeholder="Ask a math, physics, or economics question…"
-                    value={userInput}
-                    onChange={(e) => setUserInput(e.target.value)}
-                    onKeyDown={(e) => e.key === "Enter" && handleSend()}
-                    disabled={loading}
+                <div ref={chatPanelRef} className="apex-chat-surface flex-1 overflow-y-auto">
+                  <ApexMessageList
+                    messages={messages}
+                    loading={loading}
+                    streamingMessageId={streamingMessageId}
+                    context={studyContext}
                   />
                 </div>
 
-                <button
-                  onClick={handleSend}
-                  disabled={loading}
-                  className={`neu-button rounded-xl px-5 py-3 text-sm font-semibold ${
-                    loading ? "opacity-60 cursor-not-allowed" : ""
-                  }`}
-                >
-                  Send
-                </button>
-              </motion.div>
-            </div>
-            </TabsContent>
-
-            <TabsContent value="examples" className="mt-0">
-            <div className="grid gap-4 md:grid-cols-2">
-              {[
-                {
-                  subject: "Math",
-                  prompt: "Explain how to solve ∫ x·e^x dx step by step.",
-                },
-                {
-                  subject: "Physics",
-                  prompt: "A 2 kg block slides down a 30° incline. Find acceleration ignoring friction.",
-                },
-                {
-                  subject: "Economics",
-                  prompt: "What happens to equilibrium price when demand increases and supply stays constant?",
-                },
-                {
-                  subject: "General",
-                  prompt: "Give me a 3-day revision plan for IB Biology Unit 2.",
-                },
-              ].map((example) => (
-                <button
-                  key={example.prompt}
-                  type="button"
-                  onClick={() => {
-                    setActiveTab("chat");
-                    setUserInput(example.prompt);
-                  }}
-                  className="text-left rounded-2xl border border-white/10 bg-white/5 p-4 hover:bg-white/10 transition"
-                >
-                  <span className="text-xs font-semibold text-primary">{example.subject}</span>
-                  <p className="mt-2 text-sm text-muted-foreground">{example.prompt}</p>
-                </button>
-              ))}
-            </div>
+                <ApexChatInput
+                  value={input}
+                  onChange={setInput}
+                  onSend={send}
+                  onCancel={cancelMessage}
+                  loading={loading}
+                  placeholder="Ask about a concept, essay structure, or what to do in your next 25-minute block…"
+                />
+              </div>
             </TabsContent>
 
             <TabsContent value="how" className="mt-0">
-            <div className="space-y-4 max-w-2xl">
-              <ol className="list-decimal pl-5 space-y-3 text-sm text-muted-foreground">
-                <li>Type your question in plain language — a problem, essay prompt, or concept you're stuck on.</li>
-                <li>Vertex figures out the subject and walks you through the reasoning, not just the final answer.</li>
-                <li>Math renders with LaTeX. Follow up in the same chat if something still doesn't click.</li>
-              </ol>
-              <p className="text-sm text-muted-foreground">
-                Tip: mention your exam board, grade level, or what you've already tried — you'll get more useful answers.
-              </p>
-            </div>
+              <div className="grid md:grid-cols-2 gap-4 max-w-3xl">
+                {[
+                  {
+                    title: "Deliberate, not instant",
+                    body: "Apex asks what you've tried before handing you the answer. The goal is understanding that survives the exam hall.",
+                  },
+                  {
+                    title: "Context-aware",
+                    body: "On Paper Maker, Apex talks mocks. After a review, it helps you interpret rubric feedback. Mention your board for sharper answers.",
+                  },
+                  {
+                    title: "Math & essays",
+                    body: "Notation renders properly. Long responses won't get cut off mid-thought — take your time with follow-ups.",
+                  },
+                  {
+                    title: "Socratic Drill",
+                    body: "Five rounds of probing questions on one topic — no answers until you've tried. Ends with a gap summary and one practice task.",
+                  },
+                ].map((item) => (
+                  <div key={item.title} className="glass-tile p-5">
+                    <h3 className="font-semibold text-foreground mb-2">{item.title}</h3>
+                    <p className="text-sm text-muted-foreground leading-relaxed">{item.body}</p>
+                  </div>
+                ))}
+              </div>
+            </TabsContent>
+
+            <TabsContent value="drill" className="mt-0">
+              <ApexSocraticDrill />
             </TabsContent>
           </Tabs>
         </div>

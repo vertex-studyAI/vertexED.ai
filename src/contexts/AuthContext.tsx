@@ -127,22 +127,13 @@ export function AuthProvider({ children }: PropsWithChildren<{}>) {
    * and does not navigate automatically.
    */
   const signUp = async (
-    email: string,
-    password: string,
-    metadata?: Record<string, any>
+    _email: string,
+    _password: string,
+    _metadata?: Record<string, any>
   ) => {
-    if (!supabase) throw new Error("Auth is disabled: Supabase not configured.");
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: metadata ? { data: metadata } : undefined,
-    });
-    if (error) throw error;
-    // If email confirmation is ON, session may be null until confirmed.
-    setSession(data.session ?? null);
-    setUser(data.user ?? null);
-  if (data.user) await postAuthUpsertProfile(data.user, metadata);
-    return { user: data.user ?? null, session: data.session ?? null, needsConfirmation: !data.session };
+    throw new Error(
+      "Direct signup is disabled. Use /signup with a waitlist approval or team invite code.",
+    );
   };
 
   /** Sign out current user and clear auth state. */
@@ -165,7 +156,7 @@ export function AuthProvider({ children }: PropsWithChildren<{}>) {
     if (!supabase) return;
     const { data, error } = await supabase
       .from("profiles")
-      .select("id, email, full_name, avatar_url, created_at, updated_at")
+      .select("id, email, full_name, avatar_url, board, grade, subjects, exam_date, created_at, updated_at")
       .eq("id", userId)
       .maybeSingle();
     if (error) {

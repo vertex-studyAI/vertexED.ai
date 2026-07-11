@@ -11,7 +11,7 @@
 .calendar-day { text-align: center; padding: 6px 0; border-radius: 10px; cursor: pointer; font-size:.8rem; font-weight:500; line-height:1.2; color: hsl(var(--foreground) / 0.85); position:relative; transition: background .35s, color .35s, transform .35s; font-family:'Sen',sans-serif; }
 .calendar-day:hover { background: hsl(var(--primary) / 0.18); }
 .calendar-day:focus-visible { outline:3px solid hsl(var(--primary)); outline-offset:2px; }
-.calendar-day.accent { background: linear-gradient(145deg,hsl(var(--primary)),hsl(var(--accent))); color: #fff; font-weight:600; box-shadow:0 4px 10px -2px hsl(var(--primary) / 0.5); }
+.calendar-day.accent { background: linear-gradient(145deg,hsl(var(--primary)),hsl(var(--accent))); color: hsl(var(--primary-foreground)); font-weight:600; box-shadow:0 4px 10px -2px hsl(var(--primary) / 0.5); }
 .calendar-day.accent:hover { background: linear-gradient(145deg,hsl(var(--primary) / 0.9),hsl(var(--accent) / 0.95)); }
 .calendar-day.highlight:not(.accent) { background: hsl(var(--primary) / 0.12); color:hsl(var(--primary) / 1); }
 .calendar-day.previous-month, .calendar-day.next-month { color: hsl(var(--foreground) / 0.35); }
@@ -55,15 +55,15 @@
 /* Tasks */
 .task { position: absolute; border: 1.5px solid hsl(var(--primary) / 0.4); box-sizing: border-box; width: 91.67%; border-radius: 14px; font-family:'Sen',Helvetica,Arial,sans-serif; font-weight:600; left: 7.82%; z-index: 5; display: flex; justify-content: center; align-items: center; text-align: center; color: hsl(var(--foreground)); backdrop-filter: blur(10px); background: linear-gradient(145deg,hsl(var(--primary) / 0.18),hsl(var(--accent) / 0.18)); font-size:.73rem; line-height:1.2; padding: .3rem .55rem; box-shadow:0 4px 14px -4px hsl(var(--primary) / 0.5), 0 2px 6px hsl(var(--primary) / 0.25); transition: transform .4s cubic-bezier(.22,1,.36,1), box-shadow .4s, background .4s; letter-spacing:.3px; }
 .task:hover { transform: translateY(-2px) scale(1.02); box-shadow:0 10px 32px -8px hsl(var(--primary) / 0.55), 0 4px 10px hsl(var(--primary) / 0.35); background: linear-gradient(145deg,hsl(var(--primary) / 0.28),hsl(var(--accent) / 0.25)); }
-.task:focus-visible { outline:3px solid #6366f1; outline-offset:2px; }
+.task:focus-visible { outline:3px solid hsl(var(--ring)); outline-offset:2px; }
 .complete-task-button { position: absolute; left: 6px; top: 6px; background: hsl(var(--background)); color: hsl(var(--foreground) / 0.8); border: 1px solid hsl(var(--foreground) / 0.25); border-radius: 6px; padding: 2px 6px; cursor: pointer; font-size:.63rem; font-weight:600; line-height:1; transition: background .25s, color .25s, transform .25s; font-family:inherit; }
 .complete-task-button:hover { background:hsl(var(--primary)); color:hsl(var(--foreground)); }
-.complete-task-button:focus-visible { outline:2px solid #6366f1; outline-offset:2px; }
+.complete-task-button:focus-visible { outline:2px solid hsl(var(--ring)); outline-offset:2px; }
 .week-divider { position: absolute; top: 0; bottom: 0; width: 1px; background-color: hsl(var(--foreground) / 0.2); z-index: 1; }
 
 /* Time left widget */
 .time-left-widget { position: absolute; left: 1%; top: 75%; width: 18%; padding: 0.9rem .95rem 1rem; border-radius: 16px; border: 1px solid hsl(var(--border) / 0.6); background: var(--gradient-surface); box-shadow: var(--shadow-soft); z-index: 9998; display:flex; flex-direction:column; gap:.65rem; font-family:'Sen',sans-serif; }
-.time-left-widget h4 { font-size:.8rem; font-weight:600; letter-spacing:.5px; color:#0f172a; }
+.time-left-widget h4 { font-size:.8rem; font-weight:600; letter-spacing:.5px; color:hsl(var(--foreground)); }
 .time-bar { display: flex; align-items: center; gap: 0.65rem; color: hsl(var(--foreground) / 0.7); font-size:.65rem; font-weight:500; font-family:'Sen',sans-serif; }
 .bar { flex-grow: 1; height: 0.55rem; background: hsl(var(--foreground) / 0.15); border-radius: 9999px; overflow: hidden; position:relative; }
 .fill { height: 100%; background-image: linear-gradient(90deg,hsl(var(--primary)),hsl(var(--accent))); border-radius: inherit; transition: width 0.6s cubic-bezier(.65,.05,.36,1); box-shadow:0 0 0 1px hsl(var(--primary)/0.25), 0 4px 10px -2px hsl(var(--primary)/0.45); }

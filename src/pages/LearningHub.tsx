@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import {
   ArrowRight,
@@ -18,13 +19,23 @@ import {
 
 import PageSection from '@/components/PageSection';
 import NeumorphicCard from '@/components/NeumorphicCard';
+import ExamCountdown from '@/components/curriculum/ExamCountdown';
 import CramModePanel from '@/components/CramModePanel';
 import AdaptiveLearningPanel from '@/components/AdaptiveLearningPanel';
+import SubjectMasteryCard from '@/components/dashboard/SubjectMasteryCard';
+import TodayPlanPanel from '@/components/dashboard/TodayPlanPanel';
+import PortalCommandCenter from '@/components/portal/PortalCommandCenter';
+import FeatureDiscoveryRibbon from '@/components/portal/FeatureDiscoveryRibbon';
+import PortalEngagementRow from '@/components/portal/PortalEngagementRow';
+import PortalIntelligenceGrid from '@/components/portal/PortalIntelligenceGrid';
+import DashboardStatGrid from '@/components/portal/DashboardStatGrid';
 import CommandTermsGlossary from '@/components/curriculum/CommandTermsGlossary';
 import { useAuth } from '@/contexts/AuthContext';
 import { buildEcosystemBrief } from '@/lib/studyEcosystem';
+import { buildRetrievalPulse } from '@/lib/retrievalPulse';
+import { buildTodayPlanItems } from '@/lib/todayPlan';
+import { buildPortalIntelligence, type PortalIntelligence } from '@/lib/portalFeatures';
 import {
-  gradeLevelLabel,
   studyGoalLabel,
   type LearningPathStep,
 } from '@/lib/learnerProfile';
@@ -39,9 +50,40 @@ const PHASE_STYLES: Record<LearningPathStep['phase'], string> = {
 
 export default function LearningHub() {
   const { user } = useAuth();
-  const brief = buildEcosystemBrief(user);
+  const [searchParams] = useSearchParams();
+  const [brief, setBrief] = useState(() => buildEcosystemBrief(user));
+  const [pulse, setPulse] = useState(() =>
+    buildRetrievalPulse(brief.profile, brief.adaptivePlan.recommendations),
+  );
+  const [intel, setIntel] = useState<PortalIntelligence | null>(() =>
+    buildPortalIntelligence(brief.profile, brief.stats, brief.adaptivePlan, pulse),
+  );
+
+  useEffect(() => {
+    const next = buildEcosystemBrief(user);
+    const nextPulse = buildRetrievalPulse(next.profile, next.adaptivePlan.recommendations);
+    setBrief(next);
+    setPulse(nextPulse);
+    setIntel(buildPortalIntelligence(next.profile, next.stats, next.adaptivePlan, nextPulse));
+  }, [user]);
+  const cramFromUrl = searchParams.get('mode') === 'cram';
+
+  const todayPlanItems = buildTodayPlanItems(
+    brief.todayTasks,
+    brief.adaptivePlan.recommendations,
+    {
+      label: pulse.nextAction.label,
+      href: pulse.nextAction.href,
+      reason: pulse.nextAction.reason,
+    },
+  );
+
+  useEffect(() => {
+    if (!cramFromUrl) return;
+    document.getElementById('cram-mode')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, [cramFromUrl]);
+
   const goalLabel = studyGoalLabel(brief.profile.studyGoal);
-  const gradeLabel = gradeLevelLabel(brief.profile.gradeLevel);
   const board = brief.profile.curriculum.board;
   const subjectTracks = getTracksForBoard(board);
 
@@ -51,58 +93,38 @@ export default function LearningHub() {
         <title>Learning Hub — VertexED</title>
         <meta
           name="description"
-          content="Your connected study ecosystem — learning paths, subject tracks, and daily progress across Vertex tools."
+          content="Learning Hub — your exam path, today's plan, subject tracks, command terms, and links into every VertexED tool."
         />
         <link rel="canonical" href="https://www.vertexed.app/learning-hub" />
         <meta name="robots" content="noindex, follow" />
       </Helmet>
 
-      <PageSection className="max-w-5xl space-y-8">
-        <header className="glass-panel p-6 md:p-8">
-          <div className="flex flex-wrap items-start justify-between gap-4">
-            <div>
-              <p className="text-xs uppercase tracking-widest text-primary/80 mb-2">Learning ecosystem</p>
-              <h1 className="text-3xl md:text-4xl font-semibold brand-text-gradient">
-                {brief.greeting}, {brief.profile.displayName}
-              </h1>
-              <p className="mt-3 text-muted-foreground max-w-2xl">
-                One connected journey across notes, practice, review, and memory — built around how you actually study.
-              </p>
-              {(goalLabel || gradeLabel || board) && (
-                <div className="mt-4 flex flex-wrap gap-2">
-                  {board && <BoardBadge board={board} />}
-                  {goalLabel && (
-                    <span className="rounded-full border border-primary/25 bg-primary/10 px-3 py-1 text-xs text-primary">
-                      {goalLabel}
-                    </span>
-                  )}
-                  {gradeLabel && (
-                    <span className="rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs text-muted-foreground">
-                      {gradeLabel}
-                    </span>
-                  )}
-                </div>
-              )}
-            </div>
-            <div className="text-center shrink-0">
-              <div
-                className="relative mx-auto h-20 w-20 rounded-full border border-white/15 bg-white/5 flex items-center justify-center"
-                style={{
-                  background: `conic-gradient(hsl(var(--primary)) ${brief.dailyProgress}%, transparent ${brief.dailyProgress}%)`,
-                }}
-              >
-                <div className="absolute inset-1.5 rounded-full bg-background/90 flex flex-col items-center justify-center">
-                  <span className="text-lg font-semibold">{brief.dailyProgress}%</span>
-                  <span className="text-[10px] text-muted-foreground">today</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </header>
+      {brief && pulse && intel && (
+        <div className="fade-up -mt-4 mb-6">
+          <PortalCommandCenter brief={brief} pulse={pulse} intel={intel} />
+        </div>
+      )}
 
+      <FeatureDiscoveryRibbon />
+
+      <PageSection className="max-w-5xl space-y-8">
         <ExamCountdown examDate={brief.profile.curriculum.examDate} boardLabel={brief.boardLabel} />
 
-        <CramModePanel board={board} examDaysLeft={brief.examDaysLeft} />
+        {todayPlanItems.length > 0 && (
+          <div id="today-plan">
+            <TodayPlanPanel items={todayPlanItems} />
+          </div>
+        )}
+
+        <DashboardStatGrid brief={brief} />
+        <PortalEngagementRow profile={brief.profile} />
+        {intel && (
+          <PortalIntelligenceGrid intel={intel} profile={brief.profile} stats={brief.stats} />
+        )}
+
+        <div id="cram-mode">
+          <CramModePanel board={board} examDaysLeft={brief.examDaysLeft} />
+        </div>
 
         <AdaptiveLearningPanel
           recommendations={brief.adaptivePlan.recommendations}
@@ -110,7 +132,14 @@ export default function LearningHub() {
           estimatedMinutes={brief.adaptivePlan.estimatedMinutesToday}
         />
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+        <div id="subject-mastery">
+          <SubjectMasteryCard
+            mastery={brief.adaptivePlan.masteryBySubject}
+            focusSubject={brief.adaptivePlan.focusSubject}
+          />
+        </div>
+
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 hidden">
           <HubStat icon={<Flame className="h-4 w-4 text-orange-400" />} label="Streak" value={`${brief.stats.studyStreak}d`} />
           <HubStat icon={<Target className="h-4 w-4 text-primary" />} label="Habits" value={`${brief.stats.habitsDoneToday}/${brief.stats.habitCount}`} />
           <HubStat icon={<Brain className="h-4 w-4 text-violet-400" />} label="Due cards" value={String(brief.dueFlashcards)} />
@@ -119,7 +148,7 @@ export default function LearningHub() {
 
         <NeumorphicCard className="p-6" title="Your learning path">
           <p className="text-sm text-muted-foreground mb-5">
-            A recommended flow based on your goals — read, practice, review, and remember.
+            Steps ordered for your goal — read or archive material, practise under time, review against rubrics, then retrieve on schedule.
           </p>
           <div className="grid gap-3 md:grid-cols-2">
             {brief.learningPath.map((step, index) => (
@@ -146,12 +175,12 @@ export default function LearningHub() {
         <NeumorphicCard className="p-6" title={board ? `${brief.boardLabel} subject tracks` : 'Subject tracks'}>
           <p className="text-sm text-muted-foreground mb-5">
             {board
-              ? 'Paths tuned to your exam board — from content to practice.'
-              : 'Set your board in settings for personalized subject tracks.'}
+              ? `Tracks aligned to ${brief.boardLabel} — each links to the tools that fit that subject (mocks, notes, Reviewer).`
+              : 'Set your exam board in settings to see subject tracks and board-specific resources.'}
           </p>
           <div className="grid gap-4 md:grid-cols-2">
             {subjectTracks.map((track) => (
-              <div key={track.title} className="rounded-xl border border-white/10 bg-white/5 p-4">
+              <div key={track.title} className="surface-tile p-4">
                 <Link to={track.to} className="font-medium hover:text-primary transition">
                   {track.title}
                 </Link>
@@ -160,7 +189,7 @@ export default function LearningHub() {
                     <Link
                       key={tool.label}
                       to={tool.to}
-                      className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-xs text-muted-foreground hover:text-foreground hover:border-white/20 transition"
+                      className="surface-chip px-2.5 py-1 text-xs text-muted-foreground hover:text-foreground hover:border-primary/25 transition"
                     >
                       {tool.label}
                     </Link>
@@ -169,6 +198,10 @@ export default function LearningHub() {
               </div>
             ))}
           </div>
+        </NeumorphicCard>
+
+        <NeumorphicCard className="p-6" title="Command terms cheat sheet">
+          <CommandTermsGlossary compact />
         </NeumorphicCard>
 
         <div className="grid md:grid-cols-2 gap-6">
@@ -183,7 +216,7 @@ export default function LearningHub() {
                 <Link
                   key={item.label}
                   to={item.to}
-                  className="flex items-center gap-3 rounded-lg border border-white/10 bg-white/5 px-3 py-2.5 hover:border-primary/25 transition"
+                  className="surface-row px-3 py-2.5"
                 >
                   <item.icon className="h-4 w-4 text-primary shrink-0" />
                   <div>
@@ -197,13 +230,16 @@ export default function LearningHub() {
 
           <NeumorphicCard className="p-6" title="Quick launch">
             <div className="grid gap-2">
+              <HubAction to="/world-model" icon={<Brain className="h-4 w-4" />} label="World Model" />
+              <HubAction to="/resource-library" icon={<BookOpen className="h-4 w-4" />} label="Board library" />
+              <HubAction to="/study-zone?focus=sketch" icon={<Sparkles className="h-4 w-4" />} label="Sketch pad (iPad)" />
               <HubAction to="/study-zone?focus=timer" icon={<Zap className="h-4 w-4" />} label="Focus session" />
               <HubAction to="/planner" icon={<Calendar className="h-4 w-4" />} label="Open planner" />
-              <HubAction to="/chatbot" icon={<MessageCircle className="h-4 w-4" />} label="Ask AI tutor" />
+              <HubAction to="/chatbot" icon={<MessageCircle className="h-4 w-4" />} label="Ask Apex" />
               <HubAction to="/main" icon={<Route className="h-4 w-4" />} label="Back to dashboard" />
             </div>
             {brief.suggestions.length > 0 && (
-              <ul className="mt-5 space-y-1.5 text-sm text-muted-foreground border-t border-white/10 pt-4">
+              <ul className="mt-5 space-y-1.5 text-sm text-muted-foreground border-t border-border/60 pt-4">
                 {brief.suggestions.map((tip) => (
                   <li key={tip} className="flex gap-2">
                     <span className="text-primary">•</span>
@@ -215,13 +251,15 @@ export default function LearningHub() {
           </NeumorphicCard>
         </div>
       </PageSection>
+
+      <FeatureDiscoveryRibbon />
     </>
   );
 }
 
 function HubStat({ icon, label, value }: { icon: ReactNode; label: string; value: string }) {
   return (
-    <div className="rounded-xl border border-white/10 bg-white/5 px-4 py-3">
+    <div className="surface-tile px-4 py-3">
       <div className="flex items-center gap-2 text-xs text-muted-foreground mb-1">
         {icon}
         {label}
@@ -235,7 +273,7 @@ function HubAction({ to, icon, label }: { to: string; icon: ReactNode; label: st
   return (
     <Link
       to={to}
-      className="flex items-center gap-3 rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-sm hover:border-primary/25 hover:bg-primary/5 transition"
+      className="surface-row px-4 py-3 text-sm"
     >
       {icon}
       {label}

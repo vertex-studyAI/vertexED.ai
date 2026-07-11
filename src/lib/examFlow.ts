@@ -12,16 +12,25 @@ export type MockReviewHandoff = {
   paperTitle?: string;
 };
 
+function questionText(q: { question?: string; text?: string }): string | null {
+  const text = (q.question ?? q.text ?? '').trim();
+  return text || null;
+}
+
 export function buildReviewHandoffFromPaper(
   board: ExamBoard,
   subject: string,
   grade: number | null,
-  paper: { title?: string; sections?: Array<{ questions?: Array<{ text?: string; marks?: number }> }> },
+  paper: {
+    title?: string;
+    sections?: Array<{ questions?: Array<{ question?: string; text?: string; marks?: number }> }>;
+  },
 ): MockReviewHandoff {
   const questions: MockReviewHandoff['questions'] = [];
   for (const section of paper.sections ?? []) {
     for (const q of section.questions ?? []) {
-      if (q.text) questions.push({ question: q.text, marks: q.marks });
+      const text = questionText(q);
+      if (text) questions.push({ question: text, marks: q.marks });
     }
   }
   return {

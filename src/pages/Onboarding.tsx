@@ -14,10 +14,10 @@ type StudyGoal = "" | "ace_exams" | "catch_up" | "build_habits" | "understand_be
 type GradeLevel = "" | "middle_school" | "high_school" | "undergraduate" | "other";
 
 const goalOptions: Array<{ value: Exclude<StudyGoal, "">; label: string; detail: string }> = [
-  { value: "ace_exams", label: "Ace upcoming exams", detail: "We'll help you plan around deadlines and practice what counts." },
-  { value: "catch_up", label: "Catch up on topics", detail: "Start with the gaps — we'll meet you where you are." },
-  { value: "build_habits", label: "Build study habits", detail: "Small routines that stick, not heroic all-nighters." },
-  { value: "understand_better", label: "Understand subjects better", detail: "Go beyond memorizing — actually get it." },
+  { value: "ace_exams", label: "Maximise exam marks", detail: "Mocks, rubric review, and cram-friendly planning weighted toward your exam date." },
+  { value: "catch_up", label: "Close topic gaps", detail: "One gap topic at a time — notes, quiz, then review — not a full syllabus reset." },
+  { value: "build_habits", label: "Build steady routines", detail: "Study Zone timers, habit streaks, and spaced cards sized for busy weeks." },
+  { value: "understand_better", label: "Understand deeply", detail: "Apex and Reviewer focus on reasoning and mark schemes, not finished answers to memorise." },
 ];
 
 const gradeOptions: Array<{ value: Exclude<GradeLevel, "">; label: string }> = [
@@ -75,11 +75,11 @@ export default function Onboarding() {
   const canSave = canAdvanceStep1 && !loading && !redirecting;
 
   const helperText = useMemo(() => {
-    if (!trimmedUsername) return "Pick something that feels like you.";
-    if (trimmedUsername.length < 3) return "At least 3 characters — you've got this.";
-    if (trimmedUsername.length > 20) return "Keep it to 20 characters or fewer.";
-    if (!USERNAME_REGEX.test(trimmedUsername)) return "Letters, numbers, underscores, dots, or hyphens only.";
-    return "Looks good — you're all set.";
+    if (!trimmedUsername) return "Letters, numbers, underscores, dots, or hyphens — 3 to 20 characters.";
+    if (trimmedUsername.length < 3) return "At least 3 characters required.";
+    if (trimmedUsername.length > 20) return "Maximum 20 characters.";
+    if (!USERNAME_REGEX.test(trimmedUsername)) return "Only letters, numbers, underscores, dots, and hyphens.";
+    return "Available format — continue when ready.";
   }, [trimmedUsername]);
 
   const save = async (withPreferences: boolean) => {
@@ -140,10 +140,10 @@ export default function Onboarding() {
           <meta name="robots" content="noindex, nofollow" />
         </Helmet>
         <PageSection className="relative min-h-[70vh] flex items-center justify-center px-4">
-          <div className="glass-panel w-full max-w-md p-8 text-center text-white">
-            <div className="mx-auto mb-4 h-12 w-12 animate-spin rounded-full border-2 border-white/20 border-t-white/80" />
-            <h1 className="text-2xl font-semibold">Taking you to your dashboard…</h1>
-            <p className="mt-2 text-sm text-white/70">You're already set up — heading to your dashboard.</p>
+          <div className="glass-panel w-full max-w-md p-8 text-center">
+            <div className="mx-auto mb-4 h-12 w-12 animate-spin rounded-full border-2 border-border border-t-primary" />
+            <h1 className="text-2xl font-semibold text-foreground">Taking you to your dashboard…</h1>
+            <p className="mt-2 text-sm text-muted-foreground">You're already set up — heading to your dashboard.</p>
           </div>
         </PageSection>
       </>
@@ -158,15 +158,15 @@ export default function Onboarding() {
       </Helmet>
 
       <PageSection className="relative min-h-[80vh] overflow-hidden px-4 py-10">
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(59,130,246,0.18),transparent_35%),radial-gradient(circle_at_80%_20%,rgba(168,85,247,0.14),transparent_30%),linear-gradient(180deg,rgba(2,6,23,0.15),rgba(2,6,23,0.55))]" />
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,hsl(var(--primary)/0.12),transparent_35%),radial-gradient(circle_at_80%_20%,hsl(var(--accent)/0.08),transparent_30%)]" />
 
         <div className="relative mx-auto w-full max-w-2xl">
           <div className="glass-panel p-6 md:p-10">
-            <div className="mb-6 flex items-center justify-center gap-2">
+            <div className="mb-6 flex items-center justify-center gap-2" role="progressbar" aria-valuenow={step} aria-valuemin={1} aria-valuemax={2} aria-label="Onboarding progress">
               {[1, 2].map((s) => (
                 <div
                   key={s}
-                  className={`h-1.5 w-12 rounded-full transition ${step >= s ? "bg-primary" : "bg-white/20"}`}
+                  className={`h-1.5 w-12 rounded-full transition-colors duration-300 ${step >= s ? "bg-primary" : "bg-foreground/15"}`}
                   aria-hidden
                 />
               ))}
@@ -175,12 +175,12 @@ export default function Onboarding() {
             {step === 1 && (
               <>
                 <div className="mb-8 text-center">
-                  <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl border border-white/15 bg-white/10 text-2xl text-white">
+                  <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl border border-border/60 bg-foreground/[0.05] text-2xl text-primary">
                     ✦
                   </div>
-                  <h1 className="text-3xl font-semibold tracking-tight text-white md:text-4xl">Choose your username</h1>
-                  <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-white/70 md:text-base">
-                    This is how we'll greet you across every tool. Make it yours.
+                  <h1 className="text-3xl font-semibold tracking-tight text-foreground md:text-4xl">Choose your username</h1>
+                  <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground md:text-base">
+                    Shown on your dashboard and in Apex greetings. Choose something you&apos;re comfortable seeing every session.
                   </p>
                 </div>
 
@@ -192,10 +192,10 @@ export default function Onboarding() {
                   }}
                 >
                   <div>
-                    <label htmlFor="username" className="mb-2 block text-sm font-medium text-white/80">
+                    <label htmlFor="username" className="mb-2 block text-sm font-medium text-foreground/90">
                       Username
                     </label>
-                    <div className="rounded-2xl border border-white/15 bg-black/20 p-1">
+                    <div className="neu-input">
                       <input
                         id="username"
                         aria-label="Username"
@@ -206,26 +206,26 @@ export default function Onboarding() {
                         autoCorrect="off"
                         spellCheck={false}
                         placeholder="Pick a username"
-                        className="w-full rounded-xl bg-transparent px-4 py-3 text-white outline-none placeholder:text-white/35"
+                        className="neu-input-el"
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
                         onBlur={() => setTouched(true)}
                         maxLength={20}
                       />
                     </div>
-                    <div className="mt-2 flex items-center justify-between gap-3 text-xs text-white/55" id="username-help">
+                    <div className="mt-2 flex items-center justify-between gap-3 text-xs text-muted-foreground" id="username-help">
                       <span>{helperText}</span>
                       <span>{usernameLength}/20</span>
                     </div>
                     {touched && !usernameValid && trimmedUsername.length > 0 && (
-                      <p id="username-error" className="mt-2 text-sm text-red-300">
+                      <p id="username-error" className="mt-2 text-sm text-destructive" role="alert">
                         Usernames must be 3-20 characters and may include letters, numbers, underscores, dots, and hyphens.
                       </p>
                     )}
                   </div>
 
                   {error && (
-                    <div className="rounded-2xl border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm text-red-100">
+                    <div className="alert-error" role="alert">
                       {error}
                     </div>
                   )}
@@ -233,7 +233,7 @@ export default function Onboarding() {
                   <button
                     type="submit"
                     disabled={!canAdvanceStep1}
-                    className="w-full rounded-2xl bg-white px-5 py-3 font-semibold text-slate-950 transition hover:translate-y-[-1px] hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-50"
+                    className="w-full btn-solid py-3 disabled:cursor-not-allowed disabled:opacity-50"
                   >
                     Continue
                   </button>
@@ -244,9 +244,9 @@ export default function Onboarding() {
             {step === 2 && (
               <>
                 <div className="mb-8 text-center">
-                  <h1 className="text-3xl font-semibold tracking-tight text-white md:text-4xl">Set up your curriculum</h1>
-                  <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-white/70 md:text-base">
-                    Pick your board once — dashboard, tools, and AI responses will match your exam path.
+                  <h1 className="text-3xl font-semibold tracking-tight text-foreground md:text-4xl">Set up your curriculum</h1>
+                  <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground md:text-base">
+                    Board, subjects, and exam date tune Paper Maker, Reviewer, Apex, and your dashboard. You can change these later in settings.
                   </p>
                 </div>
 
@@ -266,10 +266,11 @@ export default function Onboarding() {
 
                   <div className="grid gap-4 md:grid-cols-2">
                     <div>
-                      <label className="mb-2 block text-sm text-white/75">Study goal</label>
-                      <div className="rounded-2xl border border-white/15 bg-black/20 p-1">
+                      <label htmlFor="study-goal" className="mb-2 block text-sm text-foreground/80">Study goal</label>
+                      <div className="neu-input">
                         <select
-                          className="w-full rounded-xl bg-transparent px-4 py-3 text-white outline-none"
+                          id="study-goal"
+                          className="neu-input-el cursor-pointer"
                           value={studyGoal}
                           onChange={(e) => setStudyGoal(e.target.value as StudyGoal)}
                         >
@@ -284,10 +285,11 @@ export default function Onboarding() {
                     </div>
 
                     <div>
-                      <label className="mb-2 block text-sm text-white/75">Grade level</label>
-                      <div className="rounded-2xl border border-white/15 bg-black/20 p-1">
+                      <label htmlFor="grade-level" className="mb-2 block text-sm text-foreground/80">Grade level</label>
+                      <div className="neu-input">
                         <select
-                          className="w-full rounded-xl bg-transparent px-4 py-3 text-white outline-none"
+                          id="grade-level"
+                          className="neu-input-el cursor-pointer"
                           value={gradeLevel}
                           onChange={(e) => setGradeLevel(e.target.value as GradeLevel)}
                         >
@@ -303,7 +305,7 @@ export default function Onboarding() {
                   </div>
 
                   {error && (
-                    <div className="rounded-2xl border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm text-red-100">
+                    <div className="alert-error" role="alert">
                       {error}
                     </div>
                   )}
@@ -312,7 +314,7 @@ export default function Onboarding() {
                     <button
                       type="button"
                       onClick={() => setStep(1)}
-                      className="w-full rounded-2xl border border-white/20 bg-white/10 px-5 py-3 font-medium text-white transition hover:bg-white/15"
+                      className="w-full btn-glass py-3"
                     >
                       Back
                     </button>
@@ -320,20 +322,20 @@ export default function Onboarding() {
                       type="button"
                       onClick={() => save(false)}
                       disabled={!canSave}
-                      className="w-full rounded-2xl border border-white/20 bg-white/10 px-5 py-3 font-medium text-white transition hover:bg-white/15 disabled:cursor-not-allowed disabled:opacity-50"
+                      className="w-full btn-glass py-3 disabled:cursor-not-allowed disabled:opacity-50"
                     >
                       {loading ? "Saving…" : "Skip curriculum"}
                     </button>
                     <button
                       type="submit"
                       disabled={!canSave}
-                      className="w-full rounded-2xl bg-white px-5 py-3 font-semibold text-slate-950 transition hover:translate-y-[-1px] hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-50"
+                      className="w-full btn-solid py-3 disabled:cursor-not-allowed disabled:opacity-50"
                     >
                       {loading ? "Saving…" : "Save and continue"}
                     </button>
                   </div>
 
-                  <p className="text-center text-xs leading-relaxed text-white/50">
+                  <p className="text-center text-xs leading-relaxed text-muted-foreground">
                     You can change your board and subjects anytime in settings.
                   </p>
                 </form>

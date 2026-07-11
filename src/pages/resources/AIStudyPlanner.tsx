@@ -8,8 +8,8 @@ export default function AIStudyPlannerArticle() {
   return (
     <>
       <SEO
-        title="AI Study Planner & Calendar · How It Works | VertexED"
-        description="A complete guide to VertexED's AI study planner and calendar: auto-scheduling, spaced retrieval, time‑boxed deep work, and how to plan a real study week."
+        title="AI study planner and calendar — how it works | VertexED"
+        description="Plan a realistic revision week — 25-minute blocks, micro-reviews, sport and sleep included — instead of a fantasy timetable you abandon by Wednesday."
         canonical={canonical}
         ogType="article"
         jsonLd={{
@@ -27,11 +27,11 @@ export default function AIStudyPlannerArticle() {
         }}
       />
   <BreadcrumbsJsonLd />
-      <Article title="AI Study Planner & Calendar" subtitle="Plan learning, not just tasks — auto‑scheduling, micro‑reviews, and time‑boxed focus with VertexED." kicker="Guides">
-        <p>
-          Most planners track tasks; VertexED plans learning. It transforms topics into time‑boxed
-          sessions, places micro‑reviews before forgetting curves dip, and respects school, sleep, and
-          life constraints. The result is a schedule that’s realistic and score‑focused.
+      <Article title="AI study planner and calendar" subtitle="Block mocks, retrieval, and focus sessions around real life — not six-hour fantasy study days." kicker="Guides">
+        <p className="lead">
+          Most planners list tasks. VertexED plans learning: topics become 20–40 minute blocks, micro-reviews
+          land before you forget key items, and school hours, sport, and sleep stay in the picture. The goal
+          is a week you will actually follow — not a colour-coded wish list.
         </p>
 
         <h2>Key capabilities</h2>
@@ -99,11 +99,11 @@ export default function AIStudyPlannerArticle() {
           VertexED records the duration and nudges the schedule if you ran long or short.
         </p>
 
-        <h2>Why VertexED is the solution</h2>
+        <h2>How it fits a revision week</h2>
         <ul>
-          <li>It plans work you’ll actually do, not a wish list.</li>
-          <li>It coordinates notes, flashcards, and quizzes scheduled across your week.</li>
-          <li>It ties practice to exams — perfect for /paper-maker and /answer-reviewer flows.</li>
+          <li>Schedules work you can finish — not overloaded days that collapse by midweek.</li>
+          <li>Coordinates notes, flashcards, and quizzes across the same calendar.</li>
+          <li>Links to timed practice in <Link to="/paper-maker">Paper Maker</Link> and rubric feedback in <Link to="/answer-reviewer">Answer Reviewer</Link>.</li>
         </ul>
 
         <h2>Common pitfalls (and fixes)</h2>
@@ -131,12 +131,12 @@ export default function AIStudyPlannerArticle() {
           <li>Karpicke, J. D., & Roediger, H. L. (2008): The critical importance of retrieval for learning — why planning for <em>output</em> is better than planning for <em>input</em>.</li>
         </ul>
 
-        <div className="mt-8 text-xs text-slate-400 border-t border-white/10 pt-4">
+        <div className="article-footer">
           Editorial note: Reviewed for clarity and usefulness. Always cross‑check with your official syllabus and teacher guidance.
           <div className="mt-1">Last updated: 2025-12-24 · Author: VertexED Team</div>
         </div>
 
-        <hr className="my-8 border-white/10" />
+        <hr className="article-divider" />
         <h3>Related guides</h3>
         <ul>
           <li><Link to="/resources/active-recall-spaced-repetition">Active Recall & Spaced Repetition</Link></li>

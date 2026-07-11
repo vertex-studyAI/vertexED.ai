@@ -1,4 +1,4 @@
-import { dueCards, type SrCard } from "@/lib/spacedRepetition";
+import { dueCards, cardsFromFlashcards, type SrCard } from "@/lib/spacedRepetition";
 
 const DECK_KEY = "vertex_sr_deck";
 
@@ -30,5 +30,19 @@ export function getCramDueCards(limit = 20): SrCard[] {
 
 export function getCramDueCount(): number {
   return getCramDueCards().length;
+}
+
+/** Merge notebook flashcards into the spaced-repetition deck */
+export function mergeFlashcardsIntoDeck(
+  flashcards: { front: string; back: string }[],
+  deckPrefix: string,
+): number {
+  const existing = loadSrDeck();
+  const incoming = cardsFromFlashcards(flashcards, deckPrefix);
+  const seen = new Set(existing.map((c) => `${c.front}::${c.back}`));
+  const toAdd = incoming.filter((c) => !seen.has(`${c.front}::${c.back}`));
+  if (toAdd.length === 0) return 0;
+  saveSrDeck([...toAdd, ...existing]);
+  return toAdd.length;
 }
 
