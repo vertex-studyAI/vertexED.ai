@@ -9,6 +9,9 @@ export type Profile = {
   grade?: number | null;
   subjects?: string[] | null;
   exam_date?: string | null;
+  age?: number | null;
+  school?: string | null;
+  onboarding_notes?: string | null;
   created_at: string; // ISO timestamp
   updated_at: string; // ISO timestamp
 };

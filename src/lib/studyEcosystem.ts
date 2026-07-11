@@ -91,14 +91,21 @@ export function buildEcosystemBrief(
   const recentActivity = getRecentActivity(4);
   const learningPath = getGoalLearningPath(profile.studyGoal);
 
-  const habitProgress =
-    stats.habitCount > 0 ? stats.habitsDoneToday / stats.habitCount : 0;
-  const flashProgress = dueFlashcards === 0 ? 1 : 0;
-  const plannerProgress = todayTasks.length === 0 ? 0.5 : 0;
-  const streakSignal = stats.studyStreak > 0 ? 1 : 0;
-  const dailyProgress = Math.round(
-    ((habitProgress + flashProgress + plannerProgress + streakSignal) / 4) * 100,
-  );
+  const todayKey = new Date().toISOString().slice(0, 10);
+  const progressParts: number[] = [];
+  if (stats.habitCount > 0) {
+    progressParts.push(stats.habitsDoneToday / stats.habitCount);
+  }
+  if (dueFlashcards > 0) {
+    progressParts.push(0);
+  }
+  if (stats.lastStudyDate === todayKey) {
+    progressParts.push(1);
+  }
+  const dailyProgress =
+    progressParts.length > 0
+      ? Math.round((progressParts.reduce((a, b) => a + b, 0) / progressParts.length) * 100)
+      : 0;
 
   const suggestions: string[] = [];
   if (dueFlashcards > 0) {

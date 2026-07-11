@@ -7,6 +7,7 @@ import StudyLoopRing from '@/components/dashboard/StudyLoopRing';
 import ApexPromptChips from '@/components/chat/ApexPromptChips';
 import { getStudyContext } from '@/lib/studyContext';
 import { useAuth } from '@/contexts/AuthContext';
+import { getHideExamReadiness } from '@/lib/dashboardPrefs';
 import { cn } from '@/lib/utils';
 import { LOOP_STEPS } from '@/lib/studyLoopTracker';
 
@@ -23,6 +24,7 @@ const URGENCY_STYLES = {
 
 export default function RetrievalPulseCard({ pulse, className }: Props) {
   const { user } = useAuth();
+  const hideReadiness = getHideExamReadiness(user?.user_metadata);
   const navigate = useNavigate();
   const context = getStudyContext('/main', user);
 
@@ -85,9 +87,14 @@ export default function RetrievalPulseCard({ pulse, className }: Props) {
         </div>
 
         <div className="space-y-4">
-          <div className="rounded-xl border border-border/50 bg-foreground/[0.02] p-4">
-            <ExamReadinessRing readiness={pulse.readiness} showFactors />
-          </div>
+          {!hideReadiness && (
+            <div className="rounded-xl border border-border/50 bg-foreground/[0.02] p-4">
+              <ExamReadinessRing readiness={pulse.readiness} showFactors />
+              <p className="text-[10px] text-muted-foreground mt-3 leading-snug">
+                Based on your study data — exam day can always surprise you. Use as a guide, not a guarantee.
+              </p>
+            </div>
+          )}
           <StudyLoopRing />
         </div>
       </div>

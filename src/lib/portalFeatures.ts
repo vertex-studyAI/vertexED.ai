@@ -52,7 +52,7 @@ export type PortalIntelligence = {
   loopClosure: { step: LoopStep; label: string; href: string } | null;
   boardTip: string;
   streakCalendar: Array<{ date: string; active: boolean }>;
-  readinessIndex: number;
+  readinessIndex: number | null;
   readinessLabel: string;
   dueFlashcards: number;
 };
@@ -116,7 +116,7 @@ function buildFlashcardHeatmap(): FlashcardBucket[] {
 
 function buildApexBrief(pulse: RetrievalPulse, profile: LearnerProfile): string {
   const name = profile.displayName.split(' ')[0] || 'there';
-  if (pulse.readiness.score >= 75) {
+  if (pulse.readiness.hasData && pulse.readiness.score != null && pulse.readiness.score >= 75) {
     return `${name}, retrieval and loop look solid — protect sleep before the paper and avoid new chapters the night before.`;
   }
   if (pulse.loopGap) {
@@ -160,13 +160,16 @@ export function buildPortalIntelligence(
     else if (delta < -3) velocityTrend = 'down';
   }
   const velocityLabel =
-    velocityTrend === 'up'
-      ? `+${delta}% mastery this week`
-      : velocityTrend === 'down'
-        ? `${delta}% dip — schedule a review block`
-        : 'Steady — add one deliberate practice session';
+    last7.length < 2
+      ? 'Complete a few reviews to see your trend'
+      : velocityTrend === 'up'
+        ? `+${delta}% mastery this week`
+        : velocityTrend === 'down'
+          ? `${delta}% dip — schedule a review block`
+          : 'Steady — add one deliberate practice session';
 
   const marksGaps: MarksGap[] = adaptivePlan.masteryBySubject
+    .filter((m) => m.attempts > 0)
     .map((m) => ({
       subject: m.subject,
       current: m.mastery,
@@ -237,13 +240,18 @@ export function buildPortalIntelligence(
     (board && BOARD_TIPS[board]) ||
     (board ? `Your ${BOARD_CONFIGS[board]?.label ?? board} rewards structured answers — plan before you write.` : 'Set your exam board in settings for mark-scheme-specific coaching.');
 
-  const readinessIndex = Math.min(100, Math.max(0, pulse.readiness.score));
+  const readinessIndex =
+    pulse.readiness.hasData && pulse.readiness.score != null
+      ? Math.min(100, Math.max(0, pulse.readiness.score))
+      : null;
   const readinessLabel =
-    readinessIndex >= 75
-      ? 'Strong retrieval band'
-      : readinessIndex >= 55
-        ? 'Building — keep the loop closed'
-        : 'Focus on mocks and review';
+    readinessIndex == null
+      ? 'Not enough data yet'
+      : readinessIndex >= 75
+        ? 'Strong retrieval band'
+        : readinessIndex >= 55
+          ? 'Building — keep the loop closed'
+          : 'Focus on mocks and review';
 
   return {
     apexBrief: buildApexBrief(pulse, profile),
@@ -287,7 +295,7 @@ export function toggleExamNightItem(id: string): Set<string> {
 
 export type ConfidenceRating = {
   subject: string;
-  rating: 1 | 2 | 3 | 4 | 5;
+  rating: 1 | 2 | 3 | 4 | 5 | null;
   updatedAt: string;
 };
 
@@ -303,7 +311,11 @@ function readConfidence(): Record<string, ConfidenceRating> {
 
 export function getConfidenceRatings(subjects: string[]): ConfidenceRating[] {
   const store = readConfidence();
-  return subjects.map((subject) => store[subject] ?? { subject, rating: 3 as const, updatedAt: '' });
+  return subjects.map((subject) => {
+    const saved = store[subject];
+    if (saved?.updatedAt) return saved;
+    return { subject, rating: null, updatedAt: '' };
+  });
 }
 
 export function setConfidenceRating(subject: string, rating: 1 | 2 | 3 | 4 | 5) {

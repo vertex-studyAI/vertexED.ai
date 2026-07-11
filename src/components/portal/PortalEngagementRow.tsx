@@ -90,7 +90,7 @@ export default function PortalEngagementRow({ profile }: Props) {
                         setConfidenceRating(row.subject, n);
                         setConfidence(getConfidenceRatings(subjects));
                       }}
-                      className={`portal-confidence-dot ${row.rating >= n ? 'portal-confidence-dot-active' : ''}`}
+                      className={`portal-confidence-dot ${row.rating != null && row.rating >= n ? 'portal-confidence-dot-active' : ''}`}
                     />
                   ))}
                 </div>

@@ -75,15 +75,6 @@ function masteryFromWeaknesses(weaknesses: TopicHeat[]): SubjectMastery[] {
   });
 }
 
-function defaultMasteryForSubjects(subjects: string[]): SubjectMastery[] {
-  return subjects.map((subject) => ({
-    subject,
-    mastery: 50,
-    attempts: 0,
-    trend: 'unknown' as const,
-  }));
-}
-
 export function buildAdaptivePlan(input: BuildAdaptiveInput): AdaptivePlan {
   const { profile, stats, dueFlashcards, examDaysLeft, todayTaskCount } = input;
   const { curriculum } = profile;
@@ -91,10 +82,7 @@ export function buildAdaptivePlan(input: BuildAdaptiveInput): AdaptivePlan {
   const cramDue = getCramDueCount();
   const cramModeActive = examDaysLeft !== null && examDaysLeft >= 0 && examDaysLeft <= 7;
 
-  let masteryBySubject = masteryFromWeaknesses(weaknesses);
-  if (masteryBySubject.length === 0 && curriculum.subjects.length > 0) {
-    masteryBySubject = defaultMasteryForSubjects(curriculum.subjects);
-  }
+  const masteryBySubject = masteryFromWeaknesses(weaknesses);
 
   const weakest = masteryBySubject.sort((a, b) => a.mastery - b.mastery)[0];
   const focusSubject = weakest?.subject ?? curriculum.subjects[0] ?? null;
@@ -119,7 +107,7 @@ export function buildAdaptivePlan(input: BuildAdaptiveInput): AdaptivePlan {
       : masteryBySubject.map((m) => m.subject);
   const confidenceRatings = getConfidenceRatings(confidenceSubjects);
 
-  for (const c of confidenceRatings.filter((r) => r.rating <= 2 && r.subject)) {
+  for (const c of confidenceRatings.filter((r) => r.rating != null && r.rating <= 2 && r.subject)) {
     const weakInSubject = weaknesses.find((w) => w.subject === c.subject);
     recs.push({
       id: `confidence-${c.subject}`,

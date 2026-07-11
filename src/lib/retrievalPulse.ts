@@ -118,7 +118,7 @@ export function buildRetrievalPulse(
     headline = 'Exam fortnight';
     narrative = `${examDays} days left. Prioritise timed practice and rubric feedback over new content.`;
     apexPrompt = `My exam is in ${examDays} days. Help me plan today and tomorrow for maximum marks without burning out.`;
-  } else if (readiness.score >= 72) {
+  } else if (readiness.hasData && readiness.score != null && readiness.score >= 72) {
     headline = 'Strong rhythm';
     narrative = 'Loop, streak, and retrieval are in decent shape. Push depth on your weakest topic or run a Socratic drill with Apex.';
     apexPrompt = 'Quiz me Socratic-style on my weakest topic — one question at a time, no answers until I try.';

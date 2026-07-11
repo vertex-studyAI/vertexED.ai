@@ -26,6 +26,7 @@ import { supabase } from "@/lib/supabaseClient";
 import { toast } from "@/hooks/use-toast";
 import { useAccessibility } from "@/hooks/useAccessibility";
 import ThemeToggle from "@/components/ThemeToggle";
+import { getHideExamReadiness, setHideExamReadiness } from "@/lib/dashboardPrefs";
 import {
   listStudyArtifacts,
   listStudyArtifactsDetailed,
@@ -64,6 +65,12 @@ export default function UserSettings() {
     learnerProfile.preferences.explanationDepth,
   );
   const [sessionMinutes, setSessionMinutes] = useState(learnerProfile.preferences.sessionMinutes);
+  const [age, setAge] = useState(learnerProfile.age != null ? String(learnerProfile.age) : "");
+  const [school, setSchool] = useState(learnerProfile.school ?? "");
+  const [onboardingNotes, setOnboardingNotes] = useState(learnerProfile.onboardingNotes ?? "");
+  const [hideExamReadiness, setHideExamReadinessState] = useState(() =>
+    getHideExamReadiness(user?.user_metadata),
+  );
   const [savingCurriculum, setSavingCurriculum] = useState(false);
   const [savingProfile, setSavingProfile] = useState(false);
   const [deletingAccount, setDeletingAccount] = useState(false);
@@ -77,6 +84,10 @@ export default function UserSettings() {
     setAiStyle(profile.preferences.aiStyle);
     setExplanationDepth(profile.preferences.explanationDepth);
     setSessionMinutes(profile.preferences.sessionMinutes);
+    setAge(profile.age != null ? String(profile.age) : "");
+    setSchool(profile.school ?? "");
+    setOnboardingNotes(profile.onboardingNotes ?? "");
+    setHideExamReadinessState(getHideExamReadiness(user?.user_metadata));
   }, [user]);
 
   const saveCurriculum = async () => {
@@ -108,9 +119,14 @@ export default function UserSettings() {
   };
 
   const saveLearningProfile = async () => {
-    if (!supabase) return;
+    if (!supabase || !user) return;
     setSavingProfile(true);
     try {
+      const ageNum = age.trim() ? Number.parseInt(age.trim(), 10) : null;
+      if (age.trim() && (Number.isNaN(ageNum) || ageNum! < 10 || ageNum! > 99)) {
+        throw new Error("Enter a valid age (10–99) or leave it blank.");
+      }
+
       const metadata = buildLearnerMetadataPatch(
         {
           studyGoal: studyGoal || null,
@@ -123,8 +139,25 @@ export default function UserSettings() {
         },
         user?.user_metadata ?? {},
       );
+      if (ageNum != null) metadata.age = ageNum;
+      else delete metadata.age;
+      if (school.trim()) metadata.school = school.trim();
+      else delete metadata.school;
+      if (onboardingNotes.trim()) metadata.onboarding_notes = onboardingNotes.trim();
+      else delete metadata.onboarding_notes;
+
       const { error } = await supabase.auth.updateUser({ data: metadata });
       if (error) throw error;
+
+      await supabase.from("profiles").upsert({
+        id: user.id,
+        email: user.email ?? null,
+        age: ageNum,
+        school: school.trim() || null,
+        onboarding_notes: onboardingNotes.trim() || null,
+        updated_at: new Date().toISOString(),
+      });
+
       toast({
         title: "Learning profile saved",
         description: "Apex, planner suggestions, and default focus-block length now follow your saved preferences.",
@@ -137,6 +170,30 @@ export default function UserSettings() {
       });
     } finally {
       setSavingProfile(false);
+    }
+  };
+
+  const saveDashboardPrefs = async (hide: boolean) => {
+    setHideExamReadinessState(hide);
+    setHideExamReadiness(hide);
+    if (!supabase) return;
+    try {
+      const { error } = await supabase.auth.updateUser({
+        data: { ...(user?.user_metadata ?? {}), hide_exam_readiness: hide },
+      });
+      if (error) throw error;
+      toast({
+        title: hide ? "Exam readiness hidden" : "Exam readiness shown",
+        description: hide
+          ? "The readiness ring is off your dashboard — you can turn it back on anytime."
+          : "The readiness ring is back on your dashboard.",
+      });
+    } catch (e) {
+      toast({
+        title: "Could not save preference",
+        description: e instanceof Error ? e.message : "Try again.",
+        variant: "destructive",
+      });
     }
   };
 
@@ -378,6 +435,40 @@ export default function UserSettings() {
                   className="w-full"
                 />
               </label>
+              <div className="grid gap-4 sm:grid-cols-2 pt-2 border-t border-border/40">
+                <label className="block">
+                  <span className="text-sm text-muted-foreground mb-1.5 block">Age (optional)</span>
+                  <input
+                    type="number"
+                    min={10}
+                    max={99}
+                    className="neu-input-el w-full"
+                    value={age}
+                    onChange={(e) => setAge(e.target.value)}
+                    placeholder="Not set"
+                  />
+                </label>
+                <label className="block">
+                  <span className="text-sm text-muted-foreground mb-1.5 block">School (optional)</span>
+                  <input
+                    className="neu-input-el w-full"
+                    value={school}
+                    onChange={(e) => setSchool(e.target.value)}
+                    placeholder="Not set"
+                    maxLength={120}
+                  />
+                </label>
+              </div>
+              <label className="block">
+                <span className="text-sm text-muted-foreground mb-1.5 block">Notes for Apex (optional)</span>
+                <textarea
+                  className="neu-input-el w-full min-h-[72px] resize-y"
+                  value={onboardingNotes}
+                  onChange={(e) => setOnboardingNotes(e.target.value)}
+                  placeholder="Topics you struggle with, report grades, or what you want from VertexED…"
+                  maxLength={800}
+                />
+              </label>
             </div>
             <button
               onClick={() => void saveLearningProfile()}
@@ -427,6 +518,20 @@ export default function UserSettings() {
               <label className="flex items-center justify-between gap-4">
                 <span>Simple mode (fewer tiles)</span>
                 <input type="checkbox" checked={a11y.simpleMode} onChange={(e) => updateA11y({ simpleMode: e.target.checked })} />
+              </label>
+              <label className="flex items-start justify-between gap-4 border-t border-border/40 pt-4">
+                <span>
+                  Hide exam readiness score
+                  <span className="block text-xs text-muted-foreground mt-1 font-normal leading-relaxed">
+                    Removes the readiness ring from your dashboard. Scores are estimates — exam day can always surprise you.
+                  </span>
+                </span>
+                <input
+                  type="checkbox"
+                  checked={hideExamReadiness}
+                  onChange={(e) => void saveDashboardPrefs(e.target.checked)}
+                  className="mt-1"
+                />
               </label>
               <div className="flex items-center justify-between gap-4">
                 <span>Font size</span>

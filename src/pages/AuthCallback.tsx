@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import type { Session } from "@supabase/supabase-js";
 import { supabase } from "@/lib/supabaseClient";
+import { needsOnboarding } from "@/lib/onboarding";
 
 export default function AuthCallback() {
   const navigate = useNavigate();
@@ -20,8 +21,11 @@ export default function AuthCallback() {
 
     const finish = (session: Session) => {
       if (cancelled) return;
-      const hasUsername = !!session.user.user_metadata?.username;
-      navigate(hasUsername ? "/main" : "/onboarding", { replace: true });
+      if (needsOnboarding(session.user)) {
+        navigate("/onboarding", { replace: true });
+        return;
+      }
+      navigate("/main", { replace: true });
     };
 
     const run = async () => {

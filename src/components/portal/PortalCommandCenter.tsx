@@ -7,6 +7,8 @@ import ExamReadinessRing from '@/components/dashboard/ExamReadinessRing';
 import ExamCountdown from '@/components/curriculum/ExamCountdown';
 import BoardBadge from '@/components/curriculum/BoardBadge';
 import LiquidGlass from '@/components/LiquidGlass';
+import { useAuth } from '@/contexts/AuthContext';
+import { getHideExamReadiness } from '@/lib/dashboardPrefs';
 import {
   getPersonalizedSubline,
   getProfileCompleteness,
@@ -21,11 +23,14 @@ type Props = {
 };
 
 export default function PortalCommandCenter({ brief, pulse, intel }: Props) {
+  const { user } = useAuth();
+  const hideReadiness = getHideExamReadiness(user?.user_metadata);
   const goalLabel = studyGoalLabel(brief.profile.studyGoal);
   const gradeLabel = gradeLevelLabel(brief.profile.gradeLevel);
   const board = brief.profile.curriculum.board;
   const completeness = getProfileCompleteness(brief.profile);
   const subline = getPersonalizedSubline(brief.profile);
+  const showReadinessScore = intel.readinessIndex != null;
 
   return (
     <LiquidGlass
@@ -39,7 +44,9 @@ export default function PortalCommandCenter({ brief, pulse, intel }: Props) {
           <div className="flex-1 min-w-0">
             <p className="portal-eyebrow mb-3">
               <Sparkles className="h-3.5 w-3.5 inline mr-1.5 -mt-0.5" aria-hidden />
-              Your dashboard · {intel.readinessIndex}% · {intel.readinessLabel}
+              {showReadinessScore
+                ? `Your dashboard · ${intel.readinessIndex}% · ${intel.readinessLabel}`
+                : 'Your dashboard'}
             </p>
             <h1 className="portal-hero-title">
               {brief.greeting}, {brief.profile.displayName}
@@ -51,14 +58,18 @@ export default function PortalCommandCenter({ brief, pulse, intel }: Props) {
               {board && <BoardBadge board={board} />}
               {goalLabel && <span className="portal-chip">{goalLabel}</span>}
               {gradeLabel && <span className="portal-chip-muted">{gradeLabel}</span>}
-              <span className="portal-chip-muted inline-flex items-center gap-1">
-                <Flame className="h-3 w-3 text-orange-400" aria-hidden />
-                {brief.stats.studyStreak}d streak
-              </span>
-              <span id="focus-score" className="portal-chip-muted inline-flex items-center gap-1">
-                <Target className="h-3 w-3 text-primary" aria-hidden />
-                Focus {intel.focusScore}
-              </span>
+              {brief.stats.studyStreak > 0 && (
+                <span className="portal-chip-muted inline-flex items-center gap-1">
+                  <Flame className="h-3 w-3 text-orange-400" aria-hidden />
+                  {brief.stats.studyStreak}d streak
+                </span>
+              )}
+              {intel.focusScore > 0 && (
+                <span id="focus-score" className="portal-chip-muted inline-flex items-center gap-1">
+                  <Target className="h-3 w-3 text-primary" aria-hidden />
+                  Focus {intel.focusScore}
+                </span>
+              )}
             </div>
 
             {completeness.score < 100 && completeness.nudge && (
@@ -99,24 +110,31 @@ export default function PortalCommandCenter({ brief, pulse, intel }: Props) {
           </div>
 
           <div className="portal-command-rings shrink-0 w-full lg:w-auto flex flex-col sm:flex-row lg:flex-col gap-4 items-center">
-            <div className="portal-ring-card">
-              <ExamReadinessRing readiness={pulse.readiness} size="md" ringOnly />
-              <p className="text-xs text-muted-foreground mt-2 text-center">Exam readiness</p>
-            </div>
-            <div className="portal-ring-card">
-              <div
-                className="portal-daily-ring mx-auto"
-                style={{
-                  background: `conic-gradient(hsl(var(--primary)) ${brief.dailyProgress}%, hsl(var(--foreground) / 0.08) ${brief.dailyProgress}%)`,
-                }}
-              >
-                <div className="portal-daily-ring-inner">
-                  <span className="text-2xl font-bold tabular-nums">{brief.dailyProgress}%</span>
-                  <span className="text-[10px] text-muted-foreground uppercase tracking-wider">today</span>
-                </div>
+            {!hideReadiness && (
+              <div className="portal-ring-card">
+                <ExamReadinessRing readiness={pulse.readiness} size="md" ringOnly />
+                <p className="text-xs text-muted-foreground mt-2 text-center">Exam readiness</p>
+                <p className="text-[10px] text-muted-foreground/80 mt-1.5 text-center max-w-[11rem] leading-snug">
+                  Based on your study data — exam day can always surprise you. Use as a guide, not a guarantee.
+                </p>
               </div>
-              <p className="text-xs text-muted-foreground mt-2 text-center">Daily loop</p>
-            </div>
+            )}
+            {brief.dailyProgress > 0 && (
+              <div className="portal-ring-card">
+                <div
+                  className="portal-daily-ring mx-auto"
+                  style={{
+                    background: `conic-gradient(hsl(var(--primary)) ${brief.dailyProgress}%, hsl(var(--foreground) / 0.08) ${brief.dailyProgress}%)`,
+                  }}
+                >
+                  <div className="portal-daily-ring-inner">
+                    <span className="text-2xl font-bold tabular-nums">{brief.dailyProgress}%</span>
+                    <span className="text-[10px] text-muted-foreground uppercase tracking-wider">today</span>
+                  </div>
+                </div>
+                <p className="text-xs text-muted-foreground mt-2 text-center">Daily loop</p>
+              </div>
+            )}
             <ExamCountdown
               examDate={brief.profile.curriculum.examDate}
               boardLabel={brief.boardLabel}

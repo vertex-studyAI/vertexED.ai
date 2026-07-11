@@ -38,10 +38,17 @@ export default function PortalIntelligenceGrid({ intel, profile, stats }: Props)
     <div className="portal-bento-grid">
       <PortalWidget id="readiness-benchmark" span={1}>
         <WidgetHeader icon={<Target className="h-4 w-4" />} title="Readiness Index" subtitle="From your study signals" />
-        <p className="text-3xl font-bold mt-3 tabular-nums text-primary">{intel.readinessIndex}%</p>
-        <p className="text-sm text-foreground/90 mt-1">{intel.readinessLabel}</p>
+        {intel.readinessIndex != null ? (
+          <>
+            <p className="text-3xl font-bold mt-3 tabular-nums text-primary">{intel.readinessIndex}%</p>
+            <p className="text-sm text-foreground/90 mt-1">{intel.readinessLabel}</p>
+          </>
+        ) : (
+          <p className="text-2xl font-bold mt-3 tabular-nums text-muted-foreground">—</p>
+        )}
         <p className="text-xs text-muted-foreground mt-2 leading-relaxed">
           Built from due cards, loop completion, and recent review scores — your data, not a comparison to other users.
+          Anything can happen on exam day; treat this as a study guide, not a prediction.
         </p>
       </PortalWidget>
 
@@ -101,19 +108,25 @@ export default function PortalIntelligenceGrid({ intel, profile, stats }: Props)
 
       <PortalWidget id="revision-velocity" span={1}>
         <WidgetHeader icon={<TrendingUp className="h-4 w-4" />} title="Revision Velocity" subtitle="Mastery trend this week" />
-        <p
-          className={`text-2xl font-bold mt-3 tabular-nums ${
-            intel.revisionVelocity.trend === 'up'
-              ? 'text-emerald-500'
-              : intel.revisionVelocity.trend === 'down'
-                ? 'text-rose-400'
-                : 'text-foreground'
-          }`}
-        >
-          {intel.revisionVelocity.delta > 0 ? '+' : ''}
-          {intel.revisionVelocity.delta}%
-        </p>
-        <p className="text-xs text-muted-foreground mt-1 leading-relaxed">{intel.revisionVelocity.label}</p>
+        {intel.revisionVelocity.label.startsWith('Complete a few reviews') ? (
+          <p className="text-xs text-muted-foreground mt-3 leading-relaxed">{intel.revisionVelocity.label}</p>
+        ) : (
+          <>
+            <p
+              className={`text-2xl font-bold mt-3 tabular-nums ${
+                intel.revisionVelocity.trend === 'up'
+                  ? 'text-emerald-500'
+                  : intel.revisionVelocity.trend === 'down'
+                    ? 'text-rose-400'
+                    : 'text-foreground'
+              }`}
+            >
+              {intel.revisionVelocity.delta > 0 ? '+' : ''}
+              {intel.revisionVelocity.delta}%
+            </p>
+            <p className="text-xs text-muted-foreground mt-1 leading-relaxed">{intel.revisionVelocity.label}</p>
+          </>
+        )}
       </PortalWidget>
 
       <PortalWidget id="interleave-mixer" span={1}>

@@ -18,6 +18,9 @@ export type LearnerProfile = {
   displayName: string;
   studyGoal: StudyGoal | null;
   gradeLevel: GradeLevel | null;
+  age: number | null;
+  school: string | null;
+  onboardingNotes: string | null;
   curriculum: CurriculumPreference;
   preferences: LearnerPreferences;
 };
@@ -121,6 +124,12 @@ export function getLearnerProfile(user: UserLike): LearnerProfile {
       'undergraduate',
       'other',
     ] as const),
+    age: typeof metadata.age === 'number' && metadata.age > 0 ? metadata.age : null,
+    school: typeof metadata.school === 'string' && metadata.school.trim() ? metadata.school.trim() : null,
+    onboardingNotes:
+      typeof metadata.onboarding_notes === 'string' && metadata.onboarding_notes.trim()
+        ? metadata.onboarding_notes.trim()
+        : null,
     curriculum: getCurriculumPreference(user),
     preferences: readLearnerPreferences(metadata),
   };
@@ -217,7 +226,10 @@ export function getPersonalizedSubline(profile: LearnerProfile): string {
     case 'understand_better':
       return 'Ask why until it clicks — then lock it in with retrieval so it survives exam pressure.';
     default:
-      return 'One loop: plan the week, focus, practise under time, review against rubrics, retrieve on schedule.';
+      if (profile.school) {
+        return `Studying at ${profile.school} — pick a study goal in settings when you are ready.`;
+      }
+      return 'Your dashboard fills in as you study — reviews, mocks, and flashcards drive what appears here.';
   }
 }
 
@@ -227,6 +239,8 @@ export function buildLearnerContextForAi(profile: LearnerProfile): string {
   if (board) parts.push(`Board: ${BOARD_CONFIGS[board].label}`);
   if (profile.gradeLevel) parts.push(`Level: ${gradeLevelLabel(profile.gradeLevel)}`);
   if (profile.studyGoal) parts.push(`Goal: ${studyGoalLabel(profile.studyGoal)}`);
+  if (profile.age) parts.push(`Age: ${profile.age}`);
+  if (profile.school) parts.push(`School: ${profile.school}`);
   if (profile.curriculum.subjects.length) {
     parts.push(`Subjects: ${profile.curriculum.subjects.join(', ')}`);
   }
@@ -243,7 +257,7 @@ export function buildLearnerContextForAi(profile: LearnerProfile): string {
   }
 
   const confidence = getConfidenceRatings(profile.curriculum.subjects);
-  const lowConf = confidence.filter((c) => c.rating <= 2);
+  const lowConf = confidence.filter((c) => c.rating != null && c.rating <= 2);
   if (lowConf.length) {
     parts.push(`Low confidence: ${lowConf.map((c) => c.subject).join(', ')}`);
   }

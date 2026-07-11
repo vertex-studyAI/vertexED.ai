@@ -23,9 +23,8 @@ import {
 import { authFetch } from '@/lib/apiAuth';
 
 const LAYER_LABELS = {
-  foundation: 'Foundation',
-  core: 'Core concepts',
-  exam: 'Exam ready',
+  core: 'From your reviews',
+  exam: 'Confidence check-in',
 };
 
 const STATUS_COLORS: Record<ConceptNode['status'], string> = {
@@ -36,12 +35,12 @@ const STATUS_COLORS: Record<ConceptNode['status'], string> = {
 };
 
 function layoutNodes(nodes: ConceptNode[], width: number, height: number) {
-  const layers: ConceptNode['layer'][] = ['foundation', 'core', 'exam'];
+  const layers: ConceptNode['layer'][] = ['core', 'exam'];
   const byLayer = layers.map((layer) => nodes.filter((n) => n.layer === layer));
   const positions = new Map<string, { x: number; y: number }>();
 
   byLayer.forEach((group, layerIdx) => {
-    const y = height * (0.18 + layerIdx * 0.32);
+    const y = height * (0.28 + layerIdx * 0.38);
     group.forEach((node, i) => {
       const x = ((i + 1) / (group.length + 1)) * width;
       positions.set(node.id, { x, y });
@@ -60,8 +59,8 @@ export default function WorldModelPage() {
   const [simLoading, setSimLoading] = useState(false);
 
   useEffect(() => {
-    setModel(buildWorldModel(pref.board, pref.subjects, pref.grade));
-  }, [pref.board, pref.grade, pref.subjects]);
+    setModel(buildWorldModel(pref.board, pref.subjects));
+  }, [pref.board, pref.subjects]);
 
   const positions = useMemo(() => {
     if (!model) return new Map();
@@ -102,7 +101,7 @@ export default function WorldModelPage() {
         <title>World Model Learning — VertexED</title>
         <meta
           name="description"
-          content="Interactive concept graph — see how foundations, core topics, and exam readiness connect for your board."
+          content="Interactive concept graph from your real review scores and confidence check-ins — no filler topics."
         />
         <link rel="canonical" href="https://www.vertexed.app/world-model" />
         <meta name="robots" content="noindex, follow" />
@@ -128,11 +127,22 @@ export default function WorldModelPage() {
             {boardLabel} concept map
           </h1>
           <p className="text-muted-foreground max-w-2xl leading-relaxed">
-            {model.narrative} Each node reflects a topic layer — foundation, core, or exam-ready — coloured by your recent mock and review scores.
-            Weak nodes show where to drill before sitting a full paper.
+            {model.narrative}
           </p>
         </header>
 
+        {!model.hasData ? (
+          <NeumorphicCard className="p-8 text-center" title="No concept map yet">
+            <p className="text-sm text-muted-foreground leading-relaxed max-w-lg mx-auto">
+              Complete an answer review, quiz, or mock — weak topics from your scores appear here as nodes.
+              Confidence check-ins add a second layer when you rate subjects in the dashboard.
+            </p>
+            <div className="flex flex-wrap justify-center gap-3 mt-6">
+              <Link to="/answer-reviewer" className="btn-solid text-sm">Log a review</Link>
+              <Link to="/paper-maker" className="btn-glass text-sm">Run a mock</Link>
+            </div>
+          </NeumorphicCard>
+        ) : (
         <div className="grid gap-6 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)]">
           <NeumorphicCard className="p-4 md:p-6 overflow-hidden" title="Concept constellation">
             <svg
@@ -219,8 +229,7 @@ export default function WorldModelPage() {
                   <span
                     className="w-2 h-2 rounded-full"
                     style={{
-                      background:
-                        key === 'exam' ? '#a78bfa' : key === 'core' ? '#7dd3fc' : '#64748b',
+                      background: key === 'exam' ? '#a78bfa' : '#7dd3fc',
                     }}
                   />
                   {label}
@@ -282,7 +291,13 @@ export default function WorldModelPage() {
             </NeumorphicCard>
 
             <NeumorphicCard className="p-6" title="Exam hall simulation">
-              <p className="text-sm text-muted-foreground mb-4">{model.examScenario}</p>
+              {model.examScenario ? (
+                <p className="text-sm text-muted-foreground mb-4">{model.examScenario}</p>
+              ) : (
+                <p className="text-sm text-muted-foreground mb-4">
+                  Add review data first — then run a scenario tailored to your weak nodes.
+                </p>
+              )}
               <button
                 type="button"
                 onClick={() => void runSimulation()}
@@ -323,6 +338,7 @@ export default function WorldModelPage() {
             </NeumorphicCard>
           </div>
         </div>
+        )}
       </PageSection>
     </>
   );
