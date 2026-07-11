@@ -7,16 +7,16 @@ export default function IBTOKGuide() {
   return (
     <>
       <SEO
-        title="Using AI for IB TOK: Essays & Exhibitions (2025 Guide) | VertexED"
-        description="Struggling with Theory of Knowledge? Learn how to use AI to brainstorm Real Life Situations (RLS), develop Knowledge Questions, and explore AOKs/WOKs."
+        title="Using AI for IB TOK essays and exhibitions | VertexED"
+        description="Brainstorm real-life situations, knowledge questions, and counter-claims — then write the analysis yourself so it sounds like TOK, not a Wikipedia summary."
         canonical="https://www.vertexed.app/resources/ib-tok-guide-ai"
         keywords="IB TOK, Theory of Knowledge, TOK Essay AI, TOK Exhibition AI, Real Life Situations RLS, Knowledge Questions, Areas of Knowledge, Ways of Knowing, IB Diploma, VertexED"
         jsonLd={[
           {
             "@context": "https://schema.org",
             "@type": "Article",
-            headline: "Using AI for IB TOK: Essays & Exhibitions",
-            description: "Struggling with Theory of Knowledge? Learn how to use AI to brainstorm Real Life Situations (RLS).",
+            headline: "Using AI for IB TOK essays and exhibitions",
+            description: "Brainstorm RLS examples, knowledge questions, and counter-claims for IB Theory of Knowledge.",
             author: {
               "@type": "Organization",
               name: "VertexED Team",
@@ -42,7 +42,7 @@ export default function IBTOKGuide() {
                 name: "Can I use AI examples?",
                 acceptedAnswer: {
                   "@type": "Answer",
-                  text: "Yes, but verify them. AI might invent a 'study' or a 'historical event.' Always Google the RLS to ensure it actually happened."
+                  text: "Yes, but verify them. AI can invent studies or events — Google every RLS before you cite it."
                 }
               },
               {
@@ -50,7 +50,7 @@ export default function IBTOKGuide() {
                 name: "What if my RLS is too common?",
                 acceptedAnswer: {
                   "@type": "Answer",
-                  text: "Ask the AI for 'niche' or 'under-represented' examples. Avoid the standard ones like 'Flat Earth Theory' or 'The Mandela Effect.'"
+                  text: "Ask for less overused examples. Flat Earth and Mandela Effect appear on every TOK draft — examiners have seen them."
                 }
               },
               {
@@ -58,7 +58,7 @@ export default function IBTOKGuide() {
                 name: "How do I structure the essay?",
                 acceptedAnswer: {
                   "@type": "Answer",
-                  text: "Use the standard structure: Intro, Body 1 (Claim + Counter + Mini-Conclusion), Body 2 (Claim + Counter + Mini-Conclusion), Conclusion. Ask AI to check your flow."
+                  text: "Intro, Body 1 (claim + counter + mini-conclusion), Body 2 (same), conclusion. Use AI to check flow — not to write paragraphs."
                 }
               }
             ]
@@ -66,83 +66,83 @@ export default function IBTOKGuide() {
         ]}
       />
       <Article
-        title="Using AI for IB TOK: Essays & Exhibitions"
-        subtitle="Theory of Knowledge is the most abstract part of the IB. AI is the perfect tool to ground your philosophical thoughts in real-world examples."
+        title="Using AI for IB TOK: essays and exhibitions"
+        subtitle="AI helps you find examples and test arguments — you still do the TOK linking yourself."
         kicker="IB Diploma"
       >
         <p className="lead">
-          TOK (Theory of Knowledge) is often the most hated and loved part of the IB. 
-          It requires you to think about <em>how</em> we know what we know. 
-          The hardest part? Finding good "Real Life Situations" (RLS) and connecting them to abstract "Knowledge Questions" (KQ). 
-          This is where AI shines.
+          TOK asks how we know what we know — abstract by design. The hard part is finding credible
+          real-life situations (RLS) and connecting them to knowledge questions (KQ). AI is useful for
+          brainstorming and structure checks. The analysis and linking must be yours, or it reads like
+          generic encyclopedia prose.
         </p>
 
-        <h2>The TOK Exhibition: Finding Objects</h2>
+        <h2>TOK exhibition: finding objects</h2>
         <p>
-          You need 3 objects that connect to one IA prompt (e.g., "To what extent is certainty attainable?").
+          You need three objects linked to one IA prompt (e.g., &ldquo;To what extent is certainty attainable?&rdquo;).
         </p>
         <p>
-          <strong>The AI Brainstorm:</strong>
-          <br /><em>"I have chosen the prompt 'To what extent is certainty attainable?'. I am interested in Physics and History. Suggest 5 specific, tangible objects (not generic concepts) that could represent this prompt in these fields."</em>
+          <strong>Brainstorm prompt:</strong>
+          <br /><em>&ldquo;Prompt: &lsquo;To what extent is certainty attainable?&rsquo; I am interested in physics and history. Suggest five specific, tangible objects — not abstract concepts — for each field.&rdquo;</em>
         </p>
         <p>
-          <strong>Example Output:</strong> "Heisenberg's original 1927 paper on Uncertainty" (Physics) vs. "A propaganda poster from 1940 claiming victory" (History - false certainty).
+          <strong>Example:</strong> Heisenberg&apos;s 1927 uncertainty paper (physics) vs. a 1940 propaganda poster claiming certain victory (history — false certainty).
         </p>
 
-        <h2>The TOK Essay: Counter-Claims & Perspectives</h2>
+        <h2>TOK essay: counter-claims and perspectives</h2>
         <p>
-          A good TOK essay needs nuance. You need to argue $A$, then argue $Not A$, then synthesize.
+          Strong essays argue a position, test a counter-claim, then synthesize — not a one-sided essay.
         </p>
-        <h3>Workflow:</h3>
+        <h3>Workflow</h3>
         <ol>
-          <li><strong>Decode the Title:</strong> Paste the prescribed title into the <Link to="/chatbot">Chatbot</Link>. <em>"Explain what this title is asking in simple terms. What are the key terms and ambiguities?"</em></li>
-          <li><strong>Generate RLS:</strong> <em>"Give me a Real Life Situation from the Natural Sciences in the last 5 years that challenges the idea that scientific knowledge is permanent."</em></li>
-          <li><strong>Develop Counter-Claims:</strong> <em>"I am arguing that emotion is an obstacle to knowledge in History. Give me a counter-claim: when is emotion actually essential for historical understanding?"</em></li>
+          <li><strong>Decode the title:</strong> Paste into <Link to="/chatbot">Apex</Link>. <em>&ldquo;What is this title asking? Name key terms and ambiguities.&rdquo;</em></li>
+          <li><strong>Find RLS:</strong> <em>&ldquo;Give a real-life situation from the natural sciences in the last five years that challenges the idea that scientific knowledge is permanent.&rdquo;</em></li>
+          <li><strong>Develop counter-claims:</strong> <em>&ldquo;I argue emotion is an obstacle to knowledge in history. When is emotion essential for historical understanding?&rdquo;</em></li>
         </ol>
 
-        <h2>The "Areas of Knowledge" (AOK) Cheat Sheet</h2>
+        <h2>Areas of Knowledge (AOK) — methodology prompts</h2>
         <p>
-          Use AI to understand the methodology of each AOK.
+          Use AI to clarify how each AOK builds knowledge:
         </p>
         <ul>
-          <li><strong>Mathematics:</strong> Axiomatic deductive reasoning. (Ask AI: "How is truth proven in Math vs. Science?")</li>
-          <li><strong>History:</strong> Evidence selection and interpretation. (Ask AI: "How does a historian's bias affect the selection of sources?")</li>
+          <li><strong>Mathematics:</strong> Axiomatic deductive reasoning. (&ldquo;How is truth established in maths vs science?&rdquo;)</li>
+          <li><strong>History:</strong> Evidence selection and interpretation. (&ldquo;How does historian bias affect source selection?&rdquo;)</li>
           <li><strong>The Arts:</strong> Subjective experience and communication.</li>
         </ul>
 
-        <h2>Warning: The "AI Voice" in TOK</h2>
+        <h2>Warning: generic TOK voice</h2>
         <p>
-          TOK examiners hate generic, flowery language. AI loves generic, flowery language.
-          <br /><strong>Do not</strong> let AI write your essay. It will sound like a Wikipedia article, not a TOK analysis. 
-          Use AI to find the <em>examples</em>, but do the <em>linking</em> yourself.
+          TOK examiners penalize vague, flowery language — the kind AI defaults to.
+          <br /><strong>Do not</strong> let AI write your essay. Use it for examples and structure checks;
+          write the links between RLS, KQ, and AOK yourself.
         </p>
 
         <h2>FAQ</h2>
-        <p><strong>Can I use AI examples?</strong> Yes, but verify them. AI might invent a "study" or a "historical event." Always Google the RLS to ensure it actually happened.</p>
-        <p><strong>What if my RLS is too common?</strong> Ask the AI for "niche" or "under-represented" examples. Avoid the standard ones like "Flat Earth Theory" or "The Mandela Effect."</p>
-        <p><strong>How do I structure the essay?</strong> Use the standard structure: Intro, Body 1 (Claim + Counter + Mini-Conclusion), Body 2 (Claim + Counter + Mini-Conclusion), Conclusion. Ask AI to check your flow.</p>
+        <p><strong>Can I use AI examples?</strong> Yes, but verify them. AI can invent studies or events — Google every RLS before you cite it.</p>
+        <p><strong>What if my RLS is too common?</strong> Ask for less overused examples. Flat Earth and Mandela Effect appear on every TOK draft.</p>
+        <p><strong>How do I structure the essay?</strong> Intro, two body sections (claim + counter + mini-conclusion each), conclusion. Use AI to check flow — not to write paragraphs.</p>
 
         <div className="not-prose mt-8 flex gap-3 flex-wrap">
           <Link to="/chatbot" className="neu-button">Brainstorm RLS</Link>
-          <Link to="/answer-reviewer" className="neu-button">Critique Essay Structure</Link>
+          <Link to="/answer-reviewer" className="neu-button">Check essay structure</Link>
         </div>
 
-        <h2 className="mt-10">Evidence & references</h2>
+        <h2 className="mt-10">Evidence &amp; references</h2>
         <ul>
           <li>IBO (2022): Theory of Knowledge Guide (First Assessment 2022).</li>
           <li>Lagemaat, R. (2015): Theory of Knowledge for the IB Diploma.</li>
         </ul>
 
-        <div className="mt-8 text-xs text-slate-400 border-t border-white/10 pt-4">
-          Editorial note: TOK is subjective. Use AI to broaden your perspective, not to narrow it.
+        <div className="article-footer">
+          Editorial note: TOK is subjective. Use AI to broaden examples, not to replace your reasoning.
           <div className="mt-1">Last updated: 2025-12-24 · Author: VertexED Team</div>
         </div>
 
-        <hr className="my-8 border-white/10" />
+        <hr className="article-divider" />
         <h3>Related guides</h3>
         <ul>
-          <li><Link to="/resources/essay-writing-with-ai">Mastering Essay Writing with AI</Link></li>
-          <li><Link to="/resources/ib-math-aa-ai-guide">IB Math AA & AI Guide</Link></li>
+          <li><Link to="/resources/essay-writing-with-ai">Essay writing with AI</Link></li>
+          <li><Link to="/resources/ib-math-aa-ai-guide">IB Math AA &amp; AI Guide</Link></li>
           <li><Link to="/resources/is-using-ai-cheating">Is Using AI Cheating?</Link></li>
         </ul>
       </Article>

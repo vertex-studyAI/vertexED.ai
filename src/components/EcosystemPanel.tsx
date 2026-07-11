@@ -64,7 +64,7 @@ export default function EcosystemPanel({
             </ul>
           ) : (
             <p className="text-sm text-muted-foreground mb-4">
-              No sessions logged yet — start in Study Zone.
+              No sessions logged yet — open Study Zone, run a timer, and note what you covered.
             </p>
           )}
 

@@ -34,11 +34,11 @@ export default function FloatingInsightDeck() {
       <div className="max-w-5xl mx-auto">
         <p className="text-xs uppercase tracking-[0.2em] text-primary mb-3 text-center">Why we exist</p>
         <h2 className="text-3xl md:text-4xl font-bold text-foreground text-center leading-tight mb-4 max-w-3xl mx-auto">
-          Learning broke somewhere between access and structure
+          More tools, same problem
         </h2>
         <p className="text-center text-muted-foreground text-base md:text-lg leading-relaxed max-w-2xl mx-auto mb-10">
-          Resources exploded. Quality didn&apos;t. Students are oversaturated and still under-prepared —
-          especially where smaller programmes don&apos;t get the depth IB or A Level students take for granted.
+          Students have access to more PDFs and videos than ever — but exam weeks still break on structure:
+          which topic tonight, whether practice matches the paper, and whether notes ever become retrieval.
         </p>
 
         <div className="insight-carousel relative mx-auto max-w-xl min-h-[18rem] md:min-h-[20rem]">

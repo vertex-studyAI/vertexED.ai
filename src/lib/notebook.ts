@@ -119,7 +119,7 @@ export const NOTEBOOK_OUTPUT_META: Record<
   },
   briefing: {
     label: 'Briefing Doc',
-    description: 'Executive summary of everything in your sources',
+    description: 'One-page summary — key claims, definitions, and open questions from your sources',
     icon: 'file',
   },
   faq: {
@@ -129,7 +129,7 @@ export const NOTEBOOK_OUTPUT_META: Record<
   },
   'audio-script': {
     label: 'Deep Dive',
-    description: 'Two-host podcast conversation on your material',
+    description: 'Two-voice script walking through arguments and examples in your sources',
     icon: 'mic',
   },
   'audio-brief': {
@@ -184,17 +184,17 @@ export const NOTEBOOK_OUTPUT_META: Record<
   },
   'suggested-questions': {
     label: 'Ask This',
-    description: 'Questions to ask Apex to master the material',
+    description: 'Starter questions for Apex — grounded in what your sources actually say',
     icon: 'spark',
   },
   'world-model': {
     label: 'World Model',
-    description: 'Concept layers, prerequisites, and exam-readiness map from your sources',
+    description: 'Topic layers and prerequisites mapped from your sources — weak links flagged',
     icon: 'network',
   },
   'board-deep-dive': {
     label: 'Board Deep Dive',
-    description: '1000+ word board-specific guide with mark-scheme logic',
+    description: 'Long-form guide for your board — command words, mark bands, and common traps',
     icon: 'graduation',
   },
 };

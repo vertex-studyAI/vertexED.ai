@@ -1,11 +1,4 @@
 import React, { useEffect, useMemo, useState } from "react";
-import {
-  fieldLabelStyle,
-  ghostButtonStyle,
-  inputFieldStyle,
-  primaryButtonStyle,
-  subtleTextStyle,
-} from "../styles";
 
 interface MeditationProps {
   accent: string;
@@ -93,31 +86,31 @@ const Meditation: React.FC<MeditationProps> = ({ accent }) => {
         <div style={{ display: "grid", gap: "20px" }}>
           <div style={controlGridStyle}>
             <label style={{ display: "grid", gap: "8px" }}>
-              <span style={fieldLabelStyle}>Total time (minutes)</span>
+              <span className="form-label">Total time (minutes)</span>
               <input
                 type="number"
                 min={1}
                 value={totalMinutes}
                 onChange={(event) => setTotalMinutes(Math.max(Number(event.target.value) || 1, 1))}
-                style={{ ...inputFieldStyle, width: "100%" }}
+                className="form-control w-full"
               />
             </label>
-            <label style={{ display: "grid", gap: "8px" }}>
-              <span style={fieldLabelStyle}>Breaths</span>
+            <label className="grid gap-2">
+              <span className="form-label">Breaths</span>
               <input
                 type="number"
                 min={1}
                 value={breaths}
                 onChange={(event) => setBreaths(Math.max(Number(event.target.value) || 1, 1))}
-                style={{ ...inputFieldStyle, width: "100%" }}
+                className="form-control w-full"
               />
             </label>
           </div>
-          <p style={subtleTextStyle}>
+          <p className="zone-subtle">
             We guide each inhale and exhale evenly so your session lasts {totalMinutes} minute{totalMinutes === 1 ? "" : "s"}. You'll breathe {breaths} times in total.
           </p>
           <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
-            <button type="button" onClick={beginSession} style={primaryButtonStyle(accent)}>
+            <button type="button" onClick={beginSession} className="zone-btn-primary">
               Begin session
             </button>
           </div>
@@ -144,14 +137,14 @@ const Meditation: React.FC<MeditationProps> = ({ accent }) => {
             `}</style>
           </div>
           <div style={{ textAlign: "center", display: "grid", gap: "8px" }}>
-            <span style={{ fontWeight: 600, fontSize: "18px", color: "hsl(var(--foreground))" }}>{isInhale ? "Inhale" : "Exhale"}</span>
-            <p style={subtleTextStyle}>Remaining breaths: {remainingBreaths}</p>
+            <span className="text-lg font-semibold text-foreground">{isInhale ? "Inhale" : "Exhale"}</span>
+            <p className="zone-subtle">Remaining breaths: {remainingBreaths}</p>
           </div>
           <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
-            <button type="button" onClick={() => setIsRunning(false)} style={{ ...ghostButtonStyle, paddingInline: "18px" }}>
+            <button type="button" onClick={() => setIsRunning(false)} className="zone-btn-ghost !px-4">
               End session
             </button>
-            <button type="button" onClick={restartSession} style={{ ...ghostButtonStyle, paddingInline: "18px" }}>
+            <button type="button" onClick={restartSession} className="zone-btn-ghost !px-4">
               Restart
             </button>
           </div>

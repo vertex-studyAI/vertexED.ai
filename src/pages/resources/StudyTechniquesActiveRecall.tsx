@@ -7,8 +7,8 @@ export default function StudyTechniquesActiveRecall() {
   return (
     <>
       <SEO
-        title="Active Recall & Spaced Repetition for IB/IGCSE | VertexED"
-        description="A practical, science-backed guide to active recall, spaced repetition, and interleaving for IB and IGCSE. Includes step-by-step workflows using VertexED."
+        title="Active recall and spaced repetition for IB/IGCSE | VertexED"
+        description="Why rereading fails under exam pressure — and how to build retrieval, spacing, and interleaving into a weekly loop with VertexED."
         canonical={canonical}
         ogType="article"
         jsonLd={{
@@ -23,15 +23,14 @@ export default function StudyTechniquesActiveRecall() {
         }}
       />
       <Article
-        title="Active Recall & Spaced Repetition"
-        subtitle="A practical, science‑backed approach for IB/IGCSE with ready‑to‑use workflows in VertexED."
+        title="Active recall and spaced repetition"
+        subtitle="Retrieval beats rereading — a weekly template for IB and IGCSE with VertexED workflows."
         kicker="Study Techniques"
       >
-        <p>
-          If you’ve ever reread a chapter and felt confident right until the test, you’ve met the
-          illusion of competence. Active recall and spaced repetition cut through that illusion by
-          forcing memory retrieval and distributing practice over time. The result: higher retention,
-          better transfer on exam day, and less total study time.
+        <p className="lead">
+          Reread a chapter and you feel ready — until the mock. Active recall and spaced repetition
+          force retrieval and spread practice over time. Less total study time, better retention on
+          exam day. This guide shows how to run both inside VertexED.
         </p>
 
         <h2>What is active recall?</h2>
@@ -133,12 +132,12 @@ export default function StudyTechniquesActiveRecall() {
           <li>Bjork (1994 onward): Desirable difficulties — making learning effortful can enhance retention.</li>
         </ul>
 
-        <div className="mt-8 text-xs text-slate-400 border-t border-white/10 pt-4">
+        <div className="article-footer">
           Editorial note: Reviewed for clarity and usefulness. Always cross‑check with your official syllabus and teacher guidance.
           <div className="mt-1">Last updated: 2025‑10‑11 · Author: VertexED Team</div>
         </div>
 
-        <hr className="my-8 border-white/10" />
+        <hr className="article-divider" />
         <h3>Related guides</h3>
         <ul>
           <li><Link to="/resources/ai-study-planner">AI Study Planner & Calendar</Link></li>

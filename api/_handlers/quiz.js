@@ -203,7 +203,7 @@ export default async function handler(req, res) {
 
   const user = await verifyAuthUser(req, res);
   if (!user) return;
-  if (!rateLimitUserEndpoint(user.id, 'quiz', res)) return;
+  if (!(await rateLimitUserEndpoint(user.id, 'quiz', res))) return;
 
   if (rejectOversizedJsonBody(req, res)) return;
 

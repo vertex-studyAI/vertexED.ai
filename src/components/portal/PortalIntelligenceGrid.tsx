@@ -41,7 +41,7 @@ export default function PortalIntelligenceGrid({ intel, profile, stats }: Props)
         <p className="text-3xl font-bold mt-3 tabular-nums text-primary">{intel.readinessIndex}%</p>
         <p className="text-sm text-foreground/90 mt-1">{intel.readinessLabel}</p>
         <p className="text-xs text-muted-foreground mt-2 leading-relaxed">
-          Built from retrieval habits, loop completion, and review scores — not a fake percentile.
+          Built from due cards, loop completion, and recent review scores — your data, not a comparison to other users.
         </p>
       </PortalWidget>
 
@@ -100,7 +100,7 @@ export default function PortalIntelligenceGrid({ intel, profile, stats }: Props)
       </PortalWidget>
 
       <PortalWidget id="revision-velocity" span={1}>
-        <WidgetHeader icon={<TrendingUp className="h-4 w-4" />} title="Revision Velocity" subtitle="Weekly momentum" />
+        <WidgetHeader icon={<TrendingUp className="h-4 w-4" />} title="Revision Velocity" subtitle="Mastery trend this week" />
         <p
           className={`text-2xl font-bold mt-3 tabular-nums ${
             intel.revisionVelocity.trend === 'up'
@@ -117,7 +117,7 @@ export default function PortalIntelligenceGrid({ intel, profile, stats }: Props)
       </PortalWidget>
 
       <PortalWidget id="interleave-mixer" span={1}>
-        <WidgetHeader icon={<Shuffle className="h-4 w-4" />} title="Interleave Mixer" subtitle="Smarter session order" />
+        <WidgetHeader icon={<Shuffle className="h-4 w-4" />} title="Interleave Mixer" subtitle="Two subjects tonight" />
         {intel.interleave.subjects.length >= 2 ? (
           <>
             <div className="flex items-center gap-2 mt-3 flex-wrap">
@@ -141,7 +141,7 @@ export default function PortalIntelligenceGrid({ intel, profile, stats }: Props)
           <WidgetHeader
             icon={<Timer className="h-4 w-4" />}
             title="Weak Topic Sprint"
-            subtitle={`${intel.weakSprint.minutes} min laser focus`}
+            subtitle={`${intel.weakSprint.minutes} min on weak topic`}
           />
           <p className="text-sm font-semibold text-foreground mt-3">{intel.weakSprint.topic}</p>
           <p className="text-xs text-muted-foreground">{intel.weakSprint.subject}</p>

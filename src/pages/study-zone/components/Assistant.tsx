@@ -17,7 +17,7 @@ export default function Assistant({ onClose }: Props) {
   const studyContext = getStudyContext("/study-zone", user);
   const scrollRef = useRef<HTMLDivElement | null>(null);
 
-  const { messages, input, setInput, loading, sendMessage } = useApexChat({
+  const { messages, input, setInput, loading, streamingMessageId, sendMessage } = useApexChat({
     context: studyContext,
     onSessionRecord: recordStudySession,
   });
@@ -35,7 +35,7 @@ export default function Assistant({ onClose }: Props) {
           </span>
           <div>
             <h2 className="text-lg font-semibold text-foreground">Apex</h2>
-            <p className="text-xs text-muted-foreground">In-session help — explanations, not answers on tap.</p>
+            <p className="text-xs text-muted-foreground">In-session Apex — ask what you tried first; use for stuck points mid-block.</p>
           </div>
         </div>
         {onClose && (
@@ -55,7 +55,13 @@ export default function Assistant({ onClose }: Props) {
       )}
 
       <div ref={scrollRef} className="apex-chat-surface flex-1 min-h-[280px] max-h-[360px] overflow-y-auto">
-        <ApexMessageList messages={messages} loading={loading} context={studyContext} compact />
+        <ApexMessageList
+          messages={messages}
+          loading={loading}
+          streamingMessageId={streamingMessageId}
+          context={studyContext}
+          compact
+        />
       </div>
 
       <ApexChatInput

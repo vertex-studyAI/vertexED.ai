@@ -3,6 +3,85 @@
 import { verifyAuthUser, readJsonBody, rejectOversizedJsonBody } from '../_lib/auth.js';
 import { rateLimitUserEndpoint } from '../_lib/rateLimit.js';
 
+const PRIMARY_NOTE_MODEL = process.env.NOTE_MODEL || 'ft:gpt-4o-mini-2024-07-18:verteded:notes:CRuakY3O';
+const FALLBACK_NOTE_MODEL = process.env.NOTE_FALLBACK_MODEL || 'gpt-4o-mini';
+
+async function extractResponsesText(response) {
+  if (!response.ok) {
+    const errText = await response.text();
+    throw new Error(`OpenAI error: ${errText}`);
+  }
+  const data = await response.json();
+  let raw = '';
+  if (Array.isArray(data.output)) {
+    for (const item of data.output) {
+      if (item.content) {
+        for (const block of item.content) {
+          if (block.type === 'output_text' && block.text) {
+            raw += block.text;
+          }
+        }
+      }
+    }
+  }
+  if (!raw.trim()) throw new Error('Empty model output');
+  return raw;
+}
+
+async function callNotesResponsesApi(apiKey, systemMessage, userMessage, model) {
+  const response = await fetch('https://api.openai.com/v1/responses', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${apiKey}`,
+    },
+    body: JSON.stringify({
+      model,
+      input: [systemMessage, userMessage],
+      temperature: 0.45,
+      max_output_tokens: 1600,
+    }),
+  });
+  return extractResponsesText(response);
+}
+
+async function callNotesChatFallback(apiKey, systemMessage, userMessage) {
+  const response = await fetch('https://api.openai.com/v1/chat/completions', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${apiKey}`,
+    },
+    body: JSON.stringify({
+      model: FALLBACK_NOTE_MODEL,
+      messages: [systemMessage, userMessage],
+      temperature: 0.45,
+      max_tokens: 1600,
+    }),
+  });
+  if (!response.ok) {
+    const errText = await response.text();
+    throw new Error(`OpenAI fallback error: ${errText}`);
+  }
+  const data = await response.json();
+  const raw = data.choices?.[0]?.message?.content ?? '';
+  if (!raw.trim()) throw new Error('Empty fallback model output');
+  return raw;
+}
+
+async function generateNotesRaw(apiKey, systemMessage, userMessage) {
+  try {
+    return await callNotesResponsesApi(apiKey, systemMessage, userMessage, PRIMARY_NOTE_MODEL);
+  } catch (primaryErr) {
+    console.warn('Primary note model failed, retrying fallback:', primaryErr?.message || primaryErr);
+    try {
+      return await callNotesResponsesApi(apiKey, systemMessage, userMessage, FALLBACK_NOTE_MODEL);
+    } catch {
+      return callNotesChatFallback(apiKey, systemMessage, userMessage);
+    }
+  }
+}
+
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
@@ -12,7 +91,7 @@ export default async function handler(req, res) {
   if (!user) return;
 
   if (rejectOversizedJsonBody(req, res)) return;
-  if (!rateLimitUserEndpoint(user.id, 'note', res)) return;
+  if (!(await rateLimitUserEndpoint(user.id, 'note', res))) return;
 
   const OPENAI_API_KEY =
     process.env.ChatbotKey || process.env.OPENAI_API_KEY || process.env.CHATBOT_KEY;
@@ -130,46 +209,8 @@ Extra info: ${noteAdditionalInfo || "none"}
 Flashcards: 4–${safeFlashCount}`,
     };
 
-    // ---- OpenAI Responses API ----
-    const response = await fetch("https://api.openai.com/v1/responses", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${OPENAI_API_KEY}`,
-      },
-      body: JSON.stringify({
-        model: "ft:gpt-4o-mini-2024-07-18:verteded:notes:CRuakY3O",
-        input: [systemMessage, userMessage],
-        temperature: 0.45,
-        max_output_tokens: 1600,
-      }),
-    });
-
-    if (!response.ok) {
-      const errText = await response.text();
-      throw new Error(`OpenAI error: ${errText}`);
-    }
-
-    const data = await response.json();
-
-    // ✅ CORRECT text extraction for Responses API
-    let raw = "";
-    if (Array.isArray(data.output)) {
-      for (const item of data.output) {
-        if (item.content) {
-          for (const block of item.content) {
-            if (block.type === "output_text" && block.text) {
-              raw += block.text;
-            }
-          }
-        }
-      }
-    }
-
-    if (!raw.trim()) {
-      throw new Error("Empty model output");
-    }
-
+    // ---- OpenAI Responses API (with fallback) ----
+    const raw = await generateNotesRaw(OPENAI_API_KEY, systemMessage, userMessage);
     // ---- Protect LaTeX ----
     const latexBlocks = [];
     let protectedRaw = raw.replace(/\$\$[\s\S]*?\$\$/g, (m) => {

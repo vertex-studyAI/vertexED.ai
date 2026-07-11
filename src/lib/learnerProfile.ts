@@ -34,10 +34,10 @@ type UserLike = {
 } | null;
 
 const GOAL_LABELS: Record<StudyGoal, string> = {
-  ace_exams: 'Ace upcoming exams',
-  catch_up: 'Catch up on topics',
-  build_habits: 'Build study habits',
-  understand_better: 'Understand subjects better',
+  ace_exams: 'Maximise exam marks',
+  catch_up: 'Close topic gaps',
+  build_habits: 'Build steady routines',
+  understand_better: 'Understand deeply',
 };
 
 const GRADE_LABELS: Record<GradeLevel, string> = {
@@ -185,10 +185,10 @@ export function getProfileCompleteness(profile: LearnerProfile): ProfileComplete
     const first = missing[0];
     nudge =
       first === 'exam date'
-        ? 'Add your exam date so we can prioritise cram mode and countdown.'
+        ? 'Add your exam date — countdown, cram mode, and tonight\'s plan use it.'
         : first === 'subjects'
-          ? 'Tell us your subjects — mastery and interleaving work better with them.'
-          : `Complete your ${first} in settings for sharper recommendations.`;
+          ? 'Add subjects — mastery charts and interleaving need them.'
+          : `Add your ${first} in settings for sharper recommendations.`;
   }
 
   return { score, missing, nudge };
@@ -202,9 +202,9 @@ export function getPersonalizedSubline(profile: LearnerProfile): string {
     : null;
 
   if (examDays != null && examDays <= 14) {
-    return examDays === 0
-      ? `Exam day — trust retrieval, sleep, and calm execution.`
-      : `${examDays} day${examDays === 1 ? '' : 's'} to ${boardLabel ?? 'your exam'} — every session should move a mark.`;
+      return examDays === 0
+      ? `Exam day — light retrieval, sleep, and calm execution.`
+      : `${examDays} day${examDays === 1 ? '' : 's'} to ${boardLabel ?? 'your exam'} — prioritise timed mocks and rubric review.`;
   }
 
   switch (goal) {
@@ -275,17 +275,17 @@ export function getGoalLearningPath(goal: StudyGoal | null): LearningPathStep[] 
   switch (goal) {
     case 'ace_exams':
       return [
-        { phase: 'learn', title: 'Review formulas', description: 'Quick formula sheets before practice.', to: '/study-tools' },
-        { phase: 'practice', title: 'Mock paper', description: 'Timed practice under exam conditions.', to: '/paper-maker' },
-        { phase: 'review', title: 'Answer review', description: 'Get rubric-style feedback on your work.', to: '/answer-reviewer' },
-        { phase: 'remember', title: 'Flashcard drill', description: 'Lock in key facts with spaced repetition.', to: '/notetaker' },
+        { phase: 'learn', title: 'Formula refresh', description: 'Skim sheets for units you will need in the mock.', to: '/study-tools' },
+        { phase: 'practice', title: 'Timed mock', description: 'Full or half paper under exam conditions.', to: '/paper-maker' },
+        { phase: 'review', title: 'Rubric review', description: 'Read marks earned and lost; note command-term gaps.', to: '/answer-reviewer' },
+        { phase: 'remember', title: 'Due flashcards', description: 'Clear the deck on topics the mock exposed.', to: '/notetaker' },
       ];
     case 'catch_up':
       return [
-        { phase: 'learn', title: 'AI notes', description: 'Generate structured notes on weak topics.', to: '/notetaker' },
-        { phase: 'practice', title: 'Targeted quiz', description: 'Test yourself on what you just learned.', to: '/notetaker' },
-        { phase: 'review', title: 'Ask Apex', description: 'Clarify gaps step by step.', to: '/chatbot' },
-        { phase: 'remember', title: 'Archive exemplars', description: 'See how strong answers are built.', to: '/archives' },
+        { phase: 'learn', title: 'Condense notes', description: 'Generate or paste notes on one gap topic only.', to: '/notetaker' },
+        { phase: 'practice', title: 'Topic quiz', description: 'Ten questions — honest scoring, no re-read first.', to: '/notetaker' },
+        { phase: 'review', title: 'Ask Apex', description: 'One Socratic pass on what you missed.', to: '/chatbot' },
+        { phase: 'remember', title: 'Exemplars', description: 'See how strong answers are structured.', to: '/archives' },
       ];
     case 'build_habits':
       return [

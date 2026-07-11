@@ -7,8 +7,8 @@ export default function SubjectGuidesCommonMistakes() {
   return (
     <>
       <SEO
-        title="Subject Guides: Common Mistakes and Fixes (IB/IGCSE) | VertexED"
-        description="High‑yield fixes for common mistakes in Math, Sciences, and Humanities across IB/IGCSE, with quick drills you can schedule in VertexED."
+        title="Common exam mistakes in Math, Sciences, and Humanities | VertexED"
+        description="High-yield fixes for IB and IGCSE — missing working, loose definitions, thesis drift — with 15-minute drills you can schedule this week."
         canonical={canonical}
         ogType="article"
         jsonLd={{
@@ -21,13 +21,14 @@ export default function SubjectGuidesCommonMistakes() {
         }}
       />
       <Article
-        title="Subject Guides: Common Mistakes and How to Fix Them"
-        subtitle="Targeted, exam‑oriented advice for Math, Sciences, and Humanities with quick drills in VertexED."
+        title="Common exam mistakes and how to fix them"
+        subtitle="Marks lost on working, definitions, and argument structure — with short drills for each."
         kicker="Subject Guides"
       >
-        <p>
-          This guide collects high‑leverage mistakes seen across IB/IGCSE subjects and turns them into
-          short, repeatable drills. Use it to capture easy marks you might be leaving on the table.
+        <p className="lead">
+          Examiner reports repeat the same errors every year — working not shown, definitions too vague,
+          essays that list evidence without analysis. This guide turns those patterns into fifteen-minute
+          drills you can schedule in the Planner before the next mock.
         </p>
 
         <h2>Mathematics</h2>
@@ -95,16 +96,16 @@ export default function SubjectGuidesCommonMistakes() {
           <li>Hattie, J. (2012): Visible Learning for Teachers — maximizing impact on learning.</li>
         </ul>
 
-        <div className="mt-8 text-xs text-slate-400 border-t border-white/10 pt-4">
+        <div className="article-footer">
           Editorial note: Reviewed for clarity and usefulness. Always cross‑check with your official syllabus and teacher guidance.
           <div className="mt-1">Last updated: 2025-12-24 · Author: VertexED Team</div>
         </div>
 
-        <hr className="my-8 border-white/10" />
+        <hr className="article-divider" />
         <h3>Related guides</h3>
         <ul>
           <li><Link to="/resources/igcse-science-revision">IGCSE Science Revision</Link></li>
-          <li><Link to="/resources/essay-writing-with-ai">Mastering Essay Writing with AI</Link></li>
+          <li><Link to="/resources/essay-writing-with-ai">Essay writing with AI</Link></li>
           <li><Link to="/resources/notes-to-flashcards">From Notes to Flashcards</Link></li>
         </ul>
       </Article>

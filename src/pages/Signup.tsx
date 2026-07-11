@@ -1,6 +1,6 @@
 import { Helmet } from "react-helmet-async";
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import PageSection from "@/components/PageSection";
 import { useAuth } from "@/contexts/AuthContext";
 import { cn } from "@/lib/utils";
@@ -9,12 +9,27 @@ function normalizeEmailInput(value: string) {
   return value.trim().toLowerCase();
 }
 
+function isValidEmail(value: string) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+}
+
+function isStrongPassword(value: string) {
+  return (
+    value.length >= 10 &&
+    /[a-z]/.test(value) &&
+    /[A-Z]/.test(value) &&
+    /[0-9]/.test(value)
+  );
+}
+
 type Mode = "waitlist" | "invite";
 
 export default function Signup() {
   const { login } = useAuth();
   const navigate = useNavigate();
-  const [mode, setMode] = useState<Mode>("waitlist");
+  const [searchParams] = useSearchParams();
+  const waitlistInviteToken = searchParams.get("invite")?.trim() || "";
+  const [mode, setMode] = useState<Mode>(() => (waitlistInviteToken ? "invite" : "waitlist"));
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [inviteCode, setInviteCode] = useState("");
@@ -22,6 +37,13 @@ export default function Signup() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+
+  useEffect(() => {
+    if (waitlistInviteToken) {
+      setMode("invite");
+      setSuccess(false);
+    }
+  }, [waitlistInviteToken]);
 
   const submitWaitlist = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -31,6 +53,11 @@ export default function Signup() {
     const normalizedEmail = normalizeEmailInput(email);
     if (!normalizedEmail) {
       setError("Please enter your email address.");
+      setLoading(false);
+      return;
+    }
+    if (!isValidEmail(normalizedEmail)) {
+      setError("Please enter a valid email address.");
       setLoading(false);
       return;
     }
@@ -62,13 +89,13 @@ export default function Signup() {
       setLoading(false);
       return;
     }
-    if (password.length < 8) {
-      setError("Password must be at least 8 characters.");
+    if (!isValidEmail(normalizedEmail)) {
+      setError("Please enter a valid email address.");
       setLoading(false);
       return;
     }
-    if (!inviteCode.trim()) {
-      setError("Enter your invite code.");
+    if (!isStrongPassword(password)) {
+      setError("Password must be at least 10 characters and include uppercase, lowercase, and a number.");
       setLoading(false);
       return;
     }
@@ -80,7 +107,8 @@ export default function Signup() {
         body: JSON.stringify({
           email: normalizedEmail,
           password,
-          inviteCode: inviteCode.trim(),
+          inviteCode: inviteCode.trim() || undefined,
+          waitlistInviteToken: waitlistInviteToken || undefined,
           website: honeypot,
         }),
       });
@@ -100,8 +128,8 @@ export default function Signup() {
   return (
     <>
       <Helmet>
-        <title>Vertex — Join or create account</title>
-        <meta name="description" content="Join the Vertex waitlist or create an account with an invite code." />
+        <title>Join VertexED — waitlist or invite</title>
+        <meta name="description" content="Join the VertexED waitlist for private beta access, or create an account with a team invite code." />
         <link rel="canonical" href="https://www.vertexed.app/signup" />
         <meta name="robots" content="noindex, nofollow" />
       </Helmet>
@@ -138,8 +166,10 @@ export default function Signup() {
           </h1>
           <p className="text-center mb-6 text-sm text-muted-foreground leading-relaxed">
             {mode === "waitlist"
-              ? "We're in private beta. Join the list and we'll email you when a spot opens — no account yet."
-              : "Got an invite code from the team? You'll be in immediately — no waiting on email."}
+              ? "Private beta — join the waitlist and we'll email when a spot opens. No account is created until you're approved."
+              : waitlistInviteToken
+                ? "Your private invite link is active. Use the same email we approved and choose a password."
+                : "Approved on the waitlist? Create your account with that email. Have a team invite code? Enter it below to skip the waitlist."}
           </p>
 
           <input
@@ -154,25 +184,35 @@ export default function Signup() {
           />
 
           {mode === "waitlist" && success ? (
-            <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-5 text-center">
-              <p className="text-emerald-600 dark:text-emerald-300 font-medium mb-2">You&apos;re on the list</p>
+            <div className="alert-success text-center" role="status">
+              <p className="font-medium mb-2">You&apos;re on the list</p>
               <p className="text-sm text-muted-foreground leading-relaxed">
                 We saved <span className="font-medium text-foreground">{normalizeEmailInput(email)}</span>.
                 We&apos;ll email you when your spot is ready.
               </p>
+              <button
+                type="button"
+                className="btn-glass text-sm mt-4 px-4 py-2"
+                onClick={() => {
+                  setMode("invite");
+                  setSuccess(false);
+                  setError(null);
+                }}
+              >
+                Already approved? Create account
+              </button>
             </div>
           ) : (
             <div className="space-y-4">
               {mode === "invite" && (
                 <div className="neu-input">
                   <input
-                    aria-label="Invite code"
-                    placeholder="Invite code"
+                    aria-label="Invite code (optional if waitlist approved)"
+                    placeholder="Invite code (optional if waitlist approved)"
                     className="neu-input-el"
                     value={inviteCode}
                     onChange={(e) => setInviteCode(e.target.value)}
                     autoComplete="off"
-                    required
                   />
                 </div>
               )}
@@ -193,13 +233,13 @@ export default function Signup() {
                 <div className="neu-input">
                   <input
                     aria-label="Password"
-                    placeholder="Password (8+ characters)"
+                    placeholder="Password (10+ chars, upper, lower, number)"
                     className="neu-input-el"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     type="password"
                     autoComplete="new-password"
-                    minLength={8}
+                    minLength={10}
                     required
                   />
                 </div>
@@ -224,7 +264,7 @@ export default function Signup() {
           )}
 
           {error && (
-            <div className="mt-4 rounded-lg border border-red-500/35 bg-red-500/10 px-3 py-2 text-center text-sm text-red-600 dark:text-red-200">
+            <div className="mt-4 alert-error text-center" role="alert">
               {error}
             </div>
           )}

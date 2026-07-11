@@ -8,8 +8,8 @@ export default function PaperMakerGuide() {
   return (
     <>
       <SEO
-        title="IB/IGCSE Paper Maker · Generate Practice Papers | VertexED"
-        description="How to create syllabus‑aligned practice papers with VertexED's Paper Maker: topics, difficulty, marks, criteria modes, and exporting PDFs/DOCX."
+        title="IB and IGCSE Paper Maker — practice papers | VertexED"
+        description="Generate board-shaped practice papers by topic and mark total, sit them under time, then feed answers into Answer Reviewer for rubric-style gaps."
         canonical={canonical}
         ogType="article"
         jsonLd={{
@@ -29,11 +29,11 @@ export default function PaperMakerGuide() {
         }}
       />
   <BreadcrumbsJsonLd />
-      <Article title="IB/IGCSE Paper Maker" subtitle="Generate realistic, board‑aligned practice papers with VertexED — then export and review." kicker="Guides">
-        <p>
-          VertexED’s Paper Maker builds realistic, board‑aligned practice papers. Choose your board,
-          grade, and subject, add topic tags, and generate questions that read like the real thing. You
-          can export to PDF or DOCX for printing or sharing.
+      <Article title="IB and IGCSE Paper Maker" subtitle="Board-shaped mocks by topic — export, attempt under time, review against mark schemes." kicker="Guides">
+        <p className="lead">
+          Past papers run out. Paper Maker generates style-alike questions for your board, grade, and topic
+          tags — then exports to PDF or DOCX for timed practice. Treat generated items as rehearsal material;
+          calibrate phrasing and mark distribution against official papers.
         </p>
 
         <h2>Inputs that matter</h2>
@@ -108,13 +108,13 @@ export default function PaperMakerGuide() {
           <li>Agarwal, P. K. (2019): Retrieval Practice Guide — practical applications of cognitive science in the classroom.</li>
         </ul>
 
-        <div className="mt-8 text-xs text-slate-400 border-t border-white/10 pt-4">
+        <div className="article-footer">
           Accuracy note: Use official past papers to calibrate phrasing and mark distributions. VertexED generated items
           are for practice and should be validated against your board’s standards.
           <div className="mt-1">Last updated: 2025-12-24 · Author: VertexED Team</div>
         </div>
 
-        <hr className="my-8 border-white/10" />
+        <hr className="article-divider" />
         <h3>Related guides</h3>
         <ul>
           <li><Link to="/resources/ai-answer-reviewer">AI Answer Reviewer</Link></li>

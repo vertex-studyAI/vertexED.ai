@@ -36,7 +36,7 @@ export default function ProblemFlipCard({ problem, index }: Props) {
         role="button"
         tabIndex={0}
         aria-pressed={flipped}
-        aria-label={`${problem.stat} — ${problem.title}. Click to read more.`}
+        aria-label={`Problem ${problem.stat}: ${problem.title}. Click to read more.`}
         onClick={toggle}
         onKeyDown={(e) => {
           if (e.key === "Enter" || e.key === " ") {
@@ -60,7 +60,7 @@ export default function ProblemFlipCard({ problem, index }: Props) {
             <span className="text-sm font-medium text-foreground/80 max-w-[14rem] leading-snug">
               {problem.title}
             </span>
-            <span className="text-xs italic text-muted-foreground">Tap to read</span>
+            <span className="text-xs text-muted-foreground">Tap for detail</span>
           </DispersiveFace>
 
           <DispersiveFace

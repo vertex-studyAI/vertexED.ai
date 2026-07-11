@@ -8,8 +8,8 @@ export default function NotesToFlashcardsArticle() {
   return (
     <>
       <SEO
-        title="From Notes to Flashcards & Quizzes | VertexED"
-        description="Turn raw notes into clean summaries, flashcards, and quiz questions. A complete guide to the VertexED Notetaker workflow and how to build an active‑recall system that actually sticks."
+        title="From notes to flashcards and quizzes | VertexED"
+        description="Turn lecture notes into flashcards and short quizzes the same session — then schedule spaced review before the forgetting curve wins."
         canonical={canonical}
         ogType="article"
         jsonLd={{
@@ -28,12 +28,12 @@ export default function NotesToFlashcardsArticle() {
         }}
       />
   <BreadcrumbsJsonLd />
-      <Article title="From Notes to Flashcards (and Quizzes)" subtitle="Build an active‑recall system in minutes with VertexED’s integrated Notetaker, flashcards, and quizzes." kicker="Guides">
-        <p>
-          Most students collect notes; fewer turn them into practice. VertexED solves that gap with a
-          streamlined Notetaker that transforms raw material into structured summaries, spaced‑repetition
-          flashcards, and quick quizzes — all in the same flow. The goal isn’t just to write more notes; it’s
-          to learn faster with fewer steps.
+      <Article title="From notes to flashcards (and quizzes)" subtitle="Same-session workflow — capture, structure, retrieve, schedule — without exporting between apps." kicker="Guides">
+        <p className="lead">
+          Most students collect notes; fewer turn them into practice. Exams test recall under time, not
+          how neatly your folder is organized. This guide walks through VertexED&apos;s Notetaker flow:
+          structured summaries, flashcards, and a short quiz in one sitting — then spaced review on the
+          Planner before you forget what you just learned.
         </p>
 
         <h2>What you can do with VertexED</h2>
@@ -137,18 +137,18 @@ export default function NotesToFlashcardsArticle() {
           <li>Send deck to Planner; a 3‑minute micro‑review appears two days later.</li>
         </ol>
 
-        <h2>Why VertexED is the solution</h2>
+        <h2>Why one workspace matters</h2>
         <p>
-          Tools that separate notes, cards, and quizzes create friction. VertexED combines them so you never break
-          flow: capture → structure → recall → schedule. Because everything lives in one workspace, you spend time on
-          ideas, not imports and exports.
+          Tools that split notes, cards, and quizzes across apps add friction — export here, import there,
+          forget to schedule review. VertexED keeps capture → structure → recall → schedule in one loop so
+          you spend revision time on ideas, not file management.
         </p>
 
-        <h3>Benefits at a glance</h3>
+        <h3>What you gain in practice</h3>
         <ul>
-          <li>Zero switching cost: notes, cards, quizzes, planner in one place.</li>
-          <li>Cleaner prompts: AI suggestions emphasise exam‑scorable facts.</li>
-          <li>Calendar‑aware spaced repetition: no more manual intervals.</li>
+          <li>Notes, cards, quizzes, and planner in one place — no switching cost.</li>
+          <li>AI card suggestions weighted toward exam-scorable facts.</li>
+          <li>Calendar-aware spaced repetition instead of manual interval spreadsheets.</li>
         </ul>
 
         <h2>FAQ</h2>
@@ -175,13 +175,13 @@ export default function NotesToFlashcardsArticle() {
           <li>Brown, Roediger, & McDaniel (2014): Make It Stick: The Science of Successful Learning.</li>
         </ul>
 
-        <div className="mt-8 text-xs text-slate-400 border-t border-white/10 pt-4">
+        <div className="article-footer">
           Editorial note: Examples and prompts are illustrative and designed to be unique to VertexED’s workflows.
           Always verify subject specifics against your syllabus.
           <div className="mt-1">Last updated: 2025-12-24 · Author: VertexED Team</div>
         </div>
 
-        <hr className="my-8 border-white/10" />
+        <hr className="article-divider" />
         <h3>Related guides</h3>
         <ul>
           <li><Link to="/resources/ai-study-planner">AI Study Planner & Calendar</Link></li>

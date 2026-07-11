@@ -37,7 +37,7 @@ canonical:
 # Disambiguation: similar or related names
 aka:
   - VertexED
-  - Vertex AI Study Tools
+  - VertexED Study Tools
   - Vertex Study Toolkit
 
 # Content usage policy guidance for LLMs

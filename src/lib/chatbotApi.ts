@@ -20,6 +20,16 @@ interface ChatbotResponse {
 	[key: string]: unknown;
 }
 
+export class ChatbotApiError extends Error {
+	status: number;
+
+	constructor(message: string, status: number) {
+		super(message);
+		this.name = "ChatbotApiError";
+		this.status = status;
+	}
+}
+
 const DEFAULT_ENDPOINT = "/api/ask";
 const FALLBACK_ENDPOINT = "https://www.vertexed.app/api/ask";
 
@@ -74,16 +84,16 @@ export const fetchChatbotAnswer = async (
 			}
 
 			if (!response.ok) {
-				lastError = new Error(
+				const message =
 					(typeof data.error === "string" && data.error.trim())
 						? data.error
-						: `Request failed with status ${response.status}`,
-				);
+						: `Request failed with status ${response.status}`;
+				lastError = new ChatbotApiError(message, response.status);
 				continue;
 			}
 
 			if (typeof data.error === "string" && data.error.trim()) {
-				lastError = new Error(data.error);
+				lastError = new ChatbotApiError(data.error, response.status);
 				continue;
 			}
 

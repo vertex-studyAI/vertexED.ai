@@ -17,7 +17,7 @@ export default async function handler(req, res) {
   if (!user) return;
 
   if (rejectOversizedJsonBody(req, res, 256 * 1024)) return;
-  if (!rateLimitUserEndpoint(user.id, 'ask', res)) return;
+  if (!(await rateLimitUserEndpoint(user.id, 'ask', res))) return;
 
   const OPENAI_API_KEY =
     process.env.OPENAI_API_KEY ||
@@ -184,7 +184,7 @@ Rules:
 
       if (!response.ok) {
         console.error("❌ OpenAI fallback error:", response.status, model);
-        return respondAiFailure(res, 502);
+        return respondAiFailure(res);
       }
 
       try {

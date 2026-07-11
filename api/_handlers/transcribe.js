@@ -9,7 +9,7 @@ export default async function handler(req, res) {
   const user = await verifyAuthUser(req, res);
   if (!user) return;
 
-  if (!rateLimitUserEndpoint(user.id, 'transcribe', res)) return;
+  if (!(await rateLimitUserEndpoint(user.id, 'transcribe', res))) return;
 
   const contentLength = Number(req.headers['content-length'] || 0);
   if (contentLength > MAX_AUDIO_BYTES) {
@@ -26,7 +26,15 @@ export default async function handler(req, res) {
     const getRawBody = (req) =>
       new Promise((resolve, reject) => {
         const chunks = [];
-        req.on("data", (c) => chunks.push(c));
+        let totalBytes = 0;
+        req.on("data", (c) => {
+          totalBytes += c.length;
+          if (totalBytes > MAX_AUDIO_BYTES) {
+            reject(new Error('AUDIO_TOO_LARGE'));
+            return;
+          }
+          chunks.push(c);
+        });
         req.on("end", () => resolve(Buffer.concat(chunks)));
         req.on("error", reject);
       });
@@ -129,7 +137,8 @@ export default async function handler(req, res) {
 
     if (!response.ok) {
       const txt = await response.text();
-      return res.status(500).json({ error: `OpenAI API error: ${txt}` });
+      console.error('OpenAI transcription error:', txt);
+      return res.status(502).json({ error: 'Transcription service unavailable. Please try again.' });
     }
 
     const transcription = await response.json();
@@ -210,6 +219,9 @@ ${transcriptText.slice(0, 10000)}`;
       noteLength,
     });
   } catch (error) {
+    if (error instanceof Error && error.message === 'AUDIO_TOO_LARGE') {
+      return res.status(413).json({ error: 'Audio upload too large (max 15 MB).' });
+    }
     console.error("Transcribe error:", error);
     return res.status(500).json({ error: "Server error during transcription" });
   }

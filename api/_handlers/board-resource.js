@@ -14,7 +14,7 @@ export default async function handler(req, res) {
   if (!user) return;
 
   if (rejectOversizedJsonBody(req, res, 64 * 1024)) return;
-  if (!rateLimitUserEndpoint(user.id, 'board-resource', res)) return;
+  if (!(await rateLimitUserEndpoint(user.id, 'board-resource', res))) return;
 
   const OPENAI_API_KEY =
     process.env.OPENAI_API_KEY || process.env.ChatbotKey || process.env.CHATBOT_KEY;

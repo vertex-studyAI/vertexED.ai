@@ -13,6 +13,14 @@ export const ROUTES = {
     loader: () => import('../_handlers/health.js'),
     methods: ['GET', 'HEAD'],
   },
+  'admin-status': {
+    loader: () => import('../_handlers/admin-status.js'),
+    methods: ['GET', 'HEAD'],
+  },
+  account: {
+    loader: () => import('../_handlers/account.js'),
+    methods: ['DELETE'],
+  },
   waitlist: {
     loader: () => import('../_handlers/waitlist.js'),
     methods: ['POST'],
@@ -49,13 +57,9 @@ export const ROUTES = {
     loader: () => import('../_handlers/review.ts'),
     methods: ['POST'],
   },
-  'review-post': {
-    loader: () => import('../_handlers/review-post.js'),
-    methods: ['POST'],
-  },
   'user-content': {
     loader: () => import('../_handlers/user-content.js'),
-    methods: ['GET', 'POST', 'DELETE'],
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
   },
   transcribe: {
     loader: () => import('../_handlers/transcribe.js'),

@@ -1,4 +1,5 @@
 import { API_VERSION, ROUTES } from '../_lib/routes.js';
+import { isProduction } from '../_lib/security.js';
 
 export default async function handler(req, res) {
   if (req.method !== 'GET' && req.method !== 'HEAD') {
@@ -10,11 +11,16 @@ export default async function handler(req, res) {
     return res.status(200).end();
   }
 
-  return res.status(200).json({
+  const payload = {
     ok: true,
     service: 'vertexed',
     apiVersion: API_VERSION,
-    routes: Object.keys(ROUTES).length,
     timestamp: new Date().toISOString(),
-  });
+  };
+
+  if (!isProduction()) {
+    payload.routes = Object.keys(ROUTES).length;
+  }
+
+  return res.status(200).json(payload);
 }

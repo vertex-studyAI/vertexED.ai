@@ -1,5 +1,4 @@
 import React, { useMemo, useState } from "react";
-import { ghostButtonStyle, subtleTextStyle } from "../styles";
 
 interface CalendarCell {
 	key: string;
@@ -11,38 +10,7 @@ interface CalendarProps {
 	accent: string;
 }
 
-const gridStyle: React.CSSProperties = {
-	display: "grid",
-	gridTemplateColumns: "repeat(7, minmax(0, 1fr))",
-	gap: "10px",
-};
-
-const weekdayStyle: React.CSSProperties = {
-	...subtleTextStyle,
-	textAlign: "center",
-	fontSize: "12px",
-	letterSpacing: "0.12em",
-	textTransform: "uppercase",
-};
-
-const baseDayStyle: React.CSSProperties = {
-	padding: "14px 0",
-	textAlign: "center",
-	borderRadius: "14px",
-	border: "1px solid rgba(255,255,255,0.05)",
-	background: "rgba(12,14,22,0.6)",
-	color: "#E7EAFF",
-};
-
-const todayDayStyle = (accent: string): React.CSSProperties => ({
-	...baseDayStyle,
-	background: accent,
-	color: "#11131c",
-	fontWeight: 600,
-	boxShadow: `${accent}33 0 18px 24px`,
-});
-
-const Calendar: React.FC<CalendarProps> = ({ accent }) => {
+const Calendar: React.FC<CalendarProps> = () => {
 	const [currentDate, setCurrentDate] = useState(() => new Date());
 
 	const monthInfo = useMemo(() => {
@@ -82,28 +50,31 @@ const Calendar: React.FC<CalendarProps> = ({ accent }) => {
 	);
 
 	return (
-		<div style={{ display: "grid", gap: "18px" }}>
-			<div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: "12px" }}>
-				<button type="button" onClick={() => changeMonth(-1)} style={{ ...ghostButtonStyle, paddingInline: "12px" }}>
+		<div className="zone-stack">
+			<div className="flex items-center justify-between gap-3">
+				<button type="button" onClick={() => changeMonth(-1)} className="zone-btn-ghost !px-3">
 					Prev
 				</button>
 				<div>
-					<h2 style={{ margin: 0, fontSize: "20px", fontWeight: 600 }}>Calendar</h2>
-					<p style={subtleTextStyle}>{monthInfo.monthName}</p>
+					<h2 className="zone-heading">Calendar</h2>
+					<p className="zone-subtle">{monthInfo.monthName}</p>
 				</div>
-				<button type="button" onClick={() => changeMonth(1)} style={{ ...ghostButtonStyle, paddingInline: "12px" }}>
+				<button type="button" onClick={() => changeMonth(1)} className="zone-btn-ghost !px-3">
 					Next
 				</button>
 			</div>
 
-			<div style={gridStyle}>
+			<div className="zone-calendar-grid">
 				{weekdays.map((weekday) => (
-					<div key={weekday} style={weekdayStyle}>
+					<div key={weekday} className="zone-calendar-weekday">
 						{weekday}
 					</div>
 				))}
 				{monthInfo.cells.map((cell) => (
-					<div key={cell.key} style={cell.isToday ? todayDayStyle(accent) : baseDayStyle}>
+					<div
+						key={cell.key}
+						className={cell.isToday ? "zone-calendar-day zone-calendar-day-today" : "zone-calendar-day"}
+					>
 						{cell.label ?? ""}
 					</div>
 				))}
@@ -113,4 +84,3 @@ const Calendar: React.FC<CalendarProps> = ({ accent }) => {
 };
 
 export default Calendar;
-

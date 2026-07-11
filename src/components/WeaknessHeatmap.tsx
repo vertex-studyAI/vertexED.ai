@@ -23,7 +23,7 @@ export default function WeaknessHeatmap({ compact = false }: { compact?: boolean
 
   if (topics.length === 0) {
     return (
-      <div className="rounded-xl border border-dashed border-white/15 bg-white/5 px-4 py-6 text-center text-sm text-white/55">
+      <div className="rounded-xl border border-dashed border-border/60 bg-foreground/[0.03] px-4 py-6 text-center text-sm text-muted-foreground">
         Complete a mock or answer review to see your weakness heatmap.
       </div>
     );
@@ -36,19 +36,19 @@ export default function WeaknessHeatmap({ compact = false }: { compact?: boolean
         return (
           <div key={`${t.subject}-${t.topic}`} className="flex items-center gap-3">
             <div className="flex-1 min-w-0">
-              <p className="text-sm text-white/90 truncate">{t.topic}</p>
-              <p className="text-xs text-white/45">{t.subject} · {t.attempts} attempt{t.attempts === 1 ? '' : 's'}</p>
+              <p className="text-sm text-foreground truncate">{t.topic}</p>
+              <p className="text-xs text-muted-foreground">{t.subject} · {t.attempts} attempt{t.attempts === 1 ? '' : 's'}</p>
             </div>
-            <div className="w-24 h-2 rounded-full bg-white/10 overflow-hidden">
+            <div className="w-24 h-2 rounded-full bg-foreground/10 overflow-hidden" role="progressbar" aria-valuenow={Math.round(t.avgPercent)} aria-valuemin={0} aria-valuemax={100} aria-label={`${t.topic} mastery`}>
               <div
                 className="h-full rounded-full transition-all"
                 style={{
                   width: `${heat}%`,
-                  background: heat > 50 ? 'hsl(0 70% 55%)' : heat > 25 ? 'hsl(35 80% 55%)' : 'hsl(199 55% 48%)',
+                  background: heat > 50 ? 'hsl(var(--destructive))' : heat > 25 ? 'hsl(35 80% 55%)' : 'hsl(var(--primary))',
                 }}
               />
             </div>
-            <span className="text-xs text-white/50 w-10 text-right">{Math.round(t.avgPercent)}%</span>
+            <span className="text-xs text-muted-foreground w-10 text-right tabular-nums">{Math.round(t.avgPercent)}%</span>
           </div>
         );
       })}

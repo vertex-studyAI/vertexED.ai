@@ -93,7 +93,7 @@ export default function LearningHub() {
         <title>Learning Hub — VertexED</title>
         <meta
           name="description"
-          content="Your connected study ecosystem — personalised command center, learning paths, subject mastery, and daily progress across every Vertex tool."
+          content="Learning Hub — your exam path, today's plan, subject tracks, command terms, and links into every VertexED tool."
         />
         <link rel="canonical" href="https://www.vertexed.app/learning-hub" />
         <meta name="robots" content="noindex, follow" />
@@ -148,7 +148,7 @@ export default function LearningHub() {
 
         <NeumorphicCard className="p-6" title="Your learning path">
           <p className="text-sm text-muted-foreground mb-5">
-            A recommended flow based on your goals — read, practice, review, and remember.
+            Steps ordered for your goal — read or archive material, practise under time, review against rubrics, then retrieve on schedule.
           </p>
           <div className="grid gap-3 md:grid-cols-2">
             {brief.learningPath.map((step, index) => (
@@ -175,12 +175,12 @@ export default function LearningHub() {
         <NeumorphicCard className="p-6" title={board ? `${brief.boardLabel} subject tracks` : 'Subject tracks'}>
           <p className="text-sm text-muted-foreground mb-5">
             {board
-              ? 'Paths tuned to your exam board — from content to practice.'
-              : 'Set your board in settings for personalized subject tracks.'}
+              ? `Tracks aligned to ${brief.boardLabel} — each links to the tools that fit that subject (mocks, notes, Reviewer).`
+              : 'Set your exam board in settings to see subject tracks and board-specific resources.'}
           </p>
           <div className="grid gap-4 md:grid-cols-2">
             {subjectTracks.map((track) => (
-              <div key={track.title} className="rounded-xl border border-white/10 bg-white/5 p-4">
+              <div key={track.title} className="surface-tile p-4">
                 <Link to={track.to} className="font-medium hover:text-primary transition">
                   {track.title}
                 </Link>
@@ -189,7 +189,7 @@ export default function LearningHub() {
                     <Link
                       key={tool.label}
                       to={tool.to}
-                      className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-xs text-muted-foreground hover:text-foreground hover:border-white/20 transition"
+                      className="surface-chip px-2.5 py-1 text-xs text-muted-foreground hover:text-foreground hover:border-primary/25 transition"
                     >
                       {tool.label}
                     </Link>
@@ -216,7 +216,7 @@ export default function LearningHub() {
                 <Link
                   key={item.label}
                   to={item.to}
-                  className="flex items-center gap-3 rounded-lg border border-white/10 bg-white/5 px-3 py-2.5 hover:border-primary/25 transition"
+                  className="surface-row px-3 py-2.5"
                 >
                   <item.icon className="h-4 w-4 text-primary shrink-0" />
                   <div>
@@ -239,7 +239,7 @@ export default function LearningHub() {
               <HubAction to="/main" icon={<Route className="h-4 w-4" />} label="Back to dashboard" />
             </div>
             {brief.suggestions.length > 0 && (
-              <ul className="mt-5 space-y-1.5 text-sm text-muted-foreground border-t border-white/10 pt-4">
+              <ul className="mt-5 space-y-1.5 text-sm text-muted-foreground border-t border-border/60 pt-4">
                 {brief.suggestions.map((tip) => (
                   <li key={tip} className="flex gap-2">
                     <span className="text-primary">•</span>
@@ -259,7 +259,7 @@ export default function LearningHub() {
 
 function HubStat({ icon, label, value }: { icon: ReactNode; label: string; value: string }) {
   return (
-    <div className="rounded-xl border border-white/10 bg-white/5 px-4 py-3">
+    <div className="surface-tile px-4 py-3">
       <div className="flex items-center gap-2 text-xs text-muted-foreground mb-1">
         {icon}
         {label}
@@ -273,7 +273,7 @@ function HubAction({ to, icon, label }: { to: string; icon: ReactNode; label: st
   return (
     <Link
       to={to}
-      className="flex items-center gap-3 rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-sm hover:border-primary/25 hover:bg-primary/5 transition"
+      className="surface-row px-4 py-3 text-sm"
     >
       {icon}
       {label}

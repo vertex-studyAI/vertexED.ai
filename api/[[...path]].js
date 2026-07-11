@@ -1,4 +1,6 @@
 import { API_VERSION, dispatchRoute, resolveRouteKey } from './_lib/routes.js';
+import { applyApiSecurityHeaders, enforceSameOriginCors, isProduction } from './_lib/security.js';
+import { randomUUID } from 'crypto';
 
 export const config = {
   maxDuration: 300,
@@ -7,13 +9,19 @@ export const config = {
   },
 };
 
-function applyApiHeaders(res) {
+function applyApiHeaders(res, requestId) {
+  applyApiSecurityHeaders(res);
   res.setHeader('X-Vertex-API', API_VERSION);
-  res.setHeader('Cache-Control', 'no-store');
+  res.setHeader('X-Request-Id', requestId);
 }
 
 export default async function handler(req, res) {
-  applyApiHeaders(res);
+  const requestId = req.headers['x-request-id'] || randomUUID();
+  applyApiHeaders(res, requestId);
+
+  if (!enforceSameOriginCors(req, res)) {
+    return;
+  }
 
   if (req.method === 'OPTIONS') {
     res.setHeader('Allow', 'GET, HEAD, POST, PUT, PATCH, DELETE, OPTIONS');
@@ -25,15 +33,16 @@ export default async function handler(req, res) {
   try {
     await dispatchRoute(routeKey, req, res);
     if (!res.writableEnded && !res.headersSent) {
-      res.status(500).json({ error: 'Handler did not send a response', route: routeKey });
+      const payload = { error: 'Handler did not send a response', requestId };
+      if (!isProduction()) payload.route = routeKey;
+      res.status(500).json(payload);
     }
   } catch (error) {
-    console.error(`[api/${routeKey}]`, error);
+    console.error(`[api/${routeKey}]`, requestId, error);
     if (!res.headersSent && !res.writableEnded) {
-      res.status(500).json({
-        error: 'Internal server error',
-        route: routeKey,
-      });
+      const payload = { error: 'Internal server error', requestId };
+      if (!isProduction()) payload.route = routeKey;
+      res.status(500).json(payload);
     }
   }
 }

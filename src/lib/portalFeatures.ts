@@ -1,6 +1,5 @@
 /**
- * Portal intelligence — aggregates learner signals into actionable feature payloads.
- * Powers the revolutionary dashboard widgets on /main and /learning-hub.
+ * Portal intelligence — aggregates learner signals into dashboard widget payloads.
  */
 
 import type { LearnerProfile } from '@/lib/learnerProfile';
@@ -118,7 +117,7 @@ function buildFlashcardHeatmap(): FlashcardBucket[] {
 function buildApexBrief(pulse: RetrievalPulse, profile: LearnerProfile): string {
   const name = profile.displayName.split(' ')[0] || 'there';
   if (pulse.readiness.score >= 75) {
-    return `${name}, you're in strong shape for exam day — keep retrieval on schedule and protect your sleep before the paper.`;
+    return `${name}, retrieval and loop look solid — protect sleep before the paper and avoid new chapters the night before.`;
   }
   if (pulse.loopGap) {
     const step = LOOP_STEPS.find((s) => s.id === pulse.loopGap);
@@ -239,10 +238,10 @@ export function buildPortalIntelligence(
   const readinessIndex = Math.min(100, Math.max(0, pulse.readiness.score));
   const readinessLabel =
     readinessIndex >= 75
-      ? 'Exam-ready band'
+      ? 'Strong retrieval band'
       : readinessIndex >= 55
-        ? 'Building steadily'
-        : 'Needs focused work';
+        ? 'Building — keep the loop closed'
+        : 'Focus on mocks and review';
 
   return {
     apexBrief: buildApexBrief(pulse, profile),
@@ -337,7 +336,7 @@ export function exportLearnerSnapshot(profile: LearnerProfile, stats: StudyStats
 }
 
 export function masteryLabel(m: SubjectMastery): string {
-  if (m.mastery >= 80) return 'Exam-ready band';
+  if (m.mastery >= 80) return 'On target (80%+)';
   if (m.mastery >= 65) return 'Building';
-  return 'Needs work';
+  return 'Below target — drill this';
 }

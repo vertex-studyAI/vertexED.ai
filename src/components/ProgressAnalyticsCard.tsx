@@ -11,7 +11,7 @@ export default function ProgressAnalyticsCard({ trend, className }: Props) {
   const maxStreak = Math.max(...trend.snapshots.map((s) => s.studyStreak), 1);
 
   return (
-    <div className={cn('neu-card p-5', className)}>
+    <div id="streak-calendar" className={cn('neu-card p-5', className)}>
       <p className="text-xs uppercase tracking-widest text-muted-foreground mb-3">Progress analytics</p>
 
       <div className="grid grid-cols-3 gap-4 mb-5">

@@ -52,6 +52,7 @@ import ApexChatInput from '@/components/chat/ApexChatInput';
 import LiquidGlass from '@/components/LiquidGlass';
 import { toast } from '@/hooks/use-toast';
 import { logStudyActivity } from '@/lib/studyActivity';
+import { loadNotebookSnapshot, saveNotebookSnapshot } from '@/lib/notebookSync';
 
 const OUTPUT_ICONS: Partial<Record<NotebookOutputKind, typeof BookOpen>> = {
   'study-guide': BookOpen,
@@ -74,6 +75,9 @@ export default function StudyNotebook() {
 
   const [notebooks, setNotebooks] = useState<StudyNotebook[]>(() => listNotebooks());
   const [activeId, setActiveId] = useState<string | null>(() => listNotebooks()[0]?.id ?? null);
+  const [notebookCloudSynced, setNotebookCloudSynced] = useState(true);
+  const [notebookSyncError, setNotebookSyncError] = useState<string | null>(null);
+  const notebookSaveTimerRef = useRef<number | null>(null);
   const [studioTab, setStudioTab] = useState<StudioTab>('chat');
   const [studioGroup, setStudioGroup] = useState(NOTEBOOK_STUDIO_GROUPS[0].id);
   const [generating, setGenerating] = useState<NotebookOutputKind | null>(null);
@@ -93,7 +97,7 @@ export default function StudyNotebook() {
     [active],
   );
 
-  const { messages, input, setInput, loading, sendMessage } = useApexChat({
+  const { messages, input, setInput, loading, streamingMessageId, sendMessage } = useApexChat({
     context: studyContext,
     sources: groundingSources.length > 0 ? groundingSources : undefined,
     onSessionRecord: recordStudySession,
@@ -106,6 +110,36 @@ export default function StudyNotebook() {
       setActiveId(list[0]?.id ?? null);
     }
   }, [activeId]);
+
+  useEffect(() => {
+    let cancelled = false;
+    void loadNotebookSnapshot().then(({ snapshot, cloudSynced, error }) => {
+      if (cancelled) return;
+      setNotebooks(snapshot.notebooks);
+      setActiveId(snapshot.notebooks[0]?.id ?? null);
+      setNotebookCloudSynced(cloudSynced);
+      setNotebookSyncError(error ?? null);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [user?.id]);
+
+  useEffect(() => {
+    if (notebookSaveTimerRef.current !== null) window.clearTimeout(notebookSaveTimerRef.current);
+    notebookSaveTimerRef.current = window.setTimeout(() => {
+      void saveNotebookSnapshot({
+        notebooks,
+        updatedAt: new Date().toISOString(),
+      }).then((result) => {
+        setNotebookCloudSynced(result.cloudSynced);
+        setNotebookSyncError(result.error ?? null);
+      });
+    }, 800);
+    return () => {
+      if (notebookSaveTimerRef.current !== null) window.clearTimeout(notebookSaveTimerRef.current);
+    };
+  }, [notebooks]);
 
   useEffect(() => {
     chatScrollRef.current?.scrollTo({ top: chatScrollRef.current.scrollHeight, behavior: 'smooth' });
@@ -239,7 +273,7 @@ export default function StudyNotebook() {
         <title>Study Notebook — VertexED</title>
         <meta
           name="description"
-          content="NotebookLM-style workspace — sources, grounded chat, study guides, quizzes, concept maps, four audio formats, and flashcard sync."
+          content="Source-based study workspace — grounded chat, study guides, quizzes, concept maps, and audio overviews from your uploaded materials."
         />
         <meta name="robots" content="noindex, follow" />
       </Helmet>
@@ -249,12 +283,12 @@ export default function StudyNotebook() {
           <LiquidGlass variant="hero" className="px-6 py-8 md:px-10">
             <p className="portal-eyebrow mb-2">
               <Sparkles className="h-3.5 w-3.5 inline mr-1.5 -mt-0.5" aria-hidden />
-              NotebookLM-class studio
+              Source-based studio
             </p>
             <h1 className="portal-hero-title text-3xl md:text-4xl">Study Notebook</h1>
-            <p className="portal-hero-brief mt-3 text-sm md:text-base max-w-3xl">
-              Collect sources, chat with citations, and generate study guides, quizzes, concept maps, glossaries,
-              source comparisons, and four audio overview formats — Brief, Deep Dive, Critique, and Debate.
+            <p className="portal-hero-brief mt-3 text-sm md:text-base max-w-3xl leading-relaxed">
+              Add lecture notes, PDF excerpts, or saved mocks as sources. Chat with citations, then generate study guides,
+              flashcards, quizzes, concept maps, glossaries, comparisons, and audio overviews — grounded in what you uploaded, not the open web.
             </p>
           </LiquidGlass>
         </header>
@@ -540,7 +574,12 @@ export default function StudyNotebook() {
                               </div>
                             </div>
                           )}
-                          <ApexMessageList messages={messages} loading={loading} />
+                          <ApexMessageList
+                            messages={messages}
+                            loading={loading}
+                            streamingMessageId={streamingMessageId}
+                            context={studyContext}
+                          />
                         </>
                       )}
                     </div>

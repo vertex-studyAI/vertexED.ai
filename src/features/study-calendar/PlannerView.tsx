@@ -12,6 +12,7 @@ import { getLearnerProfile } from "@/lib/learnerProfile";
 import { daysUntilExam } from "@/lib/curriculum";
 import { getWeakestTopics } from "@/lib/weaknessTracker";
 import { useSearchParams } from "react-router-dom";
+import { loadPlannerSnapshot, savePlannerSnapshot } from "@/lib/plannerSync";
 
 function getOrdinalSuffix(day: number) {
   if (day > 3 && day < 21) return 'th';
@@ -36,6 +37,7 @@ const PlannerView: React.FC = () => {
   const [aiOpen, setAiOpen] = useState(false);
   const [aiInput, setAiInput] = useState("");
   const [aiBusy, setAiBusy] = useState(false);
+  const [aiError, setAiError] = useState<string | null>(null);
   const [weekPlanBusy, setWeekPlanBusy] = useState(false);
   const [showMoreOptions, setShowMoreOptions] = useState(false);
   const [taskDate, setTaskDate] = useState(""); // yyyy-mm-dd from input[type=date]
@@ -52,19 +54,45 @@ const PlannerView: React.FC = () => {
   const [editDate, setEditDate] = useState(""); // yyyy-mm-dd
   const [editStartTime, setEditStartTime] = useState(""); // HH:MM
   const [editDuration, setEditDuration] = useState(""); // minutes
+  const [plannerLoading, setPlannerLoading] = useState(true);
+  const [syncError, setSyncError] = useState<string | null>(null);
+  const [cloudSynced, setCloudSynced] = useState(true);
+  const saveTimerRef = useRef<number | null>(null);
   // tags removed
 
-  // Load/save local state similar to Pulse
   useEffect(() => {
-    try {
-      const savedTasks = localStorage.getItem("planner_tasks");
-      if (savedTasks) setTasks(JSON.parse(savedTasks));
-      const savedMode = localStorage.getItem("planner_mode");
-      if (savedMode) setMode(savedMode);
-    } catch {}
-  }, []);
-  useEffect(() => { localStorage.setItem("planner_tasks", JSON.stringify(tasks)); }, [tasks]);
-  useEffect(() => { localStorage.setItem("planner_mode", mode); }, [mode]);
+    let cancelled = false;
+    setPlannerLoading(true);
+    void loadPlannerSnapshot().then(({ snapshot, cloudSynced: synced, error }) => {
+      if (cancelled) return;
+      setTasks(snapshot.tasks);
+      setMode(snapshot.mode);
+      setCloudSynced(synced);
+      setSyncError(error ?? null);
+      setPlannerLoading(false);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [user?.id]);
+
+  useEffect(() => {
+    if (plannerLoading) return;
+    if (saveTimerRef.current !== null) window.clearTimeout(saveTimerRef.current);
+    saveTimerRef.current = window.setTimeout(() => {
+      void savePlannerSnapshot({
+        tasks,
+        mode,
+        updatedAt: new Date().toISOString(),
+      }).then((result) => {
+        setCloudSynced(result.cloudSynced);
+        setSyncError(result.error ?? null);
+      });
+    }, 800);
+    return () => {
+      if (saveTimerRef.current !== null) window.clearTimeout(saveTimerRef.current);
+    };
+  }, [tasks, mode, plannerLoading]);
 
   // Listen for viewport changes to determine mobile
   useEffect(() => {
@@ -266,6 +294,7 @@ const PlannerView: React.FC = () => {
   const addTaskFromAI = async () => {
     if (!aiInput.trim()) return;
     setAiBusy(true);
+    setAiError(null);
     try {
       const dateStr = usDate(selectedDate);
       const existing = tasks.map(t => ({
@@ -316,6 +345,7 @@ const PlannerView: React.FC = () => {
       setAiInput(""); setTaskDate(""); setTaskStartTime(""); setTaskDuration(""); setShowMoreOptions(false); setAiOpen(false);
     } catch (e) {
       console.error("AI create failed", e);
+      setAiError(e instanceof Error ? e.message : "Could not add task with AI. Try again or add manually.");
     } finally {
       setAiBusy(false);
     }
@@ -326,6 +356,15 @@ const PlannerView: React.FC = () => {
       <div className="planner-header">
         <h1 className="planner-title">{formattedHeaderDate}</h1>
         <div className="planner-controls">
+          {!plannerLoading && !cloudSynced && (
+            <div
+              className="flex items-center gap-2 rounded-lg border border-amber-500/30 bg-amber-500/10 px-3 py-1.5 text-xs text-amber-100 mr-2 max-w-[16rem]"
+              role="status"
+            >
+              <span className="font-medium">Device only</span>
+              <span className="opacity-90 leading-snug">{syncError || 'Planner not synced to cloud'}</span>
+            </div>
+          )}
           {!isMobile && (
             <select className="planner-select" value={mode} onChange={(e) => setMode(e.target.value)}>
               <option value="Day">Day</option>
@@ -335,7 +374,7 @@ const PlannerView: React.FC = () => {
           <button className="planner-today" onClick={() => setSelectedDate(new Date())}>Today</button>
         </div>
 	<div className="planner-actions">
-          <button className="planner-new" onClick={() => { setAiOpen(true); setShowMoreOptions(false); }}>New Task</button>
+          <button className="planner-new" onClick={() => { setAiOpen(true); setShowMoreOptions(false); setAiError(null); }}>New Task</button>
           <button className="planner-today" disabled={weekPlanBusy} onClick={() => void suggestWeekFromAI()}>
             {weekPlanBusy ? "Planning…" : "AI week plan"}
           </button>
@@ -388,9 +427,14 @@ const PlannerView: React.FC = () => {
                 className="neu-input-el"
                 placeholder="Enter your task (natural language)"
                 value={aiInput}
-                onChange={(e) => setAiInput(e.target.value)}
+                onChange={(e) => { setAiInput(e.target.value); if (aiError) setAiError(null); }}
                 style={{ width: '100%', border: '1px solid hsl(var(--foreground)/0.2)', borderRadius: 10, padding: '0.7rem 0.9rem', fontSize: '.85rem' }}
               />
+              {aiError && (
+                <p role="alert" className="text-sm text-red-400/95 leading-relaxed">
+                  {aiError}
+                </p>
+              )}
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <button
                   onClick={() => setShowMoreOptions(v => !v)}

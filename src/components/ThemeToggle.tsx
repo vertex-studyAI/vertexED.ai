@@ -35,7 +35,7 @@ export default function ThemeToggle({ className, compact = false }: Props) {
         title={`${label} mode — click to cycle`}
         onClick={() => update({ theme: next })}
         className={cn(
-          'inline-flex h-9 w-9 items-center justify-center rounded-xl border border-border/60 bg-background/50 text-foreground/80 transition hover:bg-accent/20 hover:text-foreground',
+          'inline-flex h-9 w-9 items-center justify-center rounded-xl border border-border/60 bg-background/50 text-foreground/80 transition-colors hover:bg-accent/20 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background',
           className,
         )}
       >

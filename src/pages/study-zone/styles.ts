@@ -1,11 +1,11 @@
 import type { CSSProperties } from "react";
 
-const panelBackground = "linear-gradient(140deg, hsla(216, 18%, 18%, 0.96), hsla(216, 18%, 12%, 0.98))";
-const strongShadow = "rgba(5, 9, 18, 0.55)";
-const borderColor = "hsla(199, 45%, 36%, 0.28)";
-const hollowBorder = "hsla(199, 45%, 36%, 0.18)";
-const softSurface = "hsla(216, 18%, 16%, 0.72)";
-const denserSurface = "hsla(216, 18%, 12%, 0.78)";
+const panelBackground = "var(--study-panel-bg, linear-gradient(140deg, hsla(216, 18%, 18%, 0.96), hsla(216, 18%, 12%, 0.98)))";
+const strongShadow = "var(--study-shadow, rgba(5, 9, 18, 0.55))";
+const borderColor = "hsl(var(--primary) / 0.28)";
+const hollowBorder = "hsl(var(--primary) / 0.18)";
+const softSurface = "hsl(var(--foreground) / 0.06)";
+const denserSurface = "hsl(var(--foreground) / 0.04)";
 const defaultText = "hsl(var(--foreground))";
 const mutedText = "hsl(var(--muted-foreground))";
 
@@ -26,6 +26,7 @@ export const sectionHeadingStyle: CSSProperties = {
 	fontWeight: 600,
 	letterSpacing: "-0.01em",
 	margin: 0,
+	color: defaultText,
 };
 
 export const subtleTextStyle: CSSProperties = {
@@ -38,7 +39,7 @@ export const fieldLabelStyle: CSSProperties = {
 	fontSize: "12px",
 	letterSpacing: "0.12em",
 	textTransform: "uppercase",
-	color: "hsla(199, 45%, 78%, 0.7)",
+	color: "hsl(var(--primary) / 0.7)",
 };
 
 export const inputFieldStyle: CSSProperties = {
@@ -81,7 +82,7 @@ export const listSurfaceStyle: CSSProperties = {
 };
 
 export const listItemStyle: CSSProperties = {
-	background: "hsla(216, 18%, 11%, 0.82)",
+	background: "hsl(var(--foreground) / 0.04)",
 	borderRadius: "16px",
 	border: `1px solid ${hollowBorder}`,
 	padding: "16px 18px",
@@ -94,7 +95,7 @@ export const listItemStyle: CSSProperties = {
 export const tagStyle: CSSProperties = {
 	padding: "4px 12px",
 	borderRadius: "999px",
-	background: "hsla(199, 45%, 36%, 0.16)",
+	background: "hsl(var(--primary) / 0.16)",
 	color: mutedText,
 	fontSize: "11px",
 	fontWeight: 600,
@@ -118,8 +119,8 @@ export const pillButtonStyle = (active: boolean, accent: string): CSSProperties 
 	padding: "10px 18px",
 	borderRadius: "999px",
 	border: active ? `1px solid ${accent}` : `1px solid ${hollowBorder}`,
-	background: active ? accent : "hsla(216, 18%, 16%, 0.62)",
-	color: active ? "hsl(216, 18%, 12%)" : mutedText,
+	background: active ? accent : "hsl(var(--foreground) / 0.06)",
+	color: active ? "hsl(var(--primary-foreground))" : mutedText,
 	fontSize: "14px",
 	fontWeight: 600,
 	cursor: "pointer",
@@ -131,7 +132,7 @@ export const primaryButtonStyle = (accent: string): CSSProperties => ({
 	borderRadius: "14px",
 	border: "none",
 	background: accent,
-	color: "hsl(216, 18%, 12%)",
+	color: "hsl(var(--primary-foreground))",
 	fontWeight: 600,
 	letterSpacing: "0.02em",
 	cursor: "pointer",
@@ -143,7 +144,7 @@ export const ghostButtonStyle: CSSProperties = {
 	padding: "12px 18px",
 	borderRadius: "14px",
 	border: `1px solid ${hollowBorder}`,
-	background: "linear-gradient(140deg, hsla(216, 18%, 18%, 0.42), hsla(216, 18%, 12%, 0.48))",
+	background: "hsl(var(--foreground) / 0.04)",
 	color: mutedText,
 	fontWeight: 600,
 	letterSpacing: "0.02em",
@@ -153,16 +154,16 @@ export const ghostButtonStyle: CSSProperties = {
 
 export const dangerButtonStyle: CSSProperties = {
 	...ghostButtonStyle,
-	border: "1px solid hsla(352, 85%, 68%, 0.4)",
-	background: "hsla(352, 85%, 38%, 0.18)",
-	color: "hsla(352, 92%, 82%, 1)",
+	border: "1px solid hsl(var(--destructive) / 0.4)",
+	background: "hsl(var(--destructive) / 0.12)",
+	color: "hsl(var(--destructive))",
 };
 
 export const tertiaryButtonStyle: CSSProperties = {
 	padding: "10px 16px",
 	borderRadius: "12px",
 	border: "none",
-	background: "hsla(216, 18%, 18%, 0.46)",
+	background: "hsl(var(--foreground) / 0.06)",
 	color: mutedText,
 	fontWeight: 600,
 	cursor: "pointer",
@@ -183,7 +184,7 @@ export const subtleBadgeStyle = (accent: string): CSSProperties => ({
 	padding: "4px 10px",
 	borderRadius: "999px",
 	border: `1px solid ${accent}`,
-	background: "hsla(216, 18%, 16%, 0.6)",
+	background: "hsl(var(--foreground) / 0.06)",
 	color: accent,
 	fontSize: "12px",
 	fontWeight: 600,

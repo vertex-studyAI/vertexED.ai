@@ -1,11 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
 	accentTextStyle,
-	ghostButtonStyle,
-	inputFieldStyle,
-	pillButtonStyle,
-	pillGroupStyle,
-	primaryButtonStyle,
 	sectionHeadingStyle,
 	subtleBadgeStyle,
 	subtleTextStyle,
@@ -48,30 +43,16 @@ const labelCapsStyle: React.CSSProperties = {
 	fontSize: "12px",
 };
 
-const timeDisplayStyle: React.CSSProperties = {
-	fontFamily: "'JetBrains Mono', monospace",
-	fontSize: "48px",
-	lineHeight: 1.2,
-	letterSpacing: "0.08em",
-	textAlign: "center",
-	color: "#F5F7FF",
-};
-
-const pomodoroTimeStyle: React.CSSProperties = {
-	...timeDisplayStyle,
-	fontSize: "40px",
-	letterSpacing: "0.04em",
-	whiteSpace: "nowrap",
-};
-
 const timerCircleTimeStyle: React.CSSProperties = {
-	...timeDisplayStyle,
+	fontFamily: "'JetBrains Mono', monospace",
 	fontSize: "42px",
+	lineHeight: 1.2,
 	letterSpacing: "0.05em",
+	textAlign: "center",
 	whiteSpace: "nowrap",
 };
 
-const circleTrackColor = "rgba(231, 234, 255, 0.18)";
+const circleTrackColor = "hsl(var(--foreground) / 0.15)";
 
 const formatTimerDisplay = (valueMs: number) => {
 	const safe = Math.max(0, Math.floor(valueMs / 1000));
@@ -217,7 +198,7 @@ const Timer: React.FC<{ accent: string }> = ({ accent }) => {
 						gap: "6px",
 					}}
 				>
-					<span style={timerCircleTimeStyle}>{formatTimerDisplay(timeMs)}</span>
+					<span style={timerCircleTimeStyle} className="text-foreground">{formatTimerDisplay(timeMs)}</span>
 					<span style={subtleTextStyle}>{status}</span>
 				</div>
 			</div>
@@ -231,7 +212,7 @@ const Timer: React.FC<{ accent: string }> = ({ accent }) => {
 						max={23}
 						value={hours}
 						onChange={(event) => setHours(Math.max(0, Number(event.target.value) || 0))}
-						style={inputFieldStyle}
+						className="form-control"
 					/>
 				</div>
 				<div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
@@ -242,7 +223,7 @@ const Timer: React.FC<{ accent: string }> = ({ accent }) => {
 						max={59}
 						value={minutes}
 						onChange={(event) => setMinutes(Math.max(0, Number(event.target.value) || 0))}
-						style={inputFieldStyle}
+						className="form-control"
 					/>
 				</div>
 				<div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
@@ -253,16 +234,16 @@ const Timer: React.FC<{ accent: string }> = ({ accent }) => {
 						max={59}
 						value={seconds}
 						onChange={(event) => setSeconds(Math.max(0, Number(event.target.value) || 0))}
-						style={inputFieldStyle}
+						className="form-control"
 					/>
 				</div>
 			</div>
 
 			<div style={controlRowStyle}>
-				<button onClick={handleStartPause} style={primaryButtonStyle(accent)}>
+				<button onClick={handleStartPause} className="zone-btn-primary">
 					{isRunning ? "Pause" : "Start"}
 				</button>
-				<button onClick={handleReset} style={ghostButtonStyle}>
+				<button onClick={handleReset} className="zone-btn-ghost">
 					Reset
 				</button>
 			</div>
@@ -273,7 +254,6 @@ const Timer: React.FC<{ accent: string }> = ({ accent }) => {
 					<button
 						key={preset}
 						type="button"
-						style={{ ...ghostButtonStyle, padding: "8px 16px", marginLeft: "12px" }}
 						onClick={() => applyPreset(preset)}
 					>
 						{preset} min
@@ -323,12 +303,12 @@ const Stopwatch: React.FC<{ accent: string }> = ({ accent }) => {
 				<h2 style={{ ...sectionHeadingStyle, ...accentTextStyle(accent) }}>Stopwatch</h2>
 				<span style={subtleBadgeStyle(accent)}>Precision</span>
 			</div>
-			<div style={{ ...timeDisplayStyle, fontSize: "42px", margin: "0 auto" }}>{formatStopwatchDisplay(timeMs)}</div>
+			<div className="zone-time-md mx-auto">{formatStopwatchDisplay(timeMs)}</div>
 			<div style={controlRowStyle}>
-				<button onClick={handleStartPause} style={primaryButtonStyle(accent)}>
+				<button onClick={handleStartPause} className="zone-btn-primary">
 					{isRunning ? "Pause" : "Start"}
 				</button>
-				<button onClick={handleReset} style={ghostButtonStyle}>
+				<button onClick={handleReset} className="zone-btn-ghost">
 					Reset
 				</button>
 			</div>
@@ -445,7 +425,7 @@ const PomodoroTimer: React.FC<{ accent: string }> = ({ accent }) => {
 						gap: "6px",
 					}}
 				>
-					<span style={pomodoroTimeStyle}>{formatSecondsDisplay(timeSeconds)}</span>
+					<span className="zone-time-sm">{formatSecondsDisplay(timeSeconds)}</span>
 					<span style={subtleTextStyle}>{mode === "focus" ? "Deep work" : "Recharge"}</span>
 				</div>
 			</div>
@@ -459,7 +439,7 @@ const PomodoroTimer: React.FC<{ accent: string }> = ({ accent }) => {
 						max={180}
 						value={focusMinutes}
 						onChange={(event) => setFocusMinutes(Math.max(1, Number(event.target.value) || 1))}
-						style={inputFieldStyle}
+						className="form-control"
 					/>
 				</div>
 				<div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
@@ -470,16 +450,16 @@ const PomodoroTimer: React.FC<{ accent: string }> = ({ accent }) => {
 						max={60}
 						value={breakMinutes}
 						onChange={(event) => setBreakMinutes(Math.max(1, Number(event.target.value) || 1))}
-						style={inputFieldStyle}
+						className="form-control"
 					/>
 				</div>
 			</div>
 
 			<div style={controlRowStyle}>
-				<button onClick={handleStartPause} style={primaryButtonStyle(accent)}>
+				<button onClick={handleStartPause} className="zone-btn-primary">
 					{isRunning ? "Pause" : "Start"}
 				</button>
-				<button onClick={handleReset} style={ghostButtonStyle}>
+				<button onClick={handleReset} className="zone-btn-ghost">
 					Reset
 				</button>
 			</div>
@@ -493,7 +473,6 @@ const PomodoroTimer: React.FC<{ accent: string }> = ({ accent }) => {
 					<button
 						key={`${preset.focus}-${preset.rest}`}
 						type="button"
-						style={{ ...ghostButtonStyle, padding: "8px 16px", marginLeft: "12px" }}
 						onClick={() => applyPreset(preset.focus, preset.rest)}
 					>
 						{preset.focus}/{preset.rest}
@@ -517,13 +496,14 @@ const TimerApp: React.FC<TimerAppProps> = ({ accent }) => {
 	);
 
 	return (
-		<div style={{ display: "grid", gap: "32px" }}>
-			<div style={pillGroupStyle}>
+		<div className="zone-stack-lg">
+			<div className="zone-pill-group">
 				{tabConfig.map((tab) => (
 					<button
 						key={tab.id}
 						type="button"
-						style={pillButtonStyle(activeTab === tab.id, accent)}
+						className="zone-pill"
+						data-active={activeTab === tab.id}
 						onClick={() => setActiveTab(tab.id)}
 					>
 						{tab.label}

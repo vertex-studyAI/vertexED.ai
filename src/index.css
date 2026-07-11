@@ -1,3 +1,6 @@
+@import "./styles/forms.css";
+@import "./styles/study-zone.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -180,6 +183,38 @@ All colors MUST be HSL.
   .prose-invert :where(ul,ol):not(:where(.not-prose *)) { margin-top: 0.9em; margin-bottom: 0.9em; }
   .prose-invert :where(li)>:where(p) { margin: 0.35em 0; }
   .prose-invert a { text-decoration: underline; text-underline-offset: 2px; }
+
+  /* Theme-aware prose — works in light and dark without prose-invert */
+  .prose-themed {
+    --tw-prose-body: hsl(var(--muted-foreground));
+    --tw-prose-headings: hsl(var(--foreground));
+    --tw-prose-lead: hsl(var(--muted-foreground));
+    --tw-prose-links: hsl(var(--primary));
+    --tw-prose-bold: hsl(var(--foreground));
+    --tw-prose-counters: hsl(var(--muted-foreground));
+    --tw-prose-bullets: hsl(var(--muted-foreground));
+    --tw-prose-hr: hsl(var(--border));
+    --tw-prose-quotes: hsl(var(--foreground) / 0.9);
+    --tw-prose-quote-borders: hsl(var(--border));
+    --tw-prose-captions: hsl(var(--muted-foreground));
+    --tw-prose-code: hsl(var(--foreground));
+    --tw-prose-pre-code: hsl(var(--foreground));
+    --tw-prose-pre-bg: hsl(var(--muted));
+    --tw-prose-th-borders: hsl(var(--border));
+    --tw-prose-td-borders: hsl(var(--border));
+    color: hsl(var(--muted-foreground));
+  }
+  .prose-themed :where(h1,h2,h3,h4):not(:where(.not-prose *)) {
+    color: hsl(var(--foreground));
+    letter-spacing: -0.02em;
+  }
+  .prose-themed :where(p):not(:where(.not-prose *)) { margin-top: 1em; margin-bottom: 1em; line-height: 1.75; }
+  .prose-themed :where(h2):not(:where(.not-prose *)) { margin-top: 1.6em; margin-bottom: 0.8em; }
+  .prose-themed :where(h3):not(:where(.not-prose *)) { margin-top: 1.4em; margin-bottom: 0.6em; }
+  .prose-themed :where(ul,ol):not(:where(.not-prose *)) { margin-top: 0.9em; margin-bottom: 0.9em; }
+  .prose-themed :where(li)>:where(p) { margin: 0.35em 0; }
+  .prose-themed a { text-decoration: underline; text-underline-offset: 3px; text-decoration-color: hsl(var(--primary) / 0.4); }
+  .prose-themed a:hover { text-decoration-color: hsl(var(--primary)); }
 }
 
 @layer base {
@@ -308,6 +343,10 @@ All colors MUST be HSL.
     transform: translateY(-1px);
     border-color: hsl(0 0% 100% / 0.32);
   }
+  .neu-button:focus-visible {
+    outline: none;
+    box-shadow: var(--glow), 0 0 0 2px hsl(var(--background)), 0 0 0 4px hsl(var(--ring));
+  }
   .neu-button.subtle {
     background: linear-gradient(155deg, hsl(0 0% 100% / 0.08), hsl(216 20% 14% / 0.4));
   }
@@ -327,6 +366,10 @@ All colors MUST be HSL.
     color: hsl(var(--foreground));
   }
   .neu-input-el::placeholder { color: hsl(var(--placeholder)); }
+  .neu-input-el:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px hsl(var(--ring) / 0.5);
+  }
 
   .neu-toggle {
     @apply flex items-center gap-2 px-2 py-1 rounded-full;
@@ -518,6 +561,63 @@ All colors MUST be HSL.
   @keyframes loader-fade {
     from { opacity: 0; transform: translateY(6px); }
     to { opacity: 1; transform: translateY(0); }
+  }
+
+  .review-panel {
+    @apply rounded-3xl border border-border/60 bg-foreground/[0.03] p-5 shadow-inner backdrop-blur-xl;
+  }
+  .review-output {
+    @apply max-h-[42rem] overflow-y-auto rounded-2xl border border-border/60 bg-muted/50 p-4 text-foreground shadow-lg;
+  }
+
+  /* Reusable surface tiles (dashboard, hub, lists) */
+  .surface-tile {
+    @apply rounded-xl border border-border/60 bg-foreground/[0.03];
+  }
+  .surface-chip {
+    @apply rounded-full border border-border/60 bg-foreground/[0.04];
+  }
+  .surface-row {
+    @apply flex items-center gap-3 rounded-lg border border-border/60 bg-foreground/[0.03] transition-colors hover:border-primary/25 hover:bg-foreground/[0.05];
+  }
+
+  /* Article / resource page patterns */
+  .article-callout {
+    @apply rounded-xl border border-border/60 bg-foreground/[0.04] p-4 md:p-6;
+  }
+  .article-footer {
+    @apply mt-8 border-t border-border/60 pt-4 text-xs text-muted-foreground;
+  }
+  .article-divider {
+    @apply my-8 border-border/60;
+  }
+
+  /* Study Zone widget buttons */
+  .zone-btn-primary {
+    @apply inline-flex items-center justify-center rounded-[14px] border-none px-5 py-3 font-semibold tracking-wide cursor-pointer transition-all duration-200;
+    background: var(--widget-accent, hsl(var(--primary)));
+    color: hsl(var(--primary-foreground));
+    box-shadow: 0 14px 28px hsl(var(--foreground) / 0.12);
+  }
+  .zone-btn-primary:hover { filter: brightness(1.05); transform: translateY(-1px); }
+  .zone-btn-primary:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px hsl(var(--background)), 0 0 0 4px hsl(var(--ring));
+  }
+  .zone-btn-ghost {
+    @apply inline-flex items-center justify-center rounded-[14px] border px-[18px] py-3 font-semibold tracking-wide cursor-pointer transition-all duration-200;
+    border-color: hsl(var(--primary) / 0.18);
+    background: hsl(var(--foreground) / 0.04);
+    color: hsl(var(--muted-foreground));
+  }
+  .zone-btn-ghost:hover {
+    background: hsl(var(--foreground) / 0.07);
+    border-color: hsl(var(--primary) / 0.28);
+    color: hsl(var(--foreground));
+  }
+  .zone-btn-ghost:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px hsl(var(--ring));
   }
 
   .feature-strip {
@@ -900,6 +1000,10 @@ All colors MUST be HSL.
     transform: translateY(-2px);
     box-shadow: 0 16px 48px hsl(var(--primary) / 0.42);
   }
+  .apex-fab:focus-visible {
+    outline: none;
+    box-shadow: 0 16px 48px hsl(var(--primary) / 0.42), 0 0 0 2px hsl(var(--background)), 0 0 0 4px hsl(var(--ring));
+  }
 
   .apex-panel {
     position: fixed;
@@ -950,6 +1054,12 @@ All colors MUST be HSL.
   .apex-panel-icon-btn:hover {
     background: hsl(var(--foreground) / 0.06);
     color: hsl(var(--foreground));
+  }
+  .apex-panel-icon-btn:focus-visible {
+    outline: none;
+    background: hsl(var(--foreground) / 0.06);
+    color: hsl(var(--foreground));
+    box-shadow: 0 0 0 2px hsl(var(--ring));
   }
 
   .apex-panel-body {
@@ -1726,6 +1836,10 @@ All colors MUST be HSL.
     color: hsl(var(--nav-fg));
     background: hsl(var(--nav-hover-bg));
   }
+  .nav-link-pill:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px hsl(var(--background)), 0 0 0 4px hsl(var(--ring));
+  }
   .nav-link-pill.is-active {
     background: hsl(var(--primary) / 0.14);
     box-shadow: inset 0 1px 0 hsl(var(--foreground) / 0.08);
@@ -2089,7 +2203,7 @@ All colors MUST be HSL.
 }
 
 body.study-focus-mode {
-  background: radial-gradient(ellipse at top, hsl(216 28% 12%) 0%, hsl(216 22% 8%) 45%, hsl(216 20% 6%) 100%);
+  background: radial-gradient(ellipse at top, hsl(var(--muted)) 0%, hsl(var(--background)) 45%, hsl(var(--background)) 100%);
 }
 
 /* Phase 3: Accessibility modes */

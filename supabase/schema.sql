@@ -61,6 +61,7 @@ create table if not exists public.waitlist (
   id uuid primary key default gen_random_uuid(),
   email text not null,
   status text not null default 'pending' check (status in ('pending', 'approved', 'rejected')),
+  invite_token text,
   created_at timestamp with time zone default now() not null,
   updated_at timestamp with time zone default now() not null
 );
@@ -114,7 +115,7 @@ grant execute on function public.auth_email_exists(text) to service_role;
 create table if not exists public.user_study_artifacts (
   id uuid primary key default gen_random_uuid(),
   user_id uuid not null references auth.users(id) on delete cascade,
-  kind text not null check (kind in ('note', 'review', 'paper')),
+  kind text not null check (kind in ('note', 'review', 'paper', 'planner', 'notebook')),
   title text,
   payload jsonb not null default '{}'::jsonb,
   created_at timestamptz not null default now(),

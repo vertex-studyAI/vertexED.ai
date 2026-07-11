@@ -248,7 +248,7 @@ export const PLATFORM_FEATURES: Feature[] = [
     tagline: "Explain, don't just answer",
     icon: Bot,
     lead: "You don't need another wall of text. You need someone to walk through why the step works — and what would break if you skipped it.",
-    body: "Apex is an academic companion, not an answer machine. It explains in plain language first, then builds depth when you ask. It can challenge a weak line of reasoning, suggest how an examiner might phrase the question, and stay patient when you're stuck on step two of a proof.",
+    body: "Apex asks what you have tried before suggesting the next step. It can challenge a weak line of reasoning, name how an examiner might phrase the question, and stay patient when you are stuck on step two of a proof.",
     detail: "It knows your board context where it matters — command words, mark scheme language, the difference between describe and evaluate — without turning every reply into an essay.",
     scenario: "You're rewriting a history paragraph and the argument feels thin. Apex helps you test whether each sentence earns its place, suggests where evidence is missing, and pushes you to link back to the question stem — the kind of feedback you'd want before handing it in.",
     outcomes: [
@@ -393,7 +393,7 @@ export const PLATFORM_FEATURES: Feature[] = [
     outcomes: [
       "Notes that become practice, not archive",
       "Measurable retention instead of false confidence",
-      "One workflow from lecture to exam-ready recall",
+      "One path from lecture to timed mock to rubric review",
     ],
     bullets: [
       "Note capture with export to Word or PDF",
@@ -454,19 +454,19 @@ export const ECOSYSTEM_EXTRAS: EcosystemExtra[] = [
 
 export const PROBLEM_INSIGHTS = [
   {
-    stat: "65%",
+    stat: "01",
     title: "Resources without structure",
-    text: "Students drown in PDFs, playlists, and problem sets but rarely know if tonight moved them closer to exam-ready. The information exists — the path through it does not.",
+    text: "PDFs, playlists, and problem sets multiply every term. Without a sequence — read, mock, review, retrieve — students cannot tell if tonight moved them closer to a full mark on Paper 2.",
   },
   {
-    stat: "70%",
+    stat: "02",
     title: "Notes that never become memory",
-    text: "Highlighting feels productive until the notebook closes and nothing sticks. Passive re-reading trains recognition, not recall — and exams punish that gap every time.",
+    text: "Highlighting feels productive until the notebook closes. Exams test recall under pressure; recognition on a page you read twice is a different skill.",
   },
   {
-    stat: "80%",
+    stat: "03",
     title: "Practice on the wrong shape",
-    text: "Generic quizzes rarely mirror command words, mark schemes, or timing pressure. You train on the wrong question — then wonder why the hall feels unfamiliar.",
+    text: "Generic quizzes rarely mirror command words, mark schemes, or timing. You train on easy wins — then the hall feels unfamiliar when the stem says evaluate or justify.",
   },
 ];
 

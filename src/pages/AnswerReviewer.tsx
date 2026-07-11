@@ -3,9 +3,11 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import PageSection from "@/components/PageSection";
 import NeumorphicCard from "@/components/NeumorphicCard";
 import { authFetch } from "@/lib/apiAuth";
-import { setChatHandoff, saveStudyArtifact, consumeArtifactRestore } from "@/lib/userContent";
+import { setChatHandoff, saveStudyArtifact, consumeArtifactRestore, localSaveMessage } from "@/lib/userContent";
+import { toast } from "@/hooks/use-toast";
 import { recordStudySession } from "@/lib/studyStats";
 import { recordLoopStep } from "@/lib/studyLoopTracker";
+import { logStudyActivity } from "@/lib/studyActivity";
 import { consumeMockReviewHandoff } from "@/lib/examFlow";
 import { recordWeakness } from "@/lib/weaknessTracker";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
@@ -105,10 +107,14 @@ function toApiSafeString(data: ApiResponseLike) {
   if (typeof data === "string") return data;
   if (!data || typeof data !== "object") return "";
 
+  if (data.blocked === true && typeof data.safe_text === "string") {
+    return data.safe_text;
+  }
+
   return (
     data.safe_text ??
-    data.passOutput?.safe_text ??
     data.output ??
+    data.passOutput?.safe_text ??
     data.result?.output ??
     data.data ??
     data.review ??
@@ -437,6 +443,18 @@ export default function AIAnswerReview() {
             recordStudySession();
             recordLoopStep("review");
             logStudyActivity(`Reviewed ${formData.subject || "answer"} with AI feedback`);
+            const localMsg = localSaveMessage(saved);
+            if (localMsg) {
+              toast({
+                title: "Saved on this device",
+                description: localMsg,
+              });
+            } else {
+              toast({
+                title: "Review saved",
+                description: "Your feedback is stored in your account.",
+              });
+            }
             const maxMarks = parseInt(formData.marks, 10) || 10;
             const scoreMatch = out.match(/(\d+)\s*\/\s*(\d+)/);
             const score = scoreMatch ? parseInt(scoreMatch[1], 10) : Math.round(maxMarks * 0.6);
@@ -486,16 +504,20 @@ export default function AIAnswerReview() {
   }, [response]);
 
   const Badge = ({ children }: { children: React.ReactNode }) => (
-    <span className="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/80 shadow-sm backdrop-blur">
+    <span className="glass-badge">
       {children}
     </span>
   );
 
+  const fieldClass = "form-control";
+  const selectClass = "form-control-select";
+  const textareaClass = "form-textarea";
+
   return (
     <>
       <Helmet>
-        <title>A.I Answer Review — Vertex AI Study Tools</title>
-        <meta name="description" content="Submit your answers for AI-powered review with strict teacher-style feedback." />
+        <title>Answer Reviewer — VertexED</title>
+        <meta name="description" content="Submit handwritten or typed answers for mark-scheme feedback — structure, command terms, evidence, and what to rewrite before the next attempt." />
       </Helmet>
 
       <PageSection>
@@ -505,32 +527,32 @@ export default function AIAnswerReview() {
           transition={{ duration: 0.45, ease: "easeOut" }}
         >
           <NeumorphicCard className="relative mx-auto max-w-7xl overflow-hidden p-6 md:p-8">
-            <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top_left,rgba(56,189,248,0.18),transparent_30%),radial-gradient(circle_at_80%_10%,rgba(99,102,241,0.16),transparent_26%),linear-gradient(180deg,#04101f,#071626_44%,#03111f)]" />
-            <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-sky-400/40 to-transparent" />
+            <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top_left,hsl(var(--primary)/0.12),transparent_30%),radial-gradient(circle_at_80%_10%,hsl(var(--accent)/0.08),transparent_26%)]" />
 
             <div className="mb-6 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
               <div className="flex items-start gap-4">
-                <motion.div whileHover={{ scale: 1.06, rotate: 3 }} className="rounded-2xl bg-gradient-to-br from-sky-500 to-indigo-600 p-3 text-white shadow-lg shadow-sky-900/30">
+                <motion.div whileHover={{ scale: 1.06, rotate: 3 }} className="rounded-2xl bg-gradient-to-br from-primary to-primary/70 p-3 text-primary-foreground shadow-lg shadow-primary/20">
                   <FileText size={22} />
                 </motion.div>
                 <div>
                   <div className="flex flex-wrap items-center gap-2">
-                    <h1 className="text-2xl font-semibold tracking-tight text-white md:text-3xl">A.I Answer Review</h1>
+                    <h1 className="text-2xl font-semibold tracking-tight text-foreground md:text-3xl">Answer Reviewer</h1>
                     <Badge><Shield size={12} /> Teacher-style</Badge>
                     <Badge><Sparkles size={12} /> Strict feedback</Badge>
                   </div>
-                  <p className="mt-2 max-w-2xl text-sm leading-relaxed text-white/65">
-                    Paste your question and answer. We'll grade it like a teacher would — with clear feedback you can copy or download.
+                  <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+                    Paste the question and your answer — typed or from a photo. Feedback names marks earned and lost,
+                    flags command-term gaps, and suggests what to change before you retry. Adjust strictness to match your board.
                   </p>
                 </div>
               </div>
 
               <div className="flex flex-wrap items-center gap-3 text-sm">
-                <div className="hidden items-center gap-2 text-white/55 sm:flex">
+                <div className="hidden items-center gap-2 text-muted-foreground sm:flex">
                   <Sliders size={14} />
                   <span>Strictness</span>
                 </div>
-                <div className="rounded-full border border-white/10 bg-white/8 px-4 py-2 text-white shadow-sm backdrop-blur">
+                <div className="rounded-full border border-border/60 bg-foreground/[0.04] px-4 py-2 text-foreground shadow-sm backdrop-blur-sm tabular-nums">
                   {formData.strictness}/10
                 </div>
                 <button type="button" className="neu-button px-4 py-2 text-sm" onClick={resetAll}>
@@ -540,7 +562,7 @@ export default function AIAnswerReview() {
             </div>
 
             {examImportNote && (
-              <div className="mb-4 rounded-xl border border-emerald-500/25 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-100 flex items-center gap-2">
+              <div className="alert-success mb-4 flex items-center gap-2">
                 <CheckCircle2 className="h-4 w-4 shrink-0" />
                 <span>{examImportNote}</span>
               </div>
@@ -550,7 +572,7 @@ export default function AIAnswerReview() {
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid gap-4 md:grid-cols-2">
                   <div>
-                    <label className="mb-2 block text-sm font-medium text-white/80">Curriculum</label>
+                    <label className="form-label">Curriculum</label>
                     <select
                       name="curriculum"
                       value={board}
@@ -564,7 +586,7 @@ export default function AIAnswerReview() {
                           grade: "",
                         }));
                       }}
-                      className="w-full rounded-2xl border border-white/10 bg-[#071126] p-3 text-white shadow-inner outline-none transition focus:ring-2 focus:ring-sky-500"
+                      className={selectClass}
                     >
                       <option value="">Select curriculum</option>
                       {EXAM_BOARDS.map((b) => (
@@ -574,12 +596,12 @@ export default function AIAnswerReview() {
                   </div>
 
                   <div>
-                    <label className="mb-2 block text-sm font-medium text-white/80">Subject</label>
+                    <label className="form-label">Subject</label>
                     <select
                       name="subject"
                       value={formData.subject}
                       onChange={handleChange}
-                      className="w-full rounded-2xl border border-white/10 bg-[#071126] p-3 text-white shadow-inner outline-none transition focus:ring-2 focus:ring-sky-500"
+                      className={selectClass}
                     >
                       <option value="">Select subject</option>
                       {subjectOptions.map((opt) => <option key={opt} value={opt}>{opt}</option>)}
@@ -589,12 +611,12 @@ export default function AIAnswerReview() {
 
                 <div className="grid gap-4 md:grid-cols-2">
                   <div>
-                    <label className="mb-2 block text-sm font-medium text-white/80">Grade</label>
+                    <label className="form-label">Grade</label>
                     <select
                       name="grade"
                       value={formData.grade}
                       onChange={handleChange}
-                      className="w-full rounded-2xl border border-white/10 bg-[#071126] p-3 text-white shadow-inner outline-none transition focus:ring-2 focus:ring-sky-500"
+                      className={selectClass}
                     >
                       <option value="">Select grade</option>
                       {gradeOptions.map((opt) => <option key={opt} value={opt}>Grade {opt}</option>)}
@@ -602,7 +624,7 @@ export default function AIAnswerReview() {
                   </div>
 
                   <div>
-                    <label className="mb-2 block text-sm font-medium text-white/80">Marks (out of)</label>
+                    <label className="form-label">Marks (out of)</label>
                     <input
                       type="number"
                       min={1}
@@ -610,15 +632,15 @@ export default function AIAnswerReview() {
                       value={formData.marks}
                       onChange={handleChange}
                       placeholder="e.g. 10"
-                      className="w-full rounded-2xl border border-white/10 bg-[#071126] p-3 text-white shadow-inner outline-none transition placeholder:text-white/30 focus:ring-2 focus:ring-sky-500"
+                      className={fieldClass}
                     />
                   </div>
                 </div>
 
                 <div>
                   <div className="mb-2 flex items-center justify-between gap-3">
-                    <label className="block text-sm font-medium text-white/80">Question Segment</label>
-                    <button type="button" className="text-xs text-sky-300 hover:text-sky-200" onClick={() => fileInputQuestionRef.current?.click()}>
+                    <label className="form-label mb-0">Question Segment</label>
+                    <button type="button" className="text-xs text-primary hover:text-primary/80 transition-colors" onClick={() => fileInputQuestionRef.current?.click()}>
                       Upload images
                     </button>
                   </div>
@@ -629,7 +651,7 @@ export default function AIAnswerReview() {
                     onPaste={(e) => handlePaste(e, "question")}
                     placeholder="Paste or type the question here..."
                     rows={5}
-                    className="w-full resize-none rounded-2xl border border-white/10 bg-[#071126] p-3 text-white shadow-inner outline-none transition placeholder:text-white/30 focus:ring-2 focus:ring-sky-500"
+                    className={textareaClass}
                   />
 
                   <input
@@ -650,12 +672,13 @@ export default function AIAnswerReview() {
                         className="mt-3 flex flex-wrap gap-3"
                       >
                         {questionImages.map((img) => (
-                          <div key={img.id} className="group relative h-24 w-24 overflow-hidden rounded-2xl border border-white/10 bg-slate-950 shadow-lg">
+                          <div key={img.id} className="group relative h-24 w-24 overflow-hidden rounded-2xl border border-border/60 bg-muted shadow-lg">
                             <img src={img.src} alt={img.name || "Question upload"} className="h-full w-full object-cover" />
                             <button
                               type="button"
                               onClick={() => removeImage(img.id, "question")}
-                              className="absolute right-1 top-1 rounded-full bg-black/60 p-1 text-white opacity-0 transition group-hover:opacity-100"
+                              className="absolute right-1 top-1 rounded-full bg-background/80 p-1 text-foreground opacity-0 transition group-hover:opacity-100 focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                              aria-label="Remove image"
                             >
                               <X size={12} />
                             </button>
@@ -668,8 +691,8 @@ export default function AIAnswerReview() {
 
                 <div>
                   <div className="mb-2 flex items-center justify-between gap-3">
-                    <label className="block text-sm font-medium text-white/80">Student Answer</label>
-                    <button type="button" className="text-xs text-sky-300 hover:text-sky-200" onClick={() => fileInputAnswerRef.current?.click()}>
+                    <label className="form-label mb-0">Student Answer</label>
+                    <button type="button" className="text-xs text-primary hover:text-primary/80 transition-colors" onClick={() => fileInputAnswerRef.current?.click()}>
                       Upload images
                     </button>
                   </div>
@@ -680,7 +703,7 @@ export default function AIAnswerReview() {
                     onPaste={(e) => handlePaste(e, "answer")}
                     placeholder="Paste or type the student's answer here..."
                     rows={8}
-                    className="w-full resize-none rounded-2xl border border-white/10 bg-[#071126] p-3 text-white shadow-inner outline-none transition placeholder:text-white/30 focus:ring-2 focus:ring-sky-500"
+                    className={textareaClass}
                   />
 
                   <input
@@ -701,12 +724,13 @@ export default function AIAnswerReview() {
                         className="mt-3 flex flex-wrap gap-3"
                       >
                         {answerImages.map((img) => (
-                          <div key={img.id} className="group relative h-24 w-24 overflow-hidden rounded-2xl border border-white/10 bg-slate-950 shadow-lg">
+                          <div key={img.id} className="group relative h-24 w-24 overflow-hidden rounded-2xl border border-border/60 bg-muted shadow-lg">
                             <img src={img.src} alt={img.name || "Answer upload"} className="h-full w-full object-cover" />
                             <button
                               type="button"
                               onClick={() => removeImage(img.id, "answer")}
-                              className="absolute right-1 top-1 rounded-full bg-black/60 p-1 text-white opacity-0 transition group-hover:opacity-100"
+                              className="absolute right-1 top-1 rounded-full bg-background/80 p-1 text-foreground opacity-0 transition group-hover:opacity-100 focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                              aria-label="Remove image"
                             >
                               <X size={12} />
                             </button>
@@ -718,32 +742,32 @@ export default function AIAnswerReview() {
                 </div>
 
                 <div>
-                  <label className="mb-2 block text-sm font-medium text-white/80">Additional Information</label>
+                  <label className="form-label">Additional Information</label>
                   <textarea
                     name="additional"
                     value={formData.additional}
                     onChange={handleChange}
                     placeholder="Provide any context, rubric hints, or special instructions..."
                     rows={3}
-                    className="w-full resize-none rounded-2xl border border-white/10 bg-[#071126] p-3 text-white shadow-inner outline-none transition placeholder:text-white/30 focus:ring-2 focus:ring-sky-500"
+                    className={textareaClass}
                   />
                 </div>
 
                 <div className="grid gap-4 md:grid-cols-[1fr_auto] md:items-end">
                   <div>
-                    <label className="mb-2 block text-sm font-medium text-white/80">Strictness (1-10)</label>
+                    <label className="form-label">Strictness (1-10)</label>
                     <div className="flex flex-wrap items-center gap-3">
                       <select
                         name="strictness"
                         value={formData.strictness}
                         onChange={handleChange}
-                        className="rounded-2xl border border-white/10 bg-[#071126] p-3 text-white shadow-inner outline-none transition focus:ring-2 focus:ring-sky-500"
+                        className={selectClass}
                       >
                         {Array.from({ length: 10 }, (_, i) => i + 1).map((v) => (
                           <option key={v} value={String(v)}>{v}</option>
                         ))}
                       </select>
-                      <div className="text-sm text-white/55">Higher = tougher grading and more detail in the feedback.</div>
+                      <div className="text-sm text-muted-foreground">Higher = tougher grading and more detail in the feedback.</div>
                     </div>
                   </div>
 
@@ -761,7 +785,7 @@ export default function AIAnswerReview() {
 
                     <motion.button
                       type="submit"
-                      className="inline-flex items-center gap-3 rounded-2xl bg-gradient-to-r from-sky-500 to-indigo-600 px-6 py-3 font-semibold text-white shadow-2xl shadow-sky-950/30 transition hover:opacity-95 disabled:cursor-not-allowed disabled:opacity-60"
+                      className="btn-solid inline-flex items-center gap-3 rounded-2xl px-6 py-3 disabled:cursor-not-allowed disabled:opacity-60"
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                       transition={{ type: "spring", stiffness: 400, damping: 18 }}
@@ -774,7 +798,7 @@ export default function AIAnswerReview() {
                 </div>
 
                 {error && (
-                  <div className="rounded-2xl border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm text-red-100">
+                  <div className="alert-error" role="alert">
                     {error}
                   </div>
                 )}
@@ -782,17 +806,17 @@ export default function AIAnswerReview() {
 
               <div className="flex flex-col gap-4">
                 <div className="flex items-center justify-between gap-3">
-                  <h2 className="flex items-center gap-2 text-lg font-semibold text-white md:text-xl">
+                  <h2 className="flex items-center gap-2 text-lg font-semibold text-foreground md:text-xl">
                     <MessageSquareQuote size={18} /> AI Review
                   </h2>
-                  <div className="flex items-center gap-2 text-xs text-white/60">
+                  <div className="flex items-center gap-2 text-xs text-muted-foreground">
                     <ClipboardCheck size={14} />
                     <span>{submitCount} submissions</span>
                   </div>
                 </div>
 
-                <div className="rounded-3xl border border-white/10 bg-[rgba(3,24,39,0.88)] p-5 shadow-inner backdrop-blur-xl">
-                  <div className="mb-4 flex flex-wrap items-center gap-2 text-xs text-white/50">
+                <div className="review-panel">
+                  <div className="mb-4 flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
                     <Badge><Sliders size={12} /> Strict {formData.strictness}/10</Badge>
                     {lastSubmittedAt && <Badge><CheckCircle2 size={12} /> Updated {lastSubmittedAt}</Badge>}
                     <Badge>{responseWordCount} words</Badge>
@@ -801,7 +825,7 @@ export default function AIAnswerReview() {
 
                   <div
                     ref={responseRef}
-                    className="max-h-[42rem] overflow-y-auto rounded-2xl border border-white/10 bg-[#07182a] p-4 text-sky-100 shadow-lg"
+                    className="review-output"
                     style={{ minHeight: 280 }}
                   >
                     <AnimatePresence mode="wait">
@@ -815,24 +839,24 @@ export default function AIAnswerReview() {
                           className="space-y-4"
                         >
                           <ReactMarkdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex]} components={{
-                            p: ({ children }) => <p className="leading-relaxed text-sky-100/95">{children}</p>,
-                            h1: ({ children }) => <h1 className="text-2xl font-bold text-white">{children}</h1>,
-                            h2: ({ children }) => <h2 className="text-xl font-semibold text-white">{children}</h2>,
-                            h3: ({ children }) => <h3 className="text-lg font-semibold text-white">{children}</h3>,
-                            ul: ({ children }) => <ul className="list-disc space-y-2 pl-5 text-sky-100/95">{children}</ul>,
-                            ol: ({ children }) => <ol className="list-decimal space-y-2 pl-5 text-sky-100/95">{children}</ol>,
+                            p: ({ children }) => <p className="leading-relaxed text-muted-foreground">{children}</p>,
+                            h1: ({ children }) => <h1 className="text-2xl font-bold text-foreground">{children}</h1>,
+                            h2: ({ children }) => <h2 className="text-xl font-semibold text-foreground">{children}</h2>,
+                            h3: ({ children }) => <h3 className="text-lg font-semibold text-foreground">{children}</h3>,
+                            ul: ({ children }) => <ul className="list-disc space-y-2 pl-5 text-muted-foreground">{children}</ul>,
+                            ol: ({ children }) => <ol className="list-decimal space-y-2 pl-5 text-muted-foreground">{children}</ol>,
                             li: ({ children }) => <li className="leading-relaxed">{children}</li>,
-                            blockquote: ({ children }) => <blockquote className="border-l-4 border-sky-400/50 pl-4 italic text-sky-100/85">{children}</blockquote>,
+                            blockquote: ({ children }) => <blockquote className="border-l-4 border-primary/40 pl-4 italic text-foreground/90">{children}</blockquote>,
                             code: ({ inline, children }) => inline ? (
-                              <code className="rounded bg-white/10 px-1.5 py-0.5 text-[0.9em] text-white">{children}</code>
+                              <code className="rounded bg-foreground/10 px-1.5 py-0.5 text-[0.9em] text-foreground">{children}</code>
                             ) : (
-                              <pre className="overflow-auto rounded-2xl bg-slate-950 p-4 text-white shadow-inner"><code>{children}</code></pre>
+                              <pre className="overflow-auto rounded-2xl bg-muted p-4 text-foreground shadow-inner"><code>{children}</code></pre>
                             ),
                           }}>
                             {enrichMathInText(response)}
                           </ReactMarkdown>
 
-                          <div className="flex flex-wrap items-center gap-3 border-t border-white/10 pt-4">
+                          <div className="flex flex-wrap items-center gap-3 border-t border-border/60 pt-4">
                             <button onClick={handleCopy} className="neu-button inline-flex items-center gap-2 rounded-2xl px-3 py-2 text-sm">
                               <Copy size={14} /> {copied ? "Copied" : "Copy Review"}
                             </button>
@@ -858,7 +882,7 @@ export default function AIAnswerReview() {
                             <button onClick={() => setShowRaw((s) => !s)} className="neu-button px-3 py-2 text-sm">
                               {showRaw ? "Hide raw" : "Show raw"}
                             </button>
-                            <div className="ml-auto text-sm text-white/50">Stored review is posted automatically</div>
+                            <div className="ml-auto text-sm text-muted-foreground">Stored review is posted automatically</div>
                           </div>
 
                           <AnimatePresence>
@@ -867,7 +891,7 @@ export default function AIAnswerReview() {
                                 initial={{ opacity: 0, y: 8 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 exit={{ opacity: 0, y: 8 }}
-                                className="overflow-auto rounded-2xl border border-white/10 bg-black/30 p-4 text-xs text-white/85"
+                                className="overflow-auto rounded-2xl border border-border/60 bg-muted/50 p-4 text-xs text-muted-foreground"
                               >
                                 {response}
                               </motion.pre>
@@ -877,11 +901,11 @@ export default function AIAnswerReview() {
                       ) : (
                         <motion.div key="empty" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex min-h-[18rem] items-center justify-center text-center">
                           <div>
-                            <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-2xl border border-white/10 bg-white/5 text-white/80">
+                            <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-2xl border border-border/60 bg-foreground/[0.04] text-muted-foreground">
                               <Sparkles size={20} />
                             </div>
-                            <div className="text-base font-medium text-white/80">Your AI feedback will appear here.</div>
-                            <p className="mx-auto mt-2 max-w-sm text-sm leading-relaxed text-white/55">
+                            <div className="text-base font-medium text-foreground">Your AI feedback will appear here.</div>
+                            <p className="mx-auto mt-2 max-w-sm text-sm leading-relaxed text-muted-foreground">
                               Add your question and answer, choose how strict you want the feedback, and hit submit.
                             </p>
                           </div>

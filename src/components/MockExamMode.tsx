@@ -150,7 +150,7 @@ export default function MockExamMode({ paper, onClose, board, subject, grade, cr
                 {showRubric ? "Hide" : "Show"} mark scheme notes
               </button>
               {showRubric && (
-                <ul className="text-xs text-muted-foreground space-y-1.5 rounded-lg border border-white/10 bg-white/5 p-3 max-h-40 overflow-y-auto">
+                <ul className="text-xs text-muted-foreground space-y-1.5 rounded-lg border border-border/60 bg-foreground/[0.03] p-3 max-h-40 overflow-y-auto">
                   {paper.rubricNotes.map((note, i) => (
                     <li key={i}>• {note}</li>
                   ))}
@@ -177,8 +177,8 @@ export default function MockExamMode({ paper, onClose, board, subject, grade, cr
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex flex-col bg-[hsl(216,18%,8%)]">
-      <header className="flex items-center justify-between border-b border-white/10 px-4 py-3 shrink-0">
+    <div className="fixed inset-0 z-50 flex flex-col bg-background">
+      <header className="flex items-center justify-between border-b border-border/60 px-4 py-3 shrink-0">
         <div>
           <p className="text-sm font-semibold text-foreground">
             {paper.title || "Mock Exam"}
@@ -219,12 +219,12 @@ export default function MockExamMode({ paper, onClose, board, subject, grade, cr
               key={i}
               type="button"
               onClick={() => setIndex(i)}
-              className={`h-9 w-9 rounded-lg text-sm border transition ${
+              className={`h-9 w-9 rounded-lg text-sm border transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${
                 i === index
                   ? "bg-primary/25 border-primary/40 text-primary"
                   : answers[String(questions[i]?.id ?? i)]?.trim()
-                    ? "bg-emerald-500/15 border-emerald-500/30"
-                    : "bg-white/5 border-white/10"
+                    ? "bg-emerald-500/15 border-emerald-500/30 text-foreground"
+                    : "bg-foreground/[0.04] border-border/60 text-muted-foreground"
               }`}
             >
               {i + 1}
@@ -233,7 +233,7 @@ export default function MockExamMode({ paper, onClose, board, subject, grade, cr
         </div>
       </main>
 
-      <footer className="border-t border-white/10 px-4 py-3 flex justify-between gap-3 shrink-0">
+      <footer className="border-t border-border/60 px-4 py-3 flex justify-between gap-3 shrink-0">
         <button
           type="button"
           className="neu-button px-4 py-2 text-sm"

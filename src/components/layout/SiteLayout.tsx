@@ -7,7 +7,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useAppPreferences } from "@/contexts/AppPreferencesContext";
 import BreadcrumbsJsonLd from "@/components/BreadcrumbsJsonLd";
 import RouteErrorBoundary from "@/components/RouteErrorBoundary";
-import { isAdminUser } from "@/lib/admin";
+import { useIsAdmin } from "@/hooks/useIsAdmin";
 import GlobalChatPanel from "@/components/chat/GlobalChatPanel";
 import CloudSaveBanner from "@/components/CloudSaveBanner";
 import ThemeToggle from "@/components/ThemeToggle";
@@ -35,8 +35,9 @@ function usePointerGlass() {
 export default function SiteLayout() {
   const { isAuthenticated, logout, user } = useAuth();
   const { themeColor } = useAppPreferences();
+  const { isAdmin } = useIsAdmin();
   usePointerGlass();
-  const showAdmin = isAuthenticated && isAdminUser(user);
+  const showAdmin = isAuthenticated && isAdmin;
   const location = useLocation();
   useStudySessionTracker(isAuthenticated);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -76,10 +77,10 @@ export default function SiteLayout() {
         Skip to content
       </a>
       <Helmet>
-        <title>VertexED — AI Study Tools for Students | Planner, Notes & Quizzes</title>
+        <title>VertexED — Study tools for marks and understanding</title>
         <meta
           name="description"
-          content="All‑in‑one AI study toolkit with planner, calendar, notes, flashcards, quizzes, chatbot, answer reviewer, and transcription — built on active recall."
+          content="One workspace for exam prep — planner, Study Zone, board-shaped mocks, rubric feedback, notes, flashcards, and Apex. Built around plan, focus, practise, review, remember."
         />
         <meta property="og:site_name" content="VertexED" />
         <meta property="og:image" content="https://www.vertexed.app/socialpreview.jpg" />
@@ -100,16 +101,16 @@ export default function SiteLayout() {
               src="/logo.png"
               srcSet="/favicon-32x32.png 32w, /favicon-48x48.png 48w, /apple-touch-icon.png 180w, /logo.png 500w"
               sizes="36px"
-              alt="Vertex AI Logo"
-              className="w-9 h-9 rounded-full object-cover select-none ring-1 ring-border/60 group-hover:ring-primary/40 transition"
+              alt="VertexED logo"
+              className="w-9 h-9 rounded-full object-cover select-none ring-1 ring-border/60 group-hover:ring-primary/40 transition-shadow duration-200"
               draggable={false}
               loading="eager"
               decoding="async"
               width="36"
               height="36"
             />
-            <span className="font-semibold tracking-wide text-sm md:text-base text-foreground">
-              Vertex AI
+            <span className="font-semibold tracking-tight text-sm md:text-base text-foreground">
+              Vertex<span className="text-primary">ED</span>
             </span>
           </Link>
 
@@ -118,7 +119,8 @@ export default function SiteLayout() {
               <Link
                 key={l.label}
                 to={l.to}
-                className={`nav-link-pill ${isActive(l.to) ? "is-active" : ""}`}
+                aria-current={isActive(l.to) ? "page" : undefined}
+                className={`nav-link-pill focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background ${isActive(l.to) ? "is-active" : ""}`}
               >
                 {l.label}
               </Link>
@@ -170,9 +172,12 @@ export default function SiteLayout() {
               </Link>
             )}
             <button
+              type="button"
               aria-label="Toggle navigation menu"
+              aria-expanded={menuOpen}
+              aria-controls="mobile-nav"
               onClick={() => setMenuOpen((o) => !o)}
-              className="relative w-10 h-10 inline-flex items-center justify-center rounded-xl border border-border/60 bg-background/50 hover:bg-accent/20 transition backdrop-blur-md"
+              className="relative w-10 h-10 inline-flex items-center justify-center rounded-xl border border-border/60 bg-background/50 hover:bg-accent/20 transition-colors backdrop-blur-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
             >
               <span className="sr-only">Menu</span>
               <div className="flex flex-col gap-1.5">
@@ -201,7 +206,7 @@ export default function SiteLayout() {
             menuOpen ? "max-h-[560px] opacity-100" : "max-h-0 opacity-0"
           }`}
         >
-          <nav className="flex flex-col px-5 py-4 gap-1 text-sm font-medium bg-background/80 backdrop-blur-xl">
+          <nav id="mobile-nav" className="flex flex-col px-5 py-4 gap-1 text-sm font-medium bg-background/80 backdrop-blur-xl">
             {navLinks.map((l) => (
               <Link
                 key={l.label}
@@ -290,12 +295,16 @@ export default function SiteLayout() {
                 <Link to="/main" className="hover:text-foreground transition">Dashboard</Link>
                 <Link to="/learning-hub" className="hover:text-foreground transition">Learning Hub</Link>
                 <Link to="/user-settings" className="hover:text-foreground transition">Account</Link>
+                <Link to="/privacy" className="hover:text-foreground transition">Privacy</Link>
+                <Link to="/terms" className="hover:text-foreground transition">Terms</Link>
               </>
             ) : (
               <>
                 <Link to="/features" className="hover:text-foreground transition">Features</Link>
-                <Link to="/about" className="hover:text-foreground transition">About</Link>
-                <Link to="/login" className="hover:text-foreground transition">Login</Link>
+            <Link to="/about" className="hover:text-foreground transition">About</Link>
+            <Link to="/privacy" className="hover:text-foreground transition">Privacy</Link>
+            <Link to="/terms" className="hover:text-foreground transition">Terms</Link>
+            <Link to="/login" className="hover:text-foreground transition">Login</Link>
               </>
             )}
             <a href="mailto:vertexed.25@gmail.com" className="hover:text-foreground transition">Contact</a>

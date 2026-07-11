@@ -1,0 +1,56 @@
+/* Shared form & feedback utilities — imported by index.css */
+
+@layer components {
+  .form-label {
+    @apply mb-2 block text-sm font-medium text-foreground/90;
+  }
+  .form-control {
+    @apply w-full rounded-2xl border border-border/60 bg-foreground/[0.04] px-4 py-3 text-foreground shadow-inner outline-none transition;
+    @apply placeholder:text-muted-foreground/60;
+    @apply focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background;
+  }
+  .form-control-select {
+    @apply form-control cursor-pointer appearance-none;
+  }
+  .form-textarea {
+    @apply form-control resize-none;
+  }
+  .glass-badge {
+    @apply inline-flex items-center gap-1 rounded-full border border-border/60 bg-foreground/[0.04] px-3 py-1 text-xs text-muted-foreground backdrop-blur-sm;
+  }
+  .alert-error {
+    @apply rounded-xl border px-4 py-3 text-sm;
+    border-color: hsl(var(--destructive) / 0.35);
+    background: hsl(var(--destructive) / 0.1);
+    color: hsl(var(--destructive));
+  }
+  .alert-success {
+    @apply rounded-xl border px-4 py-3 text-sm;
+    border-color: hsl(142 60% 40% / 0.35);
+    background: hsl(142 60% 40% / 0.1);
+    color: hsl(142 55% 35%);
+  }
+  .dark .alert-success {
+    color: hsl(142 60% 72%);
+  }
+  .alert-info {
+    @apply rounded-xl border px-4 py-3 text-sm;
+    border-color: hsl(var(--primary) / 0.35);
+    background: hsl(var(--primary) / 0.1);
+    color: hsl(var(--primary));
+  }
+  .skeleton-shimmer {
+    background: linear-gradient(
+      90deg,
+      hsl(var(--muted)) 0%,
+      hsl(var(--foreground) / 0.08) 50%,
+      hsl(var(--muted)) 100%
+    );
+    background-size: 200% 100%;
+    animation: skeleton-shimmer 1.5s ease-in-out infinite;
+  }
+  @keyframes skeleton-shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+}

@@ -10,7 +10,7 @@ const TRY_MODELS = [
 ];
 
 function getGeminiKey() {
-  return process.env.GEMINI_API_KEY || process.env.VITE_GEMINI_API_KEY;
+  return process.env.GEMINI_API_KEY;
 }
 
 function clamp(n, lo, hi) {
@@ -74,41 +74,50 @@ Avoid overlaps with: ${JSON.stringify(existingTasks)}.
 Balance: learn → practice → review → flashcards. Return ONLY JSON: { "tasks": [...] }`;
 
   const client = new GoogleGenAI({ apiKey });
-  try {
-    const resp = await client.models.generateContent({
-      model: TRY_MODELS[0],
-      contents: sysPrompt,
-      generationConfig: { responseMimeType: 'application/json' },
-    });
-    const text = extractText(resp);
-    let raw;
+  let lastErr;
+
+  for (const model of TRY_MODELS) {
     try {
-      raw = JSON.parse(text);
-    } catch {
-      const s = text.indexOf('{');
-      const e = text.lastIndexOf('}') + 1;
-      raw = JSON.parse(text.slice(s, e));
+      const resp = await client.models.generateContent({
+        model,
+        contents: sysPrompt,
+        generationConfig: { responseMimeType: 'application/json' },
+      });
+      const text = extractText(resp);
+      let raw;
+      try {
+        raw = JSON.parse(text);
+      } catch {
+        const s = text.indexOf('{');
+        const e = text.lastIndexOf('}') + 1;
+        raw = JSON.parse(text.slice(s, e));
+      }
+      const tasks = (Array.isArray(raw?.tasks) ? raw.tasks : []).map((t) => {
+        const name = String(t['task name'] || t.taskName || 'Study block').trim();
+        const dateStr = String(t.date || currentDate);
+        const start = String(t['start time'] || t.startTime || '05:00 PM');
+        const dur = clamp(parseInt(String(t['task duration'] || t.taskDuration || 45), 10) || 45, 15, 120);
+        const startMin = toMinutes(start);
+        return {
+          'task name': name,
+          date: dateStr,
+          'start time': start,
+          'task duration': dur,
+          'end time': toTime12(startMin + dur),
+          tag: String(t.tag || 'Study'),
+        };
+      });
+      return res.status(200).json({ tasks });
+    } catch (e) {
+      lastErr = e;
+      const msg = String(e?.message || e || '');
+      const retryable = /404|not\s*found|not\s*supported/i.test(msg);
+      if (!retryable) break;
     }
-    const tasks = (Array.isArray(raw?.tasks) ? raw.tasks : []).map((t) => {
-      const name = String(t['task name'] || t.taskName || 'Study block').trim();
-      const dateStr = String(t.date || currentDate);
-      const start = String(t['start time'] || t.startTime || '05:00 PM');
-      const dur = clamp(parseInt(String(t['task duration'] || t.taskDuration || 45), 10) || 45, 15, 120);
-      const startMin = toMinutes(start);
-      return {
-        'task name': name,
-        date: dateStr,
-        'start time': start,
-        'task duration': dur,
-        'end time': toTime12(startMin + dur),
-        tag: String(t.tag || 'Study'),
-      };
-    });
-    return res.status(200).json({ tasks });
-  } catch (e) {
-    console.error('Week plan error:', e);
-    return res.status(500).json({ error: e?.message || 'Failed to generate week plan' });
   }
+
+  console.error('Week plan error:', lastErr);
+  return res.status(500).json({ error: lastErr?.message || 'Failed to generate week plan' });
 }
 
 export default async function handler(req, res) {
@@ -118,7 +127,7 @@ export default async function handler(req, res) {
 
   const user = await verifyAuthUser(req, res);
   if (!user) return;
-  if (!rateLimitUserEndpoint(user.id, 'planner', res)) return;
+  if (!(await rateLimitUserEndpoint(user.id, 'planner', res))) return;
 
   if (rejectOversizedJsonBody(req, res)) return;
 

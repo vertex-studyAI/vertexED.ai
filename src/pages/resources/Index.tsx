@@ -12,28 +12,28 @@ type Article = {
 };
 
 const ARTICLES: Article[] = [
-  { to: "/resources/best-ai-study-tools-2025", title: "Best AI Study Tools 2025", blurb: "The essential guide to the top AI apps for students this year.", category: "tools" },
-  { to: "/resources/automated-note-taking-guide", title: "Automated Note Taking Guide", blurb: "Stop transcribing and start learning with AI summaries.", category: "tools" },
-  { to: "/resources/how-to-use-ai-for-studying", title: "How to Use AI for Studying", blurb: "A step-by-step framework for integrating AI into your routine.", category: "tools" },
-  { to: "/resources/ai-chatbot-tutor", title: "Your 24/7 AI Tutor", blurb: "Get instant homework help and explanations for any subject.", category: "tools" },
-  { to: "/resources/ai-study-planner", title: "AI Study Planner & Calendar", blurb: "Schedule smarter with adaptive study blocks and spaced retrieval.", category: "tools" },
-  { to: "/resources/ib-igcse-paper-maker", title: "IB/IGCSE Paper Maker", blurb: "Generate syllabus-aligned practice papers with authentic phrasing.", category: "tools" },
-  { to: "/resources/notes-to-flashcards", title: "From Notes to Flashcards (and Quizzes)", blurb: "Turn any topic into active‑recall materials in minutes.", category: "tools" },
-  { to: "/resources/ai-answer-reviewer", title: "AI Answer Reviewer", blurb: "Teacher‑style feedback and rubric‑aligned suggestions.", category: "tools" },
-  { to: "/resources/active-recall-spaced-repetition", title: "Active Recall & Spaced Repetition", blurb: "Science-backed study with interleaving and spaced sessions.", category: "methods" },
-  { to: "/resources/exam-strategy-time-management", title: "Exam Strategy & Time Management", blurb: "Turn mark schemes and timing into routine.", category: "methods" },
-  { to: "/resources/how-to-cram-effectively", title: "How to Cram Effectively", blurb: "Emergency protocols for when you have 12 hours left.", category: "methods" },
-  { to: "/resources/how-to-memorize-anything-fast", title: "How to Memorize Fast", blurb: "Memory Palace vs. Spaced Repetition: Which one wins?", category: "methods" },
-  { to: "/resources/best-ai-prompts-for-students", title: "50 Best AI Prompts", blurb: "Copy-paste prompts for Math, Science, and Essay feedback.", category: "methods" },
-  { to: "/resources/ib-math-aa-ai-guide", title: "IB Math AA & AI Study Guide", blurb: "Master Calculus, Statistics, and Proofs with AI practice.", category: "subjects" },
-  { to: "/resources/igcse-science-revision", title: "IGCSE Sciences Revision", blurb: "Biology, Chemistry, and Physics revision tips for A* grades.", category: "subjects" },
-  { to: "/resources/essay-writing-with-ai", title: "Mastering Essay Writing", blurb: "Structure perfect essays for History, English, and Psychology.", category: "subjects" },
-  { to: "/resources/alevel-ap-exam-prep", title: "A-Level & AP Exam Prep", blurb: "The ultimate guide for UK and US university entrance exams.", category: "subjects" },
-  { to: "/resources/subject-guides-common-mistakes", title: "Subject Guides: Common Mistakes", blurb: "High-yield fixes for Math, Sciences, and Humanities.", category: "subjects" },
-  { to: "/resources/ib-tok-guide-ai", title: "Using AI for IB TOK", blurb: "Brainstorm RLS and Knowledge Questions for Essays & Exhibitions.", category: "subjects" },
-  { to: "/resources/is-using-ai-cheating", title: "Is Using AI Cheating?", blurb: "The student's guide to academic integrity, Turnitin, and ethics.", category: "wellness" },
-  { to: "/resources/academic-burnout-guide", title: "Academic Burnout Guide", blurb: "Recover from exhaustion with 'Minimum Viable Studying'.", category: "wellness" },
-  { to: "/resources/college-essays-with-ai", title: "College Essays with AI", blurb: "Brainstorm Common App & Personal Statements without losing your voice.", category: "wellness" },
+  { to: "/resources/best-ai-study-tools-2025", title: "Choosing AI study tools in 2025", blurb: "What to look for in a study stack — rubric feedback, board-shaped mocks, and retrieval — not feature count.", category: "tools" },
+  { to: "/resources/automated-note-taking-guide", title: "Automated note taking: capture, then learn", blurb: "Turn lectures and PDFs into summaries you review the same day — then flashcards, not a highlight graveyard.", category: "tools" },
+  { to: "/resources/how-to-use-ai-for-studying", title: "How to use AI for studying", blurb: "Five-step framework — plan, learn, retrieve, mock, review — without outsourcing answers you can't reproduce.", category: "tools" },
+  { to: "/resources/ai-chatbot-tutor", title: "Using Apex for study help", blurb: "How to get Socratic explanations, rubric sense, and exam technique — without outsourcing your thinking.", category: "tools" },
+  { to: "/resources/ai-study-planner", title: "AI study planner and calendar", blurb: "Block mocks, retrieval, and focus sessions around school, sport, and sleep — tasks link to the right tool.", category: "tools" },
+  { to: "/resources/ib-igcse-paper-maker", title: "IB/IGCSE Paper Maker", blurb: "Generate syllabus-aligned mocks with command words, mark totals, and topics you choose — then sit them under time.", category: "tools" },
+  { to: "/resources/notes-to-flashcards", title: "From Notes to Flashcards (and Quizzes)", blurb: "Same source material → notes → spaced cards → short quizzes. Built for retrieval, not re-reading.", category: "tools" },
+  { to: "/resources/ai-answer-reviewer", title: "AI Answer Reviewer", blurb: "Paste or photograph answers; get feedback aligned to mark schemes — structure, evidence, command terms.", category: "tools" },
+  { to: "/resources/active-recall-spaced-repetition", title: "Active Recall & Spaced Repetition", blurb: "Why testing beats highlighting, how intervals work, and how VertexED schedules cards before you forget.", category: "methods" },
+  { to: "/resources/exam-strategy-time-management", title: "Exam Strategy & Time Management", blurb: "Skim the paper, allocate by marks, watch command terms — routines that survive in the hall.", category: "methods" },
+  { to: "/resources/how-to-cram-effectively", title: "How to cram when the exam is tomorrow", blurb: "High-mark topics, timed questions, and sleep — not one more unread chapter.", category: "methods" },
+  { to: "/resources/how-to-memorize-anything-fast", title: "Memory techniques for exam revision", blurb: "Memory palace for one-off lists vs spaced repetition for syllabus content — when each earns its time.", category: "methods" },
+  { to: "/resources/best-ai-prompts-for-students", title: "AI prompts that help with revision", blurb: "Maths working, essay structure, mark-scheme gaps — prompts that critique your attempt, not copy-paste answers.", category: "methods" },
+  { to: "/resources/ib-math-aa-ai-guide", title: "IB Math AA and AI: revision guide", blurb: "Calculus, statistics, and proofs — show-your-working practice and IB command words.", category: "subjects" },
+  { to: "/resources/igcse-science-revision", title: "IGCSE Sciences Revision", blurb: "Biology, Chemistry, and Physics — practicals, definitions, and structured answers for top-band marks.", category: "subjects" },
+  { to: "/resources/essay-writing-with-ai", title: "Essay writing with AI", blurb: "History, English, Psychology — thesis, evidence, and conclusion under time without losing your voice.", category: "subjects" },
+  { to: "/resources/alevel-ap-exam-prep", title: "A-Level and AP exam prep", blurb: "What each qualification demands — FRQs, essays, synoptic questions, and mark-scheme habits.", category: "subjects" },
+  { to: "/resources/subject-guides-common-mistakes", title: "Common exam mistakes", blurb: "Repeated mark losses in maths working, science units, and humanities analysis — and how to fix them.", category: "subjects" },
+  { to: "/resources/ib-tok-guide-ai", title: "Using AI for IB TOK", blurb: "Brainstorm RLS and knowledge questions for the essay and exhibition — without letting AI write the argument.", category: "subjects" },
+  { to: "/resources/is-using-ai-cheating", title: "Is using AI cheating?", blurb: "School policies, Turnitin, and where AI support crosses into work you can't defend orally or in the hall.", category: "wellness" },
+  { to: "/resources/academic-burnout-guide", title: "Academic burnout: signs and recovery", blurb: "When you're depleted — minimum viable studying, sleep, and when to stop for the night.", category: "wellness" },
+  { to: "/resources/college-essays-with-ai", title: "College Essays with AI", blurb: "Brainstorm Common App angles and structure drafts — keep the story yours for admissions readers.", category: "wellness" },
 ];
 
 const CATEGORIES = [
@@ -79,8 +79,9 @@ export default function ResourcesIndex() {
         <h1 className="text-3xl md:text-4xl font-semibold brand-text-gradient inline-block mb-4">
           Resources
         </h1>
-        <p className="text-muted-foreground mb-6 max-w-2xl">
-          Practical guides, subject tips, and tool walkthroughs — searchable and categorized.
+        <p className="text-muted-foreground mb-6 max-w-2xl leading-relaxed">
+          Guides written for real exam prep — tool walkthroughs, study methods, subject specifics, and integrity.
+          Search by topic or filter by category; each article links back into the matching VertexED tool where it applies.
         </p>
 
         <div className="flex flex-col sm:flex-row gap-3 mb-6">
@@ -107,7 +108,7 @@ export default function ResourcesIndex() {
               className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm transition ${
                 category === cat.id
                   ? "bg-primary/20 text-primary border border-primary/30"
-                  : "bg-white/5 text-muted-foreground border border-white/10 hover:text-foreground"
+                  : "surface-chip text-muted-foreground hover:text-foreground"
               }`}
             >
               <cat.icon className="h-3.5 w-3.5" />
@@ -149,7 +150,7 @@ function ArticleLink({ to, title, blurb }: Pick<Article, "to" | "title" | "blurb
   return (
     <Link
       to={to}
-      className="block p-5 rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-primary/20 transition-colors"
+      className="block p-5 rounded-2xl surface-tile hover:bg-foreground/[0.06] hover:border-primary/20 transition-colors"
     >
       <h2 className="text-lg font-medium text-foreground">{title}</h2>
       <p className="text-muted-foreground mt-2 text-sm">{blurb}</p>

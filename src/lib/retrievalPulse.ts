@@ -80,9 +80,9 @@ export function buildRetrievalPulse(
     urgency: loop.completed.length < 2 ? 'medium' : 'low',
   });
 
-  let nextAction = { label: 'Open Study Zone', href: '/study-zone', reason: 'Start with a focused 25-minute block.' };
+  let nextAction = { label: 'Open Study Zone', href: '/study-zone', reason: 'Start with a focused 25-minute block on one topic.' };
   let headline = 'Your retrieval pulse';
-  let narrative = 'One honest session today beats a heroic plan you never run.';
+  let narrative = 'One honest session today — timed practice or due cards — beats a long plan you never run.';
   let apexPrompt = 'I have 25 minutes tonight. What should I do first for the best return on marks?';
 
   const topRec = adaptiveRecs[0];

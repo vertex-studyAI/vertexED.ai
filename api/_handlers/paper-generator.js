@@ -150,7 +150,7 @@ export default async function handler(req, res) {
 
   const user = await verifyAuthUser(req, res);
   if (!user) return;
-  if (!rateLimitUserEndpoint(user.id, 'paper-generator', res)) return;
+  if (!(await rateLimitUserEndpoint(user.id, 'paper-generator', res))) return;
 
   if (rejectOversizedJsonBody(req, res, 4 * 1024 * 1024)) return;
 

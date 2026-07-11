@@ -127,6 +127,31 @@ async function main() {
     fail(`/api/user-content check failed: ${error.message}`);
   }
 
+  try {
+    const adminStatus = await request('/api/admin-status', { method: 'GET', headers: {} });
+    if (adminStatus.status !== 401) {
+      fail(`/api/admin-status without auth returned ${adminStatus.status}`);
+    } else {
+      pass('/api/admin-status requires authentication (401)');
+    }
+  } catch (error) {
+    fail(`/api/admin-status check failed: ${error.message}`);
+  }
+
+  try {
+    const corsProbe = await request('/api/health', {
+      method: 'GET',
+      headers: { Origin: 'https://evil.example' },
+    });
+    if (corsProbe.status !== 403) {
+      fail(`/api/health with untrusted Origin returned ${corsProbe.status}`);
+    } else {
+      pass('/api blocks untrusted cross-origin requests (403)');
+    }
+  } catch (error) {
+    fail(`/api CORS check failed: ${error.message}`);
+  }
+
   if (process.exitCode) {
     console.error('[smoke] Deployment smoke tests failed.');
     process.exit(process.exitCode);

@@ -37,8 +37,8 @@ export default function About(): JSX.Element {
   return (
     <>
       <SEO
-        title="About Vertex — AI Study Tools"
-        description="Learn about Vertex, the all-in-one AI study tools platform, and the founding team."
+        title="About VertexED — founding team and story"
+        description="VertexED started as a hackathon project between three students who wanted one workspace for exam season — planning, mocks, rubric feedback, and retrieval without tab overload."
         canonical="https://www.vertexed.app/about"
         jsonLd={[
           {
@@ -61,19 +61,18 @@ export default function About(): JSX.Element {
 
       <PageSection className="relative px-6 md:px-12">
         <h1 className="text-4xl md:text-5xl font-semibold mb-6 tracking-tight brand-text-gradient">
-          About Vertex
+          About VertexED
         </h1>
 
         <p className="text-lg md:text-xl max-w-3xl leading-relaxed text-muted-foreground">
-          Vertex began as a late-night hackathon project — three classmates who wanted planning,
-          notes, flashcards, quizzes, and AI help in one place that actually felt good to open. After
-          winning prize money at a major overnight student hackathon, we kept building because we
-          needed it ourselves during exam season.
+          VertexED began as a late-night hackathon build — three classmates who wanted planning,
+          notes, flashcards, timed mocks, and honest AI feedback in one place they would actually open during exam season. After
+          winning prize money at a major overnight student hackathon, we kept shipping because we
+          were still using it ourselves the week before mocks.
         </p>
         <p className="mt-5 text-lg md:text-xl max-w-3xl leading-relaxed text-foreground/90">
-          We are not trying to replace teachers or shortcut the work. We are trying to remove the
-          friction that makes the work harder than it needs to be — scattered resources, vague
-          feedback, and tools that look impressive in a demo but fall apart at midnight before a mock.
+          We are not trying to replace teachers or skip the work. We are trying to remove the friction that makes revision harder than it needs to be — scattered PDFs,
+          feedback that stops at &ldquo;good effort,&rdquo; and tools that look impressive in a demo but fall apart at midnight before Paper 2.
         </p>
 
         <div className="grid md:grid-cols-3 gap-10 mt-20">

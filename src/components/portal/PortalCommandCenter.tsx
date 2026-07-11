@@ -44,7 +44,7 @@ export default function PortalCommandCenter({ brief, pulse, intel }: Props) {
             <h1 className="portal-hero-title">
               {brief.greeting}, {brief.profile.displayName}
             </h1>
-            <p className="portal-hero-brief mt-3">{intel.apexBrief}</p>
+            <p id="apex-brief" className="portal-hero-brief mt-3">{intel.apexBrief}</p>
             <p className="text-sm text-muted-foreground/90 mt-2 max-w-2xl leading-relaxed">{subline}</p>
 
             <div className="flex flex-wrap gap-2 mt-5">
@@ -55,7 +55,7 @@ export default function PortalCommandCenter({ brief, pulse, intel }: Props) {
                 <Flame className="h-3 w-3 text-orange-400" aria-hidden />
                 {brief.stats.studyStreak}d streak
               </span>
-              <span className="portal-chip-muted inline-flex items-center gap-1">
+              <span id="focus-score" className="portal-chip-muted inline-flex items-center gap-1">
                 <Target className="h-3 w-3 text-primary" aria-hidden />
                 Focus {intel.focusScore}
               </span>

@@ -1,6 +1,7 @@
 
 import { createClient } from '@supabase/supabase-js';
 import { createHash } from 'crypto';
+import { getClientIp, getWaitlistRateLimitSalt, normalizeEmail } from '../_lib/security.js';
 
 const RATE_LIMIT_MAX = 5;
 const RATE_LIMIT_WINDOW_MS = 60_000;
@@ -14,32 +15,9 @@ function getSupabase() {
   return createClient(url, key);
 }
 
-function getClientIp(req) {
-  const forwarded = req.headers['x-forwarded-for'];
-  if (typeof forwarded === 'string' && forwarded.length) {
-    return forwarded.split(',')[0].trim();
-  }
-  const realIp = req.headers['x-real-ip'];
-  if (typeof realIp === 'string' && realIp.length) {
-    return realIp.trim();
-  }
-  return req.socket?.remoteAddress || 'unknown';
-}
-
 function hashIp(ip) {
-  const salt = process.env.WAITLIST_RATE_LIMIT_SALT || 'vertexed-waitlist';
+  const salt = getWaitlistRateLimitSalt();
   return createHash('sha256').update(`${salt}:${ip}`).digest('hex');
-}
-
-function normalizeEmail(raw) {
-  if (typeof raw !== 'string') return null;
-  const email = raw.trim().toLowerCase();
-  if (!email) return null;
-  // Practical RFC 5322 subset
-  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-  if (!emailPattern.test(email)) return null;
-  if (email.length > 254) return null;
-  return email;
 }
 
 async function isRateLimited(supabase, ipHash) {
@@ -52,8 +30,8 @@ async function isRateLimited(supabase, ipHash) {
     .gte('attempted_at', since);
 
   if (error) {
-    console.error('Rate limit check failed:', error);
-    return false;
+    console.error('Rate limit check failed — failing closed:', error);
+    return true;
   }
 
   return (count ?? 0) >= RATE_LIMIT_MAX;

@@ -26,8 +26,9 @@ export default function GlobalChatPanel() {
   });
   const [minimized, setMinimized] = useState(false);
 
-  const { messages, input, setInput, loading, sendMessage, clearChat } = useApexChat({
+  const { messages, input, setInput, loading, streamingMessageId, sendMessage, cancelMessage, clearChat } = useApexChat({
     context: studyContext,
+    threadKey: 'apex-main',
     onSessionRecord: recordStudySession,
   });
 
@@ -137,6 +138,7 @@ export default function GlobalChatPanel() {
             <ApexMessageList
               messages={messages}
               loading={loading}
+              streamingMessageId={streamingMessageId}
               context={studyContext}
               compact
             />
@@ -147,6 +149,7 @@ export default function GlobalChatPanel() {
               value={input}
               onChange={setInput}
               onSend={send}
+              onCancel={cancelMessage}
               loading={loading}
               compact
             />

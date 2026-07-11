@@ -7,134 +7,135 @@ export default function IBMathGuide() {
   return (
     <>
       <SEO
-        title="The Ultimate IB Math AA & AI Study Guide | VertexED"
-        description="Master IB Math Analysis & Approaches (AA) and Applications & Interpretation (AI) with our comprehensive AI-powered study guide. Practice papers, topic lists, and exam tips."
+        title="IB Math AA and AI revision guide | VertexED"
+        description="Practical revision for Analysis &amp; Approaches and Applications &amp; Interpretation — spiral review, IA planning, Paper 1 non-calculator drills, and GDC working checks."
         canonical="https://www.vertexed.app/resources/ib-math-aa-ai-guide"
         keywords="IB Math AA, IB Math AI, IB Math Analysis and Approaches, IB Math Applications and Interpretation, IB Math HL, IB Math SL, IB Math past papers, IB Math revision, IB Math IA ideas, IB Math exploration, AI for IB Math, VertexED, math practice questions, IB exam prep, International Baccalaureate"
       />
       <Article
-        title="The Ultimate IB Math AA & AI Study Guide (2025 Edition)"
-        subtitle="A comprehensive roadmap to scoring a 7 in Analysis & Approaches and Applications & Interpretation. Includes IA tips, calculator hacks, and AI workflows."
+        title="IB Math AA and AI: a practical revision guide"
+        subtitle="AA vs AI, HL vs SL, spiral review, IA planning, and what examiners expect on each paper."
         kicker="IB Diploma"
       >
         <p className="lead">
-          IB Math is often cited as the single most difficult subject group in the International Baccalaureate. 
-          Whether you are wrestling with the abstract proofs of <strong>Analysis & Approaches (AA)</strong> or the complex statistical modeling of <strong>Applications & Interpretation (AI)</strong>, 
-          brute force studying won't get you a 7. You need a tactical approach.
+          IB Math is one of the heaviest subject groups on the Diploma. Whether you take
+          <strong> Analysis &amp; Approaches (AA)</strong> or <strong>Applications &amp; Interpretation (AI)</strong>,
+          rereading the textbook will not get you to a 7. You need topic rotation, timed practice, and working
+          that matches what mark schemes actually award.
         </p>
 
-        <h2>The Landscape: AA vs. AI (And HL vs. SL)</h2>
+        <h2>AA vs AI (and HL vs SL)</h2>
         <p>
-          Before we dive into strategy, let's clarify the battlefield. The IB splits math into two distinct philosophies:
+          The IB splits math into two courses with different emphases:
         </p>
         <div className="grid md:grid-cols-2 gap-6 my-8">
-          <div className="bg-slate-800/50 p-6 rounded-xl border border-white/10">
-            <h3 className="text-xl font-bold text-blue-400 mt-0">Analysis & Approaches (AA)</h3>
-            <p className="text-sm text-slate-300 mb-4">"The Engineer's Math"</p>
+          <div className="article-callout">
+            <h3 className="text-xl font-bold text-blue-400 mt-0">Analysis &amp; Approaches (AA)</h3>
+            <p className="text-sm text-muted-foreground mb-4">Algebra, calculus, proof</p>
             <ul className="space-y-2 text-sm">
-              <li><strong>Focus:</strong> Algebraic methods, calculus, trigonometry, and mathematical proof.</li>
-              <li><strong>Best for:</strong> Engineering, Physics, Pure Mathematics, Economics (sometimes).</li>
-              <li><strong>The Challenge:</strong> Paper 1 is non-calculator. You need rock-solid mental math and algebraic manipulation skills.</li>
+              <li><strong>Focus:</strong> Algebraic methods, calculus, trigonometry, proof.</li>
+              <li><strong>Typical path:</strong> Engineering, physics, pure maths, some economics.</li>
+              <li><strong>Exam pressure:</strong> Paper 1 is non-calculator — mental maths and manipulation must be solid.</li>
             </ul>
           </div>
-          <div className="bg-slate-800/50 p-6 rounded-xl border border-white/10">
-            <h3 className="text-xl font-bold text-purple-400 mt-0">Applications & Interpretation (AI)</h3>
-            <p className="text-sm text-slate-300 mb-4">"The Data Scientist's Math"</p>
+          <div className="article-callout">
+            <h3 className="text-xl font-bold text-purple-400 mt-0">Applications &amp; Interpretation (AI)</h3>
+            <p className="text-sm text-muted-foreground mb-4">Statistics, modelling, technology</p>
             <ul className="space-y-2 text-sm">
-              <li><strong>Focus:</strong> Statistics, modelling, graph theory, and using technology.</li>
-              <li><strong>Best for:</strong> Social Sciences, Biology, Business, Psychology.</li>
-              <li><strong>The Challenge:</strong> Interpreting complex word problems and mastering the GDC (Graphic Display Calculator).</li>
+              <li><strong>Focus:</strong> Statistics, modelling, graph theory, GDC use.</li>
+              <li><strong>Typical path:</strong> Social sciences, biology, business, psychology.</li>
+              <li><strong>Exam pressure:</strong> Long word problems and confident GDC setup.</li>
             </ul>
           </div>
         </div>
 
-        <h2>Strategy 1: The "Spiral" Revision Method</h2>
+        <h2>Strategy 1: Spiral revision</h2>
         <p>
-          Math is cumulative. If you forget functions, you can't do calculus. The Spiral Method ensures you never lose touch with earlier topics.
+          Math is cumulative. Weak algebra undermines calculus. Spiral revision keeps earlier topics warm:
         </p>
         <ol>
           <li><strong>Week 1:</strong> Study Topic 1 (Algebra).</li>
-          <li><strong>Week 2:</strong> Study Topic 2 (Functions) + do <em>one</em> question from Topic 1.</li>
-          <li><strong>Week 3:</strong> Study Topic 3 (Trig) + do <em>one</em> question from Topic 1 & 2.</li>
+          <li><strong>Week 2:</strong> Study Topic 2 (Functions) + one question from Topic 1.</li>
+          <li><strong>Week 3:</strong> Study Topic 3 (Trig) + one question each from Topics 1 and 2.</li>
         </ol>
         <p>
-          <strong>AI Hack:</strong> Use <Link to="/paper-maker">VertexED's Paper Maker</Link> to generate a "Mixed Bag" quiz. 
-          Select "IB Math AA" and check boxes for Algebra, Functions, and Trig. The AI will build a custom paper that forces you to switch gears between topics instantly.
+          Use <Link to="/paper-maker">Paper Maker</Link> to generate mixed papers — select IB Math AA or AI and
+          tick Algebra, Functions, and Trig. Forcing topic switches mirrors real papers.
         </p>
 
-        <h2>Strategy 2: Crushing the Internal Assessment (IA)</h2>
+        <h2>Strategy 2: Internal Assessment (IA)</h2>
         <p>
-          The IA is 20% of your final grade. It is the difference between a 6 and a 7.
+          The IA is 20% of your grade. It often separates a 6 from a 7.
         </p>
-        <h3>Step 1: The Idea</h3>
+        <h3>Step 1: The idea</h3>
         <p>
-          Don't pick "The Golden Ratio." Everyone does it. Use our <Link to="/chatbot">AI Chatbot</Link> to find a unique angle.
+          Avoid overdone topics like the golden ratio. Use <Link to="/chatbot">Apex</Link> to find a personal angle.
         </p>
-        <div className="bg-slate-900 p-4 rounded-lg border-l-4 border-blue-500 my-4">
-          <strong>Prompt:</strong> "I am interested in [Tennis/Architecture/Music]. Suggest 5 IB Math [AA/AI] IA topics that connect this interest to [Calculus/Statistics]. For each, briefly outline the math involved."
+        <div className="article-callout border-l-4 border-blue-500 my-4">
+          <strong>Prompt:</strong> &ldquo;I am interested in [tennis/architecture/music]. Suggest five IB Math [AA/AI] IA topics linking this to [calculus/statistics]. Briefly outline the maths for each.&rdquo;
         </div>
 
-        <h3>Step 2: The Math Check</h3>
+        <h3>Step 2: Maths rigour check</h3>
         <p>
-          Before you write 12 pages, ensure the math is rigorous enough for your level (SL or HL).
+          Before you write twelve pages, confirm the maths fits SL or HL expectations.
         </p>
-        <div className="bg-slate-900 p-4 rounded-lg border-l-4 border-purple-500 my-4">
-          <strong>Prompt:</strong> "I plan to model the cooling curve of coffee using Newton's Law of Cooling for my Math AA SL IA. Is this complex enough for the syllabus? What specific mathematical techniques should I include to maximize marks in Criterion E (Use of Mathematics)?"
+        <div className="article-callout border-l-4 border-purple-500 my-4">
+          <strong>Prompt:</strong> &ldquo;I plan to model coffee cooling with Newton&apos;s Law of Cooling for Math AA SL. Is this complex enough? What techniques should I include for Criterion E (Use of Mathematics)?&rdquo;
         </div>
 
-        <h2>Strategy 3: Exam Technique (Paper 1 vs. Paper 2/3)</h2>
+        <h2>Strategy 3: Exam technique (Paper 1 vs Paper 2/3)</h2>
         
-        <h3>Paper 1 (AA Only): The Non-Calculator Sprint</h3>
+        <h3>Paper 1 (AA): non-calculator</h3>
         <p>
-          Speed is key. You cannot afford to get stuck on arithmetic.
+          Speed matters. You cannot afford to stall on arithmetic.
         </p>
         <ul>
-          <li><strong>Tip:</strong> Memorize your unit circle. You should know $\sin(\pi/3)$ as instantly as you know your own name.</li>
-          <li><strong>Drill:</strong> Use the <Link to="/notetaker">Notetaker</Link> to generate "Quick Fire" trig and log rule quizzes.</li>
+          <li><strong>Tip:</strong> Know your unit circle — $\sin(\pi/3)$ should be instant.</li>
+          <li><strong>Drill:</strong> Use <Link to="/notetaker">Notetaker</Link> for quick-fire trig and log rule quizzes.</li>
         </ul>
 
-        <h3>Paper 2 & 3: The GDC Marathon</h3>
+        <h3>Paper 2 &amp; 3: GDC papers</h3>
         <p>
-          In AI (and AA Paper 2), your calculator is your lifeline.
+          In AI (and AA Paper 2), your calculator is essential — but answers alone lose method marks.
         </p>
         <ul>
-          <li><strong>Common Mistake:</strong> Writing down only the answer.</li>
-          <li><strong>The Fix:</strong> "Calculator Notation" is not allowed. You must write the mathematical setup (e.g., the integral with limits) before writing the result from the GDC.</li>
-          <li><strong>Check:</strong> Use <Link to="/answer-reviewer">Answer Reviewer</Link>. Upload a photo of your working. Ask: "Did I show enough working to get the 'Method' marks, or did I just write the answer?"</li>
+          <li><strong>Common mistake:</strong> Writing only the GDC output.</li>
+          <li><strong>Fix:</strong> Show the mathematical setup (e.g., integral with limits) before the calculator result.</li>
+          <li><strong>Check:</strong> Upload working to <Link to="/answer-reviewer">Answer Reviewer</Link>. Ask: &ldquo;Did I earn method marks or only the final answer?&rdquo;</li>
         </ul>
 
-        <h2>Conclusion: The Path to a 7</h2>
+        <h2>Conclusion: pattern recognition over genius</h2>
         <p>
-          Scoring a 7 isn't about being a genius; it's about pattern recognition. The IB asks the same types of questions every year, just with different numbers.
-          Use VertexED to generate infinite variations of those questions until the patterns become obvious.
+          A 7 is less about raw talent and more about recognising question types. IB papers repeat structures
+          with new numbers. Use VertexED to generate variations until the patterns feel familiar.
         </p>
 
         <h2>FAQ</h2>
-        <p><strong>Can I use AI for my IA?</strong> You can use AI to brainstorm topics, check your math, and suggest improvements. You <em>cannot</em> use AI to write the text of your IA. That is plagiarism.</p>
-        <p><strong>Does VertexED support HL and SL?</strong> Yes, the Paper Maker and Chatbot are aware of the differences between Standard Level and Higher Level content.</p>
-        <p><strong>How accurate is the mark scheme generator?</strong> It is trained on thousands of past IB mark schemes to mimic the specific phrasing and point allocation used by examiners.</p>
+        <p><strong>Can I use AI for my IA?</strong> Brainstorming, maths checks, and structural feedback — yes. Writing the IA text — no. That is plagiarism.</p>
+        <p><strong>Does VertexED support HL and SL?</strong> Yes — Paper Maker and Apex distinguish Standard and Higher Level content.</p>
+        <p><strong>How accurate is the mark scheme generator?</strong> It follows IB-style phrasing and point allocation, but always compare against official mark schemes for calibration.</p>
 
         <div className="not-prose mt-8 flex gap-3 flex-wrap">
-          <Link to="/paper-maker" className="neu-button">Generate Math Papers</Link>
-          <Link to="/chatbot" className="neu-button">Brainstorm IA Topics</Link>
+          <Link to="/paper-maker" className="neu-button">Generate math papers</Link>
+          <Link to="/chatbot" className="neu-button">Brainstorm IA topics</Link>
         </div>
 
-        <h2 className="mt-10">Evidence & references</h2>
+        <h2 className="mt-10">Evidence &amp; references</h2>
         <ul>
           <li>IBO (2025): Mathematics: Analysis and Approaches Guide.</li>
           <li>IBO (2025): Mathematics: Applications and Interpretation Guide.</li>
         </ul>
 
-        <div className="mt-8 text-xs text-slate-400 border-t border-white/10 pt-4">
+        <div className="article-footer">
           Editorial note: Reviewed for clarity and usefulness. Always cross‑check with your official syllabus and teacher guidance.
           <div className="mt-1">Last updated: 2025-12-24 · Author: VertexED Team</div>
         </div>
 
-        <hr className="my-8 border-white/10" />
+        <hr className="article-divider" />
         <h3>Related guides</h3>
         <ul>
           <li><Link to="/resources/ib-igcse-paper-maker">IB/IGCSE Paper Maker Guide</Link></li>
-          <li><Link to="/resources/active-recall-spaced-repetition">Active Recall & Spaced Repetition</Link></li>
+          <li><Link to="/resources/active-recall-spaced-repetition">Active Recall &amp; Spaced Repetition</Link></li>
           <li><Link to="/resources/ai-answer-reviewer">AI Answer Reviewer</Link></li>
         </ul>
       </Article>

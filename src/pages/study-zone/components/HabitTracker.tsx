@@ -1,14 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import {
-	fieldLabelStyle,
-	ghostButtonStyle,
-	inputFieldStyle,
-	listItemStyle,
-	listSurfaceStyle,
-	primaryButtonStyle,
-	selectFieldStyle,
-	subtleTextStyle,
-} from "../styles";
+import { fieldLabelStyle } from "../styles";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { recordStudySession } from "@/lib/studyStats";
 
@@ -24,26 +15,7 @@ interface HabitTrackerProps {
 	accent: string;
 }
 
-const formGridStyle: React.CSSProperties = {
-	display: "grid",
-	gap: "16px",
-	gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
-};
-
-const actionsRowStyle: React.CSSProperties = {
-	display: "flex",
-	flexWrap: "wrap",
-	gap: "12px",
-};
-
-const progressTrackStyle: React.CSSProperties = {
-	width: "100%",
-	height: "14px",
-	borderRadius: "999px",
-	background: "hsla(216, 18%, 12%, 0.55)",
-	border: "1px solid hsla(199, 45%, 36%, 0.22)",
-	overflow: "hidden",
-};
+const formGridClass = "grid gap-4 grid-cols-[repeat(auto-fit,minmax(220px,1fr))]";
 
 const HabitTracker: React.FC<HabitTrackerProps> = ({ accent }) => {
 	const [habits, setHabits] = useLocalStorage<Habit[]>("studyzone_habits", []);
@@ -137,25 +109,18 @@ const HabitTracker: React.FC<HabitTrackerProps> = ({ accent }) => {
 	);
 
 	return (
-		<div style={{ display: "grid", gap: "22px" }}>
-			<div style={{ display: "grid", gap: "12px" }}>
-				<div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: "12px" }}>
-					<span style={{ ...subtleTextStyle, fontSize: "13px" }}>Completion</span>
-					<span style={{ fontWeight: 600, color: accent }}>{progress}%</span>
+		<div className="zone-stack-lg">
+			<div className="grid gap-3">
+				<div className="flex flex-wrap items-center justify-between gap-3">
+					<span className="zone-subtle text-[13px]">Completion</span>
+					<span className="font-semibold" style={{ color: accent }}>{progress}%</span>
 				</div>
-				<div style={progressTrackStyle}>
-					<div
-						style={{
-							width: `${progress}%`,
-							height: "100%",
-							background: accent,
-							transition: "width 0.3s ease",
-						}}
-					/>
+				<div className="zone-progress-track">
+					<div className="zone-progress-fill" style={{ width: `${progress}%` }} />
 				</div>
 			</div>
 
-			<div style={formGridStyle}>
+			<div className={formGridClass}>
 				<label style={{ display: "grid", gap: "8px" }}>
 					<span style={fieldLabelStyle}>Habit name</span>
 					<input
@@ -169,12 +134,12 @@ const HabitTracker: React.FC<HabitTrackerProps> = ({ accent }) => {
 							}
 						}}
 						placeholder="Read Chapter 5"
-						style={inputFieldStyle}
+						className="form-control"
 					/>
 				</label>
 				<label style={{ display: "grid", gap: "8px" }}>
 					<span style={fieldLabelStyle}>Frequency</span>
-					<select value={frequency} onChange={(event) => setFrequency(event.target.value)} style={selectFieldStyle}>
+					<select value={frequency} onChange={(event) => setFrequency(event.target.value)} className="form-control-select">
 						<option value="Daily">Daily</option>
 						<option value="Weekly">Weekly</option>
 						<option value="Monthly">Monthly</option>
@@ -182,42 +147,42 @@ const HabitTracker: React.FC<HabitTrackerProps> = ({ accent }) => {
 				</label>
 			</div>
 
-			<div style={actionsRowStyle}>
-				<button type="button" onClick={saveHabit} style={primaryButtonStyle(accent)}>
+			<div className="flex flex-wrap gap-3">
+				<button type="button" onClick={saveHabit} className="zone-btn-primary">
 					{editingIndex !== null ? "Update habit" : "Add habit"}
 				</button>
-				<button type="button" onClick={clearForm} style={ghostButtonStyle}>
+				<button type="button" onClick={clearForm} className="zone-btn-ghost">
 					Clear
 				</button>
 			</div>
 
 			{sortedHabits.length === 0 ? (
-				<div style={{ ...listSurfaceStyle, textAlign: "center", color: "hsla(199, 45%, 72%, 0.7)" }}>
+				<div className="zone-list-surface zone-empty-hint">
 					No habits yet — add your first routine to start tracking.
 				</div>
 			) : (
-				<div style={{ ...listSurfaceStyle, maxHeight: "340px", overflowY: "auto" }}>
+				<div className="zone-list-surface max-h-[340px] overflow-y-auto">
 					{sortedHabits.map((habit) => {
 						const index = habitIndex(habit);
 						return (
-						<div key={`${habit.name}-${habit.createdAt}`} style={{ ...listItemStyle, alignItems: "flex-start" }}>
-							<div style={{ display: "grid", gap: "6px", flex: 1 }}>
-								<strong style={{ color: "hsl(var(--foreground))" }}>{habit.name}</strong>
-								<span style={{ ...subtleTextStyle, fontSize: "13px" }}>Frequency: {habit.frequency}</span>
-								<span style={{ ...subtleTextStyle, fontSize: "12px" }}>Streak: {habit.streak}</span>
+						<div key={`${habit.name}-${habit.createdAt}`} className="zone-list-item items-start">
+							<div className="grid flex-1 gap-1.5">
+								<strong className="text-foreground">{habit.name}</strong>
+								<span className="text-[13px] text-muted-foreground">Frequency: {habit.frequency}</span>
+								<span className="text-xs text-muted-foreground">Streak: {habit.streak}</span>
 							</div>
 							<div style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
 								<button
 									type="button"
 									onClick={() => toggleCompletion(index)}
-									style={{ ...primaryButtonStyle(accent), padding: "8px 16px" }}
+									className="zone-btn-primary !px-4 !py-2"
 								>
 									{habit.completed ? "Completed" : "Mark complete"}
 								</button>
-								<button type="button" onClick={() => editHabit(index)} style={{ ...ghostButtonStyle, padding: "8px 14px" }}>
+								<button type="button" onClick={() => editHabit(index)} className="zone-btn-ghost !px-3.5 !py-2">
 									Edit
 								</button>
-								<button type="button" onClick={() => deleteHabit(index)} style={{ ...ghostButtonStyle, padding: "8px 14px" }}>
+								<button type="button" onClick={() => deleteHabit(index)} className="zone-btn-ghost !px-3.5 !py-2">
 									Delete
 								</button>
 							</div>

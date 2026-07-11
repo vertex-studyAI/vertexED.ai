@@ -7,20 +7,21 @@ export default function AIChatbotTutorGuide() {
   return (
     <>
       <SEO
-        title="Your 24/7 AI Tutor: Homework Help & Exam Prep | VertexED"
-        description="Stuck on a problem? VertexED's AI Chatbot is your personal tutor available 24/7. Get instant explanations for IB, IGCSE, and AP subjects."
+        title="Using Apex for study help — Socratic AI | VertexED"
+        description="How to use VertexED's Apex chat for explanations, rubric feedback, and exam technique — without outsourcing answers you can't reproduce in the hall."
         canonical="https://www.vertexed.app/resources/ai-chatbot-tutor"
-        keywords="AI tutor, homework help AI, math solver AI, physics explainer, IB tutor, IGCSE tutor, AP tutor, chemistry help, biology answers, history essay help, AI for students, free AI tutor, VertexED chatbot, study assistant, exam prep help, homework solver, instant study help"
+        keywords="Apex, study chatbot, Socratic tutoring, IB help, IGCSE revision, AP exam prep, mark scheme feedback, VertexED, exam technique, active recall"
       />
       <Article
-        title="Your 24/7 AI Tutor: How to Turn a Chatbot into a Professor"
-        subtitle="Most students use AI like a search engine. Top students use it like a Socratic tutor. Here is the guide to prompt engineering for academic success."
-        kicker="Features"
+        title="Using Apex: Socratic help instead of copy-paste answers"
+        subtitle="Apex is built to ask what you've tried, walk through reasoning, and stress-test essays against rubrics — not to finish homework for you."
+        kicker="Guides"
       >
         <p className="lead">
-          Private tutoring costs $50-$100 an hour. Teachers go to sleep at night. 
-          <Link to="/chatbot">VertexED's AI Chatbot</Link> is free (with your account), awake 24/7, and knows every syllabus from IB Math AA to AP US History. 
-          But it is only as smart as the questions you ask it.
+          Generic chatbots default to giving you the answer.{" "}
+          <Link to="/chatbot">Apex</Link> is tuned for revision: it asks about your attempt first,
+          breaks problems into steps, and respects command words when you mention your board (IB, IGCSE, AP, and others).
+          The quality of the session depends on how specific your question is.
         </p>
 
         <h2>The "Socratic" Method: Don't Ask for Answers</h2>
@@ -29,7 +30,7 @@ export default function AIChatbotTutorGuide() {
           <br />
           Instead, force the AI to teach you.
         </p>
-        <div className="bg-slate-900 p-4 rounded-lg border-l-4 border-blue-500 my-4">
+        <div className="article-callout border-l-4 border-blue-500 my-4">
           <strong>The Golden Prompt:</strong> "I am trying to solve [Problem]. I think the first step is [Your Idea], but I am stuck. Don't give me the answer. Instead, ask me a guiding question to help me figure out the next step myself."
         </div>
         <p>
@@ -108,12 +109,12 @@ export default function AIChatbotTutorGuide() {
           <li>Sal Khan (2023): Harnessing AI for Education (TED Talk) — the potential of AI as a personalized tutor.</li>
         </ul>
 
-        <div className="mt-8 text-xs text-slate-400 border-t border-white/10 pt-4">
+        <div className="article-footer">
           Editorial note: Reviewed for clarity and usefulness. Always cross‑check with your official syllabus and teacher guidance.
           <div className="mt-1">Last updated: 2025-12-24 · Author: VertexED Team</div>
         </div>
 
-        <hr className="my-8 border-white/10" />
+        <hr className="article-divider" />
         <h3>Related guides</h3>
         <ul>
           <li><Link to="/resources/how-to-use-ai-for-studying">How to Use AI for Studying</Link></li>
@@ -121,10 +122,10 @@ export default function AIChatbotTutorGuide() {
           <li><Link to="/resources/igcse-science-revision">IGCSE Science Revision</Link></li>
         </ul>
 
-        <h2>Conclusion</h2>
+        <h2>Bottom line</h2>
         <p>
-          The AI Chatbot isn't a cheat code; it's a force multiplier. It allows you to get personalized, instant feedback that used to require a human tutor. 
-          Master the art of the prompt, and you master your education.
+          Apex works when you treat it like office hours — bring your attempt, accept questions before answers, and retry without AI afterward.
+          Generic prompts get generic replies; specific attempts get mark-scheme-aware help.
         </p>
       </Article>
     </>

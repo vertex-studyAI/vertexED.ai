@@ -17,7 +17,7 @@ export default async function handler(req, res) {
   if (!user) return;
 
   if (rejectOversizedJsonBody(req, res, 512 * 1024)) return;
-  if (!rateLimitUserEndpoint(user.id, 'notebook', res)) return;
+  if (!(await rateLimitUserEndpoint(user.id, 'notebook', res))) return;
 
   const OPENAI_API_KEY = getOpenAiKey();
   if (!OPENAI_API_KEY) {

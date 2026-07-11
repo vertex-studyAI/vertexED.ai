@@ -761,11 +761,13 @@ export default async function handler(req: any, res: any) {
     return;
   }
 
-  const { verifyAuthUser } = await import('../_lib/auth.js');
+  const { verifyAuthUser, rejectOversizedJsonBody } = await import('../_lib/auth.js');
   const { rateLimitUserEndpoint } = await import('../_lib/rateLimit.js');
+  const { validateReviewImages } = await import('../_lib/security.js');
   const user = await verifyAuthUser(req, res);
   if (!user) return;
-  if (!rateLimitUserEndpoint(user.id, 'review', res)) return;
+  if (rejectOversizedJsonBody(req, res, 6 * 1024 * 1024)) return;
+  if (!(await rateLimitUserEndpoint(user.id, 'review', res))) return;
 
   if (!process.env.OPENAI_API_KEY && !process.env.ChatbotKey) {
     console.error("No API key found");
@@ -777,29 +779,40 @@ export default async function handler(req: any, res: any) {
     const { input_as_text, prompt, questionImages, answerImages } = req.body ?? {};
     let combinedInput = String(input_as_text || prompt || "").trim();
 
-    const hasQuestionImages = questionImages && questionImages.length > 0;
-    const hasAnswerImages = answerImages && answerImages.length > 0;
+    const questionCheck = validateReviewImages(questionImages);
+    if (!questionCheck.ok) {
+      return res.status(400).json({ error: questionCheck.error });
+    }
+    const answerCheck = validateReviewImages(answerImages);
+    if (!answerCheck.ok) {
+      return res.status(400).json({ error: answerCheck.error });
+    }
+
+    const hasQuestionImages = questionCheck.images.length > 0;
+    const hasAnswerImages = answerCheck.images.length > 0;
 
     if (!combinedInput && !hasQuestionImages && !hasAnswerImages) {
       return res.status(400).json({ error: "No input provided" });
     }
 
     if (hasQuestionImages) {
-      combinedInput += `\n\n[User has attached ${questionImages.length} image(s) for the QUESTION]`;
+      combinedInput += `\n\n[User has attached ${questionCheck.images.length} image(s) for the QUESTION]`;
     }
     if (hasAnswerImages) {
-      combinedInput += `\n\n[User has attached ${answerImages.length} image(s) for the ANSWER]`;
+      combinedInput += `\n\n[User has attached ${answerCheck.images.length} image(s) for the ANSWER]`;
     }
 
-    const allImages = [...(questionImages || []), ...(answerImages || [])];
+    const allImages = [...questionCheck.images, ...answerCheck.images];
 
     console.log("[review.ts] Executing workflow...");
     const result = await runWorkflow({ input_as_text: combinedInput, images: allImages });
     console.log("[review.ts] Workflow completed");
-    
-    res.status(200).json(result);
+
+    const { normalizeReviewResponse } = await import('../_lib/reviewResponse.js');
+    const normalized = normalizeReviewResponse(result);
+    res.status(200).json(normalized);
   } catch (error: any) {
     console.error("[review.ts] Error:", error);
-    res.status(500).json({ error: error.message || "Workflow execution failed" });
+    res.status(500).json({ error: "Workflow execution failed" });
   }
 }

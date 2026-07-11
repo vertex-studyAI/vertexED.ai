@@ -26,7 +26,7 @@ export default function CommandTermsGlossary({ className, compact = false }: Pro
         {terms.map(({ term, definition }) => (
           <div
             key={term}
-            className="rounded-xl border border-white/10 bg-white/5 px-4 py-3"
+            className="rounded-xl border border-border/60 bg-foreground/[0.04] px-4 py-3"
           >
             <p className="font-medium text-primary text-sm">{term}</p>
             <p className="text-xs text-muted-foreground mt-1 leading-relaxed">{definition}</p>

@@ -1,5 +1,5 @@
 /**
- * Catalog of 20 portal innovations — powers the discovery ribbon and onboarding hints.
+ * Catalog of portal innovations — powers the discovery ribbon and onboarding hints.
  */
 export type PortalFeature = {
   id: string;
@@ -11,28 +11,28 @@ export type PortalFeature = {
 };
 
 export const PORTAL_FEATURES: PortalFeature[] = [
-  { id: 'retrieval-pulse', anchorId: 'retrieval-pulse', name: 'Retrieval Pulse', tagline: 'One honest read on what deserves your attention tonight', size: 'large', status: 'live' },
-  { id: 'today-plan', anchorId: 'today-plan', name: "Today's Plan", tagline: 'Planner tasks, adaptive picks, and your pulse action in one list', size: 'medium', status: 'live' },
-  { id: 'subject-mastery', anchorId: 'subject-mastery', name: 'Subject Mastery', tagline: 'Where your marks land per subject — with trends, not vibes', size: 'medium', status: 'live' },
-  { id: 'memory-decay', anchorId: 'memory-decay', name: 'Memory Decay Radar', tagline: 'Topics you have not touched in days — before they slip', size: 'small', status: 'live' },
-  { id: 'marks-gap', anchorId: 'marks-gap', name: 'Marks Gap', tagline: 'How far each subject is from your 80% target', size: 'small', status: 'live' },
-  { id: 'revision-velocity', anchorId: 'revision-velocity', name: 'Revision Velocity', tagline: 'Whether your mastery is climbing, flat, or dipping this week', size: 'small', status: 'live' },
-  { id: 'interleave-mixer', anchorId: 'interleave-mixer', name: 'Interleave Mixer', tagline: 'Which two subjects to alternate in your next session', size: 'small', status: 'live' },
-  { id: 'weak-sprint', anchorId: 'weak-sprint', name: 'Weak Topic Sprint', tagline: 'A short, focused block on your worst-scoring topic', size: 'small', status: 'live' },
-  { id: 'confidence-checkin', anchorId: 'confidence-checkin', name: 'Confidence Check-in', tagline: 'Rate how exam-ready each subject feels — we use this in your plan', size: 'small', status: 'live' },
-  { id: 'quick-capture', anchorId: 'quick-capture', name: 'Quick Capture', tagline: 'Jot a doubt and send it straight to Apex', size: 'small', status: 'live' },
-  { id: 'command-drill', anchorId: 'command-drill', name: 'Command Word Drill', tagline: 'Flash mark-scheme verbs until they are automatic', size: 'small', status: 'live' },
-  { id: 'flashcard-heatmap', anchorId: 'flashcard-heatmap', name: 'Flashcard Heatmap', tagline: 'Due cards broken down by deck so you know where to start', size: 'small', status: 'live' },
-  { id: 'exam-night', anchorId: 'exam-night', name: 'Exam Night Protocol', tagline: 'A calm checklist when your paper is 72 hours away or less', size: 'medium', status: 'live' },
-  { id: 'loop-closure', anchorId: 'loop-closure', name: 'Loop Closure', tagline: 'The study-loop step you have not done this week yet', size: 'small', status: 'live' },
-  { id: 'apex-brief', name: 'Apex Daily Brief', tagline: 'One coaching line built from your real study data', size: 'small', status: 'live' },
-  { id: 'focus-score', name: 'Focus Score', tagline: 'Habits, loop completion, streak, and mastery combined', size: 'small', status: 'live' },
-  { id: 'streak-calendar', name: 'Streak Calendar', tagline: 'Seven days of study activity at a glance', size: 'small', status: 'live' },
-  { id: 'benchmark', anchorId: 'readiness-benchmark', name: 'Readiness Index', tagline: 'Your exam-readiness score from retrieval signals — not a fake percentile', size: 'small', status: 'live' },
-  { id: 'board-tips', anchorId: 'board-tips', name: 'Board Mark Tips', tagline: 'Examiner logic tailored to your board', size: 'small', status: 'live' },
-  { id: 'data-export', anchorId: 'data-export', name: 'Data Portability', tagline: 'Download your learner profile, weakness map, and confidence ratings', size: 'small', status: 'live' },
-  { id: 'study-notebook', name: 'Study Notebook', tagline: '17 studio outputs: grounded chat, world model, board deep dives, audio, quizzes', size: 'large', status: 'live' },
-  { id: 'world-model', name: 'World Model Learning', tagline: 'Concept constellation — foundations, weak nodes, exam simulations', size: 'large', status: 'live' },
-  { id: 'board-library', name: 'Board Resource Library', tagline: '1000+ word IB, AP, IGCSE, ICSE guides generated for your board', size: 'large', status: 'live' },
-  { id: 'sketch-pad', name: 'Sketch Notepad', tagline: 'iPad & Apple Pencil canvas — diagrams to Study Notebook', size: 'medium', status: 'live' },
+  { id: 'retrieval-pulse', anchorId: 'retrieval-pulse', name: 'Retrieval Pulse', tagline: 'What deserves your attention tonight — due cards, weak topics, planner tasks, or the missing loop step', size: 'large', status: 'live' },
+  { id: 'today-plan', anchorId: 'today-plan', name: "Today's Plan", tagline: 'Planner tasks, adaptive recommendations, and your pulse action in one ordered list', size: 'medium', status: 'live' },
+  { id: 'subject-mastery', anchorId: 'subject-mastery', name: 'Subject Mastery', tagline: 'Estimated mark band per subject from mocks and reviews — with trend, not guesswork', size: 'medium', status: 'live' },
+  { id: 'memory-decay', anchorId: 'memory-decay', name: 'Memory Decay Radar', tagline: 'Topics you have not practised recently — before they slip out of retrieval range', size: 'small', status: 'live' },
+  { id: 'marks-gap', anchorId: 'marks-gap', name: 'Marks Gap', tagline: 'Distance from your target percentage in each subject based on recent scores', size: 'small', status: 'live' },
+  { id: 'revision-velocity', anchorId: 'revision-velocity', name: 'Revision Velocity', tagline: 'Whether mastery scores are climbing, flat, or dropping over the last seven days', size: 'small', status: 'live' },
+  { id: 'interleave-mixer', anchorId: 'interleave-mixer', name: 'Interleave Mixer', tagline: 'Suggests two subjects to alternate in your next session for better retention', size: 'small', status: 'live' },
+  { id: 'weak-sprint', anchorId: 'weak-sprint', name: 'Weak Topic Sprint', tagline: 'A short block focused on your lowest-scoring topic from recent mocks or reviews', size: 'small', status: 'live' },
+  { id: 'confidence-checkin', anchorId: 'confidence-checkin', name: 'Confidence Check-in', tagline: 'Rate how exam-ready each subject feels — feeds into today\'s plan and Apex brief', size: 'small', status: 'live' },
+  { id: 'quick-capture', anchorId: 'quick-capture', name: 'Quick Capture', tagline: 'Jot a doubt from class and open Apex with the question pre-filled', size: 'small', status: 'live' },
+  { id: 'command-drill', anchorId: 'command-drill', name: 'Command Word Drill', tagline: 'Flash mark-scheme verbs — analyse, evaluate, justify — until responses match the board', size: 'small', status: 'live' },
+  { id: 'flashcard-heatmap', anchorId: 'flashcard-heatmap', name: 'Flashcard Heatmap', tagline: 'Due cards split by deck so you know which topic pile to clear first', size: 'small', status: 'live' },
+  { id: 'exam-night', anchorId: 'exam-night', name: 'Exam Night Protocol', tagline: 'Checklist for the last 72 hours — materials, sleep, light review, no new chapters', size: 'medium', status: 'live' },
+  { id: 'loop-closure', anchorId: 'loop-closure', name: 'Loop Closure', tagline: 'Which revision-loop step you have not completed this week — plan, focus, practise, review, or remember', size: 'small', status: 'live' },
+  { id: 'apex-brief', name: 'Apex Daily Brief', tagline: 'One coaching line from your streak, due cards, exam countdown, and weak topics', size: 'small', status: 'live' },
+  { id: 'focus-score', name: 'Focus Score', tagline: 'Combined signal from habits, loop completion, streak length, and mastery trend', size: 'small', status: 'live' },
+  { id: 'streak-calendar', name: 'Streak Calendar', tagline: 'Last seven days of logged study activity', size: 'small', status: 'live' },
+  { id: 'benchmark', anchorId: 'readiness-benchmark', name: 'Readiness Index', tagline: 'Exam-readiness estimate from retrieval signals — not a percentile against other users', size: 'small', status: 'live' },
+  { id: 'board-tips', anchorId: 'board-tips', name: 'Board Mark Tips', tagline: 'Short examiner-style notes for your selected board and subjects', size: 'small', status: 'live' },
+  { id: 'data-export', anchorId: 'data-export', name: 'Data Portability', tagline: 'Download learner profile, weakness map, and confidence ratings as JSON', size: 'small', status: 'live' },
+  { id: 'study-notebook', name: 'Study Notebook', tagline: 'Source-based workspace — grounded chat, study guides, world model, board deep dives, audio scripts', size: 'large', status: 'live' },
+  { id: 'world-model', name: 'World Model Learning', tagline: 'Concept graph with foundations, weak nodes, and short exam-style prompts per topic', size: 'large', status: 'live' },
+  { id: 'board-library', name: 'Board Resource Library', tagline: 'Long-form guides for IB, AP, IGCSE, ICSE, and other boards — generated to syllabus depth', size: 'large', status: 'live' },
+  { id: 'sketch-pad', name: 'Sketch Notepad', tagline: 'Canvas for diagrams and worked steps — optimised for iPad and Apple Pencil, exports to Study Notebook', size: 'medium', status: 'live' },
 ];

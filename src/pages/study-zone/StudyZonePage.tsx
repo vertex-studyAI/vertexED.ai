@@ -1,6 +1,8 @@
 import React, { useEffect, useMemo } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link, useSearchParams } from "react-router-dom";
+import { ArrowLeft, LayoutGrid } from "lucide-react";
+import { cn } from "@/lib/utils";
 import ActivityLog from "./components/ActivityLog";
 import Assistant from "./components/Assistant";
 import Calendar from "./components/Calendar";
@@ -11,7 +13,6 @@ import NoteTaker from "./components/NoteTaker";
 import TimerApp from "./components/TimerApp";
 import GraphingSuite from "./components/GraphingSuite";
 import SketchPad from "@/components/sketch/SketchPad";
-import { sectionHeadingStyle, subtleBadgeStyle, subtleTextStyle, surfaceStyle } from "./styles";
 
 type WidgetKey =
   | "timer"
@@ -33,86 +34,6 @@ interface WidgetMeta {
   badge?: string;
   span?: "default" | "wide";
 }
-
-const pageWrapperStyle: React.CSSProperties = {
-  minHeight: "100vh",
-  padding: "48px 24px 96px",
-  maxWidth: "1280px",
-  margin: "0 auto",
-  display: "flex",
-  flexDirection: "column",
-  gap: "36px",
-};
-
-const backLinkStyle: React.CSSProperties = {
-  display: "inline-flex",
-  alignItems: "center",
-  gap: "8px",
-  padding: "10px 18px",
-  fontSize: "14px",
-  borderRadius: "999px",
-  border: "1px solid hsla(199, 45%, 36%, 0.24)",
-  background: "linear-gradient(135deg, hsla(216, 18%, 18%, 0.52), hsla(216, 18%, 12%, 0.48))",
-  color: "hsl(var(--foreground))",
-  textDecoration: "none",
-  width: "fit-content",
-};
-
-const heroWrapperStyle: React.CSSProperties = {
-  display: "flex",
-  flexDirection: "column",
-  gap: "12px",
-};
-
-const heroTitleStyle: React.CSSProperties = {
-  fontSize: "clamp(2.4rem, 2.8vw, 3rem)",
-  fontWeight: 700,
-  letterSpacing: "-0.015em",
-  margin: 0,
-};
-
-const heroSubtitleStyle: React.CSSProperties = {
-  ...subtleTextStyle,
-  maxWidth: "640px",
-};
-
-const widgetGridStyle: React.CSSProperties = {
-  display: "grid",
-  gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 300px), 1fr))",
-  gap: "28px",
-};
-
-const sectionHeaderStyle: React.CSSProperties = {
-  display: "flex",
-  flexDirection: "column",
-  gap: "8px",
-};
-
-const withAlpha = (color: string, alpha: number) => {
-  if (color.startsWith("hsl(")) {
-    if (color.includes("/")) {
-      return color.replace(/\/[^)]+\)/, `/ ${alpha})`);
-    }
-    return color.replace(")", ` / ${alpha})`);
-  }
-  return color;
-};
-
-const accentDotStyle = (accent: string): React.CSSProperties => ({
-  width: "12px",
-  height: "12px",
-  borderRadius: "999px",
-  background: accent,
-  boxShadow: `0 0 18px ${withAlpha(accent, 0.4)}`,
-});
-
-const sectionWrapperStyle = (accent: string, span?: "default" | "wide"): React.CSSProperties => ({
-  ...surfaceStyle,
-  gap: "24px",
-  border: `1px solid ${withAlpha(accent, 0.28)}`,
-  boxShadow: `0 32px 74px rgba(5, 9, 18, 0.52), 0 0 0 1px ${withAlpha(accent, 0.22)}`,
-  gridColumn: span === "wide" ? "1 / -1" : undefined,
-});
 
 const StudyZonePage: React.FC = () => {
   const [searchParams] = useSearchParams();
@@ -139,71 +60,71 @@ const StudyZonePage: React.FC = () => {
       {
         key: "timer",
         title: "Timer Suite",
-        description: "Countdown, stopwatch, or Pomodoro — whatever helps you lock in.",
-        accent: "hsl(199 84% 62%)",
+        description: "Countdown, stopwatch, or Pomodoro — set the length to match your planner block and log when you finish.",
+        accent: "hsl(var(--primary))",
         badge: "Focus",
         span: "wide",
       },
       {
         key: "assistant",
-        title: "AI Assistant",
-        description: "Need a plan or a quick explanation? Just ask.",
-        accent: "hsl(168 72% 58%)",
+        title: "Apex",
+        description: "Ask mid-session without leaving the desk — concept checks, essay structure, or what to do in the next ten minutes.",
+        accent: "hsl(168 72% 48%)",
         badge: "AI",
         span: "wide",
       },
       {
         key: "activity",
         title: "Activity Log",
-        description: "Jot down wins, rough patches, and milestones as you go.",
-        accent: "hsl(12 78% 64%)",
+        description: "Record what you covered, where you got stuck, and what to retry — feeds your dashboard and next plan.",
+        accent: "hsl(12 78% 54%)",
       },
       {
         key: "calendar",
         title: "Monthly Calendar",
-        description: "See what's coming up and block time for the work that matters.",
-        accent: "hsl(222 74% 72%)",
+        description: "See mocks, deadlines, and blocked study time at a glance — complements the full planner.",
+        accent: "hsl(222 74% 58%)",
       },
       {
         key: "calculator",
         title: "Scientific Calculator",
-        description: "Trig, logs, roots, constants — the usual suspects, built in.",
-        accent: "hsl(47 92% 68%)",
+        description: "Trig, logs, roots, and constants for maths and science problems without switching apps.",
+        accent: "hsl(47 92% 48%)",
       },
       {
         key: "graphing",
         title: "Graphing Suite",
-        description: "Open Desmos classic or 3D without leaving the page.",
-        accent: "hsl(199 82% 65%)",
+        description: "Desmos 2D and 3D embedded here — plot functions and check graphs while you revise.",
+        accent: "hsl(var(--primary))",
         badge: "New",
         span: "wide",
       },
       {
         key: "habits",
         title: "Habit Tracker",
-        description: "Set small routines, track streaks, and keep showing up.",
-        accent: "hsl(199 68% 60%)",
+        description: "Small daily targets — read one section, one mock question, one deck review — with streaks that show on your dashboard.",
+        accent: "hsl(var(--primary))",
         badge: "New",
       },
       {
         key: "meditation",
         title: "Breath Meditation",
-        description: "A few guided breaths when you need to reset.",
-        accent: "hsl(266 72% 74%)",
+        description: "Short guided breathing between blocks — useful before a mock or when anxiety spikes.",
+        accent: "hsl(266 72% 58%)",
       },
       {
         key: "sketch",
         title: "Sketch Notepad",
         description: "Draw diagrams, annotate problems, and send sketches to your Study Notebook — built for iPad and Apple Pencil.",
-        accent: "hsl(280 68% 68%)",
+        accent: "hsl(280 68% 58%)",
         badge: "iPad",
         span: "wide",
       },
       {
         key: "notes",
         title: "Quick Notes",
-        description: "Quick capture for ideas mid-session. (For full AI notes, head to AI Notes.)",
-        accent: "hsl(199 62% 60%)",
+        description: "Capture an idea or worked step during a session. For full AI notes and flashcards, use AI Notes from the dashboard.",
+        accent: "hsl(var(--primary))",
       },
     ],
     [],
@@ -237,38 +158,45 @@ const StudyZonePage: React.FC = () => {
   };
 
   return (
-    <div style={pageWrapperStyle}>
+    <div className="min-h-screen max-w-7xl mx-auto px-4 md:px-6 py-10 md:py-12 pb-24 flex flex-col gap-8 md:gap-10">
       <Helmet>
-        <title>Vertex — Study Zone</title>
-        <meta name="description" content="A curated study dashboard with timers, notes, AI, meditation, graphing, and more." />
+        <title>Study Zone — VertexED</title>
+        <meta name="description" content="Study Zone — timers, Apex, calculator, Desmos, habits, and session notes on one page for focused revision blocks." />
         <link rel="canonical" href="https://www.vertexed.app/study-zone" />
       </Helmet>
 
-      <div style={{ display: "flex", flexWrap: "wrap", gap: "12px" }}>
-        <Link to="/main" style={backLinkStyle}>
-          <span aria-hidden="true">←</span>
+      <div className="flex flex-wrap gap-3">
+        <Link
+          to="/main"
+          className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-foreground/[0.04] px-4 py-2 text-sm text-foreground hover:bg-foreground/[0.07] hover:border-primary/25 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        >
+          <ArrowLeft className="h-3.5 w-3.5" aria-hidden />
           Dashboard
         </Link>
-        <Link to="/learning-hub" style={backLinkStyle}>
+        <Link
+          to="/learning-hub"
+          className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-foreground/[0.04] px-4 py-2 text-sm text-foreground hover:bg-foreground/[0.07] hover:border-primary/25 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        >
+          <LayoutGrid className="h-3.5 w-3.5" aria-hidden />
           Learning Hub
         </Link>
       </div>
 
-      <header style={heroWrapperStyle}>
-        <span style={{ fontSize: "13px", letterSpacing: "0.18em", textTransform: "uppercase", color: "hsla(199, 45%, 72%, 0.75)" }}>
+      <header className="flex flex-col gap-3">
+        <span className="text-xs uppercase tracking-[0.18em] text-primary font-medium">
           {focusMode ? "Focus session" : "Study Zone"}
         </span>
-        <h1 style={heroTitleStyle}>
-          {focusMode ? "Deep work starts here" : "Craft Your Focus Command Center"}
+        <h1 className="text-[clamp(2rem,5vw,3rem)] font-bold tracking-tight text-foreground leading-tight">
+          {focusMode ? "Focus block" : "Your study desk"}
         </h1>
-        <p style={heroSubtitleStyle}>
+        <p className="text-base text-muted-foreground leading-relaxed max-w-2xl">
           {focusMode
-            ? "Timer is ready below — block distractions, set your duration, and lock in."
-            : "Timers, AI help, quick notes, breathing exercises, and graphing — all on one page, so you never have to tab-hop."}
+            ? "Timer below — set length, start, and stay on one task until the block ends. Other widgets stay visible but dimmed."
+            : "Everything for a single session lives here: Pomodoro or countdown timer, Apex for stuck points, calculator and Desmos, habit streaks, and quick notes — so you don't open another tab mid-chapter."}
         </p>
       </header>
 
-      <div style={widgetGridStyle}>
+      <div className="grid grid-cols-1 md:grid-cols-[repeat(auto-fit,minmax(min(100%,300px),1fr))] gap-6 md:gap-7">
         {widgetMeta.map((meta) => (
           <section
             key={meta.key}
@@ -279,25 +207,36 @@ const StudyZonePage: React.FC = () => {
                   ? "study-zone-sketch"
                   : undefined
             }
+            className={cn(
+              "glass-panel p-6 md:p-7 flex flex-col gap-5 transition-all duration-300",
+              meta.span === "wide" && "md:col-span-full",
+              focusMode && meta.key !== "timer" && "opacity-45 saturate-[0.7]",
+              focusMode && meta.key === "timer" && "ring-2 ring-primary/40",
+            )}
             style={{
-              ...sectionWrapperStyle(meta.accent, meta.span),
-              ...(focusMode && meta.key !== "timer"
-                ? { opacity: 0.45, filter: "saturate(0.7)" }
-                : {}),
-              ...(focusMode && meta.key === "timer"
-                ? {
-                    boxShadow: `0 0 0 2px ${withAlpha(meta.accent, 0.55)}, 0 32px 74px rgba(5, 9, 18, 0.52)`,
-                  }
-                : {}),
+              borderColor: `color-mix(in srgb, ${meta.accent} 28%, hsl(var(--border)))`,
+              ['--widget-accent' as string]: meta.accent,
+              boxShadow: focusMode && meta.key === "timer"
+                ? `0 0 0 1px color-mix(in srgb, ${meta.accent} 40%, transparent), var(--shadow-soft)`
+                : undefined,
             }}
           >
-            <div style={sectionHeaderStyle}>
-              <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                <span style={accentDotStyle(meta.accent)} />
-                {meta.badge ? <span style={subtleBadgeStyle(meta.accent)}>{meta.badge}</span> : null}
+            <div className="flex flex-col gap-2">
+              <div className="flex items-center gap-2.5">
+                <span
+                  className="h-3 w-3 rounded-full shrink-0"
+                  style={{
+                    background: meta.accent,
+                    boxShadow: `0 0 14px color-mix(in srgb, ${meta.accent} 45%, transparent)`,
+                  }}
+                  aria-hidden
+                />
+                {meta.badge && (
+                  <span className="glass-badge">{meta.badge}</span>
+                )}
               </div>
-              <h2 style={sectionHeadingStyle}>{meta.title}</h2>
-              <p style={{ ...subtleTextStyle, margin: 0 }}>{meta.description}</p>
+              <h2 className="text-xl font-semibold tracking-tight text-foreground">{meta.title}</h2>
+              <p className="text-sm text-muted-foreground leading-relaxed m-0">{meta.description}</p>
             </div>
 
             {renderWidget(meta.key, meta.accent)}

@@ -5,7 +5,7 @@ import CurriculumSelector from "@/components/curriculum/CurriculumSelector";
 import BoardBadge from "@/components/curriculum/BoardBadge";
 import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
-import { User, LogOut, Settings, RefreshCw, AlertTriangle, Save } from "lucide-react";
+import { User, LogOut, Settings, RefreshCw, AlertTriangle, Save, Trash2 } from "lucide-react";
 import PageSection from "@/components/PageSection";
 import { useEffect, useState } from "react";
 import { getStudyStats } from "@/lib/studyStats";
@@ -66,6 +66,7 @@ export default function UserSettings() {
   const [sessionMinutes, setSessionMinutes] = useState(learnerProfile.preferences.sessionMinutes);
   const [savingCurriculum, setSavingCurriculum] = useState(false);
   const [savingProfile, setSavingProfile] = useState(false);
+  const [deletingAccount, setDeletingAccount] = useState(false);
   const { settings: a11y, update: updateA11y } = useAccessibility();
 
   useEffect(() => {
@@ -79,12 +80,25 @@ export default function UserSettings() {
   }, [user]);
 
   const saveCurriculum = async () => {
-    if (!supabase) return;
+    if (!supabase || !user) return;
     setSavingCurriculum(true);
     try {
       const metadata = buildCurriculumMetadata(curriculum, user?.user_metadata ?? {});
       const { error } = await supabase.auth.updateUser({ data: metadata });
       if (error) throw error;
+
+      const { error: profileError } = await supabase
+        .from("profiles")
+        .update({
+          board: curriculum.board ?? null,
+          grade: curriculum.grade ?? null,
+          subjects: curriculum.subjects ?? [],
+          exam_date: curriculum.examDate ?? null,
+          updated_at: new Date().toISOString(),
+        })
+        .eq("id", user.id);
+      if (profileError) throw profileError;
+
       toast({ title: "Curriculum saved", description: "Your board and subjects are updated across all tools." });
     } catch (e) {
       toast({ title: "Could not save", description: e instanceof Error ? e.message : "Try again.", variant: "destructive" });
@@ -113,7 +127,7 @@ export default function UserSettings() {
       if (error) throw error;
       toast({
         title: "Learning profile saved",
-        description: "Apex, adaptive plans, and session lengths now match your preferences.",
+        description: "Apex, planner suggestions, and default focus-block length now follow your saved preferences.",
       });
     } catch (e) {
       toast({
@@ -154,6 +168,34 @@ export default function UserSettings() {
     } catch (e) {
       console.error("Logout error", e);
       navigate("/", { replace: true });
+    }
+  };
+
+  const handleDeleteAccount = async () => {
+    const confirmed = window.confirm(
+      "Delete your VertexED account permanently? Saved work in the cloud will be removed. This cannot be undone.",
+    );
+    if (!confirmed) return;
+
+    setDeletingAccount(true);
+    try {
+      const { authFetch } = await import("@/lib/apiAuth");
+      const res = await authFetch("/api/account", { method: "DELETE" });
+      const data = await res.json().catch(() => null);
+      if (!res.ok) {
+        throw new Error(data?.error || "Account deletion failed");
+      }
+      await logout();
+      toast({ title: "Account deleted" });
+      navigate("/", { replace: true });
+    } catch (err) {
+      toast({
+        title: "Could not delete account",
+        description: err instanceof Error ? err.message : "Try again or contact support.",
+        variant: "destructive",
+      });
+    } finally {
+      setDeletingAccount(false);
     }
   };
 
@@ -266,8 +308,8 @@ export default function UserSettings() {
           </NeumorphicCard>
 
           <NeumorphicCard className="p-8" title="Learning Profile">
-            <p className="text-sm text-muted-foreground mb-5">
-              These choices shape Apex&apos;s tone, your adaptive recommendations, and default session lengths across the portal.
+            <p className="text-sm text-muted-foreground mb-5 leading-relaxed">
+              Goal, year group, and Apex style tune dashboard recommendations, session length defaults, and how direct vs Socratic replies feel.
             </p>
             <div className="space-y-5">
               <label className="block">
@@ -278,10 +320,10 @@ export default function UserSettings() {
                   onChange={(e) => setStudyGoal(e.target.value as StudyGoal | "")}
                 >
                   <option value="">Not set</option>
-                  <option value="ace_exams">Ace upcoming exams</option>
-                  <option value="catch_up">Catch up on topics</option>
-                  <option value="build_habits">Build study habits</option>
-                  <option value="understand_better">Understand subjects better</option>
+                  <option value="ace_exams">Maximise exam marks</option>
+                  <option value="catch_up">Close topic gaps</option>
+                  <option value="build_habits">Build steady routines</option>
+                  <option value="understand_better">Understand deeply</option>
                 </select>
               </label>
               <label className="block">
@@ -404,16 +446,19 @@ export default function UserSettings() {
 
           <NeumorphicCard className="p-8" title="Saved Study Work">
             {cloudUnavailable && (
-              <p className="text-xs text-sky-300/90 mb-3">
+              <p className="text-xs text-primary/90 mb-3">
                 Cloud sync is off — your work is saved on this device and can be reopened anytime.
               </p>
             )}
             {loadingArtifacts ? (
-              <p className="text-sm text-muted-foreground">Loading saved study work...</p>
+              <div className="space-y-2">
+                <div className="h-4 w-3/4 rounded skeleton-shimmer" />
+                <div className="h-4 w-1/2 rounded skeleton-shimmer" />
+              </div>
             ) : artifactError ? (
               <div className="space-y-3">
-                <p className="text-sm text-amber-300 flex items-start gap-2">
-                  <AlertTriangle className="h-4 w-4 mt-0.5 shrink-0" />
+                <p className="text-sm text-destructive flex items-start gap-2">
+                  <AlertTriangle className="h-4 w-4 mt-0.5 shrink-0" aria-hidden />
                   <span>{artifactError}</span>
                 </p>
                 <button
@@ -462,14 +507,14 @@ export default function UserSettings() {
 
               <button
                 onClick={() => navigate("/learning-hub")}
-                className="w-full neu-button text-left justify-start gap-3 py-4 bg-white/5 hover:bg-white/10"
+                className="w-full neu-button text-left justify-start gap-3 py-4"
               >
                 Learning Hub
               </button>
 
               <button
                 onClick={handleLogout}
-                className="w-full neu-button text-left justify-start gap-3 py-4 border border-red-500/20 bg-red-500/10 hover:bg-red-500/15"
+                className="w-full neu-button text-left justify-start gap-3 py-4 border border-destructive/25 bg-destructive/10 hover:bg-destructive/15 text-destructive"
               >
                 <LogOut className="h-4 w-4" />
                 Sign Out
@@ -477,10 +522,19 @@ export default function UserSettings() {
 
               <button
                 onClick={exportAccountData}
-                className="w-full neu-button text-left justify-start gap-3 py-4 bg-white/5 hover:bg-white/10"
+                className="w-full neu-button text-left justify-start gap-3 py-4"
                 title="Download your account profile data"
               >
                 Export Account Data
+              </button>
+
+              <button
+                onClick={() => void handleDeleteAccount()}
+                disabled={deletingAccount}
+                className="w-full neu-button text-left justify-start gap-3 py-4 border border-destructive/25 bg-destructive/10 hover:bg-destructive/15 text-destructive disabled:opacity-60"
+              >
+                <Trash2 className="h-4 w-4" />
+                {deletingAccount ? "Deleting account…" : "Delete Account"}
               </button>
             </div>
           </NeumorphicCard>

@@ -21,8 +21,9 @@ export default function AIChatbot() {
   const chatPanelRef = useRef<HTMLDivElement | null>(null);
   const handoffHandled = useRef(false);
 
-  const { messages, input, setInput, loading, sendMessage, clearChat } = useApexChat({
+  const { messages, input, setInput, loading, streamingMessageId, sendMessage, cancelMessage, clearChat } = useApexChat({
     context: studyContext,
+    threadKey: 'apex-main',
     onSessionRecord: recordStudySession,
   });
 
@@ -102,15 +103,21 @@ export default function AIChatbot() {
                 )}
 
                 <div ref={chatPanelRef} className="apex-chat-surface flex-1 overflow-y-auto">
-                  <ApexMessageList messages={messages} loading={loading} context={studyContext} />
+                  <ApexMessageList
+                    messages={messages}
+                    loading={loading}
+                    streamingMessageId={streamingMessageId}
+                    context={studyContext}
+                  />
                 </div>
 
                 <ApexChatInput
                   value={input}
                   onChange={setInput}
                   onSend={send}
+                  onCancel={cancelMessage}
                   loading={loading}
-                  placeholder="Ask Apex — concept, essay, mock strategy…"
+                  placeholder="Ask about a concept, essay structure, or what to do in your next 25-minute block…"
                 />
               </div>
             </TabsContent>

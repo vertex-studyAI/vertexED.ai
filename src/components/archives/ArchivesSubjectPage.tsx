@@ -107,7 +107,7 @@ export default function ArchivesSubjectPage({
           </nav>
         </div>
 
-        <div className="flex flex-wrap gap-2 border-b border-white/10 mb-6">
+        <div className="flex flex-wrap gap-2 border-b border-border/60 mb-6">
           {tabs.map((tab) => (
             <button
               key={tab}
@@ -115,7 +115,7 @@ export default function ArchivesSubjectPage({
               onClick={() => setActiveTab(tab)}
               className={`px-4 py-2 text-sm rounded-t-md transition ${
                 activeTab === tab
-                  ? "bg-white/10 text-foreground border border-white/10 border-b-0"
+                  ? "bg-foreground/[0.06] text-foreground border border-border/60 border-b-0"
                   : "text-muted-foreground hover:text-foreground"
               }`}
             >

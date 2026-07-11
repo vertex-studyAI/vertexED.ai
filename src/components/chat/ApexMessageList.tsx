@@ -1,18 +1,23 @@
-import { lazy, Suspense } from 'react';
+import ChatMarkdown from '@/components/chat/ChatMarkdown';
 import type { ApexChatMessage } from '@/hooks/useApexChat';
 import { APEX_TAGLINE } from '@/content/apex';
 import type { StudyPageContext } from '@/lib/studyContext';
 
-const ChatMarkdown = lazy(() => import('@/components/chat/ChatMarkdown'));
-
 type Props = {
   messages: ApexChatMessage[];
   loading: boolean;
+  streamingMessageId?: string | null;
   context: StudyPageContext;
   compact?: boolean;
 };
 
-export default function ApexMessageList({ messages, loading, context, compact = false }: Props) {
+export default function ApexMessageList({
+  messages,
+  loading,
+  streamingMessageId = null,
+  context,
+  compact = false,
+}: Props) {
   return (
     <div className={`apex-chat-messages ${compact ? 'apex-chat-messages-compact' : ''}`} aria-live="polite">
       {messages.length === 0 && !loading && (
@@ -27,23 +32,30 @@ export default function ApexMessageList({ messages, loading, context, compact = 
         </div>
       )}
 
-      {messages.map((msg) => (
-        <div
-          key={msg.id}
-          className={`apex-bubble ${msg.role === 'user' ? 'apex-bubble-user' : 'apex-bubble-assistant'}`}
-        >
-          <p className="apex-bubble-label">{msg.role === 'user' ? 'You' : 'Apex'}</p>
-          {msg.role === 'assistant' ? (
-            <Suspense fallback={<span className="text-muted-foreground text-sm">…</span>}>
-              <ChatMarkdown className="text-sm">{msg.text || '…'}</ChatMarkdown>
-            </Suspense>
-          ) : (
-            <p className="text-sm text-foreground/95 whitespace-pre-wrap">{msg.text}</p>
-          )}
-        </div>
-      ))}
+      {messages.map((msg) => {
+        const isStreamingAssistant =
+          msg.role === 'assistant' && loading && msg.id === streamingMessageId;
 
-      {loading && (
+        return (
+          <div
+            key={msg.id}
+            className={`apex-bubble ${msg.role === 'user' ? 'apex-bubble-user' : 'apex-bubble-assistant'}`}
+          >
+            <p className="apex-bubble-label">{msg.role === 'user' ? 'You' : 'Apex'}</p>
+            {msg.role === 'assistant' ? (
+              isStreamingAssistant ? (
+                <p className="text-sm text-foreground/95 whitespace-pre-wrap">{msg.text || '…'}</p>
+              ) : (
+                <ChatMarkdown className="text-sm">{msg.text || '…'}</ChatMarkdown>
+              )
+            ) : (
+              <p className="text-sm text-foreground/95 whitespace-pre-wrap">{msg.text}</p>
+            )}
+          </div>
+        );
+      })}
+
+      {loading && !streamingMessageId && (
         <div className="apex-typing" aria-hidden>
           <span />
           <span />

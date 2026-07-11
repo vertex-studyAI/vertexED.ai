@@ -1,6 +1,6 @@
 import type { StudyPageContext } from '@/lib/studyContext';
 
-export const APEX_TAGLINE = 'Discussion-first study AI — explains before it answers.';
+export const APEX_TAGLINE = 'Discussion-first study AI — asks what you have tried, then explains step by step before suggesting a fix.';
 
 export type ApexPrompt = {
   label: string;

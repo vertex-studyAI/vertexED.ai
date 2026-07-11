@@ -2,6 +2,7 @@ type Props = {
   value: string;
   onChange: (value: string) => void;
   onSend: () => void;
+  onCancel?: () => void;
   loading?: boolean;
   disabled?: boolean;
   placeholder?: string;
@@ -12,6 +13,7 @@ export default function ApexChatInput({
   value,
   onChange,
   onSend,
+  onCancel,
   loading,
   disabled,
   placeholder = 'Discuss, deliberate, ask…',
@@ -32,10 +34,10 @@ export default function ApexChatInput({
       <button
         type="button"
         className="btn-solid text-sm px-4 py-2 shrink-0 disabled:opacity-50"
-        onClick={onSend}
-        disabled={isDisabled || !value.trim()}
+        onClick={loading && onCancel ? onCancel : onSend}
+        disabled={loading ? !onCancel : isDisabled || !value.trim()}
       >
-        Send
+        {loading && onCancel ? 'Stop' : 'Send'}
       </button>
     </div>
   );

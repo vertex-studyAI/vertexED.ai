@@ -7,16 +7,16 @@ export default function MemorizationTechniques() {
   return (
     <>
       <SEO
-        title="How to Memorize Anything Fast: Memory Palace vs. Spaced Repetition | VertexED"
-        description="Struggling to remember facts? Compare the best memorization techniques: The Memory Palace (Loci Method), Spaced Repetition, and Active Recall. Learn which one fits your learning style."
+        title="Memory techniques for exam revision | VertexED"
+        description="When to use a memory palace, spaced repetition, or teaching-back — three approaches that match how recall actually works under exam pressure."
         canonical="https://www.vertexed.app/resources/how-to-memorize-anything-fast"
-        keywords="how to memorize fast, memory palace technique, method of loci, spaced repetition, active recall, mnemonics, study hacks, VertexED, remembering facts"
+        keywords="how to memorize for exams, memory palace technique, method of loci, spaced repetition, active recall, mnemonics, VertexED, remembering facts"
         jsonLd={[
           {
             "@context": "https://schema.org",
             "@type": "Article",
-            headline: "How to Memorize Anything Fast: The Memory Palace vs. Spaced Repetition",
-            description: "Struggling to remember facts? Compare the best memorization techniques.",
+            headline: "Memory techniques for exam revision",
+            description: "When to use a memory palace, spaced repetition, or teaching-back for exam recall.",
             author: {
               "@type": "Organization",
               name: "VertexED Team",
@@ -42,7 +42,7 @@ export default function MemorizationTechniques() {
                 name: "Can I combine them?",
                 acceptedAnswer: {
                   "@type": "Answer",
-                  text: "Yes! Put your Memory Palace images onto Flashcards in Notetaker."
+                  text: "Yes — encode sequences with a memory palace, then put the facts on spaced-repetition flashcards in Notetaker."
                 }
               },
               {
@@ -50,7 +50,7 @@ export default function MemorizationTechniques() {
                 name: "Why do I forget so fast?",
                 acceptedAnswer: {
                   "@type": "Answer",
-                  text: "The 'Forgetting Curve' is steep. You lose 50% of new info within an hour unless you review it."
+                  text: "The forgetting curve is steep. You lose a large share of new information within an hour unless you retrieve it soon after learning."
                 }
               },
               {
@@ -58,7 +58,7 @@ export default function MemorizationTechniques() {
                 name: "Is photographic memory real?",
                 acceptedAnswer: {
                   "@type": "Answer",
-                  text: "Mostly no. People with 'good memories' just use these techniques instinctively."
+                  text: "Rarely in the way people imagine. Strong recall usually comes from deliberate techniques, not innate ability."
                 }
               }
             ]
@@ -66,72 +66,72 @@ export default function MemorizationTechniques() {
         ]}
       />
       <Article
-        title="How to Memorize Anything Fast: The Memory Palace vs. Spaced Repetition"
-        subtitle="Rote memorization is dead. To store information in your long-term memory, you need to hack your brain's evolutionary code."
+        title="Memory techniques for exam revision"
+        subtitle="Memory palace for sequences, spaced repetition for definitions, teaching-back for concepts — pick the tool that fits the material."
         kicker="Study Techniques"
       >
         <p className="lead">
-          Your brain is not designed to remember textbook definitions. It is designed to remember <em>places</em> and <em>stories</em>. 
-          This is why you can remember the plot of a movie you saw 5 years ago but forget the periodic table you studied yesterday.
+          Your brain retains places and stories more easily than textbook definitions. That is why you
+          remember a film plot from years ago but blank on a definition you read yesterday. Different
+          exam content needs different techniques — not one generic &ldquo;study harder&rdquo; approach.
         </p>
 
-        <h2>Technique 1: The Memory Palace (Method of Loci)</h2>
+        <h2>Technique 1: Memory palace (method of loci)</h2>
         <p>
-          <strong>Best for:</strong> Lists, sequences, and speeches.
+          <strong>Best for:</strong> Lists, sequences, and ordered processes.
         </p>
         <p>
           <strong>How it works:</strong>
           <br />
-          1. Visualize a familiar place (your house).
+          1. Pick a familiar place (your house).
           <br />
-          2. Place "crazy" images representing the facts along a path in that house.
+          2. Place vivid images for each fact along a path.
           <br />
-          3. Walk through the house in your mind to retrieve the facts.
+          3. Walk the path in your mind to retrieve the sequence.
         </p>
         <p>
-          <strong>Example (The First 3 Elements):</strong>
+          <strong>Example (first three elements):</strong>
           <br />
-          - <em>Hydrogen (H):</em> You walk into your front door and a giant <strong>Hydra</strong> (Hydrogen) attacks you.
+          - <em>Hydrogen (H):</em> A <strong>hydra</strong> at the front door.
           <br />
-          - <em>Helium (He):</em> You run to the kitchen and see a floating <strong>Balloon</strong> (Helium) lifting the fridge.
+          - <em>Helium (He):</em> A <strong>balloon</strong> lifting the kitchen fridge.
           <br />
-          - <em>Lithium (Li):</em> You open the fridge and it's full of <strong>Batteries</strong> (Lithium).
+          - <em>Lithium (Li):</em> The fridge full of <strong>batteries</strong>.
         </p>
 
-        <h2>Technique 2: Spaced Repetition (SRS)</h2>
+        <h2>Technique 2: Spaced repetition (SRS)</h2>
         <p>
           <strong>Best for:</strong> Vocabulary, definitions, and formulas.
         </p>
         <p>
-          <strong>How it works:</strong>
-          Reviewing information at increasing intervals (1 day, 3 days, 1 week, 1 month).
+          <strong>How it works:</strong> Review at increasing intervals (1 day, 3 days, 1 week, 1 month).
           <br />
-          <strong>The VertexED Way:</strong> Use the <Link to="/planner">Planner</Link>. It automates the math for you, telling you exactly when to review a topic before you forget it.
+          <strong>In VertexED:</strong> Send decks to the <Link to="/planner">Planner</Link> — it schedules
+          reviews before you would otherwise forget.
         </p>
 
-        <h2>Technique 3: The "Feynman" Technique</h2>
+        <h2>Technique 3: Teaching back (Feynman method)</h2>
         <p>
-          <strong>Best for:</strong> Complex concepts (Quantum Mechanics, Economics).
+          <strong>Best for:</strong> Complex concepts — quantum topics, economics models, long biology pathways.
         </p>
         <p>
-          <strong>How it works:</strong>
-          Explain the concept in simple language. If you get stuck, you don't know it.
+          <strong>How it works:</strong> Explain the idea in plain language. Where you stumble, you do not know it yet.
           <br />
-          <strong>AI Hack:</strong> Teach the <Link to="/chatbot">Chatbot</Link>. "I am going to explain Photosynthesis to you. Correct me if I am wrong."
+          <strong>With AI:</strong> Teach <Link to="/chatbot">Apex</Link>: &ldquo;I am going to explain photosynthesis. Correct me if I am wrong.&rdquo;
         </p>
 
         <h2>Which one should I use?</h2>
         <div className="grid md:grid-cols-2 gap-6 my-8">
-          <div className="bg-slate-800/50 p-6 rounded-xl border border-white/10">
-            <h3 className="text-xl font-bold text-green-400 mt-0">Use Memory Palace for...</h3>
+          <div className="article-callout">
+            <h3 className="text-xl font-bold text-green-400 mt-0">Memory palace for&hellip;</h3>
             <ul className="space-y-2 text-sm">
               <li>History timelines</li>
-              <li>Biology processes (Krebs Cycle)</li>
-              <li>Speeches</li>
+              <li>Biology processes (Krebs cycle)</li>
+              <li>Speeches and ordered lists</li>
             </ul>
           </div>
-          <div className="bg-slate-800/50 p-6 rounded-xl border border-white/10">
-            <h3 className="text-xl font-bold text-blue-400 mt-0">Use Spaced Repetition for...</h3>
+          <div className="article-callout">
+            <h3 className="text-xl font-bold text-blue-400 mt-0">Spaced repetition for&hellip;</h3>
             <ul className="space-y-2 text-sm">
               <li>Language vocabulary</li>
               <li>Math formulas</li>
@@ -141,30 +141,30 @@ export default function MemorizationTechniques() {
         </div>
 
         <h2>FAQ</h2>
-        <p><strong>Can I combine them?</strong> Yes! Put your Memory Palace images onto Flashcards in <Link to="/notetaker">Notetaker</Link>.</p>
-        <p><strong>Why do I forget so fast?</strong> The "Forgetting Curve" is steep. You lose 50% of new info within an hour unless you review it.</p>
-        <p><strong>Is photographic memory real?</strong> Mostly no. People with "good memories" just use these techniques instinctively.</p>
+        <p><strong>Can I combine them?</strong> Yes — encode sequences with a memory palace, then put the facts on spaced-repetition flashcards in <Link to="/notetaker">Notetaker</Link>.</p>
+        <p><strong>Why do I forget so fast?</strong> The forgetting curve is steep. Retrieve new material within a day or two, not at the end of the unit.</p>
+        <p><strong>Is photographic memory real?</strong> Rarely as people imagine. Strong recall usually comes from deliberate practice, not innate ability.</p>
 
         <div className="not-prose mt-8 flex gap-3 flex-wrap">
-          <Link to="/notetaker" className="neu-button">Create Flashcards</Link>
-          <Link to="/planner" className="neu-button">Automate Spaced Repetition</Link>
+          <Link to="/notetaker" className="neu-button">Create flashcards</Link>
+          <Link to="/planner" className="neu-button">Schedule spaced review</Link>
         </div>
 
-        <h2 className="mt-10">Evidence & references</h2>
+        <h2 className="mt-10">Evidence &amp; references</h2>
         <ul>
-          <li>Foer, J. (2011): Moonwalking with Einstein — the art and science of remembering everything.</li>
-          <li>Maguire, E. A. et al. (2000): Navigation-related structural change in the hippocampi of taxi drivers — proof of neuroplasticity.</li>
+          <li>Foer, J. (2011): Moonwalking with Einstein.</li>
+          <li>Maguire, E. A. et al. (2000): Navigation-related structural change in the hippocampi of taxi drivers.</li>
         </ul>
 
-        <div className="mt-8 text-xs text-slate-400 border-t border-white/10 pt-4">
-          Editorial note: Memory is a muscle. Train it.
+        <div className="article-footer">
+          Editorial note: Match the technique to the material. Retrieval beats rereading on exam day.
           <div className="mt-1">Last updated: 2025-12-24 · Author: VertexED Team</div>
         </div>
 
-        <hr className="my-8 border-white/10" />
+        <hr className="article-divider" />
         <h3>Related guides</h3>
         <ul>
-          <li><Link to="/resources/active-recall-spaced-repetition">Active Recall & Spaced Repetition</Link></li>
+          <li><Link to="/resources/active-recall-spaced-repetition">Active Recall &amp; Spaced Repetition</Link></li>
           <li><Link to="/resources/notes-to-flashcards">From Notes to Flashcards</Link></li>
           <li><Link to="/resources/how-to-cram-effectively">How to Cram Effectively</Link></li>
         </ul>

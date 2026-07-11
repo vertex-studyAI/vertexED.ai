@@ -14,8 +14,8 @@ export function useLocalStorage<T>(key: string, initial: T): [T, (value: T | ((p
   useEffect(() => {
     try {
       window.localStorage.setItem(key, JSON.stringify(stored));
-    } catch {
-      // quota or private mode
+    } catch (err) {
+      console.warn(`localStorage write failed for "${key}":`, err);
     }
   }, [key, stored]);
 

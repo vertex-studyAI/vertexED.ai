@@ -51,6 +51,8 @@ const StudyNotebook = lazy(() => import("@/pages/StudyNotebook"));
 const ResourceLibrary = lazy(() => import("@/pages/ResourceLibrary"));
 const WorldModel = lazy(() => import("@/pages/WorldModel"));
 const WaitlistAdmin = lazy(() => import("@/pages/admin/WaitlistAdmin"));
+const PrivacyPolicy = lazy(() => import("@/pages/PrivacyPolicy"));
+const TermsOfService = lazy(() => import("@/pages/TermsOfService"));
 import { AuthProvider } from "@/contexts/AuthContext";
 import { AppPreferencesProvider } from "@/contexts/AppPreferencesContext";
 import AdminRoute from "@/components/AdminRoute";
@@ -160,6 +162,8 @@ return (
 						<Route path="archives/geography" element={<Navigate to="/archives-geography" replace />} />
 
 <Route path="about" element={<About />} />
+<Route path="privacy" element={<PrivacyPolicy />} />
+<Route path="terms" element={<TermsOfService />} />
 <Route path="features" element={<Features />} /> 
 <Route path="study-tools" element={<StudyTools />} />
 <Route path="vertex-ed" element={<Brand />} />

@@ -7,16 +7,16 @@ export default function AcademicBurnoutGuide() {
   return (
     <>
       <SEO
-        title="Academic Burnout: Signs, Symptoms & Recovery Guide | VertexED"
-        description="Feeling exhausted? You might be burnt out. Learn the difference between stress and burnout, and discover the 'Minimum Viable Studying' method to recover."
+        title="Academic burnout: signs and recovery | VertexED"
+        description="Tired after a weekend off is normal; cynical and ineffective after rest may be burnout. Minimum viable studying, lower planner intensity, and when to seek help."
         canonical="https://www.vertexed.app/resources/academic-burnout-guide"
         keywords="academic burnout, student burnout, study motivation, mental health for students, recovering from burnout, minimum viable studying, VertexED, exam stress"
         jsonLd={[
           {
             "@context": "https://schema.org",
             "@type": "Article",
-            headline: "Academic Burnout: Signs, Symptoms, and How to Recover",
-            description: "Feeling exhausted? You might be burnt out. Learn the difference between stress and burnout.",
+            headline: "Academic burnout: signs and recovery",
+            description: "How to spot burnout vs ordinary tiredness — and a practical recovery path for exam season.",
             author: {
               "@type": "Organization",
               name: "VertexED Team",
@@ -42,7 +42,7 @@ export default function AcademicBurnoutGuide() {
                 name: "Should I take a gap year?",
                 acceptedAnswer: {
                   "@type": "Answer",
-                  text: "That's a big decision. Try a 'gap week' first. Complete detachment for 7 days often provides clarity."
+                  text: "That is a major decision. Try a full week off revision first — complete detachment often clarifies whether you need a longer break."
                 }
               },
               {
@@ -50,7 +50,7 @@ export default function AcademicBurnoutGuide() {
                 name: "Is it my fault?",
                 acceptedAnswer: {
                   "@type": "Answer",
-                  text: "No. The modern education system is a pressure cooker. Burnout is a systemic response to chronic stress."
+                  text: "Burnout is a response to sustained pressure — coursework, mocks, university applications stacked together. It is not a character flaw."
                 }
               },
               {
@@ -58,7 +58,7 @@ export default function AcademicBurnoutGuide() {
                 name: "How do I explain this to my parents?",
                 acceptedAnswer: {
                   "@type": "Answer",
-                  text: "Show them the data. Explain that rest is productive. 'I am resting now so I can sprint later.'"
+                  text: "Be specific: you are not avoiding work, you are reducing load so you can return to focused revision. Rest now prevents a worse crash before exams."
                 }
               }
             ]
@@ -66,84 +66,84 @@ export default function AcademicBurnoutGuide() {
         ]}
       />
       <Article
-        title="Academic Burnout: Signs, Symptoms, and How to Recover"
-        subtitle="You aren't 'lazy'. You are exhausted. Here is how to spot the signs of burnout and a practical roadmap to getting your spark back."
+        title="Academic burnout: signs and recovery"
+        subtitle="Exhaustion that sleep does not fix — and how to scale back without dropping everything."
         kicker="Mental Health"
       >
         <p className="lead">
-          There is a difference between "tired" and "burnt out." 
-          Tiredness is fixed by sleep. Burnout is not. 
-          If you feel cynical, detached, and ineffective even after a weekend off, you are likely in the burnout zone.
+          Tiredness clears with a good night&apos;s sleep. Burnout often does not. If you feel cynical,
+          detached from your subjects, and ineffective even after a weekend off, you may be burnt out —
+          not lazy. Recovery means scaling back deliberately, not pretending nothing is wrong.
         </p>
 
-        <h2>The 3 Dimensions of Burnout</h2>
+        <h2>Three signs of burnout</h2>
         <p>
-          According to the Maslach Burnout Inventory, burnout has three components:
+          The Maslach Burnout Inventory describes three components:
         </p>
         <ol>
-          <li><strong>Exhaustion:</strong> Emotional and physical draining. "I can't face another day."</li>
-          <li><strong>Cynicism (Depersonalization):</strong> Feeling detached from your studies. "None of this matters. It's all pointless."</li>
-          <li><strong>Inefficacy:</strong> Feeling like you can't achieve anything. "No matter how hard I try, I fail."</li>
+          <li><strong>Exhaustion:</strong> Emotional and physical drain — &ldquo;I cannot face another revision block.&rdquo;</li>
+          <li><strong>Cynicism:</strong> Detachment from schoolwork — &ldquo;None of this matters.&rdquo;</li>
+          <li><strong>Inefficacy:</strong> Feeling that effort does not pay off — &ldquo;I try hard and still fail.&rdquo;</li>
         </ol>
 
-        <h2>The Recovery Strategy: "Minimum Viable Studying" (MVS)</h2>
+        <h2>Minimum viable studying (MVS)</h2>
         <p>
-          When you are burnt out, your instinct is to stop everything. But stopping completely can cause anxiety about falling behind.
-          Instead, switch to MVS.
+          Stopping completely can spike anxiety about falling behind. MVS keeps you moving at the lowest
+          sustainable level.
         </p>
         <p>
-          <strong>The Rule:</strong> Do the absolute bare minimum required to not fail.
+          <strong>The rule:</strong> Do only what prevents failing — not what maximizes marks.
         </p>
         <ul>
-          <li><strong>Stop:</strong> Making beautiful notes, reading extra chapters, aiming for 100%.</li>
-          <li><strong>Start:</strong> Doing <em>just</em> the homework. Using <Link to="/notetaker">AI to summarize</Link> readings instead of doing them manually.</li>
+          <li><strong>Pause:</strong> Polished notes, extra reading, perfectionism on non-assessed work.</li>
+          <li><strong>Continue:</strong> Assigned homework. Use <Link to="/notetaker">AI summaries</Link> for readings you cannot face in full.</li>
         </ul>
         <p>
-          Use <Link to="/planner">VertexED Planner</Link> to set your intensity to "Low". The AI will strip your schedule down to the essentials.
+          Set <Link to="/planner">Planner</Link> intensity to &ldquo;Low&rdquo; — it strips the schedule to essentials.
         </p>
 
-        <h2>The "Input Deprivation" Week</h2>
+        <h2>Reduce input overload</h2>
         <p>
-          Your brain is over-stimulated.
-          <br /><strong>Challenge:</strong> For one week, remove all "cheap dopamine" (TikTok, Reels, Shorts) during study breaks. 
-          Replace them with "boredom" (walking, staring at a wall, napping). 
-          Boredom is the reset button for your dopamine receptors.
+          Burnout often follows overstimulation, not just hours studied.
+          <br /><strong>One-week experiment:</strong> Remove short-form scrolling during study breaks.
+          Replace with low-stimulation recovery — a walk, a nap, nothing. Boredom can reset attention
+          when feeds have trained your brain to need constant novelty.
         </p>
 
-        <h2>Using AI to Reduce Cognitive Load</h2>
+        <h2>Let AI reduce decision fatigue</h2>
         <p>
-          Burnout is often caused by "decision fatigue."
-          <br /><strong>Let AI decide:</strong> Don't wake up and ask "What should I study?" 
-          Let the <Link to="/planner">Planner</Link> tell you. Removing the <em>decision</em> saves energy for the <em>action</em>.
+          &ldquo;What should I study?&rdquo; costs energy when you are already depleted.
+          <br />Let the <Link to="/planner">Planner</Link> assign the next block. Removing the decision
+          preserves capacity for the work itself.
         </p>
 
         <h2>FAQ</h2>
-        <p><strong>Should I take a gap year?</strong> That's a big decision. Try a "gap week" first. Complete detachment for 7 days often provides clarity.</p>
-        <p><strong>Is it my fault?</strong> No. The modern education system is a pressure cooker. Burnout is a systemic response to chronic stress.</p>
-        <p><strong>How do I explain this to my parents?</strong> Show them the data. Explain that rest is productive. "I am resting now so I can sprint later."</p>
+        <p><strong>Should I take a gap year?</strong> Major decision — try a full week off revision first. Complete detachment often clarifies what you actually need.</p>
+        <p><strong>Is it my fault?</strong> Burnout responds to sustained pressure. It is not a character flaw.</p>
+        <p><strong>How do I explain this to my parents?</strong> Be specific: you are reducing load to return to focused revision, not avoiding work. Rest now prevents a worse crash before exams.</p>
 
         <div className="not-prose mt-8 flex gap-3 flex-wrap">
-          <Link to="/planner" className="neu-button">Set Low Intensity Plan</Link>
-          <Link to="/study-zone" className="neu-button">Focus Timer (Pomodoro)</Link>
+          <Link to="/planner" className="neu-button">Set low-intensity plan</Link>
+          <Link to="/study-zone" className="neu-button">Focus timer</Link>
         </div>
 
-        <h2 className="mt-10">Evidence & references</h2>
+        <h2 className="mt-10">Evidence &amp; references</h2>
         <ul>
-          <li>Maslach, C., & Leiter, M. P. (2016): Understanding the burnout experience: recent research and its implications for psychiatry.</li>
-          <li>Huberman, A. (2023): Dopamine Nation — understanding the role of dopamine in motivation and fatigue.</li>
+          <li>Maslach, C., &amp; Leiter, M. P. (2016): Understanding the burnout experience.</li>
+          <li>Huberman, A. (2023): Dopamine Nation — motivation, fatigue, and recovery.</li>
         </ul>
 
-        <div className="mt-8 text-xs text-slate-400 border-t border-white/10 pt-4">
-          Editorial note: We are an AI company, not doctors. If you are struggling with severe mental health issues, please seek professional help.
+        <div className="article-footer">
+          Editorial note: We are an AI study tool, not a medical service. If you are struggling with severe mental health issues, seek professional help.
           <div className="mt-1">Last updated: 2025-12-24 · Author: VertexED Team</div>
         </div>
 
-        <hr className="my-8 border-white/10" />
+        <hr className="article-divider" />
         <h3>Related guides</h3>
         <ul>
-          <li><Link to="/resources/exam-strategy-time-management">Exam Strategy & Time Management</Link></li>
+          <li><Link to="/resources/exam-strategy-time-management">Exam Strategy &amp; Time Management</Link></li>
           <li><Link to="/resources/how-to-cram-effectively">How to Cram Effectively</Link></li>
-          <li><Link to="/resources/ai-study-planner">AI Study Planner & Calendar</Link></li>
+          <li><Link to="/resources/ai-study-planner">AI Study Planner &amp; Calendar</Link></li>
         </ul>
       </Article>
     </>

@@ -7,16 +7,16 @@ export default function CollegeEssaysWithAI() {
   return (
     <>
       <SEO
-        title="Writing College Essays with AI: Common App & Personal Statement Guide | VertexED"
-        description="Applying to college? Learn how to use AI to brainstorm, structure, and refine your Common App or UCAS Personal Statement without losing your unique voice."
+        title="College essays with AI: Common App and Personal Statement | VertexED"
+        description="Use AI to mine memories, spot clichés, and check structure — while keeping a voice admissions officers can tell is yours."
         canonical="https://www.vertexed.app/resources/college-essays-with-ai"
         keywords="college essay AI, Common App essay AI, UCAS personal statement AI, university application help, AI for admissions essays, brainstorming college essays, VertexED, ethical AI for college prep"
         jsonLd={[
           {
             "@context": "https://schema.org",
             "@type": "Article",
-            headline: "Writing College Essays with AI: How to Stand Out",
-            description: "Applying to college? Learn how to use AI to brainstorm, structure, and refine your Common App or UCAS Personal Statement.",
+            headline: "College essays with AI: keep your voice",
+            description: "Use AI to brainstorm, structure, and refine your Common App or UCAS Personal Statement without losing your unique voice.",
             author: {
               "@type": "Organization",
               name: "VertexED Team",
@@ -42,7 +42,7 @@ export default function CollegeEssaysWithAI() {
                 name: "Do colleges check for AI?",
                 acceptedAnswer: {
                   "@type": "Answer",
-                  text: "Yes. And even if they don't use detectors, they can smell 'AI syntax' (perfect grammar, zero soul) a mile away."
+                  text: "Some do. Even without detectors, generic AI prose — perfect grammar, no specific detail — reads differently from a real 17-year-old's draft."
                 }
               },
               {
@@ -50,7 +50,7 @@ export default function CollegeEssaysWithAI() {
                 name: "Can I use AI for supplemental essays?",
                 acceptedAnswer: {
                   "@type": "Answer",
-                  text: "Yes, especially for the 'Why Us?' essay. Use AI to research specific professors or clubs at the university to mention."
+                  text: "Yes, for research and structure — e.g., finding specific professors or clubs for a 'Why Us?' essay. You still write the sentences."
                 }
               },
               {
@@ -58,7 +58,7 @@ export default function CollegeEssaysWithAI() {
                 name: "Should I mention AI in my essay?",
                 acceptedAnswer: {
                   "@type": "Answer",
-                  text: "Generally, no. Unless you are applying for Computer Science and building AI models is your passion."
+                  text: "Generally no — unless building AI is genuinely central to your application story."
                 }
               }
             ]
@@ -66,74 +66,73 @@ export default function CollegeEssaysWithAI() {
         ]}
       />
       <Article
-        title="Writing College Essays with AI: How to Stand Out"
-        subtitle="Admissions officers read thousands of essays. Generic AI writing will get you rejected. Here is how to use AI to amplify your voice, not replace it."
+        title="College essays with AI: keep your voice"
+        subtitle="Admissions officers read thousands of drafts. AI can help you find your story — not replace it."
         kicker="University Prep"
       >
         <p className="lead">
-          The college essay (Common App or UCAS Personal Statement) is your one chance to show the human behind the grades. 
-          Using ChatGPT to write it is a death sentence—it produces bland, cliché-filled soup. 
-          But using AI to <em>interrogate</em> your life story? That's a winning strategy.
+          The Common App essay or UCAS Personal Statement is where grades stop speaking and you start.
+          Asking ChatGPT to write the whole piece produces flat, interchangeable prose. Using AI to
+          interview you, flag clichés, and check structure is different — and usually defensible if your
+          school allows AI for brainstorming.
         </p>
 
-        <h2>Phase 1: The "Memory Mining" Session</h2>
+        <h2>Phase 1: Memory mining</h2>
         <p>
-          You don't know what to write about.
-          <br /><strong>The AI Interview:</strong> Treat the AI like a journalist.
-          <br /><em>"I need to write a personal statement about resilience. Ask me 10 deep, probing questions about my childhood, hobbies, and failures to help me find a unique story. Ask them one by one."</em>
+          When you do not know what to write about, treat AI like an interviewer — not a ghostwriter.
+          <br /><em>&ldquo;I need a personal statement about resilience. Ask me ten probing questions about my childhood, hobbies, and failures — one at a time.&rdquo;</em>
         </p>
 
-        <h2>Phase 2: The "Cliché Check"</h2>
+        <h2>Phase 2: Cliché check</h2>
         <p>
-          Admissions officers hate the "Sports Injury" essay and the "Service Trip" essay.
-          <br /><strong>The Prompt:</strong> "I am thinking of writing about [Topic]. What are the most common clichés associated with this topic? How can I subvert them to be original?"
+          Admissions teams see the same stories repeatedly — sports injury comeback, generic service trip.
+          <br /><strong>Prompt:</strong> &ldquo;I am thinking of writing about [topic]. What clichés attach to this? How could I make it specific to me?&rdquo;
         </p>
 
-        <h2>Phase 3: Structure and Flow</h2>
+        <h2>Phase 3: Structure and flow</h2>
         <p>
-          Don't let AI write the sentences. Let it build the skeleton.
-          <br /><strong>The Prompt:</strong> "I have these 3 anecdotes: [A, B, C]. Suggest a narrative arc that weaves them together into a cohesive story about [Theme]."
+          Let AI suggest the skeleton; you write the sentences.
+          <br /><strong>Prompt:</strong> &ldquo;I have three anecdotes: [A, B, C]. Suggest a narrative arc linking them around [theme].&rdquo;
         </p>
 
-        <h2>Phase 4: The "Show, Don't Tell" Review</h2>
+        <h2>Phase 4: Show, don&apos;t tell</h2>
         <p>
-          This is the #1 rule of writing.
-          <br /><strong>The Strategy:</strong> Paste a paragraph into <Link to="/answer-reviewer">Answer Reviewer</Link>.
-          <br /><em>"Highlight sentences where I am 'telling' (e.g., 'I was hardworking') and suggest how I could 'show' it instead (e.g., describing a specific late night working on a project)."</em>
+          Paste a paragraph into <Link to="/answer-reviewer">Answer Reviewer</Link>:
+          <br /><em>&ldquo;Highlight where I am telling (e.g., &lsquo;I was hardworking&rsquo;) and suggest how to show it with a specific scene.&rdquo;</em>
         </p>
 
-        <h2>The "Voice" Test</h2>
+        <h2>The voice test</h2>
         <p>
-          After you draft it, read it aloud. Then ask AI:
-          <br /><em>"Analyze the tone of this essay. Does it sound like a 17-year-old student, or does it sound like a robot? Point out words that sound too formal or unnatural."</em>
+          Read your draft aloud. Then ask AI:
+          <br /><em>&ldquo;Does this sound like a 17-year-old student or generic formal prose? Flag unnatural phrases.&rdquo;</em>
         </p>
 
         <h2>FAQ</h2>
-        <p><strong>Do colleges check for AI?</strong> Yes. And even if they don't use detectors, they can smell "AI syntax" (perfect grammar, zero soul) a mile away.</p>
-        <p><strong>Can I use AI for supplemental essays?</strong> Yes, especially for the "Why Us?" essay. Use AI to research specific professors or clubs at the university to mention.</p>
-        <p><strong>Should I mention AI in my essay?</strong> Generally, no. Unless you are applying for Computer Science and building AI models is your passion.</p>
+        <p><strong>Do colleges check for AI?</strong> Some do. Even without detectors, generic AI prose — perfect grammar, no specific detail — reads differently from a real draft.</p>
+        <p><strong>Can I use AI for supplemental essays?</strong> Yes, for research and structure — especially &ldquo;Why Us?&rdquo; essays where you need specific professors or clubs. You still write the sentences.</p>
+        <p><strong>Should I mention AI in my essay?</strong> Generally no — unless building AI is genuinely central to your application story.</p>
 
         <div className="not-prose mt-8 flex gap-3 flex-wrap">
-          <Link to="/chatbot" className="neu-button">Brainstorm Topics</Link>
-          <Link to="/answer-reviewer" className="neu-button">Check for Clichés</Link>
+          <Link to="/chatbot" className="neu-button">Brainstorm topics</Link>
+          <Link to="/answer-reviewer" className="neu-button">Check for clichés</Link>
         </div>
 
-        <h2 className="mt-10">Evidence & references</h2>
+        <h2 className="mt-10">Evidence &amp; references</h2>
         <ul>
           <li>Georgia Tech Admissions Blog (2024): AI and the College Essay.</li>
           <li>The College Essay Guy: How to use ChatGPT ethically for college essays.</li>
         </ul>
 
-        <div className="mt-8 text-xs text-slate-400 border-t border-white/10 pt-4">
-          Editorial note: Your story is yours. Don't let an algorithm dilute it.
+        <div className="article-footer">
+          Editorial note: Your story is yours. AI should sharpen it, not flatten it.
           <div className="mt-1">Last updated: 2025-12-24 · Author: VertexED Team</div>
         </div>
 
-        <hr className="my-8 border-white/10" />
+        <hr className="article-divider" />
         <h3>Related guides</h3>
         <ul>
-          <li><Link to="/resources/alevel-ap-exam-prep">A-Level & AP Exam Prep</Link></li>
-          <li><Link to="/resources/essay-writing-with-ai">Mastering Essay Writing with AI</Link></li>
+          <li><Link to="/resources/alevel-ap-exam-prep">A-Level &amp; AP Exam Prep</Link></li>
+          <li><Link to="/resources/essay-writing-with-ai">Essay writing with AI</Link></li>
           <li><Link to="/resources/is-using-ai-cheating">Is Using AI Cheating?</Link></li>
         </ul>
       </Article>

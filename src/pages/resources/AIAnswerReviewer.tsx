@@ -8,8 +8,8 @@ export default function AIAnswerReviewerArticle() {
   return (
     <>
       <SEO
-        title="AI Answer Reviewer · Teacher‑Style Feedback | VertexED"
-        description="See how the VertexED Answer Reviewer scores answers using rubric cues, suggests marks, and explains targeted improvements with clear, actionable advice."
+        title="AI Answer Reviewer — rubric-style feedback | VertexED"
+        description="Paste or photograph an answer and get mark-scheme feedback — missing definitions, weak links, and command-term gaps named, not just a generic score."
         canonical={canonical}
         ogType="article"
         jsonLd={{
@@ -28,11 +28,12 @@ export default function AIAnswerReviewerArticle() {
         }}
       />
   <BreadcrumbsJsonLd />
-      <Article title="AI Answer Reviewer" subtitle="Teacher‑style feedback that mirrors rubric language — powered by VertexED." kicker="Guides">
-        <p>
-          Paste a question and your response; the VertexED Answer Reviewer provides strict, teacher‑style
-          feedback, explains what’s missing, and suggests a mark. It mirrors rubric language so you learn to
-          think like an examiner.
+      <Article title="AI Answer Reviewer" subtitle="Rubric-style feedback on typed or photographed answers — what examiners look for, named clearly." kicker="Guides">
+        <p className="lead">
+          Paste a question and your response — typed or photographed — and Answer Reviewer maps your
+          answer to likely rubric criteria. It names missing definitions, weak causal links, and
+          command-term gaps. Feedback is guidance, not a final grade; compare against your official
+          mark scheme.
         </p>
 
         <h2>When to use it</h2>
@@ -94,12 +95,12 @@ export default function AIAnswerReviewerArticle() {
           <li>Black, P., & Wiliam, D. (1998): Assessment and Classroom Learning — the value of formative assessment.</li>
         </ul>
 
-        <div className="mt-8 text-xs text-slate-400 border-t border-white/10 pt-4">
+        <div className="article-footer">
           Transparency: Feedback is guidance, not a final grade. Always compare against your official rubric/mark scheme.
           <div className="mt-1">Last updated: 2025-12-24 · Author: VertexED Team</div>
         </div>
 
-        <hr className="my-8 border-white/10" />
+        <hr className="article-divider" />
         <h3>Related guides</h3>
         <ul>
           <li><Link to="/resources/ib-igcse-paper-maker">IB/IGCSE Paper Maker</Link></li>

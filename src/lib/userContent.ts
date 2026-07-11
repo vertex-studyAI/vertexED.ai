@@ -122,6 +122,48 @@ export function formatArtifactDate(iso: string): string {
   }
 }
 
+export async function updateStudyArtifact(
+  id: string,
+  patch: { title?: string; payload?: Record<string, unknown> },
+): Promise<SaveArtifactResult> {
+  if (id.startsWith('local-')) {
+    const items = readRawLocalArtifacts();
+    const idx = items.findIndex((item) => item.id === id);
+    if (idx === -1) return { ok: false, error: 'Artifact not found' };
+    const now = new Date().toISOString();
+    items[idx] = {
+      ...items[idx],
+      title: patch.title !== undefined ? patch.title.trim().slice(0, 200) || items[idx].title : items[idx].title,
+      payload: patch.payload ?? items[idx].payload,
+      updated_at: now,
+    };
+    writeLocalArtifacts(items);
+    return { ok: true, id, localOnly: true };
+  }
+
+  try {
+    const res = await authFetch('/api/user-content', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id, ...patch }),
+    });
+    const data = await res.json().catch(() => null);
+    if (!res.ok) {
+      return { ok: false, error: data?.error || 'Update failed' };
+    }
+    return { ok: true, id: data?.item?.id ?? id };
+  } catch (err) {
+    return { ok: false, error: err instanceof Error ? err.message : 'Update failed' };
+  }
+}
+
+export function localSaveMessage(result: SaveArtifactResult): string | null {
+  if (result.localOnly) {
+    return result.error || 'Saved on this device only — cloud sync is unavailable.';
+  }
+  return null;
+}
+
 export async function saveStudyArtifact(
   kind: StudyArtifactKind,
   title: string,

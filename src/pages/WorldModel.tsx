@@ -112,7 +112,7 @@ export default function WorldModelPage() {
         <div className="flex flex-wrap gap-3">
           <Link
             to="/learning-hub"
-            className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-2 text-sm hover:border-primary/30 transition"
+            className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-foreground/[0.04] px-4 py-2 text-sm hover:border-primary/30 transition"
           >
             <ArrowLeft className="h-4 w-4" />
             Learning Hub
@@ -125,11 +125,11 @@ export default function WorldModelPage() {
             World Model Learning
           </div>
           <h1 className="text-3xl md:text-4xl font-bold tracking-tight mb-3">
-            Your {boardLabel} knowledge universe
+            {boardLabel} concept map
           </h1>
           <p className="text-muted-foreground max-w-2xl leading-relaxed">
-            {model.narrative} Nodes glow by mastery — weak links block exam-ready layers until you
-            retrieve and review.
+            {model.narrative} Each node reflects a topic layer — foundation, core, or exam-ready — coloured by your recent mock and review scores.
+            Weak nodes show where to drill before sitting a full paper.
           </p>
         </header>
 
@@ -256,19 +256,19 @@ export default function WorldModelPage() {
                   <div className="flex flex-wrap gap-2 pt-2">
                     <Link
                       to="/paper-maker"
-                      className="rounded-full border border-white/10 px-3 py-1.5 text-xs hover:border-primary/30 transition"
+                      className="rounded-full border border-border/60 px-3 py-1.5 text-xs hover:border-primary/30 transition"
                     >
                       Practice paper
                     </Link>
                     <Link
                       to="/notetaker"
-                      className="rounded-full border border-white/10 px-3 py-1.5 text-xs hover:border-primary/30 transition"
+                      className="rounded-full border border-border/60 px-3 py-1.5 text-xs hover:border-primary/30 transition"
                     >
                       Flashcards
                     </Link>
                     <Link
                       to="/study-notebook"
-                      className="rounded-full border border-white/10 px-3 py-1.5 text-xs hover:border-primary/30 transition"
+                      className="rounded-full border border-border/60 px-3 py-1.5 text-xs hover:border-primary/30 transition"
                     >
                       Notebook
                     </Link>
@@ -297,7 +297,7 @@ export default function WorldModelPage() {
                 Run immersive scenario
               </button>
               {simulation && (
-                <div className="mt-4 text-sm leading-relaxed border-t border-white/10 pt-4 immersive-reading">
+                <div className="mt-4 text-sm leading-relaxed border-t border-border/60 pt-4 immersive-reading">
                   {simulation}
                 </div>
               )}
@@ -307,14 +307,14 @@ export default function WorldModelPage() {
               <div className="grid gap-2">
                 <Link
                   to="/resource-library"
-                  className="flex items-center gap-3 rounded-lg border border-white/10 bg-white/5 px-3 py-2.5 hover:border-primary/25 transition text-sm"
+                  className="flex items-center gap-3 rounded-lg border border-border/60 bg-foreground/[0.04] px-3 py-2.5 hover:border-primary/25 transition text-sm"
                 >
                   <Target className="h-4 w-4 text-primary" />
                   Board deep-dive guides (1000+ words)
                 </Link>
                 <Link
                   to="/study-zone?focus=sketch"
-                  className="flex items-center gap-3 rounded-lg border border-white/10 bg-white/5 px-3 py-2.5 hover:border-primary/25 transition text-sm"
+                  className="flex items-center gap-3 rounded-lg border border-border/60 bg-foreground/[0.04] px-3 py-2.5 hover:border-primary/25 transition text-sm"
                 >
                   <Zap className="h-4 w-4 text-primary" />
                   Sketch pad (iPad / Pencil)

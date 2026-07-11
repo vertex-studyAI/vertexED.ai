@@ -21,8 +21,9 @@ export default function ApexSocraticDrill() {
     hint: `${context.hint} SOCRATIC DRILL MODE: Ask ONE probing question per turn. Never give the full answer. After the student responds, ask a follow-up that exposes gaps. Round ${round} of ${MAX_ROUNDS}.`,
   };
 
-  const { messages, input, setInput, loading, sendMessage, clearChat } = useApexChat({
+  const { messages, input, setInput, loading, streamingMessageId, sendMessage, clearChat } = useApexChat({
     context: drillContext,
+    threadKey: 'socratic-drill',
     onSessionRecord: recordStudySession,
   });
 
@@ -112,7 +113,13 @@ export default function ApexSocraticDrill() {
       )}
 
       <div className="apex-chat-surface min-h-[200px] max-h-[360px] overflow-y-auto mb-3">
-        <ApexMessageList messages={messages} loading={loading} context={drillContext} compact />
+        <ApexMessageList
+          messages={messages}
+          loading={loading}
+          streamingMessageId={streamingMessageId}
+          context={drillContext}
+          compact
+        />
       </div>
 
       {(active || messages.length > 0) && (
