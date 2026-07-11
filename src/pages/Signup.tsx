@@ -208,7 +208,7 @@ export default function Signup() {
                 <div className="neu-input">
                   <input
                     aria-label="Invite code (optional if waitlist approved)"
-                    placeholder="Invite code (optional if waitlist approved)"
+                    placeholder="Team invite code (case-sensitive)"
                     className="neu-input-el"
                     value={inviteCode}
                     onChange={(e) => setInviteCode(e.target.value)}

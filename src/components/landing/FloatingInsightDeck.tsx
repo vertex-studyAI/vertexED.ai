@@ -11,6 +11,7 @@ const prefersReducedMotion = () =>
 export default function FloatingInsightDeck() {
   const [active, setActive] = useState(0);
   const total = FLOATING_INSIGHTS.length;
+  const item = FLOATING_INSIGHTS[active];
 
   const go = useCallback(
     (delta: number) => {
@@ -37,51 +38,22 @@ export default function FloatingInsightDeck() {
           More tools, same problem
         </h2>
         <p className="text-center text-muted-foreground text-base md:text-lg leading-relaxed max-w-2xl mx-auto mb-10">
-          Students have access to more PDFs and videos than ever — but exam weeks still break on structure:
-          which topic tonight, whether practice matches the paper, and whether notes ever become retrieval.
+          You can find a PDF or video for almost any topic. Exam weeks still fall apart on the basics:
+          what to do tonight, whether practice matches the paper, and whether your notes ever turn into recall.
         </p>
 
-        <div className="insight-carousel relative mx-auto max-w-xl min-h-[18rem] md:min-h-[20rem]">
-          {FLOATING_INSIGHTS.map((item, i) => {
-            const offset = i - active;
-            const dist = Math.abs(offset);
-            if (dist > 2) return null;
-
-            const wrappedOffset =
-              offset > total / 2 ? offset - total : offset < -total / 2 ? offset + total : offset;
-
-            return (
-              <LiquidGlass
-                key={item.label}
-                as="article"
-                variant="card"
-                role="button"
-                tabIndex={i === active ? 0 : -1}
-                aria-hidden={i !== active}
-                aria-label={`${item.headline}. Card ${i + 1} of ${total}.`}
-                onClick={() => setActive(i)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" || e.key === " ") {
-                    e.preventDefault();
-                    setActive(i);
-                  }
-                }}
-                className={`insight-carousel-card absolute inset-x-4 top-0 p-6 md:p-8 cursor-pointer transition-all duration-500 ease-out rounded-2xl ${
-                  i === active ? "insight-carousel-card-active" : ""
-                }`}
-                style={{
-                  zIndex: 10 - dist,
-                  transform: `translateX(${wrappedOffset * 14}px) translateY(${dist * 10}px) scale(${1 - dist * 0.045})`,
-                  opacity: dist === 0 ? 1 : dist === 1 ? 0.72 : 0.4,
-                  pointerEvents: dist <= 1 ? "auto" : "none",
-                }}
-              >
-                <p className="text-xs uppercase tracking-widest text-primary mb-2">{item.label}</p>
-                <h3 className="text-xl font-semibold text-foreground mb-3 leading-snug">{item.headline}</h3>
-                <p className="text-sm md:text-base text-muted-foreground leading-relaxed">{item.body}</p>
-              </LiquidGlass>
-            );
-          })}
+        <div className="insight-carousel relative mx-auto max-w-xl">
+          <LiquidGlass
+            key={item.label}
+            as="article"
+            variant="card"
+            aria-live="polite"
+            className="insight-carousel-card insight-carousel-card-active p-6 md:p-8 rounded-[1.35rem]"
+          >
+            <p className="text-xs uppercase tracking-widest text-primary mb-2">{item.label}</p>
+            <h3 className="text-xl font-semibold text-foreground mb-3 leading-snug">{item.headline}</h3>
+            <p className="text-sm md:text-base text-muted-foreground leading-relaxed">{item.body}</p>
+          </LiquidGlass>
         </div>
 
         <div className="flex items-center justify-center gap-4 mt-8">
@@ -94,15 +66,15 @@ export default function FloatingInsightDeck() {
             <ChevronLeft className="h-4 w-4" />
           </button>
           <div className="flex gap-2" role="tablist" aria-label="Insight cards">
-            {FLOATING_INSIGHTS.map((item, i) => (
+            {FLOATING_INSIGHTS.map((entry, i) => (
               <button
-                key={item.label}
+                key={entry.label}
                 type="button"
                 role="tab"
                 aria-selected={i === active}
-                aria-label={item.label}
+                aria-label={entry.label}
                 onClick={() => setActive(i)}
-                className={`h-2 rounded-full transition-all ${i === active ? "w-6 bg-primary" : "w-2 bg-foreground/20 hover:bg-foreground/35"}`}
+                className={`h-2 rounded-full transition-all duration-300 ${i === active ? "w-6 bg-primary" : "w-2 bg-foreground/20 hover:bg-foreground/35"}`}
               />
             ))}
           </div>

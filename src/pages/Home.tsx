@@ -212,12 +212,13 @@ export default function Home() {
           </h1>
 
           <p className="mt-8 text-xl md:text-2xl font-medium text-foreground/90 max-w-3xl mx-auto leading-snug">
-            Most study apps sell features. VertexED connects planning, timed practice, rubric feedback, and spaced retrieval — so tonight&apos;s session has a clear job and tomorrow&apos;s mock shows whether it worked.
+            Most study apps sell features. VertexED connects planning, timed practice, rubric feedback, and spaced retrieval
+            so tonight&apos;s session has a clear job and tomorrow&apos;s mock shows whether it worked.
           </p>
 
           <p className="mt-6 text-lg md:text-xl text-muted-foreground leading-relaxed max-w-2xl mx-auto">
-            One revision loop: block the week in the planner, run a focus session in Study Zone, sit a board-shaped mock,
-            read where marks were lost, then retrieve the weak topics on schedule. Same workspace — not another tab chain.
+            Plan the week, run a focus block in Study Zone, sit a board-shaped mock, read where marks were lost,
+            then retrieve the weak topics on schedule. One workspace, not another tab chain.
           </p>
 
           <div className="flex gap-4 justify-center mt-12 flex-wrap">

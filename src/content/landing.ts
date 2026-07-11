@@ -57,23 +57,23 @@ export const LANDING_PROBLEMS: LandingProblem[] = [
 export const FLOATING_INSIGHTS: FloatingInsight[] = [
   {
     label: "Why we built this",
-    headline: "Features multiplied; revision didn't get easier",
-    body: "Every year brought another app — smarter summaries, flashier dashboards — but students still opened six tabs to plan one week. VertexED is organised around a single loop: plan the week, run a focus block, practise under time, review against rubrics, retrieve on schedule.",
+    headline: "More apps did not make revision simpler",
+    body: "Every year there was another tool with smarter summaries or a prettier dashboard. Students still opened six tabs just to plan one week. VertexED follows one loop: plan the week, focus, practise under time, review against rubrics, then retrieve on schedule.",
   },
   {
     label: "Marks + meaning",
-    headline: "Scoring well and knowing the material aren't opposites",
-    body: "You can memorise a mark-scheme phrase and still not understand the unit that follows. We weight tools toward rubric feedback, timed mocks, and spaced retrieval so the grade reflects something you can explain — not just repeat.",
+    headline: "Good grades and real understanding can go together",
+    body: "You can memorise a mark-scheme phrase and still not understand the next unit. We lean on rubric feedback, timed mocks, and spaced retrieval so the grade reflects something you can explain, not just repeat back.",
   },
   {
     label: "Exam season reality",
     headline: "A realistic week beats a heroic intention",
-    body: "When mocks stack and sleep drops, willpower isn't the bottleneck — the calendar is. VertexED assumes you have school, sport, and a finite number of good hours. The planner and Study Zone are built for 25-minute blocks that actually happen.",
+    body: "When mocks stack up and sleep drops, the calendar matters more than willpower. VertexED assumes you have school, sport, and a limited number of good hours. The planner and Study Zone are built for 25-minute blocks you can actually finish.",
   },
   {
     label: "What we built for",
     headline: "One desk instead of twelve tabs",
-    body: "Thursday's mock surfaces a weak topic in Answer Reviewer; Friday's flashcards target it; Apex explains the gap before you rewrite. Planner, Study Zone, Paper Maker, Reviewer, notes, and Apex share context — not just a logo in the header.",
+    body: "Thursday's mock shows a weak topic in Answer Reviewer. Friday's flashcards target it. Apex explains the gap before you rewrite. Planner, Study Zone, Paper Maker, Reviewer, notes, and Apex share context instead of just sharing a logo.",
   },
 ];
 

@@ -29,10 +29,13 @@ export function StudyLoopRail() {
   );
 }
 
-export default function RevisionWeekTimeline() {
+export default function RevisionWeekTimeline({ embedded = false }: { embedded?: boolean }) {
   return (
-    <section className="reveal-section px-4 md:px-6 pb-20" aria-labelledby="revision-week-heading">
-      <div className="max-w-6xl mx-auto">
+    <section
+      className={embedded ? "pb-4" : "reveal-section px-4 md:px-6 pb-20"}
+      aria-labelledby="revision-week-heading"
+    >
+      <div className={embedded ? "" : "max-w-6xl mx-auto"}>
         <p className="text-xs uppercase tracking-[0.2em] text-primary mb-3">A real revision week</p>
         <h2 id="revision-week-heading" className="text-3xl md:text-4xl font-bold text-foreground mb-4 max-w-2xl">
           What using the full loop actually looks like
@@ -62,10 +65,13 @@ export default function RevisionWeekTimeline() {
   );
 }
 
-export function ScatterCompare() {
+export function ScatterCompare({ embedded = false }: { embedded?: boolean }) {
   return (
-    <section className="reveal-section px-4 md:px-6 pb-20" aria-labelledby="compare-heading">
-      <div className="max-w-6xl mx-auto glass-panel p-8 md:p-10">
+    <section
+      className={embedded ? "pb-4" : "reveal-section px-4 md:px-6 pb-20"}
+      aria-labelledby="compare-heading"
+    >
+      <div className={embedded ? "glass-panel p-8 md:p-10" : "max-w-6xl mx-auto glass-panel p-8 md:p-10"}>
         <h2 id="compare-heading" className="text-2xl md:text-3xl font-bold text-foreground mb-3">
           Twelve tabs vs one loop
         </h2>
@@ -106,10 +112,13 @@ export function BoardSpotlights() {
   );
 }
 
-export function EcosystemExtras() {
+export function EcosystemExtras({ embedded = false }: { embedded?: boolean }) {
   return (
-    <section className="reveal-section px-4 md:px-6 pb-20" aria-labelledby="ecosystem-heading">
-      <div className="max-w-6xl mx-auto">
+    <section
+      className={embedded ? "pb-4" : "reveal-section px-4 md:px-6 pb-20"}
+      aria-labelledby="ecosystem-heading"
+    >
+      <div className={embedded ? "" : "max-w-6xl mx-auto"}>
         <p className="text-xs uppercase tracking-[0.2em] text-primary mb-3">Beyond the core six</p>
         <h2 id="ecosystem-heading" className="text-3xl md:text-4xl font-bold text-foreground mb-4">
           The rest of the ecosystem
@@ -144,10 +153,13 @@ export function EcosystemExtras() {
   );
 }
 
-export function FeatureFAQ() {
+export function FeatureFAQ({ embedded = false }: { embedded?: boolean }) {
   return (
-    <section className="reveal-section px-4 md:px-6 pb-24" aria-labelledby="faq-heading">
-      <div className="max-w-3xl mx-auto">
+    <section
+      className={embedded ? "pb-4" : "reveal-section px-4 md:px-6 pb-24"}
+      aria-labelledby="faq-heading"
+    >
+      <div className={embedded ? "" : "max-w-3xl mx-auto"}>
         <h2 id="faq-heading" className="text-2xl md:text-3xl font-bold text-foreground mb-8 text-center">
           Questions students actually ask
         </h2>
