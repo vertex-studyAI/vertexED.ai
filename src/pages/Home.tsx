@@ -87,11 +87,8 @@ export default function Home() {
   const gsapCleanupRef = useRef<() => void>(() => {});
 
   useEffect(() => {
-    if (!isAuthenticated) return;
-    const ua = typeof navigator !== "undefined" ? navigator.userAgent.toLowerCase() : "";
-    const isBot = /bot|crawl|spider|slurp|facebookexternalhit|whatsapp|telegram|linkedinbot|embedly|quora|pinterest|vkshare|facebot|outbrain|ia_archiver/.test(ua);
-    if (!isBot) {
-      import("@/pages/Main").catch(() => {}).finally(() => navigate("/main", { replace: true }));
+    if (isAuthenticated) {
+      navigate("/main", { replace: true });
     }
   }, [isAuthenticated, navigate]);
 

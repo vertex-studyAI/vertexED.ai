@@ -1,6 +1,6 @@
 // File: /src/App.tsx
 import SiteLayout from "@/components/layout/SiteLayout";
-import Home from "@/pages/Home"; 
+import AuthLandingRedirect from "@/components/AuthLandingRedirect";
 import Features from "@/pages/Features";
 import { lazy } from "react";
 const Login = lazy(() => import("@/pages/Login"));
@@ -110,8 +110,8 @@ return (
 <BrowserRouter>
 <Routes>
 <Route path="/" element={<SiteLayout />}>
-<Route index element={<Home />} />
-<Route path="home" element={<Home />} />
+<Route index element={<AuthLandingRedirect />} />
+<Route path="home" element={<AuthLandingRedirect />} />
 						<Route path="resources" element={<ResourcesIndex />} />
 						<Route path="resources/ai-study-planner" element={<AIStudyPlannerArticle />} />
 						<Route path="resources/ib-igcse-paper-maker" element={<PaperMakerGuide />} />
