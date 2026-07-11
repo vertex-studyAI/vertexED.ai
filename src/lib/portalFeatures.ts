@@ -178,6 +178,7 @@ export function buildPortalIntelligence(
     .slice(0, 5);
 
   const curriculumSubjects = profile.curriculum.subjects;
+  const subjects = adaptivePlan.masteryBySubject.map((m) => m.subject);
   const interleaveSubjects =
     curriculumSubjects.length >= 2
       ? [curriculumSubjects[0], curriculumSubjects[1]]
@@ -212,6 +213,7 @@ export function buildPortalIntelligence(
     Math.min(100, habitRatio * 35 + loopRatio * 35 + Math.min(stats.studyStreak, 14) * 2.14 + trend.avgMastery * 0.15),
   );
 
+  const weakest = heatmap[0] ?? null;
   const weakSprint = weakest
     ? {
         topic: weakest.topic,

@@ -17,6 +17,7 @@ function getSupabase() {
 
 function hashIp(ip) {
   const salt = getWaitlistRateLimitSalt();
+  if (!salt) return null;
   return createHash('sha256').update(`${salt}:${ip}`).digest('hex');
 }
 
@@ -95,6 +96,9 @@ export default async function handler(req, res) {
   }
 
   const ipHash = hashIp(getClientIp(req));
+  if (!ipHash) {
+    return res.status(503).json({ error: 'Waitlist is not configured on the server.' });
+  }
 
   try {
     if (await isRateLimited(supabase, ipHash)) {

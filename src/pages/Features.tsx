@@ -51,7 +51,12 @@ export default function Features() {
           import("gsap"),
           import("gsap/ScrollTrigger"),
         ]);
-        const ScrollTrigger = (mod as { default?: unknown }).default ?? mod;
+        type ScrollTriggerApi = {
+          create: (opts: Record<string, unknown>) => void;
+          getAll?: () => Array<{ kill?: () => void }>;
+        };
+        const ScrollTrigger = ((mod as { default?: ScrollTriggerApi }).default ??
+          mod) as ScrollTriggerApi;
         gsap.registerPlugin(ScrollTrigger as object);
 
         gsap.utils.toArray<HTMLElement>(".reveal-section").forEach((el) => {
@@ -90,7 +95,7 @@ export default function Features() {
 
         cleanup = () => {
           try {
-            (ScrollTrigger as { getAll?: () => Array<{ kill?: () => void }> }).getAll?.().forEach((t) => t.kill?.());
+            ScrollTrigger.getAll?.().forEach((t) => t.kill?.());
           } catch {}
         };
       } catch {}

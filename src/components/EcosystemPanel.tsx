@@ -54,11 +54,11 @@ export default function EcosystemPanel({
             <ul className="space-y-2 mb-4">
               {recentActivity.slice(0, 4).map((entry) => (
                 <li
-                  key={`${entry.at}-${entry.label}`}
+                  key={entry.id}
                   className="flex items-center gap-2 rounded-lg border border-border/60 bg-foreground/[0.03] px-3 py-2 text-sm text-foreground/90"
                 >
                   <Clock className="h-3.5 w-3.5 text-primary shrink-0" />
-                  <span className="truncate flex-1">{entry.label}</span>
+                  <span className="truncate flex-1">{entry.message}</span>
                 </li>
               ))}
             </ul>

@@ -259,36 +259,33 @@ export default function PaperMaker({ priorPapers = [] }) {
     try {
       const { Document, Packer, Paragraph, TextRun } = await import("docx");
       const { saveAs } = await import("file-saver");
-      const doc = new Document();
-      doc.addSection({
-        children: [
-          new Paragraph({ children: [new TextRun({ text: paper.title || "Practice Paper", bold: true, size: 28 })] }),
-          new Paragraph("") ,
-          new Paragraph({ children: [new TextRun({ text: `Board: ${paper?.metadata?.board || ""}` })] }),
-          new Paragraph({ children: [new TextRun({ text: `Grade: ${paper?.metadata?.grade || ""}` })] }),
-          new Paragraph("") ,
-          ...flattenSectionsToParagraphs(paper.sections || []),
-        ],
-      });
-      const packer = new Packer();
-      const blob = await packer.toBlob(doc);
+      const children = [
+        new Paragraph({ children: [new TextRun({ text: paper.title || "Practice Paper", bold: true, size: 28 })] }),
+        new Paragraph(""),
+        new Paragraph({ children: [new TextRun({ text: `Board: ${paper?.metadata?.board || ""}` })] }),
+        new Paragraph({ children: [new TextRun({ text: `Grade: ${paper?.metadata?.grade || ""}` })] }),
+        new Paragraph(""),
+        ...flattenSectionsToParagraphs(paper.sections || [], Paragraph, TextRun),
+      ];
+      const doc = new Document({ sections: [{ children }] });
+      const blob = await Packer.toBlob(doc);
       saveAs(blob, `${(paper?.title || "practice-paper").replace(/\s+/g, "_")}.docx`);
     } catch (err) {
       setError("DOCX export failed: " + String(err));
     }
   }
 
-  function flattenSectionsToParagraphs(sections) {
+  function flattenSectionsToParagraphs(sections, Paragraph, TextRun) {
     const paras = [];
     for (const s of sections) {
-      paras.push(new (require("docx").Paragraph)({ children: [new (require("docx").TextRun)({ text: s.title || "", bold: true })] }));
-      if (s.instructions) paras.push(new (require("docx").Paragraph)(s.instructions));
+      paras.push(new Paragraph({ children: [new TextRun({ text: s.title || "", bold: true })] }));
+      if (s.instructions) paras.push(new Paragraph(s.instructions));
       for (const q of s.questions || []) {
-        paras.push(new (require("docx").Paragraph)({ children: [new (require("docx").TextRun)({ text: `Q: ${q.question}`, break: 1 })] }));
-        if (q.modelAnswerOutline) paras.push(new (require("docx").Paragraph)({ children: [new (require("docx").TextRun)({ text: `Model answer / rubric: ${q.modelAnswerOutline}` })] }));
-        paras.push(new (require("docx").Paragraph)({ children: [new (require("docx").TextRun)({ text: "" })] }));
+        paras.push(new Paragraph({ children: [new TextRun({ text: `Q: ${q.question}`, break: 1 })] }));
+        if (q.modelAnswerOutline) paras.push(new Paragraph({ children: [new TextRun({ text: `Model answer / rubric: ${q.modelAnswerOutline}` })] }));
+        paras.push(new Paragraph({ children: [new TextRun({ text: "" })] }));
       }
-      paras.push(new (require("docx").Paragraph)({ children: [new (require("docx").TextRun)({ text: "" })] }));
+      paras.push(new Paragraph({ children: [new TextRun({ text: "" })] }));
     }
     return paras;
   }

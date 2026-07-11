@@ -12,8 +12,7 @@ export default function TermsOfService() {
         canonical="https://www.vertexed.app/terms"
       />
       <PageSection className="max-w-3xl mx-auto py-10">
-        <Article>
-          <h1>Terms of Service</h1>
+        <Article title="Terms of Service">
           <p><em>Last updated: July 11, 2026</em></p>
 
           <h2>Agreement</h2>

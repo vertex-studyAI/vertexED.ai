@@ -11,8 +11,7 @@ export default function PrivacyPolicy() {
         canonical="https://www.vertexed.app/privacy"
       />
       <PageSection className="max-w-3xl mx-auto py-10">
-        <Article>
-          <h1>Privacy Policy</h1>
+        <Article title="Privacy Policy">
           <p><em>Last updated: July 11, 2026</em></p>
 
           <h2>Overview</h2>

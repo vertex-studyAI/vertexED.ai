@@ -1,4 +1,3 @@
-import { useNavigate } from 'react-router-dom';
 import { PORTAL_FEATURES } from '@/content/portalCatalog';
 
 function scrollToFeature(anchorId: string) {
@@ -10,15 +9,9 @@ function scrollToFeature(anchorId: string) {
 }
 
 export default function FeatureDiscoveryRibbon() {
-  const navigate = useNavigate();
-
   const handleSelect = (feature: (typeof PORTAL_FEATURES)[number]) => {
     if (feature.anchorId) {
       scrollToFeature(feature.anchorId);
-      return;
-    }
-    if (feature.route) {
-      navigate(feature.route);
     }
   };
 
@@ -37,7 +30,7 @@ export default function FeatureDiscoveryRibbon() {
         </div>
         <div className="portal-discovery-track">
           {PORTAL_FEATURES.map((f) => {
-            const isInteractive = Boolean(f.anchorId || f.route);
+            const isInteractive = Boolean(f.anchorId);
             return (
               <button
                 key={f.id}
@@ -46,13 +39,7 @@ export default function FeatureDiscoveryRibbon() {
                 data-feature={f.id}
                 disabled={!isInteractive}
                 onClick={() => handleSelect(f)}
-                aria-label={
-                  f.anchorId
-                    ? `Jump to ${f.name}`
-                    : f.route
-                      ? `Open ${f.name}`
-                      : f.name
-                }
+                aria-label={f.anchorId ? `Jump to ${f.name}` : f.name}
               >
                 <div className="flex items-center gap-2 mb-1">
                   <span className="text-sm font-medium text-foreground">{f.name}</span>

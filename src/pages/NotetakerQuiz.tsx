@@ -1310,7 +1310,7 @@ export default function NotetakerQuiz(): JSX.Element {
 
                     <button
                       className="neu-button px-3 py-2 text-sm bg-primary/15 border-primary/25"
-                      onClick={startStudyMode}
+                      onClick={() => startStudyMode()}
                       disabled={!srDeck.length}
                     >
                       Study Mode

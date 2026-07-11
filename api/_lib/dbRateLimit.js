@@ -6,6 +6,7 @@ const fallbackBuckets = new Map();
 
 function hashKey(scope, key) {
   const salt = getWaitlistRateLimitSalt();
+  if (!salt) return null;
   return createHash('sha256').update(`${salt}:${scope}:${key}`).digest('hex');
 }
 
@@ -48,6 +49,9 @@ export async function checkDbRateLimit(scope, key, maxAttempts, windowMs) {
   }
 
   const ipHash = hashKey(scope, key);
+  if (!ipHash) {
+    return denyForWindow(windowMs);
+  }
   const since = new Date(Date.now() - windowMs).toISOString();
 
   const { count, error } = await supabase

@@ -95,6 +95,7 @@ export function getWaitlistRateLimitSalt() {
   if (salt && salt.trim()) return salt.trim();
   if (isProduction()) {
     console.error('WAITLIST_RATE_LIMIT_SALT is not configured in production');
+    return null;
   }
   return 'vertexed-waitlist';
 }
