@@ -79,14 +79,31 @@ export const ROUTES = {
 const TEST_AGENTS_ROUTE = 'test-agents';
 const BODY_METHODS = new Set(['POST', 'PUT', 'PATCH', 'DELETE']);
 
+/** Parse /api/<route> from Vercel request URLs when query.path is missing. */
+function pathFromUrl(url) {
+  if (!url || typeof url !== 'string') return '';
+  const pathname = url.split('?')[0];
+  const apiMatch = pathname.match(/\/api\/(.+)$/);
+  if (apiMatch) return apiMatch[1];
+  // Catch-all handlers sometimes receive the segment path only.
+  if (pathname.startsWith('/') && pathname !== '/api' && pathname !== '/api/') {
+    return pathname.replace(/^\/+/, '');
+  }
+  return '';
+}
+
 export function resolveRouteKey(req) {
   const segments = req.query?.path;
-  let key = 'health';
+  let key = '';
 
   if (Array.isArray(segments)) {
     key = segments.filter(Boolean).join('/');
   } else if (typeof segments === 'string' && segments.trim()) {
     key = segments.trim();
+  }
+
+  if (!key) {
+    key = pathFromUrl(req.url);
   }
 
   return key.replace(/^\/+|\/+$/g, '') || 'health';

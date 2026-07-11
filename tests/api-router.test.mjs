@@ -10,6 +10,13 @@ test('resolveRouteKey normalizes empty and slashy paths', () => {
   assert.equal(resolveRouteKey({ query: {} }), 'health');
 });
 
+test('resolveRouteKey falls back to req.url on Vercel when query.path is absent', () => {
+  assert.equal(resolveRouteKey({ query: {}, url: '/api/waitlist' }), 'waitlist');
+  assert.equal(resolveRouteKey({ query: {}, url: '/api/ask' }), 'ask');
+  assert.equal(resolveRouteKey({ query: {}, url: '/api/user-content?kind=note' }), 'user-content');
+  assert.equal(resolveRouteKey({ query: {}, url: 'https://www.vertexed.app/api/planner' }), 'planner');
+});
+
 test('getQueryParam reads from req.query on Vercel-style requests', () => {
   const { req } = createMocks({
     method: 'GET',
