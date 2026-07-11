@@ -113,7 +113,13 @@ export default function Signup() {
         }),
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Could not create account");
+      if (!res.ok) {
+        if (res.status === 429 && data.retryAfter) {
+          const mins = Math.max(1, Math.ceil(Number(data.retryAfter) / 60));
+          throw new Error(`${data.error || "Too many attempts."} Try again in about ${mins} minute${mins === 1 ? "" : "s"}.`);
+        }
+        throw new Error(data.error || "Could not create account");
+      }
 
       await login(normalizedEmail, password);
       sessionStorage.setItem("vertex_welcome", "1");

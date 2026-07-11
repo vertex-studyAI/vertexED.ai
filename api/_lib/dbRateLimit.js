@@ -50,7 +50,8 @@ export async function checkDbRateLimit(scope, key, maxAttempts, windowMs) {
 
   const ipHash = hashKey(scope, key);
   if (!ipHash) {
-    return denyForWindow(windowMs);
+    console.error('WAITLIST_RATE_LIMIT_SALT missing; using in-memory rate limit fallback');
+    return checkInMemoryFallback(scope, key, maxAttempts, windowMs);
   }
   const since = new Date(Date.now() - windowMs).toISOString();
 

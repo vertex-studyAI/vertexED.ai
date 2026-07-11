@@ -12,15 +12,6 @@ export default async function handler(req, res) {
 
   if (rejectOversizedJsonBody(req, res, 32 * 1024)) return;
 
-  const ip = getClientIp(req);
-  const rate = await checkDbRateLimit('signup-invite', ip, 10, 60 * 60 * 1000);
-  if (!rate.allowed) {
-    return res.status(429).json({
-      error: 'Too many signup attempts. Try again later.',
-      retryAfter: rate.retryAfterSec,
-    });
-  }
-
   if (!process.env.SIGNUP_INVITE_CODE) {
     console.error('SIGNUP_INVITE_CODE is not configured');
     return res.status(503).json({ error: 'Invite signup is not available right now.' });
@@ -46,7 +37,19 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: passwordCheck.error });
     }
 
+    const ip = getClientIp(req);
     const hasTeamInvite = verifyInviteCode(inviteCode);
+
+    if (!hasTeamInvite) {
+      const rate = await checkDbRateLimit('signup-invite', ip, 20, 60 * 60 * 1000);
+      if (!rate.allowed) {
+        return res.status(429).json({
+          error: 'Too many signup attempts from this network. Wait a few minutes and try again.',
+          retryAfter: rate.retryAfterSec,
+        });
+      }
+    }
+
     const supabase = getSupabaseAdmin();
 
     let hasValidInvite = hasTeamInvite;
