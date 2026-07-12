@@ -44,9 +44,8 @@ export default function CloudSaveBanner() {
         <p className="font-medium text-sky-200">Working in device-save mode</p>
         <p className="mt-1 text-sky-100/90">{message}</p>
         <p className="mt-1 text-xs text-sky-100/70">
-          To sync across devices, run{" "}
-          <code className="rounded bg-black/20 px-1">supabase/migrations/20260709_user_study_artifacts.sql</code>{" "}
-          and set <code className="rounded bg-black/20 px-1">SUPABASE_SERVICE_ROLE_KEY</code> in Vercel.
+          Cloud sync is not active yet — your work is still saved on this device. An admin needs to finish
+          the one-time Supabase + Vercel setup.
         </p>
       </div>
       <button

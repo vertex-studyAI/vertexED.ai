@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import SEO from "@/components/SEO";
 import { useAuth } from "@/contexts/AuthContext";
 import { TypeAnimation } from "react-type-animation";
+import { ArrowUpRight, BrainCircuit, LockKeyhole, ShieldCheck, Zap } from "lucide-react";
 import ProblemFlipCard from "@/components/landing/ProblemFlipCard";
 import LandingFeatureRow from "@/components/landing/LandingFeatureRow";
 import LandingStudyLoopStrip from "@/components/landing/LandingStudyLoopStrip";
@@ -189,9 +190,9 @@ export default function Home() {
 
       <LiquidGlass as="section" variant="hero" className="hero-section px-6 md:px-10 pt-16 md:pt-24 pb-16 md:pb-20 text-center cinematic-section">
         <div className="max-w-5xl mx-auto">
-          <p className="glass-chip mb-8 mx-auto w-fit">Built for exam season — and the weeks before it</p>
+          <p className="hero-kicker mb-8 mx-auto w-fit"><span /> Built for exam season — and the weeks before it</p>
 
-          <h1 className="text-[clamp(2.5rem,8vw,4.5rem)] font-bold text-foreground leading-[1.05] tracking-tight">
+          <h1 className="hero-display text-[clamp(2.8rem,8vw,5.25rem)] font-bold text-foreground leading-[.93] tracking-[-0.065em]">
             <TypeAnimation
               sequence={[
                 800,
@@ -207,6 +208,8 @@ export default function Home() {
               repeat={Infinity}
             />
           </h1>
+
+          <div className="hero-scribble" aria-hidden="true">make it stick</div>
 
           <p className="mt-8 text-xl md:text-2xl font-medium text-foreground/90 max-w-3xl mx-auto leading-snug">
             Most study apps sell features. VertexED connects planning, timed practice, rubric feedback, and spaced retrieval
@@ -226,6 +229,43 @@ export default function Home() {
       </LiquidGlass>
 
       <LandingStudyLoopStrip />
+
+      <section className="trust-section max-w-6xl mx-auto px-6 py-16 md:py-24 cinematic-section" aria-labelledby="trust-title">
+        <div className="trust-grid">
+          <div className="trust-intro">
+            <p className="section-eyebrow">Built with a lock on the door</p>
+            <h2 id="trust-title" className="trust-title">Fast enough to feel instant.<br /><em>Hard enough to break.</em></h2>
+            <p className="trust-copy">
+              Your study history is personal. VertexED is designed so speed, stronger reasoning, and a beautiful workspace never come at the expense of your data.
+            </p>
+            <Link to="/privacy" className="trust-link">Read our privacy approach <ArrowUpRight className="h-4 w-4" /></Link>
+          </div>
+
+          <div className="trust-board" aria-label="Security and runtime principles">
+            <article className="trust-card trust-card-main">
+              <div className="trust-icon"><ShieldCheck /></div>
+              <p className="trust-number">01 / PRIVACY</p>
+              <h3>Your work stays yours.</h3>
+              <p>Account access is protected and study data is handled as private learning context—not material for public model training.</p>
+              <span className="trust-stamp">PRIVATE BY DESIGN</span>
+            </article>
+            <article className="trust-card trust-card-offset">
+              <div className="trust-icon trust-icon-lime"><LockKeyhole /></div>
+              <p className="trust-number">02 / PROTECTION</p>
+              <h3>Guardrails where they matter.</h3>
+              <p>Rate limits, input sanitisation, scoped access, and verification keep the app resilient when the internet gets messy.</p>
+            </article>
+            <article className="trust-card trust-card-wide">
+              <div className="trust-runtime-copy">
+                <div className="trust-icon trust-icon-violet"><BrainCircuit /></div>
+                <div><p className="trust-number">03 / RUNTIME</p><h3>Serious thinking, without the wait.</h3></div>
+              </div>
+              <p>Focused runtimes keep the interface responsive while the heavy work happens safely in the background. Less spinning. More studying.</p>
+              <div className="runtime-meter" aria-hidden="true"><i /><i /><i /><i /><i /><b><Zap className="h-3.5 w-3.5" /> live</b></div>
+            </article>
+          </div>
+        </div>
+      </section>
 
       <FloatingInsightDeck />
 
