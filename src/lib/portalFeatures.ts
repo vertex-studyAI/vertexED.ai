@@ -154,13 +154,14 @@ export function buildPortalIntelligence(
   const last7 = trend.snapshots.slice(-7);
   let delta = 0;
   let velocityTrend: PortalIntelligence['revisionVelocity']['trend'] = 'flat';
-  if (last7.length >= 2) {
-    delta = last7[last7.length - 1].avgMastery - last7[0].avgMastery;
+  const masterySeries = last7.map((snapshot) => snapshot.avgMastery).filter((value): value is number => typeof value === 'number');
+  if (masterySeries.length >= 2) {
+    delta = masterySeries[masterySeries.length - 1] - masterySeries[0];
     if (delta > 3) velocityTrend = 'up';
     else if (delta < -3) velocityTrend = 'down';
   }
   const velocityLabel =
-    last7.length < 2
+    masterySeries.length < 2
       ? 'Complete a few reviews to see your trend'
       : velocityTrend === 'up'
         ? `+${delta}% mastery this week`
@@ -213,7 +214,7 @@ export function buildPortalIntelligence(
   const habitRatio = stats.habitCount > 0 ? stats.habitsDoneToday / stats.habitCount : 0;
   const loopRatio = loop.completed.length / 5;
   const focusScore = Math.round(
-    Math.min(100, habitRatio * 35 + loopRatio * 35 + Math.min(stats.studyStreak, 14) * 2.14 + trend.avgMastery * 0.15),
+    Math.min(100, habitRatio * 35 + loopRatio * 35 + Math.min(stats.studyStreak, 14) * 2.14 + (trend.avgMastery ?? 0) * 0.15),
   );
 
   const weakest = heatmap[0] ?? null;

@@ -1,61 +1,75 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link, useSearchParams } from "react-router-dom";
-import { motion } from "framer-motion";
-import { ArrowLeft, Sparkles, FileText, ImagePlus, Download, Grid, FileArchive, Clock } from "lucide-react";
-import NeumorphicCard from "@/components/NeumorphicCard";
+import { ArrowLeft, CheckCircle2, ShieldAlert } from "lucide-react";
 import PageSection from "@/components/PageSection";
+import NeumorphicCard from "@/components/NeumorphicCard";
 import { authFetch } from "@/lib/apiAuth";
-import MockExamMode from "@/components/MockExamMode";
-import { saveStudyArtifact, consumeArtifactRestore } from "@/lib/userContent";
-import { recordStudySession } from "@/lib/studyStats";
-import { recordLoopStep } from "@/lib/studyLoopTracker";
-import { toast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
 import {
   BOARD_CONFIGS,
   EXAM_BOARDS,
   boardToApiLabel,
-  daysUntilExam,
-  getCurriculumPreference,
   getGradesForBoard,
   getSubjectsForBoard,
 } from "@/lib/curriculum";
 import type { ExamBoard } from "@/types/curriculum";
 
-export default function PaperMaker({ priorPapers = [] }) {
+type Availability = {
+  available: boolean;
+  message: string;
+  questionCount: number;
+  subject: { id: string; title: string } | null;
+};
+
+type SessionItem = {
+  id: string;
+  ordinal: number;
+  externalReference: string;
+  questionText: string;
+  questionType: string;
+  marks: number;
+  questionPayload?: { choices?: string[] };
+};
+
+type SessionState = {
+  id: string;
+  status: string;
+  sessionType: string;
+  items: SessionItem[];
+};
+
+type SubmissionResult = {
+  sessionItemId: string;
+  score: number | null;
+  maxScore: number | null;
+  status: string;
+  message: string;
+};
+
+export default function PaperMaker() {
   const { user } = useAuth();
   const [searchParams] = useSearchParams();
   const [board, setBoard] = useState<ExamBoard>("IB_MYP");
-  const [grade, setGrade] = useState(null);
+  const [grade, setGrade] = useState<number | null>(null);
   const [subject, setSubject] = useState("");
-  const [topics, setTopics] = useState("");
-  const [topicTags, setTopicTags] = useState([]);
-  const [marks, setMarks] = useState(50);
-  const [numQuestions, setNumQuestions] = useState(10);
-  const [format, setFormat] = useState("Mixed Format");
-  const [difficulty, setDifficulty] = useState(2);
-  const [criteria, setCriteria] = useState("");
-  const [useCriteria, setUseCriteria] = useState(false);
-  const [anythingElse, setAnythingElse] = useState("");
-  const [files, setFiles] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-  const [paper, setPaper] = useState(null);
-  const [raw, setRaw] = useState(null);
-  const [mockExamOpen, setMockExamOpen] = useState(false);
-  const [mockCramMode, setMockCramMode] = useState(false);
-  const [saveStatus, setSaveStatus] = useState("");
-  const examDaysLeft = daysUntilExam(getCurriculumPreference(user).examDate);
+  const [availability, setAvailability] = useState<Availability | null>(null);
+  const [availabilityLoading, setAvailabilityLoading] = useState(false);
+  const [availabilityError, setAvailabilityError] = useState("");
+  const [session, setSession] = useState<SessionState | null>(null);
+  const [answers, setAnswers] = useState<Record<string, string>>({});
+  const [submitting, setSubmitting] = useState(false);
+  const [submission, setSubmission] = useState<{
+    verifiedScore: number;
+    verifiedMaxScore: number;
+    results: SubmissionResult[];
+  } | null>(null);
+  const [sessionError, setSessionError] = useState("");
+  const [sessionType, setSessionType] = useState<"diagnostic" | "practice" | "mock">("practice");
+  const [savedItems, setSavedItems] = useState<Record<string, boolean>>({});
 
-  const previewRef = useRef(null);
-  const prevBoardRef = useRef(board);
-  const boardApiLabel = boardToApiLabel(board);
-  const criteriaOptions = BOARD_CONFIGS[board].criteria ?? [];
-
-  const gradesForBoard = useMemo(() => getGradesForBoard(board), [board]);
-
-  const subjectsForBoard = useMemo(() => getSubjectsForBoard(board, grade), [board, grade]);
+  const grades = useMemo(() => getGradesForBoard(board), [board]);
+  const subjects = useMemo(() => getSubjectsForBoard(board, grade), [board, grade]);
 
   useEffect(() => {
     const pref = user?.user_metadata;
@@ -73,433 +87,366 @@ export default function PaperMaker({ priorPapers = [] }) {
 
   useEffect(() => {
     const subjectParam = searchParams.get("subject");
-    if (!subjectParam) return;
-    setSubject((current) => current || subjectParam);
-    const topicParam = searchParams.get("topic");
-    if (topicParam) {
-      setTopics((current) => current || topicParam);
-    }
-    if (searchParams.get("cram") === "1") {
-      setMockCramMode(true);
-    }
+    if (subjectParam) setSubject((current) => current || subjectParam);
   }, [searchParams]);
 
   useEffect(() => {
-    const restored = consumeArtifactRestore();
-    if (!restored || restored.kind !== "paper") return;
-    const paperData = (restored.payload?.paper ?? restored.payload) as Record<string, unknown> | null;
-    if (paperData && typeof paperData === "object") {
-      setPaper(paperData);
-      setSaveStatus("Restored from saved work");
-      toast({ title: "Paper restored", description: restored.title || "Your saved paper is ready." });
-    }
-  }, []);
+    setAvailability(null);
+    setSession(null);
+    setSubmission(null);
+    setAnswers({});
+    setSavedItems({});
+    setSessionError("");
+  }, [board, grade, subject]);
 
-  useEffect(() => {
-    if (prevBoardRef.current === board) return;
-    prevBoardRef.current = board;
-    setGrade(null);
-    setSubject("");
-    setTopics("");
-    setTopicTags([]);
-    setMarks(50);
-    setNumQuestions(10);
-    setFormat("Mixed Format");
-    setDifficulty(2);
-    setCriteria("");
-    setUseCriteria(board === "IB_MYP" || board === "IB_DP");
-    setAnythingElse("");
-    setFiles([]);
-    setPaper(null);
-    setRaw(null);
-    setError("");
-  }, [board]);
-
-  useEffect(() => {
-    const tags = topics.split(",").map((t) => t.trim()).filter(Boolean);
-    setTopicTags(tags);
-  }, [topics]);
-
-  const formComplete = useMemo(() => {
-    if (!board) return false;
-    if (!grade) return false;
-    if (!subject) return false;
-    if (useCriteria && !criteria) return false;
-    if (!useCriteria && (marks === null || marks < 32 || marks > 100)) return false;
-    return true;
-  }, [board, grade, subject, useCriteria, criteria, marks]);
-
-  async function handleFilesChange(ev) {
-    const list = Array.from(ev.target.files || []);
-    const converted = await Promise.all(list.map(fileToBase64Safe));
-    setFiles((prev) => [...prev, ...converted]);
-  }
-
-  async function fileToBase64Safe(file) {
-    const maxBytes = 3 * 1024 * 1024;
-    if (file.size > maxBytes) {
-      setError(`File ${file.name} is larger than ${Math.round(maxBytes / 1024)} KB; please reduce size.`);
-    }
-    return new Promise((resolve) => {
-      const reader = new FileReader();
-      reader.onload = () => {
-        const result = reader.result;
-        const b64 = typeof result === "string" ? result.split(",")[1] : null;
-        resolve({ name: file.name, mime: file.type, b64 });
-      };
-      reader.onerror = () => resolve({ name: file.name, mime: file.type, b64: null });
-      reader.readAsDataURL(file);
-    });
-  }
-
-  async function handleGenerate(e) {
-    e?.preventDefault?.();
-    setError("");
-    setLoading(true);
-    setPaper(null);
-    setRaw(null);
-
-    const payload = {
-      board: boardApiLabel,
-      grade,
-      subject,
-      topics: topicTags,
-      marks: useCriteria ? null : marks,
-      criteria: useCriteria ? criteria : null,
-      numQuestions,
-      format,
-      difficulty: difficulty === 1 ? "Easy" : difficulty === 2 ? "Medium" : "Hard",
-      anythingElse,
-      priorPapers,
-      images: files.map((f) => ({ name: f.name, mime: f.mime, b64: f.b64 })),
-    };
-
+  async function checkAvailability() {
+    setAvailabilityLoading(true);
+    setAvailabilityError("");
     try {
-      const res = await authFetch("/api/paper-generator", {
+      const res = await authFetch("/api/exam-catalog", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
+        body: JSON.stringify({
+          action: "availability",
+          board: boardToApiLabel(board),
+          subject,
+        }),
       });
       const data = await res.json();
-      setLoading(false);
-      if (!data.success) {
-        setError(data.error || "Generation failed");
-        setRaw(data?.raw ?? null);
+      if (!res.ok || !data.success) {
+        setAvailability(null);
+        setAvailabilityError(data.error || "Could not load catalogue availability.");
         return;
       }
-
-      let paperData = data.paper;
-      if (typeof paperData === "string") {
-        try {
-          paperData = JSON.parse(paperData);
-        } catch {
-          setRaw(paperData);
-          setError("Could not parse generated paper JSON.");
-          return;
-        }
-      }
-
-      if (paperData && typeof paperData === "object") {
-        setPaper(paperData);
-        setRaw(null);
-        recordStudySession();
-        recordLoopStep("practise");
-        const title = paperData.title || `${boardApiLabel} ${subject} paper`;
-        saveStudyArtifact("paper", title, { paper: paperData, board: boardApiLabel, subject, grade }).then((r) => {
-          if (r.ok) {
-            setSaveStatus(r.localOnly ? "Saved on this device" : "Saved to your account");
-            toast({
-              title: r.localOnly ? "Saved on this device" : "Paper saved",
-              description: r.localOnly
-                ? "Cloud sync pending — your paper is stored locally for now."
-                : "Your mock paper is in your account.",
-            });
-          } else if (r.error) {
-            toast({
-              title: "Save failed",
-              description: r.error,
-              variant: "destructive",
-            });
-          }
-        });
-      } else if (data.raw) {
-        setRaw(data.raw);
-      } else {
-        setError("Generation returned an unexpected format.");
-      }
-    } catch (err) {
-      setLoading(false);
-      setError(String(err));
+      setAvailability(data.availability);
+    } catch (error) {
+      setAvailabilityError(String(error));
+    } finally {
+      setAvailabilityLoading(false);
     }
   }
 
-  async function exportPDF() {
-    if (!paper && !previewRef.current) return;
+  async function startVerifiedPractice() {
+    setSessionError("");
+    setSubmitting(true);
     try {
-      const html2canvas = (await import("html2canvas")).default;
-      const jsPDF = (await import("jspdf")).jsPDF;
-      const node = previewRef.current;
-      const canvas = await html2canvas(node, { scale: 2, useCORS: true });
-      const imgData = canvas.toDataURL("image/png");
-      const pdf = new jsPDF({ unit: "pt", format: "a4" });
-      const pageWidth = pdf.internal.pageSize.getWidth();
-      const pageHeight = pdf.internal.pageSize.getHeight();
-      const ratio = Math.min(pageWidth / canvas.width, pageHeight / canvas.height);
-      const w = canvas.width * ratio;
-      const h = canvas.height * ratio;
-      pdf.addImage(imgData, "PNG", (pageWidth - w) / 2, 20, w, h);
-      pdf.save(`${(paper?.title || "practice-paper").replace(/\s+/g, "_")}.pdf`);
-    } catch (err) {
-      setError("PDF export failed: " + String(err));
-    }
-  }
-
-  async function exportDocx() {
-    if (!paper) return;
-    try {
-      const { Document, Packer, Paragraph, TextRun } = await import("docx");
-      const { saveAs } = await import("file-saver");
-      const children = [
-        new Paragraph({ children: [new TextRun({ text: paper.title || "Practice Paper", bold: true, size: 28 })] }),
-        new Paragraph(""),
-        new Paragraph({ children: [new TextRun({ text: `Board: ${paper?.metadata?.board || ""}` })] }),
-        new Paragraph({ children: [new TextRun({ text: `Grade: ${paper?.metadata?.grade || ""}` })] }),
-        new Paragraph(""),
-        ...flattenSectionsToParagraphs(paper.sections || [], Paragraph, TextRun),
-      ];
-      const doc = new Document({ sections: [{ children }] });
-      const blob = await Packer.toBlob(doc);
-      saveAs(blob, `${(paper?.title || "practice-paper").replace(/\s+/g, "_")}.docx`);
-    } catch (err) {
-      setError("DOCX export failed: " + String(err));
-    }
-  }
-
-  function flattenSectionsToParagraphs(sections, Paragraph, TextRun) {
-    const paras = [];
-    for (const s of sections) {
-      paras.push(new Paragraph({ children: [new TextRun({ text: s.title || "", bold: true })] }));
-      if (s.instructions) paras.push(new Paragraph(s.instructions));
-      for (const q of s.questions || []) {
-        paras.push(new Paragraph({ children: [new TextRun({ text: `Q: ${q.question}`, break: 1 })] }));
-        if (q.modelAnswerOutline) paras.push(new Paragraph({ children: [new TextRun({ text: `Model answer / rubric: ${q.modelAnswerOutline}` })] }));
-        paras.push(new Paragraph({ children: [new TextRun({ text: "" })] }));
+      const res = await authFetch("/api/exam-catalog", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "start_session",
+          board: boardToApiLabel(board),
+          subject,
+          sessionType,
+          itemCount: sessionType === "mock" ? 12 : 5,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        setSession(null);
+        setSessionError(data.error || "Could not start verified practice.");
+        if (data.availability) setAvailability(data.availability);
+        return;
       }
-      paras.push(new Paragraph({ children: [new TextRun({ text: "" })] }));
+      setSession(data.session);
+      setSubmission(null);
+      setAnswers({});
+      setSavedItems({});
+    } catch (error) {
+      setSessionError(String(error));
+    } finally {
+      setSubmitting(false);
     }
-    return paras;
   }
+
+  async function saveResponse(sessionItemId: string, answer: string) {
+    if (!session) return;
+    setSessionError("");
+    try {
+      const res = await authFetch("/api/exam-catalog", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "save_response",
+          sessionId: session.id,
+          sessionItemId,
+          answerText: answer,
+          responsePayload: { answer },
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.success) throw new Error(data.error || "Could not save this answer.");
+      setSavedItems((previous) => ({ ...previous, [sessionItemId]: true }));
+    } catch (error) {
+      setSavedItems((previous) => ({ ...previous, [sessionItemId]: false }));
+      setSessionError(error instanceof Error ? error.message : "Could not save this answer.");
+    }
+  }
+
+  async function submitSession() {
+    if (!session) return;
+    setSubmitting(true);
+    setSessionError("");
+    try {
+      const res = await authFetch("/api/exam-catalog", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "submit_session",
+          sessionId: session.id,
+          answers,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        setSessionError(data.error || "Could not submit this session.");
+        return;
+      }
+      setSubmission(data.submission);
+    } catch (error) {
+      setSessionError(String(error));
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
+  const canCheck = Boolean(board && subject);
+  const canStart = availability?.available === true;
 
   return (
     <>
       <Helmet>
-        <title>IB/IGCSE Practice Paper Generator — VertexED</title>
-        <meta name="description" content="Create syllabus-aligned IB, IGCSE, CBSE, and A-Level practice papers instantly with rubric-style guidance and model answers." />
-        <link rel="canonical" href="https://www.vertexed.app/paper-maker" />
-        <meta property="og:title" content="IB/IGCSE Practice Paper Generator — VertexED" />
-        <meta property="og:description" content="Generate syllabus-aligned practice papers with authentic phrasing and mark schemes." />
-        <meta property="og:url" content="https://www.vertexed.app/paper-maker" />
-        <meta property="og:image" content="https://www.vertexed.app/socialpreview.jpg" />
+        <title>Verified Practice | VertexEd</title>
+        <meta
+          name="description"
+          content="Start verified practice only from administrator-approved, reviewed exam content. Unsupported subjects are shown honestly as unavailable."
+        />
       </Helmet>
 
       <PageSection>
-        <div className="mb-6 flex items-center gap-3">
-          <Link to="/main" className="neu-button px-4 py-2 text-sm flex items-center gap-2">
-            <ArrowLeft size={14} /> <span>Back to Main</span>
+        <div className="mb-6">
+          <h1 className="text-3xl font-semibold text-foreground">Verified practice workspace</h1>
+          <p className="mt-2 max-w-3xl text-sm text-muted-foreground">
+            Only administrator-approved, reviewed assessment content appears here. If a subject is unavailable, VertexEd will say so instead of inventing a paper.
+          </p>
+        </div>
+        <div className="mb-4">
+          <Link to="/main" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground">
+            <ArrowLeft className="h-4 w-4" />
+            Back to dashboard
           </Link>
-          <div className="ml-auto text-sm opacity-70 flex items-center gap-2">
-            <Sparkles size={14} /> <span>Adaptive UI • Animated</span>
-          </div>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8">
-          <NeumorphicCard className="p-6 min-h-[28rem]" title="Paper Configuration" info="Choose board, subject, grade, topics, and total marks. Add teacher notes or past-paper style hints if you have them.">
-            <form className="grid gap-5" onSubmit={handleGenerate}>
-              <div className="grid grid-cols-2 gap-4">
-                <motion.div whileHover={{ scale: 1.02 }} className="neu-input">
-                  <label className="sr-only">Board</label>
-                  <select className="neu-input-el" value={board} onChange={(e) => setBoard(e.target.value as ExamBoard)} aria-label="Board">
-                    {EXAM_BOARDS.map((b) => <option key={b} value={b}>{BOARD_CONFIGS[b].label}</option>)}
-                  </select>
-                </motion.div>
-
-                <motion.div whileHover={{ scale: 1.02 }} className="neu-input">
-                  <select className="neu-input-el" value={grade ?? ""} onChange={(e) => setGrade(Number(e.target.value))} aria-label="Grade">
-                    <option value="">Select Grade</option>
-                    {gradesForBoard.map(g => <option key={g} value={g}>{g}</option>)}
-                  </select>
-                </motion.div>
-              </div>
-
-              <motion.div whileHover={{ scale: 1.01 }} className="neu-input">
-                <select className="neu-input-el" value={subject} onChange={(e) => setSubject(e.target.value)} aria-label="Subject" disabled={!grade}>
-                  <option value="">Select Subject</option>
-                  {subjectsForBoard.map(s => <option key={s} value={s}>{s}</option>)}
+        <div className="grid gap-6 lg:grid-cols-[1.15fr_0.85fr]">
+          <NeumorphicCard className="p-5">
+            <div className="grid gap-4 md:grid-cols-3">
+              <label className="space-y-2 text-sm">
+                <span className="text-muted-foreground">Board</span>
+                <select className="neu-input-el w-full" value={board} onChange={(e) => setBoard(e.target.value as ExamBoard)}>
+                  {EXAM_BOARDS.map((value) => (
+                    <option key={value} value={value}>
+                      {BOARD_CONFIGS[value].label}
+                    </option>
+                  ))}
                 </select>
-              </motion.div>
+              </label>
 
-              <motion.div whileHover={{ translateY: -2 }} className="neu-input">
-                <input className="neu-input-el" placeholder="Specific topics (comma separated)" value={topics} onChange={(e) => setTopics(e.target.value)} aria-label="Topics" />
-                <div className="mt-2 flex flex-wrap gap-2">{topicTags.map(t => <motion.span key={t} className="px-3 py-1 rounded-full text-xs bg-gray-100 border">{t}</motion.span>)}</div>
-              </motion.div>
+              <label className="space-y-2 text-sm">
+                <span className="text-muted-foreground">Level</span>
+                <select
+                  className="neu-input-el w-full"
+                  value={grade ?? ""}
+                  onChange={(e) => setGrade(e.target.value ? Number(e.target.value) : null)}
+                >
+                  <option value="">Select level</option>
+                  {grades.map((value) => (
+                    <option key={value} value={value}>
+                      {value}
+                    </option>
+                  ))}
+                </select>
+              </label>
 
-              <div className="grid grid-cols-2 gap-4">
-                {useCriteria ? (
-                  <motion.div whileHover={{ scale: 1.02 }} className="neu-input">
-                    <select className="neu-input-el" value={criteria} onChange={(e) => setCriteria(e.target.value)}>
-                      <option value="">Select Criteria / Component</option>
-                      {(criteriaOptions).map(c => <option key={c} value={c}>{c}</option>)}
-                    </select>
-                    <div className="text-xs text-muted-foreground mt-1">Criteria mode hides total marks and uses rubric weightings.</div>
-                  </motion.div>
-                ) : (
-                  <motion.div whileHover={{ scale: 1.02 }} className="neu-input">
-                    <input className="neu-input-el" type="number" min={32} max={100} value={marks ?? ""} onChange={(e) => setMarks(Number(e.target.value))} placeholder="Total marks (32-100)" />
-                  </motion.div>
-                )}
-                <motion.div whileHover={{ scale: 1.02 }} className="neu-input">
-                  <input className="neu-input-el" type="number" min={1} max={100} value={numQuestions} onChange={(e) => setNumQuestions(Number(e.target.value))} placeholder="Number of questions" />
-                </motion.div>
+              <label className="space-y-2 text-sm">
+                <span className="text-muted-foreground">Subject</span>
+                <select className="neu-input-el w-full" value={subject} onChange={(e) => setSubject(e.target.value)}>
+                  <option value="">Select subject</option>
+                  {subjects.map((value) => (
+                    <option key={value} value={value}>
+                      {value}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            </div>
+
+            <div className="mt-5 grid gap-4 sm:grid-cols-[minmax(0,1fr)_auto_auto] sm:items-end">
+              <label className="space-y-2 text-sm">
+                <span className="text-muted-foreground">Session</span>
+                <select className="neu-input-el w-full" value={sessionType} onChange={(event) => setSessionType(event.target.value as typeof sessionType)}>
+                  <option value="diagnostic">Diagnostic (5 questions)</option>
+                  <option value="practice">Targeted practice (5 questions)</option>
+                  <option value="mock">Timed mock set (up to 12 questions)</option>
+                </select>
+              </label>
+              <button
+                type="button"
+                className="neu-button px-4 py-2 text-sm disabled:opacity-50"
+                disabled={!canCheck || availabilityLoading}
+                onClick={checkAvailability}
+              >
+                {availabilityLoading ? "Checking..." : "Check approved content"}
+              </button>
+              <button
+                type="button"
+                className="neu-button px-4 py-2 text-sm disabled:opacity-50"
+                disabled={!canStart || submitting}
+                onClick={startVerifiedPractice}
+              >
+                {submitting && !session ? "Starting..." : `Start ${sessionType === "mock" ? "verified mock" : "verified session"}`}
+              </button>
+            </div>
+
+            {(availabilityError || sessionError) && (
+              <div className="mt-4 rounded-2xl border border-destructive/30 bg-destructive/10 p-4 text-sm text-destructive">
+                {availabilityError || sessionError}
               </div>
+            )}
 
-              <div className="grid grid-cols-2 gap-4">
-                <motion.div whileHover={{ scale: 1.01 }} className="neu-input">
-                  <select className="neu-input-el" value={format} onChange={(e) => setFormat(e.target.value)}>
-                    <option>Mixed Format</option>
-                    <option>Short Answer Only</option>
-                    <option>Structured Questions</option>
-                    <option>Essay Format</option>
-                  </select>
-                </motion.div>
-
-                <motion.div whileHover={{ translateY: -2 }} className="neu-input p-4">
-                  <label className="block text-xs text-muted-foreground mb-2">Difficulty</label>
-                  <input aria-label="Difficulty" type="range" min={1} max={3} step={1} value={difficulty} onChange={(e) => setDifficulty(Number(e.target.value))} />
-                  <div className="flex justify-between text-xs text-muted-foreground mt-1"><span>Easy</span><span>Medium</span><span>Hard</span></div>
-                </motion.div>
-              </div>
-
-              <motion.div whileHover={{ scale: 1.01 }} className="neu-input">
-                <textarea className="neu-input-el h-20" value={anythingElse} onChange={(e) => setAnythingElse(e.target.value)} placeholder="Anything else? (teacher notes, style preferences, past paper references...)" />
-              </motion.div>
-
-              <motion.div whileHover={{ scale: 1.01 }} className="neu-input">
-                <label className="flex items-center gap-2 cursor-pointer text-sm">
-                  <ImagePlus /> <span>Attach images (diagrams) - optional</span>
-                  <input type="file" className="sr-only" accept="image/*" multiple onChange={handleFilesChange} />
-                </label>
-                <div className="mt-2 grid grid-cols-3 gap-2">
-                  {files.map((f) => {
-                    const src = f.b64 ? `data:${f.mime};base64,${f.b64}` : null;
-                    return (
-                      <div key={f.name} className="flex flex-col items-center text-xs bg-gray-50 rounded p-2">
-                        {src ? <img src={src} alt={f.name} style={{ maxWidth: 120, maxHeight: 80, objectFit: 'contain' }} /> : <FileArchive />}
-                        <div className="mt-1 truncate w-full text-center text-sm">{f.name}</div>
-                      </div>
-                    );
-                  })}
+            {session && (
+              <div className="mt-6 space-y-4">
+                <div className="rounded-2xl border border-border/60 bg-foreground/[0.03] p-4">
+                  <p className="text-sm text-muted-foreground">
+                    Session type: <span className="text-foreground">{session.sessionType}</span>
+                  </p>
+                  <p className="mt-1 text-sm text-muted-foreground">
+                    Verified scoring only appears for deterministically scorable items. Other responses are accepted, but scores are withheld.
+                  </p>
                 </div>
-              </motion.div>
 
-              {error && <div className="text-red-500 text-sm">{error}</div>}
+                {session.items.map((item) => (
+                  <div key={item.id} className="rounded-2xl border border-border/60 p-4">
+                    <div className="flex items-start justify-between gap-4">
+                      <div>
+                        <p className="text-xs uppercase tracking-wide text-muted-foreground">
+                          Question {item.ordinal} · {item.externalReference}
+                        </p>
+                        <p className="mt-2 text-sm leading-6 text-foreground">{item.questionText}</p>
+                      </div>
+                      <span className="text-xs text-muted-foreground">{item.marks} marks</span>
+                    </div>
+                    {item.questionType === "selected_response" && Array.isArray(item.questionPayload?.choices) && item.questionPayload.choices.length > 0 ? (
+                      <fieldset className="mt-4 space-y-2" aria-label={`Answer options for question ${item.ordinal}`}>
+                        {item.questionPayload.choices.map((choice) => (
+                          <label key={choice} className="flex cursor-pointer items-center gap-3 rounded-lg border border-border/60 px-3 py-2 text-sm hover:border-primary/40">
+                            <input
+                              type="radio"
+                              name={`question-${item.id}`}
+                              value={choice}
+                              checked={answers[item.id] === choice}
+                              onChange={() => {
+                                setAnswers((previous) => ({ ...previous, [item.id]: choice }));
+                                void saveResponse(item.id, choice);
+                              }}
+                            />
+                            {choice}
+                          </label>
+                        ))}
+                      </fieldset>
+                    ) : (
+                      <textarea
+                        className="neu-input-el mt-4 min-h-[140px] w-full"
+                        placeholder="Write your answer here"
+                        value={answers[item.id] ?? ""}
+                        onChange={(e) => {
+                          const answer = e.target.value;
+                          setAnswers((previous) => ({ ...previous, [item.id]: answer }));
+                          setSavedItems((previous) => ({ ...previous, [item.id]: false }));
+                        }}
+                        onBlur={(event) => void saveResponse(item.id, event.target.value)}
+                      />
+                    )}
+                    <p className="mt-2 text-xs text-muted-foreground">{savedItems[item.id] ? "Draft saved securely" : "Draft saves when you leave this answer"}</p>
+                  </div>
+                ))}
 
-              <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className={`neu-button py-4 text-lg font-medium flex items-center justify-center gap-3 ${formComplete ? "" : "opacity-50 cursor-not-allowed"}`} disabled={!formComplete || loading} type="submit">
-                <FileText size={16} /> {loading ? "Generating..." : "Generate Practice Paper"}
-              </motion.button>
-            </form>
+                <button type="button" className="neu-button px-4 py-2 text-sm disabled:opacity-50" disabled={submitting} onClick={submitSession}>
+                  {submitting ? "Submitting..." : "Submit verified practice"}
+                </button>
+              </div>
+            )}
           </NeumorphicCard>
 
-          <NeumorphicCard className="p-6 min-h-[28rem]" title="Paper Preview" info="Generated sections and mark schemes appear here. Export to PDF or Word, or open mock mode to sit the paper under time.">
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.35 }} className="neu-surface inset p-6 rounded-2xl h-full overflow-auto">
-              {!paper && !raw ? (
-                <div className="h-full flex flex-col items-center justify-center text-center p-4 text-muted-foreground">
-                  <p className="text-lg mb-4">Your custom practice paper preview will appear here</p>
-                  <p className="text-sm opacity-80">After generation you can export to PDF or Word.</p>
-                </div>
-              ) : raw && !paper ? (
-                <div className="text-sm text-amber-700 dark:text-amber-300"><pre className="whitespace-pre-wrap">{raw}</pre></div>
-              ) : (
+          <div className="space-y-6">
+            <NeumorphicCard className="p-5">
+              <div className="flex items-start gap-3">
+                <ShieldAlert className="mt-0.5 h-5 w-5 text-primary" />
                 <div>
-                  <div ref={previewRef} id="paper-preview" className="space-y-4 text-foreground">
-                    <div className="flex items-start justify-between">
-                      <div>
-                        <h3 className="text-lg font-semibold">{paper.title || `${paper.metadata.board} — Grade ${paper.metadata.grade}`}</h3>
-                        <div className="text-sm text-muted-foreground">{paper.metadata.subject} • {paper.metadata.format} • {paper.metadata.numQuestions} questions</div>
-                      </div>
-                      <div className="text-xs text-muted-foreground">Generated: {new Date().toLocaleString()}</div>
-                    </div>
+                  <h2 className="text-base font-semibold text-foreground">Safety boundary</h2>
+                  <p className="mt-2 text-sm text-muted-foreground">
+                    This workspace never fabricates papers or official marks. It only serves reviewed catalogue questions and withholds unsupported grading.
+                  </p>
+                </div>
+              </div>
+            </NeumorphicCard>
 
-                    <div className="surface-tile p-4">
-                      <div className="text-sm text-muted-foreground mb-2">Specification</div>
-                      <ul className="list-disc pl-5 text-sm text-muted-foreground">
-                        <li>Topics: {(topicTags.length ? topicTags.join(", ") : "(none)")}</li>
-                        <li>Total marks: {paper.metadata.totalMarks ?? "(criteria-based)"}</li>
-                        <li>Criteria / component: {paper.metadata.criteriaMode ? "Criteria-mode" : "Fixed marks"}</li>
-                        <li>Difficulty: {paper.metadata.difficulty}</li>
-                      </ul>
-                    </div>
-
-                    {paper.sections?.map((s) => (
-                      <div key={s.id} className="surface-tile p-4">
-                        <div className="font-medium mb-2">{s.title}</div>
-                        {s.instructions && <div className="text-sm text-muted-foreground mb-2">{s.instructions}</div>}
-                        <ol className="list-decimal pl-6 space-y-3">
-                          {s.questions.map((q) => (
-                            <li key={q.id}>
-                              <div className="font-medium">{q.question}</div>
-                              <div className="text-xs text-muted-foreground">Marks: {q.marks ?? "(see rubric)"} • Time: {q.approxTime ?? "—"}</div>
-                              <div className="text-sm mt-1 text-muted-foreground">Rubric: {q.modelAnswerOutline}</div>
-                              {q.imageRefs?.length ? (
-                                <div className="mt-2 space-x-2">
-                                  {q.imageRefs.map((n) => {
-                                    const img = (paper.images || []).find(i => i.name === n);
-                                    if (!img) return <span key={n} className="text-xs text-muted-foreground">[missing image: {n}]</span>;
-                                    const src = img.b64 ? `data:${img.mime};base64,${img.b64}` : img.url;
-                                    return <img key={n} src={src} alt={img.caption || n} style={{ maxWidth: 320, display: "block", marginTop: 8 }} />;
-                                  })}
-                                </div>
-                              ) : null}
-                            </li>
-                          ))}
-                        </ol>
-                      </div>
-                    ))}
-
-                    {paper.rubricNotes?.length ? <div className="surface-tile p-3"><div className="font-medium text-foreground">Rubric notes</div><ul className="list-disc pl-5 text-sm text-muted-foreground">{paper.rubricNotes.map((r,i)=> <li key={i}>{r}</li>)}</ul></div> : null}
-                  </div>
-
-                  <div className="flex flex-wrap gap-3 mt-4 items-center">
-                    <motion.button whileHover={{ scale: 1.02 }} className="neu-button px-4 py-2 flex items-center gap-2" onClick={exportPDF}><Download size={16} />Export PDF</motion.button>
-                    <motion.button whileHover={{ scale: 1.02 }} className="neu-button px-4 py-2 flex items-center gap-2" onClick={exportDocx}><Download size={16} />Export Word</motion.button>
-                    <motion.button whileHover={{ scale: 1.02 }} className="neu-button px-4 py-2 flex items-center gap-2 bg-primary/15 border-primary/25" onClick={() => { setMockCramMode(false); setMockExamOpen(true); }}>
-                      <Clock size={16} />Take timed exam
-                    </motion.button>
-                    {examDaysLeft !== null && examDaysLeft >= 0 && examDaysLeft <= 7 && (
-                      <motion.button whileHover={{ scale: 1.02 }} className="neu-button px-4 py-2 flex items-center gap-2 bg-amber-500/15 border-amber-400/25" onClick={() => { setMockCramMode(true); setMockExamOpen(true); }}>
-                        <Clock size={16} />Cram mock ({examDaysLeft}d left)
-                      </motion.button>
-                    )}
-                    {saveStatus && <span className="text-xs text-emerald-400">{saveStatus}</span>}
-                    <div className="ml-auto text-sm text-muted-foreground flex items-center gap-2"><Grid size={14} /> <span>{(paper?.sections || []).reduce((c, s) => c + (s.questions?.length || 0), 0)} questions</span></div>
-                  </div>
+            <NeumorphicCard className="p-5">
+              <h2 className="text-base font-semibold text-foreground">Availability</h2>
+              {!availability && (
+                <p className="mt-3 text-sm text-muted-foreground">
+                  Choose a board and subject, then check whether approved content has been published.
+                </p>
+              )}
+              {availability && (
+                <div className="mt-3 space-y-3 text-sm">
+                  <p className={availability.available ? "text-emerald-400" : "text-muted-foreground"}>
+                    {availability.message}
+                  </p>
+                  <p className="text-muted-foreground">
+                    Verified question count: <span className="text-foreground">{availability.questionCount}</span>
+                  </p>
+                  {!availability.available && (
+                    <p className="text-muted-foreground">
+                      If this subject is still pending, an administrator needs to approve source rights, parsing, mark schemes, and classifications before students can use it.
+                    </p>
+                  )}
                 </div>
               )}
-            </motion.div>
-          </NeumorphicCard>
+            </NeumorphicCard>
+
+            {submission && (
+              <NeumorphicCard className="p-5">
+                <div className="flex items-start gap-3">
+                  <CheckCircle2 className="mt-0.5 h-5 w-5 text-emerald-400" />
+                  <div className="min-w-0">
+                    <h2 className="text-base font-semibold text-foreground">Submission results</h2>
+                    <p className="mt-2 text-sm text-muted-foreground">
+                      Verified score:{" "}
+                      <span className="text-foreground">
+                        {submission.verifiedMaxScore > 0
+                          ? `${submission.verifiedScore}/${submission.verifiedMaxScore}`
+                          : "Unavailable"}
+                      </span>
+                    </p>
+                    <div className="mt-4 space-y-3">
+                      {submission.results.map((result) => (
+                        <div key={result.sessionItemId} className="rounded-xl border border-border/60 bg-foreground/[0.03] p-3">
+                          <p className="text-sm text-foreground">
+                            {result.score != null && result.maxScore != null
+                              ? `Verified score: ${result.score}/${result.maxScore}`
+                              : "Score withheld"}
+                          </p>
+                          <p className="mt-1 text-xs text-muted-foreground">{result.message}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </NeumorphicCard>
+            )}
+          </div>
         </div>
       </PageSection>
-
-      {mockExamOpen && paper && (
-        <MockExamMode
-          paper={paper}
-          board={board}
-          subject={subject}
-          grade={grade}
-          cramMode={mockCramMode}
-          onClose={() => setMockExamOpen(false)}
-        />
-      )}
     </>
   );
 }
-

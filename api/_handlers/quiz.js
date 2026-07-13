@@ -142,58 +142,39 @@ ${String(notes).slice(0, 12000)}`;
   }
 }
 
-async function handleGrade(body, apiKey, res) {
+async function handleGrade(body, res) {
   const {
     questions = [],
     userAnswers = {},
-    gradingLeniency = 3,
-    examStyle = "Generic",
   } = body ?? {};
 
-  const toGrade = (Array.isArray(questions) ? questions : []).filter(
-    (q) => q?.type === "frq" || q?.type === "interactive",
-  );
+  const allQuestions = Array.isArray(questions) ? questions : [];
+  const grades = allQuestions.map((q) => {
+    if (q?.type === "multiple_choice" && Array.isArray(q?.choices)) {
+      const expected = String(q.answer ?? "").trim();
+      const actual = String(userAnswers[q.id] ?? "").trim();
+      const maxScore = Number(q.maxScore ?? 1) || 1;
+      const score = expected && actual === expected ? maxScore : 0;
+      return {
+        id: q.id,
+        score,
+        maxScore,
+        feedback: score === maxScore ? "Deterministically correct." : "Deterministically incorrect.",
+        gradingStatus: "verified",
+      };
+    }
 
-  if (!toGrade.length) {
-    return res.status(200).json({ grades: [] });
-  }
+    return {
+      id: q?.id ?? null,
+      score: null,
+      maxScore: Number(q?.maxScore ?? 0) || null,
+      feedback:
+        "Score withheld. VertexEd only auto-scores deterministically in this quiz flow; use feedback or human review for constructed responses.",
+      gradingStatus: "withheld",
+    };
+  });
 
-  const prompt = `Grade the student's free-response answers using the rubric below.
-Exam style: ${examStyle}
-Leniency (1=strict, 5=lenient): ${gradingLeniency}
-
-For each question return:
-- id (matching input)
-- score (number)
-- maxScore (number)
-- feedback (short string)
-- includes (what the answer covered)
-
-Return ONLY JSON: { "grades": [ { "id": "...", "score": 0, "maxScore": 5, "feedback": "...", "includes": "..." } ] }
-
-QUESTIONS AND ANSWERS:
-${JSON.stringify(
-  toGrade.map((q) => ({
-    id: q.id,
-    type: q.type,
-    prompt: q.prompt || q.question,
-    modelAnswer: q.answer ?? q.expected ?? "",
-    maxScore: q.maxScore ?? 5,
-    studentAnswer: userAnswers[q.id] ?? "",
-  })),
-  null,
-  2,
-)}`;
-
-  try {
-    const raw = await callOpenAI(apiKey, [{ role: "user", content: prompt }], 2000);
-    const parsed = extractJson(raw);
-    const grades = Array.isArray(parsed?.grades) ? parsed.grades : [];
-    return res.status(200).json({ grades });
-  } catch (err) {
-    console.error("Quiz grade error:", err);
-    return res.status(500).json({ error: err.message || "Quiz grading failed" });
-  }
+  return res.status(200).json({ grades });
 }
 
 export default async function handler(req, res) {
@@ -207,19 +188,18 @@ export default async function handler(req, res) {
 
   if (rejectOversizedJsonBody(req, res)) return;
 
-  const apiKey = getApiKey();
-  if (!apiKey) {
-    return res.status(500).json({ error: "AI not configured" });
-  }
-
   const body = parseJsonBody(req);
   const action = body?.action;
 
   if (action === "generate") {
+    const apiKey = getApiKey();
+    if (!apiKey) {
+      return res.status(503).json({ error: "AI generation is not configured" });
+    }
     return handleGenerate(body, apiKey, res);
   }
   if (action === "grade") {
-    return handleGrade(body, apiKey, res);
+    return handleGrade(body, res);
   }
 
   return res.status(400).json({ error: 'Invalid action. Use "generate" or "grade".' });

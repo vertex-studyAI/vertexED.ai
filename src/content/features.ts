@@ -62,13 +62,13 @@ export const STUDY_LOOP = [
   },
   {
     step: "Practise",
-    desc: "Mocks with command words and mark schemes you recognise.",
+    desc: "Verified practice when reviewed, authorized content is available.",
     tool: "Paper Maker",
     href: "/paper-maker",
   },
   {
     step: "Review",
-    desc: "Feedback that names marks earned and marks lost.",
+    desc: "Formative feedback with unsupported marks withheld.",
     tool: "Answer Reviewer",
     href: "/answer-reviewer",
   },
@@ -168,7 +168,7 @@ export const SCATTERED_VS_VERTEX = [
   },
   {
     scattered: "Past papers scattered across folders with no feedback loop",
-    vertex: "Paper Maker generates fresh mocks; Reviewer closes the loop on what you missed",
+    vertex: "Verified practice shows availability honestly; formative review helps plan a next attempt",
   },
 ] as const;
 
@@ -179,7 +179,7 @@ export const FEATURE_FAQ = [
   },
   {
     q: "Will the papers match my exact board?",
-    a: "We approximate syllabus patterns and mark-scheme language for IB, IGCSE, CBSE, AP, A Level, and others. VertexED is not affiliated with exam boards — use mocks to build technique, then verify with your teacher's past papers.",
+    a: "Only components listed as available in Verified Practice have passed VertexED's rights and review gates. VertexED is not affiliated with exam boards, and unavailable components are not approximated or fabricated.",
   },
   {
     q: "Do I have to use every tool?",
@@ -317,9 +317,9 @@ export const PLATFORM_FEATURES: Feature[] = [
     tagline: "Practice that feels like the hall",
     icon: FileText,
     lead: "Generic quizzes train the wrong muscle. You need command words, mark allocation, and timing — the shape of the paper you'll actually sit.",
-    body: "Paper Maker generates mocks aligned to your syllabus: topic selection, difficulty, and phrasing that respects how your board writes questions. Run a full paper under timed conditions or drill one topic until the method is automatic.",
-    detail: "VertexED is not affiliated with exam boards. We study past paper patterns and mark schemes to approximate the rigour you should expect — then you practise until the format feels familiar, not frightening.",
-    scenario: "IGCSE physics paper next month. You generate a Paper 2-style set on electricity and magnetism, sit it in 75 minutes, then send your written responses to Answer Reviewer. Weak areas feed back into next week's planner blocks.",
+    body: "Paper Maker serves only questions from an administrator-approved catalogue. It records the exact question and rubric version used in a session, and shows an unavailable state when a component has not completed rights and review checks.",
+    detail: "Selected-response items can be scored deterministically. Constructed responses are stored but their score is withheld unless a reviewed scoring workflow is available.",
+    scenario: "A student selects a listed component, checks availability, starts a reviewed practice set, and saves answers. Deterministically scorable responses create evidence; constructed responses clearly show that scoring is withheld.",
     outcomes: [
       "Less surprise on exam day from unfamiliar wording",
       "Timed practice that builds pace, not just knowledge",

@@ -21,12 +21,12 @@ export default function ProgressAnalyticsCard({ trend, className }: Props) {
         </div>
         <div>
           <p className="text-2xl font-semibold text-foreground flex items-center gap-1">
-            {trend.avgMastery}%
+            {trend.avgMastery != null ? `${trend.avgMastery}%` : '—'}
             {trend.masteryTrend === 'up' && <TrendingUp className="h-4 w-4 text-emerald-500" />}
             {trend.masteryTrend === 'down' && <TrendingDown className="h-4 w-4 text-amber-500" />}
             {trend.masteryTrend === 'flat' && <Minus className="h-4 w-4 text-muted-foreground" />}
           </p>
-          <p className="text-xs text-muted-foreground">Avg mastery</p>
+          <p className="text-xs text-muted-foreground">Verified mastery</p>
         </div>
         <div>
           <p className="text-2xl font-semibold text-foreground">{trend.reviewsThisWeek}</p>

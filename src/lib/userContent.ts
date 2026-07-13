@@ -30,6 +30,24 @@ const LOCAL_ARTIFACTS_KEY = 'vertex_local_artifacts';
 const RESTORE_KEY = 'vertex_restore_artifact';
 const LOCAL_LIMIT = 30;
 
+/** Clear device-only study data after a user permanently deletes their account. */
+export function clearDeviceStudyData(): void {
+  if (typeof window === 'undefined') return;
+  const removablePrefixes = ['vertex_', 'studyzone_', 'planner_', 'notebook_'];
+  for (const storage of [window.localStorage, window.sessionStorage]) {
+    try {
+      const keys = Array.from({ length: storage.length }, (_, index) => storage.key(index)).filter(
+        (key): key is string => Boolean(key),
+      );
+      for (const key of keys) {
+        if (removablePrefixes.some((prefix) => key.startsWith(prefix))) storage.removeItem(key);
+      }
+    } catch {
+      // Storage may be unavailable in private browsing; the server deletion remains authoritative.
+    }
+  }
+}
+
 function readRawLocalArtifacts(): StudyArtifact[] {
   if (typeof window === 'undefined') return [];
   try {

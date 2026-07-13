@@ -150,8 +150,8 @@ export function buildAdaptivePlan(input: BuildAdaptiveInput): AdaptivePlan {
       id: 'timed-mock',
       priority: examDaysLeft <= 7 ? 'urgent' : 'high',
       kind: 'practice',
-      title: 'Timed mock exam',
-      description: `Simulate ${curriculum.board ? BOARD_CONFIGS[curriculum.board].label : 'board'} conditions under time pressure`,
+      title: 'Check verified practice availability',
+      description: `See whether reviewed ${curriculum.board ? BOARD_CONFIGS[curriculum.board].label : 'curriculum'} content is available before planning a timed attempt`,
       to: '/paper-maker',
       subject: focusSubject ?? undefined,
     });
@@ -192,7 +192,7 @@ export function buildAdaptivePlan(input: BuildAdaptiveInput): AdaptivePlan {
       priority: 'medium',
       kind: 'practice',
       title: `Practice ${focusSubject}`,
-      description: 'Generate a targeted mock on your weakest subject',
+      description: 'Check whether verified practice is available for this subject',
       to: `/paper-maker?subject=${encodeURIComponent(focusSubject)}`,
       subject: focusSubject,
     });
@@ -215,7 +215,7 @@ export function buildAdaptivePlan(input: BuildAdaptiveInput): AdaptivePlan {
       priority: 'medium',
       kind: 'plan',
       title: 'Plan today\'s study blocks',
-      description: 'AI will suggest blocks based on weak topics and exam date',
+      description: 'Create realistic blocks around your commitments and exam date',
       to: '/planner?suggest=1',
     });
   }

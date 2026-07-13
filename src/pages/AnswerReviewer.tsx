@@ -9,7 +9,6 @@ import { recordStudySession } from "@/lib/studyStats";
 import { recordLoopStep } from "@/lib/studyLoopTracker";
 import { logStudyActivity } from "@/lib/studyActivity";
 import { consumeMockReviewHandoff } from "@/lib/examFlow";
-import { recordWeakness } from "@/lib/weaknessTracker";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import {
@@ -455,17 +454,6 @@ export default function AIAnswerReview() {
                 description: "Your feedback is stored in your account.",
               });
             }
-            const maxMarks = parseInt(formData.marks, 10) || 10;
-            const scoreMatch = out.match(/(\d+)\s*\/\s*(\d+)/);
-            const score = scoreMatch ? parseInt(scoreMatch[1], 10) : Math.round(maxMarks * 0.6);
-            recordWeakness({
-              topic: formData.question.slice(0, 80) || "General",
-              subject: formData.subject || "Unknown",
-              board: formData.curriculum,
-              score,
-              maxScore: scoreMatch ? parseInt(scoreMatch[2], 10) : maxMarks,
-              source: "review",
-            });
           }
         }
       } catch (err) {

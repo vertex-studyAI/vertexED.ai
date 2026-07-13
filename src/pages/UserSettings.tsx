@@ -8,7 +8,6 @@ import { useNavigate } from "react-router-dom";
 import { User, LogOut, Settings, RefreshCw, AlertTriangle, Save, Trash2 } from "lucide-react";
 import PageSection from "@/components/PageSection";
 import { useEffect, useState } from "react";
-import { getStudyStats } from "@/lib/studyStats";
 import {
   getLearnerProfile,
   getProfileCompleteness,
@@ -28,8 +27,8 @@ import { useAccessibility } from "@/hooks/useAccessibility";
 import ThemeToggle from "@/components/ThemeToggle";
 import { getHideExamReadiness, setHideExamReadiness } from "@/lib/dashboardPrefs";
 import {
-  listStudyArtifacts,
   listStudyArtifactsDetailed,
+  clearDeviceStudyData,
   type StudyArtifact,
   type StudyArtifactKind,
 } from "@/lib/userContent";
@@ -74,6 +73,7 @@ export default function UserSettings() {
   const [savingCurriculum, setSavingCurriculum] = useState(false);
   const [savingProfile, setSavingProfile] = useState(false);
   const [deletingAccount, setDeletingAccount] = useState(false);
+  const [exportingAccount, setExportingAccount] = useState(false);
   const { settings: a11y, update: updateA11y } = useAccessibility();
 
   useEffect(() => {
@@ -242,6 +242,7 @@ export default function UserSettings() {
       if (!res.ok) {
         throw new Error(data?.error || "Account deletion failed");
       }
+      clearDeviceStudyData();
       await logout();
       toast({ title: "Account deleted" });
       navigate("/", { replace: true });
@@ -257,32 +258,33 @@ export default function UserSettings() {
   };
 
   const exportAccountData = async () => {
-    const saved = await listStudyArtifacts();
-    const stats = getStudyStats();
-    const learner = getLearnerProfile(user);
-    const data = {
-      exportedAt: new Date().toISOString(),
-      account: {
-        username: user?.user_metadata?.username ?? null,
-        email: user?.email ?? null,
-        studyGoal: learner.studyGoal,
-        gradeLevel: learner.gradeLevel,
-        curriculum: learner.curriculum,
-        memberSince: profile?.created_at ?? user?.created_at ?? null,
-        profileName: profile?.full_name ?? null,
-      },
-      studyStats: stats,
-      savedArtifacts: saved,
-    };
-    const blob = new Blob([JSON.stringify(data, null, 2)], {
-      type: "application/json",
-    });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `vertex_account_${new Date().toISOString().slice(0, 10)}.json`;
-    a.click();
-    URL.revokeObjectURL(url);
+    setExportingAccount(true);
+    try {
+      const { authFetch } = await import("@/lib/apiAuth");
+      const res = await authFetch("/api/account");
+      const result = await res.json().catch(() => null);
+      if (!res.ok || !result?.ok || !result?.data) {
+        throw new Error(result?.error || "Account export failed");
+      }
+      const blob = new Blob([JSON.stringify(result.data, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const anchor = document.createElement("a");
+      anchor.href = url;
+      anchor.download = `vertexed-account-export-${new Date().toISOString().slice(0, 10)}.json`;
+      document.body.appendChild(anchor);
+      anchor.click();
+      anchor.remove();
+      URL.revokeObjectURL(url);
+      toast({ title: "Account export ready", description: "Your cloud profile, saved work, and verified learning records were downloaded." });
+    } catch (error) {
+      toast({
+        title: "Could not export account data",
+        description: error instanceof Error ? error.message : "Try again shortly.",
+        variant: "destructive",
+      });
+    } finally {
+      setExportingAccount(false);
+    }
   };
 
   const displayName =
@@ -626,11 +628,12 @@ export default function UserSettings() {
               </button>
 
               <button
-                onClick={exportAccountData}
+                onClick={() => void exportAccountData()}
+                disabled={exportingAccount}
                 className="w-full neu-button text-left justify-start gap-3 py-4"
-                title="Download your account profile data"
+                title="Download your cloud profile, saved work, and verified learning records"
               >
-                Export Account Data
+                {exportingAccount ? "Preparing account export…" : "Export Account Data"}
               </button>
 
               <button

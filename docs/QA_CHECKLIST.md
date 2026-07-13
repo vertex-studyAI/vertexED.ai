@@ -58,7 +58,7 @@ Each should return a useful response; unauthenticated API calls should return **
 | Note Taker | `/notetaker` | Generate notes from a topic |
 | Quiz | `/notetaker` → Quiz tab | Generate + grade a short quiz |
 | Transcribe | `/notetaker` → Upload audio | Small audio file transcribes |
-| Paper Maker | `/paper-maker` | Generate a short mock paper |
+| Verified Practice | `/paper-maker` | Confirm unavailable state without content; for a reviewed component, start, save, submit, and verify deterministic scoring only |
 | Answer Reviewer | `/answer-reviewer` | Submit sample answer for feedback |
 | Study Planner AI | `/planner` | Natural-language “add task” works |
 

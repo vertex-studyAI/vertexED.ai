@@ -16,6 +16,7 @@
     "test": "node --test tests/*.test.mjs",
     "test:e2e": "playwright test",
     "test:smoke": "node scripts/smoke-deploy.mjs",
+    "validate:prod-env": "node scripts/validate-production-env.mjs",
     "db:cloud-sync": "node scripts/setup-cloud-sync.mjs",
     "audit:prod": "npm audit --omit=dev",
     "ci": "npm run lint:ci && npm run typecheck && node scripts/validate-vercel-functions.mjs && npm run audit:prod && npm test && npm run build:ci",
@@ -70,6 +71,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.32.0",
+    "@playwright/test": "^1.52.0",
     "@tailwindcss/typography": "^0.5.16",
     "@types/node": "^22.16.5",
     "@types/react": "^18.3.23",
@@ -81,7 +83,6 @@
     "eslint-plugin-react-refresh": "^0.4.20",
     "globals": "^15.15.0",
     "jsdom": "^29.1.1",
-    "@playwright/test": "^1.52.0",
     "postcss": "^8.5.6",
     "sharp": "^0.33.5",
     "tailwindcss": "^3.4.17",

@@ -2,7 +2,6 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { Clock, X, BookOpen } from "lucide-react";
 import { buildReviewHandoffFromPaper, saveMockReviewHandoff } from "@/lib/examFlow";
-import { recordWeakness } from "@/lib/weaknessTracker";
 import type { ExamBoard } from "@/types/curriculum";
 
 type Question = {
@@ -104,16 +103,6 @@ export default function MockExamMode({ paper, onClose, board, subject, grade, cr
 
   const handleComplete = () => {
     saveExamHandoff(paper, questions, answers, board, subject, grade ?? null);
-    const answered = Object.values(answers).filter((a) => a.trim()).length;
-    const completionRate = questions.length > 0 ? answered / questions.length : 0;
-    recordWeakness({
-      topic: paper.title || "Mock exam",
-      subject: subject ?? paper.metadata?.subject ?? "General",
-      board: paper.metadata?.board,
-      score: Math.round(completionRate * totalMarks * 0.7),
-      maxScore: totalMarks,
-      source: "mock",
-    });
   };
 
   if (!questions.length) {

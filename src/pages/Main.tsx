@@ -60,11 +60,11 @@ export default function Main() {
     { title: "Study Zone", to: "/study-zone", info: "Timers, habits, calculator, graphing, and session notes on one page — built for 25-minute blocks.", icon: studyIcon() },
     { title: "Apex", to: "/chatbot", info: "Discussion-first AI — asks what you've tried, then walks through reasoning, rubrics, and exam technique.", icon: chatIcon() },
     { title: "Study Planner", to: "/planner", info: "Calendar and tasks sized to real life — mocks, school, sport, and sleep — not six-hour fantasy blocks.", icon: plannerIcon() },
-    { title: "Answer Reviewer", to: "/answer-reviewer", info: "Upload or paste answers; get mark-scheme feedback on structure, command terms, and missing evidence.", icon: reviewIcon() },
-    { title: "Paper Maker", to: "/paper-maker", info: "Generate board-shaped mocks (IB, IGCSE, CBSE, AP, A Level) with topics, timing, and mark schemes.", icon: paperIcon() },
+    { title: "Answer Reviewer", to: "/answer-reviewer", info: "Upload or paste answers for assistive feedback on structure, command terms, and missing evidence. Unsupported grading is withheld.", icon: reviewIcon() },
+    { title: "Paper Maker", to: "/paper-maker", info: "Start verified practice from administrator-approved questions only. Unsupported subjects show an honest unavailable state.", icon: paperIcon() },
     { title: "AI Notes + Flashcards", to: "/notetaker", info: "Turn a topic or lecture into notes, spaced flashcards, and quizzes — retrieval on a schedule.", icon: notesIcon() },
     { title: "Study Notebook", to: "/study-notebook", info: "Source-based workspace — grounded chat, study guides, deep dives, and audio scripts from your materials.", icon: notebookIcon() },
-    { title: "World Model", to: "/world-model", info: "Concept map of your subject — see foundations, weak nodes, and run short exam-style simulations.", icon: hubIcon() },
+    { title: "Verified Concept Evidence", to: "/world-model", info: "See concept evidence, prerequisite links, and review dates only after verified practice creates scored evidence.", icon: hubIcon() },
     { title: "Board Library", to: "/resource-library", info: "Long-form guides for your board — TOK, Math AA, sciences, essays — generated to syllabus depth.", icon: archiveIcon() },
     { title: "Study Tools Hub", to: "/study-tools", info: "Formula sheets by subject, evidence-based techniques, command-term glossary, and exam checklist.", icon: toolsIcon() },
     { title: "Archives Subjects", to: "/archives", info: "Curated notes and exemplars for English, History, and Geography — organised by subject.", icon: archiveIcon() },
@@ -249,7 +249,7 @@ export default function Main() {
     <>
       <Helmet>
         <title>Dashboard — VertexED Study Tools</title>
-        <meta name="description" content="Your VertexED dashboard — today's plan, retrieval pulse, subject mastery, weakness heatmap, and every study tool wired to your board and goals." />
+        <meta name="description" content="Your VertexED dashboard — today's plan, verified practice status, spaced review signals, and study tools matched to your board and goals." />
         <link rel="canonical" href="https://www.vertexed.app/main" />
         <meta name="robots" content="noindex, follow" />
       </Helmet>
@@ -267,7 +267,7 @@ export default function Main() {
           <div className="max-w-6xl mx-auto rounded-xl border border-primary/25 bg-primary/10 px-5 py-4 text-sm text-foreground/90">
             <p className="font-medium text-primary">Welcome to VertexED — you&apos;re set up.</p>
             <p className="mt-1 text-foreground/70">
-              Start with a 25-minute Study Zone block, or open Paper Maker for a timed mock. Your planner tasks and due flashcards are on this page when you&apos;re ready.
+              Start with a 25-minute Study Zone block, or check whether verified practice is available for your subject. Your planner tasks and due flashcards are on this page when you&apos;re ready.
             </p>
           </div>
         </section>

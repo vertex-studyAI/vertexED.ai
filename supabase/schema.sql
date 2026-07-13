@@ -39,7 +39,11 @@ begin
   values (
     new.id,
     new.email,
-    coalesce(new.raw_user_meta_data->>'full_name', new.raw_user_meta_data->>'name'),
+    coalesce(
+      nullif(btrim(new.raw_user_meta_data->>'full_name'), ''),
+      nullif(btrim(new.raw_user_meta_data->>'name'), ''),
+      'Learner'
+    ),
     new.raw_user_meta_data->>'avatar_url'
   )
   on conflict (id) do update

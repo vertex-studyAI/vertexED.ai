@@ -23,8 +23,8 @@ export default function TermsOfService() {
 
           <h2>Service description</h2>
           <p>
-            VertexED offers study planning, AI tutoring, answer review, note-taking, mock papers, and related educational tools.
-            AI outputs are assistive — not a substitute for teachers, exam boards, or official mark schemes.
+            VertexED offers study planning, AI tutoring, assistive answer feedback, note-taking, and—only where explicitly listed—authorized verified practice.
+            AI outputs are assistive, and VertexED does not issue official board grades.
           </p>
 
           <h2>Accounts</h2>

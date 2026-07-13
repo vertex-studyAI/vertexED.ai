@@ -58,12 +58,12 @@ export const FLOATING_INSIGHTS: FloatingInsight[] = [
   {
     label: "Why we built this",
     headline: "More apps did not make revision simpler",
-    body: "Every year there was another tool with smarter summaries or a prettier dashboard. Students still opened six tabs just to plan one week. VertexED follows one loop: plan the week, focus, practise under time, review against rubrics, then retrieve on schedule.",
+    body: "Every year there was another tool with smarter summaries or a prettier dashboard. Students still opened six tabs just to plan one week. VertexED brings planning, focused study, notes, retrieval, and—where reviewed content exists—verified practice into one workflow.",
   },
   {
     label: "Marks + meaning",
     headline: "Good grades and real understanding can go together",
-    body: "You can memorise a mark-scheme phrase and still not understand the next unit. We lean on rubric feedback, timed mocks, and spaced retrieval so the grade reflects something you can explain, not just repeat back.",
+    body: "You can memorise a mark-scheme phrase and still not understand the next unit. We use retrieval and clear formative feedback to help you explain the idea, while keeping unsupported grades visibly withheld.",
   },
   {
     label: "Exam season reality",
@@ -73,7 +73,7 @@ export const FLOATING_INSIGHTS: FloatingInsight[] = [
   {
     label: "What we built for",
     headline: "One desk instead of twelve tabs",
-    body: "Thursday's mock shows a weak topic in Answer Reviewer. Friday's flashcards target it. Apex explains the gap before you rewrite. Planner, Study Zone, Paper Maker, Reviewer, notes, and Apex share context instead of just sharing a logo.",
+    body: "A focused practice attempt can reveal what to revisit. Flashcards support retrieval, and Apex can help unpack reasoning before you try again. Verified practice evidence is kept separate from formative AI feedback.",
   },
 ];
 
@@ -96,19 +96,19 @@ export const LANDING_FEATURES: LandingFeature[] = [
   },
   {
     title: 'Paper Maker',
-    desc: 'Board-shaped mocks with mark schemes — IB, IGCSE, CBSE, AP, A Level, and more.',
-    side: 'Choose topics, total marks, and question count; sit under time in mock mode; send answers to Reviewer.',
+    desc: 'Verified practice from reviewed, authorized content for the components that are listed as available.',
+    side: 'Choose your curriculum selection, check availability, save answers, and receive a score only where deterministic scoring is supported.',
     loop: 'practise',
     href: '/paper-maker',
-    outcome: 'Closes the Practise step — pace and command words under time',
+    outcome: 'Supports the Practise step — with content coverage and scoring boundaries shown clearly',
   },
   {
     title: 'Answer Reviewer',
-    desc: 'Rubric feedback that names marks earned and marks lost — structure, evidence, command terms.',
-    side: 'Paste typed work or upload a photo. Know what to fix before the next attempt, not after results day.',
+    desc: 'Assistive feedback on structure, evidence, and command terms; it does not issue unsupported marks.',
+    side: 'Paste typed work or upload a photo to identify revision ideas before the next attempt.',
     loop: 'review',
     href: '/answer-reviewer',
-    outcome: 'Closes the Review step — actionable gaps, not "good effort"',
+    outcome: 'Supports the Review step — clear formative guidance with an honest scoring boundary',
   },
   {
     title: 'Notes · Flashcards · Quiz',

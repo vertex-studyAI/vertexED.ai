@@ -19,7 +19,7 @@ export const ROUTES = {
   },
   account: {
     loader: () => import('../_handlers/account.js'),
-    methods: ['DELETE'],
+    methods: ['GET', 'DELETE'],
   },
   waitlist: {
     loader: () => import('../_handlers/waitlist.js'),
@@ -53,8 +53,16 @@ export const ROUTES = {
     loader: () => import('../_handlers/paper-generator.js'),
     methods: ['POST'],
   },
+  'exam-admin': {
+    loader: () => import('../_handlers/exam-admin.js'),
+    methods: ['POST'],
+  },
+  'exam-catalog': {
+    loader: () => import('../_handlers/exam-catalog.js'),
+    methods: ['GET', 'POST'],
+  },
   review: {
-    loader: () => import('../_handlers/review.ts'),
+    loader: () => import('../_handlers/review.js'),
     methods: ['POST'],
   },
   'user-content': {

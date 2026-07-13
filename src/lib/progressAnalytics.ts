@@ -1,5 +1,4 @@
 import { getStudyStats } from '@/lib/studyStats';
-import { getWeaknessHeatmap } from '@/lib/weaknessTracker';
 
 const SNAPSHOT_KEY = 'vertex_progress_snapshots';
 
@@ -9,15 +8,15 @@ export type DailySnapshot = {
   habitsDone: number;
   habitCount: number;
   reviewsCompleted: number;
-  avgMastery: number;
+  avgMastery: number | null;
 };
 
 export type ProgressTrend = {
   snapshots: DailySnapshot[];
   streakDays: number;
   reviewsThisWeek: number;
-  masteryTrend: 'up' | 'down' | 'flat';
-  avgMastery: number;
+  masteryTrend: 'up' | 'down' | 'flat' | 'unknown';
+  avgMastery: number | null;
   studyMinutesEstimate: number;
 };
 
@@ -42,12 +41,6 @@ function writeSnapshots(snapshots: DailySnapshot[]) {
 
 export function recordDailySnapshot() {
   const stats = getStudyStats();
-  const heatmap = getWeaknessHeatmap(20);
-  const avgMastery =
-    heatmap.length > 0
-      ? Math.round(heatmap.reduce((s, h) => s + h.avgPercent, 0) / heatmap.length)
-      : 50;
-
   const today = todayKey();
   const snapshots = readSnapshots().filter((s) => s.date !== today);
   snapshots.push({
@@ -55,8 +48,8 @@ export function recordDailySnapshot() {
     studyStreak: stats.studyStreak,
     habitsDone: stats.habitsDoneToday,
     habitCount: stats.habitCount,
-    reviewsCompleted: heatmap.reduce((s, h) => s + h.attempts, 0),
-    avgMastery,
+    reviewsCompleted: 0,
+    avgMastery: null,
   });
   writeSnapshots(snapshots);
 }
@@ -68,18 +61,19 @@ export function getProgressTrend(recordSnapshot = false): ProgressTrend {
   const stats = getStudyStats();
   const last7 = snapshots.slice(-7);
   const reviewsThisWeek = last7.reduce((s, d) => s + d.reviewsCompleted, 0);
-
-  let masteryTrend: ProgressTrend['masteryTrend'] = 'flat';
-  if (last7.length >= 2) {
-    const first = last7[0].avgMastery;
-    const last = last7[last7.length - 1].avgMastery;
+  const masterySnapshots = last7.filter((snapshot) => typeof snapshot.avgMastery === 'number');
+  let masteryTrend: ProgressTrend['masteryTrend'] = 'unknown';
+  if (masterySnapshots.length >= 2) {
+    const first = masterySnapshots[0].avgMastery ?? 0;
+    const last = masterySnapshots[masterySnapshots.length - 1].avgMastery ?? 0;
     if (last > first + 3) masteryTrend = 'up';
     else if (last < first - 3) masteryTrend = 'down';
+    else masteryTrend = 'flat';
   }
 
-  const avgMastery = last7.length
-    ? Math.round(last7.reduce((s, d) => s + d.avgMastery, 0) / last7.length)
-    : 50;
+  const avgMastery = masterySnapshots.length
+    ? Math.round(masterySnapshots.reduce((sum, snapshot) => sum + (snapshot.avgMastery ?? 0), 0) / masterySnapshots.length)
+    : null;
 
   const studyMinutesEstimate = stats.studyStreak * 25 + stats.habitsDoneToday * 15;
 

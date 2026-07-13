@@ -51,6 +51,7 @@ const StudyNotebook = lazy(() => import("@/pages/StudyNotebook"));
 const ResourceLibrary = lazy(() => import("@/pages/ResourceLibrary"));
 const WorldModel = lazy(() => import("@/pages/WorldModel"));
 const WaitlistAdmin = lazy(() => import("@/pages/admin/WaitlistAdmin"));
+const ExamContentAdmin = lazy(() => import("@/pages/admin/ExamContentAdmin"));
 const PrivacyPolicy = lazy(() => import("@/pages/PrivacyPolicy"));
 const TermsOfService = lazy(() => import("@/pages/TermsOfService"));
 import { AuthProvider } from "@/contexts/AuthContext";
@@ -169,6 +170,7 @@ return (
 <Route path="vertex-ed" element={<Brand />} />
 <Route path="user-settings" element={<ProtectedRoute><UserSettings /></ProtectedRoute>} />
 <Route path="admin/waitlist" element={<AdminRoute><WaitlistAdmin /></AdminRoute>} />
+<Route path="admin/exam-content" element={<AdminRoute><ExamContentAdmin /></AdminRoute>} />
 <Route path="*" element={<NotFound />} />
   
 </Route>

@@ -67,8 +67,8 @@ const TECHNIQUES = [
   { title: "Spaced Repetition", desc: "Review just before you forget. Study Mode in AI Notes uses this.", to: "/notetaker" },
   { title: "Pomodoro", desc: "25 min focus + 5 min break. Built into Study Zone timer.", to: "/study-zone" },
   { title: "Feynman Technique", desc: "Explain a concept in simple words to find gaps.", to: "/chatbot" },
-  { title: "Past Papers", desc: "Board-aligned mocks with Paper Maker, then review answers.", to: "/paper-maker" },
-  { title: "Rubric Review", desc: "Upload drafts to Answer Reviewer for examiner-style feedback.", to: "/answer-reviewer" },
+  { title: "Verified Practice", desc: "Check whether reviewed, authorized questions are available for your selection.", to: "/paper-maker" },
+  { title: "Answer Feedback", desc: "Upload drafts for assistive feedback, not an examiner grade.", to: "/answer-reviewer" },
 ];
 
 const EXAM_CHECKLIST = [
@@ -82,7 +82,7 @@ const EXAM_CHECKLIST = [
 const QUICK_TOOLS = [
   { title: "Study Zone", desc: "Timer, calculator, Desmos, habits", to: "/study-zone", icon: Clock },
   { title: "AI Notes", desc: "Notes → flashcards → quiz", to: "/notetaker", icon: FileText },
-  { title: "Paper Maker", desc: "IB, IGCSE, CBSE mock exams", to: "/paper-maker", icon: BookOpen },
+  { title: "Verified Practice", desc: "Availability-gated assessment sessions", to: "/paper-maker", icon: BookOpen },
   { title: "Planner", desc: "Calendar + AI task scheduling", to: "/planner", icon: Sparkles },
 ];
 

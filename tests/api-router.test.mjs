@@ -67,4 +67,7 @@ test('dispatchRoute returns 404 for unknown routes', async () => {
 test('route registry stays within hobby serverless limits', () => {
   assert.ok(Object.keys(ROUTES).length >= 10);
   assert.ok(Object.keys(ROUTES).length <= 20);
+  assert.ok(ROUTES['exam-catalog']);
+  assert.ok(ROUTES['exam-admin']);
+  assert.deepEqual(ROUTES.account.methods, ['GET', 'DELETE']);
 });

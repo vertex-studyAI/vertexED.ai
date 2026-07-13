@@ -176,10 +176,11 @@ export function AuthProvider({ children }: PropsWithChildren<{}>) {
   /** Ensure a profile row exists (id from auth) and update columns from metadata. */
   const postAuthUpsertProfile = async (u: User, metadata?: Record<string, any>) => {
     if (!supabase) return;
+    const suppliedName = metadata?.full_name ?? u.user_metadata?.full_name ?? u.user_metadata?.name;
     const payload = {
       id: u.id,
       email: u.email ?? null,
-      full_name: metadata?.full_name ?? u.user_metadata?.full_name ?? u.user_metadata?.name ?? null,
+      full_name: typeof suppliedName === "string" && suppliedName.trim() ? suppliedName.trim() : "Learner",
       avatar_url: metadata?.avatar_url ?? u.user_metadata?.avatar_url ?? null,
       updated_at: new Date().toISOString(),
     };

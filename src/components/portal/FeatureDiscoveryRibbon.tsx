@@ -21,9 +21,9 @@ export default function FeatureDiscoveryRibbon() {
         <div className="flex items-end justify-between gap-4 mb-4">
           <div>
             <p className="portal-eyebrow">Dashboard widgets</p>
-            <h2 className="text-lg font-semibold text-foreground">Signals from your study data</h2>
+            <h2 className="text-lg font-semibold text-foreground">Your study workspace</h2>
             <p className="text-sm text-muted-foreground mt-1 max-w-xl leading-relaxed">
-              Due cards, weak topics, loop steps, and exam countdown — tap a card to scroll to that panel or open the linked tool.
+              Planner tasks, due cards, revision-loop activity, and verified evidence when available — tap a card to find the relevant panel or tool.
             </p>
           </div>
           <span className="text-xs text-muted-foreground hidden sm:block">{PORTAL_FEATURES.length} panels</span>

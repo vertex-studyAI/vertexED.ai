@@ -24,7 +24,7 @@ export default function WeaknessHeatmap({ compact = false }: { compact?: boolean
   if (topics.length === 0) {
     return (
       <div className="rounded-xl border border-dashed border-border/60 bg-foreground/[0.03] px-4 py-6 text-center text-sm text-muted-foreground">
-        Complete a mock or answer review to see your weakness heatmap.
+        Verified weakness tracking will appear here after approved catalogue attempts create evidence.
       </div>
     );
   }

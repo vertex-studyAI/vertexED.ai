@@ -12,9 +12,9 @@ This project brings together AI assisted study utilities (notes, quiz, paper gen
 ## Key Features (current focus)
 
 - AI Note Taking & Quiz Generation
-- Paper / Mock Exam Generator
+- Verified practice from administrator-approved, authorized assessment content (unavailable until it passes rights and human-review gates)
 - Study Planner (calendar + schedule + AI task suggestions)
-- Answer Reviewer & Chatbot assistant
+- Assistive answer feedback & chatbot (non-deterministic grading is explicitly withheld)
 
 ## Design Tokens & Theming
 
@@ -135,6 +135,7 @@ See `.env.example` for the full list and optional overrides.
 2. Run `supabase/schema.sql` in **SQL Editor** (creates `profiles`, `waitlist`, rate-limit table, and RPCs).
    - If you already ran an older schema, also run `supabase/migrations/20260708_phase3_waitlist_auth.sql`.
    - For planner cloud sync: run `supabase/migrations/20260711_planner_artifact_kind.sql`.
+   - For verified practice, provenance, mastery, and spaced review: run `supabase/migrations/20260712_core_learning_exam_architecture.sql`.
 3. Enable **Email** auth under Authentication → Providers.
 4. Enable **Google** OAuth if using Google login; set redirect URL to:
    - Local: `http://localhost:8080/auth/callback`
@@ -151,7 +152,7 @@ See `.env.example` for the full list and optional overrides.
 - **Account creation** (`/api/signup-invite`): requires either a valid team invite code **or** `waitlist.status = approved` for that email. Pending/rejected waitlist emails cannot create accounts without a code.
 
 ### Security (AI routes)
-- All AI API routes (`/api/ask`, `/api/note`, `/api/quiz`, `/api/transcribe`, `/api/paper-generator`, `/api/review`, `/api/planner`) require a valid Supabase session token (`Authorization: Bearer <jwt>`).
+- All AI and assessment routes require a valid Supabase session token (`Authorization: Bearer <jwt>`). `/api/paper-generator` is intentionally retired: VertexED does not fabricate exam papers.
 - `/api/waitlist` remains public (no auth).
 - `/api/waitlist-admin` requires auth + email in `ADMIN_EMAILS`.
 - `GET /api/health` is public (deploy monitoring).
@@ -176,6 +177,7 @@ GitHub Actions runs on push/PR to `main`:
 | `npm run lint:ci` | Lint `api/lib` and `tests` only |
 | `npm run ci` | Full local CI: lint + test + build |
 | `npm run test:smoke` | Live checks against `https://www.vertexed.app` (or `SMOKE_BASE_URL`) |
+| `npm run validate:prod-env` | Explicit deployment-secret gate; run only where production secrets are injected |
 
 Pre-deploy QA: see [`docs/QA_CHECKLIST.md`](docs/QA_CHECKLIST.md).
 

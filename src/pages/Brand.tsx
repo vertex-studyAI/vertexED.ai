@@ -7,7 +7,7 @@ export default function Brand() {
     <>
       <SEO
         title="What is VertexED (aka Vertex ED)? | Official Brand Page"
-        description="VertexED (also written Vertex ED) is a study workspace for exam students — planner, Study Zone, board-shaped mocks, rubric feedback, notes, flashcards, and Apex."
+        description="VertexED (also written Vertex ED) is a study workspace for exam students — planning, Study Zone, notes, flashcards, assistive feedback, and verified practice where authorized content is available."
         canonical="https://www.vertexed.app/vertex-ed"
         jsonLd={{
           "@context": "https://schema.org",
@@ -21,7 +21,7 @@ export default function Brand() {
         <h1 className="text-3xl md:text-4xl font-semibold mb-4 text-foreground">VertexED (Vertex ED) — Official Brand Page</h1>
         <p className="text-muted-foreground leading-relaxed mb-4">
           VertexED — sometimes written as <strong>Vertex ED</strong> — is one workspace for exam preparation: weekly planning,
-          timed mocks aligned to your board, mark-scheme feedback, spaced flashcards, and discussion-first AI (Apex).
+          verified practice where authorized content is available, assistive feedback with clear scoring limits, spaced flashcards, and discussion-first AI (Apex).
         </p>
         <p className="text-muted-foreground leading-relaxed mb-4">
           If you searched for &ldquo;vertexed&rdquo; or &ldquo;vertex ed&rdquo;, this is the official product site at
