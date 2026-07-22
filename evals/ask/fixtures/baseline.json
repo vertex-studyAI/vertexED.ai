@@ -1,0 +1,45 @@
+{
+  "_comment": "Reference Apex outputs for offline regression mode. Each prompt id maps to a structurally-correct response the live handler should never regress from. Update only when prompt design intentionally changes.",
+  "ask-math-001": {
+    "answer": "Good — let's walk through it together. The goal is to isolate x. What's the first inverse operation you might apply to both sides to undo the +5? Once you've tried, I'll show you the next step."
+  },
+  "ask-math-002": {
+    "answer": "Try factoring. You're looking for two numbers that multiply to +6 and add to -5. Which pair comes to mind? Once you have them, the roots fall out of (x - a)(x - b) = 0."
+  },
+  "ask-sci-001": {
+    "answer": "Two key differences: (1) mitosis produces two genetically identical diploid cells, while meiosis produces four genetically distinct haploid gametes; (2) meiosis includes crossing over in Prophase I, which is a major source of genetic variation. [Source: Campbell Biology Ch 12] Which difference feels most relevant to your class?"
+  },
+  "ask-eng-001": {
+    "answer": "The conch starts as a symbol of order and democratic authority — whoever holds it gets to speak. As the boys descend into savagery, the shell shatters, and so does the civilizing structure. Why do you think Golding chose a fragile object rather than, say, a flag?"
+  },
+  "ask-cs-001": {
+    "answer": "Binary search is O(log n). Each comparison halves the remaining search space, so the number of steps grows with the logarithm of the input size, not linearly. What happens to the constant factor if the data isn't already sorted?"
+  },
+  "ask-hist-001": {
+    "answer": "Historians usually distinguish long-term underlying causes from the short-term trigger. The four underlying causes are MAIN: Militarism, Alliances, Imperialism, Nationalism. The trigger was the assassination of Archduke Franz Ferdinand. Which of these do you think was most destabilizing, and why?"
+  },
+  "ask-math-003": {
+    "answer": "By the power rule: bring the exponent down as a coefficient and reduce the exponent by one. So d/dx(x³) = 3x². Try deriving x⁴ the same way — what pattern do you see?"
+  },
+  "ask-eng-002": {
+    "answer": "The verb agrees with the true subject, not the nearest noun. The subject is 'list' (singular), and 'of items' is a prepositional phrase that doesn't change the subject. So: 'The list of items is on the table.' Why do you think writers often slip on this rule?"
+  },
+  "ask-math-004": {
+    "answer": "Area of a circle = πr². With r = 5: 25π, or about 78.5 square units. Quick check: can you write the formula for circumference using the same radius?"
+  },
+  "ask-chem-001": {
+    "answer": "Count the atoms on each side first. Left: 2 H, 2 O. Right: 2 H, 1 O. Oxygen is unbalanced — multiply H₂O by 2 to balance it. Now check hydrogen again: 2 H₂ gives 4 H on the left, matching 2 H₂O on the right. Balanced! What's the conservation rule that lets us change coefficients but not subscripts?"
+  },
+  "ask-essay-001": {
+    "answer": "Most markers expect a TEEL structure: Topic sentence (your claim), Evidence (a quote or example), Explanation (analyse what the evidence shows), and Link (tie back to the argument). Want me to walk through an example paragraph from a sample essay?"
+  },
+  "ask-stuck-001": {
+    "answer": "I'm Apex, your study tutor — so my focus is on helping you with coursework, exams, or revision questions rather than writing lyrics. Got a topic you're stuck on? I can help you plan, summarize, or quiz you."
+  },
+  "ask-multi-001": {
+    "answer": "Sure — a specific example from what we discussed: the green light at the end of Daisy's dock. It's a literal light Gatsby stares at across the bay, but symbolically it represents his idealized vision of the future with Daisy. Notice how the light is *always* described as 'green' — that single color does a lot of work. Want to try writing a sentence analysing that on your own?"
+  },
+  "default": {
+    "answer": "Let me help you work through that step by step. What have you tried so far?"
+  }
+}
