@@ -21,7 +21,7 @@ npm run test:smoke  # live checks against www.vertexed.app (after deploy)
 | `OPENAI_API_KEY` or `ChatbotKey` | Yes |
 | `GEMINI_API_KEY` | Yes (Study Planner) |
 | `ADMIN_EMAILS` | Yes (waitlist admin UI) |
-| `SIGNUP_INVITE_CODE` | Yes (invite signup) |
+| `SIGNUP_INVITE_CODE` | Optional (global team invite code). When unset, only waitlist-approved emails (or per-user `waitlist.invite_token`) can sign up. |
 | `WAITLIST_RATE_LIMIT_SALT` | Yes (random secret for IP hashing) |
 
 Remove `VITE_GEMINI_API_KEY` if still set — Gemini is server-only.
@@ -39,7 +39,7 @@ Remove `VITE_GEMINI_API_KEY` if still set — Gemini is server-only.
 1. `npm run test:smoke` — all green
 2. `/signup` — join waitlist with a test email
 3. `/admin/waitlist` — approve the test entry (as `ADMIN_EMAILS` user)
-4. `/signup` → create account with approved email (no invite code required)
+4. `/signup` → create account with approved email (no invite code required; works whether `SIGNUP_INVITE_CODE` is set or unset)
 5. Log in → test chatbot, notetaker, paper maker, planner AI + confirm planner syncs
 6. Log out → confirm AI APIs return 401
 
