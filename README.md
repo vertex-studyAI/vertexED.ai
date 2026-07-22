@@ -148,7 +148,7 @@ See `.env.example` for the full list and optional overrides.
 - Duplicate emails and existing auth accounts are rejected with clear errors.
 - Rate limited to **5 submissions per IP per minute** (stored in `waitlist_rate_limits`).
 - Optional env: `WAITLIST_RATE_LIMIT_SALT` to salt IP hashes.
-- **Account creation** (`/api/signup-invite`): requires either a valid team invite code **or** `waitlist.status = approved` for that email. Pending/rejected waitlist emails cannot create accounts without a code.
+- **Account creation** (`/api/signup-invite`): requires either a valid team invite code (when `SIGNUP_INVITE_CODE` is set) **or** `waitlist.status = approved` for that email. Pending/rejected waitlist emails cannot create accounts without a code.
 
 ### Security (AI routes)
 - All AI API routes (`/api/ask`, `/api/note`, `/api/quiz`, `/api/transcribe`, `/api/paper-generator`, `/api/review`, `/api/planner`) require a valid Supabase session token (`Authorization: Bearer <jwt>`).

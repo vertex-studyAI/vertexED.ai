@@ -12,11 +12,6 @@ export default async function handler(req, res) {
 
   if (rejectOversizedJsonBody(req, res, 32 * 1024)) return;
 
-  if (!process.env.SIGNUP_INVITE_CODE) {
-    console.error('SIGNUP_INVITE_CODE is not configured');
-    return res.status(503).json({ error: 'Invite signup is not available right now.' });
-  }
-
   try {
     const body = readJsonBody(req);
     const { email, password, inviteCode, waitlistInviteToken, website } = body ?? {};
