@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "prebuild": "npx --yes update-browserslist-db@latest --quiet && node scripts/validate-vercel-functions.mjs && node scripts/indexnow.mjs --host=https://www.vertexed.app --key=07fe36c13a0c4aee8856c99f640ebf98 --ensureKeyOnly",
+    "prebuild": "node scripts/generate-study-guide-sitemap.mjs && npx --yes update-browserslist-db@latest --quiet && node scripts/validate-vercel-functions.mjs && node scripts/indexnow.mjs --host=https://www.vertexed.app --key=07fe36c13a0c4aee8856c99f640ebf98 --ensureKeyOnly",
     "build": "ROLLUP_SKIP_NODEJS_NATIVE=true vite build",
     "build:ci": "npx --yes update-browserslist-db@latest --quiet && ROLLUP_SKIP_NODEJS_NATIVE=true vite build",
     "postbuild": "node scripts/update-sitemap-lastmod.mjs public/sitemap.xml && npm run seo:indexnow",

@@ -142,7 +142,7 @@ return (
 <Route path="notetaker" element={<ProtectedRoute><NotetakerQuiz /></ProtectedRoute>} />
 <Route path="study-notebook" element={<ProtectedRoute><StudyNotebook /></ProtectedRoute>} />
 <Route path="resource-library" element={<ProtectedRoute><ResourceLibrary /></ProtectedRoute>} />
-<Route path="study-guides" element={<StudyGuides />} />
+<Route path="study-guides/*" element={<StudyGuides />} />
 <Route path="world-model" element={<Navigate to="/study-notebook" replace />} />
 <Route path="study-zone" element={<ProtectedRoute><StudyZone /></ProtectedRoute>} />
 <Route path="chatbot" element={<ProtectedRoute><AIChatbot /></ProtectedRoute>} />
