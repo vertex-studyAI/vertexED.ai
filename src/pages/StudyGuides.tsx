@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { BookOpen, ChevronDown, ChevronRight, FileText, GraduationCap, Loader2, Search } from "lucide-react";
+import { BookOpen, ChevronDown, ChevronRight, FileText, GraduationCap, Loader2, LockKeyhole, Search } from "lucide-react";
 
 import LiquidGlass from "@/components/LiquidGlass";
 import PageSection from "@/components/PageSection";
@@ -25,12 +25,66 @@ type GuideManifest = {
   subjects: GuideSubject[];
 };
 
+const GUIDE_ACCESS_KEY = "vertexed-myp-study-guides-access";
+const GUIDE_PASSWORD = "whotfstudies";
+
+function StudyGuidePasswordGate({ onUnlock }: { onUnlock: () => void }) {
+  const [password, setPassword] = useState("");
+  const [invalid, setInvalid] = useState(false);
+
+  const submit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (password !== GUIDE_PASSWORD) {
+      setInvalid(true);
+      return;
+    }
+    window.sessionStorage.setItem(GUIDE_ACCESS_KEY, "granted");
+    onUnlock();
+  };
+
+  return (
+    <>
+      <SEO title="Study Guides | VertexED" description="Password-protected MYP study guides." canonical="https://www.vertexed.app/study-guides" />
+      <PageSection className="max-w-2xl py-10">
+        <LiquidGlass as="section" variant="hero" className="study-guides-access-gate">
+          <LockKeyhole className="study-guides-access-icon" aria-hidden />
+          <p className="study-guides-eyebrow">Private study resource</p>
+          <h1>MYP study guides</h1>
+          <p>Enter the access password to open the complete MYP guide library.</p>
+          <form onSubmit={submit} className="study-guides-access-form">
+            <label htmlFor="study-guides-password">Access password</label>
+            <input
+              id="study-guides-password"
+              type="password"
+              value={password}
+              onChange={(event) => { setPassword(event.target.value); setInvalid(false); }}
+              autoComplete="current-password"
+              autoFocus
+              required
+            />
+            {invalid && <p role="alert">That password is not correct.</p>}
+            <button type="submit">Open study guides</button>
+          </form>
+        </LiquidGlass>
+      </PageSection>
+    </>
+  );
+}
 function displayGroup(group: string) {
   if (group === "index.md") return "Start here";
   return group.replace(/[-_]/g, " ").replace(/\b\w/g, (letter) => letter.toUpperCase());
 }
 
 export default function StudyGuides() {
+  const [hasAccess, setHasAccess] = useState(() => (
+    typeof window !== "undefined" && window.sessionStorage.getItem(GUIDE_ACCESS_KEY) === "granted"
+  ));
+
+  if (!hasAccess) return <StudyGuidePasswordGate onUnlock={() => setHasAccess(true)} />;
+  return <StudyGuidesLibrary />;
+}
+
+function StudyGuidesLibrary() {
   const [manifest, setManifest] = useState<GuideManifest | null>(null);
   const [subjectSlug, setSubjectSlug] = useState<string | null>(null);
   const [pagePath, setPagePath] = useState<string | null>(null);
