@@ -167,7 +167,7 @@ export function useApexChat({ context, threadKey, sources, onSessionRecord }: Op
         const status = err instanceof ChatbotApiError ? err.status : null;
         const message =
           status === 401
-            ? 'Please log in again to use Apex.'
+            ? 'Please log in again to use the AI tutor.'
             : status === 429
               ? 'You are sending messages too quickly. Wait a moment and try again.'
               : status && status >= 500

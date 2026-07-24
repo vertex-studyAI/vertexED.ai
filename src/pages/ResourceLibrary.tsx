@@ -87,11 +87,11 @@ export default function ResourceLibrary() {
       <PageSection className="max-w-5xl space-y-8 portal-rise">
         <div className="flex flex-wrap gap-3 items-center">
           <Link
-            to="/learning-hub"
+            to="/main"
             className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-foreground/[0.04] px-4 py-2 text-sm hover:border-primary/30 transition"
           >
             <ArrowLeft className="h-4 w-4" />
-            Learning Hub
+            Dashboard
           </Link>
           <Link
             to="/resources"

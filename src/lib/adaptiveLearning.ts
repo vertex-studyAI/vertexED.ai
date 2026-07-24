@@ -108,7 +108,7 @@ export function buildAdaptivePlan(input: BuildAdaptiveInput): AdaptivePlan {
       kind: 'cram',
       title: 'Exam cram session',
       description: `${examDaysLeft} day${examDaysLeft === 1 ? '' : 's'} left — high-yield review on weak topics only`,
-      to: '/learning-hub?mode=cram',
+      to: '/planner',
       subject: focusSubject ?? undefined,
     });
   }

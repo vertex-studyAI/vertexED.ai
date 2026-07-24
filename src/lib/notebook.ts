@@ -184,16 +184,16 @@ export const NOTEBOOK_OUTPUT_META: Record<
   },
   'suggested-questions': {
     label: 'Ask This',
-    description: 'Starter questions for Apex — grounded in what your sources actually say',
+    description: 'Starter questions for the AI tutor — grounded in what your sources actually say',
     icon: 'spark',
   },
   'world-model': {
-    label: 'World Model',
-    description: 'Topic layers and prerequisites mapped from your sources — weak links flagged',
+    label: 'Concept structure',
+    description: 'Topic layers and prerequisites mapped from your sources, with weak links flagged',
     icon: 'network',
   },
   'board-deep-dive': {
-    label: 'Board Deep Dive',
+    label: 'Exam-board guide',
     description: 'Long-form guide for your board — command words, mark bands, and common traps',
     icon: 'graduation',
   },

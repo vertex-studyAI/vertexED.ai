@@ -506,10 +506,10 @@ export default function UserSettings() {
               </button>
 
               <button
-                onClick={() => navigate("/learning-hub")}
+                onClick={() => navigate("/planner")}
                 className="w-full neu-button text-left justify-start gap-3 py-4"
               >
-                Learning Hub
+                Open planner
               </button>
 
               <button

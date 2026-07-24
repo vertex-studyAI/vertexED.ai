@@ -1,13 +1,10 @@
 import React, { useEffect, useMemo } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link, useSearchParams } from "react-router-dom";
-import { ArrowLeft, LayoutGrid } from "lucide-react";
+import { ArrowLeft, CalendarDays } from "lucide-react";
 import { cn } from "@/lib/utils";
 import ActivityLog from "./components/ActivityLog";
-import Assistant from "./components/Assistant";
-import Calendar from "./components/Calendar";
 import Calculator from "./components/Calculator";
-import HabitTracker from "./components/HabitTracker";
 import Meditation from "./components/Meditation";
 import NoteTaker from "./components/NoteTaker";
 import TimerApp from "./components/TimerApp";
@@ -16,11 +13,8 @@ import SketchPad from "@/components/sketch/SketchPad";
 
 type WidgetKey =
   | "timer"
-  | "assistant"
   | "activity"
-  | "calendar"
   | "calculator"
-  | "habits"
   | "meditation"
   | "graphing"
   | "sketch"
@@ -66,24 +60,10 @@ const StudyZonePage: React.FC = () => {
         span: "wide",
       },
       {
-        key: "assistant",
-        title: "Apex",
-        description: "Ask mid-session without leaving the desk — concept checks, essay structure, or what to do in the next ten minutes.",
-        accent: "hsl(168 72% 48%)",
-        badge: "AI",
-        span: "wide",
-      },
-      {
         key: "activity",
         title: "Activity Log",
         description: "Record what you covered, where you got stuck, and what to retry — feeds your dashboard and next plan.",
         accent: "hsl(12 78% 54%)",
-      },
-      {
-        key: "calendar",
-        title: "Monthly Calendar",
-        description: "See mocks, deadlines, and blocked study time at a glance — complements the full planner.",
-        accent: "hsl(222 74% 58%)",
       },
       {
         key: "calculator",
@@ -98,13 +78,6 @@ const StudyZonePage: React.FC = () => {
         accent: "hsl(var(--primary))",
         badge: "New",
         span: "wide",
-      },
-      {
-        key: "habits",
-        title: "Habit Tracker",
-        description: "Small daily targets — read one section, one mock question, one deck review — with streaks that show on your dashboard.",
-        accent: "hsl(var(--primary))",
-        badge: "New",
       },
       {
         key: "meditation",
@@ -134,18 +107,12 @@ const StudyZonePage: React.FC = () => {
     switch (key) {
       case "timer":
         return <TimerApp accent={accent} />;
-      case "assistant":
-        return <Assistant />;
       case "activity":
         return <ActivityLog accent={accent} />;
-      case "calendar":
-        return <Calendar accent={accent} />;
       case "calculator":
         return <Calculator accent={accent} />;
       case "graphing":
         return <GraphingSuite accent={accent} />;
-      case "habits":
-        return <HabitTracker accent={accent} />;
       case "meditation":
         return <Meditation accent={accent} />;
       case "sketch":
@@ -161,7 +128,7 @@ const StudyZonePage: React.FC = () => {
     <div className="min-h-screen max-w-7xl mx-auto px-4 md:px-6 py-10 md:py-12 pb-24 flex flex-col gap-8 md:gap-10">
       <Helmet>
         <title>Study Zone — VertexED</title>
-        <meta name="description" content="Study Zone — timers, Apex, calculator, Desmos, habits, and session notes on one page for focused revision blocks." />
+        <meta name="description" content="Focus tools for one study session: a timer, calculator, graphing, notes, and a short reset between blocks." />
         <link rel="canonical" href="https://www.vertexed.app/study-zone" />
       </Helmet>
 
@@ -174,25 +141,25 @@ const StudyZonePage: React.FC = () => {
           Dashboard
         </Link>
         <Link
-          to="/learning-hub"
+          to="/planner"
           className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-foreground/[0.04] px-4 py-2 text-sm text-foreground hover:bg-foreground/[0.07] hover:border-primary/25 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         >
-          <LayoutGrid className="h-3.5 w-3.5" aria-hidden />
-          Learning Hub
+          <CalendarDays className="h-3.5 w-3.5" aria-hidden />
+          Planner
         </Link>
       </div>
 
       <header className="flex flex-col gap-3">
         <span className="text-xs uppercase tracking-[0.18em] text-primary font-medium">
-          {focusMode ? "Focus session" : "Study Zone"}
+          {focusMode ? "Focus session" : "Focus tools"}
         </span>
         <h1 className="text-[clamp(2rem,5vw,3rem)] font-bold tracking-tight text-foreground leading-tight">
-          {focusMode ? "Focus block" : "Your study desk"}
+          {focusMode ? "Focus block" : "Work without distractions"}
         </h1>
         <p className="text-base text-muted-foreground leading-relaxed max-w-2xl">
           {focusMode
             ? "Timer below — set length, start, and stay on one task until the block ends. Other widgets stay visible but dimmed."
-            : "Everything for a single session lives here: Pomodoro or countdown timer, Apex for stuck points, calculator and Desmos, habit streaks, and quick notes — so you don't open another tab mid-chapter."}
+            : "Use only the tools that help you finish the next block: a timer, calculator, graphing, quick notes, a session log, and a short reset between blocks."}
         </p>
       </header>
 

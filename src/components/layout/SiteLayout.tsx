@@ -54,12 +54,11 @@ export default function SiteLayout() {
   const navLinks = isAuthenticated
     ? [
         { to: "/main", label: "Dashboard" },
-        { to: "/learning-hub", label: "Learning Hub" },
-        { to: "/study-zone", label: "Study Zone" },
-        { to: "/notetaker", label: "Notes" },
-        { to: "/study-notebook", label: "Notebook" },
-        { to: "/resources", label: "Resources" },
-        { to: "/study-tools", label: "Study Tools" },
+        { to: "/planner", label: "Plan" },
+        { to: "/study-zone", label: "Focus" },
+        { to: "/notetaker", label: "Notes & quizzes" },
+        { to: "/paper-maker", label: "Practice" },
+        { to: "/chatbot", label: "AI tutor" },
       ]
     : [
         { to: "/", label: "Home" },
@@ -80,7 +79,7 @@ export default function SiteLayout() {
         <title>VertexED — Study tools for marks and understanding</title>
         <meta
           name="description"
-          content="One workspace for exam prep — planner, Study Zone, board-shaped mocks, rubric feedback, notes, flashcards, and Apex. Built around plan, focus, practise, review, remember."
+          content="One workspace for exam prep — planning, focus tools, practice papers, answer feedback, notes, flashcards, and an AI tutor. Built around plan, focus, practise, review, remember."
         />
         <meta property="og:site_name" content="VertexED" />
         <meta property="og:image" content="https://www.vertexed.app/socialpreview.jpg" />
@@ -293,7 +292,7 @@ export default function SiteLayout() {
             {isAuthenticated ? (
               <>
                 <Link to="/main" className="hover:text-foreground transition">Dashboard</Link>
-                <Link to="/learning-hub" className="hover:text-foreground transition">Learning Hub</Link>
+                <Link to="/planner" className="hover:text-foreground transition">Planner</Link>
                 <Link to="/user-settings" className="hover:text-foreground transition">Account</Link>
                 <Link to="/privacy" className="hover:text-foreground transition">Privacy</Link>
                 <Link to="/terms" className="hover:text-foreground transition">Terms</Link>

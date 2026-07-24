@@ -1,0 +1,1525 @@
+{
+    "programme":  "MYP",
+    "subjects":  [
+                     {
+                         "name":  "Biology",
+                         "slug":  "biology",
+                         "pages":  [
+                                       {
+                                           "title":  "command terms",
+                                           "path":  "/study-guides/myp/biology/command-terms.md",
+                                           "group":  "command-terms.md",
+                                           "relativePath":  "command-terms.md"
+                                       },
+                                       {
+                                           "title":  "Guide index",
+                                           "path":  "/study-guides/myp/biology/index.md",
+                                           "group":  "index.md",
+                                           "relativePath":  "index.md"
+                                       },
+                                       {
+                                           "title":  "overview",
+                                           "path":  "/study-guides/myp/biology/overview.md",
+                                           "group":  "overview.md",
+                                           "relativePath":  "overview.md"
+                                       },
+                                       {
+                                           "title":  "question bank",
+                                           "path":  "/study-guides/myp/biology/question-bank.md",
+                                           "group":  "question-bank.md",
+                                           "relativePath":  "question-bank.md"
+                                       },
+                                       {
+                                           "title":  "revision plan",
+                                           "path":  "/study-guides/myp/biology/revision-plan.md",
+                                           "group":  "revision-plan.md",
+                                           "relativePath":  "revision-plan.md"
+                                       },
+                                       {
+                                           "title":  "M16",
+                                           "path":  "/study-guides/myp/biology/sessions/M16.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/M16.md"
+                                       },
+                                       {
+                                           "title":  "M17",
+                                           "path":  "/study-guides/myp/biology/sessions/M17.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/M17.md"
+                                       },
+                                       {
+                                           "title":  "M18",
+                                           "path":  "/study-guides/myp/biology/sessions/M18.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/M18.md"
+                                       },
+                                       {
+                                           "title":  "M19",
+                                           "path":  "/study-guides/myp/biology/sessions/M19.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/M19.md"
+                                       },
+                                       {
+                                           "title":  "M21",
+                                           "path":  "/study-guides/myp/biology/sessions/M21.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/M21.md"
+                                       },
+                                       {
+                                           "title":  "M22",
+                                           "path":  "/study-guides/myp/biology/sessions/M22.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/M22.md"
+                                       },
+                                       {
+                                           "title":  "M23",
+                                           "path":  "/study-guides/myp/biology/sessions/M23.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/M23.md"
+                                       },
+                                       {
+                                           "title":  "M24",
+                                           "path":  "/study-guides/myp/biology/sessions/M24.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/M24.md"
+                                       },
+                                       {
+                                           "title":  "M25",
+                                           "path":  "/study-guides/myp/biology/sessions/M25.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/M25.md"
+                                       },
+                                       {
+                                           "title":  "N17",
+                                           "path":  "/study-guides/myp/biology/sessions/N17.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/N17.md"
+                                       },
+                                       {
+                                           "title":  "N18",
+                                           "path":  "/study-guides/myp/biology/sessions/N18.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/N18.md"
+                                       },
+                                       {
+                                           "title":  "N19",
+                                           "path":  "/study-guides/myp/biology/sessions/N19.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/N19.md"
+                                       },
+                                       {
+                                           "title":  "N20",
+                                           "path":  "/study-guides/myp/biology/sessions/N20.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/N20.md"
+                                       },
+                                       {
+                                           "title":  "N21",
+                                           "path":  "/study-guides/myp/biology/sessions/N21.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/N21.md"
+                                       },
+                                       {
+                                           "title":  "N22",
+                                           "path":  "/study-guides/myp/biology/sessions/N22.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/N22.md"
+                                       },
+                                       {
+                                           "title":  "N23",
+                                           "path":  "/study-guides/myp/biology/sessions/N23.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/N23.md"
+                                       },
+                                       {
+                                           "title":  "N24",
+                                           "path":  "/study-guides/myp/biology/sessions/N24.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/N24.md"
+                                       },
+                                       {
+                                           "title":  "N25",
+                                           "path":  "/study-guides/myp/biology/sessions/N25.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/N25.md"
+                                       },
+                                       {
+                                           "title":  "biotechnology",
+                                           "path":  "/study-guides/myp/biology/topics/biotechnology.md",
+                                           "group":  "topics",
+                                           "relativePath":  "topics/biotechnology.md"
+                                       },
+                                       {
+                                           "title":  "cells and organisation",
+                                           "path":  "/study-guides/myp/biology/topics/cells-and-organisation.md",
+                                           "group":  "topics",
+                                           "relativePath":  "topics/cells-and-organisation.md"
+                                       },
+                                       {
+                                           "title":  "data processing",
+                                           "path":  "/study-guides/myp/biology/topics/data-processing.md",
+                                           "group":  "topics",
+                                           "relativePath":  "topics/data-processing.md"
+                                       },
+                                       {
+                                           "title":  "ecology and ecosystems",
+                                           "path":  "/study-guides/myp/biology/topics/ecology-and-ecosystems.md",
+                                           "group":  "topics",
+                                           "relativePath":  "topics/ecology-and-ecosystems.md"
+                                       },
+                                       {
+                                           "title":  "enzymes",
+                                           "path":  "/study-guides/myp/biology/topics/enzymes.md",
+                                           "group":  "topics",
+                                           "relativePath":  "topics/enzymes.md"
+                                       },
+                                       {
+                                           "title":  "genetics and evolution",
+                                           "path":  "/study-guides/myp/biology/topics/genetics-and-evolution.md",
+                                           "group":  "topics",
+                                           "relativePath":  "topics/genetics-and-evolution.md"
+                                       },
+                                       {
+                                           "title":  "health and disease",
+                                           "path":  "/study-guides/myp/biology/topics/health-and-disease.md",
+                                           "group":  "topics",
+                                           "relativePath":  "topics/health-and-disease.md"
+                                       },
+                                       {
+                                           "title":  "homeostasis",
+                                           "path":  "/study-guides/myp/biology/topics/homeostasis.md",
+                                           "group":  "topics",
+                                           "relativePath":  "topics/homeostasis.md"
+                                       },
+                                       {
+                                           "title":  "photosynthesis and respiration",
+                                           "path":  "/study-guides/myp/biology/topics/photosynthesis-and-respiration.md",
+                                           "group":  "topics",
+                                           "relativePath":  "topics/photosynthesis-and-respiration.md"
+                                       },
+                                       {
+                                           "title":  "reproduction",
+                                           "path":  "/study-guides/myp/biology/topics/reproduction.md",
+                                           "group":  "topics",
+                                           "relativePath":  "topics/reproduction.md"
+                                       },
+                                       {
+                                           "title":  "scientific inquiry",
+                                           "path":  "/study-guides/myp/biology/topics/scientific-inquiry.md",
+                                           "group":  "topics",
+                                           "relativePath":  "topics/scientific-inquiry.md"
+                                       },
+                                       {
+                                           "title":  "transport systems",
+                                           "path":  "/study-guides/myp/biology/topics/transport-systems.md",
+                                           "group":  "topics",
+                                           "relativePath":  "topics/transport-systems.md"
+                                       }
+                                   ]
+                     },
+                     {
+                         "name":  "Chemistry",
+                         "slug":  "chemistry",
+                         "pages":  [
+                                       {
+                                           "title":  "command terms",
+                                           "path":  "/study-guides/myp/chemistry/command-terms.md",
+                                           "group":  "command-terms.md",
+                                           "relativePath":  "command-terms.md"
+                                       },
+                                       {
+                                           "title":  "Guide index",
+                                           "path":  "/study-guides/myp/chemistry/index.md",
+                                           "group":  "index.md",
+                                           "relativePath":  "index.md"
+                                       },
+                                       {
+                                           "title":  "overview",
+                                           "path":  "/study-guides/myp/chemistry/overview.md",
+                                           "group":  "overview.md",
+                                           "relativePath":  "overview.md"
+                                       },
+                                       {
+                                           "title":  "question bank",
+                                           "path":  "/study-guides/myp/chemistry/question-bank.md",
+                                           "group":  "question-bank.md",
+                                           "relativePath":  "question-bank.md"
+                                       },
+                                       {
+                                           "title":  "revision plan",
+                                           "path":  "/study-guides/myp/chemistry/revision-plan.md",
+                                           "group":  "revision-plan.md",
+                                           "relativePath":  "revision-plan.md"
+                                       },
+                                       {
+                                           "title":  "M16",
+                                           "path":  "/study-guides/myp/chemistry/sessions/M16.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/M16.md"
+                                       },
+                                       {
+                                           "title":  "M17",
+                                           "path":  "/study-guides/myp/chemistry/sessions/M17.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/M17.md"
+                                       },
+                                       {
+                                           "title":  "M18",
+                                           "path":  "/study-guides/myp/chemistry/sessions/M18.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/M18.md"
+                                       },
+                                       {
+                                           "title":  "M19",
+                                           "path":  "/study-guides/myp/chemistry/sessions/M19.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/M19.md"
+                                       },
+                                       {
+                                           "title":  "M21",
+                                           "path":  "/study-guides/myp/chemistry/sessions/M21.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/M21.md"
+                                       },
+                                       {
+                                           "title":  "M22",
+                                           "path":  "/study-guides/myp/chemistry/sessions/M22.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/M22.md"
+                                       },
+                                       {
+                                           "title":  "M23",
+                                           "path":  "/study-guides/myp/chemistry/sessions/M23.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/M23.md"
+                                       },
+                                       {
+                                           "title":  "M24",
+                                           "path":  "/study-guides/myp/chemistry/sessions/M24.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/M24.md"
+                                       },
+                                       {
+                                           "title":  "M25",
+                                           "path":  "/study-guides/myp/chemistry/sessions/M25.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/M25.md"
+                                       },
+                                       {
+                                           "title":  "N16",
+                                           "path":  "/study-guides/myp/chemistry/sessions/N16.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/N16.md"
+                                       },
+                                       {
+                                           "title":  "N17",
+                                           "path":  "/study-guides/myp/chemistry/sessions/N17.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/N17.md"
+                                       },
+                                       {
+                                           "title":  "N18",
+                                           "path":  "/study-guides/myp/chemistry/sessions/N18.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/N18.md"
+                                       },
+                                       {
+                                           "title":  "N19",
+                                           "path":  "/study-guides/myp/chemistry/sessions/N19.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/N19.md"
+                                       },
+                                       {
+                                           "title":  "N20",
+                                           "path":  "/study-guides/myp/chemistry/sessions/N20.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/N20.md"
+                                       },
+                                       {
+                                           "title":  "N21",
+                                           "path":  "/study-guides/myp/chemistry/sessions/N21.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/N21.md"
+                                       },
+                                       {
+                                           "title":  "N22",
+                                           "path":  "/study-guides/myp/chemistry/sessions/N22.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/N22.md"
+                                       },
+                                       {
+                                           "title":  "N23",
+                                           "path":  "/study-guides/myp/chemistry/sessions/N23.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/N23.md"
+                                       },
+                                       {
+                                           "title":  "N24",
+                                           "path":  "/study-guides/myp/chemistry/sessions/N24.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/N24.md"
+                                       },
+                                       {
+                                           "title":  "acids bases salts",
+                                           "path":  "/study-guides/myp/chemistry/topics/acids-bases-salts.md",
+                                           "group":  "topics",
+                                           "relativePath":  "topics/acids-bases-salts.md"
+                                       },
+                                       {
+                                           "title":  "atomic structure",
+                                           "path":  "/study-guides/myp/chemistry/topics/atomic-structure.md",
+                                           "group":  "topics",
+                                           "relativePath":  "topics/atomic-structure.md"
+                                       },
+                                       {
+                                           "title":  "bonding and structure",
+                                           "path":  "/study-guides/myp/chemistry/topics/bonding-and-structure.md",
+                                           "group":  "topics",
+                                           "relativePath":  "topics/bonding-and-structure.md"
+                                       },
+                                       {
+                                           "title":  "chemical reactions",
+                                           "path":  "/study-guides/myp/chemistry/topics/chemical-reactions.md",
+                                           "group":  "topics",
+                                           "relativePath":  "topics/chemical-reactions.md"
+                                       },
+                                       {
+                                           "title":  "data processing",
+                                           "path":  "/study-guides/myp/chemistry/topics/data-processing.md",
+                                           "group":  "topics",
+                                           "relativePath":  "topics/data-processing.md"
+                                       },
+                                       {
+                                           "title":  "electrochemistry",
+                                           "path":  "/study-guides/myp/chemistry/topics/electrochemistry.md",
+                                           "group":  "topics",
+                                           "relativePath":  "topics/electrochemistry.md"
+                                       },
+                                       {
+                                           "title":  "energy in reactions",
+                                           "path":  "/study-guides/myp/chemistry/topics/energy-in-reactions.md",
+                                           "group":  "topics",
+                                           "relativePath":  "topics/energy-in-reactions.md"
+                                       },
+                                       {
+                                           "title":  "experimental design",
+                                           "path":  "/study-guides/myp/chemistry/topics/experimental-design.md",
+                                           "group":  "topics",
+                                           "relativePath":  "topics/experimental-design.md"
+                                       },
+                                       {
+                                           "title":  "impacts of chemistry",
+                                           "path":  "/study-guides/myp/chemistry/topics/impacts-of-chemistry.md",
+                                           "group":  "topics",
+                                           "relativePath":  "topics/impacts-of-chemistry.md"
+                                       },
+                                       {
+                                           "title":  "organic chemistry",
+                                           "path":  "/study-guides/myp/chemistry/topics/organic-chemistry.md",
+                                           "group":  "topics",
+                                           "relativePath":  "topics/organic-chemistry.md"
+                                       },
+                                       {
+                                           "title":  "periodicity",
+                                           "path":  "/study-guides/myp/chemistry/topics/periodicity.md",
+                                           "group":  "topics",
+                                           "relativePath":  "topics/periodicity.md"
+                                       },
+                                       {
+                                           "title":  "rates of reaction",
+                                           "path":  "/study-guides/myp/chemistry/topics/rates-of-reaction.md",
+                                           "group":  "topics",
+                                           "relativePath":  "topics/rates-of-reaction.md"
+                                       },
+                                       {
+                                           "title":  "stoichiometry",
+                                           "path":  "/study-guides/myp/chemistry/topics/stoichiometry.md",
+                                           "group":  "topics",
+                                           "relativePath":  "topics/stoichiometry.md"
+                                       }
+                                   ]
+                     },
+                     {
+                         "name":  "English",
+                         "slug":  "english",
+                         "pages":  [
+                                       {
+                                           "title":  "command terms",
+                                           "path":  "/study-guides/myp/english/command-terms.md",
+                                           "group":  "command-terms.md",
+                                           "relativePath":  "command-terms.md"
+                                       },
+                                       {
+                                           "title":  "overview",
+                                           "path":  "/study-guides/myp/english/overview.md",
+                                           "group":  "overview.md",
+                                           "relativePath":  "overview.md"
+                                       },
+                                       {
+                                           "title":  "question bank",
+                                           "path":  "/study-guides/myp/english/question-bank.md",
+                                           "group":  "question-bank.md",
+                                           "relativePath":  "question-bank.md"
+                                       },
+                                       {
+                                           "title":  "revision plan",
+                                           "path":  "/study-guides/myp/english/revision-plan.md",
+                                           "group":  "revision-plan.md",
+                                           "relativePath":  "revision-plan.md"
+                                       },
+                                       {
+                                           "title":  "M18",
+                                           "path":  "/study-guides/myp/english/sessions/M18.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/M18.md"
+                                       },
+                                       {
+                                           "title":  "M19",
+                                           "path":  "/study-guides/myp/english/sessions/M19.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/M19.md"
+                                       },
+                                       {
+                                           "title":  "M21",
+                                           "path":  "/study-guides/myp/english/sessions/M21.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/M21.md"
+                                       },
+                                       {
+                                           "title":  "M22",
+                                           "path":  "/study-guides/myp/english/sessions/M22.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/M22.md"
+                                       },
+                                       {
+                                           "title":  "M23",
+                                           "path":  "/study-guides/myp/english/sessions/M23.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/M23.md"
+                                       },
+                                       {
+                                           "title":  "M24",
+                                           "path":  "/study-guides/myp/english/sessions/M24.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/M24.md"
+                                       },
+                                       {
+                                           "title":  "M25",
+                                           "path":  "/study-guides/myp/english/sessions/M25.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/M25.md"
+                                       },
+                                       {
+                                           "title":  "N16",
+                                           "path":  "/study-guides/myp/english/sessions/N16.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/N16.md"
+                                       },
+                                       {
+                                           "title":  "N19",
+                                           "path":  "/study-guides/myp/english/sessions/N19.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/N19.md"
+                                       },
+                                       {
+                                           "title":  "N20",
+                                           "path":  "/study-guides/myp/english/sessions/N20.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/N20.md"
+                                       },
+                                       {
+                                           "title":  "N21",
+                                           "path":  "/study-guides/myp/english/sessions/N21.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/N21.md"
+                                       },
+                                       {
+                                           "title":  "N22",
+                                           "path":  "/study-guides/myp/english/sessions/N22.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/N22.md"
+                                       },
+                                       {
+                                           "title":  "N23",
+                                           "path":  "/study-guides/myp/english/sessions/N23.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/N23.md"
+                                       },
+                                       {
+                                           "title":  "N24",
+                                           "path":  "/study-guides/myp/english/sessions/N24.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/N24.md"
+                                       },
+                                       {
+                                           "title":  "comparative analysis",
+                                           "path":  "/study-guides/myp/english/topics/comparative-analysis.md",
+                                           "group":  "topics",
+                                           "relativePath":  "topics/comparative-analysis.md"
+                                       },
+                                       {
+                                           "title":  "criteria breakdown",
+                                           "path":  "/study-guides/myp/english/topics/criteria-breakdown.md",
+                                           "group":  "topics",
+                                           "relativePath":  "topics/criteria-breakdown.md"
+                                       },
+                                       {
+                                           "title":  "essay organisation",
+                                           "path":  "/study-guides/myp/english/topics/essay-organisation.md",
+                                           "group":  "topics",
+                                           "relativePath":  "topics/essay-organisation.md"
+                                       },
+                                       {
+                                           "title":  "film analysis",
+                                           "path":  "/study-guides/myp/english/topics/film-analysis.md",
+                                           "group":  "topics",
+                                           "relativePath":  "topics/film-analysis.md"
+                                       },
+                                       {
+                                           "title":  "literary techniques",
+                                           "path":  "/study-guides/myp/english/topics/literary-techniques.md",
+                                           "group":  "topics",
+                                           "relativePath":  "topics/literary-techniques.md"
+                                       },
+                                       {
+                                           "title":  "literary writing",
+                                           "path":  "/study-guides/myp/english/topics/literary-writing.md",
+                                           "group":  "topics",
+                                           "relativePath":  "topics/literary-writing.md"
+                                       },
+                                       {
+                                           "title":  "non literary writing",
+                                           "path":  "/study-guides/myp/english/topics/non-literary-writing.md",
+                                           "group":  "topics",
+                                           "relativePath":  "topics/non-literary-writing.md"
+                                       },
+                                       {
+                                           "title":  "text types",
+                                           "path":  "/study-guides/myp/english/topics/text-types.md",
+                                           "group":  "topics",
+                                           "relativePath":  "topics/text-types.md"
+                                       }
+                                   ]
+                     },
+                     {
+                         "name":  "Geography",
+                         "slug":  "geography",
+                         "pages":  [
+                                       {
+                                           "title":  "command terms",
+                                           "path":  "/study-guides/myp/geography/command-terms.md",
+                                           "group":  "command-terms.md",
+                                           "relativePath":  "command-terms.md"
+                                       },
+                                       {
+                                           "title":  "Guide index",
+                                           "path":  "/study-guides/myp/geography/index.md",
+                                           "group":  "index.md",
+                                           "relativePath":  "index.md"
+                                       },
+                                       {
+                                           "title":  "overview",
+                                           "path":  "/study-guides/myp/geography/overview.md",
+                                           "group":  "overview.md",
+                                           "relativePath":  "overview.md"
+                                       },
+                                       {
+                                           "title":  "question bank",
+                                           "path":  "/study-guides/myp/geography/question-bank.md",
+                                           "group":  "question-bank.md",
+                                           "relativePath":  "question-bank.md"
+                                       },
+                                       {
+                                           "title":  "revision plan",
+                                           "path":  "/study-guides/myp/geography/revision-plan.md",
+                                           "group":  "revision-plan.md",
+                                           "relativePath":  "revision-plan.md"
+                                       },
+                                       {
+                                           "title":  "M21",
+                                           "path":  "/study-guides/myp/geography/sessions/M21.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/M21.md"
+                                       },
+                                       {
+                                           "title":  "M22",
+                                           "path":  "/study-guides/myp/geography/sessions/M22.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/M22.md"
+                                       },
+                                       {
+                                           "title":  "M23",
+                                           "path":  "/study-guides/myp/geography/sessions/M23.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/M23.md"
+                                       },
+                                       {
+                                           "title":  "M24",
+                                           "path":  "/study-guides/myp/geography/sessions/M24.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/M24.md"
+                                       },
+                                       {
+                                           "title":  "M25",
+                                           "path":  "/study-guides/myp/geography/sessions/M25.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/M25.md"
+                                       },
+                                       {
+                                           "title":  "N17",
+                                           "path":  "/study-guides/myp/geography/sessions/N17.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/N17.md"
+                                       },
+                                       {
+                                           "title":  "N19",
+                                           "path":  "/study-guides/myp/geography/sessions/N19.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/N19.md"
+                                       },
+                                       {
+                                           "title":  "N20",
+                                           "path":  "/study-guides/myp/geography/sessions/N20.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/N20.md"
+                                       },
+                                       {
+                                           "title":  "N21",
+                                           "path":  "/study-guides/myp/geography/sessions/N21.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/N21.md"
+                                       },
+                                       {
+                                           "title":  "N22",
+                                           "path":  "/study-guides/myp/geography/sessions/N22.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/N22.md"
+                                       },
+                                       {
+                                           "title":  "N23",
+                                           "path":  "/study-guides/myp/geography/sessions/N23.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/N23.md"
+                                       },
+                                       {
+                                           "title":  "N24",
+                                           "path":  "/study-guides/myp/geography/sessions/N24.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/N24.md"
+                                       },
+                                       {
+                                           "title":  "study_plan_html_process",
+                                           "path":  "/study-guides/myp/geography/study_plan/study_plan_html_process.md",
+                                           "group":  "study_plan",
+                                           "relativePath":  "study_plan/study_plan_html_process.md"
+                                       },
+                                       {
+                                           "title":  "biomes",
+                                           "path":  "/study-guides/myp/geography/topics/biomes.md",
+                                           "group":  "topics",
+                                           "relativePath":  "topics/biomes.md"
+                                       },
+                                       {
+                                           "title":  "climate change",
+                                           "path":  "/study-guides/myp/geography/topics/climate-change.md",
+                                           "group":  "topics",
+                                           "relativePath":  "topics/climate-change.md"
+                                       },
+                                       {
+                                           "title":  "development and aid",
+                                           "path":  "/study-guides/myp/geography/topics/development-and-aid.md",
+                                           "group":  "topics",
+                                           "relativePath":  "topics/development-and-aid.md"
+                                       },
+                                       {
+                                           "title":  "food security",
+                                           "path":  "/study-guides/myp/geography/topics/food-security.md",
+                                           "group":  "topics",
+                                           "relativePath":  "topics/food-security.md"
+                                       },
+                                       {
+                                           "title":  "globalization",
+                                           "path":  "/study-guides/myp/geography/topics/globalization.md",
+                                           "group":  "topics",
+                                           "relativePath":  "topics/globalization.md"
+                                       },
+                                       {
+                                           "title":  "land degradation",
+                                           "path":  "/study-guides/myp/geography/topics/land-degradation.md",
+                                           "group":  "topics",
+                                           "relativePath":  "topics/land-degradation.md"
+                                       },
+                                       {
+                                           "title":  "migration",
+                                           "path":  "/study-guides/myp/geography/topics/migration.md",
+                                           "group":  "topics",
+                                           "relativePath":  "topics/migration.md"
+                                       },
+                                       {
+                                           "title":  "natural hazards",
+                                           "path":  "/study-guides/myp/geography/topics/natural-hazards.md",
+                                           "group":  "topics",
+                                           "relativePath":  "topics/natural-hazards.md"
+                                       },
+                                       {
+                                           "title":  "natural resources",
+                                           "path":  "/study-guides/myp/geography/topics/natural-resources.md",
+                                           "group":  "topics",
+                                           "relativePath":  "topics/natural-resources.md"
+                                       },
+                                       {
+                                           "title":  "research methods",
+                                           "path":  "/study-guides/myp/geography/topics/research-methods.md",
+                                           "group":  "topics",
+                                           "relativePath":  "topics/research-methods.md"
+                                       },
+                                       {
+                                           "title":  "rivers and coasts",
+                                           "path":  "/study-guides/myp/geography/topics/rivers-and-coasts.md",
+                                           "group":  "topics",
+                                           "relativePath":  "topics/rivers-and-coasts.md"
+                                       },
+                                       {
+                                           "title":  "tourism",
+                                           "path":  "/study-guides/myp/geography/topics/tourism.md",
+                                           "group":  "topics",
+                                           "relativePath":  "topics/tourism.md"
+                                       },
+                                       {
+                                           "title":  "urban environments",
+                                           "path":  "/study-guides/myp/geography/topics/urban-environments.md",
+                                           "group":  "topics",
+                                           "relativePath":  "topics/urban-environments.md"
+                                       },
+                                       {
+                                           "title":  "water security",
+                                           "path":  "/study-guides/myp/geography/topics/water-security.md",
+                                           "group":  "topics",
+                                           "relativePath":  "topics/water-security.md"
+                                       }
+                                   ]
+                     },
+                     {
+                         "name":  "History",
+                         "slug":  "history",
+                         "pages":  [
+                                       {
+                                           "title":  "command terms",
+                                           "path":  "/study-guides/myp/history/command-terms.md",
+                                           "group":  "command-terms.md",
+                                           "relativePath":  "command-terms.md"
+                                       },
+                                       {
+                                           "title":  "Guide index",
+                                           "path":  "/study-guides/myp/history/index.md",
+                                           "group":  "index.md",
+                                           "relativePath":  "index.md"
+                                       },
+                                       {
+                                           "title":  "overview",
+                                           "path":  "/study-guides/myp/history/overview.md",
+                                           "group":  "overview.md",
+                                           "relativePath":  "overview.md"
+                                       },
+                                       {
+                                           "title":  "question bank",
+                                           "path":  "/study-guides/myp/history/question-bank.md",
+                                           "group":  "question-bank.md",
+                                           "relativePath":  "question-bank.md"
+                                       },
+                                       {
+                                           "title":  "revision plan",
+                                           "path":  "/study-guides/myp/history/revision-plan.md",
+                                           "group":  "revision-plan.md",
+                                           "relativePath":  "revision-plan.md"
+                                       },
+                                       {
+                                           "title":  "M17",
+                                           "path":  "/study-guides/myp/history/sessions/M17.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/M17.md"
+                                       },
+                                       {
+                                           "title":  "M21",
+                                           "path":  "/study-guides/myp/history/sessions/M21.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/M21.md"
+                                       },
+                                       {
+                                           "title":  "M22",
+                                           "path":  "/study-guides/myp/history/sessions/M22.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/M22.md"
+                                       },
+                                       {
+                                           "title":  "M23",
+                                           "path":  "/study-guides/myp/history/sessions/M23.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/M23.md"
+                                       },
+                                       {
+                                           "title":  "M24",
+                                           "path":  "/study-guides/myp/history/sessions/M24.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/M24.md"
+                                       },
+                                       {
+                                           "title":  "M25",
+                                           "path":  "/study-guides/myp/history/sessions/M25.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/M25.md"
+                                       },
+                                       {
+                                           "title":  "N16",
+                                           "path":  "/study-guides/myp/history/sessions/N16.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/N16.md"
+                                       },
+                                       {
+                                           "title":  "N19",
+                                           "path":  "/study-guides/myp/history/sessions/N19.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/N19.md"
+                                       },
+                                       {
+                                           "title":  "N20",
+                                           "path":  "/study-guides/myp/history/sessions/N20.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/N20.md"
+                                       },
+                                       {
+                                           "title":  "N21",
+                                           "path":  "/study-guides/myp/history/sessions/N21.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/N21.md"
+                                       },
+                                       {
+                                           "title":  "N22",
+                                           "path":  "/study-guides/myp/history/sessions/N22.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/N22.md"
+                                       },
+                                       {
+                                           "title":  "N23",
+                                           "path":  "/study-guides/myp/history/sessions/N23.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/N23.md"
+                                       },
+                                       {
+                                           "title":  "N24",
+                                           "path":  "/study-guides/myp/history/sessions/N24.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/N24.md"
+                                       },
+                                       {
+                                           "title":  "empires and colonialism",
+                                           "path":  "/study-guides/myp/history/topics/empires-and-colonialism.md",
+                                           "group":  "topics",
+                                           "relativePath":  "topics/empires-and-colonialism.md"
+                                       },
+                                       {
+                                           "title":  "extended writing",
+                                           "path":  "/study-guides/myp/history/topics/extended-writing.md",
+                                           "group":  "topics",
+                                           "relativePath":  "topics/extended-writing.md"
+                                       },
+                                       {
+                                           "title":  "globalization",
+                                           "path":  "/study-guides/myp/history/topics/globalization.md",
+                                           "group":  "topics",
+                                           "relativePath":  "topics/globalization.md"
+                                       },
+                                       {
+                                           "title":  "ideological movements",
+                                           "path":  "/study-guides/myp/history/topics/ideological-movements.md",
+                                           "group":  "topics",
+                                           "relativePath":  "topics/ideological-movements.md"
+                                       },
+                                       {
+                                           "title":  "independence movements",
+                                           "path":  "/study-guides/myp/history/topics/independence-movements.md",
+                                           "group":  "topics",
+                                           "relativePath":  "topics/independence-movements.md"
+                                       },
+                                       {
+                                           "title":  "industrialization",
+                                           "path":  "/study-guides/myp/history/topics/industrialization.md",
+                                           "group":  "topics",
+                                           "relativePath":  "topics/industrialization.md"
+                                       },
+                                       {
+                                           "title":  "research methods",
+                                           "path":  "/study-guides/myp/history/topics/research-methods.md",
+                                           "group":  "topics",
+                                           "relativePath":  "topics/research-methods.md"
+                                       },
+                                       {
+                                           "title":  "scientific innovation",
+                                           "path":  "/study-guides/myp/history/topics/scientific-innovation.md",
+                                           "group":  "topics",
+                                           "relativePath":  "topics/scientific-innovation.md"
+                                       },
+                                       {
+                                           "title":  "significant individuals",
+                                           "path":  "/study-guides/myp/history/topics/significant-individuals.md",
+                                           "group":  "topics",
+                                           "relativePath":  "topics/significant-individuals.md"
+                                       },
+                                       {
+                                           "title":  "social protest movements",
+                                           "path":  "/study-guides/myp/history/topics/social-protest-movements.md",
+                                           "group":  "topics",
+                                           "relativePath":  "topics/social-protest-movements.md"
+                                       },
+                                       {
+                                           "title":  "source analysis",
+                                           "path":  "/study-guides/myp/history/topics/source-analysis.md",
+                                           "group":  "topics",
+                                           "relativePath":  "topics/source-analysis.md"
+                                       },
+                                       {
+                                           "title":  "supranational organisations",
+                                           "path":  "/study-guides/myp/history/topics/supranational-organisations.md",
+                                           "group":  "topics",
+                                           "relativePath":  "topics/supranational-organisations.md"
+                                       }
+                                   ]
+                     },
+                     {
+                         "name":  "Interdisciplinary Learning",
+                         "slug":  "interdisciplinary-learning",
+                         "pages":  [
+                                       {
+                                           "title":  "command terms",
+                                           "path":  "/study-guides/myp/interdisciplinary-learning/command-terms.md",
+                                           "group":  "command-terms.md",
+                                           "relativePath":  "command-terms.md"
+                                       },
+                                       {
+                                           "title":  "Guide index",
+                                           "path":  "/study-guides/myp/interdisciplinary-learning/index.md",
+                                           "group":  "index.md",
+                                           "relativePath":  "index.md"
+                                       },
+                                       {
+                                           "title":  "overview",
+                                           "path":  "/study-guides/myp/interdisciplinary-learning/overview.md",
+                                           "group":  "overview.md",
+                                           "relativePath":  "overview.md"
+                                       },
+                                       {
+                                           "title":  "question bank",
+                                           "path":  "/study-guides/myp/interdisciplinary-learning/question-bank.md",
+                                           "group":  "question-bank.md",
+                                           "relativePath":  "question-bank.md"
+                                       },
+                                       {
+                                           "title":  "revision plan",
+                                           "path":  "/study-guides/myp/interdisciplinary-learning/revision-plan.md",
+                                           "group":  "revision-plan.md",
+                                           "relativePath":  "revision-plan.md"
+                                       },
+                                       {
+                                           "title":  "M17",
+                                           "path":  "/study-guides/myp/interdisciplinary-learning/sessions/M17.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/M17.md"
+                                       },
+                                       {
+                                           "title":  "M19",
+                                           "path":  "/study-guides/myp/interdisciplinary-learning/sessions/M19.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/M19.md"
+                                       },
+                                       {
+                                           "title":  "M21",
+                                           "path":  "/study-guides/myp/interdisciplinary-learning/sessions/M21.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/M21.md"
+                                       },
+                                       {
+                                           "title":  "M22",
+                                           "path":  "/study-guides/myp/interdisciplinary-learning/sessions/M22.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/M22.md"
+                                       },
+                                       {
+                                           "title":  "M23",
+                                           "path":  "/study-guides/myp/interdisciplinary-learning/sessions/M23.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/M23.md"
+                                       },
+                                       {
+                                           "title":  "M24",
+                                           "path":  "/study-guides/myp/interdisciplinary-learning/sessions/M24.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/M24.md"
+                                       },
+                                       {
+                                           "title":  "N16",
+                                           "path":  "/study-guides/myp/interdisciplinary-learning/sessions/N16.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/N16.md"
+                                       },
+                                       {
+                                           "title":  "N19",
+                                           "path":  "/study-guides/myp/interdisciplinary-learning/sessions/N19.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/N19.md"
+                                       },
+                                       {
+                                           "title":  "N20",
+                                           "path":  "/study-guides/myp/interdisciplinary-learning/sessions/N20.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/N20.md"
+                                       },
+                                       {
+                                           "title":  "N21",
+                                           "path":  "/study-guides/myp/interdisciplinary-learning/sessions/N21.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/N21.md"
+                                       },
+                                       {
+                                           "title":  "command techniques",
+                                           "path":  "/study-guides/myp/interdisciplinary-learning/topics/command-techniques.md",
+                                           "group":  "topics",
+                                           "relativePath":  "topics/command-techniques.md"
+                                       },
+                                       {
+                                           "title":  "disciplines in idl",
+                                           "path":  "/study-guides/myp/interdisciplinary-learning/topics/disciplines-in-idl.md",
+                                           "group":  "topics",
+                                           "relativePath":  "topics/disciplines-in-idl.md"
+                                       },
+                                       {
+                                           "title":  "pre release archive",
+                                           "path":  "/study-guides/myp/interdisciplinary-learning/topics/pre-release-archive.md",
+                                           "group":  "topics",
+                                           "relativePath":  "topics/pre-release-archive.md"
+                                       },
+                                       {
+                                           "title":  "pre release may 2026",
+                                           "path":  "/study-guides/myp/interdisciplinary-learning/topics/pre-release-may-2026.md",
+                                           "group":  "topics",
+                                           "relativePath":  "topics/pre-release-may-2026.md"
+                                       },
+                                       {
+                                           "title":  "reflection and metacognition",
+                                           "path":  "/study-guides/myp/interdisciplinary-learning/topics/reflection-and-metacognition.md",
+                                           "group":  "topics",
+                                           "relativePath":  "topics/reflection-and-metacognition.md"
+                                       },
+                                       {
+                                           "title":  "source and evidence work",
+                                           "path":  "/study-guides/myp/interdisciplinary-learning/topics/source-and-evidence-work.md",
+                                           "group":  "topics",
+                                           "relativePath":  "topics/source-and-evidence-work.md"
+                                       },
+                                       {
+                                           "title":  "synthesising across disciplines",
+                                           "path":  "/study-guides/myp/interdisciplinary-learning/topics/synthesising-across-disciplines.md",
+                                           "group":  "topics",
+                                           "relativePath":  "topics/synthesising-across-disciplines.md"
+                                       },
+                                       {
+                                           "title":  "to what extent and evaluate",
+                                           "path":  "/study-guides/myp/interdisciplinary-learning/topics/to-what-extent-and-evaluate.md",
+                                           "group":  "topics",
+                                           "relativePath":  "topics/to-what-extent-and-evaluate.md"
+                                       }
+                                   ]
+                     },
+                     {
+                         "name":  "Mathematics",
+                         "slug":  "mathematics",
+                         "pages":  [
+                                       {
+                                           "title":  "command terms",
+                                           "path":  "/study-guides/myp/mathematics/command-terms.md",
+                                           "group":  "command-terms.md",
+                                           "relativePath":  "command-terms.md"
+                                       },
+                                       {
+                                           "title":  "overview",
+                                           "path":  "/study-guides/myp/mathematics/overview.md",
+                                           "group":  "overview.md",
+                                           "relativePath":  "overview.md"
+                                       },
+                                       {
+                                           "title":  "question bank",
+                                           "path":  "/study-guides/myp/mathematics/question-bank.md",
+                                           "group":  "question-bank.md",
+                                           "relativePath":  "question-bank.md"
+                                       },
+                                       {
+                                           "title":  "revision plan",
+                                           "path":  "/study-guides/myp/mathematics/revision-plan.md",
+                                           "group":  "revision-plan.md",
+                                           "relativePath":  "revision-plan.md"
+                                       },
+                                       {
+                                           "title":  "M16",
+                                           "path":  "/study-guides/myp/mathematics/sessions/M16.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/M16.md"
+                                       },
+                                       {
+                                           "title":  "M17",
+                                           "path":  "/study-guides/myp/mathematics/sessions/M17.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/M17.md"
+                                       },
+                                       {
+                                           "title":  "M18",
+                                           "path":  "/study-guides/myp/mathematics/sessions/M18.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/M18.md"
+                                       },
+                                       {
+                                           "title":  "M19",
+                                           "path":  "/study-guides/myp/mathematics/sessions/M19.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/M19.md"
+                                       },
+                                       {
+                                           "title":  "M21",
+                                           "path":  "/study-guides/myp/mathematics/sessions/M21.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/M21.md"
+                                       },
+                                       {
+                                           "title":  "M22",
+                                           "path":  "/study-guides/myp/mathematics/sessions/M22.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/M22.md"
+                                       },
+                                       {
+                                           "title":  "M23",
+                                           "path":  "/study-guides/myp/mathematics/sessions/M23.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/M23.md"
+                                       },
+                                       {
+                                           "title":  "M24",
+                                           "path":  "/study-guides/myp/mathematics/sessions/M24.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/M24.md"
+                                       },
+                                       {
+                                           "title":  "M25",
+                                           "path":  "/study-guides/myp/mathematics/sessions/M25.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/M25.md"
+                                       },
+                                       {
+                                           "title":  "N16",
+                                           "path":  "/study-guides/myp/mathematics/sessions/N16.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/N16.md"
+                                       },
+                                       {
+                                           "title":  "N17",
+                                           "path":  "/study-guides/myp/mathematics/sessions/N17.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/N17.md"
+                                       },
+                                       {
+                                           "title":  "N18",
+                                           "path":  "/study-guides/myp/mathematics/sessions/N18.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/N18.md"
+                                       },
+                                       {
+                                           "title":  "N19",
+                                           "path":  "/study-guides/myp/mathematics/sessions/N19.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/N19.md"
+                                       },
+                                       {
+                                           "title":  "N20",
+                                           "path":  "/study-guides/myp/mathematics/sessions/N20.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/N20.md"
+                                       },
+                                       {
+                                           "title":  "N21",
+                                           "path":  "/study-guides/myp/mathematics/sessions/N21.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/N21.md"
+                                       },
+                                       {
+                                           "title":  "N22",
+                                           "path":  "/study-guides/myp/mathematics/sessions/N22.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/N22.md"
+                                       },
+                                       {
+                                           "title":  "N23",
+                                           "path":  "/study-guides/myp/mathematics/sessions/N23.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/N23.md"
+                                       },
+                                       {
+                                           "title":  "N24",
+                                           "path":  "/study-guides/myp/mathematics/sessions/N24.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/N24.md"
+                                       },
+                                       {
+                                           "title":  "N25",
+                                           "path":  "/study-guides/myp/mathematics/sessions/N25.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/N25.md"
+                                       },
+                                       {
+                                           "title":  "algebra",
+                                           "path":  "/study-guides/myp/mathematics/topics/algebra.md",
+                                           "group":  "topics",
+                                           "relativePath":  "topics/algebra.md"
+                                       },
+                                       {
+                                           "title":  "criterion d applications",
+                                           "path":  "/study-guides/myp/mathematics/topics/criterion-d-applications.md",
+                                           "group":  "topics",
+                                           "relativePath":  "topics/criterion-d-applications.md"
+                                       },
+                                       {
+                                           "title":  "geometry",
+                                           "path":  "/study-guides/myp/mathematics/topics/geometry.md",
+                                           "group":  "topics",
+                                           "relativePath":  "topics/geometry.md"
+                                       },
+                                       {
+                                           "title":  "number and sets",
+                                           "path":  "/study-guides/myp/mathematics/topics/number-and-sets.md",
+                                           "group":  "topics",
+                                           "relativePath":  "topics/number-and-sets.md"
+                                       },
+                                       {
+                                           "title":  "patterns investigation",
+                                           "path":  "/study-guides/myp/mathematics/topics/patterns-investigation.md",
+                                           "group":  "topics",
+                                           "relativePath":  "topics/patterns-investigation.md"
+                                       },
+                                       {
+                                           "title":  "probability and statistics",
+                                           "path":  "/study-guides/myp/mathematics/topics/probability-and-statistics.md",
+                                           "group":  "topics",
+                                           "relativePath":  "topics/probability-and-statistics.md"
+                                       },
+                                       {
+                                           "title":  "quadratic functions",
+                                           "path":  "/study-guides/myp/mathematics/topics/quadratic-functions.md",
+                                           "group":  "topics",
+                                           "relativePath":  "topics/quadratic-functions.md"
+                                       },
+                                       {
+                                           "title":  "trigonometry",
+                                           "path":  "/study-guides/myp/mathematics/topics/trigonometry.md",
+                                           "group":  "topics",
+                                           "relativePath":  "topics/trigonometry.md"
+                                       }
+                                   ]
+                     },
+                     {
+                         "name":  "Physics",
+                         "slug":  "physics",
+                         "pages":  [
+                                       {
+                                           "title":  "command terms",
+                                           "path":  "/study-guides/myp/physics/command-terms.md",
+                                           "group":  "command-terms.md",
+                                           "relativePath":  "command-terms.md"
+                                       },
+                                       {
+                                           "title":  "overview",
+                                           "path":  "/study-guides/myp/physics/overview.md",
+                                           "group":  "overview.md",
+                                           "relativePath":  "overview.md"
+                                       },
+                                       {
+                                           "title":  "question bank",
+                                           "path":  "/study-guides/myp/physics/question-bank.md",
+                                           "group":  "question-bank.md",
+                                           "relativePath":  "question-bank.md"
+                                       },
+                                       {
+                                           "title":  "revision plan",
+                                           "path":  "/study-guides/myp/physics/revision-plan.md",
+                                           "group":  "revision-plan.md",
+                                           "relativePath":  "revision-plan.md"
+                                       },
+                                       {
+                                           "title":  "M16",
+                                           "path":  "/study-guides/myp/physics/sessions/M16.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/M16.md"
+                                       },
+                                       {
+                                           "title":  "M17",
+                                           "path":  "/study-guides/myp/physics/sessions/M17.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/M17.md"
+                                       },
+                                       {
+                                           "title":  "M18",
+                                           "path":  "/study-guides/myp/physics/sessions/M18.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/M18.md"
+                                       },
+                                       {
+                                           "title":  "M19",
+                                           "path":  "/study-guides/myp/physics/sessions/M19.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/M19.md"
+                                       },
+                                       {
+                                           "title":  "M21",
+                                           "path":  "/study-guides/myp/physics/sessions/M21.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/M21.md"
+                                       },
+                                       {
+                                           "title":  "M22",
+                                           "path":  "/study-guides/myp/physics/sessions/M22.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/M22.md"
+                                       },
+                                       {
+                                           "title":  "M23",
+                                           "path":  "/study-guides/myp/physics/sessions/M23.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/M23.md"
+                                       },
+                                       {
+                                           "title":  "M24",
+                                           "path":  "/study-guides/myp/physics/sessions/M24.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/M24.md"
+                                       },
+                                       {
+                                           "title":  "M25",
+                                           "path":  "/study-guides/myp/physics/sessions/M25.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/M25.md"
+                                       },
+                                       {
+                                           "title":  "N16",
+                                           "path":  "/study-guides/myp/physics/sessions/N16.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/N16.md"
+                                       },
+                                       {
+                                           "title":  "N17",
+                                           "path":  "/study-guides/myp/physics/sessions/N17.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/N17.md"
+                                       },
+                                       {
+                                           "title":  "N18",
+                                           "path":  "/study-guides/myp/physics/sessions/N18.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/N18.md"
+                                       },
+                                       {
+                                           "title":  "N19",
+                                           "path":  "/study-guides/myp/physics/sessions/N19.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/N19.md"
+                                       },
+                                       {
+                                           "title":  "N20",
+                                           "path":  "/study-guides/myp/physics/sessions/N20.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/N20.md"
+                                       },
+                                       {
+                                           "title":  "N21",
+                                           "path":  "/study-guides/myp/physics/sessions/N21.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/N21.md"
+                                       },
+                                       {
+                                           "title":  "N22",
+                                           "path":  "/study-guides/myp/physics/sessions/N22.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/N22.md"
+                                       },
+                                       {
+                                           "title":  "N23",
+                                           "path":  "/study-guides/myp/physics/sessions/N23.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/N23.md"
+                                       },
+                                       {
+                                           "title":  "N24",
+                                           "path":  "/study-guides/myp/physics/sessions/N24.md",
+                                           "group":  "sessions",
+                                           "relativePath":  "sessions/N24.md"
+                                       },
+                                       {
+                                           "title":  "data processing",
+                                           "path":  "/study-guides/myp/physics/topics/data-processing.md",
+                                           "group":  "topics",
+                                           "relativePath":  "topics/data-processing.md"
+                                       },
+                                       {
+                                           "title":  "electricity and magnetism",
+                                           "path":  "/study-guides/myp/physics/topics/electricity-and-magnetism.md",
+                                           "group":  "topics",
+                                           "relativePath":  "topics/electricity-and-magnetism.md"
+                                       },
+                                       {
+                                           "title":  "energy",
+                                           "path":  "/study-guides/myp/physics/topics/energy.md",
+                                           "group":  "topics",
+                                           "relativePath":  "topics/energy.md"
+                                       },
+                                       {
+                                           "title":  "extended writing",
+                                           "path":  "/study-guides/myp/physics/topics/extended-writing.md",
+                                           "group":  "topics",
+                                           "relativePath":  "topics/extended-writing.md"
+                                       },
+                                       {
+                                           "title":  "forces and motion",
+                                           "path":  "/study-guides/myp/physics/topics/forces-and-motion.md",
+                                           "group":  "topics",
+                                           "relativePath":  "topics/forces-and-motion.md"
+                                       },
+                                       {
+                                           "title":  "nuclear and atomic physics",
+                                           "path":  "/study-guides/myp/physics/topics/nuclear-and-atomic-physics.md",
+                                           "group":  "topics",
+                                           "relativePath":  "topics/nuclear-and-atomic-physics.md"
+                                       },
+                                       {
+                                           "title":  "scientific inquiry",
+                                           "path":  "/study-guides/myp/physics/topics/scientific-inquiry.md",
+                                           "group":  "topics",
+                                           "relativePath":  "topics/scientific-inquiry.md"
+                                       },
+                                       {
+                                           "title":  "space and astrophysics",
+                                           "path":  "/study-guides/myp/physics/topics/space-and-astrophysics.md",
+                                           "group":  "topics",
+                                           "relativePath":  "topics/space-and-astrophysics.md"
+                                       },
+                                       {
+                                           "title":  "thermal physics",
+                                           "path":  "/study-guides/myp/physics/topics/thermal-physics.md",
+                                           "group":  "topics",
+                                           "relativePath":  "topics/thermal-physics.md"
+                                       },
+                                       {
+                                           "title":  "waves",
+                                           "path":  "/study-guides/myp/physics/topics/waves.md",
+                                           "group":  "topics",
+                                           "relativePath":  "topics/waves.md"
+                                       }
+                                   ]
+                     }
+                 ],
+    "generatedAt":  "2026-07-24",
+    "source":  "Imported subject-guide markdown"
+}

@@ -29,7 +29,7 @@ export default function ApexChatInput({
         onChange={(e) => onChange(e.target.value)}
         onKeyDown={(e) => e.key === 'Enter' && !e.shiftKey && !isDisabled && onSend()}
         disabled={isDisabled}
-        aria-label="Message to Apex"
+        aria-label="Message the AI tutor"
       />
       <button
         type="button"

@@ -66,10 +66,10 @@ export default function GlobalChatPanel() {
         type="button"
         onClick={() => setOpen(true)}
         className="apex-fab"
-        aria-label="Open Apex chat"
+        aria-label="Open AI tutor"
       >
         <Bot className="h-5 w-5" />
-        <span className="hidden sm:inline">Apex</span>
+        <span className="hidden sm:inline">AI tutor</span>
       </button>
     );
   }
@@ -78,7 +78,7 @@ export default function GlobalChatPanel() {
     <div
       className={`apex-panel ${minimized ? "apex-panel-minimized" : ""}`}
       role="dialog"
-      aria-label="Apex chat"
+      aria-label="AI tutor"
       aria-modal="false"
     >
       <div className="apex-panel-header">
@@ -87,7 +87,7 @@ export default function GlobalChatPanel() {
             <Bot className="h-4 w-4" aria-hidden />
           </span>
           <div className="min-w-0">
-            <p className="text-sm font-semibold text-foreground truncate">Apex</p>
+            <p className="text-sm font-semibold text-foreground truncate">AI tutor</p>
             {!minimized && (
               <p className="text-[11px] text-muted-foreground truncate">{studyContext.label}</p>
             )}

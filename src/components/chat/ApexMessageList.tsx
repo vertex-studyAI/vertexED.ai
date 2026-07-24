@@ -22,7 +22,7 @@ export default function ApexMessageList({
     <div className={`apex-chat-messages ${compact ? 'apex-chat-messages-compact' : ''}`} aria-live="polite">
       {messages.length === 0 && !loading && (
         <div className="apex-chat-empty">
-          <p className="text-sm font-semibold text-foreground">Apex</p>
+          <p className="text-sm font-semibold text-foreground">AI tutor</p>
           <p className="text-xs text-muted-foreground mt-1 max-w-[16rem] mx-auto leading-relaxed">
             {APEX_TAGLINE}
           </p>
@@ -41,7 +41,7 @@ export default function ApexMessageList({
             key={msg.id}
             className={`apex-bubble ${msg.role === 'user' ? 'apex-bubble-user' : 'apex-bubble-assistant'}`}
           >
-            <p className="apex-bubble-label">{msg.role === 'user' ? 'You' : 'Apex'}</p>
+            <p className="apex-bubble-label">{msg.role === 'user' ? 'You' : 'AI tutor'}</p>
             {msg.role === 'assistant' ? (
               isStreamingAssistant ? (
                 <p className="text-sm text-foreground/95 whitespace-pre-wrap">{msg.text || '…'}</p>

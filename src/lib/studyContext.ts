@@ -25,12 +25,12 @@ const ROUTE_CONTEXT: Record<string, StudyPageContext> = {
   },
   '/study-zone': {
     page: 'study-zone',
-    label: 'Study Zone',
-    hint: 'Support focused sessions — timers, habits, quick notes, graphing.',
+    label: 'Focus tools',
+    hint: 'Support focused sessions â€” timers, quick notes, calculator, and graphing.',
   },
   '/chatbot': {
     page: 'chatbot',
-    label: 'Apex',
+    label: 'AI Tutor',
     hint: 'Deliberate step-by-step on concepts; ask clarifying questions before giving full solutions.',
   },
   '/planner': {

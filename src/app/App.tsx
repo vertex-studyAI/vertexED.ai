@@ -8,7 +8,6 @@ const Signup = lazy(() => import("@/pages/Signup"));
 const Main = lazy(() => import("@/pages/Main"));
 const AuthCallback = lazy(() => import("@/pages/AuthCallback"));
 const NotetakerQuiz = lazy(() => import("@/pages/NotetakerQuiz"));
-const LearningHub = lazy(() => import("@/pages/LearningHub"));
 const StudyZone = lazy(() => import("@/pages/study-zone/StudyZonePage"));
 const AIChatbot = lazy(() => import("@/pages/AIChatbot"));
 const StudyPlanner = lazy(() => import("@/pages/StudyPlanner"));
@@ -49,7 +48,7 @@ const CollegeEssaysWithAI = lazy(() => import("@/pages/resources/CollegeEssaysWi
 const Onboarding = lazy(() => import("@/pages/Onboarding"));
 const StudyNotebook = lazy(() => import("@/pages/StudyNotebook"));
 const ResourceLibrary = lazy(() => import("@/pages/ResourceLibrary"));
-const WorldModel = lazy(() => import("@/pages/WorldModel"));
+const StudyGuides = lazy(() => import("@/pages/StudyGuides"));
 const WaitlistAdmin = lazy(() => import("@/pages/admin/WaitlistAdmin"));
 const PrivacyPolicy = lazy(() => import("@/pages/PrivacyPolicy"));
 const TermsOfService = lazy(() => import("@/pages/TermsOfService"));
@@ -92,7 +91,6 @@ useEffect(() => {
 			import("@/pages/Signup");
 			import("@/pages/About");
 			import("@/pages/Main");
-			import("@/pages/LearningHub");
 			import("@/pages/StudyPlanner");
 		};
 		if (document.readyState === 'complete') start();
@@ -140,11 +138,12 @@ return (
 <Route path="auth/callback" element={<AuthCallback />} />
 <Route path="onboarding" element={<ProtectedRoute><Onboarding /></ProtectedRoute>} />
 <Route path="main" element={<ProtectedRoute><Main /></ProtectedRoute>} />
-<Route path="learning-hub" element={<ProtectedRoute><LearningHub /></ProtectedRoute>} />
+<Route path="learning-hub" element={<Navigate to="/main" replace />} />
 <Route path="notetaker" element={<ProtectedRoute><NotetakerQuiz /></ProtectedRoute>} />
 <Route path="study-notebook" element={<ProtectedRoute><StudyNotebook /></ProtectedRoute>} />
 <Route path="resource-library" element={<ProtectedRoute><ResourceLibrary /></ProtectedRoute>} />
-<Route path="world-model" element={<ProtectedRoute><WorldModel /></ProtectedRoute>} />
+<Route path="study-guides" element={<ProtectedRoute><StudyGuides /></ProtectedRoute>} />
+<Route path="world-model" element={<Navigate to="/study-notebook" replace />} />
 <Route path="study-zone" element={<ProtectedRoute><StudyZone /></ProtectedRoute>} />
 <Route path="chatbot" element={<ProtectedRoute><AIChatbot /></ProtectedRoute>} />
 <Route path="planner" element={<ProtectedRoute><StudyPlanner /></ProtectedRoute>} />

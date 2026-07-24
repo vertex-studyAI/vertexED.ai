@@ -52,7 +52,7 @@ export default function AIChatbot() {
 
   return (
     <>
-      <SEO title="Apex — AI Study Tutor | VertexED" description={APEX_TAGLINE} />
+      <SEO title="AI Tutor | VertexED" description="Talk through concepts, practice questions, and feedback step by step." />
 
       <PageSection>
         <div className="mb-6">
@@ -68,7 +68,7 @@ export default function AIChatbot() {
                 <Bot className="h-6 w-6" aria-hidden />
               </span>
               <div>
-                <h1 className="text-2xl md:text-3xl font-bold text-foreground">Apex</h1>
+                <h1 className="text-2xl md:text-3xl font-bold text-foreground">AI Tutor</h1>
                 <p className="text-sm text-muted-foreground max-w-2xl mt-1">{APEX_TAGLINE}</p>
                 <p className="text-xs text-primary/80 mt-2">
                   Discussion-first · step-by-step · board-aware when you mention yours
@@ -89,7 +89,7 @@ export default function AIChatbot() {
                 Chat
               </TabsTrigger>
               <TabsTrigger value="how" className="data-[state=active]:bg-primary/15 data-[state=active]:text-primary">
-                How Apex works
+                How the AI tutor works
               </TabsTrigger>
               <TabsTrigger value="drill" className="data-[state=active]:bg-primary/15 data-[state=active]:text-primary">
                 Socratic Drill
@@ -127,11 +127,11 @@ export default function AIChatbot() {
                 {[
                   {
                     title: "Deliberate, not instant",
-                    body: "Apex asks what you've tried before handing you the answer. The goal is understanding that survives the exam hall.",
+                    body: "The AI tutor asks what you've tried before handing you the answer. The goal is understanding that survives the exam hall.",
                   },
                   {
                     title: "Context-aware",
-                    body: "On Paper Maker, Apex talks mocks. After a review, it helps you interpret rubric feedback. Mention your board for sharper answers.",
+                    body: "In practice papers, the AI tutor helps you unpack questions. After a review, it helps you interpret rubric feedback. Mention your board for sharper answers.",
                   },
                   {
                     title: "Math & essays",
