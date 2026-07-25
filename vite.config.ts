@@ -18,11 +18,10 @@ export default defineConfig(({ mode }) => {
         name: 'api-middleware',
         configureServer(server) {
           server.middlewares.use('/api', (req, res, next) => {
-            if (!req.url?.startsWith('/api')) {
-              next();
-              return;
-            }
-
+            // Connect mounts this middleware at /api, so req.url is already
+            // relative (for example, /study-guide-chat rather than
+            // /api/study-guide-chat). Treating it as an absolute URL caused
+            // every local API request to fall through to Vite's HTML 404.
             const pathname = req.url.split('?')[0];
             const search = req.url.includes('?') ? req.url.slice(req.url.indexOf('?') + 1) : '';
             const routeKey = pathname.replace(/^\/api\/?/, '') || 'health';

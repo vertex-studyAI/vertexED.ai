@@ -9,6 +9,7 @@ type WaitlistEntry = {
   email: string;
   status: 'pending' | 'approved' | 'rejected';
   invite_token?: string | null;
+  signup_method?: 'email' | 'google';
   created_at: string;
   updated_at: string;
 };
@@ -220,7 +221,7 @@ export default function WaitlistAdmin() {
               <thead className="bg-card/60 text-left">
                 <tr>
                   <th className="px-4 py-3 font-medium">Email</th>
-                  <th className="px-4 py-3 font-medium">Status</th>
+                  <th className="px-4 py-3 font-medium">Path</th><th className="px-4 py-3 font-medium">Status</th>
                   <th className="px-4 py-3 font-medium">Signed up</th>
                   <th className="px-4 py-3 font-medium">Actions</th>
                 </tr>
@@ -229,7 +230,7 @@ export default function WaitlistAdmin() {
                 {visibleEntries.map((entry) => (
                   <tr key={entry.id} className="border-t border-border/60">
                     <td className="px-4 py-3 font-mono text-xs sm:text-sm">{entry.email}</td>
-                    <td className="px-4 py-3">
+                    <td className="px-4 py-3 capitalize text-muted-foreground">{entry.signup_method ?? "email"}</td><td className="px-4 py-3">
                       <span
                         className={`inline-flex rounded-full px-2.5 py-1 text-xs font-medium capitalize ${
                           entry.status === 'approved'
@@ -276,6 +277,16 @@ export default function WaitlistAdmin() {
                             className="px-2.5 py-1 rounded-md text-xs border border-border text-muted-foreground hover:text-foreground disabled:opacity-50"
                           >
                             Reset
+                          </button>
+                        )}
+                        {entry.status === 'approved' && entry.signup_method !== 'google' && (
+                          <button
+                            type="button"
+                            disabled={updatingId === entry.id}
+                            onClick={() => updateStatus(entry.id, 'approved')}
+                            className="px-2.5 py-1 rounded-md text-xs border border-primary/40 text-primary hover:bg-primary/10 disabled:opacity-50"
+                          >
+                            Generate link
                           </button>
                         )}
                         </div>

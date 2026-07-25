@@ -25,13 +25,14 @@ function isStrongPassword(value: string) {
 type Mode = "waitlist" | "invite";
 
 export default function Signup() {
-  const { login } = useAuth();
+  const { login, loginWithGoogle } = useAuth();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const waitlistInviteToken = searchParams.get("invite")?.trim() || "";
   const [mode, setMode] = useState<Mode>(() => (waitlistInviteToken ? "invite" : "waitlist"));
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
   const [inviteCode, setInviteCode] = useState("");
   const [honeypot, setHoneypot] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -66,7 +67,7 @@ export default function Signup() {
       const res = await fetch("/api/waitlist", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: normalizedEmail, website: honeypot }),
+        body: JSON.stringify({ email: normalizedEmail, method: "email", website: honeypot }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Failed to join waitlist");
@@ -78,6 +79,18 @@ export default function Signup() {
     }
   };
 
+  const joinWithGoogle = async () => {
+    setError(null);
+    setLoading(true);
+    try {
+      sessionStorage.setItem("vertex_google_waitlist", "1");
+      await loginWithGoogle();
+    } catch (err) {
+      sessionStorage.removeItem("vertex_google_waitlist");
+      setError(err instanceof Error ? err.message : "Could not start Google sign-in.");
+      setLoading(false);
+    }
+  };
   const submitInvite = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
@@ -107,6 +120,7 @@ export default function Signup() {
         body: JSON.stringify({
           email: normalizedEmail,
           password,
+          username: username.trim(),
           inviteCode: inviteCode.trim() || undefined,
           waitlistInviteToken: waitlistInviteToken || undefined,
           website: honeypot,
@@ -210,6 +224,10 @@ export default function Signup() {
             </div>
           ) : (
             <div className="space-y-4">
+              {mode === "waitlist" && <>
+                <button type="button" onClick={() => void joinWithGoogle()} disabled={loading} className="w-full btn-glass py-3 disabled:opacity-60">Continue with Google</button>
+                <div className="text-center text-xs text-muted-foreground">or join with email</div>
+              </>}
               {mode === "invite" && (
                 <div className="neu-input">
                   <input
@@ -235,6 +253,11 @@ export default function Signup() {
                   required
                 />
               </div>
+              {mode === "invite" && (
+                <div className="neu-input">
+                  <input aria-label="Username" placeholder="Username (3-20 characters)" className="neu-input-el" value={username} onChange={(e) => setUsername(e.target.value)} autoComplete="username" minLength={3} maxLength={20} required />
+                </div>
+              )}
               {mode === "invite" && (
                 <div className="neu-input">
                   <input

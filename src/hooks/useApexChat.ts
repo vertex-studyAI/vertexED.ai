@@ -170,6 +170,8 @@ export function useApexChat({ context, threadKey, sources, onSessionRecord }: Op
             ? 'Please log in again to use the AI tutor.'
             : status === 429
               ? 'You are sending messages too quickly. Wait a moment and try again.'
+              : status === 503 && err instanceof Error
+                ? err.message
               : status && status >= 500
                 ? 'The AI service is temporarily unavailable. Try again shortly.'
                 : err instanceof Error

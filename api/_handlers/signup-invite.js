@@ -12,14 +12,9 @@ export default async function handler(req, res) {
 
   if (rejectOversizedJsonBody(req, res, 32 * 1024)) return;
 
-  if (!process.env.SIGNUP_INVITE_CODE) {
-    console.error('SIGNUP_INVITE_CODE is not configured');
-    return res.status(503).json({ error: 'Invite signup is not available right now.' });
-  }
-
   try {
     const body = readJsonBody(req);
-    const { email, password, inviteCode, waitlistInviteToken, website } = body ?? {};
+    const { email, password, username, inviteCode, waitlistInviteToken, website } = body ?? {};
 
     if (website) {
       return res.status(200).json({ ok: true });
@@ -27,9 +22,14 @@ export default async function handler(req, res) {
 
     const normalizedEmail = normalizeEmail(email);
     const pwd = typeof password === 'string' ? password : '';
+    const normalizedUsername = typeof username === 'string' ? username.trim() : '';
 
     if (!normalizedEmail) {
       return res.status(400).json({ error: 'Enter a valid email address.' });
+    }
+
+    if (!/^[a-zA-Z0-9_.-]{3,20}$/.test(normalizedUsername)) {
+      return res.status(400).json({ error: 'Choose a username with 3-20 letters, numbers, dots, underscores, or hyphens.' });
     }
 
     const passwordCheck = validatePassword(pwd);
@@ -91,6 +91,7 @@ export default async function handler(req, res) {
       email: normalizedEmail,
       password: pwd,
       email_confirm: true,
+      user_metadata: { username: normalizedUsername },
     });
 
     if (error) {

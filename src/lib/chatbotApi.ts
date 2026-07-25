@@ -31,6 +31,7 @@ export class ChatbotApiError extends Error {
 }
 
 const DEFAULT_ENDPOINT = "/api/ask";
+const STUDY_GUIDE_ENDPOINT = "/api/study-guide-chat";
 const FALLBACK_ENDPOINT = "https://www.vertexed.app/api/ask";
 
 const buildEndpoints = (): string[] => {
@@ -43,11 +44,12 @@ const buildEndpoints = (): string[] => {
 };
 
 const parseJsonSafe = async (response: Response): Promise<ChatbotResponse | null> => {
+	const text = await response.text();
+	if (!text.trim()) return null;
 	try {
-		return await response.json();
-	} catch (error) {
-		console.warn("Failed to parse chatbot response JSON", error);
-		return null;
+		return JSON.parse(text) as ChatbotResponse;
+	} catch {
+		return { error: `The chatbot service returned an invalid response (status ${response.status}).` };
 	}
 };
 
@@ -59,6 +61,8 @@ export const fetchChatbotAnswer = async (
       ? { question: questionOrRequest }
       : questionOrRequest;
 
+  const isStudyGuideChat = request.context?.page === "study-guides";
+
   const payload = JSON.stringify({
     question: request.question,
     history: request.history?.slice(-10),
@@ -66,7 +70,7 @@ export const fetchChatbotAnswer = async (
     sources: request.sources?.slice(0, 20),
   });
 
-	const endpoints = buildEndpoints();
+	const endpoints = isStudyGuideChat ? [STUDY_GUIDE_ENDPOINT] : buildEndpoints();
 	let lastError: unknown = null;
 
 	for (const endpoint of endpoints) {

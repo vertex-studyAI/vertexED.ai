@@ -5,6 +5,7 @@ import Features from "@/pages/Features";
 import { lazy } from "react";
 const Login = lazy(() => import("@/pages/Login"));
 const Signup = lazy(() => import("@/pages/Signup"));
+const WaitlistPending = lazy(() => import("@/pages/WaitlistPending"));
 const Main = lazy(() => import("@/pages/Main"));
 const AuthCallback = lazy(() => import("@/pages/AuthCallback"));
 const NotetakerQuiz = lazy(() => import("@/pages/NotetakerQuiz"));
@@ -135,6 +136,7 @@ return (
 						<Route path="resources/college-essays-with-ai" element={<CollegeEssaysWithAI />} />
 <Route path="login" element={<Login />} />
 <Route path="signup" element={<Signup />} />
+<Route path="waitlist-pending" element={<WaitlistPending />} />
 <Route path="auth/callback" element={<AuthCallback />} />
 <Route path="onboarding" element={<ProtectedRoute><Onboarding /></ProtectedRoute>} />
 <Route path="main" element={<ProtectedRoute><Main /></ProtectedRoute>} />

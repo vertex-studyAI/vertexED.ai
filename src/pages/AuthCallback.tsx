@@ -18,8 +18,15 @@ export default function AuthCallback() {
     let timeout: number | undefined;
     let unsubscribe: (() => void) | undefined;
 
-    const finish = (session: Session) => {
+    const finish = async (session: Session) => {
       if (cancelled) return;
+      if (sessionStorage.getItem("vertex_google_waitlist") === "1") {
+        sessionStorage.removeItem("vertex_google_waitlist");
+        const response = await fetch("/api/waitlist", { method: "POST", headers: { "Content-Type": "application/json", Authorization: `Bearer ${session.access_token}` }, body: JSON.stringify({ method: "google" }) });
+        if (!response.ok) { const data = await response.json(); setError(data.error || "Could not join the Google waitlist."); return; }
+        navigate("/waitlist-pending", { replace: true });
+        return;
+      }
       const hasUsername = !!session.user.user_metadata?.username;
       navigate(hasUsername ? "/main" : "/onboarding", { replace: true });
     };
@@ -37,7 +44,7 @@ export default function AuthCallback() {
             return;
           }
           if (data.session) {
-            finish(data.session);
+            void finish(data.session);
             return;
           }
         }
@@ -49,12 +56,12 @@ export default function AuthCallback() {
           return;
         }
         if (data.session) {
-          finish(data.session);
+          void finish(data.session);
           return;
         }
 
         const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
-          if (session) finish(session);
+          if (session) void finish(session);
         });
         unsubscribe = () => sub.subscription.unsubscribe();
 

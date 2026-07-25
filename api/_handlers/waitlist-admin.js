@@ -7,6 +7,10 @@ import { buildInviteSignupUrl, generateInviteToken } from '../_lib/inviteToken.j
 
 const VALID_STATUSES = new Set(['pending', 'approved', 'rejected']);
 
+function isValidWaitlistId(id) {
+  return isValidUuid(id) || (typeof id === 'number' && Number.isSafeInteger(id) && id > 0) || (/^\d+$/.test(String(id)) && Number(String(id)) > 0);
+}
+
 function getSupabase() {
   const url = process.env.SUPABASE_URL;
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
@@ -43,7 +47,7 @@ export default async function handler(req, res) {
       const status = body.status;
       let query = supabase
         .from('waitlist')
-        .select('id, email, status, invite_token, created_at, updated_at')
+        .select('id, email, status, signup_method, invite_token, created_at, updated_at')
         .order('created_at', { ascending: false })
         .limit(200);
 
@@ -59,15 +63,18 @@ export default async function handler(req, res) {
 
     if (action === 'update') {
       const { id, status } = body;
-      if (!isValidUuid(id) || !status || !VALID_STATUSES.has(status)) {
+      if (!isValidWaitlistId(id) || !status || !VALID_STATUSES.has(status)) {
         return res.status(400).json({ error: 'Invalid id or status.' });
       }
 
+      const { data: existing, error: existingError } = await supabase.from('waitlist').select('signup_method').eq('id', id).maybeSingle();
+      if (existingError) throw existingError;
+      if (!existing) return res.status(404).json({ error: 'Waitlist entry not found.' });
+
       const updates = { status, updated_at: new Date().toISOString() };
-      if (status === 'approved') {
+      if (status === 'approved' && existing.signup_method !== 'google') {
         updates.invite_token = generateInviteToken();
-      }
-      if (status === 'pending' || status === 'rejected') {
+      }if (status === 'pending' || status === 'rejected') {
         updates.invite_token = null;
       }
 
@@ -75,7 +82,7 @@ export default async function handler(req, res) {
         .from('waitlist')
         .update(updates)
         .eq('id', id)
-        .select('id, email, status, invite_token, created_at, updated_at')
+        .select('id, email, status, signup_method, invite_token, created_at, updated_at')
         .maybeSingle();
 
       if (error) throw error;
@@ -90,7 +97,7 @@ export default async function handler(req, res) {
 
       let emailSent = false;
       if (status === 'approved' && data.email) {
-        const notify = await sendWaitlistApprovedEmail(data.email, inviteLink);
+        const notify = await sendWaitlistApprovedEmail(data.email, inviteLink, data.signup_method);
         emailSent = Boolean(notify.sent);
       }
 

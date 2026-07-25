@@ -1031,6 +1031,12 @@ All colors MUST be HSL.
     box-shadow: 0 12px 40px hsl(var(--primary) / 0.35);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
   }
+  .apex-fab-round {
+    width: 3.75rem;
+    height: 3.75rem;
+    justify-content: center;
+    padding: 0;
+  }
   .apex-fab:hover {
     transform: translateY(-2px);
     box-shadow: 0 16px 48px hsl(var(--primary) / 0.42);
@@ -1104,6 +1110,31 @@ All colors MUST be HSL.
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
+  }
+  .apex-study-guide-chat-gate {
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    text-align: center;
+  }
+  .apex-study-guide-chat-gate .apex-avatar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.25rem;
+  }
+  .apex-study-guide-chat-signin {
+    margin-top: 0.5rem;
+    border-radius: 0.65rem;
+    background: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+    padding: 0.6rem 0.85rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    transition: opacity 0.15s ease;
+  }
+  .apex-study-guide-chat-signin:hover {
+    opacity: 0.9;
   }
   .apex-panel-footer {
     border-top: 1px solid hsl(var(--border) / 0.7);

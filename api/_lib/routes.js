@@ -25,12 +25,20 @@ export const ROUTES = {
     loader: () => import('../_handlers/waitlist.js'),
     methods: ['POST'],
   },
+  'waitlist-status': {
+    loader: () => import('../_handlers/waitlist-status.js'),
+    methods: ['GET'],
+  },
   'signup-invite': {
     loader: () => import('../_handlers/signup-invite.js'),
     methods: ['POST'],
   },
   'waitlist-admin': {
     loader: () => import('../_handlers/waitlist-admin.js'),
+    methods: ['POST'],
+  },
+  'study-guide-chat': {
+    loader: () => import('../_handlers/study-guide-chat.js'),
     methods: ['POST'],
   },
   ask: {

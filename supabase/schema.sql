@@ -62,6 +62,8 @@ create table if not exists public.waitlist (
   email text not null,
   status text not null default 'pending' check (status in ('pending', 'approved', 'rejected')),
   invite_token text,
+  signup_method text not null default 'email' check (signup_method in ('email', 'google')),
+  auth_user_id uuid references auth.users(id) on delete set null,
   created_at timestamp with time zone default now() not null,
   updated_at timestamp with time zone default now() not null
 );
@@ -71,6 +73,7 @@ alter table public.waitlist drop constraint if exists waitlist_email_unique;
 create unique index if not exists waitlist_email_lower_idx on public.waitlist (lower(email));
 
 create index if not exists waitlist_status_idx on public.waitlist (status);
+create unique index if not exists waitlist_auth_user_id_idx on public.waitlist (auth_user_id) where auth_user_id is not null;
 create index if not exists waitlist_created_at_idx on public.waitlist (created_at desc);
 
 alter table public.waitlist enable row level security;

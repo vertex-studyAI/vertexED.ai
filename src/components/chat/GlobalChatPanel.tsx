@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Bot, Minimize2, Trash2, X } from "lucide-react";
 
 import { useAuth } from "@/contexts/AuthContext";
@@ -32,13 +32,14 @@ export default function GlobalChatPanel() {
     onSessionRecord: recordStudySession,
   });
 
-  const protectedRoute =
-    isAuthenticated &&
+  const isStudyGuideRoute = location.pathname.startsWith("/study-guides");
+  const visibleRoute =
     location.pathname !== "/chatbot" &&
     !["/login", "/signup", "/auth/callback", "/onboarding", "/", "/home", "/about", "/features"].includes(
       location.pathname,
     ) &&
     !location.pathname.startsWith("/resources");
+  const canShowChat = visibleRoute && (isAuthenticated || isStudyGuideRoute);
 
   useEffect(() => {
     window.localStorage.setItem(STORAGE_KEY, open ? "1" : "0");
@@ -56,7 +57,7 @@ export default function GlobalChatPanel() {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
   }, [messages, loading]);
 
-  if (!protectedRoute) return null;
+  if (!canShowChat) return null;
 
   const send = () => void sendMessage();
 
@@ -65,11 +66,11 @@ export default function GlobalChatPanel() {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="apex-fab"
-        aria-label="Open AI tutor"
+        className={`apex-fab ${isStudyGuideRoute ? "apex-fab-round" : ""}`}
+        aria-label={isStudyGuideRoute ? "Open study guide AI tutor" : "Open AI tutor"}
       >
         <Bot className="h-5 w-5" />
-        <span className="hidden sm:inline">AI tutor</span>
+        {!isStudyGuideRoute && <span className="hidden sm:inline">AI tutor</span>}
       </button>
     );
   }
@@ -126,34 +127,51 @@ export default function GlobalChatPanel() {
 
       {!minimized && (
         <>
-          <div ref={scrollRef} className="apex-panel-body">
-            {messages.length === 0 && !loading && (
-              <ApexPromptChips
-                context={studyContext}
-                onSelect={(text) => void sendMessage(text)}
-                disabled={loading}
-                compact
-              />
-            )}
-            <ApexMessageList
-              messages={messages}
-              loading={loading}
-              streamingMessageId={streamingMessageId}
-              context={studyContext}
-              compact
-            />
-          </div>
+          {isAuthenticated ? (
+            <>
+              <div ref={scrollRef} className="apex-panel-body">
+                {messages.length === 0 && !loading && (
+                  <ApexPromptChips
+                    context={studyContext}
+                    onSelect={(text) => void sendMessage(text)}
+                    disabled={loading}
+                    compact
+                  />
+                )}
+                <ApexMessageList
+                  messages={messages}
+                  loading={loading}
+                  streamingMessageId={streamingMessageId}
+                  context={studyContext}
+                  compact
+                />
+              </div>
 
-          <div className="apex-panel-footer">
-            <ApexChatInput
-              value={input}
-              onChange={setInput}
-              onSend={send}
-              onCancel={cancelMessage}
-              loading={loading}
-              compact
-            />
-          </div>
+              <div className="apex-panel-footer">
+                <ApexChatInput
+                  value={input}
+                  onChange={setInput}
+                  onSend={send}
+                  onCancel={cancelMessage}
+                  loading={loading}
+                  compact
+                />
+              </div>
+            </>
+          ) : (
+            <div className="apex-panel-body apex-study-guide-chat-gate">
+              <span className="apex-avatar">
+                <Bot className="h-5 w-5" aria-hidden />
+              </span>
+              <div>
+                <p className="font-semibold text-foreground">Ask the study-guide tutor</p>
+                <p className="mt-1 text-sm text-muted-foreground">Sign in to ask questions across the MYP guides.</p>
+              </div>
+              <Link className="apex-study-guide-chat-signin" to="/login" state={{ from: location.pathname }}>
+                Sign in to chat
+              </Link>
+            </div>
+          )}
         </>
       )}
     </div>

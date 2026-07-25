@@ -5,6 +5,7 @@ export type StudyPageContext = {
   label: string;
   hint: string;
   learnerSummary?: string;
+  guidePath?: string;
 };
 
 const ROUTE_CONTEXT: Record<string, StudyPageContext> = {
@@ -82,6 +83,15 @@ export function getStudyContext(
     };
   }
 
+  if (base.startsWith('/study-guides')) {
+    return {
+      page: 'study-guides',
+      label: 'MYP Study Guides',
+      hint: `Answer from the imported MYP study guides and identify the relevant subject or session. Learner profile: ${learnerSummary}`,
+      learnerSummary,
+      guidePath: base,
+    };
+  }
   if (base.startsWith('/resources')) {
     return {
       page: 'resources',

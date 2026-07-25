@@ -4,20 +4,15 @@ const APP_URL = process.env.APP_URL || process.env.SITE_URL || 'https://www.vert
  * Send waitlist approval email via Resend when configured.
  * Falls back to structured logging when RESEND_API_KEY is unset.
  */
-export async function sendWaitlistApprovedEmail(email, inviteLink) {
+export async function sendWaitlistApprovedEmail(email, inviteLink, signupMethod = "email") {
   const apiKey = process.env.RESEND_API_KEY;
   const from = process.env.RESEND_FROM || 'VertexED <onboarding@vertexed.app>';
   const signupUrl = inviteLink || `${APP_URL.replace(/\/$/, '')}/signup`;
 
   const subject = 'Your VertexED waitlist spot is ready';
-  const html = `
-    <p>Hi,</p>
-    <p>Your VertexED private beta application has been <strong>approved</strong>.</p>
-    <p>Create your account using this link (same email you joined with):</p>
-    <p><a href="${signupUrl}">${signupUrl}</a></p>
-    <p>On the signup page, choose <strong>Invite signup</strong>, enter your password, and complete onboarding.</p>
-    <p>— The VertexED team</p>
-  `.trim();
+  const html = signupMethod === 'google'
+    ? `<p>Hi,</p><p>Your VertexED private beta application has been <strong>approved</strong>.</p><p>Sign in with the same Google account you used to join the waitlist:</p><p><a href="${signupUrl}">${signupUrl}</a></p><p>- The VertexED team</p>`
+    : `<p>Hi,</p><p>Your VertexED private beta application has been <strong>approved</strong>.</p><p>Create your username and password using this link:</p><p><a href="${signupUrl}">${signupUrl}</a></p><p>- The VertexED team</p>`;
 
   if (!apiKey) {
     console.info('[notify] Waitlist approved (email not sent — set RESEND_API_KEY):', email, signupUrl);
