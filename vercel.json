@@ -6,7 +6,7 @@
   "functions": {
     "api/[[...path]].js": {
       "maxDuration": 300,
-      "includeFiles": ["api/**", "public/study-guides/myp/**"]
+      "includeFiles": "public/study-guides/myp/**"
     }
   },
   "rewrites": [
