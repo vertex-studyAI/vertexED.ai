@@ -58,7 +58,11 @@ export default async function handler(req, res) {
       const { data, error } = await query;
       if (error) throw error;
 
-      return res.status(200).json({ entries: data ?? [] });
+      const databaseUrl = new URL(process.env.SUPABASE_URL).origin;
+      return res.status(200).json({
+        entries: data ?? [],
+        database: { url: databaseUrl, schema: 'public', table: 'waitlist' },
+      });
     }
 
     if (action === 'update') {

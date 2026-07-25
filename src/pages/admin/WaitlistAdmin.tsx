@@ -15,10 +15,11 @@ type WaitlistEntry = {
 };
 
 type StatusFilter = 'all' | WaitlistEntry['status'];
+type DatabaseSource = { url: string; schema: string; table: string };
 
 export default function WaitlistAdmin() {
   const [entries, setEntries] = useState<WaitlistEntry[]>([]);
-  const [filter, setFilter] = useState<StatusFilter>('pending');
+  const [filter, setFilter] = useState<StatusFilter>('all');
   const [search, setSearch] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -26,6 +27,7 @@ export default function WaitlistAdmin() {
   const [lastInviteLink, setLastInviteLink] = useState<string | null>(null);
   const [emailSent, setEmailSent] = useState<boolean | null>(null);
   const [inviteLinks, setInviteLinks] = useState<Record<string, string>>({});
+  const [database, setDatabase] = useState<DatabaseSource | null>(null);
   const counts = {
     all: entries.length,
     pending: entries.filter((entry) => entry.status === 'pending').length,
@@ -33,9 +35,11 @@ export default function WaitlistAdmin() {
     rejected: entries.filter((entry) => entry.status === 'rejected').length,
   };
   const normalizedSearch = search.trim().toLowerCase();
-  const visibleEntries = normalizedSearch
-    ? entries.filter((entry) => entry.email.toLowerCase().includes(normalizedSearch))
-    : entries;
+  const visibleEntries = entries.filter((entry) => {
+    const matchesStatus = filter === 'all' || entry.status === filter;
+    const matchesSearch = !normalizedSearch || entry.email.toLowerCase().includes(normalizedSearch);
+    return matchesStatus && matchesSearch;
+  });
 
   const loadEntries = useCallback(async () => {
     setLoading(true);
@@ -45,10 +49,7 @@ export default function WaitlistAdmin() {
       const response = await authFetch('/api/waitlist-admin', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          action: 'list',
-          ...(filter === 'all' ? {} : { status: filter }),
-        }),
+        body: JSON.stringify({ action: 'list' }),
       });
 
       const data = await response.json();
@@ -64,13 +65,14 @@ export default function WaitlistAdmin() {
       }
 
       setEntries(data.entries ?? []);
+      setDatabase(data.database ?? null);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to load waitlist');
       setEntries([]);
     } finally {
       setLoading(false);
     }
-  }, [filter]);
+  }, []);
 
   useEffect(() => {
     loadEntries();
@@ -123,6 +125,11 @@ export default function WaitlistAdmin() {
             <p className="text-sm text-muted-foreground mt-1">
               Approve or reject signups from <code>/signup</code>.
             </p>
+            {database && (
+              <p className="mt-2 text-xs text-muted-foreground">
+                Live source: <code>{database.url}/{database.schema}.{database.table}</code>
+              </p>
+            )}
           </div>
           <Link to="/main" className="neu-button px-4 py-2 text-sm">
             ← Back to Main
