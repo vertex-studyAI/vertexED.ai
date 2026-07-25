@@ -23,7 +23,14 @@ export default function AuthCallback() {
       if (sessionStorage.getItem("vertex_google_waitlist") === "1") {
         sessionStorage.removeItem("vertex_google_waitlist");
         const response = await fetch("/api/waitlist", { method: "POST", headers: { "Content-Type": "application/json", Authorization: `Bearer ${session.access_token}` }, body: JSON.stringify({ method: "google" }) });
-        if (!response.ok) { const data = await response.json(); setError(data.error || "Could not join the Google waitlist."); return; }
+        const data = await response.json();
+        if (!response.ok) { setError(data.error || "Could not join the Google waitlist."); return; }
+        // An approved returning Google applicant should enter immediately,
+        // rather than being sent back to the pending screen.
+        if (data.status === "approved") {
+          navigate(session.user.user_metadata?.username ? "/main" : "/onboarding", { replace: true });
+          return;
+        }
         navigate("/waitlist-pending", { replace: true });
         return;
       }

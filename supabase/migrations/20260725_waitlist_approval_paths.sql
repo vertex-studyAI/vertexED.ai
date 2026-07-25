@@ -6,6 +6,11 @@ alter table public.waitlist
 alter table public.waitlist
   add column if not exists auth_user_id uuid references auth.users(id) on delete set null;
 
+-- Older waitlist tables did not have this field, but the approval workflow
+-- updates it whenever an entry is linked, approved, or issued an invite.
+alter table public.waitlist
+  add column if not exists updated_at timestamp with time zone not null default now();
+
 create unique index if not exists waitlist_auth_user_id_idx
   on public.waitlist (auth_user_id)
   where auth_user_id is not null;

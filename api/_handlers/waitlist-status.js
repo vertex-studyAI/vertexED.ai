@@ -1,6 +1,7 @@
 import { verifyAuthUser } from '../_lib/auth.js';
 import { getSupabaseAdmin } from '../_lib/supabaseAdmin.js';
 import { normalizeEmail } from '../_lib/security.js';
+import { isAdminUser } from '../_lib/admin.js';
 
 export default async function handler(req, res) {
   if (req.method !== 'GET') {
@@ -10,6 +11,12 @@ export default async function handler(req, res) {
 
   const user = await verifyAuthUser(req, res);
   if (!user) return;
+
+  // Admins must retain access even if their historical waitlist row uses a
+  // different sign-in address or has not yet been linked to auth_user_id.
+  if (isAdminUser(user)) {
+    return res.status(200).json({ status: 'approved', method: 'admin', access: true });
+  }
 
   try {
     const supabase = getSupabaseAdmin();
