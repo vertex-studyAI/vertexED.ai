@@ -91,10 +91,20 @@ export function validatePassword(password) {
 }
 
 export function getWaitlistRateLimitSalt() {
-  const salt = process.env.WAITLIST_RATE_LIMIT_SALT;
-  if (salt && salt.trim()) return salt.trim();
+  const configuredSalt = process.env.WAITLIST_RATE_LIMIT_SALT;
+  if (configuredSalt && configuredSalt.trim()) return configuredSalt.trim();
+
+  // The service-role key is already required to operate the server-side
+  // waitlist. It is a strong, server-only fallback so deployments do not fail
+  // merely because a separate rate-limit salt was not added.
+  const serverSecret = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SECRET_KEY;
+  if (serverSecret && serverSecret.trim()) {
+    console.warn('WAITLIST_RATE_LIMIT_SALT is not configured; using a server-secret-derived fallback.');
+    return serverSecret.trim();
+  }
+
   if (isProduction()) {
-    console.error('WAITLIST_RATE_LIMIT_SALT is not configured in production');
+    console.error('Waitlist rate limiting requires WAITLIST_RATE_LIMIT_SALT or a Supabase server secret.');
     return null;
   }
   return 'vertexed-waitlist';
