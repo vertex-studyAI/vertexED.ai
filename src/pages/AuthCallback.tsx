@@ -20,18 +20,10 @@ export default function AuthCallback() {
 
     const finish = async (session: Session) => {
       if (cancelled) return;
-      if (sessionStorage.getItem("vertex_google_waitlist") === "1") {
-        sessionStorage.removeItem("vertex_google_waitlist");
-        const response = await fetch("/api/waitlist", { method: "POST", headers: { "Content-Type": "application/json", Authorization: `Bearer ${session.access_token}` }, body: JSON.stringify({ method: "google" }) });
-        const data = await response.json();
-        if (!response.ok) { setError(data.error || "Could not join the Google waitlist."); return; }
-        // An approved returning Google applicant should enter immediately,
-        // rather than being sent back to the pending screen.
-        if (data.status === "approved") {
-          navigate(session.user.user_metadata?.username ? "/main" : "/onboarding", { replace: true });
-          return;
-        }
-        navigate("/waitlist-pending", { replace: true });
+      const returnAfterGoogleLink = sessionStorage.getItem("vertex_google_link_return");
+      if (returnAfterGoogleLink) {
+        sessionStorage.removeItem("vertex_google_link_return");
+        navigate(returnAfterGoogleLink, { replace: true });
         return;
       }
       const hasUsername = !!session.user.user_metadata?.username;
@@ -41,6 +33,11 @@ export default function AuthCallback() {
     const run = async () => {
       try {
         const params = new URLSearchParams(window.location.search);
+        const oauthError = params.get("error_description") || params.get("error");
+        if (oauthError) {
+          setError(`Google sign-in was declined: ${oauthError}`);
+          return;
+        }
         const code = params.get("code");
 
         if (code) {
@@ -73,8 +70,10 @@ export default function AuthCallback() {
         unsubscribe = () => sub.subscription.unsubscribe();
 
         timeout = window.setTimeout(() => {
-          if (!cancelled) setError("Could not complete sign-in. Please try again.");
-        }, 8000);
+          if (!cancelled) {
+            setError("Google did not return a Supabase session. Check the Google provider and redirect URLs in Supabase, then try again.");
+          }
+        }, 20_000);
       } catch (e: unknown) {
         if (!cancelled) {
           setError(e instanceof Error ? e.message : "Unexpected error");

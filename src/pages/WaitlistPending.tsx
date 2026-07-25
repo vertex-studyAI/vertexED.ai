@@ -8,8 +8,8 @@ export default function WaitlistPending() {
     <PageSection className="flex min-h-[60vh] items-center justify-center px-4">
       <section className="glass-panel w-full max-w-lg p-8 text-center">
         <p className="text-sm font-semibold text-primary">Private beta</p>
-        <h1 className="mt-2 text-3xl font-semibold">Your Google request is pending</h1>
-        <p className="mt-3 text-sm leading-relaxed text-muted-foreground">We will approve your request soon. Afterwards, simply sign in with the same Google account.</p>
+        <h1 className="mt-2 text-3xl font-semibold">Your request is pending</h1>
+        <p className="mt-3 text-sm leading-relaxed text-muted-foreground">We will email an account-creation link when your request is approved.</p>
         <Link to="/" className="btn-glass mt-6 inline-flex px-4 py-2 text-sm">Back home</Link>
       </section>
     </PageSection>

@@ -67,6 +67,7 @@ export default function UserSettings() {
   const [savingCurriculum, setSavingCurriculum] = useState(false);
   const [savingProfile, setSavingProfile] = useState(false);
   const [deletingAccount, setDeletingAccount] = useState(false);
+  const [linkingGoogle, setLinkingGoogle] = useState(false);
   const { settings: a11y, update: updateA11y } = useAccessibility();
 
   useEffect(() => {
@@ -168,6 +169,25 @@ export default function UserSettings() {
     } catch (e) {
       console.error("Logout error", e);
       navigate("/", { replace: true });
+    }
+  };
+
+  const linkGoogleIdentity = async () => {
+    if (!supabase || !user) return;
+    setLinkingGoogle(true);
+    try {
+      const { error } = await supabase.auth.linkIdentity({
+        provider: "google",
+        options: { redirectTo: `${window.location.origin}/auth/callback` },
+      });
+      if (error) throw error;
+    } catch (err) {
+      toast({
+        title: "Could not connect Google",
+        description: err instanceof Error ? err.message : "Try again.",
+        variant: "destructive",
+      });
+      setLinkingGoogle(false);
     }
   };
 
@@ -305,6 +325,24 @@ export default function UserSettings() {
                 <span className="text-right">{memberSince}</span>
               </div>
             </div>
+          </NeumorphicCard>
+
+          <NeumorphicCard className="p-8" title="Sign-in methods">
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              Your approved email and password are your primary sign-in method. Connect the same Google account to use Google sign-in without creating a second VertexED account.
+            </p>
+            {user?.identities?.some((identity) => identity.provider === "google") ? (
+              <p className="mt-4 text-sm font-medium text-emerald-300">Google is connected to this account.</p>
+            ) : (
+              <button
+                type="button"
+                onClick={() => void linkGoogleIdentity()}
+                disabled={linkingGoogle}
+                className="neu-button mt-5 px-4 py-2 disabled:opacity-60"
+              >
+                {linkingGoogle ? "Connecting Google…" : "Connect Google sign-in"}
+              </button>
+            )}
           </NeumorphicCard>
 
           <NeumorphicCard className="p-8" title="Learning Profile">

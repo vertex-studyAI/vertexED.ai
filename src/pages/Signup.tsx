@@ -25,7 +25,7 @@ function isStrongPassword(value: string) {
 type Mode = "waitlist" | "invite";
 
 export default function Signup() {
-  const { login, loginWithGoogle } = useAuth();
+  const { login } = useAuth();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const waitlistInviteToken = searchParams.get("invite")?.trim() || "";
@@ -79,18 +79,6 @@ export default function Signup() {
     }
   };
 
-  const joinWithGoogle = async () => {
-    setError(null);
-    setLoading(true);
-    try {
-      sessionStorage.setItem("vertex_google_waitlist", "1");
-      await loginWithGoogle();
-    } catch (err) {
-      sessionStorage.removeItem("vertex_google_waitlist");
-      setError(err instanceof Error ? err.message : "Could not start Google sign-in.");
-      setLoading(false);
-    }
-  };
   const submitInvite = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
@@ -137,7 +125,7 @@ export default function Signup() {
 
       await login(normalizedEmail, password);
       sessionStorage.setItem("vertex_welcome", "1");
-      navigate("/onboarding", { replace: true });
+      navigate("/connect-google", { replace: true });
     } catch (err) {
       setError((err as Error).message);
     } finally {
@@ -186,7 +174,7 @@ export default function Signup() {
           </h1>
           <p className="text-center mb-6 text-sm text-muted-foreground leading-relaxed">
             {mode === "waitlist"
-              ? "Private beta — join the waitlist and we'll email when a spot opens. No account is created until you're approved."
+              ? "Private beta — join with your email and we'll send an account-creation link when a spot opens."
               : waitlistInviteToken
                 ? "Your private invite link is active. Use the same email we approved and choose a password."
                 : "Approved on the waitlist? Create your account with that email. Have a team invite code? Enter it below to skip the waitlist."}
@@ -224,10 +212,6 @@ export default function Signup() {
             </div>
           ) : (
             <div className="space-y-4">
-              {mode === "waitlist" && <>
-                <button type="button" onClick={() => void joinWithGoogle()} disabled={loading} className="w-full btn-glass py-3 disabled:opacity-60">Continue with Google</button>
-                <div className="text-center text-xs text-muted-foreground">or join with email</div>
-              </>}
               {mode === "invite" && (
                 <div className="neu-input">
                   <input

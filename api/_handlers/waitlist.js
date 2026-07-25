@@ -34,11 +34,6 @@ async function authAccountExists(supabase, email) {
   return Boolean(data);
 }
 
-function bearerToken(req) {
-  const header = String(req.headers.authorization || '');
-  return header.startsWith('Bearer ') ? header.slice(7) : null;
-}
-
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     res.setHeader('Allow', 'POST');
@@ -56,19 +51,8 @@ export default async function handler(req, res) {
     return res.status(200).json({ message: 'You have been added to the waitlist.' });
   }
 
-  const method = body.method === 'google' ? 'google' : 'email';
-  let authUser = null;
-  let email = normalizeEmail(body.email);
-
-  if (method === 'google') {
-    const token = bearerToken(req);
-    if (!token) return res.status(401).json({ error: 'Sign in with Google before joining the Google waitlist.' });
-    const { data, error } = await supabase.auth.getUser(token);
-    if (error || !data.user?.email) return res.status(401).json({ error: 'Could not verify your Google account.' });
-    if (!data.user.app_metadata?.providers?.includes('google')) return res.status(400).json({ error: 'Use Google sign-in to join this waitlist path.' });
-    authUser = data.user;
-    email = normalizeEmail(data.user.email);
-  }
+  const method = 'email';
+  const email = normalizeEmail(body.email);
 
   if (!email) return res.status(400).json({ error: 'Please enter a valid email address.' });
   const ipHash = hashIp(getClientIp(req));
@@ -83,14 +67,10 @@ export default async function handler(req, res) {
     if (lookupError) throw lookupError;
 
     if (existing) {
-      if (method === 'google' && (!existing.auth_user_id || existing.auth_user_id === authUser.id)) {
-        if (!existing.auth_user_id) await supabase.from('waitlist').update({ auth_user_id: authUser.id, signup_method: 'google', updated_at: new Date().toISOString() }).eq('id', existing.id);
-        return res.status(200).json({ status: existing.status, method: 'google', message: existing.status === 'approved' ? 'Your access is approved. You can use Google sign-in.' : 'Your Google waitlist request is pending approval.' });
-      }
       return res.status(409).json({ error: 'This email is already on the waitlist. Check your inbox or sign in.' });
     }
 
-    if (method === 'email' && await authAccountExists(supabase, email)) {
+    if (await authAccountExists(supabase, email)) {
       return res.status(409).json({ error: 'This email is already registered. Try logging in or check your inbox.' });
     }
 
@@ -98,14 +78,14 @@ export default async function handler(req, res) {
       email,
       status: 'pending',
       signup_method: method,
-      auth_user_id: authUser?.id ?? null,
+      auth_user_id: null,
     });
     if (insertError) throw insertError;
 
     return res.status(200).json({
       status: 'pending',
       method,
-      message: method === 'google' ? 'Your Google waitlist request is pending approval.' : 'You are on the waitlist. We will email you when your spot is ready.',
+      message: 'You are on the waitlist. We will email you when your spot is ready.',
     });
   } catch (err) {
     console.error('Waitlist API error:', err);

@@ -10,7 +10,7 @@ function WaitlistPending() {
       <section className="glass-panel w-full p-8 text-center">
         <p className="text-sm font-semibold text-primary">Private beta</p>
         <h1 className="mt-2 text-2xl font-semibold text-foreground">Your access is pending</h1>
-        <p className="mt-3 text-sm leading-relaxed text-muted-foreground">We have your request. Once it is approved, sign in again with the same Google account to start using VertexED.</p>
+        <p className="mt-3 text-sm leading-relaxed text-muted-foreground">We have your request. We will email an account-creation link once it is approved.</p>
       </section>
     </div>
   );
