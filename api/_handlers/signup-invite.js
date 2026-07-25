@@ -1,8 +1,7 @@
 import { readJsonBody, rejectOversizedJsonBody } from '../_lib/auth.js';
 import { getSupabaseAdmin } from '../_lib/supabaseAdmin.js';
-import { verifyInviteCode } from '../_lib/inviteCode.js';
 import { checkDbRateLimit } from '../_lib/dbRateLimit.js';
-import { assertWaitlistSignupAllowed } from '../_lib/waitlistAccess.js';
+import { getWaitlistEntryByToken } from '../_lib/waitlistAccess.js';
 import { getClientIp, normalizeEmail, validatePassword } from '../_lib/security.js';
 
 export default async function handler(req, res) {
@@ -14,18 +13,30 @@ export default async function handler(req, res) {
 
   try {
     const body = readJsonBody(req);
-    const { email, password, username, inviteCode, waitlistInviteToken, website } = body ?? {};
+    const { action, password, username, waitlistInviteToken, website } = body ?? {};
 
     if (website) {
       return res.status(200).json({ ok: true });
     }
 
-    const normalizedEmail = normalizeEmail(email);
+    const inviteToken = typeof waitlistInviteToken === 'string' ? waitlistInviteToken.trim() : '';
+    const supabase = getSupabaseAdmin();
+
+    if (action === 'validateInvite') {
+      const entry = await getWaitlistEntryByToken(supabase, inviteToken);
+      if (!entry || entry.status !== 'approved') {
+        return res.status(403).json({ error: 'This approval link is invalid, expired, or has already been used.' });
+      }
+      return res.status(200).json({ ok: true, email: entry.email });
+    }
+
     const pwd = typeof password === 'string' ? password : '';
     const normalizedUsername = typeof username === 'string' ? username.trim() : '';
+    const inviteEntry = await getWaitlistEntryByToken(supabase, inviteToken);
+    const normalizedEmail = normalizeEmail(inviteEntry?.email);
 
-    if (!normalizedEmail) {
-      return res.status(400).json({ error: 'Enter a valid email address.' });
+    if (!inviteEntry || inviteEntry.status !== 'approved' || !normalizedEmail) {
+      return res.status(403).json({ error: 'This approval link is invalid, expired, or has already been used.' });
     }
 
     if (!/^[a-zA-Z0-9_.-]{3,20}$/.test(normalizedUsername)) {
@@ -38,53 +49,12 @@ export default async function handler(req, res) {
     }
 
     const ip = getClientIp(req);
-    const hasTeamInvite = verifyInviteCode(inviteCode);
-
-    if (!hasTeamInvite) {
-      const rate = await checkDbRateLimit('signup-invite', ip, 20, 60 * 60 * 1000);
-      if (!rate.allowed) {
-        return res.status(429).json({
-          error: 'Too many signup attempts from this network. Wait a few minutes and try again.',
-          retryAfter: rate.retryAfterSec,
-        });
-      }
-    }
-
-    const supabase = getSupabaseAdmin();
-
-    let hasValidInvite = hasTeamInvite;
-    if (!hasValidInvite && typeof inviteCode === 'string' && inviteCode.trim()) {
-      const { data: tokenEntry, error: tokenError } = await supabase
-        .from('waitlist')
-        .select('email, status')
-        .eq('invite_token', inviteCode.trim())
-        .maybeSingle();
-
-      if (tokenError) {
-        console.error('waitlist invite token lookup failed:', tokenError);
-      } else if (
-        tokenEntry?.status === 'approved' &&
-        tokenEntry.email?.toLowerCase() === normalizedEmail
-      ) {
-        hasValidInvite = true;
-      }
-    }
-
-    if (!hasValidInvite) {
-      const failRate = await checkDbRateLimit('signup-invite-fail', ip, 5, 60 * 60 * 1000);
-      if (!failRate.allowed) {
-        return res.status(429).json({
-          error: 'Too many failed signup attempts. Try again later.',
-          retryAfter: failRate.retryAfterSec,
-        });
-      }
-
-      const waitlistCheck = await assertWaitlistSignupAllowed(supabase, normalizedEmail, {
-        inviteToken: waitlistInviteToken,
+    const rate = await checkDbRateLimit('signup-invite', ip, 20, 60 * 60 * 1000);
+    if (!rate.allowed) {
+      return res.status(429).json({
+        error: 'Too many signup attempts from this network. Wait a few minutes and try again.',
+        retryAfter: rate.retryAfterSec,
       });
-      if (!waitlistCheck.allowed) {
-        return res.status(waitlistCheck.status).json({ error: waitlistCheck.error });
-      }
     }
 
     const { data, error } = await supabase.auth.admin.createUser({
@@ -102,12 +72,14 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'Could not create account. Check your details and try again.' });
     }
 
-    if (!hasValidInvite) {
-      await supabase
-        .from('waitlist')
-        .update({ updated_at: new Date().toISOString() })
-        .eq('email', normalizedEmail);
-    }
+    await supabase
+      .from('waitlist')
+      .update({
+        auth_user_id: data.user.id,
+        invite_token: null,
+        updated_at: new Date().toISOString(),
+      })
+      .eq('id', inviteEntry.id);
 
     return res.status(200).json({ ok: true });
   } catch (err) {
