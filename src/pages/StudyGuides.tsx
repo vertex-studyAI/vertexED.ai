@@ -143,8 +143,17 @@ function GuideAccessPrompt({ onUnlock, returnTo, compact = false }: { onUnlock: 
 
 function markdownPreview(markdown: string) {
   const blocks = markdown.trim().split(/\n\s*\n/);
-  const visible = blocks.slice(0, 4).join("\n\n");
-  const blurred = blocks.slice(4, 7).join("\n\n");
+  const targetLength = markdown.length * 0.25;
+  let visibleLength = 0;
+  let visibleCount = 0;
+
+  while (visibleCount < blocks.length && (visibleCount === 0 || visibleLength < targetLength)) {
+    visibleLength += blocks[visibleCount].length + 2;
+    visibleCount += 1;
+  }
+
+  const visible = blocks.slice(0, visibleCount).join("\n\n");
+  const blurred = blocks.slice(visibleCount, visibleCount + 3).join("\n\n");
   return { visible: visible || markdown, blurred };
 }
 export default function StudyGuides() {
