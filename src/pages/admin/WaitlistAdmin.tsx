@@ -16,6 +16,10 @@ type WaitlistEntry = {
 
 type StatusFilter = 'all' | WaitlistEntry['status'];
 type DatabaseSource = { url: string; schema: string; table: string };
+type WaitlistCounts = Record<StatusFilter, number>;
+type Pagination = { page: number; pageSize: number; total: number; totalPages: number };
+
+const PAGE_SIZE = 50;
 
 export default function WaitlistAdmin() {
   const [entries, setEntries] = useState<WaitlistEntry[]>([]);
@@ -28,18 +32,8 @@ export default function WaitlistAdmin() {
   const [emailSent, setEmailSent] = useState<boolean | null>(null);
   const [inviteLinks, setInviteLinks] = useState<Record<string, string>>({});
   const [database, setDatabase] = useState<DatabaseSource | null>(null);
-  const counts = {
-    all: entries.length,
-    pending: entries.filter((entry) => entry.status === 'pending').length,
-    approved: entries.filter((entry) => entry.status === 'approved').length,
-    rejected: entries.filter((entry) => entry.status === 'rejected').length,
-  };
-  const normalizedSearch = search.trim().toLowerCase();
-  const visibleEntries = entries.filter((entry) => {
-    const matchesStatus = filter === 'all' || entry.status === filter;
-    const matchesSearch = !normalizedSearch || entry.email.toLowerCase().includes(normalizedSearch);
-    return matchesStatus && matchesSearch;
-  });
+  const [counts, setCounts] = useState<WaitlistCounts>({ all: 0, pending: 0, approved: 0, rejected: 0 });
+  const [pagination, setPagination] = useState<Pagination>({ page: 1, pageSize: PAGE_SIZE, total: 0, totalPages: 1 });
 
   const loadEntries = useCallback(async () => {
     setLoading(true);
@@ -49,7 +43,7 @@ export default function WaitlistAdmin() {
       const response = await authFetch('/api/waitlist-admin', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'list' }),
+        body: JSON.stringify({ action: 'list', status: filter === 'all' ? undefined : filter, search, page: pagination.page, pageSize: PAGE_SIZE }),
       });
 
       const data = await response.json();
@@ -66,13 +60,15 @@ export default function WaitlistAdmin() {
 
       setEntries(data.entries ?? []);
       setDatabase(data.database ?? null);
+      setCounts(data.counts ?? { all: 0, pending: 0, approved: 0, rejected: 0 });
+      setPagination(data.pagination ?? { page: 1, pageSize: PAGE_SIZE, total: 0, totalPages: 1 });
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to load waitlist');
       setEntries([]);
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [filter, pagination.page, search]);
 
   useEffect(() => {
     loadEntries();
@@ -104,6 +100,7 @@ export default function WaitlistAdmin() {
       if (data.inviteLink) {
         setInviteLinks((prev) => ({ ...prev, [id]: data.inviteLink as string }));
       }
+      void loadEntries();
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to update entry');
     } finally {
@@ -160,7 +157,7 @@ export default function WaitlistAdmin() {
             <button
               key={value}
               type="button"
-              onClick={() => setFilter(value)}
+              onClick={() => { setFilter(value); setPagination((current) => ({ ...current, page: 1 })); }}
               className={`px-3 py-1.5 rounded-lg text-sm border transition-colors ${
                 filter === value
                   ? 'border-primary bg-primary/10 text-foreground'
@@ -182,7 +179,7 @@ export default function WaitlistAdmin() {
         <div className="mb-6">
           <input
             value={search}
-            onChange={(event) => setSearch(event.target.value)}
+            onChange={(event) => { setSearch(event.target.value); setPagination((current) => ({ ...current, page: 1 })); }}
             placeholder="Search by email…"
             className="w-full sm:w-[360px] rounded-lg border border-border bg-background/70 px-3 py-2 text-sm outline-none focus:border-primary"
           />
@@ -220,9 +217,18 @@ export default function WaitlistAdmin() {
 
         {loading ? (
           <p className="text-muted-foreground">Loading waitlist…</p>
-        ) : visibleEntries.length === 0 ? (
+        ) : entries.length === 0 ? (
           <p className="text-muted-foreground">No entries found for this filter.</p>
         ) : (
+          <>
+          <div className="mb-3 flex flex-wrap items-center justify-between gap-3 text-sm text-muted-foreground">
+            <span>Showing {(pagination.page - 1) * pagination.pageSize + 1}–{Math.min(pagination.page * pagination.pageSize, pagination.total)} of {pagination.total.toLocaleString()} entries</span>
+            <div className="flex items-center gap-2">
+              <button type="button" onClick={() => setPagination((current) => ({ ...current, page: current.page - 1 }))} disabled={pagination.page <= 1} className="rounded-md border border-border px-3 py-1.5 disabled:cursor-not-allowed disabled:opacity-40">Previous</button>
+              <span>Page {pagination.page} of {pagination.totalPages}</span>
+              <button type="button" onClick={() => setPagination((current) => ({ ...current, page: current.page + 1 }))} disabled={pagination.page >= pagination.totalPages} className="rounded-md border border-border px-3 py-1.5 disabled:cursor-not-allowed disabled:opacity-40">Next</button>
+            </div>
+          </div>
           <div className="overflow-x-auto rounded-xl border border-border">
             <table className="w-full text-sm">
               <thead className="bg-card/60 text-left">
@@ -234,7 +240,7 @@ export default function WaitlistAdmin() {
                 </tr>
               </thead>
               <tbody>
-                {visibleEntries.map((entry) => (
+                {entries.map((entry) => (
                   <tr key={entry.id} className="border-t border-border/60">
                     <td className="px-4 py-3 font-mono text-xs sm:text-sm">{entry.email}</td>
                     <td className="px-4 py-3 capitalize text-muted-foreground">{entry.signup_method ?? "email"}</td><td className="px-4 py-3">
@@ -325,6 +331,7 @@ export default function WaitlistAdmin() {
               </tbody>
             </table>
           </div>
+          </>
         )}
       </PageSection>
     </>
