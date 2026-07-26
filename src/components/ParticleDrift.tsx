@@ -16,6 +16,7 @@ export default function ParticleDrift() {
     if (!ctx) return;
 
     let raf = 0;
+    let lastPaint = 0;
     let particles: Particle[] = [];
     const count = 42;
 
@@ -39,7 +40,14 @@ export default function ParticleDrift() {
       }));
     };
 
-    const tick = () => {
+    const tick = (now: number) => {
+      // The ambient particles are decorative; a 30fps cap keeps the same
+      // perceived movement while leaving more main-thread time for input.
+      if (now - lastPaint < 33) {
+        raf = requestAnimationFrame(tick);
+        return;
+      }
+      lastPaint = now;
       const w = window.innerWidth;
       const h = window.innerHeight;
       ctx.clearRect(0, 0, w, h);

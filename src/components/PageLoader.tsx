@@ -1,6 +1,6 @@
 export default function PageLoader({ label = 'Loading' }: { label?: string }) {
   return (
-    <div className="min-h-[50vh] flex flex-col items-center justify-center gap-6 text-muted-foreground" role="status" aria-live="polite" aria-busy="true">
+    <div className="min-h-[calc(100vh-10rem)] flex flex-col items-center justify-center gap-6 text-muted-foreground" role="status" aria-live="polite" aria-busy="true">
       <div className="relative h-12 w-12">
         <div className="absolute inset-0 rounded-full border border-border/60" />
         <div className="absolute inset-0 rounded-full border-2 border-transparent border-t-primary animate-spin" />

@@ -15,6 +15,7 @@ const publicPages = [
   ["/", "weekly", "1.0"],
   ["/features", "weekly", "0.9"],
   ["/study-guides", "weekly", "0.9"],
+  ["/curricula", "weekly", "0.8"],
   ["/study-tools", "weekly", "0.8"],
   ["/resources", "weekly", "0.8"],
   ["/archives", "monthly", "0.7"],

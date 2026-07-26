@@ -8,7 +8,7 @@ import type { ExamBoard } from "@/types/curriculum";
 
 const SITE_URL = "https://www.vertexed.app";
 
-const CURRICULA: Record<string, ExamBoard> = {
+export const CURRICULA: Record<string, ExamBoard> = {
   "ib-myp": "IB_MYP",
   "ib-dp": "IB_DP",
   igcse: "IGCSE",
@@ -19,7 +19,7 @@ const CURRICULA: Record<string, ExamBoard> = {
   icse: "ICSE",
 };
 
-const FEATURES = {
+export const FEATURES = {
   "study-planner": {
     name: "Study Planner",
     searchName: "study planner",
@@ -110,6 +110,7 @@ export default function CurriculumFeature() {
         title={`${board.label} ${feature.name}`}
         subtitle={feature.description}
       >
+        <p><Link to="/curricula" className="text-primary hover:underline">Browse all curriculum study tools</Link></p>
         <p className="lead">VertexED helps {board.label} students build a repeatable revision workflow without claiming affiliation with {board.label} or any examination board. {feature.focus}</p>
 
         <h2>How it fits {board.label} revision</h2>
