@@ -2,7 +2,7 @@
 import SiteLayout from "@/components/layout/SiteLayout";
 import AuthLandingRedirect from "@/components/AuthLandingRedirect";
 import Features from "@/pages/Features";
-import { lazy } from "react";
+import { lazy, useState } from "react";
 const Login = lazy(() => import("@/pages/Login"));
 const Signup = lazy(() => import("@/pages/Signup"));
 const WaitlistPending = lazy(() => import("@/pages/WaitlistPending"));
@@ -63,13 +63,12 @@ import { HelmetProvider } from "react-helmet-async";
 import { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ProtectedRoute from "@/components/ProtectedRoute";
-import { SpeedInsights } from "@vercel/speed-insights/react";
-import { Analytics } from "@vercel/analytics/react";
 import { Toaster } from "@/components/ui/toaster";
 import { Navigate } from "react-router-dom";
 
 
 function App() {
+const [telemetryReady, setTelemetryReady] = useState(false);
 useEffect(() => {
 	// Avoid prefetching on constrained networks or touch-only devices to improve mobile TTI
 	const isFinePointer = typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(hover:hover) and (pointer:fine)').matches : true;
@@ -102,6 +101,18 @@ useEffect(() => {
 	};
 	const id = idle(warm);
 	return () => cancel(id);
+}, []);
+
+useEffect(() => {
+  // Telemetry is valuable, but it is not part of the rendered experience.
+  // Mount it after interaction is possible so it cannot affect FCP or INP.
+  const start = () => window.setTimeout(() => setTelemetryReady(true), 4000);
+  if (document.readyState === 'complete') {
+    const timer = start();
+    return () => window.clearTimeout(timer);
+  }
+  window.addEventListener('load', start, { once: true });
+  return () => window.removeEventListener('load', start);
 }, []);
 
 
@@ -182,11 +193,28 @@ return (
 </Routes>
 </BrowserRouter>
 <Toaster />
-<SpeedInsights />
-<Analytics />
+{telemetryReady && <DeferredTelemetry />}
 </AppPreferencesProvider>
 </AuthProvider>
 </HelmetProvider>
 );
 }
 export default App;
+
+function DeferredTelemetry() {
+  const [Telemetry, setTelemetry] = useState<React.ComponentType | null>(null);
+
+  useEffect(() => {
+    let active = true;
+    void Promise.all([
+      import('@vercel/speed-insights/react'),
+      import('@vercel/analytics/react'),
+    ]).then(([speed, analytics]) => {
+      if (!active) return;
+      setTelemetry(() => () => <><speed.SpeedInsights /><analytics.Analytics /></>);
+    });
+    return () => { active = false; };
+  }, []);
+
+  return Telemetry ? <Telemetry /> : null;
+}

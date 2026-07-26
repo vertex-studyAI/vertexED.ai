@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useAppPreferences } from '@/contexts/AppPreferencesContext';
 
 type Particle = { x: number; y: number; vx: number; vy: number; r: number; a: number };
@@ -6,6 +6,19 @@ type Particle = { x: number; y: number; vx: number; vy: number; r: number; a: nu
 export default function ParticleDrift() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const { settings } = useAppPreferences();
+  const [enabled, setEnabled] = useState(false);
+
+  useEffect(() => {
+    if (settings.reducedMotion) return;
+    const connection = (navigator as Navigator & { connection?: { saveData?: boolean; effectiveType?: string } }).connection;
+    const canAnimate = window.matchMedia('(hover: hover) and (pointer: fine)').matches
+      && !connection?.saveData
+      && !['slow-2g', '2g', '3g'].includes(connection?.effectiveType ?? '');
+    if (!canAnimate) return;
+
+    const timer = window.setTimeout(() => setEnabled(true), 2500);
+    return () => window.clearTimeout(timer);
+  }, [settings.reducedMotion]);
 
   useEffect(() => {
     if (settings.reducedMotion) return;
@@ -18,10 +31,10 @@ export default function ParticleDrift() {
     let raf = 0;
     let lastPaint = 0;
     let particles: Particle[] = [];
-    const count = 42;
+    const count = 16;
 
     const resize = () => {
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
       canvas.width = Math.floor(window.innerWidth * dpr);
       canvas.height = Math.floor(window.innerHeight * dpr);
       canvas.style.width = `${window.innerWidth}px`;
@@ -41,9 +54,9 @@ export default function ParticleDrift() {
     };
 
     const tick = (now: number) => {
-      // The ambient particles are decorative; a 30fps cap keeps the same
+      // The ambient particles are decorative; a 20fps cap keeps the same
       // perceived movement while leaving more main-thread time for input.
-      if (now - lastPaint < 33) {
+      if (now - lastPaint < 50) {
         raf = requestAnimationFrame(tick);
         return;
       }
@@ -78,9 +91,9 @@ export default function ParticleDrift() {
       cancelAnimationFrame(raf);
       window.removeEventListener('resize', resize);
     };
-  }, [settings.reducedMotion]);
+  }, [enabled, settings.reducedMotion]);
 
-  if (settings.reducedMotion) return null;
+  if (settings.reducedMotion || !enabled) return null;
 
   return (
     <canvas

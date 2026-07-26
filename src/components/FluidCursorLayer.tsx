@@ -14,9 +14,14 @@ export default function FluidCursorLayer() {
     }
     const mq = window.matchMedia('(hover: hover) and (pointer: fine)');
     const sync = () => setEnabled(mq.matches);
-    sync();
+    // WebGL is intentionally deferred until the page is interactive. It keeps
+    // the exact same effect, without competing with first paint or input.
+    const timer = window.setTimeout(sync, 3000);
     mq.addEventListener('change', sync);
-    return () => mq.removeEventListener('change', sync);
+    return () => {
+      window.clearTimeout(timer);
+      mq.removeEventListener('change', sync);
+    };
   }, [settings.reducedMotion]);
 
   if (!enabled) return null;
@@ -28,10 +33,10 @@ export default function FluidCursorLayer() {
       <FluidCursor
         className={`pointer-events-none fixed inset-0 z-[2] ${subtle ? 'fluid-cursor-subtle' : ''}`}
         transparent
-        simResolution={subtle ? 96 : 120}
-        dyeResolution={subtle ? 480 : 800}
-        splatRadius={subtle ? 0.06 : 0.12}
-        splatForce={subtle ? 900 : 2800}
+        simResolution={subtle ? 56 : 72}
+        dyeResolution={subtle ? 256 : 384}
+        splatRadius={subtle ? 0.06 : 0.1}
+        splatForce={subtle ? 800 : 1800}
         densityDissipation={subtle ? 7 : 4.5}
         velocityDissipation={subtle ? 4.5 : 2.8}
         colorUpdateSpeed={subtle ? 5 : 9}

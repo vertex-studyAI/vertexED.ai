@@ -23,12 +23,19 @@ function usePointerGlass() {
   useEffect(() => {
     if (settings.reducedMotion) return;
     const root = document.documentElement;
+    const connection = (navigator as Navigator & { connection?: { saveData?: boolean; effectiveType?: string } }).connection;
+    const lowPower = connection?.saveData || ['slow-2g', '2g', '3g'].includes(connection?.effectiveType ?? '');
+    const motionTimer = lowPower ? 0 : window.setTimeout(() => root.classList.add('enhanced-motion'), 1800);
     const onMove = (e: MouseEvent) => {
       root.style.setProperty("--pointer-x", `${(e.clientX / window.innerWidth) * 100}%`);
       root.style.setProperty("--pointer-y", `${(e.clientY / window.innerHeight) * 100}%`);
     };
     window.addEventListener("mousemove", onMove, { passive: true });
-    return () => window.removeEventListener("mousemove", onMove);
+    return () => {
+      if (motionTimer) window.clearTimeout(motionTimer);
+      root.classList.remove('enhanced-motion');
+      window.removeEventListener("mousemove", onMove);
+    };
   }, [settings.reducedMotion]);
 }
 
