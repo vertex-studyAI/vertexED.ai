@@ -47,6 +47,7 @@ const BestAIPromptsForStudents = lazy(() => import("@/pages/resources/BestAIProm
 const AcademicBurnoutGuide = lazy(() => import("@/pages/resources/AcademicBurnoutGuide"));
 const MemorizationTechniques = lazy(() => import("@/pages/resources/MemorizationTechniques"));
 const CollegeEssaysWithAI = lazy(() => import("@/pages/resources/CollegeEssaysWithAI"));
+const CurriculumFeature = lazy(() => import("@/pages/CurriculumFeature"));
 const Onboarding = lazy(() => import("@/pages/Onboarding"));
 const StudyNotebook = lazy(() => import("@/pages/StudyNotebook"));
 const ResourceLibrary = lazy(() => import("@/pages/ResourceLibrary"));
@@ -135,6 +136,7 @@ return (
 						<Route path="resources/academic-burnout-guide" element={<AcademicBurnoutGuide />} />
 						<Route path="resources/how-to-memorize-anything-fast" element={<MemorizationTechniques />} />
 						<Route path="resources/college-essays-with-ai" element={<CollegeEssaysWithAI />} />
+						<Route path="curricula/:curriculum/:feature" element={<CurriculumFeature />} />
 <Route path="login" element={<Login />} />
 <Route path="signup" element={<Signup />} />
 <Route path="waitlist-pending" element={<WaitlistPending />} />

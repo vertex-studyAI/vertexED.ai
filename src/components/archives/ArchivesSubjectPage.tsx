@@ -5,6 +5,7 @@ import { BookOpen } from "lucide-react";
 
 import PageSection from "@/components/PageSection";
 import NeumorphicCard from "@/components/NeumorphicCard";
+import SEO from "@/components/SEO";
 
 type SampleItem = { title: string; body: string; tag?: string };
 
@@ -77,6 +78,8 @@ export default function ArchivesSubjectPage({
 }: ArchivesSubjectPageProps) {
   const [activeTab, setActiveTab] = React.useState(tabs[0]);
   const samples = ARCHIVE_SAMPLES[slug]?.[activeTab] ?? [];
+  const route = slug === "LnL" ? "archives-lnl" : `archives-${slug.toLowerCase()}`;
+  const subjectTerm = slug === "LnL" ? "MYP English Language and Literature" : `MYP ${title}`;
 
   return (
     <>
@@ -85,6 +88,13 @@ export default function ArchivesSubjectPage({
         <meta name="description" content={`${title} archive: curated notes, exemplars, and practice questions.`} />
       </Helmet>
 
+      <SEO
+        title={`${subjectTerm} notes, exemplars and practice | VertexED`}
+        description={`${subjectTerm} revision archive with curated notes, exemplars, practice questions, and exam-writing support.`}
+        keywords={`${subjectTerm} notes, ${subjectTerm} revision, ${subjectTerm} practice questions, IB MYP ${title} study guide`}
+        canonical={`https://www.vertexed.app/${route}`}
+        ogType="article"
+      />
       <PageSection>
         <div className="mb-6">
           <Link to="/archives" className="neu-button px-4 py-2 text-sm">

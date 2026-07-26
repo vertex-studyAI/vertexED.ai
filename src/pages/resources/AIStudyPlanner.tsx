@@ -8,8 +8,9 @@ export default function AIStudyPlannerArticle() {
   return (
     <>
       <SEO
-        title="AI study planner and calendar — how it works | VertexED"
-        description="Plan a realistic revision week — 25-minute blocks, micro-reviews, sport and sleep included — instead of a fantasy timetable you abandon by Wednesday."
+        title="AI study planner and revision timetable | VertexED"
+        description="Build a realistic study planner and revision timetable around exams, school, sport, sleep, and weak topics. Turn tasks into focused study sessions."
+        keywords="AI study planner, study planner, revision timetable, study schedule maker, exam revision planner, student calendar"
         canonical={canonical}
         ogType="article"
         jsonLd={{

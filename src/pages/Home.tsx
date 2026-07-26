@@ -178,8 +178,9 @@ export default function Home() {
   return (
     <>
       <SEO
-        title="VertexED — Study tools built for marks and understanding"
-        description="One workspace for planning, deliberate practice, rubric feedback, and spaced retrieval — built for students who want to score higher without sacrificing how they learn."
+        title="AI study planner, MYP guides and exam practice tools | VertexED"
+        description="VertexED brings together an AI study planner, MYP study guides, IGCSE and IB practice-paper tools, notes, flashcards, and exam feedback for students."
+        keywords="AI study planner, MYP study guides, IGCSE paper generator, IB practice papers, revision planner, study tools for students"
         canonical="https://www.vertexed.app/"
         jsonLd={[
           { "@context": "https://schema.org", "@type": "WebSite", name: "VertexED", url: "https://www.vertexed.app/" },

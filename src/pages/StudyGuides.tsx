@@ -36,10 +36,35 @@ type GuideSeo = {
 const GUIDE_ACCESS_KEY = "vertexed-myp-study-guides-access";
 const GUIDE_PASSWORD = "whotfstudies";
 const SITE_URL = "https://www.vertexed.app";
+const SUBJECT_SEARCH_ALIASES: Record<string, string[]> = {
+  Biology: ["MYP Biology", "IB MYP Biology"],
+  Chemistry: ["MYP Chemistry", "IB MYP Chemistry"],
+  English: ["MYP English Language and Literature", "MYP English LAL"],
+  Geography: ["MYP Geography", "MYP Geo", "IB MYP Geography"],
+  History: ["MYP History", "IB MYP History"],
+  "Interdisciplinary Learning": ["MYP Interdisciplinary Learning", "MYP IDL"],
+  Mathematics: ["MYP Mathematics", "MYP Maths", "MYP Math", "IB MYP Mathematics"],
+  Physics: ["MYP Physics", "IB MYP Physics"],
+};
+
+const GUIDE_GROUP_ORDER = ["Getting started", "Core resources", "Topics", "Sessions", "Additional resources"];
 
 function displayGroup(group: string) {
-  if (group === "index.md") return "Start here";
   return group.replace(/[-_]/g, " ").replace(/\b\w/g, (letter) => letter.toUpperCase());
+}
+
+function normalizedGroup(page: GuidePage) {
+  if (page.relativePath === "index.md" || page.relativePath === "overview.md") return "Getting started";
+  if (["command-terms.md", "question-bank.md", "revision-plan.md"].includes(page.relativePath)) return "Core resources";
+  if (page.group === "topics") return "Topics";
+  if (page.group === "sessions") return "Sessions";
+  return "Additional resources";
+}
+
+function pageLabel(page: GuidePage) {
+  if (page.relativePath === "index.md") return "Guide index";
+  if (page.relativePath === "overview.md") return "Overview";
+  return titleFromSegment(page.title);
 }
 
 function titleFromSegment(segment: string) {
@@ -56,14 +81,35 @@ function guideUrl(subject: GuideSubject, page: GuidePage) {
   return `/study-guides/myp/${subject.slug}/${routePath}`;
 }
 
+function subjectTerms(subject: GuideSubject) {
+  return SUBJECT_SEARCH_ALIASES[subject.name] ?? [`MYP ${subject.name}`, `IB MYP ${subject.name}`];
+}
+
+function seoForSubject(subject: GuideSubject): GuideSeo {
+  const primaryTerm = subjectTerms(subject)[0];
+  const canonical = `${SITE_URL}/study-guides/myp/${subject.slug}`;
+  return {
+    title: `${primaryTerm} study guide, notes and revision | VertexED`,
+    description: `${primaryTerm} study guide with topic notes, past eAssessment paper analysis, command terms, question banks, and revision planning resources.`,
+    keywords: `${subjectTerms(subject).join(", ")}, ${primaryTerm} study guide, ${primaryTerm} notes, ${primaryTerm} revision, ${primaryTerm} past papers`,
+    canonical,
+  };
+}
+
 function seoForPage(subject: GuideSubject, page: GuidePage): GuideSeo {
   const isSession = /^[MN]\d{2}$/i.test(page.title);
-  const guideName = isSession ? `MYP ${subject.name} ${page.title.toUpperCase()} paper` : `MYP ${subject.name} ${page.title}`;
+  const primaryTerm = subjectTerms(subject)[0];
+  const pageName = pageLabel(page);
+  const guideName = isSession ? `${primaryTerm} ${page.title.toUpperCase()} eAssessment paper` : `${primaryTerm} ${pageName} study guide`;
   const canonical = `${SITE_URL}${guideUrl(subject, page)}`;
   return {
-    title: `${guideName} study guide | VertexED`,
-    description: `MYP ${subject.name} ${page.title}${isSession ? " paper" : ""} study guide with exam-linked revision notes, questions, and key concepts.`,
-    keywords: `${subject.name} MYP ${page.title}, MYP ${subject.name}${isSession ? ` ${page.title.toUpperCase()} paper` : ""}, ${subject.name} MYP study guide, MYP revision, MYP past paper`,
+    title: `${guideName} | VertexED`,
+    description: isSession
+      ? `${primaryTerm} ${page.title.toUpperCase()} eAssessment paper study guide with question analysis, topics tested, mark distribution, and revision notes.`
+      : `${primaryTerm} ${pageName} guide with exam-linked notes, questions, and revision support for MYP students.`,
+    keywords: isSession
+      ? `${primaryTerm} ${page.title.toUpperCase()} paper, ${primaryTerm} ${page.title.toUpperCase()} eAssessment, ${subjectTerms(subject).join(", ")}, MYP past papers, MYP revision`
+      : `${primaryTerm} ${pageName}, ${subjectTerms(subject).join(", ")}, ${primaryTerm} study guide, MYP revision`,
     canonical,
   };
 }
@@ -104,6 +150,8 @@ function studyGuideJsonLd(seo: GuideSeo) {
     inLanguage: "en",
     isAccessibleForFree: false,
     provider: { "@type": "Organization", name: "VertexED", url: SITE_URL },
+    about: { "@type": "Thing", name: seo.title.replace(" | VertexED", "") },
+    keywords: seo.keywords,
   };
 }
 
@@ -210,7 +258,11 @@ function StudyGuidesLibrary({ routePath, hasAccess, onUnlock }: { routePath?: st
 
   const subject = manifest?.subjects.find((item) => item.slug === subjectSlug) ?? null;
   const activePage = subject?.pages.find((page) => page.path === pagePath) ?? null;
-  const seo = subject && activePage ? seoForPage(subject, activePage) : seoForRoute(routePath);
+  const routeParts = (routePath ?? "").split("/").filter(Boolean);
+  const isSubjectHub = routeParts[0]?.toLowerCase() === "myp" && routeParts.length === 2;
+  const seo = subject && activePage
+    ? isSubjectHub ? seoForSubject(subject) : routeParts.length === 0 ? seoForRoute(routePath) : seoForPage(subject, activePage)
+    : seoForRoute(routePath);
   const preview = useMemo(() => markdownPreview(content), [content]);
 
   useEffect(() => {
@@ -251,7 +303,7 @@ function StudyGuidesLibrary({ routePath, hasAccess, onUnlock }: { routePath?: st
   }, [query, subject]);
 
   const groupedPages = useMemo(() => visiblePages.reduce<Record<string, GuidePage[]>>((groups, page) => {
-    const group = displayGroup(page.group);
+    const group = normalizedGroup(page);
     groups[group] = [...(groups[group] ?? []), page];
     return groups;
   }, {}), [visiblePages]);
@@ -302,13 +354,13 @@ function StudyGuidesLibrary({ routePath, hasAccess, onUnlock }: { routePath?: st
                 {hasAccess ? <>
                   <label className="study-guides-search"><Search className="h-4 w-4" aria-hidden /><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder={`Search ${subject?.name ?? "guide"} pages`} /></label>
                   <div className="study-guides-page-list">
-                    {Object.entries(groupedPages).map(([group, pages]) => {
+                    {Object.entries(groupedPages).sort(([a], [b]) => GUIDE_GROUP_ORDER.indexOf(a) - GUIDE_GROUP_ORDER.indexOf(b)).map(([group, pages]) => {
                       const isCollapsible = group === "Sessions" || group === "Topics";
                       const groupKey = `${subject?.slug ?? "myp"}:${group}`;
                       const isOpen = !isCollapsible || query.trim().length > 0 || expandedGroups.has(groupKey);
                       return <section key={group} className={isCollapsible ? "is-collapsible" : undefined}>
                         {isCollapsible ? <button type="button" className="study-guides-group-toggle" aria-expanded={isOpen} onClick={() => setExpandedGroups((current) => { const next = new Set(current); if (next.has(groupKey)) next.delete(groupKey); else next.add(groupKey); return next; })}><span>{group}</span><small>{pages.length} pages</small><ChevronDown className={isOpen ? "is-open" : undefined} aria-hidden /></button> : <h2>{group}</h2>}
-                        {isOpen && pages.map((page) => <button key={page.path} type="button" onClick={() => subject && openPage(subject, page)} className={page.path === activePage?.path ? "is-active" : ""}><FileText className="h-3.5 w-3.5" aria-hidden /> {page.title}</button>)}
+                        {isOpen && pages.map((page) => <button key={page.path} type="button" onClick={() => subject && openPage(subject, page)} className={page.path === activePage?.path ? "is-active" : ""}><FileText className="h-3.5 w-3.5" aria-hidden /> {pageLabel(page)}</button>)}
                       </section>;
                     })}
                     {visiblePages.length === 0 && <p className="study-guides-empty">No guide pages match that search.</p>}
@@ -317,7 +369,7 @@ function StudyGuidesLibrary({ routePath, hasAccess, onUnlock }: { routePath?: st
               </aside>
 
               <LiquidGlass as="article" variant="panel" className="study-guides-reader">
-                <div className="study-guides-reader-header"><div><p className="study-guides-eyebrow">{subject?.name} - {activePage && displayGroup(activePage.group)}</p><h2>{activePage?.title ?? "Select a guide page"}</h2></div>{pageLoading && <Loader2 className="h-4 w-4 animate-spin text-primary" aria-label="Loading guide page" />}</div>
+                <div className="study-guides-reader-header"><div><p className="study-guides-eyebrow">{subject?.name} - {activePage && normalizedGroup(activePage)}</p><h2>{activePage ? pageLabel(activePage) : "Select a guide page"}</h2></div>{pageLoading && <Loader2 className="h-4 w-4 animate-spin text-primary" aria-label="Loading guide page" />}</div>
                 {error && <div className="study-guides-error">{error}</div>}
                 {!error && (hasAccess ? <RichMarkdown className="study-guides-markdown">{content}</RichMarkdown> : <div className="study-guides-preview">
                   <RichMarkdown className="study-guides-markdown">{preview.visible}</RichMarkdown>

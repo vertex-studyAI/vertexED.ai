@@ -8,8 +8,9 @@ export default function PaperMakerGuide() {
   return (
     <>
       <SEO
-        title="IB and IGCSE Paper Maker — practice papers | VertexED"
-        description="Generate board-shaped practice papers by topic and mark total, sit them under time, then feed answers into Answer Reviewer for rubric-style gaps."
+        title="IGCSE and IB practice paper generator | VertexED"
+        description="Create IGCSE, IB MYP, IB DP, CBSE, and A-Level practice papers by subject, topic, marks, and difficulty. Export a mock paper and review your answers."
+        keywords="IGCSE paper generator, IGCSE practice paper generator, IB paper generator, MYP practice paper, IB DP practice paper, mock exam generator, AI paper generator"
         canonical={canonical}
         ogType="article"
         jsonLd={{
