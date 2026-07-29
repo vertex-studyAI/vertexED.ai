@@ -1,4 +1,5 @@
 import { verifyAuthUser, readJsonBody, rejectOversizedJsonBody } from '../_lib/auth.js';
+import { requireActiveSubscription } from '../_lib/subscription.js';
 import { rateLimitUserEndpoint } from '../_lib/rateLimit.js';
 
 function countWords(text) {
@@ -12,6 +13,7 @@ export default async function handler(req, res) {
 
   const user = await verifyAuthUser(req, res);
   if (!user) return;
+  if (!(await requireActiveSubscription(user, res))) return;
 
   if (rejectOversizedJsonBody(req, res, 64 * 1024)) return;
   if (!(await rateLimitUserEndpoint(user.id, 'board-resource', res))) return;

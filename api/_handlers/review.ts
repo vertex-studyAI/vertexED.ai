@@ -764,8 +764,10 @@ export default async function handler(req: any, res: any) {
   const { verifyAuthUser, rejectOversizedJsonBody } = await import('../_lib/auth.js');
   const { rateLimitUserEndpoint } = await import('../_lib/rateLimit.js');
   const { validateReviewImages } = await import('../_lib/security.js');
+  const { requireActiveSubscription } = await import('../_lib/subscription.js');
   const user = await verifyAuthUser(req, res);
   if (!user) return;
+  if (!(await requireActiveSubscription(user, res))) return;
   if (rejectOversizedJsonBody(req, res, 6 * 1024 * 1024)) return;
   if (!(await rateLimitUserEndpoint(user.id, 'review', res))) return;
 

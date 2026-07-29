@@ -1,4 +1,5 @@
 import { verifyAuthUser, readJsonBody, rejectOversizedJsonBody } from '../_lib/auth.js';
+import { requireActiveSubscription } from '../_lib/subscription.js';
 import { rateLimitUserEndpoint } from '../_lib/rateLimit.js';
 import { formatSourcesForPrompt, NOTEBOOK_OUTPUT_MODES } from '../_lib/grounding.js';
 
@@ -15,6 +16,7 @@ export default async function handler(req, res) {
 
   const user = await verifyAuthUser(req, res);
   if (!user) return;
+  if (!(await requireActiveSubscription(user, res))) return;
 
   if (rejectOversizedJsonBody(req, res, 512 * 1024)) return;
   if (!(await rateLimitUserEndpoint(user.id, 'notebook', res))) return;

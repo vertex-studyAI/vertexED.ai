@@ -1,4 +1,5 @@
 import { verifyAuthUser, rejectOversizedJsonBody } from '../_lib/auth.js';
+import { requireActiveSubscription } from '../_lib/subscription.js';
 import { rateLimitUserEndpoint } from '../_lib/rateLimit.js';
 
 const OPENAI_URL = "https://api.openai.com/v1/chat/completions";
@@ -150,6 +151,7 @@ export default async function handler(req, res) {
 
   const user = await verifyAuthUser(req, res);
   if (!user) return;
+  if (!(await requireActiveSubscription(user, res))) return;
   if (!(await rateLimitUserEndpoint(user.id, 'paper-generator', res))) return;
 
   if (rejectOversizedJsonBody(req, res, 4 * 1024 * 1024)) return;

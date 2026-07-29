@@ -37,6 +37,24 @@ export const ROUTES = {
     loader: () => import('../_handlers/waitlist-admin.js'),
     methods: ['POST'],
   },
+  'billing-status': {
+    loader: () => import('../_handlers/billing-status.js'),
+    methods: ['GET'],
+  },
+  'billing-checkout': {
+    loader: () => import('../_handlers/billing-checkout.js'),
+    methods: ['POST'],
+  },
+  'billing-cancel': {
+    loader: () => import('../_handlers/billing-cancel.js'),
+    methods: ['POST'],
+  },
+  'billing-webhook': {
+    loader: () => import('../_handlers/billing-webhook.js'),
+    methods: ['POST'],
+    // Razorpay signs the exact request bytes; the body must not be parsed first.
+    rawBody: true,
+  },
   'study-guide-chat': {
     loader: () => import('../_handlers/study-guide-chat.js'),
     methods: ['POST'],

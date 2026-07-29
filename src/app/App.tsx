@@ -56,6 +56,8 @@ const StudyGuides = lazy(() => import("@/pages/StudyGuides"));
 const WaitlistAdmin = lazy(() => import("@/pages/admin/WaitlistAdmin"));
 const PrivacyPolicy = lazy(() => import("@/pages/PrivacyPolicy"));
 const TermsOfService = lazy(() => import("@/pages/TermsOfService"));
+const Pricing = lazy(() => import("@/pages/Pricing"));
+const BillingSuccess = lazy(() => import("@/pages/BillingSuccess"));
 import { AuthProvider } from "@/contexts/AuthContext";
 import { AppPreferencesProvider } from "@/contexts/AppPreferencesContext";
 import AdminRoute from "@/components/AdminRoute";
@@ -63,6 +65,7 @@ import { HelmetProvider } from "react-helmet-async";
 import { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ProtectedRoute from "@/components/ProtectedRoute";
+import RequirePro from "@/components/RequirePro";
 import { Toaster } from "@/components/ui/toaster";
 import { Navigate } from "react-router-dom";
 
@@ -158,16 +161,20 @@ return (
 <Route path="onboarding" element={<ProtectedRoute><Onboarding /></ProtectedRoute>} />
 <Route path="main" element={<ProtectedRoute><Main /></ProtectedRoute>} />
 <Route path="learning-hub" element={<Navigate to="/main" replace />} />
-<Route path="notetaker" element={<ProtectedRoute><NotetakerQuiz /></ProtectedRoute>} />
+{/* Paid AI tools: RequirePro redirects non-subscribers to /pricing.
+    Pages that hold a user's OWN saved work (study-notebook, resource-library)
+    stay reachable without a subscription so nobody is locked out of their data
+    when a plan lapses — the AI actions inside them are gated server-side. */}
+<Route path="notetaker" element={<ProtectedRoute><RequirePro><NotetakerQuiz /></RequirePro></ProtectedRoute>} />
 <Route path="study-notebook" element={<ProtectedRoute><StudyNotebook /></ProtectedRoute>} />
 <Route path="resource-library" element={<ProtectedRoute><ResourceLibrary /></ProtectedRoute>} />
 <Route path="study-guides/*" element={<StudyGuides />} />
 <Route path="world-model" element={<Navigate to="/study-notebook" replace />} />
-<Route path="study-zone" element={<ProtectedRoute><StudyZone /></ProtectedRoute>} />
-<Route path="chatbot" element={<ProtectedRoute><AIChatbot /></ProtectedRoute>} />
-<Route path="planner" element={<ProtectedRoute><StudyPlanner /></ProtectedRoute>} />
-<Route path="answer-reviewer" element={<ProtectedRoute><AnswerReviewer /></ProtectedRoute>} />
-<Route path="paper-maker" element={<ProtectedRoute><PaperMaker /></ProtectedRoute>} />
+<Route path="study-zone" element={<ProtectedRoute><RequirePro><StudyZone /></RequirePro></ProtectedRoute>} />
+<Route path="chatbot" element={<ProtectedRoute><RequirePro><AIChatbot /></RequirePro></ProtectedRoute>} />
+<Route path="planner" element={<ProtectedRoute><RequirePro><StudyPlanner /></RequirePro></ProtectedRoute>} />
+<Route path="answer-reviewer" element={<ProtectedRoute><RequirePro><AnswerReviewer /></RequirePro></ProtectedRoute>} />
+<Route path="paper-maker" element={<ProtectedRoute><RequirePro><PaperMaker /></RequirePro></ProtectedRoute>} />
 
 						{/* Archives routes */}
 						<Route path="archives" element={<ArchivesHome />} />
@@ -182,7 +189,9 @@ return (
 <Route path="about" element={<About />} />
 <Route path="privacy" element={<PrivacyPolicy />} />
 <Route path="terms" element={<TermsOfService />} />
-<Route path="features" element={<Features />} /> 
+<Route path="features" element={<Features />} />
+<Route path="pricing" element={<Pricing />} />
+<Route path="billing/success" element={<ProtectedRoute><BillingSuccess /></ProtectedRoute>} />
 <Route path="study-tools" element={<StudyTools />} />
 <Route path="vertex-ed" element={<Brand />} />
 <Route path="user-settings" element={<ProtectedRoute><UserSettings /></ProtectedRoute>} />

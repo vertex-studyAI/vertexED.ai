@@ -1,5 +1,6 @@
 import { GoogleGenAI } from '@google/genai';
 import { verifyAuthUser, readJsonBody, rejectOversizedJsonBody } from '../_lib/auth.js';
+import { requireActiveSubscription } from '../_lib/subscription.js';
 import { rateLimitUserEndpoint } from '../_lib/rateLimit.js';
 
 const TRY_MODELS = [
@@ -127,6 +128,7 @@ export default async function handler(req, res) {
 
   const user = await verifyAuthUser(req, res);
   if (!user) return;
+  if (!(await requireActiveSubscription(user, res))) return;
   if (!(await rateLimitUserEndpoint(user.id, 'planner', res))) return;
 
   if (rejectOversizedJsonBody(req, res)) return;

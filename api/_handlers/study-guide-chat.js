@@ -1,4 +1,5 @@
 import { verifyAuthUser, readJsonBody, rejectOversizedJsonBody } from '../_lib/auth.js';
+import { requireActiveSubscription } from '../_lib/subscription.js';
 import { rateLimitUserEndpoint } from '../_lib/rateLimit.js';
 import { retrieveStudyGuideContext } from '../_lib/studyGuideRetrieval.js';
 
@@ -8,6 +9,7 @@ export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
   const user = await verifyAuthUser(req, res);
   if (!user) return;
+  if (!(await requireActiveSubscription(user, res))) return;
   if (rejectOversizedJsonBody(req, res, 64 * 1024)) return;
   if (!(await rateLimitUserEndpoint(user.id, 'study-guide-chat', res))) return;
 

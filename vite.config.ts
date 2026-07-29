@@ -28,7 +28,7 @@ export default defineConfig(({ mode }) => {
             const isMultipart = String(req.headers['content-type'] || '').includes('multipart/form-data');
             const queryParams = Object.fromEntries(new URLSearchParams(search));
 
-            const run = async (body: unknown) => {
+            const run = async (body: unknown, rawBody?: Buffer) => {
               try {
                 const { dispatchRoute, API_VERSION } = await import('./api/_lib/routes.js');
                 const nextReq = {
@@ -38,6 +38,7 @@ export default defineConfig(({ mode }) => {
                   method: req.method,
                   headers: req.headers,
                   body,
+                  rawBody,
                 };
                 const nextRes = {
                   status: (code: number) => { res.statusCode = code; return nextRes; },
@@ -73,14 +74,19 @@ export default defineConfig(({ mode }) => {
               return;
             }
 
-            let body = '';
-            req.on('data', (chunk) => { body += chunk; });
+            // Buffer the exact bytes, not a concatenated string: routes marked
+            // rawBody (the Stripe webhook) verify a signature over them, and the
+            // spread `{...req}` above drops the stream methods a handler would
+            // otherwise use to read the body itself.
+            const chunks: Buffer[] = [];
+            req.on('data', (chunk) => { chunks.push(Buffer.from(chunk)); });
             req.on('end', () => {
+              const rawBody = Buffer.concat(chunks);
+              const text = rawBody.toString('utf8');
               try {
-                const parsed = body ? JSON.parse(body) : {};
-                void run(parsed);
+                void run(text ? JSON.parse(text) : {}, rawBody);
               } catch {
-                void run(body);
+                void run(text, rawBody);
               }
             });
           });

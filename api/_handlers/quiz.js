@@ -1,4 +1,5 @@
 import { verifyAuthUser, readJsonBody, rejectOversizedJsonBody } from '../_lib/auth.js';
+import { requireActiveSubscription } from '../_lib/subscription.js';
 import { rateLimitUserEndpoint } from '../_lib/rateLimit.js';
 
 function parseJsonBody(req) {
@@ -203,6 +204,7 @@ export default async function handler(req, res) {
 
   const user = await verifyAuthUser(req, res);
   if (!user) return;
+  if (!(await requireActiveSubscription(user, res))) return;
   if (!(await rateLimitUserEndpoint(user.id, 'quiz', res))) return;
 
   if (rejectOversizedJsonBody(req, res)) return;
