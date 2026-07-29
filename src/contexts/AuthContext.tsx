@@ -19,6 +19,25 @@ type AuthContextType = {
   logout: () => Promise<void>;
 };
 
+/**
+ * Local preview identity, used ONLY when Supabase is unconfigured during
+ * `npm run dev` — i.e. a fresh clone with no .env keys. It lets you walk the
+ * signed-in parts of the app (and the subscription paywall) without a backend.
+ *
+ * This can never reach production: `import.meta.env.DEV` is statically false in
+ * a production build, so bundlers drop the branch entirely. It also cannot
+ * activate on any deployment that has Supabase configured, since it requires
+ * `supabase` to be null.
+ */
+const DEV_PREVIEW_USER = {
+  id: "00000000-0000-4000-8000-000000000000",
+  email: "preview@localhost.dev",
+  user_metadata: { username: "preview", full_name: "Preview User" },
+  app_metadata: {},
+  aud: "authenticated",
+  created_at: new Date(0).toISOString(),
+} as unknown as User;
+
 const AuthContext = createContext<AuthContextType>({
   user: null,
   session: null,
@@ -45,6 +64,19 @@ export function AuthProvider({ children }: PropsWithChildren<{}>) {
 
     const init = async () => {
       if (!supabase) {
+        if (import.meta.env.DEV) {
+          // Dev preview: sign in as a local stand-in so the app is walkable
+          // without a backend. See DEV_PREVIEW_USER.
+          console.warn(
+            "[VertexED] Supabase is not configured — signing in as a local preview user. " +
+              "Dev builds only; never active in production.",
+          );
+          setSession(null);
+          setUser(DEV_PREVIEW_USER);
+          setProfile(null);
+          setLoading(false);
+          return;
+        }
         // Graceful fallback when env vars are missing; treat as signed-out.
         setSession(null);
         setUser(null);
