@@ -28,23 +28,8 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Typecheck
-        run: npx tsc --noEmit -p tsconfig.app.json
-
-      - name: Lint API, frontend, and tests
-        run: npm run lint:ci
-
-      - name: Validate Vercel function layout
-        run: node scripts/validate-vercel-functions.mjs
-
-      - name: Audit production dependencies
-        run: npm run audit:prod
-
-      - name: Run API unit tests
-        run: npm test
-
-      - name: Build (CI)
-        run: npm run build:ci
+      - name: Run canonical CI gate
+        run: npm run ci
         env:
           ROLLUP_SKIP_NODEJS_NATIVE: 'true'
 
@@ -58,7 +43,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
       - name: Smoke test production deployment
-        run: node scripts/smoke-deploy.mjs
+        run: npm run test:smoke
         env:
           SMOKE_BASE_URL: https://www.vertexed.app
