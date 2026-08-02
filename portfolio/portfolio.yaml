@@ -78,21 +78,31 @@ projects:
   - name: Project 2424 / Typhon
     category: research_portfolio
     status: BLOCKED
-    owner: user-reported Ryan Gomez and research leads
-    repository: unknown
-    local_path: unknown
-    deployment: not_applicable
+    owner: Ryan Gomez and research leads
+    repository: local Git repository with bundle origin Project_2424_Ready.bundle; no durable hosted remote verified
+    local_path: /Volumes/PRO-BLADE/Atlas/Project-2024/Project_2424
+    deployment: /home/ryan/projects/project-2424 on Inkling is currently a marker-only non-Git directory
     users: not_applicable
-    last_verified_activity: user-reported July 2026
-    current_milestone: verify registry and select exactly five flagships
-    completion_condition: five evidence-backed research contracts include owner, deadline, baseline, dataset, metrics, ablations, failure criteria, and reproduction command
-    next_action: connect the canonical workbook, registry, repositories, experiment artifacts, and papers
-    blockers: [canonical implementation workspace unavailable]
-    tests: historical pass counts not independently reverified
-    documentation: [file-library:Project_2424_Mega_Research_Foundry.xlsx, file-library:00_ULTIMATE_PORTFOLIO_CONTEXT.md]
-    evidence: [file-library:ACCEPTANCE_GATE_REPORT.json]
-    priority_score: {value: unknown, reason: candidate code and experiment evidence unavailable}
-    review_date: 2026-08-04
+    last_verified_activity: 2026-08-02
+    current_milestone: preserve and restore the canonical repository on Inkling, rerun the baseline gate, reconcile conflicting histories, and select exactly five flagships
+    completion_condition: issue 20 verifies the Git bundle and working-tree overlay restore, reruns repository tests and audits with raw logs, reconciles the 24, 34, 55, and 2424 project claims, and produces five evidence-backed research contracts
+    next_action: run portfolio/scripts/restore_project2424_to_inkling.sh --verify from the Mac with the PRO-BLADE mounted and authenticated gcloud access
+    blockers:
+      - the canonical source and substantial uncommitted seven-phase work exist only on the PRO-BLADE
+      - the prior Inkling sync produced only INKLING.md rather than a Git repository
+      - historical test and project-count claims have not been independently rerun against the current source
+      - no durable hosted remote for the current repository is verified
+    tests: historical handoffs report 31 repository tests, 34 project suites, 125 project tests, and later 55 local-scope project passes; all remain historical until the restored current source is rerun
+    documentation: [portfolio/scripts/restore_project2424_to_inkling.sh, issue 20, file-library:START_HERE.md, file-library:Project_2424_Mega_Research_Foundry.xlsx]
+    evidence:
+      - canonical local source /Volumes/PRO-BLADE/Atlas/Project-2024/Project_2424
+      - bundle origin /Volumes/PRO-BLADE/Project-2024/Project_2424_Execute_Now/Project_2424_Ready.bundle
+      - historical foundry commit 5952dd236638b48514071918fd083079fa517f03
+      - issue 20
+    priority_score:
+      value: unknown
+      reason: current source, dirty overlay, tests, experiments, and project counts must be restored and reconciled first
+    review_date: 2026-08-03
 
   - name: Hercules
     category: research_system
@@ -135,21 +145,21 @@ projects:
   - name: Inkling
     category: infrastructure
     status: BLOCKED
-    owner: unknown
-    repository: unknown
-    local_path: unknown
-    deployment: user-reported GCP VM; not independently verified here
+    owner: Ryan Gomez
+    repository: infrastructure source not connected
+    local_path: /home/ryan/projects on inkling-agent
+    deployment: GCP VM inkling-agent in us-central1-a; prior health logs show core dashboard services reachable
     users: unknown
-    last_verified_activity: unknown
-    current_milestone: verify control-plane health, security, persistence, and recovery
-    completion_condition: source, VM identity, services, auth, health, logs, restart, and recovery checks pass
-    next_action: connect repository and cloud-state evidence
-    blockers: [Google Cloud project and source unavailable]
-    tests: unknown
-    documentation: File Library terminal records
-    evidence: [file-library:Pasted text.txt]
-    priority_score: {value: unknown, reason: current infrastructure state unverified}
-    review_date: 2026-08-09
+    last_verified_activity: 2026-08-02
+    current_milestone: restore real Git checkouts and verify control-plane health, security, persistence, and recovery
+    completion_condition: source, VM identity, services, auth, health, logs, restart, project checkouts, and recovery checks pass
+    next_action: execute the Project 2424 restore in issue 20, then audit every project directory and the Open WebUI CORS configuration
+    blockers: [cloud connector unavailable in this session, project directories were marker-only rather than Git repositories, Open WebUI previously reported wildcard CORS]
+    tests: historical logs show LiteLLM, Open WebUI, n8n, Qdrant, and Redis responding, but project checkout integrity failed
+    documentation: [file-library Inkling terminal records, issue 20]
+    evidence: [Inkling audit showing project-2424/INKLING.md only, dashboard tunnel and service health logs]
+    priority_score: {value: unknown, reason: current VM state cannot be directly rechecked from connected tools}
+    review_date: 2026-08-03
 
   - name: FCC
     category: infrastructure
