@@ -237,10 +237,52 @@ cp "$PACKAGE_DIR/SHA256SUMS" "$EVIDENCE/transfer-sha256s.txt"
   echo "python=$(python3 --version 2>&1)"
   echo "git=$(git --version 2>&1)"
 } > "$EVIDENCE/restore-environment.txt"
-git -C "$STAGING" status --short --branch > "$EVIDENCE/restored-status.txt"
+git -C "$STAGING" status --short --branch > "$EVIDENCE/pre-quality-status.txt"
 git -C "$STAGING" remote -v > "$EVIDENCE/restored-remotes.txt" || true
 
-say "Promoting verified staging checkout"
+if [[ "$RUN_VERIFY" == "1" ]]; then
+  VERIFY_ROOT="$PROJECTS/.verification"
+  VERIFY_VENV="$VERIFY_ROOT/project-2424-$TS"
+  mkdir -p "$VERIFY_ROOT"
+  [[ ! -e "$VERIFY_VENV" ]] || fail "Verification environment already exists: $VERIFY_VENV"
+
+  say "Creating an isolated pre-promotion Python environment"
+  python3 -m venv "$VERIFY_VENV"
+  "$VERIFY_VENV/bin/python" -m pip install --upgrade pip |& tee "$EVIDENCE/pip-upgrade.log"
+  if [[ -f "$STAGING/requirements-ci.txt" ]]; then
+    "$VERIFY_VENV/bin/python" -m pip install -r "$STAGING/requirements-ci.txt" |& tee "$EVIDENCE/install.log"
+  else
+    fail "--verify requested but requirements-ci.txt is missing; staging remains at $STAGING"
+  fi
+
+  say "Running the repository-owned quality gate before promotion"
+  set +e
+  if [[ -f "$STAGING/scripts/run_quality_gate.py" ]]; then
+    (
+      cd "$STAGING"
+      "$VERIFY_VENV/bin/python" scripts/run_quality_gate.py
+    ) |& tee "$EVIDENCE/quality-gate.log"
+    GATE_STATUS=${PIPESTATUS[0]}
+  else
+    (
+      cd "$STAGING"
+      PYTHONPATH=shared "$VERIFY_VENV/bin/python" -m pytest tests -q
+    ) |& tee "$EVIDENCE/quality-gate.log"
+    GATE_STATUS=${PIPESTATUS[0]}
+  fi
+  set -e
+  printf '%s\n' "$GATE_STATUS" > "$EVIDENCE/quality-gate-exit-code.txt"
+  git -C "$STAGING" status --short --branch > "$EVIDENCE/post-quality-status.txt"
+  if [[ "$GATE_STATUS" -ne 0 ]]; then
+    fail "Repository quality gate failed; current cloud directory is untouched and evidence remains at $EVIDENCE"
+  fi
+  printf 'passed\n' > "$EVIDENCE/quality-gate-verdict.txt"
+  rm -rf "$VERIFY_VENV"
+else
+  git -C "$STAGING" status --short --branch > "$EVIDENCE/post-quality-status.txt"
+fi
+
+say "Promoting the verified staging checkout"
 if [[ -e "$CANONICAL" ]]; then
   BACKUP="$BACKUP_ROOT/project-2424-before-restore-$TS"
   [[ ! -e "$BACKUP" ]] || fail "Backup path already exists: $BACKUP"
@@ -253,36 +295,6 @@ EVIDENCE="$CANONICAL/artifacts/recovery/$TS"
 say "Canonical cloud checkout is now $CANONICAL"
 git -C "$CANONICAL" status --short --branch | tee "$EVIDENCE/final-status.txt"
 git -C "$CANONICAL" fsck --full | tee "$EVIDENCE/final-fsck.txt"
-
-if [[ "$RUN_VERIFY" == "1" ]]; then
-  say "Creating isolated Python environment"
-  python3 -m venv "$CANONICAL/.venv"
-  "$CANONICAL/.venv/bin/python" -m pip install --upgrade pip |& tee "$EVIDENCE/pip-upgrade.log"
-  if [[ -f "$CANONICAL/requirements-ci.txt" ]]; then
-    "$CANONICAL/.venv/bin/python" -m pip install -r "$CANONICAL/requirements-ci.txt" |& tee "$EVIDENCE/install.log"
-  else
-    fail "--verify requested but requirements-ci.txt is missing"
-  fi
-
-  say "Running the smallest repository-owned quality gate"
-  set +e
-  if [[ -f "$CANONICAL/scripts/run_quality_gate.py" ]]; then
-    (
-      cd "$CANONICAL"
-      .venv/bin/python scripts/run_quality_gate.py
-    ) |& tee "$EVIDENCE/quality-gate.log"
-    GATE_STATUS=${PIPESTATUS[0]}
-  else
-    (
-      cd "$CANONICAL"
-      PYTHONPATH=shared .venv/bin/python -m pytest tests -q
-    ) |& tee "$EVIDENCE/quality-gate.log"
-    GATE_STATUS=${PIPESTATUS[0]}
-  fi
-  set -e
-  printf '%s\n' "$GATE_STATUS" > "$EVIDENCE/quality-gate-exit-code.txt"
-  [[ "$GATE_STATUS" -eq 0 ]] || fail "Repository quality gate failed; evidence preserved at $EVIDENCE"
-fi
 
 cat <<REPORT
 
