@@ -6,7 +6,7 @@
 
 ## Current objective
 
-Complete the three active product certification tracks while restoring Project 2424's canonical source to a verified Inkling Git checkout. Research activation remains frozen until the current repository, dirty working-tree overlay, tests, experiments, and conflicting project counts are reconciled.
+Complete the three active product certification tracks while restoring Project 2424's canonical source to a verified Inkling Git checkout. The shared access gate is issue #22 and `portfolio/ACCESS_UNBLOCK.md`. Research activation remains frozen until the current Project 2424 repository, dirty working-tree overlay, tests, experiments, and conflicting project counts are reconciled.
 
 ## Verified current state
 
@@ -16,10 +16,12 @@ Complete the three active product certification tracks while restoring Project 2
 - FinanceMeta main still has no GitHub Actions workflow, no one-command release gate, and only a placeholder truth test. A guarded hardening runner is prepared, but GitHub branch creation returns integration-level `403` and its production Supabase project is not connected. Issue #19 is authoritative.
 - The accessible Bu1LD member platform is `ryangomez010/bu1ld-landing`, deployed at `https://thebu1ld.com`, with visible main `daa80c1124b2a6d7d09b7669e04d29e50cffcbbe`.
 - The Bu1LD repository records a passing local `release:check` with 95 tests, TypeScript, ESLint, and production client/SSR builds. Its own verdict remains closed-beta ready, not production-certified, until `release:prod` passes against the real Supabase and server runtime. Issue #16 is authoritative.
+- The GitHub App installation is currently attached only to `vertex-studyAI`. The required owner accounts `build-the-future-11`, `ryangomez010`, and `THE-BU1LD` are absent, which explains public inspection without integration writes.
+- The connected Supabase app currently exposes only the VertexED project; FinanceMeta and The Bu1LD production projects are absent.
 - Project 2424's canonical current source was observed at `/Volumes/PRO-BLADE/Atlas/Project-2024/Project_2424`, on `main`, with local bundle origin `/Volumes/PRO-BLADE/Project-2024/Project_2424_Execute_Now/Project_2424_Ready.bundle` and substantial uncommitted seven-phase work.
 - The prior Inkling sync was not a repository restore: `/home/ryan/projects/project-2424` contained only `INKLING.md`. The same flawed sync reused the Project 2424 source under FinanceMeta and The Bu1LD labels, so its project-specific pass messages are not trusted.
 - Historical Project 2424 handoffs disagree across 24 source-ready projects, 34 source-backed projects, 55 locally accepted projects, and 2,424 proposal contracts. None is treated as current until the restored source is rerun and reconciled.
-- `portfolio/scripts/restore_project2424_to_inkling.sh` now provides a preservation-first restore: complete Git bundle, staged/unstaged patches, untracked archive, transfer hashes, isolated cloud staging, `git fsck`, prior-directory backup, atomic promotion, optional isolated quality gate, and retained evidence. Issue #20 is authoritative.
+- `portfolio/scripts/restore_project2424_to_inkling.sh` now provides a preservation-first restore: complete Git bundle, staged/unstaged patches, untracked archive, transfer hashes, isolated cloud staging, `git fsck`, pre-promotion quality gate, prior-directory backup, atomic promotion, and retained evidence. Issue #20 is authoritative.
 - The private `THE-BU1LD/the-bu1ld-nexus-main` and `THE-BU1LD/labos` repositories remain inaccessible through the current GitHub installation.
 - LAM-JEPA and Text-to-Video remain paused because neither has a named owner and current reproduced evidence.
 
@@ -41,6 +43,7 @@ Complete the three active product certification tracks while restoring Project 2
 
 - **Active products:** VertexED, FinanceMeta, and The Bu1LD. This reaches the maximum of three; no fourth product may be activated until one reaches maintenance or is paused.
 - **Active flagship research:** zero. Recovering a repository is not equivalent to verifying a research result.
+- **Shared access:** issue #22 and `portfolio/ACCESS_UNBLOCK.md` are the single control point for GitHub account installations, Supabase projects, secure disposable identities, and local cloud execution.
 - **Project 2424:** remains BLOCKED, but no longer because the source identity is unknown. The source is identified; the immediate gate is lossless restoration and evidence reconciliation.
 - **The Bu1LD:** ACTIVE because a live, substantive member platform and repository-local release package are verified. Production certification remains blocked and must not be claimed complete.
 - **LAM-JEPA:** PAUSED until a named owner can install, run a seeded benchmark, add tests and CI, and commit raw results within seven days.
@@ -63,4 +66,4 @@ Repository state, reproducible commands, captured tests, deployed journeys, raw 
 
 ## Access boundary
 
-Direct repository discovery recovered the FinanceMeta portal and The Bu1LD platform, but GitHub writes to both owner-account repositories still fail at the integration boundary. Project 2424 execution requires the user's Mac, mounted PRO-BLADE, and GCP authentication; those systems are not connected to this session. The private Bu1LD Nexus and LabOS repositories, production Supabase projects, Cloudflare, and FCC remain unavailable. A dedicated portfolio-control repository should be created and this directory migrated without rewriting its history.
+Direct repository discovery recovered the FinanceMeta portal and The Bu1LD platform, but the GitHub App is installed only on `vertex-studyAI`; writes to owner-account repositories therefore fail at the integration boundary. Project 2424 execution requires the user's Mac, mounted PRO-BLADE, and GCP authentication; those systems are not connected to this session. The private Bu1LD Nexus and LabOS repositories, FinanceMeta and Bu1LD Supabase projects, Cloudflare, and FCC remain unavailable. Follow `portfolio/ACCESS_UNBLOCK.md` and issue #22. A dedicated portfolio-control repository should be created and this directory migrated without rewriting its history.
