@@ -1,6 +1,7 @@
 import { readJsonBody, rejectOversizedJsonBody } from '../_lib/auth.js';
 import { getSupabaseAdmin } from '../_lib/supabaseAdmin.js';
 import { checkDbRateLimit } from '../_lib/dbRateLimit.js';
+import { verifyInviteCode } from '../_lib/inviteCode.js';
 import { getWaitlistEntryByToken } from '../_lib/waitlistAccess.js';
 import { getClientIp, normalizeEmail, validatePassword } from '../_lib/security.js';
 
@@ -17,7 +18,15 @@ export default async function handler(req, res) {
 
   try {
     const body = readJsonBody(req);
-    const { action, password, username, waitlistInviteToken, website } = body ?? {};
+    const {
+      action,
+      email,
+      password,
+      username,
+      inviteCode,
+      waitlistInviteToken,
+      website,
+    } = body ?? {};
 
     if (website) {
       return res.status(200).json({ ok: true });
@@ -25,13 +34,44 @@ export default async function handler(req, res) {
 
     const inviteToken = typeof waitlistInviteToken === 'string' ? waitlistInviteToken.trim() : '';
 
+    if (action === 'validateInvite') {
+      if (!inviteToken) {
+        return res.status(400).json({ error: 'Approval token is required.' });
+      }
+      if (!hasSignupBackendConfig()) {
+        return res.status(503).json({ error: 'Account creation is temporarily unavailable. Please try again later.' });
+      }
+
+      const supabase = getSupabaseAdmin();
+      const entry = await getWaitlistEntryByToken(supabase, inviteToken);
+      if (!entry || entry.status !== 'approved') {
+        return res.status(403).json({ error: 'This approval link is invalid, expired, or has already been used.' });
+      }
+      return res.status(200).json({ ok: true, email: entry.email });
+    }
+
     // Reject malformed account data before touching external services. This keeps
     // validation deterministic and avoids converting user errors into backend 500s.
-    if (action !== 'validateInvite') {
-      const pwd = typeof password === 'string' ? password : '';
-      const passwordCheck = validatePassword(pwd);
-      if (!passwordCheck.ok) {
-        return res.status(400).json({ error: passwordCheck.error });
+    const pwd = typeof password === 'string' ? password : '';
+    const passwordCheck = validatePassword(pwd);
+    if (!passwordCheck.ok) {
+      return res.status(400).json({ error: passwordCheck.error });
+    }
+
+    let normalizedEmail = '';
+    let inviteEntry = null;
+
+    if (!inviteToken) {
+      if (!process.env.SIGNUP_INVITE_CODE) {
+        return res.status(503).json({ error: 'Team invite signup is currently unavailable.' });
+      }
+      if (!verifyInviteCode(inviteCode)) {
+        return res.status(403).json({ error: 'This invite code is invalid.' });
+      }
+
+      normalizedEmail = normalizeEmail(email);
+      if (!normalizedEmail) {
+        return res.status(400).json({ error: 'Enter a valid email address.' });
       }
     }
 
@@ -41,23 +81,16 @@ export default async function handler(req, res) {
 
     const supabase = getSupabaseAdmin();
 
-    if (action === 'validateInvite') {
-      const entry = await getWaitlistEntryByToken(supabase, inviteToken);
-      if (!entry || entry.status !== 'approved') {
+    if (inviteToken) {
+      inviteEntry = await getWaitlistEntryByToken(supabase, inviteToken);
+      normalizedEmail = normalizeEmail(inviteEntry?.email);
+
+      if (!inviteEntry || inviteEntry.status !== 'approved' || !normalizedEmail) {
         return res.status(403).json({ error: 'This approval link is invalid, expired, or has already been used.' });
       }
-      return res.status(200).json({ ok: true, email: entry.email });
     }
 
-    const pwd = typeof password === 'string' ? password : '';
     const normalizedUsername = typeof username === 'string' ? username.trim() : '';
-    const inviteEntry = await getWaitlistEntryByToken(supabase, inviteToken);
-    const normalizedEmail = normalizeEmail(inviteEntry?.email);
-
-    if (!inviteEntry || inviteEntry.status !== 'approved' || !normalizedEmail) {
-      return res.status(403).json({ error: 'This approval link is invalid, expired, or has already been used.' });
-    }
-
     if (!/^[a-zA-Z0-9_.-]{3,20}$/.test(normalizedUsername)) {
       return res.status(400).json({ error: 'Choose a username with 3-20 letters, numbers, dots, underscores, or hyphens.' });
     }
@@ -86,14 +119,16 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'Could not create account. Check your details and try again.' });
     }
 
-    await supabase
-      .from('waitlist')
-      .update({
-        auth_user_id: data.user.id,
-        invite_token: null,
-        updated_at: new Date().toISOString(),
-      })
-      .eq('id', inviteEntry.id);
+    if (inviteEntry) {
+      await supabase
+        .from('waitlist')
+        .update({
+          auth_user_id: data.user.id,
+          invite_token: null,
+          updated_at: new Date().toISOString(),
+        })
+        .eq('id', inviteEntry.id);
+    }
 
     return res.status(200).json({ ok: true });
   } catch (err) {
