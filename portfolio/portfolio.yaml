@@ -1,0 +1,378 @@
+schema_version: 1
+as_of: 2026-08-02
+status_values: [ACTIVE, MAINTENANCE, BLOCKED, BACKLOG, PAUSED, ARCHIVED]
+limits:
+  active_products_max: 3
+  active_research_max: 5
+  active_products_now: 2
+  active_research_now: 0
+source_of_truth:
+  host: vertex-studyAI/vertexED.ai/portfolio
+  temporary: true
+  reason: no dedicated control repository is available through the current tools
+  migration_gate: create and connect a dedicated portfolio-control repository
+projects:
+  - name: VertexED.ai
+    category: product
+    status: ACTIVE
+    owner: build-the-future-11
+    repository: vertex-studyAI/vertexED.ai
+    local_path: unknown
+    deployment: https://www.vertexed.app
+    users: unknown
+    last_verified_activity: 2026-08-02
+    current_milestone: authenticated production certification
+    completion_condition: issue 13 passes admin approval, account creation, login or OAuth, core AI features, planner persistence, logout authorization, environment verification, and Supabase checks
+    next_action: execute issue 13 when disposable accounts and read-only production access are supplied
+    blockers: [no disposable production admin, no disposable approved beta account, no connected Supabase or Vercel dashboard]
+    tests: 96 application/API tests, 20 deterministic evaluations, and 52 live public browser checks passed
+    documentation: [docs/RELEASE_STATUS_2026-08-02.md, docs/ENVIRONMENT_MATRIX.md, docs/PRODUCTION_SQL_CHECKS.sql]
+    evidence: [PR 9, PR 12, commit 1f88db2adb70a52acf06457b577848ad9100fe39, issue 13]
+    priority_score:
+      value: 3000
+      factors: {impact: 10, urgency: 10, probability_of_success: 9, portfolio_value: 10, effort: 3}
+    review_date: 2026-08-03
+
+  - name: FinanceMeta
+    category: product_and_education
+    status: ACTIVE
+    owner: build-the-future-11
+    repository: build-the-future-11/finance4all-global-reach
+    local_path: unknown
+    deployment: unknown
+    users: user-reported approximately 10000 total and 500 active; not independently verified
+    last_verified_activity: 2026-07-10
+    current_milestone: audit and stabilize visitor to saved-progress journey
+    completion_condition: a new user registers, selects one program, completes one activity, saves progress, signs out, returns, and receives a correct next action
+    next_action: baseline main, repair the release gate and role authorization, then verify deployment and the golden journey
+    blockers: [production Supabase project not connected, production deployment URL and test account not yet verified]
+    tests: current main has one placeholder truth test and no GitHub Actions workflow
+    documentation: repository deployment docs plus File Library executive audits
+    evidence: [repository build-the-future-11/finance4all-global-reach, latest commit fbdd503223edc5b1780509720391083f485a4a85, src/test/example.test.ts]
+    priority_score:
+      value: 1440
+      factors: {impact: 9, urgency: 8, probability_of_success: 8, portfolio_value: 10, effort: 4}
+    review_date: 2026-08-03
+
+  - name: The Bu1LD
+    category: research_community_and_incubator
+    status: BLOCKED
+    owner: user-reported Ryan Gomez and The Bu1LD team
+    repository: unknown
+    local_path: unknown
+    deployment: unknown
+    users: user-reported 300+ active members and 100+ projects or startups; not independently verified
+    last_verified_activity: unknown
+    current_milestone: applicant to reviewed-output audit
+    completion_condition: one applicant is reviewed, accepted, assigned a project and milestone, submits work, receives review, and completes or publishes a tracked output
+    next_action: expose the authoritative repository, member records, project registry, and evidence ledger
+    blockers: [authoritative repository and operating records unavailable]
+    tests: unknown
+    documentation: File Library context only
+    evidence: [file-library:00_ULTIMATE_PORTFOLIO_CONTEXT.md]
+    priority_score: {value: unknown, reason: repository and operating evidence unavailable}
+    review_date: 2026-08-03
+
+  - name: Project 2424 / Typhon
+    category: research_portfolio
+    status: BLOCKED
+    owner: user-reported Ryan Gomez and research leads
+    repository: unknown
+    local_path: unknown
+    deployment: not_applicable
+    users: not_applicable
+    last_verified_activity: user-reported July 2026
+    current_milestone: verify registry and select exactly five flagships
+    completion_condition: five evidence-backed research contracts include owner, deadline, baseline, dataset, metrics, ablations, failure criteria, and reproduction command
+    next_action: connect the canonical workbook, registry, repositories, experiment artifacts, and papers
+    blockers: [canonical implementation workspace unavailable]
+    tests: historical pass counts not independently reverified
+    documentation: [file-library:Project_2424_Mega_Research_Foundry.xlsx, file-library:00_ULTIMATE_PORTFOLIO_CONTEXT.md]
+    evidence: [file-library:ACCEPTANCE_GATE_REPORT.json]
+    priority_score: {value: unknown, reason: candidate code and experiment evidence unavailable}
+    review_date: 2026-08-04
+
+  - name: Hercules
+    category: research_system
+    status: BLOCKED
+    owner: unknown
+    repository: unknown
+    local_path: unknown
+    deployment: not_applicable
+    users: not_applicable
+    last_verified_activity: unknown
+    current_milestone: one matched-compute bounded benchmark
+    completion_condition: baseline and Hercules variant reproduce with raw metrics, memory, latency, and failure analysis
+    next_action: connect canonical source and benchmark artifacts
+    blockers: [repository and results unavailable]
+    tests: unknown
+    documentation: File Library context only
+    evidence: [file-library:Ryan_72H_Execution_War_Room_2026-07-30.xlsx]
+    priority_score: {value: unknown, reason: maturity and compute cost unverified}
+    review_date: 2026-08-09
+
+  - name: Olympus
+    category: research_system
+    status: BLOCKED
+    owner: unknown
+    repository: unknown
+    local_path: unknown
+    deployment: not_applicable
+    users: not_applicable
+    last_verified_activity: unknown
+    current_milestone: compact reference implementation
+    completion_condition: a small model trains, saves, loads, and infers reproducibly with a defined benchmark
+    next_action: connect source, owner, and evidence
+    blockers: [source, weights, results, and owner unavailable]
+    tests: unknown
+    documentation: File Library specifications only
+    evidence: [file-library:00_ULTIMATE_PORTFOLIO_CONTEXT.md]
+    priority_score: {value: unknown, reason: maturity and effort unverified}
+    review_date: 2026-08-09
+
+  - name: Inkling
+    category: infrastructure
+    status: BLOCKED
+    owner: unknown
+    repository: unknown
+    local_path: unknown
+    deployment: user-reported GCP VM; not independently verified here
+    users: unknown
+    last_verified_activity: unknown
+    current_milestone: verify control-plane health, security, persistence, and recovery
+    completion_condition: source, VM identity, services, auth, health, logs, restart, and recovery checks pass
+    next_action: connect repository and cloud-state evidence
+    blockers: [Google Cloud project and source unavailable]
+    tests: unknown
+    documentation: File Library terminal records
+    evidence: [file-library:Pasted text.txt]
+    priority_score: {value: unknown, reason: current infrastructure state unverified}
+    review_date: 2026-08-09
+
+  - name: FCC
+    category: infrastructure
+    status: BLOCKED
+    owner: unknown
+    repository: unknown
+    local_path: unknown
+    deployment: user-reported local service; not independently verified
+    users: unknown
+    last_verified_activity: unknown
+    current_milestone: verify routing, authentication, health, logs, and restart behavior
+    completion_condition: canonical source, provider matrix, health checks, tests, failure handling, and runbook pass
+    next_action: connect source and running-service evidence
+    blockers: [source and service unavailable]
+    tests: unknown
+    documentation: File Library context only
+    evidence: [file-library:00_ULTIMATE_PORTFOLIO_CONTEXT.md]
+    priority_score: {value: unknown, reason: current service state unverified}
+    review_date: 2026-08-09
+
+  - name: LAM-JEPA
+    category: research
+    status: PAUSED
+    owner: unknown
+    repository: vertex-studyAI/LAM-JEPA
+    local_path: unknown
+    deployment: none found
+    users: unknown
+    last_verified_activity: 2026-05-16
+    current_milestone: none while paused
+    completion_condition: resume only with an owner and seven-day gate for install, seeded benchmark, automated tests, CI, and raw results
+    next_action: assign an owner and compute window or leave paused
+    blockers: [one visible commit, no tests or CI found, no owner, no reproduced benchmark]
+    tests: none discovered
+    documentation: [README.md, pyproject.toml]
+    evidence: [commit 55cf72c7d7d15362765d3d6adac16f232bee274a]
+    priority_score: {value: unknown, reason: no owner or reproduced baseline}
+    review_date: 2026-08-09
+
+  - name: Text-to-Video
+    category: product_research
+    status: PAUSED
+    owner: unknown
+    repository: vertex-studyAI/Text-To-Video
+    local_path: unknown
+    deployment: none found
+    users: unknown
+    last_verified_activity: 2026-05-17
+    current_milestone: none while paused
+    completion_condition: resume only with an owner and a tested end-to-end demo completed within seven days
+    next_action: preserve and leave paused until it directly supports a stable VertexED journey
+    blockers: [one visible commit, no tests found, no deployment, no owner]
+    tests: root command declared; implementation not discovered
+    documentation: [README.md, package.json, pnpm-workspace.yaml]
+    evidence: [commit fecd65f721d6d9e92b7fa937c83dcaba657c69c7]
+    priority_score: {value: unknown, reason: no tested demo or owner}
+    review_date: 2026-08-09
+
+  - name: APEN
+    category: research
+    status: BLOCKED
+    owner: unknown
+    repository: unknown
+    local_path: unknown
+    deployment: not_applicable
+    users: not_applicable
+    last_verified_activity: unknown
+    current_milestone: verify causal-memory architecture and evidence
+    completion_condition: P2424-0205 has code, data contract, baseline, intervention benchmark, ablation, raw results, and reproduction command
+    next_action: connect source and artifacts
+    blockers: [canonical repository unavailable]
+    tests: unknown
+    documentation: identified as P2424-0205 in File Library
+    evidence: [file-library:00_ULTIMATE_PORTFOLIO_CONTEXT.md]
+    priority_score: {value: unknown, reason: code unavailable}
+    review_date: 2026-08-09
+
+  - name: PEN
+    category: research
+    status: BLOCKED
+    owner: unknown
+    repository: unknown
+    local_path: unknown
+    deployment: not_applicable
+    users: not_applicable
+    last_verified_activity: unknown
+    current_milestone: determine distinct identity versus APEN
+    completion_condition: canonical identity, unique hypothesis, source, and evidence are verified or scope is consolidated
+    next_action: connect and compare canonical sources
+    blockers: [source unavailable]
+    tests: unknown
+    documentation: consolidation recommendation only
+    evidence: [file-library:00_ULTIMATE_PORTFOLIO_CONTEXT.md]
+    priority_score: {value: unknown, reason: novelty and implementation unknown}
+    review_date: 2026-08-09
+
+  - name: RIPII
+    category: research
+    status: BLOCKED
+    owner: unknown
+    repository: unknown
+    local_path: unknown
+    deployment: not_applicable
+    users: not_applicable
+    last_verified_activity: unknown
+    current_milestone: verify bounded falsifiable experiment
+    completion_condition: P2424-0405 has code, baseline, controlled task, metric, ablation, failure criterion, and reproduction command
+    next_action: connect source and artifacts
+    blockers: [canonical repository unavailable]
+    tests: unknown
+    documentation: identified as P2424-0405 in File Library
+    evidence: [file-library:00_ULTIMATE_PORTFOLIO_CONTEXT.md]
+    priority_score: {value: unknown, reason: code unavailable}
+    review_date: 2026-08-09
+
+  - name: PI-JEPA
+    category: research
+    status: BLOCKED
+    owner: unknown
+    repository: unknown
+    local_path: unknown
+    deployment: not_applicable
+    users: not_applicable
+    last_verified_activity: unknown
+    current_milestone: leakage-safe scientific-ML baseline matrix
+    completion_condition: frozen data, strong baselines, OOD evaluation, physics metrics, compute comparison, seeds, ablation, and reproduction command pass
+    next_action: connect source, datasets, configs, and raw artifacts
+    blockers: [repository and datasets unavailable]
+    tests: unknown
+    documentation: File Library planning only
+    evidence: [file-library:00_ULTIMATE_PORTFOLIO_CONTEXT.md]
+    priority_score: {value: unknown, reason: code and data readiness unverified}
+    review_date: 2026-08-09
+
+  - name: Eigen-JEPA
+    category: research
+    status: BLOCKED
+    owner: unknown
+    repository: unknown
+    local_path: unknown
+    deployment: not_applicable
+    users: not_applicable
+    last_verified_activity: unknown
+    current_milestone: leakage-safe walk-forward finance benchmark
+    completion_condition: chronological splits, costs, turnover, multiple markets, stress regimes, baselines, ablations, and reproduction command pass
+    next_action: connect source, data contract, configs, and results
+    blockers: [repository and market-data contract unavailable]
+    tests: unknown
+    documentation: File Library planning only
+    evidence: [file-library:00_ULTIMATE_PORTFOLIO_CONTEXT.md]
+    priority_score: {value: unknown, reason: code and data readiness unverified}
+    review_date: 2026-08-09
+
+  - name: Eigen-Finance
+    category: research
+    status: BLOCKED
+    owner: unknown
+    repository: unknown
+    local_path: unknown
+    deployment: not_applicable
+    users: not_applicable
+    last_verified_activity: unknown
+    current_milestone: determine distinct identity versus Eigen-JEPA
+    completion_condition: canonical identity, unique contribution, source, and evidence are verified or scope is consolidated
+    next_action: connect and compare canonical sources
+    blockers: [source unavailable]
+    tests: unknown
+    documentation: consolidation recommendation only
+    evidence: [file-library:00_ULTIMATE_PORTFOLIO_CONTEXT.md]
+    priority_score: {value: unknown, reason: novelty and implementation unknown}
+    review_date: 2026-08-09
+
+  - name: NeuroCAD
+    category: research_product
+    status: BLOCKED
+    owner: unknown
+    repository: unknown
+    local_path: unknown
+    deployment: unknown
+    users: unknown
+    last_verified_activity: unknown
+    current_milestone: editable CAD vertical slices
+    completion_condition: P2424-1213 has installable source, editable tasks, baselines, validity and editability metrics, tests, demo, and reproduction command
+    next_action: connect source, datasets, and demo evidence
+    blockers: [canonical repository unavailable]
+    tests: unknown
+    documentation: identified as P2424-1213 in File Library
+    evidence: [file-library:00_ULTIMATE_PORTFOLIO_CONTEXT.md]
+    priority_score: {value: unknown, reason: implementation maturity unverified}
+    review_date: 2026-08-09
+
+  - name: Colorworld
+    category: research_product
+    status: BLOCKED
+    owner: unknown
+    repository: unknown
+    local_path: unknown
+    deployment: unknown
+    users: unknown
+    last_verified_activity: unknown
+    current_milestone: verify one measurable end-to-end task
+    completion_condition: source, owner, input contract, baseline, metric, test, demo, and reproduction command are verified
+    next_action: connect canonical source and specification
+    blockers: [source, owner, scope, and evidence unavailable]
+    tests: unknown
+    documentation: File Library context only
+    evidence: [file-library:00_ULTIMATE_PORTFOLIO_CONTEXT.md]
+    priority_score: {value: unknown, reason: scope and maturity unverified}
+    review_date: 2026-08-09
+
+  - name: Speechly
+    category: research_product
+    status: BLOCKED
+    owner: unknown
+    repository: unknown
+    local_path: unknown
+    deployment: unknown
+    users: unknown
+    last_verified_activity: unknown
+    current_milestone: real-data speech benchmark
+    completion_condition: source, licensed data, baselines, primary metric, subgroup or human evaluation, error analysis, demo, and reproduction command pass
+    next_action: connect source, data contract, and experiment evidence
+    blockers: [repository, code, data, and results unavailable]
+    tests: unknown
+    documentation: conference ledger marks readiness conditional no-go without evidence
+    evidence: [file-library:PORTFOLIO_COMMAND_CENTRE.xlsx]
+    priority_score: {value: unknown, reason: data and implementation maturity unverified}
+    review_date: 2026-08-09
