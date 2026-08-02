@@ -19,6 +19,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v5
 
+      - name: Validate portfolio shell scripts
+        run: |
+          set -euo pipefail
+          find portfolio/scripts -type f -name '*.sh' -print0 | xargs -0 -r -n1 bash -n
+
       - name: Setup Node.js
         uses: actions/setup-node@v6
         with:
