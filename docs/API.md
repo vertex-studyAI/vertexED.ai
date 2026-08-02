@@ -22,15 +22,35 @@ Join the signup waitlist.
 - `429` — rate limited
 
 ### `POST /api/signup-invite`
-Create an account with a team invite code or approved waitlist invite link.
+Create an account with a team invite code or an approved waitlist link.
 
-**Body:** `{ "email", "password", "inviteCode?", "waitlistInviteToken?" }`
+**Team invite body:**
+
+```json
+{ "email": "student@school.edu", "password": "...", "username": "student", "inviteCode": "..." }
+```
+
+**Approved waitlist body:**
+
+```json
+{ "password": "...", "username": "student", "waitlistInviteToken": "..." }
+```
+
+**Approval-link validation body:**
+
+```json
+{ "action": "validateInvite", "waitlistInviteToken": "..." }
+```
+
+Invite signup attempts are rate limited before shared-code validation. The configured `SIGNUP_INVITE_CODE` remains server-only.
 
 **Responses:**
-- `200` — account created
-- `403` — waitlist not approved / invalid invite
-- `409` — email exists
+- `200` — account created, or approval link validated
+- `400` — malformed account details or missing approval token
+- `403` — waitlist not approved, approval token invalid, or team invite code invalid
+- `409` — email already exists
 - `429` — rate limited
+- `503` — invite signup or account-creation backend unavailable
 
 ## Authenticated endpoints
 
