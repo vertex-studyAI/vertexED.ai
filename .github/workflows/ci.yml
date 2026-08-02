@@ -26,7 +26,13 @@ jobs:
           cache: npm
 
       - name: Install dependencies
-        run: npm ci
+        run: |
+          if [ -f package-lock.json ]; then
+            npm ci
+          else
+            echo "package-lock.json missing from checkout; generating a temporary lockfile for validation"
+            npm install --ignore-scripts
+          fi
 
       - name: Typecheck
         run: npx tsc --noEmit -p tsconfig.app.json
