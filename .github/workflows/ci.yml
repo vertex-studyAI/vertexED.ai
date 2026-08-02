@@ -33,6 +33,44 @@ jobs:
         env:
           ROLLUP_SKIP_NODEJS_NATIVE: 'true'
 
+  browser-production:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    needs: build-and-test
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Run production browser certification
+        env:
+          PLAYWRIGHT_BASE_URL: https://www.vertexed.app
+          PLAYWRIGHT_API_URL: https://www.vertexed.app
+        run: npm run test:e2e
+
+      - name: Upload browser evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-production-report
+          path: |
+            playwright-report
+            test-results
+          if-no-files-found: ignore
+          retention-days: 14
+
   smoke-production:
     runs-on: ubuntu-latest
     timeout-minutes: 12
