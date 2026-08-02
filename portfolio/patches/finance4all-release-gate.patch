@@ -1,0 +1,213 @@
+diff --git a/package.json b/package.json
+index 00668d6..REPLACE 100644
+--- a/package.json
++++ b/package.json
+@@ -6,10 +6,14 @@
+     "dev": "vite",
+     "build": "vite build",
+     "build:dev": "vite build --mode development",
+     "lint": "eslint .",
++    "typecheck": "tsc --noEmit -p tsconfig.app.json && tsc --noEmit -p tsconfig.node.json",
++    "audit:prod": "npm audit --omit=dev --audit-level=high",
+     "preview": "vite preview",
+     "test": "vitest run",
+-    "test:watch": "vitest"
++    "test:watch": "vitest",
++    "ci": "npm run lint && npm run typecheck && npm run audit:prod && npm test && npm run build"
+   },
+diff --git a/src/test/example.test.ts b/src/test/example.test.ts
+deleted file mode 100644
+index 52e6d2f..0000000
+--- a/src/test/example.test.ts
++++ /dev/null
+@@ -1,7 +0,0 @@
+-import { describe, it, expect } from "vitest";
+-
+-describe("example", () => {
+-  it("should pass", () => {
+-    expect(true).toBe(true);
+-  });
+-});
+diff --git a/.github/workflows/ci.yml b/.github/workflows/ci.yml
+new file mode 100644
+--- /dev/null
++++ b/.github/workflows/ci.yml
+@@ -0,0 +1,34 @@
++name: CI
++
++on:
++  pull_request:
++  push:
++    branches:
++      - main
++
++permissions:
++  contents: read
++
++concurrency:
++  group: finance4all-ci-${{ github.ref }}
++  cancel-in-progress: true
++
++jobs:
++  build-and-test:
++    runs-on: ubuntu-latest
++    timeout-minutes: 20
++
++    steps:
++      - name: Checkout
++        uses: actions/checkout@v6
++
++      - name: Setup Node.js
++        uses: actions/setup-node@v6
++        with:
++          node-version: "22"
++          cache: npm
++
++      - name: Install dependencies
++        run: npm ci
++
++      - name: Run canonical release gate
++        run: npm run ci
+diff --git a/src/test/mappers.test.ts b/src/test/mappers.test.ts
+new file mode 100644
+--- /dev/null
++++ b/src/test/mappers.test.ts
+@@ -0,0 +1,91 @@
++import { describe, expect, it } from "vitest";
++import {
++  mapEssaySubmission,
++  mapEvent,
++  mapProfile,
++} from "@/lib/mappers";
++
++describe("domain mappers", () => {
++  it("maps nullable profile fields to optional domain fields", () => {
++    const result = mapProfile({
++      id: "user-1",
++      display_name: "Amina Shah",
++      email: "amina@example.com",
++      role: "member",
++      bio: null,
++      avatar_url: null,
++      interests: ["financial literacy", "research"],
++      open_to_collaborate: true,
++      chapter_id: null,
++      created_at: "2026-08-01T00:00:00.000Z",
++      updated_at: "2026-08-02T00:00:00.000Z",
++    } as never);
++
++    expect(result).toEqual({
++      id: "user-1",
++      displayName: "Amina Shah",
++      email: "amina@example.com",
++      role: "member",
++      bio: undefined,
++      avatarUrl: undefined,
++      interests: ["financial literacy", "research"],
++      openToCollaborate: true,
++      chapterId: undefined,
++      createdAt: "2026-08-01T00:00:00.000Z",
++      updatedAt: "2026-08-02T00:00:00.000Z",
++    });
++  });
++
++  it("defaults an essay upvote count when an aggregate is absent", () => {
++    const result = mapEssaySubmission({
++      id: "essay-1",
++      author_id: "user-1",
++      title: "Why Financial Literacy Compounds",
++      body: "Draft body",
++      is_editorial_pick: false,
++      submitted_at: "2026-08-02T00:00:00.000Z",
++    } as never);
++
++    expect(result.upvoteCount).toBe(0);
++    expect(result.isEditorialPick).toBe(false);
++  });
++
++  it("normalizes event links and nullable optional fields", () => {
++    const valid = mapEvent({
++      id: "event-1",
++      chapter_id: "chapter-1",
++      title: "Global Finance Workshop",
++      description: "Workshop description",
++      status: "upcoming",
++      starts_at: "2026-09-01T12:00:00.000Z",
++      ends_at: null,
++      registration_url: null,
++      program_links: [
++        { label: "Agenda", url: "https://example.com/agenda" },
++      ],
++    } as never);
++
++    expect(valid.endsAt).toBeUndefined();
++    expect(valid.registrationUrl).toBeUndefined();
++    expect(valid.programLinks).toEqual([
++      { label: "Agenda", url: "https://example.com/agenda" },
++    ]);
++
++    const malformed = mapEvent({
++      id: "event-2",
++      chapter_id: "chapter-1",
++      title: "Malformed Links",
++      description: "Workshop description",
++      status: "upcoming",
++      starts_at: "2026-09-01T12:00:00.000Z",
++      ends_at: null,
++      registration_url: null,
++      program_links: "not-an-array",
++    } as never);
++
++    expect(malformed.programLinks).toEqual([]);
++  });
++});
+diff --git a/docs/RELEASE_GATE.md b/docs/RELEASE_GATE.md
+new file mode 100644
+--- /dev/null
++++ b/docs/RELEASE_GATE.md
+@@ -0,0 +1,48 @@
++# Canonical Release Gate
++
++## Objective
++
++Prevent FinanceMeta from reporting a healthy release when only a placeholder test has passed.
++
++## Required command
++
++```bash
++npm ci
++npm run ci
++```
++
++`npm run ci` must complete all of the following:
++
++1. ESLint across the repository.
++2. TypeScript checking for the application and Node/Vite configuration.
++3. Production dependency audit with no high or critical findings.
++4. Vitest regression tests tied to real domain behavior.
++5. A production Vite build.
++
++## Current regression coverage
++
++The mapper suite verifies:
++
++- nullable database profile fields become optional domain fields;
++- missing essay aggregate counts default to zero;
++- event links are preserved only when represented as arrays;
++- nullable event timestamps and registration URLs remain optional.
++
++## Completion conditions
++
++A release is not ready until:
++
++- GitHub Actions passes on the exact commit;
++- the Vercel preview reaches Ready;
++- the deployed landing page and portal routes load;
++- Supabase authentication is exercised with a disposable account;
++- protected portal routes reject logged-out sessions;
++- core portal data reads and one representative write are verified;
++- no secrets are copied into logs, issues, or screenshots.
++
++## Rollback
++
++Promote the previous healthy Vercel deployment if the new production deployment fails, then investigate the exact release commit before redeploying.
