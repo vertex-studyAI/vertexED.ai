@@ -28,6 +28,20 @@ function withoutSignupBackend(fn) {
     });
 }
 
+function withSignupInviteCode(value, fn) {
+  const previous = process.env.SIGNUP_INVITE_CODE;
+
+  if (value === undefined) delete process.env.SIGNUP_INVITE_CODE;
+  else process.env.SIGNUP_INVITE_CODE = value;
+
+  return Promise.resolve()
+    .then(fn)
+    .finally(() => {
+      if (previous === undefined) delete process.env.SIGNUP_INVITE_CODE;
+      else process.env.SIGNUP_INVITE_CODE = previous;
+    });
+}
+
 test('signup-invite rejects weak passwords before backend initialization', async () => {
   await withoutSignupBackend(async () => {
     const { req, res, getStatus, getJson } = signupMocks({
@@ -81,5 +95,56 @@ test('signup-invite validation path returns 503 when backend is unavailable', as
     await signupInviteHandler(req, res);
     assert.equal(getStatus(), 503);
     assert.match(getJson().error, /temporarily unavailable/i);
+  });
+});
+
+test('signup-invite returns 503 when team invite signup is disabled', async () => {
+  await withoutSignupBackend(async () => {
+    await withSignupInviteCode(undefined, async () => {
+      const { req, res, getStatus, getJson } = signupMocks({
+        email: 'student@example.com',
+        password: 'StrongPass1',
+        username: 'student',
+        inviteCode: 'anything',
+      });
+
+      await signupInviteHandler(req, res);
+      assert.equal(getStatus(), 503);
+      assert.match(getJson().error, /invite signup.*unavailable/i);
+    });
+  });
+});
+
+test('signup-invite rejects an invalid team invite code before backend access', async () => {
+  await withoutSignupBackend(async () => {
+    await withSignupInviteCode('valid-team-code', async () => {
+      const { req, res, getStatus, getJson } = signupMocks({
+        email: 'student@example.com',
+        password: 'StrongPass1',
+        username: 'student',
+        inviteCode: 'wrong-team-code',
+      });
+
+      await signupInviteHandler(req, res);
+      assert.equal(getStatus(), 403);
+      assert.match(getJson().error, /invite code.*invalid/i);
+    });
+  });
+});
+
+test('signup-invite accepts a valid team invite code before backend initialization', async () => {
+  await withoutSignupBackend(async () => {
+    await withSignupInviteCode('valid-team-code', async () => {
+      const { req, res, getStatus, getJson } = signupMocks({
+        email: 'student@example.com',
+        password: 'StrongPass1',
+        username: 'student',
+        inviteCode: 'valid-team-code',
+      });
+
+      await signupInviteHandler(req, res);
+      assert.equal(getStatus(), 503);
+      assert.match(getJson().error, /temporarily unavailable/i);
+    });
   });
 });
