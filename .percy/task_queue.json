@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "as_of": "2026-08-02T15:42:00+05:30",
+  "tasks": [
+    {
+      "rank": 1,
+      "project": "Portfolio access",
+      "action": "Connect GitHub App write access for FinanceMeta and The Bu1LD and expose their Supabase projects",
+      "score": 5400,
+      "reason": "Unblocks two active production products and multiple certification tracks"
+    },
+    {
+      "rank": 2,
+      "project": "VertexED.ai",
+      "action": "Address the two current Supabase security advisor warnings through approved dashboard operations",
+      "score": 3600,
+      "reason": "Direct security value; requires approval/dashboard action rather than blind database changes"
+    },
+    {
+      "rank": 3,
+      "project": "VertexED.ai",
+      "action": "Complete authenticated production certification issue #13",
+      "score": 3000,
+      "reason": "Highest-value remaining release evidence; blocked on secure identities"
+    },
+    {
+      "rank": 4,
+      "project": "FinanceMeta",
+      "action": "Apply prepared production hardening and verify authorization regression tests",
+      "score": 2880,
+      "reason": "Known high-severity role escalation risk; blocked on write and Supabase access"
+    },
+    {
+      "rank": 5,
+      "project": "Project 2424",
+      "action": "Perform preservation-first Inkling restore and rerun baseline",
+      "score": 2100,
+      "reason": "Unblocks the research portfolio; requires the user's Mac, PRO-BLADE, and gcloud"
+    }
+  ]
+}
