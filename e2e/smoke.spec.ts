@@ -17,7 +17,7 @@ test.describe('public launch journey', () => {
     await expect(page.getByRole('link', { name: /join|waitlist|start/i }).first()).toBeVisible();
 
     await page.goto('/login');
-    await expect(page.getByRole('heading', { name: /log in/i })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Log in', exact: true })).toBeVisible();
     await expect(page.getByLabel('Email')).toBeVisible();
     await expect(page.getByLabel('Password')).toBeVisible();
 
@@ -58,8 +58,7 @@ test.describe('public launch journey', () => {
     await page.goto('/signup');
     await page.keyboard.press('Tab');
     await expect.poll(async () => page.evaluate(() => document.activeElement?.tagName || '')).not.toBe('BODY');
-    const focused = page.locator(':focus');
-    await expect(focused).toBeVisible();
+    await expect(page.locator(':focus')).toBeVisible();
   });
 
   test('unknown client route renders a recoverable page', async ({ page }) => {
@@ -74,7 +73,8 @@ test.describe('production API contract', () => {
     const res = await request.get(`${apiBase}/api/health`);
     expect(res.status()).toBe(200);
     expect(res.headers()['x-vertex-api']).toBe('1');
-    await expect(res.json()).resolves.toMatchObject({ ok: true });
+    const body = await res.json();
+    expect(body).toMatchObject({ ok: true });
   });
 
   test('unknown API route returns 404', async ({ request }) => {
@@ -83,11 +83,17 @@ test.describe('production API contract', () => {
   });
 
   test('protected APIs reject logged-out requests', async ({ request }) => {
-    for (const path of ['/api/ask', '/api/user-content', '/api/admin-status']) {
-      const res = path === '/api/user-content'
-        ? await request.get(`${apiBase}${path}`)
-        : await request.post(`${apiBase}${path}`, { data: {} });
-      expect(res.status(), path).toBe(401);
+    const protectedRequests = [
+      { path: '/api/ask', method: 'POST' as const },
+      { path: '/api/user-content', method: 'GET' as const },
+      { path: '/api/admin-status', method: 'GET' as const },
+    ];
+
+    for (const endpoint of protectedRequests) {
+      const res = endpoint.method === 'GET'
+        ? await request.get(`${apiBase}${endpoint.path}`)
+        : await request.post(`${apiBase}${endpoint.path}`, { data: {} });
+      expect(res.status(), endpoint.path).toBe(401);
     }
   });
 
