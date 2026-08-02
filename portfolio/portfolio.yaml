@@ -4,7 +4,7 @@ status_values: [ACTIVE, MAINTENANCE, BLOCKED, BACKLOG, PAUSED, ARCHIVED]
 limits:
   active_products_max: 3
   active_research_max: 5
-  active_products_now: 2
+  active_products_now: 3
   active_research_now: 0
 source_of_truth:
   host: vertex-studyAI/vertexED.ai/portfolio
@@ -44,33 +44,35 @@ projects:
     last_verified_activity: 2026-07-10
     current_milestone: audit and stabilize visitor to saved-progress journey
     completion_condition: a new user registers, selects one program, completes one activity, saves progress, signs out, returns, and receives a correct next action
-    next_action: baseline main, repair the release gate and role authorization, then verify deployment and the golden journey
-    blockers: [production Supabase project not connected, production deployment URL and test account not yet verified]
+    next_action: grant the connected GitHub App write access, apply the prepared production-hardening patch, connect production Supabase, then verify the golden journey
+    blockers: [GitHub branch creation returns integration-level 403, production Supabase project not connected, production deployment URL and test account not yet verified]
     tests: current main has one placeholder truth test and no GitHub Actions workflow
     documentation: repository deployment docs plus File Library executive audits
-    evidence: [repository build-the-future-11/finance4all-global-reach, latest commit fbdd503223edc5b1780509720391083f485a4a85, src/test/example.test.ts]
+    evidence: [repository build-the-future-11/finance4all-global-reach, latest commit fbdd503223edc5b1780509720391083f485a4a85, src/test/example.test.ts, artifact financemeta_production_hardening_v2.sh]
     priority_score:
       value: 1440
       factors: {impact: 9, urgency: 8, probability_of_success: 8, portfolio_value: 10, effort: 4}
     review_date: 2026-08-03
 
   - name: The Bu1LD
-    category: research_community_and_incubator
-    status: BLOCKED
-    owner: user-reported Ryan Gomez and The Bu1LD team
-    repository: unknown
+    category: product_research_community_and_incubator
+    status: ACTIVE
+    owner: ryangomez010 and The Bu1LD team
+    repository: ryangomez010/bu1ld-landing
     local_path: unknown
-    deployment: unknown
+    deployment: https://thebu1ld.com
     users: user-reported 300+ active members and 100+ projects or startups; not independently verified
-    last_verified_activity: unknown
-    current_milestone: applicant to reviewed-output audit
-    completion_condition: one applicant is reviewed, accepted, assigned a project and milestone, submits work, receives review, and completes or publishes a tracked output
-    next_action: expose the authoritative repository, member records, project registry, and evidence ledger
-    blockers: [authoritative repository and operating records unavailable]
-    tests: unknown
-    documentation: File Library context only
-    evidence: [file-library:00_ULTIMATE_PORTFOLIO_CONTEXT.md]
-    priority_score: {value: unknown, reason: repository and operating evidence unavailable}
+    last_verified_activity: 2026-08-02
+    current_milestone: production environment and role-journey certification
+    completion_condition: issue 16 passes the strict production gate, migrations through phase33, live schema and RLS checks, seven separated role journeys, email and digest checks, account export and deletion, and Cloudflare health verification
+    next_action: grant the connected GitHub App write access, connect the production Supabase and Cloudflare projects, then execute issue 16
+    blockers: [GitHub branch creation returns integration-level 403, production Supabase project is not connected, Cloudflare project is not connected, disposable role accounts and production-only secrets are unavailable]
+    tests: repository report records 95 local tests plus TypeScript, ESLint, and production client and SSR builds passing; not independently rerun in this environment
+    documentation: [README.md, DEPLOYMENT.md, FINAL_COMPLETION_REPORT.md, REMAINING_EXTERNAL_ACTIONS.md]
+    evidence: [repository ryangomez010/bu1ld-landing, latest commit daa80c1124b2a6d7d09b7669e04d29e50cffcbbe, https://thebu1ld.com, issue 16]
+    priority_score:
+      value: 1280
+      factors: {impact: 8, urgency: 8, probability_of_success: 8, portfolio_value: 10, effort: 4}
     review_date: 2026-08-03
 
   - name: Project 2424 / Typhon
