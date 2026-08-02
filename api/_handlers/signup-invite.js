@@ -4,6 +4,10 @@ import { checkDbRateLimit } from '../_lib/dbRateLimit.js';
 import { getWaitlistEntryByToken } from '../_lib/waitlistAccess.js';
 import { getClientIp, normalizeEmail, validatePassword } from '../_lib/security.js';
 
+function hasSignupBackendConfig() {
+  return Boolean(process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY);
+}
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
@@ -20,6 +24,21 @@ export default async function handler(req, res) {
     }
 
     const inviteToken = typeof waitlistInviteToken === 'string' ? waitlistInviteToken.trim() : '';
+
+    // Reject malformed account data before touching external services. This keeps
+    // validation deterministic and avoids converting user errors into backend 500s.
+    if (action !== 'validateInvite') {
+      const pwd = typeof password === 'string' ? password : '';
+      const passwordCheck = validatePassword(pwd);
+      if (!passwordCheck.ok) {
+        return res.status(400).json({ error: passwordCheck.error });
+      }
+    }
+
+    if (!hasSignupBackendConfig()) {
+      return res.status(503).json({ error: 'Account creation is temporarily unavailable. Please try again later.' });
+    }
+
     const supabase = getSupabaseAdmin();
 
     if (action === 'validateInvite') {
@@ -41,11 +60,6 @@ export default async function handler(req, res) {
 
     if (!/^[a-zA-Z0-9_.-]{3,20}$/.test(normalizedUsername)) {
       return res.status(400).json({ error: 'Choose a username with 3-20 letters, numbers, dots, underscores, or hyphens.' });
-    }
-
-    const passwordCheck = validatePassword(pwd);
-    if (!passwordCheck.ok) {
-      return res.status(400).json({ error: passwordCheck.error });
     }
 
     const ip = getClientIp(req);
