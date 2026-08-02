@@ -13,7 +13,7 @@ concurrency:
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
 
     steps:
       - name: Checkout
@@ -28,29 +28,14 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Typecheck
-        run: npx tsc --noEmit -p tsconfig.app.json
-
-      - name: Lint API, frontend, and tests
-        run: npm run lint:ci
-
-      - name: Validate Vercel function layout
-        run: node scripts/validate-vercel-functions.mjs
-
-      - name: Audit production dependencies
-        run: npm run audit:prod
-
-      - name: Run API unit tests
-        run: npm test
-
-      - name: Build (CI)
-        run: npm run build:ci
+      - name: Run canonical release gate
+        run: npm run ci
         env:
           ROLLUP_SKIP_NODEJS_NATIVE: 'true'
 
   smoke-production:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 12
     needs: build-and-test
     if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
 
@@ -58,7 +43,30 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Smoke test production deployment
-        run: node scripts/smoke-deploy.mjs
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Wait for production deployment and run smoke tests
         env:
           SMOKE_BASE_URL: https://www.vertexed.app
+        run: |
+          set -euo pipefail
+          max_attempts=8
+          retry_delay_seconds=30
+
+          for attempt in $(seq 1 "$max_attempts"); do
+            echo "[smoke] Attempt ${attempt}/${max_attempts}"
+            if npm run test:smoke; then
+              exit 0
+            fi
+
+            if [ "$attempt" -lt "$max_attempts" ]; then
+              echo "[smoke] Deployment may still be propagating; retrying in ${retry_delay_seconds}s"
+              sleep "$retry_delay_seconds"
+            fi
+          done
+
+          echo "[smoke] Production smoke tests failed after ${max_attempts} attempts"
+          exit 1

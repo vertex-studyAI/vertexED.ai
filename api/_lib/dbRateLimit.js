@@ -62,8 +62,8 @@ export async function checkDbRateLimit(scope, key, maxAttempts, windowMs) {
     .gte('attempted_at', since);
 
   if (error) {
-    console.error('dbRateLimit check failed:', error);
-    return { allowed: true };
+    console.error('dbRateLimit check failed; using in-memory fallback:', error);
+    return checkInMemoryFallback(scope, key, maxAttempts, windowMs);
   }
 
   if ((count ?? 0) >= maxAttempts) {
@@ -75,8 +75,8 @@ export async function checkDbRateLimit(scope, key, maxAttempts, windowMs) {
     .insert({ ip_hash: ipHash });
 
   if (insertError) {
-    console.error('dbRateLimit insert failed:', insertError);
-    return { allowed: true };
+    console.error('dbRateLimit insert failed; using in-memory fallback:', insertError);
+    return checkInMemoryFallback(scope, key, maxAttempts, windowMs);
   }
 
   return { allowed: true };

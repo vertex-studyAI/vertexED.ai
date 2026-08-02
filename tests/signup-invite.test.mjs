@@ -12,131 +12,139 @@ function signupMocks(body, ip = `10.${Math.floor(Math.random() * 200)}.${Math.fl
   return mocks;
 }
 
-test('signup-invite rejects weak passwords before invite verification', async () => {
-  const previous = process.env.SIGNUP_INVITE_CODE;
+function withoutSignupBackend(fn) {
   const previousUrl = process.env.SUPABASE_URL;
   const previousKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
   delete process.env.SUPABASE_URL;
   delete process.env.SUPABASE_SERVICE_ROLE_KEY;
-  process.env.SIGNUP_INVITE_CODE = 'test-invite';
-  try {
+
+  return Promise.resolve()
+    .then(fn)
+    .finally(() => {
+      if (previousUrl) process.env.SUPABASE_URL = previousUrl;
+      else delete process.env.SUPABASE_URL;
+      if (previousKey) process.env.SUPABASE_SERVICE_ROLE_KEY = previousKey;
+      else delete process.env.SUPABASE_SERVICE_ROLE_KEY;
+    });
+}
+
+function withSignupInviteCode(value, fn) {
+  const previous = process.env.SIGNUP_INVITE_CODE;
+
+  if (value === undefined) delete process.env.SIGNUP_INVITE_CODE;
+  else process.env.SIGNUP_INVITE_CODE = value;
+
+  return Promise.resolve()
+    .then(fn)
+    .finally(() => {
+      if (previous === undefined) delete process.env.SIGNUP_INVITE_CODE;
+      else process.env.SIGNUP_INVITE_CODE = previous;
+    });
+}
+
+test('signup-invite rejects weak passwords before backend initialization', async () => {
+  await withoutSignupBackend(async () => {
     const { req, res, getStatus, getJson } = signupMocks({
-      email: 'user@example.com',
       password: 'weak',
-      inviteCode: 'test-invite',
+      username: 'student',
+      waitlistInviteToken: 'token-from-email-link',
     });
 
     await signupInviteHandler(req, res);
     assert.equal(getStatus(), 400);
     assert.match(getJson().error, /password/i);
-  } finally {
-    if (previous) process.env.SIGNUP_INVITE_CODE = previous;
-    else delete process.env.SIGNUP_INVITE_CODE;
-    if (previousUrl) process.env.SUPABASE_URL = previousUrl;
-    if (previousKey) process.env.SUPABASE_SERVICE_ROLE_KEY = previousKey;
-  }
+  });
 });
 
-test('signup-invite rejects invalid invite codes for unknown waitlist emails', async () => {
-  const previousCode = process.env.SIGNUP_INVITE_CODE;
-  const previousUrl = process.env.SUPABASE_URL;
-  const previousKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  process.env.SIGNUP_INVITE_CODE = 'test-invite';
-  delete process.env.SUPABASE_URL;
-  delete process.env.SUPABASE_SERVICE_ROLE_KEY;
-
-  try {
+test('signup-invite returns 503 when account-creation backend is unavailable', async () => {
+  await withoutSignupBackend(async () => {
     const { req, res, getStatus, getJson } = signupMocks({
-      email: 'user@example.com',
       password: 'StrongPass1',
-      inviteCode: 'wrong-code',
+      username: 'student',
+      waitlistInviteToken: 'token-from-email-link',
     });
 
     await signupInviteHandler(req, res);
-    assert.ok([403, 500].includes(getStatus()));
-    if (getStatus() === 403) {
-      assert.match(getJson().error, /invite|waitlist/i);
-    }
-  } finally {
-    if (previousCode) process.env.SIGNUP_INVITE_CODE = previousCode;
-    else delete process.env.SIGNUP_INVITE_CODE;
-    if (previousUrl) process.env.SUPABASE_URL = previousUrl;
-    else delete process.env.SUPABASE_URL;
-    if (previousKey) process.env.SUPABASE_SERVICE_ROLE_KEY = previousKey;
-    else delete process.env.SUPABASE_SERVICE_ROLE_KEY;
-  }
+    assert.equal(getStatus(), 503);
+    assert.match(getJson().error, /temporarily unavailable/i);
+  });
 });
 
-test('signup-invite honeypot returns success without creating user', async () => {
-  const previous = process.env.SIGNUP_INVITE_CODE;
-  const previousUrl = process.env.SUPABASE_URL;
-  const previousKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  delete process.env.SUPABASE_URL;
-  delete process.env.SUPABASE_SERVICE_ROLE_KEY;
-  process.env.SIGNUP_INVITE_CODE = 'test-invite';
-  try {
+test('signup-invite honeypot returns success without backend access', async () => {
+  await withoutSignupBackend(async () => {
     const { req, res, getStatus, getJson } = signupMocks({
-      email: 'bot@example.com',
       password: 'StrongPass1',
-      inviteCode: 'test-invite',
+      username: 'student',
+      waitlistInviteToken: 'token-from-email-link',
       website: 'https://spam.test',
     });
 
     await signupInviteHandler(req, res);
     assert.equal(getStatus(), 200);
     assert.equal(getJson().ok, true);
-  } finally {
-    if (previous) process.env.SIGNUP_INVITE_CODE = previous;
-    else delete process.env.SIGNUP_INVITE_CODE;
-    if (previousUrl) process.env.SUPABASE_URL = previousUrl;
-    if (previousKey) process.env.SUPABASE_SERVICE_ROLE_KEY = previousKey;
-  }
+  });
 });
 
-test('signup-invite returns 503 when invite signup is disabled', async () => {
-  const previous = process.env.SIGNUP_INVITE_CODE;
-  const previousUrl = process.env.SUPABASE_URL;
-  const previousKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  delete process.env.SUPABASE_URL;
-  delete process.env.SUPABASE_SERVICE_ROLE_KEY;
-  delete process.env.SIGNUP_INVITE_CODE;
-  try {
-    const { req, res, getStatus } = signupMocks({
-      email: 'user@example.com',
-      password: 'StrongPass1',
-      inviteCode: 'anything',
-    });
-
-    await signupInviteHandler(req, res);
-    assert.equal(getStatus(), 503);
-  } finally {
-    if (previous) process.env.SIGNUP_INVITE_CODE = previous;
-    if (previousUrl) process.env.SUPABASE_URL = previousUrl;
-    if (previousKey) process.env.SUPABASE_SERVICE_ROLE_KEY = previousKey;
-  }
-});
-
-test('signup-invite accepts waitlistInviteToken body field for validation path', async () => {
-  const previousCode = process.env.SIGNUP_INVITE_CODE;
-  const previousUrl = process.env.SUPABASE_URL;
-  const previousKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  process.env.SIGNUP_INVITE_CODE = 'test-invite';
-  delete process.env.SUPABASE_URL;
-  delete process.env.SUPABASE_SERVICE_ROLE_KEY;
-
-  try {
-    const { req, res, getStatus } = signupMocks({
-      email: 'user@example.com',
-      password: 'StrongPass1',
+test('signup-invite validation path returns 503 when backend is unavailable', async () => {
+  await withoutSignupBackend(async () => {
+    const { req, res, getStatus, getJson } = signupMocks({
+      action: 'validateInvite',
       waitlistInviteToken: 'token-from-email-link',
     });
 
     await signupInviteHandler(req, res);
-    assert.ok([403, 500].includes(getStatus()));
-  } finally {
-    if (previousCode) process.env.SIGNUP_INVITE_CODE = previousCode;
-    else delete process.env.SIGNUP_INVITE_CODE;
-    if (previousUrl) process.env.SUPABASE_URL = previousUrl;
-    if (previousKey) process.env.SUPABASE_SERVICE_ROLE_KEY = previousKey;
-  }
+    assert.equal(getStatus(), 503);
+    assert.match(getJson().error, /temporarily unavailable/i);
+  });
+});
+
+test('signup-invite returns 503 when team invite signup is disabled', async () => {
+  await withoutSignupBackend(async () => {
+    await withSignupInviteCode(undefined, async () => {
+      const { req, res, getStatus, getJson } = signupMocks({
+        email: 'student@example.com',
+        password: 'StrongPass1',
+        username: 'student',
+        inviteCode: 'anything',
+      });
+
+      await signupInviteHandler(req, res);
+      assert.equal(getStatus(), 503);
+      assert.match(getJson().error, /invite signup.*unavailable/i);
+    });
+  });
+});
+
+test('signup-invite rejects an invalid team invite code before backend access', async () => {
+  await withoutSignupBackend(async () => {
+    await withSignupInviteCode('valid-team-code', async () => {
+      const { req, res, getStatus, getJson } = signupMocks({
+        email: 'student@example.com',
+        password: 'StrongPass1',
+        username: 'student',
+        inviteCode: 'wrong-team-code',
+      });
+
+      await signupInviteHandler(req, res);
+      assert.equal(getStatus(), 403);
+      assert.match(getJson().error, /invite code.*invalid/i);
+    });
+  });
+});
+
+test('signup-invite accepts a valid team invite code before backend initialization', async () => {
+  await withoutSignupBackend(async () => {
+    await withSignupInviteCode('valid-team-code', async () => {
+      const { req, res, getStatus, getJson } = signupMocks({
+        email: 'student@example.com',
+        password: 'StrongPass1',
+        username: 'student',
+        inviteCode: 'valid-team-code',
+      });
+
+      await signupInviteHandler(req, res);
+      assert.equal(getStatus(), 503);
+      assert.match(getJson().error, /temporarily unavailable/i);
+    });
+  });
 });
