@@ -50,12 +50,27 @@ export default async function handler(req, res) {
       return res.status(200).json({ ok: true, email: entry.email });
     }
 
-    // Reject malformed account data before touching external services. This keeps
-    // validation deterministic and avoids converting user errors into backend 500s.
+    // Reject malformed account data before touching account-creation services.
     const pwd = typeof password === 'string' ? password : '';
     const passwordCheck = validatePassword(pwd);
     if (!passwordCheck.ok) {
       return res.status(400).json({ error: passwordCheck.error });
+    }
+
+    const normalizedUsername = typeof username === 'string' ? username.trim() : '';
+    if (!/^[a-zA-Z0-9_.-]{3,20}$/.test(normalizedUsername)) {
+      return res.status(400).json({ error: 'Choose a username with 3-20 letters, numbers, dots, underscores, or hyphens.' });
+    }
+
+    // Rate-limit before validating a shared invite code so invalid-code attempts
+    // cannot bypass protection by returning early.
+    const ip = getClientIp(req);
+    const rate = await checkDbRateLimit('signup-invite', ip, 20, 60 * 60 * 1000);
+    if (!rate.allowed) {
+      return res.status(429).json({
+        error: 'Too many signup attempts from this network. Wait a few minutes and try again.',
+        retryAfter: rate.retryAfterSec,
+      });
     }
 
     let normalizedEmail = '';
@@ -88,20 +103,6 @@ export default async function handler(req, res) {
       if (!inviteEntry || inviteEntry.status !== 'approved' || !normalizedEmail) {
         return res.status(403).json({ error: 'This approval link is invalid, expired, or has already been used.' });
       }
-    }
-
-    const normalizedUsername = typeof username === 'string' ? username.trim() : '';
-    if (!/^[a-zA-Z0-9_.-]{3,20}$/.test(normalizedUsername)) {
-      return res.status(400).json({ error: 'Choose a username with 3-20 letters, numbers, dots, underscores, or hyphens.' });
-    }
-
-    const ip = getClientIp(req);
-    const rate = await checkDbRateLimit('signup-invite', ip, 20, 60 * 60 * 1000);
-    if (!rate.allowed) {
-      return res.status(429).json({
-        error: 'Too many signup attempts from this network. Wait a few minutes and try again.',
-        retryAfter: rate.retryAfterSec,
-      });
     }
 
     const { data, error } = await supabase.auth.admin.createUser({
