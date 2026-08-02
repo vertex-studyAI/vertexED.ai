@@ -1,28 +1,16 @@
 schema_version: 1
 as_of: 2026-08-02
-canonical_statuses:
-  - ACTIVE
-  - MAINTENANCE
-  - BLOCKED
-  - BACKLOG
-  - PAUSED
-  - ARCHIVED
-operating_limits:
-  maximum_active_products: 3
-  maximum_active_flagship_research_projects: 5
-  current_active_products: 1
-  current_active_flagship_research_projects: 0
+status_values: [ACTIVE, MAINTENANCE, BLOCKED, BACKLOG, PAUSED, ARCHIVED]
+limits:
+  active_products_max: 3
+  active_research_max: 5
+  active_products_now: 2
+  active_research_now: 0
 source_of_truth:
-  current_host: vertex-studyAI/vertexED.ai/portfolio
-  host_status: temporary
-  reason: A dedicated portfolio-control repository is not available through the connected GitHub installation.
-  migration_condition: Move this directory unchanged into a dedicated control repository when one is created and connected.
-evidence_policy:
-  - Repository state outranks planning documents and user-reported status.
-  - Unknown values remain unknown.
-  - A project without repository or operating evidence receives an audit task, not a completion claim.
-  - No blocked research project is selected as an active flagship without code, data, benchmark, and reproduction evidence.
-
+  host: vertex-studyAI/vertexED.ai/portfolio
+  temporary: true
+  reason: no dedicated control repository is available through the current tools
+  migration_gate: create and connect a dedicated portfolio-control repository
 projects:
   - name: VertexED.ai
     category: product
@@ -33,62 +21,37 @@ projects:
     deployment: https://www.vertexed.app
     users: unknown
     last_verified_activity: 2026-08-02
-    current_milestone: Complete authenticated production certification
-    completion_condition: Issue 13 is completed with evidence for admin approval, account creation, supported login, core AI features, planner persistence, logout authorization, environment presence, and production Supabase checks.
-    next_action: Supply disposable production admin and beta-user access plus read-only Supabase/Vercel verification access, then execute issue 13 without exposing credentials.
-    blockers:
-      - No disposable allowlisted production administrator session is available.
-      - No disposable approved beta-user session is available.
-      - Production Supabase and Vercel environment dashboards are not connected.
-    tests:
-      - 96 of 96 application and API tests passed on certification head 25a4509a65568ccabaa70d193fe71a7d0972a9be.
-      - 20 of 20 deterministic evaluation tests passed.
-      - 52 of 52 live public Playwright checks passed across four viewport profiles.
-      - Production-only dependency audit has no high or critical findings.
-    documentation:
-      - docs/RELEASE_STATUS_2026-08-02.md
-      - docs/ENVIRONMENT_MATRIX.md
-      - docs/PRODUCTION_SQL_CHECKS.sql
-    evidence:
-      - https://github.com/vertex-studyAI/vertexED.ai/pull/9
-      - https://github.com/vertex-studyAI/vertexED.ai/pull/12
-      - https://github.com/vertex-studyAI/vertexED.ai/commit/1f88db2adb70a52acf06457b577848ad9100fe39
-      - https://github.com/vertex-studyAI/vertexED.ai/issues/13
+    current_milestone: authenticated production certification
+    completion_condition: issue 13 passes admin approval, account creation, login or OAuth, core AI features, planner persistence, logout authorization, environment verification, and Supabase checks
+    next_action: execute issue 13 when disposable accounts and read-only production access are supplied
+    blockers: [no disposable production admin, no disposable approved beta account, no connected Supabase or Vercel dashboard]
+    tests: 96 application/API tests, 20 deterministic evaluations, and 52 live public browser checks passed
+    documentation: [docs/RELEASE_STATUS_2026-08-02.md, docs/ENVIRONMENT_MATRIX.md, docs/PRODUCTION_SQL_CHECKS.sql]
+    evidence: [PR 9, PR 12, commit 1f88db2adb70a52acf06457b577848ad9100fe39, issue 13]
     priority_score:
       value: 3000
-      formula: impact * urgency * probability_of_success * portfolio_value / effort
-      factors:
-        impact: 10
-        urgency: 10
-        probability_of_success: 9
-        portfolio_value: 10
-        effort: 3
-      confidence: high
+      factors: {impact: 10, urgency: 10, probability_of_success: 9, portfolio_value: 10, effort: 3}
     review_date: 2026-08-03
 
   - name: FinanceMeta
     category: product_and_education
-    status: BLOCKED
-    owner: user-reported Ryan Gomez and FinanceMeta team
-    repository: unknown
+    status: ACTIVE
+    owner: build-the-future-11
+    repository: build-the-future-11/finance4all-global-reach
     local_path: unknown
     deployment: unknown
     users: user-reported approximately 10000 total and 500 active; not independently verified
-    last_verified_activity: unknown
-    current_milestone: Audit and repair the visitor-to-saved-progress journey
-    completion_condition: A new user registers, selects one program, completes one meaningful activity, saves progress, signs out, returns, and receives a correct next action.
-    next_action: Connect or provide the authoritative repository, production deployment, database project, and test account.
-    blockers:
-      - No FinanceMeta repository is visible through the connected GitHub installation.
-      - Deployment, database, analytics, and authentication evidence are unavailable.
-    tests: unknown
-    documentation: File Library contains planning and roadmap records, but no runnable repository evidence was available.
-    evidence:
-      - file-library:00_ULTIMATE_PORTFOLIO_CONTEXT.md
-      - file-library:Vertex_Sentinel_Fundraising_and_Product_OS.xlsx
+    last_verified_activity: 2026-07-10
+    current_milestone: audit and stabilize visitor to saved-progress journey
+    completion_condition: a new user registers, selects one program, completes one activity, saves progress, signs out, returns, and receives a correct next action
+    next_action: baseline main, repair the release gate and role authorization, then verify deployment and the golden journey
+    blockers: [production Supabase project not connected, production deployment URL and test account not yet verified]
+    tests: current main has one placeholder truth test and no GitHub Actions workflow
+    documentation: repository deployment docs plus File Library executive audits
+    evidence: [repository build-the-future-11/finance4all-global-reach, latest commit fbdd503223edc5b1780509720391083f485a4a85, src/test/example.test.ts]
     priority_score:
-      value: unknown
-      reason: Probability of success and effort cannot be scored without repository and deployment evidence.
+      value: 1440
+      factors: {impact: 9, urgency: 8, probability_of_success: 8, portfolio_value: 10, effort: 4}
     review_date: 2026-08-03
 
   - name: The Bu1LD
@@ -100,20 +63,14 @@ projects:
     deployment: unknown
     users: user-reported 300+ active members and 100+ projects or startups; not independently verified
     last_verified_activity: unknown
-    current_milestone: Audit the applicant-to-reviewed-output operating journey
-    completion_condition: One applicant is reviewed, accepted, assigned to a project and milestone, submits work, receives review, and completes or publishes a tracked output.
-    next_action: Connect the authoritative site or portal repository, member records, project registry, and evidence ledger.
-    blockers:
-      - No The Bu1LD repository is visible through the connected GitHub installation.
-      - Member, project, milestone, and deliverable records are unavailable.
+    current_milestone: applicant to reviewed-output audit
+    completion_condition: one applicant is reviewed, accepted, assigned a project and milestone, submits work, receives review, and completes or publishes a tracked output
+    next_action: expose the authoritative repository, member records, project registry, and evidence ledger
+    blockers: [authoritative repository and operating records unavailable]
     tests: unknown
-    documentation: File Library contains portfolio context and launch planning, not production evidence.
-    evidence:
-      - file-library:00_ULTIMATE_PORTFOLIO_CONTEXT.md
-      - file-library:Vertex_Sentinel_Fundraising_and_Product_OS.xlsx
-    priority_score:
-      value: unknown
-      reason: Probability of success and effort cannot be scored without repository and operating records.
+    documentation: File Library context only
+    evidence: [file-library:00_ULTIMATE_PORTFOLIO_CONTEXT.md]
+    priority_score: {value: unknown, reason: repository and operating evidence unavailable}
     review_date: 2026-08-03
 
   - name: Project 2424 / Typhon
@@ -124,23 +81,15 @@ projects:
     local_path: unknown
     deployment: not_applicable
     users: not_applicable
-    last_verified_activity: user-reported July 2026; not independently verified
-    current_milestone: Verify the canonical registry and select exactly five finishable flagships
-    completion_condition: The registry identity is verified and five projects have evidence-backed research contracts, owners, deadlines, baselines, datasets, metrics, ablations, reproduction commands, and failure criteria.
-    next_action: Connect the authoritative registry, workbooks, project repositories, experiment artifacts, and manuscripts.
-    blockers:
-      - Canonical registry and raw workbooks are not available to the connected execution environment.
-      - Research code, datasets, logs, and papers are not visible through the GitHub installation.
-    tests: Historical pass counts are user-reported and were not reverified.
-    documentation:
-      - file-library:00_ULTIMATE_PORTFOLIO_CONTEXT.md
-      - file-library:ALL_PROJECTS.json
-    evidence:
-      - file-library:MASTER_STATUS.md
-      - file-library:10_BLOCKERS.md
-    priority_score:
-      value: unknown
-      reason: Candidate feasibility cannot be scored from planning records alone.
+    last_verified_activity: user-reported July 2026
+    current_milestone: verify registry and select exactly five flagships
+    completion_condition: five evidence-backed research contracts include owner, deadline, baseline, dataset, metrics, ablations, failure criteria, and reproduction command
+    next_action: connect the canonical workbook, registry, repositories, experiment artifacts, and papers
+    blockers: [canonical implementation workspace unavailable]
+    tests: historical pass counts not independently reverified
+    documentation: [file-library:Project_2424_Mega_Research_Foundry.xlsx, file-library:00_ULTIMATE_PORTFOLIO_CONTEXT.md]
+    evidence: [file-library:ACCEPTANCE_GATE_REPORT.json]
+    priority_score: {value: unknown, reason: candidate code and experiment evidence unavailable}
     review_date: 2026-08-04
 
   - name: Hercules
@@ -152,20 +101,14 @@ projects:
     deployment: not_applicable
     users: not_applicable
     last_verified_activity: unknown
-    current_milestone: Produce one bounded, reproducible benchmark at realistic compute scale
-    completion_condition: A named owner reproduces a baseline and Hercules variant under matched compute with raw metrics, memory and latency profiles, failure analysis, and a documented command.
-    next_action: Connect the canonical repository and benchmark artifacts.
-    blockers:
-      - Repository and current benchmark evidence are unavailable.
-      - Available context warns against unsupported scale claims on current hardware.
+    current_milestone: one matched-compute bounded benchmark
+    completion_condition: baseline and Hercules variant reproduce with raw metrics, memory, latency, and failure analysis
+    next_action: connect canonical source and benchmark artifacts
+    blockers: [repository and results unavailable]
     tests: unknown
     documentation: File Library context only
-    evidence:
-      - file-library:MASTER_STATUS.md
-      - file-library:Ryan_72H_Execution_War_Room_2026-07-30.xlsx
-    priority_score:
-      value: unknown
-      reason: Code maturity and compute cost are unverified.
+    evidence: [file-library:Ryan_72H_Execution_War_Room_2026-07-30.xlsx]
+    priority_score: {value: unknown, reason: maturity and compute cost unverified}
     review_date: 2026-08-09
 
   - name: Olympus
@@ -177,19 +120,14 @@ projects:
     deployment: not_applicable
     users: not_applicable
     last_verified_activity: unknown
-    current_milestone: Reduce the roadmap to one compact reference implementation
-    completion_condition: A small model can train, save, load, and run inference reproducibly with a defined benchmark and evidence-bounded claims.
-    next_action: Connect the canonical repository or provide the compact implementation source.
-    blockers:
-      - No source repository, weights, benchmark results, or owner are available.
+    current_milestone: compact reference implementation
+    completion_condition: a small model trains, saves, loads, and infers reproducibly with a defined benchmark
+    next_action: connect source, owner, and evidence
+    blockers: [source, weights, results, and owner unavailable]
     tests: unknown
     documentation: File Library specifications only
-    evidence:
-      - file-library:MASTER_STATUS.md
-      - file-library:00_ULTIMATE_PORTFOLIO_CONTEXT.md
-    priority_score:
-      value: unknown
-      reason: Code maturity and realistic effort are unverified.
+    evidence: [file-library:00_ULTIMATE_PORTFOLIO_CONTEXT.md]
+    priority_score: {value: unknown, reason: maturity and effort unverified}
     review_date: 2026-08-09
 
   - name: Inkling
@@ -198,22 +136,17 @@ projects:
     owner: unknown
     repository: unknown
     local_path: unknown
-    deployment: user-reported GCP VM; not independently verified in this audit
+    deployment: user-reported GCP VM; not independently verified here
     users: unknown
     last_verified_activity: unknown
-    current_milestone: Verify the running control plane and its health, security, persistence, and restart procedure
-    completion_condition: Repository, VM identity, service list, health checks, authentication, logs, restart command, and recovery procedure are recorded and pass.
-    next_action: Connect the repository and cloud-state evidence.
-    blockers:
-      - Repository and Google Cloud project are not connected.
-      - Current service state cannot be inspected.
+    current_milestone: verify control-plane health, security, persistence, and recovery
+    completion_condition: source, VM identity, services, auth, health, logs, restart, and recovery checks pass
+    next_action: connect repository and cloud-state evidence
+    blockers: [Google Cloud project and source unavailable]
     tests: unknown
-    documentation: File Library context only
-    evidence:
-      - file-library:00_ULTIMATE_PORTFOLIO_CONTEXT.md
-    priority_score:
-      value: unknown
-      reason: Current infrastructure state and effort are unverified.
+    documentation: File Library terminal records
+    evidence: [file-library:Pasted text.txt]
+    priority_score: {value: unknown, reason: current infrastructure state unverified}
     review_date: 2026-08-09
 
   - name: FCC
@@ -225,18 +158,14 @@ projects:
     deployment: user-reported local service; not independently verified
     users: unknown
     last_verified_activity: unknown
-    current_milestone: Verify provider routing, authentication, health, logs, and restart behavior
-    completion_condition: Canonical source, supported provider matrix, health endpoint, tests, failure handling, and runbook are verified.
-    next_action: Connect the canonical repository and running-service evidence.
-    blockers:
-      - Repository and local service are not accessible from this execution environment.
+    current_milestone: verify routing, authentication, health, logs, and restart behavior
+    completion_condition: canonical source, provider matrix, health checks, tests, failure handling, and runbook pass
+    next_action: connect source and running-service evidence
+    blockers: [source and service unavailable]
     tests: unknown
     documentation: File Library context only
-    evidence:
-      - file-library:00_ULTIMATE_PORTFOLIO_CONTEXT.md
-    priority_score:
-      value: unknown
-      reason: Current service state and effort are unverified.
+    evidence: [file-library:00_ULTIMATE_PORTFOLIO_CONTEXT.md]
+    priority_score: {value: unknown, reason: current service state unverified}
     review_date: 2026-08-09
 
   - name: LAM-JEPA
@@ -249,21 +178,13 @@ projects:
     users: unknown
     last_verified_activity: 2026-05-16
     current_milestone: none while paused
-    completion_condition: May resume only when a named owner commits to a seven-day gate that installs the package, reproduces a seeded benchmark, adds automated tests and CI, and records raw results.
-    next_action: Assign an owner and compute window for the seven-day gate; otherwise leave paused.
-    blockers:
-      - One visible commit only.
-      - No tests or CI evidence discovered.
-      - No named owner.
-      - No reproduced benchmark artifact discovered.
-    tests: No test files were found through repository search.
-    documentation: README.md and pyproject.toml
-    evidence:
-      - https://github.com/vertex-studyAI/LAM-JEPA
-      - https://github.com/vertex-studyAI/LAM-JEPA/commit/55cf72c7d7d15362765d3d6adac16f232bee274a
-    priority_score:
-      value: unknown
-      reason: No reproduced baseline or owner exists.
+    completion_condition: resume only with an owner and seven-day gate for install, seeded benchmark, automated tests, CI, and raw results
+    next_action: assign an owner and compute window or leave paused
+    blockers: [one visible commit, no tests or CI found, no owner, no reproduced benchmark]
+    tests: none discovered
+    documentation: [README.md, pyproject.toml]
+    evidence: [commit 55cf72c7d7d15362765d3d6adac16f232bee274a]
+    priority_score: {value: unknown, reason: no owner or reproduced baseline}
     review_date: 2026-08-09
 
   - name: Text-to-Video
@@ -276,20 +197,13 @@ projects:
     users: unknown
     last_verified_activity: 2026-05-17
     current_milestone: none while paused
-    completion_condition: May resume only when a named owner can produce a tested end-to-end notes-to-video demo within seven days and prove direct value to VertexED's core learning journey.
-    next_action: Preserve the repository and keep it paused until higher-priority product journeys are stable.
-    blockers:
-      - One visible commit only.
-      - Workspace test script exists, but no test implementation was discovered.
-      - No deployment, owner, or user evidence was found.
-    tests: Root pnpm test command is declared; no test implementation was found through repository search.
-    documentation: README.md, package.json, pnpm-workspace.yaml
-    evidence:
-      - https://github.com/vertex-studyAI/Text-To-Video
-      - https://github.com/vertex-studyAI/Text-To-Video/commit/fecd65f721d6d9e92b7fa937c83dcaba657c69c7
-    priority_score:
-      value: unknown
-      reason: No tested demo, owner, deployment, or user evidence exists.
+    completion_condition: resume only with an owner and a tested end-to-end demo completed within seven days
+    next_action: preserve and leave paused until it directly supports a stable VertexED journey
+    blockers: [one visible commit, no tests found, no deployment, no owner]
+    tests: root command declared; implementation not discovered
+    documentation: [README.md, package.json, pnpm-workspace.yaml]
+    evidence: [commit fecd65f721d6d9e92b7fa937c83dcaba657c69c7]
+    priority_score: {value: unknown, reason: no tested demo or owner}
     review_date: 2026-08-09
 
   - name: APEN
@@ -301,18 +215,14 @@ projects:
     deployment: not_applicable
     users: not_applicable
     last_verified_activity: unknown
-    current_milestone: Verify the architecture family and causal-memory evidence
-    completion_condition: Code, dataset contract, baseline, intervention benchmark, ablation, raw results, error analysis, and reproduction command are available.
-    next_action: Connect project P2424-0205 and its evidence artifacts.
-    blockers:
-      - Canonical repository and artifacts are unavailable.
+    current_milestone: verify causal-memory architecture and evidence
+    completion_condition: P2424-0205 has code, data contract, baseline, intervention benchmark, ablation, raw results, and reproduction command
+    next_action: connect source and artifacts
+    blockers: [canonical repository unavailable]
     tests: unknown
-    documentation: File Library identifies APEN as P2424-0205.
-    evidence:
-      - file-library:00_ULTIMATE_PORTFOLIO_CONTEXT.md
-    priority_score:
-      value: unknown
-      reason: Feasibility cannot be scored without code and artifacts.
+    documentation: identified as P2424-0205 in File Library
+    evidence: [file-library:00_ULTIMATE_PORTFOLIO_CONTEXT.md]
+    priority_score: {value: unknown, reason: code unavailable}
     review_date: 2026-08-09
 
   - name: PEN
@@ -324,18 +234,14 @@ projects:
     deployment: not_applicable
     users: not_applicable
     last_verified_activity: unknown
-    current_milestone: Determine whether PEN is independent or should consolidate into the APEN architecture family
-    completion_condition: Canonical identity, unique hypothesis, source, and evidence are verified; duplicate scope is explicitly merged or separated.
-    next_action: Connect the PEN source and compare it with APEN before any active designation.
-    blockers:
-      - Canonical repository and identity evidence are unavailable.
+    current_milestone: determine distinct identity versus APEN
+    completion_condition: canonical identity, unique hypothesis, source, and evidence are verified or scope is consolidated
+    next_action: connect and compare canonical sources
+    blockers: [source unavailable]
     tests: unknown
-    documentation: File Library recommends APEN/PEN consolidation, but this is not repository-verified.
-    evidence:
-      - file-library:Pasted text (2).txt
-    priority_score:
-      value: unknown
-      reason: Independent novelty and implementation status are unknown.
+    documentation: consolidation recommendation only
+    evidence: [file-library:00_ULTIMATE_PORTFOLIO_CONTEXT.md]
+    priority_score: {value: unknown, reason: novelty and implementation unknown}
     review_date: 2026-08-09
 
   - name: RIPII
@@ -347,18 +253,14 @@ projects:
     deployment: not_applicable
     users: not_applicable
     last_verified_activity: unknown
-    current_milestone: Verify the canonical project and bounded falsifiable experiment
-    completion_condition: Project P2424-0405 has working code, baseline, data or controlled task, metric, ablation, failure criterion, and reproduction command.
-    next_action: Connect project P2424-0405 and its artifacts.
-    blockers:
-      - Canonical repository and evidence are unavailable.
+    current_milestone: verify bounded falsifiable experiment
+    completion_condition: P2424-0405 has code, baseline, controlled task, metric, ablation, failure criterion, and reproduction command
+    next_action: connect source and artifacts
+    blockers: [canonical repository unavailable]
     tests: unknown
-    documentation: File Library identifies RIPII as P2424-0405.
-    evidence:
-      - file-library:00_ULTIMATE_PORTFOLIO_CONTEXT.md
-    priority_score:
-      value: unknown
-      reason: Feasibility cannot be scored without code and artifacts.
+    documentation: identified as P2424-0405 in File Library
+    evidence: [file-library:00_ULTIMATE_PORTFOLIO_CONTEXT.md]
+    priority_score: {value: unknown, reason: code unavailable}
     review_date: 2026-08-09
 
   - name: PI-JEPA
@@ -370,18 +272,14 @@ projects:
     deployment: not_applicable
     users: not_applicable
     last_verified_activity: unknown
-    current_milestone: Reproduce a leakage-safe scientific-ML baseline matrix
-    completion_condition: Frozen datasets, FNO and DeepONet or justified baselines, out-of-distribution coefficients, physics metrics, compute comparison, multiple seeds where feasible, ablation, and reproduction command pass.
-    next_action: Connect the canonical repository, datasets, configs, and raw experiment artifacts.
-    blockers:
-      - Repository, datasets, and experiment outputs are unavailable.
+    current_milestone: leakage-safe scientific-ML baseline matrix
+    completion_condition: frozen data, strong baselines, OOD evaluation, physics metrics, compute comparison, seeds, ablation, and reproduction command pass
+    next_action: connect source, datasets, configs, and raw artifacts
+    blockers: [repository and datasets unavailable]
     tests: unknown
-    documentation: File Library research planning only
-    evidence:
-      - file-library:Pasted text (2).txt
-    priority_score:
-      value: unknown
-      reason: Code and dataset readiness are unverified.
+    documentation: File Library planning only
+    evidence: [file-library:00_ULTIMATE_PORTFOLIO_CONTEXT.md]
+    priority_score: {value: unknown, reason: code and data readiness unverified}
     review_date: 2026-08-09
 
   - name: Eigen-JEPA
@@ -393,18 +291,14 @@ projects:
     deployment: not_applicable
     users: not_applicable
     last_verified_activity: unknown
-    current_milestone: Verify a leakage-safe walk-forward finance benchmark
-    completion_condition: Chronological splits, transaction costs, turnover, multiple markets, stress regimes, baselines, ablations, raw results, and reproduction command pass.
-    next_action: Connect the canonical repository, market-data contract, configs, and results.
-    blockers:
-      - Repository, data contract, and experiment artifacts are unavailable.
+    current_milestone: leakage-safe walk-forward finance benchmark
+    completion_condition: chronological splits, costs, turnover, multiple markets, stress regimes, baselines, ablations, and reproduction command pass
+    next_action: connect source, data contract, configs, and results
+    blockers: [repository and market-data contract unavailable]
     tests: unknown
-    documentation: File Library research planning only
-    evidence:
-      - file-library:Pasted text (2).txt
-    priority_score:
-      value: unknown
-      reason: Data availability and code maturity are unverified.
+    documentation: File Library planning only
+    evidence: [file-library:00_ULTIMATE_PORTFOLIO_CONTEXT.md]
+    priority_score: {value: unknown, reason: code and data readiness unverified}
     review_date: 2026-08-09
 
   - name: Eigen-Finance
@@ -416,18 +310,14 @@ projects:
     deployment: not_applicable
     users: not_applicable
     last_verified_activity: unknown
-    current_milestone: Determine whether this is a distinct artifact or part of the Eigen-JEPA program
-    completion_condition: Canonical identity, unique contribution, source, and evidence are verified; duplicate scope is explicitly consolidated.
-    next_action: Connect the source and compare it with Eigen-JEPA before active work.
-    blockers:
-      - Canonical repository and identity evidence are unavailable.
+    current_milestone: determine distinct identity versus Eigen-JEPA
+    completion_condition: canonical identity, unique contribution, source, and evidence are verified or scope is consolidated
+    next_action: connect and compare canonical sources
+    blockers: [source unavailable]
     tests: unknown
-    documentation: File Library recommends consolidation into the Eigen-JEPA program; not repository-verified.
-    evidence:
-      - file-library:Pasted text (2).txt
-    priority_score:
-      value: unknown
-      reason: Independent novelty and implementation status are unknown.
+    documentation: consolidation recommendation only
+    evidence: [file-library:00_ULTIMATE_PORTFOLIO_CONTEXT.md]
+    priority_score: {value: unknown, reason: novelty and implementation unknown}
     review_date: 2026-08-09
 
   - name: NeuroCAD
@@ -439,19 +329,14 @@ projects:
     deployment: unknown
     users: unknown
     last_verified_activity: unknown
-    current_milestone: Verify editable CAD vertical slices and evaluation contracts
-    completion_condition: Project P2424-1213 has an installable environment, three to five editable CAD tasks, baselines, validity and editability metrics, tests, demo, and reproduction command.
-    next_action: Connect project P2424-1213 and its source, datasets, and demo evidence.
-    blockers:
-      - Canonical repository and artifacts are unavailable.
+    current_milestone: editable CAD vertical slices
+    completion_condition: P2424-1213 has installable source, editable tasks, baselines, validity and editability metrics, tests, demo, and reproduction command
+    next_action: connect source, datasets, and demo evidence
+    blockers: [canonical repository unavailable]
     tests: unknown
-    documentation: File Library identifies NeuroCAD as P2424-1213.
-    evidence:
-      - file-library:00_ULTIMATE_PORTFOLIO_CONTEXT.md
-      - file-library:MASTER_STATUS.md
-    priority_score:
-      value: unknown
-      reason: Implementation maturity is unverified.
+    documentation: identified as P2424-1213 in File Library
+    evidence: [file-library:00_ULTIMATE_PORTFOLIO_CONTEXT.md]
+    priority_score: {value: unknown, reason: implementation maturity unverified}
     review_date: 2026-08-09
 
   - name: Colorworld
@@ -463,18 +348,14 @@ projects:
     deployment: unknown
     users: unknown
     last_verified_activity: unknown
-    current_milestone: Verify the canonical product or research question and one measurable end-to-end task
-    completion_condition: Source, owner, dataset or input contract, baseline, metric, test, demo, and reproduction command are verified.
-    next_action: Connect the canonical repository and specification.
-    blockers:
-      - Repository, owner, scope, and evidence are unavailable.
+    current_milestone: verify one measurable end-to-end task
+    completion_condition: source, owner, input contract, baseline, metric, test, demo, and reproduction command are verified
+    next_action: connect canonical source and specification
+    blockers: [source, owner, scope, and evidence unavailable]
     tests: unknown
     documentation: File Library context only
-    evidence:
-      - file-library:00_ULTIMATE_PORTFOLIO_CONTEXT.md
-    priority_score:
-      value: unknown
-      reason: Scope and implementation maturity are unverified.
+    evidence: [file-library:00_ULTIMATE_PORTFOLIO_CONTEXT.md]
+    priority_score: {value: unknown, reason: scope and maturity unverified}
     review_date: 2026-08-09
 
   - name: Speechly
@@ -486,17 +367,12 @@ projects:
     deployment: unknown
     users: unknown
     last_verified_activity: unknown
-    current_milestone: Verify one speech benchmark with real data, baselines, and fairness or human evaluation
-    completion_condition: Source, licensed dataset, strong baselines, primary metric, subgroup or human evaluation, error analysis, demo, and reproduction command pass.
-    next_action: Connect the canonical repository, dataset contract, and current experiment evidence.
-    blockers:
-      - Repository, code, data, and results are unavailable.
+    current_milestone: real-data speech benchmark
+    completion_condition: source, licensed data, baselines, primary metric, subgroup or human evaluation, error analysis, demo, and reproduction command pass
+    next_action: connect source, data contract, and experiment evidence
+    blockers: [repository, code, data, and results unavailable]
     tests: unknown
-    documentation: File Library conference ledger marks current readiness as conditional no-go without code and evidence.
-    evidence:
-      - file-library:PORTFOLIO_COMMAND_CENTRE.xlsx
-      - file-library:00_ULTIMATE_PORTFOLIO_CONTEXT.md
-    priority_score:
-      value: unknown
-      reason: Data availability and implementation maturity are unverified.
+    documentation: conference ledger marks readiness conditional no-go without evidence
+    evidence: [file-library:PORTFOLIO_COMMAND_CENTRE.xlsx]
+    priority_score: {value: unknown, reason: data and implementation maturity unverified}
     review_date: 2026-08-09
