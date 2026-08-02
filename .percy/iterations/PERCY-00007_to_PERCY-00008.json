@@ -1,0 +1,40 @@
+[
+  {
+    "iteration": "PERCY-00007",
+    "timestamp": "2026-08-02T15:42:00+05:30",
+    "epoch": "EPOCH-01",
+    "wave": "WAVE-001",
+    "primary_shard": "H",
+    "project": "Percy",
+    "objective": "Create durable execution state for exact continuation.",
+    "action": "Committed the Percy README, state, portfolio snapshot, blocker registry, ranked task queue, and initial iteration records on the isolated branch.",
+    "verification": "GitHub returned commit SHAs for every created file; the branch remains isolated from main.",
+    "status": "COMPLETE",
+    "artifacts": [
+      ".percy/README.md",
+      ".percy/state.json",
+      ".percy/portfolio.json",
+      ".percy/blockers.json",
+      ".percy/task_queue.json",
+      ".percy/iterations/PERCY-00001_to_PERCY-00006.json"
+    ],
+    "next_best_action": "Open a draft pull request for review without merging production changes."
+  },
+  {
+    "iteration": "PERCY-00008",
+    "timestamp": "2026-08-02T15:50:24+05:30",
+    "epoch": "EPOCH-01",
+    "wave": "WAVE-001",
+    "primary_shard": "H",
+    "project": "Percy",
+    "objective": "Package the bootstrap work for safe review.",
+    "action": "Opened draft pull request #24 from chore/percy-16384x-bootstrap to main and saved the continuation point.",
+    "verification": "GitHub returned open draft PR #24 with seven changed files before the final state update; no merge or deployment occurred.",
+    "status": "COMPLETE",
+    "artifacts": [
+      "draft PR #24",
+      "continuation at PERCY-00009"
+    ],
+    "next_best_action": "Resolve GitHub App and Supabase access blockers, then resume at PERCY-00009."
+  }
+]
