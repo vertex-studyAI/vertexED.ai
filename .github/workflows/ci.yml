@@ -37,6 +37,9 @@ jobs:
       - name: Validate Vercel function layout
         run: node scripts/validate-vercel-functions.mjs
 
+      - name: Explain vulnerable dependency paths
+        run: npm explain glob brace-expansion postcss || true
+
       - name: Audit production dependencies
         run: npm run audit:prod
 
