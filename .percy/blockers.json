@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "as_of": "2026-08-02T15:42:00+05:30",
+  "blockers": [
+    {
+      "id": "BLOCKER-GITHUB-FINANCEMETA-WRITE",
+      "project": "FinanceMeta",
+      "severity": "HIGH",
+      "description": "GitHub branch creation fails with 403 Resource not accessible by integration.",
+      "evidence": "create_branch on build-the-future-11/finance4all-global-reach failed on 2026-08-02",
+      "smallest_user_action": "Configure the GitHub App for build-the-future-11/finance4all-global-reach with repository contents and pull-request write access.",
+      "retry_condition": "Installed account or repository authorization changes",
+      "status": "OPEN"
+    },
+    {
+      "id": "BLOCKER-GITHUB-BU1LD-WRITE",
+      "project": "The Bu1LD",
+      "severity": "HIGH",
+      "description": "GitHub branch creation fails with 403 Resource not accessible by integration.",
+      "evidence": "create_branch on ryangomez010/bu1ld-landing failed on 2026-08-02",
+      "smallest_user_action": "Configure the GitHub App for ryangomez010/bu1ld-landing with repository contents and pull-request write access.",
+      "retry_condition": "Installed account or repository authorization changes",
+      "status": "OPEN"
+    },
+    {
+      "id": "BLOCKER-SUPABASE-PROJECT-COVERAGE",
+      "project": "FinanceMeta and The Bu1LD",
+      "severity": "HIGH",
+      "description": "Only the VertexED Supabase project is visible to connected tools.",
+      "evidence": "Supabase.list_projects returned one project: xwlrzgfuhfbckgvcmyoq",
+      "smallest_user_action": "Reconnect or extend the Supabase integration to the FinanceMeta and The Bu1LD production projects.",
+      "retry_condition": "Supabase authorization changes",
+      "status": "OPEN"
+    },
+    {
+      "id": "BLOCKER-VERTEXED-AUTH-CERTIFICATION",
+      "project": "VertexED.ai",
+      "severity": "HIGH",
+      "description": "Authenticated production flows require secure disposable test identities and production access.",
+      "evidence": "GitHub issue #13 remains open",
+      "smallest_user_action": "Create secure disposable admin and approved beta identities through the supported app flow; do not paste credentials in chat.",
+      "retry_condition": "Secure identities and dashboard access become available",
+      "status": "OPEN"
+    },
+    {
+      "id": "BLOCKER-P2424-LOCAL-CLOUD",
+      "project": "Project 2424 / Inkling",
+      "severity": "HIGH",
+      "description": "Canonical dirty source and PRO-BLADE plus authenticated gcloud are not connected to this session.",
+      "evidence": "portfolio control center and issue #20",
+      "smallest_user_action": "Run portfolio/scripts/restore_project2424_to_inkling.sh --verify --keep-local-package on the Mac.",
+      "retry_condition": "Restore evidence or connected source becomes available",
+      "status": "OPEN"
+    }
+  ]
+}
