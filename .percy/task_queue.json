@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "as_of": "2026-08-02T15:42:00+05:30",
+  "tasks": [
+    {
+      "rank": 1,
+      "project": "Domain operations",
+      "action": "Complete the genuine Squarespace domain-contact verification flow",
+      "score": 7200,
+      "reason": "Required external verification, low effort, and avoidable domain risk"
+    },
+    {
+      "rank": 2,
+      "project": "LGIC 2026",
+      "action": "Review the registered Global Innovation Challenge opportunity and submit or decline",
+      "score": 6000,
+      "reason": "Inbox reports four days remaining; potential funding and credibility value"
+    },
+    {
+      "rank": 3,
+      "project": "Portfolio access",
+      "action": "Connect GitHub App write access for FinanceMeta and The Bu1LD and expose their Supabase projects",
+      "score": 5400,
+      "reason": "Unblocks two active production products and multiple certification tracks"
+    },
+    {
+      "rank": 4,
+      "project": "Executive preparation",
+      "action": "Prepare for the 3 August 06:30 and 07:30 IST coffee chats",
+      "score": 4200,
+      "reason": "Two accepted meetings occur early tomorrow with no gap"
+    },
+    {
+      "rank": 5,
+      "project": "VertexED.ai",
+      "action": "Address the two current Supabase security advisor warnings through approved dashboard operations",
+      "score": 3600,
+      "reason": "Direct security value; requires approval/dashboard action rather than blind database changes"
+    },
+    {
+      "rank": 6,
+      "project": "VertexED.ai",
+      "action": "Complete authenticated production certification issue #13",
+      "score": 3000,
+      "reason": "Highest-value remaining release evidence; blocked on secure identities"
+    },
+    {
+      "rank": 7,
+      "project": "FinanceMeta",
+      "action": "Apply prepared production hardening and verify authorization regression tests",
+      "score": 2880,
+      "reason": "Known high-severity role escalation risk; blocked on write and Supabase access"
+    },
+    {
+      "rank": 8,
+      "project": "FinanceMeta x YEL",
+      "action": "Prepare the 4 and 6 August programme sessions",
+      "score": 2500,
+      "reason": "Confirmed calendar commitments this week"
+    },
+    {
+      "rank": 9,
+      "project": "Project 2424",
+      "action": "Perform preservation-first Inkling restore and rerun baseline",
+      "score": 2100,
+      "reason": "Unblocks the research portfolio; requires the user's Mac, PRO-BLADE, and gcloud"
+    }
+  ]
+}

@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "as_of": "2026-08-02T15:42:00+05:30",
+  "source_of_truth": {
+    "human": "portfolio/portfolio.yaml",
+    "execution_snapshot": ".percy/portfolio.json",
+    "control_repository": "vertex-studyAI/vertexED.ai"
+  },
+  "projects": [
+    {
+      "name": "VertexED.ai",
+      "primary_shard": "A",
+      "status": "ACTIVE",
+      "repository": "vertex-studyAI/vertexED.ai",
+      "visibility": "public",
+      "write_access_verified": true,
+      "latest_verified_main_commit": "3c486613e90f227c081efc2f78214d4c0a58e8cb",
+      "deployment_status": "two Vercel commit statuses successful",
+      "database": "Supabase project xwlrzgfuhfbckgvcmyoq visible and ACTIVE_HEALTHY",
+      "security_advisors": [
+        "Leaked Password Protection disabled",
+        "Postgres security patches available"
+      ],
+      "current_milestone": "authenticated production certification",
+      "blockers": [
+        "disposable production admin and approved beta identities unavailable",
+        "authenticated production journey not yet certified"
+      ],
+      "next_action": "complete issue #13 using secure disposable identities and production access"
+    },
+    {
+      "name": "FinanceMeta",
+      "primary_shard": "A",
+      "status": "ACTIVE_BLOCKED",
+      "repository": "build-the-future-11/finance4all-global-reach",
+      "visibility": "public",
+      "write_access_verified": false,
+      "write_test": "branch creation returned 403 Resource not accessible by integration",
+      "database": "production Supabase project not visible",
+      "current_milestone": "production hardening and authorization repair",
+      "next_action": "configure GitHub App write installation and expose production Supabase project, then execute issue #19"
+    },
+    {
+      "name": "The Bu1LD",
+      "primary_shard": "A",
+      "status": "ACTIVE_BLOCKED",
+      "repository": "ryangomez010/bu1ld-landing",
+      "visibility": "public",
+      "write_access_verified": false,
+      "write_test": "branch creation returned 403 Resource not accessible by integration",
+      "database": "production Supabase project not visible",
+      "current_milestone": "production environment and role-journey certification",
+      "next_action": "configure GitHub App write installation and expose production Supabase project, then execute issue #16"
+    },
+    {
+      "name": "Project 2424 / Typhon",
+      "primary_shard": "D",
+      "status": "BLOCKED",
+      "repository": "canonical source exists on PRO-BLADE; no connected hosted current repository verified",
+      "current_milestone": "lossless Inkling restore and evidence reconciliation",
+      "next_action": "run the versioned preservation-first restore script from the Mac with PRO-BLADE and authenticated gcloud"
+    },
+    {
+      "name": "LAM-JEPA",
+      "primary_shard": "C",
+      "status": "PAUSED",
+      "repository": "vertex-studyAI/LAM-JEPA",
+      "next_action": "remain paused until owner, baseline, tests, CI, and raw result gate exist"
+    },
+    {
+      "name": "Text-to-Video",
+      "primary_shard": "C",
+      "status": "PAUSED",
+      "repository": "vertex-studyAI/Text-To-Video",
+      "next_action": "remain paused until a tested end-to-end demo directly supports VertexED"
+    }
+  ],
+  "additional_owned_repositories_discovered": [
+    "build-the-future-11/FinanceMeta-Global",
+    "build-the-future-11/FinanceMeta-Landing",
+    "build-the-future-11/Iy-ERN",
+    "build-the-future-11/RIS"
+  ]
+}

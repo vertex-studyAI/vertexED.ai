@@ -1,0 +1,50 @@
+[
+  {
+    "iteration": "PERCY-00009",
+    "recorded_at": "2026-08-02T15:42:00+05:30",
+    "epoch": "EPOCH-01",
+    "wave": "WAVE-001",
+    "primary_shard": "F",
+    "project": "Executive operations",
+    "objective": "Identify time-sensitive inbox obligations affecting the portfolio.",
+    "action": "Performed a read-only seven-day inbox shortlist excluding promotions and social mail.",
+    "verification": "Found an unread required Squarespace domain-contact verification, an LGIC four-day warning, current PR preview activity, academic material, and historical engineering notifications.",
+    "status": "COMPLETE",
+    "artifacts": [
+      ".percy/reports/operations-audit-2026-08-02.md"
+    ],
+    "next_best_action": "Complete the genuine Squarespace verification flow and decide the LGIC submission."
+  },
+  {
+    "iteration": "PERCY-00010",
+    "recorded_at": "2026-08-02T15:42:00+05:30",
+    "epoch": "EPOCH-01",
+    "wave": "WAVE-001",
+    "primary_shard": "F",
+    "project": "Executive calendar",
+    "objective": "Identify near-term meetings and programme commitments.",
+    "action": "Read the primary calendar from 2 through 9 August 2026 in Asia/Kolkata.",
+    "verification": "Confirmed two back-to-back coffee chats on 3 August and FinanceMeta x YEL calls on 4 and 6 August.",
+    "status": "COMPLETE",
+    "artifacts": [
+      ".percy/reports/operations-audit-2026-08-02.md"
+    ],
+    "next_best_action": "Prepare for the two early coffee chats and the next YEL sessions."
+  },
+  {
+    "iteration": "PERCY-00011",
+    "recorded_at": "2026-08-02T15:42:00+05:30",
+    "epoch": "EPOCH-01",
+    "wave": "WAVE-001",
+    "primary_shard": "F",
+    "project": "Slack operations",
+    "objective": "Check the connected public Slack surface for recent portfolio tasks.",
+    "action": "Resolved the current user profile and searched public messages for direct mentions, VertexED, FinanceMeta, and Bu1LD over the last week.",
+    "verification": "No matching public results were found; private channels and DMs were not searched.",
+    "status": "COMPLETE",
+    "artifacts": [
+      ".percy/reports/operations-audit-2026-08-02.md"
+    ],
+    "next_best_action": "Do not infer that Slack has no pending work; private triage requires a separately authorized search."
+  }
+]
