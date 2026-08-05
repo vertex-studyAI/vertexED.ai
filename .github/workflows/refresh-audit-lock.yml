@@ -30,10 +30,9 @@ jobs:
         shell: bash
         run: |
           set -uo pipefail
+          set +e
           npm audit fix --package-lock-only --ignore-scripts
           fix_status=$?
-
-          set +e
           npm audit --omit=dev --audit-level=high > audit-after.txt 2>&1
           audit_status=$?
           set -e
