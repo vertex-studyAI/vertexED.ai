@@ -11,32 +11,32 @@ async function expectNoHorizontalOverflow(page: import('@playwright/test').Page)
 test('primary landing journey exposes every FinanceMeta pathway', async ({ page }) => {
   await page.goto('/');
 
-  await expect(page.locator('body')).toContainText(/FinanceMeta/i);
+  await expect(page.getByRole('heading', { level: 1 })).toContainText(/work that matters/i);
   await expect(page.locator('main')).toBeVisible();
 
   for (const pathway of ['Learn', 'Research', 'Build', 'Publish', 'Compete', 'Contribute', 'Lead']) {
-    await expect(page.getByText(pathway, { exact: false }).first()).toBeVisible();
+    await expect(page.getByRole('heading', { name: pathway, exact: true })).toBeVisible();
   }
 
-  const contact = page.locator('a[href^="mailto:"]').first();
+  const contact = page.getByRole('link', { name: /join the network/i });
   await expect(contact).toBeVisible();
-  await expect(contact).toHaveAttribute('href', /^mailto:.+@.+/);
+  await expect(contact).toHaveAttribute('href', /^mailto:financeforalledu@gmail\.com/);
   await expectNoHorizontalOverflow(page);
 });
 
 test('theme choice persists after reload', async ({ page }) => {
   await page.goto('/');
 
-  const themeToggle = page.getByRole('button', { name: /theme|light|dark/i }).first();
+  const themeToggle = page.getByRole('button', { name: /switch to/i });
   await expect(themeToggle).toBeVisible();
 
-  const before = await page.evaluate(() => document.documentElement.className);
+  const before = await page.locator('html').getAttribute('data-theme');
   await themeToggle.click();
-  await expect.poll(() => page.evaluate(() => document.documentElement.className)).not.toBe(before);
-  const selected = await page.evaluate(() => document.documentElement.className);
+  await expect.poll(() => page.locator('html').getAttribute('data-theme')).not.toBe(before);
+  const selected = await page.locator('html').getAttribute('data-theme');
 
   await page.reload();
-  await expect.poll(() => page.evaluate(() => document.documentElement.className)).toBe(selected);
+  await expect(page.locator('html')).toHaveAttribute('data-theme', selected!);
 });
 
 test('keyboard navigation reaches a visible interactive control', async ({ page }) => {
