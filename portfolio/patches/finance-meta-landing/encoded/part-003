@@ -1,1 +1,111 @@
-zARh3SzXL035bNLqHQ9Z/+iQ9bujffcs9OwxG47Y4GTfAlVwjd7U6qphB1VKanGdk1KsGd08SqynhX+EnHCJPz8hvWW+oprehP21D7erqOKxT36QIY3GqcAXxv4J1i5v/QFbrv1DrQ+TDAGvOn6dedd5NOajUo5d0F1XJIGWqm9fmZqkihT0c3+a4KqrE/J7fQYEC+lHnO4A+1jCvk7X9vMhmoddRfPQpTmB6F2i5TyMsxs/mdlfFcPdbqc3cJmaU/V43BBYNxiYYQftCGiVAPyVfkYYw8wTS7tH/f4D49l0Kjkd1+5pl0tb9LBjR41Kh3uGanSL5MPuzvORHM4g/t1PSF1fe4s35F3VcR4+OJedrz6eJrLh/9cRaTIUh8StPTc9MHDOzClm7eRg88SktjD+tYgQW26cl4IoF64ky+WS5xF5HQrv6P3Wv+wGfb64agp5uFOTHsKu6nQbyBfK4tBu+ElVBVUfR7dJ42QrKnBq3cMBESIXGuvgNtmJLcqW621kAw0fNzrR78X+yAhAacVxgyEJNedb7Jg3UJ/qqRsIrCZf9oLhICcqH1DnAdS5S+qsUZD5hEI7+loVGYF9l/L2HlTdzqHdYGwWRNn4dokY7NK87obm4ei7R4Orz+sb0DZcUDDneebPcmFkVHs1H2Z9ZvuP6CaEOZVbY3pWahUZU6la23VurMNAwmif9Za3bdeT0sB++0FIkwyGavErQD3eoBQxBcKOQX95q/5Q04tQXhsWPodTKW4Tw2j0rXotc8STZDeb4rGNWQAZJjXoSOQRvZsXiAO+pf80Wz2cVv+wx3qjQ8Xa0WC/ifQQSNtfAjkafMsOLchBn/V7gDjQEPujTYhH32pBIZ9QuecE6V7rqKvlp+OPBQcq1qKgHrksIsC4jHAvdMGJOtPoe1+z/p0i77vxeEJNCdx+hdOiNlXmsW7C5+FKUOhDKQN7pEsAYWojUadYby/QmM67t5Dbi8MUp/ir14rCvNzAwJQphYabq7eLJ2493OQb9tPmYMNoODyKg+CkPz0cDOPtpKXaUOcs1ZAua5+oXKw3UtmYX1VHKOWcTlWTD35eFLAf6tfzMEkmSkfx8ZYvsqpioutfjx0Y+tyqBc3yYb3wnS3sUanhpSpmNoE2aoMuAmoZeEXu3y5vLqxrPRdFLqLiLZLY9i7Otniod0YYKvh7yp+aNMXZoqMftZ31XuA8WKm0Tj2NTEN4qFcAVOZcZ3HKqY2R4VGC85hG6PGwHjio95mHQ63TunxRrdLbzJtjYzwJJ1RrsiOkXnu+7jZ49fLph5/ev7wYW5Iur9gZuyQi7ixh3stQrvUrmu6O0uR5r52XHv3coN8oJ8jM0pS6uKhXK16RT471U696mqS8vAH/TzrFfap6e2r4jY4r3J81
+export default function App() {
+-  const [darkMode, setDarkMode] = useState(false);
+-  const toggleDarkMode = () => setDarkMode((prev) => !prev);
++function getInitialTheme(): Theme {
++  const stored = window.localStorage.getItem("financemeta-theme");
++  if (stored === "light" || stored === "dark") {
++    return stored;
++  }
++
++  return window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
++}
++
++function App() {
++  const [theme, setTheme] = useState<Theme>(getInitialTheme);
+ 
+   useEffect(() => {
+-    document.documentElement.classList.toggle("dark", darkMode);
+-  }, [darkMode]);
+-
+-  const particlesInit = useCallback(async (engine: Engine) => {
+-    await loadFull(engine);
+-  }, []);
+-
+-  const particlesOptions = useMemo(() => ({
+-    background: { color: "transparent" },
+-    fpsLimit: 60,
+-    interactivity: {
+-      events: { onHover: { enable: true, mode: "repulse" } },
+-      modes: { repulse: { distance: 100 } },
+-    },
+-    particles: {
+-      color: { value: "#10b981" }, // Tailwind emerald-500
+-      links: { enable: true, color: "#10b981", distance: 150 },
+-      move: { enable: true, speed: 1, outModes: { default: "bounce" } },
+-      number: { value: 50, density: { enable: true, area: 800 } },
+-      opacity: { value: 0.5 },
+-      shape: { type: "circle" },
+-      size: { value: { min: 2, max: 5 } },
+-    },
+-    detectRetina: true,
+-  }), []);
++    document.documentElement.dataset.theme = theme;
++    window.localStorage.setItem("financemeta-theme", theme);
++  }, [theme]);
++
++  const nextTheme = theme === "dark" ? "light" : "dark";
+ 
+   return (
+-    <div className="relative min-h-screen overflow-hidden bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-500">
+-      <Particles id="tsparticles" init={particlesInit} options={particlesOptions} className="absolute inset-0 -z-10" />
+-
+-      <button
+-        onClick={toggleDarkMode}
+-        className="absolute top-6 right-6 px-4 py-2 rounded-lg border border-green-500 text-green-500 hover:bg-green-500 hover:text-white transition"
+-      >
+-        {darkMode ? "Light Mode" : "Dark Mode"}
+-      </button>
+-
+-      <motion.div initial={{ opacity: 0, y: -50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1 }}
+-        className="flex flex-col items-center justify-center text-center px-6 pt-32 md:pt-48"
+-      >
+-        <h1 className="text-5xl md:text-6xl font-bold text-green-500 drop-shadow-lg">Finance 4All</h1>
+-        <p className="mt-6 text-lg md:text-xl text-gray-700 dark:text-gray-300 max-w-2xl">
+-          Making financial education accessible, interactive, and fun for everyone.
+-        </p>
+-        <motion.button
+-          whileHover={{ scale: 1.05 }}
+-          whileTap={{ scale: 0.95 }}
+-          className="mt-8 px-8 py-4 rounded-xl bg-green-500 text-white font-semibold shadow-lg hover:shadow-xl transition"
+-          onClick={() => (window.location.href = "mailto:financeforalledu@gmail.com")}
++    <>
++      <a className="skip-link" href="#main-content">
++        Skip to main content
++      </a>
++
++      <header className="site-header">
++        <a className="brand" href="#top" aria-label="FinanceMeta home">
++          <span className="brand-mark" aria-hidden="true">FM</span>
++          <span>FinanceMeta</span>
++        </a>
++
++        <nav aria-label="Primary navigation">
++          <a href="#pathways">Pathways</a>
++          <a href="#community">Community</a>
++          <a href="#contact">Contact</a>
++        </nav>
++
++        <button
++          className="theme-toggle"
++          type="button"
++          onClick={() => setTheme(nextTheme)}
++          aria-label={`Switch to ${nextTheme} theme`}
+         >
+-          Reach Us
+-        </motion.button>
+-      </motion.div>
+-
+-      <motion.div className="mt-32 md:mt-48 px-6 max-w-6xl mx-auto grid md:grid-cols-3 gap-8 text-center"
+-        initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ duration: 1.2 }}
+-      >
+-        {FEATURES.map(f => (
+-          <motion.div key={f.title} whileHover={{ y: -5 }}
+-            className="p-8 border rounded-2xl bg-gray-100 dark:bg-gray-800 hover:shadow-xl transition"
+-          >
+-            <h3 className="text-2xl font-bold text-green-500">{f.title}</h3>
+-            <p className="mt-2 text-gray-600 dark:text-gray-300">{f.desc}</p>
+-          </motion.div>
+-        ))}
+-      </motion.div>
+-    </div>
++          {nextTheme === "light" ? "Light" :
