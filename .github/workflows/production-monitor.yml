@@ -1,0 +1,83 @@
+name: Production Monitor
+
+on:
+  schedule:
+    - cron: '17 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: production-monitor
+  cancel-in-progress: true
+
+jobs:
+  smoke-production:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+
+      - name: Probe production with bounded retries
+        env:
+          SMOKE_BASE_URL: https://www.vertexed.app
+          SMOKE_TIMEOUT_MS: '20000'
+        run: |
+          set -euo pipefail
+          log_file="production-monitor.log"
+          : > "$log_file"
+          passed=0
+
+          {
+            echo "VertexED production monitor"
+            echo "Started (UTC): $(date -u +'%Y-%m-%dT%H:%M:%SZ')"
+            echo "Commit: ${GITHUB_SHA}"
+            echo "Target: ${SMOKE_BASE_URL}"
+          } | tee -a "$log_file"
+
+          for attempt in 1 2 3; do
+            echo "Attempt ${attempt}/3" | tee -a "$log_file"
+            if node scripts/smoke-deploy.mjs 2>&1 | tee -a "$log_file"; then
+              passed=1
+              break
+            fi
+
+            if [ "$attempt" -lt 3 ]; then
+              echo "Retrying in 30 seconds after a failed probe." | tee -a "$log_file"
+              sleep 30
+            fi
+          done
+
+          echo "Finished (UTC): $(date -u +'%Y-%m-%dT%H:%M:%SZ')" | tee -a "$log_file"
+
+          if [ "$passed" -ne 1 ]; then
+            echo "Production smoke contract failed after three attempts." | tee -a "$log_file"
+            {
+              echo "## Production monitor failed"
+              echo "The public production smoke contract failed after three attempts."
+              echo "Inspect the uploaded production-monitor log before changing or rolling back production."
+            } >> "$GITHUB_STEP_SUMMARY"
+            exit 1
+          fi
+
+          {
+            echo "## Production monitor passed"
+            echo "The public production smoke contract passed for ${SMOKE_BASE_URL}."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload monitor evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: production-monitor-${{ github.run_id }}
+          path: production-monitor.log
+          if-no-files-found: error
+          retention-days: 14
