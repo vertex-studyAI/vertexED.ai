@@ -1,0 +1,91 @@
+name: React Router 7 Migration Validation
+
+on:
+  push:
+    branches:
+      - percy/react-router-7-migration-2026-08-05
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: router7-migration-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+
+    steps:
+      - name: Checkout migration branch
+        uses: actions/checkout@v5
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+          package-manager-cache: false
+
+      - name: Generate npm lockfile for React Router 7
+        run: npm install --package-lock-only --ignore-scripts
+
+      - name: Verify clean install
+        run: npm ci
+
+      - name: Run canonical release gate
+        env:
+          ROLLUP_SKIP_NODEJS_NATIVE: 'true'
+        run: npm run ci
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Start migrated local preview
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm run preview -- --host 127.0.0.1 --port 4173 > preview.log 2>&1 &
+          echo $! > preview.pid
+          for attempt in $(seq 1 30); do
+            if curl --fail --silent http://127.0.0.1:4173/ > /dev/null; then
+              exit 0
+            fi
+            sleep 1
+          done
+          cat preview.log
+          exit 1
+
+      - name: Run route and auth regression suite on migrated build
+        env:
+          PLAYWRIGHT_BASE_URL: http://127.0.0.1:4173
+          PLAYWRIGHT_API_URL: https://www.vertexed.app
+        run: npx playwright test e2e/smoke.spec.ts
+
+      - name: Record dependency versions and audit
+        if: always()
+        shell: bash
+        run: |
+          {
+            echo '## React Router 7 migration validation'
+            echo
+            echo '```text'
+            npm ls react-router react-router-dom --depth=1 || true
+            echo
+            npm audit --omit=dev || true
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload migration evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: router7-migration-${{ github.run_id }}
+          path: |
+            package-lock.json
+            preview.log
+            playwright-report
+            test-results
+          if-no-files-found: warn
+          retention-days: 7
