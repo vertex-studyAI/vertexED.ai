@@ -7,7 +7,7 @@ This document defines the small, privacy-safe event set used to measure whether 
 - Track completed product actions and fixed operational categories, not private study content.
 - Never send email addresses, usernames, user IDs, prompts, answers, messages, tokens, passwords, invite codes, URLs containing user data, or free-form user text.
 - Keep properties to fixed categories, booleans, and counts.
-- Analytics failure must never block signup, onboarding, saving, retrieval, or another product action.
+- Analytics failure must never block signup, onboarding, saving, retrieval, logout, deletion, or another product action.
 - Page views remain handled by the mounted Vercel Analytics component.
 - Custom events are collected only when supported and enabled by the active Vercel plan.
 
@@ -21,6 +21,18 @@ This document defines the small, privacy-safe event set used to measure whether 
 | `Planner Saved` | A planner snapshot is saved to cloud storage or falls back to device storage | `destination`, `cloud_status`, `task_count_bucket` |
 | `Planner Retrieved` | Planner loading resolves to a cloud snapshot, device snapshot, or empty state | `source`, `cloud_status`, `task_count_bucket` |
 | `AI Request Completed` | An authenticated POST to a fixed AI feature endpoint returns or fails at the network boundary | `feature`, `outcome`, `status_class`, `duration_bucket` |
+| `Logout Completed` | The centralized logout operation succeeds or fails | `outcome`, `backend` |
+| `Account Deletion Completed` | `DELETE /api/account` returns or fails at the network boundary | `outcome`, `status_class` |
+
+## Account lifecycle categories
+
+Account lifecycle events never include email, username, user ID, identity provider account, session data, deletion reason, raw server error, exact response status, or the account endpoint URL.
+
+- `Logout Completed` records only `success` or `failure` and whether the path used the configured `supabase` backend or the local disabled-auth fallback.
+- `Account Deletion Completed` records only `success`, `failure`, or `network_error`, plus a reduced status class such as `2xx`, `4xx`, `5xx`, or `network`.
+- Account deletion matching is limited to the exact `/api/account` pathname with the `DELETE` method. Other delete operations are not counted.
+
+These events measure whether users can leave safely without retaining an analytics identifier or exposing account data.
 
 ## Planner persistence categories
 
@@ -58,12 +70,14 @@ The first production activation funnel is:
 5. `Planner Saved` with `destination=cloud`
 6. A later `Planner Retrieved` with `source=cloud`
 7. Subsequent protected feature page views
+8. `Logout Completed` with `outcome=success`
 
-Use `AI Request Completed` separately to compare success rate and latency bucket by feature without joining to user identity or study content.
+Treat `Account Deletion Completed` as a separate safety and compliance journey rather than a desired activation step. Use `AI Request Completed` separately to compare success rate and latency bucket by feature without joining to user identity or study content.
 
 ## Verification
 
 - `tests/product-analytics.test.mjs` verifies event-name bounds, sensitive-key removal, the fixed AI endpoint allowlist, status reduction, and duration bucketing.
 - `tests/planner-sync.test.mjs` verifies planner count bucketing and the fixed save/retrieval property allowlists.
+- `tests/account-lifecycle-analytics.test.mjs` verifies exact endpoint matching, status reduction, and fixed logout/deletion categories.
 - The canonical `npm run ci` command runs the analytics tests through `npm test` and verifies the application build.
 - In production, confirm events in the Vercel Web Analytics events panel and compare counts against non-secret aggregate request evidence when production access is available.
