@@ -20,7 +20,7 @@ This document defines the small, privacy-safe event set used to measure whether 
 | `Onboarding Completed` | Profile metadata and the first planner snapshot are saved | `curriculum`, `subject_count`, `planner_sync` |
 | `Planner Saved` | A planner snapshot is saved to cloud storage or falls back to device storage | `destination`, `cloud_status`, `task_count_bucket` |
 | `Planner Retrieved` | Planner loading resolves to a cloud snapshot, device snapshot, or empty state | `source`, `cloud_status`, `task_count_bucket` |
-| `AI Request Completed` | An authenticated POST to a fixed AI feature endpoint returns or fails at the network boundary | `feature`, `outcome`, `status_class`, `duration_bucket` |
+| `AI Request Completed` | An authenticated POST to a fixed AI feature endpoint returns, times out, or fails at the network boundary | `feature`, `outcome`, `status_class`, `duration_bucket` |
 | `Logout Completed` | The centralized logout operation succeeds or fails | `outcome`, `backend` |
 | `Account Deletion Completed` | `DELETE /api/account` returns or fails at the network boundary | `outcome`, `status_class` |
 
@@ -55,7 +55,7 @@ These events make the save-and-return journey measurable without exposing schedu
 - transcription;
 - board-resource generation.
 
-The event never records the request body, response body, prompt, answer, source text, user identity, exact URL, request ID, or exact latency. HTTP results are reduced to status classes such as `2xx` or `5xx`; latency is reduced to one of five fixed buckets. Network failures use `outcome=network_error` and `status_class=network`.
+The event never records the request body, response body, prompt, answer, source text, user identity, exact URL, request ID, exact latency, or raw transport error. HTTP results are reduced to status classes such as `2xx` or `5xx`; latency is reduced to one of five fixed buckets. Network failures use `outcome=network_error`; the fixed client deadline uses `outcome=timeout`. Both use `status_class=network`.
 
 Because chatbot fallback attempts can call more than one endpoint, these metrics represent provider/API attempts rather than unique user actions. Activation events and page views should be used for user-level funnel analysis.
 
@@ -76,8 +76,9 @@ Treat `Account Deletion Completed` as a separate safety and compliance journey r
 
 ## Verification
 
-- `tests/product-analytics.test.mjs` verifies event-name bounds, sensitive-key removal, the fixed AI endpoint allowlist, status reduction, and duration bucketing.
+- `tests/product-analytics.test.mjs` verifies event-name bounds, sensitive-key removal, the fixed AI endpoint allowlist, status reduction, timeout categorization, and duration bucketing.
 - `tests/planner-sync.test.mjs` verifies planner count bucketing and the fixed save/retrieval property allowlists.
 - `tests/account-lifecycle-analytics.test.mjs` verifies exact endpoint matching, status reduction, and fixed logout/deletion categories.
+- `tests/api-request-recovery.test.mjs` verifies the one-retry session contract and stable timeout error.
 - The canonical `npm run ci` command runs the analytics tests through `npm test` and verifies the application build.
 - In production, confirm events in the Vercel Web Analytics events panel and compare counts against non-secret aggregate request evidence when production access is available.

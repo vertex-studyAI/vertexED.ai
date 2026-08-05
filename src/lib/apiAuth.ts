@@ -1,5 +1,10 @@
 import { isAccountDeletionRequest, trackAccountDeletion } from '@/lib/accountLifecycleAnalytics.mjs';
 import { getAiFeatureForRequest, trackAiRequestOutcome } from '@/lib/aiRequestAnalytics.mjs';
+import {
+  createRequestDeadline,
+  shouldRetryAfterUnauthorized,
+  toRequestError,
+} from '@/lib/apiRequestRecovery.mjs';
 import { supabase } from '@/lib/supabaseClient';
 
 export async function getAccessToken(): Promise<string | null> {
@@ -17,23 +22,75 @@ export async function authHeaders(init?: HeadersInit): Promise<Headers> {
   return headers;
 }
 
+function isRequestInput(input: RequestInfo | URL): input is Request {
+  return typeof Request !== 'undefined' && input instanceof Request;
+}
+
 function requestMethod(input: RequestInfo | URL, init?: RequestInit) {
   if (init?.method) return init.method.toUpperCase();
-  if (typeof Request !== 'undefined' && input instanceof Request) {
-    return input.method.toUpperCase();
-  }
+  if (isRequestInput(input)) return input.method.toUpperCase();
   return 'GET';
 }
 
+function mergedRequestHeaders(input: RequestInfo | URL, init?: RequestInit) {
+  const headers = new Headers(isRequestInput(input) ? input.headers : undefined);
+  new Headers(init?.headers).forEach((value, key) => headers.set(key, value));
+  return headers;
+}
+
+function requestInputForAttempt(input: RequestInfo | URL): RequestInfo | URL {
+  return isRequestInput(input) ? input.clone() : input;
+}
+
+async function refreshAccessToken(): Promise<string | null> {
+  if (!supabase) return null;
+
+  const { data, error } = await supabase.auth.refreshSession();
+  const token = data.session?.access_token ?? null;
+  if (!error && token) return token;
+
+  // An invalid refresh token cannot recover. Clear only this browser session so
+  // AuthContext receives SIGNED_OUT and protected routes can return to login.
+  await supabase.auth.signOut({ scope: 'local' });
+  return null;
+}
+
 export async function authFetch(input: RequestInfo | URL, init?: RequestInit): Promise<Response> {
-  const headers = await authHeaders(init?.headers);
   const method = requestMethod(input, init);
   const shouldTrackAiRequest = method === 'POST' && Boolean(getAiFeatureForRequest(input));
   const shouldTrackAccountDeletion = isAccountDeletionRequest(input, method);
+  const deadline = shouldTrackAiRequest ? createRequestDeadline(init?.signal) : null;
   const startedAt = Date.now();
+  const headers = await authHeaders(mergedRequestHeaders(input, init));
+  const hadAuthorization = headers.has('Authorization');
+
+  const performRequest = (attemptHeaders: Headers) =>
+    fetch(requestInputForAttempt(input), {
+      ...init,
+      headers: attemptHeaders,
+      signal: deadline?.signal ?? init?.signal,
+    });
 
   try {
-    const response = await fetch(input, { ...init, headers });
+    let response = await performRequest(headers);
+    let retried = false;
+
+    if (
+      shouldRetryAfterUnauthorized({
+        status: response.status,
+        hasAuthorization: hadAuthorization,
+        alreadyRetried: retried,
+      })
+    ) {
+      const refreshedToken = await refreshAccessToken();
+      if (refreshedToken) {
+        retried = true;
+        const retryHeaders = new Headers(headers);
+        retryHeaders.set('Authorization', `Bearer ${refreshedToken}`);
+        response = await performRequest(retryHeaders);
+      }
+    }
+
     if (shouldTrackAiRequest) {
       trackAiRequestOutcome(input, {
         status: response.status,
@@ -48,15 +105,19 @@ export async function authFetch(input: RequestInfo | URL, init?: RequestInit): P
     }
     return response;
   } catch (error) {
+    const timedOut = deadline?.didTimeout() ?? false;
     if (shouldTrackAiRequest) {
       trackAiRequestOutcome(input, {
         durationMs: Date.now() - startedAt,
-        networkError: true,
+        networkError: !timedOut,
+        timedOut,
       });
     }
     if (shouldTrackAccountDeletion) {
       trackAccountDeletion({ outcome: 'failure', networkError: true });
     }
-    throw error;
+    throw toRequestError(error, timedOut);
+  } finally {
+    deadline?.cleanup();
   }
 }
