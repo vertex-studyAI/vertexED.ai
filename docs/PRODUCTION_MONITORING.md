@@ -37,7 +37,9 @@ This monitor covers logged-out availability only. It does not prove that authent
 
 ## Response procedure
 
-When the monitor fails:
+Follow `docs/PRODUCTION_INCIDENT_RUNBOOK.md` for named ownership, the first-five-minute response, stabilization order, provider-specific triage, rollback criteria, and evidence-backed closure.
+
+At minimum:
 
 1. Open the linked workflow run and download the evidence artifact.
 2. Determine whether the failure is DNS, TLS, redirect, application response, health JSON, or latency related.
