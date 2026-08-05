@@ -7,7 +7,7 @@
     "dev": "vite",
     "typecheck": "tsc --noEmit",
     "audit:prod": "npm audit --omit=dev --audit-level=high",
-    "test": "node --test tests/*.test.mjs",
+    "test": "node --test tests/source.test.mjs tests/release-contract.test.mjs",
     "build": "vite build",
     "test:dist": "node --test tests/dist-contract.test.mjs",
     "test:e2e": "playwright test",
