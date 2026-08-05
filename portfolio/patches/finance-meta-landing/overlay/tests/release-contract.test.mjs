@@ -4,7 +4,7 @@ import { extname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import test from 'node:test';
 
-const projectRoot = fileURLToPath(new URL('../../', import.meta.url));
+const projectRoot = fileURLToPath(new URL('../', import.meta.url));
 
 async function read(path) {
   return readFile(join(projectRoot, path), 'utf8');
