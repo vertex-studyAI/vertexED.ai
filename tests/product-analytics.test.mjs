@@ -106,4 +106,18 @@ test("AI request analytics exposes only fixed operational categories", () => {
       duration_bucket: "over_30s",
     },
   );
+
+  assert.deepEqual(
+    buildAiRequestAnalyticsProperties({
+      feature: "paper",
+      durationMs: 45_000,
+      timedOut: true,
+    }),
+    {
+      feature: "paper",
+      outcome: "timeout",
+      status_class: "network",
+      duration_bucket: "over_30s",
+    },
+  );
 });

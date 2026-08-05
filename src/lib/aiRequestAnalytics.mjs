@@ -63,13 +63,25 @@ export function buildAiRequestAnalyticsProperties({
   status,
   durationMs,
   networkError = false,
+  timedOut = false,
 }) {
   const validStatus = Number.isInteger(status) && status >= 100 && status <= 599;
+  const transportFailure = networkError || timedOut;
 
   return {
     feature,
-    outcome: networkError ? "network_error" : validStatus && status >= 200 && status < 300 ? "success" : "failure",
-    status_class: networkError ? "network" : validStatus ? `${Math.floor(status / 100)}xx` : "unknown",
+    outcome: timedOut
+      ? "timeout"
+      : networkError
+        ? "network_error"
+        : validStatus && status >= 200 && status < 300
+          ? "success"
+          : "failure",
+    status_class: transportFailure
+      ? "network"
+      : validStatus
+        ? `${Math.floor(status / 100)}xx`
+        : "unknown",
     duration_bucket: bucketAiRequestDuration(durationMs),
   };
 }
