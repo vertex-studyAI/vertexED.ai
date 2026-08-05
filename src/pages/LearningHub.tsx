@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import { useEffect, useState } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router';
 import { Helmet } from 'react-helmet-async';
 import {
   ArrowRight,

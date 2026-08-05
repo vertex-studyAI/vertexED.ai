@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router';
 
 import { getStudyContext } from '@/lib/studyContext';
 import { rememberStudySession } from '@/lib/studyActivity';

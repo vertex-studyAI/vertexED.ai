@@ -1,6 +1,6 @@
 import { Helmet } from "react-helmet-async";
 import { useEffect, useState } from "react";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router";
 import PageSection from "@/components/PageSection";
 import { useAuth } from "@/contexts/AuthContext";
 import { trackProductEvent } from "@/lib/productAnalytics.mjs";

@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { ArrowRight, Bot, Flame, Sparkles, Target } from 'lucide-react';
 import type { EcosystemBrief } from '@/lib/studyEcosystem';
 import type { RetrievalPulse } from '@/lib/retrievalPulse';

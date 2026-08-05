@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 type Props = { children: React.ReactNode };
 type State = { hasError: boolean };

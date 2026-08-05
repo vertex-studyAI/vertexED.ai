@@ -1,8 +1,9 @@
-import { Navigate } from 'react-router-dom';
+import type React from 'react';
+import { Navigate } from 'react-router';
 import { useAuth } from '@/contexts/AuthContext';
 import { useIsAdmin } from '@/hooks/useIsAdmin';
 
-export default function AdminRoute({ children }: { children: JSX.Element }) {
+export default function AdminRoute({ children }: { children: React.JSX.Element }) {
   const { user, loading } = useAuth();
   const { isAdmin, loading: adminLoading } = useIsAdmin();
 

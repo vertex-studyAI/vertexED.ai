@@ -1,7 +1,7 @@
 import SEO from "@/components/SEO";
 import PageSection from "@/components/PageSection";
 import Article from "@/components/Article";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 export default function TermsOfService() {
   return (

@@ -1,7 +1,7 @@
 import React from "react";
 import Article from "@/components/Article";
 import SEO from "@/components/SEO";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 export default function IGCSEScienceGuide() {
   return (

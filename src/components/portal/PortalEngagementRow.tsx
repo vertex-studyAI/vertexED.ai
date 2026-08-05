@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router';
 import { Bot, MessageSquarePlus, RefreshCw, Settings } from 'lucide-react';
 import { getCommandTermsForBoard } from '@/lib/commandTerms';
 import { getConfidenceRatings, setConfidenceRating } from '@/lib/portalFeatures';

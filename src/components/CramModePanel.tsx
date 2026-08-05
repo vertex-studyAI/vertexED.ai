@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { Clock, Zap } from 'lucide-react';
 import { buildCramSession, totalCramMinutes } from '@/lib/cramMode';
 import type { ExamBoard } from '@/types/curriculum';

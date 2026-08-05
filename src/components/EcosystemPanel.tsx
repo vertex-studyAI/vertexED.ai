@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { ArrowRight, Clock } from 'lucide-react';
 
 import type { ActivityEntry, PlannerTaskPreview } from '@/lib/studyEcosystem';

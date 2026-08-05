@@ -1,6 +1,6 @@
 import SEO from "@/components/SEO";
 import Article from "@/components/Article";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 export default function SubjectGuidesCommonMistakes() {
   const canonical = "https://www.vertexed.app/resources/subject-guides-common-mistakes";

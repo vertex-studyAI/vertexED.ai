@@ -10,7 +10,7 @@ import { recordLoopStep } from "@/lib/studyLoopTracker";
 import { logStudyActivity } from "@/lib/studyActivity";
 import { consumeMockReviewHandoff } from "@/lib/examFlow";
 import { recordWeakness } from "@/lib/weaknessTracker";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router";
 import { useAuth } from "@/contexts/AuthContext";
 import {
   boardToApiLabel,
@@ -847,10 +847,16 @@ export default function AIAnswerReview() {
                             ol: ({ children }) => <ol className="list-decimal space-y-2 pl-5 text-muted-foreground">{children}</ol>,
                             li: ({ children }) => <li className="leading-relaxed">{children}</li>,
                             blockquote: ({ children }) => <blockquote className="border-l-4 border-primary/40 pl-4 italic text-foreground/90">{children}</blockquote>,
-                            code: ({ inline, children }) => inline ? (
-                              <code className="rounded bg-foreground/10 px-1.5 py-0.5 text-[0.9em] text-foreground">{children}</code>
-                            ) : (
-                              <pre className="overflow-auto rounded-2xl bg-muted p-4 text-foreground shadow-inner"><code>{children}</code></pre>
+                            pre: ({ children }) => (
+                              <pre className="overflow-auto rounded-2xl bg-muted p-4 text-foreground shadow-inner">{children}</pre>
+                            ),
+                            code: ({ className, children, ...props }) => (
+                              <code
+                                className={className || "rounded bg-foreground/10 px-1.5 py-0.5 text-[0.9em] text-foreground"}
+                                {...props}
+                              >
+                                {children}
+                              </code>
                             ),
                           }}>
                             {enrichMathInText(response)}

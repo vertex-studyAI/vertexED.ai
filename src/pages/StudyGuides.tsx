@@ -1,5 +1,5 @@
 import { type FormEvent, useEffect, useId, useMemo, useRef, useState } from "react";
-import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router";
 import { BookOpen, ChevronDown, ChevronRight, FileText, GraduationCap, Loader2, LockKeyhole, Search } from "lucide-react";
 
 import LiquidGlass from "@/components/LiquidGlass";

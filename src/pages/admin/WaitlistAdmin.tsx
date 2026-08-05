@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import PageSection from '@/components/PageSection';
 import SEO from '@/components/SEO';
 import { authFetch } from '@/lib/apiAuth';

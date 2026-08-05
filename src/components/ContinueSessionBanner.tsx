@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { ArrowRight, Sparkles } from 'lucide-react';
 
 import { getLastStudySession } from '@/lib/studyActivity';

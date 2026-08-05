@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { Clock, X, BookOpen } from "lucide-react";
 import { buildReviewHandoffFromPaper, saveMockReviewHandoff } from "@/lib/examFlow";
 import { recordWeakness } from "@/lib/weaknessTracker";

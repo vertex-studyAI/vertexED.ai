@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router';
 import { Download, Eraser, Pen, RotateCcw, Send } from 'lucide-react';
 import {
   addTextSource,

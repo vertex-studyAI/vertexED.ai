@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { CheckCircle2, Circle, ListChecks } from 'lucide-react';
 import type { TodayPlanItem } from '@/lib/todayPlan';
 import { getTodayPlanDoneIds, toggleTodayPlanDone } from '@/lib/todayPlan';

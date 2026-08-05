@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import SEO from "@/components/SEO";
 import PageSection from "@/components/PageSection";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { BookOpen, Brain, GraduationCap, Heart, Search, Wrench } from "lucide-react";
 
 type Article = {

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { getWeaknessHeatmap, type TopicHeat } from '@/lib/weaknessTracker';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 
 export default function WeaknessHeatmap({ compact = false }: { compact?: boolean }) {
   const limit = compact ? 5 : 10;

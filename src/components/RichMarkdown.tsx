@@ -18,15 +18,18 @@ export default function RichMarkdown({ children, className, transformMath = true
   const markdown = transformMath ? enrichMathInText(children || "") : children || "";
 
   return (
-    <ReactMarkdown
-      remarkPlugins={[remarkGfm, remarkMath]}
-      rehypePlugins={[rehypeKatex]}
+    <div
       className={cn(
         "prose prose-sm max-w-none dark:prose-invert prose-headings:text-foreground prose-p:text-foreground/90 prose-strong:text-foreground prose-li:text-foreground/90",
         className,
       )}
     >
-      {markdown || "..."}
-    </ReactMarkdown>
+      <ReactMarkdown
+        remarkPlugins={[remarkGfm, remarkMath]}
+        rehypePlugins={[rehypeKatex]}
+      >
+        {markdown || "..."}
+      </ReactMarkdown>
+    </div>
   );
 }

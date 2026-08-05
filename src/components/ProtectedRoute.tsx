@@ -1,4 +1,5 @@
-import { Navigate, useLocation } from "react-router-dom";
+import type React from 'react';
+import { Navigate, useLocation } from "react-router";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { authFetch } from "@/lib/apiAuth";
@@ -17,7 +18,7 @@ function WaitlistPending() {
   );
 }
 
-export default function ProtectedRoute({ children }: { children: JSX.Element }) {
+export default function ProtectedRoute({ children }: { children: React.JSX.Element }) {
   const { user, loading } = useAuth();
   const location = useLocation();
   const [access, setAccess] = useState<"checking" | "approved" | "pending" | "rejected">("checking");

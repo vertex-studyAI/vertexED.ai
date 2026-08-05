@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router";
 import SEO from "@/components/SEO";
 import { useAuth } from "@/contexts/AuthContext";
 import { TypeAnimation } from "react-type-animation";

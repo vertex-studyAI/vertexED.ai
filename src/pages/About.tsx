@@ -10,7 +10,7 @@ interface Person {
   linkedin: string;
 }
 
-export default function About(): JSX.Element {
+export default function About(): React.JSX.Element {
   const team: Person[] = [
     {
       name: "Ryan Gomez",

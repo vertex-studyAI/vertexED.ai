@@ -11,7 +11,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { getLearnerProfile } from "@/lib/learnerProfile";
 import { daysUntilExam } from "@/lib/curriculum";
 import { getWeakestTopics } from "@/lib/weaknessTracker";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router";
 import { loadPlannerSnapshot, savePlannerSnapshot } from "@/lib/plannerSync";
 
 function getOrdinalSuffix(day: number) {
