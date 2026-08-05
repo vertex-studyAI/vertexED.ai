@@ -65,6 +65,8 @@ GitHub CI still validates these commits. Only the redundant Vercel deployment is
 
 `tests/vercel-ignore-build.test.mjs` certifies runtime, API, Supabase, root build-configuration, documentation-only, mixed-commit, and path-normalization behavior. The test is part of the canonical `npm test` and `npm run ci` gates.
 
+The guard is framework-independent and must remain green on the current React 19, React Router 8, and Vite 7 release baseline before merge.
+
 ## Recovery procedure
 
 When Vercel reports a rate limit:
