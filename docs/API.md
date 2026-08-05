@@ -7,9 +7,49 @@ All JSON endpoints return `X-Vertex-API: 1` and `X-Request-Id` headers.
 ## Public endpoints
 
 ### `GET /api/health`
-Liveness check.
+Liveness check. This remains `200` even when optional or required integrations are unavailable, so it is safe for basic process monitoring.
 
-**Response:** `{ "ok": true }`
+**Response:**
+
+```json
+{
+  "ok": true,
+  "service": "vertexed",
+  "apiVersion": "1",
+  "status": "alive",
+  "timestamp": "2026-08-05T00:00:00.000Z"
+}
+```
+
+The response includes `Cache-Control: no-store` and `X-VertexED-Health: alive`.
+
+### `GET /api/health?readiness=1`
+Dependency-aware readiness check for deployment monitoring. `?mode=readiness` is an equivalent form.
+
+The endpoint verifies that configuration exists for authentication, waitlist account creation, core OpenAI features, and Gemini planner features. It never returns secret values.
+
+- `200` — all required capabilities are configured
+- `503` — one or more required capabilities are missing
+
+**Response:**
+
+```json
+{
+  "ok": false,
+  "service": "vertexed",
+  "apiVersion": "1",
+  "status": "degraded",
+  "timestamp": "2026-08-05T00:00:00.000Z",
+  "checks": {
+    "authentication": true,
+    "waitlist": false,
+    "coreAi": true,
+    "plannerAi": true
+  }
+}
+```
+
+The response includes `X-VertexED-Health: ready` or `X-VertexED-Health: degraded`. `HEAD` is supported for both liveness and readiness modes.
 
 ### `POST /api/waitlist`
 Join the signup waitlist.
