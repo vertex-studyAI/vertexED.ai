@@ -1,9 +1,14 @@
 name: Apply Study Notebook source-preview accessibility patch
 
 on:
-  push:
+  pull_request:
     branches:
-      - percy/study-notebook-source-preview-a11y
+      - main
+    paths:
+      - .github/workflows/apply-study-notebook-source-preview-a11y.yml
+      - scripts/apply-study-notebook-source-preview-a11y.mjs
+      - src/pages/StudyNotebook.tsx
+      - tests/study-notebook-source-preview-accessibility.test.mjs
 
 permissions:
   contents: write
