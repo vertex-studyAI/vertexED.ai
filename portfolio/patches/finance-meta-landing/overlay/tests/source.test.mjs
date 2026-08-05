@@ -2,24 +2,27 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 
-const read = (path) => readFile(new URL(`../../${path}`, import.meta.url), 'utf8');
-const [html, source, css, packageJson] = await Promise.all([
+const projectRoot = new URL('../', import.meta.url);
+const read = (path) => readFile(new URL(path, projectRoot), 'utf8');
+const [html, main, app, css, packageJson] = await Promise.all([
   read('index.html'),
   read('src/main.tsx'),
+  read('src/app/App.tsx'),
   read('src/index.css'),
   read('package.json'),
 ]);
+const source = `${main}\n${app}`;
 
 test('mounts the real stylesheet', () => {
-  assert.match(source, /import\s+["']\.\/index\.css["']/);
+  assert.match(main, /import\s+["']\.\/index\.css["']/);
   assert.doesNotMatch(html, /href=["']\/index\.css["']/);
 });
 
 test('mounts React into the public root', () => {
   assert.match(html, /id=["']root["']/);
-  assert.match(source, /createRoot\s*\(/);
-  assert.match(source, /getElementById\s*\(\s*["']root["']\s*\)/);
-  assert.match(source, /\.render\s*\(/);
+  assert.match(main, /createRoot\s*\(/);
+  assert.match(main, /getElementById\s*\(\s*["']root["']\s*\)/);
+  assert.match(main, /\.render\s*\(/);
 });
 
 test('shows the FinanceMeta pathways, programs, and contact route', () => {
@@ -39,7 +42,7 @@ test('removes the stale particle-heavy dependency surface', () => {
 });
 
 test('includes accessibility, theme, and responsive safeguards', () => {
-  assert.match(source, /Skip to content/i);
+  assert.match(source, /Skip to main content/i);
   assert.match(source, /aria-label/i);
   assert.match(css, /:focus-visible/);
   assert.match(css, /prefers-reduced-motion/);
