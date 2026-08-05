@@ -1,0 +1,31 @@
+{
+  "name": "financemeta-landing",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "typecheck": "tsc --noEmit",
+    "audit:prod": "npm audit --omit=dev --audit-level=high",
+    "test": "node --test tests/*.test.mjs",
+    "build": "vite build",
+    "test:dist": "node --test tests/dist-contract.test.mjs",
+    "test:e2e": "playwright test",
+    "ci": "npm run typecheck && npm run audit:prod && npm test && npm run build && npm run test:dist",
+    "preview": "vite preview"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.54.2",
+    "@types/react": "^18.3.23",
+    "@types/react-dom": "^18.3.7",
+    "typescript": "^5.8.3",
+    "vite": "^7.0.6"
+  }
+}
