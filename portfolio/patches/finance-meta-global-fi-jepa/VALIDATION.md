@@ -8,4 +8,4 @@
 - Patch SHA-256: `dd36934bedd13ce1b4083b6822e57ef962ce418d7329ad26e4a89bf520594d77`
 - Report SHA-256: `da734cd10d861c2e030747630ac95a5a3c1c1719463cfc691d96d5c1e00995d7`
 
-Passed four tests covering deterministic data, disjoint chronological windows, objective reduction, non-collapsed embeddings, finite frozen-probe metrics, and deterministic CLI reporting. The synthetic experiment completed successfully. Generated package metadata, caches, and build products are excluded from the patch. This validates execution only; it is not evidence of novelty, real-market performance, or profitability.
+Passed four tests covering deterministic data, disjoint chronological windows, objective reduction, non-collapsed embeddings, finite frozen-probe metrics, and deterministic CLI reporting. The synthetic experiment completed successfully. Generated package metadata, caches, and build products are excluded from the patch. A final patch scan confirmed there is no generated `fi_jepa.egg-info` file diff. This validates execution only; it is not evidence of novelty, real-market performance, or profitability.
