@@ -3,7 +3,7 @@
   "engine": "PERCY 16384X",
   "run_started_at": "2026-08-02T15:42:00+05:30",
   "branch": "agent/percy-00012-operations-refresh",
-  "draft_pull_request": null,
+  "draft_pull_request": 39,
   "current_epoch": "EPOCH-01",
   "current_wave": "WAVE-001",
   "current_checkpoint": "CHECKPOINT-0001",
