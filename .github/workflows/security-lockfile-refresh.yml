@@ -1,0 +1,57 @@
+name: Security Lockfile Refresh
+
+on:
+  push:
+    branches:
+      - percy/production-observability-2026-08-05
+    paths:
+      - package.json
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: security-lockfile-refresh-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ github.ref_name }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+          package-manager-cache: false
+
+      - name: Refresh vulnerable transitive dependencies
+        run: npm audit fix --package-lock-only --ignore-scripts
+
+      - name: Verify production audit
+        run: npm audit --omit=dev --audit-level=high
+
+      - name: Verify clean install contract
+        run: npm ci --ignore-scripts
+
+      - name: Commit refreshed lockfile
+        shell: bash
+        run: |
+          set -euo pipefail
+          if git diff --quiet -- package-lock.json; then
+            echo 'No lockfile changes were produced.'
+            exit 0
+          fi
+
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add package-lock.json
+          git commit -m 'fix: refresh patched production dependencies'
+          git push origin "HEAD:${GITHUB_REF_NAME}"
