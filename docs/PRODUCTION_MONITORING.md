@@ -10,8 +10,8 @@ The workflow runs:
 
 - every hour at minute 17 UTC;
 - on manual dispatch;
-- after the workflow or smoke contract reaches `main`;
-- on pull requests that change either file, without opening or closing
+- after the workflow, smoke contract, or health handler reaches `main`;
+- on pull requests that change any of those files, without opening or closing
   production incident issues.
 
 Each production run permits three bounded attempts. Individual requests use a
@@ -22,18 +22,23 @@ indefinitely.
 
 The canonical public smoke contract verifies:
 
-1. `/api/health` returns HTTP 200, `ok: true`, and the expected Vertex API
-   router header.
-2. An unknown API route returns HTTP 404 instead of the application shell.
-3. The public homepage returns HTTP 200.
-4. `/api/waitlist` rejects malformed email input with HTTP 400.
-5. `/api/ask` rejects a logged-out request with HTTP 401.
-6. `/api/user-content` rejects a logged-out request with HTTP 401.
-7. `/api/admin-status` rejects a logged-out request with HTTP 401.
-8. The API rejects an untrusted cross-origin request with HTTP 403.
+1. `/api/health` returns HTTP 200, `ok: true`, `status: alive`, and the expected
+   Vertex API and liveness headers.
+2. `/api/health?readiness=1` returns HTTP 200, `ok: true`, `status: ready`, and
+   positive non-secret capability evidence for authentication, waitlist account
+   creation, core AI, and planner AI.
+3. An unknown API route returns HTTP 404 instead of the application shell.
+4. The public homepage returns HTTP 200.
+5. `/api/waitlist` rejects malformed email input with HTTP 400.
+6. `/api/ask` rejects a logged-out request with HTTP 401.
+7. `/api/user-content` rejects a logged-out request with HTTP 401.
+8. `/api/admin-status` rejects a logged-out request with HTTP 401.
+9. The API rejects an untrusted cross-origin request with HTTP 403.
 
-The monitor does not create waitlist entries, authenticate users, call an AI
-provider successfully, or alter user-owned data.
+Readiness returns booleans only. The monitor never records API keys, database
+credentials, invite codes, or provider configuration values. It does not create
+waitlist entries, authenticate users, call an AI provider successfully, or alter
+user-owned data.
 
 ## Evidence and incident behavior
 
@@ -64,12 +69,12 @@ From GitHub:
 
 A manual run should be performed immediately after merging the monitor and after
 any production DNS, hosting, routing, authentication-boundary, CORS, waitlist,
-or health-handler change.
+provider-configuration, or health-handler change.
 
 ## Coverage boundary
 
-This monitor proves logged-out availability and selected public security
-invariants only. It does not prove:
+This monitor proves logged-out availability, required configuration presence,
+and selected public security invariants only. It does not prove:
 
 - administrator approval;
 - approval-link or team-invite account creation;
@@ -92,8 +97,9 @@ At minimum:
 1. Open the linked workflow run and inspect the retained smoke log.
 2. Identify the first failed invariant and its exact HTTP result.
 3. Correlate the UTC timestamp with Vercel and Supabase logs.
-4. Determine whether the failure is DNS/TLS, routing, application availability,
-   waitlist validation, authentication enforcement, or CORS enforcement.
+4. Determine whether the failure is DNS/TLS, routing, liveness, dependency
+   readiness, application availability, waitlist validation, authentication
+   enforcement, or CORS enforcement.
 5. Roll back only when evidence identifies the latest deployment as the cause.
 6. Keep the incident open until a successful production monitor run closes it
    automatically.
