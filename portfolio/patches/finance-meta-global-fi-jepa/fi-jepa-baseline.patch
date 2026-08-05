@@ -1,0 +1,527 @@
+diff --git a/.github/workflows/fi-jepa-ci.yml b/.github/workflows/fi-jepa-ci.yml
+new file mode 100644
+index 0000000..a5b5cd4
+--- /dev/null
++++ b/.github/workflows/fi-jepa-ci.yml
+@@ -0,0 +1,37 @@
++name: FI-JEPA baseline
++
++on:
++  push:
++    paths:
++      - 'FI-JEPA/**'
++      - '.github/workflows/fi-jepa-ci.yml'
++  pull_request:
++    paths:
++      - 'FI-JEPA/**'
++      - '.github/workflows/fi-jepa-ci.yml'
++
++permissions:
++  contents: read
++
++jobs:
++  test:
++    runs-on: ubuntu-24.04
++    timeout-minutes: 10
++    steps:
++      - uses: actions/checkout@v5
++      - uses: actions/setup-python@v6
++        with:
++          python-version: '3.12'
++          cache: pip
++          cache-dependency-path: FI-JEPA/pyproject.toml
++      - name: Install
++        run: python -m pip install -e 'FI-JEPA[dev]'
++      - name: Test
++        run: pytest FI-JEPA/tests -q
++      - name: Reproduce synthetic baseline
++        run: python -m fi_jepa.cli --epochs 40 | tee fi-jepa-report.json
++      - uses: actions/upload-artifact@v7
++        with:
++          name: fi-jepa-synthetic-report
++          path: fi-jepa-report.json
++          retention-days: 14
+diff --git a/FI-JEPA/.gitignore b/FI-JEPA/.gitignore
+new file mode 100644
+index 0000000..650341a
+--- /dev/null
++++ b/FI-JEPA/.gitignore
+@@ -0,0 +1,7 @@
++__pycache__/
++*.py[cod]
++*.egg-info/
++.pytest_cache/
++.coverage
++dist/
++build/
+diff --git a/FI-JEPA/README.md b/FI-JEPA/README.md
+index e9fba61..2ff1c3c 100644
+--- a/FI-JEPA/README.md
++++ b/FI-JEPA/README.md
+@@ -1 +1,40 @@
+-FinanceMeta-Global is a vibrant, worldwide showcase of student creativity, research, and projects in finance and economics. Here, students from all corners of the globe share their models, simulations, analyses, and innovative approaches, turning this repository into a living gallery of ideas and discoveries. Whether it’s building predictive financial models, exploring economic scenarios, experimenting with AI in markets, or testing new approaches to risk and portfolio management, every project tells a story of curiosity, learning, and ingenuity. This is a space to celebrate student work, inspire others, and connect a global community of young researchers passionate about understanding and shaping the financial world. By exploring these projects, you don’t just see code or charts, you see the future of finance through the eyes of the next generation of thinkers.
++# FI-JEPA: executable baseline
++
++FI-JEPA is an **unvalidated research prototype** for testing whether a joint-embedding predictive objective can learn useful representations from multivariate financial time series. The repository does not currently contain evidence that FI-JEPA is novel, superior to simpler methods, profitable, or suitable for live trading.
++
++## Research question
++
++Can an encoder trained to predict the latent representation of a held-out future block from a past context block produce features that are useful to a frozen downstream probe?
++
++The baseline adapts the central JEPA idea—predicting targets in representation space instead of reconstructing raw inputs—from I-JEPA and V-JEPA. Financial sequences require different masking and evaluation rules: all context observations precede every target observation, splits are chronological, and no future sample may enter fitting or normalization.
++
++Primary background:
++
++- Assran et al., *Self-Supervised Learning from Images with a Joint-Embedding Predictive Architecture*, CVPR 2023: https://arxiv.org/abs/2301.08243
++- Bardes et al., *Revisiting Feature Prediction for Learning Visual Representations from Video*, 2024: https://ai.meta.com/research/publications/revisiting-feature-prediction-for-learning-visual-representations-from-video/
++- Sobal et al., *Joint Embedding Predictive Architectures Focus on Slow Features*, 2022: https://arxiv.org/abs/2211.10831
++
++## What is implemented
++
++- deterministic synthetic regime-switching market panels;
++- past-only context and strictly later target windows;
++- chronological train/validation splits with no shared observations;
++- a NumPy context encoder, EMA target encoder, and latent predictor;
++- a frozen ridge probe and persistence baseline;
++- deterministic tests for leakage, reproducibility, optimization, and reporting.
++
++This is intentionally a CPU baseline. It is small enough to inspect line by line and strong enough to establish a reproducible experiment contract before introducing transformers, real datasets, or claims.
++
++## Run
++
++```bash
++python -m pip install -e '.[dev]'
++pytest -q
++python -m fi_jepa.cli --epochs 40
++```
++
++The CLI prints JSON containing the seed, split sizes, training loss, probe error, directional accuracy, and persistence-baseline error.
++
++## Required next experiments
++
++Before any manuscript claim, add licensed point-in-time market data, asset-universe and survivorship controls, walk-forward evaluation, multiple seeds, linear and autoregressive baselines, ablations for horizon and EMA momentum, collapse diagnostics, transaction-cost-free representation metrics, and confidence intervals. Any trading study must remain separate from representation pretraining and must not be presented as financial advice.
+diff --git a/FI-JEPA/init.py b/FI-JEPA/init.py
+deleted file mode 100644
+index 8b13789..0000000
+--- a/FI-JEPA/init.py
++++ /dev/null
+@@ -1 +0,0 @@
+-
+diff --git a/FI-JEPA/pyproject.toml b/FI-JEPA/pyproject.toml
+new file mode 100644
+index 0000000..f993114
+--- /dev/null
++++ b/FI-JEPA/pyproject.toml
+@@ -0,0 +1,24 @@
++[build-system]
++requires = ["setuptools>=75"]
++build-backend = "setuptools.build_meta"
++
++[project]
++name = "fi-jepa"
++version = "0.1.0"
++description = "Leakage-safe executable baseline for joint-embedding prediction on financial sequences"
++readme = "README.md"
++requires-python = ">=3.11"
++dependencies = ["numpy>=2.0,<3"]
++
++[project.optional-dependencies]
++dev = ["pytest>=8.3,<9"]
++
++[project.scripts]
++fi-jepa = "fi_jepa.cli:main"
++
++[tool.setuptools.packages.find]
++where = ["src"]
++
++[tool.pytest.ini_options]
++addopts = "-ra --strict-markers"
++testpaths = ["tests"]
+diff --git a/FI-JEPA/src/fi_jepa/__init__.py b/FI-JEPA/src/fi_jepa/__init__.py
+new file mode 100644
+index 0000000..eced2c4
+--- /dev/null
++++ b/FI-JEPA/src/fi_jepa/__init__.py
+@@ -0,0 +1,13 @@
++"""Executable FI-JEPA research baseline."""
++
++from .data import WindowedSplit, chronological_windows, make_synthetic_market
++from .model import FIJEPA, ProbeMetrics, fit_ridge_probe
++
++__all__ = [
++    "FIJEPA",
++    "ProbeMetrics",
++    "WindowedSplit",
++    "chronological_windows",
++    "fit_ridge_probe",
++    "make_synthetic_market",
++]
+diff --git a/FI-JEPA/src/fi_jepa/cli.py b/FI-JEPA/src/fi_jepa/cli.py
+new file mode 100644
+index 0000000..d72c733
+--- /dev/null
++++ b/FI-JEPA/src/fi_jepa/cli.py
+@@ -0,0 +1,48 @@
++from __future__ import annotations
++
++import argparse
++import json
++from dataclasses import asdict
++
++from .data import chronological_windows, make_synthetic_market
++from .model import FIJEPA, fit_ridge_probe
++
++
++def run(*, seed: int, epochs: int) -> dict[str, object]:
++    series = make_synthetic_market(seed=seed)
++    split = chronological_windows(series)
++    model = FIJEPA(
++        features=series.shape[1],
++        target_length=split.train_target.shape[1],
++        seed=seed,
++    )
++    losses = model.fit(split.train_context, split.train_target, epochs=epochs)
++    metrics = fit_ridge_probe(
++        model,
++        split.train_context,
++        split.train_target,
++        split.validation_context,
++        split.validation_target,
++    )
++    return {
++        "status": "synthetic_baseline_only",
++        "seed": seed,
++        "epochs": epochs,
++        "train_windows": int(split.train_context.shape[0]),
++        "validation_windows": int(split.validation_context.shape[0]),
++        "initial_loss": losses[0],
++        "final_loss": losses[-1],
++        "probe": asdict(metrics),
++    }
++
++
++def main() -> None:
++    parser = argparse.ArgumentParser(description="Run the synthetic FI-JEPA baseline")
++    parser.add_argument("--seed", type=int, default=7)
++    parser.add_argument("--epochs", type=int, default=40)
++    args = parser.parse_args()
++    print(json.dumps(run(seed=args.seed, epochs=args.epochs), indent=2, sort_keys=True))
++
++
++if __name__ == "__main__":
++    main()
+diff --git a/FI-JEPA/src/fi_jepa/data.py b/FI-JEPA/src/fi_jepa/data.py
+new file mode 100644
+index 0000000..85bada2
+--- /dev/null
++++ b/FI-JEPA/src/fi_jepa/data.py
+@@ -0,0 +1,98 @@
++from __future__ import annotations
++
++from dataclasses import dataclass
++
++import numpy as np
++from numpy.typing import NDArray
++
++FloatArray = NDArray[np.float64]
++IntArray = NDArray[np.int64]
++
++
++@dataclass(frozen=True)
++class WindowedSplit:
++    train_context: FloatArray
++    train_target: FloatArray
++    validation_context: FloatArray
++    validation_target: FloatArray
++    train_indices: IntArray
++    validation_indices: IntArray
++    split_index: int
++
++
++def make_synthetic_market(
++    *, observations: int = 640, features: int = 6, seed: int = 7
++) -> FloatArray:
++    """Create a deterministic, regime-switching return panel for smoke experiments."""
++    if observations < 80:
++        raise ValueError("observations must be at least 80")
++    if features < 2:
++        raise ValueError("features must be at least 2")
++
++    rng = np.random.default_rng(seed)
++    series = np.zeros((observations, features), dtype=np.float64)
++    loadings = rng.normal(0.15, 0.04, size=features)
++    idiosyncratic_scale = np.linspace(0.35, 0.75, features)
++    factor = 0.0
++
++    for t in range(1, observations):
++        regime = 0.55 if (t // 80) % 2 == 0 else -0.25
++        factor = regime * factor + rng.normal(0.0, 0.8)
++        autoregressive = 0.35 * series[t - 1]
++        cross_section = loadings * factor
++        noise = rng.normal(0.0, idiosyncratic_scale)
++        series[t] = autoregressive + cross_section + noise
++
++    means = series.mean(axis=0, keepdims=True)
++    scales = series.std(axis=0, keepdims=True)
++    return (series - means) / np.where(scales < 1e-12, 1.0, scales)
++
++
++def chronological_windows(
++    series: FloatArray,
++    *,
++    context_length: int = 24,
++    target_length: int = 6,
++    train_fraction: float = 0.7,
++) -> WindowedSplit:
++    """Create disjoint train/validation windows with targets strictly after context."""
++    values = np.asarray(series, dtype=np.float64)
++    if values.ndim != 2:
++        raise ValueError("series must have shape [time, features]")
++    if context_length < 2 or target_length < 1:
++        raise ValueError("invalid window lengths")
++    if not 0.5 <= train_fraction < 0.9:
++        raise ValueError("train_fraction must be in [0.5, 0.9)")
++
++    total = values.shape[0]
++    split_index = int(total * train_fraction)
++    starts = np.arange(0, total - context_length - target_length + 1, dtype=np.int64)
++    context_end = starts + context_length
++    target_end = context_end + target_length
++
++    train_mask = target_end <= split_index
++    validation_mask = starts >= split_index
++    if not train_mask.any() or not validation_mask.any():
++        raise ValueError("not enough observations for disjoint chronological windows")
++
++    def build(indices: IntArray) -> tuple[FloatArray, FloatArray]:
++        contexts = np.stack([values[i : i + context_length] for i in indices])
++        targets = np.stack(
++            [values[i + context_length : i + context_length + target_length] for i in indices]
++        )
++        return contexts, targets
++
++    train_indices = starts[train_mask]
++    validation_indices = starts[validation_mask]
++    train_context, train_target = build(train_indices)
++    validation_context, validation_target = build(validation_indices)
++
++    return WindowedSplit(
++        train_context=train_context,
++        train_target=train_target,
++        validation_context=validation_context,
++        validation_target=validation_target,
++        train_indices=train_indices,
++        validation_indices=validation_indices,
++        split_index=split_index,
++    )
+diff --git a/FI-JEPA/src/fi_jepa/model.py b/FI-JEPA/src/fi_jepa/model.py
+new file mode 100644
+index 0000000..99ca04c
+--- /dev/null
++++ b/FI-JEPA/src/fi_jepa/model.py
+@@ -0,0 +1,138 @@
++from __future__ import annotations
++
++from dataclasses import dataclass
++
++import numpy as np
++from numpy.typing import NDArray
++
++FloatArray = NDArray[np.float64]
++
++
++@dataclass(frozen=True)
++class ProbeMetrics:
++    mse: float
++    directional_accuracy: float
++    persistence_mse: float
++
++
++class FIJEPA:
++    """Small NumPy JEPA baseline for chronological multivariate windows."""
++
++    def __init__(
++        self,
++        *,
++        features: int,
++        target_length: int,
++        embedding_dim: int = 12,
++        learning_rate: float = 0.03,
++        ema_momentum: float = 0.98,
++        seed: int = 7,
++    ) -> None:
++        if features < 1 or target_length < 1 or embedding_dim < 2:
++            raise ValueError("invalid model dimensions")
++        if not 0.0 < learning_rate <= 0.2:
++            raise ValueError("learning_rate must be in (0, 0.2]")
++        if not 0.0 <= ema_momentum < 1.0:
++            raise ValueError("ema_momentum must be in [0, 1)")
++
++        rng = np.random.default_rng(seed)
++        scale = 1.0 / np.sqrt(features)
++        self.context_encoder = rng.normal(0.0, scale, size=(features, embedding_dim))
++        self.target_encoder = self.context_encoder.copy()
++        self.predictor = rng.normal(
++            0.0,
++            1.0 / np.sqrt(embedding_dim),
++            size=(embedding_dim, target_length * embedding_dim),
++        )
++        self.target_length = target_length
++        self.learning_rate = learning_rate
++        self.ema_momentum = ema_momentum
++
++    def encode(self, contexts: FloatArray) -> FloatArray:
++        values = np.asarray(contexts, dtype=np.float64)
++        if values.ndim != 3 or values.shape[2] != self.context_encoder.shape[0]:
++            raise ValueError("contexts must have shape [batch, time, features]")
++        return values.mean(axis=1) @ self.context_encoder
++
++    def loss(self, contexts: FloatArray, targets: FloatArray) -> float:
++        target_values = self._validate_targets(targets)
++        predicted = self.encode(contexts) @ self.predictor
++        encoded_target = (target_values @ self.target_encoder).reshape(predicted.shape)
++        return float(np.mean(np.square(predicted - encoded_target)))
++
++    def fit(self, contexts: FloatArray, targets: FloatArray, *, epochs: int = 40) -> list[float]:
++        if epochs < 1:
++            raise ValueError("epochs must be positive")
++        x = np.asarray(contexts, dtype=np.float64)
++        y = self._validate_targets(targets)
++        if x.ndim != 3 or x.shape[0] != y.shape[0]:
++            raise ValueError("context and target batches must align")
++
++        mean_context = x.mean(axis=1)
++        history: list[float] = []
++
++        for _ in range(epochs):
++            context_embedding = mean_context @ self.context_encoder
++            target_embedding = (y @ self.target_encoder).reshape(x.shape[0], -1)
++            prediction = context_embedding @ self.predictor
++            error = prediction - target_embedding
++            history.append(float(np.mean(np.square(error))))
++
++            grad_prediction = (2.0 / error.size) * error
++            grad_predictor = context_embedding.T @ grad_prediction
++            grad_context_embedding = grad_prediction @ self.predictor.T
++            grad_context_encoder = mean_context.T @ grad_context_embedding
++
++            predictor_norm = max(1.0, float(np.linalg.norm(grad_predictor)) / 5.0)
++            encoder_norm = max(1.0, float(np.linalg.norm(grad_context_encoder)) / 5.0)
++            self.predictor -= self.learning_rate * grad_predictor / predictor_norm
++            self.context_encoder -= self.learning_rate * grad_context_encoder / encoder_norm
++            self.target_encoder = (
++                self.ema_momentum * self.target_encoder
++                + (1.0 - self.ema_momentum) * self.context_encoder
++            )
++
++        return history
++
++    def _validate_targets(self, targets: FloatArray) -> FloatArray:
++        values = np.asarray(targets, dtype=np.float64)
++        if (
++            values.ndim != 3
++            or values.shape[1] != self.target_length
++            or values.shape[2] != self.target_encoder.shape[0]
++        ):
++            raise ValueError("targets have incompatible shape")
++        return values
++
++
++def fit_ridge_probe(
++    model: FIJEPA,
++    train_context: FloatArray,
++    train_target: FloatArray,
++    validation_context: FloatArray,
++    validation_target: FloatArray,
++    *,
++    ridge: float = 1e-2,
++) -> ProbeMetrics:
++    """Fit a frozen linear probe for mean next-window return of feature zero."""
++    if ridge <= 0:
++        raise ValueError("ridge must be positive")
++
++    train_x = model.encode(train_context)
++    validation_x = model.encode(validation_context)
++    train_y = np.asarray(train_target, dtype=np.float64)[:, :, 0].mean(axis=1)
++    validation_y = np.asarray(validation_target, dtype=np.float64)[:, :, 0].mean(axis=1)
++
++    train_design = np.column_stack([np.ones(train_x.shape[0]), train_x])
++    validation_design = np.column_stack([np.ones(validation_x.shape[0]), validation_x])
++    penalty = ridge * np.eye(train_design.shape[1])
++    penalty[0, 0] = 0.0
++    weights = np.linalg.solve(train_design.T @ train_design + penalty, train_design.T @ train_y)
++    predictions = validation_design @ weights
++
++    persistence = validation_context[:, -1, 0]
++    return ProbeMetrics(
++        mse=float(np.mean(np.square(predictions - validation_y))),
++        directional_accuracy=float(np.mean(np.sign(predictions) == np.sign(validation_y))),
++        persistence_mse=float(np.mean(np.square(persistence - validation_y))),
++    )
+diff --git a/FI-JEPA/tests/test_baseline.py b/FI-JEPA/tests/test_baseline.py
+new file mode 100644
+index 0000000..45edcf6
+--- /dev/null
++++ b/FI-JEPA/tests/test_baseline.py
+@@ -0,0 +1,61 @@
++from __future__ import annotations
++
++import numpy as np
++
++from fi_jepa.cli import run
++from fi_jepa.data import chronological_windows, make_synthetic_market
++from fi_jepa.model import FIJEPA, fit_ridge_probe
++
++
++def test_synthetic_market_is_deterministic() -> None:
++    first = make_synthetic_market(seed=11)
++    second = make_synthetic_market(seed=11)
++    different = make_synthetic_market(seed=12)
++    np.testing.assert_allclose(first, second)
++    assert not np.allclose(first, different)
++    assert np.isfinite(first).all()
++
++
++def test_chronological_split_has_no_shared_observations() -> None:
++    series = make_synthetic_market(observations=320, seed=3)
++    split = chronological_windows(series, context_length=20, target_length=5)
++    train_last_observation = int(split.train_indices.max() + 20 + 5 - 1)
++    validation_first_observation = int(split.validation_indices.min())
++    assert train_last_observation < split.split_index
++    assert validation_first_observation >= split.split_index
++    assert train_last_observation < validation_first_observation
++
++
++def test_jepa_optimization_reduces_training_objective() -> None:
++    series = make_synthetic_market(observations=360, seed=5)
++    split = chronological_windows(series, context_length=18, target_length=4)
++    model = FIJEPA(features=series.shape[1], target_length=4, seed=5)
++    losses = model.fit(split.train_context, split.train_target, epochs=80)
++    assert np.isfinite(losses).all()
++    assert losses[-1] < losses[0] * 0.92
++    embeddings = model.encode(split.validation_context)
++    assert embeddings.shape == (split.validation_context.shape[0], 12)
++    assert float(np.var(embeddings)) > 1e-5
++
++
++def test_probe_and_cli_report_finite_metrics() -> None:
++    series = make_synthetic_market(observations=360, seed=9)
++    split = chronological_windows(series, context_length=18, target_length=4)
++    model = FIJEPA(features=series.shape[1], target_length=4, seed=9)
++    model.fit(split.train_context, split.train_target, epochs=30)
++    metrics = fit_ridge_probe(
++        model,
++        split.train_context,
++        split.train_target,
++        split.validation_context,
++        split.validation_target,
++    )
++    assert metrics.mse >= 0
++    assert metrics.persistence_mse >= 0
++    assert 0 <= metrics.directional_accuracy <= 1
++
++    report = run(seed=9, epochs=8)
++    assert report["status"] == "synthetic_baseline_only"
++    assert report["train_windows"] > 0
++    assert report["validation_windows"] > 0
++    assert report["final_loss"] < report["initial_loss"]
