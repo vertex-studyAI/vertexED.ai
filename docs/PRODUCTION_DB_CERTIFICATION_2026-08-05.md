@@ -3,8 +3,10 @@
 ## Scope
 
 Read-only verification of the connected production Supabase project against
-`docs/PRODUCTION_SQL_CHECKS.sql`. No secret values or user records were read or
-stored, and no production schema or data was changed.
+`docs/PRODUCTION_SQL_CHECKS.sql`, followed by a sanitized review of the last
+24 hours of Supabase Auth and Data API logs. No secret values, identities,
+emails, IP addresses, access tokens, or user-owned payloads are recorded here,
+and no production schema or data was changed.
 
 - Project ref: `xwlrzgfuhfbckgvcmyoq`
 - Region: `ap-south-1`
@@ -12,7 +14,7 @@ stored, and no production schema or data was changed.
 - Database engine: Postgres 17 (`17.4.1.074`)
 - Production application: `https://www.vertexed.app`
 
-## Verified passes
+## Verified database passes
 
 - Required tables exist: `profiles`, `waitlist`, `waitlist_rate_limits`, and
   `user_study_artifacts`.
@@ -34,6 +36,27 @@ stored, and no production schema or data was changed.
 - Waitlist consistency checks returned zero duplicate normalized email groups,
   zero approved unlinked entries without invite tokens, and zero linked users
   retaining live invite tokens.
+
+## Sanitized authenticated production evidence
+
+Supabase logs from **2026-08-05 UTC** show a real production session completing:
+
+- the Google OAuth authorization redirect;
+- the provider callback with an HTTP `302` response;
+- a successful Google login event;
+- subsequent authenticated `/user` requests returning HTTP `200` from the
+  production application;
+- waitlist status lookups returning HTTP `200`;
+- authenticated study-artifact collection and planner reads returning HTTP
+  `200`;
+- an artifact create returning HTTP `201`;
+- an artifact delete returning HTTP `204`.
+
+This is strong server-side evidence that the Google OAuth callback, session
+resolution, RLS-backed authenticated reads, and representative artifact write
+and delete paths are operating in production. It does not independently prove
+the exact browser page reached after the callback, the semantic correctness of
+each generated artifact, or persistence after a deliberately fresh session.
 
 ## Confirmed drift
 
@@ -78,17 +101,18 @@ not yet sufficient to prove those indexes are unnecessary.
 
 ## Certification boundary
 
-This evidence advances the database portion of issue #13, but does not certify:
+This evidence advances the database and authenticated-runtime portions of issue
+#13, but does not yet certify:
 
-- administrator login and approval flow
-- approval-link account creation
-- team invite account creation
-- Google OAuth callback
-- authenticated AI and study-tool journeys
-- persistence across a fresh session
-- logout and post-logout authorization
-- dashboard-only Auth URL/provider settings
-- cleanup of disposable certification accounts
+- administrator login and approval flow;
+- approval-link account creation;
+- team invite account creation;
+- the exact browser-visible post-OAuth destination;
+- each chatbot, quiz, paper, review, notes, and planner semantic journey;
+- persistence after a deliberately fresh session;
+- logout and post-logout authorization;
+- dashboard-only Auth URL/provider settings;
+- cleanup of disposable certification accounts.
 
 The production schema remains unchanged until the migration is reviewed and
 explicitly applied through the normal release process.
