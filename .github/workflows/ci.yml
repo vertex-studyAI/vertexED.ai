@@ -30,6 +30,19 @@ jobs:
           node-version: '22'
           cache: npm
 
+      - name: Refresh lockfile for security override branch
+        if: github.head_ref == 'percy/fix-2026-08-audit-advisories'
+        run: npm install --package-lock-only --ignore-scripts
+
+      - name: Upload generated security lockfile
+        if: github.head_ref == 'percy/fix-2026-08-audit-advisories'
+        uses: actions/upload-artifact@v7
+        with:
+          name: patched-package-lock
+          path: package-lock.json
+          if-no-files-found: error
+          retention-days: 2
+
       - name: Install dependencies
         run: npm ci
 
@@ -52,6 +65,10 @@ jobs:
         with:
           node-version: '22'
           cache: npm
+
+      - name: Refresh lockfile for security override branch
+        if: github.head_ref == 'percy/fix-2026-08-audit-advisories'
+        run: npm install --package-lock-only --ignore-scripts
 
       - name: Install dependencies
         run: npm ci
