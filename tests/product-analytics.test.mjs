@@ -2,6 +2,11 @@ import test from "node:test";
 import assert from "node:assert/strict";
 
 import {
+  buildAiRequestAnalyticsProperties,
+  bucketAiRequestDuration,
+  getAiFeatureForRequest,
+} from "../src/lib/aiRequestAnalytics.mjs";
+import {
   normalizeAnalyticsEventName,
   sanitizeAnalyticsProperties,
   trackProductEvent,
@@ -52,4 +57,53 @@ test("analytics properties keep only bounded primitive values", () => {
 
 test("analytics is a no-op during server-side execution", () => {
   assert.doesNotThrow(() => trackProductEvent("Login Succeeded", { method: "password" }));
+});
+
+test("AI analytics maps only fixed feature endpoints", () => {
+  assert.equal(getAiFeatureForRequest("/api/ask"), "chatbot");
+  assert.equal(
+    getAiFeatureForRequest("https://www.vertexed.app/api/paper-generator?mode=exam"),
+    "paper",
+  );
+  assert.equal(getAiFeatureForRequest("/api/user-content"), null);
+  assert.equal(getAiFeatureForRequest("not a valid url"), null);
+});
+
+test("AI analytics uses bounded duration buckets", () => {
+  assert.equal(bucketAiRequestDuration(250), "under_1s");
+  assert.equal(bucketAiRequestDuration(1_500), "1_3s");
+  assert.equal(bucketAiRequestDuration(6_000), "3_10s");
+  assert.equal(bucketAiRequestDuration(12_000), "10_30s");
+  assert.equal(bucketAiRequestDuration(45_000), "over_30s");
+  assert.equal(bucketAiRequestDuration(Number.NaN), "unknown");
+});
+
+test("AI request analytics exposes only fixed operational categories", () => {
+  assert.deepEqual(
+    buildAiRequestAnalyticsProperties({
+      feature: "quiz",
+      status: 201,
+      durationMs: 2_200,
+    }),
+    {
+      feature: "quiz",
+      outcome: "success",
+      status_class: "2xx",
+      duration_bucket: "1_3s",
+    },
+  );
+
+  assert.deepEqual(
+    buildAiRequestAnalyticsProperties({
+      feature: "chatbot",
+      durationMs: 31_000,
+      networkError: true,
+    }),
+    {
+      feature: "chatbot",
+      outcome: "network_error",
+      status_class: "network",
+      duration_bucket: "over_30s",
+    },
+  );
 });
