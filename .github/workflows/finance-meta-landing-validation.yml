@@ -4,30 +4,32 @@ on:
   push:
     branches:
       - percy/finance-meta-landing-recovery-20260805
-  pull_request:
-    branches:
-      - main
 
 permissions:
   contents: write
 
+concurrency:
+  group: finance-meta-landing-recovery
+  cancel-in-progress: true
+
 jobs:
   validate-recovery:
     if: github.actor != 'github-actions[bot]'
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
 
     steps:
-      - name: Checkout execution branch
+      - name: Checkout immutable execution commit
         uses: actions/checkout@v5
         with:
-          ref: percy/finance-meta-landing-recovery-20260805
+          ref: ${{ github.sha }}
+          fetch-depth: 0
 
-      - name: Checkout FinanceMeta landing target
+      - name: Checkout immutable FinanceMeta target
         uses: actions/checkout@v5
         with:
           repository: build-the-future-11/FinanceMeta-Landing
-          ref: main
+          ref: f9265ce6ae94bf01048271ecfcf09d5be7059604
           path: target
 
       - name: Apply plain reviewable recovery source
@@ -96,8 +98,9 @@ jobs:
           bundle_dir="$GITHUB_WORKSPACE/portfolio/patches/finance-meta-landing"
           target_dir="$GITHUB_WORKSPACE/target"
           target_sha="$(git -C "$target_dir" rev-parse HEAD)"
-
+          test "$target_sha" = "f9265ce6ae94bf01048271ecfcf09d5be7059604"
           test -f "$target_dir/dist/index.html"
+
           git -C "$target_dir" add -A
           git -C "$target_dir" diff --cached --binary -- . ':(exclude)package-lock.json' \
             > "$bundle_dir/finance-meta-landing-recovery.patch"
@@ -114,6 +117,7 @@ jobs:
 
           - Target repository: \`build-the-future-11/FinanceMeta-Landing\`
           - Target base commit: \`$target_sha\`
+          - Execution commit: \`$GITHUB_SHA\`
           - Validation run: \`$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID\`
           - Node: \`$(node --version)\`
           - npm: \`$(npm --version)\`
@@ -133,7 +137,7 @@ jobs:
           - persisted theme control
           - keyboard focus and horizontal overflow checks
 
-          The target repository was not modified. These results certify the stored recovery patches against the exact target base commit above.
+          The target repository was not modified. These results certify the stored recovery patches against the immutable target base commit above.
           EOF
 
       - name: Upload browser and command evidence
@@ -153,6 +157,13 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          branch="percy/finance-meta-landing-recovery-20260805"
+          remote_head="$(git ls-remote origin "refs/heads/$branch" | cut -f1)"
+          if [ "$remote_head" != "$GITHUB_SHA" ]; then
+            echo "Branch advanced from $GITHUB_SHA to $remote_head; refusing to overwrite newer work." >&2
+            exit 1
+          fi
+
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git rm -f --ignore-unmatch portfolio/patches/finance-meta-landing/recovery.patch.gz.b64
@@ -163,4 +174,4 @@ jobs:
           git add portfolio/patches/finance-meta-landing/finance-meta-landing-package-lock.patch
           git add portfolio/patches/finance-meta-landing/VALIDATION.md
           git commit -m "test: certify FinanceMeta landing recovery bundle"
-          git push origin HEAD:percy/finance-meta-landing-recovery-20260805
+          git push origin "HEAD:$branch"
