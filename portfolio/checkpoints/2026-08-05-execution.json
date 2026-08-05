@@ -1,0 +1,113 @@
+{
+  "schema_version": 1,
+  "as_of": "2026-08-05",
+  "summary": {
+    "merged_deliverables": 2,
+    "active_products": 3,
+    "active_research": 0,
+    "truth_boundary": "Research remains blocked until Project 2424 is restored and rerun from the canonical source."
+  },
+  "products": [
+    {
+      "name": "VertexED.ai",
+      "state": "ACTIVE",
+      "public_release": "verified",
+      "authenticated_release": "blocked",
+      "completed": [
+        "landing animation-frame leak fixed",
+        "invalid approval-link recovery shipped",
+        "privacy-safe activation analytics shipped",
+        "database integrity restoration preserved",
+        "monitoring and incident response strengthened"
+      ],
+      "blockers": [
+        "disposable production identities unavailable",
+        "production dashboards unavailable",
+        "production deployment is behind current main health handler"
+      ],
+      "next_action": "Restore Vercel build capacity, deploy current main, and rerun readiness and authenticated certification.",
+      "evidence": [
+        "PR 28",
+        "PR 51",
+        "PR 56",
+        "PR 60",
+        "draft PR 58"
+      ]
+    },
+    {
+      "name": "FinanceMeta",
+      "state": "ACTIVE",
+      "surface": "landing recovery artifact",
+      "target_repository": "build-the-future-11/FinanceMeta-Landing",
+      "target_commit": "f9265ce6ae94bf01048271ecfcf09d5be7059604",
+      "certification": "passed",
+      "target_modified": false,
+      "completed": [
+        "React mount repaired in certified patch",
+        "stylesheet loading repaired in certified patch",
+        "responsive FinanceMeta experience produced",
+        "clean dependency lock generated",
+        "strict TypeScript and source contracts passed",
+        "production build and output contracts passed",
+        "desktop and mobile Chromium journeys passed"
+      ],
+      "blockers": [
+        "target repository branch creation returns integration-level 403",
+        "production deployment not changed",
+        "canonical member portal production database and role journey remain unverified"
+      ],
+      "next_action": "Apply the certified recovery and lockfile patches with maintainer access, require the same gate, deploy, and certify production.",
+      "evidence": [
+        "merged PR 57",
+        "merge commit 473ac1f75104137762b9120b519c1669f4f83dca",
+        "validation run 31019453260"
+      ]
+    },
+    {
+      "name": "The Bu1LD",
+      "state": "ACTIVE",
+      "deployment": "https://thebu1ld.com",
+      "public_route_availability": "verified",
+      "authenticated_release": "blocked",
+      "completed": [
+        "eight-route read-only production contract added",
+        "six-hour scheduled monitoring added",
+        "14-day evidence retention added",
+        "first production monitor passed 8 of 8 routes"
+      ],
+      "blockers": [
+        "target repository branch creation returns integration-level 403",
+        "production Supabase and Cloudflare projects unavailable",
+        "disposable role accounts and server-only secrets unavailable"
+      ],
+      "next_action": "Connect target-repository, Supabase, and Cloudflare access, then run the strict production and role-journey gate.",
+      "evidence": [
+        "merged PR 75",
+        "merge commit 132ed55104548b9a97448ebde739b40a5eb0c3d1",
+        "monitor run 31019722714",
+        "artifact 8936058991"
+      ]
+    }
+  ],
+  "research": [
+    {
+      "name": "Project 2424 / Typhon",
+      "state": "BLOCKED",
+      "recovery_tool": "portfolio/scripts/restore_project2424_to_inkling.sh",
+      "next_command": "bash portfolio/scripts/restore_project2424_to_inkling.sh --verify --keep-local-package",
+      "dependencies": [
+        "mounted PRO-BLADE",
+        "canonical local repository",
+        "authenticated gcloud access",
+        "reachable Inkling VM"
+      ],
+      "claim_boundary": "No benchmark, project-count, or novelty claim is upgraded before restoration and evidence reconciliation."
+    }
+  ],
+  "priority_dependencies": [
+    "Deploy current VertexED main",
+    "Install GitHub integration for personal owner repositories",
+    "Connect FinanceMeta and Bu1LD production systems and disposable role accounts",
+    "Run verified Project 2424 restoration from the Mac"
+  ]
+}
