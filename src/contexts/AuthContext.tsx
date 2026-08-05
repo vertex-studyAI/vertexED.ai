@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useMemo, useState, PropsWithChildren } from "react";
 import type { Session, User } from "@supabase/supabase-js";
+import { trackLogout } from "@/lib/accountLifecycleAnalytics.mjs";
 import { supabase } from "@/lib/supabaseClient";
 import type { Profile } from "@/types/profile";
 
@@ -72,7 +73,7 @@ export function AuthProvider({ children }: PropsWithChildren<{}>) {
 
     init();
 
-  if (!supabase) return () => { isMounted = false; };
+    if (!supabase) return () => { isMounted = false; };
 
     const { data: sub } = supabase.auth.onAuthStateChange(async (_event, newSession) => {
       if (!isMounted) return;
@@ -142,13 +143,20 @@ export function AuthProvider({ children }: PropsWithChildren<{}>) {
       setSession(null);
       setUser(null);
       setProfile(null);
+      trackLogout({ outcome: "success", backend: "local" });
       return;
     }
+
     const { error } = await supabase.auth.signOut();
-    if (error) throw error;
+    if (error) {
+      trackLogout({ outcome: "failure", backend: "supabase" });
+      throw error;
+    }
+
     setSession(null);
     setUser(null);
     setProfile(null);
+    trackLogout({ outcome: "success", backend: "supabase" });
   };
 
   /** Fetch latest profile for current user. */
