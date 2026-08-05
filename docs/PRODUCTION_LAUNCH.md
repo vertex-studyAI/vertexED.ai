@@ -48,6 +48,9 @@ Full checklist: [`docs/QA_CHECKLIST.md`](./QA_CHECKLIST.md)
 ## Monitoring
 
 - **Health:** `GET https://www.vertexed.app/api/health` → `{ "ok": true }`
+- **Scheduled smoke monitor:** `.github/workflows/production-monitor.yml` runs the public production smoke suite hourly at minute 17 UTC, on demand, and whenever the monitor or smoke script changes in a pull request.
+- **Evidence:** each monitor run writes a GitHub job summary and retains `production-smoke.log` as an artifact for 30 days, including the target, UTC timestamps, tested commit, and endpoint results.
+- **Alert path:** a failed smoke check fails the workflow so GitHub Actions notifications and the repository Actions view surface the incident.
 - **Vercel:** deployment logs + Analytics + Speed Insights
 - **Supabase:** auth logs, `waitlist`, `user_study_artifacts` tables
 
@@ -69,6 +72,7 @@ Recommended: enable Supabase daily backups before launch; document env vars in a
 - [ ] Supabase schema + auth configured
 - [ ] `npm run ci` passes
 - [ ] `npm run test:smoke` passes on production
+- [ ] Scheduled production monitor has completed at least one green run
 - [ ] QA checklist completed (desktop + mobile)
 - [ ] GitHub Actions CI green on `main`
 
