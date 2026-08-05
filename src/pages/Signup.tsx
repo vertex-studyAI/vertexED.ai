@@ -4,6 +4,7 @@ import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import PageSection from "@/components/PageSection";
 import { useAuth } from "@/contexts/AuthContext";
 import { trackProductEvent } from "@/lib/productAnalytics.mjs";
+import { shouldOfferInvalidInviteRecovery } from "@/lib/signupInviteRecovery";
 
 function normalizeEmailInput(value: string) {
   return value.trim().toLowerCase();
@@ -169,11 +170,28 @@ export default function Signup() {
     setSuccess(false);
   };
 
+  const recoverFromInvalidInvite = () => {
+    setEmail("");
+    setPassword("");
+    setUsername("");
+    setInviteCode("");
+    setError(null);
+    setSuccess(false);
+    setUseTeamInvite(false);
+    navigate("/signup", { replace: true });
+  };
+
   const loadingLabel = hasWaitlistInvite && !email
     ? "Checking..."
     : isAccountSignup
       ? "Creating..."
       : "Joining...";
+  const hasInvalidWaitlistInvite = shouldOfferInvalidInviteRecovery({
+    hasWaitlistInvite,
+    loading,
+    email,
+    error,
+  });
 
   return (
     <>
@@ -240,6 +258,12 @@ export default function Signup() {
           )}
 
           {error && <div className="mt-4 alert-error text-center" role="alert">{error}</div>}
+
+          {hasInvalidWaitlistInvite && (
+            <button type="button" onClick={recoverFromInvalidInvite} className="mt-4 w-full btn-glass py-3 text-center">
+              Return to waitlist
+            </button>
+          )}
 
           <p className="text-center mt-6 text-sm text-muted-foreground">
             Already have an account? <Link to="/login" className="sketch-underline text-foreground hover:text-primary">Log in</Link>
