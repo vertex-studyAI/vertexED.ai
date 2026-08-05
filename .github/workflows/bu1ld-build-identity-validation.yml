@@ -1,0 +1,137 @@
+name: Bu1LD Build Identity Validation
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/bu1ld-build-identity-validation.yml'
+      - 'portfolio/bu1ld/build-identity/**'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: bu1ld-build-identity-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate-recovery:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    env:
+      TARGET_COMMIT: daa80c1124b2a6d7d09b7669e04d29e50cffcbbe
+      TEST_BUILD_COMMIT: 0123456789abcdef0123456789abcdef01234567
+
+    steps:
+      - name: Checkout portfolio control repository
+        uses: actions/checkout@v5
+
+      - name: Checkout immutable Bu1LD source
+        uses: actions/checkout@v5
+        with:
+          repository: ryangomez010/bu1ld-landing
+          ref: ${{ env.TARGET_COMMIT }}
+          path: target
+
+      - name: Apply deterministic recovery
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git -C target rev-parse HEAD)" = "$TARGET_COMMIT"
+          node portfolio/bu1ld/build-identity/apply-build-identity.mjs target
+          git -C target diff --check
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.3.14
+
+      - name: Install frozen dependencies
+        working-directory: target
+        run: bun install --frozen-lockfile
+
+      - name: Run immutable source release gate
+        working-directory: target
+        env:
+          BU1LD_BUILD_COMMIT: ${{ env.TEST_BUILD_COMMIT }}
+          VITE_SUPABASE_URL: https://bu1ld-ci.invalid
+          VITE_SUPABASE_ANON_KEY: ci-public-anon-key-build-only
+        shell: bash
+        run: |
+          set -o pipefail
+          bun run release:check 2>&1 | tee "$GITHUB_WORKSPACE/bu1ld-build-identity-release.log"
+
+      - name: Verify generated bundles and public identity
+        working-directory: target
+        shell: bash
+        run: |
+          set -euo pipefail
+          node - <<'NODE'
+          const fs = require('node:fs');
+          const path = require('node:path');
+          const expected = process.env.TEST_BUILD_COMMIT;
+          const identity = JSON.parse(fs.readFileSync('dist/client/build.json', 'utf8'));
+          if (identity.service !== 'bu1ld' || identity.commit !== expected) {
+            throw new Error(`unexpected build identity: ${JSON.stringify(identity)}`);
+          }
+          const collect = (root) => fs.readdirSync(root, { recursive: true })
+            .filter((name) => name.endsWith('.js'))
+            .map((name) => fs.readFileSync(path.join(root, name), 'utf8'))
+            .join('\n');
+          const server = collect('dist/server');
+          const client = collect('dist/client/assets');
+          for (const marker of [expected, 'data-bu1ld-build', 'bu1ld-build-identity', 'bu1ld-build']) {
+            if (!server.includes(marker)) throw new Error(`server bundle missing ${marker}`);
+          }
+          if (!client.includes(expected)) throw new Error('client bundle missing build commit');
+          console.log(JSON.stringify({ identity, serverMarkers: true, clientMarkers: true }, null, 2));
+          NODE
+
+      - name: Verify preview HTML and build endpoint
+        working-directory: target
+        env:
+          VITE_SUPABASE_URL: https://bu1ld-ci.invalid
+          VITE_SUPABASE_ANON_KEY: ci-public-anon-key-build-only
+        shell: bash
+        run: |
+          set -euo pipefail
+          bun run preview -- --host 127.0.0.1 --port 4173 > "$GITHUB_WORKSPACE/bu1ld-build-identity-preview.log" 2>&1 &
+          preview_pid=$!
+          trap 'kill "$preview_pid" 2>/dev/null || true' EXIT
+          for attempt in $(seq 1 30); do
+            if curl --fail --silent http://127.0.0.1:4173/ > "$GITHUB_WORKSPACE/bu1ld-build-identity-home.html"; then break; fi
+            if [ "$attempt" -eq 30 ]; then exit 1; fi
+            sleep 1
+          done
+          grep -F "data-bu1ld-build=\"$TEST_BUILD_COMMIT\"" "$GITHUB_WORKSPACE/bu1ld-build-identity-home.html"
+          grep -F "content=\"$TEST_BUILD_COMMIT\"" "$GITHUB_WORKSPACE/bu1ld-build-identity-home.html"
+          grep -F 'id="bu1ld-build-identity"' "$GITHUB_WORKSPACE/bu1ld-build-identity-home.html"
+          curl --fail --silent http://127.0.0.1:4173/build.json | tee "$GITHUB_WORKSPACE/bu1ld-build-identity.json"
+          grep -F "$TEST_BUILD_COMMIT" "$GITHUB_WORKSPACE/bu1ld-build-identity.json"
+
+      - name: Generate reviewable target patch
+        working-directory: target
+        shell: bash
+        run: |
+          set -euo pipefail
+          git add -N src/build.d.ts src/lib/build-identity.ts src/lib/build-identity.test.ts
+          git diff --binary > "$GITHUB_WORKSPACE/bu1ld-build-identity.patch"
+          test -s "$GITHUB_WORKSPACE/bu1ld-build-identity.patch"
+          git apply --check "$GITHUB_WORKSPACE/bu1ld-build-identity.patch" --reverse
+          sha256sum "$GITHUB_WORKSPACE/bu1ld-build-identity.patch" > "$GITHUB_WORKSPACE/bu1ld-build-identity-patch.sha256"
+
+      - name: Upload certification evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: bu1ld-build-identity-${{ github.run_id }}
+          path: |
+            bu1ld-build-identity-release.log
+            bu1ld-build-identity-preview.log
+            bu1ld-build-identity-home.html
+            bu1ld-build-identity.json
+            bu1ld-build-identity.patch
+            bu1ld-build-identity-patch.sha256
+          if-no-files-found: ignore
+          retention-days: 14
