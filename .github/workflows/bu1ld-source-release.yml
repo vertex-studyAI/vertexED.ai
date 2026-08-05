@@ -19,7 +19,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: bu1ld-source-release-${{ github.event_name }}
+  group: bu1ld-source-release-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
