@@ -4,7 +4,13 @@
 
 Both connected VertexED Vercel projects began returning `upgradeToPro=build-rate-limit` while the repository was receiving many parallel documentation, research, migration-evidence, and operations commits.
 
-Vercel's published Hobby limits allow one concurrent build and 32 builds per rolling 3,600-second window. Hitting that hourly limit requires waiting for the window to reset or moving the project to a plan with higher limits. A Git-triggered build is therefore a scarce release resource and should not be spent on commits that cannot change the deployed application.
+Vercel publishes three relevant Hobby constraints:
+
+- one concurrent build;
+- 32 builds per rolling 3,600-second window;
+- 100 deployments per rolling 86,400-second window.
+
+The observed `api-deployments-free-per-day` failure is the daily deployment limit, so recovery can require waiting for the 24-hour window rather than only the hourly build window. A Git-triggered deployment is therefore a scarce release resource and should not be spent on commits that cannot change the deployed application.
 
 Official references:
 
@@ -53,7 +59,7 @@ A deployment is skipped when every changed file is non-runtime, including:
 - GitHub Actions-only changes;
 - test-only, E2E-only, and evaluation-only changes.
 
-GitHub CI still validates these commits. Only the redundant Vercel build is skipped.
+GitHub CI still validates these commits. Only the redundant Vercel deployment is skipped.
 
 ## Validation
 
@@ -61,13 +67,14 @@ GitHub CI still validates these commits. Only the redundant Vercel build is skip
 
 ## Recovery procedure
 
-When Vercel reports the hourly build-rate limit:
+When Vercel reports a rate limit:
 
-1. Stop creating no-op deployment commits.
-2. Allow the published 3,600-second rate-limit window to reset.
-3. Confirm no unrelated build is occupying the single Hobby concurrency slot.
-4. Trigger one production deployment from the latest verified `main` commit.
-5. Record both project deployment identifiers and the production commit.
-6. Run the `Production Health Monitor` and require the dependency-readiness contract to pass before merging the permanent readiness assertion in PR #58.
+1. Record whether the error names the hourly build limit or `api-deployments-free-per-day`.
+2. Stop creating no-op deployment commits.
+3. Allow the applicable rolling window to reset: up to one hour for the build limit or up to 24 hours for the daily deployment limit.
+4. Confirm no unrelated build is occupying the single Hobby concurrency slot.
+5. Trigger one production deployment from the latest verified `main` commit.
+6. Record both project deployment identifiers and the production commit.
+7. Run the `Production Health Monitor` and require the dependency-readiness contract to pass before merging the permanent readiness assertion in PR #58.
 
 Do not weaken the health contract to match a stale deployment. Do not claim a deployment succeeded from a green repository test alone.
