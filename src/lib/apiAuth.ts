@@ -1,3 +1,4 @@
+import { isAccountDeletionRequest, trackAccountDeletion } from '@/lib/accountLifecycleAnalytics.mjs';
 import { getAiFeatureForRequest, trackAiRequestOutcome } from '@/lib/aiRequestAnalytics.mjs';
 import { supabase } from '@/lib/supabaseClient';
 
@@ -26,7 +27,9 @@ function requestMethod(input: RequestInfo | URL, init?: RequestInit) {
 
 export async function authFetch(input: RequestInfo | URL, init?: RequestInit): Promise<Response> {
   const headers = await authHeaders(init?.headers);
-  const shouldTrackAiRequest = requestMethod(input, init) === 'POST' && Boolean(getAiFeatureForRequest(input));
+  const method = requestMethod(input, init);
+  const shouldTrackAiRequest = method === 'POST' && Boolean(getAiFeatureForRequest(input));
+  const shouldTrackAccountDeletion = isAccountDeletionRequest(input, method);
   const startedAt = Date.now();
 
   try {
@@ -37,6 +40,12 @@ export async function authFetch(input: RequestInfo | URL, init?: RequestInit): P
         durationMs: Date.now() - startedAt,
       });
     }
+    if (shouldTrackAccountDeletion) {
+      trackAccountDeletion({
+        outcome: response.ok ? 'success' : 'failure',
+        status: response.status,
+      });
+    }
     return response;
   } catch (error) {
     if (shouldTrackAiRequest) {
@@ -44,6 +53,9 @@ export async function authFetch(input: RequestInfo | URL, init?: RequestInit): P
         durationMs: Date.now() - startedAt,
         networkError: true,
       });
+    }
+    if (shouldTrackAccountDeletion) {
+      trackAccountDeletion({ outcome: 'failure', networkError: true });
     }
     throw error;
   }
