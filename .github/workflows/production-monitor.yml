@@ -1,0 +1,66 @@
+name: Production Monitor
+
+on:
+  schedule:
+    - cron: '17 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: production-monitor
+  cancel-in-progress: true
+
+jobs:
+  smoke:
+    name: Live production smoke checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+          package-manager-cache: false
+
+      - name: Run live production monitor
+        id: monitor
+        env:
+          SMOKE_BASE_URL: https://www.vertexed.app
+          SMOKE_TIMEOUT_MS: '20000'
+        shell: bash
+        run: |
+          set -o pipefail
+          started_at="$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
+          echo "Production monitor started at ${started_at}" | tee production-monitor.log
+          echo "Target: ${SMOKE_BASE_URL}" | tee -a production-monitor.log
+          node scripts/smoke-deploy.mjs 2>&1 | tee -a production-monitor.log
+
+      - name: Write monitor summary
+        if: always()
+        shell: bash
+        run: |
+          {
+            echo '## VertexED production monitor'
+            echo
+            echo "- Target: https://www.vertexed.app"
+            echo "- Run time (UTC): $(date -u +'%Y-%m-%dT%H:%M:%SZ')"
+            echo "- Repository commit: \`${GITHUB_SHA}\`"
+            echo "- Result: **${{ job.status }}**"
+            echo
+            echo 'Checks include API health and router identity, unknown-route handling, homepage availability, malformed waitlist rejection, authentication enforcement, admin protection, and untrusted-origin rejection.'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload monitor evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: production-monitor-${{ github.run_id }}
+          path: production-monitor.log
+          if-no-files-found: error
+          retention-days: 30
