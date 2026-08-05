@@ -27,6 +27,9 @@ jobs:
       - name: Test Project 2424 recovery package
         run: bash portfolio/tests/test_project2424_restore_package.sh
 
+      - name: Test Bu1LD deployment repair fail-closed behavior
+        run: bash portfolio/tests/test_bu1ld_deployment_repair.sh
+
       - name: Setup Node.js
         uses: actions/setup-node@v6
         with:
