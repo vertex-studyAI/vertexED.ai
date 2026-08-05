@@ -1,0 +1,113 @@
+name: Production Health Monitor
+
+on:
+  schedule:
+    - cron: '17,47 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: production-health-monitor
+  cancel-in-progress: true
+
+jobs:
+  health-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    env:
+      SMOKE_BASE_URL: https://www.vertexed.app
+      INCIDENT_TITLE: '[incident] VertexED production health check failed'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+
+      - name: Run public production smoke checks
+        id: smoke
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -o pipefail
+          mkdir -p artifacts
+          {
+            echo "checked_at=$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
+            echo "target=${SMOKE_BASE_URL}"
+            node scripts/smoke-deploy.mjs
+          } 2>&1 | tee artifacts/production-smoke.log
+
+      - name: Find open production incident
+        id: incident
+        if: always()
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          issue_number="$(
+            gh issue list \
+              --state open \
+              --limit 100 \
+              --json number,title \
+              --jq '.[] | select(.title == "[incident] VertexED production health check failed") | .number' \
+              | head -n 1
+          )"
+          echo "number=${issue_number}" >> "${GITHUB_OUTPUT}"
+
+      - name: Open or update production incident
+        if: steps.smoke.outcome == 'failure'
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          INCIDENT_NUMBER: ${{ steps.incident.outputs.number }}
+        run: |
+          run_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+          body_file="$(mktemp)"
+          cat > "${body_file}" <<EOF
+          The scheduled public production smoke check failed.
+
+          - Target: \`${SMOKE_BASE_URL}\`
+          - Checked at: \`$(date -u +'%Y-%m-%dT%H:%M:%SZ')\`
+          - Commit: \`${GITHUB_SHA}\`
+          - Workflow run: ${run_url}
+
+          The workflow artifact \`production-health-evidence\` contains the full smoke log. No credentials or user data are used by this monitor.
+          EOF
+
+          if [[ -n "${INCIDENT_NUMBER}" ]]; then
+            gh issue comment "${INCIDENT_NUMBER}" --body-file "${body_file}"
+          else
+            gh issue create --title "${INCIDENT_TITLE}" --body-file "${body_file}"
+          fi
+
+      - name: Close incident after recovery
+        if: steps.smoke.outcome == 'success' && steps.incident.outputs.number != ''
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          INCIDENT_NUMBER: ${{ steps.incident.outputs.number }}
+        run: |
+          run_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+          gh issue close "${INCIDENT_NUMBER}" \
+            --reason completed \
+            --comment "Production smoke checks recovered at $(date -u +'%Y-%m-%dT%H:%M:%SZ'). Verification run: ${run_url}"
+
+      - name: Upload production health evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: production-health-evidence
+          path: artifacts/production-smoke.log
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Fail when production is unhealthy
+        if: steps.smoke.outcome == 'failure'
+        shell: bash
+        run: exit 1
