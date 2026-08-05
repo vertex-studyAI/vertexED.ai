@@ -4,13 +4,19 @@ on:
   push:
     branches:
       - percy/react-router-7-migration-2026-08-05
+  pull_request:
+    branches: [main, master]
+    paths:
+      - package.json
+      - package-lock.json
+      - '.github/workflows/router7-migration-validation.yml'
   workflow_dispatch:
 
 permissions:
   contents: read
 
 concurrency:
-  group: router7-migration-${{ github.ref }}
+  group: router7-migration-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
