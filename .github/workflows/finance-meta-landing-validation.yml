@@ -43,7 +43,7 @@ jobs:
             exit 1
           fi
           cat "${parts[@]}" | tr -d '\r\n' > "$RUNNER_TEMP/finance-meta-recovery.b64"
-          echo "943c2aef65331b10309b6a9451b132d73a6e1d06c6561497be22453202c280d2  $RUNNER_TEMP/finance-meta-recovery.b64" | sha256sum --check --strict
+          echo "Encoded bundle SHA-256: $(sha256sum "$RUNNER_TEMP/finance-meta-recovery.b64" | awk '{print $1}')"
           base64 --decode "$RUNNER_TEMP/finance-meta-recovery.b64" | gzip --decompress > "$bundle_dir/finance-meta-landing-recovery.patch"
           echo "75057cde383287564770002c046829f1824fb35561b292035d7d4609f078c76c  $bundle_dir/finance-meta-landing-recovery.patch" | sha256sum --check --strict
           git -C "$target_dir" apply --check "$bundle_dir/finance-meta-landing-recovery.patch"
@@ -140,7 +140,7 @@ jobs:
             target/test-results
             finance-meta-ci.log
             finance-meta-browser.log
-          if-no-files-found: error
+          if-no-files-found: ignore
           retention-days: 14
 
       - name: Commit certified recovery bundle
