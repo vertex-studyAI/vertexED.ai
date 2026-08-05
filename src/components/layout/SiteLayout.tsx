@@ -1,5 +1,5 @@
 import { Outlet, Link, useLocation } from "react-router";
-import React, { Suspense, useState, useEffect } from "react";
+import React, { Suspense, useState, useEffect, useRef } from "react";
 import { Helmet } from "react-helmet-async";
 
 import { RouteSemanticHeadings } from "@/components/SemanticHeadings";
@@ -48,14 +48,31 @@ export default function SiteLayout() {
   const location = useLocation();
   useStudySessionTracker(isAuthenticated);
   const [menuOpen, setMenuOpen] = useState(false);
+  const menuButtonRef = useRef<HTMLButtonElement | null>(null);
+  const mobileNavRef = useRef<HTMLElement | null>(null);
   const isActive = (to: string) =>
     location.pathname === to || (to !== "/" && location.pathname.startsWith(`${to}/`));
 
   useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "";
+    if (mobileNavRef.current) mobileNavRef.current.inert = !menuOpen;
     return () => {
       document.body.style.overflow = "";
     };
+  }, [menuOpen]);
+
+  useEffect(() => {
+    if (!menuOpen) return;
+
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key !== "Escape") return;
+      event.preventDefault();
+      setMenuOpen(false);
+      window.requestAnimationFrame(() => menuButtonRef.current?.focus());
+    };
+
+    document.addEventListener("keydown", closeOnEscape);
+    return () => document.removeEventListener("keydown", closeOnEscape);
   }, [menuOpen]);
 
   const navLinks = isAuthenticated
@@ -134,6 +151,7 @@ export default function SiteLayout() {
             {isAuthenticated && (
               <Link
                 to="/user-settings"
+                aria-current={isActive("/user-settings") ? "page" : undefined}
                 className={`nav-link-pill ${isActive("/user-settings") ? "is-active" : ""}`}
               >
                 Account
@@ -142,6 +160,7 @@ export default function SiteLayout() {
             {showAdmin && (
               <Link
                 to="/admin/waitlist"
+                aria-current={isActive("/admin/waitlist") ? "page" : undefined}
                 className={`nav-link-pill ${isActive("/admin/waitlist") ? "is-active" : ""}`}
               >
                 Admin
@@ -178,11 +197,12 @@ export default function SiteLayout() {
               </Link>
             )}
             <button
+              ref={menuButtonRef}
               type="button"
-              aria-label="Toggle navigation menu"
+              aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
               aria-expanded={menuOpen}
               aria-controls="mobile-nav"
-              onClick={() => setMenuOpen((o) => !o)}
+              onClick={() => setMenuOpen((open) => !open)}
               className="relative w-10 h-10 inline-flex items-center justify-center rounded-xl border border-border/60 bg-background/50 hover:bg-accent/20 transition-colors backdrop-blur-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
             >
               <span className="sr-only">Menu</span>
@@ -208,15 +228,22 @@ export default function SiteLayout() {
         </div>
 
         <div
+          aria-hidden={!menuOpen}
           className={`md:hidden overflow-hidden transition-[max-height,opacity] duration-300 border-t border-border/60 ${
-            menuOpen ? "max-h-[560px] opacity-100" : "max-h-0 opacity-0"
+            menuOpen ? "max-h-[560px] opacity-100" : "max-h-0 opacity-0 pointer-events-none"
           }`}
         >
-          <nav id="mobile-nav" className="flex flex-col px-5 py-4 gap-1 text-sm font-medium bg-background/80 backdrop-blur-xl">
+          <nav
+            ref={mobileNavRef}
+            id="mobile-nav"
+            aria-label="Mobile navigation"
+            className="flex flex-col px-5 py-4 gap-1 text-sm font-medium bg-background/80 backdrop-blur-xl"
+          >
             {navLinks.map((l) => (
               <Link
                 key={l.label}
                 to={l.to}
+                aria-current={isActive(l.to) ? "page" : undefined}
                 onClick={() => setMenuOpen(false)}
                 className={`rounded-xl px-3 py-2.5 ${
                   isActive(l.to)
@@ -230,6 +257,7 @@ export default function SiteLayout() {
             {isAuthenticated && (
               <Link
                 to="/user-settings"
+                aria-current={isActive("/user-settings") ? "page" : undefined}
                 onClick={() => setMenuOpen(false)}
                 className={`rounded-xl px-3 py-2.5 ${
                   isActive("/user-settings")
@@ -243,6 +271,7 @@ export default function SiteLayout() {
             {showAdmin && (
               <Link
                 to="/admin/waitlist"
+                aria-current={isActive("/admin/waitlist") ? "page" : undefined}
                 onClick={() => setMenuOpen(false)}
                 className={`rounded-xl px-3 py-2.5 ${
                   isActive("/admin/waitlist")
@@ -264,6 +293,7 @@ export default function SiteLayout() {
             )}
             {isAuthenticated && (
               <button
+                type="button"
                 onClick={async () => {
                   await logout();
                   setMenuOpen(false);
@@ -279,6 +309,7 @@ export default function SiteLayout() {
 
       <main
         id="main-content"
+        tabIndex={-1}
         className="relative z-10 flex-1 container mx-auto px-4 md:px-6 pt-6 md:pt-8 pb-10 animate-fade-in"
       >
         <RouteSemanticHeadings />
@@ -307,10 +338,10 @@ export default function SiteLayout() {
             ) : (
               <>
                 <Link to="/features" className="hover:text-foreground transition">Features</Link>
-            <Link to="/about" className="hover:text-foreground transition">About</Link>
-            <Link to="/privacy" className="hover:text-foreground transition">Privacy</Link>
-            <Link to="/terms" className="hover:text-foreground transition">Terms</Link>
-            <Link to="/login" className="hover:text-foreground transition">Login</Link>
+                <Link to="/about" className="hover:text-foreground transition">About</Link>
+                <Link to="/privacy" className="hover:text-foreground transition">Privacy</Link>
+                <Link to="/terms" className="hover:text-foreground transition">Terms</Link>
+                <Link to="/login" className="hover:text-foreground transition">Login</Link>
               </>
             )}
             <a href="mailto:vertexed.25@gmail.com" className="hover:text-foreground transition">Contact</a>

@@ -19,6 +19,9 @@ export default function GlobalChatPanel() {
   const location = useLocation();
   const studyContext = getStudyContext(location.pathname, user);
   const scrollRef = useRef<HTMLDivElement | null>(null);
+  const openerRef = useRef<HTMLButtonElement | null>(null);
+  const panelRef = useRef<HTMLDivElement | null>(null);
+  const focusPanelOnOpenRef = useRef(false);
 
   const [open, setOpen] = useState(() => {
     if (typeof window === "undefined") return false;
@@ -41,13 +44,45 @@ export default function GlobalChatPanel() {
     !location.pathname.startsWith("/resources");
   const canShowChat = visibleRoute && (isAuthenticated || isStudyGuideRoute);
 
+  const openChat = () => {
+    focusPanelOnOpenRef.current = true;
+    setMinimized(false);
+    setOpen(true);
+  };
+
+  const closeChat = () => {
+    setOpen(false);
+    setMinimized(false);
+    window.requestAnimationFrame(() => openerRef.current?.focus());
+  };
+
   useEffect(() => {
     window.localStorage.setItem(STORAGE_KEY, open ? "1" : "0");
   }, [open]);
 
   useEffect(() => {
+    if (!open || !focusPanelOnOpenRef.current) return;
+    focusPanelOnOpenRef.current = false;
+    panelRef.current?.focus();
+  }, [open]);
+
+  useEffect(() => {
+    if (!open) return;
+
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key !== "Escape") return;
+      event.preventDefault();
+      closeChat();
+    };
+
+    document.addEventListener("keydown", closeOnEscape);
+    return () => document.removeEventListener("keydown", closeOnEscape);
+  }, [open]);
+
+  useEffect(() => {
     const handoff = consumeChatHandoff();
     if (!handoff) return;
+    focusPanelOnOpenRef.current = true;
     setOpen(true);
     setMinimized(false);
     setInput(formatHandoffPrefill(handoff));
@@ -64,8 +99,9 @@ export default function GlobalChatPanel() {
   if (!open) {
     return (
       <button
+        ref={openerRef}
         type="button"
-        onClick={() => setOpen(true)}
+        onClick={openChat}
         className={`apex-fab ${isStudyGuideRoute ? "apex-fab-round" : ""}`}
         aria-label={isStudyGuideRoute ? "Open study guide AI tutor" : "Open AI tutor"}
       >
@@ -77,10 +113,12 @@ export default function GlobalChatPanel() {
 
   return (
     <div
+      ref={panelRef}
       className={`apex-panel ${minimized ? "apex-panel-minimized" : ""}`}
       role="dialog"
       aria-label="AI tutor"
       aria-modal="false"
+      tabIndex={-1}
     >
       <div className="apex-panel-header">
         <div className="flex items-center gap-2 min-w-0">
@@ -117,7 +155,7 @@ export default function GlobalChatPanel() {
           <button
             type="button"
             className="apex-panel-icon-btn"
-            onClick={() => setOpen(false)}
+            onClick={closeChat}
             aria-label="Close chat"
           >
             <X className="h-4 w-4" />
