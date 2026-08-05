@@ -44,6 +44,12 @@ export function useModalDialogA11y({ onClose, initialFocusRef }: Options) {
       if (event.key !== 'Tab') return;
 
       const focusable = getModalFocusableElements(dialog);
+      if (focusable.length === 0) {
+        event.preventDefault();
+        dialog.focus();
+        return;
+      }
+
       const activeIndex = focusable.indexOf(document.activeElement);
       const targetIndex = getWrappedFocusTarget({
         activeIndex,
