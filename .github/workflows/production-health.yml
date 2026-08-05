@@ -77,7 +77,7 @@ jobs:
           - Commit: \`${GITHUB_SHA}\`
           - Workflow run: ${run_url}
 
-          The workflow artifact \`production-health-evidence\` contains the full smoke log. No credentials or user data are used by this monitor.
+          The workflow artifact \`production-health-evidence\` contains the full smoke log. Follow \`docs/PRODUCTION_INCIDENT_RUNBOOK.md\` for secret-safe triage, stabilization, and closure steps. No credentials or user data are used by this monitor.
           EOF
 
           if [[ -n "${INCIDENT_NUMBER}" ]]; then
