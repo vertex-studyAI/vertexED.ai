@@ -1,57 +1,46 @@
-name: Apply Study Notebook source-preview accessibility patch
+name: Study Notebook source-preview accessibility
 
 on:
   pull_request:
-    branches:
-      - main
+    branches: [main, master]
     paths:
-      - .github/workflows/apply-study-notebook-source-preview-a11y.yml
-      - scripts/apply-study-notebook-source-preview-a11y.mjs
       - src/pages/StudyNotebook.tsx
+      - src/components/AccessibleModal.tsx
+      - src/lib/modalFocus.mjs
       - tests/study-notebook-source-preview-accessibility.test.mjs
+      - .github/workflows/apply-study-notebook-source-preview-a11y.yml
+  push:
+    branches: [main, master]
+    paths:
+      - src/pages/StudyNotebook.tsx
+      - src/components/AccessibleModal.tsx
+      - src/lib/modalFocus.mjs
+      - tests/study-notebook-source-preview-accessibility.test.mjs
+      - .github/workflows/apply-study-notebook-source-preview-a11y.yml
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
-  group: study-notebook-source-preview-a11y
-  cancel-in-progress: false
+  group: study-notebook-source-preview-a11y-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  patch-test-and-commit:
-    if: github.actor != 'github-actions[bot]'
+  regression:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 10
     steps:
-      - name: Check out branch
-        uses: actions/checkout@v4
-        with:
-          ref: percy/study-notebook-source-preview-a11y
-          fetch-depth: 0
+      - name: Check out source
+        uses: actions/checkout@v5
 
       - name: Set up Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
-          node-version: 22.22.0
+          node-version: '22'
           cache: npm
 
       - name: Install dependencies
         run: npm ci
 
-      - name: Apply guarded patch
-        run: node scripts/apply-study-notebook-source-preview-a11y.mjs
-
-      - name: Run focused regression
+      - name: Run source-preview accessibility regression
         run: node --test tests/study-notebook-source-preview-accessibility.test.mjs
-
-      - name: Run canonical release checks
-        run: npm run ci
-
-      - name: Commit verified source change
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add src/pages/StudyNotebook.tsx tests/study-notebook-source-preview-accessibility.test.mjs
-          git diff --cached --exit-code && { echo "No source change produced"; exit 1; } || true
-          git commit -m "Make Study Notebook source preview keyboard-safe"
-          git push origin HEAD:percy/study-notebook-source-preview-a11y
