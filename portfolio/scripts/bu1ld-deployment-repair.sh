@@ -62,7 +62,7 @@ To execute after reviewing this evidence, export the strict production variables
   BU1LD_REPO_PATH='$TARGET_ROOT' \\
   BU1LD_EXPECTED_SHA='$EXPECTED_SHA' \\
   BU1LD_EXECUTE_DEPLOY=1 \\
-  '$CONTROL_ROOT/portfolio/scripts/bu1ld-deployment-repair.sh'
+  bash '$CONTROL_ROOT/portfolio/scripts/bu1ld-deployment-repair.sh'
 EOF
   exit 0
 fi
