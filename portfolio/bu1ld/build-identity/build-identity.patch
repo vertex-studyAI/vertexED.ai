@@ -1,0 +1,138 @@
+diff --git a/vite.config.ts b/vite.config.ts
+index 8577450..0ea7d21 100644
+--- a/vite.config.ts
++++ b/vite.config.ts
+@@ -1,8 +1,35 @@
+ import { defineConfig } from "@lovable.dev/vite-tanstack-config";
++import type { Plugin } from "vite";
++
++const rawBuildCommit =
++  process.env.BU1LD_BUILD_COMMIT ??
++  process.env.CF_PAGES_COMMIT_SHA ??
++  process.env.GITHUB_SHA ??
++  "unknown";
++const buildCommit = /^[0-9a-f]{7,40}$/i.test(rawBuildCommit)
++  ? rawBuildCommit.toLowerCase()
++  : "unknown";
++
++function buildIdentityPlugin(): Plugin {
++  return {
++    name: "bu1ld-build-identity",
++    generateBundle() {
++      this.emitFile({
++        type: "asset",
++        fileName: "build.json",
++        source: `${JSON.stringify({ service: "bu1ld", commit: buildCommit })}\n`,
++      });
++    },
++  };
++}
+ 
+ export default defineConfig({
+   cloudflare: false,
+   vite: {
++    define: {
++      __BU1LD_BUILD_COMMIT__: JSON.stringify(buildCommit),
++    },
++    plugins: [buildIdentityPlugin()],
+     build: {
+       rollupOptions: {
+         output: {
+diff --git a/src/build.d.ts b/src/build.d.ts
+new file mode 100644
+index 0000000..e2cb2dd
+--- /dev/null
++++ b/src/build.d.ts
+@@ -0,0 +1 @@
++declare const __BU1LD_BUILD_COMMIT__: string;
+diff --git a/src/lib/build-identity.ts b/src/lib/build-identity.ts
+new file mode 100644
+index 0000000..8e76d3d
+--- /dev/null
++++ b/src/lib/build-identity.ts
+@@ -0,0 +1,15 @@
++export function normalizeBuildCommit(value: unknown): string {
++  if (typeof value !== "string") return "unknown";
++  const normalized = value.trim().toLowerCase();
++  return /^[0-9a-f]{7,40}$/.test(normalized) ? normalized : "unknown";
++}
++
++export const BUILD_COMMIT = normalizeBuildCommit(
++  typeof __BU1LD_BUILD_COMMIT__ === "undefined"
++    ? "unknown"
++    : __BU1LD_BUILD_COMMIT__,
++);
++
++export const BUILD_IDENTITY = Object.freeze({
++  service: "bu1ld",
++  commit: BUILD_COMMIT,
++});
+diff --git a/src/lib/build-identity.test.ts b/src/lib/build-identity.test.ts
+new file mode 100644
+index 0000000..160fc57
+--- /dev/null
++++ b/src/lib/build-identity.test.ts
+@@ -0,0 +1,20 @@
++import { describe, expect, test } from "bun:test";
++import { BUILD_COMMIT, BUILD_IDENTITY, normalizeBuildCommit } from "./build-identity";
++
++describe("build identity", () => {
++  test("normalizes Git commit identifiers", () => {
++    expect(normalizeBuildCommit("ABCDEF1234567")).toBe("abcdef1234567");
++    expect(normalizeBuildCommit(" 0123456789abcdef0123456789abcdef01234567 ")).toBe(
++      "0123456789abcdef0123456789abcdef01234567",
++    );
++  });
++
++  test("rejects untrusted or missing values", () => {
++    expect(normalizeBuildCommit(undefined)).toBe("unknown");
++    expect(normalizeBuildCommit("branch/main")).toBe("unknown");
++    expect(normalizeBuildCommit("abc123")).toBe("unknown");
++  });
++
++  test("exports a stable public identity without secrets", () => {
++    expect(BUILD_COMMIT).toBe("unknown");
++    expect(BUILD_IDENTITY).toEqual({ service: "bu1ld", commit: "unknown" });
++  });
++});
+diff --git a/src/routes/__root.tsx b/src/routes/__root.tsx
+index 6e91517..206051a 100644
+--- a/src/routes/__root.tsx
++++ b/src/routes/__root.tsx
+@@ -13,6 +13,7 @@ import { useEffect } from "react";
+ import { Toaster } from "sonner";
+ 
+ import { trackPageView } from "@/lib/analytics";
++import { BUILD_COMMIT, BUILD_IDENTITY } from "@/lib/build-identity";
+ import { AuthProvider } from "@/lib/auth";
+ import { ORGANIZATION_STRUCTURED_DATA } from "@/lib/seo";
+ import { initTheme } from "@/lib/theme";
+@@ -105,6 +106,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
+       { name: "twitter:image", content: "https://thebu1ld.com/og.svg" },
+       { name: "theme-color", content: "#0a0a0b" },
++      { name: "bu1ld-build", content: BUILD_COMMIT },
+     ],
+     links: [
+       {
+@@ -131,12 +133,16 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
+ });
+ 
+ function RootShell({ children }: { children: React.ReactNode }) {
++  const buildIdentityJson = JSON.stringify(BUILD_IDENTITY);
++
+   return (
+-    <html lang="en">
++    <html lang="en" data-bu1ld-build={BUILD_COMMIT}>
+       <head>
+         <script src="/runtime-env.js" />
+         <script
+           type="application/ld+json"
+           dangerouslySetInnerHTML={{ __html: JSON.stringify(ORGANIZATION_STRUCTURED_DATA) }}
+         />
++        <script
++          type="application/json"
++          id="bu1ld-build-identity"
++          dangerouslySetInnerHTML={{ __html: buildIdentityJson }}
++        />
+         <HeadContent />
+       </head>
