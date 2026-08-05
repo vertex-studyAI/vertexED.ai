@@ -30,18 +30,21 @@ jobs:
           ref: main
           path: target
 
-      - name: Decode and apply recovery patch
+      - name: Reconstruct and apply verified recovery patch
         shell: bash
         run: |
           set -euo pipefail
           bundle_dir="$GITHUB_WORKSPACE/portfolio/patches/finance-meta-landing"
           shopt -s nullglob
           parts=("$bundle_dir"/encoded/part-*)
-          if [ "${#parts[@]}" -eq 0 ]; then
-            echo "No encoded recovery parts found" >&2
+          if [ "${#parts[@]}" -ne 9 ]; then
+            echo "Expected 9 encoded recovery parts, found ${#parts[@]}" >&2
             exit 1
           fi
-          cat "${parts[@]}" | tr -d '\r\n' | base64 --decode | gzip --decompress > "$bundle_dir/finance-meta-landing-recovery.patch"
+          cat "${parts[@]}" | tr -d '\r\n' > "$RUNNER_TEMP/finance-meta-recovery.b64"
+          echo "943c2aef65331b10309b6a9451b132d73a6e1d06c6561497be22453202c280d2  $RUNNER_TEMP/finance-meta-recovery.b64" | sha256sum --check --strict
+          base64 --decode "$RUNNER_TEMP/finance-meta-recovery.b64" | gzip --decompress > "$bundle_dir/finance-meta-landing-recovery.patch"
+          echo "75057cde383287564770002c046829f1824fb35561b292035d7d4609f078c76c  $bundle_dir/finance-meta-landing-recovery.patch" | sha256sum --check --strict
           git -C "$GITHUB_WORKSPACE/target" apply --check "$bundle_dir/finance-meta-landing-recovery.patch"
           git -C "$GITHUB_WORKSPACE/target" apply "$bundle_dir/finance-meta-landing-recovery.patch"
 
@@ -62,7 +65,10 @@ jobs:
 
       - name: Run canonical release gate
         working-directory: target
-        run: npm run ci 2>&1 | tee "$GITHUB_WORKSPACE/finance-meta-ci.log"
+        shell: bash
+        run: |
+          set -o pipefail
+          npm run ci 2>&1 | tee "$GITHUB_WORKSPACE/finance-meta-ci.log"
 
       - name: Install Chromium
         working-directory: target
@@ -70,7 +76,10 @@ jobs:
 
       - name: Run desktop and mobile browser certification
         working-directory: target
-        run: npm run test:e2e 2>&1 | tee "$GITHUB_WORKSPACE/finance-meta-browser.log"
+        shell: bash
+        run: |
+          set -o pipefail
+          npm run test:e2e 2>&1 | tee "$GITHUB_WORKSPACE/finance-meta-browser.log"
 
       - name: Generate durable validation evidence
         shell: bash
@@ -123,12 +132,12 @@ jobs:
           retention-days: 14
 
       - name: Commit reviewable patch and evidence
-        if: github.event_name == 'push'
         shell: bash
         run: |
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm portfolio/patches/finance-meta-landing/recovery.patch.gz.b64
           git rm -r portfolio/patches/finance-meta-landing/encoded
           git rm .github/workflows/finance-meta-landing-validation.yml
           git add portfolio/patches/finance-meta-landing/finance-meta-landing-recovery.patch
