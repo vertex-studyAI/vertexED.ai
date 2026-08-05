@@ -78,19 +78,25 @@ jobs:
           test -f dist/client/build.json
           node - <<'NODE'
           const fs = require('node:fs');
+          const path = require('node:path');
           const expected = process.env.TEST_BUILD_COMMIT;
           const identity = JSON.parse(fs.readFileSync('dist/client/build.json', 'utf8'));
           if (identity.service !== 'bu1ld' || identity.commit !== expected) {
             throw new Error(`unexpected build.json identity: ${JSON.stringify(identity)}`);
           }
-          const server = fs.readFileSync('dist/server/server.js', 'utf8');
+          const serverFiles = fs
+            .readdirSync('dist/server', { recursive: true })
+            .filter((name) => name.endsWith('.js'));
+          const server = serverFiles
+            .map((name) => fs.readFileSync(path.join('dist/server', name), 'utf8'))
+            .join('\n');
           for (const marker of [expected, 'data-bu1ld-build', 'bu1ld-build-identity', 'bu1ld-build']) {
             if (!server.includes(marker)) throw new Error(`server bundle missing ${marker}`);
           }
           const clientFiles = fs.readdirSync('dist/client/assets').filter((name) => name.endsWith('.js'));
           const client = clientFiles.map((name) => fs.readFileSync(`dist/client/assets/${name}`, 'utf8')).join('\n');
           if (!client.includes(expected)) throw new Error('client bundle missing build commit');
-          console.log(JSON.stringify({ identity, serverMarkers: true, clientMarkers: true }, null, 2));
+          console.log(JSON.stringify({ identity, serverFiles: serverFiles.length, serverMarkers: true, clientMarkers: true }, null, 2));
           NODE
 
       - name: Verify preview HTML exposes the same identity
