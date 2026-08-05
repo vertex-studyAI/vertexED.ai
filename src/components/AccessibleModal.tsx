@@ -17,6 +17,7 @@ type AccessibleModalProps = PropsWithChildren<{
   descriptionId?: string;
   onClose: () => void;
   initialFocusRef?: RefObject<HTMLElement | null>;
+  overlayClassName?: string;
   className?: string;
   style?: CSSProperties;
   busy?: boolean;
@@ -27,6 +28,7 @@ export default function AccessibleModal({
   descriptionId,
   onClose,
   initialFocusRef,
+  overlayClassName = "blur-background",
   className,
   style,
   busy = false,
@@ -61,7 +63,7 @@ export default function AccessibleModal({
   };
 
   return (
-    <div className="blur-background" role="presentation">
+    <div className={overlayClassName} role="presentation">
       <div
         ref={dialogRef}
         role="dialog"
