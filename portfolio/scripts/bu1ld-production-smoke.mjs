@@ -91,7 +91,7 @@ async function main() {
     process.exit(1);
   }
 
-  console.log('[bu1ld-smoke] Public production journey is healthy.');
+  console.log('[bu1ld-smoke] Public route availability contract is healthy.');
 }
 
 main().catch((error) => {
