@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import AccessibleModal from "@/components/AccessibleModal";
 import Calendar from "./components/Calendar";
 import Schedule, { TaskItem } from "./components/Schedule";
 import TimeLeftWidget from "./components/TimeLeftWidget";
@@ -38,6 +39,7 @@ const PlannerView: React.FC = () => {
   const [aiInput, setAiInput] = useState("");
   const [aiBusy, setAiBusy] = useState(false);
   const [aiError, setAiError] = useState<string | null>(null);
+  const aiInputRef = useRef<HTMLInputElement>(null);
   const [weekPlanBusy, setWeekPlanBusy] = useState(false);
   const [showMoreOptions, setShowMoreOptions] = useState(false);
   const [taskDate, setTaskDate] = useState(""); // yyyy-mm-dd from input[type=date]
@@ -54,6 +56,7 @@ const PlannerView: React.FC = () => {
   const [editDate, setEditDate] = useState(""); // yyyy-mm-dd
   const [editStartTime, setEditStartTime] = useState(""); // HH:MM
   const [editDuration, setEditDuration] = useState(""); // minutes
+  const editNameRef = useRef<HTMLInputElement>(null);
   const [plannerLoading, setPlannerLoading] = useState(true);
   const [syncError, setSyncError] = useState<string | null>(null);
   const [cloudSynced, setCloudSynced] = useState(true);
@@ -396,10 +399,14 @@ const PlannerView: React.FC = () => {
   <TimeLeftWidget />
 
       {aiOpen && (
-        <div className="blur-background" aria-modal="true" role="dialog" aria-label="Add task with AI">
-          <div
-            className="popup"
-            style={{
+        <AccessibleModal
+          titleId="planner-ai-dialog-title"
+          descriptionId="planner-ai-dialog-description"
+          onClose={() => setAiOpen(false)}
+          initialFocusRef={aiInputRef}
+          busy={aiBusy}
+          className="popup"
+          style={{
               width: 'min(520px, 92vw)',
               height: 'auto',
               maxHeight: '80vh',
@@ -411,18 +418,23 @@ const PlannerView: React.FC = () => {
             }}
           >
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.75rem' }}>
-              <h3 style={{ fontSize: '1rem', fontWeight: 600, margin: 0 }}>Add task with AI</h3>
+              <h3 id="planner-ai-dialog-title" style={{ fontSize: '1rem', fontWeight: 600, margin: 0 }}>Add task with AI</h3>
               <button
                 className="complete-task-button"
                 style={{ position: 'static', marginLeft: 'auto' }}
-                aria-label="Close"
+                type="button"
+                aria-label="Close add task dialog"
                 onClick={() => setAiOpen(false)}
               >
                 ✕
               </button>
             </div>
+            <p id="planner-ai-dialog-description" className="sr-only">Describe a task, then optionally choose its date, start time, and duration.</p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+              <label htmlFor="planner-ai-task-input" className="sr-only">Task description</label>
               <input
+                ref={aiInputRef}
+                id="planner-ai-task-input"
                 type="text"
                 className="neu-input-el"
                 placeholder="Enter your task (natural language)"
@@ -496,21 +508,27 @@ const PlannerView: React.FC = () => {
                 </div>
               )}
             </div>
-          </div>
-        </div>
+        </AccessibleModal>
       )}
 
       {editOpen && editTask && (
-        <div className="blur-background">
-          <div className="popup task-popup" style={{ padding: '1rem' }}>
+        <AccessibleModal
+          titleId="planner-edit-dialog-title"
+          descriptionId="planner-edit-dialog-description"
+          onClose={() => setEditOpen(false)}
+          initialFocusRef={editNameRef}
+          className="popup task-popup"
+          style={{ padding: '1rem' }}
+        >
             <div className="modal-header">
-              <h3 className="modal-title">Edit task</h3>
-              <button className="complete-task-button" onClick={() => setEditOpen(false)}>✕</button>
+              <h3 id="planner-edit-dialog-title" className="modal-title">Edit task</h3>
+              <button type="button" className="complete-task-button" aria-label="Close edit task dialog" onClick={() => setEditOpen(false)}>✕</button>
             </div>
+            <p id="planner-edit-dialog-description" className="sr-only">Update the task name, date, start time, or duration.</p>
             <div className="modal-body" style={{ display:'grid', gap:12 }}>
               <label style={{ display:'flex', flexDirection:'column', gap:6 }}>
                 <span>Task name</span>
-                <input type="text" className="neu-input-el" value={editName} onChange={(e)=>setEditName(e.target.value)} style={{ border:'1px solid hsl(var(--foreground)/0.2)', borderRadius:8, padding:'0.5rem' }} />
+                <input ref={editNameRef} type="text" className="neu-input-el" value={editName} onChange={(e)=>setEditName(e.target.value)} style={{ border:'1px solid hsl(var(--foreground)/0.2)', borderRadius:8, padding:'0.5rem' }} />
               </label>
               <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:12 }}>
                 <label style={{ display:'flex', flexDirection:'column', gap:6 }}>
@@ -549,8 +567,7 @@ const PlannerView: React.FC = () => {
                 }}>Save</button>
               </div>
             </div>
-          </div>
-        </div>
+        </AccessibleModal>
       )}
     </div>
   );
