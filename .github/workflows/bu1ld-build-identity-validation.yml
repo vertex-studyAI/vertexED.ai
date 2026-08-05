@@ -20,7 +20,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  validate-patch:
+  validate-recovery:
     runs-on: ubuntu-24.04
     timeout-minutes: 25
     env:
@@ -38,14 +38,17 @@ jobs:
           ref: daa80c1124b2a6d7d09b7669e04d29e50cffcbbe
           path: target
 
-      - name: Apply build identity recovery patch
+      - name: Apply deterministic build identity recovery
         shell: bash
         run: |
           set -euo pipefail
           test "$(git -C target rev-parse HEAD)" = "$TARGET_COMMIT"
-          git -C target apply --check "$GITHUB_WORKSPACE/portfolio/bu1ld/build-identity/build-identity.patch"
-          git -C target apply "$GITHUB_WORKSPACE/portfolio/bu1ld/build-identity/build-identity.patch"
+          node portfolio/bu1ld/build-identity/apply-build-identity.mjs target
           git -C target diff --check
+          test -f target/src/build.d.ts
+          test -f target/src/lib/build-identity.ts
+          test -f target/src/lib/build-identity.test.ts
+          grep -F 'data-bu1ld-build={BUILD_COMMIT}' target/src/routes/__root.tsx
 
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
@@ -120,6 +123,17 @@ jobs:
           curl --fail --silent --show-error http://127.0.0.1:4173/build.json | tee "$GITHUB_WORKSPACE/bu1ld-build-identity.json"
           grep -F "$TEST_BUILD_COMMIT" "$GITHUB_WORKSPACE/bu1ld-build-identity.json"
 
+      - name: Generate reviewable target patch
+        working-directory: target
+        shell: bash
+        run: |
+          set -euo pipefail
+          git add -N src/build.d.ts src/lib/build-identity.ts src/lib/build-identity.test.ts
+          git diff --binary > "$GITHUB_WORKSPACE/bu1ld-build-identity.patch"
+          test -s "$GITHUB_WORKSPACE/bu1ld-build-identity.patch"
+          git apply --check "$GITHUB_WORKSPACE/bu1ld-build-identity.patch" --reverse
+          sha256sum "$GITHUB_WORKSPACE/bu1ld-build-identity.patch" | tee "$GITHUB_WORKSPACE/bu1ld-build-identity-patch.sha256"
+
       - name: Publish certification summary
         if: always()
         run: |
@@ -130,7 +144,7 @@ jobs:
             echo "- Test build commit: $TEST_BUILD_COMMIT"
             echo '- Contract: one normalized commit in build.json, SSR HTML, meta, inline identity JSON, server bundle, and client bundle'
             echo '- Source gate: frozen Bun install plus repository release:check'
-            echo '- Boundary: patch is certified but not applied to the target repository or Cloudflare production'
+            echo '- Boundary: recovery is certified but not applied to the target repository or Cloudflare production'
             echo '- Evidence: bu1ld-build-identity-${{ github.run_id }}'
           } >> "$GITHUB_STEP_SUMMARY"
 
@@ -144,5 +158,7 @@ jobs:
             bu1ld-build-identity-preview.log
             bu1ld-build-identity-home.html
             bu1ld-build-identity.json
+            bu1ld-build-identity.patch
+            bu1ld-build-identity-patch.sha256
           if-no-files-found: ignore
           retention-days: 14
