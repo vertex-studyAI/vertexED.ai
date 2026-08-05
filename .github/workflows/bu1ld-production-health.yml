@@ -1,0 +1,73 @@
+name: Bu1LD Production Health
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '23 */6 * * *'
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/bu1ld-production-health.yml'
+      - 'portfolio/scripts/bu1ld-production-smoke.mjs'
+      - 'portfolio/BU1LD_PRODUCTION_MONITORING.md'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/bu1ld-production-health.yml'
+      - 'portfolio/scripts/bu1ld-production-smoke.mjs'
+      - 'portfolio/BU1LD_PRODUCTION_MONITORING.md'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: bu1ld-production-health-${{ github.event_name }}
+  cancel-in-progress: true
+
+jobs:
+  public-journey:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+
+      - name: Validate smoke contract syntax
+        run: node --check portfolio/scripts/bu1ld-production-smoke.mjs
+
+      - name: Run public production journey
+        env:
+          BU1LD_BASE_URL: https://thebu1ld.com
+          BU1LD_SMOKE_TIMEOUT_MS: '12000'
+        run: |
+          set -o pipefail
+          node portfolio/scripts/bu1ld-production-smoke.mjs 2>&1 | tee bu1ld-production-smoke.log
+
+      - name: Publish summary
+        if: always()
+        run: |
+          {
+            echo '## Bu1LD public production health'
+            echo
+            echo '- Target: https://thebu1ld.com'
+            echo '- Contract: landing, signup, login, projects, programs, evidence, privacy, and terms'
+            echo '- Safety: read-only GET requests; no authentication, account creation, or data writes'
+            echo '- Evidence: bu1ld-production-smoke-${{ github.run_id }}'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: bu1ld-production-smoke-${{ github.run_id }}
+          path: bu1ld-production-smoke.log
+          if-no-files-found: error
+          retention-days: 14
