@@ -1,0 +1,57 @@
+name: Dependency Lockfile Refresh
+
+on:
+  push:
+    branches:
+      - percy/vertex-production-monitor
+    paths:
+      - package.json
+
+permissions:
+  contents: write
+
+concurrency:
+  group: vertex-dependency-lockfile-refresh
+  cancel-in-progress: true
+
+jobs:
+  refresh-lockfile:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ github.ref_name }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Refresh non-breaking dependency resolutions
+        run: npm audit fix --package-lock-only
+
+      - name: Install refreshed dependency graph
+        run: npm ci
+
+      - name: Run canonical release gate
+        env:
+          ROLLUP_SKIP_NODEJS_NATIVE: 'true'
+        run: npm run ci
+
+      - name: Commit verified lockfile
+        run: |
+          set -euo pipefail
+          if git diff --quiet -- package.json package-lock.json; then
+            echo 'No dependency changes were required.'
+            exit 0
+          fi
+
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add package.json package-lock.json
+          git commit -m 'chore: refresh dependency lockfile [skip dependency refresh]'
+          git push origin HEAD:${{ github.ref_name }}
