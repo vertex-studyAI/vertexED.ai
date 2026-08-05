@@ -1,1 +1,245 @@
-wiW0WmB4AaOhODO/gygJpXwDoQQkNrh42fKIQsjboUkTg8Uiut6hpMEyS5JWSwH+fWnQ/LceOdy66BUy+D1Y9f8EsrYU0torpVLzUCJMYPMsF58IYMIyBAwUr/0ftC9GyJSqWKypBTVrClTrzoRREW5G8lcRk7uKs6hUnNofLw3nzqq23oeTx8SX9jmr1L57o0RGpWtaXQxalm9wTz/Mw/TH/OU/yzBx1zpQ2QHrWUE33J3yVwEdKzxS/WH8GA/DMDo5DIJJ/6Tb651YL0fuzN1rPJozQI4MPkx7MhVB+6ePXvz4/MPf3r1ktOLJ3sHpI8ihWC+5GWCnig6c/ezM46nHlCKdeZpnXy6yrJh7WMewEj5E/cJvCjEQS4U5Ys4z76cPr/yRxzqNWbIjZ95K8Bvypp4Nvc+8G5LOGTyzQKyiPtrWQvgSnpCf9YKuguYraIUoEv7klbbM7Ohpkpx29Nieb5Y8gnBehQCYpRDzE60HLhnKePlRBvfjUPJNd9g77E4VrnqLDV30zphDFmKp3LKdqQAYot4SojlPEF/KoowpwYCXdZxqm02UT13m5OApAJbXAi6/jfxlkgg5R3QgsSGCKMj4f8xEykI2S7IJ1sL7LEoIaB0YChrkkjeFsyjWZ142GyvBeLsp/IUpT2+I0ZhAZgzpW0IfEEUDxWcl8s74wLbDEUU5cp4tpUZZsaMiUYqCGfyt8nMpvy3YjKc8V5E3y6aWME0zfOLXyAD67eobn0hRbLJmFQOxNCKccRTmsbNHlgsK4hydpviC0pYzj7TMYxQ4nHmdqda6AH9olXU08gNChxtcUDahVEcWa0TJSj39GqIBo69xJBESKRx68ZzzwrNEN67B155ndVMIQkffYGA/nWTx2t71ycy/mUNAjBzGGF84wLV/0u0ibrot6i81XQ/1aAFSbsiWQnt1tySLS310/qDb1aQrXJaJsDIw12Lpq5jNiOAbytl9cwDekwvMU0BMo/ZYTjuhPY1YrJiIz7wc9sl7ctrBd1P2b2nfe04RIHYiHK/NQppp/W3IkmoKAirL/hyuwgs1T+hjISnch3IiQhOgQl3gVdNbBqedCqahTxoI0MQzD0FbSZdS5hGOGn92iCvkHrdEurPxtKNlRUelzHPDbyzD6JqwfZS4GZPGp/EdfR6PTiZxEAyOw+GkHzV9R2OD9h6NIeM/jsl/HB6T/4BXh0Q9uikeQmqjU0cIjX3Dv9dWK0wxgRbBdsN6K5e6uVEnpvXOg82dPbUTgvCQRK0QEWC4yEuul6prjXVGnHqhlp7E+J0WPQz2ilat6Mq3zZi6IHZUXxdNuULFyUlVs/Zba8uD0ybYUFSp0g2tKGSE40qzlwtR1CsoScQklV0wq5JJ+kN2bMlJZQFQrICGg8VH2dg7
+
++  grid-template-columns: auto 1fr auto;
++  align-items: center;
++  gap: 1.5rem;
++}
++
++.brand {
++  display: inline-flex;
++  align-items: center;
++  gap: 0.7rem;
++  text-decoration: none;
++  font-size: 1.08rem;
++  font-weight: 850;
++  letter-spacing: -0.02em;
++}
++
++.brand-mark {
++  display: grid;
++  width: 2.25rem;
++  height: 2.25rem;
++  place-items: center;
++  border-radius: 0.72rem;
++  background: var(--accent);
++  color: var(--accent-text);
++  font-size: 0.78rem;
++  letter-spacing: 0.04em;
++}
++
++nav {
++  justify-self: center;
++  display: flex;
++  gap: 1.6rem;
++}
++
++nav a {
++  color: var(--muted);
++  text-decoration: none;
++  font-size: 0.94rem;
++  font-weight: 700;
++}
++
++nav a:hover {
++  color: var(--text);
++}
++
++.theme-toggle {
++  border: 1px solid var(--line);
++  border-radius: 999px;
++  background: var(--surface);
++  color: var(--text);
++  padding: 0.62rem 0.9rem;
++  cursor: pointer;
++  font-weight: 750;
++}
++
++.hero {
++  min-height: calc(100vh - 7rem);
++  display: grid;
++  grid-template-columns: minmax(0, 1.18fr) minmax(18rem, 0.82fr);
++  align-items: center;
++  gap: clamp(2.5rem, 7vw, 6rem);
++  padding: 5rem 0 7rem;
++}
++
++.eyebrow {
++  margin: 0 0 1rem;
++  color: var(--accent);
++  font-size: 0.78rem;
++  font-weight: 850;
++  letter-spacing: 0.14em;
++  text-transform: uppercase;
++}
++
++h1,
++h2,
++h3,
++p {
++  text-wrap: pretty;
++}
++
++h1 {
++  max-width: 13ch;
++  margin: 0;
++  font-size: clamp(3.1rem, 8vw, 6.6rem);
++  line-height: 0.94;
++  letter-spacing: -0.067em;
++}
++
++.hero-summary {
++  max-width: 42rem;
++  margin: 1.75rem 0 0;
++  color: var(--muted);
++  font-size: clamp(1.05rem, 2vw, 1.25rem);
++  line-height: 1.7;
++}
++
++.hero-actions {
++  display: flex;
++  flex-wrap: wrap;
++  gap: 0.9rem;
++  margin-top: 2.1rem;
++}
++
++.button {
++  display: inline-flex;
++  min-height: 3rem;
++  align-items: center;
++  justify-content: center;
++  border-radius: 0.8rem;
++  padding: 0.75rem 1.05rem;
++  text-decoration: none;
++  font-weight: 820;
++  transition: transform 150ms ease, background-color 150ms ease;
++}
++
++.button:hover {
++  transform: translateY(-2px);
++}
++
++.button-primary {
++  background: var(--accent);
++  color: var(--accent-text);
++}
++
++.button-primary:hover {
++  background: var(--accent-strong);
++}
++
++.button-secondary {
++  border: 1px solid var(--line);
++  background: var(--surface);
++}
++
++.proof-list {
++  display: flex;
++  flex-wrap: wrap;
++  gap: 1.2rem;
++  margin: 2.2rem 0 0;
++  padding: 0;
++  color: var(--muted);
++  list-style: none;
++  font-size: 0.9rem;
++  font-weight: 700;
++}
++
++.proof-list li::before {
++  content: "";
++  display: inline-block;
++  width: 0.5rem;
++  height: 0.5rem;
++  margin-right: 0.55rem;
++  border-radius: 50%;
++  background: var(--accent);
++}
++
++.hero-card {
++  border: 1px solid var(--line);
++  border-radius: 1.6rem;
++  background: linear-gradient(145deg, var(--surface-strong), var(--surface));
++  padding: clamp(1.3rem, 4vw, 2rem);
++  box-shadow: var(--shadow);
++}
++
++.hero-card-label {
++  margin: 0 0 1rem;
++  color: var(--muted);
++  font-size: 0.85rem;
++  font-weight: 800;
++}
++
++.hero-card-grid {
++  display: grid;
++  grid-template-columns: repeat(2, minmax(0, 1fr));
++  gap: 0.75rem;
++}
++
++.hero-card-grid div {
++  display: flex;
++  min-height: 6.2rem;
++  flex-direction: column;
++  justify-content: space-between;
++  border: 1px solid var(--line);
++  border-radius: 1rem;
++  background: color-mix(in srgb, var(--surface) 84%, transparent);
++  padding: 1rem;
++}
++
++.hero-card-grid span,
++.pathway-number {
++  color: var(--accent);
++  font-size: 0.75rem;
++  font-weight: 850;
++  letter-spacing: 0.08em;
++}
++
++.hero-card > p:last-child {
++  margin: 1rem 0 0;
++  color: var(--muted);
++  line-height: 1.55;
++}
++
++.section {
++  padding: 6.5rem 0;
++}
++
++.section-heading {
++  display: grid;
++  grid-template-columns: minmax(0, 1.15fr) minmax(15rem, 0.85fr);
++  gap: 2rem;
++  align-items: end;
++  margin-bottom: 2.4rem;
++}
++
++.section-heading .eyebrow {
++  grid-column: 1 / -1;
++  margin-bottom: -0.8rem;
++}
++
++h2 {
++  margin: 0;
++  font-size: clamp(2.2rem, 5vw, 4rem);
++  line-height: 1.02;
++  letter-spacing: -0.052em;
++}
++
++.section-heading > p:last-child,
++.community-section > p {
++  margin: 0;
++  color: var(--muted);
++  line-height: 1.7;
++}
++
++.pathway-grid {
++  display: grid;
++  grid-template-columns: repeat(3, minmax(0, 1fr));
++  gap: 1rem;
++}
++
++.pathway-card {
++  min-height: 17rem;
++  display: flex;
++  flex-direction: column;
++  border: 1px solid var(--line);
++  border-radius: 1.2rem;
++  background: var(--surfa
