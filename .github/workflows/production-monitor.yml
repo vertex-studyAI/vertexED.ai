@@ -4,12 +4,17 @@ on:
   schedule:
     - cron: '17 * * * *'
   workflow_dispatch:
+  pull_request:
+    branches: [main, master]
+    paths:
+      - '.github/workflows/production-monitor.yml'
+      - 'scripts/smoke-deploy.mjs'
 
 permissions:
   contents: read
 
 concurrency:
-  group: production-monitor
+  group: production-monitor-${{ github.event_name }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
