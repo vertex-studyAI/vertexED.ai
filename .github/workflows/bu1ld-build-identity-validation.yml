@@ -1,0 +1,148 @@
+name: Bu1LD Build Identity Validation
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/bu1ld-build-identity-validation.yml'
+      - 'portfolio/bu1ld/build-identity/**'
+  push:
+    branches:
+      - percy/bu1ld-build-identity-recovery
+
+permissions:
+  contents: read
+
+concurrency:
+  group: bu1ld-build-identity-${{ github.event_name }}
+  cancel-in-progress: true
+
+jobs:
+  validate-patch:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    env:
+      TARGET_COMMIT: daa80c1124b2a6d7d09b7669e04d29e50cffcbbe
+      TEST_BUILD_COMMIT: 0123456789abcdef0123456789abcdef01234567
+
+    steps:
+      - name: Checkout portfolio control repository
+        uses: actions/checkout@v5
+
+      - name: Checkout immutable Bu1LD source
+        uses: actions/checkout@v5
+        with:
+          repository: ryangomez010/bu1ld-landing
+          ref: daa80c1124b2a6d7d09b7669e04d29e50cffcbbe
+          path: target
+
+      - name: Apply build identity recovery patch
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git -C target rev-parse HEAD)" = "$TARGET_COMMIT"
+          git -C target apply --check "$GITHUB_WORKSPACE/portfolio/bu1ld/build-identity/build-identity.patch"
+          git -C target apply "$GITHUB_WORKSPACE/portfolio/bu1ld/build-identity/build-identity.patch"
+          git -C target diff --check
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.3.14
+
+      - name: Install frozen dependencies
+        working-directory: target
+        run: bun install --frozen-lockfile
+
+      - name: Run immutable source release gate with build identity
+        working-directory: target
+        env:
+          BU1LD_BUILD_COMMIT: ${{ env.TEST_BUILD_COMMIT }}
+          VITE_SUPABASE_URL: https://bu1ld-ci.invalid
+          VITE_SUPABASE_ANON_KEY: ci-public-anon-key-build-only
+        shell: bash
+        run: |
+          set -o pipefail
+          bun run release:check 2>&1 | tee "$GITHUB_WORKSPACE/bu1ld-build-identity-release.log"
+
+      - name: Verify emitted identity artifacts
+        working-directory: target
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f dist/client/build.json
+          node - <<'NODE'
+          const fs = require('node:fs');
+          const expected = process.env.TEST_BUILD_COMMIT;
+          const identity = JSON.parse(fs.readFileSync('dist/client/build.json', 'utf8'));
+          if (identity.service !== 'bu1ld' || identity.commit !== expected) {
+            throw new Error(`unexpected build.json identity: ${JSON.stringify(identity)}`);
+          }
+          const server = fs.readFileSync('dist/server/server.js', 'utf8');
+          for (const marker of [expected, 'data-bu1ld-build', 'bu1ld-build-identity', 'bu1ld-build']) {
+            if (!server.includes(marker)) throw new Error(`server bundle missing ${marker}`);
+          }
+          const clientFiles = fs.readdirSync('dist/client/assets').filter((name) => name.endsWith('.js'));
+          const client = clientFiles.map((name) => fs.readFileSync(`dist/client/assets/${name}`, 'utf8')).join('\n');
+          if (!client.includes(expected)) throw new Error('client bundle missing build commit');
+          console.log(JSON.stringify({ identity, serverMarkers: true, clientMarkers: true }, null, 2));
+          NODE
+
+      - name: Verify preview HTML exposes the same identity
+        working-directory: target
+        shell: bash
+        env:
+          VITE_SUPABASE_URL: https://bu1ld-ci.invalid
+          VITE_SUPABASE_ANON_KEY: ci-public-anon-key-build-only
+        run: |
+          set -euo pipefail
+          bun run preview -- --host 127.0.0.1 --port 4173 > "$GITHUB_WORKSPACE/bu1ld-build-identity-preview.log" 2>&1 &
+          preview_pid=$!
+          trap 'kill "$preview_pid" 2>/dev/null || true' EXIT
+
+          for attempt in $(seq 1 30); do
+            if curl --fail --silent --show-error http://127.0.0.1:4173/ > "$GITHUB_WORKSPACE/bu1ld-build-identity-home.html"; then
+              break
+            fi
+            if [ "$attempt" -eq 30 ]; then
+              echo "Preview did not become ready" >&2
+              exit 1
+            fi
+            sleep 1
+          done
+
+          grep -F "data-bu1ld-build=\"$TEST_BUILD_COMMIT\"" "$GITHUB_WORKSPACE/bu1ld-build-identity-home.html"
+          grep -F "name=\"bu1ld-build\"" "$GITHUB_WORKSPACE/bu1ld-build-identity-home.html"
+          grep -F "content=\"$TEST_BUILD_COMMIT\"" "$GITHUB_WORKSPACE/bu1ld-build-identity-home.html"
+          grep -F 'id="bu1ld-build-identity"' "$GITHUB_WORKSPACE/bu1ld-build-identity-home.html"
+          curl --fail --silent --show-error http://127.0.0.1:4173/build.json | tee "$GITHUB_WORKSPACE/bu1ld-build-identity.json"
+          grep -F "$TEST_BUILD_COMMIT" "$GITHUB_WORKSPACE/bu1ld-build-identity.json"
+
+      - name: Publish certification summary
+        if: always()
+        run: |
+          {
+            echo '## Bu1LD build identity recovery'
+            echo
+            echo "- Immutable target: $TARGET_COMMIT"
+            echo "- Test build commit: $TEST_BUILD_COMMIT"
+            echo '- Contract: one normalized commit in build.json, SSR HTML, meta, inline identity JSON, server bundle, and client bundle'
+            echo '- Source gate: frozen Bun install plus repository release:check'
+            echo '- Boundary: patch is certified but not applied to the target repository or Cloudflare production'
+            echo '- Evidence: bu1ld-build-identity-${{ github.run_id }}'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: bu1ld-build-identity-${{ github.run_id }}
+          path: |
+            bu1ld-build-identity-release.log
+            bu1ld-build-identity-preview.log
+            bu1ld-build-identity-home.html
+            bu1ld-build-identity.json
+          if-no-files-found: ignore
+          retention-days: 14
