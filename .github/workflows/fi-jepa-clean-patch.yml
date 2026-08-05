@@ -1,0 +1,96 @@
+name: Clean FI-JEPA certified patch
+
+on:
+  push:
+    branches:
+      - percy/fi-jepa-baseline-20260805
+
+permissions:
+  contents: write
+
+concurrency:
+  group: fi-jepa-clean-patch
+  cancel-in-progress: true
+
+jobs:
+  clean-and-revalidate:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - uses: actions/checkout@v5
+        with:
+          repository: build-the-future-11/FinanceMeta-Global
+          ref: 6191c2bc98118709b3437e04666af4b51a96ee65
+          path: target
+      - name: Apply and sanitize certified source
+        shell: bash
+        run: |
+          set -euo pipefail
+          git -C target apply ../portfolio/patches/finance-meta-global-fi-jepa/fi-jepa-baseline.patch
+          rm -rf target/FI-JEPA/src/fi_jepa.egg-info target/FI-JEPA/.pytest_cache
+          find target/FI-JEPA -type d -name __pycache__ -prune -exec rm -rf {} +
+          cat > target/FI-JEPA/.gitignore <<'EOF'
+          __pycache__/
+          *.py[cod]
+          *.egg-info/
+          .pytest_cache/
+          .coverage
+          dist/
+          build/
+          EOF
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: target/FI-JEPA/pyproject.toml
+      - run: python -m pip install -e 'target/FI-JEPA[dev]'
+      - run: pytest target/FI-JEPA/tests -q | tee fi-jepa-tests.log
+      - run: python -m fi_jepa.cli --epochs 40 | tee fi-jepa-report.json
+      - name: Regenerate clean patch and evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf target/FI-JEPA/src/fi_jepa.egg-info target/FI-JEPA/.pytest_cache
+          find target/FI-JEPA -type d -name __pycache__ -prune -exec rm -rf {} +
+          git -C target add -A
+          git -C target diff --cached --binary > portfolio/patches/finance-meta-global-fi-jepa/fi-jepa-baseline.patch
+          patch_sha="$(sha256sum portfolio/patches/finance-meta-global-fi-jepa/fi-jepa-baseline.patch | awk '{print $1}')"
+          report_sha="$(sha256sum fi-jepa-report.json | awk '{print $1}')"
+          cat > portfolio/patches/finance-meta-global-fi-jepa/VALIDATION.md <<EOF
+          # FI-JEPA baseline validation
+
+          - Target: \`build-the-future-11/FinanceMeta-Global\`
+          - Target base: \`6191c2bc98118709b3437e04666af4b51a96ee65\`
+          - Execution commit: \`$GITHUB_SHA\`
+          - Validation run: \`$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID\`
+          - Python: \`$(python --version 2>&1)\`
+          - Patch SHA-256: \`$patch_sha\`
+          - Report SHA-256: \`$report_sha\`
+
+          Passed four tests covering deterministic data, disjoint chronological windows, objective reduction, non-collapsed embeddings, finite frozen-probe metrics, and deterministic CLI reporting. The synthetic experiment completed successfully. Generated package metadata, caches, and build products are excluded from the patch. This validates execution only; it is not evidence of novelty, real-market performance, or profitability.
+          EOF
+      - uses: actions/upload-artifact@v7
+        with:
+          name: fi-jepa-clean-validation-${{ github.run_id }}
+          path: |
+            fi-jepa-tests.log
+            fi-jepa-report.json
+          retention-days: 14
+      - name: Preserve clean artifact
+        shell: bash
+        run: |
+          set -euo pipefail
+          branch="percy/fi-jepa-baseline-20260805"
+          test "$(git ls-remote origin "refs/heads/$branch" | cut -f1)" = "$GITHUB_SHA"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm .github/workflows/fi-jepa-clean-patch.yml
+          git add portfolio/patches/finance-meta-global-fi-jepa/fi-jepa-baseline.patch
+          git add portfolio/patches/finance-meta-global-fi-jepa/VALIDATION.md
+          git commit -m "fix: exclude generated metadata from FI-JEPA patch"
+          git push origin "HEAD:$branch"
