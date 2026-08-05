@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { access, readFile, stat } from 'node:fs/promises';
 import test from 'node:test';
 
-const root = new URL('../../', import.meta.url);
+const root = new URL('../', import.meta.url);
 
 function at(path) {
   return new URL(path, root);
@@ -18,7 +18,6 @@ test('production output contains loadable JavaScript and CSS assets', async () =
     .map((match) => match[1])
     .filter((path) => !/^https?:\/\//.test(path));
 
-  // Vite may consolidate all styles into one production CSS asset.
   assert.ok(assetPaths.some((path) => path.endsWith('.js')), 'built HTML must reference JavaScript');
   assert.ok(assetPaths.some((path) => path.endsWith('.css')), 'built HTML must reference CSS');
 
