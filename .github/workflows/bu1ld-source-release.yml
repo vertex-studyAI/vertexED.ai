@@ -41,13 +41,14 @@ jobs:
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
         with:
-          bun-version: latest
+          bun-version: 1.3.14
 
       - name: Record immutable inputs
         run: |
           set -euo pipefail
           target_sha="$(git -C target rev-parse HEAD)"
           test "$target_sha" = 'daa80c1124b2a6d7d09b7669e04d29e50cffcbbe'
+          test "$(bun --version)" = '1.3.14'
           {
             echo "target_commit=$target_sha"
             echo "bun_version=$(bun --version)"
@@ -76,6 +77,7 @@ jobs:
             echo
             echo '- Repository: ryangomez010/bu1ld-landing'
             echo '- Commit: daa80c1124b2a6d7d09b7669e04d29e50cffcbbe'
+            echo '- Bun: 1.3.14'
             echo '- Command: bun run release:check'
             echo '- Public build configuration: explicit synthetic non-secret CI values; no production project or key used'
             echo '- Scope: typecheck, tests, lint, build, copy/security scans, migration and release-artifact checks'
