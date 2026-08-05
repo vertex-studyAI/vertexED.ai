@@ -1,7 +1,17 @@
 {
   "schema_version": 1,
-  "as_of": "2026-08-02T15:42:00+05:30",
+  "as_of": "2026-08-05T19:39:00+05:30",
   "blockers": [
+    {
+      "id": "BLOCKER-VERTEXED-DOMAIN-CONTACT-VERIFICATION",
+      "project": "VertexED.ai",
+      "severity": "CRITICAL",
+      "description": "The registrant email for vertex-ed.com remains unverified after repeated Squarespace and Google Workspace warnings.",
+      "evidence": "Latest Squarespace action-required message received 2026-08-04; registration date 2026-07-25; the message states that failure to verify within 15 days can place the domain on hold.",
+      "smallest_user_action": "In Gmail, open the latest Squarespace message titled '[Action Required] Verify your Squarespace domain contact' and click VERIFY NOW. Do not forward or store the tokenized link.",
+      "retry_condition": "A verification-success page or a new registrar message confirms the contact is verified.",
+      "status": "OPEN"
+    },
     {
       "id": "BLOCKER-GITHUB-FINANCEMETA-WRITE",
       "project": "FinanceMeta",
