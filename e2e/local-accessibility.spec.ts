@@ -17,11 +17,13 @@ test.describe('local keyboard accessibility', () => {
 
     await page.goto('/');
     const trigger = page.getByRole('button', { name: 'Open navigation menu' });
-    const navigation = page.getByRole('navigation', { name: 'Mobile navigation', includeHidden: true });
-    const firstLink = navigation.getByRole('link').first();
+    const navigation = page.locator('#mobile-nav');
+    const firstLink = navigation.locator('a').first();
+    const navigationContainer = navigation.locator('xpath=..');
 
     await expect(trigger).toHaveAttribute('aria-expanded', 'false');
-    await expect(navigation.locator('xpath=..')).toHaveAttribute('aria-hidden', 'true');
+    await expect(navigationContainer).toHaveAttribute('aria-hidden', 'true');
+    await expect(navigation).toHaveJSProperty('inert', true);
 
     const closedMenuAcceptedFocus = await firstLink.evaluate((element) => {
       (element as HTMLElement).focus();
@@ -31,14 +33,16 @@ test.describe('local keyboard accessibility', () => {
 
     await trigger.click();
     await expect(page.getByRole('button', { name: 'Close navigation menu' })).toHaveAttribute('aria-expanded', 'true');
-    await expect(navigation.locator('xpath=..')).toHaveAttribute('aria-hidden', 'false');
+    await expect(navigationContainer).toHaveAttribute('aria-hidden', 'false');
+    await expect(navigation).toHaveJSProperty('inert', false);
 
     await firstLink.focus();
     await expect(firstLink).toBeFocused();
 
     await page.keyboard.press('Escape');
     await expect(page.getByRole('button', { name: 'Open navigation menu' })).toBeFocused();
-    await expect(navigation.locator('xpath=..')).toHaveAttribute('aria-hidden', 'true');
+    await expect(navigationContainer).toHaveAttribute('aria-hidden', 'true');
+    await expect(navigation).toHaveJSProperty('inert', true);
   });
 
   test('AI tutor dialog receives focus, closes on Escape, and restores its opener', async ({ page }) => {
