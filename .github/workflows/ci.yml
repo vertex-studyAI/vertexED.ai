@@ -11,6 +11,37 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  generate-security-lockfile:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+
+      - name: Generate patched lockfile
+        run: |
+          set -euo pipefail
+          npm install --package-lock-only --ignore-scripts
+          npm audit fix --package-lock-only --ignore-scripts || true
+          npm audit --omit=dev --audit-level=high | tee security-audit.txt
+
+      - name: Upload generated dependency evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: security-lockfile
+          path: |
+            package-lock.json
+            security-audit.txt
+          if-no-files-found: error
+          retention-days: 2
+
   build-and-test:
     runs-on: ubuntu-latest
     timeout-minutes: 20
