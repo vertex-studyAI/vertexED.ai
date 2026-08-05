@@ -35,8 +35,11 @@ A deployment continues when a commit changes:
 - serverless API code under `api/`;
 - public runtime assets under `public/`;
 - build and release scripts under `scripts/`;
+- Supabase migrations, functions, or project configuration under `supabase/`;
 - `package.json`, `package-lock.json`, `.npmrc`, `index.html`, `components.json`, or `vercel.json`;
 - root Vite, TypeScript, Tailwind, PostCSS, or ESLint configuration.
+
+Supabase changes continue builds even when they do not alter the frontend bundle. They can change the production data contract, authorization behavior, or release-verification requirements and therefore must receive a deployment preview rather than being treated as documentation.
 
 A mixed commit also builds whenever at least one runtime-relevant file changed.
 
@@ -48,14 +51,13 @@ A deployment is skipped when every changed file is non-runtime, including:
 - `portfolio/` research, teaching, and recovery artifacts;
 - `.percy/` execution state;
 - GitHub Actions-only changes;
-- Supabase migration records that do not alter the Vercel application bundle;
 - test-only, E2E-only, and evaluation-only changes.
 
 GitHub CI still validates these commits. Only the redundant Vercel build is skipped.
 
 ## Validation
 
-`tests/vercel-ignore-build.test.mjs` certifies runtime paths, root build configuration, documentation-only changes, mixed commits, and path normalization. The test is part of the canonical `npm test` and `npm run ci` gates.
+`tests/vercel-ignore-build.test.mjs` certifies runtime, API, Supabase, root build-configuration, documentation-only, mixed-commit, and path-normalization behavior. The test is part of the canonical `npm test` and `npm run ci` gates.
 
 ## Recovery procedure
 
