@@ -30,11 +30,12 @@ jobs:
           ref: main
           path: target
 
-      - name: Reconstruct and apply verified recovery patch
+      - name: Reconstruct and apply verified recovery bundle
         shell: bash
         run: |
           set -euo pipefail
           bundle_dir="$GITHUB_WORKSPACE/portfolio/patches/finance-meta-landing"
+          target_dir="$GITHUB_WORKSPACE/target"
           shopt -s nullglob
           parts=("$bundle_dir"/encoded/part-*)
           if [ "${#parts[@]}" -ne 9 ]; then
@@ -45,8 +46,9 @@ jobs:
           echo "943c2aef65331b10309b6a9451b132d73a6e1d06c6561497be22453202c280d2  $RUNNER_TEMP/finance-meta-recovery.b64" | sha256sum --check --strict
           base64 --decode "$RUNNER_TEMP/finance-meta-recovery.b64" | gzip --decompress > "$bundle_dir/finance-meta-landing-recovery.patch"
           echo "75057cde383287564770002c046829f1824fb35561b292035d7d4609f078c76c  $bundle_dir/finance-meta-landing-recovery.patch" | sha256sum --check --strict
-          git -C "$GITHUB_WORKSPACE/target" apply --check "$bundle_dir/finance-meta-landing-recovery.patch"
-          git -C "$GITHUB_WORKSPACE/target" apply "$bundle_dir/finance-meta-landing-recovery.patch"
+          git -C "$target_dir" apply --check "$bundle_dir/finance-meta-landing-recovery.patch"
+          git -C "$target_dir" apply "$bundle_dir/finance-meta-landing-recovery.patch"
+          cp -R "$bundle_dir/overlay/." "$target_dir/"
 
       - name: Setup Node.js
         uses: actions/setup-node@v6
@@ -67,7 +69,7 @@ jobs:
         working-directory: target
         shell: bash
         run: |
-          set -o pipefail
+          set -euo pipefail
           npm run ci 2>&1 | tee "$GITHUB_WORKSPACE/finance-meta-ci.log"
 
       - name: Install Chromium
@@ -78,7 +80,7 @@ jobs:
         working-directory: target
         shell: bash
         run: |
-          set -o pipefail
+          set -euo pipefail
           npm run test:e2e 2>&1 | tee "$GITHUB_WORKSPACE/finance-meta-browser.log"
 
       - name: Generate durable validation evidence
@@ -86,11 +88,21 @@ jobs:
         run: |
           set -euo pipefail
           bundle_dir="$GITHUB_WORKSPACE/portfolio/patches/finance-meta-landing"
-          target_sha="$(git -C "$GITHUB_WORKSPACE/target" rev-parse HEAD)"
-          git -C "$GITHUB_WORKSPACE/target" diff -- package-lock.json > "$bundle_dir/finance-meta-landing-package-lock.patch"
+          target_dir="$GITHUB_WORKSPACE/target"
+          target_sha="$(git -C "$target_dir" rev-parse HEAD)"
+
+          test -f "$target_dir/dist/index.html"
+          git -C "$target_dir" add -N .
+          git -C "$target_dir" diff --binary -- . ':(exclude)package-lock.json' \
+            > "$bundle_dir/finance-meta-landing-recovery.patch"
+          git -C "$target_dir" diff --binary -- package-lock.json \
+            > "$bundle_dir/finance-meta-landing-package-lock.patch"
+          test -s "$bundle_dir/finance-meta-landing-recovery.patch"
+          test -s "$bundle_dir/finance-meta-landing-package-lock.patch"
+
           recovery_digest="$(sha256sum "$bundle_dir/finance-meta-landing-recovery.patch" | awk '{print $1}')"
           lock_digest="$(sha256sum "$bundle_dir/finance-meta-landing-package-lock.patch" | awk '{print $1}')"
-          dist_size="$(du -sh "$GITHUB_WORKSPACE/target/dist" | awk '{print $1}')"
+          dist_size="$(du -sh "$target_dir/dist" | awk '{print $1}')"
           cat > "$bundle_dir/VALIDATION.md" <<EOF
           # FinanceMeta Landing Validation
 
@@ -113,7 +125,7 @@ jobs:
           - desktop Chromium primary journey
           - mobile Chromium primary journey
           - persisted theme control
-          - horizontal overflow checks
+          - keyboard focus and horizontal overflow checks
 
           The target repository was not modified. These results certify the stored recovery patches against the exact target base commit above.
           EOF
@@ -122,23 +134,24 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v7
         with:
-          name: finance-meta-landing-validation
+          name: finance-meta-landing-validation-${{ github.run_id }}
           path: |
             target/playwright-report
             target/test-results
             finance-meta-ci.log
             finance-meta-browser.log
-          if-no-files-found: ignore
+          if-no-files-found: error
           retention-days: 14
 
-      - name: Commit reviewable patch and evidence
+      - name: Commit certified recovery bundle
         shell: bash
         run: |
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git rm portfolio/patches/finance-meta-landing/recovery.patch.gz.b64
+          git rm -f portfolio/patches/finance-meta-landing/recovery.patch.gz.b64
           git rm -r portfolio/patches/finance-meta-landing/encoded
+          git rm -r portfolio/patches/finance-meta-landing/overlay
           git rm .github/workflows/finance-meta-landing-validation.yml
           git add portfolio/patches/finance-meta-landing/finance-meta-landing-recovery.patch
           git add portfolio/patches/finance-meta-landing/finance-meta-landing-package-lock.patch
