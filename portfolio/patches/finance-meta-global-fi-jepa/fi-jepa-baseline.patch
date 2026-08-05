@@ -41,6 +41,19 @@ index 0000000..a5b5cd4
 +          name: fi-jepa-synthetic-report
 +          path: fi-jepa-report.json
 +          retention-days: 14
+diff --git a/FI-JEPA/.gitignore b/FI-JEPA/.gitignore
+new file mode 100644
+index 0000000..650341a
+--- /dev/null
++++ b/FI-JEPA/.gitignore
+@@ -0,0 +1,7 @@
++__pycache__/
++*.py[cod]
++*.egg-info/
++.pytest_cache/
++.coverage
++dist/
++build/
 diff --git a/FI-JEPA/README.md b/FI-JEPA/README.md
 index e9fba61..2ff1c3c 100644
 --- a/FI-JEPA/README.md
@@ -87,6 +100,13 @@ index e9fba61..2ff1c3c 100644
 +## Required next experiments
 +
 +Before any manuscript claim, add licensed point-in-time market data, asset-universe and survivorship controls, walk-forward evaluation, multiple seeds, linear and autoregressive baselines, ablations for horizon and EMA momentum, collapse diagnostics, transaction-cost-free representation metrics, and confidence intervals. Any trading study must remain separate from representation pretraining and must not be presented as financial advice.
+diff --git a/FI-JEPA/init.py b/FI-JEPA/init.py
+deleted file mode 100644
+index 8b13789..0000000
+--- a/FI-JEPA/init.py
++++ /dev/null
+@@ -1 +0,0 @@
+-
 diff --git a/FI-JEPA/pyproject.toml b/FI-JEPA/pyproject.toml
 new file mode 100644
 index 0000000..f993114
@@ -117,114 +137,6 @@ index 0000000..f993114
 +[tool.pytest.ini_options]
 +addopts = "-ra --strict-markers"
 +testpaths = ["tests"]
-diff --git a/FI-JEPA/src/fi_jepa.egg-info/PKG-INFO b/FI-JEPA/src/fi_jepa.egg-info/PKG-INFO
-new file mode 100644
-index 0000000..7e41508
---- /dev/null
-+++ b/FI-JEPA/src/fi_jepa.egg-info/PKG-INFO
-@@ -0,0 +1,52 @@
-+Metadata-Version: 2.4
-+Name: fi-jepa
-+Version: 0.1.0
-+Summary: Leakage-safe executable baseline for joint-embedding prediction on financial sequences
-+Requires-Python: >=3.11
-+Description-Content-Type: text/markdown
-+License-File: LICENSE
-+Requires-Dist: numpy<3,>=2.0
-+Provides-Extra: dev
-+Requires-Dist: pytest<9,>=8.3; extra == "dev"
-+Dynamic: license-file
-+
-+# FI-JEPA: executable baseline
-+
-+FI-JEPA is an **unvalidated research prototype** for testing whether a joint-embedding predictive objective can learn useful representations from multivariate financial time series. The repository does not currently contain evidence that FI-JEPA is novel, superior to simpler methods, profitable, or suitable for live trading.
-+
-+## Research question
-+
-+Can an encoder trained to predict the latent representation of a held-out future block from a past context block produce features that are useful to a frozen downstream probe?
-+
-+The baseline adapts the central JEPA idea—predicting targets in representation space instead of reconstructing raw inputs—from I-JEPA and V-JEPA. Financial sequences require different masking and evaluation rules: all context observations precede every target observation, splits are chronological, and no future sample may enter fitting or normalization.
-+
-+Primary background:
-+
-+- Assran et al., *Self-Supervised Learning from Images with a Joint-Embedding Predictive Architecture*, CVPR 2023: https://arxiv.org/abs/2301.08243
-+- Bardes et al., *Revisiting Feature Prediction for Learning Visual Representations from Video*, 2024: https://ai.meta.com/research/publications/revisiting-feature-prediction-for-learning-visual-representations-from-video/
-+- Sobal et al., *Joint Embedding Predictive Architectures Focus on Slow Features*, 2022: https://arxiv.org/abs/2211.10831
-+
-+## What is implemented
-+
-+- deterministic synthetic regime-switching market panels;
-+- past-only context and strictly later target windows;
-+- chronological train/validation splits with no shared observations;
-+- a NumPy context encoder, EMA target encoder, and latent predictor;
-+- a frozen ridge probe and persistence baseline;
-+- deterministic tests for leakage, reproducibility, optimization, and reporting.
-+
-+This is intentionally a CPU baseline. It is small enough to inspect line by line and strong enough to establish a reproducible experiment contract before introducing transformers, real datasets, or claims.
-+
-+## Run
-+
-+```bash
-+python -m pip install -e '.[dev]'
-+pytest -q
-+python -m fi_jepa.cli --epochs 40
-+```
-+
-+The CLI prints JSON containing the seed, split sizes, training loss, probe error, directional accuracy, and persistence-baseline error.
-+
-+## Required next experiments
-+
-+Before any manuscript claim, add licensed point-in-time market data, asset-universe and survivorship controls, walk-forward evaluation, multiple seeds, linear and autoregressive baselines, ablations for horizon and EMA momentum, collapse diagnostics, transaction-cost-free representation metrics, and confidence intervals. Any trading study must remain separate from representation pretraining and must not be presented as financial advice.
-diff --git a/FI-JEPA/src/fi_jepa.egg-info/SOURCES.txt b/FI-JEPA/src/fi_jepa.egg-info/SOURCES.txt
-new file mode 100644
-index 0000000..e514a28
---- /dev/null
-+++ b/FI-JEPA/src/fi_jepa.egg-info/SOURCES.txt
-@@ -0,0 +1,14 @@
-+LICENSE
-+README.md
-+pyproject.toml
-+src/fi_jepa/__init__.py
-+src/fi_jepa/cli.py
-+src/fi_jepa/data.py
-+src/fi_jepa/model.py
-+src/fi_jepa.egg-info/PKG-INFO
-+src/fi_jepa.egg-info/SOURCES.txt
-+src/fi_jepa.egg-info/dependency_links.txt
-+src/fi_jepa.egg-info/entry_points.txt
-+src/fi_jepa.egg-info/requires.txt
-+src/fi_jepa.egg-info/top_level.txt
-+tests/test_baseline.py
-\ No newline at end of file
-diff --git a/FI-JEPA/init.py b/FI-JEPA/src/fi_jepa.egg-info/dependency_links.txt
-similarity index 100%
-rename from FI-JEPA/init.py
-rename to FI-JEPA/src/fi_jepa.egg-info/dependency_links.txt
-diff --git a/FI-JEPA/src/fi_jepa.egg-info/entry_points.txt b/FI-JEPA/src/fi_jepa.egg-info/entry_points.txt
-new file mode 100644
-index 0000000..17ea7b1
---- /dev/null
-+++ b/FI-JEPA/src/fi_jepa.egg-info/entry_points.txt
-@@ -0,0 +1,2 @@
-+[console_scripts]
-+fi-jepa = fi_jepa.cli:main
-diff --git a/FI-JEPA/src/fi_jepa.egg-info/requires.txt b/FI-JEPA/src/fi_jepa.egg-info/requires.txt
-new file mode 100644
-index 0000000..649c9c6
---- /dev/null
-+++ b/FI-JEPA/src/fi_jepa.egg-info/requires.txt
-@@ -0,0 +1,4 @@
-+numpy<3,>=2.0
-+
-+[dev]
-+pytest<9,>=8.3
-diff --git a/FI-JEPA/src/fi_jepa.egg-info/top_level.txt b/FI-JEPA/src/fi_jepa.egg-info/top_level.txt
-new file mode 100644
-index 0000000..17a2cd9
---- /dev/null
-+++ b/FI-JEPA/src/fi_jepa.egg-info/top_level.txt
-@@ -0,0 +1 @@
-+fi_jepa
 diff --git a/FI-JEPA/src/fi_jepa/__init__.py b/FI-JEPA/src/fi_jepa/__init__.py
 new file mode 100644
 index 0000000..eced2c4
@@ -244,232 +156,6 @@ index 0000000..eced2c4
 +    "fit_ridge_probe",
 +    "make_synthetic_market",
 +]
-diff --git a/FI-JEPA/src/fi_jepa/__pycache__/__init__.cpython-312.pyc b/FI-JEPA/src/fi_jepa/__pycache__/__init__.cpython-312.pyc
-new file mode 100644
-index 0000000000000000000000000000000000000000..38df59bc24b2856b3eb2088e195b07dc235f65e9
-GIT binary patch
-literal 489
-zcmY+AJxc>I7{`;l>s@`Rx;VLXaVTPM?I40+1(iy{LAWKPm&Z0Xxs+ULt(%|1&B4vj
-z;^b%+2M2KzyE&Oi1$~Ae&)Yx$@I2OPi^#>@X?bys5qkB-Zv^vX)^f=$Vkkolvp`@O
-zWPuE`P)1pVeJ>Oh8E3IfvP4$1Dn@<8qI;YzOe>A}db526`Pk5&fcnAV_EEdLSJzMi
-z)%l>_qa_GlK=a+%qef_JXS`r)0_=1oxUuW`K&wIt)#o`CWb!jC?Yg8xAmy|$128-%
-zlIkHCCyx&fy@6fsYSn`d7|rw2uAXy4G-rJvBj0btI(BwC@d!O4kE%z-;iR!>6GE8E
-z39%8QhW^>|3$`K^1M%k-uk{)#1R)P-=1TO{O$SOss>ekEI-MvzOfNwjxN7e=DgT!{
-zi$0iiexS6}d3w&t1&nA)2ru0KNpm!{)g5O%7O<<=oPobtx#92;VvL{B)*I?Pq0S3x
-QJ)zcTlq>}|iC%H@Z|Nk6BLDyZ
-
-literal 0
-HcmV?d00001
-
-diff --git a/FI-JEPA/src/fi_jepa/__pycache__/cli.cpython-312.pyc b/FI-JEPA/src/fi_jepa/__pycache__/cli.cpython-312.pyc
-new file mode 100644
-index 0000000000000000000000000000000000000000..8738c7c43144c802aa7a467fa0bb30c0700e6899
-GIT binary patch
-literal 2507
-zcmb7GO>7%g5PoZ~*K4nx)M*npZGK#nLLDV>E1{^3s;CuBP(g}HOA9eVtBv<1S!aLT
-zx6dhw94QBoS_!FCAT^Z`^uVDgK7<3}+B=sn39?yIap(c%mMWaMz`V8BPOAXo$=)|J
-zZ{E!8c;*}b7>`F0tgo)wh3`WMJ!6c&0(FAhTLj`hQjyB($l!7u$LN3_$OXJTm<z%l
-z)OjP63&9z$hIGLQ=fZ}V6FpwgBSthAHKd#bd{hm8%;#dNq>8Y|ahn=hIE4@q0|>|0
-z8{Rpz6j%ymVmpk_aIU17rbQL1S*AS&yr9^smZv)$I}W&=`FUcQmTt{yc}16RX{Ku3
-zvfWNYS-`TrWYT#|wY+R7WC2sq7bY*iHF4#l+divNnP}=9mW#xi!TE-J#9p4ICWsKX
-zCjfUJQRd5AWmMtT8{A5Of=)voXi9?=(&<YJf={=0HP8)AIam-|GN1YveN+jqH~g*e
-zWxgQ!cUn8xjI}tQI@nX0tME;GA==*5=Kq(KVBwH|v$cbTjuz)r>y5mu2x_Q|${g+V
-zPY(8YU@iofJ3rSiSU4b#|F%#Lsh&mH!^|>GHe(WeFRJ*ZcnxJDtoV2vW0kNM$pl?-
-z7Av$wu<gdFLgp})b!^VjdBT1gR;jpX<>zfT*($>s#m2g3V%akFCBjN==Py_p(G_f{
-z@sjP`C2ep3Mv0=C&5G_=RCG=C`k*O`X{JUsD0|(qZ8tirnLZuziaHY`VK7Bl6%tl%
-zZpfZjir9_SZP&wggU}1UyS!ym{1GJ)roG>1<G@Yqi^IRKnUwHwArsygzhGmcL2^QN
-zQ3v}W!&0&C3M^ERh7C-KmbYydV5+|Ud^<aD88}Nyrin@RmPHn_i<m$>6PHF5?FG8-
-zIy-rJn6-1(Ci(2FCKqr~$>w!!q`2e;!3-Gy>+I*SpTlDnZO7A(_^tTx>g0Cp#KTuN
-zW0}>7?N~=Gk-Xn?uV+oU*I(;8UhO*Nbe*bpjW}H+k8V0$XKL}pA7MT&tWNAkQQP6W
-z(|4vnD^-(&PIB<kM0IG~85)1Qczb#?J_UB$dTU}FK2`C!BOdpNV~%*tBT|l-@`!#%
-z?BA1wc476+-9zZ`Q0>r>TF24t?w+;l)!x%i@9ApqsM9;TantENx7j_m-FM>Q$!dDc
-zNsm?27o7Bk#|bC>#%AB8+R?tXn-3zjuAa54_X^vI<XZUi{^yBEOxQ({kgx|Yjhe{D
-z7*+%xvYiGL+mCF82Iw;-f2mxhg=?sc3Qc75H4wl*ZDO3tS3*9faQ~z)?9&gwq|b`(
-zrR9%>6^=F$kH&qa0_&8Q7ESnqGItOTf%J&4(b_BGdLsjBM2%J?|2=#ZfU$%!v8m<s
-z)smTlp^|Dgb*fQ=DZjbd&{DCTCt8tBtz}_&n8C&lt8|z^JY9kg46ArnDd}`s93HOY
-z#14!?IB#{(4h!gAHnU);VUxNM+agq6z)N;Uaz%igqC#x!wp}E1B?A<$FqXJ6MO9@u
-z^<<<MjJQ!xlL?_8iv;@B<qNiDx*@e>6m73fT8^1Z?*egocEx6aq*CM+W{NiemB?8j
-zUxTk*ga_-Z&T4$Xi4QzEbA2m*V|B8|N2`3&;gf6PH}=NGCwy{?A8iSvmBSk|p72~v
-zN>rsDN9x&>`c^M(^N~*n?hf7={Nmc0`nC2z+u(nYzLT~(&p&?W$<-TM(f5Al-zO(o
-zAfgOY9RO0!2=&m}n|jb$e`kSUKxcC~!Tv6MU{f-bvStc6Pd|htk1-4Ulx5;fyBn3|
-z*%Cu?Ste}6k}P|?&Qv5oTqUn746{6lb9pAIBdUk3DW=QX%7e^$CRuh^e5PW6&2Nzx
-za6NtEdBDMvj>pMGP-1^2>`{2^204y<iqg+e`>#lPiu!&><G-Q7J)xTu_Rfa5X%29L
-WkKJDWDcJoBFMcw)8$|pu&+gyqZaC)v
-
-literal 0
-HcmV?d00001
-
-diff --git a/FI-JEPA/src/fi_jepa/__pycache__/data.cpython-312.pyc b/FI-JEPA/src/fi_jepa/__pycache__/data.cpython-312.pyc
-new file mode 100644
-index 0000000000000000000000000000000000000000..4e78daacc3918e46678ee633f5b20e33a56c8e0a
-GIT binary patch
-literal 5100
-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
-Kjs?m%-+uvEtM;t`
-
-literal 0
-HcmV?d00001
-
-diff --git a/FI-JEPA/src/fi_jepa/__pycache__/model.cpython-312.pyc b/FI-JEPA/src/fi_jepa/__pycache__/model.cpython-312.pyc
-new file mode 100644
-index 0000000000000000000000000000000000000000..0e390bbcc5a4cf0ca38d5a7598d00ff563874c17
-GIT binary patch
-literal 9274
-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
-bA%KdlIV*;26ywNYJphOX=XVYWk!Aib-C2od
-
-literal 0
-HcmV?d00001
-
 diff --git a/FI-JEPA/src/fi_jepa/cli.py b/FI-JEPA/src/fi_jepa/cli.py
 new file mode 100644
 index 0000000..d72c733
@@ -772,109 +458,6 @@ index 0000000..99ca04c
 +        directional_accuracy=float(np.mean(np.sign(predictions) == np.sign(validation_y))),
 +        persistence_mse=float(np.mean(np.square(persistence - validation_y))),
 +    )
-diff --git a/FI-JEPA/tests/__pycache__/test_baseline.cpython-312-pytest-8.4.2.pyc b/FI-JEPA/tests/__pycache__/test_baseline.cpython-312-pytest-8.4.2.pyc
-new file mode 100644
-index 0000000000000000000000000000000000000000..d5637ee6e3487260e00d099b32c095cad3b58259
-GIT binary patch
-literal 14464
-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
-C<BvH2
-
-literal 0
-HcmV?d00001
-
 diff --git a/FI-JEPA/tests/test_baseline.py b/FI-JEPA/tests/test_baseline.py
 new file mode 100644
 index 0000000..45edcf6
