@@ -1,0 +1,56 @@
+name: Apply Study Notebook control labels
+
+on:
+  pull_request:
+    branches: [main, master]
+    paths:
+      - .github/workflows/apply-study-notebook-control-labels.yml
+      - scripts/apply-study-notebook-control-labels.mjs
+      - src/pages/StudyNotebook.tsx
+      - tests/study-notebook-control-labels.test.mjs
+
+permissions:
+  contents: write
+
+concurrency:
+  group: study-notebook-control-labels
+  cancel-in-progress: false
+
+jobs:
+  patch-test-and-commit:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check out branch
+        uses: actions/checkout@v5
+        with:
+          ref: percy/study-notebook-control-labels
+          fetch-depth: 0
+
+      - name: Set up Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Apply guarded patch
+        run: node scripts/apply-study-notebook-control-labels.mjs
+
+      - name: Run focused regression
+        run: node --test tests/study-notebook-control-labels.test.mjs
+
+      - name: Run canonical release checks
+        run: npm run ci
+
+      - name: Commit verified source change
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/pages/StudyNotebook.tsx tests/study-notebook-control-labels.test.mjs
+          git diff --cached --exit-code && { echo "No source change produced"; exit 1; } || true
+          git commit -m "Label Study Notebook controls for assistive technology"
+          git push origin HEAD:percy/study-notebook-control-labels
