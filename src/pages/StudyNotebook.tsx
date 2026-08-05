@@ -77,6 +77,7 @@ export default function StudyNotebook() {
   const [notebooks, setNotebooks] = useState<StudyNotebook[]>(() => listNotebooks());
   const [activeId, setActiveId] = useState<string | null>(() => listNotebooks()[0]?.id ?? null);
   const [notebookCloudSynced, setNotebookCloudSynced] = useState(true);
+  const [notebookSaving, setNotebookSaving] = useState(false);
   const [notebookSyncError, setNotebookSyncError] = useState<string | null>(null);
   const notebookSaveTimerRef = useRef<number | null>(null);
   const [studioTab, setStudioTab] = useState<StudioTab>('chat');
@@ -127,17 +128,22 @@ export default function StudyNotebook() {
   }, [user?.id]);
 
   useEffect(() => {
+    let cancelled = false;
+    setNotebookSaving(true);
     if (notebookSaveTimerRef.current !== null) window.clearTimeout(notebookSaveTimerRef.current);
     notebookSaveTimerRef.current = window.setTimeout(() => {
       void saveNotebookSnapshot({
         notebooks,
         updatedAt: new Date().toISOString(),
       }).then((result) => {
+        if (cancelled) return;
         setNotebookCloudSynced(result.cloudSynced);
         setNotebookSyncError(result.error ?? null);
+        setNotebookSaving(false);
       });
     }, 800);
     return () => {
+      cancelled = true;
       if (notebookSaveTimerRef.current !== null) window.clearTimeout(notebookSaveTimerRef.current);
     };
   }, [notebooks]);
@@ -483,6 +489,28 @@ export default function StudyNotebook() {
                     }}
                     className="notebook-title-input text-lg font-semibold bg-transparent border-none outline-none flex-1 min-w-[10rem]"
                   />
+                  <span
+                    role="status"
+                    aria-live="polite"
+                    aria-atomic="true"
+                    className={`text-xs rounded-full border px-2.5 py-1 ${
+                      notebookSaving
+                        ? 'border-amber-400/30 text-amber-300'
+                        : notebookCloudSynced
+                          ? 'border-emerald-400/30 text-emerald-300'
+                          : 'border-border/60 text-muted-foreground'
+                    }`}
+                    title={
+                      notebookCloudSynced
+                        ? 'Your notebook is saved locally and synced to your account.'
+                        : 'Cloud sync is unavailable; your notebook is still saved on this device.'
+                    }
+                  >
+                    {notebookSaving ? 'Saving…' : notebookCloudSynced ? 'Cloud synced' : 'Saved locally'}
+                    {!notebookSaving && !notebookCloudSynced && notebookSyncError && (
+                      <span className="sr-only">. Cloud sync is currently unavailable.</span>
+                    )}
+                  </span>
                   <button
                     type="button"
                     className="btn-glass text-xs"
