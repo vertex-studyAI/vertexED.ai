@@ -29,6 +29,29 @@ test('active targets are global, age-compatible, and mapped to active products',
   }
 });
 
+test('Diamond records the exact official first-round submission format', () => {
+  const diamond = queue.active_targets.find((target) => target.name === 'Diamond Challenge 2027');
+  assert.ok(diamond);
+
+  const materials = diamond.required_materials.join('\n');
+  assert.match(materials, /live or virtual\/pre-recorded pitch-round format/i);
+  assert.match(materials, /3-5 page double-spaced English written concept narrative/i);
+  assert.match(materials, /PDF/i);
+  assert.match(materials, /12-point font/i);
+  assert.match(materials, /1-inch margins/i);
+  assert.match(materials, /publicly accessible 60-second introductory video/i);
+  assert.match(materials, /problem, intended audience, and proposed solution/i);
+
+  assert.deepEqual(diamond.submission_narrative_topics, [
+    'problem and affected customers or beneficiaries',
+    'proposed solution',
+    'existing alternatives and differentiation',
+    'business economics or social-impact sustainability',
+    'team capability',
+    'evidence of progress',
+  ]);
+});
+
 test('queue excludes ineligible or forced applications', () => {
   const exclusions = new Map(queue.excluded_after_verification.map((entry) => [entry.name, entry.reason]));
   assert.match(exclusions.get('Regeneron Science Talent Search 2027') || '', /last year of secondary school/i);

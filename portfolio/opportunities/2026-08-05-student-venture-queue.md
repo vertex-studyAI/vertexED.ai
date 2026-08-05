@@ -23,7 +23,14 @@ Maintain only two active competition targets. Both are global, age-compatible, d
 - One adult advisor age 21 or older
 - Global participation
 - Business Innovation or Social Innovation track
+- Live or virtual/pre-recorded pitch-round format selected during submission
 - $100,000 overall prize pool
+
+**Initial submission materials**
+
+- A 3–5 page, double-spaced English written concept narrative submitted as a PDF in 12-point font with 1-inch margins.
+- The narrative should address the problem and affected customers or beneficiaries, the proposed solution, alternatives and differentiation, business economics or social-impact sustainability, team capability, and evidence of progress.
+- A publicly accessible 60-second introductory video identifying the team and concept and explaining the problem, intended audience, and proposed solution.
 
 **Why VertexED fits**
 
@@ -34,10 +41,12 @@ VertexED already addresses a concrete student problem and now has a verified pub
 By 12 August:
 
 1. Select the 2–4 student team and adult advisor.
-2. Choose one track and one truthful venture thesis.
+2. Choose one track, one pitch-round format, and one truthful venture thesis.
 3. Assemble a one-page evidence inventory covering the problem, user journey, product, differentiation, impact, business model, build evidence, and known limitations.
-4. Separate independently verified evidence from self-reported traction.
-5. Do not claim authenticated production certification before VertexED issue #13 passes.
+4. Outline the six required narrative topics before drafting the 3–5 page submission.
+5. Draft a truthful 60-second video script that identifies the team, concept, problem, audience, and solution.
+6. Separate independently verified evidence from self-reported traction.
+7. Do not claim authenticated production certification before VertexED issue #13 passes.
 
 **Recommended positioning**
 

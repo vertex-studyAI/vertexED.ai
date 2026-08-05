@@ -22,11 +22,17 @@
       "required_materials": [
         "team and adult-advisor details",
         "selected competition track",
-        "venture concept submission",
-        "problem and customer evidence",
-        "solution and differentiation",
-        "impact and execution evidence",
-        "pitch-round format selection"
+        "selected live or virtual/pre-recorded pitch-round format",
+        "3-5 page double-spaced English written concept narrative submitted as a PDF in 12-point font with 1-inch margins",
+        "publicly accessible 60-second introductory video identifying the team and concept and explaining the problem, intended audience, and proposed solution"
+      ],
+      "submission_narrative_topics": [
+        "problem and affected customers or beneficiaries",
+        "proposed solution",
+        "existing alternatives and differentiation",
+        "business economics or social-impact sustainability",
+        "team capability",
+        "evidence of progress"
       ],
       "next_action": "By 2026-08-12, select the 2-4 student team and adult advisor, freeze one truthful VertexED venture thesis, and create a one-page evidence inventory before the submission window opens.",
       "evidence_rules": [
