@@ -27,7 +27,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  public-journey:
+  public-routes:
     runs-on: ubuntu-24.04
     timeout-minutes: 8
 
@@ -43,7 +43,7 @@ jobs:
       - name: Validate smoke contract syntax
         run: node --check portfolio/scripts/bu1ld-production-smoke.mjs
 
-      - name: Run public production journey
+      - name: Check public route availability
         env:
           BU1LD_BASE_URL: https://thebu1ld.com
           BU1LD_SMOKE_TIMEOUT_MS: '12000'
@@ -55,11 +55,12 @@ jobs:
         if: always()
         run: |
           {
-            echo '## Bu1LD public production health'
+            echo '## Bu1LD public route availability'
             echo
             echo '- Target: https://thebu1ld.com'
-            echo '- Contract: landing, signup, login, projects, programs, evidence, privacy, and terms'
+            echo '- Contract: landing, signup, login, projects, programs, evidence, privacy, and terms return meaningful HTML'
             echo '- Safety: read-only GET requests; no authentication, account creation, or data writes'
+            echo '- Boundary: does not execute client JavaScript or certify authenticated behavior'
             echo '- Evidence: bu1ld-production-smoke-${{ github.run_id }}'
           } >> "$GITHUB_STEP_SUMMARY"
 
