@@ -1,4 +1,137 @@
-export default function App() {
+late-columns: repeat(2, minmax(0, 1fr));
++  }
++
++  .contact-section .button {
++    justify-self: start;
++  }
++}
++
++@media (max-width: 560px) {
++  .site-header,
++  main,
++  footer {
++    width: min(100% - 1.25rem, 1180px);
++  }
++
++  .site-header {
++    gap: 0.7rem;
++  }
++
++  .brand > span:last-child {
++    display: none;
++  }
++
++  .theme-toggle {
++    padding-inline: 0.75rem;
++  }
++
++  .hero {
++    gap: 2.4rem;
++    padding: 3rem 0 5rem;
++  }
++
++  h1 {
++    font-size: clamp(2.85rem, 16vw, 4.4rem);
++  }
++
++  .hero-actions,
++  .button {
++    width: 100%;
++  }
++
++  .proof-list {
++    display: grid;
++    gap: 0.7rem;
++  }
++
++  .hero-card-grid,
++  .pathway-grid {
++    grid-template-columns: 1fr;
++  }
++
++  .pathway-card {
++    min-height: 14rem;
++  }
++
++  footer {
++    flex-direction: column;
++  }
++}
++
++@media (prefers-reduced-motion: reduce) {
++  *,
++  *::before,
++  *::after {
++    scroll-behavior: auto !important;
++    transition-duration: 0.01ms !important;
++  }
+ }
+diff --git a/src/main.tsx b/src/main.tsx
+index 07c774d..6712777 100644
+--- a/src/main.tsx
++++ b/src/main.tsx
+@@ -1,90 +1,191 @@
+-import { useEffect, useState, useCallback, useMemo } from "react";
+-import { motion } from "framer-motion";
+-import Particles, { Engine } from "react-tsparticles";
+-import { loadFull } from "tsparticles";
++import { useEffect, useState } from "react";
++import { createRoot } from "react-dom/client";
++import "./index.css";
+ 
+-interface Feature {
++type Theme = "light" | "dark";
++
++interface Pathway {
+   title: string;
+-  desc: string;
++  description: string;
++  outcome: string;
+ }
+ 
+-const FEATURES: Feature[] = [
+-  { title: "Easy Learning", desc: "Interactive modules for beginners to advanced learners." },
+-  { title: "Global Access", desc: "Learn finance anytime, anywhere, on any device." },
+-  { title: "Community Support", desc: "Join a vibrant community of learners and mentors." },
++const PATHWAYS: Pathway[] = [
++  {
++    title: "Learn",
++    description: "Build durable foundations through workshops, pathways, and guided practice.",
++    outcome: "Finance and economics fluency",
++  },
++  {
++    title: "Research",
++    description: "Investigate markets, policy, and quantitative methods with structured mentorship.",
++    outcome: "Evidence-backed analysis",
++  },
++  {
++    title: "Build",
++    description: "Turn ideas into models, tools, dashboards, and fintech prototypes.",
++    outcome: "Portfolio-ready projects",
++  },
++  {
++    title: "Publish",
++    description: "Transform rigorous work into explainers, reports, podcasts, and research briefs.",
++    outcome: "Public intellectual output",
++  },
++  {
++    title: "Compete",
++    description: "Apply your skills in investment, economics, data, and strategy challenges.",
++    outcome: "Measured performance",
++  },
++  {
++    title: "Contribute",
++    description: "Support peers, local chapters, and open educational initiatives.",
++    outcome: "Community impact",
++  },
++  {
++    title: "Lead",
++    description: "Own programs, mentor teams, and shape the next generation of FinanceMeta.",
++    outcome: "Real operating experience",
++  },
+ ];
+ 
+-export default function App() {
 -  const [darkMode, setDarkMode] = useState(false);
 -  const toggleDarkMode = () => setDarkMode((prev) => !prev);
 +function getInitialTheme(): Theme {
@@ -47,65 +180,4 @@ export default function App() {
  
    return (
 -    <div className="relative min-h-screen overflow-hidden bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-500">
--      <Particles id="tsparticles" init={particlesInit} options={particlesOptions} className="absolute inset-0 -z-10" />
--
--      <button
--        onClick={toggleDarkMode}
--        className="absolute top-6 right-6 px-4 py-2 rounded-lg border border-green-500 text-green-500 hover:bg-green-500 hover:text-white transition"
--      >
--        {darkMode ? "Light Mode" : "Dark Mode"}
--      </button>
--
--      <motion.div initial={{ opacity: 0, y: -50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1 }}
--        className="flex flex-col items-center justify-center text-center px-6 pt-32 md:pt-48"
--      >
--        <h1 className="text-5xl md:text-6xl font-bold text-green-500 drop-shadow-lg">Finance 4All</h1>
--        <p className="mt-6 text-lg md:text-xl text-gray-700 dark:text-gray-300 max-w-2xl">
--          Making financial education accessible, interactive, and fun for everyone.
--        </p>
--        <motion.button
--          whileHover={{ scale: 1.05 }}
--          whileTap={{ scale: 0.95 }}
--          className="mt-8 px-8 py-4 rounded-xl bg-green-500 text-white font-semibold shadow-lg hover:shadow-xl transition"
--          onClick={() => (window.location.href = "mailto:financeforalledu@gmail.com")}
-+    <>
-+      <a className="skip-link" href="#main-content">
-+        Skip to main content
-+      </a>
-+
-+      <header className="site-header">
-+        <a className="brand" href="#top" aria-label="FinanceMeta home">
-+          <span className="brand-mark" aria-hidden="true">FM</span>
-+          <span>FinanceMeta</span>
-+        </a>
-+
-+        <nav aria-label="Primary navigation">
-+          <a href="#pathways">Pathways</a>
-+          <a href="#community">Community</a>
-+          <a href="#contact">Contact</a>
-+        </nav>
-+
-+        <button
-+          className="theme-toggle"
-+          type="button"
-+          onClick={() => setTheme(nextTheme)}
-+          aria-label={`Switch to ${nextTheme} theme`}
-         >
--          Reach Us
--        </motion.button>
--      </motion.div>
--
--      <motion.div className="mt-32 md:mt-48 px-6 max-w-6xl mx-auto grid md:grid-cols-3 gap-8 text-center"
--        initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ duration: 1.2 }}
--      >
--        {FEATURES.map(f => (
--          <motion.div key={f.title} whileHover={{ y: -5 }}
--            className="p-8 border rounded-2xl bg-gray-100 dark:bg-gray-800 hover:shadow-xl transition"
--          >
--            <h3 className="text-2xl font-bold text-green-500">{f.title}</h3>
--            <p className="mt-2 text-gray-600 dark:text-gray-300">{f.desc}</p>
--          </motion.div>
--        ))}
--      </motion.div>
--    </div>
-+          {nextTheme === "light" ? "Light" :
+-      <Particles id="tsparticles" init={particlesInit} options={particlesOptions} className="absolute inset-0
