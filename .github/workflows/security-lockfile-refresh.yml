@@ -6,6 +6,7 @@ on:
       - percy/production-observability-2026-08-05
     paths:
       - package.json
+      - '.github/workflows/security-lockfile-refresh.yml'
   workflow_dispatch:
 
 permissions:
@@ -32,26 +33,35 @@ jobs:
           node-version: '22'
           package-manager-cache: false
 
-      - name: Refresh vulnerable transitive dependencies
-        run: npm audit fix --package-lock-only --ignore-scripts
-
-      - name: Verify production audit
-        run: npm audit --omit=dev --audit-level=high
-
-      - name: Verify clean install contract
-        run: npm ci --ignore-scripts
-
-      - name: Commit refreshed lockfile
+      - name: Refresh, verify, and preserve patched lockfile
         shell: bash
         run: |
-          set -euo pipefail
-          if git diff --quiet -- package-lock.json; then
+          set -uo pipefail
+
+          npm audit fix --package-lock-only --ignore-scripts || true
+
+          audit_status=0
+          npm audit --omit=dev --audit-level=high || audit_status=$?
+
+          install_status=0
+          npm ci --ignore-scripts || install_status=$?
+
+          if ! git diff --quiet -- package-lock.json; then
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git add package-lock.json
+            git commit -m 'fix: refresh patched production dependencies'
+            git push origin "HEAD:${GITHUB_REF_NAME}"
+          else
             echo 'No lockfile changes were produced.'
-            exit 0
           fi
 
-          git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add package-lock.json
-          git commit -m 'fix: refresh patched production dependencies'
-          git push origin "HEAD:${GITHUB_REF_NAME}"
+          if [ "$install_status" -ne 0 ]; then
+            echo 'Clean install verification failed.'
+            exit "$install_status"
+          fi
+
+          if [ "$audit_status" -ne 0 ]; then
+            echo 'Production audit still reports high-severity findings.'
+            exit "$audit_status"
+          fi
