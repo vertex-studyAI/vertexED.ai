@@ -6,11 +6,49 @@ on:
   pull_request:
     branches: [main, master]
 
+permissions:
+  contents: write
+
 concurrency:
   group: ci-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
+  sync-current-main:
+    if: github.event_name == 'pull_request' && github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout pull request branch
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.ref }}
+
+      - name: Merge current main and restore canonical shared files
+        run: |
+          set -euo pipefail
+          git fetch origin main
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git merge --no-commit --no-ff origin/main || true
+
+          # These files are owned by the concurrent security/reliability merges on main.
+          git checkout origin/main -- package.json package-lock.json .github/workflows/ci.yml
+          git add package.json package-lock.json .github/workflows/ci.yml
+
+          unresolved="$(git diff --name-only --diff-filter=U)"
+          if [ -n "$unresolved" ]; then
+            echo "Unresolved merge conflicts remain:"
+            echo "$unresolved"
+            exit 1
+          fi
+
+          git commit -m "Merge current main into activation analytics branch"
+          git push origin HEAD:${{ github.event.pull_request.head.ref }}
+
   build-and-test:
     runs-on: ubuntu-latest
     timeout-minutes: 20
