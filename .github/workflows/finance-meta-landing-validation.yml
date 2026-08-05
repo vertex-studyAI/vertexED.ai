@@ -65,9 +65,13 @@ jobs:
           cache: npm
           cache-dependency-path: target/package-lock.json
 
-      - name: Regenerate dependency lock
+      - name: Regenerate dependency lock from the recovered manifest
         working-directory: target
-        run: npm install --package-lock-only --ignore-scripts
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -f package-lock.json
+          npm install --package-lock-only --ignore-scripts
 
       - name: Install dependencies
         working-directory: target
