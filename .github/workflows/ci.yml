@@ -24,6 +24,9 @@ jobs:
           set -euo pipefail
           find portfolio/scripts -type f -name '*.sh' -print0 | xargs -0 -r -n1 bash -n
 
+      - name: Test Project 2424 recovery package
+        run: bash portfolio/tests/test_project2424_restore_package.sh
+
       - name: Setup Node.js
         uses: actions/setup-node@v6
         with:
