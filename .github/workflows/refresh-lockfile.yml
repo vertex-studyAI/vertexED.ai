@@ -1,9 +1,9 @@
 name: Refresh Security Lockfile
 
 on:
-  push:
+  pull_request:
     branches:
-      - percy/scheduled-production-monitor
+      - main
     paths:
       - package.json
       - .github/workflows/refresh-lockfile.yml
@@ -12,19 +12,20 @@ permissions:
   contents: write
 
 concurrency:
-  group: refresh-security-lockfile
+  group: refresh-security-lockfile-${{ github.event.pull_request.number }}
   cancel-in-progress: true
 
 jobs:
   refresh-lockfile:
+    if: github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
     steps:
-      - name: Checkout branch
+      - name: Checkout pull-request branch
         uses: actions/checkout@v5
         with:
-          ref: ${{ github.ref_name }}
+          ref: ${{ github.event.pull_request.head.ref }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v6
@@ -51,4 +52,4 @@ jobs:
           fi
 
           git commit -m "security: refresh lockfile for patched overrides"
-          git push origin "HEAD:${GITHUB_REF_NAME}"
+          git push origin "HEAD:${{ github.event.pull_request.head.ref }}"
