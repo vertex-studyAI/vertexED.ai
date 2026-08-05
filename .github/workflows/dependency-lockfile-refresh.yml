@@ -45,8 +45,11 @@ jobs:
           node-version: '22'
           cache: npm
 
-      - name: Refresh non-breaking dependency resolutions
-        run: npm audit fix --package-lock-only
+      - name: Reconcile package manifest and lockfile
+        run: npm install --package-lock-only --ignore-scripts
+
+      - name: Refresh affected transitive dependencies
+        run: npm update brace-expansion fast-uri ip-address hono --package-lock-only --ignore-scripts
 
       - name: Install refreshed dependency graph
         run: npm ci
