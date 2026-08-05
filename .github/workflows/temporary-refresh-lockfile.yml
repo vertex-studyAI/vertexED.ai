@@ -1,0 +1,51 @@
+name: Temporary Refresh Lockfile
+
+on:
+  push:
+    branches:
+      - percy/production-health-monitor
+
+permissions:
+  contents: write
+
+concurrency:
+  group: temporary-refresh-lockfile
+  cancel-in-progress: true
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v5
+        with:
+          ref: percy/production-health-monitor
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Refresh production dependency lockfile
+        run: npm audit fix --package-lock-only --ignore-scripts --omit=dev --audit-level=high
+
+      - name: Verify production audit
+        run: npm audit --omit=dev --audit-level=high
+
+      - name: Commit lockfile update
+        shell: bash
+        run: |
+          set -euo pipefail
+          if git diff --quiet -- package-lock.json; then
+            echo "Lockfile already current."
+            exit 0
+          fi
+
+          git config user.name "Percy Automation"
+          git config user.email "actions@users.noreply.github.com"
+          git add package-lock.json
+          git commit -m "Refresh lockfile for current security advisories"
+          git push origin HEAD:percy/production-health-monitor
