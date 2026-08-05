@@ -7,6 +7,7 @@ import CurriculumSelector from "@/components/curriculum/CurriculumSelector";
 import { supabase } from "@/lib/supabaseClient";
 import { buildCurriculumMetadata } from "@/lib/curriculum";
 import { createFirstStudyPlan } from "@/lib/onboardingPlan";
+import { isOnboardingComplete } from "@/lib/onboardingStatus.js";
 import { savePlannerSnapshot } from "@/lib/plannerSync";
 import type { CurriculumPreference } from "@/types/curriculum";
 
@@ -30,8 +31,12 @@ function getErrorMessage(err: unknown) {
 export default function Onboarding() {
   const { user } = useAuth();
   const navigate = useNavigate();
-  const [step, setStep] = useState(1);
-  const [username, setUsername] = useState("");
+  const savedUsername = typeof user?.user_metadata?.username === "string"
+    ? user.user_metadata.username.trim()
+    : "";
+  const hasSavedUsername = USERNAME_REGEX.test(savedUsername);
+  const [step, setStep] = useState(() => hasSavedUsername ? 2 : 1);
+  const [username, setUsername] = useState(savedUsername);
   const [curriculum, setCurriculum] = useState<CurriculumPreference>(emptyCurriculum);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -39,10 +44,9 @@ export default function Onboarding() {
   const [touched, setTouched] = useState(false);
 
   useEffect(() => {
-    const existingUsername = user?.user_metadata?.username;
     // Updating user metadata during save also refreshes AuthContext. Do not let
     // that refresh interrupt the authenticated planner save below.
-    if (!existingUsername || loading) return;
+    if (!isOnboardingComplete(user) || loading) return;
 
     setRedirecting(true);
     const id = window.setTimeout(() => navigate("/main", { replace: true }), 150);
