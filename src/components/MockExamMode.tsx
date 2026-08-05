@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router";
 import { Clock, X, BookOpen } from "lucide-react";
+import AccessibleModal from "@/components/AccessibleModal";
 import { buildReviewHandoffFromPaper, saveMockReviewHandoff } from "@/lib/examFlow";
 import { recordWeakness } from "@/lib/weaknessTracker";
 import type { ExamBoard } from "@/types/curriculum";
@@ -71,6 +72,10 @@ function saveExamHandoff(
   }
 }
 
+const CENTERED_OVERLAY =
+  "fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black/85 p-4 backdrop-blur-sm";
+const FULL_SCREEN_OVERLAY = "fixed inset-0 z-50 bg-background";
+
 export default function MockExamMode({ paper, onClose, board, subject, grade, cramMode }: Props) {
   const questions = useMemo(() => flattenQuestions(paper), [paper]);
   const totalMarks = paper.metadata?.totalMarks ?? questions.length * 5;
@@ -83,6 +88,7 @@ export default function MockExamMode({ paper, onClose, board, subject, grade, cr
   const [submitted, setSubmitted] = useState(false);
   const [showRubric, setShowRubric] = useState(false);
   const timerStartedRef = useRef(false);
+  const titleRef = useRef<HTMLHeadingElement>(null);
 
   useEffect(() => {
     if (submitted) return;
@@ -118,122 +124,183 @@ export default function MockExamMode({ paper, onClose, board, subject, grade, cr
 
   if (!questions.length) {
     return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4">
-        <div className="glass-panel p-6 max-w-md text-center">
-          <p className="text-muted-foreground mb-4">This paper has no questions to attempt.</p>
-          <button type="button" className="neu-button px-4 py-2" onClick={onClose}>Close</button>
-        </div>
-      </div>
+      <AccessibleModal
+        titleId="mock-exam-title"
+        descriptionId="mock-exam-description"
+        onClose={onClose}
+        initialFocusRef={titleRef}
+        overlayClassName={CENTERED_OVERLAY}
+        className="glass-panel max-w-md p-6 text-center"
+      >
+        <h2
+          id="mock-exam-title"
+          ref={titleRef}
+          tabIndex={-1}
+          className="mb-2 text-xl font-semibold text-foreground outline-none"
+        >
+          Mock exam unavailable
+        </h2>
+        <p id="mock-exam-description" className="mb-4 text-muted-foreground">
+          This paper has no questions to attempt.
+        </p>
+        <button type="button" className="neu-button px-4 py-2" onClick={onClose}>Close</button>
+      </AccessibleModal>
     );
   }
 
   if (submitted) {
     const answered = Object.values(answers).filter((a) => a.trim()).length;
     return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 p-4 backdrop-blur-sm overflow-y-auto">
-        <div className="glass-panel border border-primary/20 p-8 max-w-lg w-full text-center my-8">
-          <h2 className="text-2xl font-semibold brand-text-gradient inline-block mb-2">
-            {cramMode ? "Cram session complete" : "Exam complete"}
-          </h2>
-          <p className="text-muted-foreground mb-4">
-            You answered {answered} of {questions.length} questions in {durationMinutes} minutes.
-          </p>
+      <AccessibleModal
+        titleId="mock-exam-title"
+        descriptionId="mock-exam-description"
+        onClose={onClose}
+        initialFocusRef={titleRef}
+        overlayClassName={CENTERED_OVERLAY}
+        className="glass-panel my-8 w-full max-w-lg border border-primary/20 p-8 text-center"
+      >
+        <h2
+          id="mock-exam-title"
+          ref={titleRef}
+          tabIndex={-1}
+          className="brand-text-gradient mb-2 inline-block text-2xl font-semibold outline-none"
+        >
+          {cramMode ? "Cram session complete" : "Exam complete"}
+        </h2>
+        <p id="mock-exam-description" className="mb-4 text-muted-foreground">
+          You answered {answered} of {questions.length} questions in {durationMinutes} minutes.
+        </p>
 
-          {paper.rubricNotes && paper.rubricNotes.length > 0 && (
-            <div className="text-left mb-6">
-              <button
-                type="button"
-                className="flex items-center gap-2 text-sm text-primary mb-2 mx-auto"
-                onClick={() => setShowRubric((v) => !v)}
-              >
-                <BookOpen className="h-4 w-4" />
-                {showRubric ? "Hide" : "Show"} mark scheme notes
-              </button>
-              {showRubric && (
-                <ul className="text-xs text-muted-foreground space-y-1.5 rounded-lg border border-border/60 bg-foreground/[0.03] p-3 max-h-40 overflow-y-auto">
-                  {paper.rubricNotes.map((note, i) => (
-                    <li key={i}>• {note}</li>
-                  ))}
-                </ul>
-              )}
-            </div>
-          )}
-
-          <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <Link
-              to="/answer-reviewer"
-              className="neu-button px-4 py-2 text-sm"
-              onClick={handleComplete}
+        {paper.rubricNotes && paper.rubricNotes.length > 0 && (
+          <div className="mb-6 text-left">
+            <button
+              type="button"
+              className="mx-auto mb-2 flex items-center gap-2 text-sm text-primary"
+              onClick={() => setShowRubric((v) => !v)}
+              aria-expanded={showRubric}
+              aria-controls="mock-exam-rubric-notes"
             >
-              Review with rubric →
-            </Link>
-            <button type="button" className="neu-button px-4 py-2 text-sm" onClick={onClose}>
-              Back to paper
+              <BookOpen className="h-4 w-4" aria-hidden />
+              {showRubric ? "Hide" : "Show"} mark scheme notes
             </button>
+            {showRubric && (
+              <ul
+                id="mock-exam-rubric-notes"
+                className="max-h-40 space-y-1.5 overflow-y-auto rounded-lg border border-border/60 bg-foreground/[0.03] p-3 text-xs text-muted-foreground"
+              >
+                {paper.rubricNotes.map((note, i) => (
+                  <li key={i}>• {note}</li>
+                ))}
+              </ul>
+            )}
           </div>
+        )}
+
+        <div className="flex flex-col justify-center gap-3 sm:flex-row">
+          <Link
+            to="/answer-reviewer"
+            className="neu-button px-4 py-2 text-sm"
+            onClick={handleComplete}
+          >
+            Review with rubric →
+          </Link>
+          <button type="button" className="neu-button px-4 py-2 text-sm" onClick={onClose}>
+            Back to paper
+          </button>
         </div>
-      </div>
+      </AccessibleModal>
     );
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex flex-col bg-background">
-      <header className="flex items-center justify-between border-b border-border/60 px-4 py-3 shrink-0">
+    <AccessibleModal
+      titleId="mock-exam-title"
+      descriptionId="mock-exam-description"
+      onClose={onClose}
+      initialFocusRef={titleRef}
+      overlayClassName={FULL_SCREEN_OVERLAY}
+      className="flex h-full w-full flex-col bg-background"
+    >
+      <header className="flex shrink-0 items-center justify-between border-b border-border/60 px-4 py-3">
         <div>
-          <p className="text-sm font-semibold text-foreground">
+          <h1
+            id="mock-exam-title"
+            ref={titleRef}
+            tabIndex={-1}
+            className="text-sm font-semibold text-foreground outline-none"
+          >
             {paper.title || "Mock Exam"}
             {cramMode && <span className="ml-2 text-xs text-amber-400">CRAM</span>}
-          </p>
-          <p className="text-xs text-muted-foreground">
+          </h1>
+          <p id="mock-exam-description" className="text-xs text-muted-foreground" aria-live="polite">
             Question {index + 1} of {questions.length}
           </p>
         </div>
         <div className="flex items-center gap-3">
-          <span className="flex items-center gap-1.5 text-sm font-mono text-primary">
-            <Clock className="h-4 w-4" />
-            {mm}:{ss}
+          <span
+            role="timer"
+            aria-label={`Time remaining: ${mm} minutes ${ss} seconds`}
+            className="flex items-center gap-1.5 font-mono text-sm text-primary"
+          >
+            <Clock className="h-4 w-4" aria-hidden />
+            <span aria-hidden>{mm}:{ss}</span>
           </span>
           <button type="button" className="neu-button p-2" onClick={onClose} aria-label="Exit exam">
-            <X className="h-4 w-4" />
+            <X className="h-4 w-4" aria-hidden />
           </button>
         </div>
       </header>
 
-      <main className="flex-1 overflow-y-auto p-6 max-w-3xl mx-auto w-full">
-        <div className="glass-panel p-6 mb-6">
-          <p className="text-lg text-foreground leading-relaxed">{current?.question || "Question"}</p>
+      <main className="mx-auto w-full max-w-3xl flex-1 overflow-y-auto p-6">
+        <div className="glass-panel mb-6 p-6">
+          <p className="text-lg leading-relaxed text-foreground">
+            {current?.question || "Question"}
+          </p>
           {current?.marks != null && (
-            <p className="text-xs text-muted-foreground mt-2">[{current.marks} marks]</p>
+            <p id="mock-exam-question-marks" className="mt-2 text-xs text-muted-foreground">
+              [{current.marks} marks]
+            </p>
           )}
+          <label htmlFor="mock-exam-answer" className="sr-only">
+            Answer for question {index + 1}
+          </label>
           <textarea
-            className="neu-input-el mt-4 w-full min-h-[160px] text-foreground"
+            id="mock-exam-answer"
+            className="neu-input-el mt-4 min-h-[160px] w-full text-foreground"
             placeholder="Write your answer…"
             value={answers[currentId] ?? ""}
+            aria-describedby={current?.marks != null ? "mock-exam-question-marks" : undefined}
             onChange={(e) => setAnswers((prev) => ({ ...prev, [currentId]: e.target.value }))}
           />
         </div>
 
-        <div className="flex flex-wrap gap-2 mb-6">
-          {questions.map((_, i) => (
-            <button
-              key={i}
-              type="button"
-              onClick={() => setIndex(i)}
-              className={`h-9 w-9 rounded-lg text-sm border transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${
-                i === index
-                  ? "bg-primary/25 border-primary/40 text-primary"
-                  : answers[String(questions[i]?.id ?? i)]?.trim()
-                    ? "bg-emerald-500/15 border-emerald-500/30 text-foreground"
-                    : "bg-foreground/[0.04] border-border/60 text-muted-foreground"
-              }`}
-            >
-              {i + 1}
-            </button>
-          ))}
-        </div>
+        <nav className="mb-6 flex flex-wrap gap-2" aria-label="Exam question navigation">
+          {questions.map((_, i) => {
+            const questionId = String(questions[i]?.id ?? i);
+            const answered = Boolean(answers[questionId]?.trim());
+            return (
+              <button
+                key={i}
+                type="button"
+                onClick={() => setIndex(i)}
+                aria-current={i === index ? "step" : undefined}
+                aria-label={`Go to question ${i + 1}${answered ? ", answered" : ", unanswered"}`}
+                className={`h-9 w-9 rounded-lg border text-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${
+                  i === index
+                    ? "border-primary/40 bg-primary/25 text-primary"
+                    : answered
+                      ? "border-emerald-500/30 bg-emerald-500/15 text-foreground"
+                      : "border-border/60 bg-foreground/[0.04] text-muted-foreground"
+                }`}
+              >
+                {i + 1}
+              </button>
+            );
+          })}
+        </nav>
       </main>
 
-      <footer className="border-t border-border/60 px-4 py-3 flex justify-between gap-3 shrink-0">
+      <footer className="flex shrink-0 justify-between gap-3 border-t border-border/60 px-4 py-3">
         <button
           type="button"
           className="neu-button px-4 py-2 text-sm"
@@ -245,7 +312,7 @@ export default function MockExamMode({ paper, onClose, board, subject, grade, cr
         {index + 1 >= questions.length ? (
           <button
             type="button"
-            className="neu-button px-4 py-2 text-sm bg-primary/15 border-primary/25"
+            className="neu-button border-primary/25 bg-primary/15 px-4 py-2 text-sm"
             onClick={() => setSubmitted(true)}
           >
             Submit exam
@@ -260,6 +327,6 @@ export default function MockExamMode({ paper, onClose, board, subject, grade, cr
           </button>
         )}
       </footer>
-    </div>
-    );
+    </AccessibleModal>
+  );
 }
