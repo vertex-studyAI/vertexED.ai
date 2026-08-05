@@ -1,37 +1,46 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "as_of": "2026-08-05",
   "summary": {
-    "merged_deliverables": 2,
+    "evidence_backed_deliverables": 7,
     "active_products": 3,
     "active_research": 0,
-    "truth_boundary": "Research remains blocked until Project 2424 is restored and rerun from the canonical source."
+    "certified_research_artifacts": 1,
+    "truth_boundary": "VertexED repository gates are green but the latest main deployment and authenticated golden journey remain uncertified. FI-JEPA is a synthetic executable artifact, not a published or real-market result. Project 2424 remains blocked on canonical local and cloud restoration."
   },
   "products": [
     {
       "name": "VertexED.ai",
       "state": "ACTIVE",
-      "public_release": "verified",
+      "repository_release_gate": "passed",
+      "public_logged_out_release": "verified",
+      "latest_main_deployed": false,
       "authenticated_release": "blocked",
       "completed": [
-        "landing animation-frame leak fixed",
         "invalid approval-link recovery shipped",
-        "privacy-safe activation analytics shipped",
-        "database integrity restoration preserved",
-        "monitoring and incident response strengthened"
+        "privacy-safe activation and feature analytics shipped",
+        "production monitoring and incident ownership strengthened",
+        "waitlist and profile database integrity migrations preserved",
+        "one-time authenticated session refresh and bounded AI request timeout shipped",
+        "onboarding now confirms and links to the starter planner artifact",
+        "planner AI and edit dialogs now have semantic labels and contained keyboard focus"
       ],
       "blockers": [
-        "disposable production identities unavailable",
-        "production dashboards unavailable",
-        "production deployment is behind current main health handler"
+        "disposable production administrator and beta identities unavailable",
+        "Vercel and Supabase dashboard access for the incident owner remains unverified",
+        "latest main deployment remains uncertified because Vercel build capacity is externally constrained",
+        "manual authenticated keyboard, generated-content screen-reader, contrast, and slow-network reviews remain open"
       ],
-      "next_action": "Restore Vercel build capacity, deploy current main, and rerun readiness and authenticated certification.",
+      "next_action": "Restore canonical Vercel capacity, deploy the latest main commit, verify readiness and logs, then complete the disposable-account authenticated and manual accessibility journeys.",
       "evidence": [
-        "PR 28",
-        "PR 51",
-        "PR 56",
-        "PR 60",
-        "draft PR 58"
+        "merged PR 76",
+        "merge commit 01f85e2c9f4824a0081d39a3fd5d9b11876dab75",
+        "merged PR 80",
+        "merge commit 8cbbd9dbffa7cc0bf1b90eb3a86035afa0f85a78",
+        "merged PR 77",
+        "merge commit e0acbd48817e08d10ae3c486d72dafe785cc3d1f",
+        "browser run 31020799955",
+        "browser artifact 8936630062"
       ]
     },
     {
@@ -43,20 +52,18 @@
       "certification": "passed",
       "target_modified": false,
       "completed": [
-        "React mount repaired in certified patch",
-        "stylesheet loading repaired in certified patch",
+        "React mount and stylesheet loading repaired in a certified patch",
         "responsive FinanceMeta experience produced",
         "clean dependency lock generated",
-        "strict TypeScript and source contracts passed",
-        "production build and output contracts passed",
-        "desktop and mobile Chromium journeys passed"
+        "strict TypeScript, source, build-output, and accessibility contracts passed",
+        "desktop and Android-mobile Chromium journeys passed"
       ],
       "blockers": [
         "target repository branch creation returns integration-level 403",
         "production deployment not changed",
         "canonical member portal production database and role journey remain unverified"
       ],
-      "next_action": "Apply the certified recovery and lockfile patches with maintainer access, require the same gate, deploy, and certify production.",
+      "next_action": "Install the GitHub App for the target owner, apply the certified source and lockfile patches, rerun the same gate, deploy, and certify production.",
       "evidence": [
         "merged PR 57",
         "merge commit 473ac1f75104137762b9120b519c1669f4f83dca",
@@ -80,7 +87,7 @@
         "production Supabase and Cloudflare projects unavailable",
         "disposable role accounts and server-only secrets unavailable"
       ],
-      "next_action": "Connect target-repository, Supabase, and Cloudflare access, then run the strict production and role-journey gate.",
+      "next_action": "Connect target-repository, Supabase, and Cloudflare access, then run the strict production and authenticated role-journey gate.",
       "evidence": [
         "merged PR 75",
         "merge commit 132ed55104548b9a97448ebde739b40a5eb0c3d1",
@@ -91,9 +98,26 @@
   ],
   "research": [
     {
+      "name": "FI-JEPA",
+      "state": "CERTIFIED_ARTIFACT",
+      "target_repository": "build-the-future-11/FinanceMeta-Global",
+      "target_commit": "6191c2bc98118709b3437e04666af4b51a96ee65",
+      "target_modified": false,
+      "certification": "synthetic executable baseline passed",
+      "next_action": "Restore target repository access, publish the certified patch, then add licensed point-in-time data, walk-forward evaluation, multiple seeds, baselines, ablations, and confidence intervals before any manuscript claim.",
+      "evidence": [
+        "merged PR 72",
+        "merge commit 72c38b75ba7fafa6df0725f8ceacc51487b63335",
+        "validation run 31019486989",
+        "patch sha256 dd36934bedd13ce1b4083b6822e57ef962ce418d7329ad26e4a89bf520594d77"
+      ],
+      "claim_boundary": "No novelty, real-market, trading, profitability, or publication claim is supported by the synthetic baseline."
+    },
+    {
       "name": "Project 2424 / Typhon",
       "state": "BLOCKED",
       "recovery_tool": "portfolio/scripts/restore_project2424_to_inkling.sh",
+      "safety_verification": "passed",
       "next_command": "bash portfolio/scripts/restore_project2424_to_inkling.sh --verify --keep-local-package",
       "dependencies": [
         "mounted PRO-BLADE",
@@ -101,13 +125,20 @@
         "authenticated gcloud access",
         "reachable Inkling VM"
       ],
-      "claim_boundary": "No benchmark, project-count, or novelty claim is upgraded before restoration and evidence reconciliation."
+      "evidence": [
+        "merged PR 81",
+        "merge commit 6458616b619554f9b332edaa8eddd50f5ffd2339",
+        "source immutability and checksum tamper rejection tests passed",
+        "Git-state fidelity, backup, executable-permission, and retained-evidence tests passed"
+      ],
+      "claim_boundary": "No benchmark, project-count, completion, or novelty claim is upgraded before canonical restoration and evidence reconciliation."
     }
   ],
   "priority_dependencies": [
-    "Deploy current VertexED main",
+    "Deploy and certify the latest VertexED main commit",
     "Install GitHub integration for personal owner repositories",
     "Connect FinanceMeta and Bu1LD production systems and disposable role accounts",
-    "Run verified Project 2424 restoration from the Mac"
+    "Run the verified Project 2424 restoration from the Mac",
+    "Publish FI-JEPA only after target access is restored and keep synthetic claims bounded"
   ]
 }
