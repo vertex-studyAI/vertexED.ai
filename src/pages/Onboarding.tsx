@@ -8,6 +8,7 @@ import { supabase } from "@/lib/supabaseClient";
 import { buildCurriculumMetadata } from "@/lib/curriculum";
 import { createFirstStudyPlan } from "@/lib/onboardingPlan";
 import { savePlannerSnapshot } from "@/lib/plannerSync";
+import { trackProductEvent } from "@/lib/productAnalytics.mjs";
 import type { CurriculumPreference } from "@/types/curriculum";
 
 const USERNAME_REGEX = /^([a-zA-Z0-9_.-]{3,20})$/;
@@ -102,6 +103,11 @@ export default function Onboarding() {
         );
       }
 
+      trackProductEvent("Onboarding Completed", {
+        curriculum: curriculum.board,
+        subject_count: curriculum.subjects.length,
+        planner_sync: planResult.cloudSynced ? "cloud" : "device",
+      });
       sessionStorage.setItem("vertex_welcome", "1");
       navigate("/main", { replace: true });
     } catch (err) {
