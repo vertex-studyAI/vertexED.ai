@@ -8,6 +8,7 @@ const RUNTIME_PREFIXES = [
   'public/',
   'scripts/',
   'src/',
+  'supabase/',
 ];
 
 const RUNTIME_FILES = new Set([
