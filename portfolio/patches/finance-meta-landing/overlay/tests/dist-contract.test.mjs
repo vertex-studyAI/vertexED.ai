@@ -18,6 +18,7 @@ test('production output contains loadable JavaScript and CSS assets', async () =
     .map((match) => match[1])
     .filter((path) => !/^https?:\/\//.test(path));
 
+  // Vite may consolidate all styles into one production CSS asset.
   assert.ok(assetPaths.some((path) => path.endsWith('.js')), 'built HTML must reference JavaScript');
   assert.ok(assetPaths.some((path) => path.endsWith('.css')), 'built HTML must reference CSS');
 
