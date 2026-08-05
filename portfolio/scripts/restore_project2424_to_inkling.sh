@@ -9,9 +9,10 @@ SOURCE_REPO="${P2424_SOURCE_REPO:-/Volumes/PRO-BLADE/Atlas/Project-2024/Project_
 EXPECTED_COMMIT="${P2424_EXPECTED_COMMIT:-5952dd236638b48514071918fd083079fa517f03}"
 VM_NAME="${INKLING_VM_NAME:-inkling-agent}"
 ZONE="${INKLING_ZONE:-us-central1-a}"
-PROJECT_ID="${GCP_PROJECT_ID:-$(gcloud config get-value project 2>/dev/null || true)}"
+PROJECT_ID="${GCP_PROJECT_ID:-}"
 RUN_VERIFY=0
 KEEP_LOCAL_PACKAGE=0
+PACKAGE_ONLY=0
 
 usage() {
   cat <<'USAGE'
@@ -21,6 +22,9 @@ Options:
   --source PATH          Canonical local Project 2424 Git repository.
   --verify               Install requirements in an Inkling venv and run the
                          smallest repository quality gate after restoration.
+  --package-only         Create and verify the lossless local package without
+                         requiring gcloud or modifying Inkling. Implies
+                         --keep-local-package.
   --keep-local-package   Preserve the temporary local transfer package.
   -h, --help             Show this help.
 
@@ -32,9 +36,9 @@ Environment overrides:
   GCP_PROJECT_ID
 
 The script never resets, cleans, or deletes the source repository. It creates a
-Git bundle plus staged, unstaged, and untracked overlays; restores into an
-isolated Inkling staging directory; verifies it; backs up the prior cloud
-folder; and only then promotes the restored checkout.
+self-contained Git bundle plus staged, unstaged, and untracked overlays;
+restores into an isolated Inkling staging directory; verifies it; backs up the
+prior cloud folder; and only then promotes the restored checkout.
 USAGE
 }
 
@@ -47,6 +51,11 @@ while [[ $# -gt 0 ]]; do
       ;;
     --verify)
       RUN_VERIFY=1
+      shift
+      ;;
+    --package-only)
+      PACKAGE_ONLY=1
+      KEEP_LOCAL_PACKAGE=1
       shift
       ;;
     --keep-local-package)
@@ -71,10 +80,8 @@ require() { command -v "$1" >/dev/null 2>&1 || fail "Required command not found:
 
 require git
 require python3
-require gcloud
 require shasum
 
-[[ -n "$PROJECT_ID" && "$PROJECT_ID" != "(unset)" ]] || fail "No Google Cloud project configured. Set GCP_PROJECT_ID or run gcloud config set project PROJECT_ID."
 [[ -d "$SOURCE_REPO/.git" ]] || fail "Not a Git repository: $SOURCE_REPO"
 
 SOURCE_REPO="$(cd "$SOURCE_REPO" && pwd -P)"
@@ -100,7 +107,6 @@ exec > >(tee -a "$LOCAL_LOG") 2>&1
 say "Source repository: $SOURCE_REPO"
 say "Source branch: $SOURCE_BRANCH"
 say "Source HEAD: $SOURCE_HEAD"
-say "Inkling target: $PROJECT_ID / $ZONE / $VM_NAME"
 
 mkdir -p "$LOCAL_PACKAGE/payload"
 PAYLOAD="$LOCAL_PACKAGE/payload"
@@ -115,7 +121,14 @@ git -C "$SOURCE_REPO" ls-files --others --exclude-standard -z > "$PAYLOAD/untrac
 
 say "Creating a complete Git bundle from all refs"
 git -C "$SOURCE_REPO" bundle create "$PAYLOAD/repository.bundle" --all
-git bundle verify "$PAYLOAD/repository.bundle"
+
+# git bundle verify requires a repository. Use a new empty bare repository so
+# verification proves the bundle is self-contained instead of succeeding only
+# because the source repository already has prerequisite objects.
+LOCAL_BUNDLE_VERIFY_REPO="$LOCAL_PACKAGE/bundle-verify.git"
+git init --bare --quiet "$LOCAL_BUNDLE_VERIFY_REPO"
+git -C "$LOCAL_BUNDLE_VERIFY_REPO" bundle verify "$PAYLOAD/repository.bundle"
+rm -rf "$LOCAL_BUNDLE_VERIFY_REPO"
 
 say "Archiving untracked work without changing the source"
 python3 - "$SOURCE_REPO" "$PAYLOAD/untracked.list" "$PAYLOAD/untracked.tar.gz" <<'PY'
@@ -162,9 +175,16 @@ BACKUP_ROOT="$PROJECTS/.backups"
 CANONICAL="$PROJECTS/project-2424"
 STAGING="$STAGING_ROOT/project-2424-$TS"
 RECOVERY_BRANCH="recovery/inkling-$TS"
+BUNDLE_VERIFY_REPO="$STAGING_ROOT/.bundle-verify-$TS.git"
+BACKUP=""
 
 say() { printf '\n[Inkling Project 2424 restore] %s\n' "$*"; }
 fail() { printf '\n[Inkling Project 2424 restore] ERROR: %s\n' "$*" >&2; exit 1; }
+
+cleanup() {
+  rm -rf "$BUNDLE_VERIFY_REPO"
+}
+trap cleanup EXIT
 
 for command in git python3 sha256sum; do
   command -v "$command" >/dev/null 2>&1 || fail "Missing command: $command"
@@ -178,6 +198,7 @@ RUN_VERIFY="$(tr -d '\r\n' < "$PACKAGE_DIR/run-verify.txt")"
 
 mkdir -p "$PROJECTS" "$STAGING_ROOT" "$BACKUP_ROOT"
 [[ ! -e "$STAGING" ]] || fail "Staging path already exists: $STAGING"
+[[ ! -e "$BUNDLE_VERIFY_REPO" ]] || fail "Bundle verification path already exists: $BUNDLE_VERIFY_REPO"
 
 say "Verifying transfer hashes"
 (
@@ -185,8 +206,12 @@ say "Verifying transfer hashes"
   sha256sum -c SHA256SUMS
 )
 
-say "Verifying and cloning Git bundle"
-git bundle verify "$PACKAGE_DIR/repository.bundle"
+say "Verifying the bundle in an empty repository"
+git init --bare --quiet "$BUNDLE_VERIFY_REPO"
+git -C "$BUNDLE_VERIFY_REPO" bundle verify "$PACKAGE_DIR/repository.bundle"
+rm -rf "$BUNDLE_VERIFY_REPO"
+
+say "Cloning verified Git bundle"
 git clone "$PACKAGE_DIR/repository.bundle" "$STAGING"
 git -C "$STAGING" fsck --full
 
@@ -289,7 +314,13 @@ if [[ -e "$CANONICAL" ]]; then
   mv "$CANONICAL" "$BACKUP"
   printf '%s\n' "$BACKUP" > "$EVIDENCE/prior-cloud-directory.txt"
 fi
-mv "$STAGING" "$CANONICAL"
+
+if ! mv "$STAGING" "$CANONICAL"; then
+  if [[ -n "$BACKUP" && -e "$BACKUP" && ! -e "$CANONICAL" ]]; then
+    mv "$BACKUP" "$CANONICAL"
+  fi
+  fail "Promotion failed; prior canonical checkout was restored when possible"
+fi
 EVIDENCE="$CANONICAL/artifacts/recovery/$TS"
 
 say "Canonical cloud checkout is now $CANONICAL"
@@ -324,13 +355,32 @@ chmod +x "$PAYLOAD/remote_restore.sh"
     source-log.txt \
     source-remotes.txt \
     remote_restore.sh \
-    | sed 's/  /  /' > SHA256SUMS
+    > SHA256SUMS
 )
 
 say "Local package summary"
 du -sh "$PAYLOAD"
 cat "$PAYLOAD/SHA256SUMS"
 
+if [[ "$PACKAGE_ONLY" -eq 1 ]]; then
+  cat <<REPORT
+
+PROJECT_2424_LOCAL_PACKAGE_PASSED
+package=$LOCAL_PACKAGE
+payload=$PAYLOAD
+source_head=$SOURCE_HEAD
+source_branch=$SOURCE_BRANCH
+REPORT
+  exit 0
+fi
+
+require gcloud
+if [[ -z "$PROJECT_ID" ]]; then
+  PROJECT_ID="$(gcloud config get-value project 2>/dev/null || true)"
+fi
+[[ -n "$PROJECT_ID" && "$PROJECT_ID" != "(unset)" ]] || fail "No Google Cloud project configured. Set GCP_PROJECT_ID or run gcloud config set project PROJECT_ID."
+
+say "Inkling target: $PROJECT_ID / $ZONE / $VM_NAME"
 say "Confirming Inkling is reachable"
 gcloud compute instances describe "$VM_NAME" \
   --project "$PROJECT_ID" \
