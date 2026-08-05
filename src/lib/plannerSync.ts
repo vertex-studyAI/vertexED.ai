@@ -1,5 +1,6 @@
 import { authFetch } from '@/lib/apiAuth';
 import type { TaskItem } from '@/features/study-calendar/components/Schedule';
+import { trackPlannerRetrieved, trackPlannerSaved } from '@/lib/plannerPersistenceAnalytics.mjs';
 
 const LOCAL_TASKS_KEY = 'planner_tasks';
 const LOCAL_MODE_KEY = 'planner_mode';
@@ -50,6 +51,10 @@ function parseCloudSnapshot(item: {
   };
 }
 
+function localPlannerSource(snapshot: PlannerSnapshot) {
+  return snapshot.tasks.length > 0 ? 'device' : 'empty';
+}
+
 export async function loadPlannerSnapshot(): Promise<{
   snapshot: PlannerSnapshot;
   cloudSynced: boolean;
@@ -61,6 +66,11 @@ export async function loadPlannerSnapshot(): Promise<{
     const res = await authFetch('/api/user-content?kind=planner&limit=1');
     const data = await res.json().catch(() => null);
     if (!res.ok) {
+      trackPlannerRetrieved({
+        source: localPlannerSource(local),
+        cloudStatus: 'error',
+        taskCount: local.tasks.length,
+      });
       return {
         snapshot: local,
         cloudSynced: false,
@@ -70,20 +80,41 @@ export async function loadPlannerSnapshot(): Promise<{
 
     const item = Array.isArray(data?.items) ? data.items[0] : null;
     if (!item) {
+      trackPlannerRetrieved({
+        source: localPlannerSource(local),
+        cloudStatus: 'missing',
+        taskCount: local.tasks.length,
+      });
       return { snapshot: local, cloudSynced: true };
     }
 
     const cloud = parseCloudSnapshot(item);
     if (!cloud) {
+      trackPlannerRetrieved({
+        source: localPlannerSource(local),
+        cloudStatus: 'invalid',
+        taskCount: local.tasks.length,
+      });
       return { snapshot: local, cloudSynced: true };
     }
 
     const localTime = new Date(local.updatedAt).getTime();
     const cloudTime = new Date(cloud.updatedAt).getTime();
-    const snapshot = cloudTime >= localTime ? cloud : local;
+    const useCloud = cloudTime >= localTime;
+    const snapshot = useCloud ? cloud : local;
     writeLocalPlannerSnapshot(snapshot);
+    trackPlannerRetrieved({
+      source: useCloud ? 'cloud' : localPlannerSource(local),
+      cloudStatus: 'available',
+      taskCount: snapshot.tasks.length,
+    });
     return { snapshot, cloudSynced: true };
   } catch (err) {
+    trackPlannerRetrieved({
+      source: localPlannerSource(local),
+      cloudStatus: 'error',
+      taskCount: local.tasks.length,
+    });
     return {
       snapshot: local,
       cloudSynced: false,
@@ -114,14 +145,17 @@ export async function savePlannerSnapshot(
     });
     const data = await res.json().catch(() => null);
     if (!res.ok) {
+      trackPlannerSaved({ cloudSynced: false, taskCount: snapshot.tasks.length });
       return {
         ok: true,
         cloudSynced: false,
         error: data?.error || 'Saved on this device only',
       };
     }
+    trackPlannerSaved({ cloudSynced: true, taskCount: snapshot.tasks.length });
     return { ok: true, cloudSynced: true };
   } catch (err) {
+    trackPlannerSaved({ cloudSynced: false, taskCount: snapshot.tasks.length });
     return {
       ok: true,
       cloudSynced: false,

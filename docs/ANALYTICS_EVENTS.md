@@ -7,7 +7,7 @@ This document defines the small, privacy-safe event set used to measure whether 
 - Track completed product actions and fixed operational categories, not private study content.
 - Never send email addresses, usernames, user IDs, prompts, answers, messages, tokens, passwords, invite codes, URLs containing user data, or free-form user text.
 - Keep properties to fixed categories, booleans, and counts.
-- Analytics failure must never block signup, onboarding, or another product action.
+- Analytics failure must never block signup, onboarding, saving, retrieval, or another product action.
 - Page views remain handled by the mounted Vercel Analytics component.
 - Custom events are collected only when supported and enabled by the active Vercel plan.
 
@@ -18,7 +18,19 @@ This document defines the small, privacy-safe event set used to measure whether 
 | `Waitlist Joined` | The waitlist API accepts a submission | `method` |
 | `Account Created` | Invite-backed account creation and automatic login complete | `invite_type` |
 | `Onboarding Completed` | Profile metadata and the first planner snapshot are saved | `curriculum`, `subject_count`, `planner_sync` |
+| `Planner Saved` | A planner snapshot is saved to cloud storage or falls back to device storage | `destination`, `cloud_status`, `task_count_bucket` |
+| `Planner Retrieved` | Planner loading resolves to a cloud snapshot, device snapshot, or empty state | `source`, `cloud_status`, `task_count_bucket` |
 | `AI Request Completed` | An authenticated POST to a fixed AI feature endpoint returns or fails at the network boundary | `feature`, `outcome`, `status_class`, `duration_bucket` |
+
+## Planner persistence categories
+
+Planner persistence events never include task names, dates, times, subjects, notes, mode, snapshot timestamps, user identity, artifact IDs, or raw errors.
+
+- `Planner Saved` records only whether the durable destination was `cloud` or `device`, whether cloud storage reported `saved` or `error`, and a task-count bucket.
+- `Planner Retrieved` records only whether the selected snapshot came from `cloud`, `device`, or an `empty` state; whether cloud storage was `available`, `missing`, `invalid`, or `error`; and a task-count bucket.
+- Task counts are reduced to `empty`, `1_3`, `4_7`, `8_15`, or `16_plus`.
+
+These events make the save-and-return journey measurable without exposing schedule content.
 
 ## AI request categories
 
@@ -43,12 +55,15 @@ The first production activation funnel is:
 2. `Waitlist Joined`
 3. `Account Created`
 4. `Onboarding Completed`
-5. Subsequent protected feature page views
+5. `Planner Saved` with `destination=cloud`
+6. A later `Planner Retrieved` with `source=cloud`
+7. Subsequent protected feature page views
 
 Use `AI Request Completed` separately to compare success rate and latency bucket by feature without joining to user identity or study content.
 
 ## Verification
 
 - `tests/product-analytics.test.mjs` verifies event-name bounds, sensitive-key removal, the fixed AI endpoint allowlist, status reduction, and duration bucketing.
+- `tests/planner-sync.test.mjs` verifies planner count bucketing and the fixed save/retrieval property allowlists.
 - The canonical `npm run ci` command runs the analytics tests through `npm test` and verifies the application build.
 - In production, confirm events in the Vercel Web Analytics events panel and compare counts against non-secret aggregate request evidence when production access is available.
