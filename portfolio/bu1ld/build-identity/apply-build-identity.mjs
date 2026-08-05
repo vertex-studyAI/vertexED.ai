@@ -44,7 +44,7 @@ await write('src/build.d.ts', 'declare const __BU1LD_BUILD_COMMIT__: string;\n')
 
 await write(
   'src/lib/build-identity.ts',
-  `export function normalizeBuildCommit(value: unknown): string {\n  if (typeof value !== "string") return "unknown";\n  const normalized = value.trim().toLowerCase();\n  return /^[0-9a-f]{7,40}$/.test(normalized) ? normalized : "unknown";\n}\n\nexport const BUILD_COMMIT = normalizeBuildCommit(\n  typeof __BU1LD_BUILD_COMMIT__ === "undefined"\n    ? "unknown"\n    : __BU1LD_BUILD_COMMIT__,\n);\n\nexport const BUILD_IDENTITY = Object.freeze({\n  service: "bu1ld",\n  commit: BUILD_COMMIT,\n});\n`,
+  `export function normalizeBuildCommit(value: unknown): string {\n  if (typeof value !== "string") return "unknown";\n  const normalized = value.trim().toLowerCase();\n  return /^[0-9a-f]{7,40}$/.test(normalized) ? normalized : "unknown";\n}\n\nexport const BUILD_COMMIT = normalizeBuildCommit(\n  typeof __BU1LD_BUILD_COMMIT__ === "undefined" ? "unknown" : __BU1LD_BUILD_COMMIT__,\n);\n\nexport const BUILD_IDENTITY = Object.freeze({\n  service: "bu1ld",\n  commit: BUILD_COMMIT,\n});\n`,
 );
 
 await write(
