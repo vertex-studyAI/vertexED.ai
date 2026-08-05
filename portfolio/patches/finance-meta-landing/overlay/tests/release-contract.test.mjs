@@ -49,23 +49,22 @@ test('landing source presents the FinanceMeta pathways and contact route', async
   for (const pathway of ['Learn', 'Research', 'Build', 'Publish', 'Compete', 'Contribute', 'Lead']) {
     assert.match(source, new RegExp(`\\b${pathway}\\b`, 'i'), `${pathway} pathway is missing`);
   }
-  assert.match(source, /mailto:/i);
+  assert.match(source, /mailto:financeforalledu@gmail\.com/i);
 });
 
 test('release configuration is present and executable', async () => {
   const packageJson = JSON.parse(await read('package.json'));
 
-  assert.equal(typeof packageJson.name, 'string');
-  assert.ok(packageJson.name.trim().length > 0, 'package name must not be empty');
+  assert.equal(packageJson.name, 'financemeta-landing');
   for (const script of ['typecheck', 'audit:prod', 'test', 'build', 'test:dist', 'ci', 'test:e2e']) {
     assert.equal(typeof packageJson.scripts?.[script], 'string', `missing npm script: ${script}`);
   }
 
   for (const path of [
-    'tailwind.config.js',
-    'postcss.config.js',
+    'index.html',
     'tsconfig.json',
     'playwright.config.ts',
+    'src/main.tsx',
     'src/index.css',
   ]) {
     const file = await stat(join(projectRoot, path));
