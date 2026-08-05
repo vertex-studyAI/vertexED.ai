@@ -4,7 +4,7 @@ import SavedWorkList, { ArtifactKindFilter } from "@/components/SavedWorkList";
 import CurriculumSelector from "@/components/curriculum/CurriculumSelector";
 import BoardBadge from "@/components/curriculum/BoardBadge";
 import { useAuth } from "@/contexts/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { User, LogOut, Settings, RefreshCw, AlertTriangle, Save, Trash2 } from "lucide-react";
 import PageSection from "@/components/PageSection";
 import { useEffect, useState } from "react";

@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo } from "react";
 import { Helmet } from "react-helmet-async";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router";
 import { ArrowLeft, CalendarDays } from "lucide-react";
 import { cn } from "@/lib/utils";
 import ActivityLog from "./components/ActivityLog";

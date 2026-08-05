@@ -1,4 +1,4 @@
-import { useLocation, Link } from "react-router-dom";
+import { useLocation, Link } from "react-router";
 import { useEffect } from "react";
 import PageSection from "@/components/PageSection";
 import { Helmet } from "react-helmet-async";

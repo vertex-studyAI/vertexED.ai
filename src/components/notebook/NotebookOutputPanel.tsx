@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { ChevronDown, ChevronRight, Layers } from 'lucide-react';
 import ChatMarkdown from '@/components/chat/ChatMarkdown';
 import NotebookTtsPlayer from '@/components/notebook/NotebookTtsPlayer';

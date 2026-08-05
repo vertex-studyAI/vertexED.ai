@@ -1,4 +1,4 @@
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 
 import Article from "@/components/Article";

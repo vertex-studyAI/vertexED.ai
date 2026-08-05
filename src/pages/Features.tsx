@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import SEO from "@/components/SEO";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import FeatureShowcase from "@/components/features/FeatureShowcase";
 import RichMarkdown from "@/components/RichMarkdown";
 import {

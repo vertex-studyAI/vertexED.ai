@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { Bot, Trash2 } from "lucide-react";
 import PageSection from "@/components/PageSection";
 import SEO from "@/components/SEO";

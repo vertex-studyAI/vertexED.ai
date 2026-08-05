@@ -1,4 +1,4 @@
-import { Outlet, Link, useLocation } from "react-router-dom";
+import { Outlet, Link, useLocation } from "react-router";
 import React, { Suspense, useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 

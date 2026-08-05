@@ -1,6 +1,6 @@
 import SEO from "@/components/SEO";
 import PageSection from "@/components/PageSection";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 export default function Brand() {
   return (

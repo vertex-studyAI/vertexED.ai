@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { ArrowRight, Brain, Clock, Target, Zap } from 'lucide-react';
 import LiquidGlass from '@/components/LiquidGlass';
 import type { AdaptiveRecommendation } from '@/lib/adaptiveLearning';

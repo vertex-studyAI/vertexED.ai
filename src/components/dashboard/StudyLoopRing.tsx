@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { LOOP_STEPS, getLoopWeekStatus } from '@/lib/studyLoopTracker';
 import { cn } from '@/lib/utils';
 

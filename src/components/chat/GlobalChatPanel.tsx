@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router";
 import { Bot, Minimize2, Trash2, X } from "lucide-react";
 
 import { useAuth } from "@/contexts/AuthContext";

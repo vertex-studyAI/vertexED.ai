@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import NeumorphicCard from "@/components/NeumorphicCard";
 import PageSection from "@/components/PageSection";
 import { authFetch, getAccessToken } from "@/lib/apiAuth";
@@ -26,7 +26,7 @@ import ReactMarkdown from "react-markdown";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router";
 import { getCramDueCards } from "@/lib/srDeck";
 import { getAdaptiveTopicsForQuiz } from "@/lib/adaptiveLearning";
 import { getLearnerProfile } from "@/lib/learnerProfile";
@@ -163,7 +163,7 @@ function getApiError(err: unknown) {
   return "Something went wrong.";
 }
 
-export default function NotetakerQuiz(): JSX.Element {
+export default function NotetakerQuiz(): React.JSX.Element {
   const { user } = useAuth();
   const [searchParams] = useSearchParams();
   const cramStudy = searchParams.get("cram") === "1";

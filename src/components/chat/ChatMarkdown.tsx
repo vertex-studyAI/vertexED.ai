@@ -14,15 +14,18 @@ type Props = {
 export default function ChatMarkdown({ children, className }: Props) {
   const safe = sanitizeMarkdown(enrichMathInText(children || ""));
   return (
-    <ReactMarkdown
-      remarkPlugins={[remarkMath]}
-      rehypePlugins={[rehypeKatex]}
+    <div
       className={cn(
         "prose prose-sm max-w-none dark:prose-invert prose-headings:text-foreground prose-p:text-foreground/90 prose-strong:text-foreground prose-li:text-foreground/90",
         className,
       )}
     >
-      {safe || "…"}
-    </ReactMarkdown>
+      <ReactMarkdown
+        remarkPlugins={[remarkMath]}
+        rehypePlugins={[rehypeKatex]}
+      >
+        {safe || "…"}
+      </ReactMarkdown>
+    </div>
   );
 }

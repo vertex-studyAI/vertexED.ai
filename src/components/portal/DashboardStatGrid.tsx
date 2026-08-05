@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import type { LucideIcon } from 'lucide-react';
 import { Brain, Calendar, Flame, Target } from 'lucide-react';
 import type { EcosystemBrief } from '@/lib/studyEcosystem';

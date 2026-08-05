@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router';
 import { ArrowRight, Bot, Zap } from 'lucide-react';
 import type { RetrievalPulse } from '@/lib/retrievalPulse';
 import LiquidGlass from '@/components/LiquidGlass';

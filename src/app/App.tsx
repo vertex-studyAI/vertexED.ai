@@ -61,10 +61,10 @@ import { AppPreferencesProvider } from "@/contexts/AppPreferencesContext";
 import AdminRoute from "@/components/AdminRoute";
 import { HelmetProvider } from "react-helmet-async";
 import { useEffect } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import { Toaster } from "@/components/ui/toaster";
-import { Navigate } from "react-router-dom";
+import { Navigate } from "react-router";
 
 
 function App() {

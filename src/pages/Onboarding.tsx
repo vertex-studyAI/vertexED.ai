@@ -1,7 +1,7 @@
 import { Helmet } from "react-helmet-async";
 import { useEffect, useMemo, useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import PageSection from "@/components/PageSection";
 import CurriculumSelector from "@/components/curriculum/CurriculumSelector";
 import { supabase } from "@/lib/supabaseClient";

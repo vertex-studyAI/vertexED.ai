@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 import Article from "@/components/Article";
 import SEO from "@/components/SEO";

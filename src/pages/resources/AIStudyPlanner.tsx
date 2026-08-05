@@ -1,7 +1,7 @@
 import SEO from "@/components/SEO";
 import BreadcrumbsJsonLd from "@/components/BreadcrumbsJsonLd";
 import Article from "@/components/Article";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 export default function AIStudyPlannerArticle() {
   const canonical = "https://www.vertexed.app/resources/ai-study-planner";

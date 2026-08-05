@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { ArrowRight, TrendingDown, TrendingUp, Minus } from 'lucide-react';
 import type { SubjectMastery } from '@/lib/adaptiveLearning';
 import LiquidGlass from '@/components/LiquidGlass';

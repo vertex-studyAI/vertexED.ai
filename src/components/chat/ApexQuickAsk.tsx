@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { Bot, ArrowRight } from 'lucide-react';
 import ApexPromptChips from '@/components/chat/ApexPromptChips';
 import { getStudyContext } from '@/lib/studyContext';

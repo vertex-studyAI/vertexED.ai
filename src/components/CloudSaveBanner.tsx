@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { CloudOff, X } from "lucide-react";
-import { useLocation } from "react-router-dom";
+import { useLocation } from "react-router";
 
 import { useAuth } from "@/contexts/AuthContext";
 import { listStudyArtifactsDetailed } from "@/lib/userContent";

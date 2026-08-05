@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { STUDY_LOOP } from '@/content/features';
 import LiquidGlass from '@/components/LiquidGlass';
 
