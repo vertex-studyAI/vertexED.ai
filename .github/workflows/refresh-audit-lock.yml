@@ -3,18 +3,24 @@ name: Refresh audit lock
 on:
   push:
     branches: [feat/activation-analytics]
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened]
 
 permissions:
   contents: read
 
 jobs:
   refresh-lock:
+    if: github.event_name == 'push' || github.head_ref == 'feat/activation-analytics'
     runs-on: ubuntu-latest
     timeout-minutes: 15
 
     steps:
       - name: Checkout feature branch
         uses: actions/checkout@v5
+        with:
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v6
