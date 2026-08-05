@@ -1,4 +1,198 @@
-ce);
+em 0.9rem;
++  cursor: pointer;
++  font-weight: 750;
++}
++
++.hero {
++  min-height: calc(100vh - 7rem);
++  display: grid;
++  grid-template-columns: minmax(0, 1.18fr) minmax(18rem, 0.82fr);
++  align-items: center;
++  gap: clamp(2.5rem, 7vw, 6rem);
++  padding: 5rem 0 7rem;
++}
++
++.eyebrow {
++  margin: 0 0 1rem;
++  color: var(--accent);
++  font-size: 0.78rem;
++  font-weight: 850;
++  letter-spacing: 0.14em;
++  text-transform: uppercase;
++}
++
++h1,
++h2,
++h3,
++p {
++  text-wrap: pretty;
++}
++
++h1 {
++  max-width: 13ch;
++  margin: 0;
++  font-size: clamp(3.1rem, 8vw, 6.6rem);
++  line-height: 0.94;
++  letter-spacing: -0.067em;
++}
++
++.hero-summary {
++  max-width: 42rem;
++  margin: 1.75rem 0 0;
++  color: var(--muted);
++  font-size: clamp(1.05rem, 2vw, 1.25rem);
++  line-height: 1.7;
++}
++
++.hero-actions {
++  display: flex;
++  flex-wrap: wrap;
++  gap: 0.9rem;
++  margin-top: 2.1rem;
++}
++
++.button {
++  display: inline-flex;
++  min-height: 3rem;
++  align-items: center;
++  justify-content: center;
++  border-radius: 0.8rem;
++  padding: 0.75rem 1.05rem;
++  text-decoration: none;
++  font-weight: 820;
++  transition: transform 150ms ease, background-color 150ms ease;
++}
++
++.button:hover {
++  transform: translateY(-2px);
++}
++
++.button-primary {
++  background: var(--accent);
++  color: var(--accent-text);
++}
++
++.button-primary:hover {
++  background: var(--accent-strong);
++}
++
++.button-secondary {
++  border: 1px solid var(--line);
++  background: var(--surface);
++}
++
++.proof-list {
++  display: flex;
++  flex-wrap: wrap;
++  gap: 1.2rem;
++  margin: 2.2rem 0 0;
++  padding: 0;
++  color: var(--muted);
++  list-style: none;
++  font-size: 0.9rem;
++  font-weight: 700;
++}
++
++.proof-list li::before {
++  content: "";
++  display: inline-block;
++  width: 0.5rem;
++  height: 0.5rem;
++  margin-right: 0.55rem;
++  border-radius: 50%;
++  background: var(--accent);
++}
++
++.hero-card {
++  border: 1px solid var(--line);
++  border-radius: 1.6rem;
++  background: linear-gradient(145deg, var(--surface-strong), var(--surface));
++  padding: clamp(1.3rem, 4vw, 2rem);
++  box-shadow: var(--shadow);
++}
++
++.hero-card-label {
++  margin: 0 0 1rem;
++  color: var(--muted);
++  font-size: 0.85rem;
++  font-weight: 800;
++}
++
++.hero-card-grid {
++  display: grid;
++  grid-template-columns: repeat(2, minmax(0, 1fr));
++  gap: 0.75rem;
++}
++
++.hero-card-grid div {
++  display: flex;
++  min-height: 6.2rem;
++  flex-direction: column;
++  justify-content: space-between;
++  border: 1px solid var(--line);
++  border-radius: 1rem;
++  background: color-mix(in srgb, var(--surface) 84%, transparent);
++  padding: 1rem;
++}
++
++.hero-card-grid span,
++.pathway-number {
++  color: var(--accent);
++  font-size: 0.75rem;
++  font-weight: 850;
++  letter-spacing: 0.08em;
++}
++
++.hero-card > p:last-child {
++  margin: 1rem 0 0;
++  color: var(--muted);
++  line-height: 1.55;
++}
++
++.section {
++  padding: 6.5rem 0;
++}
++
++.section-heading {
++  display: grid;
++  grid-template-columns: minmax(0, 1.15fr) minmax(15rem, 0.85fr);
++  gap: 2rem;
++  align-items: end;
++  margin-bottom: 2.4rem;
++}
++
++.section-heading .eyebrow {
++  grid-column: 1 / -1;
++  margin-bottom: -0.8rem;
++}
++
++h2 {
++  margin: 0;
++  font-size: clamp(2.2rem, 5vw, 4rem);
++  line-height: 1.02;
++  letter-spacing: -0.052em;
++}
++
++.section-heading > p:last-child,
++.community-section > p {
++  margin: 0;
++  color: var(--muted);
++  line-height: 1.7;
++}
++
++.pathway-grid {
++  display: grid;
++  grid-template-columns: repeat(3, minmax(0, 1fr));
++  gap: 1rem;
++}
++
++.pathway-card {
++  min-height: 17rem;
++  display: flex;
++  flex-direction: column;
++  border: 1px solid var(--line);
++  border-radius: 1.2rem;
++  background: var(--surface);
 +  padding: 1.35rem;
 +}
 +
@@ -80,137 +274,4 @@ ce);
 +  }
 +
 +  .pathway-grid {
-+    grid-template-columns: repeat(2, minmax(0, 1fr));
-+  }
-+
-+  .contact-section .button {
-+    justify-self: start;
-+  }
-+}
-+
-+@media (max-width: 560px) {
-+  .site-header,
-+  main,
-+  footer {
-+    width: min(100% - 1.25rem, 1180px);
-+  }
-+
-+  .site-header {
-+    gap: 0.7rem;
-+  }
-+
-+  .brand > span:last-child {
-+    display: none;
-+  }
-+
-+  .theme-toggle {
-+    padding-inline: 0.75rem;
-+  }
-+
-+  .hero {
-+    gap: 2.4rem;
-+    padding: 3rem 0 5rem;
-+  }
-+
-+  h1 {
-+    font-size: clamp(2.85rem, 16vw, 4.4rem);
-+  }
-+
-+  .hero-actions,
-+  .button {
-+    width: 100%;
-+  }
-+
-+  .proof-list {
-+    display: grid;
-+    gap: 0.7rem;
-+  }
-+
-+  .hero-card-grid,
-+  .pathway-grid {
-+    grid-template-columns: 1fr;
-+  }
-+
-+  .pathway-card {
-+    min-height: 14rem;
-+  }
-+
-+  footer {
-+    flex-direction: column;
-+  }
-+}
-+
-+@media (prefers-reduced-motion: reduce) {
-+  *,
-+  *::before,
-+  *::after {
-+    scroll-behavior: auto !important;
-+    transition-duration: 0.01ms !important;
-+  }
- }
-diff --git a/src/main.tsx b/src/main.tsx
-index 07c774d..6712777 100644
---- a/src/main.tsx
-+++ b/src/main.tsx
-@@ -1,90 +1,191 @@
--import { useEffect, useState, useCallback, useMemo } from "react";
--import { motion } from "framer-motion";
--import Particles, { Engine } from "react-tsparticles";
--import { loadFull } from "tsparticles";
-+import { useEffect, useState } from "react";
-+import { createRoot } from "react-dom/client";
-+import "./index.css";
- 
--interface Feature {
-+type Theme = "light" | "dark";
-+
-+interface Pathway {
-   title: string;
--  desc: string;
-+  description: string;
-+  outcome: string;
- }
- 
--const FEATURES: Feature[] = [
--  { title: "Easy Learning", desc: "Interactive modules for beginners to advanced learners." },
--  { title: "Global Access", desc: "Learn finance anytime, anywhere, on any device." },
--  { title: "Community Support", desc: "Join a vibrant community of learners and mentors." },
-+const PATHWAYS: Pathway[] = [
-+  {
-+    title: "Learn",
-+    description: "Build durable foundations through workshops, pathways, and guided practice.",
-+    outcome: "Finance and economics fluency",
-+  },
-+  {
-+    title: "Research",
-+    description: "Investigate markets, policy, and quantitative methods with structured mentorship.",
-+    outcome: "Evidence-backed analysis",
-+  },
-+  {
-+    title: "Build",
-+    description: "Turn ideas into models, tools, dashboards, and fintech prototypes.",
-+    outcome: "Portfolio-ready projects",
-+  },
-+  {
-+    title: "Publish",
-+    description: "Transform rigorous work into explainers, reports, podcasts, and research briefs.",
-+    outcome: "Public intellectual output",
-+  },
-+  {
-+    title: "Compete",
-+    description: "Apply your skills in investment, economics, data, and strategy challenges.",
-+    outcome: "Measured performance",
-+  },
-+  {
-+    title: "Contribute",
-+    description: "Support peers, local chapters, and open educational initiatives.",
-+    outcome: "Community impact",
-+  },
-+  {
-+    title: "Lead",
-+    description: "Own programs, mentor teams, and shape the next generation of FinanceMeta.",
-+    outcome: "Real operating experience",
-+  },
- ];
- 
--
++    grid-temp
