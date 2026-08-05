@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router";
+import AccessibleModal from "@/components/AccessibleModal";
 import NeumorphicCard from "@/components/NeumorphicCard";
 import PageSection from "@/components/PageSection";
 import { authFetch, getAccessToken } from "@/lib/apiAuth";
@@ -196,6 +197,8 @@ export default function NotetakerQuiz(): React.JSX.Element {
   const [studyRevealed, setStudyRevealed] = useState(false);
   const [studyQueue, setStudyQueue] = useState<SrCard[]>([]);
   const [studyIndex, setStudyIndex] = useState(0);
+  const flashDialogTitleRef = useRef<HTMLHeadingElement>(null);
+  const studyDialogTitleRef = useRef<HTMLHeadingElement>(null);
   const [srDeck, setSrDeck] = useLocalStorage<SrCard[]>("vertex_sr_deck", []);
   const [hideNotesArea, setHideNotesArea] = useState(false);
   const [copyToastVisible, setCopyToastVisible] = useState(false);
@@ -1448,95 +1451,131 @@ export default function NotetakerQuiz(): React.JSX.Element {
 
           <AnimatePresence>
             {flashFullscreen && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-6 backdrop-blur-sm"
+              <AccessibleModal
+                titleId="flashcard-dialog-title"
+                descriptionId="flashcard-dialog-description"
+                onClose={() => setFlashFullscreen(false)}
+                initialFocusRef={flashDialogTitleRef}
+                overlayClassName="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-6 backdrop-blur-sm"
+                className="relative w-full max-w-3xl rounded-3xl glass-panel p-6 font-sans shadow-2xl"
               >
-                <motion.div initial={{ scale: 0.96, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.96, opacity: 0 }} transition={{ duration: 0.18 }} className="relative w-full max-w-3xl rounded-3xl glass-panel p-6 font-sans shadow-2xl">
-                  <button className="absolute right-4 top-4 neu-button px-3 py-2" onClick={() => setFlashFullscreen(false)}>
-                    <X size={14} />
-                  </button>
+                <button
+                  type="button"
+                  className="absolute right-4 top-4 neu-button px-3 py-2"
+                  onClick={() => setFlashFullscreen(false)}
+                  aria-label="Close enlarged flashcard"
+                >
+                  <X size={14} aria-hidden />
+                </button>
 
-                  <div className="text-center">
-                    <div className="mb-4 text-2xl font-semibold text-foreground">{safeText(flashcards[currentFlashIndex]?.front) || "No card"}</div>
-                    <div className={`mb-6 text-lg leading-relaxed text-foreground transition-opacity ${flashRevealed ? "opacity-100" : "opacity-50"}`}>
-                      {flashRevealed ? safeText(flashcards[currentFlashIndex]?.back) : "Click Reveal to see the answer"}
-                    </div>
-                    <div className="flex flex-wrap justify-center gap-4">
-                      <button className="neu-button px-4 py-2" onClick={prevFlash}>Previous</button>
-                      <button className="neu-button px-4 py-2" onClick={() => (flashRevealed ? nextFlash() : revealFlash())}>{flashRevealed ? "Next" : "Reveal"}</button>
-                      <button className="neu-button px-4 py-2" onClick={nextFlash}>Next</button>
-                    </div>
-                    <div className="mt-6 text-sm text-muted-foreground">Card {currentFlashIndex + 1}/{flashcards.length}</div>
+                <div className="text-center">
+                  <h2
+                    id="flashcard-dialog-title"
+                    ref={flashDialogTitleRef}
+                    tabIndex={-1}
+                    className="mb-2 text-2xl font-semibold text-foreground outline-none"
+                  >
+                    {safeText(flashcards[currentFlashIndex]?.front) || "No card"}
+                  </h2>
+                  <p id="flashcard-dialog-description" className="mb-4 text-sm text-muted-foreground" aria-live="polite">
+                    Card {currentFlashIndex + 1} of {flashcards.length}
+                  </p>
+                  <div
+                    id="flashcard-dialog-answer"
+                    aria-live="polite"
+                    className={`mb-6 min-h-16 text-lg leading-relaxed text-foreground transition-opacity ${flashRevealed ? "opacity-100" : "opacity-50"}`}
+                  >
+                    {flashRevealed ? safeText(flashcards[currentFlashIndex]?.back) : "Select Reveal to see the answer"}
                   </div>
-                </motion.div>
-              </motion.div>
+                  <div className="flex flex-wrap justify-center gap-4">
+                    <button type="button" className="neu-button px-4 py-2" onClick={prevFlash} aria-label="Previous flashcard">Previous</button>
+                    <button
+                      type="button"
+                      className="neu-button px-4 py-2"
+                      onClick={() => (flashRevealed ? nextFlash() : revealFlash())}
+                      aria-expanded={flashRevealed}
+                      aria-controls="flashcard-dialog-answer"
+                    >
+                      {flashRevealed ? "Next" : "Reveal"}
+                    </button>
+                    <button type="button" className="neu-button px-4 py-2" onClick={nextFlash} aria-label="Next flashcard">Next</button>
+                  </div>
+                </div>
+              </AccessibleModal>
             )}
           </AnimatePresence>
 
           <AnimatePresence>
             {studyModeOpen && studyQueue[studyIndex] && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 p-4 backdrop-blur-sm"
+              <AccessibleModal
+                titleId="study-mode-dialog-title"
+                descriptionId="study-mode-dialog-description"
+                onClose={() => setStudyModeOpen(false)}
+                initialFocusRef={studyDialogTitleRef}
+                overlayClassName="fixed inset-0 z-50 flex items-center justify-center bg-black/75 p-4 backdrop-blur-sm"
+                className="relative w-full max-w-lg rounded-3xl glass-panel border border-primary/20 p-6 shadow-2xl"
               >
-                <motion.div
-                  initial={{ scale: 0.96, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  exit={{ scale: 0.96, opacity: 0 }}
-                  className="relative w-full max-w-lg rounded-3xl glass-panel border border-primary/20 p-6 shadow-2xl"
+                <button
+                  type="button"
+                  className="absolute right-4 top-4 neu-button px-3 py-2"
+                  onClick={() => setStudyModeOpen(false)}
+                  aria-label="Close study mode"
                 >
+                  <X size={14} aria-hidden />
+                </button>
+
+                <h2
+                  id="study-mode-dialog-title"
+                  ref={studyDialogTitleRef}
+                  tabIndex={-1}
+                  className="mb-2 pr-12 text-xs uppercase tracking-wider text-primary outline-none"
+                >
+                  Spaced Repetition · Study Mode
+                </h2>
+                <p id="study-mode-dialog-description" className="mb-4 text-sm text-muted-foreground" aria-live="polite">
+                  Card {studyIndex + 1} of {studyQueue.length}
+                </p>
+
+                <div className="mb-4 min-h-[4rem] text-xl font-semibold text-foreground" aria-live="polite">
+                  {studyQueue[studyIndex].front}
+                </div>
+
+                <div
+                  id="study-mode-answer"
+                  aria-live="polite"
+                  className={`mb-6 min-h-12 border-t border-border/60 pt-4 text-base text-muted-foreground ${studyRevealed ? "" : "sr-only"}`}
+                >
+                  {studyRevealed ? studyQueue[studyIndex].back : "Answer hidden"}
+                </div>
+
+                {!studyRevealed && (
                   <button
                     type="button"
-                    className="absolute right-4 top-4 neu-button px-3 py-2"
-                    onClick={() => setStudyModeOpen(false)}
+                    className="neu-button w-full py-3 mb-6"
+                    onClick={() => setStudyRevealed(true)}
+                    aria-expanded={studyRevealed}
+                    aria-controls="study-mode-answer"
                   >
-                    <X size={14} />
+                    Show answer
                   </button>
+                )}
 
-                  <p className="text-xs text-primary mb-2 uppercase tracking-wider">Spaced Repetition · Study Mode</p>
-                  <p className="text-sm text-muted-foreground mb-4">
-                    Card {studyIndex + 1} of {studyQueue.length}
-                  </p>
-
-                  <div className="text-xl font-semibold text-foreground mb-4 min-h-[4rem]">
-                    {studyQueue[studyIndex].front}
+                {studyRevealed && (
+                  <div className="grid grid-cols-2 gap-2" role="group" aria-label="Rate this flashcard">
+                    {(["again", "hard", "good", "easy"] as SrRating[]).map((rating) => (
+                      <button
+                        key={rating}
+                        type="button"
+                        className="neu-button py-2.5 text-sm capitalize"
+                        onClick={() => rateStudyCard(rating)}
+                        aria-label={`Rate card ${rating}`}
+                      >
+                        {rating}
+                      </button>
+                    ))}
                   </div>
-
-                  {studyRevealed ? (
-                    <div className="text-base text-muted-foreground mb-6 border-t border-border/60 pt-4">
-                      {studyQueue[studyIndex].back}
-                    </div>
-                  ) : (
-                    <button
-                      type="button"
-                      className="neu-button w-full py-3 mb-6"
-                      onClick={() => setStudyRevealed(true)}
-                    >
-                      Show answer
-                    </button>
-                  )}
-
-                  {studyRevealed && (
-                    <div className="grid grid-cols-2 gap-2">
-                      {(["again", "hard", "good", "easy"] as SrRating[]).map((rating) => (
-                        <button
-                          key={rating}
-                          type="button"
-                          className="neu-button py-2.5 text-sm capitalize"
-                          onClick={() => rateStudyCard(rating)}
-                        >
-                          {rating}
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                </motion.div>
-              </motion.div>
+                )}
+              </AccessibleModal>
             )}
           </AnimatePresence>
 
