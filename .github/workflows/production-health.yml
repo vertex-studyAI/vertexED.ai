@@ -5,12 +5,14 @@ on:
     paths:
       - '.github/workflows/production-health.yml'
       - 'scripts/smoke-deploy.mjs'
+      - 'api/_handlers/health.js'
   push:
     branches:
       - main
     paths:
       - '.github/workflows/production-health.yml'
       - 'scripts/smoke-deploy.mjs'
+      - 'api/_handlers/health.js'
   schedule:
     # Offset from the top of the hour to reduce scheduler congestion.
     - cron: '17 * * * *'
@@ -82,7 +84,7 @@ jobs:
             echo "- Attempts allowed: 3"
             echo "- Result: $([ "$passed" -eq 1 ] && echo PASS || echo FAIL)"
             echo
-            echo 'Coverage: health/router identity, API 404 behavior, homepage availability, malformed waitlist rejection, logged-out AI/user/admin protection, and untrusted-origin rejection.'
+            echo 'Coverage: liveness and dependency readiness, router identity, API 404 behavior, homepage availability, malformed waitlist rejection, logged-out AI/user/admin protection, and untrusted-origin rejection.'
           } >> "$GITHUB_STEP_SUMMARY"
 
           if [ "$passed" -ne 1 ]; then
@@ -116,7 +118,7 @@ jobs:
           - Evidence artifact: production-health-${GITHUB_RUN_ID}
           - Commit: ${GITHUB_SHA}
 
-          The retained log covers health/router identity, API 404 behavior, homepage availability, malformed waitlist rejection, logged-out AI/user/admin protection, and untrusted-origin rejection. Review the evidence and production logs before changing or rolling back production. Authenticated product journeys remain tracked separately in issue #13.
+          The retained log covers liveness and dependency readiness, router identity, API 404 behavior, homepage availability, malformed waitlist rejection, logged-out AI/user/admin protection, and untrusted-origin rejection. Review the evidence and production logs before changing or rolling back production. Authenticated product journeys remain tracked separately in issue #13.
           EOF
 
           issue_number="$(
