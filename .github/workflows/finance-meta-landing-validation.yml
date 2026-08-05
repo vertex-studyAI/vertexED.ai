@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - percy/finance-meta-landing-recovery-20260805
+  pull_request:
+    branches:
+      - main
 
 permissions:
   contents: write
@@ -114,6 +117,7 @@ jobs:
           retention-days: 14
 
       - name: Commit reviewable patch and evidence
+        if: github.event_name == 'push'
         shell: bash
         run: |
           set -euo pipefail
