@@ -34,13 +34,33 @@ function bindTiltCards() {
     let curX = 0;
     let curY = 0;
     let rafId = 0;
+    let isActive = false;
     const maxTilt = 5;
+    const settleThreshold = 0.02;
 
     const step = () => {
       curX += (targetX - curX) * 0.14;
       curY += (targetY - curY) * 0.14;
+
+      const settled =
+        Math.abs(targetX - curX) < settleThreshold &&
+        Math.abs(targetY - curY) < settleThreshold;
+
+      if (!isActive && settled) {
+        curX = 0;
+        curY = 0;
+        rafId = 0;
+        el.style.transform = "";
+        el.style.willChange = "";
+        return;
+      }
+
       el.style.transform = `perspective(900px) rotateX(${curX.toFixed(2)}deg) rotateY(${curY.toFixed(2)}deg)`;
       rafId = requestAnimationFrame(step);
+    };
+
+    const ensureAnimationFrame = () => {
+      if (!rafId) rafId = requestAnimationFrame(step);
     };
 
     const onMove = (e: MouseEvent) => {
@@ -49,27 +69,32 @@ function bindTiltCards() {
       const ny = (e.clientY - b.top) / b.height - 0.5;
       targetY = nx * maxTilt * 2;
       targetX = -ny * maxTilt * 2;
-      if (!rafId) rafId = requestAnimationFrame(step);
+      ensureAnimationFrame();
     };
 
     const onLeave = () => {
+      isActive = false;
       targetX = 0;
       targetY = 0;
       el.removeEventListener("mousemove", onMove);
+      ensureAnimationFrame();
     };
 
     const onEnter = () => {
+      isActive = true;
       el.style.willChange = "transform";
       el.addEventListener("mousemove", onMove);
       el.addEventListener("mouseleave", onLeave);
-      if (!rafId) rafId = requestAnimationFrame(step);
+      ensureAnimationFrame();
     };
 
     const teardown = () => {
+      isActive = false;
       el.removeEventListener("mouseenter", onEnter);
       el.removeEventListener("mousemove", onMove);
       el.removeEventListener("mouseleave", onLeave);
       if (rafId) cancelAnimationFrame(rafId);
+      rafId = 0;
       el.style.transform = "";
       el.style.willChange = "";
     };
