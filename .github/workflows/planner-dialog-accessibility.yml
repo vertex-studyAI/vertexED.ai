@@ -1,0 +1,525 @@
+name: Planner Dialog Accessibility
+
+on:
+  push:
+    branches:
+      - percy/planner-dialog-accessibility-2026-08-05
+    paths:
+      - '.github/workflows/planner-dialog-accessibility.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: planner-dialog-accessibility
+  cancel-in-progress: true
+
+jobs:
+  implement-and-validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout isolated branch
+        uses: actions/checkout@v5
+        with:
+          ref: percy/planner-dialog-accessibility-2026-08-05
+          fetch-depth: 1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '22.23.1'
+          package-manager-cache: false
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Add accessible modal primitive and patch planner dialogs
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          cat > src/lib/modalFocus.mjs <<'EOF'
+          export const MODAL_FOCUSABLE_SELECTOR = [
+            'a[href]',
+            'area[href]',
+            'button:not([disabled])',
+            'input:not([disabled]):not([type="hidden"])',
+            'select:not([disabled])',
+            'textarea:not([disabled])',
+            'iframe',
+            'object',
+            'embed',
+            '[contenteditable="true"]',
+            '[tabindex]:not([tabindex="-1"])',
+          ].join(',');
+
+          function isAvailable(element) {
+            if (!element || typeof element.focus !== 'function') return false;
+            if (element.hasAttribute('hidden') || element.getAttribute('aria-hidden') === 'true') return false;
+            if (element.closest('[hidden], [aria-hidden="true"], [inert]')) return false;
+            return element.tabIndex >= 0;
+          }
+
+          export function getModalFocusableElements(container) {
+            if (!container || typeof container.querySelectorAll !== 'function') return [];
+            return Array.from(container.querySelectorAll(MODAL_FOCUSABLE_SELECTOR)).filter(isAvailable);
+          }
+
+          export function focusInitialModalElement(container, preferredElement) {
+            if (!container) return null;
+            const focusables = getModalFocusableElements(container);
+            const target = isAvailable(preferredElement) && container.contains(preferredElement)
+              ? preferredElement
+              : focusables[0] || container;
+            if (typeof target.focus === 'function') target.focus();
+            return target;
+          }
+
+          export function trapModalFocus(event, container) {
+            if (!event || event.key !== 'Tab' || !container) return false;
+            const focusables = getModalFocusableElements(container);
+            if (focusables.length === 0) {
+              event.preventDefault();
+              if (typeof container.focus === 'function') container.focus();
+              return true;
+            }
+
+            const first = focusables[0];
+            const last = focusables[focusables.length - 1];
+            const active = container.ownerDocument?.activeElement;
+
+            if (event.shiftKey && (active === first || !container.contains(active))) {
+              event.preventDefault();
+              last.focus();
+              return true;
+            }
+
+            if (!event.shiftKey && (active === last || !container.contains(active))) {
+              event.preventDefault();
+              first.focus();
+              return true;
+            }
+
+            return false;
+          }
+
+          export function restoreModalFocus(element) {
+            if (!element || element.isConnected === false || typeof element.focus !== 'function') return false;
+            element.focus();
+            return true;
+          }
+          EOF
+
+          cat > src/components/AccessibleModal.tsx <<'EOF'
+          import {
+            type CSSProperties,
+            type KeyboardEvent,
+            type PropsWithChildren,
+            type RefObject,
+            useEffect,
+            useRef,
+          } from "react";
+          import {
+            focusInitialModalElement,
+            restoreModalFocus,
+            trapModalFocus,
+          } from "@/lib/modalFocus.mjs";
+
+          type AccessibleModalProps = PropsWithChildren<{
+            titleId: string;
+            descriptionId?: string;
+            onClose: () => void;
+            initialFocusRef?: RefObject<HTMLElement | null>;
+            className?: string;
+            style?: CSSProperties;
+            busy?: boolean;
+          }>;
+
+          export default function AccessibleModal({
+            titleId,
+            descriptionId,
+            onClose,
+            initialFocusRef,
+            className,
+            style,
+            busy = false,
+            children,
+          }: AccessibleModalProps) {
+            const dialogRef = useRef<HTMLDivElement>(null);
+            const returnFocusRef = useRef<HTMLElement | null>(null);
+
+            useEffect(() => {
+              returnFocusRef.current = document.activeElement instanceof HTMLElement
+                ? document.activeElement
+                : null;
+              const frame = window.requestAnimationFrame(() => {
+                focusInitialModalElement(dialogRef.current, initialFocusRef?.current ?? null);
+              });
+
+              return () => {
+                window.cancelAnimationFrame(frame);
+                const returnTarget = returnFocusRef.current;
+                window.queueMicrotask(() => restoreModalFocus(returnTarget));
+              };
+            }, [initialFocusRef]);
+
+            const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
+              if (event.key === "Escape") {
+                event.preventDefault();
+                event.stopPropagation();
+                onClose();
+                return;
+              }
+              trapModalFocus(event, dialogRef.current);
+            };
+
+            return (
+              <div className="blur-background" role="presentation">
+                <div
+                  ref={dialogRef}
+                  role="dialog"
+                  aria-modal="true"
+                  aria-labelledby={titleId}
+                  aria-describedby={descriptionId}
+                  aria-busy={busy || undefined}
+                  tabIndex={-1}
+                  className={className}
+                  style={style}
+                  onKeyDown={handleKeyDown}
+                >
+                  {children}
+                </div>
+              </div>
+            );
+          }
+          EOF
+
+          cat > tests/modal-focus.test.mjs <<'EOF'
+          import assert from 'node:assert/strict';
+          import test from 'node:test';
+          import { JSDOM } from 'jsdom';
+          import {
+            focusInitialModalElement,
+            getModalFocusableElements,
+            restoreModalFocus,
+            trapModalFocus,
+          } from '../src/lib/modalFocus.mjs';
+
+          function fixture() {
+            const dom = new JSDOM(`
+              <button id="opener">Open</button>
+              <div id="dialog" tabindex="-1">
+                <input id="first" />
+                <button id="disabled" disabled>Disabled</button>
+                <div aria-hidden="true"><button id="hidden">Hidden</button></div>
+                <button id="last">Save</button>
+              </div>
+            `, { pretendToBeVisual: true });
+            const document = dom.window.document;
+            return {
+              dom,
+              document,
+              opener: document.getElementById('opener'),
+              dialog: document.getElementById('dialog'),
+              first: document.getElementById('first'),
+              last: document.getElementById('last'),
+            };
+          }
+
+          test('modal focus list excludes disabled and hidden controls', () => {
+            const { dialog, first, last } = fixture();
+            assert.deepEqual(getModalFocusableElements(dialog), [first, last]);
+          });
+
+          test('initial focus prefers the requested element inside the modal', () => {
+            const { document, dialog, last } = fixture();
+            assert.equal(focusInitialModalElement(dialog, last), last);
+            assert.equal(document.activeElement, last);
+          });
+
+          test('Tab and Shift+Tab wrap inside the modal', () => {
+            const { document, dialog, first, last } = fixture();
+            let prevented = false;
+
+            last.focus();
+            assert.equal(
+              trapModalFocus({ key: 'Tab', shiftKey: false, preventDefault: () => { prevented = true; } }, dialog),
+              true,
+            );
+            assert.equal(prevented, true);
+            assert.equal(document.activeElement, first);
+
+            prevented = false;
+            first.focus();
+            assert.equal(
+              trapModalFocus({ key: 'Tab', shiftKey: true, preventDefault: () => { prevented = true; } }, dialog),
+              true,
+            );
+            assert.equal(prevented, true);
+            assert.equal(document.activeElement, last);
+          });
+
+          test('focus outside a modal is pulled back into its tab sequence', () => {
+            const { document, opener, dialog, first } = fixture();
+            opener.focus();
+            trapModalFocus({ key: 'Tab', shiftKey: false, preventDefault: () => {} }, dialog);
+            assert.equal(document.activeElement, first);
+          });
+
+          test('closing a modal restores focus to the connected invoking control', () => {
+            const { document, opener, last } = fixture();
+            last.focus();
+            assert.equal(restoreModalFocus(opener), true);
+            assert.equal(document.activeElement, opener);
+          });
+          EOF
+
+          cat > tests/planner-dialog-accessibility.test.mjs <<'EOF'
+          import assert from 'node:assert/strict';
+          import fs from 'node:fs';
+          import test from 'node:test';
+
+          const planner = fs.readFileSync('src/features/study-calendar/PlannerView.tsx', 'utf8');
+          const modal = fs.readFileSync('src/components/AccessibleModal.tsx', 'utf8');
+
+          test('planner AI and edit surfaces use the accessible modal primitive', () => {
+            assert.equal((planner.match(/<AccessibleModal/g) || []).length, 2);
+            assert.match(planner, /titleId="planner-ai-dialog-title"/);
+            assert.match(planner, /descriptionId="planner-ai-dialog-description"/);
+            assert.match(planner, /initialFocusRef=\{aiInputRef\}/);
+            assert.match(planner, /titleId="planner-edit-dialog-title"/);
+            assert.match(planner, /descriptionId="planner-edit-dialog-description"/);
+            assert.match(planner, /initialFocusRef=\{editNameRef\}/);
+            assert.match(planner, /aria-label="Close add task dialog"/);
+            assert.match(planner, /aria-label="Close edit task dialog"/);
+          });
+
+          test('accessible modal exposes required semantics and keyboard handling', () => {
+            assert.match(modal, /role="dialog"/);
+            assert.match(modal, /aria-modal="true"/);
+            assert.match(modal, /aria-labelledby=\{titleId\}/);
+            assert.match(modal, /aria-describedby=\{descriptionId\}/);
+            assert.match(modal, /event\.key === "Escape"/);
+            assert.match(modal, /trapModalFocus\(event, dialogRef\.current\)/);
+            assert.match(modal, /restoreModalFocus\(returnTarget\)/);
+          });
+          EOF
+
+          node <<'NODE'
+          import fs from 'node:fs';
+
+          const filePath = 'src/features/study-calendar/PlannerView.tsx';
+          let source = fs.readFileSync(filePath, 'utf8');
+
+          function replaceOnce(before, after, label) {
+            const first = source.indexOf(before);
+            if (first < 0) throw new Error(`Missing planner accessibility target: ${label}`);
+            if (source.indexOf(before, first + before.length) >= 0) {
+              throw new Error(`Ambiguous planner accessibility target: ${label}`);
+            }
+            source = source.replace(before, after);
+          }
+
+          replaceOnce(
+            'import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";\n',
+            'import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";\nimport AccessibleModal from "@/components/AccessibleModal";\n',
+            'accessible modal import',
+          );
+
+          replaceOnce(
+            '  const [aiError, setAiError] = useState<string | null>(null);\n',
+            '  const [aiError, setAiError] = useState<string | null>(null);\n  const aiInputRef = useRef<HTMLInputElement>(null);\n',
+            'AI initial focus ref',
+          );
+
+          replaceOnce(
+            '  const [editDuration, setEditDuration] = useState(""); // minutes\n',
+            '  const [editDuration, setEditDuration] = useState(""); // minutes\n  const editNameRef = useRef<HTMLInputElement>(null);\n',
+            'edit initial focus ref',
+          );
+
+          replaceOnce(
+            '        <div className="blur-background" aria-modal="true" role="dialog" aria-label="Add task with AI">\n          <div\n            className="popup"\n            style={{\n',
+            '        <AccessibleModal\n          titleId="planner-ai-dialog-title"\n          descriptionId="planner-ai-dialog-description"\n          onClose={() => setAiOpen(false)}\n          initialFocusRef={aiInputRef}\n          busy={aiBusy}\n          className="popup"\n          style={{\n',
+            'AI modal wrapper',
+          );
+
+          replaceOnce(
+            '<h3 style={{ fontSize: \'1rem\', fontWeight: 600, margin: 0 }}>Add task with AI</h3>',
+            '<h3 id="planner-ai-dialog-title" style={{ fontSize: \'1rem\', fontWeight: 600, margin: 0 }}>Add task with AI</h3>',
+            'AI modal title',
+          );
+
+          replaceOnce(
+            '                aria-label="Close"\n                onClick={() => setAiOpen(false)}\n',
+            '                type="button"\n                aria-label="Close add task dialog"\n                onClick={() => setAiOpen(false)}\n',
+            'AI close button name',
+          );
+
+          replaceOnce(
+            '            </div>\n            <div style={{ display: \'flex\', flexDirection: \'column\', gap: \'0.75rem\' }}>\n              <input\n                type="text"\n                className="neu-input-el"\n                placeholder="Enter your task (natural language)"\n',
+            '            </div>\n            <p id="planner-ai-dialog-description" className="sr-only">Describe a task, then optionally choose its date, start time, and duration.</p>\n            <div style={{ display: \'flex\', flexDirection: \'column\', gap: \'0.75rem\' }}>\n              <label htmlFor="planner-ai-task-input" className="sr-only">Task description</label>\n              <input\n                ref={aiInputRef}\n                id="planner-ai-task-input"\n                type="text"\n                className="neu-input-el"\n                placeholder="Enter your task (natural language)"\n',
+            'AI input label and focus target',
+          );
+
+          replaceOnce(
+            '              )}\n            </div>\n          </div>\n        </div>\n      )}\n\n      {editOpen && editTask && (\n',
+            '              )}\n            </div>\n        </AccessibleModal>\n      )}\n\n      {editOpen && editTask && (\n',
+            'AI modal close',
+          );
+
+          replaceOnce(
+            '        <div className="blur-background">\n          <div className="popup task-popup" style={{ padding: \'1rem\' }}>\n',
+            '        <AccessibleModal\n          titleId="planner-edit-dialog-title"\n          descriptionId="planner-edit-dialog-description"\n          onClose={() => setEditOpen(false)}\n          initialFocusRef={editNameRef}\n          className="popup task-popup"\n          style={{ padding: \'1rem\' }}\n        >\n',
+            'edit modal wrapper',
+          );
+
+          replaceOnce(
+            '<h3 className="modal-title">Edit task</h3>',
+            '<h3 id="planner-edit-dialog-title" className="modal-title">Edit task</h3>',
+            'edit modal title',
+          );
+
+          replaceOnce(
+            '<button className="complete-task-button" onClick={() => setEditOpen(false)}>✕</button>',
+            '<button type="button" className="complete-task-button" aria-label="Close edit task dialog" onClick={() => setEditOpen(false)}>✕</button>',
+            'edit close button name',
+          );
+
+          replaceOnce(
+            '            </div>\n            <div className="modal-body" style={{ display:\'grid\', gap:12 }}>\n',
+            '            </div>\n            <p id="planner-edit-dialog-description" className="sr-only">Update the task name, date, start time, or duration.</p>\n            <div className="modal-body" style={{ display:\'grid\', gap:12 }}>\n',
+            'edit modal description',
+          );
+
+          replaceOnce(
+            '<input type="text" className="neu-input-el" value={editName} onChange={(e)=>setEditName(e.target.value)} style={{ border:\'1px solid hsl(var(--foreground)/0.2)\', borderRadius:8, padding:\'0.5rem\' }} />',
+            '<input ref={editNameRef} type="text" className="neu-input-el" value={editName} onChange={(e)=>setEditName(e.target.value)} style={{ border:\'1px solid hsl(var(--foreground)/0.2)\', borderRadius:8, padding:\'0.5rem\' }} />',
+            'edit name focus target',
+          );
+
+          replaceOnce(
+            '                }}>Save</button>\n              </div>\n            </div>\n          </div>\n        </div>\n      )}\n',
+            '                }}>Save</button>\n              </div>\n            </div>\n        </AccessibleModal>\n      )}\n',
+            'edit modal close',
+          );
+
+          fs.writeFileSync(filePath, source);
+          NODE
+
+          git diff --check
+
+      - name: Run canonical release gate
+        env:
+          ROLLUP_SKIP_NODEJS_NATIVE: 'true'
+        run: npm run ci
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Exercise modal focus behavior in Chromium
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat > modal-accessibility-harness.html <<'EOF'
+          <!doctype html>
+          <html lang="en">
+            <body>
+              <button id="open">Open planner dialog</button>
+              <div id="overlay" hidden>
+                <div id="dialog" role="dialog" aria-modal="true" aria-labelledby="title" aria-describedby="description" tabindex="-1">
+                  <h1 id="title">Edit task</h1>
+                  <p id="description">Update planner task details.</p>
+                  <input id="name" aria-label="Task name" />
+                  <button id="cancel">Cancel</button>
+                  <button id="save">Save</button>
+                </div>
+              </div>
+              <script type="module">
+                import { focusInitialModalElement, restoreModalFocus, trapModalFocus } from '/src/lib/modalFocus.mjs';
+                const open = document.querySelector('#open');
+                const overlay = document.querySelector('#overlay');
+                const dialog = document.querySelector('#dialog');
+                const name = document.querySelector('#name');
+                let returnTarget = null;
+                function close() {
+                  overlay.hidden = true;
+                  restoreModalFocus(returnTarget);
+                }
+                open.addEventListener('click', () => {
+                  returnTarget = document.activeElement;
+                  overlay.hidden = false;
+                  focusInitialModalElement(dialog, name);
+                });
+                dialog.addEventListener('keydown', (event) => {
+                  if (event.key === 'Escape') {
+                    event.preventDefault();
+                    close();
+                    return;
+                  }
+                  trapModalFocus(event, dialog);
+                });
+              </script>
+            </body>
+          </html>
+          EOF
+
+          npx vite --host 127.0.0.1 --port 4173 > modal-vite.log 2>&1 &
+          for attempt in $(seq 1 30); do
+            if curl --fail --silent http://127.0.0.1:4173/modal-accessibility-harness.html > /dev/null; then
+              break
+            fi
+            sleep 1
+          done
+
+          node --input-type=module <<'NODE'
+          import assert from 'node:assert/strict';
+          import { chromium } from '@playwright/test';
+
+          const browser = await chromium.launch();
+          const page = await browser.newPage();
+          await page.goto('http://127.0.0.1:4173/modal-accessibility-harness.html');
+          const opener = page.getByRole('button', { name: 'Open planner dialog' });
+          await opener.focus();
+          await opener.click();
+          await page.getByRole('dialog', { name: 'Edit task' }).waitFor();
+          assert.equal(await page.evaluate(() => document.activeElement?.id), 'name');
+
+          await page.locator('#name').press('Shift+Tab');
+          assert.equal(await page.evaluate(() => document.activeElement?.id), 'save');
+          await page.locator('#save').press('Tab');
+          assert.equal(await page.evaluate(() => document.activeElement?.id), 'name');
+
+          await page.locator('#name').press('Escape');
+          assert.equal(await page.locator('#overlay').isHidden(), true);
+          assert.equal(await page.evaluate(() => document.activeElement?.id), 'open');
+          await browser.close();
+          NODE
+
+      - name: Commit validated accessibility repair
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -f modal-accessibility-harness.html modal-vite.log
+          git rm .github/workflows/planner-dialog-accessibility.yml
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add src/components/AccessibleModal.tsx src/lib/modalFocus.mjs src/features/study-calendar/PlannerView.tsx tests/modal-focus.test.mjs tests/planner-dialog-accessibility.test.mjs
+          git diff --cached --check
+          git commit -m 'fix: make planner dialogs keyboard and screen-reader accessible'
+          git push origin HEAD:percy/planner-dialog-accessibility-2026-08-05
+
+      - name: Upload accessibility evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: planner-dialog-accessibility-${{ github.run_id }}
+          path: |
+            modal-vite.log
+            test-results
+            playwright-report
+          if-no-files-found: warn
+          retention-days: 14
