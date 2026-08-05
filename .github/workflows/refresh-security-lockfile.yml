@@ -1,0 +1,48 @@
+name: Refresh security lockfile
+
+on:
+  push:
+    branches:
+      - agent/vertex-activation-analytics-20260805
+
+permissions:
+  contents: write
+
+jobs:
+  refresh-lockfile:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+          ref: agent/vertex-activation-analytics-20260805
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Refresh patched transitive dependencies
+        run: |
+          set -euo pipefail
+          npm audit fix --package-lock-only --ignore-scripts || true
+          npm audit --omit=dev --audit-level=high
+
+      - name: Commit generated lockfile and remove one-time workflow
+        run: |
+          set -euo pipefail
+          rm .github/workflows/refresh-security-lockfile.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add package.json package-lock.json .github/workflows/refresh-security-lockfile.yml
+          if git diff --cached --quiet; then
+            echo "No lockfile changes were generated."
+            exit 1
+          fi
+          git commit -m "security: refresh lockfile for patched transitive dependencies"
+          git push origin HEAD:agent/vertex-activation-analytics-20260805
