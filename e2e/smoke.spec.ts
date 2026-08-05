@@ -69,12 +69,29 @@ test.describe('public launch journey', () => {
 });
 
 test.describe('production API contract', () => {
-  test('health endpoint responds with API marker', async ({ request }) => {
-    const res = await request.get(`${apiBase}/api/health`);
-    expect(res.status()).toBe(200);
-    expect(res.headers()['x-vertex-api']).toBe('1');
-    const body = await res.json();
-    expect(body).toMatchObject({ ok: true });
+  test('health endpoints report liveness and production readiness', async ({ request }) => {
+    const liveness = await request.get(`${apiBase}/api/health`);
+    expect(liveness.status()).toBe(200);
+    expect(liveness.headers()['x-vertex-api']).toBe('1');
+    expect(liveness.headers()['x-vertexed-health']).toBe('alive');
+    const livenessBody = await liveness.json();
+    expect(livenessBody).toMatchObject({ ok: true, status: 'alive' });
+
+    const readiness = await request.get(`${apiBase}/api/health?readiness=1`);
+    expect(readiness.status()).toBe(200);
+    expect(readiness.headers()['x-vertex-api']).toBe('1');
+    expect(readiness.headers()['x-vertexed-health']).toBe('ready');
+    const readinessBody = await readiness.json();
+    expect(readinessBody).toMatchObject({
+      ok: true,
+      status: 'ready',
+      checks: {
+        authentication: true,
+        waitlist: true,
+        coreAi: true,
+        plannerAi: true,
+      },
+    });
   });
 
   test('unknown API route returns 404', async ({ request }) => {
