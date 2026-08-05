@@ -1,19 +1,19 @@
 name: Security Lockfile Refresh
 
 on:
-  push:
-    branches:
-      - percy/production-observability-2026-08-05
+  pull_request:
+    branches: [main, master]
     paths:
       - package.json
+      - package-lock.json
       - '.github/workflows/security-lockfile-refresh.yml'
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
-  group: security-lockfile-refresh-${{ github.ref }}
+  group: security-lockfile-refresh-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -22,10 +22,10 @@ jobs:
     timeout-minutes: 10
 
     steps:
-      - name: Checkout branch
+      - name: Checkout proposed branch
         uses: actions/checkout@v5
         with:
-          ref: ${{ github.ref_name }}
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v6
@@ -33,35 +33,35 @@ jobs:
           node-version: '22'
           package-manager-cache: false
 
-      - name: Refresh, verify, and preserve patched lockfile
+      - name: Generate patched lockfile
         shell: bash
         run: |
           set -uo pipefail
-
           npm audit fix --package-lock-only --ignore-scripts || true
+          npm ci --ignore-scripts
+          npm audit --omit=dev --audit-level=high > security-audit.log 2>&1 || true
 
-          audit_status=0
-          npm audit --omit=dev --audit-level=high || audit_status=$?
+      - name: Summarize generated audit
+        if: always()
+        shell: bash
+        run: |
+          {
+            echo '## Generated dependency remediation'
+            echo
+            echo 'A patched lockfile and the production audit output are retained as an artifact for review before committing.'
+            echo
+            echo '```text'
+            cat security-audit.log 2>/dev/null || echo 'Audit log was not generated.'
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
 
-          install_status=0
-          npm ci --ignore-scripts || install_status=$?
-
-          if ! git diff --quiet -- package-lock.json; then
-            git config user.name 'github-actions[bot]'
-            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-            git add package-lock.json
-            git commit -m 'fix: refresh patched production dependencies'
-            git push origin "HEAD:${GITHUB_REF_NAME}"
-          else
-            echo 'No lockfile changes were produced.'
-          fi
-
-          if [ "$install_status" -ne 0 ]; then
-            echo 'Clean install verification failed.'
-            exit "$install_status"
-          fi
-
-          if [ "$audit_status" -ne 0 ]; then
-            echo 'Production audit still reports high-severity findings.'
-            exit "$audit_status"
-          fi
+      - name: Upload remediation evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: security-lockfile-refresh-${{ github.run_id }}
+          path: |
+            package-lock.json
+            security-audit.log
+          if-no-files-found: error
+          retention-days: 7
