@@ -1,1 +1,184 @@
-H4sICMpLc2oCA2ZpbmFuY2UtbWV0YS1sYW5kaW5nLXJlY292ZXJ5LXYyLnBhdGNoAMxb63LbRpb+r6doI5UZKiLAi0SRoiVHvk48ZU9clrNTUxplCgSaZFsgwEEDlGhFVfsY8zT7MPMk+52+AA2Ssp1sqnZSiUP05dz69Ln1cSymU+b7M1GwsBPgf/Ny0rnJ8utpkt3ITiSC9SJhkwen9lJ+w6Yi4WyRxZz1ut3jo6M9kcb8lnX1P0EQh1GXh/093/dZJ+arTlomyd7BwcHnAJ+fM7/b7rKDXvtoyM7P9w7ScMHH7PnrvYO9gywd7x0wtgSgf+T8nyWXhRmQc/WDsUkeptGcyzG7XIQivaJtS54vhJQiS6VaFWVpwdMCa3IexrTiYzbRUzlPeCi5PwsLbiDmZSp9YGblpEyL0k8wJQs9V4gFz8rCX4i0LAhpb0DgaEoWfCkNCMZ8ZviY8+gaO+w4Y6WkfWFUEHmdyMyfrypA9eYLXpRL9heIPPgoH4IgaZGfYtH56rhedAOBj+tPxmiFv+I5iWXMvH7fc2ejEJSMWbpcbJPxOpVFmCQs5kuOI08jwR1qIC61j0Vie+v7MgXoNEtFFCZW2IyEvQNATovFw/ifz/NsIcrF1tZbtkzC9U0uZvOCCbPa90kEPoiWLKp27iJwkkMhec4inhdiCkpJsA/QR6ow5n2+DemnZZKFcQWMrwSJyuFTTHFoyU24lq39hw6zVED8kAjB2Plq+LkTVXinIsUN4P6CF6FvsPs5X2Z54S5ehtjNfnGHmCO2HTuYYhYTskwK6c6IKfTNJ3sg/WlWpvGYiVma5dxdlHO6c+DKj8EybsrRXuyaIQixk4RpLNJZIJc8CgoJQ7Fj9KuMz8nwZBCeTHYan10wHbvTP1F2RyxIAOyO8VusKdqKe3bPplAd5p3XourQhPeYNIB+tbxiztkyF4swXzODh33Myjzla0gBdOaSYZgAZzhtRkaQ1uBKJJIVmTl9r81CuU4j1rrDac04u99nZ0/YHQk1vAkhNBoNZlmRtbyOt/+4ntAkt/Q8L56t32cJb3lzWDsgAuA7lvAVT3AKbaM2nTc8zFOrPX8P2LNSJDG7mYcFW4RFAaL/HnRAw35QZM/4fwkpJoD5FVgTkV4rlBqR9/IWSp2TiLJZHi6kZ4D+EK7406LIxQSmFMTmfIpt3jfVut+A6zksPaTJ6EgKHi6+gAseIymysRHCNMtxIjwuz2c0EUTZ4kEakgxmIstbLrnbkrrf31AT/Lfgyh/lWcIE9CKKuFQblIosyT5L3ARaLGEuo4LHSu9/k3YAEXS4yGYzwD9jm9KDMAqld1Z+nZ9gnVtxmF//kpCq72uCSQ225aDB7lIPjVakohBh8gLQgNuhsZLdvFgk3n7AV2FS
+diff --git a/index.html b/index.html
+index eaaac93..7d22869 100644
+--- a/index.html
++++ b/index.html
+@@ -1,20 +1,18 @@
+-<!DOCTYPE html>
+-<html lang="en" class="scroll-smooth">
++<!doctype html>
++<html lang="en">
+   <head>
+     <meta charset="UTF-8" />
+     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+-    <title>Finance 4All</title>
+-
+-    <!-- Favicon -->
++    <meta
++      name="description"
++      content="FinanceMeta helps ambitious students learn finance, build projects, publish research, and lead global programs."
++    />
++    <meta name="theme-color" content="#07120e" />
++    <title>FinanceMeta | Learn, Build, and Lead in Finance</title>
+     <link rel="icon" href="/favicon.ico" />
+-
+-    <!-- Tailwind base styles -->
+-    <link href="/index.css" rel="stylesheet">
+   </head>
+-  <body class="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-500">
++  <body>
+     <div id="root"></div>
+-
+-    <!-- Main React entry -->
+     <script type="module" src="/src/main.tsx"></script>
+   </body>
+ </html>
+diff --git a/package.json b/package.json
+index 2ed89bd..60ade05 100644
+--- a/package.json
++++ b/package.json
+@@ -1,26 +1,31 @@
+ {
+-  "name": "finance4all-landing",
++  "name": "financemeta-landing",
+   "version": "1.0.0",
+   "private": true,
++  "type": "module",
+   "scripts": {
+     "dev": "vite",
+-    "build": "vite build",
++    "typecheck": "tsc --noEmit",
++    "test": "node --test tests/*.test.mjs",
++    "audit:prod": "npm audit --omit=dev --audit-level=high",
++    "build": "vite build && node scripts/validate-dist.mjs",
++    "test:e2e": "playwright test",
++    "ci": "npm run typecheck && npm run audit:prod && npm test && npm run build",
+     "preview": "vite preview"
+   },
++  "engines": {
++    "node": ">=22.12.0"
++  },
+   "dependencies": {
+-    "framer-motion": "^10.12.16",
+     "react": "18.3.0",
+-    "react-dom": "18.3.0",
+-    "react-tsparticles": "^2.11.1",
+-    "tsparticles": "^2.11.1"
++    "react-dom": "18.3.0"
+   },
+   "devDependencies": {
++    "@playwright/test": "^1.52.0",
+     "@types/node": "^22.12.0",
+-    "@types/react": "18.2.15",
+-    "autoprefixer": "^10.4.14",
+-    "postcss": "^8.4.31",
+-    "tailwindcss": "^3.3.3",
+-    "typescript": "^5.2.2",
++    "@types/react": "18.3.28",
++    "@types/react-dom": "18.3.7",
++    "typescript": "^5.8.3",
+     "vite": "^8.0.3"
+   }
+ }
+diff --git a/src/index.css b/src/index.css
+index d5a62f8..0ec3b9d 100644
+--- a/src/index.css
++++ b/src/index.css
+@@ -1,8 +1,486 @@
+-@tailwind base;
+-@tailwind components;
+-@tailwind utilities;
++:root {
++  color-scheme: dark;
++  font-family:
++    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
++    sans-serif;
++  --background: #07120e;
++  --surface: #0d1c16;
++  --surface-strong: #13271f;
++  --text: #f3f8f5;
++  --muted: #a9bcb2;
++  --line: rgba(205, 236, 221, 0.16);
++  --accent: #59e39d;
++  --accent-strong: #21bd75;
++  --accent-text: #03120b;
++  --shadow: 0 24px 70px rgba(0, 0, 0, 0.28);
++}
++
++:root[data-theme="light"] {
++  color-scheme: light;
++  --background: #f5faf7;
++  --surface: #ffffff;
++  --surface-strong: #eaf5ef;
++  --text: #0b1c14;
++  --muted: #50645a;
++  --line: rgba(16, 70, 43, 0.14);
++  --accent: #087849;
++  --accent-strong: #05653d;
++  --accent-text: #ffffff;
++  --shadow: 0 24px 70px rgba(19, 72, 46, 0.12);
++}
++
++* {
++  box-sizing: border-box;
++}
++
++html {
++  scroll-behavior: smooth;
++}
+ 
+-/* Optional global styles */
+ body {
+-  font-family: 'Inter', sans-serif;
++  margin: 0;
++  min-width: 320px;
++  min-height: 100vh;
++  background:
++    radial-gradient(circle at 85% 12%, rgba(57, 218, 143, 0.13), transparent 28rem),
++    radial-gradient(circle at 5% 42%, rgba(63, 176, 122, 0.1), transparent 24rem),
++    var(--background);
++  color: var(--text);
++  transition: background-color 180ms ease, color 180ms ease;
++}
++
++button,
++a {
++  font: inherit;
++}
++
++a {
++  color: inherit;
++}
++
++button:focus-visible,
++a:focus-visible {
++  outline: 3px solid var(--accent);
++  outline-offset: 4px;
++}
++
++.skip-link {
++  position: fixed;
++  left: 1rem;
++  top: 1rem;
++  z-index: 20;
++  transform: translateY(-180%);
++  border-radius: 0.65rem;
++  background: var(--accent);
++  color: var(--accent-text);
++  padding: 0.7rem 1rem;
++  font-weight: 800;
++}
++
++.skip-link:focus {
++  transform: translateY(0);
++}
++
++.site-header,
++main,
++footer {
++  width: min(1180px, calc(100% - 2rem));
++  margin-inline: auto;
++}
++
++.site-header {
++  min-height: 5.25rem;
++  display: grid;
