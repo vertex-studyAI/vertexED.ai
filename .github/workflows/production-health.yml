@@ -1,6 +1,12 @@
 name: Production Health Monitor
 
 on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/production-health.yml'
+      - 'scripts/smoke-deploy.mjs'
+      - 'api/_handlers/health.js'
   schedule:
     # Offset from the top of the hour to reduce scheduler congestion.
     - cron: '17 * * * *'
@@ -21,10 +27,18 @@ env:
 jobs:
   monitor:
     runs-on: ubuntu-latest
-    timeout-minutes: 8
+    timeout-minutes: 10
 
     steps:
-      - name: Probe production homepage and health endpoint
+      - name: Checkout monitoring contract
+        uses: actions/checkout@v5
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+
+      - name: Probe homepage, liveness, and readiness
         id: probe
         continue-on-error: true
         shell: bash
@@ -78,28 +92,53 @@ jobs:
 
           probe_url homepage "${base_url}/"
           probe_url health "${base_url}/api/health"
+          probe_url readiness "${base_url}/api/health?readiness=1"
 
           if [ -s health-evidence/homepage.body ] && ! grep -qi 'VertexED' health-evidence/homepage.body; then
             echo "[monitor] Homepage response did not contain the VertexED product marker"
             failure=1
           fi
 
-          if [ -s health-evidence/health.body ]; then
-            if ! python3 - health-evidence/health.body <<'PY'
+          if [ -s health-evidence/health.body ] && [ -s health-evidence/readiness.body ]; then
+            if ! python3 - health-evidence/health.body health-evidence/readiness.body <<'PY'
           import json
           import sys
 
-          path = sys.argv[1]
-          with open(path, encoding="utf-8") as handle:
-              payload = json.load(handle)
+          health_path, readiness_path = sys.argv[1:]
+          with open(health_path, encoding="utf-8") as handle:
+              health = json.load(handle)
+          with open(readiness_path, encoding="utf-8") as handle:
+              readiness = json.load(handle)
 
-          if payload.get("ok") is not True:
-              raise SystemExit(f"health payload must contain ok=true, received: {payload!r}")
+          if health.get("ok") is not True or health.get("status") != "alive":
+              raise SystemExit(f"liveness payload must report ok=true and status=alive: {health!r}")
+
+          required = ("authentication", "waitlist", "coreAi", "plannerAi")
+          checks = readiness.get("checks") or {}
+          if readiness.get("ok") is not True or readiness.get("status") != "ready":
+              raise SystemExit(f"readiness payload must report ok=true and status=ready: {readiness!r}")
+          if not all(checks.get(name) is True for name in required):
+              raise SystemExit(f"readiness capability evidence is incomplete: {checks!r}")
           PY
             then
-              echo "[monitor] Health response was not valid JSON with ok=true"
+              echo "[monitor] Health or readiness JSON contract failed"
               failure=1
             fi
+          else
+            echo "[monitor] Health or readiness response body is missing"
+            failure=1
+          fi
+
+          if [ -s health-evidence/health.headers ] \
+            && ! grep -Eqi '^x-vertexed-health:[[:space:]]*alive' health-evidence/health.headers; then
+            echo "[monitor] Liveness response is missing X-VertexED-Health: alive"
+            failure=1
+          fi
+
+          if [ -s health-evidence/readiness.headers ] \
+            && ! grep -Eqi '^x-vertexed-health:[[:space:]]*ready' health-evidence/readiness.headers; then
+            echo "[monitor] Readiness response is missing X-VertexED-Health: ready"
+            failure=1
           fi
 
           {
@@ -122,7 +161,17 @@ jobs:
             exit 1
           fi
 
-      - name: Upload probe evidence
+      - name: Run full public security contract
+        id: contract
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -o pipefail
+          SMOKE_BASE_URL="${PRODUCTION_BASE_URL}" \
+            node scripts/smoke-deploy.mjs 2>&1 \
+            | tee health-evidence/security-contract.log
+
+      - name: Upload production evidence
         if: always()
         uses: actions/upload-artifact@v7
         with:
@@ -132,24 +181,28 @@ jobs:
           retention-days: 14
 
       - name: Open or update production incident
-        if: steps.probe.outcome == 'failure'
+        if: steps.probe.outcome == 'failure' || steps.contract.outcome == 'failure'
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
+          PROBE_OUTCOME: ${{ steps.probe.outcome }}
+          CONTRACT_OUTCOME: ${{ steps.contract.outcome }}
         run: |
           set -euo pipefail
 
           run_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
           body_file="$(mktemp)"
           cat > "$body_file" <<EOF
-          The scheduled production monitor failed.
+          The production monitor failed.
 
           - Checked URL: ${PRODUCTION_BASE_URL}
+          - Homepage/readiness probe: ${PROBE_OUTCOME}
+          - Public security contract: ${CONTRACT_OUTCOME}
           - Failed run: ${run_url}
           - Evidence artifact: production-health-${GITHUB_RUN_ID}
           - Commit: ${GITHUB_SHA}
 
-          Review the retained headers, bodies, and timing metrics before changing production. This monitor covers the public homepage and /api/health; authenticated product journeys remain tracked separately.
+          Review the retained headers, bodies, timing metrics, and security-contract log before changing production. Follow docs/PRODUCTION_INCIDENT_RUNBOOK.md. Do not paste secrets, session tokens, invite codes, or user content into this issue.
           EOF
 
           issue_number="$(
@@ -172,7 +225,7 @@ jobs:
           fi
 
       - name: Close recovered production incident
-        if: steps.probe.outcome == 'success'
+        if: steps.probe.outcome == 'success' && steps.contract.outcome == 'success'
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
@@ -193,9 +246,9 @@ jobs:
             run_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
             gh issue close "$issue_number" \
               --repo "$GITHUB_REPOSITORY" \
-              --comment "Production probes recovered successfully. Evidence: ${run_url}"
+              --comment "Production readiness and public security-contract checks recovered successfully. Evidence: ${run_url}"
           fi
 
       - name: Fail workflow when production is unhealthy
-        if: steps.probe.outcome == 'failure'
+        if: steps.probe.outcome == 'failure' || steps.contract.outcome == 'failure'
         run: exit 1
