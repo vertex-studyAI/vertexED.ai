@@ -109,6 +109,15 @@ jobs:
           test "$target_sha" = "f9265ce6ae94bf01048271ecfcf09d5be7059604"
           test -f "$target_dir/dist/index.html"
 
+          dist_size="$(du -sh "$target_dir/dist" | awk '{print $1}')"
+          rm -rf \
+            "$target_dir/node_modules" \
+            "$target_dir/dist" \
+            "$target_dir/playwright-report" \
+            "$target_dir/test-results" \
+            "$target_dir/coverage" \
+            "$target_dir/.vite"
+
           git -C "$target_dir" add -A
           git -C "$target_dir" diff --cached --binary -- . ':(exclude)package-lock.json' \
             > "$bundle_dir/finance-meta-landing-recovery.patch"
@@ -116,10 +125,15 @@ jobs:
             > "$bundle_dir/finance-meta-landing-package-lock.patch"
           test -s "$bundle_dir/finance-meta-landing-recovery.patch"
           test -s "$bundle_dir/finance-meta-landing-package-lock.patch"
+          test "$(wc -c < "$bundle_dir/finance-meta-landing-recovery.patch")" -lt 500000
+          test "$(wc -c < "$bundle_dir/finance-meta-landing-package-lock.patch")" -lt 500000
+          if grep -Eq '(^|/)(node_modules|dist|playwright-report|test-results|coverage|\.vite)/' "$bundle_dir/finance-meta-landing-recovery.patch"; then
+            echo 'Generated artifacts leaked into the recovery patch.' >&2
+            exit 1
+          fi
 
           recovery_digest="$(sha256sum "$bundle_dir/finance-meta-landing-recovery.patch" | awk '{print $1}')"
           lock_digest="$(sha256sum "$bundle_dir/finance-meta-landing-package-lock.patch" | awk '{print $1}')"
-          dist_size="$(du -sh "$target_dir/dist" | awk '{print $1}')"
           cat > "$bundle_dir/VALIDATION.md" <<EOF
           # FinanceMeta Landing Validation
 
@@ -144,6 +158,7 @@ jobs:
           - mobile Chromium primary journey
           - persisted theme control
           - keyboard focus and horizontal overflow checks
+          - generated build and dependency artifacts excluded from the recovery patches
 
           The target repository was not modified. These results certify the stored recovery patches against the immutable target base commit above.
           EOF
