@@ -1,6 +1,8 @@
 import { test, expect } from '@playwright/test';
 
-const apiBase = process.env.PLAYWRIGHT_API_URL || process.env.PLAYWRIGHT_BASE_URL || 'http://127.0.0.1:4173';
+const browserBase = process.env.PLAYWRIGHT_BASE_URL || 'http://127.0.0.1:4173';
+const apiBase = process.env.PLAYWRIGHT_API_URL || browserBase;
+const isLocalBrowserTarget = /^https?:\/\/(?:127\.0\.0\.1|localhost)(?::\d+)?(?:\/|$)/.test(browserBase);
 
 async function expectNoHorizontalOverflow(page: import('@playwright/test').Page) {
   const dimensions = await page.evaluate(() => ({
@@ -40,6 +42,8 @@ test.describe('public launch journey', () => {
   });
 
   test('invalid approval links provide a recovery path back to the waitlist', async ({ page }) => {
+    test.skip(!isLocalBrowserTarget, 'This branch-only regression must run against the locally built PR bundle.');
+
     await page.route('**/api/signup-invite', async (route) => {
       await route.fulfill({
         status: 403,
