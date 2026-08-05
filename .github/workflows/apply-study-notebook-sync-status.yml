@@ -1,32 +1,35 @@
-name: Apply Study Notebook hydration gate
+name: Study Notebook sync status
 
 on:
   pull_request:
     branches: [main, master]
     paths:
-      - .github/workflows/apply-study-notebook-sync-status.yml
-      - scripts/apply-study-notebook-hydration-gate.mjs
       - src/pages/StudyNotebook.tsx
+      - src/lib/notebookSync.ts
       - tests/study-notebook-sync-status.test.mjs
+      - .github/workflows/apply-study-notebook-sync-status.yml
+  push:
+    branches: [main, master]
+    paths:
+      - src/pages/StudyNotebook.tsx
+      - src/lib/notebookSync.ts
+      - tests/study-notebook-sync-status.test.mjs
+      - .github/workflows/apply-study-notebook-sync-status.yml
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
-  group: study-notebook-hydration-gate
-  cancel-in-progress: false
+  group: study-notebook-sync-status-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  patch-test-and-commit:
-    if: github.actor != 'github-actions[bot]'
+  regression:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 10
     steps:
-      - name: Check out branch
+      - name: Check out source
         uses: actions/checkout@v5
-        with:
-          ref: percy/study-notebook-hydration-gate
-          fetch-depth: 0
 
       - name: Set up Node
         uses: actions/setup-node@v6
@@ -37,20 +40,5 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Apply guarded patch
-        run: node scripts/apply-study-notebook-hydration-gate.mjs
-
-      - name: Run focused persistence regression
+      - name: Run Study Notebook sync-status regression
         run: node --test tests/study-notebook-sync-status.test.mjs
-
-      - name: Run canonical release checks
-        run: npm run ci
-
-      - name: Commit verified source change
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add src/pages/StudyNotebook.tsx tests/study-notebook-sync-status.test.mjs
-          git diff --cached --exit-code && { echo "No source change produced"; exit 1; } || true
-          git commit -m "Gate Study Notebook saves on cloud hydration"
-          git push origin HEAD:percy/study-notebook-hydration-gate
