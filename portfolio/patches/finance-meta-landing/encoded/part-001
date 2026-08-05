@@ -1,4 +1,168 @@
-
+/null
++++ b/playwright.config.ts
+@@ -0,0 +1,30 @@
++import { defineConfig, devices } from "@playwright/test";
++
++export default defineConfig({
++  testDir: "./e2e",
++  fullyParallel: false,
++  retries: 1,
++  reporter: [["html", { open: "never" }], ["line"]],
++  use: {
++    baseURL: process.env.PLAYWRIGHT_BASE_URL ?? "http://127.0.0.1:4173",
++    trace: "retain-on-failure",
++    screenshot: "only-on-failure",
++  },
++  webServer: process.env.PLAYWRIGHT_BASE_URL
++    ? undefined
++    : {
++        command: "npm run preview -- --host 127.0.0.1",
++        url: "http://127.0.0.1:4173",
++        reuseExistingServer: true,
++      },
++  projects: [
++    {
++      name: "desktop",
++      use: { ...devices["Desktop Chrome"], viewport: { width: 1440, height: 900 } },
++    },
++    {
++      name: "mobile",
++      use: { ...devices["iPhone 13"] },
++    },
++  ],
++});
+diff --git a/scripts/validate-dist.mjs b/scripts/validate-dist.mjs
+new file mode 100644
+index 0000000..c48fc16
+--- /dev/null
++++ b/scripts/validate-dist.mjs
+@@ -0,0 +1,23 @@
++import assert from "node:assert/strict";
++import { readdir, readFile, stat } from "node:fs/promises";
++
++const index = await readFile(new URL("../dist/index.html", import.meta.url), "utf8");
++assert.match(index, /FinanceMeta/);
++
++const assetsDirectory = new URL("../dist/assets/", import.meta.url);
++const assets = await readdir(assetsDirectory);
++
++const cssAssets = assets.filter((name) => name.endsWith(".css"));
++const javascriptAssets = assets.filter((name) => name.endsWith(".js"));
++
++assert.ok(cssAssets.length > 0, "production build must emit CSS");
++assert.ok(javascriptAssets.length > 0, "production build must emit JavaScript");
++
++for (const asset of [...cssAssets, ...javascriptAssets]) {
++  const details = await stat(new URL(asset, assetsDirectory));
++  assert.ok(details.size > 0, `${asset} must not be empty`);
++}
++
++console.log(
++  `Validated FinanceMeta production output: ${cssAssets.length} CSS and ${javascriptAssets.length} JavaScript asset(s).`,
++);
+diff --git a/src/index.css b/src/index.css
+index d5a62f8..0ec3b9d 100644
+--- a/src/index.css
++++ b/src/index.css
+@@ -1,8 +1,486 @@
+-@tailwind base;
+-@tailwind components;
+-@tailwind utilities;
++:root {
++  color-scheme: dark;
++  font-family:
++    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
++    sans-serif;
++  --background: #07120e;
++  --surface: #0d1c16;
++  --surface-strong: #13271f;
++  --text: #f3f8f5;
++  --muted: #a9bcb2;
++  --line: rgba(205, 236, 221, 0.16);
++  --accent: #59e39d;
++  --accent-strong: #21bd75;
++  --accent-text: #03120b;
++  --shadow: 0 24px 70px rgba(0, 0, 0, 0.28);
++}
++
++:root[data-theme="light"] {
++  color-scheme: light;
++  --background: #f5faf7;
++  --surface: #ffffff;
++  --surface-strong: #eaf5ef;
++  --text: #0b1c14;
++  --muted: #50645a;
++  --line: rgba(16, 70, 43, 0.14);
++  --accent: #087849;
++  --accent-strong: #05653d;
++  --accent-text: #ffffff;
++  --shadow: 0 24px 70px rgba(19, 72, 46, 0.12);
++}
++
++* {
++  box-sizing: border-box;
++}
++
++html {
++  scroll-behavior: smooth;
++}
+ 
+-/* Optional global styles */
+ body {
+-  font-family: 'Inter', sans-serif;
++  margin: 0;
++  min-width: 320px;
++  min-height: 100vh;
++  background:
++    radial-gradient(circle at 85% 12%, rgba(57, 218, 143, 0.13), transparent 28rem),
++    radial-gradient(circle at 5% 42%, rgba(63, 176, 122, 0.1), transparent 24rem),
++    var(--background);
++  color: var(--text);
++  transition: background-color 180ms ease, color 180ms ease;
++}
++
++button,
++a {
++  font: inherit;
++}
++
++a {
++  color: inherit;
++}
++
++button:focus-visible,
++a:focus-visible {
++  outline: 3px solid var(--accent);
++  outline-offset: 4px;
++}
++
++.skip-link {
++  position: fixed;
++  left: 1rem;
++  top: 1rem;
++  z-index: 20;
++  transform: translateY(-180%);
++  border-radius: 0.65rem;
++  background: var(--accent);
++  color: var(--accent-text);
++  padding: 0.7rem 1rem;
++  font-weight: 800;
++}
++
++.skip-link:focus {
++  transform: translateY(0);
++}
++
++.site-header,
++main,
++footer {
++  width: min(1180px, calc(100% - 2rem));
++  margin-inline: auto;
++}
++
++.site-header {
++  min-height: 5.25rem;
++  display: grid;
 +  grid-template-columns: auto 1fr auto;
 +  align-items: center;
 +  gap: 1.5rem;
@@ -48,198 +212,4 @@
 +  border-radius: 999px;
 +  background: var(--surface);
 +  color: var(--text);
-+  padding: 0.62rem 0.9rem;
-+  cursor: pointer;
-+  font-weight: 750;
-+}
-+
-+.hero {
-+  min-height: calc(100vh - 7rem);
-+  display: grid;
-+  grid-template-columns: minmax(0, 1.18fr) minmax(18rem, 0.82fr);
-+  align-items: center;
-+  gap: clamp(2.5rem, 7vw, 6rem);
-+  padding: 5rem 0 7rem;
-+}
-+
-+.eyebrow {
-+  margin: 0 0 1rem;
-+  color: var(--accent);
-+  font-size: 0.78rem;
-+  font-weight: 850;
-+  letter-spacing: 0.14em;
-+  text-transform: uppercase;
-+}
-+
-+h1,
-+h2,
-+h3,
-+p {
-+  text-wrap: pretty;
-+}
-+
-+h1 {
-+  max-width: 13ch;
-+  margin: 0;
-+  font-size: clamp(3.1rem, 8vw, 6.6rem);
-+  line-height: 0.94;
-+  letter-spacing: -0.067em;
-+}
-+
-+.hero-summary {
-+  max-width: 42rem;
-+  margin: 1.75rem 0 0;
-+  color: var(--muted);
-+  font-size: clamp(1.05rem, 2vw, 1.25rem);
-+  line-height: 1.7;
-+}
-+
-+.hero-actions {
-+  display: flex;
-+  flex-wrap: wrap;
-+  gap: 0.9rem;
-+  margin-top: 2.1rem;
-+}
-+
-+.button {
-+  display: inline-flex;
-+  min-height: 3rem;
-+  align-items: center;
-+  justify-content: center;
-+  border-radius: 0.8rem;
-+  padding: 0.75rem 1.05rem;
-+  text-decoration: none;
-+  font-weight: 820;
-+  transition: transform 150ms ease, background-color 150ms ease;
-+}
-+
-+.button:hover {
-+  transform: translateY(-2px);
-+}
-+
-+.button-primary {
-+  background: var(--accent);
-+  color: var(--accent-text);
-+}
-+
-+.button-primary:hover {
-+  background: var(--accent-strong);
-+}
-+
-+.button-secondary {
-+  border: 1px solid var(--line);
-+  background: var(--surface);
-+}
-+
-+.proof-list {
-+  display: flex;
-+  flex-wrap: wrap;
-+  gap: 1.2rem;
-+  margin: 2.2rem 0 0;
-+  padding: 0;
-+  color: var(--muted);
-+  list-style: none;
-+  font-size: 0.9rem;
-+  font-weight: 700;
-+}
-+
-+.proof-list li::before {
-+  content: "";
-+  display: inline-block;
-+  width: 0.5rem;
-+  height: 0.5rem;
-+  margin-right: 0.55rem;
-+  border-radius: 50%;
-+  background: var(--accent);
-+}
-+
-+.hero-card {
-+  border: 1px solid var(--line);
-+  border-radius: 1.6rem;
-+  background: linear-gradient(145deg, var(--surface-strong), var(--surface));
-+  padding: clamp(1.3rem, 4vw, 2rem);
-+  box-shadow: var(--shadow);
-+}
-+
-+.hero-card-label {
-+  margin: 0 0 1rem;
-+  color: var(--muted);
-+  font-size: 0.85rem;
-+  font-weight: 800;
-+}
-+
-+.hero-card-grid {
-+  display: grid;
-+  grid-template-columns: repeat(2, minmax(0, 1fr));
-+  gap: 0.75rem;
-+}
-+
-+.hero-card-grid div {
-+  display: flex;
-+  min-height: 6.2rem;
-+  flex-direction: column;
-+  justify-content: space-between;
-+  border: 1px solid var(--line);
-+  border-radius: 1rem;
-+  background: color-mix(in srgb, var(--surface) 84%, transparent);
-+  padding: 1rem;
-+}
-+
-+.hero-card-grid span,
-+.pathway-number {
-+  color: var(--accent);
-+  font-size: 0.75rem;
-+  font-weight: 850;
-+  letter-spacing: 0.08em;
-+}
-+
-+.hero-card > p:last-child {
-+  margin: 1rem 0 0;
-+  color: var(--muted);
-+  line-height: 1.55;
-+}
-+
-+.section {
-+  padding: 6.5rem 0;
-+}
-+
-+.section-heading {
-+  display: grid;
-+  grid-template-columns: minmax(0, 1.15fr) minmax(15rem, 0.85fr);
-+  gap: 2rem;
-+  align-items: end;
-+  margin-bottom: 2.4rem;
-+}
-+
-+.section-heading .eyebrow {
-+  grid-column: 1 / -1;
-+  margin-bottom: -0.8rem;
-+}
-+
-+h2 {
-+  margin: 0;
-+  font-size: clamp(2.2rem, 5vw, 4rem);
-+  line-height: 1.02;
-+  letter-spacing: -0.052em;
-+}
-+
-+.section-heading > p:last-child,
-+.community-section > p {
-+  margin: 0;
-+  color: var(--muted);
-+  line-height: 1.7;
-+}
-+
-+.pathway-grid {
-+  display: grid;
-+  grid-template-columns: repeat(3, minmax(0, 1fr));
-+  gap: 1rem;
-+}
-+
-+.pathway-card {
-+  min-height: 17rem;
-+  display: flex;
-+  flex-direction: column;
-+  border: 1px solid var(--line);
-+  border-radius: 1.2rem;
-+  background: var(--surfa
++  padding: 0.62r
