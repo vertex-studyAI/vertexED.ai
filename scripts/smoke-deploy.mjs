@@ -50,15 +50,38 @@ async function main() {
 
   try {
     const health = await request('/api/health', { method: 'GET', headers: {} });
-    if (health.status !== 200 || !health.body?.ok) {
-      fail(`/api/health returned ${health.status}`);
+    if (health.status !== 200 || !health.body?.ok || health.body?.status !== 'alive') {
+      fail(`/api/health returned ${health.status} without alive status`);
     } else if (health.headers.get('x-vertex-api') !== '1') {
       fail('/api/health missing X-Vertex-API header (router may not be active)');
+    } else if (health.headers.get('x-vertexed-health') !== 'alive') {
+      fail('/api/health missing X-VertexED-Health: alive evidence');
     } else {
-      pass(`/api/health returns ok (routes=${health.body.routes ?? '?'})`);
+      pass(`/api/health returns alive (routes=${health.body.routes ?? '?'})`);
     }
   } catch (error) {
     fail(`/api/health check failed: ${error.message}`);
+  }
+
+  try {
+    const readiness = await request('/api/health?readiness=1', { method: 'GET', headers: {} });
+    const checks = readiness.body?.checks;
+    const allCapabilitiesReady = checks
+      && ['authentication', 'waitlist', 'coreAi', 'plannerAi'].every((key) => checks[key] === true);
+
+    if (readiness.status !== 200 || !readiness.body?.ok || readiness.body?.status !== 'ready') {
+      fail(`/api/health?readiness=1 returned ${readiness.status} without ready status`);
+    } else if (readiness.headers.get('x-vertex-api') !== '1') {
+      fail('/api/health?readiness=1 missing X-Vertex-API header');
+    } else if (readiness.headers.get('x-vertexed-health') !== 'ready') {
+      fail('/api/health?readiness=1 missing X-VertexED-Health: ready evidence');
+    } else if (!allCapabilitiesReady) {
+      fail('/api/health?readiness=1 reported an incomplete production capability set');
+    } else {
+      pass('/api/health?readiness=1 confirms auth, waitlist, core AI, and planner AI configuration');
+    }
+  } catch (error) {
+    fail(`/api/health readiness check failed: ${error.message}`);
   }
 
   try {
