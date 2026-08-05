@@ -52,6 +52,7 @@ jobs:
             echo "target_commit=$target_sha"
             echo "bun_version=$(bun --version)"
             echo "runner=${RUNNER_OS}-${RUNNER_ARCH}"
+            echo "public_config=synthetic non-secret CI values"
           } | tee bu1ld-source-environment.log
 
       - name: Install frozen dependencies
@@ -60,6 +61,9 @@ jobs:
 
       - name: Run repository release check
         working-directory: target
+        env:
+          VITE_SUPABASE_URL: https://bu1ld-ci.invalid
+          VITE_SUPABASE_ANON_KEY: ci-public-anon-key-build-only
         run: |
           set -o pipefail
           bun run release:check 2>&1 | tee "$GITHUB_WORKSPACE/bu1ld-source-release.log"
@@ -73,7 +77,8 @@ jobs:
             echo '- Repository: ryangomez010/bu1ld-landing'
             echo '- Commit: daa80c1124b2a6d7d09b7669e04d29e50cffcbbe'
             echo '- Command: bun run release:check'
-            echo '- Scope: non-secret typecheck, tests, lint, build, copy/security scans, migration and release-artifact checks'
+            echo '- Public build configuration: explicit synthetic non-secret CI values; no production project or key used'
+            echo '- Scope: typecheck, tests, lint, build, copy/security scans, migration and release-artifact checks'
             echo '- Boundary: does not run strict production schema/RLS checks or authenticated deployed journeys'
             echo '- Evidence: bu1ld-source-release-${{ github.run_id }}'
           } >> "$GITHUB_STEP_SUMMARY"
