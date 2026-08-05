@@ -2,6 +2,7 @@ import { Navigate, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { authFetch } from "@/lib/apiAuth";
+import { isOnboardingComplete } from "@/lib/onboardingStatus.js";
 import PageLoader from "@/components/PageLoader";
 
 function WaitlistPending() {
@@ -40,6 +41,6 @@ export default function ProtectedRoute({ children }: { children: JSX.Element }) 
   if (loading || (user && access === "checking")) return <PageLoader label="Checking your access" />;
   if (!user) return <Navigate to="/login" replace state={{ from: location.pathname }} />;
   if (access !== "approved") return <WaitlistPending />;
-  if (!user.user_metadata?.username && location.pathname !== "/onboarding") return <Navigate to="/onboarding" replace />;
+  if (!isOnboardingComplete(user) && location.pathname !== "/onboarding") return <Navigate to="/onboarding" replace />;
   return children;
 }
