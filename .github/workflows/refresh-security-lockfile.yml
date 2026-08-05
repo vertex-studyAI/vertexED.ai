@@ -1,0 +1,53 @@
+name: Refresh Security Lockfile
+
+on:
+  push:
+    branches:
+      - percy/production-uptime-monitor-20260805
+    paths:
+      - package.json
+      - .github/workflows/refresh-security-lockfile.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh-security-lockfile
+  cancel-in-progress: true
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v5
+        with:
+          ref: percy/production-uptime-monitor-20260805
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Refresh lockfile and verify production audit
+        run: |
+          set -euo pipefail
+          npm install --package-lock-only --ignore-scripts
+          npm audit --omit=dev --audit-level=high
+
+      - name: Commit regenerated lockfile
+        run: |
+          set -euo pipefail
+          if git diff --quiet -- package-lock.json; then
+            echo 'package-lock.json already matches package.json'
+            exit 0
+          fi
+
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add package-lock.json
+          git commit -m 'security: regenerate patched dependency lockfile'
+          git push origin HEAD:percy/production-uptime-monitor-20260805
