@@ -41,6 +41,67 @@ jobs:
         env:
           ROLLUP_SKIP_NODEJS_NATIVE: 'true'
 
+  browser-local-accessibility:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    needs: build-and-test
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Build current branch
+        run: npm run build:ci
+        env:
+          ROLLUP_SKIP_NODEJS_NATIVE: 'true'
+
+      - name: Run local keyboard accessibility certification
+        shell: bash
+        env:
+          PLAYWRIGHT_BASE_URL: http://127.0.0.1:4173
+          PLAYWRIGHT_API_URL: http://127.0.0.1:4173
+        run: |
+          set -euo pipefail
+          npm run preview -- --host 127.0.0.1 --port 4173 > /tmp/vertexed-preview.log 2>&1 &
+          preview_pid=$!
+          trap 'kill "$preview_pid" 2>/dev/null || true' EXIT
+
+          for attempt in $(seq 1 30); do
+            if curl --silent --fail http://127.0.0.1:4173/ > /dev/null; then
+              break
+            fi
+            if [ "$attempt" -eq 30 ]; then
+              cat /tmp/vertexed-preview.log
+              exit 1
+            fi
+            sleep 1
+          done
+
+          npm run test:e2e:local-accessibility
+
+      - name: Upload local accessibility evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: playwright-local-accessibility-report
+          path: |
+            playwright-report
+            test-results
+          if-no-files-found: ignore
+          retention-days: 14
+
   browser-production:
     runs-on: ubuntu-latest
     timeout-minutes: 20
