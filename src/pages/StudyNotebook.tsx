@@ -319,6 +319,7 @@ export default function StudyNotebook() {
                       <button
                         type="button"
                         onClick={() => setActiveId(nb.id)}
+                        aria-pressed={nb.id === activeId}
                         className={`notebook-list-item w-full text-left ${nb.id === activeId ? 'notebook-list-item-active' : ''}`}
                       >
                         <BookMarked className="h-3.5 w-3.5 shrink-0 opacity-70" />
@@ -369,9 +370,9 @@ export default function StudyNotebook() {
                         type="button"
                         onClick={() => setPreviewSourceId(src.id)}
                         className="text-muted-foreground hover:text-primary p-1"
-                        aria-label="Preview source"
+                        aria-label={`Preview ${src.title}`}
                       >
-                        <Eye className="h-3.5 w-3.5" />
+                        <Eye className="h-3.5 w-3.5" aria-hidden />
                       </button>
                       <button
                         type="button"
@@ -380,9 +381,9 @@ export default function StudyNotebook() {
                           refresh();
                         }}
                         className="text-muted-foreground hover:text-rose-400 p-1"
-                        aria-label="Remove source"
+                        aria-label={`Remove ${src.title}`}
                       >
-                        <Trash2 className="h-3.5 w-3.5" />
+                        <Trash2 className="h-3.5 w-3.5" aria-hidden />
                       </button>
                     </div>
                   </div>
@@ -391,12 +392,14 @@ export default function StudyNotebook() {
                 <div className="notebook-paste-area">
                   <input
                     type="text"
+                    aria-label="Source title"
                     placeholder="Source title (optional)"
                     value={pasteTitle}
                     onChange={(e) => setPasteTitle(e.target.value)}
                     className="notebook-input text-sm mb-2"
                   />
                   <textarea
+                    aria-label="Source content"
                     placeholder="Paste notes, excerpts, or lecture transcripts…"
                     value={pasteContent}
                     onChange={(e) => setPasteContent(e.target.value)}
@@ -407,16 +410,29 @@ export default function StudyNotebook() {
                     <button type="button" onClick={handleAddPaste} className="btn-solid text-xs flex-1">
                       Add
                     </button>
-                    <button type="button" onClick={() => fileInputRef.current?.click()} className="btn-glass text-xs px-2.5" title="Upload .txt or .md">
-                      <Upload className="h-3.5 w-3.5" />
+                    <button
+                      type="button"
+                      onClick={() => fileInputRef.current?.click()}
+                      className="btn-glass text-xs px-2.5"
+                      aria-label="Upload a text, Markdown, or CSV source"
+                      title="Upload .txt, .md, or .csv"
+                    >
+                      <Upload className="h-3.5 w-3.5" aria-hidden />
                     </button>
-                    <button type="button" onClick={() => void loadImportable()} className="btn-glass text-xs px-2.5" title="Import saved work">
-                      <BookOpen className="h-3.5 w-3.5" />
+                    <button
+                      type="button"
+                      onClick={() => void loadImportable()}
+                      className="btn-glass text-xs px-2.5"
+                      aria-label="Import saved work as a source"
+                      title="Import saved work"
+                    >
+                      <BookOpen className="h-3.5 w-3.5" aria-hidden />
                     </button>
                   </div>
                   <input
                     ref={fileInputRef}
                     type="file"
+                    aria-label="Choose a source file"
                     accept=".txt,.md,.markdown,.csv,text/plain,text/markdown"
                     className="hidden"
                     onChange={(e) => {
@@ -459,6 +475,7 @@ export default function StudyNotebook() {
                 <div className="p-4 border-b border-border/50 flex flex-wrap items-center gap-3">
                   <input
                     type="text"
+                    aria-label="Notebook title"
                     value={active.title}
                     onChange={(e) => {
                       updateNotebook(active.id, { title: e.target.value });
