@@ -1,0 +1,58 @@
+name: Refresh audit lock
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+
+jobs:
+  refresh-lock:
+    if: github.head_ref == 'feat/activation-analytics'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout pull request branch
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Generate compatible audit remediation
+        shell: bash
+        run: |
+          set -uo pipefail
+          npm audit fix --package-lock-only --ignore-scripts
+          fix_status=$?
+
+          set +e
+          npm audit --omit=dev --audit-level=high > audit-after.txt 2>&1
+          audit_status=$?
+          set -e
+
+          printf '%s\n' "$fix_status" > audit-fix-exit-code.txt
+          printf '%s\n' "$audit_status" > audit-exit-code.txt
+          git diff -- package-lock.json > package-lock.patch
+          test -f package-lock.json
+
+      - name: Upload refreshed lock and audit evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: refreshed-package-lock
+          path: |
+            package-lock.json
+            package-lock.patch
+            audit-after.txt
+            audit-fix-exit-code.txt
+            audit-exit-code.txt
+          if-no-files-found: error
+          retention-days: 3
