@@ -30,29 +30,31 @@ jobs:
           ref: main
           path: target
 
-      - name: Reconstruct and apply verified recovery bundle
+      - name: Apply plain reviewable recovery source
         shell: bash
         run: |
           set -euo pipefail
           bundle_dir="$GITHUB_WORKSPACE/portfolio/patches/finance-meta-landing"
           target_dir="$GITHUB_WORKSPACE/target"
-          payload_commit="53bf279dccc6c82c01f7deb55c843aadbf94e2fa"
-          payload_path="portfolio/patches/finance-meta-landing/encoded"
 
-          git fetch --no-tags --depth=1 origin "$payload_commit"
-          : > "$RUNNER_TEMP/finance-meta-recovery.b64"
-          for suffix in 000 001 002 003 004 005 006 007 008; do
-            git show "$payload_commit:$payload_path/part-$suffix" >> "$RUNNER_TEMP/finance-meta-recovery.b64"
-          done
-          tr -d '\r\n' < "$RUNNER_TEMP/finance-meta-recovery.b64" > "$RUNNER_TEMP/finance-meta-recovery.compact.b64"
-          mv "$RUNNER_TEMP/finance-meta-recovery.compact.b64" "$RUNNER_TEMP/finance-meta-recovery.b64"
-          echo "943c2aef65331b10309b6a9451b132d73a6e1d06c6561497be22453202c280d2  $RUNNER_TEMP/finance-meta-recovery.b64" | sha256sum --check --strict
+          rm -rf "$target_dir/src" "$target_dir/tests" "$target_dir/e2e" "$target_dir/.github"
+          rm -f \
+            "$target_dir/index.html" \
+            "$target_dir/index.css" \
+            "$target_dir/package.json" \
+            "$target_dir/tsconfig.json" \
+            "$target_dir/playwright.config.ts" \
+            "$target_dir/tailwind_config.js" \
+            "$target_dir/tailwind.config.js" \
+            "$target_dir/postcss.config.js"
 
-          base64 --decode "$RUNNER_TEMP/finance-meta-recovery.b64" | gzip --decompress > "$bundle_dir/finance-meta-landing-recovery.patch"
-          echo "75057cde383287564770002c046829f1824fb35561b292035d7d4609f078c76c  $bundle_dir/finance-meta-landing-recovery.patch" | sha256sum --check --strict
-          git -C "$target_dir" apply --check "$bundle_dir/finance-meta-landing-recovery.patch"
-          git -C "$target_dir" apply "$bundle_dir/finance-meta-landing-recovery.patch"
           cp -R "$bundle_dir/overlay/." "$target_dir/"
+
+          test -f "$target_dir/src/main.tsx"
+          test -f "$target_dir/src/index.css"
+          test -f "$target_dir/tests/source.test.mjs"
+          test -f "$target_dir/e2e/landing.spec.ts"
+          grep -q 'createRoot(root).render' "$target_dir/src/main.tsx"
 
       - name: Setup Node.js
         uses: actions/setup-node@v6
