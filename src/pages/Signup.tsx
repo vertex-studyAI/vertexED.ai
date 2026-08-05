@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import PageSection from "@/components/PageSection";
 import { useAuth } from "@/contexts/AuthContext";
+import { trackActivationEvent } from "@/lib/activationAnalytics";
 
 function normalizeEmailInput(value: string) {
   return value.trim().toLowerCase();
@@ -84,6 +85,7 @@ export default function Signup() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Failed to join waitlist.");
       setSuccess(true);
+      trackActivationEvent({ name: "Waitlist joined", properties: { method: "email" } });
     } catch (err) {
       setError((err as Error).message);
     } finally {
@@ -149,6 +151,10 @@ export default function Signup() {
       }
 
       await login(normalizedEmail, password);
+      trackActivationEvent({
+        name: "Account created",
+        properties: { method: useTeamInvite ? "team_invite" : "waitlist_approval" },
+      });
       sessionStorage.setItem("vertex_welcome", "1");
       navigate("/connect-google", { replace: true });
     } catch (err) {
