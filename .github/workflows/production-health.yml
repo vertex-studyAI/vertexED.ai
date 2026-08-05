@@ -69,6 +69,11 @@ jobs:
               echo "[monitor] ${name} returned HTTP ${status}, expected 200"
               failure=1
             fi
+
+            if [ ! -s "$body" ]; then
+              echo "[monitor] ${name} returned an empty response body"
+              failure=1
+            fi
           }
 
           probe_url homepage "${base_url}/"
@@ -144,7 +149,7 @@ jobs:
           - Evidence artifact: production-health-${GITHUB_RUN_ID}
           - Commit: ${GITHUB_SHA}
 
-          Review the retained headers, bodies, and timing metrics before changing production. This monitor covers the public homepage and \`/api/health\u0060; authenticated product journeys remain tracked separately.
+          Review the retained headers, bodies, and timing metrics before changing production. This monitor covers the public homepage and /api/health; authenticated product journeys remain tracked separately.
           EOF
 
           issue_number="$(
