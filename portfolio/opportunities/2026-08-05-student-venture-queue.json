@@ -1,0 +1,95 @@
+{
+  "schema_version": 1,
+  "last_verified": "2026-08-05",
+  "active_target_limit": 2,
+  "active_targets": [
+    {
+      "name": "Diamond Challenge 2027",
+      "organization": "Horn Entrepreneurship, University of Delaware",
+      "official_url": "https://diamondchallenge.org/competition/",
+      "status": "submission_window_opens_2026-09-16",
+      "deadline": "2027-01-14T17:00:00-05:00",
+      "eligibility": {
+        "age": "14-18 at the submission deadline",
+        "team": "2-4 high school students",
+        "advisor": "one adult advisor age 21 or older",
+        "geography": "global"
+      },
+      "tracks": ["Business Innovation", "Social Innovation"],
+      "prize_pool": "$100,000",
+      "portfolio_candidate": "VertexED.ai",
+      "fit": "Existing education product with a clear student problem, working public surface, product evidence, human-flourishing impact, and a credible business or social-innovation narrative.",
+      "required_materials": [
+        "team and adult-advisor details",
+        "selected competition track",
+        "venture concept submission",
+        "problem and customer evidence",
+        "solution and differentiation",
+        "impact and execution evidence",
+        "pitch-round format selection"
+      ],
+      "next_action": "By 2026-08-12, select the 2-4 student team and adult advisor, freeze one truthful VertexED venture thesis, and create a one-page evidence inventory before the submission window opens.",
+      "evidence_rules": [
+        "use repository and production evidence before self-reported traction",
+        "label any user or partnership count that is not independently verified",
+        "do not claim authenticated production certification until issue 13 passes"
+      ]
+    },
+    {
+      "name": "Blue Ocean Student Entrepreneur Competition 2027",
+      "organization": "Blue Ocean Student Entrepreneurs Corporation",
+      "official_url": "https://blueoceancompetition.org/compete/",
+      "registration_url": "https://blueoceancompetition.org/register/",
+      "status": "registration_open",
+      "deadline": "2027-02-21T23:59:00",
+      "deadline_timezone": "participant local time",
+      "eligibility": {
+        "age": "14-18 at registration",
+        "team": "individual or team of up to 5 high school students",
+        "geography": "global",
+        "language": "English"
+      },
+      "awards": {
+        "first_place": "$1,000",
+        "second_place": "$750",
+        "third_place": "$500",
+        "popular_choice": "$750",
+        "regional_winner": "$500 per region"
+      },
+      "portfolio_candidate": "FinanceMeta",
+      "fit": "FinanceMeta can present a differentiated learner-to-builder ecosystem instead of another isolated finance course, using the Learn, Research, Build, Publish, Compete, Contribute, and Lead pathway as the strategic value curve.",
+      "required_materials": [
+        "registration for every participant",
+        "completed Blue Ocean Mini-Course",
+        "strategy canvas and Blue Ocean tools",
+        "original English pitch",
+        "3-5 minute video",
+        "YouTube upload with required hashtag",
+        "final video submission"
+      ],
+      "next_action": "Register the selected participant or team now, complete the mini-course, and draft the FinanceMeta strategy canvas and eliminate-reduce-raise-create grid by 2026-08-19.",
+      "evidence_rules": [
+        "distinguish the certified landing recovery artifact from an applied production deployment",
+        "do not claim the member portal golden journey is verified",
+        "use the seven-pathway product model as differentiation, not unsupported market-superiority claims"
+      ]
+    }
+  ],
+  "excluded_after_verification": [
+    {
+      "name": "Regeneron Science Talent Search 2027",
+      "reason": "The applicant must be in the last year of secondary school; the current student profile is entering Grade 11, so this cycle is not an eligible use of time.",
+      "official_url": "https://www.societyforscience.org/regeneron-sts/frequently-asked-questions/"
+    },
+    {
+      "name": "MIT THINK 2026-27",
+      "reason": "The currently published official page still describes the closed 2025-26 cycle and requires a permanent United States address; no current 2026-27 application window is verified.",
+      "official_url": "https://think.mit.edu/"
+    },
+    {
+      "name": "The Earth Prize 2027",
+      "reason": "Registration is open and the age range fits, but the current portfolio has no verified environmental-sustainability product with a bounded evidence package. Do not create a forced entry solely to chase the competition.",
+      "official_url": "https://www.theearthprize.org/"
+    }
+  ]
+}
