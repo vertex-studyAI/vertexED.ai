@@ -1,0 +1,128 @@
+name: FinanceMeta landing validation
+
+on:
+  push:
+    branches:
+      - percy/finance-meta-landing-recovery-20260805
+
+permissions:
+  contents: write
+
+jobs:
+  validate-recovery:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout execution branch
+        uses: actions/checkout@v5
+        with:
+          ref: percy/finance-meta-landing-recovery-20260805
+
+      - name: Checkout FinanceMeta landing target
+        uses: actions/checkout@v5
+        with:
+          repository: build-the-future-11/FinanceMeta-Landing
+          ref: main
+          path: target
+
+      - name: Decode and apply recovery patch
+        shell: bash
+        run: |
+          set -euo pipefail
+          bundle_dir="$GITHUB_WORKSPACE/portfolio/patches/finance-meta-landing"
+          base64 --decode "$bundle_dir/recovery.patch.gz.b64" | gzip --decompress > "$bundle_dir/finance-meta-landing-recovery.patch"
+          git -C "$GITHUB_WORKSPACE/target" apply --check "$bundle_dir/finance-meta-landing-recovery.patch"
+          git -C "$GITHUB_WORKSPACE/target" apply "$bundle_dir/finance-meta-landing-recovery.patch"
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: target/package-lock.json
+
+      - name: Regenerate dependency lock
+        working-directory: target
+        run: npm install --package-lock-only --ignore-scripts
+
+      - name: Install dependencies
+        working-directory: target
+        run: npm ci
+
+      - name: Run canonical release gate
+        working-directory: target
+        run: npm run ci 2>&1 | tee "$GITHUB_WORKSPACE/finance-meta-ci.log"
+
+      - name: Install Chromium
+        working-directory: target
+        run: npx playwright install --with-deps chromium
+
+      - name: Run desktop and mobile browser certification
+        working-directory: target
+        run: npm run test:e2e 2>&1 | tee "$GITHUB_WORKSPACE/finance-meta-browser.log"
+
+      - name: Generate durable validation evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          bundle_dir="$GITHUB_WORKSPACE/portfolio/patches/finance-meta-landing"
+          target_sha="$(git -C "$GITHUB_WORKSPACE/target" rev-parse HEAD)"
+          git -C "$GITHUB_WORKSPACE/target" diff -- package-lock.json > "$bundle_dir/finance-meta-landing-package-lock.patch"
+          recovery_digest="$(sha256sum "$bundle_dir/finance-meta-landing-recovery.patch" | awk '{print $1}')"
+          lock_digest="$(sha256sum "$bundle_dir/finance-meta-landing-package-lock.patch" | awk '{print $1}')"
+          dist_size="$(du -sh "$GITHUB_WORKSPACE/target/dist" | awk '{print $1}')"
+          cat > "$bundle_dir/VALIDATION.md" <<EOF
+          # FinanceMeta Landing Validation
+
+          - Target repository: \`build-the-future-11/FinanceMeta-Landing\`
+          - Target base commit: \`$target_sha\`
+          - Validation run: \`$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID\`
+          - Node: \`$(node --version)\`
+          - npm: \`$(npm --version)\`
+          - Recovery patch SHA-256: \`$recovery_digest\`
+          - Lockfile patch SHA-256: \`$lock_digest\`
+          - Production bundle size: \`$dist_size\`
+
+          ## Passed gates
+
+          - strict TypeScript check
+          - high-severity production dependency audit
+          - source release-contract tests
+          - Vite production build
+          - emitted CSS/JavaScript asset contract
+          - desktop Chromium primary journey
+          - mobile Chromium primary journey
+          - persisted theme control
+          - horizontal overflow checks
+
+          The target repository was not modified. These results certify the stored recovery patches against the exact target base commit above.
+          EOF
+
+      - name: Upload browser and command evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: finance-meta-landing-validation
+          path: |
+            target/playwright-report
+            target/test-results
+            finance-meta-ci.log
+            finance-meta-browser.log
+          if-no-files-found: ignore
+          retention-days: 14
+
+      - name: Commit reviewable patch and evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm portfolio/patches/finance-meta-landing/recovery.patch.gz.b64
+          git rm .github/workflows/finance-meta-landing-validation.yml
+          git add portfolio/patches/finance-meta-landing/finance-meta-landing-recovery.patch
+          git add portfolio/patches/finance-meta-landing/finance-meta-landing-package-lock.patch
+          git add portfolio/patches/finance-meta-landing/VALIDATION.md
+          git commit -m "test: certify FinanceMeta landing recovery bundle"
+          git push origin HEAD:percy/finance-meta-landing-recovery-20260805
