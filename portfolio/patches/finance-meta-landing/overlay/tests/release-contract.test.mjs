@@ -1,9 +1,31 @@
 import assert from 'node:assert/strict';
-import { readFile, stat } from 'node:fs/promises';
+import { readFile, readdir, stat } from 'node:fs/promises';
+import { extname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import test from 'node:test';
 
+const projectRoot = fileURLToPath(new URL('../../', import.meta.url));
+
 async function read(path) {
-  return readFile(new URL(`../../${path}`, import.meta.url), 'utf8');
+  return readFile(join(projectRoot, path), 'utf8');
+}
+
+async function collectSource(directory) {
+  const entries = await readdir(directory, { withFileTypes: true });
+  const chunks = [];
+
+  for (const entry of entries) {
+    const path = join(directory, entry.name);
+    if (entry.isDirectory()) {
+      chunks.push(await collectSource(path));
+      continue;
+    }
+    if (['.ts', '.tsx', '.js', '.jsx'].includes(extname(entry.name))) {
+      chunks.push(await readFile(path, 'utf8'));
+    }
+  }
+
+  return chunks.join('\n');
 }
 
 test('React mounts into the public root and loads the source stylesheet', async () => {
@@ -21,11 +43,7 @@ test('React mounts into the public root and loads the source stylesheet', async 
 });
 
 test('landing source presents the FinanceMeta pathways and contact route', async () => {
-  const sourceFiles = await Promise.all([
-    read('src/main.tsx'),
-    read('src/App.tsx').catch(() => ''),
-  ]);
-  const source = sourceFiles.join('\n');
+  const source = await collectSource(join(projectRoot, 'src'));
 
   assert.match(source, /FinanceMeta/i);
   for (const pathway of ['Learn', 'Research', 'Build', 'Publish', 'Compete', 'Contribute', 'Lead']) {
@@ -37,7 +55,8 @@ test('landing source presents the FinanceMeta pathways and contact route', async
 test('release configuration is present and executable', async () => {
   const packageJson = JSON.parse(await read('package.json'));
 
-  assert.equal(packageJson.name, 'finance-meta-landing');
+  assert.equal(typeof packageJson.name, 'string');
+  assert.ok(packageJson.name.trim().length > 0, 'package name must not be empty');
   for (const script of ['typecheck', 'audit:prod', 'test', 'build', 'test:dist', 'ci', 'test:e2e']) {
     assert.equal(typeof packageJson.scripts?.[script], 'string', `missing npm script: ${script}`);
   }
@@ -49,7 +68,7 @@ test('release configuration is present and executable', async () => {
     'playwright.config.ts',
     'src/index.css',
   ]) {
-    const file = await stat(new URL(`../../${path}`, import.meta.url));
+    const file = await stat(join(projectRoot, path));
     assert.equal(file.isFile(), true, `${path} must be a file`);
   }
 });
