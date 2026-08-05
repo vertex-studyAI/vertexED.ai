@@ -4,7 +4,7 @@
 
 Issue #84 proves that the live Bu1LD deployment can serve healthy HTTP documents while the React client reports hydration error #418 and public programme copy differs from the selected source commit. The immediate diagnostic gap is deployment identity: production does not expose which immutable commit generated the SSR HTML and client assets.
 
-This recovery patch adds a public, non-secret build identity contract to immutable source commit `daa80c1124b2a6d7d09b7669e04d29e50cffcbbe`.
+This recovery bundle adds a public, non-secret build identity contract to immutable source commit `daa80c1124b2a6d7d09b7669e04d29e50cffcbbe`.
 
 ## Contract
 
@@ -26,28 +26,34 @@ Only 7–40 character hexadecimal Git identifiers are accepted. The normalized v
 
 Because SSR and client output use the same compile-time constant, mismatched HTML and assets become directly observable. A cache or deployment skew can be diagnosed by comparing the root HTML marker with `/build.json` and the intended deployment commit.
 
+## Deterministic application
+
+`apply-build-identity.mjs` is the source-of-truth transformer. It validates unique, immutable source anchors before changing any file. If the target commit drifts or an expected anchor is missing or duplicated, the transformer exits instead of making a partial edit.
+
+After transformation, the validation workflow generates a standard binary-safe Git patch and verifies that it can reverse-apply cleanly. That generated patch is retained with the run evidence; it is not hand-maintained in the repository.
+
 ## Certification
 
 The validation workflow:
 
 1. checks out the immutable Bu1LD source;
-2. applies the reviewable patch with `git apply --check`;
+2. runs the deterministic transformer and checks the resulting Git diff;
 3. installs the frozen Bun lockfile;
 4. runs the repository's complete non-secret `release:check` with a synthetic commit and public CI configuration;
 5. verifies the emitted JSON, server bundle, and client bundle use the same commit;
 6. starts the production preview and verifies the HTML and `/build.json` identity;
-7. retains command and response evidence for 14 days.
+7. generates and validates the reviewable target patch;
+8. retains command, response, patch, and checksum evidence for 14 days.
 
 ## Publication boundary
 
-The patch is not applied to `ryangomez010/bu1ld-landing` because the GitHub integration still cannot create a target branch. It does not redeploy Cloudflare or claim the hydration defect is fixed.
+The recovery is not applied to `ryangomez010/bu1ld-landing` because the GitHub integration still cannot create a target branch. It does not redeploy Cloudflare or claim the hydration defect is fixed.
 
 After target access is restored:
 
 ```bash
 git checkout -b fix/build-identity
-
-git apply /path/to/build-identity.patch
+node /path/to/apply-build-identity.mjs .
 BU1LD_BUILD_COMMIT="$(git rev-parse HEAD)" bun run release:check
 BU1LD_BUILD_COMMIT="$(git rev-parse HEAD)" bun run deploy:cf
 ```
