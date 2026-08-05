@@ -1,0 +1,83 @@
+name: Production Monitor
+
+on:
+  schedule:
+    - cron: '17 * * * *'
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - '.github/workflows/production-monitor.yml'
+      - 'scripts/smoke-deploy.mjs'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: production-monitor
+  cancel-in-progress: true
+
+jobs:
+  smoke:
+    name: Public production smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    env:
+      SMOKE_BASE_URL: https://www.vertexed.app
+      SMOKE_TIMEOUT_MS: '20000'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+
+      - name: Run production smoke checks
+        shell: bash
+        run: |
+          set -euo pipefail
+          {
+            echo "VertexED production monitor"
+            echo "Target: ${SMOKE_BASE_URL}"
+            echo "UTC start: $(date -u +'%Y-%m-%dT%H:%M:%SZ')"
+            echo "Commit: ${GITHUB_SHA}"
+            echo
+            node scripts/smoke-deploy.mjs
+            echo
+            echo "UTC finish: $(date -u +'%Y-%m-%dT%H:%M:%SZ')"
+          } 2>&1 | tee production-smoke.log
+
+      - name: Publish run summary
+        if: always()
+        shell: bash
+        run: |
+          {
+            echo "## VertexED production monitor"
+            echo
+            echo "- Target: \`${SMOKE_BASE_URL}\`"
+            echo "- Commit: \`${GITHUB_SHA}\`"
+            echo "- Trigger: \`${GITHUB_EVENT_NAME}\`"
+            echo "- Run: ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+            echo
+            echo "### Smoke output"
+            echo
+            echo '```text'
+            if [ -f production-smoke.log ]; then
+              cat production-smoke.log
+            else
+              echo "No smoke log was produced."
+            fi
+            echo '```'
+          } >> "${GITHUB_STEP_SUMMARY}"
+
+      - name: Upload production evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: vertexed-production-smoke-${{ github.run_id }}
+          path: production-smoke.log
+          if-no-files-found: warn
+          retention-days: 30
