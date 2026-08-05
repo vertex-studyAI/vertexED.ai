@@ -1,0 +1,79 @@
+name: Bu1LD Public Browser Certification
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '47 3 * * *'
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/bu1ld-public-browser.yml'
+      - 'portfolio/bu1ld/**'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/bu1ld-public-browser.yml'
+      - 'portfolio/bu1ld/**'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: bu1ld-public-browser-${{ github.event_name }}
+  cancel-in-progress: true
+
+jobs:
+  visitor-journey:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Run desktop and mobile Bu1LD visitor certification
+        env:
+          BU1LD_BASE_URL: https://thebu1ld.com
+        run: |
+          set -o pipefail
+          npx playwright test --config=portfolio/bu1ld/playwright.config.ts 2>&1 | tee bu1ld-public-browser.log
+
+      - name: Publish summary
+        if: always()
+        run: |
+          {
+            echo '## Bu1LD public browser certification'
+            echo
+            echo '- Target: https://thebu1ld.com'
+            echo '- Browsers: Desktop Chromium and Pixel 7 Chromium emulation'
+            echo '- Journeys: primary CTAs, programme/auth handoffs, eight public routes, hydration, keyboard skip link, and horizontal overflow'
+            echo '- Safety: read-only; no form submission, account creation, authentication, or production writes'
+            echo '- Boundary: authenticated roles, Supabase, email, export/deletion, and Cloudflare deployment remain outside this workflow'
+            echo '- Evidence: bu1ld-public-browser-${{ github.run_id }}'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload browser evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: bu1ld-public-browser-${{ github.run_id }}
+          path: |
+            bu1ld-public-browser.log
+            playwright-report/bu1ld
+            test-results
+          if-no-files-found: ignore
+          retention-days: 14
