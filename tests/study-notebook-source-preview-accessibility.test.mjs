@@ -17,7 +17,7 @@ test("Study Notebook source preview reuses the shared accessible modal", () => {
   assert.match(notebookSource, /descriptionId="notebook-source-preview-description"/);
   assert.match(notebookSource, /overlayClassName="notebook-modal-backdrop"/);
   assert.match(notebookSource, /className="notebook-modal"/);
-  assert.match(notebookSource, /onClose={() => setPreviewSourceId\(null\)}/);
+  assert.ok(notebookSource.includes("onClose={() => setPreviewSourceId(null)}"));
   assert.doesNotMatch(
     notebookSource,
     /className="notebook-modal-backdrop" role="dialog" aria-modal="true"/,
