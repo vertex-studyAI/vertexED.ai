@@ -39,6 +39,28 @@ test.describe('public launch journey', () => {
     await expect(page.getByRole('button', { name: /create account/i })).toBeVisible();
   });
 
+  test('invalid approval links provide a recovery path back to the waitlist', async ({ page }) => {
+    await page.route('**/api/signup-invite', async (route) => {
+      await route.fulfill({
+        status: 403,
+        contentType: 'application/json',
+        body: JSON.stringify({ error: 'This approval link is invalid, expired, or has already been used.' }),
+      });
+    });
+
+    await page.goto('/signup?invite=expired-token');
+    await expect(page.getByRole('alert')).toContainText(/invalid|expired/i);
+
+    const recoveryButton = page.getByRole('button', { name: /return to waitlist/i });
+    await expect(recoveryButton).toBeVisible();
+    await recoveryButton.click();
+
+    await expect(page).toHaveURL(/\/signup$/);
+    await expect(page.getByRole('heading', { name: /join the waitlist/i })).toBeVisible();
+    await expect(page.getByLabel('Email')).toBeVisible();
+    await expect(page.getByRole('alert')).toHaveCount(0);
+  });
+
   test('admin page does not expose protected content to logged-out visitors', async ({ page }) => {
     await page.goto('/admin/waitlist');
     await expect(page).toHaveURL(/\/login|\/admin\/waitlist/);
