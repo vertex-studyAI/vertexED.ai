@@ -35,7 +35,13 @@ jobs:
         run: |
           set -euo pipefail
           bundle_dir="$GITHUB_WORKSPACE/portfolio/patches/finance-meta-landing"
-          base64 --decode "$bundle_dir/recovery.patch.gz.b64" | gzip --decompress > "$bundle_dir/finance-meta-landing-recovery.patch"
+          shopt -s nullglob
+          parts=("$bundle_dir"/encoded/part-*)
+          if [ "${#parts[@]}" -eq 0 ]; then
+            echo "No encoded recovery parts found" >&2
+            exit 1
+          fi
+          cat "${parts[@]}" | tr -d '\r\n' | base64 --decode | gzip --decompress > "$bundle_dir/finance-meta-landing-recovery.patch"
           git -C "$GITHUB_WORKSPACE/target" apply --check "$bundle_dir/finance-meta-landing-recovery.patch"
           git -C "$GITHUB_WORKSPACE/target" apply "$bundle_dir/finance-meta-landing-recovery.patch"
 
@@ -123,7 +129,7 @@ jobs:
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git rm portfolio/patches/finance-meta-landing/recovery.patch.gz.b64
+          git rm -r portfolio/patches/finance-meta-landing/encoded
           git rm .github/workflows/finance-meta-landing-validation.yml
           git add portfolio/patches/finance-meta-landing/finance-meta-landing-recovery.patch
           git add portfolio/patches/finance-meta-landing/finance-meta-landing-package-lock.patch
