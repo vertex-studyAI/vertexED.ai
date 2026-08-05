@@ -1,3 +1,84 @@
+diff --git a/.github/workflows/ci.yml b/.github/workflows/ci.yml
+new file mode 100644
+index 0000000..3d29aba
+--- /dev/null
++++ b/.github/workflows/ci.yml
+@@ -0,0 +1,26 @@
++name: CI
++
++on:
++  pull_request:
++  push:
++    branches:
++      - main
++
++permissions:
++  contents: read
++
++jobs:
++  build-and-test:
++    runs-on: ubuntu-latest
++    timeout-minutes: 15
++
++    steps:
++      - uses: actions/checkout@v5
++      - uses: actions/setup-node@v6
++        with:
++          node-version: "22"
++          cache: npm
++      - run: npm ci
++      - run: npm run ci
++      - run: npx playwright install --with-deps chromium
++      - run: npm run test:e2e
+diff --git a/e2e/landing.spec.ts b/e2e/landing.spec.ts
+new file mode 100644
+index 0000000..4a47cb9
+--- /dev/null
++++ b/e2e/landing.spec.ts
+@@ -0,0 +1,43 @@
++import { expect, test } from "@playwright/test";
++
++test("visitor can understand the offer and reach the contact action", async ({ page }) => {
++  await page.goto("/");
++
++  await expect(page.getByRole("heading", { level: 1 })).toContainText(
++    "Learn finance. Build proof. Lead what comes next.",
++  );
++  await expect(page.getByRole("heading", { name: "A pathway for every stage of ambition" })).toBeVisible();
++  await expect(page.getByRole("link", { name: "Start a conversation" })).toHaveAttribute(
++    "href",
++    "mailto:financeforalledu@gmail.com",
++  );
++  await expect(page.getByRole("article")).toHaveCount(7);
++});
++
++test("theme preference persists and the page does not overflow horizontally", async ({ page }) => {
++  await page.goto("/");
++
++  const initialTheme = await page.locator("html").getAttribute("data-theme");
++  await page.getByRole("button", { name: /Switch to .* theme/ }).click();
++
++  const changedTheme = await page.locator("html").getAttribute("data-theme");
++  expect(changedTheme).not.toBe(initialTheme);
++
++  await page.reload();
++  await expect(page.locator("html")).toHaveAttribute("data-theme", changedTheme ?? "");
++
++  const overflow = await page.evaluate(
++    () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
++  );
++  expect(overflow).toBeLessThanOrEqual(1);
++});
++
++test("keyboard users can skip directly to the main content", async ({ page }) => {
++  await page.goto("/");
++  await page.keyboard.press("Tab");
++
++  const skipLink = page.getByRole("link", { name: "Skip to main content" });
++  await expect(skipLink).toBeFocused();
++  await skipLink.press("Enter");
++  await expect(page).toHaveURL(/#main-content$/);
++});
 diff --git a/index.html b/index.html
 index eaaac93..7d22869 100644
 --- a/index.html
@@ -79,106 +160,7 @@ index 2ed89bd..60ade05 100644
      "vite": "^8.0.3"
    }
  }
-diff --git a/src/index.css b/src/index.css
-index d5a62f8..0ec3b9d 100644
---- a/src/index.css
-+++ b/src/index.css
-@@ -1,8 +1,486 @@
--@tailwind base;
--@tailwind components;
--@tailwind utilities;
-+:root {
-+  color-scheme: dark;
-+  font-family:
-+    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-+    sans-serif;
-+  --background: #07120e;
-+  --surface: #0d1c16;
-+  --surface-strong: #13271f;
-+  --text: #f3f8f5;
-+  --muted: #a9bcb2;
-+  --line: rgba(205, 236, 221, 0.16);
-+  --accent: #59e39d;
-+  --accent-strong: #21bd75;
-+  --accent-text: #03120b;
-+  --shadow: 0 24px 70px rgba(0, 0, 0, 0.28);
-+}
-+
-+:root[data-theme="light"] {
-+  color-scheme: light;
-+  --background: #f5faf7;
-+  --surface: #ffffff;
-+  --surface-strong: #eaf5ef;
-+  --text: #0b1c14;
-+  --muted: #50645a;
-+  --line: rgba(16, 70, 43, 0.14);
-+  --accent: #087849;
-+  --accent-strong: #05653d;
-+  --accent-text: #ffffff;
-+  --shadow: 0 24px 70px rgba(19, 72, 46, 0.12);
-+}
-+
-+* {
-+  box-sizing: border-box;
-+}
-+
-+html {
-+  scroll-behavior: smooth;
-+}
- 
--/* Optional global styles */
- body {
--  font-family: 'Inter', sans-serif;
-+  margin: 0;
-+  min-width: 320px;
-+  min-height: 100vh;
-+  background:
-+    radial-gradient(circle at 85% 12%, rgba(57, 218, 143, 0.13), transparent 28rem),
-+    radial-gradient(circle at 5% 42%, rgba(63, 176, 122, 0.1), transparent 24rem),
-+    var(--background);
-+  color: var(--text);
-+  transition: background-color 180ms ease, color 180ms ease;
-+}
-+
-+button,
-+a {
-+  font: inherit;
-+}
-+
-+a {
-+  color: inherit;
-+}
-+
-+button:focus-visible,
-+a:focus-visible {
-+  outline: 3px solid var(--accent);
-+  outline-offset: 4px;
-+}
-+
-+.skip-link {
-+  position: fixed;
-+  left: 1rem;
-+  top: 1rem;
-+  z-index: 20;
-+  transform: translateY(-180%);
-+  border-radius: 0.65rem;
-+  background: var(--accent);
-+  color: var(--accent-text);
-+  padding: 0.7rem 1rem;
-+  font-weight: 800;
-+}
-+
-+.skip-link:focus {
-+  transform: translateY(0);
-+}
-+
-+.site-header,
-+main,
-+footer {
-+  width: min(1180px, calc(100% - 2rem));
-+  margin-inline: auto;
-+}
-+
-+.site-header {
-+  min-height: 5.25rem;
-+  display: grid;
+diff --git a/playwright.config.ts b/playwright.config.ts
+new file mode 100644
+index 0000000..f62fdb9
+--- /dev
