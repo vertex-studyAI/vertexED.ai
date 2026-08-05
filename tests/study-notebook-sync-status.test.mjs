@@ -7,12 +7,23 @@ const source = await readFile(
   "utf8",
 );
 
-test("Study Notebook exposes saving and sync state to users", () => {
+test("Study Notebook exposes hydration, saving, and sync state to users", () => {
+  assert.match(source, /const \[notebookHydrated, setNotebookHydrated\] = useState\(false\)/);
   assert.match(source, /const \[notebookSaving, setNotebookSaving\] = useState\(false\)/);
   assert.match(source, /role="status"/);
   assert.match(source, /aria-live="polite"/);
   assert.match(source, /aria-atomic="true"/);
-  assert.match(source, /notebookSaving \? 'Saving…' : notebookCloudSynced \? 'Cloud synced' : 'Saved locally'/);
+  assert.match(source, /\? 'Loading…'/);
+  assert.match(source, /\? 'Saving…'/);
+  assert.match(source, /\? 'Cloud synced'/);
+  assert.match(source, /: 'Saved locally'/);
+});
+
+test("cloud writes wait for the latest snapshot to hydrate", () => {
+  assert.match(source, /setNotebookHydrated\(true\)/);
+  assert.match(source, /if \(!notebookHydrated\) return;/);
+  assert.match(source, /\}, \[notebookHydrated, notebooks\]\);/);
+  assert.match(source, /Loading your latest notebook snapshot before enabling cloud saves\./);
 });
 
 test("notebook save completions cannot overwrite newer sync state", () => {
