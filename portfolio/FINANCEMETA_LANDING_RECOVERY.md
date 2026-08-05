@@ -23,6 +23,22 @@ The recovery patch:
 - adds desktop/mobile Playwright journey checks;
 - adds a canonical GitHub Actions release gate.
 
+## Certification result — 5 August 2026
+
+Validation run `31017264762` checked out target commit `f9265ce6ae94bf01048271ecfcf09d5be7059604`, reconstructed and applied the stored patch, regenerated the lockfile, and passed:
+
+- strict TypeScript;
+- high-severity production dependency audit;
+- source release-contract tests;
+- Vite production build;
+- emitted CSS/JavaScript asset validation;
+- desktop Chromium primary journey;
+- mobile Chromium primary journey;
+- persisted theme behavior;
+- horizontal-overflow checks.
+
+The passing workflow is now responsible for replacing temporary encoded chunks with the reviewable patch, lockfile patch, and durable validation report before this recovery bundle can merge.
+
 ## Publication boundary
 
 Direct branch creation in the target repository returned `403 Resource not accessible by integration`. The connected GitHub App can write to `vertex-studyAI` but is not installed for the personal `build-the-future-11` owner account.
