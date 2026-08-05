@@ -36,14 +36,18 @@ jobs:
           set -euo pipefail
           bundle_dir="$GITHUB_WORKSPACE/portfolio/patches/finance-meta-landing"
           target_dir="$GITHUB_WORKSPACE/target"
-          shopt -s nullglob
-          parts=("$bundle_dir"/encoded/part-*)
-          if [ "${#parts[@]}" -ne 9 ]; then
-            echo "Expected 9 encoded recovery parts, found ${#parts[@]}" >&2
-            exit 1
-          fi
-          cat "${parts[@]}" | tr -d '\r\n' > "$RUNNER_TEMP/finance-meta-recovery.b64"
-          echo "Encoded bundle SHA-256: $(sha256sum "$RUNNER_TEMP/finance-meta-recovery.b64" | awk '{print $1}')"
+          payload_commit="53bf279dccc6c82c01f7deb55c843aadbf94e2fa"
+          payload_path="portfolio/patches/finance-meta-landing/encoded"
+
+          git fetch --no-tags --depth=1 origin "$payload_commit"
+          : > "$RUNNER_TEMP/finance-meta-recovery.b64"
+          for suffix in 000 001 002 003 004 005 006 007 008; do
+            git show "$payload_commit:$payload_path/part-$suffix" >> "$RUNNER_TEMP/finance-meta-recovery.b64"
+          done
+          tr -d '\r\n' < "$RUNNER_TEMP/finance-meta-recovery.b64" > "$RUNNER_TEMP/finance-meta-recovery.compact.b64"
+          mv "$RUNNER_TEMP/finance-meta-recovery.compact.b64" "$RUNNER_TEMP/finance-meta-recovery.b64"
+          echo "943c2aef65331b10309b6a9451b132d73a6e1d06c6561497be22453202c280d2  $RUNNER_TEMP/finance-meta-recovery.b64" | sha256sum --check --strict
+
           base64 --decode "$RUNNER_TEMP/finance-meta-recovery.b64" | gzip --decompress > "$bundle_dir/finance-meta-landing-recovery.patch"
           echo "75057cde383287564770002c046829f1824fb35561b292035d7d4609f078c76c  $bundle_dir/finance-meta-landing-recovery.patch" | sha256sum --check --strict
           git -C "$target_dir" apply --check "$bundle_dir/finance-meta-landing-recovery.patch"
@@ -92,10 +96,10 @@ jobs:
           target_sha="$(git -C "$target_dir" rev-parse HEAD)"
 
           test -f "$target_dir/dist/index.html"
-          git -C "$target_dir" add -N .
-          git -C "$target_dir" diff --binary -- . ':(exclude)package-lock.json' \
+          git -C "$target_dir" add -A
+          git -C "$target_dir" diff --cached --binary -- . ':(exclude)package-lock.json' \
             > "$bundle_dir/finance-meta-landing-recovery.patch"
-          git -C "$target_dir" diff --binary -- package-lock.json \
+          git -C "$target_dir" diff --cached --binary -- package-lock.json \
             > "$bundle_dir/finance-meta-landing-package-lock.patch"
           test -s "$bundle_dir/finance-meta-landing-recovery.patch"
           test -s "$bundle_dir/finance-meta-landing-package-lock.patch"
@@ -149,10 +153,10 @@ jobs:
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git rm -f portfolio/patches/finance-meta-landing/recovery.patch.gz.b64
-          git rm -r portfolio/patches/finance-meta-landing/encoded
-          git rm -r portfolio/patches/finance-meta-landing/overlay
-          git rm .github/workflows/finance-meta-landing-validation.yml
+          git rm -f --ignore-unmatch portfolio/patches/finance-meta-landing/recovery.patch.gz.b64
+          git rm -r -f --ignore-unmatch portfolio/patches/finance-meta-landing/encoded
+          git rm -r -f --ignore-unmatch portfolio/patches/finance-meta-landing/overlay
+          git rm -f --ignore-unmatch .github/workflows/finance-meta-landing-validation.yml
           git add portfolio/patches/finance-meta-landing/finance-meta-landing-recovery.patch
           git add portfolio/patches/finance-meta-landing/finance-meta-landing-package-lock.patch
           git add portfolio/patches/finance-meta-landing/VALIDATION.md
