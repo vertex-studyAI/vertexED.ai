@@ -1,0 +1,85 @@
+name: Trigger Planner Dialog Accessibility
+
+on:
+  pull_request:
+    branches: [main, master]
+    paths:
+      - '.github/workflows/planner-dialog-accessibility.yml'
+      - '.github/workflows/trigger-planner-dialog-accessibility.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: trigger-planner-dialog-accessibility
+  cancel-in-progress: true
+
+jobs:
+  run-reviewed-branch-workflow:
+    if: >-
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      github.head_ref == 'percy/planner-dialog-accessibility-2026-08-05'
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+
+    steps:
+      - name: Checkout isolated branch
+        uses: actions/checkout@v5
+        with:
+          ref: percy/planner-dialog-accessibility-2026-08-05
+          fetch-depth: 1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '22.23.1'
+          package-manager-cache: false
+
+      - name: Execute reviewed validation steps
+        shell: bash
+        run: |
+          set -euo pipefail
+          node <<'NODE'
+          import { execFileSync } from 'node:child_process';
+          import fs from 'node:fs';
+
+          const workflowPath = '.github/workflows/planner-dialog-accessibility.yml';
+          const lines = fs.readFileSync(workflowPath, 'utf8').split('\n');
+          const commands = [];
+
+          for (let index = 0; index < lines.length; index += 1) {
+            const line = lines[index];
+            const match = line.match(/^        run: (.*)$/);
+            if (!match) continue;
+
+            if (match[1] !== '|') {
+              commands.push(match[1]);
+              continue;
+            }
+
+            const block = [];
+            for (index += 1; index < lines.length; index += 1) {
+              const next = lines[index];
+              if (next === '' || next.startsWith('          ')) {
+                block.push(next.startsWith('          ') ? next.slice(10) : '');
+                continue;
+              }
+              index -= 1;
+              break;
+            }
+            commands.push(block.join('\n'));
+          }
+
+          if (commands.length < 6) {
+            throw new Error(`Expected at least six reviewed run steps, found ${commands.length}`);
+          }
+
+          for (const [index, command] of commands.entries()) {
+            console.log(`\n--- executing reviewed step ${index + 1}/${commands.length} ---`);
+            execFileSync('bash', ['-lc', command], {
+              cwd: process.cwd(),
+              env: process.env,
+              stdio: 'inherit',
+            });
+          }
+          NODE
