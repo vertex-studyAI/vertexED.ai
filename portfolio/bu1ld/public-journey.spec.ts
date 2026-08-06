@@ -31,13 +31,18 @@ async function expectHealthyDocument(page: Page) {
 
 async function visit(page: Page, path: string) {
   const pageErrors: string[] = [];
-  page.on('pageerror', (error) => pageErrors.push(error.message));
+  const capturePageError = (error: Error) => pageErrors.push(error.message);
+  page.on('pageerror', capturePageError);
 
-  const response = await page.goto(path, { waitUntil: 'domcontentloaded' });
-  expect(response, `${path} should return a document response`).not.toBeNull();
-  expect(response?.status(), `${path} should return HTTP 200`).toBe(200);
-  await expectHealthyDocument(page);
-  expect(pageErrors, `${path} should not raise uncaught browser errors`).toEqual([]);
+  try {
+    const response = await page.goto(path, { waitUntil: 'domcontentloaded' });
+    expect(response, `${path} should return a document response`).not.toBeNull();
+    expect(response?.status(), `${path} should return HTTP 200`).toBe(200);
+    await expectHealthyDocument(page);
+    expect(pageErrors, `${path} should not raise uncaught browser errors`).toEqual([]);
+  } finally {
+    page.off('pageerror', capturePageError);
+  }
 }
 
 test('visitor can understand the offer and reach the two primary public journeys', async ({ page }) => {
@@ -65,7 +70,13 @@ test('visitor can understand the offer and reach the two primary public journeys
 test('public programme and authentication handoffs expose complete controls', async ({ page }) => {
   await visit(page, '/programs-public');
   await expect(page.getByRole('heading', { level: 1 })).toContainText(/Paths into the institution/i);
-  await expect(page.getByRole('link', { name: /Create account to apply/i }).first()).toBeVisible();
+
+  const programmeApplications = page.getByRole('link', { name: /^Apply →?$/i });
+  await expect(programmeApplications).toHaveCount(4);
+  for (const applicationLink of await programmeApplications.all()) {
+    await expect(applicationLink).toHaveAttribute('href', /^\/apply\?program=[a-z0-9-]+$/);
+  }
+
   await expect(page.getByRole('link', { name: /^Log in$/i }).first()).toBeVisible();
 
   await visit(page, '/signup');
