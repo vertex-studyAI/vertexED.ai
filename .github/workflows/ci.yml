@@ -161,6 +161,7 @@ jobs:
       - name: Wait for production deployment and run smoke tests
         env:
           SMOKE_BASE_URL: https://www.vertexed.app
+          EXPECTED_VERTEXED_REVISION: ${{ github.sha }}
         run: |
           set -euo pipefail
           max_attempts=8
