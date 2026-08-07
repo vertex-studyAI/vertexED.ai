@@ -1,11 +1,18 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import fs from 'node:fs';
 
 import {
   bucketPlannerTaskCount,
   buildPlannerRetrieveAnalyticsProperties,
   buildPlannerSaveAnalyticsProperties,
 } from '../src/lib/plannerPersistenceAnalytics.mjs';
+import {
+  normalizePlannerStorageScope,
+  plannerStorageKeys,
+} from '../src/lib/plannerStorageScope.mjs';
+
+const plannerSyncSource = fs.readFileSync('src/lib/plannerSync.ts', 'utf8');
 
 test('planner snapshot merge prefers newest updatedAt', () => {
   const local = {
@@ -25,6 +32,32 @@ test('planner snapshot merge prefers newest updatedAt', () => {
 
   assert.equal(snapshot.tasks[0].id, 'cloud');
   assert.equal(snapshot.mode, 'Week');
+});
+
+test('planner device storage keys are isolated per authenticated account', () => {
+  const first = plannerStorageKeys('11111111-1111-4111-8111-111111111111');
+  const second = plannerStorageKeys('22222222-2222-4222-8222-222222222222');
+
+  assert.notEqual(first.tasks, second.tasks);
+  assert.notEqual(first.mode, second.mode);
+  assert.notEqual(first.updatedAt, second.updatedAt);
+  assert.match(first.tasks, /^vertex_planner:/);
+  assert.match(second.tasks, /^vertex_planner:/);
+});
+
+test('planner storage scope safely handles anonymous and unusual values', () => {
+  assert.equal(normalizePlannerStorageScope(null), 'anonymous');
+  assert.equal(normalizePlannerStorageScope('  '), 'anonymous');
+  assert.equal(normalizePlannerStorageScope('user/name@example.com'), 'user%2Fname%40example.com');
+});
+
+test('planner sync derives account scope before reading or writing device state', () => {
+  assert.match(plannerSyncSource, /supabase\.auth\.getSession\(\)/);
+  assert.match(plannerSyncSource, /const resolvedScope = await resolveStorageScope\(storageScope\)/);
+  assert.match(plannerSyncSource, /readLocalSnapshot\(resolvedScope\)/);
+  assert.match(plannerSyncSource, /writeLocalPlannerSnapshot\(snapshot, resolvedScope\)/);
+  assert.doesNotMatch(plannerSyncSource, /const LOCAL_TASKS_KEY = 'planner_tasks'/);
+  assert.doesNotMatch(plannerSyncSource, /localStorage\.getItem\('planner_tasks'\)/);
 });
 
 test('user-content allows planner kind in registry', async () => {
