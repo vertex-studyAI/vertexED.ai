@@ -14,6 +14,10 @@ function requireText(text, needle, label) {
   if (!text.includes(needle)) throw new Error(`${label}: missing ${needle}`);
 }
 
+function requirePattern(text, pattern, label) {
+  if (!pattern.test(text)) throw new Error(`${label}: missing pattern ${pattern}`);
+}
+
 function rejectText(text, needle, label) {
   if (text.includes(needle)) throw new Error(`${label}: forbidden ${needle}`);
 }
@@ -28,7 +32,7 @@ requireText(
 );
 
 const envExample = await read(".env.example");
-requireText(envExample, "complete chain through phase33", ".env.example");
+requirePattern(envExample, /complete chain through phase(?:3[3-9]|[4-9]\d)/, ".env.example");
 requireText(envExample, "SUPABASE_DB_URL=postgresql://", ".env.example");
 
 const deploy = await read(".github/workflows/deploy-cloudflare.yml");
@@ -46,8 +50,8 @@ for (const required of [
 rejectText(deploy, "run: bun run build\n      - name: Deploy Worker", "deploy workflow");
 
 const deployment = await read("DEPLOYMENT.md");
+requirePattern(deployment, /phase(?:3[3-9]|[4-9]\d)\.sql/, "DEPLOYMENT.md migration chain");
 for (const required of [
-  "phase33.sql",
   "bun run supabase:rls",
   "BU1LD_RELEASE_STRICT=1 bun run release:check",
   "https://thebu1ld.com/build.json",
