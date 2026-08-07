@@ -1,6 +1,8 @@
 import React, { useMemo, useState } from "react";
+import { useAuth } from "@/contexts/AuthContext";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { recordStudySession } from "@/lib/studyStats";
+import { userContentStorageKeys } from "@/lib/userContentStorageScope.mjs";
 
 interface ActivityLogEntry {
 	id: string;
@@ -13,7 +15,9 @@ interface ActivityLogProps {
 }
 
 const ActivityLog: React.FC<ActivityLogProps> = ({ accent }) => {
-	const [entries, setEntries] = useLocalStorage<ActivityLogEntry[]>("studyzone_activity", []);
+	const { user, loading: authLoading } = useAuth();
+	const activityKey = userContentStorageKeys(authLoading ? undefined : user?.id ?? null).activity;
+	const [entries, setEntries] = useLocalStorage<ActivityLogEntry[]>(activityKey, []);
 	const [draft, setDraft] = useState("");
 
 	const addEntry = () => {

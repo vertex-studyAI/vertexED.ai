@@ -1,8 +1,10 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { scrollAreaStyle } from "../styles";
+import { useAuth } from "@/contexts/AuthContext";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { recordStudySession } from "@/lib/studyStats";
 import { sanitizeHtml } from "@/lib/sanitize";
+import { userContentStorageKeys } from "@/lib/userContentStorageScope.mjs";
 
 type FormatCommand = "bold" | "italic" | "underline";
 
@@ -25,11 +27,20 @@ const createNoteId = () =>
 		: `${Date.now()}-${Math.random().toString(16).slice(2)}`;
 
 const NoteTaker: React.FC<NoteTakerProps> = () => {
-	const [notes, setNotes] = useLocalStorage<Note[]>("studyzone_notes", []);
+	const { user, loading: authLoading } = useAuth();
+	const notesKey = userContentStorageKeys(authLoading ? undefined : user?.id ?? null).quickNotes;
+	const [notes, setNotes] = useLocalStorage<Note[]>(notesKey, []);
 	const [activeId, setActiveId] = useState<string | null>(null);
 	const [title, setTitle] = useState("");
 	const [content, setContent] = useState("");
 	const editorRef = useRef<HTMLDivElement | null>(null);
+
+	useEffect(() => {
+		setActiveId(null);
+		setTitle("");
+		setContent("");
+		if (editorRef.current) editorRef.current.innerHTML = "";
+	}, [notesKey]);
 
 	useEffect(() => {
 		if (editorRef.current && editorRef.current.innerHTML !== content) {
