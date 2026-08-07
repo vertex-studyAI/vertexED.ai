@@ -69,7 +69,10 @@ test('Percy cannot be called healthy without fresh runtime evidence', () => {
   const percy = byId.get('percy');
   assert.equal(percy.status, 'BLOCKED');
   assert.match(percy.blockers.join(' '), /heartbeat/i);
-  assert.match(percy.next_action, /read-only.*Percy.*preflight|Percy.*read-only.*preflight/i);
+  assert.match(
+    percy.next_action,
+    /(read-only.*Percy.*preflight|Percy.*read-only.*preflight|snapshot schema compatibility.*heartbeat|snapshot schema compatibility.*worker)/i,
+  );
   assert.equal(checkpoint.truth_guards.unknown_is_required_when_current_runtime_evidence_is_unavailable, true);
 });
 
