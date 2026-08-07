@@ -8,6 +8,8 @@ export type NotebookSnapshot = {
   updatedAt: string;
 };
 
+let hydratedStorageScope: string | null | undefined;
+
 async function resolveStorageScope(explicitScope?: string | null): Promise<string | null> {
   if (typeof explicitScope === 'string' && explicitScope.trim()) return explicitScope;
   if (!supabase) return null;
@@ -66,42 +68,53 @@ export async function loadNotebookSnapshot(storageScope?: string | null): Promis
   cloudSynced: boolean;
   error?: string;
 }> {
+  // Invalidate write ownership synchronously before any account/session lookup or network work.
+  hydratedStorageScope = undefined;
   const resolvedScope = await resolveStorageScope(storageScope);
   setNotebookStorageScope(resolvedScope);
   const local = readLocalSnapshot(resolvedScope);
+
+  const finish = (result: {
+    snapshot: NotebookSnapshot;
+    cloudSynced: boolean;
+    error?: string;
+  }) => {
+    hydratedStorageScope = resolvedScope;
+    return result;
+  };
 
   try {
     const res = await authFetch('/api/user-content?kind=notebook&limit=1');
     const data = await res.json().catch(() => null);
     if (!res.ok) {
-      return {
+      return finish({
         snapshot: local,
         cloudSynced: false,
         error: data?.error || 'Notebooks saved on this device only',
-      };
+      });
     }
 
     const item = Array.isArray(data?.items) ? data.items[0] : null;
     if (!item) {
-      return { snapshot: local, cloudSynced: true };
+      return finish({ snapshot: local, cloudSynced: true });
     }
 
     const cloud = parseCloudSnapshot(item);
     if (!cloud) {
-      return { snapshot: local, cloudSynced: true };
+      return finish({ snapshot: local, cloudSynced: true });
     }
 
     const localTime = new Date(local.updatedAt).getTime();
     const cloudTime = new Date(cloud.updatedAt).getTime();
     const snapshot = cloudTime >= localTime ? cloud : local;
     writeLocalNotebookSnapshot(snapshot, resolvedScope);
-    return { snapshot, cloudSynced: true };
+    return finish({ snapshot, cloudSynced: true });
   } catch (err) {
-    return {
+    return finish({
       snapshot: local,
       cloudSynced: false,
       error: err instanceof Error ? err.message : 'Notebooks saved on this device only',
-    };
+    });
   }
 }
 
@@ -111,6 +124,15 @@ export async function saveNotebookSnapshot(
 ): Promise<{ ok: boolean; cloudSynced: boolean; error?: string }> {
   const resolvedScope = await resolveStorageScope(storageScope);
   setNotebookStorageScope(resolvedScope);
+
+  if (hydratedStorageScope === undefined || hydratedStorageScope !== resolvedScope) {
+    return {
+      ok: false,
+      cloudSynced: false,
+      error: 'Waiting for the current account notebook snapshot to finish loading',
+    };
+  }
+
   writeLocalNotebookSnapshot(snapshot, resolvedScope);
 
   try {
