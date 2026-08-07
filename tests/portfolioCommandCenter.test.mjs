@@ -2,14 +2,20 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 
-const checkpointUrl = new URL('../portfolio/checkpoints/2026-08-07-command.json', import.meta.url);
+const checkpointsDir = new URL('../portfolio/checkpoints/', import.meta.url);
+const currentPointer = (await readFile(new URL('CURRENT', checkpointsDir), 'utf8')).trim();
+const checkpointUrl = new URL(currentPointer, checkpointsDir);
 const checkpoint = JSON.parse(await readFile(checkpointUrl, 'utf8'));
 const byId = new Map(checkpoint.finish_lines.map((item) => [item.id, item]));
 
 const allowedStatuses = new Set(['DONE', 'PARTIAL', 'BLOCKED', 'INVALID', 'UNKNOWN']);
 
-test('command checkpoint covers every portfolio finish line with controlled statuses', () => {
+test('CURRENT resolves exactly one canonical command checkpoint', () => {
+  assert.equal(currentPointer, '2026-08-07-command.json');
   assert.equal(checkpoint.as_of, '2026-08-07T18:54:00+05:30');
+});
+
+test('command checkpoint covers every portfolio finish line with controlled statuses', () => {
   assert.deepEqual(
     new Set(checkpoint.finish_lines.map((item) => item.id)),
     new Set(['percy', 'project2424', 'vertexed', 'financemeta', 'the-bu1ld']),
