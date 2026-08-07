@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "as_of": "2026-08-07T22:42:00+05:30",
+  "as_of": "2026-08-07T22:48:00+05:30",
   "control_repository": "vertex-studyAI/vertexED.ai",
   "control_commit": "1ff988673cebe60d8448e55f9baecd718633e124",
   "status_enum": ["DONE", "PARTIAL", "BLOCKED", "INVALID", "UNKNOWN"],
@@ -15,7 +15,11 @@
         "Issue #95 records existing-state snapshot failure sqlite3.OperationalError: no such column: title.",
         "No fresh connected runtime evidence proves coordinator or worker process liveness, heartbeats or leases."
       ],
-      "blockers": ["Existing-state snapshot/schema compatibility", "Process plus heartbeat/lease liveness proof", "Successful non-secret runtime preflight"],
+      "blockers": [
+        "Existing-state snapshot/schema compatibility",
+        "Process plus heartbeat/lease worker-liveness proof",
+        "Successful non-secret runtime preflight"
+      ],
       "next_action": "Lane 04 owns #95 only: preserve history, repair backward-compatible snapshot/schema handling against the existing DB, prove worker state from process plus heartbeat/lease evidence and emit one non-secret snapshot.",
       "percy_lane": "04"
     },
@@ -39,10 +43,17 @@
       "evidence": [
         "All 2,424 Project IDs remain in scope by portfolio contract.",
         "Real canonical Project 2424 restoration from the PRO-BLADE source is not available in connected evidence.",
+        "Independent reproduction remains unverified because the real canonical source and smallest baseline have not yet been restored and reproduced.",
         "Synthetic recovery-package CI is not evidence that the real canonical project was restored."
       ],
-      "blockers": ["Canonical source restoration", "History/dirty-state preservation", "Fresh baseline reproduction", "Authoritative milestone counts"],
-      "next_action": "Lane 05 owns #20 only: restore the real canonical source without destructive cleanup, rerun the smallest baseline, reconcile historical claims and publish authoritative milestone counts.",
+      "blockers": [
+        "Canonical source restoration",
+        "History/dirty-state preservation",
+        "Fresh baseline reproduction",
+        "Independent reproduction",
+        "Authoritative milestone counts"
+      ],
+      "next_action": "Lane 05 owns #20 only: restore the real canonical source without destructive cleanup, rerun the smallest baseline, reconcile historical claims and publish authoritative milestone counts before independent reproduction.",
       "percy_lane": "05"
     },
     {
@@ -54,40 +65,55 @@
       "real_user_journey_verified": false,
       "deployed_sha_verified": false,
       "evidence": [
-        "Current source lineage has passing lint, typecheck, serverless validation, production-only dependency audit, 206 tests, 20 evaluation tests and production build.",
+        "Current source lineage has passing lint, typecheck, serverless validation, production dependency audit at the high-severity gate, 206 tests, 20 evaluation tests and production build.",
+        "The latest control CI still reports one moderate production DOMPurify advisory; this does not cross the configured high-severity release threshold and is not being called zero-vulnerability.",
         "Fresh production browser certification against https://www.vertexed.app passed 52/52 public/API/mobile/desktop checks.",
         "Source account isolation, adaptive-state isolation, password recovery and account-deletion hardening are merged."
       ],
-      "blockers": ["Exact canonical production SHA not certified", "Authenticated disposable-user golden journey #13 incomplete", "Owner-controlled Supabase/security settings outside source-only certification"],
-      "next_action": "Lane 01 stops feature work: resolve #44 exact production identity, then execute #13 signup/auth/core saved artifact/fresh-session return/recovery/logout-denial/cleanup against that same deployed SHA.",
+      "blockers": [
+        "Exact canonical production SHA not certified",
+        "Authenticated disposable-user production golden journey #13 incomplete",
+        "Owner-controlled Supabase/security settings outside source-only certification"
+      ],
+      "next_action": "Lane 01 stops feature work: resolve #44 exact production identity, then execute #13 authenticated production signup/core saved artifact/fresh-session return/recovery/logout-denial/cleanup against that same deployed SHA.",
       "percy_lane": "01"
     },
     {
       "id": "financemeta",
       "name": "FinanceMeta",
       "status": "BLOCKED",
-      "classification": "CERTIFIED_UNAPPLIED",
+      "classification": "LOCAL_ONLY",
       "real_user_journey_verified": false,
       "evidence": [
-        "Control commit c161e3ab8013c1b39e5274e37b23ebdac6f44e02 preserves the integrated certified release overlay for exact target fbdd503223edc5b1780509720391083f485a4a85.",
-        "Repository metadata advertises push/admin, but an actual branch-creation probe from exact current main returned 403 Resource not accessible by integration; no target mutation occurred."
+        "Control commit c161e3ab8013c1b39e5274e37b23ebdac6f44e02 preserves the integrated locally certified authorization/release overlay for exact target fbdd503223edc5b1780509720391083f485a4a85.",
+        "Repository metadata advertises push/admin, but an actual isolated branch-creation probe from exact current main returned 403 Resource not accessible by integration; no target mutation occurred."
       ],
-      "blockers": ["Effective GitHub App ref/write permission on canonical target", "Production Supabase access", "Live normal-member role-escalation denial and persisted return journey"],
-      "next_action": "Lane 02 does not regenerate overlays. Once effective target/Supabase access exists, apply the single certified overlay to an isolated exact-target branch, rerun release gates and independently prove self-escalation denial and member return persistence.",
+      "blockers": [
+        "Effective GitHub App ref/write permission on canonical target",
+        "Production Supabase access",
+        "Live normal-member privilege/role-escalation denial",
+        "Persisted member return journey"
+      ],
+      "next_action": "Lane 02 does not regenerate overlays. Once effective target/Supabase access exists, apply the single locally certified overlay to an isolated exact-target branch, rerun release gates and independently prove authorization hardening, self-escalation denial and member return persistence.",
       "percy_lane": "02"
     },
     {
       "id": "the-bu1ld",
       "name": "The Bu1LD",
       "status": "BLOCKED",
-      "classification": "STAGING_READY_CERTIFIED_UNAPPLIED",
+      "classification": "STAGING_READY",
       "real_user_journey_verified": false,
       "evidence": [
-        "Control commit f91e5255e6f040ba3963003de3afcf6651235111 preserves a consolidated certified launch artifact for exact target daa80c1124b2a6d7d09b7669e04d29e50cffcbbe.",
-        "Repository metadata advertises push, but an actual branch-creation probe from exact current main returned 403 Resource not accessible by integration; no target mutation occurred."
+        "Control commit f91e5255e6f040ba3963003de3afcf6651235111 preserves a consolidated staging-ready launch artifact for exact immutable target daa80c1124b2a6d7d09b7669e04d29e50cffcbbe.",
+        "Repository metadata advertises push, but an actual isolated branch-creation probe from exact current main returned 403 Resource not accessible by integration; no target mutation occurred."
       ],
-      "blockers": ["Effective GitHub App ref/write permission on canonical target", "Bu1LD Supabase/Cloudflare access", "Production source/deployment identity and hydration integrity", "Member/lead/reviewer/admin and removed-member journey certification"],
-      "next_action": "Lane 03 applies the single consolidated artifact only after effective target access is restored, then closes deployment/hydration integrity #84 and role journeys #16 before adding programs.",
+      "blockers": [
+        "Effective GitHub App ref/write permission on canonical target",
+        "Bu1LD Supabase/Cloudflare access",
+        "Production source/deployment identity and hydration integrity",
+        "Member/lead/reviewer/admin and removed-member reviewed-contribution journey certification"
+      ],
+      "next_action": "Lane 03 applies the single staging-ready artifact only after effective target access is restored, then closes deployment/hydration integrity #84 and reviewed contribution/role journeys #16 before adding programs.",
       "percy_lane": "03"
     }
   ],
@@ -104,19 +130,26 @@
         "Control #126 independently reproduces the exact five-seed validation artifact: full 0.2549152542, no-planner 0.2501694915, no-target 0.2616949153, negative control 0.2630508475; all five full seeds collapse to one answer class.",
         "Control #127 independently audits the real 96-token adapter across all 1,117 eligible train and 295 eligible validation rows; limited answer truncation exists but cannot explain systemic collapse.",
         "LAM-JEPA #41 merged as 26229f0464254e582d5baac3ab1ac71e54e2b52b: matched supervised baseline reaches 1.0/1.0 on a 32-row balanced train-only overfit falsifier while LAM CE-only and full objective remain 0.25/0.25.",
-        "LAM-JEPA #42 merged as e7994623afcddfc982e16846f4c55542687ea37b after three green exact-head workflows. Quantizer-enabled canonical and quantizer-only remain 0.25/0.25; disabling quantization while retaining memory+planner reaches 0.96875/0.96875; direct latent reaches 1.0/0.9375.",
-        "The predeclared #42 classifier remains conservative because direct-latent seed 2 misses the 0.95 threshold by one example; no post-hoc relabeling was performed.",
-        "Issue #38 keeps validation/test locked and routes the next train-only gate to quantizer EMA/codebook state diagnosis. PR #43 is the active no-model-change EMA initialization falsifier."
+        "LAM-JEPA #42 merged as e7994623afcddfc982e16846f4c55542687ea37b: quantizer-enabled canonical and quantizer-only remain 0.25/0.25; disabling quantization while retaining memory+planner reaches 0.96875/0.96875; direct latent reaches 1.0/0.9375.",
+        "LAM-JEPA #43 merged as fc48cbf5653be277283ffecf7be9190fb250068e: zero EMA counts cause first-forward codebook norms around 690k-715k, while unit pseudocounts keep norms around 7, but stable EMA initialization alone reaches only 0.47-0.72 and does not restore the 0.95 two-seed gate.",
+        "The retained #43 trajectories show stable-count conditions still collapse code assignment support to one code immediately after early updates, preserving a second quantizer/update-policy failure.",
+        "PR #44 is the active train-only update-policy falsifier separating mutable EMA codebooks from static quantization; validation and confirmatory ARC test remain locked."
       ],
-      "blockers": ["Canonical quantizer cannot yet overfit the frozen train-only falsifier", "EMA/codebook failure mechanism not yet fully proven", "Validation/test remain locked until trainability repair is independently verified"],
-      "next_action": "Lane 07 completes #43 train-only EMA-state falsifier. If coherent EMA initialization is sufficient, apply one minimal quantizer initializer repair and require canonical >0.95 on both seeds before validation. Lane 08 independently certifies the repair before any validation/test claim."
+      "blockers": [
+        "Canonical quantizer cannot yet overfit the frozen train-only falsifier",
+        "EMA update-policy versus static quantization causal boundary is still under active falsification",
+        "Validation/test remain locked until a trainability repair is independently verified"
+      ],
+      "next_action": "Lane 07 completes LAM-JEPA #44 train-only update-policy falsifier. Any subsequent primary repair must remain minimal and must restore canonical quantized accuracy above 0.95 on both frozen seeds before validation. Lane 08 independently reproduces that repair before any validation/test claim."
     },
     {
       "id": "hercules",
       "name": "Hercules",
       "status": "BLOCKED",
       "classification": "CANONICAL_SOURCE_UNVERIFIED",
-      "evidence": ["Connected repository search found no canonical Hercules repository; available hits are control-plane roadmap/checkpoint references only."],
+      "evidence": [
+        "Connected repository search found no canonical Hercules repository; available hits are control-plane roadmap/checkpoint references only."
+      ],
       "blockers": ["Canonical source identity", "One bounded capability/baseline gate", "Independent reproduction"],
       "next_action": "Do not instantiate a roadmap name. Locate existing canonical source or record none before any model implementation."
     },
@@ -144,20 +177,21 @@
     {"id": "P0-PERCY-SNAPSHOT-LIVENESS", "project": "Percy", "owner_lane": "04", "acceptance": "Existing and fresh Percy DBs snapshot without history loss and worker state is proven from process plus heartbeat/lease evidence."},
     {"id": "P0-VERTEXED-PRODUCTION-REVISION", "project": "VertexED", "owner_lane": "01", "acceptance": "One canonical Vercel project serves an exact verified current-main SHA and authenticated browser journey evidence passes against that revision."},
     {"id": "P0-FINANCEMETA-TARGET-WRITE", "project": "FinanceMeta", "owner_lane": "02", "acceptance": "A real isolated target ref can be created and the already-certified overlay can be applied without 403, followed by live Supabase authorization QA."},
-    {"id": "P0-BU1LD-TARGET-WRITE", "project": "The Bu1LD", "owner_lane": "03", "acceptance": "A real isolated target ref can be created and the certified artifact can be applied without 403, followed by deployment/hydration and role QA."},
-    {"id": "P0-P2424-CANONICAL-RESTORE", "project": "Project 2424", "owner_lane": "05", "acceptance": "Real canonical source is restored without destructive reset, smallest baseline reproduces and authoritative milestone counts are emitted."},
+    {"id": "P0-BU1LD-TARGET-WRITE", "project": "The Bu1LD", "owner_lane": "03", "acceptance": "A real isolated target ref can be created and the staging-ready artifact can be applied without 403, followed by deployment/hydration and role QA."},
+    {"id": "P0-P2424-CANONICAL-RESTORE", "project": "Project 2424", "owner_lane": "05", "acceptance": "Real canonical source is restored without destructive reset, smallest baseline reproduces and authoritative milestone counts are emitted before independent reproduction."},
     {"id": "P0-LAM-QUANTIZER-TRAINABILITY", "project": "LAM-JEPA", "owner_lane": "07", "acceptance": "Canonical quantized model exceeds 0.95 train accuracy on both frozen overfit seeds after a minimal diagnosed repair, before validation is reopened."}
   ],
   "top_actions": [
     "Lane 04 close Percy #95 snapshot/schema compatibility and prove actual worker liveness before trusting swarm execution state.",
     "Lane 01 resolve VertexED #44 exact canonical production identity, then #13 authenticated disposable-user golden journey; no feature work.",
-    "Lane 02 wait for effective target ref permission, then apply the existing FinanceMeta overlay exactly once and run live authorization QA; do not regenerate it.",
-    "Lane 03 wait for effective target ref permission, then apply the existing Bu1LD artifact exactly once and close #84/#16; do not regenerate it.",
-    "Lane 05 restore real Project 2424 under #20 and publish authoritative milestone counts.",
-    "Lane 07 finish LAM-JEPA #43 EMA-state falsifier and only then test a minimal train-only quantizer repair.",
+    "Lane 02 FinanceMeta: restore effective target ref permission, apply the existing authorization/role-hardening overlay exactly once, then run live privilege-escalation denial QA.",
+    "Lane 03 Bu1LD: restore effective target ref permission, apply the staging-ready immutable artifact exactly once, then close deployment/hydration #84 and role journey #16.",
+    "Lane 05 restore real Project 2424 under #20, rerun the smallest baseline and publish authoritative milestone counts before independent reproduction.",
+    "Lane 07 finish LAM-JEPA #44 update-policy falsifier; keep validation/test locked and do not broaden architecture work.",
     "Lane 06 keeps Hercules blocked until a real canonical source is found; no roadmap-name implementation.",
-    "Lane 08 independently reproduces immutable completion claims and rejects smoke/source/live/scientific overclaim.",
-    "Coordinator keeps CURRENT synchronized and treats effective write probes as stronger evidence than repository permission metadata."
+    "Lane 08 independently reproduces the next immutable primary-lane quantizer repair package and must not own its implementation.",
+    "Coordinator keeps CURRENT synchronized and treats effective write probes as stronger evidence than repository permission metadata.",
+    "Business/outreach/funding remain evidence-only: count nothing as sent, submitted or partnered without connected proof."
   ],
   "coordinator": {
     "lane": "00",
@@ -167,14 +201,70 @@
     "truth_boundary": "This checkpoint records command allocation; it does not prove a live Percy coordinator process."
   },
   "agents": [
-    {"lane": "01", "role": "VertexED", "current_status": "IDLE", "allocation": "#44 exact production identity, then #13 authenticated golden journey; no feature work."},
-    {"lane": "02", "role": "FinanceMeta", "current_status": "BLOCKED", "allocation": "Target branch creation currently returns 403; apply existing certified overlay when effective ref permission is restored."},
-    {"lane": "03", "role": "The Bu1LD", "current_status": "BLOCKED", "allocation": "Target branch creation currently returns 403; apply existing consolidated artifact when effective ref permission is restored."},
-    {"lane": "04", "role": "Percy Core", "current_status": "IDLE", "allocation": "#95 snapshot/schema compatibility plus process/heartbeat/lease liveness truth; no product edits."},
-    {"lane": "05", "role": "Project 2424", "current_status": "IDLE", "allocation": "#20 real canonical restore, smallest baseline and count reconciliation; no destructive reset."},
-    {"lane": "06", "role": "Hercules", "current_status": "BLOCKED", "allocation": "No connected canonical source found; do not instantiate roadmap name."},
-    {"lane": "07", "role": "JEPA", "current_status": "RUNNING_EVIDENCE_GATE", "allocation": "PR #43 train-only EMA-state falsifier; validation/test remain locked."},
-    {"lane": "08", "role": "Independent QA", "current_status": "IDLE", "allocation": "Certify the next immutable quantizer repair package independently; do not author the primary fix it certifies."}
+    {
+      "lane": "01",
+      "role": "VertexED",
+      "current_status": "IDLE",
+      "allocation": "Resolve #44 exact canonical production identity, then #13 authenticated production golden journey; do not add features.",
+      "write_scope": ["vertex-studyAI/vertexED.ai production-identity/golden-journey lane only"],
+      "must_not_overlap": ["Percy core", "FinanceMeta target", "Bu1LD target", "LAM-JEPA primary research"]
+    },
+    {
+      "lane": "02",
+      "role": "FinanceMeta",
+      "current_status": "BLOCKED",
+      "allocation": "When effective target ref access is restored, apply the existing certified authorization overlay once and prove normal-member role escalation denial plus return persistence.",
+      "write_scope": ["build-the-future-11/finance4all-global-reach isolated exact-target branch only"],
+      "must_not_overlap": ["VertexED", "Bu1LD", "Percy core", "regenerating certified control overlays"]
+    },
+    {
+      "lane": "03",
+      "role": "The Bu1LD",
+      "current_status": "BLOCKED",
+      "allocation": "When effective target ref access is restored, apply the single staging-ready artifact, then close deployment/hydration #84 and role/review journey #16.",
+      "write_scope": ["ryangomez010/bu1ld-landing isolated exact-target branch only"],
+      "must_not_overlap": ["VertexED", "FinanceMeta", "Percy core", "regenerating staging artifact"]
+    },
+    {
+      "lane": "04",
+      "role": "Percy Core",
+      "current_status": "IDLE",
+      "allocation": "Own #95 snapshot/schema compatibility plus process/heartbeat/lease worker-liveness truth against preserved existing state; no product edits.",
+      "write_scope": ["Percy runtime/control-plane implementation and evidence only"],
+      "must_not_overlap": ["VertexED product code", "FinanceMeta product code", "Bu1LD product code", "research model implementations"]
+    },
+    {
+      "lane": "05",
+      "role": "Project 2424",
+      "current_status": "IDLE",
+      "allocation": "Own #20 real canonical restore, smallest baseline reproduction and authoritative count reconciliation without destructive reset.",
+      "write_scope": ["real Project 2424 canonical restore worktree/evidence only after source is available"],
+      "must_not_overlap": ["synthetic fixture represented as real restore", "Percy core", "product repositories"]
+    },
+    {
+      "lane": "06",
+      "role": "Hercules",
+      "current_status": "BLOCKED",
+      "allocation": "Locate an existing canonical Hercules source or record none; only then freeze one matched capability/baseline/budget keep-or-archive gate.",
+      "write_scope": ["canonical Hercules repository only if independently located"],
+      "must_not_overlap": ["creating a new roadmap-name repository", "Olympus/Atlas scaling", "LAM-JEPA primary implementation"]
+    },
+    {
+      "lane": "07",
+      "role": "JEPA",
+      "current_status": "RUNNING_EVIDENCE_GATE",
+      "allocation": "Complete LAM-JEPA #44 train-only quantizer update-policy falsifier, then author only the smallest primary repair justified by that result; keep validation/test locked.",
+      "write_scope": ["vertex-studyAI/LAM-JEPA primary research branch only"],
+      "must_not_overlap": ["independent QA certification ownership", "control-repo QA verdict authorship", "confirmatory ARC test access"]
+    },
+    {
+      "lane": "08",
+      "role": "Independent QA",
+      "current_status": "IDLE",
+      "allocation": "Independently reproduce the next immutable completion or quantizer-repair claim package and recompute evidence before certification.",
+      "write_scope": ["control-repo independent QA/verifier artifacts only"],
+      "must_not_overlap": ["primary implementation ownership", "authoring the LAM-JEPA fix being certified", "weakening acceptance gates"]
+    }
   ],
   "truth_guards": {
     "done_requires_evidence": true,
