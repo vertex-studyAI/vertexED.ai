@@ -1,0 +1,145 @@
+name: FinanceMeta Dependency Recovery
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/financemeta-dependency-recovery.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: financemeta-dependencies-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  certify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      TARGET_COMMIT: fbdd503223edc5b1780509720391083f485a4a85
+
+    steps:
+      - name: Checkout portfolio control repository
+        uses: actions/checkout@v5
+
+      - name: Checkout immutable FinanceMeta source
+        uses: actions/checkout@v5
+        with:
+          repository: build-the-future-11/finance4all-global-reach
+          ref: ${{ env.TARGET_COMMIT }}
+          path: target
+
+      - name: Assert immutable clean target
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git -C target rev-parse HEAD)" = "$TARGET_COMMIT"
+          test -z "$(git -C target status --porcelain)"
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: target/package-lock.json
+
+      - name: Install frozen baseline and record audit
+        working-directory: target
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm ci
+          set +e
+          npm audit --omit=dev --json > "$GITHUB_WORKSPACE/financemeta-audit-before.json"
+          before_status=$?
+          set -e
+          echo "$before_status" > "$GITHUB_WORKSPACE/financemeta-audit-before.exit-code"
+
+      - name: Apply minimal direct security upgrades
+        working-directory: target
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm install --save-exact react-router-dom@6.30.4
+          npm install --save-dev --save-exact postcss@8.5.23
+          npm audit fix --package-lock-only
+          git diff --check
+          git diff -- package.json package-lock.json > "$GITHUB_WORKSPACE/financemeta-dependency.diff"
+          test -s "$GITHUB_WORKSPACE/financemeta-dependency.diff"
+
+      - name: Reinstall exactly from recovered lockfile
+        working-directory: target
+        run: npm ci
+
+      - name: Require production audit with no high or critical findings
+        working-directory: target
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm audit --omit=dev --audit-level=high --json | tee "$GITHUB_WORKSPACE/financemeta-audit-after.json"
+
+      - name: Assert intended direct versions
+        working-directory: target
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+          if (pkg.dependencies['react-router-dom'] !== '6.30.4') throw new Error('react-router-dom not pinned to 6.30.4');
+          if (pkg.devDependencies.postcss !== '8.5.23') throw new Error('postcss not pinned to 8.5.23');
+          NODE
+          npm ls react-router-dom react-router @remix-run/router postcss --all > "$GITHUB_WORKSPACE/financemeta-dependency-tree.txt"
+
+      - name: Run tests
+        working-directory: target
+        run: npm test
+
+      - name: Run TypeScript check
+        working-directory: target
+        run: npx tsc --noEmit
+
+      - name: Run production build
+        working-directory: target
+        env:
+          VITE_SUPABASE_URL: https://financemeta-ci.invalid
+          VITE_SUPABASE_PUBLISHABLE_KEY: ci-public-placeholder
+          VITE_SUPABASE_ANON_KEY: ci-public-placeholder
+        run: npm run build
+
+      - name: Generate reverse-applicable dependency patch
+        working-directory: target
+        shell: bash
+        run: |
+          set -euo pipefail
+          git diff --binary -- package.json package-lock.json > "$GITHUB_WORKSPACE/financemeta-dependency-recovery.patch"
+          test -s "$GITHUB_WORKSPACE/financemeta-dependency-recovery.patch"
+          git apply --check "$GITHUB_WORKSPACE/financemeta-dependency-recovery.patch" --reverse
+          sha256sum "$GITHUB_WORKSPACE/financemeta-dependency-recovery.patch" > "$GITHUB_WORKSPACE/financemeta-dependency-recovery.patch.sha256"
+          {
+            echo "target_commit=$TARGET_COMMIT"
+            echo "patch_sha256=$(cut -d' ' -f1 "$GITHUB_WORKSPACE/financemeta-dependency-recovery.patch.sha256")"
+            echo "react_router_dom=6.30.4"
+            echo "postcss=8.5.23"
+            echo "classification=dependency_patch_certified_pending_target_application"
+          } > "$GITHUB_WORKSPACE/financemeta-dependency-certification.txt"
+
+      - name: Upload dependency evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: financemeta-dependency-${{ github.run_id }}
+          path: |
+            financemeta-audit-before.json
+            financemeta-audit-before.exit-code
+            financemeta-audit-after.json
+            financemeta-dependency-tree.txt
+            financemeta-dependency.diff
+            financemeta-dependency-recovery.patch
+            financemeta-dependency-recovery.patch.sha256
+            financemeta-dependency-certification.txt
+          if-no-files-found: warn
+          retention-days: 14
