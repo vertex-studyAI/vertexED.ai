@@ -1,13 +1,21 @@
 #!/usr/bin/env node
 import { readFile } from 'node:fs/promises';
 
-const checkpointUrl = new URL('../portfolio/checkpoints/2026-08-07-command.json', import.meta.url);
+const checkpointsDir = new URL('../portfolio/checkpoints/', import.meta.url);
+const currentPointerUrl = new URL('CURRENT', checkpointsDir);
 const allowedStatuses = new Set(['DONE', 'PARTIAL', 'BLOCKED', 'INVALID', 'UNKNOWN']);
 const expectedFinishLines = new Set(['percy', 'project2424', 'vertexed', 'financemeta', 'the-bu1ld']);
 const expectedLanes = Array.from({ length: 8 }, (_, index) => String(index + 1).padStart(2, '0'));
 
 function assert(condition, message) {
   if (!condition) throw new Error(message);
+}
+
+async function loadCurrentCheckpoint() {
+  const pointer = (await readFile(currentPointerUrl, 'utf8')).trim();
+  assert(/^[0-9]{4}-[0-9]{2}-[0-9]{2}-[a-z0-9-]+\.json$/i.test(pointer), 'CURRENT must contain one checkpoint filename');
+  const checkpointUrl = new URL(pointer, checkpointsDir);
+  return { pointer, checkpoint: JSON.parse(await readFile(checkpointUrl, 'utf8')) };
 }
 
 function validate(checkpoint) {
@@ -43,7 +51,7 @@ function validate(checkpoint) {
   );
   assert(
     project2424.classification !== 'RESEARCH_COMPLETE',
-    'Project 2424 cannot be RESEARCH_COMPLETE while the August 7 command checkpoint records no accepted independent reproduction',
+    'Project 2424 cannot be RESEARCH_COMPLETE while the current command checkpoint records no accepted independent reproduction',
   );
 
   for (const id of ['vertexed', 'financemeta', 'the-bu1ld']) {
@@ -92,8 +100,9 @@ function validate(checkpoint) {
   return checkpoint;
 }
 
-function printSummary(checkpoint) {
+function printSummary(pointer, checkpoint) {
   console.log(`Portfolio command checkpoint: ${checkpoint.as_of}`);
+  console.log(`Canonical checkpoint: ${pointer}`);
   console.log(`Control commit: ${checkpoint.control_commit}`);
   console.log('');
   console.log('FINISH LINES');
@@ -113,8 +122,8 @@ function printSummary(checkpoint) {
 }
 
 try {
-  const checkpoint = validate(JSON.parse(await readFile(checkpointUrl, 'utf8')));
-  printSummary(checkpoint);
+  const { pointer, checkpoint } = await loadCurrentCheckpoint();
+  printSummary(pointer, validate(checkpoint));
 } catch (error) {
   console.error(`[portfolio-command] INVALID: ${error.message}`);
   process.exit(1);
