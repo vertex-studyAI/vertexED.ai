@@ -1,0 +1,193 @@
+name: FinanceMeta Integrated Release Overlay
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/financemeta-integrated-release-overlay.yml'
+      - 'portfolio/financemeta/**'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: financemeta-integrated-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  certify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    env:
+      TARGET_COMMIT: fbdd503223edc5b1780509720391083f485a4a85
+
+    steps:
+      - name: Checkout control repository
+        uses: actions/checkout@v5
+
+      - name: Checkout immutable FinanceMeta target
+        uses: actions/checkout@v5
+        with:
+          repository: build-the-future-11/finance4all-global-reach
+          ref: ${{ env.TARGET_COMMIT }}
+          path: target
+
+      - name: Assert immutable clean target
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git -C target rev-parse HEAD)" = "$TARGET_COMMIT"
+          test -z "$(git -C target status --porcelain)"
+
+      - name: Apply authorization, lint and environment recoveries
+        shell: bash
+        run: |
+          set -euo pipefail
+          node portfolio/financemeta/authorization-hardening/apply-authorization-hardening.mjs target
+          node portfolio/financemeta/lint-recovery/apply-lint-recovery.mjs target
+          node portfolio/financemeta/env-recovery/apply-env-recovery.mjs target
+          git -C target diff --check
+
+      - name: Apply coherent secure dependency migration
+        working-directory: target
+        shell: bash
+        run: |
+          set -euo pipefail
+          python <<'PY'
+          from pathlib import Path
+          import json
+
+          p = Path('package.json')
+          pkg = json.loads(p.read_text(encoding='utf-8'))
+          deps = pkg['dependencies']
+          deps.pop('react-router-dom', None)
+          deps.update({
+              'react': '19.2.8',
+              'react-dom': '19.2.8',
+              'react-router': '8.3.0',
+              '@react-three/fiber': '9.6.1',
+              '@react-three/drei': '10.7.7',
+              'next-themes': '0.4.6',
+              'vaul': '1.1.2',
+          })
+          pkg['devDependencies'].update({
+              '@types/react': '19.2.17',
+              '@types/react-dom': '19.2.3',
+              'postcss': '8.5.23',
+          })
+          p.write_text(json.dumps(pkg, indent=2) + '\n', encoding='utf-8')
+
+          changed = 0
+          for source in Path('src').rglob('*'):
+              if source.suffix not in {'.ts', '.tsx'}:
+                  continue
+              text = source.read_text(encoding='utf-8')
+              updated = text.replace('from "react-router-dom"', 'from "react-router"').replace("from 'react-router-dom'", "from 'react-router'")
+              if updated != text:
+                  source.write_text(updated, encoding='utf-8')
+                  changed += 1
+          if changed == 0:
+              raise SystemExit('no react-router-dom imports were migrated')
+          print(f'migrated router imports in {changed} files')
+          PY
+          rm -rf node_modules package-lock.json
+          npm install --package-lock-only
+          npm audit fix --package-lock-only || true
+          git diff --check
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: target/package-lock.json
+
+      - name: Reinstall exact integrated dependency graph
+        working-directory: target
+        run: npm ci
+
+      - name: Require production dependency audit clean
+        working-directory: target
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm audit --omit=dev --audit-level=high --json | tee "$GITHUB_WORKSPACE/financemeta-integrated-audit.json"
+
+      - name: Verify integrated security contracts
+        working-directory: target
+        shell: bash
+        run: |
+          set -euo pipefail
+          migration='supabase/migrations/002_authorization_hardening.sql'
+          grep -F 'REVOKE INSERT, UPDATE ON TABLE public.profiles FROM anon, authenticated' "$migration"
+          grep -F "WITH CHECK (auth.uid() = id AND role = 'member'::public.user_role)" "$migration"
+          ! grep -E 'GRANT (INSERT|UPDATE) \([^)]*role' "$migration"
+          ! grep -n 'http://localhost:0\|missing-key' src/lib/supabase.ts
+          ! grep -R --include='*.ts' --include='*.tsx' -nE "from ['\"]react-router-dom['\"]" src
+
+      - name: Require full repository lint clean
+        working-directory: target
+        run: npm run lint
+
+      - name: Require complete target tests
+        working-directory: target
+        run: npm test
+
+      - name: Require TypeScript clean
+        working-directory: target
+        run: npx tsc --noEmit
+
+      - name: Prove build fails closed without Supabase public config
+        working-directory: target
+        shell: bash
+        run: |
+          set +e
+          unset VITE_SUPABASE_URL VITE_SUPABASE_ANON_KEY VITE_SUPABASE_PUBLISHABLE_KEY
+          npm run build > "$GITHUB_WORKSPACE/financemeta-integrated-build-without-env.log" 2>&1
+          status=$?
+          set -e
+          test "$status" -ne 0
+          grep -F 'Missing VITE_SUPABASE_URL' "$GITHUB_WORKSPACE/financemeta-integrated-build-without-env.log"
+
+      - name: Require production build with explicit public config
+        working-directory: target
+        env:
+          VITE_SUPABASE_URL: https://financemeta-ci.invalid
+          VITE_SUPABASE_ANON_KEY: ci-public-placeholder
+        run: npm run build
+
+      - name: Generate one integrated reverse-applicable patch
+        working-directory: target
+        shell: bash
+        run: |
+          set -euo pipefail
+          git add -N .
+          git diff --binary > "$GITHUB_WORKSPACE/financemeta-integrated-release.patch"
+          test -s "$GITHUB_WORKSPACE/financemeta-integrated-release.patch"
+          git apply --check "$GITHUB_WORKSPACE/financemeta-integrated-release.patch" --reverse
+          sha256sum "$GITHUB_WORKSPACE/financemeta-integrated-release.patch" > "$GITHUB_WORKSPACE/financemeta-integrated-release.patch.sha256"
+          {
+            echo "target_commit=$TARGET_COMMIT"
+            echo "patch_sha256=$(cut -d' ' -f1 "$GITHUB_WORKSPACE/financemeta-integrated-release.patch.sha256")"
+            echo "authorization=certified"
+            echo "lint=certified"
+            echo "environment=certified"
+            echo "dependencies=certified"
+            echo "production_mutation=none"
+            echo "classification=integrated_local_release_overlay_certified_pending_target_application_and_live_supabase_verification"
+          } > "$GITHUB_WORKSPACE/financemeta-integrated-certification.txt"
+
+      - name: Upload integrated release evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: financemeta-integrated-${{ github.run_id }}
+          path: |
+            financemeta-integrated-audit.json
+            financemeta-integrated-build-without-env.log
+            financemeta-integrated-release.patch
+            financemeta-integrated-release.patch.sha256
+            financemeta-integrated-certification.txt
+          if-no-files-found: warn
+          retention-days: 14
