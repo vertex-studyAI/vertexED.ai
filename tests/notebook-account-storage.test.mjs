@@ -35,3 +35,11 @@ test('notebook sync resolves the authenticated account before local reads and wr
   assert.match(syncSource, /readLocalSnapshot\(resolvedScope\)/);
   assert.match(syncSource, /writeLocalNotebookSnapshot\(snapshot, resolvedScope\)/);
 });
+
+test('account rehydration invalidates notebook write ownership before network work', () => {
+  assert.match(syncSource, /let hydratedStorageScope: string \| null \| undefined/);
+  assert.match(syncSource, /hydratedStorageScope = undefined;\n  const resolvedScope = await resolveStorageScope/);
+  assert.match(syncSource, /hydratedStorageScope = resolvedScope/);
+  assert.match(syncSource, /hydratedStorageScope === undefined \|\| hydratedStorageScope !== resolvedScope/);
+  assert.match(syncSource, /Waiting for the current account notebook snapshot to finish loading/);
+});
