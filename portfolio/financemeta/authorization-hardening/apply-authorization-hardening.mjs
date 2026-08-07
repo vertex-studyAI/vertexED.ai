@@ -19,8 +19,6 @@ const migration = `-- FinanceMeta authorization hardening
 
 BEGIN;
 
--- Preserve row ownership on self-service profile updates and make the post-update
--- row satisfy the same ownership condition.
 DROP POLICY IF EXISTS "Users can update own profile" ON public.profiles;
 CREATE POLICY "Users can update own profile"
   ON public.profiles
@@ -36,18 +34,12 @@ CREATE POLICY "Users can insert own profile"
   TO authenticated
   WITH CHECK (auth.uid() = id AND role = 'member'::public.user_role);
 
--- RLS is row-level, not column-level. Revoke broad writes and grant only the
--- fields a member is allowed to maintain. Authorization role and profile email
--- cannot be directly changed through an authenticated browser client.
 REVOKE INSERT, UPDATE ON TABLE public.profiles FROM anon, authenticated;
 GRANT INSERT (id, email, display_name, avatar_url, bio, interests, open_to_collaborate, chapter_id)
   ON TABLE public.profiles TO authenticated;
 GRANT UPDATE (display_name, avatar_url, bio, interests, open_to_collaborate, chapter_id)
   ON TABLE public.profiles TO authenticated;
 
--- Security-definer authorization helpers must not inherit caller-controlled
--- search paths. Policies may call them as authenticated users, but anon/public
--- execution is not required.
 ALTER FUNCTION public.get_user_role() SET search_path = public;
 ALTER FUNCTION public.is_admin() SET search_path = public;
 ALTER FUNCTION public.is_lead_or_admin() SET search_path = public;
@@ -99,13 +91,19 @@ describe('FinanceMeta authorization boundary', () => {
   });
 
   it('keeps the current member profile UI within the safe-column grant', () => {
-    expect(authContext).toContain('display_name?: string');
-    expect(authContext).toContain('bio?: string');
-    expect(authContext).toContain('interests?: string[]');
-    expect(authContext).toContain('open_to_collaborate?: boolean');
-    expect(authContext).toContain('chapter_id?: string');
-    const updateProfileSection = authContext.slice(authContext.indexOf('updateProfile = async'), authContext.indexOf('return ('));
-    expect(updateProfileSection).not.toContain('role:');
+    expect(authContext).toContain('Pick<UserProfile, "displayName" | "bio" | "interests" | "openToCollaborate" | "chapterId">');
+    expect(authContext).toContain('payload.display_name = updates.displayName');
+    expect(authContext).toContain('payload.bio = updates.bio');
+    expect(authContext).toContain('payload.interests = updates.interests');
+    expect(authContext).toContain('payload.open_to_collaborate = updates.openToCollaborate');
+    expect(authContext).toContain('payload.chapter_id = updates.chapterId ?? null');
+    const updateStart = authContext.indexOf('const updateProfile = useCallback');
+    const updateEnd = authContext.indexOf('const needsOnboarding', updateStart);
+    expect(updateStart).toBeGreaterThanOrEqual(0);
+    expect(updateEnd).toBeGreaterThan(updateStart);
+    const updateProfileSection = authContext.slice(updateStart, updateEnd);
+    expect(updateProfileSection).not.toContain('payload.role');
+    expect(updateProfileSection).not.toContain('payload.email');
   });
 });
 `;
