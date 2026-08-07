@@ -1,11 +1,14 @@
 import { dueCards, cardsFromFlashcards, type SrCard } from "@/lib/spacedRepetition";
+import { userContentStorageKeys } from "@/lib/userContentStorageScope.mjs";
 
-const DECK_KEY = "vertex_sr_deck";
+function deckKey() {
+  return userContentStorageKeys().srDeck;
+}
 
 export function loadSrDeck(): SrCard[] {
   if (typeof window === "undefined") return [];
   try {
-    const raw = window.localStorage.getItem(DECK_KEY);
+    const raw = window.localStorage.getItem(deckKey());
     return raw ? (JSON.parse(raw) as SrCard[]) : [];
   } catch {
     return [];
@@ -14,7 +17,7 @@ export function loadSrDeck(): SrCard[] {
 
 export function saveSrDeck(cards: SrCard[]) {
   if (typeof window === "undefined") return;
-  window.localStorage.setItem(DECK_KEY, JSON.stringify(cards));
+  window.localStorage.setItem(deckKey(), JSON.stringify(cards));
 }
 
 export function getDueFlashcardCount(): number {
@@ -45,4 +48,3 @@ export function mergeFlashcardsIntoDeck(
   saveSrDeck([...toAdd, ...existing]);
   return toAdd.length;
 }
-
