@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useMemo, useState, PropsWithChild
 import type { Session, User } from "@supabase/supabase-js";
 import { trackLogout } from "@/lib/accountLifecycleAnalytics.mjs";
 import { supabase } from "@/lib/supabaseClient";
+import { setUserContentStorageScope } from "@/lib/userContentStorageScope.mjs";
 import type { Profile } from "@/types/profile";
 
 type AuthContextType = {
@@ -44,9 +45,14 @@ export function AuthProvider({ children }: PropsWithChildren<{}>) {
     let isMounted = true;
     let loadingSafetyTimer: number | undefined;
 
+    // Until Supabase resolves the current identity, sensitive device fallback remains
+    // in the isolated "unhydrated" storage scope.
+    setUserContentStorageScope(undefined);
+
     const init = async () => {
       if (!supabase) {
         // Graceful fallback when env vars are missing; treat as signed-out.
+        setUserContentStorageScope(null);
         setSession(null);
         setUser(null);
         setProfile(null);
@@ -64,10 +70,12 @@ export function AuthProvider({ children }: PropsWithChildren<{}>) {
       if (error) {
         console.error("Supabase getSession error:", error);
       }
+      const nextUser = data.session?.user ?? null;
+      setUserContentStorageScope(nextUser?.id ?? null);
       setSession(data.session ?? null);
-      setUser(data.session?.user ?? null);
+      setUser(nextUser);
       // Don't block app on profile fetch; fire and forget
-      if (data.session?.user) refreshProfile(data.session.user.id, data.session.user.email);
+      if (nextUser) refreshProfile(nextUser.id, nextUser.email);
       setLoading(false);
     };
 
@@ -77,11 +85,14 @@ export function AuthProvider({ children }: PropsWithChildren<{}>) {
 
     const { data: sub } = supabase.auth.onAuthStateChange(async (_event, newSession) => {
       if (!isMounted) return;
+      const nextUser = newSession?.user ?? null;
+      // Change storage ownership before React descendants can act on the new session.
+      setUserContentStorageScope(nextUser?.id ?? null);
       setSession(newSession);
-      setUser(newSession?.user ?? null);
-      if (newSession?.user) {
+      setUser(nextUser);
+      if (nextUser) {
         // Update profile in background
-        refreshProfile(newSession.user.id, newSession.user.email);
+        refreshProfile(nextUser.id, nextUser.email);
       } else {
         setProfile(null);
       }
@@ -104,6 +115,7 @@ export function AuthProvider({ children }: PropsWithChildren<{}>) {
     if (!supabase) throw new Error("Auth is disabled: Supabase not configured.");
     const { data, error } = await supabase.auth.signInWithPassword({ email, password });
     if (error) throw error;
+    setUserContentStorageScope(data.user?.id ?? null);
     setSession(data.session);
     setUser(data.user);
     if (data.user) await postAuthUpsertProfile(data.user);
@@ -140,6 +152,7 @@ export function AuthProvider({ children }: PropsWithChildren<{}>) {
   /** Sign out current user and clear auth state. */
   const logout = async () => {
     if (!supabase) {
+      setUserContentStorageScope(null);
       setSession(null);
       setUser(null);
       setProfile(null);
@@ -153,6 +166,7 @@ export function AuthProvider({ children }: PropsWithChildren<{}>) {
       throw error;
     }
 
+    setUserContentStorageScope(null);
     setSession(null);
     setUser(null);
     setProfile(null);
