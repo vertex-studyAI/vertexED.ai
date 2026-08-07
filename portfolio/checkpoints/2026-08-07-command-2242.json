@@ -1,0 +1,191 @@
+{
+  "schema_version": 1,
+  "as_of": "2026-08-07T22:42:00+05:30",
+  "control_repository": "vertex-studyAI/vertexED.ai",
+  "control_commit": "1ff988673cebe60d8448e55f9baecd718633e124",
+  "status_enum": ["DONE", "PARTIAL", "BLOCKED", "INVALID", "UNKNOWN"],
+  "finish_lines": [
+    {
+      "id": "percy",
+      "name": "Percy",
+      "status": "BLOCKED",
+      "classification": "BLOCKED",
+      "runtime_liveness_verified": false,
+      "evidence": [
+        "Issue #95 records existing-state snapshot failure sqlite3.OperationalError: no such column: title.",
+        "No fresh connected runtime evidence proves coordinator or worker process liveness, heartbeats or leases."
+      ],
+      "blockers": ["Existing-state snapshot/schema compatibility", "Process plus heartbeat/lease liveness proof", "Successful non-secret runtime preflight"],
+      "next_action": "Lane 04 owns #95 only: preserve history, repair backward-compatible snapshot/schema handling against the existing DB, prove worker state from process plus heartbeat/lease evidence and emit one non-secret snapshot.",
+      "percy_lane": "04"
+    },
+    {
+      "id": "project2424",
+      "name": "Project 2424",
+      "status": "BLOCKED",
+      "classification": "ENGINEERING_INCOMPLETE",
+      "registry_total": 2424,
+      "question_defined": null,
+      "novelty_checked": null,
+      "protocol_frozen": null,
+      "implemented": null,
+      "tested": null,
+      "benchmarked": null,
+      "ablations_complete": null,
+      "manuscript_complete": null,
+      "reproduced": null,
+      "preprint_ready": null,
+      "independent_reproduction_verified": false,
+      "evidence": [
+        "All 2,424 Project IDs remain in scope by portfolio contract.",
+        "Real canonical Project 2424 restoration from the PRO-BLADE source is not available in connected evidence.",
+        "Synthetic recovery-package CI is not evidence that the real canonical project was restored."
+      ],
+      "blockers": ["Canonical source restoration", "History/dirty-state preservation", "Fresh baseline reproduction", "Authoritative milestone counts"],
+      "next_action": "Lane 05 owns #20 only: restore the real canonical source without destructive cleanup, rerun the smallest baseline, reconcile historical claims and publish authoritative milestone counts.",
+      "percy_lane": "05"
+    },
+    {
+      "id": "vertexed",
+      "name": "VertexED",
+      "status": "PARTIAL",
+      "classification": "LIVE_VERIFICATION_REQUIRED",
+      "source_release_candidate": true,
+      "real_user_journey_verified": false,
+      "deployed_sha_verified": false,
+      "evidence": [
+        "Current source lineage has passing lint, typecheck, serverless validation, production-only dependency audit, 206 tests, 20 evaluation tests and production build.",
+        "Fresh production browser certification against https://www.vertexed.app passed 52/52 public/API/mobile/desktop checks.",
+        "Source account isolation, adaptive-state isolation, password recovery and account-deletion hardening are merged."
+      ],
+      "blockers": ["Exact canonical production SHA not certified", "Authenticated disposable-user golden journey #13 incomplete", "Owner-controlled Supabase/security settings outside source-only certification"],
+      "next_action": "Lane 01 stops feature work: resolve #44 exact production identity, then execute #13 signup/auth/core saved artifact/fresh-session return/recovery/logout-denial/cleanup against that same deployed SHA.",
+      "percy_lane": "01"
+    },
+    {
+      "id": "financemeta",
+      "name": "FinanceMeta",
+      "status": "BLOCKED",
+      "classification": "CERTIFIED_UNAPPLIED",
+      "real_user_journey_verified": false,
+      "evidence": [
+        "Control commit c161e3ab8013c1b39e5274e37b23ebdac6f44e02 preserves the integrated certified release overlay for exact target fbdd503223edc5b1780509720391083f485a4a85.",
+        "Repository metadata advertises push/admin, but an actual branch-creation probe from exact current main returned 403 Resource not accessible by integration; no target mutation occurred."
+      ],
+      "blockers": ["Effective GitHub App ref/write permission on canonical target", "Production Supabase access", "Live normal-member role-escalation denial and persisted return journey"],
+      "next_action": "Lane 02 does not regenerate overlays. Once effective target/Supabase access exists, apply the single certified overlay to an isolated exact-target branch, rerun release gates and independently prove self-escalation denial and member return persistence.",
+      "percy_lane": "02"
+    },
+    {
+      "id": "the-bu1ld",
+      "name": "The Bu1LD",
+      "status": "BLOCKED",
+      "classification": "STAGING_READY_CERTIFIED_UNAPPLIED",
+      "real_user_journey_verified": false,
+      "evidence": [
+        "Control commit f91e5255e6f040ba3963003de3afcf6651235111 preserves a consolidated certified launch artifact for exact target daa80c1124b2a6d7d09b7669e04d29e50cffcbbe.",
+        "Repository metadata advertises push, but an actual branch-creation probe from exact current main returned 403 Resource not accessible by integration; no target mutation occurred."
+      ],
+      "blockers": ["Effective GitHub App ref/write permission on canonical target", "Bu1LD Supabase/Cloudflare access", "Production source/deployment identity and hydration integrity", "Member/lead/reviewer/admin and removed-member journey certification"],
+      "next_action": "Lane 03 applies the single consolidated artifact only after effective target access is restored, then closes deployment/hydration integrity #84 and role journeys #16 before adding programs.",
+      "percy_lane": "03"
+    }
+  ],
+  "research_subprojects": [
+    {
+      "id": "lam-jepa",
+      "name": "LAM-JEPA",
+      "status": "PARTIAL",
+      "classification": "RESEARCH_ACTIVE_ADVERSE_VALIDATION_QUANTIZATION_BOUNDARY_STRONGLY_IMPLICATED",
+      "independent_reproduction_verified": true,
+      "research_complete": false,
+      "confirmatory_test_accessed": false,
+      "evidence": [
+        "Control #126 independently reproduces the exact five-seed validation artifact: full 0.2549152542, no-planner 0.2501694915, no-target 0.2616949153, negative control 0.2630508475; all five full seeds collapse to one answer class.",
+        "Control #127 independently audits the real 96-token adapter across all 1,117 eligible train and 295 eligible validation rows; limited answer truncation exists but cannot explain systemic collapse.",
+        "LAM-JEPA #41 merged as 26229f0464254e582d5baac3ab1ac71e54e2b52b: matched supervised baseline reaches 1.0/1.0 on a 32-row balanced train-only overfit falsifier while LAM CE-only and full objective remain 0.25/0.25.",
+        "LAM-JEPA #42 merged as e7994623afcddfc982e16846f4c55542687ea37b after three green exact-head workflows. Quantizer-enabled canonical and quantizer-only remain 0.25/0.25; disabling quantization while retaining memory+planner reaches 0.96875/0.96875; direct latent reaches 1.0/0.9375.",
+        "The predeclared #42 classifier remains conservative because direct-latent seed 2 misses the 0.95 threshold by one example; no post-hoc relabeling was performed.",
+        "Issue #38 keeps validation/test locked and routes the next train-only gate to quantizer EMA/codebook state diagnosis. PR #43 is the active no-model-change EMA initialization falsifier."
+      ],
+      "blockers": ["Canonical quantizer cannot yet overfit the frozen train-only falsifier", "EMA/codebook failure mechanism not yet fully proven", "Validation/test remain locked until trainability repair is independently verified"],
+      "next_action": "Lane 07 completes #43 train-only EMA-state falsifier. If coherent EMA initialization is sufficient, apply one minimal quantizer initializer repair and require canonical >0.95 on both seeds before validation. Lane 08 independently certifies the repair before any validation/test claim."
+    },
+    {
+      "id": "hercules",
+      "name": "Hercules",
+      "status": "BLOCKED",
+      "classification": "CANONICAL_SOURCE_UNVERIFIED",
+      "evidence": ["Connected repository search found no canonical Hercules repository; available hits are control-plane roadmap/checkpoint references only."],
+      "blockers": ["Canonical source identity", "One bounded capability/baseline gate", "Independent reproduction"],
+      "next_action": "Do not instantiate a roadmap name. Locate existing canonical source or record none before any model implementation."
+    },
+    {"id": "olympus-atlas-series", "name": "Olympus / Atlas series", "status": "UNKNOWN", "classification": "CANONICAL_SOURCE_UNVERIFIED", "next_action": "Identify existing canonical source and inherit evidence from the smallest validated stage before scaling."},
+    {"id": "pi-jepa", "name": "PI-JEPA", "status": "UNKNOWN", "classification": "CANONICAL_SOURCE_UNVERIFIED", "next_action": "Locate canonical source and existing evidence before mechanism experiments."},
+    {"id": "eigen-jepa", "name": "Eigen-JEPA", "status": "UNKNOWN", "classification": "CANONICAL_SOURCE_UNVERIFIED", "next_action": "Locate canonical source; require mechanism ablation before novelty claims."},
+    {"id": "eigen-finance", "name": "Eigen-Finance", "status": "UNKNOWN", "classification": "CANONICAL_SOURCE_UNVERIFIED", "next_action": "Locate canonical source; any quant protocol must use leakage-safe temporal splits and claim-appropriate costs/turnover."},
+    {"id": "apen-pen", "name": "APEN / PEN", "status": "UNKNOWN", "classification": "CANONICAL_SOURCE_UNVERIFIED", "next_action": "Locate canonical source and freeze one falsifiable mechanism claim."},
+    {"id": "ripii", "name": "RIPII", "status": "UNKNOWN", "classification": "CANONICAL_SOURCE_UNVERIFIED", "next_action": "Locate canonical source and current protocol/evidence."},
+    {"id": "neurocad", "name": "NeuroCAD", "status": "UNKNOWN", "classification": "CANONICAL_SOURCE_UNVERIFIED", "next_action": "Locate canonical source, then prove claimed text/NLP-to-CAD capability with real tasks, geometry correctness, validity, failures and runtime."},
+    {"id": "speechly", "name": "Speechly", "status": "UNKNOWN", "classification": "CANONICAL_SOURCE_UNVERIFIED", "next_action": "Locate canonical source, freeze the speech question and use real audio evaluation."},
+    {"id": "bayes-cleaner", "name": "Bayes Cleaner", "status": "UNKNOWN", "classification": "CANONICAL_SOURCE_UNVERIFIED_IN_CONNECTED_EVIDENCE", "next_action": "Recover existing canonical source/basic-run evidence first; do not restart."},
+    {"id": "colorworld", "name": "Colorworld", "status": "UNKNOWN", "classification": "CANONICAL_SOURCE_UNVERIFIED", "next_action": "Locate canonical source and current evidence before selecting a completion gate."}
+  ],
+  "business": {
+    "status": "PARTIAL",
+    "program_readiness": "UNKNOWN",
+    "launch_readiness": "BLOCKED_BY_PRODUCT_AND_ACCESS_GATES",
+    "outreach_sent": "UNKNOWN",
+    "applications": "UNKNOWN",
+    "partnership_pipeline": "UNKNOWN",
+    "truth_boundary": "No outreach, submission or partnership movement is counted without connected sent/submitted evidence."
+  },
+  "p0_blockers": [
+    {"id": "P0-PERCY-SNAPSHOT-LIVENESS", "project": "Percy", "owner_lane": "04", "acceptance": "Existing and fresh Percy DBs snapshot without history loss and worker state is proven from process plus heartbeat/lease evidence."},
+    {"id": "P0-VERTEXED-PRODUCTION-REVISION", "project": "VertexED", "owner_lane": "01", "acceptance": "One canonical Vercel project serves an exact verified current-main SHA and authenticated browser journey evidence passes against that revision."},
+    {"id": "P0-FINANCEMETA-TARGET-WRITE", "project": "FinanceMeta", "owner_lane": "02", "acceptance": "A real isolated target ref can be created and the already-certified overlay can be applied without 403, followed by live Supabase authorization QA."},
+    {"id": "P0-BU1LD-TARGET-WRITE", "project": "The Bu1LD", "owner_lane": "03", "acceptance": "A real isolated target ref can be created and the certified artifact can be applied without 403, followed by deployment/hydration and role QA."},
+    {"id": "P0-P2424-CANONICAL-RESTORE", "project": "Project 2424", "owner_lane": "05", "acceptance": "Real canonical source is restored without destructive reset, smallest baseline reproduces and authoritative milestone counts are emitted."},
+    {"id": "P0-LAM-QUANTIZER-TRAINABILITY", "project": "LAM-JEPA", "owner_lane": "07", "acceptance": "Canonical quantized model exceeds 0.95 train accuracy on both frozen overfit seeds after a minimal diagnosed repair, before validation is reopened."}
+  ],
+  "top_actions": [
+    "Lane 04 close Percy #95 snapshot/schema compatibility and prove actual worker liveness before trusting swarm execution state.",
+    "Lane 01 resolve VertexED #44 exact canonical production identity, then #13 authenticated disposable-user golden journey; no feature work.",
+    "Lane 02 wait for effective target ref permission, then apply the existing FinanceMeta overlay exactly once and run live authorization QA; do not regenerate it.",
+    "Lane 03 wait for effective target ref permission, then apply the existing Bu1LD artifact exactly once and close #84/#16; do not regenerate it.",
+    "Lane 05 restore real Project 2424 under #20 and publish authoritative milestone counts.",
+    "Lane 07 finish LAM-JEPA #43 EMA-state falsifier and only then test a minimal train-only quantizer repair.",
+    "Lane 06 keeps Hercules blocked until a real canonical source is found; no roadmap-name implementation.",
+    "Lane 08 independently reproduces immutable completion claims and rejects smoke/source/live/scientific overclaim.",
+    "Coordinator keeps CURRENT synchronized and treats effective write probes as stronger evidence than repository permission metadata."
+  ],
+  "coordinator": {
+    "lane": "00",
+    "role": "Coordinator / command center",
+    "runtime_status": "UNKNOWN",
+    "allocation": "Maintain truth, priority, dependency and QA registry; route P0 blockers; reject unsupported completion.",
+    "truth_boundary": "This checkpoint records command allocation; it does not prove a live Percy coordinator process."
+  },
+  "agents": [
+    {"lane": "01", "role": "VertexED", "current_status": "IDLE", "allocation": "#44 exact production identity, then #13 authenticated golden journey; no feature work."},
+    {"lane": "02", "role": "FinanceMeta", "current_status": "BLOCKED", "allocation": "Target branch creation currently returns 403; apply existing certified overlay when effective ref permission is restored."},
+    {"lane": "03", "role": "The Bu1LD", "current_status": "BLOCKED", "allocation": "Target branch creation currently returns 403; apply existing consolidated artifact when effective ref permission is restored."},
+    {"lane": "04", "role": "Percy Core", "current_status": "IDLE", "allocation": "#95 snapshot/schema compatibility plus process/heartbeat/lease liveness truth; no product edits."},
+    {"lane": "05", "role": "Project 2424", "current_status": "IDLE", "allocation": "#20 real canonical restore, smallest baseline and count reconciliation; no destructive reset."},
+    {"lane": "06", "role": "Hercules", "current_status": "BLOCKED", "allocation": "No connected canonical source found; do not instantiate roadmap name."},
+    {"lane": "07", "role": "JEPA", "current_status": "RUNNING_EVIDENCE_GATE", "allocation": "PR #43 train-only EMA-state falsifier; validation/test remain locked."},
+    {"lane": "08", "role": "Independent QA", "current_status": "IDLE", "allocation": "Certify the next immutable quantizer repair package independently; do not author the primary fix it certifies."}
+  ],
+  "truth_guards": {
+    "done_requires_evidence": true,
+    "research_complete_requires_independent_reproduction": true,
+    "launch_ready_requires_real_user_journey": true,
+    "deployed_verified_requires_exact_deployed_sha": true,
+    "healthy_percy_requires_runtime_liveness": true,
+    "build_pass_is_not_launch_ready": true,
+    "synthetic_restore_test_is_not_real_restore": true,
+    "plans_and_prompts_do_not_count_as_engineering_progress": true,
+    "permission_metadata_is_not_effective_write_proof": true,
+    "unknown_is_required_when_current_runtime_evidence_is_unavailable": true
+  }
+}
