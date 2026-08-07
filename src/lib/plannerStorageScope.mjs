@@ -1,11 +1,18 @@
+const UNHYDRATED_SCOPE = 'unhydrated';
 const ANONYMOUS_SCOPE = 'anonymous';
+let activeScope;
 
 export function normalizePlannerStorageScope(scope) {
-  if (typeof scope !== 'string' || scope.trim().length === 0) return ANONYMOUS_SCOPE;
+  if (scope === undefined) return UNHYDRATED_SCOPE;
+  if (scope === null || typeof scope !== 'string' || scope.trim().length === 0) return ANONYMOUS_SCOPE;
   return encodeURIComponent(scope.trim()).slice(0, 256);
 }
 
-export function plannerStorageKeys(scope) {
+export function setPlannerStorageScope(scope) {
+  activeScope = scope;
+}
+
+export function plannerStorageKeys(scope = activeScope) {
   const normalized = normalizePlannerStorageScope(scope);
   const prefix = `vertex_planner:${normalized}`;
   return {
