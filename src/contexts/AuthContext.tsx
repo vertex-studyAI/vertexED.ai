@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useMemo, useState, PropsWithChildren } from "react";
 import type { Session, User } from "@supabase/supabase-js";
 import { trackLogout } from "@/lib/accountLifecycleAnalytics.mjs";
+import { setPlannerStorageScope } from "@/lib/plannerStorageScope.mjs";
 import { supabase } from "@/lib/supabaseClient";
 import { setUserContentStorageScope } from "@/lib/userContentStorageScope.mjs";
 import type { Profile } from "@/types/profile";
@@ -34,6 +35,11 @@ const AuthContext = createContext<AuthContextType>({
   logout: async () => {},
 });
 
+function setSensitiveStorageScopes(scope?: string | null) {
+  setUserContentStorageScope(scope);
+  setPlannerStorageScope(scope);
+}
+
 export function AuthProvider({ children }: PropsWithChildren<{}>) {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
@@ -46,13 +52,13 @@ export function AuthProvider({ children }: PropsWithChildren<{}>) {
     let loadingSafetyTimer: number | undefined;
 
     // Until Supabase resolves the current identity, sensitive device fallback remains
-    // in the isolated "unhydrated" storage scope.
-    setUserContentStorageScope(undefined);
+    // in isolated "unhydrated" storage scopes.
+    setSensitiveStorageScopes(undefined);
 
     const init = async () => {
       if (!supabase) {
         // Graceful fallback when env vars are missing; treat as signed-out.
-        setUserContentStorageScope(null);
+        setSensitiveStorageScopes(null);
         setSession(null);
         setUser(null);
         setProfile(null);
@@ -71,7 +77,7 @@ export function AuthProvider({ children }: PropsWithChildren<{}>) {
         console.error("Supabase getSession error:", error);
       }
       const nextUser = data.session?.user ?? null;
-      setUserContentStorageScope(nextUser?.id ?? null);
+      setSensitiveStorageScopes(nextUser?.id ?? null);
       setSession(data.session ?? null);
       setUser(nextUser);
       // Don't block app on profile fetch; fire and forget
@@ -87,7 +93,7 @@ export function AuthProvider({ children }: PropsWithChildren<{}>) {
       if (!isMounted) return;
       const nextUser = newSession?.user ?? null;
       // Change storage ownership before React descendants can act on the new session.
-      setUserContentStorageScope(nextUser?.id ?? null);
+      setSensitiveStorageScopes(nextUser?.id ?? null);
       setSession(newSession);
       setUser(nextUser);
       if (nextUser) {
@@ -115,7 +121,7 @@ export function AuthProvider({ children }: PropsWithChildren<{}>) {
     if (!supabase) throw new Error("Auth is disabled: Supabase not configured.");
     const { data, error } = await supabase.auth.signInWithPassword({ email, password });
     if (error) throw error;
-    setUserContentStorageScope(data.user?.id ?? null);
+    setSensitiveStorageScopes(data.user?.id ?? null);
     setSession(data.session);
     setUser(data.user);
     if (data.user) await postAuthUpsertProfile(data.user);
@@ -152,7 +158,7 @@ export function AuthProvider({ children }: PropsWithChildren<{}>) {
   /** Sign out current user and clear auth state. */
   const logout = async () => {
     if (!supabase) {
-      setUserContentStorageScope(null);
+      setSensitiveStorageScopes(null);
       setSession(null);
       setUser(null);
       setProfile(null);
@@ -166,7 +172,7 @@ export function AuthProvider({ children }: PropsWithChildren<{}>) {
       throw error;
     }
 
-    setUserContentStorageScope(null);
+    setSensitiveStorageScopes(null);
     setSession(null);
     setUser(null);
     setProfile(null);
