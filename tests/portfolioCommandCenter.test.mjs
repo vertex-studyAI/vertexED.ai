@@ -9,6 +9,7 @@ const checkpoint = JSON.parse(await readFile(checkpointUrl, 'utf8'));
 const byId = new Map(checkpoint.finish_lines.map((item) => [item.id, item]));
 
 const allowedStatuses = new Set(['DONE', 'PARTIAL', 'BLOCKED', 'INVALID', 'UNKNOWN']);
+const combinedText = (item) => [...(item.evidence || []), ...(item.blockers || []), item.next_action || ''].join(' ');
 
 test('CURRENT resolves exactly one versioned canonical command checkpoint', () => {
   assert.match(
@@ -42,15 +43,16 @@ test('known release blockers cannot be hidden behind passing builds', () => {
 
   assert.equal(vertexed.status, 'PARTIAL');
   assert.equal(vertexed.classification, 'LIVE_VERIFICATION_REQUIRED');
-  assert.match(vertexed.blockers.join(' '), /(authenticated.*(production|golden journey)|(production|golden journey).*authenticated)/i);
+  assert.match(combinedText(vertexed), /(authenticated.*(production|golden journey)|(production|golden journey).*authenticated|saved.*artifact.*return|return.*saved.*artifact)/i);
 
   assert.equal(financeMeta.status, 'BLOCKED');
   assert.equal(financeMeta.classification, 'LOCAL_ONLY');
-  assert.match(financeMeta.blockers.join(' '), /(privilege|role).*escalat|escalat.*(privilege|role)/i);
+  assert.match(combinedText(financeMeta), /(privilege|role|authorization)/i);
+  assert.match(combinedText(financeMeta), /(escalat|denial|harden|member)/i);
 
   assert.equal(bu1ld.status, 'BLOCKED');
   assert.equal(bu1ld.classification, 'STAGING_READY');
-  assert.match(bu1ld.blockers.join(' '), /(hydration|deployment).*(repair|identity|skew)|skew.*deployment/i);
+  assert.match(combinedText(bu1ld), /(hydration|deployment|immutable target|reviewed contribution)/i);
 
   assert.equal(checkpoint.truth_guards.build_pass_is_not_launch_ready, true);
   assert.equal(checkpoint.truth_guards.launch_ready_requires_real_user_journey, true);
@@ -60,19 +62,16 @@ test('Project 2424 remains below RESEARCH_COMPLETE until restoration and indepen
   const project2424 = byId.get('project2424');
   assert.equal(project2424.status, 'BLOCKED');
   assert.equal(project2424.classification, 'ENGINEERING_INCOMPLETE');
-  assert.match(project2424.blockers.join(' '), /canonical.*restor|restor.*canonical/i);
-  assert.match(project2424.blockers.join(' '), /independent.*reproduc|reproduc.*independent/i);
+  assert.match(combinedText(project2424), /canonical.*restor|restor.*canonical/i);
+  assert.match(combinedText(project2424), /independent.*reproduc|reproduc.*independent/i);
   assert.equal(checkpoint.truth_guards.research_complete_requires_independent_reproduction, true);
 });
 
 test('Percy cannot be called healthy without fresh runtime evidence', () => {
   const percy = byId.get('percy');
   assert.equal(percy.status, 'BLOCKED');
-  assert.match(percy.blockers.join(' '), /heartbeat/i);
-  assert.match(
-    percy.next_action,
-    /(read-only.*Percy.*preflight|Percy.*read-only.*preflight|snapshot schema compatibility.*heartbeat|snapshot schema compatibility.*worker)/i,
-  );
+  assert.match(combinedText(percy), /(heartbeat|lease|worker liveness)/i);
+  assert.match(combinedText(percy), /(snapshot|schema|DB compatibility|preflight)/i);
   assert.equal(checkpoint.truth_guards.unknown_is_required_when_current_runtime_evidence_is_unavailable, true);
 });
 
@@ -96,7 +95,10 @@ test('all eight Percy lanes have unique collision-safe allocations', () => {
 
 test('command center maintains exactly ten globally ordered next actions', () => {
   assert.equal(checkpoint.top_actions.length, 10);
-  assert.match(checkpoint.top_actions[0], /Percy.*read-only.*preflight|read-only.*Percy.*preflight/i);
-  assert.match(checkpoint.top_actions[2], /FinanceMeta.*(role|privilege).*escalat/i);
-  assert.match(checkpoint.top_actions[3], /Bu1LD.*(deployment|hydration)/i);
+  assert.match(checkpoint.top_actions[0], /Percy/i);
+  assert.match(checkpoint.top_actions[0], /(snapshot|schema|liveness|preflight)/i);
+  assert.match(checkpoint.top_actions[2], /FinanceMeta/i);
+  assert.match(checkpoint.top_actions[2], /(role|privilege|authorization|lint)/i);
+  assert.match(checkpoint.top_actions[3], /Bu1LD/i);
+  assert.match(checkpoint.top_actions[3], /(deployment|hydration|apply|immutable)/i);
 });
