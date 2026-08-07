@@ -1,0 +1,115 @@
+name: Independent LAM-JEPA DeBERTa QA
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/independent-lam-jepa-deberta-qa.yml"
+      - "portfolio/qa/verify_lam_jepa_deberta_smoke.py"
+      - "portfolio/qa/check_lam_jepa_arc_protocol_continuity.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  TARGET_COMMIT: e4046d1a9725fe62f32c575c128dc0503e2118a1
+  HF_HUB_DISABLE_TELEMETRY: "1"
+  TOKENIZERS_PARALLELISM: "false"
+
+jobs:
+  reproduce-deberta:
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+
+    steps:
+      - name: Checkout independent verifier
+        uses: actions/checkout@v6
+
+      - name: Checkout immutable LAM-JEPA target
+        uses: actions/checkout@v6
+        with:
+          repository: vertex-studyAI/LAM-JEPA
+          ref: ${{ env.TARGET_COMMIT }}
+          path: target
+
+      - name: Assert exact clean target
+        run: |
+          set -euo pipefail
+          test "$(git -C target rev-parse HEAD)" = "$TARGET_COMMIT"
+          test -z "$(git -C target status --porcelain)"
+          printf '%s\n' "$(git -C target rev-parse HEAD)" > target-commit.txt
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+
+      - name: Install target from clean checkout
+        run: |
+          set -euo pipefail
+          python -m pip install --upgrade pip
+          python -m pip install torch --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install -e './target[pretrained-baselines]'
+          python -m py_compile \
+            portfolio/qa/verify_lam_jepa_deberta_smoke.py \
+            portfolio/qa/check_lam_jepa_arc_protocol_continuity.py
+
+      - name: Independently verify v1 to v2 contract continuity
+        run: |
+          set -euo pipefail
+          mkdir -p qa-evidence
+          python portfolio/qa/check_lam_jepa_arc_protocol_continuity.py \
+            --v1 target/protocols/arc_challenge_v1.json \
+            --v2 target/protocols/arc_challenge_v2.json \
+            --out qa-evidence/independent-protocol-continuity.json
+
+      - name: Download checksum-addressed ARC development splits
+        run: |
+          set -euo pipefail
+          python target/scripts/data/download_arc_challenge.py \
+            --splits train validation \
+            --out-dir qa-evidence/arc-data \
+            | tee qa-evidence/arc-download.json
+          test ! -e qa-evidence/arc-data/arc-challenge-test.parquet
+
+      - name: Reproduce frozen DeBERTa smoke
+        run: |
+          set -euo pipefail
+          python target/scripts/benchmark/run_arc_protocol_deberta_baseline.py \
+            --protocol target/protocols/arc_challenge_v1.json \
+            --train qa-evidence/arc-data/arc-challenge-train.parquet \
+            --validation qa-evidence/arc-data/arc-challenge-validation.parquet \
+            --seeds 1 2 \
+            --epochs 1 \
+            --batch-size 2 \
+            --learning-rate 2e-5 \
+            --max-length 96 \
+            --max-train-steps 1 \
+            --model-steps 1 \
+            --train-limit 8 \
+            --validation-limit 16 \
+            --device cpu \
+            --out qa-evidence/independent-deberta.json \
+            | tee qa-evidence/independent-deberta-output.txt
+
+      - name: Verify without target-repository verifier code
+        run: |
+          set -euo pipefail
+          python portfolio/qa/verify_lam_jepa_deberta_smoke.py \
+            --results qa-evidence/independent-deberta.json \
+            --continuity qa-evidence/independent-protocol-continuity.json \
+            --target-commit-file target-commit.txt \
+            --out qa-evidence/independent-deberta-verdict.json \
+            | tee qa-evidence/independent-deberta-verifier-output.txt
+
+      - name: Upload independent evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: independent-lam-jepa-deberta-qa
+          path: |
+            target-commit.txt
+            qa-evidence/*.json
+            qa-evidence/*.txt
+          if-no-files-found: warn
+          retention-days: 14
