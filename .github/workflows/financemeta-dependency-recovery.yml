@@ -1,0 +1,121 @@
+name: FinanceMeta Dependency Recovery
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/financemeta-dependency-recovery.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: financemeta-dependencies-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  certify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      TARGET_COMMIT: fbdd503223edc5b1780509720391083f485a4a85
+
+    steps:
+      - name: Checkout control repo
+        uses: actions/checkout@v5
+      - name: Checkout immutable FinanceMeta target
+        uses: actions/checkout@v5
+        with:
+          repository: build-the-future-11/finance4all-global-reach
+          ref: ${{ env.TARGET_COMMIT }}
+          path: target
+      - name: Assert immutable target
+        run: |
+          set -euo pipefail
+          test "$(git -C target rev-parse HEAD)" = "$TARGET_COMMIT"
+          test -z "$(git -C target status --porcelain)"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: target/package-lock.json
+      - name: Record baseline audit
+        working-directory: target
+        run: |
+          npm ci
+          npm audit --omit=dev --json > "$GITHUB_WORKSPACE/financemeta-audit-before.json" || true
+      - name: Write coherent secure dependency manifest
+        working-directory: target
+        run: |
+          set -euo pipefail
+          python <<'PY'
+          from pathlib import Path
+          import json
+          p=Path('package.json'); pkg=json.loads(p.read_text())
+          d=pkg['dependencies']; d.pop('react-router-dom',None)
+          d.update({'react':'19.2.8','react-dom':'19.2.8','react-router':'8.3.0','@react-three/fiber':'9.6.1','@react-three/drei':'10.7.7','next-themes':'0.4.6','vaul':'1.1.2'})
+          pkg['devDependencies'].update({'@types/react':'19.2.17','@types/react-dom':'19.2.3','postcss':'8.5.23'})
+          p.write_text(json.dumps(pkg,indent=2)+'\n')
+          changed=0
+          for f in Path('src').rglob('*'):
+            if f.suffix not in {'.ts','.tsx'}: continue
+            s=f.read_text(); n=s.replace('from "react-router-dom"','from "react-router"').replace("from 'react-router-dom'","from 'react-router'")
+            if n!=s: f.write_text(n); changed+=1
+          if not changed: raise SystemExit('no router imports migrated')
+          print('migrated',changed,'router imports')
+          PY
+          rm -rf node_modules package-lock.json
+          npm install --package-lock-only
+          npm audit fix --package-lock-only || true
+          git diff --check
+      - name: Reinstall exact recovered graph
+        working-directory: target
+        run: npm ci
+      - name: Require production audit clean at high severity
+        working-directory: target
+        run: npm audit --omit=dev --audit-level=high --json | tee "$GITHUB_WORKSPACE/financemeta-audit-after.json"
+      - name: Assert dependency contract
+        working-directory: target
+        run: |
+          set -euo pipefail
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs'; const p=JSON.parse(fs.readFileSync('package.json'));
+          const e={react:'19.2.8','react-dom':'19.2.8','react-router':'8.3.0','@react-three/fiber':'9.6.1','@react-three/drei':'10.7.7','next-themes':'0.4.6','vaul':'1.1.2'};
+          for(const [k,v] of Object.entries(e)) if(p.dependencies[k]!==v) throw new Error(`${k} != ${v}`);
+          if(p.dependencies['react-router-dom']) throw new Error('react-router-dom remains');
+          NODE
+          ! grep -R --include='*.ts' --include='*.tsx' -nE "from ['\"]react-router-dom['\"]" src
+          npm ls react react-dom react-router @react-three/fiber @react-three/drei next-themes vaul postcss --all > "$GITHUB_WORKSPACE/financemeta-dependency-tree.txt"
+      - name: Run tests
+        working-directory: target
+        run: npm test
+      - name: Run typecheck
+        working-directory: target
+        run: npx tsc --noEmit
+      - name: Run production build
+        working-directory: target
+        env:
+          VITE_SUPABASE_URL: https://financemeta-ci.invalid
+          VITE_SUPABASE_ANON_KEY: ci-public-placeholder
+        run: npm run build
+      - name: Generate reversible patch
+        working-directory: target
+        run: |
+          set -euo pipefail
+          git diff --binary > "$GITHUB_WORKSPACE/financemeta-dependency-recovery.patch"
+          test -s "$GITHUB_WORKSPACE/financemeta-dependency-recovery.patch"
+          git apply --check "$GITHUB_WORKSPACE/financemeta-dependency-recovery.patch" --reverse
+          sha256sum "$GITHUB_WORKSPACE/financemeta-dependency-recovery.patch" > "$GITHUB_WORKSPACE/financemeta-dependency-recovery.patch.sha256"
+      - if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: financemeta-dependency-${{ github.run_id }}
+          path: |
+            financemeta-audit-before.json
+            financemeta-audit-after.json
+            financemeta-dependency-tree.txt
+            financemeta-dependency-recovery.patch
+            financemeta-dependency-recovery.patch.sha256
+          if-no-files-found: warn
+          retention-days: 14
