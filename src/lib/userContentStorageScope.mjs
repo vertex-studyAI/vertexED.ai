@@ -1,11 +1,18 @@
-const UNAUTHENTICATED_SCOPE = 'unauthenticated';
+const UNHYDRATED_SCOPE = 'unhydrated';
+const SIGNED_OUT_SCOPE = 'signed-out';
+let activeScope;
 
 export function normalizeUserContentStorageScope(scope) {
-  if (typeof scope !== 'string' || scope.trim().length === 0) return UNAUTHENTICATED_SCOPE;
+  if (scope === undefined) return UNHYDRATED_SCOPE;
+  if (scope === null || typeof scope !== 'string' || scope.trim().length === 0) return SIGNED_OUT_SCOPE;
   return encodeURIComponent(scope.trim()).slice(0, 256);
 }
 
-export function userContentStorageKeys(scope) {
+export function setUserContentStorageScope(scope) {
+  activeScope = scope;
+}
+
+export function userContentStorageKeys(scope = activeScope) {
   const normalized = normalizeUserContentStorageScope(scope);
   const prefix = `vertex_content:${normalized}`;
   return {
