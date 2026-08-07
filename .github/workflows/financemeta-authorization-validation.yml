@@ -1,0 +1,110 @@
+name: FinanceMeta Authorization Recovery Validation
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/financemeta-authorization-validation.yml'
+      - 'portfolio/financemeta/authorization-hardening/**'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: financemeta-authorization-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  certify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    env:
+      TARGET_COMMIT: fbdd503223edc5b1780509720391083f485a4a85
+
+    steps:
+      - name: Checkout portfolio control repository
+        uses: actions/checkout@v5
+
+      - name: Checkout immutable FinanceMeta source
+        uses: actions/checkout@v5
+        with:
+          repository: build-the-future-11/finance4all-global-reach
+          ref: ${{ env.TARGET_COMMIT }}
+          path: target
+
+      - name: Apply deterministic authorization recovery
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git -C target rev-parse HEAD)" = "$TARGET_COMMIT"
+          node portfolio/financemeta/authorization-hardening/apply-authorization-hardening.mjs target
+          git -C target diff --check
+
+      - name: Verify SQL authorization contract
+        working-directory: target
+        shell: bash
+        run: |
+          set -euo pipefail
+          migration='supabase/migrations/002_authorization_hardening.sql'
+          grep -F 'REVOKE INSERT, UPDATE ON TABLE public.profiles FROM anon, authenticated' "$migration"
+          grep -F 'WITH CHECK (auth.uid() = id)' "$migration"
+          grep -F "WITH CHECK (auth.uid() = id AND role = 'member'::public.user_role)" "$migration"
+          grep -F 'GRANT UPDATE (display_name, avatar_url, bio, interests, open_to_collaborate, chapter_id)' "$migration"
+          ! grep -E 'GRANT (INSERT|UPDATE) \([^)]*role' "$migration"
+          grep -F 'ALTER FUNCTION public.get_user_role() SET search_path = public' "$migration"
+          grep -F 'ALTER FUNCTION public.is_admin() SET search_path = public' "$migration"
+          grep -F 'ALTER FUNCTION public.is_lead_or_admin() SET search_path = public' "$migration"
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: target/package-lock.json
+
+      - name: Install frozen dependencies
+        working-directory: target
+        run: npm ci
+
+      - name: Run target tests including authorization regression
+        working-directory: target
+        run: npm test
+
+      - name: Run TypeScript check
+        working-directory: target
+        run: npx tsc --noEmit
+
+      - name: Run lint
+        working-directory: target
+        run: npm run lint
+
+      - name: Run production build
+        working-directory: target
+        env:
+          VITE_SUPABASE_URL: https://financemeta-ci.invalid
+          VITE_SUPABASE_PUBLISHABLE_KEY: ci-public-placeholder
+          VITE_SUPABASE_ANON_KEY: ci-public-placeholder
+        run: npm run build
+
+      - name: Generate reviewable target patch
+        working-directory: target
+        shell: bash
+        run: |
+          set -euo pipefail
+          git add -N supabase/migrations/002_authorization_hardening.sql src/test/authorization-contract.test.ts
+          git diff --binary > "$GITHUB_WORKSPACE/financemeta-authorization-hardening.patch"
+          test -s "$GITHUB_WORKSPACE/financemeta-authorization-hardening.patch"
+          git apply --check "$GITHUB_WORKSPACE/financemeta-authorization-hardening.patch" --reverse
+          sha256sum "$GITHUB_WORKSPACE/financemeta-authorization-hardening.patch" > "$GITHUB_WORKSPACE/financemeta-authorization-hardening.patch.sha256"
+
+      - name: Upload certification evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: financemeta-authorization-${{ github.run_id }}
+          path: |
+            financemeta-authorization-hardening.patch
+            financemeta-authorization-hardening.patch.sha256
+          if-no-files-found: ignore
+          retention-days: 14
