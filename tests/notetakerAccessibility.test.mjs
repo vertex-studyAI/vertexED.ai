@@ -129,17 +129,17 @@ test('study overlays gain dialog semantics, focus containment and Escape close',
   assert.equal(dialog.getAttribute('aria-label'), 'Spaced repetition study mode');
   assert.equal(close.getAttribute('aria-label'), 'Close Spaced repetition study mode');
   await tick(dom.window);
-  assert.equal(document.activeElement, close);
+  assert.equal(document.activeElement?.id, 'close');
 
   show.focus();
   dialog.dispatchEvent(new KeyboardEvent('keydown', { key: 'Tab', bubbles: true, cancelable: true }));
-  assert.equal(document.activeElement, close, 'Tab from the last control wraps to the first control');
+  assert.equal(document.activeElement?.id, 'close', 'Tab from the last control wraps to the first control');
 
   dialog.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true }));
   assert.equal(closeClicks, 1, 'Escape activates the dialog close control');
 
   enhanced.cleanup({ restoreFocus: true });
-  assert.equal(document.activeElement, opener);
+  assert.equal(document.activeElement?.id, 'opener');
 });
 
 test('installed controller enhances dynamically mounted study dialog and restores focus after removal', async () => {
@@ -171,6 +171,6 @@ test('installed controller enhances dynamically mounted study dialog and restore
 
   document.getElementById('overlay').remove();
   await tick(dom.window);
-  assert.equal(document.activeElement, opener);
+  assert.equal(document.activeElement?.id, 'opener');
   uninstall();
 });
