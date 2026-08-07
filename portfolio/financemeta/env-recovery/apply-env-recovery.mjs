@@ -39,7 +39,8 @@ export function resolveSupabasePublicEnv(env: FinanceMetaPublicEnv): ResolvedSup
     throw new Error('Placeholder Supabase configuration is not allowed');
   }
 
-  return { url: parsed.toString().replace(/\/$/, ''), key };
+  const normalized = parsed.toString();
+  return { url: normalized.endsWith('/') ? normalized.slice(0, -1) : normalized, key };
 }
 `;
 
@@ -120,12 +121,8 @@ function validatePublicSupabaseEnv(mode: string) {
     throw new Error("VITE_SUPABASE_URL must be a valid URL");
   }
   const localhost = parsed.hostname === "localhost" || parsed.hostname === "127.0.0.1";
-  if (parsed.protocol !== "https:" && !localhost) {
-    throw new Error("VITE_SUPABASE_URL must use HTTPS outside localhost");
-  }
-  if (url === "http://localhost:0" || key === "missing-key") {
-    throw new Error("Placeholder Supabase configuration is not allowed");
-  }
+  if (parsed.protocol !== "https:" && !localhost) throw new Error("VITE_SUPABASE_URL must use HTTPS outside localhost");
+  if (url === "http://localhost:0" || key === "missing-key") throw new Error("Placeholder Supabase configuration is not allowed");
 }
 
 export default defineConfig(({ mode }) => {
@@ -134,15 +131,11 @@ export default defineConfig(({ mode }) => {
     server: {
       host: "::",
       port: 8080,
-      hmr: {
-        overlay: false,
-      },
+      hmr: { overlay: false },
     },
     plugins: [react(), mode === "development" && componentTagger()].filter(Boolean),
     resolve: {
-      alias: {
-        "@": path.resolve(__dirname, "./src"),
-      },
+      alias: { "@": path.resolve(__dirname, "./src") },
       dedupe: ["react", "react-dom", "react/jsx-runtime", "react/jsx-dev-runtime"],
     },
   };
@@ -153,9 +146,7 @@ const envPath = path.join(root, 'src/lib/supabase-env.ts');
 const supabasePath = path.join(root, 'src/lib/supabase.ts');
 const testPath = path.join(root, 'src/test/supabase-env.test.ts');
 const vitePath = path.join(root, 'vite.config.ts');
-if (fs.existsSync(envPath) || fs.existsSync(testPath)) {
-  throw new Error('environment recovery files already exist; refusing ambiguous overwrite');
-}
+if (fs.existsSync(envPath) || fs.existsSync(testPath)) throw new Error('environment recovery files already exist; refusing ambiguous overwrite');
 fs.mkdirSync(path.dirname(envPath), { recursive: true });
 fs.mkdirSync(path.dirname(testPath), { recursive: true });
 fs.writeFileSync(envPath, envModule, 'utf8');
