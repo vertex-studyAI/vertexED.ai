@@ -1,4 +1,5 @@
 import { authFetch } from '@/lib/apiAuth';
+import { userContentStorageKeys } from '@/lib/userContentStorageScope.mjs';
 
 export type StudyArtifactKind = 'note' | 'review' | 'paper';
 
@@ -26,14 +27,13 @@ export type SaveArtifactResult = {
   localOnly?: boolean;
 };
 
-const LOCAL_ARTIFACTS_KEY = 'vertex_local_artifacts';
-const RESTORE_KEY = 'vertex_restore_artifact';
 const LOCAL_LIMIT = 30;
 
 function readRawLocalArtifacts(): StudyArtifact[] {
   if (typeof window === 'undefined') return [];
+  const { artifacts } = userContentStorageKeys();
   try {
-    const raw = window.localStorage.getItem(LOCAL_ARTIFACTS_KEY);
+    const raw = window.localStorage.getItem(artifacts);
     return raw ? (JSON.parse(raw) as StudyArtifact[]) : [];
   } catch {
     return [];
@@ -48,8 +48,9 @@ function readLocalArtifacts(kind?: StudyArtifactKind): StudyArtifact[] {
 
 function writeLocalArtifacts(items: StudyArtifact[]): void {
   if (typeof window === 'undefined') return;
+  const { artifacts } = userContentStorageKeys();
   const stripped = items.map(({ localOnly: _localOnly, ...rest }) => rest);
-  window.localStorage.setItem(LOCAL_ARTIFACTS_KEY, JSON.stringify(stripped.slice(0, LOCAL_LIMIT)));
+  window.localStorage.setItem(artifacts, JSON.stringify(stripped.slice(0, LOCAL_LIMIT)));
 }
 
 function saveLocalArtifact(
@@ -94,13 +95,17 @@ export function artifactTargetRoute(kind: StudyArtifactKind): string {
 }
 
 export function queueArtifactRestore(item: StudyArtifact): void {
-  sessionStorage.setItem(RESTORE_KEY, JSON.stringify(item));
+  if (typeof sessionStorage === 'undefined') return;
+  const { restore } = userContentStorageKeys();
+  sessionStorage.setItem(restore, JSON.stringify(item));
 }
 
 export function consumeArtifactRestore(): StudyArtifact | null {
-  const raw = sessionStorage.getItem(RESTORE_KEY);
+  if (typeof sessionStorage === 'undefined') return null;
+  const { restore } = userContentStorageKeys();
+  const raw = sessionStorage.getItem(restore);
   if (!raw) return null;
-  sessionStorage.removeItem(RESTORE_KEY);
+  sessionStorage.removeItem(restore);
   try {
     return JSON.parse(raw) as StudyArtifact;
   } catch {
@@ -262,13 +267,17 @@ export function setChatHandoff(context: {
   answer?: string;
   feedback?: string;
 }) {
-  sessionStorage.setItem('vertex_chat_handoff', JSON.stringify(context));
+  if (typeof sessionStorage === 'undefined') return;
+  const { chatHandoff } = userContentStorageKeys();
+  sessionStorage.setItem(chatHandoff, JSON.stringify(context));
 }
 
 export function consumeChatHandoff(): Record<string, string> | null {
-  const raw = sessionStorage.getItem('vertex_chat_handoff');
+  if (typeof sessionStorage === 'undefined') return null;
+  const { chatHandoff } = userContentStorageKeys();
+  const raw = sessionStorage.getItem(chatHandoff);
   if (!raw) return null;
-  sessionStorage.removeItem('vertex_chat_handoff');
+  sessionStorage.removeItem(chatHandoff);
   try {
     return JSON.parse(raw) as Record<string, string>;
   } catch {
