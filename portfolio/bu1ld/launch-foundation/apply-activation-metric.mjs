@@ -44,6 +44,16 @@ types = replaceOnce(
 );
 await write(typesPath, types);
 
+const supabasePath = "src/lib/supabase.ts";
+let supabaseTypes = await read(supabasePath);
+supabaseTypes = replaceOnce(
+  supabaseTypes,
+  `    Functions: {\n      search_portal_content: {`,
+  `    Functions: {\n      get_admin_activation_stats: {\n        Args: Record<string, never>;\n        Returns: Array<{\n          activated_members: number;\n          total_members: number;\n          activation_rate_percent: number;\n        }>;\n      };\n      search_portal_content: {`,
+  "activation RPC database type",
+);
+await write(supabasePath, supabaseTypes);
+
 const adminPath = "src/lib/admin.ts";
 let admin = await read(adminPath);
 admin = replaceOnce(
@@ -94,7 +104,7 @@ await write(releasePath, release);
 
 await write(
   "src/lib/activation-metric-contract.test.ts",
-  `import { describe, expect, test } from "bun:test";\nimport { readFileSync } from "node:fs";\n\nconst migration = readFileSync(new URL("../../supabase/phase34.sql", import.meta.url), "utf8");\nconst admin = readFileSync(new URL("./admin.ts", import.meta.url), "utf8");\nconst overview = readFileSync(new URL("../components/admin/AdminOverviewTab.tsx", import.meta.url), "utf8");\n\ndescribe("member activation measurement", () => {\n  test("defines activation as unique members with verified contributions", () => {\n    expect(migration).toContain("get_admin_activation_stats");\n    expect(migration).toContain("count(distinct c.contributor_id)");\n    expect(migration).toContain("c.verification_status = 'verified'");\n    expect(migration).toContain("c.verified_at is not null");\n  });\n\n  test("surfaces activation rather than only artifact volume", () => {\n    expect(admin).toContain('rpc("get_admin_activation_stats")');\n    expect(admin).toContain("activatedMembers");\n    expect(admin).toContain("activationRatePercent");\n    expect(overview).toContain("Activated members");\n    expect(overview).toContain("Activation rate");\n  });\n});\n`,
+  `import { describe, expect, test } from "bun:test";\nimport { readFileSync } from "node:fs";\n\nconst migration = readFileSync(new URL("../../supabase/phase34.sql", import.meta.url), "utf8");\nconst admin = readFileSync(new URL("./admin.ts", import.meta.url), "utf8");\nconst supabaseTypes = readFileSync(new URL("./supabase.ts", import.meta.url), "utf8");\nconst overview = readFileSync(new URL("../components/admin/AdminOverviewTab.tsx", import.meta.url), "utf8");\n\ndescribe("member activation measurement", () => {\n  test("defines activation as unique members with verified contributions", () => {\n    expect(migration).toContain("get_admin_activation_stats");\n    expect(migration).toContain("count(distinct c.contributor_id)");\n    expect(migration).toContain("c.verification_status = 'verified'");\n    expect(migration).toContain("c.verified_at is not null");\n  });\n\n  test("keeps the Supabase RPC typed", () => {\n    expect(supabaseTypes).toContain("get_admin_activation_stats");\n    expect(supabaseTypes).toContain("activated_members: number");\n    expect(supabaseTypes).toContain("activation_rate_percent: number");\n  });\n\n  test("surfaces activation rather than only artifact volume", () => {\n    expect(admin).toContain('rpc("get_admin_activation_stats")');\n    expect(admin).toContain("activatedMembers");\n    expect(admin).toContain("activationRatePercent");\n    expect(overview).toContain("Activated members");\n    expect(overview).toContain("Activation rate");\n  });\n});\n`,
 );
 
 console.log(`Applied Bu1LD activation metric recovery to ${targetRoot}`);
