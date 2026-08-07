@@ -1,3 +1,5 @@
+import { userContentStorageKeys } from '@/lib/userContentStorageScope.mjs';
+
 export type LoopStep = 'plan' | 'focus' | 'practise' | 'review' | 'remember';
 
 export const LOOP_STEPS: { id: LoopStep; label: string; verb: string; href: string }[] = [
@@ -8,12 +10,14 @@ export const LOOP_STEPS: { id: LoopStep; label: string; verb: string; href: stri
   { id: 'remember', label: 'Remember', verb: 'Retrieved from memory', href: '/notetaker' },
 ];
 
-const STORAGE_KEY = 'vertex_study_loop_week';
-
 type WeekRecord = {
   weekKey: string;
   steps: Partial<Record<LoopStep, string>>;
 };
+
+function storageKey() {
+  return userContentStorageKeys().studyLoopWeek;
+}
 
 function weekKey(): string {
   const d = new Date();
@@ -29,7 +33,7 @@ function readWeek(): WeekRecord {
     return { weekKey: weekKey(), steps: {} };
   }
   try {
-    const raw = window.localStorage.getItem(STORAGE_KEY);
+    const raw = window.localStorage.getItem(storageKey());
     const parsed = raw ? (JSON.parse(raw) as WeekRecord) : null;
     const current = weekKey();
     if (!parsed || parsed.weekKey !== current) {
@@ -43,7 +47,7 @@ function readWeek(): WeekRecord {
 
 function writeWeek(record: WeekRecord) {
   if (typeof window === 'undefined') return;
-  window.localStorage.setItem(STORAGE_KEY, JSON.stringify(record));
+  window.localStorage.setItem(storageKey(), JSON.stringify(record));
 }
 
 export function recordLoopStep(step: LoopStep) {
