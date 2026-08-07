@@ -15,9 +15,10 @@ export default async function handler(req, res) {
   try {
     const supabase = getSupabaseAdmin();
 
-    await supabase.from('user_study_artifacts').delete().eq('user_id', user.id);
-    await supabase.from('profiles').delete().eq('id', user.id);
-
+    // Production schema ownership is anchored to auth.users. Learner-owned rows
+    // use ON DELETE CASCADE; audit/content attribution rows use SET NULL. Delete
+    // the identity once so cleanup is performed by the database instead of
+    // manually deleting child rows before auth deletion can still fail.
     const { error } = await supabase.auth.admin.deleteUser(user.id);
     if (error) {
       console.error('account delete failed:', error);
