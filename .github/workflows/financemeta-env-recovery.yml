@@ -1,0 +1,117 @@
+name: FinanceMeta Environment Recovery
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/financemeta-env-recovery.yml'
+      - 'portfolio/financemeta/env-recovery/**'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: financemeta-env-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  certify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    env:
+      TARGET_COMMIT: fbdd503223edc5b1780509720391083f485a4a85
+
+    steps:
+      - name: Checkout portfolio control repository
+        uses: actions/checkout@v5
+
+      - name: Checkout immutable FinanceMeta source
+        uses: actions/checkout@v5
+        with:
+          repository: build-the-future-11/finance4all-global-reach
+          ref: ${{ env.TARGET_COMMIT }}
+          path: target
+
+      - name: Apply fail-closed environment recovery
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git -C target rev-parse HEAD)" = "$TARGET_COMMIT"
+          node portfolio/financemeta/env-recovery/apply-env-recovery.mjs target
+          git -C target diff --check
+          grep -F 'VITE_SUPABASE_URL=https://your-project-id.supabase.co' target/.env.example
+          grep -F 'VITE_SUPABASE_ANON_KEY=' target/.env.example
+          ! grep -n 'http://localhost:0\|missing-key' target/src/lib/supabase.ts
+          grep -F 'validatePublicSupabaseEnv(mode)' target/vite.config.ts
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: target/package-lock.json
+
+      - name: Install frozen dependencies
+        working-directory: target
+        run: npm ci
+
+      - name: Run environment and target tests
+        working-directory: target
+        run: npm test
+
+      - name: Run TypeScript check
+        working-directory: target
+        run: npx tsc --noEmit
+
+      - name: Lint environment patch
+        working-directory: target
+        run: npx eslint src/lib/supabase.ts src/lib/supabase-env.ts src/test/supabase-env.test.ts vite.config.ts
+
+      - name: Prove production build fails without public Supabase configuration
+        working-directory: target
+        shell: bash
+        run: |
+          set +e
+          unset VITE_SUPABASE_URL VITE_SUPABASE_ANON_KEY VITE_SUPABASE_PUBLISHABLE_KEY
+          npm run build > "$GITHUB_WORKSPACE/financemeta-build-without-env.log" 2>&1
+          status=$?
+          set -e
+          test "$status" -ne 0
+          grep -F 'Missing VITE_SUPABASE_URL' "$GITHUB_WORKSPACE/financemeta-build-without-env.log"
+
+      - name: Prove production build passes with valid public configuration
+        working-directory: target
+        env:
+          VITE_SUPABASE_URL: https://financemeta-ci.invalid
+          VITE_SUPABASE_ANON_KEY: ci-public-placeholder
+        run: npm run build
+
+      - name: Generate reverse-applicable environment patch
+        working-directory: target
+        shell: bash
+        run: |
+          set -euo pipefail
+          git add -N src/lib/supabase-env.ts src/test/supabase-env.test.ts
+          git diff --binary > "$GITHUB_WORKSPACE/financemeta-env-recovery.patch"
+          test -s "$GITHUB_WORKSPACE/financemeta-env-recovery.patch"
+          git apply --check "$GITHUB_WORKSPACE/financemeta-env-recovery.patch" --reverse
+          sha256sum "$GITHUB_WORKSPACE/financemeta-env-recovery.patch" > "$GITHUB_WORKSPACE/financemeta-env-recovery.patch.sha256"
+          {
+            echo "target_commit=$TARGET_COMMIT"
+            echo "patch_sha256=$(cut -d' ' -f1 "$GITHUB_WORKSPACE/financemeta-env-recovery.patch.sha256")"
+            echo "classification=environment_patch_certified_pending_target_application"
+          } > "$GITHUB_WORKSPACE/financemeta-env-certification.txt"
+
+      - name: Upload environment evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: financemeta-env-${{ github.run_id }}
+          path: |
+            financemeta-build-without-env.log
+            financemeta-env-recovery.patch
+            financemeta-env-recovery.patch.sha256
+            financemeta-env-certification.txt
+          if-no-files-found: warn
+          retention-days: 14
