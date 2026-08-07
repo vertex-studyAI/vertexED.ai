@@ -22,5 +22,6 @@ export function userContentStorageKeys(scope = activeScope) {
     sketchPad: `${prefix}:sketch_pad`,
     activity: `${prefix}:study_activity`,
     quickNotes: `${prefix}:quick_notes`,
+    lastStudySession: `${prefix}:last_study_session`,
   };
 }
