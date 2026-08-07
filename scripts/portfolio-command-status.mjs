@@ -3,7 +3,8 @@ import { readFile } from 'node:fs/promises';
 
 const checkpointsDir = new URL('../portfolio/checkpoints/', import.meta.url);
 const currentPointerUrl = new URL('CURRENT', checkpointsDir);
-const allowedStatuses = new Set(['DONE', 'PARTIAL', 'BLOCKED', 'INVALID', 'UNKNOWN']);
+const allowedPortfolioStatuses = new Set(['DONE', 'PARTIAL', 'BLOCKED', 'INVALID', 'UNKNOWN']);
+const allowedWorkerStatuses = new Set(['WORKING', 'VERIFYING', 'BLOCKED', 'IDLE', 'FAILED', 'FINISHED', 'UNKNOWN']);
 const expectedFinishLines = new Set(['percy', 'project2424', 'vertexed', 'financemeta', 'the-bu1ld']);
 const expectedLanes = Array.from({ length: 8 }, (_, index) => String(index + 1).padStart(2, '0'));
 
@@ -31,7 +32,7 @@ function validate(checkpoint) {
     assert(expectedFinishLines.has(item.id), `unexpected finish line: ${item.id}`);
     assert(!seenFinishLines.has(item.id), `duplicate finish line: ${item.id}`);
     seenFinishLines.add(item.id);
-    assert(allowedStatuses.has(item.status), `${item.id} has invalid status ${item.status}`);
+    assert(allowedPortfolioStatuses.has(item.status), `${item.id} has invalid portfolio status ${item.status}`);
     assert(Array.isArray(item.evidence), `${item.id} evidence must be an array`);
     assert(Array.isArray(item.blockers), `${item.id} blockers must be an array`);
     assert(typeof item.next_action === 'string' && item.next_action.length > 0, `${item.id} needs a next action`);
@@ -72,7 +73,7 @@ function validate(checkpoint) {
   );
 
   for (const agent of checkpoint.agents) {
-    assert(allowedStatuses.has(agent.current_status), `lane ${agent.lane} has invalid current status`);
+    assert(allowedWorkerStatuses.has(agent.current_status), `lane ${agent.lane} has invalid worker status ${agent.current_status}`);
     assert(typeof agent.allocation === 'string' && agent.allocation.length > 20, `lane ${agent.lane} needs an executable allocation`);
     assert(Array.isArray(agent.write_scope) && agent.write_scope.length > 0, `lane ${agent.lane} needs a write scope`);
     assert(Array.isArray(agent.must_not_overlap), `lane ${agent.lane} must declare collision boundaries`);
@@ -117,7 +118,7 @@ function printSummary(pointer, checkpoint) {
   console.log('');
   console.log('PERCY ALLOCATION');
   for (const agent of checkpoint.agents) {
-    console.log(`${agent.lane} ${agent.role}: ${agent.allocation}`);
+    console.log(`${agent.current_status.padEnd(9)} lane ${agent.lane} ${agent.role}: ${agent.allocation}`);
   }
 }
 
