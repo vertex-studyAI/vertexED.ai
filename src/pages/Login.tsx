@@ -61,7 +61,9 @@ export default function Login() {
     setResetLoading(true);
     try {
       const { error: resetError } = await supabase.auth.resetPasswordForEmail(normalizedEmail, {
-        redirectTo: `${window.location.origin}/auth/callback`,
+        // Keep the already-established auth callback route as the redirect surface,
+        // while making recovery intent explicit for PKCE/session exchange handling.
+        redirectTo: `${window.location.origin}/auth/callback?recovery=1`,
       });
       if (resetError) throw resetError;
       setInfo("If an account exists for that email, we sent a password reset link.");
