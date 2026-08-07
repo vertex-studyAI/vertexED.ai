@@ -14,6 +14,8 @@ const progressSource = fs.readFileSync('src/lib/progressAnalytics.ts', 'utf8');
 const todayPlanSource = fs.readFileSync('src/lib/todayPlan.ts', 'utf8');
 const statsSource = fs.readFileSync('src/lib/studyStats.ts', 'utf8');
 const portalSource = fs.readFileSync('src/lib/portalFeatures.ts', 'utf8');
+const localStorageHookSource = fs.readFileSync('src/hooks/useLocalStorage.ts', 'utf8');
+const notetakerSource = fs.readFileSync('src/pages/NotetakerQuiz.tsx', 'utf8');
 
 test('learner-derived state keys are different for different accounts', () => {
   const first = userContentStorageKeys('learner-a');
@@ -55,6 +57,27 @@ test('spaced repetition and weakness history abandon shared legacy keys', () => 
   assert.doesNotMatch(srDeckSource, /vertex_sr_deck/);
   assert.match(weaknessSource, /userContentStorageKeys\(\)\.weaknessHeatmap/);
   assert.doesNotMatch(weaknessSource, /vertex_weakness_heatmap/);
+});
+
+test('legacy useLocalStorage learner keys are transparently resolved to the active account', () => {
+  for (const legacyKey of [
+    'vertex_sr_deck',
+    'vertex_weakness_heatmap',
+    'vertex_study_loop_week',
+    'vertex_progress_snapshots',
+    'vertex_today_plan_done_v1',
+    'vertex_confidence_checkin_v1',
+    'vertex_exam_night_checklist_v1',
+    'vertex_study_streak',
+    'vertex_last_study_date',
+    'studyzone_habits',
+    'studyzone_habits_reset_date',
+  ]) {
+    assert.match(localStorageHookSource, new RegExp(legacyKey.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
+  }
+  assert.match(localStorageHookSource, /const resolvedKey = resolveScopedKey\(key\)/);
+  assert.match(localStorageHookSource, /hydratedKeyRef\.current === resolvedKey/);
+  assert.match(notetakerSource, /useLocalStorage<SrCard\[]>\("vertex_sr_deck", \[\]\)/);
 });
 
 test('loop, progress, and today-plan completion are account scoped', () => {
