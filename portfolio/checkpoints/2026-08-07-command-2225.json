@@ -1,0 +1,215 @@
+{
+  "schema_version": 1,
+  "as_of": "2026-08-07T22:25:00+05:30",
+  "control_repository": "vertex-studyAI/vertexED.ai",
+  "control_commit_observed_before_checkpoint": "4487fc52f88ff002a59ee49f684bbb4b129684fd",
+  "status_enum": ["DONE", "PARTIAL", "BLOCKED", "INVALID", "UNKNOWN"],
+  "finish_lines": [
+    {
+      "id": "percy",
+      "name": "Percy",
+      "status": "BLOCKED",
+      "classification": "BLOCKED",
+      "runtime_liveness_verified": false,
+      "evidence": [
+        "Issue #95 reproduces sqlite3.OperationalError: no such column: title against the existing Percy task database.",
+        "Last verified worker-pane observation showed only zsh commands; no active agent process was proven."
+      ],
+      "blockers": [
+        "Existing-state snapshot/schema compatibility",
+        "Process plus heartbeat/lease worker-liveness truth",
+        "Read-only storage/lock/worktree/provider preflight"
+      ],
+      "next_action": "Lane 04 owns issue #95 only: preserve history, repair old/current DB compatibility, add regression tests, run preflight, and classify SHELL_ONLY/RUNNING/STALE/EXITED/UNKNOWN from process plus heartbeat/lease evidence.",
+      "percy_lane": "04"
+    },
+    {
+      "id": "project2424",
+      "name": "Project 2424",
+      "status": "BLOCKED",
+      "classification": "ENGINEERING_INCOMPLETE",
+      "authoritative_total": 2424,
+      "authoritative_stage_counts_verified": false,
+      "evidence": [
+        "Issue #20 records a 2,424-proposal registry but canonical Project 2424/Typhon restoration remains incomplete.",
+        "Historical 31 repository tests / 34 project suites / 125 project tests / 2,424 contracts / 12,538 atomic tasks remain historical until rerun."
+      ],
+      "blockers": [
+        "Canonical source restoration without losing dirty seven-phase work",
+        "Historical claim reconciliation",
+        "Current authoritative per-stage registry export",
+        "Independent reproduction"
+      ],
+      "next_action": "Lane 05 restores the canonical source under issue #20, reruns the smallest baseline, exports exact counts for every research gate across all 2,424 IDs, and then resumes the next READY project. Five-flagship selection is scheduling only and does not reduce the 2,424 scope.",
+      "percy_lane": "05"
+    },
+    {
+      "id": "vertexed",
+      "name": "VertexED",
+      "status": "PARTIAL",
+      "classification": "LIVE_VERIFICATION_REQUIRED",
+      "real_user_journey_verified": false,
+      "evidence": [
+        "Source account isolation, adaptive-state isolation, password recovery and account-deletion fixes are integrated.",
+        "At current main 4487fc52f88ff002a59ee49f684bbb4b129684fd, both Vercel contexts still report build-rate-limit failure.",
+        "Production database verification previously recorded 26/26 public tables with RLS enabled."
+      ],
+      "blockers": [
+        "One canonical Vercel production project and exact deployed current-main SHA",
+        "Issue #13 disposable authenticated golden journey including saved-artifact fresh-session return",
+        "Leaked-password protection and Postgres security upgrade owner settings"
+      ],
+      "next_action": "Lane 01 stops feature work. Resolve #44 exact canonical production deployment identity first, then execute #13 end-to-end disposable-account certification and cleanup.",
+      "percy_lane": "01"
+    },
+    {
+      "id": "financemeta",
+      "name": "FinanceMeta",
+      "status": "PARTIAL",
+      "classification": "SOURCE_RELEASE_CANDIDATE_BRANCH",
+      "real_user_journey_verified": false,
+      "evidence": [
+        "Canonical main remains fbdd503223edc5b1780509720391083f485a4a85.",
+        "Canonical repository branch cursor/membership-security-supabase-fix is 41 commits ahead and 0 behind main at head 6dcc03710bb6adf9b4b722b308c40a0720bea61f.",
+        "That branch contains strict production Supabase environment validation, CI, RLS/security migrations, member portal workflows, participation/contribution state, analytics and recorded release-gate evidence.",
+        "The GitHub integration returned 403 for both creating a new target branch and opening a pull request, so main was not bypassed or mutated directly."
+      ],
+      "blockers": [
+        "User-authenticated target Git/PR path for canonical promotion",
+        "Fresh clean-head CI and independent RLS/role-boundary QA",
+        "Live FinanceMeta Supabase migration/deployment identity",
+        "Join -> participate -> save -> fresh-session return journey"
+      ],
+      "next_action": "Lane 02 continues from cursor/membership-security-supabase-fix at 6dcc03710bb6adf9b4b722b308c40a0720bea61f rather than rebuilding old main. Run fresh current-head gates and independent role-escalation denial QA, then use the user-authenticated Git path to open/merge the canonical PR.",
+      "percy_lane": "02"
+    },
+    {
+      "id": "the-bu1ld",
+      "name": "The Bu1LD",
+      "status": "BLOCKED",
+      "classification": "STAGING_READY",
+      "real_user_journey_verified": false,
+      "evidence": [
+        "Canonical target remains daa80c1124b2a6d7d09b7669e04d29e50cffcbbe.",
+        "Control PR #104 certifies one consolidated launch-foundation artifact with 164/164 tests, TypeScript, ESLint, Vite client/SSR builds, build identity, auth/recovery, paused-member authorization and activation analytics.",
+        "Existing cursor branches are behind current main and are not valid launch-forward branches.",
+        "Target branch/ref creation remains externally blocked; Cloudflare production is not certified changed."
+      ],
+      "blockers": [
+        "Target Git write through a user-authenticated isolated worktree",
+        "Bu1LD Supabase/Cloudflare live access",
+        "Production hydration/deployment identity",
+        "Visitor -> member -> contribution -> review -> return certification"
+      ],
+      "next_action": "Lane 03 applies the single certified PR #104 artifact once to exact current target through an isolated user-authenticated worktree, then closes deployment/hydration and role-journey gates. Do not generate another bundle.",
+      "percy_lane": "03"
+    }
+  ],
+  "project2424_stage_counts": {
+    "total": 2424,
+    "question_defined": "UNKNOWN_CURRENT",
+    "novelty_checked": "UNKNOWN_CURRENT",
+    "protocol_frozen": "UNKNOWN_CURRENT",
+    "implemented": "UNKNOWN_CURRENT",
+    "tested": "UNKNOWN_CURRENT",
+    "benchmarked": "UNKNOWN_CURRENT",
+    "ablations_complete": "UNKNOWN_CURRENT",
+    "manuscript_complete": "UNKNOWN_CURRENT",
+    "reproduced": "UNKNOWN_CURRENT",
+    "preprint_ready": "UNKNOWN_CURRENT",
+    "reason": "Canonical registry/restoration is not currently readable through connected GitHub; historical counts are not promoted to current truth."
+  },
+  "research_subprojects": [
+    {
+      "id": "lam-jepa",
+      "name": "LAM-JEPA",
+      "status": "PARTIAL",
+      "classification": "RESEARCH_REPRODUCED_WITH_LIMITATIONS",
+      "independent_reproduction_verified": true,
+      "evidence": [
+        "Control PR #126 merged as 4487fc52f88ff002a59ee49f684bbb4b129684fd and independently recomputes the exact retained five-seed/20-epoch validation artifact.",
+        "Full mean accuracy 0.2549152542; no-planner 0.2501694915; no-target 0.2616949153; shuffled-label negative control 0.2630508475.",
+        "All five full-model seeds collapse to one predicted class; planner and target mechanisms are unsupported; ARC confirmatory test was not accessed; research_complete=false.",
+        "Control PR #127 merged as e20d871c88108ee57d0b6d053ae05bbf396e3a4e and audits the real 96-token ARC serialization. Correct-answer text is fully visible in 98.6441% of eligible validation rows; truncation is real but too small by itself to explain the pervasive collapse."
+      ],
+      "blockers": [
+        "Issue #10 stronger externally grounded benchmark/baseline protocol",
+        "Mechanism-positive evidence if any exists after correcting collapse",
+        "Locked confirmatory evaluation only after protocol changes are frozen"
+      ],
+      "next_action": "Lane 07 does not rerun old v3. Freeze the next protocol under #10 with strong budget-matched pretrained baseline, explicit mechanism ablations, robustness and negative control before test access. Lane 08 independently reproduces any new claim."
+    },
+    {
+      "id": "hercules",
+      "name": "Hercules",
+      "status": "BLOCKED",
+      "classification": "ENGINEERING_INCOMPLETE",
+      "evidence": [
+        "Issue #97 records no verified canonical implementation/benchmark and blocks Olympus/Atlas scaling until one bounded Hercules capability is proven."
+      ],
+      "blockers": ["Canonical source identity", "One matched capability/baseline gate", "Independent reproduction"],
+      "next_action": "Lane 06 locates canonical source and freezes one capability, one strong baseline, one metric and one compute/memory budget. Preserve a negative result and make a keep/archive decision."
+    },
+    {
+      "id": "olympus-atlas-series",
+      "name": "Olympus / Atlas series",
+      "status": "BLOCKED",
+      "classification": "ROADMAP_ONLY_OR_SOURCE_UNVERIFIED",
+      "next_action": "Do not scale. Inherit evidence only after the smaller Hercules gate passes."
+    },
+    {
+      "id": "other-flagships",
+      "name": "PI-JEPA / Eigen-JEPA / Eigen-Finance / APEN-PEN / RIPII / NeuroCAD / Speechly / Bayes Cleaner / Colorworld / other flagships",
+      "status": "UNKNOWN",
+      "classification": "CANONICAL_SOURCE_UNVERIFIED_IN_CONNECTED_GITHUB",
+      "next_action": "Search canonical local/remote source first. Never instantiate a roadmap name from documentation alone. For Bayes Cleaner specifically recover the existing basic-run evidence before any new run."
+    }
+  ],
+  "business": {
+    "program_readiness": "PARTIAL",
+    "launch_readiness": "PARTIAL",
+    "outreach_sent_this_run": [
+      {
+        "recipient": "nalinmehta42@gmail.com",
+        "thread_id": "19fca1072a98017a",
+        "message_id": "19fdd1d3de4f1ca6",
+        "purpose": "Correct competition launch status: YEL partnership remains unconfirmed and LinkedIn post remains incomplete; do not block the rest of launch or overstate either item."
+      }
+    ],
+    "partnership_pipeline": [
+      "Take Charge Today: active; curriculum materials received and acknowledged.",
+      "YEL competition partnership: UNCONFIRMED; explicitly prevented from being represented as complete."
+    ],
+    "funding": [
+      "LSE Generate Global Innovation Challenge registration reopened through 2026-08-08 23:59 GMT+0 with prizes up to $2,500; registration appears paid, so no fee-bearing registration was submitted automatically."
+    ]
+  },
+  "p0_blockers": [
+    {"id": "P0-PERCY-SNAPSHOT-LIVENESS", "project": "Percy", "owner_lane": "04"},
+    {"id": "P0-VERTEXED-PRODUCTION-REVISION", "project": "VertexED", "owner_lane": "01"},
+    {"id": "P0-FINANCEMETA-CANONICAL-PROMOTION-LIVE-AUTHZ", "project": "FinanceMeta", "owner_lane": "02"},
+    {"id": "P0-BU1LD-DEPLOYMENT-INTEGRITY", "project": "The Bu1LD", "owner_lane": "03"},
+    {"id": "P0-P2424-RESTORE-REGISTRY", "project": "Project 2424", "owner_lane": "05"}
+  ],
+  "agents": [
+    {"lane": "00", "role": "Command", "current_status": "RUNNING_IN_CHAT", "allocation": "Keep checkpoint/current registry synchronized, reject unsupported completion, detect collisions and dispatch the next READY compatible task."},
+    {"lane": "01", "role": "VertexED", "current_status": "READY_EXTERNAL_GATE", "allocation": "Resolve #44 canonical Vercel deployed SHA, then #13 disposable-account golden journey; no feature work."},
+    {"lane": "02", "role": "FinanceMeta", "current_status": "READY_ON_EXISTING_BRANCH", "allocation": "Continue from canonical 6dcc037 branch, fresh clean-head gates + independent RLS/role QA, then canonical PR through user-auth Git path."},
+    {"lane": "03", "role": "The Bu1LD", "current_status": "READY_EXTERNAL_GATE", "allocation": "Apply PR #104 certified artifact once to exact target, then hydration/deployment identity and visitor-member-contribution-review-return QA."},
+    {"lane": "04", "role": "Percy Core", "current_status": "READY_LOCAL_ONLY", "allocation": "Issue #95 only: DB schema compatibility, snapshot regression and real worker-liveness classification."},
+    {"lane": "05", "role": "Project 2424", "current_status": "READY_LOCAL_ONLY", "allocation": "Issue #20 restore canonical repository and 2,424 registry, rerun smallest baseline, export exact stage counts, then claim next READY project."},
+    {"lane": "06", "role": "Hercules / flagship source recovery", "current_status": "READY_SOURCE_DISCOVERY", "allocation": "Issue #97 one bounded Hercules gate; if canonical source is absent, record it and rotate to the next source-verified flagship rather than inventing a repo."},
+    {"lane": "07", "role": "JEPA", "current_status": "READY_PROTOCOL", "allocation": "Use merged adverse v3 evidence; freeze next #10 protocol with stronger baseline/mechanism tests before any confirmatory-test access."},
+    {"lane": "08", "role": "Independent QA", "current_status": "ACTIVE", "allocation": "PR #126 and #127 evidence are now merged. Next certify product live claims or the next immutable research result; do not author primary fixes."}
+  ],
+  "truth_guards": {
+    "done_requires_evidence": true,
+    "research_complete_requires_independent_reproduction": true,
+    "launch_ready_requires_real_user_journey": true,
+    "healthy_percy_requires_runtime_liveness": true,
+    "build_pass_is_not_launch_ready": true,
+    "plans_and_prompts_do_not_count_as_engineering_progress": true,
+    "unknown_is_required_when_current_runtime_evidence_is_unavailable": true,
+    "project2424_scope_remains_2424": true
+  }
+}
