@@ -2,6 +2,8 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import test from 'node:test';
 
+// Keep these source contracts on the PR merge ref so account-isolation changes
+// are revalidated whenever main advances during the hardening sprint.
 import {
   normalizeUserContentStorageScope,
   setUserContentStorageScope,
