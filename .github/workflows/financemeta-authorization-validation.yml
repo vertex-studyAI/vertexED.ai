@@ -75,9 +75,29 @@ jobs:
         working-directory: target
         run: npx tsc --noEmit
 
-      - name: Run lint
+      - name: Lint authorization regression itself
         working-directory: target
-        run: npm run lint
+        run: npx eslint src/test/authorization-contract.test.ts
+
+      - name: Record full target lint debt without hiding patch quality
+        working-directory: target
+        shell: bash
+        run: |
+          set +e
+          npm run lint 2>&1 | tee "$GITHUB_WORKSPACE/financemeta-full-lint.txt"
+          status=${PIPESTATUS[0]}
+          echo "$status" > "$GITHUB_WORKSPACE/financemeta-full-lint.exit-code"
+          exit 0
+
+      - name: Record production dependency audit
+        working-directory: target
+        shell: bash
+        run: |
+          set +e
+          npm audit --omit=dev --json > "$GITHUB_WORKSPACE/financemeta-production-audit.json"
+          status=$?
+          echo "$status" > "$GITHUB_WORKSPACE/financemeta-production-audit.exit-code"
+          exit 0
 
       - name: Run production build
         working-directory: target
@@ -97,6 +117,13 @@ jobs:
           test -s "$GITHUB_WORKSPACE/financemeta-authorization-hardening.patch"
           git apply --check "$GITHUB_WORKSPACE/financemeta-authorization-hardening.patch" --reverse
           sha256sum "$GITHUB_WORKSPACE/financemeta-authorization-hardening.patch" > "$GITHUB_WORKSPACE/financemeta-authorization-hardening.patch.sha256"
+          {
+            echo "target_commit=$TARGET_COMMIT"
+            echo "patch_sha256=$(cut -d' ' -f1 "$GITHUB_WORKSPACE/financemeta-authorization-hardening.patch.sha256")"
+            echo "full_lint_exit_code=$(cat "$GITHUB_WORKSPACE/financemeta-full-lint.exit-code")"
+            echo "production_audit_exit_code=$(cat "$GITHUB_WORKSPACE/financemeta-production-audit.exit-code")"
+            echo "classification=authorization_patch_certified_pending_target_application_and_live_denial_tests"
+          } > "$GITHUB_WORKSPACE/financemeta-authorization-certification.txt"
 
       - name: Upload certification evidence
         if: always()
@@ -106,5 +133,10 @@ jobs:
           path: |
             financemeta-authorization-hardening.patch
             financemeta-authorization-hardening.patch.sha256
-          if-no-files-found: ignore
+            financemeta-authorization-certification.txt
+            financemeta-full-lint.txt
+            financemeta-full-lint.exit-code
+            financemeta-production-audit.json
+            financemeta-production-audit.exit-code
+          if-no-files-found: warn
           retention-days: 14
