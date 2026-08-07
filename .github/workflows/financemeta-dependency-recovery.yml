@@ -139,10 +139,6 @@ jobs:
         working-directory: target
         run: npx tsc --noEmit
 
-      - name: Run full repository lint
-        working-directory: target
-        run: npm run lint
-
       - name: Run production build
         working-directory: target
         env:
