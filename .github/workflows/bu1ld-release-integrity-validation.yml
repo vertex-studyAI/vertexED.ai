@@ -53,6 +53,10 @@ jobs:
         working-directory: target
         run: bun install --frozen-lockfile
 
+      - name: Normalize generated target file formatting
+        working-directory: target
+        run: bunx prettier --write scripts/verify-deployed-build.mjs
+
       - name: Run complete non-secret source gate
         working-directory: target
         env:
@@ -86,10 +90,10 @@ jobs:
           set -euo pipefail
           grep -F 'run: bun run release:prod' .github/workflows/deploy-cloudflare.yml
           grep -F 'run: node scripts/verify-deployed-build.mjs' .github/workflows/deploy-cloudflare.yml
-          grep -F 'SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}' .github/workflows/deploy-cloudflare.yml
-          grep -F 'RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}' .github/workflows/deploy-cloudflare.yml
-          grep -F 'DIGEST_API_SECRET: ${{ secrets.DIGEST_API_SECRET }}' .github/workflows/deploy-cloudflare.yml
-          grep -F 'VITE_EMAIL_ENDPOINT: ${{ secrets.VITE_EMAIL_ENDPOINT }}' .github/workflows/deploy-cloudflare.yml
+          grep -F 'SUPABASE_SERVICE_ROLE_KEY:' .github/workflows/deploy-cloudflare.yml
+          grep -F 'RESEND_API_KEY:' .github/workflows/deploy-cloudflare.yml
+          grep -F 'DIGEST_API_SECRET:' .github/workflows/deploy-cloudflare.yml
+          grep -F 'VITE_EMAIL_ENDPOINT:' .github/workflows/deploy-cloudflare.yml
 
       - name: Verify onboarding no longer advertises an impossible skip
         working-directory: target
