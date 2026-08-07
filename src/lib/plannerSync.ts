@@ -1,9 +1,7 @@
 import { authFetch } from '@/lib/apiAuth';
 import type { TaskItem } from '@/features/study-calendar/components/Schedule';
 import { trackPlannerRetrieved, trackPlannerSaved } from '@/lib/plannerPersistenceAnalytics.mjs';
-
-const LOCAL_TASKS_KEY = 'planner_tasks';
-const LOCAL_MODE_KEY = 'planner_mode';
+import { plannerStorageKeys } from '@/lib/plannerStorageScope.mjs';
 
 export type PlannerSnapshot = {
   tasks: TaskItem[];
@@ -11,29 +9,36 @@ export type PlannerSnapshot = {
   updatedAt: string;
 };
 
-function readLocalSnapshot(): PlannerSnapshot {
-  if (typeof window === 'undefined') {
-    return { tasks: [], mode: 'Day', updatedAt: new Date(0).toISOString() };
-  }
+function emptySnapshot(): PlannerSnapshot {
+  return { tasks: [], mode: 'Day', updatedAt: new Date(0).toISOString() };
+}
+
+function readLocalSnapshot(storageScope?: string | null): PlannerSnapshot {
+  if (typeof window === 'undefined') return emptySnapshot();
+  const keys = plannerStorageKeys(storageScope);
   try {
-    const tasksRaw = localStorage.getItem(LOCAL_TASKS_KEY);
-    const modeRaw = localStorage.getItem(LOCAL_MODE_KEY);
+    const tasksRaw = localStorage.getItem(keys.tasks);
+    const modeRaw = localStorage.getItem(keys.mode);
     const tasks = tasksRaw ? (JSON.parse(tasksRaw) as TaskItem[]) : [];
     return {
       tasks: Array.isArray(tasks) ? tasks : [],
       mode: modeRaw || 'Day',
-      updatedAt: localStorage.getItem('planner_updated_at') || new Date(0).toISOString(),
+      updatedAt: localStorage.getItem(keys.updatedAt) || new Date(0).toISOString(),
     };
   } catch {
-    return { tasks: [], mode: 'Day', updatedAt: new Date(0).toISOString() };
+    return emptySnapshot();
   }
 }
 
-export function writeLocalPlannerSnapshot(snapshot: PlannerSnapshot) {
+export function writeLocalPlannerSnapshot(
+  snapshot: PlannerSnapshot,
+  storageScope?: string | null,
+) {
   if (typeof window === 'undefined') return;
-  localStorage.setItem(LOCAL_TASKS_KEY, JSON.stringify(snapshot.tasks));
-  localStorage.setItem(LOCAL_MODE_KEY, snapshot.mode);
-  localStorage.setItem('planner_updated_at', snapshot.updatedAt);
+  const keys = plannerStorageKeys(storageScope);
+  localStorage.setItem(keys.tasks, JSON.stringify(snapshot.tasks));
+  localStorage.setItem(keys.mode, snapshot.mode);
+  localStorage.setItem(keys.updatedAt, snapshot.updatedAt);
 }
 
 function parseCloudSnapshot(item: {
@@ -55,12 +60,12 @@ function localPlannerSource(snapshot: PlannerSnapshot) {
   return snapshot.tasks.length > 0 ? 'device' : 'empty';
 }
 
-export async function loadPlannerSnapshot(): Promise<{
+export async function loadPlannerSnapshot(storageScope?: string | null): Promise<{
   snapshot: PlannerSnapshot;
   cloudSynced: boolean;
   error?: string;
 }> {
-  const local = readLocalSnapshot();
+  const local = readLocalSnapshot(storageScope);
 
   try {
     const res = await authFetch('/api/user-content?kind=planner&limit=1');
@@ -102,7 +107,7 @@ export async function loadPlannerSnapshot(): Promise<{
     const cloudTime = new Date(cloud.updatedAt).getTime();
     const useCloud = cloudTime >= localTime;
     const snapshot = useCloud ? cloud : local;
-    writeLocalPlannerSnapshot(snapshot);
+    writeLocalPlannerSnapshot(snapshot, storageScope);
     trackPlannerRetrieved({
       source: useCloud ? 'cloud' : localPlannerSource(local),
       cloudStatus: 'available',
@@ -125,8 +130,9 @@ export async function loadPlannerSnapshot(): Promise<{
 
 export async function savePlannerSnapshot(
   snapshot: PlannerSnapshot,
+  storageScope?: string | null,
 ): Promise<{ ok: boolean; cloudSynced: boolean; error?: string }> {
-  writeLocalPlannerSnapshot(snapshot);
+  writeLocalPlannerSnapshot(snapshot, storageScope);
 
   try {
     const res = await authFetch('/api/user-content', {
