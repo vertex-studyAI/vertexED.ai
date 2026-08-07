@@ -44,6 +44,7 @@ jobs:
           test "$(git -C target rev-parse HEAD)" = "$TARGET_COMMIT"
           node portfolio/bu1ld/launch-foundation/apply-launch-foundation.mjs target
           node portfolio/bu1ld/launch-foundation/apply-activation-metric.mjs target
+          node portfolio/bu1ld/launch-foundation/apply-auth-lifecycle-hardening.mjs target
           node portfolio/bu1ld/release-integrity/verify-release-integrity.mjs target "$TARGET_COMMIT"
           git -C target diff --check
 
@@ -66,11 +67,14 @@ jobs:
             src/lib/auth.tsx \
             src/lib/admin.ts \
             src/lib/types.ts \
+            src/lib/supabase.ts \
             src/routes/signup.tsx \
+            src/routes/reset-password.tsx \
             'src/routes/projects/$slug.tsx' \
             src/components/member/ProjectEvidenceSection.tsx \
             src/components/admin/AdminOverviewTab.tsx \
             src/lib/auth-signup-contract.test.ts \
+            src/lib/auth-lifecycle-contract.test.ts \
             src/lib/project-membership-write-gate.test.ts \
             src/lib/activation-metric-contract.test.ts
 
@@ -108,6 +112,8 @@ jobs:
           grep -F 'run: node scripts/verify-deployed-build.mjs' .github/workflows/deploy-cloudflare.yml
           grep -F 'requiresEmailConfirmation: !error && !data.session' src/lib/auth.tsx
           grep -F 'Confirm your email to continue' src/routes/signup.tsx
+          grep -F 'window.setTimeout' src/lib/auth.tsx
+          grep -F 'supabase.auth.signOut({ scope: "others" })' src/routes/reset-password.tsx
           grep -F 'const canContribute = collaborationStatus === "active"' 'src/routes/projects/$slug.tsx'
           grep -F 'canPost={isLead || canContribute}' 'src/routes/projects/$slug.tsx'
           grep -F 'showContributionForm && canContribute' src/components/member/ProjectEvidenceSection.tsx
@@ -115,6 +121,7 @@ jobs:
           grep -F "pm.status = 'active'" supabase/phase34.sql
           grep -F 'get_admin_activation_stats' supabase/phase34.sql
           grep -F 'count(distinct c.contributor_id)' supabase/phase34.sql
+          grep -F 'get_admin_activation_stats:' src/lib/supabase.ts
           grep -F 'Activated members' src/components/admin/AdminOverviewTab.tsx
           grep -F 'Activation rate' src/components/admin/AdminOverviewTab.tsx
           grep -F '"supabase/phase34.sql"' scripts/apply-schema.mjs
@@ -130,6 +137,7 @@ jobs:
             src/lib/build-identity.ts \
             src/lib/build-identity.test.ts \
             src/lib/auth-signup-contract.test.ts \
+            src/lib/auth-lifecycle-contract.test.ts \
             src/lib/project-membership-write-gate.test.ts \
             src/lib/activation-metric-contract.test.ts \
             scripts/verify-deployed-build.mjs \
