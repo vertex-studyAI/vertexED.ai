@@ -99,7 +99,7 @@ test('Notetaker controller preserves existing accessible names', () => {
   assert.equal(dom.window.document.getElementById('topic').getAttribute('aria-label'), 'Specific existing name');
 });
 
-test('study overlays gain dialog semantics, focus containment and Escape close', () => {
+test('study overlays gain dialog semantics, focus containment and Escape close', async () => {
   const dom = createDom(`
     <button id="opener">Study Mode</button>
     <div id="overlay" class="fixed inset-0">
@@ -128,6 +128,7 @@ test('study overlays gain dialog semantics, focus containment and Escape close',
   assert.equal(dialog.getAttribute('aria-modal'), 'true');
   assert.equal(dialog.getAttribute('aria-label'), 'Spaced repetition study mode');
   assert.equal(close.getAttribute('aria-label'), 'Close Spaced repetition study mode');
+  await tick(dom.window);
   assert.equal(document.activeElement, close);
 
   show.focus();
