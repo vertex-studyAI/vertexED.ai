@@ -4,13 +4,17 @@ on:
   pull_request:
     paths:
       - '.github/workflows/production-health.yml'
+      - 'api/_handlers/health.js'
       - 'scripts/smoke-deploy.mjs'
+      - 'scripts/vercel-ignore-build.mjs'
   push:
     branches:
       - main
     paths:
       - '.github/workflows/production-health.yml'
+      - 'api/_handlers/health.js'
       - 'scripts/smoke-deploy.mjs'
+      - 'scripts/vercel-ignore-build.mjs'
   schedule:
     # Offset from the top of the hour to reduce scheduler congestion.
     - cron: '17 * * * *'
@@ -37,6 +41,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v6
@@ -54,11 +60,20 @@ jobs:
           log_path='health-evidence/production-smoke.log'
           checked_at="$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
           passed=0
+          expected_revision='not-enforced-for-this-ref'
+
+          if [ "${GITHUB_REF}" = 'refs/heads/main' ]; then
+            expected_revision="$(node scripts/vercel-ignore-build.mjs --print-latest-runtime-revision)"
+            export EXPECTED_VERTEXED_REVISION="$expected_revision"
+          else
+            unset EXPECTED_VERTEXED_REVISION || true
+          fi
 
           {
             echo "checked_at=${checked_at}"
             echo "target=${SMOKE_BASE_URL}"
-            echo "commit=${GITHUB_SHA}"
+            echo "workflow_commit=${GITHUB_SHA}"
+            echo "expected_deploy_revision=${expected_revision}"
             echo "run=${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
           } | tee "$log_path"
 
@@ -79,10 +94,12 @@ jobs:
             echo
             echo "- Checked at: ${checked_at}"
             echo "- Base URL: ${SMOKE_BASE_URL}"
+            echo "- Workflow commit: ${GITHUB_SHA}"
+            echo "- Expected deploy revision: ${expected_revision}"
             echo "- Attempts allowed: 3"
             echo "- Result: $([ "$passed" -eq 1 ] && echo PASS || echo FAIL)"
             echo
-            echo 'Coverage: health/router identity, API 404 behavior, homepage availability, malformed waitlist rejection, logged-out AI/user/admin protection, and untrusted-origin rejection.'
+            echo 'Coverage: deployed revision identity when running on main, health/router identity, API 404 behavior, homepage availability, malformed waitlist rejection, logged-out AI/user/admin protection, and untrusted-origin rejection.'
           } >> "$GITHUB_STEP_SUMMARY"
 
           if [ "$passed" -ne 1 ]; then
@@ -114,9 +131,9 @@ jobs:
           - Target: ${SMOKE_BASE_URL}
           - Failed run: ${run_url}
           - Evidence artifact: production-health-${GITHUB_RUN_ID}
-          - Commit: ${GITHUB_SHA}
+          - Workflow commit: ${GITHUB_SHA}
 
-          The retained log covers health/router identity, API 404 behavior, homepage availability, malformed waitlist rejection, logged-out AI/user/admin protection, and untrusted-origin rejection. Review the evidence and production logs before changing or rolling back production. Authenticated product journeys remain tracked separately in issue #13.
+          On main, the retained log also records the latest deploy-relevant revision derived from the same path contract used by the Vercel ignored-build guard and requires the live health endpoint to serve that exact SHA. Review the evidence and production logs before changing or rolling back production. Authenticated product journeys remain tracked separately in issue #13.
           EOF
 
           issue_number="$(
