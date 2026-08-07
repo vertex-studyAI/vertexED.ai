@@ -1,9 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import handler, { getReadinessSnapshot } from '../api/_handlers/health.js';
+import handler, { getDeploymentRevision, getReadinessSnapshot } from '../api/_handlers/health.js';
 import { createMocks } from './helpers/mock-http.mjs';
 
-const READINESS_ENV_KEYS = [
+const HEALTH_ENV_KEYS = [
   'SUPABASE_URL',
   'VITE_SUPABASE_URL',
   'SUPABASE_ANON_KEY',
@@ -13,22 +13,37 @@ const READINESS_ENV_KEYS = [
   'OPENAI_API_KEY',
   'ChatbotKey',
   'GEMINI_API_KEY',
+  'VERCEL_GIT_COMMIT_SHA',
+  'GITHUB_SHA',
 ];
 
-async function withReadinessEnv(values, callback) {
-  const previous = Object.fromEntries(READINESS_ENV_KEYS.map((key) => [key, process.env[key]]));
+async function withHealthEnv(values, callback) {
+  const previous = Object.fromEntries(HEALTH_ENV_KEYS.map((key) => [key, process.env[key]]));
 
   try {
-    for (const key of READINESS_ENV_KEYS) delete process.env[key];
+    for (const key of HEALTH_ENV_KEYS) delete process.env[key];
     for (const [key, value] of Object.entries(values)) process.env[key] = value;
     return await callback();
   } finally {
-    for (const key of READINESS_ENV_KEYS) {
+    for (const key of HEALTH_ENV_KEYS) {
       if (previous[key] === undefined) delete process.env[key];
       else process.env[key] = previous[key];
     }
   }
 }
+
+test('getDeploymentRevision exposes only validated non-secret commit identifiers', () => {
+  assert.equal(getDeploymentRevision({}), null);
+  assert.equal(getDeploymentRevision({ VERCEL_GIT_COMMIT_SHA: 'not-a-sha' }), null);
+  assert.equal(getDeploymentRevision({ GITHUB_SHA: 'ABCDEF1' }), 'abcdef1');
+  assert.equal(
+    getDeploymentRevision({
+      VERCEL_GIT_COMMIT_SHA: '1234567890abcdef1234567890abcdef12345678',
+      GITHUB_SHA: 'abcdef1',
+    }),
+    '1234567890abcdef1234567890abcdef12345678',
+  );
+});
 
 test('getReadinessSnapshot reports each required production capability', () => {
   const missing = getReadinessSnapshot({});
@@ -53,7 +68,7 @@ test('getReadinessSnapshot reports each required production capability', () => {
 });
 
 test('liveness remains green without evaluating production dependencies', async () => {
-  await withReadinessEnv({}, async () => {
+  await withHealthEnv({}, async () => {
     const { req, res, getStatus, getJson, getHeaders } = createMocks({ method: 'GET' });
     req.url = '/api/health';
 
@@ -63,13 +78,30 @@ test('liveness remains green without evaluating production dependencies', async 
     assert.equal(getJson().ok, true);
     assert.equal(getJson().status, 'alive');
     assert.equal(getJson().checks, undefined);
+    assert.equal(getJson().revision, undefined);
     assert.equal(getHeaders()['Cache-Control'], 'no-store');
     assert.equal(getHeaders()['X-VertexED-Health'], 'alive');
+    assert.equal(getHeaders()['X-VertexED-Revision'], undefined);
+  });
+});
+
+test('liveness reports exact deployed revision in body and header when available', async () => {
+  const revision = '1234567890abcdef1234567890abcdef12345678';
+  await withHealthEnv({ VERCEL_GIT_COMMIT_SHA: revision }, async () => {
+    const { req, res, getStatus, getJson, getHeaders } = createMocks({ method: 'GET' });
+    req.url = '/api/health';
+
+    await handler(req, res);
+
+    assert.equal(getStatus(), 200);
+    assert.equal(getJson().status, 'alive');
+    assert.equal(getJson().revision, revision);
+    assert.equal(getHeaders()['X-VertexED-Revision'], revision);
   });
 });
 
 test('readiness returns 503 and capability evidence when configuration is incomplete', async () => {
-  await withReadinessEnv({ SUPABASE_URL: 'https://example.supabase.co' }, async () => {
+  await withHealthEnv({ SUPABASE_URL: 'https://example.supabase.co' }, async () => {
     const { req, res, getStatus, getJson, getHeaders } = createMocks({ method: 'GET' });
     req.query = { readiness: '1' };
     req.url = '/api/health?readiness=1';
@@ -86,7 +118,7 @@ test('readiness returns 503 and capability evidence when configuration is incomp
 });
 
 test('readiness returns 200 when all production capabilities are configured', async () => {
-  await withReadinessEnv({
+  await withHealthEnv({
     SUPABASE_URL: 'https://example.supabase.co',
     SUPABASE_ANON_KEY: 'anon-key',
     SUPABASE_SERVICE_ROLE_KEY: 'service-role-key',
