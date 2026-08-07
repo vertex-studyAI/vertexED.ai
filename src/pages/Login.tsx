@@ -61,7 +61,7 @@ export default function Login() {
     setResetLoading(true);
     try {
       const { error: resetError } = await supabase.auth.resetPasswordForEmail(normalizedEmail, {
-        redirectTo: `${window.location.origin}/auth/callback`,
+        redirectTo: `${window.location.origin}/auth/callback?recovery=1`,
       });
       if (resetError) throw resetError;
       setInfo("If an account exists for that email, we sent a password reset link.");
@@ -80,7 +80,7 @@ export default function Login() {
           name="description"
           content="Sign in to VertexED — planner, mocks, flashcards, and Apex where you left them."
         />
-  <link rel="canonical" href="https://www.vertexed.app/login" />
+        <link rel="canonical" href="https://www.vertexed.app/login" />
         <meta name="robots" content="noindex, nofollow" />
       </Helmet>
 
