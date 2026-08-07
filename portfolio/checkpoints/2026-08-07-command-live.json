@@ -182,7 +182,7 @@
     {
       "lane": "06",
       "role": "Hercules",
-      "current_status": "PARTIAL",
+      "current_status": "UNKNOWN",
       "allocation": "Own issue #97: locate canonical source or record none, freeze one measurable local capability and matched baseline, and stop broader platform expansion until that gate produces evidence.",
       "write_scope": ["Hercules canonical repository only if verified"],
       "must_not_overlap": ["JEPA", "Project 2424 recovery", "product repositories"]
