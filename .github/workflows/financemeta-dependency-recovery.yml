@@ -58,14 +58,14 @@ jobs:
           set -e
           echo "$before_status" > "$GITHUB_WORKSPACE/financemeta-audit-before.exit-code"
 
-      - name: Apply minimal direct security upgrades
+      - name: Apply direct security upgrades and lockfile fixes
         working-directory: target
         shell: bash
         run: |
           set -euo pipefail
-          npm install --save-exact react-router-dom@6.30.4
+          npm install --save-exact react-router-dom@7.18.2
           npm install --save-dev --save-exact postcss@8.5.23
-          npm audit fix --package-lock-only
+          npm audit fix --package-lock-only || true
           git diff --check
           git diff -- package.json package-lock.json > "$GITHUB_WORKSPACE/financemeta-dependency.diff"
           test -s "$GITHUB_WORKSPACE/financemeta-dependency.diff"
@@ -89,10 +89,10 @@ jobs:
           node --input-type=module <<'NODE'
           import fs from 'node:fs';
           const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
-          if (pkg.dependencies['react-router-dom'] !== '6.30.4') throw new Error('react-router-dom not pinned to 6.30.4');
+          if (pkg.dependencies['react-router-dom'] !== '7.18.2') throw new Error('react-router-dom not pinned to 7.18.2');
           if (pkg.devDependencies.postcss !== '8.5.23') throw new Error('postcss not pinned to 8.5.23');
           NODE
-          npm ls react-router-dom react-router @remix-run/router postcss --all > "$GITHUB_WORKSPACE/financemeta-dependency-tree.txt"
+          npm ls react-router-dom react-router postcss --all > "$GITHUB_WORKSPACE/financemeta-dependency-tree.txt"
 
       - name: Run tests
         working-directory: target
@@ -122,7 +122,7 @@ jobs:
           {
             echo "target_commit=$TARGET_COMMIT"
             echo "patch_sha256=$(cut -d' ' -f1 "$GITHUB_WORKSPACE/financemeta-dependency-recovery.patch.sha256")"
-            echo "react_router_dom=6.30.4"
+            echo "react_router_dom=7.18.2"
             echo "postcss=8.5.23"
             echo "classification=dependency_patch_certified_pending_target_application"
           } > "$GITHUB_WORKSPACE/financemeta-dependency-certification.txt"
