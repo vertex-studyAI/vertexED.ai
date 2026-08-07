@@ -41,7 +41,7 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p qa-evidence
-          python portfolio/qa/verify_lam_jepa_v3_full-controls-retained.py \
+          python portfolio/qa/verify_lam_jepa_v3_full_controls_retained.py \
             --artifact-dir retained-artifact \
             --out qa-evidence/lam-jepa-v3-full-controls-independent-verdict.json \
             | tee qa-evidence/lam-jepa-v3-full-controls-independent-output.txt
