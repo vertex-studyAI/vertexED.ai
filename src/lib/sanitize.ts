@@ -1,8 +1,8 @@
-import DOMPurify from 'dompurify';
+import DOMPurify, { type Config } from 'dompurify';
 
 const MARKDOWN_ALLOWED_TAGS = ['p', 'br', 'strong', 'em', 'code', 'pre', 'ul', 'ol', 'li', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'span', 'a'];
 
-const BASE_SANITIZE_CONFIG = {
+const BASE_SANITIZE_CONFIG: Config = {
   ALLOWED_ATTR: ['href', 'title', 'class'],
   ALLOW_DATA_ATTR: false,
   // Keep sanitizer output detached from caller-owned DOM nodes. This is
@@ -11,7 +11,7 @@ const BASE_SANITIZE_CONFIG = {
   IN_PLACE: false,
   RETURN_DOM: false,
   RETURN_DOM_FRAGMENT: false,
-} as const;
+};
 
 /**
  * Sanitize user-generated HTML before render.
