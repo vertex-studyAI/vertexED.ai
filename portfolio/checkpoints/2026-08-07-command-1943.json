@@ -1,0 +1,224 @@
+{
+  "schema_version": 1,
+  "as_of": "2026-08-07T19:43:43+05:30",
+  "control_repository": "vertex-studyAI/vertexED.ai",
+  "control_commit": "82e201671181e50804bf0652c4571d838463f1dc",
+  "status_enum": ["DONE", "PARTIAL", "BLOCKED", "INVALID", "UNKNOWN"],
+  "worker_status_enum": ["WORKING", "VERIFYING", "BLOCKED", "IDLE", "FAILED", "FINISHED", "UNKNOWN"],
+  "finish_lines": [
+    {
+      "id": "percy",
+      "name": "Percy",
+      "status": "BLOCKED",
+      "classification": "BLOCKED",
+      "runtime_liveness_verified": false,
+      "evidence": [
+        "Issue #95 reproduces sqlite3.OperationalError: no such column: title against the existing Percy task database.",
+        "The freshest Percy liveness inspection found coordinator plus agent-01 through agent-08 tmux panes but each worker pane command was only zsh; shell existence is not execution evidence."
+      ],
+      "blockers": [
+        "Snapshot schema/code compatibility is broken against existing state",
+        "Worker heartbeat and meaningful-process liveness are not proven",
+        "Storage, lock, worktree and provider health still require one successful read-only preflight"
+      ],
+      "next_action": "Run the Percy read-only preflight, then lane 04 must repair snapshot schema compatibility without resetting history and prove SHELL_ONLY/RUNNING/STALE/EXITED/UNKNOWN from process plus heartbeat/lease evidence.",
+      "percy_lane": "04"
+    },
+    {
+      "id": "project2424",
+      "name": "Project 2424",
+      "status": "BLOCKED",
+      "classification": "ENGINEERING_INCOMPLETE",
+      "independent_reproduction_verified": false,
+      "evidence": [
+        "Control-repository recovery tests prove preservation mechanics, not restoration of the real canonical Project 2424/Typhon repository.",
+        "No accepted active flagship currently has canonical standalone restoration plus clean-room independent reproduction and externally grounded benchmark evidence."
+      ],
+      "blockers": [
+        "Canonical Project 2424 restoration remains unverified",
+        "Historical project/test counts are not reconciled on the restored source",
+        "No flagship is independently reproduced"
+      ],
+      "next_action": "Lane 05 executes issue #20 only: restore the immutable canonical repository with dirty overlay preserved, rerun the smallest baseline, reconcile historical claims, then hand at most five evidence-backed flagships to lane 08.",
+      "percy_lane": "05"
+    },
+    {
+      "id": "vertexed",
+      "name": "VertexED",
+      "status": "PARTIAL",
+      "classification": "LIVE_VERIFICATION_REQUIRED",
+      "real_user_journey_verified": false,
+      "evidence": [
+        "Planner current-account hydration safety (#100), account-scoped planner fallback (#102), account-scoped Study Notebook fallback (#106), and deterministic launch viewport focus/contrast certification (#109) are merged with repository evidence.",
+        "PR #111 is the current bounded privacy hardening for remaining shared device learner-content stores; it is not merged and must pass exact-head canonical CI, production-browser, local-accessibility and Vercel preview gates.",
+        "Fresh production Supabase security advisors still report leaked-password protection disabled and security patches available for supabase-postgres-17.4.1.074."
+      ],
+      "blockers": [
+        "Authenticated production golden journey from signup through first trustworthy saved study artifact, fresh-session retrieval and recovery remains incomplete",
+        "Exact current-main production deployment identity is not certified on one canonical Vercel project",
+        "PR #111 remains VERIFYING and production Supabase platform hardening remains open"
+      ],
+      "next_action": "Freeze #111 scope and merge only on a single exact green head; then lane 01 executes #44 exact production-revision certification followed by #13 disposable authenticated learner journey and cleanup.",
+      "percy_lane": "01"
+    },
+    {
+      "id": "financemeta",
+      "name": "FinanceMeta",
+      "status": "BLOCKED",
+      "classification": "LOCAL_ONLY",
+      "real_user_journey_verified": false,
+      "evidence": [
+        "Control commit 82e201671181e50804bf0652c4571d838463f1dc preserves a certified immutable-target authorization hardening package for FinanceMeta target fbdd503223edc5b1780509720391083f485a4a85.",
+        "The package passes SQL authorization assertions, 5/5 target authorization tests, TypeScript, production build and reverse-applicable patch generation while explicitly retaining existing target lint and dependency-audit debt.",
+        "The connected Supabase account still exposes only VertexED and effective FinanceMeta target branch creation remains blocked by 403 integration authorization."
+      ],
+      "blockers": [
+        "The certified authorization patch is not applied to canonical FinanceMeta main or the real production Supabase project, so the role privilege-escalation defect remains live on canonical production state",
+        "Effective target GitHub write and production Supabase access are unavailable",
+        "Existing target release debt includes 12 ESLint errors and recorded dependency-audit findings, and no deployed member denial/golden journey is certified"
+      ],
+      "next_action": "Restore narrow target/Supabase access, apply only the certified #108 authorization artifact, prove member role-escalation denial live, then close target lint/dependency release debt before staging and golden-journey certification.",
+      "percy_lane": "02"
+    },
+    {
+      "id": "the-bu1ld",
+      "name": "The Bu1LD",
+      "status": "BLOCKED",
+      "classification": "STAGING_READY",
+      "real_user_journey_verified": false,
+      "evidence": [
+        "Control commit f91e5255e6f040ba3963003de3afcf6651235111 is the single consolidated Bu1LD apply artifact for immutable target daa80c1124b2a6d7d09b7669e04d29e50cffcbbe.",
+        "Its exact-head launch-foundation gate passed TypeScript, 164/164 tests across 37 files with 480 assertions, ESLint, client/SSR builds, auth lifecycle, paused-member write denial, typed activation RPC and reverse-applicable patch generation; release-integrity and canonical CI also passed.",
+        "The connected Supabase account still exposes only VertexED and the actual Bu1LD target/Cloudflare production remain unchanged."
+      ],
+      "blockers": [
+        "Effective target repository write authorization is unavailable",
+        "The consolidated #104 artifact has not been applied to the canonical target and production hydration/deployment identity repair remains unverified",
+        "Authenticated member/lead/reviewer/admin/revoked-member path to first meaningful reviewed contribution remains unverified"
+      ],
+      "next_action": "Restore target/Supabase/Cloudflare access, apply the single #104 artifact once to exact target daa80c1124b2a6d7d09b7669e04d29e50cffcbbe, rerun source gates, resolve hydration/deployment issue #84, then execute role issue #16.",
+      "percy_lane": "03"
+    }
+  ],
+  "p0_blockers": [
+    {
+      "id": "P0-PERCY-SNAPSHOT-LIVENESS",
+      "project": "Percy",
+      "owner_lane": "04",
+      "acceptance": "Existing and fresh Percy databases snapshot without history loss and worker state is proven from process plus heartbeat/lease evidence rather than tmux existence."
+    },
+    {
+      "id": "P0-FINANCEMETA-AUTHZ",
+      "project": "FinanceMeta",
+      "owner_lane": "02",
+      "acceptance": "The certified #108 authorization patch is applied to canonical target and production database and a normal member cannot obtain privileged role state through UI, REST, SDK or RPC paths."
+    },
+    {
+      "id": "P0-BU1LD-DEPLOYMENT-INTEGRITY",
+      "project": "The Bu1LD",
+      "owner_lane": "03",
+      "acceptance": "The single #104 artifact is applied once to the canonical target and one immutable Cloudflare build passes strict desktop/mobile hydration and repository/deployment identity checks."
+    },
+    {
+      "id": "P0-VERTEXED-PRODUCTION-REVISION",
+      "project": "VertexED",
+      "owner_lane": "01",
+      "acceptance": "One canonical Vercel project serves an exact verified main SHA and liveness/readiness plus production-browser evidence pass against that same revision."
+    }
+  ],
+  "top_actions": [
+    "Run the Percy read-only preflight, repair snapshot schema compatibility and prove worker liveness before trusting any swarm status.",
+    "Freeze VertexED #111 on one exact head and either merge it with all release/browser/Vercel gates green or record the exact failing blocker without adding more scope.",
+    "Apply the certified FinanceMeta #108 authorization artifact after target/Supabase access is restored and prove live role-escalation denial.",
+    "Apply the single certified Bu1LD #104 artifact to the immutable target, then repair and certify production hydration/deployment identity under #84.",
+    "Certify VertexED exact current-main production deployment identity on one canonical Vercel project under #44.",
+    "Complete VertexED #13 authenticated signup-to-saved-artifact-to-return/recovery journey with disposable accounts.",
+    "Restore canonical Project 2424/Typhon under #20 and rerun the smallest baseline before selecting at most five flagships.",
+    "Execute LAM-JEPA canonical issue #10: freeze one rights-compatible real-data benchmark, leakage-safe split, strong matched baselines, primary metric, >=5 seeds, ablations, robustness and failure conditions before compute.",
+    "Execute Hercules #97 as a one-capability matched-baseline keep/archive gate instead of expanding Olympus/platform scope.",
+    "Use lane 08 for immutable-SHA clean-room reproduction only and reject source certification as production or research completion."
+  ],
+  "agents": [
+    {
+      "lane": "01",
+      "role": "VertexED",
+      "current_status": "IDLE",
+      "runtime_evidence": "Latest Percy liveness observation recorded a zsh-only worker pane rather than an agent process; specialist GitHub work is tracked separately.",
+      "allocation": "After #111 reaches a terminal exact-head result, certify exact production deployment identity under #44 and then complete #13; no unrelated features.",
+      "write_scope": ["VertexED canonical repository only"],
+      "must_not_overlap": ["FinanceMeta", "The Bu1LD", "Project 2424", "Percy core"]
+    },
+    {
+      "lane": "02",
+      "role": "FinanceMeta",
+      "current_status": "IDLE",
+      "runtime_evidence": "Latest Percy liveness observation recorded a zsh-only worker pane; #108 progress was verified separately through GitHub Actions.",
+      "allocation": "Once target/Supabase access works, apply the certified #108 authorization patch, prove live member denial paths, then repair the recorded lint/dependency release debt before staging.",
+      "write_scope": ["FinanceMeta canonical repository only"],
+      "must_not_overlap": ["VertexED", "The Bu1LD", "Project 2424", "Percy core"]
+    },
+    {
+      "lane": "03",
+      "role": "The Bu1LD",
+      "current_status": "IDLE",
+      "runtime_evidence": "Latest Percy liveness observation recorded a zsh-only worker pane; #104 certification was verified separately through GitHub Actions.",
+      "allocation": "Stop generating bundles. Apply only #104 after target access is restored, then execute #84 and #16 in that order.",
+      "write_scope": ["The Bu1LD canonical repository and deployment evidence only"],
+      "must_not_overlap": ["VertexED", "FinanceMeta", "Project 2424", "Percy core"]
+    },
+    {
+      "lane": "04",
+      "role": "Percy Core",
+      "current_status": "IDLE",
+      "runtime_evidence": "Coordinator/worker tmux shells were present, but no actual worker command beyond zsh was evidenced; snapshot failed on existing DB schema mismatch.",
+      "allocation": "Own #95 only: preserve task/history data, repair old/current DB snapshot compatibility and prove process-plus-heartbeat/lease worker liveness.",
+      "write_scope": ["Percy control plane only"],
+      "must_not_overlap": ["product runtime code", "research method code"]
+    },
+    {
+      "lane": "05",
+      "role": "Project 2424",
+      "current_status": "IDLE",
+      "runtime_evidence": "Latest Percy liveness observation recorded a zsh-only worker pane rather than an agent process.",
+      "allocation": "Own #20 only: restore and reproduce canonical Project 2424/Typhon, reconcile historical claims and nominate no more than five evidence-backed flagships.",
+      "write_scope": ["Project 2424 canonical repository and recovery evidence"],
+      "must_not_overlap": ["Hercules implementation", "JEPA implementation", "product repositories"]
+    },
+    {
+      "lane": "06",
+      "role": "Hercules",
+      "current_status": "IDLE",
+      "runtime_evidence": "Latest Percy liveness observation recorded a zsh-only worker pane rather than an agent process.",
+      "allocation": "Own #97: locate canonical source or record none, freeze one measurable local capability and matched baseline, and make a keep/archive decision from evidence.",
+      "write_scope": ["Hercules canonical repository if verified"],
+      "must_not_overlap": ["JEPA", "Project 2424 recovery", "product repositories"]
+    },
+    {
+      "lane": "07",
+      "role": "JEPA",
+      "current_status": "IDLE",
+      "runtime_evidence": "Latest Percy liveness observation recorded a zsh-only worker pane; LAM-JEPA #11 progress was verified separately through repository CI.",
+      "allocation": "Own canonical LAM-JEPA #10 only: freeze the real-data scientific protocol before any meaningful compute or new architecture.",
+      "write_scope": ["vertex-studyAI/LAM-JEPA only"],
+      "must_not_overlap": ["Hercules", "Project 2424 recovery", "product repositories"]
+    },
+    {
+      "lane": "08",
+      "role": "Independent QA",
+      "current_status": "IDLE",
+      "runtime_evidence": "Latest Percy liveness observation recorded a zsh-only worker pane rather than an independent QA process.",
+      "allocation": "Independently reproduce FinanceMeta #108 after target application, Bu1LD #104 after target application, VertexED release evidence, Typhon baseline and LAM-JEPA #10 results from immutable SHAs; own no primary implementation.",
+      "write_scope": ["independent QA evidence and non-overlapping validation harnesses"],
+      "must_not_overlap": ["primary implementation ownership"]
+    }
+  ],
+  "truth_guards": {
+    "done_requires_evidence": true,
+    "research_complete_requires_independent_reproduction": true,
+    "launch_ready_requires_real_user_journey": true,
+    "healthy_percy_requires_runtime_liveness": true,
+    "build_pass_is_not_launch_ready": true,
+    "plans_and_prompts_do_not_count_as_engineering_progress": true,
+    "unknown_is_required_when_current_runtime_evidence_is_unavailable": true
+  }
+}
