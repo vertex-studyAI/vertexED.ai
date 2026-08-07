@@ -1,0 +1,100 @@
+name: FinanceMeta Lint Recovery
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/financemeta-lint-recovery.yml'
+      - 'portfolio/financemeta/lint-recovery/**'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: financemeta-lint-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  certify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    env:
+      TARGET_COMMIT: fbdd503223edc5b1780509720391083f485a4a85
+
+    steps:
+      - name: Checkout portfolio control repository
+        uses: actions/checkout@v5
+
+      - name: Checkout immutable FinanceMeta source
+        uses: actions/checkout@v5
+        with:
+          repository: build-the-future-11/finance4all-global-reach
+          ref: ${{ env.TARGET_COMMIT }}
+          path: target
+
+      - name: Apply deterministic lint recovery
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git -C target rev-parse HEAD)" = "$TARGET_COMMIT"
+          node portfolio/financemeta/lint-recovery/apply-lint-recovery.mjs target
+          git -C target diff --check
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: target/package-lock.json
+
+      - name: Install frozen dependencies
+        working-directory: target
+        run: npm ci
+
+      - name: Require full repository lint clean
+        working-directory: target
+        run: npm run lint
+
+      - name: Run tests
+        working-directory: target
+        run: npm test
+
+      - name: Run TypeScript check
+        working-directory: target
+        run: npx tsc --noEmit
+
+      - name: Run production build
+        working-directory: target
+        env:
+          VITE_SUPABASE_URL: https://financemeta-ci.invalid
+          VITE_SUPABASE_PUBLISHABLE_KEY: ci-public-placeholder
+          VITE_SUPABASE_ANON_KEY: ci-public-placeholder
+        run: npm run build
+
+      - name: Generate reverse-applicable lint patch
+        working-directory: target
+        shell: bash
+        run: |
+          set -euo pipefail
+          git diff --binary > "$GITHUB_WORKSPACE/financemeta-lint-recovery.patch"
+          test -s "$GITHUB_WORKSPACE/financemeta-lint-recovery.patch"
+          git apply --check "$GITHUB_WORKSPACE/financemeta-lint-recovery.patch" --reverse
+          sha256sum "$GITHUB_WORKSPACE/financemeta-lint-recovery.patch" > "$GITHUB_WORKSPACE/financemeta-lint-recovery.patch.sha256"
+          {
+            echo "target_commit=$TARGET_COMMIT"
+            echo "patch_sha256=$(cut -d' ' -f1 "$GITHUB_WORKSPACE/financemeta-lint-recovery.patch.sha256")"
+            echo "classification=lint_patch_certified_pending_target_application"
+          } > "$GITHUB_WORKSPACE/financemeta-lint-certification.txt"
+
+      - name: Upload lint evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: financemeta-lint-${{ github.run_id }}
+          path: |
+            financemeta-lint-recovery.patch
+            financemeta-lint-recovery.patch.sha256
+            financemeta-lint-certification.txt
+          if-no-files-found: warn
+          retention-days: 14
