@@ -43,6 +43,7 @@ jobs:
           set -euo pipefail
           test "$(git -C target rev-parse HEAD)" = "$TARGET_COMMIT"
           node portfolio/bu1ld/launch-foundation/apply-launch-foundation.mjs target
+          node portfolio/bu1ld/launch-foundation/apply-activation-metric.mjs target
           node portfolio/bu1ld/release-integrity/verify-release-integrity.mjs target "$TARGET_COMMIT"
           git -C target diff --check
 
@@ -63,11 +64,15 @@ jobs:
             scripts/apply-schema.mjs \
             scripts/release-readiness.mjs \
             src/lib/auth.tsx \
+            src/lib/admin.ts \
+            src/lib/types.ts \
             src/routes/signup.tsx \
             'src/routes/projects/$slug.tsx' \
             src/components/member/ProjectEvidenceSection.tsx \
+            src/components/admin/AdminOverviewTab.tsx \
             src/lib/auth-signup-contract.test.ts \
-            src/lib/project-membership-write-gate.test.ts
+            src/lib/project-membership-write-gate.test.ts \
+            src/lib/activation-metric-contract.test.ts
 
       - name: Run complete source release gate
         working-directory: target
@@ -108,6 +113,10 @@ jobs:
           grep -F 'showContributionForm && canContribute' src/components/member/ProjectEvidenceSection.tsx
           grep -F 'Active collaborators submit contributions' supabase/phase34.sql
           grep -F "pm.status = 'active'" supabase/phase34.sql
+          grep -F 'get_admin_activation_stats' supabase/phase34.sql
+          grep -F 'count(distinct c.contributor_id)' supabase/phase34.sql
+          grep -F 'Activated members' src/components/admin/AdminOverviewTab.tsx
+          grep -F 'Activation rate' src/components/admin/AdminOverviewTab.tsx
           grep -F '"supabase/phase34.sql"' scripts/apply-schema.mjs
           grep -F '"phase34.sql"' scripts/release-readiness.mjs
 
@@ -122,6 +131,7 @@ jobs:
             src/lib/build-identity.test.ts \
             src/lib/auth-signup-contract.test.ts \
             src/lib/project-membership-write-gate.test.ts \
+            src/lib/activation-metric-contract.test.ts \
             scripts/verify-deployed-build.mjs \
             supabase/phase34.sql
           git diff --binary > "$GITHUB_WORKSPACE/bu1ld-launch-foundation.patch"
