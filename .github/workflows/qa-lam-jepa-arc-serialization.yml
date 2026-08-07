@@ -1,0 +1,101 @@
+name: QA LAM-JEPA ARC serialization
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/qa-lam-jepa-arc-serialization.yml"
+      - "portfolio/qa/audit_lam_jepa_arc_serialization.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  TARGET_COMMIT: 3636acb91b80f905cb86f04bed691f51316758e4
+
+jobs:
+  serialization-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout independent verifier
+        uses: actions/checkout@v6
+
+      - name: Checkout immutable LAM-JEPA target
+        uses: actions/checkout@v6
+        with:
+          repository: vertex-studyAI/LAM-JEPA
+          ref: ${{ env.TARGET_COMMIT }}
+          path: target
+
+      - name: Assert exact clean target
+        run: |
+          set -euo pipefail
+          test "$(git -C target rev-parse HEAD)" = "$TARGET_COMMIT"
+          test -z "$(git -C target status --porcelain)"
+          printf '%s\n' "$(git -C target rev-parse HEAD)" > target-commit.txt
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+
+      - name: Install target CPU environment
+        run: |
+          set -euo pipefail
+          python -m pip install --upgrade pip
+          python -m pip install torch --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install -e './target[external-benchmarks]'
+          python -m py_compile portfolio/qa/audit_lam_jepa_arc_serialization.py
+
+      - name: Download checksum-addressed train and validation only
+        run: |
+          set -euo pipefail
+          mkdir -p qa-evidence
+          python target/scripts/data/download_arc_challenge.py \
+            --splits train validation \
+            --out-dir qa-evidence/arc-data \
+            | tee qa-evidence/arc-download.json
+          test ! -e qa-evidence/arc-data/arc-challenge-test.parquet
+
+      - name: Audit immutable canonical serialization
+        run: |
+          set -euo pipefail
+          python portfolio/qa/audit_lam_jepa_arc_serialization.py \
+            --train qa-evidence/arc-data/arc-challenge-train.parquet \
+            --validation qa-evidence/arc-data/arc-challenge-validation.parquet \
+            --target-commit-file target-commit.txt \
+            --out qa-evidence/arc-serialization-audit.json \
+            | tee qa-evidence/arc-serialization-audit-output.txt
+
+      - name: Assert no confirmatory test access and complete eligible-row audit
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          audit=json.loads(Path('qa-evidence/arc-serialization-audit.json').read_text())
+          assert audit['target_commit'] == '3636acb91b80f905cb86f04bed691f51316758e4'
+          assert audit['test_split_accessed'] is False
+          assert audit['max_len_bytes'] == 96
+          assert audit['train']['source_rows'] == 1119
+          assert audit['train']['eligible_rows'] == 1117
+          assert audit['validation']['source_rows'] == 299
+          assert audit['validation']['eligible_rows'] == 295
+          assert len(audit['train']['rows']) == 1117
+          assert len(audit['validation']['rows']) == 295
+          PY
+
+      - name: Upload independent serialization evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: qa-lam-jepa-arc-serialization
+          path: |
+            target-commit.txt
+            qa-evidence/arc-serialization-audit.json
+            qa-evidence/arc-serialization-audit-output.txt
+            qa-evidence/arc-download.json
+          if-no-files-found: warn
+          retention-days: 14
