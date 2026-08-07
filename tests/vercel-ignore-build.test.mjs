@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
-import { isRuntimeRelevant, shouldBuild } from '../scripts/vercel-ignore-build.mjs';
+import { findLatestRuntimeRevision, isRuntimeRelevant, shouldBuild } from '../scripts/vercel-ignore-build.mjs';
 
 test('runtime source, API, and database changes continue Vercel builds', () => {
   for (const file of [
@@ -73,4 +73,40 @@ test('path normalization handles checkout-style prefixes and separators', () => 
   assert.equal(isRuntimeRelevant('src\\App.tsx'), true);
   assert.equal(isRuntimeRelevant('./supabase\\migrations\\example.sql'), true);
   assert.equal(isRuntimeRelevant('./docs/README.md'), false);
+});
+
+test('latest runtime revision skips newer operations-only commits', () => {
+  const operationsRevision = 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa';
+  const runtimeRevision = 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb';
+  const calls = [];
+  const runGit = (args) => {
+    calls.push(args);
+    const key = args.join(' ');
+    if (key === 'rev-list --first-parent HEAD') return `${operationsRevision}\n${runtimeRevision}\n`;
+    if (key === `rev-parse ${operationsRevision}^1`) return '1111111111111111111111111111111111111111\n';
+    if (key === `diff --name-only --diff-filter=ACDMRTUXB 1111111111111111111111111111111111111111 ${operationsRevision}`) {
+      return '.github/workflows/ci.yml\ndocs/release.md\n';
+    }
+    if (key === `rev-parse ${runtimeRevision}^1`) return '2222222222222222222222222222222222222222\n';
+    if (key === `diff --name-only --diff-filter=ACDMRTUXB 2222222222222222222222222222222222222222 ${runtimeRevision}`) {
+      return 'src/pages/Login.tsx\n';
+    }
+    throw new Error(`unexpected git call: ${key}`);
+  };
+
+  assert.equal(findLatestRuntimeRevision({ runGit }), runtimeRevision);
+  assert.ok(calls.length >= 5);
+});
+
+test('latest runtime revision treats an unclassifiable empty commit conservatively', () => {
+  const revision = 'cccccccccccccccccccccccccccccccccccccccc';
+  const runGit = (args) => {
+    const key = args.join(' ');
+    if (key === 'rev-list --first-parent HEAD') return `${revision}\n`;
+    if (key === `rev-parse ${revision}^1`) return '3333333333333333333333333333333333333333\n';
+    if (key === `diff --name-only --diff-filter=ACDMRTUXB 3333333333333333333333333333333333333333 ${revision}`) return '';
+    throw new Error(`unexpected git call: ${key}`);
+  };
+
+  assert.equal(findLatestRuntimeRevision({ runGit }), revision);
 });
