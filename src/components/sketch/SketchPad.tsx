@@ -1,31 +1,32 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router';
 import { Download, Eraser, Pen, RotateCcw, Send } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
 import {
   addTextSource,
   createNotebook,
   listNotebooks,
 } from '@/lib/notebook';
+import { userContentStorageKeys } from '@/lib/userContentStorageScope.mjs';
 
 type Point = { x: number; y: number; pressure: number };
 type Stroke = { color: string; width: number; tool: 'pen' | 'eraser'; points: Point[] };
 
-const STORAGE_KEY = 'vertex_sketch_pad_v1';
 const COLORS = ['#e8f4ff', '#7dd3fc', '#a78bfa', '#fbbf24', '#f87171', '#34d399', '#1e293b'];
 
-function loadStrokes(): Stroke[] {
+function loadStrokes(storageKey: string): Stroke[] {
   if (typeof window === 'undefined') return [];
   try {
-    const raw = localStorage.getItem(STORAGE_KEY);
+    const raw = localStorage.getItem(storageKey);
     return raw ? (JSON.parse(raw) as Stroke[]) : [];
   } catch {
     return [];
   }
 }
 
-function saveStrokes(strokes: Stroke[]) {
+function saveStrokes(storageKey: string, strokes: Stroke[]) {
   if (typeof window === 'undefined') return;
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(strokes.slice(-400)));
+  localStorage.setItem(storageKey, JSON.stringify(strokes.slice(-400)));
 }
 
 function drawStroke(ctx: CanvasRenderingContext2D, stroke: Stroke, dpr: number) {
@@ -64,9 +65,11 @@ function redraw(canvas: HTMLCanvasElement, strokes: Stroke[]) {
 type Props = { accent?: string };
 
 export default function SketchPad({ accent = 'hsl(266 72% 74%)' }: Props) {
+  const { user, loading: authLoading } = useAuth();
+  const storageKey = userContentStorageKeys(authLoading ? undefined : user?.id ?? null).sketchPad;
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const strokesRef = useRef<Stroke[]>(loadStrokes());
+  const strokesRef = useRef<Stroke[]>([]);
   const activeStroke = useRef<Stroke | null>(null);
   const drawing = useRef(false);
 
@@ -93,6 +96,13 @@ export default function SketchPad({ accent = 'hsl(266 72% 74%)' }: Props) {
 
     redraw(canvas, strokesRef.current);
   }, []);
+
+  useEffect(() => {
+    strokesRef.current = loadStrokes(storageKey);
+    activeStroke.current = null;
+    drawing.current = false;
+    resizeCanvas();
+  }, [resizeCanvas, storageKey]);
 
   useEffect(() => {
     resizeCanvas();
@@ -132,13 +142,13 @@ export default function SketchPad({ accent = 'hsl(266 72% 74%)' }: Props) {
     if (!drawing.current || !activeStroke.current) return;
     drawing.current = false;
     strokesRef.current = [...strokesRef.current, activeStroke.current];
-    saveStrokes(strokesRef.current);
+    saveStrokes(storageKey, strokesRef.current);
     activeStroke.current = null;
   };
 
   const clearPad = () => {
     strokesRef.current = [];
-    saveStrokes([]);
+    saveStrokes(storageKey, []);
     const canvas = canvasRef.current;
     if (canvas) redraw(canvas, []);
   };
