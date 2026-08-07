@@ -58,16 +58,32 @@ jobs:
           set -e
           echo "$before_status" > "$GITHUB_WORKSPACE/financemeta-audit-before.exit-code"
 
-      - name: Apply direct security upgrades and lockfile fixes
+      - name: Migrate to patched React Router 8 and update lockfile
         working-directory: target
         shell: bash
         run: |
           set -euo pipefail
-          npm install --save-exact react-router-dom@7.18.2
+          python <<'PY'
+          from pathlib import Path
+          changed = 0
+          for path in Path('src').rglob('*'):
+              if path.suffix not in {'.ts', '.tsx'}:
+                  continue
+              text = path.read_text(encoding='utf-8')
+              updated = text.replace('from "react-router-dom"', 'from "react-router"').replace("from 'react-router-dom'", "from 'react-router'")
+              if updated != text:
+                  path.write_text(updated, encoding='utf-8')
+                  changed += 1
+          if changed == 0:
+              raise SystemExit('no react-router-dom imports were found to migrate')
+          print(f'migrated imports in {changed} source files')
+          PY
+          npm uninstall react-router-dom
+          npm install --save-exact react-router@8.3.0
           npm install --save-dev --save-exact postcss@8.5.23
           npm audit fix --package-lock-only || true
           git diff --check
-          git diff -- package.json package-lock.json > "$GITHUB_WORKSPACE/financemeta-dependency.diff"
+          git diff > "$GITHUB_WORKSPACE/financemeta-dependency.diff"
           test -s "$GITHUB_WORKSPACE/financemeta-dependency.diff"
 
       - name: Reinstall exactly from recovered lockfile
@@ -81,7 +97,7 @@ jobs:
           set -euo pipefail
           npm audit --omit=dev --audit-level=high --json | tee "$GITHUB_WORKSPACE/financemeta-audit-after.json"
 
-      - name: Assert intended direct versions
+      - name: Assert intended direct versions and import migration
         working-directory: target
         shell: bash
         run: |
@@ -89,10 +105,12 @@ jobs:
           node --input-type=module <<'NODE'
           import fs from 'node:fs';
           const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
-          if (pkg.dependencies['react-router-dom'] !== '7.18.2') throw new Error('react-router-dom not pinned to 7.18.2');
+          if (pkg.dependencies['react-router'] !== '8.3.0') throw new Error('react-router not pinned to 8.3.0');
+          if ('react-router-dom' in pkg.dependencies) throw new Error('react-router-dom must be removed');
           if (pkg.devDependencies.postcss !== '8.5.23') throw new Error('postcss not pinned to 8.5.23');
           NODE
-          npm ls react-router-dom react-router postcss --all > "$GITHUB_WORKSPACE/financemeta-dependency-tree.txt"
+          ! grep -R --include='*.ts' --include='*.tsx' -nE "from ['\"]react-router-dom['\"]" src
+          npm ls react-router postcss --all > "$GITHUB_WORKSPACE/financemeta-dependency-tree.txt"
 
       - name: Run tests
         working-directory: target
@@ -115,16 +133,16 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          git diff --binary -- package.json package-lock.json > "$GITHUB_WORKSPACE/financemeta-dependency-recovery.patch"
+          git diff --binary > "$GITHUB_WORKSPACE/financemeta-dependency-recovery.patch"
           test -s "$GITHUB_WORKSPACE/financemeta-dependency-recovery.patch"
           git apply --check "$GITHUB_WORKSPACE/financemeta-dependency-recovery.patch" --reverse
           sha256sum "$GITHUB_WORKSPACE/financemeta-dependency-recovery.patch" > "$GITHUB_WORKSPACE/financemeta-dependency-recovery.patch.sha256"
           {
             echo "target_commit=$TARGET_COMMIT"
             echo "patch_sha256=$(cut -d' ' -f1 "$GITHUB_WORKSPACE/financemeta-dependency-recovery.patch.sha256")"
-            echo "react_router_dom=7.18.2"
+            echo "react_router=8.3.0"
             echo "postcss=8.5.23"
-            echo "classification=dependency_patch_certified_pending_target_application"
+            echo "classification=dependency_and_router_migration_patch_certified_pending_target_application"
           } > "$GITHUB_WORKSPACE/financemeta-dependency-certification.txt"
 
       - name: Upload dependency evidence
