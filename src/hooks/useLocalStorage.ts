@@ -11,6 +11,8 @@ function readLocalValue<T>(key: string, initial: T): T {
 }
 
 export function useLocalStorage<T>(key: string, initial: T): [T, (value: T | ((prev: T) => T)) => void] {
+  const initialRef = useRef(initial);
+  initialRef.current = initial;
   const hydratedKeyRef = useRef(key);
   const [stored, setStored] = useState<T>(() => readLocalValue(key, initial));
   const keyIsHydrated = hydratedKeyRef.current === key;
@@ -19,7 +21,7 @@ export function useLocalStorage<T>(key: string, initial: T): [T, (value: T | ((p
     if (hydratedKeyRef.current !== key) {
       // Never write the previous scope's state into a newly selected key.
       hydratedKeyRef.current = key;
-      setStored(readLocalValue(key, initial));
+      setStored(readLocalValue(key, initialRef.current));
       return;
     }
 
@@ -41,5 +43,5 @@ export function useLocalStorage<T>(key: string, initial: T): [T, (value: T | ((p
 
   // During a key transition, render the safe empty/default value rather than the
   // previous account's data while the new scope is being rehydrated.
-  return [keyIsHydrated ? stored : initial, setScopedStored];
+  return [keyIsHydrated ? stored : initialRef.current, setScopedStored];
 }
