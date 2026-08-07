@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { Helmet } from "react-helmet-async";
-import type { Session } from "@supabase/supabase-js";
+import type { AuthChangeEvent, Session } from "@supabase/supabase-js";
 import { supabase } from "@/lib/supabaseClient";
 import { isOnboardingComplete } from "@/lib/onboardingStatus.js";
+import { markPasswordRecoveryVerified } from "@/lib/passwordRecovery";
 
 export default function AuthCallback() {
   const navigate = useNavigate();
@@ -16,11 +17,32 @@ export default function AuthCallback() {
     }
 
     let cancelled = false;
+    let completed = false;
     let timeout: number | undefined;
     let unsubscribe: (() => void) | undefined;
 
-    const finish = async (session: Session) => {
-      if (cancelled) return;
+    const searchParams = new URLSearchParams(window.location.search);
+    const hashParams = new URLSearchParams(window.location.hash.replace(/^#/, ""));
+    const recoveryHint =
+      searchParams.get("recovery") === "1" ||
+      searchParams.get("type") === "recovery" ||
+      hashParams.get("type") === "recovery";
+
+    const finish = async (
+      session: Session,
+      event?: AuthChangeEvent,
+    ) => {
+      if (cancelled || completed) return;
+      completed = true;
+      if (timeout) window.clearTimeout(timeout);
+      unsubscribe?.();
+
+      if (event === "PASSWORD_RECOVERY" || recoveryHint) {
+        markPasswordRecoveryVerified();
+        navigate("/reset-password", { replace: true });
+        return;
+      }
+
       const returnAfterGoogleLink = sessionStorage.getItem("vertex_google_link_return");
       if (returnAfterGoogleLink) {
         sessionStorage.removeItem("vertex_google_link_return");
@@ -30,19 +52,27 @@ export default function AuthCallback() {
       navigate(isOnboardingComplete(session.user) ? "/main" : "/onboarding", { replace: true });
     };
 
+    const { data: authSubscription } = supabase.auth.onAuthStateChange((event, session) => {
+      if (session) void finish(session, event);
+    });
+    unsubscribe = () => authSubscription.subscription.unsubscribe();
+
     const run = async () => {
       try {
-        const params = new URLSearchParams(window.location.search);
-        const oauthError = params.get("error_description") || params.get("error");
+        const oauthError =
+          searchParams.get("error_description") ||
+          searchParams.get("error") ||
+          hashParams.get("error_description") ||
+          hashParams.get("error");
         if (oauthError) {
-          setError(`Google sign-in was declined: ${oauthError}`);
+          setError(`Authentication could not be completed: ${oauthError}`);
           return;
         }
-        const code = params.get("code");
+        const code = searchParams.get("code");
 
         if (code) {
           const { data, error: exchangeError } = await supabase.auth.exchangeCodeForSession(code);
-          if (cancelled) return;
+          if (cancelled || completed) return;
           if (exchangeError) {
             setError(exchangeError.message);
             return;
@@ -54,7 +84,7 @@ export default function AuthCallback() {
         }
 
         const { data, error: sessionError } = await supabase.auth.getSession();
-        if (cancelled) return;
+        if (cancelled || completed) return;
         if (sessionError) {
           setError(sessionError.message);
           return;
@@ -64,18 +94,17 @@ export default function AuthCallback() {
           return;
         }
 
-        const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
-          if (session) void finish(session);
-        });
-        unsubscribe = () => sub.subscription.unsubscribe();
-
         timeout = window.setTimeout(() => {
-          if (!cancelled) {
-            setError("Google did not return a Supabase session. Check the Google provider and redirect URLs in Supabase, then try again.");
+          if (!cancelled && !completed) {
+            setError(
+              recoveryHint
+                ? "The password recovery link did not establish a valid session. Request a new link and try again."
+                : "Authentication did not return a Supabase session. Check the provider and redirect URLs, then try again.",
+            );
           }
         }, 20_000);
       } catch (e: unknown) {
-        if (!cancelled) {
+        if (!cancelled && !completed) {
           setError(e instanceof Error ? e.message : "Unexpected error");
         }
       }
@@ -93,19 +122,19 @@ export default function AuthCallback() {
   return (
     <>
       <Helmet>
-        <title>Signing you in…</title>
+        <title>Completing authentication…</title>
         <meta name="robots" content="noindex" />
       </Helmet>
       <div className="min-h-[60vh] flex items-center justify-center px-6">
         <div className="neu-card max-w-md w-full p-8 text-center">
           {!error ? (
             <>
-              <div className="animate-pulse text-muted-foreground">Finalising sign-in…</div>
+              <div className="animate-pulse text-muted-foreground">Finalising authentication…</div>
               <div className="text-xs text-muted-foreground mt-2">Please wait a moment.</div>
             </>
           ) : (
             <>
-              <div className="text-red-400 font-medium mb-2">Sign-in error</div>
+              <div className="text-red-400 font-medium mb-2">Authentication error</div>
               <div className="text-sm text-muted-foreground">{error}</div>
               <button
                 type="button"
