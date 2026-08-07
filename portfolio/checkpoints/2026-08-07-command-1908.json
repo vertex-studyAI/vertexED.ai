@@ -1,0 +1,134 @@
+{
+  "schema_version": 1,
+  "as_of": "2026-08-07T19:13:00+05:30",
+  "control_repository": "vertex-studyAI/vertexED.ai",
+  "control_commit": "0cff492b4546305291e08cb1716754fc68067ed4",
+  "status_enum": ["DONE", "PARTIAL", "BLOCKED", "INVALID", "UNKNOWN"],
+  "execution_delta": {
+    "done": [
+      "Command truth gate #96 merged as 401f69cf6af19158bd010e5afedb66a5e9fbb7c3 after canonical CI, production browser and local accessibility jobs passed.",
+      "LAM-JEPA #9 merged as 9d71ea4c23155b97f925c4e75fe68c318b38490d after the documented paired multi-seed benchmark path passed CI with retained artifact 8995497566.",
+      "VertexED #100 and #102 merged hydration/account-switch and account-scoped device-fallback protections with exact-head CI/browser evidence.",
+      "Fresh read-only VertexED production DB audit verified RLS on all 26 public tables, key auth foreign keys, ownership-preserving policies and restricted SECURITY DEFINER ACLs.",
+      "Bu1LD control-side immutable-target release and confirmation-aware signup recovery packages #99/#101 are merged and certified, without claiming target deployment completion."
+    ],
+    "blocked": [
+      "FinanceMeta real branch creation still returns 403 Resource not accessible by integration despite push metadata.",
+      "The Bu1LD real target branch creation still returns 403 Resource not accessible by integration despite push metadata.",
+      "VertexED authenticated production golden journey and exact current-main production deployment remain unverified.",
+      "Percy has no fresh accepted coordinator/worker heartbeat, lease and safe-lock snapshot.",
+      "Project 2424 canonical restoration and independent flagship reproduction remain unverified."
+    ]
+  },
+  "finish_lines": [
+    {
+      "id": "percy",
+      "name": "Percy",
+      "status": "BLOCKED",
+      "target": "Reliable continuous execution and verification across the portfolio",
+      "classification": "BLOCKED",
+      "evidence": [
+        "An executable fail-closed command checkpoint and validator now exist on canonical control main.",
+        "Latest accepted runtime evidence still does not prove a healthy coordinator plus eight isolated workers with current heartbeats and leases."
+      ],
+      "blockers": ["No fresh worker/heartbeat/lease snapshot", "Storage and ambiguous-lock safety need fresh local preflight", "Execution-provider health is not proven"],
+      "next_action": "Lane 04 runs one read-only Percy preflight and refuses worker launch until disk, lock, task DB, coordinator, workers, heartbeats, leases and provider health are explicitly green.",
+      "percy_lane": "04"
+    },
+    {
+      "id": "project2424",
+      "name": "Project 2424",
+      "status": "BLOCKED",
+      "target": "A smaller set of independently runnable RESEARCH_COMPLETE repositories",
+      "classification": "ENGINEERING_INCOMPLETE",
+      "evidence": [
+        "Issue #20 still requires canonical Project 2424 restoration and baseline reproduction.",
+        "LAM-JEPA #9 materially improves research execution plumbing but does not establish Project 2424 or LAM-JEPA research completion.",
+        "No accepted Project 2424 flagship has both clean-room independent reproduction and external benchmark evidence."
+      ],
+      "blockers": ["Canonical source restoration unverified", "No accepted independent flagship reproduction", "External datasets, strong baselines, ablations and robustness evidence remain incomplete"],
+      "next_action": "Lane 05 restores and reproduces canonical Project 2424/Typhon; lane 08 independently repeats it; lane 07 finishes paired JEPA ablation infrastructure without upgrading smoke evidence into scientific claims.",
+      "percy_lane": "05"
+    },
+    {
+      "id": "vertexed",
+      "name": "VertexED",
+      "status": "PARTIAL",
+      "target": "Launch-ready learner application with a verified saved-artifact journey",
+      "classification": "LIVE_VERIFICATION_REQUIRED",
+      "evidence": [
+        "Current control main is 0cff492b4546305291e08cb1716754fc68067ed4 after #100/#102 hardened planner hydration, account switching and device fallback.",
+        "Fresh production DB audit found 26 public tables and zero without RLS, with expected artifact/progress ownership and auth constraints.",
+        "Fresh Supabase advisors still report leaked-password protection disabled and a Postgres security upgrade available."
+      ],
+      "blockers": ["Exact current-main production deployment identity is not certified", "Authenticated production issue #13 golden journey remains incomplete", "Password-protection and Postgres security platform gates remain open"],
+      "next_action": "Deploy one canonical Vercel project from exact current main when capacity permits, bind production to it, then complete issue #13 through first trustworthy saved artifact, return retrieval and recovery.",
+      "percy_lane": "01"
+    },
+    {
+      "id": "financemeta",
+      "name": "FinanceMeta",
+      "status": "BLOCKED",
+      "target": "Launch-ready member platform with verified participation and persistence",
+      "classification": "LOCAL_ONLY",
+      "evidence": [
+        "Canonical main remains fbdd503223edc5b1780509720391083f485a4a85.",
+        "Issue #19 records a confirmed profiles.role authorization defect and missing production certification.",
+        "A fresh 2026-08-07 branch creation attempt returned 403 Resource not accessible by integration despite repository push metadata."
+      ],
+      "blockers": ["Effective GitHub Contents write authorization unavailable", "Confirmed privilege-escalation path remains on canonical main", "Production Supabase and participation-return journey are not certified"],
+      "next_action": "Restore effective target write access; lane 02 then fixes role escalation first, adds denial-path tests and a canonical release gate before feature work.",
+      "percy_lane": "02"
+    },
+    {
+      "id": "the-bu1ld",
+      "name": "The Bu1LD",
+      "status": "BLOCKED",
+      "target": "Launch-ready institution and member platform ending in a reviewed contribution",
+      "classification": "STAGING_READY",
+      "evidence": [
+        "Control-side immutable-target release integrity and confirmation-aware signup recovery packages #99/#101 are merged and certified.",
+        "Those packages explicitly do not modify or deploy ryangomez010/bu1ld-landing.",
+        "A fresh 2026-08-07 target branch creation attempt still returned 403 Resource not accessible by integration."
+      ],
+      "blockers": ["Effective target write authorization unavailable", "Production hydration/deployment identity not certified repaired", "Authenticated member/reviewer/admin contribution journeys remain unverified"],
+      "next_action": "Restore target write access, apply the certified immutable-target package, rerun strict public browser certification, then execute member-to-reviewed-contribution role journeys.",
+      "percy_lane": "03"
+    }
+  ],
+  "p0_blockers": [
+    {"id": "P0-PERCY-RUNTIME", "project": "Percy", "owner_lane": "04", "acceptance": "Fresh preflight proves safe storage and lock state plus one healthy coordinator, eight isolated workers, current heartbeats, explicit leases and an available execution backend."},
+    {"id": "P0-FINANCEMETA-AUTHZ", "project": "FinanceMeta", "owner_lane": "02", "acceptance": "A normal member cannot create, update or obtain a privileged role through UI, REST, SDK or RPC paths, with automated denial-path evidence on canonical main."},
+    {"id": "P0-BU1LD-DEPLOYMENT-INTEGRITY", "project": "The Bu1LD", "owner_lane": "03", "acceptance": "Production identifies one immutable deployed source revision and strict desktop/mobile certification passes without hydration errors or repository/deployment skew."}
+  ],
+  "top_actions": [
+    "Run the Percy read-only preflight and refuse worker launch if storage, locks, heartbeats, leases or provider health are unsafe.",
+    "Restore effective GitHub Contents write access to FinanceMeta and The Bu1LD rather than trusting permission metadata.",
+    "Close FinanceMeta profiles.role privilege escalation with denial-path tests before any additional portal features.",
+    "Apply and certify The Bu1LD immutable deployment/hydration recovery on its actual target once write access exists.",
+    "Certify VertexED exact current-main production deployment identity on one canonical Vercel project.",
+    "Complete the VertexED disposable-account signup-to-saved-artifact-to-return golden journey and recovery path.",
+    "Restore and independently reproduce canonical Project 2424/Typhon before expanding the active research set.",
+    "Repair and merge paired multi-seed LAM-JEPA ablations only after current-base CI and the independent verifier pass.",
+    "Select at most five Project 2424 flagships using standalone execution, strongest-baseline evidence and falsifiability.",
+    "Use lane 08 only for clean-room reproduction and adversarial verification of the highest-risk product and research claims."
+  ],
+  "agents": [
+    {"lane": "01", "role": "VertexED", "current_status": "PARTIAL", "allocation": "Own exact current-main deployment identity and the remaining authenticated issue #13 activation journey; add no unrelated features.", "write_scope": ["VertexED canonical repository only"], "must_not_overlap": ["FinanceMeta", "The Bu1LD", "Project 2424", "Percy core"]},
+    {"lane": "02", "role": "FinanceMeta", "current_status": "BLOCKED", "allocation": "When target write access works, patch profiles.role authorization, ownership WITH CHECK policies and SECURITY DEFINER hardening, then prove denial paths and canonical CI.", "write_scope": ["FinanceMeta canonical repository only"], "must_not_overlap": ["VertexED", "The Bu1LD", "Project 2424", "Percy core"]},
+    {"lane": "03", "role": "The Bu1LD", "current_status": "BLOCKED", "allocation": "Apply the already-certified immutable-source recovery only after target write access is restored, then run public and role-separated production gates.", "write_scope": ["The Bu1LD canonical repository and deployment runbook only"], "must_not_overlap": ["VertexED", "FinanceMeta", "Project 2424", "Percy core"]},
+    {"lane": "04", "role": "Percy Core", "current_status": "BLOCKED", "allocation": "Own preflight, task registry, coordinator, leases, locks, worktrees, heartbeats, provider health and evidence collection; do not edit product or research method code.", "write_scope": ["Percy control plane only"], "must_not_overlap": ["product runtime code", "research method code"]},
+    {"lane": "05", "role": "Project 2424", "current_status": "BLOCKED", "allocation": "Restore and reproduce canonical Project 2424/Typhon, reconcile historical counts and nominate no more than five evidence-backed flagships.", "write_scope": ["Project 2424 canonical repository and recovery evidence"], "must_not_overlap": ["Hercules implementation", "JEPA implementation", "product repositories"]},
+    {"lane": "06", "role": "Hercules", "current_status": "UNKNOWN", "allocation": "Locate canonical Hercules source and evidence; if absent, produce a falsifiable one-capability keep/archive decision rather than expanding architecture.", "write_scope": ["Hercules canonical repository if verified"], "must_not_overlap": ["JEPA", "Project 2424 recovery", "product repositories"]},
+    {"lane": "07", "role": "JEPA", "current_status": "PARTIAL", "allocation": "Finish paired multi-seed ablation infrastructure on LAM-JEPA, preserve exact-row pairing and negative results, then move to one predeclared real-data baseline experiment.", "write_scope": ["canonical JEPA repository only"], "must_not_overlap": ["Hercules", "Project 2424 recovery", "product repositories"]},
+    {"lane": "08", "role": "Independent QA", "current_status": "UNKNOWN", "allocation": "Independently reproduce lane 02 authorization denial, lane 03 deployment repair, lane 05 Typhon baseline and lane 07 JEPA evidence from immutable SHAs; own no primary implementation.", "write_scope": ["independent QA evidence and non-overlapping validation harnesses"], "must_not_overlap": ["primary implementation ownership"]}
+  ],
+  "truth_guards": {
+    "done_requires_evidence": true,
+    "research_complete_requires_independent_reproduction": true,
+    "launch_ready_requires_real_user_journey": true,
+    "build_pass_is_not_launch_ready": true,
+    "plans_and_prompts_do_not_count_as_engineering_progress": true,
+    "unknown_is_required_when_current_runtime_evidence_is_unavailable": true
+  }
+}
