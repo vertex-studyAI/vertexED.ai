@@ -1,3 +1,5 @@
+import { userContentStorageKeys } from '@/lib/userContentStorageScope.mjs';
+
 export type StudyStats = {
   habitCount: number;
   habitsDoneToday: number;
@@ -62,9 +64,10 @@ export function recordStudySession(): void {
 
 export function getStudyStats(): StudyStats {
   ensureDailyHabitReset();
+  const { activity, quickNotes } = userContentStorageKeys();
   const habits = readJson<{ completed?: boolean }[]>("studyzone_habits", []);
-  const entries = readJson<unknown[]>("studyzone_activity", []);
-  const notes = readJson<unknown[]>("studyzone_notes", []);
+  const entries = readJson<unknown[]>(activity, []);
+  const notes = readJson<unknown[]>(quickNotes, []);
   const streak = Number(
     typeof window !== "undefined" ? window.localStorage.getItem(STREAK_KEY) || "0" : "0",
   );
