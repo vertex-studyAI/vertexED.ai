@@ -1,4 +1,5 @@
 name: QA LAM-JEPA ARC V5 repair
+# Independent train-only repair reproduction; validation and ARC test remain forbidden.
 
 on:
   pull_request:
