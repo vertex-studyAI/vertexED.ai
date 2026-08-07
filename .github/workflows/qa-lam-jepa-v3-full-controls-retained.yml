@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - ".github/workflows/qa-lam-jepa-v3-full-controls-retained.yml"
+      - "portfolio/qa/normalize_lam_jepa_v3_full_controls_retained.py"
       - "portfolio/qa/verify_lam_jepa_v3_full_controls_retained.py"
   workflow_dispatch:
 
@@ -25,8 +26,10 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Compile verifier
-        run: python -m py_compile portfolio/qa/verify_lam_jepa_v3_full_controls_retained.py
+      - name: Compile independent QA tools
+        run: |
+          python -m py_compile portfolio/qa/normalize_lam_jepa_v3_full_controls_retained.py
+          python -m py_compile portfolio/qa/verify_lam_jepa_v3_full_controls_retained.py
 
       - name: Download exact retained LAM-JEPA artifact
         uses: actions/download-artifact@v7
@@ -36,6 +39,13 @@ jobs:
           run-id: 31195682685
           name: arc-protocol-v3-full-controls-validation
           path: retained-artifact
+
+      - name: Normalize immutable artifact structure
+        run: |
+          set -euo pipefail
+          python portfolio/qa/normalize_lam_jepa_v3_full_controls_retained.py \
+            --artifact-dir retained-artifact \
+            --out retained-artifact/independent-normalized-controls.json
 
       - name: Verify retained artifact independently
         run: |
