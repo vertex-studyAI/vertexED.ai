@@ -19,5 +19,6 @@ export function userContentStorageKeys(scope = activeScope) {
     artifacts: `${prefix}:artifacts`,
     restore: `${prefix}:restore`,
     chatHandoff: `${prefix}:chat_handoff`,
+    sketchPad: `${prefix}:sketch_pad`,
   };
 }
