@@ -1,7 +1,6 @@
 import { getStudyStats } from '@/lib/studyStats';
+import { userContentStorageKeys } from '@/lib/userContentStorageScope.mjs';
 import { getWeaknessHeatmap } from '@/lib/weaknessTracker';
-
-const SNAPSHOT_KEY = 'vertex_progress_snapshots';
 
 export type DailySnapshot = {
   date: string;
@@ -21,6 +20,10 @@ export type ProgressTrend = {
   studyMinutesEstimate: number;
 };
 
+function storageKey() {
+  return userContentStorageKeys().progressSnapshots;
+}
+
 function todayKey(): string {
   return new Date().toISOString().slice(0, 10);
 }
@@ -28,7 +31,7 @@ function todayKey(): string {
 function readSnapshots(): DailySnapshot[] {
   if (typeof window === 'undefined') return [];
   try {
-    const raw = window.localStorage.getItem(SNAPSHOT_KEY);
+    const raw = window.localStorage.getItem(storageKey());
     return raw ? (JSON.parse(raw) as DailySnapshot[]) : [];
   } catch {
     return [];
@@ -37,7 +40,7 @@ function readSnapshots(): DailySnapshot[] {
 
 function writeSnapshots(snapshots: DailySnapshot[]) {
   if (typeof window === 'undefined') return;
-  window.localStorage.setItem(SNAPSHOT_KEY, JSON.stringify(snapshots.slice(-30)));
+  window.localStorage.setItem(storageKey(), JSON.stringify(snapshots.slice(-30)));
 }
 
 export function recordDailySnapshot() {

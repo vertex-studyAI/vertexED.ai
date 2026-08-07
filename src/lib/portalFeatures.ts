@@ -13,9 +13,8 @@ import { getLoopWeekStatus, LOOP_STEPS, type LoopStep } from '@/lib/studyLoopTra
 import { loadSrDeck, getDueFlashcardCount } from '@/lib/srDeck';
 import { dueCards } from '@/lib/spacedRepetition';
 import { daysUntilExam, BOARD_CONFIGS } from '@/lib/curriculum';
+import { userContentStorageKeys } from '@/lib/userContentStorageScope.mjs';
 
-const CONFIDENCE_KEY = 'vertex_confidence_checkin_v1';
-const EXAM_NIGHT_KEY = 'vertex_exam_night_checklist_v1';
 const TARGET_MARK = 80;
 
 export type MemoryDecayItem = {
@@ -76,7 +75,7 @@ function daysSince(iso: string): number {
 function readActivityDates(limit = 14): string[] {
   if (typeof window === 'undefined') return [];
   try {
-    const raw = localStorage.getItem('studyzone_activity');
+    const raw = localStorage.getItem(userContentStorageKeys().activity);
     if (!raw) return [];
     const entries = JSON.parse(raw) as Array<{ createdAt: string }>;
     return entries.slice(0, limit).map((e) => e.createdAt.slice(0, 10));
@@ -267,7 +266,7 @@ export function buildPortalIntelligence(
 export function getExamNightDone(): Set<string> {
   if (typeof window === 'undefined') return new Set();
   try {
-    const raw = localStorage.getItem(EXAM_NIGHT_KEY);
+    const raw = localStorage.getItem(userContentStorageKeys().examNightChecklist);
     const parsed = raw ? (JSON.parse(raw) as string[]) : [];
     return new Set(parsed);
   } catch {
@@ -279,7 +278,7 @@ export function toggleExamNightItem(id: string): Set<string> {
   const done = getExamNightDone();
   if (done.has(id)) done.delete(id);
   else done.add(id);
-  localStorage.setItem(EXAM_NIGHT_KEY, JSON.stringify([...done]));
+  localStorage.setItem(userContentStorageKeys().examNightChecklist, JSON.stringify([...done]));
   return done;
 }
 
@@ -294,7 +293,7 @@ export type ConfidenceRating = {
 function readConfidence(): Record<string, ConfidenceRating> {
   if (typeof window === 'undefined') return {};
   try {
-    const raw = localStorage.getItem(CONFIDENCE_KEY);
+    const raw = localStorage.getItem(userContentStorageKeys().confidenceCheckin);
     return raw ? (JSON.parse(raw) as Record<string, ConfidenceRating>) : {};
   } catch {
     return {};
@@ -309,7 +308,7 @@ export function getConfidenceRatings(subjects: string[]): ConfidenceRating[] {
 export function setConfidenceRating(subject: string, rating: 1 | 2 | 3 | 4 | 5) {
   const store = readConfidence();
   store[subject] = { subject, rating, updatedAt: new Date().toISOString() };
-  localStorage.setItem(CONFIDENCE_KEY, JSON.stringify(store));
+  localStorage.setItem(userContentStorageKeys().confidenceCheckin, JSON.stringify(store));
 }
 
 // ── Data export ──────────────────────────────────────────────────────

@@ -1,7 +1,10 @@
 /**
  * Tracks topic-level weaknesses from reviews, quizzes, and mock scores.
- * Stored in localStorage; syncs to cloud when user_study_artifacts supports weakness kind.
+ * Stored in account-scoped localStorage; sync can be added when the backend
+ * supports a dedicated learner-state contract.
  */
+
+import { userContentStorageKeys } from '@/lib/userContentStorageScope.mjs';
 
 export type WeaknessEntry = {
   topic: string;
@@ -13,12 +16,14 @@ export type WeaknessEntry = {
   recordedAt: string;
 };
 
-const STORAGE_KEY = 'vertex_weakness_heatmap';
+function storageKey() {
+  return userContentStorageKeys().weaknessHeatmap;
+}
 
 function readEntries(): WeaknessEntry[] {
   if (typeof window === 'undefined') return [];
   try {
-    const raw = window.localStorage.getItem(STORAGE_KEY);
+    const raw = window.localStorage.getItem(storageKey());
     return raw ? (JSON.parse(raw) as WeaknessEntry[]) : [];
   } catch {
     return [];
@@ -27,7 +32,7 @@ function readEntries(): WeaknessEntry[] {
 
 function writeEntries(entries: WeaknessEntry[]) {
   if (typeof window === 'undefined') return;
-  window.localStorage.setItem(STORAGE_KEY, JSON.stringify(entries.slice(-200)));
+  window.localStorage.setItem(storageKey(), JSON.stringify(entries.slice(-200)));
 }
 
 export function recordWeakness(entry: Omit<WeaknessEntry, 'recordedAt'>) {

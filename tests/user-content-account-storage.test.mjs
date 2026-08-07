@@ -103,7 +103,11 @@ test('shared study helpers read direct learner content from the active account s
   assert.match(studyActivitySource, /userContentStorageKeys\(\)/);
   assert.doesNotMatch(studyActivitySource, /studyzone_activity/);
   assert.doesNotMatch(studyActivitySource, /vertex_last_study_session/);
-  assert.match(studyStatsSource, /const \{ activity, quickNotes \} = userContentStorageKeys\(\)/);
+  assert.match(studyStatsSource, /activity,/);
+  assert.match(studyStatsSource, /quickNotes,/);
+  assert.match(studyStatsSource, /\} = userContentStorageKeys\(\)/);
+  assert.match(studyStatsSource, /readJson<unknown\[]>\(activity, \[\]\)/);
+  assert.match(studyStatsSource, /readJson<unknown\[]>\(quickNotes, \[\]\)/);
   assert.doesNotMatch(studyStatsSource, /readJson<unknown\[]>\("studyzone_activity"/);
   assert.doesNotMatch(studyStatsSource, /readJson<unknown\[]>\("studyzone_notes"/);
 });
@@ -116,9 +120,10 @@ test('dashboard ecosystem reads planner and activity from the same active accoun
 });
 
 test('scoped localStorage hook renders the safe default during key transitions', () => {
-  assert.match(localStorageHookSource, /const keyIsHydrated = hydratedKeyRef\.current === key/);
-  assert.match(localStorageHookSource, /if \(hydratedKeyRef\.current !== key\)/);
-  assert.match(localStorageHookSource, /setStored\(readLocalValue\(key, initialRef\.current\)\)/);
-  assert.match(localStorageHookSource, /if \(hydratedKeyRef\.current !== key\) return/);
+  assert.match(localStorageHookSource, /const resolvedKey = resolveScopedKey\(key\)/);
+  assert.match(localStorageHookSource, /const keyIsHydrated = hydratedKeyRef\.current === resolvedKey/);
+  assert.match(localStorageHookSource, /if \(hydratedKeyRef\.current !== resolvedKey\)/);
+  assert.match(localStorageHookSource, /setStored\(readLocalValue\(resolvedKey, initialRef\.current\)\)/);
+  assert.match(localStorageHookSource, /if \(hydratedKeyRef\.current !== resolvedKey\) return/);
   assert.match(localStorageHookSource, /return \[keyIsHydrated \? stored : initialRef\.current, setScopedStored\]/);
 });
