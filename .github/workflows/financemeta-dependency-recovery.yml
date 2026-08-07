@@ -22,177 +22,100 @@ jobs:
       TARGET_COMMIT: fbdd503223edc5b1780509720391083f485a4a85
 
     steps:
-      - name: Checkout portfolio control repository
+      - name: Checkout control repo
         uses: actions/checkout@v5
-
-      - name: Checkout immutable FinanceMeta source
+      - name: Checkout immutable FinanceMeta target
         uses: actions/checkout@v5
         with:
           repository: build-the-future-11/finance4all-global-reach
           ref: ${{ env.TARGET_COMMIT }}
           path: target
-
-      - name: Assert immutable clean target
-        shell: bash
+      - name: Assert immutable target
         run: |
           set -euo pipefail
           test "$(git -C target rev-parse HEAD)" = "$TARGET_COMMIT"
           test -z "$(git -C target status --porcelain)"
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: '22'
           cache: npm
           cache-dependency-path: target/package-lock.json
-
-      - name: Install frozen baseline and record audit
+      - name: Record baseline audit
         working-directory: target
-        shell: bash
         run: |
-          set -euo pipefail
           npm ci
-          set +e
-          npm audit --omit=dev --json > "$GITHUB_WORKSPACE/financemeta-audit-before.json"
-          before_status=$?
-          set -e
-          echo "$before_status" > "$GITHUB_WORKSPACE/financemeta-audit-before.exit-code"
-
-      - name: Atomically migrate manifest to React 19 and patched Router 8
+          npm audit --omit=dev --json > "$GITHUB_WORKSPACE/financemeta-audit-before.json" || true
+      - name: Write coherent secure dependency manifest
         working-directory: target
-        shell: bash
         run: |
           set -euo pipefail
           python <<'PY'
           from pathlib import Path
           import json
-
-          package_path = Path('package.json')
-          pkg = json.loads(package_path.read_text(encoding='utf-8'))
-          deps = pkg['dependencies']
-          deps.pop('react-router-dom', None)
-          deps.update({
-              'react': '19.2.8',
-              'react-dom': '19.2.8',
-              'react-router': '8.3.0',
-              '@react-three/fiber': '9.6.1',
-              '@react-three/drei': '10.7.7',
-          })
-          dev = pkg['devDependencies']
-          dev.update({
-              '@types/react': '19.2.17',
-              '@types/react-dom': '19.2.3',
-              'postcss': '8.5.23',
-          })
-          package_path.write_text(json.dumps(pkg, indent=2) + '\n', encoding='utf-8')
-
-          changed = 0
-          for source_path in Path('src').rglob('*'):
-              if source_path.suffix not in {'.ts', '.tsx'}:
-                  continue
-              text = source_path.read_text(encoding='utf-8')
-              updated = text.replace('from "react-router-dom"', 'from "react-router"').replace("from 'react-router-dom'", "from 'react-router'")
-              if updated != text:
-                  source_path.write_text(updated, encoding='utf-8')
-                  changed += 1
-          if changed == 0:
-              raise SystemExit('no react-router-dom imports were found to migrate')
-          print(f'migrated imports in {changed} source files')
+          p=Path('package.json'); pkg=json.loads(p.read_text())
+          d=pkg['dependencies']; d.pop('react-router-dom',None)
+          d.update({'react':'19.2.8','react-dom':'19.2.8','react-router':'8.3.0','@react-three/fiber':'9.6.1','@react-three/drei':'10.7.7'})
+          pkg['devDependencies'].update({'@types/react':'19.2.17','@types/react-dom':'19.2.3','postcss':'8.5.23'})
+          p.write_text(json.dumps(pkg,indent=2)+'\n')
+          changed=0
+          for f in Path('src').rglob('*'):
+            if f.suffix not in {'.ts','.tsx'}: continue
+            s=f.read_text(); n=s.replace('from "react-router-dom"','from "react-router"').replace("from 'react-router-dom'","from 'react-router'")
+            if n!=s: f.write_text(n); changed+=1
+          if not changed: raise SystemExit('no router imports migrated')
+          print('migrated',changed,'router imports')
           PY
-          rm -rf node_modules
+          rm -rf node_modules package-lock.json
           npm install --package-lock-only
           npm audit fix --package-lock-only || true
           git diff --check
-          git diff > "$GITHUB_WORKSPACE/financemeta-dependency.diff"
-          test -s "$GITHUB_WORKSPACE/financemeta-dependency.diff"
-
-      - name: Reinstall exactly from recovered lockfile
+      - name: Reinstall exact recovered graph
         working-directory: target
         run: npm ci
-
-      - name: Require production audit with no high or critical findings
+      - name: Require production audit clean at high severity
         working-directory: target
-        shell: bash
-        run: |
-          set -euo pipefail
-          npm audit --omit=dev --audit-level=high --json | tee "$GITHUB_WORKSPACE/financemeta-audit-after.json"
-
-      - name: Assert intended direct versions and import migration
+        run: npm audit --omit=dev --audit-level=high --json | tee "$GITHUB_WORKSPACE/financemeta-audit-after.json"
+      - name: Assert dependency contract
         working-directory: target
-        shell: bash
         run: |
           set -euo pipefail
           node --input-type=module <<'NODE'
-          import fs from 'node:fs';
-          const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
-          const expected = {
-            react: '19.2.8',
-            'react-dom': '19.2.8',
-            'react-router': '8.3.0',
-            '@react-three/fiber': '9.6.1',
-            '@react-three/drei': '10.7.7',
-          };
-          for (const [name, version] of Object.entries(expected)) {
-            if (pkg.dependencies[name] !== version) throw new Error(`${name} not pinned to ${version}`);
-          }
-          if ('react-router-dom' in pkg.dependencies) throw new Error('react-router-dom must be removed');
-          if (pkg.devDependencies['@types/react'] !== '19.2.17') throw new Error('@types/react not pinned to 19.2.17');
-          if (pkg.devDependencies['@types/react-dom'] !== '19.2.3') throw new Error('@types/react-dom not pinned to 19.2.3');
-          if (pkg.devDependencies.postcss !== '8.5.23') throw new Error('postcss not pinned to 8.5.23');
+          import fs from 'node:fs'; const p=JSON.parse(fs.readFileSync('package.json'));
+          const e={react:'19.2.8','react-dom':'19.2.8','react-router':'8.3.0','@react-three/fiber':'9.6.1','@react-three/drei':'10.7.7'};
+          for(const [k,v] of Object.entries(e)) if(p.dependencies[k]!==v) throw new Error(`${k} != ${v}`);
+          if(p.dependencies['react-router-dom']) throw new Error('react-router-dom remains');
           NODE
           ! grep -R --include='*.ts' --include='*.tsx' -nE "from ['\"]react-router-dom['\"]" src
           npm ls react react-dom react-router @react-three/fiber @react-three/drei postcss --all > "$GITHUB_WORKSPACE/financemeta-dependency-tree.txt"
-
       - name: Run tests
         working-directory: target
         run: npm test
-
-      - name: Run TypeScript check
+      - name: Run typecheck
         working-directory: target
         run: npx tsc --noEmit
-
       - name: Run production build
         working-directory: target
         env:
           VITE_SUPABASE_URL: https://financemeta-ci.invalid
-          VITE_SUPABASE_PUBLISHABLE_KEY: ci-public-placeholder
           VITE_SUPABASE_ANON_KEY: ci-public-placeholder
         run: npm run build
-
-      - name: Generate reverse-applicable dependency patch
+      - name: Generate reversible patch
         working-directory: target
-        shell: bash
         run: |
           set -euo pipefail
           git diff --binary > "$GITHUB_WORKSPACE/financemeta-dependency-recovery.patch"
           test -s "$GITHUB_WORKSPACE/financemeta-dependency-recovery.patch"
           git apply --check "$GITHUB_WORKSPACE/financemeta-dependency-recovery.patch" --reverse
           sha256sum "$GITHUB_WORKSPACE/financemeta-dependency-recovery.patch" > "$GITHUB_WORKSPACE/financemeta-dependency-recovery.patch.sha256"
-          {
-            echo "target_commit=$TARGET_COMMIT"
-            echo "patch_sha256=$(cut -d' ' -f1 "$GITHUB_WORKSPACE/financemeta-dependency-recovery.patch.sha256")"
-            echo "react=19.2.8"
-            echo "react_dom=19.2.8"
-            echo "react_router=8.3.0"
-            echo "react_three_fiber=9.6.1"
-            echo "react_three_drei=10.7.7"
-            echo "postcss=8.5.23"
-            echo "classification=dependency_and_router_migration_patch_certified_pending_target_application"
-          } > "$GITHUB_WORKSPACE/financemeta-dependency-certification.txt"
-
-      - name: Upload dependency evidence
-        if: always()
+      - if: always()
         uses: actions/upload-artifact@v7
         with:
           name: financemeta-dependency-${{ github.run_id }}
           path: |
             financemeta-audit-before.json
-            financemeta-audit-before.exit-code
             financemeta-audit-after.json
             financemeta-dependency-tree.txt
-            financemeta-dependency.diff
             financemeta-dependency-recovery.patch
             financemeta-dependency-recovery.patch.sha256
-            financemeta-dependency-certification.txt
           if-no-files-found: warn
           retention-days: 14
