@@ -2,6 +2,7 @@ import { authFetch } from '@/lib/apiAuth';
 import type { TaskItem } from '@/features/study-calendar/components/Schedule';
 import { trackPlannerRetrieved, trackPlannerSaved } from '@/lib/plannerPersistenceAnalytics.mjs';
 import { plannerStorageKeys } from '@/lib/plannerStorageScope.mjs';
+import { supabase } from '@/lib/supabaseClient';
 
 export type PlannerSnapshot = {
   tasks: TaskItem[];
@@ -11,6 +12,17 @@ export type PlannerSnapshot = {
 
 function emptySnapshot(): PlannerSnapshot {
   return { tasks: [], mode: 'Day', updatedAt: new Date(0).toISOString() };
+}
+
+async function resolveStorageScope(explicitScope?: string | null): Promise<string | null> {
+  if (typeof explicitScope === 'string' && explicitScope.trim()) return explicitScope;
+  if (!supabase) return null;
+  try {
+    const { data } = await supabase.auth.getSession();
+    return data.session?.user?.id ?? null;
+  } catch {
+    return null;
+  }
 }
 
 function readLocalSnapshot(storageScope?: string | null): PlannerSnapshot {
@@ -65,7 +77,8 @@ export async function loadPlannerSnapshot(storageScope?: string | null): Promise
   cloudSynced: boolean;
   error?: string;
 }> {
-  const local = readLocalSnapshot(storageScope);
+  const resolvedScope = await resolveStorageScope(storageScope);
+  const local = readLocalSnapshot(resolvedScope);
 
   try {
     const res = await authFetch('/api/user-content?kind=planner&limit=1');
@@ -107,7 +120,7 @@ export async function loadPlannerSnapshot(storageScope?: string | null): Promise
     const cloudTime = new Date(cloud.updatedAt).getTime();
     const useCloud = cloudTime >= localTime;
     const snapshot = useCloud ? cloud : local;
-    writeLocalPlannerSnapshot(snapshot, storageScope);
+    writeLocalPlannerSnapshot(snapshot, resolvedScope);
     trackPlannerRetrieved({
       source: useCloud ? 'cloud' : localPlannerSource(local),
       cloudStatus: 'available',
@@ -132,7 +145,8 @@ export async function savePlannerSnapshot(
   snapshot: PlannerSnapshot,
   storageScope?: string | null,
 ): Promise<{ ok: boolean; cloudSynced: boolean; error?: string }> {
-  writeLocalPlannerSnapshot(snapshot, storageScope);
+  const resolvedScope = await resolveStorageScope(storageScope);
+  writeLocalPlannerSnapshot(snapshot, resolvedScope);
 
   try {
     const res = await authFetch('/api/user-content', {
