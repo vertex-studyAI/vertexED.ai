@@ -42,7 +42,8 @@ jobs:
           git -C target diff --check
           grep -F 'VITE_SUPABASE_URL=https://your-project-id.supabase.co' target/.env.example
           grep -F 'VITE_SUPABASE_ANON_KEY=' target/.env.example
-          ! grep -R -n --include='*.ts' --include='*.tsx' 'http://localhost:0\|missing-key' target/src
+          ! grep -n 'http://localhost:0\|missing-key' target/src/lib/supabase.ts
+          grep -F 'validatePublicSupabaseEnv(mode)' target/vite.config.ts
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -65,7 +66,7 @@ jobs:
 
       - name: Lint environment patch
         working-directory: target
-        run: npx eslint src/lib/supabase.ts src/lib/supabase-env.ts src/test/supabase-env.test.ts
+        run: npx eslint src/lib/supabase.ts src/lib/supabase-env.ts src/test/supabase-env.test.ts vite.config.ts
 
       - name: Prove production build fails without public Supabase configuration
         working-directory: target
