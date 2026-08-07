@@ -1,33 +1,51 @@
 import { authFetch } from '@/lib/apiAuth';
-import type { StudyNotebook } from '@/lib/notebook';
-
-const LOCAL_KEY = 'vertex_study_notebooks_v1';
+import { setNotebookStorageScope, type StudyNotebook } from '@/lib/notebook';
+import { notebookStorageKeys } from '@/lib/notebookStorageScope.mjs';
+import { supabase } from '@/lib/supabaseClient';
 
 export type NotebookSnapshot = {
   notebooks: StudyNotebook[];
   updatedAt: string;
 };
 
-function readLocalSnapshot(): NotebookSnapshot {
+async function resolveStorageScope(explicitScope?: string | null): Promise<string | null> {
+  if (typeof explicitScope === 'string' && explicitScope.trim()) return explicitScope;
+  if (!supabase) return null;
+  try {
+    const { data } = await supabase.auth.getSession();
+    return data.session?.user?.id ?? null;
+  } catch {
+    return null;
+  }
+}
+
+function readLocalSnapshot(storageScope?: string | null): NotebookSnapshot {
   if (typeof window === 'undefined') {
     return { notebooks: [], updatedAt: new Date(0).toISOString() };
   }
+  setNotebookStorageScope(storageScope);
+  const keys = notebookStorageKeys(storageScope);
   try {
-    const raw = localStorage.getItem(LOCAL_KEY);
+    const raw = localStorage.getItem(keys.notebooks);
     const notebooks = raw ? (JSON.parse(raw) as StudyNotebook[]) : [];
     return {
       notebooks: Array.isArray(notebooks) ? notebooks : [],
-      updatedAt: localStorage.getItem('vertex_notebooks_updated_at') || new Date(0).toISOString(),
+      updatedAt: localStorage.getItem(keys.updatedAt) || new Date(0).toISOString(),
     };
   } catch {
     return { notebooks: [], updatedAt: new Date(0).toISOString() };
   }
 }
 
-export function writeLocalNotebookSnapshot(snapshot: NotebookSnapshot) {
+export function writeLocalNotebookSnapshot(
+  snapshot: NotebookSnapshot,
+  storageScope?: string | null,
+) {
   if (typeof window === 'undefined') return;
-  localStorage.setItem(LOCAL_KEY, JSON.stringify(snapshot.notebooks));
-  localStorage.setItem('vertex_notebooks_updated_at', snapshot.updatedAt);
+  setNotebookStorageScope(storageScope);
+  const keys = notebookStorageKeys(storageScope);
+  localStorage.setItem(keys.notebooks, JSON.stringify(snapshot.notebooks));
+  localStorage.setItem(keys.updatedAt, snapshot.updatedAt);
 }
 
 function parseCloudSnapshot(item: {
@@ -43,12 +61,14 @@ function parseCloudSnapshot(item: {
   };
 }
 
-export async function loadNotebookSnapshot(): Promise<{
+export async function loadNotebookSnapshot(storageScope?: string | null): Promise<{
   snapshot: NotebookSnapshot;
   cloudSynced: boolean;
   error?: string;
 }> {
-  const local = readLocalSnapshot();
+  const resolvedScope = await resolveStorageScope(storageScope);
+  setNotebookStorageScope(resolvedScope);
+  const local = readLocalSnapshot(resolvedScope);
 
   try {
     const res = await authFetch('/api/user-content?kind=notebook&limit=1');
@@ -74,7 +94,7 @@ export async function loadNotebookSnapshot(): Promise<{
     const localTime = new Date(local.updatedAt).getTime();
     const cloudTime = new Date(cloud.updatedAt).getTime();
     const snapshot = cloudTime >= localTime ? cloud : local;
-    writeLocalNotebookSnapshot(snapshot);
+    writeLocalNotebookSnapshot(snapshot, resolvedScope);
     return { snapshot, cloudSynced: true };
   } catch (err) {
     return {
@@ -87,8 +107,11 @@ export async function loadNotebookSnapshot(): Promise<{
 
 export async function saveNotebookSnapshot(
   snapshot: NotebookSnapshot,
+  storageScope?: string | null,
 ): Promise<{ ok: boolean; cloudSynced: boolean; error?: string }> {
-  writeLocalNotebookSnapshot(snapshot);
+  const resolvedScope = await resolveStorageScope(storageScope);
+  setNotebookStorageScope(resolvedScope);
+  writeLocalNotebookSnapshot(snapshot, resolvedScope);
 
   try {
     const res = await authFetch('/api/user-content', {
