@@ -1,0 +1,72 @@
+name: QA retained LAM-JEPA V3 full controls
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/qa-lam-jepa-v3-full-controls-retained.yml"
+      - "portfolio/qa/verify_lam_jepa_v3_full_controls_retained.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  verify-retained-artifact:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout independent verifier
+        uses: actions/checkout@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+
+      - name: Compile verifier
+        run: python -m py_compile portfolio/qa/verify_lam_jepa_v3_full_controls_retained.py
+
+      - name: Download exact retained LAM-JEPA artifact
+        uses: actions/download-artifact@v7
+        with:
+          github-token: ${{ github.token }}
+          repository: vertex-studyAI/LAM-JEPA
+          run-id: 31195682685
+          name: arc-protocol-v3-full-controls-validation
+          path: retained-artifact
+
+      - name: Verify retained artifact independently
+        run: |
+          set -euo pipefail
+          mkdir -p qa-evidence
+          python portfolio/qa/verify_lam_jepa_v3_full-controls-retained.py \
+            --artifact-dir retained-artifact \
+            --out qa-evidence/lam-jepa-v3-full-controls-independent-verdict.json \
+            | tee qa-evidence/lam-jepa-v3-full-controls-independent-output.txt
+
+      - name: Assert adverse verdict boundaries
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          verdict = json.loads(Path('qa-evidence/lam-jepa-v3-full-controls-independent-verdict.json').read_text())
+          assert verdict['verdict'] == 'RESEARCH_REPRODUCED_WITH_LIMITATIONS'
+          assert verdict['confirmatory_test_accessed'] is False
+          assert verdict['negative_control_pass'] is True
+          assert verdict['planner_mechanism_supported'] is False
+          assert verdict['target_mechanism_supported'] is False
+          assert verdict['full_model_input_insensitive_collapse_reproduced'] is True
+          assert verdict['research_complete'] is False
+          PY
+
+      - name: Upload independent QA evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: qa-lam-jepa-v3-full-controls-retained
+          path: qa-evidence
+          if-no-files-found: warn
+          retention-days: 14
