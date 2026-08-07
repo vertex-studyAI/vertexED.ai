@@ -1,5 +1,6 @@
 import type { AdaptiveRecommendation } from '@/lib/adaptiveLearning';
 import type { PlannerTaskPreview } from '@/lib/studyEcosystem';
+import { userContentStorageKeys } from '@/lib/userContentStorageScope.mjs';
 
 export type TodayPlanItem = {
   id: string;
@@ -10,15 +11,18 @@ export type TodayPlanItem = {
   priority: 'urgent' | 'high' | 'medium' | 'low';
 };
 
-const STORAGE_KEY = 'vertex_today_plan_done_v1';
+function storageKey() {
+  return userContentStorageKeys().todayPlanDone;
+}
 
 function todayKey() {
   return new Date().toISOString().slice(0, 10);
 }
 
 function readDone(): Record<string, string[]> {
+  if (typeof window === 'undefined') return {};
   try {
-    const raw = localStorage.getItem(STORAGE_KEY);
+    const raw = localStorage.getItem(storageKey());
     if (!raw) return {};
     const parsed = JSON.parse(raw) as Record<string, string[]>;
     return parsed && typeof parsed === 'object' ? parsed : {};
@@ -28,7 +32,8 @@ function readDone(): Record<string, string[]> {
 }
 
 function writeDone(data: Record<string, string[]>) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  if (typeof window === 'undefined') return;
+  localStorage.setItem(storageKey(), JSON.stringify(data));
 }
 
 export function getTodayPlanDoneIds(): Set<string> {
