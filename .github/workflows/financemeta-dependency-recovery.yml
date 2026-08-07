@@ -58,7 +58,7 @@ jobs:
           set -e
           echo "$before_status" > "$GITHUB_WORKSPACE/financemeta-audit-before.exit-code"
 
-      - name: Migrate to patched React Router 8 and update lockfile
+      - name: Migrate to React 19 and patched React Router 8
         working-directory: target
         shell: bash
         run: |
@@ -79,8 +79,8 @@ jobs:
           print(f'migrated imports in {changed} source files')
           PY
           npm uninstall react-router-dom
-          npm install --save-exact react-router@8.3.0
-          npm install --save-dev --save-exact postcss@8.5.23
+          npm install --save-exact react@19.2.8 react-dom@19.2.8 react-router@8.3.0
+          npm install --save-dev --save-exact @types/react@19.2.17 @types/react-dom@19.2.3 postcss@8.5.23
           npm audit fix --package-lock-only || true
           git diff --check
           git diff > "$GITHUB_WORKSPACE/financemeta-dependency.diff"
@@ -105,12 +105,16 @@ jobs:
           node --input-type=module <<'NODE'
           import fs from 'node:fs';
           const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+          if (pkg.dependencies.react !== '19.2.8') throw new Error('react not pinned to 19.2.8');
+          if (pkg.dependencies['react-dom'] !== '19.2.8') throw new Error('react-dom not pinned to 19.2.8');
           if (pkg.dependencies['react-router'] !== '8.3.0') throw new Error('react-router not pinned to 8.3.0');
           if ('react-router-dom' in pkg.dependencies) throw new Error('react-router-dom must be removed');
+          if (pkg.devDependencies['@types/react'] !== '19.2.17') throw new Error('@types/react not pinned to 19.2.17');
+          if (pkg.devDependencies['@types/react-dom'] !== '19.2.3') throw new Error('@types/react-dom not pinned to 19.2.3');
           if (pkg.devDependencies.postcss !== '8.5.23') throw new Error('postcss not pinned to 8.5.23');
           NODE
           ! grep -R --include='*.ts' --include='*.tsx' -nE "from ['\"]react-router-dom['\"]" src
-          npm ls react-router postcss --all > "$GITHUB_WORKSPACE/financemeta-dependency-tree.txt"
+          npm ls react react-dom react-router postcss --all > "$GITHUB_WORKSPACE/financemeta-dependency-tree.txt"
 
       - name: Run tests
         working-directory: target
@@ -140,6 +144,8 @@ jobs:
           {
             echo "target_commit=$TARGET_COMMIT"
             echo "patch_sha256=$(cut -d' ' -f1 "$GITHUB_WORKSPACE/financemeta-dependency-recovery.patch.sha256")"
+            echo "react=19.2.8"
+            echo "react_dom=19.2.8"
             echo "react_router=8.3.0"
             echo "postcss=8.5.23"
             echo "classification=dependency_and_router_migration_patch_certified_pending_target_application"
