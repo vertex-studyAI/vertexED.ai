@@ -14,6 +14,8 @@ import {
   getThisWeekFocus,
 } from '@/lib/curriculum';
 import { buildAdaptivePlan, type AdaptivePlan } from '@/lib/adaptiveLearning';
+import { plannerStorageKeys } from '@/lib/plannerStorageScope.mjs';
+import { userContentStorageKeys } from '@/lib/userContentStorageScope.mjs';
 
 export type { ActivityEntry };
 
@@ -59,7 +61,7 @@ function readJson<T>(key: string, fallback: T): T {
 
 export function getTodayPlannerTasks(): PlannerTaskPreview[] {
   const today = todayUsDate();
-  const tasks = readJson<Array<Record<string, unknown>>>('planner_tasks', []);
+  const tasks = readJson<Array<Record<string, unknown>>>(plannerStorageKeys().tasks, []);
   return tasks
     .filter((task) => task.date === today)
     .map((task) => ({
@@ -72,8 +74,9 @@ export function getTodayPlannerTasks(): PlannerTaskPreview[] {
 
 export function getRecentActivity(limit = 4): ActivityEntry[] {
   if (typeof window === 'undefined') return [];
+  const { activity } = userContentStorageKeys();
   try {
-    const raw = window.localStorage.getItem('studyzone_activity');
+    const raw = window.localStorage.getItem(activity);
     const entries = raw ? (JSON.parse(raw) as ActivityEntry[]) : [];
     return entries.slice(0, limit);
   } catch {
