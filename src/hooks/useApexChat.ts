@@ -1,7 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { useAuth } from '@/contexts/AuthContext';
 import { ChatbotApiError, fetchChatbotAnswer, type ChatbotMessage } from '@/lib/chatbotApi';
 import type { StudyPageContext } from '@/lib/studyContext';
 import { animateTypewriter } from '@/lib/typewriter';
+import { normalizeUserContentStorageScope } from '@/lib/userContentStorageScope.mjs';
 
 export type ApexChatMessage = {
   id: string;
@@ -9,33 +11,31 @@ export type ApexChatMessage = {
   text: string;
 };
 
-const LEGACY_STORAGE_KEY = 'vertex_apex_messages_v1';
 const MAIN_THREAD_KEY = 'apex-main';
 const MAX_STORED = 40;
 
-export function apexChatStorageKey(page: string, threadKey?: string) {
+export function apexChatStorageKey(
+  page: string,
+  threadKey?: string,
+  accountScope?: string | null,
+) {
+  const account = normalizeUserContentStorageScope(accountScope);
+  let thread: string;
   if (threadKey?.trim()) {
-    return `vertex_apex_thread_${threadKey.trim()}`;
+    thread = threadKey.trim();
+  } else if (page === 'chatbot' || page === 'dashboard' || page === 'vertexed') {
+    // Share one conversation between GlobalChatPanel and /chatbot for this account.
+    thread = MAIN_THREAD_KEY;
+  } else {
+    thread = page || 'global';
   }
-  // Share one conversation between GlobalChatPanel and /chatbot
-  if (page === 'chatbot' || page === 'dashboard' || page === 'vertexed') {
-    return `vertex_apex_thread_${MAIN_THREAD_KEY}`;
-  }
-  const scope = page || 'global';
-  return `vertex_apex_thread_${scope}`;
+  return `vertex_apex:${account}:${encodeURIComponent(thread).slice(0, 120)}`;
 }
 
 function loadMessages(storageKey: string): ApexChatMessage[] {
   if (typeof window === 'undefined') return [];
   try {
-    let raw = sessionStorage.getItem(storageKey);
-    if (!raw && storageKey !== LEGACY_STORAGE_KEY) {
-      raw = sessionStorage.getItem(LEGACY_STORAGE_KEY);
-      if (raw) {
-        sessionStorage.setItem(storageKey, raw);
-        sessionStorage.removeItem(LEGACY_STORAGE_KEY);
-      }
-    }
+    const raw = sessionStorage.getItem(storageKey);
     if (!raw) return [];
     const parsed = JSON.parse(raw) as ApexChatMessage[];
     return Array.isArray(parsed) ? parsed.slice(-MAX_STORED) : [];
@@ -62,7 +62,9 @@ type Options = {
 };
 
 export function useApexChat({ context, threadKey, sources, onSessionRecord }: Options) {
-  const storageKey = apexChatStorageKey(context.page, threadKey);
+  const { user, loading: authLoading } = useAuth();
+  const accountScope = authLoading ? undefined : user?.id ?? null;
+  const storageKey = apexChatStorageKey(context.page, threadKey, accountScope);
   const [messages, setMessages] = useState<ApexChatMessage[]>(() => loadMessages(storageKey));
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
@@ -71,6 +73,12 @@ export function useApexChat({ context, threadKey, sources, onSessionRecord }: Op
   const requestRef = useRef(0);
 
   useEffect(() => {
+    // Account or thread changes invalidate in-flight output before loading the new scope.
+    requestRef.current += 1;
+    if (typingRef.current !== null) {
+      window.clearInterval(typingRef.current);
+      typingRef.current = null;
+    }
     setMessages(loadMessages(storageKey));
     setInput('');
     setLoading(false);
@@ -115,7 +123,7 @@ export function useApexChat({ context, threadKey, sources, onSessionRecord }: Op
   const sendMessage = useCallback(
     async (textOverride?: string) => {
       const question = (textOverride ?? input).trim();
-      if (!question || loading) return false;
+      if (!question || loading || authLoading) return false;
 
       const requestId = requestRef.current + 1;
       requestRef.current = requestId;
@@ -190,7 +198,7 @@ export function useApexChat({ context, threadKey, sources, onSessionRecord }: Op
         }
       }
     },
-    [context, sources, input, loading, messages, onSessionRecord],
+    [authLoading, context, sources, input, loading, messages, onSessionRecord],
   );
 
   return {
