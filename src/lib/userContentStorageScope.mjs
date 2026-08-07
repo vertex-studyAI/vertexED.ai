@@ -23,5 +23,16 @@ export function userContentStorageKeys(scope = activeScope) {
     activity: `${prefix}:study_activity`,
     quickNotes: `${prefix}:quick_notes`,
     lastStudySession: `${prefix}:last_study_session`,
+    srDeck: `${prefix}:sr_deck`,
+    weaknessHeatmap: `${prefix}:weakness_heatmap`,
+    studyLoopWeek: `${prefix}:study_loop_week`,
+    progressSnapshots: `${prefix}:progress_snapshots`,
+    todayPlanDone: `${prefix}:today_plan_done`,
+    confidenceCheckin: `${prefix}:confidence_checkin`,
+    examNightChecklist: `${prefix}:exam_night_checklist`,
+    studyStreak: `${prefix}:study_streak`,
+    lastStudyDate: `${prefix}:last_study_date`,
+    habits: `${prefix}:habits`,
+    habitsResetDate: `${prefix}:habits_reset_date`,
   };
 }
