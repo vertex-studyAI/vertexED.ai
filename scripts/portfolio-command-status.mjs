@@ -22,7 +22,7 @@ async function loadCurrentCheckpoint() {
 
 function validate(checkpoint) {
   assert(checkpoint.schema_version === 1, 'unsupported command checkpoint schema');
-  assert(typeof checkpoint.as_of === 'string' && checkpoint.as_of.length > 0, 'checkpoint timestamp is required');
+  assert(typeof checkpoint.as_of === 'string' && Number.isFinite(Date.parse(checkpoint.as_of)), 'checkpoint timestamp must be parseable');
   assert(Array.isArray(checkpoint.finish_lines), 'finish_lines must be an array');
   assert(Array.isArray(checkpoint.agents), 'agents must be an array');
   assert(Array.isArray(checkpoint.p0_blockers), 'p0_blockers must be an array');
@@ -79,6 +79,7 @@ function validate(checkpoint) {
 
   for (const agent of checkpoint.agents) {
     assert(allowedWorkerStatuses.has(agent.current_status), `lane ${agent.lane} has invalid worker status ${agent.current_status}`);
+    assert(typeof agent.runtime_evidence === 'string' && agent.runtime_evidence.length > 20, `lane ${agent.lane} needs runtime evidence for its worker status`);
     assert(typeof agent.allocation === 'string' && agent.allocation.length > 20, `lane ${agent.lane} needs an executable allocation`);
     assert(Array.isArray(agent.write_scope) && agent.write_scope.length > 0, `lane ${agent.lane} needs a write scope`);
     assert(Array.isArray(agent.must_not_overlap) && agent.must_not_overlap.length > 0, `lane ${agent.lane} needs collision boundaries`);
