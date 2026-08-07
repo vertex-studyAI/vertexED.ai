@@ -59,6 +59,7 @@ const TermsOfService = lazy(() => import("@/pages/TermsOfService"));
 import { AuthProvider } from "@/contexts/AuthContext";
 import { AppPreferencesProvider } from "@/contexts/AppPreferencesContext";
 import AdminRoute from "@/components/AdminRoute";
+import NotetakerAccessibilityBoundary from "@/components/NotetakerAccessibilityBoundary";
 import { HelmetProvider } from "react-helmet-async";
 import { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router";
@@ -158,7 +159,7 @@ return (
 <Route path="onboarding" element={<ProtectedRoute><Onboarding /></ProtectedRoute>} />
 <Route path="main" element={<ProtectedRoute><Main /></ProtectedRoute>} />
 <Route path="learning-hub" element={<Navigate to="/main" replace />} />
-<Route path="notetaker" element={<ProtectedRoute><NotetakerQuiz /></ProtectedRoute>} />
+<Route path="notetaker" element={<ProtectedRoute><NotetakerAccessibilityBoundary><NotetakerQuiz /></NotetakerAccessibilityBoundary></ProtectedRoute>} />
 <Route path="study-notebook" element={<ProtectedRoute><StudyNotebook /></ProtectedRoute>} />
 <Route path="resource-library" element={<ProtectedRoute><ResourceLibrary /></ProtectedRoute>} />
 <Route path="study-guides/*" element={<StudyGuides />} />
