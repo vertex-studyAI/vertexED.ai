@@ -78,7 +78,7 @@ jobs:
           audit=json.loads(Path('qa-evidence/arc-serialization-audit.json').read_text())
           assert audit['target_commit'] == '3636acb91b80f905cb86f04bed691f51316758e4'
           assert audit['test_split_accessed'] is False
-          assert audit['max_len_bytes'] == 96
+          assert audit['max_len_tokens'] == 96
           assert audit['train']['source_rows'] == 1119
           assert audit['train']['eligible_rows'] == 1117
           assert audit['validation']['source_rows'] == 299
