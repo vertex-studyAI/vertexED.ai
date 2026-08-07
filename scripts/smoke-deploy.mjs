@@ -3,10 +3,20 @@
  * Live deployment smoke tests.
  * Usage: node scripts/smoke-deploy.mjs
  *        SMOKE_BASE_URL=https://www.vertexed.app node scripts/smoke-deploy.mjs
+ *        EXPECTED_VERTEXED_REVISION=<git-sha> node scripts/smoke-deploy.mjs
  */
 
 const BASE_URL = (process.env.SMOKE_BASE_URL || 'https://www.vertexed.app').replace(/\/$/, '');
 const TIMEOUT_MS = Number(process.env.SMOKE_TIMEOUT_MS || 20_000);
+
+function normalizeRevision(value) {
+  if (typeof value !== 'string') return null;
+  const revision = value.trim().toLowerCase();
+  return /^[0-9a-f]{7,40}$/.test(revision) ? revision : null;
+}
+
+const EXPECTED_REVISION_RAW = process.env.EXPECTED_VERTEXED_REVISION || '';
+const EXPECTED_REVISION = EXPECTED_REVISION_RAW ? normalizeRevision(EXPECTED_REVISION_RAW) : null;
 
 function fail(message) {
   console.error(`[smoke] FAIL: ${message}`);
@@ -48,6 +58,10 @@ async function request(path, options = {}) {
 async function main() {
   console.log(`[smoke] Target: ${BASE_URL}`);
 
+  if (EXPECTED_REVISION_RAW && !EXPECTED_REVISION) {
+    fail(`EXPECTED_VERTEXED_REVISION is not a valid 7-40 character hexadecimal Git revision: ${EXPECTED_REVISION_RAW}`);
+  }
+
   try {
     const health = await request('/api/health', { method: 'GET', headers: {} });
     if (health.status !== 200 || !health.body?.ok) {
@@ -56,6 +70,18 @@ async function main() {
       fail('/api/health missing X-Vertex-API header (router may not be active)');
     } else {
       pass(`/api/health returns ok (routes=${health.body.routes ?? '?'})`);
+    }
+
+    if (EXPECTED_REVISION) {
+      const bodyRevision = normalizeRevision(health.body?.revision);
+      const headerRevision = normalizeRevision(health.headers.get('x-vertexed-revision'));
+      if (bodyRevision !== EXPECTED_REVISION) {
+        fail(`/api/health revision ${bodyRevision ?? 'missing'} does not match expected ${EXPECTED_REVISION}`);
+      } else if (headerRevision !== EXPECTED_REVISION) {
+        fail(`X-VertexED-Revision ${headerRevision ?? 'missing'} does not match expected ${EXPECTED_REVISION}`);
+      } else {
+        pass(`/api/health serves expected revision ${EXPECTED_REVISION}`);
+      }
     }
   } catch (error) {
     fail(`/api/health check failed: ${error.message}`);
