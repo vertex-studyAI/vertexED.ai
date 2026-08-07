@@ -1,0 +1,99 @@
+name: Bu1LD Auth Confirmation Validation
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/bu1ld-auth-confirmation-validation.yml'
+      - 'portfolio/bu1ld/auth-confirmation/**'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: bu1ld-auth-confirmation-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  certify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      TARGET_COMMIT: daa80c1124b2a6d7d09b7669e04d29e50cffcbbe
+
+    steps:
+      - name: Checkout control repository
+        uses: actions/checkout@v5
+
+      - name: Checkout immutable Bu1LD source
+        uses: actions/checkout@v5
+        with:
+          repository: ryangomez010/bu1ld-landing
+          ref: ${{ env.TARGET_COMMIT }}
+          path: target
+
+      - name: Apply confirmation-aware signup recovery
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git -C target rev-parse HEAD)" = "$TARGET_COMMIT"
+          node portfolio/bu1ld/auth-confirmation/apply-auth-confirmation.mjs target
+          git -C target diff --check
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.3.14
+
+      - name: Install frozen dependencies
+        working-directory: target
+        run: bun install --frozen-lockfile
+
+      - name: Normalize changed target files
+        working-directory: target
+        run: bunx prettier --write src/lib/auth.tsx src/routes/signup.tsx src/lib/auth-signup-contract.test.ts
+
+      - name: Run complete source release gate
+        working-directory: target
+        env:
+          VITE_SUPABASE_URL: https://bu1ld-ci.invalid
+          VITE_SUPABASE_ANON_KEY: ci-public-anon-key-auth-confirmation
+        shell: bash
+        run: |
+          set -o pipefail
+          bun run release:check 2>&1 | tee "$GITHUB_WORKSPACE/bu1ld-auth-confirmation.log"
+
+      - name: Verify confirmation-aware contract
+        working-directory: target
+        shell: bash
+        run: |
+          set -euo pipefail
+          grep -F 'requiresEmailConfirmation: !error && !data.session' src/lib/auth.tsx
+          grep -F 'emailRedirectTo' src/lib/auth.tsx
+          grep -F '/auth/callback' src/lib/auth.tsx
+          grep -F 'if (requiresEmailConfirmation)' src/routes/signup.tsx
+          grep -F 'Confirm your email to continue' src/routes/signup.tsx
+
+      - name: Generate reviewable target patch
+        working-directory: target
+        shell: bash
+        run: |
+          set -euo pipefail
+          git add -N src/lib/auth-signup-contract.test.ts
+          git diff --binary > "$GITHUB_WORKSPACE/bu1ld-auth-confirmation.patch"
+          test -s "$GITHUB_WORKSPACE/bu1ld-auth-confirmation.patch"
+          git apply --check "$GITHUB_WORKSPACE/bu1ld-auth-confirmation.patch" --reverse
+          sha256sum "$GITHUB_WORKSPACE/bu1ld-auth-confirmation.patch" > "$GITHUB_WORKSPACE/bu1ld-auth-confirmation-patch.sha256"
+
+      - name: Upload certification evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: bu1ld-auth-confirmation-${{ github.run_id }}
+          path: |
+            bu1ld-auth-confirmation.log
+            bu1ld-auth-confirmation.patch
+            bu1ld-auth-confirmation-patch.sha256
+          if-no-files-found: ignore
+          retention-days: 14
