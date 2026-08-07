@@ -2,6 +2,8 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import test from 'node:test';
 
+// This contract intentionally rides the PR merge ref so auth lifecycle changes
+// are revalidated against the current main branch before release.
 const loginSource = fs.readFileSync('src/pages/Login.tsx', 'utf8');
 const callbackSource = fs.readFileSync('src/pages/AuthCallback.tsx', 'utf8');
 const resetSource = fs.readFileSync('src/pages/ResetPassword.tsx', 'utf8');
