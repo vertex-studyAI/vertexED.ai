@@ -179,8 +179,16 @@ export function enhanceNotetakerDialog(overlay, returnFocus = overlay.ownerDocum
     trapModalFocus(event, dialog);
   };
   dialog.addEventListener('keydown', handleKeyDown);
-  if (view?.requestAnimationFrame) view.requestAnimationFrame(() => focusInitialModalElement(dialog, closeButton));
-  else focusInitialModalElement(dialog, closeButton);
+
+  // Put focus inside the dialog immediately so there is never a keyboard frame
+  // where an open modal leaves focus behind on the page. Reassert on the next
+  // visual frame in case mounting/layout work moves focus after this enhancer runs.
+  focusInitialModalElement(dialog, closeButton);
+  if (view?.requestAnimationFrame) {
+    view.requestAnimationFrame(() => {
+      if (overlay.isConnected) focusInitialModalElement(dialog, closeButton);
+    });
+  }
 
   const HTMLElementCtor = view?.HTMLElement;
   return {
