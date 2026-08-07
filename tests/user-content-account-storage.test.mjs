@@ -11,12 +11,13 @@ import {
 const userContentSource = fs.readFileSync('src/lib/userContent.ts', 'utf8');
 const authSource = fs.readFileSync('src/contexts/AuthContext.tsx', 'utf8');
 const apexSource = fs.readFileSync('src/hooks/useApexChat.ts', 'utf8');
+const sketchSource = fs.readFileSync('src/components/sketch/SketchPad.tsx', 'utf8');
 
-test('study artifact device storage is isolated by authenticated account', () => {
+test('learner content device storage is isolated by authenticated account', () => {
   const first = userContentStorageKeys('11111111-1111-4111-8111-111111111111');
   const second = userContentStorageKeys('22222222-2222-4222-8222-222222222222');
 
-  for (const key of ['artifacts', 'restore', 'chatHandoff']) {
+  for (const key of ['artifacts', 'restore', 'chatHandoff', 'sketchPad']) {
     assert.notEqual(first[key], second[key]);
     assert.match(first[key], /^vertex_content:/);
     assert.match(second[key], /^vertex_content:/);
@@ -61,4 +62,12 @@ test('Apex session history is account-scoped and abandons unsafe legacy migratio
   assert.doesNotMatch(apexSource, /vertex_apex_messages_v1/);
   assert.match(apexSource, /if \(!question \|\| loading \|\| authLoading\) return false/);
   assert.match(apexSource, /requestRef\.current \+= 1/);
+});
+
+test('sketch pad loads and saves strokes only inside the resolved account key', () => {
+  assert.match(sketchSource, /const \{ user, loading: authLoading \} = useAuth\(\)/);
+  assert.match(sketchSource, /userContentStorageKeys\(authLoading \? undefined : user\?\.id \?\? null\)\.sketchPad/);
+  assert.match(sketchSource, /strokesRef\.current = loadStrokes\(storageKey\)/);
+  assert.match(sketchSource, /saveStrokes\(storageKey, strokesRef\.current\)/);
+  assert.doesNotMatch(sketchSource, /vertex_sketch_pad_v1/);
 });
