@@ -20,5 +20,7 @@ export function userContentStorageKeys(scope = activeScope) {
     restore: `${prefix}:restore`,
     chatHandoff: `${prefix}:chat_handoff`,
     sketchPad: `${prefix}:sketch_pad`,
+    activity: `${prefix}:study_activity`,
+    quickNotes: `${prefix}:quick_notes`,
   };
 }
