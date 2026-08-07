@@ -78,7 +78,7 @@ jobs:
               raise SystemExit('no react-router-dom imports were found to migrate')
           print(f'migrated imports in {changed} source files')
           PY
-          npm uninstall react-router-dom
+          npm uninstall react-router-dom @react-three/fiber @react-three/drei
           npm install --save-exact \
             react@19.2.8 \
             react-dom@19.2.8 \
