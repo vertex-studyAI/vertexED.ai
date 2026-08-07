@@ -58,37 +58,49 @@ jobs:
           set -e
           echo "$before_status" > "$GITHUB_WORKSPACE/financemeta-audit-before.exit-code"
 
-      - name: Migrate to React 19 and patched React Router 8
+      - name: Atomically migrate manifest to React 19 and patched Router 8
         working-directory: target
         shell: bash
         run: |
           set -euo pipefail
           python <<'PY'
           from pathlib import Path
+          import json
+
+          package_path = Path('package.json')
+          pkg = json.loads(package_path.read_text(encoding='utf-8'))
+          deps = pkg['dependencies']
+          deps.pop('react-router-dom', None)
+          deps.update({
+              'react': '19.2.8',
+              'react-dom': '19.2.8',
+              'react-router': '8.3.0',
+              '@react-three/fiber': '9.6.1',
+              '@react-three/drei': '10.7.7',
+          })
+          dev = pkg['devDependencies']
+          dev.update({
+              '@types/react': '19.2.17',
+              '@types/react-dom': '19.2.3',
+              'postcss': '8.5.23',
+          })
+          package_path.write_text(json.dumps(pkg, indent=2) + '\n', encoding='utf-8')
+
           changed = 0
-          for path in Path('src').rglob('*'):
-              if path.suffix not in {'.ts', '.tsx'}:
+          for source_path in Path('src').rglob('*'):
+              if source_path.suffix not in {'.ts', '.tsx'}:
                   continue
-              text = path.read_text(encoding='utf-8')
+              text = source_path.read_text(encoding='utf-8')
               updated = text.replace('from "react-router-dom"', 'from "react-router"').replace("from 'react-router-dom'", "from 'react-router'")
               if updated != text:
-                  path.write_text(updated, encoding='utf-8')
+                  source_path.write_text(updated, encoding='utf-8')
                   changed += 1
           if changed == 0:
               raise SystemExit('no react-router-dom imports were found to migrate')
           print(f'migrated imports in {changed} source files')
           PY
-          npm uninstall react-router-dom @react-three/fiber @react-three/drei
-          npm install --save-exact \
-            react@19.2.8 \
-            react-dom@19.2.8 \
-            react-router@8.3.0 \
-            @react-three/fiber@9.6.1 \
-            @react-three/drei@10.7.7
-          npm install --save-dev --save-exact \
-            @types/react@19.2.17 \
-            @types/react-dom@19.2.3 \
-            postcss@8.5.23
+          rm -rf node_modules
+          npm install --package-lock-only
           npm audit fix --package-lock-only || true
           git diff --check
           git diff > "$GITHUB_WORKSPACE/financemeta-dependency.diff"
