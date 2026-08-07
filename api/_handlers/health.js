@@ -6,6 +6,16 @@ function hasValue(value) {
   return typeof value === 'string' && value.trim().length > 0;
 }
 
+function normalizeRevision(value) {
+  if (typeof value !== 'string') return null;
+  const revision = value.trim().toLowerCase();
+  return /^[0-9a-f]{7,40}$/.test(revision) ? revision : null;
+}
+
+export function getDeploymentRevision(env = process.env) {
+  return normalizeRevision(env.VERCEL_GIT_COMMIT_SHA) || normalizeRevision(env.GITHUB_SHA) || null;
+}
+
 export function getReadinessSnapshot(env = process.env) {
   const hasSupabaseUrl = hasValue(env.SUPABASE_URL) || hasValue(env.VITE_SUPABASE_URL);
   const hasSupabaseAnonKey = hasValue(env.SUPABASE_ANON_KEY) || hasValue(env.VITE_SUPABASE_ANON_KEY);
@@ -42,9 +52,11 @@ export default async function handler(req, res) {
 
   const readinessRequested = isReadinessRequest(req);
   const readiness = readinessRequested ? getReadinessSnapshot() : null;
+  const revision = getDeploymentRevision();
   const statusCode = readiness && !readiness.ready ? 503 : 200;
 
   res.setHeader('X-VertexED-Health', readinessRequested ? (readiness.ready ? 'ready' : 'degraded') : 'alive');
+  if (revision) res.setHeader('X-VertexED-Revision', revision);
 
   if (req.method === 'HEAD') {
     return res.status(statusCode).end();
@@ -57,6 +69,8 @@ export default async function handler(req, res) {
     status: readiness ? (readiness.ready ? 'ready' : 'degraded') : 'alive',
     timestamp: new Date().toISOString(),
   };
+
+  if (revision) payload.revision = revision;
 
   if (readiness) {
     payload.checks = readiness.checks;
