@@ -10,6 +10,7 @@ import {
 
 const userContentSource = fs.readFileSync('src/lib/userContent.ts', 'utf8');
 const authSource = fs.readFileSync('src/contexts/AuthContext.tsx', 'utf8');
+const apexSource = fs.readFileSync('src/hooks/useApexChat.ts', 'utf8');
 
 test('study artifact device storage is isolated by authenticated account', () => {
   const first = userContentStorageKeys('11111111-1111-4111-8111-111111111111');
@@ -51,4 +52,13 @@ test('auth lifecycle changes storage ownership before descendants use a new sess
   assert.match(authSource, /setUserContentStorageScope\(nextUser\?\.id \?\? null\)/);
   assert.match(authSource, /setUserContentStorageScope\(data\.user\?\.id \?\? null\)/);
   assert.match(authSource, /setUserContentStorageScope\(null\)/);
+});
+
+test('Apex session history is account-scoped and abandons unsafe legacy migration', () => {
+  assert.match(apexSource, /const \{ user, loading: authLoading \} = useAuth\(\)/);
+  assert.match(apexSource, /apexChatStorageKey\(context\.page, threadKey, accountScope\)/);
+  assert.match(apexSource, /vertex_apex:\$\{account\}:/);
+  assert.doesNotMatch(apexSource, /vertex_apex_messages_v1/);
+  assert.match(apexSource, /if \(!question \|\| loading \|\| authLoading\) return false/);
+  assert.match(apexSource, /requestRef\.current \+= 1/);
 });
