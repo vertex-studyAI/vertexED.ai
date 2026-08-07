@@ -1,0 +1,154 @@
+{
+  "schema_version": 1,
+  "as_of": "2026-08-07T22:05:00+05:30",
+  "control_repository": "vertex-studyAI/vertexED.ai",
+  "control_commit": "fb53719be6511616fbacffdb2af0584f47afaeca",
+  "status_enum": ["DONE", "PARTIAL", "BLOCKED", "INVALID", "UNKNOWN"],
+  "finish_lines": [
+    {
+      "id": "percy",
+      "name": "Percy",
+      "status": "BLOCKED",
+      "classification": "BLOCKED",
+      "runtime_liveness_verified": false,
+      "evidence": [
+        "Issue #95 reproduces sqlite3.OperationalError: no such column: title against the existing Percy task database.",
+        "Freshest recorded worker observation found coordinator and eight worker panes, but each worker pane command was only zsh; no agent process was proven."
+      ],
+      "blockers": [
+        "Existing-state snapshot/schema compatibility",
+        "Process plus heartbeat/lease worker liveness",
+        "Successful read-only storage/lock/worktree/provider preflight"
+      ],
+      "next_action": "Lane 04 owns issue #95 only: preserve history, repair snapshot compatibility, add old/current schema regressions, and prove SHELL_ONLY/RUNNING/STALE/EXITED/UNKNOWN.",
+      "percy_lane": "04"
+    },
+    {
+      "id": "project2424",
+      "name": "Project 2424",
+      "status": "BLOCKED",
+      "classification": "ENGINEERING_INCOMPLETE",
+      "independent_reproduction_verified": false,
+      "evidence": [
+        "Canonical Project 2424/Typhon restoration remains unverified; no flagship has standalone restoration plus clean-room independent reproduction and externally grounded benchmark evidence."
+      ],
+      "blockers": ["Canonical source restoration", "Historical claim reconciliation", "Independent reproduction"],
+      "next_action": "Lane 05 owns issue #20 only: preserve dirty source, restore canonical repo, rerun smallest baseline, reconcile claims, nominate at most five flagships.",
+      "percy_lane": "05"
+    },
+    {
+      "id": "vertexed",
+      "name": "VertexED",
+      "status": "PARTIAL",
+      "classification": "LIVE_VERIFICATION_REQUIRED",
+      "real_user_journey_verified": false,
+      "evidence": [
+        "PR #111 merged as 20f745de2318c5717d271142b7faab8487e06054, account-scoping remaining device-only learner content.",
+        "PR #117 merged as 745813c6f6c8b99432dc84e68e22b2c7f1090ae6, isolating adaptive learner state by account.",
+        "Password recovery is complete on source via 4e66d49d66906ed28c6de6163d07b97b857270d9.",
+        "Account deletion no longer pre-deletes learner rows before auth identity removal via d1e627d0eb7dd80f517c83a9e5a3805c6a5f752d.",
+        "Current control main fb53719be6511616fbacffdb2af0584f47afaeca still has both Vercel contexts failing on build-rate-limit; exact production revision is not certified."
+      ],
+      "blockers": [
+        "One canonical Vercel production project and exact deployed main SHA are not certified",
+        "Issue #13 authenticated signup-to-saved-artifact-to-return/recovery/logout/cleanup journey remains incomplete",
+        "Leaked-password protection and Postgres security upgrade remain owner-controlled external settings"
+      ],
+      "next_action": "Lane 01 stops feature work. Resolve #44 exact canonical production deployment identity first, then execute #13 disposable authenticated golden journey.",
+      "percy_lane": "01"
+    },
+    {
+      "id": "financemeta",
+      "name": "FinanceMeta",
+      "status": "BLOCKED",
+      "classification": "LOCAL_ONLY",
+      "real_user_journey_verified": false,
+      "evidence": [
+        "Canonical target remains fbdd503223edc5b1780509720391083f485a4a85.",
+        "Control artifacts now certify authorization hardening, zero-error lint recovery, fail-closed environment wiring, dependency recovery, and one integrated overlay, but target main remains unchanged.",
+        "Actual branch creation against target still fails 403 despite repository metadata reporting write permission."
+      ],
+      "blockers": ["Effective target GitHub write access", "FinanceMeta production Supabase access", "Certified overlay not applied/certified live"],
+      "next_action": "Lane 02 applies only the integrated certified overlay to an isolated target worktree when access is available, reruns target gates, then independently proves member role-escalation denial before staging.",
+      "percy_lane": "02"
+    },
+    {
+      "id": "the-bu1ld",
+      "name": "The Bu1LD",
+      "status": "BLOCKED",
+      "classification": "STAGING_READY",
+      "real_user_journey_verified": false,
+      "evidence": [
+        "Canonical target remains daa80c1124b2a6d7d09b7669e04d29e50cffcbbe.",
+        "A consolidated source launch artifact is certified in the control repository, but the canonical target and Cloudflare production are unchanged."
+      ],
+      "blockers": ["Target GitHub write", "Bu1LD Supabase/Cloudflare access", "Production hydration/deployment identity", "Seven-role production journey"],
+      "next_action": "Lane 03 stops generating bundles. Apply the single consolidated artifact once to exact target, then resolve #84 and execute #16.",
+      "percy_lane": "03"
+    },
+    {
+      "id": "lam-jepa",
+      "name": "LAM-JEPA",
+      "status": "PARTIAL",
+      "classification": "RESEARCH_REPRODUCED_WITH_LIMITATIONS",
+      "independent_reproduction_verified": true,
+      "evidence": [
+        "Lane-08 independent verifier in control commit fb53719be6511616fbacffdb2af0584f47afaeca reproduces immutable target 4c7ee1280587da3e73b7ffd596190be657733aab on checksum-addressed ARC train/validation.",
+        "Independent QA reproduced the bounded two-seed parameter-matched and pretrained smoke without target verifier code.",
+        "Verifier explicitly records: test split not evaluated, final five-seed protocol not executed, external validation false, research_complete false."
+      ],
+      "blockers": ["Issue #10 final >=5-seed locked-test protocol", "Full strong-baseline/ablation/robustness evidence", "External validity"],
+      "next_action": "Lane 07 owns issue #10 only. Freeze and execute the real-data >=5-seed scientific protocol; no new JEPA architectures. Lane 08 independently reproduces final results.",
+      "percy_lane": "07"
+    },
+    {
+      "id": "hercules",
+      "name": "Hercules",
+      "status": "BLOCKED",
+      "classification": "ENGINEERING_INCOMPLETE",
+      "evidence": [
+        "Prior compact benchmark/test evidence exists, including preserved negative/falsification result, but canonical standalone source and one bounded completion gate remain unresolved."
+      ],
+      "blockers": ["Canonical source identity", "One matched capability/baseline gate", "Independent reproduction"],
+      "next_action": "Lane 06 owns issue #97 only: one capability, one baseline, one metric, one budget, keep/archive decision.",
+      "percy_lane": "06"
+    }
+  ],
+  "p0_blockers": [
+    {"id": "P0-PERCY-SNAPSHOT-LIVENESS", "project": "Percy", "owner_lane": "04", "acceptance": "Existing and fresh Percy DBs snapshot without history loss and worker state is proven from process plus heartbeat/lease evidence."},
+    {"id": "P0-FINANCEMETA-AUTHZ", "project": "FinanceMeta", "owner_lane": "02", "acceptance": "Certified overlay is applied to canonical target/staging DB and normal member cannot obtain privileged role state; safe profile updates still work."},
+    {"id": "P0-BU1LD-DEPLOYMENT-INTEGRITY", "project": "The Bu1LD", "owner_lane": "03", "acceptance": "Single consolidated artifact is applied to canonical target and one immutable Cloudflare build passes strict hydration and source identity checks."},
+    {"id": "P0-VERTEXED-PRODUCTION-REVISION", "project": "VertexED", "owner_lane": "01", "acceptance": "One canonical Vercel project serves an exact verified current main SHA and liveness/readiness/browser evidence pass against that same revision."}
+  ],
+  "top_actions": [
+    "Lane 04 close Percy #95 before trusting swarm execution state.",
+    "Lane 01 resolve VertexED #44 exact production identity; #117/#118 are already merged and must not be reassigned.",
+    "Lane 01 execute VertexED #13 authenticated disposable-user golden journey after #44.",
+    "Lane 02 apply the integrated FinanceMeta certified overlay to canonical target when write/Supabase access is restored; then live denial-path QA.",
+    "Lane 03 apply the single Bu1LD consolidated artifact once, then close hydration/deployment issue #84 and role issue #16.",
+    "Lane 05 restore Project 2424/Typhon under #20 and rerun the smallest baseline before more flagship work.",
+    "Lane 07 execute LAM-JEPA #10 final >=5-seed real-data protocol; current ARC smoke is reproduced with limitations, not research complete.",
+    "Lane 06 execute Hercules #97 one-capability keep/archive gate; no Olympus expansion.",
+    "Lane 08 independently reproduce final product/research claims from immutable SHAs and reject source-only/live overclaims.",
+    "Command center update issue #122 so tonight allocation contains no stale PR work."
+  ],
+  "agents": [
+    {"lane": "01", "role": "VertexED", "current_status": "IDLE", "allocation": "#44 exact production identity, then #13 authenticated golden journey; no feature work."},
+    {"lane": "02", "role": "FinanceMeta", "current_status": "IDLE", "allocation": "Apply integrated certified overlay to canonical target once access works; live authz denial QA before staging."},
+    {"lane": "03", "role": "The Bu1LD", "current_status": "IDLE", "allocation": "Apply one consolidated artifact once, then #84 and #16; stop generating duplicate bundles."},
+    {"lane": "04", "role": "Percy Core", "current_status": "IDLE", "allocation": "Own #95 only: snapshot schema compatibility plus process/heartbeat liveness truth."},
+    {"lane": "05", "role": "Project 2424", "current_status": "IDLE", "allocation": "Own #20 only: canonical restoration, smallest baseline, claim reconciliation, <=5 flagships."},
+    {"lane": "06", "role": "Hercules", "current_status": "IDLE", "allocation": "Own #97 one bounded capability and keep/archive gate."},
+    {"lane": "07", "role": "JEPA", "current_status": "IDLE", "allocation": "Own LAM-JEPA #10 >=5-seed real-data protocol only."},
+    {"lane": "08", "role": "Independent QA", "current_status": "IDLE", "allocation": "Independent immutable-SHA reproduction only; no primary implementation ownership."}
+  ],
+  "truth_guards": {
+    "done_requires_evidence": true,
+    "research_complete_requires_independent_reproduction": true,
+    "launch_ready_requires_real_user_journey": true,
+    "healthy_percy_requires_runtime_liveness": true,
+    "build_pass_is_not_launch_ready": true,
+    "plans_and_prompts_do_not_count_as_engineering_progress": true,
+    "unknown_is_required_when_current_runtime_evidence_is_unavailable": true
+  }
+}
