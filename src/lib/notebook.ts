@@ -4,6 +4,7 @@
  */
 
 import type { StudyArtifact } from '@/lib/userContent';
+import { notebookStorageKeys } from '@/lib/notebookStorageScope.mjs';
 
 export type NotebookSourceType = 'text' | 'paste' | 'artifact' | 'transcript' | 'file';
 
@@ -75,11 +76,19 @@ export type GroundedSourcePayload = {
   excerpt: string;
 };
 
-const STORAGE_KEY = 'vertex_study_notebooks_v1';
+let activeStorageScope: string | null = null;
 const MAX_NOTEBOOKS = 12;
 const MAX_SOURCES_PER_NOTEBOOK = 20;
 const MAX_SOURCE_CHARS = 50_000;
 const MAX_TOTAL_GROUNDING_CHARS = 100_000;
+
+export function setNotebookStorageScope(scope?: string | null) {
+  activeStorageScope = scope ?? null;
+}
+
+function activeNotebookStorageKey() {
+  return notebookStorageKeys(activeStorageScope).notebooks;
+}
 
 export const NOTEBOOK_STUDIO_GROUPS: Array<{
   id: string;
@@ -210,7 +219,7 @@ function normalizeNotebook(nb: StudyNotebook): StudyNotebook {
 function readAll(): StudyNotebook[] {
   if (typeof window === 'undefined') return [];
   try {
-    const raw = localStorage.getItem(STORAGE_KEY);
+    const raw = localStorage.getItem(activeNotebookStorageKey());
     const list = raw ? (JSON.parse(raw) as StudyNotebook[]) : [];
     return list.map(normalizeNotebook);
   } catch {
@@ -220,7 +229,7 @@ function readAll(): StudyNotebook[] {
 
 function writeAll(notebooks: StudyNotebook[]) {
   if (typeof window === 'undefined') return;
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(notebooks.slice(0, MAX_NOTEBOOKS)));
+  localStorage.setItem(activeNotebookStorageKey(), JSON.stringify(notebooks.slice(0, MAX_NOTEBOOKS)));
 }
 
 function newId(prefix: string) {
