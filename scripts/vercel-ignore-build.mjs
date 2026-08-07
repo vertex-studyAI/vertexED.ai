@@ -21,9 +21,21 @@ const RUNTIME_FILES = new Set([
 ]);
 
 const ROOT_BUILD_CONFIG = /^(?:eslint\.config\.|postcss\.config\.|tailwind\.config\.|tsconfig(?:\.|$)|vite\.config\.)/;
+const DIFF_FILTER = 'ACDMRTUXB';
 
 function normalizePath(filePath) {
   return filePath.trim().replace(/^\.\//, '').replaceAll('\\', '/');
+}
+
+function splitPaths(output) {
+  return String(output || '')
+    .split('\n')
+    .map(normalizePath)
+    .filter(Boolean);
+}
+
+function defaultRunGit(args) {
+  return execFileSync('git', args, { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] });
 }
 
 export function isRuntimeRelevant(filePath) {
@@ -39,16 +51,52 @@ export function shouldBuild(changedFiles) {
 }
 
 export function readChangedFiles() {
-  const output = execFileSync(
-    'git',
-    ['diff', '--name-only', '--diff-filter=ACDMRTUXB', 'HEAD^', 'HEAD'],
-    { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] },
-  );
+  const output = defaultRunGit([
+    'diff',
+    '--name-only',
+    `--diff-filter=${DIFF_FILTER}`,
+    'HEAD^',
+    'HEAD',
+  ]);
+  return splitPaths(output);
+}
 
-  return output
+export function findLatestRuntimeRevision({ head = 'HEAD', runGit = defaultRunGit } = {}) {
+  const revisions = String(runGit(['rev-list', '--first-parent', head]) || '')
     .split('\n')
-    .map(normalizePath)
+    .map((revision) => revision.trim().toLowerCase())
     .filter(Boolean);
+
+  if (revisions.length === 0) {
+    throw new Error(`no commits found from ${head}`);
+  }
+
+  for (const revision of revisions) {
+    let changedFiles = [];
+    try {
+      const parent = String(runGit(['rev-parse', `${revision}^1`]) || '').trim();
+      changedFiles = splitPaths(runGit([
+        'diff',
+        '--name-only',
+        `--diff-filter=${DIFF_FILTER}`,
+        parent,
+        revision,
+      ]));
+    } catch {
+      changedFiles = splitPaths(runGit(['ls-tree', '-r', '--name-only', revision]));
+    }
+
+    // Match the deployment guard's fail-closed behavior: if a commit cannot be
+    // classified from changed files, assume it was build-relevant.
+    if (changedFiles.length === 0 || shouldBuild(changedFiles)) {
+      if (!/^[0-9a-f]{7,40}$/.test(revision)) {
+        throw new Error(`invalid Git revision returned by history: ${revision}`);
+      }
+      return revision;
+    }
+  }
+
+  throw new Error(`no deploy-relevant commit found from ${head}`);
 }
 
 export function run() {
@@ -79,5 +127,14 @@ export function run() {
 
 const invokedPath = process.argv[1] ? pathToFileURL(process.argv[1]).href : '';
 if (import.meta.url === invokedPath) {
-  process.exitCode = run();
+  if (process.argv.includes('--print-latest-runtime-revision')) {
+    try {
+      console.log(findLatestRuntimeRevision());
+    } catch (error) {
+      console.error(`[vercel-ignore] Unable to identify latest runtime revision: ${error instanceof Error ? error.message : String(error)}`);
+      process.exitCode = 1;
+    }
+  } else {
+    process.exitCode = run();
+  }
 }
