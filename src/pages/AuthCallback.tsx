@@ -5,10 +5,12 @@ import type { AuthChangeEvent, Session } from "@supabase/supabase-js";
 import { supabase } from "@/lib/supabaseClient";
 import { isOnboardingComplete } from "@/lib/onboardingStatus.js";
 import { markPasswordRecoveryVerified } from "@/lib/passwordRecovery";
+import ResetPassword from "@/pages/ResetPassword";
 
 export default function AuthCallback() {
   const navigate = useNavigate();
   const [error, setError] = useState<string | null>(null);
+  const [recoveryReady, setRecoveryReady] = useState(false);
 
   useEffect(() => {
     if (!supabase) {
@@ -39,7 +41,10 @@ export default function AuthCallback() {
 
       if (event === "PASSWORD_RECOVERY" || recoveryHint) {
         markPasswordRecoveryVerified();
-        navigate("/reset-password", { replace: true });
+        // Stay on the already allow-listed callback URL. The reset form performs
+        // the password update only after this verified recovery session exists.
+        window.history.replaceState({}, document.title, "/auth/callback?recovery=1");
+        setRecoveryReady(true);
         return;
       }
 
@@ -59,13 +64,13 @@ export default function AuthCallback() {
 
     const run = async () => {
       try {
-        const oauthError =
+        const authError =
           searchParams.get("error_description") ||
           searchParams.get("error") ||
           hashParams.get("error_description") ||
           hashParams.get("error");
-        if (oauthError) {
-          setError(`Authentication could not be completed: ${oauthError}`);
+        if (authError) {
+          setError(`Authentication could not be completed: ${authError}`);
           return;
         }
         const code = searchParams.get("code");
@@ -118,6 +123,8 @@ export default function AuthCallback() {
       if (timeout) clearTimeout(timeout);
     };
   }, [navigate]);
+
+  if (recoveryReady) return <ResetPassword />;
 
   return (
     <>
