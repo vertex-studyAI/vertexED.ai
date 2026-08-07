@@ -16,7 +16,11 @@ function hasAccessibleName(element) {
   if (!element) return false;
   if (normalize(element.getAttribute?.('aria-label'))) return true;
   if (normalize(element.getAttribute?.('aria-labelledby'))) return true;
-  if (element.id && element.ownerDocument?.querySelector(`label[for="${CSS.escape(element.id)}"]`)) return true;
+  if (element.id) {
+    const matchingLabel = Array.from(element.ownerDocument?.querySelectorAll('label[for]') || [])
+      .some((label) => label.htmlFor === element.id);
+    if (matchingLabel) return true;
+  }
   if (element.closest?.('label')) return true;
   return false;
 }
@@ -139,8 +143,9 @@ function isStudyOverlay(overlay) {
 }
 
 function findOverlayDialog(overlay) {
+  const HTMLElementCtor = overlay.ownerDocument?.defaultView?.HTMLElement;
   const directChildren = Array.from(overlay.children || []);
-  return directChildren.find((child) => child instanceof overlay.ownerDocument.defaultView.HTMLElement) || null;
+  return directChildren.find((child) => HTMLElementCtor && child instanceof HTMLElementCtor) || null;
 }
 
 function findCloseButton(dialog) {
@@ -152,6 +157,7 @@ export function enhanceNotetakerDialog(overlay, returnFocus = overlay.ownerDocum
   const dialog = findOverlayDialog(overlay);
   if (!dialog) return null;
 
+  const view = overlay.ownerDocument?.defaultView;
   const studyMode = normalize(overlay.textContent).includes('Spaced Repetition · Study Mode');
   const label = studyMode ? 'Spaced repetition study mode' : 'Fullscreen flashcard study';
   const closeButton = findCloseButton(dialog);
@@ -173,12 +179,14 @@ export function enhanceNotetakerDialog(overlay, returnFocus = overlay.ownerDocum
     trapModalFocus(event, dialog);
   };
   dialog.addEventListener('keydown', handleKeyDown);
-  window.requestAnimationFrame(() => focusInitialModalElement(dialog, closeButton));
+  if (view?.requestAnimationFrame) view.requestAnimationFrame(() => focusInitialModalElement(dialog, closeButton));
+  else focusInitialModalElement(dialog, closeButton);
 
+  const HTMLElementCtor = view?.HTMLElement;
   return {
     overlay,
     dialog,
-    returnFocus: returnFocus instanceof overlay.ownerDocument.defaultView.HTMLElement ? returnFocus : null,
+    returnFocus: HTMLElementCtor && returnFocus instanceof HTMLElementCtor ? returnFocus : null,
     cleanup({ restoreFocus = false } = {}) {
       dialog.removeEventListener('keydown', handleKeyDown);
       if (restoreFocus) restoreModalFocus(this.returnFocus);
@@ -200,6 +208,7 @@ export function applyNotetakerAccessibility(root) {
 export function installNotetakerAccessibility(root) {
   if (!root) return () => {};
   const activeDialogs = new Map();
+  const view = root.ownerDocument?.defaultView;
 
   const scan = () => {
     applyNotetakerAccessibility(root);
@@ -218,7 +227,9 @@ export function installNotetakerAccessibility(root) {
   };
 
   scan();
-  const observer = new MutationObserver(scan);
+  const Observer = view?.MutationObserver;
+  if (!Observer) return () => {};
+  const observer = new Observer(scan);
   observer.observe(root, { childList: true, subtree: true, characterData: true, attributes: true, attributeFilter: ['class'] });
 
   return () => {
