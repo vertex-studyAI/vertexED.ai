@@ -152,6 +152,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v6
@@ -161,9 +163,10 @@ jobs:
       - name: Wait for production deployment and run smoke tests
         env:
           SMOKE_BASE_URL: https://www.vertexed.app
-          EXPECTED_VERTEXED_REVISION: ${{ github.sha }}
         run: |
           set -euo pipefail
+          export EXPECTED_VERTEXED_REVISION="$(node scripts/vercel-ignore-build.mjs --print-latest-runtime-revision)"
+          echo "[smoke] Expected deploy-relevant revision: ${EXPECTED_VERTEXED_REVISION}"
           max_attempts=8
           retry_delay_seconds=30
 
