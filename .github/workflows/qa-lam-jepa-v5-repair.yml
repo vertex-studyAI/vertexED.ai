@@ -1,0 +1,122 @@
+name: QA LAM-JEPA ARC V5 repair
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/qa-lam-jepa-v5-repair.yml"
+      - "portfolio/qa/verify_lam_jepa_arc_v5_repair.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  TARGET_COMMIT: df249086e9171febaa77333a4c62888f35265c40
+
+jobs:
+  independent-train-only-reproduction:
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+
+    steps:
+      - name: Checkout independent QA
+        uses: actions/checkout@v6
+
+      - name: Checkout immutable repaired LAM-JEPA target
+        uses: actions/checkout@v6
+        with:
+          repository: vertex-studyAI/LAM-JEPA
+          ref: ${{ env.TARGET_COMMIT }}
+          path: target
+
+      - name: Assert exact clean target
+        run: |
+          set -euo pipefail
+          test "$(git -C target rev-parse HEAD)" = "$TARGET_COMMIT"
+          test -z "$(git -C target status --porcelain)"
+          printf '%s\n' "$(git -C target rev-parse HEAD)" > target-commit.txt
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+
+      - name: Install immutable target CPU environment
+        run: |
+          set -euo pipefail
+          python -m pip install --upgrade pip
+          python -m pip install torch --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install -e './target[external-benchmarks]'
+          python -m py_compile portfolio/qa/verify_lam_jepa_arc_v5_repair.py
+
+      - name: Download exact primary repair claim artifact
+        uses: actions/download-artifact@v7
+        with:
+          github-token: ${{ github.token }}
+          repository: vertex-studyAI/LAM-JEPA
+          run-id: 31204300683
+          name: arc-v5-quantizer-primary-repair
+          path: primary-artifact
+
+      - name: Download checksum-addressed ARC train only
+        run: |
+          set -euo pipefail
+          mkdir -p qa-evidence
+          python target/scripts/data/download_arc_challenge.py \
+            --splits train \
+            --out-dir qa-evidence/arc-data \
+            | tee qa-evidence/download-train-only.json
+          test -e qa-evidence/arc-data/arc-challenge-train.parquet
+          test ! -e qa-evidence/arc-data/arc-challenge-validation.parquet
+          test ! -e qa-evidence/arc-data/arc-challenge-test.parquet
+          printf '%s  %s\n' \
+            'e488c1587ffdcfc8443f916c53488a95cd471c5790e0746c6bfe4cecf20962cb' \
+            'qa-evidence/arc-data/arc-challenge-train.parquet' \
+            | sha256sum --check
+
+      - name: Independently reproduce repaired trainability gate
+        run: |
+          set -euo pipefail
+          python portfolio/qa/verify_lam_jepa_arc_v5_repair.py \
+            --target-dir target \
+            --target-commit-file target-commit.txt \
+            --train qa-evidence/arc-data/arc-challenge-train.parquet \
+            --primary-artifact primary-artifact/arc-v5-quantizer-repair-gate.json \
+            --out qa-evidence/lam-jepa-arc-v5-independent-reproduction.json \
+            | tee qa-evidence/lam-jepa-arc-v5-independent-output.txt
+          test ! -e qa-evidence/arc-data/arc-challenge-validation.parquet
+          test ! -e qa-evidence/arc-data/arc-challenge-test.parquet
+
+      - name: Assert independent verdict stays bounded
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=json.loads(Path('qa-evidence/lam-jepa-arc-v5-independent-reproduction.json').read_text())
+          assert p['verdict'] == 'REPAIR_REPRODUCED_TRAIN_ONLY'
+          assert p['target_commit'] == 'df249086e9171febaa77333a4c62888f35265c40'
+          assert p['independent_reproduction_complete'] is True
+          assert p['validation_accessed'] is False
+          assert p['test_accessed'] is False
+          assert p['validation_authorized'] is False
+          assert p['performance_claim_authorized'] is False
+          assert p['research_complete'] is False
+          assert p['summaries']['legacy']['best_accuracy_by_seed'] == [0.25,0.25]
+          assert p['summaries']['repaired_v5']['best_accuracy_by_seed'] == [1.0,0.96875]
+          assert p['summaries']['no_quantizer']['best_accuracy_by_seed'] == [0.96875,0.96875]
+          assert all(v['manual_only'] is True for v in p['workflow_guards'].values())
+          PY
+
+      - name: Upload independent QA evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: qa-lam-jepa-arc-v5-repair
+          path: |
+            target-commit.txt
+            qa-evidence/download-train-only.json
+            qa-evidence/lam-jepa-arc-v5-independent-reproduction.json
+            qa-evidence/lam-jepa-arc-v5-independent-output.txt
+          if-no-files-found: warn
+          retention-days: 30
