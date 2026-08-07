@@ -34,12 +34,22 @@ test("typewriter startIndex skips already-rendered prefix", () => {
   assert.deepEqual(steps, ["He", "Hel", "Hell", "Hello"]);
 });
 
-test("apex chat storage keys are scoped per page", () => {
-  function apexChatStorageKey(page, threadKey) {
-    const scope = threadKey?.trim() || page || "global";
-    return `vertex_apex_thread_${scope}`;
+test("apex chat storage keys separate account and thread", () => {
+  function normalizeAccount(scope) {
+    if (scope === undefined) return "unhydrated";
+    if (scope === null || typeof scope !== "string" || !scope.trim()) return "signed-out";
+    return encodeURIComponent(scope.trim()).slice(0, 256);
   }
-  assert.equal(apexChatStorageKey("chatbot"), "vertex_apex_thread_chatbot");
-  assert.equal(apexChatStorageKey("chatbot", "socratic-drill"), "vertex_apex_thread_socratic-drill");
-  assert.notEqual(apexChatStorageKey("chatbot"), apexChatStorageKey("study-zone"));
+  function apexChatStorageKey(page, threadKey, accountScope) {
+    const account = normalizeAccount(accountScope);
+    const thread = threadKey?.trim() || page || "global";
+    return `vertex_apex:${account}:${encodeURIComponent(thread).slice(0, 120)}`;
+  }
+
+  const firstUser = apexChatStorageKey("chatbot", "apex-main", "user-1");
+  const secondUser = apexChatStorageKey("chatbot", "apex-main", "user-2");
+  assert.notEqual(firstUser, secondUser);
+  assert.notEqual(apexChatStorageKey("chatbot", "socratic-drill", "user-1"), firstUser);
+  assert.notEqual(apexChatStorageKey("chatbot", "apex-main", undefined), firstUser);
+  assert.notEqual(apexChatStorageKey("chatbot", "apex-main", null), firstUser);
 });
