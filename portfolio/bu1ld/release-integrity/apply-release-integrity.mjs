@@ -64,11 +64,42 @@ envExample = replaceOnce(
 );
 await write(envPath, envExample);
 
-const verifyDeployPath = "scripts/verify-deployed-build.mjs";
-await write(
-  verifyDeployPath,
-  `#!/usr/bin/env node\n\nconst expected = (process.env.BU1LD_BUILD_COMMIT ?? process.env.GITHUB_SHA ?? "").trim().toLowerCase();\nconst origin = (process.env.BU1LD_PUBLIC_ORIGIN ?? "https://thebu1ld.com").replace(/\\/$/, "");\n\nif (!/^[0-9a-f]{7,40}$/.test(expected)) {\n  console.error("Set BU1LD_BUILD_COMMIT or GITHUB_SHA to the immutable deployed commit.");\n  process.exit(1);\n}\n\nconst attempts = Number(process.env.BU1LD_VERIFY_ATTEMPTS ?? 8);\nconst delayMs = Number(process.env.BU1LD_VERIFY_DELAY_MS ?? 5000);\n\nfor (let attempt = 1; attempt <= attempts; attempt += 1) {\n  try {\n    const response = await fetch(\n      \\`${origin}/build.json?commit=${expected}&attempt=${attempt}\\`,\n      { cache: "no-store", headers: { "cache-control": "no-cache" } },\n    );\n    if (!response.ok) throw new Error(\\`HTTP ${response.status}\\`);\n    const identity = await response.json();\n    if (identity?.service === "bu1ld" && identity?.commit === expected) {\n      console.log(JSON.stringify({ origin, expected, identity, attempt }, null, 2));\n      process.exit(0);\n    }\n    console.error(\n      \\`Attempt ${attempt}/${attempts}: expected ${expected}, received ${JSON.stringify(identity)}\\`,\n    );\n  } catch (error) {\n    console.error(\\`Attempt ${attempt}/${attempts}: ${error instanceof Error ? error.message : error}\\`);\n  }\n  if (attempt < attempts) await new Promise((resolveDelay) => setTimeout(resolveDelay, delayMs));\n}\n\nconsole.error(\\`Production did not expose immutable Bu1LD build ${expected}.\\`);\nprocess.exit(1);\n`,
-);
+const verifyDeployedBuild = [
+  "#!/usr/bin/env node",
+  "",
+  'const expected = (process.env.BU1LD_BUILD_COMMIT ?? process.env.GITHUB_SHA ?? "").trim().toLowerCase();',
+  'const origin = (process.env.BU1LD_PUBLIC_ORIGIN ?? "https://thebu1ld.com").replace(/\\/$/, "");',
+  "",
+  'if (!/^[0-9a-f]{7,40}$/.test(expected)) {',
+  '  console.error("Set BU1LD_BUILD_COMMIT or GITHUB_SHA to the immutable deployed commit.");',
+  "  process.exit(1);",
+  "}",
+  "",
+  "const attempts = Number(process.env.BU1LD_VERIFY_ATTEMPTS ?? 8);",
+  "const delayMs = Number(process.env.BU1LD_VERIFY_DELAY_MS ?? 5000);",
+  "",
+  "for (let attempt = 1; attempt <= attempts; attempt += 1) {",
+  "  try {",
+  '    const url = origin + "/build.json?commit=" + encodeURIComponent(expected) + "&attempt=" + attempt;',
+  '    const response = await fetch(url, { cache: "no-store", headers: { "cache-control": "no-cache" } });',
+  '    if (!response.ok) throw new Error("HTTP " + response.status);',
+  "    const identity = await response.json();",
+  '    if (identity?.service === "bu1ld" && identity?.commit === expected) {',
+  "      console.log(JSON.stringify({ origin, expected, identity, attempt }, null, 2));",
+  "      process.exit(0);",
+  "    }",
+  '    console.error("Attempt " + attempt + "/" + attempts + ": expected " + expected + ", received " + JSON.stringify(identity));',
+  "  } catch (error) {",
+  '    console.error("Attempt " + attempt + "/" + attempts + ": " + (error instanceof Error ? error.message : error));',
+  "  }",
+  "  if (attempt < attempts) await new Promise((resolveDelay) => setTimeout(resolveDelay, delayMs));",
+  "}",
+  "",
+  'console.error("Production did not expose immutable Bu1LD build " + expected + ".");',
+  "process.exit(1);",
+  "",
+].join("\n");
+await write("scripts/verify-deployed-build.mjs", verifyDeployedBuild);
 
 const deployWorkflow = [
   "name: Deploy Cloudflare",
