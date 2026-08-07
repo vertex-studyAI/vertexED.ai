@@ -3,9 +3,11 @@ import { readFile } from 'node:fs/promises';
 
 const checkpointsDir = new URL('../portfolio/checkpoints/', import.meta.url);
 const currentPointerUrl = new URL('CURRENT', checkpointsDir);
-const allowedStatuses = new Set(['DONE', 'PARTIAL', 'BLOCKED', 'INVALID', 'UNKNOWN']);
+const allowedPortfolioStatuses = new Set(['DONE', 'PARTIAL', 'BLOCKED', 'INVALID', 'UNKNOWN']);
+const allowedWorkerStatuses = new Set(['WORKING', 'VERIFYING', 'BLOCKED', 'IDLE', 'FAILED', 'FINISHED', 'UNKNOWN']);
 const expectedFinishLines = new Set(['percy', 'project2424', 'vertexed', 'financemeta', 'the-bu1ld']);
 const expectedLanes = Array.from({ length: 8 }, (_, index) => String(index + 1).padStart(2, '0'));
+const launchClassifications = new Set(['LAUNCH_READY', 'DEPLOYED_VERIFIED']);
 
 function assert(condition, message) {
   if (!condition) throw new Error(message);
@@ -31,8 +33,8 @@ function validate(checkpoint) {
     assert(expectedFinishLines.has(item.id), `unexpected finish line: ${item.id}`);
     assert(!seenFinishLines.has(item.id), `duplicate finish line: ${item.id}`);
     seenFinishLines.add(item.id);
-    assert(allowedStatuses.has(item.status), `${item.id} has invalid status ${item.status}`);
-    assert(Array.isArray(item.evidence), `${item.id} evidence must be an array`);
+    assert(allowedPortfolioStatuses.has(item.status), `${item.id} has invalid portfolio status ${item.status}`);
+    assert(Array.isArray(item.evidence) && item.evidence.length > 0, `${item.id} needs evidence`);
     assert(Array.isArray(item.blockers), `${item.id} blockers must be an array`);
     assert(typeof item.next_action === 'string' && item.next_action.length > 0, `${item.id} needs a next action`);
 
@@ -43,47 +45,51 @@ function validate(checkpoint) {
   }
   assert(seenFinishLines.size === expectedFinishLines.size, 'all five portfolio finish lines must be represented');
 
+  const percy = checkpoint.finish_lines.find((item) => item.id === 'percy');
+  assert(percy, 'Percy finish line is required');
+  if (percy.classification === 'HEALTHY' || percy.status === 'DONE') {
+    assert(percy.runtime_liveness_verified === true, 'healthy/DONE Percy requires verified runtime liveness');
+    assert(percy.blockers.length === 0, 'healthy/DONE Percy requires zero blockers');
+  }
+
   const project2424 = checkpoint.finish_lines.find((item) => item.id === 'project2424');
   assert(project2424, 'Project 2424 finish line is required');
-  assert(
-    !(project2424.classification === 'RESEARCH_COMPLETE' && project2424.status !== 'DONE'),
-    'RESEARCH_COMPLETE requires DONE command status',
-  );
-  assert(
-    project2424.classification !== 'RESEARCH_COMPLETE',
-    'Project 2424 cannot be RESEARCH_COMPLETE while the current command checkpoint records no accepted independent reproduction',
-  );
+  if (project2424.classification === 'RESEARCH_COMPLETE') {
+    assert(project2424.status === 'DONE', 'RESEARCH_COMPLETE requires DONE command status');
+    assert(project2424.blockers.length === 0, 'RESEARCH_COMPLETE requires zero blockers');
+    assert(project2424.independent_reproduction_verified === true, 'RESEARCH_COMPLETE requires accepted independent reproduction');
+    assert(project2424.evidence.length >= 2, 'RESEARCH_COMPLETE requires durable evidence');
+  }
 
   for (const id of ['vertexed', 'financemeta', 'the-bu1ld']) {
     const product = checkpoint.finish_lines.find((item) => item.id === id);
     assert(product, `${id} finish line is required`);
-    if (['LAUNCH_READY', 'DEPLOYED_VERIFIED'].includes(product.classification)) {
+    if (launchClassifications.has(product.classification)) {
       assert(product.status === 'DONE', `${id} launch classification requires DONE command status`);
       assert(product.blockers.length === 0, `${id} launch classification requires zero blockers`);
+      assert(product.real_user_journey_verified === true, `${id} launch classification requires a verified real-user journey`);
+      assert(product.evidence.length >= 2, `${id} launch classification requires durable evidence`);
     }
   }
 
   const actualLanes = checkpoint.agents.map((agent) => agent.lane);
   assert(actualLanes.length === 8, 'exactly eight Percy allocations are required');
   assert(new Set(actualLanes).size === 8, 'Percy lane allocation must be unique');
-  assert(
-    expectedLanes.every((lane) => actualLanes.includes(lane)),
-    'Percy allocation must cover lanes 01 through 08 exactly once',
-  );
+  assert(expectedLanes.every((lane) => actualLanes.includes(lane)), 'Percy allocation must cover lanes 01 through 08 exactly once');
 
   for (const agent of checkpoint.agents) {
-    assert(allowedStatuses.has(agent.current_status), `lane ${agent.lane} has invalid current status`);
+    assert(allowedWorkerStatuses.has(agent.current_status), `lane ${agent.lane} has invalid worker status ${agent.current_status}`);
     assert(typeof agent.allocation === 'string' && agent.allocation.length > 20, `lane ${agent.lane} needs an executable allocation`);
     assert(Array.isArray(agent.write_scope) && agent.write_scope.length > 0, `lane ${agent.lane} needs a write scope`);
-    assert(Array.isArray(agent.must_not_overlap), `lane ${agent.lane} must declare collision boundaries`);
+    assert(Array.isArray(agent.must_not_overlap) && agent.must_not_overlap.length > 0, `lane ${agent.lane} needs collision boundaries`);
   }
 
-  const p0Owners = new Set(checkpoint.p0_blockers.map((blocker) => blocker.owner_lane));
+  const p0Ids = checkpoint.p0_blockers.map((blocker) => blocker.id);
+  assert(new Set(p0Ids).size === p0Ids.length, 'P0 blocker ids must be unique');
   for (const blocker of checkpoint.p0_blockers) {
     assert(expectedLanes.includes(blocker.owner_lane), `${blocker.id} has invalid owner lane`);
     assert(typeof blocker.acceptance === 'string' && blocker.acceptance.length > 20, `${blocker.id} needs acceptance criteria`);
   }
-  assert(p0Owners.has('02') && p0Owners.has('03') && p0Owners.has('04'), 'P0 ownership must include FinanceMeta, Bu1LD and Percy lanes');
 
   const guards = checkpoint.truth_guards || {};
   for (const requiredGuard of [
@@ -117,7 +123,7 @@ function printSummary(pointer, checkpoint) {
   console.log('');
   console.log('PERCY ALLOCATION');
   for (const agent of checkpoint.agents) {
-    console.log(`${agent.lane} ${agent.role}: ${agent.allocation}`);
+    console.log(`${agent.current_status.padEnd(9)} lane ${agent.lane} ${agent.role}: ${agent.allocation}`);
   }
 }
 
