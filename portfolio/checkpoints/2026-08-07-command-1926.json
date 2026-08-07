@@ -1,28 +1,27 @@
 {
   "schema_version": 2,
-  "as_of": "2026-08-07T19:26:41+05:30",
+  "as_of": "2026-08-07T19:30:33+05:30",
   "control_repository": "vertex-studyAI/vertexED.ai",
-  "control_commit": "20a75a91c88f039895d1ae78169fb04effd27a00",
+  "control_commit": "f91e5255e6f040ba3963003de3afcf6651235111",
   "status_enum": ["DONE", "PARTIAL", "BLOCKED", "INVALID", "UNKNOWN"],
   "worker_status_enum": ["WORKING", "VERIFYING", "BLOCKED", "IDLE", "FAILED", "FINISHED", "UNKNOWN"],
   "execution_delta": {
     "done": [
       "Command truth gate #96 merged as 401f69cf6af19158bd010e5afedb66a5e9fbb7c3 and command refresh #103 merged as c46a9323ab7693499db8f9969078e17f50e3c23d.",
-      "VertexED #100 merged current-account planner hydration safety, #102 merged account-scoped planner device fallback, and #106 merged account-scoped Study Notebook device fallback after exact-head CI.",
-      "Bu1LD control-side release-integrity package #99 and confirmation-aware signup package #101 merged with dedicated validation; neither changed the target repository or production.",
+      "VertexED #100 merged current-account planner hydration safety, #102 merged account-scoped planner device fallback, and #106 merged account-scoped Study Notebook device fallback after exact-head canonical CI.",
+      "Bu1LD #104 merged as f91e5255e6f040ba3963003de3afcf6651235111 after exact-head release-integrity, launch-foundation and canonical CI passed. It is now the single canonical apply-ready Bu1LD target artifact and supersedes separate application of #99/#101.",
       "LAM-JEPA #11 merged paired multi-seed ablation machinery as ead2b493a30204ae8245f67f6540fe800796fb33 after Reproducibility CI and the independent ablation verifier passed.",
       "Duplicate VertexED Vercel blocker #49 was closed into canonical issue #44."
     ],
     "active": [
-      "Bu1LD #104 is the proposed single consolidated apply-ready bundle; exact-head release-integrity, launch-foundation and canonical CI must all pass before it can supersede separate application of #99/#101.",
-      "VertexED production/deployment certification is active under #44; post-merge Vercel contexts for 20a75a91c88f039895d1ae78169fb04effd27a00 are failing despite exact-head PR #106 CI being green.",
+      "VertexED production/deployment certification is active under #44; both post-merge Vercel contexts for the latest runtime-changing commit 20a75a91c88f039895d1ae78169fb04effd27a00 are failing despite exact-head PR #106 CI being green.",
       "LAM-JEPA issue #10 is the next scientific gate: externally grounded data, strong matched baselines, predeclared metrics, >=5 seeds, ablations and robustness before larger claims."
     ],
     "blocked": [
       "Percy issue #95: canonical snapshot fails on the existing DB with sqlite3.OperationalError: no such column: title, and shell-only tmux panes do not prove workers are running.",
       "FinanceMeta issue #19: confirmed profiles.role privilege-escalation path plus unavailable effective target write/production Supabase evidence.",
       "Project 2424 issue #20: canonical restoration, baseline rerun and independent flagship reproduction remain unverified.",
-      "The Bu1LD actual target repository, production Supabase and Cloudflare deployment remain external access gates."
+      "The Bu1LD canonical target repository, production Supabase and Cloudflare deployment remain external access gates even though the consolidated apply artifact is now verified."
     ]
   },
   "finish_lines": [
@@ -72,7 +71,7 @@
         "#100 merged as 990ca1ef6bf4125726f1b80b86510aec4e6200cc, preventing planner edits before current-account hydration.",
         "#102 merged as 0cff492b4546305291e08cb1716754fc68067ed4, isolating planner device fallback by account.",
         "#106 merged as 20a75a91c88f039895d1ae78169fb04effd27a00 after exact-head canonical CI and Study Notebook sync-status validation passed, isolating notebook device fallback by account.",
-        "Both Vercel contexts on post-merge 20a75a91c88f039895d1ae78169fb04effd27a00 currently report failure, so the public production revision is not certified."
+        "Both Vercel contexts on post-merge runtime-changing commit 20a75a91c88f039895d1ae78169fb04effd27a00 currently report failure, so the public production revision is not certified."
       ],
       "blockers": [
         "Post-merge Vercel failures and duplicate project ownership must be resolved under issue #44",
@@ -108,17 +107,17 @@
       "classification": "STAGING_READY",
       "real_user_journey_verified": false,
       "evidence": [
-        "#99 merged as 62a1636016e02478a858b6d0ef7e8d7875712889 with independently validated release-integrity recovery against immutable target daa80c1124b2a6d7d09b7669e04d29e50cffcbbe.",
-        "#101 merged as bb2eee4d4da24bc37576189afef35d2740d9d4a0 with independently validated confirmation-aware signup recovery against the same immutable target.",
-        "#104 is consolidating those recoveries plus a paused-member mutation authorization fix, but it remains VERIFYING until its exact-head launch-foundation, release-integrity and canonical CI gates all pass.",
-        "The actual ryangomez010/bu1ld-landing target and Cloudflare/Supabase production remain unchanged by control-repository certification."
+        "#104 merged as f91e5255e6f040ba3963003de3afcf6651235111 and is the single consolidated apply-ready recovery for immutable target daa80c1124b2a6d7d09b7669e04d29e50cffcbbe.",
+        "Exact-head Bu1LD Launch Foundation Validation 31185112637 passed TypeScript, 164/164 tests across 37 files with 480 assertions, ESLint, 2,767-module client build, 382-module SSR build, auth lifecycle, paused-member UI/database write gates, typed activation RPC and reverse-applicable patch generation.",
+        "Exact-head Bu1LD Release Integrity Validation 31185112671 and canonical CI 31185112990 also passed.",
+        "The actual ryangomez010/bu1ld-landing target and Cloudflare/Supabase production remain unchanged by this control-repository certification."
       ],
       "blockers": [
-        "#104 is not yet a verified canonical apply bundle",
         "Effective target write authorization is unavailable",
+        "The canonical target has not yet received the consolidated #104 patch",
         "Production hydration/deployment identity under #84 and role journeys under #16 remain unverified"
       ],
-      "next_action": "Finish #104 without weakening release:check; if all exact-head gates pass, make it the single canonical apply artifact and supersede separate application of #99/#101. Then restore target access, apply once, close #84, and only then run #16 role certification.",
+      "next_action": "Stop generating recovery bundles. Restore target write/deployment access, apply the single #104 artifact to exact target daa80c1124b2a6d7d09b7669e04d29e50cffcbbe, rerun source gates, close #84, then execute #16 role certification.",
       "percy_lane": "03"
     }
   ],
@@ -145,16 +144,16 @@
       "id": "P0-BU1LD-PRODUCTION-INTEGRITY",
       "project": "The Bu1LD",
       "owner_lane": "03",
-      "acceptance": "One exact-head consolidated target patch passes source/release gates, is applied only once to the canonical target, and production identifies one immutable build that passes hydration/browser verification before role certification."
+      "acceptance": "The single #104 artifact is applied once to the canonical target, then one immutable Cloudflare build passes hydration/browser verification before role certification."
     }
   ],
   "top_actions": [
     "Repair Percy snapshot schema compatibility and process-plus-heartbeat worker liveness under issue #95.",
-    "Finish Bu1LD #104 exact-head launch-foundation/release-integrity/canonical CI and collapse to one apply artifact if green.",
     "Diagnose VertexED post-merge Vercel failures for 20a75a91c88f039895d1ae78169fb04effd27a00 and select one canonical production project under #44.",
     "Complete VertexED #13 only after the exact deployed SHA is certified.",
     "Close FinanceMeta privilege escalation and prove denial paths under #19.",
     "Restore narrow GitHub/Supabase/Cloudflare access needed for FinanceMeta and The Bu1LD without exposing credentials.",
+    "Apply the single certified Bu1LD #104 artifact to exact target daa80c1124b2a6d7d09b7669e04d29e50cffcbbe, then resolve #84 before #16.",
     "Restore canonical Project 2424 under #20 and rerun the baseline before selecting flagships.",
     "Freeze LAM-JEPA #10 externally grounded dataset, strong matched baselines, primary metric, >=5-seed protocol, ablations and robustness checks before meaningful compute.",
     "Execute Hercules #97 as a one-capability matched-baseline gate; do not expand Olympus/platform scope.",
@@ -180,9 +179,9 @@
     {
       "lane": "03",
       "role": "The Bu1LD",
-      "current_status": "VERIFYING",
-      "allocation": "Own #104 only until all exact-head certification gates are green; then designate it the single target apply artifact and stop generating parallel recovery bundles. Target application waits for authorized access.",
-      "write_scope": ["Bu1LD consolidated recovery generator/verifier on #104 only"],
+      "current_status": "BLOCKED",
+      "allocation": "Stop generating recovery bundles. Apply only the merged #104 consolidated artifact once target access is restored, then own #84 and #16 in that order.",
+      "write_scope": ["The Bu1LD canonical target and deployment evidence only after access"],
       "must_not_overlap": ["VertexED", "FinanceMeta", "Project 2424", "Percy core"]
     },
     {
