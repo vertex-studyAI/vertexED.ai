@@ -1,0 +1,142 @@
+name: Bu1LD Launch Foundation Validation
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/bu1ld-launch-foundation-validation.yml'
+      - 'portfolio/bu1ld/launch-foundation/**'
+      - 'portfolio/bu1ld/release-integrity/**'
+      - 'portfolio/bu1ld/auth-confirmation/**'
+      - 'portfolio/bu1ld/build-identity/**'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: bu1ld-launch-foundation-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  certify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    env:
+      TARGET_COMMIT: daa80c1124b2a6d7d09b7669e04d29e50cffcbbe
+      TEST_BUILD_COMMIT: 0123456789abcdef0123456789abcdef01234567
+
+    steps:
+      - name: Checkout control repository
+        uses: actions/checkout@v5
+
+      - name: Checkout immutable Bu1LD source
+        uses: actions/checkout@v5
+        with:
+          repository: ryangomez010/bu1ld-landing
+          ref: ${{ env.TARGET_COMMIT }}
+          path: target
+
+      - name: Apply consolidated launch foundation
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git -C target rev-parse HEAD)" = "$TARGET_COMMIT"
+          node portfolio/bu1ld/launch-foundation/apply-launch-foundation.mjs target
+          node portfolio/bu1ld/release-integrity/verify-release-integrity.mjs target "$TARGET_COMMIT"
+          git -C target diff --check
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.3.14
+
+      - name: Install frozen dependencies
+        working-directory: target
+        run: bun install --frozen-lockfile
+
+      - name: Normalize changed source files
+        working-directory: target
+        run: |
+          bunx prettier --write \
+            scripts/verify-deployed-build.mjs \
+            scripts/apply-schema.mjs \
+            scripts/release-readiness.mjs \
+            src/lib/auth.tsx \
+            src/routes/signup.tsx \
+            'src/routes/projects/$slug.tsx' \
+            src/components/member/ProjectEvidenceSection.tsx \
+            src/lib/auth-signup-contract.test.ts \
+            src/lib/project-membership-write-gate.test.ts
+
+      - name: Run complete source release gate
+        working-directory: target
+        env:
+          BU1LD_BUILD_COMMIT: ${{ env.TEST_BUILD_COMMIT }}
+          VITE_SUPABASE_URL: https://bu1ld-ci.invalid
+          VITE_SUPABASE_ANON_KEY: ci-public-anon-key-launch-foundation
+        shell: bash
+        run: |
+          set -o pipefail
+          bun run release:check 2>&1 | tee "$GITHUB_WORKSPACE/bu1ld-launch-foundation.log"
+
+      - name: Verify immutable build output
+        working-directory: target
+        shell: bash
+        run: |
+          set -euo pipefail
+          node - <<'NODE'
+          const fs = require('node:fs');
+          const expected = process.env.TEST_BUILD_COMMIT;
+          const identity = JSON.parse(fs.readFileSync('dist/client/build.json', 'utf8'));
+          if (identity.service !== 'bu1ld' || identity.commit !== expected) {
+            throw new Error(`unexpected build identity: ${JSON.stringify(identity)}`);
+          }
+          NODE
+
+      - name: Verify launch foundation contracts
+        working-directory: target
+        shell: bash
+        run: |
+          set -euo pipefail
+          grep -F 'run: bun run release:prod' .github/workflows/deploy-cloudflare.yml
+          grep -F 'run: node scripts/verify-deployed-build.mjs' .github/workflows/deploy-cloudflare.yml
+          grep -F 'requiresEmailConfirmation: !error && !data.session' src/lib/auth.tsx
+          grep -F 'Confirm your email to continue' src/routes/signup.tsx
+          grep -F 'const canContribute = collaborationStatus === "active"' 'src/routes/projects/$slug.tsx'
+          grep -F 'canPost={isLead || canContribute}' 'src/routes/projects/$slug.tsx'
+          grep -F 'showContributionForm && canContribute' src/components/member/ProjectEvidenceSection.tsx
+          grep -F 'Active collaborators submit contributions' supabase/phase34.sql
+          grep -F "pm.status = 'active'" supabase/phase34.sql
+          grep -F '"supabase/phase34.sql"' scripts/apply-schema.mjs
+          grep -F '"phase34.sql"' scripts/release-readiness.mjs
+
+      - name: Generate consolidated target patch
+        working-directory: target
+        shell: bash
+        run: |
+          set -euo pipefail
+          git add -N \
+            src/build.d.ts \
+            src/lib/build-identity.ts \
+            src/lib/build-identity.test.ts \
+            src/lib/auth-signup-contract.test.ts \
+            src/lib/project-membership-write-gate.test.ts \
+            scripts/verify-deployed-build.mjs \
+            supabase/phase34.sql
+          git diff --binary > "$GITHUB_WORKSPACE/bu1ld-launch-foundation.patch"
+          test -s "$GITHUB_WORKSPACE/bu1ld-launch-foundation.patch"
+          git apply --check "$GITHUB_WORKSPACE/bu1ld-launch-foundation.patch" --reverse
+          sha256sum "$GITHUB_WORKSPACE/bu1ld-launch-foundation.patch" > "$GITHUB_WORKSPACE/bu1ld-launch-foundation-patch.sha256"
+
+      - name: Upload certification evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: bu1ld-launch-foundation-${{ github.run_id }}
+          path: |
+            bu1ld-launch-foundation.log
+            bu1ld-launch-foundation.patch
+            bu1ld-launch-foundation-patch.sha256
+          if-no-files-found: ignore
+          retention-days: 14
