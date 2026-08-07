@@ -29,6 +29,7 @@ function getOrdinalSuffix(day: number) {
 
 const PlannerView: React.FC = () => {
   const { user } = useAuth();
+  const currentUserId = user?.id ?? null;
   const [searchParams, setSearchParams] = useSearchParams();
   const weekPlanTriggered = useRef(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -58,29 +59,40 @@ const PlannerView: React.FC = () => {
   const [editDuration, setEditDuration] = useState(""); // minutes
   const editNameRef = useRef<HTMLInputElement>(null);
   const [plannerLoading, setPlannerLoading] = useState(true);
+  const hydratedUserIdRef = useRef<string | null>(null);
   const [syncError, setSyncError] = useState<string | null>(null);
   const [cloudSynced, setCloudSynced] = useState(true);
   const saveTimerRef = useRef<number | null>(null);
+  const plannerReady = !plannerLoading && hydratedUserIdRef.current === currentUserId;
   // tags removed
 
   useEffect(() => {
     let cancelled = false;
+    const hydrationUserId = currentUserId;
+    hydratedUserIdRef.current = null;
     setPlannerLoading(true);
+    setSyncError(null);
+    setCloudSynced(true);
+    setAiOpen(false);
+    setEditOpen(false);
+    setEditTask(null);
+    weekPlanTriggered.current = false;
     void loadPlannerSnapshot().then(({ snapshot, cloudSynced: synced, error }) => {
       if (cancelled) return;
       setTasks(snapshot.tasks);
       setMode(snapshot.mode);
       setCloudSynced(synced);
       setSyncError(error ?? null);
+      hydratedUserIdRef.current = hydrationUserId;
       setPlannerLoading(false);
     });
     return () => {
       cancelled = true;
     };
-  }, [user?.id]);
+  }, [currentUserId]);
 
   useEffect(() => {
-    if (plannerLoading) return;
+    if (!plannerReady) return;
     if (saveTimerRef.current !== null) window.clearTimeout(saveTimerRef.current);
     saveTimerRef.current = window.setTimeout(() => {
       void savePlannerSnapshot({
@@ -95,7 +107,7 @@ const PlannerView: React.FC = () => {
     return () => {
       if (saveTimerRef.current !== null) window.clearTimeout(saveTimerRef.current);
     };
-  }, [tasks, mode, plannerLoading]);
+  }, [tasks, mode, plannerReady]);
 
   // Listen for viewport changes to determine mobile
   useEffect(() => {
@@ -258,6 +270,7 @@ const PlannerView: React.FC = () => {
   };
 
   const suggestWeekFromAI = useCallback(async () => {
+    if (!plannerReady) return;
     setWeekPlanBusy(true);
     try {
       const profile = getLearnerProfile(user);
@@ -286,16 +299,16 @@ const PlannerView: React.FC = () => {
     } finally {
       setWeekPlanBusy(false);
     }
-  }, [user, tasks, setSearchParams]);
+  }, [user, tasks, setSearchParams, plannerReady]);
 
   useEffect(() => {
-    if (searchParams.get("suggest") !== "1" || weekPlanTriggered.current) return;
+    if (searchParams.get("suggest") !== "1" || !plannerReady || weekPlanTriggered.current) return;
     weekPlanTriggered.current = true;
     void suggestWeekFromAI();
-  }, [searchParams, suggestWeekFromAI]);
+  }, [searchParams, suggestWeekFromAI, plannerReady]);
 
   const addTaskFromAI = async () => {
-    if (!aiInput.trim()) return;
+    if (!plannerReady || !aiInput.trim()) return;
     setAiBusy(true);
     setAiError(null);
     try {
@@ -355,11 +368,11 @@ const PlannerView: React.FC = () => {
   };
 
   return (
-    <div className="planner-root">
+    <div className="planner-root" aria-busy={!plannerReady}>
       <div className="planner-header">
         <h1 className="planner-title">{formattedHeaderDate}</h1>
         <div className="planner-controls">
-          {!plannerLoading && !cloudSynced && (
+          {plannerReady && !cloudSynced && (
             <div
               className="flex items-center gap-2 rounded-lg border border-amber-500/30 bg-amber-500/10 px-3 py-1.5 text-xs text-amber-100 mr-2 max-w-[16rem]"
               role="status"
@@ -369,7 +382,7 @@ const PlannerView: React.FC = () => {
             </div>
           )}
           {!isMobile && (
-            <select className="planner-select" value={mode} onChange={(e) => setMode(e.target.value)}>
+            <select className="planner-select" value={mode} onChange={(e) => setMode(e.target.value)} disabled={!plannerReady} aria-label="Planner view">
               <option value="Day">Day</option>
               <option value="Week">Week</option>
             </select>
@@ -377,8 +390,8 @@ const PlannerView: React.FC = () => {
           <button className="planner-today" onClick={() => setSelectedDate(new Date())}>Today</button>
         </div>
 	<div className="planner-actions">
-          <button className="planner-new" onClick={() => { setAiOpen(true); setShowMoreOptions(false); setAiError(null); }}>New Task</button>
-          <button className="planner-today" disabled={weekPlanBusy} onClick={() => void suggestWeekFromAI()}>
+          <button className="planner-new" disabled={!plannerReady} onClick={() => { setAiOpen(true); setShowMoreOptions(false); setAiError(null); }}>New Task</button>
+          <button className="planner-today" disabled={!plannerReady || weekPlanBusy} onClick={() => void suggestWeekFromAI()}>
             {weekPlanBusy ? "Planning…" : "AI week plan"}
           </button>
 	  <button
@@ -395,10 +408,23 @@ const PlannerView: React.FC = () => {
       <div id="planner-mobile-calendar" className={`mobile-calendar-wrapper ${mobileCalOpen ? 'open' : ''}`}>
         <Calendar onDateChange={setSelectedDate} selectedDate={selectedDate} mode={mode} />
       </div>
-  <Schedule mode={mode} selectedDate={selectedDate} tasks={tasks} onTaskComplete={handleTaskComplete} onEditTask={handleEditTask} />
-  <TimeLeftWidget />
+      {!plannerReady ? (
+        <div
+          className="mx-4 my-6 rounded-xl border border-white/10 bg-white/5 px-4 py-5 text-sm"
+          role="status"
+          aria-live="polite"
+        >
+          <p className="font-medium">Loading your saved planner…</p>
+          <p className="mt-1 opacity-75">Editing will be available after the latest saved state for this account is ready.</p>
+        </div>
+      ) : (
+        <>
+          <Schedule mode={mode} selectedDate={selectedDate} tasks={tasks} onTaskComplete={handleTaskComplete} onEditTask={handleEditTask} />
+          <TimeLeftWidget />
+        </>
+      )}
 
-      {aiOpen && (
+      {plannerReady && aiOpen && (
         <AccessibleModal
           titleId="planner-ai-dialog-title"
           descriptionId="planner-ai-dialog-description"
@@ -511,7 +537,7 @@ const PlannerView: React.FC = () => {
         </AccessibleModal>
       )}
 
-      {editOpen && editTask && (
+      {plannerReady && editOpen && editTask && (
         <AccessibleModal
           titleId="planner-edit-dialog-title"
           descriptionId="planner-edit-dialog-description"

@@ -31,6 +31,8 @@ export interface TaskItem {
   [key: string]: any;
 }
 
+const taskName = (task: TaskItem) => String(task['task name'] || task.taskName || 'Study task');
+
 const Schedule = ({
   mode,
   selectedDate,
@@ -62,6 +64,18 @@ const Schedule = ({
 
   const handleTaskClick = (task: TaskItem) => {
     onEditTask(task);
+  };
+
+  const handleTaskKeyDown = (event: React.KeyboardEvent, task: TaskItem) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      handleTaskClick(task);
+      return;
+    }
+    if (event.key === 'Delete') {
+      event.preventDefault();
+      onTaskComplete(task.id);
+    }
   };
 
   useEffect(() => {
@@ -124,7 +138,12 @@ const Schedule = ({
   return (
     <div className="schedule-wrapper">
       {mode === "Week" && <Tabs selectedDate={selectedDate} />}
-      <div className={`schedule-container ${mode === 'Day' ? (isMobile ? 'day-view mobile' : 'desktop-day') : 'week-view'}`} ref={scheduleContainerRef} style={{ height: containerHeight, top: containerTop }}>
+      <div
+        className={`schedule-container ${mode === 'Day' ? (isMobile ? 'day-view mobile' : 'desktop-day') : 'week-view'}`}
+        ref={scheduleContainerRef}
+        style={{ height: containerHeight, top: containerTop }}
+        aria-label={`${mode} planner schedule for ${selectedDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}`}
+      >
         {/* Mobile timeline */}
         {mode === 'Day' && isMobile && (
           <div className="timeline" aria-hidden="true">
@@ -137,11 +156,11 @@ const Schedule = ({
           </div>
         )}
         {mode === 'Day' && isMobile && (
-          <div className="now-marker" ref={currentTimeLineRef} style={{ top: `calc(${currentMinutes/60} * var(--hour-height))` }} aria-label="Current time" />
+          <div className="now-marker" ref={currentTimeLineRef} style={{ top: `calc(${currentMinutes/60} * var(--hour-height))` }} aria-hidden="true" />
         )}
 
         {/* Mobile day tasks */}
-  {mode === 'Day' && isMobile && filteredTasks.map((task, index) => {
+  {mode === 'Day' && isMobile && filteredTasks.map((task) => {
           const startStr = task['start time']; if (!startStr) return null;
           const { hours, minutes } = parseTime(startStr);
           const duration = Math.max(15, parseInt(String(task['task duration']),10) || 0);
@@ -149,19 +168,20 @@ const Schedule = ({
           const top = `calc(${startMins/60} * var(--hour-height))`;
           const height = `calc(${duration/60} * var(--hour-height))`;
           const tagColor = '#6b7280';
+          const name = taskName(task);
           return (
             <div
-              key={index}
+              key={task.id}
               className="task task-day"
               style={{ top, height, borderColor: tagColor }}
               role="button"
               tabIndex={0}
-              aria-label={`${task['task name'] || task.taskName} starting at ${task['start time']} for ${duration} minutes. Press Enter to edit or Delete to complete.`}
+              aria-label={`${name} starting at ${task['start time']} for ${duration} minutes. Press Enter or Space to edit, or Delete to complete.`}
               onClick={() => handleTaskClick(task)}
-              onKeyDown={(e) => { if (e.key === 'Enter') handleTaskClick(task); if (e.key === 'Delete') onTaskComplete(task.id); }}
+              onKeyDown={(event) => handleTaskKeyDown(event, task)}
             >
-              <button onClick={(e) => { e.stopPropagation(); onTaskComplete(task.id); }} className="complete-task-button" aria-label="Mark task complete" type="button">✔</button>
-              {task['task name'] || task.taskName}
+              <button onClick={(e) => { e.stopPropagation(); onTaskComplete(task.id); }} className="complete-task-button" aria-label={`Mark ${name} complete`} type="button">✔</button>
+              {name}
             </div>
           );
         })}
@@ -175,8 +195,8 @@ const Schedule = ({
                 <span className="period">{slot.period}</span>
               </div>
             ))}
-            <div className="current-time-line" ref={currentTimeLineRef} style={{ top: `calc(${(currentMinutes / (24 * 60)) * 100}% * 2.4)` }} />
-            {filteredTasks.map((task, index) => {
+            <div className="current-time-line" ref={currentTimeLineRef} style={{ top: `calc(${(currentMinutes / (24 * 60)) * 100}% * 2.4)` }} aria-hidden="true" />
+            {filteredTasks.map((task) => {
               const startStr = task['start time']; if (!startStr) return null;
               const { hours, minutes } = parseTime(startStr);
               const duration = Math.max(15, parseInt(String(task['task duration']),10) || 0);
@@ -184,9 +204,10 @@ const Schedule = ({
               const top = (total / (24 * 60)) * 100 * 2.4;
               const height = Math.max(1, (duration / (24 * 60)) * 100 * 2.4);
               const tagColor = '#6b7280';
+              const name = taskName(task);
               return (
                 <div
-                  key={`desk-${index}`}
+                  key={`desk-${task.id}`}
                   className="task"
                   style={{
                     position: 'absolute',
@@ -198,12 +219,12 @@ const Schedule = ({
                   }}
                   role="button"
                   tabIndex={0}
-                  aria-label={`${task['task name'] || task.taskName} starting at ${task['start time']} for ${duration} minutes. Press Enter to edit or Delete to complete.`}
+                  aria-label={`${name} starting at ${task['start time']} for ${duration} minutes. Press Enter or Space to edit, or Delete to complete.`}
                   onClick={() => onEditTask(task)}
-                  onKeyDown={(e) => { if (e.key === 'Enter') onEditTask(task); if (e.key === 'Delete') onTaskComplete(task.id); }}
+                  onKeyDown={(event) => handleTaskKeyDown(event, task)}
                 >
-                  <button onClick={(e) => { e.stopPropagation(); onTaskComplete(task.id); }} className="complete-task-button" aria-label="Mark task complete" type="button">✔</button>
-                  {task['task name'] || task.taskName}
+                  <button onClick={(e) => { e.stopPropagation(); onTaskComplete(task.id); }} className="complete-task-button" aria-label={`Mark ${name} complete`} type="button">✔</button>
+                  {name}
                 </div>
               );
             })}
@@ -213,7 +234,7 @@ const Schedule = ({
   {mode === "Week" && weekDates.map((date, dayIndex) => {
           const dayTasks = tasks.filter(task => task.date === date);
           const dayLeft = `${dayIndex * 18.74 + 7.85}%`;
-          return dayTasks.map((task, index) => {
+          return dayTasks.map((task) => {
             if (!task["start time"]) return null;
             const { hours, minutes } = parseTime(task["start time"]);
             const duration = Math.max(15, parseInt(String(task["task duration"]), 10) || 0);
@@ -221,9 +242,10 @@ const Schedule = ({
             const top = (total / (24 * 60)) * 100 * 2.4;
             const height = Math.max(1, (duration / (24 * 60)) * 100 * 2.4);
             const tagColor = '#6b7280';
+            const name = taskName(task);
             return (
               <div
-                key={`${dayIndex}-${index}`}
+                key={`${dayIndex}-${task.id}`}
                 className="task"
                 style={{
                   position: 'absolute',
@@ -237,12 +259,12 @@ const Schedule = ({
                 }}
                 role="button"
                 tabIndex={0}
-                aria-label={`${task["task name"] || task.taskName} starting at ${task["start time"]} for ${duration} minutes. Press Enter to edit or Delete to complete.`}
+                aria-label={`${name} starting at ${task["start time"]} for ${duration} minutes. Press Enter or Space to edit, or Delete to complete.`}
                 onClick={() => handleTaskClick(task)}
-                onKeyDown={(e) => { if (e.key === 'Enter') { handleTaskClick(task);} if (e.key === 'Delete') { onTaskComplete(task.id);} }}
+                onKeyDown={(event) => handleTaskKeyDown(event, task)}
               >
-                <button onClick={(e) => { e.stopPropagation(); onTaskComplete(task.id); }} className="complete-task-button" aria-label="Mark task complete" type="button">✔</button>
-                {task["task name"] || task.taskName}
+                <button onClick={(e) => { e.stopPropagation(); onTaskComplete(task.id); }} className="complete-task-button" aria-label={`Mark ${name} complete`} type="button">✔</button>
+                {name}
               </div>
             );
           });
