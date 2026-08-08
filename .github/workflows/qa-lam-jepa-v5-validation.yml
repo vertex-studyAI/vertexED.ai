@@ -1,0 +1,180 @@
+name: QA LAM-JEPA ARC V5 repaired validation
+# Independent development-validation reexecution. ARC confirmatory test is forbidden.
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/qa-lam-jepa-v5-validation.yml"
+      - "portfolio/qa/verify_lam_jepa_arc_v5_validation.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  TARGET_COMMIT: 18bd608a05bc308056e6279b347ff3ddb2b751be
+  FROZEN_MODEL_COMMIT: df249086e9171febaa77333a4c62888f35265c40
+  VERIFIER_COMMIT: 05c039fcc02c09c0aa1c1487596dcdd741ee6d51
+
+jobs:
+  independent-validation-reexecution:
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+
+    steps:
+      - name: Checkout independent control QA
+        uses: actions/checkout@v6
+
+      - name: Checkout immutable LAM-JEPA validation target
+        uses: actions/checkout@v6
+        with:
+          repository: vertex-studyAI/LAM-JEPA
+          ref: ${{ env.TARGET_COMMIT }}
+          path: target
+
+      - name: Checkout verifier-only repair
+        uses: actions/checkout@v6
+        with:
+          repository: vertex-studyAI/LAM-JEPA
+          ref: ${{ env.VERIFIER_COMMIT }}
+          path: verifier
+
+      - name: Assert immutable target, frozen model identity, and verifier-only scope
+        run: |
+          set -euo pipefail
+          test "$(git -C target rev-parse HEAD)" = "$TARGET_COMMIT"
+          test "$(git -C verifier rev-parse HEAD)" = "$VERIFIER_COMMIT"
+          test -z "$(git -C target status --porcelain)"
+          test -z "$(git -C verifier status --porcelain)"
+          cmp target/scripts/benchmark/run_arc_v5_repaired_validation.py verifier/scripts/benchmark/run_arc_v5_repaired_validation.py
+          cmp target/protocols/arc_challenge_v5_repaired_validation.json verifier/protocols/arc_challenge_v5_repaired_validation.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          protocol=json.loads(Path('target/protocols/arc_challenge_v5_repaired_validation.json').read_text())
+          assert protocol['status'] == 'FROZEN_BEFORE_VALIDATION_EXECUTION'
+          assert protocol['frozen_target_commit'] == 'df249086e9171febaa77333a4c62888f35265c40'
+          assert protocol['repair_id'] == 'arc-v5-stable-ema-residual-0.03125'
+          assert protocol['dataset']['test_split_policy'] == 'must not be downloaded, opened, evaluated, or used for selection'
+          PY
+          printf '%s\n' "$TARGET_COMMIT" > target-commit.txt
+          printf '%s\n' "$VERIFIER_COMMIT" > verifier-commit.txt
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+
+      - name: Install immutable target CPU research environment
+        run: |
+          set -euo pipefail
+          python -m pip install --upgrade pip
+          python -m pip install torch --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install -e './target[external-benchmarks]'
+          python -m py_compile portfolio/qa/verify_lam_jepa_arc_v5_validation.py
+          python -m py_compile target/scripts/benchmark/run_arc_v5_repaired_validation.py
+          python -m py_compile verifier/scripts/ci/verify_arc_v5_repaired_validation.py
+
+      - name: Download checksum-addressed ARC train and validation only
+        run: |
+          set -euo pipefail
+          mkdir -p qa-evidence/arc-data
+          python target/scripts/data/download_arc_challenge.py \
+            --splits train validation \
+            --out-dir qa-evidence/arc-data \
+            | tee qa-evidence/download-train-validation.json
+          test -e qa-evidence/arc-data/arc-challenge-train.parquet
+          test -e qa-evidence/arc-data/arc-challenge-validation.parquet
+          test ! -e qa-evidence/arc-data/arc-challenge-test.parquet
+          printf '%s  %s\n' \
+            'e488c1587ffdcfc8443f916c53488a95cd471c5790e0746c6bfe4cecf20962cb' \
+            'qa-evidence/arc-data/arc-challenge-train.parquet' \
+            | sha256sum --check
+          printf '%s  %s\n' \
+            '395a5c88d1580d69855fbaee9450270578df1ad5af6259771cd0a42c20e99f05' \
+            'qa-evidence/arc-data/arc-challenge-validation.parquet' \
+            | sha256sum --check
+
+      - name: Reexecute exact frozen repaired validation
+        run: |
+          set -euo pipefail
+          test ! -e qa-evidence/arc-data/arc-challenge-test.parquet
+          python target/scripts/benchmark/run_arc_v5_repaired_validation.py \
+            --protocol target/protocols/arc_challenge_v5_repaired_validation.json \
+            --train qa-evidence/arc-data/arc-challenge-train.parquet \
+            --validation qa-evidence/arc-data/arc-challenge-validation.parquet \
+            --device cpu \
+            --out qa-evidence/arc-v5-repaired-validation-reexecution.json \
+            | tee qa-evidence/arc-v5-repaired-validation-reexecution-output.txt
+          test ! -e qa-evidence/arc-data/arc-challenge-test.parquet
+
+      - name: Run repaired target package verifier as a secondary check
+        if: always()
+        run: |
+          set -euo pipefail
+          test -f qa-evidence/arc-v5-repaired-validation-reexecution.json
+          python verifier/scripts/ci/verify_arc_v5_repaired_validation.py \
+            --results qa-evidence/arc-v5-repaired-validation-reexecution.json \
+            --protocol target/protocols/arc_challenge_v5_repaired_validation.json \
+            --validation qa-evidence/arc-data/arc-challenge-validation.parquet \
+            --report qa-evidence/target-verifier-report.json \
+            | tee qa-evidence/target-verifier-output.txt
+
+      - name: Independently recompute retained-row metrics and verdict
+        if: always()
+        run: |
+          set -euo pipefail
+          test -f qa-evidence/arc-v5-repaired-validation-reexecution.json
+          test ! -e qa-evidence/arc-data/arc-challenge-test.parquet
+          python portfolio/qa/verify_lam_jepa_arc_v5_validation.py \
+            --results qa-evidence/arc-v5-repaired-validation-reexecution.json \
+            --protocol target/protocols/arc_challenge_v5_repaired_validation.json \
+            --train qa-evidence/arc-data/arc-challenge-train.parquet \
+            --validation qa-evidence/arc-data/arc-challenge-validation.parquet \
+            --target-commit-file target-commit.txt \
+            --forbidden-test qa-evidence/arc-data/arc-challenge-test.parquet \
+            --out qa-evidence/independent-v5-validation-qa.json \
+            | tee qa-evidence/independent-v5-validation-qa-output.txt
+
+      - name: Enforce bounded claim surface
+        if: always()
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=json.loads(Path('qa-evidence/independent-v5-validation-qa.json').read_text())
+          t=json.loads(Path('qa-evidence/target-verifier-report.json').read_text())
+          assert p['target_commit'] == '18bd608a05bc308056e6279b347ff3ddb2b751be'
+          assert p['test_accessed'] is False
+          assert p['independent_retained_row_verification'] is True
+          assert p['verdict'] in {
+              'VALIDATION_GENERALIZATION_SUPPORTED_WITH_LIMITATIONS',
+              'VALID_NEGATIVE_OR_INCONCLUSIVE_VALIDATION',
+          }
+          assert t['scientific_verdict'] == p['verdict']
+          assert t['test_accessed'] is False
+          assert t['research_complete'] is False
+          assert p['claim_boundary']['confirmatory_test_claim_authorized'] is False
+          assert p['claim_boundary']['external_generalization_claim_authorized'] is False
+          assert p['claim_boundary']['research_complete'] is False
+          PY
+          test ! -e qa-evidence/arc-data/arc-challenge-test.parquet
+
+      - name: Upload immutable independent validation evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: qa-lam-jepa-arc-v5-validation
+          path: |
+            target-commit.txt
+            verifier-commit.txt
+            qa-evidence/download-train-validation.json
+            qa-evidence/arc-v5-repaired-validation-reexecution.json
+            qa-evidence/arc-v5-repaired-validation-reexecution-output.txt
+            qa-evidence/target-verifier-report.json
+            qa-evidence/target-verifier-output.txt
+            qa-evidence/independent-v5-validation-qa.json
+            qa-evidence/independent-v5-validation-qa-output.txt
+          if-no-files-found: warn
+          retention-days: 30
