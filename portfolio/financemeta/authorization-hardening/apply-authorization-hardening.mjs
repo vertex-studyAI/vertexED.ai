@@ -15,6 +15,7 @@ if (fs.existsSync(migrationPath) || fs.existsSync(testPath)) {
 
 const migration = `-- FinanceMeta authorization hardening
 -- Prevent members from escalating profiles.role through direct PostgREST/client writes.
+-- Make the authenticated essay aggregate view execute with caller permissions so underlying RLS applies.
 -- This migration is additive and must be reviewed/applied through the normal Supabase migration flow.
 
 BEGIN;
@@ -50,6 +51,8 @@ REVOKE ALL ON FUNCTION public.is_lead_or_admin() FROM PUBLIC;
 GRANT EXECUTE ON FUNCTION public.get_user_role() TO authenticated;
 GRANT EXECUTE ON FUNCTION public.is_admin() TO authenticated;
 GRANT EXECUTE ON FUNCTION public.is_lead_or_admin() TO authenticated;
+
+ALTER VIEW public.essay_submissions_with_counts SET (security_invoker = true);
 
 COMMIT;
 `;
@@ -88,6 +91,10 @@ describe('FinanceMeta authorization boundary', () => {
       expect(migration).toContain('REVOKE ALL ON FUNCTION public.' + fn + '() FROM PUBLIC');
       expect(migration).toContain('GRANT EXECUTE ON FUNCTION public.' + fn + '() TO authenticated');
     }
+  });
+
+  it('forces the authenticated aggregate view to respect caller RLS', () => {
+    expect(migration).toContain('ALTER VIEW public.essay_submissions_with_counts SET (security_invoker = true)');
   });
 
   it('keeps the current member profile UI within the safe-column grant', () => {
