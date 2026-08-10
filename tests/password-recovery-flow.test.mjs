@@ -13,17 +13,25 @@ test('forgot-password email returns to the established auth callback with recove
   assert.match(loginSource, /If an account exists for that email/);
 });
 
-test('auth callback distinguishes PASSWORD_RECOVERY from normal sign-in', () => {
-  assert.match(callbackSource, /event === "PASSWORD_RECOVERY" \|\| recoveryHint/);
-  assert.match(callbackSource, /markPasswordRecoveryVerified\(\)/);
+test('auth callback requires the genuine Supabase PASSWORD_RECOVERY event', () => {
+  assert.match(callbackSource, /if \(recoveryHint && event !== "PASSWORD_RECOVERY"\) return/);
+  assert.match(callbackSource, /if \(event === "PASSWORD_RECOVERY"\)/);
+  assert.doesNotMatch(callbackSource, /event === "PASSWORD_RECOVERY" \|\| recoveryHint/);
+  assert.match(callbackSource, /markPasswordRecoveryVerified\(session\.user\.id\)/);
   assert.match(callbackSource, /setRecoveryReady\(true\)/);
   assert.match(callbackSource, /if \(recoveryReady\) return <ResetPassword \/>/);
   assert.match(callbackSource, /exchangeCodeForSession\(code\)/);
 });
 
-test('password recovery route requires a verified recovery marker and live session', () => {
-  assert.match(resetSource, /hasVerifiedPasswordRecovery\(\)/);
+test('recovery URL hints fail closed while waiting for a verified recovery event', () => {
+  assert.match(callbackSource, /if \(data\.session && !recoveryHint\)/);
+  assert.match(callbackSource, /if \(recoveryHint\) \{[\s\S]*?armCallbackTimeout/);
+  assert.match(callbackSource, /did not establish a verified recovery session/);
+});
+
+test('password recovery route binds the verified marker to the live account', () => {
   assert.match(resetSource, /supabase\.auth\.getSession\(\)/);
+  assert.match(resetSource, /hasVerifiedPasswordRecovery\(data\.session\.user\.id\)/);
   assert.match(resetSource, /Open the password reset link from your email to continue/);
   assert.match(resetSource, /This password reset session has expired/);
 });
@@ -37,9 +45,10 @@ test('password update validates confirmation, updates Supabase, clears recovery 
   assert.match(resetSource, /Sign in with your new password to continue/);
 });
 
-test('recovery authorization marker is session-only', () => {
-  assert.match(markerSource, /sessionStorage\.setItem\(PASSWORD_RECOVERY_MARKER, '1'\)/);
-  assert.match(markerSource, /sessionStorage\.getItem\(PASSWORD_RECOVERY_MARKER\) === '1'/);
+test('recovery authorization marker is session-only and account-bound', () => {
+  assert.match(markerSource, /sessionStorage\.setItem\(PASSWORD_RECOVERY_MARKER, normalizedUserId\)/);
+  assert.match(markerSource, /sessionStorage\.getItem\(PASSWORD_RECOVERY_MARKER\) === normalizedUserId/);
   assert.match(markerSource, /sessionStorage\.removeItem\(PASSWORD_RECOVERY_MARKER\)/);
+  assert.doesNotMatch(markerSource, /setItem\(PASSWORD_RECOVERY_MARKER, '1'\)/);
   assert.doesNotMatch(markerSource, /localStorage/);
 });
