@@ -1,25 +1,26 @@
 # Project 2424 — First 100
 
 **Updated:** 10 August 2026  
-**Source branch:** `agent/project2424-first100-20260810`
+**Canonical queue:** `FIRST_100_EXECUTION_WAVE.md` + `FIRST_100_QUEUE.ndjson`
 
 ## Truth boundary
 
-This dashboard counts only evidence present on this branch. Being selected into `FIRST_100_QUEUE.ndjson` is **not** completion evidence.
+This dashboard separates **executed candidate work** from **fully certified completion**. Selection into the First-100 queue is not completion evidence.
 
-- Certified complete: **0 / 100**
-- Execution-ready registry entries: **100**
-- Runnable project packages verified on this branch: **0**
-- Tested project packages verified on this branch: **0**
-- Research-complete projects verified on this branch: **0**
-- Demo-ready project packages verified on this branch: **0**
-- Projects with branch-local raw result artifacts: **0**
+- Certified complete under all nine acceptance requirements: **0 / 100**
+- Execution-ready queue entries: **100 / 100**
+- Candidate packages implemented + executed: **2 / 100**
+- Candidate packages reproduced by dedicated GitHub Actions: **2 / 100**
+- Candidate hypotheses passing their predeclared cheap screen: **1 / 100**
+- Candidate hypotheses preserved as negative/inconclusive: **1 / 100**
+- Candidate branches passing the configured repository build/test/browser gate on their recorded heads: **2 / 100**
+- Remaining entries without a per-project executed package: **98 / 100**
 
-The First-100 selection is a work queue, not a completed-project claim. A project may move to `DONE` only after the acceptance gate below is satisfied with inspectable evidence.
+`Certified complete` remains **0** because neither executed candidate has yet cleared every requirement below, including real-data/independent scientific QA where applicable. The purpose of the intermediate counts is to show real execution progress without weakening the completion definition.
 
 ## Required completion evidence
 
-Every counted project must have, at minimum:
+Every counted complete project must have, at minimum:
 
 1. immutable source identity or explicit `NO_SOURCE`;
 2. one falsifiable claim;
@@ -31,19 +32,24 @@ Every counted project must have, at minimum:
 8. explicit go/no-go verdict; and
 9. independent QA.
 
-## Status table
+## Executed candidates
 
-The canonical ordered list is maintained in:
+| Queue rank | ID | Artifact | Evidence | Verdict | Remaining gate |
+|---:|---|---|---|---|---|
+| 52 | `T2424-1767` | Draft PR #156 — Resource-Bounded Mixture-of-Experts benchmark | 4-test regression package; 20 deterministic seeds; dedicated GitHub reproduction passed twice; configured repository build/test + accessibility/browser gates passed on recorded head; piecewise RMSE improvement **85.002%** with **1/2** experts active; linear control **-1.010%** | `PASS_CHEAP_FALSIFICATION_SCREEN` | synthetic-only result; branch is behind moving `main`; real scientific data and independent scientific QA required |
+| 92 | `T2424-1863` | Draft PR #158 — Resource-Bounded local diffusion operator | 4-test negative-result regression package; 20 deterministic seeds; dedicated GitHub reproduction passed; configured repository build/test + accessibility/browser gates passed on recorded head; observed improvement **67.777%** against predeclared **>75%** gate; planted coefficient `0.18` recovered as `0.179689`; zero-diffusion control **-0.029%** | `NEGATIVE_OR_INCONCLUSIVE_AGAINST_PREDECLARED_GATE` | real PDE benchmark, stronger baselines, rollout/runtime evidence, and independent scientific QA required |
+
+## Remaining queue
+
+The other **98 / 100** candidates remain `EXECUTION_READY`. Registry metadata, a title, or an unexecuted protocol is not implementation/testing/result evidence.
+
+The ordered queue remains in:
 
 - `FIRST_100_EXECUTION_WAVE.md`
 - `FIRST_100_QUEUE.ndjson`
 
-Until a project has its own evidence-backed package, its status remains `EXECUTION_READY`, not `DONE`.
-
-| # | ID | Name | Type | Implementation | Tests | Results | Docs | Status |
-|---|---|---|---|---|---|---|---|---|
-| 1–100 | See queue | See queue | Mixed | Unverified | Unverified | Unverified | Queue metadata only | EXECUTION_READY |
-
 ## Promotion rule
 
-When a project becomes defensibly complete, replace the aggregate row above with a project-specific row and link the exact implementation, test command, raw result artifact, verdict, and QA evidence. Do not increase the completed count without those links.
+Increase `Certified complete` only when a project-specific package clears all nine acceptance requirements with inspectable evidence. A reproducible negative result counts as executed research when the original gate is preserved; it does **not** count as a successful hypothesis.
+
+No candidate here is described as paper-ready, publication-ready, production-ready, or scientifically superior based on synthetic evidence alone.
