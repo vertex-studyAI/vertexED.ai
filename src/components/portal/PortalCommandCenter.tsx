@@ -7,6 +7,8 @@ import ExamReadinessRing from '@/components/dashboard/ExamReadinessRing';
 import ExamCountdown from '@/components/curriculum/ExamCountdown';
 import BoardBadge from '@/components/curriculum/BoardBadge';
 import LiquidGlass from '@/components/LiquidGlass';
+import { useAuth } from '@/contexts/AuthContext';
+import { userContentStorageKeys } from '@/lib/userContentStorageScope.mjs';
 import {
   getPersonalizedSubline,
   getProfileCompleteness,
@@ -21,11 +23,13 @@ type Props = {
 };
 
 export default function PortalCommandCenter({ brief, pulse, intel }: Props) {
+  const { user } = useAuth();
   const goalLabel = studyGoalLabel(brief.profile.studyGoal);
   const gradeLabel = gradeLevelLabel(brief.profile.gradeLevel);
   const board = brief.profile.curriculum.board;
   const completeness = getProfileCompleteness(brief.profile);
   const subline = getPersonalizedSubline(brief.profile);
+  const apexPrefillKey = userContentStorageKeys(user?.id ?? null).apexPrefill;
 
   return (
     <LiquidGlass
@@ -85,7 +89,7 @@ export default function PortalCommandCenter({ brief, pulse, intel }: Props) {
                 type="button"
                 className="btn-glass inline-flex items-center gap-2"
                 onClick={() => {
-                  sessionStorage.setItem('vertex_apex_prefill', pulse.apexPrompt);
+                  sessionStorage.setItem(apexPrefillKey, pulse.apexPrompt);
                   window.location.assign('/chatbot');
                 }}
               >
