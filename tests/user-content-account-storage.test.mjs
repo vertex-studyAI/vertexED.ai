@@ -74,6 +74,19 @@ test('auth lifecycle changes sensitive storage ownership before descendants use 
   assert.match(authSource, /setSensitiveStorageScopes\(null\)/);
 });
 
+test('profile responses are bound to the active auth identity and request epoch', () => {
+  assert.match(authSource, /const activeProfileUserIdRef = useRef<string \| null \| undefined>\(undefined\)/);
+  assert.match(authSource, /const profileRequestRef = useRef\(0\)/);
+  assert.match(authSource, /const changed = activeProfileUserIdRef\.current !== userId/);
+  assert.match(authSource, /profileRequestRef\.current \+= 1/);
+  assert.match(authSource, /if \(changed\) setProfile\(null\)/);
+  assert.match(authSource, /const requestId = profileRequestRef\.current \+ 1/);
+  assert.match(
+    authSource,
+    /if \(activeProfileUserIdRef\.current !== userId \|\| profileRequestRef\.current !== requestId\) return/,
+  );
+});
+
 test('Apex session history is account-scoped and abandons unsafe legacy migration', () => {
   assert.match(apexSource, /const \{ user, loading: authLoading \} = useAuth\(\)/);
   assert.match(apexSource, /apexChatStorageKey\(context\.page, threadKey, accountScope\)/);
