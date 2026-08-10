@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Project 2424 — Quant ML Visualizer</title>
+  <style>
+    :root { font-family: Inter, ui-sans-serif, system-ui, sans-serif; color-scheme: dark; background:#0b1020; color:#eef2ff; }
+    body { margin:0; padding:32px; max-width:1100px; margin-inline:auto; }
+    h1 { font-size:clamp(2rem,5vw,4rem); margin-bottom:.4rem; }
+    p { color:#b8c1dc; line-height:1.6; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:16px; }
+    .panel,.metric { background:#121a31; border:1px solid #273252; border-radius:16px; padding:18px; }
+    textarea { box-sizing:border-box; width:100%; min-height:150px; background:#090e1b; color:#eef2ff; border:1px solid #34405f; border-radius:12px; padding:12px; }
+    input,button { font:inherit; }
+    input { width:90px; padding:8px; border-radius:8px; border:1px solid #34405f; background:#090e1b; color:#fff; }
+    button { border:0; border-radius:10px; padding:10px 16px; font-weight:700; cursor:pointer; background:#7dd3fc; color:#082032; }
+    svg { width:100%; height:320px; background:#090e1b; border-radius:12px; overflow:visible; }
+    .controls { display:flex; gap:16px; align-items:end; flex-wrap:wrap; margin:14px 0; }
+    label { display:grid; gap:6px; color:#c7d2fe; }
+    .legend { display:flex; gap:16px; font-size:.9rem; color:#cbd5e1; }
+    .error { color:#fecaca; min-height:1.5em; }
+    code { color:#bae6fd; }
+  </style>
+</head>
+<body>
+  <header>
+    <div>Project 2424 · T2424-0034</div>
+    <h1>Quant ML Visualizer</h1>
+    <p>A dependency-free walk-forward experiment that fits a tiny linear predictor using only past observations, applies transaction costs, and compares strategy equity with buy-and-hold. It is a research/demo baseline, not trading advice.</p>
+  </header>
+
+  <section class="panel">
+    <label for="prices">Price series (comma, space, or newline separated)</label>
+    <textarea id="prices"></textarea>
+    <div class="controls">
+      <label>Lookback <input id="lookback" type="number" min="1" value="3" /></label>
+      <label>Minimum train rows <input id="minTrain" type="number" min="2" value="5" /></label>
+      <label>Cost (bps) <input id="costBps" type="number" min="0" step="0.1" value="5" /></label>
+      <button id="run">Run walk-forward test</button>
+    </div>
+    <div id="error" class="error" role="alert" aria-live="polite"></div>
+  </section>
+
+  <section aria-labelledby="metrics-title">
+    <h2 id="metrics-title">Evidence snapshot</h2>
+    <div id="metrics" class="grid"></div>
+  </section>
+
+  <section class="panel" aria-labelledby="chart-title">
+    <h2 id="chart-title">Equity curves</h2>
+    <div class="legend"><span>Strategy</span><span>Buy & hold</span></div>
+    <svg id="chart" viewBox="0 0 1000 320" role="img" aria-label="Strategy and benchmark equity curves"></svg>
+  </section>
+
+  <p>Method boundary: each prediction at time <code>t</code> is fit from samples strictly before <code>t</code>. The current target return is appended to training only after that row is scored.</p>
+  <script type="module" src="./app.mjs"></script>
+</body>
+</html>
