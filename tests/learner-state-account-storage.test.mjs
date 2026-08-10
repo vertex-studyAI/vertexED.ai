@@ -16,6 +16,7 @@ const statsSource = fs.readFileSync('src/lib/studyStats.ts', 'utf8');
 const portalSource = fs.readFileSync('src/lib/portalFeatures.ts', 'utf8');
 const localStorageHookSource = fs.readFileSync('src/hooks/useLocalStorage.ts', 'utf8');
 const notetakerSource = fs.readFileSync('src/pages/NotetakerQuiz.tsx', 'utf8');
+const activityLogSource = fs.readFileSync('src/pages/study-zone/components/ActivityLog.tsx', 'utf8');
 
 test('learner-derived state keys are different for different accounts', () => {
   const first = userContentStorageKeys('learner-a');
@@ -104,4 +105,9 @@ test('portal recommendations use scoped activity, confidence, and exam-night sta
   assert.doesNotMatch(portalSource, /studyzone_activity/);
   assert.doesNotMatch(portalSource, /vertex_confidence_checkin_v1/);
   assert.doesNotMatch(portalSource, /vertex_exam_night_checklist_v1/);
+});
+
+test('activity log clears unsaved learner text when the account scope changes', () => {
+  assert.match(activityLogSource, /const activityKey = userContentStorageKeys\(authLoading \? undefined : user\?\.id \?\? null\)\.activity/);
+  assert.match(activityLogSource, /useEffect\(\(\) => \{\s*setDraft\(""\);\s*\}, \[activityKey\]\);/s);
 });
