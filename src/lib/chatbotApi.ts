@@ -12,6 +12,7 @@ export interface ChatbotRequest {
   history?: ChatbotMessage[];
   context?: StudyPageContext;
   sources?: GroundedSourcePayload[];
+  signal?: AbortSignal;
 }
 
 interface ChatbotResponse {
@@ -79,6 +80,7 @@ export const fetchChatbotAnswer = async (
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
 				body: payload,
+        signal: request.signal,
 			});
 
 			const data = await parseJsonSafe(response);
