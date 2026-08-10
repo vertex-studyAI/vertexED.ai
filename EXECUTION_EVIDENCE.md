@@ -42,14 +42,29 @@ Verification before merge: exact source head `ca7f82973d9eb39014912b91bf6d90f690
 Result: the newest Apex question is no longer included in both `history` and the separate `question` field; both server handlers defensively discard a trailing duplicate from older/malformed clients.  
 Known limitations: no model-quality improvement is claimed; this is a context correctness/cost fix.
 
-## Project 2424 — First 100 queue
+## Asteroid Tracklet Baseline
+
+Project: standalone portfolio research/software prototype  
+Commit: `e956ec60e8fe9675cb0ca90f8a11df403458890c`  
+Source PR: #145  
+Exact verified source head: `aaab8d5a2ff1b02d0c489e5201f2f60803763ffa`  
+Verification before merge: canonical CI run `31407928862` / #593 completed successfully.  
+Artifacts: implementation package, tests, benchmark CLI, README, and two follow-on experiment contracts under `portfolio/new-projects/asteroid-tracklet-baseline/`.  
+PR-recorded local project evidence: `PYTHONPATH=src pytest -q` -> 3 passed; 20-seed synthetic benchmark recorded precision `0.9787` and recall `0.8604`.  
+Result: a runnable/tested falsifiable baseline for linking synthetic moving-object detections under an approximately constant angular velocity model.  
+Known limitations: synthetic-only; no asteroid discovery, orbit determination, astronomical usefulness, novelty, or publication-readiness claim. It is not automatically counted as a Project 2424 First-100 completion because no queue mapping has been certified.
+
+## Project 2424 — First 100 execution wave
 
 Project: Project 2424  
+Commit: `f7c8ff7edd693f7daa0d2fc28e9a821eeb0d2702`  
 Source PR: #155  
-Current artifacts: `portfolio/project2424/FIRST_100_EXECUTION_WAVE.md`, `portfolio/project2424/FIRST_100_QUEUE.ndjson`, `tests/project2424First100Queue.test.mjs`  
-Result: 100 evidence-gated candidates are represented as an execution queue rather than falsely marked complete.  
-State: VERIFYING on latest PR head; do not count as merged/completed until current CI passes and the PR is merged.  
-Known limitations: registry metadata is not implementation, experiments, or paper readiness; the canonical Project 2424 source remains inaccessible to the connected GitHub installation.
+Exact source head: `04e9bd43a2ea82cbe34e8df39b776c174c6023cc`  
+Artifacts: `portfolio/project2424/FIRST_100_EXECUTION_WAVE.md`, `FIRST_100_QUEUE.ndjson`, `PROJECT_2424_FIRST_100.md`, `EXECUTION_QUEUE.md`, `EXECUTION_EVIDENCE.md`, `MORNING_HANDOFF.md`, and `tests/project2424First100Queue.test.mjs`.  
+Verification: latest-head `build-and-test` job in CI run `31408112019` succeeded, including `Test Project 2424 recovery package` and the canonical release gate. The browser jobs were cancelled by workflow concurrency while main was moving; #155 changed no runtime product files.  
+Result: 100 evidence-gated candidates are now represented on main as an execution queue rather than falsely marked complete.  
+Certified First-100 completion count: `0 / 100`.  
+Known limitations: registry/queue metadata is not implementation, experiments, or paper readiness; the canonical Project 2424 source remains inaccessible to the connected GitHub installation.
 
 ## Repository discovery evidence
 
@@ -59,7 +74,7 @@ Repositories visible to the connected GitHub App during this execution window:
 2. `vertex-studyAI/LAM-JEPA` — public, admin/write access.
 3. `vertex-studyAI/Text-To-Video` — private, admin/write access.
 
-No `Atlas`, canonical Project 2424, FinanceMeta, Bu1LD, or Percy repository was returned by the current GitHub installation. Those areas therefore remain explicitly blocked rather than being counted as inspected source.
+No Atlas, canonical Project 2424, FinanceMeta, Bu1LD, or Percy repository was returned by the current GitHub installation. Those areas therefore remain explicitly blocked rather than being counted as inspected source.
 
 ## Live-release boundary
 
