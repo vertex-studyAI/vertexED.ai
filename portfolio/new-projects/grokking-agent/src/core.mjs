@@ -47,6 +47,12 @@ function firstPersistentThreshold(rows, field, threshold, persistence) {
   return null;
 }
 
+function valueAtOrAfterStep(rows, field, step) {
+  if (step === null) return null;
+  const row = rows.find((candidate) => candidate.step >= step);
+  return row ? row[field] : null;
+}
+
 export function analyzeGrokking(rows, options = {}) {
   const clean = validateLearningCurve(rows);
   const smoothingWindow = options.smoothingWindow ?? 3;
@@ -54,11 +60,11 @@ export function analyzeGrokking(rows, options = {}) {
   const trainThreshold = options.trainThreshold ?? 0.95;
   const evalThreshold = options.evalThreshold ?? 0.9;
   const minDelaySteps = options.minDelaySteps ?? 1_000;
-  const maxPreGeneralizationEval = options.maxPreGeneralizationEval ?? 0.8;
+  const maxEvalAtMemorization = options.maxEvalAtMemorization ?? 0.8;
 
   if (!Number.isInteger(persistence) || persistence < 1) throw new RangeError("persistence must be a positive integer");
-  [trainThreshold, evalThreshold, maxPreGeneralizationEval].forEach((value, index) =>
-    validateAccuracy(value, ["trainThreshold", "evalThreshold", "maxPreGeneralizationEval"][index])
+  [trainThreshold, evalThreshold, maxEvalAtMemorization].forEach((value, index) =>
+    validateAccuracy(value, ["trainThreshold", "evalThreshold", "maxEvalAtMemorization"][index])
   );
   if (!Number.isFinite(minDelaySteps) || minDelaySteps < 0) throw new RangeError("minDelaySteps must be finite and >= 0");
 
@@ -75,19 +81,14 @@ export function analyzeGrokking(rows, options = {}) {
   const delaySteps = memorizationStep === null || generalizationStep === null
     ? null
     : generalizationStep - memorizationStep;
-
-  const preGeneralizationRows = generalizationStep === null
-    ? smoothed
-    : smoothed.filter((row) => row.step < generalizationStep);
-  const peakEvalBeforeGeneralization = preGeneralizationRows.length === 0
-    ? 0
-    : Math.max(...preGeneralizationRows.map((row) => row.evalAccuracy));
+  const evalAtMemorization = valueAtOrAfterStep(smoothed, "evalAccuracy", memorizationStep);
 
   const grokkingDetected = memorizationStep !== null &&
     generalizationStep !== null &&
     delaySteps >= minDelaySteps &&
     generalizationStep > memorizationStep &&
-    peakEvalBeforeGeneralization <= maxPreGeneralizationEval;
+    evalAtMemorization !== null &&
+    evalAtMemorization <= maxEvalAtMemorization;
 
   let verdict = "INSUFFICIENT_EVIDENCE";
   if (memorizationStep === null) verdict = "NO_MEMORIZATION_THRESHOLD";
@@ -101,12 +102,12 @@ export function analyzeGrokking(rows, options = {}) {
     memorizationStep,
     generalizationStep,
     delaySteps,
-    peakEvalBeforeGeneralization,
+    evalAtMemorization,
     thresholds: {
       trainThreshold,
       evalThreshold,
       minDelaySteps,
-      maxPreGeneralizationEval,
+      maxEvalAtMemorization,
       smoothingWindow,
       persistence
     },
