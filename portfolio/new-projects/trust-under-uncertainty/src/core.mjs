@@ -138,7 +138,7 @@ export function pairedConfidenceVariants(outcomes) {
     moderate: outcomes.map((correct, index) => ({
       id: `m-${index}`,
       correct,
-      confidence: correct ? 0.72 : 0.42
+      confidence: correct ? 0.8 : 0.2
     })),
     overconfident: outcomes.map((correct, index) => ({
       id: `o-${index}`,
