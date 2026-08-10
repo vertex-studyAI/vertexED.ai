@@ -19,13 +19,22 @@ export default async function handler(req, res) {
   if (question.length > MAX_QUESTION_CHARS) return res.status(400).json({ error: `Question too long (max ${MAX_QUESTION_CHARS} characters).` });
 
   try {
+    const trimmedQuestion = question.trim();
     const currentGuidePath = typeof context?.guidePath === 'string' ? context.guidePath : undefined;
-    const passages = await retrieveStudyGuideContext(question, { currentGuidePath });
+    const passages = await retrieveStudyGuideContext(trimmedQuestion, { currentGuidePath });
     const sourceText = passages.length
       ? passages.map((source, index) => `[${index + 1}] ${source.label} (${source.path})\n${source.text}`).join('\n\n')
       : 'No directly matching guide passage was found.';
-    const recentHistory = Array.isArray(history) ? history.slice(-4).map((entry) => `${entry?.role === 'assistant' ? 'Tutor' : 'Student'}: ${String(entry?.text ?? '').slice(0, 600)}`).join('\n') : '';
-    const prompt = `Use only the retrieved MYP study-guide passages below for factual claims. If they do not answer the question, say so plainly. Be concise, explain exam technique when relevant, and cite sources inline as [Subject - title].\n\nRETRIEVED PASSAGES:\n${sourceText}\n\nRECENT CONVERSATION:\n${recentHistory || '(none)'}\n\nSTUDENT QUESTION: ${question.trim()}`;
+    const historyEntries = Array.isArray(history) ? history.slice(-4) : [];
+    const recentHistory = historyEntries
+      .filter((entry, index) => {
+        const role = entry?.role === 'assistant' ? 'assistant' : 'user';
+        const text = String(entry?.text ?? '').trim();
+        return !(index === historyEntries.length - 1 && role === 'user' && text === trimmedQuestion);
+      })
+      .map((entry) => `${entry?.role === 'assistant' ? 'Tutor' : 'Student'}: ${String(entry?.text ?? '').slice(0, 600)}`)
+      .join('\n');
+    const prompt = `Use only the retrieved MYP study-guide passages below for factual claims. If they do not answer the question, say so plainly. Be concise, explain exam technique when relevant, and cite sources inline as [Subject - title].\n\nRETRIEVED PASSAGES:\n${sourceText}\n\nRECENT CONVERSATION:\n${recentHistory || '(none)'}\n\nSTUDENT QUESTION: ${trimmedQuestion}`;
     // Flash Lite keeps retrieval-grounded guide answers economical. The former
     // 2.5 Lite model is no longer enabled for newly created Gemini projects.
     const model = process.env.GEMINI_STUDY_GUIDE_MODEL || 'gemini-3.1-flash-lite';
