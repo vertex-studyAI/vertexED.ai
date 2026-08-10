@@ -1,5 +1,6 @@
 import type { ExamBoard } from '@/types/curriculum';
 import { boardToApiLabel } from '@/lib/curriculum';
+import { userContentStorageKeys } from '@/lib/userContentStorageScope.mjs';
 
 /**
  * Handoff payload for mock exam → answer reviewer flow (Phase 2).
@@ -43,7 +44,7 @@ export function buildReviewHandoffFromPaper(
 }
 
 export function mockReviewStorageKey() {
-  return 'vertex_mock_review_handoff';
+  return userContentStorageKeys().mockReviewHandoff;
 }
 
 export function saveMockReviewHandoff(handoff: MockReviewHandoff) {
