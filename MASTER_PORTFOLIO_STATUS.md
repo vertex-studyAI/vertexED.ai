@@ -1,31 +1,45 @@
 # Master Portfolio Status
 
-Updated: 10 August 2026
+**Updated:** 10 August 2026  
+**Evidence rule:** only connector-visible source, merged commits, exact-head CI, and retained versioned evidence count as verified.
 
-This status is evidence-limited. It records only repositories and artifacts visible to the connected GitHub installation or explicitly preserved in the control repository. It does not promote inaccessible source, proposal registries, deployment statuses, or research roadmaps into completed work.
+| Project | Canonical visible source | State | Current evidence | Main blocker | Best next artifact | Priority |
+|---|---|---|---|---|---|---|
+| VertexED.ai | `vertex-studyAI/vertexED.ai` | ACTIVE / SOURCE-CERTIFIED, PRODUCTION-UNVERIFIED | prior P0/P1 source fixes plus five merged Project 2424 packages; eight additional distinct Project 2424 heads verified | exact immutable revision serving public production + authenticated disposable-account journey | live SHA proof + authenticated production certification | P0 |
+| Project 2424 First-100 | portfolio tree in `vertex-studyAI/vertexED.ai`; wider local/archive source not exposed | ACTIVE / 13 VERIFIED IMPLEMENTATIONS | queue 100/100; 5 merged/tested packages; 8 additional distinct exact-head-green review-ready packages; strict certified 0/100 | project-specific real/external evidence, baselines, raw results, negative/ablation analysis, independent QA | promote strongest existing package through nine-part gate | P0 |
+| Text-To-Video | `vertex-studyAI/Text-To-Video` | MERGED LOCAL RELIABILITY FIX | canonical PR #7 merged as `1d1ad2d027ca38e6fb0581ccf280333da454b672`; head `4791f21a55217520955db603d917d8a5f2d7f06a` passed CI `31409630201`; stale/partial final-output behavior fail-closed | hosted rendering/queue/storage/narration lifecycle remains out of scope | retain local integrity contract or explicitly authorize hosted product scope | P1 |
+| LAM-JEPA | `vertex-studyAI/LAM-JEPA` | RESEARCH-ONLY / NEGATIVE-OR-INCONCLUSIVE, PROVENANCE DOCUMENTED | PR #53 merged `RESEARCH_STATUS.md`; PR #54 merged `RELEASE_PROVENANCE.md`; ARC negative/inconclusive boundary and locked-test stop rule preserved | owner license/citation decisions for publication package; any new scientific run needs a predeclared external confirmatory protocol | license/citation approval or frozen new confirmatory benchmark—not test rescue | P0 research |
+| FinanceMeta | not exposed by current installation | BLOCKED FOR DIRECT EXECUTION | no fresh target mutation/runtime certification claimed | canonical GitHub/Supabase access | connect source/runtime and execute release gate | P0/P1 |
+| The Bu1LD | not exposed by current installation | BLOCKED FOR DIRECT EXECUTION | no fresh target mutation/runtime certification claimed | canonical GitHub/Supabase/Cloudflare access | connect source/runtime and execute role journeys | P0/P1 |
+| Atlas | not exposed by current installation | BLOCKED | no fresh source/runtime evidence | canonical repository/runtime access | inspect orchestration, recovery, queue, evidence collection | P1 |
+| Percy | not exposed by current installation | BLOCKED / RECOVERABLE | no fresh SQLite/worker-liveness proof | local source/database/runtime access | verify schema compatibility/integrity + real worker liveness | P0 |
 
-| Project | Canonical repo/source | State | Tests/evidence | Main blocker | Best next artifact | Priority | Owner |
-|---|---|---|---|---|---|---|---|
-| VertexED.ai | `vertex-studyAI/vertexED.ai` | ACTIVE / RELEASE-CANDIDATE SOURCE | Canonical CI has passed on the merged source fixes; both Vercel commit-status contexts were green on pre-execution main. Four source fixes were merged during this execution window. | Exact immutable revision serving `www.vertexed.app` is still not proven; authenticated production certification remains open. | Exact live revision proof + authenticated disposable-account certification | P0 | VertexED |
-| Project 2424 | canonical local/Inkling source tracked in control issue #20; source repo not exposed to this GitHub App | BLOCKED / RECOVERABLE | Historical evidence exists but must be rerun. First-100 evidence queue is staged in PR #155. | Canonical Project 2424 Git source is not available through the connected GitHub installation and cloud restore is unresolved. | Restore canonical Git repo, rerun smallest baseline, then execute First-100 entries against real source | P0 | Project 2424 |
-| LAM-JEPA | `vertex-studyAI/LAM-JEPA` | RESEARCH-ONLY / ACTIVE | ARC repaired-v5 validation infrastructure and independent QA exist; retained scientific verdict remains negative/inconclusive and confirmatory test access remains locked. | Externally grounded benchmark + strong baselines and publication provenance are incomplete. | Freeze/execute externally grounded >=5-seed benchmark package without weakening claim boundary | P0 research | LAM-JEPA |
-| Notes-to-Video | `vertex-studyAI/Text-To-Video` | SHIPPABLE LOCAL PROTOTYPE | Repository documents strict workspace CI, real local MP4 smoke encoding, ffprobe verification, and external render-job provenance. | No production rendering/hosting, durable queue/storage lifecycle, or real narration pipeline. | Production-grade render queue/storage boundary or keep as polished local demo | P1 | Text-To-Video |
-| FinanceMeta | `build-the-future-11/finance4all-global-reach` (tracked in control issue #19) | BLOCKED | Certified hardening overlay exists in the control repo; target mutation is not verified. | Target GitHub/Supabase access is not exposed to this connected session. | Apply certified patch to exact target base and run real target release gate | P0/P1 | FinanceMeta |
-| The Bu1LD | `ryangomez010/bu1ld-landing` (tracked in control issues #16/#84) | BLOCKED | Prior source-only certification exists. | Target GitHub/Supabase/Cloudflare access is not exposed; live hydration/deployment skew remains unresolved. | Apply target fixes, atomically deploy one immutable commit, then run seven role journeys | P0/P1 | The Bu1LD |
-| Atlas | prior canonical reference `build-the-future-11/Atlas`; not exposed to this GitHub installation | BLOCKED | No current connector-visible source evidence in this execution window. | Repository is not available to the connected GitHub App. | Expose canonical Atlas repo, then inspect orchestration/runtime state | P1 | Atlas |
-| Percy | local control-plane source tracked by issue #95; no connector-visible canonical repo | BLOCKED / RECOVERABLE | Reproduced snapshot schema failure is documented in control issue #95. | Local SQLite/runtime source is not available through this GitHub connector. | Repair schema compatibility and prove real worker liveness from local source | P0 | Percy |
+## Project 2424 — merged verified packages
 
-## Changes merged during this execution window
+- `T2424-0034` Quant ML Visualizer — PR #166; CI `31409366246`; descriptive analytics/demo only.
+- `T2424-0036` Rubik's A* Intelligence — PR #169; CI `31409707818`; bounded orientation-free 2×2 corner-permutation search only.
+- `T2424-0038` Obscured Records editorial triage — PR #178; CI `31411209123`; evidence-gated triage, not factual/legal verification or autonomous publication.
+- `T2424-1767` Resource-Bounded MoE Operator — PR #162; CI `31409012137`; synthetic resource/error screen, no superiority claim.
+- `T2424-1863` Resource-Bounded Local Operator — PR #177; retained 20-seed result failed the predeclared >75% gate at **67.777%**; negative/inconclusive verdict preserved.
 
-1. `f5e7d1f3631f718e89bafaa539ec65516786c53a` — bind password-recovery authorization to the verified Supabase recovery session/account.
-2. `6961002e3fa6a311a25d16d23f4b8ff742b02a0d` — prevent stale profile responses from crossing auth sessions.
-3. `02f16b8b89daabf27a99cab405a39de481c19d2f` — clear transient Study Zone drafts/captions across account changes.
-4. `4e8648d6f453d1342b132703c52daac3c4e512df` — stop duplicating the current Apex prompt in model context.
+## Project 2424 — exact-head-green review-ready distinct packages
+
+`T2424-0024` #172, `T2424-0026` #174, `T2424-0028` #163, `T2424-0029` #176, `T2424-0035` #167, `T2424-0037` #165, `T2424-0053` #179, and `T2424-0054` #170.
+
+PR #160 is a noncanonical `T2424-0034` walk-forward/no-lookahead/transaction-cost follow-up created before canonical #166 merged. It is not double-counted and should be reconciled into the canonical package rather than merged as a duplicate tree.
+
+## Reconciled metrics
+
+- Connected repositories inspected: **3**
+- First-100 queue entries: **100**
+- Distinct First-100 verified implementation entries: **13**
+- Merged verified First-100 packages: **5**
+- Exact-head-green review-ready distinct packages: **8**
+- Strict First-100 certified complete: **0**
+- Text-To-Video canonical integrity fix: **merged**
+- LAM-JEPA status/provenance surfaces: **merged**
+- Production deployments intentionally performed by this follow-on lane: **0**
 
 ## Claim boundary
 
-- No production deployment was performed.
-- No Project 2424 source restoration was claimed.
-- No research result was invented.
-- No inaccessible repository was counted as inspected source.
-- Green Vercel commit statuses are not treated as proof of the immutable revision serving the public production domain.
+Green source CI is not immutable production proof. Controlled/synthetic experiments are not external scientific validation. A merged Project 2424 package is not automatically certified complete. LAM-JEPA provenance documentation does not upgrade its negative/inconclusive scientific result. No inaccessible repository is represented as freshly inspected or repaired.
