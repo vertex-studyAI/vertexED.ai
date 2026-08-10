@@ -116,7 +116,7 @@ export default function PortalEngagementRow({ profile }: Props) {
 
       <PortalWidget id="command-drill" span={1}>
         <div className="flex items-center justify-between gap-2 mb-2">
-          <p className="text-sm font-semibold mb-1">Command Word Drill</p>
+          <p className="text-sm font-semibold">Command Word Drill</p>
           <button
             type="button"
             onClick={nextDrill}
