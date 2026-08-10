@@ -7,6 +7,7 @@ import StudyLoopRing from '@/components/dashboard/StudyLoopRing';
 import ApexPromptChips from '@/components/chat/ApexPromptChips';
 import { getStudyContext } from '@/lib/studyContext';
 import { useAuth } from '@/contexts/AuthContext';
+import { userContentStorageKeys } from '@/lib/userContentStorageScope.mjs';
 import { cn } from '@/lib/utils';
 import { LOOP_STEPS } from '@/lib/studyLoopTracker';
 
@@ -25,9 +26,10 @@ export default function RetrievalPulseCard({ pulse, className }: Props) {
   const { user } = useAuth();
   const navigate = useNavigate();
   const context = getStudyContext('/main', user);
+  const apexPrefillKey = userContentStorageKeys(user?.id ?? null).apexPrefill;
 
   const askApex = () => {
-    sessionStorage.setItem('vertex_apex_prefill', pulse.apexPrompt);
+    sessionStorage.setItem(apexPrefillKey, pulse.apexPrompt);
     navigate('/chatbot');
   };
 
@@ -98,7 +100,7 @@ export default function RetrievalPulseCard({ pulse, className }: Props) {
           context={context}
           compact
           onSelect={(text) => {
-            sessionStorage.setItem('vertex_apex_prefill', text);
+            sessionStorage.setItem(apexPrefillKey, text);
             navigate('/chatbot');
           }}
         />
