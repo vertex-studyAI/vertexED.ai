@@ -32,7 +32,13 @@ test('mock-review handoff follows the active authenticated content scope', () =>
   assert.match(examFlowSource, /userContentStorageKeys\(\)\.mockReviewHandoff/);
   assert.doesNotMatch(examFlowSource, /vertex_mock_review_handoff/);
   assert.match(examFlowSource, /sessionStorage\.setItem\(mockReviewStorageKey\(\)/);
-  assert.match(examFlowSource, /sessionStorage\.getItem\(mockReviewStorageKey\(\)/);
+  assert.match(examFlowSource, /sessionStorage\.getItem\(storageKey\)/);
+});
+
+test('completed timed mock answers take precedence over the question-only handoff', () => {
+  assert.match(examFlowSource, /LEGACY_MOCK_EXAM_ANSWERS_KEY = 'vertex_exam_answers'/);
+  assert.match(examFlowSource, /sessionStorage\.getItem\(LEGACY_MOCK_EXAM_ANSWERS_KEY\)/);
+  assert.match(examFlowSource, /sessionStorage\.removeItem\(storageKey\);\s*return null/);
 });
 
 test('legacy shared handoffs are cleared at bootstrap and whenever auth ownership changes', () => {
