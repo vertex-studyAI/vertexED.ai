@@ -5,6 +5,9 @@ import test from 'node:test';
 import { userContentStorageKeys } from '../src/lib/userContentStorageScope.mjs';
 
 const quickAskSource = fs.readFileSync('src/components/chat/ApexQuickAsk.tsx', 'utf8');
+const retrievalPulseSource = fs.readFileSync('src/components/dashboard/RetrievalPulseCard.tsx', 'utf8');
+const portalEngagementSource = fs.readFileSync('src/components/portal/PortalEngagementRow.tsx', 'utf8');
+const portalCommandSource = fs.readFileSync('src/components/portal/PortalCommandCenter.tsx', 'utf8');
 const chatbotSource = fs.readFileSync('src/pages/AIChatbot.tsx', 'utf8');
 const examFlowSource = fs.readFileSync('src/lib/examFlow.ts', 'utf8');
 const isolationSource = fs.readFileSync('src/lib/transientSessionIsolation.ts', 'utf8');
@@ -21,10 +24,13 @@ test('transient learner handoffs use distinct account-scoped keys', () => {
   }
 });
 
-test('Apex quick-ask prefill cannot cross accounts through a shared session key', () => {
-  assert.match(quickAskSource, /userContentStorageKeys\(user\?\.id \?\? null\)\.apexPrefill/);
+test('all authenticated Apex prefill entry points use account-scoped session keys', () => {
+  for (const source of [quickAskSource, retrievalPulseSource, portalEngagementSource, portalCommandSource]) {
+    assert.match(source, /userContentStorageKeys\(user\?\.id \?\? null\)\.apexPrefill/);
+    assert.doesNotMatch(source, /sessionStorage\.setItem\(['"]vertex_apex_prefill['"]/);
+  }
+
   assert.match(chatbotSource, /userContentStorageKeys\(user\?\.id \?\? null\)\.apexPrefill/);
-  assert.doesNotMatch(quickAskSource, /vertex_apex_prefill/);
   assert.doesNotMatch(chatbotSource, /vertex_apex_prefill/);
 });
 
