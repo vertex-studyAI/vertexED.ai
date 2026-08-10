@@ -33,8 +33,8 @@ export function parsePlatePrompt(prompt) {
 
   const holesMatch = text.match(/(?:with\s*)?(\d+)\s*(?:mounting\s*)?holes?/u);
   const holeCount = holesMatch ? integerInRange(holesMatch[1], "hole count", 0, 16) : 0;
-  const radiusMatch = text.match(/(?:hole\s*)?(?:radius|r)\s*(?:of\s*)?(\d+(?:\.\d+)?)\s*(?:mm)?/u);
-  const diameterMatch = text.match(/(?:hole\s*)?(?:diameter|dia)\s*(?:of\s*)?(\d+(?:\.\d+)?)\s*(?:mm)?/u);
+  const radiusMatch = text.match(/\b(?:hole\s*)?(?:radius|r)\b\s*(?:of\s*)?(\d+(?:\.\d+)?)\s*(?:mm)?/u);
+  const diameterMatch = text.match(/\b(?:hole\s*)?(?:diameter|dia)\b\s*(?:of\s*)?(\d+(?:\.\d+)?)\s*(?:mm)?/u);
   let holeRadius = 0;
   if (holeCount > 0) {
     if (radiusMatch) holeRadius = finitePositive(radiusMatch[1], "hole radius");
