@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "date": "2026-08-10",
+  "control_repository": "vertex-studyAI/vertexED.ai",
+  "truth_boundary": "This checkpoint records only evidence obtained through the connected GitHub installation. It does not claim access to missing FinanceMeta, Bu1LD, Percy, Atlas, Project 2424 canonical local/cloud sources, production deployment control, or private credentials.",
+  "github_surface": {
+    "repositories_visible": 3,
+    "repositories": [
+      "vertex-studyAI/vertexED.ai",
+      "vertex-studyAI/LAM-JEPA",
+      "vertex-studyAI/Text-To-Video"
+    ]
+  },
+  "verified_deltas": [
+    {
+      "project": "Project 2424 / control repository",
+      "repository": "vertex-studyAI/vertexED.ai",
+      "pull_request": 155,
+      "branch": "agent/project2424-first100-20260810",
+      "head": "01f10c30d64b6ace81bd0bd01470ca5540149b3c",
+      "artifact": "tests/project2424First100Queue.test.mjs",
+      "change": "Added executable invariants for the 100-record evidence-first execution queue: exact count, contiguous ranks, stable schema, unique IDs/slugs, allowed tracks, markdown coverage, and paper-ready claim guards.",
+      "evidence": {
+        "github_actions_run": 590,
+        "build_and_test": "SUCCESS",
+        "canonical_release_gate": "SUCCESS",
+        "browser_production": "SUCCESS",
+        "browser_local_accessibility": "RERUN_IN_PROGRESS_AT_CHECKPOINT",
+        "smoke_production": "SKIPPED_BY_PR_CONDITIONS"
+      },
+      "completion_state": "PARTIAL_VERIFIED",
+      "claim_boundary": "The First 100 is an execution queue, not 100 completed projects or papers. PR remains unmerged and no production deployment is claimed."
+    },
+    {
+      "project": "Text-To-Video",
+      "repository": "vertex-studyAI/Text-To-Video",
+      "pull_request": 7,
+      "branch": "agent/atomic-render-output-20260810",
+      "head": "81125b70d9a82b7becf56ba8594dfeba73712a4c",
+      "artifacts": [
+        "apps/worker/src/atomic-output.ts",
+        "apps/worker/src/cli/encode-job.ts",
+        "apps/worker/src/lib/atomic-output.test.ts",
+        "apps/worker/src/lib/encode-job-cli.test.ts"
+      ],
+      "change": "Render jobs now encode and verify on a same-filesystem staging path and promote only verified media to the requested final path. Failed attempts preserve prior verified output, expose no current-run media digest/URL, and clean staging residue.",
+      "evidence": {
+        "github_actions_run": 18,
+        "release_gate": "SUCCESS",
+        "workspace_typecheck_tests_build": "SUCCESS",
+        "ffmpeg_toolchain": "SUCCESS",
+        "real_mp4_smoke": "SUCCESS",
+        "external_render_job": "SUCCESS",
+        "production_dependency_audit": "SUCCESS",
+        "evidence_upload": "SUCCESS"
+      },
+      "completion_state": "REVIEW_READY",
+      "claim_boundary": "Local artifact/evidence integrity only. No production hosting, narration, queue service, durable storage, deployment, or external API change is claimed."
+    }
+  ],
+  "unchanged_external_blockers": [
+    "VertexED exact canonical production deployment SHA and authenticated production journey",
+    "FinanceMeta target repository and production Supabase access",
+    "The Bu1LD target repository, production Supabase and Cloudflare access",
+    "Percy preserved-runtime database/schema and worker-liveness access",
+    "Canonical Project 2424 PRO-BLADE/Inkling source restoration",
+    "Hercules canonical source identity"
+  ],
+  "next_high_value_actions": [
+    "Finish VertexED PR #155 accessibility rerun and promote from draft only if the exact head is fully green.",
+    "Review and merge Text-To-Video PR #7 only through normal repository review; close issue #6 after merge evidence exists.",
+    "Keep LAM-JEPA negative/inconclusive validation claim boundary intact; do not infer research completion or access confirmatory ARC test.",
+    "Restore missing GitHub/Supabase/deployment execution surfaces before claiming FinanceMeta, Bu1LD, Percy, Atlas, or canonical Project 2424 target modifications."
+  ]
+}
