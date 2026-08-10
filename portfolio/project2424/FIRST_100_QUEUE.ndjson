@@ -1,0 +1,100 @@
+{"rank": 1, "id": "T2424-0023", "name": "Multilingual Epistemic Blind Spots Benchmark", "slug": "multilingual-epistemic-blind-spots-benchmark", "track": "C — Protocol / evaluation package"}
+{"rank": 2, "id": "T2424-0016", "name": "PST — Predictive Single-Cell Transition Score", "slug": "pst-predictive-single-cell-transition-score", "track": "A — Paper rescue"}
+{"rank": 3, "id": "T2424-0019", "name": "NPMS — Neural Predictive Memory Spectroscopy", "slug": "npms-neural-predictive-memory-spectroscopy", "track": "B — Prototype → benchmark"}
+{"rank": 4, "id": "T2424-0020", "name": "ATG — Adaptive Theory Geometry", "slug": "atg-adaptive-theory-geometry", "track": "B — Prototype → benchmark"}
+{"rank": 5, "id": "T2424-0002", "name": "RIPII — Renormalized Invariant Projective Inductive Intelligence", "slug": "ripii-renormalized-invariant-projective-inductive-intelligence", "track": "B — Prototype → benchmark"}
+{"rank": 6, "id": "T2424-0003", "name": "APEN — Adaptive Predictive Engram Networks", "slug": "apen-adaptive-predictive-engram-networks", "track": "B — Prototype → benchmark"}
+{"rank": 7, "id": "T2424-0004", "name": "PI-JEPA — Physics-Informed Joint-Embedding Predictive Architecture", "slug": "pi-jepa-physics-informed-joint-embedding-predictive-architecture", "track": "B — Prototype → benchmark"}
+{"rank": 8, "id": "T2424-0005", "name": "FinanceJEPA / Eigen-Finance", "slug": "financejepa-eigen-finance", "track": "B — Prototype → benchmark"}
+{"rank": 9, "id": "T2424-0017", "name": "ESNF — Event-Sparse Neural Fields", "slug": "esnf-event-sparse-neural-fields", "track": "B — Prototype → benchmark"}
+{"rank": 10, "id": "T2424-0018", "name": "PRC — Physics Reservoir Computing", "slug": "prc-physics-reservoir-computing", "track": "B — Prototype → benchmark"}
+{"rank": 11, "id": "T2424-0021", "name": "NFGM — Neural Flow Geometry Models", "slug": "nfgm-neural-flow-geometry-models", "track": "B — Prototype → benchmark"}
+{"rank": 12, "id": "T2424-0022", "name": "MahJong PBJEPA", "slug": "mahjong-pbjepa", "track": "B — Prototype → benchmark"}
+{"rank": 13, "id": "T2424-0007", "name": "NeuroCAD", "slug": "neurocad", "track": "B — Prototype → benchmark"}
+{"rank": 14, "id": "T2424-0008", "name": "Speechly", "slug": "speechly", "track": "B — Prototype → benchmark"}
+{"rank": 15, "id": "T2424-0009", "name": "Colorworld", "slug": "colorworld", "track": "B — Prototype → benchmark"}
+{"rank": 16, "id": "T2424-0006", "name": "LGWM — Liquidation Graph World Models", "slug": "lgwm-liquidation-graph-world-models", "track": "B — Prototype → benchmark"}
+{"rank": 17, "id": "T2424-0024", "name": "Trust Under Uncertainty", "slug": "trust-under-uncertainty", "track": "C — Protocol / evaluation package"}
+{"rank": 18, "id": "T2424-0025", "name": "Non-Gaussian Memory Transformer", "slug": "non-gaussian-memory-transformer", "track": "C — Existing work → minimum experiment"}
+{"rank": 19, "id": "T2424-0026", "name": "Counterfactual Defect Worlds", "slug": "counterfactual-defect-worlds", "track": "C — Existing work → minimum experiment"}
+{"rank": 20, "id": "T2424-0027", "name": "Sapir–Whorf Latent Tongue", "slug": "sapir-whorf-latent-tongue", "track": "C — Existing work → minimum experiment"}
+{"rank": 21, "id": "T2424-0028", "name": "Residual Event Tokenization", "slug": "residual-event-tokenization", "track": "C — Existing work → minimum experiment"}
+{"rank": 22, "id": "T2424-0029", "name": "Representation Phase Transitions for PDEs", "slug": "representation-phase-transitions-for-pdes", "track": "C — Existing work → minimum experiment"}
+{"rank": 23, "id": "T2424-0030", "name": "Adaptive Theory Geometry in World Models", "slug": "adaptive-theory-geometry-in-world-models", "track": "C — Existing work → minimum experiment"}
+{"rank": 24, "id": "T2424-0031", "name": "FI-JEPA", "slug": "fi-jepa", "track": "C — Existing work → minimum experiment"}
+{"rank": 25, "id": "T2424-0032", "name": "Eigen-JEPA", "slug": "eigen-jepa", "track": "C — Existing work → minimum experiment"}
+{"rank": 26, "id": "T2424-0033", "name": "Neural Predictive Engram Networks", "slug": "neural-predictive-engram-networks", "track": "C — Existing work → minimum experiment"}
+{"rank": 27, "id": "T2424-0034", "name": "Quant ML Visualizer", "slug": "quant-ml-visualizer", "track": "C — Existing work → minimum experiment"}
+{"rank": 28, "id": "T2424-0035", "name": "Grokking Agent", "slug": "grokking-agent", "track": "C — Existing work → minimum experiment"}
+{"rank": 29, "id": "T2424-0036", "name": "Rubik's A* Intelligence", "slug": "rubik-s-a-intelligence", "track": "C — Existing work → minimum experiment"}
+{"rank": 30, "id": "T2424-0037", "name": "NLP-to-CAD", "slug": "nlp-to-cad", "track": "C — Existing work → minimum experiment"}
+{"rank": 31, "id": "T2424-0038", "name": "Obscured Records Agent", "slug": "obscured-records-agent", "track": "C — Existing work → minimum experiment"}
+{"rank": 32, "id": "T2424-0039", "name": "VertexED Adaptive Tutor", "slug": "vertexed-adaptive-tutor", "track": "C — Existing work → minimum experiment"}
+{"rank": 33, "id": "T2424-0040", "name": "FinanceMeta Learning Graph", "slug": "financemeta-learning-graph", "track": "C — Existing work → minimum experiment"}
+{"rank": 34, "id": "T2424-0041", "name": "Zenipath", "slug": "zenipath", "track": "C — Existing work → minimum experiment"}
+{"rank": 35, "id": "T2424-0042", "name": "SISTER Economic Research Platform", "slug": "sister-economic-research-platform", "track": "C — Existing work → minimum experiment"}
+{"rank": 36, "id": "T2424-0043", "name": "Exovian Games Intelligence", "slug": "exovian-games-intelligence", "track": "C — Existing work → minimum experiment"}
+{"rank": 37, "id": "T2424-0044", "name": "Eigen Delta", "slug": "eigen-delta", "track": "C — Existing work → minimum experiment"}
+{"rank": 38, "id": "T2424-0045", "name": "Lego ML", "slug": "lego-ml", "track": "C — Existing work → minimum experiment"}
+{"rank": 39, "id": "T2424-0046", "name": "Auto-Research Foundry", "slug": "auto-research-foundry", "track": "C — Existing work → minimum experiment"}
+{"rank": 40, "id": "T2424-0047", "name": "Neural Flow Geometry Models", "slug": "neural-flow-geometry-models", "track": "C — Existing work → minimum experiment"}
+{"rank": 41, "id": "T2424-0048", "name": "Physics-Informed Operator Splitting Network", "slug": "physics-informed-operator-splitting-network", "track": "C — Existing work → minimum experiment"}
+{"rank": 42, "id": "T2424-0049", "name": "Multiphase Porous JEPA", "slug": "multiphase-porous-jepa", "track": "C — Existing work → minimum experiment"}
+{"rank": 43, "id": "T2424-0050", "name": "Darcy Latent Operator", "slug": "darcy-latent-operator", "track": "C — Existing work → minimum experiment"}
+{"rank": 44, "id": "T2424-0051", "name": "ADR Predictive Surrogate", "slug": "adr-predictive-surrogate", "track": "C — Existing work → minimum experiment"}
+{"rank": 45, "id": "T2424-0052", "name": "Turbulence Engram Memory", "slug": "turbulence-engram-memory", "track": "C — Existing work → minimum experiment"}
+{"rank": 46, "id": "T2424-0053", "name": "Scientific Motif Dictionary", "slug": "scientific-motif-dictionary", "track": "C — Existing work → minimum experiment"}
+{"rank": 47, "id": "T2424-0054", "name": "Theory-Manifold Experiment Planner", "slug": "theory-manifold-experiment-planner", "track": "C — Existing work → minimum experiment"}
+{"rank": 48, "id": "T2424-0055", "name": "Project Typhon", "slug": "project-typhon", "track": "C — Existing work → minimum experiment"}
+{"rank": 49, "id": "T2424-0010", "name": "NeuroCare", "slug": "neurocare", "track": "D — Architecture → surrogate"}
+{"rank": 50, "id": "T2424-0001", "name": "Hercules Local AGI", "slug": "hercules-local-agi", "track": "D — Architecture → surrogate"}
+{"rank": 51, "id": "T2424-0011", "name": "Hermes 12B", "slug": "hermes-12b", "track": "D — Architecture → surrogate"}
+{"rank": 52, "id": "T2424-1767", "name": "Resource-Bounded Mixture-of-Experts Operator for Scientific ML Benchmarking", "slug": "resource-bounded-mixture-of-experts-operator-for-scientific-ml-benchmarking", "track": "E — Cheap falsification screen"}
+{"rank": 53, "id": "T2424-1768", "name": "Self-Verifying Mixture-of-Experts Engine for Scientific ML Benchmarking", "slug": "self-verifying-mixture-of-experts-engine-for-scientific-ml-benchmarking", "track": "E — Cheap falsification screen"}
+{"rank": 54, "id": "T2424-1769", "name": "Uncertainty-Guided Mixture-of-Experts System for Scientific ML Benchmarking", "slug": "uncertainty-guided-mixture-of-experts-system-for-scientific-ml-benchmarking", "track": "E — Cheap falsification screen"}
+{"rank": 55, "id": "T2424-1625", "name": "Uncertainty-Guided Mixture-of-Experts System for Scientific ML Inverse Design", "slug": "uncertainty-guided-mixture-of-experts-system-for-scientific-ml-inverse-design", "track": "E — Cheap falsification screen"}
+{"rank": 56, "id": "T2424-1639", "name": "Resource-Bounded Mixture-of-Experts Operator for Scientific ML Anomaly Detection", "slug": "resource-bounded-mixture-of-experts-operator-for-scientific-ml-anomaly-detection", "track": "E — Cheap falsification screen"}
+{"rank": 57, "id": "T2424-1640", "name": "Self-Verifying Mixture-of-Experts Engine for Scientific ML Anomaly Detection", "slug": "self-verifying-mixture-of-experts-engine-for-scientific-ml-anomaly-detection", "track": "E — Cheap falsification screen"}
+{"rank": 58, "id": "T2424-1641", "name": "Uncertainty-Guided Mixture-of-Experts System for Scientific ML Anomaly Detection", "slug": "uncertainty-guided-mixture-of-experts-system-for-scientific-ml-anomaly-detection", "track": "E — Cheap falsification screen"}
+{"rank": 59, "id": "T2424-1655", "name": "Resource-Bounded Mixture-of-Experts Operator for Scientific ML Control", "slug": "resource-bounded-mixture-of-experts-operator-for-scientific-ml-control", "track": "E — Cheap falsification screen"}
+{"rank": 60, "id": "T2424-1656", "name": "Self-Verifying Mixture-of-Experts Engine for Scientific ML Control", "slug": "self-verifying-mixture-of-experts-engine-for-scientific-ml-control", "track": "E — Cheap falsification screen"}
+{"rank": 61, "id": "T2424-1657", "name": "Uncertainty-Guided Mixture-of-Experts System for Scientific ML Control", "slug": "uncertainty-guided-mixture-of-experts-system-for-scientific-ml-control", "track": "E — Cheap falsification screen"}
+{"rank": 62, "id": "T2424-1671", "name": "Resource-Bounded Mixture-of-Experts Operator for Scientific ML Representation Learning", "slug": "resource-bounded-mixture-of-experts-operator-for-scientific-ml-representation-le", "track": "E — Cheap falsification screen"}
+{"rank": 63, "id": "T2424-1672", "name": "Self-Verifying Mixture-of-Experts Engine for Scientific ML Representation Learning", "slug": "self-verifying-mixture-of-experts-engine-for-scientific-ml-representation-learni", "track": "E — Cheap falsification screen"}
+{"rank": 64, "id": "T2424-1673", "name": "Uncertainty-Guided Mixture-of-Experts System for Scientific ML Representation Learning", "slug": "uncertainty-guided-mixture-of-experts-system-for-scientific-ml-representation-le", "track": "E — Cheap falsification screen"}
+{"rank": 65, "id": "T2424-1687", "name": "Resource-Bounded Mixture-of-Experts Operator for Scientific ML Counterfactual Simulation", "slug": "resource-bounded-mixture-of-experts-operator-for-scientific-ml-counterfactual-si", "track": "E — Cheap falsification screen"}
+{"rank": 66, "id": "T2424-1688", "name": "Self-Verifying Mixture-of-Experts Engine for Scientific ML Counterfactual Simulation", "slug": "self-verifying-mixture-of-experts-engine-for-scientific-ml-counterfactual-simula", "track": "E — Cheap falsification screen"}
+{"rank": 67, "id": "T2424-1689", "name": "Uncertainty-Guided Mixture-of-Experts System for Scientific ML Counterfactual Simulation", "slug": "uncertainty-guided-mixture-of-experts-system-for-scientific-ml-counterfactual-si", "track": "E — Cheap falsification screen"}
+{"rank": 68, "id": "T2424-1703", "name": "Resource-Bounded Mixture-of-Experts Operator for Scientific ML Decision Support", "slug": "resource-bounded-mixture-of-experts-operator-for-scientific-ml-decision-support", "track": "E — Cheap falsification screen"}
+{"rank": 69, "id": "T2424-1704", "name": "Self-Verifying Mixture-of-Experts Engine for Scientific ML Decision Support", "slug": "self-verifying-mixture-of-experts-engine-for-scientific-ml-decision-support", "track": "E — Cheap falsification screen"}
+{"rank": 70, "id": "T2424-1719", "name": "Resource-Bounded Mixture-of-Experts Operator for Scientific ML Data-Efficient Adaptation", "slug": "resource-bounded-mixture-of-experts-operator-for-scientific-ml-data-efficient-ad", "track": "E — Cheap falsification screen"}
+{"rank": 71, "id": "T2424-1720", "name": "Self-Verifying Mixture-of-Experts Engine for Scientific ML Data-Efficient Adaptation", "slug": "self-verifying-mixture-of-experts-engine-for-scientific-ml-data-efficient-adapta", "track": "E — Cheap falsification screen"}
+{"rank": 72, "id": "T2424-1721", "name": "Uncertainty-Guided Mixture-of-Experts System for Scientific ML Data-Efficient Adaptation", "slug": "uncertainty-guided-mixture-of-experts-system-for-scientific-ml-data-efficient-ad", "track": "E — Cheap falsification screen"}
+{"rank": 73, "id": "T2424-1735", "name": "Resource-Bounded Mixture-of-Experts Operator for Scientific ML Long-Horizon Planning", "slug": "resource-bounded-mixture-of-experts-operator-for-scientific-ml-long-horizon-plan", "track": "E — Cheap falsification screen"}
+{"rank": 74, "id": "T2424-1736", "name": "Self-Verifying Mixture-of-Experts Engine for Scientific ML Long-Horizon Planning", "slug": "self-verifying-mixture-of-experts-engine-for-scientific-ml-long-horizon-planning", "track": "E — Cheap falsification screen"}
+{"rank": 75, "id": "T2424-1751", "name": "Resource-Bounded Mixture-of-Experts Operator for Scientific ML Interpretability", "slug": "resource-bounded-mixture-of-experts-operator-for-scientific-ml-interpretability", "track": "E — Cheap falsification screen"}
+{"rank": 76, "id": "T2424-1752", "name": "Self-Verifying Mixture-of-Experts Engine for Scientific ML Interpretability", "slug": "self-verifying-mixture-of-experts-engine-for-scientific-ml-interpretability", "track": "E — Cheap falsification screen"}
+{"rank": 77, "id": "T2424-1753", "name": "Uncertainty-Guided Mixture-of-Experts System for Scientific ML Interpretability", "slug": "uncertainty-guided-mixture-of-experts-system-for-scientific-ml-interpretability", "track": "E — Cheap falsification screen"}
+{"rank": 78, "id": "T2424-1783", "name": "Resource-Bounded Mixture-of-Experts Operator for Scientific ML Personalisation", "slug": "resource-bounded-mixture-of-experts-operator-for-scientific-ml-personalisation", "track": "E — Cheap falsification screen"}
+{"rank": 79, "id": "T2424-1784", "name": "Self-Verifying Mixture-of-Experts Engine for Scientific ML Personalisation", "slug": "self-verifying-mixture-of-experts-engine-for-scientific-ml-personalisation", "track": "E — Cheap falsification screen"}
+{"rank": 80, "id": "T2424-1799", "name": "Resource-Bounded Mixture-of-Experts Operator for Scientific ML Robust Optimisation", "slug": "resource-bounded-mixture-of-experts-operator-for-scientific-ml-robust-optimisati", "track": "E — Cheap falsification screen"}
+{"rank": 81, "id": "T2424-1800", "name": "Self-Verifying Mixture-of-Experts Engine for Scientific ML Robust Optimisation", "slug": "self-verifying-mixture-of-experts-engine-for-scientific-ml-robust-optimisation", "track": "E — Cheap falsification screen"}
+{"rank": 82, "id": "T2424-1801", "name": "Uncertainty-Guided Mixture-of-Experts System for Scientific ML Robust Optimisation", "slug": "uncertainty-guided-mixture-of-experts-system-for-scientific-ml-robust-optimisati", "track": "E — Cheap falsification screen"}
+{"rank": 83, "id": "T2424-1815", "name": "Resource-Bounded Mixture-of-Experts Operator for Scientific ML Multimodal Fusion", "slug": "resource-bounded-mixture-of-experts-operator-for-scientific-ml-multimodal-fusion", "track": "E — Cheap falsification screen"}
+{"rank": 84, "id": "T2424-1816", "name": "Self-Verifying Mixture-of-Experts Engine for Scientific ML Multimodal Fusion", "slug": "self-verifying-mixture-of-experts-engine-for-scientific-ml-multimodal-fusion", "track": "E — Cheap falsification screen"}
+{"rank": 85, "id": "T2424-1817", "name": "Uncertainty-Guided Mixture-of-Experts System for Scientific ML Multimodal Fusion", "slug": "uncertainty-guided-mixture-of-experts-system-for-scientific-ml-multimodal-fusion", "track": "E — Cheap falsification screen"}
+{"rank": 86, "id": "T2424-1831", "name": "Resource-Bounded Mixture-of-Experts Operator for Scientific ML Causal Discovery", "slug": "resource-bounded-mixture-of-experts-operator-for-scientific-ml-causal-discovery", "track": "E — Cheap falsification screen"}
+{"rank": 87, "id": "T2424-1832", "name": "Self-Verifying Mixture-of-Experts Engine for Scientific ML Causal Discovery", "slug": "self-verifying-mixture-of-experts-engine-for-scientific-ml-causal-discovery", "track": "E — Cheap falsification screen"}
+{"rank": 88, "id": "T2424-1833", "name": "Uncertainty-Guided Mixture-of-Experts System for Scientific ML Causal Discovery", "slug": "uncertainty-guided-mixture-of-experts-system-for-scientific-ml-causal-discovery", "track": "E — Cheap falsification screen"}
+{"rank": 89, "id": "T2424-1847", "name": "Resource-Bounded Mixture-of-Experts Operator for Scientific ML Compression", "slug": "resource-bounded-mixture-of-experts-operator-for-scientific-ml-compression", "track": "E — Cheap falsification screen"}
+{"rank": 90, "id": "T2424-1848", "name": "Self-Verifying Mixture-of-Experts Engine for Scientific ML Compression", "slug": "self-verifying-mixture-of-experts-engine-for-scientific-ml-compression", "track": "E — Cheap falsification screen"}
+{"rank": 91, "id": "T2424-1849", "name": "Uncertainty-Guided Mixture-of-Experts System for Scientific ML Compression", "slug": "uncertainty-guided-mixture-of-experts-system-for-scientific-ml-compression", "track": "E — Cheap falsification screen"}
+{"rank": 92, "id": "T2424-1863", "name": "Resource-Bounded Neural Operators Operator for Scientific ML Forecasting", "slug": "resource-bounded-neural-operators-operator-for-scientific-ml-forecasting", "track": "E — Cheap falsification screen"}
+{"rank": 93, "id": "T2424-1864", "name": "Self-Verifying Neural Operators Engine for Scientific ML Forecasting", "slug": "self-verifying-neural-operators-engine-for-scientific-ml-forecasting", "track": "E — Cheap falsification screen"}
+{"rank": 94, "id": "T2424-1865", "name": "Uncertainty-Guided Neural Operators System for Scientific ML Forecasting", "slug": "uncertainty-guided-neural-operators-system-for-scientific-ml-forecasting", "track": "E — Cheap falsification screen"}
+{"rank": 95, "id": "T2424-1879", "name": "Resource-Bounded Neural Operators Operator for Scientific ML Inverse Design", "slug": "resource-bounded-neural-operators-operator-for-scientific-ml-inverse-design", "track": "E — Cheap falsification screen"}
+{"rank": 96, "id": "T2424-1880", "name": "Self-Verifying Neural Operators Engine for Scientific ML Inverse Design", "slug": "self-verifying-neural-operators-engine-for-scientific-ml-inverse-design", "track": "E — Cheap falsification screen"}
+{"rank": 97, "id": "T2424-0012", "name": "Prometheus 128B", "slug": "prometheus-128b", "track": "D — Architecture → surrogate"}
+{"rank": 98, "id": "T2424-0013", "name": "Perseus 1T", "slug": "perseus-1t", "track": "D — Architecture → surrogate"}
+{"rank": 99, "id": "T2424-0014", "name": "Atlas 2T", "slug": "atlas-2t", "track": "D — Architecture → surrogate"}
+{"rank": 100, "id": "T2424-0015", "name": "Kronos 8T", "slug": "kronos-8t", "track": "D — Architecture → surrogate"}
