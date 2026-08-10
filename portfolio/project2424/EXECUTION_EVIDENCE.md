@@ -70,7 +70,7 @@ Observed execution evidence:
 - mean relative improvement: `67.777%` — below the predeclared gate;
 - zero-diffusion negative-control mean relative improvement: `-0.029%`;
 - dedicated reproduction run `31408660274`: success;
-- repository CI run `31408660116`: canonical build/test succeeded; production browser certification succeeded; local accessibility browser job was still running at the latest recorded check; PR-only production smoke was skipped by workflow condition.
+- repository CI run `31408660116`: canonical build/test, local keyboard-accessibility browser certification, and production browser certification all succeeded; PR-only production smoke was skipped by workflow condition.
 
 Verdict: `NEGATIVE_OR_INCONCLUSIVE_AGAINST_PREDECLARED_GATE`.
 
