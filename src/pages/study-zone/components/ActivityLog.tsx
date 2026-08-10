@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { recordStudySession } from "@/lib/studyStats";
@@ -19,6 +19,10 @@ const ActivityLog: React.FC<ActivityLogProps> = ({ accent }) => {
 	const activityKey = userContentStorageKeys(authLoading ? undefined : user?.id ?? null).activity;
 	const [entries, setEntries] = useLocalStorage<ActivityLogEntry[]>(activityKey, []);
 	const [draft, setDraft] = useState("");
+
+	useEffect(() => {
+		setDraft("");
+	}, [activityKey]);
 
 	const addEntry = () => {
 		const trimmed = draft.trim();

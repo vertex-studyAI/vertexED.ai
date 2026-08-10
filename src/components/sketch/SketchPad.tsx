@@ -101,6 +101,7 @@ export default function SketchPad({ accent = 'hsl(266 72% 74%)' }: Props) {
     strokesRef.current = loadStrokes(storageKey);
     activeStroke.current = null;
     drawing.current = false;
+    setCaption('');
     resizeCanvas();
   }, [resizeCanvas, storageKey]);
 
