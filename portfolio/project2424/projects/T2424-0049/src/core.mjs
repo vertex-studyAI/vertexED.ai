@@ -81,7 +81,7 @@ export function sortProjectRecords(records) {
 function artifactHref(record) {
   if (/^https?:\/\//.test(record.artifact)) return record.artifact;
   const encoded = record.artifact.split('/').map((segment) => encodeURIComponent(segment)).join('/');
-  return `../../../${encoded}`;
+  return `/${encoded}`;
 }
 
 export function renderPortfolioHtml(records, { title = 'Project 2424 — Evidence Portfolio' } = {}) {
