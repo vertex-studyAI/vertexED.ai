@@ -27,17 +27,18 @@ export default function ResetPassword() {
         return;
       }
 
-      if (!hasVerifiedPasswordRecovery()) {
-        setError("Open the password reset link from your email to continue.");
-        setChecking(false);
-        return;
-      }
-
       const { data, error: sessionError } = await supabase.auth.getSession();
       if (cancelled) return;
       if (sessionError || !data.session) {
         clearPasswordRecoveryMarker();
         setError(sessionError?.message || "This password reset session has expired. Request a new link.");
+        setChecking(false);
+        return;
+      }
+
+      if (!hasVerifiedPasswordRecovery(data.session.user.id)) {
+        clearPasswordRecoveryMarker();
+        setError("Open the password reset link from your email to continue.");
         setChecking(false);
         return;
       }
