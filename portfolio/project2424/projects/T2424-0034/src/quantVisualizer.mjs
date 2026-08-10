@@ -88,7 +88,7 @@ export function rollingVolatility(returns, window, periodsPerYear = 252) {
 }
 
 export function buildQuantReport({ prices, dates = null, periodsPerYear = 252, rollingWindow = 20 }) {
-  assertFiniteArray(prices, 'prices', 2);
+  assertFiniteArray(prices, 'prices', 3);
   if (dates !== null && (!Array.isArray(dates) || dates.length !== prices.length)) {
     throw new TypeError('dates must be null or have one entry per price');
   }
