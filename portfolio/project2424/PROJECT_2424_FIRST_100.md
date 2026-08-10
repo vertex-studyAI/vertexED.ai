@@ -1,25 +1,54 @@
 # Project 2424 — First 100
 
 **Updated:** 10 August 2026  
-**Source branch:** `agent/project2424-first100-20260810`
+**Queue source:** `FIRST_100_QUEUE.ndjson`  
+**Follow-on evidence:** `FOLLOWON_EXECUTION_EVIDENCE_20260810.md`
 
 ## Truth boundary
 
-This dashboard counts only evidence present on this branch. Being selected into `FIRST_100_QUEUE.ndjson` is **not** completion evidence.
+Being selected into the First-100 queue is **not** completion evidence. Likewise, a green implementation PR is not automatically a certified First-100 completion: the strict promotion gate below also requires frozen protocol/result/negative-analysis/QA evidence appropriate to the project.
+
+### Strict certified count
 
 - Certified complete: **0 / 100**
-- Execution-ready registry entries: **100**
-- Runnable project packages verified on this branch: **0**
-- Tested project packages verified on this branch: **0**
-- Research-complete projects verified on this branch: **0**
-- Demo-ready project packages verified on this branch: **0**
-- Projects with branch-local raw result artifacts: **0**
+- Execution-ready registry entries: **100 / 100**
+- Certified packages merged into this dashboard branch: **0 / 100**
 
-The First-100 selection is a work queue, not a completed-project claim. A project may move to `DONE` only after the acceptance gate below is satisfied with inspectable evidence.
+### Follow-on implementation wave
+
+- Substantive First-100 package PRs created: **8**
+- Exact-head canonical CI verified: **8 / 8**
+- Review-ready: **8 / 8**
+- Merged to `main`: **0 / 8**
+- Promoted through the full First-100 completion gate: **0 / 8**
+
+These eight candidates represent real implementation progress without changing the strict 0/100 completion count prematurely.
+
+## Follow-on candidate table
+
+| Queue ID | Package | PR | Implementation | Regression gate | Controlled experiment/demo | Docs | Current state |
+|---|---|---:|---|---|---|---|---|
+| T2424-0024 | Trust Under Uncertainty | #172 | Yes | Exact-head CI passed after fixing invalid synthetic calibration control | Paired calibration/selective-risk experiment | README + STATUS | REVIEW_READY_CANDIDATE |
+| T2424-0026 | Counterfactual Defect Worlds | #174 | Yes | Exact-head CI passed | Rule-110 paired intervention experiment | README + STATUS | REVIEW_READY_CANDIDATE |
+| T2424-0028 | Residual Event Tokenization | #163 | Yes | Exact-head CI passed | Deterministic residual-event threshold sweep | README + STATUS | REVIEW_READY_CANDIDATE |
+| T2424-0029 | Representation Phase Transitions for PDEs | #176 | Yes | Exact-head CI passed | Analytic heat-equation spectral sweep | README + STATUS | REVIEW_READY_CANDIDATE |
+| T2424-0034 | Quant ML Visualizer | #160 | Yes | Exact-head CI passed | Walk-forward browser/demo baseline | README + STATUS | REVIEW_READY_CANDIDATE |
+| T2424-0035 | Grokking Agent | #167 | Yes | Exact-head CI passed | Delayed-vs-matched learning-curve controls | README + STATUS | REVIEW_READY_CANDIDATE |
+| T2424-0037 | Controlled NLP-to-CAD | #165 | Yes | Exact-head CI passed after parser bug repair | Plate-to-OpenSCAD/SVG demo | README + STATUS | REVIEW_READY_CANDIDATE |
+| T2424-0054 | Theory-Manifold Experiment Planner | #170 | Yes | Exact-head CI passed | Cost/diversity constrained decision run | README + STATUS | REVIEW_READY_CANDIDATE |
+
+## Why the certified count is still 0
+
+The package PRs above contain meaningful code, tests, documentation and controlled experiment/demo entry points. They are not counted as fully complete here because:
+
+1. they remain open/unmerged to avoid an implicit deployment path without explicit authorization;
+2. controlled/synthetic mechanics tests are not external scientific results;
+3. several research candidates still need frozen external or real-data protocols, raw result artifacts and negative/ablation analysis; and
+4. the strict gate requires independent QA beyond the branch's own implementation test evidence.
 
 ## Required completion evidence
 
-Every counted project must have, at minimum:
+Every project counted as certified complete must have, at minimum:
 
 1. immutable source identity or explicit `NO_SOURCE`;
 2. one falsifiable claim;
@@ -31,19 +60,15 @@ Every counted project must have, at minimum:
 8. explicit go/no-go verdict; and
 9. independent QA.
 
-## Status table
+## Canonical queue
 
-The canonical ordered list is maintained in:
+The ordered First-100 selection remains in:
 
 - `FIRST_100_EXECUTION_WAVE.md`
 - `FIRST_100_QUEUE.ndjson`
 
-Until a project has its own evidence-backed package, its status remains `EXECUTION_READY`, not `DONE`.
-
-| # | ID | Name | Type | Implementation | Tests | Results | Docs | Status |
-|---|---|---|---|---|---|---|---|---|
-| 1–100 | See queue | See queue | Mixed | Unverified | Unverified | Unverified | Queue metadata only | EXECUTION_READY |
+Unimplemented rows remain `EXECUTION_READY`, not `DONE`.
 
 ## Promotion rule
 
-When a project becomes defensibly complete, replace the aggregate row above with a project-specific row and link the exact implementation, test command, raw result artifact, verdict, and QA evidence. Do not increase the completed count without those links.
+A candidate may increase the strict certified count only after its implementation, exact test command, raw result artifact, verdict and independent QA evidence are linked here. Do not infer certification merely from queue membership, PR creation, CI success or presentation quality.
