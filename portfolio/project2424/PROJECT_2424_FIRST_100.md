@@ -9,8 +9,8 @@ Being selected into `FIRST_100_QUEUE.ndjson` is **not** completion evidence. Thi
 
 - Certified complete: **0 / 100**
 - Execution-ready registry entries: **100**
-- Runnable project packages merged and verified: **2**
-- Tested project packages merged and verified: **2**
+- Runnable project packages merged and verified: **3**
+- Tested project packages merged and verified: **3**
 - Research-complete projects verified: **0**
 - Demo-ready project packages merged and verified: **1**
 - Projects with certified raw-result + independent-QA packages: **0**
@@ -38,8 +38,9 @@ A project can be useful, runnable, and tested before it satisfies all nine certi
 | # | ID | Name | Type | Implementation | Tests | Results | Docs | Status |
 |---|---|---|---|---|---|---|---|---|
 | 27 | T2424-0034 | Quant ML Visualizer | Developer / quant analytics tool | Merged: `portfolio/project2424/projects/T2424-0034/` | Exact head `b62475cec9d867209ce64ee58bb6a22f25633439` passed CI `31409366246`; merged as `868fa55153c8b1058f2ad9fbe3b0d397f347fe99` | Deterministic descriptive analytics/demo input; no predictive or alpha claim | README + STATUS | TESTED_TOOL / DEMO_READY; NOT CERTIFIED_COMPLETE |
+| 29 | T2424-0036 | Rubik's A* Intelligence | Bounded search/tool prototype | Merged package from PR #169 | Exact head `422807799833247d6ea7ab095b557d26d41e2b57` passed CI `31409707818`; merged as `1b143eb8904e5568f9ed8db537951a701e22f88f` | Fixed six-scramble benchmark with returned-path verification; deliberately orientation-free 2×2 corner permutation model | README + STATUS | TESTED_TOOL; NOT FULL CUBE SOLVER; NOT CERTIFIED_COMPLETE |
 | 52 | T2424-1767 | Resource-Bounded MoE Operator | Scientific-ML tooling prototype | Merged: `portfolio/project2424/projects/T2424-1767/` | Exact head `1496c991a3b00473700b2f4c3d173d428f793e9b` passed CI `31409012137`; merged as `8c4bb2b31140f8e580135a5595f2731b0068d146` | Deterministic synthetic cost/error benchmark only; no superiority claim | README + STATUS | TESTED_TOOL; NOT CERTIFIED_COMPLETE |
-| Remaining 98 | See queue | See queue | Mixed | Unverified on `main` | Unverified on `main` | Unverified | Queue metadata only | EXECUTION_READY |
+| Remaining 97 | See queue | See queue | Mixed | Unverified on `main` | Unverified on `main` | Unverified | Queue metadata only | EXECUTION_READY |
 
 ## Verified but deliberately unmerged packages
 
@@ -49,7 +50,6 @@ These do **not** increase the merged package counts above. They remain review ar
 - T2424-0037 NLP-to-CAD — PR #165, diameter/radius parser defect repaired; exact-head canonical CI #629 passed; review-ready, not merged.
 - T2424-0054 Theory-Manifold Experiment Planner — PR #170, exact-head canonical CI #627 passed; explicit no-auto-merge boundary.
 - T2424-0028 Residual Event Tokenizer — PR #163, exact-head CI passed but explicit no-auto-merge boundary and current merge reconciliation required.
-- T2424-0036 Rubik's A* Intelligence — PR #169, exact-head CI passed; current branch requires reconciliation with newer `main` before merge.
 
 ## Promotion rule
 
