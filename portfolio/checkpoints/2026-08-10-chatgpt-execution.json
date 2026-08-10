@@ -17,19 +17,28 @@
       "repository": "vertex-studyAI/vertexED.ai",
       "pull_request": 155,
       "branch": "agent/project2424-first100-20260810",
-      "head": "01f10c30d64b6ace81bd0bd01470ca5540149b3c",
-      "artifact": "tests/project2424First100Queue.test.mjs",
-      "change": "Added executable invariants for the 100-record evidence-first execution queue: exact count, contiguous ranks, stable schema, unique IDs/slugs, allowed tracks, markdown coverage, and paper-ready claim guards.",
+      "head": "04e9bd43a2ea82cbe34e8df39b776c174c6023cc",
+      "artifacts": [
+        "portfolio/project2424/FIRST_100_EXECUTION_WAVE.md",
+        "portfolio/project2424/FIRST_100_QUEUE.ndjson",
+        "tests/project2424First100Queue.test.mjs",
+        "portfolio/project2424/PROJECT_2424_FIRST_100.md",
+        "portfolio/project2424/EXECUTION_EVIDENCE.md",
+        "portfolio/project2424/EXECUTION_QUEUE.md",
+        "portfolio/project2424/MORNING_HANDOFF.md"
+      ],
+      "change": "Established an evidence-first 100-record execution queue plus executable queue invariants and control/handoff artifacts. The regression gate enforces exact count, contiguous ranks, stable schema, unique IDs/slugs, allowed tracks, markdown coverage, and paper-ready claim guards.",
       "evidence": {
-        "github_actions_run": 590,
+        "github_actions_run": 601,
         "build_and_test": "SUCCESS",
         "canonical_release_gate": "SUCCESS",
-        "browser_production": "SUCCESS",
-        "browser_local_accessibility": "RERUN_IN_PROGRESS_AT_CHECKPOINT",
-        "smoke_production": "SKIPPED_BY_PR_CONDITIONS"
+        "browser_local_accessibility": "CANCELLED_BY_RUN_CHURN_DURING_BUILD",
+        "browser_production": "IN_PROGRESS_AT_CHECKPOINT",
+        "smoke_production": "SKIPPED_BY_PR_CONDITIONS",
+        "prior_accessibility_attempt": "31_OF_36_TESTS_OBSERVED_PASSING_BEFORE_EXTERNAL_CANCELLATION"
       },
       "completion_state": "PARTIAL_VERIFIED",
-      "claim_boundary": "The First 100 is an execution queue, not 100 completed projects or papers. PR remains unmerged and no production deployment is claimed."
+      "claim_boundary": "The First 100 is an execution queue, not 100 completed projects or papers. Certified complete remains evidence-gated. No production deployment is claimed."
     },
     {
       "project": "Text-To-Video",
@@ -67,7 +76,7 @@
     "Hercules canonical source identity"
   ],
   "next_high_value_actions": [
-    "Finish VertexED PR #155 accessibility rerun and promote from draft only if the exact head is fully green.",
+    "Obtain one uninterrupted full accessibility certification on the current Project 2424 PR head; do not reinterpret cancelled GitHub runner work as a passing gate.",
     "Review and merge Text-To-Video PR #7 only through normal repository review; close issue #6 after merge evidence exists.",
     "Keep LAM-JEPA negative/inconclusive validation claim boundary intact; do not infer research completion or access confirmatory ARC test.",
     "Restore missing GitHub/Supabase/deployment execution surfaces before claiming FinanceMeta, Bu1LD, Percy, Atlas, or canonical Project 2424 target modifications."
