@@ -7,6 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAuth } from "@/contexts/AuthContext";
 import { getStudyContext } from "@/lib/studyContext";
 import { consumeChatHandoff } from "@/lib/userContent";
+import { userContentStorageKeys } from "@/lib/userContentStorageScope.mjs";
 import { useApexChat } from "@/hooks/useApexChat";
 import { APEX_TAGLINE, formatHandoffPrefill } from "@/content/apex";
 import { recordStudySession } from "@/lib/studyStats";
@@ -32,12 +33,13 @@ export default function AIChatbot() {
   }, [messages, loading]);
 
   useEffect(() => {
-    const prefill = sessionStorage.getItem("vertex_apex_prefill");
+    const prefillKey = userContentStorageKeys(user?.id ?? null).apexPrefill;
+    const prefill = sessionStorage.getItem(prefillKey);
     if (prefill) {
-      sessionStorage.removeItem("vertex_apex_prefill");
+      sessionStorage.removeItem(prefillKey);
       setInput(prefill);
     }
-  }, [setInput]);
+  }, [setInput, user?.id]);
 
   useEffect(() => {
     if (handoffHandled.current) return;
