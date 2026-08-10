@@ -84,10 +84,13 @@ Rules:
       }
 
       if (Array.isArray(history)) {
-        for (const entry of history.slice(-10)) {
+        const recentHistory = history.slice(-10);
+        for (const [index, entry] of recentHistory.entries()) {
           const role = entry?.role === "assistant" ? "assistant" : "user";
           const text = typeof entry?.text === "string" ? entry.text.trim() : "";
-          if (text) messages.push({ role, content: text.slice(0, 2000) });
+          const duplicatesCurrentQuestion =
+            index === recentHistory.length - 1 && role === "user" && text === trimmedQuestion;
+          if (text && !duplicatesCurrentQuestion) messages.push({ role, content: text.slice(0, 2000) });
         }
       }
 
