@@ -4,6 +4,8 @@ import { Bot, MessageSquarePlus, RefreshCw, Settings } from 'lucide-react';
 import { getCommandTermsForBoard } from '@/lib/commandTerms';
 import { getConfidenceRatings, setConfidenceRating } from '@/lib/portalFeatures';
 import type { LearnerProfile } from '@/lib/learnerProfile';
+import { useAuth } from '@/contexts/AuthContext';
+import { userContentStorageKeys } from '@/lib/userContentStorageScope.mjs';
 import PortalWidget from '@/components/portal/PortalWidget';
 
 type Props = {
@@ -13,6 +15,7 @@ type Props = {
 const CONFIDENCE_LABELS = ['Panicking', 'Shaky', 'Okay', 'Solid', 'Exam-ready'] as const;
 
 export default function PortalEngagementRow({ profile }: Props) {
+  const { user } = useAuth();
   const navigate = useNavigate();
   const hasSubjects = profile.curriculum.subjects.length > 0;
   const subjects = hasSubjects ? profile.curriculum.subjects.slice(0, 4) : [];
@@ -22,11 +25,12 @@ export default function PortalEngagementRow({ profile }: Props) {
   const [drillIndex, setDrillIndex] = useState(0);
   const [drillRevealed, setDrillRevealed] = useState(false);
   const term = terms[drillIndex % terms.length];
+  const apexPrefillKey = userContentStorageKeys(user?.id ?? null).apexPrefill;
 
   const sendToApex = () => {
     const text = capture.trim();
     if (!text) return;
-    sessionStorage.setItem('vertex_apex_prefill', text);
+    sessionStorage.setItem(apexPrefillKey, text);
     navigate('/chatbot');
   };
 
@@ -112,7 +116,7 @@ export default function PortalEngagementRow({ profile }: Props) {
 
       <PortalWidget id="command-drill" span={1}>
         <div className="flex items-center justify-between gap-2 mb-2">
-          <p className="text-sm font-semibold">Command Word Drill</p>
+          <p className="text-sm font-semibold mb-1">Command Word Drill</p>
           <button
             type="button"
             onClick={nextDrill}
