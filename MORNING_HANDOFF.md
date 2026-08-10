@@ -4,7 +4,21 @@
 
 This handoff reports inspectable repository/CI evidence only. It does not convert queues into completed projects, synthetic screens into external scientific validation, green source CI into immutable production proof, or inaccessible repositories into executed work.
 
-## 1. SHIPPED / MERGED
+## 1. SHIPPED / MERGED / VERIFIED
+
+### VertexED — P0 source-side production identity fix is ready for owner-gated release
+
+PR #184 is **review-ready, not merged, not deployed**. Exact head `256c15de93e064b5a931ecf6a9f2f29159750046` passed CI `31412824339` and Production Health Monitor `31412824223`.
+
+It:
+
+- generates a normalized immutable `BUILD_REVISION` from Vercel/GitHub SHA or Git fallback;
+- stamps the revision during the build;
+- makes `/api/health` fall back to the stamped revision when runtime SHA variables are absent;
+- requires a valid revision during Vercel deploy builds rather than emitting an unverifiable production artifact;
+- includes regression coverage for normalization, precedence, Git fallback, generated-module output, fail-closed required mode, and health fallback.
+
+This closes the **source-side** gap that allowed health to return 200 without a provable revision. It does not prove the public site serves this head until an explicitly authorized merge/deploy occurs and production returns matching body/header SHA. Because the PR changes `vercel.json`, build lifecycle, and health runtime, it must not be auto-merged/deployed.
 
 ### Project 2424 — five verified packages on `main`
 
@@ -66,7 +80,7 @@ PR #160 is a green walk-forward/no-lookahead/transaction-cost follow-up created 
 
 ### VertexED
 
-Repository/source gates are healthy on recorded heads, but the exact immutable revision served by public production and the authenticated disposable-account journey remain separate release gates. No external deployment was performed by this follow-on lane.
+The source-side immutable revision contract is now a tested release candidate in #184. The remaining gates are explicit: authorize merge/deploy, verify the exact stamped SHA from production body/header, then complete the authenticated disposable-account journey. No deployment was performed by this follow-on lane.
 
 ### The Bu1LD / FinanceMeta
 
@@ -84,7 +98,7 @@ No fresh runtime-health claim is made. Canonical Atlas/Percy source, SQLite stat
 
 ## 6. REMAINING BLOCKERS
 
-1. VertexED exact immutable production revision + authenticated production certification.
+1. Owner-gated merge/deploy of VertexED #184, then exact public body/header SHA proof and authenticated production certification.
 2. Canonical Bu1LD repository/runtime access.
 3. Canonical FinanceMeta repository/runtime access.
 4. Atlas canonical source/runtime access.
@@ -95,29 +109,30 @@ No fresh runtime-health claim is made. Canonical Atlas/Percy source, SQLite stat
 
 ## 7. TOP NEXT ACTIONS
 
-1. Promote the strongest existing Project 2424 package through the full certification gate rather than optimizing only implementation count.
-2. Reconcile PR #160's no-lookahead/transaction-cost work into canonical T2424-0034.
-3. T2424-0024: evaluate retained real-model predictions with bootstrap uncertainty and subgroup slices.
-4. T2424-0029: extend the frozen representation metric to a numerical nonlinear PDE.
-5. T2424-0037: validate generated geometry through a real CAD kernel before broadening grammar claims.
-6. T2424-0053: run external scientific time-series motif benchmarks against strong baselines.
-7. T2424-1767/T2424-1863: move from synthetic screens to public scientific data and stronger baselines while preserving negative evidence.
-8. Complete owner-only LAM-JEPA license/citation decisions if publication packaging is wanted.
-9. Prove the immutable VertexED production revision and complete authenticated disposable-account certification.
+1. If production deployment is explicitly authorized, merge/deploy #184 and prove the exact stamped SHA served by production; otherwise leave it review-ready.
+2. Promote the strongest existing Project 2424 package through the full certification gate rather than optimizing only implementation count.
+3. Reconcile PR #160's no-lookahead/transaction-cost work into canonical T2424-0034.
+4. T2424-0024: evaluate retained real-model predictions with bootstrap uncertainty and subgroup slices.
+5. T2424-0029: extend the frozen representation metric to a numerical nonlinear PDE.
+6. T2424-0037: validate generated geometry through a real CAD kernel before broadening grammar claims.
+7. T2424-0053: run external scientific time-series motif benchmarks against strong baselines.
+8. T2424-1767/T2424-1863: move from synthetic screens to public scientific data and stronger baselines while preserving negative evidence.
+9. Complete owner-only LAM-JEPA license/citation decisions if publication packaging is wanted.
 10. Connect FinanceMeta, Bu1LD, Atlas, Percy, and wider Project 2424 source/runtime.
 
 ## 8. OWNER INTERVENTION REQUIRED
 
 Do not paste secrets into chat or GitHub issues. Owner-side actions are access/authorization decisions:
 
+- explicitly authorize merge/deploy of VertexED #184 if you want the production identity fix released;
 - expose canonical FinanceMeta, Bu1LD, Atlas, Percy, and wider Project 2424 sources/runtimes;
-- explicitly authorize any action intended to deploy externally;
 - provide secure disposable production identities through the supported account/secret flow for authenticated VertexED certification;
 - choose/approve LAM-JEPA root licensing and final public citation/author metadata if release packaging is desired.
 
 ## FINAL RECONCILED METRICS
 
 Repositories inspected: **3**  
+VertexED P0 immutable-build-revision candidate: **exact-head verified / review-ready / not deployed**  
 Distinct First-100 implementations verified: **13**  
 Merged verified First-100 packages: **5**  
 Review-ready exact-head-green distinct First-100 packages: **8**  
