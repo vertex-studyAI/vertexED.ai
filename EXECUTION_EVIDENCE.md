@@ -42,6 +42,18 @@ Verification before merge: exact source head `ca7f82973d9eb39014912b91bf6d90f690
 Result: the newest Apex question is no longer included in both `history` and the separate `question` field; both server handlers defensively discard a trailing duplicate from older/malformed clients.  
 Known limitations: no model-quality improvement is claimed; this is a context correctness/cost fix.
 
+## VertexED — Apex request cancellation
+
+Project: VertexED  
+Commit: `5863d868dc9c68bac2dc21f1901abeb22823dde8`  
+Source PR: #161  
+Superseded PR: #150 was closed unmerged because it carried stale stacked history.  
+Exact verified source head: `b89acab1cfae43b81cb956ea1379d2f2b523d641`  
+Verification before merge: canonical CI run `31409138814` / #617 completed successfully. `build-and-test`, production browser certification, and local keyboard accessibility all passed.  
+Failure repaired before merge: the first clean run exposed one brittle formatting-only history-contract assertion; 228/229 tests passed, including all new cancellation tests. The regression was rewritten to assert request semantics rather than one-line formatting, then the full gate passed.  
+Result: Apex owns one `AbortController` per in-flight request, propagates its `AbortSignal` through authenticated fetch, and aborts on Cancel, Clear, account/thread scope changes, unmount, and request supersession while preserving the request-id guard.  
+Known limitations: this is source/CI/browser evidence; it does not prove provider-side billing behavior or replace authenticated production journey certification.
+
 ## Asteroid Tracklet Baseline
 
 Project: standalone portfolio research/software prototype  
@@ -62,9 +74,19 @@ Source PR: #155
 Exact source head: `04e9bd43a2ea82cbe34e8df39b776c174c6023cc`  
 Artifacts: `portfolio/project2424/FIRST_100_EXECUTION_WAVE.md`, `FIRST_100_QUEUE.ndjson`, `PROJECT_2424_FIRST_100.md`, `EXECUTION_QUEUE.md`, `EXECUTION_EVIDENCE.md`, `MORNING_HANDOFF.md`, and `tests/project2424First100Queue.test.mjs`.  
 Verification: latest-head `build-and-test` job in CI run `31408112019` succeeded, including `Test Project 2424 recovery package` and the canonical release gate. The browser jobs were cancelled by workflow concurrency while main was moving; #155 changed no runtime product files.  
-Result: 100 evidence-gated candidates are now represented on main as an execution queue rather than falsely marked complete.  
+Result: 100 evidence-gated candidates are represented on main as an execution queue rather than falsely marked complete.  
 Certified First-100 completion count: `0 / 100`.  
 Known limitations: registry/queue metadata is not implementation, experiments, or paper readiness; the canonical Project 2424 source remains inaccessible to the connected GitHub installation.
+
+## Portfolio execution control
+
+Project: portfolio control plane  
+Commit: `31dcdd484e9f16db15329b868d9977f9c5940315`  
+Source PR: #157  
+Exact verified source head: `9ea3d6089d0be153826ec82deb271cea9550ffe2`  
+Verification before merge: canonical CI run `31408777593` / #612 completed successfully.  
+Artifacts: root `MASTER_PORTFOLIO_STATUS.md`, `EXECUTION_QUEUE.md`, `EXECUTION_EVIDENCE.md`, `CHECKPOINT.md`, and `MORNING_HANDOFF.md`.  
+Result: connector-visible work and blockers are durably recorded on main with explicit truth boundaries.
 
 ## Repository discovery evidence
 
