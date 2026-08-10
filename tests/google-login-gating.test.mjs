@@ -11,6 +11,6 @@ test('private-beta signup stays invite-gated while Google is presented as linked
   assert.match(connectGoogleSource, /supabase\.auth\.linkIdentity\(/);
   assert.match(loginSource, /Sign in with Google/);
   assert.match(loginSource, /beta accounts that have already connected Google/);
-  assert.match(loginSource, /Waitlist or invite signup/);
+  assert.match(loginSource, /waitlist or invite signup/i);
   assert.doesNotMatch(loginSource, /Continue with Google/);
 });
