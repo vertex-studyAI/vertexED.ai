@@ -136,7 +136,10 @@ export function useApexChat({ context, threadKey, sources, onSessionRecord }: Op
       const userMsg: ApexChatMessage = { id: `${Date.now()}-u`, role: 'user', text: question };
       const botId = `${Date.now()}-a`;
 
-      const priorHistory: ChatbotMessage[] = [...messages, userMsg].map(({ role, text }) => ({
+      // `question` is sent separately by chatbotApi and appended server-side.
+      // History must contain only completed prior turns or the newest prompt is
+      // duplicated in the model context.
+      const priorHistory: ChatbotMessage[] = messages.map(({ role, text }) => ({
         role,
         text,
       }));
