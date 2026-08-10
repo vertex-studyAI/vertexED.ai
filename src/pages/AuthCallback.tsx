@@ -30,17 +30,38 @@ export default function AuthCallback() {
       searchParams.get("type") === "recovery" ||
       hashParams.get("type") === "recovery";
 
+    const clearCallbackTimeout = () => {
+      if (timeout) {
+        window.clearTimeout(timeout);
+        timeout = undefined;
+      }
+    };
+
+    const armCallbackTimeout = (message: string) => {
+      clearCallbackTimeout();
+      timeout = window.setTimeout(() => {
+        if (!cancelled && !completed) setError(message);
+      }, 20_000);
+    };
+
     const finish = async (
       session: Session,
       event?: AuthChangeEvent,
     ) => {
       if (cancelled || completed) return;
+
+      // A recovery query/hash marker is only routing context. It is user-controlled
+      // and must never authorize a password change by itself. Supabase emits the
+      // PASSWORD_RECOVERY event for a genuine recovery link, so ignore ordinary
+      // INITIAL_SESSION/SIGNED_IN events while a recovery callback is pending.
+      if (recoveryHint && event !== "PASSWORD_RECOVERY") return;
+
       completed = true;
-      if (timeout) window.clearTimeout(timeout);
+      clearCallbackTimeout();
       unsubscribe?.();
 
-      if (event === "PASSWORD_RECOVERY" || recoveryHint) {
-        markPasswordRecoveryVerified();
+      if (event === "PASSWORD_RECOVERY") {
+        markPasswordRecoveryVerified(session.user.id);
         window.history.replaceState({}, document.title, "/auth/callback?recovery=1");
         setRecoveryReady(true);
         return;
@@ -80,10 +101,23 @@ export default function AuthCallback() {
             setError(exchangeError.message);
             return;
           }
-          if (data.session) {
+          if (data.session && !recoveryHint) {
             void finish(data.session);
             return;
           }
+          if (recoveryHint) {
+            armCallbackTimeout(
+              "The password recovery link did not establish a verified recovery session. Request a new link and try again.",
+            );
+            return;
+          }
+        }
+
+        if (recoveryHint) {
+          armCallbackTimeout(
+            "The password recovery link did not establish a verified recovery session. Request a new link and try again.",
+          );
+          return;
         }
 
         const { data, error: sessionError } = await supabase.auth.getSession();
@@ -97,15 +131,9 @@ export default function AuthCallback() {
           return;
         }
 
-        timeout = window.setTimeout(() => {
-          if (!cancelled && !completed) {
-            setError(
-              recoveryHint
-                ? "The password recovery link did not establish a valid session. Request a new link and try again."
-                : "Authentication did not return a Supabase session. Check the provider and redirect URLs, then try again.",
-            );
-          }
-        }, 20_000);
+        armCallbackTimeout(
+          "Authentication did not return a Supabase session. Check the provider and redirect URLs, then try again.",
+        );
       } catch (e: unknown) {
         if (!cancelled && !completed) {
           setError(e instanceof Error ? e.message : "Unexpected error");
@@ -118,7 +146,7 @@ export default function AuthCallback() {
     return () => {
       cancelled = true;
       unsubscribe?.();
-      if (timeout) clearTimeout(timeout);
+      clearCallbackTimeout();
     };
   }, [navigate]);
 
