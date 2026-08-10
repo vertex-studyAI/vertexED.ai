@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useMemo, useState, PropsWithChildren } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, PropsWithChildren } from "react";
 import type { Session, User } from "@supabase/supabase-js";
 import { trackLogout } from "@/lib/accountLifecycleAnalytics.mjs";
 import { setPlannerStorageScope } from "@/lib/plannerStorageScope.mjs";
@@ -45,6 +45,17 @@ export function AuthProvider({ children }: PropsWithChildren<{}>) {
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
   const [profile, setProfile] = useState<Profile | null>(null);
+  const activeProfileUserIdRef = useRef<string | null | undefined>(undefined);
+  const profileRequestRef = useRef(0);
+
+  const bindProfileIdentity = useCallback((userId?: string | null) => {
+    const changed = activeProfileUserIdRef.current !== userId;
+    activeProfileUserIdRef.current = userId;
+    // Invalidate every profile request started under an older auth event, including
+    // a request for the same user that predates a newer session/profile refresh.
+    profileRequestRef.current += 1;
+    if (changed) setProfile(null);
+  }, []);
 
   // Initialize auth state and subscribe to changes
   useEffect(() => {
@@ -53,11 +64,13 @@ export function AuthProvider({ children }: PropsWithChildren<{}>) {
 
     // Until Supabase resolves the current identity, sensitive device fallback remains
     // in isolated "unhydrated" storage scopes.
+    bindProfileIdentity(undefined);
     setSensitiveStorageScopes(undefined);
 
     const init = async () => {
       if (!supabase) {
         // Graceful fallback when env vars are missing; treat as signed-out.
+        bindProfileIdentity(null);
         setSensitiveStorageScopes(null);
         setSession(null);
         setUser(null);
@@ -77,6 +90,7 @@ export function AuthProvider({ children }: PropsWithChildren<{}>) {
         console.error("Supabase getSession error:", error);
       }
       const nextUser = data.session?.user ?? null;
+      bindProfileIdentity(nextUser?.id ?? null);
       setSensitiveStorageScopes(nextUser?.id ?? null);
       setSession(data.session ?? null);
       setUser(nextUser);
@@ -92,7 +106,8 @@ export function AuthProvider({ children }: PropsWithChildren<{}>) {
     const { data: sub } = supabase.auth.onAuthStateChange(async (_event, newSession) => {
       if (!isMounted) return;
       const nextUser = newSession?.user ?? null;
-      // Change storage ownership before React descendants can act on the new session.
+      // Change profile/storage ownership before React descendants can act on the new session.
+      bindProfileIdentity(nextUser?.id ?? null);
       setSensitiveStorageScopes(nextUser?.id ?? null);
       setSession(newSession);
       setUser(nextUser);
@@ -111,7 +126,7 @@ export function AuthProvider({ children }: PropsWithChildren<{}>) {
       if (loadingSafetyTimer) clearTimeout(loadingSafetyTimer);
       sub.subscription.unsubscribe();
     };
-  }, []);
+  }, [bindProfileIdentity]);
 
   /**
    * Sign in with email/password via Supabase.
@@ -121,6 +136,7 @@ export function AuthProvider({ children }: PropsWithChildren<{}>) {
     if (!supabase) throw new Error("Auth is disabled: Supabase not configured.");
     const { data, error } = await supabase.auth.signInWithPassword({ email, password });
     if (error) throw error;
+    bindProfileIdentity(data.user?.id ?? null);
     setSensitiveStorageScopes(data.user?.id ?? null);
     setSession(data.session);
     setUser(data.user);
@@ -158,6 +174,7 @@ export function AuthProvider({ children }: PropsWithChildren<{}>) {
   /** Sign out current user and clear auth state. */
   const logout = async () => {
     if (!supabase) {
+      bindProfileIdentity(null);
       setSensitiveStorageScopes(null);
       setSession(null);
       setUser(null);
@@ -172,6 +189,7 @@ export function AuthProvider({ children }: PropsWithChildren<{}>) {
       throw error;
     }
 
+    bindProfileIdentity(null);
     setSensitiveStorageScopes(null);
     setSession(null);
     setUser(null);
@@ -182,11 +200,16 @@ export function AuthProvider({ children }: PropsWithChildren<{}>) {
   /** Fetch latest profile for current user. */
   const refreshProfile = async (userId: string, fallbackEmail?: string | null) => {
     if (!supabase) return;
+    const requestId = profileRequestRef.current + 1;
+    profileRequestRef.current = requestId;
     const { data, error } = await supabase
       .from("profiles")
       .select("id, email, full_name, avatar_url, board, grade, subjects, exam_date, created_at, updated_at")
       .eq("id", userId)
       .maybeSingle();
+    // A profile response belongs only to the auth identity and request epoch that
+    // started it. Never let a delayed response cross an account/session boundary.
+    if (activeProfileUserIdRef.current !== userId || profileRequestRef.current !== requestId) return;
     if (error) {
       console.error("profiles fetch error:", error);
       return;
