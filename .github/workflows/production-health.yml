@@ -129,11 +129,13 @@ jobs:
           The scheduled public production smoke monitor failed after three bounded attempts.
 
           - Target: ${SMOKE_BASE_URL}
-          - Failed run: ${run_url}
+          - Latest failed run: ${run_url}
           - Evidence artifact: production-health-${GITHUB_RUN_ID}
           - Workflow commit: ${GITHUB_SHA}
 
           On main, the retained log also records the latest deploy-relevant revision derived from the same path contract used by the Vercel ignored-build guard and requires the live health endpoint to serve that exact SHA. Review the evidence and production logs before changing or rolling back production. Authenticated product journeys remain tracked separately in issue #13.
+
+          This incident body is updated in place on repeated failures so the hourly monitor does not flood the issue timeline with duplicate alerts. GitHub Actions and retained artifacts remain the chronological evidence trail.
           EOF
 
           issue_number="$(
@@ -147,7 +149,9 @@ jobs:
           )"
 
           if [ -n "$issue_number" ]; then
-            gh issue comment "$issue_number" --repo "$GITHUB_REPOSITORY" --body-file "$body_file"
+            gh issue edit "$issue_number" \
+              --repo "$GITHUB_REPOSITORY" \
+              --body-file "$body_file"
           else
             gh issue create \
               --repo "$GITHUB_REPOSITORY" \
