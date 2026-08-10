@@ -7,6 +7,8 @@ import { userContentStorageKeys } from '../src/lib/userContentStorageScope.mjs';
 const quickAskSource = fs.readFileSync('src/components/chat/ApexQuickAsk.tsx', 'utf8');
 const chatbotSource = fs.readFileSync('src/pages/AIChatbot.tsx', 'utf8');
 const examFlowSource = fs.readFileSync('src/lib/examFlow.ts', 'utf8');
+const isolationSource = fs.readFileSync('src/lib/transientSessionIsolation.ts', 'utf8');
+const mainSource = fs.readFileSync('src/main.tsx', 'utf8');
 
 test('transient learner handoffs use distinct account-scoped keys', () => {
   const first = userContentStorageKeys('11111111-1111-4111-8111-111111111111');
@@ -31,4 +33,14 @@ test('mock-review handoff follows the active authenticated content scope', () =>
   assert.doesNotMatch(examFlowSource, /vertex_mock_review_handoff/);
   assert.match(examFlowSource, /sessionStorage\.setItem\(mockReviewStorageKey\(\)/);
   assert.match(examFlowSource, /sessionStorage\.getItem\(mockReviewStorageKey\(\)/);
+});
+
+test('legacy shared handoffs are cleared at bootstrap and whenever auth ownership changes', () => {
+  assert.match(isolationSource, /'vertex_apex_prefill'/);
+  assert.match(isolationSource, /'vertex_mock_review_handoff'/);
+  assert.match(isolationSource, /'vertex_exam_answers'/);
+  assert.match(isolationSource, /clearLegacySharedSessionHandoffs\(\)/);
+  assert.match(isolationSource, /activeUserId !== undefined && activeUserId !== nextUserId/);
+  assert.match(isolationSource, /supabase\.auth\.onAuthStateChange/);
+  assert.match(mainSource, /initTransientSessionIsolation\(\)/);
 });
