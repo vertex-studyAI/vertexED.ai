@@ -71,10 +71,13 @@ export function useApexChat({ context, threadKey, sources, onSessionRecord }: Op
   const [streamingMessageId, setStreamingMessageId] = useState<string | null>(null);
   const typingRef = useRef<number | null>(null);
   const requestRef = useRef(0);
+  const requestAbortRef = useRef<AbortController | null>(null);
 
   useEffect(() => {
-    // Account or thread changes invalidate in-flight output before loading the new scope.
+    // Account or thread changes invalidate and abort in-flight output before loading the new scope.
     requestRef.current += 1;
+    requestAbortRef.current?.abort();
+    requestAbortRef.current = null;
     if (typingRef.current !== null) {
       window.clearInterval(typingRef.current);
       typingRef.current = null;
@@ -91,12 +94,16 @@ export function useApexChat({ context, threadKey, sources, onSessionRecord }: Op
 
   useEffect(() => {
     return () => {
+      requestAbortRef.current?.abort();
+      requestAbortRef.current = null;
       if (typingRef.current !== null) window.clearInterval(typingRef.current);
     };
   }, []);
 
   const clearChat = useCallback(() => {
     requestRef.current += 1;
+    requestAbortRef.current?.abort();
+    requestAbortRef.current = null;
     if (typingRef.current !== null) {
       window.clearInterval(typingRef.current);
       typingRef.current = null;
@@ -112,6 +119,8 @@ export function useApexChat({ context, threadKey, sources, onSessionRecord }: Op
 
   const cancelMessage = useCallback(() => {
     requestRef.current += 1;
+    requestAbortRef.current?.abort();
+    requestAbortRef.current = null;
     if (typingRef.current !== null) {
       window.clearInterval(typingRef.current);
       typingRef.current = null;
@@ -127,6 +136,9 @@ export function useApexChat({ context, threadKey, sources, onSessionRecord }: Op
 
       const requestId = requestRef.current + 1;
       requestRef.current = requestId;
+      requestAbortRef.current?.abort();
+      const requestController = new AbortController();
+      requestAbortRef.current = requestController;
 
       if (typingRef.current !== null) {
         window.clearInterval(typingRef.current);
@@ -151,7 +163,13 @@ export function useApexChat({ context, threadKey, sources, onSessionRecord }: Op
       onSessionRecord?.();
 
       try {
-        const data = await fetchChatbotAnswer({ question, history: priorHistory, context, sources });
+        const data = await fetchChatbotAnswer({
+          question,
+          history: priorHistory,
+          context,
+          sources,
+          signal: requestController.signal,
+        });
         if (requestRef.current !== requestId) return false;
         const answer =
           typeof data?.answer === 'string' && data.answer.trim()
@@ -195,6 +213,9 @@ export function useApexChat({ context, threadKey, sources, onSessionRecord }: Op
         );
         return false;
       } finally {
+        if (requestAbortRef.current === requestController) {
+          requestAbortRef.current = null;
+        }
         if (requestRef.current === requestId) {
           setLoading(false);
           setStreamingMessageId(null);
