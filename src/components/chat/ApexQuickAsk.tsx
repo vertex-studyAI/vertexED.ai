@@ -4,6 +4,7 @@ import ApexPromptChips from '@/components/chat/ApexPromptChips';
 import { getStudyContext } from '@/lib/studyContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { APEX_TAGLINE } from '@/content/apex';
+import { userContentStorageKeys } from '@/lib/userContentStorageScope.mjs';
 
 export default function ApexQuickAsk() {
   const { user } = useAuth();
@@ -31,7 +32,7 @@ export default function ApexQuickAsk() {
         <ApexPromptChips
           context={context}
           onSelect={(text) => {
-            sessionStorage.setItem('vertex_apex_prefill', text);
+            sessionStorage.setItem(userContentStorageKeys(user?.id ?? null).apexPrefill, text);
             window.location.assign('/chatbot');
           }}
         />
