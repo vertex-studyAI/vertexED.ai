@@ -6,15 +6,15 @@
 - Merged stale-profile auth-session race fix: `6961002e3fa6a311a25d16d23f4b8ff742b02a0d`.
 - Merged transient Study Zone account-scope reset: `02f16b8b89daabf27a99cab405a39de481c19d2f`.
 - Merged Apex current-question deduplication: `4e8648d6f453d1342b132703c52daac3c4e512df`.
-- Merged the falsifiable Asteroid Tracklet Baseline: `e956ec60e8fe9675cb0ca90f8a11df403458890c`; latest branch head passed canonical CI run `31407928862` / #593 before merge.
+- Merged clean current-main Apex request cancellation: `5863d868dc9c68bac2dc21f1901abeb22823dde8`; exact branch head passed canonical CI #617, including build/test, production browser certification, and local keyboard accessibility. Stale stacked PR #150 was closed unmerged.
+- Merged the falsifiable Asteroid Tracklet Baseline: `e956ec60e8fe9675cb0ca90f8a11df403458890c`; latest branch head passed canonical CI #593 before merge.
 - Merged the Project 2424 First-100 evidence-first execution wave: `f7c8ff7edd693f7daa0d2fc28e9a821eeb0d2702`; latest-head build-and-test completed successfully, including the canonical release gate and Project 2424 recovery-package test.
-- Created evidence-backed portfolio status, execution queue, execution evidence ledger, and checkpoint on `agent/portfolio-execution-ledger-20260810`.
+- Merged evidence-backed portfolio control files: `31dcdd484e9f16db15329b868d9977f9c5940315`; exact source head passed canonical CI #612.
 - Inspected the three repositories actually exposed by the connected GitHub installation: VertexED, LAM-JEPA, and Text-To-Video.
 
 ## In progress / verifying
 
-- Apex network abort-on-cancel: PR #150 remains open; its functional cancellation head previously passed canonical CI, but the current stacked/current-main relationship needs a clean verification before merge.
-- Portfolio execution ledger branch: PR #157 remains open until the refreshed ledger/handoff is verified.
+- Final handoff refresh only: update the durable root execution documents so they reflect the completed Apex cancellation work and current counts.
 
 ## Blocked
 
@@ -32,11 +32,13 @@
 - PR #153 exact head: canonical CI #586 passed before merge.
 - PR #149 exact head: canonical CI #579 passed before merge.
 - PR #145 latest head: canonical CI #593 passed before merge.
-- PR #155 latest head: `build-and-test` succeeded, including the canonical release gate and Project 2424 recovery-package test. Browser jobs were cancelled by workflow concurrency while main was moving; no runtime files were changed by #155.
+- PR #155 latest head: `build-and-test` succeeded, including the canonical release gate and Project 2424 recovery-package test.
+- PR #157 exact head: canonical CI #612 passed before merge.
+- PR #161 exact head: canonical CI #617 passed after repairing a brittle formatting-only history regression; build/test, production browser, and local keyboard accessibility all succeeded.
 
 ## Tests failing
 
-No failing test is claimed from the connector-visible merged work in this checkpoint.
+No failing test remains in the connector-visible work merged by this checkpoint. The first clean #161 run failed 1 of 229 tests because an old regex required a one-line function-call shape; the new cancellation tests themselves passed. The regression was repaired semantically and the complete gate then passed.
 
 ## Project 2424 First-100
 
@@ -47,7 +49,7 @@ No failing test is claimed from the connector-visible merged work in this checkp
 
 ## Research experiments completed
 
-No new LAM-JEPA or other research experiment is claimed as executed by this checkpoint. The Asteroid Tracklet Baseline is a software/research prototype package with synthetic benchmark evidence; it is not claimed as astronomical validation or a publication result.
+No new LAM-JEPA or Hercules experiment is claimed as executed by this checkpoint. The Asteroid Tracklet Baseline is a software/research prototype package with synthetic benchmark evidence; it is not claimed as astronomical validation or a publication result.
 
 ## Important discoveries
 
@@ -55,12 +57,14 @@ No new LAM-JEPA or other research experiment is claimed as executed by this chec
 2. VertexED's old build-quota narrative is stale: pre-execution main had green Vercel commit statuses; the live release blocker is exact production revision identity and authenticated certification.
 3. Project 2424 now has a stable First-100 evidence queue on main, but its completed count intentionally remains 0/100 until real packages pass their gates.
 4. Text-To-Video is already a meaningful local-media prototype with real MP4/ffprobe provenance, but it does not claim hosted production rendering.
-5. A small standalone project can be shipped defensibly: the Asteroid Tracklet Baseline now has implementation, tests, a benchmark CLI, limitations, and an explicit real-data next gate.
+5. A small standalone project can be shipped defensibly: the Asteroid Tracklet Baseline has implementation, tests, a benchmark CLI, limitations, and an explicit real-data next gate.
+6. Apex cancellation now reaches the underlying authenticated network request instead of only invalidating UI output.
 
 ## Highest-value next tasks
 
 1. Restore/expose the canonical Project 2424 source and execute the first First-100 package end-to-end.
-2. Reconcile PR #150 onto current main and rerun its canonical CI before merging.
-3. Complete exact VertexED live revision certification without weakening the health assertion.
+2. Complete exact VertexED live revision certification without weakening the health assertion.
+3. Complete disposable-account authenticated VertexED production certification.
 4. Obtain connector access to FinanceMeta, The Bu1LD, Atlas, and local Percy/Project 2424 sources.
 5. Move the Asteroid Tracklet Baseline from synthetic falsifier to a reproducible public moving-object dataset plus a stronger baseline comparison.
+6. Freeze an externally grounded LAM-JEPA benchmark protocol with strong baselines before additional compute.

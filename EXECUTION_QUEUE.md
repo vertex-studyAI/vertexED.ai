@@ -13,7 +13,7 @@ Expected artifact: verified password-recovery authorization boundary
 Dependencies: none  
 Assigned worker: connected GitHub execution  
 State: DONE  
-Evidence: merged commit `f5e7d1f3631f718e89bafaa539ec65516786c53a`; source head passed canonical CI before merge.
+Evidence: merged commit `f5e7d1f3631f718e89bafaa539ec65516786c53a`; exact source head passed canonical CI #577 before merge.
 
 ### VX-152
 Project: VertexED  
@@ -22,7 +22,7 @@ Expected artifact: stale-profile race fix
 Dependencies: none  
 Assigned worker: connected GitHub execution  
 State: DONE  
-Evidence: merged commit `6961002e3fa6a311a25d16d23f4b8ff742b02a0d`; source head passed canonical CI before merge.
+Evidence: merged commit `6961002e3fa6a311a25d16d23f4b8ff742b02a0d`; exact source head passed canonical CI #580 before merge.
 
 ### VX-153
 Project: VertexED  
@@ -31,7 +31,7 @@ Expected artifact: transient Study Zone draft isolation
 Dependencies: none  
 Assigned worker: connected GitHub execution  
 State: DONE  
-Evidence: merged commit `02f16b8b89daabf27a99cab405a39de481c19d2f`; source head passed canonical CI before merge.
+Evidence: merged commit `02f16b8b89daabf27a99cab405a39de481c19d2f`; exact source head passed canonical CI #586 before merge.
 
 ### VX-149
 Project: VertexED  
@@ -40,16 +40,16 @@ Expected artifact: Apex prompt deduplication
 Dependencies: none  
 Assigned worker: connected GitHub execution  
 State: DONE  
-Evidence: merged commit `4e8648d6f453d1342b132703c52daac3c4e512df`; source head passed canonical CI before merge.
+Evidence: merged commit `4e8648d6f453d1342b132703c52daac3c4e512df`; exact source head passed canonical CI #579 before merge.
 
-### VX-150
+### VX-161
 Project: VertexED  
 Priority: P1 reliability/cost  
 Expected artifact: abort in-flight Apex network request on learner cancel/clear/scope change  
 Dependencies: VX-149  
 Assigned worker: connected GitHub execution  
-State: VERIFYING  
-Evidence: PR #150 retargeted to `main`; its earlier main-targeted verification passed canonical CI, but the current retargeted head must be rechecked before merge.
+State: DONE  
+Evidence: stale stacked PR #150 was closed unmerged and replaced by clean current-main PR #161. Exact head `b89acab1cfae43b81cb956ea1379d2f2b523d641` passed canonical CI #617, including build/test, production browser certification, and local keyboard accessibility; squash merged as `5863d868dc9c68bac2dc21f1901abeb22823dde8`.
 
 ### VX-PROD
 Project: VertexED  
@@ -58,7 +58,7 @@ Expected artifact: exact live immutable revision proof + authenticated productio
 Dependencies: canonical Vercel project configuration and disposable production identities  
 Assigned worker: external/account-boundary  
 State: BLOCKED  
-Evidence: issue #44 and #13. Repository source status is not a substitute for live revision identity.
+Evidence: issue #44 and #13. Repository source status and green Vercel commit statuses are not substitutes for exact live revision identity.
 
 ## P0 — Project 2424
 
@@ -77,8 +77,8 @@ Priority: P0
 Expected artifact: evidence-first queue of 100 distinct projects with explicit next artifacts and go/no-go gates  
 Dependencies: none for queue; restored source for implementation  
 Assigned worker: connected GitHub execution  
-State: VERIFYING  
-Evidence: PR #155; current CI must pass on its latest head before merge.
+State: DONE  
+Evidence: PR #155 merged as `f7c8ff7edd693f7daa0d2fc28e9a821eeb0d2702`; exact latest-head build-and-test succeeded, including Project 2424 recovery-package verification and the canonical release gate. Certified project-completion count remains `0 / 100`.
 
 ### P2424-REAL1
 Project: Project 2424  
@@ -136,4 +136,4 @@ Expected artifact: either polished local-demo release package or production-grad
 Dependencies: product choice; production infrastructure if taking hosted path  
 Assigned worker: demo/product lane  
 State: TODO  
-Evidence: `vertex-studyAI/Text-To-Video@f33195695a94b352e4470477b57d1d7de76461da` already documents real local MP4 proof and current production boundary.
+Evidence: `vertex-studyAI/Text-To-Video@f33195695a94b352e4470477b57d1d7de76461da` documents real local MP4 proof and the current production boundary.
