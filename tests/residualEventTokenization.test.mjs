@@ -29,12 +29,13 @@ test("decoder reconstruction respects the configured residual threshold", () => 
   }
 });
 
-test("higher thresholds cannot increase token count for hold predictor on the same signal", () => {
-  const values = generateTrendWithDefects(120);
+test("higher thresholds reduce zero-order-hold tokens on a monotonic trend", () => {
+  const values = Array.from({ length: 120 }, (_, index) => index * 0.1);
   const rows = runThresholdSweep(values, [0.1, 0.25, 0.5, 1, 2], "hold");
   for (let index = 1; index < rows.length; index += 1) {
     assert.ok(rows[index].tokens <= rows[index - 1].tokens);
   }
+  assert.ok(rows.at(-1).tokens < rows[0].tokens);
 });
 
 test("linear residual events beat zero-order hold on a clean linear trend", () => {
