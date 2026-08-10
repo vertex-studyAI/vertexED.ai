@@ -12,8 +12,9 @@ This handoff records only work supported by concrete connector-visible GitHub ev
 2. Stale profile response isolation across auth sessions — `6961002e3fa6a311a25d16d23f4b8ff742b02a0d`.
 3. Transient Study Zone draft/caption account isolation — `02f16b8b89daabf27a99cab405a39de481c19d2f`.
 4. Apex current-prompt deduplication — `4e8648d6f453d1342b132703c52daac3c4e512df`.
+5. Apex in-flight network cancellation on learner Cancel/Clear/scope changes/unmount/supersession — `5863d868dc9c68bac2dc21f1901abeb22823dde8`.
 
-Each exact source head passed the repository's canonical CI before merge.
+Each exact source head passed the repository's canonical CI before merge. For the cancellation fix, CI #617 passed build/test, production browser certification, and local keyboard accessibility. The older stacked PR #150 was closed unmerged and replaced by clean current-main PR #161.
 
 ### Runnable standalone prototype merged
 
@@ -26,6 +27,12 @@ Package includes implementation, tests, benchmark CLI, README, limitations, and 
 First-100 evidence-first execution wave — `f7c8ff7edd693f7daa0d2fc28e9a821eeb0d2702`.
 
 Merged artifacts include the 100-entry queue, dashboard, execution queue, evidence ledger, morning handoff, and queue contract test. Latest-head `build-and-test` passed the Project 2424 recovery-package test and canonical release gate.
+
+### Portfolio evidence/control merged
+
+Root execution-control artifacts — `31dcdd484e9f16db15329b868d9977f9c5940315`.
+
+`MASTER_PORTFOLIO_STATUS.md`, `EXECUTION_QUEUE.md`, `EXECUTION_EVIDENCE.md`, `CHECKPOINT.md`, and this handoff were added with exact-head canonical CI #612 passing before merge.
 
 ## 2. PROJECT 2424
 
@@ -41,14 +48,14 @@ The queue intentionally does not convert proposal metadata into fake completed p
 
 ### VertexED
 
-What changed: four source-level correctness/security/account-isolation fixes were merged.  
-Tests: each exact source head passed canonical CI before merge.  
+What changed: five source-level correctness/security/account-isolation/reliability fixes were merged.  
+Tests: every exact source head passed canonical CI before merge; the final Apex cancellation fix passed build/test plus both browser certification jobs.  
 Remaining release gate: prove the immutable Git SHA actually served by `www.vertexed.app`, then complete disposable-account authenticated production certification. Green Vercel commit statuses alone are not production-revision proof.
 
 ### The Bu1LD
 
-What changed: no target mutation in this execution.  
-Tests: no new target test claimed.  
+What changed: no target mutation in this execution because the canonical target is not exposed to this connector.  
+Tests: the control repository's Bu1LD fail-closed deployment-repair fixture continued passing in VertexED CI, but this is not target deployment certification.  
 Remaining release gate: connected access to the canonical target GitHub/Supabase/Cloudflare environment, resolution of production hydration/deployment skew, one immutable deploy, and seven-role journey certification.
 
 ### FinanceMeta
@@ -78,15 +85,17 @@ Visible repositories inspected:
 - `vertex-studyAI/LAM-JEPA`
 - `vertex-studyAI/Text-To-Video`
 
-Mainline PRs merged during this execution:
+Mainline PRs merged during this execution before this final handoff refresh:
 - #147
 - #152
 - #153
 - #149
 - #145
 - #155
+- #157
+- #161
 
-Execution-control PR created: #157.
+Stale PR #150: closed unmerged after clean replacement #161 passed exact-head verification.
 
 ## 7. FAILURES / BLOCKERS
 
@@ -96,18 +105,17 @@ Execution-control PR created: #157.
 4. Atlas canonical repository is not exposed.
 5. Percy local source/SQLite runtime is not exposed.
 6. VertexED exact live immutable production revision and authenticated release journey remain unverified.
-7. Apex abort-on-cancel PR #150 still needs a clean current-main verification before merge.
 
 ## 8. TOP 10 NEXT ACTIONS
 
 1. Restore/expose canonical Project 2424 source without destroying the dirty overlay.
 2. Execute the first First-100 project-specific package and increase the certified count only after evidence passes.
-3. Reconcile/rebase PR #150 on current `main`, rerun canonical CI, then merge if green.
-4. Prove the exact VertexED SHA served by the canonical Vercel production project.
-5. Complete disposable-account VertexED authenticated production certification.
-6. Connect FinanceMeta target GitHub + production Supabase and apply the certified hardening.
-7. Connect The Bu1LD target GitHub + Supabase + Cloudflare and resolve hydration/deployment skew.
-8. Repair Percy snapshot schema compatibility and distinguish real workers from shell-only panes.
+3. Prove the exact VertexED SHA served by the canonical Vercel production project.
+4. Complete disposable-account VertexED authenticated production certification.
+5. Connect FinanceMeta target GitHub + production Supabase and apply the certified hardening.
+6. Connect The Bu1LD target GitHub + Supabase + Cloudflare and resolve hydration/deployment skew.
+7. Repair Percy snapshot schema compatibility and distinguish real workers from shell-only panes.
+8. Expose the canonical Atlas repo and inspect orchestration/runtime state.
 9. Move the Asteroid Tracklet Baseline onto real moving-object data plus a stronger baseline.
 10. Freeze the next externally grounded LAM-JEPA benchmark protocol before spending compute.
 
@@ -124,10 +132,11 @@ Only external access actions are required; no secrets should be pasted into chat
 
 Repositories visible/inspected: `3`  
 Repositories modified through connected GitHub: `1` (`vertexED.ai`)  
-Mainline PRs merged in this execution: `6`  
-Source/product fixes merged: `4`  
+Mainline PRs merged before this final handoff refresh: `8`  
+Source/product fixes merged: `5`  
 Standalone runnable prototype packages merged: `1`  
 Project 2424 First-100 execution-control package merged: `1`  
+Portfolio evidence/control package merged: `1`  
 Project 2424 certified completed count: `0 / 100`  
 New LAM-JEPA/Hercules research experiments claimed: `0`  
 Production deployments performed: `0`  
