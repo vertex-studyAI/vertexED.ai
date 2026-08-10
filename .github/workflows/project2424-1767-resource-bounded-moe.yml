@@ -1,0 +1,37 @@
+name: Project 2424 T2424-1767 MoE falsification screen
+
+on:
+  pull_request:
+    paths:
+      - 'portfolio/new-projects/t2424-1767-resource-bounded-moe/**'
+      - '.github/workflows/project2424-1767-resource-bounded-moe.yml'
+  push:
+    branches:
+      - main
+    paths:
+      - 'portfolio/new-projects/t2424-1767-resource-bounded-moe/**'
+      - '.github/workflows/project2424-1767-resource-bounded-moe.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  reproduce:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: portfolio/new-projects/t2424-1767-resource-bounded-moe
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install test runner and package
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install pytest
+          python -m pip install -e .
+      - name: Run regression tests
+        run: pytest -q
+      - name: Reproduce 20-seed benchmark
+        run: python -m resource_bounded_moe.benchmark --seeds 20
