@@ -33,14 +33,16 @@ async function withHealthEnv(values, callback) {
 }
 
 test('getDeploymentRevision exposes only validated non-secret commit identifiers', () => {
-  assert.equal(getDeploymentRevision({}), null);
-  assert.equal(getDeploymentRevision({ VERCEL_GIT_COMMIT_SHA: 'not-a-sha' }), null);
-  assert.equal(getDeploymentRevision({ GITHUB_SHA: 'ABCDEF1' }), 'abcdef1');
+  assert.equal(getDeploymentRevision({}, null), null);
+  assert.equal(getDeploymentRevision({ VERCEL_GIT_COMMIT_SHA: 'not-a-sha' }, null), null);
+  assert.equal(getDeploymentRevision({}, 'FEDCBA9'), 'fedcba9');
+  assert.equal(getDeploymentRevision({}, 'not-a-sha'), null);
+  assert.equal(getDeploymentRevision({ GITHUB_SHA: 'ABCDEF1' }, 'fedcba9'), 'abcdef1');
   assert.equal(
     getDeploymentRevision({
       VERCEL_GIT_COMMIT_SHA: '1234567890abcdef1234567890abcdef12345678',
       GITHUB_SHA: 'abcdef1',
-    }),
+    }, 'fedcba9'),
     '1234567890abcdef1234567890abcdef12345678',
   );
 });
