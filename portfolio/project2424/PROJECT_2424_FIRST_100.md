@@ -5,13 +5,7 @@
 
 ## Truth boundary
 
-Being selected into the First-100 queue is **not** completion evidence. This dashboard separates:
-
-1. queue-consistent implementations merged and test-verified on `main`;
-2. merged evidence-recovery packages whose original scientific source is still missing;
-3. exact-head-green manual review packages;
-4. unresolved registry identity collisions; and
-5. the stricter nine-gate `Certified complete` count.
+Being selected into the First-100 queue is **not** completion evidence. This dashboard separates merged queue-consistent implementations, evidence-only recoveries, exact-head-green manual review packages, identity collisions, and the stricter nine-gate `Certified complete` state.
 
 ### Current counts
 
@@ -22,8 +16,7 @@ Being selected into the First-100 queue is **not** completion evidence. This das
 - Research-complete projects verified: **0**
 - Demo-ready implementation packages verified: **1**
 - Known unresolved registry identity collisions on `main`: **1** (`T2424-0050`)
-- Exact-head-green manual identity repair ready: **1** (`T2424-0050`, PR #230)
-- Exact-head-green new First-100 package awaiting manual/external preview clearance: **1** (`T2424-0027`, PR #242)
+- Exact-head-green manual First-100 review packages not counted as merged: **9**
 
 A green CI run proves repository integration/execution on that head. It does **not** establish external validity, scientific superiority, publication readiness, production readiness, or completion under the nine-gate contract.
 
@@ -76,40 +69,33 @@ State: `RECOVERED_COMPACT_EVIDENCE / SOURCE_MIGRATION_PENDING / EXTERNAL_UNVALID
 
 **Neither package increases the 12-implementation count.**
 
-## P0 registry identity gate — `T2424-0050`
+## Exact-head-green manual review queue — not counted as merged
+
+Every package below is currently draft/manual and explicitly says **DO NOT AUTO-MERGE OR DEPLOY / MANUAL REVIEW REQUIRED**. Each listed SHA was independently checked against GitHub Actions before inclusion here.
+
+| PR | ID | Project | Current head | Exact-head CI | State |
+|---:|---|---|---|---:|---|
+| #230 | `T2424-0050` | Darcy Latent Operator identity repair | `0131c7d33e967f55e8b07ff5bfc1f03feb164f01` | `31458049157` | manual / identity P0 |
+| #231 | `T2424-0024` | Trust Under Uncertainty | `a15f31fbcbef6ab5868cb4f8a30e806f4d8721ca` | `31458059377` | certification-pending / manual |
+| #239 | `T2424-0026` | Counterfactual Defect Worlds | `596cb91d0a36a163cb9fab8745f65cbfb1ec47b6` | `31458068712` | tested synthetic tool / manual |
+| #234 | `T2424-0028` | Residual Event Tokenization | `bbb173fc2cd93e588883b3798de9712cb29094eb` | `31458080289` | tested synthetic tool / manual |
+| #232 | `T2424-0029` | Representation Phase Transitions for PDEs | `f22ab98f2bf93a3437153cba2f2ada6f9593570d` | `31458091370` | tested analytic tool / manual |
+| #238 | `T2424-0035` | Grokking Agent | `bf229ed56b05bfeab3017616f65454aa53cf045a` | `31458102895` | tested detector / manual |
+| #236 | `T2424-0037` | NLP-to-CAD | `83bdeb2c62be88f4b8d84c1a924dd6ec8fd48fa8` | `31458112736` | tested demo / manual |
+| #241 | `T2424-0054` | Theory-Manifold Experiment Planner | `18c41b914a331e3f617026492900b0f7890eef11` | `31458120484` | tested deterministic planner / manual |
+| #242 | `T2424-0027` | Sapir–Whorf Latent Tongue | `6e71f109db7bba64e222029f298072ed64cc42de` | `31457981699` | certification-pending / manual + preview capacity block |
+
+**These nine do not increase the merged count.** They are review-ready evidence packages only.
+
+## P0 identity gate — `T2424-0050`
 
 Frozen queue rank 43 assigns `T2424-0050` to **Darcy Latent Operator**. Current `main` still contains Benchmark Augmentation Theory in the canonical folder, so the folder is excluded from the queue-consistent implementation count.
 
-Canonical manual repair is **PR #230**. Exact head `8539bbc38624b8bafe1d188876869b2e72c451a4` passed canonical CI `31456520689`.
+PR #230 restores Darcy, preserves Benchmark Augmentation Theory under auxiliary identity `AUX-P2424-BENCHMARK-AUGMENTATION`, restores Darcy's retained 20-seed result/regressions, and adds a frozen queue↔package title identity regression. If manually approved and integrated after final-base revalidation, the merged/tested count may move from **12 to 13**. The auxiliary audit never creates another queue project.
 
-The repair:
+## T2424-0027 retained evidence boundary
 
-- restores Darcy Latent Operator to `portfolio/project2424/projects/T2424-0050/`;
-- preserves Benchmark Augmentation Theory under auxiliary identity `AUX-P2424-BENCHMARK-AUGMENTATION`;
-- restores Darcy's deterministic 1D solver, retained 20-seed result and regressions;
-- repairs benchmark-audit imports; and
-- adds a zero-exception frozen-queue ↔ package-title identity regression.
-
-PR #230 explicitly requires **manual review / no auto-merge / no deploy**. It remains excluded from the merged count. If manually approved and merged after final-base revalidation, the queue-consistent merged/tested count may move from **12 to 13**. The auxiliary benchmark audit must never be double-counted.
-
-## New exact-head-green manual package — `T2424-0027`
-
-Frozen queue rank 20: **Sapir–Whorf Latent Tongue**.
-
-Draft PR #242 head `6e71f109db7bba64e222029f298072ed64cc42de` passed canonical GitHub Actions CI `31457981699`, including the canonical release gate, production-browser certification and local accessibility certification.
-
-The package contains:
-
-- frozen falsifiable synthetic mechanics claim and protocol;
-- deterministic 4-concept × 3-language latent generator;
-- raw and language-centered concept/language probes;
-- global-centering negative control;
-- retained raw JSON + SHA-256 manifest;
-- baseline analysis and explicit GO/STOP verdict;
-- implementation-independent fail-closed evidence verifier; and
-- focused regressions.
-
-Actual retained synthetic metrics:
+The new manual package retains:
 
 - raw concept accuracy `1.0`;
 - raw language accuracy `1.0`;
@@ -119,12 +105,10 @@ Actual retained synthetic metrics:
 - normalized excess language-leakage reduction `0.9583333333333334`;
 - global-centering language accuracy `1.0`.
 
-All frozen mechanics gates pass. This remains **synthetic diagnostic evidence only**: no Sapir–Whorf, linguistic-relativity, real-model, cultural, translation, external-validation, publication or research-complete claim.
-
-PR #242 is explicitly **manual review / no auto-merge / no deploy**. Linked Vercel preview checks are externally blocked by build-rate-limit capacity, so it is not counted as merged even though canonical GitHub Actions is green.
+The first CI attempts caught derived evidence/verifier defects; repairs did not alter the frozen generator, protocol, thresholds, raw result or verdict. The result is controlled synthetic diagnostic evidence only—no Sapir–Whorf, linguistic-relativity, cultural, real-model, translation, external-validation, publication or research-complete claim.
 
 ## Promotion rule
 
-Increase `Certified complete` only after all nine certification gates are evidenced under the project's supported claim. A reproducible negative result can be executed/tested work without becoming a successful hypothesis. A recovered evidence validator can preserve scientific provenance without becoming a recovered implementation.
+Increase `Certified complete` only after all nine certification gates are evidenced under the project's supported claim. A reproducible negative result can be executed/tested work without becoming a successful hypothesis. A recovered evidence validator can preserve provenance without becoming a recovered implementation.
 
 Do not double-count duplicate branches, auxiliary artifacts, evidence-only recoveries, or folder names whose identity disagrees with the frozen queue.
