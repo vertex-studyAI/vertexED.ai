@@ -1,3 +1,4 @@
+// Integration refresh marker: validate this unchanged account-isolation behavior against main 662de36 / monitoring PR #243.
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import test from 'node:test';
