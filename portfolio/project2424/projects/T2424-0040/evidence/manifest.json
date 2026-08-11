@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "projectId": "T2424-0040",
+  "result": {
+    "path": "evidence/results.json",
+    "sha256": "2b48ddb63ed9a58c4100fed2b9cb6e0c032737f7ea359edfc9a55822d2ba709f"
+  },
+  "reproductionCommand": "node portfolio/project2424/projects/T2424-0040/experiment/run.mjs",
+  "verificationCommand": "node portfolio/project2424/projects/T2424-0040/reproduction/verify.mjs",
+  "claimBoundary": "Controlled deterministic prerequisite-ordering mechanics on a six-node synthetic finance-labelled curriculum only; no real learner or learning-effectiveness claim."
+}
