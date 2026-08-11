@@ -1,0 +1,20 @@
+{
+  "project": "T2424-0024",
+  "canonicalTitle": "Trust Under Uncertainty",
+  "queueRank": 17,
+  "recoveryBase": "d5110d36cb0dcfac41a0b8cf3b7ee6d6af9438c1",
+  "experimentCommand": "node portfolio/project2424/projects/T2424-0024/experiment/run.mjs <output.json>",
+  "verificationCommand": "node portfolio/project2424/projects/T2424-0024/reproduction/verify.mjs",
+  "testCommand": "node --test tests/trustUnderUncertainty.test.mjs",
+  "rawResult": "evidence/raw/results.json",
+  "rawResultSha256": "4a69125b38dd282c31f4db97e55042764c582193e8248323e0dc2e0cd4e2e403",
+  "claimStatus": "CONTROLLED_SYNTHETIC_MECHANICS_PASS",
+  "certificationStatus": "CERTIFICATION_PENDING",
+  "limitations": [
+    "synthetic correctness data",
+    "no real-model outputs",
+    "ECE is bin-sensitive",
+    "no external validation",
+    "exact-head GitHub CI still required before merge"
+  ]
+}
