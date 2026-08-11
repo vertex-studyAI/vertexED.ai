@@ -1,36 +1,43 @@
-# T2424-0049 Status
+# T2424-0049 — Status
 
-**Project:** Project24 Render  
+**Project:** Multiphase Porous JEPA  
 **Queue rank:** 42  
 **Track:** C — Existing work → minimum experiment  
 **State:** VERIFYING  
-**Claim level:** static evidence-preserving portfolio renderer
+**Claim level:** bounded synthetic predictive-latent screen
+
+## Identity repair
+
+The frozen First-100 registry assigns this ID to **Multiphase Porous JEPA**. The previously merged Project24 Render utility has been preserved under `portfolio/project2424/tools/project24-render/` with an auxiliary non-registry identity.
 
 ## Implemented
 
-- [x] strict project-record validation
-- [x] explicit bounded state vocabulary
-- [x] no inferred certified completion
-- [x] deterministic state/ID sorting
-- [x] HTML escaping
-- [x] static HTML renderer
-- [x] machine-readable JSON renderer
-- [x] grounded seven-project demo snapshot
-- [x] render-to-files experiment command
+- [x] deterministic heterogeneous porous-flow surrogate
+- [x] conservative periodic finite-volume-style update
+- [x] fixed pooled latent encoder
+- [x] persistence baseline
+- [x] learned scalar latent transition predictor
+- [x] held-out phase conditions
+- [x] zero-dynamics negative control
+- [x] frozen 50% relative-improvement gate
+- [x] mass-conservation gate
+- [x] runnable experiment
 - [x] focused regression suite
 
 ## Verification gate
 
-Promote to `TESTED_TOOL` only after canonical GitHub Actions passes on the exact branch head.
+Do not promote this package to `TESTED_TOOL` or record a passing experimental verdict until canonical GitHub Actions succeeds on the exact branch head.
 
 ## Not claimed
 
-- live GitHub inspection
-- automatic artifact verification
-- scientific or publication certification
-- deployment readiness
-- public website publication
+- trained JEPA architecture
+- learned encoder representations
+- real porous-media data performance
+- FNO / DeepONet / PINO superiority
+- publication novelty
+- research completion
+- production deployment
 
 ## Next artifact
 
-Connect the renderer to a validated machine-readable execution ledger, verify artifact/CI identities before rendering, and add generated-output accessibility checks under a separately authorized publication path.
+Public porous-media benchmark or validated simulator, learned encoder/predictor ablation, stronger operator baselines, raw-result retention, compute accounting, and independent scientific QA.
