@@ -1,67 +1,52 @@
-# T2424-0050 — Benchmark Augmentation Theory
+# T2424-0050 — Darcy Latent Operator
 
-A deterministic benchmark-audit prototype for testing whether an apparent model ranking survives a **controlled, label-preserving perturbation**.
+A bounded scientific-computing experiment for **steady one-dimensional Darcy flow through a heterogeneous permeability field**.
 
-## Falsifiable question
+This package tests whether a reduced block-resistance representation can preserve the pressure profile and flux better than a no-heterogeneity linear-pressure baseline. The "latent" representation is explicit and physically interpretable; it is not a learned neural latent space.
 
-Can a benchmark augmentation expose shortcut dependence that is invisible on the original benchmark, while a neutral augmentation leaves the ranking unchanged?
+## Problem
 
-## Synthetic benchmark
+For positive cell permeability `k(x)` on `[0, 1]` with fixed pressures `p(0)=1` and `p(1)=0`, steady 1D Darcy flow has constant flux. In resistance form,
 
-Each binary case contains:
+```text
+q = (p_left - p_right) / integral(1 / k(x)) dx
+```
 
-- a causal `signal` whose sign defines the label;
-- a perfectly correlated `shortcut` feature;
-- label `-1` or `1`.
+and pressure falls according to cumulative resistance.
 
-On the base benchmark, both models score 100%:
+The implementation uses equal-width finite cells, so the exact discrete resistance of cell `i` is `dx / k_i`.
 
-- `signal-model` predicts from the causal signal;
-- `shortcut-model` predicts from the shortcut.
+## Reduced representation
 
-Base accuracy therefore cannot distinguish them.
+For 24 permeability cells, the minimum experiment compresses them to 6 latent blocks (4× compression). Each block stores the **harmonic mean permeability**, which exactly preserves that block's integrated resistance. Expanding those six values back to the cell grid gives a reduced surrogate from which the Darcy pressure profile is solved.
 
-## Controlled augmentations
-
-### Shortcut-breaking augmentation
-
-Flip only the shortcut sign while preserving signal and label.
-
-Expected result:
-
-- signal model remains correct;
-- shortcut model fails;
-- the hidden dependency becomes visible.
-
-### Neutral control
-
-Scale the causal signal magnitude by 2 without changing its sign or the shortcut.
-
-Expected result:
-
-- both models retain the same ranking/performance;
-- the audit does not manufacture a separation from every perturbation.
-
-The augmentation engine rejects any transform that changes the supplied label.
+Comparator: a linear pressure profile that ignores heterogeneous resistance structure.
 
 ## Predeclared cheap screen
 
-For a deterministic 100-case benchmark:
+Across 20 deterministic heterogeneous fields:
 
-1. original base-accuracy gap <= **1 percentage point**;
-2. shortcut-breaking augmented accuracy gap >= **90 percentage points** in favor of the signal model;
-3. neutral-control gap <= **1 percentage point**.
+1. mean latent pressure-profile MAE improvement over the linear baseline must be at least **65%**;
+2. mean flux relative error must be at most **1%**;
+3. a uniform-permeability negative control must be exact to `1e-12` for both methods.
 
-The deterministic construction yields:
+## Retained deterministic result
 
 ```text
-base signal accuracy:           100%
-base shortcut accuracy:         100%
-shortcut-break signal accuracy: 100%
-shortcut-break shortcut:          0%
-neutral signal accuracy:        100%
-neutral shortcut accuracy:      100%
+seeds:                         20
+cells / latent blocks:         24 / 6
+compression ratio:             4x
+mean baseline pressure MAE:    0.0658913916
+mean latent pressure MAE:      0.0011366559
+mean relative improvement:     97.8766%
+mean flux relative error:      1.37e-16
+max latent pressure MAE:       0.0014613492
+uniform baseline MAE:          9.33e-17
+uniform latent MAE:            0
+verdict:                       PASS_BOUNDED_DARCY_LATENT_SCREEN
 ```
+
+The retained machine-readable output is `results/reference.json`.
 
 ## Run
 
@@ -72,27 +57,35 @@ node portfolio/project2424/projects/T2424-0050/experiment/run.mjs
 ## Test
 
 ```bash
-node --test tests/project2424BenchmarkAugmentation.test.mjs
+node --test tests/project2424DarcyLatentOperator.test.mjs
 ```
 
-The root canonical CI also discovers the regression file.
+Regression coverage includes boundary conditions, Darcy resistance/flux conservation, block-resistance preservation, uniform-field negative control, heterogeneous improvement, the full frozen 20-seed screen, and fail-closed invalid permeability/compression inputs.
 
-## What this demonstrates
+## Why this result is deliberately narrow
 
-- base benchmark accuracy can hide shortcut dependence;
-- a carefully chosen label-preserving augmentation can reveal that dependence;
-- neutral controls are necessary to show that ranking changes are perturbation-specific rather than automatic;
-- mutation contracts should fail closed when labels change.
+The synthetic generator is block-structured at the same coarse scale used by the surrogate. That makes this a **mechanism sanity check**, not a difficult operator-learning benchmark. The large error reduction is therefore not evidence of state-of-the-art performance.
 
-## What this does **not** demonstrate
+The flux is preserved nearly exactly because harmonic block compression preserves total resistance by construction. The scientifically interesting future question is how much pressure-profile fidelity remains under harder, misaligned, multidimensional, and out-of-distribution fields.
 
-- a theorem of benchmark validity;
-- that arbitrary augmentations are semantically label-preserving;
-- real-model robustness;
-- distribution-shift generalization;
-- automatic benchmark improvement;
-- publication novelty or research completion.
+## Claim boundary
+
+This package does **not** establish:
+
+- a learned neural operator;
+- Darcy-flow superiority over FNO, DeepONet, PINNs, finite-volume solvers, or other scientific-ML baselines;
+- 2D/3D porous-media performance;
+- transient or multiphase flow performance;
+- real experimental porous-media validity;
+- publication novelty;
+- research completion.
+
+It demonstrates only that an explicit reduced resistance representation behaves correctly on a controlled 1D synthetic screen.
+
+## Identity repair
+
+A benchmark-audit artifact was previously merged under this registry ID. It is preserved at `portfolio/project2424/tools/benchmark-augmentation-theory/` with an auxiliary non-First-100 identity. `T2424-0050` is reserved here for the frozen queue identity **Darcy Latent Operator**.
 
 ## Next evidence gate
 
-Freeze a real benchmark with human-reviewed semantic invariances, define perturbations before model evaluation, compare several trained models, measure ranking stability and error slices, and independently audit whether each augmentation truly preserves the task label.
+Use misaligned random fields and multiple correlation lengths, compare harmonic-block compression with arithmetic/block-average ablations and stronger reduced-order baselines, add 2D finite-volume data, freeze train/validation/test splits before any learned model tuning, and obtain independent scientific QA.
