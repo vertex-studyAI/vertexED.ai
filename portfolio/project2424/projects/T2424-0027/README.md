@@ -47,12 +47,12 @@ Thresholds and generator mechanics are frozen in `PROTOCOL.md` and the implement
 | Raw concept accuracy | 1.0000 |
 | Raw language accuracy | 1.0000 |
 | Language-centered concept accuracy | 1.0000 |
-| Language-centered language accuracy | 0.3333 |
+| Language-centered language accuracy | 0.3611 |
 | Chance language accuracy | 0.3333 |
-| Normalized language-leakage reduction | 1.0000 |
+| Normalized language-leakage reduction | 0.9583 |
 | Global-centering language accuracy | 1.0000 |
 
-Verdict: `PASS_CONTROLLED_LANGUAGE_LEAKAGE_MECHANICS`.
+Verdict: `PASS_CONTROLLED_LANGUAGE_LEAKAGE_MECHANICS` because all five predeclared gates pass. The centered language probe is close to, but not exactly at, chance; no stronger claim is made.
 
 Raw evidence is retained at `evidence/raw/results.json` and SHA-256-bound by `evidence/manifest.json`.
 
