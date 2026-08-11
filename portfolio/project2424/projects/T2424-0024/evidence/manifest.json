@@ -1,0 +1,39 @@
+{
+  "project_id": "T2424-0024",
+  "canonical_title": "Trust Under Uncertainty",
+  "frozen_queue_rank": 17,
+  "recovery": {
+    "source_pr": 172,
+    "source_branch": "agent/p2424-0024-trust-uncertainty-20260810",
+    "source_head": "a258ae35900e1b3f83c75604689603a80c43d45b",
+    "source_head_ci_run": 31410602315,
+    "source_head_ci_conclusion": "success",
+    "canonical_recovery_branch": "agent/p2424-0024-canonical-recovery-20260811",
+    "base_main_at_branch_creation": "d5110d36cb0dcfac41a0b8cf3b7ee6d6af9438c1"
+  },
+  "fresh_verification": {
+    "focused_local_test_command": "node --test tests/trustUnderUncertainty.test.mjs",
+    "focused_local_tests_passed": 5,
+    "focused_local_tests_failed": 0,
+    "experiment_command": "node portfolio/project2424/projects/T2424-0024/experiment/run.mjs",
+    "raw_output": "evidence/raw/minimum-experiment.json",
+    "raw_output_sha256": "1113f9e65bc7c8357006e1150e9bca649d575e683595ae65b5d92cbd9c0c6e3c",
+    "canonical_github_actions": "pending exact-head verification"
+  },
+  "artifacts": [
+    "README.md",
+    "STATUS.md",
+    "CLAIM.md",
+    "PROTOCOL.md",
+    "src/core.mjs",
+    "experiment/run.mjs",
+    "evidence/results.json",
+    "evidence/raw/minimum-experiment.json",
+    "analysis/baseline.md",
+    "analysis/ablation.md",
+    "analysis/verdict.md",
+    "reproduction/README.md",
+    "tests/trustUnderUncertainty.test.mjs"
+  ],
+  "claim_boundary": "Deterministic synthetic calibration/selective-risk evaluator mechanics only."
+}
