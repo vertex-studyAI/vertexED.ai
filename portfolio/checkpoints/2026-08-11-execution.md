@@ -14,7 +14,6 @@
   - canonical CI: `31449794955` / run #679 — success
   - merge: `615fb12f26963a355553f10379df85d26323c4ea`
   - later frozen-queue reconciliation established that canonical `T2424-0050` is **Darcy Latent Operator**, so the benchmark audit is useful tested work but is excluded from the queue-consistent First-100 count while the identity collision remains.
-  - draft PR #207 is the non-destructive repair: preserve the benchmark audit as an auxiliary tool and restore Darcy Latent Operator to canonical `T2424-0050`.
 - Recovered T2424-0053 Scientific Motif Dictionary through PR #203 rather than force-pushing stale PR #179.
   - final-base head: `d01a1d2c12c7e2e2157e11c6bc92726edcbb1c29`
   - canonical CI: `31450035136` / run #688 — success
@@ -25,9 +24,16 @@
   - tested head: `3023574cfdd6b94e8ec6fccb72deb0b726285ddf`
   - canonical CI: `31449904593` — success
   - merge: `a1b17cd6131ab6b18eacf1fed0657aea6f2cb7c7`
+- Current lossless `T2424-0050` repair is PR #210.
+  - exact head: `d502de803701c0be1d7e3306b30b8036824ca251`
+  - canonical CI: `31450427123` / run #697 — success
+  - GitHub mergeability: mergeable
+  - changed paths: canonical T2424-0050 package, auxiliary benchmark-audit tool, and two regression files only
+  - behavior: preserves Benchmark Augmentation Theory under an auxiliary identity and restores Darcy Latent Operator at canonical `T2424-0050`
+  - boundary: PR explicitly says **do not auto-merge or deploy**, so it remains unmerged despite green CI.
 - Earlier current-main evidence also includes merged queue-consistent T2424-0025 and T2424-0030 packages.
 - Current frozen-queue-consistent First-100 count on `main`: `10` runnable / `10` tested / `0` certified complete.
-- Auxiliary tested artifacts do not create extra registry entries, and identity-colliding folders are not counted merely because they are green.
+- If manually gated PR #210 lands and the queue identity guard stays green, that count can become `11 / 11`; the auxiliary benchmark audit still must not be double-counted.
 
 ### VertexED live Supabase verification
 
@@ -87,7 +93,7 @@ Current research status remains scientifically negative/inconclusive on the ARC 
 
 ## Highest-value remaining gates
 
-1. Finish exact-head CI/review for draft PR #207 and preserve both artifacts while restoring canonical `T2424-0050`; do not merge it while its verification/draft boundary remains unresolved.
+1. Manually review/merge green PR #210 only if its explicit do-not-auto-merge boundary is intentionally cleared; do not bypass that boundary.
 2. Merge the docs-only portfolio truth-ledger refresh only after its own exact-head CI succeeds **and** the count still matches current `main`.
 3. Resolve FinanceMeta GitHub write permission and review the 41-commit hardening branch through a real PR/CI path.
 4. Run Bu1LD strict release verification in its real deployment/Supabase environment and execute the seven-role smoke matrix.
