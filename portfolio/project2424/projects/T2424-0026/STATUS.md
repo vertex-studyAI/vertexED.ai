@@ -4,7 +4,7 @@
 **Project 2424 ID:** T2424-0026  
 **Queue rank:** 19  
 **Track:** C — Existing work → minimum experiment  
-**State:** VERIFYING  
+**State:** TESTED_TOOL / MANUAL_MERGE_PENDING  
 **Claim level:** deterministic causal-intervention simulator + locality tests
 
 ## Implemented
@@ -24,12 +24,13 @@
 - [x] causal locality regression suite
 - [x] explicit GO/STOP verdict in experiment output
 - [x] limitations and claim boundary
+- [x] latest-main recovery CI passed on head `67b9df0972449a620731c3bd26a9dc445485c439`, run `31457031321`
 
 ## Current evidence gate
 
-Promote beyond `VERIFYING` only after canonical GitHub Actions succeeds on the exact branch head and the PR remains queue-identity clean.
+The immediately preceding recovery head passed canonical GitHub Actions and established repository integration of the deterministic implementation/regression suite. This status-only update creates a newer head, so canonical CI must pass again before the separate manual merge decision.
 
-A green CI run would establish that the deterministic implementation and regression suite integrate on that exact head. It would not by itself satisfy the nine-gate `Certified complete` contract because retained raw evidence, independent reproduction, broader ablation/negative-result packaging, and external validity remain incomplete.
+Green CI does not satisfy the nine-gate `Certified complete` contract because retained raw evidence, independent reproduction, broader ablation/negative-result packaging, and external validity remain incomplete.
 
 ## Not claimed
 
