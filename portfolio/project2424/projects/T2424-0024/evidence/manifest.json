@@ -1,0 +1,36 @@
+{
+  "project": "T2424-0024",
+  "name": "Trust Under Uncertainty",
+  "evidenceTier": "synthetic_evaluator_mechanics",
+  "sourceIdentity": {
+    "repository": "vertex-studyAI/vertexED.ai",
+    "canonicalPath": "portfolio/project2424/projects/T2424-0024",
+    "coreGitBlobSha": "775a18a7d8c73605fd76d30fc8814d054ef1b302",
+    "runnerGitBlobSha": "e36447d0d7ac091df67b436eaeae01dfa0fe72b9",
+    "claimGitBlobSha": "fb4d7cce6a7d552e6abf469f25834146a6caf3a2",
+    "protocolGitBlobSha": "26826a9d9a9241a1bd79fd2d366c512967c91df7"
+  },
+  "retainedEvidence": {
+    "resultsPath": "evidence/results.json",
+    "resultsGitBlobSha": "2928494be32e8974468a7478d92b5c918d0856f6",
+    "verdictPath": "analysis/verdict.md"
+  },
+  "independentQa": {
+    "path": "tests/project2424TrustUnderUncertaintyQa.test.mjs",
+    "gitBlobSha": "85287e82ac4c3f0f9114ead25f85ba7a15bf3f1f",
+    "importsEvaluatorImplementation": false,
+    "checks": [
+      "Brier score recomputation",
+      "5-bin ECE recomputation",
+      "selective-risk recomputation",
+      "claim gate consistency",
+      "verdict and claim-boundary consistency"
+    ]
+  },
+  "reproduce": [
+    "node portfolio/project2424/projects/T2424-0024/experiment/run.mjs",
+    "node --test tests/project2424TrustUnderUncertainty.test.mjs",
+    "node --test tests/project2424TrustUnderUncertaintyQa.test.mjs"
+  ],
+  "boundary": "Immutable blob identities and deterministic synthetic evidence only; no real-model trustworthiness, deployment-safety, external-validity, publication, or research-complete claim."
+}
