@@ -1,0 +1,35 @@
+{
+  "project": "T2424-0050",
+  "name": "Darcy Latent Operator",
+  "equation": "steady 1D Darcy flow with heterogeneous positive permeability and fixed Dirichlet pressures",
+  "summary": {
+    "seeds": 20,
+    "cellCount": 24,
+    "blockCount": 6,
+    "compressionRatio": 4,
+    "meanBaselineMae": 0.06589139155637647,
+    "meanLatentMae": 0.0011366559231966065,
+    "meanRelativeImprovement": 0.9787663202281432,
+    "meanFluxRelativeError": 1.3693877541812723e-16,
+    "maxLatentMae": 0.0014613491578162696,
+    "uniformControl": {
+      "baselineMae": 9.325873406851315e-17,
+      "latentMae": 0,
+      "exactFlux": 1.6999999999999993,
+      "latentFlux": 1.6999999999999993,
+      "fluxRelativeError": 0
+    }
+  },
+  "predeclaredScreen": {
+    "latentPressureImprovementAtLeast65Percent": true,
+    "meanFluxRelativeErrorAtMost1Percent": true,
+    "uniformControlExact": true
+  },
+  "verdict": "PASS_BOUNDED_DARCY_LATENT_SCREEN",
+  "provenance": {
+    "priorExactHead": "ce9331c8be3e66eb8249121aa2243c03550108d2",
+    "priorCiRun": 31449982073,
+    "note": "Compact retained summary copied from the previously exact-head-green canonical Darcy package; running experiment/run.mjs regenerates the full per-seed result set."
+  },
+  "claimBoundary": "deterministic 1D reduced-resistance surrogate only; no learned neural operator, multidimensional PDE, real porous-media, or publication claim"
+}
