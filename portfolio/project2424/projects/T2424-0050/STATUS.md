@@ -30,7 +30,9 @@ The canonical Darcy implementation passed GitHub Actions on exact head `ce9331c8
 
 A later lossless identity-repair head `d502de803701c0be1d7e3306b30b8036824ca251` passed canonical CI run `31450427123`, but became non-mergeable as `main` advanced.
 
-The latest-main lossless repair head `9c9aacac73d1c59327cf6a882aa83566f658cf53` then passed canonical GitHub Actions CI run `31451716616` and was mergeable when inspected. That evidence establishes repository integration for that exact head only. This status-only correction creates a newer head and therefore requires the canonical CI gate to pass again before any merge decision.
+The latest-main lossless repair head `9c9aacac73d1c59327cf6a882aa83566f658cf53` then passed canonical GitHub Actions CI run `31451716616` and was mergeable when inspected. That evidence establishes repository integration for that exact head only.
+
+The current-main rebuild head `74469481b38e13bdcfdfcf81ad382088bb73bd57` passed canonical GitHub Actions CI run `31456011637`. During that run, `main` advanced by one non-overlapping commit (`0a9751d6e8b995747c855c64d60bdda9b1891eaf`) that only corrected PST/NPMS canonical status metadata. This status refresh intentionally creates a new PR head so the pull-request merge ref is revalidated against that newer base before any manual merge decision.
 
 Retained bounded result:
 
@@ -43,7 +45,7 @@ Retained bounded result:
 
 ## Current promotion gate
 
-The implementation has exact-head green evidence on the immediately preceding repair head, but this refreshed branch head must pass canonical GitHub Actions again before merge. Even with green CI, the PR remains under an explicit **manual merge / no deploy** boundary. A green run establishes repository integration of the relocation + Darcy package; it does not establish scientific generalization or research completion.
+The refreshed PR head must pass canonical GitHub Actions against the current pull-request merge ref. Even with green CI, the PR remains under an explicit **manual merge / no deploy** boundary. A green run establishes repository integration of the relocation + Darcy package; it does not establish scientific generalization or research completion.
 
 ## Not claimed
 
