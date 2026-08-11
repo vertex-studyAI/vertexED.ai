@@ -19,6 +19,12 @@ const reportPath = path.join(
 );
 const report = JSON.parse(fs.readFileSync(reportPath, 'utf8'));
 
+function mutateFinding(id, patch) {
+  return report.negative_findings.map((finding) =>
+    finding.id === id ? { ...finding, ...patch } : finding,
+  );
+}
+
 test('recovered NPMS report validates without inflating completion', () => {
   const summary = validateNpmsRecovery(report);
   assert.equal(summary.canonicalProjectId, 'T2424-0019');
@@ -47,7 +53,10 @@ test('source migration cannot be silently marked complete', () => {
 });
 
 test('matched-eigenvalue metric defect must remain explicit', () => {
-  const negative_findings = report.negative_findings.filter((finding) => finding.id !== 'NPMS-N004');
+  const negative_findings = mutateFinding('NPMS-N004', {
+    required_boundary: 'PRESERVE',
+    finding: 'A generic implementation note with no mode-matching limitation.',
+  });
   assert.throws(
     () => validateNpmsRecovery({ ...report, negative_findings }),
     /PRESERVE_METRIC_DEFECT|matched-eigenvalue metric defect/,
@@ -55,7 +64,10 @@ test('matched-eigenvalue metric defect must remain explicit', () => {
 });
 
 test('conjugate-group truncation limitation must remain explicit', () => {
-  const negative_findings = report.negative_findings.filter((finding) => finding.id !== 'NPMS-N005');
+  const negative_findings = mutateFinding('NPMS-N005', {
+    required_boundary: 'PRESERVE',
+    finding: 'A generic truncation note with no grouped-mode limitation.',
+  });
   assert.throws(
     () => validateNpmsRecovery({ ...report, negative_findings }),
     /PRESERVE_IMPLEMENTATION_LIMITATION|conjugate-group/,
@@ -63,7 +75,10 @@ test('conjugate-group truncation limitation must remain explicit', () => {
 });
 
 test('frequency response cannot be upgraded to a full transfer function', () => {
-  const negative_findings = report.negative_findings.filter((finding) => finding.id !== 'NPMS-N006');
+  const negative_findings = mutateFinding('NPMS-N006', {
+    required_boundary: 'PRESERVE',
+    finding: 'Frequency analysis is reported without an interpretation limitation.',
+  });
   assert.throws(
     () => validateNpmsRecovery({ ...report, negative_findings }),
     /PRESERVE_INTERPRETATION_LIMIT|frequency-response/,
