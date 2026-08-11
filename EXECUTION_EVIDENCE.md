@@ -106,18 +106,20 @@ The 12 counted packages are:
 11. `T2424-1767` Resource-Bounded MoE Operator;
 12. `T2424-1863` Resource-Bounded Local Operator for Scientific Forecasting.
 
-## Open P0 registry integrity gate — T2424-0050
+## Open P0 registry integrity manual gate — T2424-0050
 
-Frozen queue rank 43 maps `T2424-0050` to **Darcy Latent Operator**. Current main still contains Benchmark Augmentation Theory in that canonical folder.
+Frozen queue rank 43 maps `T2424-0050` to **Darcy Latent Operator**. Current `main` still contains Benchmark Augmentation Theory in that canonical folder.
 
-PR #210 contains a lossless repair:
+Draft PR #216 is the current latest-main lossless repair:
 
-- preserves Benchmark Augmentation Theory under an auxiliary identity;
-- restores Darcy Latent Operator to canonical `T2424-0050`;
-- prior exact head `d502de803701c0be1d7e3306b30b8036824ca251` passed canonical CI `31450427123`;
-- its changed files are restricted to Project 2424 package/tool/test paths.
+- exact head `9c9aacac73d1c59327cf6a882aa83566f658cf53`;
+- canonical CI `31451716616` — full success;
+- build/test, production browser certification, and local keyboard accessibility all passed; production smoke was skipped by the repository's existing policy guard;
+- Benchmark Augmentation Theory is preserved under auxiliary identity `AUX-P2424-BENCHMARK-AUGMENTATION`;
+- Darcy Latent Operator is restored to canonical `T2424-0050`;
+- no useful implementation is deleted or double-counted.
 
-However, #210 explicitly says **do not auto-merge or deploy** and is now stale against current `main`. It was therefore not merged. A current-main recovery must preserve the same manual boundary and earn fresh CI before Darcy may join the count.
+PR #216 explicitly says **do not auto-merge or deploy** and remains draft. It was therefore not merged. If the manual boundary is intentionally cleared and the identity guard remains green, canonical Darcy may become the 13th queue-consistent implementation; the auxiliary benchmark audit still does not create an extra registry project.
 
 ## VertexED — live Supabase read-only verification
 
