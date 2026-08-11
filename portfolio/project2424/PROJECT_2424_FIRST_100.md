@@ -1,95 +1,107 @@
 # Project 2424 — First 100
 
-**Updated:** 11 August 2026  
-**Source:** current `main`, frozen `FIRST_100_QUEUE.ndjson`, merged PR identity, and exact-head GitHub Actions evidence
+**Updated:** 11 August 2026, latest connector-visible execution checkpoint  
+**Authority:** frozen `FIRST_100_QUEUE.ndjson` + current `main` + exact-head GitHub Actions + explicit PR merge boundaries
 
 ## Truth boundary
 
-Being selected into the First-100 queue is **not** completion evidence. This dashboard separates:
+Queue entry, recovered evidence, implemented package, tested tool, demo-ready artifact, research-complete project, and `Certified complete` are different states. Counts below increase only from canonical queue identity and retained evidence; auxiliary artifacts and duplicate branches are never double-counted.
 
-1. queue-consistent implementations that are merged and test-verified;
-2. merged evidence-recovery packages whose original scientific source is still missing;
-3. pending identity repairs; and
-4. the stricter nine-gate `Certified complete` count.
+## Current counts
 
-### Current counts
+- Frozen First-100 queue entries: **100**
+- Queue-consistent runnable implementations merged on `main`: **12**
+- Queue-consistent tested implementations merged on `main`: **12**
+- Merged evidence-boundary recoveries excluded from implementation count: **2** — PST `T2424-0016`, NPMS `T2424-0019`
+- Demo-ready implementation packages previously verified: **1**
+- `Certified complete`: **0 / 100**
+- Research-complete: **0**
+- Current-main registry collisions: **1** — `T2424-0050`
+- Green manual repair for that collision: **1** — draft PR #224
 
-- Certified complete: **0 / 100**
-- Execution-ready registry entries: **100**
-- Queue-consistent runnable/tested implementations merged: **12**
-- Merged evidence-recovery packages not counted as runnable implementations: **2** (`T2424-0016`, `T2424-0019`)
-- Research-complete projects verified: **0**
-- Demo-ready implementation packages verified: **1**
-- Known unresolved registry identity collisions on `main`: **1** (`T2424-0050`)
-- Exact-head-green manual identity repair ready: **1** (PR #216)
+## The 12 merged queue-consistent implementations
 
-A green CI run proves the recorded package integrates and executes on that head. It does **not** by itself establish external validity, scientific superiority, publication readiness, production readiness, or completion under the nine-part certification gate.
+1. `T2424-0023` — Multilingual Epistemic Blind Spots Benchmark
+2. `T2424-0025` — Non-Gaussian Memory Transformer
+3. `T2424-0030` — Adaptive Theory Geometry in World Models
+4. `T2424-0034` — Quant ML Visualizer
+5. `T2424-0036` — Rubik's A* Intelligence
+6. `T2424-0038` — Obscured Records Agent
+7. `T2424-0046` — Auto-Research Foundry
+8. `T2424-0049` — Multiphase Porous JEPA
+9. `T2424-0051` — ADR Predictive Surrogate
+10. `T2424-0053` — Scientific Motif Dictionary
+11. `T2424-1767` — Resource-Bounded MoE Operator
+12. `T2424-1863` — Resource-Bounded Local Operator for Scientific Forecasting
 
-## Certification gate
+`T2424-1863` remains a valid negative/inconclusive implementation result: its frozen >75% improvement gate failed at the retained 67.777% result. That result must not be relabelled positive.
 
-A project enters `Certified complete` only after evidence for all of the following exists:
+## Evidence-boundary recoveries — not implementation-count inflation
+
+### PST — `T2424-0016`
+
+State: `RECOVERED_COMPACT_EVIDENCE / SOURCE_MIGRATION_PENDING / EXTERNAL_BLOCKED`.
+
+The merged package preserves the controlled evidence and negative findings: simple raw-expression/logistic controls outperform neural PST on the controlled generator; validation-only calibration worsens retained metrics; fixed family-A -> family-B transfer is weak; strong family-B in-domain retraining does not prove transfer. Historical Paul15/Pancreas/Dentate Gyrus headline values remain unverified. Original neural source/checkpoints/raw evidence are not canonically migrated and must not be reconstructed from manuscript prose and called recovered.
+
+### NPMS — `T2424-0019`
+
+State: `RECOVERED_COMPACT_EVIDENCE / SOURCE_MIGRATION_PENDING / EXTERNAL_UNVALIDATED`.
+
+The merged recovery preserves the known metric/mechanism limits: matched-eigenvalue error can omit missing/spurious modes; truncation can mishandle conjugate pairs; frequency response is a resolvent proxy, not a complete identified transfer function; delay-PCA, multiscale and switching-system limitations remain explicit. Original source/config/result/evidence provenance still requires canonical migration and clean rerun.
+
+## P0 registry integrity — `T2424-0050`
+
+Frozen identity: **Darcy Latent Operator**.
+
+Current `main` still materializes Benchmark Augmentation Theory under this ID, so the current folder is excluded from the 12-project count.
+
+The single retained repair path is draft PR **#224**, branch `agent/p2424-0050-canonical-repair-current-main-20260811b`.
+
+Final verified head: `bcd7d693203aa719eed387301e82defc224b89dc`  
+Canonical GitHub Actions: **31456505592 — SUCCESS**.
+
+The lossless repair:
+
+- restores canonical `T2424-0050` to Darcy Latent Operator;
+- preserves Benchmark Augmentation Theory under auxiliary identity `AUX-P2424-BENCHMARK-AUGMENTATION`;
+- retains both regression suites;
+- retains the deterministic 20-seed 1D Darcy result;
+- adds a fail-closed queue/package identity regression so future canonical-name drift becomes a test failure.
+
+Retained Darcy bounded screen:
+
+- 24 cells -> 6 latent blocks, 4x compression;
+- mean baseline pressure MAE `0.06589139155637647`;
+- mean latent pressure MAE `0.0011366559231966065`;
+- mean relative improvement `0.9787663202281432`;
+- mean flux relative error `1.3693877541812723e-16`;
+- uniform latent MAE `0`;
+- all predeclared bounded gates passed.
+
+Claim boundary: deterministic 1D reduced-resistance mechanism only. It is not a learned neural operator, multidimensional/real porous-media result, FNO/DeepONet/PINN superiority result, external validation, publication novelty, research completion, or production claim.
+
+PR #224 explicitly remains **DO NOT AUTO-MERGE OR DEPLOY / MANUAL REVIEW REQUIRED**. Even with green CI, it is not counted as merged. If the owner intentionally clears that boundary and the final state remains identity-clean, the count may move from 12 to 13; the auxiliary benchmark artifact must not add another count.
+
+## Other current canonical recovery paths
+
+- Draft PR #225 — `T2424-0026` Counterfactual Defect Worlds, deterministic cellular-automaton intervention/locality screen. Exact head `846ad36f31253ec0b7938bd5996618004b6f06cc` passed canonical CI **31456034018**. Explicit do-not-auto-merge/deploy boundary remains.
+- Draft PR #228 — `T2424-0029` Representation Phase Transitions for PDEs, deterministic analytic 1D heat-equation spectral-dimension screen. Exact head `544139b98ff740c5a133ceb0e3d7e0d152de631e` passed canonical CI **31456101365**. Explicit do-not-auto-merge/deploy boundary remains.
+- The strongest `T2424-0024` Trust Under Uncertainty certification-package recovery was closed unmerged during concurrent consolidation and therefore does not affect counts. Its narrow synthetic calibration evidence remains historical branch evidence, not a merged certification.
+- Older green/manual-gated legacy paths for `T2424-0028`, `T2424-0035`, `T2424-0037`, `T2424-0054` remain outside the merged count until a current canonical recovery/integration decision is made.
+
+## Certification contract
+
+A project may be labelled `Certified complete` only when all nine gates are evidenced:
 
 1. immutable source identity or explicit `NO_SOURCE`;
 2. one falsifiable claim;
 3. frozen protocol;
 4. clean runnable command;
 5. baseline evidence;
-6. raw artifacts;
+6. raw result artifacts;
 7. ablation or negative-result analysis;
-8. explicit go/no-go verdict; and
-9. independent QA.
+8. explicit go/no-go verdict;
+9. independent QA/reproduction.
 
-## Queue-consistent runnable/tested implementations on `main`
-
-| Rank | ID | Canonical project | Verification / merge evidence | Evidence boundary |
-|---:|---|---|---|---|
-| 18 | `T2424-0025` | Non-Gaussian Memory Transformer | head `2d01cb02a88e8ee1f58f87918c7a4252a268baf7`; PR #187; merge `0eb46d07f7d23fccd1333e3c62617457ba3ba423` | Synthetic robust memory-aggregation screen; not a full Transformer result |
-| 23 | `T2424-0030` | Adaptive Theory Geometry in World Models | head `145a654c40c3fcc2a609031e380bec2846e2e8f8`; PR #186; merge `0239fa06b29ec537f4163b487ffb7318a5ebee2e` | Synthetic one-step geometry mechanism screen; not learned world-model geometry |
-| 27 | `T2424-0034` | Quant ML Visualizer | head `b62475cec9d867209ce64ee58bb6a22f25633439`; CI `31409366246`; merge `868fa55153c8b1058f2ad9fbe3b0d397f347fe99`; later walk-forward extension recovered separately | Descriptive/evaluation tooling; no alpha or investment claim |
-| 29 | `T2424-0036` | Rubik's A* Intelligence | head `422807799833247d6ea7ab095b557d26d41e2b57`; CI `31409707818`; merge `1b143eb8904e5568f9ed8db537951a701e22f88f` | Bounded orientation-free 2×2 search prototype |
-| 31 | `T2424-0038` | Obscured Records Agent | head `abf8c998bab4bc0adedfb3d1d1a19432603c355f`; CI `31411209123`; merge `fb0c3a78cad2b27bd894c1e59cfbb05606be46a7` | Deterministic evidence-gating tool; no autonomous truth/publication claim |
-| 39 | `T2424-0046` | Auto-Research Foundry | head `88dad71acca583a80ae2496b1278f88a825b4766`; PR #192; merge `d15703b0fdd63dc5d6d2ff7fca12d5d27a432502` | Planning/evidence-gating library; commands remain metadata and are not executed by the tool |
-| 41 | `T2424-0049` | Multiphase Porous JEPA | repaired source head `3023574cfdd6b94e8ec6fccb72deb0b726285ddf`; CI `31449904593`; PR #201; merge `a1b17cd6131ab6b18eacf1fed0657aea6f2cb7c7` | Deterministic porous-flow surrogate screen; not a trained JEPA or external benchmark |
-| 44 | `T2424-0051` | ADR Predictive Surrogate | replacement head `7fe27ff01a8a8cc4701deecd2239aab80b7c1ee3`; original green CI `31449668954`; PR #205; merge `1ba9ecc09f7e84f43d8251c222e3d07351e7ed8a` | Controlled analytic 1D periodic ADR surrogate/interpolation mechanics only |
-| 46 | `T2424-0053` | Scientific Motif Dictionary | replacement head `d01a1d2c12c7e2e2157e11c6bc92726edcbb1c29`; prior CI `31411557245`; PR #203; merge `c587f4e0fa91c59e82099d2fb9c68dea3abe8a16` | Synthetic normalized-shape indexing mechanics only |
-| 52 | `T2424-1767` | Resource-Bounded MoE Operator | head `1496c991a3b00473700b2f4c3d173d428f793e9b`; CI `31409012137`; merge `8c4bb2b31140f8e580135a5595f2731b0068d146` | Synthetic resource/error frontier; no general Scientific-ML superiority claim |
-| 92 | `T2424-1863` | Resource-Bounded Local Operator for Scientific Forecasting | head `8368b2daa9e7720cd972accee6e8d363f67c3a59`; reproduction `31411206631`; repo CI `31411208847`; merge `7cee0bd4d5cc7a3ac497476d322c6f0e16da9ee6` | Negative/inconclusive: frozen >75% improvement gate failed at 67.777% |
-| 1 | `T2424-0023` | Multilingual Epistemic Blind Spots Benchmark | reconciled head `58449933c38afb9a9017dbd067a43874dec88354`; CI `31450669750`; PR #212; merge `3ce1260a3d3e80788b3c5d12cfe0df617b13665a` | Synthetic aligned-record evaluation mechanics; no real-model or language-performance claim |
-
-These are **12 distinct queue identities**. Auxiliary tools rehomed during registry repairs do not add to this count.
-
-## Merged evidence-recovery packages — deliberately excluded from runnable-implementation count
-
-### `T2424-0016` — Predictive Stability Theory (PST)
-
-PR #214 merged the canonical evidence boundary at `205dcaeb5dc5a0b5d3e9d4e59169b829829d5acc` after restoring the previously verified recovery package. The retained isolated bundle contains controlled experiment evidence and negative findings, but the original neural source/checkpoint/raw-evidence tree has not been migrated into canonical Git identity. Historical Paul15/Pancreas/Dentate headline metrics remain unverified and external biological validation remains blocked.
-
-Status: `RECOVERED_COMPACT_EVIDENCE / SOURCE_MIGRATION_PENDING / EXTERNAL_BLOCKED`.
-
-### `T2424-0019` — Neural Predictive Memory Spectroscopy (NPMS)
-
-PR #213 merged at `c298d4cbe81e85e678c97261fbd4fbb6ca82c77c` after exact-head CI `31451120590` passed on repaired head `fb684fc3e16cf8e202b9069b0e7b37e6fa607006`. The recovery preserves 17 isolated tests, 15 compact runs, 36 ablation records, 45 robustness records, and explicit metric/interpretation limitations. The original implementation tree has not been migrated or independently rerun from canonical Git.
-
-Status: `RECOVERED_COMPACT_EVIDENCE / SOURCE_MIGRATION_PENDING / EXTERNAL_UNVALIDATED`.
-
-**Neither PST nor NPMS increases the 12-implementation count merely because its recovery validator is runnable.**
-
-## Current P0 identity gate — `T2424-0050`
-
-Frozen queue identity: **Darcy Latent Operator**.
-
-Current `main` still contains **Benchmark Augmentation Theory** under `T2424-0050`, so the current folder is excluded from the queue-consistent count.
-
-Latest repair path: PR #216 (`agent/p2424-0050-canonical-repair-latest-20260811`). It preserves Benchmark Augmentation Theory under auxiliary identity `AUX-P2424-BENCHMARK-AUGMENTATION`, restores Darcy Latent Operator to `T2424-0050`, restores its six regressions and retained 20-seed bounded result, and passed full canonical CI `31451716616` on exact head `9c9aacac73d1c59327cf6a882aa83566f658cf53`.
-
-PR #216 is mergeable and ready for review, but its explicit boundary says **do not auto-merge or deploy**. It therefore remains excluded from the merged count. If manually approved and merged without the base changing, the queue-consistent runnable/tested implementation count may move from **12 to 13**. The auxiliary benchmark audit must not be double-counted.
-
-## Additional exact-head-green work not counted as merged implementations
-
-The repository also contains or has contained exact-head-green review paths for distinct queue projects such as `T2424-0024`, `T2424-0026`, `T2424-0028`, `T2424-0029`, `T2424-0035`, `T2424-0037`, `T2424-0054`, and others. They remain excluded from the merged count until their current canonical review/merge boundaries are satisfied.
-
-## Promotion rule
-
-Increase `Certified complete` only after all nine certification gates are evidenced. A reproducible negative result can count as executed/tested work without becoming a successful hypothesis. A recovered evidence validator can preserve scientific provenance without becoming a recovered implementation.
-
-Do not double-count duplicate branches, auxiliary artifacts, or folder names whose identity disagrees with the frozen First-100 queue.
+Green CI proves repository integration on the tested head. It does not prove scientific generalization, external validity, production readiness, publication readiness, or nine-gate certification.
