@@ -1,0 +1,35 @@
+{
+  "project": "T2424-0024",
+  "experiment": "minimum calibration paired control",
+  "execution": {
+    "fresh_local_reproduction": true,
+    "focused_tests_passed": 5,
+    "focused_tests_failed": 0,
+    "github_exact_head_ci": "pending"
+  },
+  "data": {
+    "observations": 20,
+    "correct": 14,
+    "incorrect": 6,
+    "accuracy": 0.7,
+    "rng": false
+  },
+  "baseline": {
+    "name": "overconfident confidence mapping",
+    "brier_score": 0.2542,
+    "ece_5_bins": 0.26200000000000034
+  },
+  "candidate": {
+    "name": "moderate confidence mapping",
+    "brier_score": 0.04,
+    "ece_5_bins": 0.19999999999999996
+  },
+  "predeclared_gate": {
+    "candidate_brier_lt_baseline": true,
+    "candidate_ece_lt_baseline": true,
+    "passed": true
+  },
+  "raw_artifact": "evidence/raw/minimum-experiment.json",
+  "raw_artifact_sha256_from_fresh_local_reproduction": "1113f9e65bc7c8357006e1150e9bca649d575e683595ae65b5d92cbd9c0c6e3c",
+  "claim_boundary": "Synthetic evaluator mechanics only; no real-model trustworthiness, safety, calibration, superiority, or deployment claim."
+}
