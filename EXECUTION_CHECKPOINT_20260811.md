@@ -34,7 +34,7 @@ The First-100 queue remains an execution queue, not a completion claim.
 | `T2424-0025` | Non-Gaussian Memory Transformer screen | `2d01cb02a88e8ee1f58f87918c7a4252a268baf7` | CI `31413572999` | merged `0eb46d07f7d23fccd1333e3c62617457ba3ba423` | Robust memory-aggregation mechanism screen; not a full Transformer result |
 | `T2424-0049` | Project24 Render | `d517efc42fb89b8f0374f2d559a82334a82eeb6d` | CI `31414274233` | merged `6581a39539267c85b247aa30363d5285daef0173` | Static evidence renderer; does not infer completion or scientific validity |
 
-The prior root dashboard on `main` still reports five merged/tested packages, so it is stale relative to current `main`. This checkpoint is the evidence-backed correction; the canonical dashboard should be reconciled in a follow-up documentation merge after review.
+The canonical First-100 dashboard is reconciled to these eight packages on this checkpoint branch. `main` remains stale until the documentation PR is reviewed and merged.
 
 ### Exact-head-green but deliberately unmerged packages reverified now
 
@@ -47,6 +47,12 @@ The prior root dashboard on `main` still reports five merged/tested packages, so
 | #174 | `T2424-0026` | Counterfactual Defect Worlds | `93c857e8f5e5408f9b5cda6c0053fbb2b903c993` | `31410824608` success | review-ready / unmerged |
 
 These do not increase the merged or certified counts.
+
+### Canonical T2424-0034 reconciliation cleanup
+
+PR #188 reconciles the useful walk-forward/no-lookahead evaluation mechanics into the already-merged canonical T2424-0034 tree rather than creating a second project package. Exact head `7f33496eec21ad6ab61b5444642f593459e7534f` passed canonical CI `31413775907`.
+
+After that exact-head success, PR #188 was moved from draft to review-ready. The older noncanonical PR #160 was closed unmerged, matching #188's integration rule and preventing double-counting or competing T2424-0034 trees. This does **not** increase the merged First-100 count until #188 is actually merged.
 
 ## VertexED release state
 
@@ -73,6 +79,8 @@ Latest visible `main` commit: `1d1ad2d027ca38e6fb0581ccf280333da454b672` (`fix(m
 
 The latest merged work stages render attempts away from final MP4 paths, promotes only verified media, preserves prior artifacts on failure, and records failure provenance. This supports a local media-generation prototype; it is not a production hosting/queue/narration claim.
 
+Neither LAM-JEPA nor Text-To-Video currently has an open pull request through the connected GitHub installation.
+
 ## Blockers preserved instead of hidden
 
 1. Production deployment is not authorized by this execution contract.
@@ -83,7 +91,7 @@ The latest merged work stages render attempts away from final MP4 paths, promote
 
 ## Highest-value safe next actions
 
-1. Reconcile `portfolio/project2424/PROJECT_2424_FIRST_100.md` from 5 to 8 merged/tested packages using the exact evidence above.
+1. Keep documentation PR #195 draft until its exact current head passes CI; then mark it review-ready without auto-merging it.
 2. Keep exact-head-green Project 2424 PRs review-ready without auto-merging while deployment-side status contexts are externally rate-limited.
 3. Merge/deploy VertexED PR #184 only after explicit production authorization; then prove the public exact SHA and run authenticated production certification.
 4. Expose the canonical FinanceMeta, The Bu1LD, Atlas, Percy/Project 2424 sources to the GitHub App or local execution environment before claiming work on them.
@@ -93,11 +101,13 @@ The latest merged work stages render attempts away from final MP4 paths, promote
 
 - GitHub repositories visible: **3**
 - Repositories inspected in this checkpoint: **3**
-- Repository modified: **1** (`vertexED.ai`, documentation-only branch)
-- New branch created: `agent/execution-checkpoint-20260811`
+- Repository modified: **1** (`vertexED.ai`, documentation-only branch plus PR-state cleanup)
 - Production deployments performed: **0**
 - Project 2424 merged/tested First-100 packages: **8**
-- Project 2424 exact-head-green reverified unmerged packages: **5**
+- Project 2424 exact-head-green reverified unmerged distinct packages: **5**
+- Canonical T2424-0034 exact-head-green extension: **1** (#188)
+- Duplicate/noncanonical T2424-0034 PR closed unmerged: **1** (#160)
 - Project 2424 certified complete: **0 / 100**
 - VertexED deployment-relevant source PR #184: **exact-head CI + health-monitor green, unmerged**
+- Open PRs in LAM-JEPA / Text-To-Video: **0 / 0**
 - External Vercel capacity blocker: **active**
