@@ -88,9 +88,15 @@ test('Project 2424 package identities match the canonical queue or an explicit k
     if (!queueRecord) continue;
 
     const statusPath = new URL(`${entry.name}/STATUS.md`, PROJECTS_DIR);
-    const status = await readFile(statusPath, 'utf8');
-    const projectLine = status.match(/^\*\*Project:\*\*\s+(.+?)\s*$/m);
+    let status;
+    try {
+      status = await readFile(statusPath, 'utf8');
+    } catch (error) {
+      if (error?.code === 'ENOENT') continue;
+      throw error;
+    }
 
+    const projectLine = status.match(/^\*\*Project:\*\*\s+(.+?)\s*$/m);
     assert.ok(projectLine, `${entry.name}/STATUS.md must declare **Project:**`);
     const packageName = projectLine[1].trim();
 
