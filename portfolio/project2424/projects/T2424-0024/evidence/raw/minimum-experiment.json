@@ -1,0 +1,50 @@
+{
+  "experiment": "T2424-0024 Trust Under Uncertainty minimum calibration experiment",
+  "claimBoundary": "deterministic evaluator mechanics on paired synthetic confidence variants; no model trustworthiness claim",
+  "moderate": {
+    "summary": {
+      "observations": 20,
+      "accuracy": 0.7,
+      "meanConfidence": 0.6200000000000001,
+      "brierScore": 0.04,
+      "expectedCalibrationError": 0.19999999999999996,
+      "selectiveRisk": [
+        {"accepted": 5, "total": 20, "coverage": 0.25, "risk": 0, "accuracy": 1, "confidenceThreshold": 0.8},
+        {"accepted": 10, "total": 20, "coverage": 0.5, "risk": 0, "accuracy": 1, "confidenceThreshold": 0.8},
+        {"accepted": 15, "total": 20, "coverage": 0.75, "risk": 0.06666666666666667, "accuracy": 0.9333333333333333, "confidenceThreshold": 0.2},
+        {"accepted": 20, "total": 20, "coverage": 1, "risk": 0.3, "accuracy": 0.7, "confidenceThreshold": 0.2}
+      ],
+      "calibrationBins": [
+        {"index": 0, "lower": 0, "upper": 0.2, "count": 0, "meanConfidence": null, "accuracy": null},
+        {"index": 1, "lower": 0.2, "upper": 0.4, "count": 6, "meanConfidence": 0.19999999999999998, "accuracy": 0},
+        {"index": 2, "lower": 0.4, "upper": 0.6, "count": 0, "meanConfidence": null, "accuracy": null},
+        {"index": 3, "lower": 0.6, "upper": 0.8, "count": 0, "meanConfidence": null, "accuracy": null},
+        {"index": 4, "lower": 0.8, "upper": 1, "count": 14, "meanConfidence": 0.8, "accuracy": 1}
+      ]
+    },
+    "abstentionAt07": {"threshold": 0.7, "total": 20, "accepted": 14, "rejected": 6, "coverage": 0.7, "acceptedRisk": 0, "acceptedAccuracy": 1}
+  },
+  "overconfident": {
+    "summary": {
+      "observations": 20,
+      "accuracy": 0.7,
+      "meanConfidence": 0.9620000000000003,
+      "brierScore": 0.2542,
+      "expectedCalibrationError": 0.26200000000000034,
+      "selectiveRisk": [
+        {"accepted": 5, "total": 20, "coverage": 0.25, "risk": 0, "accuracy": 1, "confidenceThreshold": 0.98},
+        {"accepted": 10, "total": 20, "coverage": 0.5, "risk": 0, "accuracy": 1, "confidenceThreshold": 0.98},
+        {"accepted": 15, "total": 20, "coverage": 0.75, "risk": 0.06666666666666667, "accuracy": 0.9333333333333333, "confidenceThreshold": 0.92},
+        {"accepted": 20, "total": 20, "coverage": 1, "risk": 0.3, "accuracy": 0.7, "confidenceThreshold": 0.92}
+      ],
+      "calibrationBins": [
+        {"index": 0, "lower": 0, "upper": 0.2, "count": 0, "meanConfidence": null, "accuracy": null},
+        {"index": 1, "lower": 0.2, "upper": 0.4, "count": 0, "meanConfidence": null, "accuracy": null},
+        {"index": 2, "lower": 0.4, "upper": 0.6, "count": 0, "meanConfidence": null, "accuracy": null},
+        {"index": 3, "lower": 0.6, "upper": 0.8, "count": 0, "meanConfidence": null, "accuracy": null},
+        {"index": 4, "lower": 0.8, "upper": 1, "count": 20, "meanConfidence": 0.9620000000000003, "accuracy": 0.7}
+      ]
+    },
+    "abstentionAt095": {"threshold": 0.95, "total": 20, "accepted": 14, "rejected": 6, "coverage": 0.7, "acceptedRisk": 0, "acceptedAccuracy": 1}
+  }
+}
