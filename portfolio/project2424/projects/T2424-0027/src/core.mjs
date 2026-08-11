@@ -128,6 +128,7 @@ function splitRecords(records) {
   return {
     train: clean.filter((record) => record.sampleIndex < split),
     test: clean.filter((record) => record.sampleIndex >= split),
+    sampleCount,
   };
 }
 
@@ -179,6 +180,7 @@ export function runLatentLanguageAudit(options = {}) {
   const records = generateControlledLatents(options);
   const languages = [...new Set(records.map((record) => record.language))].sort();
   const concepts = [...new Set(records.map((record) => record.concept))].sort();
+  const { sampleCount } = splitRecords(records);
   const rawConceptAccuracy = nearestCentroidAccuracy(records, 'concept');
   const rawLanguageAccuracy = nearestCentroidAccuracy(records, 'language');
   const languageCentered = centerByLanguage(records);
@@ -205,7 +207,7 @@ export function runLatentLanguageAudit(options = {}) {
       records: records.length,
       concepts: concepts.length,
       languages: languages.length,
-      trainSamplesPerConceptLanguage: Math.max(...records.map((record) => record.sampleIndex) + 1) / 2,
+      trainSamplesPerConceptLanguage: sampleCount / 2,
       transform: 'subtract training-set language centroid from each record of that language',
       baseline: 'raw latent vectors',
       negativeControl: 'subtract one global training centroid',
