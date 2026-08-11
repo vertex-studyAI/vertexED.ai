@@ -1,0 +1,124 @@
+{
+  "schema_version": 1,
+  "as_of": "2026-08-11",
+  "control_repository": "vertex-studyAI/vertexED.ai",
+  "control_commit_before_checkpoint": "662de36af18b1251e6441391ac3fc06df7a3bf71",
+  "truth_boundary": "Counts below distinguish merged queue implementations, evidence-only recoveries, green review candidates, scientific evidence and production state. No unmerged Project 2424 review branch is counted as merged or Certified complete.",
+  "github_surface": {
+    "installed_repositories": [
+      "vertex-studyAI/vertexED.ai",
+      "vertex-studyAI/LAM-JEPA",
+      "vertex-studyAI/Text-To-Video"
+    ],
+    "finance_meta_readable": true,
+    "finance_meta_write_attempt": "403 Resource not accessible by integration",
+    "bu1ld_readable": true,
+    "atlas_repository_found": false,
+    "percy_repository_found": false
+  },
+  "merged_in_this_continuation": [
+    {
+      "repository": "vertex-studyAI/vertexED.ai",
+      "pr": 243,
+      "head": "9003afd5781e04783bad9a860c6887a8d9b026de",
+      "ci": 31457509513,
+      "additional_validation": 31457509507,
+      "merge": "662de36af18b1251e6441391ac3fc06df7a3bf71",
+      "result": "Repeated production-health failures update one incident body instead of appending duplicate hourly comments.",
+      "boundary": "Monitoring/docs only; no application deployment or Supabase mutation."
+    },
+    {
+      "repository": "vertex-studyAI/Text-To-Video",
+      "pr": 18,
+      "head": "3559458caa8af3718b2832f13854f6f5f532c7f0",
+      "ci": 31457589919,
+      "merge": "525123123392693b6221bb4ff1b2d2ee220bb386",
+      "result": "Durable local render jobs reset stale progress to zero on retry/recovery/reclaim.",
+      "boundary": "Local single-host queue semantics only; no distributed durability, hosted media or deployment claim."
+    }
+  ],
+  "project2424": {
+    "queue_entries": 100,
+    "queue_consistent_runnable_tested_merged": 12,
+    "evidence_recoveries_merged": 2,
+    "certified_complete": 0,
+    "research_complete": 0,
+    "known_main_identity_collisions": 1,
+    "manual_green_review_candidates": [
+      {"pr": 230, "id": "T2424-0050", "name": "Darcy Latent Operator", "head": "8539bbc38624b8bafe1d188876869b2e72c451a4", "state": "MANUAL_IDENTITY_REPAIR", "note": "Restores Darcy and preserves Benchmark Augmentation Theory as auxiliary; all executed CI jobs passed on latest attempt; do not auto-merge/deploy."},
+      {"pr": 231, "id": "T2424-0024", "name": "Trust Under Uncertainty", "head": "eb65c4be1a84a665fa29dcfc6f1f547d4193e304", "ci": 31456565330, "state": "GREEN_MANUAL_REVIEW"},
+      {"pr": 232, "id": "T2424-0029", "name": "PDE Representation Phase Transitions", "head": "e95ceeb541769219eca07714fb4a372238394b27", "ci": 31456754262, "state": "GREEN_MANUAL_REVIEW"},
+      {"pr": 234, "id": "T2424-0028", "name": "Residual Event Tokenization", "head": "22c1fe1bd8a8373e159181914acd9f392571932f", "ci": 31456812854, "state": "GREEN_MANUAL_REVIEW"},
+      {"pr": 236, "id": "T2424-0037", "name": "NLP-to-CAD", "head": "3df43264089d2767e86b5e67bdfa41284e1ebd16", "ci": 31456830498, "state": "GREEN_MANUAL_REVIEW"},
+      {"pr": 238, "id": "T2424-0035", "name": "Grokking Agent", "head": "34a76d8600f7bfcfb7158578b37bdc5c23b2f698", "ci": 31456990863, "state": "GREEN_MANUAL_REVIEW"},
+      {"pr": 239, "id": "T2424-0026", "name": "Counterfactual Defect Worlds", "head": "a6aededa069fca2fe7c675eed0231967a20664e9", "ci": 31457026310, "state": "GREEN_MANUAL_REVIEW"},
+      {"pr": 241, "id": "T2424-0054", "name": "Theory-Manifold Experiment Planner", "head": "0031aef118db4a155b7d278c2c9efbe0542ae58f", "ci": 31457110484, "state": "GREEN_MANUAL_REVIEW"},
+      {"pr": 242, "id": "T2424-0027", "name": "Sapir–Whorf Latent Tongue", "head": "6e71f109db7bba64e222029f298072ed64cc42de", "ci": 31457981699, "state": "GREEN_REVIEW", "note": "Full CI passed after fixing only an independent-verifier output variable typo; frozen generator, thresholds, raw result and synthetic verdict were unchanged."}
+    ],
+    "scientific_boundaries": {
+      "pst": "RECOVERED_COMPACT_EVIDENCE / SOURCE_MIGRATION_PENDING / EXTERNAL_BLOCKED",
+      "npms": "RECOVERED_COMPACT_EVIDENCE / SOURCE_MIGRATION_PENDING / EXTERNAL_UNVALIDATED",
+      "lam_jepa": "VALID_NEGATIVE_OR_INCONCLUSIVE_VALIDATION",
+      "sapir_whorf": "CONTROLLED_SYNTHETIC_MECHANICS_PASS only; no real multilingual-model or linguistic-relativity evidence"
+    }
+  },
+  "vertexed": {
+    "main": "662de36af18b1251e6441391ac3fc06df7a3bf71",
+    "monitor_dedupe_merged": true,
+    "immutable_revision_source_pr": 233,
+    "immutable_revision_source_ci": 31456791409,
+    "immutable_revision_monitor_validation": 31456791458,
+    "production_deployed_sha_verified": false,
+    "authenticated_production_journey_verified": false,
+    "production_deployment_performed": false,
+    "production_database_mutation_performed": false,
+    "external_preview_blocker": "Vercel free-tier deployment-rate limit observed on preview builds (>100 deployments/day)."
+  },
+  "finance_meta": {
+    "repository": "build-the-future-11/finance4all-global-reach",
+    "main": "fbdd503223edc5b1780509720391083f485a4a85",
+    "hardening_branch": "cursor/membership-security-supabase-fix",
+    "branch_ahead": 41,
+    "branch_behind": 0,
+    "verified_security_delta": [
+      "removes permissive authenticated notification insert policy",
+      "constrains privileged profile writes",
+      "uses SECURITY DEFINER profile functions with explicit search_path and authenticated-only execute grants"
+    ],
+    "write_blocker": "403 Resource not accessible by integration",
+    "production_supabase_verified": false
+  },
+  "bu1ld": {
+    "repository": "ryangomez010/bu1ld-landing",
+    "stale_cursor_branches_ahead_of_main": 0,
+    "remaining_external_gates": [
+      "production DB apply/verify",
+      "Supabase/Auth redirect configuration",
+      "deployment variables",
+      "email configuration",
+      "seven-role allowed-and-forbidden smoke matrix"
+    ]
+  },
+  "atlas": {
+    "state": "BLOCKED_SOURCE",
+    "evidence": "Expected build-the-future-11/Atlas repository returns 404 and organization/installation search found no canonical Atlas repository."
+  },
+  "percy": {
+    "state": "BLOCKED_SOURCE",
+    "evidence": "Expected build-the-future-11/Percy repository returns 404 and no canonical Percy runtime/source is exposed through the connected GitHub surface."
+  },
+  "text_to_video": {
+    "main": "525123123392693b6221bb4ff1b2d2ee220bb386",
+    "local_durable_queue_merged": true,
+    "bounded_retry_policy_merged": true,
+    "stale_progress_reset_merged": true,
+    "remaining_boundary": "Remote durable storage/hosting, real narration and production worker deployment remain unverified/manual integration work."
+  },
+  "safety": {
+    "production_deployments": 0,
+    "production_database_mutations": 0,
+    "force_pushes": 0,
+    "scientific_thresholds_weakened": 0,
+    "secrets_exposed": 0
+  }
+}
