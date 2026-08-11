@@ -79,11 +79,19 @@ PR #213 merged the canonical evidence boundary:
 
 Status: `RECOVERED_COMPACT_EVIDENCE / SOURCE_MIGRATION_PENDING`.
 
-## Registry collision still open — `T2424-0050`
+## Registry collision manual gate — `T2424-0050`
 
 Current `main` contains a tested Benchmark Augmentation Theory package under the `T2424-0050` path, but the frozen queue assigns rank 43 to **Darcy Latent Operator**. The benchmark audit therefore contributes **zero** to the canonical First-100 count.
 
-PR #210 contains a lossless repair that preserves the benchmark audit as auxiliary work and restores Darcy to canonical `T2424-0050`. Its exact head previously passed canonical CI `31450427123`, but it is now stale against current `main` and its explicit boundary says **do not auto-merge or deploy**. It must be recovered/reverified under the same manual gate before canonical Darcy can join the count.
+Draft PR #216 is the current latest-main lossless repair:
+
+- exact head `9c9aacac73d1c59327cf6a882aa83566f658cf53`;
+- canonical CI `31451716616` — **full success** (build/test, production browser, local keyboard accessibility; production smoke policy-skipped);
+- Benchmark Augmentation Theory is preserved under auxiliary identity `AUX-P2424-BENCHMARK-AUGMENTATION`;
+- Darcy Latent Operator is restored to canonical `T2424-0050`;
+- no useful implementation is deleted.
+
+PR #216 explicitly says **do not auto-merge or deploy** and remains draft. It is therefore outside the current count despite being fully green. If its manual boundary is intentionally cleared and it merges with the identity guard intact, canonical Darcy may become the 13th queue-consistent merged/tested implementation; the auxiliary benchmark audit still does not add another First-100 entry.
 
 ## Deliberately unmerged work
 
