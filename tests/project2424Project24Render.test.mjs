@@ -7,7 +7,7 @@ import {
   renderPortfolioJson,
   sortProjectRecords,
   summarizePortfolio,
-} from '../portfolio/project2424/projects/T2424-0049/src/core.mjs';
+} from '../portfolio/project2424/tools/project24-render/src/core.mjs';
 
 const records = [
   {
