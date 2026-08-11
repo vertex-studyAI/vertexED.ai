@@ -42,8 +42,11 @@ provider successfully, or alter user-owned data.
 - The job summary records the UTC check time, target, attempt limit, result, and
   coverage boundary.
 - A failed scheduled, manual, or default-branch run opens one issue titled
-  **Production health monitor failure**, or comments on the existing open issue
-  instead of creating duplicates.
+  **Production health monitor failure**. If that incident is already open, the
+  workflow updates its body in place with the latest failed run and artifact
+  instead of appending duplicate hourly comments.
+- GitHub Actions runs and retained artifacts remain the chronological evidence
+  trail for repeated failures.
 - A later successful production run comments on and closes that incident.
 - Pull-request validation records evidence and fails normally, but never mutates
   production incident issues.
