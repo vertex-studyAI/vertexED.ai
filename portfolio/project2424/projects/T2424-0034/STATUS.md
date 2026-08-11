@@ -2,9 +2,27 @@
 
 ## Current state
 
-`CANONICAL_WALKFORWARD_RECONCILIATION / CI_VERIFICATION_PENDING`
+`TESTED_TOOL / WALKFORWARD_MECHANICS_MERGED / RESEARCH_VALIDATION_PENDING`
 
-The descriptive package is already merged/tested on `main`. This branch reconciles the useful historical-only walk-forward mechanics from noncanonical PR #160 into the canonical project tree without double-counting T2424-0034.
+The canonical Quant ML Visualizer package and its historical-only walk-forward/no-lookahead extension are both merged on `main` and have exact-head GitHub Actions evidence.
+
+This is a stronger **software/evaluation-mechanics** state than the prior `CI_VERIFICATION_PENDING` label, but it is still not a validated quantitative-ML research result and is not Certified complete.
+
+## Merged verification evidence
+
+### Descriptive package
+
+- canonical package PR: #166
+- exact-head CI: `31409366246` — SUCCESS
+- artifact class: tested quantitative developer tool
+
+### Walk-forward/no-lookahead extension
+
+- canonical recovery PR: #202
+- verified head: `0e74c1f849eedac10a2365e20e10a64aa8e456ad`
+- exact-head CI: `31449842758` — SUCCESS
+- merge commit: `96264ed62ab004f2308e00b9f8e20865875985e7`
+- noncanonical/older recovery lineages were superseded rather than double-counted
 
 ## Substance present
 
@@ -17,7 +35,7 @@ The descriptive package is already merged/tested on `main`. This branch reconcil
 - [x] descriptive root-level regression tests
 - [x] documented interface and limitations
 
-### Reconciled extension
+### Merged walk-forward extension
 
 - [x] log-return transformation
 - [x] rolling historical-only feature
@@ -29,31 +47,24 @@ The descriptive package is already merged/tested on `main`. This branch reconcil
 - [x] future-price-mutation regression
 - [x] warm-up regression
 - [x] transaction-cost regression
-- [ ] canonical repository CI verified on this exact reconciliation head
+- [x] canonical exact-head CI verification
 
-### Research gate still missing
+### Research/certification gates still missing
 
-- [ ] frozen legally usable real-market dataset
+- [ ] immutable legally usable real-market dataset
+- [ ] one frozen falsifiable predictive claim and success/failure threshold
 - [ ] predeclared chronological train/validation/test protocol
 - [ ] stronger comparator strategies/models under the same cost budget
 - [ ] untouched external test-period evidence
-- [ ] raw prediction/position/cost artifacts
-- [ ] uncertainty/robustness analysis
-- [ ] independent research reproduction
+- [ ] retained raw prediction/position/cost artifacts from that frozen protocol
+- [ ] at least one research ablation or negative-result analysis under the frozen protocol
+- [ ] explicit scientific GO / PIVOT / STOP verdict
+- [ ] independent research reproduction / claim↔evidence QA
 
 ## Completion boundary
 
-If exact-head canonical CI passes, this branch can strengthen T2424-0034 as a **tested quantitative developer tool with a certified no-lookahead evaluation-mechanics extension**.
+T2424-0034 can be described as a **tested quantitative developer tool with merged no-lookahead walk-forward evaluation mechanics**.
 
-It still must **not** be counted as a validated quantitative-ML research result. No real-market predictive hypothesis has been tested under a frozen external protocol, and no alpha, profitability, ML-superiority, or investment claim is supported.
+It must **not** be described as evidence of market alpha, profitability, investment suitability, ML superiority, real-market generalization, research completion, or `CERTIFIED_COMPLETE`.
 
-## Expected verification
-
-```bash
-node --test tests/project2424T0034QuantMlVisualizer.test.mjs
-node --test tests/project2424T0034WalkForward.test.mjs
-npm test
-npm run ci
-```
-
-If this reconciliation passes, close/supersede noncanonical PR #160 rather than merging both project trees.
+The next evidence-producing step is not more UI polish. It is a separately frozen real-market research protocol with legally usable data, predeclared baselines/thresholds, retained raw outputs, negative controls/ablations, and independent reproduction.
