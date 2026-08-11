@@ -10,7 +10,7 @@ import {
   robustSignalModel,
   runBenchmarkAugmentationScreen,
   shortcutModel,
-} from '../portfolio/project2424/projects/T2424-0050/src/core.mjs';
+} from '../portfolio/project2424/tools/benchmark-augmentation-theory/src/core.mjs';
 
 test('base benchmark intentionally hides shortcut dependence', () => {
   const cases = createShortcutBenchmark({ size: 100 });
