@@ -9,23 +9,22 @@
 ## Implemented
 
 - [x] analytic periodic heat-equation state generator
-- [x] modal diffusion law
-- [x] discrete sine projection
-- [x] spectral energy analysis
-- [x] normalized spectral entropy
+- [x] modal diffusion law and discrete sine projection
+- [x] spectral energy analysis and normalized spectral entropy
 - [x] effective-mode count at fixed energy target
-- [x] diffusivity sweep
-- [x] representation-transition detector
+- [x] diffusivity sweep and representation-transition detector
 - [x] runnable deterministic experiment
 - [x] analytic regression suite
 - [x] scope and terminology limits
-- [x] canonical CI passed on head `104b46abe3c49d223448cf5f73464832599ae18f`, run `31456615933`
+- [x] final pre-refresh status head `2dbce407efa671cb66234cbf7bbe1eee377e1ac8` passed canonical CI `31457385007`
 
-## Evidence gate
+## Latest-base integration refresh
 
-The preceding exact recovery head passed canonical GitHub Actions and established repository integration of the frozen analytic fixture. This status-only update creates a newer head, so canonical CI must pass again before the separate manual merge decision.
+Repository `main` advanced to `662de36af18b1251e6441391ac3fc06df7a3bf71` via monitoring-only PR #243, which does not touch this package. This status refresh intentionally creates a new head so canonical CI revalidates the latest pull-request merge ref before manual review.
 
 Green CI does not establish a universal physical/neural phase transition, external validity, or nine-gate certification.
+
+**DO NOT AUTO-MERGE OR DEPLOY. MANUAL REVIEW REQUIRED.**
 
 ## Not claimed
 
