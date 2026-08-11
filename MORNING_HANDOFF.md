@@ -10,181 +10,175 @@ This handoff records only connector-visible GitHub, exact-head CI, retained-file
 
 The frozen First-100 queue still has **12 distinct queue-consistent runnable/tested implementations merged**. `Certified complete` remains **0 / 100**.
 
-No manual-gated package is counted merely because its repository CI is green.
+PST (`T2424-0016`) and NPMS (`T2424-0019`) remain two additional merged evidence-boundary recoveries, excluded from the implementation count because original scientific source/evidence migration remains incomplete.
 
-PST (`T2424-0016`) and NPMS (`T2424-0019`) remain two additional merged evidence-boundary recoveries, deliberately excluded from the runnable implementation count because their original scientific source/evidence trees remain unmigrated.
+No exact-head-green manual package is counted merely because CI is green.
 
 ### Notes-to-Video — durable local worker stack shipped
 
 Repository: `vertex-studyAI/Text-To-Video`.
 
-1. **Durable local render queue** shipped through PR #13. Exact head `38c4344ec77aa1d6a76c478b17452cfbc3dd8d9c` passed full CI `31456314983` before merge.
-2. **Bounded retry/lease processing** shipped subsequently through PR #15.
-3. **Queue → verified encoder handoff** shipped through PR #19 at merge commit `7a077016174477f7aa169910f473d19a83766ae3`; the merge message records exact-head CI #50 passed before merge.
+1. Durable local render queue shipped through PR #13; exact head `38c4344ec77aa1d6a76c478b17452cfbc3dd8d9c` passed full CI `31456314983`.
+2. Bounded retry/lease processing shipped subsequently through PR #15.
+3. Queue→verified-encoder handoff shipped through PR #19 at merge `7a077016174477f7aa169910f473d19a83766ae3`; merge evidence records exact-head CI #50 passed.
 
-The shipped local worker now has persistent queue state, idempotency, leases/heartbeats, stale-lease recovery, cancellation, bounded attempts, fail-closed persisted-state validation, safe deterministic MP4 naming, atomic verified-media staging, queue-to-encoder execution, concrete local file URLs and a one-job CLI.
+The local worker now has persistent queue state, idempotency, leases/heartbeats, stale-lease recovery, cancellation, bounded attempts, fail-closed state validation, safe deterministic MP4 naming, atomic verified-media staging, queue→encoder execution, concrete local file URLs and a one-job CLI.
 
-Boundary: this is local/single-host durability and execution, **not** distributed exactly-once processing, remote storage, transactional queue/media finalization, hosted download, autoscaling, production narration or production hosting.
+Boundary: local/single-host only. No distributed exactly-once, remote storage, transactional queue/media finalization, hosted downloads, autoscaling, production narration or production hosting claim.
 
 Stale/duplicate PRs #17 and #20 were closed unmerged after the canonical current-main lineage shipped.
 
-### LAM-JEPA — negative result deepened, not tuned away
+### LAM-JEPA — negative result deepened
 
-PR #55 merged fail-closed negative-result slicing over the unlocked repaired ARC-v5 validation package. Its exact head passed CI, Quick Checks and Research QA. The analyzer refuses locked confirmatory/test access, preserving the negative/inconclusive scientific stop rule.
+PR #55 merged fail-closed negative-result slicing over unlocked repaired ARC-v5 validation evidence. Its exact head passed CI, Quick Checks and Research QA. Locked confirmatory/test access remains refused; the negative/inconclusive stop rule is intact.
 
 ## 2. PROJECT 2424
 
 - Frozen First-100 entries: **100**
 - Queue-consistent runnable/tested implementations merged: **12**
 - Additional merged evidence-boundary recoveries excluded from implementation count: **2**
+- Exact-head-green manual First-100 review packages: **9**
 - Certified complete: **0 / 100**
 - Research-complete: **0**
 - Current-main registry collisions: **1** (`T2424-0050`)
-- Exact-head-green manual identity repair: PR #230
-- Exact-head-green new manual evidence package: PR #242 (`T2424-0027`)
 
-### `T2424-0050` — Darcy Latent Operator P0 identity repair
+### Exact-head-green manual queue — not merged/countable
 
-Current `main` still has Benchmark Augmentation Theory under the canonical `T2424-0050` folder even though the frozen queue assigns that ID to **Darcy Latent Operator**.
+| PR | ID | Project | Current head | CI |
+|---:|---|---|---|---:|
+| #230 | `T2424-0050` | Darcy Latent Operator | `0131c7d33e967f55e8b07ff5bfc1f03feb164f01` | `31458049157` |
+| #231 | `T2424-0024` | Trust Under Uncertainty | `a15f31fbcbef6ab5868cb4f8a30e806f4d8721ca` | `31458059377` |
+| #239 | `T2424-0026` | Counterfactual Defect Worlds | `596cb91d0a36a163cb9fab8745f65cbfb1ec47b6` | `31458068712` |
+| #234 | `T2424-0028` | Residual Event Tokenization | `bbb173fc2cd93e588883b3798de9712cb29094eb` | `31458080289` |
+| #232 | `T2424-0029` | Representation Phase Transitions for PDEs | `f22ab98f2bf93a3437153cba2f2ada6f9593570d` | `31458091370` |
+| #238 | `T2424-0035` | Grokking Agent | `bf229ed56b05bfeab3017616f65454aa53cf045a` | `31458102895` |
+| #236 | `T2424-0037` | NLP-to-CAD | `83bdeb2c62be88f4b8d84c1a924dd6ec8fd48fa8` | `31458112736` |
+| #241 | `T2424-0054` | Theory-Manifold Experiment Planner | `18c41b914a331e3f617026492900b0f7890eef11` | `31458120484` |
+| #242 | `T2424-0027` | Sapir–Whorf Latent Tongue | `6e71f109db7bba64e222029f298072ed64cc42de` | `31457981699` |
 
-Canonical repair is now **PR #230**, not the older #216 lineage.
+Every row above is explicitly manual-review/no-auto-merge/no-deploy. **Green/manual is not merged.**
 
-- exact head: `8539bbc38624b8bafe1d188876869b2e72c451a4`
-- canonical CI: `31456520689` — success
-- preserves Benchmark Augmentation Theory under auxiliary identity;
-- restores Darcy source, experiment, retained 20-seed result and regressions;
-- adds a frozen queue ↔ package-title identity regression.
+### `T2424-0050` — Darcy registry P0
 
-PR #230 explicitly requires manual review and remains unmerged. Therefore Darcy is **not** the 13th merged implementation yet and the auxiliary benchmark tool is not double-counted.
+Current `main` still has Benchmark Augmentation Theory under canonical `T2424-0050`, while frozen rank 43 is **Darcy Latent Operator**.
 
-### `T2424-0027` — Sapir–Whorf Latent Tongue
+PR #230 is the canonical lossless repair: restores Darcy; preserves Benchmark Augmentation Theory as auxiliary; restores Darcy retained 20-seed result/regressions; adds a queue↔package identity regression. Current head/CI are listed above. It remains manual and unmerged, so Darcy is not the 13th merged implementation yet.
 
-A new evidence-backed First-100 package was built under draft PR #242.
+### `T2424-0027` — new evidence-backed package
 
-- exact head: `6e71f109db7bba64e222029f298072ed64cc42de`
-- canonical GitHub Actions CI: `31457981699` — success
-- canonical release job: success
-- production-browser certification: success
-- local accessibility certification: success
-- linked preview statuses: externally capacity-limited
-
-The package contains a frozen claim/protocol, deterministic synthetic generator, raw baseline, language-centering transform, global-centering negative control, retained raw JSON, SHA-256 manifest, explicit GO/STOP verdict, implementation-independent evidence verifier and focused tests.
+PR #242 contains frozen claim/protocol, deterministic synthetic generator, raw baseline, language-centering transform, global-centering negative control, retained raw JSON, SHA-256 manifest, baseline/verdict analysis, implementation-independent verifier and focused tests.
 
 Actual retained metrics:
 
-- raw concept accuracy: `1.0`
-- raw language accuracy: `1.0`
-- centered concept accuracy: `1.0`
-- centered language accuracy: `0.3611111111111111`
-- chance: `0.3333333333333333`
-- normalized excess language-leakage reduction: `0.9583333333333334`
-- global-centering language accuracy: `1.0`
+- raw concept `1.0`
+- raw language `1.0`
+- centered concept `1.0`
+- centered language `0.3611111111111111`
+- chance `0.3333333333333333`
+- normalized excess language-leakage reduction `0.9583333333333334`
+- global-centering language `1.0`
 
-The first CI attempts caught derived evidence/integration defects: initially rounded expectations/hash metadata, then an undefined verifier output variable. Those were repaired **without changing the frozen generator, protocol, thresholds, raw result or verdict**.
+Initial CI attempts caught derived evidence/integration defects: stale rounded expectations/hash metadata and a verifier output variable bug. Repairs did **not** alter the frozen generator, protocol, thresholds, raw result or verdict. Final exact head is green in canonical GitHub Actions; linked preview capacity is externally rate-limited and the PR remains draft/manual.
 
-Scientific boundary: synthetic evaluator/transform mechanics only. No Sapir–Whorf, linguistic-relativity, cultural, semantic-universal, real multilingual model, translation, publication, external-validation or research-complete claim.
+Scientific boundary: controlled synthetic diagnostics only—no Sapir–Whorf, linguistic-relativity, cultural, semantic-universal, real-model, translation, external-validation, publication or research-complete claim.
 
-PR #242 is manual/no-deploy and remains unmerged, so the merged First-100 count remains 12.
+### Other manual breadth/depth recoveries
+
+- #231 Trust Under Uncertainty: paired synthetic calibration/evaluator evidence + independent QA; certification-pending/manual.
+- #239 Counterfactual Defect Worlds: deterministic cellular-automaton intervention/locality mechanics only.
+- #234 Residual Event Tokenization: controlled scalar synthetic codec mechanics only.
+- #232 Representation Phase Transitions for PDEs: deterministic analytic 1D heat-equation spectral-dimension metric only.
+- #238 Grokking Agent: synthetic learning-curve detector mechanics only.
+- #236 NLP-to-CAD: controlled-language parametric CAD compiler demo only.
+- #241 Theory-Manifold Experiment Planner: transparent deterministic heuristic planning mechanics only.
+
+None changes merged/certified counts until separately allowed and integrated.
 
 ## 3. VERTEXED
 
-### Source state
+### Source / CI
 
-Current source is active and repository CI/browser validation remains operational.
+Source is active and repository CI/browser validation remains operational.
 
 ### Production identity
 
-Canonical source-side immutable revision recovery is **draft PR #233**. It recovers build-time Git revision stamping, `/api/health` fallback to the stamped revision, and fail-closed deploy build identity checks on current source. Its exact head is green.
+Canonical source-side immutable revision recovery is draft PR #233. It recovers build-time Git revision stamping, health fallback to stamped revision and fail-closed deploy build identity checks. Exact-head source CI is green.
 
-PR #233 is manually gated. No production release was authorized or performed. Public production health is behaviorally monitored, but the immutable SHA actually serving the public domain remains unproven.
+PR #233 is manual/no-deploy. No production release was authorized or performed. Public production is behaviorally monitored, but the immutable SHA actually serving the public domain remains unproven.
 
-### Database/security state
+### Account-scoped transient handoffs
 
-Read-only connected Supabase metadata showed:
+Draft/manual PR #240 is exact-head green and repairs cross-account browser transient handoff isolation for Apex/mock-review flows on source. It remains manual/no-deploy; no production journey claim follows from source CI.
 
-- RLS enabled on every observed public table;
-- explicit `search_path` on observed public `SECURITY DEFINER` functions;
-- no PUBLIC execute on those observed privileged functions;
-- no public-schema views observed.
+### Database/security
 
-Security advisor still reports:
+Read-only connected Supabase metadata showed RLS enabled on all observed public tables, explicit `search_path` on observed privileged functions, no PUBLIC execute on those functions and no observed public-schema views.
 
-- leaked-password protection disabled;
-- Postgres security patches available.
-
-No database mutation was performed.
+Advisor warnings remain leaked-password protection disabled and Postgres security patches available. No DB mutation occurred.
 
 ## 4. FINANCEMETA
 
 Repository: `build-the-future-11/finance4all-global-reach`.
 
-Current inspected `main` still exposes an over-broad own-profile update boundary and permissive authenticated notification insert policy. Existing branch `cursor/membership-security-supabase-fix` remains roughly **41 commits ahead / 0 behind** inspected `main` and contains later hardening, profile-write boundaries, notification repair, CI, E2E and release work.
+Inspected `main` still exposes an over-broad own-profile update boundary and permissive authenticated notification insert policy. Existing `cursor/membership-security-supabase-fix` remains roughly 41 commits ahead / 0 behind inspected main and contains later hardening/CI/E2E work.
 
-GitHub branch/PR write attempts return `403 Resource not accessible by integration`. FinanceMeta Supabase is not connected. No production-fixed claim is made.
+Target GitHub writes return `403 Resource not accessible by integration`; FinanceMeta Supabase is not connected.
+
+VertexED control-plane draft PR #245 contains a deterministic three-file authorization-hardening overlay/validation workflow against an immutable FinanceMeta target and recorded green canonical + specialized workflows. It does **not** mutate the target repo or live Supabase and remains manual.
 
 ## 5. THE BU1LD
 
 Repository: `ryangomez010/bu1ld-landing`.
 
-Current `main` has typecheck/lint/tests/build/release checks and strict production mode with Supabase schema/RLS verification. Inspected Cursor branches are already subsumed by `main`.
+Current `main` has typecheck/lint/tests/build/release checks and strict production mode with Supabase schema/RLS verification. Inspected Cursor branches are already subsumed by main.
 
-Remaining gates are external/credentialed:
-
-- production DB apply/verify;
-- OAuth/Auth URLs;
-- deployment variables;
-- email configuration;
-- seven-role allowed/forbidden smoke certification.
-
-No production database state is guessed or modified.
+Remaining gates are external/credentialed: production DB apply/verify, OAuth/Auth URLs, deployment variables, email configuration and seven-role allowed/forbidden smoke certification. No production DB state is guessed or changed.
 
 ## 6. RESEARCH
 
 ### PST — `T2424-0016`
 
-Canonical evidence boundary is merged. Negative findings and unverified historical biological claims remain preserved. Original source/checkpoint/raw-evidence migration remains pending; external biological validation remains blocked.
+Canonical evidence boundary merged; negative findings and unverified historical biological claims preserved. Original source/checkpoint/raw-evidence migration remains pending; external biological validation blocked.
 
 ### NPMS — `T2424-0019`
 
-Canonical evidence boundary is merged. Spectral metric, missing/spurious-mode, conjugate truncation, delay-PCA, multiscale and switching limitations remain explicit. Original source/config/result/evidence migration and clean rerun remain pending.
+Canonical evidence boundary merged. Spectral metric, missing/spurious-mode, conjugate truncation, delay-PCA, multiscale and switching limitations remain explicit. Original source/config/result/evidence migration and clean rerun remain pending.
 
 ### LAM-JEPA
 
-Current ARC line remains negative/inconclusive. PR #55 deepened error slicing without accessing the locked confirmatory/test set or changing the frozen hypothesis after failure. Publication provenance/licensing remains a separate owner decision.
+ARC line remains negative/inconclusive. PR #55 deepened failure slicing without accessing locked confirmatory/test data or changing the frozen failed hypothesis. Publication provenance/license/authorship remains separate owner decision.
 
 ## 7. ATLAS / PERCY
 
-### Atlas
-
-No installed canonical Atlas repository or runnable Atlas source is exposed through the active GitHub installation. State: `BLOCKED_SOURCE`.
-
-### Percy
-
-No local Percy source/runtime/SQLite/task queue/heartbeat state is exposed through the available connector. State: `BLOCKED_SOURCE / BLOCKED_RUNTIME`.
+- Atlas: no installed canonical repo/source/runtime is exposed → `BLOCKED_SOURCE`.
+- Percy: no local source/runtime/SQLite/task/heartbeat state exposed → `BLOCKED_SOURCE / BLOCKED_RUNTIME`.
 
 No worker-liveness or agent-count claim is made.
 
 ## 8. GITHUB OUTCOMES
 
-Meaningful current outcomes include:
+Meaningful outcomes include:
 
 - Notes-to-Video durable queue shipped;
-- Notes-to-Video bounded queue processor shipped;
-- Notes-to-Video queue→verified encoder handoff shipped;
-- duplicate/stale Notes-to-Video PRs #17/#20 closed unmerged;
+- bounded queue processor shipped;
+- queue→verified encoder shipped;
+- stale/duplicate #17/#20 closed;
 - LAM-JEPA negative-result slicing merged;
-- T2424-0027 created, repaired after CI-caught evidence/verifier defects, and exact-head GitHub-Actions green under manual gate;
-- T2424-0050 canonical manual repair #230 green;
-- VertexED production-identity source repair #233 green/manual;
+- T2424-0027 built, repaired after CI-caught evidence/verifier defects and exact-head GitHub-Actions green under manual gate;
+- nine exact-head-green manual First-100 paths verified on their **current** heads;
+- T2424-0050 canonical repair #230 green/manual;
+- VertexED production-identity #233 green/manual;
+- VertexED transient account-isolation #240 green/manual;
+- FinanceMeta control-plane recovery #245 validated/manual;
 - duplicate VertexED production-identity recovery #237 closed in favor of canonical #233.
 
 ## 9. FAILURES / BLOCKERS
 
-1. T2424-0027 first CI attempts exposed derived evidence/test inconsistencies and a verifier `ReferenceError`; fixed without changing scientific thresholds/results.
-2. T2424-0027 linked preview capacity is externally limited; PR remains manual/draft.
-3. T2424-0050 current-main identity collision persists until manual PR #230 decision.
-4. VertexED immutable public serving SHA remains unproven; source fix is manual PR #233.
-5. FinanceMeta writes blocked by connector `403`; no connected Supabase.
+1. T2424-0027 first CI attempts exposed derived evidence and verifier defects; fixed without changing scientific gates/results.
+2. T2424-0027 linked preview capacity is externally rate-limited; PR remains manual/draft.
+3. T2424-0050 identity collision persists on current `main` until manual #230 decision.
+4. VertexED public serving SHA remains unproven; source fix #233 is manual.
+5. FinanceMeta target writes blocked by connector `403`; target Supabase unavailable.
 6. Bu1LD production verification requires real credentials/environment.
 7. Atlas source/runtime unavailable.
 8. Percy source/runtime/SQLite unavailable.
@@ -192,39 +186,36 @@ Meaningful current outcomes include:
 
 ## 10. TOP NEXT ACTIONS
 
-1. Manual review of green Darcy identity PR #230 if the lossless correction is accepted.
-2. Resolve external preview capacity and manually review T2424-0027 PR #242; do not count before merge.
-3. Manual review of VertexED production-identity PR #233; any actual release and public-SHA proof is a separate authorized step.
-4. Continue unambiguous First-100 breadth on IDs with no duplicate/source ambiguity.
-5. Deepen strongest merged tools toward nine-gate certification with raw evidence, baseline, negative control/ablation, verdict and independent QA.
-6. Migrate PST and NPMS original source/evidence without reconstructing missing evidence from prose.
-7. Restore FinanceMeta GitHub/Supabase access and review final RLS state before any migration.
-8. Run Bu1LD strict production release + seven-role smoke in its authorized environment.
-9. Advance Notes-to-Video toward durable artifact finalization/remote storage/status only when it produces a concrete validated artifact.
-10. Expose Atlas/Percy canonical source/runtime before further runtime work.
+1. Manual review of the nine green First-100 packages; prioritize the Darcy identity P0.
+2. Resolve external preview capacity and review #242 without changing its synthetic claim boundary.
+3. Manual review of VertexED #233 and #240; production proof remains separate.
+4. Continue unambiguous First-100 breadth and nine-gate depth work.
+5. Migrate PST/NPMS original source/evidence without reconstructing missing source from prose.
+6. Restore FinanceMeta write/data-plane access and validate final RLS state before any target migration.
+7. Run Bu1LD strict production release + seven-role smoke in authorized real environment.
+8. Advance Notes-to-Video local artifact finalization/storage/lifecycle only through separately validated integration decisions.
+9. Expose Atlas/Percy canonical source/runtime before further runtime work.
+10. Keep dashboards evidence-derived; do not convert manual/green into merged/certified counts.
 
 ## 11. OWNER INTERVENTION REQUIRED
 
-Only genuinely external/manual actions remain here:
-
-- manual review of PR #230;
-- manual/external clearance for PR #242;
-- manual review and separately authorized production release/observation for PR #233;
+- manual decisions on the nine First-100 review PRs;
+- manual VertexED source/security review and separately authorized production release/observation;
 - FinanceMeta write/data-plane access;
-- Bu1LD production environment access;
+- Bu1LD authorized real environment;
 - Atlas/Percy source/runtime exposure;
 - LAM-JEPA publication provenance/license/authorship decision.
 
-Do not paste secrets into chat or GitHub issues.
+Do not paste secrets into chat or issues.
 
 ## FINAL METRICS
 
 Project 2424 merged queue-consistent runnable/tested implementations: **12**  
 Merged evidence-boundary recoveries excluded from implementation count: **2**  
+Exact-head-green manual First-100 review packages: **9**  
 Certified complete: **0 / 100**  
 Research-complete: **0**  
 Known current-main registry collisions: **1**  
-Exact-head-green manual Project 2424 packages: **2** (`T2424-0050`, `T2424-0027`)  
-Production deployments performed in this execution: **0**  
+Production releases performed in this execution: **0**  
 Production database mutations: **0**  
 Unsupported scientific/production claims introduced: **0**
