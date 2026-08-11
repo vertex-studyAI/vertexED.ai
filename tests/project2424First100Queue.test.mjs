@@ -1,9 +1,10 @@
 import assert from 'node:assert/strict';
-import { readFile } from 'node:fs/promises';
+import { readFile, readdir } from 'node:fs/promises';
 import test from 'node:test';
 
 const QUEUE_PATH = new URL('../portfolio/project2424/FIRST_100_QUEUE.ndjson', import.meta.url);
 const WAVE_PATH = new URL('../portfolio/project2424/FIRST_100_EXECUTION_WAVE.md', import.meta.url);
+const PROJECTS_DIR = new URL('../portfolio/project2424/projects/', import.meta.url);
 
 const ALLOWED_TRACKS = new Set([
   'A — Paper rescue',
@@ -13,6 +14,10 @@ const ALLOWED_TRACKS = new Set([
   'D — Architecture → surrogate',
   'E — Cheap falsification screen',
 ]);
+
+// Existing mainline collision discovered during the 11 Aug evidence reconciliation.
+// New collisions must fail closed; when this one is repaired, remove it here too.
+const KNOWN_IDENTITY_CONFLICTS = new Set(['T2424-0049']);
 
 async function loadQueue() {
   const raw = await readFile(QUEUE_PATH, 'utf8');
@@ -68,4 +73,39 @@ test('Project 2424 first-100 wave preserves the evidence-first truth boundary', 
   for (const row of rows) {
     assert.ok(markdown.includes(`\`${row.id}\``), `wave markdown is missing ${row.id}`);
   }
+});
+
+test('Project 2424 package identities match the canonical queue or an explicit known-conflict gate', async () => {
+  const rows = await loadQueue();
+  const queueById = new Map(rows.map((row) => [row.id, row]));
+  const entries = await readdir(PROJECTS_DIR, { withFileTypes: true });
+  const observedConflicts = new Set();
+
+  for (const entry of entries) {
+    if (!entry.isDirectory() || !/^T2424-\d{4}$/.test(entry.name)) continue;
+
+    const queueRecord = queueById.get(entry.name);
+    if (!queueRecord) continue;
+
+    const statusPath = new URL(`${entry.name}/STATUS.md`, PROJECTS_DIR);
+    const status = await readFile(statusPath, 'utf8');
+    const projectLine = status.match(/^\*\*Project:\*\*\s+(.+?)\s*$/m);
+
+    assert.ok(projectLine, `${entry.name}/STATUS.md must declare **Project:**`);
+    const packageName = projectLine[1].trim();
+
+    if (packageName !== queueRecord.name) {
+      observedConflicts.add(entry.name);
+      assert.ok(
+        KNOWN_IDENTITY_CONFLICTS.has(entry.name),
+        `${entry.name} package identity mismatch: queue="${queueRecord.name}", package="${packageName}"`,
+      );
+    }
+  }
+
+  assert.deepEqual(
+    [...observedConflicts].sort(),
+    [...KNOWN_IDENTITY_CONFLICTS].sort(),
+    'known Project 2424 identity-conflict allowlist must match observed conflicts exactly',
+  );
 });
