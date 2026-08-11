@@ -2,197 +2,161 @@
 
 Updated: 11 August 2026
 
-Only achievements with concrete GitHub/CI or read-only connected-service evidence are recorded as completed. Scientific evidence and First-100 identity are kept separate from repository-test success.
+Only achievements with concrete GitHub/CI, retained-file, or read-only connected-service evidence are recorded as completed. Scientific evidence, frozen First-100 identity, repository CI, preview/deployment state and production proof remain separate evidence tiers.
 
-## 11 August 2026 — Project 2424 execution
+## Project 2424 accounting
 
-### T2424-0046 — Auto-Research Foundry
+- Queue-consistent runnable/tested implementation packages merged + verified: **12**
+- Merged evidence-boundary recoveries excluded from implementation count: **2** (`T2424-0016` PST, `T2424-0019` NPMS)
+- Exact-head-green manual First-100 review packages not merged: **9**
+- Certified complete: **0 / 100**
+- Research-complete: **0**
+- Known current-main registry collision: **1** (`T2424-0050`)
 
-- PR: #192
-- exact tested head: `88dad71acca583a80ae2496b1278f88a825b4766`
-- canonical CI: `31414879015` — success
-- merge: `d15703b0fdd63dc5d6d2ff7fca12d5d27a432502`
-- result: deterministic manifest validation, dependency/wave planning, budget selection and evidence gating.
-- boundary: does not execute manifest commands or establish scientific correctness.
+The 12 counted queue identities are:
 
-### Benchmark Augmentation Theory — tested auxiliary work
+`T2424-0023`, `T2424-0025`, `T2424-0030`, `T2424-0034`, `T2424-0036`, `T2424-0038`, `T2424-0046`, `T2424-0049`, `T2424-0051`, `T2424-0053`, `T2424-1767`, `T2424-1863`.
 
-- clean recovery PR: #199
-- exact tested head: `b1342b274157786c2885b54cfa10f9b63b4b6200`
-- canonical CI: `31449794955` — success
-- merge: `615fb12f26963a355553f10379df85d26323c4ea`
-- result: synthetic shortcut-exposure audit mechanics and regressions.
-- identity correction: frozen queue rank 43 / `T2424-0050` is Darcy Latent Operator, so this artifact is **not counted** as canonical First-100 implementation work while it occupies the colliding path.
+No auxiliary tool, duplicate PR, evidence-only recovery, unmerged manual package, or mismatched folder title increases this count.
 
-### T2424-0053 — Scientific Motif Dictionary
+## Exact-head-green manual First-100 evidence
 
-- PR: #203
-- exact tested head: `d01a1d2c12c7e2e2157e11c6bc92726edcbb1c29`
-- canonical CI: `31450035136` — success
-- merge: `c587f4e0fa91c59e82099d2fb9c68dea3abe8a16`
-- boundary: deterministic normalized-shape indexing on synthetic 1D numeric data; no novelty/scientific-meaning/external benchmark claim.
+Each current head below was independently checked with `fetch_commit_workflow_runs` and returned canonical CI `completed / success`. Every associated PR explicitly requires manual review and therefore remains outside merged counts.
 
-### T2424-0049 — Multiphase Porous JEPA identity repair
+| PR | ID | Project | Current head | Exact-head CI |
+|---:|---|---|---|---:|
+| #230 | `T2424-0050` | Darcy Latent Operator identity repair | `0131c7d33e967f55e8b07ff5bfc1f03feb164f01` | `31458049157` |
+| #231 | `T2424-0024` | Trust Under Uncertainty | `a15f31fbcbef6ab5868cb4f8a30e806f4d8721ca` | `31458059377` |
+| #239 | `T2424-0026` | Counterfactual Defect Worlds | `596cb91d0a36a163cb9fab8745f65cbfb1ec47b6` | `31458068712` |
+| #234 | `T2424-0028` | Residual Event Tokenization | `bbb173fc2cd93e588883b3798de9712cb29094eb` | `31458080289` |
+| #232 | `T2424-0029` | Representation Phase Transitions for PDEs | `f22ab98f2bf93a3437153cba2f2ada6f9593570d` | `31458091370` |
+| #238 | `T2424-0035` | Grokking Agent | `bf229ed56b05bfeab3017616f65454aa53cf045a` | `31458102895` |
+| #236 | `T2424-0037` | NLP-to-CAD | `83bdeb2c62be88f4b8d84c1a924dd6ec8fd48fa8` | `31458112736` |
+| #241 | `T2424-0054` | Theory-Manifold Experiment Planner | `18c41b914a331e3f617026492900b0f7890eef11` | `31458120484` |
+| #242 | `T2424-0027` | Sapir–Whorf Latent Tongue | `6e71f109db7bba64e222029f298072ed64cc42de` | `31457981699` |
 
-- PR: #201
-- exact tested head: `3023574cfdd6b94e8ec6fccb72deb0b726285ddf`
-- canonical CI: `31449904593` — success
-- merge: `a1b17cd6131ab6b18eacf1fed0657aea6f2cb7c7`
-- result: canonical queue identity restored without deleting Project24 Render; renderer retained as auxiliary work.
-- boundary: deterministic porous-flow surrogate/latent mechanism; not a trained JEPA or real porous-media result.
+**Green/manual is not merged.** None of these changes the 12 count until an explicit allowed integration occurs on a current base.
 
-### T2424-0051 — ADR Predictive Surrogate
+## T2424-0050 registry identity evidence
 
-- PR: #205
-- exact tested head: `7fe27ff01a8a8cc4701deecd2239aab80b7c1ee3`
-- canonical CI: `31450093762` — success
-- merge: `1ba9ecc09f7e84f43d8251c222e3d07351e7ed8a`
-- boundary: controlled analytic 1D periodic linear ADR surrogate/interpolation only; no neural-operator/SOTA/general-domain claim.
+Frozen rank 43 assigns `T2424-0050` to **Darcy Latent Operator**. Current `main` still contains Benchmark Augmentation Theory under the canonical folder, so that folder is excluded from queue-consistent counts.
 
-### T2424-0023 — Multilingual Epistemic Blind Spots Benchmark reconciliation
+Canonical manual repair #230 restores Darcy, preserves Benchmark Augmentation Theory under auxiliary identity, restores Darcy retained evidence/tests and adds a frozen queue↔package title identity regression.
 
-- PR: #212
-- competing green implementations were reconciled rather than double-counted.
-- exact tested head: `58449933c38afb9a9017dbd067a43874dec88354`
-- canonical CI: `31450669750` — success
-- merge: `3ce1260a3d3e80788b3c5d12cfe0df617b13665a`
-- duplicate recovery #211 closed unmerged.
-- boundary: synthetic aligned-record evaluation mechanics only; no real-model multilingual/fairness/translation claim.
+Retained bounded Darcy evidence:
 
-## Canonical evidence-boundary recovery — not implementation-count inflation
+- 20 seeds;
+- 24 cells → 6 latent blocks;
+- mean baseline pressure MAE `0.06589139155637647`;
+- mean latent pressure MAE `0.0011366559231966065`;
+- relative improvement `0.9787663202281432`;
+- mean flux relative error `1.3693877541812723e-16`;
+- uniform latent MAE `0`.
 
-### T2424-0016 — PST
+Claim boundary: controlled deterministic 1D reduced-resistance mechanism only. PR #230 remains manual/no-deploy and Darcy remains uncounted on `main`.
 
-- recovery PR: #214
-- exact tested head: `625d7261aeac319461418fdd4bb5ef9094fe6025`
-- canonical CI: `31451145817` — full success
-- merge: `205dcaeb5dc5a0b5d3e9d4e59169b829829d5acc`
-- stale predecessor #209 closed unmerged.
-- package contains a machine-readable claim ledger, fail-closed evidence validator, recovery report and regressions.
-- preserved negative findings: simple raw-expression/logistic controls outperform neural PST on the controlled generator; validation-only calibration worsens the recorded compact metrics; fixed A→B transfer is weak despite strong B in-domain retraining.
-- historical Paul15/Pancreas/Dentate Gyrus values remain `UNVERIFIED_HISTORICAL`; external biological validation remains `BLOCKED_EXTERNAL`.
-- original isolated neural source/checkpoints/raw evidence remain unmigrated.
-- counting boundary: **not included** in the 12 runnable implementation/tool packages and not Certified complete.
+## T2424-0027 retained evidence and repair trail
 
-### T2424-0019 — NPMS
+Frozen rank 20: **Sapir–Whorf Latent Tongue**.
 
-- recovery PR: #213
-- exact tested head: `fb684fc3e16cf8e202b9069b0e7b37e6fa607006`
-- canonical CI: `31451120590` — full success
-- merge: `c298d4cbe81e85e678c97261fbd4fbb6ca82c77c`
-- evidence validator preserves negative/limitation records: matched-eigenvalue error omits missing/spurious modes; mode truncation does not group conjugate pairs; frequency response is an autonomous resolvent proxy rather than a full identified transfer function; delay-PCA/multiscale/switching weaknesses remain visible.
-- original isolated source/config/result/evidence/manuscript tree remains unmigrated.
-- counting boundary: **not included** in the 12 runnable implementation/tool packages and not Certified complete.
+PR #242 exact head `6e71f109db7bba64e222029f298072ed64cc42de` passed canonical GitHub Actions `31457981699`, including release, production-browser and local accessibility jobs.
 
-## Current First-100 accounting
+Package evidence includes claim/protocol, deterministic generator, raw baseline, language-centering transform, global-centering negative control, retained raw JSON, SHA-256 manifest, analysis/verdict, implementation-independent verifier and tests.
 
-Queue-consistent runnable implementation/tool packages merged + verified: **12**  
-Queue-consistent tested implementation/tool packages merged + verified: **12**  
-Certified complete: **0 / 100**  
-Research-complete: **0**
+Retained metrics:
 
-The 12 counted packages are:
+- raw concept `1.0`
+- raw language `1.0`
+- centered concept `1.0`
+- centered language `0.3611111111111111`
+- chance `0.3333333333333333`
+- normalized excess language-leakage reduction `0.9583333333333334`
+- global-centering language `1.0`
+- raw SHA-256 `0eac35dd7b8af1488efab0392c2e82dab8f9a90332af7c6ad54633263fa13605`
 
-1. `T2424-0023` Multilingual Epistemic Blind Spots Benchmark;
-2. `T2424-0025` Non-Gaussian Memory Transformer;
-3. `T2424-0030` Adaptive Theory Geometry in World Models;
-4. `T2424-0034` Quant ML Visualizer;
-5. `T2424-0036` Rubik's A* Intelligence;
-6. `T2424-0038` Obscured Records Agent;
-7. `T2424-0046` Auto-Research Foundry;
-8. `T2424-0049` Multiphase Porous JEPA;
-9. `T2424-0051` ADR Predictive Surrogate;
-10. `T2424-0053` Scientific Motif Dictionary;
-11. `T2424-1767` Resource-Bounded MoE Operator;
-12. `T2424-1863` Resource-Bounded Local Operator for Scientific Forecasting.
+The first CI attempts caught derived evidence/integration defects: stale rounded expectations/hash metadata, then an undefined verifier output variable. Repairs changed derived metadata/assertions/docs/verifier plumbing only. **The generator, frozen protocol, thresholds, retained raw result and scientific verdict were not retuned.**
 
-## Open P0 registry integrity manual gate — T2424-0050
+Scientific boundary: synthetic diagnostic mechanics only; no Sapir–Whorf, linguistic-relativity, real-model, cultural, translation, external-validation, publication or research-complete claim. PR #242 is draft/manual; preview capacity is externally rate-limited.
 
-Frozen queue rank 43 maps `T2424-0050` to **Darcy Latent Operator**. Current `main` still contains Benchmark Augmentation Theory in that canonical folder.
+## Notes-to-Video shipped evidence
 
-Draft PR #216 is the current latest-main lossless repair:
+Repository: `vertex-studyAI/Text-To-Video`.
 
-- exact head `9c9aacac73d1c59327cf6a882aa83566f658cf53`;
-- canonical CI `31451716616` — full success;
-- build/test, production browser certification, and local keyboard accessibility all passed; production smoke was skipped by the repository's existing policy guard;
-- Benchmark Augmentation Theory is preserved under auxiliary identity `AUX-P2424-BENCHMARK-AUGMENTATION`;
-- Darcy Latent Operator is restored to canonical `T2424-0050`;
-- no useful implementation is deleted or double-counted.
+### Durable local queue
 
-PR #216 explicitly says **do not auto-merge or deploy** and remains draft. It was therefore not merged. If the manual boundary is intentionally cleared and the identity guard remains green, canonical Darcy may become the 13th queue-consistent implementation; the auxiliary benchmark audit still does not create an extra registry project.
+PR #13 head `38c4344ec77aa1d6a76c478b17452cfbc3dd8d9c` passed full CI `31456314983` and merged.
 
-## VertexED — live Supabase read-only verification
+Shipped: file-backed validated queue state, deterministic SHA-256/idempotency, queued/claimed/cancelled/completed/failed states, attempts/progress, leases/heartbeat, stale-lease recovery, retry/terminal failures, durable cancellation, owner-gated completion, output URL, atomic persistence, local lock and fail-closed corrupt-state validation.
 
-Project ID visible through the connected Supabase integration: `xwlrzgfuhfbckgvcmyoq`.
+### Bounded attempts
 
-No user rows, secrets, DDL, migrations, credential changes or production writes were performed.
+Merged subsequently through PR #15, adding bounded retries, cancellation-safe completion and stale lease handling.
 
-Observed metadata/advisor state:
+### Queue → verified encoder
 
-- every listed table in `public` has RLS enabled;
-- public-schema `SECURITY DEFINER` functions `auth_email_exists` and `handle_new_user` have explicit `search_path` settings;
-- neither privileged function grants PUBLIC execute privilege;
+Canonical current-main lineage shipped through PR #19 / merge `7a077016174477f7aa169910f473d19a83766ae3`, with exact-head CI #50 recorded before merge.
+
+Shipped: one-job worker, deterministic safe MP4 filename, atomic staged output, heartbeat around encode/verification, use of existing verified FFmpeg encoder, local file URL, bounded retry/lease semantics and preservation of prior verified final media on failed attempts.
+
+Stale/duplicate #17 and #20 are closed unmerged. Draft PR #16 (API lifecycle) and draft PR #21 (content-addressed local store) remain separate manual product decisions.
+
+Boundary: local/single-host only; no distributed exactly-once, remote durable storage, transactional queue/media completion, hosted downloads, production narration or deployment claim.
+
+## VertexED production identity evidence
+
+Canonical source-side recovery is draft PR #233. It restores build revision stamping, health fallback and fail-closed build identity requirements on current source. Exact-head source CI is green. It remains manual/no-deploy.
+
+Production-health monitoring is behaviorally green, but no retained evidence proves the public domain serves PR #233's exact SHA. **No immutable production revision is claimed.**
+
+## VertexED live Supabase read-only evidence
+
+Connected project: `xwlrzgfuhfbckgvcmyoq`.
+
+Observed without user-row access or mutation:
+
+- all listed public tables had RLS enabled;
+- observed `SECURITY DEFINER` functions had explicit `search_path`;
+- observed privileged functions did not grant PUBLIC execute;
 - no public-schema views were observed;
-- security advisor: leaked-password protection disabled;
-- security advisor: current Postgres build has security patches available;
-- performance advisor: two unused-index INFO notices only; no index was removed.
+- security advisor warns leaked-password protection disabled;
+- security advisor reports Postgres security patches available.
 
-Boundary: this is database-metadata evidence, not immutable production-revision proof or authenticated end-to-end certification.
+No database mutation, credential change or release occurred.
 
-## FinanceMeta — live repository recovery evidence
+## FinanceMeta evidence
 
 Repository: `build-the-future-11/finance4all-global-reach`.
 
-Observed on current main:
+Observed current-main risks remain broad own-profile update and authenticated notification insertion. Existing `cursor/membership-security-supabase-fix` remains roughly 41 commits ahead / 0 behind inspected main and contains later hardening/CI/E2E work.
 
-- own-profile UPDATE policy permits users to update their row without itself constraining role/email fields;
-- notifications migration grants authenticated INSERT with `WITH CHECK (true)` despite trigger-only intent.
+Target GitHub writes return `403 Resource not accessible by integration`; FinanceMeta Supabase is not connected.
 
-Existing branch `cursor/membership-security-supabase-fix` is **41 commits ahead / 0 behind** main and contains later hardening, profile write boundaries, notification-policy removal, CI, E2E and release work.
+Draft/manual VertexED control-plane PR #245 generates and validates a deterministic authorization-hardening overlay against an immutable FinanceMeta target and has canonical + specialized validation workflows recorded green. It does not write the target repo or live Supabase and is not a production fix claim.
 
-Connector write blocker:
-
-- branch creation -> `403 Resource not accessible by integration`;
-- draft PR creation -> same `403`.
-
-No production migration or false fixed claim was made. FinanceMeta Supabase is not connected here.
-
-## The Bu1LD — live repository evidence
+## The Bu1LD evidence
 
 Repository: `ryangomez010/bu1ld-landing`.
 
-Observed:
+Current `main` has typecheck/lint/tests/build/release checks and strict production Supabase schema/RLS verification. Existing Cursor branches inspected are already subsumed by main. Remaining DB/Auth/env/email/seven-role smoke gates require the authorized real environment.
 
-- `cursor/final-polish-admin-and-ux` and `cursor/member-hub-attention-queue` are both 0 commits ahead of main;
-- main CI includes typecheck, lint, tests, build and release check;
-- strict production release mode adds real Supabase schema/RLS verification;
-- repository-stated remaining external actions are DB apply/verify, Auth URLs, deployment variables, email configuration and seven-role smoke tests.
+## LAM-JEPA evidence
 
-Bu1LD Supabase is not connected here; no database state was guessed or modified.
+PR #55 merged fail-closed negative-result slicing on unlocked repaired ARC-v5 validation evidence. Exact head passed CI, Quick Checks and Research QA. Locked confirmatory/test access remains refused; no failed hypothesis was rescued by threshold/seed/evaluation changes.
 
-## LAM-JEPA scientific stop rule
+## Atlas / Percy evidence boundary
 
-Current `vertex-studyAI/LAM-JEPA` research status remains negative/inconclusive on ARC. The confirmatory test remains locked and is not used to rescue a failed superiority/mechanism hypothesis. No result was tuned or relabelled positive.
+- Atlas: no canonical repo/source/runtime exposed → `BLOCKED_SOURCE`.
+- Percy: no local source/runtime/SQLite/task/heartbeat state exposed → `BLOCKED_SOURCE / BLOCKED_RUNTIME`.
 
-## Previously retained evidence
+No fake runtime or worker-liveness claim is recorded.
 
-Earlier verified work remains valid, including:
+## Safety ledger
 
-- VertexED password-recovery authorization fix — merge `f5e7d1f3631f718e89bafaa539ec65516786c53a`, CI `31398993528`;
-- stale-profile race fix — merge `6961002e3fa6a311a25d16d23f4b8ff742b02a0d`, CI `31399074472`;
-- transient Study Zone account isolation — merge `02f16b8b89daabf27a99cab405a39de481c19d2f`, CI `31399386499`;
-- Apex prompt deduplication — merge `4e8648d6f453d1342b132703c52daac3c4e512df`, CI `31399023520`;
-- Apex request cancellation — merge `5863d868dc9c68bac2dc21f1901abeb22823dde8`, CI `31409138814`;
-- Asteroid Tracklet Baseline — merge `e956ec60e8fe9675cb0ca90f8a11df403458890c`, CI `31407928862`;
-- First-100 evidence queue — merge `f7c8ff7edd693f7daa0d2fc28e9a821eeb0d2702`;
-- portfolio execution control — merge `31dcdd484e9f16db15329b868d9977f9c5940315`, CI `31408777593`.
-
-## Safety / live-release boundary
-
-- No production deployment was performed.
-- No production database mutation was performed.
-- No credentials were printed, rotated, or committed.
-- No force-push or destructive shared-history rewrite was performed.
-- No inaccessible scientific source was reconstructed from prose.
-- No negative/inconclusive result was relabelled positive.
-- Green CI/browser evidence is source/release-gate evidence only; it is not proof of the immutable revision currently serving the public domain.
+- Production releases performed: **0**
+- Production DB mutations: **0**
+- Secrets exposed/rotated/committed: **0**
+- Force pushes/destructive history rewrites: **0**
+- Scientific thresholds weakened after observation: **0**
+- Negative/inconclusive research relabelled positive: **0**
+- Green/manual packages counted as merged: **0**
+- Auxiliary/evidence-only packages double-counted as queue implementations: **0**
