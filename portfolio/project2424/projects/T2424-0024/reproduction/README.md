@@ -5,6 +5,7 @@ From a clean checkout of the target branch/revision:
 ```bash
 node --version
 node portfolio/project2424/projects/T2424-0024/experiment/run.mjs
+node portfolio/project2424/projects/T2424-0024/reproduction/verify.mjs
 node --test tests/trustUnderUncertainty.test.mjs
 ```
 
@@ -15,9 +16,12 @@ Expected minimum invariants:
 - overconfident Brier score approximately `0.2542`;
 - moderate 5-bin ECE approximately `0.20`;
 - overconfident 5-bin ECE approximately `0.262`;
-- all five focused tests pass;
+- independent evidence verifier prints `PASS`;
+- the focused regression suite passes;
 - no network, credential, production data or external service is required.
 
-Compare the runner output with `../evidence/raw/minimum-experiment.json`. A mismatch must fail the evidence claim rather than be silently normalized.
+The canonical retained artifact is `../evidence/raw/results.json` with SHA-256 `8e5b49bff8cd47cb0b20266b34aa55533823dda5c4855dd7da49365925f7fa39`.
 
-Independent QA on GitHub remains a separate gate: require canonical repository Actions to pass on the exact PR head before promotion to `TESTED_TOOL`.
+The verifier fails closed if the retained bytes change or if the public evaluator API no longer reproduces the claimed Brier/ECE/selective-risk/abstention values.
+
+Canonical GitHub Actions on the exact PR head remains the integration gate before promotion to `TESTED_TOOL`.
