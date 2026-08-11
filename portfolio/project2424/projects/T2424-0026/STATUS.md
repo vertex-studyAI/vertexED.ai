@@ -10,27 +10,25 @@
 ## Implemented
 
 - [x] canonical First-100 identity path
-- [x] falsifiable claim
-- [x] frozen minimum protocol
+- [x] falsifiable claim and frozen minimum protocol
 - [x] elementary cellular automaton transition kernel
 - [x] deterministic baseline simulator
-- [x] localized flip/set intervention
-- [x] paired counterfactual simulation
-- [x] Hamming/fraction divergence tracking
-- [x] exact differing-index evidence
+- [x] localized flip/set intervention and paired counterfactual simulation
+- [x] Hamming/fraction divergence tracking and exact differing-index evidence
 - [x] causal-cone violation detector
 - [x] deterministic seed generator
 - [x] runnable Rule-110 minimum experiment
 - [x] causal locality regression suite
-- [x] explicit GO/STOP verdict in experiment output
-- [x] limitations and claim boundary
-- [x] latest-main recovery CI passed on head `67b9df0972449a620731c3bd26a9dc445485c439`, run `31457031321`
+- [x] explicit GO/STOP verdict and limitations
+- [x] final pre-refresh status head `63bb6cf0ab946681323bb752de65ecc4635badb4` passed canonical CI `31457353108`
 
-## Current evidence gate
+## Latest-base integration refresh
 
-The immediately preceding recovery head passed canonical GitHub Actions and established repository integration of the deterministic implementation/regression suite. This status-only update creates a newer head, so canonical CI must pass again before the separate manual merge decision.
+Repository `main` advanced to `662de36af18b1251e6441391ac3fc06df7a3bf71` via monitoring-only PR #243, which does not touch this package. This status refresh intentionally creates a new head so canonical CI revalidates the pull-request merge ref against the latest base before manual review.
 
 Green CI does not satisfy the nine-gate `Certified complete` contract because retained raw evidence, independent reproduction, broader ablation/negative-result packaging, and external validity remain incomplete.
+
+**DO NOT AUTO-MERGE OR DEPLOY. MANUAL REVIEW REQUIRED.**
 
 ## Not claimed
 
