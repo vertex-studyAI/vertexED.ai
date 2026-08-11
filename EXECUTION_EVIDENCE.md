@@ -1,8 +1,86 @@
 # Execution Evidence
 
-Updated: 10 August 2026
+Updated: 11 August 2026
 
-Only achievements with concrete GitHub evidence are recorded as completed.
+Only achievements with concrete GitHub, CI, or read-only connected-service evidence are recorded as completed.
+
+## 11 August 2026 continuation
+
+### Project 2424 — T2424-0046 Auto-Research Foundry recovery
+
+Project: Project 2424  
+Source PR: #192  
+Exact verified head: `88dad71acca583a80ae2496b1278f88a825b4766`  
+Verification before merge: canonical CI run `31414879015` / #665 — success  
+Merge commit: `d15703b0fdd63dc5d6d2ff7fca12d5d27a432502`  
+Result: deterministic manifest validation, dependency/wave planning, CPU-budget selection and evidence-gated completion mechanics are now on `main`. The package deliberately does not execute manifest commands and does not claim scientific correctness.  
+Superseded PR: #189 closed unmerged after the clean recovery path landed.
+
+### Project 2424 — T2424-0050 Benchmark Augmentation Theory recovery
+
+Project: Project 2424  
+Initial recovery PR: #193 became non-mergeable after `main` advanced; it was not force-pushed.  
+Clean recovery PR: #199  
+Exact verified head: `b1342b274157786c2885b54cfa10f9b63b4b6200`  
+Verification before merge: canonical CI run `31449794955` / #679 — success  
+Merge commit: `615fb12f26963a355553f10379df85d26323c4ea`  
+Result: deterministic synthetic shortcut-exposure audit mechanics, runnable experiment and six regressions are now on `main`.  
+Known limitations: synthetic mechanism only; no benchmark-validity theorem, semantic guarantee for arbitrary augmentations, real-model robustness or research-complete claim.  
+Superseded PRs: #191 and #193 closed unmerged.
+
+### Project 2424 — T2424-0053 Scientific Motif Dictionary recovery
+
+Project: Project 2424  
+Stale source PR: #179  
+Clean recovery PR: #203  
+Exact final-base head: `d01a1d2c12c7e2e2157e11c6bc92726edcbb1c29`  
+Verification before merge: canonical CI run `31450035136` / #688 — success, including build/test, production browser certification and local keyboard-accessibility certification  
+Merge commit: `c587f4e0fa91c59e82099d2fb9c68dea3abe8a16`  
+Result: normalized 1D scientific time-series motif-indexing prototype, synthetic experiment and regression suite are now on `main`.  
+Known limitations: no scientific-meaning, novelty, multivariate, state-of-the-art or external-dataset-performance claim.  
+Superseded PR: #179 closed unmerged.
+
+### Project 2424 — verified merged count
+
+Current evidence-backed First-100 state on `main` after the three recoveries above:  
+Runnable merged+verified: `8`  
+Tested merged+verified: `8`  
+Certified complete: `0 / 100`  
+Research complete: `0`  
+The nine-gate completion rule remains unchanged.
+
+### VertexED — live Supabase security metadata
+
+Project: VertexED production Supabase project visible through the connected Supabase integration  
+Operation type: read-only metadata/advisor queries only  
+Result:
+- every listed public-schema table has RLS enabled;
+- `auth_email_exists` and `handle_new_user` are the only observed public-schema `SECURITY DEFINER` functions, each with explicit `search_path` settings and no PUBLIC execute privilege;
+- no public-schema views were present;
+- security advisor warns that leaked-password protection is disabled;
+- security advisor warns that the current Supabase Postgres build has security patches available;
+- performance advisor reports two unused-index INFO notices only.
+Known limitations: metadata/advisor evidence is not an authenticated end-to-end production journey or immutable-live-revision proof. No production mutation, credential rotation, DDL or index removal was performed.
+
+### FinanceMeta — repository recovery evidence
+
+Repository: `build-the-future-11/finance4all-global-reach`  
+Visibility: connector-readable, correcting the older “not exposed” status  
+Current-main security evidence: original profile UPDATE policy permits users to update their own profile row without itself constraining role/email changes; notification migration grants authenticated INSERT with `WITH CHECK (true)` despite trigger-only intent.  
+Recovery branch: `cursor/membership-security-supabase-fix`  
+Branch relationship: `41` commits ahead / `0` behind `main`  
+Recovered hardening evidence includes later profile write boundaries, notification-policy removal, CI, E2E tests and release artifacts.  
+Write blocker: connector branch creation and PR creation both returned `403 Resource not accessible by integration`.  
+Result: exact recovery path is identified, but no target write, production migration or false “fixed” claim was made.
+
+### The Bu1LD — repository recovery evidence
+
+Repository: `ryangomez010/bu1ld-landing`  
+Visibility: connector-readable, correcting the older “not exposed” status  
+Branch evidence: `cursor/final-polish-admin-and-ux` and `cursor/member-hub-attention-queue` are each `0` commits ahead of `main`; no hidden unique work needs resurrection from those branches.  
+Current-main release evidence: CI runs typecheck, lint, tests, build and release check; strict release mode additionally requires real Supabase schema/RLS verification.  
+Repository-stated remaining external actions: database apply/verify, Supabase Auth URLs, deployment variables, email configuration and seven-role smoke tests.  
+Known limitation: Bu1LD's Supabase project is not connected to the current Supabase integration, so production DB state was not guessed or modified.
 
 ## VertexED — password recovery authorization
 
@@ -76,7 +154,7 @@ Artifacts: `portfolio/project2424/FIRST_100_EXECUTION_WAVE.md`, `FIRST_100_QUEUE
 Verification: latest-head `build-and-test` job in CI run `31408112019` succeeded, including `Test Project 2424 recovery package` and the canonical release gate. The browser jobs were cancelled by workflow concurrency while main was moving; #155 changed no runtime product files.  
 Result: 100 evidence-gated candidates are represented on main as an execution queue rather than falsely marked complete.  
 Certified First-100 completion count: `0 / 100`.  
-Known limitations: registry/queue metadata is not implementation, experiments, or paper readiness; the canonical Project 2424 source remains inaccessible to the connected GitHub installation.
+Known limitations: registry/queue metadata is not implementation, experiments, or paper readiness; historical/canonical Project 2424 source identity outside the recovered control-repo packages remains a separate provenance problem.
 
 ## Portfolio execution control
 
@@ -90,14 +168,16 @@ Result: connector-visible work and blockers are durably recorded on main with ex
 
 ## Repository discovery evidence
 
-Repositories visible to the connected GitHub App during this execution window:
+Repositories directly verified through the connected GitHub App in this continuation include:
 
 1. `vertex-studyAI/vertexED.ai` — public, admin/write access.
 2. `vertex-studyAI/LAM-JEPA` — public, admin/write access.
-3. `vertex-studyAI/Text-To-Video` — private, admin/write access.
+3. `vertex-studyAI/Text-To-Video` — previously connector-visible in the portfolio ledger.
+4. `build-the-future-11/finance4all-global-reach` — public and readable; attempted branch/PR writes returned integration `403`.
+5. `ryangomez010/bu1ld-landing` — public and readable; canonical `main` and stale branch relationships were inspected.
 
-No Atlas, canonical Project 2424, FinanceMeta, Bu1LD, or Percy repository was returned by the current GitHub installation. Those areas therefore remain explicitly blocked rather than being counted as inspected source.
+Atlas and Percy remain unavailable as canonical connector-visible repositories in this execution window. Project 2424 implementation packages are currently being recovered and verified inside `vertex-studyAI/vertexED.ai`; that does not erase the separate provenance question for historical/local Project 2424 source.
 
 ## Live-release boundary
 
-Before this execution, `vertexED.ai` main `fa413b4096c88aac9801eb9b25bdddcc0515dd09` had successful GitHub commit-status contexts for both configured Vercel projects. This is deployment-status evidence only. The open production gate remains exact proof of the immutable SHA served by `www.vertexed.app` plus authenticated production certification. No deployment was performed in this execution window.
+No production deployment was performed in this continuation. Green GitHub CI and browser evidence are source/release-gate evidence only. The open VertexED production gate remains exact proof of the immutable SHA served by the public domain plus authenticated production certification.
