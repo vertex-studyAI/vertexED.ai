@@ -1,0 +1,45 @@
+{
+  "project": "T2424-0024",
+  "name": "Trust Under Uncertainty",
+  "protocol": "PROTOCOL.md",
+  "rawOutcomes": [true, true, false, true, false, true, true, true, false, true, true, false, true, true, true, false, true, false, true, true],
+  "policies": {
+    "moderate": {"correctConfidence": 0.8, "errorConfidence": 0.2},
+    "overconfident": {"correctConfidence": 0.98, "errorConfidence": 0.92}
+  },
+  "metrics": {
+    "moderate": {
+      "accuracy": 0.7,
+      "meanConfidence": 0.62,
+      "brierScore": 0.039999999999999994,
+      "expectedCalibrationError5Bins": 0.19999999999999996,
+      "selectiveRisk": [
+        {"coverage": 0.25, "risk": 0},
+        {"coverage": 0.5, "risk": 0},
+        {"coverage": 0.75, "risk": 0.06666666666666667},
+        {"coverage": 1, "risk": 0.3}
+      ],
+      "abstentionAt07": {"coverage": 0.7, "acceptedRisk": 0}
+    },
+    "overconfident": {
+      "accuracy": 0.7,
+      "meanConfidence": 0.962,
+      "brierScore": 0.25420000000000004,
+      "expectedCalibrationError5Bins": 0.262,
+      "selectiveRisk": [
+        {"coverage": 0.25, "risk": 0},
+        {"coverage": 0.5, "risk": 0},
+        {"coverage": 0.75, "risk": 0.06666666666666667},
+        {"coverage": 1, "risk": 0.3}
+      ],
+      "abstentionAt095": {"coverage": 0.7, "acceptedRisk": 0}
+    }
+  },
+  "gates": {
+    "moderateBrierLower": true,
+    "moderateEceLower": true,
+    "rankingOnlySelectiveRiskUnchanged": true
+  },
+  "verdict": "GO_EVALUATOR_MECHANICS_ONLY",
+  "claimBoundary": "deterministic paired synthetic evaluator mechanics only; no real-model trustworthiness, deployment, or optimal-threshold claim"
+}
