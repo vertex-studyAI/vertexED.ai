@@ -19,17 +19,19 @@
 - [x] decision ledger + runnable demonstration
 - [x] five regression invariants
 - [x] frozen claim/protocol
-- [x] canonical recovery CI passed on head `0031aef118db4a155b7d278c2c9efbe0542ae58f`, run `31457110484`
+- [x] final pre-refresh status head `eb6fd52c74c890183a77c3137678667fe7fbf2d0` passed canonical CI `31457540595`
 
 ## Provenance
 
-Legacy head `2e2b602aa75768b4ba1983f30ec27ca36f7419b9` passed canonical CI `31409829495`. The current-main canonical recovery then passed CI `31457110484` on head `0031aef118db4a155b7d278c2c9efbe0542ae58f`.
+Legacy head `2e2b602aa75768b4ba1983f30ec27ca36f7419b9` passed canonical CI `31409829495`. The current canonical recovery preserves that deterministic planner implementation.
 
-This status-only update creates a newer head, so canonical CI must pass again before the separate manual merge decision.
+## Latest-base integration refresh
 
-## Certification boundary
+Repository `main` advanced to `662de36af18b1251e6441391ac3fc06df7a3bf71` via monitoring-only PR #243, which does not touch this package. This status refresh intentionally creates a new head so canonical CI revalidates the latest pull-request merge ref before manual review.
 
 Repository integration validates only deterministic planner mechanics on frozen illustrative inputs. It does not validate the priors, candidate hypotheses, scientific value estimates, or any spending/compute decision. This package is not Certified complete or research-complete.
+
+**DO NOT AUTO-MERGE OR DEPLOY. MANUAL REVIEW REQUIRED.**
 
 ## Not claimed
 
