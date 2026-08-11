@@ -9,8 +9,8 @@ Being selected into `FIRST_100_QUEUE.ndjson` is **not** completion evidence. Thi
 
 - Certified complete: **0 / 100**
 - Execution-ready registry entries: **100**
-- Runnable project packages merged and verified: **7**
-- Tested project packages merged and verified: **7**
+- Runnable project packages merged and verified: **8**
+- Tested project packages merged and verified: **8**
 - Research-complete projects verified: **0**
 - Demo-ready project packages merged and verified: **1**
 - Projects with certified raw-result + independent-QA packages: **0**
@@ -42,13 +42,10 @@ A green CI run proves the recorded package executes on that head. It does **not*
 | 31 | `T2424-0038` | Obscured Records Agent | Editorial research-triage tool | `portfolio/project2424/projects/T2424-0038/` | head `abf8c998bab4bc0adedfb3d1d1a19432603c355f`, CI `31411209123`, merged `fb0c3a78cad2b27bd894c1e59cfbb05606be46a7` | Deterministic evidence-gating only; supplied evidence values are not truth scores; no autonomous publication | `TESTED_TOOL`; not certified complete |
 | 39 | `T2424-0046` | Auto-Research Foundry | Research-planning / evidence-gating tool | `portfolio/project2424/projects/T2424-0046/` | head `88dad71acca583a80ae2496b1278f88a825b4766`, CI `31414879015`, merged `d15703b0fdd63dc5d6d2ff7fca12d5d27a432502` | Deterministic manifest/dependency/budget/evidence mechanics only; the tool does not execute manifest commands or establish scientific correctness | `TESTED_TOOL`; not certified complete |
 | 43 | `T2424-0050` | Benchmark Augmentation Theory | Benchmark-audit prototype | `portfolio/project2424/projects/T2424-0050/` | recovery head `b1342b274157786c2885b54cfa10f9b63b4b6200`, CI `31449794955`, merged `615fb12f26963a355553f10379df85d26323c4ea` | Synthetic shortcut-exposure mechanism only; no benchmark-validity theorem, semantic guarantee or real-model robustness claim | `TESTED_TOOL`; not certified complete |
+| 46 | `T2424-0053` | Scientific Motif Dictionary | Scientific time-series tooling prototype | `portfolio/project2424/projects/T2424-0053/` | final recovery head `d01a1d2c12c7e2e2157e11c6bc92726edcbb1c29`, CI `31450035136`, merged `c587f4e0fa91c59e82099d2fb9c68dea3abe8a16` | Deterministic normalized-shape indexing on synthetic 1D numeric data; no scientific meaning, novelty or external-dataset-performance claim | `TESTED_TOOL`; not certified complete |
 | 52 | `T2424-1767` | Resource-Bounded MoE Operator | Scientific-ML tooling prototype | `portfolio/project2424/projects/T2424-1767/` | head `1496c991a3b00473700b2f4c3d173d428f793e9b`, CI `31409012137`, merged `8c4bb2b31140f8e580135a5595f2731b0068d146` | Deterministic synthetic cost/error frontier in abstract resource units; no Scientific-ML superiority claim | `TESTED_TOOL`; not certified complete |
 | 92 | `T2424-1863` | Resource-Bounded Local Operator for Scientific Forecasting | Negative/inconclusive scientific-ML screen | `portfolio/new-projects/t2424-1863-local-diffusion-operator/` | head `8368b2daa9e7720cd972accee6e8d363f67c3a59`, dedicated reproduction `31411206631`, repository CI `31411208847`, merged `7cee0bd4d5cc7a3ac497476d322c6f0e16da9ee6` | Predeclared >75% improvement gate **failed**: observed 67.777%; planted coefficient 0.18 recovered as 0.179689; zero-diffusion control -0.029% | `NEGATIVE_OR_INCONCLUSIVE_AGAINST_PREDECLARED_GATE`; not certified complete |
-| Remaining 93 | See queue | See queue | Mixed | unverified on `main` | unverified on `main` | queue metadata only | `EXECUTION_READY` |
-
-## Final-base verification in progress
-
-- `T2424-0053` Scientific Motif Dictionary — recovery PR #203; implementation/test package is recovered and exact final-base CI is running. It is **not** included in the seven-package merged count until that gate passes and the PR lands.
+| Remaining 92 | See queue | See queue | Mixed | unverified on `main` | unverified on `main` | queue metadata only | `EXECUTION_READY` |
 
 ## Verified or active but deliberately unmerged First-100 work
 
