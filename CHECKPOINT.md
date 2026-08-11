@@ -14,8 +14,8 @@
 
 ## In progress / manual gate
 
-- `T2424-0050` canonical Darcy Latent Operator identity repair remains open in PR #210. Its previous exact head passed canonical CI, but the PR is stale against current `main` and explicitly says **do not auto-merge or deploy**. Recover/reverify it only under the same manual gate.
-- Final status-only handoff branch `agent/portfolio-final-handoff-20260811` is being verified before merge.
+- Draft PR #216 is the current latest-main lossless `T2424-0050` Darcy Latent Operator identity repair. Exact head `9c9aacac73d1c59327cf6a882aa83566f658cf53` passed full canonical CI `31451716616`, including build/test, production browser and local keyboard accessibility; production smoke was policy-skipped. The PR explicitly says **do not auto-merge or deploy**, so it remains outside the count until that manual boundary is intentionally cleared.
+- Final status-only handoff branch `agent/portfolio-final-handoff-20260811` must earn fresh exact-head CI after this latest truth update before merge.
 
 ## Blocked / external
 
@@ -39,6 +39,7 @@ No merged artifact from this continuation is recorded as complete without exact-
 - T2424-0023 reconciliation — `31450669750` success.
 - PST evidence recovery — `31451145817` full success.
 - NPMS evidence recovery — `31451120590` full success.
+- Latest-main Darcy repair draft #216 — `31451716616` full success; not merged due explicit manual boundary.
 
 ## Important discoveries
 
@@ -51,7 +52,7 @@ No merged artifact from this continuation is recorded as complete without exact-
 
 ## Highest-value next tasks
 
-1. Recover PR #210 onto current `main` only if the manual merge boundary is intentionally cleared; preserve both Darcy and the benchmark-audit auxiliary tool.
+1. Manually review/clear draft PR #216 only if the explicit do-not-auto-merge boundary is intentionally lifted; preserve both Darcy and the benchmark-audit auxiliary tool.
 2. Move the strongest of the 12 merged Project 2424 tools through the nine-gate certification package: raw artifacts, ablation/negative analysis, explicit verdict, independent QA.
 3. Migrate PST/NPMS original isolated source/evidence trees and rerun from clean canonical commits; do not upgrade external claims without external-data contracts.
 4. Restore FinanceMeta write access and review the 41-commit hardening branch through exact-head CI + real Supabase RLS verification.
