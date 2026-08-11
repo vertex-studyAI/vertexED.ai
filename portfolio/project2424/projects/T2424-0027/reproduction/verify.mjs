@@ -156,7 +156,7 @@ if (retained.claimBoundary !== 'controlled synthetic latent diagnostic only; no 
 
 console.log(JSON.stringify({
   project: retained.project,
-  rawResultSha256,
+  rawResultSha256: rawSha256,
   evidenceConsistency: 'PASS',
   verifierDependency: 'independent-no-core-import',
   centeredLanguageAccuracy,
