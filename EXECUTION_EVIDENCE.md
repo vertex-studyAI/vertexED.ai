@@ -25,9 +25,10 @@ Exact verified head: `b1342b274157786c2885b54cfa10f9b63b4b6200`
 Verification before merge: canonical CI run `31449794955` / #679 — success  
 Merge commit: `615fb12f26963a355553f10379df85d26323c4ea`  
 Result: deterministic synthetic shortcut-exposure audit mechanics, runnable experiment and six regressions are on `main`.  
-Identity correction: subsequent frozen-queue reconciliation established that `T2424-0050` / rank 43 is **Darcy Latent Operator**, not Benchmark Augmentation Theory. Therefore this tested artifact is **excluded from the queue-consistent First-100 count** while it occupies the colliding path. Draft PR #207 is the non-destructive repair path: preserve the benchmark audit under an auxiliary identity and restore canonical Darcy Latent Operator.  
-Known limitations: synthetic mechanism only; no benchmark-validity theorem, semantic guarantee for arbitrary augmentations, real-model robustness or research-complete claim.  
-Superseded PRs: #191 and #193 closed unmerged.
+Identity correction: subsequent frozen-queue reconciliation established that `T2424-0050` / rank 43 is **Darcy Latent Operator**, not Benchmark Augmentation Theory. Therefore this tested artifact is **excluded from the queue-consistent First-100 count** while it occupies the colliding path.  
+Current repair: PR #210 preserves the benchmark audit under auxiliary identity `AUX-P2424-BENCHMARK-AUGMENTATION`, restores Darcy Latent Operator to the canonical T2424-0050 path, repoints the benchmark regression, and restores the Darcy regression/result package. Exact head `d502de803701c0be1d7e3306b30b8036824ca251` passed canonical CI run `31450427123` / #697. GitHub reports the PR mergeable. Its own boundary explicitly says **do not auto-merge or deploy**, so it remains unmerged and the current canonical count remains 10.  
+Known limitations: benchmark audit is a synthetic mechanism only; no benchmark-validity theorem, semantic guarantee for arbitrary augmentations, real-model robustness or research-complete claim. Darcy is a deterministic 1D reduced-resistance mechanism screen only; no learned neural operator or real porous-media superiority claim.  
+Superseded PRs: #191, #193 and earlier closed repair paths remain unmerged.
 
 ### Project 2424 — T2424-0053 Scientific Motif Dictionary recovery
 
@@ -91,7 +92,7 @@ The ten currently counted queue-consistent packages are:
 9. `T2424-1767` Resource-Bounded MoE Operator;
 10. `T2424-1863` Resource-Bounded Local Operator for Scientific Forecasting.
 
-`T2424-0050` does not join this list until the frozen Darcy Latent Operator identity is safely restored and verified. Draft PR #207 currently tracks that P0 repair.
+PR #210 is exact-head green and would restore canonical `T2424-0050` as Darcy Latent Operator, but it remains outside the merged count until its explicit manual merge boundary is cleared. If it lands and the identity guard remains green, the queue-consistent count becomes 11; the auxiliary benchmark audit still does not add another registry project.
 
 ### VertexED — live Supabase security metadata
 
