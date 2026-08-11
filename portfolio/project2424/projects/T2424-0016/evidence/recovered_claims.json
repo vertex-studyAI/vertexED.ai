@@ -1,0 +1,68 @@
+{
+  "project_id": "T2424-0016",
+  "recovered_identity": "MODEL-PST",
+  "title": "Predictive Stability Theory: Calibrated Local Forecast Breakdown for Prioritising Single-Cell State Transitions",
+  "recovery_date": "2026-08-11",
+  "status": "COMPACT_EVIDENCE_RECOVERED_SOURCE_MIGRATION_PENDING",
+  "certified_complete": false,
+  "external_biological_validation": "BLOCKED_EXTERNAL",
+  "source_bundle_git_state": "NO_GIT_REPOSITORY_RECORDED_IN_RECOVERED_BUNDLE",
+  "claims": [
+    {
+      "id": "PST-C001",
+      "claim": "The recovered isolated PST bundle reports seven behavioural tests passing and a compact suite of 21 runs across three seeds and seven variants, plus smoke and two robustness/transfer runs.",
+      "evidence_class": "RECOVERED_EXECUTION_REPORT",
+      "scope": "SYNTHETIC_CONTROLLED",
+      "status": "SUPPORTED_BY_RECOVERED_HANDOFF",
+      "source": "MODEL-PST.md"
+    },
+    {
+      "id": "PST-C002",
+      "claim": "On the recovered synthetic controlled compact benchmark, calibrated PST reports AUROC 0.9744 ± 0.0115, AUPRC 0.9101 ± 0.0320, and Top-K precision 0.8235 ± 0.0519 across seeds 11, 29 and 47.",
+      "evidence_class": "RECOVERED_MEASURED",
+      "scope": "SYNTHETIC_CONTROLLED",
+      "status": "SUPPORTED_BY_RECOVERED_REPORT",
+      "source": "paper(5).md"
+    },
+    {
+      "id": "PST-C003",
+      "claim": "The recovered raw-expression logistic ablation reports AUROC 0.9968 and AUPRC 0.9882, outperforming the neural PST variant on the synthetic controlled generator.",
+      "evidence_class": "RECOVERED_MEASURED",
+      "scope": "SYNTHETIC_CONTROLLED",
+      "status": "SUPPORTED_NEGATIVE_FINDING",
+      "source": "paper(5).md"
+    },
+    {
+      "id": "PST-C004",
+      "claim": "Validation-only calibration worsened the recovered controlled results: raw versus calibrated AUROC 0.9773 vs 0.9744, AUPRC 0.9261 vs 0.9101, ECE 0.0889 vs 0.1692, and Brier 0.0566 vs 0.0769.",
+      "evidence_class": "RECOVERED_MEASURED",
+      "scope": "SYNTHETIC_CONTROLLED",
+      "status": "SUPPORTED_NEGATIVE_FINDING",
+      "source": "paper(5).md"
+    },
+    {
+      "id": "PST-C005",
+      "claim": "Fixed family-A-to-family-B transfer reports AUROC 0.6577 and AUPRC 0.2877, despite family-B in-domain retraining reporting AUROC 0.9903.",
+      "evidence_class": "RECOVERED_MEASURED",
+      "scope": "SYNTHETIC_CONTROLLED",
+      "status": "SUPPORTED_NEGATIVE_FINDING",
+      "source": "paper(5).md"
+    },
+    {
+      "id": "PST-C006",
+      "claim": "Historical Paul15, Pancreas and Dentate Gyrus headline metrics are not reproduced or endorsed by the recovered release because raw logs, exact dataset versions/checksums and original executable repository state were not mounted.",
+      "evidence_class": "UNVERIFIED_HISTORICAL",
+      "scope": "EXTERNAL_BIOLOGICAL",
+      "status": "QUARANTINED_FROM_MEASURED_RESULTS",
+      "source": "MODEL-PST.md; paper(5).md"
+    },
+    {
+      "id": "PST-C007",
+      "claim": "External biological validation remains blocked until official dataset source/version/licence/checksum, feature matrix, metadata audit, leakage-safe biological split and transition-label contracts are resolved.",
+      "evidence_class": "PLANNED",
+      "scope": "EXTERNAL_BIOLOGICAL",
+      "status": "BLOCKED_EXTERNAL",
+      "source": "MODEL-PST.md; paper(5).md"
+    }
+  ]
+}
