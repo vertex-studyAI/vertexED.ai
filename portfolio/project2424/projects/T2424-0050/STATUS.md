@@ -24,15 +24,11 @@ The frozen First-100 queue assigns `T2424-0050` to **Darcy Latent Operator**. Cu
 - [x] retained machine-readable result
 - [x] six focused regression tests
 - [x] queue/package identity regression with zero post-repair conflict allowance
-- [x] canonical CI passed on head `8539bbc38624b8bafe1d188876869b2e72c451a4`, run `31456520689`
+- [x] final pre-refresh status head `a557755617319103d584b049d42593d8a77356c2` passed canonical CI `31457371403`
 
-## Exact-head evidence
+## Latest-base integration refresh
 
-The canonical Darcy implementation passed GitHub Actions on exact head `ce9331c8be3e66eb8249121aa2243c03550108d2`, CI run `31449982073`.
-
-The stronger lossless current repair passed canonical CI run `31456520689` on head `8539bbc38624b8bafe1d188876869b2e72c451a4`, including the zero-exception package↔queue identity regression.
-
-This status-only update creates a newer branch head, so canonical CI must pass again before the separate manual merge decision.
+Repository `main` advanced to `662de36af18b1251e6441391ac3fc06df7a3bf71` via monitoring-only PR #243, which changes production-health incident deduplication and does not touch this Project 2424 package. This status refresh intentionally creates a new branch head so GitHub Actions validates the pull-request merge ref against that newer base before any manual merge decision.
 
 Retained bounded result:
 
@@ -45,7 +41,7 @@ Retained bounded result:
 
 ## Current promotion gate
 
-Repository integration is established for the preceding exact head, but the current status head must pass canonical GitHub Actions before manual review. Even then, green CI proves repository integration only; it does not establish scientific generalization or research completion.
+The refreshed head must pass canonical GitHub Actions against the latest pull-request merge ref. Even then, green CI proves repository integration only; it does not establish scientific generalization or research completion. **DO NOT AUTO-MERGE OR DEPLOY. MANUAL REVIEW REQUIRED.**
 
 ## Not claimed
 
