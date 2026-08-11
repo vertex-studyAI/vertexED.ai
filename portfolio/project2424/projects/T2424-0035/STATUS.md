@@ -14,22 +14,22 @@
 - [x] persistent train/eval threshold detection
 - [x] memorization/generalization delay classification
 - [x] eval-at-memorization guard
-- [x] delayed synthetic positive fixture
-- [x] matched non-grokking control
-- [x] runnable experiment
-- [x] focused regression suite
+- [x] delayed synthetic positive fixture and matched non-grokking control
+- [x] runnable experiment and focused regression suite
 - [x] frozen claim/protocol
-- [x] canonical recovery CI passed on head `34a76d8600f7bfcfb7158578b37bdc5c23b2f698`, run `31456990863`
+- [x] final pre-refresh status head `f3edc0e87f4d9d03bf9bb639a8b2d1c6a6d93737` passed canonical CI `31457341269`
 
 ## Provenance
 
-Legacy head `89e55c7e466f34e54bfc5c870a6ad056a5f034b1` passed canonical CI `31409649210`. The canonical recovery passed CI `31456990863` on head `34a76d8600f7bfcfb7158578b37bdc5c23b2f698`.
+Legacy head `89e55c7e466f34e54bfc5c870a6ad056a5f034b1` passed canonical CI `31409649210`. The current canonical recovery preserves that deterministic detector rather than reconstructing it.
 
-This status-only update creates a newer head, so canonical CI must pass again before the separate manual merge decision.
+## Latest-base integration refresh
 
-## Certification boundary
+Repository `main` advanced to `662de36af18b1251e6441391ac3fc06df7a3bf71` via monitoring-only PR #243, which does not touch this package. This status refresh intentionally creates a new head so canonical CI revalidates the latest pull-request merge ref before manual review.
 
 Repository tests validate detector mechanics on the frozen deterministic fixtures only. The package remains unmerged, non-certified and non-research-complete.
+
+**DO NOT AUTO-MERGE OR DEPLOY. MANUAL REVIEW REQUIRED.**
 
 ## Not claimed
 
