@@ -1,22 +1,34 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "as_of": "2026-08-11",
   "control_repository": "vertex-studyAI/vertexED.ai",
-  "control_commit_before_checkpoint": "662de36af18b1251e6441391ac3fc06df7a3bf71",
-  "truth_boundary": "Counts below distinguish merged queue implementations, evidence-only recoveries, green review candidates, scientific evidence and production state. No unmerged Project 2424 review branch is counted as merged or Certified complete.",
-  "github_surface": {
-    "installed_repositories": [
-      "vertex-studyAI/vertexED.ai",
-      "vertex-studyAI/LAM-JEPA",
-      "vertex-studyAI/Text-To-Video"
-    ],
-    "finance_meta_readable": true,
-    "finance_meta_write_attempt": "403 Resource not accessible by integration",
-    "bu1ld_readable": true,
-    "atlas_repository_found": false,
-    "percy_repository_found": false
-  },
-  "merged_in_this_continuation": [
+  "control_main_before_checkpoint": "662de36af18b1251e6441391ac3fc06df7a3bf71",
+  "truth_boundary": "Merged Project 2424 implementations, evidence-only recoveries, green draft review candidates, scientific evidence and production state are distinct. No open Project 2424 branch is counted as merged or Certified complete.",
+  "merged_and_verified_in_this_run": [
+    {
+      "repository": "vertex-studyAI/vertexED.ai",
+      "pr": 226,
+      "head": "2ac9a1b6566f133861bef42a6589374fd91fbc42",
+      "ci": 31456035191,
+      "merge": "0a9751d6e8b995747c855c64d60bdda9b1891eaf",
+      "result": "PST and NPMS canonical queue-identity metadata aligned without changing either scientific evidence tier."
+    },
+    {
+      "repository": "vertex-studyAI/vertexED.ai",
+      "pr": 229,
+      "head": "f8b1120b7db0572e09d05a2ffd67fe8c1a33ee7b",
+      "ci": 31456436247,
+      "merge": "d01b201035195575ee5764fefc9ef108f7e06314",
+      "result": "Evidence-backed GitHub portfolio checkpoint published; Project 2424 counts and Atlas/Percy blockers preserved conservatively."
+    },
+    {
+      "repository": "vertex-studyAI/LAM-JEPA",
+      "pr": 56,
+      "head": "8a4aea6d5b90f7ccae19671c496e4ff5c4d08a63",
+      "workflow_runs": [31456283939, 31456283866, 31456283876],
+      "merge": "f9b10c768d7e93eccb440761306bd992c3ec6a5a",
+      "result": "Fail-closed machine enforcement of the retained negative/inconclusive ARC verdict, RESEARCH_COMPLETE_FALSE boundary and confirmatory-test stop rule."
+    },
     {
       "repository": "vertex-studyAI/vertexED.ai",
       "pr": 243,
@@ -33,8 +45,8 @@
       "head": "3559458caa8af3718b2832f13854f6f5f532c7f0",
       "ci": 31457589919,
       "merge": "525123123392693b6221bb4ff1b2d2ee220bb386",
-      "result": "Durable local render jobs reset stale progress to zero on retry/recovery/reclaim.",
-      "boundary": "Local single-host queue semantics only; no distributed durability, hosted media or deployment claim."
+      "result": "Durable local render jobs reset stale progress to zero on retry, lease recovery and replacement claim.",
+      "boundary": "Single-host local queue semantics only; no distributed durability, hosted media or deployment claim."
     }
   ],
   "project2424": {
@@ -44,35 +56,35 @@
     "certified_complete": 0,
     "research_complete": 0,
     "known_main_identity_collisions": 1,
-    "manual_green_review_candidates": [
-      {"pr": 230, "id": "T2424-0050", "name": "Darcy Latent Operator", "head": "8539bbc38624b8bafe1d188876869b2e72c451a4", "state": "MANUAL_IDENTITY_REPAIR", "note": "Restores Darcy and preserves Benchmark Augmentation Theory as auxiliary; all executed CI jobs passed on latest attempt; do not auto-merge/deploy."},
-      {"pr": 231, "id": "T2424-0024", "name": "Trust Under Uncertainty", "head": "eb65c4be1a84a665fa29dcfc6f1f547d4193e304", "ci": 31456565330, "state": "GREEN_MANUAL_REVIEW"},
-      {"pr": 232, "id": "T2424-0029", "name": "PDE Representation Phase Transitions", "head": "e95ceeb541769219eca07714fb4a372238394b27", "ci": 31456754262, "state": "GREEN_MANUAL_REVIEW"},
-      {"pr": 234, "id": "T2424-0028", "name": "Residual Event Tokenization", "head": "22c1fe1bd8a8373e159181914acd9f392571932f", "ci": 31456812854, "state": "GREEN_MANUAL_REVIEW"},
-      {"pr": 236, "id": "T2424-0037", "name": "NLP-to-CAD", "head": "3df43264089d2767e86b5e67bdfa41284e1ebd16", "ci": 31456830498, "state": "GREEN_MANUAL_REVIEW"},
-      {"pr": 238, "id": "T2424-0035", "name": "Grokking Agent", "head": "34a76d8600f7bfcfb7158578b37bdc5c23b2f698", "ci": 31456990863, "state": "GREEN_MANUAL_REVIEW"},
-      {"pr": 239, "id": "T2424-0026", "name": "Counterfactual Defect Worlds", "head": "a6aededa069fca2fe7c675eed0231967a20664e9", "ci": 31457026310, "state": "GREEN_MANUAL_REVIEW"},
-      {"pr": 241, "id": "T2424-0054", "name": "Theory-Manifold Experiment Planner", "head": "0031aef118db4a155b7d278c2c9efbe0542ae58f", "ci": 31457110484, "state": "GREEN_MANUAL_REVIEW"},
-      {"pr": 242, "id": "T2424-0027", "name": "Sapir–Whorf Latent Tongue", "head": "6e71f109db7bba64e222029f298072ed64cc42de", "ci": 31457981699, "state": "GREEN_REVIEW", "note": "Full CI passed after fixing only an independent-verifier output variable typo; frozen generator, thresholds, raw result and synthetic verdict were unchanged."}
+    "manual_or_draft_green_review_candidates": [
+      {"pr": 230, "id": "T2424-0050", "name": "Darcy Latent Operator", "head": "0131c7d33e967f55e8b07ff5bfc1f03feb164f01", "ci": 31458049157, "state": "GREEN_DRAFT_MANUAL_IDENTITY_REPAIR"},
+      {"pr": 231, "id": "T2424-0024", "name": "Trust Under Uncertainty", "head": "a15f31fbcbef6ab5868cb4f8a30e806f4d8721ca", "ci": 31458059377, "state": "GREEN_DRAFT_CERTIFICATION_PENDING"},
+      {"pr": 232, "id": "T2424-0029", "name": "Representation Phase Transitions for PDEs", "head": "f22ab98f2bf93a3437153cba2f2ada6f9593570d", "ci": 31458091370, "state": "GREEN_DRAFT_MANUAL_REVIEW"},
+      {"pr": 234, "id": "T2424-0028", "name": "Residual Event Tokenization", "head": "bbb173fc2cd93e588883b3798de9712cb29094eb", "ci": 31458080289, "state": "GREEN_DRAFT_MANUAL_REVIEW"},
+      {"pr": 236, "id": "T2424-0037", "name": "NLP-to-CAD", "head": "53d2861da4d9dc73259552bfe3c7ec77853db591", "ci": 31457325080, "state": "GREEN_DRAFT_MANUAL_REVIEW"},
+      {"pr": 238, "id": "T2424-0035", "name": "Grokking Agent", "head": "f3edc0e87f4d9d03bf9bb639a8b2d1c6a6d93737", "ci": 31457341269, "state": "GREEN_DRAFT_MANUAL_REVIEW"},
+      {"pr": 239, "id": "T2424-0026", "name": "Counterfactual Defect Worlds", "head": "596cb91d0a36a163cb9fab8745f65cbfb1ec47b6", "ci": 31458068712, "state": "GREEN_DRAFT_MANUAL_REVIEW"},
+      {"pr": 241, "id": "T2424-0054", "name": "Theory-Manifold Experiment Planner", "head": "eb6fd52c74c890183a77c3137678667fe7fbf2d0", "ci": 31457540595, "state": "GREEN_DRAFT_MANUAL_REVIEW"},
+      {"pr": 242, "id": "T2424-0027", "name": "Sapir–Whorf Latent Tongue", "head": "6e71f109db7bba64e222029f298072ed64cc42de", "ci": 31457981699, "state": "GREEN_GITHUB_ACTIONS_DRAFT_EXTERNAL_PREVIEW_BLOCKED", "note": "Actual centered language accuracy is 0.3611111111111111 and normalized excess leakage reduction is 0.9583333333333334 against the frozen >=0.90 gate. Exact chance was never the threshold. Independent verifier does not import the implementation. Vercel statuses are blocked by build-rate-limit."}
     ],
     "scientific_boundaries": {
       "pst": "RECOVERED_COMPACT_EVIDENCE / SOURCE_MIGRATION_PENDING / EXTERNAL_BLOCKED",
       "npms": "RECOVERED_COMPACT_EVIDENCE / SOURCE_MIGRATION_PENDING / EXTERNAL_UNVALIDATED",
-      "lam_jepa": "VALID_NEGATIVE_OR_INCONCLUSIVE_VALIDATION",
+      "lam_jepa": "NEGATIVE_OR_INCONCLUSIVE / RESEARCH_COMPLETE_FALSE",
       "sapir_whorf": "CONTROLLED_SYNTHETIC_MECHANICS_PASS only; no real multilingual-model or linguistic-relativity evidence"
     }
   },
   "vertexed": {
     "main": "662de36af18b1251e6441391ac3fc06df7a3bf71",
-    "monitor_dedupe_merged": true,
-    "immutable_revision_source_pr": 233,
-    "immutable_revision_source_ci": 31456791409,
-    "immutable_revision_monitor_validation": 31456791458,
+    "monitor_incident_dedupe_merged": true,
+    "duplicate_monitor_pr_closed": 244,
+    "immutable_revision_source_pr": {"pr": 233, "head": "a68f2cd11bdcafdcf7109941b831fe70925f14ba", "ci": 31456791409, "monitor_validation": 31456791458, "state": "GREEN_DRAFT_MANUAL_REVIEW"},
+    "cross_account_transient_isolation_pr": {"pr": 240, "head": "edd9906d58b8190b9ba47cdb353901cd92d17e35", "ci": 31457094463, "state": "GREEN_DRAFT_MANUAL_REVIEW"},
     "production_deployed_sha_verified": false,
     "authenticated_production_journey_verified": false,
     "production_deployment_performed": false,
     "production_database_mutation_performed": false,
-    "external_preview_blocker": "Vercel free-tier deployment-rate limit observed on preview builds (>100 deployments/day)."
+    "external_preview_blocker": "Vercel build-rate-limit observed on preview statuses; not treated as repository/scientific evidence."
   },
   "finance_meta": {
     "repository": "build-the-future-11/finance4all-global-reach",
@@ -80,45 +92,42 @@
     "hardening_branch": "cursor/membership-security-supabase-fix",
     "branch_ahead": 41,
     "branch_behind": 0,
-    "verified_security_delta": [
-      "removes permissive authenticated notification insert policy",
-      "constrains privileged profile writes",
-      "uses SECURITY DEFINER profile functions with explicit search_path and authenticated-only execute grants"
-    ],
-    "write_blocker": "403 Resource not accessible by integration",
-    "production_supabase_verified": false
+    "direct_write_blocker": "403 Resource not accessible by integration",
+    "production_supabase_verified": false,
+    "control_repo_overlay": {"pr": 245, "head": "98e7b1c4e60a91dc35fddf8b7bbe32aaa5c3a261", "ci": 31457741503, "authorization_validation": 31457741526, "integrated_release_overlay": 31457741510, "state": "GREEN_DRAFT_MANUAL_REVIEW_NO_TARGET_WRITE"}
   },
   "bu1ld": {
     "repository": "ryangomez010/bu1ld-landing",
-    "stale_cursor_branches_ahead_of_main": 0,
-    "remaining_external_gates": [
-      "production DB apply/verify",
-      "Supabase/Auth redirect configuration",
-      "deployment variables",
-      "email configuration",
-      "seven-role allowed-and-forbidden smoke matrix"
-    ]
+    "main": "daa80c1124b2a6d7d09b7669e04d29e50cffcbbe",
+    "direct_write_blocker": "403 Resource not accessible by integration",
+    "known_ci_gap": "existing 22-route smoke command is not invoked by CI after build",
+    "remaining_external_gates": ["production DB apply/verify", "Supabase/Auth redirect configuration", "deployment variables", "email configuration", "seven-role allowed-and-forbidden smoke matrix"]
   },
-  "atlas": {
-    "state": "BLOCKED_SOURCE",
-    "evidence": "Expected build-the-future-11/Atlas repository returns 404 and organization/installation search found no canonical Atlas repository."
-  },
-  "percy": {
-    "state": "BLOCKED_SOURCE",
-    "evidence": "Expected build-the-future-11/Percy repository returns 404 and no canonical Percy runtime/source is exposed through the connected GitHub surface."
+  "lam_jepa": {
+    "main": "f9b10c768d7e93eccb440761306bd992c3ec6a5a",
+    "arc_superiority_supported": false,
+    "research_complete": false,
+    "claim_boundary_machine_enforced": true
   },
   "text_to_video": {
     "main": "525123123392693b6221bb4ff1b2d2ee220bb386",
-    "local_durable_queue_merged": true,
-    "bounded_retry_policy_merged": true,
+    "local_durable_queue_present": true,
+    "bounded_retry_policy_present": true,
     "stale_progress_reset_merged": true,
+    "api_lifecycle_review": {"pr": 16, "head": "98fd04b432745676661236697377c694fb049ba9", "ci": 31457181357, "state": "GREEN_DRAFT"},
+    "content_addressed_storage_review": {"pr": 9, "head": "e22cc17e3cb43dde3c4341324a7121469a86e502", "ci": 31455796018, "state": "GREEN_DRAFT"},
     "remaining_boundary": "Remote durable storage/hosting, real narration and production worker deployment remain unverified/manual integration work."
   },
+  "atlas": {"state": "BLOCKED_SOURCE", "evidence": "No canonical Atlas repository/runtime is exposed through the connected GitHub installation; no unrelated repository was substituted."},
+  "percy": {"state": "BLOCKED_SOURCE / BLOCKED_RUNTIME", "evidence": "No canonical Percy source/SQLite/runtime is exposed through the connected GitHub surface; no process-count liveness claim was made."},
   "safety": {
     "production_deployments": 0,
     "production_database_mutations": 0,
     "force_pushes": 0,
+    "manual_merge_gates_bypassed": 0,
     "scientific_thresholds_weakened": 0,
-    "secrets_exposed": 0
+    "negative_results_relabelled_positive": 0,
+    "secrets_exposed": 0,
+    "auxiliary_first100_double_counts": 0
   }
 }
