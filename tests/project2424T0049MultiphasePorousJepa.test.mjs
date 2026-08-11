@@ -50,7 +50,7 @@ test('zero-dynamics negative control produces no false predictive gain', () => {
 });
 
 test('malformed or unsafe dynamics inputs fail closed', () => {
-  assert.throws(() => stepPorousState([0, 1, 2, 3], [1, 1, 1], 0.08), /lengths must match/);
+  assert.throws(() => stepPorousState([0, 1, 2, 3], [1, 1, 1, 1, 1], 0.08), /lengths must match/);
   assert.throws(() => stepPorousState([0, 1, 2, 3], [1, 1, -1, 1], 0.08), /strictly positive/);
   assert.throws(() => stepPorousState([0, 1, 2, 3], [1, 1, 1, 1], 0.5), /alpha must be between/);
   assert.throws(() => encodeLatent([1, 2, 3, 4], 3), /blockSize must divide/);
