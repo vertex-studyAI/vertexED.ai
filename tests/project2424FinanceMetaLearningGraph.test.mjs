@@ -21,10 +21,11 @@ test('frozen queue identity maps T2424-0040 to FinanceMeta Learning Graph', () =
     .trim()
     .split('\n')
     .map((line) => JSON.parse(line));
-  const entry = queue.find((item) => item.task_id === 'T2424-0040');
+  const entry = queue.find((item) => item.id === 'T2424-0040');
   assert.ok(entry);
-  assert.equal(entry.project_id, 'P2424-0040');
-  assert.equal(entry.project, 'FinanceMeta Learning Graph');
+  assert.equal(entry.rank, 33);
+  assert.equal(entry.name, 'FinanceMeta Learning Graph');
+  assert.equal(entry.slug, 'financemeta-learning-graph');
 });
 
 test('graph validation fails closed on missing prerequisites and cycles', () => {
