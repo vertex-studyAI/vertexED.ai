@@ -1,52 +1,59 @@
 {
-  "schema_version": 2,
+  "schema_version": 3,
   "as_of": "2026-08-11",
   "control_repository": "vertex-studyAI/vertexED.ai",
-  "control_main_before_checkpoint": "662de36af18b1251e6441391ac3fc06df7a3bf71",
-  "truth_boundary": "Merged Project 2424 implementations, evidence-only recoveries, green draft review candidates, scientific evidence and production state are distinct. No open Project 2424 branch is counted as merged or Certified complete.",
-  "merged_and_verified_in_this_run": [
+  "control_main_at_refresh": "37391b14fbd3aa2ab550aa0048ab944ea2556483",
+  "truth_boundary": "Merged implementations, evidence-only recoveries, exact-head-green draft/manual candidates, scientific evidence, production verification, Certified Complete and Research Complete are distinct states. No open Project 2424 branch is counted as merged, certified or research-complete.",
+  "connected_github_surface": {
+    "installed_account": "vertex-studyAI",
+    "repositories_visible": [
+      "vertex-studyAI/vertexED.ai",
+      "vertex-studyAI/LAM-JEPA",
+      "vertex-studyAI/Text-To-Video"
+    ],
+    "repository_count": 3,
+    "atlas_repository_visible": false,
+    "percy_repository_visible": false
+  },
+  "verified_merges_2026_08_11": [
     {
       "repository": "vertex-studyAI/vertexED.ai",
       "pr": 226,
-      "head": "2ac9a1b6566f133861bef42a6589374fd91fbc42",
-      "ci": 31456035191,
       "merge": "0a9751d6e8b995747c855c64d60bdda9b1891eaf",
-      "result": "PST and NPMS canonical queue-identity metadata aligned without changing either scientific evidence tier."
+      "result": "PST and NPMS canonical queue-identity metadata aligned without promoting their evidence tier."
     },
     {
       "repository": "vertex-studyAI/vertexED.ai",
       "pr": 229,
-      "head": "f8b1120b7db0572e09d05a2ffd67fe8c1a33ee7b",
-      "ci": 31456436247,
       "merge": "d01b201035195575ee5764fefc9ef108f7e06314",
-      "result": "Evidence-backed GitHub portfolio checkpoint published; Project 2424 counts and Atlas/Percy blockers preserved conservatively."
+      "result": "Evidence-backed portfolio checkpoint published with Atlas/Percy blocked-source truth preserved."
     },
     {
       "repository": "vertex-studyAI/LAM-JEPA",
       "pr": 56,
-      "head": "8a4aea6d5b90f7ccae19671c496e4ff5c4d08a63",
-      "workflow_runs": [31456283939, 31456283866, 31456283876],
       "merge": "f9b10c768d7e93eccb440761306bd992c3ec6a5a",
-      "result": "Fail-closed machine enforcement of the retained negative/inconclusive ARC verdict, RESEARCH_COMPLETE_FALSE boundary and confirmatory-test stop rule."
+      "result": "Fail-closed enforcement of the retained negative/inconclusive ARC boundary and RESEARCH_COMPLETE_FALSE state."
     },
     {
       "repository": "vertex-studyAI/vertexED.ai",
       "pr": 243,
-      "head": "9003afd5781e04783bad9a860c6887a8d9b026de",
-      "ci": 31457509513,
-      "additional_validation": 31457509507,
       "merge": "662de36af18b1251e6441391ac3fc06df7a3bf71",
-      "result": "Repeated production-health failures update one incident body instead of appending duplicate hourly comments.",
-      "boundary": "Monitoring/docs only; no application deployment or Supabase mutation."
+      "result": "Production-health incident deduplication; monitoring/docs only."
     },
     {
       "repository": "vertex-studyAI/Text-To-Video",
       "pr": 18,
-      "head": "3559458caa8af3718b2832f13854f6f5f532c7f0",
-      "ci": 31457589919,
       "merge": "525123123392693b6221bb4ff1b2d2ee220bb386",
-      "result": "Durable local render jobs reset stale progress to zero on retry, lease recovery and replacement claim.",
-      "boundary": "Single-host local queue semantics only; no distributed durability, hosted media or deployment claim."
+      "result": "Durable local render jobs reset stale progress on retry/recovery."
+    },
+    {
+      "repository": "vertex-studyAI/Text-To-Video",
+      "pr": 27,
+      "head": "a78c1731c51e89f25fe27a53fded8371e01765e8",
+      "ci": 31488122804,
+      "merge": "55666043ee621e2bc9ab73b3337fd312681c24a0",
+      "result": "Restored root-level worker regression coverage and repaired the stale queue corruption fixture. Full media release gate passed before merge.",
+      "boundary": "CI/test-integrity repair only; no deployment or runtime feature claim."
     }
   ],
   "project2424": {
@@ -56,70 +63,84 @@
     "certified_complete": 0,
     "research_complete": 0,
     "known_main_identity_collisions": 1,
+    "superseded_closed": [
+      {"pr": 230, "id": "T2424-0050", "reason": "superseded by latest-main Darcy repair #253 after exact-head verification"}
+    ],
     "manual_or_draft_green_review_candidates": [
-      {"pr": 230, "id": "T2424-0050", "name": "Darcy Latent Operator", "head": "0131c7d33e967f55e8b07ff5bfc1f03feb164f01", "ci": 31458049157, "state": "GREEN_DRAFT_MANUAL_IDENTITY_REPAIR"},
-      {"pr": 231, "id": "T2424-0024", "name": "Trust Under Uncertainty", "head": "a15f31fbcbef6ab5868cb4f8a30e806f4d8721ca", "ci": 31458059377, "state": "GREEN_DRAFT_CERTIFICATION_PENDING"},
-      {"pr": 232, "id": "T2424-0029", "name": "Representation Phase Transitions for PDEs", "head": "f22ab98f2bf93a3437153cba2f2ada6f9593570d", "ci": 31458091370, "state": "GREEN_DRAFT_MANUAL_REVIEW"},
-      {"pr": 234, "id": "T2424-0028", "name": "Residual Event Tokenization", "head": "bbb173fc2cd93e588883b3798de9712cb29094eb", "ci": 31458080289, "state": "GREEN_DRAFT_MANUAL_REVIEW"},
-      {"pr": 236, "id": "T2424-0037", "name": "NLP-to-CAD", "head": "53d2861da4d9dc73259552bfe3c7ec77853db591", "ci": 31457325080, "state": "GREEN_DRAFT_MANUAL_REVIEW"},
-      {"pr": 238, "id": "T2424-0035", "name": "Grokking Agent", "head": "f3edc0e87f4d9d03bf9bb639a8b2d1c6a6d93737", "ci": 31457341269, "state": "GREEN_DRAFT_MANUAL_REVIEW"},
+      {"pr": 253, "id": "T2424-0050", "name": "Darcy Latent Operator", "head": "56df3c12c3f0e40d2f4a698314ac652dc12cad55", "ci": 31487374531, "state": "GREEN_DRAFT_MANUAL_IDENTITY_REPAIR"},
+      {"pr": 252, "id": "T2424-0040", "name": "FinanceMeta Learning Graph", "head": "60133e8e4c52315cf0db89323477d44fb37069a9", "ci": 31460172882, "state": "GREEN_DRAFT_CERTIFICATION_PENDING"},
+      {"pr": 242, "id": "T2424-0027", "name": "Sapir–Whorf Latent Tongue", "head": "83d0af902d9f07b9181df4925cc4722169ed1b08", "ci": 31458828892, "state": "GREEN_DRAFT_MANUAL_REVIEW_EXTERNAL_PREVIEW_BLOCKED"},
+      {"pr": 241, "id": "T2424-0054", "name": "Theory-Manifold Experiment Planner", "head": "18c41b914a331e3f617026492900b0f7890eef11", "ci": 31458120484, "state": "GREEN_DRAFT_MANUAL_REVIEW"},
       {"pr": 239, "id": "T2424-0026", "name": "Counterfactual Defect Worlds", "head": "596cb91d0a36a163cb9fab8745f65cbfb1ec47b6", "ci": 31458068712, "state": "GREEN_DRAFT_MANUAL_REVIEW"},
-      {"pr": 241, "id": "T2424-0054", "name": "Theory-Manifold Experiment Planner", "head": "eb6fd52c74c890183a77c3137678667fe7fbf2d0", "ci": 31457540595, "state": "GREEN_DRAFT_MANUAL_REVIEW"},
-      {"pr": 242, "id": "T2424-0027", "name": "Sapir–Whorf Latent Tongue", "head": "6e71f109db7bba64e222029f298072ed64cc42de", "ci": 31457981699, "state": "GREEN_GITHUB_ACTIONS_DRAFT_EXTERNAL_PREVIEW_BLOCKED", "note": "Actual centered language accuracy is 0.3611111111111111 and normalized excess leakage reduction is 0.9583333333333334 against the frozen >=0.90 gate. Exact chance was never the threshold. Independent verifier does not import the implementation. Vercel statuses are blocked by build-rate-limit."}
+      {"pr": 238, "id": "T2424-0035", "name": "Grokking Agent", "head": "bf229ed56b05bfeab3017616f65454aa53cf045a", "ci": 31458102895, "state": "GREEN_DRAFT_MANUAL_REVIEW"},
+      {"pr": 236, "id": "T2424-0037", "name": "NLP-to-CAD", "head": "83bdeb2c62be88f4b8d84c1a924dd6ec8fd48fa8", "ci": 31458112736, "state": "GREEN_DRAFT_MANUAL_REVIEW"},
+      {"pr": 234, "id": "T2424-0028", "name": "Residual Event Tokenization", "head": "bbb173fc2cd93e588883b3798de9712cb29094eb", "ci": 31458080289, "state": "GREEN_DRAFT_MANUAL_REVIEW"},
+      {"pr": 232, "id": "T2424-0029", "name": "Representation Phase Transitions for PDEs", "head": "f22ab98f2bf93a3437153cba2f2ada6f9593570d", "ci": 31458091370, "state": "GREEN_DRAFT_MANUAL_REVIEW"},
+      {"pr": 231, "id": "T2424-0024", "name": "Trust Under Uncertainty", "head": "a15f31fbcbef6ab5868cb4f8a30e806f4d8721ca", "ci": 31458059377, "state": "GREEN_DRAFT_CERTIFICATION_PENDING"}
     ],
     "scientific_boundaries": {
       "pst": "RECOVERED_COMPACT_EVIDENCE / SOURCE_MIGRATION_PENDING / EXTERNAL_BLOCKED",
       "npms": "RECOVERED_COMPACT_EVIDENCE / SOURCE_MIGRATION_PENDING / EXTERNAL_UNVALIDATED",
       "lam_jepa": "NEGATIVE_OR_INCONCLUSIVE / RESEARCH_COMPLETE_FALSE",
-      "sapir_whorf": "CONTROLLED_SYNTHETIC_MECHANICS_PASS only; no real multilingual-model or linguistic-relativity evidence"
+      "sapir_whorf": "CONTROLLED_SYNTHETIC_MECHANICS_PASS only; no real multilingual-model or linguistic-relativity evidence",
+      "darcy": "CONTROLLED_1D_REDUCED_RESISTANCE_SANITY_SCREEN only; no learned neural operator or scientific-ML superiority claim"
     }
   },
   "vertexed": {
-    "main": "662de36af18b1251e6441391ac3fc06df7a3bf71",
-    "monitor_incident_dedupe_merged": true,
-    "duplicate_monitor_pr_closed": 244,
-    "immutable_revision_source_pr": {"pr": 233, "head": "a68f2cd11bdcafdcf7109941b831fe70925f14ba", "ci": 31456791409, "monitor_validation": 31456791458, "state": "GREEN_DRAFT_MANUAL_REVIEW"},
-    "cross_account_transient_isolation_pr": {"pr": 240, "head": "edd9906d58b8190b9ba47cdb353901cd92d17e35", "ci": 31457094463, "state": "GREEN_DRAFT_MANUAL_REVIEW"},
+    "main": "37391b14fbd3aa2ab550aa0048ab944ea2556483",
+    "immutable_revision_source_pr": {"pr": 233, "head": "ca9b06b3a208c0f55d9c0c8a287691c3ae1bbba5", "ci": 31458194462, "monitor_validation": 31458194479, "state": "GREEN_DRAFT_MANUAL_REVIEW"},
+    "cross_account_transient_isolation_pr": {"pr": 240, "head": "25d739d84b5649a14fec5c4db1dfc129bf337303", "ci": 31458207037, "state": "GREEN_DRAFT_MANUAL_REVIEW"},
     "production_deployed_sha_verified": false,
     "authenticated_production_journey_verified": false,
     "production_deployment_performed": false,
     "production_database_mutation_performed": false,
-    "external_preview_blocker": "Vercel build-rate-limit observed on preview statuses; not treated as repository/scientific evidence."
+    "external_preview_blocker": "Vercel build-rate-limit observed on some preview statuses; not treated as repository, scientific or production evidence."
   },
   "finance_meta": {
-    "repository": "build-the-future-11/finance4all-global-reach",
-    "main": "fbdd503223edc5b1780509720391083f485a4a85",
-    "hardening_branch": "cursor/membership-security-supabase-fix",
-    "branch_ahead": 41,
-    "branch_behind": 0,
+    "target_repository": "build-the-future-11/finance4all-global-reach",
+    "target_pinned_main": "fbdd503223edc5b1780509720391083f485a4a85",
+    "latest_control_recovery": {
+      "pr": 254,
+      "head": "67bab3a8a85ec64f1de3c1aabd2116b18297e348",
+      "canonical_ci": 31488305364,
+      "authorization_validation": 31488305354,
+      "integrated_release_overlay": 31488305321,
+      "state": "GREEN_DRAFT_MANUAL_REVIEW_NO_TARGET_WRITE"
+    },
     "direct_write_blocker": "403 Resource not accessible by integration",
     "production_supabase_verified": false,
-    "control_repo_overlay": {"pr": 245, "head": "98e7b1c4e60a91dc35fddf8b7bbe32aaa5c3a261", "ci": 31457741503, "authorization_validation": 31457741526, "integrated_release_overlay": 31457741510, "state": "GREEN_DRAFT_MANUAL_REVIEW_NO_TARGET_WRITE"}
+    "production_mutation_performed": false
   },
   "bu1ld": {
-    "repository": "ryangomez010/bu1ld-landing",
-    "main": "daa80c1124b2a6d7d09b7669e04d29e50cffcbbe",
-    "direct_write_blocker": "403 Resource not accessible by integration",
-    "known_ci_gap": "existing 22-route smoke command is not invoked by CI after build",
-    "remaining_external_gates": ["production DB apply/verify", "Supabase/Auth redirect configuration", "deployment variables", "email configuration", "seven-role allowed-and-forbidden smoke matrix"]
+    "state": "BLOCKED_CONNECTED_SOURCE",
+    "evidence": "The current connected GitHub installation exposes only the three vertex-studyAI repositories; Bu1LD source is not available on this execution surface and no production claim is made."
   },
   "lam_jepa": {
-    "main": "f9b10c768d7e93eccb440761306bd992c3ec6a5a",
+    "latest_main_observed": "1001fbe580b6369d5ff7ee7abb9e4edaae96121d",
     "arc_superiority_supported": false,
     "research_complete": false,
-    "claim_boundary_machine_enforced": true
+    "claim_boundary_machine_enforced": true,
+    "open_prs": 0
   },
   "text_to_video": {
-    "main": "525123123392693b6221bb4ff1b2d2ee220bb386",
+    "main": "55666043ee621e2bc9ab73b3337fd312681c24a0",
+    "main_ci_integrity_fix": {"pr": 27, "ci": 31488122804, "state": "MERGED_VERIFIED"},
     "local_durable_queue_present": true,
     "bounded_retry_policy_present": true,
-    "stale_progress_reset_merged": true,
-    "api_lifecycle_review": {"pr": 16, "head": "98fd04b432745676661236697377c694fb049ba9", "ci": 31457181357, "state": "GREEN_DRAFT"},
-    "content_addressed_storage_review": {"pr": 9, "head": "e22cc17e3cb43dde3c4341324a7121469a86e502", "ci": 31455796018, "state": "GREEN_DRAFT"},
-    "remaining_boundary": "Remote durable storage/hosting, real narration and production worker deployment remain unverified/manual integration work."
+    "root_worker_regressions_executed_by_ci": true,
+    "content_addressed_storage_review": {"pr": 28, "head": "8177b36e43702009817ed3cf9c966681a0d64cb7", "ci": 31488845671, "state": "GREEN_DRAFT_MANUAL_INTEGRATION"},
+    "superseded_storage_pr": {"pr": 25, "state": "CLOSED_UNMERGED_SUPERSEDED"},
+    "api_lifecycle_review": {"pr": 26, "head": "ca377f7ef123e6fe3709db8751ffc61f3fc6f499", "ci": 31488896019, "state": "GREEN_DRAFT_MANUAL_INTEGRATION"},
+    "remaining_boundary": "Remote durable storage/hosting, transactional API-worker-storage unification, real narration and production worker deployment remain unverified/manual work."
   },
-  "atlas": {"state": "BLOCKED_SOURCE", "evidence": "No canonical Atlas repository/runtime is exposed through the connected GitHub installation; no unrelated repository was substituted."},
-  "percy": {"state": "BLOCKED_SOURCE / BLOCKED_RUNTIME", "evidence": "No canonical Percy source/SQLite/runtime is exposed through the connected GitHub surface; no process-count liveness claim was made."},
+  "atlas": {
+    "state": "BLOCKED_SOURCE",
+    "evidence": "No canonical Atlas repository or runtime is exposed through the connected GitHub installation; no similarly named repository was substituted."
+  },
+  "percy": {
+    "state": "BLOCKED_SOURCE / BLOCKED_RUNTIME",
+    "evidence": "No canonical Percy source, SQLite state or heartbeat-backed runtime is exposed through the connected GitHub surface; no process-count liveness claim was made."
+  },
   "safety": {
     "production_deployments": 0,
     "production_database_mutations": 0,
