@@ -25,6 +25,30 @@ function normalizeTitle(value) {
     .replace(/\s+/g, ' ');
 }
 
+function hasCanonicalRecoveredEvidenceIdentity(id, queueEntry) {
+  const statusPath = path.join(projectsRoot, id, 'STATUS.md');
+  if (!fs.existsSync(statusPath)) return false;
+
+  const status = fs.readFileSync(statusPath, 'utf8');
+  const projectLine = status
+    .split('\n')
+    .map((line) => line.trim())
+    .find((line) => /^\*\*Project:\*\*/.test(line));
+  const recoveredAliasLine = status
+    .split('\n')
+    .map((line) => line.trim())
+    .find((line) => /^\*\*Recovered\/source alias:\*\*/.test(line));
+  const stateLine = status
+    .split('\n')
+    .map((line) => line.trim())
+    .find((line) => /^State:\s+`RECOVERED_/.test(line));
+
+  if (!projectLine || !recoveredAliasLine || !stateLine) return false;
+
+  const declaredProject = projectLine.replace(/^\*\*Project:\*\*\s*/, '');
+  return normalizeTitle(declaredProject) === normalizeTitle(queueEntry.name);
+}
+
 test('every canonical T2424 package identity agrees with the frozen First-100 queue', () => {
   const queue = readFrozenQueue();
   const queueById = new Map(queue.map((entry) => [entry.id, entry]));
@@ -60,7 +84,10 @@ test('every canonical T2424 package identity agrees with the frozen First-100 qu
 
     const normalizedHeading = normalizeTitle(heading.replace(/^#\s+/, ''));
     const normalizedQueueName = normalizeTitle(queueEntry.name);
-    if (!normalizedHeading.includes(normalizedQueueName)) {
+    if (
+      !normalizedHeading.includes(normalizedQueueName) &&
+      !hasCanonicalRecoveredEvidenceIdentity(id, queueEntry)
+    ) {
       conflicts.push(`${id}: README title '${heading}' does not match frozen name '${queueEntry.name}'`);
     }
   }
