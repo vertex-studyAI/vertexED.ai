@@ -1,0 +1,224 @@
+{
+  "schema_version": 4,
+  "as_of": "2026-08-11T17:36:00+05:30",
+  "control_repository": "vertex-studyAI/vertexED.ai",
+  "control_commit_at_refresh": "37391b14fbd3aa2ab550aa0048ab944ea2556483",
+  "status_enum": ["DONE", "PARTIAL", "BLOCKED", "INVALID", "UNKNOWN"],
+  "github_surface": {
+    "authenticated_user": "build-the-future-11",
+    "installed_accounts": ["vertex-studyAI"],
+    "repositories_visible": 3,
+    "repositories": [
+      "vertex-studyAI/vertexED.ai",
+      "vertex-studyAI/LAM-JEPA",
+      "vertex-studyAI/Text-To-Video"
+    ],
+    "atlas_repository_found": false,
+    "percy_repository_found": false
+  },
+  "finish_lines": [
+    {
+      "id": "percy",
+      "name": "Percy",
+      "status": "BLOCKED",
+      "classification": "BLOCKED",
+      "runtime_liveness_verified": false,
+      "evidence": [
+        "The connected GitHub surface exposes no canonical Percy source, preserved task DB, coordinator process, recent worker heartbeat or active lease evidence.",
+        "A process name, historical orchestration prompt or synthetic worker record is not accepted as runtime liveness proof."
+      ],
+      "blockers": [
+        "Canonical Percy source and preserved DB snapshot/schema compatibility are unavailable on this execution surface.",
+        "Real worker liveness still requires process plus fresh heartbeat/lease evidence and a non-secret runtime preflight."
+      ],
+      "next_action": "Lane 04: when canonical Percy source/runtime becomes available, snapshot the DB first, verify schema/DB compatibility, then prove worker liveness from process plus heartbeat/lease evidence before any healthy claim.",
+      "percy_lane": "04"
+    },
+    {
+      "id": "project2424",
+      "name": "Project 2424",
+      "status": "PARTIAL",
+      "classification": "ENGINEERING_INCOMPLETE",
+      "registry_total": 2424,
+      "first100_registry_entries": 100,
+      "queue_consistent_runnable_tested_merged": 12,
+      "evidence_recoveries_merged": 2,
+      "certified_complete": 0,
+      "research_complete": 0,
+      "independent_reproduction_verified": false,
+      "evidence": [
+        "Current connected main preserves 100 frozen First-100 entries, 12 queue-consistent runnable/tested/merged implementations, two evidence-only recoveries, zero Certified Complete and zero Research Complete.",
+        "Ten exact-head-green draft/manual Project 2424 candidates exist, including Darcy #253 and FinanceMeta Learning Graph #252, but none is counted as merged or certified.",
+        "Darcy #253 exact head 56df3c12c3f0e40d2f4a698314ac652dc12cad55 passed CI 31487374531; superseded Darcy #230 was closed unmerged only after replacement verification.",
+        "Canonical local-source restoration and an independently reproduced baseline remain unverified on this connected surface."
+      ],
+      "blockers": [
+        "Manual-gated integration decisions for the exact-head-green Project 2424 candidates, especially the T2424-0050 identity repair.",
+        "Canonical source restoration with history/dirty state preserved where external local source is required.",
+        "Fresh baseline reproduction and independent reproduction before any Research Complete claim."
+      ],
+      "next_action": "Lane 05: preserve exact-head green manual candidates without auto-merge; restore canonical source when available, reproduce the smallest baseline, and require independent reproduction before research-complete promotion.",
+      "percy_lane": "05"
+    },
+    {
+      "id": "vertexed",
+      "name": "VertexED",
+      "status": "PARTIAL",
+      "classification": "LIVE_VERIFICATION_REQUIRED",
+      "source_release_candidate": true,
+      "real_user_journey_verified": false,
+      "deployed_sha_verified": false,
+      "evidence": [
+        "Current connected main is 37391b14fbd3aa2ab550aa0048ab944ea2556483.",
+        "Immutable build-revision source PR #233 head ca9b06b3a208c0f55d9c0c8a287691c3ae1bbba5 passed canonical CI 31458194462 and monitor validation 31458194479, but remains draft/manual.",
+        "Account-scoped transient learner-handoff PR #240 head 25d739d84b5649a14fec5c4db1dfc129bf337303 passed CI 31458207037, but source CI is not an authenticated production golden journey."
+      ],
+      "blockers": [
+        "Exact canonical production identity and deployed SHA verification.",
+        "Authenticated disposable-user production golden journey including saved-artifact return and logout access denial.",
+        "Owner-controlled production Supabase/security verification."
+      ],
+      "next_action": "Lane 01: after explicit production authorization, prove the deployed production SHA first, then execute the authenticated golden journey with saved-artifact return and logout denial evidence; do not infer production from source CI.",
+      "percy_lane": "01"
+    },
+    {
+      "id": "financemeta",
+      "name": "FinanceMeta",
+      "status": "BLOCKED",
+      "classification": "LOCAL_ONLY",
+      "real_user_journey_verified": false,
+      "evidence": [
+        "Latest control recovery PR #254 head 67bab3a8a85ec64f1de3c1aabd2116b18297e348 passed canonical CI 31488305364, authorization validation 31488305354 and integrated overlay 31488305321.",
+        "The overlay hardens profile role writes, notification insertion, SECURITY DEFINER search paths and view security without mutating the target or live Supabase.",
+        "Direct target-branch creation in build-the-future-11/finance4all-global-reach remains blocked by 403 Resource not accessible by integration."
+      ],
+      "blockers": [
+        "Effective GitHub target-ref/write permission or another explicitly authorized application path.",
+        "Production Supabase access for live authorization denial verification.",
+        "Normal-member privilege/role escalation denial and persisted return journey remain unverified."
+      ],
+      "next_action": "Lane 02: after target-ref write permission exists, apply the reviewed authorization overlay to an isolated canonical target branch, rerun gates, and prove member privilege/role escalation denial plus persistence before production use.",
+      "percy_lane": "02"
+    },
+    {
+      "id": "the-bu1ld",
+      "name": "The Bu1LD",
+      "status": "BLOCKED",
+      "classification": "STAGING_READY",
+      "real_user_journey_verified": false,
+      "evidence": [
+        "The current GitHub App installation exposes only vertex-studyAI repositories; the canonical Bu1LD target is not connected on this execution surface.",
+        "No connected evidence here proves current production deployment identity, hydration integrity or a real role-based member journey."
+      ],
+      "blockers": [
+        "Effective canonical target-ref/write permission to the Bu1LD source repository.",
+        "Production deployment/hydration evidence and owner-controlled backend access.",
+        "Allowed and denied member/reviewer/admin role journeys remain unverified."
+      ],
+      "next_action": "Lane 03: after canonical target access/write permission is restored, apply the reviewed staging artifact once, verify deployment and hydration, then test allowed and denied role actions before feature expansion.",
+      "percy_lane": "03"
+    }
+  ],
+  "research_subprojects": [
+    {
+      "id": "lam-jepa",
+      "name": "LAM-JEPA",
+      "status": "PARTIAL",
+      "classification": "VALID_NEGATIVE_OR_INCONCLUSIVE_VALIDATION",
+      "latest_main_observed": "1001fbe580b6369d5ff7ee7abb9e4edaae96121d",
+      "independent_reproduction_verified": true,
+      "research_complete": false,
+      "confirmatory_test_accessed": false,
+      "evidence": [
+        "No open PRs were present when inspected; latest main preserves the frozen negative/inconclusive ARC result and fail-closed claim boundary."
+      ],
+      "blockers": ["Research Complete remains false; release/legal/bibliographic gates remain separate."],
+      "next_action": "Preserve the negative/inconclusive result; do not retune thresholds or access locked confirmatory evidence without separate authorization."
+    },
+    {
+      "id": "text-to-video",
+      "name": "Text-To-Video",
+      "status": "PARTIAL",
+      "classification": "LOCAL_PIPELINE_INTEGRATION_ACTIVE",
+      "evidence": [
+        "PR #27 head a78c1731c51e89f25fe27a53fded8371e01765e8 passed full CI 31488122804 and was squash-merged as main 55666043ee621e2bc9ab73b3337fd312681c24a0, restoring root-level worker regressions.",
+        "Preferred storage recovery #29 head 58c77f1988eadb14bfc48603a12ab433dff06d35 changes exactly eight storage/CI/status files and passed exact-head CI 31489136442; it remains draft/manual. Superseded storage #28 and earlier #25 are closed unmerged.",
+        "API lifecycle #26 head ca377f7ef123e6fe3709db8751ffc61f3fc6f499 passed fresh current-main CI 31488896019 and remains draft/manual."
+      ],
+      "blockers": [
+        "Storage #29 and lifecycle #26 require separate manual integration decisions.",
+        "No production object storage/hosting, transactional API-worker-storage unification, real narration or production worker deployment is verified."
+      ],
+      "next_action": "Keep #29 and #26 draft/manual as instructed; integrate only with explicit review and preserve local-only claim boundaries."
+    },
+    {
+      "id": "atlas-runtime",
+      "name": "Atlas runtime",
+      "status": "BLOCKED",
+      "classification": "BLOCKED_SOURCE",
+      "evidence": [
+        "Only three repositories are visible to the connected installation and none is a canonical Atlas repository."
+      ],
+      "blockers": ["Canonical Atlas source/repository identity", "Actual task-state/worker/heartbeat evidence"],
+      "next_action": "Locate and connect the canonical Atlas source first; do not substitute a similarly named repository or fabricate worker state."
+    }
+  ],
+  "business": {
+    "status": "PARTIAL",
+    "program_readiness": "UNKNOWN",
+    "launch_readiness": "BLOCKED_BY_PRODUCT_AND_ACCESS_GATES",
+    "outreach_sent": "PARTIAL_VERIFIED",
+    "applications": "UNKNOWN",
+    "partnership_pipeline": "PARTIAL_VERIFIED",
+    "truth_boundary": "Count only connected sent/submitted/accepted evidence; drafts, plans and self-reported opportunities do not count as completion."
+  },
+  "top_actions": [
+    "Lane 04 Percy: obtain canonical source/runtime, validate a preserved DB snapshot/schema compatibility, and prove actual worker liveness from process plus heartbeat/lease evidence.",
+    "Lane 01 VertexED: after explicit authorization, prove exact production identity/deployed SHA and then execute the authenticated production golden journey with saved-artifact return.",
+    "Lane 02 FinanceMeta: restore canonical target-ref write permission, apply the reviewed authorization overlay once, then prove role/privilege escalation denial and member persistence.",
+    "Lane 03 Bu1LD: restore canonical target access, apply the reviewed staging artifact once, then verify deployment/hydration and allowed plus forbidden role journeys.",
+    "Lane 05 Project 2424: preserve the exact-head-green manual queue, resolve T2424-0050 only through its manual gate, and restore/reproduce canonical baseline evidence when source is available.",
+    "Lane 06 Atlas: identify and connect the canonical source before any runtime/orchestration edit; retain BLOCKED_SOURCE if it is unavailable.",
+    "Lane 07 LAM-JEPA: preserve the negative/inconclusive verdict and close only evidence-backed release gates without confirmatory-test access.",
+    "Lane 08 Independent QA: independently reproduce immutable research/release evidence and reject claim/evidence mismatches or double-counting.",
+    "Coordinator: keep exact head/run metadata current, retire only demonstrably superseded PRs after replacement CI is green, and preserve manual/no-deploy boundaries.",
+    "Business/outreach/funding: preserve evidence-only truth and do not count sent, submitted, accepted or partnered states without connected proof."
+  ],
+  "coordinator": {
+    "lane": "00",
+    "role": "Coordinator / command center",
+    "runtime_status": "UNKNOWN",
+    "allocation": "Maintain portfolio truth, dependencies, collision-safe ownership, exact-head evidence and independent QA while rejecting unsupported completion claims.",
+    "truth_boundary": "This checkpoint records command allocation and connected evidence; it does not prove a live Percy coordinator process or a live Atlas runtime."
+  },
+  "agents": [
+    {"lane": "01", "role": "VertexED", "current_status": "BLOCKED", "allocation": "Own exact production identity and the authenticated production golden journey after explicit authorization; no feature expansion substitutes for those gates.", "write_scope": ["vertex-studyAI/vertexED.ai production-identity/golden-journey lane only"], "must_not_overlap": ["Percy core", "FinanceMeta target", "Bu1LD target"]},
+    {"lane": "02", "role": "FinanceMeta", "current_status": "BLOCKED", "allocation": "After effective target-ref access exists, apply the existing authorization overlay once and prove normal-member role escalation denial plus persistence.", "write_scope": ["FinanceMeta canonical target isolated branch only"], "must_not_overlap": ["VertexED", "Bu1LD", "Percy core"]},
+    {"lane": "03", "role": "The Bu1LD", "current_status": "BLOCKED", "allocation": "After canonical target access exists, apply the reviewed staging artifact once and verify deployment hydration plus allowed and denied role journeys.", "write_scope": ["Bu1LD canonical target isolated branch only"], "must_not_overlap": ["VertexED", "FinanceMeta", "Percy core"]},
+    {"lane": "04", "role": "Percy Core", "current_status": "BLOCKED", "allocation": "Own canonical Percy source/runtime recovery, preserved-state snapshot/schema checks and heartbeat/lease-backed worker-liveness truth.", "write_scope": ["Percy canonical runtime/control-plane only"], "must_not_overlap": ["product runtime code", "research model implementations"]},
+    {"lane": "05", "role": "Project 2424", "current_status": "RUNNING_EVIDENCE_GATE", "allocation": "Own manual-gated Project 2424 integration truth, canonical identity checks, source restoration and smallest-baseline reproduction without inflating completion.", "write_scope": ["Project 2424 canonical packages/evidence only"], "must_not_overlap": ["synthetic fixture represented as real restore", "product deployment"]},
+    {"lane": "06", "role": "Atlas / source recovery", "current_status": "BLOCKED", "allocation": "Identify the canonical Atlas source and only then inspect coordinator, workers, queues, task state, heartbeats and adapters.", "write_scope": ["Atlas canonical source only after identity is proven"], "must_not_overlap": ["similarly named public repositories", "Percy state mutation"]},
+    {"lane": "07", "role": "LAM-JEPA / deep research", "current_status": "IDLE", "allocation": "Preserve the frozen negative/inconclusive result and work only on evidence-backed release or reproduction gates without threshold rescue.", "write_scope": ["vertex-studyAI/LAM-JEPA evidence/release lane"], "must_not_overlap": ["confirmatory ARC test without authorization", "Project 2424 identity edits"]},
+    {"lane": "08", "role": "Independent QA", "current_status": "RUNNING_EVIDENCE_GATE", "allocation": "Independently reproduce immutable evidence where accessible, verify exact hashes/claims, and reject double-counting or unsupported certification.", "write_scope": ["independent verification/evidence only"], "must_not_overlap": ["authoring the same result being independently checked", "manual merge/deploy gates"]}
+  ],
+  "truth_guards": {
+    "build_pass_is_not_launch_ready": true,
+    "launch_ready_requires_real_user_journey": true,
+    "deployed_verified_requires_exact_deployed_sha": true,
+    "permission_metadata_is_not_effective_write_proof": true,
+    "research_complete_requires_independent_reproduction": true,
+    "synthetic_restore_test_is_not_real_restore": true,
+    "healthy_percy_requires_runtime_liveness": true,
+    "unknown_is_required_when_current_runtime_evidence_is_unavailable": true
+  },
+  "safety": {
+    "production_deployments": 0,
+    "production_database_mutations": 0,
+    "force_pushes": 0,
+    "manual_merge_gates_bypassed": 0,
+    "scientific_thresholds_weakened": 0,
+    "negative_results_relabelled_positive": 0,
+    "secrets_exposed": 0,
+    "auxiliary_first100_double_counts": 0
+  }
+}
