@@ -1,8 +1,14 @@
 # T2424-0016 Status
 
+**Project:** PST — Predictive Single-Cell Transition Score
+
 State: `RECOVERED_COMPACT_EVIDENCE / SOURCE_MIGRATION_PENDING / EXTERNAL_BLOCKED`
 
 Certified complete: **NO**
+
+## Recovered source identity
+
+The canonical First-100 identity above is authoritative. The retained isolated research package was historically named **Predictive Stability Theory (PST)** and identified as `MODEL-PST`; that historical source name is preserved as provenance rather than replacing the frozen queue title.
 
 ## Recovered evidence state
 
