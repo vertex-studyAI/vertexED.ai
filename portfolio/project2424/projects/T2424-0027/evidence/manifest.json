@@ -6,7 +6,7 @@
   "queueSource": "portfolio/project2424/FIRST_100_QUEUE.ndjson",
   "protocolImplementationCommit": "d3250fe5fc399905c93a517bbbd61d0c5ad8d5d6",
   "rawResult": "evidence/raw/results.json",
-  "rawResultSha256": "0f81a5f4f342306cc86a0d0f46b23be4ac6a114d9f9b88b8fa46c35fca3bf79b",
+  "rawResultSha256": "0eac35dd7b8af1488efab0392c2e82dab8f9a90332af7c6ad54633263fa13605",
   "runCommand": "node portfolio/project2424/projects/T2424-0027/experiment/run.mjs /tmp/t2424-0027-results.json",
   "verifyCommand": "node portfolio/project2424/projects/T2424-0027/reproduction/verify.mjs",
   "testCommand": "node --test tests/project2424LatentLanguageAudit.test.mjs",
