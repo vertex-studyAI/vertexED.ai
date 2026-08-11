@@ -3,7 +3,7 @@
 **Project:** Darcy Latent Operator  
 **Queue rank:** 43  
 **Track:** C — Existing work → minimum experiment  
-**State:** VERIFYING / LATEST_MAIN_IDENTITY_REPAIR_CI_PENDING  
+**State:** TESTED_TOOL / MANUAL_MERGE_PENDING  
 **Claim level:** bounded 1D reduced-resistance scientific-computing screen
 
 ## Identity repair
@@ -23,12 +23,16 @@ The frozen First-100 queue assigns `T2424-0050` to **Darcy Latent Operator**. Cu
 - [x] uniform-permeability negative control
 - [x] retained machine-readable result
 - [x] six focused regression tests
+- [x] queue/package identity regression with zero post-repair conflict allowance
+- [x] canonical CI passed on head `8539bbc38624b8bafe1d188876869b2e72c451a4`, run `31456520689`
 
-## Prior exact-head evidence
+## Exact-head evidence
 
 The canonical Darcy implementation passed GitHub Actions on exact head `ce9331c8be3e66eb8249121aa2243c03550108d2`, CI run `31449982073`.
 
-Prior lossless identity-repair heads also passed canonical CI, but those runs prove their prior heads only; this latest recovery from current `main` must pass again before promotion.
+The stronger lossless current repair passed canonical CI run `31456520689` on head `8539bbc38624b8bafe1d188876869b2e72c451a4`, including the zero-exception package↔queue identity regression.
+
+This status-only update creates a newer branch head, so canonical CI must pass again before the separate manual merge decision.
 
 Retained bounded result:
 
@@ -41,7 +45,7 @@ Retained bounded result:
 
 ## Current promotion gate
 
-Canonical GitHub Actions must pass on this latest identity-repair head. A green run establishes repository integration of the relocation + Darcy package; it does not establish scientific generalization or research completion.
+Repository integration is established for the preceding exact head, but the current status head must pass canonical GitHub Actions before manual review. Even then, green CI proves repository integration only; it does not establish scientific generalization or research completion.
 
 ## Not claimed
 
