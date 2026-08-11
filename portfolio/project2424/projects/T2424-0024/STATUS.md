@@ -6,16 +6,12 @@
 **State:** VALIDATING / CERTIFICATION_PENDING / MANUAL_MERGE_PENDING  
 **Claim level:** calibration/selective-prediction evaluator mechanics on frozen synthetic paired controls
 
-## Recovered and strengthened on current main
+## Recovered and strengthened
 
 - [x] canonical frozen-queue path
 - [x] evaluator implementation
-- [x] Brier score
-- [x] calibration bins / ECE
-- [x] confidence-ranked risk–coverage
-- [x] abstention reporting
-- [x] frozen claim
-- [x] frozen protocol
+- [x] Brier score, calibration bins / ECE, confidence-ranked risk–coverage and abstention reporting
+- [x] frozen claim and protocol
 - [x] matched overconfidence negative/mechanism control
 - [x] retained machine-readable result
 - [x] explicit GO verdict and limitations
@@ -25,19 +21,19 @@
 - [x] clean-checkout reproduction instructions
 - [x] explicit baseline analysis
 - [x] explicit metric-mechanism ablation analysis
-- [x] canonical CI passed on preceding evidence head `7feed42003ee06500b594151dc16f229bfeffc85`, run `31456648276`
+- [x] final pre-refresh depth head `cb1e6af2f1ac92b51a8a13e9bbf1cb89147898d2` passed canonical CI `31457481958`
 
-## Current repository gate
+## Latest-base integration refresh
 
-The preceding evidence head passed canonical GitHub Actions. The provenance/reproduction/baseline/ablation additions create a newer branch head, so canonical CI must pass again before this strengthened package is repository-verified and before any separate manual merge decision.
-
-The parent repository is deployment-connected. **Do not auto-merge or deploy.**
+Repository `main` advanced to `662de36af18b1251e6441391ac3fc06df7a3bf71` via monitoring-only PR #243, which does not touch this package. This status refresh intentionally creates a new head so the strengthened artifact is revalidated on the latest pull-request merge ref before manual review.
 
 ## Nine-gate boundary
 
-For the deliberately narrow synthetic evaluator-mechanics claim, this branch now contains source identity, falsifiable claim, frozen protocol, runnable command, baseline/control evidence, retained output, explicit ablation/negative-mechanism analysis, explicit verdict, and implementation-independent QA plus reproduction instructions.
+For the deliberately narrow synthetic evaluator-mechanics claim, this branch contains source identity, falsifiable claim, frozen protocol, runnable command, baseline/control evidence, retained output, explicit ablation/negative-mechanism analysis, explicit verdict, and implementation-independent QA plus reproduction instructions.
 
-It remains **CERTIFICATION_PENDING**, not Certified complete, because a clean current-head integration/reproduction run is still required and the scientific boundary must remain synthetic evaluator mechanics only. Even if the artifact contract becomes complete, that must not be upgraded into a real-model trustworthiness, external-validity, publication, or research-complete claim.
+It remains **CERTIFICATION_PENDING**, not Certified complete. The refreshed head must pass canonical CI, and the scientific boundary must remain synthetic evaluator mechanics only. Even a complete artifact contract must not be upgraded into a real-model trustworthiness, external-validity, publication, deployment-safety or research-complete claim.
+
+The parent repository is deployment-connected. **DO NOT AUTO-MERGE OR DEPLOY. MANUAL REVIEW REQUIRED.**
 
 ## Next scientific gate
 
