@@ -1,0 +1,93 @@
+{
+  "canonical_project_id": "T2424-0019",
+  "recovered_project_id": "MODEL-NPMS",
+  "project": "Neural Predictive Memory Spectroscopy",
+  "recovery_date": "2026-08-11",
+  "evidence_class": "RECOVERED_SYNTHETIC_CONTROLLED",
+  "certified_complete": false,
+  "external_benchmark_executed": false,
+  "novelty_claim_approved": false,
+  "trained_model_checkpoint_evaluated": false,
+  "source_migration_complete": false,
+  "isolated_verdict": "COMPACT_EVIDENCE_COMPLETE",
+  "identity_boundary": "diagnostic system for predictive memory through spectral, temporal, and intervention-based analysis; not a generic forecasting architecture",
+  "tests": {
+    "count": 17,
+    "status": "PASSED_IN_RECOVERED_ISOLATED_BUNDLE"
+  },
+  "smoke": {
+    "experiment_id": "npms-smoke-v1",
+    "seed": 7,
+    "systems": ["linear_dynamical", "delayed_copy"],
+    "mean_delay_feature_error": 0.0,
+    "mean_eigenvalue_mae": 0.03363788618886249,
+    "mean_target_prediction_mse": 0.006667285747895972,
+    "run_count": 2,
+    "recorded_sha256": "0f6cd2fa8c0ed5ef6e4f2716e79e78d2ff567efb5bcca0d28ab1a331782b941c"
+  },
+  "compact": {
+    "experiment_id": "npms-compact-v1",
+    "seeds": [7, 19, 41],
+    "systems": [
+      "linear_dynamical",
+      "multiscale_ar",
+      "delayed_copy",
+      "damped_oscillator",
+      "regime_switching"
+    ],
+    "run_count": 15,
+    "ablation_count": 36,
+    "mean_delay_feature_error": 0.0,
+    "mean_eigenvalue_mae": 0.21398422742689097,
+    "mean_target_prediction_mse": 0.029106375131836094,
+    "std_eigenvalue_mae": 0.13148632187474893,
+    "std_target_prediction_mse": 0.026760194791606542,
+    "recorded_runtime_seconds": 0.6399137430000792,
+    "recorded_sha256": "cc8cb5235b95b85b4ad074ab07b60631f04eb5bad171abdd03a57d78b78ddb30"
+  },
+  "robustness": {
+    "record_count": 45,
+    "recorded_sha256": "289e95edc1b4316d501e9b3a69bfd655e349814cdd8f021bdea43290ff706ddc"
+  },
+  "negative_findings": [
+    {
+      "id": "NPMS-N001",
+      "finding": "Compact delay-PCA linear-system mean eigenvalue error is approximately 0.333, much worse than identity smoke recovery.",
+      "required_boundary": "PRESERVE"
+    },
+    {
+      "id": "NPMS-N002",
+      "finding": "Multiscale AR mean eigenvalue error is approximately 0.274 and remains weak.",
+      "required_boundary": "PRESERVE"
+    },
+    {
+      "id": "NPMS-N003",
+      "finding": "Negative regime-conditioned recovery errors are approximately 0.464 to 0.504, so switching-process recovery is poor in that regime.",
+      "required_boundary": "PRESERVE"
+    },
+    {
+      "id": "NPMS-N004",
+      "finding": "The current matched-eigenvalue metric ignores unmatched spurious and missing modes and can reward low-rank recovery that omits planted modes.",
+      "required_boundary": "PRESERVE_METRIC_DEFECT"
+    },
+    {
+      "id": "NPMS-N005",
+      "finding": "The current mode-truncation ablation ranks individual eigenvalues rather than conjugate groups.",
+      "required_boundary": "PRESERVE_IMPLEMENTATION_LIMITATION"
+    },
+    {
+      "id": "NPMS-N006",
+      "finding": "The reported frequency response is an autonomous-operator resolvent proxy, not a complete identified input-output transfer function.",
+      "required_boundary": "PRESERVE_INTERPRETATION_LIMIT"
+    }
+  ],
+  "unresolved_gates": [
+    "migrate the original isolated source, configurations, raw logs, evidence JSON, results and manuscript into canonical Git identity",
+    "independently validate retained hashes and rerun the compact suite from a clean canonical checkout",
+    "add residual spectral verification and uncertainty quantification",
+    "repair contiguous switching-process fitting",
+    "make conjugate-group truncation match the intervention contract",
+    "evaluate at least one actual trained-model checkpoint or real dataset under a frozen external protocol",
+    "complete independent literature and manuscript audit"
+  ]
+}
