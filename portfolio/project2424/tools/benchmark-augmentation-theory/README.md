@@ -38,7 +38,7 @@ node portfolio/project2424/tools/benchmark-augmentation-theory/experiment/run.mj
 ## Test
 
 ```bash
-node --test tests/project2424BenchmarkAugmentation.test.mjs
+node --test tests/project2424BenchmarkAugmentationAuxiliary.test.mjs
 ```
 
 ## Identity and claim boundary
