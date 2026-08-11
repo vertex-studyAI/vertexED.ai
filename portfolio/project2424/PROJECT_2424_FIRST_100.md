@@ -1,24 +1,23 @@
 # Project 2424 — First 100
 
-**Updated:** 11 August 2026 — final connector-visible execution checkpoint  
-**Authority:** frozen `FIRST_100_QUEUE.ndjson` + current `main` + exact-head GitHub Actions + explicit merge boundaries
+**Updated:** 11 August 2026 — final latest-base checkpoint  
+**Repository main:** `662de36af18b1251e6441391ac3fc06df7a3bf71`  
+**Authority:** frozen `FIRST_100_QUEUE.ndjson` + merged `main` + exact-head GitHub Actions + explicit manual gates
 
-## Truth boundary
+## Counts — do not inflate
 
-Queue entry, evidence recovery, implementation, tested package, demo-ready artifact, research-complete project and `Certified complete` are distinct states. Open PRs do not increase merged counts. Auxiliary, legacy and superseded artifacts are never double-counted.
-
-## Current counts
-
-- Frozen First-100 queue entries: **100**
-- Queue-consistent runnable implementations merged on `main`: **12**
-- Queue-consistent tested implementations merged on `main`: **12**
-- Merged evidence-boundary recoveries excluded from implementation count: **2** — PST `T2424-0016`, NPMS `T2424-0019`
+- Frozen queue entries: **100**
+- Queue-consistent runnable implementations merged: **12**
+- Queue-consistent tested implementations merged: **12**
+- Evidence-only merged recoveries excluded from implementation count: **2** — PST `T2424-0016`, NPMS `T2424-0019`
 - `Certified complete`: **0 / 100**
 - Research-complete: **0**
 - Current-main registry collisions: **1** — `T2424-0050`
-- Final exact-head-green manual-gated canonical review paths not merged: **8**
+- Latest-base-green manual review paths not merged: **8**
 
-## The 12 merged queue-consistent implementations
+Open PRs do not change merged counts. Auxiliary, legacy and superseded artifacts are never double-counted.
+
+## The 12 merged implementations
 
 1. `T2424-0023` — Multilingual Epistemic Blind Spots Benchmark
 2. `T2424-0025` — Non-Gaussian Memory Transformer
@@ -33,84 +32,55 @@ Queue entry, evidence recovery, implementation, tested package, demo-ready artif
 11. `T2424-1767` — Resource-Bounded MoE Operator
 12. `T2424-1863` — Resource-Bounded Local Operator for Scientific Forecasting
 
-`T2424-1863` remains a valid negative/inconclusive implementation result: its frozen >75% improvement gate failed at the retained 67.777% result. It must not be relabelled positive.
+`T2424-1863` remains negative/inconclusive: its frozen >75% improvement gate failed at the retained 67.777% result.
 
-## Evidence-boundary recoveries
+## PST / NPMS evidence boundaries
 
-### PST — `T2424-0016`
+PST remains `RECOVERED_COMPACT_EVIDENCE / SOURCE_MIGRATION_PENDING / EXTERNAL_BLOCKED`. Controlled negative/control findings and unverified historical biological values remain preserved; original source/checkpoints/raw evidence are not canonically migrated.
 
-State: `RECOVERED_COMPACT_EVIDENCE / SOURCE_MIGRATION_PENDING / EXTERNAL_BLOCKED`.
+NPMS remains an evidence-boundary recovery with missing/spurious-mode, conjugate-pair truncation, resolvent-only frequency and delay-PCA/multiscale/switching limitations explicit; original source/config/result/evidence provenance remains unmigrated.
 
-Preserved findings include raw-expression/logistic controls outperforming neural PST on the controlled generator, validation-only calibration worsening retained metrics, weak fixed family-A → family-B transfer, and unverified historical biological headline values. Original source/checkpoints/raw evidence remain unmigrated; do not reconstruct them from manuscript prose and call them recovered.
+PR #226 aligned their package metadata to frozen queue identities and merged as `0a9751d6e8b995747c855c64d60bdda9b1891eaf` without changing evidence tiers.
 
-### NPMS — `T2424-0019`
+## Final latest-base-green canonical review queue
 
-State: `RECOVERED_COMPACT_EVIDENCE / SOURCE_MIGRATION_PENDING / EXTERNAL_UNVALIDATED`.
+All eight were refreshed after monitoring-only PR #243 advanced `main` to `662de36af18b1251e6441391ac3fc06df7a3bf71`. The refresh changed only package `STATUS.md` evidence markers; algorithms, protocols, thresholds and retained results were unchanged.
 
-Missing/spurious-mode omission, conjugate-pair truncation, resolvent-only frequency interpretation, and delay-PCA/multiscale/switching limitations remain explicit. Original source/config/result/evidence provenance remains unmigrated.
-
-PR #226 aligned PST/NPMS metadata to frozen queue identities without changing either evidence tier; merge SHA `0a9751d6e8b995747c855c64d60bdda9b1891eaf`.
-
-## P0 registry integrity — `T2424-0050`
-
-Frozen identity: **Darcy Latent Operator**. Current `main` still materializes Benchmark Augmentation Theory under the canonical ID, so that folder remains excluded from the 12-project count until a manual repair is actually merged.
-
-Canonical repair: draft PR **#230**.
-
-- final head `a557755617319103d584b049d42593d8a77356c2`
-- final canonical CI `31457371403` — **SUCCESS**
-- restores Darcy to the frozen ID
-- preserves Benchmark Augmentation Theory as auxiliary `AUX-P2424-BENCHMARK-AUGMENTATION`
-- preserves both regression suites
-- adds a fail-closed materialized-package ↔ frozen-queue identity regression with an empty conflict allowlist
-- explicit **DO NOT AUTO-MERGE OR DEPLOY / MANUAL REVIEW REQUIRED** boundary
-
-Retained bounded Darcy screen: baseline pressure MAE `0.06589139155637647`, latent MAE `0.0011366559231966065`, relative improvement `0.9787663202281432`, mean flux relative error `1.3693877541812723e-16`, uniform latent MAE `0`. Boundary: deterministic 1D reduced-resistance mechanism only; no learned-operator, multidimensional/real porous-media, publication, research-complete or certification claim.
-
-## Final exact-head-green canonical review queue — not merged counts
-
-| ID | Project | PR | Final head | Final CI | Evidence state / boundary |
+| ID | Project | PR | Final head | Latest-base CI | State / boundary |
 |---|---|---:|---|---:|---|
-| `T2424-0024` | Trust Under Uncertainty | #231 | `cb1e6af2f1ac92b51a8a13e9bbf1cb89147898d2` | `31457481958` SUCCESS | `CERTIFICATION_PENDING`; synthetic evaluator mechanics only; immutable provenance manifest, retained result, baseline, ablation, reproduction and implementation-independent QA |
-| `T2424-0026` | Counterfactual Defect Worlds | #239 | `63bb6cf0ab946681323bb752de65ecc4635badb4` | `31457353108` SUCCESS | `TESTED_TOOL / MANUAL_MERGE_PENDING`; deterministic radius-one CA intervention/locality only |
-| `T2424-0028` | Residual Event Tokenization | #234 | `ac076bdca0c4e70ecccfa61f0789c724caf85ca2` | `31457307523` SUCCESS | `TESTED_TOOL / MANUAL_MERGE_PENDING`; deterministic synthetic scalar-codec mechanics only |
-| `T2424-0029` | Representation Phase Transitions for PDEs | #232 | `2dbce407efa671cb66234cbf7bbe1eee377e1ac8` | `31457385007` SUCCESS | `TESTED_MINIMUM_EXPERIMENT / MANUAL_MERGE_PENDING`; analytic 1D heat-equation spectral-dimension screen only |
-| `T2424-0035` | Grokking Agent | #238 | `f3edc0e87f4d9d03bf9bb639a8b2d1c6a6d93737` | `31457341269` SUCCESS | `TESTED_TOOL / MANUAL_MERGE_PENDING`; deterministic synthetic learning-curve detector mechanics only |
-| `T2424-0037` | NLP-to-CAD | #236 | `53d2861da4d9dc73259552bfe3c7ec77853db591` | `31457325080` SUCCESS | `TESTED_DEMO / MANUAL_MERGE_PENDING`; controlled-language parametric compiler demo only |
-| `T2424-0050` | Darcy Latent Operator repair | #230 | `a557755617319103d584b049d42593d8a77356c2` | `31457371403` SUCCESS | `TESTED_TOOL / MANUAL_MERGE_PENDING`; deterministic 1D mechanism screen + registry repair |
-| `T2424-0054` | Theory-Manifold Experiment Planner | #241 | `eb6fd52c74c890183a77c3137678667fe7fbf2d0` | `31457540595` SUCCESS | `TESTED_TOOL / MANUAL_MERGE_PENDING`; transparent deterministic heuristic planner only |
+| `T2424-0050` | Darcy Latent Operator repair | #230 | `0131c7d33e967f55e8b07ff5bfc1f03feb164f01` | `31458049157` SUCCESS | `TESTED_TOOL / MANUAL_MERGE_PENDING`; deterministic 1D mechanism + registry repair |
+| `T2424-0024` | Trust Under Uncertainty | #231 | `a15f31fbcbef6ab5868cb4f8a30e806f4d8721ca` | `31458059377` SUCCESS | `CERTIFICATION_PENDING / MANUAL_MERGE_PENDING`; synthetic evaluator mechanics only |
+| `T2424-0026` | Counterfactual Defect Worlds | #239 | `596cb91d0a36a163cb9fab8745f65cbfb1ec47b6` | `31458068712` SUCCESS | `TESTED_TOOL / MANUAL_MERGE_PENDING`; deterministic CA intervention/locality only |
+| `T2424-0028` | Residual Event Tokenization | #234 | `bbb173fc2cd93e588883b3798de9712cb29094eb` | `31458080289` SUCCESS | `TESTED_TOOL / MANUAL_MERGE_PENDING`; synthetic scalar-codec mechanics only |
+| `T2424-0029` | Representation Phase Transitions for PDEs | #232 | `f22ab98f2bf93a3437153cba2f2ada6f9593570d` | `31458091370` SUCCESS | `TESTED_MINIMUM_EXPERIMENT / MANUAL_MERGE_PENDING`; analytic 1D heat-equation screen only |
+| `T2424-0035` | Grokking Agent | #238 | `bf229ed56b05bfeab3017616f65454aa53cf045a` | `31458102895` SUCCESS | `TESTED_TOOL / MANUAL_MERGE_PENDING`; synthetic detector mechanics only |
+| `T2424-0037` | NLP-to-CAD | #236 | `83bdeb2c62be88f4b8d84c1a924dd6ec8fd48fa8` | `31458112736` SUCCESS | `TESTED_DEMO / MANUAL_MERGE_PENDING`; controlled-language parametric compiler only |
+| `T2424-0054` | Theory-Manifold Experiment Planner | #241 | `18c41b914a331e3f617026492900b0f7890eef11` | `31458120484` SUCCESS | `TESTED_TOOL / MANUAL_MERGE_PENDING`; deterministic heuristic planner only |
 
-All eight remain draft/unmerged and retain explicit manual/no-deploy boundaries. None changes the merged First-100 count.
+All eight retain explicit **DO NOT AUTO-MERGE OR DEPLOY / MANUAL REVIEW REQUIRED** boundaries and remain excluded from merged counts.
+
+## P0 `T2424-0050`
+
+Frozen identity is **Darcy Latent Operator**. #230 restores Darcy to the canonical ID, preserves Benchmark Augmentation Theory as auxiliary `AUX-P2424-BENCHMARK-AUGMENTATION`, retains both regression suites and adds a fail-closed materialized-package ↔ frozen-queue identity regression with an empty conflict allowlist.
+
+Retained bounded Darcy screen: baseline pressure MAE `0.06589139155637647`; latent MAE `0.0011366559231966065`; relative improvement `0.9787663202281432`; mean flux relative error `1.3693877541812723e-16`; uniform latent MAE `0`.
+
+Boundary: deterministic 1D reduced-resistance mechanism only; no learned operator, multidimensional/real porous-media validation, publication, research-complete or certification claim.
 
 ## Depth lane — `T2424-0024`
 
-`T2424-0024` is the strongest current certification-depth package but remains **CERTIFICATION_PENDING**, not Certified complete. The green strengthened head adds:
+The latest-base-green #231 package contains immutable source/evidence identities, retained results, a matched overconfidence baseline, an explicit calibration-vs-ranking ablation, clean reproduction instructions, a bounded verdict and implementation-independent QA that recomputes Brier/ECE/selective-risk without importing the evaluator core.
 
-- immutable Git-blob identities for claim, protocol, core, runner, retained results and independent QA;
-- deterministic clean-checkout reproduction instructions;
-- explicit matched-outcome overconfidence baseline analysis;
-- explicit calibration-vs-ranking metric ablation;
-- retained 20-outcome evidence and bounded `GO_EVALUATOR_MECHANICS_ONLY` verdict;
-- a QA test that independently recomputes Brier score, 5-bin ECE and selective-risk points without importing the evaluator implementation.
+Retained synthetic result: accuracy `0.70` for both policies; moderate Brier `0.0400` vs overconfident `0.2542`; moderate ECE `0.2000` vs overconfident `0.2620`; selective-risk points identical because confidence ordering is intentionally unchanged.
 
-The retained synthetic result is accuracy `0.70` for both policies, moderate Brier `0.0400` vs overconfident `0.2542`, moderate ECE `0.2000` vs overconfident `0.2620`, with identical confidence-ranked selective risk because ordering is intentionally preserved. This does not establish real-model trustworthiness, deployment safety or external validity.
+It remains **CERTIFICATION_PENDING**, not Certified complete. No real-model trustworthiness, deployment-safety or external-validity claim is made.
 
 ## Duplicate / legacy cleanup
 
-Superseded Project 2424 paths closed unmerged during this execution include #210, #216, #219, #222, #223, #224, #227, #163, #165, #167, #170, #225 and #228. Their branch history remains provenance; none is an additional First-100 project.
+Superseded Project 2424 PRs closed unmerged during this execution: #210, #216, #219, #222, #223, #224, #227, #163, #165, #167, #170, #225 and #228 — **13** total. Branch history remains provenance, not an extra project count.
 
 ## Certification contract
 
-A project may be labelled `Certified complete` only when all nine are evidenced:
+`Certified complete` requires all nine: immutable source identity / explicit `NO_SOURCE`; falsifiable claim; frozen protocol; runnable command; baseline evidence; raw results; ablation/negative-result analysis; explicit verdict; independent QA/reproduction.
 
-1. immutable source identity or explicit `NO_SOURCE`;
-2. one falsifiable claim;
-3. frozen protocol;
-4. clean runnable command;
-5. baseline evidence;
-6. raw result artifacts;
-7. ablation or negative-result analysis;
-8. explicit go/no-go verdict;
-9. independent QA/reproduction.
-
-Green CI proves repository integration on an exact head. It does not prove scientific generalization, external validity, production readiness, publication readiness, or nine-gate certification.
+Green CI proves repository integration on the tested merge-ref context. It does not prove scientific generalization, external validity, production readiness, publication readiness or certification.
