@@ -1,94 +1,63 @@
-# T2424-0049 — Project24 Render
+# T2424-0049 — Multiphase Porous JEPA
 
-A static, evidence-preserving portfolio renderer for Project 2424 records.
+A bounded synthetic minimum experiment for the frozen First-100 registry entry `T2424-0049`.
 
-## Goal
+## Registry identity
 
-Turn structured project evidence into a readable HTML/JSON snapshot **without inferring completion or scientific validity from presentation quality**.
+- **Queue rank:** 42
+- **Canonical name:** Multiphase Porous JEPA
+- **Track:** C — Existing work → minimum experiment
 
-## Record contract
+This package restores the registry identity after an auxiliary portfolio renderer was accidentally merged under the same ID. The renderer is preserved separately at `portfolio/project2424/tools/project24-render/` and is not counted as a First-100 entry.
 
-Every rendered project must provide:
+## Question
 
-- `id`
-- `name`
-- `type`
-- one explicit state
-- an inspectable artifact path or explicit URL
-- an explicit verdict
-- a claim boundary
-- optional exact head / CI run identity
-- optional `certifiedComplete: true`
+Can a deliberately tiny predictive latent surrogate learn useful next-state structure in a conservative heterogeneous porous-flow toy system, rather than merely copying the current latent state?
 
-Allowed states are intentionally narrower than free-form marketing copy:
+## Minimum experiment
 
-- `MERGED_TESTED`
-- `REVIEW_READY`
-- `NEGATIVE_OR_INCONCLUSIVE`
-- `EXECUTION_READY`
-- `BLOCKED`
+The package uses:
 
-There is **no generic `COMPLETE` state**. Certified completion is counted only when the supplied record explicitly sets `certifiedComplete: true`.
+1. a deterministic periodic 1D heterogeneous porous-flow diffusion surrogate;
+2. a fixed two-cell average encoder from 32 state cells to 16 latent cells;
+3. a persistence baseline `z(t+1) = z(t)`;
+4. a one-parameter predictive latent model `z_hat(t+1) = z(t) + beta * Laplacian(z(t))`;
+5. least-squares fitting of `beta` on four training phase conditions;
+6. evaluation on four held-out phase conditions;
+7. a zero-dynamics negative control;
+8. an explicit conservation check.
 
-## Outputs
+This is intentionally small enough to falsify cheaply.
 
-`renderPortfolioHtml()` produces an accessible static table and evidence summary.
+## Predeclared gates
 
-`renderPortfolioJson()` produces the same normalized/sorted records for machines.
+The synthetic screen passes only if all of the following hold:
 
-All supplied text is HTML-escaped before rendering. Portfolio artifact paths become root-relative links; explicit HTTP(S) artifact URLs are preserved.
+- held-out latent RMSE improves by at least **50%** over persistence;
+- the learned transition coefficient is positive and below `0.1`;
+- maximum mass drift is at most `1e-12`;
+- the zero-dynamics control produces no false predictive gain.
 
-## Run the grounded demo
+No gate should be weakened after observing the result.
+
+## Run
 
 ```bash
 node portfolio/project2424/projects/T2424-0049/experiment/run.mjs
 ```
 
-By default this reads `experiment/demo-records.json`, an evidence snapshot of seven Project 2424 packages that had merged and passed exact-head CI by the time this package was authored.
-
-It writes:
-
-```text
-portfolio/project2424/projects/T2424-0049/results/project24.html
-portfolio/project2424/projects/T2424-0049/results/project24.json
-```
-
-You can also provide another records file and output directory:
-
-```bash
-node portfolio/project2424/projects/T2424-0049/experiment/run.mjs records.json output-dir
-```
-
 ## Test
 
 ```bash
-node --test tests/project2424Project24Render.test.mjs
+node --test tests/project2424T0049MultiphasePorousJepa.test.mjs
 ```
-
-Regression coverage includes:
-
-- HTML escaping;
-- no completion inference from `MERGED_TESTED`;
-- explicit certification only;
-- deterministic state/ID sorting;
-- evidence identity retention;
-- fail-closed invalid states/artifact locations.
 
 ## Claim boundary
 
-This renderer does not inspect GitHub, run tests, prove claims, verify publications, deploy projects, or decide whether a project is scientifically complete. It renders **supplied evidence records** and preserves their boundaries.
+This package is **not a trained JEPA**. The encoder is fixed, the predictor has one learned scalar, and the benchmark is deterministic synthetic data. It does not establish porous-media realism, neural representation learning, multiphase scientific validity, comparison with FNO/DeepONet/PINO, publication novelty, or research completion.
 
-A polished page generated from weak records is still weak evidence.
-
-## Safety boundary
-
-- no network requests;
-- no shell execution;
-- no deployment;
-- no secret handling;
-- no HTML injection from supplied text;
-- no automatic completion promotion.
+A passing result means only that this cheap synthetic predictive-latent mechanism clears its frozen screen and is worth a stronger next experiment.
 
 ## Next evidence gate
 
-Generate records directly from a machine-readable Project 2424 evidence ledger, validate artifact existence and exact-head CI identities before rendering, add accessibility checks on generated HTML, and publish only through a separately authorized deployment path.
+Replace the toy dynamics with a public porous-media dataset or validated simulator, add genuinely learned encoders/predictors, compare against stronger operator baselines, retain raw results, measure compute, and obtain independent scientific QA.
