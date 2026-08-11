@@ -1,6 +1,6 @@
 {
   "schema_version": 4,
-  "as_of": "2026-08-11T17:32:00+05:30",
+  "as_of": "2026-08-11T17:36:00+05:30",
   "control_repository": "vertex-studyAI/vertexED.ai",
   "control_commit_at_refresh": "37391b14fbd3aa2ab550aa0048ab944ea2556483",
   "status_enum": ["DONE", "PARTIAL", "BLOCKED", "INVALID", "UNKNOWN"],
@@ -142,14 +142,14 @@
       "classification": "LOCAL_PIPELINE_INTEGRATION_ACTIVE",
       "evidence": [
         "PR #27 head a78c1731c51e89f25fe27a53fded8371e01765e8 passed full CI 31488122804 and was squash-merged as main 55666043ee621e2bc9ab73b3337fd312681c24a0, restoring root-level worker regressions.",
-        "Storage replacement #28 head 8177b36e43702009817ed3cf9c966681a0d64cb7 passed CI 31488845671 and remains draft/manual; superseded conflicted #25 is closed unmerged.",
+        "Preferred storage recovery #29 head 58c77f1988eadb14bfc48603a12ab433dff06d35 changes exactly eight storage/CI/status files and passed exact-head CI 31489136442; it remains draft/manual. Superseded storage #28 and earlier #25 are closed unmerged.",
         "API lifecycle #26 head ca377f7ef123e6fe3709db8751ffc61f3fc6f499 passed fresh current-main CI 31488896019 and remains draft/manual."
       ],
       "blockers": [
-        "Storage #28 and lifecycle #26 require separate manual integration decisions.",
+        "Storage #29 and lifecycle #26 require separate manual integration decisions.",
         "No production object storage/hosting, transactional API-worker-storage unification, real narration or production worker deployment is verified."
       ],
-      "next_action": "Keep #28 and #26 draft/manual as instructed; integrate only with explicit review and preserve local-only claim boundaries."
+      "next_action": "Keep #29 and #26 draft/manual as instructed; integrate only with explicit review and preserve local-only claim boundaries."
     },
     {
       "id": "atlas-runtime",
