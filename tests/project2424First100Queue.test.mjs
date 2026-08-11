@@ -1,9 +1,10 @@
 import assert from 'node:assert/strict';
-import { readFile } from 'node:fs/promises';
+import { readFile, readdir } from 'node:fs/promises';
 import test from 'node:test';
 
 const QUEUE_PATH = new URL('../portfolio/project2424/FIRST_100_QUEUE.ndjson', import.meta.url);
 const WAVE_PATH = new URL('../portfolio/project2424/FIRST_100_EXECUTION_WAVE.md', import.meta.url);
+const PROJECTS_DIR = new URL('../portfolio/project2424/projects/', import.meta.url);
 
 const ALLOWED_TRACKS = new Set([
   'A — Paper rescue',
@@ -13,6 +14,11 @@ const ALLOWED_TRACKS = new Set([
   'D — Architecture → surrogate',
   'E — Cheap falsification screen',
 ]);
+
+// Identity mismatches are not tolerated on this repaired branch. If a future
+// intentional exception is ever required, it must be explicit and must match
+// the observed conflict set exactly rather than silently accumulating.
+const KNOWN_IDENTITY_CONFLICTS = new Set();
 
 async function loadQueue() {
   const raw = await readFile(QUEUE_PATH, 'utf8');
@@ -26,6 +32,33 @@ async function loadQueue() {
         throw new Error(`Invalid NDJSON at line ${index + 1}: ${error.message}`);
       }
     });
+}
+
+async function loadDeclaredProjectIdentity(projectId) {
+  const statusPath = new URL(`${projectId}/STATUS.md`, PROJECTS_DIR);
+  const readmePath = new URL(`${projectId}/README.md`, PROJECTS_DIR);
+
+  let status = '';
+  try {
+    status = await readFile(statusPath, 'utf8');
+  } catch (error) {
+    if (error?.code !== 'ENOENT') throw error;
+  }
+
+  const projectLine = status.match(/^\*\*Project:\*\*\s+(.+?)\s*$/m);
+  if (projectLine) return projectLine[1].trim();
+
+  let readme = '';
+  try {
+    readme = await readFile(readmePath, 'utf8');
+  } catch (error) {
+    if (error?.code !== 'ENOENT') throw error;
+  }
+
+  const heading = readme.match(new RegExp(`^#\\s+${projectId}\\s+[—-]\\s+(.+?)\\s*$`, 'm'));
+  if (heading) return heading[1].trim();
+
+  return null;
 }
 
 test('Project 2424 first-100 queue is exactly 100 unique, ordered executable records', async () => {
@@ -68,4 +101,38 @@ test('Project 2424 first-100 wave preserves the evidence-first truth boundary', 
   for (const row of rows) {
     assert.ok(markdown.includes(`\`${row.id}\``), `wave markdown is missing ${row.id}`);
   }
+});
+
+test('Project 2424 package identities match the canonical frozen queue', async () => {
+  const rows = await loadQueue();
+  const queueById = new Map(rows.map((row) => [row.id, row]));
+  const entries = await readdir(PROJECTS_DIR, { withFileTypes: true });
+  const observedConflicts = new Set();
+
+  for (const entry of entries) {
+    if (!entry.isDirectory() || !/^T2424-\d{4}$/.test(entry.name)) continue;
+
+    const queueRecord = queueById.get(entry.name);
+    if (!queueRecord) continue;
+
+    const packageName = await loadDeclaredProjectIdentity(entry.name);
+    assert.ok(
+      packageName,
+      `${entry.name} must declare identity in STATUS.md as **Project:** or in README.md as "# ${entry.name} — <name>"`,
+    );
+
+    if (packageName !== queueRecord.name) {
+      observedConflicts.add(entry.name);
+      assert.ok(
+        KNOWN_IDENTITY_CONFLICTS.has(entry.name),
+        `${entry.name} package identity mismatch: queue="${queueRecord.name}", package="${packageName}"`,
+      );
+    }
+  }
+
+  assert.deepEqual(
+    [...observedConflicts].sort(),
+    [...KNOWN_IDENTITY_CONFLICTS].sort(),
+    'Project 2424 identity-conflict allowlist must match observed conflicts exactly',
+  );
 });
