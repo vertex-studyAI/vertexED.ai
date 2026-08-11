@@ -26,9 +26,16 @@
 - [ ] independent clean-checkout GitHub-runner reproduction on the final head
 - [ ] real-model held-out benchmark evidence
 
+## Verification history
+
+- PR #220 was opened from current `main` as the canonical recovery path.
+- GitHub Actions run `31455881296` on head `f9526667058bc2ae915488af9345ab433f5f5a35` was **cancelled**, not test-failed. Before cancellation, portfolio shell validation, Project 2424 recovery tests, the Bu1LD fail-closed deployment repair test, dependency installation, and setup steps had passed; the canonical release gate was cancelled mid-run.
+- A job rerun was requested but was cancelled at setup, so neither attempt is valid exact-head success evidence.
+- This checkpoint commit intentionally preserves the state as `VERIFYING` and creates a new immutable head for a fresh canonical CI run. No count or scientific claim is promoted from the cancelled attempts.
+
 ## Nine-gate certification state
 
-1. immutable source identity: **PR #220 branch exists; final exact-head CI identity pending**
+1. immutable source identity: **PR #220 canonical branch exists; final exact-head CI identity pending**
 2. falsifiable claim: **present**
 3. frozen protocol: **present**
 4. clean runnable command: **present**
