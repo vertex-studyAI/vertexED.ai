@@ -9,19 +9,25 @@
   - tested head: `88dad71acca583a80ae2496b1278f88a825b4766`
   - CI: `31414879015`
   - merge: `d15703b0fdd63dc5d6d2ff7fca12d5d27a432502`
-- PR #193 became stale after the merge; it was not force-pushed.
-- Recovered T2424-0050 Benchmark Augmentation Theory from the same five tested files onto a clean branch from current `main`.
-  - recovery PR: #199
+- Recovered Benchmark Augmentation Theory through clean PR #199 after the prior branch became stale.
   - tested head: `b1342b274157786c2885b54cfa10f9b63b4b6200`
   - canonical CI: `31449794955` / run #679 — success
   - merge: `615fb12f26963a355553f10379df85d26323c4ea`
-- Closed superseded PR #193 after the clean recovery landed.
-- Recovered T2424-0053 Scientific Motif Dictionary as PR #203 rather than force-pushing stale PR #179.
+  - later frozen-queue reconciliation established that canonical `T2424-0050` is **Darcy Latent Operator**, so the benchmark audit is useful tested work but is excluded from the queue-consistent First-100 count while the identity collision remains.
+  - draft PR #207 is the non-destructive repair: preserve the benchmark audit as an auxiliary tool and restore Darcy Latent Operator to canonical `T2424-0050`.
+- Recovered T2424-0053 Scientific Motif Dictionary through PR #203 rather than force-pushing stale PR #179.
   - final-base head: `d01a1d2c12c7e2e2157e11c6bc92726edcbb1c29`
   - canonical CI: `31450035136` / run #688 — success
   - merge: `c587f4e0fa91c59e82099d2fb9c68dea3abe8a16`
-- Closed superseded PR #179 after the clean recovery landed.
-- Current verified First-100 count on `main`: `8` runnable / `8` tested / `0` certified complete.
+- Concurrent PR #201 repaired a second registry collision at `T2424-0049` without deleting useful work.
+  - Project24 Render is preserved under an auxiliary identity.
+  - canonical `T2424-0049` is restored to **Multiphase Porous JEPA**.
+  - tested head: `3023574cfdd6b94e8ec6fccb72deb0b726285ddf`
+  - canonical CI: `31449904593` — success
+  - merge: `a1b17cd6131ab6b18eacf1fed0657aea6f2cb7c7`
+- Earlier current-main evidence also includes merged queue-consistent T2424-0025 and T2424-0030 packages.
+- Current frozen-queue-consistent First-100 count on `main`: `10` runnable / `10` tested / `0` certified complete.
+- Auxiliary tested artifacts do not create extra registry entries, and identity-colliding folders are not counted merely because they are green.
 
 ### VertexED live Supabase verification
 
@@ -76,14 +82,15 @@ Current research status remains scientifically negative/inconclusive on the ARC 
 - No production database mutation occurred.
 - No credentials were printed, copied or rotated.
 - No force-push or shared-history rewrite occurred.
-- No First-100 queue entry was counted as complete merely because it exists.
+- No First-100 queue entry was counted as complete merely because it exists or merely because a colliding folder passed CI.
 - No negative/inconclusive research result was relabeled as positive.
 
 ## Highest-value remaining gates
 
-1. Merge the docs-only portfolio truth-ledger refresh after its own exact-head CI succeeds.
-2. Resolve FinanceMeta GitHub write permission and review the 41-commit hardening branch through a real PR/CI path.
-3. Run Bu1LD strict release verification in its real deployment/Supabase environment and execute the seven-role smoke matrix.
-4. Prove the immutable VertexED revision serving production and run authenticated disposable-account journeys.
-5. Enable VertexED leaked-password protection and schedule the Supabase Postgres security upgrade through a controlled maintenance path.
-6. Continue Project 2424 by either satisfying the nine-gate evidence package for the strongest merged tools or recovering additional PRs only where their explicit merge boundaries allow it.
+1. Finish exact-head CI/review for draft PR #207 and preserve both artifacts while restoring canonical `T2424-0050`; do not merge it while its verification/draft boundary remains unresolved.
+2. Merge the docs-only portfolio truth-ledger refresh only after its own exact-head CI succeeds **and** the count still matches current `main`.
+3. Resolve FinanceMeta GitHub write permission and review the 41-commit hardening branch through a real PR/CI path.
+4. Run Bu1LD strict release verification in its real deployment/Supabase environment and execute the seven-role smoke matrix.
+5. Prove the immutable VertexED revision serving production and run authenticated disposable-account journeys.
+6. Enable VertexED leaked-password protection and schedule the Supabase Postgres security upgrade through a controlled maintenance path.
+7. Continue Project 2424 by satisfying the nine-gate evidence package for the strongest merged tools or recovering additional PRs only where their explicit merge boundaries allow it.
