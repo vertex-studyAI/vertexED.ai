@@ -5,6 +5,7 @@
     "fresh_local_reproduction": true,
     "focused_tests_passed": 5,
     "focused_tests_failed": 0,
+    "independent_consistency_verifier": "PASS",
     "github_exact_head_ci": "pending"
   },
   "data": {
@@ -29,7 +30,7 @@
     "candidate_ece_lt_baseline": true,
     "passed": true
   },
-  "raw_artifact": "evidence/raw/minimum-experiment.json",
-  "raw_artifact_sha256_from_fresh_local_reproduction": "1113f9e65bc7c8357006e1150e9bca649d575e683595ae65b5d92cbd9c0c6e3c",
+  "raw_artifact": "evidence/raw/results.json",
+  "raw_artifact_sha256": "8e5b49bff8cd47cb0b20266b34aa55533823dda5c4855dd7da49365925f7fa39",
   "claim_boundary": "Synthetic evaluator mechanics only; no real-model trustworthiness, safety, calibration, superiority, or deployment claim."
 }
