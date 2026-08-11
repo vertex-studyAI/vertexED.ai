@@ -1,5 +1,7 @@
 # T2424-0019 Status
 
+**Project:** NPMS — Neural Predictive Memory Spectroscopy
+
 State: `RECOVERED_COMPACT_EVIDENCE / SOURCE_MIGRATION_PENDING / EXTERNAL_UNVALIDATED`
 
 Certified complete: **NO**
@@ -7,9 +9,12 @@ Certified complete: **NO**
 ## Canonical identity
 
 - Project 2424 ID: `T2424-0019`
+- Canonical frozen title: `NPMS — Neural Predictive Memory Spectroscopy`
 - Recovered provisional ID: `MODEL-NPMS`
-- Name: Neural Predictive Memory Spectroscopy
+- Historical recovered name: Neural Predictive Memory Spectroscopy
 - Protected role: diagnostic interpretation of predictive memory through spectral, temporal and intervention-based analysis
+
+The frozen First-100 identity is authoritative. `MODEL-NPMS` is retained only as provenance for the isolated recovered package.
 
 ## Recovered isolated execution
 
