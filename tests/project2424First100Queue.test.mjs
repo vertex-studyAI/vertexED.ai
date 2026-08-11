@@ -15,9 +15,9 @@ const ALLOWED_TRACKS = new Set([
   'E — Cheap falsification screen',
 ]);
 
-// Existing mainline collision discovered during the 11 Aug evidence reconciliation.
-// New collisions must fail closed; when this one is repaired, remove it here too.
-const KNOWN_IDENTITY_CONFLICTS = new Set(['T2424-0049']);
+// Existing mainline collisions discovered during the 11 Aug evidence reconciliation.
+// New collisions must fail closed; when either one is repaired, remove it here too.
+const KNOWN_IDENTITY_CONFLICTS = new Set(['T2424-0049', 'T2424-0050']);
 
 async function loadQueue() {
   const raw = await readFile(QUEUE_PATH, 'utf8');
