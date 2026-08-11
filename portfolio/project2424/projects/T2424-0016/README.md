@@ -1,6 +1,6 @@
-# T2424-0016 — Predictive Stability Theory (PST)
+# T2424-0016 — PST — Predictive Single-Cell Transition Score
 
-This directory is the **canonical Project 2424 evidence-recovery package** for the First-100 entry `T2424-0016`, mapped to the recovered isolated project previously identified as `MODEL-PST`.
+This directory is the **canonical Project 2424 evidence-recovery package** for the First-100 entry `T2424-0016`. The recovered isolated research artifact was historically named **Predictive Stability Theory (PST)** and identified as `MODEL-PST`; that historical name remains provenance, while the frozen First-100 title above remains the canonical project identity.
 
 It does **not** reconstruct the PST neural implementation from manuscript prose. The recovered handoff records that a complete isolated bundle existed under `projects/MODEL-PST/`, but that bundle had no Git repository mounted and its individual source tree is not currently addressable through the connected GitHub repository. This package therefore migrates the claim/evidence boundary first and prevents unsupported historical results from being promoted while source migration remains open.
 
@@ -46,7 +46,8 @@ The repository root `npm test` discovers the regression file as part of canonica
 
 ## What is complete here
 
-- canonical queue ID mapping: `T2424-0016` ↔ recovered `MODEL-PST`;
+- canonical queue ID/title mapping for `T2424-0016`;
+- provenance mapping to recovered historical source identity `MODEL-PST` / Predictive Stability Theory;
 - machine-readable recovered claim ledger;
 - explicit synthetic-vs-external evidence classes;
 - historical-result quarantine;
