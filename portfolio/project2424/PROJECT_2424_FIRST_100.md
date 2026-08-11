@@ -52,7 +52,7 @@ A green CI run proves the recorded package executes on that head. It does **not*
 
 ## Tested auxiliary work and identity repair in progress
 
-### Benchmark Augmentation Theory
+### Benchmark Augmentation Theory / canonical T2424-0050 repair
 
 Benchmark Augmentation Theory is real tested work, but it is **not currently counted as canonical `T2424-0050`**.
 
@@ -62,7 +62,16 @@ Benchmark Augmentation Theory is real tested work, but it is **not currently cou
 - merge commit `615fb12f26963a355553f10379df85d26323c4ea`;
 - synthetic shortcut-exposure claim boundary remains unchanged.
 
-The frozen First-100 queue assigns `T2424-0050` / rank 43 to **Darcy Latent Operator**. Draft PR #207 is the non-destructive repair path: preserve Benchmark Augmentation Theory under an auxiliary identity and restore Darcy Latent Operator to the canonical registry path. Until that repair is fully verified and merged, the benchmark package remains useful auxiliary tested work and contributes **zero** to the queue-consistent First-100 count.
+The frozen First-100 queue assigns `T2424-0050` / rank 43 to **Darcy Latent Operator**. The current lossless repair is PR #210:
+
+- exact head `d502de803701c0be1d7e3306b30b8036824ca251`;
+- canonical CI `31450427123` — **success**;
+- GitHub reports the PR mergeable;
+- changed paths are limited to the canonical T2424-0050 package, the auxiliary benchmark-audit tool, and the two regression files;
+- benchmark audit is preserved under an auxiliary identity;
+- Darcy Latent Operator is restored to the canonical registry path.
+
+PR #210 explicitly says **do not auto-merge or deploy**, so it remains outside the current count despite being green. If that manually gated repair lands and the identity guard remains green, canonical T2424-0050 would become the eleventh queue-consistent merged/tested package; the auxiliary benchmark audit would still not create an extra First-100 entry.
 
 ### Project24 Render
 
