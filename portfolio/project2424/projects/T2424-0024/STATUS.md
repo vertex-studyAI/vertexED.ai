@@ -12,39 +12,37 @@
 - [x] queue identity resolved against `FIRST_100_QUEUE.ndjson`
 - [x] canonical `projects/T2424-0024` package restored from prior tested work
 - [x] prediction validation
-- [x] Brier score
-- [x] calibration bins
-- [x] expected calibration error
-- [x] confidence-ranked risk–coverage curve
-- [x] selective risk at target coverage
-- [x] abstention report
+- [x] Brier score, calibration bins and ECE
+- [x] confidence-ranked risk–coverage and abstention reports
 - [x] paired moderate/overconfident deterministic controls
 - [x] runnable minimum experiment
 - [x] focused regression suite
 - [x] frozen claim and protocol
-- [x] retained deterministic result summary
-- [x] explicit baseline, ablation and verdict records
+- [x] self-contained retained raw result artifact with exact SHA-256
+- [x] baseline, ablation and explicit verdict
+- [x] separate fail-closed evidence-consistency verifier using public APIs
+- [x] fresh local verifier execution: PASS
 - [ ] exact-head canonical GitHub Actions verification on this recovery branch
-- [ ] independent clean-checkout QA
+- [ ] independent clean-checkout GitHub-runner reproduction on the final head
 - [ ] real-model held-out benchmark evidence
 
 ## Nine-gate certification state
 
-1. immutable source identity: **pending exact-head PR SHA**
+1. immutable source identity: **PR #220 branch exists; final exact-head CI identity pending**
 2. falsifiable claim: **present**
 3. frozen protocol: **present**
 4. clean runnable command: **present**
 5. baseline evidence: **present, synthetic**
-6. raw result artifacts: **retained deterministic JSON summary; not external raw predictions**
+6. raw result artifacts: **present, self-contained deterministic JSON with SHA-256; not external model predictions**
 7. ablation/negative-result analysis: **present, limited**
 8. explicit verdict: **present**
-9. independent QA/reproduction: **pending**
+9. independent QA/reproduction: **verification path present and locally passing; final clean GitHub-runner execution pending**
 
 Therefore this project is **not Certified complete**.
 
 ## Promotion rule
 
-Promote to `TESTED_TOOL` only after canonical GitHub Actions passes on the exact recovery head. Do not promote to `CERTIFICATION_PENDING` until independent QA exists and the raw-artifact boundary is strengthened.
+Promote to `TESTED_TOOL` only after canonical GitHub Actions passes on the exact recovery head. Do not promote to `CERTIFICATION_PENDING` until the final-head independent verifier is exercised by CI and the evidence boundary is reviewed.
 
 ## Not claimed
 
