@@ -4,7 +4,7 @@
 **Project 2424 ID:** `T2424-0028`  
 **Frozen queue rank:** 21  
 **Track:** C — Existing work → minimum experiment  
-**State:** `VERIFYING`  
+**State:** `TESTED_TOOL / MANUAL_MERGE_PENDING`  
 **Claim level:** deterministic algorithm + synthetic mechanics experiment
 
 ## Implemented
@@ -24,18 +24,20 @@
 - [x] malformed-stream fail-closed validation
 - [x] falsifiable claim
 - [x] frozen protocol
-- [ ] exact-head canonical CI on this recovery branch
+- [x] canonical CI passed on recovery head `22c1fe1bd8a8373e159181914acd9f392571932f`, run `31456812854`
 - [ ] retained raw result artifact for the canonical branch
 - [ ] independent clean-checkout claim↔evidence QA
 - [ ] external rate–distortion benchmark
 
 ## Provenance
 
-Legacy PR #163 head `f35ac3a28063aee4f41fc5cc44e775655092f383` passed CI run `31409107038`. That is source-recovery evidence, not the integration verdict for this new branch.
+Legacy PR #163 head `f35ac3a28063aee4f41fc5cc44e775655092f383` passed CI run `31409107038`. The canonical recovery then passed CI run `31456812854` on head `22c1fe1bd8a8373e159181914acd9f392571932f`.
+
+This status update creates a newer branch head, so canonical CI must pass again before the manual merge decision. The prior run remains provenance for the immediately preceding exact head, not a substitute for the new-head gate.
 
 ## Certification boundary
 
-This package is **not Certified complete** and is not research-complete. It must not increase the merged First-100 tested count until the canonical recovery is exact-head green and separately merged under the repository's manual boundary.
+This package is **not Certified complete** and is not research-complete. Green repository CI validates integration mechanics only. The package must not increase the merged First-100 tested count until the separate manual merge boundary is satisfied.
 
 ## Not claimed
 
