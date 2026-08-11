@@ -1,5 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import crypto from "node:crypto";
+import fs from "node:fs";
 import {
   abstentionReport,
   brierScore,
@@ -59,4 +61,24 @@ test("summary metrics are bounded and malformed confidence fails closed", () => 
   assert.ok(summary.expectedCalibrationError >= 0 && summary.expectedCalibrationError <= 1);
   assert.equal(summary.selectiveRisk.length, 2);
   assert.throws(() => brierScore([{ confidence: 1.2, correct: true }, { confidence: 0.5, correct: false }]), /\[0, 1\]/);
+});
+
+test("retained evidence hash and claimed metrics reproduce from frozen outcomes", () => {
+  const rawUrl = new URL("../portfolio/project2424/projects/T2424-0024/evidence/raw/results.json", import.meta.url);
+  const rawText = fs.readFileSync(rawUrl, "utf8");
+  assert.equal(
+    crypto.createHash("sha256").update(rawText).digest("hex"),
+    "8e5b49bff8cd47cb0b20266b34aa55533823dda5c4855dd7da49365925f7fa39"
+  );
+  const raw = JSON.parse(rawText);
+  const variants = pairedConfidenceVariants(raw.protocol.outcomes);
+  const moderate = summarizeTrust(variants.moderate, { binCount: raw.protocol.binCount });
+  const overconfident = summarizeTrust(variants.overconfident, { binCount: raw.protocol.binCount });
+  assert.equal(raw.moderate.brierScore, moderate.brierScore);
+  assert.equal(raw.overconfident.brierScore, overconfident.brierScore);
+  assert.equal(raw.moderate.expectedCalibrationError, moderate.expectedCalibrationError);
+  assert.equal(raw.overconfident.expectedCalibrationError, overconfident.expectedCalibrationError);
+  assert.deepEqual(raw.moderate.selectiveRisk, moderate.selectiveRisk);
+  assert.deepEqual(raw.overconfident.selectiveRisk, overconfident.selectiveRisk);
+  assert.equal(raw.verdict, "GO");
 });
