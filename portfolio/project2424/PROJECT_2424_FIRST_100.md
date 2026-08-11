@@ -21,6 +21,7 @@ Being selected into the First-100 queue is **not** completion evidence. This das
 - Research-complete projects verified: **0**
 - Demo-ready implementation packages verified: **1**
 - Known unresolved registry identity collisions on `main`: **1** (`T2424-0050`)
+- Exact-head-green manual identity repair ready: **1** (PR #216)
 
 A green CI run proves the recorded package integrates and executes on that head. It does **not** by itself establish external validity, scientific superiority, publication readiness, production readiness, or completion under the nine-part certification gate.
 
@@ -79,9 +80,9 @@ Frozen queue identity: **Darcy Latent Operator**.
 
 Current `main` still contains **Benchmark Augmentation Theory** under `T2424-0050`, so the current folder is excluded from the queue-consistent count.
 
-Latest repair path: PR #216 (`agent/p2424-0050-canonical-repair-latest-20260811`). It preserves Benchmark Augmentation Theory under auxiliary identity `AUX-P2424-BENCHMARK-AUGMENTATION`, restores Darcy Latent Operator to `T2424-0050`, restores its six regressions and retained 20-seed bounded result, and requires fresh exact-head CI.
+Latest repair path: PR #216 (`agent/p2424-0050-canonical-repair-latest-20260811`). It preserves Benchmark Augmentation Theory under auxiliary identity `AUX-P2424-BENCHMARK-AUGMENTATION`, restores Darcy Latent Operator to `T2424-0050`, restores its six regressions and retained 20-seed bounded result, and passed full canonical CI `31451716616` on exact head `9c9aacac73d1c59327cf6a882aa83566f658cf53`.
 
-**Do not count T2424-0050 until the repair is green, manually cleared, and merged. Do not count the auxiliary benchmark audit as a separate First-100 project.**
+PR #216 is mergeable and ready for review, but its explicit boundary says **do not auto-merge or deploy**. It therefore remains excluded from the merged count. If manually approved and merged without the base changing, the queue-consistent runnable/tested implementation count may move from **12 to 13**. The auxiliary benchmark audit must not be double-counted.
 
 ## Additional exact-head-green work not counted as merged implementations
 
