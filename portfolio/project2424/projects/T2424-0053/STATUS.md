@@ -19,6 +19,10 @@
 - [x] focused regression suite
 - [x] explicit limitations and next evidence gate
 
+## Recovery verification
+
+The implementation, runnable experiment, and regression suite were recovered from the previously green T2424-0053 branch after its original PR became stale. This recovery branch is based on the landed T2424-0050 line and is retargeted to current `main`; it must earn fresh canonical GitHub Actions evidence on this final base before promotion or merge.
+
 ## Verification gate
 
 Promote to `TESTED_TOOL` only after canonical GitHub Actions succeeds on the exact branch head.
