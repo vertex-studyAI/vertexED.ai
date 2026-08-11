@@ -119,10 +119,15 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          migration='supabase/migrations/002_authorization_hardening.sql'
+          migration='supabase/migrations/004_authorization_hardening.sql'
+          test -f supabase/migrations/002_google_oauth.sql
+          test -f supabase/migrations/003_bookmarks_notifications.sql
           grep -F 'REVOKE INSERT, UPDATE ON TABLE public.profiles FROM anon, authenticated' "$migration"
           grep -F "WITH CHECK (auth.uid() = id AND role = 'member'::public.user_role)" "$migration"
           ! grep -E 'GRANT (INSERT|UPDATE) \([^)]*role' "$migration"
+          grep -F 'DROP POLICY IF EXISTS "System insert notifications" ON public.notifications' "$migration"
+          grep -F 'REVOKE INSERT ON TABLE public.notifications FROM anon, authenticated' "$migration"
+          grep -F 'ALTER VIEW public.essay_submissions_with_counts SET (security_invoker = true)' "$migration"
           ! grep -n 'http://localhost:0\|missing-key' src/lib/supabase.ts
           ! grep -R --include='*.ts' --include='*.tsx' -nE "from ['\"]react-router-dom['\"]" src
 
@@ -171,6 +176,8 @@ jobs:
             echo "target_commit=$TARGET_COMMIT"
             echo "patch_sha256=$(cut -d' ' -f1 "$GITHUB_WORKSPACE/financemeta-integrated-release.patch.sha256")"
             echo "authorization=certified"
+            echo "notification_integrity=certified"
+            echo "migration_sequence=certified"
             echo "lint=certified"
             echo "environment=certified"
             echo "dependencies=certified"
