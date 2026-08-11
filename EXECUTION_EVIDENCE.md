@@ -2,7 +2,7 @@
 
 Updated: 11 August 2026
 
-Only achievements with concrete GitHub, CI, or read-only connected-service evidence are recorded as completed.
+Only achievements with concrete GitHub, CI, or read-only connected-service evidence are recorded as completed. First-100 counting also requires the implementation identity to match the frozen queue assignment.
 
 ## 11 August 2026 continuation
 
@@ -16,15 +16,16 @@ Merge commit: `d15703b0fdd63dc5d6d2ff7fca12d5d27a432502`
 Result: deterministic manifest validation, dependency/wave planning, CPU-budget selection and evidence-gated completion mechanics are now on `main`. The package deliberately does not execute manifest commands and does not claim scientific correctness.  
 Superseded PR: #189 closed unmerged after the clean recovery path landed.
 
-### Project 2424 — T2424-0050 Benchmark Augmentation Theory recovery
+### Project 2424 — Benchmark Augmentation Theory auxiliary artifact
 
-Project: Project 2424  
+Project: Project 2424 auxiliary tested work  
 Initial recovery PR: #193 became non-mergeable after `main` advanced; it was not force-pushed.  
 Clean recovery PR: #199  
 Exact verified head: `b1342b274157786c2885b54cfa10f9b63b4b6200`  
 Verification before merge: canonical CI run `31449794955` / #679 — success  
 Merge commit: `615fb12f26963a355553f10379df85d26323c4ea`  
-Result: deterministic synthetic shortcut-exposure audit mechanics, runnable experiment and six regressions are now on `main`.  
+Result: deterministic synthetic shortcut-exposure audit mechanics, runnable experiment and six regressions are on `main`.  
+Identity correction: subsequent frozen-queue reconciliation established that `T2424-0050` / rank 43 is **Darcy Latent Operator**, not Benchmark Augmentation Theory. Therefore this tested artifact is **excluded from the queue-consistent First-100 count** while it occupies the colliding path. Draft PR #207 is the non-destructive repair path: preserve the benchmark audit under an auxiliary identity and restore canonical Darcy Latent Operator.  
 Known limitations: synthetic mechanism only; no benchmark-validity theorem, semantic guarantee for arbitrary augmentations, real-model robustness or research-complete claim.  
 Superseded PRs: #191 and #193 closed unmerged.
 
@@ -40,14 +41,57 @@ Result: normalized 1D scientific time-series motif-indexing prototype, synthetic
 Known limitations: no scientific-meaning, novelty, multivariate, state-of-the-art or external-dataset-performance claim.  
 Superseded PR: #179 closed unmerged.
 
-### Project 2424 — verified merged count
+### Project 2424 — T2424-0049 identity repair
 
-Current evidence-backed First-100 state on `main` after the three recoveries above:  
-Runnable merged+verified: `8`  
-Tested merged+verified: `8`  
+Project: Project 2424  
+Source PR: #201  
+Exact verified head: `3023574cfdd6b94e8ec6fccb72deb0b726285ddf`  
+Verification before merge: canonical CI run `31449904593` — success  
+Merge commit: `a1b17cd6131ab6b18eacf1fed0657aea6f2cb7c7`  
+Result: a frozen-queue identity collision was repaired without deleting useful work. Project24 Render was rehomed under an auxiliary identity, and canonical `T2424-0049` / rank 42 now contains **Multiphase Porous JEPA**.  
+Claim boundary: deterministic heterogeneous porous-flow surrogate/latent mechanism only; not a trained JEPA, real porous-media benchmark, neural-representation superiority result, publication result or research-complete package.  
+Counting result: canonical `T2424-0049` is queue-consistent and therefore counts once; auxiliary Project24 Render does not create an additional First-100 entry.
+
+### Project 2424 — earlier queue-consistent additions needed for the current count
+
+#### T2424-0025 Non-Gaussian Memory Transformer
+
+Exact verified head: `2d01cb02a88e8ee1f58f87918c7a4252a268baf7`  
+Canonical CI: `31413572999` — success  
+Merge commit: `0eb46d07f7d23fccd1333e3c62617457ba3ba423`  
+Result boundary: synthetic robust memory-aggregation mechanism only; no full Transformer, learned-attention or real-world robustness claim.
+
+#### T2424-0030 Adaptive Theory Geometry in World Models
+
+Exact verified head: `145a654c40c3fcc2a609031e380bec2846e2e8f8`  
+Canonical CI: `31413316287` — success  
+Merge commit: `0239fa06b29ec537f4163b487ffb7318a5ebee2e`  
+Result boundary: interpretable synthetic one-step geometry mechanism only; no learned neural geometry, general world-model superiority or research-complete claim.
+
+### Project 2424 — queue-consistent merged count
+
+Current frozen-queue-consistent First-100 state on `main`:  
+Runnable merged+verified: `10`  
+Tested merged+verified: `10`  
 Certified complete: `0 / 100`  
 Research complete: `0`  
+Auxiliary tested artifacts with registry-ID collisions: not counted as canonical entries.  
 The nine-gate completion rule remains unchanged.
+
+The ten currently counted queue-consistent packages are:
+
+1. `T2424-0025` Non-Gaussian Memory Transformer;
+2. `T2424-0030` Adaptive Theory Geometry in World Models;
+3. `T2424-0034` Quant ML Visualizer;
+4. `T2424-0036` Rubik's A* Intelligence;
+5. `T2424-0038` Obscured Records Agent;
+6. `T2424-0046` Auto-Research Foundry;
+7. `T2424-0049` Multiphase Porous JEPA after PR #201 identity repair;
+8. `T2424-0053` Scientific Motif Dictionary;
+9. `T2424-1767` Resource-Bounded MoE Operator;
+10. `T2424-1863` Resource-Bounded Local Operator for Scientific Forecasting.
+
+`T2424-0050` does not join this list until the frozen Darcy Latent Operator identity is safely restored and verified. Draft PR #207 currently tracks that P0 repair.
 
 ### VertexED — live Supabase security metadata
 
@@ -176,7 +220,7 @@ Repositories directly verified through the connected GitHub App in this continua
 4. `build-the-future-11/finance4all-global-reach` — public and readable; attempted branch/PR writes returned integration `403`.
 5. `ryangomez010/bu1ld-landing` — public and readable; canonical `main` and stale branch relationships were inspected.
 
-Atlas and Percy remain unavailable as canonical connector-visible repositories in this execution window. Project 2424 implementation packages are currently being recovered and verified inside `vertex-studyAI/vertexED.ai`; that does not erase the separate provenance question for historical/local Project 2424 source.
+Atlas and Percy remain unavailable as canonical connector-visible repositories in this execution window. Project 2424 implementation packages are being recovered and verified inside `vertex-studyAI/vertexED.ai`; that does not erase the separate provenance question for historical/local Project 2424 source.
 
 ## Live-release boundary
 
