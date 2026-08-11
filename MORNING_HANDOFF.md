@@ -1,143 +1,162 @@
 # WHAT ACTUALLY CHANGED
 
-Execution date: 10 August 2026
+Execution date: 11 August 2026
 
-This handoff records only work supported by concrete connector-visible GitHub evidence. It does not claim production deployment, inaccessible-repository execution, or invented research results.
+This handoff records only work backed by GitHub/CI or read-only connected-service evidence. No production deployment, destructive database action, invented research result, or fake First-100 completion is claimed.
 
 ## 1. SHIPPED / COMPLETED
 
-### VertexED source fixes merged to `main`
+### Project 2424 implementation/tool packages
 
-1. Password-recovery authorization hardening — `f5e7d1f3631f718e89bafaa539ec65516786c53a`.
-2. Stale profile response isolation across auth sessions — `6961002e3fa6a311a25d16d23f4b8ff742b02a0d`.
-3. Transient Study Zone draft/caption account isolation — `02f16b8b89daabf27a99cab405a39de481c19d2f`.
-4. Apex current-prompt deduplication — `4e8648d6f453d1342b132703c52daac3c4e512df`.
-5. Apex in-flight network cancellation on learner Cancel/Clear/scope changes/unmount/supersession — `5863d868dc9c68bac2dc21f1901abeb22823dde8`.
+The evidence-backed, frozen-queue-consistent First-100 implementation/tool count on `main` is now **12**, while `Certified complete` remains **0 / 100**.
 
-Each exact source head passed the repository's canonical CI before merge. For the cancellation fix, CI #617 passed build/test, production browser certification, and local keyboard accessibility. The older stacked PR #150 was closed unmerged and replaced by clean current-main PR #161.
+Newly landed/reconciled work in this continuation includes:
 
-### Runnable standalone prototype merged
+- `T2424-0046` Auto-Research Foundry — PR #192, CI `31414879015`, merge `d15703b0fdd63dc5d6d2ff7fca12d5d27a432502`.
+- `T2424-0053` Scientific Motif Dictionary — PR #203, CI `31450035136`, merge `c587f4e0fa91c59e82099d2fb9c68dea3abe8a16`.
+- `T2424-0049` Multiphase Porous JEPA canonical identity repair — PR #201, CI `31449904593`, merge `a1b17cd6131ab6b18eacf1fed0657aea6f2cb7c7`; Project24 Render preserved as auxiliary work rather than deleted/double-counted.
+- `T2424-0051` ADR Predictive Surrogate — PR #205, CI `31450093762`, merge `1ba9ecc09f7e84f43d8251c222e3d07351e7ed8a`.
+- `T2424-0023` Multilingual Epistemic Blind Spots Benchmark — competing implementations reconciled into one canonical package in PR #212, CI `31450669750`, merge `3ce1260a3d3e80788b3c5d12cfe0df617b13665a`.
+- Quant ML Visualizer received a canonical walk-forward/no-lookahead extension through PR #202; this improves the existing project rather than creating a new count.
 
-Asteroid Tracklet Baseline — `e956ec60e8fe9675cb0ca90f8a11df403458890c`.
+Benchmark Augmentation Theory also passed full CI and merged through PR #199 (`615fb12f26963a355553f10379df85d26323c4ea`), but frozen-queue reconciliation showed canonical `T2424-0050` is **Darcy Latent Operator**. The benchmark audit is therefore treated as useful auxiliary tested work and contributes **zero** to the canonical First-100 count.
 
-Package includes implementation, tests, benchmark CLI, README, limitations, and follow-on experiment contracts. Its latest source head passed canonical CI #593. The PR records 3 passing project tests and a 20-seed synthetic falsifier with precision 0.9787 and recall 0.8604. This remains synthetic-only evidence and is not an asteroid-discovery claim.
+### Recovered scientific evidence boundaries
 
-### Project 2424 execution control merged
+Two high-value retained research packages are now canonically represented in Git without reconstructing missing source from prose:
 
-First-100 evidence-first execution wave — `f7c8ff7edd693f7daa0d2fc28e9a821eeb0d2702`.
+- PST / `T2424-0016` — PR #214, exact head `625d7261aeac319461418fdd4bb5ef9094fe6025`, full CI `31451145817`, merge `205dcaeb5dc5a0b5d3e9d4e59169b829829d5acc`.
+- NPMS / `T2424-0019` — PR #213, exact head `fb684fc3e16cf8e202b9069b0e7b37e6fa607006`, full CI `31451120590`, merge `c298d4cbe81e85e678c97261fbd4fbb6ca82c77c`.
 
-Merged artifacts include the 100-entry queue, dashboard, execution queue, evidence ledger, morning handoff, and queue contract test. Latest-head `build-and-test` passed the Project 2424 recovery-package test and canonical release gate.
-
-### Portfolio evidence/control merged
-
-Root execution-control artifacts — `31dcdd484e9f16db15329b868d9977f9c5940315`.
-
-`MASTER_PORTFOLIO_STATUS.md`, `EXECUTION_QUEUE.md`, `EXECUTION_EVIDENCE.md`, `CHECKPOINT.md`, and this handoff were added with exact-head canonical CI #612 passing before merge.
+Both packages include fail-closed validators that prevent claim inflation. They are **not** counted among the 12 runnable implementations because their original isolated scientific source/evidence trees remain unmigrated.
 
 ## 2. PROJECT 2424
 
-First-100 count before this execution: no connector-visible certified completed-count artifact was established.  
-First-100 queue after: `100` candidates represented.  
-Certified completed from this queue: `0 / 100`.  
-Runnable/tested newly merged standalone prototype outside the certified queue mapping: `1` (Asteroid Tracklet Baseline).  
-Canonical Project 2424 repository restore: BLOCKED from this connector session.
+- Frozen First-100 queue: **100** entries.
+- Queue-consistent runnable implementation/tool packages merged + verified: **12**.
+- Queue-consistent tested implementation/tool packages merged + verified: **12**.
+- Canonical recovered evidence-boundary packages with source migration pending: **2** (PST, NPMS).
+- Certified complete: **0 / 100**.
+- Research-complete: **0**.
 
-The queue intentionally does not convert proposal metadata into fake completed projects. The next increase in the certified count requires a project-specific implementation plus test/result evidence.
+The count was deliberately corrected using the frozen queue rather than folder names. This exposed two registry collisions:
+
+1. `T2424-0049` was repaired losslessly to Multiphase Porous JEPA while preserving Project24 Render as auxiliary work.
+2. `T2424-0050` still needs the same repair: current `main` has Benchmark Augmentation Theory at the canonical path, but the queue assigns Darcy Latent Operator. PR #210 contains the lossless repair and previously passed canonical CI, but is now stale and explicitly says **do not auto-merge or deploy**. It was not merged.
 
 ## 3. CORE PRODUCTS
 
 ### VertexED
 
-What changed: five source-level correctness/security/account-isolation/reliability fixes were merged.  
-Tests: every exact source head passed canonical CI before merge; the final Apex cancellation fix passed build/test plus both browser certification jobs.  
-Remaining release gate: prove the immutable Git SHA actually served by `www.vertexed.app`, then complete disposable-account authenticated production certification. Green Vercel commit statuses alone are not production-revision proof.
+What changed: no production deployment was attempted; this continuation used the repo as the writable control/recovery repository while preserving the existing source release boundary.
+
+Live read-only Supabase verification:
+
+- every observed public table has RLS enabled;
+- no public-schema views were observed;
+- both observed public `SECURITY DEFINER` functions have explicit `search_path` settings and no PUBLIC execute grant;
+- security advisor warns leaked-password protection is disabled;
+- security advisor warns a Postgres security-patch upgrade is available.
+
+Remaining release gate: prove the immutable SHA serving the public production domain and complete authenticated disposable-account production journeys. Green CI/browser evidence alone is not that proof.
 
 ### The Bu1LD
 
-What changed: no target mutation in this execution because the canonical target is not exposed to this connector.  
-Tests: the control repository's Bu1LD fail-closed deployment-repair fixture continued passing in VertexED CI, but this is not target deployment certification.  
-Remaining release gate: connected access to the canonical target GitHub/Supabase/Cloudflare environment, resolution of production hydration/deployment skew, one immutable deploy, and seven-role journey certification.
+Repository `ryangomez010/bu1ld-landing` is now actually connector-visible. The two obvious Cursor branches are fully subsumed by `main`. Source-level release checks already exist: typecheck, lint, tests, build, release checks, and stricter production-mode Supabase schema/RLS verification.
+
+Remaining gate is external/credentialed: apply/verify DB state, configure Auth URLs/deployment variables/email, then run the seven-role smoke matrix. Bu1LD Supabase is not connected here, so no database state was guessed.
 
 ### FinanceMeta
 
-What changed: no target mutation in this execution.  
-Tests: no new target test claimed.  
-Remaining release gate: connected write access to the canonical target plus production Supabase, application of the already-prepared hardening, and real target release/authorization verification.
+Repository `build-the-future-11/finance4all-global-reach` is now actually connector-visible.
+
+Current `main` still contains two concrete authorization concerns: an own-profile UPDATE policy without an explicit role/email write boundary and an authenticated notification INSERT policy with `WITH CHECK (true)` despite trigger-only intent.
+
+A surviving branch, `cursor/membership-security-supabase-fix`, is **41 commits ahead / 0 behind** `main` and contains later hardening, CI, E2E and release work. The connector can read this repo but both branch creation and PR creation returned `403 Resource not accessible by integration`, so no unsafe workaround or false “fixed” claim was made.
 
 ## 4. RESEARCH
 
-Experiments actually executed by this connector session: `0` new LAM-JEPA/Hercules/Project 2424 research experiments are claimed.
+### PST
 
-Asteroid Tracklet Baseline: a runnable software/research falsifier package was merged with recorded synthetic benchmark evidence. Its next scientific gate is a reproducible public moving-object dataset and stronger comparison baseline.
+Recovered controlled evidence is preserved, including negative findings:
 
-LAM-JEPA: existing repository evidence remains research-active with negative/inconclusive claim boundaries preserved. No superiority or research-complete claim is made.
+- raw-expression/logistic controls outperform neural PST on the controlled generator;
+- validation-only calibration worsens the recorded compact metrics;
+- fixed family-A→family-B transfer is weak despite strong family-B in-domain retraining;
+- historical Paul15/Pancreas/Dentate Gyrus values remain unverified;
+- external biological validation remains blocked.
+
+### NPMS
+
+Recovered evidence preserves limitations rather than smoothing them away:
+
+- matched-eigenvalue error ignores missing/spurious modes;
+- mode truncation does not group conjugate pairs;
+- frequency response is a resolvent proxy, not a complete identified input-output transfer function;
+- delay-PCA/multiscale/switching weaknesses remain explicit.
+
+### LAM-JEPA
+
+The current ARC line remains negative/inconclusive. The locked confirmatory test is not used to rescue the failed superiority/mechanism hypothesis. No result was relabelled positive.
 
 ## 5. ATLAS / PERCY
 
-No canonical Atlas repository or local Percy control-plane source is exposed by the current GitHub installation. Percy issue #95 still requires local SQLite schema compatibility repair and real worker-liveness proof. No fake worker/runtime completion is recorded.
+Atlas and Percy remain genuinely blocked in this connector environment: the canonical Atlas repo/runtime and local Percy SQLite/runtime source are not available here. No fake worker-liveness or autonomous-runtime claim is made.
 
 ## 6. GITHUB
 
-Repositories actually visible to this connected GitHub App: `3`.
+Repositories materially inspected in this continuation:
 
-Visible repositories inspected:
 - `vertex-studyAI/vertexED.ai`
 - `vertex-studyAI/LAM-JEPA`
-- `vertex-studyAI/Text-To-Video`
+- `vertex-studyAI/Text-To-Video` (retained portfolio evidence)
+- `build-the-future-11/finance4all-global-reach`
+- `ryangomez010/bu1ld-landing`
 
-Mainline PRs merged during this execution before this final handoff refresh:
-- #147
-- #152
-- #153
-- #149
-- #145
-- #155
-- #157
-- #161
+Direct merges performed by this execution lane: **6** — PRs #192, #199, #203, #212, #214, #213.  
+Additional concurrent Project 2424 merges inspected and incorporated into the verified truth state: #201, #202, #205.
 
-Stale PR #150: closed unmerged after clean replacement #161 passed exact-head verification.
+Stale/superseded/duplicate PRs were closed rather than force-pushed, including #189, #191, #193, #179, #211, #209 and stale status PR #208.
 
 ## 7. FAILURES / BLOCKERS
 
-1. Canonical Project 2424 source is not exposed to the current GitHub connector; restore remains external/local.
-2. FinanceMeta canonical target GitHub/Supabase access is not exposed.
-3. The Bu1LD canonical target GitHub/Supabase/Cloudflare access is not exposed.
-4. Atlas canonical repository is not exposed.
-5. Percy local source/SQLite runtime is not exposed.
-6. VertexED exact live immutable production revision and authenticated release journey remain unverified.
+1. `T2424-0050` canonical Darcy identity repair still needs a current-main recovery under its explicit manual merge gate.
+2. PST and NPMS original isolated scientific source/evidence trees still need canonical migration and independent rerun.
+3. FinanceMeta connector write access is blocked by GitHub integration 403; production Supabase is not connected.
+4. Bu1LD production environment/Supabase verification remains external.
+5. VertexED exact production SHA and authenticated production journey remain unproven.
+6. VertexED Supabase leaked-password protection and Postgres security patch warnings remain open.
+7. Atlas and Percy canonical runtimes are unavailable to this connector.
 
-## 8. TOP 10 NEXT ACTIONS
+## 8. TOP NEXT ACTIONS
 
-1. Restore/expose canonical Project 2424 source without destroying the dirty overlay.
-2. Execute the first First-100 project-specific package and increase the certified count only after evidence passes.
-3. Prove the exact VertexED SHA served by the canonical Vercel production project.
-4. Complete disposable-account VertexED authenticated production certification.
-5. Connect FinanceMeta target GitHub + production Supabase and apply the certified hardening.
-6. Connect The Bu1LD target GitHub + Supabase + Cloudflare and resolve hydration/deployment skew.
-7. Repair Percy snapshot schema compatibility and distinguish real workers from shell-only panes.
-8. Expose the canonical Atlas repo and inspect orchestration/runtime state.
-9. Move the Asteroid Tracklet Baseline onto real moving-object data plus a stronger baseline.
-10. Freeze the next externally grounded LAM-JEPA benchmark protocol before spending compute.
+1. Recover the lossless T2424-0050 Darcy repair onto current `main` only if its manual do-not-auto-merge boundary is intentionally cleared; rerun exact-head CI.
+2. Take the strongest of the 12 merged First-100 implementations through raw artifacts, ablation/negative analysis and independent QA toward nine-gate certification.
+3. Migrate PST/NPMS original isolated source/evidence trees and reproduce from clean canonical commits.
+4. Restore FinanceMeta write permission and put the existing 41-commit hardening branch through exact-head PR/CI + real Supabase RLS verification.
+5. Execute Bu1LD strict production release verification and seven-role smoke tests in its real environment.
+6. Prove VertexED's immutable live revision and authenticated journeys, then address the two Supabase advisor warnings through controlled operations.
+7. Preserve LAM-JEPA's negative ARC stop rule and design any new hypothesis under a newly frozen protocol.
 
-## 9. COMMANDS / INTERVENTION REQUIRED FROM OWNER
+## 9. OWNER INTERVENTION REQUIRED
 
-Only external access actions are required; no secrets should be pasted into chat or GitHub issues.
+No secrets should be pasted into chat or committed.
 
-- Configure the GitHub App to expose the canonical FinanceMeta, The Bu1LD, Atlas, and Project 2424 repositories where applicable.
-- Restore Project 2424 from the preserved local source using the already-versioned non-destructive recovery procedure tracked in issue #20.
-- Provide secure disposable production identities through the supported account/password-manager flow for authenticated VertexED certification.
-- Use the canonical Vercel/Supabase/Cloudflare dashboards for production-only configuration that cannot be safely inferred or mutated through this connector.
+- Clear the explicit manual merge boundary if you want the T2424-0050 Darcy repair recovered/merged.
+- Restore GitHub write permission for FinanceMeta.
+- Connect/authorize the real Bu1LD and FinanceMeta Supabase environments for strict verification.
+- Expose canonical Atlas/Percy source/runtime where further execution is desired.
+- Handle production-only VertexED Supabase/Vercel configuration in the proper dashboards or authorized deployment workflow.
 
 ## FINAL METRICS
 
-Repositories visible/inspected: `3`  
-Repositories modified through connected GitHub: `1` (`vertexED.ai`)  
-Mainline PRs merged before this final handoff refresh: `8`  
-Source/product fixes merged: `5`  
-Standalone runnable prototype packages merged: `1`  
-Project 2424 First-100 execution-control package merged: `1`  
-Portfolio evidence/control package merged: `1`  
-Project 2424 certified completed count: `0 / 100`  
-New LAM-JEPA/Hercules research experiments claimed: `0`  
-Production deployments performed: `0`  
-Known external P0/P1 access/release blockers: preserved above rather than hidden.
+Repositories materially inspected: **5**  
+Repositories modified through this connector: **1** (`vertexED.ai`)  
+Direct PR merges performed in this continuation: **6**  
+Additional concurrent Project 2424 merges incorporated into verified status: **3**  
+Queue-consistent First-100 implementation/tool packages merged + verified: **12**  
+Canonical evidence-boundary packages recovered: **2**  
+Project 2424 Certified complete: **0 / 100**  
+Production deployments performed: **0**  
+Production database mutations performed: **0**  
+Force-pushes/destructive history rewrites performed: **0**
