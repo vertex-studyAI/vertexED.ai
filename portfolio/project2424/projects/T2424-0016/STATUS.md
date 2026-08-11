@@ -1,8 +1,15 @@
 # T2424-0016 Status
 
+**Project:** PST — Predictive Single-Cell Transition Score  
+**Recovered/source alias:** Predictive Stability Theory (PST) / `MODEL-PST`
+
 State: `RECOVERED_COMPACT_EVIDENCE / SOURCE_MIGRATION_PENDING / EXTERNAL_BLOCKED`
 
 Certified complete: **NO**
+
+## Canonical identity
+
+The frozen First-100 queue is authoritative for Project 2424 identity. `T2424-0016` therefore uses the canonical title **PST — Predictive Single-Cell Transition Score**. The recovered isolated package and historical materials use **Predictive Stability Theory (PST)** / `MODEL-PST`; that label is preserved as provenance and must not replace the queue identity.
 
 ## Recovered evidence state
 
