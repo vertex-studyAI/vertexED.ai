@@ -1,62 +1,65 @@
 # Master Portfolio Status
 
-**Updated:** 11 August 2026 — final connector-visible execution checkpoint
+**Updated:** 11 August 2026 — connector-visible execution checkpoint
 
-This ledger records only repository, CI, retained-evidence, and connected-service facts that were actually verified. Repository green is not production proof; synthetic evidence is not external validation; recovered evidence is not recovered source.
+Repository green is not production proof; synthetic evidence is not external validation; recovered evidence is not recovered source.
 
 ## Portfolio summary
 
 | Project | State | Verified current evidence | Main blocker / next gate |
 |---|---|---|---|
-| VertexED.ai | ACTIVE / RELEASE-CANDIDATE SOURCE | `vertex-studyAI/vertexED.ai`; current `main` is `d01b201035195575ee5764fefc9ef108f7e06314`, including PST/NPMS queue-identity alignment and the current evidence-backed portfolio checkpoint. Deployment-identity PR #184 head `256c15de93e064b5a931ecf6a9f2f29159750046` previously passed CI `31412824339` and Production Health Monitor `31412824223`. | PR #184 explicitly forbids auto-merge/deploy. Immutable SHA actually serving production plus disposable-account authenticated journeys remain unproven. No production mutation was performed. |
-| Project 2424 | ACTIVE / 12 MERGED TESTED + 2 EVIDENCE RECOVERIES | Frozen queue 100; 12 queue-consistent runnable/tested implementations merged; PST/NPMS evidence recoveries merged but excluded from implementation count; 0 Certified complete. Four additional canonical recoveries and the Darcy identity repair are exact-head green but manual-gated. | Current-main `T2424-0050` identity collision remains until draft PR #230 is manually approved/merged. #230 head `8539bbc38624b8bafe1d188876869b2e72c451a4`, CI `31456520689` success. |
-| LAM-JEPA | RESEARCH-ONLY / NEGATIVE-INCONCLUSIVE | `vertex-studyAI/LAM-JEPA`; ARC superiority remains unsupported / `RESEARCH_COMPLETE_FALSE`. PR #56 added fail-closed machine enforcement of that claim boundary and merged as `f9b10c768d7e93eccb440761306bd992c3ec6a5a` after three exact-head workflows passed. | Do not tune on locked confirmatory data. Release licensing/citation provenance remains a human gate. |
-| Notes-to-Video | SHIPPABLE LOCAL PROTOTYPE / GREEN REVIEW PATHS | `vertex-studyAI/Text-To-Video`; draft PR #14 consolidates fail-closed lifecycle + cancellation + explicit retry/attempt provenance and lifecycle documentation. Head `75b8a80f10a927646c5e382c50004495d149f287`, CI `31456573510` success. PR #9 separately contains verified content-addressed local media storage. | Keep review paths draft/unmerged. Store is still process-memory for lifecycle; storage is repository-local, not a durable distributed queue or hosted media service. |
-| FinanceMeta | ACTIVE / SECURITY RECOVERY READY / WRITE BLOCKED | `build-the-future-11/finance4all-global-reach`; main `fbdd503223edc5b1780509720391083f485a4a85`; `cursor/membership-security-supabase-fix` is 41 commits ahead / 0 behind. Later migrations constrain broad profile writes, notification/public-write boundaries, membership lifecycle and privileged function execution. | Fresh recovery PR creation returned `403 Resource not accessible by integration`. Production Supabase final policy state is not connected/verified; do not claim fixed. |
-| The Bu1LD | ACTIVE / RELEASE-CANDIDATE SOURCE / WRITE BLOCKED | `ryangomez010/bu1ld-landing`; main `daa80c1124b2a6d7d09b7669e04d29e50cffcbbe`; no open PR backlog. Existing CI runs typecheck/lint/tests/build/release-check, while the repo already has a separate 22-route `smoke` command and strict credentialed Supabase release verification. | Connector branch creation returned 403. Add `bun run smoke` to CI when write access is restored; real RLS policy semantics and the seven-role allowed/forbidden matrix require an authorized environment. |
-| Atlas | BLOCKED_SOURCE | No canonical Atlas repository/runtime is exposed by the installed GitHub surface; the historical local PRO-BLADE path is not source proof. | Expose/create the canonical Atlas repository, then inspect scheduler, worker, task state, persistence, logs, recovery and concurrency. |
-| Percy | BLOCKED_SOURCE / BLOCKED_RUNTIME | No current Percy source/SQLite/runtime is exposed through the connected GitHub surface. | Must prove process alive + task claimed + heartbeat + persisted state + task progress + failure recovery before any liveness claim. |
-| RIS | LOW-MATURITY / LOW CURRENT LEVERAGE | `build-the-future-11/RIS`; no open PR backlog surfaced during active triage. | Higher-value active security/research/recovery lanes take precedence over cosmetic churn. |
-| IY-ERN | LANDING APP / LOW CURRENT LEVERAGE | `build-the-future-11/Iy-ERN`; no open PR backlog surfaced. | No urgent verified P0 surfaced during triage. |
-| FinanceMeta-Global | SHOWCASE / LOW CURRENT LEVERAGE | `build-the-future-11/FinanceMeta-Global`; no open PR backlog surfaced. | Canonical FinanceMeta product/security repo has higher execution value. |
-| FinanceMeta-Landing | LEGACY LANDING APP / LOW CURRENT LEVERAGE | `build-the-future-11/FinanceMeta-Landing`; no open PR backlog surfaced. | Canonical FinanceMeta application branch has higher execution value. |
+| VertexED.ai | ACTIVE / GREEN MANUAL REVIEW PATHS | `vertex-studyAI/vertexED.ai`; current `main` `d01b201035195575ee5764fefc9ef108f7e06314`. Current-main production-identity PR #233 head `a68f2cd11bdcafdcf7109941b831fe70925f14ba`, CI `31456791409` SUCCESS, Production Health Monitor PR validation `31456791458` SUCCESS. Account-scoped transient learner handoff P0 PR #240 head `edd9906d58b8190b9ba47cdb353901cd92d17e35`, CI `31457094463` SUCCESS. | Both remain draft/manual/no-deploy. Public exact serving SHA and disposable-account authenticated production journey remain unproven. No production mutation performed. |
+| Project 2424 | ACTIVE / 12 MERGED TESTED + 2 EVIDENCE RECOVERIES | Frozen queue 100; 12 queue-consistent runnable/tested merged; PST/NPMS evidence recoveries merged but excluded from implementation count; 0 Certified complete; 8 exact-head-green canonical/manual review paths. | Current-main `T2424-0050` collision remains until #230 manual decision. Open green PRs do not change merged counts. |
+| LAM-JEPA | RESEARCH-ONLY / NEGATIVE-INCONCLUSIVE | `vertex-studyAI/LAM-JEPA`; current main `f9b10c768d7e93eccb440761306bd992c3ec6a5a`. ARC superiority remains unsupported / `RESEARCH_COMPLETE_FALSE`; main includes retained-row negative slicing and fail-closed claim-boundary CI. | Do not tune locked confirmatory data or weaken thresholds. Licensing/citation provenance remains a human gate. |
+| Text-To-Video | SHIPPABLE LOCAL PROTOTYPE / DURABLE SINGLE-HOST QUEUE MERGED | `vertex-studyAI/Text-To-Video`; current main `73495ed6a7cba09330b6eb86447679874c3f2d45` includes merged durable local worker queue with leases/recovery and bounded attempt budget. Current-main API lifecycle replacement #16 head `98fd04b04e43b91c229820ac5386db78d5f3ff8a`, CI `31457181357` SUCCESS. Local content-addressed media storage #9 remains green/draft. | No distributed exactly-once guarantee, cloud durability, hosted rendering, production narration, autoscaling, deployment or SLO. #16/#9 remain unmerged review paths. |
+| FinanceMeta | ACTIVE / SECURITY RECOVERY SOURCE-VISIBLE / WRITE BLOCKED | Target `build-the-future-11/finance4all-global-reach`; inspected hardening branch is +41 / -0 versus inspected main and contains later RLS/profile/notification/security-definer hardening. | Current GitHub installation does not expose writable target repo; fresh recovery PR previously returned 403. Production Supabase final policy state unverified. |
+| The Bu1LD | ACTIVE / RELEASE SOURCE-VISIBLE / WRITE BLOCKED | Target `ryangomez010/bu1ld-landing`; source inspection found existing release checks and a route-smoke command not invoked by CI. | Current GitHub installation does not expose writable target repo; real credentials/environment required for semantic seven-role allowed/forbidden RLS certification. |
+| Atlas | BLOCKED_SOURCE | No canonical Atlas repository/runtime is exposed by the installed GitHub surface. | Expose/create canonical Atlas source, then inspect scheduler, workers, task state, persistence, logs, recovery and concurrency. |
+| Percy | BLOCKED_SOURCE / BLOCKED_RUNTIME | No current Percy source/SQLite/runtime is exposed through the installed GitHub surface. | A real health proof must show process alive + task claimed + heartbeat + persisted state + progress + failure recovery. |
 
-## Project 2424 current accounting
+## Project 2424 accounting
 
 - queue entries: **100**
 - queue-consistent runnable merged: **12**
 - queue-consistent tested merged: **12**
 - evidence-only merged recoveries: **2**
-- Certified complete: **0 / 100**
+- `Certified complete`: **0 / 100**
 - research-complete: **0**
 - unresolved current-main registry collisions: **1** (`T2424-0050`)
+- exact-head-green manual-gated canonical review paths: **8**
 
-### Current green manual-gated Project 2424 review paths
+### Green/manual Project 2424 review paths
 
-- **#230 — `T2424-0050` Darcy identity repair**: head `8539bbc38624b8bafe1d188876869b2e72c451a4`; CI `31456520689` success after same-head rerun; preserves Benchmark Augmentation Theory as auxiliary and restores Darcy to frozen ID. Explicit manual/no-deploy boundary.
-- **#231 — `T2424-0024` Trust Under Uncertainty**: head `7feed42003ee06500b594151dc16f229bfeffc85`; CI `31456648276` success; frozen synthetic calibration evidence plus independent no-import claim↔evidence QA. Explicit manual/no-deploy boundary.
-- **#225 — `T2424-0026` Counterfactual Defect Worlds**: head `846ad36f31253ec0b7938bd5996618004b6f06cc`; CI `31456034018` success; deterministic cellular-automaton locality screen. Explicit manual/no-deploy boundary.
-- **#234 — `T2424-0028` Residual Event Tokenization**: head `22c1fe1bd8a8373e159181914acd9f392571932f`; CI `31456812854` success; current-main recovery of tested causal residual-event codec with frozen claim/protocol. Explicit manual/no-deploy boundary.
-- **#232 — `T2424-0029` Representation Phase Transitions for PDEs**: head `104b46abe3c49d223448cf5f73464832599ae18f`; CI `31456615933` success; deterministic analytic 1D heat-equation spectral-dimension screen. Explicit manual/no-deploy boundary.
+- #230 — `T2424-0050` Darcy identity repair — `8539bbc38624b8bafe1d188876869b2e72c451a4`, CI `31456520689` SUCCESS.
+- #231 — `T2424-0024` Trust Under Uncertainty — `7feed42003ee06500b594151dc16f229bfeffc85`, CI `31456648276` SUCCESS.
+- #239 — `T2424-0026` Counterfactual Defect Worlds — `67b9df0972449a620731c3bd26a9dc445485c439`, CI `31457031321` SUCCESS.
+- #234 — `T2424-0028` Residual Event Tokenization — `22c1fe1bd8a8373e159181914acd9f392571932f`, CI `31456812854` SUCCESS.
+- #232 — `T2424-0029` Representation Phase Transitions for PDEs — `104b46abe3c49d223448cf5f73464832599ae18f`, CI `31456615933` SUCCESS.
+- #238 — `T2424-0035` Grokking Agent — `34a76d8600f7bfcfb7158578b37bdc5c23b2f698`, CI `31456990863` SUCCESS.
+- #236 — `T2424-0037` NLP-to-CAD — `3df43264089d2767e86b5e67bdfa41284e1ebd16`, CI `31456830498` SUCCESS.
+- #241 — `T2424-0054` Theory-Manifold Experiment Planner — `0031aef118db4a155b7d278c2c9efbe0542ae58f`, CI `31457110484` SUCCESS.
 
-None of these open PRs changes the merged 12-project count. If #230 is manually cleared and merged while identity-clean, Darcy may become the 13th queue-consistent implementation; the auxiliary benchmark must not add another registry count.
+None changes the merged count until a separate manual merge decision. Legacy duplicates #225/#228/#165/#167/#170 were closed unmerged after verified replacements existed.
 
-## GitHub execution completed in this continuation
+## Product execution completed
 
-- merged PST/NPMS queue-identity metadata repair PR #226 as `0a9751d6e8b995747c855c64d60bdda9b1891eaf` without changing scientific evidence tiers;
-- merged evidence-backed portfolio checkpoint PR #229 as `d01b201035195575ee5764fefc9ef108f7e06314` after exact-head CI;
-- merged LAM-JEPA claim-boundary gate PR #56 as `f9b10c768d7e93eccb440761306bd992c3ec6a5a`, machine-enforcing the negative/inconclusive ARC stop rule;
-- consolidated Darcy to a single current review path #230 and reran the concurrency-cancelled CI job to full success;
-- consolidated Trust Under Uncertainty to stronger current path #231 with independent no-import evidence QA;
-- consolidated T2424-0029 to latest-main path #232;
-- created current-main T2424-0028 recovery PR #234, verified CI success, then closed legacy #163 as superseded;
-- retired stale/duplicate recovery/checkpoint paths rather than double-counting them;
-- consolidated Notes-to-Video lifecycle work into #14, added retry-aware lifecycle documentation, verified exact-head CI success, and closed duplicate #10;
-- inspected FinanceMeta's 41-commit hardening branch and isolated the connector 403 blocker rather than claiming integration;
-- identified Bu1LD's missing CI route-smoke invocation and the gap between RLS-enabled checks and semantic role-policy verification; connector write returned 403;
-- confirmed Atlas/Percy source/runtime are not exposed and did not invent a runtime;
-- triaged smaller discoverable repositories and stopped low-value cosmetic work.
+### VertexED
+
+- Rebuilt the stale immutable-build-revision source fix on current main as #233; exact-head CI and PR-scoped health-monitor validation are green.
+- Recovered account-scoped transient learner handoffs on current main as #240; exact-head CI green; stale #148 closed unmerged.
+- No deployment or Supabase mutation occurred. Production revision and authenticated journey remain separate external gates.
+
+### Text-To-Video
+
+- Main now contains durable **single-host local** queue state with leases/recovery and a bounded retry-attempt policy (`334003896...`, `73495ed6...`).
+- Current-main API lifecycle/cancel/retry replacement #16 is exact-head green; superseded #10/#14 are closed.
+- #9 remains a separate green content-addressed local media-store review path.
+
+### LAM-JEPA
+
+- Main now contains retained negative-result slicing and fail-closed claim-boundary enforcement (`26589d8...`, `f9b10c7...`).
+- The ARC superiority hypothesis remains unsupported; no locked-set rescue, threshold weakening, seed search or positive relabelling occurred.
 
 ## Safety boundary
 
-No production deployment, production database mutation, credential exposure, force-push, scientific threshold weakening, negative-to-positive claim upgrade, synthetic-to-external claim upgrade, fake Atlas/Percy liveness, or explicit manual merge gate bypass occurred.
+Production deployments: **0**. Production DB mutations: **0**. Manual merge gates bypassed: **0**. Force-pushes: **0**. Scientific thresholds weakened: **0**. Negative results relabelled positive: **0**. Missing research source reconstructed from prose: **0**. Atlas/Percy liveness fabricated: **0**.
