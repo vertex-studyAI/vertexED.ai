@@ -1,0 +1,184 @@
+{
+  "schemaVersion": 1,
+  "projectId": "T2424-0040",
+  "experiment": "controlled-synthetic-learning-graph-ordering",
+  "fixture": {
+    "threshold": 0.8,
+    "steps": 6,
+    "nodes": [
+      {
+        "id": "budgeting",
+        "prerequisites": [],
+        "utility": 2,
+        "difficulty": 1
+      },
+      {
+        "id": "time_value",
+        "prerequisites": [
+          "budgeting"
+        ],
+        "utility": 4,
+        "difficulty": 1
+      },
+      {
+        "id": "bonds",
+        "prerequisites": [
+          "time_value"
+        ],
+        "utility": 5,
+        "difficulty": 1
+      },
+      {
+        "id": "diversification",
+        "prerequisites": [
+          "budgeting"
+        ],
+        "utility": 4,
+        "difficulty": 1
+      },
+      {
+        "id": "capm",
+        "prerequisites": [
+          "time_value",
+          "diversification"
+        ],
+        "utility": 8,
+        "difficulty": 1
+      },
+      {
+        "id": "options",
+        "prerequisites": [
+          "bonds",
+          "capm"
+        ],
+        "utility": 9,
+        "difficulty": 1
+      }
+    ]
+  },
+  "claim": {
+    "prerequisiteAwareMaxViolatingSelections": 0,
+    "utilityOnlyMinViolatingSelections": 4
+  },
+  "prerequisiteAware": {
+    "policy": "prerequisite-aware",
+    "threshold": 0.8,
+    "stepsRequested": 6,
+    "selections": [
+      {
+        "step": 1,
+        "conceptId": "budgeting",
+        "unmetPrerequisites": []
+      },
+      {
+        "step": 2,
+        "conceptId": "diversification",
+        "unmetPrerequisites": []
+      },
+      {
+        "step": 3,
+        "conceptId": "time_value",
+        "unmetPrerequisites": []
+      },
+      {
+        "step": 4,
+        "conceptId": "capm",
+        "unmetPrerequisites": []
+      },
+      {
+        "step": 5,
+        "conceptId": "bonds",
+        "unmetPrerequisites": []
+      },
+      {
+        "step": 6,
+        "conceptId": "options",
+        "unmetPrerequisites": []
+      }
+    ],
+    "violatingSelections": 0,
+    "unmetPrerequisiteEdges": 0,
+    "completedConcepts": 6,
+    "finalMastery": {
+      "budgeting": 1,
+      "time_value": 1,
+      "bonds": 1,
+      "diversification": 1,
+      "capm": 1,
+      "options": 1
+    }
+  },
+  "utilityOnlyBaseline": {
+    "policy": "utility-only",
+    "threshold": 0.8,
+    "stepsRequested": 6,
+    "selections": [
+      {
+        "step": 1,
+        "conceptId": "options",
+        "unmetPrerequisites": [
+          "bonds",
+          "capm"
+        ]
+      },
+      {
+        "step": 2,
+        "conceptId": "capm",
+        "unmetPrerequisites": [
+          "time_value",
+          "diversification"
+        ]
+      },
+      {
+        "step": 3,
+        "conceptId": "bonds",
+        "unmetPrerequisites": [
+          "time_value"
+        ]
+      },
+      {
+        "step": 4,
+        "conceptId": "diversification",
+        "unmetPrerequisites": [
+          "budgeting"
+        ]
+      },
+      {
+        "step": 5,
+        "conceptId": "time_value",
+        "unmetPrerequisites": [
+          "budgeting"
+        ]
+      },
+      {
+        "step": 6,
+        "conceptId": "budgeting",
+        "unmetPrerequisites": []
+      }
+    ],
+    "violatingSelections": 5,
+    "unmetPrerequisiteEdges": 7,
+    "completedConcepts": 6,
+    "finalMastery": {
+      "budgeting": 1,
+      "time_value": 1,
+      "bonds": 1,
+      "diversification": 1,
+      "capm": 1,
+      "options": 1
+    }
+  },
+  "gates": {
+    "zeroPrerequisiteViolations": true,
+    "completesFrozenGraph": true,
+    "baselineHasAtLeastFourViolatingSelections": true
+  },
+  "verdict": "PASS_CONTROLLED_PREREQUISITE_ORDERING_MECHANICS",
+  "boundary": {
+    "syntheticFixture": true,
+    "realLearners": false,
+    "learningEffectiveness": false,
+    "financeKnowledgeValidity": false,
+    "researchComplete": false
+  }
+}
