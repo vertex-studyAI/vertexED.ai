@@ -1,0 +1,96 @@
+{
+  "project": "T2424-0023",
+  "benchmark": "bounded multilingual blind-spot mechanics screen",
+  "threshold": 0.8,
+  "input": "sample-records.json",
+  "report": {
+    "overall": {
+      "total": 9,
+      "answered": 8,
+      "correct": 6,
+      "abstained": 1,
+      "coverage": 0.8888888888888888,
+      "accuracy": 0.6666666666666666,
+      "selectiveAccuracy": 0.75,
+      "highConfidenceWrong": 1,
+      "blindSpotRate": 0.1111111111111111
+    },
+    "languages": [
+      {
+        "language": "es",
+        "total": 3,
+        "answered": 3,
+        "correct": 1,
+        "abstained": 0,
+        "coverage": 1,
+        "accuracy": 0.3333333333333333,
+        "selectiveAccuracy": 0.3333333333333333,
+        "highConfidenceWrong": 1,
+        "blindSpotRate": 0.3333333333333333
+      },
+      {
+        "language": "en",
+        "total": 3,
+        "answered": 3,
+        "correct": 3,
+        "abstained": 0,
+        "coverage": 1,
+        "accuracy": 1,
+        "selectiveAccuracy": 1,
+        "highConfidenceWrong": 0,
+        "blindSpotRate": 0
+      },
+      {
+        "language": "fr",
+        "total": 3,
+        "answered": 2,
+        "correct": 2,
+        "abstained": 1,
+        "coverage": 0.6666666666666666,
+        "accuracy": 0.6666666666666666,
+        "selectiveAccuracy": 1,
+        "highConfidenceWrong": 0,
+        "blindSpotRate": 0
+      }
+    ],
+    "concepts": [
+      {
+        "conceptId": "gravity",
+        "languages": ["en", "es", "fr"],
+        "correctLanguages": ["en", "fr"],
+        "blindSpotLanguages": ["es"],
+        "abstainedLanguages": [],
+        "crossLanguageBlindSpot": true
+      },
+      {
+        "conceptId": "two-plus-two",
+        "languages": ["en", "es", "fr"],
+        "correctLanguages": ["en", "es", "fr"],
+        "blindSpotLanguages": [],
+        "abstainedLanguages": [],
+        "crossLanguageBlindSpot": false
+      },
+      {
+        "conceptId": "water-boiling",
+        "languages": ["en", "es", "fr"],
+        "correctLanguages": ["en"],
+        "blindSpotLanguages": [],
+        "abstainedLanguages": ["fr"],
+        "crossLanguageBlindSpot": false
+      }
+    ],
+    "crossLanguageBlindSpotCount": 1,
+    "claimBoundary": "deterministic evaluation of supplied aligned records only; no translation-quality, semantic-equivalence, or real-model capability claim"
+  },
+  "englishSpanish": {
+    "languageA": "en",
+    "languageB": "es",
+    "matchedConcepts": 3,
+    "accuracyA": 1,
+    "accuracyB": 0.3333333333333333,
+    "accuracyGap": 0.6666666666666667,
+    "blindSpotsAOnly": 0,
+    "blindSpotsBOnly": 1
+  },
+  "verdict": "DETECTS_INJECTED_CROSS_LANGUAGE_BLIND_SPOT"
+}
