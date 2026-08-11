@@ -8,6 +8,7 @@
     "source_head": "a258ae35900e1b3f83c75604689603a80c43d45b",
     "source_head_ci_run": 31410602315,
     "source_head_ci_conclusion": "success",
+    "canonical_recovery_pr": 220,
     "canonical_recovery_branch": "agent/p2424-0024-canonical-recovery-20260811",
     "base_main_at_branch_creation": "d5110d36cb0dcfac41a0b8cf3b7ee6d6af9438c1"
   },
@@ -15,9 +16,11 @@
     "focused_local_test_command": "node --test tests/trustUnderUncertainty.test.mjs",
     "focused_local_tests_passed": 5,
     "focused_local_tests_failed": 0,
+    "independent_consistency_command": "node portfolio/project2424/projects/T2424-0024/reproduction/verify.mjs",
+    "independent_consistency_result": "PASS",
     "experiment_command": "node portfolio/project2424/projects/T2424-0024/experiment/run.mjs",
-    "raw_output": "evidence/raw/minimum-experiment.json",
-    "raw_output_sha256": "1113f9e65bc7c8357006e1150e9bca649d575e683595ae65b5d92cbd9c0c6e3c",
+    "raw_output": "evidence/raw/results.json",
+    "raw_output_sha256": "8e5b49bff8cd47cb0b20266b34aa55533823dda5c4855dd7da49365925f7fa39",
     "canonical_github_actions": "pending exact-head verification"
   },
   "artifacts": [
@@ -28,12 +31,13 @@
     "src/core.mjs",
     "experiment/run.mjs",
     "evidence/results.json",
-    "evidence/raw/minimum-experiment.json",
+    "evidence/raw/results.json",
     "analysis/baseline.md",
     "analysis/ablation.md",
     "analysis/verdict.md",
     "reproduction/README.md",
+    "reproduction/verify.mjs",
     "tests/trustUnderUncertainty.test.mjs"
   ],
-  "claim_boundary": "Deterministic synthetic calibration/selective-risk evaluator mechanics only."
+  "claim_boundary": "Deterministic synthetic calibration/selective-risk evaluator mechanics only. No real-model trustworthiness, safety, superiority, deployment, publication or research-complete claim."
 }
