@@ -18,8 +18,10 @@
 - Closed superseded PR #193 after the clean recovery landed.
 - Recovered T2424-0053 Scientific Motif Dictionary as PR #203 rather than force-pushing stale PR #179.
   - final-base head: `d01a1d2c12c7e2e2157e11c6bc92726edcbb1c29`
-  - build/test and production-browser portions of CI #688 have passed; final local-accessibility gate is still required before merge.
-- Current verified First-100 count on `main`: `7` runnable / `7` tested / `0` certified complete.
+  - canonical CI: `31450035136` / run #688 — success
+  - merge: `c587f4e0fa91c59e82099d2fb9c68dea3abe8a16`
+- Closed superseded PR #179 after the clean recovery landed.
+- Current verified First-100 count on `main`: `8` runnable / `8` tested / `0` certified complete.
 
 ### VertexED live Supabase verification
 
@@ -79,9 +81,9 @@ Current research status remains scientifically negative/inconclusive on the ARC 
 
 ## Highest-value remaining gates
 
-1. Finish exact-head CI for Project 2424 PR #203; merge only if the full gate succeeds.
-2. Refresh the First-100 dashboard to eight merged/tested packages only after #203 lands.
-3. Resolve FinanceMeta GitHub write permission and review the 41-commit hardening branch through a real PR/CI path.
-4. Run Bu1LD strict release verification in its real deployment/Supabase environment and execute the seven-role smoke matrix.
-5. Prove the immutable VertexED revision serving production and run authenticated disposable-account journeys.
-6. Enable VertexED leaked-password protection and schedule the Supabase Postgres security upgrade through a controlled maintenance path.
+1. Merge the docs-only portfolio truth-ledger refresh after its own exact-head CI succeeds.
+2. Resolve FinanceMeta GitHub write permission and review the 41-commit hardening branch through a real PR/CI path.
+3. Run Bu1LD strict release verification in its real deployment/Supabase environment and execute the seven-role smoke matrix.
+4. Prove the immutable VertexED revision serving production and run authenticated disposable-account journeys.
+5. Enable VertexED leaked-password protection and schedule the Supabase Postgres security upgrade through a controlled maintenance path.
+6. Continue Project 2424 by either satisfying the nine-gate evidence package for the strongest merged tools or recovering additional PRs only where their explicit merge boundaries allow it.
