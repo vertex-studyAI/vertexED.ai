@@ -24,7 +24,8 @@ export function validatePermeability(permeability) {
 }
 
 export function harmonicMean(values) {
-  const normalized = validatePermeability(values);
+  if (!Array.isArray(values) || values.length === 0) throw new TypeError('values must be a non-empty array');
+  const normalized = values.map((value, index) => positiveNumber(value, `values[${index}]`));
   return normalized.length / normalized.reduce((sum, value) => sum + 1 / value, 0);
 }
 
