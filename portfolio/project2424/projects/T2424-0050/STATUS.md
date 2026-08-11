@@ -3,7 +3,7 @@
 **Project:** Darcy Latent Operator  
 **Queue rank:** 43  
 **Track:** C — Existing work → minimum experiment  
-**State:** VERIFYING / LATEST_MAIN_IDENTITY_REPAIR_CI_PENDING  
+**State:** TESTED_TOOL / MANUAL_MERGE_PENDING  
 **Claim level:** bounded 1D reduced-resistance scientific-computing screen
 
 ## Identity repair
@@ -24,11 +24,13 @@ The frozen First-100 queue assigns `T2424-0050` to **Darcy Latent Operator**. Cu
 - [x] retained machine-readable result
 - [x] six focused regression tests
 
-## Prior exact-head evidence
+## Exact-head repository evidence
 
 The canonical Darcy implementation passed GitHub Actions on exact head `ce9331c8be3e66eb8249121aa2243c03550108d2`, CI run `31449982073`.
 
-A later lossless identity-repair head `d502de803701c0be1d7e3306b30b8036824ca251` also passed canonical CI run `31450427123`, but became non-mergeable as `main` advanced. Those runs prove the prior heads only; this latest current-main recovery must pass again before promotion.
+A later lossless identity-repair head `d502de803701c0be1d7e3306b30b8036824ca251` passed canonical CI run `31450427123`, but became non-mergeable as `main` advanced.
+
+The latest-main lossless repair head `9c9aacac73d1c59327cf6a882aa83566f658cf53` then passed canonical GitHub Actions CI run `31451716616` and was mergeable when inspected. That evidence establishes repository integration for that exact head only. This status-only correction creates a newer head and therefore requires the canonical CI gate to pass again before any merge decision.
 
 Retained bounded result:
 
@@ -41,7 +43,7 @@ Retained bounded result:
 
 ## Current promotion gate
 
-Canonical GitHub Actions must pass on this latest identity-repair head. A green run establishes repository integration of the relocation + Darcy package; it does not establish scientific generalization or research completion.
+The implementation has exact-head green evidence on the immediately preceding repair head, but this refreshed branch head must pass canonical GitHub Actions again before merge. Even with green CI, the PR remains under an explicit **manual merge / no deploy** boundary. A green run establishes repository integration of the relocation + Darcy package; it does not establish scientific generalization or research completion.
 
 ## Not claimed
 
