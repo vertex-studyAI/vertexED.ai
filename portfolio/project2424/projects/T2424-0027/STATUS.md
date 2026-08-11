@@ -22,7 +22,7 @@
 - [x] SHA-256-bound evidence manifest
 - [x] explicit baseline / negative-control analysis
 - [x] explicit GO / STOP verdict
-- [x] fail-closed independent evidence-consistency verifier
+- [x] fail-closed evidence-consistency verifier
 - [x] focused regression suite
 - [ ] canonical GitHub Actions green on exact final branch head
 - [ ] merged to current `main`
@@ -32,11 +32,13 @@
 - raw concept accuracy: `1.0`
 - raw language accuracy: `1.0`
 - language-centered concept accuracy: `1.0`
-- language-centered language accuracy: `0.3333333333333333`
+- language-centered language accuracy: `0.3611111111111111`
 - language chance accuracy: `0.3333333333333333`
-- normalized excess language-leakage reduction: `1.0`
+- normalized excess language-leakage reduction: `0.9583333333333334`
 - global-centering negative-control language accuracy: `1.0`
 - verdict: `PASS_CONTROLLED_LANGUAGE_LEAKAGE_MECHANICS`
+
+The centered language probe is slightly above chance, but the predeclared normalized leakage-reduction gate is `>= 0.90` and the retained value is `0.9583333333333334`. No threshold was moved after observation.
 
 ## Nine-gate state
 
