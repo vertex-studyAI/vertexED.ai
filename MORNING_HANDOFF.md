@@ -42,7 +42,7 @@ Both packages include fail-closed validators that prevent claim inflation. They 
 The count was deliberately corrected using the frozen queue rather than folder names. This exposed two registry collisions:
 
 1. `T2424-0049` was repaired losslessly to Multiphase Porous JEPA while preserving Project24 Render as auxiliary work.
-2. `T2424-0050` still needs the same repair: current `main` has Benchmark Augmentation Theory at the canonical path, but the queue assigns Darcy Latent Operator. PR #210 contains the lossless repair and previously passed canonical CI, but is now stale and explicitly says **do not auto-merge or deploy**. It was not merged.
+2. `T2424-0050` still needs the same final manual action: current `main` has Benchmark Augmentation Theory at the canonical path, but the queue assigns Darcy Latent Operator. Draft PR #216 is the latest-main lossless repair. Exact head `9c9aacac73d1c59327cf6a882aa83566f658cf53` passed full canonical CI `31451716616`, but the PR explicitly says **do not auto-merge or deploy**. It remains draft and was not merged. If that manual boundary is intentionally cleared and the identity guard remains green, Darcy may become the 13th queue-consistent implementation; the benchmark audit remains auxiliary rather than double-counted.
 
 ## 3. CORE PRODUCTS
 
@@ -120,7 +120,7 @@ Stale/superseded/duplicate PRs were closed rather than force-pushed, including #
 
 ## 7. FAILURES / BLOCKERS
 
-1. `T2424-0050` canonical Darcy identity repair still needs a current-main recovery under its explicit manual merge gate.
+1. `T2424-0050` canonical Darcy identity repair is technically green in draft PR #216 but remains manually gated by its explicit **do not auto-merge or deploy** boundary.
 2. PST and NPMS original isolated scientific source/evidence trees still need canonical migration and independent rerun.
 3. FinanceMeta connector write access is blocked by GitHub integration 403; production Supabase is not connected.
 4. Bu1LD production environment/Supabase verification remains external.
@@ -130,7 +130,7 @@ Stale/superseded/duplicate PRs were closed rather than force-pushed, including #
 
 ## 8. TOP NEXT ACTIONS
 
-1. Recover the lossless T2424-0050 Darcy repair onto current `main` only if its manual do-not-auto-merge boundary is intentionally cleared; rerun exact-head CI.
+1. Manually review/clear draft PR #216 only if you intentionally want the Darcy canonical repair merged; do not bypass its explicit merge boundary.
 2. Take the strongest of the 12 merged First-100 implementations through raw artifacts, ablation/negative analysis and independent QA toward nine-gate certification.
 3. Migrate PST/NPMS original isolated source/evidence trees and reproduce from clean canonical commits.
 4. Restore FinanceMeta write permission and put the existing 41-commit hardening branch through exact-head PR/CI + real Supabase RLS verification.
@@ -142,7 +142,7 @@ Stale/superseded/duplicate PRs were closed rather than force-pushed, including #
 
 No secrets should be pasted into chat or committed.
 
-- Clear the explicit manual merge boundary if you want the T2424-0050 Darcy repair recovered/merged.
+- Manually clear the explicit merge boundary on draft PR #216 if you want Darcy restored to canonical `T2424-0050` and merged.
 - Restore GitHub write permission for FinanceMeta.
 - Connect/authorize the real Bu1LD and FinanceMeta Supabase environments for strict verification.
 - Expose canonical Atlas/Percy source/runtime where further execution is desired.
