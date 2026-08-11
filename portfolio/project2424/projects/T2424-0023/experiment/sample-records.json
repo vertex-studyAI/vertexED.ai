@@ -1,0 +1,11 @@
+[
+  {"itemId":"gravity-en","conceptId":"gravity","language":"en","expected":"attraction","predicted":"attraction","confidence":0.96},
+  {"itemId":"gravity-es","conceptId":"gravity","language":"es","expected":"attraction","predicted":"repulsion","confidence":0.91},
+  {"itemId":"gravity-fr","conceptId":"gravity","language":"fr","expected":"attraction","predicted":"attraction","confidence":0.90},
+  {"itemId":"water-en","conceptId":"water-boiling","language":"en","expected":"100 c","predicted":"100 c","confidence":0.93},
+  {"itemId":"water-es","conceptId":"water-boiling","language":"es","expected":"100 c","predicted":"90 c","confidence":0.55},
+  {"itemId":"water-fr","conceptId":"water-boiling","language":"fr","expected":"100 c","predicted":"","confidence":0.25,"abstained":true},
+  {"itemId":"math-en","conceptId":"two-plus-two","language":"en","expected":"4","predicted":"4","confidence":0.99},
+  {"itemId":"math-es","conceptId":"two-plus-two","language":"es","expected":"4","predicted":"4","confidence":0.98},
+  {"itemId":"math-fr","conceptId":"two-plus-two","language":"fr","expected":"4","predicted":"4","confidence":0.97}
+]
