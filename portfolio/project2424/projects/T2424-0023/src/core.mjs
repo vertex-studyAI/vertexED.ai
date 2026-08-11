@@ -63,7 +63,10 @@ export function validateResponses(rows) {
     }
   }
 
-  return normalized;
+  return normalized.sort(
+    (left, right) =>
+      left.conceptId.localeCompare(right.conceptId) || left.language.localeCompare(right.language),
+  );
 }
 
 function mean(values) {
