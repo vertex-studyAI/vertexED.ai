@@ -33,6 +33,33 @@ async function loadQueue() {
     });
 }
 
+async function loadDeclaredProjectIdentity(projectId) {
+  const statusPath = new URL(`${projectId}/STATUS.md`, PROJECTS_DIR);
+  const readmePath = new URL(`${projectId}/README.md`, PROJECTS_DIR);
+
+  let status = '';
+  try {
+    status = await readFile(statusPath, 'utf8');
+  } catch (error) {
+    if (error?.code !== 'ENOENT') throw error;
+  }
+
+  const projectLine = status.match(/^\*\*Project:\*\*\s+(.+?)\s*$/m);
+  if (projectLine) return projectLine[1].trim();
+
+  let readme = '';
+  try {
+    readme = await readFile(readmePath, 'utf8');
+  } catch (error) {
+    if (error?.code !== 'ENOENT') throw error;
+  }
+
+  const heading = readme.match(new RegExp(`^#\\s+${projectId}\\s+[—-]\\s+(.+?)\\s*$`, 'm'));
+  if (heading) return heading[1].trim();
+
+  return null;
+}
+
 test('Project 2424 first-100 queue is exactly 100 unique, ordered executable records', async () => {
   const rows = await loadQueue();
 
@@ -87,18 +114,11 @@ test('Project 2424 package identities match the canonical queue or an explicit k
     const queueRecord = queueById.get(entry.name);
     if (!queueRecord) continue;
 
-    const statusPath = new URL(`${entry.name}/STATUS.md`, PROJECTS_DIR);
-    let status;
-    try {
-      status = await readFile(statusPath, 'utf8');
-    } catch (error) {
-      if (error?.code === 'ENOENT') continue;
-      throw error;
-    }
-
-    const projectLine = status.match(/^\*\*Project:\*\*\s+(.+?)\s*$/m);
-    assert.ok(projectLine, `${entry.name}/STATUS.md must declare **Project:**`);
-    const packageName = projectLine[1].trim();
+    const packageName = await loadDeclaredProjectIdentity(entry.name);
+    assert.ok(
+      packageName,
+      `${entry.name} must declare identity in STATUS.md as **Project:** or in README.md as "# ${entry.name} — <name>"`,
+    );
 
     if (packageName !== queueRecord.name) {
       observedConflicts.add(entry.name);
