@@ -12,24 +12,45 @@ function integerInRange(value, label, minimum, maximum) {
   return number;
 }
 
+function normalizedHoleCount(value) {
+  const wordCounts = { one: 1, two: 2, four: 4 };
+  return Object.hasOwn(wordCounts, value) ? wordCounts[value] : Number(value);
+}
+
+function rejectCodeLikeSyntax(text) {
+  const codeLike = /(?:[;{}]|\b(?:import|include|system|exec|shell)\b|\buse\s*<|\$(?:fn|fa|fs)\b|\b(?:translate|rotate|scale|cube|cylinder|difference|union)\s*\()/u;
+  if (codeLike.test(text)) {
+    throw new Error("prompt contains unsupported code-like syntax");
+  }
+}
+
 export function parsePlatePrompt(prompt) {
   if (typeof prompt !== "string" || prompt.trim().length === 0) {
     throw new TypeError("prompt must be a non-empty string");
   }
   const text = prompt.toLowerCase().replace(/[×x]/gu, " by ").replace(/\s+/gu, " ").trim();
-  if (!/\b(plate|panel|bracket|rectangle)\b/u.test(text)) {
-    throw new Error("supported prompts must describe a plate, panel, bracket, or rectangle");
+  rejectCodeLikeSyntax(text);
+  if (!/\b(plate|panel|bracket|rectangle|block)\b/u.test(text)) {
+    throw new Error("supported prompts must describe a plate, panel, bracket, rectangle, or block");
   }
 
-  const dimensions = text.match(/(?:plate|panel|bracket|rectangle)?\s*(?:of\s*)?(\d+(?:\.\d+)?)\s*(?:mm\s*)?(?:by|wide\s+and)\s*(\d+(?:\.\d+)?)/u);
+  const dimensions = text.match(/(?:plate|panel|bracket|rectangle|block)?\s*(?:of\s*)?(\d+(?:\.\d+)?)\s*(?:mm\s*)?(?:by|wide\s+and)\s*(\d+(?:\.\d+)?)/u);
   if (!dimensions) throw new Error("prompt must include width and height, for example 'plate 80 by 40'");
   const width = finitePositive(dimensions[1], "width");
   const height = finitePositive(dimensions[2], "height");
 
   const thicknessMatch = text.match(/(?:thickness|thick)\s*(?:of\s*)?(\d+(?:\.\d+)?)\s*(?:mm)?/u);
-  const thickness = thicknessMatch ? finitePositive(thicknessMatch[1], "thickness") : 3;
-  const holesMatch = text.match(/(?:with\s*)?(\d+)\s*(?:mounting\s*)?holes?/u);
-  const holeCount = holesMatch ? integerInRange(holesMatch[1], "hole count", 0, 16) : 0;
+  const triadMatch = text.match(/(\d+(?:\.\d+)?)\s*(?:mm\s*)?by\s*(\d+(?:\.\d+)?)\s*(?:mm\s*)?by\s*(\d+(?:\.\d+)?)\s*(?:mm)?/u);
+  const thickness = thicknessMatch
+    ? finitePositive(thicknessMatch[1], "thickness")
+    : triadMatch
+      ? finitePositive(triadMatch[3], "thickness")
+      : 3;
+
+  const holesMatch = text.match(/(?:with\s*)?(\d+|one|two|four)\s*(?:mounting\s*)?holes?/u);
+  const holeCount = holesMatch
+    ? integerInRange(normalizedHoleCount(holesMatch[1]), "hole count", 0, 16)
+    : 0;
   const radiusMatch = text.match(/\b(?:hole\s*)?(?:radius|r)\b\s*(?:of\s*)?(\d+(?:\.\d+)?)\s*(?:mm)?/u);
   const diameterMatch = text.match(/\b(?:hole\s*)?(?:diameter|dia)\b\s*(?:of\s*)?(\d+(?:\.\d+)?)\s*(?:mm)?/u);
   let holeRadius = 0;
