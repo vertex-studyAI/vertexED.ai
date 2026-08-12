@@ -28,6 +28,23 @@ jobs:
         run: node portfolio/project2424/projects/T2424-0025/experiment/run.mjs | tee reproducibility-wave/raw/T2424-0025-screen.json
       - name: T2424-0025 fixed 50-seed ablation
         run: node portfolio/project2424/projects/T2424-0025/experiment/ablation.mjs | tee reproducibility-wave/raw/T2424-0025-ablation.json
+      - name: T2424-0025 canonical-schema verifier
+        run: |
+          node - <<'NODE' | tee reproducibility-wave/raw/T2424-0025-verification.json
+          const fs = require('fs');
+          const s = JSON.parse(fs.readFileSync('reproducibility-wave/raw/T2424-0025-screen.json'));
+          const a = JSON.parse(fs.readFileSync('reproducibility-wave/raw/T2424-0025-ablation.json'));
+          if (s.verdict !== 'PASS_HEAVY_TAIL_MEMORY_SCREEN') process.exit(1);
+          if (a.sweep?.seeds !== 50) process.exit(1);
+          const zero = a.sweep.rows.find((r) => r.contaminationRate === 0);
+          if (!zero || !(zero.metrics.median.mean < zero.metrics.mean.mean)) process.exit(1);
+          console.log(JSON.stringify({
+            screen_verdict: s.verdict,
+            ablation_seeds: a.sweep.seeds,
+            zero_contamination_negative_control: 'ROBUST_READOUT_STILL_BETTER',
+            verifier_schema: 'canonical sweep schema'
+          }, null, 2));
+          NODE
       - name: T2424-0025 focused tests
         run: node --test tests/project2424NonGaussianMemory.test.mjs tests/project2424NonGaussianMemoryAblation.test.mjs
       - name: T2424-0027 frozen latent-language diagnostic
