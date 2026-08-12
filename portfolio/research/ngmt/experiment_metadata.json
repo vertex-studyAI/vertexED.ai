@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "project": "NGMT",
+  "source_commit_audited": "0d2a14e559b0caa9b5b1cbeef0995013594ecf15",
+  "status": "BLOCKED_MECHANISM_NOT_FROZEN",
+  "transformer_level_result": null,
+  "closest_reproduced_precursor": "T2424-0025",
+  "precursor_result": "Robust readouts reduce MAE in a bounded synthetic aggregation task, but the 0% Cauchy contamination control also favors robust readouts; uniquely non-Gaussian mechanism not isolated.",
+  "required_baselines": [
+    "no external memory / ordinary sequence model",
+    "standard or windowed memory",
+    "capacity-matched Gaussian/reference memory",
+    "proposed frozen NGMT"
+  ],
+  "minimum_seed_policy": "at least five paired training seeds fixed before final validation observation",
+  "required_statistics": ["per-seed metrics", "mean", "sample standard deviation", "n", "paired deltas"],
+  "falsifier": "Archive the Transformer-level NGMT mechanism claim if the proposed frozen memory shows no reproducible advantage over all required matched baselines on the predeclared non-Gaussian sequence tasks.",
+  "claim_boundary": "No Transformer-level NGMT result exists at this audited revision."
+}

@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "project": "NPMS",
+  "wave_date": "2026-08-12",
+  "source_package": "BU1LD_Research_Atlas_Flagships_v4_FRESH_2026-08-12.zip",
+  "source_archive_sha256": "076f12750d6a8e6c298c17815224a79463bcad149d6cf1283900d98c6e394a2c",
+  "git_commit": null,
+  "experiment_source_sha256": "b4658727dc66dbdd68a8ba0f487c6e064f7b2c0611bea676381606224a83c51d",
+  "command": "python -m projects.npms.experiment",
+  "runtime_seconds": 5.39,
+  "environment": {
+    "python": "3.13.5",
+    "numpy": "2.3.5",
+    "pandas": "2.2.3",
+    "scipy": "1.17.0",
+    "scikit_learn": "1.8.0",
+    "torch": "2.10.0+cpu",
+    "pytest": "9.0.2",
+    "device": "cpu"
+  },
+  "seed_policy": {
+    "base_reservoirs_per_regime": 7,
+    "regimes": 4,
+    "coordinate_realizations_per_base": 4,
+    "total_realizations": 112,
+    "paired_rotation_comparisons_n": 84,
+    "between_regime_base_comparisons_n": 28
+  },
+  "metrics": {
+    "within_coordinate_spectrum_cosine": 0.9959606006,
+    "within_coordinate_parameter_abs_cosine": 0.0992706397,
+    "between_regime_spectrum_cosine": 0.9530792787,
+    "regime_classification_accuracy": 0.9285714286
+  },
+  "uncertainty": {
+    "within_spectrum_minus_parameter_similarity": {
+      "mean_difference": 0.89668996,
+      "bootstrap_95_ci": [0.878534, 0.913118],
+      "n": 84
+    },
+    "within_minus_between_spectrum_similarity": {
+      "mean_difference": 0.0440143,
+      "bootstrap_95_ci": [0.039961, 0.048339],
+      "n": 28
+    }
+  },
+  "source_hash_matched_pre_run": true,
+  "claim_boundary": "controlled synthetic reservoir memory diagnostic only; no general learned-model interpretability or real-world transfer claim"
+}

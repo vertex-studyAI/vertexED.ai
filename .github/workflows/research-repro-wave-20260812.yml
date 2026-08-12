@@ -1,0 +1,51 @@
+name: Research Reproducibility Wave 2026-08-12
+
+# The first frozen reproduction was executed successfully as run 31616762393.
+# Keep subsequent executions manual so documentation-only commits cannot silently
+# rerun or alter the scientific record.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  project2424-reproduce:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Capture environment
+        run: |
+          mkdir -p reproducibility-wave/raw
+          node --version | tee reproducibility-wave/node-version.txt
+          uname -a | tee reproducibility-wave/uname.txt
+          git rev-parse HEAD | tee reproducibility-wave/commit.txt
+      - name: T2424-0025 frozen screen
+        run: node portfolio/project2424/projects/T2424-0025/experiment/run.mjs | tee reproducibility-wave/raw/T2424-0025-screen.json
+      - name: T2424-0025 fixed 50-seed ablation
+        run: node portfolio/project2424/projects/T2424-0025/experiment/ablation.mjs | tee reproducibility-wave/raw/T2424-0025-ablation.json
+      - name: T2424-0025 focused tests
+        run: node --test tests/project2424NonGaussianMemory.test.mjs tests/project2424NonGaussianMemoryAblation.test.mjs
+      - name: T2424-0027 frozen latent-language diagnostic
+        run: |
+          node portfolio/project2424/projects/T2424-0027/experiment/run.mjs reproducibility-wave/raw/T2424-0027-results.json
+          node portfolio/project2424/projects/T2424-0027/reproduction/verify.mjs | tee reproducibility-wave/T2424-0027-verify.log
+          node --test tests/project2424LatentLanguageAudit.test.mjs
+      - name: T2424-0037 frozen 20-case NeuroCAD benchmark
+        run: |
+          node portfolio/project2424/projects/T2424-0037/benchmark/run.mjs | tee reproducibility-wave/raw/T2424-0037-benchmark.json
+          node --test tests/nlpToCad.test.mjs tests/nlpToCadBenchmark.test.mjs
+      - name: T2424-0050 frozen Darcy screen
+        run: |
+          node portfolio/project2424/projects/T2424-0050/experiment/run.mjs | tee reproducibility-wave/raw/T2424-0050-darcy.json
+          node --test tests/project2424DarcyLatentOperator.test.mjs
+      - name: Upload raw reproduction evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: research-repro-wave-20260812
+          path: reproducibility-wave/
+          if-no-files-found: error
