@@ -1,0 +1,22 @@
+{
+  "project":"T2424-0027",
+  "scientific_scope":"controlled synthetic latent-language diagnostic mechanics",
+  "protocol_base_commit":"0d2a14e559b0caa9b5b1cbeef0995013594ecf15",
+  "execution_commit":"db9f470ec68f74a95c6e586d88b27927d734dc44",
+  "github_actions_run_id":31616573215,
+  "job_id":94180746280,
+  "environment":{"os":"Ubuntu 24.04.4","arch":"x86_64","node":"v22.23.1"},
+  "task":{"records":72,"concepts":4,"languages":3,"train_samples_per_concept_language":3},
+  "seed_policy":{"deterministic_fixture":true,"seed_sweep":false},
+  "baseline":"raw latent vectors",
+  "negative_control":"one global training centroid",
+  "method":"subtract training-set language centroid",
+  "metrics":{"raw_concept_accuracy":1.0,"raw_language_accuracy":1.0,"centered_concept_accuracy":1.0,"centered_language_accuracy":0.3611111111111111,"global_centered_language_accuracy":1.0,"language_chance":0.3333333333333333,"normalized_language_leakage_reduction":0.9583333333333334},
+  "verdict":"PASS_CONTROLLED_LANGUAGE_LEAKAGE_MECHANICS",
+  "independent_verifier":"PASS",
+  "raw_result_sha256":"0eac35dd7b8af1488efab0392c2e82dab8f9a90332af7c6ad54633263fa13605",
+  "tests":{"passed":8,"failed":0},
+  "external_validity_supported":false,
+  "significance_claimed":false,
+  "artifact":{"name":"project2424-repro-wave-31616573215","zip_sha256":"79b64ebf31607d158e26ba8f74eb9970f9f22722bf7e8c2212dc4a2781860705","retention_expires":"2026-09-11T16:14:32Z"}
+}
