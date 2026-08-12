@@ -11,8 +11,8 @@ Maturity is claim-specific and evidence-backed. A green CI lane is execution evi
 | NGMT | **BLOCKED — TRANSFORMER MECHANISM NOT FROZEN** | bounded T2424-0025 precursor reproduced, but it is synthetic aggregation rather than learned Transformer memory | define state/read/update/non-Gaussian property, matched baselines, sequence tasks, paired seeds and falsifier before training |
 | APEN / PEN | **NOT YET REPRODUCIBLE** | portfolio references exist, but this wave located no standalone canonical runnable APEN/PEN implementation with frozen experiment metadata in the connected source | identify canonical source; freeze hypothesis, task, baseline, metric, seed list and run command before any result claim |
 | Eigen-JEPA | **NOT YET REPRODUCIBLE** | portfolio references exist, but no standalone Eigen-JEPA repository/runnable frozen experiment was located in the connected GitHub installation | identify canonical implementation and protocol; do not report experimental results until source and evidence are addressable |
-| T2424-0037 NeuroCAD | TESTED + MERGED CONTROLLED BENCHMARK | deterministic controlled-language compiler protocol; exact-head Project 2424 build/release CI is green; no learned general-NLP claim | OOD prompts + same-provider direct-vs-IR learned comparison + external reproduction |
-| T2424-0050 Darcy | BOUNDED EXPERIMENT + MERGED IDENTITY | retained 20-seed synthetic pressure-MAE screen; harmonic-block result is construction-aligned and nonlearned; exact-head Project 2424 build/release CI is green | actual learned operator, matched budget, misaligned/OOD fields and held-out physical regimes |
+| T2424-0037 NeuroCAD | TESTED + MERGED CONTROLLED BENCHMARK | deterministic controlled-language compiler protocol; fresh exact-head Project 2424 release gate rerun attempt 3 is green; no learned general-NLP claim | OOD prompts + same-provider direct-vs-IR learned comparison + external reproduction |
+| T2424-0050 Darcy | BOUNDED EXPERIMENT + MERGED IDENTITY | retained 20-seed synthetic pressure-MAE screen; harmonic-block result is construction-aligned and nonlearned; fresh exact-head Project 2424 release gate rerun attempt 3 is green | actual learned operator, matched budget, misaligned/OOD fields and held-out physical regimes |
 | T2424-0029 PDE transitions | TESTED + MERGED BOUNDED ANALYTIC SCREEN | CI #830; 1D heat spectral-dimension fixture | nonlinear PDEs, learned representations, robustness/generalization |
 | T2424-0028 residual-event tokenization | TESTED + MERGED | fresh current-lineage CI #949 | noisy/multivariate datasets + byte/rate-distortion baselines |
 | T2424-0027 latent language audit | TESTED + MERGED SYNTHETIC AUDIT | frozen deterministic 72-record mechanism protocol; fresh CI #950; SHA-bound retained evidence | real multilingual encoder, preregistered concept/language probes and controls |
@@ -52,7 +52,9 @@ The main scientific boundary is negative/inconclusive for a specific non-Gaussia
 
 ### Project 2424 current-head CI
 
-At source SHA `0d2a14e559b0caa9b5b1cbeef0995013594ecf15`, GitHub Actions run `31611954223`, build-and-test job `94165231263` completed successfully and ran the canonical release gate. A separate production smoke failure on that run is a deployment-revision mismatch, not evidence that the scientific source tests failed.
+At source SHA `0d2a14e559b0caa9b5b1cbeef0995013594ecf15`, GitHub Actions run `31611954223` was rerun during this wave. Attempt 3, build-and-test job `94183150508`, completed successfully from `2026-08-12T16:23:03Z` to `2026-08-12T16:23:57Z` and ran the canonical release gate. This is a fresh exact-head execution check for the current Project 2424 source line.
+
+The production-deployment smoke belongs to a separate product/deployment lane and is not treated as scientific evidence for or against these source experiments.
 
 ## Portfolio triage function
 
