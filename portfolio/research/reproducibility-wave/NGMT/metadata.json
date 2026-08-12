@@ -1,0 +1,15 @@
+{
+  "project":"NGMT",
+  "status":"SPECIFICATION_GATE",
+  "full_architecture_executed":false,
+  "full_architecture_result":null,
+  "connected_precursor":"T2424-0025",
+  "precursor_fresh_run_id":31616573215,
+  "precursor_result":"robust aggregation reproduces under Cauchy contamination but the 0% control also favors robust readouts",
+  "provisional_hypothesis":"a frozen explicitly non-Gaussian memory may improve likelihood, delayed recall or corruption robustness under heavy-tailed, multimodal or regime-switching sequences relative to capacity-matched standard and Gaussian/reference memory baselines",
+  "baseline_ladder":["no external memory / matched standard sequence model","standard learned/window memory","Gaussian/reference probabilistic memory","frozen proposed non-Gaussian memory"],
+  "required_conditions":["clean Gaussian","delayed/noisy recall","heavy-tailed corruption","two-mode mixtures","regime switching","nonstationary mixture weights"],
+  "seed_policy":"predeclare stochastic learned-model seeds; first bounded screen should use >=5 when compute permits",
+  "falsification":"archive Transformer-level mechanism if the preregistered learned benchmark cannot distinguish the frozen proposal from matched B0-B2 baselines",
+  "claim_boundary":"T2424-0025 is a synthetic robust-readout precursor, not evidence for a full Non-Gaussian Memory Transformer"
+}
