@@ -1,0 +1,50 @@
+{
+  "evidence_date": "2026-08-13",
+  "purpose": "Fresh bounded reruns retained without post-result protocol changes.",
+  "experiments": [
+    {
+      "project_id": "T2424-1863",
+      "name": "local diffusion operator",
+      "status": "FRESH_RERUN_SUCCESS_SCIENTIFIC_GATE_FAILED",
+      "source_commit": "7cee0bd4d5cc7a3ac497476d322c6f0e16da9ee6",
+      "workflow_run": 31411517815,
+      "job_id": 94246285319,
+      "environment": {"os": "Ubuntu 24.04.4", "python": "3.11.15", "pytest": "9.1.1", "package": "local-diffusion-operator 0.1.0"},
+      "commands": ["pytest -q", "python -m local_diffusion_operator.benchmark --seeds 20"],
+      "seed_count": 20,
+      "tests": {"passed": 4, "failed": 0},
+      "results": {
+        "diffusion": {"trials": 20, "learned_coefficient": 0.179689, "persistence_rmse": 0.015610, "operator_rmse": 0.005023, "relative_improvement_percent": 67.777},
+        "zero_diffusion_control": {"trials": 20, "learned_coefficient": -0.000311, "persistence_rmse": 0.005022, "operator_rmse": 0.005023, "relative_improvement_percent": -0.029}
+      },
+      "predeclared_gate": ">75% held-out one-step RMSE improvement versus persistence",
+      "verdict": "NEGATIVE_OR_INCONCLUSIVE",
+      "limitations": ["bounded synthetic one-dimensional diffusion task", "simple persistence baseline", "does not establish superiority over learned neural operators such as FNO or DeepONet"],
+      "protocol_changed_after_result": false
+    },
+    {
+      "project_id": "T2424-1767-historical-python-precursor",
+      "name": "resource-bounded MoE falsification screen",
+      "status": "FRESH_RERUN_SUCCESS_HISTORICAL_NONCANONICAL_PRECURSOR",
+      "source_commit": "6e43e6c557797e70fcb9bd7ef052deb3d07f6e66",
+      "workflow_run": 31410822857,
+      "job_id": 94246182974,
+      "environment": {"os": "Ubuntu 24.04.4", "python": "3.11.15", "pytest": "9.1.1", "package": "resource-bounded-moe-benchmark 0.1.0"},
+      "commands": ["pytest -q", "python -m resource_bounded_moe.benchmark --seeds 20"],
+      "seed_count": 20,
+      "tests": {"passed": 4, "failed": 0},
+      "results": {
+        "piecewise": {"trials": 20, "baseline_rmse": 1.191554, "moe_rmse": 0.178297, "relative_improvement_percent": 85.002, "mean_abs_learned_threshold": 0.033571},
+        "linear_control": {"trials": 20, "baseline_rmse": 0.174627, "moe_rmse": 0.176285, "relative_improvement_percent": -1.010, "mean_abs_learned_threshold": 1.650927}
+      },
+      "claim_boundary": "This reruns a historical Python precursor checked out from its old PR merge ref. It is not the current canonical JavaScript T2424-1767 implementation and must not be double-counted as a new canonical Project 2424 result.",
+      "protocol_changed_after_result": false
+    }
+  ],
+  "selection_notes": {
+    "NGMT": "No full Transformer-level mechanism was rerun because state/read/write equations and matched B0-B3 baselines remain unfrozen. T2424-0025 remains precursor evidence only.",
+    "APEN": "No new executable connected run located beyond the frozen Atlas V4 synthetic evidence; prior boundary retained.",
+    "PEN": "No distinct executable implementation located; no inherited APEN result claimed.",
+    "Eigen-JEPA": "No new connected rerun located; existing real-market boundary-negative result versus raw/log ridge retained."
+  }
+}
