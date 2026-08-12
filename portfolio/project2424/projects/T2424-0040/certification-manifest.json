@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 1,
+  "projectId": "T2424-0040",
+  "declaredStatus": "CERTIFICATION_PENDING",
+  "gates": {
+    "source_identity": {
+      "passed": false,
+      "evidence": []
+    },
+    "falsifiable_claim": {
+      "passed": true,
+      "evidence": [
+        { "path": "CLAIM.md" }
+      ]
+    },
+    "frozen_protocol": {
+      "passed": true,
+      "evidence": [
+        { "path": "PROTOCOL.md" }
+      ]
+    },
+    "runnable_command": {
+      "passed": true,
+      "evidence": [
+        { "path": "experiment/run.mjs" }
+      ]
+    },
+    "baseline_evidence": {
+      "passed": true,
+      "evidence": [
+        { "path": "evidence/results.json" },
+        { "path": "analysis/baseline.md" }
+      ]
+    },
+    "raw_results": {
+      "passed": true,
+      "evidence": [
+        { "path": "evidence/results.json" },
+        { "path": "evidence/manifest.json" }
+      ]
+    },
+    "ablation_or_negative_result": {
+      "passed": true,
+      "evidence": [
+        { "path": "analysis/baseline.md" }
+      ]
+    },
+    "explicit_verdict": {
+      "passed": true,
+      "evidence": [
+        { "path": "analysis/verdict.md" }
+      ]
+    },
+    "independent_qa": {
+      "passed": true,
+      "evidence": [
+        { "path": "reproduction/verify.mjs" }
+      ]
+    }
+  }
+}
