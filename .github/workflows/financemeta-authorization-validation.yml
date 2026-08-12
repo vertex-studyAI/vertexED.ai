@@ -46,15 +46,25 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          migration='supabase/migrations/002_authorization_hardening.sql'
+          migration='supabase/migrations/004_authorization_hardening.sql'
+          test -f supabase/migrations/002_google_oauth.sql
+          test -f supabase/migrations/003_bookmarks_notifications.sql
           grep -F 'REVOKE INSERT, UPDATE ON TABLE public.profiles FROM anon, authenticated' "$migration"
           grep -F 'WITH CHECK (auth.uid() = id)' "$migration"
           grep -F "WITH CHECK (auth.uid() = id AND role = 'member'::public.user_role)" "$migration"
           grep -F 'GRANT UPDATE (display_name, avatar_url, bio, interests, open_to_collaborate, chapter_id)' "$migration"
           ! grep -E 'GRANT (INSERT|UPDATE) \([^)]*role' "$migration"
+          grep -F 'ALTER FUNCTION public.handle_new_user() SET search_path = public' "$migration"
           grep -F 'ALTER FUNCTION public.get_user_role() SET search_path = public' "$migration"
           grep -F 'ALTER FUNCTION public.is_admin() SET search_path = public' "$migration"
           grep -F 'ALTER FUNCTION public.is_lead_or_admin() SET search_path = public' "$migration"
+          grep -F 'ALTER FUNCTION public.notify_connection_request() SET search_path = public' "$migration"
+          grep -F 'ALTER FUNCTION public.notify_connection_accepted() SET search_path = public' "$migration"
+          grep -F 'ALTER FUNCTION public.notify_lab_application_received() SET search_path = public' "$migration"
+          grep -F 'ALTER FUNCTION public.notify_lab_application_status() SET search_path = public' "$migration"
+          grep -F 'DROP POLICY IF EXISTS "System insert notifications" ON public.notifications' "$migration"
+          grep -F 'REVOKE INSERT ON TABLE public.notifications FROM anon, authenticated' "$migration"
+          grep -F 'ALTER VIEW public.essay_submissions_with_counts SET (security_invoker = true)' "$migration"
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -112,7 +122,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          git add -N supabase/migrations/002_authorization_hardening.sql src/test/authorization-contract.test.ts
+          git add -N supabase/migrations/004_authorization_hardening.sql src/test/authorization-contract.test.ts
           git diff --binary > "$GITHUB_WORKSPACE/financemeta-authorization-hardening.patch"
           test -s "$GITHUB_WORKSPACE/financemeta-authorization-hardening.patch"
           git apply --check "$GITHUB_WORKSPACE/financemeta-authorization-hardening.patch" --reverse
@@ -122,7 +132,7 @@ jobs:
             echo "patch_sha256=$(cut -d' ' -f1 "$GITHUB_WORKSPACE/financemeta-authorization-hardening.patch.sha256")"
             echo "full_lint_exit_code=$(cat "$GITHUB_WORKSPACE/financemeta-full-lint.exit-code")"
             echo "production_audit_exit_code=$(cat "$GITHUB_WORKSPACE/financemeta-production-audit.exit-code")"
-            echo "classification=authorization_patch_certified_pending_target_application_and_live_denial_tests"
+            echo "classification=authorization_and_notification_integrity_patch_certified_pending_target_application_and_live_denial_tests"
           } > "$GITHUB_WORKSPACE/financemeta-authorization-certification.txt"
 
       - name: Upload certification evidence
