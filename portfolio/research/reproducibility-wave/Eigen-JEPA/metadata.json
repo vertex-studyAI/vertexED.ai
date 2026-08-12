@@ -1,0 +1,17 @@
+{
+  "project":"Eigen-JEPA",
+  "status":"BLOCKED_SOURCE_AND_DATA_CONTRACT",
+  "result":null,
+  "experiment_executed":false,
+  "canonical_source_repository":null,
+  "architecture_hypothesis_frozen":false,
+  "market_data_contract_frozen":false,
+  "required_evaluation":"strict chronological walk-forward with feature-availability controls, costs, turnover, multiple markets/regimes where feasible, matched baselines and ablations",
+  "required_baselines":["no-skill/static target-appropriate benchmark","transparent predictive baseline","standard sequence/representation architecture","Eigen-JEPA","mechanism ablation"],
+  "seed_policy":null,
+  "uncertainty_policy":"separate stochastic training variation from dependence-aware time-series uncertainty; do not treat overlapping daily observations as IID without justification",
+  "reason":"connected GitHub portfolio does not expose canonical executable Eigen-JEPA source and the market-data contract is not frozen",
+  "finance_alpha_claim_supported":false,
+  "jepa_advantage_supported":false,
+  "significance_claimed":false
+}
