@@ -1,0 +1,35 @@
+{
+  "project": "T2424-0025",
+  "label": "Non-Gaussian Memory Transformer precursor / robust readout screen",
+  "scientific_scope": "attention-addressed synthetic memory aggregation",
+  "protocol_base_commit": "0d2a14e559b0caa9b5b1cbeef0995013594ecf15",
+  "execution_commit": "db9f470ec68f74a95c6e586d88b27927d734dc44",
+  "github_actions_run_id": 31616573215,
+  "job_id": 94180746280,
+  "environment": {"os":"Ubuntu 24.04.4","arch":"x86_64","node":"v22.23.1"},
+  "seed_policy": {"reference_seeds":30,"ablation_seeds_per_condition":50,"seed_filtering":false},
+  "metric": "mean absolute retrieval error",
+  "baselines": ["attention-weighted arithmetic mean"],
+  "proposed_and_ablated_methods": ["weighted median","10% weighted trimmed mean","weighted Huber location delta=0.15"],
+  "contamination_rates": [0,0.05,0.10,0.18,0.25,0.35],
+  "fresh_result": {
+    "reference_verdict":"PASS_HEAVY_TAIL_MEMORY_SCREEN",
+    "heavy_tail_baseline_mae":0.36152678546712497,
+    "heavy_tail_median_mae":0.016560942261867797,
+    "heavy_tail_relative_improvement":0.9541916590205908,
+    "clean_baseline_mae":0.024354967043193555,
+    "clean_median_mae":0.012593962713833545,
+    "clean_relative_improvement":0.482899619962608,
+    "non_gaussian_advantage_gap":0.4712920390579828,
+    "tests_passed":10,
+    "tests_failed":0
+  },
+  "critical_negative_control": "all robust readouts also improve the 0% contamination condition; current evidence does not isolate a uniquely non-Gaussian mechanism",
+  "transformer_level_claim_supported": false,
+  "significance_claimed": false,
+  "artifact": {
+    "name":"project2424-repro-wave-31616573215",
+    "zip_sha256":"79b64ebf31607d158e26ba8f74eb9970f9f22722bf7e8c2212dc4a2781860705",
+    "retention_expires":"2026-09-11T16:14:32Z"
+  }
+}
