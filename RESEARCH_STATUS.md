@@ -15,6 +15,7 @@ Maturity is claim-specific and evidence-backed. A green CI lane is execution evi
 | NPMS | **FRESH SOURCE-ARCHIVE REPRODUCTION / CONTROLLED SYNTHETIC MECHANISM** | Atlas V4 controlled reservoir experiment rerun; numerical artifacts reproduced | learned sequence model, stronger memory baselines, OOD/generalization study |
 | T2424-0037 NeuroCAD | **FRESHLY REPRODUCED CONTROLLED BENCHMARK** | dedicated Actions run `31616762393`; frozen benchmark `20/20` + focused tests | OOD prompts + same-provider direct-vs-IR learned comparison + external reproduction |
 | T2424-0050 Darcy | **FRESHLY REPRODUCED BOUNDED MECHANISM SCREEN** | dedicated Actions run `31616762393`; retained 20-seed synthetic pressure-MAE screen rerun | actual learned operator, matched budget, misaligned/OOD fields and held-out physical regimes |
+| T2424-1863 local diffusion operator | **INDEPENDENTLY REPLAYED / NEGATIVE AGAINST PREDECLARED GATE** | merged frozen source `7cee0bd4d5cc7a3ac497476d322c6f0e16da9ee6`; Actions run `31411517815` attempt 3 reproduced 20-seed metrics and `4/4` tests | retain per-seed uncertainty; real PDE data; learned neural-operator baseline; rollout/compute comparison |
 | T2424-0029 PDE transitions | TESTED + MERGED BOUNDED ANALYTIC SCREEN | CI #830; 1D heat spectral-dimension fixture | nonlinear PDEs, learned representations, robustness/generalization |
 | T2424-0028 residual-event tokenization | TESTED + MERGED | fresh current-lineage CI #949 | noisy/multivariate datasets + byte/rate-distortion baselines |
 | T2424-0027 latent language audit | **FRESHLY REPRODUCED + INDEPENDENTLY VERIFIED SYNTHETIC AUDIT** | dedicated Actions run `31616762393`; deterministic 72-record protocol + SHA-bound verifier | real multilingual encoder, preregistered concept/language probes and controls |
@@ -77,6 +78,14 @@ The same frozen Actions run reproduced:
 - **T2424-0050 Darcy:** mean baseline pressure MAE `0.0658913916`, reduced-resistance MAE `0.0011366559`, relative improvement `97.8766%`, mean flux relative error `1.369e-16`, `n=20`.
 
 These remain synthetic or controlled mechanism checks with their existing claim boundaries intact.
+
+### T2424-1863 local diffusion operator
+
+The merged bounded experiment was replayed unchanged on a fresh hosted runner as Actions run `31411517815`, attempt 3, job `94262839511` using source SHA `7cee0bd4d5cc7a3ac497476d322c6f0e16da9ee6`. Environment: Ubuntu `24.04.4` LTS, CPython `3.11.15`, pip `26.2.1`, pytest `9.1.1`, CPU. The focused suite passed `4/4`.
+
+The 20-seed diffusion result reproduced exactly at the CLI-summary level: persistence RMSE `0.015610`, operator RMSE `0.005023`, learned coefficient `0.179689`, relative improvement `67.777%`. The zero-diffusion control remained `-0.029%` improvement. Because the frozen success criterion was `>75%`, the verdict remains `NEGATIVE_OR_INCONCLUSIVE_AGAINST_PREDECLARED_GATE`. No threshold was changed after observing the result.
+
+The current benchmark reports aggregate 20-seed means without retaining standard deviation, variance or confidence intervals. This uncertainty-reporting gap is now explicit in `RESULTS.md`, `REPRODUCE.md`, and `experiment_metadata.json`; no significance claim is made.
 
 ### Atlas V4: APEN, Eigen-JEPA, NPMS
 
