@@ -4,32 +4,62 @@
 **Project 2424 ID:** T2424-0037  
 **Queue rank:** 30  
 **Track:** C — Existing work → minimum experiment  
-**State:** TESTED_DEMO / MANUAL_MERGE_PENDING  
-**Claim level:** controlled-language CAD compiler demo
+**State:** IMPLEMENTED_BENCHMARK / LOCAL_TESTED / CANONICAL_CI_PENDING  
+**Claim level:** controlled-language CAD compiler + authored structured-IR comparison screen
 
 ## Implemented
 
-- [x] controlled plate-language parser
+- [x] controlled plate/panel/bracket/rectangle/block parser
 - [x] parametric intermediate representation
-- [x] 1/2/4-hole layouts
-- [x] dimension and geometry validation
+- [x] rectangular width × height × thickness triads
+- [x] numeric and word-form 1/2/4-hole layouts
+- [x] dimension, geometry and safety validation
+- [x] code-like prompt rejection before CAD generation
 - [x] OpenSCAD generation and SVG preview generation
 - [x] geometry summary metrics
 - [x] browser demo
-- [x] parser/geometry regression suite
-- [x] frozen `CLAIM.md` and `PROTOCOL.md`
-- [x] explicit scope and safety boundary
-- [x] final pre-refresh status head `53d2861da4d9dc73259552bfe3c7ec77853db591` passed canonical CI `31457325080`
+- [x] original parser/geometry regression suite
+- [x] frozen 26-prompt benchmark
+- [x] three deterministic architectural baselines: template-only, direct-regex emission, structured IR
+- [x] benchmark evaluator with optional real OpenSCAD kernel compilation
+- [x] benchmark regression suite
+- [x] deterministic SCAD/SVG reference assets
+- [x] `CLAIM.md`, expanded `PROTOCOL.md`, README and local-results record
 
-## Provenance
+## Local 12 August 2026 execution
 
-Legacy implementation head `e06c91133dcc16f9e1846dde9b6908a0c64d16bc` passed canonical CI `31410049687`. The current canonical recovery preserves that controlled compiler implementation.
+Evidence class: `LOCAL_REPRODUCED_CONTROLLED_SCREEN`.
 
-## Latest-base integration refresh
+Focused local tests:
 
-Repository `main` advanced to `662de36af18b1251e6441391ac3fc06df7a3bf71` via monitoring-only PR #243, which does not touch this package. This status refresh intentionally creates a new head so canonical CI revalidates the latest pull-request merge ref before manual review.
+```text
+node --test tests/nlpToCad.test.mjs tests/nlpToCadBenchmark.test.mjs
+9 passed; 0 failed
+```
 
-Repository integration validates the controlled-language compiler demo only. This package remains unmerged and is not nine-gate certified.
+Frozen benchmark v0.1:
+
+- 26 prompts total;
+- 14 expected-valid;
+- 12 expected-rejection;
+- structured IR decision accuracy: 100%;
+- structured IR exact constraint adherence: 100%;
+- structured IR unsafe acceptances: 0;
+- direct-regex decision accuracy: 65.38%;
+- direct-regex exact constraint adherence: 42.86%;
+- direct-regex unsafe acceptances: 8.
+
+OpenSCAD 2021.01 was available in the local execution environment and compiled 14/14 expected-valid structured-IR outputs to STL.
+
+These are bounded local results on an authored benchmark. They are not an independent reproduction or a preregistered general NLP-to-CAD result.
+
+## Canonical CI boundary
+
+Legacy implementation head `e06c91133dcc16f9e1846dde9b6908a0c64d16bc` and the earlier canonical recovery head were exact-head green before the benchmark/evaluator changes. Those CI results **do not certify the current changed head**.
+
+Fresh canonical GitHub Actions must pass on the current PR head before this state may return to repository-level `TESTED_DEMO` or any stronger label.
+
+Repository integration can validate only the controlled compiler/demo mechanics. This package remains unmerged and is not nine-gate certified.
 
 **DO NOT AUTO-MERGE OR DEPLOY. MANUAL REVIEW REQUIRED.**
 
@@ -37,8 +67,19 @@ Repository integration validates the controlled-language compiler demo only. Thi
 
 - arbitrary-language understanding
 - arbitrary CAD generation
-- CAD-kernel validation
+- CAD-kernel correctness beyond the frozen local compile check
 - manufacturing correctness
 - production deployment
+- independent benchmark generalization
 - research novelty
+- research completion
 - Certified complete
+
+## Next gate
+
+1. exact-head canonical CI on all current commits;
+2. independently authored held-out prompt set;
+3. stronger direct code-generation baseline;
+4. at least one additional part family;
+5. CAD-kernel-derived geometry-equivalence checks;
+6. clean-environment reproduction with retained raw evaluator output.
