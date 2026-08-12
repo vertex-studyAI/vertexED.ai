@@ -1,0 +1,31 @@
+{
+  "project": "T2424-0027",
+  "name": "Sapir–Whorf Latent Tongue",
+  "protocol": {
+    "records": 72,
+    "concepts": 4,
+    "languages": 3,
+    "trainSamplesPerConceptLanguage": 3,
+    "transform": "subtract training-set language centroid from each record of that language",
+    "baseline": "raw latent vectors",
+    "negativeControl": "subtract one global training centroid"
+  },
+  "metrics": {
+    "rawConceptAccuracy": 1,
+    "rawLanguageAccuracy": 1,
+    "centeredConceptAccuracy": 1,
+    "centeredLanguageAccuracy": 0.3611111111111111,
+    "globalCenteredLanguageAccuracy": 1,
+    "languageChance": 0.3333333333333333,
+    "normalizedLanguageLeakageReduction": 0.9583333333333334
+  },
+  "gates": {
+    "rawConceptAccuracyAtLeast95Percent": true,
+    "rawLanguageLeakageDetectableAtLeast95Percent": true,
+    "centeredConceptAccuracyWithin2PointsOfRaw": true,
+    "normalizedLanguageLeakageReductionAtLeast90Percent": true,
+    "globalCenteringNegativeControlRetainsLanguageLeakage": true
+  },
+  "verdict": "PASS_CONTROLLED_LANGUAGE_LEAKAGE_MECHANICS",
+  "claimBoundary": "controlled synthetic latent diagnostic only; no evidence for linguistic relativity, real multilingual model behavior, semantic universals, or language-agnostic representation learning"
+}
