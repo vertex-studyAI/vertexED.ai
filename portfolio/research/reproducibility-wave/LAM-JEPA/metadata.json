@@ -1,0 +1,45 @@
+{
+  "project": "LAM-JEPA",
+  "source_repository": "vertex-studyAI/LAM-JEPA",
+  "source_commit": "2f59b4297e5978d4ce769ebe95adb363e1e75d7a",
+  "evidence_date": "2026-08-12",
+  "fresh_execution_check": {
+    "github_actions_run_id": 31610610381,
+    "job_id": 94178966319,
+    "status": "success",
+    "scope": "container build, CLI entry point, installed package import, CPU-safe import",
+    "runner_os": "Ubuntu 24.04.4",
+    "container_python_base": "python:3.11-slim",
+    "container_base_digest": "sha256:90744cff8f32887f075c47d747a173ff333e9e98801667af93c357fa9f5e28ff",
+    "torch": "2.13.0+cu130",
+    "cuda_available": false
+  },
+  "scientific_protocol": {
+    "task": "ARC frozen train/validation protocol",
+    "seeds": 5,
+    "lam_active_parameters": 86372,
+    "matched_supervised_active_parameters": 86644,
+    "matched_parameter_ratio": 1.0031491687
+  },
+  "results": {
+    "lam_validation_accuracy_mean": 0.2549152542,
+    "lam_validation_accuracy_sd": 0.0129968064,
+    "matched_supervised_accuracy_mean": 0.2664406780,
+    "matched_supervised_accuracy_sd": 0.0154600058,
+    "paired_lam_minus_matched_mean": -0.0115254237,
+    "paired_lam_minus_matched_sd": 0.0140994131,
+    "full_minus_no_planner": 0.0047457627,
+    "full_minus_no_planner_bootstrap_95_ci": [0.0, 0.0142372881],
+    "full_minus_no_target": -0.0067796610,
+    "full_minus_no_target_bootstrap_95_ci": [-0.0135593220, 0.0]
+  },
+  "result_classification": "VALID_NEGATIVE_OR_INCONCLUSIVE_VALIDATION",
+  "superiority_hypothesis_supported": false,
+  "mechanism_advantage_supported": false,
+  "fresh_scientific_rerun_performed_in_this_wave": false,
+  "limitations": [
+    "fresh 2026-08-12 run verifies execution/container reproducibility only",
+    "five-seed validation does not justify broad significance claims",
+    "confirmatory test data must not be used to rescue the failed validation hypothesis"
+  ]
+}
