@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { mkdtempSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
+import { DatabaseSync } from 'node:sqlite';
 import { PercyStore } from '../tools/percy-runtime/core.mjs';
 
 function fresh(options = {}) {
@@ -110,4 +111,45 @@ test('graceful worker stop can preserve task as STALE then requeue', () => {
     assert.equal(f.store.markStale('t', 'w1', 'SIGTERM'), true); assert.equal(f.store.get('t').status, 'STALE');
     assert.equal(f.store.requeueStale('t'), true); assert.equal(f.store.get('t').status, 'READY');
   } finally { cleanup(f); }
+});
+
+test('legacy queued/running/succeeded/failed database migrates additively', () => {
+  const dir = mkdtempSync(join(tmpdir(), 'percy-legacy-'));
+  const db = join(dir, 'percy.sqlite');
+  let store;
+  try {
+    const legacy = new DatabaseSync(db);
+    legacy.exec(`
+      CREATE TABLE meta (key TEXT PRIMARY KEY, value TEXT NOT NULL);
+      INSERT INTO meta(key,value) VALUES ('paused','0');
+      CREATE TABLE tasks (
+        id TEXT PRIMARY KEY, kind TEXT NOT NULL, payload TEXT NOT NULL,
+        status TEXT NOT NULL CHECK(status IN ('queued','running','succeeded','failed')),
+        attempts INTEGER NOT NULL DEFAULT 0, max_attempts INTEGER NOT NULL DEFAULT 3,
+        owner_id TEXT, lease_expires_at INTEGER, heartbeat_at INTEGER,
+        available_at INTEGER NOT NULL, created_at INTEGER NOT NULL, updated_at INTEGER NOT NULL,
+        result TEXT, error TEXT
+      );
+    `);
+    const put = legacy.prepare('INSERT INTO tasks VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)');
+    const t = Date.now();
+    put.run('q','echo','{}','queued',0,3,null,null,null,t,t,t,null,null);
+    put.run('r','echo','{}','running',1,3,'old-worker',t+1000,t,t,t,t,null,null);
+    put.run('s','echo','{}','succeeded',1,3,null,null,null,t,t,t,'{"ok":true}',null);
+    put.run('f','echo','{}','failed',3,3,null,null,null,t,t,t,null,'boom');
+    legacy.close();
+
+    store = new PercyStore(db);
+    assert.equal(store.get('q').status, 'READY');
+    assert.equal(store.get('r').status, 'STALE');
+    assert.equal(store.get('s').status, 'COMPLETE');
+    assert.equal(store.get('f').status, 'FAILED');
+    assert.equal(store.get('r').owner_id, null);
+    assert.deepEqual(store.get('s').result, { ok: true });
+    assert.deepEqual(store.integrityCheck(), ['ok']);
+    assert.equal(store.db.prepare("SELECT COUNT(*) AS n FROM sqlite_master WHERE type='table' AND name='evidence'").get().n, 1);
+  } finally {
+    try { store?.close(); } catch {}
+    rmSync(dir, { recursive: true, force: true });
+  }
 });
