@@ -10,7 +10,7 @@ function fresh(options = {}) {
   const dir = mkdtempSync(join(tmpdir(), 'percy-'));
   return { dir, db: join(dir, 'percy.sqlite'), store: new PercyStore(join(dir, 'percy.sqlite'), options) };
 }
-const cleanup = (f) => { try { f.store?.close(); } catch {} rmSync(f.dir, { recursive: true, force: true }); };
+const cleanup = (f) => { try { f.store?.close(); } catch (error) { void error; } rmSync(f.dir, { recursive: true, force: true }); };
 
 test('READY -> CLAIMED -> RUNNING -> VERIFYING -> COMPLETE survives reopen', () => {
   const f = fresh();
@@ -149,7 +149,7 @@ test('legacy queued/running/succeeded/failed database migrates additively', () =
     assert.deepEqual(store.integrityCheck(), ['ok']);
     assert.equal(store.db.prepare("SELECT COUNT(*) AS n FROM sqlite_master WHERE type='table' AND name='evidence'").get().n, 1);
   } finally {
-    try { store?.close(); } catch {}
+    try { store?.close(); } catch (error) { void error; }
     rmSync(dir, { recursive: true, force: true });
   }
 });
