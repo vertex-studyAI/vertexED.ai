@@ -1,0 +1,17 @@
+{
+  "project":"APEN/PEN",
+  "status":"BLOCKED_SOURCE_AND_IDENTITY",
+  "result":null,
+  "experiment_executed":false,
+  "canonical_source_repository":null,
+  "canonical_project2424_identity":"P2424-0205 for APEN per portfolio registry",
+  "pen_distinct_identity_verified":false,
+  "hypothesis_frozen":false,
+  "mechanism_frozen":false,
+  "dataset_frozen":false,
+  "seed_policy":null,
+  "reason":"connected GitHub/portfolio evidence does not expose a canonical executable implementation; inventing one from the names would violate reproducibility",
+  "promotion_requirements":["code","data","baseline","intervention benchmark","ablation","raw results","reproduction command","PEN distinct identity or consolidation"],
+  "significance_claimed":false,
+  "novelty_claimed":false
+}
