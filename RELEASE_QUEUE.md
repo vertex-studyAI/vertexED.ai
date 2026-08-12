@@ -1,38 +1,43 @@
 # RELEASE_QUEUE
 
-As of: 2026-08-12 18:02 IST
+As of: 2026-08-12 execution pass
 
 ## RELEASE NOW
 
-None promoted by this execution pass. Source/test evidence is not treated as production release evidence.
+None promoted by this execution pass. A merge or green source test is not automatically a production/scientific release.
 
-## RELEASE AFTER FIX / MANUAL REVIEW
+## MERGED / NEEDS NEXT EVIDENCE GATE
 
 ### T2424-0037 — controlled NLP-to-CAD / NeuroCAD
-- Recovery: draft PR #266, head `48f1cbb9035547ec498a0ea09cd0d57453caa916`.
-- Gate: exact-head CI must be green; refresh against latest main if necessary; manual research/release review remains required.
-- Current label: `IMPLEMENTED, NOT YET VERIFIED ON NEW HEAD`.
+- Recovery PR #266 is merged.
+- Initial recovery CI exposed one benchmark-evaluator syntax defect with 348/349 tests passing.
+- Repair commit `7c79da9a...` corrected the unterminated safety regex and canonical CI run #914 succeeded.
+- Current label: `TESTED + MERGED`, **not** `RELEASED` or `RESEARCH_COMPLETE`.
+- Next gates: real OpenSCAD/CAD-kernel execution, geometry verification, broader prompt robustness, independent reproduction.
+
+### FinanceMeta authorization/notification-integrity overlay
+- Latest observed control-repo `main` commit `ceedf60ba...` integrates the additive recovery overlay.
+- Current label: `CONTROL-REPO INTEGRATED`, not target-applied or live-verified.
+- Next gates: authorized target migration application + live role/notification denial-path and persistence proof.
+
+## RELEASE AFTER PRODUCTION VERIFICATION
 
 ### VertexED source
-- Current main contains production-identity/build revision and account-scoped learner handoff improvements.
+- Source includes production-identity/build-revision and account-scoped learner-handoff improvements.
 - Gate: exact deployed SHA + authenticated persisted-artifact golden journey + owner-controlled backend/security proof.
 - Do not call production-ready from source CI alone.
 
 ## NEEDS EXPERIMENT
 
 ### Olympus / Hercules architecture line
-- Current evidence class: `TESTED_NOT_SCALED` on the inspected research-gate branch.
+- Current evidence class: `TESTED_NOT_SCALED` on inspected research-gate work.
 - Gate: matched-budget O2 baseline/proposed/ablation experiment on real hardware with declared metrics.
 
 ### Project 2424 research candidates
-- Gate each candidate independently: reproducible setup, baselines, metrics, experiment, analysis, limitations and independent reproduction where required.
-- Do not count a numbered project, generated paper or green unit test as research-complete.
+- Gate independently: reproducible setup, baselines, metrics, experiments, analysis, limitations and independent reproduction where required.
+- Do not count a numbered project, generated paper, merge, or green unit test as research-complete.
 
 ## NEEDS CONTENT / TARGET APPLICATION
-
-### FinanceMeta
-- Recovery scripts exist and passed recorded validations in PR #261.
-- Gate: authorized canonical target application plus product/content QA and role/security verification.
 
 ### The Bu1LD
 - Portable content recovery exists in PR #261.
@@ -44,7 +49,7 @@ None promoted by this execution pass. Source/test evidence is not treated as pro
 - Deployed revision identity, authenticated production journey and owner-controlled Supabase/security checks remain separate gates.
 
 ### FinanceMeta
-- Normal-member role/privilege escalation denial and persistence remain unverified on live target backend.
+- Normal-member role/privilege escalation denial, notification integrity and persistence remain unverified on the live target backend.
 
 ## NOT READY
 
