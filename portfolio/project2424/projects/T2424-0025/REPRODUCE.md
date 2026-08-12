@@ -12,14 +12,14 @@ Do not alter the experiment after observing the result. If a defect is found, pr
 
 ## Environment
 
-Fresh reproduction environment used on 2026-08-12:
+The first fresh local reproduction on 2026-08-12 used:
 
 - Node.js `v22.16.0`
 - Linux `6.18.35`, x86_64
 - 5 logical CPUs visible to the container
 - no external API, accelerator, or paid service required
 
-The experiment is dependency-light JavaScript using repository-local source.
+That local Node version is below the repository root engine contract (`>=22.22.0 <23`). The dependency-light project scripts nevertheless reproduced the retained metrics exactly. To remove this environment deviation from the strict evidence path, the reproducibility-wave branch also adds a GitHub Actions rerun pinned to Node `22.22.0`; use that workflow result as the repository-conformant reproduction record.
 
 ## Commands
 
@@ -37,10 +37,12 @@ For runtime capture on a Unix-like system:
 /usr/bin/time -p node experiment/ablation.mjs > ablation.json 2> ablation.time
 ```
 
-Fresh measured wall times in the reproduction environment:
+Fresh measured wall times in the initial local environment:
 
 - `experiment/run.mjs`: `0.15 s`
 - `experiment/ablation.mjs`: `0.91 s`
+
+These local timings are environment-specific and should not be generalized as benchmark throughput.
 
 ## Protocol
 
@@ -68,7 +70,7 @@ Fresh measured wall times in the reproduction environment:
 
 ## Verification
 
-The 2026-08-12 reproduction matched the checked-in reference to machine precision. Key sentinels:
+The initial 2026-08-12 local reproduction matched the checked-in reference to machine precision. Key sentinels:
 
 ```text
 30-seed heavy-tail mean MAE   0.36152678546712497
@@ -87,6 +89,10 @@ Huber  0.030925536516162495 ± 0.006796244399198665
 ```
 
 At the 0% negative control, the weighted median still improves strongly over the mean. Treat this as evidence against a uniquely non-Gaussian interpretation of the current bounded task.
+
+## Repository-conformant focused workflow
+
+The branch workflow `.github/workflows/research-repro-wave.yml` pins Node `22.22.0`, reruns the 30-seed screen and 50-seed ablation, verifies the negative control remains present, captures timing/environment files, and uploads the raw JSON as a retained Actions artifact.
 
 ## Claim boundary
 
