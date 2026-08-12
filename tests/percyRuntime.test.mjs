@@ -71,6 +71,20 @@ test('expired lease is recovered and re-claimed', async () => {
   } finally { cleanup(f); }
 });
 
+test('expired owner cannot start or resurrect its lease', async () => {
+  const f = fresh();
+  try {
+    f.store.submit({ id: 't' });
+    f.store.claim('w1', 100);
+    await new Promise(resolve => setTimeout(resolve, 125));
+    assert.equal(f.store.start('t', 'w1'), false);
+    assert.equal(f.store.heartbeat('t', 'w1', 1000), false);
+    const recovered = f.store.claim('w2', 1000);
+    assert.equal(recovered.id, 't');
+    assert.equal(recovered.owner_id, 'w2');
+  } finally { cleanup(f); }
+});
+
 test('ownership checks block stale worker transitions', async () => {
   const f = fresh();
   try {
