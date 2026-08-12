@@ -1,0 +1,140 @@
+name: Research Reproducibility Wave
+
+on:
+  push:
+    branches:
+      - agent/repro-wave-20260812
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  project2424-reproduce:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Enforce frozen implementation
+        shell: bash
+        run: |
+          set -euo pipefail
+          BASE=0d2a14e559b0caa9b5b1cbeef0995013594ecf15
+          git diff --exit-code "$BASE" -- \
+            portfolio/project2424/projects/T2424-0025 \
+            portfolio/project2424/projects/T2424-0027 \
+            portfolio/project2424/projects/T2424-1768 \
+            portfolio/project2424/projects/T2424-0035 \
+            tests/project2424NonGaussianMemory.test.mjs \
+            tests/project2424NonGaussianMemoryAblation.test.mjs \
+            tests/project2424LatentLanguageAudit.test.mjs \
+            tests/project2424T1768SelfVerifyingMoe.test.mjs \
+            tests/grokkingAgent.test.mjs
+
+      - name: Capture environment
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p repro-wave-artifacts
+          node <<'NODE'
+          const fs = require('fs');
+          const cp = require('child_process');
+          const sh = (cmd) => cp.execSync(cmd, {encoding: 'utf8'}).trim();
+          const meta = {
+            protocolBaseCommit: '0d2a14e559b0caa9b5b1cbeef0995013594ecf15',
+            executionCommit: sh('git rev-parse HEAD'),
+            executionTree: sh('git rev-parse HEAD^{tree}'),
+            node: process.version,
+            platform: process.platform,
+            arch: process.arch,
+            runnerOS: process.env.RUNNER_OS || null,
+            runnerArch: process.env.RUNNER_ARCH || null,
+            githubRunId: process.env.GITHUB_RUN_ID || null,
+            githubRunAttempt: process.env.GITHUB_RUN_ATTEMPT || null,
+            utcStarted: new Date().toISOString(),
+            selectedExperiments: ['T2424-0025','T2424-0027','T2424-1768','T2424-0035'],
+            protocol: 'portfolio/research/reproducibility-wave/PROTOCOL_20260812.md'
+          };
+          fs.writeFileSync('repro-wave-artifacts/environment.json', JSON.stringify(meta, null, 2) + '\n');
+          NODE
+          uname -a | tee repro-wave-artifacts/uname.txt
+          node --version | tee repro-wave-artifacts/node-version.txt
+          git status --short | tee repro-wave-artifacts/git-status-before.txt
+
+      - name: Reproduce T2424-0025 robust readouts
+        shell: bash
+        run: |
+          set -euo pipefail
+          node portfolio/project2424/projects/T2424-0025/experiment/run.mjs \
+            | tee repro-wave-artifacts/T2424-0025-reference.json
+          node portfolio/project2424/projects/T2424-0025/experiment/ablation.mjs \
+            | tee repro-wave-artifacts/T2424-0025-ablation.json
+          node --test \
+            tests/project2424NonGaussianMemory.test.mjs \
+            tests/project2424NonGaussianMemoryAblation.test.mjs \
+            | tee repro-wave-artifacts/T2424-0025-tests.log
+
+      - name: Reproduce T2424-0027 latent-language audit
+        shell: bash
+        run: |
+          set -euo pipefail
+          node portfolio/project2424/projects/T2424-0027/experiment/run.mjs \
+            repro-wave-artifacts/T2424-0027-results.json
+          cat repro-wave-artifacts/T2424-0027-results.json
+          node portfolio/project2424/projects/T2424-0027/reproduction/verify.mjs \
+            | tee repro-wave-artifacts/T2424-0027-verifier.log
+          node --test tests/project2424LatentLanguageAudit.test.mjs \
+            | tee repro-wave-artifacts/T2424-0027-tests.log
+
+      - name: Reproduce T2424-1768 self-verifying MoE
+        shell: bash
+        run: |
+          set -euo pipefail
+          node portfolio/project2424/projects/T2424-1768/experiment/syntheticBenchmark.mjs \
+            | tee repro-wave-artifacts/T2424-1768-results.json
+          node --test tests/project2424T1768SelfVerifyingMoe.test.mjs \
+            | tee repro-wave-artifacts/T2424-1768-tests.log
+
+      - name: Reproduce T2424-0035 grokking detector
+        shell: bash
+        run: |
+          set -euo pipefail
+          node portfolio/project2424/projects/T2424-0035/experiment/run.mjs \
+            | tee repro-wave-artifacts/T2424-0035-results.json
+          node --test tests/grokkingAgent.test.mjs \
+            | tee repro-wave-artifacts/T2424-0035-tests.log
+
+      - name: Finalize manifest
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          git status --short | tee repro-wave-artifacts/git-status-after.txt
+          sha256sum repro-wave-artifacts/* | sort | tee repro-wave-artifacts/SHA256SUMS.txt
+          node <<'NODE'
+          const fs = require('fs');
+          const p = 'repro-wave-artifacts/environment.json';
+          if (fs.existsSync(p)) {
+            const meta = JSON.parse(fs.readFileSync(p, 'utf8'));
+            meta.utcFinished = new Date().toISOString();
+            fs.writeFileSync(p, JSON.stringify(meta, null, 2) + '\n');
+          }
+          NODE
+
+      - name: Upload retained evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: project2424-repro-wave-${{ github.run_id }}
+          path: repro-wave-artifacts
+          if-no-files-found: error
+          retention-days: 30
