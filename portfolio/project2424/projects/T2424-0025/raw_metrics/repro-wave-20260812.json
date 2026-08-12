@@ -1,0 +1,33 @@
+{
+  "source_commit": "0d2a14e559b0caa9b5b1cbeef0995013594ecf15",
+  "screen": {
+    "seeds": 30,
+    "queries_per_condition": 720,
+    "heavy_tail": {
+      "baseline_mae": 0.36152678546712497,
+      "robust_mae": 0.016560942261867797,
+      "relative_improvement": 0.9541916590205908
+    },
+    "clean": {
+      "baseline_mae": 0.024354967043193555,
+      "robust_mae": 0.012593962713833545,
+      "relative_improvement": 0.482899619962608
+    },
+    "relative_improvement_gap": 0.4712920390579828,
+    "verdict": "PASS_HEAVY_TAIL_MEMORY_SCREEN"
+  },
+  "ablation": {
+    "seeds_per_condition": 50,
+    "summary": [
+      {"contamination":0.0,"mean":{"mae":0.02464691771133496,"sample_sd":0.0023115771827692763},"median":{"mae":0.012569888975136025,"sample_sd":0.0020830878466683114},"trim10":{"mae":0.01871145668450782,"sample_sd":0.0022060869785637755},"huber":{"mae":0.019079170351365707,"sample_sd":0.001966465001265805}},
+      {"contamination":0.05,"mean":{"mae":0.1450122944150169,"sample_sd":0.199683673524021},"median":{"mae":0.013336718225360615,"sample_sd":0.0021542226220524086},"trim10":{"mae":0.02262370432010366,"sample_sd":0.004266144970936583},"huber":{"mae":0.02203050311564296,"sample_sd":0.0033707908620666882}},
+      {"contamination":0.10,"mean":{"mae":0.3211624567245237,"sample_sd":0.5111810963164298},"median":{"mae":0.014178281197675233,"sample_sd":0.0029325089077616604},"trim10":{"mae":0.030013789604264773,"sample_sd":0.007237673631756243},"huber":{"mae":0.025479195095119648,"sample_sd":0.004665923113634567}},
+      {"contamination":0.18,"mean":{"mae":0.3494393236413256,"sample_sd":0.34720341329882964},"median":{"mae":0.017002512132865903,"sample_sd":0.004857686860296252},"trim10":{"mae":0.04550633252740887,"sample_sd":0.01571336013006776},"huber":{"mae":0.030925536516162495,"sample_sd":0.006796244399198665}},
+      {"contamination":0.25,"mean":{"mae":0.4567522136373464,"sample_sd":0.42251940542987937},"median":{"mae":0.022364912251589094,"sample_sd":0.006416589275987984},"trim10":{"mae":0.06706277685391916,"sample_sd":0.02109409949673214},"huber":{"mae":0.03861116212011901,"sample_sd":0.00602223337417369}},
+      {"contamination":0.35,"mean":{"mae":0.8655902567069121,"sample_sd":1.4660585096014804},"median":{"mae":0.02868030354033516,"sample_sd":0.010962791766931658},"trim10":{"mae":0.10097669426662575,"sample_sd":0.035417070351773605},"huber":{"mae":0.04671057548702586,"sample_sd":0.010774119362047817}}
+    ]
+  },
+  "runtime_seconds": {"screen_wall":0.15,"ablation_wall":0.91},
+  "environment": {"node":"v22.16.0","os":"Linux 6.18.35 x86_64"},
+  "claim_boundary": "Synthetic robust-readout evidence only; not NGMT or Transformer-level evidence."
+}
