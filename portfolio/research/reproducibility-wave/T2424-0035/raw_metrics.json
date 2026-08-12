@@ -1,0 +1,8 @@
+{
+  "source":"GitHub Actions run 31616573215 job 94180746280 stdout snapshot",
+  "experiment":"T2424-0035 Grokking Agent minimum detector experiment",
+  "claimBoundary":"deterministic synthetic learning-curve classification only; no claim about a trained neural network",
+  "delayed":{"verdict":"DELAYED_GENERALIZATION_DETECTED","memorizationStep":4750,"generalizationStep":14250,"delaySteps":9500,"evalAtMemorization":0.08065508077262439},
+  "matchedControl":{"verdict":"NO_DELAYED_GENERALIZATION","memorizationStep":5750,"generalizationStep":5500,"delaySteps":-250,"evalAtMemorization":0.9221471602559975},
+  "focusedTests":{"passed":5,"failed":0}
+}
