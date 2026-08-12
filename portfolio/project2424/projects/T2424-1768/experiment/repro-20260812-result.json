@@ -1,0 +1,34 @@
+{
+  "project": "T2424-1768",
+  "execution_date": "2026-08-12",
+  "source_head": "0d2a14e559b0caa9b5b1cbeef0995013594ecf15",
+  "environment": {"node":"v22.16.0","os":"Linux x86_64","kernel":"6.18.35"},
+  "source_blobs": {
+    "src/selfVerifyingMoe.mjs": "56a232a680430671abef284e685a6dfc0b23b0cd",
+    "experiment/syntheticBenchmark.mjs": "680e642202e0cce7d83de03b33390f45100f0828"
+  },
+  "runtime_seconds": 0.02,
+  "protocol": {
+    "sample_count": 81,
+    "expert_count": 3,
+    "router": "uniform-fixed-scores",
+    "accepted_output_range": [-0.6, 1.1],
+    "injected_violation": "candidate-c adds +6 when x > 0.2"
+  },
+  "corrupted": {
+    "verified_mae": 0.012666076479255897,
+    "unverified_mae": 0.8025909492548081,
+    "rejected_expert_rate": 0.13168724279835392,
+    "exhausted_rate": 0
+  },
+  "clean": {
+    "verified_mae": 0.012578733804767315,
+    "unverified_mae": 0.012578733804767315,
+    "rejected_expert_rate": 0,
+    "exhausted_rate": 0
+  },
+  "clean_delta": 0,
+  "verdict": "PASS_CONTROLLED_SELF_VERIFICATION_MECHANICS",
+  "sha256": "1d8290e0d7e25f228df4b212af3db8cbcdf73cb2f9cd6039c7c6208bdc4154b6",
+  "claim_boundary": "caller-supplied range-contract filtering on a deterministic synthetic scalar mixture only"
+}
