@@ -1,75 +1,110 @@
 # Olympus — evidence-backed maturity roadmap
 
 **Evidence cutoff:** 12 August 2026  
-**Scope:** connected `vertex-studyAI/vertexED.ai` sources only.  
-**Current classification:** `BLOCKED_SOURCE / CONCEPT_FAMILY`.
+**Claim boundary:** software-role evidence and learned-model evidence are separate.
 
-## Evidence boundary
+## Decision
 
-The connected portfolio registry records both **Hercules** and **Olympus** as blocked because their canonical repositories/results are unavailable. Olympus has no connected weights, training logs, benchmark artifacts, or runnable model source. Therefore model names and previously discussed parameter counts are roadmap labels only, not evidence that models exist.
+Olympus should no longer mean a speculative parameter-scale model family. Recovered portfolio artifacts establish a second, concrete meaning: a deterministic typed research runtime whose software roles are **Prometheus -> Perseus -> Atlas -> Hermes -> Kronos**, with supporting provenance/policy/evidence components. The recovered runtime is explicitly not a trained frontier model or AGI system.
+
+The old scale sequence **Hermes / Prometheus / Perseus / Atlas / Kronos** remains only a frozen roadmap concept. No corresponding frontier checkpoints, training logs, data lineage, compute records, learned-model evaluations, or released weights are claimed.
 
 ## Clean architecture map
 
-- **Hercules** = local-first engineering/model line. Its job is to establish a runnable compact model, memory/latency measurements, and one-at-a-time architecture ablations under consumer-hardware constraints.
-- **Olympus** = research ladder above the shared compact baseline. Olympus should not duplicate Hercules training/inference infrastructure.
-- **Hermes / Prometheus / Perseus / Atlas / Kronos** = reserved experiment/release labels inside Olympus. They do not represent trained models until a corresponding evidence package satisfies the gates below.
+| Capability | Canonical owner | Decision |
+|---|---|---|
+| hypothesis generation / task decomposition | Olympus / Prometheus | keep |
+| adversarial falsification | Olympus / Perseus | keep |
+| causal/counterfactual world control | Olympus / Atlas | keep |
+| verified tool execution | Olympus / Hermes | keep |
+| persistent research-program state | Olympus / Kronos | keep |
+| provenance / policy / evidence gates | Olympus runtime | keep |
+| transformer architecture | Hercules | move out of Olympus |
+| Mesh Convolution / tensor sharing | Hercules | Hercules-only |
+| quantization / KV-cache / local inference | Hercules | Hercules-only |
+| sparse/selective activation | Hercules | Hercules-only |
+| JEPA predictor/model objectives | Hercules / research modules | Hercules-only |
+| durable worker queues, leases, retries, crash recovery | Percy | Percy-only |
+| 12B/128B/1T/2T/8T Olympus labels | frozen scale study | not model artifacts |
 
-### Merge/remove decisions
+**Resolution:** Olympus owns the research-runtime/control-plane architecture. Hercules owns trainable model architecture. Percy owns durable orchestration.
 
-1. **Merge shared stack with Hercules:** tokenizer/data loading, checkpoint format, training loop, inference loop, metrics, memory profiling, quantization utilities, and baseline transformer live once.
-2. **Remove parameter-count identity:** a name is not defined by an aspirational parameter count.
-3. **Remove duplicate local-release concept:** the first optimized local release belongs to Hercules/O4 infrastructure; Olympus may consume that release as a baseline but should not create a parallel local stack.
-4. **Keep Olympus only for falsifiable architectural research:** each Olympus step must introduce one predeclared mechanism or scaling question and compare it against the shared baseline.
+## Named status
+
+The same names have two different evidence statuses and must not be conflated.
+
+| Name | Scale-model concept | Recovered runtime implementation | Runtime tested | Trained learned model | Learned-model evaluated | Released weights |
+|---|---:|---:|---:|---:|---:|---:|
+| Hermes | yes | yes | yes | no | no | no |
+| Prometheus | yes | yes | yes | no | no | no |
+| Perseus | yes | yes | yes | no | no | no |
+| Atlas | yes | yes | yes | no | no | no |
+| Kronos | yes | yes | yes | no | no | no |
+
+Public wording:
+
+> Olympus is an experimental typed research-runtime architecture. Hermes, Prometheus, Perseus, Atlas and Kronos currently name software roles in that runtime. Previously discussed parameter-scale versions are roadmap concepts only; no corresponding trained frontier checkpoints are being claimed.
 
 ## Maturity ladder
 
-| Gate | Meaning | Required evidence |
+| Gate | Meaning | Current verdict |
 |---|---|---|
-| O0 | toy architecture validation | model instantiation, forward/backward pass, tiny overfit, save/load, deterministic seed, baseline comparison |
-| O1 | small controlled baseline | fixed dataset/split, reference transformer, reproducible train/eval command, loss/task metric, parameters, peak memory, latency |
-| O2 | architecture ablation | exactly one Olympus modification at a time; matched-compute/parameter baseline; >=3 seeds where stochastic; negative results retained |
-| O3 | medium-scale replication | same conclusion survives a larger but still affordable dataset/model; no hyperparameter rescue after seeing test results |
-| O4 | optimized local release | quantized/local artifact with documented hardware, memory, throughput, latency, quality regression, checkpoint provenance |
-| O5 | larger-scale training | only after O2/O3 effects reproduce and a written compute/resource budget justifies scale |
+| O0 | toy architecture validation | **PASS for deterministic runtime** |
+| O1 | small controlled learned baseline | **NEXT** |
+| O2 | architecture ablation | not reached |
+| O3 | medium-scale replication | not reached |
+| O4 | optimized local release | not reached |
+| O5 | larger-scale training | frozen |
 
-## Named-model status
+### Advancement rules
 
-The table describes **connected evidence**, not private/local work that is currently inaccessible.
+- **O0 -> O1:** deterministic runtime tests, provenance, persistence and failure handling pass.
+- **O1 -> O2:** one small learned-provider experiment produces a reproducible baseline with raw task-level results.
+- **O2 -> O3:** at least two task families and multiple seeds show that the claimed Olympus mechanism—not merely the underlying model—causes the effect.
+- **O3 -> O4:** clean-machine reproduction, fixed model/provider version, latency/RAM/token accounting, failure taxonomy and documentation.
+- **O4 -> O5:** only after scaling curves indicate benefit and the project can document training data, weights, compute budget, checkpoints and evaluation.
 
-| Name | Concept only | Implementation | Tested | Trained | Evaluated | Released |
-|---|---:|---:|---:|---:|---:|---:|
-| Olympus program | yes | no verified source | no | no | no | no |
-| Hermes | yes | no verified source | no | no | no | no |
-| Prometheus | yes | no verified source | no | no | no | no |
-| Perseus | yes | no verified source | no | no | no | no |
-| Atlas | yes | no verified source | no | no | no | no |
-| Kronos | yes | no verified source | no | no | no | no |
+## O1 preregistered experiment
 
-## One achievable next milestone
+**Question:** Does decomposition into explicit hypothesis/falsification/execution roles improve reliable research-task completion compared with a monolithic agent using the same underlying model and tool budget?
 
-**O0 target:** prove one small architecture delta against a vanilla reference model before any named model is promoted.
+Freeze one small local/open learned provider and its exact version. Compare the same tasks and budgets across:
 
-Freeze a tiny configuration that can run on the current 16-GB-class local machine. The experiment must:
+1. **Monolithic:** one agent solves the task.
+2. **Full Olympus:** Prometheus -> Perseus -> Hermes.
+3. **Olympus - Perseus:** remove adversarial falsification.
+4. **Olympus - evidence gate:** remove evidence enforcement.
 
-1. instantiate a vanilla reference transformer and one Olympus variant with only **one** changed mechanism;
-2. run forward + backward;
-3. overfit a tiny batch;
-4. save, reload, and reproduce inference;
-5. train both under the same seed/data/optimizer budget;
-6. report parameter count, peak memory, training throughput, evaluation loss/task metric, and inference latency;
-7. repeat across at least three seeds if the metric is noisy;
-8. preserve the result even if the Olympus variant loses.
+Use approximately 100 deterministic benchmark tasks spanning at least two task families. Preserve raw task rows.
 
-Until the canonical Olympus source is exposed, the variant mechanism must remain **TBD** rather than being invented from old naming documents.
+Measure:
 
-## Advancement gates
+- reliable/task completion;
+- schema validity;
+- unsupported/incorrect-claim rate;
+- falsification catch rate;
+- tool-execution correctness;
+- evidence completeness;
+- latency;
+- token use;
+- peak RAM.
 
-- **O0 -> O1:** all smoke tests pass and raw outputs/configs are retained.
-- **O1 -> O2:** vanilla baseline reproduces; dataset and evaluation are frozen.
-- **O2 -> O3:** predeclared Olympus effect is positive or scientifically informative across seeds; no hidden parameter/compute advantage.
-- **O3 -> O4:** medium-scale replication agrees with O2 and local optimization has an explicit quality-regression budget.
-- **O4 -> O5:** release is reproducible, resource budget is real, and a larger run answers a specific unresolved scientific question.
+### Frozen promotion gate
 
-## Public-claim rule
+Before real-provider results are generated:
 
-Do not publish statements such as “Prometheus 128B,” “Atlas 2T,” or “Kronos 8T” as existing models unless checkpoints, training provenance, evaluation, and release evidence actually exist. Until then, use language such as **concept**, **planned experiment**, or **reserved roadmap name**.
+- full Olympus must improve paired reliable-completion rate by **>=5 percentage points** versus monolithic and the 95% paired-bootstrap CI lower bound must be >0;
+- Perseus remains separate only if it improves falsification catch rate by **>=5 percentage points** without worsening reliable completion;
+- evidence enforcement remains separate only if it reduces unsupported/incorrect claims by **>=30% relative** without reducing task success by >5 percentage points;
+- do not promote if median latency or token use exceeds **1.5x** monolithic unless reliable completion improves by >=10 percentage points;
+- if a component fails its ablation gate, merge/remove it instead of scaling it.
+
+## Verification performed on recovered runtime
+
+A recovered `olympus.pyz` was exercised in a fresh sandbox on 12 August 2026. `doctor` reported the deterministic Hermes/Prometheus/Perseus/Atlas/Kronos modules healthy, and the built-in architectural smoke benchmark completed successfully. That benchmark self-identifies as synthetic architectural validation and explicitly does **not** establish frontier-model capability.
+
+The O1 harness and 100-task benchmark plumbing also pass with a mock oracle. Mock results are plumbing evidence only. **O1 remains unpassed until the same harness is run with one frozen real learned provider.**
+
+## Scale freeze
+
+No larger Olympus training should occur before O1 exists. Parameter-count names are not maturity evidence. Any future learned model must advance through O0-O5 using checkpoints, data/compute provenance, raw evaluations and reproducible commands rather than naming or aspirational scale.
