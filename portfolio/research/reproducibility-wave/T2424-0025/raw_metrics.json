@@ -1,0 +1,24 @@
+{
+  "source":"GitHub Actions run 31616573215 job 94180746280 stdout snapshot",
+  "reference":{
+    "seeds":30,
+    "heavyTail":{"queries":720,"baselineMae":0.36152678546712497,"robustMae":0.016560942261867797,"relativeImprovement":0.9541916590205908},
+    "cleanControl":{"queries":720,"baselineMae":0.024354967043193555,"robustMae":0.012593962713833545,"relativeImprovement":0.482899619962608},
+    "nonGaussianAdvantageGap":0.4712920390579828,
+    "verdict":"PASS_HEAVY_TAIL_MEMORY_SCREEN"
+  },
+  "ablation":{
+    "seedsPerCondition":50,
+    "trimFraction":0.1,
+    "huberDelta":0.15,
+    "rows":[
+      {"contaminationRate":0,"mean":{"mean":0.02464691771133496,"sampleStd":0.0023115771827692763},"median":{"mean":0.012569888975136025,"sampleStd":0.0020830878466683114,"relativeImprovementVsMean":0.4900015846867857},"trimmed":{"mean":0.01871145668450782,"sampleStd":0.0022060869785637755,"relativeImprovementVsMean":0.24081960658705248},"huber":{"mean":0.019079170351365707,"sampleStd":0.001966465001265805,"relativeImprovementVsMean":0.22590035091522553}},
+      {"contaminationRate":0.05,"mean":{"mean":0.1450122944150169,"sampleStd":0.199683673524021},"median":{"mean":0.013336718225360615,"sampleStd":0.0021542226220524086,"relativeImprovementVsMean":0.9080304309426918},"trimmed":{"mean":0.02262370432010366,"sampleStd":0.004266144970936583,"relativeImprovementVsMean":0.8439876811040868},"huber":{"mean":0.02203050311564296,"sampleStd":0.0033707908620666882,"relativeImprovementVsMean":0.84807837704717}},
+      {"contaminationRate":0.1,"mean":{"mean":0.3211624567245237,"sampleStd":0.5111810963164298},"median":{"mean":0.014178281197675233,"sampleStd":0.0029325089077616604,"relativeImprovementVsMean":0.9558532421806805},"trimmed":{"mean":0.030013789604264773,"sampleStd":0.007237673631756243,"relativeImprovementVsMean":0.9065463942754398},"huber":{"mean":0.025479195095119648,"sampleStd":0.004665923113634567,"relativeImprovementVsMean":0.9206657111949597}},
+      {"contaminationRate":0.18,"mean":{"mean":0.3494393236413256,"sampleStd":0.34720341329882964},"median":{"mean":0.017002512132865903,"sampleStd":0.004857686860296252,"relativeImprovementVsMean":0.9513434493986207},"trimmed":{"mean":0.04550633252740887,"sampleStd":0.01571336013006776,"relativeImprovementVsMean":0.8697732926757898},"huber":{"mean":0.030925536516162495,"sampleStd":0.006796244399198665,"relativeImprovementVsMean":0.9114995525005499}},
+      {"contaminationRate":0.25,"mean":{"mean":0.4567522136373464,"sampleStd":0.42251940542987937},"median":{"mean":0.022364912251589094,"sampleStd":0.006416589275987984,"relativeImprovementVsMean":0.9510349121825024},"trimmed":{"mean":0.06706277685391916,"sampleStd":0.02109409949673214,"relativeImprovementVsMean":0.8531747086240378},"huber":{"mean":0.03861116212011901,"sampleStd":0.00602223337417369,"relativeImprovementVsMean":0.9154658456657736}},
+      {"contaminationRate":0.35,"mean":{"mean":0.8655902567069121,"sampleStd":1.4660585096014804},"median":{"mean":0.02868030354033516,"sampleStd":0.010962791766931658,"relativeImprovementVsMean":0.9668661894954228},"trimmed":{"mean":0.10097669426662575,"sampleStd":0.035417070351773605,"relativeImprovementVsMean":0.8833435410296949},"huber":{"mean":0.04671057548702586,"sampleStd":0.010774119362047817,"relativeImprovementVsMean":0.9460361584189574}}
+    ]
+  },
+  "focusedTests":{"passed":10,"failed":0}
+}
