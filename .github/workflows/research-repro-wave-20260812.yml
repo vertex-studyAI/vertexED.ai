@@ -1,9 +1,9 @@
 name: Research Reproducibility Wave 2026-08-12
 
+# The first frozen reproduction was executed successfully as run 31616762393.
+# Keep subsequent executions manual so documentation-only commits cannot silently
+# rerun or alter the scientific record.
 on:
-  push:
-    branches:
-      - agent/research-repro-wave-20260812
   workflow_dispatch:
 
 permissions:
