@@ -4,7 +4,7 @@ As of: 2026-08-12 execution pass
 
 ## RELEASE NOW
 
-None promoted by this execution pass. A merge or green source test is not automatically a production/scientific release.
+None promoted by this execution pass. A merge, archive, or green source test is not automatically a production/scientific release.
 
 ## MERGED / NEEDS NEXT EVIDENCE GATE
 
@@ -13,7 +13,12 @@ None promoted by this execution pass. A merge or green source test is not automa
 - Initial recovery CI exposed one benchmark-evaluator syntax defect with 348/349 tests passing.
 - Repair commit `7c79da9a...` corrected the unterminated safety regex and canonical CI run #914 succeeded.
 - Current label: `TESTED + MERGED`, **not** `RELEASED` or `RESEARCH_COMPLETE`.
-- Next gates: real OpenSCAD/CAD-kernel execution, geometry verification, broader prompt robustness, independent reproduction.
+- Next gates: canonical real OpenSCAD/CAD-kernel execution, geometry verification, broader prompt robustness, independent reproduction / same-provider learned comparison if pursuing paper claims.
+
+### T2424-0025 — robust-readout ablation
+- Replacement PR #271 rebuilt the exact ablation on current main; exact-head CI #918 was green and it merged as `5ee79ab8...`.
+- Current label: `TESTED + MERGED / MECHANISM INCONCLUSIVE`.
+- Next gate: redesign the baseline/control because 0% contamination also favors robust readouts; do not claim contamination-specific mechanism yet.
 
 ### FinanceMeta authorization/notification-integrity overlay
 - Latest observed control-repo `main` commit `ceedf60ba...` integrates the additive recovery overlay.
@@ -29,19 +34,33 @@ None promoted by this execution pass. A merge or green source test is not automa
 
 ## NEEDS EXPERIMENT
 
-### Olympus / Hercules architecture line
-- Current evidence class: `TESTED_NOT_SCALED` on inspected research-gate work.
-- Gate: matched-budget O2 baseline/proposed/ablation experiment on real hardware with declared metrics.
+### Olympus runtime
+- Current evidence class: `O0 DETERMINISTIC RUNTIME EVIDENCE`; current #257 head CI #925 is green.
+- Gate: preregistered matched-provider ~100-task O1 comparison.
+- Hermes/Prometheus/Perseus/Atlas/Kronos remain runtime-role/speculative-scale names, not trained model evidence.
+
+### Hercules learned architecture
+- Gate: matched-budget baseline/proposed/ablation experiments on real hardware with identical data/tokenizer/parameter/optimizer/training/evaluation budgets plus loss/throughput/memory/downstream/stability metrics.
 
 ### Project 2424 research candidates
 - Gate independently: reproducible setup, baselines, metrics, experiments, analysis, limitations and independent reproduction where required.
 - Do not count a numbered project, generated paper, merge, or green unit test as research-complete.
 
+## FRESH LOCAL REPRODUCIBILITY / EXTERNAL GATES OPEN
+
+### Research Atlas V4
+- PR #262 records 39/39 tests, 18 flagship reruns, named extensions, 18 manuscript recompiles, validator pass and regenerated 769-file release archives with checksums, followed by re-extract/retest.
+- Gate: independent external replication and selective submission/review. The 512 registry is not 512 completed papers.
+
 ## NEEDS CONTENT / TARGET APPLICATION
 
 ### The Bu1LD
-- Portable content recovery exists in PR #261.
+- Exact-SHA truth/proof-density content recovery exists in PR #261.
 - Gate: canonical target access, apply-once review, deployment/hydration checks and allowed/denied role journeys.
+
+### FinanceMeta public content
+- Exact-SHA truth-first recovery exists in PR #261 and removes/rewrites unsupported impact/partner claims from the audited targets.
+- Gate: target write access, isolated application, build/test/security and deployment verification.
 
 ## NEEDS SECURITY / PRODUCTION VERIFICATION
 
@@ -54,10 +73,10 @@ None promoted by this execution pass. A merge or green source test is not automa
 ## NOT READY
 
 ### Percy production/runtime qualification
-- Test/qualification artifacts are not enough; canonical live source/state and physical runtime evidence are still blocked.
+- Current #257 has green source/test evidence, but actual Mac crash/restart, provider integration, contention and long-run physical qualification remain blocked.
 
 ### Atlas runtime
-- No canonical Atlas runtime repository/source is connected on this execution surface.
+- No canonical Atlas runtime repository/source is connected on this execution surface; do not confuse the Research Atlas archive with a runtime system named Atlas.
 
 ## RESEARCH-ONLY / DO NOT PROMOTE POSITIVE CLAIM
 
