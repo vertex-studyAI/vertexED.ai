@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 
 import {
@@ -11,6 +12,9 @@ import {
   runSyntheticBenchmark,
   uniformRouter,
 } from '../portfolio/project2424/projects/T2424-1768/experiment/syntheticBenchmark.mjs';
+import {
+  verifyRetainedResult,
+} from '../portfolio/project2424/projects/T2424-1768/experiment/verifyRetainedResult.mjs';
 
 test('softmax is stable and normalized', () => {
   const weights = softmax([1000, 1001, 999]);
@@ -99,4 +103,18 @@ test('frozen synthetic benchmark passes only the bounded mechanics gates', () =>
   );
   assert.equal(report.clean.rejectedExpertRate, 0);
   assert.ok(report.cleanDelta <= 1e-12);
+});
+
+test('retained result is independently recomputable without importing the engine', async () => {
+  const url = new URL(
+    '../portfolio/project2424/projects/T2424-1768/experiment/retained-result.json',
+    import.meta.url,
+  );
+  const retained = JSON.parse(await readFile(url, 'utf8'));
+  const verification = verifyRetainedResult(retained);
+
+  assert.equal(verification.ok, true);
+  assert.equal(verification.verdict, 'PASS_CONTROLLED_SELF_VERIFICATION_MECHANICS');
+  assert.ok(verification.corrupted.rejectedExpertRate > 0);
+  assert.equal(verification.clean.rejectedExpertRate, 0);
 });
