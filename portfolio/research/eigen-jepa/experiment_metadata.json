@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "project": "Eigen-JEPA",
+  "source_commit_audited": "0d2a14e559b0caa9b5b1cbeef0995013594ecf15",
+  "status": "BLOCKED_CANONICAL_RUNNABLE_IMPLEMENTATION_NOT_LOCATED",
+  "result": null,
+  "required_baseline_classes": ["simple reference", "standard JEPA/representation baseline", "eigen/spectral mechanism ablation"],
+  "minimum_evidence": ["frozen task/splits", "paired seeds", "matched budget", "raw per-seed metrics", "mean", "sample SD", "n", "paired deltas", "failure analysis"],
+  "claim_boundary": "Portfolio identity only at the evidence level audited in this wave; no experimental performance result is reported."
+}
