@@ -6,23 +6,25 @@ Maturity is claim-specific and evidence-backed. A green CI lane is execution evi
 
 | Research line | Current state | Evidence | Promotion gate |
 |---|---|---|---|
-| LAM-JEPA | **EXECUTION REPRODUCED / ARC SUPERIORITY + MECHANISM HYPOTHESES UNSUPPORTED** | exact-head `2f59b4297e5978d4ce769ebe95adb363e1e75d7a` Reproducibility CI rerun attempt 2, job `94178401933`, SUCCESS; retained frozen five-seed ARC validation remains negative/inconclusive | preserve locked ARC test; any new repair/hypothesis must be versioned and preregistered before validation |
-| T2424-0025 robust readouts | **FRESH LOCAL REPRODUCTION / ANALYZED / NEGATIVE MECHANISM CONTROL PRESERVED** | exact source from `0d2a14e559b0caa9b5b1cbeef0995013594ecf15`; 30-seed screen and 50-seed contamination ablation reproduced to machine precision; 0% Cauchy control still favors robust readouts | freeze actual NGMT mechanism; add no-memory, standard-memory and capacity-matched Gaussian/reference-memory controls |
+| LAM-JEPA | **EXECUTION REPRODUCED / ARC SUPERIORITY + MECHANISM HYPOTHESES UNSUPPORTED** | current-head pipeline reproduction is green; frozen scientific ARC v3 full-controls SHA `760aa7f9a73a177d5ff4ba7eb470f7e68ace63cb` rerun as attempt 2 in Actions run `31203337502`, SUCCESS | preserve locked ARC test; any new repair/hypothesis must be versioned and preregistered before validation |
+| T2424-0025 robust readouts | **FRESH REPRODUCTION / ANALYZED / NEGATIVE MECHANISM CONTROL PRESERVED** | exact source from `0d2a14e559b0caa9b5b1cbeef0995013594ecf15`; 30-seed screen + 50-seed contamination ablation reproduced; dedicated Actions run `31616762393` is green | freeze actual NGMT mechanism; add no-memory, standard-memory and capacity-matched Gaussian/reference-memory controls |
 | NGMT | **BLOCKED — TRANSFORMER MECHANISM NOT FROZEN** | bounded T2424-0025 precursor reproduced, but it is synthetic aggregation rather than learned Transformer memory | define state/read/update/non-Gaussian property, matched baselines, sequence tasks, paired seeds and falsifier before training |
-| APEN / PEN | **NOT YET REPRODUCIBLE** | portfolio references exist, but this wave located no standalone canonical runnable APEN/PEN implementation with frozen experiment metadata in the connected source | identify canonical source; freeze hypothesis, task, baseline, metric, seed list and run command before any result claim |
-| Eigen-JEPA | **NOT YET REPRODUCIBLE** | portfolio references exist, but no standalone Eigen-JEPA repository/runnable frozen experiment was located in the connected GitHub installation | identify canonical implementation and protocol; do not report experimental results until source and evidence are addressable |
-| T2424-0037 NeuroCAD | TESTED + MERGED CONTROLLED BENCHMARK | deterministic controlled-language compiler protocol; fresh exact-head Project 2424 release gate rerun attempt 3 is green; no learned general-NLP claim | OOD prompts + same-provider direct-vs-IR learned comparison + external reproduction |
-| T2424-0050 Darcy | BOUNDED EXPERIMENT + MERGED IDENTITY | retained 20-seed synthetic pressure-MAE screen; harmonic-block result is construction-aligned and nonlearned; fresh exact-head Project 2424 release gate rerun attempt 3 is green | actual learned operator, matched budget, misaligned/OOD fields and held-out physical regimes |
+| APEN | **FRESH SOURCE-ARCHIVE REPRODUCTION / SYNTHETIC MECHANISM TRADEOFF** | checksummed Atlas V4 source; 48 paired base conditions + salience-dropout robustness rerun; numerical artifacts reproduced | matched learned baselines, naturalistic task, preregistered salience-quality stress test |
+| PEN | **NOT SEPARATELY EXECUTABLE** | frozen Atlas V4 contains APEN; PEN appears as architecture-family provenance, not a distinct runnable experiment | produce a distinct executable PEN implementation + protocol before separate experimental status |
+| Eigen-JEPA | **FRESH SOURCE-ARCHIVE REPRODUCTION / BOUNDARY-NEGATIVE COMPARISON** | Atlas V4 real-market rerun; raw/log ridge remain stronger on primary covariance-matrix MSE | stronger spectral baselines, preregistered target metric, multi-dataset replication |
+| NPMS | **FRESH SOURCE-ARCHIVE REPRODUCTION / CONTROLLED SYNTHETIC MECHANISM** | Atlas V4 controlled reservoir experiment rerun; numerical artifacts reproduced | learned sequence model, stronger memory baselines, OOD/generalization study |
+| T2424-0037 NeuroCAD | **FRESHLY REPRODUCED CONTROLLED BENCHMARK** | dedicated Actions run `31616762393`; frozen benchmark `20/20` + focused tests | OOD prompts + same-provider direct-vs-IR learned comparison + external reproduction |
+| T2424-0050 Darcy | **FRESHLY REPRODUCED BOUNDED MECHANISM SCREEN** | dedicated Actions run `31616762393`; retained 20-seed synthetic pressure-MAE screen rerun | actual learned operator, matched budget, misaligned/OOD fields and held-out physical regimes |
 | T2424-0029 PDE transitions | TESTED + MERGED BOUNDED ANALYTIC SCREEN | CI #830; 1D heat spectral-dimension fixture | nonlinear PDEs, learned representations, robustness/generalization |
 | T2424-0028 residual-event tokenization | TESTED + MERGED | fresh current-lineage CI #949 | noisy/multivariate datasets + byte/rate-distortion baselines |
-| T2424-0027 latent language audit | TESTED + MERGED SYNTHETIC AUDIT | frozen deterministic 72-record mechanism protocol; fresh CI #950; SHA-bound retained evidence | real multilingual encoder, preregistered concept/language probes and controls |
+| T2424-0027 latent language audit | **FRESHLY REPRODUCED + INDEPENDENTLY VERIFIED SYNTHETIC AUDIT** | dedicated Actions run `31616762393`; deterministic 72-record protocol + SHA-bound verifier | real multilingual encoder, preregistered concept/language probes and controls |
 | T2424-0024 Trust Under Uncertainty | TESTED + MERGED | CI #827; paired calibration/ablation fixture | frozen real-model prediction set + calibration/selective-risk baselines |
 | T2424-0026 Counterfactual Defect Worlds | TESTED + MERGED | CI #828; deterministic intervention/locality fixture | learned world model / richer environment baseline; causal/generalization tests |
 | T2424-0040 FinanceMeta Learning Graph | TESTED + MERGED | CI #858; prerequisite-aware vs utility-only synthetic control | retrospective learner traces, curriculum validity, prospective causal evaluation |
 | T2424-1768 self-verifying MoE | TESTED + MERGED SYNTHETIC CONTRACT PROTOTYPE | CI #957; predeclared corrupt-expert control | heterogeneous real tasks; verifier calibration; false accept/reject; cost/accuracy baseline |
 | T2424-0035 Grokking Agent | TESTED + MERGED SYNTHETIC DETECTOR | CI #831; integrated concurrently | real training curves + matched no-grokking controls + sensitivity analysis |
 | T2424-0054 Experiment Planner | TESTED + MERGED INTERNAL TOOL | CI #833; integrated concurrently | historical backtest vs random/greedy/simple priority rules; regret/throughput metrics |
-| Research Atlas V4 | LOCAL REPRODUCIBILITY + PACKAGING | 39/39 tests, 18 experiment/manuscript reruns, validator, checksummed release evidence | independent reproduction + canonical tables/figures + submission/review |
+| Research Atlas V4 | **FRESH CHECKSUMMED LOCAL REPRODUCTION + PACKAGING** | archive SHA-256 `076f12750d6a8e6c298c17815224a79463bcad149d6cf1283900d98c6e394a2c`; `39/39` tests; APEN/Eigen-JEPA/NPMS reruns; `61/65` selected artifacts byte-exact, four PDF timestamp-only differences | independent reproduction + canonical tables/figures + submission/review |
 | Hercules | ARCHITECTURE/IMPLEMENTATION FAMILY; LEARNED ADVANTAGE UNPROVEN | architecture ownership separated from Olympus names | same-budget Transformer vs proposal vs ablation |
 | Olympus | O0 RATIONALIZED ROADMAP/RUNTIME | model-name/scale claims separated from actual learned evidence | O1 learned experiment; O2 ablation before scale promotion |
 | Hermes / Prometheus / Perseus / Atlas / Kronos | CONCEPT/RUNTIME NAMES UNLESS SPECIFIC ARTIFACT PROVES MORE | no evidence in this ledger supports trained parameter-scale claims | implementation → training → evaluation → ablation → release, individually |
@@ -32,29 +34,73 @@ Maturity is claim-specific and evidence-backed. A green CI lane is execution evi
 
 ### LAM-JEPA
 
-Fresh exact-head workflow reproduction was triggered without modifying the experiment after seeing prior results. The rerun used source SHA `2f59b4297e5978d4ce769ebe95adb363e1e75d7a`, GitHub Actions run `31610608912`, attempt 2, job `94178401933`, and completed successfully on a CPU-only Ubuntu/Python 3.11 environment. This rerun verifies the executable evidence pipeline; it is **not** a new five-seed 20-epoch scientific sample.
+Two distinct execution checks are retained rather than conflated. A current-head pipeline reproduction verifies present repository executability. Separately, the frozen scientific ARC v3 full-controls job was rerun unchanged at SHA `760aa7f9a73a177d5ff4ba7eb470f7e68ace63cb` as Actions run `31203337502`, attempt 2, and completed successfully.
 
-Canonical frozen validation remains:
+The frozen five-seed scientific result remains:
 
-- LAM-JEPA: `0.2549152542 ± 0.0129968064`, `n=5`;
-- capacity-matched supervised: `0.2664406780 ± 0.0154600058`, `n=5`;
-- paired LAM minus matched: `-0.0115254237 ± 0.0140994131`, `n=5`;
+- full model: `0.2549152542 ± 0.0129968064`, `n=5`;
+- capacity-matched supervised baseline: `0.2664406780 ± 0.0154600058`, `n=5`;
+- paired full minus matched: `-0.0115254237 ± 0.0140994131`, `n=5`;
 - full minus `no_planner`: `+0.0047457627`, 95% bootstrap CI `[0.0, 0.0142372881]`;
 - full minus `no_target`: `-0.0067796610`, 95% bootstrap CI `[-0.0135593220, 0.0]`.
 
-No superiority, planner-benefit, target-benefit, or quantization-benefit claim is promoted.
+No superiority, planner-benefit, target-benefit, or quantization-benefit claim is promoted. The locked ARC test remains untouched.
 
 ### T2424-0025 / NGMT precursor
 
-The exact source experiment was freshly executed locally using Node.js `v22.16.0` on Linux x86_64. The 30-seed screen completed in about `0.15 s`; the 50-seed ablation completed in about `0.91 s`; outputs matched the retained reference to machine precision.
+The exact source experiment was executed both locally and in a dedicated frozen GitHub Actions workflow. The Actions run `31616762393` used runner commit `54baa1f21a3bc14adbf20eb604f356dfb926dac8`, completed successfully, and uploaded raw machine-readable evidence.
 
-The main scientific boundary is negative/inconclusive for a specific non-Gaussian-memory mechanism: at `0%` Cauchy contamination, weighted median MAE remains materially lower than weighted mean MAE, so the current task does not isolate a uniquely non-Gaussian benefit.
+Fresh 30-seed screen:
+
+- heavy-tail weighted-mean MAE `0.3615267855`;
+- weighted-median MAE `0.0165609423`;
+- relative improvement `95.4192%`;
+- clean-control weighted-mean MAE `0.0243549670`;
+- clean-control weighted-median MAE `0.0125939627`;
+- clean-control improvement `48.2900%`.
+
+At the fixed 18% Cauchy condition of the 50-seed ablation, mean ± sample SD MAE was:
+
+- weighted mean `0.349439 ± 0.347203`;
+- weighted median `0.017003 ± 0.004858`;
+- 10% weighted trimmed mean `0.045506 ± 0.015713`;
+- weighted Huber `0.030926 ± 0.006796`.
+
+The 0% control also materially favors robust readouts. Current evidence therefore supports robust aggregation under this synthetic noisy-memory construction but does not isolate a uniquely non-Gaussian mechanism. It remains a precursor, not a Transformer result.
+
+### T2424-0027, T2424-0037, T2424-0050
+
+The same frozen Actions run reproduced:
+
+- **T2424-0027:** raw concept accuracy `1.0`, raw language accuracy `1.0`, centered concept accuracy `1.0`, centered language accuracy `0.361111`, normalized excess language-leakage reduction `0.958333`; independent verifier `PASS`.
+- **T2424-0037 NeuroCAD:** frozen controlled grammar benchmark `20/20`; syntax/execution success, geometry validity, dimension accuracy and constraint satisfaction all `1.0` on accepted cases.
+- **T2424-0050 Darcy:** mean baseline pressure MAE `0.0658913916`, reduced-resistance MAE `0.0011366559`, relative improvement `97.8766%`, mean flux relative error `1.369e-16`, `n=20`.
+
+These remain synthetic or controlled mechanism checks with their existing claim boundaries intact.
+
+### Atlas V4: APEN, Eigen-JEPA, NPMS
+
+The frozen source package `BU1LD_Research_Atlas_Flagships_v4_FRESH_2026-08-12.zip` was materialized from the persistent project library and checksum-verified before execution. SHA-256: `076f12750d6a8e6c298c17815224a79463bcad149d6cf1283900d98c6e394a2c`.
+
+Execution environment: Linux x86_64 CPU; Python `3.13.5`; NumPy `2.3.5`; pandas `2.2.3`; SciPy `1.17.0`; scikit-learn `1.8.0`; PyTorch `2.10.0+cpu`; Matplotlib `3.10.8`; pytest `9.0.2`. Full Atlas tests: `39/39` passed.
+
+**APEN:** the 48 paired-condition base experiment reproduces its rare-event benefit, but not a clean overall-MSE dominance claim. The salience-dropout robustness extension also reproduces the mechanism failure: the APEN rare-event advantage narrows by 80% salience dropout and reverses at 100% dropout. This is retained as a limitation.
+
+**PEN:** no distinct executable PEN experiment exists in the frozen package. APEN evidence is not duplicated under a separate PEN label.
+
+**Eigen-JEPA:** the real-market rerun preserves the negative boundary. Primary covariance-matrix MSE is `5.8318226e-09` for Eigen-JEPA versus `5.7734384e-09` raw ridge and `5.7896089e-09` log ridge on `n=111` test blocks. Eigen-JEPA does not establish superiority.
+
+**NPMS:** the controlled reservoir experiment reproduces regime-classification accuracy `0.928571` and the stored spectral statistics. External validity and learned-model evidence remain open.
+
+Across the selected APEN/Eigen-JEPA/NPMS outputs, `61/65` artifacts reproduced byte-for-byte. The four differences were generated PDFs; the observed difference was Matplotlib `CreationDate` metadata. Numerical CSV/JSON/NPZ outputs and PNG figures were exact. This is presentation-artifact nondeterminism, not scientific-metric drift.
 
 ### Project 2424 current-head CI
 
-At source SHA `0d2a14e559b0caa9b5b1cbeef0995013594ecf15`, GitHub Actions run `31611954223` was rerun during this wave. Attempt 3, build-and-test job `94183150508`, completed successfully from `2026-08-12T16:23:03Z` to `2026-08-12T16:23:57Z` and ran the canonical release gate. This is a fresh exact-head execution check for the current Project 2424 source line.
+At source SHA `0d2a14e559b0caa9b5b1cbeef0995013594ecf15`, the canonical Project 2424 release gate was also rerun independently during this wave and completed successfully. This confirms current-lineage executability but is not substituted for the dedicated scientific reproduction outputs above.
 
-The production-deployment smoke belongs to a separate product/deployment lane and is not treated as scientific evidence for or against these source experiments.
+## Reproducibility runner policy
+
+After the first successful frozen Project 2424 reproduction, its workflow was changed to manual dispatch only. Documentation-only commits therefore cannot silently rerun the scientific protocols. Any future protocol change must be versioned and distinguished from the 12 August 2026 evidence record.
 
 ## Portfolio triage function
 
@@ -68,11 +114,11 @@ Prefer work that produces a falsifiable hypothesis, baseline, metric, retained r
 
 1. **NGMT mechanism gate** — freeze the actual memory state/read/update rule, then compare no memory, standard memory, Gaussian/reference memory, proposed NGMT, and component ablations under matched compute on heavy-tailed/multimodal/regime-switching sequence tasks.
 2. **Hercules/Olympus architecture gate** — identical dataset/tokenizer/parameter count/optimizer/training budget: Transformer vs proposed architecture vs ablation; measure validation loss, convergence, memory, throughput, downstream performance, instability and wall-clock cost.
-3. **NeuroCAD learned robustness gate** — frozen OOD language suite + same-provider direct output vs typed-IR pipeline with validity, editability, geometry and failure metrics.
-4. **Darcy learned operator gate** — matched-budget FNO/DeepONet-or-equivalent baseline vs proposed learned operator on held-out regimes; preserve nonlearned screen only as provenance.
-5. **Latent-language real-model gate** — freeze multilingual encoder(s), balanced concepts/languages, train-only nuisance-removal transform, held-out probes and global/random-projection controls.
-6. **Self-verifying MoE gate** — multiple expert families, realistic contracts, corrupted/ambiguous cases, verifier false accept/reject tradeoff and unverified-mixture baseline.
-7. **APEN/PEN and Eigen-JEPA source gate** — locate the canonical runnable implementation before spending compute; a named concept without addressable code cannot enter the reproducibility queue.
+3. **APEN external-validity gate** — matched learned baselines, naturalistic delayed-signal task, preregistered salience quality perturbations, paired seeds and calibration/rare-event metrics.
+4. **Eigen-JEPA spectral gate** — stronger spectral/time-series controls, multiple market datasets, preregistered primary target and paired uncertainty analysis; treat current result as negative/boundary evidence.
+5. **NeuroCAD learned robustness gate** — frozen OOD language suite + same-provider direct output vs typed-IR pipeline with validity, editability, geometry and failure metrics.
+6. **Darcy learned operator gate** — matched-budget FNO/DeepONet-or-equivalent baseline vs proposed learned operator on held-out regimes; preserve nonlearned screen only as provenance.
+7. **Latent-language real-model gate** — freeze multilingual encoder(s), balanced concepts/languages, train-only nuisance-removal transform, held-out probes and global/random-projection controls.
 
 ## Paper-factory rule
 
