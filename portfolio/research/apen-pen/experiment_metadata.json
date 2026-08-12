@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "project": "APEN/PEN",
+  "source_commit_audited": "0d2a14e559b0caa9b5b1cbeef0995013594ecf15",
+  "status": "BLOCKED_CANONICAL_RUNNABLE_IMPLEMENTATION_NOT_LOCATED",
+  "result": null,
+  "required_before_execution": [
+    "canonical source path and commit",
+    "precise hypothesis and falsifier",
+    "dataset/task and split identities",
+    "simple baseline",
+    "standard architecture baseline",
+    "proposed method",
+    "mechanism-removing ablation",
+    "metric",
+    "paired seed list",
+    "matched compute/training budget",
+    "one-command train/evaluate path",
+    "raw per-seed metrics"
+  ],
+  "claim_boundary": "No APEN/PEN experimental performance claim is supported by the connected evidence audited in this wave."
+}
