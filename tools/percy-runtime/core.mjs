@@ -160,14 +160,17 @@ export class PercyStore {
 
   start(taskId, workerId) {
     const t = now();
-    return this.db.prepare("UPDATE tasks SET status='RUNNING', updated_at=? WHERE id=? AND status='CLAIMED' AND owner_id=?")
-      .run(t, taskId, workerId).changes === 1;
+    return this.db.prepare(`UPDATE tasks SET status='RUNNING', updated_at=?
+      WHERE id=? AND status='CLAIMED' AND owner_id=? AND lease_expires_at IS NOT NULL AND lease_expires_at > ?`)
+      .run(t, taskId, workerId, t).changes === 1;
   }
 
   heartbeat(taskId, workerId, leaseMs = 30_000) {
     const t = now();
     return this.db.prepare(`UPDATE tasks SET heartbeat_at=?, lease_expires_at=?, updated_at=?
-      WHERE id=? AND status IN ('CLAIMED','RUNNING') AND owner_id=?`).run(t, t + leaseMs, t, taskId, workerId).changes === 1;
+      WHERE id=? AND status IN ('CLAIMED','RUNNING') AND owner_id=?
+        AND lease_expires_at IS NOT NULL AND lease_expires_at > ?`)
+      .run(t, t + leaseMs, t, taskId, workerId, t).changes === 1;
   }
 
   addEvidence(taskId, kind, value, metadata = {}) {
