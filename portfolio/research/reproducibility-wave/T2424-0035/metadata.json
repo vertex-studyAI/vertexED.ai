@@ -1,0 +1,18 @@
+{
+  "project":"T2424-0035",
+  "scientific_scope":"deterministic synthetic delayed-generalization detector mechanics",
+  "protocol_base_commit":"0d2a14e559b0caa9b5b1cbeef0995013594ecf15",
+  "execution_commit":"db9f470ec68f74a95c6e586d88b27927d734dc44",
+  "github_actions_run_id":31616573215,
+  "job_id":94180746280,
+  "environment":{"os":"Ubuntu 24.04.4","arch":"x86_64","node":"v22.23.1"},
+  "seed_policy":{"deterministic_fixture":true,"seed_sweep":false},
+  "task":"synthetic train/evaluation accuracy trajectory classification",
+  "baseline_control":"matched near-synchronous transition",
+  "method":"causal smoothing + persistent thresholds + minimum delay + eval-at-memorization ceiling",
+  "results":{"delayed":{"verdict":"DELAYED_GENERALIZATION_DETECTED","memorization_step":4750,"generalization_step":14250,"delay_steps":9500,"eval_at_memorization":0.08065508077262439},"matched_control":{"verdict":"NO_DELAYED_GENERALIZATION","memorization_step":5750,"generalization_step":5500,"delay_steps":-250,"eval_at_memorization":0.9221471602559975}},
+  "tests":{"passed":5,"failed":0},
+  "real_model_grokking_supported":false,
+  "significance_claimed":false,
+  "artifact":{"name":"project2424-repro-wave-31616573215","zip_sha256":"79b64ebf31607d158e26ba8f74eb9970f9f22722bf7e8c2212dc4a2781860705","retention_expires":"2026-09-11T16:14:32Z"}
+}
