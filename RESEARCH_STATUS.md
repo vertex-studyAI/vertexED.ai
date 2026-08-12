@@ -7,6 +7,7 @@ Research maturity is assigned from evidence, not names, merges or intended scale
 | Research line | Current evidence class | What is actually supported | Missing promotion evidence |
 |---|---|---|---|
 | T2424-0037 controlled NLP-to-CAD | TESTED + MERGED / CONTROLLED BENCHMARK ONLY | recovery restored controlled parser, guarded parametric CAD generator, deterministic 20-prompt evaluator, web demo and focused tests; initial CI exposed one syntax defect; repaired head `7c79da9a...` passed canonical CI run #914; PR #266 merged | real CAD backend execution, geometry verification, broader/uncontrolled language benchmark, stronger adversarial inputs, independent reproduction before stronger claim |
+| T2424-0025 robust-readout ablation | TESTED + MERGED / SYNTHETIC MECHANISM INCONCLUSIVE | stale #259 was rebuilt on current main as #271; exact head `4a910213...` passed canonical CI run #918 and merged as `5ee79ab8...`; 50-seed contamination sweep and robust readout implementations are integrated | intended contamination-mechanism attribution is not isolated because the 0% contamination control also favors robust readouts; needs a redesigned baseline/control before any mechanism or Transformer/learned-memory claim |
 | T2424-0050 Darcy Latent Operator | TESTED IDENTITY REPAIR INTEGRATED | observed main history restores canonical frozen identity and bounded regressions while explicitly avoiding Certified Complete/research-complete claims | actual operator experiment, baselines, measured results, independent reproduction |
 | Olympus/Hercules | TESTED_NOT_SCALED | inspected PR #257 contains baseline/ablation harnesses, manifests and qualification gates; canonical CI was green | O2 matched-budget architecture ablation on real hardware; downstream evidence and stability/resource comparison |
 | Percy reliability research/engineering | TESTED ARTIFACTS / RUNTIME BLOCKED | inspected PR #257 records recovery, reliability, restart/migration and provider-protocol tests plus production qualification tooling | real live runtime state, physical cross-host/macOS qualification, durable task progression under interruption |
@@ -23,6 +24,10 @@ The current controlled benchmark measures parsing/IR validity, deterministic geo
 - `GENERAL NLP-TO-CAD`: not demonstrated.
 - `RESEARCH_COMPLETE`: not demonstrated.
 - `RELEASED`: not demonstrated by this pass.
+
+## T2424-0025 evidence boundary
+
+The robust-readout experiment is a useful negative/inconclusive result rather than a mechanism win. The 0% contamination control also favors the robust readouts, so the current experiment does not establish that robustness gains are caused by contamination handling. Preserve that finding; redesign the control/baseline instead of retuning thresholds or relabeling the result.
 
 ## Olympus maturity ladder
 
