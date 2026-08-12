@@ -1,3 +1,4 @@
+import { BUILD_REVISION } from '../_generated/build-revision.js';
 import { API_VERSION, ROUTES } from '../_lib/routes.js';
 import { getQueryParam } from '../_lib/query.js';
 import { applyApiSecurityHeaders, isProduction } from '../_lib/security.js';
@@ -12,8 +13,13 @@ function normalizeRevision(value) {
   return /^[0-9a-f]{7,40}$/.test(revision) ? revision : null;
 }
 
-export function getDeploymentRevision(env = process.env) {
-  return normalizeRevision(env.VERCEL_GIT_COMMIT_SHA) || normalizeRevision(env.GITHUB_SHA) || null;
+export function getDeploymentRevision(env = process.env, buildRevision = BUILD_REVISION) {
+  return (
+    normalizeRevision(env.VERCEL_GIT_COMMIT_SHA) ||
+    normalizeRevision(env.GITHUB_SHA) ||
+    normalizeRevision(buildRevision) ||
+    null
+  );
 }
 
 export function getReadinessSnapshot(env = process.env) {

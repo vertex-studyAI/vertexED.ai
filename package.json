@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "prebuild": "node scripts/generate-study-guide-sitemap.mjs && node scripts/validate-vercel-functions.mjs",
+    "prebuild": "node scripts/generate-study-guide-sitemap.mjs && node scripts/validate-vercel-functions.mjs && node scripts/generate-build-revision.mjs",
     "build": "ROLLUP_SKIP_NODEJS_NATIVE=true vite build",
     "build:ci": "ROLLUP_SKIP_NODEJS_NATIVE=true vite build",
     "postbuild": "node scripts/update-sitemap-lastmod.mjs public/sitemap.xml",
