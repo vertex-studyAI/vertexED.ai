@@ -159,17 +159,27 @@ export async function runWorkerLoop({
       continue;
     }
     lastWorkAt = Date.now();
-    if (!store.start(task.id, workerId)) {
-      logger?.write('ownership_lost_before_start', { workerId, taskId: task.id });
-      continue;
-    }
     const className = String(task.payload?.providerClass ?? task.payload?.taskClass ?? 'default');
-    const release = await limiter.acquire(className);
+    let release;
     let heartbeat;
     try {
+      // A claimed task can wait behind a stricter provider/class limiter. Keep the
+      // ownership lease alive while queued for that slot so another worker cannot
+      // reclaim the task and create duplicate execution.
+      heartbeat = setInterval(() => {
+        const owned = store.heartbeat(task.id, workerId, leaseMs);
+        if (!owned) logger?.write('heartbeat_ownership_lost', { workerId, taskId: task.id, className });
+      }, Math.max(25, Math.floor(leaseMs / 3)));
+      heartbeat.unref?.();
+
+      release = await limiter.acquire(className);
+      if (!store.start(task.id, workerId)) {
+        logger?.write('ownership_lost_before_start', { workerId, taskId: task.id, className });
+        continue;
+      }
       logger?.write('task_start', { workerId, taskId: task.id, kind: task.kind, className });
-      heartbeat = setInterval(() => store.heartbeat(task.id, workerId, leaseMs), Math.max(100, Math.floor(leaseMs / 3)));
       const result = await execute(task, { timeoutMs });
+      if (!store.heartbeat(task.id, workerId, leaseMs)) throw new Error('lost task ownership before evidence commit');
       store.addEvidence(task.id, 'bounded-task-result', result, { workerId, kind: task.kind, className });
       if (!store.markVerifying(task.id, workerId, result)) throw new Error('lost task ownership before verification');
       if (!store.verifyComplete(task.id)) throw new Error('evidence gate rejected completion');
@@ -181,7 +191,7 @@ export async function runWorkerLoop({
       logger?.write('task_failed', { workerId, taskId: task.id, className, failedTransition, error: String(error?.message ?? error) });
     } finally {
       clearInterval(heartbeat);
-      release();
+      release?.();
     }
   }
   return { workerId, completed, failed };
