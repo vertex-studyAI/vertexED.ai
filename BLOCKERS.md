@@ -1,54 +1,59 @@
 # BLOCKERS
 
-As of: 2026-08-12 20:12 IST
+As of: 2026-08-12 20:40 IST
 
-Only genuine blockers belong here.
+Only blockers that still prevent a stronger evidence claim are listed.
 
-## P0 — Canonical repository access
+## P0 — VertexED exact production revision / release proof
 
-### FinanceMeta target mutation
-- **Failure:** current GitHub App installation does not expose the canonical FinanceMeta target repositories for write operations.
-- **Evidence:** installation enumeration exposes only the `vertex-studyAI` organization and three repositories.
-- **Impact:** merged control-repo authorization recovery cannot yet be applied to the real target; live Supabase denial-path verification cannot be truthfully claimed.
-- **Resolution:** install/authorize the GitHub integration on the canonical FinanceMeta repository, then apply the additive recovery on a fresh branch and test the actual backend.
+- **Observed:** public product and live Supabase traffic exist, but latest source lineage is not proven to be the exact production revision served.
+- **Evidence gap:** the repository exposes a revision-bearing `/api/health` implementation, but the execution sandbox cannot resolve the public domain for a direct health probe. Latest-main Vercel checks currently return build-rate-limit failures on both linked projects.
+- **Resolution:** restore deployment capacity, deploy one intended canonical target, query `/api/health?readiness=true`, compare returned revision to intended SHA, then run authenticated golden-journey flows.
 
-### Bu1LD target mutation
-- **Failure:** canonical Bu1LD target is not available to the current GitHub installation.
-- **Impact:** truth-first claims/content recovery cannot be applied or built on the real site.
-- **Resolution:** authorize target repository access, apply the bounded recovery package, then run target-native build/accessibility/deployment checks.
+## P0 — VertexED auth/database maintenance warnings
 
-## P0 — VertexED production proof
+- **Observed:** Supabase security advisor warns that leaked-password protection is disabled and that the current Postgres build has security patches available.
+- **What was verified:** all 26 public tables have RLS; 31 policies were inspected; no public policy uses user-editable metadata or deprecated `auth.role()`; owned UPDATE paths have ownership `USING` + `WITH CHECK`; sensitive waitlist tables deny direct client access.
+- **Resolution:** enable leaked-password protection; perform planned Supabase database upgrade; rerun security advisor and regression/golden-journey tests.
 
-- **Failure:** source integration and CI do not establish that the exact latest SHA is what production serves or that authenticated owner-controlled flows succeed end-to-end.
-- **Evidence:** build revision stamping and account isolation are integrated; previous PR production smoke was conditionally skipped in some runs.
-- **Resolution:** verify served revision, then execute disposable-user signup/login/mock/review/logout/account-switch tests against production with backend authorization checks.
+## P0 — FinanceMeta canonical target access
 
-## P0 — Percy real-host qualification
+- **Observed:** current GitHub installation exposes only three `vertex-studyAI` repositories and connected Supabase exposes only the VertexED project.
+- **Impact:** FinanceMeta recovery overlay and truth-first content scripts cannot be applied to the real repo/live DB from this session.
+- **Resolution:** authorize the canonical FinanceMeta GitHub repository and Supabase project; apply exact-SHA recovery on an isolated branch; run target-native CI and real authorization denial-path tests.
 
-- **Failure:** durable runtime and state doctor are repository-tested but not qualified on the actual long-running Mac/provider stack.
-- **Evidence:** CI #929 and #932 cover bounded runtime/state integrity; no actual-Mac crash/restart/soak evidence is currently connected.
-- **Resolution:** run queued/in-flight crash recovery, lease expiry, stale-owner, provider timeout, duplicate side-effect and multi-worker resource tests on the real host.
+## P0 — Bu1LD canonical target access
 
-## P1 — Research mechanism isolation
+- **Observed:** Bu1LD canonical target is not exposed by current GitHub installation.
+- **Impact:** integrated proof-density/people/content recovery scripts remain control-repo artifacts only.
+- **Resolution:** authorize the canonical repository; apply exact-SHA recovery on isolated branch; run build, accessibility, hydration/navigation and public-claims verification.
 
-### T2424-0025
-- **Failure:** robust estimators also outperform the mean in the 0% contamination control.
-- **Impact:** current result supports generic robustness/smoothing, not a uniquely non-Gaussian-memory advantage.
-- **Resolution:** add matched robust Gaussian/reference controls and mechanism-specific ablations before paper promotion.
+## P0 — Percy production qualification
 
-### T2424-0050 Darcy
-- **Failure:** current evidence is a bounded synthetic screen, not a learned neural operator or real porous-media benchmark.
-- **Resolution:** train matched-budget learned baselines and evaluate on a frozen operator-learning dataset with held-out regimes.
+- **Observed:** durable orchestration baseline and state doctor are repository-tested.
+- **Missing evidence:** real Mac crash/restart while tasks are queued/in-flight; provider adapters/failure modes; lease expiry under real concurrency; resource contention; long soak; launch-service integration.
+- **Resolution:** execute a retained-evidence real-host failure matrix with 1–4 workers and actual provider calls.
 
-### Olympus/Hercules
-- **Failure:** no same-budget Transformer vs proposed architecture vs ablation experiment has crossed O1/O2 evidence gates.
-- **Resolution:** freeze dataset/tokenizer/parameter/optimizer/training budget and compare loss, convergence, memory, throughput, downstream score and instability.
+## P1 — Olympus/Hercules learned architecture gate
 
-## P1 — External research validation
+- **Observed:** naming/roadmap rationalization is evidence-backed at O0 only; no model name is treated as a trained scale claim.
+- **Missing evidence:** same-budget learned baseline comparison.
+- **Resolution:** freeze dataset, tokenizer, parameter budget, optimizer, training budget and evaluation suite; run Transformer vs proposed architecture vs ablation; record loss, convergence, memory, throughput, downstream score, instability and cost.
 
-- **Failure:** fresh local Research Atlas reproduction is not independent replication, peer review, submission or acceptance.
-- **Resolution:** choose 1–3 strongest studies, regenerate canonical result tables, run independent reproduction and prepare venue-appropriate submissions.
+## P1 — Scientific external/generalization gates
 
-## Capacity note
+- **T2424-0025:** 0% control also favors robust estimators; mechanism not isolated.
+- **T2424-0050:** synthetic screen is not a learned neural operator.
+- **NeuroCAD:** controlled language/compiler benchmark is not arbitrary NLP-to-CAD.
+- **T2424-0027:** injected-coordinate synthetic audit is not a real multilingual representation result.
+- **T2424-0024:** calibration fixture is not real-model trustworthiness evidence.
+- **T2424-0040:** prerequisite-ordering mechanics are not learner benefit.
+- **T2424-1768:** caller-supplied contracts are not formal verification or MoE safety.
+- **Research Atlas:** local reruns are not independent replication or peer review.
+- **Resolution:** promote only after project-specific frozen external/real-model baselines and independent reproduction where appropriate.
 
-Earlier Vercel bot output reported the free-plan deployment-per-day limit on one linked project after >100 deployments. This is a deployment-capacity constraint, not a source-code failure; avoid unnecessary preview churn.
+## P2 — Deployment capacity / preview noise
+
+- **Observed:** latest-main status checks on both linked Vercel projects report `upgradeToPro=build-rate-limit`.
+- **Impact:** preview/deployment statuses cannot currently certify the newest source lineage.
+- **Resolution:** wait for/reset quota or use the intended authorized deployment capacity; avoid wasteful preview-triggering docs-only branches.

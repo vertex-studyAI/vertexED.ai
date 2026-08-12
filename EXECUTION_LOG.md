@@ -1,31 +1,42 @@
 # EXECUTION_LOG
 
-As of: 2026-08-12 20:12 IST
+As of: 2026-08-12 20:40 IST
 
-| Order | Action | Result | Evidence / consequence |
+| Order | Action | Result / evidence | Consequence |
 |---|---|---|---|
-| 1 | Loaded evidence-first execution brief | adopted inspect→execute→test→verify→ship standard | portfolio claims remain evidence-gated |
-| 2 | Enumerated connected GitHub surface | only 3 repositories exposed by the active installation | FinanceMeta/Bu1LD target mutation remains blocked by access, not by planning |
-| 3 | Re-read current VertexED integration history | confirmed main through Percy runtime integration `04209aaf...` | avoided duplicating already-merged work |
-| 4 | Audited Percy state-doctor PR #276 | exact head `aa8d46a...`, 3-file scope, CI #932 success, mergeable | safe current improvement identified |
-| 5 | Promoted and squash-merged PR #276 | new main commit `8272b8cba0dab6e9a07ee6aa4f927ad9374de534` | stale/corrupt durable snapshots now fail closed before runtime claims |
-| 6 | Closed stale VertexED timed-answer PR #268 | exact fix already present via merged #269 | reduced duplicate CI/deploy noise |
-| 7 | Closed obsolete NeuroCAD PRs #258 and #236 | canonical current-main integration already exists via #266 / `c0a2e546...` | one NeuroCAD lineage remains authoritative |
-| 8 | Closed obsolete FinanceMeta recovery PR #254 | current recovery overlay already merged through #273 / `ceedf60b...` | preserved live-target blocker separately |
-| 9 | Closed duplicate execution-control PR #272 | #270 was the later evidence snapshot | prevented conflicting top-level control files |
-| 10 | Inspected #270 changed-file scope | exactly `MASTER_STATUS.md`, `EXECUTION_LOG.md`, `BLOCKERS.md`, `RELEASE_QUEUE.md`, `RESEARCH_STATUS.md` | chose clean rebuild instead of stale conflict merge |
-| 11 | Created current-main control branch | `agent/execution-control-current-main-20260812-v2` from `8272b8cb...` | current control plane can be integrated without replaying stale history |
-| 12 | Materialized refreshed control artifacts | updated status, blockers, release queue and research ledger to include this execution pass | next step is exact-head CI and merge |
+| 1 | Re-entered portfolio under inspect→execute→test→verify→ship standard | source brief and existing evidence reviewed | avoided treating plans/names as progress |
+| 2 | Enumerated connected GitHub installation | only 3 `vertex-studyAI` repositories exposed | FinanceMeta/Bu1LD canonical target mutation isolated as access blocker |
+| 3 | Audited Percy state-doctor PR #276 | exact head CI #932 success, isolated 3-file scope | merged state doctor as `8272b8cb...` |
+| 4 | Cleaned duplicate/stale PR lineages | timed-answer, NeuroCAD, FinanceMeta recovery and duplicate control-doc PRs closed with provenance | reduced misleading CI/review noise |
+| 5 | Rebuilt five evidence-control ledgers on then-current main | exact-head CI #946 success | merged canonical control plane as `dd871c08...` |
+| 6 | Integrated T2424-0029 | CI #830 success; isolated analytic PDE package | merged as `5c77e7cd...` |
+| 7 | Integrated T2424-0024 Trust Under Uncertainty | CI #827 success; calibration/ablation package isolated | merged as `fc3cd12f...` |
+| 8 | Integrated T2424-0026 Counterfactual Defect Worlds | CI #828 success | merged as `f10bac0a...` |
+| 9 | Recovered T2424-0028 onto newer main | identical project/test blobs; fresh CI #949 success | merged as `a22b98db...`; stale #234 closed |
+| 10 | Recovered T2424-0027 onto newer main | retained evidence/verifier; fresh CI #950 success | merged as `03eea7ac...`; stale #242 closed |
+| 11 | Integrated truth-first Bu1LD + FinanceMeta target recovery package | CI #908 success; exact-SHA fail-closed scripts | merged as `38c5a244...`; real targets remain untouched/inaccessible |
+| 12 | Integrated Research Atlas V4 rerun record/manifest | CI #907 success | merged as `d15cb3bf...`; local reproducibility recorded without publication escalation |
+| 13 | Integrated T2424-1768 self-verifying MoE screen | CI #957 success; isolated 7-file package | merged as `ec056bbb...` |
+| 14 | Integrated T2424-0040 FinanceMeta Learning Graph | CI #858 success; isolated evidence package | merged as `6b087eb...` |
+| 15 | Detected concurrent integrations | T2424-0054 planner and T2424-0035 detector were already merged when re-read | preserved concurrent work; did not replay/claim those merges |
+| 16 | Retired stale governance bundles #257/#260/#255 | superseded by narrower merged artifacts/current control plane | active PR queue reduced to zero |
+| 17 | Inspected live Supabase project list | one ACTIVE_HEALTHY VertexED project; no FinanceMeta project | FinanceMeta live denial tests remain unavailable; VertexED live audit became possible |
+| 18 | Ran Supabase security advisor | warnings: leaked-password protection disabled; Postgres security patches available | production-hardening actions isolated without mutating DB |
+| 19 | Ran Supabase performance advisor | only 2 unused-index INFO notices | no blind index deletion performed |
+| 20 | Inspected recent auth/API logs read-only | successful production-domain auth, profile, study-artifact, waitlist-throttle and testimonial traffic observed | verified live backend wiring at request level |
+| 21 | Ran RLS/policy SQL audit read-only | 26 public tables, all with RLS; 31 policies; no user-metadata/auth.role policy risks; public views use security-invoker; SECURITY DEFINER functions not PUBLIC-executable | materially strengthened live authorization evidence |
+| 22 | Audited owned UPDATE and sensitive waitlist paths | profile/artifact UPDATE policies have USING+WITH CHECK ownership; waitlist tables deny direct anon/authenticated access; published testimonials read-only | no obvious BOLA/privilege-column path found in inspected surfaces |
+| 23 | Checked latest-main Vercel statuses | both linked Vercel checks fail with `upgradeToPro=build-rate-limit` | classified as capacity/deployment evidence gap, not source-test failure |
+| 24 | Attempted direct `/api/health?readiness=true` probe | sandbox DNS could not resolve `www.vertexed.app` | exact served revision remains unverified |
+| 25 | Verified active PR queue | 0 open PRs after integrations/cleanup | repository review queue is clean |
+| 26 | Began final control-ledger refresh from latest observed main `89b6ea8...` | this branch | records live-backend evidence and all later integrations missed by earlier `dd871c08...` snapshot |
 
 ## Safety / hygiene
 
 - No force-push.
-- No production database mutation.
-- No blind merge of conflict-stale PR #270.
-- No repeated Vercel preview spam intentionally triggered while rebuilding the control plane.
-- Redundant PRs were closed with explicit supersession notes rather than left to appear active.
-- Negative research controls remain visible.
-
-## Environment note
-
-A local direct `git` network probe from the execution sandbox could not resolve `github.com`; remote GitHub connector evidence and GitHub Actions are therefore the canonical executable evidence for this pass.
+- No destructive production database mutation.
+- No blind stale-branch merges; conflicted research packages were rebuilt from identical blobs onto newer main and re-CIed.
+- No failing tests deleted to create green status.
+- Vercel quota failures were not relabeled as successful deploys.
+- Negative controls and synthetic claim boundaries remain visible.
+- Concurrent external integrations were detected and preserved rather than overwritten or misattributed.
