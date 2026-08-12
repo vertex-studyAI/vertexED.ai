@@ -1,0 +1,10 @@
+{
+  "source":"GitHub Actions run 31616573215 job 94180746280 stdout snapshot",
+  "protocol":{"sampleCount":81,"expertCount":3,"router":"uniform-fixed-scores","acceptedOutputRange":[-0.6,1.1],"injectedViolation":"candidate-c adds +6 when x > 0.2 in the corrupted condition"},
+  "corrupted":{"verifiedMeanAbsoluteError":0.012666076479255897,"unverifiedMeanAbsoluteError":0.8025909492548081,"rejectedExpertRate":0.13168724279835392,"exhaustedRate":0},
+  "clean":{"verifiedMeanAbsoluteError":0.012578733804767315,"unverifiedMeanAbsoluteError":0.012578733804767315,"rejectedExpertRate":0,"exhaustedRate":0},
+  "cleanDelta":0,
+  "gates":{"catchesInjectedViolation":true,"improvesCorruptedControl":true,"preservesCleanControl":true,"neverExhaustsFixture":true},
+  "verdict":"PASS_CONTROLLED_SELF_VERIFICATION_MECHANICS",
+  "focusedTests":{"passed":7,"failed":0}
+}
