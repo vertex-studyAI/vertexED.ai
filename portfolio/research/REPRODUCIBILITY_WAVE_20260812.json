@@ -1,0 +1,48 @@
+{
+  "wave": "2026-08-12",
+  "audited_monorepo_commit": "0d2a14e559b0caa9b5b1cbeef0995013594ecf15",
+  "branch": "research/repro-wave-20260812",
+  "atlas_source_archive_sha256": "076f12750d6a8e6c298c17815224a79463bcad149d6cf1283900d98c6e394a2c",
+  "environment": {
+    "python": "3.13.5",
+    "platform": "Linux x86_64 CPU",
+    "numpy": "2.3.5",
+    "pandas": "2.2.3",
+    "scipy": "1.17.0",
+    "scikit_learn": "1.8.0",
+    "torch": "2.10.0+cpu",
+    "matplotlib": "3.10.8"
+  },
+  "tests": {
+    "atlas_full": "39 passed",
+    "selected_projects": "13 passed",
+    "memory_spectrum_transfer_post_documentation_fix": "2 passed"
+  },
+  "fresh_runs": {
+    "apen": {"runtime_seconds": 10.91, "status": "pass", "protocol_changed": false},
+    "apen_salience_dropout_extension": {"runtime_seconds": 15.20, "status": "pass", "protocol_changed": false},
+    "eigen_jepa": {"runtime_seconds": 3.43, "status": "pass", "protocol_changed": false},
+    "npms": {"runtime_seconds": 4.94, "status": "pass", "protocol_changed": false},
+    "mixed_shift_factorizer": {"runtime_seconds": 12.87, "status": "pass", "protocol_changed": false},
+    "probabilistic_dimensional_compiler": {"runtime_seconds": 3.82, "status": "pass", "protocol_changed": false},
+    "memory_spectrum_transfer": {"runtime_seconds": 14.58, "status": "pass", "protocol_changed": false}
+  },
+  "repo_evidence_verified_not_freshly_recomputed_locally": [
+    "LAM-JEPA frozen five-seed ARC validation and current-head GitHub Actions artifact",
+    "T2424-0025 robust-readout 50-seed contamination ablation",
+    "T2424-0037 NeuroCAD controlled benchmark source/protocol"
+  ],
+  "infrastructure_interruptions": [
+    "python run_all.py --stage v4 reached the execution-window limit while entering Pareto Counterexample Forge; not classified as scientific failure"
+  ],
+  "documentation_bugs": [
+    {
+      "project": "memory_spectrum_transfer",
+      "old_readme_values": "95.8% vs 75.0%",
+      "retained_and_fresh_metric_values": "87.5% vs 66.7%",
+      "experiment_invalidated": false,
+      "fix_type": "documentation_only"
+    }
+  ],
+  "promotion_boundary": "Local reproduction does not imply independent replication, peer review, publication acceptance or real-world superiority."
+}
