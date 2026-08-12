@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "project_id": "T2424-0025",
+  "project_name": "Robust readout / non-Gaussian-memory precursor screen",
+  "source_commit": "0d2a14e559b0caa9b5b1cbeef0995013594ecf15",
+  "reproduced_at_utc": "2026-08-12T16:16:04Z",
+  "hypothesis": "Robust weighted readouts reduce aggregation MAE under heavy-tailed contamination; a mechanism-specific non-Gaussian claim additionally requires an advantage not explained by the clean Gaussian control.",
+  "task": {
+    "type": "synthetic deterministic attention-style aggregation",
+    "anchors": 24,
+    "replicas_per_anchor": 7,
+    "metric": "mean absolute error",
+    "direction": "lower is better"
+  },
+  "methods": {
+    "simple_baseline": "weighted arithmetic mean",
+    "proposed_bounded_method": "weighted median",
+    "additional_references": ["10% weighted trimmed mean", "Huber readout delta=0.15"],
+    "negative_control": "0% Cauchy contamination"
+  },
+  "seed_policy": {
+    "screen_seed_count": 30,
+    "ablation_seed_count_per_condition": 50,
+    "selection": "all deterministic seeds; no best-seed selection"
+  },
+  "ablation": {
+    "cauchy_contamination_levels": [0.0, 0.05, 0.10, 0.18, 0.25, 0.35]
+  },
+  "environment": {
+    "node": "v22.16.0",
+    "os": "Linux 6.18.35 x86_64",
+    "visible_logical_cpus": 5,
+    "accelerator_required": false,
+    "external_api_required": false
+  },
+  "commands": [
+    "node experiment/run.mjs",
+    "node experiment/ablation.mjs"
+  ],
+  "runtime_seconds": {
+    "screen_wall": 0.15,
+    "ablation_wall": 0.91
+  },
+  "reproduction_result": "matched checked-in reference to machine precision",
+  "scientific_result": "robust readouts help on this bounded task, but the 0% contamination control shows the current experiment does not isolate a uniquely non-Gaussian-memory mechanism",
+  "significance_claim": null,
+  "limitations": [
+    "synthetic aggregation, not a learned Transformer",
+    "hand-specified noise model and deterministic RBF attention",
+    "robust readouts improve even in the Gaussian control",
+    "no capacity-matched learned Gaussian-memory comparator",
+    "heavy-tailed arithmetic-mean outcomes make mean/SD summaries unstable"
+  ]
+}
