@@ -1,0 +1,19 @@
+{
+  "project":"T2424-1768",
+  "scientific_scope":"deterministic synthetic self-verifying mixture mechanics",
+  "protocol_base_commit":"0d2a14e559b0caa9b5b1cbeef0995013594ecf15",
+  "execution_commit":"db9f470ec68f74a95c6e586d88b27927d734dc44",
+  "github_actions_run_id":31616573215,
+  "job_id":94180746280,
+  "environment":{"os":"Ubuntu 24.04.4","arch":"x86_64","node":"v22.23.1"},
+  "task":{"sample_count":81,"expert_count":3,"router":"uniform-fixed-scores","accepted_output_range":[-0.6,1.1],"injected_violation":"candidate-c adds +6 when x > 0.2"},
+  "seed_policy":{"deterministic_fixture":true,"seed_sweep":false},
+  "baseline":"unverified mixture",
+  "method":"contract-filtered mixture with fail-closed quorum",
+  "metrics":{"corrupted_verified_mae":0.012666076479255897,"corrupted_unverified_mae":0.8025909492548081,"corrupted_rejected_expert_rate":0.13168724279835392,"corrupted_exhausted_rate":0,"clean_verified_mae":0.012578733804767315,"clean_unverified_mae":0.012578733804767315,"clean_rejected_expert_rate":0,"clean_exhausted_rate":0,"clean_delta":0},
+  "verdict":"PASS_CONTROLLED_SELF_VERIFICATION_MECHANICS",
+  "tests":{"passed":7,"failed":0},
+  "real_scientific_ml_benefit_supported":false,
+  "formal_verification_claimed":false,
+  "artifact":{"name":"project2424-repro-wave-31616573215","zip_sha256":"79b64ebf31607d158e26ba8f74eb9970f9f22722bf7e8c2212dc4a2781860705","retention_expires":"2026-09-11T16:14:32Z"}
+}
