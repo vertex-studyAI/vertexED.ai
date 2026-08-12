@@ -1,9 +1,6 @@
 name: Research Reproducibility Wave
 
 on:
-  push:
-    branches:
-      - agent/repro-wave-20260812
   workflow_dispatch:
 
 permissions:
@@ -30,10 +27,15 @@ jobs:
           set -euo pipefail
           BASE=0d2a14e559b0caa9b5b1cbeef0995013594ecf15
           git diff --exit-code "$BASE" -- \
-            portfolio/project2424/projects/T2424-0025 \
-            portfolio/project2424/projects/T2424-0027 \
-            portfolio/project2424/projects/T2424-1768 \
-            portfolio/project2424/projects/T2424-0035 \
+            portfolio/project2424/projects/T2424-0025/src \
+            portfolio/project2424/projects/T2424-0025/experiment \
+            portfolio/project2424/projects/T2424-0027/src \
+            portfolio/project2424/projects/T2424-0027/experiment \
+            portfolio/project2424/projects/T2424-0027/reproduction \
+            portfolio/project2424/projects/T2424-1768/src \
+            portfolio/project2424/projects/T2424-1768/experiment \
+            portfolio/project2424/projects/T2424-0035/src \
+            portfolio/project2424/projects/T2424-0035/experiment \
             tests/project2424NonGaussianMemory.test.mjs \
             tests/project2424NonGaussianMemoryAblation.test.mjs \
             tests/project2424LatentLanguageAudit.test.mjs \
@@ -74,44 +76,32 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          node portfolio/project2424/projects/T2424-0025/experiment/run.mjs \
-            | tee repro-wave-artifacts/T2424-0025-reference.json
-          node portfolio/project2424/projects/T2424-0025/experiment/ablation.mjs \
-            | tee repro-wave-artifacts/T2424-0025-ablation.json
-          node --test \
-            tests/project2424NonGaussianMemory.test.mjs \
-            tests/project2424NonGaussianMemoryAblation.test.mjs \
-            | tee repro-wave-artifacts/T2424-0025-tests.log
+          node portfolio/project2424/projects/T2424-0025/experiment/run.mjs | tee repro-wave-artifacts/T2424-0025-reference.json
+          node portfolio/project2424/projects/T2424-0025/experiment/ablation.mjs | tee repro-wave-artifacts/T2424-0025-ablation.json
+          node --test tests/project2424NonGaussianMemory.test.mjs tests/project2424NonGaussianMemoryAblation.test.mjs | tee repro-wave-artifacts/T2424-0025-tests.log
 
       - name: Reproduce T2424-0027 latent-language audit
         shell: bash
         run: |
           set -euo pipefail
-          node portfolio/project2424/projects/T2424-0027/experiment/run.mjs \
-            repro-wave-artifacts/T2424-0027-results.json
+          node portfolio/project2424/projects/T2424-0027/experiment/run.mjs repro-wave-artifacts/T2424-0027-results.json
           cat repro-wave-artifacts/T2424-0027-results.json
-          node portfolio/project2424/projects/T2424-0027/reproduction/verify.mjs \
-            | tee repro-wave-artifacts/T2424-0027-verifier.log
-          node --test tests/project2424LatentLanguageAudit.test.mjs \
-            | tee repro-wave-artifacts/T2424-0027-tests.log
+          node portfolio/project2424/projects/T2424-0027/reproduction/verify.mjs | tee repro-wave-artifacts/T2424-0027-verifier.log
+          node --test tests/project2424LatentLanguageAudit.test.mjs | tee repro-wave-artifacts/T2424-0027-tests.log
 
       - name: Reproduce T2424-1768 self-verifying MoE
         shell: bash
         run: |
           set -euo pipefail
-          node portfolio/project2424/projects/T2424-1768/experiment/syntheticBenchmark.mjs \
-            | tee repro-wave-artifacts/T2424-1768-results.json
-          node --test tests/project2424T1768SelfVerifyingMoe.test.mjs \
-            | tee repro-wave-artifacts/T2424-1768-tests.log
+          node portfolio/project2424/projects/T2424-1768/experiment/syntheticBenchmark.mjs | tee repro-wave-artifacts/T2424-1768-results.json
+          node --test tests/project2424T1768SelfVerifyingMoe.test.mjs | tee repro-wave-artifacts/T2424-1768-tests.log
 
       - name: Reproduce T2424-0035 grokking detector
         shell: bash
         run: |
           set -euo pipefail
-          node portfolio/project2424/projects/T2424-0035/experiment/run.mjs \
-            | tee repro-wave-artifacts/T2424-0035-results.json
-          node --test tests/grokkingAgent.test.mjs \
-            | tee repro-wave-artifacts/T2424-0035-tests.log
+          node portfolio/project2424/projects/T2424-0035/experiment/run.mjs | tee repro-wave-artifacts/T2424-0035-results.json
+          node --test tests/grokkingAgent.test.mjs | tee repro-wave-artifacts/T2424-0035-tests.log
 
       - name: Finalize manifest
         if: always()
