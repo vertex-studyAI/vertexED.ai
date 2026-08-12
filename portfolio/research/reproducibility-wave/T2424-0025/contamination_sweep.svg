@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="410" viewBox="0 0 760 410" role="img" aria-labelledby="title desc">
+  <title id="title">T2424-0025 contamination sweep</title>
+  <desc id="desc">Mean absolute error versus Cauchy contamination rate for weighted mean, weighted median, ten percent weighted trimmed mean, and weighted Huber location over fifty seeds per condition.</desc>
+  <rect x="0" y="0" width="760" height="410" fill="white"/>
+  <text x="380" y="20" text-anchor="middle" font-family="sans-serif" font-size="16">T2424-0025: MAE vs Cauchy contamination (50 seeds/condition)</text>
+  <line x1="70" y1="330" x2="670" y2="330" stroke="black"/>
+  <line x1="70" y1="30" x2="70" y2="330" stroke="black"/>
+  <g font-family="sans-serif" font-size="11" fill="black">
+    <text x="70" y="348" text-anchor="middle">0%</text><text x="155.7" y="348" text-anchor="middle">5%</text><text x="241.4" y="348" text-anchor="middle">10%</text><text x="378.6" y="348" text-anchor="middle">18%</text><text x="498.6" y="348" text-anchor="middle">25%</text><text x="670" y="348" text-anchor="middle">35%</text>
+    <text x="55" y="334" text-anchor="end">0.0</text><text x="55" y="267" text-anchor="end">0.2</text><text x="55" y="200" text-anchor="end">0.4</text><text x="55" y="134" text-anchor="end">0.6</text><text x="55" y="67" text-anchor="end">0.8</text><text x="55" y="34" text-anchor="end">0.9</text>
+    <text x="370" y="374" text-anchor="middle">Cauchy contamination rate</text>
+    <text x="15" y="180" text-anchor="middle" transform="rotate(-90 15 180)">Mean absolute retrieval error</text>
+  </g>
+  <g fill="none" stroke="black" stroke-width="2">
+    <polyline points="70.0,321.8 155.7,281.7 241.4,222.9 378.6,213.5 498.6,177.7 670.0,41.5"/>
+    <polyline points="70.0,325.8 155.7,325.6 241.4,325.3 378.6,324.3 498.6,322.5 670.0,320.4" stroke-dasharray="8 4"/>
+    <polyline points="70.0,323.8 155.7,322.5 241.4,320.0 378.6,314.8 498.6,307.6 670.0,296.3" stroke-dasharray="3 3"/>
+    <polyline points="70.0,323.6 155.7,322.7 241.4,321.5 378.6,319.7 498.6,317.1 670.0,314.4" stroke-dasharray="12 3 2 3"/>
+  </g>
+  <g font-family="sans-serif" font-size="11" fill="black">
+    <line x1="90" y1="390" x2="120" y2="390" stroke="black" stroke-width="2"/><text x="125" y="394">weighted mean</text>
+    <line x1="225" y1="390" x2="255" y2="390" stroke="black" stroke-width="2" stroke-dasharray="8 4"/><text x="260" y="394">weighted median</text>
+    <line x1="365" y1="390" x2="395" y2="390" stroke="black" stroke-width="2" stroke-dasharray="3 3"/><text x="400" y="394">10% trimmed</text>
+    <line x1="505" y1="390" x2="535" y2="390" stroke="black" stroke-width="2" stroke-dasharray="12 3 2 3"/><text x="540" y="394">Huber</text>
+  </g>
+</svg>
