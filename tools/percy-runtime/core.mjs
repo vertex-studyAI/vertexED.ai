@@ -19,7 +19,7 @@ export class PercyStore {
     this.migrate();
   }
 
-  migrate() {
+  createSchema() {
     this.db.exec(`
       CREATE TABLE IF NOT EXISTS meta (key TEXT PRIMARY KEY, value TEXT NOT NULL);
       INSERT OR IGNORE INTO meta(key, value) VALUES ('paused', '0');
@@ -59,6 +59,43 @@ export class PercyStore {
         created_at INTEGER NOT NULL
       );
     `);
+  }
+
+  migrate() {
+    const existing = this.db.prepare("SELECT sql FROM sqlite_master WHERE type='table' AND name='tasks'").get()?.sql ?? '';
+    const legacy = existing.includes("'queued'") || existing.includes("'succeeded'");
+    if (!legacy) {
+      this.createSchema();
+      return;
+    }
+
+    this.db.exec('BEGIN IMMEDIATE');
+    try {
+      this.db.exec('DROP INDEX IF EXISTS idx_tasks_claim; ALTER TABLE tasks RENAME TO tasks_legacy_v1;');
+      this.createSchema();
+      this.db.exec(`
+        INSERT INTO tasks(
+          id,kind,payload,status,attempts,max_attempts,owner_id,lease_expires_at,heartbeat_at,
+          available_at,created_at,updated_at,result,error
+        )
+        SELECT
+          id,kind,payload,
+          CASE status
+            WHEN 'queued' THEN 'READY'
+            WHEN 'running' THEN 'STALE'
+            WHEN 'succeeded' THEN 'COMPLETE'
+            WHEN 'failed' THEN 'FAILED'
+            ELSE 'BLOCKED'
+          END,
+          attempts,max_attempts,NULL,NULL,NULL,available_at,created_at,updated_at,result,error
+        FROM tasks_legacy_v1;
+        DROP TABLE tasks_legacy_v1;
+      `);
+      this.db.exec('COMMIT');
+    } catch (error) {
+      try { this.db.exec('ROLLBACK'); } catch {}
+      throw error;
+    }
   }
 
   close() { this.db.close(); }
