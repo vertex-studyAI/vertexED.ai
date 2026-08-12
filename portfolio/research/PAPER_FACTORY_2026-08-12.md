@@ -1,211 +1,175 @@
-# Research Paper Factory — evidence audit
+# Research Paper Factory — evidence-gated slate
 
 **Evidence cutoff:** 12 August 2026  
-**Rule:** only connected evidence is counted; no publication/acceptance claims are made.
+**Rule:** preprint candidate != archival-submission-ready. Preserve negative results, and never populate a result table from recollection when the raw run cannot be regenerated.
 
-## Ranked candidates
+## Evidence threshold
 
-### 1. LAM-JEPA — strongest current manuscript candidate
+An executed flagship requires source, tests, raw evidence, aggregate statistics, manuscript, literature/novelty material, reviews, a claim-evidence matrix, and a machine-readable completion record. Existing reproduction records are useful evidence, but independent-machine reproduction, official third-party baselines, and external peer review remain separate gates.
 
-**Why ranked first:** real external ARC-Challenge integration; fixed train/validation protocol; matched-capacity supervised comparator; strong pretrained comparator path; five-seed validation; controls/ablations; retained adverse results; independent recomputation; explicit stop rule preventing confirmatory-test rescue.
+## Consolidation decisions
 
-**Scientific result:** negative/inconclusive for the current ARC superiority/mechanism hypothesis. This is still manuscript-worthy as a careful negative-result/reproducibility report if provenance and related-work requirements are completed.
+Do not manufacture a paper count by splitting one scientific story across aliases or extensions.
 
-**Current blocker:** publication provenance/license/authorship package remains owner-controlled and unresolved. The locked ARC test must not be used to rescue the failed hypothesis.
+### #1 — Latent Law Compiler + Probabilistic Dimensional Compiler
 
-### 2. T2424-0025 — Non-Gaussian Memory mechanism screen
+**Decision: merge into one manuscript.**
 
-**Why ranked second:** deterministic implementation, 30-seed synthetic benchmark, explicit clean Gaussian control, predeclared gate, and a strong reproducible heavy-tail robustness effect.
+Scientific story:
 
-**Claim boundary:** evidence supports only a robust weighted-median memory aggregation screen under synthetic heavy-tailed contamination. It does not support a full Transformer, learned-memory superiority, long-context language modeling, or real-world robustness.
+1. deterministic dimensional compilation can help symbolic recovery when metadata is correct;
+2. hard dimensional constraints become brittle when metadata is wrong;
+3. probabilistic dimensional metadata is the principled extension for that failure mode.
 
-**Before submission:** learned sequence task; no-memory/learned-memory/Gaussian-reference/proposed baselines; more readout baselines (Huber/trimmed/other robust estimators); multiple contamination families; held-out splits; compute/parameter accounting; ablations and retained raw outputs.
+Recovered controlled evidence is strong enough for a preprint candidate, but the archival claim remains bounded. Missing gates include community symbolic-regression benchmarks, uncertain variable units, official comparable baselines, independent clean-machine reproduction, and a final novelty/literature audit.
 
-### 3. T2424-0037 — NLP-to-CAD / NeuroCAD
+### #2 — NPMS + Memory Spectrum Transfer
 
-**Why ranked third:** working controlled-language compiler, explicit structured intermediate representation, fail-closed validation, OpenSCAD/SVG output, regression suite, browser demo, and a deterministic 20-prompt benchmark.
+**Decision: merge the transfer extension into the NPMS manuscript.**
 
-**Claim boundary:** currently a demo, not comparative research. No evidence yet establishes that the structured IR improves over direct code generation.
+The strongest recovered evidence is a functional memory diagnostic on trained recurrent models. Existing reproduction material reports that spectra can distinguish trained delay regimes and remain stable under coordinate rotations, while explicitly limiting the claim to task-aligned functional accessibility.
 
-**Before submission:** implement direct-code and IR+CAD-kernel baselines, add multiple part families, held-out compositional prompts, real CAD-kernel geometry validation, raw-output retention, and comparative statistics.
+Missing gates: transformer/state-space models, natural long-context tasks, modern memory baselines, and an intervention-grounded link between the spectrum and causal memory use.
 
----
+### #3 — Minimal Counterexample Forge + Pareto Counterexample Forge
 
-# Strongest manuscript skeleton — LAM-JEPA negative-result report
+**Decision: one manuscript, not two.**
 
-## Working title
+The negative result is part of the contribution: scalar counterexample search improves failure yield but can collapse diversity; the Pareto extension exposes a yield-coverage frontier instead of hiding the tradeoff.
 
-**A Reproducible Evaluation of LAM-JEPA on ARC-Challenge: Matched-Capacity Controls, Mechanism Ablations, and a Negative Superiority Result**
+Missing gates: real model/system failures, stronger adversarial/active-testing controls, external benchmark reproduction, and independent replication.
 
-The title is intentionally descriptive and does not claim a positive result.
+## Strongest manuscript skeleton
 
-## Abstract — draft
+# Latent Law Compilation under Uncertain Dimensional Metadata
 
-We evaluate LAM-JEPA under a preregistered ARC-Challenge train/validation protocol with retained raw evidence, capacity-matched supervised comparison, a pinned pretrained comparator path, five-seed validation, and mechanism ablations. Under the frozen validation budget, LAM-JEPA does not outperform the matched-capacity supervised baseline. Ablations likewise do not provide evidence that the planner or target mechanism improves ARC validation performance. A bounded train-only repair restores a predeclared trainability criterion for a quantized latent path, but subsequent repaired validation remains negative or inconclusive for the declared generalization and quantization-benefit gates. We report these adverse results without using the locked confirmatory test to rescue the failed hypothesis. The contribution is therefore a reproducible evaluation and failure analysis rather than a superiority claim. **[Related-work positioning and citation-complete novelty statement still required.]**
+### Abstract
+
+Dimensional information can sharply constrain symbolic model search, but hard constraints become brittle when metadata is incomplete or incorrect. We study a two-stage research program in which a latent-law compiler first restricts candidate structure using dimensional information and a probabilistic extension replaces hard dimensional assumptions with uncertainty over admissible signatures. Controlled experiments in the recovered research package support the narrower claim that dimensional structure can improve symbolic recovery while probabilistic treatment can reduce failures caused by incorrect hard metadata. The present evidence is intentionally limited to the shipped controlled setting; community symbolic-regression benchmarks, uncertain variable units, official competitor reproductions and independent replication remain required before broader performance claims.
 
 ## 1. Introduction
 
-### Motivation
+Central question:
 
-Architectural proposals often accumulate claims faster than matched baselines, frozen evaluation protocols, and adverse-result retention. LAM-JEPA provides a useful case study for evaluating an architecture under explicit evidence gates.
+**How should symbolic model discovery use scientific dimensional knowledge when that knowledge itself may be uncertain?**
 
-### Research questions
-
-1. Does LAM-JEPA outperform a capacity-matched supervised baseline on frozen ARC validation?
-2. Do the planner and target mechanisms show positive contribution under frozen ablations?
-3. Does the trainability repair for the quantized latent path translate into the predeclared validation benefits?
-4. What can be concluded when trainability improves but generalization gates remain unsupported?
-
-### Contributions
-
-- reproducible ARC-Challenge train/validation integration with preserved eligibility/exclusion evidence;
-- matched gradient-active parameter comparison;
-- multi-seed mechanism controls/ablations;
-- a bounded trainability repair evaluated under a separate frozen protocol;
-- explicit preservation and interpretation of negative/inconclusive outcomes.
-
-Do not add a novelty claim until related work is audited.
+Do not frame the contribution as a universal symbolic-regression system.
 
 ## 2. Related Work
 
-**Status: incomplete.** Add verified references for:
+Regenerate and independently verify the bibliography before submission. Cover:
 
-- JEPA-family representation learning;
-- ARC/AI2 Reasoning Challenge benchmark methodology;
-- latent/quantized representation learning;
-- EMA/target-network methods where relevant;
-- matched-capacity model comparison and negative-result reporting.
-
-No citations should be inserted from memory without source verification.
+- dimensional constraints in symbolic regression;
+- sparse law discovery;
+- minimum-description-length/model-selection approaches;
+- uncertainty-aware scientific inference.
 
 ## 3. Method
 
-Describe the actual LAM-JEPA implementation only from canonical source. Separate:
+### 3.1 Deterministic Latent Law Compiler
 
-- encoder/predictive components;
-- planner mechanism;
-- target/EMA mechanism;
-- quantized latent path;
-- ARC-v5 stable EMA residual repair.
+Define candidate construction, dimensional pruning and model selection from canonical source.
 
-Include a parameter-accounting table distinguishing total from gradient-active parameters.
+### 3.2 Hard-metadata failure mode
+
+Show formally how incorrect hard metadata can remove the true law from the admissible candidate set.
+
+### 3.3 Probabilistic Dimensional Compiler
+
+Represent dimensional metadata as uncertainty over admissible signatures rather than one unquestioned label.
+
+### 3.4 Evidence contract
+
+State exactly what information, search budget, tuning budget and compute every baseline receives.
 
 ## 4. Experimental Setup
 
-### Data
+Document:
 
-ARC-Challenge external benchmark integration under the frozen eligibility rule.
-
-Observed eligible counts in the retained protocol:
-
-- train: 1,117 / 1,119;
-- validation: 295 / 299.
-
-The locked ARC test is not used for the failed superiority hypothesis.
-
-### Matched-capacity comparison
-
-- LAM-JEPA gradient-active parameters: 86,372;
-- matched supervised gradient-active parameters: 86,644;
-- ratio: 1.0031491687.
-
-### Frozen validation budget
-
-Five seeds, 20 epochs, batch size 32, learning rate 0.0003, one model step, all eligible train rows, and all eligible validation rows for the full-controls run.
-
-### Metrics and statistics
-
-Report mean accuracy and across-seed dispersion exactly as retained. For paired mechanism effects, report the existing bootstrap intervals and clearly describe the bootstrap procedure from source before submission.
+- task generator / dataset contract;
+- train/test construction;
+- candidate expression grammar;
+- metadata-corruption process;
+- seeds;
+- model-selection budget;
+- hardware and environment;
+- exact metrics;
+- baseline tuning policy.
 
 ## 5. Results
 
-### Capacity-matched result
+Populate **only from regenerated raw artifacts** in the canonical research package.
 
-- LAM-JEPA: 0.2549152542 ± 0.0129968064;
-- matched supervised: 0.2664406780 ± 0.0154600058;
-- paired LAM minus matched: -0.0115254237 ± 0.0140994131.
+| Method | Recovery metric | Prediction error | Failure under metadata corruption | Runtime |
+|---|---:|---:|---:|---:|
+| Unrestricted baseline | TBD from regenerated raw run | TBD | TBD | TBD |
+| Hard-dimensional compiler | TBD | TBD | TBD | TBD |
+| Probabilistic compiler | TBD | TBD | TBD | TBD |
 
-**Interpretation:** no superiority is supported.
-
-### Mechanism controls
-
-- full LAM-JEPA: 0.2549152542 ± 0.0129968064;
-- no planner: 0.2501694915 ± 0.0129968064;
-- no target: 0.2616949153 ± 0.0203954020;
-- deterministic shuffled-label control: 0.2630508475 ± 0.0145011862.
-
-Paired effects:
-
-- full minus no-planner: +0.0047457627, 95% bootstrap CI [0.0, 0.0142372881];
-- full minus no-target: -0.0067796610, 95% bootstrap CI [-0.0135593220, 0.0].
-
-**Interpretation:** the frozen criteria do not establish planner or target-mechanism benefit.
-
-### Pretrained comparator characterization
-
-A bounded development comparison records LAM-JEPA 0.15625 versus pinned DeBERTa 0.21875, paired difference -0.0625. Present this only as characterization evidence under the repository's existing limitation, not as a standalone final inferiority claim.
-
-### Repaired validation
-
-The v5 train-only repair satisfies its bounded trainability gate, but independently recomputed repaired validation remains `VALID_NEGATIVE_OR_INCONCLUSIVE_VALIDATION` for the declared generalization/quantization-benefit gates.
+Recovered reports contain controlled positive results, but those numbers are not promoted into this table until their raw rows are regenerated in the active submission package.
 
 ## 6. Ablations
 
-Document the frozen `no_planner` and `no_target` runs, shuffled-label control, and the trainability repair. Do not add post-hoc ablations to imply the original hypothesis passed.
+- perfect metadata;
+- gradually corrupted metadata;
+- uniform uncertainty;
+- calibrated uncertainty;
+- remove dimensional constraint entirely;
+- matched search/tuning budgets.
 
 ## 7. Limitations
 
-- current main scientific conclusion is specific to the frozen ARC line;
-- the superiority/mechanism hypothesis is unsupported;
-- test-set confirmation is intentionally not used for rescue;
-- pretrained comparator evidence is bounded characterization rather than a full final comparison;
-- publication provenance/license/authorship remains unresolved;
-- broader tasks and architectures may behave differently;
-- all architecture descriptions must be checked against canonical code before submission.
+Prominently retain:
+
+- controlled expression family;
+- incomplete real-world validation;
+- candidate-grammar dependence;
+- uncertain-variable-unit problem;
+- no state-of-the-art claim;
+- no independent replication yet.
 
 ## 8. Discussion
 
-Focus on the distinction between **trainability repair** and **validated generalization benefit**. A repair can restore optimization behavior without establishing the scientific mechanism claim. Discuss why retaining a negative result and stop rule reduces confirmation bias.
+The defensible interpretation is:
+
+> Scientific structure is useful when its reliability is represented explicitly; treating uncertain knowledge as an infallible hard constraint can be worse than not using it.
+
+It is **not**: “dimensional compilation solves symbolic regression.”
 
 ## 9. Conclusion
 
-LAM-JEPA has a reproducible external-benchmark pipeline, but the frozen ARC evidence does not support superiority over the matched-capacity baseline or the declared mechanism benefits. The current result is a disciplined negative/inconclusive evaluation rather than a successful architecture claim.
+One bounded mechanism contribution, one identified failure mode, one uncertainty-aware extension.
 
-## References
+## Appendix / reproducibility package
 
-**Not populated here. Source-verified citations required.**
+Include configs, exact environment, seeds, raw-result schema, experiment commands, checksums, negative results and the complete claim-evidence ledger.
 
-## Appendix
+## Submission gates for all three candidates
 
-Include exact environment, commit/revision identifiers, seeds, configs, eligibility records, commands, raw outputs, verifier commands, and hardware notes from retained evidence.
+Hold archival submission until all applicable gates pass:
 
----
+- [ ] canonical source repository resolved;
+- [ ] fresh clean-machine reproduction;
+- [ ] exact dependency/environment lock;
+- [ ] raw per-run artifacts;
+- [ ] fixed seeds/configs;
+- [ ] official or author-verified strong baselines;
+- [ ] matched information/tuning/compute;
+- [ ] external/community-standard data where required;
+- [ ] all ablations regenerated;
+- [ ] uncertainty intervals/effect sizes where relevant;
+- [ ] independent novelty/literature audit;
+- [ ] external technical/repro reviewer;
+- [ ] figures regenerated from raw data;
+- [ ] final claim-evidence reconciliation;
+- [ ] negative/boundary findings retained.
 
-# Reproducibility package audit
+## Portfolio decision
 
-| Requirement | LAM-JEPA | Non-Gaussian Memory | NLP-to-CAD |
-|---|---|---|---|
-| environment | present in repo, final manuscript snapshot still needed | Node runtime implicit; freeze exact version | Node/browser runtime; freeze exact version |
-| seeds | five-seed ARC validation recorded | 30 deterministic seeds | deterministic / no seed |
-| configs | frozen ARC protocols exist | parameters embedded in code | grammar/limits embedded in code |
-| commands | present across status/protocol artifacts | run/test command present | test/demo + benchmark commands present |
-| data access | external ARC integration exists; provenance instructions must be finalized | synthetic generator | prompt fixtures embedded |
-| evaluation script | present | present | present; comparative evaluator not yet present |
-| output table | retained status aggregates exist | benchmark output reproducible; retain machine-readable sweep output next | 20-prompt output should be retained in CI/artifacts next |
-| hardware notes | must be consolidated for paper package | missing/not material for cheap screen, still record | missing/not material for cheap demo, still record |
+Concentrate paper-factory effort on exactly these three consolidated lines:
 
-# Missing-evidence checklist before submission
+1. **Latent Law Compiler + PDC**
+2. **NPMS + Memory Spectrum Transfer**
+3. **MCF + Pareto Counterexample Forge**
 
-1. Resolve LAM-JEPA licensing, authorship/citation metadata, and artifact provenance.
-2. Verify every architecture statement in the manuscript directly against canonical implementation.
-3. Build a citation-complete related-work section from source-verified references.
-4. Consolidate exact environment lockfiles, hardware notes, commands, seeds, configs, and raw-output locations into one reproduction README.
-5. Do not unlock the ARC confirmatory test for the failed hypothesis.
-6. For Non-Gaussian Memory, run a learned sequence-memory comparison with the required baselines before calling it a Transformer result.
-7. For NLP-to-CAD, run B0/B1/B2 comparative experiments on held-out compositional prompts and a real CAD kernel.
-
-# Venue class, not acceptance prediction
-
-- **LAM-JEPA:** technical report/preprint now; reproducibility, evaluation, or negative-results workshop class after provenance/citations are complete. A broader main-track claim would require a clearer contribution than unsupported superiority.
-- **Non-Gaussian Memory:** workshop/short-paper class only after learned-task baseline evidence; currently a mechanism note/demo.
-- **NLP-to-CAD:** HCI/CAD/ML workshop or demo/short-paper class after comparative experiments and CAD-kernel validation; currently a tested prototype.
+Other projects may remain valid research projects, but they do not replace this audited top-three slate unless new evidence changes the ranking.
