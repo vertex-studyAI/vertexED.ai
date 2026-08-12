@@ -27,6 +27,8 @@ def args():
     p.add_argument('--parallel',type=int,default=int(os.environ.get('PERCY_PARALLEL','4')))
     p.add_argument('--verify-parallel',type=int,default=int(os.environ.get('VERIFY_PARALLEL','2')))
     p.add_argument('--resume',type=Path)
+    p.add_argument('--manifest',type=Path,default=Path(os.environ.get('PERCY_MANIFEST') or MANIFEST))
+    p.add_argument('--source',type=Path,default=Path(os.environ.get('PERCY_SOURCE') or SOURCE))
     p.add_argument('--dry-run',action='store_true')
     p.add_argument('--allow-no-git',action='store_true')
     p.add_argument('--provider-json',default=os.environ.get('PERCY_PROVIDER_JSON'))
@@ -146,7 +148,9 @@ def blocked(run,phase_name,reason):
 
 async def main():
     cfg=args(); cfg.repo=Path(cfg.repo).resolve(); check_repo(cfg.repo,cfg.allow_no_git)
-    tasks=json.loads(MANIFEST.read_text())
+    cfg.manifest=cfg.manifest.resolve(); cfg.source=cfg.source.resolve()
+    if not cfg.manifest.is_file(): raise SystemExit(f'manifest not found: {cfg.manifest}')
+    tasks=json.loads(cfg.manifest.read_text())
     if len(tasks)!=128 or len({t['id'] for t in tasks})!=128: raise SystemExit('manifest must be 128 unique tasks')
     valid={'scout','builder','verify','final','deep','adversary','fix','verify2','meta','final2'}
     if any(t['phase'] not in valid for t in tasks): raise SystemExit('invalid phase')
@@ -156,7 +160,7 @@ async def main():
     else:
         run=cfg.repo/'.percy'/('128-wave-'+datetime.now().strftime('%Y%m%d-%H%M%S')); run.mkdir(parents=True)
         (run/'source').mkdir()
-        for p in SOURCE.glob('*'):
+        for p in cfg.source.glob('*') if cfg.source.is_dir() else []:
             if p.is_file():(run/'source'/p.name).write_bytes(p.read_bytes())
     events=Events(run/'events.jsonl'); prior=successes(run); reg=Registry(); deadline=time.monotonic()+cfg.seconds; start=time.monotonic()
     loop=asyncio.get_running_loop(); stop=asyncio.Event()
