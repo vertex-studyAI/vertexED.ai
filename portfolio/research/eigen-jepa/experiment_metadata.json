@@ -1,10 +1,45 @@
 {
   "schema_version": 1,
   "project": "Eigen-JEPA",
-  "source_commit_audited": "0d2a14e559b0caa9b5b1cbeef0995013594ecf15",
-  "status": "BLOCKED_CANONICAL_RUNNABLE_IMPLEMENTATION_NOT_LOCATED",
-  "result": null,
-  "required_baseline_classes": ["simple reference", "standard JEPA/representation baseline", "eigen/spectral mechanism ablation"],
-  "minimum_evidence": ["frozen task/splits", "paired seeds", "matched budget", "raw per-seed metrics", "mean", "sample SD", "n", "paired deltas", "failure analysis"],
-  "claim_boundary": "Portfolio identity only at the evidence level audited in this wave; no experimental performance result is reported."
+  "source_package": "BU1LD_Research_Atlas_Flagships_v4_FRESH_2026-08-12.zip",
+  "source_sha256": "076f12750d6a8e6c298c17815224a79463bcad149d6cf1283900d98c6e394a2c",
+  "status": "FRESHLY_REPRODUCED_BOUNDARY_NEGATIVE_COMPARISON",
+  "task": "next-block real-market covariance forecasting",
+  "dataset": "bundled Fama-French five-factor daily data",
+  "date_range": ["1963-07-01", "2022-08-31"],
+  "daily_rows": 14895,
+  "block_days": 20,
+  "context_blocks": 4,
+  "split_policy": "chronological",
+  "test_blocks": 111,
+  "methods": ["persistence", "raw_ridge", "log_ridge", "cholesky", "eigen_jepa"],
+  "primary_metric": "covariance matrix MSE",
+  "results": {
+    "raw_ridge_matrix_mse": 5.773438397336065e-9,
+    "log_ridge_matrix_mse": 5.789608912450863e-9,
+    "eigen_jepa_matrix_mse": 5.831822564700928e-9,
+    "cholesky_matrix_mse": 5.876248694054345e-9,
+    "persistence_matrix_mse": 7.770831532406814e-9,
+    "eigen_jepa_log_distance": 0.159501994,
+    "raw_ridge_log_distance": 0.1945980076,
+    "log_ridge_log_distance": 0.150605706
+  },
+  "paired_eigen_minus_raw": {
+    "mean": 5.838416736486398e-11,
+    "ci95": [-2.356468081610155e-10, 4.174433852224593e-10],
+    "n": 111,
+    "interpretation": "no superiority over raw ridge"
+  },
+  "environment": {
+    "python": "3.13.5",
+    "numpy": "2.3.5",
+    "pandas": "2.2.3",
+    "scipy": "1.17.0",
+    "scikit_learn": "1.8.0",
+    "torch": "2.10.0+cpu",
+    "matplotlib": "3.10.8",
+    "pytest": "9.0.2",
+    "device": "cpu"
+  },
+  "claim_boundary": "The spectral representation is viable on the frozen task but does not beat the strongest raw/log ridge controls on primary matrix MSE; no alpha, trading or publication novelty claim."
 }
