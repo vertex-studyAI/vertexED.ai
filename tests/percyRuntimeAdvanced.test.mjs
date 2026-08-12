@@ -48,7 +48,7 @@ test('online SQLite backup and restore preserve committed rows', async () => {
     const restoredDb = new DatabaseSync(restored, { readOnly: true });
     try { assert.equal(restoredDb.prepare('SELECT COUNT(*) AS n FROM t').get().n, 2); } finally { restoredDb.close(); }
     assert.equal(b.sha256, r.sha256);
-  } finally { try { db?.close(); } catch {} rmSync(dir, { recursive: true, force: true }); }
+  } finally { try { db?.close(); } catch (error) { void error; } rmSync(dir, { recursive: true, force: true }); }
 });
 
 test('ClassLimiter enforces per-class concurrency', async () => {
