@@ -76,9 +76,11 @@ node tools/percy-runtime/cli.mjs resume
 
 The database defaults to `.percy/percy.sqlite`; override with `--db` or `PERCY_DB`. Active work defaults to **2** and can be changed only within `1..4` using `PERCY_MAX_ACTIVE` or `--max-active`.
 
-## Persistence, crash recovery and shutdown
+## Persistence, migration, crash recovery and shutdown
 
 A claimed/running task has an owner and lease expiry. While the lease is active another worker cannot own it. Expired leases are recovered to `READY`; attempt count increases on the next claim. A stale owner cannot transition the task after ownership transfers.
+
+The runtime includes an additive legacy migration for the earlier `queued/running/succeeded/failed` schema. It preserves queued/completed/failed history, maps old in-flight `running` rows to `STALE` rather than assuming they are still owned after restart, and creates the new evidence/failure tables. The migration is covered by a dedicated regression test and SQLite integrity check.
 
 SIGINT/SIGTERM handling in `work-one` marks owned active work `STALE` before the process exits. Stale tasks can be explicitly requeued. Failures are preserved in a dedicated table rather than overwritten by later attempts.
 
@@ -107,9 +109,10 @@ The current regression matrix covers:
 - bounded retry exhaustion with failure preservation;
 - pause/resume;
 - graceful stale marking and requeue;
-- database integrity after reopen.
+- legacy database migration with history preservation;
+- database integrity after reopen/migration.
 
-A fresh isolated run on 12 August 2026 passed all 9 tests.
+A fresh isolated run on 12 August 2026 passed **10/10 tests**.
 
 ## Concurrency policy
 
