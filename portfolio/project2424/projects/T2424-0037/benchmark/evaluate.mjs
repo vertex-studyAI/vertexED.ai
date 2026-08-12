@@ -39,7 +39,7 @@ function geometryMatches(actual, expected) {
 }
 
 function safeOpenScad(source) {
-  return typeof source === "string" && source.length > 0 && !/(?:\bimport\b|\binclude\b|\buse\s*</u).test(source);
+  return typeof source === "string" && source.length > 0 && !/(?:\bimport\b|\binclude\b|\buse\s*<)/u.test(source);
 }
 
 function rate(numerator, denominator) {
