@@ -1,0 +1,22 @@
+# MASTER STATUS
+
+Evidence snapshot: 12 August 2026, refreshed from current connected repository state.
+
+| System | Evidence-backed state | Strongest current evidence | Blocker / boundary | Next action |
+|---|---|---|---|---|
+| VertexED account isolation | TESTED + INTEGRATED | account-scoped transient and timed mock-answer handoffs are on `main`; exact-head CI passed before integration | authenticated public golden journey still not independently run in this wave | run authenticated create → mock → review → reload smoke against the served revision |
+| VertexED build/deployment identity | TESTED + INTEGRATED | immutable build revision stamping is on `main`; both linked Vercel checks were observed green on the Percy-runtime main lineage | green provider checks alone do not prove every authenticated production workflow | verify served `/api/health` revision and authenticated golden journey |
+| Percy durable runtime | RUNNABLE / TESTED BOUNDED BASELINE | SQLite WAL authority, leases/heartbeats, stale-owner rejection, retries, evidence-gated completion, backup/restore, redacted logs and 1–4 worker pool are integrated | actual-Mac crash/restart, provider execution and long soak remain unverified | run live Mac crash/restart + provider-failure + multi-worker recovery suite |
+| Percy state doctor | TESTED + INTEGRATED | PR #276 merged as `8272b8cba0dab6e9a07ee6aa4f927ad9374de534`; exact-head CI #932 passed | doctor proves snapshot integrity/freshness checks, not worker liveness | require doctor before resume and collect live heartbeat/lease evidence separately |
+| T2424-0037 NeuroCAD | TESTED + INTEGRATED CONTROLLED BENCHMARK | controlled-language → typed IR → validator → OpenSCAD/SVG benchmark integrated as `c0a2e546…` | authored benchmark; no arbitrary-language or manufacturing claim | same-provider direct-generation vs typed-IR comparison on frozen prompts |
+| T2424-0025 robust readout | EXPERIMENTED + ANALYZED + INTEGRATED | 50-seed contamination ablation integrated as `5ee79ab8…` | robust estimators also beat the mean at 0% contamination, so no unique non-Gaussian mechanism is isolated | formalize mechanism or archive the stronger claim; retain robustness result |
+| T2424-0050 Darcy | EXPERIMENTED / ANALYZED BOUNDED SCREEN | canonical identity/evidence repair integrated; controlled synthetic screen retained | not a learned neural operator and not real porous-media validation | implement learned matched-budget baseline before promotion |
+| FinanceMeta authorization recovery | TESTED CONTROL-PLANE ARTIFACT + INTEGRATED | additive authorization/notification hardening overlay integrated as `ceedf60b…` | target repository write and live Supabase denial-path verification not available here | apply to authorized target branch, then test real RLS/role denial paths |
+| Bu1LD public-site recovery | PREPARED / BLOCKED | truth-first recovery package exists in control repo | canonical target repository is not exposed to this GitHub installation | grant target write access, apply on isolated branch, run target-native build/accessibility |
+| LAM-JEPA | RELEASE HYGIENE INTEGRATED; RESEARCH RESULT NEGATIVE/INCONCLUSIVE | release-hygiene PR #59 passed reproducibility, ARC Protocol V2 QA and research-claim-boundary workflows, then merged as `2a5eb43e…` | container runtime itself still needs an actual Docker-capable execution if publication packaging depends on it; ARC conclusion remains negative/inconclusive | run container smoke on a Docker runner and keep negative result intact |
+| Text-To-Video | LOCAL RENDER PIPELINE; STORE-BINDING UNDER CI | durable queue, atomic local MP4 encoding, lifecycle/retries, and verified artifact store are on `main`; PR #30 binds queue completion to content-addressed storage | current PR #30 still requires CI; no hosted media or real narration | merge only after current-head CI; then update stale README boundary |
+| Olympus / Hercules | O0-LEVEL / NEXT SERIOUS EXPERIMENT NOT RUN | evidence governance and deterministic runtime roles exist; no named scale label is treated as trained-model evidence | matched same-budget baseline vs proposed vs ablation experiment still absent | run O1 matched-budget experiment before any model promotion |
+
+## Portfolio rule
+
+No state is promoted because a project has a name, a branch exists, code was generated, or CI is green in isolation. Completion requires evidence matching the claim: runtime evidence for runtime claims, experimental evidence for research claims, and served-revision/user-flow evidence for production claims.
