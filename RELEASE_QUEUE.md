@@ -1,50 +1,61 @@
 # RELEASE_QUEUE
 
-As of: 2026-08-12 20:12 IST
+As of: 2026-08-12 20:40 IST
 
-## RELEASE AFTER FINAL LIVE VERIFICATION
+## LIVE / RELEASE AFTER FINAL REVISION + GOLDEN-JOURNEY VERIFICATION
 
 ### VertexED
-Source security P0s and immutable build identity are integrated. Release only after exact served revision and authenticated golden-journey/backend authorization verification.
+- Public product surface and live Supabase traffic are observed.
+- Source-side account isolation and build-revision plumbing are integrated.
+- Live backend RLS/policy audit is strong on inspected surfaces.
+- **Do not call latest source fully released yet:** exact served SHA remains unverified and latest-main Vercel checks are blocked by build-rate quota.
+- Before full release claim: resolve deployment capacity, verify `/api/health?readiness=true` revision/readiness, enable leaked-password protection, upgrade patched Postgres build, execute disposable-account golden journey and cross-account denial tests.
 
 ## INTERNAL / TEST RELEASE CANDIDATE
 
 ### Percy
-Bounded durable runtime plus fail-closed state doctor are merged and CI-backed. Suitable for internal/test operation, not production qualification until actual-Mac/provider crash/restart and soak gates pass.
+Durable bounded orchestration + fail-closed state doctor are merged/tested. Appropriate for controlled internal execution; production qualification still needs actual-Mac/provider crash/restart and soak evidence.
 
-## RESEARCH / DEMO RELEASE CANDIDATE
+## BOUNDED RESEARCH / DEMO ARTIFACTS
 
-### T2424-0037 NeuroCAD
-Controlled-language parametric compiler and deterministic benchmark are merged and tested. Release as a bounded demo/research artifact with explicit limitations; do not market as arbitrary NLP-to-CAD or manufacturing software.
+- **T2424-0037 NeuroCAD:** controlled language → validated IR → CAD benchmark/demo.
+- **T2424-0029 PDE transitions:** analytic 1D heat-equation spectral-dimension screen.
+- **T2424-0028 residual events:** deterministic scalar residual-event codec mechanics.
+- **T2424-0027 latent language audit:** injected-coordinate synthetic leakage-removal evaluator.
+- **T2424-0024 Trust Under Uncertainty:** paired synthetic calibration evaluator/ablation.
+- **T2424-0026 Counterfactual Defect Worlds:** deterministic cellular-automaton intervention/locality screen.
+- **T2424-0040 FinanceMeta Learning Graph:** deterministic prerequisite-ordering mechanics.
+- **T2424-1768 self-verifying MoE:** synthetic contract-verification/quorum prototype.
+- **T2424-0035 Grokking Agent:** synthetic delayed-generalization detector.
+- **T2424-0054 Experiment Planner:** deterministic research-prioritization heuristic.
+- **T2424-0025 robust readouts:** useful qualified/negative mechanism result.
+- **T2424-0050 Darcy:** bounded synthetic screen only.
 
-### T2424-0025 robust-readout study
-Releaseable as a reproducible negative/qualified result. Strong value comes from preserving the failed mechanism-isolation control rather than overstating it.
+Release these only with their claim boundaries visible. None should be marketed as publication-complete, externally validated, production safety, or general scientific superiority evidence.
 
-### T2424-0050 Darcy bounded screen
-Release only as a controlled synthetic screening artifact. Do not label it a learned neural operator.
-
-## RELEASE AFTER TARGET ACCESS + FIX
+## RECOVERY PACKAGE READY — TARGET ACCESS REQUIRED
 
 ### FinanceMeta
-Apply merged authorization/notification recovery overlay to canonical target, run target-native CI and live Supabase denial-path tests, then verify public claims/content.
+Authorization hardening overlay plus truth-first content/claims scripts are integrated in the control repository. Apply only after canonical repo + Supabase access exists, then run live denial paths and target-native release checks.
 
 ### The Bu1LD
-Apply proof-density/truth-first content recovery to canonical target, run build/accessibility/hydration checks, then verify public people/program claims.
+Proof-density/people/content recovery package is integrated in the control repository. Apply only after canonical repo access exists, then build/accessibility/navigation/public-evidence checks.
 
-## NEEDS EXPERIMENT
+## PREPRINT / EXTERNAL VALIDATION PIPELINE
 
-- Hercules/Olympus matched-budget baseline vs proposed vs ablation.
-- NeuroCAD same-provider direct generation vs typed-IR comparison and OOD language robustness.
-- T2424-0025 mechanism-isolation controls.
-- T2424-0050 learned operator baseline study.
-- strongest remaining Project 2424 candidates that currently have only bounded synthetic mechanics.
+### Research Atlas V4
+Fresh local rerun + packaging manifest is integrated. Select 1–3 strongest manuscripts for result-table regeneration, independent reproduction, related-work/venue-fit review and actual submission. Do not mass-submit the registry.
 
-## NEEDS EXTERNAL VALIDATION
+## NEEDS MAJOR EXPERIMENT BEFORE PROMOTION
 
-- Research Atlas manuscript slate: independent reproduction, canonical tables/figures, venue-fit review and submission.
+- Hercules/Olympus learned architecture comparison.
+- T2424-0025 mechanism-isolation study.
+- Darcy learned operator comparison.
+- NeuroCAD learned same-provider direct-vs-IR/OOD study.
+- Latent-language real multilingual encoder study.
+- Learning Graph real learner/offline-trace study.
+- self-verifying MoE heterogeneous benchmark with false-accept/false-reject analysis.
 
-## NOT READY / DO NOT MASS-RELEASE
+## ARCHIVE / HOLD RULE
 
-- named Olympus scale models without training/evaluation evidence;
-- speculative Project 2424 registry entries with no runnable artifact;
-- any claim that green CI alone means scientific completion, publication, production deployment or external validation.
+Any remaining Project 2424 idea that lacks a runnable hypothesis, baseline, measurable metric, falsification path or realistic evidence upgrade should remain IDEA/SPECIFIED or be archived rather than polished into a fake release.
