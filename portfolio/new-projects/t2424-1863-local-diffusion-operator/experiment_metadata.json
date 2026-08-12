@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "project_id": "T2424-1863",
+  "name": "local diffusion operator",
+  "experiment_type": "bounded synthetic mechanism screen",
+  "hypothesis": "A local 3-point diffusion operator can recover the planted scalar diffusion coefficient and reduce one-step held-out RMSE by more than 75% relative to persistence while showing no material gain under zero diffusion.",
+  "task": "one-step synthetic scalar diffusion on a 32-point grid",
+  "baseline": "persistence",
+  "proposed_method": "learned scalar coefficient with 3-point local stencil",
+  "primary_metric": "mean held-out RMSE relative improvement versus persistence",
+  "predeclared_gate": ">75% relative improvement",
+  "seed_policy": {
+    "count": 20,
+    "selection": "fixed deterministic protocol implemented by benchmark module"
+  },
+  "source_commit": "7cee0bd4d5cc7a3ac497476d322c6f0e16da9ee6",
+  "fresh_replay": {
+    "date_utc": "2026-08-12",
+    "actions_run_id": 31411517815,
+    "run_attempt": 3,
+    "job_id": 94262839511,
+    "environment": {
+      "os": "Ubuntu 24.04.4 LTS",
+      "runner_image": "ubuntu-24.04 20260720.247.2",
+      "python": "3.11.15",
+      "pip": "26.2.1",
+      "pytest": "9.1.1",
+      "device": "CPU"
+    },
+    "commands": [
+      "python -m pip install --upgrade pip",
+      "python -m pip install pytest",
+      "python -m pip install -e .",
+      "pytest -q",
+      "python -m local_diffusion_operator.benchmark --seeds 20"
+    ],
+    "tests": {
+      "passed": 4,
+      "failed": 0
+    }
+  },
+  "metrics": {
+    "diffusion": {
+      "trials": 20,
+      "mean_learned_coefficient": 0.179689,
+      "mean_persistence_rmse": 0.015610,
+      "mean_operator_rmse": 0.005023,
+      "mean_relative_improvement_percent": 67.777
+    },
+    "zero_diffusion_control": {
+      "trials": 20,
+      "mean_learned_coefficient": -0.000311,
+      "mean_persistence_rmse": 0.005022,
+      "mean_operator_rmse": 0.005023,
+      "mean_relative_improvement_percent": -0.029
+    }
+  },
+  "verdict": "NEGATIVE_OR_INCONCLUSIVE_AGAINST_PREDECLARED_GATE",
+  "uncertainty": "Current CLI summary reports aggregate means but not per-seed standard deviation or confidence intervals; uncertainty reporting remains incomplete and should be added without changing the frozen success threshold.",
+  "limitations": [
+    "synthetic one-step diffusion only",
+    "scalar coefficient rather than learned neural operator",
+    "no long rollout",
+    "no real PDE dataset",
+    "no matched FNO or DeepONet-class baseline",
+    "no comprehensive runtime or peak-memory comparison"
+  ],
+  "claim_boundary": "Execution and bounded mechanism behavior reproduced; no neural-operator superiority claim."
+}
