@@ -1,6 +1,6 @@
 # Project 2424 — Execution Evidence
 
-**Session date:** 10 August 2026
+**Session date:** 10–12 August 2026
 
 This ledger records only inspectable GitHub-connected execution evidence. It separates queue selection, merged/tested artifacts, negative results, and the stricter `Certified complete` gate.
 
@@ -68,9 +68,11 @@ Dedicated reproduction: `31411206631` — success
 Repository CI: `31411208847` — success  
 Merged commit: `7cee0bd4d5cc7a3ac497476d322c6f0e16da9ee6`
 
+A fresh independent replay of the merged frozen job completed successfully as Actions run `31411517815`, attempt 3, job `94262839511` on 12 August 2026. Environment: Ubuntu `24.04.4` LTS, runner image `20260720.247.2`, CPython `3.11.15`, pip `26.2.1`, pytest `9.1.1`, CPU. Focused regression suite: `4 passed in 0.18s`.
+
 Predeclared screen: mean held-out one-step RMSE improvement **>75%** over persistence on synthetic diffusion, planted coefficient near `0.18`, 3-point local stencil, and zero-diffusion negative control.
 
-Observed 20-seed evidence:
+Observed and independently replayed 20-seed evidence:
 
 - learned coefficient: `0.179689`;
 - persistence RMSE: `0.015610`;
@@ -80,7 +82,9 @@ Observed 20-seed evidence:
 
 Verdict: `NEGATIVE_OR_INCONCLUSIVE_AGAINST_PREDECLARED_GATE`.
 
-The >75% threshold was not relaxed after observing the result. This is a useful reproduced negative/inconclusive screen, not a successful scientific hypothesis. Real PDE data, stronger baselines, rollout stability, compute accounting and independent scientific QA remain open.
+The >75% threshold was not relaxed after observing the result. This is a useful reproduced negative/inconclusive screen, not a successful scientific hypothesis. The current CLI reports aggregate 20-seed means but does not yet retain per-seed standard deviation/variance/confidence intervals; that is an explicit uncertainty-reporting gap. Real PDE data, stronger baselines, rollout stability and compute accounting remain open.
+
+Reproduction package: `portfolio/new-projects/t2424-1863-local-diffusion-operator/RESULTS.md`, `REPRODUCE.md`, and `experiment_metadata.json`.
 
 ## Deliberately unmerged First-100 evidence
 
