@@ -1,5 +1,8 @@
 import type { ExamBoard } from '@/types/curriculum';
 import { boardToApiLabel } from '@/lib/curriculum';
+import { userContentStorageKeys } from '@/lib/userContentStorageScope.mjs';
+
+const LEGACY_MOCK_EXAM_ANSWERS_KEY = 'vertex_exam_answers';
 
 /**
  * Handoff payload for mock exam → answer reviewer flow (Phase 2).
@@ -43,7 +46,7 @@ export function buildReviewHandoffFromPaper(
 }
 
 export function mockReviewStorageKey() {
-  return 'vertex_mock_review_handoff';
+  return userContentStorageKeys().mockReviewHandoff;
 }
 
 export function saveMockReviewHandoff(handoff: MockReviewHandoff) {
@@ -56,9 +59,20 @@ export function saveMockReviewHandoff(handoff: MockReviewHandoff) {
 
 export function consumeMockReviewHandoff(): (MockReviewHandoff & { boardLabel?: string }) | null {
   if (typeof window === 'undefined') return null;
-  const raw = sessionStorage.getItem(mockReviewStorageKey());
+  const storageKey = mockReviewStorageKey();
+
+  // Timed MockExamMode writes a richer payload containing the learner's actual
+  // answers. Answer Reviewer checks this handoff first, so returning the
+  // question-only payload here would make it skip those answers. Drop the
+  // redundant question-only handoff and let the richer payload be consumed.
+  if (sessionStorage.getItem(LEGACY_MOCK_EXAM_ANSWERS_KEY)) {
+    sessionStorage.removeItem(storageKey);
+    return null;
+  }
+
+  const raw = sessionStorage.getItem(storageKey);
   if (!raw) return null;
-  sessionStorage.removeItem(mockReviewStorageKey());
+  sessionStorage.removeItem(storageKey);
   try {
     return JSON.parse(raw);
   } catch {
