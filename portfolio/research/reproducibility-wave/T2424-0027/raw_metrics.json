@@ -1,0 +1,9 @@
+{
+  "source":"GitHub Actions run 31616573215 job 94180746280 stdout snapshot",
+  "protocol":{"records":72,"concepts":4,"languages":3,"trainSamplesPerConceptLanguage":3,"transform":"subtract training-set language centroid from each record of that language","baseline":"raw latent vectors","negativeControl":"subtract one global training centroid"},
+  "metrics":{"rawConceptAccuracy":1,"rawLanguageAccuracy":1,"centeredConceptAccuracy":1,"centeredLanguageAccuracy":0.3611111111111111,"globalCenteredLanguageAccuracy":1,"languageChance":0.3333333333333333,"normalizedLanguageLeakageReduction":0.9583333333333334},
+  "gates":{"rawConceptAccuracyAtLeast95Percent":true,"rawLanguageLeakageDetectableAtLeast95Percent":true,"centeredConceptAccuracyWithin2PointsOfRaw":true,"normalizedLanguageLeakageReductionAtLeast90Percent":true,"globalCenteringNegativeControlRetainsLanguageLeakage":true},
+  "verdict":"PASS_CONTROLLED_LANGUAGE_LEAKAGE_MECHANICS",
+  "independentVerifier":{"rawResultSha256":"0eac35dd7b8af1488efab0392c2e82dab8f9a90332af7c6ad54633263fa13605","evidenceConsistency":"PASS","verifierDependency":"independent-no-core-import"},
+  "focusedTests":{"passed":8,"failed":0}
+}
