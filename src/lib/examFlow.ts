@@ -49,6 +49,10 @@ export function mockReviewStorageKey() {
   return userContentStorageKeys().mockReviewHandoff;
 }
 
+export function mockExamAnswersStorageKey() {
+  return userContentStorageKeys().mockExamAnswers;
+}
+
 export function saveMockReviewHandoff(handoff: MockReviewHandoff) {
   if (typeof window === 'undefined') return;
   sessionStorage.setItem(mockReviewStorageKey(), JSON.stringify({
@@ -60,11 +64,22 @@ export function saveMockReviewHandoff(handoff: MockReviewHandoff) {
 export function consumeMockReviewHandoff(): (MockReviewHandoff & { boardLabel?: string }) | null {
   if (typeof window === 'undefined') return null;
   const storageKey = mockReviewStorageKey();
+  const scopedAnswersKey = mockExamAnswersStorageKey();
 
-  // Timed MockExamMode writes a richer payload containing the learner's actual
-  // answers. Answer Reviewer checks this handoff first, so returning the
-  // question-only payload here would make it skip those answers. Drop the
-  // redundant question-only handoff and let the richer payload be consumed.
+  // Timed MockExamMode now persists its richer answer payload under the active
+  // account scope. Answer Reviewer still consumes the historical key immediately
+  // after this helper, so bridge the payload synchronously at the consumption
+  // boundary rather than leaving learner answers browser-global between routes.
+  const scopedAnswers = sessionStorage.getItem(scopedAnswersKey);
+  if (scopedAnswers) {
+    sessionStorage.removeItem(scopedAnswersKey);
+    sessionStorage.removeItem(storageKey);
+    sessionStorage.setItem(LEGACY_MOCK_EXAM_ANSWERS_KEY, scopedAnswers);
+    return null;
+  }
+
+  // Backward compatibility for payloads written by older app revisions. The
+  // bootstrap/auth isolation guard clears stale legacy values across identities.
   if (sessionStorage.getItem(LEGACY_MOCK_EXAM_ANSWERS_KEY)) {
     sessionStorage.removeItem(storageKey);
     return null;

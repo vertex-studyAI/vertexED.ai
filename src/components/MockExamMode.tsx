@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router";
 import { Clock, X, BookOpen } from "lucide-react";
 import AccessibleModal from "@/components/AccessibleModal";
-import { buildReviewHandoffFromPaper, saveMockReviewHandoff } from "@/lib/examFlow";
+import { buildReviewHandoffFromPaper, mockExamAnswersStorageKey, saveMockReviewHandoff } from "@/lib/examFlow";
 import { recordWeakness } from "@/lib/weaknessTracker";
 import type { ExamBoard } from "@/types/curriculum";
 
@@ -53,7 +53,7 @@ function saveExamHandoff(
   grade: number | null | undefined,
 ) {
   sessionStorage.setItem(
-    "vertex_exam_answers",
+    mockExamAnswersStorageKey(),
     JSON.stringify({
       paperTitle: paper.title,
       answers,
