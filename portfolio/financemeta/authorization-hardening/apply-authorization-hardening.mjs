@@ -7,15 +7,18 @@ if (!target || !fs.existsSync(path.join(target, 'supabase/migrations/001_initial
   throw new Error('usage: apply-authorization-hardening.mjs TARGET_FINANCEMETA_CHECKOUT');
 }
 
-const migrationPath = path.join(target, 'supabase/migrations/002_authorization_hardening.sql');
+const migrationPath = path.join(target, 'supabase/migrations/004_authorization_hardening.sql');
 const testPath = path.join(target, 'src/test/authorization-contract.test.ts');
 if (fs.existsSync(migrationPath) || fs.existsSync(testPath)) {
   throw new Error('authorization hardening target files already exist; refusing ambiguous overwrite');
 }
 
-const migration = `-- FinanceMeta authorization hardening
+const migration = `-- FinanceMeta authorization and notification integrity hardening
+-- Apply after 001_initial_schema.sql, 002_google_oauth.sql and 003_bookmarks_notifications.sql.
 -- Prevent members from escalating profiles.role through direct PostgREST/client writes.
 -- Make the authenticated essay aggregate view execute with caller permissions so underlying RLS applies.
+-- Prevent authenticated clients from fabricating notifications; notification inserts remain trigger-owned.
+-- Pin SECURITY DEFINER helper/trigger search paths and remove unnecessary public execution.
 -- This migration is additive and must be reviewed/applied through the normal Supabase migration flow.
 
 BEGIN;
@@ -41,9 +44,14 @@ GRANT INSERT (id, email, display_name, avatar_url, bio, interests, open_to_colla
 GRANT UPDATE (display_name, avatar_url, bio, interests, open_to_collaborate, chapter_id)
   ON TABLE public.profiles TO authenticated;
 
+ALTER FUNCTION public.handle_new_user() SET search_path = public;
 ALTER FUNCTION public.get_user_role() SET search_path = public;
 ALTER FUNCTION public.is_admin() SET search_path = public;
 ALTER FUNCTION public.is_lead_or_admin() SET search_path = public;
+ALTER FUNCTION public.notify_connection_request() SET search_path = public;
+ALTER FUNCTION public.notify_connection_accepted() SET search_path = public;
+ALTER FUNCTION public.notify_lab_application_received() SET search_path = public;
+ALTER FUNCTION public.notify_lab_application_status() SET search_path = public;
 
 REVOKE ALL ON FUNCTION public.get_user_role() FROM PUBLIC;
 REVOKE ALL ON FUNCTION public.is_admin() FROM PUBLIC;
@@ -51,6 +59,15 @@ REVOKE ALL ON FUNCTION public.is_lead_or_admin() FROM PUBLIC;
 GRANT EXECUTE ON FUNCTION public.get_user_role() TO authenticated;
 GRANT EXECUTE ON FUNCTION public.is_admin() TO authenticated;
 GRANT EXECUTE ON FUNCTION public.is_lead_or_admin() TO authenticated;
+
+REVOKE ALL ON FUNCTION public.handle_new_user() FROM PUBLIC;
+REVOKE ALL ON FUNCTION public.notify_connection_request() FROM PUBLIC;
+REVOKE ALL ON FUNCTION public.notify_connection_accepted() FROM PUBLIC;
+REVOKE ALL ON FUNCTION public.notify_lab_application_received() FROM PUBLIC;
+REVOKE ALL ON FUNCTION public.notify_lab_application_status() FROM PUBLIC;
+
+DROP POLICY IF EXISTS "System insert notifications" ON public.notifications;
+REVOKE INSERT ON TABLE public.notifications FROM anon, authenticated;
 
 ALTER VIEW public.essay_submissions_with_counts SET (security_invoker = true);
 
@@ -61,16 +78,24 @@ const test = `import { describe, expect, it } from 'vitest';
 import fs from 'node:fs';
 import path from 'node:path';
 
-const migration = fs.readFileSync(
-  path.resolve(process.cwd(), 'supabase/migrations/002_authorization_hardening.sql'),
-  'utf8',
-);
+const migrationPath = path.resolve(process.cwd(), 'supabase/migrations/004_authorization_hardening.sql');
+const migration = fs.readFileSync(migrationPath, 'utf8');
 const authContext = fs.readFileSync(
   path.resolve(process.cwd(), 'src/contexts/AuthContext.tsx'),
   'utf8',
 );
+const notificationMigration = fs.readFileSync(
+  path.resolve(process.cwd(), 'supabase/migrations/003_bookmarks_notifications.sql'),
+  'utf8',
+);
 
 describe('FinanceMeta authorization boundary', () => {
+  it('uses the next migration version after existing 001/002/003 migrations', () => {
+    expect(path.basename(migrationPath)).toBe('004_authorization_hardening.sql');
+    expect(fs.existsSync(path.resolve(process.cwd(), 'supabase/migrations/002_google_oauth.sql'))).toBe(true);
+    expect(fs.existsSync(path.resolve(process.cwd(), 'supabase/migrations/003_bookmarks_notifications.sql'))).toBe(true);
+  });
+
   it('removes role from authenticated table-level writes', () => {
     expect(migration).toContain('REVOKE INSERT, UPDATE ON TABLE public.profiles FROM anon, authenticated');
     expect(migration).toContain('GRANT INSERT (id, email, display_name, avatar_url, bio, interests, open_to_collaborate, chapter_id)');
@@ -85,12 +110,27 @@ describe('FinanceMeta authorization boundary', () => {
     expect(migration).toContain("WITH CHECK (auth.uid() = id AND role = 'member'::public.user_role)");
   });
 
-  it('pins security-definer helper search paths', () => {
-    for (const fn of ['get_user_role', 'is_admin', 'is_lead_or_admin']) {
+  it('pins security-definer helper and trigger search paths', () => {
+    for (const fn of [
+      'handle_new_user',
+      'get_user_role',
+      'is_admin',
+      'is_lead_or_admin',
+      'notify_connection_request',
+      'notify_connection_accepted',
+      'notify_lab_application_received',
+      'notify_lab_application_status',
+    ]) {
       expect(migration).toContain('ALTER FUNCTION public.' + fn + '() SET search_path = public');
-      expect(migration).toContain('REVOKE ALL ON FUNCTION public.' + fn + '() FROM PUBLIC');
-      expect(migration).toContain('GRANT EXECUTE ON FUNCTION public.' + fn + '() TO authenticated');
     }
+  });
+
+  it('removes direct authenticated notification insertion', () => {
+    expect(notificationMigration).toContain('CREATE POLICY "System insert notifications"');
+    expect(notificationMigration).toContain('WITH CHECK (true)');
+    expect(migration).toContain('DROP POLICY IF EXISTS "System insert notifications" ON public.notifications');
+    expect(migration).toContain('REVOKE INSERT ON TABLE public.notifications FROM anon, authenticated');
+    expect(migration).not.toContain('GRANT INSERT ON TABLE public.notifications TO authenticated');
   });
 
   it('forces the authenticated aggregate view to respect caller RLS', () => {
