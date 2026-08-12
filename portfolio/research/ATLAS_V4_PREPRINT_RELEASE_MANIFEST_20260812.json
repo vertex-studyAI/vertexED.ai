@@ -1,0 +1,26 @@
+{
+  "date": "2026-08-12",
+  "source_release": "BU1LD_Research_Atlas_Flagships_v4",
+  "executed_flagships": 18,
+  "frontier_registry": 512,
+  "fresh_tests": {"passed": 39, "failed": 0},
+  "all_base_experiments_rerun": true,
+  "robustness_extensions_rerun": ["apen", "counterfactual_representation_surgery", "latent_law_compiler"],
+  "papers_recompiled": 18,
+  "clean_extraction_retest": {"passed": 39, "failed": 0},
+  "release_hashes": {
+    "research_zip_sha256": "076f12750d6a8e6c298c17815224a79463bcad149d6cf1283900d98c6e394a2c",
+    "papers_zip_sha256": "1be70acf821c57dee65b13f80940a9a195bc64ebc8c31464c9fcc87ce33ce5ae"
+  },
+  "priority_manuscripts": [
+    "Latent Law Compiler + Probabilistic Dimensional Compiler",
+    "NPMS + Memory Spectrum Transfer",
+    "Counterfactual Representation Surgery",
+    "Assumption-Conditioned Prediction + Assumption Conflict Resolver",
+    "Unknown-Type Decomposition + Mixed Shift Factorizer",
+    "Minimal Counterexample Forge + Pareto Counterexample Forge"
+  ],
+  "external_submission_ready": false,
+  "preprint_iteration_ready": true,
+  "claim_boundary": "Fresh local reproducibility and packaging evidence only; no independent replication, peer review, acceptance, or external publication claim."
+}
