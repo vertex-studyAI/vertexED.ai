@@ -1,0 +1,52 @@
+{
+  "project": "T2424-0025",
+  "name": "Non-Gaussian Memory Transformer surrogate / robust readouts",
+  "execution_date": "2026-08-12",
+  "source_head": "0d2a14e559b0caa9b5b1cbeef0995013594ecf15",
+  "environment": {
+    "node": "v22.16.0",
+    "os": "Linux x86_64",
+    "kernel": "6.18.35"
+  },
+  "source_blobs": {
+    "src/core.mjs": "7826f9ba4577b471250ef13faa8e2c854aae4a73",
+    "src/robust_readouts.mjs": "badbc9529d04bc851b7782a9848e81d2d3aaf39a",
+    "experiment/run.mjs": "e5987fb6021fa0ed550166c8c45c8f4acce6fc1e",
+    "experiment/ablation.mjs": "ed0e5b600425f67ae3e60e9809d8b9c8378bcaae"
+  },
+  "primary": {
+    "runtime_seconds": 0.13,
+    "seeds": 30,
+    "heavy_tail": {
+      "queries": 720,
+      "baseline_mae": 0.36152678546712497,
+      "robust_mae": 0.016560942261867797,
+      "relative_improvement": 0.9541916590205908
+    },
+    "clean_control": {
+      "queries": 720,
+      "baseline_mae": 0.024354967043193555,
+      "robust_mae": 0.012593962713833545,
+      "relative_improvement": 0.482899619962608
+    },
+    "non_gaussian_advantage_gap": 0.4712920390579828,
+    "verdict": "PASS_HEAVY_TAIL_MEMORY_SCREEN",
+    "sha256": "7b26bfcf82444b1de868092c8391a3772bd4e6acc5d64468839f9af6290a3db1"
+  },
+  "ablation": {
+    "runtime_seconds": 0.94,
+    "seeds_per_condition": 50,
+    "trim_fraction": 0.1,
+    "huber_delta": 0.15,
+    "sha256": "f61dd31562ce2f5638535a90ab2d700aed494790e9aca515797595158ee9ee4e",
+    "rows": [
+      {"contamination":0,"mean":{"mean":0.02464691771133496,"sd":0.0023115771827692763},"median":{"mean":0.012569888975136025,"sd":0.0020830878466683114},"trimmed":{"mean":0.01871145668450782,"sd":0.0022060869785637755},"huber":{"mean":0.019079170351365707,"sd":0.001966465001265805}},
+      {"contamination":0.05,"mean":{"mean":0.1450122944150169,"sd":0.199683673524021},"median":{"mean":0.013336718225360615,"sd":0.0021542226220524086},"trimmed":{"mean":0.02262370432010366,"sd":0.004266144970936583},"huber":{"mean":0.02203050311564296,"sd":0.0033707908620666882}},
+      {"contamination":0.1,"mean":{"mean":0.3211624567245237,"sd":0.5111810963164298},"median":{"mean":0.014178281197675233,"sd":0.0029325089077616604},"trimmed":{"mean":0.030013789604264773,"sd":0.007237673631756243},"huber":{"mean":0.025479195095119648,"sd":0.004665923113634567}},
+      {"contamination":0.18,"mean":{"mean":0.3494393236413256,"sd":0.34720341329882964},"median":{"mean":0.017002512132865903,"sd":0.004857686860296252},"trimmed":{"mean":0.04550633252740887,"sd":0.01571336013006776},"huber":{"mean":0.030925536516162495,"sd":0.006796244399198665}},
+      {"contamination":0.25,"mean":{"mean":0.4567522136373464,"sd":0.42251940542987937},"median":{"mean":0.022364912251589094,"sd":0.006416589275987984},"trimmed":{"mean":0.06706277685391916,"sd":0.02109409949673214},"huber":{"mean":0.03861116212011901,"sd":0.00602223337417369}},
+      {"contamination":0.35,"mean":{"mean":0.8655902567069121,"sd":1.4660585096014804},"median":{"mean":0.02868030354033516,"sd":0.010962791766931658},"trimmed":{"mean":0.10097669426662575,"sd":0.035417070351773605},"huber":{"mean":0.04671057548702586,"sd":0.010774119362047817}}
+    ]
+  },
+  "claim_boundary": "generic robust-readout behavior on a deterministic synthetic attention-addressed memory fixture; no Transformer-level or unique non-Gaussian-memory claim"
+}
