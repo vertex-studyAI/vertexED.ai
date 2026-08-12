@@ -4,9 +4,10 @@ import { mkdtempSync, readFileSync, rmSync } from 'node:fs';
 import { DatabaseSync } from 'node:sqlite';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
+import { PercyStore } from '../tools/percy-runtime/core.mjs';
 import {
   backupDatabase, ClassLimiter, JsonlLogger, parseClassLimits, payloadBytes,
-  restoreDatabase, safeSubmit, validateSubmission,
+  restoreDatabase, runWorkerLoop, safeSubmit, validateSubmission,
 } from '../tools/percy-runtime/advanced.mjs';
 
 test('class limits parse and validate', () => {
@@ -72,12 +73,39 @@ test('worker loop completes bounded task with heartbeat and evidence gate', asyn
     verifyComplete: () => evidence > 0 && state === 'VERIFYING' ? (state = 'COMPLETE', true) : false,
     fail: () => { state = 'FAILED'; return true; },
   };
-  const { runWorkerLoop } = await import('../tools/percy-runtime/advanced.mjs');
   const result = await runWorkerLoop({
     store, workerId: 'w1', leaseMs: 120, idleMs: 5, maxIdleMs: 25,
     limiter: new ClassLimiter(parseClassLimits('default=1,remote=1')),
     execute: async () => ({ ok: true }),
   });
   assert.equal(state, 'COMPLETE'); assert.equal(evidence, 1); assert.equal(result.completed, 1); assert.equal(result.failed, 0);
-  assert.equal(heartbeats >= 0, true);
+  assert.equal(heartbeats > 0, true);
+});
+
+test('worker waiting on provider capacity retains its claim lease and executes once', async () => {
+  const dir = mkdtempSync(join(tmpdir(), 'percy-capacity-'));
+  const store = new PercyStore(join(dir, 'percy.sqlite'), { maxActive: 2 });
+  try {
+    store.submit({ id: 'a', kind: 'sleep', payload: { providerClass: 'remote', ms: 160 } });
+    store.submit({ id: 'b', kind: 'echo', payload: { providerClass: 'remote', value: 2 } });
+    const limiter = new ClassLimiter(parseClassLimits('default=1,remote=1'));
+    const executions = new Map();
+    const execute = async (task) => {
+      executions.set(task.id, (executions.get(task.id) ?? 0) + 1);
+      if (task.id === 'a') await new Promise((resolve) => setTimeout(resolve, 160));
+      return { id: task.id };
+    };
+    await Promise.all([
+      runWorkerLoop({ store, execute, workerId: 'w1', limiter, leaseMs: 100, idleMs: 5, maxIdleMs: 240 }),
+      runWorkerLoop({ store, execute, workerId: 'w2', limiter, leaseMs: 100, idleMs: 5, maxIdleMs: 240 }),
+    ]);
+    assert.equal(store.get('a').status, 'COMPLETE');
+    assert.equal(store.get('b').status, 'COMPLETE');
+    assert.equal(executions.get('a'), 1);
+    assert.equal(executions.get('b'), 1);
+    assert.equal(store.get('b').attempts, 1);
+  } finally {
+    store.close();
+    rmSync(dir, { recursive: true, force: true });
+  }
 });
