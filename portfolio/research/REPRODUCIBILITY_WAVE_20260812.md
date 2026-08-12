@@ -65,6 +65,27 @@ Fresh 20-seed bounded 1D screen:
 
 **Boundary:** the harmonic block representation preserves integrated resistance by construction and the generator is block-aligned. This is not a learned operator result and does not establish performance against FNO, DeepONet, PINNs, finite-volume solvers, 2D/3D data, or real porous media.
 
+## Independent Project 2424 replay under runner drift — 2026-08-12
+
+The same frozen `project2424-reproduce` job was rerun again without scientific-code or protocol changes. The rerun completed successfully and produced Actions artifact `9154962874`, digest `sha256:df955575ddbdb384d50b30de15e176fc85f079f8f5ea3aef8b4b4267a69f2328`.
+
+This replay is stronger than an identical-environment repeat because the hosted environment changed between the immediately prior artifact and the new artifact:
+
+- Node: `v22.23.1` → `v22.23.2`;
+- Linux kernel: Azure `6.17.0-1020` → `6.17.0-1022`;
+- runner VM identity also changed.
+
+Despite that drift, every retained scientific/verification file was byte-identical between the two attempts:
+
+- `T2424-0025-screen.json` SHA-256 `7b26bfcf82444b1de868092c8391a3772bd4e6acc5d64468839f9af6290a3db1`;
+- `T2424-0025-ablation.json` SHA-256 `f61dd31562ce2f5638535a90ab2d700aed494790e9aca515797595158ee9ee4e`;
+- `T2424-0027-results.json` SHA-256 `0eac35dd7b8af1488efab0392c2e82dab8f9a90332af7c6ad54633263fa13605`;
+- `T2424-0027-verify.log` SHA-256 `1a354c5ef26de30bc99a8b5ace22087e125b865db7326abe48e3bef6cbe7f6c3`;
+- `T2424-0037-benchmark.json` SHA-256 `e3e15d79631d1fccd02bc2711f71e98acc1f7f686e390cd65d82fcb054e5c601`;
+- `T2424-0050-darcy.json` SHA-256 `67ad7bd98000c58533753b2dd8e70ddebce411780e66f11284c9cfb59206e586`.
+
+Only captured environment files changed. This supports deterministic execution of these frozen controlled experiments across the observed Node patch/kernel drift. It does **not** expand their scientific claim boundaries.
+
 ## Portfolio-wide external reproductions completed in the same wave
 
 - LAM-JEPA frozen ARC Protocol V3 full-controls workflow rerun succeeded at scientific SHA `760aa7f9a73a177d5ff4ba7eb470f7e68ace63cb`, run `31203337502`, attempt 2. The retained five-seed result remains negative/inconclusive for mechanism and superiority; locked test was not evaluated.
