@@ -33,5 +33,68 @@ jobs:
           python -m pip install -e .
       - name: Preserve negative-result regression suite
         run: pytest -q
-      - name: Reproduce 20-seed benchmark
+      - name: Reproduce frozen 20-seed benchmark
         run: python -m local_diffusion_operator.benchmark --seeds 20
+      - name: Retain raw per-seed metrics
+        run: python -m local_diffusion_operator.benchmark --seeds 20 --json > raw_metrics.json
+      - name: Derive reporting-only dispersion
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from statistics import mean, stdev
+
+          raw = json.loads(Path('raw_metrics.json').read_text())
+          out = {
+              'reporting_only': True,
+              'protocol_change': False,
+              'seed_count': 20,
+              'seed_policy': '0..19 fixed before observation',
+              'conditions': {},
+          }
+          for condition, payload in raw.items():
+              rows = payload['trials']
+              stats = {'n': len(rows)}
+              for metric in (
+                  'learned_coefficient',
+                  'persistence_rmse',
+                  'operator_rmse',
+                  'relative_improvement',
+              ):
+                  values = [float(row[metric]) for row in rows]
+                  stats[metric] = {
+                      'mean': mean(values),
+                      'sample_sd': stdev(values),
+                      'min': min(values),
+                      'max': max(values),
+                  }
+              out['conditions'][condition] = stats
+          Path('uncertainty_metrics.json').write_text(json.dumps(out, indent=2, sort_keys=True) + '\n')
+          print(Path('uncertainty_metrics.json').read_text())
+          PY
+      - name: Verify frozen negative gate from retained evidence
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          raw = json.loads(Path('raw_metrics.json').read_text())
+          diffusion = raw['diffusion']['summary']
+          control = raw['zero_diffusion']['summary']
+          assert diffusion['trials'] == 20
+          assert control['trials'] == 20
+          assert diffusion['mean_relative_improvement'] < 0.75
+          assert abs(control['mean_relative_improvement']) < 0.01
+          assert 0.17 < diffusion['mean_learned_coefficient'] < 0.19
+          print('NEGATIVE_OR_INCONCLUSIVE_AGAINST_PREDECLARED_GATE preserved')
+          PY
+      - name: Upload reproducibility evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: t2424-1863-reproducibility-evidence
+          path: |
+            portfolio/new-projects/t2424-1863-local-diffusion-operator/raw_metrics.json
+            portfolio/new-projects/t2424-1863-local-diffusion-operator/uncertainty_metrics.json
+          if-no-files-found: error
+          retention-days: 30
