@@ -1,22 +1,47 @@
 {
   "schema_version": 1,
-  "project": "APEN/PEN",
-  "source_commit_audited": "0d2a14e559b0caa9b5b1cbeef0995013594ecf15",
-  "status": "BLOCKED_CANONICAL_RUNNABLE_IMPLEMENTATION_NOT_LOCATED",
-  "result": null,
-  "required_before_execution": [
-    "canonical source path and commit",
-    "precise hypothesis and falsifier",
-    "dataset/task and split identities",
-    "simple baseline",
-    "standard architecture baseline",
-    "proposed method",
-    "mechanism-removing ablation",
-    "metric",
-    "paired seed list",
-    "matched compute/training budget",
-    "one-command train/evaluate path",
-    "raw per-seed metrics"
-  ],
-  "claim_boundary": "No APEN/PEN experimental performance claim is supported by the connected evidence audited in this wave."
+  "project": "APEN",
+  "pen_separate_status": "NOT_SEPARATELY_EXECUTABLE",
+  "source_package": "BU1LD_Research_Atlas_Flagships_v4_FRESH_2026-08-12.zip",
+  "source_sha256": "076f12750d6a8e6c298c17815224a79463bcad149d6cf1283900d98c6e394a2c",
+  "status": "FRESHLY_REPRODUCED_SYNTHETIC_MECHANISM_TRADEOFF",
+  "task": "synthetic autocorrelated 5D delayed rare-contribution prediction",
+  "delays": [12, 24, 48],
+  "noise_levels": [0.2, 0.5],
+  "base_seeds_per_condition": 8,
+  "base_paired_conditions": 48,
+  "methods": ["apen", "recent", "uniform", "exp_trace", "oracle"],
+  "primary_mechanism_metric": "rare-event MSE",
+  "base_results": {
+    "apen_overall_mse": 2.210393209150768,
+    "apen_rare_mse": 17.060348512864014,
+    "recent_rare_mse": 18.96738127785821,
+    "uniform_rare_mse": 18.714592286689943,
+    "exp_trace_rare_mse": 18.8602634509131,
+    "oracle_rare_mse": 16.687710370293036
+  },
+  "paired_rare_effects": {
+    "apen_minus_recent_mean": -1.9070327649941952,
+    "apen_minus_recent_ci95": [-2.2167166722876073, -1.5994599100770972],
+    "apen_minus_exp_trace_mean": -1.799914938049085,
+    "apen_minus_uniform_mean": -1.654243773825929,
+    "apen_minus_oracle_mean": 0.3726381425709775,
+    "n": 48
+  },
+  "robustness": {
+    "salience_dropout_rates": [0.0, 0.2, 0.5, 0.8, 1.0],
+    "observation": "rare-event advantage narrows at 80% dropout and reverses at 100% dropout"
+  },
+  "environment": {
+    "python": "3.13.5",
+    "numpy": "2.3.5",
+    "pandas": "2.2.3",
+    "scipy": "1.17.0",
+    "scikit_learn": "1.8.0",
+    "torch": "2.10.0+cpu",
+    "matplotlib": "3.10.8",
+    "pytest": "9.0.2",
+    "device": "cpu"
+  },
+  "claim_boundary": "Controlled synthetic APEN result only. No distinct PEN experiment, real-world sequence-model superiority, language-model gain, or publication novelty claim."
 }
