@@ -1,0 +1,88 @@
+name: Research Reproducibility Wave
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/research-repro-wave.yml'
+      - 'portfolio/project2424/projects/T2424-0025/**'
+      - 'portfolio/project2424/projects/T2424-0027/**'
+      - 'portfolio/project2424/projects/T2424-0037/**'
+      - 'portfolio/project2424/projects/T2424-0050/**'
+      - 'portfolio/research/**'
+      - 'RESEARCH_STATUS.md'
+
+permissions:
+  contents: read
+
+jobs:
+  focused-reproduction:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup repository-conformant Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '22.22.0'
+
+      - name: Capture environment
+        run: |
+          set -euo pipefail
+          mkdir -p repro-evidence
+          {
+            echo "commit=$(git rev-parse HEAD)"
+            echo "node=$(node --version)"
+            echo "npm=$(npm --version)"
+            echo "kernel=$(uname -srmo)"
+            echo "cpu_count=$(getconf _NPROCESSORS_ONLN)"
+            echo "started_utc=$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          } | tee repro-evidence/environment.txt
+
+      - name: Reproduce T2424-0025 robust-readout screen
+        run: |
+          set -euo pipefail
+          { time -p node portfolio/project2424/projects/T2424-0025/experiment/run.mjs > repro-evidence/T2424-0025-screen.json; } 2> repro-evidence/T2424-0025-screen.time
+          { time -p node portfolio/project2424/projects/T2424-0025/experiment/ablation.mjs > repro-evidence/T2424-0025-ablation.json; } 2> repro-evidence/T2424-0025-ablation.time
+          node -e "const fs=require('fs'); const s=JSON.parse(fs.readFileSync('repro-evidence/T2424-0025-screen.json')); const a=JSON.parse(fs.readFileSync('repro-evidence/T2424-0025-ablation.json')); if(s.verdict!=='PASS_HEAVY_TAIL_MEMORY_SCREEN') process.exit(1); if(a.seeds!==50) process.exit(1); const zero=a.summary.find(r=>r.contamination===0); if(!zero || !(zero.median.mae < zero.mean.mae)) process.exit(1); console.log(JSON.stringify({screen_verdict:s.verdict,ablation_seeds:a.seeds,zero_contamination_negative_control:'ROBUST_READOUT_STILL_BETTER'},null,2));" | tee repro-evidence/T2424-0025-verification.json
+
+      - name: Reproduce T2424-0027 latent-language synthetic audit
+        run: |
+          set -euo pipefail
+          { time -p node portfolio/project2424/projects/T2424-0027/experiment/run.mjs repro-evidence/T2424-0027-results.json > repro-evidence/T2424-0027-stdout.json; } 2> repro-evidence/T2424-0027.time
+          node portfolio/project2424/projects/T2424-0027/reproduction/verify.mjs | tee repro-evidence/T2424-0027-independent-verification.json
+
+      - name: Reproduce T2424-0037 controlled NeuroCAD benchmark
+        run: |
+          set -euo pipefail
+          { time -p node portfolio/project2424/projects/T2424-0037/benchmark/evaluate.mjs > repro-evidence/T2424-0037-benchmark.json; } 2> repro-evidence/T2424-0037.time
+          node --test tests/nlpToCad.test.mjs tests/nlpToCadBenchmark.test.mjs | tee repro-evidence/T2424-0037-tests.tap
+
+      - name: Reproduce T2424-0050 bounded Darcy screen
+        run: |
+          set -euo pipefail
+          cp portfolio/project2424/projects/T2424-0050/results/reference.json repro-evidence/T2424-0050-reference-before.json
+          { time -p node portfolio/project2424/projects/T2424-0050/experiment/run.mjs > repro-evidence/T2424-0050-run.json; } 2> repro-evidence/T2424-0050.time
+          cmp portfolio/project2424/projects/T2424-0050/results/reference.json repro-evidence/T2424-0050-reference-before.json
+          node --test tests/project2424DarcyLatentOperator.test.mjs | tee repro-evidence/T2424-0050-tests.tap
+          cp portfolio/project2424/projects/T2424-0050/results/reference.json repro-evidence/T2424-0050-reference-after.json
+
+      - name: Record completion
+        run: |
+          set -euo pipefail
+          {
+            echo "completed_utc=$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+            echo "dirty_after_runs=$(git status --porcelain | wc -l | tr -d ' ')"
+          } | tee repro-evidence/completion.txt
+
+      - name: Upload raw reproducibility evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: project2424-research-repro-wave
+          path: repro-evidence
+          if-no-files-found: error
+          retention-days: 30
