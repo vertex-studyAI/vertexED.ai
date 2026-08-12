@@ -9,6 +9,7 @@ const quickAskSource = fs.readFileSync('src/components/chat/ApexQuickAsk.tsx', '
 const retrievalPulseSource = fs.readFileSync('src/components/dashboard/RetrievalPulseCard.tsx', 'utf8');
 const portalEngagementSource = fs.readFileSync('src/components/portal/PortalEngagementRow.tsx', 'utf8');
 const portalCommandSource = fs.readFileSync('src/components/portal/PortalCommandCenter.tsx', 'utf8');
+const mockExamModeSource = fs.readFileSync('src/components/MockExamMode.tsx', 'utf8');
 const chatbotSource = fs.readFileSync('src/pages/AIChatbot.tsx', 'utf8');
 const examFlowSource = fs.readFileSync('src/lib/examFlow.ts', 'utf8');
 const isolationSource = fs.readFileSync('src/lib/transientSessionIsolation.ts', 'utf8');
@@ -18,7 +19,7 @@ test('transient learner handoffs use distinct account-scoped keys', () => {
   const first = userContentStorageKeys('11111111-1111-4111-8111-111111111111');
   const second = userContentStorageKeys('22222222-2222-4222-8222-222222222222');
 
-  for (const key of ['apexPrefill', 'mockReviewHandoff']) {
+  for (const key of ['apexPrefill', 'mockReviewHandoff', 'mockExamAnswers']) {
     assert.notEqual(first[key], second[key]);
     assert.match(first[key], /^vertex_content:/);
     assert.match(second[key], /^vertex_content:/);
@@ -42,10 +43,19 @@ test('mock-review handoff follows the active authenticated content scope', () =>
   assert.match(examFlowSource, /sessionStorage\.getItem\(storageKey\)/);
 });
 
+test('timed mock answers persist account-scoped and bridge only at reviewer consumption', () => {
+  assert.match(examFlowSource, /userContentStorageKeys\(\)\.mockExamAnswers/);
+  assert.match(examFlowSource, /const scopedAnswersKey = mockExamAnswersStorageKey\(\)/);
+  assert.match(examFlowSource, /sessionStorage\.getItem\(scopedAnswersKey\)/);
+  assert.match(examFlowSource, /sessionStorage\.setItem\(LEGACY_MOCK_EXAM_ANSWERS_KEY, scopedAnswers\)/);
+  assert.match(mockExamModeSource, /mockExamAnswersStorageKey\(\)/);
+  assert.doesNotMatch(mockExamModeSource, /sessionStorage\.setItem\(\s*['"]vertex_exam_answers['"]/);
+});
+
 test('completed timed mock answers take precedence over the question-only handoff', () => {
   assert.match(examFlowSource, /LEGACY_MOCK_EXAM_ANSWERS_KEY = 'vertex_exam_answers'/);
+  assert.match(examFlowSource, /sessionStorage\.removeItem\(storageKey\);\s*sessionStorage\.setItem\(LEGACY_MOCK_EXAM_ANSWERS_KEY, scopedAnswers\);\s*return null/);
   assert.match(examFlowSource, /sessionStorage\.getItem\(LEGACY_MOCK_EXAM_ANSWERS_KEY\)/);
-  assert.match(examFlowSource, /sessionStorage\.removeItem\(storageKey\);\s*return null/);
 });
 
 test('legacy shared handoffs are cleared at bootstrap and whenever auth ownership changes', () => {
