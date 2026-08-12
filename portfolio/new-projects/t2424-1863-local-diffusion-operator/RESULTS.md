@@ -1,6 +1,6 @@
 # RESULTS
 
-Executed locally on 10 August 2026.
+Executed locally on 10 August 2026 and independently replayed in GitHub Actions on 12 August 2026.
 
 ## Predeclared gate
 
@@ -9,25 +9,39 @@ Executed locally on 10 August 2026.
 - 3-point local stencil on a 32-point grid
 - zero-diffusion control shows no material gain
 
+The >75% threshold is frozen and was not relaxed after observing the result.
+
+## Reproduction environment
+
+Fresh replay evidence:
+
+- source SHA: `7cee0bd4d5cc7a3ac497476d322c6f0e16da9ee6`
+- Actions run: `31411517815`, attempt 3, job `94262839511`
+- Ubuntu `24.04.4` LTS, runner image `ubuntu-24.04` version `20260720.247.2`
+- Python `3.11.15`
+- pip `26.2.1`
+- pytest `9.1.1`
+- CPU execution
+
 ## Test command
 
 ```bash
 python -m pytest -q
 ```
 
-Result after encoding the original gate as a negative-result regression:
+Fresh independent result:
 
 ```text
-4 passed
+4 passed in 0.18s
 ```
 
 ## Benchmark command
 
 ```bash
-PYTHONPATH=src python -m local_diffusion_operator.benchmark --seeds 20
+python -m local_diffusion_operator.benchmark --seeds 20
 ```
 
-Result:
+Fresh independent result:
 
 ```text
 diffusion:
@@ -51,8 +65,14 @@ zero_diffusion:
 
 `NEGATIVE_OR_INCONCLUSIVE_AGAINST_PREDECLARED_GATE`
 
-The model recovered the planted coefficient and substantially reduced error, but 67.777% is below the predeclared >75% effect-size gate. The gate was not relaxed after observing the data.
+The operator recovered the planted coefficient and substantially reduced error, but `67.777%` is below the predeclared `>75%` effect-size gate. The zero-diffusion control shows no material benefit. The negative gate outcome reproduced unchanged on a fresh hosted runner.
+
+## Uncertainty
+
+The current benchmark summary reports 20-seed aggregate means but does not expose per-seed standard deviation, variance, or a confidence interval. This is an evidence gap, not permission to infer significance. A future reporting-only extension should retain per-seed metrics and calculate dispersion without changing the frozen hypothesis or threshold.
 
 ## Limitations
 
-Synthetic one-step diffusion only; scalar learned coefficient; no long rollout; no real PDE data; no strong neural-operator baseline; no runtime/memory measurement beyond locality; independent scientific QA pending.
+Synthetic one-step diffusion only; scalar learned coefficient; no long rollout; no real PDE data; no strong neural-operator baseline; no comprehensive runtime/memory comparison beyond the local stencil; no claim of FNO/DeepONet superiority.
+
+See `REPRODUCE.md` and `experiment_metadata.json` for the frozen command/environment/seed record.
