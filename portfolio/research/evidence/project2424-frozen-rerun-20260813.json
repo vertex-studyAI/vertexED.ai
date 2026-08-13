@@ -1,25 +1,61 @@
 {
   "kind": "project2424_frozen_reproducibility_rerun",
-  "recorded_utc": "2026-08-12T23:06:56Z",
+  "recorded_utc": "2026-08-12T23:31:49Z",
   "source": {
     "repository": "vertex-studyAI/vertexED.ai",
     "head_sha": "bd2a4d3d939b8ce06908d7842ca9e075e0ae2fa7",
     "branch": "agent/research-repro-wave-20260812",
-    "workflow_run_id": 31618609967,
-    "rerun_job_id": 94290960051
+    "workflow_run_id": 31618609967
   },
-  "environment": {
+  "latest_attempt": {
+    "rerun_job_id": 94295733785,
     "runner_os": "Ubuntu 24.04.4 LTS",
-    "runner_image": "ubuntu-24.04 20260720.247.2",
+    "runner_image": "ubuntu-24.04 20260810.271.1",
+    "runner_version": "2.336.0",
     "node": "v22.22.0",
     "npm": "10.9.4",
-    "kernel": "Linux 6.17.0-1020-azure x86_64 GNU/Linux",
+    "kernel": "Linux 6.17.0-1022-azure x86_64 GNU/Linux",
     "cpu_count": 4,
-    "cuda_used": false
+    "cuda_used": false,
+    "experiment_bundle_started_utc": "2026-08-12T23:31:46Z",
+    "experiment_bundle_completed_utc": "2026-08-12T23:31:48Z",
+    "artifact": {
+      "id": 9162627168,
+      "name": "project2424-research-repro-wave",
+      "size_bytes": 10539,
+      "digest": "sha256:d9d1816d3cf8eb317f435b180c0ec6137fa64cbfde6b99e7f8b5f2d5f1a0bbae",
+      "retention_days": 30
+    },
+    "verification": {
+      "job_conclusion": "success",
+      "T2424-0025_tests": "10/10 passed",
+      "T2424-0027_tests": "8/8 passed",
+      "T2424-0037_tests": "6/6 passed",
+      "T2424-0050_tests": "6/6 passed",
+      "T2424-0027_independent_verifier": "PASS",
+      "scientific_metrics_match_retained_values": true,
+      "scientific_payload_byte_identity_not_reasserted_for_this_attempt": true
+    }
   },
-  "timing": {
-    "experiment_bundle_started_utc": "2026-08-12T23:06:52Z",
-    "experiment_bundle_completed_utc": "2026-08-12T23:06:55Z"
+  "prior_retained_attempt": {
+    "recorded_utc": "2026-08-12T23:06:56Z",
+    "rerun_job_id": 94290960051,
+    "environment": {
+      "runner_os": "Ubuntu 24.04.4 LTS",
+      "runner_image": "ubuntu-24.04 20260720.247.2",
+      "node": "v22.22.0",
+      "npm": "10.9.4",
+      "kernel": "Linux 6.17.0-1020-azure x86_64 GNU/Linux",
+      "cpu_count": 4,
+      "cuda_used": false
+    },
+    "artifact": {
+      "id": 9162075012,
+      "name": "project2424-research-repro-wave",
+      "size_bytes": 10539,
+      "digest": "sha256:9ccaa6fb9224b84665ca17808a6b7515986f420c99c0fb316e41726e886eddd9",
+      "retention_days": 30
+    }
   },
   "commands": [
     "node portfolio/project2424/projects/T2424-0025/experiment/run.mjs > repro-evidence/T2424-0025-screen.json",
@@ -84,23 +120,10 @@
       "verdict": "PASS_BOUNDED_DARCY_LATENT_SCREEN"
     }
   },
-  "tests": {
-    "T2424-0025": "10/10 passed",
-    "T2424-0027": "8/8 passed",
-    "T2424-0037": "6/6 passed",
-    "T2424-0050": "6/6 passed"
-  },
-  "artifact": {
-    "id": 9162075012,
-    "name": "project2424-research-repro-wave",
-    "size_bytes": 10539,
-    "digest": "sha256:9ccaa6fb9224b84665ca17808a6b7515986f420c99c0fb316e41726e886eddd9",
-    "retention_days": 30
-  },
-  "comparison_to_prior_rerun": {
-    "prior_artifact_id": 9150291423,
-    "prior_digest": "sha256:380ca0a2b9628eee8cb9f06d7a56cc28b75b1974c75fdb4582b81125617c1c05",
-    "scientific_payload_byte_identical": true,
+  "comparison_to_original_retained_artifact": {
+    "original_artifact_id": 9150291423,
+    "original_digest": "sha256:380ca0a2b9628eee8cb9f06d7a56cc28b75b1974c75fdb4582b81125617c1c05",
+    "prior_attempt_scientific_payload_byte_identical": true,
     "byte_identical_files": [
       "T2424-0025-screen.json",
       "T2424-0025-ablation.json",
@@ -126,7 +149,7 @@
     "Darcy": "Deterministic 1D reduced-resistance surrogate only; no learned neural-operator or multidimensional PDE claim.",
     "LAM_JEPA": "No effect on the frozen negative/inconclusive ARC verdict; locked confirmatory test remains untouched."
   },
-  "file_sha256": {
+  "file_sha256_from_prior_byte_identical_attempt": {
     "T2424-0025-ablation.json": "f61dd31562ce2f5638535a90ab2d700aed494790e9aca515797595158ee9ee4e",
     "T2424-0025-screen.json": "7b26bfcf82444b1de868092c8391a3772bd4e6acc5d64468839f9af6290a3db1",
     "T2424-0025-verification.json": "ba0e73902ef8cd2dabc66995bffbd20476afad7aa23f8302ce4be7e68f736188",
