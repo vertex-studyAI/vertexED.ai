@@ -1,0 +1,160 @@
+{
+  "schema_version": 1,
+  "experiment_id": "NGMT-v0.1-frozen-2026-08-13",
+  "status": "REPRODUCED_NEGATIVE_OR_INCONCLUSIVE",
+  "verdict": "NEGATIVE_OR_INCONCLUSIVE_NGMT_V01",
+  "hypothesis_supported": false,
+  "claim_boundary": "Tiny synthetic Transformer development experiment only; no general Transformer, language-model, long-context, real-data, external-validation, AGI or publication claim.",
+  "protocol_freeze_commits": [
+    "60d03821177a179ba0aec4253e3f987103c45f87",
+    "c077168986ebbf64a5e94eb12eff0afcf220ea56",
+    "876e1ca64f1f756d1d426bceea42139b743872fc",
+    "8234b335c046b893fe241d25859f84a475ab907f"
+  ],
+  "implementation_commit": "540c471c329244363e18193b4ae982ffafc00b44",
+  "invalid_attempt": {
+    "classification": "INVALID_EXECUTION_PLUMBING_FAILURE_PRE_SCIENTIFIC_RUN",
+    "run_id": 31661146957,
+    "head_sha": "475fd26c568a71db8a82be87a1321fc1f06f9afd",
+    "artifact_id": 9166231239,
+    "artifact_sha256": "97b191ac1a8ba3de2776c07caa6e38b28a6cd77330e8af82e69802b82995c42a",
+    "scientific_training_executed": false,
+    "cause": "Python 3.13 pytest dynamic-module registration bug in the test loader"
+  },
+  "valid_execution": {
+    "run_id": 31661313386,
+    "head_sha": "385ea6251561ed2a7b05b6a6f10307666b169b80",
+    "artifact_id": 9166307730,
+    "artifact_sha256": "ec7d88d342271ad28b6f9ae485338985a219b7d43d55dd45350a4611c585ce76",
+    "results_json_sha256": "f8feeccc6ca864efc6389c9e8b9b952698d349251d332f81735c542913f33b14",
+    "tests": {"passed": 6, "failed": 0},
+    "wall_seconds": 72.65,
+    "peak_rss_kib": 324132,
+    "run_count": 12
+  },
+  "environment": {
+    "os": "Ubuntu 24.04 hosted runner",
+    "python": "3.13.14",
+    "numpy": "2.5.2",
+    "torch": "2.13.0+cpu",
+    "device": "cpu",
+    "dtype": "float32",
+    "reported_logical_cpus": 4
+  },
+  "data": {
+    "sequence_length": 80,
+    "context_length": 16,
+    "prediction_anchors": [31, 47, 63, 78],
+    "training_seeds": [11, 23, 37],
+    "evaluation_seed_rule": "10000 + training_seed",
+    "train_sequences_per_seed": 640,
+    "validation_sequences_per_seed": 160,
+    "evaluation_sequences_per_condition_per_seed": 120,
+    "training_examples_per_seed": 2560,
+    "evaluation_examples_per_condition_per_seed": 480,
+    "training_conditions": ["gaussian_clean", "student_t", "two_mode", "regime_switch"],
+    "evaluation_conditions": ["gaussian_clean", "student_t", "two_mode", "regime_switch", "outlier_bursts", "nonstationary_mixture"],
+    "adverse_conditions": ["student_t", "two_mode", "regime_switch", "outlier_bursts", "nonstationary_mixture"]
+  },
+  "arms": {
+    "B0": {"description": "no external memory", "trainable_parameters": 6049, "runtime_memory_scalars": 0},
+    "B1": {"description": "standard kernel memory", "trainable_parameters": 6049, "runtime_memory_scalars": 18},
+    "B2": {"description": "Gaussian mixture memory", "trainable_parameters": 6049, "runtime_memory_scalars": 18},
+    "B3": {"description": "Student-t mixture memory with robust write influence", "trainable_parameters": 6049, "runtime_memory_scalars": 18}
+  },
+  "condition_mse_mean_sample_sd": {
+    "gaussian_clean": {
+      "B0": [0.13926956221228032, 0.01463894290712292],
+      "B1": [0.1335789056201452, 0.006401348411441147],
+      "B2": [0.13536882823810514, 0.0062920232124721275],
+      "B3": [0.13676975387321325, 0.009682746688088894]
+    },
+    "student_t": {
+      "B0": [0.17866187367198513, 0.043982833793851754],
+      "B1": [0.1712986016234719, 0.050169241135854366],
+      "B2": [0.17203208714376747, 0.04920940168331321],
+      "B3": [0.17559045367479909, 0.047851635076559235]
+    },
+    "two_mode": {
+      "B0": [0.45442187523358246, 0.09234758891639422],
+      "B1": [0.4506471230150207, 0.08008010930218545],
+      "B2": [0.452292970372538, 0.08857019109916951],
+      "B3": [0.45120985503610234, 0.08727693736655848]
+    },
+    "regime_switch": {
+      "B0": [0.12493743049957644, 0.025667645512449374],
+      "B1": [0.1176724094122803, 0.0175195631982196],
+      "B2": [0.12131449644233487, 0.020072562527132493],
+      "B3": [0.12001527274877159, 0.020236361396443834]
+    },
+    "outlier_bursts": {
+      "B0": [1.3588400651121724, 0.32193033832020346],
+      "B1": [1.3486433175440036, 0.30324764958257927],
+      "B2": [1.3383769900975906, 0.2864828361053834],
+      "B3": [1.3341570197976143, 0.31395581681550644]
+    },
+    "nonstationary_mixture": {
+      "B0": [0.8827205334839051, 0.05155325051051711],
+      "B1": [0.8817572152307114, 0.04365157204250682],
+      "B2": [0.886405622313966, 0.056119803218034635],
+      "B3": [0.8785715643142283, 0.05039498207145636]
+    }
+  },
+  "paired_seed_effects": [
+    {
+      "seed": 11,
+      "adverse_mse": {"B0": 0.6490391731130692, "B1": 0.6330515243418118, "B2": 0.6337889878548392, "B3": 0.6372791925742493},
+      "relative_b3_over_b2": -0.005506887601855064,
+      "relative_b3_over_b1": -0.006678237189039254,
+      "gaussian_clean_relative_regression_b3_vs_b2": 0.035560224376975105
+    },
+    {
+      "seed": 23,
+      "adverse_mse": {"B0": 0.6487208510366956, "B1": 0.6443839634739807, "B2": 0.6405897543341215, "B3": 0.6421113438258225},
+      "relative_b3_over_b2": -0.0023752947676827286,
+      "relative_b3_over_b1": 0.003526809754709306,
+      "gaussian_clean_relative_regression_b3_vs_b2": 0.011680556941385808
+    },
+    {
+      "seed": 37,
+      "adverse_mse": {"B0": 0.5019890426509681, "B1": 0.5045757122795005, "B2": 0.5078745576331574, "B3": 0.49633596294283777},
+      "relative_b3_over_b2": 0.022719379257926973,
+      "relative_b3_over_b1": 0.016330055403258208,
+      "gaussian_clean_relative_regression_b3_vs_b2": -0.018439880982920875
+    }
+  ],
+  "paired_effect_summary": {
+    "relative_b3_over_b2_mean": 0.004945732296129727,
+    "relative_b3_over_b2_sample_sd": 0.015471865212756775,
+    "relative_b3_over_b1_mean": 0.004392875989642753,
+    "relative_b3_over_b1_sample_sd": 0.011528570381693535,
+    "gaussian_clean_relative_regression_b3_vs_b2_mean": 0.009600300111813348,
+    "gaussian_clean_relative_regression_b3_vs_b2_sample_sd": 0.027060089543046673,
+    "n_seeds": 3
+  },
+  "frozen_criteria": {
+    "b3_over_b2_adverse_improvement_min": 0.05,
+    "b3_over_b1_adverse_improvement_min": 0.03,
+    "clean_regression_b3_vs_b2_max": 0.02,
+    "no_b3_failure": true,
+    "identical_trainable_parameter_counts": true,
+    "b1_b2_b3_equal_memory_capacity": true
+  },
+  "criteria_passed": {
+    "b3_over_b2_adverse_improvement": false,
+    "b3_over_b1_adverse_improvement": false,
+    "clean_regression_guardrail": true,
+    "no_b3_failure": true,
+    "identical_trainable_parameter_counts": true,
+    "b1_b2_b3_equal_memory_capacity": true
+  },
+  "limitations": [
+    "synthetic sequence processes",
+    "tiny Transformer",
+    "three paired seeds; no significance claim",
+    "MSE/MAE next-step prediction only",
+    "fixed online-memory hyperparameters",
+    "no natural-language or external dataset",
+    "no independent implementation replication"
+  ]
+}
