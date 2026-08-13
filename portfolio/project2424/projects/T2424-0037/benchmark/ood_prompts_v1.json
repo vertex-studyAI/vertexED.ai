@@ -1,0 +1,22 @@
+[
+  {"id":"O001","kind":"valid","prompt":"plate of 75 mm wide and 35 mm thickness of 4 mm","expected":{"type":"rectangular_plate","units":"mm","width":75,"height":35,"thickness":4,"holes":[]}},
+  {"id":"O002","kind":"valid","prompt":"panel 90 mm by 45 mm thick 5 mm","expected":{"type":"rectangular_plate","units":"mm","width":90,"height":45,"thickness":5,"holes":[]}},
+  {"id":"O003","kind":"valid","prompt":"rectangle of 60 by 30 thickness of 2","expected":{"type":"rectangular_plate","units":"mm","width":60,"height":30,"thickness":2,"holes":[]}},
+  {"id":"O004","kind":"valid","prompt":"bracket 110 x 55 thick 6","expected":{"type":"rectangular_plate","units":"mm","width":110,"height":55,"thickness":6,"holes":[]}},
+  {"id":"O005","kind":"valid","prompt":"plate 100 by 60 with 4 mounting holes dia 8 edge offset of 12","expected":{"type":"rectangular_plate","units":"mm","width":100,"height":60,"thickness":3,"holes":[{"x":12,"y":12,"radius":4},{"x":88,"y":12,"radius":4},{"x":88,"y":48,"radius":4},{"x":12,"y":48,"radius":4}]}},
+  {"id":"O006","kind":"valid","prompt":"panel 80 by 40 with 2 holes r 3 margin of 9","expected":{"type":"rectangular_plate","units":"mm","width":80,"height":40,"thickness":3,"holes":[{"x":9,"y":9,"radius":3},{"x":71,"y":31,"radius":3}]}},
+  {"id":"O007","kind":"valid","prompt":"rectangle 50 by 50 with 1 hole diameter of 10 inset of 15","expected":{"type":"rectangular_plate","units":"mm","width":50,"height":50,"thickness":3,"holes":[{"x":25,"y":25,"radius":5}]}},
+  {"id":"O008","kind":"valid","prompt":"plate of 120 by 70 with 4 holes radius of 2.5 edge offset 10","expected":{"type":"rectangular_plate","units":"mm","width":120,"height":70,"thickness":3,"holes":[{"x":10,"y":10,"radius":2.5},{"x":110,"y":10,"radius":2.5},{"x":110,"y":60,"radius":2.5},{"x":10,"y":60,"radius":2.5}]}},
+  {"id":"O009","kind":"valid","prompt":"panel of 88 mm by 44 mm with 2 holes diameter 4 margin 8","expected":{"type":"rectangular_plate","units":"mm","width":88,"height":44,"thickness":3,"holes":[{"x":8,"y":8,"radius":2},{"x":80,"y":36,"radius":2}]}},
+  {"id":"O010","kind":"valid","prompt":"bracket 64 wide and 32 thickness 2 with 1 hole r 2 inset 7","expected":{"type":"rectangular_plate","units":"mm","width":64,"height":32,"thickness":2,"holes":[{"x":32,"y":16,"radius":2}]}},
+  {"id":"O011","kind":"valid","prompt":"PLATE 140 BY 80 THICKNESS 7 WITH 4 HOLES DIA 6 MARGIN 11","expected":{"type":"rectangular_plate","units":"mm","width":140,"height":80,"thickness":7,"holes":[{"x":11,"y":11,"radius":3},{"x":129,"y":11,"radius":3},{"x":129,"y":69,"radius":3},{"x":11,"y":69,"radius":3}]}},
+  {"id":"O012","kind":"valid","prompt":"rectangle 200 × 100 thick 9 with 2 holes radius 4 edge offset 15","expected":{"type":"rectangular_plate","units":"mm","width":200,"height":100,"thickness":9,"holes":[{"x":15,"y":15,"radius":4},{"x":185,"y":85,"radius":4}]}},
+  {"id":"O013","kind":"invalid","prompt":"disc 50 by 50 thickness 3","expected":null,"failure_class":"OBJECT_CLASS_REJECTED"},
+  {"id":"O014","kind":"invalid","prompt":"plate 80 by 40 with 3 holes radius 2 inset 6","expected":null,"failure_class":"UNSUPPORTED_HOLE_COUNT"},
+  {"id":"O015","kind":"invalid","prompt":"plate 80 by 40 with 4 holes radius 5 inset 4","expected":null,"failure_class":"HOLE_GEOMETRY_INVALID"},
+  {"id":"O016","kind":"invalid","prompt":"plate 3000 by 20 thickness 3","expected":null,"failure_class":"DIMENSION_SAFETY_LIMIT"},
+  {"id":"O017","kind":"invalid","prompt":"plate 50 by 40 with 2 holes inset 8","expected":null,"failure_class":"MISSING_HOLE_SIZE"},
+  {"id":"O018","kind":"invalid","prompt":"plate -50 by 40 thickness 3","expected":null,"failure_class":"NON_POSITIVE_DIMENSION"},
+  {"id":"O019","kind":"invalid","prompt":"plate 50 by 40 thickness 0","expected":null,"failure_class":"NON_POSITIVE_DIMENSION"},
+  {"id":"O020","kind":"invalid","prompt":"plate 50 by 40 with 4 holes diameter 100 inset 10","expected":null,"failure_class":"HOLE_GEOMETRY_INVALID"}
+]
