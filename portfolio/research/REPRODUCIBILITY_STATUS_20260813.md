@@ -1,6 +1,6 @@
 # Research Reproducibility Wave — Canonical Live Status — 13 August 2026
 
-**Control-repository base:** `1a6e270a8d58e36447bee818740201a9c5e6072c`  
+**Control-repository base:** `f41cfb7080f5ffb253503a521aa40a05023544da`  
 **Status semantics:** claim-specific; `REPRODUCED` is not `EXTERNALLY VALIDATED`, and CI success is not scientific superiority.  
 **Negative results:** eligible for GREEN when the frozen experiment executed correctly and the adverse result is retained.
 
@@ -12,10 +12,10 @@ This file is the current research-wave status layer. Older root/portfolio status
 |---:|---|---|---|---|
 | P0 | LAM-JEPA | **FULL SCIENTIFIC RESULT REPRODUCED** in dedicated repo | ARC superiority, planner, target and repaired-quantization claims unsupported | new hypothesis only under separately frozen protocol; locked ARC test stays untouched |
 | P0 | Project 2424 priority runner | **12 PRIORITY PATHS EXACT-HEAD EXECUTED; FAIL-CLOSED RUNNER** | mixed bounded/negative evidence by project | external/learned baselines per project; do not promote synthetic mechanics |
-| P0 | T2424-0025 / NGMT precursor | **REPRODUCED + NEGATIVE MECHANISM CONTROL** | robust readouts help, including at zero Cauchy contamination; unique non-Gaussian mechanism not isolated | freeze real B0/B1/B2/B3 Transformer mechanism before training |
+| P0 | T2424-0025 / NGMT precursor | **REPRODUCED + NEGATIVE MECHANISM CONTROL** | robust readouts help, including at zero Cauchy contamination; unique non-Gaussian mechanism not isolated | retain as precursor only; do not inherit it as NGMT Transformer evidence |
 | P0 | NeuroCAD / T2424-0037 | **ORIGINAL + HELD-OUT + CAD-BACKEND REPRODUCED; POST-RESULT BUG FIX VERIFIED** | frozen OOD v1 passed 19/20 with one retained negative-width failure; unchanged benchmark passes 20/20 after narrow fix; OpenSCAD 12/12 | genuinely new geometry families; stronger direct/model baseline; richer CAD validity |
 | P0 | IRIS v0.2 | **REPRODUCED MIXED/NEGATIVE + STRONGER DEVELOPMENT BASELINES REPRODUCED** | scalar heavy-tail effect localizes; universal shift and learned transfer fail; PABIM not promoted | common learned robust/change-aware harness, external temporal data, frozen successor, untouched confirmatory block |
-| P1 | NGMT | **BLOCKED — MECHANISM NOT FROZEN** | no Transformer-level result | formal state/read/write/non-Gaussian equations and matched budgets |
+| P1 | NGMT v0.1 | **FROZEN LEARNED B0–B3 EXPERIMENT REPRODUCED; NEGATIVE/INCONCLUSIVE** | B3 is fairly matched but misses both preregistered adverse-condition advantage gates; mechanism advantage unsupported | new versioned hypothesis only; do not rescue or retune v0.1 |
 | P1 | APEN | **REPRODUCED SYNTHETIC CONTROLLED MIXED** | rare-event benefit with informative salience; advantage collapses/reverses under heavy salience dropout | learned/naturalistic baseline and preregistered salience-quality stress |
 | P1 | PEN | **INDEPENDENT EVIDENCE PACKAGE FOUND; FRESH SOURCE-TREE RERUN BLOCKED** | retained PEN slightly beats no-memory but loses random-write and attention-only controls | recover executable MODEL-PEN source tree and rerun independently; do not inherit APEN evidence |
 | P1 | Eigen-JEPA | **REPRODUCED REAL-DATA MIXED/NEGATIVE** | no superiority over strong direct covariance forecasting; persistence strongest on reported subspace metric | reconcile distinct lineages; freeze primary metric; multi-dataset replication |
@@ -128,6 +128,54 @@ Stronger development-baseline addendum:
 
 No successor confirmatory block was accessed. IRIS remains a rigorous mixed/negative research package, not a proven positive architecture.
 
+## NGMT v0.1 — learned B0–B3 negative result
+
+NGMT now has a real Transformer-level development experiment, distinct from the T2424-0025 robust-readout precursor. The mechanism, sequence tasks, architecture defaults, seeds, training budget and verdict arithmetic were committed before implementation/result observation.
+
+Frozen scientific line:
+
+- B0: no external memory;
+- B1: standard kernel memory;
+- B2: Gaussian mixture memory;
+- B3: Student-t (`ν=3`) mixture responsibilities plus robust write influence;
+- same tiny causal Transformer in all arms;
+- exactly `6,049` trainable parameters per arm;
+- B1/B2/B3 each use exactly `18` scalar runtime-memory state values;
+- training seeds `[11,23,37]`;
+- six held-out conditions including clean Gaussian, Student-t, multimodal, regime-switch, outlier-burst and non-stationary mixture conditions.
+
+Two Actions attempts failed before scientific execution because Python 3.13 pytest collection required the dynamically imported test module to be registered in `sys.modules`. Both invalid attempts are retained in `NGMT_V01_BUG_LOG.md`; the loader-only fix did not change the scientific implementation or frozen protocol.
+
+First valid scientific run:
+
+- run `31661313386`;
+- head `385ea6251561ed2a7b05b6a6f10307666b169b80`;
+- artifact `9166307730`;
+- artifact digest `sha256:ec7d88d342271ad28b6f9ae485338985a219b7d43d55dd45350a4611c585ce76`;
+- raw `results.json` SHA-256 `f8feeccc6ca864efc6389c9e8b9b952698d349251d332f81735c542913f33b14`;
+- invariant tests `6 passed`;
+- 12 learned runs = 3 paired seeds × 4 arms;
+- no B3 divergence.
+
+Frozen paired-seed result, mean ± sample SD, `n=3`:
+
+- B3 adverse MSE improvement over B2: **`+0.4946% ± 1.5472%`**, required `>=5%` — FAIL;
+- B3 adverse MSE improvement over B1: **`+0.4393% ± 1.1529%`**, required `>=3%` — FAIL;
+- B3 clean-Gaussian relative regression vs B2: **`+0.9600% ± 2.7060%`**, allowed `<=2%` — PASS;
+- identical trainable-parameter count — PASS;
+- equal B1/B2/B3 memory capacity — PASS;
+- no B3 failed/divergent seed — PASS.
+
+Verdict:
+
+`NEGATIVE_OR_INCONCLUSIVE_NGMT_V01`
+
+An unchanged-protocol replay, run `31661621771`, artifact `9166406618`, digest `sha256:5a34b13b54761e894b5cd3de2941c44121ea39705f8588e83aaf8a18dd2d7d06`, reproduced exactly all scientific condition summaries, all paired seed effects, all criteria, all 12 epoch histories and **all 12 checkpoint SHA-256 hashes**. Only wall-clock metadata and therefore whole-artifact hashes differed.
+
+PR `#314` passed the canonical release, production-browser and local-accessibility gates and merged as `f41cfb7080f5ffb253503a521aa40a05023544da`.
+
+The current defensible conclusion is negative: the explicit Student-t memory executed fairly and reproducibly but did not provide the preregistered effect size over standard or Gaussian memory. Do not rerun, metric-shop, drop conditions or alter thresholds to rescue v0.1. Any successor must be separately versioned and frozen before observing its result.
+
 ## APEN / PEN / Eigen-JEPA / NPMS
 
 Recovered Atlas V4 archive SHA-256:
@@ -179,7 +227,7 @@ This does **not** mean 16,256 processes, model sessions or API calls. Real-host 
 ## Claims that remain blocked
 
 - LAM-JEPA superiority or validated planner/target/quantization benefit;
-- Transformer-level NGMT;
+- NGMT v0.1 mechanism advantage, statistical significance, general Transformer superiority, long-context or language-model benefit;
 - fresh executable PEN reproduction;
 - arbitrary/general NeuroCAD or new part-family OOD;
 - IRIS positive architecture or external validation;

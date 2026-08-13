@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "date": "2026-08-13",
-  "control_repo_base": "1a6e270a8d58e36447bee818740201a9c5e6072c",
+  "control_repo_base": "f41cfb7080f5ffb253503a521aa40a05023544da",
   "semantics": {
     "green_is_claim_specific": true,
     "reproduced_is_not_externally_validated": true,
@@ -30,8 +30,51 @@
       "zero_contamination_mean_mae": 0.02464691771133496
     },
     "NGMT": {
-      "state": "BLOCKED_MECHANISM_NOT_FROZEN",
-      "required_baselines": ["B0_no_memory","B1_standard_memory","B2_gaussian_reference_memory","B3_proposed_non_gaussian_memory"]
+      "state": "V0_1_LEARNED_B0_B3_REPRODUCED_NEGATIVE",
+      "scientific_verdict": "NEGATIVE_OR_INCONCLUSIVE_NGMT_V01",
+      "hypothesis_supported": false,
+      "protocol_frozen_before_implementation": true,
+      "protocol_freeze_commits": [
+        "60d03821177a179ba0aec4253e3f987103c45f87",
+        "c077168986ebbf64a5e94eb12eff0afcf220ea56",
+        "876e1ca64f1f756d1d426bceea42139b743872fc",
+        "8234b335c046b893fe241d25859f84a475ab907f"
+      ],
+      "implementation_commit": "540c471c329244363e18193b4ae982ffafc00b44",
+      "merge_commit": "f41cfb7080f5ffb253503a521aa40a05023544da",
+      "first_valid_run": {
+        "run_id": 31661313386,
+        "head_sha": "385ea6251561ed2a7b05b6a6f10307666b169b80",
+        "artifact_id": 9166307730,
+        "artifact_digest": "sha256:ec7d88d342271ad28b6f9ae485338985a219b7d43d55dd45350a4611c585ce76",
+        "results_sha256": "f8feeccc6ca864efc6389c9e8b9b952698d349251d332f81735c542913f33b14",
+        "invariant_tests_passed": 6,
+        "scientific_runs": 12,
+        "b3_divergent_runs": 0
+      },
+      "unchanged_protocol_replay": {
+        "run_id": 31661621771,
+        "head_sha": "7e4547345052c3514219005fc00f396d4efa0838",
+        "artifact_id": 9166406618,
+        "artifact_digest": "sha256:5a34b13b54761e894b5cd3de2941c44121ea39705f8588e83aaf8a18dd2d7d06",
+        "scientific_metrics_exact_match": true,
+        "all_12_training_histories_exact_match": true,
+        "all_12_checkpoint_sha256_exact_match": true
+      },
+      "trainable_parameters_each_arm": 6049,
+      "runtime_memory_scalars": {"B0":0,"B1":18,"B2":18,"B3":18},
+      "paired_effects_n_seeds": 3,
+      "b3_vs_b2_adverse_improvement_mean": 0.004945732296129727,
+      "b3_vs_b2_required_min": 0.05,
+      "b3_vs_b1_adverse_improvement_mean": 0.004392875989642753,
+      "b3_vs_b1_required_min": 0.03,
+      "b3_clean_regression_vs_b2_mean": 0.009600300111813348,
+      "b3_clean_regression_allowed_max": 0.02,
+      "effect_gates_passed": false,
+      "matching_and_execution_gates_passed": true,
+      "supports_general_transformer_superiority": false,
+      "supports_long_context_or_language_model_claim": false,
+      "next_gate": "new_versioned_hypothesis_only; do_not_rescue_or_retune_v0_1"
     },
     "NeuroCAD": {
       "state": "CONTROLLED_AND_HELD_OUT_REPRODUCED_POSTFIX_VERIFIED",
@@ -63,7 +106,7 @@
   },
   "blocked_claims": [
     "LAM-JEPA superiority",
-    "Transformer-level NGMT",
+    "NGMT v0.1 mechanism advantage or general Transformer superiority",
     "fresh executable PEN reproduction",
     "general/new-family NeuroCAD",
     "positive/external IRIS",
