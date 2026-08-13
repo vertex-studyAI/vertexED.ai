@@ -1,0 +1,90 @@
+name: NGMT v0.1 frozen B0-B3 development
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'portfolio/research/ngmt/NGMT_V01_PROTOCOL.md'
+      - 'portfolio/research/ngmt/NGMT_V01_PROTOCOL_CLARIFICATION.md'
+      - 'portfolio/research/ngmt/NGMT_V01_TRAINING_FIXTURE.md'
+      - 'portfolio/research/ngmt/NGMT_V01_VERDICT_RULE.md'
+      - 'portfolio/research/ngmt/v01/**'
+      - 'tests/test_ngmt_v01.py'
+      - '.github/workflows/ngmt-v01-frozen.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  ngmt-v01:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Install frozen runtime dependencies
+        run: |
+          set -euo pipefail
+          python -m pip install --upgrade pip
+          python -m pip install numpy pytest
+          python -m pip install torch --index-url https://download.pytorch.org/whl/cpu
+
+      - name: Capture execution provenance
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/ngmt-v01
+          {
+            echo "protocol_freeze_sha=8234b335c046b893fe241d25859f84a475ab907f"
+            echo "execution_sha=${GITHUB_SHA}"
+            echo "python=$(python --version 2>&1)"
+            echo "numpy=$(python -c 'import numpy; print(numpy.__version__)')"
+            echo "torch=$(python -c 'import torch; print(torch.__version__)')"
+            echo "kernel=$(uname -a)"
+            echo "cpu_count=$(getconf _NPROCESSORS_ONLN)"
+            echo "started_utc=$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          } | tee artifacts/ngmt-v01/environment.txt
+
+      - name: Verify frozen mechanism invariants
+        run: |
+          set -euo pipefail
+          pytest -q tests/test_ngmt_v01.py | tee artifacts/ngmt-v01/tests.log
+
+      - name: Execute frozen three-seed B0-B3 development experiment
+        run: |
+          set -euo pipefail
+          /usr/bin/time -v -o artifacts/ngmt-v01/process-time.txt \
+            python portfolio/research/ngmt/v01/run.py --output-dir artifacts/ngmt-v01 \
+            | tee artifacts/ngmt-v01/stdout.log
+
+      - name: Retain protocol and source snapshots
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/ngmt-v01/frozen
+          cp portfolio/research/ngmt/NGMT_V01_PROTOCOL.md artifacts/ngmt-v01/frozen/
+          cp portfolio/research/ngmt/NGMT_V01_PROTOCOL_CLARIFICATION.md artifacts/ngmt-v01/frozen/
+          cp portfolio/research/ngmt/NGMT_V01_TRAINING_FIXTURE.md artifacts/ngmt-v01/frozen/
+          cp portfolio/research/ngmt/NGMT_V01_VERDICT_RULE.md artifacts/ngmt-v01/frozen/
+          cp portfolio/research/ngmt/v01/run.py artifacts/ngmt-v01/frozen/
+          cp tests/test_ngmt_v01.py artifacts/ngmt-v01/frozen/
+          echo "completed_utc=$(date -u +%Y-%m-%dT%H:%M:%SZ)" | tee artifacts/ngmt-v01/completed.txt
+
+      - name: Hash complete evidence package
+        if: always()
+        run: |
+          set -euo pipefail
+          find artifacts/ngmt-v01 -type f ! -name SHA256SUMS.txt -print0 \
+            | sort -z \
+            | xargs -0 sha256sum \
+            | tee artifacts/ngmt-v01/SHA256SUMS.txt
+
+      - name: Upload NGMT v0.1 evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ngmt-v01-frozen-evidence
+          path: artifacts/ngmt-v01/
+          if-no-files-found: error
+          retention-days: 90
