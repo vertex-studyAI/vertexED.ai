@@ -1,0 +1,81 @@
+{
+  "kind": "iris_v0_2_fresh_clean_reproduction_20260813",
+  "source": {
+    "surface": "ChatGPT Library recovered archive",
+    "archive_name": "IRIS_v0.2_research_package(1).zip",
+    "archive_sha256": "5d689ade164d80216d0ab6d4376b8acf53b8e0ba13d4bd5e909a94f00ec86b56",
+    "git_commit": null,
+    "remote_repo_status": "not available in connected GitHub installation"
+  },
+  "environment": {
+    "python": "3.13.5",
+    "numpy": "2.3.5",
+    "scipy": "1.17.0",
+    "torch": "2.10.0+cpu",
+    "platform": "Linux-6.18.35-x86_64-with-glibc2.41",
+    "cuda": false
+  },
+  "commands": [
+    "sha256sum -c SHA256SUMS.txt",
+    "python -m pytest -q",
+    "python experiments/run_scalar_v2.py",
+    "python experiments/run_sequence_v2.py",
+    "python experiments/make_figures_v2.py"
+  ],
+  "verification": {
+    "package_integrity_before_rerun": "PASS all listed files",
+    "unit_tests": "4 passed",
+    "scalar_exit_code": 0,
+    "sequence_exit_code": 0,
+    "figures_exit_code": 0,
+    "result_files": [
+      {"path":"experiments/results/scalar_v2_manifest.json","sha256_after":"f1bca025e8ef2aef60d43cb18951458cbddef9cfa16eca0c44464df41dd6003b","sha256_packaged":"55eb9d926322b5adc2a176c2491368e4ab8b3f18de8ead6da2525da8d9563cea","byte_identical_to_packaged":false},
+      {"path":"experiments/results/scalar_v2_paired_stats.csv","sha256_after":"a6e91174dabe41f0054a02fc536a06d290bcc23b5b6009e23fb2d56443b3c80c","sha256_packaged":"a6e91174dabe41f0054a02fc536a06d290bcc23b5b6009e23fb2d56443b3c80c","byte_identical_to_packaged":true},
+      {"path":"experiments/results/scalar_v2_raw.csv","sha256_after":"661f0afc944954aab1c94f69b04c32834b7e18e1121af08335cf89b25cef0240","sha256_packaged":"661f0afc944954aab1c94f69b04c32834b7e18e1121af08335cf89b25cef0240","byte_identical_to_packaged":true},
+      {"path":"experiments/results/scalar_v2_summary.csv","sha256_after":"37337744ccde0db46bf32018091528c9d9d39aee9eaa0985b5ea8c48f23a90ca","sha256_packaged":"37337744ccde0db46bf32018091528c9d9d39aee9eaa0985b5ea8c48f23a90ca","byte_identical_to_packaged":true},
+      {"path":"experiments/results/sequence_v2_manifest.json","sha256_after":"2099c9380f0317316b80e7d6e47d44bea338c083eae7bc766b60d0c3dbf9e362","sha256_packaged":"5cca43b323ce7afdf16e9385675f96b1dcf24fc67d57f94d6d119c4d8ef3db1b","byte_identical_to_packaged":false},
+      {"path":"experiments/results/sequence_v2_paired_stats.csv","sha256_after":"2caabed28ea54c586136d3c9ec66f18d8d919aa22d771dba2d83aacae80ad64d","sha256_packaged":"2caabed28ea54c586136d3c9ec66f18d8d919aa22d771dba2d83aacae80ad64d","byte_identical_to_packaged":true},
+      {"path":"experiments/results/sequence_v2_raw.csv","sha256_after":"86f4154690b2849351720cbce7127209d74ceabb5bd37cadc3b5895a9ddf5b28","sha256_packaged":"86f4154690b2849351720cbce7127209d74ceabb5bd37cadc3b5895a9ddf5b28","byte_identical_to_packaged":true},
+      {"path":"experiments/results/sequence_v2_summary.csv","sha256_after":"a0f81bad17118a40dec54a0f316605c8735cc95026f81cf758bb8099b7cafe56","sha256_packaged":"a0f81bad17118a40dec54a0f316605c8735cc95026f81cf758bb8099b7cafe56","byte_identical_to_packaged":true}
+    ],
+    "only_result_file_hash_changes": ["experiments/results/scalar_v2_manifest.json","experiments/results/sequence_v2_manifest.json"],
+    "manifest_change_reason": "runtime_seconds regenerated; all raw, summary, paired-stat CSVs are byte-identical to packaged evidence",
+    "figure_and_table_hashes_match_packaged": true
+  },
+  "runtime": {
+    "pytest_wall_seconds": 1.8,
+    "scalar_wall_seconds": 5.5,
+    "scalar_internal_seconds": 4.319082975387573,
+    "sequence_wall_seconds": 23.82,
+    "sequence_internal_seconds": 21.42168116569519,
+    "figures_wall_seconds": 1.77,
+    "peak_rss_kb": {"pytest":147784,"scalar":184120,"sequence":443152,"figures":179628}
+  },
+  "seed_policy": {
+    "development_legacy": "0-4/0-19 depending experiment",
+    "exp003_learned_holdout": [100,101,102,103,104],
+    "exp004_scalar_holdout": [100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119],
+    "confirmatory": "NOT RUN; current recovered package says allocate only after successor freeze, suggested 200-219",
+    "quarantine_rule": "do not inspect successor confirmatory seeds while changing mechanism or hyperparameters"
+  },
+  "headline_results": {
+    "scalar_student_t2_vs_huber_cap4": {"improvement_pct_mean":30.266781591184206,"bootstrap95":[28.707669411202563,31.7978861269316],"n":20},
+    "scalar_student_t3_vs_huber_cap4": {"improvement_pct_mean":19.330531706896323,"bootstrap95":[17.6647473784208,21.002970224601906],"n":20},
+    "scalar_regime_vs_huber_cap4": {"improvement_pct_mean":-7.272806899816101,"bootstrap95":[-9.18449272453391,-5.237755571659764],"n":20},
+    "learned_gaussian_mse": {"huber25":0.06777809709310531,"huber40":0.06651818454265594,"htam":0.09120606780052185,"static_mix":0.07380755543708802,"pabim":0.0832398310303688,"n":5},
+    "learned_student_t2_mse": {"huber25":0.09216994196176528,"huber40":0.10259398072957993,"htam":0.09393855780363083,"static_mix":0.08961772024631501,"pabim":0.09074998050928115,"n":5},
+    "learned_regime_mse": {"huber25":0.14426519870758056,"huber40":0.1232997253537178,"htam":0.28882338404655455,"static_mix":0.1671957403421402,"pabim":0.17624250054359436,"n":5},
+    "pabim_vs_huber40_gaussian_pct": -25.136011294942534,
+    "pabim_vs_huber40_regime_pct": -42.9725753426501,
+    "pabim_vs_htam_regime_pct": 38.96044045532414
+  },
+  "scientific_verdict": "REPRODUCED_MIXED_NEGATIVE: scalar HTAM heavy-tail gains survive corrected common-scale control, but distribution-shift universality and learned transfer are falsified; PABIM improves HTAM regime error yet fails strong Huber/static learned controls and clean cost.",
+  "promotion": {"reproduced":true,"externally_validated":false,"submission_ready":false,"positive_architecture_proven":false},
+  "limitations": [
+    "No canonical Git commit is available for this Library archive.",
+    "No external real temporal dataset has been evaluated.",
+    "Faithful Student-t robust filtering, robust changepoint, switching-filter, clipped non-stationary, GRU/LSTM and compact SSM comparisons remain open.",
+    "PABIM learned results use five held-out seeds and are exploratory, not confirmatory.",
+    "Novelty remains high-risk against robust filtering/changepoint prior art."
+  ]
+}
