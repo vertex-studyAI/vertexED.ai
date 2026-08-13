@@ -73,6 +73,28 @@ jobs:
           node portfolio/project2424/projects/T2424-0037/benchmark/run.mjs | tee repro-evidence/T2424-0037-benchmark.json
           node --test tests/nlpToCad.test.mjs tests/nlpToCadBenchmark.test.mjs | tee repro-evidence/T2424-0037-tests.log
 
+      - name: Execute T2424-0037 OOD language and safety development benchmark
+        run: |
+          set -euo pipefail
+          node portfolio/project2424/projects/T2424-0037/benchmark/ood_run.mjs | tee repro-evidence/T2424-0037-ood.json
+          node - <<'NODE' | tee repro-evidence/T2424-0037-ood-verification.json
+          const fs = require('fs');
+          const r = JSON.parse(fs.readFileSync('repro-evidence/T2424-0037-ood.json'));
+          if (r.totalCases !== 30) process.exit(1);
+          if (r.frozenScope !== 'single rectangular-plate family only; language/safety robustness expansion') process.exit(1);
+          if (!Number.isFinite(r.typedIr.decisionAccuracy)) process.exit(1);
+          if (!Array.isArray(r.records) || r.records.length !== 30) process.exit(1);
+          console.log(JSON.stringify({
+            evidenceClass: r.evidenceClass,
+            typedDecisionAccuracy: r.typedIr.decisionAccuracy,
+            typedConstraintAccuracy: r.typedIr.exactConstraintAccuracyOnExpectedAccept,
+            typedUnsafeAcceptanceRate: r.typedIr.unsafeAcceptanceRateOnExpectedReject,
+            directDecisionAccuracy: r.naiveDirectBaseline.decisionAccuracy,
+            directUnsafeAcceptanceRate: r.naiveDirectBaseline.unsafeAcceptanceRateOnExpectedReject,
+            no_general_nlp_to_cad_claim: true
+          }, null, 2));
+          NODE
+
       - name: Reproduce T2424-0050 bounded Darcy screen
         run: |
           set -euo pipefail
