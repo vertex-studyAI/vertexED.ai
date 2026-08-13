@@ -54,3 +54,10 @@ test("unsupported and unsafe geometry fails closed", () => {
   assert.throws(() => parsePlatePrompt("plate 80 by 40 with 4 holes radius 10 inset 5"), /inset must exceed/);
   assert.throws(() => parsePlatePrompt("plate 5000 by 40"), /safety envelope/);
 });
+
+test("signed-negative numeric prompts fail closed instead of losing the sign", () => {
+  assert.throws(() => parsePlatePrompt("plate -80 by 40 thickness 3"), /negative numeric values/);
+  assert.throws(() => parsePlatePrompt("plate 80 by 40 thickness -3"), /negative numeric values/);
+  assert.throws(() => parsePlatePrompt("plate 80 by 40 with 1 hole radius -2 inset 6"), /negative numeric values/);
+  assert.throws(() => parsePlatePrompt("plate 80 by 40 with 1 hole radius 2 inset -6"), /negative numeric values/);
+});
