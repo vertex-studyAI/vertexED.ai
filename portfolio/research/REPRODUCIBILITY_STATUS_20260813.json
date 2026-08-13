@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "date": "2026-08-13",
+  "control_repo_base": "1a6e270a8d58e36447bee818740201a9c5e6072c",
+  "semantics": {
+    "green_is_claim_specific": true,
+    "reproduced_is_not_externally_validated": true,
+    "negative_results_can_be_green": true
+  },
+  "projects": {
+    "LAM-JEPA": {
+      "state": "FULL_SCIENTIFIC_RESULT_REPRODUCED",
+      "scientific_verdict": "ARC_SUPERIORITY_AND_MECHANISM_HYPOTHESES_UNSUPPORTED",
+      "frozen_source": "760aa7f9a73a177d5ff4ba7eb470f7e68ace63cb",
+      "full_rerun": {"run_id":31203337502,"attempt_2_artifact":9149336081,"attempt_3_artifact":9162165932},
+      "locked_test_accessed": false
+    },
+    "Project2424": {
+      "state": "12_PRIORITY_PATHS_FAIL_CLOSED_RUNNER_REPRODUCED",
+      "runner_head": "faad54b05de4dbfd7f9f6720342b22e50a283ef3",
+      "run_id": 31660595576,
+      "artifact_id": 9166031673,
+      "artifact_digest": "sha256:e142f0f03b206891fc2266e7762c3c04f3a1a4163302e6a2aa6254c9516e03ad",
+      "paths": ["T2424-0024","T2424-0025","T2424-0026","T2424-0027","T2424-0028","T2424-0029","T2424-0035","T2424-0037","T2424-0040","T2424-0050","T2424-0054","T2424-1768"]
+    },
+    "T2424-0025": {
+      "state": "REPRODUCED_NEGATIVE_MECHANISM_CONTROL",
+      "supports_transformer_ngmt": false,
+      "zero_contamination_median_mae": 0.012569888975136025,
+      "zero_contamination_mean_mae": 0.02464691771133496
+    },
+    "NGMT": {
+      "state": "BLOCKED_MECHANISM_NOT_FROZEN",
+      "required_baselines": ["B0_no_memory","B1_standard_memory","B2_gaussian_reference_memory","B3_proposed_non_gaussian_memory"]
+    },
+    "NeuroCAD": {
+      "state": "CONTROLLED_AND_HELD_OUT_REPRODUCED_POSTFIX_VERIFIED",
+      "v1": {"overall":0.95,"valid_exact":1.0,"invalid_rejection":0.875,"artifact_id":9165650301},
+      "post_fix": {"head":"d4ce113096d188ca5cd4d4f272c8955df2f1365c","run_id":31660543924,"overall":1.0,"valid_exact":1.0,"invalid_rejection":1.0,"openscad":1.0,"artifact_id":9166026030,"artifact_digest":"sha256:cdf31db334246baad2c4fe15a1ea3faae4156ebce12ffedf238ff046a5c7bb4b"},
+      "new_part_family_ood": false
+    },
+    "IRIS-v0.2": {
+      "state": "REPRODUCED_MIXED_NEGATIVE_WITH_STRONGER_DEV_BASELINES",
+      "package_sha256": "5d689ade164d80216d0ab6d4376b8acf53b8e0ba13d4bd5e909a94f00ec86b56",
+      "addendum_sha256": "7653c87d5effb08da9068630259802d77b34b930083dd160ccea4ce23311175b",
+      "successor_confirmatory_accessed": false,
+      "positive_architecture_proven": false,
+      "external_validation": false
+    },
+    "APEN": {"state":"REPRODUCED_SYNTHETIC_CONTROLLED_MIXED","salience_failure_boundary_preserved":true},
+    "PEN": {"state":"EVIDENCE_PACKAGE_FOUND_FRESH_EXECUTABLE_SOURCE_BLOCKED","fresh_reproduction":false,"salience_superiority_supported":false},
+    "Eigen-JEPA": {"state":"REPRODUCED_REAL_DATA_MIXED_NEGATIVE","general_superiority_supported":false},
+    "NPMS": {"state":"REPRODUCED_CONTROLLED_DIAGNOSTIC_PLUS_TRAINED_RNN_GRU_COMPANION","spectrum_regime_accuracy":0.875,"coarse_parameter_regime_accuracy":0.666667},
+    "T2424-0050": {"state":"REPRODUCED_BOUNDED_DETERMINISTIC_SCREEN","learned_operator_claim":false},
+    "T2424-1863": {"state":"REPRODUCED_NEGATIVE_AGAINST_PREDECLARED_GATE","required_improvement_gt":0.75,"observed_mean_improvement":0.67777},
+    "Percy": {
+      "state":"LOGICAL_NAMESPACE_MERGED_TESTED_HOST_RUNTIME_UNVERIFIED",
+      "logical_agents":16256,
+      "squads":127,
+      "agents_per_squad":128,
+      "physical_process_claim":false
+    }
+  },
+  "blocked_claims": [
+    "LAM-JEPA superiority",
+    "Transformer-level NGMT",
+    "fresh executable PEN reproduction",
+    "general/new-family NeuroCAD",
+    "positive/external IRIS",
+    "general Eigen-JEPA superiority",
+    "NPMS causal transfer",
+    "learned Darcy neural operator",
+    "unsupported Hercules/Olympus giant-model claims",
+    "unverified publication/external-validation/research-complete states"
+  ]
+}
