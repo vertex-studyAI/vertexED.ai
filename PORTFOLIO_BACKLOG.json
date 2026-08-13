@@ -1,0 +1,21 @@
+{
+  "as_of": "2026-08-13T22:00:00+05:30",
+  "rules": {"deduplicate":true,"logical_identity_is_not_physical_worker":true,"preserve_negative_results":true,"no_posthoc_retuning":true},
+  "items": [
+    {"priority":"P0","project":"LAM-JEPA","task":"negative-paper traceability and figures","gate":"no scientific retuning; locked ARC test closed"},
+    {"priority":"P0","project":"IRIS","task":"freeze successor candidate + robust/change-aware baselines and development-only matrix","gate":"confirmatory seeds untouched"},
+    {"priority":"P0","project":"T2424-0025/NGMT","task":"formal B0/B1/B2/B3 mechanism-separation experiment","gate":"B3 must be distinct and frozen"},
+    {"priority":"P0","project":"NeuroCAD","task":"OOD/compositional + same-provider direct-vs-IR","gate":"matched provider required"},
+    {"priority":"P0","project":"Darcy","task":"learned matched-budget operator + physical OOD","gate":"frozen dataset/compute"},
+    {"priority":"P1","project":"APEN","task":"matched learned baseline + salience reliability stress"},
+    {"priority":"P1","project":"Eigen-JEPA","task":"stronger spectral controls + multi-dataset preregistered metric"},
+    {"priority":"P1","project":"NPMS","task":"learned sequence + OOD generalization"},
+    {"priority":"P1","project":"Hercules","task":"same-budget Transformer vs proposal vs ablation"},
+    {"priority":"P1","project":"Olympus","task":"O1 matched-provider monolith vs roles vs ablations"},
+    {"priority":"P1","project":"Percy","task":"real-host crash/restart/provider/lease/resource/soak qualification","gate":"host must be accessible"},
+    {"priority":"P1","project":"VertexED","task":"exact served revision + authenticated golden journey + security maintenance"},
+    {"priority":"P1","project":"FinanceMeta","task":"authorize canonical repo/Supabase and apply exact-SHA recovery","gate":"owner authorization"},
+    {"priority":"P1","project":"The Bu1LD","task":"authorize canonical target and validate truth-first recovery","gate":"owner authorization"},
+    {"priority":"P2","project":"Research portfolio","task":"independent reproduction, references/licenses, artifact indexes, submission triage"}
+  ]
+}
