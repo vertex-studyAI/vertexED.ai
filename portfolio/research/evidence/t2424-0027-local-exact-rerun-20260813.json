@@ -1,0 +1,58 @@
+{
+  "kind": "T2424-0027_exact_local_reproduction",
+  "date": "2026-08-13",
+  "repository": "vertex-studyAI/vertexED.ai",
+  "source_ref": "main",
+  "execution_environment": {
+    "python": "3.13.5",
+    "node": "v22.16.0",
+    "platform": "Linux-6.18.35-x86_64-with-glibc2.41",
+    "machine": "x86_64",
+    "cuda_used": false
+  },
+  "source_files": {
+    "portfolio/project2424/projects/T2424-0027/src/core.mjs": {
+      "git_blob_sha": "51fee1684a9282d5d30cb2ed33168daeb4248f8a",
+      "local_git_blob_sha": "51fee1684a9282d5d30cb2ed33168daeb4248f8a",
+      "exact_source_bytes": true
+    },
+    "portfolio/project2424/projects/T2424-0027/experiment/run.mjs": {
+      "git_blob_sha": "f37cf9f7ad6c6af43510b3a39df9ff83a0ec26af",
+      "local_git_blob_sha": "f37cf9f7ad6c6af43510b3a39df9ff83a0ec26af",
+      "exact_source_bytes": true
+    }
+  },
+  "command": "node portfolio/project2424/projects/T2424-0027/experiment/run.mjs > results.json",
+  "runtime_seconds": 0.04,
+  "output": {
+    "local_sha256": "0eac35dd7b8af1488efab0392c2e82dab8f9a90332af7c6ad54633263fa13605",
+    "retained_actions_sha256": "0eac35dd7b8af1488efab0392c2e82dab8f9a90332af7c6ad54633263fa13605",
+    "byte_identical": true,
+    "protocol": {
+      "records": 72,
+      "concepts": 4,
+      "languages": 3,
+      "train_samples_per_concept_language": 3,
+      "baseline": "raw latent vectors",
+      "transform": "subtract training-set language centroid from each record of that language",
+      "negative_control": "subtract one global training centroid"
+    },
+    "metrics": {
+      "raw_concept_accuracy": 1.0,
+      "raw_language_accuracy": 1.0,
+      "centered_concept_accuracy": 1.0,
+      "centered_language_accuracy": 0.3611111111111111,
+      "global_centered_language_accuracy": 1.0,
+      "language_chance": 0.3333333333333333,
+      "normalized_language_leakage_reduction": 0.9583333333333334
+    },
+    "verdict": "PASS_CONTROLLED_LANGUAGE_LEAKAGE_MECHANICS"
+  },
+  "scientific_interpretation": {
+    "reproduction_class": "BYTE_EXACT_FRESH_LOCAL_REPRODUCTION",
+    "supports_controlled_factor_removal_mechanism": true,
+    "supports_linguistic_relativity_claim": false,
+    "supports_real_multilingual_model_claim": false,
+    "claim_boundary": "controlled synthetic latent diagnostic only"
+  }
+}
