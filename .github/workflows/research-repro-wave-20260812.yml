@@ -1,8 +1,10 @@
 name: Research Reproducibility Wave 2026-08-12
 
 # The first frozen reproduction was executed successfully as run 31616762393.
-# Keep scientific executions manual except when this evidence runner itself is
-# changed. Documentation-only commits must not silently rerun experiments.
+# 2026-08-13 expansion: preserve the original frozen screens and add the next
+# requested current-main Project 2424 mechanics packages plus an evidence hash
+# manifest. This runner change is itself the explicit trigger for execution.
+# Documentation-only commits must not silently rerun experiments.
 on:
   workflow_dispatch:
   push:
@@ -15,7 +17,7 @@ permissions:
 jobs:
   project2424-reproduce:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -25,6 +27,7 @@ jobs:
         run: |
           mkdir -p reproducibility-wave/raw
           node --version | tee reproducibility-wave/node-version.txt
+          npm --version | tee reproducibility-wave/npm-version.txt
           uname -a | tee reproducibility-wave/uname.txt
           git rev-parse HEAD | tee reproducibility-wave/commit.txt
       - name: T2424-0025 frozen screen
@@ -71,9 +74,39 @@ jobs:
         run: |
           node portfolio/project2424/projects/T2424-0050/experiment/run.mjs | tee reproducibility-wave/raw/T2424-0050-darcy.json
           node --test tests/project2424DarcyLatentOperator.test.mjs
+      - name: T2424-0024 synthetic evaluator-mechanics reproduction
+        run: |
+          node portfolio/project2424/projects/T2424-0024/experiment/run.mjs
+          cp portfolio/project2424/projects/T2424-0024/evidence/results.json reproducibility-wave/raw/T2424-0024-results.json
+          node --test tests/project2424TrustUnderUncertainty.test.mjs tests/project2424TrustUnderUncertaintyQa.test.mjs | tee reproducibility-wave/T2424-0024-tests.log
+      - name: T2424-0026 counterfactual defect-world mechanics
+        run: |
+          node portfolio/project2424/projects/T2424-0026/experiment/run.mjs | tee reproducibility-wave/raw/T2424-0026-results.json
+          node --test tests/counterfactualDefectWorlds.test.mjs | tee reproducibility-wave/T2424-0026-tests.log
+      - name: T2424-0035 delayed-generalization detector
+        run: |
+          node portfolio/project2424/projects/T2424-0035/experiment/run.mjs | tee reproducibility-wave/raw/T2424-0035-results.json
+          node --test tests/grokkingAgent.test.mjs | tee reproducibility-wave/T2424-0035-tests.log
+      - name: T2424-0040 prerequisite-aware learning-graph mechanics
+        run: |
+          node portfolio/project2424/projects/T2424-0040/experiment/run.mjs
+          cp portfolio/project2424/projects/T2424-0040/evidence/results.json reproducibility-wave/raw/T2424-0040-results.json
+          node portfolio/project2424/projects/T2424-0040/reproduction/verify.mjs | tee reproducibility-wave/T2424-0040-verify.log
+          node --test tests/project2424FinanceMetaLearningGraph.test.mjs | tee reproducibility-wave/T2424-0040-tests.log
+      - name: T2424-0054 theory-manifold planner mechanics
+        run: |
+          node portfolio/project2424/projects/T2424-0054/experiment/run.mjs | tee reproducibility-wave/raw/T2424-0054-results.json
+          node --test tests/theoryManifoldExperimentPlanner.test.mjs | tee reproducibility-wave/T2424-0054-tests.log
+      - name: T2424-1768 self-verifying MoE synthetic screen
+        run: |
+          node portfolio/project2424/projects/T2424-1768/experiment/syntheticBenchmark.mjs | tee reproducibility-wave/raw/T2424-1768-results.json
+          node --test tests/project2424T1768SelfVerifyingMoe.test.mjs | tee reproducibility-wave/T2424-1768-tests.log
+      - name: Hash retained wave evidence
+        run: |
+          find reproducibility-wave -type f -print0 | sort -z | xargs -0 sha256sum | tee reproducibility-wave/SHA256SUMS.txt
       - name: Upload raw reproduction evidence
         uses: actions/upload-artifact@v4
         with:
-          name: research-repro-wave-20260812
+          name: research-repro-wave-20260813-current-main
           path: reproducibility-wave/
           if-no-files-found: error
