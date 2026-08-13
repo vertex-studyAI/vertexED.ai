@@ -16,7 +16,7 @@ Maturity is claim-specific and evidence-backed. A green CI lane is execution evi
 | T2424-0037 NeuroCAD | **FRESHLY REPRODUCED CONTROLLED BENCHMARK** | dedicated Actions run `31616762393`; frozen benchmark `20/20` + focused tests | OOD prompts + same-provider direct-vs-IR learned comparison + external reproduction |
 | T2424-0050 Darcy | **FRESHLY REPRODUCED BOUNDED MECHANISM SCREEN** | dedicated Actions run `31616762393`; retained 20-seed synthetic pressure-MAE screen rerun | actual learned operator, matched budget, misaligned/OOD fields and held-out physical regimes |
 | T2424-1863 local diffusion operator | **INDEPENDENTLY REPLAYED / UNCERTAINTY RETAINED / NEGATIVE AGAINST PREDECLARED GATE** | frozen source `7cee0bd4d5cc7a3ac497476d322c6f0e16da9ee6`; reporting workflow run `31649888889` retained raw 20-seed metrics, sample SDs, negative-gate assertion, and artifact `9162158000` | real PDE data; learned neural-operator baseline; rollout/compute comparison |
-| T2424-0029 PDE transitions | TESTED + MERGED BOUNDED ANALYTIC SCREEN | CI #830; 1D heat spectral-dimension fixture | nonlinear PDEs, learned representations, robustness/generalization |
+| T2424-0029 PDE transitions | **FRESHLY REPRODUCED BOUNDED ANALYTIC SCREEN** | Actions run `31653397825`; exact frozen sequence `3→2→2→1→1`, `5/5` focused tests, raw artifact `9163421118` | nonlinear PDEs, energy/grid sensitivity, learned-representation comparison |
 | T2424-0028 residual-event tokenization | TESTED + MERGED | fresh current-lineage CI #949 | noisy/multivariate datasets + byte/rate-distortion baselines |
 | T2424-0027 latent language audit | **FRESHLY REPRODUCED + INDEPENDENTLY VERIFIED SYNTHETIC AUDIT** | dedicated Actions run `31616762393`; deterministic 72-record protocol + SHA-bound verifier | real multilingual encoder, preregistered concept/language probes and controls |
 | T2424-0024 Trust Under Uncertainty | TESTED + MERGED | CI #827; paired calibration/ablation fixture | frozen real-model prediction set + calibration/selective-risk baselines |
@@ -99,6 +99,24 @@ The same frozen Actions run reproduced:
 - **T2424-0050 Darcy:** mean baseline pressure MAE `0.0658913916`, reduced-resistance MAE `0.0011366559`, relative improvement `97.8766%`, mean flux relative error `1.369e-16`, `n=20`.
 
 These remain synthetic or controlled mechanism checks with their existing claim boundaries intact.
+
+### T2424-0029 PDE transitions
+
+The frozen analytic PDE-transition protocol was rerun without modification in Actions run `31653397825` at source/evidence commit `1a69e1919f64295f46f231ad487beee91a54f05e`.
+
+Environment and retained artifact:
+
+- Ubuntu 24.04.4 x86_64 CPU;
+- Node `v22.23.1`;
+- kernel `6.17.0-1020-azure`;
+- artifact `9163421118`;
+- digest `sha256:5864fad98c8f202e24ffa060cafe89a7b92548420373dc0b4fc6b8ffa5f26608`.
+
+The effective-mode counts reproduced exactly as `[3,2,2,1,1]` over diffusivities `[0,0.0002,0.001,0.005,0.02]`. The transition detector reported only `3→2` over `0→0.0002` and `2→1` over `0.001→0.005`. All five focused analytic/control tests passed.
+
+The raw result hash is `c190aa3e54d6cda008e7e29a89b387e596904075b225cb7f511ac61acb80f5e4`; the focused-test log hash is `580ecc2f9f1d1d83dfb57d2e03d15122bd104aca11331f5a16eb43e94a9db9c4`. The combined experiment + focused-test workflow step took about `0.150 s`; standalone experiment runtime was not separately instrumented.
+
+This is deterministic analytic evidence, so no seed mean/SD is claimed. It does not establish a universal or neural phase transition, nonlinear-PDE generalization, or learned representation superiority. `RESULTS.md`, `REPRODUCE.md`, machine-readable metadata, and retained raw metrics now make that boundary explicit.
 
 ### T2424-1863 local diffusion operator
 
