@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "experiment_id": "NGMT-v0.1-frozen-2026-08-13",
+  "comparison": "first_valid_run_vs_unchanged_protocol_replay",
+  "first_valid_run": {
+    "run_id": 31661313386,
+    "head_sha": "385ea6251561ed2a7b05b6a6f10307666b169b80",
+    "artifact_id": 9166307730,
+    "artifact_sha256": "ec7d88d342271ad28b6f9ae485338985a219b7d43d55dd45350a4611c585ce76",
+    "results_json_sha256": "f8feeccc6ca864efc6389c9e8b9b952698d349251d332f81735c542913f33b14",
+    "wall_seconds": 72.65,
+    "peak_rss_kib": 324132
+  },
+  "replay": {
+    "run_id": 31661621771,
+    "head_sha": "7e4547345052c3514219005fc00f396d4efa0838",
+    "artifact_id": 9166406618,
+    "artifact_sha256": "5a34b13b54761e894b5cd3de2941c44121ea39705f8588e83aaf8a18dd2d7d06",
+    "results_json_sha256": "7f67822872960ed037cb4bbe66dbcd1faa99d86d7ea0b954636c5ccc37c7b684",
+    "wall_seconds": 69.65,
+    "peak_rss_kib": 324164
+  },
+  "exact_matches": {
+    "condition_summary": true,
+    "paired_seed_effects": true,
+    "paired_effect_summary": true,
+    "parameter_counts": true,
+    "runtime_memory_capacities": true,
+    "criteria": true,
+    "verdict": true,
+    "all_12_training_histories": true,
+    "all_12_checkpoint_sha256": true
+  },
+  "expected_nonmatches": {
+    "runtime_seconds": true,
+    "full_results_json_sha256": true,
+    "artifact_zip_sha256": true
+  },
+  "verdict": "NEGATIVE_OR_INCONCLUSIVE_NGMT_V01",
+  "interpretation": "Scientific metrics, histories, checkpoint bytes, criteria and conclusion reproduced exactly. Timing metadata varied as expected. This strengthens reproducibility of the negative result; it is not a new hypothesis test or positive finding."
+}
