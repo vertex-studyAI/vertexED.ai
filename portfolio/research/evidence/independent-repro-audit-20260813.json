@@ -1,0 +1,127 @@
+{
+  "audit_date": "2026-08-13",
+  "audit_environment": {
+    "python": "3.13.5",
+    "node": "v22.16.0",
+    "platform": "Linux-6.18.35-x86_64-with-glibc2.41",
+    "machine": "x86_64",
+    "numpy": "2.3.5",
+    "pandas": "2.2.3"
+  },
+  "method": "Independent parsing and hashing of retained machine-readable artifacts; no scientific configuration changed and no result was retuned.",
+  "project2424_latest_artifact": {
+    "artifact_id": 9162627168,
+    "recorded_sha256": "d9d1816d3cf8eb317f435b180c0ec6137fa64cbfde6b99e7f8b5f2d5f1a0bbae",
+    "independently_downloaded_sha256": "d9d1816d3cf8eb317f435b180c0ec6137fa64cbfde6b99e7f8b5f2d5f1a0bbae",
+    "zip_file_count": 15,
+    "scientific_files": {
+      "T2424-0025-screen.json": "7b26bfcf82444b1de868092c8391a3772bd4e6acc5d64468839f9af6290a3db1",
+      "T2424-0025-ablation.json": "f61dd31562ce2f5638535a90ab2d700aed494790e9aca515797595158ee9ee4e",
+      "T2424-0025-verification.json": "ba0e73902ef8cd2dabc66995bffbd20476afad7aa23f8302ce4be7e68f736188",
+      "T2424-0027-results.json": "0eac35dd7b8af1488efab0392c2e82dab8f9a90332af7c6ad54633263fa13605",
+      "T2424-0027-verify.log": "1a354c5ef26de30bc99a8b5ace22087e125b865db7326abe48e3bef6cbe7f6c3",
+      "T2424-0037-benchmark.json": "e3e15d79631d1fccd02bc2711f71e98acc1f7f686e390cd65d82fcb054e5c601",
+      "T2424-0050-darcy.json": "67ad7bd98000c58533753b2dd8e70ddebce411780e66f11284c9cfb59206e586"
+    },
+    "T2424-0025_ablation_independent_parse": {
+      "seeds": 50,
+      "contamination_rates": [0,0.05,0.10,0.18,0.25,0.35],
+      "zero_contamination": {
+        "mean_mae_mean": 0.02464691771133496,
+        "mean_mae_sample_sd": 0.0023115771827692763,
+        "median_mae_mean": 0.012569888975136025,
+        "median_mae_sample_sd": 0.0020830878466683114,
+        "median_relative_improvement_vs_mean": 0.4900015846867857,
+        "trimmed_relative_improvement_vs_mean": 0.24081960658705248,
+        "huber_relative_improvement_vs_mean": 0.22590035091522553
+      },
+      "contamination_0_18": {
+        "mean_mae_mean": 0.3494393236413256,
+        "mean_mae_sample_sd": 0.34720341329882964,
+        "median_mae_mean": 0.017002512132865903,
+        "median_mae_sample_sd": 0.004857686860296252,
+        "trimmed_mae_mean": 0.04550633252740887,
+        "trimmed_mae_sample_sd": 0.01571336013006776,
+        "huber_mae_mean": 0.030925536516162495,
+        "huber_mae_sample_sd": 0.006796244399198665
+      },
+      "interpretation": "The strong zero-contamination robust-readout advantage is a central negative control against unique non-Gaussian mechanism attribution."
+    }
+  },
+  "atlas_retained_artifact_checks": {
+    "APEN": {
+      "raw_hashes": {
+        "summary.csv": "8c42f384517614be6bdab8b1818600beb4b359ecf1781d00b6b0d55c537dc1d3",
+        "condition_summary.csv": "cf3a856577bcc78aca1ad6d90b89aaa87fc9b5b618e352b9db9bc87012366da2",
+        "seed_results.csv": "c96089ad047ddfbb7452a6853fbc6d5f07d19179a15b34c862cf5fdc634a5d65",
+        "salience_noise_summary.csv": "716813238a2f452b24bd79faf41bcbc0250dc2428b16b5f202d880e4f64964dd",
+        "statistical_analysis.json": "0311496aa32ba618da0ddab36663452ebfafdb914a61c3ba32b5c5974bae92fa"
+      },
+      "summary": {
+        "apen_overall_mse": 2.210393,
+        "apen_rare_event_mse": 17.060349,
+        "exp_trace_rare_event_mse": 18.860263,
+        "recent_rare_event_mse": 18.967381,
+        "uniform_memory_rare_event_mse": 18.714592,
+        "oracle_delay_rare_event_mse": 16.687710
+      },
+      "paired_n": 48,
+      "apen_minus_exp_trace": {
+        "mean_difference": -1.7999149380490833,
+        "ci95": [-2.0902212181036806,-1.5160577236328379]
+      },
+      "apen_minus_recent": {
+        "mean_difference": -1.9070327649941952,
+        "ci95": [-2.2167166722876073,-1.5994599100770972]
+      },
+      "salience_dropout": {
+        "0.8": {"apen_rare_mse":18.879040,"uniform_rare_mse":18.841510},
+        "1.0": {"apen_rare_mse":20.906161,"uniform_rare_mse":20.510165}
+      },
+      "interpretation": "Positive rare-event mechanism result under informative salience; no general or overall-MSE superiority."
+    },
+    "Eigen-JEPA": {
+      "raw_hashes": {
+        "summary.csv": "f78d5d2ad2cdc9a69a0a7e5f65c17a7c48c0e88d126bb34fd28b69594578c6f8",
+        "real_market_results.csv": "ccbb792b841f8ae060de35daa68e7aa87c43c81c472cbacd4d07ebc8e5c96367",
+        "statistical_analysis.json": "c542b75f9f2d27a9742275e9908e02c5aa18d04aa1a65c86504228dbc12ed644"
+      },
+      "held_out_blocks": 111,
+      "matrix_mse": {
+        "raw_ridge": 5.773438397336066e-9,
+        "log_ridge": 5.7896089124508635e-9,
+        "eigen_jepa": 5.831822564700929e-9,
+        "cholesky_ridge": 5.876248694054345e-9,
+        "persistence": 7.770831532406814e-9
+      },
+      "eigen_minus_log_ridge": {
+        "mean_difference": 4.221365225006467e-11,
+        "ci95": [2.2239687514613176e-11,6.724614827257412e-11]
+      },
+      "eigen_minus_raw_ridge": {
+        "mean_difference": 5.838416736486398e-11,
+        "ci95": [-2.356468081610155e-10,4.174433852224593e-10]
+      },
+      "interpretation": "Boundary/negative result: Eigen-JEPA does not beat strongest raw/log ridge controls on primary matrix MSE."
+    },
+    "NPMS": {
+      "raw_hashes": {
+        "summary.json": "2c31fb905367f65a0a1da9abc6867b1abd54a7b30f7a543ac32de81caf942537",
+        "statistical_analysis.json": "1959046aaf6e38e70ee0ae2435ae19c09eea97e4c8de48d564d46b57dd2f1aba"
+      },
+      "reservoir_realizations": 112,
+      "summary": {
+        "within_coordinate_spectrum_cosine": 0.9959606005706815,
+        "within_coordinate_parameter_abs_cosine": 0.0992706396825156,
+        "between_regime_spectrum_cosine": 0.9530792787182006,
+        "regime_classification_accuracy": 0.9285714285714286
+      },
+      "paired_invariance_n": 84,
+      "spectrum_minus_parameter_similarity": {
+        "mean_difference": 0.8966899608881657,
+        "ci95": [0.8785340006834835,0.9131175495810795]
+      },
+      "interpretation": "Strong controlled reservoir diagnostic; no general real-world transfer claim."
+    }
+  }
+}
