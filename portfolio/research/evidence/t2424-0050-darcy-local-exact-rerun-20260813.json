@@ -1,0 +1,60 @@
+{
+  "kind": "T2424-0050_darcy_exact_local_reproduction",
+  "date": "2026-08-13",
+  "repository": "vertex-studyAI/vertexED.ai",
+  "source_ref": "main",
+  "execution_environment": {
+    "python": "3.13.5",
+    "node": "v22.16.0",
+    "platform": "Linux-6.18.35-x86_64-with-glibc2.41",
+    "machine": "x86_64",
+    "cuda_used": false
+  },
+  "source_files": {
+    "portfolio/project2424/projects/T2424-0050/src/core.mjs": {
+      "git_blob_sha": "1eb67bf784a22e7ba4ce2063e093859b7514129e",
+      "local_git_blob_sha": "1eb67bf784a22e7ba4ce2063e093859b7514129e",
+      "exact_source_bytes": true
+    },
+    "portfolio/project2424/projects/T2424-0050/experiment/run.mjs": {
+      "git_blob_sha": "946a1e4f45d58bbedd4d129bed4e531ecd848a93",
+      "local_git_blob_sha": "946a1e4f45d58bbedd4d129bed4e531ecd848a93",
+      "exact_source_bytes": true
+    }
+  },
+  "command": "node portfolio/project2424/projects/T2424-0050/experiment/run.mjs > darcy.json",
+  "runtime_seconds": 0.0335,
+  "output": {
+    "local_sha256": "67ad7bd98000c58533753b2dd8e70ddebce411780e66f11284c9cfb59206e586",
+    "retained_actions_sha256": "67ad7bd98000c58533753b2dd8e70ddebce411780e66f11284c9cfb59206e586",
+    "byte_identical": true,
+    "seeds": 20,
+    "cell_count": 24,
+    "block_count": 6,
+    "compression_ratio": 4,
+    "mean_baseline_pressure_mae": 0.06589139155637647,
+    "mean_latent_pressure_mae": 0.0011366559231966065,
+    "mean_relative_improvement": 0.9787663202281432,
+    "mean_flux_relative_error": 1.3693877541812723e-16,
+    "max_latent_pressure_mae": 0.0014613491578162696,
+    "uniform_control": {
+      "baseline_mae": 9.325873406851315e-17,
+      "latent_mae": 0,
+      "flux_relative_error": 0
+    },
+    "predeclared_screen": {
+      "latent_pressure_improvement_at_least_65_percent": true,
+      "mean_flux_relative_error_at_most_1_percent": true,
+      "uniform_control_exact": true
+    },
+    "verdict": "PASS_BOUNDED_DARCY_LATENT_SCREEN"
+  },
+  "scientific_interpretation": {
+    "reproduction_class": "BYTE_EXACT_FRESH_LOCAL_REPRODUCTION",
+    "supports_bounded_reduced_resistance_surrogate": true,
+    "supports_learned_neural_operator_claim": false,
+    "supports_multidimensional_pde_claim": false,
+    "supports_real_porous_media_claim": false,
+    "claim_boundary": "deterministic block-aligned 1D reduced-resistance surrogate only"
+  }
+}
