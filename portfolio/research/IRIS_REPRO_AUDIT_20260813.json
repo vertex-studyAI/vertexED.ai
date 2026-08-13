@@ -1,0 +1,105 @@
+{
+  "schema_version": 1,
+  "date": "2026-08-13",
+  "project": "IRIS v0.2",
+  "status": "REPRODUCED_NEGATIVE_PACKAGE_PLUS_DEVELOPMENT_BASELINES",
+  "source_archive": {
+    "name": "IRIS_v0.2_research_package(1).zip",
+    "sha256": "5d689ade164d80216d0ab6d4376b8acf53b8e0ba13d4bd5e909a94f00ec86b56",
+    "internal_sha256sums_pass": true
+  },
+  "environment": {
+    "python": "3.13.5",
+    "numpy": "2.3.5",
+    "scipy": "1.17.0",
+    "torch": "2.10.0+cpu",
+    "platform": "Linux-6.18.35-x86_64-with-glibc2.41"
+  },
+  "pytest": {
+    "passed": 4,
+    "failed": 0,
+    "warning": "pytest cache metadata could not be written in the mounted copy; tests themselves passed"
+  },
+  "scalar_reproduction": {
+    "status": "BYTE_IDENTICAL_FOR_RAW_SUMMARY_PAIRED_STATS",
+    "command": "python experiments/run_scalar_v2.py",
+    "files": {
+      "scalar_v2_raw.csv": "661f0afc944954aab1c94f69b04c32834b7e18e1121af08335cf89b25cef0240",
+      "scalar_v2_summary.csv": "37337744ccde0db46bf32018091528c9d9d39aee9eaa0985b5ea8c48f23a90ca",
+      "scalar_v2_paired_stats.csv": "a6e91174dabe41f0054a02fc536a06d290bcc23b5b6009e23fb2d56443b3c80c"
+    },
+    "manifest_equal_excluding_runtime_seconds": true,
+    "canonical_runtime_seconds": 4.333262920379639,
+    "fresh_script_runtime_seconds": 5.744879484176636,
+    "fresh_wall_seconds": 7.81
+  },
+  "sequence_reproduction": {
+    "status": "COMPLETE_SEMANTIC_REPRODUCTION_FLOATING_POINT_DELTA",
+    "command": "python experiments/run_sequence_v2.py",
+    "test_seeds": [100,101,102,103,104],
+    "raw_rows": 240,
+    "summary_rows": 48,
+    "paired_rows": 32,
+    "fresh_script_runtime_seconds": 31.79183316230774,
+    "manifest_equal_excluding_runtime_seconds": true,
+    "max_abs_numeric_delta": {
+      "raw": 5.960464477539062e-7,
+      "summary": 1.192092894952701e-7,
+      "paired_derived_statistics": 4.30071587542713e-5
+    },
+    "signflip_p_values_unchanged": true,
+    "byte_identical": false
+  },
+  "development_screen_v1_1": {
+    "experiment_id": "EXP-DEV-20260813-ROBUST-CHANGE-BASELINES",
+    "status": "COMPLETE_DEVELOPMENT_ONLY",
+    "protocol_sha256": "cb52be5c1168017e139ffac4c89a0ad9ed95127f707ddce9fdcf5a27f332b8ec",
+    "script_sha256": "05ed6ff6c3b1ac24b47fcd9057c1376f3074c2e6ae127da2d4dd7f7cdb395194",
+    "runtime_seconds": 4.156452894210815,
+    "seeds": [0,1,2,3,4,5,6,7,8,9],
+    "conditions": ["gaussian","student_t2","contaminated","spikes","regime","drift","tail_shift"],
+    "methods": ["huber_cap4","htam","pabim","robust_cusum_switch","dual_timescale_huber","oracle_reset_huber"],
+    "confirmatory_seeds_accessed": false,
+    "preserved_bug_lineage": "v1 incorrectly treated smooth drift as repeated changepoints for recovery/oracle diagnostics; v1 retained, v1.1 changed only diagnostic/oracle condition handling with methods/seeds/data/parameters unchanged",
+    "key_finding": {
+      "huber_regime_recovery_steps": 23.1,
+      "robust_cusum_regime_recovery_steps": 13.8,
+      "robust_cusum_false_open_rate_student_t2": 0.4072,
+      "robust_cusum_false_open_rate_contaminated": 0.4559,
+      "robust_cusum_false_open_rate_spikes": 0.4221
+    }
+  },
+  "confirmed_change_baseline": {
+    "experiment_id": "EXP-DEV-20260813-CONFIRMED-CHANGE-BASELINE",
+    "status": "COMPLETE_DEVELOPMENT_ONLY",
+    "protocol_sha256": "f3714263f0923ccced664bf268f515110b6aa339136a89d0e2bfe3cf198d7701",
+    "script_sha256": "b2ed782037faf3350aed6f61da0750b0def5fcbb871f84a7f6963cd53b05cdf6",
+    "runtime_seconds": 0.8680064678192139,
+    "confirmatory_seeds_accessed": false,
+    "results": {
+      "gaussian": {"huber_mse":0.0426406900213635,"confirmed_mse":0.0429281211768262,"relative_mse_change_pct":0.6740771674161206,"false_open_rate":0.003},
+      "student_t2": {"huber_mse":0.0699466682274818,"confirmed_mse":0.07367044479928,"relative_mse_change_pct":5.32373687862826,"false_open_rate":0.0126153846153846},
+      "contaminated": {"huber_mse":0.0533224481405706,"confirmed_mse":0.0536334750152693,"relative_mse_change_pct":0.5832944389176697,"false_open_rate":0.0028974358974358},
+      "spikes": {"huber_mse":0.0465246099320563,"confirmed_mse":0.0468246639140376,"relative_mse_change_pct":0.6449360508760549,"false_open_rate":0.0026666666666666},
+      "regime": {"huber_mse":0.0566178129487663,"confirmed_mse":0.0522178902135333,"relative_mse_change_pct":-7.771269333936493,"huber_recovery_steps":23.1,"confirmed_recovery_steps":17.1,"false_open_rate":0.0017894736842105},
+      "drift": {"huber_mse":0.0426515314153552,"confirmed_mse":0.0430704258419958,"relative_mse_change_pct":0.9821322066053462,"false_open_rate":0.0045128205128205},
+      "tail_shift": {"huber_mse":0.0562661704003895,"confirmed_mse":0.0584980772317172,"relative_mse_change_pct":3.9666940462545597,"false_open_rate":0.0083589743589743}
+    },
+    "interpretation": "stronger simple change-aware comparator; raises the baseline bar but does not dominate because Student-t2 MSE is 5.32% worse than Huber"
+  },
+  "confirmatory_seeds_accessed": false,
+  "library_evidence": {
+    "path": "/Research/IRIS/IRIS_v0.2_repro_addendum_20260813.zip",
+    "zip_sha256": "7653c87d5effb08da9068630259802d77b34b930083dd160ccea4ce23311175b"
+  },
+  "scientific_verdict": "CURRENT POSITIVE PABIM/IRIS MECHANISM CLAIM REMAINS FALSIFIED/UNSUPPORTED; new development baselines sharpen the outlier-vs-change failure taxonomy and raise the comparison bar.",
+  "promotion_gate": [
+    "candidate passes frozen robustness + clean + shift gates",
+    "faithful strong robust/change-aware baselines in common learned harness",
+    "untouched confirmatory execution after freeze",
+    "two external temporal datasets",
+    "mandatory ablations and compute/runtime accounting",
+    "independent clean-clone reproduction",
+    "novelty audit against closest robust filtering/changepoint methods"
+  ]
+}
