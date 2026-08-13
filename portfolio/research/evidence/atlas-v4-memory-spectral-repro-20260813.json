@@ -1,0 +1,183 @@
+{
+  "schema_version": 1,
+  "wave_date": "2026-08-13",
+  "source_archive": {
+    "name": "BU1LD_Research_Atlas_Flagships_v4_REPRO_CORRECTED_2026-08-12.zip",
+    "sha256": "500e4c6b3e6f1be16ef78c9b55e62f647efefd92e8a27eeadef1190a50352b48",
+    "canonical_git_commit": null,
+    "note": "Recovered Library archive; no canonical remote source SHA is asserted by this evidence record."
+  },
+  "environment": {
+    "python": "3.13.5",
+    "numpy": "2.3.5",
+    "pandas": "2.2.3",
+    "scipy": "1.17.0",
+    "scikit_learn": "1.8.0",
+    "torch": "2.10.0+cpu",
+    "matplotlib": "3.10.8",
+    "platform_current": "Linux 6.18.35 x86_64",
+    "cuda": false
+  },
+  "preexisting_archive_integrity_defect": {
+    "checked_before_scientific_reruns": true,
+    "listed_hashes_passed": 761,
+    "listed_hashes_failed": 8,
+    "failed_paths": [
+      "projects/apen/artifacts/apen_delay_curve.pdf",
+      "projects/apen/artifacts/apen_salience_robustness.pdf",
+      "projects/eigen_jepa/artifacts/real_market_top_eigenvalue.pdf",
+      "projects/memory_spectrum_transfer/README.md",
+      "projects/memory_spectrum_transfer/artifacts/trained_memory_spectra.pdf",
+      "projects/mixed_shift_factorizer/artifacts/mixed_shift_factorization.pdf",
+      "projects/npms/artifacts/npms_memory_regimes.pdf",
+      "projects/probabilistic_dimensional_compiler/artifacts/probabilistic_metadata_recovery.pdf"
+    ],
+    "scientific_csv_npz_evidence_in_failure_set": false,
+    "policy": "Do not rewrite the package manifest or historical files merely to make the archive hash gate green."
+  },
+  "focused_tests": {
+    "command": "python -m pytest -q projects/apen projects/eigen_jepa projects/npms",
+    "result": "7 passed",
+    "wall_seconds": 5.22,
+    "peak_rss_kb": 436820
+  },
+  "apen": {
+    "status": "REPRODUCED_SYNTHETIC_CONTROLLED_MIXED",
+    "commands": [
+      "python -m projects.apen.experiment",
+      "python -m projects.apen.extended_experiment"
+    ],
+    "runtime": {
+      "base_wall_seconds": 10.78,
+      "base_peak_rss_kb": 420424,
+      "salience_robustness_wall_seconds": 15.59,
+      "salience_robustness_peak_rss_kb": 419280
+    },
+    "protocol": {
+      "task": "autocorrelated 5D synthetic sequence prediction with delayed rare-event contribution",
+      "delays": [12, 24, 48],
+      "noise_levels": [0.2, 0.5],
+      "paired_seeds_per_condition": 8,
+      "split": "chronological train/validation/test",
+      "estimator": "same Ridge estimator with validation-selected alpha across methods",
+      "proposed_method": "APEN informative salience retrieval trace",
+      "baselines": ["recent", "uniform_memory", "exp_trace", "oracle_delay"]
+    },
+    "base_results": {
+      "apen_overall_mse": 2.210393,
+      "apen_rare_mse": 17.060349,
+      "rare_count": 1133,
+      "exp_trace_overall_mse": 2.145430,
+      "exp_trace_rare_mse": 18.860263,
+      "oracle_delay_overall_mse": 2.056096,
+      "oracle_delay_rare_mse": 16.687710,
+      "recent_overall_mse": 2.133970,
+      "recent_rare_mse": 18.967381,
+      "uniform_memory_overall_mse": 2.240880,
+      "uniform_memory_rare_mse": 18.714592
+    },
+    "paired_rare_mse_differences_n48": {
+      "apen_minus_exp_trace": {"mean": -1.79991494, "bootstrap95": [-2.0902, -1.5161]},
+      "apen_minus_recent": {"mean": -1.9070, "bootstrap95": [-2.2167, -1.5995]},
+      "apen_minus_uniform_memory": {"mean": -1.65424, "bootstrap95": [-1.9041, -1.4016]},
+      "apen_minus_oracle_delay": {"mean": 0.372638, "bootstrap95": [-0.3845, 1.0991]}
+    },
+    "salience_dropout_rare_mse": [
+      {"dropout":0.0,"apen":18.1004,"exp_trace":19.5282,"recent":19.5601,"uniform_memory":19.1307},
+      {"dropout":0.2,"apen":18.1205,"exp_trace":19.4966,"recent":19.4374,"uniform_memory":19.2275},
+      {"dropout":0.5,"apen":18.3423,"exp_trace":19.0298,"recent":19.1125,"uniform_memory":18.7053},
+      {"dropout":0.8,"apen":18.8790,"exp_trace":18.9525,"recent":18.9821,"uniform_memory":18.8415},
+      {"dropout":1.0,"apen":20.9062,"exp_trace":20.7725,"recent":20.8146,"uniform_memory":20.5102}
+    ],
+    "fresh_artifact_identity": "All numerical CSV/JSON/PNG evidence retained by the experiment matched the packaged evidence; regenerated PDFs changed hash.",
+    "falsification_outcome": "Localized rare-event improvement survives while salience is informative, but the advantage collapses around 80% salience dropout and reverses at 100%; APEN is not a general-memory superiority result."
+  },
+  "eigen_jepa": {
+    "status": "REPRODUCED_REAL_DATA_MIXED_NEGATIVE",
+    "command": "python -m projects.eigen_jepa.experiment",
+    "runtime": {"wall_seconds": 3.60, "peak_rss_kb": 426556},
+    "dataset": {
+      "name": "official Fama-French factor daily data",
+      "rows_after_cleaning": 14895,
+      "date_start": "1963-07-01",
+      "date_end": "2022-08-31",
+      "covariance_blocks": 744,
+      "test_samples": 111,
+      "block_days": 20,
+      "context_blocks": 4,
+      "split": "chronological 70/15/15"
+    },
+    "methods": {
+      "proposed": "Eigen-JEPA spectral representation with ridge prediction",
+      "baselines": ["persistence", "raw_ridge", "log_ridge", "cholesky_ridge"]
+    },
+    "summary": {
+      "raw_ridge": {"matrix_mse":5.773438397e-9,"log_distance":0.194598,"eigenvalue_mse":2.49744e-8,"subspace_distance":1.034889},
+      "log_ridge": {"matrix_mse":5.789608912e-9,"log_distance":0.150606,"eigenvalue_mse":2.645526e-8,"subspace_distance":0.973015},
+      "eigen_jepa": {"matrix_mse":5.831822565e-9,"log_distance":0.159502,"eigenvalue_mse":2.631929e-8,"subspace_distance":1.019740},
+      "cholesky_ridge": {"matrix_mse":5.876249e-9,"log_distance":0.173030,"eigenvalue_mse":2.452712e-8,"subspace_distance":1.006703},
+      "persistence": {"matrix_mse":7.770831532e-9,"log_distance":0.169472,"eigenvalue_mse":3.625432e-8,"subspace_distance":0.894613}
+    },
+    "paired_matrix_mse_n111": {
+      "eigen_minus_persistence": {"mean":-1.939e-9,"bootstrap95":[-6.8566e-9,8.537e-10],"t_test_p":0.40085},
+      "eigen_minus_log_ridge": {"mean":4.221e-11,"bootstrap95":[2.224e-11,6.725e-11],"t_test_p":0.0003518},
+      "eigen_minus_raw_ridge": {"mean":5.838e-11,"bootstrap95":[-2.356e-10,4.174e-10],"t_test_p":0.724}
+    },
+    "fresh_artifact_identity": "Scientific CSV/JSON/NPZ evidence matched packaged hashes; regenerated real_market_top_eigenvalue.pdf changed hash.",
+    "falsification_outcome": "Eigen-JEPA improves matrix MSE versus persistence in point estimate but does not establish superiority over direct raw/log ridge forecasting; persistence is best on the reported subspace-distance metric. No metric shopping is permitted."
+  },
+  "npms": {
+    "status": "REPRODUCED_SYNTHETIC_CONTROLLED_DIAGNOSTIC",
+    "command": "python -m projects.npms.experiment",
+    "runtime": {"wall_seconds":5.06,"peak_rss_kb":418020},
+    "protocol": "four controlled reservoir memory regimes with seven base reservoirs per regime, each original plus three random orthogonal transforms; 24 delay probes and leave-one-reservoir-out regime classification",
+    "results": {
+      "within_coordinate_spectrum_cosine":0.9959606005706815,
+      "within_coordinate_parameter_abs_cosine":0.0992706396825156,
+      "between_regime_spectrum_cosine":0.9530792787182006,
+      "regime_classification_accuracy":0.9285714285714286,
+      "reservoir_realizations":112
+    },
+    "fresh_artifact_identity": "Scientific artifacts matched packaged hashes; regenerated npms_memory_regimes.pdf changed hash.",
+    "limitations": "Controlled reservoirs only; coordinate invariance and regime discriminability do not by themselves establish causal use or transfer to trained modern sequence models."
+  },
+  "memory_spectrum_transfer": {
+    "status": "REPRODUCED_TRAINED_RNN_GRU_COMPANION",
+    "commands": [
+      "python -m pytest -q projects/memory_spectrum_transfer",
+      "python -m projects.memory_spectrum_transfer.experiment"
+    ],
+    "tests": "2 passed",
+    "test_wall_seconds":4.82,
+    "run_wall_seconds":14.74,
+    "run_peak_rss_kb":497028,
+    "protocol": "24 trained models: vanilla RNN and GRU, 14 hidden units, four seeds, delays 3/8/15; fresh-sequence delay-reconstruction spectra; random orthogonal rotation; leave-one-seed-out logistic delay-regime classification",
+    "results": {
+      "mean_rotation_similarity":1.0,
+      "delay_regime_accuracy_spectrum":0.875,
+      "delay_regime_accuracy_parameters":0.666667,
+      "models":24
+    },
+    "artifact_identity": "memory_spectra.csv, model_results.csv, summary.csv, completion.json and PNG were byte-identical before/after fresh rerun; only the regenerated PDF hash changed.",
+    "claim_boundary": "Task-aligned functional spectra outperform six coarse parameter summaries for delay-regime identification in this controlled trained RNN/GRU study; nonlinear reparameterization, optimizer transfer, LLMs and natural sequence tasks remain untested."
+  },
+  "pen": {
+    "status": "EVIDENCE_PACKAGE_DISCOVERED_FRESH_EXECUTABLE_ARCHIVE_NOT_RECOVERED",
+    "independent_identity": true,
+    "evidence_source": "MODEL-PEN handoff, workspace hash ledger, claim-evidence matrix and retained result/report artifacts in Library",
+    "main_seeds": [17,23,29],
+    "retained_metrics": {
+      "pen_predictive_mse_mean":0.2382847617,
+      "pen_causal_event_mse_mean":2.6002264818,
+      "pen_retrieval_precision_mean":0.0630441904,
+      "pen_memory_utilisation":0.84375,
+      "pen_interference_rate":0.6666666865,
+      "no_memory_predictive_mse_mean":0.2414076626,
+      "random_write_predictive_mse_mean":0.2373956343,
+      "attention_only_predictive_mse_mean":0.2357257257
+    },
+    "negative_result": "PEN slightly beats no-memory but loses to attention-only and does not beat random writes; learned salience superiority is unsupported.",
+    "fresh_reproduction": false,
+    "blocker": "A single executable MODEL-PEN archive/source tree has not been recovered into this runtime, so retained historical metrics are not promoted to a fresh reproduction. APEN evidence is not inherited by PEN."
+  }
+}
