@@ -21,18 +21,37 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+
       - name: Capture environment
         run: |
-          mkdir -p reproducibility-wave/raw
-          node --version | tee reproducibility-wave/node-version.txt
-          uname -a | tee reproducibility-wave/uname.txt
-          git rev-parse HEAD | tee reproducibility-wave/commit.txt
+          set -euo pipefail
+          mkdir -p reproducibility-wave/raw reproducibility-wave/timing
+          {
+            echo "commit=$(git rev-parse HEAD)"
+            echo "node=$(node --version)"
+            echo "npm=$(npm --version)"
+            echo "kernel=$(uname -a)"
+            echo "cpu_count=$(getconf _NPROCESSORS_ONLN)"
+            echo "started_utc=$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          } | tee reproducibility-wave/environment.txt
+
       - name: T2424-0025 frozen screen
-        run: node portfolio/project2424/projects/T2424-0025/experiment/run.mjs | tee reproducibility-wave/raw/T2424-0025-screen.json
+        run: |
+          set -euo pipefail
+          /usr/bin/time -p -o reproducibility-wave/timing/T2424-0025-screen.time \
+            node portfolio/project2424/projects/T2424-0025/experiment/run.mjs \
+            | tee reproducibility-wave/raw/T2424-0025-screen.json
+
       - name: T2424-0025 fixed 50-seed ablation
-        run: node portfolio/project2424/projects/T2424-0025/experiment/ablation.mjs | tee reproducibility-wave/raw/T2424-0025-ablation.json
+        run: |
+          set -euo pipefail
+          /usr/bin/time -p -o reproducibility-wave/timing/T2424-0025-ablation.time \
+            node portfolio/project2424/projects/T2424-0025/experiment/ablation.mjs \
+            | tee reproducibility-wave/raw/T2424-0025-ablation.json
+
       - name: T2424-0025 canonical-schema verifier
         run: |
+          set -euo pipefail
           node - <<'NODE' | tee reproducibility-wave/raw/T2424-0025-verification.json
           const fs = require('fs');
           const s = JSON.parse(fs.readFileSync('reproducibility-wave/raw/T2424-0025-screen.json'));
@@ -48,32 +67,73 @@ jobs:
             verifier_schema: 'canonical sweep schema'
           }, null, 2));
           NODE
+
       - name: T2424-0025 focused tests
-        run: node --test tests/project2424NonGaussianMemory.test.mjs tests/project2424NonGaussianMemoryAblation.test.mjs
+        run: |
+          set -euo pipefail
+          node --test tests/project2424NonGaussianMemory.test.mjs tests/project2424NonGaussianMemoryAblation.test.mjs \
+            | tee reproducibility-wave/T2424-0025-tests.log
+
       - name: T2424-0027 frozen latent-language diagnostic
         run: |
-          node portfolio/project2424/projects/T2424-0027/experiment/run.mjs reproducibility-wave/raw/T2424-0027-results.json
-          node portfolio/project2424/projects/T2424-0027/reproduction/verify.mjs | tee reproducibility-wave/T2424-0027-verify.log
-          node --test tests/project2424LatentLanguageAudit.test.mjs
+          set -euo pipefail
+          /usr/bin/time -p -o reproducibility-wave/timing/T2424-0027.time \
+            node portfolio/project2424/projects/T2424-0027/experiment/run.mjs reproducibility-wave/raw/T2424-0027-results.json
+          node portfolio/project2424/projects/T2424-0027/reproduction/verify.mjs \
+            | tee reproducibility-wave/T2424-0027-verify.log
+          node --test tests/project2424LatentLanguageAudit.test.mjs \
+            | tee reproducibility-wave/T2424-0027-tests.log
+
       - name: T2424-0028 frozen residual-event tokenization screen
         run: |
-          node portfolio/project2424/projects/T2424-0028/experiment/run.mjs | tee reproducibility-wave/raw/T2424-0028-residual-events.json
-          node --test tests/residualEventTokenization.test.mjs | tee reproducibility-wave/T2424-0028-tests.log
+          set -euo pipefail
+          /usr/bin/time -p -o reproducibility-wave/timing/T2424-0028.time \
+            node portfolio/project2424/projects/T2424-0028/experiment/run.mjs \
+            | tee reproducibility-wave/raw/T2424-0028-residual-events.json
+          node --test tests/residualEventTokenization.test.mjs \
+            | tee reproducibility-wave/T2424-0028-tests.log
+
       - name: T2424-0029 frozen PDE-transition screen
         run: |
-          node portfolio/project2424/projects/T2424-0029/experiment/run.mjs | tee reproducibility-wave/raw/T2424-0029-pde-transitions.json
-          node --test tests/pdeRepresentationTransitions.test.mjs | tee reproducibility-wave/T2424-0029-tests.log
+          set -euo pipefail
+          /usr/bin/time -p -o reproducibility-wave/timing/T2424-0029.time \
+            node portfolio/project2424/projects/T2424-0029/experiment/run.mjs \
+            | tee reproducibility-wave/raw/T2424-0029-pde-transitions.json
+          node --test tests/pdeRepresentationTransitions.test.mjs \
+            | tee reproducibility-wave/T2424-0029-tests.log
+
       - name: T2424-0037 frozen 20-case NeuroCAD benchmark
         run: |
-          node portfolio/project2424/projects/T2424-0037/benchmark/run.mjs | tee reproducibility-wave/raw/T2424-0037-benchmark.json
-          node --test tests/nlpToCad.test.mjs tests/nlpToCadBenchmark.test.mjs
+          set -euo pipefail
+          /usr/bin/time -p -o reproducibility-wave/timing/T2424-0037.time \
+            node portfolio/project2424/projects/T2424-0037/benchmark/run.mjs \
+            | tee reproducibility-wave/raw/T2424-0037-benchmark.json
+          node --test tests/nlpToCad.test.mjs tests/nlpToCadBenchmark.test.mjs \
+            | tee reproducibility-wave/T2424-0037-tests.log
+
       - name: T2424-0050 frozen Darcy screen
         run: |
-          node portfolio/project2424/projects/T2424-0050/experiment/run.mjs | tee reproducibility-wave/raw/T2424-0050-darcy.json
-          node --test tests/project2424DarcyLatentOperator.test.mjs
+          set -euo pipefail
+          /usr/bin/time -p -o reproducibility-wave/timing/T2424-0050.time \
+            node portfolio/project2424/projects/T2424-0050/experiment/run.mjs \
+            | tee reproducibility-wave/raw/T2424-0050-darcy.json
+          node --test tests/project2424DarcyLatentOperator.test.mjs \
+            | tee reproducibility-wave/T2424-0050-tests.log
+
+      - name: Finalize evidence manifest
+        if: always()
+        run: |
+          set -euo pipefail
+          echo "completed_utc=$(date -u +%Y-%m-%dT%H:%M:%SZ)" | tee reproducibility-wave/completed.txt
+          find reproducibility-wave -type f ! -name SHA256SUMS -print0 \
+            | sort -z \
+            | xargs -0 sha256sum \
+            | tee reproducibility-wave/SHA256SUMS
+
       - name: Upload raw reproduction evidence
+        if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: research-repro-wave-20260812
+          name: research-repro-wave-20260813
           path: reproducibility-wave/
           if-no-files-found: error
