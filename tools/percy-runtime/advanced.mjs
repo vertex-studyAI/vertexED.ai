@@ -5,6 +5,12 @@ import { createHash } from 'node:crypto';
 
 const sleep = (ms) => new Promise((resolveSleep) => setTimeout(resolveSleep, ms));
 
+// Sub-second leases are useful in direct store tests, but they are too short for
+// an event-loop-driven worker under scheduler/CI pressure. The worker loop uses
+// this floor while the underlying PercyStore keeps its >=100 ms API so stale
+// lease behavior can still be tested independently.
+export const MIN_WORKER_LEASE_MS = 1_000;
+
 export function parseClassLimits(spec = process.env.PERCY_CLASS_LIMITS ?? 'default=2') {
   const limits = new Map();
   for (const raw of String(spec).split(',')) {
@@ -118,17 +124,23 @@ export class ClassLimiter {
       queue.push(resolveWaiter);
       this.waiters.set(name, queue);
     });
-    this.active.set(name, this.activeFor(name) + 1);
+    // release() transfers an existing occupied slot directly to this waiter.
+    // Do not increment active here or a release/acquire handoff can briefly
+    // exceed the declared provider-class limit.
     return () => this.release(name);
   }
 
   release(name = 'default') {
-    const next = Math.max(0, this.activeFor(name) - 1);
-    this.active.set(name, next);
     const queue = this.waiters.get(name) ?? [];
     const waiter = queue.shift();
-    if (waiter) queueMicrotask(waiter);
-    if (queue.length) this.waiters.set(name, queue); else this.waiters.delete(name);
+    if (waiter) {
+      if (queue.length) this.waiters.set(name, queue); else this.waiters.delete(name);
+      // Keep active unchanged: the slot is reserved for the queued waiter.
+      queueMicrotask(waiter);
+      return;
+    }
+    this.active.set(name, Math.max(0, this.activeFor(name) - 1));
+    this.waiters.delete(name);
   }
 }
 
@@ -147,12 +159,14 @@ export async function runWorkerLoop({
   if (!store || typeof store.claim !== 'function') throw new TypeError('store required');
   if (typeof execute !== 'function') throw new TypeError('execute required');
   if (!workerId) throw new TypeError('workerId required');
+  if (!Number.isFinite(leaseMs) || leaseMs < 100) throw new RangeError('leaseMs must be >=100');
+  const effectiveLeaseMs = Math.max(leaseMs, MIN_WORKER_LEASE_MS);
   let lastWorkAt = Date.now();
   let completed = 0;
   let failed = 0;
 
   while (!shouldStop()) {
-    const task = store.claim(workerId, leaseMs);
+    const task = store.claim(workerId, effectiveLeaseMs);
     if (!task) {
       if (maxIdleMs > 0 && Date.now() - lastWorkAt >= maxIdleMs) break;
       await sleep(idleMs);
@@ -165,21 +179,36 @@ export async function runWorkerLoop({
     try {
       // A claimed task can wait behind a stricter provider/class limiter. Keep the
       // ownership lease alive while queued for that slot so another worker cannot
-      // reclaim the task and create duplicate execution.
+      // reclaim the task and create duplicate execution. The scheduler-safe lease
+      // floor protects this timer from ordinary CI/event-loop jitter; production's
+      // default 30 s lease remains unchanged.
       heartbeat = setInterval(() => {
-        const owned = store.heartbeat(task.id, workerId, leaseMs);
+        const owned = store.heartbeat(task.id, workerId, effectiveLeaseMs);
         if (!owned) logger?.write('heartbeat_ownership_lost', { workerId, taskId: task.id, className });
-      }, Math.max(25, Math.floor(leaseMs / 3)));
+      }, Math.max(50, Math.floor(effectiveLeaseMs / 3)));
       heartbeat.unref?.();
 
       release = await limiter.acquire(className);
+      // Refresh immediately at provider-slot handoff before changing CLAIMED -> RUNNING.
+      // If ownership was actually lost, fail closed and never execute the task.
+      if (!store.heartbeat(task.id, workerId, effectiveLeaseMs)) {
+        logger?.write('ownership_lost_at_provider_handoff', { workerId, taskId: task.id, className });
+        continue;
+      }
       if (!store.start(task.id, workerId)) {
         logger?.write('ownership_lost_before_start', { workerId, taskId: task.id, className });
         continue;
       }
-      logger?.write('task_start', { workerId, taskId: task.id, kind: task.kind, className });
+      logger?.write('task_start', {
+        workerId,
+        taskId: task.id,
+        kind: task.kind,
+        className,
+        requestedLeaseMs: leaseMs,
+        effectiveLeaseMs,
+      });
       const result = await execute(task, { timeoutMs });
-      if (!store.heartbeat(task.id, workerId, leaseMs)) throw new Error('lost task ownership before evidence commit');
+      if (!store.heartbeat(task.id, workerId, effectiveLeaseMs)) throw new Error('lost task ownership before evidence commit');
       store.addEvidence(task.id, 'bounded-task-result', result, { workerId, kind: task.kind, className });
       if (!store.markVerifying(task.id, workerId, result)) throw new Error('lost task ownership before verification');
       if (!store.verifyComplete(task.id)) throw new Error('evidence gate rejected completion');
