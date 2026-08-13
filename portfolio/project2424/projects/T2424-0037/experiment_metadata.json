@@ -1,0 +1,15 @@
+{
+  "project_id":"T2424-0037",
+  "name":"NLP-to-CAD / NeuroCAD controlled compiler",
+  "evidence_class":"FROZEN_CONTROLLED_BENCHMARK_PLUS_DEVELOPMENT_OOD_QA",
+  "task":"single rectangular-plate family controlled-language parsing to typed geometry and OpenSCAD",
+  "baselines":["expected-rejection controls","naive numeric-scrape direct cube generator for development OOD only"],
+  "method":"controlled language -> validated typed IR -> numeric OpenSCAD/SVG",
+  "metrics":["decision_accuracy","exact_constraint_accuracy","unsafe_acceptance_rate","safe_code_rate","runtime"],
+  "seed_policy":"deterministic prompt fixtures; no seed sweep",
+  "bug_before":{"head":"8af9bf7183d38ccb2ae2821384a00ba4bdef2879","decision_accuracy":0.9666666666666667,"unsafe_acceptance_rate":0.06666666666666667,"failure":"negative width sign ignored"},
+  "fix":{"implementation_commit":"f1cb8f19db92939ca17d30e5b1f4ad2e961d0461","test_commit":"994255438e471124e69782355b1e0d1667c6d527"},
+  "fixed_execution":{"commit":"f439498fa6aaf86bb9c0cb37002fcfaa2156c925","workflow_run":31659677450,"controlled_runtime_seconds_real":0.02,"ood_runtime_seconds_real":0.02,"tests_passed":7},
+  "fixed_result":{"typed_decision_accuracy":1,"typed_exact_constraint_accuracy":1,"typed_unsafe_acceptance_rate":0,"direct_decision_accuracy":0.5333333333333333,"direct_unsafe_acceptance_rate":0.9333333333333333},
+  "limitations":["single part family","development OOD not preregistered science","no learned-provider comparison","no CAD-kernel execution"]
+}

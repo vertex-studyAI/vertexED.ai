@@ -1,0 +1,18 @@
+{
+  "project_id":"T2424-0050",
+  "name":"Darcy Latent Operator",
+  "evidence_class":"FRESHLY_REPRODUCED_BOUNDED_1D_MECHANICS_SCREEN",
+  "hypothesis":"Harmonic-resistance block compression preserves 1D Darcy pressure and flux better than a heterogeneity-blind linear pressure baseline on the frozen fixture.",
+  "task":"steady 1D Darcy flow over 20 deterministic heterogeneous fields",
+  "baseline":"linear pressure profile",
+  "method":"24 cells -> 6 harmonic-resistance blocks",
+  "metrics":["pressure_mae","relative_pressure_mae_improvement","flux_relative_error"],
+  "seed_count":20,
+  "execution_commit":"f439498fa6aaf86bb9c0cb37002fcfaa2156c925",
+  "workflow_run":31659677450,
+  "runtime_seconds_real":0.03,
+  "tests":{"passed":6,"failed":0},
+  "result_sha256":"67ad7bd98000c58533753b2dd8e70ddebce411780e66f11284c9cfb59206e586",
+  "result":{"mean_baseline_mae":0.06589139155637647,"mean_latent_mae":0.0011366559231966065,"mean_relative_improvement":0.9787663202281432,"mean_flux_relative_error":1.3693877541812723e-16,"max_latent_mae":0.0014613491578162696},
+  "limitations":["aligned block-structured generator","not learned","1D synthetic only","no strong scientific-ML baseline"]
+}
