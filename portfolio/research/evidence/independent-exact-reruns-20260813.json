@@ -1,0 +1,128 @@
+{
+  "kind": "independent_exact_project2424_reruns",
+  "date": "2026-08-13",
+  "repository": "vertex-studyAI/vertexED.ai",
+  "truth_boundary": "Fresh local reproduction evidence only. No scientific protocol, threshold, seed, implementation, result, or claim boundary was changed after observing outputs.",
+  "execution_environment": {
+    "python": "3.13.5",
+    "node": "v22.16.0",
+    "platform": "Linux-6.18.35-x86_64-with-glibc2.41",
+    "machine": "x86_64",
+    "cuda_used": false
+  },
+  "experiments": {
+    "T2424-0025": {
+      "source_blobs": {
+        "src/core.mjs": "7826f9ba4577b471250ef13faa8e2c854aae4a73",
+        "src/robust_readouts.mjs": "badbc9529d04bc851b7782a9848e81d2d3aaf39a",
+        "experiment/run.mjs": "e5987fb6021fa0ed550166c8c45c8f4acce6fc1e",
+        "experiment/ablation.mjs": "ed0e5b600425f67ae3e60e9809d8b9c8378bcaae"
+      },
+      "source_bytes_verified_by_git_blob_sha": true,
+      "commands": [
+        "node portfolio/project2424/projects/T2424-0025/experiment/run.mjs > screen.json",
+        "node portfolio/project2424/projects/T2424-0025/experiment/ablation.mjs > ablation.json"
+      ],
+      "runtime_seconds": {"screen": 0.11, "ablation": 0.95},
+      "outputs": {
+        "screen_sha256": "7b26bfcf82444b1de868092c8391a3772bd4e6acc5d64468839f9af6290a3db1",
+        "ablation_sha256": "f61dd31562ce2f5638535a90ab2d700aed494790e9aca515797595158ee9ee4e",
+        "screen_byte_identical_to_retained_actions": true,
+        "ablation_byte_identical_to_retained_actions": true
+      },
+      "screen": {
+        "seeds": 30,
+        "heavy_tail_baseline_mae": 0.36152678546712497,
+        "heavy_tail_weighted_median_mae": 0.016560942261867797,
+        "heavy_tail_relative_improvement": 0.9541916590205908,
+        "clean_baseline_mae": 0.024354967043193555,
+        "clean_weighted_median_mae": 0.012593962713833545,
+        "clean_relative_improvement": 0.482899619962608,
+        "verdict": "PASS_HEAVY_TAIL_MEMORY_SCREEN"
+      },
+      "ablation": {
+        "seeds": 50,
+        "contamination_rates": [0, 0.05, 0.10, 0.18, 0.25, 0.35],
+        "zero_contamination_median_relative_improvement_vs_mean": 0.4900015846867857,
+        "at_contamination_0_18": {
+          "mean_mae": 0.3494393236413256,
+          "median_mae": 0.017002512132865903,
+          "trimmed_mae": 0.04550633252740887,
+          "huber_mae": 0.030925536516162495
+        }
+      },
+      "classification": "BYTE_EXACT_FRESH_LOCAL_REPRODUCTION_CONTROLLED_ROBUST_READOUT",
+      "supports_transformer_claim": false,
+      "supports_unique_non_gaussian_attribution": false,
+      "limitation": "The median already improves MAE by about 49% at zero contamination, so generic robust aggregation is a central alternative explanation."
+    },
+    "T2424-0027": {
+      "source_blobs": {
+        "src/core.mjs": "51fee1684a9282d5d30cb2ed33168daeb4248f8a",
+        "experiment/run.mjs": "f37cf9f7ad6c6af43510b3a39df9ff83a0ec26af"
+      },
+      "source_bytes_verified_by_git_blob_sha": true,
+      "command": "node portfolio/project2424/projects/T2424-0027/experiment/run.mjs > results.json",
+      "runtime_seconds": 0.04,
+      "output_sha256": "0eac35dd7b8af1488efab0392c2e82dab8f9a90332af7c6ad54633263fa13605",
+      "byte_identical_to_retained_actions": true,
+      "metrics": {
+        "raw_concept_accuracy": 1.0,
+        "raw_language_accuracy": 1.0,
+        "centered_concept_accuracy": 1.0,
+        "centered_language_accuracy": 0.3611111111111111,
+        "global_centered_language_accuracy": 1.0,
+        "language_chance": 0.3333333333333333,
+        "normalized_language_leakage_reduction": 0.9583333333333334
+      },
+      "verdict": "PASS_CONTROLLED_LANGUAGE_LEAKAGE_MECHANICS",
+      "classification": "BYTE_EXACT_FRESH_LOCAL_REPRODUCTION_CONTROLLED_SYNTHETIC",
+      "claim_boundary": "No linguistic-relativity or real multilingual-model claim."
+    },
+    "T2424-0037-NeuroCAD": {
+      "source_blobs": {
+        "src/core.mjs": "905c87ba6029ef707eb076e3e3f37fcb917949fe",
+        "benchmark/run.mjs": "ae25e8a0423db0f57eb1e5e462d4f0d58faeddd6"
+      },
+      "source_bytes_verified_by_git_blob_sha": true,
+      "command": "node portfolio/project2424/projects/T2424-0037/benchmark/run.mjs > benchmark.json",
+      "runtime_seconds": 0.0314,
+      "output_sha256": "e3e15d79631d1fccd02bc2711f71e98acc1f7f686e390cd65d82fcb054e5c601",
+      "byte_identical_to_retained_actions": true,
+      "metrics": {
+        "total_cases": 20,
+        "passed": 20,
+        "expected_accepted": 15,
+        "accepted": 15,
+        "syntax_execution_success": 1.0,
+        "geometry_validity": 1.0,
+        "dimension_accuracy": 1.0,
+        "constraint_satisfaction": 1.0
+      },
+      "classification": "BYTE_EXACT_FRESH_LOCAL_REPRODUCTION_FROZEN_GRAMMAR",
+      "claim_boundary": "This reproduces the original deterministic rectangular-plate grammar benchmark only; stronger held-out NeuroCAD evidence merged separately on current main must be evaluated under its own frozen protocol."
+    },
+    "T2424-0050-Darcy": {
+      "source_blobs": {
+        "src/core.mjs": "1eb67bf784a22e7ba4ce2063e093859b7514129e",
+        "experiment/run.mjs": "946a1e4f45d58bbedd4d129bed4e531ecd848a93"
+      },
+      "source_bytes_verified_by_git_blob_sha": true,
+      "command": "node portfolio/project2424/projects/T2424-0050/experiment/run.mjs > darcy.json",
+      "runtime_seconds": 0.0335,
+      "output_sha256": "67ad7bd98000c58533753b2dd8e70ddebce411780e66f11284c9cfb59206e586",
+      "byte_identical_to_retained_actions": true,
+      "seeds": 20,
+      "metrics": {
+        "mean_baseline_pressure_mae": 0.06589139155637647,
+        "mean_latent_pressure_mae": 0.0011366559231966065,
+        "mean_relative_improvement": 0.9787663202281432,
+        "mean_flux_relative_error": 1.3693877541812723e-16,
+        "max_latent_pressure_mae": 0.0014613491578162696
+      },
+      "verdict": "PASS_BOUNDED_DARCY_LATENT_SCREEN",
+      "classification": "BYTE_EXACT_FRESH_LOCAL_REPRODUCTION_CONSTRUCTION_ALIGNED",
+      "claim_boundary": "No learned neural-operator, multidimensional-PDE, or real porous-media claim."
+    }
+  }
+}
