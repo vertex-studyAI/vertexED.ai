@@ -1,0 +1,166 @@
+{
+  "audit_date": "2026-08-13",
+  "repository": "vertex-studyAI/vertexED.ai",
+  "scope": "independent retained-artifact audit; no scientific source, seeds, metrics, thresholds, or benchmark fixtures changed",
+  "retained_run": {
+    "workflow_run": 31618609967,
+    "run_attempt": 3,
+    "head_sha": "bd2a4d3d939b8ce06908d7842ca9e075e0ae2fa7",
+    "artifact_id": 9162627168,
+    "artifact_digest": "sha256:d9d1816d3cf8eb317f435b180c0ec6137fa64cbfde6b99e7f8b5f2d5f1a0bbae",
+    "environment": {
+      "node": "v22.22.0",
+      "npm": "10.9.4",
+      "kernel": "Linux 6.17.0-1022-azure x86_64 GNU/Linux",
+      "cpu_count": 4,
+      "started_utc": "2026-08-12T23:31:46Z",
+      "completed_utc": "2026-08-12T23:31:48Z"
+    }
+  },
+  "verifier_bug_lineage": {
+    "failed_run": 31617979117,
+    "classification": "REPRODUCIBILITY_INFRASTRUCTURE_VERIFIER_SCHEMA_BUG",
+    "scientific_commands_completed_before_failure": true,
+    "fix_sha": "bd2a4d3d939b8ce06908d7842ca9e075e0ae2fa7",
+    "scientific_protocol_changed": false,
+    "t2424_0025_entrypoint_identity": {
+      "frozen_source_sha": "0d2a14e559b0caa9b5b1cbeef0995013594ecf15",
+      "run_mjs_blob_sha_frozen": "e5987fb6021fa0ed550166c8c45c8f4acce6fc1e",
+      "run_mjs_blob_sha_fix": "e5987fb6021fa0ed550166c8c45c8f4acce6fc1e",
+      "ablation_mjs_blob_sha_frozen": "ed0e5b600425f67ae3e60e9809d8b9c8378bcaae",
+      "ablation_mjs_blob_sha_fix": "ed0e5b600425f67ae3e60e9809d8b9c8378bcaae",
+      "byte_identical": true
+    }
+  },
+  "t2424_0025": {
+    "classification": "REPRODUCED_BOUNDED_ROBUST_READOUT_SCREEN_NGMT_NOT_ESTABLISHED",
+    "hypothesis": "robust weighted readouts reduce aggregation MAE under heavy-tailed contamination; a mechanism-specific non-Gaussian claim requires an advantage not explained by clean control",
+    "task": "synthetic deterministic attention-style aggregation",
+    "metric": "MAE_lower_is_better",
+    "methods": {
+      "baseline": "weighted arithmetic mean",
+      "bounded_proposed": "weighted median",
+      "references": ["10% weighted trimmed mean", "weighted Huber location"],
+      "negative_control": "0% Cauchy contamination"
+    },
+    "seed_policy": {"screen": 30, "ablation_per_condition": 50, "best_seed_selection": false},
+    "screen": {
+      "heavy_tail_mean_mae": 0.36152678546712497,
+      "heavy_tail_median_mae": 0.016560942261867797,
+      "heavy_tail_relative_improvement": 0.9541916590205908,
+      "clean_mean_mae": 0.024354967043193555,
+      "clean_median_mae": 0.012593962713833545,
+      "clean_relative_improvement": 0.482899619962608,
+      "verdict": "PASS_HEAVY_TAIL_MEMORY_SCREEN",
+      "runtime_seconds_attempt3": 0.12
+    },
+    "ablation": {
+      "contamination_rates": [0, 0.05, 0.1, 0.18, 0.25, 0.35],
+      "runtime_seconds_attempt3": 1.08,
+      "zero_control": {
+        "mean_mae": 0.02464691771133496,
+        "mean_sample_sd": 0.0023115771827692763,
+        "median_mae": 0.012569888975136025,
+        "median_sample_sd": 0.0020830878466683114,
+        "median_relative_improvement": 0.4900015846867857
+      },
+      "primary_018": {
+        "mean_mae": 0.3494393236413256,
+        "mean_sample_sd": 0.34720341329882964,
+        "median_mae": 0.017002512132865903,
+        "median_sample_sd": 0.004857686860296252,
+        "trim_mae": 0.04550633252740887,
+        "trim_sample_sd": 0.01571336013006776,
+        "huber_mae": 0.030925536516162495,
+        "huber_sample_sd": 0.006796244399198665
+      }
+    },
+    "limitation": "the strong 0% contamination robust-readout improvement prevents attribution to a uniquely non-Gaussian memory mechanism; this is not a Transformer experiment"
+  },
+  "t2424_0027": {
+    "classification": "REPRODUCED_INDEPENDENTLY_VERIFIED_SYNTHETIC_DIAGNOSTIC",
+    "records": 72,
+    "concepts": 4,
+    "languages": 3,
+    "raw_concept_accuracy": 1.0,
+    "raw_language_accuracy": 1.0,
+    "centered_concept_accuracy": 1.0,
+    "centered_language_accuracy": 0.3611111111111111,
+    "chance": 0.3333333333333333,
+    "leakage_reduction_fraction": 0.9583333333333334,
+    "claim_boundary": "synthetic controlled language-leakage diagnostic only"
+  },
+  "t2424_0037": {
+    "classification": "REPRODUCED_CONTROLLED_NEUROCAD_BENCHMARK",
+    "total_cases": 20,
+    "passed_cases": 20,
+    "success_rate": 1.0,
+    "expected_accepted": 15,
+    "accepted": 15,
+    "syntax_validity": 1.0,
+    "execution_validity": 1.0,
+    "geometric_validity": 1.0,
+    "dimension_constraint_adherence": 1.0,
+    "claim_boundary": "controlled deterministic benchmark; arbitrary natural-language CAD not established"
+  },
+  "t2424_0050": {
+    "classification": "REPRODUCED_BOUNDED_SYNTHETIC_DARCY_SCREEN",
+    "seeds": 20,
+    "baseline_pressure_mae_mean": 0.06589139155637648,
+    "baseline_pressure_mae_sample_sd": 0.03826569097933511,
+    "latent_pressure_mae_mean": 0.0011366559231966063,
+    "latent_pressure_mae_sample_sd": 0.00020308006510457683,
+    "relative_improvement_mean": 0.9787663202281432,
+    "relative_improvement_sample_sd": 0.008650106255959623,
+    "mean_flux_relative_error": 1.3693877541812723e-16,
+    "max_latent_pressure_mae": 0.0014613491578162696,
+    "claim_boundary": "bounded synthetic/analytic operator screen; no learned-operator or broad physical-generalization claim"
+  },
+  "attempt2_to_attempt3": {
+    "attempt2_artifact_id": 9162075012,
+    "attempt3_artifact_id": 9162627168,
+    "same_file_set": true,
+    "files_per_artifact": 15,
+    "byte_identical_scientific_or_verifier_files": [
+      "T2424-0025-ablation.json",
+      "T2424-0025-screen.json",
+      "T2424-0025-verification.json",
+      "T2424-0027-results.json",
+      "T2424-0027-verify.log",
+      "T2424-0037-benchmark.json",
+      "T2424-0050-darcy.json"
+    ],
+    "scientific_json_changed": false,
+    "differing_classes": ["runtime timing files", "environment timestamps", "test logs with runtime-duration metadata"]
+  },
+  "attempt3_sha256": {
+    "T2424-0025-ablation.json": "f61dd31562ce2f5638535a90ab2d700aed494790e9aca515797595158ee9ee4e",
+    "T2424-0025-ablation.time": "410af990c05da8fa7db8697a0028019a6186730ae5004fadf352ebfa3c627479",
+    "T2424-0025-screen.json": "7b26bfcf82444b1de868092c8391a3772bd4e6acc5d64468839f9af6290a3db1",
+    "T2424-0025-screen.time": "7407d19482adaad602a1413845822b5c4b9bd6d240e15f5322bd9683c98e5201",
+    "T2424-0025-tests.log": "64e5253dbbb5648bdd534a876c6898c01d3af3d49f88d00df96e0a72ee5fa548",
+    "T2424-0025-verification.json": "ba0e73902ef8cd2dabc66995bffbd20476afad7aa23f8302ce4be7e68f736188",
+    "T2424-0027-results.json": "0eac35dd7b8af1488efab0392c2e82dab8f9a90332af7c6ad54633263fa13605",
+    "T2424-0027-tests.log": "bf15a47047e7c2ef0b5c3f3866f7c34eeb18f578dbb38758925c7d2220abd916",
+    "T2424-0027-verify.log": "1a354c5ef26de30bc99a8b5ace22087e125b865db7326abe48e3bef6cbe7f6c3",
+    "T2424-0037-benchmark.json": "e3e15d79631d1fccd02bc2711f71e98acc1f7f686e390cd65d82fcb054e5c601",
+    "T2424-0037-tests.log": "07b73dcc8d93ee2816ae96a7c6b0936668a6bbcb6b1921cace55ee33d0de1e2d",
+    "T2424-0050-darcy.json": "67ad7bd98000c58533753b2dd8e70ddebce411780e66f11284c9cfb59206e586",
+    "T2424-0050-tests.log": "4bad7fd38dd07edec7721124e1fddd2971a9c3d4c140ba97e77c408a214d4d03",
+    "completed.txt": "d597627460642fcff83bfed18e4e72d7337c073874d57076e018fe74ac9d7df3",
+    "environment.txt": "e7519cd53f886d92e7b7899a4fdf26f541f27f8a7f528c8134eb881e9486cca3"
+  },
+  "ngmt_status": {
+    "status": "BLOCKED_MECHANISM_NOT_FROZEN",
+    "reason": "current evidence is a robust synthetic aggregation/readout screen, not an actual learned Transformer memory mechanism",
+    "required_next_protocol": ["B0 no memory", "B1 standard memory", "B2 Gaussian/reference robust memory", "B3 proposed non-Gaussian memory", "matched dimensions/parameters", "sequence tasks", "clean/heavy-tail/regime-shift controls", "frozen paired seed policy", "falsification rule"]
+  },
+  "not_freshly_audited_in_attempt3": ["T2424-0028", "T2424-0029"],
+  "runner_hardening_branch": {
+    "branch": "repro-wave/project2424-20260813",
+    "commit": "054687f3c193b2f536b05d56536df76178cf42c8",
+    "changes_scientific_source": false,
+    "changes": ["set -euo pipefail", "timing capture", "SHA256 manifest", "current runner includes T2424-0028 and T2424-0029"],
+    "fresh_actions_run_observed": false
+  }
+}
