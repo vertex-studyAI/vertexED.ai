@@ -1,0 +1,73 @@
+{
+  "project": "IRIS",
+  "version": "v0.2",
+  "audit_date": "2026-08-13",
+  "evidence_class": "LOCAL_REPRODUCIBILITY_AUDIT_WITH_PARTIAL_LEARNED_RERUN",
+  "source": {
+    "artifact": "IRIS_v0.2_bundle.zip",
+    "sha256": "41a8e117b6922c3a6641bd12608d5e4246d305a9c3776a62252869045d83dacf",
+    "remote_sync_verified": false
+  },
+  "hypothesis": "A history-conditioned bounded-influence recurrent write may improve isolated heavy-tail robustness versus matched Huber while preserving clean accuracy and persistent-shift adaptation.",
+  "protocol": {
+    "config": "experiments/configs/pgr_holdout_v02.json",
+    "status": "FROZEN_BEFORE_RUN",
+    "scalar_seeds": [100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119],
+    "sequence_seeds": [100,101,102,103,104,105,106,107,108,109],
+    "confirmatory_seeds": "1000-1029",
+    "confirmatory_seeds_accessed": false,
+    "no_post_holdout_tuning": true,
+    "sequence_models": ["ema","huber","htam","pgr"],
+    "sequence_training_condition": "clean_gaussian_only",
+    "sequence_length": 128,
+    "train_sequences": 256,
+    "test_sequences_per_condition": 256,
+    "epochs": 35
+  },
+  "environment": {
+    "python": "3.13.5",
+    "platform": "Linux x86_64",
+    "numpy": "2.3.5",
+    "scipy": "1.17.0",
+    "torch": "2.10.0+cpu",
+    "pytest": "9.0.2",
+    "cuda_available": false,
+    "max_learned_workers": 2
+  },
+  "fresh_audit": {
+    "tests": {"passed": 6, "failed": 0},
+    "scalar_rerun": {
+      "complete": true,
+      "byte_exact": true,
+      "n_seeds": 20,
+      "hashes": {
+        "pgr_scalar_holdout_raw.csv": "293cddc5f0c30b6c360ba18b12aee0ee59811eb60678ad27b8bb32254ee87ec2",
+        "pgr_scalar_holdout_summary.csv": "e532506a4d2492d0664c9d79f3e3504ff9e3b602b4b448847065b75b7af8ae45",
+        "pgr_scalar_holdout_paired.csv": "a21cab35da6562a64a40f6fbd499fa0085b30f7c4817e5b44b4ea760ec82ccc2"
+      }
+    },
+    "learned_rerun": {
+      "completed_seed_model_shards": 10,
+      "planned_seed_model_shards": 40,
+      "completed_shards_byte_exact": true,
+      "completed": ["100_ema","100_huber","100_htam","100_pgr","101_ema","101_huber","101_htam","101_pgr","102_ema","102_huber"],
+      "remaining_not_claimed_fresh": 30,
+      "interruption": "bounded execution-window timeout"
+    }
+  },
+  "retained_sequence_effects_pct_vs_huber": {
+    "gaussian": {"mean": -11.659364, "ci95": [-13.904277,-8.938272]},
+    "student_t2": {"mean": 4.837411, "ci95": [3.141937,6.619310]},
+    "contaminated": {"mean": 1.026317, "ci95": [-1.551120,4.137500]},
+    "spikes": {"mean": -4.038714, "ci95": [-6.673778,-0.632202]},
+    "regime": {"mean": -41.851364, "ci95": [-48.007116,-36.481096]}
+  },
+  "falsification_outcome": "FAIL_PROMOTION",
+  "conclusion": "Negative result preserved. IRIS v0.2 is green for evidence integrity, not for a successful learned mechanism.",
+  "limitations": [
+    "100-series holdout is exploratory because parameters were screened on legacy seed families.",
+    "Only 10/40 learned seed-model shards were freshly rerun in this bounded audit.",
+    "Remote IRIS repository synchronization is not verified.",
+    "Confirmatory seeds remain untouched."
+  ]
+}
