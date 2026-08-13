@@ -67,6 +67,30 @@ jobs:
           node portfolio/project2424/projects/T2424-0027/reproduction/verify.mjs | tee repro-evidence/T2424-0027-verify.log
           node --test tests/project2424LatentLanguageAudit.test.mjs | tee repro-evidence/T2424-0027-tests.log
 
+      - name: Reproduce T2424-0028 residual-event tokenization
+        run: |
+          set -euo pipefail
+          node portfolio/project2424/projects/T2424-0028/experiment/run.mjs | tee repro-evidence/T2424-0028-residual-events.json
+          node --test tests/residualEventTokenization.test.mjs | tee repro-evidence/T2424-0028-tests.log
+
+      - name: Reproduce T2424-0029 PDE representation transitions
+        run: |
+          set -euo pipefail
+          node portfolio/project2424/projects/T2424-0029/experiment/run.mjs | tee repro-evidence/T2424-0029-pde-transitions.json
+          node --test tests/pdeRepresentationTransitions.test.mjs | tee repro-evidence/T2424-0029-tests.log
+
+      - name: Reproduce T2424-0024 trust-under-uncertainty evaluator
+        run: |
+          set -euo pipefail
+          node portfolio/project2424/projects/T2424-0024/experiment/run.mjs | tee repro-evidence/T2424-0024-trust.json
+          node --test tests/project2424TrustUnderUncertainty.test.mjs tests/project2424TrustUnderUncertaintyQa.test.mjs | tee repro-evidence/T2424-0024-tests.log
+
+      - name: Reproduce T2424-0026 counterfactual defect worlds
+        run: |
+          set -euo pipefail
+          node portfolio/project2424/projects/T2424-0026/experiment/run.mjs | tee repro-evidence/T2424-0026-counterfactual.json
+          node --test tests/counterfactualDefectWorlds.test.mjs | tee repro-evidence/T2424-0026-tests.log
+
       - name: Reproduce T2424-0037 controlled NeuroCAD benchmark
         run: |
           set -euo pipefail
