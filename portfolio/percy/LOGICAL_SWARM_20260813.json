@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "wave": "Percy Prime closure wave 2026-08-13",
+  "timezone": "Asia/Kolkata",
+  "logical_swarm": {
+    "total_agents": 16256,
+    "agent_id_first": "P00000",
+    "agent_id_last": "P16255",
+    "total_squads": 127,
+    "agents_per_squad": 128,
+    "squad_id_first": "S000",
+    "squad_id_last": "S126",
+    "identity_semantics": "durable logical scheduling identities; not simultaneous operating-system or model processes",
+    "registration_invariant": "127 * 128 = 16256"
+  },
+  "physical_execution_policy": {
+    "default_model_heavy_workers": 2,
+    "hard_rule": "logical queue depth does not authorize increased model-process concurrency",
+    "adaptive_backoff": ["RAM pressure", "swap pressure", "thermal pressure", "disk pressure", "provider pressure", "error-rate pressure"],
+    "runtime_verification_status": "BLOCKED_EXTERNAL_RUNTIME_ACCESS",
+    "runtime_note": "This GitHub execution session cannot inspect the user's local Percy SQLite database, macOS process table, leases, heartbeat state, provider credentials, RAM, swap, thermals, or mounted disks. Those fields must remain unknown until evidence from the local Percy runtime is connected or committed."
+  },
+  "squad_allocations": [
+    {"portfolio_lane":"LAM-JEPA / papers","squad_first":"S000","squad_last":"S013","squads":14,"agent_first":"P00000","agent_last":"P01791","logical_agents":1792},
+    {"portfolio_lane":"IRIS","squad_first":"S014","squad_last":"S031","squads":18,"agent_first":"P01792","agent_last":"P04095","logical_agents":2304},
+    {"portfolio_lane":"Project 2424","squad_first":"S032","squad_last":"S065","squads":34,"agent_first":"P04096","agent_last":"P08447","logical_agents":4352},
+    {"portfolio_lane":"NeuroCAD","squad_first":"S066","squad_last":"S075","squads":10,"agent_first":"P08448","agent_last":"P09727","logical_agents":1280},
+    {"portfolio_lane":"NGMT","squad_first":"S076","squad_last":"S083","squads":8,"agent_first":"P09728","agent_last":"P10751","logical_agents":1024},
+    {"portfolio_lane":"APEN / PEN / Eigen-JEPA / NPMS","squad_first":"S084","squad_last":"S093","squads":10,"agent_first":"P10752","agent_last":"P12031","logical_agents":1280},
+    {"portfolio_lane":"Hercules / Olympus","squad_first":"S094","squad_last":"S101","squads":8,"agent_first":"P12032","agent_last":"P13055","logical_agents":1024},
+    {"portfolio_lane":"VertexED","squad_first":"S102","squad_last":"S109","squads":8,"agent_first":"P13056","agent_last":"P14079","logical_agents":1024},
+    {"portfolio_lane":"FinanceMeta / The Bu1LD","squad_first":"S110","squad_last":"S114","squads":5,"agent_first":"P14080","agent_last":"P14719","logical_agents":640},
+    {"portfolio_lane":"Percy reliability","squad_first":"S115","squad_last":"S120","squads":6,"agent_first":"P14720","agent_last":"P15487","logical_agents":768},
+    {"portfolio_lane":"Independent verification / statistics / security","squad_first":"S121","squad_last":"S126","squads":6,"agent_first":"P15488","agent_last":"P16255","logical_agents":768}
+  ],
+  "task_creation_policy": {
+    "initial_agent_state": "IDLE",
+    "chief_coordinator": "P00000",
+    "logical_registration_creates_tasks": false,
+    "deduplicate_on": ["project", "normalized_title", "subsystem", "files", "root_cause", "branch", "current_leases", "recent_commits", "existing_reports", "existing_evidence", "dependent_task"],
+    "quality_rule": "prefer fewer unique evidence-producing tasks over thousands of duplicate busywork tasks"
+  },
+  "completion_evidence_fields": [
+    "AGENT_ID", "TASK_ID", "PROJECT", "SCOPE", "STATUS", "SUMMARY", "FILES_INSPECTED", "FILES_CHANGED", "COMMANDS", "TESTS", "RESULTS", "RAW_ARTIFACTS", "EVIDENCE_HASHES", "COMMIT", "LIMITATIONS", "BLOCKERS", "NEXT_ACTION", "RESOURCE_USE"
+  ]
+}
