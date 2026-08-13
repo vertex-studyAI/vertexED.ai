@@ -1,9 +1,22 @@
 # T2424-0025 Results — Robust Readout Mechanism Screen
 
-**Reproduced:** 2026-08-12  
-**Frozen repository revision:** `0d2a14e559b0caa9b5b1cbeef0995013594ecf15`  
-**Evidence class:** local reproduced synthetic mechanism screen  
-**Claim boundary:** this is not a Transformer-level NGMT result.
+**Frozen experiment revision:** `0d2a14e559b0caa9b5b1cbeef0995013594ecf15`  
+**Repository-conformant verifier-fix revision:** `bd2a4d3d939b8ce06908d7842ca9e075e0ae2fa7`  
+**Latest independently audited retained run:** Actions `31618609967`, attempt `3`, artifact `9162627168`  
+**Artifact digest:** `sha256:d9d1816d3cf8eb317f435b180c0ec6137fa64cbfde6b99e7f8b5f2d5f1a0bbae`  
+**Evidence class:** reproduced synthetic robust-readout mechanism screen  
+**Claim boundary:** **this is not a Transformer-level NGMT result.**
+
+## Reproducibility lineage
+
+The original bounded result was reproduced without altering the experiment. A later Actions run (`31617979117`) failed only because a post-run verifier expected a stale ablation JSON schema. The scientific commands had already emitted their outputs.
+
+The verifier-only repair at `bd2a4d3d939b8ce06908d7842ca9e075e0ae2fa7` changed no experiment protocol, seeds, contamination grid, metric, threshold, or result gate. The two scientific entry points are byte-identical between the frozen and verifier-fix revisions:
+
+- `experiment/run.mjs`: blob SHA `e5987fb6021fa0ed550166c8c45c8f4acce6fc1e` at both revisions;
+- `experiment/ablation.mjs`: blob SHA `ed0e5b600425f67ae3e60e9809d8b9c8378bcaae` at both revisions.
+
+The corrected run succeeded. Attempts 2 and 3 retain byte-identical scientific JSON for the screen, ablation, and canonical verifier. Runtime/timestamp metadata varies as expected.
 
 ## Hypothesis
 
@@ -25,25 +38,24 @@ Primary metric: mean absolute error (MAE), lower is better.
 
 ## Seed policy
 
-The original bounded screen uses 30 deterministic seeds. The contamination ablation uses 50 deterministic seeds for every contamination level and every readout. There is no best-seed selection.
+The bounded screen uses 30 deterministic seeds. The contamination ablation uses 50 deterministic seeds for every contamination level and every readout. There is no best-seed selection.
 
-## Fresh reproduction
+## Repository-conformant environment and runtime
 
-Exact repository source was staged without modifying the experiment and executed locally with Node.js `v22.16.0` on Linux x86_64.
+Attempt 3 retained:
 
-Commands:
+- Node `v22.22.0`;
+- npm `10.9.4`;
+- Linux `6.17.0-1022-azure`, x86_64;
+- 4 visible CPUs;
+- no accelerator or external model/API dependency.
 
-```bash
-node experiment/run.mjs
-node experiment/ablation.mjs
-```
+Measured attempt-3 wall times:
 
-Measured wall times in this environment:
+- 30-seed screen: `0.12 s`;
+- 50-seed ablation: `1.08 s`.
 
-- 30-seed screen: `0.15 s`
-- 50-seed contamination ablation: `0.91 s`
-
-The generated metrics reproduced the checked-in reference values to machine precision.
+These times are evidence metadata, not throughput claims.
 
 ## 30-seed screen
 
@@ -75,6 +87,18 @@ The key negative control reproduces: robust readouts outperform the arithmetic m
 
 Therefore the experiment supports a bounded statement about robust/smoothing readouts in this synthetic aggregation task. It does not isolate a uniquely non-Gaussian-memory mechanism, and it does not establish NGMT.
 
+## Cross-rerun evidence
+
+Retained Actions artifacts `9162075012` and `9162627168` contain the same 15-file set. The T2424-0025 screen JSON, ablation JSON and verifier JSON are byte-identical across the two attempts.
+
+Attempt-3 hashes:
+
+- screen JSON: `sha256:7b26bfcf82444b1de868092c8391a3772bd4e6acc5d64468839f9af6290a3db1`;
+- ablation JSON: `sha256:f61dd31562ce2f5638535a90ab2d700aed494790e9aca515797595158ee9ee4e`;
+- verifier JSON: `sha256:ba0e73902ef8cd2dabc66995bffbd20476afad7aa23f8302ce4be7e68f736188`.
+
+Full independent audit: `portfolio/research/reproducibility-wave-20260813/PROJECT2424_INDEPENDENT_AUDIT.md` and `project2424_independent_audit.json`.
+
 ## Uncertainty
 
 The arithmetic-mean baseline becomes extremely variable under Cauchy contamination (for example sample SD `1.4661` at 35% contamination). Mean ± SD is retained for continuity, but future reporting should add medians, quantiles, and bootstrap intervals rather than relying on Gaussian summaries for heavy-tailed outcomes.
@@ -90,6 +114,15 @@ No significance claim is made by this reproduction wave. The 50-seed ablation is
 - no sequence modeling, delayed recall, likelihood, or real-data benchmark;
 - Cauchy-contaminated MAE distributions are highly skewed and unstable for the arithmetic mean.
 
-## Next falsifier for NGMT
+## NGMT status and next falsifier
 
-Freeze an actual memory mechanism first, then compare a standard/no-memory baseline, a capacity-matched Gaussian/reference memory, and the proposed non-Gaussian memory on heavy-tailed, multimodal, or regime-switching sequence tasks. Archive the Transformer-level mechanism claim if the proposed memory has no reproducible advantage over those controls.
+**NGMT remains BLOCKED / mechanism not frozen.** Do not rename this robust-readout screen into a Transformer result.
+
+Freeze an actual memory mechanism first, then compare:
+
+- B0: no memory;
+- B1: standard memory;
+- B2: capacity-matched Gaussian/reference robust memory;
+- B3: proposed non-Gaussian memory;
+
+on frozen clean, heavy-tail and regime-shift sequence tasks with matched dimensions/parameters and paired seeds. Archive the Transformer-level mechanism claim if B3 has no reproducible advantage over those controls.
