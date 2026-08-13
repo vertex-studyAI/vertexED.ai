@@ -1,0 +1,161 @@
+{
+  "kind": "project2424_frozen_reproducibility_rerun",
+  "recorded_utc": "2026-08-12T23:31:49Z",
+  "source": {
+    "repository": "vertex-studyAI/vertexED.ai",
+    "head_sha": "bd2a4d3d939b8ce06908d7842ca9e075e0ae2fa7",
+    "branch": "agent/research-repro-wave-20260812",
+    "workflow_run_id": 31618609967
+  },
+  "latest_attempt": {
+    "rerun_job_id": 94295733785,
+    "runner_os": "Ubuntu 24.04.4 LTS",
+    "runner_image": "ubuntu-24.04 20260810.271.1",
+    "runner_version": "2.336.0",
+    "node": "v22.22.0",
+    "npm": "10.9.4",
+    "kernel": "Linux 6.17.0-1022-azure x86_64 GNU/Linux",
+    "cpu_count": 4,
+    "cuda_used": false,
+    "experiment_bundle_started_utc": "2026-08-12T23:31:46Z",
+    "experiment_bundle_completed_utc": "2026-08-12T23:31:48Z",
+    "artifact": {
+      "id": 9162627168,
+      "name": "project2424-research-repro-wave",
+      "size_bytes": 10539,
+      "digest": "sha256:d9d1816d3cf8eb317f435b180c0ec6137fa64cbfde6b99e7f8b5f2d5f1a0bbae",
+      "retention_days": 30
+    },
+    "verification": {
+      "job_conclusion": "success",
+      "T2424-0025_tests": "10/10 passed",
+      "T2424-0027_tests": "8/8 passed",
+      "T2424-0037_tests": "6/6 passed",
+      "T2424-0050_tests": "6/6 passed",
+      "T2424-0027_independent_verifier": "PASS",
+      "scientific_metrics_match_retained_values": true,
+      "scientific_payload_byte_identity_not_reasserted_for_this_attempt": true
+    }
+  },
+  "prior_retained_attempt": {
+    "recorded_utc": "2026-08-12T23:06:56Z",
+    "rerun_job_id": 94290960051,
+    "environment": {
+      "runner_os": "Ubuntu 24.04.4 LTS",
+      "runner_image": "ubuntu-24.04 20260720.247.2",
+      "node": "v22.22.0",
+      "npm": "10.9.4",
+      "kernel": "Linux 6.17.0-1020-azure x86_64 GNU/Linux",
+      "cpu_count": 4,
+      "cuda_used": false
+    },
+    "artifact": {
+      "id": 9162075012,
+      "name": "project2424-research-repro-wave",
+      "size_bytes": 10539,
+      "digest": "sha256:9ccaa6fb9224b84665ca17808a6b7515986f420c99c0fb316e41726e886eddd9",
+      "retention_days": 30
+    }
+  },
+  "commands": [
+    "node portfolio/project2424/projects/T2424-0025/experiment/run.mjs > repro-evidence/T2424-0025-screen.json",
+    "node portfolio/project2424/projects/T2424-0025/experiment/ablation.mjs > repro-evidence/T2424-0025-ablation.json",
+    "node --test tests/project2424NonGaussianMemory.test.mjs tests/project2424NonGaussianMemoryAblation.test.mjs",
+    "node portfolio/project2424/projects/T2424-0027/experiment/run.mjs repro-evidence/T2424-0027-results.json",
+    "node portfolio/project2424/projects/T2424-0027/reproduction/verify.mjs",
+    "node --test tests/project2424LatentLanguageAudit.test.mjs",
+    "node portfolio/project2424/projects/T2424-0037/benchmark/run.mjs",
+    "node --test tests/nlpToCad.test.mjs tests/nlpToCadBenchmark.test.mjs",
+    "node portfolio/project2424/projects/T2424-0050/experiment/run.mjs",
+    "node --test tests/project2424DarcyLatentOperator.test.mjs"
+  ],
+  "seed_policy": {
+    "T2424-0025_screen": "frozen implementation; 30 seeds",
+    "T2424-0025_ablation": "fixed 50-seed contamination sweep",
+    "T2424-0027": "deterministic controlled generator; frozen protocol",
+    "T2424-0037": "fixed deterministic 20-case benchmark",
+    "T2424-0050": "fixed seeds 1-20"
+  },
+  "metrics": {
+    "T2424-0025": {
+      "screen_verdict": "PASS_HEAVY_TAIL_MEMORY_SCREEN",
+      "heavy_tail_baseline_mae": 0.36152678546712497,
+      "heavy_tail_robust_mae": 0.016560942261867797,
+      "heavy_tail_relative_improvement": 0.9541916590205908,
+      "clean_baseline_mae": 0.024354967043193555,
+      "clean_robust_mae": 0.012593962713833545,
+      "clean_relative_improvement": 0.482899619962608,
+      "non_gaussian_advantage_gap": 0.4712920390579828,
+      "zero_contamination_median_mae_mean": 0.012569888975136025,
+      "zero_contamination_mean_mae_mean": 0.02464691771133496,
+      "zero_contamination_negative_control": "ROBUST_READOUT_STILL_BETTER",
+      "ablation_seeds": 50
+    },
+    "T2424-0027": {
+      "raw_concept_accuracy": 1.0,
+      "raw_language_accuracy": 1.0,
+      "centered_concept_accuracy": 1.0,
+      "centered_language_accuracy": 0.3611111111111111,
+      "global_centered_language_accuracy": 1.0,
+      "normalized_language_leakage_reduction": 0.9583333333333334,
+      "verdict": "PASS_CONTROLLED_LANGUAGE_LEAKAGE_MECHANICS"
+    },
+    "T2424-0037": {
+      "cases": 20,
+      "passed": 20,
+      "success_rate": 1.0,
+      "syntax_execution_success": 1.0,
+      "geometry_validity": 1.0,
+      "dimension_accuracy": 1.0,
+      "constraint_satisfaction": 1.0
+    },
+    "T2424-0050": {
+      "seeds": 20,
+      "mean_baseline_mae": 0.06589139155637647,
+      "mean_latent_mae": 0.0011366559231966065,
+      "mean_relative_improvement": 0.9787663202281432,
+      "mean_flux_relative_error": 1.3693877541812723e-16,
+      "max_latent_mae": 0.0014613491578162696,
+      "uniform_control_latent_mae": 0.0,
+      "verdict": "PASS_BOUNDED_DARCY_LATENT_SCREEN"
+    }
+  },
+  "comparison_to_original_retained_artifact": {
+    "original_artifact_id": 9150291423,
+    "original_digest": "sha256:380ca0a2b9628eee8cb9f06d7a56cc28b75b1974c75fdb4582b81125617c1c05",
+    "prior_attempt_scientific_payload_byte_identical": true,
+    "byte_identical_files": [
+      "T2424-0025-screen.json",
+      "T2424-0025-ablation.json",
+      "T2424-0025-verification.json",
+      "T2424-0027-results.json",
+      "T2424-0027-verify.log",
+      "T2424-0037-benchmark.json",
+      "T2424-0050-darcy.json"
+    ],
+    "expected_non_scientific_differences": [
+      "wall-clock timing files",
+      "test logs containing per-run durations",
+      "environment timestamp",
+      "completion timestamp",
+      "GitHub artifact ZIP digest"
+    ]
+  },
+  "scientific_verdict_change": false,
+  "claim_boundaries": {
+    "NGMT": "T2424-0025 remains a bounded synthetic robust-readout precursor. The strong zero-contamination median advantage prevents attribution of the gain to a unique non-Gaussian Transformer mechanism.",
+    "T2424-0027": "Controlled synthetic diagnostic only; no linguistic-relativity or real multilingual-model claim.",
+    "NeuroCAD": "Frozen controlled 20-case benchmark only; no OOD learned superiority claim.",
+    "Darcy": "Deterministic 1D reduced-resistance surrogate only; no learned neural-operator or multidimensional PDE claim.",
+    "LAM_JEPA": "No effect on the frozen negative/inconclusive ARC verdict; locked confirmatory test remains untouched."
+  },
+  "file_sha256_from_prior_byte_identical_attempt": {
+    "T2424-0025-ablation.json": "f61dd31562ce2f5638535a90ab2d700aed494790e9aca515797595158ee9ee4e",
+    "T2424-0025-screen.json": "7b26bfcf82444b1de868092c8391a3772bd4e6acc5d64468839f9af6290a3db1",
+    "T2424-0025-verification.json": "ba0e73902ef8cd2dabc66995bffbd20476afad7aa23f8302ce4be7e68f736188",
+    "T2424-0027-results.json": "0eac35dd7b8af1488efab0392c2e82dab8f9a90332af7c6ad54633263fa13605",
+    "T2424-0027-verify.log": "1a354c5ef26de30bc99a8b5ace22087e125b865db7326abe48e3bef6cbe7f6c3",
+    "T2424-0037-benchmark.json": "e3e15d79631d1fccd02bc2711f71e98acc1f7f686e390cd65d82fcb054e5c601",
+    "T2424-0050-darcy.json": "67ad7bd98000c58533753b2dd8e70ddebce411780e66f11284c9cfb59206e586"
+  }
+}
