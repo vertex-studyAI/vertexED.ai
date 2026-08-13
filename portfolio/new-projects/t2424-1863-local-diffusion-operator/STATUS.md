@@ -1,7 +1,7 @@
 # STATUS
 
 Project: T2424-1863  
-State: `GREEN_NEGATIVE_SCREEN / EXACT_HEAD_REVERIFY_PENDING`  
+State: `GREEN_NEGATIVE_SCREEN / EXACT_HEAD_REPRODUCED`  
 Claim boundary: synthetic one-step diffusion only
 
 ## Frozen scientific result
@@ -12,7 +12,7 @@ Claim boundary: synthetic one-step diffusion only
 - zero-diffusion negative control mean relative improvement: **-0.029%**;
 - verdict: `NEGATIVE_OR_INCONCLUSIVE_AGAINST_PREDECLARED_GATE`.
 
-This conclusion is frozen. Exact-head re-execution must reproduce/preserve the failed gate; it must not retune the coefficient learner, seeds, threshold, task, or control.
+This conclusion is frozen. Exact-head re-execution reproduced/preserved the failed gate; the coefficient learner, seeds, threshold, task, and control were not retuned.
 
 ## Retained prior evidence
 
@@ -25,20 +25,18 @@ This conclusion is frozen. Exact-head re-execution must reproduce/preserve the f
 
 ## Current exact-head closure
 
-This branch starts from current repository main `775b2740ff6ebeb69bb29cf3aeb934868063942f` and changes **status wording only** so the existing path-triggered workflow reruns the frozen 20-seed benchmark and regression suite against the current integrated repository state.
+Exact-head verification executed on head `147ce38bf2d965a4b14fa31844856153e6e18f7b`.
 
-Closure requires:
+- dedicated `Project 2424 T2424-1863 local diffusion operator` workflow: run `31659932936` — **SUCCESS**;
+- canonical repository CI: run `31659932951` — **SUCCESS**;
+- frozen 20-seed negative verdict preserved;
+- no scientific source retuning or threshold change was used to obtain green CI.
 
-1. dedicated `Project 2424 T2424-1863 local diffusion operator` workflow green on this exact PR head;
-2. canonical repository CI green on the same head;
-3. frozen negative verdict preserved;
-4. no unexpected project-source changes.
-
-A workflow failure is retained as evidence; do not weaken the regression to obtain green CI.
+The dedicated exact-head workflow and canonical CI both ran against the same head SHA. This closes the repository-level exact-head reproducibility gate while leaving the scientific hypothesis negative.
 
 ## Scientific boundary
 
-Supported only if exact-head gates pass:
+Supported:
 
 > The bounded synthetic local-diffusion screen is executable and reproducible in the current integrated repository, but the proposed operator does not satisfy its predeclared >75% improvement criterion.
 
