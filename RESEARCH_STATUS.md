@@ -17,7 +17,7 @@ Maturity is claim-specific and evidence-backed. A green CI lane is execution evi
 | T2424-0050 Darcy | **FRESHLY REPRODUCED BOUNDED MECHANISM SCREEN** | dedicated Actions run `31616762393`; retained 20-seed synthetic pressure-MAE screen rerun | actual learned operator, matched budget, misaligned/OOD fields and held-out physical regimes |
 | T2424-1863 local diffusion operator | **INDEPENDENTLY REPLAYED / UNCERTAINTY RETAINED / NEGATIVE AGAINST PREDECLARED GATE** | frozen source `7cee0bd4d5cc7a3ac497476d322c6f0e16da9ee6`; reporting workflow run `31649888889` retained raw 20-seed metrics, sample SDs, negative-gate assertion, and artifact `9162158000` | real PDE data; learned neural-operator baseline; rollout/compute comparison |
 | T2424-0029 PDE transitions | **FRESHLY REPRODUCED BOUNDED ANALYTIC SCREEN** | Actions run `31653397825`; exact frozen sequence `3→2→2→1→1`, `5/5` focused tests, raw artifact `9163421118` | nonlinear PDEs, energy/grid sensitivity, learned-representation comparison |
-| T2424-0028 residual-event tokenization | TESTED + MERGED | fresh current-lineage CI #949 | noisy/multivariate datasets + byte/rate-distortion baselines |
+| T2424-0028 residual-event tokenization | **FRESHLY REPRODUCED BOUNDED CODEC MECHANICS** | Actions run `31656575356`; frozen 10-row threshold/mode reconstruction sweep passed, `5/5` focused tests, raw artifact `9164597422` | noisy/nonlinear/external signals + byte-level rate–distortion baseline + learned comparison |
 | T2424-0027 latent language audit | **FRESHLY REPRODUCED + INDEPENDENTLY VERIFIED SYNTHETIC AUDIT** | dedicated Actions run `31616762393`; deterministic 72-record protocol + SHA-bound verifier | real multilingual encoder, preregistered concept/language probes and controls |
 | T2424-0024 Trust Under Uncertainty | TESTED + MERGED | CI #827; paired calibration/ablation fixture | frozen real-model prediction set + calibration/selective-risk baselines |
 | T2424-0026 Counterfactual Defect Worlds | TESTED + MERGED | CI #828; deterministic intervention/locality fixture | learned world model / richer environment baseline; causal/generalization tests |
@@ -117,6 +117,26 @@ The effective-mode counts reproduced exactly as `[3,2,2,1,1]` over diffusivities
 The raw result hash is `c190aa3e54d6cda008e7e29a89b387e596904075b225cb7f511ac61acb80f5e4`; the focused-test log hash is `580ecc2f9f1d1d83dfb57d2e03d15122bd104aca11331f5a16eb43e94a9db9c4`. The combined experiment + focused-test workflow step took about `0.150 s`; standalone experiment runtime was not separately instrumented.
 
 This is deterministic analytic evidence, so no seed mean/SD is claimed. It does not establish a universal or neural phase transition, nonlinear-PDE generalization, or learned representation superiority. `RESULTS.md`, `REPRODUCE.md`, machine-readable metadata, and retained raw metrics now make that boundary explicit.
+
+### T2424-0028 residual-event tokenization
+
+The frozen deterministic codec-mechanics protocol was rerun without modifying the algorithm, fixture, thresholds, or interpretation rule in Actions run `31656575356` at scientific execution commit `4eb3fed7f582428c389a66dd388c241d8a152e8e`.
+
+Environment and retained artifact:
+
+- Ubuntu 24.04 hosted runner, x86_64 CPU;
+- Node `v22.23.1`;
+- kernel `6.17.0-1020-azure`;
+- artifact `9164597422`;
+- digest `sha256:252392c0447a443b9c75b5926c80403ddded48ef7465a829fe4001ba27cae15e`.
+
+All 10 frozen threshold/mode rows satisfy `max_abs_error < threshold + 1e-12`. At the primary linear threshold `0.5`, 8 events represent 120 observations, event-count compression is `15x`, MAE is `0.1728128635`, RMSE is `0.2232590424`, and maximum absolute error is `0.4885704680`.
+
+Focused regressions passed `5/5`. They verify the exact-linear two-event invariant, reconstruction bounds, monotonic hold-token reduction as thresholds increase, the >10x zero-order-hold negative-control gap on a clean linear trend, and fail-closed malformed inputs.
+
+Raw result SHA-256 is `039f9264f833dbae10932a01865ac78a85104a5e6b9b1e67dc6e9b375356c046`; focused-test log SHA-256 is `d96be30d4f62a6a6403a4116bd143e392123e1de6e33e9b31e9ae301ed261231`.
+
+The experiment is deterministic, so stochastic seed mean/SD is not applicable. External validity, noise/non-linearity sensitivity, byte-level coding overhead and external rate-distortion remain unmeasured. Event-count compression must not be described as byte-level compression superiority.
 
 ### T2424-1863 local diffusion operator
 
