@@ -4,7 +4,10 @@ on:
   workflow_dispatch:
   push:
     paths:
-      - 'portfolio/research/ngmt/NGMT_V01_*.md'
+      - 'portfolio/research/ngmt/NGMT_V01_PROTOCOL.md'
+      - 'portfolio/research/ngmt/NGMT_V01_PROTOCOL_CLARIFICATION.md'
+      - 'portfolio/research/ngmt/NGMT_V01_TRAINING_FIXTURE.md'
+      - 'portfolio/research/ngmt/NGMT_V01_VERDICT_RULE.md'
       - 'portfolio/research/ngmt/v01/**'
       - 'tests/test_ngmt_v01.py'
       - '.github/workflows/ngmt-v01-frozen.yml'
