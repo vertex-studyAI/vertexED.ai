@@ -1,0 +1,37 @@
+{
+  "as_of": "2026-08-13T22:00:00+05:30",
+  "control_repository": "vertex-studyAI/vertexED.ai",
+  "control_main_sha": "f355bf02483451206486daebe4b5d5a4344a4daa",
+  "lam_jepa_main_sha": "88f759ef47263c416f2a667427286a3284d8221c",
+  "percy_live_host_accessible": false,
+  "operational_counters": {
+    "logical_agents_registered": 16256,
+    "logical_identity_first": "P00000",
+    "logical_identity_last": "P16255",
+    "squads": 127,
+    "logical_agents_per_squad": 128,
+    "unique_agents_dispatched": "UNKNOWN",
+    "physical_peak": "UNKNOWN",
+    "complete": "UNKNOWN",
+    "failed": "UNKNOWN",
+    "blocked": "UNKNOWN",
+    "queued": "UNKNOWN",
+    "never_dispatched": "UNKNOWN"
+  },
+  "research": {
+    "LAM-JEPA": {"state":"GREEN_REPRODUCIBLE_NEGATIVE","superiority":false,"planner_contribution":"UNSUPPORTED","target_contribution":"UNSUPPORTED","locked_arc_test_touched":false,"artifact_id":9162165932,"artifact_sha256":"caa898f1ff046a337db9b5ddbffe1b332943a732868e2fd809abeda8ee89c30b"},
+    "IRIS": {"state":"YELLOW_PACKAGE_RED_CANDIDATE","development_abrupt_improvement_percent_range":[5.33,5.36],"frozen_gate_percent":10.0,"confirmatory_seeds_touched":false},
+    "T2424-0025": {"state":"GREEN_REPRODUCED_BOUNDED","tests":"10/10","ngmt_mechanism_identified":false},
+    "T2424-0027": {"state":"GREEN_REPRODUCED_BOUNDED","tests":"8/8","independent_verifier":true},
+    "T2424-0037_NeuroCAD": {"state":"GREEN_REPRODUCED_CONTROLLED","tests":"6/6"},
+    "T2424-0050_Darcy": {"state":"GREEN_REPRODUCED_BOUNDED","tests":"6/6"},
+    "NGMT": {"state":"BLOCKED_MECHANISM_NOT_FROZEN"},
+    "APEN": {"state":"YELLOW_REPRODUCED_SYNTHETIC_TRADEOFF"},
+    "Eigen-JEPA": {"state":"GREEN_NEGATIVE_BOUNDARY_REPRODUCED"},
+    "NPMS": {"state":"YELLOW_REPRODUCED_CONTROLLED"},
+    "Hercules": {"state":"IMPLEMENTATION_FAMILY_ADVANTAGE_UNPROVEN"},
+    "Olympus": {"state":"O0_RUNTIME_ONLY_O1_UNRUN"}
+  },
+  "project2424_reproduction": {"source_sha":"bd2a4d3d939b8ce06908d7842ca9e075e0ae2fa7","workflow_run":31618609967,"job":94295733785,"artifact_id":9162627168,"artifact_sha256":"d9d1816d3cf8eb317f435b180c0ec6137fa64cbfde6b99e7f8b5f2d5f1a0bbae","latest_byte_identity_claim":false,"scientific_value_agreement":true},
+  "handoff": {"automation_title":"Percy Prime 28H Deep Run","start":"2026-08-13T22:00:00+05:30","frequency":"hourly","count":28,"duplicate_repro_loops_disabled":true}
+}
