@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "project": "T2424-0029",
+  "name": "Representation Phase Transitions for PDEs",
+  "evidence_date": "2026-08-13",
+  "hypothesis": "The frozen analytic 1D periodic heat-equation fixture exhibits the predeclared 95%-energy effective-mode sequence [3,2,2,1,1] over the frozen diffusivity sweep.",
+  "task": "Deterministic analytic 1D periodic heat-equation spectral representation screen",
+  "baseline_controls": [
+    "zero-time diffusivity invariance",
+    "exact injected sine-mode recovery"
+  ],
+  "proposed_method": "Projected sine-spectrum effective-mode counting and discrete transition detection",
+  "primary_metric": "minimum projected sine modes carrying 95% of measured spectral energy",
+  "seed_policy": "not_applicable_deterministic_analytic_fixture",
+  "protocol": {
+    "points": 128,
+    "time": 1,
+    "modes": [
+      {"k": 1, "amplitude": 1.0},
+      {"k": 5, "amplitude": 0.8},
+      {"k": 12, "amplitude": 0.6}
+    ],
+    "energy_fraction": 0.95,
+    "diffusivities": [0, 0.0002, 0.001, 0.005, 0.02],
+    "expected_effective_mode_counts": [3, 2, 2, 1, 1]
+  },
+  "source_commit": "1a69e1919f64295f46f231ad487beee91a54f05e",
+  "actions": {
+    "run_id": 31653397825,
+    "job_id": 94302394869,
+    "artifact_id": 9163421118,
+    "artifact_digest": "sha256:5864fad98c8f202e24ffa060cafe89a7b92548420373dc0b4fc6b8ffa5f26608"
+  },
+  "environment": {
+    "os": "Ubuntu 24.04.4",
+    "arch": "x86_64",
+    "kernel": "6.17.0-1020-azure",
+    "node": "v22.23.1",
+    "git": "2.54.0",
+    "runner_image": "ubuntu-24.04",
+    "runner_image_version": "20260720.247.2"
+  },
+  "commands": [
+    "node portfolio/project2424/projects/T2424-0029/experiment/run.mjs",
+    "node --test tests/pdeRepresentationTransitions.test.mjs"
+  ],
+  "runtime": {
+    "combined_step_wall_seconds_approx": 0.150,
+    "focused_tests_reported_ms": 74.626758,
+    "standalone_experiment_precisely_instrumented": false
+  },
+  "result": {
+    "effective_mode_counts": [3, 2, 2, 1, 1],
+    "transitions": [
+      {"from_diffusivity": 0, "to_diffusivity": 0.0002, "from_mode_count": 3, "to_mode_count": 2},
+      {"from_diffusivity": 0.001, "to_diffusivity": 0.005, "from_mode_count": 2, "to_mode_count": 1}
+    ],
+    "focused_tests_passed": 5,
+    "focused_tests_failed": 0,
+    "verdict": "PASS_FROZEN_ANALYTIC_PDE_TRANSITION_SCREEN"
+  },
+  "uncertainty": {
+    "estimated": false,
+    "reason": "The primary minimum experiment is a deterministic analytic fixture rather than a stochastic multi-seed benchmark. Grid/threshold sensitivity remains unmeasured."
+  },
+  "raw_evidence": {
+    "result_path_in_artifact": "reproducibility-wave/raw/T2424-0029-pde-transitions.json",
+    "result_sha256": "c190aa3e54d6cda008e7e29a89b387e596904075b225cb7f511ac61acb80f5e4",
+    "test_log_path_in_artifact": "reproducibility-wave/T2424-0029-tests.log",
+    "test_log_sha256": "580ecc2f9f1d1d83dfb57d2e03d15122bd104aca11331f5a16eb43e94a9db9c4"
+  },
+  "limitations": [
+    "controlled analytic linear PDE only",
+    "single frozen grid resolution",
+    "single frozen 95% energy threshold",
+    "no nonlinear PDE",
+    "no learned representation baseline",
+    "no stochastic uncertainty estimate",
+    "does not establish a universal or neural phase transition"
+  ]
+}
