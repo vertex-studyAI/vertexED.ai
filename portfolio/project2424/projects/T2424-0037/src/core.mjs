@@ -17,6 +17,9 @@ export function parsePlatePrompt(prompt) {
     throw new TypeError("prompt must be a non-empty string");
   }
   const text = prompt.toLowerCase().replace(/[×x]/gu, " by ").replace(/\s+/gu, " ").trim();
+  if (/(?:^|[\s,(])-\d+(?:\.\d+)?/u.test(text)) {
+    throw new RangeError("negative numeric values are not supported");
+  }
   if (!/\b(plate|panel|bracket|rectangle)\b/u.test(text)) {
     throw new Error("supported prompts must describe a plate, panel, bracket, or rectangle");
   }
