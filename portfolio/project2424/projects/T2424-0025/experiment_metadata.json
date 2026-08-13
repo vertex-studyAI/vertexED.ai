@@ -1,9 +1,9 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "project_id": "T2424-0025",
   "project_name": "Robust readout / non-Gaussian-memory precursor screen",
+  "scientific_status": "REPRODUCED_BOUNDED_ROBUST_READOUT_RESULT_NGMT_NOT_ESTABLISHED",
   "source_commit": "0d2a14e559b0caa9b5b1cbeef0995013594ecf15",
-  "reproduced_at_utc": "2026-08-12T16:16:04Z",
   "hypothesis": "Robust weighted readouts reduce aggregation MAE under heavy-tailed contamination; a mechanism-specific non-Gaussian claim additionally requires an advantage not explained by the clean Gaussian control.",
   "task": {
     "type": "synthetic deterministic attention-style aggregation",
@@ -26,29 +26,92 @@
   "ablation": {
     "cauchy_contamination_levels": [0.0, 0.05, 0.10, 0.18, 0.25, 0.35]
   },
-  "environment": {
-    "node": "v22.16.0",
-    "os": "Linux 6.18.35 x86_64",
-    "visible_logical_cpus": 5,
-    "accelerator_required": false,
-    "external_api_required": false
+  "retained_actions_reproduction": {
+    "workflow_run": 31618609967,
+    "audited_run_attempt": 3,
+    "verifier_fix_head": "bd2a4d3d939b8ce06908d7842ca9e075e0ae2fa7",
+    "artifact_id": 9162627168,
+    "artifact_digest": "sha256:d9d1816d3cf8eb317f435b180c0ec6137fa64cbfde6b99e7f8b5f2d5f1a0bbae",
+    "environment": {
+      "node": "v22.22.0",
+      "npm": "10.9.4",
+      "os": "Linux 6.17.0-1022-azure x86_64",
+      "visible_logical_cpus": 4,
+      "accelerator_required": false,
+      "external_api_required": false
+    },
+    "runtime_seconds": {
+      "screen_wall": 0.12,
+      "ablation_wall": 1.08
+    },
+    "scientific_file_hashes": {
+      "screen_json": "sha256:7b26bfcf82444b1de868092c8391a3772bd4e6acc5d64468839f9af6290a3db1",
+      "ablation_json": "sha256:f61dd31562ce2f5638535a90ab2d700aed494790e9aca515797595158ee9ee4e",
+      "verifier_json": "sha256:ba0e73902ef8cd2dabc66995bffbd20476afad7aa23f8302ce4be7e68f736188"
+    }
   },
-  "commands": [
-    "node experiment/run.mjs",
-    "node experiment/ablation.mjs"
-  ],
-  "runtime_seconds": {
-    "screen_wall": 0.15,
-    "ablation_wall": 0.91
+  "verifier_bug_lineage": {
+    "old_failed_run": 31617979117,
+    "classification": "POST_RUN_VERIFIER_SCHEMA_BUG",
+    "scientific_outputs_emitted_before_failure": true,
+    "fix_commit": "bd2a4d3d939b8ce06908d7842ca9e075e0ae2fa7",
+    "scientific_protocol_changed": false,
+    "entrypoints_byte_identical_to_frozen_source": true,
+    "run_mjs_blob_sha": "e5987fb6021fa0ed550166c8c45c8f4acce6fc1e",
+    "ablation_mjs_blob_sha": "ed0e5b600425f67ae3e60e9809d8b9c8378bcaae"
   },
-  "reproduction_result": "matched checked-in reference to machine precision",
-  "scientific_result": "robust readouts help on this bounded task, but the 0% contamination control shows the current experiment does not isolate a uniquely non-Gaussian-memory mechanism",
+  "results": {
+    "screen": {
+      "heavy_tail_mean_mae": 0.36152678546712497,
+      "heavy_tail_median_mae": 0.016560942261867797,
+      "heavy_tail_relative_improvement": 0.9541916590205908,
+      "clean_mean_mae": 0.024354967043193555,
+      "clean_median_mae": 0.012593962713833545,
+      "clean_relative_improvement": 0.482899619962608,
+      "verdict": "PASS_HEAVY_TAIL_MEMORY_SCREEN"
+    },
+    "zero_contamination_control": {
+      "n": 50,
+      "mean_readout_mae_mean": 0.02464691771133496,
+      "mean_readout_mae_sample_sd": 0.0023115771827692763,
+      "median_readout_mae_mean": 0.012569888975136025,
+      "median_readout_mae_sample_sd": 0.0020830878466683114,
+      "median_relative_improvement": 0.4900015846867857
+    },
+    "contamination_018": {
+      "n": 50,
+      "weighted_mean_mae_mean": 0.3494393236413256,
+      "weighted_mean_mae_sample_sd": 0.34720341329882964,
+      "weighted_median_mae_mean": 0.017002512132865903,
+      "weighted_median_mae_sample_sd": 0.004857686860296252,
+      "trimmed_mean_mae_mean": 0.04550633252740887,
+      "trimmed_mean_mae_sample_sd": 0.01571336013006776,
+      "huber_mae_mean": 0.030925536516162495,
+      "huber_mae_sample_sd": 0.006796244399198665
+    }
+  },
+  "cross_rerun": {
+    "attempt2_artifact": 9162075012,
+    "attempt3_artifact": 9162627168,
+    "same_file_set": true,
+    "screen_json_byte_identical": true,
+    "ablation_json_byte_identical": true,
+    "verifier_json_byte_identical": true
+  },
+  "scientific_result": "Robust readouts help on this bounded task, but the 0% contamination control shows the current experiment does not isolate a uniquely non-Gaussian-memory mechanism.",
   "significance_claim": null,
   "limitations": [
     "synthetic aggregation, not a learned Transformer",
     "hand-specified noise model and deterministic RBF attention",
     "robust readouts improve even in the Gaussian control",
     "no capacity-matched learned Gaussian-memory comparator",
+    "no clean/heavy-tail/regime-shift learned sequence benchmark",
     "heavy-tailed arithmetic-mean outcomes make mean/SD summaries unstable"
-  ]
+  ],
+  "ngmt_promotion_gate": {
+    "status": "BLOCKED_MECHANISM_NOT_FROZEN",
+    "required_arms": ["B0 no memory", "B1 standard memory", "B2 Gaussian/reference robust memory", "B3 proposed non-Gaussian memory"],
+    "requirements": ["matched dimensions", "matched parameter count", "frozen sequence task", "clean control", "heavy-tail control", "regime shifts", "paired seed policy", "predeclared falsification rule"]
+  },
+  "independent_audit": "portfolio/research/reproducibility-wave-20260813/project2424_independent_audit.json"
 }
