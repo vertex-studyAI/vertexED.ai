@@ -1,0 +1,147 @@
+{
+  "checkpoint_date": "2026-08-13",
+  "base_repository": "vertex-studyAI/vertexED.ai",
+  "base_main_sha": "f9d4f42a2df393150dc7c0a6673d311628015af4",
+  "policy": {
+    "reproduced_does_not_imply_superiority": true,
+    "negative_results_retained": true,
+    "synthetic_results_not_promoted_to_real_world_claims": true,
+    "research_complete_by_reproduction_alone": false
+  },
+  "projects": {
+    "LAM-JEPA": {
+      "repository": "vertex-studyAI/LAM-JEPA",
+      "state": "REPRODUCED_NEGATIVE_OR_INCONCLUSIVE",
+      "audit_pr": 69,
+      "audit_head": "201226925b37fac5d99b978fb32004a48786dcaa",
+      "scientific_revision": "760aa7f9a73a177d5ff4ba7eb470f7e68ace63cb",
+      "seeds": [1,2,3,4,5],
+      "epochs": 20,
+      "train_rows": 1117,
+      "validation_rows": 295,
+      "locked_test_evaluated": false,
+      "metrics": {
+        "full_accuracy_mean": 0.2549152542372881,
+        "full_accuracy_sample_sd": 0.01299680644927512,
+        "no_planner_accuracy_mean": 0.2501694915254237,
+        "no_target_accuracy_mean": 0.26169491525423727,
+        "negative_control_accuracy_mean": 0.2630508474576271
+      },
+      "verifier": "PROTOCOL_V3_FULL_CONTROLS_VALIDATION_VERIFIED",
+      "mechanism_claim_authorized": false,
+      "research_complete": false
+    },
+    "T2424-0025": {
+      "state": "EXACT_ACTIONS_REPRODUCTION_CONTROLLED_SCREEN",
+      "latest_artifact_id": 9162627168,
+      "latest_artifact_sha256": "d9d1816d3cf8eb317f435b180c0ec6137fa64cbfde6b99e7f8b5f2d5f1a0bbae",
+      "screen_seeds": 30,
+      "ablation_seeds": 50,
+      "metrics": {
+        "heavy_tail_baseline_mae": 0.36152678546712497,
+        "heavy_tail_weighted_median_mae": 0.016560942261867797,
+        "heavy_tail_relative_improvement": 0.9541916590205908,
+        "clean_baseline_mae": 0.024354967043193555,
+        "clean_weighted_median_mae": 0.012593962713833545,
+        "clean_relative_improvement": 0.482899619962608,
+        "non_gaussian_advantage_gap": 0.4712920390579828
+      },
+      "verdict": "PASS_HEAVY_TAIL_MEMORY_SCREEN",
+      "claim_boundary": "robust synthetic readout precursor; not a Transformer and clean-control benefit prevents unique non-Gaussian attribution"
+    },
+    "T2424-0027": {
+      "state": "EXACT_ACTIONS_REPRODUCTION_CONTROLLED_SYNTHETIC",
+      "records": 72,
+      "metrics": {
+        "raw_concept_accuracy": 1.0,
+        "raw_language_accuracy": 1.0,
+        "centered_concept_accuracy": 1.0,
+        "centered_language_accuracy": 0.3611111111111111,
+        "normalized_language_leakage_reduction": 0.9583333333333334
+      },
+      "independent_verifier": "PASS"
+    },
+    "T2424-0037-NeuroCAD": {
+      "state": "EXACT_ACTIONS_REPRODUCTION_CONTROLLED_DETERMINISTIC",
+      "cases": 20,
+      "passed": 20,
+      "syntax_execution_success": 1.0,
+      "geometry_validity": 1.0,
+      "dimension_accuracy": 1.0,
+      "constraint_satisfaction": 1.0,
+      "claim_boundary": "frozen deterministic compiler benchmark; no arbitrary learned NLP-to-CAD claim"
+    },
+    "T2424-0050-Darcy": {
+      "state": "EXACT_ACTIONS_REPRODUCTION_CONSTRUCTION_ALIGNED",
+      "seeds": 20,
+      "metrics": {
+        "mean_baseline_mae": 0.06589139155637647,
+        "mean_latent_mae": 0.0011366559231966065,
+        "mean_relative_improvement": 0.9787663202281432,
+        "mean_flux_relative_error": 1.3693877541812723e-16,
+        "max_latent_mae": 0.0014613491578162696
+      },
+      "verdict": "PASS_BOUNDED_DARCY_LATENT_SCREEN",
+      "claim_boundary": "block-aligned reduced-resistance surrogate; not learned neural operator or multidimensional PDE validation"
+    },
+    "NGMT": {
+      "state": "BLOCKED_ARCHITECTURE_CLAIM",
+      "precursor_reproducible": true,
+      "canonical_transformer_frozen": false,
+      "required_next_baselines": ["B0 no external memory", "B1 standard learned memory", "B2 Gaussian/reference probabilistic memory", "B3 proposed non-Gaussian memory"]
+    },
+    "APEN": {
+      "state": "FRESH_RERUN_BOUNDED_POSITIVE_MECHANISM",
+      "paired_conditions": 48,
+      "metrics": {
+        "apen_rare_event_mse": 17.060349,
+        "recent_rare_event_mse": 18.967381,
+        "exp_trace_rare_event_mse": 18.860263,
+        "uniform_rare_event_mse": 18.714592,
+        "oracle_rare_event_mse": 16.687710,
+        "apen_overall_mse": 2.210393
+      },
+      "salience_failure_boundary": "advantage nearly disappears at 80% dropout and reverses at 100%",
+      "claim_boundary": "controlled synthetic delayed-event mechanism; no general sequence-model superiority"
+    },
+    "PEN": {
+      "state": "BLOCKED_SOURCE_NOT_PRESENT",
+      "separate_evidence_claimed": false
+    },
+    "Eigen-JEPA": {
+      "state": "FRESH_RERUN_NEGATIVE_BOUNDARY",
+      "held_out_blocks": 111,
+      "matrix_mse": {
+        "raw_ridge": 5.7734384e-9,
+        "log_ridge": 5.7896089e-9,
+        "eigen_jepa": 5.8318226e-9,
+        "cholesky": 5.8762487e-9,
+        "persistence": 7.7708315e-9
+      },
+      "claim_boundary": "beats persistence but not strongest raw/log ridge controls"
+    },
+    "NPMS": {
+      "state": "FRESH_RERUN_CONTROLLED_POSITIVE_DIAGNOSTIC",
+      "reservoir_realizations": 112,
+      "metrics": {
+        "within_spectrum_similarity": 0.9959606006,
+        "raw_parameter_similarity": 0.0992706397,
+        "between_regime_spectrum_similarity": 0.9530792787,
+        "regime_classification_accuracy": 0.9285714286
+      }
+    }
+  },
+  "project2424_verifier_incident": {
+    "scientific_outputs_preserved": true,
+    "failure_class": "obsolete verifier ablation JSON schema",
+    "verifier_only_fix_prefix": "bd2a4d3d",
+    "scientific_configuration_changed": false,
+    "fixed_rerun_passed": true
+  },
+  "atlas": {
+    "base_packages_rerun": 18,
+    "test_suite": "39/39 passed",
+    "source_release_sha256": "076f12750d6a8e6c298c17815224a79463bcad149d6cf1283900d98c6e394a2c",
+    "archival_submission_ready": false
+  }
+}
