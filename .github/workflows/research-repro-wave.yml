@@ -51,56 +51,51 @@ jobs:
           if (a.sweep?.seeds !== 50) process.exit(1);
           const zero = a.sweep.rows.find((r) => r.contaminationRate === 0);
           if (!zero || !(zero.metrics.median.mean < zero.metrics.mean.mean)) process.exit(1);
-          console.log(JSON.stringify({
-            screen_verdict: s.verdict,
-            ablation_seeds: a.sweep.seeds,
-            zero_contamination_negative_control: 'ROBUST_READOUT_STILL_BETTER',
-            verifier_schema: 'canonical sweep schema'
-          }, null, 2));
+          console.log(JSON.stringify({screen_verdict:s.verdict,ablation_seeds:a.sweep.seeds,zero_contamination_negative_control:'ROBUST_READOUT_STILL_BETTER'}, null, 2));
           NODE
           node --test tests/project2424NonGaussianMemory.test.mjs tests/project2424NonGaussianMemoryAblation.test.mjs | tee repro-evidence/T2424-0025-tests.log
 
       - name: Reproduce T2424-0027 latent-language synthetic audit
         run: |
           set -euo pipefail
-          node portfolio/project2424/projects/T2424-0027/experiment/run.mjs repro-evidence/T2424-0027-results.json
+          { time -p node portfolio/project2424/projects/T2424-0027/experiment/run.mjs repro-evidence/T2424-0027-results.json; } 2> repro-evidence/T2424-0027.time
           node portfolio/project2424/projects/T2424-0027/reproduction/verify.mjs | tee repro-evidence/T2424-0027-verify.log
           node --test tests/project2424LatentLanguageAudit.test.mjs | tee repro-evidence/T2424-0027-tests.log
 
       - name: Reproduce T2424-0028 residual-event tokenization
         run: |
           set -euo pipefail
-          node portfolio/project2424/projects/T2424-0028/experiment/run.mjs | tee repro-evidence/T2424-0028-residual-events.json
+          { time -p node portfolio/project2424/projects/T2424-0028/experiment/run.mjs > repro-evidence/T2424-0028-residual-events.json; } 2> repro-evidence/T2424-0028.time
           node --test tests/residualEventTokenization.test.mjs | tee repro-evidence/T2424-0028-tests.log
 
       - name: Reproduce T2424-0029 PDE representation transitions
         run: |
           set -euo pipefail
-          node portfolio/project2424/projects/T2424-0029/experiment/run.mjs | tee repro-evidence/T2424-0029-pde-transitions.json
+          { time -p node portfolio/project2424/projects/T2424-0029/experiment/run.mjs > repro-evidence/T2424-0029-pde-transitions.json; } 2> repro-evidence/T2424-0029.time
           node --test tests/pdeRepresentationTransitions.test.mjs | tee repro-evidence/T2424-0029-tests.log
 
       - name: Reproduce T2424-0024 trust-under-uncertainty evaluator
         run: |
           set -euo pipefail
-          node portfolio/project2424/projects/T2424-0024/experiment/run.mjs | tee repro-evidence/T2424-0024-trust.json
+          { time -p node portfolio/project2424/projects/T2424-0024/experiment/run.mjs > repro-evidence/T2424-0024-trust.json; } 2> repro-evidence/T2424-0024.time
           node --test tests/project2424TrustUnderUncertainty.test.mjs tests/project2424TrustUnderUncertaintyQa.test.mjs | tee repro-evidence/T2424-0024-tests.log
 
       - name: Reproduce T2424-0026 counterfactual defect worlds
         run: |
           set -euo pipefail
-          node portfolio/project2424/projects/T2424-0026/experiment/run.mjs | tee repro-evidence/T2424-0026-counterfactual.json
+          { time -p node portfolio/project2424/projects/T2424-0026/experiment/run.mjs > repro-evidence/T2424-0026-counterfactual.json; } 2> repro-evidence/T2424-0026.time
           node --test tests/counterfactualDefectWorlds.test.mjs | tee repro-evidence/T2424-0026-tests.log
 
       - name: Reproduce T2424-0037 controlled NeuroCAD benchmark
         run: |
           set -euo pipefail
-          node portfolio/project2424/projects/T2424-0037/benchmark/run.mjs | tee repro-evidence/T2424-0037-benchmark.json
+          { time -p node portfolio/project2424/projects/T2424-0037/benchmark/run.mjs > repro-evidence/T2424-0037-benchmark.json; } 2> repro-evidence/T2424-0037-benchmark.time
           node --test tests/nlpToCad.test.mjs tests/nlpToCadBenchmark.test.mjs | tee repro-evidence/T2424-0037-tests.log
 
       - name: Execute T2424-0037 OOD language and safety development benchmark
         run: |
           set -euo pipefail
-          node portfolio/project2424/projects/T2424-0037/benchmark/ood_run.mjs | tee repro-evidence/T2424-0037-ood.json
+          { time -p node portfolio/project2424/projects/T2424-0037/benchmark/ood_run.mjs > repro-evidence/T2424-0037-ood.json; } 2> repro-evidence/T2424-0037-ood.time
           node - <<'NODE' | tee repro-evidence/T2424-0037-ood-verification.json
           const fs = require('fs');
           const r = JSON.parse(fs.readFileSync('repro-evidence/T2424-0037-ood.json'));
@@ -108,27 +103,21 @@ jobs:
           if (r.frozenScope !== 'single rectangular-plate family only; language/safety robustness expansion') process.exit(1);
           if (!Number.isFinite(r.typedIr.decisionAccuracy)) process.exit(1);
           if (!Array.isArray(r.records) || r.records.length !== 30) process.exit(1);
-          console.log(JSON.stringify({
-            evidenceClass: r.evidenceClass,
-            typedDecisionAccuracy: r.typedIr.decisionAccuracy,
-            typedConstraintAccuracy: r.typedIr.exactConstraintAccuracyOnExpectedAccept,
-            typedUnsafeAcceptanceRate: r.typedIr.unsafeAcceptanceRateOnExpectedReject,
-            directDecisionAccuracy: r.naiveDirectBaseline.decisionAccuracy,
-            directUnsafeAcceptanceRate: r.naiveDirectBaseline.unsafeAcceptanceRateOnExpectedReject,
-            no_general_nlp_to_cad_claim: true
-          }, null, 2));
+          console.log(JSON.stringify({evidenceClass:r.evidenceClass,typedDecisionAccuracy:r.typedIr.decisionAccuracy,typedConstraintAccuracy:r.typedIr.exactConstraintAccuracyOnExpectedAccept,typedUnsafeAcceptanceRate:r.typedIr.unsafeAcceptanceRateOnExpectedReject,directDecisionAccuracy:r.naiveDirectBaseline.decisionAccuracy,directUnsafeAcceptanceRate:r.naiveDirectBaseline.unsafeAcceptanceRateOnExpectedReject,no_general_nlp_to_cad_claim:true}, null, 2));
           NODE
 
       - name: Reproduce T2424-0050 bounded Darcy screen
         run: |
           set -euo pipefail
-          node portfolio/project2424/projects/T2424-0050/experiment/run.mjs | tee repro-evidence/T2424-0050-darcy.json
+          { time -p node portfolio/project2424/projects/T2424-0050/experiment/run.mjs > repro-evidence/T2424-0050-darcy.json; } 2> repro-evidence/T2424-0050.time
           node --test tests/project2424DarcyLatentOperator.test.mjs | tee repro-evidence/T2424-0050-tests.log
 
-      - name: Record completion
+      - name: Record completion and evidence manifest
         run: |
           set -euo pipefail
           echo "completed_utc=$(date -u +%Y-%m-%dT%H:%M:%SZ)" | tee repro-evidence/completed.txt
+          (cd repro-evidence && find . -maxdepth 1 -type f ! -name SHA256SUMS.txt -print0 | sort -z | xargs -0 sha256sum) > repro-evidence/SHA256SUMS.txt
+          cat repro-evidence/SHA256SUMS.txt
 
       - name: Upload raw reproducibility evidence
         if: always()
