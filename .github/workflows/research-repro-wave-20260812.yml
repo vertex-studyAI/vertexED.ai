@@ -55,6 +55,10 @@ jobs:
           node portfolio/project2424/projects/T2424-0027/experiment/run.mjs reproducibility-wave/raw/T2424-0027-results.json
           node portfolio/project2424/projects/T2424-0027/reproduction/verify.mjs | tee reproducibility-wave/T2424-0027-verify.log
           node --test tests/project2424LatentLanguageAudit.test.mjs
+      - name: T2424-0028 frozen residual-event tokenization screen
+        run: |
+          node portfolio/project2424/projects/T2424-0028/experiment/run.mjs | tee reproducibility-wave/raw/T2424-0028-residual-events.json
+          node --test tests/residualEventTokenization.test.mjs | tee reproducibility-wave/T2424-0028-tests.log
       - name: T2424-0029 frozen PDE-transition screen
         run: |
           node portfolio/project2424/projects/T2424-0029/experiment/run.mjs | tee reproducibility-wave/raw/T2424-0029-pde-transitions.json
