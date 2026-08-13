@@ -1,0 +1,61 @@
+{
+  "experiment": "T2424-0029 PDE representation-transition minimum experiment",
+  "equation": "1D periodic heat equation analytic Fourier solution",
+  "representationMetric": "minimum number of sine modes carrying 95% of measured spectral energy",
+  "claimBoundary": "discrete effective-rank transitions in a controlled analytic system; not a universal neural representation phase transition",
+  "sweep": [
+    {
+      "diffusivity": 0,
+      "effectiveModeCount": 3,
+      "spectralEntropy": 0.41042035846449404,
+      "totalEnergy": 2.000000000000001,
+      "dominantModes": [
+        {"k": 1, "amplitude": 1.0000000000000002, "energy": 1.0000000000000004},
+        {"k": 5, "amplitude": 0.8, "energy": 0.6400000000000001},
+        {"k": 12, "amplitude": 0.6000000000000001, "energy": 0.3600000000000001}
+      ]
+    },
+    {
+      "diffusivity": 0.0002,
+      "effectiveModeCount": 2,
+      "spectralEntropy": 0.28886912648744123,
+      "totalEnergy": 1.4526264624214542,
+      "dominantModes": [
+        {"k": 1, "amplitude": 0.9921354055113971, "energy": 0.9843326628692644},
+        {"k": 5, "amplitude": 0.6566949739324323, "energy": 0.4312482887881179}
+      ]
+    },
+    {
+      "diffusivity": 0.001,
+      "effectiveModeCount": 2,
+      "spectralEntropy": 0.11967725850006627,
+      "totalEnergy": 1.0129870905215752,
+      "dominantModes": [
+        {"k": 1, "amplitude": 0.9612907007229461, "energy": 0.9240798112964127},
+        {"k": 5, "amplitude": 0.29816627108275046, "energy": 0.08890312521139224}
+      ]
+    },
+    {
+      "diffusivity": 0.005,
+      "effectiveModeCount": 1,
+      "spectralEntropy": 0.00021590071070449606,
+      "totalEnergy": 0.6738585540706036,
+      "dominantModes": [
+        {"k": 1, "amplitude": 0.8208687174155397, "energy": 0.6738254512314331}
+      ]
+    },
+    {
+      "diffusivity": 0.02,
+      "effectiveModeCount": 1,
+      "spectralEntropy": 3.428755399753001e-16,
+      "totalEnergy": 0.2061529924239826,
+      "dominantModes": [
+        {"k": 1, "amplitude": 0.45404073872724526, "energy": 0.2061529924239826}
+      ]
+    }
+  ],
+  "transitions": [
+    {"fromDiffusivity": 0, "toDiffusivity": 0.0002, "fromModeCount": 3, "toModeCount": 2},
+    {"fromDiffusivity": 0.001, "toDiffusivity": 0.005, "fromModeCount": 2, "toModeCount": 1}
+  ]
+}
