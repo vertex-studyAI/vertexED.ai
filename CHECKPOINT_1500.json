@@ -1,0 +1,54 @@
+{
+  "date": "2026-08-13",
+  "checkpoint": "1500_IST",
+  "truth_semantics": {
+    "green_is_claim_specific": true,
+    "negative_results_can_be_green": true,
+    "no_queue_reset": true,
+    "no_failed_result_retuning": true,
+    "no_confirmatory_rescue": true
+  },
+  "percy": {
+    "logical_identities": 16256,
+    "squads": 127,
+    "agents_per_squad": 128,
+    "physical_concurrency_bounded": true,
+    "real_host_production_qualified": false
+  },
+  "heads": {
+    "vertexED.ai": "ed3463105cf6d790900b6b59df24db4980393b1e",
+    "LAM-JEPA": "c6351bcd5f15a22a21b08da23da747e45023e239"
+  },
+  "open_prs": {
+    "vertexED.ai": 0,
+    "LAM-JEPA": [72]
+  },
+  "projects": {
+    "LAM-JEPA": {"state":"GREEN_REPRODUCIBLE_NEGATIVE_RESULT","locked_test_accessed":false,"superiority_supported":false},
+    "IRIS-v0.2": {"state":"GREEN_REPRODUCED_MIXED_NEGATIVE","successor_confirmatory_accessed":false,"pabim_promoted":false},
+    "Project2424": {"state":"GREEN_12_PRIORITY_PATHS_FAIL_CLOSED_REPRODUCED"},
+    "NeuroCAD": {"state":"GREEN_CONTROLLED_HELDOUT_CAD_EXECUTION","frozen_v1_overall":0.95,"direct_baseline_overall":0.60,"openscad_valid_success":1.0,"v1_failure_preserved":true},
+    "NGMT-v0.1": {"state":"GREEN_REPRODUCED_NEGATIVE","b3_vs_b2_improvement":0.004945732296129727,"b3_vs_b2_required":0.05,"b3_vs_b1_improvement":0.004392875989642753,"b3_vs_b1_required":0.03,"effect_gates_passed":false},
+    "APEN": {"state":"GREEN_REPRODUCED_CONTROLLED_MIXED"},
+    "PEN": {"state":"BLOCKED_SOURCE_FRESH_RERUN","inherits_APEN_evidence":false},
+    "Eigen-JEPA": {"state":"GREEN_REPRODUCED_REAL_DATA_MIXED_NEGATIVE"},
+    "NPMS": {"state":"GREEN_CONTROLLED_DIAGNOSTIC_REPRODUCED"},
+    "Hercules": {"state":"YELLOW_NO_CONTROLLED_LEARNED_ADVANTAGE"},
+    "Olympus": {"state":"YELLOW_O0_ONLY"},
+    "VertexED_source": {"state":"GREEN"},
+    "VertexED_production": {"state":"BLOCKED_EXTERNAL_OR_STALE_DEPLOY","monitor_run":31683422558,"artifact_id":9174416597,"expected_revision":"8272b8cba0dab6e9a07ee6aa4f927ad9374de534","health_revision_present":false},
+    "FinanceMeta": {"state":"BLOCKED_EXTERNAL_TARGET_WRITE_OR_LIVE_AUTH"},
+    "Bu1LD": {"state":"BLOCKED_EXTERNAL_TARGET_WRITE_OR_DEPLOYMENT"}
+  },
+  "closure_queue": [
+    "reconcile_LAM_PR72_without_overwriting_current_main",
+    "IRIS_failure_taxonomy_and_frozen_successor_measurement_packaging_only",
+    "Project2424_status_reproduce_alignment_for_existing_executable_projects",
+    "NeuroCAD_paper_table_failure_taxonomy_if_missing",
+    "APEN_Eigen_NPMS_claim_repro_ledgers",
+    "Hercules_Olympus_only_if_preexisting_bounded_experiment_can_be_legitimately_frozen",
+    "VertexED_preserve_source_green_and_production_revision_failure_truth",
+    "FinanceMeta_Bu1LD_exact_access_handoff_only_if_still_blocked",
+    "Percy_dedupe_checkpoint_bounded_concurrency"
+  ]
+}
