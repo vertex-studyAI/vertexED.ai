@@ -1,0 +1,84 @@
+{
+  "kind": "T2424-0025_exact_local_reproduction",
+  "date": "2026-08-13",
+  "repository": "vertex-studyAI/vertexED.ai",
+  "source_ref": "main",
+  "execution_environment": {
+    "python": "3.13.5",
+    "node": "v22.16.0",
+    "platform": "Linux-6.18.35-x86_64-with-glibc2.41",
+    "machine": "x86_64",
+    "cuda_used": false
+  },
+  "source_files": {
+    "portfolio/project2424/projects/T2424-0025/src/core.mjs": {
+      "git_blob_sha": "7826f9ba4577b471250ef13faa8e2c854aae4a73",
+      "local_git_blob_sha": "7826f9ba4577b471250ef13faa8e2c854aae4a73",
+      "exact_source_bytes": true
+    },
+    "portfolio/project2424/projects/T2424-0025/src/robust_readouts.mjs": {
+      "git_blob_sha": "badbc9529d04bc851b7782a9848e81d2d3aaf39a",
+      "local_git_blob_sha": "badbc9529d04bc851b7782a9848e81d2d3aaf39a",
+      "exact_source_bytes": true
+    },
+    "portfolio/project2424/projects/T2424-0025/experiment/run.mjs": {
+      "git_blob_sha": "e5987fb6021fa0ed550166c8c45c8f4acce6fc1e",
+      "local_git_blob_sha": "e5987fb6021fa0ed550166c8c45c8f4acce6fc1e",
+      "exact_source_bytes": true
+    },
+    "portfolio/project2424/projects/T2424-0025/experiment/ablation.mjs": {
+      "git_blob_sha": "ed0e5b600425f67ae3e60e9809d8b9c8378bcaae",
+      "local_git_blob_sha": "ed0e5b600425f67ae3e60e9809d8b9c8378bcaae",
+      "exact_source_bytes": true
+    }
+  },
+  "commands": [
+    "node portfolio/project2424/projects/T2424-0025/experiment/run.mjs > screen.json",
+    "node portfolio/project2424/projects/T2424-0025/experiment/ablation.mjs > ablation.json"
+  ],
+  "runtime_seconds": {
+    "screen_real": 0.11,
+    "ablation_real": 0.95
+  },
+  "outputs": {
+    "screen": {
+      "local_sha256": "7b26bfcf82444b1de868092c8391a3772bd4e6acc5d64468839f9af6290a3db1",
+      "retained_actions_sha256": "7b26bfcf82444b1de868092c8391a3772bd4e6acc5d64468839f9af6290a3db1",
+      "byte_identical": true,
+      "seeds": 30,
+      "verdict": "PASS_HEAVY_TAIL_MEMORY_SCREEN",
+      "heavy_tail_baseline_mae": 0.36152678546712497,
+      "heavy_tail_robust_mae": 0.016560942261867797,
+      "heavy_tail_relative_improvement": 0.9541916590205908,
+      "clean_baseline_mae": 0.024354967043193555,
+      "clean_robust_mae": 0.012593962713833545,
+      "clean_relative_improvement": 0.482899619962608,
+      "non_gaussian_advantage_gap": 0.4712920390579828
+    },
+    "ablation": {
+      "local_sha256": "f61dd31562ce2f5638535a90ab2d700aed494790e9aca515797595158ee9ee4e",
+      "retained_actions_sha256": "f61dd31562ce2f5638535a90ab2d700aed494790e9aca515797595158ee9ee4e",
+      "byte_identical": true,
+      "seeds": 50,
+      "contamination_rates": [0,0.05,0.10,0.18,0.25,0.35],
+      "zero_contamination_median_relative_improvement_vs_mean": 0.4900015846867857,
+      "contamination_0_18": {
+        "mean_mae": 0.3494393236413256,
+        "mean_sample_sd": 0.34720341329882964,
+        "median_mae": 0.017002512132865903,
+        "median_sample_sd": 0.004857686860296252,
+        "trimmed_mae": 0.04550633252740887,
+        "trimmed_sample_sd": 0.01571336013006776,
+        "huber_mae": 0.030925536516162495,
+        "huber_sample_sd": 0.006796244399198665
+      }
+    }
+  },
+  "scientific_interpretation": {
+    "reproduction_class": "BYTE_EXACT_FRESH_LOCAL_REPRODUCTION",
+    "supports_robust_readout_mechanism_in_controlled_synthetic_task": true,
+    "supports_unique_non_gaussian_attribution": false,
+    "supports_transformer_architecture_claim": false,
+    "reason_unique_attribution_blocked": "The zero-contamination control already gives the weighted median about 49% MAE improvement over the weighted mean, so the evidence is consistent with generic robust aggregation rather than a uniquely non-Gaussian Transformer mechanism."
+  }
+}
