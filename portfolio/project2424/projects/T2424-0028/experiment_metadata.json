@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "project_id": "T2424-0028",
+  "project_name": "Residual Event Tokenization",
+  "evidence_date": "2026-08-13",
+  "hypothesis": "Residual-triggered event tokenization enforces the configured reconstruction bound; on a clean linear control, the linear predictor uses exactly two events and materially fewer events than zero-order hold.",
+  "task": "Deterministic synthetic trend-with-defects reconstruction plus clean linear controls",
+  "baseline": "Zero-order-hold event predictor",
+  "proposed_method": "Residual event tokenization with linear event-to-event prediction",
+  "metrics": ["max_abs_error", "mae", "rmse", "events", "event_ratio", "compression_factor"],
+  "seed_policy": {"type": "deterministic", "rng_used": false, "seeds": []},
+  "protocol": {
+    "thresholds": [0.1, 0.25, 0.5, 1, 2],
+    "modes": ["linear", "hold"],
+    "success": "For every mode/threshold row max_abs_error < threshold + 1e-12; exact clean linear control has exactly two linear events; hold events > 10x linear events on the clean linear control.",
+    "failure": "Any reconstruction-bound violation, predictor/control invariant failure, non-finite metric, or focused regression failure."
+  },
+  "execution": {
+    "command": "node portfolio/project2424/projects/T2424-0028/experiment/run.mjs && node --test tests/residualEventTokenization.test.mjs",
+    "commit": "4eb3fed7f582428c389a66dd388c241d8a152e8e",
+    "workflow_run": 31656575356,
+    "artifact_id": 9164597422,
+    "artifact_digest": "sha256:252392c0447a443b9c75b5926c80403ddded48ef7465a829fe4001ba27cae15e",
+    "environment": {
+      "os": "Ubuntu 24.04 hosted GitHub Actions runner",
+      "arch": "x86_64",
+      "kernel": "6.17.0-1020-azure",
+      "node": "v22.23.1"
+    },
+    "tests": {"passed": 5, "failed": 0}
+  },
+  "result": {
+    "verdict": "FRESHLY_REPRODUCED_BOUNDED_CODEC_MECHANICS",
+    "primary": {
+      "threshold": 0.5,
+      "mode": "linear",
+      "observations": 120,
+      "events": 8,
+      "event_ratio": 0.06666666666666667,
+      "compression_factor": 15,
+      "mae": 0.1728128634771123,
+      "rmse": 0.2232590423648734,
+      "max_abs_error": 0.48857046803693294
+    },
+    "sweep_bound_pass_count": 10,
+    "sweep_bound_total": 10
+  },
+  "uncertainty": {
+    "stochastic": "not applicable; deterministic fixture",
+    "unmeasured": ["external data-generating processes", "noise/non-linearity sensitivity", "predictor misspecification", "byte-level coding overhead", "external rate-distortion performance"]
+  },
+  "limitations": [
+    "Synthetic deterministic fixtures only",
+    "Compression factor is event-count based rather than a byte-level coding rate",
+    "No external rate-distortion benchmark",
+    "No learned-model comparison",
+    "No external-dataset generalization evidence"
+  ],
+  "raw_metrics": {
+    "path": "raw_metrics/repro-wave-20260813.json",
+    "sha256": "039f9264f833dbae10932a01865ac78a85104a5e6b9b1e67dc6e9b375356c046"
+  }
+}
