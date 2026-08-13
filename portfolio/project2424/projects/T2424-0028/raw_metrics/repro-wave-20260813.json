@@ -1,0 +1,31 @@
+{
+  "experiment": "T2424-0028 residual event tokenization minimum experiment",
+  "source": "deterministic synthetic trend with two injected level defects",
+  "claimBoundary": "compression/reconstruction behavior only; no external dataset or model-quality claim",
+  "primary": {
+    "threshold": 0.5,
+    "mode": "linear",
+    "tokens": 8,
+    "tokenRatio": 0.06666666666666667,
+    "compressionFactor": 15,
+    "mae": 0.1728128634771123,
+    "rmse": 0.2232590423648734,
+    "maxAbsError": 0.48857046803693294
+  },
+  "sweep": {
+    "linear": [
+      {"threshold": 0.1, "mode": "linear", "observations": 120, "tokens": 18, "tokenRatio": 0.15, "compressionFactor": 6.666666666666667, "mae": 0.03458710709817374, "rmse": 0.04624145844812628, "maxAbsError": 0.0994781859662126},
+      {"threshold": 0.25, "mode": "linear", "observations": 120, "tokens": 10, "tokenRatio": 0.08333333333333333, "compressionFactor": 12, "mae": 0.07467365262738067, "rmse": 0.09764161320013176, "maxAbsError": 0.24188614238217188},
+      {"threshold": 0.5, "mode": "linear", "observations": 120, "tokens": 8, "tokenRatio": 0.06666666666666667, "compressionFactor": 15, "mae": 0.1728128634771123, "rmse": 0.2232590423648734, "maxAbsError": 0.48857046803693294},
+      {"threshold": 1, "mode": "linear", "observations": 120, "tokens": 6, "tokenRatio": 0.05, "compressionFactor": 20, "mae": 0.36474697564704023, "rmse": 0.45466133665692604, "maxAbsError": 0.9929504885264144},
+      {"threshold": 2, "mode": "linear", "observations": 120, "tokens": 6, "tokenRatio": 0.05, "compressionFactor": 20, "mae": 0.5107075723114004, "rmse": 0.71151241078207, "maxAbsError": 1.9894415423265368}
+    ],
+    "hold": [
+      {"threshold": 0.1, "mode": "hold", "observations": 120, "tokens": 120, "tokenRatio": 1, "compressionFactor": 1, "mae": 0, "rmse": 0, "maxAbsError": 0},
+      {"threshold": 0.25, "mode": "hold", "observations": 120, "tokens": 60, "tokenRatio": 0.5, "compressionFactor": 2, "mae": 0.08957609822423598, "rmse": 0.12723837582319417, "maxAbsError": 0.20392954206495872},
+      {"threshold": 0.5, "mode": "hold", "observations": 120, "tokens": 38, "tokenRatio": 0.31666666666666665, "compressionFactor": 3.1578947368421053, "mae": 0.2029953185999878, "rmse": 0.26231453508948954, "maxAbsError": 0.49640588878980196},
+      {"threshold": 1, "mode": "hold", "observations": 120, "tokens": 21, "tokenRatio": 0.175, "compressionFactor": 5.714285714285714, "mae": 0.4431817016717072, "rmse": 0.5409908502852343, "maxAbsError": 0.991568164927763},
+      {"threshold": 2, "mode": "hold", "observations": 120, "tokens": 12, "tokenRatio": 0.1, "compressionFactor": 10, "mae": 0.9076507349678687, "rmse": 1.0919891121443093, "maxAbsError": 1.978833355196934}
+    ]
+  }
+}
