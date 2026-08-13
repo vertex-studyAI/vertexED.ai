@@ -3,8 +3,31 @@
 **Project:** Representation Phase Transitions for PDEs  
 **Project 2424 ID:** T2424-0029  
 **Track:** C — Existing work → minimum experiment  
-**State:** TESTED_MINIMUM_EXPERIMENT / MANUAL_MERGE_PENDING  
-**Claim level:** analytic PDE spectral-dimension experiment
+**State:** FRESHLY_REPRODUCED_ANALYTIC_SCREEN / CERTIFICATION_INCOMPLETE  
+**Claim level:** controlled analytic PDE spectral-dimension experiment
+
+## Fresh reproduction
+
+The frozen minimum experiment was rerun without changing its protocol in GitHub Actions run `31653397825` at source/evidence commit `1a69e1919f64295f46f231ad487beee91a54f05e`.
+
+Environment:
+
+- Ubuntu 24.04.4 x86_64 CPU;
+- Node `v22.23.1`;
+- kernel `6.17.0-1020-azure`.
+
+Retained artifact:
+
+- artifact `9163421118`;
+- digest `sha256:5864fad98c8f202e24ffa060cafe89a7b92548420373dc0b4fc6b8ffa5f26608`.
+
+The predeclared effective-mode sequence reproduced exactly:
+
+```text
+3 → 2 → 2 → 1 → 1
+```
+
+Transitions were detected only at `0 → 0.0002` and `0.001 → 0.005`, and all focused tests passed (`5/5`). Raw metrics, environment, result hashes, runtime boundary, `RESULTS.md`, `REPRODUCE.md`, and `experiment_metadata.json` are now retained.
 
 ## Implemented
 
@@ -16,15 +39,9 @@
 - [x] runnable deterministic experiment
 - [x] analytic regression suite
 - [x] scope and terminology limits
-- [x] final pre-refresh status head `2dbce407efa671cb66234cbf7bbe1eee377e1ac8` passed canonical CI `31457385007`
-
-## Latest-base integration refresh
-
-Repository `main` advanced to `662de36af18b1251e6441391ac3fc06df7a3bf71` via monitoring-only PR #243, which does not touch this package. This status refresh intentionally creates a new head so canonical CI revalidates the latest pull-request merge ref before manual review.
-
-Green CI does not establish a universal physical/neural phase transition, external validity, or nine-gate certification.
-
-**DO NOT AUTO-MERGE OR DEPLOY. MANUAL REVIEW REQUIRED.**
+- [x] fresh hosted reproduction with raw artifact retention
+- [x] machine-readable experiment metadata
+- [x] explicit reproduction instructions
 
 ## Not claimed
 
@@ -32,9 +49,12 @@ Green CI does not establish a universal physical/neural phase transition, extern
 - neural representation transition
 - nonlinear-PDE generalization
 - learned latent superiority
+- robustness across grids or energy thresholds
 - publication novelty
-- Certified complete
+- certification complete
+
+Green execution establishes the frozen analytic fixture only.
 
 ## Next artifact
 
-Apply the same frozen representation metric to at least one numerical nonlinear PDE, add threshold/resolution sensitivity, retain raw outputs, and compare Fourier versus learned latent dimensions at matched reconstruction error.
+Apply the same preregistered representation metric to at least one numerical nonlinear PDE, add energy-threshold and grid-resolution sensitivity, and compare Fourier versus learned latent dimensions at matched reconstruction error. Preserve the present analytic result as the baseline rather than changing it after seeing the extension.
