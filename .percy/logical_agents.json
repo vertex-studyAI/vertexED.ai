@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "registry": "percy-prime-logical-agents",
+  "agent_count": 16256,
+  "agent_id": {
+    "prefix": "P",
+    "width": 5,
+    "first": "P00000",
+    "last": "P16255",
+    "ordinal_min": 0,
+    "ordinal_max": 16255
+  },
+  "squads": {
+    "count": 127,
+    "size": 128,
+    "id_prefix": "S",
+    "id_width": 3,
+    "first": "S000",
+    "last": "S126",
+    "mapping": "floor(agent_ordinal / 128)"
+  },
+  "semantics": {
+    "logical_only": true,
+    "default_status": "IDLE",
+    "task_creation_is_separate": true,
+    "physical_worker_count_is_separate": true,
+    "must_not_spawn_one_process_per_agent": true
+  },
+  "physical_execution": {
+    "default_model_heavy_workers": 2,
+    "hard_runtime_cap": 4,
+    "scale_down_under_pressure": true
+  },
+  "allocation_weights": {
+    "LAM_JEPA_papers": 14,
+    "IRIS": 18,
+    "Project_2424": 34,
+    "NeuroCAD": 10,
+    "NGMT": 8,
+    "APEN_PEN_Eigen_JEPA_NPMS": 10,
+    "Hercules_Olympus": 8,
+    "VertexED": 8,
+    "FinanceMeta_Bu1LD": 5,
+    "Percy_reliability": 6,
+    "independent_verification_statistics_security": 6
+  },
+  "truth_rule": "An agent identity is scheduling capacity only. It is not evidence that a task ran."
+}
