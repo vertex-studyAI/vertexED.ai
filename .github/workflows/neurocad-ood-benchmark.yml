@@ -19,7 +19,7 @@ permissions:
 jobs:
   benchmark:
     runs-on: ubuntu-24.04
-    timeout-minutes: 5
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -40,6 +40,16 @@ jobs:
             | tee artifacts/neurocad-ood/results.json
       - name: Verify benchmark contract
         run: node --test tests/nlpToCadOodBenchmark.test.mjs | tee artifacts/neurocad-ood/tests.log
+      - name: Install OpenSCAD for backend execution verification
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends openscad
+          openscad --version | tee artifacts/neurocad-ood/openscad-version.txt
+      - name: Execute generated CAD through OpenSCAD
+        run: |
+          node portfolio/project2424/projects/T2424-0037/benchmark/kernel_verify.mjs \
+            artifacts/neurocad-ood/kernel \
+            | tee artifacts/neurocad-ood/kernel-results.json
       - name: Upload raw evidence
         uses: actions/upload-artifact@v4
         with:
