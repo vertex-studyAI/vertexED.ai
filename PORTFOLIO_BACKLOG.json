@@ -1,0 +1,19 @@
+[
+  {"priority":"P0","project":"Percy","task":"Real-host control-plane reconciliation","state":"BLOCKED_EXTERNAL_MAC"},
+  {"priority":"P0","project":"LAM-JEPA","task":"Paper evidence finalization / independent parser","state":"READY"},
+  {"priority":"P0","project":"IRIS","task":"Freeze successor protocol; preserve confirmatory quarantine","state":"READY"},
+  {"priority":"P0","project":"T2424-0027","task":"Real multilingual encoder extension","state":"READY"},
+  {"priority":"P0","project":"NeuroCAD","task":"OOD/compositional v2 + matched direct comparison","state":"READY"},
+  {"priority":"P1","project":"Darcy","task":"Learned/multidimensional baseline","state":"READY"},
+  {"priority":"P1","project":"APEN","task":"Learned/naturalistic baseline + salience stress","state":"READY"},
+  {"priority":"P1","project":"Eigen-JEPA","task":"Second-dataset frozen-metric replication","state":"READY"},
+  {"priority":"P1","project":"NPMS","task":"Larger-model/causal intervention","state":"READY"},
+  {"priority":"P1","project":"PEN","task":"Recover standalone source tree","state":"BLOCKED_SOURCE"},
+  {"priority":"P2","project":"Hercules","task":"Recover canonical source/mechanism","state":"BLOCKED_SOURCE"},
+  {"priority":"P2","project":"Olympus","task":"Execute O1 matched-provider experiment","state":"BLOCKED_PROVIDER"},
+  {"priority":"P1","project":"VertexED","task":"Restore production revision identity","state":"BLOCKED_EXTERNAL"},
+  {"priority":"P1","project":"FinanceMeta","task":"Canonical target write/release work","state":"BLOCKED_EXTERNAL"},
+  {"priority":"P1","project":"Bu1LD","task":"Canonical target write/release work","state":"BLOCKED_EXTERNAL"},
+  {"priority":"FROZEN","project":"NGMT v0.1","task":"Preserve negative result; no rescue reruns","state":"COMPLETE_NEGATIVE"},
+  {"priority":"FROZEN","project":"T2424-1863","task":"Preserve negative >75% gate result","state":"COMPLETE_NEGATIVE"}
+]

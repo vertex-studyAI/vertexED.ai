@@ -1,0 +1,36 @@
+{
+  "closeout": "2026-08-13 22:00 IST",
+  "live_percy_accessible": false,
+  "operations": {
+    "logical_agents_registered": 16256,
+    "registry_range": "P00000-P16255",
+    "squads": 127,
+    "agents_per_squad": 128,
+    "unique_agents_dispatched": "UNKNOWN",
+    "physical_peak": "UNKNOWN",
+    "complete": "UNKNOWN",
+    "failed": "UNKNOWN",
+    "blocked": "UNKNOWN",
+    "queued": "UNKNOWN",
+    "never_dispatched": "UNKNOWN"
+  },
+  "observed_heads": {
+    "vertex-studyAI/vertexED.ai": "f355bf02483451206486daebe4b5d5a4344a4daa",
+    "vertex-studyAI/LAM-JEPA": "88f759ef47263c416f2a667427286a3284d8221c"
+  },
+  "research": {
+    "LAM-JEPA": "GREEN_REPRODUCIBLE_NEGATIVE",
+    "IRIS_package": "GREEN_REPRODUCED_MIXED_NEGATIVE",
+    "IRIS_successor_candidate": "RED_GATE_MISS",
+    "T2424-0027": "GREEN_CONTROLLED_REPRODUCED_VERIFIED",
+    "NeuroCAD": "GREEN_CONTROLLED_HELDOUT_BACKEND",
+    "Darcy": "GREEN_BOUNDED_SURROGATE",
+    "NGMT_v0.1": "GREEN_REPRODUCED_NEGATIVE",
+    "APEN": "GREEN_CONTROLLED_MIXED",
+    "Eigen-JEPA": "GREEN_REAL_DATA_MIXED_NEGATIVE",
+    "NPMS": "GREEN_CONTROLLED_DIAGNOSTIC",
+    "Hercules": "YELLOW_BLOCKED_SOURCE",
+    "Olympus": "YELLOW_O1_NOT_EXECUTED"
+  },
+  "handoff": "PERCY PRIME — ULTIMATE 28-HOUR DEEP EXECUTION"
+}
