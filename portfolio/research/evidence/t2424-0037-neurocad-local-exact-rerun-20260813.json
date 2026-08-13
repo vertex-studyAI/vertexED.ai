@@ -1,0 +1,55 @@
+{
+  "kind": "T2424-0037_neurocad_exact_local_reproduction",
+  "date": "2026-08-13",
+  "repository": "vertex-studyAI/vertexED.ai",
+  "source_ref": "main",
+  "execution_environment": {
+    "python": "3.13.5",
+    "node": "v22.16.0",
+    "platform": "Linux-6.18.35-x86_64-with-glibc2.41",
+    "machine": "x86_64",
+    "cuda_used": false
+  },
+  "source_files": {
+    "portfolio/project2424/projects/T2424-0037/src/core.mjs": {
+      "git_blob_sha": "905c87ba6029ef707eb076e3e3f37fcb917949fe",
+      "local_git_blob_sha": "905c87ba6029ef707eb076e3e3f37fcb917949fe",
+      "exact_source_bytes": true
+    },
+    "portfolio/project2424/projects/T2424-0037/benchmark/run.mjs": {
+      "git_blob_sha": "ae25e8a0423db0f57eb1e5e462d4f0d58faeddd6",
+      "local_git_blob_sha": "ae25e8a0423db0f57eb1e5e462d4f0d58faeddd6",
+      "exact_source_bytes": true
+    }
+  },
+  "command": "node portfolio/project2424/projects/T2424-0037/benchmark/run.mjs > benchmark.json",
+  "runtime_seconds": 0.0314,
+  "output": {
+    "local_sha256": "e3e15d79631d1fccd02bc2711f71e98acc1f7f686e390cd65d82fcb054e5c601",
+    "retained_actions_sha256": "e3e15d79631d1fccd02bc2711f71e98acc1f7f686e390cd65d82fcb054e5c601",
+    "byte_identical": true,
+    "total_cases": 20,
+    "passed": 20,
+    "success_rate": 1.0,
+    "expected_accepted": 15,
+    "accepted": 15,
+    "syntax_execution_success": 1.0,
+    "geometry_validity": 1.0,
+    "dimension_accuracy": 1.0,
+    "constraint_satisfaction": 1.0,
+    "complexity": {
+      "1": {"total": 7, "pass": 7, "rate": 1.0},
+      "2": {"total": 10, "pass": 10, "rate": 1.0},
+      "3": {"total": 3, "pass": 3, "rate": 1.0}
+    },
+    "failures": []
+  },
+  "scientific_interpretation": {
+    "reproduction_class": "BYTE_EXACT_FRESH_LOCAL_REPRODUCTION",
+    "supports_frozen_controlled_parser_compiler_mechanics": true,
+    "supports_general_nlp_to_cad_claim": false,
+    "supports_learned_parser_claim": false,
+    "supports_complex_cad_kernel_validity_claim": false,
+    "claim_boundary": "deterministic frozen 20-case rectangular-plate grammar benchmark only"
+  }
+}
