@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import importlib.util
 from pathlib import Path
+import sys
 
 import numpy as np
 
@@ -11,6 +12,10 @@ MODULE_PATH = ROOT / "portfolio" / "research" / "ngmt" / "v01" / "run.py"
 spec = importlib.util.spec_from_file_location("ngmt_v01", MODULE_PATH)
 ngmt = importlib.util.module_from_spec(spec)
 assert spec.loader is not None
+# Python 3.13 dataclasses consult sys.modules[cls.__module__] while decorating
+# classes. Register the dynamically loaded test module before execution. This is
+# test-loader plumbing only; the frozen scientific runner is unchanged.
+sys.modules[spec.name] = ngmt
 spec.loader.exec_module(ngmt)
 
 
