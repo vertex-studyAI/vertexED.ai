@@ -1,12 +1,12 @@
 # USER_ACTION_REQUIRED
 
-Only actions that depend on access or decisions not available from the connected evidence surface are listed.
+Only actions that genuinely depend on access, ownership or decisions unavailable from the connected execution surface are listed. Agent-executable work does not belong here.
 
-1. **Restore the real Percy host** at `/Volumes/PRO-BLADE/Atlas/Percy` before the 28-hour run. Inspect canonical SQLite + WAL, run integrity checks, reconcile leases/heartbeats/stale workers and measure the currently `UNKNOWN` dispatch/task counters before creating new work.
-2. **VertexED production:** restore exact served-revision identity through `/api/health`, then rerun the authenticated production golden journey. Source GREEN is not production verification.
-3. **FinanceMeta / Bu1LD:** expose/authorize the canonical writable repositories and runtime/Supabase targets before attempting target mutations.
-4. **PEN:** recover the standalone executable MODEL-PEN source tree if a separate PEN research claim is still desired; do not inherit APEN evidence.
-5. **Hercules:** select one canonical source/mechanism and freeze a bounded same-budget Transformer/proposal/ablation experiment before compute.
-6. **Olympus O1:** use a provider only when monolithic/full/minus-falsifier/minus-evidence-gate arms can share the exact same provider/tool/task budget.
+1. **Percy host access:** make `/Volumes/PRO-BLADE/Atlas/Percy` available without resetting or replacing its state. Remeasure internal free space first because a prior real-Mac preflight fell below Percy's 25 GiB safety floor; then permit non-destructive SQLite/WAL snapshot, integrity/recount/lease/worktree inspection.
+2. **Project 2424 umbrella source access:** expose `/Volumes/PRO-BLADE/Atlas/Project-2024/Project_2424` with its dirty overlay intact so HEAD/ancestry/staged/unstaged/untracked hashes can be captured before reconciliation. Do not clean or reconstruct the overlay.
+3. **VertexED production:** no paid Vercel upgrade is authorized. When the existing free quota permits, authorize/trigger exactly one meaningful production deployment if it does not occur automatically. Production cannot be promoted until `/api/health` serves the exact revision, the scheduled monitor passes and the authenticated disposable-account golden journey is completed.
+4. **LAM-JEPA release metadata:** approve license compatibility, author list/order, citation metadata, redistribution boundary and immutable release revision. Separately send the prepared immutable packet to a genuinely independent validator/reviewer if external validation is desired. Outreach alone is not validation.
+5. **FinanceMeta / Bu1LD:** expose/authorize canonical writable repositories and real runtime/Supabase targets before target mutations or production certification.
+6. **PEN / Hercules / Olympus:** only if strategically retained, expose/select one canonical standalone source/mechanism before any new versioned matched protocol. These are not tonight's P0 blockers.
 
-No manual promotion or rescue is required for LAM-JEPA, NGMT v0.1, the current IRIS successor candidate, or T2424-1863. Their negative results must remain preserved.
+No manual promotion or rescue is required for LAM-JEPA's frozen result, NGMT v0.1, the closed IRIS successor search, Eigen-JEPA's frozen mixed/negative primary result, NeuroCAD's falsified typed-parser mechanism or T2424-1863. Preserve those outcomes.
