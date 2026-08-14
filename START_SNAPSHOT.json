@@ -1,0 +1,109 @@
+{
+  "schema_version": 1,
+  "snapshot_id": "START_SNAPSHOT_20260814_2220_IST",
+  "captured_at": "2026-08-14T22:20:00+05:30",
+  "target_checkpoint": "2026-08-15T10:00:00+05:30",
+  "truth_rule": "Absence of evidence is UNKNOWN, never VERIFIED. Frozen negative results remain frozen. No paid-resource workaround or destructive recovery is authorized.",
+  "canonical_control": {
+    "repository": "vertex-studyAI/vertexED.ai",
+    "base_main_at_branch_creation": "d92e06deaa893bfb8273f3f781105ecb155e8aca",
+    "branch": "chatgpt/convergence-canonical-20260814-2220",
+    "status_source": "MASTER_STATUS.md",
+    "queue_source": "NEXT_TASK_QUEUE.md",
+    "checkpoint_source": "CHECKPOINT.md"
+  },
+  "scientific_compute": {
+    "major_runs_authorized": 0,
+    "frozen_negative_rescue_authorized": false
+  },
+  "percy": {
+    "state": "UNKNOWN_BLOCKED_EXTERNAL_MAC",
+    "host_path": "/Volumes/PRO-BLADE/Atlas/Percy",
+    "db_integrity": null,
+    "sqlite_wal_state": null,
+    "physical_workers": null,
+    "real_task_counts": null,
+    "next_gate": "PERCY-STATE-001 non-destructive SQLite/WAL/checkpoint snapshot, integrity/schema, leases/heartbeats/stale reconciliation and dirty-worktree recount"
+  },
+  "project_2424": {
+    "registered_identity_target": 2424,
+    "canonical_local_source_recovered": false,
+    "portfolio_wide_completion_claim": false,
+    "next_gate": "Recover canonical local source/overlay/ancestry and reconcile child/disposition map; identity count is not implementation or paper count"
+  },
+  "research": {
+    "lam_jepa": {
+      "state": "VERIFIED_INTERNAL_REPRODUCIBLE_NEGATIVE_PACKAGE",
+      "canonical_head": "bf8311e1a4d240e2891e51af38eaf7754944e300",
+      "external_validation": "PENDING",
+      "next_gate": "owner release metadata + genuine independent reproduction/review"
+    },
+    "iris": {
+      "state": "NEGATIVE_MIXED_PROTOCOL_BLOCKED_AFTER_PARTIAL_EXACT_SOURCE_RECOVERY",
+      "visible_library_path": "/Research/IRIS",
+      "visible_files": [
+        "IRIS_common_adaptation_harness_v1_negative_20260813.zip",
+        "IRIS_v0.2_repro_addendum_20260813.zip"
+      ],
+      "canonical_frontier_trajectory_artifact_found": false,
+      "authoritative_regeneration_equivalence_found": false,
+      "confirmatory_seeds_1000_1029_accessed": false,
+      "next_gate": "private/local canonical raw trajectory artifact or pre-existing equivalence declaration plus frontier-specific source/environment manifest; otherwise remain PROTOCOL_BLOCKED"
+    },
+    "darcy_t2424_0050": {
+      "state": "V2_PROTOCOL_AND_PREOUTCOME_SCAFFOLDING_MERGED_NOT_RUN",
+      "training_authorized": false,
+      "next_gate": "remaining B2/B3/B4 learned implementations/configs, exact environment/hardware/model budgets and data/split/manifest hashes"
+    },
+    "neurocad": {"state":"VALIDATION_DOMINANT_TYPED_PARSER_CAUSAL_INTERPRETATION_FALSIFIED"},
+    "ngmt_v01": {"state":"REPRODUCIBLE_NEGATIVE_NO_IN_PLACE_RESCUE"},
+    "eigen_jepa": {"state":"REPRODUCED_MIXED_NEGATIVE"},
+    "apen": {"state":"REPRODUCED_CONTROLLED_MIXED"},
+    "npms": {"state":"BOUNDED_EVIDENCE_SOURCE_GATED"}
+  },
+  "vertexed": {
+    "source_state": "GREEN",
+    "production_state": "BLOCKED_EXTERNAL_DEPLOYMENT_IDENTITY_AND_CAPACITY",
+    "latest_verified_monitor_run": "31817794439",
+    "expected_deploy_revision": "e2ecd19ed9816f8f36369c7dc0f38e39942ca73a",
+    "health_revision_present": false,
+    "public_security_smoke_passed": true,
+    "artifact_id": "9225715176",
+    "artifact_sha256": "e7870e9561748ef4d4247e3bf4e01d3e8feead3780c4e2016d3742d134f2069a",
+    "deployment_capacity": "connected Vercel contexts reported rate limiting",
+    "connected_supabase_project": "xwlrzgfuhfbckgvcmyoq",
+    "supabase_security_warnings": [
+      "leaked-password protection disabled",
+      "security patches available for supabase-postgres-17.4.1.074"
+    ]
+  },
+  "financemeta": {
+    "repository": "build-the-future-11/finance4all-global-reach",
+    "main": "fbdd503223edc5b1780509720391083f485a4a85",
+    "candidate_branch": "cursor/membership-security-supabase-fix",
+    "candidate_head": "6dcc03710bb6adf9b4b722b308c40a0720bea61f",
+    "ahead_by": 41,
+    "behind_by": 0,
+    "source_state": "RECOVERED_EXISTING_HARDENING_RELEASE_CANDIDATE",
+    "connector_branch_write_test": "403 Resource not accessible by integration",
+    "production_supabase_connected": false,
+    "production_state": "BLOCKED_EXTERNAL"
+  },
+  "bu1ld": {
+    "state": "BLOCKED_EXTERNAL_TARGET_AND_DATA_PLANE",
+    "production_supabase_connected": false
+  },
+  "highest_value_queue": [
+    "PERCY-STATE-001",
+    "P2424-CANON-001",
+    "LAM-RELEASE-METADATA-003",
+    "VERTEX-PROD-001",
+    "FINANCEMETA-SOURCE-REVIEW-001",
+    "FINANCEMETA-PROD-001",
+    "EXTVAL-LAM-001",
+    "IRIS-FRONTIER-SOURCE-001",
+    "DARCY-V2-MATERIALIZE-002",
+    "NPMS-SOURCE-001",
+    "BU1LD-PROD-001"
+  ]
+}
