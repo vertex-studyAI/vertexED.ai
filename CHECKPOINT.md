@@ -1,65 +1,74 @@
-# Checkpoint — 11 August 2026
+# CHECKPOINT — AUGUST 14–15 CONVERGENCE
 
-## Completed
+**Recovery wave started:** 2026-08-14 22:01 IST  
+**Target checkpoint:** 2026-08-15 10:00 IST  
+**Canonical status:** `MASTER_STATUS.md`  
+**Canonical queue:** `NEXT_TASK_QUEUE.md` / `NEXT_TASK_QUEUE.json`  
+**Security surface:** `SECURITY_STATUS.md`  
+**Machine-readable start record:** `START_SNAPSHOT.json`
 
-- Project 2424 remains **12** queue-consistent runnable/tested implementations merged; **0 / 100 Certified complete**.
-- PST (`T2424-0016`) and NPMS (`T2424-0019`) remain two additional merged evidence-boundary recoveries, excluded from implementation count.
-- Notes-to-Video shipped durable local queue state, bounded retry/lease processing, and a queue→verified-encoder one-job worker. Canonical queue→encoder lineage is on `main` via PR #19 / merge `7a077016174477f7aa169910f473d19a83766ae3`; stale/duplicate #17/#20 are closed unmerged.
-- LAM-JEPA PR #55 merged fail-closed negative-result slicing; locked confirmatory/test access remains excluded from hypothesis rescue.
-- VertexED read-only Supabase metadata still supports RLS on all observed public tables, explicit search paths on observed privileged functions and no PUBLIC execute; advisor warnings remain leaked-password protection disabled + Postgres security patches available.
-- Atlas and Percy remain source/runtime blocked in the active connector; no runtime-health claim is made.
+Historical dated checkpoints and prior closeouts remain provenance; they are not live state.
 
-## Exact-head-green Project 2424 manual queue — 9 packages
+## Current verified control identities
 
-All nine are **manual review / no auto-merge / no deploy** and remain outside the merged count.
+- Control repository canonical `main` at forward-branch creation: `vertex-studyAI/vertexED.ai@d92e06deaa893bfb8273f3f781105ecb155e8aca`, a signed merge that includes the reviewed Darcy v2 pre-outcome scaffold and checksum-backed IRIS recovery.
+- Canonical LAM evidence line retains internal verification `725ae2fb17de9c988938d4b03bd8a6be456b8e8b`, numeric-basis guard `bf8311e1a4d240e2891e51af38eaf7754944e300`, and immutable external packet `218ea1bea686cdf8c281520b2b636897bc8b8dd2`.
+- FinanceMeta portal source: `build-the-future-11/finance4all-global-reach`; retained hardening branch `cursor/membership-security-supabase-fix@6dcc03710bb6adf9b4b722b308c40a0720bea61f`, verified 41 commits ahead / 0 behind `main` at recovery time.
+- The Bu1LD canonical source: `ryangomez010/bu1ld-landing@daa80c1124b2a6d7d09b7669e04d29e50cffcbbe`.
+- Connected Supabase production surface available here: VertexED `xwlrzgfuhfbckgvcmyoq`, `ACTIVE_HEALTHY`, PostgreSQL `17.4.1.074`.
 
-| PR | ID | Project | Head | CI |
-|---:|---|---|---|---:|
-| #230 | `T2424-0050` | Darcy Latent Operator | `0131c7d33e967f55e8b07ff5bfc1f03feb164f01` | `31458049157` |
-| #231 | `T2424-0024` | Trust Under Uncertainty | `a15f31fbcbef6ab5868cb4f8a30e806f4d8721ca` | `31458059377` |
-| #239 | `T2424-0026` | Counterfactual Defect Worlds | `596cb91d0a36a163cb9fab8745f65cbfb1ec47b6` | `31458068712` |
-| #234 | `T2424-0028` | Residual Event Tokenization | `bbb173fc2cd93e588883b3798de9712cb29094eb` | `31458080289` |
-| #232 | `T2424-0029` | Representation Phase Transitions for PDEs | `f22ab98f2bf93a3437153cba2f2ada6f9593570d` | `31458091370` |
-| #238 | `T2424-0035` | Grokking Agent | `bf229ed56b05bfeab3017616f65454aa53cf045a` | `31458102895` |
-| #236 | `T2424-0037` | NLP-to-CAD | `83bdeb2c62be88f4b8d84c1a924dd6ec8fd48fa8` | `31458112736` |
-| #241 | `T2424-0054` | Theory-Manifold Experiment Planner | `18c41b914a331e3f617026492900b0f7890eef11` | `31458120484` |
-| #242 | `T2424-0027` | Sapir–Whorf Latent Tongue | `6e71f109db7bba64e222029f298072ed64cc42de` | `31457981699` |
+## P0/P1 snapshot
 
-### Registry P0
+| Workstream | Truthful state | Exact next gate |
+|---|---|---|
+| Percy | `UNKNOWN / BLOCKED_EXTERNAL_MAC` | Non-destructive DB+WAL+checkpoint snapshot/hashes, integrity/schema, counters, leases/heartbeats/stale workers, dirty-worktree capture and independent recount. Never reset. |
+| Project 2424 umbrella | `PARTIAL / SOURCE-RECOVERY BLOCKED` | Recover preserved source/overlay/ancestry; hash dirty state; reconcile registered identities against real source/evidence. Project count is not completion. |
+| VertexED source | `GREEN` | Preserve source gates; do not infer production identity. |
+| VertexED database security | `PARTIAL / VERIFIED CONTROLS, ADVISOR ACTIONS OPEN` | 26 observed public tables have RLS; sampled ownership policies bind to `auth.uid()`; security-definer functions are not client-executable. Owner/platform actions remain leaked-password protection and hosted PostgreSQL security update. |
+| VertexED production | `BLOCKED — EXACT SERVED REVISION UNPROVED` | Prove exact served revision, make production monitor PASS, then authenticated disposable-account golden journey + isolation/recovery/logout/admin-denial + cleanup. |
+| LAM-JEPA | `VERIFIED REPRODUCIBLE NEGATIVE — INTERNAL PACKAGE CLOSED` | Owner license/authorship/citation/release metadata + genuinely independent reproduction/review. No rescue. |
+| FinanceMeta source | `PARTIAL — RELEASE-CANDIDATE BRANCH RECOVERED / REVIEW WRITE BLOCKED` | Owner-authorized identity opens the existing 41-commit branch; exact-head CI/security review. Do not recreate it. |
+| FinanceMeta production | `BLOCKED_EXTERNAL` | Connect live Supabase/deploy target; verify intended migration/RLS state, exact deployed revision, multi-account isolation/denial, recovery/logout and golden journey. |
+| The Bu1LD source | `PARTIAL — CANONICAL SOURCE RECOVERED` | Bounded source/CI/security review against exact `daa80c1…`; no speculative feature expansion. |
+| The Bu1LD production | `BLOCKED_EXTERNAL` | Expose production schema/auth/deploy target; certify exact revision, hydration, role/object boundaries and seven-role journey. |
+| IRIS | `MIXED/NEGATIVE / SOURCE PARTIALLY_RECOVERED / EXACT PROVENANCE BLOCKED` | Recover exact canonical development trajectories + frozen adaptation-metric provenance; cross-hash six systems and input manifest. Confirmatory seeds `1000–1029` remain quarantined. |
+| NPMS | `PARTIAL / SOURCE-GATED` | Recover original source/config/checkpoint or record `SOURCE_UNRECOVERED`. |
+| Darcy T2424-0050 | `PARENT BOUNDED MECHANISM; V2 PROTOCOL FROZEN / PRE-OUTCOME SCAFFOLD PARTIAL / NOT RUN` | Freeze B2/B3/B4, environment/deps, hardware, fixed budgets and final split-manifest hash. Training remains unauthorized. |
 
-`T2424-0050` is still wrong on current `main`: frozen rank 43 is Darcy Latent Operator, while Benchmark Augmentation Theory occupies the canonical folder. PR #230 is the canonical lossless repair and includes an identity regression. It remains manual and unmerged.
+## Latest VertexED production evidence
 
-### New T2424-0027 evidence package
+Production Health Monitor `31817794439` checked the public surface on workflow commit `d5e9fcaa8de4e49b236b18ff7d3c515ed5f1ed6d`.
 
-Retained synthetic result: raw concept `1.0`; raw language `1.0`; centered concept `1.0`; centered language `0.3611111111111111`; chance `0.3333333333333333`; normalized leakage reduction `0.9583333333333334`; global-centering language `1.0`.
+- expected deploy-relevant revision: `e2ecd19ed9816f8f36369c7dc0f38e39942ca73a`;
+- `/api/health`: healthy, but revision identity missing on all three bounded attempts;
+- homepage/API-router/malformed-waitlist/logged-out AI-user-admin/untrusted-origin boundaries: expected behavior observed;
+- artifact ID `9225715176`, SHA-256 `e7870e9561748ef4d4247e3bf4e01d3e8feead3780c4e2016d3742d134f2069a`.
 
-Initial CI caught derived evidence/verifier defects; fixes did **not** change the frozen generator, protocol, thresholds, raw result or verdict. PR #242 is exact-head GitHub-Actions green but remains manual/draft and preview-capacity blocked.
+Verdict: public/security smoke is live; exact served deployment identity and authenticated production certification remain unproved. Do not weaken the revision assertion or spend to make the monitor green.
 
-## Product/research manual gates
+## Scientific advances closed without outcome inflation
 
-- VertexED PR #233: exact-head-green immutable build-revision source recovery; manual/no-deploy; public serving SHA still unproven.
-- VertexED PR #240: exact-head-green account-scoped transient learner handoff isolation; manual/no-deploy.
-- FinanceMeta control-plane PR #245: green deterministic overlay/validation against immutable target; manual only; no target repo or live Supabase mutation.
-- Notes-to-Video PR #16: green draft API lifecycle recovery; separate product integration decision.
-- Notes-to-Video PR #21: draft local content-addressed media store; separate product integration decision.
+1. **Darcy v2:** merge `4280156c94fdac3e92ff300e743e2f2899cd4869` landed deterministic pre-outcome generator/control machinery with `training_authorized=false`. No v2 result exists.
+2. **IRIS:** merge `d92e06deaa893bfb8273f3f781105ecb155e8aca` recorded checksum-backed retained source/package recovery. The frontier remains blocked on exact trajectories and metric provenance; no run or seed unlock occurred.
+3. **NeuroCAD:** typed-parser causal mechanism remains falsified by the retained `VALIDATION_DOMINANT` component diagnostic.
+4. **LAM-JEPA / NGMT v0.1 / Eigen-JEPA / T2424-1863:** frozen negative or mixed states remain unchanged.
 
-## External blockers
+## Immediate execution order
 
-- FinanceMeta target writes return connector `403`; FinanceMeta Supabase is not connected.
-- Bu1LD real DB/Auth/env/email/seven-role smoke requires authorized production-like environment.
-- Atlas canonical source/runtime unavailable.
-- Percy local source/runtime/SQLite unavailable.
-- PST/NPMS original source/evidence migration remains pending.
+1. `PERCY-STATE-001`
+2. `P2424-CANON-001`
+3. `VERTEX-PROD-001`
+4. `FINANCEMETA-REVIEW-001` then `FINANCEMETA-PROD-002`
+5. `BU1LD-PROD-001`
+6. `LAM-RELEASE-METADATA-003` + `EXTVAL-LAM-001`
+7. `IRIS-FRONTIER-SOURCE-001`
+8. `DARCY-V2-MATERIALIZE-002`
+9. `NPMS-SOURCE-001`
 
-## Next highest-value actions
+Blocked work does not justify speculative substitute projects.
 
-1. Manual review of the nine green First-100 packages; do not count until separately integrated.
-2. Resolve `T2424-0050` identity first if manually approved.
-3. Keep T2424-0027 synthetic claim boundary intact; resolve external preview capacity before any merge decision.
-4. Manually review VertexED PR #233 and #240; production proof remains separate.
-5. Continue unambiguous First-100 breadth and certification depth work.
-6. Migrate PST/NPMS original source without reconstructing evidence from prose.
-7. Restore FinanceMeta target write/data-plane access and validate final RLS state.
-8. Execute Bu1LD strict release/role smoke only in authorized real environment.
-9. Advance Notes-to-Video artifact finalization/storage/status only when it yields a concrete validated integration.
-10. Expose Atlas/Percy source/runtime before further runtime work.
+## Scheduling guard
+
+**Zero new major scientific experiment runs are authorized at this checkpoint.** Unused compute stays unused rather than becoming low-information work. Logical-agent capacity, queue length, commit count and project count are not completion metrics.
+
+At 10:00 IST on 15 August 2026, any still-inaccessible system must remain truthfully blocked with its exact evidence and next gate; the deadline never converts `UNKNOWN` into `VERIFIED`.
