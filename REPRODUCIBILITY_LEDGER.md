@@ -1,24 +1,23 @@
 # REPRODUCIBILITY_LEDGER
 
-**As of:** 2026-08-13 22:00 IST
+**As of:** 2026-08-14 convergence run  
+**Boundary:** internal/local clean replay is not independent external reproduction.
 
 | Project | Source / protocol | Reproduction evidence | Result agreement | Boundary |
 |---|---|---|---|---|
-| LAM-JEPA ARC | scientific SHA `760aa7f9a73a177d5ff4ba7eb470f7e68ace63cb`; seeds 1–5; 20 epochs; batch 32; lr 0.0003; 1117 train / 295 validation | retained attempt-3 artifact `9162165932`, SHA-256 `caa898f1ff046a337db9b5ddbffe1b332943a732868e2fd809abeda8ee89c30b`; current LAM main `88f759ef...` adds attempt-4 independent audit | aggregate negative conclusion reproduced; low-order per-example float drift retained | locked ARC test untouched; not broad benchmark significance |
-| Project 2424 canonical priority reproduction | source `bd2a4d3d939b8ce06908d7842ca9e075e0ae2fa7` | workflow `31618609967`; job `94295733785`; artifact `9162627168`; SHA-256 `d9d1816d3cf8eb317f435b180c0ec6137fa64cbfde6b99e7f8b5f2d5f1a0bbae` | **scientific-value agreement** | do not claim latest byte identity |
-| T2424-0025 | frozen robust-readout precursor + current focused regression | current retained suite `10/10`; prior 30-seed + 50-seed screen | numerical/mechanism screen reproduced | synthetic precursor, not learned Transformer proof |
-| NGMT v0.1 | frozen equal-budget B0/B1/B2/B3; 6,049 parameters each; 3 paired seeds | first valid run `31661313386` artifact `9166307730`; unchanged replay `31661621771` artifact `9166406618` | scientific metrics, 12 histories and 12 checkpoint hashes replay exactly | negative result; no superiority/significance claim |
-| T2424-0027 | deterministic 72-record synthetic audit | current focused suite `8/8` + independent verifier | verifier PASS; retained synthetic metrics agree | injected coordinates; no real multilingual-encoder claim |
-| NeuroCAD | frozen controlled benchmark + held-out-template v1 | current focused suite `6/6`; held-out typed 19/20 vs direct 12/20; OpenSCAD 12/12 valid | controlled/held-out gate reproduced | one frozen v1 negative-width failure retained; no arbitrary NLP-to-CAD claim |
-| Darcy | frozen 20-seed synthetic pressure-MAE screen | current focused suite `6/6`; prior reproduced numerical table | bounded mechanism result reproduced | not a learned neural operator |
-| T2424-1863 | frozen 20-seed local-diffusion screen | exact-head dedicated workflow `31659932936` SUCCESS; canonical CI `31659932951` SUCCESS | negative >75% gate preserved | synthetic one-step diffusion only |
-| APEN | checksummed Atlas V4 source; 48 paired base conditions + salience dropout | source-archive rerun retained | mixed tradeoff reproduced | naturalistic/learned baseline missing |
-| Eigen-JEPA | Atlas V4 real-market protocol | source-archive rerun retained | mixed/negative baseline comparison reproduced | multi-dataset/external replication missing |
-| NPMS | Atlas V4 controlled reservoir + companion learned evidence | source-archive reproduction retained | controlled evidence reproduced | natural-task/OOD transfer missing |
-| Research Atlas V4 | archive SHA-256 `076f12750d6a8e6c298c17815224a79463bcad149d6cf1283900d98c6e394a2c` | `39/39` tests; 18 base reruns; manuscript rebuilds; package/validator checks | 61/65 selected artifacts byte-exact; four PDF timestamp-only differences | local/package reproduction, not independent external replication |
+| LAM-JEPA ARC | frozen scientific protocol; locked ARC test untouched | retained raw Actions artifacts + internal numerical/asset audit; immutable outside-review packet `218ea1bea686cdf8c281520b2b636897bc8b8dd2` | aggregate negative conclusion reproduced | external reproduction still pending |
+| Project 2424 Wave-001 | bundle SHA-256 `4c685af70d84052c026602ff7336a522c741d91fb480038e980c21f0bbc63ece`; head `ff609f335f91297357b430a2531633fe111cd5a9` | fresh disposable clean-clone quality gate; 24/24 source-backed package suites/pilots pass | historical source/runtime evidence reproduced | 2,424 registry rows but only 24 source-backed packages; **0 independent reproductions**; later overlay/migration unresolved |
+| Current Project 2424 source identities | frozen First-100 queue + `SOURCE_IDENTITY_MANIFEST.json` | permanent CI invariant locks represented T2424 directories to current queue names/paths | current represented directory identity agrees | directory presence is not scientific completion; cross-generation P2424↔T2424 mapping unresolved |
+| NGMT v0.1 | frozen equal-budget B0/B1/B2/B3 | unchanged replay | superiority gates fail reproducibly; clean gate passes | negative result; no rescue |
+| NeuroCAD | frozen v1 + component-v2 matched diagnostic | retained v1/component evidence | software result retained; component diagnostic `VALIDATION_DOMINANT` | typed-parser causal mechanism falsified on reused diagnostic |
+| Darcy T2424-0050 | frozen v2 protocol `6fbd9c4...` | B2 PCA+ridge blob `6e10c6fb...` unit-verified in workflow `31822727505`; split manifest SHA-256 `4211d11d...` frozen | **no v2 scientific outcome yet** | seed `320007` accidental pre-outcome metric is invalid non-evidence; B3/B4/env/hardware/budgets/interpretations remain blockers |
+| T2424-1863 | frozen 20-seed local-diffusion screen | retained dedicated/canonical CI | negative >75% gate preserved | synthetic one-step diffusion only |
+| APEN | controlled salience-dropout package | retained replay | mixed tradeoff reproduced | naturalistic/learned baseline missing |
+| Eigen-JEPA | real-market protocol | retained replay | mixed/negative primary comparison reproduced | multi-dataset/external replication missing |
+| **NPMS** | controlled Atlas archive SHA-256 `076f12750d6a8e6c298c17815224a79463bcad149d6cf1283900d98c6e394a2c` | clean replay: 2 tests pass; key artifacts byte-identical; regime accuracy `0.9285714285714286`; 112 reservoir realizations | headline controlled result reproduces, but invariant-parameter control `0.8928571428571429` leaves only `3.57pp`, inside frozen `5pp` non-uniqueness band | verdict `PARAMETER_CONFOUNDED_OR_NON_UNIQUE`; no natural/OOD generalization claim |
 
 ## Required metadata for every new experiment
 
-Every experiment promoted after this closeout must retain: question, frozen hypothesis, dataset/task and split, baselines, proposed method, ablations, primary metric, seed policy, statistics/effect rule, environment, source commit, exact command, runtime/compute, raw machine-readable metrics, artifact hashes, aggregate table, uncertainty, failure cases, limitations and claim boundary.
+Every promoted experiment must retain question, frozen hypothesis, dataset/task/split, baselines, proposed method, ablations, primary metric, seed policy, statistics/effect rule, environment, source commit, exact command, runtime/compute, raw metrics, artifact hashes, aggregate table, uncertainty, failure cases, limitations and claim boundary.
 
-Do not silently modify an experiment after observing its result. A protocol change creates a new experiment version.
+A protocol change after observing an outcome creates a new experiment version. No silent retuning.
