@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "as_of": "2026-08-14T12:01:00+05:30",
+  "policy": "Frozen outcomes are immutable; material protocol changes create a new experiment version; failed attempts remain preserved.",
+  "experiments": [
+    {"id":"LAM-ARC-V3","project":"LAM-JEPA","protocol_state":"FROZEN_REPRODUCED","scientific_state":"NEGATIVE_INCONCLUSIVE","results":{"full":"0.254915±0.012997","supervised":"0.266441±0.015460","no_planner":"0.250169±0.012997","no_target":"0.261695±0.020395"},"artifact":"9162165932","next":"PAPER_REPRO_CLOSURE_ONLY","reserved_test_used":false},
+    {"id":"IRIS-V02-STRESS","project":"IRIS v0.2","protocol_state":"FROZEN_DEVELOPMENT_REPRODUCED","scientific_state":"PROMOTION_GATE_FAILED","results":{"abrupt_gain_pct_range":"5.33-5.36","advancement_gate_pct":10,"huber_cleanly_beaten":false,"coherent_bursts":"adverse"},"confirmatory_seeds":"1000-1029_QUARANTINED","next":"PRESERVE_NO_IN_PLACE_RESCUE"},
+    {"id":"IRIS-BASELINE-AUDIT-20260814","project":"IRIS","protocol_state":"DEVELOPMENT_AUDIT_COMPLETE","scientific_state":"MIXED_BASELINE_FRONTIER_NOT_FROZEN","results":{"robust_cusum":"fast abrupt recovery with aggressive false-opening","confirmed_change_huber":"improves abrupt behavior without universal heavy-tail win"},"successor_architecture_authorized":false,"next":"OPTIONAL_FALSE_OPEN_CONSTRAINED_BASELINE_FRONTIER_FREEZE_AFTER_HIGHER_PRIORITY_WORK"},
+    {"id":"T2424-0025-ROBUST-READOUT","project":"T2424-0025","protocol_state":"FROZEN_REPRODUCED","scientific_state":"POSITIVE_PRECURSOR_MECHANISM_NOT_UNIQUE","next":"NO_NGMT_RELABEL"},
+    {"id":"NGMT-V01-B0-B3","project":"NGMT v0.1","protocol_state":"FROZEN_REPRODUCED","scientific_state":"NEGATIVE","parameters_per_arm":6049,"paired_seeds":3,"results":{"b3_vs_b2":"+0.4946%±1.5472%","gate_b3_vs_b2_pct":5,"b3_vs_b1":"+0.4393%±1.1529%","gate_b3_vs_b1_pct":3,"clean_gate":"PASS"},"next":"NEW_VERSION_ONLY_IF_INDEPENDENTLY_MOTIVATED"},
+    {"id":"NEUROCAD-V1","project":"NeuroCAD","protocol_state":"FROZEN_REPRODUCED","scientific_state":"CONTROLLED_GATE_PASS","results":{"typed_validated_correct":19,"direct_correct":12,"n":20,"valid_stl":12,"valid_cases":12,"retained_failure":"negative-width invalid case"},"next":"FREEZE_SAME_PROVIDER_DIRECT_VALIDATOR_OOD_V2"},
+    {"id":"DARCY-T2424-0050-V1","project":"Darcy T2424-0050","protocol_state":"FROZEN_REPRODUCED","scientific_state":"BOUNDED_SYNTHETIC_PASS","results":{"baseline_pressure_mae":0.0658913916,"method_pressure_mae":0.0011366559,"relative_improvement_pct":97.8766,"flux_error":1.369e-16,"seeds":20},"next":"MATCHED_LEARNED_OPERATOR_AND_OOD_PROTOCOL"},
+    {"id":"APEN-SALIENCE-STRESS","project":"APEN","protocol_state":"REPRODUCED_CONTROLLED","scientific_state":"MIXED","result":"benefit weakens/reverses under severe salience failure","next":"SEPARATELY_FROZEN_LEARNED_NATURALISTIC_STUDY"},
+    {"id":"EIGEN-JEPA-REAL-MARKET","project":"Eigen-JEPA","protocol_state":"REPRODUCED_PRIMARY_TARGET","scientific_state":"MIXED_NEGATIVE","result":"raw/log ridge remains stronger on retained primary covariance-matrix target","next":"FROZEN_STRONGER_SPECTRAL_AND_MULTIDATASET_HIERARCHY"},
+    {"id":"NPMS-CONTROLLED","project":"NPMS","protocol_state":"REPRODUCED_CONTROLLED","scientific_state":"CONTROLLED_EVIDENCE_ONLY","result":"controlled and companion learned evidence reproduce; causal/natural/OOD transfer unestablished","next":"NEW_NATURAL_OOD_STRONG_CONTROL_PROTOCOL"},
+    {"id":"T2424-0027-AUDIT","project":"T2424-0027","protocol_state":"FROZEN_VERIFIED","scientific_state":"SYNTHETIC_AUDIT_PASS","records":72,"verification":"8/8 + independent verifier","next":"REAL_MULTILINGUAL_ENCODER_PROTOCOL_ONLY"},
+    {"id":"T2424-1863-DIFFUSION","project":"T2424-1863","protocol_state":"FROZEN_EXACT_HEAD_REPRODUCED","scientific_state":"NEGATIVE","gate":">75% improvement","next":"CURRENT_VERSION_CLOSED"},
+    {"id":"HERCULES-MATCHED-BUDGET","project":"Hercules","protocol_state":"NOT_FROZEN_NOT_RUN","scientific_state":"UNTESTED","next":"NO_ACTIVE_COMPUTE_UNTIL_FREEZE"},
+    {"id":"OLYMPUS-O1","project":"Olympus","protocol_state":"NOT_RUN","scientific_state":"UNTESTED","next":"NO_ACTIVE_COMPUTE_UNTIL_FREEZE"}
+  ],
+  "freeze_contract":["experiment_id","version","question","hypothesis","mechanism","baseline_family","data_split_version","seed_policy","primary_metric","aggregation_effect_statistic","threshold","falsifier","analysis_code_hash","compute_budget","stop_rule","reserved_data_policy"]
+}
