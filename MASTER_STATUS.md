@@ -21,7 +21,7 @@
 | Project 2424 umbrella | **Selected bounded reproductions only; source recovery still external** | registry/project count is not scientific completion |
 | Percy host | **BLOCKED_EXTERNAL_MAC for live qualification** | existing SQLite/WAL/process state unavailable here; non-destructive snapshot/integrity/recount first |
 | VertexED source | **GREEN** | do not infer production identity |
-| VertexED production | **BLOCKED — deployment identity unresolved** | latest checked scheduled run `31777345899` failed all three immutable-revision checks while homepage/public/auth/security smoke boundaries passed; expected revision `b3a0f9101760488c3fe42129defbcc85d3901fc1` is not resolvable in the currently accessible Git history; exact intended/served revision + deployment ID + authenticated golden journey required |
+| VertexED production | **BLOCKED — deployment identity unresolved** | latest checked scheduled run `31777345899` failed three bounded attempts because live `/api/health` returned healthy but omitted its revision; homepage, API-router, malformed-waitlist, logged-out auth/admin and untrusted-origin boundaries passed; the workflow correctly expected deploy-relevant revision `8272b8cba0dab6e9a07ee6aa4f927ad9374de534`, which is a resolvable repository commit; exact served revision/deployment ID and authenticated golden journey remain unproved |
 | FinanceMeta | **BLOCKED_EXTERNAL** | production authorization/golden-journey evidence remains incomplete |
 | The Bu1LD | **BLOCKED_EXTERNAL** | canonical production/runtime qualification remains incomplete |
 | Hercules / Olympus | **ARCHIVED FROM ACTIVE COMPUTE / YELLOW EVIDENCE** | decisive matched scientific protocol missing; no reactivation by naming or scale |
