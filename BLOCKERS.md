@@ -1,33 +1,40 @@
 # BLOCKERS
 
-**As of:** 2026-08-14. Only blockers that prevent a stronger evidence claim are listed.
+**As of:** 2026-08-14 22:02 IST. Only blockers that prevent a stronger evidence claim are listed. `MASTER_STATUS.md` remains the canonical portfolio state and `NEXT_TASK_QUEUE.md` remains the canonical dependency order.
 
 ## P0 — Percy authoritative live state
-Existing Mac SQLite/WAL/process state is not visible from this execution surface. Run `PERCY-STATE-001` non-destructively: snapshot/hash, integrity/schema, leases/heartbeats/stale reconciliation, independent recount. Do not reset.
+Existing Mac SQLite/WAL/process state is not visible from this execution surface. Run `PERCY-STATE-001` non-destructively: snapshot/hash, integrity/schema, leases/heartbeats/stale reconciliation, independent recount and dirty-worktree capture. Do not reset, replace or clean the existing database to manufacture a consistent state.
 
-## P0 — VertexED exact production revision
-Production monitor `31771831538` failed three bounded attempts because `/api/health` did not expose expected revision `8272b8cba0dab6e9a07ee6aa4f927ad9374de534`; homepage/API/auth/origin boundary checks passed. Artifact `9208406163`, SHA256 `f08d3ece023eaaec205dc46248c48a17cb057b25a9d8389f3ebd813583cf610b`. Exact served revision + authenticated journey still required.
+## P0 — VertexED exact production revision and authenticated certification
+Current repository `main` at snapshot capture is `d5e9fcaa8de4e49b236b18ff7d3c515ed5f1ed6d`. Both configured Vercel commit-status contexts on that revision report `FAILURE` with `Deployment rate limited — retry in 24 hours.` The current incident record is issue #137; its latest retained failed monitor is run `31817794439`, artifact `production-health-31817794439`, on workflow commit `d5e9fcaa8de4e49b236b18ff7d3c515ed5f1ed6d`.
+
+Exact served revision/deployment ID and the disposable authenticated golden journey remain unproved. Do not spend money to bypass the deployment-rate limit, weaken revision assertions, or substitute source/browser-local checks for production identity.
 
 ## P0 — Project 2424 canonical source recovery
-Selected child evidence is retained, but umbrella canonical source/dirty overlay recovery depends on preserved local/Inkling state. Recover ancestry/overlay before source-dependent new experiments.
+Selected child evidence is retained, but umbrella canonical source/dirty overlay recovery depends on preserved local/Inkling state. Recover ancestry, overlay and hashes before source-dependent new experiments. Registry/project count alone is not scientific completion.
 
-## P0 — LAM-JEPA paper/release closure
-Scientific result is reproducibly negative and canonical manuscript/related-work framing now reflect that. Remaining blockers: exact source-to-method reconciliation, final evidence-generated figures/tables/provenance, owner-approved license/citation/authorship, independent review.
+## P0 — LAM-JEPA owner-controlled release metadata
+The internal scientific result, retained numerical provenance, deterministic paper assets and immutable external-review packet are already closed at the current evidence boundary. Remaining owner-only release metadata must not be inferred from commit history or old drafts: approved author list/order, license/compatibility decision, redistribution boundary, `CITATION.cff` and immutable release revision.
 
-## P1 — IRIS baseline frontier
-Current successor search is closed. A new architecture is not a blocker because it is not authorized. The only eligible next scientific gate is a frozen simple robust detector+estimator false-open/recovery/error frontier, development-only, with seeds `1000–1029` quarantined.
+External validation is a separate P1 gate and remains pending until genuinely independent evidence returns.
+
+## P1 — LAM-JEPA independent external reproduction/review
+The external packet is ready, but packet readiness is not validation. A genuinely independent validator must receive the exact immutable package and return a retained reproduction/review record including identity/date, artifact revision, observed hashes/numbers, discrepancies, source-method critique and success/failure interpretation.
+
+## P1 — IRIS baseline frontier source recovery
+Current successor search is closed. A new architecture is not a blocker because it is not authorized. The eligible next scientific gate is the frozen simple robust detector+estimator false-open/recovery/error frontier. Exact retained development trajectories, implementations/parameters and metric code must be recovered first; confirmatory seeds `1000–1029` remain quarantined.
 
 ## P1 — NeuroCAD new scientific claim
-The old weak-baseline causal interpretation is no longer a blocker; it is **falsified** by component v2. Any new paper-level claim requires a genuinely fresh broader benchmark and competent contemporary direct/program-generation baseline. Do not tune the old 20 cases.
+The old typed-parser causal interpretation is **falsified** by the matched component diagnostic. Any new paper-level claim requires a genuinely fresh broader benchmark and competent contemporary direct/program-generation baseline. Do not tune the old controlled set.
 
 ## P1 — Darcy learned/OOD gate
-Strong aligned synthetic result lacks matched learned operator and misaligned/OOD physical regimes. Freeze all comparison details before running.
+Strong bounded synthetic evidence lacks a matched learned operator and misaligned/OOD physical regimes. Freeze data/version, systems, budget, metrics, uncertainty, stopping rule and falsifier before any execution.
 
 ## P1 — APEN / Eigen-JEPA / NPMS
-Remain secondary until dangerous learned/statistical controls and natural/OOD tasks are complete.
+Remain secondary until the predeclared learned/statistical controls and natural/OOD tasks are complete. NPMS additionally requires original source/config/checkpoint recovery before any new science.
 
 ## P1 — Hercules / Olympus
-No significant compute until decisive matched protocols are frozen.
+No significant compute until one decisive matched protocol is frozen. Architecture names, parameter targets and governance/runtime demonstrations are not trained-model capability evidence.
 
 ## P1 — FinanceMeta / The Bu1LD target access
-Canonical writable target/runtime surfaces remain unavailable; do not substitute control-repo activity for production evidence.
+Canonical writable target/runtime surfaces remain unavailable to the current connected execution surface. Do not substitute control-repository patches, local validations or public landing-page checks for production authorization/RLS/authenticated-role evidence.
