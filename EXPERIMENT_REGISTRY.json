@@ -1,0 +1,5 @@
+{
+  "canonical_human_record": "EXPERIMENT_LEDGER.md",
+  "canonical_machine_record": "EXPERIMENT_LEDGER.json",
+  "duplication_policy": "Do not maintain a second independently editable copy of experiment facts."
+}
