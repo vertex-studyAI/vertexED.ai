@@ -1,0 +1,50 @@
+name: NeuroCAD component ablation diagnostic
+
+on:
+  pull_request:
+    paths:
+      - 'portfolio/project2424/projects/T2424-0037/**'
+      - 'tests/nlpToCadComponentAblation.test.mjs'
+      - '.github/workflows/neurocad-component-ablation.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'portfolio/project2424/projects/T2424-0037/**'
+      - 'tests/nlpToCadComponentAblation.test.mjs'
+      - '.github/workflows/neurocad-component-ablation.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  diagnostic:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Capture environment
+        run: |
+          mkdir -p artifacts/neurocad-component-ablation
+          {
+            echo "node=$(node --version)"
+            echo "npm=$(npm --version)"
+            echo "kernel=$(uname -a)"
+            echo "sha=${GITHUB_SHA}"
+          } | tee artifacts/neurocad-component-ablation/environment.txt
+      - name: Execute frozen component diagnostic
+        run: |
+          node portfolio/project2424/projects/T2424-0037/benchmark/component_ablation_evaluate.mjs \
+            | tee artifacts/neurocad-component-ablation/results.json
+      - name: Verify frozen diagnostic contract
+        run: |
+          node --test tests/nlpToCadComponentAblation.test.mjs \
+            | tee artifacts/neurocad-component-ablation/tests.log
+      - name: Upload retained evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: neurocad-component-ablation-v2-20260814
+          path: artifacts/neurocad-component-ablation/
+          retention-days: 30
