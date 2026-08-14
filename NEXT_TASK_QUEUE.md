@@ -1,6 +1,6 @@
 # NEXT TASK QUEUE
 
-**Rescored:** 2026-08-14 after independent LAM raw-artifact verification and external-packet merge  
+**Rescored:** 2026-08-14 22:02 IST after Darcy v2 protocol-freeze reconciliation  
 **Rule:** information gain × closure probability × evidence value ÷ cost. Dependencies are hard.
 
 ## 1 — PERCY-STATE-001 — P0 / BLOCKED_EXTERNAL_MAC
@@ -31,17 +31,19 @@
 - If exact source cannot be recovered, output `PROTOCOL_BLOCKED`; do not regenerate approximately equivalent data.
 - Confirmatory seeds `1000–1029` remain forbidden.
 
-## 6 — DARCY-FREEZE-001 — P1 / WAITING_CANONICAL_SOURCE
-- Freeze the dangerous learned/operator/OOD comparison before execution.
-- Systems: numerical/reduced controls + matched learned operator family; equal budget; misaligned/correlation-length/held-out regimes.
-- No run until data/version, metric, budget, uncertainty and falsifier are immutable.
+## 6 — DARCY-EXEC-PREP-002 — P1 / WAITING_EXECUTABLE_FREEZE
+- `DARCY-FREEZE-001 / darcy-operator-ood-v2` is already frozen; **do not recreate or alter it in place**.
+- Before any v2 execution, commit and independently audit the exact generator/split-manifest code, FNO-1D and DeepONet implementations, dependency versions, model/hyperparameter grids, training-only normalization, eligibility checks, three training seeds, hardware identity and compute/time cap required by the frozen protocol.
+- Deliver a machine-readable execution manifest tied to exact source hashes and verify that all ID/OOD test manifests are generated and hashed before learned training.
+- No v2 run is authorized by this task. A material scientific change becomes v3 rather than silently editing the frozen protocol.
 
 ## 7 — VERTEX-PROD-001 — P0 PRODUCT / BLOCKED_EXTERNAL_DEPLOYMENT_IDENTITY
 - Establish exact served revision and authenticated golden-journey truth.
 - Latest checked scheduled production-health run `31777345899` failed all three bounded attempts because `/api/health` returned healthy but **omitted revision identity**. Homepage, API-router, malformed-waitlist, logged-out AI/user/admin and untrusted-origin smoke boundaries passed.
 - The workflow correctly expected deploy-relevant revision `8272b8cba0dab6e9a07ee6aa4f927ad9374de534`; that SHA is a resolvable repository commit. The unresolved fact is the **served deployment revision**, not the expected source revision.
-- Deliver: exact intended/served source identity, deployment ID, `/api/health` revision proof matching the deploy-relevant SHA, production monitor PASS, disposable-account core workflow + cleanup record.
-- Do not add product features to work around deployment identity uncertainty.
+- Source inspection confirms the revision-stamp contract and tests already exist; the retained incident records two failed Vercel production deployments for the intended revision. The precise build/runtime error is externally blocked on authorized Vercel deployment logs/access.
+- Deliver: first causal failed-deployment log, canonical Vercel project/alias identity, exact intended/served source identity, deployment ID, `/api/health` revision proof matching the deploy-relevant SHA, production monitor PASS, disposable-account core workflow + cleanup record.
+- Do not add product features or weaken the revision gate to work around deployment identity uncertainty.
 
 ## 8 — NPMS-SOURCE-001 — P1 / BLOCKED_SOURCE_IDENTITY
 - Recover the original NPMS scientific source/config/checkpoint before any new natural/OOD experiment.
@@ -65,6 +67,7 @@
 - `LAM-VERIFY-002` — **CLOSED INTERNALLY:** raw Actions artifacts `9162165932`, `9003785715`, and `9003740436` were independently downloaded; ZIP/raw JSON digests matched canonical provenance; five-seed full/matched/ablation values and bounded pretrained characterization were independently recomputed; deterministic CSV/Markdown/SVG assets regenerated. Verification record merged as `725ae2fb17de9c988938d4b03bd8a6be456b8e8b`; numeric-basis guard merged as `bf8311e1a4d240e2891e51af38eaf7754944e300` with no scientific outcome change.
 - `EXTVAL-LAM-PACKET-001` — **CLOSED PACKAGING ONLY:** immutable external reproduction/review packet merged as `218ea1bea686cdf8c281520b2b636897bc8b8dd2`; no outside result exists yet.
 - `IRIS-FRONTIER-FREEZE-001` — **CLOSED:** development-only false-open constrained baseline-frontier protocol is frozen; execution remains source-blocked.
+- `DARCY-FREEZE-001` — **CLOSED PROTOCOL ONLY:** `darcy-operator-ood-v2` is frozen before outcome execution; no v2 result exists and execution remains separately gated.
 - `JEPA-TS-PROGRAM-001` — **CLOSED DESIGN:** one literature-bounded programme exists; no experiment authorized.
 - `IRIS-DECIDE-001` — **CLOSED:** no successor architecture authorized.
 - NeuroCAD component-confound ablation — **CLOSED / FALSIFIED MECHANISM:** direct+matched validation equals current compiler; `VALIDATION_DOMINANT`.
@@ -73,4 +76,4 @@
 
 ## Scheduling guard
 
-**Zero new major scientific experiment runs are authorized right now.** Percy/Project 2424/IRIS/NPMS are source or live-state recovery first; Darcy requires a frozen protocol; JEPA×time-series is dormant design; NeuroCAD research is deprioritized after its mechanism falsifier; LAM is owner metadata + external review only; VertexED is deployment certification only. Unused compute capacity should remain unused rather than generate low-information experiments.
+**Zero new major scientific experiment runs are authorized right now.** Percy/Project 2424/IRIS/NPMS are source or live-state recovery first; Darcy v2 is protocol-frozen but awaits an exact executable/config/dependency/hardware/compute manifest and separate run authorization; JEPA×time-series is dormant design; NeuroCAD research is deprioritized after its mechanism falsifier; LAM is owner metadata + external review only; VertexED is deployment certification only. Unused compute capacity should remain unused rather than generate low-information experiments.
