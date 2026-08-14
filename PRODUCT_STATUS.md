@@ -1,33 +1,22 @@
 # PRODUCT_STATUS
 
-**As of:** 2026-08-14 13:35 IST
+**As of:** 2026-08-14 convergence run
 
 | Product/system | State | Evidence boundary | Next gate |
 |---|---|---|---|
-| VertexED source | **GREEN** | source repository/control head available; source/release CI evidence is strong, while GitHub/Vercel deployment status remains separate from served production identity | preserve source gates; do not infer served revision |
-| VertexED production | **BLOCKED — EXACT REVISION UNVERIFIED** | scheduled production-health evidence shows the public/security smoke boundaries can pass while `/api/health` still omits the immutable deploy revision expected by the monitor | identify canonical Vercel project/config, expose immutable revision, make scheduled monitor pass, then complete authenticated disposable-account golden journey |
-| VertexED Notes-to-Video V6 child subsystem | **GREEN — LOCAL ENGINEERING / NOT PRODUCTION** | `vertex-studyAI/Text-To-Video` proves a local lesson/render pipeline with real H.264/AAC MP4 encoding, ffprobe verification, validated external render jobs, durable single-host queue semantics, atomic fail-closed output promotion and SHA-256 content-addressed local media storage; the repository explicitly does **not** prove hosted storage, distributed workers, synthesized narration, authenticated deployed callbacks, public URLs or real-user validation | keep as a VertexED child subsystem; no standalone product expansion; productionize only if the parent VertexED user-validation lane demonstrates a real need for notes-to-video |
-| Percy Prime host | **BLOCKED_EXTERNAL_MAC for live/production qualification** | repository/control artifacts exist, but existing host SQLite/WAL/process state is not visible here | non-destructive snapshot/integrity/recount, then crash/restart/provider/lease/resource/soak qualification |
-| FinanceMeta | **BLOCKED_EXTERNAL** | prepared hardening/recovery artifacts exist; canonical writable repo and production Supabase are not exposed | authorize target; apply on isolated exact-base branch; verify authorization denial paths + real saved-progress journey |
-| The Bu1LD | **BLOCKED_EXTERNAL** | prior source/production-hydration evidence retained; canonical writable target/Supabase/Cloudflare surface unavailable | authorize target; establish immutable deploy identity; fix/certify hydration and seven role journeys |
+| VertexED source | **GREEN** | source repository/control head available; source/release evidence remains separate from served production identity | preserve source gates; do not infer served revision |
+| VertexED production | **BLOCKED — EXACT REVISION UNVERIFIED / DEPLOYMENT CAPACITY LIMITED** | canonical status records Production Health Monitor `31817794439`: live `/api/health` remained healthy but omitted immutable revision identity; expected deploy-relevant revision `e2ecd19ed9816f8f36369c7dc0f38e39942ca73a`; artifact `9225715176`, SHA-256 `e7870e9561748ef4d4247e3bf4e01d3e8feead3780c4e2016d3742d134f2069a`; public/API/auth/origin smoke boundaries passed; deployment status reported rate limiting | use existing authorized capacity only; prove exact intended/served revision and deployment ID; make monitor PASS; then complete disposable-account authenticated golden journey + cleanup |
+| VertexED Supabase | **PARTIAL — DATABASE CONTROLS VERIFIED / PLATFORM WARNINGS OPEN** | live read-only inspection: 26 public base tables, all with RLS; no public views; observed `SECURITY DEFINER` functions have explicit search paths and no PUBLIC/anon/authenticated execute; advisor warns leaked-password protection is disabled and Postgres security patches are available | owner reviews/enables leaked-password protection and schedules supported Postgres security update; still require verified immutable deployment + authenticated isolation/recovery/admin journey |
+| VertexED Notes-to-Video V6 child subsystem | **GREEN — LOCAL ENGINEERING / NOT PRODUCTION** | `vertex-studyAI/Text-To-Video` remains bounded local engineering; local pipeline evidence does not prove hosted/distributed/authenticated production service or real-user validation | retain as VertexED child subsystem; no standalone expansion unless parent-product validation shows a real need |
+| Percy Prime host | **BLOCKED_EXTERNAL_MAC** | current SQLite/WAL/checkpoint/process/worktree state is unavailable here; logical identity count is not live execution capacity | non-destructive snapshot/integrity/recount before crash/restart/provider/lease/resource/soak qualification |
+| FinanceMeta source | **PARTIAL — RETAINED HARDENING BRANCH RECOVERED / REVIEW WRITE BLOCKED** | `build-the-future-11/finance4all-global-reach` current `main` = `fbdd503223edc5b1780509720391083f485a4a85`; `cursor/membership-security-supabase-fix@6dcc03710bb6adf9b4b722b308c40a0720bea61f` is 41 commits ahead / 0 behind. Fresh PR creation through this integration returns 403. Historical PR #1 merged an earlier head and is not proof of current integration. | owner-authorized GitHub path reviews the existing branch against current main; run exact-head CI/security checks; merge only on evidence |
+| FinanceMeta production | **BLOCKED_EXTERNAL** | source recovery does not prove live Supabase migration/RLS/env/deployed revision or multi-account production behavior | authorize real Supabase/deploy target; verify intended migrations/RLS, exact revision, role-escalation denial, isolation, core journey, recovery/logout and cleanup |
+| The Bu1LD | **BLOCKED_EXTERNAL** | canonical writable target/Supabase/deployment surface unavailable | authorize target; establish immutable deploy identity; certify hydration, RLS/roles and seven-role authenticated journey |
 
-## VertexED production incident boundary
+## Product rule
 
-The production monitor is authoritative for the tested public surface. A successful GitHub/Vercel status means a deployment context was reported; it does not prove `www.vertexed.app` serves the intended immutable revision. Until the health response exposes the expected revision and authenticated journeys pass, the state remains `SOURCE_GREEN / PRODUCTION_BLOCKED`.
+Source GREEN, CI GREEN, database metadata, and a public 200 response are not interchangeable with production certification. Each product advances only on exact-target evidence. Do not buy deployment capacity or create paid infrastructure in this run without explicit owner authorization.
 
-## Notes-to-Video boundary
+## Validation rule after production gates
 
-The connected `Text-To-Video` repository is not an empty or untriaged experiment. Its current README documents a bounded local VertexED Notes-to-Video V6 subsystem with a real MP4 encoder, verification, lifecycle, durable local queue and content-addressed local artifact store. That is sufficient to retain it as a **child engineering subsystem**, but not as an independent product or production service. Standalone expansion remains archived unless parent-product validation creates a concrete user need.
-
-## Two-week product-validation rule
-
-Once production identity is fixed, product work shifts from feature creation to real validation:
-
-- **User:** actual approved learner, not an invented persona.
-- **Job:** reach one trustworthy study outcome and retrieve it later.
-- **Activation:** learner creates one useful artifact (for example planner/note/quiz/paper output appropriate to the real workflow) and saves it successfully.
-- **Retention signal:** the learner returns in a fresh session and retrieves/continues the artifact.
-- **Reliability:** auth, ownership/isolation, save/retrieve, logout denial and recovery must not silently fail.
-- **Success metric:** observed activation and return/retrieval rates from real consented usage, with privacy-safe telemetry; do not invent a target population or traction number.
-
-FinanceMeta and The Bu1LD should use the same principle after target access is restored: validate one core user job first, not speculative feature breadth.
+Once immutable production identity and security gates are closed, validate one real core user job before feature expansion: activation, persistence/retrieval in a fresh session, ownership/isolation, logout denial, recovery, and privacy-safe observed usage. Do not invent users, traction, retention, or analytics.
