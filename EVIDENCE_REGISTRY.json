@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-08-14T22:09:52+05:30",
+  "purpose": "Index decisive evidence locations and provenance without restating or upgrading claims. CLAIM_LEDGER and EXPERIMENT_LEDGER remain authoritative for claim/experiment state.",
+  "rules": [
+    "Evidence registry presence is not verification by itself.",
+    "Project-native raw artifacts win over cross-portfolio summaries.",
+    "External validation requires returned outside evidence, not packet readiness or outreach.",
+    "Production verification requires exact served revision plus the real authenticated journey, not source CI alone.",
+    "Frozen negative results remain frozen."
+  ],
+  "records": [
+    {"id":"EV-CONTROL-DATED-SNAPSHOT","class":"portfolio_snapshot","project":"portfolio","locator":"PORTFOLIO_SNAPSHOT_20260814.md","integrity":"git_blob:4ac47220f2402a949e4b0bd1cff283886894af00","supports":"dated human A-F disposition table","does_not_support":"full source recovery for Percy or all Project 2424 contracts"},
+    {"id":"EV-CLAIM-LEDGER","class":"claim_ledger","project":"portfolio","locator":"CLAIM_LEDGER.md / CLAIM_LEDGER.json","integrity":"json_git_blob:afc344ac9bd0071130c3329cf4b48f39ee401ae2","supports":"claim-specific supported/unsupported boundaries","does_not_support":"external validation or publication"},
+    {"id":"EV-EXPERIMENT-LEDGER","class":"experiment_ledger","project":"portfolio","locator":"EXPERIMENT_LEDGER.md / EXPERIMENT_LEDGER.json","integrity":"json_git_blob:3880637cc073be88a40fc9c6913bf46a93d0303f","supports":"frozen experiment identities, metrics and next gates","does_not_support":"unlisted experiments"},
+    {"id":"EV-FAILURE-ATLAS","class":"negative_result_index","project":"portfolio","locator":"RESEARCH_FAILURE_ATLAS.md","integrity":"git_blob:6150c74de1d43fb1106855fdf7651e913a2cb2a9","supports":"first-class preserved failed/falsified hypotheses","does_not_support":"rescue or retuning"},
+
+    {"id":"EV-LAM-RAW-ARC","class":"workflow_artifact","project":"LAM-JEPA","locator":"GitHub Actions artifact 9162165932","integrity":"independently rechecked in LAM verification closure","supports":"frozen ARC aggregate negative/inconclusive result","does_not_support":"superiority, planner/target/quantization benefit, locked-test performance"},
+    {"id":"EV-LAM-INTERNAL-VERIFY","class":"git_commit","project":"LAM-JEPA","locator":"vertex-studyAI/LAM-JEPA@bf8311e1a4d240e2891e51af38eaf7754944e300","integrity":"signed commit","supports":"numeric provenance hardening with no outcome change","does_not_support":"external validation"},
+    {"id":"EV-LAM-EXTERNAL-PACKET","class":"release_packet","project":"LAM-JEPA","locator":"vertex-studyAI/LAM-JEPA@218ea1bea686cdf8c281520b2b636897bc8b8dd2","integrity":"immutable packet revision","supports":"packet readiness for independent reproduction/review","does_not_support":"returned external reproduction, acceptance, publication"},
+
+    {"id":"EV-VERTEX-PROD-HEALTH-31817794439","class":"production_monitor","project":"VertexED","locator":"workflow run 31817794439; artifact 9225715176","integrity":"sha256:e7870e9561748ef4d4247e3bf4e01d3e8feead3780c4e2016d3742d134f2069a","supports":"homepage/API/auth/origin public boundaries passed across three bounded attempts while health revision was absent","does_not_support":"exact served revision or authenticated golden journey"},
+    {"id":"EV-VERTEX-REVISION-SOURCE","class":"source_evidence","project":"VertexED","locator":"api/_handlers/health.js; scripts/generate-build-revision.mjs; package.json; vercel.json","integrity":"current main source","supports":"source is capable of mandatory deploy revision stamping/emission","does_not_support":"that current production is serving the intended revision"},
+    {"id":"EV-VERTEX-BUILD-CAPACITY","class":"deployment_status","project":"VertexED","locator":"Vercel status contexts on control head","integrity":"two failure contexts","supports":"deployment attempts are rate-limited","does_not_support":"authorization to purchase capacity"},
+
+    {"id":"EV-FM-INTEGRATED-OVERLAY","class":"certified_local_overlay","project":"FinanceMeta","locator":"control workflow 31190278089; artifact 8998523430; financemeta-integrated-release.patch","integrity":"patch_sha256:9192207d05d869c75d58fe70b5081961bafaac18de78bda447ab9a265f1bca35","supports":"exact-base local authorization/env/dependency/lint overlay certification with no production mutation","does_not_support":"canonical target repair, live Supabase authorization, production journey"},
+    {"id":"EV-FM-WRITE-403-20260814","class":"access_probe","project":"FinanceMeta","locator":"control issue #19 comment 5295800858","integrity":"fresh branch-create probe against fbdd503223edc5b1780509720391083f485a4a85","supports":"current GitHub integration cannot create target branch","does_not_support":"target is immutable to every possible owner/integration"},
+    {"id":"EV-BU1LD-WRITE-403-20260814","class":"access_probe","project":"The Bu1LD","locator":"control issue #16 comment 5295802191","integrity":"fresh branch-create probe against daa80c1124b2a6d7d09b7669e04d29e50cffcbbe","supports":"current GitHub integration cannot create target branch","does_not_support":"production runtime behavior"},
+
+    {"id":"EV-PERCY-HOST-VISIBILITY-20260814","class":"execution_surface_observation","project":"Percy","locator":"START_SNAPSHOT.json / START_SNAPSHOT.md","integrity":"control branch checkpoint","supports":"current execution surface cannot see /Volumes/PRO-BLADE/Atlas/Percy","does_not_support":"host absence, zero tasks, DB failure"},
+    {"id":"EV-P2424-SOURCE-VISIBILITY-20260814","class":"execution_surface_observation","project":"Project 2424","locator":"START_SNAPSHOT.json; PROJECT_2424_CANONICAL_MAP.json","integrity":"control branch checkpoint","supports":"canonical host source is not visible here; full ID map cannot be revalidated","does_not_support":"only the currently mapped IDs exist"},
+
+    {"id":"EV-NEUROCAD-COMPONENT-V2","class":"workflow_artifact","project":"NeuroCAD","locator":"workflow 31777954088; artifact 9210587354","integrity":"sha256:b05facbec0ef17b81d618e604ffa120a1f75ba3ae9579bcd1b4d7b9500985d5c","supports":"direct+matched validation equals current compiler at 1.00; VALIDATION_DOMINANT on reused diagnostic","does_not_support":"general validation novelty or typed-parser causal superiority"},
+    {"id":"EV-DARCY-V2-PROTOCOL","class":"frozen_protocol","project":"Darcy / T2424-0050","locator":"portfolio/project2424/projects/T2424-0050/LEARNED_OPERATOR_OOD_PROTOCOL_V2.md","integrity":"canonical control main protocol freeze","supports":"v2 protocol frozen before outcomes","does_not_support":"v2 training/evaluation result; experiment is NOT RUN"},
+    {"id":"EV-NGMT-V01","class":"frozen_experiment_record","project":"NGMT v0.1","locator":"EXPERIMENT_LEDGER.json:EXP-NGMT-V01","integrity":"frozen reproduced record","supports":"B3 superiority gates fail; clean-regression gate passes","does_not_support":"NGMT superiority or v0.1 rescue"},
+    {"id":"EV-T2424-1863","class":"frozen_experiment_record","project":"T2424-1863","locator":"EXPERIMENT_LEDGER.json:EXP-P2424-1863","integrity":"frozen reproduced record","supports":"frozen >75% gate failed","does_not_support":"operator superiority"}
+  ]
+}
