@@ -1,6 +1,6 @@
 # NEXT TASK QUEUE
 
-**Rescored:** 2026-08-14 23:05 IST.  
+**Rescored:** 2026-08-15 02:00 IST.  
 **Rule:** information gain × closure probability × evidence value ÷ cost. Dependencies are hard. **Zero new major scientific experiment runs are authorized.**
 
 ## 1 — PERCY-STATE-001 — P0 / BLOCKED_EXTERNAL_MAC
@@ -12,7 +12,11 @@ Historical Wave-001 is checksum-recovered: bundle SHA-256 `4c685af70d84052c02660
 **Next gate:** recover/hash the later dirty Mac overlay and cross-generation identity-migration provenance, then build a collision-aware child map. Historical `P2424-*` and current `T2424-*` assignments demonstrably collide; never join by numeric suffix or add historical counts.
 
 ## 3 — VERTEX-PROD-001 — P0 PRODUCT / BLOCKED_EXTERNAL_DEPLOYMENT_IDENTITY
-Monitor `31817794439` saw a healthy public surface but no immutable revision; expected `e2ecd19ed9816f8f36369c7dc0f38e39942ca73a`; artifact `9225715176`, SHA-256 `e7870e9561748ef4d4247e3bf4e01d3e8feead3780c4e2016d3742d134f2069a`. Existing authorized capacity only. Prove exact served revision/deployment ID, monitor PASS, then disposable-account auth/onboarding/persistence/isolation/recovery/logout/admin cleanup. No paid workaround.
+Latest canonical scheduled monitor `31827246777` on control `main@01bd8e78d70950a8f9cf7b27aa16d2ccd24af1df` failed all three bounded attempts: `/api/health` remained healthy but omitted immutable revision, so it could not match expected deploy revision `e2ecd19ed9816f8f36369c7dc0f38e39942ca73a`. Homepage, unknown-route 404, malformed waitlist 400, logged-out ask/user-content/admin 401 and untrusted-origin 403 boundaries passed. Artifact `9229274951`, SHA-256 `04cd906474b50afd29cf0b337b179a237c88fb16af7e165729ebad6fb56aa4ee`. Current source main has successful Vercel status contexts, but those do not prove which immutable revision `www.vertexed.app` serves.
+
+Fresh connected Supabase evidence remains partial rather than production certification: project `xwlrzgfuhfbckgvcmyoq` is `ACTIVE_HEALTHY`, all 26 observed public base tables are RLS-enabled, and the current security advisor has two WARN findings—leaked-password protection disabled and hosted PostgreSQL security patches available.
+
+**Next gate:** existing authorized capacity only. Prove exact served revision/deployment ID and monitor PASS, then disposable-account auth/onboarding/persistence/isolation/recovery/logout/admin cleanup. Owner may separately remediate the two platform warnings; do not spend for capacity, weaken the revision gate, or infer production GREEN from source/Vercel/database metadata.
 
 ## 4 — FINANCEMETA-REVIEW-001 — P0 PRODUCT / SOURCE RECOVERED, EXACT-HEAD ACTIONS RED, WRITE BLOCKED
 `build-the-future-11/finance4all-global-reach`; existing `cursor/membership-security-supabase-fix@6dcc03710bb6adf9b4b722b308c40a0720bea61f` is 41 ahead / 0 behind recovered `main@fbdd503223edc5b1780509720391083f485a4a85`. Source hardening is substantive, but exact-head Actions run `29641469740` concluded **failure** with zero jobs exposed. The workflow has duplicate Vite env mappings that require owner-writable CI-definition repair/verification; exact parser text is unavailable. Vercel `5501026657` is successful **Preview only**. Fresh PR/branch writes via this integration return 403.
