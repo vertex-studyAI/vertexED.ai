@@ -1,390 +1,534 @@
-schema_version: 1
-as_of: 2026-08-02
-status_values: [ACTIVE, MAINTENANCE, BLOCKED, BACKLOG, PAUSED, ARCHIVED]
+schema_version: 2
+as_of: "2026-08-14T22:47:00+05:30"
+registry_state: PARTIAL
+registry_complete: false
+truth_states: [VERIFIED, PARTIAL, BLOCKED, UNKNOWN, FAILED, INCONCLUSIVE, STALE, ARCHIVED]
+dispositions: [A_PUBLISH, B_PRODUCTIZE, C_CONTINUE_EXPERIMENTATION, D_NEGATIVE_RESULT, E_ARCHIVE_MERGE, F_EXTERNALLY_BLOCKED]
+
+truth_rules:
+  - absence_of_evidence_is_UNKNOWN
+  - registration_is_not_implementation
+  - implementation_is_not_execution
+  - execution_is_not_reproduction
+  - source_or_CI_is_not_production
+  - reproduction_is_not_external_validation
+  - draft_is_not_submission
+  - submission_is_not_acceptance
+  - frozen_negative_results_are_not_rescued_in_place
+  - project_count_is_not_research_completion
+  - null_disposition_means_the_source_or_evidence_gate_is_not_closed
+
 limits:
   active_products_max: 3
   active_research_max: 5
-  active_products_now: 3
-  active_research_now: 0
+  major_scientific_runs_authorized: 0
+
 source_of_truth:
-  host: vertex-studyAI/vertexED.ai/portfolio
-  temporary: true
-  reason: no dedicated control repository is available through the current tools
-  migration_gate: create and connect a dedicated portfolio-control repository
-projects:
-  - name: VertexED.ai
+  control_repository: vertex-studyAI/vertexED.ai
+  control_revision_at_reconciliation: cba143c31af1545e14d3ae86729208f47ea395be
+  hierarchy_document: PORTFOLIO_CANONICALIZATION.md
+  project_native_artifacts_override_summary_for_raw_results: true
+  percy_live_truth: existing SQLite/WAL/checkpoints on the real Mac host
+  project_2424_live_truth: recovered historical bundle plus later preserved local overlay plus provenance-backed identity migration
+  product_live_truth: exact served deployment plus target database/auth/journey evidence
+  note: This is the cross-portfolio family registry. It does not synthesize missing Project 2424 identity mappings or unavailable runtime evidence.
+
+recovery_boundaries:
+  percy_real_host_visible: false
+  project_2424_wave001_base_recovered: true
+  project_2424_later_dirty_overlay_recovered: false
+  project_2424_current_identity_migration_recovered: false
+  financemeta_production_database_connected: false
+  bu1ld_production_database_connected: false
+  full_repository_universe_proven_complete: false
+  consequence: Unrecovered identities remain UNKNOWN or BLOCKED and no portfolio-wide completion percentage is asserted.
+
+canonical_projects:
+  - id: vertexed
+    name: VertexED.ai
     category: product
-    status: ACTIVE
-    owner: build-the-future-11
+    evidence_state: PARTIAL
+    disposition: B_PRODUCTIZE
     repository: vertex-studyAI/vertexED.ai
-    local_path: unknown
-    deployment: https://www.vertexed.app
-    users: unknown
-    last_verified_activity: 2026-08-02
-    current_milestone: authenticated production certification
-    completion_condition: issue 13 passes admin approval, account creation, login or OAuth, core AI features, planner persistence, logout authorization, environment verification, and Supabase checks
-    next_action: execute issue 13 when disposable accounts and read-only production access are supplied
-    blockers: [no disposable production admin, no disposable approved beta account, no connected Supabase or Vercel dashboard]
-    tests: 96 application/API tests, 20 deterministic evaluations, and 52 live public browser checks passed
-    documentation: [docs/RELEASE_STATUS_2026-08-02.md, docs/ENVIRONMENT_MATRIX.md, docs/PRODUCTION_SQL_CHECKS.sql]
-    evidence: [PR 9, PR 12, commit 1f88db2adb70a52acf06457b577848ad9100fe39, issue 13]
-    priority_score:
-      value: 3000
-      factors: {impact: 10, urgency: 10, probability_of_success: 9, portfolio_value: 10, effort: 3}
-    review_date: 2026-08-03
-
-  - name: FinanceMeta
-    category: product_and_education
-    status: ACTIVE
-    owner: build-the-future-11
-    repository: build-the-future-11/finance4all-global-reach
-    local_path: unknown
-    deployment: unknown
-    users: user-reported approximately 10000 total and 500 active; not independently verified
-    last_verified_activity: 2026-07-10
-    current_milestone: audit and stabilize visitor to saved-progress journey
-    completion_condition: a new user registers, selects one program, completes one activity, saves progress, signs out, returns, and receives a correct next action
-    next_action: grant the connected GitHub App write access, apply the prepared production-hardening patch, connect production Supabase, then verify the golden journey
-    blockers: [GitHub branch creation returns integration-level 403, production Supabase project not connected, production deployment URL and test account not yet verified]
-    tests: current main has one placeholder truth test and no GitHub Actions workflow
-    documentation: repository deployment docs plus File Library executive audits
-    evidence: [repository build-the-future-11/finance4all-global-reach, latest commit fbdd503223edc5b1780509720391083f485a4a85, src/test/example.test.ts, artifact financemeta_production_hardening_v2.sh]
-    priority_score:
-      value: 1440
-      factors: {impact: 9, urgency: 8, probability_of_success: 8, portfolio_value: 10, effort: 4}
-    review_date: 2026-08-03
-
-  - name: The Bu1LD
-    category: product_research_community_and_incubator
-    status: ACTIVE
-    owner: ryangomez010 and The Bu1LD team
-    repository: ryangomez010/bu1ld-landing
-    local_path: unknown
-    deployment: https://thebu1ld.com
-    users: user-reported 300+ active members and 100+ projects or startups; not independently verified
-    last_verified_activity: 2026-08-02
-    current_milestone: production environment and role-journey certification
-    completion_condition: issue 16 passes the strict production gate, migrations through phase33, live schema and RLS checks, seven separated role journeys, email and digest checks, account export and deletion, and Cloudflare health verification
-    next_action: grant the connected GitHub App write access, connect the production Supabase and Cloudflare projects, then execute issue 16
-    blockers: [GitHub branch creation returns integration-level 403, production Supabase project is not connected, Cloudflare project is not connected, disposable role accounts and production-only secrets are unavailable]
-    tests: repository report records 95 local tests plus TypeScript, ESLint, and production client and SSR builds passing; not independently rerun in this environment
-    documentation: [README.md, DEPLOYMENT.md, FINAL_COMPLETION_REPORT.md, REMAINING_EXTERNAL_ACTIONS.md]
-    evidence: [repository ryangomez010/bu1ld-landing, latest commit daa80c1124b2a6d7d09b7669e04d29e50cffcbbe, https://thebu1ld.com, issue 16]
-    priority_score:
-      value: 1280
-      factors: {impact: 8, urgency: 8, probability_of_success: 8, portfolio_value: 10, effort: 4}
-    review_date: 2026-08-03
-
-  - name: Project 2424 / Typhon
-    category: research_portfolio
-    status: BLOCKED
-    owner: Ryan Gomez and research leads
-    repository: local Git repository with bundle origin Project_2424_Ready.bundle; no durable hosted remote verified
-    local_path: /Volumes/PRO-BLADE/Atlas/Project-2024/Project_2424
-    deployment: /home/ryan/projects/project-2424 on Inkling is currently a marker-only non-Git directory
-    users: not_applicable
-    last_verified_activity: 2026-08-02
-    current_milestone: preserve and restore the canonical repository on Inkling, rerun the baseline gate, reconcile conflicting histories, and select exactly five flagships
-    completion_condition: issue 20 verifies the Git bundle and working-tree overlay restore, reruns repository tests and audits with raw logs, reconciles the 24, 34, 55, and 2424 project claims, and produces five evidence-backed research contracts
-    next_action: run portfolio/scripts/restore_project2424_to_inkling.sh --verify from the Mac with the PRO-BLADE mounted and authenticated gcloud access
+    source_state: VERIFIED
+    production_state: BLOCKED
+    production_url: https://www.vertexed.app
+    verified_boundary:
+      - source repository and control evidence are accessible
+      - Production Health Monitor run 31817794439 reached the public service
+      - public, API-router, logged-out auth, malformed-input and origin smoke boundaries passed
+      - live health remained revisionless on three bounded attempts
+      - connected Supabase inspection observed 26 public base tables with RLS enabled and no public views
     blockers:
-      - the canonical source and substantial uncommitted seven-phase work exist only on the PRO-BLADE
-      - the prior Inkling sync produced only INKLING.md rather than a Git repository
-      - historical test and project-count claims have not been independently rerun against the current source
-      - no durable hosted remote for the current repository is verified
-    tests: historical handoffs report 31 repository tests, 34 project suites, 125 project tests, and later 55 local-scope project passes; all remain historical until the restored current source is rerun
-    documentation: [portfolio/scripts/restore_project2424_to_inkling.sh, issue 20, file-library:START_HERE.md, file-library:Project_2424_Mega_Research_Foundry.xlsx]
-    evidence:
-      - canonical local source /Volumes/PRO-BLADE/Atlas/Project-2024/Project_2424
-      - bundle origin /Volumes/PRO-BLADE/Project-2024/Project_2424_Execute_Now/Project_2424_Ready.bundle
-      - historical foundry commit 5952dd236638b48514071918fd083079fa517f03
-      - issue 20
-    priority_score:
-      value: unknown
-      reason: current source, dirty overlay, tests, experiments, and project counts must be restored and reconciled first
-    review_date: 2026-08-03
+      - exact served production revision unproved
+      - existing Vercel deployment capacity rate-limited; no paid upgrade authorized
+      - authenticated disposable-account golden journey incomplete
+      - Supabase leaked-password protection warning open
+      - supported hosted Postgres security update open
+    next_gate: Use existing authorized deployment capacity only; prove exact served revision and monitor PASS, then complete signup/auth/onboarding/core-save-retrieve/isolation/logout/recovery/admin journey and cleanup.
+    claims_forbidden: [production_complete, users_without_external_evidence, retention_without_observation]
 
-  - name: Hercules
-    category: research_system
-    status: BLOCKED
-    owner: unknown
-    repository: unknown
-    local_path: unknown
-    deployment: not_applicable
-    users: not_applicable
-    last_verified_activity: unknown
-    current_milestone: one matched-compute bounded benchmark
-    completion_condition: baseline and Hercules variant reproduce with raw metrics, memory, latency, and failure analysis
-    next_action: connect canonical source and benchmark artifacts
-    blockers: [repository and results unavailable]
-    tests: unknown
-    documentation: File Library context only
-    evidence: [file-library:Ryan_72H_Execution_War_Room_2026-07-30.xlsx]
-    priority_score: {value: unknown, reason: maturity and compute cost unverified}
-    review_date: 2026-08-09
+  - id: financemeta
+    name: FinanceMeta
+    aliases: [Finance Matters, Finance 4 All]
+    category: product_and_education
+    evidence_state: PARTIAL
+    disposition: B_PRODUCTIZE
+    repository: build-the-future-11/finance4all-global-reach
+    source_main: fbdd503223edc5b1780509720391083f485a4a85
+    retained_hardening_branch: cursor/membership-security-supabase-fix
+    retained_hardening_head: 6dcc03710bb6adf9b4b722b308c40a0720bea61f
+    branch_relation: 41_commits_ahead_0_behind_at_recovery
+    source_state: PARTIAL
+    preview_state: VERIFIED
+    production_state: BLOCKED
+    verified_boundary:
+      - E2E credentials are environment-only, not committed live credentials
+      - retained migrations materially narrow profile writes, notification ownership, moderation and SECURITY DEFINER search paths
+      - exact hardening head GitHub Actions run 29641469740 concluded failure and exposed zero jobs
+      - Vercel deployment 5501026657 for the exact hardening SHA succeeded as Preview only and is not a production environment
+      - fresh PR and branch-creation attempts through this integration return 403
+    blockers:
+      - exact-head Actions workflow definition and gates are not green
+      - current integration cannot create a review branch or PR in the target repo
+      - live FinanceMeta Supabase target is not connected
+      - production served revision and multi-account denial journeys are unverified
+    next_gate: Owner-writable GitHub path preserves current hardening head, fixes and validates the CI-definition defect, executes exact-head Actions gates, reviews and merges only on evidence, then separately verifies live Supabase migrations/RLS/revision/isolation/recovery/admin behavior.
+    claims_forbidden: [production_hardened, production_migrations_applied, live_rls_verified, adoption_without_external_evidence]
 
-  - name: Olympus
-    category: research_system
-    status: BLOCKED
-    owner: unknown
-    repository: unknown
-    local_path: unknown
-    deployment: not_applicable
-    users: not_applicable
-    last_verified_activity: unknown
-    current_milestone: compact reference implementation
-    completion_condition: a small model trains, saves, loads, and infers reproducibly with a defined benchmark
-    next_action: connect source, owner, and evidence
-    blockers: [source, weights, results, and owner unavailable]
-    tests: unknown
-    documentation: File Library specifications only
-    evidence: [file-library:00_ULTIMATE_PORTFOLIO_CONTEXT.md]
-    priority_score: {value: unknown, reason: maturity and effort unverified}
-    review_date: 2026-08-09
+  - id: bu1ld
+    name: The Bu1LD
+    category: product_research_community_and_incubator
+    evidence_state: PARTIAL
+    disposition: B_PRODUCTIZE
+    repository: ryangomez010/bu1ld-landing
+    source_head: daa80c1124b2a6d7d09b7669e04d29e50cffcbbe
+    production_url: https://thebu1ld.com
+    source_state: VERIFIED
+    production_state: BLOCKED
+    verified_boundary:
+      - exact-head CI run 29679123068 succeeded
+      - current source apply and verify chain reaches Supabase phase33
+      - profile role self-escalation is blocked by a database trigger retained in final setup
+      - later phases add role/review/invitation/deliverable/membership authorization boundaries, no-self-review contribution control and atomic project application submission
+      - .env.example uses placeholders and keeps database/service-role/email secrets server-side
+      - wrangler.jsonc contains no Supabase or service-role secret values
+      - exact-head Deploy Cloudflare run 29679123047 failed before deployment because required public Supabase deployment variables were empty; deploy job was skipped
+      - no successful Deploy Cloudflare run on main was recovered
+    blockers:
+      - production VITE_SUPABASE_URL and anon or publishable key are not configured in the deploy workflow environment
+      - live Bu1LD Supabase target is not connected here, so applied phase33/RLS/grants/functions are unverified
+      - Auth Site URL, redirects, email/service-role server secrets and exact production deployment identity are unverified
+      - seven-role authenticated journey and denial paths remain unverified
+    next_gate: Owner configures deployment secrets through the platform rather than source; connect and verify live Supabase phase33/RLS/functions; configure Auth/email; rerun exact-head Cloudflare deployment to an immutable identity; execute seven-role journey with recovery/logout and cleanup.
+    claims_forbidden: [production_complete, live_rls_verified, active_member_count_without_external_evidence]
 
-  - name: Inkling
-    category: infrastructure
-    status: BLOCKED
-    owner: Ryan Gomez
-    repository: infrastructure source not connected
-    local_path: /home/ryan/projects on inkling-agent
-    deployment: GCP VM inkling-agent in us-central1-a; prior health logs show core dashboard services reachable
-    users: unknown
-    last_verified_activity: 2026-08-02
-    current_milestone: restore real Git checkouts and verify control-plane health, security, persistence, and recovery
-    completion_condition: source, VM identity, services, auth, health, logs, restart, project checkouts, and recovery checks pass
-    next_action: execute the Project 2424 restore in issue 20, then audit every project directory and the Open WebUI CORS configuration
-    blockers: [cloud connector unavailable in this session, project directories were marker-only rather than Git repositories, Open WebUI previously reported wildcard CORS]
-    tests: historical logs show LiteLLM, Open WebUI, n8n, Qdrant, and Redis responding, but project checkout integrity failed
-    documentation: [file-library Inkling terminal records, issue 20]
-    evidence: [Inkling audit showing project-2424/INKLING.md only, dashboard tunnel and service health logs]
-    priority_score: {value: unknown, reason: current VM state cannot be directly rechecked from connected tools}
-    review_date: 2026-08-03
+  - id: percy
+    name: Percy / Percy Prime
+    category: orchestration_infrastructure
+    evidence_state: BLOCKED
+    disposition: B_PRODUCTIZE
+    repository: UNKNOWN
+    live_path: /Volumes/PRO-BLADE/Atlas/Percy
+    logical_agent_address_space_declared: 1000000
+    logical_agent_address_space_is_execution_count: false
+    current_live_values:
+      sqlite_integrity: UNKNOWN
+      wal_state: UNKNOWN
+      physical_workers: UNKNOWN
+      real_task_counts: UNKNOWN
+      leases: UNKNOWN
+      heartbeats: UNKNOWN
+      dirty_worktrees: UNKNOWN
+    verified_boundary:
+      - control documents are not live runtime truth
+      - a prior real-Mac preflight recorded internal free space below Percy's 25 GiB safety floor, but that observation is historical and must be remeasured
+    blockers: [real Mac host unavailable to this execution surface]
+    next_gate: Non-destructive current free-space measurement, checksummed SQLite/WAL/checkpoint snapshot, integrity/schema, independent counters, leases/heartbeats/stale reconciliation and dirty-worktree inventory. Never reset or replace the DB.
 
-  - name: FCC
-    category: infrastructure
-    status: BLOCKED
-    owner: unknown
-    repository: unknown
-    local_path: unknown
-    deployment: user-reported local service; not independently verified
-    users: unknown
-    last_verified_activity: unknown
-    current_milestone: verify routing, authentication, health, logs, and restart behavior
-    completion_condition: canonical source, provider matrix, health checks, tests, failure handling, and runbook pass
-    next_action: connect source and running-service evidence
-    blockers: [source and service unavailable]
-    tests: unknown
-    documentation: File Library context only
-    evidence: [file-library:00_ULTIMATE_PORTFOLIO_CONTEXT.md]
-    priority_score: {value: unknown, reason: current service state unverified}
-    review_date: 2026-08-09
+  - id: project_2424
+    name: Project 2424 / Typhon
+    category: research_portfolio
+    evidence_state: PARTIAL
+    disposition: null
+    disposition_state: BLOCKED
+    registered_identity_target: 2424
+    identity_boundary: 2,424 unique registry identities do not equal 2,424 source packages, experiments, papers or releases.
+    source_recovery_record: portfolio/project2424/PROJECT_2424_SOURCE_RECOVERY_20260814.md
+    historical_wave001_bundle_sha256: 4c685af70d84052c026602ff7336a522c741d91fb480038e980c21f0bbc63ece
+    historical_wave001_head: ff609f335f91297357b430a2531633fe111cd5a9
+    historical_wave001_source_packages: 24
+    historical_wave001_registry_rows: 2424
+    historical_wave001_independent_reproductions: 0
+    historical_wave001_release_state: RELEASE_REJECTED
+    later_canonical_local_source: /Volumes/PRO-BLADE/Atlas/Project-2024/Project_2424
+    later_dirty_overlay_recovered: false
+    verified_boundary:
+      - checksum-matched historical Wave-001 bundle has complete Git history and passed a fresh disposable clean-clone quality gate
+      - recovered registry has 2,424 rows, 2,424 unique IDs and 2,424 unique slugs
+      - only 24 source-backed Wave-001 packages are present: 4 controlled experimental validations, 4 executable demonstrations and 16 compact baseline or idea tests
+      - 24 of 24 project suites and bounded pilots pass in the recovered historical bundle; this is not outside independent scientific reproduction
+      - multiple retained P2424 registries conflict on the same numeric suffixes and the current T2424 namespace conflicts again, proving numeric suffix alone is not a safe canonical key
+    blockers:
+      - later dirty Mac overlay or byte-identical archive not recovered
+      - provenance of historical P2424 remaps and transition to current T2424 identities not recovered
+      - full collision table and provenance-backed 2,424 child map not closed
+    next_gate: Recover/hash the later overlay, recover identity migration/canonicalization records, then build a collision-aware provenance map while keeping current T2424 implementations and negative results separate until mapping edges are proven.
+    claims_forbidden: [2424_implemented, 2424_research_complete, 2424_publishable, 2424_independently_reproduced]
 
-  - name: LAM-JEPA
+  - id: lam_jepa
+    name: LAM-JEPA
     category: research
-    status: PAUSED
-    owner: unknown
+    evidence_state: VERIFIED
+    disposition: A_PUBLISH
     repository: vertex-studyAI/LAM-JEPA
-    local_path: unknown
-    deployment: none found
-    users: unknown
-    last_verified_activity: 2026-05-16
-    current_milestone: none while paused
-    completion_condition: resume only with an owner and seven-day gate for install, seeded benchmark, automated tests, CI, and raw results
-    next_action: assign an owner and compute window or leave paused
-    blockers: [one visible commit, no tests or CI found, no owner, no reproduced benchmark]
-    tests: none discovered
-    documentation: [README.md, pyproject.toml]
-    evidence: [commit 55cf72c7d7d15362765d3d6adac16f232bee274a]
-    priority_score: {value: unknown, reason: no owner or reproduced baseline}
-    review_date: 2026-08-09
+    result_state: REPRODUCIBLE_NEGATIVE_INTERNAL_PACKAGE
+    verified_boundary:
+      - frozen ARC result remains negative or inconclusive
+      - raw-artifact provenance and deterministic paper assets were internally reconciled
+      - immutable external reproduction and review packet exists
+    blockers:
+      - owner-controlled license, authorship, citation, redistribution and release revision
+      - genuine independent reproduction or skeptical outside review has not returned
+    next_gate: Owner metadata closure plus outside reproduction or review of the immutable packet. No rescue or locked-test unlock.
+    claims_forbidden: [superiority, external_validation_complete, published, accepted]
 
-  - name: Text-to-Video
-    category: product_research
-    status: PAUSED
-    owner: unknown
+  - id: iris_v02
+    name: IRIS v0.2
+    category: research
+    evidence_state: PARTIAL
+    disposition: C_CONTINUE_EXPERIMENTATION
+    repository: vertex-studyAI/vertexED.ai
+    source_recovery_commit: d92e06deaa893bfb8273f3f781105ecb155e8aca
+    result_state: MIXED_NEGATIVE_DEVELOPMENT_GATE
+    verified_boundary:
+      - checksum-backed retained bundle, addendum, common harness and source lineage recovered
+      - existing mixed or negative result unchanged
+    blockers:
+      - exact canonical development trajectories unresolved
+      - exact frozen adaptation-metric source provenance unresolved
+    next_gate: Recover exact trajectories and metric provenance or record PROTOCOL_BLOCKED. Confirmatory seeds 1000-1029 remain forbidden and approximate regeneration is prohibited.
+    claims_forbidden: [successor_authorized, confirmatory_result, superiority]
+
+  - id: neurocad_v1
+    name: NeuroCAD v1 software result
+    aliases: [NLP-to-CAD]
+    category: research_product
+    evidence_state: VERIFIED
+    disposition: B_PRODUCTIZE
+    result_state: HISTORICAL_CONTROLLED_SOFTWARE_RESULT
+    next_gate: Product work only on fresh usefulness/reliability evidence; later repairs do not rewrite frozen v1.
+
+  - id: neurocad_component_v2
+    name: NeuroCAD typed-parser causal mechanism v2
+    category: research
+    evidence_state: VERIFIED
+    disposition: D_NEGATIVE_RESULT
+    result_state: VALIDATION_DOMINANT_CAUSAL_MECHANISM_FALSIFIED
+    next_gate: Preserve negative mechanism result. A new scientific version requires a broader new dataset plus a competent model or program-generation baseline.
+    claims_forbidden: [typed_parser_causal_benefit_on_reused_diagnostic]
+
+  - id: ngmt_v01
+    name: NGMT v0.1
+    category: research
+    evidence_state: VERIFIED
+    disposition: D_NEGATIVE_RESULT
+    result_state: REPRODUCED_NEGATIVE
+    next_gate: Preserve v0.1; any successor is a new version with a new frozen protocol.
+    claims_forbidden: [v01_superiority]
+
+  - id: t2424_0025
+    name: T2424-0025 Non-Gaussian Memory Transformer precursor
+    category: research
+    evidence_state: VERIFIED
+    disposition: C_CONTINUE_EXPERIMENTATION
+    result_state: PRECURSOR_MECHANISM_NOT_UNIQUE
+    next_gate: Any causal learned-memory test is a separate frozen experiment and cannot inherit NGMT success.
+
+  - id: apen
+    name: APEN
+    category: research
+    evidence_state: PARTIAL
+    disposition: C_CONTINUE_EXPERIMENTATION
+    result_state: CONTROLLED_MIXED
+    next_gate: Matched learned plus naturalistic-salience test only under a new frozen protocol.
+
+  - id: pen
+    name: PEN
+    category: research
+    evidence_state: BLOCKED
+    disposition: null
+    repository: UNKNOWN
+    blockers: [canonical source unavailable]
+    next_gate: Recover source and unique hypothesis; APEN evidence does not transfer to PEN.
+
+  - id: eigen_jepa
+    name: Eigen-JEPA
+    category: research
+    evidence_state: VERIFIED
+    disposition: D_NEGATIVE_RESULT
+    result_state: REAL_DATA_MIXED_NEGATIVE_CURRENT_VERSION
+    next_gate: Preserve current result. A new version requires stronger spectral baselines and a frozen multi-dataset hierarchy; no metric shopping.
+
+  - id: eigen_finance
+    name: Eigen-Finance
+    category: research
+    evidence_state: BLOCKED
+    disposition: null
+    blockers: [canonical source and distinct contribution unresolved]
+    next_gate: Recover and compare canonical source before assigning a new active lane.
+
+  - id: npms
+    name: NPMS
+    category: research
+    evidence_state: PARTIAL
+    disposition: C_CONTINUE_EXPERIMENTATION
+    result_state: BOUNDED_EVIDENCE_SOURCE_GATED
+    verified_boundary:
+      - retained bounded diagnostic evidence and known negative spectral, switching and truncation cases exist
+      - retained package is not proof of the original scientific implementation rerun
+    blockers: [original source, config, checkpoint, result and manuscript identity not cleanly migrated and rerun]
+    next_gate: Recover original scientific source and hashes, rerun retained bounded evidence or record SOURCE_UNRECOVERED before natural or OOD expansion.
+
+  - id: darcy_t2424_0050
+    name: T2424-0050 Darcy Latent Operator
+    category: research
+    evidence_state: PARTIAL
+    disposition: C_CONTINUE_EXPERIMENTATION
+    result_state: BOUNDED_PARENT_MECHANISM_V2_PROTOCOL_FROZEN_NOT_RUN
+    protocol_commit: 6fbd9c4ba73a460f5abbe6a6f4c478b6bc50e389
+    scaffold_commit: 4280156c94fdac3e92ff300e743e2f2899cd4869
+    safety_commit: daf548fa9b3953c3d7e188191588a84a04c98093
+    verified_boundary:
+      - parent aligned synthetic mechanism remains retained
+      - v2 protocol froze before outcomes
+      - deterministic generator and fixed controls plus machine-readable pretraining locks are materialized
+      - accidental CI solver-metric computation on frozen OOD-C seed 320007 is procedural contamination and invalid non-evidence; the case, seed, gates and thresholds remain unchanged
+      - current solver-metric unit check uses a hand-constructed non-protocol fixture
+    blockers:
+      - periodic or circulant finite-grid covariance interpretation approval
+      - OOD-D global-offset interpretation approval
+      - learned environment lock
+      - hardware identity
+      - B2 PCA plus ridge implementation hash
+      - B3 FNO implementation hash
+      - B4 DeepONet implementation hash
+      - split manifest hash
+    next_gate: Close every pretraining blocker and commit exact freeze revision before learned training or ID/OOD outcome evaluation. Any material post-outcome change requires a new protocol version.
+    claims_forbidden: [v2_executed, learned_operator_superiority, ood_superiority]
+
+  - id: t2424_0027
+    name: T2424-0027
+    category: research
+    evidence_state: VERIFIED
+    disposition: C_CONTINUE_EXPERIMENTATION
+    result_state: SYNTHETIC_AUDIT
+    next_gate: Real encoder/data required before broader claim.
+
+  - id: t2424_0028_0029
+    name: T2424-0028 / T2424-0029
+    category: research
+    evidence_state: VERIFIED
+    disposition: E_ARCHIVE_MERGE
+    result_state: BOUNDED_MECHANICS_ACTIVE_COMPUTE_ARCHIVED
+    next_gate: Reactivate only under a serious new external or scientific gate.
+
+  - id: t2424_1863
+    name: T2424-1863 Resource-Bounded Local Operator
+    category: research
+    evidence_state: VERIFIED
+    disposition: D_NEGATIVE_RESULT
+    result_state: REPRODUCED_NEGATIVE
+    next_gate: Preserve result; only a genuinely new real-PDE protocol may reopen the line.
+
+  - id: hercules
+    name: Hercules
+    category: research_system
+    evidence_state: BLOCKED
+    disposition: E_ARCHIVE_MERGE
+    result_state: ACTIVE_COMPUTE_ARCHIVED
+    repository: UNKNOWN
+    blockers: [canonical source or mechanism and decisive matched-budget learned result unavailable]
+    next_gate: Recover canonical source and freeze one decisive matched-budget protocol before significant training.
+    claims_forbidden: [trained_capability, parameter_scale_capability]
+
+  - id: olympus
+    name: Olympus family
+    aliases: [Hermes, Prometheus, Perseus, Atlas, Kronos, Aion, Themis, Pantheon, Mnemosyne]
+    category: research_system
+    evidence_state: BLOCKED
+    disposition: E_ARCHIVE_MERGE
+    result_state: ACTIVE_COMPUTE_ARCHIVED
+    repository: UNKNOWN
+    next_gate: Recover real implementations, separate architecture, runtime and governance artifacts, then freeze matched task/provider/tool budgets before any capability claim.
+    claims_forbidden: [trained_capability_from_name_or_parameter_target]
+
+  - id: text_to_video
+    name: Text-to-Video / Notes-to-Video V6
+    category: product_research_child
+    evidence_state: VERIFIED
+    disposition: E_ARCHIVE_MERGE
+    parent: vertexed
     repository: vertex-studyAI/Text-To-Video
-    local_path: unknown
-    deployment: none found
-    users: unknown
-    last_verified_activity: 2026-05-17
-    current_milestone: none while paused
-    completion_condition: resume only with an owner and a tested end-to-end demo completed within seven days
-    next_action: preserve and leave paused until it directly supports a stable VertexED journey
-    blockers: [one visible commit, no tests found, no deployment, no owner]
-    tests: root command declared; implementation not discovered
-    documentation: [README.md, package.json, pnpm-workspace.yaml]
-    evidence: [commit fecd65f721d6d9e92b7fa937c83dcaba657c69c7]
-    priority_score: {value: unknown, reason: no tested demo or owner}
-    review_date: 2026-08-09
+    result_state: LOCAL_ENGINEERING_CHILD_NOT_PRODUCTION
+    next_gate: Keep under VertexED; no standalone expansion unless parent-product validation proves a real need.
 
-  - name: APEN
+  - id: inkling
+    name: Inkling
+    category: infrastructure
+    evidence_state: BLOCKED
+    disposition: B_PRODUCTIZE
+    repository: UNKNOWN
+    next_gate: Restore or verify real checkout and current service/auth/health/log/restart/recovery state only with authorized cloud access.
+
+  - id: fcc
+    name: FCC
+    category: infrastructure
+    evidence_state: UNKNOWN
+    disposition: null
+    repository: UNKNOWN
+    next_gate: Recover canonical source and running-service evidence before routing, auth or health claims.
+
+  - id: ripii
+    name: RIPII
     category: research
-    status: BLOCKED
-    owner: unknown
-    repository: unknown
-    local_path: unknown
-    deployment: not_applicable
-    users: not_applicable
-    last_verified_activity: unknown
-    current_milestone: verify causal-memory architecture and evidence
-    completion_condition: P2424-0205 has code, data contract, baseline, intervention benchmark, ablation, raw results, and reproduction command
-    next_action: connect source and artifacts
-    blockers: [canonical repository unavailable]
-    tests: unknown
-    documentation: identified as P2424-0205 in File Library
-    evidence: [file-library:00_ULTIMATE_PORTFOLIO_CONTEXT.md]
-    priority_score: {value: unknown, reason: code unavailable}
-    review_date: 2026-08-09
+    evidence_state: BLOCKED
+    disposition: null
+    repository: UNKNOWN
+    next_gate: Recover canonical source, bounded hypothesis, baseline, metric, ablation and reproduction command.
 
-  - name: PEN
+  - id: pi_jepa
+    name: PI-JEPA
     category: research
-    status: BLOCKED
-    owner: unknown
-    repository: unknown
-    local_path: unknown
-    deployment: not_applicable
-    users: not_applicable
-    last_verified_activity: unknown
-    current_milestone: determine distinct identity versus APEN
-    completion_condition: canonical identity, unique hypothesis, source, and evidence are verified or scope is consolidated
-    next_action: connect and compare canonical sources
-    blockers: [source unavailable]
-    tests: unknown
-    documentation: consolidation recommendation only
-    evidence: [file-library:00_ULTIMATE_PORTFOLIO_CONTEXT.md]
-    priority_score: {value: unknown, reason: novelty and implementation unknown}
-    review_date: 2026-08-09
+    evidence_state: BLOCKED
+    disposition: null
+    repository: UNKNOWN
+    next_gate: Recover source, dataset and config and freeze a leakage-safe baseline/OOD matrix before experiment.
 
-  - name: RIPII
-    category: research
-    status: BLOCKED
-    owner: unknown
-    repository: unknown
-    local_path: unknown
-    deployment: not_applicable
-    users: not_applicable
-    last_verified_activity: unknown
-    current_milestone: verify bounded falsifiable experiment
-    completion_condition: P2424-0405 has code, baseline, controlled task, metric, ablation, failure criterion, and reproduction command
-    next_action: connect source and artifacts
-    blockers: [canonical repository unavailable]
-    tests: unknown
-    documentation: identified as P2424-0405 in File Library
-    evidence: [file-library:00_ULTIMATE_PORTFOLIO_CONTEXT.md]
-    priority_score: {value: unknown, reason: code unavailable}
-    review_date: 2026-08-09
-
-  - name: PI-JEPA
-    category: research
-    status: BLOCKED
-    owner: unknown
-    repository: unknown
-    local_path: unknown
-    deployment: not_applicable
-    users: not_applicable
-    last_verified_activity: unknown
-    current_milestone: leakage-safe scientific-ML baseline matrix
-    completion_condition: frozen data, strong baselines, OOD evaluation, physics metrics, compute comparison, seeds, ablation, and reproduction command pass
-    next_action: connect source, datasets, configs, and raw artifacts
-    blockers: [repository and datasets unavailable]
-    tests: unknown
-    documentation: File Library planning only
-    evidence: [file-library:00_ULTIMATE_PORTFOLIO_CONTEXT.md]
-    priority_score: {value: unknown, reason: code and data readiness unverified}
-    review_date: 2026-08-09
-
-  - name: Eigen-JEPA
-    category: research
-    status: BLOCKED
-    owner: unknown
-    repository: unknown
-    local_path: unknown
-    deployment: not_applicable
-    users: not_applicable
-    last_verified_activity: unknown
-    current_milestone: leakage-safe walk-forward finance benchmark
-    completion_condition: chronological splits, costs, turnover, multiple markets, stress regimes, baselines, ablations, and reproduction command pass
-    next_action: connect source, data contract, configs, and results
-    blockers: [repository and market-data contract unavailable]
-    tests: unknown
-    documentation: File Library planning only
-    evidence: [file-library:00_ULTIMATE_PORTFOLIO_CONTEXT.md]
-    priority_score: {value: unknown, reason: code and data readiness unverified}
-    review_date: 2026-08-09
-
-  - name: Eigen-Finance
-    category: research
-    status: BLOCKED
-    owner: unknown
-    repository: unknown
-    local_path: unknown
-    deployment: not_applicable
-    users: not_applicable
-    last_verified_activity: unknown
-    current_milestone: determine distinct identity versus Eigen-JEPA
-    completion_condition: canonical identity, unique contribution, source, and evidence are verified or scope is consolidated
-    next_action: connect and compare canonical sources
-    blockers: [source unavailable]
-    tests: unknown
-    documentation: consolidation recommendation only
-    evidence: [file-library:00_ULTIMATE_PORTFOLIO_CONTEXT.md]
-    priority_score: {value: unknown, reason: novelty and implementation unknown}
-    review_date: 2026-08-09
-
-  - name: NeuroCAD
+  - id: colorworld
+    name: Colorworld
     category: research_product
-    status: BLOCKED
-    owner: unknown
-    repository: unknown
-    local_path: unknown
-    deployment: unknown
-    users: unknown
-    last_verified_activity: unknown
-    current_milestone: editable CAD vertical slices
-    completion_condition: P2424-1213 has installable source, editable tasks, baselines, validity and editability metrics, tests, demo, and reproduction command
-    next_action: connect source, datasets, and demo evidence
-    blockers: [canonical repository unavailable]
-    tests: unknown
-    documentation: identified as P2424-1213 in File Library
-    evidence: [file-library:00_ULTIMATE_PORTFOLIO_CONTEXT.md]
-    priority_score: {value: unknown, reason: implementation maturity unverified}
-    review_date: 2026-08-09
+    evidence_state: UNKNOWN
+    disposition: E_ARCHIVE_MERGE
+    repository: UNKNOWN
+    next_gate: Remain inactive until source, owner, measurable task, baseline, metric and demo are recovered.
 
-  - name: Colorworld
+  - id: speechly
+    name: Speechly
     category: research_product
-    status: BLOCKED
-    owner: unknown
-    repository: unknown
-    local_path: unknown
-    deployment: unknown
-    users: unknown
-    last_verified_activity: unknown
-    current_milestone: verify one measurable end-to-end task
-    completion_condition: source, owner, input contract, baseline, metric, test, demo, and reproduction command are verified
-    next_action: connect canonical source and specification
-    blockers: [source, owner, scope, and evidence unavailable]
-    tests: unknown
-    documentation: File Library context only
-    evidence: [file-library:00_ULTIMATE_PORTFOLIO_CONTEXT.md]
-    priority_score: {value: unknown, reason: scope and maturity unverified}
-    review_date: 2026-08-09
+    evidence_state: UNKNOWN
+    disposition: E_ARCHIVE_MERGE
+    repository: UNKNOWN
+    next_gate: Remain inactive until source, licensed data, baseline, metric, error analysis and demo are recovered.
 
-  - name: Speechly
-    category: research_product
-    status: BLOCKED
-    owner: unknown
-    repository: unknown
-    local_path: unknown
-    deployment: unknown
-    users: unknown
-    last_verified_activity: unknown
-    current_milestone: real-data speech benchmark
-    completion_condition: source, licensed data, baselines, primary metric, subgroup or human evaluation, error analysis, demo, and reproduction command pass
-    next_action: connect source, data contract, and experiment evidence
-    blockers: [repository, code, data, and results unavailable]
-    tests: unknown
-    documentation: conference ledger marks readiness conditional no-go without evidence
-    evidence: [file-library:PORTFOLIO_COMMAND_CENTRE.xlsx]
-    priority_score: {value: unknown, reason: data and implementation maturity unverified}
-    review_date: 2026-08-09
+declared_unverified_identities:
+  evidence_state: UNKNOWN
+  disposition: null
+  note: Declared names are registered so they cannot disappear. Registration is not source recovery, implementation, execution or validation.
+  names:
+    - Research Atlas
+    - Atlas control systems
+    - Typhon standalone systems beyond recovered Project 2424 artifacts
+    - Vertex Sentinel
+    - HALO
+    - ULTRON
+    - LabOS
+    - ResearchOS
+    - UltraResearchOS
+    - ATHENA
+    - FORGE
+    - DAEDALUS
+    - Reproduce-X
+    - LATTICE
+    - ORACLE
+    - ARGUS
+    - HELIOS
+    - TEMPEST
+    - EIGEN Sentinel
+    - CHRONOS
+    - Genesis
+    - Aletheia
+    - AEGIS
+    - MINERVA
+    - ECONOS
+    - Auto-Research Foundry
+    - PST / T2424-0016
+    - FI-JEPA
+    - Weather-JEPA
+    - Climate-JEPA
+    - Scientific JEPA
+    - PDE JEPA
+    - Graph JEPA
+    - Multimodal JEPA
+    - Vision-Language JEPA
+    - Video JEPA
+    - Audio JEPA
+    - Tactile JEPA
+    - Biological JEPA
+    - Clinical JEPA
+    - Proof-Based JEPA
+    - Causal JEPA
+    - ThreeBody-JEPA-SMT
+    - Mahjong PB-JEPA
+    - MERCURY
+    - IPII
+    - ATG
+    - LGWM
+    - ESNF
+    - PRC
+    - Mesh Convolution Transformer
+    - Quantized JEPA selective predictor
+    - predictive-memory systems
+    - local world models
+    - Neural Flow Geometry Models
+    - biological/cellular intelligence systems
+    - uncertainty research
+    - spectral learning
+    - non-Gaussian learning
+    - neural operators
+    - scientific forecasting
+    - robust inference
+    - dynamical systems research
+    - representation learning research
+    - program synthesis research
+    - CAD and robotics research beyond NeuroCAD
+    - Bayes Cleaner
+    - Summit
+    - Obscured Records
+    - Obscured Records automation agent
+
+project_2424_declared_ids_requiring_provenance_join:
+  evidence_state: UNKNOWN
+  note: These names come from the current declared universe. They must not be joined to historical P2424 suffixes by number alone because recovered registries demonstrably collide.
+  ids:
+    - T2424-0016
+    - T2424-0019
+    - T2424-0023
+    - T2424-0024
+    - T2424-0025
+    - T2424-0026
+    - T2424-0027
+    - T2424-0028
+    - T2424-0029
+    - T2424-0030
+    - T2424-0034
+    - T2424-0035
+    - T2424-0036
+    - T2424-0038
+    - T2424-0040
+    - T2424-0046
+    - T2424-0049
+    - T2424-0050
+    - T2424-0051
+    - T2424-0053
+    - T2424-0054
+    - T2424-1530
+    - T2424-1767
+    - T2424-1768
+    - T2424-1861
+    - T2424-1863
+    - T2424-1931
+
+next_registry_gate:
+  id: P2424-CANON-002
+  action: Recover the later dirty Project 2424 overlay and identity-migration provenance, build a collision-aware map, and add newly discovered repositories without replacing evidence gaps with reconstructions.
