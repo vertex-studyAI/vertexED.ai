@@ -17,7 +17,7 @@
 | Hercules training/expansion | **KILL UNTIL FREEZE** | no matched-budget learned evidence | one canonical same-budget Transformer/proposal/ablation protocol |
 | Olympus expansion | **KILL UNTIL O1 FREEZE** | O0 only | matched-provider monolithic/full/ablations frozen |
 | PEN claims | **ARCHIVE/BLOCK** | standalone runnable distinct source unestablished | recover source + distinct protocol |
-| Text-to-Video new work | **ARCHIVE/UNTRIAGED** | no current owner/job/evidence gate | explicit user/product/research question + success metric |
+| **Text-To-Video as a separate product/project** | **ARCHIVE/MERGE INTO VERTEXED** | the repo is not empty/untriaged: Notes-to-Video V6 has verified local MP4 encoding, durable queue/retry/lease behavior and content-addressed local storage; however it is already a VertexED learning subsystem and has no independent user-validation case that justifies a second product lane | after VertexED exact production identity/auth journey is green, choose a single VertexED workflow; integrate Notes-to-Video only if that workflow needs it, then validate hosted storage/worker/narration boundaries explicitly |
 | speculative FinanceMeta/Bu1LD feature work while targets inaccessible | **KILL WHILE BLOCKED** | control-repo activity cannot validate target | exact target/runtime access |
 | stale `agent/*`, `status/*`, `repro-wave/*` branches | **ARCHIVE HISTORY** | branch count creates duplicate truth risk | reopen only if unique evidence is stranded |
 | decorative figures / unsupported paper prose | **KILL** | can imply nonexistent evidence | raw-data provenance + generation command |
@@ -31,3 +31,5 @@
 4. Darcy learned/OOD protocol freeze if canonical source is available.
 5. VertexED exact production identity and real workflow validation.
 6. NeuroCAD product reliability; scientific work only on a fresh dangerous-baseline benchmark.
+
+Notes-to-Video does not consume a separate product-validation slot. It is a verified local VertexED subsystem and should be activated only through a real VertexED user job.
