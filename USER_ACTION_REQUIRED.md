@@ -1,6 +1,6 @@
 # USER_ACTION_REQUIRED
 
-**As of:** 2026-08-14 final convergence sync. Only owner/local/external actions remain here.
+**As of:** 2026-08-15 04:00 IST. Only owner/local/external actions remain here.
 
 1. **Percy:** expose preserved `/Volumes/PRO-BLADE/Atlas/Percy`; snapshot/hash SQLite+WAL+checkpoint, integrity/schema, live counters, leases/heartbeats/stale workers and dirty worktrees. Never initialize replacement state.
 2. **Project 2424:** Wave-001 historical base is already recovered. Expose/hash the later `/Volumes/PRO-BLADE/Atlas/Project-2024/Project_2424` dirty overlay or byte-identical archive plus provenance/migration records explaining old `P2424-*` ↔ current `T2424-*` identities. Never remap by numeric suffix alone.
@@ -10,7 +10,7 @@
 6. **FinanceMeta CI/source review:** preserve existing `cursor/membership-security-supabase-fix@6dcc03710bb6adf9b4b722b308c40a0720bea61f` (41 ahead / 0 behind recovered main). Actions `29641469740` has zero jobs because `.github/workflows/ci.yml` duplicates `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`, `VITE_APP_URL` in E2E `env:`. On an owner-writable GitHub path remove only those duplicate keys, rerun exact-head CI until jobs execute/pass, then review/merge on evidence. Do not recreate 41 commits.
 7. **FinanceMeta production:** exact SHA has successful Vercel Preview `5501026657`, explicitly not production. Connect the real production Supabase/deploy target and verify intended migrations/RLS/env/revision, role-escalation denial, multi-account isolation, core journey, recovery/logout + cleanup.
 8. **The Bu1LD:** exact source `ryangomez010/bu1ld-landing@daa80c1124b2a6d7d09b7669e04d29e50cffcbbe` passes CI `29679123068`. Cloudflare `29679123047` fails because `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` Actions secrets are empty; workflow wiring is already correct. Configure intended secrets without committing values, rerun exact SHA, then prove served revision + seven-role journey.
-9. **IRIS:** expose exact canonical development trajectories + exact frozen adaptation-metric source identity; no approximate regeneration; seeds `1000–1029` stay forbidden.
+9. **IRIS:** the metric-freeze specification is already recovered on canonical main at `portfolio/research/IRIS_SEQUENCE_ADAPTATION_METRIC_FREEZE_20260813.md` (blob `6f4d6a47e3727596b21714bc269cd8ba5844d2fa`). Do **not** search for a replacement metric definition. Instead expose/recover the exact canonical development trajectory artifact or a pre-existing authoritative deterministic-equivalence record, and the exact executable metric implementation needed to cross-hash against the recovered specification. No approximate trajectory regeneration; seeds `1000–1029` stay forbidden.
 10. **Darcy v2:** B2 is already merged. Before training, approve the periodic/circulant finite-grid covariance interpretation and current OOD-D global-offset choice, then close B3/B4/environment/hardware/budget/manifest gates. Approval alone does not authorize training.
 11. **NPMS successor only:** controlled source recovery is complete and current result is `PARAMETER_CONFOUNDED_OR_NON_UNIQUE`. Do not search for replacement source. If continuing, approve a new frozen natural/causal protocol before any run.
 12. **PEN only if strategically retained separately:** recover standalone executable MODEL-PEN source; never inherit APEN evidence.
