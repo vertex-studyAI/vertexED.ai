@@ -20,7 +20,19 @@
     "A1": {"state": "IMPLEMENTED", "name": "arithmetic coarse surrogate", "primary_blocks": 8},
     "A2": {"state": "IMPLEMENTED", "name": "log-mean coarse surrogate", "primary_blocks": 8},
     "B1": {"state": "IMPLEMENTED", "name": "linear heterogeneity-blind profile"},
-    "B2": {"state": "BLOCKED_IMPLEMENTATION", "name": "PCA + ridge reduced-order baseline", "dimension_cap": 8},
+    "B2": {
+      "state": "IMPLEMENTED_PREOUTCOME_UNTRAINED",
+      "name": "PCA + ridge reduced-order baseline",
+      "implementation": "src/b2-pca-ridge.mjs",
+      "implementation_git_blob_sha": "6e10c6fbecf0cf5ce78ed2b5c61e3fa97da47541",
+      "dimension_cap": 8,
+      "component_count": 8,
+      "pca_solver": "covariance_operator_power_iteration_deflation_v1",
+      "ridge_alpha_grid": [1e-8, 1e-6, 1e-4, 1e-2, 1e-1, 1, 10],
+      "selection_metric": "validation pressure mean relative L2 only",
+      "test_or_ood_for_selection": false,
+      "eligibility_tests": "tests/darcy-v2-b2.test.mjs"
+    },
     "B3": {"state": "BLOCKED_IMPLEMENTATION", "name": "FNO-1D"},
     "B4": {"state": "BLOCKED_IMPLEMENTATION", "name": "DeepONet"}
   },
@@ -53,7 +65,7 @@
   "unresolved_pretraining_blockers": {
     "learned_environment_lock": null,
     "hardware_identity": null,
-    "B2_implementation_sha": null,
+    "B2_implementation_sha": "6e10c6fbecf0cf5ce78ed2b5c61e3fa97da47541",
     "B3_implementation_sha": null,
     "B4_implementation_sha": null,
     "split_manifest_sha256": null
