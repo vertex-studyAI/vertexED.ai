@@ -1,6 +1,6 @@
 # NEXT TASK QUEUE
 
-**Rescored:** 2026-08-14 22:01 IST after independent LAM verification/external-packet closure, Darcy v2 protocol-freeze reconciliation, and latest VertexED production-monitor evidence  
+**Rescored:** 2026-08-14 22:01 IST after independent LAM verification/external-packet closure, Darcy v2 protocol-freeze reconciliation, latest VertexED production-monitor evidence, and connected-access recheck  
 **Rule:** information gain × closure probability × evidence value ÷ cost. Dependencies are hard.
 
 ## 1 — PERCY-STATE-001 — P0 / BLOCKED_EXTERNAL_MAC
@@ -52,11 +52,12 @@
 - Preserve known negative spectral/switching/truncation cases.
 - Failure: archive the line as bounded recovered evidence rather than inventing a replacement implementation.
 
-## 9 — FINANCEMETA-HARDEN-001 — P1 PRODUCT / TARGET_REPO_VISIBLE; PRODUCTION_STILL_BLOCKED_EXTERNAL
-- Canonical target `build-the-future-11/finance4all-global-reach` is currently readable through the connected GitHub installation at `fbdd503223edc5b1780509720391083f485a4a85`; repository visibility alone does not prove production Supabase authorization or deployment truth.
+## 9 — FINANCEMETA-HARDEN-001 — P1 PRODUCT / BLOCKED_EXTERNAL_GITHUB_WRITE_AND_SUPABASE
+- Canonical target `build-the-future-11/finance4all-global-reach` is readable through the connected GitHub installation at `fbdd503223edc5b1780509720391083f485a4a85`, but a fresh isolated branch-creation attempt returned `403 Resource not accessible by integration`.
+- Connected Supabase currently exposes only VertexED project `xwlrzgfuhfbckgvcmyoq`; FinanceMeta production Supabase is not available to the connector.
 - Confirmed source defect remains: authenticated users can update their own `profiles` row while authorization helpers trust `profiles.role`; current policy lacks a `WITH CHECK` boundary on update, insert does not force role `member`, and public `SECURITY DEFINER` helpers lack a pinned search path/explicit execution boundary.
-- First safe action: create an isolated exact-base branch, prepare a versioned migration and regression tests using the repository's own Supabase migration workflow, and validate against current Supabase guidance before application.
-- Do not apply a production migration, change secrets or claim closure until the FinanceMeta Supabase project is connected and denial-path tests prove a normal member cannot escalate role.
+- Smallest unblock: grant GitHub contents/branch/PR write access for the target and connect the FinanceMeta Supabase project. Then create an isolated exact-base branch, generate the migration through the repository's Supabase migration workflow, add denial-path regression tests, and validate against current Supabase guidance before application.
+- Do not apply a production migration, change secrets or claim closure until the FinanceMeta Supabase project is connected and tests prove a normal member cannot escalate role.
 
 ## 10 — JEPA-TS-FREEZE-001 — P2 / DORMANT_UNTIL_CAPACITY
 - The canonical programme remains one question: causal future-latent predictive-state recovery under noise/missingness.
