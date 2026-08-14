@@ -1,0 +1,159 @@
+{
+  "schema_version": 1,
+  "snapshot_id": "START_SNAPSHOT_20260814_2202_IST",
+  "captured_at": "2026-08-14T22:02:00+05:30",
+  "target_checkpoint": "2026-08-15T10:00:00+05:30",
+  "truth_rule": "Absence of evidence is UNKNOWN, never VERIFIED. Frozen negative results are preserved. No paid resource creation or destructive recovery is authorized.",
+  "connected_sources": {
+    "github": "LIVE_CONNECTED",
+    "file_library_status_artifacts": "AVAILABLE",
+    "percy_mac_host": "UNAVAILABLE",
+    "local_pro_blade": "UNAVAILABLE",
+    "financemeta_target_repo": "NOT_EXPOSED_IN_CURRENT_GITHUB_INSTALLATION",
+    "bu1ld_target_repos": "NOT_EXPOSED_IN_CURRENT_GITHUB_INSTALLATION"
+  },
+  "github_exposure": {
+    "accessible_repository_count": 3,
+    "repositories": [
+      {
+        "name": "vertex-studyAI/vertexED.ai",
+        "default_branch": "main",
+        "head": "d5e9fcaa8de4e49b236b18ff7d3c515ed5f1ed6d",
+        "head_status": "FAILURE",
+        "head_status_boundary": "Both Vercel contexts are deployment-rate-limited; this is not production verification."
+      },
+      {
+        "name": "vertex-studyAI/LAM-JEPA",
+        "default_branch": "main",
+        "head": "bf8311e1a4d240e2891e51af38eaf7754944e300",
+        "scientific_state": "VERIFIED_NEGATIVE_RESULT_INTERNAL_PACKAGE",
+        "external_validation": "PENDING"
+      },
+      {
+        "name": "vertex-studyAI/Text-To-Video",
+        "default_branch": "main",
+        "state": "DISCOVERED_NOT_PRIORITIZED_IN_START_SNAPSHOT"
+      }
+    ],
+    "open_prs_vertexed_and_lam": 0
+  },
+  "percy": {
+    "state": "UNKNOWN_BLOCKED_EXTERNAL_MAC",
+    "db_integrity": "UNKNOWN",
+    "sqlite_wal_state": "UNKNOWN",
+    "physical_workers": null,
+    "worker_heartbeats": "UNKNOWN",
+    "leases": "UNKNOWN",
+    "stale_workers": "UNKNOWN",
+    "real_task_counts": null,
+    "logical_agent_address_space_declared": 1000000,
+    "logical_agent_address_space_is_execution_count": false,
+    "next_gate": "PERCY-STATE-001 non-destructive snapshot/hash, integrity/schema, leases/heartbeats/stale reconciliation and independent recount"
+  },
+  "project_2424": {
+    "umbrella_state": "PARTIAL_BLOCKED_SOURCE_RECOVERY",
+    "canonical_2424_identity_count_claim": 2424,
+    "canonical_source_live_recovered": false,
+    "selected_bounded_reproductions_preserved": true,
+    "portfolio_wide_completion_claim": false,
+    "next_gate": "P2424-CANON-001 recover preserved source/overlay, ancestry, dirty manifest and reconcile count/status contradictions"
+  },
+  "products": {
+    "vertexed": {
+      "source": "VERIFIED_CURRENT_HEAD_VISIBLE",
+      "production": "BLOCKED_EXTERNAL_DEPLOYMENT_IDENTITY_AND_RATE_LIMIT",
+      "head": "d5e9fcaa8de4e49b236b18ff7d3c515ed5f1ed6d",
+      "authenticated_golden_journey": "INCOMPLETE",
+      "morning_rule": "Do not mark production verified without exact served revision and authenticated journey evidence."
+    },
+    "financemeta": {
+      "state": "BLOCKED_EXTERNAL",
+      "reason": "Target GitHub/Supabase production surfaces are not exposed to the current connected tools."
+    },
+    "bu1ld": {
+      "state": "BLOCKED_EXTERNAL",
+      "reason": "Canonical writable repository/runtime/Supabase production qualification is not exposed to the current connected tools."
+    }
+  },
+  "research": {
+    "lam_jepa": {
+      "state": "VERIFIED_NEGATIVE_RESULT_INTERNAL_PACKAGE",
+      "superiority": "NOT_SUPPORTED",
+      "locked_arc_test": "UNTOUCHED",
+      "next_gate": "Owner-controlled release metadata and genuinely independent external reproduction/review"
+    },
+    "iris": {
+      "state": "FAILED_DEVELOPMENT_GATE_SOURCE_BLOCKED",
+      "confirmatory_seeds": "PROTECTED_UNTOUCHED",
+      "next_gate": "Recover/hash exact development source and trajectories before any eligibility decision"
+    },
+    "neurocad": {
+      "state": "NEGATIVE_MECHANISM_RESULT_PRESERVED",
+      "typed_parser_causal_interpretation": "FALSIFIED_ON_MATCHED_DIAGNOSTIC"
+    },
+    "ngmt_v0_1": {
+      "state": "NEGATIVE_RESULT_PRESERVED",
+      "in_place_rescue": false
+    },
+    "eigen_jepa": {
+      "state": "REPRODUCIBLE_MIXED_NEGATIVE_RESULT",
+      "primary_superiority": "NOT_SUPPORTED"
+    },
+    "apen": {
+      "state": "CONTROLLED_MIXED_RESULT",
+      "paper_ready": false
+    },
+    "npms": {
+      "state": "BOUNDED_EVIDENCE_SOURCE_GATED",
+      "next_gate": "Recover original source/config/checkpoint before new science"
+    },
+    "darcy_t2424_0050": {
+      "state": "BOUNDED_SYNTHETIC_MECHANISM",
+      "new_run_authorized": false,
+      "next_gate": "Freeze learned/operator/OOD comparison protocol before execution"
+    },
+    "hercules": {
+      "state": "UNKNOWN_DESIGN_STAGE",
+      "major_compute_authorized": false
+    },
+    "olympus": {
+      "state": "UNKNOWN_DESIGN_STAGE",
+      "major_compute_authorized": false
+    }
+  },
+  "checkpoint_metrics": {
+    "percy_db_integrity": "UNKNOWN",
+    "physical_workers": null,
+    "logical_agent_capacity": "DECLARED_ADDRESS_SPACE_ONLY",
+    "real_tasks": null,
+    "completed": null,
+    "failed": null,
+    "blocked": null,
+    "stale": null,
+    "projects_touched_this_snapshot": 2,
+    "source_commits_created_this_snapshot": 0,
+    "issues_reconciled_this_snapshot": 1,
+    "tests_run_this_snapshot": 0,
+    "experiments_run_this_snapshot": 0,
+    "negative_results_changed": 0,
+    "reproductions_created_this_snapshot": 0,
+    "prs_open_at_snapshot_before_checkpoint_branch": 0,
+    "deployments_verified_this_snapshot": 0,
+    "publications_claimed": 0,
+    "external_validations_claimed": 0
+  },
+  "immediate_queue": [
+    "PERCY-STATE-001",
+    "P2424-CANON-001",
+    "LAM-RELEASE-METADATA-003",
+    "EXTVAL-LAM-001",
+    "IRIS-FRONTIER-SOURCE-001",
+    "DARCY-FREEZE-001",
+    "VERTEX-PROD-001",
+    "NPMS-SOURCE-001"
+  ],
+  "scheduling_guard": "Zero new major scientific experiment runs are authorized at START_SNAPSHOT. Unused compute remains unused rather than generating low-information work.",
+  "mutations_before_snapshot_commit": [
+    "Reconciled GitHub issue #44 to current August 14 VertexED deployment truth boundary; no source code, experiment, threshold, seed, dataset or failed-run history was changed."
+  ]
+}
