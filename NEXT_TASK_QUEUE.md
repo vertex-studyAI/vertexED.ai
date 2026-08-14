@@ -1,13 +1,13 @@
 # NEXT TASK QUEUE
 
-**Rescored:** 2026-08-14 after IRIS source recovery, Darcy pre-outcome safety hardening, NPMS controlled-source recovery, FinanceMeta exact CI/preview verification and Bu1LD release-blocker localization.  
+**Rescored:** 2026-08-14 after IRIS source recovery, Darcy pre-outcome safety hardening, Project 2424 Wave-001 recovery, NPMS controlled-source recovery, FinanceMeta exact CI/preview verification and Bu1LD release-blocker localization.  
 **Rule:** information gain × closure probability × evidence value ÷ cost. Dependencies are hard. **Zero new major scientific experiment runs are authorized.**
 
 ## 1 — PERCY-STATE-001 — P0 / BLOCKED_EXTERNAL_MAC
 Preserve/hash SQLite+WAL+checkpoint; integrity/schema; counters; leases/heartbeats/stale workers; dirty worktrees; independent recount. Never reset or initialize replacement state.
 
-## 2 — P2424-CANON-001 — P0 / BLOCKED_EXTERNAL_SOURCE
-Recover canonical source/ancestry/dirty overlay and reconcile registered identities against source/evidence. Project count is not completion.
+## 2 — P2424-CANON-001 — P0 / WAVE001_BASE_RECOVERED; LATER_OVERLAY_AND_IDENTITY_CANONICALIZATION_BLOCKED
+Historical manifest-selected Wave-001 bundle SHA-256 `4c685af70d84052c026602ff7336a522c741d91fb480038e980c21f0bbc63ece` is recovered with complete Git history; `wave-001-push-ready@ff609f335f91297357b430a2531633fe111cd5a9`; fresh disposable-clone `QUALITY_GATE_PASSED`. The historical registry has 2,424 unique rows but only 24 source-backed packages, 2,400 without source, 0 independent reproductions, and retained release verdict `RELEASE_REJECTED`. Multiple retained `P2424-*` maps conflict with each other and current `T2424-*` identities. Next gate: recover/hash later `/Volumes/PRO-BLADE/Atlas/Project-2024/Project_2424` dirty overlay or byte-identical archive, plus provenance/migration records explaining the identity remaps. Do not overwrite current T2424 identities by numeric suffix.
 
 ## 3 — VERTEX-PROD-001 — P0 PRODUCT / BLOCKED_EXTERNAL_DEPLOYMENT_IDENTITY
 Monitor `31817794439` saw healthy public surface but no revision identity; expected `e2ecd19ed9816f8f36369c7dc0f38e39942ca73a`; artifact `9225715176` SHA-256 `e7870e9561748ef4d4247e3bf4e01d3e8feead3780c4e2016d3742d134f2069a`. Prove exact served revision/deployment, make monitor PASS, then disposable-account authenticated journey/isolation/recovery/logout/admin cleanup. No paid-capacity workaround.
@@ -46,4 +46,4 @@ No run authorized; only a separately frozen cheap synthetic falsification gate m
 Re-score only after material new evidence. Current Tier S count stays 3; no promotion to fill a quota.
 
 ## Closed / narrowed this wave
-IRIS retained source/package recovery; Darcy v2 protocol freeze + outcome-free scaffold + safety hardening; NPMS controlled-source recovery with adverse-control reinterpretation; FinanceMeta source lineage + exact Preview evidence recovery; Bu1LD source/CI recovery + release-secret blocker localization; LAM internal verification/external packet packaging; NeuroCAD mechanism falsification. None of these closures imply publication, external validation, trained Darcy v2 capability or production deployment.
+IRIS retained source/package recovery; Darcy v2 protocol freeze + outcome-free scaffold + safety hardening; Project 2424 checksum-matched Wave-001 historical base + fresh quality gate; NPMS controlled-source recovery with adverse-control reinterpretation; FinanceMeta source lineage + exact Preview evidence recovery; Bu1LD source/CI recovery + release-secret blocker localization; LAM internal verification/external packet packaging; NeuroCAD mechanism falsification. None of these closures imply 2,424 implemented papers, publication, external validation, trained Darcy v2 capability or production deployment.
