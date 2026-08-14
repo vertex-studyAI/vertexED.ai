@@ -1,5 +1,5 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "evidence_id": "IRIS-FRONTIER-SOURCE-RECOVERY-20260814",
   "project": "IRIS v0.2 / baseline-frontier successor-worthiness study",
   "protocol": "portfolio/research/IRIS_BASELINE_FRONTIER_PROTOCOL_20260814.md",
@@ -9,23 +9,45 @@
     "accessed": false,
     "status": "FORBIDDEN_UNTOUCHED"
   },
-  "recovered_library_archive": {
-    "path": "/Research/IRIS/IRIS_v0.2_repro_addendum_20260813.zip",
-    "size_bytes": 132810,
-    "sha256_expected_from_git_evidence": "7653c87d5effb08da9068630259802d77b34b930083dd160ccea4ce23311175b",
-    "sha256_observed": "7653c87d5effb08da9068630259802d77b34b930083dd160ccea4ce23311175b",
-    "sha256_match": true,
-    "internal_sha256sums": "PASS_ALL_LISTED_FILES"
-  },
+  "recovered_archives": [
+    {
+      "library_path": "/Research/IRIS/IRIS_v0.2_repro_addendum_20260813.zip",
+      "size_bytes": 132810,
+      "sha256_expected_from_git_evidence": "7653c87d5effb08da9068630259802d77b34b930083dd160ccea4ce23311175b",
+      "sha256_observed": "7653c87d5effb08da9068630259802d77b34b930083dd160ccea4ce23311175b",
+      "sha256_match": true,
+      "internal_sha256sums": "PASS_ALL_LISTED_FILES"
+    },
+    {
+      "library_path": "/Research/IRIS/IRIS_common_adaptation_harness_v1_negative_20260813.zip",
+      "size_bytes": 85142,
+      "sha256_observed": "5643b59e9272099e54f04491aa63906d0d186a1a2c525a574f960008e5f19b90",
+      "contents_verified_by_direct_inspection": true,
+      "development_seeds": [0,1,2,3,4,5,6,7,8,9],
+      "confirmatory_guard_embedded_in_runner": true,
+      "runner_sha256": "b9e35eb2ed1fc945e99ce76f935f36a816eb3d61b99b109bd092e99a731a6de3",
+      "verifier_sha256": "74a149dfa647d145e788559d043e282bcd76768353272b0b4366ef897da91113",
+      "protocol_sha256": "0cdf22c97ddb9459182175e7c17bf51906088f5d3a7ec10131edfa650d2edbdd",
+      "retained_raw_metric_sha256": "5f1bfb8cfc8114583e0e55d491d2776522cc9d1e4451289ef260c502e27c501e",
+      "retained_summary_sha256": "62355d6aa7eff081e3a940bae65a6ec71a55f789f9e48f398e1031439dc34c1b",
+      "retained_verdict": "NEGATIVE_OR_INCONCLUSIVE_DEVELOPMENT_GATE",
+      "falsification_outcome": "FALSIFIED_FOR_ADVANCEMENT"
+    }
+  ],
   "recovered_exact_assets": {
     "confirmed_change_protocol_sha256": "f3714263f0923ccced664bf268f515110b6aa339136a89d0e2bfe3cf198d7701",
     "confirmed_change_script_sha256": "b2ed782037faf3350aed6f61da0750b0def5fcbb871f84a7f6963cd53b05cdf6",
     "robust_change_protocol_sha256": "cb52be5c1168017e139ffac4c89a0ad9ed95127f707ddce9fdcf5a27f332b8ec",
     "robust_change_script_sha256": "05ed6ff6c3b1ac24b47fcd9057c1376f3074c2e6ae127da2d4dd7f7cdb395194",
-    "development_seeds": [0,1,2,3,4,5,6,7,8,9],
-    "conditions": ["gaussian","student_t2","contaminated","spikes","regime","drift","tail_shift"],
-    "methods_present_in_robust_screen": ["huber_cap4","htam","pabim","robust_cusum_switch","dual_timescale_huber","oracle_reset_huber"],
-    "retained_outputs": ["raw.csv","summary.csv","paired_dev.csv","manifest.json"],
+    "common_harness_generator_and_methods_recovered": true,
+    "methods_recovered_across_archives": [
+      "huber_cap4",
+      "confirmed-change/confirmed-streak Huber family",
+      "robust_cusum_switch",
+      "dual_timescale_huber",
+      "pabim",
+      "oracle_reset_huber"
+    ],
     "environment_record": {
       "python": "3.13.5",
       "numpy": "2.3.5",
@@ -33,17 +55,16 @@
       "platform": "Linux-6.18.35-x86_64-with-glibc2.41"
     }
   },
-  "missing_required_edges_for_frontier_execution": [
-    "canonical raw development trajectory archive or an equivalently authoritative retained trajectory source satisfying the new protocol's no-regeneration-ambiguity requirement",
-    "complete exact source/config identity for every frontier method as required by the 2026-08-14 frontier evidence contract, beyond the recovered addendum subset",
-    "environment manifest tied specifically to an authorized execution of IRIS-FRONTIER-DEV-20260814"
+  "narrowed_missing_edges_for_frontier_execution": [
+    "the canonical generated development trajectory arrays themselves, or an explicit authoritative retained artifact declaring deterministic regeneration from the recovered generator+seed contract equivalent to those arrays for IRIS-FRONTIER-DEV-20260814",
+    "a frontier-specific immutable environment/source manifest tying the separately frozen 2026-08-14 protocol to the recovered cross-archive method identities before execution"
   ],
   "verdict": "PROTOCOL_BLOCKED",
-  "verdict_reason": "The preserved addendum is authentic and internally complete for its 2026-08-13 baseline studies, but it does not establish the canonical raw trajectory/source package required by the separately frozen 2026-08-14 baseline-frontier protocol. Approximate regeneration is prohibited.",
+  "verdict_reason": "Two authentic retained archives recover substantially more of the exact development source than previously known, including the deterministic common generator, development seeds, method parameters/implementations, metric rows and verifier. However, the separately frozen 2026-08-14 protocol explicitly requires canonical raw development trajectories and forbids regeneration ambiguity. Those trajectory arrays (or an already-retained authoritative equivalence declaration) have not been recovered, so execution is not authorized.",
   "scientific_effect": "NO_RESULT_CHANGE",
   "current_iris_result": "NEGATIVE_MIXED_DEVELOPMENT_PACKAGE_PRESERVED",
   "successor_authorized": false,
   "external_validation": false,
-  "byte_identity_claim": "Only the recovered ZIP and its internally checksummed listed files are byte-verified. No claim is made that this archive is the latest or complete canonical IRIS source tree.",
-  "next_gate": "Recover the exact canonical raw development trajectory/source package with hashes. If it cannot be recovered, keep the frontier study source-blocked and preserve the current negative package."
+  "byte_identity_claim": "Byte verification is limited to the recovered archives/files and recorded hashes. No claim is made that either archive is the latest complete canonical IRIS repository or that regenerated trajectories would be byte-identical to an unrecovered canonical trajectory archive.",
+  "next_gate": "Recover the canonical raw development trajectory artifact or a pre-existing authoritative equivalence record. If neither exists, retain PROTOCOL_BLOCKED and preserve the current negative package without running the frontier."
 }
