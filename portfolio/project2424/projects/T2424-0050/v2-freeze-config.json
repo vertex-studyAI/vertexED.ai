@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "protocol_id": "DARCY-FREEZE-001 / darcy-operator-ood-v2",
+  "protocol_path": "portfolio/project2424/projects/T2424-0050/LEARNED_OPERATOR_OOD_PROTOCOL_V2.md",
+  "protocol_git_blob_sha": "65f756dcc104cea25b17abf950af0f285b30b955",
+  "outcome_state": "EXPERIMENT_NOT_YET_RUN",
+  "training_authorized": false,
+  "generator": {
+    "implementation": "src/v2.mjs",
+    "grid_cells": 128,
+    "primary_block_count": 8,
+    "block_ablations": [4, 8, 16, 32],
+    "smooth_covariance": "periodic squared-exponential on the frozen 128-cell grid; exact finite-grid Gaussian draw through the real Fourier basis of the circulant covariance",
+    "prng": "mulberry32-compatible deterministic 32-bit stream; seed zero allowed",
+    "normal_sampler": "Box-Muller",
+    "manifest_required_before_training": true
+  },
+  "systems": {
+    "M1": {"state": "IMPLEMENTED", "name": "harmonic resistance-preserving coarse surrogate", "primary_blocks": 8},
+    "A1": {"state": "IMPLEMENTED", "name": "arithmetic coarse surrogate", "primary_blocks": 8},
+    "A2": {"state": "IMPLEMENTED", "name": "log-mean coarse surrogate", "primary_blocks": 8},
+    "B1": {"state": "IMPLEMENTED", "name": "linear heterogeneity-blind profile"},
+    "B2": {"state": "BLOCKED_IMPLEMENTATION", "name": "PCA + ridge reduced-order baseline", "dimension_cap": 8},
+    "B3": {"state": "BLOCKED_IMPLEMENTATION", "name": "FNO-1D"},
+    "B4": {"state": "BLOCKED_IMPLEMENTATION", "name": "DeepONet"}
+  },
+  "learned_model_freeze": {
+    "training_seeds": [41, 73, 109],
+    "selection_metric": "validation pressure relative L2 only",
+    "test_or_ood_for_selection": false,
+    "optimizer_family": "AdamW",
+    "candidate_learning_rates": [0.001, 0.0003],
+    "weight_decay": 0.0001,
+    "batch_size": 64,
+    "max_epochs": 200,
+    "minimum_epochs_before_early_stop": 50,
+    "early_stop_patience": 25,
+    "parameter_count_ceiling": 500000,
+    "max_wall_seconds_per_seed": 1800,
+    "paid_resources_allowed": false,
+    "fno_grid": {
+      "modes": [12, 20],
+      "width": [32, 64],
+      "layers": [4]
+    },
+    "deeponet_grid": {
+      "branch_width": [64, 128],
+      "trunk_width": [64, 128],
+      "hidden_layers": [3],
+      "latent_width": [64]
+    }
+  },
+  "unresolved_pretraining_blockers": {
+    "learned_environment_lock": null,
+    "hardware_identity": null,
+    "B2_implementation_sha": null,
+    "B3_implementation_sha": null,
+    "B4_implementation_sha": null,
+    "split_manifest_sha256": null
+  },
+  "authorization_rule": "Training, ID-test evaluation and OOD evaluation remain forbidden until all unresolved_pretraining_blockers are non-null, the implementations pass their frozen eligibility/unit tests, and the resulting freeze revision is committed before outcomes are inspected."
+}

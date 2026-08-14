@@ -1,25 +1,45 @@
-# SECURITY STATUS
+# SECURITY_STATUS
 
-**As of:** 2026-08-14 22:09 IST  
-**Truth rule:** source hardening, local overlay certification and public smoke checks are not substitutes for authenticated production authorization/account-isolation evidence.
+**As of:** 2026-08-14 convergence run.  
+**Rule:** source controls, database policy state, deployed behavior, and end-to-end production certification are separate evidence classes.
 
-| System | Security state | Directly supported | Still unverified / blocked | Next gate |
-|---|---|---|---|---|
-| VertexED source | **PARTIAL_VERIFIED** | API security headers/origin/auth boundaries exist; latest bounded production monitor passes logged-out AI/user/admin and untrusted-origin checks | authenticated cross-account isolation, password-recovery journey and admin boundaries on exact served revision | exact served revision → disposable-account golden journey + negative cross-account/admin tests |
-| VertexED production | **BLOCKED_DEPLOYMENT_IDENTITY** | public/auth boundary smoke evidence exists | which immutable revision is served; full authenticated/account-isolation result | resolve deployment identity first; do not add features around uncertainty |
-| FinanceMeta local integrated overlay | **CERTIFIED_LOCAL_ONLY** | retained overlay removes direct profile-role escalation, hardens RLS/update checks, pins sensitive function search paths, adds fail-closed public config/security gates; certification recorded no production mutation | canonical target code state, staging/live RLS behavior, role-denial matrix, real account isolation | target GitHub write → exact-base reverify → staging SQL role-denial tests → disposable account journey |
-| FinanceMeta production | **BLOCKED_TARGET_ACCESS** | none beyond target source read visibility | live Supabase authorization, migration state, OAuth/recovery, account isolation, admin boundaries | integration write + staging/live Supabase access |
-| The Bu1LD control preparation | **PARTIAL_CONTROL_EVIDENCE** | control workflows/checklists exist; target source is readable | actual target code mutation, production Supabase/Cloudflare role boundaries, OAuth/onboarding, seven-role denial matrix | target write/runtime access, then immutable-deploy and separated-role certification |
-| The Bu1LD production | **BLOCKED_TARGET_ACCESS_AND_RUNTIME** | no production mutation performed in this run | all production authorization claims | target access first |
-| Percy | **UNKNOWN_LIVE_HOST** | design/control evidence exists | secrets, file permissions, DB/WAL security, provider credentials, process isolation on real host | non-destructive real-host recovery + secret/permission/runtime review |
-| Project 2424 registry/source | **UNKNOWN_FULL_SOURCE** | selected bounded child evidence retained | full source tree secret/private-data scan and release boundaries | canonical source recovery first |
-| NeuroCAD public tool candidate | **BLOCKED_RELEASE_SECURITY_REVIEW** | fail-closed validation evidence exists | sandbox/path/process execution safety, clean release secret scan | dedicated safe-execution/sandbox/path review before public tool release |
-| LAM-JEPA / IRIS / research packages | **RELEASE_SCAN_PENDING** | scientific evidence packages exist | license/redistribution and final secret/private-data scans for public release | clean release-tree scan + owner license decisions |
+## VertexED — PARTIAL / DATABASE CONTROLS VERIFIED, PRODUCTION CERTIFICATION OPEN
 
-## Security non-claims
+Connected Supabase project `xwlrzgfuhfbckgvcmyoq` is `ACTIVE_HEALTHY` on Postgres `17.4.1.074`.
 
-- No system is certified secure solely because CI passes.
-- No Supabase RLS policy is considered production-verified until tested against the actual target with separated disposable identities.
-- No user count, account isolation, admin safety or recovery success is inferred from source presence.
-- No secrets were created, rotated or exposed by this convergence run.
-- No paid security/deployment service was authorized or purchased.
+Fresh read-only inspection established:
+
+- all **26** observed `public` base tables have RLS enabled;
+- `profiles` self-update has both ownership `USING` and `WITH CHECK` predicates tied to `auth.uid()`;
+- `user_study_artifacts` select/insert/update/delete policies are user-owned; update has both `USING` and `WITH CHECK` ownership predicates;
+- the two observed public `SECURITY DEFINER` functions, `auth_email_exists` and `handle_new_user`, have explicit `search_path` configuration and are not executable by `PUBLIC`, `anon`, or `authenticated`;
+- no public views were observed.
+
+Current Supabase security-advisor warnings:
+
+1. leaked-password protection is disabled;
+2. security patches are available for the current hosted Postgres build.
+
+These are open owner/platform actions. They are not evidence of exploitation and must not be hidden to declare release readiness.
+
+### Remaining release-security gate
+
+VertexED is **not production-certified**. Exact served deployment revision remains unproved by the public health monitor, and the authenticated disposable-account golden journey—including account isolation, persistence, recovery, logout denial and admin boundaries—has not been completed against a verified immutable deployment. Source/database controls do not substitute for that journey.
+
+## FinanceMeta — SOURCE PARTIAL / PRODUCTION SECURITY BLOCKED_EXTERNAL
+
+Canonical source is reachable at `build-the-future-11/finance4all-global-reach`. Current `main` is `fbdd503223edc5b1780509720391083f485a4a85`; retained branch `cursor/membership-security-supabase-fix` is 41 commits ahead and 0 behind. A fresh PR creation attempt from this integration returned `403 Resource not accessible by integration`.
+
+Historical PR #1 was merged at an earlier branch head; it does not prove the current 41-commit branch is integrated into current `main`. The FinanceMeta production Supabase project is not connected here. Therefore live RLS, migration state, secrets/environment, deployed revision, cross-user denial/isolation, recovery/logout and cleanup remain unverified.
+
+## The Bu1LD — BLOCKED_EXTERNAL
+
+The canonical production Supabase/deployment target is unavailable through the current execution surface. RLS, role boundaries, deployment identity and seven-role authenticated journeys remain unverified. No security state is promoted from historical/control artifacts.
+
+## Percy / Project 2424 operational integrity
+
+Percy live SQLite/WAL/process/worktree state and Project 2424 canonical local source/dirty overlay are outside this execution surface. Their current integrity/security state is `UNKNOWN / BLOCKED_EXTERNAL_MAC_OR_SOURCE`. Required recovery is non-destructive and evidence-preserving; no replacement DB/source tree is authorized.
+
+## Release rule
+
+A security gate advances only on direct evidence from the exact target revision/environment. Passing CI, RLS metadata, a healthy public endpoint, or a prepared migration does not by itself certify production security.

@@ -1,23 +1,29 @@
 # USER_ACTION_REQUIRED
 
-Only actions that require access, ownership decisions or external systems unavailable from the connected execution surface are listed. These are not completion claims.
+**Convergence start:** 2026-08-14 22:02 IST. Only actions that genuinely require owner decisions, local-machine state or external access unavailable from the connected execution surface are listed.
 
-1. **Percy / Project 2424 host access — P0.** On the Mac where `/Volumes/PRO-BLADE` is mounted, preserve and expose the existing Percy SQLite+WAL and canonical Project 2424 source long enough to run the non-destructive snapshot/integrity/ancestry/recount gates. Do **not** reset databases, clean dirty worktrees or reconstruct missing state over preserved originals.
+1. **Percy + Project 2424 local state:** expose the preserved `/Volumes/PRO-BLADE/Atlas/Percy` runtime and canonical Project 2424 source/dirty overlay. Before any reset or new source-dependent science, snapshot/hash SQLite + WAL + checkpoint state, run integrity/schema checks, reconcile leases/heartbeats/stale workers and dirty worktrees, then independently measure the currently `UNKNOWN` task/dispatch counters.
 
-2. **VertexED deployment capacity/identity — P0.** Permit an already-authorized Vercel deployment to complete when the current build-rate limit allows it, or explicitly authorize a paid capacity change if you intentionally want one. This run does **not** authorize spending. After deployment, verify `/api/health` exposes the exact intended revision and run the disposable-account authenticated golden journey. No source health-handler change is currently justified.
+2. **VertexED deployment identity/capacity:** identify the canonical production deployment and restore authorized build/deploy capacity without buying an upgrade or weakening the revision contract. Latest canonical monitor evidence is run `31817794439`; live `/api/health` is healthy but omits revision identity. After exact served revision proof is restored, run the authenticated disposable-account golden journey and cleanup.
 
-3. **FinanceMeta GitHub target write — P0.** Grant the connected GitHub integration write permission to `build-the-future-11/finance4all-global-reach`. The exact current base is `fbdd503223edc5b1780509720391083f485a4a85`; the retained certified overlay patch SHA-256 is `9192207d05d869c75d58fe70b5081961bafaac18de78bda447ab9a265f1bca35`. A fresh branch-create attempt returned 403. After permission changes, reapply/reverify on an isolated exact-base branch before any Supabase mutation.
+3. **VertexED Supabase platform security:** connected project `xwlrzgfuhfbckgvcmyoq` currently reports two security-advisor warnings: leaked-password protection disabled and security patches available for Postgres `17.4.1.074`. Review rollout/maintenance impact, then enable/schedule through the owner-controlled platform. These warnings are not evidence that an exploit occurred.
 
-4. **FinanceMeta production test surface — P0 after #3.** Provide the production/staging Supabase target plus disposable member/admin identities required for real role-denial, signup/recovery, participation, save/sign-out/return tests. Never use invented users or live irreversible migration as the first test.
+4. **LAM-JEPA owner-controlled release metadata:** approve root license/third-party compatibility, author list/order, `CITATION.cff` metadata, redistribution boundaries and immutable release revision/tag. Repository history must not be used to infer these fields. The independent reproduction/review packet is ready; external validation remains pending until a genuine outside report returns.
 
-5. **The Bu1LD GitHub/runtime access — P0.** Grant the connected GitHub integration write permission to `ryangomez010/bu1ld-landing` and provide the production Supabase/Cloudflare surface plus disposable separated role accounts. A fresh exact-base branch-create attempt at `daa80c1124b2a6d7d09b7669e04d29e50cffcbbe` returned 403.
+5. **FinanceMeta source review:** do **not** recreate the retained hardening work. Current `main` is `fbdd503223edc5b1780509720391083f485a4a85`; branch `cursor/membership-security-supabase-fix@6dcc03710bb6adf9b4b722b308c40a0720bea61f` is 41 commits ahead / 0 behind. A fresh PR creation attempt from this integration returned `403 Resource not accessible by integration`. Historical PR #1 was merged at an earlier branch head and does not prove the current 41-commit head is integrated. Use an owner-authorized GitHub path to review/open the **existing** retained branch against current `main`, then run exact-head CI/security gates.
 
-6. **LAM-JEPA release ownership metadata — P0.** Decide/approve license and redistribution boundary, exact author list/order, and citation metadata. Root `LICENSE` and `CITATION.cff` are absent at `LAM-JEPA/main=bf8311e1a4d240e2891e51af38eaf7754944e300`; these fields must not be inferred from commit history.
+6. **FinanceMeta production:** connect/authorize the actual FinanceMeta Supabase and deploy surface. Verify the live intended migration/RLS state, exact deployed revision, member role-escalation denial, multi-account isolation, saved-progress/core journey, recovery, logout and cleanup. A retained source branch is not production certification.
 
-7. **LAM independent validation — P1.** Send the immutable external-review/reproduction packet at `218ea1bea686cdf8c281520b2b636897bc8b8dd2` to a genuinely independent reviewer/reproducer and return their actual evidence. Outreach or packet readiness is not external validation.
+7. **The Bu1LD production access:** expose/authorize the canonical writable repository, real Supabase project and deployment surface. Then certify immutable deploy identity, hydration, RLS/role boundaries and the seven-role authenticated journey.
 
-8. **IRIS / NPMS exact-source recovery — P1.** Recover retained canonical raw/source/config artifacts if they exist on the Mac/external SSD/other preserved storage. The public personal IRIS repo is only a one-line README and must not be substituted for the missing canonical scientific source.
+8. **IRIS remaining provenance:** substantial source/config/environment lineage is now checksum-recovered on control `main`, but the frozen frontier is still blocked on the exact canonical development trajectories and exact frozen adaptation-metric source identity. Recover those exact provenance edges or retain `PROTOCOL_BLOCKED`; seeds `1000–1029` remain forbidden.
 
-9. **Hercules / Olympus — P2 only after source recovery.** Select canonical implementations/mechanisms and freeze a same-budget baseline/proposal/ablation protocol before compute. Do not authorize a scale/capability claim from model-family names or target parameter counts.
+9. **NPMS source recovery:** provide the exact original NPMS source/config/checkpoint if it exists only in local/private storage. Approximate regeneration is not an acceptable substitute.
 
-No manual promotion or rescue is required for LAM-JEPA's frozen result, NGMT v0.1, the failed IRIS successor candidate, NeuroCAD's typed-parser mechanism, Eigen-JEPA mixed/negative evidence or T2424-1863. Preserve those outcomes.
+10. **PEN, only if retained as a separate line:** recover standalone executable MODEL-PEN source. Do not inherit APEN evidence by naming similarity.
+
+## No owner rescue required
+
+No manual promotion or positive-result rescue is required for LAM-JEPA's frozen hypothesis, NGMT v0.1, the current IRIS successor candidate, Eigen-JEPA's frozen primary result, NeuroCAD's typed-parser mechanism interpretation or T2424-1863. Their negative/mixed/falsified evidence stays preserved.
+
+Hercules and Olympus require **no immediate compute action**. They remain archived from active compute until a genuinely decisive matched protocol is frozen; architecture names, parameter targets or model-family names alone do not justify reactivation.
