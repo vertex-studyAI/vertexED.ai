@@ -1,0 +1,30 @@
+# EXPERIMENT_REGISTRY
+
+**As of:** 2026-08-14 IST  
+**Canonical rule:** this registry records scientific protocol lineage. `EXPERIMENT_LEDGER.md` is retained historical lineage; new scientific state is governed here. A changed protocol creates a new experiment ID/version.
+
+| Experiment ID | Project | Protocol state | Primary question/gate | Result | Classification | Reproduction / provenance | Next allowed action |
+|---|---|---|---|---|---|---|---|
+| EXP-LAM-ARC-V3 | LAM-JEPA | **FROZEN + REPRODUCED** | Full > matched supervised; positive planner/target effects | Full `0.254915±0.012997`; supervised `0.266441±0.015460`; no-planner `0.250169±0.012997`; no-target `0.261695±0.020395` | **NEGATIVE / INCONCLUSIVE** | artifact `9162165932`, SHA `caa898f1...`; independent audit on LAM main `88f759ef...` | Paper conversion only; locked ARC test remains closed |
+| EXP-DEV-20260813-IRIS-COMMON-ADAPTATION-HARNESS-V1 | IRIS | **FROZEN DEVELOPMENT + REPRODUCED** | Pass all five common robust/adaptation criteria | 3/5 pass; fixed-robust and persistent-shift gates fail | **NEGATIVE DEVELOPMENT GATE** | bundle SHA `5643b59e...`; raw `5f1bfb8c...`; summary `62355d6a...`; attempt-1 plumbing failure retained; verifier PASS | No confirmatory seeds; negative paper or separately motivated successor only |
+| APEN-SALIENCE-SPECIFICITY-V1-20260813 | APEN | **PROSPECTIVE FROZEN + REPRODUCED** | Does true temporal salience beat uniform while shuffled/random salience destroys gain? | True `17.131746` vs uniform `18.412450`; shuffled/random erase >100% gain | **BOUNDED MECHANISM SUPPORT** | bundle SHA `2c3003bb...`; raw/summary/verifier exact replay | Freeze matched recurrent/attention + naturalistic salience-quality study |
+| EIGEN-JEPA-CLASSICAL-BASELINES-V1-20260813 | Eigen-JEPA | **FROZEN PRIMARY METRIC + REPRODUCED** | Beat stronger classical controls on covariance matrix MSE | Eigen `5.8318e-09`; spectral eigval ridge `5.4992e-09`; raw/log/PCA ridge also lower mean point estimates | **BASELINE-DOMINATED / NON-SUPERIOR** | bundle SHA `cfe6de99...`; exact replay; row-count defect `14895` vs old prose `14899` retained | Reconcile provenance; preregister multi-dataset replication; no metric shopping |
+| NPMS-INVARIANT-PARAMETER-CONTROL-V1-20260813 | NPMS | **FROZEN + REPRODUCED** | Does regime classification beat coordinate-invariant parameter summary by >5 pp? | NPMS `92.86%`; control `89.29%`; gap `3.57` pp | **PARAMETER-CONFOUNDED / NON-UNIQUE** | bundle SHA `ad765e34...`; verifier PASS | Natural task or causal intervention beyond parameter summary |
+| EXP-NGMT-V01-B0-B3 | NGMT v0.1 | **FROZEN + REPRODUCED** | B3 >=5% vs B2, >=3% vs B1, <=2% clean regression | adverse gates fail; clean gate passes | **NEGATIVE** | equal `6,049` params, 3 paired seeds, retained artifacts `9166307730`, `9166406618` | No v0.1 retune; versioned successor only if independently motivated |
+| EXP-P2424-0025 | T2424-0025 | **FROZEN + REPRODUCED** | Robust readout effect under contamination | Robust aggregation effect reproduced; clean 0% control also benefits | **POSITIVE PRECURSOR / MECHANISM NON-UNIQUE** | independent recomputation + uncertainty retained | Do not relabel as NGMT; no priority unless new learned-memory question |
+| EXP-NEUROCAD-V1 | NeuroCAD | **FROZEN + REPRODUCED** | Typed/validated IR vs frozen direct baseline | `19/20` vs `12/20`; `12/12` valid STL; one retained invalid-width failure | **CONTROLLED GATE PASS** | focused suite `6/6`; frozen failure retained | Freeze one same-provider learned direct-vs-IR + OOD/compositional study |
+| EXP-DARCY-1D | Darcy | **FROZEN + REPRODUCED** | Reduced-resistance mechanism lowers pressure MAE without flux inconsistency | `0.0658913916→0.0011366559`; 97.8766%; flux error `1.369e-16` | **BOUNDED SYNTHETIC PASS** | 20 seeds; focused suite `6/6` | Freeze matched learned operator + misaligned/OOD fields |
+| EXP-P2424-0027 | T2424-0027 | **FROZEN + REPRODUCED** | Synthetic injected-coordinate leakage audit works | `8/8` + independent verifier | **SYNTHETIC AUDIT PASS** | retained Project 2424 artifact lineage | Real multilingual encoder protocol only |
+| EXP-P2424-1863 | T2424-1863 | **FROZEN + EXACT-HEAD REPRODUCED** | >75% held-out improvement gate | Gate missed; zero-diffusion control no rescue | **NEGATIVE** | exact-head CI/replay retained | Current experiment closed; real-PDE learned comparison must be new version |
+| EXP-P2424-0028 | T2424-0028 | **BOUNDED / RETAINED** | residual-event reconstruction mechanics | deterministic mechanics reproduced | **CONTROLLED MECHANICS** | retained closeout | No priority until byte/rate-distortion + noisy/nonlinear baseline frozen |
+| EXP-P2424-0029 | T2424-0029 | **BOUNDED / RETAINED** | analytic PDE transition screen | deterministic `3→2→2→1→1` retained | **CONTROLLED ANALYTIC SCREEN** | retained closeout | No priority until nonlinear PDE + learned representation protocol frozen |
+| EXP-HERCULES-MATCHED | Hercules | **NOT FROZEN / NOT RUN** | Proposal vs standard Transformer vs ablation at equal budget | none | **UNTESTED** | none | Archive from active month; only return with frozen bounded protocol |
+| EXP-OLYMPUS-O1 | Olympus | **NOT RUN** | Monolithic vs decomposition + ablations at matched provider/budget | none | **UNTESTED** | O0 runtime only | Archive from active month; only return with frozen bounded O1 protocol |
+
+## Failed-run preservation
+
+The IRIS common-harness first attempt is retained as an invalid pre-completion attempt because JSON serialization failed after raw/summary files were written. The minimal native-boolean repair left scientific raw and summary artifacts byte-identical. This is a reporting/plumbing repair, not a scientific rerun or result rewrite.
+
+## Confirmatory protocol freeze
+
+Before any confirmatory run, record: `experiment_id`, version, hypothesis, mechanism, baseline family, data/split, seed list, primary metric, aggregation/effect statistic, threshold, falsifier, analysis code/hash, compute budget, stop rule, and reserved-data policy. Confirmatory seeds may execute once under that frozen contract.
