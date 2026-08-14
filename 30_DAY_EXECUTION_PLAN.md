@@ -15,69 +15,75 @@ Additional work must be verification, packaging or explicitly blocked/queued—n
 ## WEEK 1 — compression and evidence audits
 
 ### Research
-1. Freeze the four active flagships in `PORTFOLIO_SNAPSHOT.md`; no new flagship enters without displacing one.
-2. LAM-JEPA: finish internal paper/release gaps that do not require owner/legal decisions; independently recompute tables/figures from retained evidence; lock claim language.
-3. NeuroCAD: freeze one same-provider direct-vs-typed-IR/OOD protocol before new evaluation.
-4. IRIS: finalize negative-result failure taxonomy and decide whether there is a principled successor mechanism. If not, close the active successor line.
-5. Darcy: write matched-budget learned-operator/OOD protocol; do not run until baseline/data/metric are frozen.
+1. Keep the compressed **three Tier-S priorities** frozen: LAM-JEPA paper closure, IRIS v0.2 negative-result closure, Percy reliability/provenance. A new Tier S must displace one.
+2. LAM-JEPA: finish internal paper/release gaps that do not require owner/legal decisions; independently recompute tables/figures; lock claim language and exact method description.
+3. NeuroCAD: preserve v1 and v2 evidence. The typed-IR/parser-specific causal explanation is already falsified by the validation-dominant v2 diagnostic. Freeze at most one **residual reliability/coverage** study versus same-provider learned direct/program and constrained generation on genuinely broader OOD geometry.
+4. IRIS: successor-architecture search is closed. Freeze only the cheapest simple-baseline false-open/recovery frontier needed to judge whether the negative/tradeoff package is general enough to publish; keep seeds `1000–1029` quarantined.
+5. Darcy: write matched-budget learned-operator/OOD protocol; do not run until baseline/data/metric are frozen and canonical source is available.
+6. JEPA × Time-Series remains design-only. Do not consume an experiment slot until a later portfolio rescore explicitly admits `TSJEPA-FREEZE-001`.
 
 ### Infrastructure
-- On the real Percy host, before dispatch: snapshot existing SQLite + WAL, run integrity check, reconcile leases/heartbeats/stale tasks, preserve failures, measure live counters and hash the snapshot.
+- On the real Percy host, before dispatch: snapshot existing SQLite + WAL/checkpoints non-destructively, run integrity check, reconcile leases/heartbeats/stale tasks, preserve failures, measure live counters and hash the snapshot.
 - Mark duplicate/stale branches historical; do not mass-delete evidence.
+- Recover Project 2424 canonical source/overlay before source-dependent child experiments.
 
 ### Products
-- VertexED: use current production incident as the only deployment blocker truth; identify canonical Vercel project and exact expected runtime revision.
-- FinanceMeta/Bu1LD: spend no engineering cycles retrying blocked target mutations; resolve access only.
+- VertexED: use exact served-revision evidence and the production incident as deployment truth; do not infer production health from green commit contexts.
+- FinanceMeta/Bu1LD: spend no engineering cycles retrying blocked target mutations; resolve target access only.
 
 ### Exit gate
 - one authoritative portfolio snapshot;
 - one task queue;
 - every Tier S/A claim and experiment has a canonical ledger entry;
-- no confirmatory protocol runs unfrozen.
+- no confirmatory protocol runs unfrozen;
+- falsified mechanism claims are removed from manuscript/submission language.
 
 ## WEEK 2 — dangerous baselines, ablations, reproduction
 
-### Major experiment slot 1 — NeuroCAD
-Run only the frozen same-provider direct-vs-IR protocol with broader OOD/compositional prompts. Required outputs: raw prompts/outputs, syntax/geometry/execution/semantic metrics, error taxonomy, exact provider/model/settings and cost/runtime.
+### Major experiment slot 1 — NeuroCAD residual reliability/coverage
+Use only if `NEUROCAD-FREEZE-001` passes skeptical review. Compare current compiler/validator against contemporary learned direct/program generation and constrained generation under the same prompts/backend/provider budget on broader OOD part families. Required outputs: raw prompts/outputs, coverage/rejection curve, syntax/geometry/execution/semantic metrics, error taxonomy, exact provider/model/settings and cost/runtime.
+
+**Stop rule:** no residual advantage → end NeuroCAD research line for this cycle; preserve it as engineering/product work. Do not rename another mechanism.
 
 ### Major experiment slot 2 — Darcy
-If protocol passes review, run matched learned operator + reduced/interpolation controls under held-out/misaligned physical regimes. Otherwise leave slot idle rather than improvising.
+If protocol passes review and canonical source is recovered, run matched learned operator + reduced/interpolation controls under held-out/misaligned physical regimes. Otherwise leave slot idle.
 
-### Major experiment slot 3 — IRIS successor or memory diagnostic
-Use only if a new IRIS mechanism is scientifically motivated and frozen. Otherwise prefer a preregistered T2424-0025/NGMT follow-up that tests one causal mechanism, or leave capacity unused.
+### Major experiment slot 3 — intentionally unallocated by default
+IRIS is not entitled to a successor slot. A low-cost baseline-frontier experiment may use this slot only after `IRIS-FRONTIER-FREEZE-001` passes and only if its information gain exceeds other closure work. Otherwise leave capacity unused.
 
 ### Reproduction
 - independent LAM metric/table/figure recomputation;
-- independent NeuroCAD current-benchmark reproduction before interpreting new OOD data;
+- independent NeuroCAD v2 metric/artifact recomputation before interpreting broader OOD work;
 - one fresh Project 2424 canonical-source gate after local repository recovery.
 
 ### Stop rules
 - dangerous baseline wins materially → downgrade/negative package, do not tune around it;
-- mechanism ablation has no effect → remove mechanism claim;
+- mechanism ablation has no effect or a simpler component fully explains the gap → remove the stronger mechanism claim;
 - protocol/data identity cannot be established → block rather than substitute.
 
 ## WEEK 3 — manuscript conversion and external/product validation
 
 ### Paper conversion cap: 2
-1. LAM-JEPA negative-result manuscript to immutable review package.
-2. NeuroCAD **only if** Week 2 survives stronger baselines; otherwise convert IRIS negative/tradeoff package instead.
+1. **LAM-JEPA** negative-result manuscript to immutable review package.
+2. **IRIS v0.2** negative/tradeoff package if the baseline-frontier review makes it sufficiently informative; otherwise leave the second slot unused. NeuroCAD re-enters paper conversion only if its new broader reliability/coverage gate survives.
 
 Each package requires question, novelty boundary, raw-to-figure provenance, uncertainty, failure analysis, limitations and exact reproduce commands.
 
 ### External validation
-Send the top immutable packages from `EXTERNAL_VALIDATION_QUEUE.md`; request reproduction or falsifying review, not endorsements.
+Send only immutable packages from `EXTERNAL_VALIDATION_QUEUE.md`; request reproduction or falsifying review, not endorsements.
 
 ### Product validation cap: 2
-1. VertexED: exact served-revision proof + authenticated golden journey; then run a two-week user-value validation focused on activation to one trustworthy saved/retrieved study artifact.
-2. FinanceMeta **or** Bu1LD, not both unless target access is restored and a real deployment journey is ready. Choose whichever has the clearer reachable validation gate.
+1. VertexED: exact served-revision proof + authenticated golden journey; then a two-week user-value validation focused on activation to one trustworthy saved/retrieved study artifact.
+2. FinanceMeta **or** Bu1LD, not both unless target access is restored and a real deployment journey is ready. Choose whichever has the clearest reachable validation gate.
 
 ## WEEK 4 — release/submission candidates and next gates
 
-1. LAM-JEPA: if license/citation/authorship and independent review are resolved, create an immutable release/preprint candidate. Otherwise leave package `BLOCKED_EXTERNAL`, not “published.”
-2. NeuroCAD or IRIS: promote only if Week 2/3 gates justify it; otherwise publish internal technical evidence/failure package, not a prestige-target fiction.
-3. Release a portfolio failure/reproducibility bundle containing negative-result boundaries and reproduction commands where legally appropriate.
-4. Percy: produce a real-host reliability qualification report from crash/restart/provider/lease/soak evidence. If it fails, prioritize reliability fixes over more agents.
-5. Re-score the portfolio. Maximum 5 Tier S; ideally 3–4. Archive projects whose next information gain is low.
+1. LAM-JEPA: if license/citation/authorship and independent review are resolved, create an immutable release/preprint candidate. Otherwise leave the package externally blocked, not “published.”
+2. IRIS: release only a bounded negative/tradeoff package if the baseline frontier supports its informativeness; otherwise keep the negative evidence internally preserved.
+3. NeuroCAD: if the broader residual reliability/coverage gate fails, publish no research-mechanism claim; preserve the compiler as software and v1/v2 as evidence. If it survives, re-score before paper work.
+4. Release a portfolio failure/reproducibility bundle containing negative-result boundaries and reproduction commands where legally appropriate.
+5. Percy: produce a real-host reliability qualification report from crash/restart/provider/lease/soak evidence. If it fails, prioritize reliability fixes over more agents.
+6. Re-score the portfolio. Maximum 5 Tier S; target remains **3 or fewer** unless evidence forces promotion.
 
 ## Daily operating loop
 
@@ -93,11 +99,12 @@ Send the top immutable packages from `EXTERNAL_VALIDATION_QUEUE.md`; request rep
 
 ## 30-day success criteria
 
-- active flagship count stays bounded;
+- Tier-S count remains at 3 or falls further unless new decisive evidence justifies promotion;
 - at least one immutable negative-result paper package is externally reviewable;
-- NeuroCAD either survives a dangerous baseline/OOD attack or is cleanly downgraded;
-- IRIS successor is either rigorously frozen or killed;
+- NeuroCAD either demonstrates a distinct broader reliability/coverage advantage or its research line is cleanly closed while software utility is preserved;
+- IRIS remains negative unless a separately frozen simple-baseline frontier exposes a real residual question; no successor rescue;
 - Percy live-state counters/recovery behavior are measured on the real host;
 - VertexED production state is decided by exact served revision + real journey, not CI badges;
 - no failed scientific result is retuned in place;
-- no Project 2424 count is used as a proxy for research completion.
+- no Project 2424 count is used as a proxy for research completion;
+- JEPA × Time-Series remains one focused hypothesis program rather than seven speculative papers.
