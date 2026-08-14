@@ -9,7 +9,6 @@
     "base_head": "d5e9fcaa8de4e49b236b18ff7d3c515ed5f1ed6d",
     "active_reconciliation_pr": 349,
     "active_reconciliation_branch": "chatgpt/portfolio-reconcile-20260814-2201",
-    "superseded_control_prs": [346, 347, 348],
     "status_source": "MASTER_STATUS.md",
     "queue_source": "NEXT_TASK_QUEUE.md",
     "checkpoint_source": "CHECKPOINT.md"
@@ -30,9 +29,23 @@
     "financemeta": {
       "repository": "build-the-future-11/finance4all-global-reach",
       "head": "fbdd503223edc5b1780509720391083f485a4a85",
-      "source_access": "READ_WRITE",
+      "source_read_access": true,
+      "branch_write_test": "403 Resource not accessible by integration",
       "production_supabase_access": "UNAVAILABLE"
     }
+  },
+  "connected_supabase": {
+    "project_count": 1,
+    "projects": [
+      {
+        "id": "xwlrzgfuhfbckgvcmyoq",
+        "name": "vertexed25-byte's Project",
+        "status": "ACTIVE_HEALTHY",
+        "postgres": "17.4.1.074"
+      }
+    ],
+    "financemeta_visible": false,
+    "bu1ld_visible": false
   },
   "unavailable_or_unrecovered_sources": {
     "percy_mac_host": "/Volumes/PRO-BLADE/Atlas/Percy",
@@ -73,21 +86,22 @@
     "public_security_smoke_passed": true,
     "artifact_id": "9225715176",
     "artifact_sha256": "e7870e9561748ef4d4247e3bf4e01d3e8feead3780c4e2016d3742d134f2069a",
-    "vercel_capacity_state": "BUILD_RATE_LIMIT_REPORTED",
+    "vercel_capacity_state_on_control_head": "BUILD_RATE_LIMIT_REPORTED",
     "authenticated_golden_journey": "INCOMPLETE",
     "next_gate": "Identify canonical deployment, restore authorized capacity, prove exact served revision, then execute disposable-account authenticated journey and cleanup"
   },
   "financemeta": {
-    "source_state": "VISIBLE_SECURITY_HARDENING_REQUIRED",
+    "source_state": "READABLE_WRITE_BLOCKED_SECURITY_HARDENING_REQUIRED",
     "repository": "build-the-future-11/finance4all-global-reach",
     "head": "fbdd503223edc5b1780509720391083f485a4a85",
+    "branch_write_test": "403 Resource not accessible by integration",
     "confirmed_source_defects": [
       "profiles.role participates in authorization while authenticated users can update own profile without a role-preserving WITH CHECK",
       "authenticated self-insert policy does not force the member role",
       "SECURITY DEFINER authorization helpers do not pin search_path or explicit callable-role boundaries"
     ],
-    "production_state": "BLOCKED_EXTERNAL_SUPABASE",
-    "next_gate": "Exact-base isolated source migration/tests, followed by authorized production Supabase denial-path verification before any production closure claim"
+    "production_state": "BLOCKED_EXTERNAL_GITHUB_WRITE_AND_SUPABASE",
+    "next_gate": "Grant target GitHub write access and connect FinanceMeta Supabase, then generate exact-base migration/tests and verify role-escalation denial before any production closure claim"
   },
   "research": {
     "lam_jepa": {
