@@ -1,0 +1,25 @@
+name: Temporary lock probe
+
+on:
+  push:
+    branches:
+      - chatgpt/closure-clean-20260814
+
+permissions:
+  contents: read
+
+jobs:
+  lock-probe:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Regenerate lock metadata only
+        run: npm install --package-lock-only --ignore-scripts
+      - name: Print resolved nanoid lock entry
+        run: node -e "const l=require('./package-lock.json'); console.log(JSON.stringify(l.packages['node_modules/nanoid'], null, 2))"
+      - name: Verify production audit
+        run: npm audit --omit=dev --audit-level=high
