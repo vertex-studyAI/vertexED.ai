@@ -1,0 +1,99 @@
+{
+  "checkpoint": "START_SNAPSHOT",
+  "captured_at": "2026-08-14T22:02:00+05:30",
+  "truth_rule": "Evidence absent from the accessible surface is UNKNOWN or BLOCKED, never inferred VERIFIED.",
+  "source_control": {
+    "repository": "vertex-studyAI/vertexED.ai",
+    "base_branch": "main",
+    "base_head": "d5e9fcaa8de4e49b236b18ff7d3c515ed5f1ed6d",
+    "reconciliation_branch": "closure/20260814-2202-truth-reconcile",
+    "connected_repositories": [
+      "vertex-studyAI/vertexED.ai",
+      "vertex-studyAI/LAM-JEPA",
+      "vertex-studyAI/Text-To-Video"
+    ],
+    "other_canonical_repositories_visible": false
+  },
+  "percy": {
+    "state": "BLOCKED",
+    "blocker": "The real Mac host /Volumes/PRO-BLADE/Atlas/Percy and its live SQLite/WAL/process state are not mounted on this execution surface.",
+    "db_integrity": "UNKNOWN",
+    "wal_state": "UNKNOWN",
+    "physical_workers": "UNKNOWN",
+    "logical_agent_capacity": 16256,
+    "logical_agent_semantics": "registered scheduling identities only; not physical workers or proof of dispatch",
+    "real_tasks": "UNKNOWN",
+    "completed": "UNKNOWN",
+    "failed": "UNKNOWN",
+    "blocked": "UNKNOWN",
+    "stale": "UNKNOWN",
+    "leases": "UNKNOWN",
+    "heartbeats": "UNKNOWN",
+    "dirty_worktrees": "UNKNOWN",
+    "historical_storage_warning": "A prior real-Mac preflight observed internal free space below Percy's 25 GiB safety floor. This is stale historical evidence and must be rechecked before heavy work."
+  },
+  "project_2424": {
+    "state": "PARTIAL",
+    "identity_universe": 2424,
+    "identity_boundary": "The retained master-workbook merge contract defines 2,424 unique identities/proposals; it does not establish 2,424 implementations, experiments, papers, or releases.",
+    "control_repo_selected_packages_present": true,
+    "umbrella_canonical_source": "/Volumes/PRO-BLADE/Atlas/Project-2024/Project_2424",
+    "umbrella_source_visible_here": false,
+    "dirty_overlay_preservation_required": true,
+    "npms": "RECOVERED_COMPACT_EVIDENCE / ORIGINAL_SOURCE_MIGRATION_PENDING",
+    "darcy_v2_protocol": "FROZEN_NOT_EXECUTED",
+    "darcy_v2_protocol_commit": "6fbd9c4ba73a460f5abbe6a6f4c478b6bc50e389"
+  },
+  "vertexed": {
+    "source": "VERIFIED",
+    "production": "BLOCKED",
+    "latest_monitor_run": 31817794439,
+    "monitor_checked_at": "2026-08-14T16:07:14Z",
+    "workflow_commit": "d5e9fcaa8de4e49b236b18ff7d3c515ed5f1ed6d",
+    "expected_deploy_relevant_revision": "e2ecd19ed9816f8f36369c7dc0f38e39942ca73a",
+    "served_revision": null,
+    "public_smoke": {
+      "health": "PASS_EXCEPT_REVISION_IDENTITY",
+      "unknown_api_404": "PASS",
+      "homepage_200": "PASS",
+      "malformed_waitlist_400": "PASS",
+      "logged_out_ai_401": "PASS",
+      "logged_out_user_401": "PASS",
+      "logged_out_admin_401": "PASS",
+      "untrusted_origin_403": "PASS"
+    },
+    "evidence_artifact_id": 9225715176,
+    "evidence_artifact_sha256": "e7870e9561748ef4d4247e3bf4e01d3e8feead3780c4e2016d3742d134f2069a",
+    "deployment_quota": "BLOCKED_FREE_DAILY_DEPLOYMENT_LIMIT",
+    "next_gate": "After the deployment quota window permits, perform one production deployment of the latest verified runtime revision, require /api/health to expose the exact served revision, rerun the Production Health Monitor to PASS, then execute the authenticated disposable-account golden journey. Do not weaken the health contract."
+  },
+  "research_boundaries": {
+    "lam_jepa": "VERIFIED_REPRODUCIBLE_NEGATIVE_INTERNAL_PACKAGE / EXTERNAL_VALIDATION_PENDING / OWNER_RELEASE_METADATA_BLOCKED",
+    "iris": "NEGATIVE_OR_INCONCLUSIVE_DEVELOPMENT_GATE / NO_SUCCESSOR_AUTHORIZED / CONFIRMATORY_SEEDS_1000_1029_QUARANTINED",
+    "neurocad": "TYPED_PARSER_CAUSAL_MECHANISM_FALSIFIED_ON_REUSED_DIAGNOSTIC",
+    "ngmt_v0_1": "REPRODUCED_NEGATIVE_FROZEN",
+    "eigen_jepa": "MIXED_NEGATIVE_FROZEN_PRIMARY_METRIC",
+    "t2424_1863": "REPRODUCED_NEGATIVE_ACTIVE_COMPUTE_ARCHIVED"
+  },
+  "products": {
+    "financemeta": "BLOCKED_EXTERNAL_TARGET_ACCESS",
+    "bu1ld": "BLOCKED_EXTERNAL_TARGET_RUNTIME_ACCESS",
+    "notes_to_video": "VERIFIED_LOCAL_ENGINEERING_CHILD_SUBSYSTEM_NOT_PRODUCTION"
+  },
+  "execution_policy": {
+    "major_science_runs_authorized": 0,
+    "priority_order": [
+      "PERCY-STATE-001",
+      "P2424-CANON-001",
+      "VERTEX-PROD-001",
+      "LAM-RELEASE-METADATA-003",
+      "EXTVAL-LAM-001",
+      "IRIS-FRONTIER-SOURCE-001",
+      "DARCY-V2-IMPLEMENT-VERIFY",
+      "NPMS-SOURCE-001"
+    ],
+    "no_paid_resources": true,
+    "no_destructive_recovery": true,
+    "no_negative_result_rescue": true
+  }
+}
