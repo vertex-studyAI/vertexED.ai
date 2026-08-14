@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "as_of": "2026-08-14",
+  "rule": "GREEN is claim-specific; negative reproducibility does not imply superiority, publication, deployment or external validation.",
+  "claims": [
+    {"project":"LAM-JEPA","state":"A_PUBLISH_NEGATIVE","supported":["Frozen five-seed ARC validation result is reproducibly negative/inconclusive."],"forbidden":["LAM-JEPA superiority","planner benefit","target benefit","broad JEPA failure","locked-test performance"]},
+    {"project":"IRIS-v0.2","state":"D_NEGATIVE_RESULT","supported":["Frozen development evidence shows a robustness-adaptation tradeoff and failed >=10% abrupt-regime promotion gate."],"forbidden":["successor superiority","confirmatory success","broad novel robust-memory superiority"]},
+    {"project":"NGMT-v0.1","state":"D_NEGATIVE_RESULT","supported":["Equal-budget B3 learned experiment reproducibly fails both adverse-condition superiority gates while clean regression gate passes."],"forbidden":["NGMT superiority","statistical significance","broad Transformer advantage"]},
+    {"project":"NeuroCAD","state":"C_CONTINUE_EXPERIMENTATION","supported":["Frozen typed/validated pipeline beats frozen direct baseline on the controlled held-out-template benchmark and valid cases execute to STL."],"forbidden":["arbitrary NLP-to-CAD","SOTA","manufacturing validity","external validity"]},
+    {"project":"Darcy-T2424-0050","state":"C_CONTINUE_EXPERIMENTATION","supported":["Reduced-resistance mechanism strongly improves the frozen synthetic pressure-MAE screen with flux consistency."],"forbidden":["learned neural-operator superiority","real porous-media generalization"]},
+    {"project":"T2424-0027","state":"C_CONTINUE_EXPERIMENTATION","supported":["Synthetic injected-coordinate leakage audit reproduces with independent verifier."],"forbidden":["real multilingual encoder leakage","linguistic relativity","real-world epistemic bias"]},
+    {"project":"APEN","state":"C_CONTINUE_EXPERIMENTATION","supported":["Controlled salience-dependent tradeoff reproduces and degrades/reverses under severe salience failure."],"forbidden":["universal APEN superiority","naturalistic robustness"]},
+    {"project":"Eigen-JEPA","state":"D_NEGATIVE_RESULT","supported":["Real-data mixed/negative comparison reproduces and strong raw/log ridge baseline remains stronger on the frozen primary covariance target."],"forbidden":["spectral/eigen superiority","metric-switched positive result"]},
+    {"project":"NPMS","state":"C_CONTINUE_EXPERIMENTATION","supported":["Controlled diagnostic and companion learned evidence reproduce within retained boundary."],"forbidden":["natural-task superiority","causal transfer","OOD superiority"]},
+    {"project":"PEN","state":"F_SOURCE_BLOCKED","supported":["A distinct evidence package exists."],"forbidden":["executable reproduction","scientific status inherited from APEN"]},
+    {"project":"T2424-1863","state":"D_NEGATIVE_RESULT","supported":["Frozen exact-head local-diffusion screen reproducibly fails the predeclared >75% gate."],"forbidden":["operator superiority","real PDE/generalization advantage"]},
+    {"project":"Percy","state":"B_PRODUCTIZE","supported":["Evidence-native runtime design and 16,256 logical identity registry specification exist."],"forbidden":["16,256 physical workers","16,256 unique completed tasks","live host health without DB/process measurement"]},
+    {"project":"VertexED","state":"F_EXTERNAL_BLOCKED","supported":["Source repository gates can be GREEN while production remains separately uncertified."],"forbidden":["exact current production revision verified","full production health","authenticated release completeness"]},
+    {"project":"FinanceMeta","state":"B_PRODUCTIZE","supported":["Canonical portal source exists; current initial schema exposes a source-level role-escalation boundary because own-profile UPDATE covers role while authorization helpers trust role."],"forbidden":["production security fixed","production RLS certified","real-user validation"]},
+    {"project":"The-Bu1LD","state":"F_EXTERNAL_BLOCKED","supported":["Canonical source/release package exists."],"forbidden":["immutable live build identity","seven-role production certification","production hydration fixed without retained live evidence"]}
+  ]
+}
