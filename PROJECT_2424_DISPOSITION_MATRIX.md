@@ -1,9 +1,16 @@
 # PROJECT 2424 DISPOSITION MATRIX
 
-**State:** `PARTIAL / BLOCKED_EXTERNAL_SOURCE`  
-**Machine-readable companion:** [`PROJECT_2424_CANONICAL_MAP.json`](./PROJECT_2424_CANONICAL_MAP.json)
+**State:** `HISTORICAL_WAVE001_BASE_RECOVERED / LATER_OVERLAY_AND_IDENTITY_MAP_UNRESOLVED`  
+**Machine-readable companion:** [`PROJECT_2424_CANONICAL_MAP.json`](./PROJECT_2424_CANONICAL_MAP.json)  
+**Recovery evidence:** [`portfolio/project2424/PROJECT_2424_SOURCE_RECOVERY_20260814.md`](./portfolio/project2424/PROJECT_2424_SOURCE_RECOVERY_20260814.md)
 
-The preserved Project 2424 source/dirty overlay is not visible from this execution surface. Only IDs already backed by retained canonical snapshot/control evidence receive an A–F state here.
+## Historical Wave-001 evidence
+
+The checksum-matched manifest bundle is now verified at SHA-256 `4c685af7...ece`, recovered HEAD `ff609f3...`, with 2,424 unique registry rows but only **24 source-backed packages**. Fresh clean-clone quality gate passes those 24 packages. Historical classification is **4 controlled experimental validations, 4 executable demonstrations, 16 compact baseline/idea tests; 0 independent reproductions; release rejected**.
+
+This does **not** map those 24 packages onto current `T2424-*` identities. Retained generations conflict: numeric suffixes such as `0038`, `0050`, `0019`, and `1863` refer to different projects in historical Wave-001, a retained Percy registry, and the current control repo. Therefore suffix matching is forbidden as an identity-recovery shortcut.
+
+## Current `T2424-*` directly disposition-backed evidence
 
 | ID | Evidence boundary | A–F | Next gate |
 |---|---|---:|---|
@@ -12,9 +19,7 @@ The preserved Project 2424 source/dirty overlay is not visible from this executi
 | T2424-0028 | codec mechanics reproduce; no serious external rate-distortion result | **E** | none this cycle |
 | T2424-0029 | analytic screen reproduces; no nonlinear/learned evidence | **E** | none this cycle |
 | T2424-0037 | NeuroCAD software remains useful; matched validation closes reused diagnostic gap, falsifying typed/parser-specific causal interpretation there | **B** | software release qualification; fresh benchmark/protocol for any new science |
-| T2424-0050 | parent aligned synthetic result retained; learned/OOD v2 frozen before outcomes and **not run** | **C** | finish pre-outcome comparator/environment/hardware/interpretation locks before any v2 outcome |
+| T2424-0050 | parent aligned synthetic result retained; learned/OOD v2 frozen before outcomes and **not run**; B2 pre-outcome baseline is unit-verified in PR #376 | **C** | remaining interpretation/environment/hardware/B3/B4 locks before any v2 outcome |
 | T2424-1863 | exact frozen promotion gate failed | **D** | preserve negative result |
 
-Named IDs `T2424-0016`, `0019`, `0023`, `0024`, `0026`, `0030`, `0034`, `0035`, `0036`, `0038`, `0040`, `0046`, `0049`, `0051`, `0053`, `0054`, `1530`, `1767`, `1768`, `1861`, and `1931` remain `UNKNOWN_NOT_REVALIDATED_FROM_CANONICAL_SOURCE` in this checkpoint. All other contracts are likewise unknown here.
-
-Full closure requires non-destructive recovery of exact source ancestry/dirty overlay, then a source-backed `ID → title → path → repo → SHA → dirty state → spec → implementation → experiment → result → evidence → blocker → A–F` map. Registry count alone is never research completion.
+Every other present-day `T2424-*` identity remains `UNKNOWN_OR_UNRECONCILED_WITH_HISTORICAL_GENERATIONS` unless supported by its own direct evidence. The next closure gate is an explicit cross-generation provenance/alias map plus later dirty-overlay recovery—not registry overwrite.
