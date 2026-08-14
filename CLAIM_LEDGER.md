@@ -1,13 +1,13 @@
 # CLAIM_LEDGER
 
-**As of:** 2026-08-13 22:00 IST
+**As of:** 2026-08-14 evidence-reconciliation wave
 
 | Project | Supported claim | Unsupported / forbidden claim at closeout |
 |---|---|---|
 | LAM-JEPA | frozen ARC validation result is reproducibly negative/inconclusive | model superiority; planner benefit; target benefit; broad JEPA failure; locked-test performance |
-| IRIS v0.2 | scalar heavy-tail robustness effect and robustness–adaptation failure modes are reproducible | successor superiority; >=10% abrupt adaptation; broad novel robust-memory architecture; confirmatory success |
+| IRIS v0.2 | scalar heavy-tail robustness effect and robustness–adaptation failure modes are reproducible; current successor promotion gate fails and no unfrozen successor is authorized | successor superiority; >=10% abrupt adaptation; broad novel robust-memory architecture; confirmatory success |
 | Project 2424 | selected bounded experiments reproduce with project-specific evidence | 2,424 completed papers, venue-ready projects, or independently validated results |
-| NeuroCAD | typed/validated compiler beats frozen direct baseline on controlled held-out-template benchmark and produces executable STL for valid cases | arbitrary NLP-to-CAD, manufacturing validity, SOTA, external validity |
+| NeuroCAD | frozen v1 typed/validated pipeline beats the frozen flat direct baseline on the bounded held-out-template benchmark and valid v1 cases produce executable STL; a separately frozen component diagnostic shows matched fail-closed validation fully recovers the old flat-baseline gap on the reused bounded cases (`20/20` current typed+validated, `12/20` flat direct, `20/20` validated direct; recovery fraction `1.00`) | arbitrary NLP-to-CAD; manufacturing validity; SOTA; external validity; claim that v1 isolated a typed-parser/typed-IR mechanism; claim that typed IR is useless in general |
 | Darcy | reduced-resistance mechanism strongly improves the frozen synthetic pressure-MAE screen | learned neural-operator superiority, real porous-media generalization |
 | NGMT v0.1 | frozen equal-budget learned experiment reproducibly misses its two adverse-condition superiority gates | NGMT superiority, significance, broad Transformer advantage |
 | APEN | controlled rare-event/salience tradeoff is reproducible and degrades under salience failure | robust universal APEN superiority |
