@@ -27,7 +27,7 @@
     "A2": {"state": "IMPLEMENTED", "name": "log-mean coarse surrogate", "primary_blocks": 8},
     "B1": {"state": "IMPLEMENTED", "name": "linear heterogeneity-blind profile"},
     "B2": {
-      "state": "IMPLEMENTED_PREOUTCOME_CI_PENDING",
+      "state": "IMPLEMENTED_PREOUTCOME_UNIT_VERIFIED",
       "name": "PCA + ridge reduced-order baseline",
       "implementation": "src/b2-pca-ridge.mjs",
       "implementation_git_blob_sha": "6e10c6fbecf0cf5ce78ed2b5c61e3fa97da47541",
@@ -37,7 +37,10 @@
       "ridge_alpha_grid": [1e-8, 1e-6, 1e-4, 1e-2, 1e-1, 1, 10],
       "selection_metric": "validation pressure mean relative L2 only",
       "test_or_ood_for_selection": false,
-      "eligibility_tests": "tests/darcy-v2-b2.test.mjs"
+      "eligibility_tests": "tests/darcy-v2-b2.test.mjs",
+      "verification_workflow_run": 31822727505,
+      "verification_job": 94839646560,
+      "verification_gate": "canonical release gate"
     },
     "B3": {"state": "BLOCKED_IMPLEMENTATION", "name": "FNO-1D"},
     "B4": {"state": "BLOCKED_IMPLEMENTATION", "name": "DeepONet"}
