@@ -1,0 +1,17 @@
+{
+  "checkpoint":"START_SNAPSHOT_2026-08-14_2202_IST",
+  "timestamp":"2026-08-14T22:02:00+05:30",
+  "truth_policy":"UNKNOWN is not VERIFIED; no destructive recovery; no paid-resource actions; frozen negatives preserved.",
+  "percy":{"db_integrity":"UNKNOWN_BLOCKED_EXTERNAL_MAC","physical_workers":"UNKNOWN_BLOCKED_EXTERNAL_MAC","logical_agent_capacity":"UNKNOWN_LIVE_STATE","real_tasks":"UNKNOWN_LIVE_STATE","completed":"UNKNOWN_LIVE_STATE","failed":"UNKNOWN_LIVE_STATE","blocked":"UNKNOWN_LIVE_STATE","stale":"UNKNOWN_LIVE_STATE"},
+  "portfolio":{"control_branch":"portfolio/convergence-20260814-2202-v2","base_main_sha":"d92e06deaa893bfb8273f3f781105ecb155e8aca","major_science_runs_authorized":0,"new_scientific_outcome_runs":0,"production_deployments_claimed":0,"publications_claimed":0},
+  "verified_deltas":[
+    "IRIS checksum source chain partially recovered; exact trajectory and adaptation-metric provenance remain blocking.",
+    "Darcy v2 frozen and pre-outcome implementation materialized; no scientific outcome run authorized.",
+    "VertexED bounded Supabase RLS/function ACL controls inspected; Security Advisor warnings remain.",
+    "FinanceMeta historical security merge preserved; current main pre-merge; branch 41 commits ahead; exact-head lint fails; connector writes 403.",
+    "The Bu1LD exact current-main CI passed; Cloudflare release verification failed and deploy skipped.",
+    "Percy checked-in snapshots are historical, not live host evidence."
+  ],
+  "unresolved_p0":["Percy live state","Project 2424 canonical source/overlay","VertexED served revision + golden journey","FinanceMeta safe reviewable recovery + runtime","The Bu1LD deployment verification"],
+  "next_actions_source":"NEXT_TASK_QUEUE.json"
+}
