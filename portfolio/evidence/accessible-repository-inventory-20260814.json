@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-08-14T22:09:52+05:30",
+  "purpose": "Evidence-only inventory of repositories visible through current GitHub affiliation/install surfaces. Presence does not imply canonical identity, completion, scientific support, deployment, or external validation.",
+  "coverage_boundary": "Not guaranteed complete. Local Mac/PRO-BLADE repositories and GitHub repositories not exposed to the current connector remain outside this inventory.",
+  "repositories": [
+    {"repository":"vertex-studyAI/vertexED.ai","affiliation":"organization_member","role":"product_and_temporary_portfolio_control","head_verified":"d5e9fcaa8de4e49b236b18ff7d3c515ed5f1ed6d"},
+    {"repository":"vertex-studyAI/LAM-JEPA","affiliation":"organization_member","role":"research","head_verified":"bf8311e1a4d240e2891e51af38eaf7754944e300"},
+    {"repository":"vertex-studyAI/Text-To-Video","affiliation":"organization_member","role":"vertexed_child_subsystem","head_verified":null},
+    {"repository":"build-the-future-11/finance4all-global-reach","affiliation":"owner","role":"financemeta_candidate_canonical_product","head_verified":"fbdd503223edc5b1780509720391083f485a4a85"},
+    {"repository":"build-the-future-11/FinanceMeta-Global","affiliation":"owner","role":"financemeta_family_unreconciled","head_verified":null},
+    {"repository":"build-the-future-11/FinanceMeta-Landing","affiliation":"owner","role":"financemeta_family_unreconciled","head_verified":null},
+    {"repository":"build-the-future-11/IRIS","affiliation":"owner","role":"iris_name_only_public_repo_not_canonical_scientific_source","head_verified":"787cc54bb4037ca6e54aede97512b3d43481e410"},
+    {"repository":"build-the-future-11/Iy-ERN","affiliation":"owner","role":"unreconciled","head_verified":null},
+    {"repository":"build-the-future-11/RIS","affiliation":"owner","role":"unreconciled","head_verified":null},
+    {"repository":"Finance-Meta-Research/Eigen-JEPA","affiliation":"organization_member","role":"research_family","head_verified":null},
+    {"repository":"Finance-Meta-Research/EigenFinance","affiliation":"organization_member","role":"research_family","head_verified":null},
+    {"repository":"Finance-Meta-Research/FI-JEPA","affiliation":"organization_member","role":"research_family","head_verified":null},
+    {"repository":"THE-BU1LD/EmailFinder","affiliation":"organization_member","role":"unreconciled","head_verified":null},
+    {"repository":"THE-BU1LD/EPU","affiliation":"organization_member","role":"research_or_infrastructure_unreconciled","head_verified":null},
+    {"repository":"THE-BU1LD/Fabric-Induced-Memory","affiliation":"organization_member","role":"research_unreconciled","head_verified":null},
+    {"repository":"THE-BU1LD/GaussianMemory","affiliation":"organization_member","role":"research_unreconciled","head_verified":null},
+    {"repository":"THE-BU1LD/ResearchPilot","affiliation":"organization_member","role":"autonomous_research_infrastructure_unreconciled","head_verified":null},
+    {"repository":"THE-BU1LD/RIPII","affiliation":"organization_member","role":"research_unreconciled","head_verified":null},
+    {"repository":"ryangomez010/bu1ld-landing","affiliation":"collaborator","role":"bu1ld_candidate_canonical_landing","head_verified":"daa80c1124b2a6d7d09b7669e04d29e50cffcbbe"}
+  ],
+  "negative_discovery_evidence": [
+    {"query":"Nexus user:THE-BU1LD","result":"NO_REPOSITORY_RETURNED"},
+    {"query":"LabOS user:THE-BU1LD","result":"NO_REPOSITORY_RETURNED"}
+  ],
+  "write_permission_rechecks": [
+    {"repository":"build-the-future-11/finance4all-global-reach","base":"fbdd503223edc5b1780509720391083f485a4a85","operation":"create isolated branch","result":"403_RESOURCE_NOT_ACCESSIBLE_BY_INTEGRATION"},
+    {"repository":"ryangomez010/bu1ld-landing","base":"daa80c1124b2a6d7d09b7669e04d29e50cffcbbe","operation":"create isolated branch","result":"403_RESOURCE_NOT_ACCESSIBLE_BY_INTEGRATION"}
+  ]
+}
