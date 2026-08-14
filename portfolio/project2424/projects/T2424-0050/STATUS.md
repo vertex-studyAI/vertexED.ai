@@ -2,66 +2,75 @@
 
 **Project:** Darcy Latent Operator  
 **Queue rank:** 43  
-**Track:** C — Existing work → minimum experiment  
-**State:** TESTED_TOOL / LATEST_MAIN_REVALIDATION_PENDING / MANUAL_MERGE_REQUIRED  
-**Claim level:** bounded 1D reduced-resistance scientific-computing screen
+**State:** `BOUNDED_V1_EVIDENCE_RETAINED / V2_PROTOCOL_FROZEN / V2_NOT_EXECUTED`  
+**Claim level:** bounded 1D resistance-preserving scientific-computing mechanism; no learned-operator superiority claim
 
-## Identity repair
+## Canonical identity
 
-The frozen First-100 queue assigns `T2424-0050` to **Darcy Latent Operator**. The repository previously placed Benchmark Augmentation Theory under that canonical ID. This repair preserves that useful benchmark audit under `portfolio/project2424/tools/benchmark-augmentation-theory/` with auxiliary identity `AUX-P2424-BENCHMARK-AUGMENTATION`, then restores the canonical project path to Darcy.
+The frozen Project 2424 queue assigns `T2424-0050` to **Darcy Latent Operator**. Benchmark Augmentation Theory is preserved separately under `portfolio/project2424/tools/benchmark-augmentation-theory/` as auxiliary tooling; it is not the canonical T2424-0050 identity.
 
-## Implemented
+## Retained bounded v1 package
 
-- [x] positive-permeability input validation
-- [x] steady 1D Darcy resistance solver
-- [x] explicit constant-flux pressure reconstruction
-- [x] harmonic block-resistance compression
-- [x] 4× reduced latent representation (24 cells → 6 blocks)
-- [x] linear-pressure no-heterogeneity baseline
-- [x] deterministic heterogeneous field generator
-- [x] 20-seed benchmark
-- [x] uniform-permeability negative control
-- [x] retained machine-readable result
-- [x] six focused Darcy regression tests
-- [x] Benchmark Augmentation Theory preserved losslessly as auxiliary tooling
-- [x] zero-exception queue↔canonical-package identity regression in the repair lineage
+The canonical package contains:
 
-## Prior exact-head evidence
-
-The same bounded Darcy/auxiliary repair lineage previously passed canonical GitHub Actions on exact repair heads, including CI run `31456883470` for PR #230. That evidence establishes the repair mechanics on the earlier base only.
-
-## Latest-main revalidation
-
-This branch is rebuilt from current `main` `37391b14fbd3aa2ab550aa0048ab944ea2556483`, which includes newer portfolio truth and certification-readiness infrastructure. Those changes must remain intact.
-
-The refreshed branch must pass canonical GitHub Actions on its own exact head before it is eligible for manual integration. Prior green runs are not substituted for latest-main evidence.
+- positive-permeability validation;
+- steady 1D Darcy resistance solver;
+- constant-flux pressure reconstruction;
+- harmonic block-resistance compression;
+- 24-cell → 6-block representation;
+- linear heterogeneity-blind baseline;
+- deterministic heterogeneous field generator;
+- 20-seed benchmark;
+- uniform-permeability negative control;
+- retained machine-readable results;
+- focused Darcy regression tests.
 
 Retained bounded result:
 
 - mean baseline pressure MAE: `0.0658913916`;
 - mean latent pressure MAE: `0.0011366559`;
 - mean relative improvement: `97.8766%`;
-- mean flux relative error: `1.37e-16`;
-- uniform negative-control latent MAE: `0`;
-- predeclared screen: all three bounded mechanics gates passed.
+- mean flux relative error: approximately `1.37e-16`;
+- uniform negative-control latent MAE: `0`.
 
-## Current promotion gate
+These numbers establish only the frozen synthetic mechanism screen. They do not establish learned neural-operator quality, multidimensional generalization, real porous-media validity or publication novelty.
 
-Even if exact-head CI is green, that proves repository integration only. It does not establish scientific generalization, learned-operator quality or research completion.
+## v2 protocol freeze — CLOSED GATE
 
-**DO NOT AUTO-MERGE OR DEPLOY. MANUAL REVIEW REQUIRED.**
+`DARCY-FREEZE-001` is complete. Commit `6fbd9c4ba73a460f5abbe6a6f4c478b6bc50e389` added `LEARNED_OPERATOR_OOD_PROTOCOL_V2.md` **before any v2 outcome execution**.
+
+The frozen v2 scientific question tests the resistance-preserving coarse representation against stronger reduced/learned comparators under fixed ID and misaligned/OOD permeability regimes. The protocol predeclares the generator/splits, systems, learned-model budget, eligibility conditions, metrics, uncertainty, success gates and falsifiers.
+
+The protocol itself states:
+
+- outcome: `EXPERIMENT NOT YET RUN`;
+- the parent synthetic screen remains immutable;
+- a positive result against the weak linear baseline alone is insufficient;
+- failed H1/H2 must be retained rather than rescued by changing the generator, split, baselines or thresholds.
+
+## Current next gate
+
+`DARCY-V2-IMPLEMENT-VERIFY` — **implementation readiness, not protocol redesign**.
+
+Before any v2 execution is authorized, independently verify that committed code/environment/evidence paths implement the frozen protocol exactly, including:
+
+- deterministic generator and hashable split manifest;
+- frozen ID/OOD families and seeds;
+- M1/A1/A2/B1/B2 plus eligible FNO and DeepONet learned baselines;
+- predeclared training/tuning budget and eligibility tests;
+- frozen metrics, group aggregation, uncertainty and falsifiers;
+- raw artifact/provenance outputs sufficient for independent verification.
+
+If any required element is absent, record the exact implementation blocker. Do not rewrite v2 after seeing outcomes.
 
 ## Not claimed
 
-- neural operator learning
-- multidimensional Darcy flow
-- real porous-media validation
-- superiority over scientific-ML baselines
-- out-of-distribution generalization
-- publication novelty
-- research completion
-- `CERTIFIED_COMPLETE`
-
-## Next artifact
-
-A harder frozen benchmark with misaligned/correlated permeability fields, representation ablations, stronger reduced-order comparators, 2D finite-volume data and independent scientific QA.
+- v2 executed;
+- neural-operator superiority;
+- multidimensional Darcy flow;
+- real porous-media validation;
+- out-of-distribution superiority;
+- publication novelty;
+- external validation;
+- research completion;
+- `CERTIFIED_COMPLETE`.
