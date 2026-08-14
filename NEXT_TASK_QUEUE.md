@@ -1,4 +1,4 @@
-# NEXT_TASK_QUEUE
+# NEXT TASK QUEUE
 
 **Rescored:** 2026-08-14 after independent LAM raw-artifact verification and external-packet merge  
 **Rule:** information gain × closure probability × evidence value ÷ cost. Dependencies are hard.
@@ -38,9 +38,9 @@
 
 ## 7 — VERTEX-PROD-001 — P0 PRODUCT / BLOCKED_EXTERNAL_DEPLOYMENT_IDENTITY
 - Establish exact served revision and authenticated golden-journey truth.
-- Latest checked scheduled production-health run `31777345899` still failed all three bounded revision checks: `/api/health` was healthy but did not expose the expected immutable revision; homepage and public/auth/security smoke boundaries passed.
-- The workflow expected revision `b3a0f9101760488c3fe42129defbcc85d3901fc1`, which is not resolvable in the currently accessible Git history.
-- Deliver: exact intended/served source identity, deployment ID, `/api/health` revision proof, production monitor PASS, disposable-account core workflow + cleanup record.
+- Latest checked scheduled production-health run `31777345899` failed all three bounded attempts because `/api/health` returned healthy but **omitted revision identity**. Homepage, API-router, malformed-waitlist, logged-out AI/user/admin and untrusted-origin smoke boundaries passed.
+- The workflow correctly expected deploy-relevant revision `8272b8cba0dab6e9a07ee6aa4f927ad9374de534`; that SHA is a resolvable repository commit. The unresolved fact is the **served deployment revision**, not the expected source revision.
+- Deliver: exact intended/served source identity, deployment ID, `/api/health` revision proof matching the deploy-relevant SHA, production monitor PASS, disposable-account core workflow + cleanup record.
 - Do not add product features to work around deployment identity uncertainty.
 
 ## 8 — NPMS-SOURCE-001 — P1 / BLOCKED_SOURCE_IDENTITY
@@ -62,9 +62,9 @@
 ## Closed this wave
 
 - `LAM-PAPER-001` source/provenance/originality/reviewer closure — **CLOSED INTERNALLY:** canonical LAM paper/source work is on `LAM-JEPA/main`.
-- `LAM-VERIFY-002` — **CLOSED INTERNALLY:** raw Actions artifacts `9162165932`, `9003785715`, and `9003740436` were independently downloaded; ZIP/raw JSON digests matched canonical provenance; five-seed full/matched/ablation values and bounded pretrained characterization were independently recomputed; deterministic CSV/Markdown/SVG assets regenerated. Verification record merged as `725ae2fb17de9c988938d4b03bd8a6be456b8e8b`.
-- `EXTVAL-LAM-PACKET-001` — **CLOSED PACKAGING ONLY:** immutable external validation packet merged as `218ea1bea686cdf8c281520b2b636897bc8b8dd2`; no outside result exists yet.
-- `IRIS-FRONTIER-FREEZE-001` — **CLOSED:** development-only false-open constrained frontier protocol is frozen; execution remains source-blocked.
+- `LAM-VERIFY-002` — **CLOSED INTERNALLY:** raw Actions artifacts `9162165932`, `9003785715`, and `9003740436` were independently downloaded; ZIP/raw JSON digests matched canonical provenance; five-seed full/matched/ablation values and bounded pretrained characterization were independently recomputed; deterministic CSV/Markdown/SVG assets regenerated. Verification record merged as `725ae2fb17de9c988938d4b03bd8a6be456b8e8b`; numeric-basis guard merged as `bf8311e1a4d240e2891e51af38eaf7754944e300` with no scientific outcome change.
+- `EXTVAL-LAM-PACKET-001` — **CLOSED PACKAGING ONLY:** immutable external reproduction/review packet merged as `218ea1bea686cdf8c281520b2b636897bc8b8dd2`; no outside result exists yet.
+- `IRIS-FRONTIER-FREEZE-001` — **CLOSED:** development-only false-open constrained baseline-frontier protocol is frozen; execution remains source-blocked.
 - `JEPA-TS-PROGRAM-001` — **CLOSED DESIGN:** one literature-bounded programme exists; no experiment authorized.
 - `IRIS-DECIDE-001` — **CLOSED:** no successor architecture authorized.
 - NeuroCAD component-confound ablation — **CLOSED / FALSIFIED MECHANISM:** direct+matched validation equals current compiler; `VALIDATION_DOMINANT`.
