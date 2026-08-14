@@ -1,0 +1,16 @@
+{
+  "checkpoint":"START_SNAPSHOT",
+  "captured_at":"2026-08-14T22:02:00+05:30",
+  "canonical_base":"4e8a48c79c7a3641927f74841846e01409377bc5",
+  "truth_rule":"Absent evidence is UNKNOWN or BLOCKED, never VERIFIED.",
+  "connected_repositories":["vertex-studyAI/vertexED.ai","vertex-studyAI/LAM-JEPA","vertex-studyAI/Text-To-Video"],
+  "percy":{"state":"BLOCKED","host":"/Volumes/PRO-BLADE/Atlas/Percy","host_visible":false,"db_integrity":"UNKNOWN","wal":"UNKNOWN","physical_workers":"UNKNOWN","logical_agent_capacity":16256,"logical_agent_boundary":"scheduling identities only","real_tasks":"UNKNOWN","completed":"UNKNOWN","failed":"UNKNOWN","blocked":"UNKNOWN","stale":"UNKNOWN","leases":"UNKNOWN","heartbeats":"UNKNOWN","historical_storage_warning":"Prior real-Mac preflight observed internal free space below Percy's 25 GiB safety floor; remeasure before heavy work."},
+  "project_2424":{"state":"PARTIAL","identity_universe":2424,"identity_boundary":"unique IDs/proposals, not implementations/experiments/papers/releases","umbrella_source":"/Volumes/PRO-BLADE/Atlas/Project-2024/Project_2424","umbrella_source_visible":false,"dirty_overlay_must_be_preserved":true,"npms":"RECOVERED_COMPACT_EVIDENCE / ORIGINAL_SOURCE_MIGRATION_PENDING","darcy_v2":"PROTOCOL_FROZEN_NOT_EXECUTED","darcy_protocol_commit":"6fbd9c4ba73a460f5abbe6a6f4c478b6bc50e389"},
+  "vertexed":{"source":"VERIFIED","production":"BLOCKED","latest_monitor_run":31817794439,"monitor_checked_at":"2026-08-14T16:07:14Z","control_head":"d5e9fcaa8de4e49b236b18ff7d3c515ed5f1ed6d","expected_revision":"e2ecd19ed9816f8f36369c7dc0f38e39942ca73a","served_revision":null,"public_smoke":"PASS_EXCEPT_REVISION_IDENTITY","artifact_id":9225715176,"artifact_sha256":"e7870e9561748ef4d4247e3bf4e01d3e8feead3780c4e2016d3742d134f2069a","deployment_quota":"BLOCKED_FREE_DAILY_DEPLOYMENT_LIMIT","next_gate":"One meaningful production deploy when existing quota permits, exact /api/health revision equality, monitor PASS, authenticated disposable-account golden journey; no paid upgrade or weakened health gate."},
+  "research":{"lam_jepa":"VERIFIED_REPRODUCIBLE_NEGATIVE / EXTERNAL_VALIDATION_PENDING / OWNER_METADATA_BLOCKED","iris":"NEGATIVE_OR_INCONCLUSIVE / NO_SUCCESSOR_AUTHORIZED / CONFIRMATORY_SEEDS_QUARANTINED","neurocad":"TYPED_PARSER_CAUSAL_MECHANISM_FALSIFIED","ngmt_v0_1":"REPRODUCED_NEGATIVE_FROZEN","eigen_jepa":"MIXED_NEGATIVE_FROZEN","t2424_1863":"REPRODUCED_NEGATIVE_ACTIVE_COMPUTE_ARCHIVED"},
+  "products":{"financemeta":"BLOCKED_EXTERNAL_TARGET_ACCESS","bu1ld":"BLOCKED_EXTERNAL_TARGET_RUNTIME_ACCESS","notes_to_video":"VERIFIED_LOCAL_ENGINEERING_CHILD_NOT_PRODUCTION"},
+  "major_science_runs_authorized":0,
+  "no_paid_resources":true,
+  "no_destructive_recovery":true,
+  "no_negative_result_rescue":true
+}
