@@ -1,24 +1,90 @@
 {
-  "rescored_at":"2026-08-14",
-  "ordering_rule":"information_gain * closure_probability * evidence_value / cost",
-  "tier_s_count":3,
-  "tasks":[
-    {"id":"PERCY-STATE-001","priority":"P0","state":"BLOCKED_EXTERNAL_MAC","objective":"Recover existing live Percy state without reset.","deliverable":"Checksummed SQLite+WAL+checkpoint, integrity/schema, counters, leases/heartbeats/stale workers, dirty worktree.","failure":"Do not create replacement DB."},
-    {"id":"P2424-CANON-001","priority":"P0","state":"BLOCKED_EXTERNAL_SOURCE","objective":"Recover canonical Project 2424 source/overlay and reconcile status/count truth.","deliverable":"HEAD/ancestry, overlay hashes, smallest rerun, canonical child map."},
-    {"id":"LAM-PAPER-001","priority":"P0","state":"IN_PROGRESS","objective":"Finish negative ARC paper without rescue.","closed_this_wave":["related-work audit","canonical negative manuscript designation","legacy paper.tex warning","runtime boundary"],"remaining":["exact source-to-method reconciliation","final evidence figures/tables/provenance","owner-controlled release metadata"]},
-    {"id":"LAM-VERIFY-002","priority":"P0","state":"READY_INTERNAL","objective":"Independently regenerate final manuscript tables/intervals/figures from retained artifacts.","constraint":"No new science seeds or locked test."},
-    {"id":"DARCY-FREEZE-001","priority":"P1","state":"WAITING_CANONICAL_SOURCE","objective":"Freeze matched learned-operator + OOD physical comparison before run."},
-    {"id":"IRIS-FRONTIER-FREEZE-001","priority":"P1","state":"READY_TO_DESIGN","objective":"Freeze simple robust detector+estimator false-open/recovery/error frontier; no successor architecture.","constraint":"Confirmatory seeds 1000-1029 forbidden."},
-    {"id":"NEUROCAD-NEWBENCH-FREEZE-002","priority":"P1","state":"DEPRIORITIZED","objective":"Only if research continues, freeze genuinely new part-family/compositional benchmark + competent contemporary program-generation baseline.","constraint":"No tuning/rescue on old 20 cases."},
-    {"id":"VERTEX-PROD-001","priority":"P0_PRODUCT","state":"BLOCKED_EXTERNAL","objective":"Verify exact served revision + authenticated golden journey."},
-    {"id":"EXTVAL-LAM-001","priority":"P1","state":"WAITING_LAM_PAPER","objective":"Independent reproduction and skeptical review of immutable LAM package."},
-    {"id":"PORTFOLIO-RESCORE-002","priority":"P1","state":"WAITING_DECISIVE_EVIDENCE","objective":"Re-score only after new material evidence; max Tier S 5, current 3."}
+  "rescored_at": "2026-08-14",
+  "ordering_rule": "information_gain * closure_probability * evidence_value / cost",
+  "tier_s_count": 3,
+  "major_science_runs_authorized": 0,
+  "tasks": [
+    {
+      "id": "PERCY-STATE-001",
+      "priority": "P0",
+      "state": "BLOCKED_EXTERNAL_MAC",
+      "objective": "Recover existing live Percy state without reset.",
+      "deliverable": "Checksummed SQLite+WAL+checkpoint snapshot, integrity/schema, counters, leases/heartbeats/stale workers, dirty worktree and provider/resource state.",
+      "failure": "Remain blocked; do not create a replacement DB or erase failed runs."
+    },
+    {
+      "id": "P2424-CANON-001",
+      "priority": "P0",
+      "state": "BLOCKED_EXTERNAL_SOURCE",
+      "objective": "Recover canonical Project 2424 source/overlay and reconcile status/count truth.",
+      "deliverable": "HEAD/ancestry, overlay hashes, smallest rerun, canonical child map, artifact-to-source mapping."
+    },
+    {
+      "id": "LAM-VERIFY-002",
+      "priority": "P0",
+      "state": "READY_INTERNAL",
+      "objective": "Regenerate final negative-paper tables, intervals and evidence figures from retained artifacts.",
+      "deliverable": "Source-data hashes, generation commands, generated hashes and complete claim-to-source provenance.",
+      "constraint": "No new scientific seeds or locked ARC test."
+    },
+    {
+      "id": "VERTEX-PROD-001",
+      "priority": "P0_PRODUCT",
+      "state": "BLOCKED_EXTERNAL",
+      "objective": "Verify exact served revision plus authenticated golden journey.",
+      "deliverable": "Exact /api/health revision, deployment ID, monitor PASS and disposable-account journey/cleanup evidence."
+    },
+    {
+      "id": "DARCY-FREEZE-001",
+      "priority": "P1",
+      "state": "WAITING_CANONICAL_SOURCE",
+      "objective": "Freeze matched learned-operator plus OOD physical comparison before any run.",
+      "deliverable": "Immutable data/generator version, systems, metric hierarchy, budget, seeds, uncertainty, minimum effect, falsifier and artifact destination."
+    },
+    {
+      "id": "IRIS-SOURCE-001",
+      "priority": "P1",
+      "state": "BLOCKED_SOURCE",
+      "objective": "Recover exact raw development trajectories/source/config required by frozen IRIS-FRONTIER-DEV-20260814.",
+      "deliverable": "Hashes, source/config map, environment manifest and protocol-readiness verifier.",
+      "constraint": "Development seeds 0-9 only after recovery; confirmatory seeds 1000-1029 remain forbidden."
+    },
+    {
+      "id": "NPMS-SOURCE-001",
+      "priority": "P1",
+      "state": "SOURCE_RECOVERY",
+      "objective": "Recover original NPMS source/config/checkpoint before new natural/OOD science.",
+      "deliverable": "Canonical source identity, hashes and clean rerun, or SOURCE_UNRECOVERED verdict."
+    },
+    {
+      "id": "EXTVAL-LAM-001",
+      "priority": "P1",
+      "state": "WAITING_LAM_VERIFY",
+      "objective": "After internal evidence package closes, obtain independent reproduction plus skeptical review of one immutable LAM package.",
+      "constraint": "Sending outreach is not external-validation GREEN."
+    },
+    {
+      "id": "NEUROCAD-NEWBENCH-FREEZE-002",
+      "priority": "P2",
+      "state": "DEPRIORITIZED",
+      "objective": "Only if capacity remains, freeze a genuinely new compositional CAD benchmark and competent contemporary direct/program baseline.",
+      "constraint": "No parser/typed-IR rescue on the reused 20-case diagnostic; no new parser architecture merely to preserve flagship status."
+    },
+    {
+      "id": "PORTFOLIO-RESCORE-002",
+      "priority": "P1",
+      "state": "WAITING_DECISIVE_EVIDENCE",
+      "objective": "Re-score only after material new evidence; maximum Tier S 5, current 3."
+    }
   ],
-  "closed":[
-    {"id":"IRIS-DECIDE-001","outcome":"No successor architecture authorized; baseline frontier next."},
-    {"id":"NEUROCAD-COMPONENT-V2","outcome":"VALIDATION_DOMINANT; typed-parser causal interpretation falsified on reused diagnostic."},
-    {"id":"PR-319","outcome":"Closed unmerged; superseded history retained."},
-    {"id":"ISSUE-122","outcome":"Closed as superseded command-center bookkeeping."}
+  "closed": [
+    {"id": "IRIS-DECIDE-001", "outcome": "No successor architecture authorized."},
+    {"id": "IRIS-FRONTIER-FREEZE-001", "outcome": "Development-only false-open-constrained frontier frozen; source recovery required before execution."},
+    {"id": "LAM-SOURCE-METHOD-001", "outcome": "Current LAM main source-pins exact ARC method boundary."},
+    {"id": "NEUROCAD-COMPONENT-V2", "outcome": "VALIDATION_DOMINANT; typed-parser causal interpretation falsified on reused diagnostic."},
+    {"id": "JEPA-TS-PROGRAM-001", "outcome": "One predictable-state question defined; no experiment authorized."},
+    {"id": "PR-319", "outcome": "Closed unmerged; superseded history retained."},
+    {"id": "LAM-PR-78", "outcome": "Closed unmerged as superseded by stronger canonical main."}
   ],
-  "authorization_note":"No new major scientific experiment is immediately authorized. Protocol freezes precede any Darcy/IRIS/NeuroCAD run."
+  "authorization_note": "Zero new major scientific experiment runs are currently authorized. Protocol/source recovery and paper/product closure precede new compute."
 }
