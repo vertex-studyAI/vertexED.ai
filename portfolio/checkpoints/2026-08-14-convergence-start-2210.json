@@ -1,0 +1,122 @@
+{
+  "checkpoint_type": "START_SNAPSHOT",
+  "checkpoint_window": "2026-08-14 22:02-22:10 IST",
+  "target_checkpoint": "2026-08-15T10:00:00+05:30",
+  "truth_policy": {
+    "absence_of_evidence": "UNKNOWN",
+    "destructive_recovery": false,
+    "new_major_science_runs_authorized": 0,
+    "negative_results_preserved": true,
+    "paid_resources_created": false
+  },
+  "connected_surface": {
+    "github_installation_org": "vertex-studyAI",
+    "accessible_repositories": [
+      "vertex-studyAI/vertexED.ai",
+      "vertex-studyAI/LAM-JEPA",
+      "vertex-studyAI/Text-To-Video"
+    ],
+    "known_but_not_currently_connected_as_canonical_source": [
+      "Percy live Mac host / SQLite+WAL",
+      "Project 2424 preserved local/Inkling canonical source and dirty overlay",
+      "IRIS exact retained raw/source package",
+      "NPMS original source/config/checkpoint",
+      "FinanceMeta canonical writable production repository/runtime",
+      "The Bu1LD canonical writable production repository/runtime"
+    ]
+  },
+  "source_heads": {
+    "vertexED.ai_main": "d5e9fcaa8de4e49b236b18ff7d3c515ed5f1ed6d",
+    "LAM-JEPA_main": "bf8311e1a4d240e2891e51af38eaf7754944e300"
+  },
+  "portfolio_truth": {
+    "tier_s": ["LAM-JEPA", "IRIS", "Percy"],
+    "LAM-JEPA": {
+      "disposition": "A_PUBLISH",
+      "scientific_state": "VERIFIED_NEGATIVE_RESULT",
+      "external_validation": "PENDING",
+      "next_gate": "owner-controlled release metadata plus genuinely independent outside reproduction/review"
+    },
+    "IRIS_v0.2": {
+      "disposition": "D_NEGATIVE_RESULT",
+      "state": "BLOCKED_CANONICAL_RAW_SOURCE",
+      "constraint": "confirmatory seeds 1000-1029 remain quarantined"
+    },
+    "Percy": {
+      "disposition": "B_PRODUCTIZE",
+      "live_state": "UNKNOWN_BLOCKED_EXTERNAL_MAC",
+      "next_gate": "non-destructive SQLite/WAL/checkpoint snapshot, integrity/schema, counters, leases/heartbeats/stale-worker recount"
+    },
+    "Project_2424": {
+      "disposition": "B_PRODUCTIZE_UMBRELLA",
+      "canonical_all_2424_map": "NOT_RECOVERED_ON_CONNECTED_SURFACE",
+      "selected_child_evidence": "PRESENT",
+      "next_gate": "recover preserved canonical source/overlay before source-dependent work"
+    },
+    "Darcy_T2424_0050": {
+      "disposition": "C_CONTINUE_EXPERIMENTATION",
+      "v2_protocol": "FROZEN_UNEXECUTED",
+      "next_gate": "freeze exact implementation/environment/split/model-budget/data hashes before any v2 outcome run"
+    },
+    "NeuroCAD": {
+      "disposition": "B_PRODUCTIZE",
+      "typed_parser_causal_mechanism": "FALSIFIED_ON_COMPONENT_V2_DIAGNOSTIC"
+    },
+    "NGMT_v0.1": {"disposition": "D_NEGATIVE_RESULT", "in_place_rescue": false},
+    "Eigen-JEPA": {"disposition": "D_NEGATIVE_RESULT", "in_place_rescue": false},
+    "NPMS": {"disposition": "F_EXTERNALLY_BLOCKED", "blocker": "canonical source/config/checkpoint identity"},
+    "Hercules": {"disposition": "E_ARCHIVE", "reason": "no decisive frozen matched-budget experiment"},
+    "Olympus": {"disposition": "E_ARCHIVE", "reason": "runtime/spec evidence is not trained-model capability"},
+    "FinanceMeta": {"disposition": "F_EXTERNALLY_BLOCKED", "blocker": "canonical writable target/runtime unavailable"},
+    "The_Bu1LD": {"disposition": "F_EXTERNALLY_BLOCKED", "blocker": "canonical writable target/runtime unavailable"},
+    "Text_To_Video": {"disposition": "E_ARCHIVE_AS_STANDALONE", "canonical_relation": "VertexED child subsystem"}
+  },
+  "vertexed_runtime_audit": {
+    "supabase_project_ref": "xwlrzgfuhfbckgvcmyoq",
+    "supabase_project_status": "ACTIVE_HEALTHY",
+    "public_tables_observed": 26,
+    "public_tables_with_rls_enabled": 26,
+    "ownership_policy_spotcheck": "PASS_WITHIN_QUERIED_POLICIES",
+    "security_advisories": [
+      "Leaked password protection disabled",
+      "Current Postgres version has security patches available"
+    ],
+    "production_identity": "BLOCKED_EXTERNAL_DEPLOYMENT_IDENTITY",
+    "authenticated_golden_journey": "UNPROVED",
+    "latest_control_evidence_observed": {
+      "scheduled_run": 31817794439,
+      "verdict": "health endpoint healthy but revision identity omitted; public/security smoke boundaries passed; served revision remains unproved"
+    }
+  },
+  "github_coordination": {
+    "open_pr_347": {
+      "purpose": "reconcile latest VertexED production evidence and Darcy v2 freeze",
+      "mergeable_observed": true,
+      "ci_observed": "IN_PROGRESS",
+      "head": "9997757ff838f46530fe1dc3367ea9376509a038"
+    },
+    "open_pr_346": {
+      "purpose": "blocker ledger reconciliation",
+      "draft": true,
+      "staleness": "contains superseded VertexED production-monitor evidence and pre-freeze Darcy wording; must not be merged unchanged"
+    },
+    "parallel_branch_collision_observed": true,
+    "collision_handling": "left existing chatgpt/convergence-start-20260814-2202 untouched and isolated this checkpoint lane"
+  },
+  "p0_blockers": [
+    "Percy authoritative live Mac state inaccessible",
+    "Project 2424 preserved canonical source/overlay inaccessible",
+    "VertexED exact served deployment revision and authenticated golden journey unproved",
+    "LAM owner-controlled release metadata unresolved",
+    "FinanceMeta canonical writable production target unavailable",
+    "The Bu1LD canonical writable production target unavailable"
+  ],
+  "next_actions": [
+    "Gate PR 347 on CI; merge only if checks pass and evidence remains current",
+    "Do not merge PR 346 unchanged; supersede or refresh after PR 347/control truth settles",
+    "Record VertexED Supabase security warnings in the canonical security ledger without claiming exploitability",
+    "Recover Percy and Project 2424 from their preserved external host/source; never reconstruct missing state",
+    "Keep all frozen negative science unchanged",
+    "Advance LAM only through owner metadata and genuinely external reproduction/review"
+  ]
+}
