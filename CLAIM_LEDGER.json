@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "as_of": "2026-08-14",
+  "rule": "claim-specific evidence only; negative results remain immutable unless a separately versioned protocol is run",
+  "claims": [
+    {"id":"CL-LAM-001","project":"LAM-JEPA","status":"SUPPORTED","claim":"Frozen ARC result is reproducible","evidence":{"artifact":"9162165932","main_sha":"88f759ef47263c416f2a667427286a3284d8221c"}},
+    {"id":"CL-LAM-002","project":"LAM-JEPA","status":"NEGATIVE","claim":"Full model beats matched supervised","numbers":{"full":0.254915,"supervised":0.266441},"forbidden":"locked-test rescue"},
+    {"id":"CL-LAM-003","project":"LAM-JEPA","status":"UNSUPPORTED","claim":"Planner contributes positive ARC effect"},
+    {"id":"CL-LAM-004","project":"LAM-JEPA","status":"UNSUPPORTED","claim":"Target/EMA contributes positive ARC effect"},
+    {"id":"CL-IRIS-001","project":"IRIS","status":"NEGATIVE_DEVELOPMENT_GATE","claim":"Current PABIM mechanism passes common frozen advancement gate","experiment":"EXP-DEV-20260813-IRIS-COMMON-ADAPTATION-HARNESS-V1","confirmatory_seeds_accessed":false,"bundle_sha256":"5643b59e9272099e54f04491aa63906d0d186a1a2c525a574f960008e5f19b90"},
+    {"id":"CL-IRIS-002","project":"IRIS","status":"SUPPORTED_BOUNDED","claim":"Localized heavy-tail/corruption information gain vs Huber exists in development harness"},
+    {"id":"CL-IRIS-003","project":"IRIS","status":"FALSE","claim":"Current PABIM matches strongest fixed robust controls","numbers":{"pabim_adverse_mean_mse":0.05970593860459976,"best_fixed_adverse_mean_mse":0.03350170353331791}},
+    {"id":"CL-IRIS-004","project":"IRIS","status":"FALSE","claim":"Current PABIM matches confirmed-streak Huber on persistent shift","numbers":{"pabim_twmse25":0.2157309642503522,"confirmed_huber_twmse25":0.1626331705719848,"pabim_recovery":24.0,"confirmed_huber_recovery":18.5}},
+    {"id":"CL-APEN-001","project":"APEN","status":"SUPPORTED_BOUNDED","claim":"Correct temporal salience alignment matters in frozen synthetic ridge-readout task","numbers":{"apen_true_rare_mse":17.131745635925725,"uniform_rare_mse":18.41245032591212,"relative_improvement":0.06955645051674836},"bundle_sha256":"2c3003bb629ccb59aab572b172a2d7ffd0f6e9608630458fada9df661d6e66d7"},
+    {"id":"CL-EIGEN-001","project":"Eigen-JEPA","status":"NEGATIVE","claim":"Eigen-JEPA beats stronger classical baselines on frozen primary matrix MSE","numbers":{"eigen_jepa":5.831822564700928e-9,"spectral_eigval_ridge":5.499228808679524e-9},"bundle_sha256":"cfe6de9965e3f89bdc3f3451023c1e7606093c4fddc7c4e92d7e6656148e6484"},
+    {"id":"CL-EIGEN-002","project":"Eigen-JEPA","status":"PROVENANCE_DEFECT","claim":"Dataset row-count prose matches current parser","numbers":{"current_rows":14895,"old_spec_rows":14899}},
+    {"id":"CL-NPMS-001","project":"NPMS","status":"NON_UNIQUE_OR_CONFOUNDED","claim":"Regime classification demonstrates information beyond invariant parameter summaries","numbers":{"npms_accuracy":0.9285714285714286,"invariant_parameter_accuracy":0.8928571428571429,"gap_pp":3.57142857142857},"bundle_sha256":"ad765e342e524c17eb8e93ba1c4098ee07c85f009d94a23151ea263b335e29c2"},
+    {"id":"CL-NGMT-001","project":"NGMT v0.1","status":"NEGATIVE","claim":"Equal-budget B3 meets adverse-condition superiority gates","numbers":{"b3_vs_b2_pct":0.4946,"gate_vs_b2_pct":5.0,"b3_vs_b1_pct":0.4393,"gate_vs_b1_pct":3.0}},
+    {"id":"CL-NEUROCAD-001","project":"NeuroCAD","status":"SUPPORTED_BOUNDED","claim":"Typed/validated IR beats frozen direct baseline on controlled held-out-template benchmark","numbers":{"typed_ir_correct":19,"direct_correct":12,"n":20,"valid_stl":12,"valid_cases":12}},
+    {"id":"CL-DARCY-001","project":"Darcy","status":"SUPPORTED_BOUNDED","claim":"Reduced-resistance mechanism improves frozen synthetic pressure-MAE screen","numbers":{"baseline_mae":0.0658913916,"method_mae":0.0011366559,"relative_improvement_pct":97.8766,"flux_error":1.369e-16}},
+    {"id":"CL-P2424-0027","project":"T2424-0027","status":"SUPPORTED_SYNTHETIC","claim":"Injected-coordinate leakage audit reproduces","tests":"8/8 + verifier"},
+    {"id":"CL-P2424-1863","project":"T2424-1863","status":"NEGATIVE","claim":"Frozen local-diffusion screen exceeds >75% improvement gate"},
+    {"id":"CL-PERCY-001","project":"Percy","status":"SUPPORTED_SPECIFICATION_ONLY","claim":"Registry contains 16,256 logical identities","physical_execution":"UNKNOWN"},
+    {"id":"CL-VERTEX-001","project":"VertexED","status":"SOURCE_STATUS_SUPPORTED","claim":"Observed source head has successful linked Vercel status contexts","source_sha":"f177d87c4ee3f8daeb04cbded6c5be299cde4bae"},
+    {"id":"CL-VERTEX-002","project":"VertexED","status":"UNVERIFIED_EXTERNAL","claim":"Production serves intended exact revision and passes authenticated golden journey"},
+    {"id":"CL-PEN-001","project":"PEN","status":"FORBIDDEN","claim":"PEN inherits APEN evidence"}
+  ]
+}
