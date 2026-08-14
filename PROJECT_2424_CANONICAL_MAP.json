@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-08-14T22:09:52+05:30",
+  "state": "PARTIAL_BLOCKED_EXTERNAL_SOURCE",
+  "contract_count": 2424,
+  "canonical_source_gate": {
+    "expected_host_path": "/Volumes/PRO-BLADE/Atlas/Project-2024/Project_2424",
+    "visibility_from_current_execution_surface": "NOT_VISIBLE",
+    "rule": "Do not infer full source existence, SHA, dirty state, experiment completion or disposition from registry IDs or historical counts."
+  },
+  "revalidated_ids": [
+    {"id":"T2424-0025","canonical_title":"Robust-readout precursor / Non-Gaussian Memory precursor","source_state":"RETAINED_BOUNDED_EVIDENCE","experiment_state":"EXECUTED_BOUNDED","result_state":"MECHANISM_NOT_UNIQUE","disposition":"C","next_gate":"separately freeze distinct learned-memory mechanism/control"},
+    {"id":"T2424-0027","canonical_title":"T2424-0027 multilingual/synthetic representation line","source_state":"RETAINED_BOUNDED_EVIDENCE","experiment_state":"EXECUTED_SYNTHETIC","result_state":"SYNTHETIC_ONLY","disposition":"C","next_gate":"preregistered real-encoder probes and controls"},
+    {"id":"T2424-0028","canonical_title":"T2424-0028 residual-event codec mechanics","source_state":"RETAINED_BOUNDED_EVIDENCE","experiment_state":"EXECUTED_BOUNDED","result_state":"MECHANICS_REPRODUCED_LOW_INFORMATION_GAIN","disposition":"E","next_gate":null},
+    {"id":"T2424-0029","canonical_title":"T2424-0029 analytic PDE transition screen","source_state":"RETAINED_BOUNDED_EVIDENCE","experiment_state":"EXECUTED_ANALYTIC","result_state":"ANALYTIC_ONLY_LOW_INFORMATION_GAIN","disposition":"E","next_gate":null},
+    {"id":"T2424-0037","canonical_title":"NeuroCAD","source_state":"RETAINED_CONTROL_EVIDENCE","experiment_state":"EXECUTED_COMPONENT_DIAGNOSTIC","result_state":"VALIDATION_DOMINANT_TYPED_PARSER_MECHANISM_FALSIFIED","disposition":"B","next_gate":"product reliability qualification; any new science requires a fresh broader benchmark/protocol"},
+    {"id":"T2424-0050","canonical_title":"Darcy Latent Operator","source_state":"CANONICAL_CONTROL_PROTOCOL_PRESENT_FULL_EXTERNAL_SOURCE_GATED","experiment_state":"PARENT_SCREEN_EXECUTED_V2_PROTOCOL_FROZEN_NOT_RUN","result_state":"PARENT_BOUNDED_POSITIVE_V2_NO_OUTCOME","disposition":"C","next_gate":"materialize/hash implementation, environment, splits, model budgets and datasets before any v2 outcome run"},
+    {"id":"T2424-1863","canonical_title":"Resource-Bounded Local Operator","source_state":"RETAINED_EXACT_HEAD_SCREEN","experiment_state":"EXECUTED_FROZEN_GATE","result_state":"NEGATIVE_GATE_FAILED","disposition":"D","next_gate":null}
+  ],
+  "named_inventory_candidates_not_revalidated_from_canonical_source": [
+    "T2424-0016",
+    "T2424-0019",
+    "T2424-0023",
+    "T2424-0024",
+    "T2424-0026",
+    "T2424-0030",
+    "T2424-0034",
+    "T2424-0035",
+    "T2424-0036",
+    "T2424-0038",
+    "T2424-0040",
+    "T2424-0046",
+    "T2424-0049",
+    "T2424-0051",
+    "T2424-0053",
+    "T2424-0054",
+    "T2424-1530",
+    "T2424-1767",
+    "T2424-1768",
+    "T2424-1861",
+    "T2424-1931"
+  ],
+  "all_other_contracts": {
+    "state":"UNKNOWN_NOT_REVALIDATED_FROM_CANONICAL_SOURCE",
+    "disposition":null,
+    "source_exists":null,
+    "experiment_state":null,
+    "evidence_state":null
+  },
+  "count_reconciliation_rule": "Historical counts must not be summed unless proven to represent distinct entities. Seven IDs are directly disposition-backed in the currently retained canonical snapshot/control evidence; this does not imply that only seven source-backed projects exist on the inaccessible canonical host."
+}
