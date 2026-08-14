@@ -1,0 +1,184 @@
+{
+  "as_of": "2026-08-14",
+  "source_human_ledger": "EXPERIMENT_LEDGER.md",
+  "freeze_rule": "Frozen outcomes are immutable. Any protocol, hypothesis, threshold, metric, baseline or confirmatory-plan change creates a new experiment version.",
+  "experiments": [
+    {
+      "id": "EXP-LAM-ARC-V3",
+      "project": "LAM-JEPA",
+      "protocol_state": "FROZEN_REPRODUCED",
+      "data": "ARC validation; 1117 train / 295 validation; locked test untouched",
+      "seeds": [1,2,3,4,5],
+      "key_results": {
+        "full_mean": 0.254915,
+        "full_sd": 0.012997,
+        "supervised_mean": 0.266441,
+        "supervised_sd": 0.01546,
+        "no_planner_mean": 0.250169,
+        "no_planner_sd": 0.012997,
+        "no_target_mean": 0.261695,
+        "no_target_sd": 0.020395
+      },
+      "outcome": "NEGATIVE_INCONCLUSIVE_REPRODUCED",
+      "artifact": "9162165932",
+      "artifact_sha256": "caa898f1ff046a337db9b5ddbffe1b332943a732868e2fd809abeda8ee89c30b",
+      "next_action": "Paper/provenance/review closure only; no scientific rescue run."
+    },
+    {
+      "id": "EXP-IRIS-V02-STRESS",
+      "project": "IRIS v0.2",
+      "protocol_state": "DEVELOPMENT_REPRODUCED_CONFIRMATORY_UNTOUCHED",
+      "key_results": {
+        "abrupt_regime_improvement_pct_approx": [5.33,5.36],
+        "promotion_gate_pct": 10.0,
+        "huber_cleanly_beaten": false,
+        "coherent_burst_outliers_adverse": true
+      },
+      "outcome": "PROMOTION_GATE_FAILED",
+      "next_action": "Freeze negative closure; any successor is separately versioned/preregistered."
+    },
+    {
+      "id": "EXP-T2424-0025-ROBUST-READOUT",
+      "project": "T2424-0025",
+      "protocol_state": "FROZEN_REPRODUCED_PRECURSOR",
+      "key_results": {
+        "focused_tests": "10/10",
+        "robust_effect_reproduced": true,
+        "clean_control_also_benefits": true
+      },
+      "outcome": "POSITIVE_ROBUSTNESS_UNIQUE_MECHANISM_NOT_ISOLATED",
+      "next_action": "Only a separately frozen learned-memory study can test mechanism specificity."
+    },
+    {
+      "id": "EXP-NGMT-V01",
+      "project": "NGMT v0.1",
+      "protocol_state": "FROZEN_REPRODUCED",
+      "parameters_per_arm": 6049,
+      "paired_seeds": 3,
+      "key_results": {
+        "b3_vs_b2_pct": 0.4946,
+        "b3_vs_b2_sd_pct": 1.5472,
+        "b3_vs_b2_gate_pct": 5.0,
+        "b3_vs_b2_pass": false,
+        "b3_vs_b1_pct": 0.4393,
+        "b3_vs_b1_sd_pct": 1.1529,
+        "b3_vs_b1_gate_pct": 3.0,
+        "b3_vs_b1_pass": false,
+        "clean_regression_gate_pass": true
+      },
+      "outcome": "NEGATIVE_INCONCLUSIVE_REPRODUCED",
+      "artifacts": ["9166307730","9166406618"],
+      "next_action": "No v0.1 retuning; successor requires new version/protocol."
+    },
+    {
+      "id": "EXP-NEUROCAD-HELDOUT-V1",
+      "project": "NeuroCAD / T2424-0037",
+      "protocol_state": "FROZEN_REPRODUCED",
+      "cases": {"total":20,"valid":12,"invalid":8},
+      "key_results": {
+        "typed_valid_exact": 1.0,
+        "typed_invalid_rejection": 0.875,
+        "typed_overall": 0.95,
+        "direct_valid_exact": 1.0,
+        "direct_invalid_rejection": 0.0,
+        "direct_overall": 0.6,
+        "valid_stl_success": "12/12",
+        "preserved_failure": "O018 negative width accepted"
+      },
+      "outcome": "CONTROLLED_HELDOUT_GATE_PASS",
+      "workflow_run": "31659488587",
+      "artifact": "9165650301",
+      "artifact_sha256": "753a394de4bdced76fd6e1f21419d12cf13fc872691238655b04341193e6cd6d",
+      "next_action": "Freeze learned direct-vs-IR and new-part-family OOD protocols before execution."
+    },
+    {
+      "id": "EXP-DARCY-1D",
+      "project": "Darcy / T2424-0050",
+      "protocol_state": "FROZEN_REPRODUCED_BOUNDED",
+      "seeds": 20,
+      "key_results": {
+        "baseline_pressure_mae": 0.0658913916,
+        "latent_pressure_mae": 0.0011366559,
+        "relative_improvement_pct": 97.8766,
+        "flux_relative_error": 1.369e-16
+      },
+      "outcome": "BOUNDED_MECHANISM_PASS",
+      "next_action": "Matched learned/reduced-order baselines plus 2D/OOD physical regimes."
+    },
+    {
+      "id": "EXP-APEN-SALIENCE-STRESS",
+      "project": "APEN",
+      "protocol_state": "REPRODUCED_CONTROLLED",
+      "conditions": 48,
+      "key_results": {"benefit_weakens_or_reverses_under_severe_dropout": true},
+      "outcome": "MIXED_NEGATIVE_FOR_BROAD_ROBUSTNESS",
+      "next_action": "Matched learned baseline and realistic salience-reliability successor protocol."
+    },
+    {
+      "id": "EXP-EIGEN-REAL",
+      "project": "Eigen-JEPA",
+      "protocol_state": "REPRODUCED_REAL_DATA",
+      "primary_metric": "covariance-matrix MSE",
+      "key_results": {"raw_log_ridge_stronger_on_primary_metric": true},
+      "outcome": "MIXED_NEGATIVE",
+      "next_action": "No metric shopping; any successor freezes stronger spectral baselines and multi-dataset hierarchy."
+    },
+    {
+      "id": "EXP-NPMS-CONTROLLED",
+      "project": "NPMS",
+      "protocol_state": "REPRODUCED_CONTROLLED",
+      "key_results": {"controlled_evidence_reproduced": true,"natural_task_transfer_established": false},
+      "outcome": "CONTROLLED_EVIDENCE_ONLY",
+      "next_action": "Strong learned-memory controls plus natural/OOD task."
+    },
+    {
+      "id": "EXP-T2424-0027-SYNTHETIC-AUDIT",
+      "project": "T2424-0027",
+      "protocol_state": "FROZEN_REPRODUCED_SYNTHETIC",
+      "records": 72,
+      "key_results": {
+        "raw_concept_accuracy": 1.0,
+        "raw_language_accuracy": 1.0,
+        "language_centered_concept_accuracy": 1.0,
+        "language_centered_language_accuracy": 0.3611111111111111,
+        "language_chance_accuracy": 0.3333333333333333,
+        "normalized_excess_leakage_reduction": 0.9583333333333334,
+        "gate": 0.9,
+        "global_centering_negative_control_language_accuracy": 1.0
+      },
+      "outcome": "SYNTHETIC_AUDIT_PASS",
+      "next_action": "Separately preregister one real multilingual-encoder study."
+    },
+    {
+      "id": "EXP-T2424-1863-DIFFUSION",
+      "project": "T2424-1863",
+      "protocol_state": "FROZEN_EXACT_HEAD_REPRODUCED",
+      "seeds": 20,
+      "key_results": {"predeclared_improvement_gate_pct":75.0,"gate_pass":false},
+      "outcome": "NEGATIVE_REPRODUCED",
+      "next_action": "Preserve. Any real-PDE learned-operator study is a new protocol."
+    },
+    {
+      "id": "EXP-HERCULES-MATCHED",
+      "project": "Hercules",
+      "protocol_state": "NOT_FROZEN_NOT_EXECUTED",
+      "outcome": "NO_RESULT",
+      "next_action": "Archive current form unless one bounded matched-budget protocol is frozen."
+    },
+    {
+      "id": "EXP-OLYMPUS-O1",
+      "project": "Olympus",
+      "protocol_state": "NOT_FROZEN_NOT_EXECUTED",
+      "outcome": "NO_RESULT",
+      "next_action": "Archive current form unless matched-provider O1 protocol is frozen."
+    }
+  ],
+  "global_reproduction_anchor": {
+    "project_2424_source": "bd2a4d3d939b8ce06908d7842ca9e075e0ae2fa7",
+    "workflow": "31618609967",
+    "job": "94295733785",
+    "artifact": "9162627168",
+    "artifact_sha256": "d9d1816d3cf8eb317f435b180c0ec6137fa64cbfde6b99e7f8b5f2d5f1a0bbae",
+    "claim_boundary": "scientific-value agreement only; not latest byte identity"
+  }
+}
