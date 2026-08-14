@@ -1,5 +1,5 @@
 schema_version: 2
-as_of: "2026-08-14T22:47:00+05:30"
+as_of: "2026-08-14T22:56:00+05:30"
 registry_state: PARTIAL
 registry_complete: false
 truth_states: [VERIFIED, PARTIAL, BLOCKED, UNKNOWN, FAILED, INCONCLUSIVE, STALE, ARCHIVED]
@@ -14,9 +14,10 @@ truth_rules:
   - reproduction_is_not_external_validation
   - draft_is_not_submission
   - submission_is_not_acceptance
-  - frozen_negative_results_are_not_rescued_in_place
   - project_count_is_not_research_completion
-  - null_disposition_means_the_source_or_evidence_gate_is_not_closed
+  - frozen_negative_results_are_not_rescued_in_place
+  - historical_numeric_suffixes_are_not_canonical_identity_keys_without_provenance
+  - null_disposition_means_source_or_evidence_gate_not_closed
 
 limits:
   active_products_max: 3
@@ -25,13 +26,13 @@ limits:
 
 source_of_truth:
   control_repository: vertex-studyAI/vertexED.ai
-  control_revision_at_reconciliation: cba143c31af1545e14d3ae86729208f47ea395be
+  control_revision_at_registry_base: cba143c31af1545e14d3ae86729208f47ea395be
   hierarchy_document: PORTFOLIO_CANONICALIZATION.md
   project_native_artifacts_override_summary_for_raw_results: true
   percy_live_truth: existing SQLite/WAL/checkpoints on the real Mac host
-  project_2424_live_truth: recovered historical bundle plus later preserved local overlay plus provenance-backed identity migration
+  project_2424_live_truth: recovered historical bundle plus later preserved overlay plus provenance-backed identity migration
   product_live_truth: exact served deployment plus target database/auth/journey evidence
-  note: This is the cross-portfolio family registry. It does not synthesize missing Project 2424 identity mappings or unavailable runtime evidence.
+  note: This file is the cross-portfolio family registry. It never reconstructs missing runtime state, source trees, or Project 2424 identity edges.
 
 recovery_boundaries:
   percy_real_host_visible: false
@@ -41,7 +42,7 @@ recovery_boundaries:
   financemeta_production_database_connected: false
   bu1ld_production_database_connected: false
   full_repository_universe_proven_complete: false
-  consequence: Unrecovered identities remain UNKNOWN or BLOCKED and no portfolio-wide completion percentage is asserted.
+  consequence: Unrecovered identities stay UNKNOWN or BLOCKED; no portfolio-wide completion percentage is asserted.
 
 canonical_projects:
   - id: vertexed
@@ -53,18 +54,22 @@ canonical_projects:
     source_state: VERIFIED
     production_state: BLOCKED
     production_url: https://www.vertexed.app
-    verified_boundary:
-      - source repository and control evidence are accessible
-      - Production Health Monitor run 31817794439 reached the public service
-      - public, API-router, logged-out auth, malformed-input and origin smoke boundaries passed
-      - live health remained revisionless on three bounded attempts
-      - connected Supabase inspection observed 26 public base tables with RLS enabled and no public views
+    evidence:
+      production_monitor_run: 31817794439
+      expected_revision: e2ecd19ed9816f8f36369c7dc0f38e39942ca73a
+      served_revision: null
+      artifact_id: 9225715176
+      artifact_sha256: e7870e9561748ef4d4247e3bf4e01d3e8feead3780c4e2016d3742d134f2069a
+      public_smoke: PASS_EXCEPT_REVISION_IDENTITY
+      public_base_tables_observed: 26
+      all_observed_public_base_tables_rls_enabled: true
+      public_views_observed: 0
     blockers:
       - exact served production revision unproved
       - existing Vercel deployment capacity rate-limited; no paid upgrade authorized
       - authenticated disposable-account golden journey incomplete
       - Supabase leaked-password protection warning open
-      - supported hosted Postgres security update open
+      - hosted PostgreSQL security update open
     next_gate: Use existing authorized deployment capacity only; prove exact served revision and monitor PASS, then complete signup/auth/onboarding/core-save-retrieve/isolation/logout/recovery/admin journey and cleanup.
     claims_forbidden: [production_complete, users_without_external_evidence, retention_without_observation]
 
@@ -76,24 +81,32 @@ canonical_projects:
     disposition: B_PRODUCTIZE
     repository: build-the-future-11/finance4all-global-reach
     source_main: fbdd503223edc5b1780509720391083f485a4a85
-    retained_hardening_branch: cursor/membership-security-supabase-fix
-    retained_hardening_head: 6dcc03710bb6adf9b4b722b308c40a0720bea61f
-    branch_relation: 41_commits_ahead_0_behind_at_recovery
+    hardening_branch: cursor/membership-security-supabase-fix
+    hardening_head: 6dcc03710bb6adf9b4b722b308c40a0720bea61f
+    hardening_ahead_by: 41
+    hardening_behind_by: 0
     source_state: PARTIAL
     preview_state: VERIFIED
     production_state: BLOCKED
-    verified_boundary:
-      - E2E credentials are environment-only, not committed live credentials
-      - retained migrations materially narrow profile writes, notification ownership, moderation and SECURITY DEFINER search paths
-      - exact hardening head GitHub Actions run 29641469740 concluded failure and exposed zero jobs
-      - Vercel deployment 5501026657 for the exact hardening SHA succeeded as Preview only and is not a production environment
-      - fresh PR and branch-creation attempts through this integration return 403
+    evidence:
+      exact_head_actions_run: 29641469740
+      exact_head_actions_conclusion: failure
+      actions_jobs_exposed: 0
+      preview_deployment_id: 5501026657
+      preview_is_production: false
+      target_pr_or_branch_write_via_current_integration: BLOCKED_403
+      security_source_boundary:
+        - E2E credentials are environment-only
+        - profile writes are narrowed through validated functions
+        - direct notification insertion is removed from client policy space
+        - SECURITY DEFINER search paths are explicitly hardened by migration 018
+        - migration chain extends through 021_analytics_journey_events.sql
     blockers:
       - exact-head Actions workflow definition and gates are not green
-      - current integration cannot create a review branch or PR in the target repo
+      - current integration cannot create a review branch or PR in target repository
       - live FinanceMeta Supabase target is not connected
       - production served revision and multi-account denial journeys are unverified
-    next_gate: Owner-writable GitHub path preserves current hardening head, fixes and validates the CI-definition defect, executes exact-head Actions gates, reviews and merges only on evidence, then separately verifies live Supabase migrations/RLS/revision/isolation/recovery/admin behavior.
+    next_gate: Owner-writable path preserves current hardening head, fixes and validates the CI-definition defect, executes exact-head Actions gates, reviews and merges only on evidence, then separately verifies live Supabase migrations/RLS/revision/isolation/recovery/admin behavior.
     claims_forbidden: [production_hardened, production_migrations_applied, live_rls_verified, adoption_without_external_evidence]
 
   - id: bu1ld
@@ -106,21 +119,27 @@ canonical_projects:
     production_url: https://thebu1ld.com
     source_state: VERIFIED
     production_state: BLOCKED
-    verified_boundary:
-      - exact-head CI run 29679123068 succeeded
-      - current source apply and verify chain reaches Supabase phase33
-      - profile role self-escalation is blocked by a database trigger retained in final setup
-      - later phases add role/review/invitation/deliverable/membership authorization boundaries, no-self-review contribution control and atomic project application submission
-      - .env.example uses placeholders and keeps database/service-role/email secrets server-side
-      - wrangler.jsonc contains no Supabase or service-role secret values
-      - exact-head Deploy Cloudflare run 29679123047 failed before deployment because required public Supabase deployment variables were empty; deploy job was skipped
-      - no successful Deploy Cloudflare run on main was recovered
+    evidence:
+      exact_head_ci_run: 29679123068
+      exact_head_ci_conclusion: success
+      source_migration_chain: phase33
+      deploy_cloudflare_run: 29679123047
+      deploy_cloudflare_conclusion: failure
+      deploy_job_executed: false
+      successful_main_deploy_run_recovered: false
+      source_controls:
+        - non-admin profile role self-escalation protected by database trigger
+        - phase31 authorization functions restrict sensitive review/invite/deliverable/membership actions
+        - phase32 prohibits self-review of own contribution
+        - phase33 uses atomic validated project application submission
+        - .env.example keeps server secrets out of client source
+        - wrangler.jsonc contains no Supabase or service-role secret values
     blockers:
-      - production VITE_SUPABASE_URL and anon or publishable key are not configured in the deploy workflow environment
-      - live Bu1LD Supabase target is not connected here, so applied phase33/RLS/grants/functions are unverified
-      - Auth Site URL, redirects, email/service-role server secrets and exact production deployment identity are unverified
+      - deployment verify environment lacks VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY
+      - live Bu1LD Supabase target is not connected, so phase33/RLS/grants/functions are unverified
+      - Auth Site URL, redirects, email/service-role server secrets and exact production identity are unverified
       - seven-role authenticated journey and denial paths remain unverified
-    next_gate: Owner configures deployment secrets through the platform rather than source; connect and verify live Supabase phase33/RLS/functions; configure Auth/email; rerun exact-head Cloudflare deployment to an immutable identity; execute seven-role journey with recovery/logout and cleanup.
+    next_gate: Owner configures deployment values through platform secrets, connect and verify live Supabase phase33/RLS/functions, configure Auth/email, rerun exact-head Cloudflare deployment to immutable identity, then execute seven-role journey with recovery/logout and cleanup.
     claims_forbidden: [production_complete, live_rls_verified, active_member_count_without_external_evidence]
 
   - id: percy
@@ -140,9 +159,7 @@ canonical_projects:
       leases: UNKNOWN
       heartbeats: UNKNOWN
       dirty_worktrees: UNKNOWN
-    verified_boundary:
-      - control documents are not live runtime truth
-      - a prior real-Mac preflight recorded internal free space below Percy's 25 GiB safety floor, but that observation is historical and must be remeasured
+    historical_boundary: A prior real-Mac preflight recorded internal free space below Percy's 25 GiB safety floor; this is stale and must be remeasured.
     blockers: [real Mac host unavailable to this execution surface]
     next_gate: Non-destructive current free-space measurement, checksummed SQLite/WAL/checkpoint snapshot, integrity/schema, independent counters, leases/heartbeats/stale reconciliation and dirty-worktree inventory. Never reset or replace the DB.
 
@@ -152,28 +169,34 @@ canonical_projects:
     evidence_state: PARTIAL
     disposition: null
     disposition_state: BLOCKED
-    registered_identity_target: 2424
-    identity_boundary: 2,424 unique registry identities do not equal 2,424 source packages, experiments, papers or releases.
+    identity_contract_count: 2424
+    identity_boundary: 2,424 registry identities do not equal 2,424 source packages, experiments, papers, releases or completed projects.
     source_recovery_record: portfolio/project2424/PROJECT_2424_SOURCE_RECOVERY_20260814.md
-    historical_wave001_bundle_sha256: 4c685af70d84052c026602ff7336a522c741d91fb480038e980c21f0bbc63ece
-    historical_wave001_head: ff609f335f91297357b430a2531633fe111cd5a9
-    historical_wave001_source_packages: 24
-    historical_wave001_registry_rows: 2424
-    historical_wave001_independent_reproductions: 0
-    historical_wave001_release_state: RELEASE_REJECTED
-    later_canonical_local_source: /Volumes/PRO-BLADE/Atlas/Project-2024/Project_2424
+    wave001:
+      bundle_sha256: 4c685af70d84052c026602ff7336a522c741d91fb480038e980c21f0bbc63ece
+      head: ff609f335f91297357b430a2531633fe111cd5a9
+      registry_rows: 2424
+      unique_ids: 2424
+      unique_slugs: 2424
+      source_backed_packages: 24
+      controlled_experimental_validations: 4
+      executable_demonstrations: 4
+      compact_baseline_or_idea_tests: 16
+      independent_reproductions: 0
+      release_state: RELEASE_REJECTED
+      fresh_clean_clone_quality_gate: PASSED
+    later_local_source: /Volumes/PRO-BLADE/Atlas/Project-2024/Project_2424
     later_dirty_overlay_recovered: false
     verified_boundary:
-      - checksum-matched historical Wave-001 bundle has complete Git history and passed a fresh disposable clean-clone quality gate
-      - recovered registry has 2,424 rows, 2,424 unique IDs and 2,424 unique slugs
-      - only 24 source-backed Wave-001 packages are present: 4 controlled experimental validations, 4 executable demonstrations and 16 compact baseline or idea tests
-      - 24 of 24 project suites and bounded pilots pass in the recovered historical bundle; this is not outside independent scientific reproduction
-      - multiple retained P2424 registries conflict on the same numeric suffixes and the current T2424 namespace conflicts again, proving numeric suffix alone is not a safe canonical key
+      - checksum-matched historical Wave-001 source is real and replayable
+      - only 24 source-backed packages exist in that historical bundle
+      - multiple retained P2424 registries conflict on numeric suffixes
+      - current T2424 assignments conflict again, so suffix alone is not a safe identity join
     blockers:
       - later dirty Mac overlay or byte-identical archive not recovered
-      - provenance of historical P2424 remaps and transition to current T2424 identities not recovered
-      - full collision table and provenance-backed 2,424 child map not closed
-    next_gate: Recover/hash the later overlay, recover identity migration/canonicalization records, then build a collision-aware provenance map while keeping current T2424 implementations and negative results separate until mapping edges are proven.
+      - historical remap and transition provenance to current T2424 identities not recovered
+      - collision-aware 2,424 child map not closed
+    next_gate: Recover/hash the later overlay and identity-migration records, then build a provenance-backed collision map while keeping current T2424 evidence separate until mapping edges are proven.
     claims_forbidden: [2424_implemented, 2424_research_complete, 2424_publishable, 2424_independently_reproduced]
 
   - id: lam_jepa
@@ -183,14 +206,11 @@ canonical_projects:
     disposition: A_PUBLISH
     repository: vertex-studyAI/LAM-JEPA
     result_state: REPRODUCIBLE_NEGATIVE_INTERNAL_PACKAGE
-    verified_boundary:
-      - frozen ARC result remains negative or inconclusive
-      - raw-artifact provenance and deterministic paper assets were internally reconciled
-      - immutable external reproduction and review packet exists
+    external_packet_revision: 218ea1bea686cdf8c281520b2b636897bc8b8dd2
     blockers:
       - owner-controlled license, authorship, citation, redistribution and release revision
       - genuine independent reproduction or skeptical outside review has not returned
-    next_gate: Owner metadata closure plus outside reproduction or review of the immutable packet. No rescue or locked-test unlock.
+    next_gate: Owner metadata closure plus outside reproduction/review of immutable packet. No rescue or locked-test unlock.
     claims_forbidden: [superiority, external_validation_complete, published, accepted]
 
   - id: iris_v02
@@ -203,11 +223,11 @@ canonical_projects:
     result_state: MIXED_NEGATIVE_DEVELOPMENT_GATE
     verified_boundary:
       - checksum-backed retained bundle, addendum, common harness and source lineage recovered
-      - existing mixed or negative result unchanged
+      - mixed or negative result unchanged
     blockers:
       - exact canonical development trajectories unresolved
       - exact frozen adaptation-metric source provenance unresolved
-    next_gate: Recover exact trajectories and metric provenance or record PROTOCOL_BLOCKED. Confirmatory seeds 1000-1029 remain forbidden and approximate regeneration is prohibited.
+    next_gate: Recover exact trajectories and metric provenance or record PROTOCOL_BLOCKED. Confirmatory seeds 1000-1029 remain forbidden; approximate regeneration is prohibited.
     claims_forbidden: [successor_authorized, confirmatory_result, superiority]
 
   - id: neurocad_v1
@@ -225,7 +245,7 @@ canonical_projects:
     evidence_state: VERIFIED
     disposition: D_NEGATIVE_RESULT
     result_state: VALIDATION_DOMINANT_CAUSAL_MECHANISM_FALSIFIED
-    next_gate: Preserve negative mechanism result. A new scientific version requires a broader new dataset plus a competent model or program-generation baseline.
+    next_gate: Preserve negative mechanism result. A new scientific version requires a broader new dataset plus competent model or program-generation baseline.
     claims_forbidden: [typed_parser_causal_benefit_on_reused_diagnostic]
 
   - id: ngmt_v01
@@ -234,7 +254,7 @@ canonical_projects:
     evidence_state: VERIFIED
     disposition: D_NEGATIVE_RESULT
     result_state: REPRODUCED_NEGATIVE
-    next_gate: Preserve v0.1; any successor is a new version with a new frozen protocol.
+    next_gate: Preserve v0.1; any successor requires a new version and frozen protocol.
     claims_forbidden: [v01_superiority]
 
   - id: t2424_0025
@@ -281,14 +301,35 @@ canonical_projects:
   - id: npms
     name: NPMS
     category: research
-    evidence_state: PARTIAL
-    disposition: C_CONTINUE_EXPERIMENTATION
-    result_state: BOUNDED_EVIDENCE_SOURCE_GATED
-    verified_boundary:
-      - retained bounded diagnostic evidence and known negative spectral, switching and truncation cases exist
-      - retained package is not proof of the original scientific implementation rerun
-    blockers: [original source, config, checkpoint, result and manuscript identity not cleanly migrated and rerun]
-    next_gate: Recover original scientific source and hashes, rerun retained bounded evidence or record SOURCE_UNRECOVERED before natural or OOD expansion.
+    evidence_state: VERIFIED
+    disposition: D_NEGATIVE_RESULT
+    result_state: SOURCE_RECOVERED_BOUNDED_RESULT_REPRODUCED_PARAMETER_CONFOUNDED_OR_NON_UNIQUE
+    source_recovery_record: portfolio/research/NPMS_SOURCE_RECOVERY_20260814.md
+    source_archive_sha256: 076f12750d6a8e6c298c17815224a79463bcad149d6cf1283900d98c6e394a2c
+    source_experiment: projects/npms/experiment.py
+    reproduced:
+      tests: "2 passed"
+      regime_classification_accuracy: 0.9285714285714286
+      reservoir_realizations: 112
+      within_coordinate_spectrum_cosine: 0.9959606005706815
+      between_regime_spectrum_cosine: 0.9530792787182006
+      byte_identical_key_artifacts: true
+    adverse_control:
+      protocol: NPMS-INVARIANT-PARAMETER-CONTROL-V1-20260813
+      npms_accuracy: 0.9285714285714286
+      invariant_parameter_accuracy: 0.8928571428571429
+      npms_advantage_percentage_points: 3.57
+      predeclared_nonuniqueness_band_percentage_points: 5
+      verdict: PARAMETER_CONFOUNDED_OR_NON_UNIQUE
+    limitations_preserved:
+      - delay-PCA weakness
+      - multiscale AR weakness
+      - poor switching-regime recovery
+      - missing and spurious mode scoring issues
+      - conjugate-group and truncation issues
+      - autonomous-operator resolvent-proxy boundary
+    next_gate: No new run now. Any successor requires a new frozen protocol testing incremental behavioral/intervention value beyond coordinate-invariant parameter summaries and strong state-space/spectral controls.
+    claims_forbidden: [unique_regime_mechanism, natural_generalization, ood_superiority]
 
   - id: darcy_t2424_0050
     name: T2424-0050 Darcy Latent Operator
@@ -299,22 +340,23 @@ canonical_projects:
     protocol_commit: 6fbd9c4ba73a460f5abbe6a6f4c478b6bc50e389
     scaffold_commit: 4280156c94fdac3e92ff300e743e2f2899cd4869
     safety_commit: daf548fa9b3953c3d7e188191588a84a04c98093
-    verified_boundary:
-      - parent aligned synthetic mechanism remains retained
-      - v2 protocol froze before outcomes
-      - deterministic generator and fixed controls plus machine-readable pretraining locks are materialized
-      - accidental CI solver-metric computation on frozen OOD-C seed 320007 is procedural contamination and invalid non-evidence; the case, seed, gates and thresholds remain unchanged
-      - current solver-metric unit check uses a hand-constructed non-protocol fixture
+    training_authorized: false
+    preoutcome_state:
+      generator_blob_sha: 7858d70401673704656194800aee945f0ab80b61
+      B2_state: IMPLEMENTED_PREOUTCOME_UNIT_VERIFIED
+      B2_blob_sha: 6e10c6fbecf0cf5ce78ed2b5c61e3fa97da47541
+      B2_verification_workflow_run: 31822727505
+      split_manifest_sha256: 4211d11da7d40f0991bd963c04fb118f34d9fe923e7664da301122b29b0bef85
+    procedural_boundary: Frozen OOD-C seed 320007 was accidentally passed through a deterministic solver-metric unit evaluator before all pretraining locks closed. Those values are invalid non-evidence; the seed, case, gates and thresholds remain unchanged.
     blockers:
       - periodic or circulant finite-grid covariance interpretation approval
       - OOD-D global-offset interpretation approval
-      - learned environment lock
+      - B3 FNO implementation and eligibility
+      - B4 DeepONet implementation and eligibility
+      - learned dependency/environment lock
       - hardware identity
-      - B2 PCA plus ridge implementation hash
-      - B3 FNO implementation hash
-      - B4 DeepONet implementation hash
-      - split manifest hash
-    next_gate: Close every pretraining blocker and commit exact freeze revision before learned training or ID/OOD outcome evaluation. Any material post-outcome change requires a new protocol version.
+      - fixed parameter and compute budgets
+    next_gate: Close every remaining pretraining blocker and commit exact freeze revision before learned training or ID/OOD outcome evaluation. Any material post-outcome change requires a new protocol version.
     claims_forbidden: [v2_executed, learned_operator_superiority, ood_superiority]
 
   - id: t2424_0027
@@ -360,7 +402,7 @@ canonical_projects:
     disposition: E_ARCHIVE_MERGE
     result_state: ACTIVE_COMPUTE_ARCHIVED
     repository: UNKNOWN
-    next_gate: Recover real implementations, separate architecture, runtime and governance artifacts, then freeze matched task/provider/tool budgets before any capability claim.
+    next_gate: Recover real implementations, separate architecture/runtime/governance artifacts, then freeze matched task/provider/tool budgets before any capability claim.
     claims_forbidden: [trained_capability_from_name_or_parameter_target]
 
   - id: text_to_video
@@ -387,7 +429,7 @@ canonical_projects:
     evidence_state: UNKNOWN
     disposition: null
     repository: UNKNOWN
-    next_gate: Recover canonical source and running-service evidence before routing, auth or health claims.
+    next_gate: Recover canonical source and running-service evidence before routing/auth/health claims.
 
   - id: ripii
     name: RIPII
@@ -403,7 +445,7 @@ canonical_projects:
     evidence_state: BLOCKED
     disposition: null
     repository: UNKNOWN
-    next_gate: Recover source, dataset and config and freeze a leakage-safe baseline/OOD matrix before experiment.
+    next_gate: Recover source/dataset/config and freeze leakage-safe baseline/OOD matrix before experiment.
 
   - id: colorworld
     name: Colorworld
@@ -419,7 +461,7 @@ canonical_projects:
     evidence_state: UNKNOWN
     disposition: E_ARCHIVE_MERGE
     repository: UNKNOWN
-    next_gate: Remain inactive until source, licensed data, baseline, metric, error analysis and demo are recovered.
+    next_gate: Remain inactive until source, licensed data, baseline, metric, error analysis and demo evidence are recovered.
 
 declared_unverified_identities:
   evidence_state: UNKNOWN
