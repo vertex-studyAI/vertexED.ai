@@ -1,6 +1,6 @@
 # BLOCKERS
 
-**As of:** 2026-08-14 22:01 IST after LAM internal evidence closure, Darcy v2 protocol freeze, and VertexED production monitor run `31817794439`. Only blockers that prevent a stronger evidence claim are listed. Closed gates are not retained as blockers.
+**As of:** 2026-08-14 after LAM internal evidence closure, Darcy v2 protocol freeze, latest VertexED production monitor evidence, and FinanceMeta source recovery. Only blockers that prevent a stronger evidence claim are listed. Closed gates are not retained as blockers.
 
 ## P0 — Percy authoritative live state
 Existing Mac SQLite/WAL/process/worktree state is not visible from this execution surface. Run `PERCY-STATE-001` non-destructively: snapshot/hash SQLite + WAL + checkpoint state, run integrity/schema checks, reconcile queue counters, leases, heartbeats and stale workers, record dirty worktrees, then independently recount. Do not reset, replace, truncate, vacuum-away evidence, or reconstruct the DB to make counters clean.
@@ -24,6 +24,17 @@ Remaining blockers are intentionally human/external only:
 
 Do not infer authorship, licensing or external validation from repository history or packet readiness. Superiority/planner/target claims remain unsupported.
 
+## P0 product — FinanceMeta source review gate
+Canonical portal source is now recovered at `build-the-future-11/finance4all-global-reach`. Branch `cursor/membership-security-supabase-fix` is 41 commits ahead of `main` and 0 behind and contains the retained security/release-candidate work, including migrations `018`–`021` and verification tooling.
+
+This execution surface cannot open the PR: connector write attempt returned `403 Resource not accessible by integration`, and no authenticated `gh` CLI is available. Required closure: an owner-authorized GitHub identity with write scope opens that **existing** branch against `main`, exact-head CI runs, and the source/security diff is reviewed. Do not recreate the 41 commits in the control repository and do not call the branch production-deployed.
+
+## P0 product — FinanceMeta live production qualification
+Even after source review, production remains externally blocked until the owner-controlled Supabase/deployment surfaces are verified. Required closure: apply and verify the complete intended migration/RLS state including `021_analytics_journey_events.sql`; set the authorized production environment; deploy an exact reviewed revision; run authenticated multi-account core-flow, cross-user isolation/denial, recovery/logout and cleanup checks. Branch-authored local test reports and a green source PR are not live production evidence.
+
+## P1 — The Bu1LD target access
+Canonical writable target/runtime surface remains unavailable from this execution surface. Production authorization, RLS/role boundaries, deployment identity and authenticated seven-role golden-journey evidence remain externally blocked. Do not substitute control-repo activity for production evidence.
+
 ## P1 — IRIS exact retained source for frozen baseline-frontier protocol
 The current successor search is closed and no new architecture is authorized. `IRIS_BASELINE_FRONTIER_PROTOCOL_20260814.md` is frozen; execution is blocked on exact retained development trajectories, implementations/parameters and metric code. If exact source cannot be recovered, record `PROTOCOL_BLOCKED`; do not regenerate approximately equivalent data. Confirmatory seeds `1000–1029` remain quarantined.
 
@@ -41,9 +52,6 @@ The old typed-parser causal interpretation is falsified by the component-v2 diag
 
 ## P1 — Hercules / Olympus
 No significant compute until decisive matched protocols are frozen. Architecture names, parameter targets and runtime/governance demos are not trained-model capability evidence.
-
-## P1 — FinanceMeta / The Bu1LD target access
-Canonical writable target/runtime surfaces remain unavailable from this execution surface. Production authorization, RLS/role boundaries, deployment identity and authenticated golden-journey evidence therefore remain externally blocked. Do not substitute control-repo activity for production evidence.
 
 ## Scheduling guard
 Zero new major scientific experiment runs are authorized while these higher-information source/live-state gates remain open. Unused compute stays unused rather than becoming low-information work.
