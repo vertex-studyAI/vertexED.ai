@@ -1,30 +1,30 @@
 {
-  "rescored_at":"2026-08-14",
-  "ordering_rule":"information_gain * closure_probability * evidence_value / cost",
-  "tier_s_count":3,
-  "major_science_runs_authorized":0,
-  "tasks":[
+  "rescored_at": "2026-08-14T22:02:00+05:30",
+  "ordering_rule": "information_gain * closure_probability * evidence_value / cost",
+  "tier_s_count": 3,
+  "major_science_runs_authorized": 0,
+  "tasks": [
     {"id":"PERCY-STATE-001","priority":"P0","state":"BLOCKED_EXTERNAL_MAC","objective":"Recover existing live Percy state without reset.","deliverable":"Checksummed SQLite+WAL+checkpoint, integrity/schema, counters, leases/heartbeats/stale workers, dirty worktree.","failure":"Do not create replacement DB."},
-    {"id":"P2424-CANON-001","priority":"P0","state":"BLOCKED_EXTERNAL_SOURCE","objective":"Recover canonical Project 2424 source/overlay and reconcile status/count truth.","deliverable":"HEAD/ancestry, overlay hashes, smallest rerun, canonical child map."},
-    {"id":"LAM-RELEASE-METADATA-003","priority":"P0","state":"BLOCKED_OWNER","objective":"Close license/authorship/citation/redistribution/release-revision metadata after internal evidence closure.","constraint":"Do not infer owner-controlled fields."},
+    {"id":"P2424-CANON-001","priority":"P0","state":"BLOCKED_EXTERNAL_SOURCE","objective":"Recover canonical Project 2424 source/overlay and reconcile status/count truth.","deliverable":"HEAD/ancestry, overlay hashes, smallest authorized rerun, canonical child map.","constraint":"Do not fabricate a 2424-ID map from partial registries."},
+    {"id":"VERTEX-PROD-001","priority":"P0_PRODUCT","state":"BLOCKED_EXTERNAL_DEPLOYMENT_IDENTITY","objective":"Verify exact intended/served revision plus authenticated golden journey.","constraint":"Healthy public surface is not served-revision proof."},
+    {"id":"FINMETA-RECOVERY-002","priority":"P0_PRODUCT","state":"PARTIAL_MUTATION_BLOCKED","objective":"Recover preserved FinanceMeta security work through a reviewable path without force-moving main.","historical_merge":"f18d0f008351a86accbc5ca2fa6ebbec05e57906","current_main":"fbdd503223edc5b1780509720391083f485a4a85","preserved_branch_ahead_commits":41,"head_ci":"FAILED_LINT","mutation_surface":"403_RESOURCE_NOT_ACCESSIBLE_BY_INTEGRATION","constraint":"Production Supabase and golden journey remain separate blockers."},
+    {"id":"BUILD-DEPLOY-001","priority":"P0_PRODUCT","state":"BLOCKED_DEPLOYMENT_VERIFICATION","objective":"Qualify exact-current-main Bu1LD release and deployment.","current_main":"daa80c1124b2a6d7d09b7669e04d29e50cffcbbe","source_ci":"PASS","cloudflare_verification":"FAILED_RELEASE_CHECK","deploy_job":"SKIPPED"},
+    {"id":"LAM-RELEASE-METADATA-003","priority":"P0","state":"BLOCKED_OWNER","objective":"Close owner-controlled license/authorship/citation/redistribution/release-revision metadata.","constraint":"Do not infer owner-controlled fields."},
     {"id":"EXTVAL-LAM-001","priority":"P1","state":"READY_EXTERNAL_PACKET","objective":"Obtain genuinely independent reproduction and skeptical review of immutable LAM package.","packet_revision":"218ea1bea686cdf8c281520b2b636897bc8b8dd2","constraint":"External validation remains RED/PENDING until returned outside evidence exists."},
     {"id":"IRIS-FRONTIER-SOURCE-001","priority":"P1","state":"BLOCKED_CANONICAL_RAW_SOURCE","objective":"Recover exact raw trajectories, retained implementations/parameters and metric code required by frozen baseline-frontier protocol.","constraint":"Confirmatory seeds 1000-1029 forbidden; approximate regeneration prohibited."},
-    {"id":"DARCY-FREEZE-001","priority":"P1","state":"WAITING_CANONICAL_SOURCE","objective":"Freeze matched learned-operator + OOD physical comparison before run."},
-    {"id":"VERTEX-PROD-001","priority":"P0_PRODUCT","state":"BLOCKED_EXTERNAL_DEPLOYMENT_IDENTITY","objective":"Verify exact intended/served revision + authenticated golden journey.","latest_failed_run":"31777345899","expected_revision":"8272b8cba0dab6e9a07ee6aa4f927ad9374de534","expected_revision_resolvable":true,"evidence":"Across three bounded attempts, /api/health returned healthy but omitted revision identity. Homepage, API-router, malformed-waitlist, logged-out AI/user/admin and untrusted-origin checks passed. The unresolved fact is the served deployment revision, not the expected source revision."},
+    {"id":"DARCY-EXEC-002","priority":"P1","state":"FROZEN_WAITING_SOURCE_AUTHORIZATION","objective":"Confirm canonical source and authorization, then execute only the already-frozen learned-operator/OOD protocol.","frozen_control_commit":"6fbd9c4b","constraint":"No refreeze, retune, or acceptance-gate changes."},
     {"id":"NPMS-SOURCE-001","priority":"P1","state":"BLOCKED_SOURCE_IDENTITY","objective":"Recover original NPMS source/config/checkpoint before any new natural/OOD science."},
-    {"id":"JEPA-TS-FREEZE-001","priority":"P2","state":"DORMANT_UNTIL_CAPACITY","objective":"Freeze one cheap known-state synthetic causal-future-latent experiment with strong objective/statistical baselines and 5pp falsifier.","constraint":"No run currently authorized; no real-data expansion before synthetic gate."},
-    {"id":"PORTFOLIO-RESCORE-003","priority":"P1","state":"WAITING_DECISIVE_EVIDENCE","objective":"Re-score only after new material evidence; max Tier S 5, current 3."}
+    {"id":"VERTEX-SECURITY-HUMAN-001","priority":"P1_PRODUCT","state":"OWNER_ADMIN_ACTION","objective":"Review leaked-password protection and available Postgres security maintenance, apply only through approved admin path, then rerun Security Advisor.","bounded_evidence":{"public_tables_rls_enabled":true,"public_security_definer_anon_authenticated_execute":false}},
+    {"id":"JEPA-TS-FREEZE-001","priority":"P2","state":"DORMANT_UNTIL_CAPACITY","objective":"Freeze one cheap known-state synthetic causal-future-latent experiment with strong baselines and falsifier.","constraint":"No run currently authorized."},
+    {"id":"PORTFOLIO-RESCORE-004","priority":"P1","state":"WAITING_DECISIVE_EVIDENCE","objective":"Re-score only after new material evidence; max Tier S 5, current 3."}
   ],
-  "closed":[
-    {"id":"LAM-PAPER-001","outcome":"Source-grounded method/provenance/originality/reviewer closure is canonical on LAM-JEPA main."},
-    {"id":"LAM-VERIFY-002","outcome":"Independent raw-artifact digest check, numerical recomputation and deterministic paper-asset regeneration closed; verification record merged as 725ae2fb17de9c988938d4b03bd8a6be456b8e8b; numeric-basis guard merged as bf8311e1a4d240e2891e51af38eaf7754944e300 with no scientific outcome change."},
-    {"id":"EXTVAL-LAM-PACKET-001","outcome":"Immutable external reproduction/review packet merged as 218ea1bea686cdf8c281520b2b636897bc8b8dd2; no outside result yet."},
-    {"id":"IRIS-FRONTIER-FREEZE-001","outcome":"Development-only false-open constrained baseline-frontier protocol frozen; execution source-blocked."},
-    {"id":"JEPA-TS-PROGRAM-001","outcome":"One literature-bounded JEPA-time-series programme exists; no experiment authorized."},
-    {"id":"IRIS-DECIDE-001","outcome":"No successor architecture authorized; baseline frontier owns the residual question."},
-    {"id":"NEUROCAD-COMPONENT-V2","outcome":"VALIDATION_DOMINANT; typed-parser causal interpretation falsified on reused diagnostic."},
-    {"id":"PR-319","outcome":"Closed unmerged; superseded history retained."},
-    {"id":"ISSUE-122","outcome":"Closed as superseded command-center bookkeeping."}
+  "closed": [
+    {"id":"DARCY-FREEZE-001","outcome":"Protocol already frozen at control commit 6fbd9c4b; stale queue gate removed."},
+    {"id":"LAM-PAPER-001","outcome":"Canonical paper/source closure retained."},
+    {"id":"LAM-VERIFY-002","outcome":"Independent raw-artifact digest/numerical/asset verification retained."},
+    {"id":"EXTVAL-LAM-PACKET-001","outcome":"Immutable external packet ready; no outside validation result yet."},
+    {"id":"IRIS-FRONTIER-FREEZE-001","outcome":"Frozen; execution remains source-blocked."},
+    {"id":"NEUROCAD-COMPONENT-V2","outcome":"VALIDATION_DOMINANT; typed-parser causal interpretation falsified on reused diagnostic."}
   ],
-  "authorization_note":"Zero new major scientific experiment runs are currently authorized. Source/live-state recovery, release metadata, external review, production certification and protocol freezes precede new compute."
+  "authorization_note": "Zero new major scientific experiment runs are authorized. Darcy's freeze is complete but execution still requires exact source and authorization."
 }
