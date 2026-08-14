@@ -1,6 +1,6 @@
 # NEXT TASK QUEUE
 
-**Rescored:** 2026-08-14 after independent LAM raw-artifact verification and external-packet merge  
+**Rescored:** 2026-08-14 after independent LAM raw-artifact verification, Darcy v2 protocol freeze, and external-packet merge  
 **Rule:** information gain × closure probability × evidence value ÷ cost. Dependencies are hard.
 
 ## 1 — PERCY-STATE-001 — P0 / BLOCKED_EXTERNAL_MAC
@@ -31,10 +31,11 @@
 - If exact source cannot be recovered, output `PROTOCOL_BLOCKED`; do not regenerate approximately equivalent data.
 - Confirmatory seeds `1000–1029` remain forbidden.
 
-## 6 — DARCY-FREEZE-001 — P1 / WAITING_CANONICAL_SOURCE
-- Freeze the dangerous learned/operator/OOD comparison before execution.
-- Systems: numerical/reduced controls + matched learned operator family; equal budget; misaligned/correlation-length/held-out regimes.
-- No run until data/version, metric, budget, uncertainty and falsifier are immutable.
+## 6 — DARCY-V2-PREEXEC-002 — P1 / PROTOCOL_FROZEN_NOT_RUN
+- `DARCY-FREEZE-001 / darcy-operator-ood-v2` is already frozen on canonical `main` before any v2 outcome.
+- Parent aligned 24-cell/6-block result remains immutable and cannot be inherited as a v2 positive result.
+- Before any training/test outcome, commit/hash the required implementation and environment, deterministic generator and split manifests, reference solver/tests, FNO/DeepONet/PCA-ridge revisions, exact learned-model/training budget, normalization/validation-selection rules, dataset manifests/hashes and compute identity.
+- Then independently verify those hashes against the frozen protocol. **No v2 outcome run is authorized yet.** Material changes after outcome inspection require a new protocol version.
 
 ## 7 — VERTEX-PROD-001 — P0 PRODUCT / BLOCKED_EXTERNAL_DEPLOYMENT_IDENTITY
 - Establish exact served revision and authenticated golden-journey truth.
@@ -65,6 +66,7 @@
 - `LAM-VERIFY-002` — **CLOSED INTERNALLY:** raw Actions artifacts `9162165932`, `9003785715`, and `9003740436` were independently downloaded; ZIP/raw JSON digests matched canonical provenance; five-seed full/matched/ablation values and bounded pretrained characterization were independently recomputed; deterministic CSV/Markdown/SVG assets regenerated. Verification record merged as `725ae2fb17de9c988938d4b03bd8a6be456b8e8b`; numeric-basis guard merged as `bf8311e1a4d240e2891e51af38eaf7754944e300` with no scientific outcome change.
 - `EXTVAL-LAM-PACKET-001` — **CLOSED PACKAGING ONLY:** immutable external reproduction/review packet merged as `218ea1bea686cdf8c281520b2b636897bc8b8dd2`; no outside result exists yet.
 - `IRIS-FRONTIER-FREEZE-001` — **CLOSED:** development-only false-open constrained baseline-frontier protocol is frozen; execution remains source-blocked.
+- `DARCY-FREEZE-001` — **CLOSED DESIGN/FREEZE ONLY:** learned-operator/OOD v2 protocol is frozen before outcomes; implementation/environment/split/model-budget/dataset-hash prerequisites remain open and no v2 result exists.
 - `JEPA-TS-PROGRAM-001` — **CLOSED DESIGN:** one literature-bounded programme exists; no experiment authorized.
 - `IRIS-DECIDE-001` — **CLOSED:** no successor architecture authorized.
 - NeuroCAD component-confound ablation — **CLOSED / FALSIFIED MECHANISM:** direct+matched validation equals current compiler; `VALIDATION_DOMINANT`.
@@ -73,4 +75,4 @@
 
 ## Scheduling guard
 
-**Zero new major scientific experiment runs are authorized right now.** Percy/Project 2424/IRIS/NPMS are source or live-state recovery first; Darcy requires a frozen protocol; JEPA×time-series is dormant design; NeuroCAD research is deprioritized after its mechanism falsifier; LAM is owner metadata + external review only; VertexED is deployment certification only. Unused compute capacity should remain unused rather than generate low-information experiments.
+**Zero new major scientific experiment runs are authorized right now.** Percy/Project 2424/IRIS/NPMS are source or live-state recovery first; Darcy v2 is protocol-frozen but still pre-execution; JEPA×time-series is dormant design; NeuroCAD research is deprioritized after its mechanism falsifier; LAM is owner metadata + external review only; VertexED is deployment certification only. Unused compute capacity should remain unused rather than generate low-information experiments.
