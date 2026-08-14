@@ -76,7 +76,7 @@
     "B2_implementation_sha": "6e10c6fbecf0cf5ce78ed2b5c61e3fa97da47541",
     "B3_implementation_sha": null,
     "B4_implementation_sha": null,
-    "split_manifest_sha256": null
+    "split_manifest_sha256": "4211d11da7d40f0991bd963c04fb118f34d9fe923e7664da301122b29b0bef85"
   },
   "authorization_rule": "Training, ID-test evaluation and OOD evaluation remain forbidden until generator.implementation_git_blob_sha is recorded, all unresolved_pretraining_blockers are non-null, implementations pass frozen eligibility/unit tests, and the resulting freeze revision is committed before outcomes are inspected."
 }
