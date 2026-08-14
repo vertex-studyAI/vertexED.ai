@@ -2,66 +2,57 @@
 
 **Project:** Darcy Latent Operator  
 **Queue rank:** 43  
-**Track:** C — Existing work → minimum experiment  
-**State:** TESTED_TOOL / LATEST_MAIN_REVALIDATION_PENDING / MANUAL_MERGE_REQUIRED  
-**Claim level:** bounded 1D reduced-resistance scientific-computing screen
+**State:** `BOUNDED_V1_EVIDENCE_RETAINED / V2_PROTOCOL_FROZEN / V2_NOT_EXECUTED`  
+**Claim level:** bounded 1D resistance-preserving mechanism; no learned-operator superiority claim
 
-## Identity repair
+## Canonical identity
 
-The frozen First-100 queue assigns `T2424-0050` to **Darcy Latent Operator**. The repository previously placed Benchmark Augmentation Theory under that canonical ID. This repair preserves that useful benchmark audit under `portfolio/project2424/tools/benchmark-augmentation-theory/` with auxiliary identity `AUX-P2424-BENCHMARK-AUGMENTATION`, then restores the canonical project path to Darcy.
+The Project 2424 queue assigns `T2424-0050` to **Darcy Latent Operator**. Benchmark Augmentation Theory remains preserved separately as auxiliary tooling and is not the canonical T2424-0050 identity.
 
-## Implemented
+## Retained bounded v1 evidence
 
-- [x] positive-permeability input validation
-- [x] steady 1D Darcy resistance solver
-- [x] explicit constant-flux pressure reconstruction
-- [x] harmonic block-resistance compression
-- [x] 4× reduced latent representation (24 cells → 6 blocks)
-- [x] linear-pressure no-heterogeneity baseline
-- [x] deterministic heterogeneous field generator
-- [x] 20-seed benchmark
-- [x] uniform-permeability negative control
-- [x] retained machine-readable result
-- [x] six focused Darcy regression tests
-- [x] Benchmark Augmentation Theory preserved losslessly as auxiliary tooling
-- [x] zero-exception queue↔canonical-package identity regression in the repair lineage
-
-## Prior exact-head evidence
-
-The same bounded Darcy/auxiliary repair lineage previously passed canonical GitHub Actions on exact repair heads, including CI run `31456883470` for PR #230. That evidence establishes the repair mechanics on the earlier base only.
-
-## Latest-main revalidation
-
-This branch is rebuilt from current `main` `37391b14fbd3aa2ab550aa0048ab944ea2556483`, which includes newer portfolio truth and certification-readiness infrastructure. Those changes must remain intact.
-
-The refreshed branch must pass canonical GitHub Actions on its own exact head before it is eligible for manual integration. Prior green runs are not substituted for latest-main evidence.
+The canonical package retains a positive-permeability validator, steady 1D resistance solver, constant-flux pressure reconstruction, harmonic block-resistance compression, deterministic heterogeneous generator, weak linear baseline, 20-seed benchmark, uniform negative control, machine-readable result and focused regression tests.
 
 Retained bounded result:
 
-- mean baseline pressure MAE: `0.0658913916`;
-- mean latent pressure MAE: `0.0011366559`;
-- mean relative improvement: `97.8766%`;
-- mean flux relative error: `1.37e-16`;
-- uniform negative-control latent MAE: `0`;
-- predeclared screen: all three bounded mechanics gates passed.
+- mean baseline pressure MAE `0.0658913916`;
+- mean latent pressure MAE `0.0011366559`;
+- mean relative improvement `97.8766%`;
+- mean flux relative error approximately `1.37e-16`;
+- uniform negative-control latent MAE `0`.
 
-## Current promotion gate
+These numbers establish only the frozen synthetic mechanism screen. They do not establish neural-operator quality, multidimensional generalization, real porous-media validity, OOD superiority or publication novelty.
 
-Even if exact-head CI is green, that proves repository integration only. It does not establish scientific generalization, learned-operator quality or research completion.
+## v2 protocol freeze — CLOSED DESIGN GATE
 
-**DO NOT AUTO-MERGE OR DEPLOY. MANUAL REVIEW REQUIRED.**
+`DARCY-FREEZE-001` is complete. Commit `6fbd9c4ba73a460f5abbe6a6f4c478b6bc50e389` added `LEARNED_OPERATOR_OOD_PROTOCOL_V2.md` **before any v2 outcome execution**.
+
+The frozen document explicitly records `EXPERIMENT NOT YET RUN` and predeclares ID/OOD generators/splits, resistance-preserving and averaging comparators, PCA+ridge, FNO and DeepONet learned baselines, model/tuning budgets, eligibility rules, metrics, uncertainty, gates and falsifiers. A positive result against the weak linear baseline alone is insufficient; failed H1/H2 must be retained rather than rescued.
+
+## Current next gate
+
+`DARCY-V2-MATERIALIZE-002` — **pre-outcome implementation/config/hash closure only**.
+
+Before scientific execution, commit and independently verify:
+
+- deterministic generator/reference solver and split-manifest generator;
+- exact frozen ID/OOD families/seeds;
+- fixed M1/A1/A2/B1/B2 comparators;
+- eligible FNO and DeepONet implementations/config grid;
+- environment lock and hardware/compute-budget declaration;
+- model-budget and training eligibility tests;
+- raw artifact/provenance paths and exact hashes.
+
+Do **not** run learned training, ID-test or OOD outcome evaluation until those prerequisites are committed. Missing implementation pieces are blockers, not permission to revise v2 after observing results. Any material scientific protocol change requires a new version.
 
 ## Not claimed
 
-- neural operator learning
-- multidimensional Darcy flow
-- real porous-media validation
-- superiority over scientific-ML baselines
-- out-of-distribution generalization
-- publication novelty
-- research completion
-- `CERTIFIED_COMPLETE`
-
-## Next artifact
-
-A harder frozen benchmark with misaligned/correlated permeability fields, representation ablations, stronger reduced-order comparators, 2D finite-volume data and independent scientific QA.
+- v2 executed;
+- learned-operator superiority;
+- multidimensional Darcy flow;
+- real porous-media validation;
+- OOD superiority;
+- external validation;
+- publication novelty;
+- research completion;
+- `CERTIFIED_COMPLETE`.
