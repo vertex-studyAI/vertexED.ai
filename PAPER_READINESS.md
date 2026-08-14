@@ -1,42 +1,128 @@
 # PAPER_READINESS
 
-**As of:** 2026-08-13 22:00 IST. Manuscript existence is not submission readiness. `UNKNOWN` means not established by retained evidence.
+**As of:** 2026-08-14 IST  
+**Rule:** manuscript existence is not submission readiness. Every result must trace `claim -> table/figure -> processed artifact -> raw artifact -> protocol/config -> code commit`.
 
-## Candidate ledger
+## Active paper conversions — maximum 2
 
-### 1. LAM-JEPA — strongest current paper package
-**QUESTION:** Does frozen LAM-JEPA beat matched ARC controls? **HYPOTHESIS:** full > supervised and positive planner/target effects. **FALSIFIER:** control wins or ablation effects fail. **CONTRIBUTION BOUNDARY:** reproducible negative result for this ARC configuration, not a general JEPA impossibility claim. **BASELINES:** matched supervised, no_planner, no_target, shuffled labels. **PROTOCOL:** ARC-Challenge, SHA `760aa7f...`, 20 epochs, batch 32, lr 0.0003. **DATA:** 1117 train/295 validation; locked test untouched. **SEEDS:** 1–5. **METRICS:** accuracy, paired effects, bootstrap CIs. **RESULTS:** full `0.254915±0.012997`; supervised `0.266441±0.015460`; no_planner `0.250169±0.012997`; no_target `0.261695±0.020395`; planner/target unsupported. **UNCERTAINTY:** n=5, low-order float drift retained. **ABLATIONS:** planner/target/negative control. **FAILURES:** superiority/mechanism fails. **LIMITATIONS:** one benchmark, validation only. **REPRODUCIBILITY:** artifact `9162165932`, SHA `caa898...`; independent audit on LAM main `88f759ef...`. **FIGURE PLAN:** seedwise accuracy, paired-effect CIs, prediction-support diagnostic, provenance timeline. **CLAIM LEDGER:** allowed = reproducible negative result; forbidden = superiority/planner/target benefit. **SUBMISSION BLOCKERS:** related work, provenance/license/authorship, independent review, final figures/tables.
+### 1. LAM-JEPA — ACTIVE PAPER LANE
 
-### 2. IRIS v0.2
-**QUESTION:** Can robust memory distinguish outliers from persistent change better than strong robust controls? **HYPOTHESIS:** successor >=10% abrupt-regime gain and competitive with Huber while bounded. **FALSIFIER:** <10%, robust-control domination, or burst failure. **CONTRIBUTION BOUNDARY:** robustness–adaptation tradeoff; bounded influence itself is not novel. **BASELINES:** fixed HTAM, Huber-family/robust/changepoint controls, learned recurrent controls. **PROTOCOL:** v0.2 development/stress; successor confirmatory not authorized. **DATA:** synthetic scalar/sequence corruption/regime tasks; external data missing. **SEEDS:** dev 0–9; stress 10–19; confirmatory 1000–1019 untouched. **METRICS:** frozen regime error/effect statistic; >=10% gate. **RESULTS:** ~`5.33–5.36%`; PCRW not cleanly > Huber; coherent bursts adverse. **UNCERTAINTY:** development only. **ABLATIONS:** persistence/robust/learned controls. **FAILURES:** broad successor advantage fails. **LIMITATIONS:** synthetic-heavy; prior-art closure incomplete. **REPRODUCIBILITY:** v0.2 result/figure/table reproduction retained. **FIGURE PLAN:** robustness-adaptation frontier, regime trajectories, burst failure. **CLAIM LEDGER:** allowed = localized heavy-tail/mixed-negative result; forbidden = confirmed adaptive superiority. **SUBMISSION BLOCKERS:** prior art, external data, stronger baselines, frozen successor, untouched confirmatory run only after freeze.
+**TITLE DIRECTION:** *When Latent-Action JEPA Components Do Not Improve Frozen ARC Validation: A Reproducible Negative Study* `[FINAL TITLE TODO]`
 
-### 3. Strongest Project 2424 story
-**QUESTION:** Which mechanisms survive frozen protocols, baselines and independent reproduction? **HYPOTHESIS:** only a small subset survives. **FALSIFIER:** non-reproduction, baseline domination or boundary failure. **CONTRIBUTION BOUNDARY:** selected bounded stories; registry scale is not evidence. **BASELINES/PROTOCOL/DATA/SEEDS/METRICS:** project-specific and must be frozen per candidate. **RESULTS:** canonical scientific-value agreement; T2424-0025 `10/10`, T2424-0027 `8/8` + verifier, NeuroCAD `6/6`, Darcy `6/6`. **UNCERTAINTY:** project-specific. **ABLATIONS:** mandatory per promoted project. **FAILURES:** many lines remain synthetic/negative/under-baselined. **LIMITATIONS:** portfolio packaging is not peer review. **REPRODUCIBILITY:** source `bd2a4d3...`, artifact `9162627168`, SHA `d9d181...`; no latest-byte-identity claim. **FIGURE PLAN:** maturity funnel plus project-specific figures. **CLAIM LEDGER:** allowed = selected bounded reproductions; forbidden = 2,424 completed papers. **SUBMISSION BLOCKERS:** select 1–3 stories, strong baselines, external validity, independent reproduction, prior work.
+**QUESTION:** Does the frozen LAM-JEPA ARC configuration beat a matched supervised baseline and show positive planner/target contributions?
 
-### 4. NeuroCAD
-**QUESTION:** Does typed/validated IR improve executable correctness and invalid rejection over direct baseline? **HYPOTHESIS:** exceed frozen direct-baseline margin with executable valid geometry. **FALSIFIER:** gate miss/execution or rejection failure. **CONTRIBUTION BOUNDARY:** controlled/held-out compiler evidence, not arbitrary CAD. **BASELINES:** direct extraction; same-provider learned direct generation pending. **PROTOCOL/DATA:** frozen v1, 20 held-out prompts (12 valid/8 invalid), OpenSCAD. **SEEDS:** deterministic. **METRICS:** exact adherence, invalid rejection, overall accuracy, STL execution. **RESULTS:** 19/20 vs 12/20; +35 points; 12/12 valid STL. **UNCERTAINTY:** small authored/template set. **ABLATIONS:** IR/validator vs direct. **FAILURES:** negative-width accepted in frozen v1; post-result repair separate. **LIMITATIONS:** limited language/part families/provider comparison. **REPRODUCIBILITY:** current `6/6`. **FIGURE PLAN:** pipeline, confusion matrix, examples, failure taxonomy. **CLAIM LEDGER:** allowed = frozen controlled/held-out gain; forbidden = arbitrary/SOTA/manufacturing validity. **SUBMISSION BLOCKERS:** larger OOD set, same-provider learned baseline, external reproduction, broader backend/prior work.
+**HYPOTHESIS / FALSIFIER:** full > supervised and component effects >0; baseline win or non-positive ablation effect defeats the claim.
 
-### 5. Darcy T2424-0050
-**QUESTION/HYPOTHESIS:** reduced-resistance mechanism should lower pressure MAE on frozen synthetic Darcy screen. **FALSIFIER:** no MAE reduction or flux inconsistency. **CONTRIBUTION BOUNDARY:** synthetic mechanism, not neural-operator/real-physics generalization. **BASELINE:** frozen pressure baseline; learned controls absent. **PROTOCOL/DATA/SEEDS:** frozen synthetic screen, 20 seeds. **METRICS:** pressure MAE, relative improvement, flux error. **RESULTS:** `0.0658913916→0.0011366559`, `97.8766%`, flux error `1.369e-16`, n=20. **UNCERTAINTY:** seed-level table required in final paper. **ABLATIONS:** bounded mechanism only. **FAILURES:** learned/external claim untested. **LIMITATIONS:** synthetic/aligned. **REPRODUCIBILITY:** current `6/6`. **FIGURE PLAN:** per-seed MAE and fields. **CLAIM LEDGER:** allowed = frozen synthetic improvement; forbidden = learned-operator superiority. **SUBMISSION BLOCKERS:** matched learned operators, OOD/misaligned fields, held-out physical regimes, uncertainty, prior work.
+**CURRENT RESULT:** full `0.254915±0.012997`; supervised `0.266441±0.015460`; no-planner `0.250169±0.012997`; no-target `0.261695±0.020395`. Superiority/planner/target claims are unsupported. Locked ARC test untouched.
 
-### 6. NGMT v0.1
-**QUESTION:** Does equal-budget B3 beat B1/B2 under adverse conditions without >2% clean regression? **HYPOTHESIS:** >=5% vs B2, >=3% vs B1, <=2% clean regression. **FALSIFIER:** either adverse gate fails. **CONTRIBUTION BOUNDARY:** tiny learned mechanism experiment, not broad NGMT superiority. **BASELINES:** B0/B1/B2/B3. **PROTOCOL:** 6,049 parameters each; 18-scalar runtime memory for B1/B2/B3; 3 paired seeds × 4 arms. **DATA:** frozen synthetic adverse/clean sequence tasks. **METRICS/RESULTS:** B3-B2 `+0.4946%±1.5472%` FAIL; B3-B1 `+0.4393%±1.1529%` FAIL; clean `+0.9600%±2.7060%` PASS. **UNCERTAINTY:** n=3. **ABLATIONS:** B0–B3. **FAILURES:** both adverse gates. **LIMITATIONS:** tiny/synthetic. **REPRODUCIBILITY:** runs `31661313386`/`31661621771`, artifacts `9166307730`/`9166406618`, exact scientific replay. **FIGURE PLAN:** paired four-arm gate plot. **CLAIM LEDGER:** allowed = reproduced negative v0.1; forbidden = superiority/significance. **SUBMISSION BLOCKERS:** broader tasks/seeds/prior work/external reproduction; no v0.1 retuning.
+**NOVELTY BOUNDARY:** JEPA, latent actions, quantization, world-model planning, EMA targets, memory and grokking-oriented training are established directions/components. Current defensible contribution is the quality of the frozen negative evaluation, provenance and failure analysis—not a claim that the stack is a new mechanism.
 
-### 7. APEN
-**QUESTION:** Does benefit persist as salience quality degrades? **HYPOTHESIS/FALSIFIER:** advantage should survive preregistered stress; collapse/reversal falsifies robustness. **CONTRIBUTION BOUNDARY:** controlled salience-dependent tradeoff. **BASELINES:** frozen Atlas controls; matched learned baseline missing. **PROTOCOL/DATA:** 48 paired controlled conditions + salience dropout. **SEEDS/METRICS:** retained experiment metadata; final paper must copy exact policy. **RESULTS:** benefit weakens/reverses under severe dropout. **UNCERTAINTY:** no naturalistic estimate. **ABLATIONS:** salience dropout. **FAILURES:** material salience dependence. **LIMITATIONS:** synthetic/no learned control. **REPRODUCIBILITY:** Atlas rerun retained. **FIGURE PLAN:** performance vs dropout. **CLAIM LEDGER:** allowed = reproduced tradeoff; forbidden = universal advantage. **SUBMISSION BLOCKERS:** learned baseline, natural task, frozen salience model, external reproduction, prior work.
+**REQUIRED PAPER STRUCTURE:** Title; Abstract; Introduction; Related Work; Problem Formulation; Frozen Method/Configuration; Hypotheses; Experimental Setup; Matched Baselines; Results; Ablations; Failure Analysis; Robustness/Diagnostics; Limitations; Reproducibility; Broader Impact where relevant; Conclusion; References; Appendix.
 
-### 8. Eigen-JEPA
-**QUESTION:** Does spectral/eigen representation improve covariance forecasting over strong statistical baselines? **HYPOTHESIS/FALSIFIER:** improve frozen primary matrix MSE; baseline win falsifies. **CONTRIBUTION BOUNDARY:** real-data mixed/negative comparison. **BASELINES:** raw/log ridge; stronger spectral controls pending. **PROTOCOL/DATA:** Atlas real-market rerun. **SEEDS:** retained metadata. **METRICS:** primary covariance-matrix MSE. **RESULTS:** raw/log ridge remains stronger. **UNCERTAINTY:** limited dataset/settings. **ABLATIONS:** representation comparison. **FAILURES:** no primary-metric win. **LIMITATIONS:** replication breadth. **REPRODUCIBILITY:** Atlas rerun retained. **FIGURE PLAN:** primary-MSE comparison, period/seed variability. **CLAIM LEDGER:** allowed = mixed/negative real-data result; forbidden = spectral superiority. **SUBMISSION BLOCKERS:** stronger spectral baselines, multi-dataset replication, frozen metric hierarchy, external reproduction/prior work.
+**FIGURES:** seedwise full-vs-control result; paired planner/target effects with uncertainty; prediction-support/failure diagnostic from retained evidence; provenance/reproduction flow. Every figure requires source data + generation command + limitation.
 
-### 9. NPMS
-**QUESTION/HYPOTHESIS:** does controlled memory benefit survive strong learned baselines and OOD/natural tasks? **FALSIFIER:** disappearance under matched controls/OOD. **CONTRIBUTION BOUNDARY:** controlled diagnostic + companion learned evidence only. **BASELINES:** reservoir/reference and RNN/GRU companion; stronger memory controls pending. **PROTOCOL/DATA/SEEDS/METRICS:** retained Atlas controlled protocol; external study not frozen. **RESULTS:** controlled evidence reproduced; natural-task causal transfer unestablished. **UNCERTAINTY:** external validity dominates. **ABLATIONS:** controlled reference; stronger learned ablations pending. **FAILURES:** promotion blocked by missing external test. **LIMITATIONS:** controlled setting. **REPRODUCIBILITY:** Atlas retained. **FIGURE PLAN:** mechanism + learned companion + future OOD. **CLAIM LEDGER:** allowed = controlled reproduced evidence; forbidden = natural-task superiority. **SUBMISSION BLOCKERS:** frozen natural task, strong learned baselines, OOD/generalization, statistical plan, external reproduction.
+**READY:** **NEAR-READY FOR EXTERNAL REVIEW, NOT SUBMISSION-READY**.
 
-### 10. Hercules
-**QUESTION/HYPOTHESIS:** proposal should beat a standard Transformer under identical budget. **FALSIFIER:** no advantage vs matched Transformer or ablation. **CONTRIBUTION BOUNDARY:** architecture/implementation family only. **BASELINES:** Transformer/proposal/ablated proposal required. **PROTOCOL/DATA/SEEDS/METRICS:** NOT YET FROZEN at scientific level. **RESULTS:** no credible matched-budget learned result. **UNCERTAINTY:** unresolved. **ABLATIONS:** required. **FAILURES:** evidence gap, not scientific negative. **LIMITATIONS:** model-scale narratives exceed evidence. **REPRODUCIBILITY:** runtime/implementation only. **FIGURE PLAN:** architecture now; performance/compute frontier only after experiment. **CLAIM LEDGER:** allowed = verified architecture/runtime; forbidden = learned/frontier advantage. **SUBMISSION BLOCKERS:** freeze and run matched experiment, multi-seed evidence, ablation, prior work, independent reproduction.
+**BLOCKERS:** stale positive architecture prose in current manuscript must be removed/reframed; final provenance map; related-work closure; license/authorship/citation check; final figures/tables regenerated from frozen evidence; external reviewer/reproduction.
 
-### 11. Olympus
-**QUESTION:** Does role decomposition with falsification/evidence gates beat a monolithic matched-provider agent? **HYPOTHESIS/FALSIFIER:** improve correctness/evidence under equal budget; no gain or no ablation effect falsifies. **CONTRIBUTION BOUNDARY:** O0 roadmap/runtime only. **BASELINES:** monolithic, full Olympus, minus falsifier, minus evidence gate. **PROTOCOL:** O1 task benchmark across >=2 families to be frozen. **DATA/SEEDS:** not yet frozen. **METRICS:** success, schema validity, incorrect-claim rate, falsification catch, tool correctness, evidence completeness, latency/tokens/RAM. **RESULTS:** no O1 learned result retained. **UNCERTAINTY:** unresolved. **ABLATIONS:** falsifier/evidence gate. **FAILURES:** empirical claim absent. **LIMITATIONS:** provider/task specificity. **REPRODUCIBILITY:** runtime artifacts only. **FIGURE PLAN:** role graph + matched-budget table after run. **CLAIM LEDGER:** allowed = O0 runtime; forbidden = learned superiority or unsupported scale claims. **SUBMISSION BLOCKERS:** freeze/run O1, ablations, multi-task replication, cost accounting, prior work/external reproduction.
+**FORBIDDEN:** locked-test evaluation, seed reruns to seek significance, broad claim that JEPA/planning is generally ineffective.
 
-## 28-hour paper order
+---
 
-LAM-JEPA → IRIS → NeuroCAD → strongest standalone Project 2424 story → NGMT negative/successor only if separately frozen → APEN/Eigen-JEPA/NPMS → Hercules/Olympus only after real experiments.
+### 2. IRIS / current PABIM — ACTIVE PAPER LANE
+
+**TITLE DIRECTION:** *Robustness Without Adaptation: A Frozen Negative Study of Persistence-Gated Bounded-Influence State Tracking* `[FINAL TITLE TODO]`
+
+**QUESTION:** Can the existing PABIM mechanism retain heavy-tail gains while matching strong fixed robust controls and change-aware controls under persistent shifts?
+
+**FROZEN GATE:** all five must pass: clean non-inferiority, heavy-tail information gain, strongest-fixed-control guardrail, persistent-shift adaptation gate, false-open guardrail.
+
+**CURRENT RESULT:** clean PASS; heavy-tail PASS; false-open PASS; strongest-fixed-control FAIL; persistent-shift FAIL. PABIM adverse mean MSE `0.059706` vs mean per-condition best fixed robust `0.033502`; PABIM `TWMSE25=0.215731`, median recovery `24` vs confirmed-Huber `0.162633`, `18.5`. Confirmatory seeds `1000–1029` untouched.
+
+**PROVENANCE:** protocol SHA `0cdf22c...`; raw SHA `5f1bfb8c...`; summary SHA `62355d6a...`; bundle SHA `5643b59e...`. Attempt-1 JSON-boolean serialization failure preserved; minimal repair leaves scientific raw/summary byte-identical; independent verifier passes.
+
+**NOVELTY BOUNDARY:** heavy-tail robust filtering, Student-t methods and abrupt-change tracking are established. Current contribution, if publishable, is the empirical robustness–adaptation failure under one common frozen harness and the failure decomposition—not a broad novel robust-filter mechanism.
+
+**REQUIRED PAPER STRUCTURE:** Title; Abstract; Introduction; robust-filter/change-point Related Work; Problem Formulation; PABIM mechanism; frozen hypotheses/gates; Experimental Setup; strong controls; Results; failure decomposition; limitations; reproducibility; conclusion; references; appendix with invalid-attempt lineage.
+
+**FIGURES:** robustness–adaptation frontier; adverse-condition control comparison; persistent-shift trajectories/TWMSE/recovery; failure/provenance flow.
+
+**READY:** **NOT YET**.
+
+**BINARY NEXT DECISION:** `NEGATIVE_PAPER_CONTINUE` only if originality/reviewer audit says this tradeoff is informative enough; otherwise `ARCHIVE_HIGH_QUALITY_NEGATIVE`.
+
+**FORBIDDEN:** confirmatory-seed access, current-mechanism rescue tuning, removal of Student-t/confirmed-Huber controls.
+
+---
+
+## Conditional paper candidates
+
+### 3. NeuroCAD — EVIDENCE GATE BEFORE PAPER
+
+**QUESTION:** Does typed/validated IR improve executable semantic reliability over competent same-provider direct CAD generation under matched budget, especially OOD/compositionally?
+
+**CURRENT EVIDENCE:** frozen v1 `19/20` vs direct `12/20`; `12/12` valid cases generate non-empty STL; one retained negative-width validator failure. Strong for controlled software behavior, insufficient for a broad research claim.
+
+**DANGEROUS BASELINES:** same-provider direct code/CadQuery/OpenSCAD generation; direct+validator; retrieval/template; typed-IR without validator; full typed-IR+validator.
+
+**PROMOTION GATE:** predeclared primary reliability metric survives a matched provider/model/token/tool budget on a frozen broader OOD/compositional/new-family set.
+
+**IF PASS:** promote to paper lane after one of the two current papers closes.  
+**IF FAIL:** classify research claim negative/product-only; preserve software usefulness.
+
+### 4. APEN — TIER A
+
+**CURRENT EVIDENCE:** prospective salience-specificity ablation supports temporal alignment in a synthetic ridge-readout task: true APEN rare-event MSE `17.131746` vs uniform `18.412450`; shuffled/random alignment erases >100% gain. Exact formula not unique; severe salience failure remains a known weakness.
+
+**PROMOTION GATE:** matched recurrent/attention memory + naturalistic salience-quality stress under frozen capacity/compute/metric contract.
+
+**NOT READY.**
+
+### 5. Eigen-JEPA — NEGATIVE/BOUNDARY
+
+**CURRENT EVIDENCE:** frozen primary covariance matrix MSE: Eigen `5.8318e-09`, spectral eigval ridge `5.4992e-09`; raw/log/PCA ridge also lower mean point estimates. Current parser `14,895` rows conflicts with old prose `14,899`.
+
+**NEXT:** provenance reconciliation, then multi-dataset preregistered replication without changing metric hierarchy.
+
+**PAPER CLASS:** negative/empirical evaluation only if provenance and breadth close. **NOT READY.**
+
+### 6. NPMS — MECHANISM WEAKENED
+
+**CURRENT EVIDENCE:** NPMS regime classification `92.86%`; invariant-parameter control `89.29%`; `3.57` pp gap triggers frozen non-unique/confounded boundary. Coordinate invariance can remain a bounded claim.
+
+**PROMOTION GATE:** natural task or causal intervention where parameter summaries are controlled and spectra show incremental information.
+
+**NOT READY.**
+
+### 7. NGMT v0.1 — CLOSED NEGATIVE
+
+**CURRENT EVIDENCE:** equal-budget learned four-arm study reproducibly misses both adverse superiority gates while clean regression gate passes.
+
+**PAPER CLASS:** packageable negative technical note/preprint, but low priority behind LAM and IRIS. No v0.1 retuning.
+
+### 8. Darcy / T2424-0050 — SYNTHETIC ONLY
+
+**CURRENT EVIDENCE:** large frozen synthetic pressure-MAE effect with flux consistency.
+
+**PROMOTION GATE:** matched FNO/DeepONet/U-Net/ROM-style learned controls, misaligned/OOD fields, held-out physical regimes, uncertainty and compute accounting.
+
+**NOT READY.**
+
+### 9. T2424-0027 — BENCHMARK/TOOL PATH
+
+**CURRENT EVIDENCE:** strong reproducible synthetic injected-coordinate audit.
+
+**PROMOTION GATE:** real multilingual encoders with frozen probes/leakage controls. Prefer benchmark/tool release before paper.
+
+### 10. T2424-1863 — CLOSED NEGATIVE
+
+**CURRENT EVIDENCE:** exact-head frozen negative against >75% gate. Current version receives no more compute. Optional negative technical note only if broader information value exists.
+
+## Paper-factory operating rules
+
+1. Maximum two major conversions at once.
+2. No paper enters prose with a result that lacks provenance.
+3. `[EXPERIMENT NOT YET RUN]`, `[EXTERNAL VALIDATION REQUIRED]`, and `[CITATION TODO]` remain explicit where applicable.
+4. Figures never imply evidence not present in source data.
+5. A reviewer attack chooses the next experiment; it does not choose a more flattering metric.
+6. A negative result is not weakened by being negative; it is weakened by poor controls, poor provenance, weak framing, or overclaiming.
