@@ -1,31 +1,46 @@
 {
   "schema_version": 1,
-  "observed_at": "2026-08-14T22:40:00+05:30",
-  "state": "PARTIAL_BLOCKED_EXTERNAL_SOURCE",
+  "observed_at": "2026-08-14T22:50:00+05:30",
+  "state": "HISTORICAL_WAVE001_BASE_RECOVERED_LATER_OVERLAY_AND_IDENTITY_MAP_UNRESOLVED",
   "contract_count": 2424,
-  "canonical_source": {
-    "expected_host_path": "/Volumes/PRO-BLADE/Atlas/Project-2024/Project_2424",
-    "visible_from_current_execution_surface": false,
-    "rule": "Do not infer source existence, SHA, dirty state, experiment completion, result or disposition from an ID or historical count."
+  "historical_wave001_recovery": {
+    "evidence": "portfolio/project2424/PROJECT_2424_SOURCE_RECOVERY_20260814.md",
+    "manifest_selected_bundle_sha256": "4c685af70d84052c026602ff7336a522c741d91fb480038e980c21f0bbc63ece",
+    "recovered_head": "ff609f335f91297357b430a2531633fe111cd5a9",
+    "complete_history_commit_count": 9,
+    "registry_rows": 2424,
+    "unique_ids": 2424,
+    "source_backed_packages": 24,
+    "without_source_in_bundle": 2400,
+    "source_backed_classes": {"experimentally_validated_controlled_scope":4,"executable_demonstration":4,"compact_baseline_or_idea_test":16},
+    "independent_reproductions": 0,
+    "release_state": "RELEASE_REJECTED",
+    "fresh_clean_clone_quality_gate": "QUALITY_GATE_PASSED",
+    "boundary": "This proves one historical Wave-001 source artifact only. It does not recover the later dirty overlay or prove equivalence between historical P2424-* identities and present T2424-* identities."
   },
-  "directly_disposition_backed_ids": [
-    {"id":"T2424-0025","title":"robust-readout / NGMT precursor","result":"BOUNDED_EFFECT_MECHANISM_NOT_UNIQUE","disposition":"C","next_gate":"separately frozen learned-memory causal control"},
-    {"id":"T2424-0027","title":"synthetic multilingual/representation line","result":"SYNTHETIC_ONLY","disposition":"C","next_gate":"preregistered real-encoder probes and controls"},
-    {"id":"T2424-0028","title":"residual-event codec mechanics","result":"MECHANICS_REPRODUCED_LOW_INFORMATION_GAIN","disposition":"E","next_gate":null},
-    {"id":"T2424-0029","title":"analytic PDE transition screen","result":"ANALYTIC_ONLY_LOW_INFORMATION_GAIN","disposition":"E","next_gate":null},
-    {"id":"T2424-0037","title":"NeuroCAD","result":"SOFTWARE_USEFUL_VALIDATION_DOMINANT_TYPED_PARSER_CAUSAL_MECHANISM_FALSIFIED_ON_REUSED_DIAGNOSTIC","disposition":"B","next_gate":"release reliability; fresh broader benchmark for any new science"},
-    {"id":"T2424-0050","title":"Darcy Latent Operator","result":"PARENT_SYNTHETIC_REPRODUCED_V2_PROTOCOL_FROZEN_NOT_RUN","disposition":"C","next_gate":"complete pre-outcome comparator/environment/hardware/interpretation locks before v2 run"},
-    {"id":"T2424-1863","title":"Resource-Bounded Local Operator","result":"FROZEN_PROMOTION_GATE_FAILED","disposition":"D","next_gate":null}
-  ],
-  "named_candidates_not_revalidated_from_canonical_source": [
-    "T2424-0016","T2424-0019","T2424-0023","T2424-0024","T2424-0026","T2424-0030","T2424-0034","T2424-0035","T2424-0036","T2424-0038","T2424-0040","T2424-0046","T2424-0049","T2424-0051","T2424-0053","T2424-0054","T2424-1530","T2424-1767","T2424-1768","T2424-1861","T2424-1931"
-  ],
-  "all_other_contracts": {
-    "state": "UNKNOWN_NOT_REVALIDATED_FROM_CANONICAL_SOURCE",
-    "source_exists": null,
-    "experiment_state": null,
-    "result_state": null,
-    "disposition": null
+  "identity_collision": {
+    "state": "VERIFIED_MULTI_MAP_COLLISION",
+    "rule": "Numeric suffixes are not safe canonical keys across retained Project 2424 generations.",
+    "examples": [
+      {"suffix":"0038","historical_wave001":"uncertainty-aware autonomous-replication scientific agent","retained_percy_registry":"Typed Multi-Agent Evidence Ledger","current_control":"Obscured Records Agent"},
+      {"suffix":"0050","retained_percy_registry":"Event-Sourced Release Controller","current_control":"Darcy Latent Operator"},
+      {"suffix":"0019","retained_percy_registry":"HELIOS","current_control":"Neural Predictive Memory Spectroscopy"},
+      {"suffix":"1863","retained_percy_registry":"Adaptive-Precision KV Cache for Kv Cache","current_control":"Resource-Bounded Local Operator for Scientific Forecasting"}
+    ],
+    "action":"Preserve each generation and build an explicit provenance/alias map; never overwrite one registry with another by numeric suffix."
   },
-  "count_rule": "Historical counts may not be summed unless proven to represent distinct entities. Seven IDs have direct disposition support in retained canonical snapshot/control evidence; this does not imply that only seven source-backed children exist on the inaccessible host."
+  "current_t2424_directly_disposition_backed_ids": [
+    {"id":"T2424-0025","result":"BOUNDED_EFFECT_MECHANISM_NOT_UNIQUE","disposition":"C"},
+    {"id":"T2424-0027","result":"SYNTHETIC_ONLY","disposition":"C"},
+    {"id":"T2424-0028","result":"MECHANICS_REPRODUCED_LOW_INFORMATION_GAIN","disposition":"E"},
+    {"id":"T2424-0029","result":"ANALYTIC_ONLY_LOW_INFORMATION_GAIN","disposition":"E"},
+    {"id":"T2424-0037","result":"VALIDATION_DOMINANT_TYPED_PARSER_CAUSAL_MECHANISM_FALSIFIED_ON_REUSED_DIAGNOSTIC","disposition":"B"},
+    {"id":"T2424-0050","result":"PARENT_SYNTHETIC_REPRODUCED_V2_PROTOCOL_FROZEN_NOT_RUN","disposition":"C"},
+    {"id":"T2424-1863","result":"FROZEN_PROMOTION_GATE_FAILED","disposition":"D"}
+  ],
+  "current_t2424_other_ids": {
+    "state":"UNKNOWN_OR_UNRECONCILED_WITH_HISTORICAL_GENERATIONS",
+    "disposition":null
+  },
+  "next_gate":"Recover later overlay/ancestry and construct an explicit cross-generation P2424/Percy/T2424 provenance map before assigning historical source packages to present-day identities."
 }
