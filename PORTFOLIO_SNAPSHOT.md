@@ -1,54 +1,57 @@
 # PORTFOLIO_SNAPSHOT
 
-**Verified at:** 2026-08-14 after NeuroCAD component ablation  
-**Control evidence head before this rescore:** `2cd90f30b4299acf52b110b8a5bc5784fa9fc8b8`  
-**Truth rule:** claim-specific GREEN only. Percy live-host counters remain `UNKNOWN` from this execution surface.
+**Verified:** 2026-08-14 after NeuroCAD component ablation and portfolio rescore  
+**Canonical evidence head used:** `763efab651e7e58231377bf2eb6d45d26902dacf`  
+**Truth rule:** every canonical project has exactly **one** A–F portfolio state. Claim-specific GREEN/RED/BLOCKED evidence and S/A/B priority tiers are separate dimensions and never count as second project states.
 
 ## Verified portfolio snapshot
 
-| Project | Current evidence | Engineering / reproducibility | External / blocker | Recommended state |
-|---|---|---|---|---|
-| LAM-JEPA | Five-seed ARC negative/inconclusive: full `0.254915±0.012997` vs matched supervised `0.266441±0.015460`; planner/target unsupported | Strong reproducibility; canonical negative manuscript now grounded in verified related work and runtime metadata | owner-approved license/citation/authorship + independent review remain | **A — PUBLISH negative result; Tier S paper conversion** |
-| IRIS v0.2 | Current successor fails: ~`5.33–5.36%` vs frozen `>=10%`; strong change-aware baselines expose false-open/recovery tradeoff | Negative/mixed package reproduced; successor architecture search explicitly closed pending baseline frontier | external data, independent novelty/reproduction; confirmatory seeds quarantined | **D — NEGATIVE RESULT; Tier S scientific closure** |
-| Percy | Evidence-native control artifacts exist; live SQLite/WAL/process truth is not observable here | substantial control infrastructure; real-host qualification incomplete | real Mac host snapshot + crash/lease/provider/soak evidence | **B — PRODUCTIZE/QUALIFY; Tier S infrastructure** |
-| NeuroCAD | Frozen v1 remains `19/20` vs `12/20`, 12/12 valid STL. New frozen v2 component ablation: direct+matched validation reaches `1.00`, exactly matching current compiler; recovery fraction `1.00`, `VALIDATION_DOMINANT` | Functional software; ablation workflow `31777954088` SUCCESS, artifact `9210587354` | contemporary learned/direct baseline + genuinely new OOD part families absent | **B — PRODUCTIZE; A-tier research only. Typed-parser mechanism falsified on diagnostic** |
-| Darcy T2424-0050 | 20-seed bounded synthetic screen `0.0658913916→0.0011366559`, 97.8766%; flux error `1.369e-16` | reproducible bounded mechanism | matched learned operator + misaligned/OOD physics absent | **C — CONTINUE; Tier A** |
-| T2424-0025 | robust-readout effect reproduces; clean control also improves | strong diagnostic reproduction | unique mechanism not isolated | **C — CONTINUE selectively; Tier A** |
-| NGMT v0.1 | both frozen adverse superiority gates fail; clean gate passes | equal-budget negative result reproduced | task breadth/external replication limited | **D — NEGATIVE RESULT; Tier A package** |
-| APEN | benefit weakens/reverses under severe salience failure | reproduced controlled mixed study | learned/naturalistic controls absent | **C — Tier A** |
-| Eigen-JEPA | direct ridge stronger on primary retained covariance metric | reproduced real-data mixed/negative study | stronger spectral controls/multi-dataset replication absent | **D — Tier A negative/mixed** |
-| NPMS | controlled + companion learned evidence reproduce | bounded reproducibility good | natural/OOD task absent | **C — Tier A** |
-| VertexED | source gates can be green; 2026-08-14 production monitor fails exact revision identity while public/auth-boundary checks pass | source strong | exact served revision + authenticated golden journey | **F production blocked / B productize; Tier A product qualification** |
-| T2424-0027 | synthetic audit `8/8` + verifier | strong synthetic reproduction | real multilingual encoder absent | **Tier B** |
-| T2424-0028 / 0029 / 1863 | bounded mechanics/analytic/negative evidence retained | reproducible within scope | weak information gain without new external gates | **ARCHIVE active compute** |
-| Hercules / Olympus | implementation/spec only, no decisive learned experiment | incomplete scientific qualification | protocol/budget not frozen/executed | **ARCHIVE active compute until gate** |
-| FinanceMeta / The Bu1LD | control preparation exists | target state unavailable | canonical target/runtime access | **F — EXTERNALLY BLOCKED** |
-| Text-to-Video | no current high-priority question freshly verified | untriaged | explicit owner/job/gate absent | **ARCHIVE/UNTRIAGED** |
+| Project | Current evidence / boundary | Engineering / reproducibility | Primary external or scientific blocker | **Single portfolio state** | Tier |
+|---|---|---|---|---|---|
+| LAM-JEPA | Five-seed ARC is negative/inconclusive: full `0.254915±0.012997` vs matched supervised `0.266441±0.015460`; planner/target unsupported; locked test untouched | Strong reproducibility; negative manuscript/evidence package is the canonical scientific story | owner-approved license/citation/authorship + independent review/reproduction | **A — PUBLISH** | **S** |
+| IRIS v0.2 | successor misses frozen `>=10%` gate at ~`5.33–5.36%`; robust change-aware baselines expose false-open/recovery tradeoff; successor architecture search closed | negative/mixed package reproduced; seeds `1000–1029` quarantined | only a separately frozen simple-baseline frontier can justify further science | **D — NEGATIVE RESULT** | **S** |
+| Percy | evidence-native orchestration/control artifacts exist; 16,256 is a logical-identity registry count, not physical concurrency | substantial engineering; real SQLite/WAL/process/lease truth is unobserved here | real-host non-destructive state recovery + crash/restart/provider/lease/soak qualification | **B — PRODUCTIZE** | **S** |
+| NeuroCAD | frozen v1 `19/20` vs original direct `12/20`, `12/12` valid STL; frozen v2 component ablation shows direct+matched validation `20/20`, equal to current compiler, `validation_recovery_fraction=1.00`, `VALIDATION_DOMINANT` | functional compiler/validator; v1 preserved; v2 reproducible negative mechanism result | typed-parser causal claim is falsified on current diagnostic; broader learned/constrained OOD reliability question is a **future separately versioned research question**, not a second state for current NeuroCAD | **B — PRODUCTIZE** | **A** |
+| Project 2424 umbrella | selected child projects have bounded evidence; registry/project count is not scientific completion | useful evidence/project registry | preserved canonical source/dirty overlay recovery and one child map | **B — PRODUCTIZE** | **A** |
+| Darcy T2424-0050 | 20-seed bounded synthetic pressure screen `0.0658913916→0.0011366559`, 97.8766%; flux error ~`1.37e-16` | reproducible 1D bounded mechanism | matched learned operator + misaligned/OOD physical regimes | **C — CONTINUE EXPERIMENTATION** | **A** |
+| T2424-0025 robust readouts | robust effect reproduces, including material clean-control benefit; mechanism is not unique | strong focused diagnostic | distinct learned sequence mechanism/control | **C — CONTINUE EXPERIMENTATION** | **A** |
+| NGMT v0.1 | both frozen adverse superiority gates fail; clean gate passes | equal-budget negative result reproduced with unchanged-protocol replay | none for v0.1 conclusion; successor must be a new frozen version | **D — NEGATIVE RESULT** | **A** |
+| APEN | benefit weakens/reverses under severe salience failure | reproduced controlled mixed study | matched learned + naturalistic salience controls | **C — CONTINUE EXPERIMENTATION** | **A** |
+| Eigen-JEPA | raw/log ridge stronger on retained primary covariance metric | reproduced real-data mixed/negative study | no superiority claim; any new multi-dataset question must be separately frozen | **D — NEGATIVE RESULT** | **A** |
+| NPMS | controlled + companion learned evidence reproduce | bounded reproducibility is good | stronger learned memory + natural/OOD task | **C — CONTINUE EXPERIMENTATION** | **A** |
+| VertexED | source checks can be green while production monitor `31771831538` fails exact served-revision identity; public/auth-boundary checks pass | source/control engineering strong; production identity unresolved | canonical Vercel revision + disposable-account authenticated golden journey | **F — EXTERNALLY BLOCKED** | **A** |
+| T2424-0027 | deterministic synthetic audit reproduces with verifier | strong synthetic reproduction | real multilingual encoder/data and preregistered probes | **C — CONTINUE EXPERIMENTATION** | **B** |
+| PEN | distinct evidence package exists, but complete executable source tree is not recovered | source/reproduction unresolved | recover standalone source/protocol; APEN evidence cannot transfer | **F — EXTERNALLY BLOCKED** | **B** |
+| T2424-0028 | deterministic codec mechanics reproduce; no serious rate-distortion result | bounded engineering evidence | low information gain without external compression gate | **E — ARCHIVE** | **B** |
+| T2424-0029 | deterministic analytic PDE transition screen reproduces | bounded analytic evidence | low information gain without nonlinear/learned gate | **E — ARCHIVE** | **B** |
+| T2424-1863 | frozen >75% local-diffusion improvement gate fails; negative reproduced | strong negative synthetic screen | none for negative conclusion | **D — NEGATIVE RESULT** | **B** |
+| Hercules | architecture/runtime family only; no decisive learned matched-budget result | implementation-level only | no frozen matched Transformer/proposal/ablation protocol | **E — ARCHIVE** | **B** |
+| Olympus | O0 runtime/spec only | implementation-level only | no matched-provider O1 experiment | **E — ARCHIVE** | **B** |
+| FinanceMeta | security/recovery/control preparation exists | canonical writable target/runtime unavailable here | target GitHub/Supabase authorization | **F — EXTERNALLY BLOCKED** | **B** |
+| The Bu1LD | control/recovery preparation exists | canonical target/deployment/Supabase unavailable here | target access + real seven-role deployment validation | **F — EXTERNALLY BLOCKED** | **B** |
+| Text-to-Video | real engineering repo exists but no current high-priority research/product claim was freshly verified | existing queue/artifact-store system | explicit owner/job/success metric required before reactivation | **E — ARCHIVE** | **B** |
+| JEPA × Time-Series research program | prior art establishes that JEPA-for-time-series itself is not novel; current design narrows to hidden-state recovery under partial observability with regime shift as a stress axis | research design only; no confirmatory experiment authorized | protocol freeze + portfolio slot required before any run | **C — CONTINUE EXPERIMENTATION** | **B** |
 
-## Portfolio tiers after falsification
+## Tier caps after falsification
 
-### TIER S — **3 active efforts**
-1. **LAM-JEPA** — finish the defensible negative-result paper/release package; no scientific rescue.
-2. **IRIS** — consolidate the negative/tradeoff story; no successor architecture until a simple baseline frontier leaves a real residual failure.
-3. **Percy reliability/provenance** — recover and qualify the real host; reliability before worker count.
+### TIER S — 3
+1. **LAM-JEPA** — negative-result paper closure.
+2. **IRIS v0.2** — negative/tradeoff scientific closure; no successor architecture rescue.
+3. **Percy** — reliability/provenance productization and real-host qualification.
 
-### TIER A
-Darcy T2424-0050; **NeuroCAD software + new research gate**; T2424-0025; NGMT v0.1 negative package; APEN; Eigen-JEPA; NPMS; VertexED production qualification.
+### TIER A — 9
+NeuroCAD productization; Project 2424 canonicalization; Darcy; T2424-0025; NGMT negative package; APEN; Eigen-JEPA; NPMS; VertexED production qualification.
 
-### TIER B
-T2424-0027; selected Project 2424 reproducibility utilities; PEN source recovery only if a distinct claim remains valuable.
+### TIER B / ARCHIVE
+Everything else stays low-compute unless a documented gate changes. No replacement flagship is promoted merely to fill the vacated NeuroCAD Tier-S slot.
 
-### ARCHIVE / NO SIGNIFICANT ACTIVE COMPUTE
-T2424-0028; T2424-0029; T2424-1863 beyond negative packaging; Hercules/Olympus until frozen gates; duplicate CAD variants; stale branches; Text-to-Video until explicitly reactivated.
+## State law
 
-## Score changes caused by new evidence
+- **A — PUBLISH** means the strongest next output is a defensible research/publication package; it does not mean already published.
+- **B — PRODUCTIZE** means the current canonical project should become/qualify as a usable system. A future scientific successor is a separate version/project, not a second state.
+- **C — CONTINUE EXPERIMENTATION** requires a still-live falsifiable question and a meaningful next gate.
+- **D — NEGATIVE RESULT** preserves a fairly tested failed/mixed scientific hypothesis without rescue.
+- **E — ARCHIVE** receives no significant active compute this cycle.
+- **F — EXTERNALLY BLOCKED** requires outside target/source/deployment/user/hardware evidence before the current project can legitimately advance.
 
-| Project | Scientific importance | Originality | Evidence | Repro | Baselines | Paper | Product | Tier | Change |
-|---|---:|---:|---:|---:|---:|---:|---:|---|---|
-| LAM-JEPA | 5 | 3 | 5 | 5 | 4 | 5 | 1 | S | paper originality boundary improved; result unchanged |
-| IRIS | 5 | 2 | 4 | 4 | 4 | 4 | 1 | S | successor architecture closed; question sharpened |
-| Percy | 3 | 2 | 3 | 3 | 2 | 2 | 5 | S | unchanged; host truth still missing |
-| NeuroCAD | 4 | 2 | 5 | 5 | 4 | 2 | 5 | **A** | **demoted from S: component diagnostic falsified typed-parser causal interpretation** |
-| Darcy | 4 | 3 | 4 | 4 | 2 | 3 | 1 | A | unchanged |
-
-No replacement flagship is promoted merely to fill the vacated Tier-S slot.
+GREEN remains claim-specific. A project may be GREEN for a reproducible negative result while its portfolio state is D, or GREEN for implementation while its portfolio state is B/F. Those are not contradictions.
