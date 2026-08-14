@@ -1,6 +1,6 @@
 # MASTER_STATUS
 
-**As of:** 2026-08-14 after LAM internal verification and external-packet closure  
+**As of:** 2026-08-14 after LAM internal verification, Darcy v2 protocol freeze, and external-packet closure  
 **Truth rule:** claim-specific GREEN. Failed mechanisms remain failed; software/reproduction/product/external/publication states are separate.
 
 ## Portfolio dashboard
@@ -12,7 +12,7 @@
 | NeuroCAD v1 | **GREEN — historical controlled software benchmark** | frozen v1 `19/20` vs `12/20`, 12/12 valid STL and retained O018 failure remain unchanged |
 | NeuroCAD component ablation v2 | **GREEN — reproducible NEGATIVE mechanism result** | direct+matched validation equals current compiler at `1.00` overall on reused diagnostic; `validation_recovery_fraction=1.00`; old typed-parser causal interpretation is falsified on this diagnostic; product reliability remains useful |
 | JEPA × time-series | **PROGRAM DEFINED — NO EXPERIMENT AUTHORIZED** | generic JEPA-for-time-series is not a novelty claim; one causal future-latent predictive-state question is canonical in `3a5c160c2374fa98fdc8d84c795af8fdb921e88d`; cheap synthetic experiment requires a separate machine-readable freeze before any run |
-| Darcy T2424-0050 | **GREEN — bounded synthetic mechanism** | learned matched-budget operator + new physical/OOD regimes required; protocol not yet frozen |
+| Darcy T2424-0050 | **GREEN — bounded parent mechanism; v2 PROTOCOL FROZEN / NOT RUN** | canonical v2 `DARCY-FREEZE-001 / darcy-operator-ood-v2` is frozen on `main` before outcomes with FNO/DeepONet/PCA-ridge/coarse controls, fixed ID/OOD groups, seeds, metrics and H1/H2 falsifiers; parent aligned screen remains immutable; next = commit/hash protocol-required implementation, environment, deterministic generator + split manifests, learned-model revisions/budgets, dataset hashes and compute identity before any v2 outcome run |
 | T2424-0025 | **GREEN — reproduced precursor; mechanism not unique** | learned sequence mechanism must be separate |
 | NGMT v0.1 | **GREEN — reproducible negative result** | no in-place rescue |
 | APEN | **GREEN — reproduced controlled mixed result** | matched learned + naturalistic salience controls |
@@ -41,6 +41,7 @@ No project is promoted merely to keep Tier S full. JEPA × time-series remains a
 5. **LAM external-validation packaging:** immutable independent reproduction/review packet is `218ea1bea686cdf8c281520b2b636897bc8b8dd2`. This closes packaging only; no external report exists yet.
 6. **IRIS successor compression:** no new architecture is authorized; the only next scientific gate is a frozen false-open/recovery baseline frontier, currently source-blocked.
 7. **JEPA × time-series compression:** seven broad hypotheses were reduced to one mechanism programme with a predeclared cheap synthetic kill gate; no experiment is authorized yet.
+8. **Darcy v2 protocol freeze:** `DARCY-FREEZE-001 / darcy-operator-ood-v2` is committed before any v2 outcome; the parent aligned result remains immutable and no v2 training/test result exists.
 
 ## New decisive NeuroCAD evidence
 
@@ -70,4 +71,4 @@ LAM-JEPA, IRIS v0.2/current failed successor, NGMT v0.1, Eigen-JEPA, T2424-1863 
 
 ## Immediate scheduling rule
 
-**Zero new major scientific experiment runs are authorized.** LAM is owner metadata + external-review only. IRIS/Percy/Project 2424/NPMS are source/live-state recovery first. Darcy requires a protocol freeze. JEPA × time-series remains dormant. NeuroCAD research is deprioritized after its mechanism falsifier. VertexED is deployment certification only. Unused compute remains unused rather than being converted into low-information work.
+**Zero new major scientific experiment runs are authorized.** LAM is owner metadata + external-review only. IRIS/Percy/Project 2424/NPMS are source/live-state recovery first. Darcy v2 is protocol-frozen but remains pre-execution until its implementation/environment/split/model-budget/dataset-hash prerequisites are committed. JEPA × time-series remains dormant. NeuroCAD research is deprioritized after its mechanism falsifier. VertexED is deployment certification only. Unused compute remains unused rather than being converted into low-information work.
