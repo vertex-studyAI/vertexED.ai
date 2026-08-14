@@ -2,104 +2,50 @@
   "schema_version": 1,
   "state": "PRECHECKPOINT_NOT_FINAL",
   "finalized": false,
-  "observed_at": "2026-08-14T22:46:00+05:30",
+  "observed_at": "2026-08-14T22:50:00+05:30",
   "target_checkpoint": "2026-08-15T10:00:00+05:30",
-  "finalization_rule": "This file may not be relabeled FINAL without fresh evidence observed at or after the target checkpoint. It is a truthful handoff, not a prediction of morning state.",
+  "finalization_rule": "May not be relabeled FINAL without fresh evidence observed at or after the target checkpoint.",
   "control": {
     "repository": "vertex-studyAI/vertexED.ai",
-    "canonical_main_observed": "6bb5a3656dde480d5ac4ddb3cd361d6d6c0bc6ea",
-    "canonical_main_note": "signed merge of post-snapshot portfolio truth reconciliation; exact-head CI 31822512432 passed",
+    "canonical_main_observed": "cba143c31af1545e14d3ae86729208f47ea395be",
+    "canonical_main_note": "signed merge of checksum-verified Project 2424 Wave-001 source recovery; no current T2424 identity overwritten and no new science authorized",
     "registry_branch": "chatgpt/canonical-registry-evidence-20260814",
     "research_pr": 376,
     "research_pr_head": "88f1139c802a2efad5dd5dbf9de5a93ef6af0d1d"
   },
-  "safety": {
-    "database_reset": false,
-    "wal_deleted": false,
-    "destructive_git_recovery": false,
-    "negative_science_retuned": false,
-    "paid_resource_created_or_authorized": false,
-    "production_database_mutated_by_this_run": false,
-    "fabricated_external_evidence": false
-  },
+  "safety": {"database_reset":false,"wal_deleted":false,"destructive_git_recovery":false,"negative_science_retuned":false,"paid_resource_created_or_authorized":false,"production_database_mutated_by_this_run":false,"fabricated_external_evidence":false},
   "p0": {
-    "percy": {
-      "state": "BLOCKED_EXTERNAL_MAC",
-      "db_integrity": "UNKNOWN",
-      "physical_workers": "UNKNOWN",
-      "logical_registry_capacity_live_recount": "UNKNOWN",
-      "real_task_counts": "UNKNOWN",
-      "next_gate": "non-destructive Mac SQLite/WAL/checkpoint snapshot, integrity/schema, process/lease/heartbeat/stale reconciliation, dirty-state capture, independent recount"
-    },
+    "percy": {"state":"BLOCKED_EXTERNAL_MAC","db_integrity":"UNKNOWN","physical_workers":"UNKNOWN","real_task_counts":"UNKNOWN","next_gate":"non-destructive Mac SQLite/WAL/checkpoint integrity, process/lease/heartbeat/stale reconciliation and independent recount"},
     "project_2424": {
-      "state": "BLOCKED_EXTERNAL_SOURCE",
-      "contract_count": 2424,
-      "full_source_backed_disposition_count": "UNKNOWN",
-      "directly_disposition_backed_ids_in_current_control_evidence": 7,
-      "next_gate": "recover preserved canonical ancestry/dirty overlay and build full source-backed child map"
+      "state":"HISTORICAL_WAVE001_BASE_RECOVERED_LATER_OVERLAY_AND_IDENTITY_MAP_UNRESOLVED",
+      "historical_bundle_sha256":"4c685af70d84052c026602ff7336a522c741d91fb480038e980c21f0bbc63ece",
+      "historical_head":"ff609f335f91297357b430a2531633fe111cd5a9",
+      "registry_rows":2424,
+      "historical_source_backed_packages":24,
+      "historical_without_source":2400,
+      "historical_classes":{"controlled_experimental_validations":4,"executable_demonstrations":4,"compact_baseline_or_idea_tests":16},
+      "independent_reproductions":0,
+      "historical_release":"RELEASE_REJECTED",
+      "clean_clone_quality_gate":"QUALITY_GATE_PASSED",
+      "current_t2424_direct_disposition_evidence_count":7,
+      "identity_map":"UNRESOLVED_MULTI_GENERATION_COLLISION",
+      "next_gate":"recover later overlay/ancestry and explicitly map historical Wave-001 P2424, retained Percy P2424 and present T2424 generations without suffix overwrite"
     },
-    "vertexed": {
-      "state": "SOURCE_STRONG_PRODUCTION_IDENTITY_BLOCKED",
-      "monitor_run": 31817794439,
-      "monitor_artifact": 9225715176,
-      "monitor_artifact_sha256": "e7870e9561748ef4d4247e3bf4e01d3e8feead3780c4e2016d3742d134f2069a",
-      "expected_revision": "e2ecd19ed9816f8f36369c7dc0f38e39942ca73a",
-      "served_revision": "UNKNOWN_MISSING_IN_MONITOR",
-      "paid_capacity_authorized": false,
-      "next_gate": "authorized deployment capacity without spend, exact served revision/deployment ID, monitor PASS, authenticated disposable-account journey"
-    },
-    "financemeta": {
-      "state": "SOURCE_BRANCH_RECOVERED_TARGET_REVIEW_AND_PRODUCTION_BLOCKED",
-      "target_main": "fbdd503223edc5b1780509720391083f485a4a85",
-      "existing_branch": "cursor/membership-security-supabase-fix@6dcc03710bb6adf9b4b722b308c40a0720bea61f",
-      "branch_distance": "41_ahead_0_behind",
-      "current_integration_write_path": "403_RESOURCE_NOT_ACCESSIBLE_BY_INTEGRATION",
-      "next_gate": "owner-authorized review/merge of existing branch, exact-head security/CI, then actual Supabase/deployment journey"
-    },
-    "bu1ld": {
-      "state": "TARGET_WRITE_AND_RUNTIME_BLOCKED",
-      "landing_source": "ryangomez010/bu1ld-landing@daa80c1124b2a6d7d09b7669e04d29e50cffcbbe",
-      "next_gate": "target GitHub write plus Supabase/Cloudflare/disposable-role access, immutable deploy identity, seven-role journey"
-    },
-    "lam_jepa": {
-      "state": "FROZEN_NEGATIVE_INTERNAL_REPRODUCTION_STRONG_EXTERNAL_PENDING",
-      "main": "bf8311e1a4d240e2891e51af38eaf7754944e300",
-      "external_packet": "218ea1bea686cdf8c281520b2b636897bc8b8dd2",
-      "next_gate": "owner release metadata plus genuinely independent reproduction/review"
-    }
+    "vertexed": {"state":"SOURCE_STRONG_PRODUCTION_IDENTITY_BLOCKED","monitor_run":31817794439,"monitor_artifact":9225715176,"monitor_artifact_sha256":"e7870e9561748ef4d4247e3bf4e01d3e8feead3780c4e2016d3742d134f2069a","expected_revision":"e2ecd19ed9816f8f36369c7dc0f38e39942ca73a","served_revision":"UNKNOWN_MISSING_IN_MONITOR","paid_capacity_authorized":false,"next_gate":"authorized deploy capacity without spend, exact served revision/deployment ID, monitor PASS, authenticated disposable-account journey"},
+    "financemeta": {"state":"SOURCE_BRANCH_RECOVERED_TARGET_REVIEW_AND_PRODUCTION_BLOCKED","target_main":"fbdd503223edc5b1780509720391083f485a4a85","existing_branch":"cursor/membership-security-supabase-fix@6dcc03710bb6adf9b4b722b308c40a0720bea61f","branch_distance":"41_ahead_0_behind","current_integration_write_path":"403_RESOURCE_NOT_ACCESSIBLE_BY_INTEGRATION","next_gate":"owner-authorized review/merge of existing branch then real Supabase/deployment journey"},
+    "bu1ld": {"state":"TARGET_WRITE_AND_RUNTIME_BLOCKED","landing_source":"ryangomez010/bu1ld-landing@daa80c1124b2a6d7d09b7669e04d29e50cffcbbe","next_gate":"target write plus Supabase/Cloudflare/disposable roles, immutable deploy identity, seven-role journey"},
+    "lam_jepa": {"state":"FROZEN_NEGATIVE_INTERNAL_REPRODUCTION_STRONG_EXTERNAL_PENDING","main":"bf8311e1a4d240e2891e51af38eaf7754944e300","external_packet":"218ea1bea686cdf8c281520b2b636897bc8b8dd2","next_gate":"owner release metadata plus independent reproduction/review"}
   },
   "p1": {
-    "iris": {
-      "state": "PARTIALLY_RECOVERED_NEGATIVE_MIXED_PROTOCOL_BLOCKED",
-      "next_gate": "exact canonical development trajectories plus exact frozen adaptation-metric provenance; no approximate regeneration; seeds 1000-1029 quarantined"
-    },
-    "darcy_v2": {
-      "state": "PROTOCOL_FROZEN_B2_UNIT_VERIFIED_EXPERIMENT_NOT_RUN",
-      "pr": 376,
-      "b2_blob": "6e10c6fbecf0cf5ce78ed2b5c61e3fa97da47541",
-      "split_manifest_sha256": "4211d11da7d40f0991bd963c04fb118f34d9fe923e7664da301122b29b0bef85",
-      "verification_run": 31822987002,
-      "verification": "canonical release gate success; local accessibility success; production-browser success",
-      "training_authorized": false,
-      "remaining_blockers": ["covariance interpretation approval","OOD-D global-offset interpretation approval","learned environment lock","hardware identity","B3 FNO implementation/hash","B4 DeepONet implementation/hash"],
-      "scientific_result_v2": "NONE"
-    },
-    "neurocad": {"state":"PRODUCTIZE_WITH_TYPED_PARSER_CAUSAL_MECHANISM_FALSIFIED_ON_REUSED_DIAGNOSTIC","next_gate":"fresh broader benchmark for any new science"},
-    "ngmt_v0_1": {"state":"NEGATIVE_RESULT_FROZEN"},
-    "eigen_jepa": {"state":"MIXED_NEGATIVE_FROZEN"},
-    "t2424_1863": {"state":"NEGATIVE_RESULT_FROZEN"}
+    "iris":{"state":"PARTIALLY_RECOVERED_NEGATIVE_MIXED_PROTOCOL_BLOCKED","next_gate":"exact development trajectories plus frozen adaptation-metric provenance; no approximate regeneration; seeds 1000-1029 quarantined"},
+    "darcy_v2":{"state":"PROTOCOL_FROZEN_B2_UNIT_VERIFIED_EXPERIMENT_NOT_RUN","pr":376,"b2_blob":"6e10c6fbecf0cf5ce78ed2b5c61e3fa97da47541","split_manifest_sha256":"4211d11da7d40f0991bd963c04fb118f34d9fe923e7664da301122b29b0bef85","verification_run":31822987002,"training_authorized":false,"remaining_blockers":["covariance interpretation approval","OOD-D global-offset interpretation approval","learned environment lock","hardware identity","B3 FNO implementation/hash","B4 DeepONet implementation/hash"],"scientific_result_v2":"NONE"},
+    "neurocad":{"state":"PRODUCTIZE_TYPED_PARSER_CAUSAL_MECHANISM_FALSIFIED_ON_REUSED_DIAGNOSTIC"},
+    "ngmt_v0_1":{"state":"NEGATIVE_RESULT_FROZEN"},"eigen_jepa":{"state":"MIXED_NEGATIVE_FROZEN"},"t2424_1863":{"state":"NEGATIVE_RESULT_FROZEN"}
   },
   "canonical_outputs": {
-    "existing_authoritative": ["MASTER_STATUS.md","RESEARCH_STATUS.md","PRODUCT_STATUS.md","CLAIM_LEDGER.md/json","EXPERIMENT_LEDGER.md/json","RESEARCH_FAILURE_ATLAS.md","NEXT_TASK_QUEUE.md/json","BLOCKERS.md","USER_ACTION_REQUIRED.md","EXTERNAL_VALIDATION_QUEUE.md","PUBLIC_RELEASE_READINESS.md","SUBMISSION_MATRIX.md","ARCHIVE_AND_KILL_LIST.md","SECURITY_STATUS.md"],
-    "added_on_registry_branch": ["MASTER_PORTFOLIO_REGISTRY.md/json","PROJECT_2424_CANONICAL_MAP.json","PROJECT_2424_DISPOSITION_MATRIX.md","EVIDENCE_REGISTRY.md/json","DEPLOYMENT_STATUS.md","REPRODUCIBILITY_STATUS.md","COLLEGE_EVIDENCE_LEDGER.md","MORNING_1000_CLOSEOUT.md/json"],
-    "duplicate_truth_sources_created": false
+    "existing_authoritative":["MASTER_STATUS.md","RESEARCH_STATUS.md","PRODUCT_STATUS.md","CLAIM_LEDGER.md/json","EXPERIMENT_LEDGER.md/json","RESEARCH_FAILURE_ATLAS.md","NEXT_TASK_QUEUE.md/json","BLOCKERS.md","USER_ACTION_REQUIRED.md","EXTERNAL_VALIDATION_QUEUE.md","PUBLIC_RELEASE_READINESS.md","SUBMISSION_MATRIX.md","ARCHIVE_AND_KILL_LIST.md","SECURITY_STATUS.md"],
+    "added_on_registry_branch":["MASTER_PORTFOLIO_REGISTRY.md/json","PROJECT_2424_CANONICAL_MAP.json","PROJECT_2424_DISPOSITION_MATRIX.md","EVIDENCE_REGISTRY.md/json","DEPLOYMENT_STATUS.md","REPRODUCIBILITY_STATUS.md","COLLEGE_EVIDENCE_LEDGER.md","MORNING_1000_CLOSEOUT.md/json"],
+    "duplicate_truth_sources_created":false
   },
-  "morning_recheck_requirements": [
-    "Re-observe current main and open PRs; preserve concurrent changes.",
-    "Re-run Percy/P2424 host recovery only if real Mac source becomes available; never infer counters.",
-    "Recheck VertexED served revision and authenticated journey only after an authorized deploy actually completes.",
-    "Recheck FinanceMeta/Bu1LD target access only if permissions materially change; do not repeat identical 403 retries.",
-    "Keep LAM/IRIS/NGMT/Eigen-JEPA/T2424-1863 negative or mixed boundaries frozen.",
-    "Do not run Darcy v2 outcomes unless every machine-readable pretraining blocker is closed before outcomes."
-  ]
+  "morning_recheck_requirements":["Re-observe current main/open PRs and preserve concurrent changes.","For Project 2424 continue from the recovered historical base; do not overwrite identity generations or equate 24 historical source packages with current T2424 IDs.","Recover Percy live host only from real preserved SQLite/WAL/checkpoint state.","Recheck VertexED only after an authorized deployment actually completes.","Recheck FinanceMeta/Bu1LD only if permissions materially change; no identical 403 retries.","Keep frozen negative/mixed science frozen.","Do not run Darcy v2 outcomes until every machine-readable pretraining blocker is closed before outcomes."]
 }
