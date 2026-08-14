@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "as_of": "2026-08-14",
+  "human_readable_canonical_source": "EXPERIMENT_LEDGER.md",
+  "freeze_rule": "Observed protocol changes create a new experiment version; reserved data/seeds may not rescue a failed development result.",
+  "experiments": [
+    {"id":"LAM-ARC-v3","project":"LAM-JEPA","status":"NEGATIVE_INCONCLUSIVE_REPRODUCED","protocol":"ARC validation; seeds 1-5; 20 epochs; batch 32; lr 0.0003; locked test untouched","evidence":{"artifact":"9162165932","sha256":"caa898f1ff046a337db9b5ddbffe1b332943a732868e2fd809abeda8ee89c30b"},"result":{"full_mean":0.254915,"full_sd":0.012997,"supervised_mean":0.266441,"supervised_sd":0.01546,"no_planner_mean":0.250169,"no_target_mean":0.261695},"boundary":"No superiority/planner/target claim."},
+    {"id":"IRIS-v0.2-stress","project":"IRIS-v0.2","status":"PROMOTION_GATE_FAILED","protocol":"development/stress seeds; frozen successor threshold >=10%; confirmatory seeds 1000-1029 quarantined","result":{"abrupt_regime_gain_percent_range":[5.33,5.36],"promotion_threshold_percent":10},"boundary":"Development mixed/negative only; no successor claim."},
+    {"id":"T2424-0025-readout","project":"T2424-0025","status":"POSITIVE_ROBUSTNESS_MECHANISM_NOT_UNIQUE","protocol":"frozen robust-readout synthetic screen + contamination ablation","evidence":{"focused_tests":"10/10"},"boundary":"Precursor only; not learned Transformer proof."},
+    {"id":"NGMT-v0.1","project":"NGMT-v0.1","status":"NEGATIVE_INCONCLUSIVE_REPRODUCED","protocol":"B0/B1/B2/B3; 6049 params each; 3 paired seeds","evidence":{"runs":[31661313386,31661621771],"artifacts":[9166307730,9166406618]},"result":{"B3_vs_B2_percent":0.4946,"B3_vs_B2_sd":1.5472,"B3_vs_B2_gate_percent":5,"B3_vs_B1_percent":0.4393,"B3_vs_B1_sd":1.1529,"B3_vs_B1_gate_percent":3,"clean_gate":"PASS"},"boundary":"No v0.1 rescue or superiority claim."},
+    {"id":"NeuroCAD-v1","project":"NeuroCAD","status":"CONTROLLED_GATE_PASS","protocol":"20 held-out prompts; 12 valid/8 invalid; deterministic OpenSCAD execution","evidence":{"focused_tests":"6/6"},"result":{"typed_validated_correct":19,"direct_correct":12,"total":20,"valid_stl":"12/12"},"boundary":"Controlled/template scope; one negative-width failure retained."},
+    {"id":"Darcy-T2424-0050-screen","project":"Darcy-T2424-0050","status":"BOUNDED_SYNTHETIC_PASS","protocol":"20-seed synthetic pressure-MAE screen","evidence":{"focused_tests":"6/6"},"result":{"baseline_pressure_mae":0.0658913916,"mechanism_pressure_mae":0.0011366559,"relative_improvement_percent":97.8766,"flux_error":1.369e-16},"boundary":"Not a learned neural-operator result."},
+    {"id":"APEN-salience-stress","project":"APEN","status":"MIXED","protocol":"48 paired controlled conditions + salience dropout","result":"Benefit weakens/reverses under severe salience failure.","boundary":"No naturalistic/universal superiority."},
+    {"id":"Eigen-JEPA-real-market","project":"Eigen-JEPA","status":"MIXED_NEGATIVE","protocol":"retained real-market covariance target","result":"raw/log ridge remains stronger on primary covariance-matrix MSE","boundary":"No spectral superiority or metric shopping."},
+    {"id":"NPMS-controlled","project":"NPMS","status":"CONTROLLED_EVIDENCE","protocol":"retained controlled diagnostic + RNN/GRU companion reproduction","result":"controlled evidence reproduced; natural-task transfer unestablished","boundary":"No causal/natural/OOD superiority."},
+    {"id":"T2424-0027-audit","project":"T2424-0027","status":"SYNTHETIC_AUDIT_PASS","protocol":"deterministic 72-record injected-coordinate protocol","evidence":{"focused_tests":"8/8","independent_verifier":"PASS"},"boundary":"No real multilingual-encoder claim."},
+    {"id":"T2424-1863-diffusion","project":"T2424-1863","status":"NEGATIVE_REPRODUCED","protocol":"frozen 20-seed synthetic local-diffusion screen","evidence":{"dedicated_workflow":31659932936,"canonical_ci":31659932951},"result":"predeclared >75% improvement gate failed","boundary":"Synthetic one-step diffusion only."},
+    {"id":"Hercules-matched-budget","project":"Hercules","status":"NOT_EXECUTED","boundary":"No scientific advantage claim until protocol is frozen/executed."},
+    {"id":"Olympus-O1","project":"Olympus","status":"NOT_EXECUTED","boundary":"O0 runtime/roadmap only."}
+  ]
+}
