@@ -1,0 +1,105 @@
+{
+  "schema_version": 1,
+  "checkpoint_type": "START_SNAPSHOT",
+  "checkpoint_time": "2026-08-14T22:03:00+05:30",
+  "target_time": "2026-08-15T10:00:00+05:30",
+  "truth_policy": "Evidence before state upgrade. Absence of evidence is UNKNOWN. Preserve failed and negative evidence; no destructive recovery, paid-resource action, or in-place scientific rescue.",
+  "control_plane": {
+    "repository": "vertex-studyAI/vertexED.ai",
+    "canonical_main_revision": "4e8a48c79c7a3641927f74841846e01409377bc5",
+    "active_recovery_branch": "chatgpt/product-source-recovery-20260814",
+    "active_recovery_pr": 361,
+    "active_recovery_pr_state_at_snapshot": "OPEN_DRAFT_MERGEABLE_CI_RUNNING"
+  },
+  "percy": {
+    "state": "BLOCKED_EXTERNAL_MAC",
+    "db_integrity": "UNKNOWN_LIVE",
+    "physical_workers": "UNKNOWN_LIVE",
+    "logical_agent_capacity": "UNKNOWN_LIVE",
+    "real_tasks": "UNKNOWN_LIVE",
+    "completed": "UNKNOWN_LIVE",
+    "failed": "UNKNOWN_LIVE",
+    "blocked": "UNKNOWN_LIVE",
+    "stale": "UNKNOWN_LIVE",
+    "reason": "Existing host SQLite/WAL/process state is not exposed through the connected surfaces. Historical counters are not promoted to live truth.",
+    "next_gate": "Non-destructive host snapshot of SQLite+WAL/checkpoint, integrity/schema check, then independent queue/lease/heartbeat recount."
+  },
+  "project_2424": {
+    "state": "PARTIAL_SOURCE_RECOVERY_REQUIRED",
+    "all_2424_canonical_dispositions_verified": false,
+    "known_control_equivalent": "MASTER_PORTFOLIO_STATUS.md",
+    "known_historical_authoritative_checkpoint": "portfolio/checkpoints/2026-08-11-atlas-github-0901.json",
+    "next_gate": "Recover preserved canonical source/overlay before producing an all-2,424 canonical map. Do not infer missing identities from project count or prose."
+  },
+  "products": {
+    "vertexed": {
+      "source": "VERIFIED_SOURCE",
+      "production": "BLOCKED_DEPLOYMENT_IDENTITY",
+      "latest_monitor_run": 31817794439,
+      "expected_deploy_relevant_revision": "e2ecd19ed9816f8f36369c7dc0f38e39942ca73a",
+      "evidence_artifact_id": 9225715176,
+      "evidence_artifact_sha256": "e7870e9561748ef4d4247e3bf4e01d3e8feead3780c4e2016d3742d134f2069a",
+      "observed_boundary": "Public and unauthenticated security smokes passed, but live /api/health omitted immutable revision identity. Connected Vercel statuses report deployment rate limiting.",
+      "next_gate": "Exact served deployment revision plus authenticated disposable-account golden journey when deployment is externally unblocked."
+    },
+    "financemeta": {
+      "source": "PARTIAL_SOURCE_RECOVERED",
+      "repository": "build-the-future-11/finance4all-global-reach",
+      "main_revision": "fbdd503223edc5b1780509720391083f485a4a85",
+      "hardening_branch": "cursor/membership-security-supabase-fix",
+      "hardening_revision": "6dcc03710bb6adf9b4b722b308c40a0720bea61f",
+      "ahead_by": 41,
+      "behind_by": 0,
+      "hardening_vercel_status": "SUCCESS",
+      "production": "BLOCKED_EXTERNAL_RUNTIME",
+      "open_source_gate": "Runtime cross-user denial tests for lab_applications and opportunity_interests plus independent diff/CI review.",
+      "open_external_gate": "Apply/verify migration 021, production env/revision and authenticated golden journey with owner Supabase/deploy access.",
+      "connector_mutation": "Draft PR creation in target repo returned HTTP 403; no bypass attempted."
+    },
+    "bu1ld": {
+      "source": "PARTIAL_SOURCE_RECOVERED",
+      "repository": "ryangomez010/bu1ld-landing",
+      "main_revision": "daa80c1124b2a6d7d09b7669e04d29e50cffcbbe",
+      "production": "BLOCKED_EXTERNAL_RUNTIME",
+      "open_external_gate": "Phase32 schema, auth-provider/domain configuration, role-separated object authorization and Cloudflare deployment verification."
+    }
+  },
+  "research": {
+    "major_science_runs_authorized": 0,
+    "lam_jepa": "VERIFIED_REPRODUCIBLE_NEGATIVE_INTERNAL_PACKAGE; EXTERNAL_VALIDATION_PENDING",
+    "iris": "VERIFIED_MIXED_NEGATIVE_PACKAGE; FROZEN_SUCCESSOR_SOURCE_BLOCKED",
+    "neurocad_typed_parser_mechanism": "FAILED_FALSIFIED_ON_REUSED_DIAGNOSTIC",
+    "ngmt_v0_1": "VERIFIED_REPRODUCIBLE_NEGATIVE",
+    "eigen_jepa": "VERIFIED_MIXED_NEGATIVE",
+    "t2424_1863": "VERIFIED_REPRODUCED_NEGATIVE",
+    "darcy_t2424_0050": "PROTOCOL_FROZEN_NOT_RUN",
+    "darcy_next_gate": "Materialize and hash exact generator/solver/splits/baselines/learned configs/environment/hardware/compute before any outcome execution."
+  },
+  "execution_counts_for_this_snapshot": {
+    "production_deployments_performed": 0,
+    "production_database_mutations_performed": 0,
+    "paid_resources_created": 0,
+    "major_scientific_experiments_started": 0,
+    "frozen_negative_results_retuned": 0,
+    "new_external_validation_claims": 0,
+    "source_recoveries_completed": 2,
+    "active_control_prs_owned_by_this_lane": 1
+  },
+  "unresolved_p0": [
+    "PERCY-STATE-001",
+    "P2424-CANON-001",
+    "VERTEX-PROD-001",
+    "FINMETA-HARDEN-001",
+    "BU1LD-PROD-001",
+    "LAM-RELEASE-METADATA-003"
+  ],
+  "next_actions": [
+    "Inspect PR 361 CI; merge only if the truth-only diff remains valid and gates pass.",
+    "Recover Percy live host state using the documented non-destructive hardware handoff; never substitute historical counters for live state.",
+    "Recover Project 2424 canonical source/overlay before generating an all-2,424 disposition map.",
+    "Resolve VertexED deployment identity without paid escalation or source churn.",
+    "Preserve FinanceMeta hardening branch and obtain authorized PR/live Supabase verification.",
+    "Run Bu1LD production qualification only with authorized live credentials and role-separated test accounts.",
+    "Keep all major scientific outcome execution at zero until frozen prerequisites are met."
+  ]
+}
