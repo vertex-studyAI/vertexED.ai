@@ -19,7 +19,7 @@ This does **not** map those 24 packages onto current `T2424-*` identities. Retai
 | T2424-0028 | codec mechanics reproduce; no serious external rate-distortion result | **E** | none this cycle |
 | T2424-0029 | analytic screen reproduces; no nonlinear/learned evidence | **E** | none this cycle |
 | T2424-0037 | NeuroCAD software remains useful; matched validation closes reused diagnostic gap, falsifying typed/parser-specific causal interpretation there | **B** | software release qualification; fresh benchmark/protocol for any new science |
-| T2424-0050 | parent aligned synthetic result retained; learned/OOD v2 frozen before outcomes and **not run**; B2 pre-outcome baseline is unit-verified in PR #376 | **C** | remaining interpretation/environment/hardware/B3/B4 locks before any v2 outcome |
+| T2424-0050 | parent aligned synthetic result retained; learned/OOD v2 frozen before outcomes and **not run**; B2 PCA+ridge is unit-verified and merged on signed canonical main `86170b1...`, with `training_authorized=false` | **C** | remaining covariance/OOD-D interpretation, environment, hardware, B3/FNO and B4/DeepONet locks before any v2 outcome |
 | T2424-1863 | exact frozen promotion gate failed | **D** | preserve negative result |
 
 Every other present-day `T2424-*` identity remains `UNKNOWN_OR_UNRECONCILED_WITH_HISTORICAL_GENERATIONS` unless supported by its own direct evidence. The next closure gate is an explicit cross-generation provenance/alias map plus later dirty-overlay recovery—not registry overwrite.
