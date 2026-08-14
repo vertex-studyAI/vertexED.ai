@@ -26,11 +26,32 @@ These are open owner/platform actions. They are not evidence of exploitation and
 
 VertexED is **not production-certified**. Exact served deployment revision remains unproved by the public health monitor, and the authenticated disposable-account golden journey—including account isolation, persistence, recovery, logout denial and admin boundaries—has not been completed against a verified immutable deployment. Source/database controls do not substitute for that journey.
 
-## FinanceMeta — SOURCE PARTIAL / PRODUCTION SECURITY BLOCKED_EXTERNAL
+## FinanceMeta — SOURCE PARTIAL / EXACT-HEAD CI FAILED / PRODUCTION SECURITY BLOCKED
 
-Canonical source is reachable at `build-the-future-11/finance4all-global-reach`. Current `main` is `fbdd503223edc5b1780509720391083f485a4a85`; retained branch `cursor/membership-security-supabase-fix` is 41 commits ahead and 0 behind. A fresh PR creation attempt from this integration returned `403 Resource not accessible by integration`.
+Canonical source is directly readable at `build-the-future-11/finance4all-global-reach`. Current `main` is `fbdd503223edc5b1780509720391083f485a4a85`; retained branch `cursor/membership-security-supabase-fix@6dcc03710bb6adf9b4b722b308c40a0720bea61f` is **41 commits ahead / 0 behind**.
 
-Historical PR #1 was merged at an earlier branch head; it does not prove the current 41-commit branch is integrated into current `main`. The FinanceMeta production Supabase project is not connected here. Therefore live RLS, migration state, secrets/environment, deployed revision, cross-user denial/isolation, recovery/logout and cleanup remain unverified.
+Source review confirms material security hardening rather than a naming-only branch:
+
+- member E2E credentials are environment-only (`E2E_EMAIL` / `E2E_PASSWORD`), not hardcoded;
+- profile self-service is narrowed through validated server functions while role/email are outside the member-facing write surface;
+- direct notification insertion is removed from client policy space;
+- later migrations add operational ownership/moderation controls;
+- migration `018_security_definer_search_path.sql` applies explicit `search_path = public, pg_temp` to every public `SECURITY DEFINER` function created by the sequence;
+- the migration directory extends through `021_analytics_journey_events.sql`.
+
+This is **not** a green integration gate. The exact branch head has GitHub Actions run `29641469740`, which completed **failure** and exposed **zero jobs**. The branch workflow YAML also contains duplicated Vite environment mapping keys in the Playwright step; that is a concrete workflow-definition defect candidate, but the exact GitHub parser/error message is unavailable from the connector and must not be invented. A Vercel deployment for the same SHA completed successfully as environment **Preview**, deployment `5501026657`; it is explicitly `production_environment: false` and therefore is not production proof.
+
+Fresh PR creation and isolated-branch creation attempts against the FinanceMeta repository both return `403 Resource not accessible by integration`. Historical PR #1 merged only the earlier branch head `2386bb4062b4e4b663a07a537866dba443cdf38a`; it does not integrate or verify current head `6dcc037...`.
+
+### FinanceMeta next gate
+
+1. through an owner-authorized writable GitHub path, preserve `6dcc037...` and fix/validate only the CI-definition defect first;
+2. require exact-head Actions jobs to actually execute and pass audit/lint/typecheck/unit/build/static-release/Playwright gates;
+3. review migration ordering/idempotency, grants/revokes, role escalation denial, notification ownership and admin boundaries;
+4. only then merge the retained source branch;
+5. separately connect the real FinanceMeta Supabase/deployment target and verify applied migrations/RLS, secrets/environment, immutable served revision, cross-user denial/isolation, recovery/logout/admin behavior and cleanup.
+
+A green Preview deployment or source migration file never substitutes for live target security evidence.
 
 ## The Bu1LD — BLOCKED_EXTERNAL
 
