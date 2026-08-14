@@ -16,7 +16,7 @@ This file is the current checkpoint surface. Historical dated checkpoints and pr
 
 | Area | Current state | Evidence / next gate |
 |---|---|---|
-| Control plane | **VERIFIED source** | `vertex-studyAI/vertexED.ai` current `main=1718963db6c67ddd3a8e31cbad23fac0d4e29747`; latest delta narrows IRIS provenance only |
+| Control plane | **VERIFIED source** | fresh recovery read `vertex-studyAI/vertexED.ai` at evidence base `1718963db6c67ddd3a8e31cbad23fac0d4e29747`; this checkpoint reconciliation then landed `f3eeabf790d07b62b07e51fa32bf725840252d5a` and queue refresh `b055ebff9067a20ea7858ef6ced41dbef41802d2` on `main` |
 | LAM-JEPA | **VERIFIED reproducible NEGATIVE internally; external PENDING** | latest recovered `LAM-JEPA/main=bf8311e1a4d240e2891e51af38eaf7754944e300`; no open PRs recovered; immutable external-review packet `218ea1bea686cdf8c281520b2b636897bc8b8dd2`; no new scientific result, no outside validation, locked ARC test remains untouched |
 | Percy live host | **UNKNOWN / BLOCKED_EXTERNAL_MAC** | no directly accessible SQLite/WAL/checkpoint/process/worktree evidence; DB integrity, workers, leases, heartbeats and live task counts remain UNKNOWN; `PERCY-STATE-001` non-destructive recovery first |
 | Project 2424 umbrella | **PARTIAL / SOURCE-GATED** | checksum-verified historical Wave-001 recovery landed; historical registry contained 2,424 rows but only 24 source-backed Wave-001 packages and zero independent reproductions; current source-identity invariant binds the 23 observed current T2424 directories without converting directory presence to research completion. Later dirty overlay/cross-generation migration provenance remains blocked; never synthesize missing source-backed identities |
@@ -39,7 +39,7 @@ This file is the current checkpoint surface. Historical dated checkpoints and pr
 - Control repo open PR: **#395**, `portfolio: synchronize release-facing evidence files`, head `5920d61c16cda0ad022d6a5eb14ace6be5630d7b`.
 - PR #395 GitHub Actions on exact head: `build-and-test=SUCCESS`, `browser-local-accessibility=SUCCESS`, `browser-production=SUCCESS`, `smoke-production=SKIPPED`.
 - PR #395 Vercel status contexts are **FAILURE** due platform build-rate-limit/upgrade gating, not a source-test failure. No paid capacity is authorized.
-- PR #395 is now **diverged** from current main: merge-base `01bd8e78d70950a8f9cf7b27aa16d2ccd24af1df`; current main is 3 commits ahead while PR head carries 2 branch commits. Do not merge stale truth blindly; rebase/recreate only the still-nonoverlapping evidence views if they remain materially needed.
+- PR #395 is **diverged** from the recovered evidence base: merge-base `01bd8e78d70950a8f9cf7b27aa16d2ccd24af1df`; evidence-base main was 3 commits ahead while PR head carried 2 branch commits. Do not merge stale truth blindly; rebase/recreate only the still-nonoverlapping evidence views if they remain materially needed.
 
 ## Current counters
 
