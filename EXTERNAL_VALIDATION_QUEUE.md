@@ -3,23 +3,18 @@
 **As of:** 2026-08-14  
 **Rule:** package readiness, outreach and pending review are not external validation.
 
-| Priority | Project | Claim needing outside evidence | Validator / requested action | Prepared artifact | Success interpretation | Failure interpretation |
-|---:|---|---|---|---|---|---|
-| 1 | LAM-JEPA | frozen ARC negative/inconclusive result and manuscript claim boundary independently reproduce | independent ML/reproducibility researcher; clean-environment reproduction + skeptical manuscript review, not endorsement | **READY:** immutable LAM external packet merged as `218ea1bea686cdf8c281520b2b636897bc8b8dd2`; internal raw-artifact/asset verification is `725ae2fb17de9c988938d4b03bd8a6be456b8e8b` | only a returned independent reproduction/review can advance external-validation status; scientific result remains negative | record mismatch or criticism intact; narrow/block release claim; never rescue the hypothesis |
-| 2 | Percy | tasks/evidence survive crash, stale leases, provider faults and bounded concurrency on the real host | independent systems engineer; snapshot/integrity + crash/restart/lease/provider/soak matrix | recovery/qualification packet waits on real host state | qualify only measured reliability claims | fix reliability while preserving DB/history |
-| 3 | IRIS | false-open/recovery/error tradeoff remains informative against strong simple robust baselines and on real temporal data | robust statistics/time-series researcher; review/falsify frozen baseline-frontier design and reproduce development evidence | frozen frontier exists but execution package is source-blocked | negative/tradeoff package may advance | archive successor direction or narrow question |
-| 4 | Darcy | bounded synthetic advantage survives learned matched-budget and OOD/misaligned regimes | scientific-ML researcher; execute/review frozen operator comparison | protocol not yet frozen | promote toward scientific-ML package | retain as synthetic sanity check only |
-| 5 | NeuroCAD | fail-closed validation provides useful reliability/coverage tradeoffs beyond the old 20-case plate grammar | CAD/program-synthesis engineer/researcher; evaluate **fresh** part families/compositional prompts against competent model/program baseline | fresh external benchmark package not yet frozen | new reliability research claim may be earned | keep as bounded product/software tool; do not revive typed-parser mechanism |
-| 6 | VertexED | exact intended revision is served and real learner workflow works | deployment owner + disposable real users; exact SHA proof + authenticated golden journey | latest production-health run still fails immutable revision identity | claim-specific production gate advances | production remains blocked even if CI is green |
-| 7 | NGMT v0.1 | negative equal-budget result independently recomputes and is worth reporting | memory/sequence researcher | negative package can be prepared if prioritized | secondary negative report viable | retain evidence then archive active line |
-| 8 | Eigen-JEPA | baseline dominance generalizes beyond retained market setup | time-series/financial ML researcher | no external package yet | mixed/negative report gains value | archive superiority line |
-| 9 | FinanceMeta | authorization + saved-progress journey hold on canonical target | target maintainer + disposable role accounts | target access required | product validation advances | remain externally blocked/fix target |
-| 10 | The Bu1LD | deployment identity/hydration/role journeys hold on production target | target maintainer + disposable role accounts | target access required | production validation advances | remain externally blocked |
+| Priority | Project | External question | Prepared state | Next outside action |
+|---:|---|---|---|---|
+| 1 | LAM-JEPA | Does the frozen negative/inconclusive ARC result and manuscript boundary independently reproduce? | **READY:** packet `218ea1bea686cdf8c281520b2b636897bc8b8dd2`; internal verification `725ae2fb17de9c988938d4b03bd8a6be456b8e8b` | independent clean-environment reproduction + skeptical manuscript review; preserve criticism/mismatch; never rescue hypothesis |
+| 2 | Percy | Do tasks/evidence survive crash, stale leases, provider faults and bounded concurrency on the real host? | blocked on real host state | independent snapshot/integrity + crash/restart/lease/provider/soak matrix |
+| 3 | IRIS | Does the frozen false-open/recovery/error frontier remain informative under exact retained data and strong simple robust baselines? | partial source recovery; exact provenance still blocked | review/reproduce only after exact trajectories + adaptation-metric provenance are recovered |
+| 4 | Darcy | Does frozen v2 resistance-preserving compression survive matched learned baselines and ID/OOD/misaligned regimes? | **PROTOCOL FROZEN / PRE-OUTCOME PACKAGE PARTIAL / NO RESULT:** scaffold `4280156…`, safety `daf548fa…`; training unauthorized | protocol review now; execution/reproduction only after interpretation approvals, B2/B3/B4, env/hardware/budgets and split-manifest hash are immutable |
+| 5 | NeuroCAD | Do fail-closed reliability tradeoffs survive fresh part families and competent program/model baselines? | fresh benchmark not frozen | new external benchmark only; include v1 and `VALIDATION_DOMINANT` v2 evidence |
+| 6 | VertexED | Is the intended immutable revision actually served and does a real learner journey work? | production identity blocked | exact SHA/deployment proof + disposable real-user journey after target is verified |
+| 7 | NGMT v0.1 | Does the negative equal-budget result independently recompute? | negative package can be prepared if prioritized | independent reproduction; no rescue |
+| 8 | Eigen-JEPA | Does baseline dominance generalize beyond retained setup? | no external packet | independent frozen multi-dataset check only if prioritized |
+| 9 | FinanceMeta | Do authorization/isolation and saved-progress journeys hold on the canonical target? | source branch recovered; production target external | target maintainer + disposable accounts after exact deployment state is known |
+| 10 | The Bu1LD | Do deployment identity/hydration/role journeys hold on production? | source identity recovered; production target external | target maintainer + role-separated accounts |
 
-## LAM dispatch boundary
-
-Use the exact immutable packet at `218ea1bea686cdf8c281520b2b636897bc8b8dd2`. The requested validator output must include artifact-digest checks, numerical recomputation, deterministic paper-asset regeneration, source/method skepticism, locked-test integrity, strongest remaining criticism and a `PASS/PARTIAL/FAIL` reproduction verdict. Do not choose only validators likely to agree.
-
-## NeuroCAD evidence sent with any future validation
-
-Include both frozen histories: v1 (`19/20` vs `12/20`, retained O018 failure) **and** component v2 (`1.00` direct+validation = `1.00` current compiler, `VALIDATION_DOMINANT`). A validator must not be shown only the favorable v1 gap.
+## Darcy dispatch boundary
+Protocol review is not experiment validation. The periodic/circulant covariance interpretation and current OOD-D global-offset choice must be accepted pre-outcome (or moved to a new protocol version) before training, together with all remaining implementation/environment/hardware/budget/hash gates. A learned-baseline win against Darcy, failed H1/H2, or strong boundary result must be preserved rather than tuned away.
