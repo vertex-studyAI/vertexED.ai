@@ -1,0 +1,40 @@
+{
+  "checkpoint": "START_SNAPSHOT_2026-08-14_2202_IST",
+  "timestamp": "2026-08-14T22:02:00+05:30",
+  "truth_policy": "UNKNOWN is not VERIFIED; no destructive recovery; no paid-resource actions; frozen negatives preserved.",
+  "percy": {
+    "db_integrity": "UNKNOWN_BLOCKED_EXTERNAL_MAC",
+    "physical_workers": "UNKNOWN_BLOCKED_EXTERNAL_MAC",
+    "logical_agent_capacity": "UNKNOWN_LIVE_STATE",
+    "real_tasks": "UNKNOWN_LIVE_STATE",
+    "completed": "UNKNOWN_LIVE_STATE",
+    "failed": "UNKNOWN_LIVE_STATE",
+    "blocked": "UNKNOWN_LIVE_STATE",
+    "stale": "UNKNOWN_LIVE_STATE"
+  },
+  "portfolio": {
+    "control_repo_branch": "portfolio/convergence-20260814-2202",
+    "base_main_sha": "d5e9fcaa8de4e49b236b18ff7d3c515ed5f1ed6d",
+    "major_science_runs_authorized": 0,
+    "projects_touched_this_run": ["portfolio-control","VertexED","FinanceMeta","The-Bu1LD","Darcy-T2424-0050","Percy","Project-2424"],
+    "new_scientific_experiments": 0,
+    "negative_results_changed": 0,
+    "production_deployments_claimed": 0,
+    "publications_claimed": 0
+  },
+  "verified_deltas": [
+    "Darcy protocol freeze already exists; stale freeze task removed.",
+    "VertexED bounded Supabase RLS/function-ACL controls inspected; two Security Advisor warnings remain.",
+    "FinanceMeta historical security merge is genuine, current main is pre-merge, preserved branch 41 commits ahead, exact-head CI failing lint, connector writes 403.",
+    "The Bu1LD exact current-main CI passed; Cloudflare verification failed at release:check and deploy was skipped.",
+    "Percy checked-in snapshots are historical, not live host evidence."
+  ],
+  "unresolved_p0": [
+    "Percy live SQLite/WAL/process recovery",
+    "Project 2424 canonical source/overlay recovery",
+    "VertexED served revision + authenticated golden journey",
+    "FinanceMeta reviewable recovery path + exact-head CI + production runtime",
+    "The Bu1LD release-check/deployment verification"
+  ],
+  "next_actions_source": "NEXT_TASK_QUEUE.json"
+}
