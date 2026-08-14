@@ -1,6 +1,6 @@
 # BLOCKERS
 
-**As of:** 2026-08-14 after LAM internal evidence closure and VertexED production monitor run `31777345899`. Only blockers that prevent a stronger evidence claim are listed. Closed gates are not retained as blockers.
+**As of:** 2026-08-14 after LAM internal evidence closure, Darcy v2 protocol freeze, and VertexED production monitor run `31777345899`. Only blockers that prevent a stronger evidence claim are listed. Closed gates are not retained as blockers.
 
 ## P0 — Percy authoritative live state
 Existing Mac SQLite/WAL/process/worktree state is not visible from this execution surface. Run `PERCY-STATE-001` non-destructively: snapshot/hash SQLite + WAL + checkpoint state, run integrity/schema checks, reconcile queue counters, leases, heartbeats and stale workers, record dirty worktrees, then independently recount. Do not reset or reconstruct the DB to make counters clean.
@@ -30,8 +30,10 @@ The current successor search is closed and no new architecture is authorized. `I
 ## P1 — NPMS canonical source identity
 Recover the original NPMS scientific source/config/checkpoint before any new natural/OOD experiment. Deliver canonical source identity + hashes + clean rerun against retained bounded evidence, or a precise `SOURCE_UNRECOVERED` verdict. Preserve known negative spectral/switching/truncation cases; do not invent a replacement implementation.
 
-## P1 — Darcy learned/OOD freeze
-The bounded aligned synthetic result is preserved, but the dangerous matched learned-operator / OOD comparison is not executable until canonical source and protocol details are frozen: data/version, systems, equal budget, metric, seeds, uncertainty, misaligned/correlation-length/held-out regimes, success criterion and falsifier. No run before freeze.
+## P1 — Darcy v2 execution prerequisites after frozen protocol
+`DARCY-FREEZE-001 / darcy-operator-ood-v2` is already frozen on canonical `main` before any v2 outcome execution. The parent aligned synthetic screen remains immutable. The v2 protocol fixes the 128-cell generator families, ID/OOD splits, FNO/DeepONet/PCA-ridge/coarse controls, learned seeds, metrics, H1/H2 gates, failure interpretation and no-rescue rule.
+
+The remaining blocker is **pre-execution implementation closure**, not protocol design. Before the first v2 training/test outcome, commit and hash the protocol-required implementation/environment, deterministic generator + split manifest, reference solver/tests, learned model revisions and exact model/training budget, normalization/selection rules, dataset manifests/hashes and compute identity. No v2 outcome run is authorized until these prerequisites are immutable. A material change after outcome inspection becomes a new protocol version.
 
 ## P1 — APEN / Eigen-JEPA
 Secondary research lines remain behind their predeclared stronger learned/statistical controls and natural/OOD gates. Existing mixed/negative evidence remains visible; no in-place rescue.
