@@ -1,74 +1,40 @@
 # MASTER_STATUS
 
-**As of:** 2026-08-14 after LAM internal verification, external-packet closure, Darcy v2 protocol freeze, and latest bounded VertexED production-health verification  
-**Truth rule:** claim-specific GREEN. Failed mechanisms remain failed; software/reproduction/product/external/publication states are separate.
+**As of:** 2026-08-14 convergence run after IRIS checksum-backed recovery and Darcy v2 pre-outcome safety hardening  
+**Truth rule:** claim-specific evidence only. Implemented, executed, reproduced, scientifically supported, release-ready, externally validated and published are separate states.
 
 ## Portfolio dashboard
 
 | System | Authoritative state | Boundary / next gate |
 |---|---|---|
-| LAM-JEPA | **GREEN — reproducible negative scientific result; internal paper evidence package verified** | source/method/provenance/originality/reviewer package is canonical on LAM `main`; retained raw artifacts were independently redownloaded, digests matched, five-seed tables/mechanism effects recomputed and deterministic paper assets regenerated; verification merged as `725ae2fb17de9c988938d4b03bd8a6be456b8e8b`; external validation packet merged as `218ea1bea686cdf8c281520b2b636897bc8b8dd2`; superiority/planner/target remain unsupported; locked ARC test untouched; next = owner-controlled release metadata + genuinely independent outside reproduction/review |
-| IRIS v0.2 | **GREEN — reproduced mixed/negative package; current successor RED** | baseline-frontier decision protocol is frozen/canonical as `40928703c177df227c73e27e7b22436da5aa2bcc`; execution is blocked on exact retained raw/source recovery; confirmatory seeds `1000–1029` remain quarantined |
-| NeuroCAD v1 | **GREEN — historical controlled software benchmark** | frozen v1 `19/20` vs `12/20`, 12/12 valid STL and retained O018 failure remain unchanged |
-| NeuroCAD component ablation v2 | **GREEN — reproducible NEGATIVE mechanism result** | direct+matched validation equals current compiler at `1.00` overall on reused diagnostic; `validation_recovery_fraction=1.00`; old typed-parser causal interpretation is falsified on this diagnostic; product reliability remains useful |
-| JEPA × time-series | **PROGRAM DEFINED — NO EXPERIMENT AUTHORIZED** | generic JEPA-for-time-series is not a novelty claim; one causal future-latent predictive-state question is canonical in `3a5c160c2374fa98fdc8d84c795af8fdb921e88d`; cheap synthetic experiment requires a separate machine-readable freeze before any run |
-| Darcy T2424-0050 | **GREEN — bounded synthetic mechanism; v2 protocol frozen, NOT RUN** | `LEARNED_OPERATOR_OOD_PROTOCOL_V2.md` is frozen before outcome execution; next gate is committing exact implementation/environment/split manifests/model budgets/dataset hashes required by the protocol; no training/test outcome is authorized before those hashes exist |
-| T2424-0025 | **GREEN — reproduced precursor; mechanism not unique** | learned sequence mechanism must be separate |
-| NGMT v0.1 | **GREEN — reproducible negative result** | no in-place rescue |
-| APEN | **GREEN — reproduced controlled mixed result** | matched learned + naturalistic salience controls |
-| Eigen-JEPA | **GREEN — reproduced mixed/negative real-data result** | stronger spectral controls/multi-dataset freeze |
-| NPMS | **BOUNDED EVIDENCE / SOURCE-GATED FOR NEW SCIENCE** | recover original source/config/checkpoint before any new natural/OOD experiment |
-| Project 2424 umbrella | **Selected bounded reproductions only; source recovery still external** | registry/project count is not scientific completion |
-| Percy host | **BLOCKED_EXTERNAL_MAC for live qualification** | existing SQLite/WAL/process state unavailable here; non-destructive snapshot/integrity/recount first |
-| VertexED source | **GREEN** | do not infer production identity |
-| VertexED production | **BLOCKED — deployment identity unresolved** | latest checked scheduled run `31817794439` on control head `d5e9fcaa8de4e49b236b18ff7d3c515ed5f1ed6d` failed three bounded attempts because live `/api/health` returned healthy but omitted revision identity; homepage, API-router, malformed-waitlist, logged-out AI/user/admin and untrusted-origin boundaries passed; monitor expected deploy-relevant revision `e2ecd19ed9816f8f36369c7dc0f38e39942ca73a`; evidence artifact `9225715176`, SHA-256 `e7870e9561748ef4d4247e3bf4e01d3e8feead3780c4e2016d3742d134f2069a`; both connected Vercel project statuses on the control head report deployment rate limiting, so no paid upgrade or code churn is authorized; exact served revision/deployment ID and authenticated golden journey remain unproved |
-| FinanceMeta | **BLOCKED_EXTERNAL** | production authorization/golden-journey evidence remains incomplete |
-| The Bu1LD | **BLOCKED_EXTERNAL** | canonical production/runtime qualification remains incomplete |
-| Hercules / Olympus | **ARCHIVED FROM ACTIVE COMPUTE / YELLOW EVIDENCE** | decisive matched scientific protocol missing; no reactivation by naming or scale |
+| LAM-JEPA | **VERIFIED — reproducible negative scientific result; internal evidence package closed** | Internal verification `725ae2fb17de9c988938d4b03bd8a6be456b8e8b`; numeric-basis guard `bf8311e1a4d240e2891e51af38eaf7754944e300`; immutable external packet `218ea1bea686cdf8c281520b2b636897bc8b8dd2`. Owner license/authorship/citation/release metadata and genuinely independent reproduction/review remain open. No hypothesis rescue. |
+| IRIS v0.2 | **VERIFIED mixed/negative; source PARTIALLY_RECOVERED / frontier BLOCKED** | Checksum-backed retained bundle/addendum/common harness/source lineage landed via `d92e06deaa893bfb8273f3f781105ecb155e8aca`. Exact canonical development trajectories and exact frozen adaptation-metric provenance remain unresolved; seeds `1000–1029` stay quarantined. |
+| NeuroCAD | **VERIFIED historical software result; typed-parser causal mechanism FALSIFIED** | v1 `19/20` vs `12/20` remains preserved; component v2 is `VALIDATION_DOMINANT`, so the typed-parser causal interpretation is not to be rescued. |
+| Darcy T2424-0050 | **VERIFIED bounded parent mechanism; v2 FROZEN / PARTIAL PRE-OUTCOME MATERIALIZATION / NOT RUN** | Scaffold merge `4280156c94fdac3e92ff300e743e2f2899cd4869`; safety commit `daf548fa9b3953c3d7e188191588a84a04c98093` removes frozen-outcome peeking, records generator provenance and leaves training unauthorized. Before training: approve the periodic/circulant finite-grid covariance interpretation and current OOD-D global-offset choice; freeze B2 PCA+ridge, B3 FNO, B4 DeepONet, environment, hardware, budgets and split-manifest hash. No v2 outcome exists. |
+| NGMT v0.1 | **VERIFIED NEGATIVE / FROZEN** | no in-place rescue |
+| APEN | **VERIFIED controlled mixed** | stronger learned/naturalistic controls only under a new frozen protocol |
+| Eigen-JEPA | **VERIFIED mixed/negative / FROZEN primary result** | no metric shopping; any successor requires a new protocol |
+| NPMS | **PARTIAL / SOURCE-GATED** | recover original source/config/checkpoint before new natural/OOD science |
+| Project 2424 umbrella | **PARTIAL / canonical source recovery external** | registered identity count is not scientific completion; recover preserved ancestry/overlay before umbrella disposition claims |
+| Percy host | **UNKNOWN / BLOCKED_EXTERNAL_MAC** | live SQLite/WAL/checkpoint/process/worktree state unavailable; non-destructive snapshot, integrity/schema, leases/heartbeats/stale-worker reconciliation and independent recount first |
+| VertexED source | **VERIFIED source** | source evidence is separate from production identity |
+| VertexED database security | **PARTIAL — controls verified / platform warnings open** | 26 observed public tables have RLS; observed privileged functions are not client executable; leaked-password protection disabled and hosted PostgreSQL security update available |
+| VertexED production | **BLOCKED — exact served revision unverified** | monitor `31817794439`: healthy endpoint but missing revision identity; expected revision `e2ecd19ed9816f8f36369c7dc0f38e39942ca73a`; artifact `9225715176` SHA-256 `e7870e9561748ef4d4247e3bf4e01d3e8feead3780c4e2016d3742d134f2069a`; exact deployment identity + authenticated golden journey remain open |
+| FinanceMeta source | **PARTIAL — retained hardening branch recovered / review write blocked** | `build-the-future-11/finance4all-global-reach`; current recovered `main=fbdd503223edc5b1780509720391083f485a4a85`; `cursor/membership-security-supabase-fix@6dcc03710bb6adf9b4b722b308c40a0720bea61f` is 41 ahead / 0 behind. This integration receives `403` on fresh PR creation. |
+| FinanceMeta production | **BLOCKED_EXTERNAL** | live Supabase migration/RLS/env/deployed revision and multi-account journey unverified |
+| The Bu1LD source | **PARTIAL — canonical source recovered** | `ryangomez010/bu1ld-landing@daa80c1124b2a6d7d09b7669e04d29e50cffcbbe` directly verified |
+| The Bu1LD production | **BLOCKED_EXTERNAL** | production Supabase/auth/domain/deployment and role-separated journeys unavailable |
+| Hercules / Olympus | **ARCHIVED ACTIVE COMPUTE / YELLOW EVIDENCE** | no significant compute until a decisive matched protocol is frozen |
 
-## Tier cap
+## Closed in this convergence wave
 
-**Tier S = 3:** LAM-JEPA, IRIS, Percy reliability/provenance.  
-**Tier A:** Darcy, NeuroCAD, T2424-0025, NGMT negative package, APEN, Eigen-JEPA, NPMS, VertexED production qualification.  
-No project is promoted merely to keep Tier S full. JEPA × time-series remains a dormant research programme until its cheap falsification experiment is separately frozen.
+- LAM internal paper/source/provenance verification and immutable external-review packaging are closed; external validation itself is not.
+- IRIS exact retained package/source lineage recovery materially narrowed the blocker; no experiment rerun or seed unlock occurred.
+- Darcy v2 protocol is frozen; deterministic generator/control scaffolding landed; safety hardening explicitly removed outcome-peeking and added unresolved pre-training interpretation approvals. Training remains unauthorized.
+- FinanceMeta retained source branch is recovered; do not recreate its 41 commits.
+- Bu1LD canonical source identity is recovered; production qualification remains separate.
+- NeuroCAD typed-parser mechanism falsification, NGMT v0.1 negative, Eigen-JEPA mixed/negative and T2424-1863 negative remain preserved.
 
-## Closed this convergence wave
+## Scheduling guard
 
-1. **Portfolio compression/canonicalization:** one canonical status, claim ledger, experiment ledger, failure atlas, external-validation queue, submission matrix, kill list, 30-day plan and dependency queue govern the portfolio.
-2. **NeuroCAD mechanism attack:** the matched-validation diagnostic recovered 100% of the original gap, so the old v1 result is preserved while its typed/parser causal interpretation is downgraded.
-3. **LAM paper source/provenance closure:** source-grounded method, claim-to-artifact provenance, originality audit and skeptical-review package are canonical on LAM `main`.
-4. **LAM independent paper verification:** raw Actions bundles `9162165932`, `9003785715`, and `9003740436` were independently downloaded; ZIP/raw JSON digests matched; primary five-seed/matched/ablation numbers and bounded pretrained characterization were recomputed; deterministic CSV/Markdown/SVG assets regenerated. Internal verification record is `725ae2fb17de9c988938d4b03bd8a6be456b8e8b`.
-5. **LAM external-validation packaging:** immutable independent reproduction/review packet is `218ea1bea686cdf8c281520b2b636897bc8b8dd2`. This closes packaging only; no external report exists yet.
-6. **IRIS successor compression:** no new architecture is authorized; the only next scientific gate is a frozen false-open/recovery baseline frontier, currently source-blocked.
-7. **JEPA × time-series compression:** seven broad hypotheses were reduced to one mechanism programme with a predeclared cheap synthetic kill gate; no experiment is authorized yet.
-8. **Darcy v2 pre-outcome freeze:** the learned-operator/OOD comparison is frozen before execution; implementation/environment/split/model-budget hashes remain the next gate, not a result.
-
-## New decisive NeuroCAD evidence
-
-NeuroCAD component diagnostic was frozen before execution at commit `2cd90f30b4299acf52b110b8a5bc5784fa9fc8b8`. Workflow `31777954088` succeeded; artifact `9210587354`, SHA-256 `b05facbec0ef17b81d618e604ffa120a1f75ba3ae9579bcd1b4d7b9500985d5c`.
-
-- current typed+validated: overall `1.00`;
-- original direct extractor: `0.60`;
-- direct extractor + matched fail-closed validation: `1.00`;
-- original gap: `0.40`;
-- remaining gap: `0.00`;
-- validation recovery fraction: `1.00`;
-- frozen interpretation: **`VALIDATION_DOMINANT`**.
-
-This does not erase the frozen v1 result. It changes the causal interpretation and research priority.
-
-## Canonicalization / cleanup
-
-- `vertexED.ai/main` is the portfolio control truth source; `LAM-JEPA/main` is LAM's scientific artifact source.
-- `EXPERIMENT_LEDGER.md/json` is the canonical experiment registry; stable `EXPERIMENT_REGISTRY.md/json` paths point to it rather than duplicating outcomes.
-- `NEXT_TASK_QUEUE.md/json` is the current dependency queue; historical queue/status documents are provenance only.
-- superseded branches/failed runs remain preserved; they are not present-tense truth.
-- logical Percy identity count is not physical execution capacity.
-
-## Frozen non-rescue rule
-
-LAM-JEPA, IRIS v0.2/current failed successor, NGMT v0.1, Eigen-JEPA, T2424-1863 and the NeuroCAD typed-parser mechanism interpretation must not be retuned in place. New scientific claims require new versioned protocols and fresh evaluation sets where appropriate.
-
-## Immediate scheduling rule
-
-**Zero new major scientific experiment runs are authorized.** LAM is owner metadata + external-review only. IRIS/Percy/Project 2424/NPMS are source/live-state recovery first. Darcy v2 is protocol-frozen but remains blocked on implementation/environment/split/model-budget hashes before execution. JEPA × time-series remains dormant. NeuroCAD research is deprioritized after its mechanism falsifier. VertexED is deployment certification only. Unused compute remains unused rather than being converted into low-information work.
+**Zero new major scientific experiment runs are authorized.** Highest-information work is live/source recovery, release metadata, external review, product certification and remaining pre-outcome Darcy freeze work. Unused compute stays unused rather than generating low-information activity.
