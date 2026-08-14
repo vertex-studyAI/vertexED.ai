@@ -1,0 +1,144 @@
+{
+  "schema_version": 1,
+  "snapshot_id": "START_SNAPSHOT_20260814_2201_IST",
+  "captured_at": "2026-08-14T22:01:00+05:30",
+  "target_checkpoint": "2026-08-15T10:00:00+05:30",
+  "truth_rule": "Absence of evidence is UNKNOWN, never VERIFIED. Frozen negative results remain frozen. No paid resource creation or destructive recovery is authorized.",
+  "canonical_control": {
+    "repository": "vertex-studyAI/vertexED.ai",
+    "base_head": "d5e9fcaa8de4e49b236b18ff7d3c515ed5f1ed6d",
+    "active_reconciliation_pr": 349,
+    "active_reconciliation_branch": "chatgpt/portfolio-reconcile-20260814-2201",
+    "superseded_control_prs": [346, 347, 348],
+    "status_source": "MASTER_STATUS.md",
+    "queue_source": "NEXT_TASK_QUEUE.md",
+    "checkpoint_source": "CHECKPOINT.md"
+  },
+  "confirmed_accessible_sources": {
+    "vertexed": {
+      "repository": "vertex-studyAI/vertexED.ai",
+      "head": "d5e9fcaa8de4e49b236b18ff7d3c515ed5f1ed6d"
+    },
+    "lam_jepa": {
+      "repository": "vertex-studyAI/LAM-JEPA",
+      "head": "bf8311e1a4d240e2891e51af38eaf7754944e300"
+    },
+    "vertex_notes_to_video": {
+      "repository": "vertex-studyAI/Text-To-Video",
+      "parent_product": "VertexED"
+    },
+    "financemeta": {
+      "repository": "build-the-future-11/finance4all-global-reach",
+      "head": "fbdd503223edc5b1780509720391083f485a4a85",
+      "source_access": "READ_WRITE",
+      "production_supabase_access": "UNAVAILABLE"
+    }
+  },
+  "unavailable_or_unrecovered_sources": {
+    "percy_mac_host": "/Volumes/PRO-BLADE/Atlas/Percy",
+    "percy_sqlite_wal_process_state": "UNAVAILABLE",
+    "project_2424_canonical_local_source_overlay": "UNRECOVERED",
+    "iris_exact_original_git_raw_source": "UNRECOVERED",
+    "npms_original_source_config_checkpoint": "UNRECOVERED",
+    "bu1ld_canonical_runtime_supabase": "UNAVAILABLE"
+  },
+  "percy": {
+    "state": "UNKNOWN_BLOCKED_EXTERNAL_MAC",
+    "db_integrity": "UNKNOWN",
+    "sqlite_wal_state": "UNKNOWN",
+    "physical_workers": null,
+    "worker_heartbeats": "UNKNOWN",
+    "leases": "UNKNOWN",
+    "stale_workers": "UNKNOWN",
+    "real_task_counts": null,
+    "logical_agent_address_space_declared": 1000000,
+    "logical_agent_address_space_is_physical_execution_count": false,
+    "next_gate": "PERCY-STATE-001 non-destructive SQLite/WAL/checkpoint snapshot and hashes, integrity/schema checks, leases/heartbeats/stale reconciliation, dirty-worktree capture and independent recount"
+  },
+  "project_2424": {
+    "umbrella_state": "PARTIAL_BLOCKED_SOURCE_RECOVERY",
+    "registered_identity_target": 2424,
+    "canonical_source_live_recovered": false,
+    "selected_bounded_reproductions_preserved": true,
+    "portfolio_wide_completion_claim": false,
+    "next_gate": "P2424-CANON-001 recover preserved source/overlay/ancestry, hash dirty state, execute only the smallest authorized baseline rerun and reconcile child identities"
+  },
+  "vertexed_production": {
+    "state": "BLOCKED_EXTERNAL_DEPLOYMENT_IDENTITY_AND_CAPACITY",
+    "latest_verified_monitor_run": "31817794439",
+    "checked_at": "2026-08-14T21:37:14+05:30",
+    "workflow_commit": "d5e9fcaa8de4e49b236b18ff7d3c515ed5f1ed6d",
+    "expected_deploy_revision": "e2ecd19ed9816f8f36369c7dc0f38e39942ca73a",
+    "health_revision_present": false,
+    "public_security_smoke_passed": true,
+    "artifact_id": "9225715176",
+    "artifact_sha256": "e7870e9561748ef4d4247e3bf4e01d3e8feead3780c4e2016d3742d134f2069a",
+    "vercel_capacity_state": "BUILD_RATE_LIMIT_REPORTED",
+    "authenticated_golden_journey": "INCOMPLETE",
+    "next_gate": "Identify canonical deployment, restore authorized capacity, prove exact served revision, then execute disposable-account authenticated journey and cleanup"
+  },
+  "financemeta": {
+    "source_state": "VISIBLE_SECURITY_HARDENING_REQUIRED",
+    "repository": "build-the-future-11/finance4all-global-reach",
+    "head": "fbdd503223edc5b1780509720391083f485a4a85",
+    "confirmed_source_defects": [
+      "profiles.role participates in authorization while authenticated users can update own profile without a role-preserving WITH CHECK",
+      "authenticated self-insert policy does not force the member role",
+      "SECURITY DEFINER authorization helpers do not pin search_path or explicit callable-role boundaries"
+    ],
+    "production_state": "BLOCKED_EXTERNAL_SUPABASE",
+    "next_gate": "Exact-base isolated source migration/tests, followed by authorized production Supabase denial-path verification before any production closure claim"
+  },
+  "research": {
+    "lam_jepa": {
+      "state": "VERIFIED_REPRODUCIBLE_NEGATIVE_INTERNAL_PACKAGE",
+      "head": "bf8311e1a4d240e2891e51af38eaf7754944e300",
+      "external_validation": "PENDING",
+      "locked_arc_test": "UNTOUCHED",
+      "next_gate": "Owner-controlled release metadata plus genuinely independent reproduction/review"
+    },
+    "iris": {
+      "state": "REPRODUCED_MIXED_NEGATIVE_SOURCE_GATED",
+      "confirmatory_seeds": "1000-1029 FORBIDDEN",
+      "next_gate": "Recover exact retained source/trajectories/metric code or record PROTOCOL_BLOCKED"
+    },
+    "neurocad": {
+      "state": "VALIDATION_DOMINANT_CAUSAL_MECHANISM_FALSIFIED",
+      "rescue_in_place": false
+    },
+    "ngmt_v01": {
+      "state": "REPRODUCIBLE_NEGATIVE_RESULT",
+      "rescue_in_place": false
+    },
+    "eigen_jepa": {
+      "state": "REPRODUCED_MIXED_NEGATIVE",
+      "metric_shopping_forbidden": true
+    },
+    "apen": {
+      "state": "PARTIAL_REPRODUCED_MIXED"
+    },
+    "npms": {
+      "state": "PARTIAL_SOURCE_GATED"
+    },
+    "darcy_t2424_0050": {
+      "parent_state": "BOUNDED_SYNTHETIC_MECHANISM",
+      "v2_protocol": "FROZEN_BEFORE_OUTCOME",
+      "v2_outcome": "NOT_RUN",
+      "next_gate": "DARCY-EXEC-FREEZE-002",
+      "major_run_authorized": false
+    }
+  },
+  "major_scientific_runs_authorized": 0,
+  "immediate_queue": [
+    "PERCY-STATE-001",
+    "P2424-CANON-001",
+    "LAM-RELEASE-METADATA-003",
+    "VERTEX-PROD-001",
+    "EXTVAL-LAM-001",
+    "IRIS-FRONTIER-SOURCE-001",
+    "DARCY-EXEC-FREEZE-002",
+    "NPMS-SOURCE-001",
+    "FINANCEMETA-HARDEN-001"
+  ],
+  "morning_success_rule": "Every inaccessible or incomplete system remains truthfully blocked with exact evidence and next gate; the deadline never promotes UNKNOWN to VERIFIED."
+}
