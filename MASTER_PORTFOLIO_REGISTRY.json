@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-08-14T22:09:52+05:30",
+  "status": "PARTIAL_CANONICAL_REGISTRY_SOURCE_GATED",
+  "authority": {
+    "human_disposition_table": "PORTFOLIO_SNAPSHOT_20260814.md",
+    "same_day_delta_pointer": "PORTFOLIO_SNAPSHOT.md",
+    "canonicalization_rules": "PORTFOLIO_CANONICALIZATION.md",
+    "claim_ledger": "CLAIM_LEDGER.md",
+    "experiment_ledger": "EXPERIMENT_LEDGER.md",
+    "queue": "NEXT_TASK_QUEUE.json",
+    "rule": "This JSON is the machine-readable companion to existing canonical truth files; project-native raw artifacts win on scientific results. It is not an independent competing truth source."
+  },
+  "coverage": {
+    "resolved_canonical_projects": 23,
+    "project_2424_contract_count": 2424,
+    "project_2424_full_source_mapping": "BLOCKED_EXTERNAL_SOURCE",
+    "percy_live_host_state": "BLOCKED_EXTERNAL_MAC",
+    "new_repository_discovery": "PARTIAL",
+    "completion_claim": "No claim that all portfolio identities or all 2,424 Project 2424 contracts have source-backed dispositions."
+  },
+  "projects": [
+    {"id":"lam-jepa","title":"LAM-JEPA","family":"research","disposition":"A","state_label":"PUBLISH","tier":"S","evidence_state":"VERIFIED_NEGATIVE_RESULT","canonical_source":"vertex-studyAI/LAM-JEPA","blocker":"owner release metadata and independent external review"},
+    {"id":"iris-v0.2","title":"IRIS v0.2","family":"research","disposition":"D","state_label":"NEGATIVE_RESULT","tier":"S","evidence_state":"VERIFIED_NEGATIVE_MIXED_WITH_SOURCE_GATE","canonical_source":"control evidence package; exact raw source unresolved","blocker":"exact retained source/raw trajectories"},
+    {"id":"percy","title":"Percy","family":"orchestration","disposition":"B","state_label":"PRODUCTIZE","tier":"S","evidence_state":"BLOCKED_EXTERNAL_MAC","canonical_source":"existing Percy SQLite/WAL/checkpoints on real host","blocker":"live host snapshot/integrity/recount/failure qualification"},
+    {"id":"neurocad","title":"NeuroCAD / T2424-0037","family":"cad_research_product","disposition":"B","state_label":"PRODUCTIZE","tier":"A","evidence_state":"VERIFIED_SOFTWARE_WITH_FALSIFIED_TYPED_PARSER_MECHANISM","canonical_source":"retained control evidence","blocker":"fresh independent broader benchmark for any new scientific claim"},
+    {"id":"project-2424","title":"Project 2424 umbrella","family":"research_registry","disposition":"B","state_label":"PRODUCTIZE","tier":"A","evidence_state":"BLOCKED_EXTERNAL_SOURCE","canonical_source":"preserved canonical source on external host","blocker":"recover source ancestry/dirty overlay/canonical child map"},
+    {"id":"t2424-0050","title":"Darcy Latent Operator","family":"project2424_research","disposition":"C","state_label":"CONTINUE_EXPERIMENTATION","tier":"A","evidence_state":"VERIFIED_BOUNDED_SYNTHETIC_PROTOCOL_V2_FROZEN_NOT_RUN","canonical_source":"portfolio/project2424/projects/T2424-0050","blocker":"materialize and hash frozen v2 implementation/environment/splits/model budgets before outcome run"},
+    {"id":"t2424-0025","title":"T2424-0025 robust-readout precursor","family":"project2424_research","disposition":"C","state_label":"CONTINUE_EXPERIMENTATION","tier":"A","evidence_state":"VERIFIED_BOUNDED_MECHANISM_NOT_UNIQUE","canonical_source":"retained bounded evidence","blocker":"distinct learned-memory mechanism/control must be separately frozen"},
+    {"id":"ngmt-v0.1","title":"NGMT v0.1","family":"research","disposition":"D","state_label":"NEGATIVE_RESULT","tier":"A","evidence_state":"VERIFIED_NEGATIVE_RESULT","canonical_source":"frozen NGMT v0.1 package","blocker":null},
+    {"id":"apen","title":"APEN","family":"research","disposition":"C","state_label":"CONTINUE_EXPERIMENTATION","tier":"A","evidence_state":"VERIFIED_MIXED_RESULT","canonical_source":"retained APEN evidence","blocker":"matched learned and naturalistic controls"},
+    {"id":"eigen-jepa","title":"Eigen-JEPA","family":"research","disposition":"D","state_label":"NEGATIVE_RESULT","tier":"A","evidence_state":"VERIFIED_MIXED_NEGATIVE","canonical_source":"Finance-Meta-Research/Eigen-JEPA plus retained evidence","blocker":"no superiority claim; any successor needs new frozen protocol"},
+    {"id":"npms","title":"NPMS","family":"research","disposition":"F","state_label":"EXTERNALLY_BLOCKED","tier":"A","evidence_state":"PARTIAL_SOURCE_IDENTITY","canonical_source":"original source/config/checkpoint unresolved","blocker":"recover exact canonical source/config/checkpoint"},
+    {"id":"vertexed","title":"VertexED","family":"product","disposition":"F","state_label":"EXTERNALLY_BLOCKED","tier":"A","evidence_state":"SOURCE_VERIFIED_PRODUCTION_IDENTITY_BLOCKED","canonical_source":"vertex-studyAI/vertexED.ai","blocker":"exact served revision plus authenticated disposable-account golden journey"},
+    {"id":"t2424-0027","title":"T2424-0027","family":"project2424_research","disposition":"C","state_label":"CONTINUE_EXPERIMENTATION","tier":"B","evidence_state":"VERIFIED_SYNTHETIC_ONLY","canonical_source":"retained bounded package","blocker":"preregistered real-encoder probes and controls"},
+    {"id":"jepa-time-series","title":"JEPA × time-series programme","family":"research_programme","disposition":"C","state_label":"CONTINUE_EXPERIMENTATION","tier":"B","evidence_state":"DESIGN_ONLY_NO_RUN_AUTHORIZED","canonical_source":"control design package","blocker":"machine-readable generator/model/baseline/seed/budget freeze"},
+    {"id":"pen","title":"PEN","family":"research","disposition":"F","state_label":"EXTERNALLY_BLOCKED","tier":"B","evidence_state":"SOURCE_IDENTITY_UNRESOLVED","canonical_source":"standalone source unrecovered","blocker":"recover executable canonical source/protocol"},
+    {"id":"t2424-0028","title":"T2424-0028","family":"project2424_research","disposition":"E","state_label":"ARCHIVE","tier":"B","evidence_state":"VERIFIED_BOUNDED_MECHANICS_LOW_INFORMATION_GAIN","canonical_source":"retained bounded implementation","blocker":null},
+    {"id":"t2424-0029","title":"T2424-0029","family":"project2424_research","disposition":"E","state_label":"ARCHIVE","tier":"B","evidence_state":"VERIFIED_BOUNDED_ANALYTIC_LOW_INFORMATION_GAIN","canonical_source":"retained bounded implementation","blocker":null},
+    {"id":"t2424-1863","title":"Resource-Bounded Local Operator / T2424-1863","family":"project2424_research","disposition":"D","state_label":"NEGATIVE_RESULT","tier":"B","evidence_state":"VERIFIED_NEGATIVE_FROZEN_GATE","canonical_source":"retained exact-head screen","blocker":null},
+    {"id":"hercules","title":"Hercules","family":"model_architecture","disposition":"E","state_label":"ARCHIVE","tier":"B","evidence_state":"NO_DECISIVE_MATCHED_LEARNED_EXPERIMENT","canonical_source":"source/spec family unresolved","blocker":"canonical mechanism plus frozen matched-budget protocol if ever reactivated"},
+    {"id":"olympus","title":"Olympus","family":"agent_model_ecosystem","disposition":"E","state_label":"ARCHIVE","tier":"B","evidence_state":"O0_RUNTIME_SPEC_ONLY","canonical_source":"runtime/spec artifacts","blocker":"frozen matched-provider O1 protocol if ever reactivated"},
+    {"id":"financemeta","title":"FinanceMeta","family":"product_organization","disposition":"F","state_label":"EXTERNALLY_BLOCKED","tier":"B","evidence_state":"CERTIFIED_LOCAL_OVERLAY_TARGET_WRITE_BLOCKED","canonical_source":"build-the-future-11/finance4all-global-reach","blocker":"target GitHub write plus staging/live Supabase verification"},
+    {"id":"the-bu1ld","title":"The Bu1LD","family":"product_organization","disposition":"F","state_label":"EXTERNALLY_BLOCKED","tier":"B","evidence_state":"TARGET_WRITE_AND_RUNTIME_BLOCKED","canonical_source":"ryangomez010/bu1ld-landing for landing; broader canonical target unresolved","blocker":"GitHub target write plus Supabase/Cloudflare/disposable role access"},
+    {"id":"text-to-video","title":"VertexED Notes-to-Video / Text-to-Video","family":"vertexed_child_subsystem","disposition":"E","state_label":"ARCHIVE","tier":"B","evidence_state":"VERIFIED_LOCAL_ENGINEERING_NOT_PRODUCTION","canonical_source":"vertex-studyAI/Text-To-Video","blocker":null}
+  ],
+  "discovery_candidates": [
+    {"repository":"build-the-future-11/FinanceMeta-Global","canonicalization_state":"UNRESOLVED_ALIAS_OR_FAMILY_MEMBER"},
+    {"repository":"build-the-future-11/FinanceMeta-Landing","canonicalization_state":"UNRESOLVED_ALIAS_OR_FAMILY_MEMBER"},
+    {"repository":"build-the-future-11/IRIS","canonicalization_state":"NAME_ONLY_README_NOT_CANONICAL_SCIENTIFIC_SOURCE"},
+    {"repository":"build-the-future-11/Iy-ERN","canonicalization_state":"UNKNOWN"},
+    {"repository":"build-the-future-11/RIS","canonicalization_state":"UNKNOWN"},
+    {"repository":"Finance-Meta-Research/EigenFinance","canonicalization_state":"UNRESOLVED_RESEARCH_FAMILY_MEMBER"},
+    {"repository":"Finance-Meta-Research/FI-JEPA","canonicalization_state":"MERGE_PARENT_CHILD_WITH_EIGEN_JEPA_UNLESS_DISTINCT_HYPOTHESIS"},
+    {"repository":"THE-BU1LD/EmailFinder","canonicalization_state":"UNKNOWN"},
+    {"repository":"THE-BU1LD/EPU","canonicalization_state":"UNKNOWN"},
+    {"repository":"THE-BU1LD/Fabric-Induced-Memory","canonicalization_state":"UNKNOWN"},
+    {"repository":"THE-BU1LD/GaussianMemory","canonicalization_state":"UNKNOWN"},
+    {"repository":"THE-BU1LD/ResearchPilot","canonicalization_state":"UNKNOWN"},
+    {"repository":"THE-BU1LD/RIPII","canonicalization_state":"UNKNOWN"}
+  ],
+  "negative_discovery_evidence": [
+    {"query":"Nexus user:THE-BU1LD","result":"NO_REPOSITORY_RETURNED_ON_CURRENT_GITHUB_SURFACE"},
+    {"query":"LabOS user:THE-BU1LD","result":"NO_REPOSITORY_RETURNED_ON_CURRENT_GITHUB_SURFACE"}
+  ]
+}
