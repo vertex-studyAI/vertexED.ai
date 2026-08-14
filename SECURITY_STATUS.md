@@ -53,9 +53,35 @@ Fresh PR creation and isolated-branch creation attempts against the FinanceMeta 
 
 A green Preview deployment or source migration file never substitutes for live target security evidence.
 
-## The Bu1LD — BLOCKED_EXTERNAL
+## The Bu1LD — SOURCE/CI VERIFIED / DATABASE+DEPLOYMENT BLOCKED
 
-The canonical production Supabase/deployment target is unavailable through the current execution surface. RLS, role boundaries, deployment identity and seven-role authenticated journeys remain unverified. No security state is promoted from historical/control artifacts.
+Canonical source is directly recoverable at `ryangomez010/bu1ld-landing@daa80c1124b2a6d7d09b7669e04d29e50cffcbbe`. Exact-head CI run `29679123068` completed **success** across the repository's deterministic placeholder-backed source gates. This advances the source/CI state only; it does not certify production.
+
+The retained SQL chain contains substantive authorization hardening through phase 33:
+
+- the early own-profile update policy is later protected by `protect_profile_role()`, which preserves the old role when a non-admin attempts to change it, and the update policy is tightened with both `USING` and `WITH CHECK` ownership predicates;
+- phase 31 moves competition decisions, invitation acceptance, deliverable review and membership-status changes behind authenticated `SECURITY DEFINER` functions with explicit authorization checks, while restricting direct table update policies;
+- phase 32 explicitly prevents contributors from reviewing or being assigned to review their own submissions;
+- phase 33 revokes direct application/answer inserts and replaces them with one atomic `submit_project_application` function that validates project status/capacity/ownership/questions before inserting application plus answers;
+- `VERIFY_SETUP.sql` requires the key tables, RLS state, review/submit functions and migration markers through **phase 33**;
+- `scripts/apply-schema.mjs` applies `full-setup.sql` plus phases `19` through `33` as the current direct-Postgres chain;
+- `.env.example` keeps database/service-role/email secrets server-side and uses placeholders rather than committed live credentials; `wrangler.jsonc` contains no Supabase/service-role secret values.
+
+This still does **not** prove the live database has those controls. The connected Supabase account exposes only VertexED, not The Bu1LD, so current target tables/policies/functions/migration markers cannot be inspected here.
+
+Exact-head Cloudflare deployment run `29679123047` failed in its **verify** job before deployment because `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` were empty in the workflow environment. The deploy job was skipped. A search for successful `Deploy Cloudflare` runs on `main` returned none. These are owner-controlled repository/deployment configuration blockers, not permission to hardcode secrets or weaken `release:prod`.
+
+The older `PRODUCTION_READINESS_REPORT.md` dated 2026-07-18 is historical and stale in its migration references (it names phase31), while the current apply/verify source reaches phase33. `REMAINING_EXTERNAL_ACTIONS.md` likewise must not be treated as proof that the database setup has actually been applied.
+
+### The Bu1LD next gate
+
+1. owner configures production `VITE_SUPABASE_URL` + anon/publishable key and the required Cloudflare credentials through repository/environment secrets; never commit server secrets;
+2. connect/authorize the real Bu1LD Supabase target and verify the exact phase33 migration chain, RLS, grants/revokes, role escalation denial and SECURITY DEFINER boundaries from the live catalog;
+3. configure Auth Site URL/redirects, email/service-role server secrets and live domain;
+4. rerun exact-head `Deploy Cloudflare` to success and capture immutable deployment identity;
+5. execute the seven-role authenticated journey (visitor, new member, active member, project lead, reviewer/mentor, administrator, removed member), including cross-role denials, recovery/logout and cleanup.
+
+Until all five are evidenced, production security remains `BLOCKED` even though source/CI is strong.
 
 ## Percy / Project 2424 operational integrity
 
@@ -63,4 +89,4 @@ Percy live SQLite/WAL/process/worktree state and Project 2424 canonical local so
 
 ## Release rule
 
-A security gate advances only on direct evidence from the exact target revision/environment. Passing CI, RLS metadata, a healthy public endpoint, or a prepared migration does not by itself certify production security.
+A security gate advances only on direct evidence from the exact target revision/environment. Passing CI, RLS source migrations, database metadata, a Preview deployment, or a healthy public endpoint does not by itself certify production security.
