@@ -1,19 +1,23 @@
 # PRODUCT_STATUS
 
-**As of:** 2026-08-14 12:01 IST
+**As of:** 2026-08-14 13:35 IST
 
 | Product/system | State | Evidence boundary | Next gate |
 |---|---|---|---|
-| VertexED source | **GREEN** | source repository/control head available and both current Vercel commit-status contexts report success | preserve source gates; do not infer served revision |
-| VertexED production | **BLOCKED — EXACT REVISION UNVERIFIED** | scheduled Production Health Monitor run `31771831538` on current main failed after 3 bounded attempts because `/api/health` returned no revision matching expected `8272b8cba0dab6e9a07ee6aa4f927ad9374de534`; homepage, API 404, malformed waitlist rejection, logged-out AI/user/admin protection and untrusted-origin rejection all passed; artifact `9208406163`, SHA-256 `f08d3ece023eaaec205dc46248c48a17cb057b25a9d8389f3ebd813583cf610b` | identify canonical Vercel project/config, expose immutable revision, make scheduled monitor pass, then complete authenticated disposable-account golden journey |
+| VertexED source | **GREEN** | source repository/control head available; source/release CI evidence is strong, while GitHub/Vercel deployment status remains separate from served production identity | preserve source gates; do not infer served revision |
+| VertexED production | **BLOCKED — EXACT REVISION UNVERIFIED** | scheduled production-health evidence shows the public/security smoke boundaries can pass while `/api/health` still omits the immutable deploy revision expected by the monitor | identify canonical Vercel project/config, expose immutable revision, make scheduled monitor pass, then complete authenticated disposable-account golden journey |
+| VertexED Notes-to-Video V6 child subsystem | **GREEN — LOCAL ENGINEERING / NOT PRODUCTION** | `vertex-studyAI/Text-To-Video` proves a local lesson/render pipeline with real H.264/AAC MP4 encoding, ffprobe verification, validated external render jobs, durable single-host queue semantics, atomic fail-closed output promotion and SHA-256 content-addressed local media storage; the repository explicitly does **not** prove hosted storage, distributed workers, synthesized narration, authenticated deployed callbacks, public URLs or real-user validation | keep as a VertexED child subsystem; no standalone product expansion; productionize only if the parent VertexED user-validation lane demonstrates a real need for notes-to-video |
 | Percy Prime host | **BLOCKED_EXTERNAL_MAC for live/production qualification** | repository/control artifacts exist, but existing host SQLite/WAL/process state is not visible here | non-destructive snapshot/integrity/recount, then crash/restart/provider/lease/resource/soak qualification |
 | FinanceMeta | **BLOCKED_EXTERNAL** | prepared hardening/recovery artifacts exist; canonical writable repo and production Supabase are not exposed | authorize target; apply on isolated exact-base branch; verify authorization denial paths + real saved-progress journey |
 | The Bu1LD | **BLOCKED_EXTERNAL** | prior source/production-hydration evidence retained; canonical writable target/Supabase/Cloudflare surface unavailable | authorize target; establish immutable deploy identity; fix/certify hydration and seven role journeys |
-| Text-to-Video | **ARCHIVE/UNTRIAGED** | connected repository exists, but no current user/job/success metric was freshly established in this campaign | explicit owner/question and two-week validation need before new engineering |
 
 ## VertexED production incident boundary
 
-The latest production monitor is authoritative for the tested public surface. A successful Vercel commit status means the GitHub integration accepted/reported a deployment context; it does not prove `www.vertexed.app` serves the intended immutable revision. Until the health response exposes the expected revision and authenticated journeys pass, the state remains `SOURCE_GREEN / PRODUCTION_BLOCKED`.
+The production monitor is authoritative for the tested public surface. A successful GitHub/Vercel status means a deployment context was reported; it does not prove `www.vertexed.app` serves the intended immutable revision. Until the health response exposes the expected revision and authenticated journeys pass, the state remains `SOURCE_GREEN / PRODUCTION_BLOCKED`.
+
+## Notes-to-Video boundary
+
+The connected `Text-To-Video` repository is not an empty or untriaged experiment. Its current README documents a bounded local VertexED Notes-to-Video V6 subsystem with a real MP4 encoder, verification, lifecycle, durable local queue and content-addressed local artifact store. That is sufficient to retain it as a **child engineering subsystem**, but not as an independent product or production service. Standalone expansion remains archived unless parent-product validation creates a concrete user need.
 
 ## Two-week product-validation rule
 
