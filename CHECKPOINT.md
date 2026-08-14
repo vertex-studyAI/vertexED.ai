@@ -1,65 +1,80 @@
-# Checkpoint — 11 August 2026
+# CHECKPOINT — START SNAPSHOT — 14 August 2026, 22:02 IST
 
-## Completed
+Machine-readable snapshot: `START_SNAPSHOT.json`.
 
-- Project 2424 remains **12** queue-consistent runnable/tested implementations merged; **0 / 100 Certified complete**.
-- PST (`T2424-0016`) and NPMS (`T2424-0019`) remain two additional merged evidence-boundary recoveries, excluded from implementation count.
-- Notes-to-Video shipped durable local queue state, bounded retry/lease processing, and a queue→verified-encoder one-job worker. Canonical queue→encoder lineage is on `main` via PR #19 / merge `7a077016174477f7aa169910f473d19a83766ae3`; stale/duplicate #17/#20 are closed unmerged.
-- LAM-JEPA PR #55 merged fail-closed negative-result slicing; locked confirmatory/test access remains excluded from hypothesis rescue.
-- VertexED read-only Supabase metadata still supports RLS on all observed public tables, explicit search paths on observed privileged functions and no PUBLIC execute; advisor warnings remain leaked-password protection disabled + Postgres security patches available.
-- Atlas and Percy remain source/runtime blocked in the active connector; no runtime-health claim is made.
+Canonical status remains `MASTER_STATUS.md`; canonical execution order remains `NEXT_TASK_QUEUE.md`. This file is the checkpoint surface, not a competing truth source.
 
-## Exact-head-green Project 2424 manual queue — 9 packages
+## Truth boundary
 
-All nine are **manual review / no auto-merge / no deploy** and remain outside the merged count.
+- Connected GitHub currently exposes exactly three repositories: `vertex-studyAI/vertexED.ai`, `vertex-studyAI/LAM-JEPA`, and `vertex-studyAI/Text-To-Video`.
+- `/Volumes/PRO-BLADE/Atlas/Percy`, the Percy SQLite/WAL/process state, FinanceMeta target repository/runtime, The Bu1LD target repositories/runtime, and canonical local Project 2424 source are not visible from this execution surface.
+- Therefore live Percy worker/task counts, dirty local worktrees, FinanceMeta production state, Bu1LD production state, and Project 2424 source-completion state remain `UNKNOWN` or `BLOCKED_EXTERNAL` unless retained evidence explicitly supports a narrower claim.
+- No paid resource creation, destructive recovery, scientific gate lowering, or in-place rescue of frozen negative results is authorized.
 
-| PR | ID | Project | Head | CI |
-|---:|---|---|---|---:|
-| #230 | `T2424-0050` | Darcy Latent Operator | `0131c7d33e967f55e8b07ff5bfc1f03feb164f01` | `31458049157` |
-| #231 | `T2424-0024` | Trust Under Uncertainty | `a15f31fbcbef6ab5868cb4f8a30e806f4d8721ca` | `31458059377` |
-| #239 | `T2424-0026` | Counterfactual Defect Worlds | `596cb91d0a36a163cb9fab8745f65cbfb1ec47b6` | `31458068712` |
-| #234 | `T2424-0028` | Residual Event Tokenization | `bbb173fc2cd93e588883b3798de9712cb29094eb` | `31458080289` |
-| #232 | `T2424-0029` | Representation Phase Transitions for PDEs | `f22ab98f2bf93a3437153cba2f2ada6f9593570d` | `31458091370` |
-| #238 | `T2424-0035` | Grokking Agent | `bf229ed56b05bfeab3017616f65454aa53cf045a` | `31458102895` |
-| #236 | `T2424-0037` | NLP-to-CAD | `83bdeb2c62be88f4b8d84c1a924dd6ec8fd48fa8` | `31458112736` |
-| #241 | `T2424-0054` | Theory-Manifold Experiment Planner | `18c41b914a331e3f617026492900b0f7890eef11` | `31458120484` |
-| #242 | `T2424-0027` | Sapir–Whorf Latent Tongue | `6e71f109db7bba64e222029f298072ed64cc42de` | `31457981699` |
+## Live GitHub facts
 
-### Registry P0
+### VertexED
 
-`T2424-0050` is still wrong on current `main`: frozen rank 43 is Darcy Latent Operator, while Benchmark Augmentation Theory occupies the canonical folder. PR #230 is the canonical lossless repair and includes an identity regression. It remains manual and unmerged.
+- `main`: `d5e9fcaa8de4e49b236b18ff7d3c515ed5f1ed6d`.
+- Both configured Vercel status contexts on that head are currently `FAILURE` with `Deployment rate limited — retry in 24 hours.`
+- Production therefore remains blocked: exact served revision/deployment identity and the authenticated disposable-account golden journey are not proven.
+- Issue #44 was reconciled to this current boundary. No product feature was added to work around deployment uncertainty.
 
-### New T2424-0027 evidence package
+### LAM-JEPA
 
-Retained synthetic result: raw concept `1.0`; raw language `1.0`; centered concept `1.0`; centered language `0.3611111111111111`; chance `0.3333333333333333`; normalized leakage reduction `0.9583333333333334`; global-centering language `1.0`.
+- `main`: `bf8311e1a4d240e2891e51af38eaf7754944e300`.
+- Frozen result remains a reproducible negative result: superiority, planner contribution and target contribution are not supported; locked ARC test remains untouched.
+- Internal source/provenance/numeric package and immutable external-review packet are prepared.
+- External validation remains pending; owner-controlled release metadata remains blocked on owner decisions.
 
-Initial CI caught derived evidence/verifier defects; fixes did **not** change the frozen generator, protocol, thresholds, raw result or verdict. PR #242 is exact-head GitHub-Actions green but remains manual/draft and preview-capacity blocked.
+### Pull requests
 
-## Product/research manual gates
+- Open PRs observed across `vertexED.ai` and `LAM-JEPA` at snapshot capture: `0`.
+- This does not imply the broader portfolio has zero PRs because other repositories are not exposed.
 
-- VertexED PR #233: exact-head-green immutable build-revision source recovery; manual/no-deploy; public serving SHA still unproven.
-- VertexED PR #240: exact-head-green account-scoped transient learner handoff isolation; manual/no-deploy.
-- FinanceMeta control-plane PR #245: green deterministic overlay/validation against immutable target; manual only; no target repo or live Supabase mutation.
-- Notes-to-Video PR #16: green draft API lifecycle recovery; separate product integration decision.
-- Notes-to-Video PR #21: draft local content-addressed media store; separate product integration decision.
+## P0 state
 
-## External blockers
+| Workstream | State | Exact next gate |
+|---|---|---|
+| Percy live state | `UNKNOWN / BLOCKED_EXTERNAL_MAC` | Non-destructive DB/WAL snapshot + hashes, integrity/schema, worker heartbeat/lease/stale reconciliation, independent recount. Never reset. |
+| Project 2424 umbrella | `PARTIAL / BLOCKED_SOURCE_RECOVERY` | Recover preserved canonical source/overlay/ancestry, hash dirty state, reconcile 2,424 identities against real source and retained evidence. |
+| VertexED production | `BLOCKED_EXTERNAL` | Recover deployment capacity/configuration, identify one canonical Vercel project, prove exact served revision, then complete authenticated golden journey. |
+| FinanceMeta | `BLOCKED_EXTERNAL` | Restore target GitHub + production Supabase access; apply/verify authorization hardening in target environment. |
+| The Bu1LD | `BLOCKED_EXTERNAL` | Restore canonical writable repo/runtime/Supabase access; run strict production release and seven-role denial-path certification. |
 
-- FinanceMeta target writes return connector `403`; FinanceMeta Supabase is not connected.
-- Bu1LD real DB/Auth/env/email/seven-role smoke requires authorized production-like environment.
-- Atlas canonical source/runtime unavailable.
-- Percy local source/runtime/SQLite unavailable.
-- PST/NPMS original source/evidence migration remains pending.
+## Research closure state
 
-## Next highest-value actions
+| Line | State | Boundary |
+|---|---|---|
+| LAM-JEPA | `VERIFIED` negative result / external validation pending | No rescue; metadata + independent outside reproduction/review only. |
+| IRIS | `FAILED` development gate / source-blocked | Confirmatory seeds remain untouched; recover exact source/trajectories before any eligibility decision. |
+| NeuroCAD | `FAILED` typed-parser causal mechanism on matched diagnostic | Preserve falsification; no tuning of old 20-case set. |
+| NGMT v0.1 | `NEGATIVE RESULT` | Preserve; successor requires a new frozen protocol. |
+| Eigen-JEPA | `NEGATIVE/MIXED` | Primary superiority unsupported; no metric shopping. |
+| APEN | `PARTIAL` controlled mixed result | Needs matched learned/naturalistic controls before paper promotion. |
+| NPMS | `PARTIAL / SOURCE-GATED` | Recover original source/config/checkpoint before new experiments. |
+| Darcy T2424-0050 | `PARTIAL` bounded synthetic mechanism | Freeze learned/operator/OOD comparison before any run. |
+| Hercules / Olympus | `UNKNOWN / DESIGN-STAGE` | No major compute until one decisive matched protocol is frozen. |
 
-1. Manual review of the nine green First-100 packages; do not count until separately integrated.
-2. Resolve `T2424-0050` identity first if manually approved.
-3. Keep T2424-0027 synthetic claim boundary intact; resolve external preview capacity before any merge decision.
-4. Manually review VertexED PR #233 and #240; production proof remains separate.
-5. Continue unambiguous First-100 breadth and certification depth work.
-6. Migrate PST/NPMS original source without reconstructing evidence from prose.
-7. Restore FinanceMeta target write/data-plane access and validate final RLS state.
-8. Execute Bu1LD strict release/role smoke only in authorized real environment.
-9. Advance Notes-to-Video artifact finalization/storage/status only when it yields a concrete validated integration.
-10. Expose Atlas/Percy source/runtime before further runtime work.
+## Current execution order
+
+1. `PERCY-STATE-001`
+2. `P2424-CANON-001`
+3. `LAM-RELEASE-METADATA-003`
+4. `EXTVAL-LAM-001`
+5. `IRIS-FRONTIER-SOURCE-001`
+6. `DARCY-FREEZE-001`
+7. `VERTEX-PROD-001`
+8. `NPMS-SOURCE-001`
+
+Dependency rules are hard. A blocked task does not justify substituting speculative work.
+
+## Scheduling guard
+
+**Zero new major scientific experiment runs are authorized at this checkpoint.**
+
+Unused compute remains unused rather than being converted into low-information tasks. Project count, logical-agent address count, commit count, test-file count, and paper-draft count are not closure metrics.
+
+## Morning checkpoint rule
+
+At 10:00 IST on 15 August 2026, any still-inaccessible live system must be reported with its exact blocker and strongest retained evidence. Do not convert `UNKNOWN` or `BLOCKED_EXTERNAL` into `VERIFIED` merely because the deadline arrived.
