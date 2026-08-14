@@ -1,6 +1,6 @@
 # NEXT TASK QUEUE
 
-**Rescored:** 2026-08-14 after independent LAM raw-artifact verification, Darcy v2 protocol freeze, and latest VertexED production-monitor evidence  
+**Rescored:** 2026-08-14 after independent LAM raw-artifact verification, Darcy v2 protocol freeze, latest VertexED production-monitor evidence, and FinanceMeta source recovery  
 **Rule:** information gain × closure probability × evidence value ÷ cost. Dependencies are hard.
 
 ## 1 — PERCY-STATE-001 — P0 / BLOCKED_EXTERNAL_MAC
@@ -46,18 +46,31 @@
 - Deliver: exact intended/served source identity, deployment ID, `/api/health` revision proof matching the deploy-relevant SHA, production monitor PASS, disposable-account core workflow + cleanup record.
 - Do not add product features to work around deployment identity uncertainty.
 
-## 8 — NPMS-SOURCE-001 — P1 / BLOCKED_SOURCE_IDENTITY
+## 8 — FINANCEMETA-REVIEW-001 — P0 PRODUCT / SOURCE_RECOVERED_WRITE_BLOCKED
+- Canonical portal source is `build-the-future-11/finance4all-global-reach`; branch `cursor/membership-security-supabase-fix` is 41 commits ahead of `main` and 0 behind.
+- The branch contains the retained hardening/release-candidate work, migrations `018`–`021`, verification tooling, contribution history and journey analytics.
+- This execution surface attempted to open a PR and GitHub returned `403 Resource not accessible by integration`; no authenticated `gh` CLI fallback is available.
+- Deliver: owner-authorized GitHub identity opens the **existing branch** against `main`; exact-head CI and source/security review complete; merge only if those gates are green.
+- Do not recreate the 41 commits, weaken security checks, or treat branch-authored local test reports as independent CI evidence.
+
+## 9 — FINANCEMETA-PROD-002 — P0 PRODUCT / BLOCKED_EXTERNAL_LIVE_STATE
+- Depends on `FINANCEMETA-REVIEW-001` source review/merge.
+- Verify owner-controlled Supabase has the complete intended hardened migration/RLS state including migration `021`; set real authorized production env; deploy an exact reviewed revision.
+- Run authenticated multi-account core journey, cross-user isolation/denial, persistence, recovery/logout and cleanup.
+- A green PR is source evidence only; it does not certify live RLS, deployment identity, users, telemetry or adoption.
+
+## 10 — NPMS-SOURCE-001 — P1 / BLOCKED_SOURCE_IDENTITY
 - Recover the original NPMS scientific source/config/checkpoint before any new natural/OOD experiment.
 - Deliver: canonical source identity + hashes + clean rerun against retained bounded evidence, or a precise `SOURCE_UNRECOVERED` verdict.
 - Preserve known negative spectral/switching/truncation cases.
 - Failure: archive the line as bounded recovered evidence rather than inventing a replacement implementation.
 
-## 9 — JEPA-TS-FREEZE-001 — P2 / DORMANT_UNTIL_CAPACITY
+## 11 — JEPA-TS-FREEZE-001 — P2 / DORMANT_UNTIL_CAPACITY
 - The canonical programme remains one question: causal future-latent predictive-state recovery under noise/missingness.
 - Before any run, freeze one machine-readable cheap synthetic experiment with exact generator, objectives, TS-JEPA/data2vec/reconstruction/autoregressive/statistical baselines, corruption grid, paired seeds, 5pp falsifier, compute budget and verifier.
 - No real-data expansion unless the synthetic gate survives. No run is currently authorized.
 
-## 10 — PORTFOLIO-RESCORE-003 — P1 / WAITING_DECISIVE_EVIDENCE
+## 12 — PORTFOLIO-RESCORE-003 — P1 / WAITING_DECISIVE_EVIDENCE
 - Re-score only after the tasks above produce material evidence.
 - Maximum Tier S = 5; current Tier S = 3 and no replacement is required.
 - Every promotion/demotion must cite an exact new artifact/gate.
@@ -77,4 +90,4 @@
 
 ## Scheduling guard
 
-**Zero new major scientific experiment runs are authorized right now.** Percy/Project 2424/IRIS/NPMS are source or live-state recovery first; Darcy v2 is protocol-frozen but implementation/environment/data identity must be frozen before execution; JEPA×time-series is dormant design; NeuroCAD research is deprioritized after its mechanism falsifier; LAM is owner metadata + external review only; VertexED is deployment certification only. Unused compute capacity should remain unused rather than generate low-information experiments.
+**Zero new major scientific experiment runs are authorized right now.** Percy/Project 2424/IRIS/NPMS are source or live-state recovery first; Darcy v2 is protocol-frozen but implementation/environment/data identity must be frozen before execution; JEPA×time-series is dormant design; NeuroCAD research is deprioritized after its mechanism falsifier; LAM is owner metadata + external review only; VertexED and FinanceMeta are production-certification/review lanes. Unused compute capacity should remain unused rather than generate low-information experiments.
