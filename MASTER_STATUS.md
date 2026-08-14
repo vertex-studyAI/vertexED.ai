@@ -1,6 +1,6 @@
 # MASTER_STATUS
 
-**As of:** 2026-08-14 22:01 IST after LAM internal verification/external-packet closure, Darcy v2 protocol freeze reconciliation, and latest VertexED production-monitor evidence  
+**As of:** 2026-08-14 22:01 IST after LAM internal verification/external-packet closure, Darcy v2 protocol freeze reconciliation, latest VertexED production-monitor evidence, and connected-access recheck  
 **Truth rule:** claim-specific GREEN. Failed mechanisms remain failed; software/reproduction/product/external/publication states are separate.
 
 ## Portfolio dashboard
@@ -22,8 +22,8 @@
 | Percy host | **BLOCKED_EXTERNAL_MAC for live qualification** | existing SQLite/WAL/process state unavailable here; non-destructive snapshot/integrity/recount first |
 | VertexED source | **GREEN** | canonical control head `d5e9fcaa8de4e49b236b18ff7d3c515ed5f1ed6d`; do not infer production identity |
 | VertexED production | **BLOCKED — deployment identity unresolved** | latest verified scheduled run `31817794439` at 2026-08-14 21:37 IST failed three bounded attempts because live `/api/health` was healthy but omitted its revision; homepage, API-router, malformed-waitlist, logged-out AI/user/admin and untrusted-origin boundaries passed. The monitor's deploy-path contract expected runtime revision `e2ecd19ed9816f8f36369c7dc0f38e39942ca73a`; both Vercel status contexts on current control head `d5e9fcaa8de4e49b236b18ff7d3c515ed5f1ed6d` also report build-rate-limit failures. Exact served revision/deployment ID and authenticated golden journey remain unproved |
-| FinanceMeta | **BLOCKED_EXTERNAL** | target repository is now readable through the connected GitHub installation, but production Supabase/application authorization and golden-journey evidence remain incomplete; do not treat repository write visibility as production authorization |
-| The Bu1LD | **BLOCKED_EXTERNAL** | canonical production/runtime qualification remains incomplete |
+| FinanceMeta | **BLOCKED_EXTERNAL / SOURCE READABLE, WRITES DENIED** | target `build-the-future-11/finance4all-global-reach` is readable at `fbdd503223edc5b1780509720391083f485a4a85`, but a fresh isolated branch-creation attempt returned `403 Resource not accessible by integration`; connected Supabase currently exposes only the VertexED project, not FinanceMeta. Source audit still confirms the role-authorization/RLS boundary. Next = GitHub write authorization + FinanceMeta Supabase connection before any production migration or certification |
+| The Bu1LD | **BLOCKED_EXTERNAL** | canonical production/runtime qualification remains incomplete; connected Supabase currently exposes only VertexED, not The Bu1LD |
 | Hercules / Olympus | **ARCHIVED FROM ACTIVE COMPUTE / YELLOW EVIDENCE** | decisive matched scientific protocol missing; no reactivation by naming or scale |
 
 ## Tier cap
@@ -71,6 +71,12 @@ Scheduled production-health run `31817794439` checked `https://www.vertexed.app`
 - retained artifact: `production-health-31817794439`, artifact ID `9225715176`, SHA-256 `e7870e9561748ef4d4247e3bf4e01d3e8feead3780c4e2016d3742d134f2069a`.
 
 This is strong evidence that the public/security smoke surface is live while exact deployment identity remains unproved. It is not an outage claim and it is not production certification.
+
+## Connected-access recheck
+
+- FinanceMeta GitHub target is readable, but branch creation remains write-blocked with `403 Resource not accessible by integration`.
+- The connected Supabase surface currently lists one active project only: VertexED (`xwlrzgfuhfbckgvcmyoq`). FinanceMeta and The Bu1LD production projects are not exposed to the connector.
+- These are external-access facts, not product failures; source-only work must not be promoted to production certification.
 
 ## Canonicalization / cleanup
 
