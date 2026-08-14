@@ -1,5 +1,5 @@
 {
-  "rescored_at":"2026-08-14",
+  "rescored_at":"2026-08-14T22:02:00+05:30",
   "ordering_rule":"information_gain * closure_probability * evidence_value / cost",
   "tier_s_count":3,
   "major_science_runs_authorized":0,
@@ -9,8 +9,8 @@
     {"id":"LAM-RELEASE-METADATA-003","priority":"P0","state":"BLOCKED_OWNER","objective":"Close license/authorship/citation/redistribution/release-revision metadata after internal evidence closure.","constraint":"Do not infer owner-controlled fields."},
     {"id":"EXTVAL-LAM-001","priority":"P1","state":"READY_EXTERNAL_PACKET","objective":"Obtain genuinely independent reproduction and skeptical review of immutable LAM package.","packet_revision":"218ea1bea686cdf8c281520b2b636897bc8b8dd2","constraint":"External validation remains RED/PENDING until returned outside evidence exists."},
     {"id":"IRIS-FRONTIER-SOURCE-001","priority":"P1","state":"BLOCKED_CANONICAL_RAW_SOURCE","objective":"Recover exact raw trajectories, retained implementations/parameters and metric code required by frozen baseline-frontier protocol.","constraint":"Confirmatory seeds 1000-1029 forbidden; approximate regeneration prohibited."},
-    {"id":"DARCY-FREEZE-001","priority":"P1","state":"WAITING_CANONICAL_SOURCE","objective":"Freeze matched learned-operator + OOD physical comparison before run."},
-    {"id":"VERTEX-PROD-001","priority":"P0_PRODUCT","state":"BLOCKED_EXTERNAL_DEPLOYMENT_IDENTITY","objective":"Verify exact intended/served revision + authenticated golden journey.","latest_failed_run":"31777345899","expected_revision":"8272b8cba0dab6e9a07ee6aa4f927ad9374de534","expected_revision_resolvable":true,"evidence":"Across three bounded attempts, /api/health returned healthy but omitted revision identity. Homepage, API-router, malformed-waitlist, logged-out AI/user/admin and untrusted-origin checks passed. The unresolved fact is the served deployment revision, not the expected source revision."},
+    {"id":"DARCY-EXEC-PREP-002","priority":"P1","state":"WAITING_EXECUTABLE_FREEZE","objective":"Bind the already-frozen darcy-operator-ood-v2 protocol to exact executable source/config/dependency/hardware/compute manifests before any run.","protocol":"portfolio/project2424/projects/T2424-0050/LEARNED_OPERATOR_OOD_PROTOCOL_V2.md","protocol_state":"FROZEN_PRE_OUTCOME","outcome_state":"NOT_RUN","required_before_run":["generator and split-manifest hashes","FNO-1D implementation revision","DeepONet implementation revision","dependency versions","hyperparameter grids","training-only normalization","eligibility checks","training seeds 41,73,109","hardware identity","compute/time cap"],"constraint":"No v2 run authorized; material scientific changes require v3."},
+    {"id":"VERTEX-PROD-001","priority":"P0_PRODUCT","state":"BLOCKED_EXTERNAL_DEPLOYMENT_IDENTITY","objective":"Verify exact intended/served revision + authenticated golden journey.","latest_failed_run":"31777345899","expected_revision":"8272b8cba0dab6e9a07ee6aa4f927ad9374de534","expected_revision_resolvable":true,"source_revision_contract_present":true,"external_blocker":"Authorized Vercel deployment logs/access are required to recover the first causal failure from the two failed intended production deployments and identify the canonical project/alias.","evidence":"Across three bounded attempts, /api/health returned healthy but omitted revision identity. Homepage, API-router, malformed-waitlist, logged-out AI/user/admin and untrusted-origin checks passed. The unresolved fact is the served deployment revision, not the expected source revision."},
     {"id":"NPMS-SOURCE-001","priority":"P1","state":"BLOCKED_SOURCE_IDENTITY","objective":"Recover original NPMS source/config/checkpoint before any new natural/OOD science."},
     {"id":"JEPA-TS-FREEZE-001","priority":"P2","state":"DORMANT_UNTIL_CAPACITY","objective":"Freeze one cheap known-state synthetic causal-future-latent experiment with strong objective/statistical baselines and 5pp falsifier.","constraint":"No run currently authorized; no real-data expansion before synthetic gate."},
     {"id":"PORTFOLIO-RESCORE-003","priority":"P1","state":"WAITING_DECISIVE_EVIDENCE","objective":"Re-score only after new material evidence; max Tier S 5, current 3."}
@@ -20,11 +20,12 @@
     {"id":"LAM-VERIFY-002","outcome":"Independent raw-artifact digest check, numerical recomputation and deterministic paper-asset regeneration closed; verification record merged as 725ae2fb17de9c988938d4b03bd8a6be456b8e8b; numeric-basis guard merged as bf8311e1a4d240e2891e51af38eaf7754944e300 with no scientific outcome change."},
     {"id":"EXTVAL-LAM-PACKET-001","outcome":"Immutable external reproduction/review packet merged as 218ea1bea686cdf8c281520b2b636897bc8b8dd2; no outside result yet."},
     {"id":"IRIS-FRONTIER-FREEZE-001","outcome":"Development-only false-open constrained baseline-frontier protocol frozen; execution source-blocked."},
+    {"id":"DARCY-FREEZE-001","outcome":"darcy-operator-ood-v2 protocol frozen on 2026-08-14 before any v2 outcome; execution moved to DARCY-EXEC-PREP-002."},
     {"id":"JEPA-TS-PROGRAM-001","outcome":"One literature-bounded JEPA-time-series programme exists; no experiment authorized."},
     {"id":"IRIS-DECIDE-001","outcome":"No successor architecture authorized; baseline frontier owns the residual question."},
     {"id":"NEUROCAD-COMPONENT-V2","outcome":"VALIDATION_DOMINANT; typed-parser causal interpretation falsified on reused diagnostic."},
     {"id":"PR-319","outcome":"Closed unmerged; superseded history retained."},
     {"id":"ISSUE-122","outcome":"Closed as superseded command-center bookkeeping."}
   ],
-  "authorization_note":"Zero new major scientific experiment runs are currently authorized. Source/live-state recovery, release metadata, external review, production certification and protocol freezes precede new compute."
+  "authorization_note":"Zero new major scientific experiment runs are currently authorized. Source/live-state recovery, release metadata, external review, production certification and exact executable freezes precede new compute."
 }
