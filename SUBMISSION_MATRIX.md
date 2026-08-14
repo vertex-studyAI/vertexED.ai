@@ -1,31 +1,26 @@
 # SUBMISSION_MATRIX
 
-**Established:** 2026-08-14 12:01 IST  
-**Rule:** venue class follows evidence maturity. This matrix does not claim submission, acceptance, publication or eligibility.
+**As of:** 2026-08-14. Venue class follows evidence maturity; nothing here claims submission or publication.
 
-| Project | Contribution | Evidence Strength | Missing Gates | Suitable Venue Class | Ready? |
+| Project | Contribution | Evidence strength | Missing gates | Suitable venue class | Ready? |
 |---|---|---|---|---|---|
-| LAM-JEPA | reproducible empirical falsification/negative result for a frozen ARC configuration; mechanism claims unsupported | **Strong within one benchmark** | final related-work audit; owner-approved license/citation/authorship; independent review/reproduction; final provenance check | preprint/technical report; negative-results or reproducibility workshop; broader venue only if contribution framing survives review | **NO — near package-ready** |
-| NeuroCAD | typed/validated IR compiler improves controlled executable correctness vs frozen direct baseline | **Moderate–strong controlled** | same-provider learned direct generation; larger OOD/compositional set; external reproduction; prior-work audit | program-synthesis/CAD/ML workshop; systems/tool paper; technical report | **NO** |
-| IRIS v0.2 | empirical robustness–adaptation tradeoff and failed successor gate | **Moderate; development/synthetic-heavy** | originality audit; stronger robust/changepoint/recurrent controls; external data; independent reproduction; decide whether negative result is sufficiently general | robust-ML/time-series workshop; negative-results report/preprint | **NO** |
-| Darcy T2424-0050 | bounded synthetic representation/mechanism result | **Moderate synthetic** | matched learned neural operator; held-out/OOD physical regimes; uncertainty table; prior work | scientific-ML workshop/technical report after gate | **NO** |
-| NGMT v0.1 | reproducible negative equal-budget learned-memory experiment | **Strong protocol, narrow task breadth** | broader tasks/seeds only if scientifically justified; prior-work framing; independent reproduction | negative-results technical report/workshop; appendix in broader memory study | **NO** |
-| T2424-0025 | robust readout diagnostic with mechanism non-uniqueness exposed | **Strong diagnostic, weak uniqueness** | learned sequence controls; external task; mechanism isolation | diagnostic/negative appendix; combine with memory paper rather than standalone | **NO** |
-| APEN | salience-dependent mixed result with stress reversal | **Moderate controlled** | matched learned control; naturalistic salience task; external reproduction | workshop/technical report if stronger controls survive | **NO** |
-| Eigen-JEPA | real-data mixed/negative covariance forecasting comparison | **Moderate** | stronger spectral/statistical controls; frozen multi-dataset metric hierarchy; independent replication | time-series/finance-ML workshop or negative technical report | **NO** |
-| NPMS | controlled memory mechanism + companion learned evidence | **Moderate controlled** | stronger learned memory controls; natural task; OOD/generalization; statistics | workshop/technical report after externalization | **NO** |
-| T2424-0027 | reproducible synthetic latent-language audit | **Strong synthetic, weak external validity** | real multilingual encoder/data; preregistered probes; prior work | no standalone submission yet; possible benchmark/diagnostic component later | **NO** |
-| T2424-0028 | deterministic residual-event codec mechanics | **Bounded** | serious compression/rate-distortion baselines and external signals | archive/engineering note unless new evidence | **NO** |
-| T2424-0029 | deterministic analytic PDE transition screen | **Bounded** | nonlinear PDE, sensitivity, learned comparison | archive/appendix unless new evidence | **NO** |
-| T2424-1863 | reproducible failed >75% local-diffusion gate | **Strong negative screen, synthetic** | only needed for a new claim: real PDE + learned operator | failure atlas/negative appendix; no active standalone submission | **NO** |
-| Percy | evidence-native orchestration/reliability system | **Implementation evidence; real-host qualification incomplete** | crash/restart, lease expiry, provider failures, soak, resource/cost accounting, independent QA | systems/agent-infrastructure technical report after qualification | **NO** |
-| Hercules | architecture/runtime concept | **Weak scientific evidence** | freeze/run matched Transformer/proposal/ablation experiment | no venue targeting until empirical gate | **NO** |
-| Olympus | role-decomposition runtime/spec | **Weak scientific evidence** | matched-provider monolithic/full/ablations across task families | no venue targeting until O1 evidence | **NO** |
+| LAM-JEPA | reproducible falsification/negative ARC evaluation with matched controls and repair provenance | **Strong within one benchmark** | exact source-to-method reconciliation; final figures/provenance; owner-approved license/citation/authorship; independent review | preprint/technical report; reproducibility/negative-results workshop | **NO — strongest package** |
+| IRIS v0.2 | robustness–adaptation failure/tradeoff under stronger robust baselines | **Moderate, synthetic/development-heavy** | baseline-frontier protocol/result; external temporal data; independent novelty/reproduction | robust-ML/time-series workshop or negative-results report if frontier remains informative | **NO** |
+| NeuroCAD | fail-closed CAD software reliability; v2 shows validation explains the full current direct-baseline gap | **Strong engineering diagnostic; weak mechanism novelty** | genuinely new broader part-family benchmark; competent learned/program-generation baseline; component/coverage tradeoff; external replication | engineering/tool report or constrained-CAD reliability note; not a broad mechanism paper now | **NO — DEMOTED** |
+| Darcy T2424-0050 | bounded physical reduced-representation mechanism | **Moderate synthetic** | matched learned operator; held-out/misaligned regimes; uncertainty/prior work | scientific-ML workshop after gate | **NO** |
+| NGMT v0.1 | reproducible equal-budget negative learned-memory experiment | **Strong narrow protocol** | broader framing/independent review only if report value justifies it | negative-results technical report / combined memory failure report | **NO** |
+| T2424-0025 | robust readout diagnostic with non-unique mechanism exposed | **Strong diagnostic** | learned causal mechanism/external task | combine with memory failure/diagnostic report | **NO** |
+| APEN | salience-dependent mixed result | **Moderate controlled** | matched learned + natural task | workshop/technical report only after controls | **NO** |
+| Eigen-JEPA | real-data mixed/negative covariance comparison | **Moderate** | stronger spectral/statistical controls + frozen multi-dataset study | time-series/finance-ML negative report | **NO** |
+| NPMS | controlled memory evidence | **Moderate** | natural/OOD + stronger learned baselines | workshop after externalization | **NO** |
+| T2424-0027 | reproducible synthetic latent-language audit | **Strong synthetic, weak external validity** | real encoder/data + preregistered probes | diagnostic component only | **NO** |
+| Percy | evidence-native orchestration/reliability system | **Implementation evidence only** | real-host fault/recovery/throughput comparison | systems/agent-infrastructure report after qualification | **NO** |
+| Hercules / Olympus | architecture/runtime concepts | **Weak scientific evidence** | frozen decisive empirical studies | no venue targeting yet | **NO** |
 
-## Paper conversion order
+## Paper conversion order after rescore
 
-1. LAM-JEPA negative-result package.
-2. NeuroCAD only after dangerous-baseline/OOD attack.
-3. IRIS negative/tradeoff paper if originality and baseline audit justify it.
-4. Darcy only after learned operator/OOD gate.
-5. Secondary negative/mixed studies should preferentially consolidate into a failure/diagnostic report instead of becoming many thin papers.
+1. **LAM-JEPA negative-result package.**
+2. **IRIS negative/tradeoff package only if the simple baseline frontier leaves an informative scientific result.**
+3. **Darcy after learned/OOD gate.**
+4. NeuroCAD is no longer a top research-paper conversion; preserve/productize software and reopen research only on fresh stronger evidence.
+5. Secondary negative/mixed studies should consolidate where scientifically coherent rather than multiply thin papers.

@@ -1,26 +1,28 @@
 # RESEARCH_FAILURE_ATLAS
 
-**As of:** 2026-08-13 22:00 IST  
-Failures are retained scientific evidence. A repaired implementation never rewrites the original result.
+**As of:** 2026-08-14  
+Failures are first-class evidence. Repairs never rewrite frozen outcomes.
 
-| Project | Frozen hypothesis / gate | Observed failure | Detection | Claim impact | Repair / rerun boundary | Remaining uncertainty |
-|---|---|---|---|---|---|---|
-| LAM-JEPA | full model should show superiority and mechanism benefit over matched controls | full mean below matched supervised; planner and target effects unsupported; validation variants show prediction-support collapse behavior | five-seed ARC validation, ablations, negative control, independent artifact audit | central superiority/mechanism claim unsupported | historical seed-order software defect repaired separately; multiple reruns preserve negative science | broader tasks/datasets; external review; locked test intentionally unused |
-| IRIS v0.2 / successor | abrupt-regime improvement over fixed HTAM `>=10%` and competitive robust baseline performance | ~`5.33–5.36%`; PCRW not cleanly above Huber; coherent burst outliers adverse | development stress seeds and stronger baseline addendum | successor promotion gate fails; broad robust-adaptive advantage unsupported | no confirmatory rescue; candidate must be versioned/frozen before reserved seeds | whether a principled successor can separate outliers from legitimate change |
-| NGMT v0.1 | B3 adverse improvement >=5% vs B2 and >=3% vs B1 with <=2% clean regression | B3 vs B2 `+0.4946% ± 1.5472%` FAIL; B3 vs B1 `+0.4393% ± 1.1529%` FAIL; clean gate PASS | frozen equal-budget B0/B1/B2/B3, 3 paired seeds, unchanged replay | proposed v0.1 superiority unsupported | no retuning; any successor is a new version/protocol | task diversity, larger seed count, mechanism alternatives |
-| T2424-0025 robust readouts | robust non-Gaussian readout should isolate a unique adverse-corruption benefit | robust estimators also materially improve 0% control | 30-seed screen + 50-seed contamination ablation | supports robust aggregation, not a unique non-Gaussian Transformer mechanism | promoted only as precursor; learned NGMT evaluated separately | how robust readouts interact with learned memory under regime change |
-| NeuroCAD v1 | typed/validated pipeline should improve valid execution and invalid rejection | one negative-width invalid case accepted in frozen v1 | held-out-template benchmark | does not erase strong 19/20 vs 12/20 gate; exposes validator hole | post-result safety repair is separate; v1 failure retained | broader language/provider/backend/OOD behavior |
-| APEN | adaptive salience mechanism should retain benefit under degraded salience | benefit weakens and reverses under severe salience dropout | source-archive rerun + salience-dropout stress | claim limited to controlled salience-available regimes | no hidden repair; successor/learned comparison required | naturalistic salience reliability and learned-control comparison |
-| Eigen-JEPA | eigen/spectral representation should improve primary covariance forecast | raw/log ridge remains stronger on primary covariance-matrix MSE | real-market rerun | no superiority claim | no metric shopping; keep preregistered primary target | whether stronger spectral method helps other data/tasks |
-| T2424-1863 local diffusion | proposed operator should exceed predeclared >75% improvement gate | gate fails; zero-diffusion control offers no rescue | 20-seed frozen screen, independent replay, exact-head CI | negative against predeclared scientific gate | exact-head rerun preserved result without coefficient/seed/threshold retuning | real PDE data, learned operator, rollout behavior |
-| NPMS | controlled memory mechanism should imply broad sequence benefit | evidence remains controlled; causal/natural-task transfer unestablished | controlled diagnostic + companion learned reproduction | limits external/generalization claim | no failure erased | OOD/generalization and stronger learned baselines |
-| Hercules | proposed architecture should beat a matched standard model | no credible matched-budget learned experiment exists | evidence audit | advantage claim untested, not failed | freeze experiment before training | actual learned value |
-| Olympus | role decomposition should improve reliable agent performance | O1 matched-provider learned experiment not evidenced | evidence audit | O0 runtime/roadmap only | freeze monolithic/decomposition/ablations before run | whether decomposition improves correctness/evidence per budget |
+| Project | Frozen hypothesis / gate | Observed failure | Claim impact | Boundary / next question |
+|---|---|---|---|---|
+| LAM-JEPA | superiority + planner/target mechanism benefit on frozen ARC controls | full below matched supervised; planner/target criteria unsupported; repaired validation remains negative/inconclusive | central superiority/mechanism claims fail | negative-result/reproducibility paper; locked test remains closed |
+| IRIS v0.2/current successor | abrupt gain `>=10%` plus robust performance | only ~`5.33–5.36%`; not cleanly above Huber; coherent bursts adverse | successor promotion fails | no new architecture; establish false-open/recovery/error frontier first |
+| NeuroCAD v1 — validator hole | typed/validated v1 should reject invalid inputs | negative-width `O018` accepted | frozen v1 is 19/20, not perfect | later safety repair is separate and does not rewrite v1 |
+| **NeuroCAD component v2 — mechanism** | current v1-style performance gap should retain a material parser/typed-path component after matched validation | direct extraction `0.60`; direct+matched validation `1.00`; current compiler `1.00`; recovery fraction `1.00`; frozen label `VALIDATION_DOMINANT` | **typed-IR/parser-specific causal interpretation is falsified on reused 20-case diagnostic** | preserve software value; no same-case rescue; only broader new dataset + competent model/program baseline can reopen research mechanism |
+| NGMT v0.1 | B3 >=5% vs B2 and >=3% vs B1, <=2% clean regression | B3-B2 `+0.4946%±1.5472%` FAIL; B3-B1 `+0.4393%±1.1529%` FAIL; clean PASS | v0.1 superiority fails | new version only |
+| T2424-0025 | robust readout should isolate unique adverse-corruption mechanism | robust estimators also improve clean control | mechanism non-unique | precursor only; learned causal test separate |
+| APEN | salience benefit should survive degraded salience | weakens/reverses under severe dropout | universal robustness fails | naturalistic salience + learned control |
+| Eigen-JEPA | spectral representation should improve primary covariance forecast | direct ridge remains stronger | superiority fails on primary retained target | no metric shopping; stronger frozen multi-dataset study only |
+| T2424-1863 | >75% improvement gate | gate fails | operator claim fails | archive active compute; new real-PDE question only |
+| NPMS | controlled mechanism implies broad sequence benefit | natural-task causal transfer not established | generalization unsupported | stronger learned/natural/OOD tests |
+| Hercules | proposed architecture beats matched standard model | no credible matched-budget learned result | untested rather than positive | freeze before training |
+| Olympus | decomposition improves matched-provider agent performance | O1 not evidenced as run | untested | freeze before execution |
 
 ## Failure-handling law
 
-1. Preserve original protocol, raw result, thresholds and seeds.
-2. If a software bug invalidates a result, document the bug, fix it narrowly, rerun, and distinguish old from new.
-3. If the scientific hypothesis fails, do not silently retune it. Create a versioned successor with a newly frozen falsifier.
-4. Negative results may be GREEN for reproducibility while remaining RED for superiority.
-5. Reserved confirmatory/test data must not be opened to rescue a development failure.
+1. Preserve original protocol, raw output, thresholds, seeds and version.
+2. Software bug → document, narrowly repair, rerun under a new evidence identity.
+3. Scientific failure → do not retune in place; a successor needs a new version and falsifier.
+4. Negative results may be GREEN for reproduction and RED for superiority/mechanism.
+5. Reserved confirmatory/test data never rescue a failed development result.
+6. A stronger baseline that closes a gap is a successful experiment even when it demotes the project.

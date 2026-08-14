@@ -1,40 +1,37 @@
 # RESEARCH_STATUS
 
-**As of:** 2026-08-13 22:00 IST  
-**Rule:** maturity is claim-specific. A reproduced negative result may be GREEN; GREEN never implies superiority, external validation, publication, acceptance or finalist status.
+**As of:** 2026-08-14  
+**Rule:** maturity is claim-specific. Reproduced negative evidence may be GREEN; no GREEN here means superiority, publication or external validation.
 
-| Research line | Authoritative state | Retained evidence | Promotion gate |
+| Research line | Authoritative state | Retained evidence | Promotion / stop gate |
 |---|---|---|---|
-| LAM-JEPA | **GREEN — REPRODUCIBLE NEGATIVE / INCONCLUSIVE** | ARC five-seed full `0.254915 ± 0.012997`; supervised `0.266441 ± 0.015460`; no_planner `0.250169 ± 0.012997`; no_target `0.261695 ± 0.020395`; artifact `9162165932` | locked ARC test remains untouched; any successor must be versioned and preregistered |
-| IRIS v0.2 | **GREEN reproduced mixed/negative package; successor RED** | development stress gain only ~`5.33–5.36%` vs frozen `>=10%`; PCRW not cleanly above Huber; coherent bursts adverse | freeze candidate/baselines/metric/effect/gate/falsifier/analysis before reserved confirmatory seeds |
-| T2424-0025 robust readouts | **GREEN reproduced precursor / mechanism not unique** | robust readout synthetic screen and contamination ablation reproduced; `10/10` current focused tests retained | learned sequence mechanism must be evaluated separately; do not treat precursor as Transformer result |
-| NGMT v0.1 | **GREEN — REPRODUCED NEGATIVE LEARNED RESULT** | equal 6,049-parameter B0/B1/B2/B3; 3 paired seeds; B3 vs B2 `+0.4946% ± 1.5472%` vs >=5% FAIL; B3 vs B1 `+0.4393% ± 1.1529%` vs >=3% FAIL; clean regression PASS | successor only via new frozen version; no v0.1 rescue |
-| NeuroCAD | **GREEN — CONTROLLED + HELD-OUT-TEMPLATE** | v1 typed/validated 19/20 vs direct 12/20; 12/12 valid cases non-empty STL; retained negative-width v1 failure; current focused suite `6/6` | same-provider learned direct-vs-IR + broader OOD/external replication |
-| Darcy T2424-0050 | **GREEN — BOUNDED SYNTHETIC MECHANISM** | 20-seed pressure-MAE screen reproduced; current focused suite `6/6` | learned matched-budget operator + OOD/misaligned fields + held-out physical regimes |
-| APEN | **GREEN — REPRODUCED CONTROLLED MIXED RESULT** | Atlas source reproduction and salience-dropout stress preserve tradeoff/reversal | matched learned baseline + naturalistic task + preregistered salience-quality stress |
-| PEN | **BLOCKED_EXTERNAL/SOURCE** | separate evidence package exists, but executable source-tree reproduction not established | recover distinct runnable source + protocol; APEN evidence cannot be inherited |
-| Eigen-JEPA | **GREEN — REPRODUCED REAL-DATA MIXED/NEGATIVE** | raw/log ridge remains stronger on primary covariance-matrix MSE | stronger spectral baselines + preregistered target + multi-dataset replication |
-| NPMS | **GREEN — CONTROLLED REPRODUCED EVIDENCE** | controlled diagnostic plus trained RNN/GRU companion reproduction retained | stronger learned memory controls + natural task + OOD/generalization |
-| T2424-0027 | **GREEN — REPRODUCED + INDEPENDENTLY VERIFIED SYNTHETIC AUDIT** | current focused suite `8/8` plus independent verifier | real multilingual encoder + preregistered probes and controls |
-| T2424-1863 local diffusion | **GREEN — EXACT-HEAD REPRODUCED NEGATIVE SCREEN** | current main records dedicated workflow `31659932936` SUCCESS and canonical CI `31659932951` SUCCESS; frozen >75% gate still failed | real PDE data + learned neural-operator baseline + rollout/compute comparison |
-| T2424-0028 residual events | **GREEN bounded codec mechanics** | frozen deterministic reconstruction sweep reproduced | byte/rate-distortion baseline + noisy/nonlinear/external signals + learned comparison |
-| T2424-0029 PDE transitions | **GREEN bounded analytic screen** | deterministic `3→2→2→1→1` reproduction retained | nonlinear PDE + grid/energy sensitivity + learned representation comparison |
-| Research Atlas V4 | **GREEN local reproducibility/package** | checksummed archive, 39/39 tests, flagship reruns and manuscript rebuilds | independent reproduction + canonical paper tables/figures + external review |
-| Hercules | **YELLOW** | architecture/implementation family only | same-budget Transformer vs proposal vs ablation |
-| Olympus | **YELLOW** | O0 roadmap/runtime | matched-provider O1 monolithic vs decomposition + ablations |
+| LAM-JEPA | **GREEN — REPRODUCIBLE NEGATIVE / PAPER CONVERSION** | ARC full `0.254915±0.012997`; matched supervised `0.266441±0.015460`; planner/target effects unsupported; independent artifact lineage retained | no rescue/test unlock; finish source-accurate method, provenance/figures, owner release metadata, external review |
+| IRIS v0.2 | **GREEN mixed/negative; successor architecture CLOSED/NOT AUTHORIZED** | ~`5.33–5.36%` abrupt gain vs `>=10%`; Huber not cleanly beaten; robust-switch baselines expose false-open tradeoff | baseline-frontier protocol first; seeds `1000–1029` forbidden until a future successor is fully frozen |
+| NeuroCAD v1 | **GREEN — HISTORICAL CONTROLLED SOFTWARE RESULT** | frozen `19/20` vs direct `12/20`; 12/12 valid STL; O018 retained | remains immutable historical evidence |
+| NeuroCAD component ablation v2 | **GREEN — REPRODUCIBLE NEGATIVE MECHANISM RESULT** | M2 `1.00`, B0 `0.60`, B1 direct+validation `1.00`; recovery fraction `1.00`; workflow `31777954088`, artifact `9210587354` | typed-parser causal claim killed on this diagnostic; only new broader benchmark + competent model/program baseline can reopen scientific line |
+| Darcy T2424-0050 | **GREEN — BOUNDED SYNTHETIC MECHANISM** | `0.0658913916→0.0011366559`, 97.8766%; flux error `1.369e-16` | learned matched-budget operator + misaligned/OOD physical regimes |
+| T2424-0025 | **GREEN — precursor / mechanism not unique** | robust effect reproduced including clean-control benefit | causal learned-memory experiment must be separate |
+| NGMT v0.1 | **GREEN — REPRODUCED NEGATIVE** | B3-vs-B2 and B3-vs-B1 frozen gates fail; clean gate passes | new version only; no v0.1 rescue |
+| APEN | **GREEN — CONTROLLED MIXED** | salience benefit weakens/reverses under severe dropout | matched learned + naturalistic salience test |
+| Eigen-JEPA | **GREEN — REAL-DATA MIXED/NEGATIVE** | raw/log ridge stronger on primary covariance MSE | stronger spectral baselines + frozen multi-dataset hierarchy |
+| NPMS | **GREEN — CONTROLLED EVIDENCE** | diagnostic + companion learned evidence reproduce | stronger learned memory + natural/OOD task |
+| T2424-0027 | **GREEN — SYNTHETIC AUDIT** | `8/8` + verifier | real encoder/data required |
+| T2424-0028 / 0029 | **GREEN bounded mechanics / archive active compute** | deterministic retained results | only reactivate under serious new external gates |
+| T2424-1863 | **GREEN — REPRODUCED NEGATIVE / archive active compute** | frozen >75% gate failed | new real-PDE protocol only |
+| Hercules | **YELLOW** | no matched-budget learned result | freeze before training |
+| Olympus | **YELLOW** | O0 only | freeze O1 matched-provider protocol before run |
 
-## Frozen LAM-JEPA anchor
+## Key scientific closures this wave
 
-Scientific conclusion: **superiority, planner contribution and target contribution unsupported**. Locked ARC test is not opened. Retained attempt-3 artifact `9162165932`, SHA-256 `caa898f1ff046a337db9b5ddbffe1b332943a732868e2fd809abeda8ee89c30b`. Current LAM main `88f759ef47263c416f2a667427286a3284d8221c` adds an independent machine-readable attempt-4 audit without changing the scientific conclusion.
+### LAM-JEPA
+The current paper is explicitly a falsification/reproducibility paper. The canonical negative manuscript now includes verified related-work ancestry for JEPA, latent actions, world-model planning and ARC; the legacy positive `paper.tex` is marked pre-falsification and non-authoritative for current evidence.
 
-## Frozen IRIS anchor
+### IRIS
+The current successor search is closed. The remaining defensible question is whether any method improves the false-open / recovery / post-change-error frontier beyond strong simple robust detector+estimator systems. A new named architecture is not justified yet.
 
-The current successor candidate is RED. Reserved confirmatory seeds are untouched. Do not execute them until candidate, baseline family, primary metric, effect statistic, >=10% advancement gate, falsifier and analysis plan are frozen.
-
-## Project 2424 canonical reproduction anchor
-
-Source `bd2a4d3d939b8ce06908d7842ca9e075e0ae2fa7`; workflow `31618609967`; job `94295733785`; artifact `9162627168`; SHA-256 `d9d1816d3cf8eb317f435b180c0ec6137fa64cbfde6b99e7f8b5f2d5f1a0bbae`. This establishes scientific-value agreement. Do not claim latest byte identity.
+### NeuroCAD
+The new frozen component diagnostic found `VALIDATION_DOMINANT`: matched fail-closed validation alone recovered 100% of the current direct-baseline gap on the reused 20-case diagnostic. Therefore the v1 difference is not evidence of a typed-IR/parser causal mechanism on those cases. Software reliability remains valuable; paper priority drops.
 
 ## Paper-factory rule
 
-No candidate is submission-ready merely because a manuscript exists. Promotion requires a precise question, contribution boundary, serious baselines, frozen protocol, retained raw results, uncertainty, ablations, failure analysis, reproducibility, figures generated from evidence, limitations, and claim ledger. Negative results remain publishable research candidates where the question and evidence are strong.
+Every quantitative manuscript statement must trace claim → table/figure → processed result → raw result → config/protocol → code revision. Adverse controls remain visible. No project advances because a draft, CI badge or project name exists.

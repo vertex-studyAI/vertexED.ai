@@ -1,75 +1,56 @@
 # PORTFOLIO_CANONICALIZATION
 
-**Established:** 2026-08-14 12:01 IST  
-**Purpose:** one source of truth per project or claim family; preserve provenance while ending duplicate active work.
+**Updated:** 2026-08-14 after NeuroCAD component falsification  
+**Purpose:** one source of truth per project/claim; preserve provenance while ending duplicate active work.
 
 ## Canonical truth hierarchy
 
 | Scope | Canonical source | Rule |
 |---|---|---|
-| Cross-portfolio status, claims, queues and blockers | `vertex-studyAI/vertexED.ai` default branch | Control documents describe evidence; they do not override project-native artifacts. |
-| LAM-JEPA science and manuscript artifacts | `vertex-studyAI/LAM-JEPA` default branch | Scientific claims trace to frozen protocol + retained artifacts + project-native audit. |
-| VertexED product source | `vertex-studyAI/vertexED.ai` product source tree | Source state and production state remain separate. |
-| VertexED production | served deployment + production monitor evidence | GitHub/Vercel commit status alone cannot certify the served revision. |
-| Project 2424 canonical research source | preserved Project 2424 Git source identified in issue #20, not duplicated control-repo wrappers | Control repo may retain recovery/evidence packages; it is not allowed to inflate project completion counts. |
-| Percy runtime state | existing Percy SQLite/WAL/checkpoints on the real host | GitHub registry specifications are not live queue/process truth. |
-| FinanceMeta / The Bu1LD | their canonical target repos and production systems once authorized | Control-repo overlays remain preparation artifacts until applied and verified on target. |
+| Cross-portfolio status/claims/queues/blockers | `vertex-studyAI/vertexED.ai` default branch | control docs summarize evidence; project-native artifacts win on raw results |
+| LAM-JEPA science/manuscript | `vertex-studyAI/LAM-JEPA` default branch | frozen protocols/artifacts + negative manuscript are authoritative |
+| VertexED product source | `vertex-studyAI/vertexED.ai` source tree | source and production state separate |
+| VertexED production | served deployment + monitor/journey evidence | CI/Vercel status alone cannot certify served revision |
+| Project 2424 research | preserved canonical source + standalone child evidence | registry/count is not completion |
+| Percy runtime | existing Percy SQLite/WAL/checkpoints on real host | GitHub specs are not live queue/process truth |
+| FinanceMeta / The Bu1LD | canonical targets once authorized | control-repo overlays cannot certify target state |
 
 ## Canonical control files
 
-- `MASTER_STATUS.md` — portfolio state summary.
-- `RESEARCH_STATUS.md` — research-only maturity and evidence boundary.
-- `PORTFOLIO_SNAPSHOT.md` — scored current portfolio and tiering.
-- `PORTFOLIO_CANONICALIZATION.md` — identity/overlap decisions.
-- `CLAIM_LEDGER.md` + `CLAIM_LEDGER.json` — claim truth.
-- `EXPERIMENT_LEDGER.md` + `EXPERIMENT_LEDGER.json` — canonical experiment registry. **Do not create a conflicting second `EXPERIMENT_REGISTRY`.**
-- `RESEARCH_FAILURE_ATLAS.md` — preserved failures and negative-result boundaries.
-- `EXTERNAL_VALIDATION_QUEUE.md` — claims Percy cannot prove internally.
-- `SUBMISSION_MATRIX.md` — evidence-to-release/venue fit.
-- `ARCHIVE_AND_KILL_LIST.md` — work that receives no significant active compute.
-- `30_DAY_EXECUTION_PLAN.md` — bounded campaign schedule.
-- `NEXT_TASK_QUEUE.md` + `NEXT_TASK_QUEUE.json` — current execution order.
+`MASTER_STATUS.md`; `RESEARCH_STATUS.md`; `PORTFOLIO_SNAPSHOT.md`; `PORTFOLIO_CANONICALIZATION.md`; `CLAIM_LEDGER.md/json`; `EXPERIMENT_LEDGER.md/json`; `RESEARCH_FAILURE_ATLAS.md`; `EXTERNAL_VALIDATION_QUEUE.md`; `SUBMISSION_MATRIX.md`; `ARCHIVE_AND_KILL_LIST.md`; `30_DAY_EXECUTION_PLAN.md`; `NEXT_TASK_QUEUE.md/json`.
 
-Older files such as `NEXT_48H_QUEUE.md`, `EXECUTION_QUEUE.md`, historical checkpoints and prior closeouts remain provenance/history, not competing live queues.
+Do not create a second experiment registry or live queue. Older `NEXT_48H_QUEUE`, `EXECUTION_QUEUE`, checkpoints and closeouts are history/provenance.
 
-## Semantic overlap graph
+## Semantic overlap / identity decisions
 
-| A | B | Decision | Canonical interpretation |
+| A | B | Decision | Boundary |
 |---|---|---|---|
-| Project 2424 registry | individual 2424 research projects | **PARENT/CHILD** | Registry is a portfolio/foundry container; scientific children stand on their own evidence. |
-| T2424-0037 NLP-to-CAD variants | NeuroCAD | **MERGE / ARCHIVE DUPLICATE LINE** | All serious NLP-to-CAD research is represented by NeuroCAD's typed/validated IR question. Do not run parallel renamed CAD lines. |
-| FI-JEPA variants | Eigen-JEPA / finance representation work | **MERGE / PARENT-CHILD** | Finance-specific implementation becomes a task/application beneath the canonical spectral/representation question; it is not a second flagship. |
-| T2424-0025 robust readouts | NGMT | **DISTINCT BUT RELATED** | 0025 is a robust-readout precursor/diagnostic. NGMT v0.1 is a separately frozen learned B0/B1/B2/B3 experiment. 0025 cannot be relabeled as NGMT success. |
-| APEN | PEN | **DISTINCT** | APEN evidence does not transfer to PEN. PEN remains blocked until standalone executable source/protocol is recovered. |
-| Research Atlas V4 | contained project reruns | **PARENT/REPRODUCIBILITY CONTAINER** | Atlas proves a packaging/reproduction layer, not independent scientific novelty for every child project. |
-| LAM-JEPA v3/v5/repair attempts | LAM-JEPA scientific conclusion | **PARENT/CHILD WITH IMMUTABLE HISTORY** | Software-repair attempts remain provenance; the frozen scientific verdict remains negative/inconclusive. |
-| IRIS v0.2 | any successor | **PARENT/CHILD; NEW VERSION REQUIRED** | A failed development gate cannot be silently moved. A successor needs changed hypothesis, reason, falsifier and frozen protocol. |
-| NGMT v0.1 | any NGMT successor | **PARENT/CHILD; NEW VERSION REQUIRED** | No in-place rescue. |
-| dozens of `agent/*`, `repro-wave/*`, `status/*` branches | canonical default branch | **ARCHIVE HISTORY** | Branch existence is not active work. No new work should target a stale branch unless it contains unique unmerged evidence. |
-| PR #319 Percy Prime closeout | current default branch control docs | **ARCHIVE ONE** | Closed unmerged 2026-08-14 because it was superseded/divergent; retained in Git history for provenance. |
+| Project 2424 registry | child experiments | **PARENT/CHILD** | children earn scientific status independently |
+| NLP-to-CAD variants | NeuroCAD | **MERGE** | one CAD line; no renamed parallel projects |
+| NeuroCAD v1 | component v2 | **VERSIONED EVIDENCE, NOT REPLACEMENT** | v1 `19/20 vs12/20` history remains; v2 shows validation closes current gap and falsifies typed-parser causal interpretation on reused diagnostic |
+| FI-JEPA | Eigen-JEPA/finance representation | **MERGE/PARENT-CHILD** | no second flagship without distinct hypothesis |
+| T2424-0025 | NGMT | **DISTINCT RELATED** | precursor robust readout cannot be called NGMT success |
+| APEN | PEN | **DISTINCT** | APEN evidence does not transfer to PEN |
+| Research Atlas V4 | child reruns | **REPRO CONTAINER** | packaging is not independent novelty |
+| LAM repairs | frozen LAM conclusion | **VERSIONED HISTORY** | engineering repair cannot rescue frozen scientific result |
+| IRIS successor | IRIS v0.2 | **NEW VERSION REQUIRED** | current architecture search closed; baseline frontier first |
+| NGMT successor | NGMT v0.1 | **NEW VERSION REQUIRED** | no v0.1 rescue |
+| stale agent/status/repro branches | default branch | **ARCHIVE HISTORY** | branch existence is not active work |
+| PR #319 | current control main | **ARCHIVED CLOSED** | superseded/divergent; history retained |
 
-## Branch and artifact policy
+## Active compression
 
-1. Do not mass-delete historical branches or artifacts. First establish that no unique evidence, result, patch or provenance exists only there.
-2. New execution branches require one canonical task ID and one declared destination.
-3. A second branch for the same task is allowed only for repair/rebase and must name the superseded branch in its evidence record.
-4. Closed negative experiments remain immutable. New scientific mechanisms use new experiment IDs/versions.
-5. A manuscript, README, CI badge or agent report cannot override a contradictory raw artifact.
+### Tier S — 3
+- LAM-JEPA — negative-result paper/reproducibility closure.
+- IRIS — negative/tradeoff consolidation; no successor architecture yet.
+- Percy — live-state/reliability qualification.
 
-## Project-state compression
+### Tier A
+Darcy; NeuroCAD product + fresh research gate only; T2424-0025; NGMT negative package; APEN; Eigen-JEPA; NPMS; VertexED production qualification.
 
-### Active flagship set
-- LAM-JEPA — paper/release conversion of a negative result.
-- NeuroCAD — controlled positive story under stronger baseline/OOD attack.
-- IRIS — negative-result consolidation; successor only if mechanism/falsifier justify it.
-- Percy — reliability/provenance qualification, not worker-count expansion.
-
-### Secondary active set
-Darcy, T2424-0025, NGMT negative package, APEN, Eigen-JEPA, NPMS, VertexED production qualification.
-
-### No significant compute until a gate changes
-Hercules, Olympus, T2424-0028, T2424-0029, T2424-1863 beyond negative packaging, PEN without source recovery, Text-to-Video without an explicit owner/question, duplicate Project 2424 variants.
+### No significant compute until gate changes
+NeuroCAD parser rescue on old 20 cases; Hercules; Olympus; T2424-0028/0029/1863 beyond packaging; PEN without source; duplicate 2424/CAD variants; Text-to-Video without explicit owner/question.
 
 ## Promotion law
 
-A project is promoted only when the specific missing gate is passed with retained evidence. A project is demoted or archived when a dangerous baseline defeats it, a claimed mechanism is not isolated, the question is duplicative, or external evidence is the only remaining dependency.
+A project is promoted only by retained evidence that passes its exact missing gate. A dangerous baseline that closes the gap triggers demotion or negative-result conversion. No project is promoted to fill an empty Tier-S slot.

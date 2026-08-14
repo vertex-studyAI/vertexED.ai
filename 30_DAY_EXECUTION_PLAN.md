@@ -1,103 +1,61 @@
 # 30_DAY_EXECUTION_PLAN
 
 **Start:** 2026-08-14  
-**Objective:** fewer active projects, stronger evidence, real release/external gates.
+**Objective:** fewer active claims, stronger evidence, real external/release gates.
 
 ## Concurrency ceilings
+- <=3 major scientific experiments;
+- <=2 paper conversions;
+- <=2 product validation programs.
 
-At any time:
-- no more than **3 major scientific experiments**;
-- no more than **2 major paper conversions**;
-- no more than **2 major product validation programs**.
+Current authorization is stricter: **zero major scientific runs until the relevant new protocols are frozen.**
 
-Additional work must be verification, packaging or explicitly blocked/queued—not hidden parallel flagships.
+## WEEK 1 — compression, paper closure, protocol freezes
 
-## WEEK 1 — compression and evidence audits
+1. LAM-JEPA: finish source-accurate method description; independently regenerate tables/figures/provenance; keep locked test closed.
+2. Percy: on real host, snapshot/hash SQLite+WAL/checkpoint and measure actual queue/lease/stale-worker state before any new dispatch.
+3. Project 2424: restore canonical source/dirty overlay; stop using registry scale as scientific status.
+4. IRIS: if still worth the information gain, freeze the simple false-open/recovery/error baseline-frontier protocol. No new architecture.
+5. Darcy: freeze matched learned-operator + misaligned/OOD protocol if canonical source is available.
+6. NeuroCAD: **no parser rescue.** Preserve v2 `VALIDATION_DOMINANT` result; product reliability work may continue separately.
 
-### Research
-1. Freeze the four active flagships in `PORTFOLIO_SNAPSHOT.md`; no new flagship enters without displacing one.
-2. LAM-JEPA: finish internal paper/release gaps that do not require owner/legal decisions; independently recompute tables/figures from retained evidence; lock claim language.
-3. NeuroCAD: freeze one same-provider direct-vs-typed-IR/OOD protocol before new evaluation.
-4. IRIS: finalize negative-result failure taxonomy and decide whether there is a principled successor mechanism. If not, close the active successor line.
-5. Darcy: write matched-budget learned-operator/OOD protocol; do not run until baseline/data/metric are frozen.
+## WEEK 2 — only decisive experiments whose freezes passed
 
-### Infrastructure
-- On the real Percy host, before dispatch: snapshot existing SQLite + WAL, run integrity check, reconcile leases/heartbeats/stale tasks, preserve failures, measure live counters and hash the snapshot.
-- Mark duplicate/stale branches historical; do not mass-delete evidence.
+Potential scientific slots, in order:
+1. Darcy learned/OOD comparison if frozen and source-ready.
+2. IRIS baseline frontier if frozen and development-only.
+3. NeuroCAD fresh-benchmark/model-baseline study only if a genuinely new part-family dataset and competent comparator are frozen. Old 20 cases may not be used as the new generalization gate.
 
-### Products
-- VertexED: use current production incident as the only deployment blocker truth; identify canonical Vercel project and exact expected runtime revision.
-- FinanceMeta/Bu1LD: spend no engineering cycles retrying blocked target mutations; resolve access only.
+Leave unused slots idle if protocols are not ready.
 
-### Exit gate
-- one authoritative portfolio snapshot;
-- one task queue;
-- every Tier S/A claim and experiment has a canonical ledger entry;
-- no confirmatory protocol runs unfrozen.
+## WEEK 3 — manuscripts and external/product validation
 
-## WEEK 2 — dangerous baselines, ablations, reproduction
+### Paper conversions — max 2
+1. LAM-JEPA negative-result package.
+2. IRIS only if the baseline frontier leaves an informative, defensible tradeoff result; otherwise Darcy if its gate survives.
 
-### Major experiment slot 1 — NeuroCAD
-Run only the frozen same-provider direct-vs-IR protocol with broader OOD/compositional prompts. Required outputs: raw prompts/outputs, syntax/geometry/execution/semantic metrics, error taxonomy, exact provider/model/settings and cost/runtime.
+NeuroCAD is not a top paper conversion after the component falsification. It may become an engineering/tool report or re-earn research priority with fresh evidence.
 
-### Major experiment slot 2 — Darcy
-If protocol passes review, run matched learned operator + reduced/interpolation controls under held-out/misaligned physical regimes. Otherwise leave slot idle rather than improvising.
+### Product validation — max 2
+1. VertexED: exact served revision + authenticated golden journey, then real activation/return validation.
+2. NeuroCAD **or** one accessible FinanceMeta/Bu1LD target: validate one real user job rather than feature breadth.
 
-### Major experiment slot 3 — IRIS successor or memory diagnostic
-Use only if a new IRIS mechanism is scientifically motivated and frozen. Otherwise prefer a preregistered T2424-0025/NGMT follow-up that tests one causal mechanism, or leave capacity unused.
+## WEEK 4 — release/submission candidates and rescore
 
-### Reproduction
-- independent LAM metric/table/figure recomputation;
-- independent NeuroCAD current-benchmark reproduction before interpreting new OOD data;
-- one fresh Project 2424 canonical-source gate after local repository recovery.
+1. LAM: immutable review/release candidate only after owner-controlled metadata + independent review; otherwise stay externally blocked.
+2. Release/retain high-quality negative packages without inflating them into superiority papers.
+3. Percy: real-host qualification report from crash/restart/provider/lease/soak evidence.
+4. Re-score. Tier S remains <=5 and need not be filled; current target is 2–3 true flagships.
+5. Archive any line whose dangerous baseline closes the claimed gap or whose remaining information gain is low.
 
-### Stop rules
-- dangerous baseline wins materially → downgrade/negative package, do not tune around it;
-- mechanism ablation has no effect → remove mechanism claim;
-- protocol/data identity cannot be established → block rather than substitute.
+## Daily loop
+Recover → verify → prioritize → execute smallest decisive task → independent verify → update artifacts/hashes → update claims → kill/promote → dependency-aware queue.
 
-## WEEK 3 — manuscript conversion and external/product validation
-
-### Paper conversion cap: 2
-1. LAM-JEPA negative-result manuscript to immutable review package.
-2. NeuroCAD **only if** Week 2 survives stronger baselines; otherwise convert IRIS negative/tradeoff package instead.
-
-Each package requires question, novelty boundary, raw-to-figure provenance, uncertainty, failure analysis, limitations and exact reproduce commands.
-
-### External validation
-Send the top immutable packages from `EXTERNAL_VALIDATION_QUEUE.md`; request reproduction or falsifying review, not endorsements.
-
-### Product validation cap: 2
-1. VertexED: exact served-revision proof + authenticated golden journey; then run a two-week user-value validation focused on activation to one trustworthy saved/retrieved study artifact.
-2. FinanceMeta **or** Bu1LD, not both unless target access is restored and a real deployment journey is ready. Choose whichever has the clearer reachable validation gate.
-
-## WEEK 4 — release/submission candidates and next gates
-
-1. LAM-JEPA: if license/citation/authorship and independent review are resolved, create an immutable release/preprint candidate. Otherwise leave package `BLOCKED_EXTERNAL`, not “published.”
-2. NeuroCAD or IRIS: promote only if Week 2/3 gates justify it; otherwise publish internal technical evidence/failure package, not a prestige-target fiction.
-3. Release a portfolio failure/reproducibility bundle containing negative-result boundaries and reproduction commands where legally appropriate.
-4. Percy: produce a real-host reliability qualification report from crash/restart/provider/lease/soak evidence. If it fails, prioritize reliability fixes over more agents.
-5. Re-score the portfolio. Maximum 5 Tier S; ideally 3–4. Archive projects whose next information gain is low.
-
-## Daily operating loop
-
-1. Recover canonical state.
-2. Verify what changed against artifacts.
-3. Rank by information gain × closure probability ÷ cost.
-4. Execute smallest decisive task.
-5. Independently verify.
-6. Update raw/processed evidence and hashes.
-7. Update claim/experiment ledgers.
-8. Promote, falsify, block or archive.
-9. Write the next dependency-aware queue.
-
-## 30-day success criteria
-
-- active flagship count stays bounded;
-- at least one immutable negative-result paper package is externally reviewable;
-- NeuroCAD either survives a dangerous baseline/OOD attack or is cleanly downgraded;
-- IRIS successor is either rigorously frozen or killed;
-- Percy live-state counters/recovery behavior are measured on the real host;
-- VertexED production state is decided by exact served revision + real journey, not CI badges;
-- no failed scientific result is retuned in place;
-- no Project 2424 count is used as a proxy for research completion.
+## 30-day success conditions
+- LAM has an immutable, defensible negative paper package;
+- IRIS is either a strong negative/tradeoff study or cleanly closed;
+- NeuroCAD software value is separated from the falsified typed-parser causal story;
+- Percy real-host state/recovery is measured rather than inferred;
+- VertexED production truth is decided by served revision + real journey, not commit status;
+- Project 2424 remains compressed to standalone evidence-backed children;
+- no failed result is retuned in place.
