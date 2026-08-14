@@ -1,0 +1,211 @@
+{
+  "schema_version": "1.0",
+  "snapshot_date": "2026-08-14",
+  "truth_rule": "UNKNOWN fields are not inferred. Historical identifiers are preserved separately from registry IDs.",
+  "experiments": [
+    {
+      "registry_id": "EXP-LAM-ARC-FROZEN-AUDIT",
+      "project": "LAM-JEPA",
+      "historical_id": "workflow-31203337502-attempt4",
+      "protocol_state": "FROZEN",
+      "result_state": "REPRODUCED_NEGATIVE_OR_INCONCLUSIVE",
+      "scientific_head_sha": "760aa7f9a73a177d5ff4ba7eb470f7e68ace63cb",
+      "audit_repo_head_sha": "88f759ef47263c416f2a667427286a3284d8221c",
+      "workflow_run": 31203337502,
+      "artifact_id": 9163503934,
+      "artifact_sha256": "14c315cd64b2b96d48af4b865bca700a101ea66842a78f35382a5f408805b10a",
+      "dataset": "AI2 ARC-Challenge",
+      "dataset_version": "UNKNOWN",
+      "seeds": [1, 2, 3, 4, 5],
+      "locked_test_used": false,
+      "primary_metrics": {
+        "full_accuracy_mean": 0.2549152493476868,
+        "full_accuracy_sample_sd": 0.01299680055624953,
+        "no_planner_accuracy_mean": 0.25016948878765105,
+        "no_target_accuracy_mean": 0.26169490814208984
+      },
+      "verification": "independent raw recomputation; stored aggregate exact; strict verifier retained",
+      "reproduction_command": "UNKNOWN_IN_RECOVERED_LEDGER",
+      "next_gate": "paper provenance/figures/related-work/external review; no ARC rescue"
+    },
+    {
+      "registry_id": "EXP-IRIS-COMMON-ADAPTATION-V1",
+      "project": "IRIS",
+      "historical_id": "EXP-DEV-20260813-IRIS-COMMON-ADAPTATION-HARNESS-V1",
+      "protocol_state": "FROZEN_DEVELOPMENT",
+      "result_state": "REPRODUCED_NEGATIVE_DEVELOPMENT_GATE",
+      "protocol_sha256": "0cdf22c97ddb9459182175e7c17bf51906088f5d3a7ec10131edfa650d2edbdd",
+      "raw_sha256": "5f1bfb8cfc8114583e0e55d491d2776522cc9d1e4451289ef260c502e27c501e",
+      "summary_sha256": "62355d6aa7eff081e3a940bae65a6ec71a55f789f9e48f398e1031439dc34c1b",
+      "bundle_sha256": "5643b59e9272099e54f04491aa63906d0d186a1a2c525a574f960008e5f19b90",
+      "development_seeds": "0-9",
+      "confirmatory_seeds": "1000-1029",
+      "confirmatory_seeds_accessed": false,
+      "primary_metrics": {
+        "pabim_adverse_mean_mse": 0.05970593860459976,
+        "best_fixed_control_adverse_mean_mse": 0.03350170353331791,
+        "pabim_regime_twmse25": 0.2157309642503522,
+        "huber_regime_twmse25": 0.1626331705719848,
+        "pabim_recovery_median": 24.0,
+        "huber_recovery_median": 18.5
+      },
+      "verification": "attempt-1 raw/summary retained; minimal numpy.bool JSON repair; raw/summary byte-identical after repair",
+      "reproduction_command": "UNKNOWN_IN_RECOVERED_LEDGER",
+      "next_gate": "stop current candidate; negative-result conversion or separately motivated/frozen successor"
+    },
+    {
+      "registry_id": "EXP-APEN-SALIENCE-SPECIFICITY-V1",
+      "project": "APEN",
+      "historical_id": "APEN-SALIENCE-SPECIFICITY-V1-20260813",
+      "protocol_state": "FROZEN_PROSPECTIVE_SYNTHETIC_ABLATION",
+      "result_state": "REPRODUCED_BOUNDED_POSITIVE_MECHANISM_ABLATION",
+      "protocol_sha256": "e9f523be2f54d40d34d03dafeb36d810500e40179aa907689353229ad72ef7ef",
+      "raw_sha256": "8f0e969edd8da0e8e22188e26ff0266275b04b98fc6d9cd23e82766c7997993f",
+      "summary_sha256": "d56e6ec3ea1b6dfc99377f8406f72f78ef5ae34e21d5f6b116204d9bc75d4a25",
+      "verification_sha256": "1473f070dd8903e1c4102eb159ab1e375a26c77c7829e8f78a1214e8a7ac72c5",
+      "bundle_sha256": "2c3003bb629ccb59aab572b172a2d7ffd0f6e9608630458fada9df661d6e66d7",
+      "paired_cells": 16,
+      "primary_metrics": {
+        "apen_true_rare_mse": 17.131745635925725,
+        "uniform_rare_mse": 18.41245032591212,
+        "true_improvement_fraction": 0.06955645051674836,
+        "gain_lost_shuffled": 1.0076450977555735,
+        "gain_lost_random": 1.2098759923686688
+      },
+      "claim_boundary": "correct temporal salience alignment matters in the existing synthetic ridge-readout task; no architecture-superiority claim",
+      "verification": "raw/summary/verifier exact replay reported",
+      "reproduction_command": "UNKNOWN_IN_RECOVERED_LEDGER",
+      "next_gate": "matched learned recurrent/attention control and naturalistic salience-quality stress"
+    },
+    {
+      "registry_id": "EXP-EIGEN-JEPA-CLASSICAL-BASELINES-V1",
+      "project": "Eigen-JEPA",
+      "historical_id": "EIGEN-JEPA-CLASSICAL-BASELINES-V1-20260813",
+      "protocol_state": "FROZEN_PRIMARY_METRIC",
+      "result_state": "REPRODUCED_BASELINE_DOMINATED_OR_NON_SUPERIOR",
+      "protocol_sha256": "317fcedafa090ae3d8b8f33acb515ea58a1a75dfd287b0815e387e163d682c20",
+      "raw_sha256": "33e3bab318138ae855ed8fe8822e9125056160cc6f9b08a58e466aefb8bb2372",
+      "summary_sha256": "ff209bf98b468bcd396deace0d47471f24b5a36d4e1adb0c27879425396492db",
+      "verification_sha256": "98a4b9ae5baae03243791024486c21bf02852503909fc6158d270142dfb45fe7",
+      "bundle_sha256": "cfe6de9965e3f89bdc3f3451023c1e7606093c4fddc7c4e92d7e6656148e6484",
+      "test_samples": 111,
+      "primary_metrics": {
+        "eigen_jepa_matrix_mse": 5.831822564700928e-09,
+        "spectral_eigval_ridge_matrix_mse": 5.499228808679524e-09
+      },
+      "methods_with_lower_mean_primary_mse": ["spectral_eigval_ridge", "raw_ridge", "log_ridge", "raw_pca_ridge"],
+      "provenance_defect": "current parser yields 14895 daily rows while older specification says 14899; dataset/parser not changed to fit prose",
+      "verification": "exact raw/summary/verifier replay reported",
+      "reproduction_command": "UNKNOWN_IN_RECOVERED_LEDGER",
+      "next_gate": "reconcile row-count provenance; negative-result conversion; any multi-dataset extension is separately frozen"
+    },
+    {
+      "registry_id": "EXP-NPMS-INVARIANT-PARAMETER-CONTROL-V1",
+      "project": "NPMS",
+      "historical_id": "NPMS-INVARIANT-PARAMETER-CONTROL-V1-20260813",
+      "protocol_state": "FROZEN_CONTROL",
+      "result_state": "REPRODUCED_PARAMETER_CONFOUNDED_OR_NON_UNIQUE",
+      "protocol_sha256": "c983e33eb29c5bf0ae7c0fd6e482d5b24bc1e88dd68b3afc417cf2bc42bd1954",
+      "parameter_features_sha256": "98bae76c483acdab0e6feb2c6a3d8d785db824cede8f3a11fded7d331438a413",
+      "predictions_sha256": "2c2810f6024a2265906071d5ca1661fc4e93b55113181a76afba23ea5cb1d10c",
+      "verification_sha256": "e81ed09ba23123b36d6d4c173ea83a2899fc1f84c48433f3e930346bbb9cfc63",
+      "bundle_sha256": "ad765e342e524c17eb8e93ba1c4098ee07c85f009d94a23151ea263b335e29c2",
+      "evaluations": 112,
+      "primary_metrics": {
+        "npms_regime_accuracy": 0.9285714285714286,
+        "invariant_parameter_accuracy": 0.8928571428571429,
+        "difference_percentage_points": 3.57142857142857
+      },
+      "claim_boundary": "coordinate invariance remains valid; reservoir regime-classification uniqueness is weakened",
+      "reproduction_command": "UNKNOWN_IN_RECOVERED_LEDGER",
+      "next_gate": "natural memory task or causal intervention beyond invariant-parameter summaries"
+    },
+    {
+      "registry_id": "EXP-NGMT-V01-B0-B3",
+      "project": "NGMT",
+      "historical_id": null,
+      "protocol_state": "FROZEN_EQUAL_BUDGET",
+      "result_state": "REPRODUCED_NEGATIVE_OR_INCONCLUSIVE",
+      "parameters_per_arm": 6049,
+      "paired_seeds": 3,
+      "arms": ["B0", "B1", "B2", "B3"],
+      "primary_metrics": {
+        "b3_vs_b2_adverse_improvement_percent": 0.4946,
+        "b3_vs_b2_required_percent": 5.0,
+        "b3_vs_b1_adverse_improvement_percent": 0.4393,
+        "b3_vs_b1_required_percent": 3.0,
+        "clean_regression_gate": "PASS"
+      },
+      "artifact_sha256": "UNKNOWN_IN_RECOVERED_LEDGER",
+      "reproduction_command": "UNKNOWN_IN_RECOVERED_LEDGER",
+      "next_gate": "negative-result package; successor requires new version/protocol"
+    },
+    {
+      "registry_id": "EXP-NEUROCAD-V1-CONTROLLED",
+      "project": "NeuroCAD",
+      "historical_id": null,
+      "protocol_state": "FROZEN_V1_CONTROLLED_HELD_OUT_TEMPLATE",
+      "result_state": "REPRODUCED_BOUNDED_POSITIVE_WITH_RETAINED_FAILURE",
+      "primary_metrics": {
+        "structured_success": "19/20",
+        "direct_success": "12/20",
+        "valid_nonempty_stl": "12/12"
+      },
+      "retained_failure": "one negative-width invalid case accepted in frozen v1",
+      "artifact_sha256": "UNKNOWN_IN_RECOVERED_LEDGER",
+      "reproduction_command": "UNKNOWN_IN_RECOVERED_LEDGER",
+      "next_gate": "same-provider learned direct-vs-IR benchmark plus broader OOD/error taxonomy"
+    },
+    {
+      "registry_id": "EXP-P2424-CANONICAL-REPRO-20260813",
+      "project": "Project 2424",
+      "historical_id": "workflow-31618609967",
+      "protocol_state": "FROZEN_SOURCE_REPRODUCTION",
+      "result_state": "SCIENTIFIC_VALUE_AGREEMENT_NOT_LATEST_BYTE_IDENTITY",
+      "source_sha": "bd2a4d3d939b8ce06908d7842ca9e075e0ae2fa7",
+      "workflow_run": 31618609967,
+      "job_id": 94295733785,
+      "artifact_id": 9162627168,
+      "artifact_sha256": "d9d1816d3cf8eb317f435b180c0ec6137fa64cbfde6b99e7f8b5f2d5f1a0bbae",
+      "reproduction_command": "UNKNOWN_IN_RECOVERED_LEDGER",
+      "next_gate": "canonical source recovery and child-project consolidation"
+    },
+    {
+      "registry_id": "EXP-T2424-1863-LOCAL-DIFFUSION",
+      "project": "T2424-1863",
+      "historical_id": "workflow-31659932936",
+      "protocol_state": "FROZEN_GT75_GATE",
+      "result_state": "REPRODUCED_NEGATIVE_SCREEN",
+      "workflow_run": 31659932936,
+      "canonical_ci_run": 31659932951,
+      "primary_gate": ">75% improvement",
+      "gate_result": "FAIL",
+      "artifact_sha256": "UNKNOWN_IN_RECOVERED_LEDGER",
+      "reproduction_command": "UNKNOWN_IN_RECOVERED_LEDGER",
+      "next_gate": "no in-place rescue; real-PDE learned-operator successor only under a new frozen protocol"
+    },
+    {
+      "registry_id": "EXP-DARCY-T2424-0050-PRESSURE-MAE",
+      "project": "Darcy T2424-0050",
+      "historical_id": null,
+      "protocol_state": "BOUNDED_SYNTHETIC_SCREEN",
+      "result_state": "REPRODUCED_BOUNDED_MECHANISM",
+      "seeds": 20,
+      "primary_metric": "pressure MAE",
+      "artifact_sha256": "UNKNOWN_IN_RECOVERED_LEDGER",
+      "reproduction_command": "UNKNOWN_IN_RECOVERED_LEDGER",
+      "next_gate": "learned matched-budget operator baseline plus OOD/misaligned/held-out physical regimes"
+    },
+    {
+      "registry_id": "EXP-T2424-0027-SYNTHETIC-AUDIT",
+      "project": "T2424-0027",
+      "historical_id": null,
+      "protocol_state": "SYNTHETIC_AUDIT",
+      "result_state": "REPRODUCED_AND_INDEPENDENTLY_VERIFIED_SYNTHETIC",
+      "focused_suite": "8/8",
+      "artifact_sha256": "UNKNOWN_IN_RECOVERED_LEDGER",
+      "reproduction_command": "UNKNOWN_IN_RECOVERED_LEDGER",
+      "next_gate": "real multilingual encoder with centering/random-group/random-subspace controls"
+    }
+  ]
+}
