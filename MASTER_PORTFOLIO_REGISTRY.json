@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "as_of": "2026-08-14T22:02:00+05:30",
+  "authority": "Evidence-bounded discovered registry. Missing local/PRO-BLADE identities are not fabricated and remain blocked/unknown.",
+  "coverage": {
+    "connected_control_repo": "VERIFIED",
+    "percy_live_mac_state": "BLOCKED_EXTERNAL_MAC",
+    "project_2424_full_2424_identity_map": "BLOCKED_EXTERNAL_SOURCE",
+    "finance_meta_source": "PARTIAL_VERIFIED",
+    "finance_meta_production": "BLOCKED_EXTERNAL_RUNTIME",
+    "bu1ld_source": "VERIFIED",
+    "bu1ld_production": "BLOCKED_DEPLOYMENT_VERIFICATION",
+    "vertexed_supabase": "PARTIAL_VERIFIED"
+  },
+  "projects": [
+    {"id":"portfolio-control","title":"Portfolio control / VertexED control repo","repo":"vertex-studyAI/vertexED.ai","state":"VERIFIED","disposition":"B","next_gate":"review/merge this isolated convergence branch after CI"},
+    {"id":"percy","title":"Percy / Percy Prime","state":"BLOCKED","disposition":"F","blocker":"live Mac SQLite/WAL/process state unavailable","next_gate":"non-destructive snapshot/integrity/recount"},
+    {"id":"project-2424","title":"Project 2424 umbrella","state":"PARTIAL","disposition":"F","blocker":"canonical local/overlay source unavailable","next_gate":"recover ancestry/overlay; then canonicalize all 2424 IDs"},
+    {"id":"LAM-JEPA","title":"LAM-JEPA","state":"VERIFIED","result":"NEGATIVE","disposition":"A","next_gate":"owner release metadata + independent external reproduction/review"},
+    {"id":"IRIS-v0.2","title":"IRIS v0.2","state":"VERIFIED","result":"MIXED_NEGATIVE","disposition":"A","next_gate":"recover exact retained source/raw data for frozen frontier protocol"},
+    {"id":"NeuroCAD-v1","title":"NeuroCAD v1","state":"VERIFIED","disposition":"B","next_gate":"preserve historical benchmark; no causal overclaim"},
+    {"id":"NeuroCAD-component-v2","title":"NeuroCAD component ablation v2","state":"VERIFIED","result":"NEGATIVE_MECHANISM","disposition":"D","next_gate":"fresh broader benchmark only if a new claim is proposed"},
+    {"id":"NGMT-v0.1","title":"Non-Gaussian Memory Transformer v0.1","state":"VERIFIED","result":"NEGATIVE","disposition":"D","next_gate":"preserve; no in-place rescue"},
+    {"id":"Eigen-JEPA","title":"Eigen-JEPA","state":"VERIFIED","result":"MIXED_NEGATIVE","disposition":"D","next_gate":"new versioned protocol only for new claim"},
+    {"id":"APEN","title":"APEN","state":"VERIFIED","result":"MIXED","disposition":"C","next_gate":"matched learned + naturalistic salience controls"},
+    {"id":"NPMS","title":"NPMS","state":"PARTIAL","disposition":"F","blocker":"original source/config/checkpoint identity","next_gate":"recover or issue SOURCE_UNRECOVERED"},
+    {"id":"T2424-0025","title":"Non-Gaussian Memory Transformer precursor","state":"VERIFIED_BOUNDED","disposition":"A","next_gate":"keep precursor bounded; separate any learned mechanism claim"},
+    {"id":"T2424-0050","title":"Darcy Latent Operator","state":"PARTIAL","disposition":"C","protocol":"FROZEN","executed":false,"next_gate":"confirm canonical source + authorization; exact frozen execution only"},
+    {"id":"T2424-1863","title":"Resource-Bounded Local Operator for Scientific Forecasting","state":"FROZEN_NEGATIVE_OR_MIXED","disposition":"D","next_gate":"preserve; no in-place retune"},
+    {"id":"JEPA-TS","title":"JEPA × Time-Series","state":"DESIGN_ONLY","disposition":"C","next_gate":"machine-readable cheap synthetic freeze; no run authorized"},
+    {"id":"VertexED","title":"VertexED product family","repo":"vertex-studyAI/vertexED.ai","state":"PARTIAL","disposition":"B","source":"VERIFIED","production":"BLOCKED_DEPLOYMENT_IDENTITY","next_gate":"served revision + authenticated golden journey"},
+    {"id":"FinanceMeta","title":"FinanceMeta / Finance Matters","repo":"build-the-future-11/finance4all-global-reach","state":"PARTIAL","disposition":"B","source_recovery":"PRESERVED_NOT_MERGE_READY","production":"BLOCKED_EXTERNAL_RUNTIME","next_gate":"owner-authorized exact-head recovery + CI/security qualification"},
+    {"id":"The-Bu1LD","title":"The Bu1LD","repo":"ryangomez010/bu1ld-landing","state":"PARTIAL","disposition":"B","source":"VERIFIED_CI_PASS","production":"BLOCKED_DEPLOYMENT_VERIFICATION","next_gate":"fix release check, exact-SHA deploy proof, role journeys"},
+    {"id":"Hercules-Olympus","title":"Hercules / Olympus model ecosystem","state":"ARCHIVED_ACTIVE_COMPUTE","disposition":"E","next_gate":"reactivate only behind frozen matched evaluation protocol"},
+    {"id":"Notes-to-Video-V6","title":"VertexED Notes-to-Video V6 child subsystem","state":"VERIFIED_LOCAL_ENGINEERING","disposition":"B","next_gate":"remain child-scoped unless parent-user evidence justifies productionization"}
+  ],
+  "project_2424_known_identity_note": "The user-supplied list of known T2424 IDs is an inventory hint, not sufficient evidence of source existence or completion. Unknown IDs and source states remain UNKNOWN until canonical source recovery.",
+  "no_fake_completion": true
+}
