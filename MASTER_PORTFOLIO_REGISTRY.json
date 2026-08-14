@@ -1,33 +1,36 @@
 {
   "schema_version": 1,
-  "observed_at": "2026-08-14T22:40:00+05:30",
-  "state": "PARTIAL_CANONICAL_REGISTRY_SOURCE_GATED",
+  "observed_at": "2026-08-14T22:50:00+05:30",
+  "state": "PARTIAL_CANONICAL_REGISTRY_IDENTITY_MAP_GATED",
   "authority": {
     "human_disposition_table": "PORTFOLIO_SNAPSHOT_20260814.md",
     "same_day_status": ["MASTER_STATUS.md", "RESEARCH_STATUS.md", "PRODUCT_STATUS.md", "BLOCKERS.md"],
     "claim_state": ["CLAIM_LEDGER.md", "CLAIM_LEDGER.json"],
     "experiment_state": ["EXPERIMENT_LEDGER.md", "EXPERIMENT_LEDGER.json"],
-    "rule": "This JSON is a machine-readable companion, not a competing human truth table. Project-native raw artifacts win on scientific results."
+    "rule": "Machine-readable companion only; project-native raw artifacts win on scientific results."
   },
   "coverage": {
     "resolved_snapshot_entries": 23,
     "project_2424_contract_count": 2424,
-    "project_2424_full_source_map": "BLOCKED_EXTERNAL_SOURCE",
+    "project_2424_historical_wave001_source_backed_packages": 24,
+    "project_2424_historical_wave001_without_source": 2400,
+    "project_2424_historical_independent_reproductions": 0,
+    "project_2424_cross_generation_identity_map": "UNRESOLVED_COLLISION",
     "percy_live_host_state": "BLOCKED_EXTERNAL_MAC",
     "all_discoverable_repositories_reconciled": false,
     "completion_claim": false
   },
   "projects": [
     {"id":"lam-jepa","title":"LAM-JEPA","family":"research","disposition":"A","tier":"S","evidence":"VERIFIED_NEGATIVE_INTERNAL_REPRODUCTION","source":"vertex-studyAI/LAM-JEPA","blocker":"owner release metadata plus independent external reproduction/review"},
-    {"id":"iris-v0.2","title":"IRIS v0.2","family":"research","disposition":"D","tier":"S","evidence":"PARTIALLY_RECOVERED_NEGATIVE_MIXED","source":"retained checksum-matching control packages","blocker":"exact canonical development trajectories and exact frozen adaptation-metric provenance"},
-    {"id":"percy","title":"Percy","family":"orchestration","disposition":"B","tier":"S","evidence":"BLOCKED_EXTERNAL_MAC","source":"existing Mac SQLite/WAL/checkpoint state","blocker":"non-destructive live-host integrity/process/lease/recount qualification"},
-    {"id":"neurocad","title":"NeuroCAD / T2424-0037","family":"cad_product_research","disposition":"B","tier":"A","evidence":"SOFTWARE_USEFUL_TYPED_PARSER_CAUSAL_MECHANISM_FALSIFIED","blocker":"release reliability gate; fresh broader benchmark for any new science"},
-    {"id":"project-2424","title":"Project 2424 umbrella","family":"research_registry","disposition":"B","tier":"A","evidence":"PARTIAL_CHILD_EVIDENCE_FULL_SOURCE_BLOCKED","blocker":"recover preserved canonical source ancestry and dirty overlay"},
-    {"id":"t2424-0050","title":"Darcy Latent Operator","family":"project2424_research","disposition":"C","tier":"A","evidence":"PARENT_SYNTHETIC_REPRODUCED_V2_PROTOCOL_FROZEN_NOT_RUN","blocker":"finish all pre-outcome comparator/environment/hardware/interpretation locks before any v2 run","inflight":{"pr":376,"scope":"B2 PCA+ridge pre-outcome baseline only","training_authorized":false}},
+    {"id":"iris-v0.2","title":"IRIS v0.2","family":"research","disposition":"D","tier":"S","evidence":"PARTIALLY_RECOVERED_NEGATIVE_MIXED","blocker":"exact development trajectories and frozen adaptation-metric provenance"},
+    {"id":"percy","title":"Percy","family":"orchestration","disposition":"B","tier":"S","evidence":"BLOCKED_EXTERNAL_MAC","blocker":"non-destructive live-host integrity/process/lease/recount qualification"},
+    {"id":"neurocad","title":"NeuroCAD / T2424-0037","family":"cad_product_research","disposition":"B","tier":"A","evidence":"SOFTWARE_USEFUL_TYPED_PARSER_CAUSAL_MECHANISM_FALSIFIED","blocker":"release reliability; fresh broader benchmark for any new science"},
+    {"id":"project-2424","title":"Project 2424 umbrella","family":"research_registry","disposition":"B","tier":"A","evidence":"HISTORICAL_WAVE001_BASE_RECOVERED_IDENTITY_GENERATIONS_COLLIDE","source_evidence":"portfolio/project2424/PROJECT_2424_SOURCE_RECOVERY_20260814.md","historical_head":"ff609f335f91297357b430a2531633fe111cd5a9","historical_bundle_sha256":"4c685af70d84052c026602ff7336a522c741d91fb480038e980c21f0bbc63ece","blocker":"recover later overlay and explicit cross-generation P2424/Percy/T2424 provenance map; never suffix-overwrite identities"},
+    {"id":"t2424-0050","title":"Darcy Latent Operator","family":"project2424_research","disposition":"C","tier":"A","evidence":"PARENT_SYNTHETIC_REPRODUCED_V2_PROTOCOL_FROZEN_B2_UNIT_VERIFIED_NOT_RUN","blocker":"remaining interpretation/environment/hardware/B3/B4 locks before any v2 run","inflight":{"pr":376,"b2_blob":"6e10c6fbecf0cf5ce78ed2b5c61e3fa97da47541","verification_run":31822987002,"training_authorized":false}},
     {"id":"t2424-0025","title":"T2424-0025 robust-readout precursor","family":"project2424_research","disposition":"C","tier":"A","evidence":"BOUNDED_EFFECT_MECHANISM_NOT_UNIQUE","blocker":"separately frozen learned-memory causal control"},
     {"id":"ngmt-v0.1","title":"NGMT v0.1","family":"research","disposition":"D","tier":"A","evidence":"VERIFIED_NEGATIVE_FROZEN","blocker":null},
     {"id":"apen","title":"APEN","family":"research","disposition":"C","tier":"A","evidence":"REPRODUCED_MIXED","blocker":"matched learned and naturalistic controls"},
-    {"id":"eigen-jepa","title":"Eigen-JEPA","family":"research","disposition":"D","tier":"A","evidence":"REPRODUCED_MIXED_NEGATIVE","source":"Finance-Meta-Research/Eigen-JEPA","blocker":"no superiority claim; any successor requires a new frozen protocol"},
+    {"id":"eigen-jepa","title":"Eigen-JEPA","family":"research","disposition":"D","tier":"A","evidence":"REPRODUCED_MIXED_NEGATIVE","blocker":"no superiority claim; any successor requires a new frozen protocol"},
     {"id":"npms","title":"NPMS","family":"research","disposition":"F","tier":"A","evidence":"BOUNDED_PACKAGE_SOURCE_IDENTITY_INCOMPLETE","blocker":"recover exact original source/config/checkpoint"},
     {"id":"vertexed","title":"VertexED","family":"product","disposition":"F","tier":"A","evidence":"SOURCE_STRONG_PRODUCTION_IDENTITY_UNVERIFIED","source":"vertex-studyAI/vertexED.ai","blocker":"exact served revision/deployment ID plus authenticated disposable-account journey"},
     {"id":"t2424-0027","title":"T2424-0027","family":"project2424_research","disposition":"C","tier":"B","evidence":"REPRODUCED_SYNTHETIC_ONLY","blocker":"preregistered real-encoder probes and controls"},
@@ -38,23 +41,9 @@
     {"id":"t2424-1863","title":"Resource-Bounded Local Operator / T2424-1863","family":"project2424_research","disposition":"D","tier":"B","evidence":"FROZEN_PROMOTION_GATE_FAILED","blocker":null},
     {"id":"hercules","title":"Hercules","family":"model_architecture","disposition":"E","tier":"B","evidence":"NO_DECISIVE_MATCHED_LEARNED_EXPERIMENT","blocker":"canonical mechanism plus frozen matched-budget protocol if reactivated"},
     {"id":"olympus","title":"Olympus","family":"agent_model_ecosystem","disposition":"E","tier":"B","evidence":"O0_RUNTIME_SPEC_ONLY","blocker":"frozen matched-provider O1 protocol if reactivated"},
-    {"id":"financemeta","title":"FinanceMeta","family":"product_organization","disposition":"F","tier":"B","evidence":"EXISTING_41_COMMIT_HARDENING_BRANCH_RECOVERED_TARGET_WRITE_AND_PRODUCTION_BLOCKED","source":"build-the-future-11/finance4all-global-reach","source_main":"fbdd503223edc5b1780509720391083f485a4a85","candidate_branch":"cursor/membership-security-supabase-fix@6dcc03710bb6adf9b4b722b308c40a0720bea61f","blocker":"owner-authorized target review/merge plus real Supabase/deployment journey"},
-    {"id":"the-bu1ld","title":"The Bu1LD","family":"product_organization","disposition":"F","tier":"B","evidence":"CANONICAL_LANDING_READABLE_TARGET_RUNTIME_BLOCKED","source":"ryangomez010/bu1ld-landing@daa80c1124b2a6d7d09b7669e04d29e50cffcbbe","blocker":"target GitHub write plus production Supabase/Cloudflare/disposable-role access"},
+    {"id":"financemeta","title":"FinanceMeta","family":"product_organization","disposition":"F","tier":"B","evidence":"EXISTING_41_COMMIT_HARDENING_BRANCH_RECOVERED_TARGET_WRITE_AND_PRODUCTION_BLOCKED","source":"build-the-future-11/finance4all-global-reach","source_main":"fbdd503223edc5b1780509720391083f485a4a85","candidate_branch":"cursor/membership-security-supabase-fix@6dcc03710bb6adf9b4b722b308c40a0720bea61f","blocker":"owner-authorized review/merge plus real Supabase/deployment journey"},
+    {"id":"the-bu1ld","title":"The Bu1LD","family":"product_organization","disposition":"F","tier":"B","evidence":"CANONICAL_LANDING_READABLE_TARGET_RUNTIME_BLOCKED","source":"ryangomez010/bu1ld-landing@daa80c1124b2a6d7d09b7669e04d29e50cffcbbe","blocker":"target write plus production Supabase/Cloudflare/disposable roles"},
     {"id":"text-to-video","title":"VertexED Notes-to-Video / Text-to-Video","family":"vertexed_child_subsystem","disposition":"E","tier":"B","evidence":"LOCAL_PROTOTYPE_NOT_PRODUCTION","source":"vertex-studyAI/Text-To-Video","blocker":null}
   ],
-  "unreconciled_repository_candidates": [
-    "build-the-future-11/FinanceMeta-Global",
-    "build-the-future-11/FinanceMeta-Landing",
-    "build-the-future-11/IRIS",
-    "build-the-future-11/Iy-ERN",
-    "build-the-future-11/RIS",
-    "Finance-Meta-Research/EigenFinance",
-    "Finance-Meta-Research/FI-JEPA",
-    "THE-BU1LD/EmailFinder",
-    "THE-BU1LD/EPU",
-    "THE-BU1LD/Fabric-Induced-Memory",
-    "THE-BU1LD/GaussianMemory",
-    "THE-BU1LD/ResearchPilot",
-    "THE-BU1LD/RIPII"
-  ]
+  "unreconciled_repository_candidates": ["build-the-future-11/FinanceMeta-Global","build-the-future-11/FinanceMeta-Landing","build-the-future-11/IRIS","build-the-future-11/Iy-ERN","build-the-future-11/RIS","Finance-Meta-Research/EigenFinance","Finance-Meta-Research/FI-JEPA","THE-BU1LD/EmailFinder","THE-BU1LD/EPU","THE-BU1LD/Fabric-Induced-Memory","THE-BU1LD/GaussianMemory","THE-BU1LD/ResearchPilot","THE-BU1LD/RIPII"]
 }
