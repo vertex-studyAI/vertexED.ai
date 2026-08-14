@@ -7,10 +7,16 @@
   "training_authorized": false,
   "generator": {
     "implementation": "src/v2.mjs",
+    "implementation_git_blob_sha": "7858d70401673704656194800aee945f0ab80b61",
     "grid_cells": 128,
     "primary_block_count": 8,
     "block_ablations": [4, 8, 16, 32],
     "smooth_covariance": "periodic squared-exponential on the frozen 128-cell grid; exact finite-grid Gaussian draw through the real Fourier basis of the circulant covariance",
+    "covariance_interpretation_status": "PRE_OUTCOME_IMPLEMENTATION_CHOICE_REQUIRES_EXPLICIT_REVIEW_BEFORE_TRAINING",
+    "covariance_interpretation_note": "The frozen protocol says squared-exponential covariance but does not specify finite-grid boundary extension. This implementation uses a periodic/circulant SE kernel. Changing that choice after any outcome is inspected is forbidden and requires a new protocol version.",
+    "ood_d_global_offset_status": "PRE_OUTCOME_INTERPRETATION_REQUIRES_EXPLICIT_REVIEW_BEFORE_TRAINING",
+    "ood_d_global_offset_current": 0,
+    "ood_d_global_offset_note": "The frozen OOD-D text fixes ell, sigma and clipping but does not explicitly state whether the ID-family global log-offset range carries over. Current code fixes mu=0. This ambiguity must be accepted or changed before training/test outcomes; any later change requires a new version.",
     "prng": "mulberry32-compatible deterministic 32-bit stream; seed zero allowed",
     "normal_sampler": "Box-Muller",
     "manifest_required_before_training": true
@@ -51,6 +57,8 @@
     }
   },
   "unresolved_pretraining_blockers": {
+    "covariance_interpretation_approval": null,
+    "ood_d_global_offset_interpretation_approval": null,
     "learned_environment_lock": null,
     "hardware_identity": null,
     "B2_implementation_sha": null,
@@ -58,5 +66,5 @@
     "B4_implementation_sha": null,
     "split_manifest_sha256": null
   },
-  "authorization_rule": "Training, ID-test evaluation and OOD evaluation remain forbidden until all unresolved_pretraining_blockers are non-null, the implementations pass their frozen eligibility/unit tests, and the resulting freeze revision is committed before outcomes are inspected."
+  "authorization_rule": "Training, ID-test evaluation and OOD evaluation remain forbidden until generator.implementation_git_blob_sha is recorded, all unresolved_pretraining_blockers are non-null, implementations pass frozen eligibility/unit tests, and the resulting freeze revision is committed before outcomes are inspected."
 }
