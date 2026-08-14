@@ -34,7 +34,8 @@ test('Darcy v2 split manifest is complete, outcome-free and hash-stable', (t) =>
   t.diagnostic(`darcy-v2-split-manifest-sha256=${first}`);
 });
 
-test('misaligned piecewise splits never place interfaces on primary coarse boundaries', () => {
+test('misaligned piecewise split specs never place interfaces on primary coarse boundaries', () => {
+  // This validates pre-outcome manifest construction only. It does not solve a frozen test case or compute a metric.
   for (const seed of [320000, 320001, 320127, 320511, 340000, 340127, 340511]) {
     const split = seed < 330000 ? 'ood_c' : 'ood_e';
     const spec = resolveV2CaseSpec(split, seed);
@@ -48,7 +49,8 @@ test('misaligned piecewise splits never place interfaces on primary coarse bound
   }
 });
 
-test('v2 case generation is deterministic and strictly positive', () => {
+test('v2 generator implementation is deterministic and strictly positive without evaluating scientific metrics', () => {
+  // Generator correctness may be checked before training, but no reference-solver error metric is computed here.
   for (const [split, seed] of [['train', 0], ['ood_a', 300000], ['ood_c', 320000], ['ood_d', 330000], ['ood_e', 340000]]) {
     const first = generateV2Permeability(split, seed);
     const second = generateV2Permeability(split, seed);
@@ -58,18 +60,21 @@ test('v2 case generation is deterministic and strictly positive', () => {
   }
 });
 
-test('harmonic M1 preserves discrete total resistance and therefore exact flux at fixed blocks', () => {
-  const { permeability } = generateV2Permeability('ood_c', 320007);
+test('harmonic M1 resistance/flux unit property uses a non-protocol fixture, not a frozen ID/OOD case', () => {
+  // Never use a frozen train/validation/ID-test/OOD seed in this solver-metric unit test.
+  // This hand-constructed positive field is outside the scientific generator and cannot leak a v2 outcome.
+  const permeability = Array.from({ length: 128 }, (_, index) => {
+    const block = Math.floor(index / 16);
+    const within = index % 16;
+    return 0.35 + 0.11 * block + 0.017 * within + 0.03 * ((index * 7) % 5);
+  });
   const result = evaluateV2DeterministicControls(permeability);
   assert.ok(result.report.M1.fluxRelativeError < 1e-12);
   assert.ok(result.report.M1.leftBoundaryError < 1e-12);
   assert.ok(result.report.M1.rightBoundaryError < 1e-12);
-  assert.ok(result.report.A1.pressureMae >= 0);
-  assert.ok(result.report.A2.pressureMae >= 0);
-  assert.ok(result.report.B1.pressureMae >= 0);
 });
 
-test('machine-readable freeze keeps all learned/outcome work locked', async () => {
+test('machine-readable freeze keeps all learned/outcome work locked and records generator provenance', async () => {
   const config = JSON.parse(await readFile(configUrl, 'utf8'));
   assert.equal(config.outcome_state, 'EXPERIMENT_NOT_YET_RUN');
   assert.equal(config.training_authorized, false);
@@ -80,6 +85,7 @@ test('machine-readable freeze keeps all learned/outcome work locked', async () =
   assert.equal(config.systems.B2.state, 'BLOCKED_IMPLEMENTATION');
   assert.equal(config.systems.B3.state, 'BLOCKED_IMPLEMENTATION');
   assert.equal(config.systems.B4.state, 'BLOCKED_IMPLEMENTATION');
+  assert.match(config.generator.implementation_git_blob_sha, /^[0-9a-f]{40}$/);
   assert.equal(config.unresolved_pretraining_blockers.hardware_identity, null);
   assert.equal(config.unresolved_pretraining_blockers.learned_environment_lock, null);
   assert.equal(config.unresolved_pretraining_blockers.split_manifest_sha256, null);
