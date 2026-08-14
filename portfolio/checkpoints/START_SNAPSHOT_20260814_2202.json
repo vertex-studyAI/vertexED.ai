@@ -1,0 +1,104 @@
+{
+  "schema_version": 1,
+  "checkpoint": "START_SNAPSHOT",
+  "timestamp": "2026-08-14T22:02:00+05:30",
+  "role": "evidence_pointer_checkpoint_not_authoritative_truth_source",
+  "control": {
+    "repository": "vertex-studyAI/vertexED.ai",
+    "base_branch": "main",
+    "base_sha": "d5e9fcaa8de4e49b236b18ff7d3c515ed5f1ed6d",
+    "work_branch": "chatgpt/convergence-start-20260814-2202",
+    "open_prs_at_start": 0,
+    "lam_repository": "vertex-studyAI/LAM-JEPA",
+    "lam_recovered_main_sha": "bf8311e1a4d240e2891e51af38eaf7754944e300"
+  },
+  "percy": {
+    "state": "BLOCKED_EXTERNAL_MAC",
+    "live_path": "/Volumes/PRO-BLADE/Atlas/Percy",
+    "live_path_accessible_from_surface": false,
+    "live_db_wal_leases_heartbeats_workers_tasks_worktrees": "UNKNOWN",
+    "retained_logical_scheduling_identities": 16256,
+    "retained_task_snapshot": {
+      "semantics": "historical_not_live",
+      "completed": 14,
+      "active": 1,
+      "ready": 18,
+      "blocked": 2,
+      "scheduled": 1,
+      "total": 36
+    }
+  },
+  "connected_github_recovery": {
+    "surfaced_repositories": [
+      "vertex-studyAI/vertexED.ai",
+      "vertex-studyAI/LAM-JEPA"
+    ],
+    "name_searches_without_additional_installed_repo_results": [
+      "Percy",
+      "FinanceMeta",
+      "Bu1LD",
+      "2424",
+      "Atlas"
+    ],
+    "interpretation": "access_boundary_not_nonexistence_claim"
+  },
+  "research": {
+    "LAM-JEPA": {
+      "state": "GREEN_REPRODUCIBLE_NEGATIVE_INTERNAL_PACKAGE_VERIFIED",
+      "external_validation": "PENDING",
+      "locked_arc_test": "UNTOUCHED"
+    },
+    "IRIS": {
+      "state": "MIXED_NEGATIVE_SUCCESSOR_RED",
+      "frontier_protocol": "FROZEN",
+      "execution": "BLOCKED_CANONICAL_RAW_SOURCE",
+      "confirmatory_seeds": "1000-1029_QUARANTINED"
+    },
+    "NeuroCAD": {
+      "mechanism_result": "VALIDATION_DOMINANT_NEGATIVE",
+      "typed_parser_causal_interpretation": "FALSIFIED_ON_REUSED_DIAGNOSTIC"
+    },
+    "Darcy_T2424_0050": {
+      "parent": "GREEN_BOUNDED_1D_MECHANISM",
+      "v2_protocol_id": "DARCY-FREEZE-001 / darcy-operator-ood-v2",
+      "v2_protocol_state": "FROZEN_PRE_OUTCOME",
+      "v2_outcome": "NOT_RUN",
+      "next_gate": "DARCY-EXEC-PREP-002",
+      "next_gate_state": "WAITING_EXECUTABLE_FREEZE"
+    },
+    "major_science_runs_authorized": 0
+  },
+  "products": {
+    "VertexED_source": "GREEN",
+    "VertexED_production": {
+      "state": "BLOCKED_EXTERNAL_DEPLOYMENT_IDENTITY",
+      "monitor_run": "31777345899",
+      "expected_revision": "8272b8cba0dab6e9a07ee6aa4f927ad9374de534",
+      "source_revision_contract_present": true,
+      "intended_revision_vercel_deployments": "TWO_RETAINED_FAILURES",
+      "next_gate": "AUTHORIZED_VERCEL_LOG_AND_ALIAS_RECOVERY_THEN_IMMUTABLE_REDEPLOY"
+    },
+    "FinanceMeta": "BLOCKED_EXTERNAL_CANONICAL_TARGET_RUNTIME",
+    "The_Bu1LD": "BLOCKED_EXTERNAL_CANONICAL_TARGET_RUNTIME"
+  },
+  "reconciliation": {
+    "contradiction": "Darcy v2 protocol existed on current main while mutable status/queue still said protocol not frozen",
+    "closed_task": "DARCY-FREEZE-001",
+    "new_task": "DARCY-EXEC-PREP-002",
+    "scientific_outcome_changed": false,
+    "experiment_run": false,
+    "deployment_triggered": false,
+    "paid_resource_created": false,
+    "destructive_operation": false
+  },
+  "next_gates": [
+    "PERCY-STATE-001",
+    "P2424-CANON-001",
+    "VERTEX-PROD-001",
+    "LAM-RELEASE-METADATA-003",
+    "EXTVAL-LAM-001",
+    "IRIS-FRONTIER-SOURCE-001",
+    "DARCY-EXEC-PREP-002",
+    "NPMS-SOURCE-001"
+  ]
+}
