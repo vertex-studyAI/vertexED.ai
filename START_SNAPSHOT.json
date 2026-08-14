@@ -1,0 +1,116 @@
+{
+  "schema_version": 1,
+  "snapshot_id": "START_SNAPSHOT_20260814_CONVERGENCE",
+  "recovery_started_at": "2026-08-14T22:02:00+05:30",
+  "target_checkpoint": "2026-08-15T10:00:00+05:30",
+  "truth_rule": "Absence of evidence is UNKNOWN, never VERIFIED. Frozen negative results remain frozen. No paid-resource creation, destructive recovery, scientific gate lowering, or fabricated external evidence is authorized.",
+  "canonical_control": {
+    "repository": "vertex-studyAI/vertexED.ai",
+    "main_head_at_snapshot": "d92e06deaa893bfb8273f3f781105ecb155e8aca",
+    "status_source": "MASTER_STATUS.md",
+    "queue_source": "NEXT_TASK_QUEUE.md",
+    "checkpoint_source": "CHECKPOINT.md"
+  },
+  "confirmed_sources": {
+    "lam_jepa": {
+      "repository": "vertex-studyAI/LAM-JEPA",
+      "head": "bf8311e1a4d240e2891e51af38eaf7754944e300",
+      "state": "VERIFIED_REPRODUCIBLE_NEGATIVE_INTERNAL_PACKAGE",
+      "external_validation": "PENDING"
+    },
+    "financemeta": {
+      "repository": "build-the-future-11/finance4all-global-reach",
+      "main_head": "fbdd503223edc5b1780509720391083f485a4a85",
+      "release_candidate_branch": "cursor/membership-security-supabase-fix",
+      "release_candidate_head": "6dcc03710bb6adf9b4b722b308c40a0720bea61f",
+      "ahead_by": 41,
+      "behind_by": 0,
+      "fresh_pr_write_test": "403 Resource not accessible by integration",
+      "historical_pr_1": "MERGED_AT_EARLIER_HEAD_NOT_CURRENT_INTEGRATION_PROOF",
+      "production_supabase_visible": false,
+      "source_state": "RETAINED_HARDENING_BRANCH_RECOVERED_REVIEW_WRITE_BLOCKED",
+      "production_state": "BLOCKED_EXTERNAL"
+    }
+  },
+  "connected_supabase": {
+    "project_count": 1,
+    "projects": [{
+      "id": "xwlrzgfuhfbckgvcmyoq",
+      "status": "ACTIVE_HEALTHY",
+      "postgres": "17.4.1.074",
+      "public_base_tables": 26,
+      "public_base_tables_without_rls": 0,
+      "public_views": 0,
+      "public_security_definer_functions_observed": 2,
+      "security_warnings": ["auth_leaked_password_protection", "vulnerable_postgres_version"]
+    }],
+    "financemeta_visible": false,
+    "bu1ld_visible": false
+  },
+  "percy": {
+    "state": "UNKNOWN_BLOCKED_EXTERNAL_MAC",
+    "db_integrity": "UNKNOWN",
+    "sqlite_wal_state": "UNKNOWN",
+    "physical_workers": null,
+    "leases": "UNKNOWN",
+    "heartbeats": "UNKNOWN",
+    "real_task_counts": null,
+    "logical_agent_address_space_declared": 1000000,
+    "logical_agent_address_space_is_execution_count": false,
+    "next_gate": "PERCY-STATE-001 non-destructive DB/WAL/checkpoint snapshot+hashes, integrity/schema, leases/heartbeats/stale reconciliation, dirty-worktree capture and independent recount"
+  },
+  "project_2424": {
+    "state": "PARTIAL_BLOCKED_SOURCE_RECOVERY",
+    "registered_identity_target": 2424,
+    "canonical_local_source_recovered": false,
+    "portfolio_wide_completion_claim": false,
+    "full_canonical_map_generated": false,
+    "next_gate": "P2424-CANON-001 recover preserved source/overlay/ancestry and reconcile identities against real source/evidence"
+  },
+  "vertexed_production": {
+    "state": "BLOCKED_DEPLOYMENT_IDENTITY_AND_CAPACITY",
+    "latest_monitor_run": "31817794439",
+    "workflow_commit": "d5e9fcaa8de4e49b236b18ff7d3c515ed5f1ed6d",
+    "expected_deploy_revision": "e2ecd19ed9816f8f36369c7dc0f38e39942ca73a",
+    "health_revision_present": false,
+    "artifact_id": "9225715176",
+    "artifact_sha256": "e7870e9561748ef4d4247e3bf4e01d3e8feead3780c4e2016d3742d134f2069a",
+    "authenticated_golden_journey": "INCOMPLETE"
+  },
+  "research": {
+    "iris": {
+      "state": "PARTIALLY_RECOVERED_PROTOCOL_BLOCKED",
+      "recovery_commit": "d92e06deaa893bfb8273f3f781105ecb155e8aca",
+      "remaining_gaps": ["exact canonical development trajectories", "exact frozen adaptation-metric source identity"],
+      "confirmatory_seeds": "1000-1029 FORBIDDEN"
+    },
+    "neurocad": {"state":"VALIDATION_DOMINANT_CAUSAL_MECHANISM_FALSIFIED","rescue_in_place":false},
+    "ngmt_v01": {"state":"REPRODUCIBLE_NEGATIVE_RESULT","rescue_in_place":false},
+    "eigen_jepa": {"state":"REPRODUCED_MIXED_NEGATIVE","metric_shopping_forbidden":true},
+    "apen": {"state":"PARTIAL_REPRODUCED_MIXED"},
+    "npms": {"state":"PARTIAL_SOURCE_GATED"},
+    "darcy_t2424_0050": {
+      "parent_state":"BOUNDED_SYNTHETIC_MECHANISM",
+      "v2_protocol":"FROZEN_BEFORE_OUTCOME",
+      "pre_outcome_core":"PARTIALLY_MATERIALIZED",
+      "pre_outcome_merge":"4280156c94fdac3e92ff300e743e2f2899cd4869",
+      "remaining_pre_run_blockers":["B2/B3/B4 learned baseline implementations", "environment lock", "hardware identity", "manifest hashes"],
+      "v2_outcome":"NOT_RUN",
+      "major_run_authorized":false
+    }
+  },
+  "major_scientific_runs_authorized": 0,
+  "immediate_queue": [
+    "PERCY-STATE-001",
+    "P2424-CANON-001",
+    "VERTEX-PROD-001",
+    "LAM-RELEASE-METADATA-003",
+    "EXTVAL-LAM-001",
+    "FINANCEMETA-REVIEW-001",
+    "IRIS-FRONTIER-SOURCE-001",
+    "DARCY-V2-PREEXEC-REMAINDER",
+    "NPMS-SOURCE-001",
+    "BU1LD-ACCESS-001"
+  ],
+  "morning_success_rule": "Every inaccessible or incomplete system remains truthfully blocked with exact evidence and next gate; deadline never promotes UNKNOWN to VERIFIED."
+}
