@@ -1,140 +1,135 @@
 # REVIEWER_ATTACK
 
 **Date:** 2026-08-14  
-**Purpose:** attack the current Tier-S research stories before new confirmatory compute. These are deliberately adversarial reviews; they do not imply rejection or failure unless the evidence supports it.
+**Purpose:** adversarial review of the current high-priority research stories using the latest canonical evidence. Reviewer criticism is not evidence by itself; where a decisive experiment has already fired, this file accepts the result instead of keeping the old hypothesis alive.
 
 ---
 
 # LAM-JEPA
 
 ## Reviewer 1 — Scientific skeptic
-
-- **Strongest criticism:** The architecture combines established JEPA, latent-action/world-model, quantization, planning and verification ideas. On the one benchmark with frozen evidence, the proposed mechanisms do not show the required contribution. Why is this a research paper rather than a well-documented failed prototype?
-- **Severity:** **HIGH** for an architecture paper; **MEDIUM** for a falsification/reproducibility paper.
-- **Evidence required to answer:** a conservative related-work map; precise source-verified module description; explanation of why the negative result teaches something beyond “this model did not work”; immutable artifact/protocol chain.
-- **Cheapest decisive work:** finish the negative manuscript around matched controls, adverse-result retention, trainability-versus-generalization separation, and the locked-test stop rule. Do not run rescue experiments.
-- **Acceptance threat:** **CRITICAL** if submitted as a new-method paper; manageable if venue/story explicitly values reproducibility/negative results.
+- **Strongest criticism:** JEPA for language/reasoning and latent-action/world-model ingredients are established directions; the frozen ARC experiment does not demonstrate planner/target contribution.
+- **Severity:** **HIGH** for a new-method paper; **MEDIUM** for a falsification/reproducibility paper.
+- **Evidence required:** source-grounded method map, closest-work comparison, immutable artifact/protocol chain, and a clear statement that the contribution is negative empirical evidence rather than first-method novelty.
+- **Cheapest decisive work:** finish the negative manuscript/release package. **Do not run rescue experiments or unlock the held-out test.**
+- **Acceptance threat:** **CRITICAL** if framed as architecture superiority; manageable if framed narrowly as reproducibility/falsification.
 
 ## Reviewer 2 — Experimental skeptic
-
-- **Strongest criticism:** Five validation seeds on one small multiple-choice benchmark are narrow; the bounded pretrained comparison is not a final strong baseline study; shuffled-label performance is unexpectedly competitive and may indicate optimization instability or a weak signal rather than an informative representation-learning test.
+- **Strongest criticism:** five validation seeds on one benchmark are narrow, the pretrained characterization is bounded, and shuffled-label performance is unexpectedly competitive.
 - **Severity:** **HIGH**.
-- **Evidence required to answer:** exact per-seed outputs, eligibility/exclusion records, matched active-parameter accounting, confidence intervals, trainability diagnostics, independent metric recomputation, and a clear statement that the DeBERTa result is characterization only.
-- **Cheapest decisive work:** independently regenerate all manuscript tables/intervals from retained raw artifacts and surface the shuffled-label result in the main analysis rather than hiding it.
-- **Acceptance threat:** **HIGH**. More benchmarks could improve breadth, but they must be a new preregistered study rather than a post-hoc rescue of this hypothesis.
+- **Evidence required:** exact per-seed outputs, confidence intervals, active-parameter accounting, trainability diagnostics, independent metric/table/figure regeneration, and explicit scope limitations.
+- **Cheapest decisive work:** `LAM-VERIFY-002`, using retained artifacts only.
+- **Acceptance threat:** **HIGH** if conclusions generalize beyond the frozen configuration.
 
 ## Reviewer 3 — Mechanism skeptic
-
-- **Strongest criticism:** The planner ablation is near zero and the no-target configuration is numerically better. The claimed JEPA/planning mechanism therefore has no demonstrated causal role in the current ARC result.
+- **Strongest criticism:** planner ablation is near zero and no-target is numerically better; the named planner/target mechanisms therefore have no demonstrated causal role in the current ARC result.
 - **Severity:** **CRITICAL** for mechanism claims.
-- **Evidence required to answer:** none can retroactively create a positive mechanism result. The current paper must accept the falsification.
-- **Cheapest decisive work:** rewrite the method/discussion so architecture description is separated from empirically supported contribution; mark planner/target benefit as unsupported.
-- **Acceptance threat:** **CRITICAL** to superiority/mechanism framing; **LOW** to the integrity of a negative-result paper.
+- **Evidence required:** none can retroactively create a positive mechanism result.
+- **Cheapest decisive work:** keep the unsupported mechanism claims out of title/abstract/conclusion and preserve the null/negative result.
+- **Acceptance threat:** low to the integrity of a negative-result paper, critical to a mechanism-success paper.
 
 ### LAM decision
+**Tier S as paper-conversion/reproducibility work. No scientific rescue compute.**
 
-**Keep Tier S only as a paper-conversion/reproducibility effort. Do not allocate scientific rescue compute.**
+---
+
+# IRIS v0.2
+
+## Reviewer 1 — Scientific skeptic
+- **Strongest criticism:** robust changepoint handling under outliers/heavy tails is established; “robust memory” risks renaming a known robust filtering/change-detection problem.
+- **Severity:** **CRITICAL**.
+- **Evidence required:** explicit detection-vs-state-estimation distinction, closest robust-online-change baselines, and a residual question centered on a false-open/recovery/error frontier.
+- **Cheapest decisive work:** recover the exact frozen baseline-frontier source/raw data; do not invent a new successor architecture.
+- **Acceptance threat:** **CRITICAL** to novelty if ignored.
+
+## Reviewer 2 — Experimental skeptic
+- **Strongest criticism:** the evidence is synthetic/development-heavy, the successor misses its frozen `>=10%` adaptation gate, and strong simple controls already expose a robustness/adaptation tradeoff.
+- **Severity:** **CRITICAL** for a positive paper.
+- **Evidence required:** exact frozen frontier methods/parameters, fixed false-open budget or preregistered Pareto metric, external chronological data only if a residual survives, untouched seeds `1000–1029`.
+- **Cheapest decisive work:** `IRIS-FRONTIER-SOURCE-001`; if canonical source/raw trajectories cannot be recovered, remain source-blocked.
+- **Acceptance threat:** manageable for a bounded negative/tradeoff report; critical for successor-superiority claims.
+
+## Reviewer 3 — Mechanism skeptic
+- **Strongest criticism:** faster recovery can be purchased simply by opening a change gate more often. Current robust-CUSUM behavior already exhibits this confound.
+- **Severity:** **CRITICAL**.
+- **Evidence required:** recovery/error compared under a matched false-open constraint or preregistered Pareto frontier, with fixed thresholds and oracle/component controls.
+- **Cheapest decisive work:** the already frozen development-only frontier—if its exact source can be recovered.
+- **Acceptance threat:** **CRITICAL** to any claimed new-memory mechanism.
+
+### IRIS decision
+**D — NEGATIVE RESULT. No successor architecture is authorized. Reserved confirmatory seeds remain quarantined.**
 
 ---
 
 # NeuroCAD
 
-## Reviewer 1 — Scientific skeptic
+## Decisive evidence update
+Frozen v1 remains historical evidence: typed/validated `19/20` versus original direct `12/20`, with `12/12` valid cases producing non-empty STL and the O018 negative-width failure preserved.
 
-- **Strongest criticism:** Text-to-parametric-CAD, CAD-program generation, and programmatic geometric validation are already established. A deterministic grammar/validator for rectangular plates may be useful software but does not by itself establish research novelty.
-- **Severity:** **HIGH**.
-- **Evidence required to answer:** a clear reliability-first question, contemporary prior-work comparison, and evidence that typed fail-closed compilation changes the reliability/coverage tradeoff beyond a trivial grammar advantage.
-- **Cheapest decisive experiment:** freeze a same-prompt comparison between the typed/validated pipeline and a competent model-based direct/program-generation system, scoring execution, exact dimensions/constraints, unsupported-input rejection, semantic correctness, latency/cost and coverage.
-- **Acceptance threat:** **HIGH** for a general text-to-CAD paper; **MEDIUM** for a constrained-reliability/system paper.
+The later component protocol was frozen before execution and produced:
+- current typed + validation: `20/20`;
+- original direct: `12/20`;
+- direct + matched fail-closed validation: `20/20`;
+- validation recovery fraction: `1.00`;
+- remaining gap: `0`;
+- frozen interpretation: **`VALIDATION_DOMINANT`**.
+
+## Reviewer 1 — Scientific skeptic
+- **Strongest criticism:** text-to-CAD, executable CAD-program generation and programmatic validation are established; current evidence supports a bounded software tool, not a new typed-IR mechanism.
+- **Severity:** **CRITICAL** for a mechanism paper; low for productization.
+- **Evidence required:** none can rescue the current typed-parser causal claim on these cases. Any new research claim must be separately versioned and use fresh broader tasks and competent contemporary baselines.
+- **Cheapest decisive work:** product validation/release qualification, not another current-version mechanism experiment.
+- **Acceptance threat:** **current typed-IR mechanism paper is not supported.**
 
 ## Reviewer 2 — Experimental skeptic
-
-- **Strongest criticism:** The current 20-case held-out benchmark covers one part family and the direct flat-extraction baseline is weak. The observed 19/20 versus 12/20 gap could be almost entirely determined by benchmark construction and hand-coded validation.
-- **Severity:** **CRITICAL**.
-- **Evidence required to answer:** broader part families and paraphrases, held-out compositional structures, contemporary learned/program-generation baseline, frozen prompt set, real kernel execution, syntax/geometry/semantic metrics, uncertainty/failure frequencies, and independent metric recomputation.
-- **Cheapest decisive experiment:** before expansion, run one frozen dangerous-baseline set on the existing 20 cases plus a separately frozen OOD family. Do not expand after seeing baseline errors.
-- **Acceptance threat:** **CRITICAL** until addressed.
+- **Strongest criticism:** the reused 20-case plate family is too narrow for general text-to-CAD conclusions.
+- **Severity:** **CRITICAL** for generality.
+- **Evidence required:** only for a future distinct research project: fresh part families/OOD/compositional tasks, same-provider learned direct/program and constrained generation baselines, execution/semantic/coverage metrics and independent replay.
+- **Cheapest decisive work now:** keep those claims out of the current product/release story.
+- **Acceptance threat:** high to any general research claim.
 
 ## Reviewer 3 — Mechanism skeptic
-
-- **Strongest criticism:** The improvement may come from a deterministic parser plus validation checks, not from the typed intermediate representation itself. “Typed IR” may be a label for standard compiler discipline.
-- **Severity:** **HIGH**.
-- **Evidence required to answer:** component ablations: parser-only/direct structured extraction; typed IR without validation; validation without typed normalization where feasible; full compiler; possibly constrained direct generation using the same validator.
-- **Cheapest decisive experiment:** freeze four systems under identical prompts/backend and measure where each valid/invalid case changes verdict. The current retained negative-width failure must remain in v1.
-- **Acceptance threat:** **HIGH** for a mechanism paper; lower for an engineering reliability report.
+- **Strongest criticism:** the old gap may be entirely validation rather than typed IR/parser structure.
+- **Severity:** **RESOLVED AGAINST THE MECHANISM.**
+- **Evidence:** the frozen matched-validation ablation closes 100% of the gap (`1.00` vs `1.00`).
+- **Cheapest decisive experiment:** already done.
+- **Acceptance threat:** typed-IR/parser-specific causal claim rejected on this diagnostic.
 
 ### NeuroCAD decision
-
-**Keep Tier S, but paper promotion is conditional on a dangerous learned/direct baseline and component ablation. Current positive result remains bounded and valid.**
-
----
-
-# IRIS
-
-## Reviewer 1 — Scientific skeptic
-
-- **Strongest criticism:** Robust changepoint detection under outliers and heavy tails is an established literature, and very recent work studies online mean-change detection under both heavy-tailedness and Huber contamination. The current “robust memory” framing risks renaming a known robust filtering/change-detection problem.
-- **Severity:** **CRITICAL**.
-- **Evidence required to answer:** explicit distinction between detection and state estimation/tracking; closest robust-online-change baselines; a question that is not already answered by robust detection theory; conservative mechanism claim.
-- **Cheapest decisive work:** make the scientific object the **false-open / recovery / post-change-estimation Pareto frontier**, and compare simple robust detector+estimator systems before designing another learned architecture.
-- **Acceptance threat:** **CRITICAL** to novelty if ignored.
-
-## Reviewer 2 — Experimental skeptic
-
-- **Strongest criticism:** Current evidence is synthetic-heavy, the learned mechanism does not beat strong Huber/static controls, and strong learned robust/change-aware recurrent/state-space baselines are not yet in one matched harness. The successor gate already failed.
-- **Severity:** **CRITICAL**.
-- **Evidence required to answer:** matched Huber, confirmed-change, robust switching, dual-timescale, current IRIS, recurrent/state-space controls; parameter/FLOP/runtime accounting; external chronological datasets; frozen transition and false-open metrics; untouched confirmatory seeds.
-- **Cheapest decisive experiment:** no successor model. First freeze and evaluate a simple non-learned robust detector + robust state estimator at a predeclared false-open budget on existing development/stress seeds.
-- **Acceptance threat:** **CRITICAL** until the baseline frontier is known.
-
-## Reviewer 3 — Mechanism skeptic
-
-- **Strongest criticism:** Faster recovery can be purchased by opening a change gate more often. The observed adaptation may therefore be threshold behavior rather than a new memory mechanism; current evidence already shows this confound with robust CUSUM-style switching.
-- **Severity:** **CRITICAL**.
-- **Evidence required to answer:** recovery conditioned on comparable false-open behavior; transition-window normalized error; right-censored recovery; stable post-change error; gate-state traces; fixed threshold/protocol; oracle and component controls.
-- **Cheapest decisive experiment:** a preregistered false-open-constrained comparison or Pareto analysis using the already frozen adaptation metrics, without touching confirmatory seeds.
-- **Acceptance threat:** **CRITICAL** to a mechanism claim, but this can become a useful negative/tradeoff paper if preserved.
-
-### IRIS decision
-
-**Do not authorize a new successor architecture yet. Preserve the negative/mixed v0.2 package. The next scientific unit is a baseline-frontier experiment, not a renamed model.**
+**B — PRODUCTIZE. Preserve v1 and v2; do not revive the falsified typed-parser mechanism. A future research successor must be separately versioned/frozen and earn its own state.**
 
 ---
 
 # Percy
 
 ## Reviewer 1 — Scientific skeptic
-
-- **Strongest criticism:** Artifact hashing, durable queues, leases, DAGs, provider routing, task deduplication and reproducibility bundles are individually standard systems patterns. What is the new systems question?
+- **Strongest criticism:** hashing, durable queues, leases, DAGs, provider routing, deduplication and reproducibility bundles are individually standard systems patterns. The scientific novelty question is not yet isolated.
 - **Severity:** **HIGH** for publication; low for product engineering.
-- **Evidence required:** precise comparative question and baseline systems.
+- **Evidence required:** a precise comparative question and competent orchestration/workflow baselines.
 - **Cheapest decisive work:** real-host qualification first; publication protocol later.
-- **Acceptance threat:** **CRITICAL** if submitted before empirical comparison.
+- **Acceptance threat:** **CRITICAL** if submitted before comparative evidence.
 
 ## Reviewer 2 — Experimental skeptic
-
-- **Strongest criticism:** Logical agent counts and registry size do not establish throughput, fault tolerance or correctness. Live queue/process truth is currently unavailable from the connected surface.
+- **Strongest criticism:** 16,256 logical identities do not establish physical concurrency, throughput, fault tolerance or correctness; current live host counters remain unobserved here.
 - **Severity:** **CRITICAL**.
-- **Evidence required:** preserved DB/WAL snapshot, crash/restart, stale lease, provider failure, duplicate-dispatch, soak, throughput/cost and resource measurements.
-- **Cheapest decisive experiment:** `PERCY-STATE-001` on the existing host, then a bounded fault matrix with preserved state.
-- **Acceptance threat:** **CRITICAL** until real-host evidence exists.
+- **Evidence required:** preserved DB/WAL/checkpoint snapshot, crash/restart, stale lease, duplicate-claim, provider-failure, interrupted-artifact, soak, throughput/cost and resource measurements.
+- **Cheapest decisive work:** `PERCY-STATE-001`, then disposable fault fixtures from `PERCY_RELIABILITY_PLAN.md`.
+- **Acceptance threat:** critical until real-host evidence exists.
 
 ## Reviewer 3 — Mechanism skeptic
-
-- **Strongest criticism:** Any apparent reliability gain could come from conservative serialization or reduced concurrency rather than evidence-native task semantics.
+- **Strongest criticism:** apparent reliability may come from lower concurrency or conservative serialization, not evidence-native semantics.
 - **Severity:** **HIGH**.
-- **Evidence required:** matched workload and concurrency comparison with/without evidence/claim gating, measuring duplicated work, unverifiable completion, recovery and throughput.
-- **Cheapest decisive experiment:** deferred until host qualification; first establish a stable measured baseline.
-- **Acceptance threat:** **HIGH**.
+- **Evidence required:** matched workload/concurrency comparison with and without evidence/claim gating after host qualification.
+- **Cheapest decisive work:** first establish a stable measured host baseline and concurrency knee.
+- **Acceptance threat:** high to any systems-research mechanism claim.
 
 ### Percy decision
-
-**Tier S as infrastructure only. Research-paper promotion remains blocked on real-host qualification and matched-system evidence.**
+**B — PRODUCTIZE, Tier S as enabling infrastructure. Research-paper promotion remains blocked on real-host qualification and matched-system evidence.**
 
 ---
 
-# Experiments authorized by this review
+# Experiment authorization from this review
 
-This review **does not authorize** confirmatory/rescue runs for LAM-JEPA, IRIS v0.2 or NGMT v0.1.
+This review authorizes **no rescue or confirmatory run** for LAM-JEPA, IRIS v0.2, NeuroCAD's falsified typed-parser mechanism, NGMT v0.1, Eigen-JEPA or T2424-1863.
 
-The only currently justified new major scientific experiment remains the NeuroCAD dangerous-baseline/OOD experiment **after** its complete protocol is frozen. IRIS may run a future baseline-frontier development experiment only after a new immutable protocol specifies methods, seeds, false-open budget/metric hierarchy, falsifier and stop rule; confirmatory seeds remain quarantined.
+Current next work is recovery/verification/protocol closure. Darcy and JEPA×time-series may become runnable only after their separately frozen protocols and source prerequisites pass the canonical queue gates. Unused compute should remain unused rather than being filled by speculative experiments.
