@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "observed_at": "2026-08-14T22:40:00+05:30",
+  "observed_at": "2026-08-14T22:46:00+05:30",
   "purpose": "Index decisive evidence locations without owning claim or experiment state.",
   "authority": {"claims":"CLAIM_LEDGER.md/json","experiments":"EXPERIMENT_LEDGER.md/json","failures":"RESEARCH_FAILURE_ATLAS.md","rule":"project-native raw artifacts win"},
   "records": [
@@ -16,7 +16,7 @@
     {"id":"EV-IRIS-RECOVERY","project":"IRIS","class":"source_recovery_record","locator":"portfolio/research/IRIS_SOURCE_RECOVERY_20260814.md","supports":"checksum-backed v0.2 package/source/config/environment lineage partially recovered","does_not_support":"exact development trajectories or exact frozen adaptation-metric provenance"},
     {"id":"EV-DARCY-PROTOCOL","project":"Darcy/T2424-0050","class":"frozen_protocol","locator":"portfolio/project2424/projects/T2424-0050/LEARNED_OPERATOR_OOD_PROTOCOL_V2.md","integrity":"git_blob:65f756dcc104cea25b17abf950af0f285b30b955","supports":"v2 protocol frozen before outcomes","does_not_support":"any v2 scientific result"},
     {"id":"EV-DARCY-GENERATOR","project":"Darcy/T2424-0050","class":"preoutcome_implementation","locator":"portfolio/project2424/projects/T2424-0050/src/v2.mjs","integrity":"git_blob:7858d70401673704656194800aee945f0ab80b61","supports":"deterministic generator/control scaffolding","does_not_support":"training/ID/OOD outcomes"},
-    {"id":"EV-DARCY-B2-CANDIDATE","project":"Darcy/T2424-0050","class":"inflight_preoutcome_pr","locator":"PR #376; B2 blob 6e10c6fbecf0cf5ce78ed2b5c61e3fa97da47541","supports":"PCA+ridge toy eligibility tests and canonical release gate passed in run 31822727505; state-only verification run 31822987002 queued/in-flight","does_not_support":"Darcy B2 performance, B3/B4 readiness, training authorization"},
+    {"id":"EV-DARCY-B2-VERIFIED","project":"Darcy/T2424-0050","class":"preoutcome_unit_verification","locator":"PR #376; B2 blob 6e10c6fbecf0cf5ce78ed2b5c61e3fa97da47541; workflow 31822987002","supports":"B2 PCA+ridge implementation is unit/release-gate verified pre-outcome; canonical release gate, local accessibility and production-browser CI jobs passed","does_not_support":"Darcy B2 scientific performance, B3/B4 readiness, training authorization, ID/OOD result"},
     {"id":"EV-DARCY-SPLIT-MANIFEST","project":"Darcy/T2424-0050","class":"outcome_free_manifest_hash","locator":"darcy-v2 freeze tests","integrity":"sha256:4211d11da7d40f0991bd963c04fb118f34d9fe923e7664da301122b29b0bef85","supports":"deterministic split identity before outcomes","does_not_support":"model result"},
     {"id":"EV-PERCY-VISIBILITY","project":"Percy","class":"execution_surface_boundary","locator":"current convergence checkpoint","supports":"real Mac Percy host state is unavailable from this execution surface","does_not_support":"zero tasks, missing DB, failed host"},
     {"id":"EV-P2424-VISIBILITY","project":"Project 2424","class":"execution_surface_boundary","locator":"PROJECT_2424_CANONICAL_MAP.json","supports":"full canonical source map cannot be revalidated here","does_not_support":"only mapped IDs exist"}
