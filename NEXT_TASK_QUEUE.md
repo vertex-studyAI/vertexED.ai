@@ -30,8 +30,10 @@ The personal IRIS repo at `787cc54...` is only a one-line README and is not cano
 ## 9 — NPMS-SOURCE-001 — P1 / `BLOCKED_SOURCE_IDENTITY`
 Recover original NPMS source/config/checkpoint before natural/OOD work. Rerun only against retained bounded evidence; preserve negative spectral/switching/truncation cases. If exact source remains unavailable, archive as bounded recovered evidence rather than inventing a replacement.
 
-## 10 — DARCY-FREEZE-001 — P1 / `WAITING_CANONICAL_SOURCE`
-Before execution, freeze source/data versions, matched numerical/reduced/learned operator families, equal budget, misaligned/correlation-length/held-out regimes, metric, uncertainty and falsifier. No run until hashes and protocol are immutable.
+## 10 — DARCY-V2-MATERIALIZE-002 — P1 / `READY_IMPLEMENTATION_NO_RUN`
+`DARCY-FREEZE-001 / darcy-operator-ood-v2` is already frozen and explicitly records **EXPERIMENT NOT YET RUN**. Materialize only the pre-outcome machinery required by that protocol: deterministic generator/reference solver; fixed M1/A1/A2/B1/B2 systems; eligible FNO/DeepONet implementation/config grid; environment lock; split-manifest generator; hardware/compute-budget declaration; unit/eligibility tests; exact implementation/config/data hashes.
+
+Deliver a committed implementation revision, environment/config hashes, split-manifest hash, model-budget declaration and test evidence showing the code path is internally valid **without evaluating the frozen ID/OOD outcomes**. Do not execute learned training, ID-test or OOD evaluation until every prerequisite named by the frozen protocol is committed. Any material protocol change becomes a new version.
 
 ## 11 — PORTFOLIO-CANON-004 — P1 / `PARTIAL_DISCOVERY`
 Reconcile newly visible repositories into the authoritative registry without treating repo presence as scientific/product completion. Confirm canonical identity, aliases, source existence, HEAD, role in a family and A–F disposition. Nexus/LabOS remain source-unrecovered through the present GitHub surface.
@@ -44,6 +46,7 @@ Recover real implementations and maturity first. Parameter targets, governance d
 
 ## Closed / preserved this wave
 
+- `DARCY-FREEZE-001`: **closed protocol freeze only**; v2 is frozen before outcomes and remains not run.
 - LAM raw-artifact/numeric provenance verification: **closed internally**, no outcome change.
 - LAM external packet packaging: **closed packaging only**, outside validation still pending.
 - IRIS successor search: **closed negative/failed gate**; no successor architecture authorized.
@@ -53,4 +56,4 @@ Recover real implementations and maturity first. Parameter targets, governance d
 
 ## Scheduling guard
 
-**Zero new major scientific experiment runs are authorized right now.** Unused compute should remain unused. The active lanes are host/source recovery, production identity/security closure, LAM owner metadata/external review, and canonical portfolio reconciliation.
+**Zero new major scientific experiment runs are authorized right now.** Unused compute should remain unused. The active lanes are host/source recovery, production identity/security closure, Darcy v2 pre-outcome implementation/hash materialization, LAM owner metadata/external review, and canonical portfolio reconciliation.
