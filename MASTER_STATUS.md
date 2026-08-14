@@ -1,7 +1,7 @@
 # MASTER_STATUS
 
-**As of:** 2026-08-14 closure audit  
-**Control base:** `bd166d59f0a55735c32e645c24ad2818877b69a2`  
+**As of:** 2026-08-14 12:35 IST closure audit  
+**Latest control evidence incorporated:** `2cd90f30b4299acf52b110b8a5bc5784fa9fc8b8`  
 **LAM-JEPA head observed:** `88f759ef47263c416f2a667427286a3284d8221c`
 
 ## Status semantics
@@ -19,7 +19,7 @@ Two status layers are intentionally separate:
 |---|---|---|---|
 | LAM-JEPA | **GREEN — reproducible negative scientific result** | **A — PUBLISH** | ARC superiority/planner/target claims unsupported; locked test untouched; finish negative-result paper/release provenance and independent review |
 | IRIS v0.2 | **GREEN — reproduced mixed/negative package; successor promotion RED** | **D — NEGATIVE RESULT** | ~5.33–5.36% abrupt gain misses frozen `>=10%` gate; no new successor architecture authorized; reserved confirmatory seeds `1000–1029` remain quarantined |
-| NeuroCAD | **GREEN — controlled + held-out-template benchmark** | **C — CONTINUE EXPERIMENTATION** | v1 typed/validated `19/20` vs direct `12/20`; `12/12` valid STL; freeze same-provider learned/constrained + broader OOD attack before promotion |
+| NeuroCAD | **GREEN — v1 bounded software result preserved; GREEN — v2 validation-dominant mechanism falsification** | **C — CONTINUE EXPERIMENTATION** | v1 remains `19/20` vs direct `12/20` with `12/12` valid STL. Frozen v2 shows direct+matched validation `20/20`, equal to current typed/validated `20/20`, recovery fraction `1.0`; typed-IR/parser-specific causal claim is dead on this diagnostic. Only a separately frozen learned/constrained + broader-OOD reliability/coverage question remains eligible |
 | Project 2424 umbrella | **GREEN only for selected bounded child reproductions; canonical source recovery blocked** | **B — PRODUCTIZE** | registry/project count is not scientific completion; recover preserved source/overlay and maintain one canonical child map |
 | Darcy T2424-0050 | **GREEN — bounded synthetic mechanism** | **C — CONTINUE EXPERIMENTATION** | learned matched-budget operator + held-out/OOD physical regimes required |
 | T2424-0025 | **GREEN — reproduced precursor; mechanism not unique** | **C — CONTINUE EXPERIMENTATION** | isolate learned sequence mechanism; cannot be relabeled as NGMT success |
@@ -42,13 +42,13 @@ Two status layers are intentionally separate:
 
 ## Portfolio tier cap
 
-**Tier S active priorities: 4** — LAM-JEPA, NeuroCAD, IRIS v0.2 closure, Percy reliability/provenance.  
-**Tier A:** Project 2424 canonicalization, Darcy, T2424-0025, NGMT negative package, APEN, Eigen-JEPA, NPMS, VertexED production qualification.  
+**Tier S active priorities: 3** — LAM-JEPA, IRIS v0.2 closure, Percy reliability/provenance.  
+**Tier A:** NeuroCAD narrowed reliability/OOD test, Project 2424 canonicalization, Darcy, T2424-0025, NGMT negative package, APEN, Eigen-JEPA, NPMS, VertexED production qualification.  
 Everything else is Tier B, archived or externally blocked unless a documented gate changes.
 
-Tier and state are independent: a Tier-S project can be `D` because closing an important negative result is high priority, or `F` because removing a critical external blocker is high priority.
+Tier and state are independent: a Tier-S project can be `D` because closing an important negative result is high priority, or `F` because removing a critical external blocker is high priority. NeuroCAD is demoted from Tier S because its first causal-ablation attack fully explained the bounded benchmark gap with matched validation alone.
 
-See `PORTFOLIO_SNAPSHOT.md`, `PORTFOLIO_CANONICALIZATION.md`, `CLAIM_LEDGER.md/json`, `EXPERIMENT_LEDGER.md/json`, `ARCHIVE_AND_KILL_LIST.md` and `NEXT_TASK_QUEUE.md/json` for the canonical evidence and execution policy.
+See `PORTFOLIO_SNAPSHOT.md`, `PORTFOLIO_CANONICALIZATION.md`, `CLAIM_LEDGER.md/json`, `EXPERIMENT_LEDGER.md/json`, `RESEARCH_FAILURE_ATLAS.md`, `ORIGINALITY_AUDIT.md`, `ARCHIVE_AND_KILL_LIST.md` and `NEXT_TASK_QUEUE.md/json` for the canonical evidence and execution policy.
 
 ## Percy accounting boundary
 
@@ -65,4 +65,4 @@ Do not initialize a replacement database, discard WAL/history, or infer live cou
 
 ## Frozen non-rescue rule
 
-LAM-JEPA, IRIS v0.2/current failed successor, NGMT v0.1, Eigen-JEPA, T2424-1863 and other negative/mixed experiments must not be retuned in place. New scientific mechanisms require a new version, changed hypothesis, frozen protocol/falsifier and preserved relationship to the predecessor before confirmatory evaluation.
+LAM-JEPA, IRIS v0.2/current failed successor, NGMT v0.1, Eigen-JEPA, T2424-1863 and the NeuroCAD typed-IR/parser-specific v2 mechanism claim must not be retuned in place. New scientific mechanisms require a new version, changed hypothesis, frozen protocol/falsifier and preserved relationship to the predecessor before confirmatory evaluation.
