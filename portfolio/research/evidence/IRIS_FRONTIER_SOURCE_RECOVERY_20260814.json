@@ -1,5 +1,5 @@
 {
-  "schema_version": 2,
+  "schema_version": 3,
   "evidence_id": "IRIS-FRONTIER-SOURCE-RECOVERY-20260814",
   "project": "IRIS v0.2 / baseline-frontier successor-worthiness study",
   "protocol": "portfolio/research/IRIS_BASELINE_FRONTIER_PROTOCOL_20260814.md",
@@ -34,6 +34,31 @@
       "falsification_outcome": "FALSIFIED_FOR_ADVANCEMENT"
     }
   ],
+  "library_inventory_recheck": {
+    "checked_path": "/Research/IRIS",
+    "files_visible": [
+      "IRIS_common_adaptation_harness_v1_negative_20260813.zip",
+      "IRIS_v0.2_repro_addendum_20260813.zip"
+    ],
+    "other_files_or_folders_visible": false,
+    "both_archives_materialized_and_listed": true,
+    "trajectory_named_files_found": false,
+    "npz_files_found": false,
+    "parquet_files_found": false,
+    "frontier_named_files_found": false,
+    "authoritative_equivalence_declaration_found": false,
+    "text_search_terms_checked": [
+      "trajectory",
+      "trajectories",
+      "equivalence",
+      "equivalent",
+      "deterministic regeneration",
+      "canonical raw",
+      "frontier",
+      "IRIS-FRONTIER-DEV"
+    ],
+    "observation": "The common-harness retained package records that trajectory generation occurred during its run and preserves raw/summary metric outputs plus the deterministic generator/protocol, but it does not retain the canonical generated frontier trajectory arrays or a declaration making regeneration canonically equivalent to the later IRIS-FRONTIER-DEV-20260814 source requirement. The v0.2 addendum likewise contains CSV metrics/manifests/protocols rather than the required canonical frontier trajectory artifact."
+  },
   "recovered_exact_assets": {
     "confirmed_change_protocol_sha256": "f3714263f0923ccced664bf268f515110b6aa339136a89d0e2bfe3cf198d7701",
     "confirmed_change_script_sha256": "b2ed782037faf3350aed6f61da0750b0def5fcbb871f84a7f6963cd53b05cdf6",
@@ -60,11 +85,11 @@
     "a frontier-specific immutable environment/source manifest tying the separately frozen 2026-08-14 protocol to the recovered cross-archive method identities before execution"
   ],
   "verdict": "PROTOCOL_BLOCKED",
-  "verdict_reason": "Two authentic retained archives recover substantially more of the exact development source than previously known, including the deterministic common generator, development seeds, method parameters/implementations, metric rows and verifier. However, the separately frozen 2026-08-14 protocol explicitly requires canonical raw development trajectories and forbids regeneration ambiguity. Those trajectory arrays (or an already-retained authoritative equivalence declaration) have not been recovered, so execution is not authorized.",
+  "verdict_reason": "Two authentic retained archives recover substantially more of the exact development source than previously known, including the deterministic common generator, development seeds, method parameters/implementations, metric rows and verifier. A direct inventory of the complete visible /Research/IRIS Library folder and materialized archive contents found no retained trajectory/NPZ/parquet artifact and no authoritative deterministic-equivalence declaration for IRIS-FRONTIER-DEV-20260814. The separately frozen 2026-08-14 protocol requires that canonical source edge and forbids regeneration ambiguity, so execution remains unauthorized.",
   "scientific_effect": "NO_RESULT_CHANGE",
   "current_iris_result": "NEGATIVE_MIXED_DEVELOPMENT_PACKAGE_PRESERVED",
   "successor_authorized": false,
   "external_validation": false,
   "byte_identity_claim": "Byte verification is limited to the recovered archives/files and recorded hashes. No claim is made that either archive is the latest complete canonical IRIS repository or that regenerated trajectories would be byte-identical to an unrecovered canonical trajectory archive.",
-  "next_gate": "Recover the canonical raw development trajectory artifact or a pre-existing authoritative equivalence record. If neither exists, retain PROTOCOL_BLOCKED and preserve the current negative package without running the frontier."
+  "next_gate": "Search any private/local source not represented in /Research/IRIS for the canonical raw development trajectory artifact or a pre-existing authoritative equivalence record. If neither exists, retain PROTOCOL_BLOCKED permanently for this frozen frontier and preserve the current negative package without running it."
 }
