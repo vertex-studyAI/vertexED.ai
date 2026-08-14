@@ -1,6 +1,6 @@
 # MASTER_STATUS
 
-**As of:** 2026-08-14 convergence run after IRIS checksum-backed recovery, Darcy v2 pre-outcome safety hardening, NPMS controlled-source recovery, and exact FinanceMeta/Bu1LD blocker localization  
+**As of:** 2026-08-14 convergence run after IRIS checksum-backed recovery, Darcy v2 pre-outcome safety hardening, Project 2424 Wave-001 recovery, NPMS controlled-source recovery, and exact FinanceMeta/Bu1LD blocker localization  
 **Truth rule:** claim-specific evidence only. Implemented, executed, reproduced, scientifically supported, release-ready, externally validated and published are separate states.
 
 ## Portfolio dashboard
@@ -15,7 +15,7 @@
 | APEN | **VERIFIED controlled mixed** | stronger learned/naturalistic controls only under a new frozen protocol |
 | Eigen-JEPA | **VERIFIED mixed/negative / FROZEN primary result** | no metric shopping; any successor requires a new protocol |
 | NPMS | **VERIFIED controlled source / PARAMETER-CONFOUNDED OR NON-UNIQUE** | checksum-matched Atlas source SHA-256 `076f12750d6a8e6c298c17815224a79463bcad149d6cf1283900d98c6e394a2c`; clean controlled replay; frozen invariant-parameter control gives NPMS `92.86%` vs parameter-summary `89.29%`, gap `3.57` pp inside the predeclared 5-pp non-uniqueness boundary. No natural/OOD successor run; freeze a new causal/natural protocol first. |
-| Project 2424 umbrella | **PARTIAL / canonical source recovery external** | registered identity count is not scientific completion; recover preserved ancestry/overlay before umbrella disposition claims |
+| Project 2424 umbrella | **PARTIAL — HISTORICAL WAVE-001 BASE RECOVERED / LATER OVERLAY + ID CANONICALIZATION BLOCKED** | checksum-selected historical bundle SHA-256 `4c685af70d84052c026602ff7336a522c741d91fb480038e980c21f0bbc63ece`; complete Git history with `wave-001-push-ready@ff609f335f91297357b430a2531633fe111cd5a9`; fresh clean-clone quality gate PASS. Registry has 2,424 unique rows but only 24 source-backed packages; 2,400 lack source in this bundle; independently reproduced count remains 0; retained release verdict is `RELEASE_REJECTED`. Multiple historical `P2424-*` maps conflict with each other and current `T2424-*` identities, so numeric suffixes cannot be remapped without provenance. Recover later `/Volumes/PRO-BLADE/Atlas/Project-2024/Project_2424` dirty overlay or byte-identical archive plus the canonicalization/migration records. |
 | Percy host | **UNKNOWN / BLOCKED_EXTERNAL_MAC** | live SQLite/WAL/checkpoint/process/worktree state unavailable; non-destructive snapshot, integrity/schema, leases/heartbeats/stale-worker reconciliation and independent recount first |
 | VertexED source | **VERIFIED source** | source evidence is separate from production identity |
 | VertexED database security | **PARTIAL — controls verified / platform warnings open** | 26 observed public tables have RLS; observed privileged functions are not client executable; leaked-password protection disabled and hosted PostgreSQL security update available |
@@ -32,6 +32,7 @@
 - LAM internal paper/source/provenance verification and immutable external-review packaging are closed; external validation itself is not.
 - IRIS exact retained package/source lineage recovery materially narrowed the blocker; no experiment rerun or seed unlock occurred.
 - Darcy v2 protocol is frozen; deterministic generator/control scaffolding landed; safety hardening explicitly removed outcome-peeking and added unresolved pre-training interpretation approvals. Training remains unauthorized.
+- Project 2424 manifest-selected Wave-001 Git bundle is checksum-recovered and freshly quality-gated; 24 source-backed packages are verified inside a 2,424-row historical registry, while later dirty overlay and identity-map migration remain unresolved.
 - NPMS controlled Atlas source is recovered and cleanly replayed; the stronger invariant-parameter adverse control narrows the regime-classification interpretation to `PARAMETER_CONFOUNDED_OR_NON_UNIQUE`.
 - FinanceMeta retained branch and exact preview evidence are recovered; CI-definition repair and live production qualification remain separate.
 - Bu1LD canonical source/build is verified; deployment blocker is localized to missing Actions Supabase secrets, not guessed source failure.
@@ -39,4 +40,4 @@
 
 ## Scheduling guard
 
-**Zero new major scientific experiment runs are authorized.** Highest-information work is live/source recovery, release metadata, external review, product certification, FinanceMeta CI-definition repair, Bu1LD release-environment configuration and remaining pre-outcome Darcy freeze work. Unused compute stays unused rather than generating low-information activity.
+**Zero new major scientific experiment runs are authorized.** Highest-information work is Percy/later Project-2424 overlay recovery, release metadata, external review, product certification, FinanceMeta CI-definition repair, Bu1LD release-environment configuration and remaining pre-outcome Darcy freeze work. Unused compute stays unused rather than generating low-information activity.
