@@ -1,0 +1,101 @@
+{
+  "snapshot_id": "START_SNAPSHOT_20260814_2203_IST",
+  "snapshot_role": "evidence_pointer_checkpoint_not_authoritative_truth_source",
+  "started_at": "2026-08-14T22:03:00+05:30",
+  "target_checkpoint": "2026-08-15T10:00:00+05:30",
+  "truth_sources": {
+    "canonical_status": "MASTER_STATUS.md",
+    "research_status": "RESEARCH_STATUS.md",
+    "product_status": "PRODUCT_STATUS.md",
+    "security_status": "SECURITY_STATUS.md",
+    "task_queue": ["NEXT_TASK_QUEUE.md", "NEXT_TASK_QUEUE.json"],
+    "current_checkpoint": "CHECKPOINT.md"
+  },
+  "initial_control_boundary": {
+    "connected_github_scope": ["vertex-studyAI/vertexED.ai", "vertex-studyAI/LAM-JEPA", "vertex-studyAI/Text-To-Video"],
+    "local_mac_percy_state_visible": false,
+    "project2424_local_canonical_source_visible": false,
+    "finance_meta_source_recovered": true,
+    "bu1ld_source_recovered": true,
+    "connected_supabase_projects": ["xwlrzgfuhfbckgvcmyoq"]
+  },
+  "states": {
+    "percy": {
+      "state": "BLOCKED_EXTERNAL_MAC",
+      "live_db_integrity": "UNKNOWN",
+      "workers": "UNKNOWN",
+      "leases": "UNKNOWN",
+      "queue_counts": "UNKNOWN",
+      "constraint": "non-destructive SQLite+WAL+checkpoint snapshot and integrity/recount required; no reset or replacement DB"
+    },
+    "project2424": {
+      "state": "PARTIAL_BLOCKED_EXTERNAL_SOURCE",
+      "registered_identity_target": 2424,
+      "completion_inference_from_count_forbidden": true,
+      "next_gate": "recover canonical source/ancestry/dirty overlay and reconcile child map"
+    },
+    "vertexed": {
+      "source": "GREEN",
+      "production": "BLOCKED_EXTERNAL_DEPLOYMENT_IDENTITY",
+      "expected_revision": "e2ecd19ed9816f8f36369c7dc0f38e39942ca73a",
+      "production_health_run": "31817794439",
+      "production_health_artifact": "9225715176",
+      "production_health_artifact_sha256": "e7870e9561748ef4d4247e3bf4e01d3e8feead3780c4e2016d3742d134f2069a",
+      "database_security": "PARTIAL_VERIFIED_CONTROLS",
+      "open_security_advisor_actions": ["leaked_password_protection_disabled", "postgres_security_update_available"]
+    },
+    "finance_meta": {
+      "source": "PARTIAL_SOURCE_RECOVERED_WRITE_BLOCKED",
+      "repository": "build-the-future-11/finance4all-global-reach",
+      "branch": "cursor/membership-security-supabase-fix",
+      "branch_revision": "6dcc03710bb6adf9b4b722b308c40a0720bea61f",
+      "branch_ahead_by": 41,
+      "branch_behind_by": 0,
+      "production": "BLOCKED_EXTERNAL_LIVE_STATE"
+    },
+    "bu1ld": {
+      "source": "PARTIAL_SOURCE_RECOVERED",
+      "repository": "ryangomez010/bu1ld-landing",
+      "main_revision": "daa80c1124b2a6d7d09b7669e04d29e50cffcbbe",
+      "production": "BLOCKED_EXTERNAL_LIVE_STATE"
+    },
+    "lam_jepa": {
+      "scientific_result": "VERIFIED_REPRODUCIBLE_NEGATIVE",
+      "external_validation": "PENDING",
+      "immutable_external_packet": "218ea1bea686cdf8c281520b2b636897bc8b8dd2"
+    },
+    "iris": {
+      "scientific_result": "MIXED_NEGATIVE",
+      "frontier_execution": "BLOCKED_EXACT_PROVENANCE"
+    },
+    "darcy_t2424_0050": {
+      "parent_result": "VERIFIED_BOUNDED_SYNTHETIC_MECHANISM",
+      "v2_protocol": "FROZEN_PRE_OUTCOME",
+      "v2_outcome": "NONE"
+    },
+    "ngmt_v0_1": "VERIFIED_NEGATIVE_FROZEN",
+    "eigen_jepa": "MIXED_NEGATIVE_FROZEN",
+    "neurocad_typed_parser_mechanism": "FALSIFIED_FROZEN",
+    "t2424_1863": "NEGATIVE_FROZEN"
+  },
+  "subsequent_verified_advances_during_this_run": [
+    {
+      "project": "Darcy T2424-0050 v2",
+      "merge": "4280156c94fdac3e92ff300e743e2f2899cd4869",
+      "state": "PARTIAL_PREOUTCOME_MATERIALIZED",
+      "boundary": "deterministic generator and fixed controls only; training_authorized=false; no v2 outcome"
+    },
+    {
+      "project": "IRIS",
+      "merge": "d92e06deaa893bfb8273f3f781105ecb155e8aca",
+      "state": "PARTIALLY_RECOVERED_BLOCKED_EXACT_PROVENANCE",
+      "boundary": "checksum-backed retained packages/source lineage recovered; no rerun or confirmatory-seed unlock"
+    }
+  ],
+  "authorization": {
+    "major_science_runs_authorized": 0,
+    "paid_resource_creation_authorized": false,
+    "destructive_recovery_authorized": false,
+    "negative_result_retuning_authorized": false
+  }
+}
