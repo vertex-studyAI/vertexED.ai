@@ -1,0 +1,10 @@
+{
+  "as_of": "2026-08-14",
+  "registry_version": 1,
+  "canonical_machine_ledger": "EXPERIMENT_LEDGER.json",
+  "canonical_human_ledger": "EXPERIMENT_LEDGER.md",
+  "authority": "EXPERIMENT_LEDGER.json is authoritative for experiment IDs, frozen states, metrics, provenance and next gates; this file is a stable discovery index and does not duplicate outcomes.",
+  "immutability": "Frozen outcomes are immutable. Protocol or hypothesis changes require a new versioned experiment record.",
+  "preserve_negative_results": true,
+  "allow_confirmatory_rescue_after_failed_development_gate": false
+}
