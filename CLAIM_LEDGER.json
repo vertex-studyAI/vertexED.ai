@@ -1,0 +1,245 @@
+{
+  "as_of": "2026-08-14",
+  "source_human_ledger": "CLAIM_LEDGER.md",
+  "rule": "Claims are claim-specific. Reproduced negative results may be GREEN for reproducibility while superiority remains unsupported.",
+  "claims": [
+    {
+      "project": "LAM-JEPA",
+      "primary_claim": "The frozen ARC validation comparison is reproducibly negative/inconclusive for model superiority and does not establish planner or target benefit.",
+      "supported": [
+        "Frozen ARC validation result reproduces at the aggregate scientific-conclusion level.",
+        "Matched supervised mean exceeds the full-model mean in the retained five-seed comparison.",
+        "Planner and target ablations do not establish positive mechanism contribution."
+      ],
+      "non_claims": [
+        "LAM-JEPA superiority",
+        "planner benefit",
+        "target/EMA benefit",
+        "broad JEPA failure",
+        "locked ARC test performance"
+      ],
+      "falsifier_or_gate": "A positive superiority/mechanism claim would require a separately frozen protocol where the full model beats dangerous controls and mechanism ablations show predeclared positive effects; the current result is not retuned.",
+      "state": "A_PUBLISH_NEGATIVE_RESULT"
+    },
+    {
+      "project": "IRIS v0.2",
+      "primary_claim": "The retained development package shows a robustness-adaptation tradeoff and fails the current >=10% abrupt-regime promotion gate.",
+      "supported": [
+        "Development abrupt-regime improvement is approximately 5.33-5.36% under the retained comparison.",
+        "PCRW is not cleanly better than Huber.",
+        "Coherent burst outliers are adverse."
+      ],
+      "non_claims": [
+        "successor superiority",
+        ">=10% abrupt adaptation",
+        "confirmatory success",
+        "broad novel robust-memory superiority"
+      ],
+      "falsifier_or_gate": "v0.2/current candidate already fails its frozen development gate. Any successor must be separately versioned and preregistered before reserved confirmatory seeds.",
+      "state": "D_NEGATIVE_RESULT"
+    },
+    {
+      "project": "NeuroCAD / T2424-0037",
+      "primary_claim": "A typed/validated compiler improves the frozen controlled held-out-template benchmark over direct flat extraction and produces executable STL for the frozen valid cases.",
+      "supported": [
+        "Held-out-template overall: typed/validated 19/20 versus direct 12/20.",
+        "Frozen valid cases produce non-empty STL 12/12 through OpenSCAD.",
+        "The O018 negative-width failure remains preserved."
+      ],
+      "non_claims": [
+        "arbitrary natural-language CAD",
+        "OOD generalization to new geometry families",
+        "superiority to learned CAD-generation systems",
+        "manufacturing correctness",
+        "SOTA",
+        "research novelty"
+      ],
+      "falsifier_or_gate": "Same-provider learned direct-generation baseline parity/win or failure on preregistered new-part-family OOD defeats a broader research claim.",
+      "state": "C_CONTINUE_EXPERIMENTATION"
+    },
+    {
+      "project": "VertexED",
+      "primary_claim": "Source-level gates are strong, while production certification remains incomplete because exact served revision identity and the authenticated golden journey are not both established.",
+      "supported": [
+        "Current public production smoke boundaries other than revision identity pass in the retained 2026-08-14 monitor.",
+        "The health endpoint is live but did not expose the expected immutable revision in that monitor."
+      ],
+      "non_claims": [
+        "current production revision is verified",
+        "full production health",
+        "authenticated golden journey complete"
+      ],
+      "falsifier_or_gate": "Exact immutable revision identity plus authenticated end-to-end journey must pass on the real deployment.",
+      "state": "B_PRODUCTIZE"
+    },
+    {
+      "project": "Percy",
+      "primary_claim": "The retained control-plane design/evidence exists, but current real-host queue, worker, failure and throughput counters are unknown from this surface.",
+      "supported": [
+        "A logical registry specification exists for 16,256 identities.",
+        "Logical identity count does not establish physical worker concurrency or useful completed work."
+      ],
+      "non_claims": [
+        "16,256 physical workers",
+        "16,256 unique useful tasks completed",
+        "live host health",
+        "production qualification"
+      ],
+      "falsifier_or_gate": "Real host DB/WAL/process recovery and bounded crash/restart/provider qualification are required before scale claims.",
+      "state": "F_EXTERNALLY_BLOCKED"
+    },
+    {
+      "project": "T2424-0027",
+      "primary_claim": "The deterministic synthetic latent-language diagnostic passes its frozen leakage-reduction mechanics gate.",
+      "supported": [
+        "Synthetic normalized excess language-leakage reduction is 0.9583333333333334 against a >=0.90 gate.",
+        "Focused tests and a fail-closed verifier exist for the synthetic package."
+      ],
+      "non_claims": [
+        "Sapir-Whorf hypothesis",
+        "linguistic relativity",
+        "real multilingual encoder behavior",
+        "translation quality",
+        "publication novelty"
+      ],
+      "falsifier_or_gate": "A separately preregistered real multilingual encoder study with dangerous controls is required for any external representation claim.",
+      "state": "C_CONTINUE_EXPERIMENTATION"
+    },
+    {
+      "project": "Darcy / T2424-0050",
+      "primary_claim": "The reduced-resistance representation strongly improves the frozen synthetic 1D pressure-MAE screen while maintaining negligible flux error.",
+      "supported": [
+        "Mean pressure MAE decreases from 0.0658913916 to 0.0011366559 in the retained 20-seed screen.",
+        "Mean relative improvement is 97.8766% in that bounded screen.",
+        "Mean flux relative error is approximately 1.37e-16."
+      ],
+      "non_claims": [
+        "neural operator learning",
+        "multidimensional Darcy generalization",
+        "real porous-media validation",
+        "learned-baseline superiority",
+        "publication novelty"
+      ],
+      "falsifier_or_gate": "Matched learned operator and reduced-order baselines plus 2D/OOD/misaligned physical regimes are required for promotion.",
+      "state": "C_CONTINUE_EXPERIMENTATION"
+    },
+    {
+      "project": "NGMT v0.1",
+      "primary_claim": "The frozen equal-budget B3 experiment reproducibly fails both adverse-condition superiority gates while passing the clean-regression constraint.",
+      "supported": [
+        "B3 vs B2 +0.4946% +/- 1.5472% fails the >=5% gate.",
+        "B3 vs B1 +0.4393% +/- 1.1529% fails the >=3% gate.",
+        "Unchanged replay reproduces the scientific metrics/hashes."
+      ],
+      "non_claims": [
+        "NGMT superiority",
+        "statistical significance",
+        "broad Transformer memory advantage"
+      ],
+      "falsifier_or_gate": "v0.1 is closed negative. Any new mechanism is a new version/protocol and cannot retune v0.1.",
+      "state": "D_NEGATIVE_RESULT"
+    },
+    {
+      "project": "Eigen-JEPA",
+      "primary_claim": "The retained real-data comparison is mixed/negative and raw/log ridge remains stronger on the frozen primary covariance-matrix MSE.",
+      "supported": [
+        "The primary real-data baseline comparison reproduces as mixed/negative."
+      ],
+      "non_claims": [
+        "spectral/eigen superiority",
+        "multi-dataset generalization"
+      ],
+      "falsifier_or_gate": "Any successor study must preregister stronger spectral baselines and a primary metric hierarchy across multiple datasets.",
+      "state": "D_NEGATIVE_RESULT"
+    },
+    {
+      "project": "APEN",
+      "primary_claim": "The controlled salience-dependent tradeoff reproduces and degrades/reverses under severe salience failure.",
+      "supported": [
+        "Retained salience-dropout stress shows weakening/reversal regions."
+      ],
+      "non_claims": [
+        "universal APEN superiority",
+        "robustness to arbitrary salience failure",
+        "naturalistic transfer"
+      ],
+      "falsifier_or_gate": "A new claim requires matched learned controls and preregistered realistic salience-reliability stress.",
+      "state": "D_NEGATIVE_RESULT"
+    },
+    {
+      "project": "NPMS",
+      "primary_claim": "Controlled diagnostic and companion learned evidence reproduce; natural-task/OOD transfer remains unestablished.",
+      "supported": [
+        "Controlled mechanism evidence reproduces within the retained boundary."
+      ],
+      "non_claims": [
+        "causal natural-task superiority",
+        "OOD/generalization superiority"
+      ],
+      "falsifier_or_gate": "Strong learned memory controls plus a frozen natural/OOD task are required for promotion.",
+      "state": "C_CONTINUE_EXPERIMENTATION"
+    },
+    {
+      "project": "T2424-0025",
+      "primary_claim": "Robust readout effects reproduce in the synthetic contamination screen, but the effect is not unique to a non-Gaussian learned memory mechanism.",
+      "supported": [
+        "Robust aggregation effect reproduces.",
+        "Material benefit also appears in the 0% control."
+      ],
+      "non_claims": [
+        "unique non-Gaussian Transformer memory mechanism",
+        "learned sequence superiority"
+      ],
+      "falsifier_or_gate": "Learned mechanism must be evaluated separately with matched memory baselines and ablations.",
+      "state": "C_CONTINUE_EXPERIMENTATION"
+    },
+    {
+      "project": "T2424-1863",
+      "primary_claim": "The exact-head frozen local-diffusion screen reproducibly fails the predeclared >75% improvement gate.",
+      "supported": [
+        "Negative gate outcome reproduces under exact-head workflow evidence."
+      ],
+      "non_claims": [
+        "operator superiority",
+        "real-PDE advantage",
+        "OOD/generalization advantage"
+      ],
+      "falsifier_or_gate": "Current result is closed negative; a real-PDE learned-operator study must be a new protocol.",
+      "state": "D_NEGATIVE_RESULT"
+    },
+    {
+      "project": "Text-To-Video V6",
+      "primary_claim": "The current repository proves a durable local media-render pipeline, not a production video service.",
+      "supported": [
+        "Real local MP4 encoding and verification.",
+        "Durable local queue lifecycle and bounded retries.",
+        "Content-addressed SHA-256-verified local artifact storage.",
+        "Current exact-head CI succeeds."
+      ],
+      "non_claims": [
+        "hosted production video service",
+        "distributed worker fleet",
+        "real synthesized narration",
+        "production auth/ownership/retention/observability"
+      ],
+      "falsifier_or_gate": "Hosted worker/object-storage/auth lifecycle must be deployed and independently validated for product-production promotion.",
+      "state": "B_PRODUCTIZE"
+    },
+    {
+      "project": "Hercules",
+      "primary_claim": "Architecture/runtime ideas exist; learned advantage is untested.",
+      "supported": ["Bounded architecture/runtime implementation where verified."],
+      "non_claims": ["learned advantage", "frontier capability", "AGI capability", "unsupported scale claims"],
+      "falsifier_or_gate": "One canonical bounded matched-budget learned experiment is required before re-entry.",
+      "state": "E_ARCHIVE_CURRENT_FORM"
+    },
+    {
+      "project": "Olympus",
+      "primary_claim": "O0 roadmap/runtime exists; matched-provider O1 advantage is untested.",
+      "supported": ["Roadmap/runtime artifacts where verified."],
+      "non_claims": ["learned agent superiority", "scale claims", "decomposition benefit"],
+      "falsifier_or_gate": "Freeze and run monolithic/full/minus-falsifier/minus-evidence-gate matched-provider O1 study before re-entry.",
+      "state": "E_ARCHIVE_CURRENT_FORM"
+    }
+  ]
+}
