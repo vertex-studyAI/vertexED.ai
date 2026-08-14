@@ -1,23 +1,261 @@
 {
-  "as_of": "2026-08-14T12:01:00+05:30",
+  "as_of": "2026-08-14",
   "canonical_registry": "EXPERIMENT_LEDGER.md + EXPERIMENT_LEDGER.json",
+  "compatibility_entrypoints": ["EXPERIMENT_REGISTRY.md", "EXPERIMENT_REGISTRY.json"],
   "immutability_rule": "Frozen outcomes are immutable. Protocol changes create a new experiment version. Confirmatory execution requires candidate, question, hypothesis, baselines, split, seed policy, primary metric, effect statistic, threshold, falsifier, analysis plan, compute budget and stop rule frozen first.",
+  "provenance_rule": "Displayed manuscript results should resolve claim -> table/figure -> processed artifact -> raw artifact -> frozen config -> code commit -> exact command. Missing links remain explicit gaps and are not guessed.",
   "experiments": [
-    {"id":"EXP-LAM-ARC-V3","project":"LAM-JEPA","protocol_state":"FROZEN_REPRODUCED","outcome":"NEGATIVE_INCONCLUSIVE","metrics":{"full_mean":0.254915,"full_sd":0.012997,"supervised_mean":0.266441,"supervised_sd":0.015460,"no_planner_mean":0.250169,"no_planner_sd":0.012997,"no_target_mean":0.261695,"no_target_sd":0.020395},"artifact_id":"9162165932","artifact_sha256":"caa898f1ff046a337db9b5ddbffe1b332943a732868e2fd809abeda8ee89c30b","next":"paper/release conversion; locked test untouched"},
-    {"id":"EXP-IRIS-V02-STRESS","project":"IRIS v0.2","protocol_state":"DEVELOPMENT_REPRODUCED","outcome":"PROMOTION_GATE_FAILED","metrics":{"abrupt_gain_pct_approx":[5.33,5.36],"frozen_advancement_gate_pct":10.0},"notes":"PCRW not cleanly above Huber; coherent bursts adverse; reserved confirmatory seeds untouched","next":"versioned successor freeze or close line"},
-    {"id":"EXP-P2424-0025","project":"T2424-0025","protocol_state":"FROZEN_REPRODUCED","outcome":"POSITIVE_ROBUSTNESS_MECHANISM_NOT_UNIQUE","verification":"focused checks 10/10","next":"learned sequence mechanism only under separate frozen protocol"},
-    {"id":"EXP-NGMT-V01","project":"NGMT v0.1","protocol_state":"FROZEN_REPRODUCED","outcome":"NEGATIVE_INCONCLUSIVE","design":{"parameters_per_arm":6049,"paired_seeds":3,"arms":["B0","B1","B2","B3"]},"metrics":{"b3_vs_b2_adverse_improvement_pct":0.4946,"b3_vs_b2_sd":1.5472,"b3_vs_b2_gate_pct":5.0,"b3_vs_b1_improvement_pct":0.4393,"b3_vs_b1_sd":1.1529,"b3_vs_b1_gate_pct":3.0,"clean_regression_pct":0.96,"clean_regression_sd":2.706,"clean_max_pct":2.0},"artifacts":["9166307730","9166406618"],"next":"negative package; no v0.1 rescue"},
-    {"id":"EXP-NEUROCAD-V1","project":"NeuroCAD","protocol_state":"FROZEN_REPRODUCED","outcome":"CONTROLLED_GATE_PASS","metrics":{"typed_validated_correct":19,"direct_correct":12,"total":20,"valid_stl":12,"valid_cases":12},"verification":"focused suite 6/6","retained_failure":"negative-width invalid case accepted in frozen v1","next":"freeze same-provider learned/OOD attack"},
-    {"id":"EXP-DARCY-0050-1D","project":"Darcy T2424-0050","protocol_state":"FROZEN_REPRODUCED","outcome":"BOUNDED_MECHANISM_PASS","metrics":{"baseline_pressure_mae":0.0658913916,"method_pressure_mae":0.0011366559,"relative_improvement_pct":97.8766,"flux_error":1.369e-16,"seeds":20},"verification":"focused suite 6/6","next":"learned matched-budget operator + OOD physical regimes"},
-    {"id":"EXP-APEN-SALIENCE-STRESS","project":"APEN","protocol_state":"REPRODUCED","outcome":"MIXED","design":{"paired_controlled_conditions":48},"result":"benefit weakens/reverses under severe salience failure","next":"matched learned control + naturalistic salience-quality stress"},
-    {"id":"EXP-EIGEN-REAL","project":"Eigen-JEPA","protocol_state":"REPRODUCED","outcome":"MIXED_NEGATIVE","result":"raw/log ridge remains stronger on primary covariance-matrix MSE","next":"stronger spectral controls + frozen multi-dataset metric hierarchy"},
-    {"id":"EXP-NPMS-CONTROLLED","project":"NPMS","protocol_state":"REPRODUCED","outcome":"CONTROLLED_EVIDENCE","result":"controlled diagnostic and companion learned evidence reproduce; natural-task transfer unestablished","next":"stronger learned memory controls + natural/OOD task"},
-    {"id":"EXP-P2424-0027","project":"T2424-0027","protocol_state":"FROZEN_REPRODUCED","outcome":"SYNTHETIC_AUDIT_PASS","design":{"records":72},"verification":"8/8 + independent verifier","next":"real multilingual encoder + preregistered probes"},
-    {"id":"EXP-P2424-1863","project":"T2424-1863","protocol_state":"FROZEN_EXACT_HEAD_REPRODUCED","outcome":"NEGATIVE","result":"predeclared >75% improvement gate failed","next":"archive active compute; new real-PDE learned comparison only as new protocol"},
-    {"id":"EXP-HERCULES-MATCHED","project":"Hercules","protocol_state":"NOT_FROZEN_NOT_RUN","outcome":"NONE","next":"freeze same-budget Transformer/proposal/ablation before training"},
-    {"id":"EXP-OLYMPUS-O1","project":"Olympus","protocol_state":"NOT_FROZEN_NOT_RUN","outcome":"NONE","next":"freeze matched-provider monolithic/full/minus-falsifier/minus-evidence-gate protocol"},
-    {"id":"EXP-NEUROCAD-OOD-001","project":"NeuroCAD","protocol_state":"PLANNED_NOT_FROZEN","outcome":"NONE","authorization":"may run only after NEUROCAD-FREEZE-001 passes","next":"freeze protocol first"},
-    {"id":"EXP-IRIS-SUCCESSOR-NEXT","project":"IRIS","protocol_state":"PROHIBITED_UNTIL_DECISION","outcome":"NONE","authorization":"reserved confirmatory seeds remain untouched","next":"IRIS-DECIDE-001"},
-    {"id":"EXP-DARCY-LEARNED-OOD-001","project":"Darcy T2424-0050","protocol_state":"PLANNED_NOT_FROZEN","outcome":"NONE","next":"DARCY-FREEZE-001"}
+    {
+      "id": "EXP-LAM-ARC-V3",
+      "project": "LAM-JEPA",
+      "protocol_state": "FROZEN_REPRODUCED",
+      "outcome": "NEGATIVE_INCONCLUSIVE",
+      "metrics": {
+        "full_mean": 0.254915,
+        "full_sd": 0.012997,
+        "supervised_mean": 0.266441,
+        "supervised_sd": 0.01546,
+        "no_planner_mean": 0.250169,
+        "no_planner_sd": 0.012997,
+        "no_target_mean": 0.261695,
+        "no_target_sd": 0.020395
+      },
+      "primary_artifact_id": "9162165932",
+      "primary_artifact_sha256": "caa898f1ff046a337db9b5ddbffe1b332943a732868e2fd809abeda8ee89c30b",
+      "independent_audit": {
+        "repo_head": "88f759ef47263c416f2a667427286a3284d8221c",
+        "workflow_run": 31203337502,
+        "artifact_id": 9163503934,
+        "artifact_sha256": "14c315cd64b2b96d48af4b865bca700a101ea66842a78f35382a5f408805b10a",
+        "locked_test_used": false,
+        "conclusion": "NEGATIVE_OR_INCONCLUSIVE_REPRODUCED"
+      },
+      "next": "paper/release conversion; complete table/figure provenance; locked test untouched"
+    },
+    {
+      "id": "EXP-IRIS-V02-STRESS",
+      "project": "IRIS v0.2",
+      "protocol_state": "DEVELOPMENT_REPRODUCED",
+      "outcome": "PROMOTION_GATE_FAILED",
+      "metrics": {
+        "abrupt_gain_pct_approx": [5.33, 5.36],
+        "frozen_advancement_gate_pct": 10.0
+      },
+      "notes": "PCRW not cleanly above Huber; coherent bursts adverse; reserved confirmatory seeds untouched",
+      "next": "close current line; no unfrozen successor architecture"
+    },
+    {
+      "id": "EXP-IRIS-COMMON-ADAPTATION-HARNESS-V1",
+      "project": "IRIS",
+      "protocol_state": "FROZEN_DEVELOPMENT_REPRODUCED",
+      "outcome": "NEGATIVE_DEVELOPMENT_GATE",
+      "development_seeds": "0-9",
+      "reserved_confirmatory_seeds": "1000-1029",
+      "confirmatory_seeds_accessed": false,
+      "metrics": {
+        "pabim_adverse_mean_mse": 0.05970593860459976,
+        "best_fixed_control_adverse_mean_mse": 0.03350170353331791,
+        "pabim_regime_twmse25": 0.2157309642503522,
+        "confirmed_huber_regime_twmse25": 0.1626331705719848,
+        "pabim_recovery_median": 24.0,
+        "confirmed_huber_recovery_median": 18.5
+      },
+      "hashes": {
+        "protocol_sha256": "0cdf22c97ddb9459182175e7c17bf51906088f5d3a7ec10131edfa650d2edbdd",
+        "raw_sha256": "5f1bfb8cfc8114583e0e55d491d2776522cc9d1e4451289ef260c502e27c501e",
+        "summary_sha256": "62355d6aa7eff081e3a940bae65a6ec71a55f789f9e48f398e1031439dc34c1b",
+        "bundle_sha256": "5643b59e9272099e54f04491aa63906d0d186a1a2c525a574f960008e5f19b90"
+      },
+      "verification": "retained raw/summary package; minimal numpy.bool JSON serialization repair did not alter scientific values",
+      "next": "baseline-frontier development protocol only if prioritized; confirmatory seeds remain quarantined"
+    },
+    {
+      "id": "EXP-P2424-0025",
+      "project": "T2424-0025",
+      "protocol_state": "FROZEN_REPRODUCED",
+      "outcome": "POSITIVE_ROBUSTNESS_MECHANISM_NOT_UNIQUE",
+      "verification": "focused checks 10/10",
+      "next": "learned sequence mechanism only under separate frozen protocol"
+    },
+    {
+      "id": "EXP-NGMT-V01",
+      "project": "NGMT v0.1",
+      "protocol_state": "FROZEN_REPRODUCED",
+      "outcome": "NEGATIVE_INCONCLUSIVE",
+      "design": {
+        "parameters_per_arm": 6049,
+        "paired_seeds": 3,
+        "arms": ["B0", "B1", "B2", "B3"]
+      },
+      "metrics": {
+        "b3_vs_b2_adverse_improvement_pct": 0.4946,
+        "b3_vs_b2_sd": 1.5472,
+        "b3_vs_b2_gate_pct": 5.0,
+        "b3_vs_b1_improvement_pct": 0.4393,
+        "b3_vs_b1_sd": 1.1529,
+        "b3_vs_b1_gate_pct": 3.0,
+        "clean_regression_pct": 0.96,
+        "clean_regression_sd": 2.706,
+        "clean_max_pct": 2.0
+      },
+      "artifacts": ["9166307730", "9166406618"],
+      "next": "negative package; recover exact artifact/config/command chain; no v0.1 rescue"
+    },
+    {
+      "id": "EXP-NEUROCAD-V1",
+      "project": "NeuroCAD",
+      "protocol_state": "FROZEN_REPRODUCED",
+      "outcome": "CONTROLLED_GATE_PASS",
+      "metrics": {
+        "typed_validated_correct": 19,
+        "direct_correct": 12,
+        "total": 20,
+        "valid_stl": 12,
+        "valid_cases": 12
+      },
+      "verification": "focused suite 6/6",
+      "retained_failure": "negative-width invalid case accepted in frozen v1",
+      "next": "freeze same-provider learned/direct/constrained/OOD attack"
+    },
+    {
+      "id": "EXP-DARCY-0050-1D",
+      "project": "Darcy T2424-0050",
+      "protocol_state": "FROZEN_REPRODUCED",
+      "outcome": "BOUNDED_MECHANISM_PASS",
+      "metrics": {
+        "baseline_pressure_mae": 0.0658913916,
+        "method_pressure_mae": 0.0011366559,
+        "relative_improvement_pct": 97.8766,
+        "flux_error": 1.369e-16,
+        "seeds": 20
+      },
+      "verification": "focused suite 6/6",
+      "next": "learned matched-budget operator + OOD physical regimes"
+    },
+    {
+      "id": "EXP-APEN-SALIENCE-STRESS",
+      "project": "APEN",
+      "protocol_state": "REPRODUCED",
+      "outcome": "MIXED",
+      "design": {"paired_controlled_conditions": 48},
+      "result": "benefit weakens/reverses under severe salience failure",
+      "next": "matched learned control + naturalistic salience-quality stress"
+    },
+    {
+      "id": "APEN-SALIENCE-SPECIFICITY-V1-20260813",
+      "project": "APEN",
+      "protocol_state": "FROZEN_PROSPECTIVE_SYNTHETIC_ABLATION_REPRODUCED",
+      "outcome": "BOUNDED_ALIGNMENT_SPECIFICITY_PASS",
+      "design": {"paired_cells": 16},
+      "metrics": {
+        "true_salience_rare_mse": 17.131745635925725,
+        "uniform_rare_mse": 18.41245032591212,
+        "relative_improvement_fraction": 0.06955645051674836,
+        "fraction_of_gain_lost_shuffled": 1.0076450977555735,
+        "fraction_of_gain_lost_random": 1.2098759923686688
+      },
+      "bundle_sha256": "2c3003bb629ccb59aab572b172a2d7ffd0f6e9608630458fada9df661d6e66d7",
+      "claim_boundary": "correct temporal salience alignment matters in the existing synthetic ridge-readout task; architecture superiority is not established",
+      "next": "matched learned recurrent/attention control + naturalistic task"
+    },
+    {
+      "id": "EIGEN-JEPA-CLASSICAL-BASELINES-V1-20260813",
+      "project": "Eigen-JEPA",
+      "protocol_state": "FROZEN_PRIMARY_METRIC_REPRODUCED",
+      "outcome": "BASELINE_DOMINATED_OR_NON_SUPERIOR",
+      "metrics": {
+        "eigen_jepa_covariance_matrix_mse": 5.831822564700928e-9,
+        "spectral_eigenvalue_ridge_covariance_matrix_mse": 5.499228808679524e-9,
+        "test_samples": 111
+      },
+      "other_lower_mean_primary_baselines": ["raw_ridge", "log_ridge", "raw_pca_ridge"],
+      "provenance_issue": "current parser yields 14895 daily rows while older specification says 14899; data/parser is not changed to fit prose",
+      "bundle_sha256": "cfe6de9965e3f89bdc3f3451023c1e7606093c4fddc7c4e92d7e6656148e6484",
+      "next": "reconcile row-count provenance; negative/mixed paper conversion; no metric shopping"
+    },
+    {
+      "id": "NPMS-INVARIANT-PARAMETER-CONTROL-V1-20260813",
+      "project": "NPMS",
+      "protocol_state": "FROZEN_CONTROL_REPRODUCED",
+      "outcome": "UNIQUENESS_GATE_FAILED_OR_CONFOUNDED",
+      "evaluations": 112,
+      "metrics": {
+        "npms_regime_accuracy": 0.9285714285714286,
+        "invariant_parameter_accuracy": 0.8928571428571429,
+        "difference_percentage_points": 3.57142857142857,
+        "frozen_uniqueness_gate_percentage_points": 5.0
+      },
+      "bundle_sha256": "ad765e342e524c17eb8e93ba1c4098ee07c85f009d94a23151ea263b335e29c2",
+      "claim_boundary": "coordinate invariance remains valid; broad regime-classification uniqueness is weakened by invariant parameter summaries",
+      "next": "natural memory task or causal intervention beyond invariant-parameter summaries"
+    },
+    {
+      "id": "EXP-P2424-0027",
+      "project": "T2424-0027",
+      "protocol_state": "FROZEN_REPRODUCED",
+      "outcome": "SYNTHETIC_AUDIT_PASS",
+      "design": {"records": 72},
+      "verification": "8/8 + independent verifier",
+      "next": "real multilingual encoder + preregistered nuisance controls"
+    },
+    {
+      "id": "EXP-P2424-1863",
+      "project": "T2424-1863",
+      "protocol_state": "FROZEN_EXACT_HEAD_REPRODUCED",
+      "outcome": "NEGATIVE",
+      "result": "predeclared >75% improvement gate failed",
+      "workflow_run": 31659932936,
+      "canonical_ci_run": 31659932951,
+      "next": "archive active compute; real-PDE learned comparison only as a new protocol"
+    },
+    {
+      "id": "EXP-P2424-CANONICAL-REPRO-20260813",
+      "project": "Project 2424",
+      "protocol_state": "FROZEN_SOURCE_REPRODUCTION",
+      "outcome": "SCIENTIFIC_VALUE_AGREEMENT_NOT_LATEST_BYTE_IDENTITY",
+      "source_sha": "bd2a4d3d939b8ce06908d7842ca9e075e0ae2fa7",
+      "workflow_run": 31618609967,
+      "job_id": 94295733785,
+      "artifact_id": 9162627168,
+      "artifact_sha256": "d9d1816d3cf8eb317f435b180c0ec6137fa64cbfde6b99e7f8b5f2d5f1a0bbae",
+      "next": "recover canonical local source and consolidate children"
+    },
+    {
+      "id": "EXP-HERCULES-MATCHED",
+      "project": "Hercules",
+      "protocol_state": "NOT_FROZEN_NOT_RUN",
+      "outcome": "NONE",
+      "next": "freeze same-budget Transformer/proposal/ablation before training"
+    },
+    {
+      "id": "EXP-OLYMPUS-O1",
+      "project": "Olympus",
+      "protocol_state": "NOT_FROZEN_NOT_RUN",
+      "outcome": "NONE",
+      "next": "freeze matched-provider monolithic/full/minus-falsifier/minus-evidence-gate protocol"
+    },
+    {
+      "id": "EXP-NEUROCAD-OOD-001",
+      "project": "NeuroCAD",
+      "protocol_state": "PLANNED_NOT_FROZEN",
+      "outcome": "NONE",
+      "authorization": "may run only after a complete matched-budget protocol freeze",
+      "next": "freeze protocol first"
+    },
+    {
+      "id": "EXP-IRIS-BASELINE-FRONTIER-NEXT",
+      "project": "IRIS",
+      "protocol_state": "PLANNED_NOT_FROZEN",
+      "outcome": "NONE",
+      "authorization": "development-only baseline frontier may be considered after freeze; reserved confirmatory seeds remain untouched",
+      "next": "freeze methods, false-open constraint/Pareto rule, primary metrics, falsifier and stop rule"
+    },
+    {
+      "id": "EXP-DARCY-LEARNED-OOD-001",
+      "project": "Darcy T2424-0050",
+      "protocol_state": "PLANNED_NOT_FROZEN",
+      "outcome": "NONE",
+      "next": "freeze matched learned operator/OOD protocol"
+    }
   ]
 }
