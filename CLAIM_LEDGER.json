@@ -1,0 +1,213 @@
+{
+  "schema_version": "1.0",
+  "snapshot_date": "2026-08-14",
+  "human_authority": "CLAIM_LEDGER.md",
+  "evidence_snapshot": "PORTFOLIO_SNAPSHOT_20260814.md",
+  "rules": {
+    "green_is_claim_specific": true,
+    "negative_results_are_preserved": true,
+    "no_confirmatory_retuning_after_result": true,
+    "successor_requires_new_version_and_frozen_protocol": true
+  },
+  "claims": [
+    {
+      "project": "LAM-JEPA",
+      "version": "frozen ARC line",
+      "recommended_state": "D_NEGATIVE_RESULT",
+      "question": "Do the frozen LAM-JEPA planner/target components improve ARC validation performance over matched supervised and ablated controls?",
+      "hypothesis": "The full frozen LAM-JEPA system will outperform the matched supervised control and show positive planner and target contributions under the preregistered validation protocol.",
+      "mechanism": "Latent-action/JEPA system with planner and target components whose causal contribution is probed through frozen no-planner and no-target ablations. No stronger mechanism statement is inferred here.",
+      "novelty_boundary": {
+        "established_technique": "JEPA-style latent prediction, supervised controls, component ablation",
+        "implementation_novelty": "project-specific LAM-JEPA implementation",
+        "combination_novelty": "possible, not independently audited in this recovery",
+        "mechanism_novelty": "not supported by current ARC evidence",
+        "theoretical_novelty": "not established",
+        "empirical_novelty": "reproducible negative/inconclusive result under the frozen ARC protocol"
+      },
+      "primary_claim": "The frozen ARC validation protocol reproducibly does not support superiority, planner benefit, or target benefit.",
+      "non_claims": [
+        "LAM-JEPA superiority",
+        "planner benefit",
+        "target benefit",
+        "broad JEPA failure",
+        "locked ARC test performance"
+      ],
+      "falsifier": "Matched supervised and/or ablated controls match or exceed the full system, or paired component effects fail to show the preregistered positive mechanism contribution.",
+      "dangerous_baselines": ["matched supervised control", "no-planner ablation", "no-target ablation", "negative control"],
+      "evidence": {
+        "full_mean": 0.2549152493476868,
+        "matched_supervised_mean": 0.266441,
+        "no_planner_mean": 0.25016948878765105,
+        "no_target_mean": 0.26169490814208984,
+        "seeds": [1, 2, 3, 4, 5],
+        "locked_test_used": false,
+        "current_repo_head": "88f759ef47263c416f2a667427286a3284d8221c"
+      },
+      "next_gate": "Paper conversion, provenance chain, related-work originality audit, external/independent review. No ARC rescue experiment."
+    },
+    {
+      "project": "IRIS",
+      "version": "v0.2/PABIM current candidate",
+      "recommended_state": "D_NEGATIVE_RESULT",
+      "question": "Can the current adaptive robust mechanism beat strong fixed robust controls across adverse noise while adapting faster to persistent shifts without losing clean behavior?",
+      "hypothesis": "The frozen PABIM candidate will pass clean non-inferiority and robustness guardrails and satisfy the persistent-shift advancement gate against strong fixed robust controls.",
+      "mechanism": "Adaptive robust estimator/memory candidate intended to distinguish observation corruption from legitimate regime change; this ledger does not infer mechanism detail beyond the frozen implementation and measured adaptation/robustness behavior.",
+      "novelty_boundary": {
+        "established_technique": "Huber/clipped/Student-t robust estimation, changepoint/switching baselines, recurrent comparators",
+        "implementation_novelty": "project-specific PABIM harness and adaptation rule",
+        "combination_novelty": "possible",
+        "mechanism_novelty": "not established because the current candidate fails strong-control and persistent-shift gates",
+        "theoretical_novelty": "not established",
+        "empirical_novelty": "reproduced robustness-adaptation failure boundary"
+      },
+      "primary_claim": "The current PABIM candidate fails the frozen strong-robust-control and persistent-shift development gates and is not authorized for confirmatory seeds.",
+      "non_claims": ["IRIS successor superiority", ">=10% robust abrupt adaptation advantage", "confirmatory success", "broad robust-memory superiority"],
+      "falsifier": "Failure of any frozen advancement guardrail, especially strong fixed-control or persistent-shift performance.",
+      "dangerous_baselines": ["Huber", "clipped robust estimator", "Student-t robust filter", "robust changepoint method", "switching/adaptive estimator", "GRU", "LSTM"],
+      "evidence": {
+        "development_seeds": "0-9",
+        "confirmatory_seeds_reserved": "1000-1029",
+        "confirmatory_seeds_accessed": false,
+        "pabim_adverse_mean_mse": 0.05970593860459976,
+        "best_fixed_control_adverse_mean_mse": 0.03350170353331791,
+        "pabim_regime_twmse25": 0.2157309642503522,
+        "huber_regime_twmse25": 0.1626331705719848,
+        "pabim_recovery_median": 24.0,
+        "huber_recovery_median": 18.5,
+        "bundle_sha256": "5643b59e9272099e54f04491aa63906d0d186a1a2c525a574f960008e5f19b90"
+      },
+      "next_gate": "Negative-result conversion. Any successor must document changed hypothesis, motivation, falsifier and frozen protocol before new confirmatory evaluation."
+    },
+    {
+      "project": "NGMT",
+      "version": "v0.1",
+      "recommended_state": "D_NEGATIVE_RESULT",
+      "question": "Does the non-Gaussian learned memory arm outperform matched standard and Gaussian/reference memory under adverse conditions at equal capacity and runtime memory?",
+      "hypothesis": "B3 will improve >=5% over B2 and >=3% over B1 on the frozen adverse aggregate while keeping clean regression <=2%.",
+      "mechanism": "Learned memory variants B0/B1/B2/B3 designed to isolate the incremental contribution of the proposed non-Gaussian memory under equal parameter and memory budgets.",
+      "novelty_boundary": {
+        "established_technique": "Transformer/recurrent memory comparisons, robust statistical readouts/reference assumptions",
+        "implementation_novelty": "equal-budget B0/B1/B2/B3 project harness",
+        "combination_novelty": "possible",
+        "mechanism_novelty": "not supported by v0.1 result",
+        "theoretical_novelty": "not established",
+        "empirical_novelty": "reproduced negative learned mechanism test"
+      },
+      "primary_claim": "NGMT v0.1 reproducibly misses both frozen adverse-condition superiority gates while passing the clean-regression guardrail.",
+      "non_claims": ["NGMT superiority", "statistical significance", "broad Transformer advantage"],
+      "falsifier": "B3 fails either adverse improvement gate or violates clean regression.",
+      "dangerous_baselines": ["B0 no memory", "B1 standard memory", "B2 Gaussian/reference memory"],
+      "evidence": {
+        "parameters_per_arm": 6049,
+        "paired_seeds": 3,
+        "b3_vs_b2_improvement_percent": 0.4946,
+        "b3_vs_b2_required_percent": 5.0,
+        "b3_vs_b1_improvement_percent": 0.4393,
+        "b3_vs_b1_required_percent": 3.0,
+        "clean_gate": "PASS"
+      },
+      "next_gate": "Negative-result package. No v0.1 retuning; redesign only as a separately versioned successor."
+    },
+    {
+      "project": "Eigen-JEPA",
+      "version": "current covariance-forecasting line",
+      "recommended_state": "D_NEGATIVE_RESULT",
+      "question": "Does the eigen/spectral latent formulation improve the frozen primary covariance-matrix forecasting target over strong classical spectral and simple linear baselines?",
+      "hypothesis": "Eigen-JEPA will beat the strongest frozen classical/raw/log/PCA baseline on covariance-matrix MSE.",
+      "mechanism": "Eigen/spectral representation of covariance dynamics compared against raw, log, PCA and persisted-eigenspace spectral ridge controls.",
+      "novelty_boundary": {
+        "established_technique": "spectral decomposition, ridge regression, PCA, covariance forecasting",
+        "implementation_novelty": "project-specific Eigen-JEPA formulation",
+        "combination_novelty": "possible",
+        "mechanism_novelty": "not supported on current primary metric",
+        "theoretical_novelty": "not established",
+        "empirical_novelty": "strong classical baselines dominate or match the current method"
+      },
+      "primary_claim": "The current method is baseline-dominated/non-superior on the frozen primary covariance-matrix MSE.",
+      "non_claims": ["Eigen-JEPA superiority", "spectral superiority", "secondary-metric rescue", "multi-dataset generalization"],
+      "falsifier": "Any competent frozen baseline matches or improves primary covariance-matrix MSE.",
+      "dangerous_baselines": ["spectral eigenvalue ridge with persisted eigenspace", "raw ridge", "log ridge", "raw-PCA ridge"],
+      "evidence": {
+        "eigen_jepa_matrix_mse": 5.831822564700928e-09,
+        "best_spectral_matrix_mse": 5.499228808679524e-09,
+        "test_samples": 111,
+        "current_parser_rows": 14895,
+        "older_spec_rows": 14899,
+        "bundle_sha256": "cfe6de9965e3f89bdc3f3451023c1e7606093c4fddc7c4e92d7e6656148e6484"
+      },
+      "next_gate": "Reconcile row-count provenance, then negative-result conversion. Multi-dataset work is a new frozen generalization question, not a metric rescue."
+    },
+    {
+      "project": "NeuroCAD",
+      "version": "v1 structured IR",
+      "recommended_state": "C_CONTINUE_EXPERIMENTATION",
+      "question": "Does a typed/validated structured intermediate representation improve executable CAD generation over a matched direct-generation approach?",
+      "hypothesis": "Structured IR will improve syntax/execution/geometry/constraint success over direct generation under matched provider, model, information, token and retry budgets.",
+      "mechanism": "Natural-language input is converted through a typed/validated IR before CAD execution, intended to reduce syntax/constraint failures relative to unconstrained direct generation.",
+      "novelty_boundary": {
+        "established_technique": "structured intermediate representations, constrained generation, program synthesis, retrieval/search baselines",
+        "implementation_novelty": "functional typed/validated CAD pipeline",
+        "combination_novelty": "plausible engineering contribution",
+        "mechanism_novelty": "not yet isolated against matched learned direct/constrained/retrieval baselines",
+        "theoretical_novelty": "not established",
+        "empirical_novelty": "controlled held-out-template advantage in the frozen v1 screen"
+      },
+      "primary_claim": "On the frozen controlled v1 benchmark the structured pipeline scores 19/20 versus 12/20 for the direct baseline and yields non-empty STL for 12/12 valid cases.",
+      "non_claims": ["arbitrary NLP-to-CAD", "manufacturing validity", "SOTA", "provider-independent superiority", "external validity"],
+      "falsifier": "A matched direct/constrained/retrieval baseline closes the execution/geometry/constraint-success gap, or the advantage disappears on broader OOD cases.",
+      "dangerous_baselines": ["same-provider direct generation", "constrained direct generation", "retrieval/template system", "search/program synthesis baseline"],
+      "next_gate": "Freeze and run one same-provider learned direct-vs-IR benchmark with broader OOD, ambiguous, constraint-heavy and impossible requests."
+    },
+    {
+      "project": "APEN",
+      "version": "current salience-specificity line",
+      "recommended_state": "C_CONTINUE_EXPERIMENTATION",
+      "question": "Is APEN's rare-event benefit specifically caused by correctly aligned temporal salience rather than generic memory capacity or arbitrary salience values?",
+      "hypothesis": "Correct salience alignment will outperform uniform memory, while shuffled or distribution-matched random salience will erase most of the rare-event gain.",
+      "mechanism": "Salience-weighted memory prioritizes temporally aligned rare-event information; the specificity test randomizes alignment while preserving comparable salience distributions.",
+      "novelty_boundary": {
+        "established_technique": "attention/memory weighting, salience heuristics, recurrent/attention memory controls",
+        "implementation_novelty": "project-specific APEN salience mechanism",
+        "combination_novelty": "possible",
+        "mechanism_novelty": "bounded synthetic evidence supports alignment specificity",
+        "theoretical_novelty": "not established",
+        "empirical_novelty": "prospective synthetic mechanism ablation with exact replay"
+      },
+      "primary_claim": "Correct temporal salience alignment matters in the existing synthetic ridge-readout task; shuffled/randomized salience erases the measured rare-event gain.",
+      "non_claims": ["architecture superiority", "overall-MSE dominance", "naturalistic robustness", "matched recurrent/attention superiority"],
+      "falsifier": "A same-information learned memory control matches the gain, or salience randomization preserves the effect under the frozen test.",
+      "dangerous_baselines": ["uniform memory", "matched recurrent memory", "attention memory", "retrieval", "shuffled salience", "distribution-matched random salience"],
+      "evidence": {
+        "true_rare_mse": 17.131745635925725,
+        "uniform_rare_mse": 18.41245032591212,
+        "improvement_fraction": 0.06955645051674836,
+        "gain_lost_shuffled": 1.0076450977555735,
+        "gain_lost_random": 1.2098759923686688,
+        "bundle_sha256": "2c3003bb629ccb59aab572b172a2d7ffd0f6e9608630458fada9df661d6e66d7"
+      },
+      "next_gate": "Matched learned recurrent/attention control plus preregistered naturalistic salience-quality stress."
+    },
+    {
+      "project": "T2424-0027",
+      "version": "synthetic audit current line",
+      "recommended_state": "C_CONTINUE_EXPERIMENTATION",
+      "question": "Can the audit reliably detect injected coordinate leakage, and does the same methodology reveal meaningful blind spots in real multilingual encoders after strong nuisance controls?",
+      "hypothesis": "The synthetic injected-coordinate audit will pass its frozen verifier, and a separately frozen real-encoder extension will show effects that survive centering/random-group/random-subspace controls.",
+      "mechanism": "Probe/audit design tests whether representation structure exposes injected epistemic coordinates; real-encoder claims are explicitly separate from the synthetic diagnostic.",
+      "novelty_boundary": {
+        "established_technique": "representation probing, synthetic leakage diagnostics, nuisance/randomized controls",
+        "implementation_novelty": "project-specific multilingual epistemic-blind-spots audit",
+        "combination_novelty": "possible",
+        "mechanism_novelty": "not established for real multilingual encoders",
+        "theoretical_novelty": "not established",
+        "empirical_novelty": "reproduced synthetic injected-coordinate audit"
+      },
+      "primary_claim": "The synthetic audit reproduces within its frozen boundary and has an independent verifier.",
+      "non_claims": ["real multilingual encoder effect", "linguistic relativity", "causal epistemic bias", "external generalization"],
+      "falsifier": "A real-encoder effect disappears under preregistered centering/random-group/random-subspace controls or fails independent reproduction.",
+      "dangerous_baselines": ["centered representation probe", "random group control", "random subspace control", "frozen pretrained encoder baselines"],
+      "next_gate": "Freeze real-encoder datasets, probes, controls, primary statistic, seeds and falsifier before execution."
+    }
+  ]
+}
