@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
-  "observed_at": "2026-08-14T22:50:00+05:30",
+  "observed_at": "2026-08-14T22:56:00+05:30",
   "state": "PARTIAL_CANONICAL_REGISTRY_IDENTITY_MAP_GATED",
   "authority": {
     "human_disposition_table": "PORTFOLIO_SNAPSHOT_20260814.md",
     "same_day_status": ["MASTER_STATUS.md", "RESEARCH_STATUS.md", "PRODUCT_STATUS.md", "BLOCKERS.md"],
     "claim_state": ["CLAIM_LEDGER.md", "CLAIM_LEDGER.json"],
     "experiment_state": ["EXPERIMENT_LEDGER.md", "EXPERIMENT_LEDGER.json"],
-    "rule": "Machine-readable companion only; project-native raw artifacts win on scientific results."
+    "rule": "Machine-readable companion only; later same-day direct source/reproduction evidence may narrow a dated snapshot entry, and project-native raw artifacts win on scientific results."
   },
   "coverage": {
     "resolved_snapshot_entries": 23,
@@ -26,12 +26,12 @@
     {"id":"percy","title":"Percy","family":"orchestration","disposition":"B","tier":"S","evidence":"BLOCKED_EXTERNAL_MAC","blocker":"non-destructive live-host integrity/process/lease/recount qualification"},
     {"id":"neurocad","title":"NeuroCAD / T2424-0037","family":"cad_product_research","disposition":"B","tier":"A","evidence":"SOFTWARE_USEFUL_TYPED_PARSER_CAUSAL_MECHANISM_FALSIFIED","blocker":"release reliability; fresh broader benchmark for any new science"},
     {"id":"project-2424","title":"Project 2424 umbrella","family":"research_registry","disposition":"B","tier":"A","evidence":"HISTORICAL_WAVE001_BASE_RECOVERED_IDENTITY_GENERATIONS_COLLIDE","source_evidence":"portfolio/project2424/PROJECT_2424_SOURCE_RECOVERY_20260814.md","historical_head":"ff609f335f91297357b430a2531633fe111cd5a9","historical_bundle_sha256":"4c685af70d84052c026602ff7336a522c741d91fb480038e980c21f0bbc63ece","blocker":"recover later overlay and explicit cross-generation P2424/Percy/T2424 provenance map; never suffix-overwrite identities"},
-    {"id":"t2424-0050","title":"Darcy Latent Operator","family":"project2424_research","disposition":"C","tier":"A","evidence":"PARENT_SYNTHETIC_REPRODUCED_V2_PROTOCOL_FROZEN_B2_UNIT_VERIFIED_NOT_RUN","blocker":"remaining interpretation/environment/hardware/B3/B4 locks before any v2 run","inflight":{"pr":376,"b2_blob":"6e10c6fbecf0cf5ce78ed2b5c61e3fa97da47541","verification_run":31822987002,"training_authorized":false}},
+    {"id":"t2424-0050","title":"Darcy Latent Operator","family":"project2424_research","disposition":"C","tier":"A","evidence":"PARENT_SYNTHETIC_REPRODUCED_V2_PROTOCOL_FROZEN_B2_UNIT_VERIFIED_NOT_RUN","canonical_main_revision":"86170b1a6bb8fbc1484f99fd680876c271fb5474","b2_blob":"6e10c6fbecf0cf5ce78ed2b5c61e3fa97da47541","split_manifest_sha256":"4211d11da7d40f0991bd963c04fb118f34d9fe923e7664da301122b29b0bef85","verification_run":31822987002,"training_authorized":false,"blocker":"covariance interpretation approval, OOD-D offset interpretation approval, environment lock, hardware identity, B3/FNO and B4/DeepONet before any v2 outcome"},
     {"id":"t2424-0025","title":"T2424-0025 robust-readout precursor","family":"project2424_research","disposition":"C","tier":"A","evidence":"BOUNDED_EFFECT_MECHANISM_NOT_UNIQUE","blocker":"separately frozen learned-memory causal control"},
     {"id":"ngmt-v0.1","title":"NGMT v0.1","family":"research","disposition":"D","tier":"A","evidence":"VERIFIED_NEGATIVE_FROZEN","blocker":null},
     {"id":"apen","title":"APEN","family":"research","disposition":"C","tier":"A","evidence":"REPRODUCED_MIXED","blocker":"matched learned and naturalistic controls"},
     {"id":"eigen-jepa","title":"Eigen-JEPA","family":"research","disposition":"D","tier":"A","evidence":"REPRODUCED_MIXED_NEGATIVE","blocker":"no superiority claim; any successor requires a new frozen protocol"},
-    {"id":"npms","title":"NPMS","family":"research","disposition":"F","tier":"A","evidence":"BOUNDED_PACKAGE_SOURCE_IDENTITY_INCOMPLETE","blocker":"recover exact original source/config/checkpoint"},
+    {"id":"npms","title":"NPMS","family":"research","disposition":"D","tier":"A","evidence":"SOURCE_RECOVERED_BOUNDED_RESULT_REPRODUCED_PARAMETER_CONFOUNDED_OR_NON_UNIQUE","source_evidence":"portfolio/research/NPMS_SOURCE_RECOVERY_20260814.md","atlas_archive_sha256":"076f12750d6a8e6c298c17815224a79463bcad149d6cf1283900d98c6e394a2c","regime_accuracy":0.9285714285714286,"invariant_parameter_accuracy":0.8928571428571429,"advantage_percentage_points":3.57,"decision_band_percentage_points":5,"blocker":"current mechanism interpretation closed negative/non-unique; any successor requires a new frozen protocol testing incremental value beyond strong invariant-parameter/state-space/spectral controls"},
     {"id":"vertexed","title":"VertexED","family":"product","disposition":"F","tier":"A","evidence":"SOURCE_STRONG_PRODUCTION_IDENTITY_UNVERIFIED","source":"vertex-studyAI/vertexED.ai","blocker":"exact served revision/deployment ID plus authenticated disposable-account journey"},
     {"id":"t2424-0027","title":"T2424-0027","family":"project2424_research","disposition":"C","tier":"B","evidence":"REPRODUCED_SYNTHETIC_ONLY","blocker":"preregistered real-encoder probes and controls"},
     {"id":"jepa-time-series","title":"JEPA × time-series programme","family":"research_programme","disposition":"C","tier":"B","evidence":"DESIGN_ONLY_NO_RUN_AUTHORIZED","blocker":"machine-readable generator/model/baseline/seed/budget freeze"},
