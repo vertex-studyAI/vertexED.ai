@@ -1,26 +1,29 @@
 # PRODUCT_STATUS
 
-**As of:** 2026-08-13 22:00 IST
+**As of:** 2026-08-14 12:01 IST
 
 | Product/system | State | Evidence boundary | Next gate |
 |---|---|---|---|
-| VertexED source | **GREEN** | repository source and current control-head status available; closeout observed pre-write head `f355bf02483451206486daebe4b5d5a4344a4daa` | preserve source gates while production revision identity is repaired |
-| VertexED production | **BLOCKED_EXTERNAL_OR_STALE_DEPLOY** | production monitor run `31683422558` passed homepage, 404, malformed waitlist rejection, logged-out auth boundaries and untrusted-origin rejection, but `/api/health` did not expose expected revision; artifact `9174416597` | restore/verify deployed revision identity, then authenticated golden journey on exact served SHA |
-| Percy Prime host | **BLOCKED_EXTERNAL_MAC for production qualification** | retained runtime has durable state/evidence gating, but this closeout cannot directly inspect `/Volumes/PRO-BLADE/Atlas/Percy` SQLite/WAL/process state | on host: integrity + WAL + leases + heartbeats + stale recovery + provider + crash/restart + resource qualification |
-| FinanceMeta | **BLOCKED_EXTERNAL** | recovery/truth-first package retained; canonical target and live authorization unavailable from current connected surface | authorize target repo/Supabase, apply exact-SHA recovery in isolated branch, build/security/live-denial verify |
-| The Bu1LD | **BLOCKED_EXTERNAL** | claims/proof-density recovery package retained; target-source write/deploy surface unavailable | authorize correct target, apply recovery, build/accessibility/claims verify |
-| Text-to-Video | **UNKNOWN / UNTRIAGED IN THIS CLOSEOUT** | repository is connected but no fresh release/evaluation evidence was audited here | inspect canonical state before any maturity claim |
+| VertexED source | **GREEN** | source repository/control head available and both current Vercel commit-status contexts report success | preserve source gates; do not infer served revision |
+| VertexED production | **BLOCKED — EXACT REVISION UNVERIFIED** | scheduled Production Health Monitor run `31771831538` on current main failed after 3 bounded attempts because `/api/health` returned no revision matching expected `8272b8cba0dab6e9a07ee6aa4f927ad9374de534`; homepage, API 404, malformed waitlist rejection, logged-out AI/user/admin protection and untrusted-origin rejection all passed; artifact `9208406163`, SHA-256 `f08d3ece023eaaec205dc46248c48a17cb057b25a9d8389f3ebd813583cf610b` | identify canonical Vercel project/config, expose immutable revision, make scheduled monitor pass, then complete authenticated disposable-account golden journey |
+| Percy Prime host | **BLOCKED_EXTERNAL_MAC for live/production qualification** | repository/control artifacts exist, but existing host SQLite/WAL/process state is not visible here | non-destructive snapshot/integrity/recount, then crash/restart/provider/lease/resource/soak qualification |
+| FinanceMeta | **BLOCKED_EXTERNAL** | prepared hardening/recovery artifacts exist; canonical writable repo and production Supabase are not exposed | authorize target; apply on isolated exact-base branch; verify authorization denial paths + real saved-progress journey |
+| The Bu1LD | **BLOCKED_EXTERNAL** | prior source/production-hydration evidence retained; canonical writable target/Supabase/Cloudflare surface unavailable | authorize target; establish immutable deploy identity; fix/certify hydration and seven role journeys |
+| Text-to-Video | **ARCHIVE/UNTRIAGED** | connected repository exists, but no current user/job/success metric was freshly established in this campaign | explicit owner/question and two-week validation need before new engineering |
 
-## VertexED production truth
+## VertexED production incident boundary
 
-The control-head combined GitHub status observed at closeout is `success`, with two Vercel contexts reported as `Canceled by Ignored Build Step`. That does **not** replace the production-revision monitor evidence and does not establish that the live site serves the current source SHA.
+The latest production monitor is authoritative for the tested public surface. A successful Vercel commit status means the GitHub integration accepted/reported a deployment context; it does not prove `www.vertexed.app` serves the intended immutable revision. Until the health response exposes the expected revision and authenticated journeys pass, the state remains `SOURCE_GREEN / PRODUCTION_BLOCKED`.
 
-The last retained production monitor explicitly failed revision identity while functional smoke boundaries passed. Therefore `SOURCE_GREEN / PRODUCTION_BLOCKED_EXTERNAL_OR_STALE_DEPLOY` remains the correct split.
+## Two-week product-validation rule
 
-## Percy accounting truth
+Once production identity is fixed, product work shifts from feature creation to real validation:
 
-Retained registry specification: 16,256 logical identities (`P00000..P16255`, 127 × 128). Live dispatch/process/task counters are `UNKNOWN` because the host DB is not accessible from this surface. Never report the logical registry count as physical workers or unique completed work.
+- **User:** actual approved learner, not an invented persona.
+- **Job:** reach one trustworthy study outcome and retrieve it later.
+- **Activation:** learner creates one useful artifact (for example planner/note/quiz/paper output appropriate to the real workflow) and saves it successfully.
+- **Retention signal:** the learner returns in a fresh session and retrieves/continues the artifact.
+- **Reliability:** auth, ownership/isolation, save/retrieve, logout denial and recovery must not silently fail.
+- **Success metric:** observed activation and return/retrieval rates from real consented usage, with privacy-safe telemetry; do not invent a target population or traction number.
 
-## External-access rule
-
-Do not repeatedly burn execution time retrying inaccessible FinanceMeta/Bu1LD mutations. Preserve exact blockers and continue with locally/connected work until authorization changes.
+FinanceMeta and The Bu1LD should use the same principle after target access is restored: validate one core user job first, not speculative feature breadth.

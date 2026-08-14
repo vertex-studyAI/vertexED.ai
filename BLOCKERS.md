@@ -1,59 +1,69 @@
 # BLOCKERS
 
-As of: 2026-08-12 20:40 IST
+**As of:** 2026-08-14 12:01 IST  
+Only blockers that prevent a stronger evidence claim are listed. A blocker is not failure unless the underlying hypothesis/gate failed.
 
-Only blockers that still prevent a stronger evidence claim are listed.
+## P0 — Percy authoritative live state
 
-## P0 — VertexED exact production revision / release proof
+- **Observed:** connected GitHub can inspect repository evidence but cannot directly inspect the existing Percy Mac SQLite/WAL/process state.
+- **Impact:** live queue depth, failed/running/stale tasks, leases/heartbeats, physical worker peak and dispatch counts remain `UNKNOWN`.
+- **Resolution:** run `PERCY-STATE-001` on the existing host state: checksum DB+WAL+checkpoint, integrity/schema check, leases/heartbeats/stale reconciliation, raw counter snapshot and independent recount. No reset or replacement DB.
 
-- **Observed:** public product and live Supabase traffic exist, but latest source lineage is not proven to be the exact production revision served.
-- **Evidence gap:** the repository exposes a revision-bearing `/api/health` implementation, but the execution sandbox cannot resolve the public domain for a direct health probe. Latest-main Vercel checks currently return build-rate-limit failures on both linked projects.
-- **Resolution:** restore deployment capacity, deploy one intended canonical target, query `/api/health?readiness=true`, compare returned revision to intended SHA, then run authenticated golden-journey flows.
+## P0 — VertexED exact production revision
 
-## P0 — VertexED auth/database maintenance warnings
+- **Observed today:** scheduled Production Health Monitor run `31771831538` failed after three bounded attempts on current main because `/api/health` did not expose the expected revision `8272b8cba0dab6e9a07ee6aa4f927ad9374de534`.
+- **Also observed:** homepage, API 404, invalid-waitlist rejection, logged-out AI/user/admin denial and untrusted-origin denial passed. Both Vercel commit-status contexts on current GitHub head report success.
+- **Impact:** source is GREEN and public boundaries are reachable, but exact served revision/production correctness remains unverified.
+- **Evidence:** artifact `9208406163`, SHA-256 `f08d3ece023eaaec205dc46248c48a17cb057b25a9d8389f3ebd813583cf610b`.
+- **Resolution:** identify canonical Vercel project, enable/verify immutable system revision exposure, deploy intended verified runtime revision, make scheduled monitor pass, then run issue #13 authenticated disposable-account journey.
 
-- **Observed:** Supabase security advisor warns that leaked-password protection is disabled and that the current Postgres build has security patches available.
-- **What was verified:** all 26 public tables have RLS; 31 policies were inspected; no public policy uses user-editable metadata or deprecated `auth.role()`; owned UPDATE paths have ownership `USING` + `WITH CHECK`; sensitive waitlist tables deny direct client access.
-- **Resolution:** enable leaked-password protection; perform planned Supabase database upgrade; rerun security advisor and regression/golden-journey tests.
+## P0 — Project 2424 canonical source recovery
 
-## P0 — FinanceMeta canonical target access
+- **Observed:** selected experiment reproductions are retained, but the true source/dirty overlay recovery described by issue #20 depends on the preserved local/Inkling environment.
+- **Impact:** do not use control-repo branch proliferation or proposal counts as current source truth.
+- **Resolution:** preserve status/diffs/untracked overlay, bundle refs, verify `git fsck`/ancestry, rerun smallest baseline, then establish one child-project map.
 
-- **Observed:** current GitHub installation exposes only three `vertex-studyAI` repositories and connected Supabase exposes only the VertexED project.
-- **Impact:** FinanceMeta recovery overlay and truth-first content scripts cannot be applied to the real repo/live DB from this session.
-- **Resolution:** authorize the canonical FinanceMeta GitHub repository and Supabase project; apply exact-SHA recovery on an isolated branch; run target-native CI and real authorization denial-path tests.
+## P0 — IRIS successor decision
 
-## P0 — Bu1LD canonical target access
+- **Observed:** current successor development evidence is RED: ~5.33–5.36% abrupt-regime gain vs frozen `>=10%`; Huber is not cleanly beaten; coherent bursts remain adverse.
+- **Impact:** reserved confirmatory seeds cannot be used to rescue the candidate.
+- **Resolution:** either close the successor line or create a versioned successor whose changed hypothesis/mechanism is justified by failure evidence and whose baselines, metric, effect statistic, gate, falsifier and analysis plan are frozen before evaluation.
 
-- **Observed:** Bu1LD canonical target is not exposed by current GitHub installation.
-- **Impact:** integrated proof-density/people/content recovery scripts remain control-repo artifacts only.
-- **Resolution:** authorize the canonical repository; apply exact-SHA recovery on isolated branch; run build, accessibility, hydration/navigation and public-claims verification.
+## P0 — NeuroCAD dangerous baseline / OOD
 
-## P0 — Percy production qualification
+- **Observed:** controlled v1 is strong (`19/20` vs `12/20`; `12/12` valid STL) but small/template-controlled and not a same-provider learned direct-vs-IR comparison.
+- **Impact:** arbitrary NLP-to-CAD/generalization claims remain unsupported.
+- **Resolution:** freeze `NEUROCAD-FREEZE-001`, then run exactly one same-provider/OOD experiment with executable/semantic/error metrics and independent recomputation.
 
-- **Observed:** durable orchestration baseline and state doctor are repository-tested.
-- **Missing evidence:** real Mac crash/restart while tasks are queued/in-flight; provider adapters/failure modes; lease expiry under real concurrency; resource contention; long soak; launch-service integration.
-- **Resolution:** execute a retained-evidence real-host failure matrix with 1–4 workers and actual provider calls.
+## P0/P1 — LAM-JEPA release/external review
 
-## P1 — Olympus/Hercules learned architecture gate
+- **Observed:** scientific result is reproducibly negative/inconclusive and paper artifacts exist. Root owner-approved `LICENSE` and `CITATION.cff` remain absent; authorship/release metadata cannot be guessed.
+- **Impact:** paper package may be internally strong without being legally/bibliographically release-ready or externally validated.
+- **Resolution:** complete internal provenance/table/figure verification; owner approves license/authorship/citation; then independent clean reproduction/reviewer attack.
 
-- **Observed:** naming/roadmap rationalization is evidence-backed at O0 only; no model name is treated as a trained scale claim.
-- **Missing evidence:** same-budget learned baseline comparison.
-- **Resolution:** freeze dataset, tokenizer, parameter budget, optimizer, training budget and evaluation suite; run Transformer vs proposed architecture vs ablation; record loss, convergence, memory, throughput, downstream score, instability and cost.
+## P1 — Darcy external/learned operator gate
 
-## P1 — Scientific external/generalization gates
+- **Observed:** very strong frozen synthetic pressure-MAE screen; no learned matched-budget operator or physical OOD validation.
+- **Resolution:** freeze numerical/reduced/learned controls, equal budget and held-out/misaligned regimes before run.
 
-- **T2424-0025:** 0% control also favors robust estimators; mechanism not isolated.
-- **T2424-0050:** synthetic screen is not a learned neural operator.
-- **NeuroCAD:** controlled language/compiler benchmark is not arbitrary NLP-to-CAD.
-- **T2424-0027:** injected-coordinate synthetic audit is not a real multilingual representation result.
-- **T2424-0024:** calibration fixture is not real-model trustworthiness evidence.
-- **T2424-0040:** prerequisite-ordering mechanics are not learner benefit.
-- **T2424-1768:** caller-supplied contracts are not formal verification or MoE safety.
-- **Research Atlas:** local reruns are not independent replication or peer review.
-- **Resolution:** promote only after project-specific frozen external/real-model baselines and independent reproduction where appropriate.
+## P1 — APEN / Eigen-JEPA / NPMS
 
-## P2 — Deployment capacity / preview noise
+- **APEN:** matched learned control + naturalistic salience reliability missing.
+- **Eigen-JEPA:** stronger spectral/statistical controls + frozen multi-dataset metric hierarchy missing.
+- **NPMS:** stronger learned memory controls + natural/OOD task missing.
+- **Resolution:** remain Tier A/secondary; no paper promotion until dangerous baselines/externalization are complete.
 
-- **Observed:** latest-main status checks on both linked Vercel projects report `upgradeToPro=build-rate-limit`.
-- **Impact:** preview/deployment statuses cannot currently certify the newest source lineage.
-- **Resolution:** wait for/reset quota or use the intended authorized deployment capacity; avoid wasteful preview-triggering docs-only branches.
+## P1 — Hercules / Olympus
+
+- **Hercules:** no frozen same-budget Transformer/proposal/ablation evidence. Active training is killed until protocol freeze.
+- **Olympus:** O0 roadmap/runtime only; O1 matched-provider monolithic/full/ablations not executed. Expansion is killed until O1 freeze.
+
+## P1 — FinanceMeta / The Bu1LD target access
+
+- **FinanceMeta:** canonical writable repo/production Supabase not exposed to current connector.
+- **The Bu1LD:** canonical writable repo/production Supabase/Cloudflare deployment surface not exposed.
+- **Resolution:** authorize the exact targets; then apply prepared work on isolated branches and verify real denial paths/journeys. Do not repeatedly mutate control-repo substitutes.
+
+## P2 — PEN source identity
+
+Standalone executable PEN source/protocol is not established. APEN evidence cannot be inherited. Recover source only if a distinct PEN claim remains strategically valuable.
