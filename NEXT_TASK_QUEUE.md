@@ -1,6 +1,6 @@
 # NEXT TASK QUEUE
 
-**Rescored:** 2026-08-15 02:00 IST.  
+**Rescored:** 2026-08-15 03:00 IST.  
 **Rule:** information gain × closure probability × evidence value ÷ cost. Dependencies are hard. **Zero new major scientific experiment runs are authorized.**
 
 ## 1 — PERCY-STATE-001 — P0 / BLOCKED_EXTERNAL_MAC
@@ -40,10 +40,12 @@ Owner-approved license/redistribution, author list/order, `CITATION.cff`, immuta
 ## 9 — EXTVAL-LAM-001 — P1 / READY_EXTERNAL_PACKET
 Send immutable packet `218ea1bea686cdf8c281520b2b636897bc8b8dd2` to a genuinely independent validator for reproduction + skeptical review. External validation remains pending until returned evidence exists.
 
-## 10 — IRIS-FRONTIER-SOURCE-001 — P1 / PARTIALLY RECOVERED, EXACT PROVENANCE BLOCKED
-Recovery `d92e06deaa893bfb8273f3f781105ecb155e8aca` closed substantial retained package/source lineage. A fresh File Library search is now operational and re-found the authoritative-candidate bundle checksum record `IRIS_v0.2_bundle.zip.sha256` (`41a8e117b6922c3a6641bd12608d5e4246d305a9c3776a62252869045d83dacf`) plus the reproducibility/evidence audits identifying Library `IRIS_v0.2_bundle.zip` as the canonical local candidate. The exact frozen adaptation-metric source/file and exact canonical development trajectory artifact were **not** recovered by this search; search absence is not proof of deletion. Confirmatory seeds `1000–1029` remain forbidden; no approximate regeneration.
+## 10 — IRIS-FRONTIER-SOURCE-001 — P1 / METRIC FREEZE RECOVERED, TRAJECTORY/EQUIVALENCE PROVENANCE BLOCKED
+Recovery `d92e06deaa893bfb8273f3f781105ecb155e8aca` closed substantial retained package/source lineage. File Library evidence re-establishes the authoritative-candidate bundle checksum `IRIS_v0.2_bundle.zip` = `41a8e117b6922c3a6641bd12608d5e4246d305a9c3776a62252869045d83dacf`; prior audits record its internal manifest as passing. Fresh current-main inspection now directly recovers the previously missing metric freeze at `portfolio/research/IRIS_SEQUENCE_ADAPTATION_METRIC_FREEZE_20260813.md`, blob `6f4d6a47e3727596b21714bc269cd8ba5844d2fa`. Its definitions match the frontier contract: `TWMSE25` uses fixed window `W=25`; recovery requires the first five consecutive samples within `0.10*D`; `POST_MSE50PLUS` begins at `t0+50`; gate false-open rate is implementation-defined and frozen. This closes the standalone metric-freeze file identity edge, but it does **not** establish byte identity between every recovered harness metric implementation and this specification.
 
-**Next gate:** recover/materialize the exact authoritative bundle or another retained source artifact, verify its manifest, and identify/hash the exact adaptation-metric implementation plus canonical trajectories. Until then the frontier remains `PROTOCOL_BLOCKED`.
+Exact canonical development trajectory arrays remain unrecovered. Deterministic generator code or retained metric rows are not permission to synthesize a replacement trajectory corpus. Confirmatory seeds `1000–1029` remain forbidden and no frontier run is authorized.
+
+**Next gate:** recover/materialize the authoritative bundle or another retained source artifact if raw bytes become available, verify the manifest directly, locate the canonical observation/state trajectory artifact or a pre-existing authoritative deterministic-equivalence record, and cross-hash the executable metric implementation against the recovered freeze specification. Until those edges close, retain `PROTOCOL_BLOCKED`.
 
 ## 11 — DARCY-V2-MATERIALIZE-003 — P1 / B2 + SPLIT FROZEN, REMAINING PRE-OUTCOME BLOCKERS
 Training remains unauthorized. B2 PCA+ridge is `IMPLEMENTED_PREOUTCOME_UNIT_VERIFIED`, blob `6e10c6fbecf0cf5ce78ed2b5c61e3fa97da47541`, workflow `31822727505`; split-manifest SHA-256 `4211d11da7d40f0991bd963c04fb118f34d9fe923e7664da301122b29b0bef85` is frozen.
@@ -62,6 +64,6 @@ No run authorized; only a separately frozen cheap synthetic falsification gate m
 Re-score only after material new evidence. Current Tier S count remains 3; do not promote work to fill a quota.
 
 ## Closed or materially narrowed this wave
-Project 2424 historical Wave-001 recovery; current T2424 source identity invariant; NPMS controlled-source recovery + adverse-control verdict; Darcy B2/split freeze; IRIS partial source recovery; Bu1LD source/CI recovery; FinanceMeta hardening source recovery; LAM internal verification/external packet packaging; NeuroCAD mechanism falsification.
+Project 2424 historical Wave-001 recovery; current T2424 source identity invariant; NPMS controlled-source recovery + adverse-control verdict; Darcy B2/split freeze; IRIS metric-freeze source identity plus partial source recovery; Bu1LD source/CI recovery; FinanceMeta hardening source recovery; LAM internal verification/external packet packaging; NeuroCAD mechanism falsification.
 
 None of those closures imply publication, external validation, trained Darcy v2 capability, production deployment, real-user validation or portfolio-wide completion.
