@@ -15,14 +15,16 @@ Failures are first-class evidence. Repairs never rewrite frozen outcomes.
 | Eigen-JEPA | spectral representation should improve primary covariance forecast | direct ridge remains stronger | superiority fails on primary retained target | no metric shopping; stronger frozen multi-dataset study only |
 | T2424-1863 | >75% improvement gate | gate fails | operator claim fails | archive active compute; new real-PDE question only |
 | NPMS | controlled mechanism implies broad sequence benefit | natural-task causal transfer not established | generalization unsupported | stronger learned/natural/OOD tests |
+| **Darcy v2 pre-outcome procedure** | no learned training or frozen ID/OOD outcome evaluation before implementation/config/environment/split/model-budget closure | PR #360 unit test evaluated frozen OOD-C seed `320007` with the deterministic reference/control evaluator before every pretraining blocker was closed | **procedural contamination only; the computed values are invalid/non-evidence and cannot support or refute H1/H2** | preserve seed/case/gates unchanged; never tune, promote, exclude or alter based on the accidental computation. `main@daf548fa9b3953c3d7e188191588a84a04c98093` replaces the metric unit input with a non-protocol fixture and adds generator provenance plus explicit pretraining interpretation locks |
 | Hercules | proposed architecture beats matched standard model | no credible matched-budget learned result | untested rather than positive | freeze before training |
 | Olympus | decomposition improves matched-provider agent performance | O1 not evidenced as run | untested | freeze before execution |
 
 ## Failure-handling law
 
 1. Preserve original protocol, raw output, thresholds, seeds and version.
-2. Software bug → document, narrowly repair, rerun under a new evidence identity.
+2. Software or procedural bug → document, narrowly repair, quarantine contaminated evidence and preserve the frozen scientific identity when the protocol allows a clean later run.
 3. Scientific failure → do not retune in place; a successor needs a new version and falsifier.
 4. Negative results may be GREEN for reproduction and RED for superiority/mechanism.
 5. Reserved confirmatory/test data never rescue a failed development result.
 6. A stronger baseline that closes a gap is a successful experiment even when it demotes the project.
+7. An accidental pre-outcome computation never becomes evidence merely because CI passed; preserve the case and scientific gates rather than editing the test set after the fact.
