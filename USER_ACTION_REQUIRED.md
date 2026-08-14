@@ -1,12 +1,27 @@
 # USER_ACTION_REQUIRED
 
-Only actions that depend on access or decisions not available from the connected evidence surface are listed.
+**Convergence start:** 2026-08-14 22:01 IST. Only actions that genuinely require owner decisions, local-machine state or external access unavailable from the connected execution surface are listed.
 
-1. **Restore the real Percy host** at `/Volumes/PRO-BLADE/Atlas/Percy` before the 28-hour run. Inspect canonical SQLite + WAL, run integrity checks, reconcile leases/heartbeats/stale workers and measure the currently `UNKNOWN` dispatch/task counters before creating new work.
-2. **VertexED production:** restore exact served-revision identity through `/api/health`, then rerun the authenticated production golden journey. Source GREEN is not production verification.
-3. **FinanceMeta / Bu1LD:** expose/authorize the canonical writable repositories and runtime/Supabase targets before attempting target mutations.
-4. **PEN:** recover the standalone executable MODEL-PEN source tree if a separate PEN research claim is still desired; do not inherit APEN evidence.
-5. **Hercules:** select one canonical source/mechanism and freeze a bounded same-budget Transformer/proposal/ablation experiment before compute.
-6. **Olympus O1:** use a provider only when monolithic/full/minus-falsifier/minus-evidence-gate arms can share the exact same provider/tool/task budget.
+1. **Percy + Project 2424 local state:** expose the preserved `/Volumes/PRO-BLADE/Atlas/Percy` runtime and canonical Project 2424 source/dirty overlay. Before any reset or new source-dependent science, snapshot/hash SQLite + WAL + checkpoint state, run integrity/schema checks, reconcile leases/heartbeats/stale workers and dirty worktrees, then independently measure the currently `UNKNOWN` task/dispatch counters.
 
-No manual promotion or rescue is required for LAM-JEPA, NGMT v0.1, the current IRIS successor candidate, or T2424-1863. Their negative results must remain preserved.
+2. **VertexED deployment identity/capacity:** identify the canonical Vercel production project/deployment and restore authorized build/deploy capacity without buying an upgrade or weakening the revision contract. Latest verified monitor `31817794439` expects deploy-relevant revision `e2ecd19ed9816f8f36369c7dc0f38e39942ca73a`, while live `/api/health` remains healthy but omits revision identity. After exact served revision proof is restored, run the authenticated disposable-account golden journey and cleanup.
+
+3. **VertexED Supabase platform security:** connected project `xwlrzgfuhfbckgvcmyoq` currently reports two security-advisor warnings: leaked-password protection disabled and security patches available for `supabase-postgres-17.4.1.074`. Review rollout/maintenance impact, then enable/schedule through the owner-controlled platform. These warnings are not evidence that an exploit occurred.
+
+4. **LAM-JEPA owner-controlled release metadata:** approve root license/third-party compatibility, author list/order, `CITATION.cff` metadata, redistribution boundaries and immutable release revision/tag. Repository history must not be used to infer these fields. The independent reproduction/review packet is ready; external validation remains pending until a genuine outside report returns.
+
+5. **FinanceMeta source review:** do **not** recreate the retained hardening work. Existing branch `cursor/membership-security-supabase-fix@6dcc03710bb6adf9b4b722b308c40a0720bea61f` is verified 41 commits ahead / 0 behind `main` and already contains profile-write, RLS/ownership, `SECURITY DEFINER` search-path and release-readiness work through migration 021. Use an owner-authorized GitHub identity to open that existing branch against `main`, then run/review exact-head CI/security gates. This connector's fresh branch-write attempt returned `403 Resource not accessible by integration`.
+
+6. **FinanceMeta production:** connect/authorize the actual FinanceMeta Supabase and deploy surface. Verify the live intended migration/RLS state, including migration 021 where appropriate, exact deployed revision, member role-escalation denial, multi-account isolation, saved-progress/core journey, recovery, logout and cleanup. A release-candidate branch is not production certification.
+
+7. **The Bu1LD production access:** expose/authorize the canonical writable repository, real Supabase project and deployment surface. Then certify immutable deploy identity, hydration, RLS/role boundaries and the seven-role authenticated journey.
+
+8. **IRIS / NPMS source recovery:** provide the exact retained IRIS trajectories/source/metric code and original NPMS source/config/checkpoint if they exist only in local/private storage. Approximate regeneration is not an acceptable substitute.
+
+9. **PEN, only if retained as a separate line:** recover standalone executable MODEL-PEN source. Do not inherit APEN evidence by naming similarity.
+
+## No owner rescue required
+
+No manual promotion or positive-result rescue is required for LAM-JEPA's frozen hypothesis, NGMT v0.1, the current IRIS successor candidate, Eigen-JEPA's frozen primary result, NeuroCAD's typed-parser mechanism interpretation or T2424-1863. Their negative/mixed/falsified evidence stays preserved.
+
+Hercules and Olympus require **no immediate compute action**. They remain archived from active compute until a genuinely decisive matched protocol is frozen; architecture names, parameter targets or model-family names alone do not justify reactivation.
