@@ -1,0 +1,43 @@
+{
+  "schema_version": 2,
+  "scope": "current repository T2424 project directories cross-checked against frozen FIRST_100_QUEUE.ndjson",
+  "generated_from_main": "86170b1a6bb8fbc1484f99fd680876c271fb5474",
+  "truth_boundary": {
+    "project_2424_identity_contract_size": 2424,
+    "historical_wave001_registry_recovered": true,
+    "historical_wave001_source_package_count": 24,
+    "current_full_2424_identity_migration_recovered": false,
+    "first_100_registry_available": true,
+    "directory_presence_is_not_scientific_completion": true,
+    "directory_presence_is_not_external_validation": true,
+    "numeric_suffix_is_not_cross_generation_identity_key": true,
+    "note": "This manifest proves only the identity of current repository T2424 project directories listed here against the frozen current First-100 queue. The checksum-recovered historical Wave-001 registry is separate and contains conflicting historical P2424 numeric assignments; no cross-generation identity join is implied. Unrepresented current identities are not classified as absent, failed, archived, or implemented."
+  },
+  "first_100_registry_expected_entries": 100,
+  "represented_project_directory_count": 23,
+  "entries": [
+    {"id":"T2424-0016","registry_name":"PST — Predictive Single-Cell Transition Score","source_path":"portfolio/project2424/projects/T2424-0016","evidence_state":"DIRECTORY_PRESENT"},
+    {"id":"T2424-0019","registry_name":"NPMS — Neural Predictive Memory Spectroscopy","source_path":"portfolio/project2424/projects/T2424-0019","evidence_state":"DIRECTORY_PRESENT"},
+    {"id":"T2424-0023","registry_name":"Multilingual Epistemic Blind Spots Benchmark","source_path":"portfolio/project2424/projects/T2424-0023","evidence_state":"DIRECTORY_PRESENT"},
+    {"id":"T2424-0024","registry_name":"Trust Under Uncertainty","source_path":"portfolio/project2424/projects/T2424-0024","evidence_state":"DIRECTORY_PRESENT"},
+    {"id":"T2424-0025","registry_name":"Non-Gaussian Memory Transformer","source_path":"portfolio/project2424/projects/T2424-0025","evidence_state":"DIRECTORY_PRESENT"},
+    {"id":"T2424-0026","registry_name":"Counterfactual Defect Worlds","source_path":"portfolio/project2424/projects/T2424-0026","evidence_state":"DIRECTORY_PRESENT"},
+    {"id":"T2424-0027","registry_name":"Sapir–Whorf Latent Tongue","source_path":"portfolio/project2424/projects/T2424-0027","evidence_state":"DIRECTORY_PRESENT"},
+    {"id":"T2424-0028","registry_name":"Residual Event Tokenization","source_path":"portfolio/project2424/projects/T2424-0028","evidence_state":"DIRECTORY_PRESENT"},
+    {"id":"T2424-0029","registry_name":"Representation Phase Transitions for PDEs","source_path":"portfolio/project2424/projects/T2424-0029","evidence_state":"DIRECTORY_PRESENT"},
+    {"id":"T2424-0030","registry_name":"Adaptive Theory Geometry in World Models","source_path":"portfolio/project2424/projects/T2424-0030","evidence_state":"DIRECTORY_PRESENT"},
+    {"id":"T2424-0034","registry_name":"Quant ML Visualizer","source_path":"portfolio/project2424/projects/T2424-0034","evidence_state":"DIRECTORY_PRESENT"},
+    {"id":"T2424-0035","registry_name":"Grokking Agent","source_path":"portfolio/project2424/projects/T2424-0035","evidence_state":"DIRECTORY_PRESENT"},
+    {"id":"T2424-0036","registry_name":"Rubik's A* Intelligence","source_path":"portfolio/project2424/projects/T2424-0036","evidence_state":"DIRECTORY_PRESENT"},
+    {"id":"T2424-0037","registry_name":"NLP-to-CAD","source_path":"portfolio/project2424/projects/T2424-0037","evidence_state":"DIRECTORY_PRESENT"},
+    {"id":"T2424-0038","registry_name":"Obscured Records Agent","source_path":"portfolio/project2424/projects/T2424-0038","evidence_state":"DIRECTORY_PRESENT"},
+    {"id":"T2424-0040","registry_name":"FinanceMeta Learning Graph","source_path":"portfolio/project2424/projects/T2424-0040","evidence_state":"DIRECTORY_PRESENT"},
+    {"id":"T2424-0046","registry_name":"Auto-Research Foundry","source_path":"portfolio/project2424/projects/T2424-0046","evidence_state":"DIRECTORY_PRESENT"},
+    {"id":"T2424-0049","registry_name":"Multiphase Porous JEPA","source_path":"portfolio/project2424/projects/T2424-0049","evidence_state":"DIRECTORY_PRESENT"},
+    {"id":"T2424-0050","registry_name":"Darcy Latent Operator","source_path":"portfolio/project2424/projects/T2424-0050","evidence_state":"DIRECTORY_PRESENT"},
+    {"id":"T2424-0053","registry_name":"Scientific Motif Dictionary","source_path":"portfolio/project2424/projects/T2424-0053","evidence_state":"DIRECTORY_PRESENT"},
+    {"id":"T2424-0054","registry_name":"Theory-Manifold Experiment Planner","source_path":"portfolio/project2424/projects/T2424-0054","evidence_state":"DIRECTORY_PRESENT"},
+    {"id":"T2424-1767","registry_name":"Resource-Bounded Mixture-of-Experts Operator for Scientific ML Benchmarking","source_path":"portfolio/project2424/projects/T2424-1767","evidence_state":"DIRECTORY_PRESENT"},
+    {"id":"T2424-1768","registry_name":"Self-Verifying Mixture-of-Experts Engine for Scientific ML Benchmarking","source_path":"portfolio/project2424/projects/T2424-1768","evidence_state":"DIRECTORY_PRESENT"}
+  ]
+}
