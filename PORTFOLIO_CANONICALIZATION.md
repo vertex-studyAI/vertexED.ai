@@ -1,6 +1,6 @@
 # PORTFOLIO_CANONICALIZATION
 
-**Updated:** 2026-08-14 after NeuroCAD component falsification  
+**Updated:** 2026-08-14 after NeuroCAD component falsification and Text-To-Video evidence audit  
 **Purpose:** one source of truth per project/claim; preserve provenance while ending duplicate active work.
 
 ## Canonical truth hierarchy
@@ -10,6 +10,7 @@
 | Cross-portfolio status/claims/queues/blockers | `vertex-studyAI/vertexED.ai` default branch | control docs summarize evidence; project-native artifacts win on raw results |
 | LAM-JEPA science/manuscript | `vertex-studyAI/LAM-JEPA` default branch | frozen protocols/artifacts + negative manuscript are authoritative |
 | VertexED product source | `vertex-studyAI/vertexED.ai` source tree | source and production state separate |
+| VertexED Notes-to-Video media subsystem | `vertex-studyAI/Text-To-Video` default branch | **child of VertexED product family**; project-native local media/queue/storage evidence is authoritative, but it does not define an independent product-validation lane |
 | VertexED production | served deployment + monitor/journey evidence | CI/Vercel status alone cannot certify served revision |
 | Project 2424 research | preserved canonical source + standalone child evidence | registry/count is not completion |
 | Percy runtime | existing Percy SQLite/WAL/checkpoints on real host | GitHub specs are not live queue/process truth |
@@ -32,6 +33,7 @@ Do not create a second experiment registry or live queue. Older `NEXT_48H_QUEUE`
 | T2424-0025 | NGMT | **DISTINCT RELATED** | precursor robust readout cannot be called NGMT success |
 | APEN | PEN | **DISTINCT** | APEN evidence does not transfer to PEN |
 | Research Atlas V4 | child reruns | **REPRO CONTAINER** | packaging is not independent novelty |
+| `vertex-studyAI/Text-To-Video` Notes-to-Video V6 | VertexED | **PARENT/CHILD — MERGE PRODUCT LANE** | repo retains its own code/evidence; portfolio treats it as a local VertexED media/learning subsystem, not a separate startup/research flagship. Local MP4/queue/store evidence cannot be promoted to production hosting or user value |
 | LAM repairs | frozen LAM conclusion | **VERSIONED HISTORY** | engineering repair cannot rescue frozen scientific result |
 | IRIS successor | IRIS v0.2 | **NEW VERSION REQUIRED** | current architecture search closed; baseline frontier first |
 | NGMT successor | NGMT v0.1 | **NEW VERSION REQUIRED** | no v0.1 rescue |
@@ -46,10 +48,10 @@ Do not create a second experiment registry or live queue. Older `NEXT_48H_QUEUE`
 - Percy — live-state/reliability qualification.
 
 ### Tier A
-Darcy; NeuroCAD product + fresh research gate only; T2424-0025; NGMT negative package; APEN; Eigen-JEPA; NPMS; VertexED production qualification.
+Darcy; NeuroCAD product + fresh research gate only; T2424-0025; NGMT negative package; APEN; Eigen-JEPA; NPMS; **VertexED product qualification including Notes-to-Video only as a child workflow if selected**.
 
 ### No significant compute until gate changes
-NeuroCAD parser rescue on old 20 cases; Hercules; Olympus; T2424-0028/0029/1863 beyond packaging; PEN without source; duplicate 2424/CAD variants; Text-to-Video without explicit owner/question.
+NeuroCAD parser rescue on old 20 cases; Hercules; Olympus; T2424-0028/0029/1863 beyond packaging; PEN without source; duplicate 2424/CAD variants; **standalone Text-to-Video expansion outside the VertexED product lane**.
 
 ## Promotion law
 
