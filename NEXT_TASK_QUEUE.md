@@ -1,79 +1,93 @@
 # NEXT TASK QUEUE
 
-**Rescored:** 2026-08-14 after latest bounded VertexED production-health verification and Darcy v2 protocol-freeze reconciliation  
+**Rescored:** 2026-08-14 after current convergence snapshot, Darcy post-merge safety closure, and NPMS controlled-source recovery  
 **Rule:** information gain × closure probability × evidence value ÷ cost. Dependencies are hard.
 
 ## 1 — PERCY-STATE-001 — P0 / BLOCKED_EXTERNAL_MAC
 - Recover the existing Percy host state **without reset**.
-- Deliver: checksummed SQLite+WAL+checkpoint snapshot, integrity/schema result, queue counters, leases/heartbeats/stale workers, dirty worktree state.
-- Verify independently against the preserved snapshot.
-- Failure: remain blocked; never create a replacement DB to make counters look clean.
+- Deliver: checksummed SQLite+WAL+checkpoint snapshot, integrity/schema result, live queue counters, leases/heartbeats/stale workers, dirty worktree state.
+- Failure: remain blocked; never create a replacement DB or invent counters.
 
 ## 2 — P2424-CANON-001 — P0 / BLOCKED_EXTERNAL_SOURCE
-- Re-establish the preserved canonical Project 2424 source/overlay and reconcile count/status contradictions.
-- Deliver: verified HEAD/ancestry, dirty-overlay manifest/hashes, smallest baseline rerun, canonical child map.
-- Failure: block source-dependent new experiments; preserve bounded existing reproductions.
+- Recover the preserved canonical Project 2424 source/overlay/ancestry.
+- Reconcile identity/count/status truth and canonical child dispositions.
+- 2,424 registered identities are not 2,424 implementations, completed experiments, or papers.
 
-## 3 — LAM-RELEASE-METADATA-003 — P0 / BLOCKED_OWNER
-- Internal numerical/asset provenance is now closed.
-- Deliver only owner-controlled release metadata: license decision/compatibility review, approved author list/order, `CITATION.cff`, redistribution boundary and immutable release revision.
-- Do not infer these fields from repository history, commit authorship or prior drafts.
+## 3 — VERTEX-PROD-001 — P0 PRODUCT / BLOCKED_EXTERNAL_DEPLOYMENT_IDENTITY
+- Latest verified production-health run: `31817794439`.
+- Expected deploy-relevant revision: `e2ecd19ed9816f8f36369c7dc0f38e39942ca73a`.
+- Evidence artifact: `9225715176`, SHA-256 `e7870e9561748ef4d4247e3bf4e01d3e8feead3780c4e2016d3742d134f2069a`.
+- Public/router/logged-out auth/origin boundaries passed; live `/api/health` omitted immutable revision.
+- Connected Vercel contexts report deployment rate limiting; no paid-upgrade workaround is authorized.
+- Close only with exact served-revision/deployment proof + monitor PASS + disposable-account authenticated golden journey and cleanup.
 
-## 4 — EXTVAL-LAM-001 — P1 / READY_EXTERNAL_PACKET
-- Immutable independent reproduction/review packet is merged to `LAM-JEPA/main` as `218ea1bea686cdf8c281520b2b636897bc8b8dd2`.
-- Send that exact package to a genuinely independent validator for reproduction + skeptical review, not endorsement.
-- Retain validator identity/date, exact artifact revision, observed hashes/numbers, discrepancies, source-method critique and success/failure interpretation.
-- External validation stays **RED/PENDING** until returned outside evidence exists. Packet readiness or outreach is not validation.
+## 4 — FINANCEMETA-SOURCE-REVIEW-001 — P0 PRODUCT / OWNER_REVIEW_REQUIRED
+- Canonical target: `build-the-future-11/finance4all-global-reach`.
+- `main@fbdd503223edc5b1780509720391083f485a4a85`.
+- Existing hardening candidate `cursor/membership-security-supabase-fix@6dcc03710bb6adf9b4b722b308c40a0720bea61f` is verified **41 commits ahead / 0 behind** main.
+- Do not recreate the existing security/RLS/release work.
+- Fresh branch creation through this connector returns 403; owner-authorized GitHub path must review/open the existing branch and run exact-head CI.
 
-## 5 — IRIS-FRONTIER-SOURCE-001 — P1 / BLOCKED_CANONICAL_RAW_SOURCE
-- `IRIS_BASELINE_FRONTIER_PROTOCOL_20260814.md` is frozen and canonical.
-- Recover/hash the exact development trajectories, retained implementations/parameters and metric code required by the protocol.
-- If exact source cannot be recovered, output `PROTOCOL_BLOCKED`; do not regenerate approximately equivalent data.
+## 5 — FINANCEMETA-PROD-001 — P0 PRODUCT / BLOCKED_EXTERNAL_SUPABASE_DEPLOYMENT
+- After source review, connect/authorize the real FinanceMeta Supabase/deployment target.
+- Verify full intended migrations/RLS, exact deployed revision, role-escalation denial, two-account isolation, recovery/logout and saved-progress golden journey + cleanup.
+- Branch-local/source evidence is not production proof.
+
+## 6 — LAM-RELEASE-METADATA-003 — P0 / BLOCKED_OWNER
+- Internal negative-result paper/numeric/provenance package is closed.
+- Owner approves license/redistribution, author list/order, `CITATION.cff` and immutable release revision.
+- Do not infer these fields from Git history.
+
+## 7 — EXTVAL-LAM-001 — P1 / READY_EXTERNAL_PACKET
+- Immutable packet revision: `218ea1bea686cdf8c281520b2b636897bc8b8dd2`.
+- Obtain genuinely independent reproduction + skeptical review.
+- Packet readiness is not external validation.
+
+## 8 — IRIS-FRONTIER-SOURCE-001 — P1 / PARTIALLY_RECOVERED_PROTOCOL_BLOCKED
+- Checksum-verified v0.2 bundle/addendum/common-harness/source lineage is recovered.
+- Remaining exact provenance edges: canonical development trajectories and exact frozen adaptation-metric source identity.
 - Confirmatory seeds `1000–1029` remain forbidden.
+- Do not approximate/regenerate the missing source edge; retain `PROTOCOL_BLOCKED` if it cannot be recovered.
 
-## 6 — DARCY-V2-MATERIALIZE-002 — P1 / READY_IMPLEMENTATION_NO_RUN
-- `DARCY-FREEZE-001 / darcy-operator-ood-v2` is already frozen and explicitly records `EXPERIMENT NOT YET RUN`.
-- Materialize only the pre-outcome implementation required by that protocol: deterministic generator/reference solver, fixed M1/A1/A2/B1/B2 systems, eligible FNO/DeepONet implementation/config grid, environment lock, split-manifest generator, hardware/compute-budget declaration, unit/eligibility tests and exact hashes.
-- Deliver: committed implementation revision; environment/config hashes; split-manifest hash; model-budget declaration; test evidence showing the code path is internally valid without evaluating the frozen ID/OOD outcomes.
-- **Do not execute training, ID-test or OOD evaluation until every prerequisite named by the frozen protocol is committed.** Any material protocol change becomes a new version.
+## 9 — DARCY-V2-MATERIALIZE-002 — P1 / PARTIAL_PRE_OUTCOME_FREEZE_NO_RUN
+- Frozen protocol + deterministic pre-outcome scaffolding/locks are on main.
+- Safety merge `daf548fa9b3953c3d7e188191588a84a04c98093` removes frozen-OOD outcome peeking and exposes two unresolved interpretation approvals.
+- Remaining prerequisites: covariance/OOD-D interpretation approvals, B2/B3/B4 learned implementations/configs, environment lock, hardware identity, model budgets and split-manifest hash.
+- **No training, ID-test or OOD evaluation until all frozen prerequisites are immutable.**
 
-## 7 — VERTEX-PROD-001 — P0 PRODUCT / BLOCKED_EXTERNAL_DEPLOYMENT_IDENTITY
-- Establish exact served revision and authenticated golden-journey truth.
-- Latest checked scheduled production-health run `31817794439` on control head `d5e9fcaa8de4e49b236b18ff7d3c515ed5f1ed6d` failed all three bounded attempts because `/api/health` returned healthy but **omitted revision identity**. Homepage, API-router, malformed-waitlist, logged-out AI/user/admin and untrusted-origin smoke boundaries passed.
-- The monitor expected deploy-relevant revision `e2ecd19ed9816f8f36369c7dc0f38e39942ca73a`; evidence artifact `9225715176` has SHA-256 `e7870e9561748ef4d4247e3bf4e01d3e8feead3780c4e2016d3742d134f2069a`.
-- Both connected Vercel project statuses for the control head currently report `Deployment rate limited — retry in 24 hours.` Do not purchase a paid upgrade or churn source merely to force a deployment.
-- Deliver when externally unblocked: exact intended/served source identity, deployment ID, `/api/health` revision proof matching the deploy-relevant SHA, production monitor PASS, disposable-account core workflow + cleanup record.
-- Do not add product features to work around deployment identity uncertainty.
+## 10 — NPMS-NATURAL-CAUSAL-FREEZE-002 — P1 / SOURCE_RECOVERED_NO_NEW_RUN_AUTHORIZED
+- `NPMS-SOURCE-001` closes for the controlled Atlas source.
+- Canonical archive SHA-256: `076f12750d6a8e6c298c17815224a79463bcad149d6cf1283900d98c6e394a2c`.
+- Frozen adverse control: NPMS `92.86%` vs invariant-parameter baseline `89.29%`; gap `3.57` pp; verdict `PARAMETER_CONFOUNDED_OR_NON_UNIQUE` under the predeclared 5-point rule.
+- Next action is **protocol freeze only**: define a natural/causal task with invariant-parameter + state-space/spectral controls, mode-aware metric, seeds, uncertainty, compute budget, success criterion and falsifier.
+- No new natural/OOD run yet.
 
-## 8 — NPMS-SOURCE-001 — P1 / BLOCKED_SOURCE_IDENTITY
-- Recover the original NPMS scientific source/config/checkpoint before any new natural/OOD experiment.
-- Deliver: canonical source identity + hashes + clean rerun against retained bounded evidence, or a precise `SOURCE_UNRECOVERED` verdict.
-- Preserve known negative spectral/switching/truncation cases.
-- Failure: archive the line as bounded recovered evidence rather than inventing a replacement implementation.
+## 11 — BU1LD-PROD-001 — P1 PRODUCT / BLOCKED_EXTERNAL_TARGET_AND_DATA_PLANE
+- Expose/authorize canonical writable repo, Supabase and deployment surface.
+- Then verify exact deploy identity, OAuth/env, RLS/object authorization and seven-role authenticated journeys.
+- Current connected Supabase exposes VertexED only.
 
-## 9 — JEPA-TS-FREEZE-001 — P2 / DORMANT_UNTIL_CAPACITY
-- The canonical programme remains one question: causal future-latent predictive-state recovery under noise/missingness.
-- Before any run, freeze one machine-readable cheap synthetic experiment with exact generator, objectives, TS-JEPA/data2vec/reconstruction/autoregressive/statistical baselines, corruption grid, paired seeds, 5pp falsifier, compute budget and verifier.
-- No real-data expansion unless the synthetic gate survives. No run is currently authorized.
+## 12 — VERTEX-SUPABASE-HARDEN-001 — P1 OWNER/PLATFORM
+- Read-only advisor reports leaked-password protection disabled and security patches available for `supabase-postgres-17.4.1.074`.
+- Owner reviews rollout/maintenance impact before mutation.
+- These warnings are not proof of exploit/outage and are separate from served-revision certification.
 
-## 10 — PORTFOLIO-RESCORE-003 — P1 / WAITING_DECISIVE_EVIDENCE
-- Re-score only after the tasks above produce material evidence.
-- Maximum Tier S = 5; current Tier S = 3 and no replacement is required.
-- Every promotion/demotion must cite an exact new artifact/gate.
+## 13 — JEPA-TS-FREEZE-001 — P2 / DORMANT
+- No run authorized. Freeze one cheap synthetic falsifier only after higher-information blockers clear.
 
-## Closed this wave
+## 14 — PORTFOLIO-RESCORE-003 — P1 / WAITING_DECISIVE_EVIDENCE
+- Re-score only after material new evidence. Current Tier S remains 3; no replacement is required.
 
-- `LAM-PAPER-001` source/provenance/originality/reviewer closure — **CLOSED INTERNALLY:** canonical LAM paper/source work is on `LAM-JEPA/main`.
-- `LAM-VERIFY-002` — **CLOSED INTERNALLY:** raw Actions artifacts `9162165932`, `9003785715`, and `9003740436` were independently downloaded; ZIP/raw JSON digests matched canonical provenance; five-seed full/matched/ablation values and bounded pretrained characterization were independently recomputed; deterministic CSV/Markdown/SVG assets regenerated. Verification record merged as `725ae2fb17de9c988938d4b03bd8a6be456b8e8b`; numeric-basis guard merged as `bf8311e1a4d240e2891e51af38eaf7754944e300` with no scientific outcome change.
-- `EXTVAL-LAM-PACKET-001` — **CLOSED PACKAGING ONLY:** immutable external reproduction/review packet merged as `218ea1bea686cdf8c281520b2b636897bc8b8dd2`; no outside result exists yet.
-- `IRIS-FRONTIER-FREEZE-001` — **CLOSED:** development-only false-open constrained baseline-frontier protocol is frozen; execution remains source-blocked.
-- `DARCY-FREEZE-001` — **CLOSED DESIGN ONLY:** learned-operator/OOD v2 protocol is frozen before outcomes; experiment remains not run and implementation/hash prerequisites remain open.
-- `JEPA-TS-PROGRAM-001` — **CLOSED DESIGN:** one literature-bounded programme exists; no experiment authorized.
-- `IRIS-DECIDE-001` — **CLOSED:** no successor architecture authorized.
-- NeuroCAD component-confound ablation — **CLOSED / FALSIFIED MECHANISM:** direct+matched validation equals current compiler; `VALIDATION_DOMINANT`.
-- PR #319 stale closeout — **CLOSED UNMERGED**, history preserved.
-- stale command-center issue #122 — **CLOSED SUPERSEDED**.
+## Closed / narrowed this wave
+
+- LAM internal paper/provenance/numeric verification — **CLOSED INTERNALLY**.
+- LAM external-review packet packaging — **CLOSED PACKAGING ONLY**.
+- NeuroCAD component mechanism — **FALSIFIED / VALIDATION_DOMINANT**.
+- IRIS source recovery — **PARTIAL EXACT RECOVERY / PROTOCOL BLOCKED**.
+- Darcy v2 protocol + deterministic pre-outcome scaffold — **MERGED / NOT RUN**; outcome-peek safety gap fixed.
+- NPMS controlled Atlas source recovery — **CLOSED**, with the stronger mechanism interpretation `PARAMETER_CONFOUNDED_OR_NON_UNIQUE` preserved.
+- FinanceMeta canonical 41-commit hardening lineage — **RECOVERED**, but review and live production qualification remain separate.
 
 ## Scheduling guard
 
-**Zero new major scientific experiment runs are authorized right now.** Percy/Project 2424/IRIS/NPMS are source or live-state recovery first; Darcy v2 may advance through implementation/config/hash closure only, not scientific outcome execution; JEPA×time-series is dormant design; NeuroCAD research is deprioritized after its mechanism falsifier; LAM is owner metadata + external review only; VertexED is deployment certification only. Unused compute capacity should remain unused rather than generate low-information experiments.
+**Zero new major scientific experiment runs are authorized.** Source/live-state recovery, owner review, external validation, production certification and frozen pre-outcome/protocol closure precede new compute.
