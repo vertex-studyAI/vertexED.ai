@@ -8,7 +8,8 @@ Canonical status remains `MASTER_STATUS.md`; canonical execution order remains `
 
 - Control repository base head at snapshot start: `vertex-studyAI/vertexED.ai@d5e9fcaa8de4e49b236b18ff7d3c515ed5f1ed6d`.
 - Canonical LAM scientific head: `vertex-studyAI/LAM-JEPA@bf8311e1a4d240e2891e51af38eaf7754944e300`.
-- FinanceMeta source is now directly accessible as `build-the-future-11/finance4all-global-reach@fbdd503223edc5b1780509720391083f485a4a85`; its production Supabase state is still not exposed.
+- FinanceMeta source is directly readable as `build-the-future-11/finance4all-global-reach@fbdd503223edc5b1780509720391083f485a4a85`, but a fresh branch-write attempt returned `403 Resource not accessible by integration`.
+- Connected Supabase exposes one active project only: VertexED `xwlrzgfuhfbckgvcmyoq`; FinanceMeta and The Bu1LD production Supabase projects are not visible.
 - VertexED Notes-to-Video child source remains accessible through `vertex-studyAI/Text-To-Video`.
 - `/Volumes/PRO-BLADE/Atlas/Percy`, Percy SQLite/WAL/checkpoint/process state, canonical local Project 2424 source/dirty overlay, IRIS original Git/raw source, NPMS original source/config/checkpoint, The Bu1LD target runtime and production data planes are not visible from this execution surface.
 - Therefore live Percy workers/tasks/leases, Project 2424 umbrella source completion, IRIS/NPMS source identity, Bu1LD production qualification and any unobserved deployment state remain `UNKNOWN` or `BLOCKED_EXTERNAL` rather than inferred.
@@ -17,9 +18,8 @@ Canonical status remains `MASTER_STATUS.md`; canonical execution order remains `
 ## Current GitHub convergence state
 
 - `#349` (`chatgpt/portfolio-reconcile-20260814-2201`) is the sole intended live control-truth reconciliation lane for current status/queue/blocker/product changes.
-- `#346` and `#347` are closed unmerged as superseded, preserving their history.
-- The earlier start-snapshot work from `#348` is folded into `#349`; no second checkpoint truth source should remain active.
 - LAM-JEPA currently has no open PR owned by this reconciliation.
+- Any stale/concurrent status edit that conflicts with a direct access test or retained artifact must be corrected before merge rather than treated as progress.
 
 ## P0 state
 
@@ -29,7 +29,7 @@ Canonical status remains `MASTER_STATUS.md`; canonical execution order remains `
 | Project 2424 umbrella | `PARTIAL / BLOCKED_SOURCE_RECOVERY` | Recover preserved canonical source/overlay/ancestry, hash dirty state, reconcile all registered identities against real source and retained evidence. Registry count is not completion. |
 | VertexED production | `BLOCKED_EXTERNAL_DEPLOYMENT_IDENTITY_AND_CAPACITY` | Identify canonical Vercel project/deployment, restore authorized deploy capacity, prove exact served revision, then complete authenticated disposable-account golden journey. |
 | LAM release | `INTERNAL_PACKAGE_VERIFIED / BLOCKED_OWNER_AND_EXTERNAL` | Owner-controlled license/authorship/citation/release metadata + genuinely independent reproduction/review. |
-| FinanceMeta source | `PARTIAL ACCESS / SECURITY HARDENING REQUIRED` | Exact-base isolated migration/tests for role-preservation and safe authorization helpers; production application waits for real Supabase authorization. |
+| FinanceMeta | `SOURCE READABLE / GITHUB WRITE + SUPABASE BLOCKED_EXTERNAL` | Grant target write access and connect FinanceMeta Supabase; then exact-base migration/tests for role-preservation and safe authorization helpers, followed by production denial-path verification. |
 | The Bu1LD | `BLOCKED_EXTERNAL` | Restore canonical writable repo/runtime/Supabase access; certify deploy identity, RLS/roles and seven-role journeys. |
 
 ## Latest VertexED production evidence
@@ -44,7 +44,7 @@ Scheduled Production Health Monitor run `31817794439` checked the public surface
 - logged-out AI/user/admin APIs: expected 401 PASS;
 - untrusted-origin request: expected 403 PASS;
 - artifact: `production-health-31817794439`, ID `9225715176`, SHA-256 `e7870e9561748ef4d4247e3bf4e01d3e8feead3780c4e2016d3742d134f2069a`;
-- configured Vercel status contexts show deployment rate limiting.
+- configured Vercel status contexts on the control head show deployment rate limiting.
 
 Verdict: public/security smoke is live; exact served deployment identity and authenticated production certification remain unproved. Do not weaken the revision assertion or buy capacity as a workaround.
 
@@ -64,7 +64,7 @@ Verdict: public/security smoke is live; exact served deployment identity and aut
 
 ## FinanceMeta source-security finding
 
-The recovered source uses `profiles.role` in privileged authorization helpers, while initial RLS policies allow authenticated users to update or insert their own profile without a role-preserving `WITH CHECK`. The same migration defines public `SECURITY DEFINER` helpers without a pinned `search_path`. This is a source-level security defect worth fixing on an isolated branch; it is not evidence that production is fixed until the real Supabase target is inspected and denial tests pass.
+The recovered source uses `profiles.role` in privileged authorization helpers, while initial RLS policies allow authenticated users to update or insert their own profile without a role-preserving `WITH CHECK`. The same migration defines public `SECURITY DEFINER` helpers without a pinned `search_path`. This is a source-level security defect worth fixing after write access is restored; it is not evidence that production is fixed until the real Supabase target is inspected and denial tests pass.
 
 ## Current execution order
 
