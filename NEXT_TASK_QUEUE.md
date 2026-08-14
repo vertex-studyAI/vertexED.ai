@@ -1,76 +1,56 @@
 # NEXT TASK QUEUE
 
-**Rescored:** 2026-08-14 after independent LAM raw-artifact verification and external-packet merge  
-**Rule:** information gain × closure probability × evidence value ÷ cost. Dependencies are hard.
+**Rescored:** 2026-08-14 22:09 IST  
+**Rule:** evidence value × closure probability × downstream unblocking ÷ cost/risk. Dependencies are hard. Repeated identical retries are forbidden.
 
-## 1 — PERCY-STATE-001 — P0 / BLOCKED_EXTERNAL_MAC
-- Recover the existing Percy host state **without reset**.
-- Deliver: checksummed SQLite+WAL+checkpoint snapshot, integrity/schema result, queue counters, leases/heartbeats/stale workers, dirty worktree state.
-- Verify independently against the preserved snapshot.
-- Failure: remain blocked; never create a replacement DB to make counters look clean.
+## 1 — PERCY-STATE-001 — P0 / `BLOCKED_EXTERNAL_MAC`
+Recover the actual Mac host without reset. Deliver checksummed SQLite+WAL snapshot, integrity/schema result, workers/processes, leases/heartbeats/stale reconciliation, task/queue recount and dirty-worktree state. Current execution surface cannot see `/Volumes/PRO-BLADE/Atlas/Percy`; all live counters remain `UNKNOWN`.
 
-## 2 — P2424-CANON-001 — P0 / BLOCKED_EXTERNAL_SOURCE
-- Re-establish the preserved canonical Project 2424 source/overlay and reconcile count/status contradictions.
-- Deliver: verified HEAD/ancestry, dirty-overlay manifest/hashes, smallest baseline rerun, canonical child map.
-- Failure: block source-dependent new experiments; preserve bounded existing reproductions.
+## 2 — VERTEX-PROD-001 — P0 PRODUCT / `BLOCKED_EXTERNAL_DEPLOYMENT_IDENTITY`
+Do **not** patch the health handler: current source already supports Vercel/GitHub/generated revision identity and Vercel requires an immutable stamp. Latest monitor `31817794439` still received no revision while other bounded smoke boundaries passed. Current control-head Vercel statuses are build-rate-limit failures; no paid upgrade is authorized. Next legitimate gate is an authorized completed deployment → exact served revision proof → monitor PASS → disposable-account authenticated golden journey + cleanup.
 
-## 3 — LAM-RELEASE-METADATA-003 — P0 / BLOCKED_OWNER
-- Internal numerical/asset provenance is now closed.
-- Deliver only owner-controlled release metadata: license decision/compatibility review, approved author list/order, `CITATION.cff`, redistribution boundary and immutable release revision.
-- Do not infer these fields from repository history, commit authorship or prior drafts.
+## 3 — FINANCEMETA-APPLY-001 — P0 PRODUCT / `BLOCKED_TARGET_WRITE_ACCESS`
+Target main remains `fbdd503223edc5b1780509720391083f485a4a85`. Retained certified integrated overlay: workflow `31190278089`, artifact `8998523430`, patch SHA-256 `9192207d05d869c75d58fe70b5081961bafaac18de78bda447ab9a265f1bca35`. Fresh exact-base branch creation returned 403. Once write access exists: apply on isolated exact-base branch, rerun audit/lint/type/tests/env/secret checks, independent QA, staging SQL role-denial tests, then the real saved-progress journey. No live migration before those gates.
 
-## 4 — EXTVAL-LAM-001 — P1 / READY_EXTERNAL_PACKET
-- Immutable independent reproduction/review packet is merged to `LAM-JEPA/main` as `218ea1bea686cdf8c281520b2b636897bc8b8dd2`.
-- Send that exact package to a genuinely independent validator for reproduction + skeptical review, not endorsement.
-- Retain validator identity/date, exact artifact revision, observed hashes/numbers, discrepancies, source-method critique and success/failure interpretation.
-- External validation stays **RED/PENDING** until returned outside evidence exists. Packet readiness or outreach is not validation.
+## 4 — BU1LD-CERT-001 — P0 PRODUCT / `BLOCKED_TARGET_WRITE_ACCESS_AND_RUNTIME`
+Target main remains `daa80c1124b2a6d7d09b7669e04d29e50cffcbbe`; fresh exact-base branch creation returned 403. Once GitHub write + Supabase/Cloudflare + disposable role access exists: reproduce hydration on immutable source, repair only if reproduced, run auth/OAuth/onboarding regressions, role-denial matrix, contribution/review journey, exact deployed SHA and rollback proof.
 
-## 5 — IRIS-FRONTIER-SOURCE-001 — P1 / BLOCKED_CANONICAL_RAW_SOURCE
-- `IRIS_BASELINE_FRONTIER_PROTOCOL_20260814.md` is frozen and canonical.
-- Recover/hash the exact development trajectories, retained implementations/parameters and metric code required by the protocol.
-- If exact source cannot be recovered, output `PROTOCOL_BLOCKED`; do not regenerate approximately equivalent data.
-- Confirmatory seeds `1000–1029` remain forbidden.
+## 5 — P2424-CANON-001 — P0 / `BLOCKED_EXTERNAL_SOURCE`
+Recover preserved Project 2424 ancestry and dirty overlay from the actual host. Deliver exact HEAD/ancestry, overlay manifest/hashes, smallest baseline rerun and canonical 2,424-ID disposition map. `2,424 contracts` must never be presented as `2,424 completed research projects`.
 
-## 6 — DARCY-FREEZE-001 — P1 / WAITING_CANONICAL_SOURCE
-- Freeze the dangerous learned/operator/OOD comparison before execution.
-- Systems: numerical/reduced controls + matched learned operator family; equal budget; misaligned/correlation-length/held-out regimes.
-- No run until data/version, metric, budget, uncertainty and falsifier are immutable.
+## 6 — LAM-RELEASE-METADATA-003 — P0 / `BLOCKED_OWNER`
+`LAM-JEPA/main=bf8311e1a4d240e2891e51af38eaf7754944e300`; frozen negative science remains unchanged. Root `LICENSE` and `CITATION.cff` are absent. Deliver only owner-controlled license/redistribution decision, approved author list/order, citation metadata and immutable release revision. Do not infer them from commit history.
 
-## 7 — VERTEX-PROD-001 — P0 PRODUCT / BLOCKED_EXTERNAL_DEPLOYMENT_IDENTITY
-- Establish exact served revision and authenticated golden-journey truth.
-- Latest checked scheduled production-health run `31777345899` failed all three bounded attempts because `/api/health` returned healthy but **omitted revision identity**. Homepage, API-router, malformed-waitlist, logged-out AI/user/admin and untrusted-origin smoke boundaries passed.
-- The workflow correctly expected deploy-relevant revision `8272b8cba0dab6e9a07ee6aa4f927ad9374de534`; that SHA is a resolvable repository commit. The unresolved fact is the **served deployment revision**, not the expected source revision.
-- Deliver: exact intended/served source identity, deployment ID, `/api/health` revision proof matching the deploy-relevant SHA, production monitor PASS, disposable-account core workflow + cleanup record.
-- Do not add product features to work around deployment identity uncertainty.
+## 7 — EXTVAL-LAM-001 — P1 / `READY_EXTERNAL_PACKET`
+Send the immutable packet at `218ea1bea686cdf8c281520b2b636897bc8b8dd2` to a genuinely independent validator for reproduction + skeptical review. Retain identity/date/artifact revision/hashes/observed numbers/discrepancies/method critique. External validation remains pending until returned outside evidence exists.
 
-## 8 — NPMS-SOURCE-001 — P1 / BLOCKED_SOURCE_IDENTITY
-- Recover the original NPMS scientific source/config/checkpoint before any new natural/OOD experiment.
-- Deliver: canonical source identity + hashes + clean rerun against retained bounded evidence, or a precise `SOURCE_UNRECOVERED` verdict.
-- Preserve known negative spectral/switching/truncation cases.
-- Failure: archive the line as bounded recovered evidence rather than inventing a replacement implementation.
+## 8 — IRIS-FRONTIER-SOURCE-001 — P1 / `BLOCKED_CANONICAL_RAW_SOURCE`
+The personal IRIS repo at `787cc54...` is only a one-line README and is not canonical scientific source. Recover/hash the exact retained development trajectories, implementations/parameters and metric code required by the frozen protocol. If unavailable, output `PROTOCOL_BLOCKED`; never regenerate approximate equivalents. Seeds `1000–1029` remain quarantined.
 
-## 9 — JEPA-TS-FREEZE-001 — P2 / DORMANT_UNTIL_CAPACITY
-- The canonical programme remains one question: causal future-latent predictive-state recovery under noise/missingness.
-- Before any run, freeze one machine-readable cheap synthetic experiment with exact generator, objectives, TS-JEPA/data2vec/reconstruction/autoregressive/statistical baselines, corruption grid, paired seeds, 5pp falsifier, compute budget and verifier.
-- No real-data expansion unless the synthetic gate survives. No run is currently authorized.
+## 9 — NPMS-SOURCE-001 — P1 / `BLOCKED_SOURCE_IDENTITY`
+Recover original NPMS source/config/checkpoint before natural/OOD work. Rerun only against retained bounded evidence; preserve negative spectral/switching/truncation cases. If exact source remains unavailable, archive as bounded recovered evidence rather than inventing a replacement.
 
-## 10 — PORTFOLIO-RESCORE-003 — P1 / WAITING_DECISIVE_EVIDENCE
-- Re-score only after the tasks above produce material evidence.
-- Maximum Tier S = 5; current Tier S = 3 and no replacement is required.
-- Every promotion/demotion must cite an exact new artifact/gate.
+## 10 — DARCY-FREEZE-001 — P1 / `WAITING_CANONICAL_SOURCE`
+Before execution, freeze source/data versions, matched numerical/reduced/learned operator families, equal budget, misaligned/correlation-length/held-out regimes, metric, uncertainty and falsifier. No run until hashes and protocol are immutable.
 
-## Closed this wave
+## 11 — PORTFOLIO-CANON-004 — P1 / `PARTIAL_DISCOVERY`
+Reconcile newly visible repositories into the authoritative registry without treating repo presence as scientific/product completion. Confirm canonical identity, aliases, source existence, HEAD, role in a family and A–F disposition. Nexus/LabOS remain source-unrecovered through the present GitHub surface.
 
-- `LAM-PAPER-001` source/provenance/originality/reviewer closure — **CLOSED INTERNALLY:** canonical LAM paper/source work is on `LAM-JEPA/main`.
-- `LAM-VERIFY-002` — **CLOSED INTERNALLY:** raw Actions artifacts `9162165932`, `9003785715`, and `9003740436` were independently downloaded; ZIP/raw JSON digests matched canonical provenance; five-seed full/matched/ablation values and bounded pretrained characterization were independently recomputed; deterministic CSV/Markdown/SVG assets regenerated. Verification record merged as `725ae2fb17de9c988938d4b03bd8a6be456b8e8b`; numeric-basis guard merged as `bf8311e1a4d240e2891e51af38eaf7754944e300` with no scientific outcome change.
-- `EXTVAL-LAM-PACKET-001` — **CLOSED PACKAGING ONLY:** immutable external reproduction/review packet merged as `218ea1bea686cdf8c281520b2b636897bc8b8dd2`; no outside result exists yet.
-- `IRIS-FRONTIER-FREEZE-001` — **CLOSED:** development-only false-open constrained baseline-frontier protocol is frozen; execution remains source-blocked.
-- `JEPA-TS-PROGRAM-001` — **CLOSED DESIGN:** one literature-bounded programme exists; no experiment authorized.
-- `IRIS-DECIDE-001` — **CLOSED:** no successor architecture authorized.
-- NeuroCAD component-confound ablation — **CLOSED / FALSIFIED MECHANISM:** direct+matched validation equals current compiler; `VALIDATION_DOMINANT`.
-- PR #319 stale closeout — **CLOSED UNMERGED**, history preserved.
-- stale command-center issue #122 — **CLOSED SUPERSEDED**.
+## 12 — JEPA-TS-FREEZE-001 — P2 / `DORMANT_UNTIL_CAPACITY`
+Keep one causal future-latent predictive-state question. No run until exact generator/objectives/baselines/corruption grid/paired seeds/5pp falsifier/compute/verifier are machine-frozen. No real-data expansion unless the cheap synthetic kill gate survives.
+
+## 13 — HERCULES-OLYMPUS-CANON-001 — P2 / `SOURCE_GATED`
+Recover real implementations and maturity first. Parameter targets, governance demos and architecture names are not trained capability. No significant compute before same-budget baseline/proposal/ablation protocols are frozen.
+
+## Closed / preserved this wave
+
+- LAM raw-artifact/numeric provenance verification: **closed internally**, no outcome change.
+- LAM external packet packaging: **closed packaging only**, outside validation still pending.
+- IRIS successor search: **closed negative/failed gate**; no successor architecture authorized.
+- NeuroCAD typed-parser mechanism: **falsified/preserved** (`VALIDATION_DOMINANT`); do not retune old cases.
+- NGMT v0.1, Eigen-JEPA mixed/negative, T2424-1863 negative: **preserve frozen evidence**.
+- FinanceMeta/Bu1LD identical write retries: **stop** until integration permission materially changes.
 
 ## Scheduling guard
 
-**Zero new major scientific experiment runs are authorized right now.** Percy/Project 2424/IRIS/NPMS are source or live-state recovery first; Darcy requires a frozen protocol; JEPA×time-series is dormant design; NeuroCAD research is deprioritized after its mechanism falsifier; LAM is owner metadata + external review only; VertexED is deployment certification only. Unused compute capacity should remain unused rather than generate low-information experiments.
+**Zero new major scientific experiment runs are authorized right now.** Unused compute should remain unused. The active lanes are host/source recovery, production identity/security closure, LAM owner metadata/external review, and canonical portfolio reconciliation.
