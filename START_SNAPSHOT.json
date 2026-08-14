@@ -1,0 +1,93 @@
+{
+  "schema_version": 1,
+  "checkpoint": "START_SNAPSHOT",
+  "observed_at": "2026-08-14T22:09:52+05:30",
+  "control_repository": {
+    "repository": "vertex-studyAI/vertexED.ai",
+    "base_branch": "main",
+    "base_sha": "d5e9fcaa8de4e49b236b18ff7d3c515ed5f1ed6d",
+    "working_branch": "chatgpt/portfolio-closure-20260814-2202"
+  },
+  "truth_rules": {
+    "absence_of_evidence": "UNKNOWN",
+    "scientific_negative_results_frozen": true,
+    "destructive_recovery_forbidden": true,
+    "paid_resource_creation_authorized": false
+  },
+  "host_visibility": {
+    "/Volumes": "NOT_VISIBLE_FROM_EXECUTION_SURFACE",
+    "/Volumes/PRO-BLADE": "NOT_VISIBLE_FROM_EXECUTION_SURFACE",
+    "/Volumes/PRO-BLADE/Atlas/Percy": "NOT_VISIBLE_FROM_EXECUTION_SURFACE",
+    "/Volumes/PRO-BLADE/Atlas/Project-2024/Project_2424": "NOT_VISIBLE_FROM_EXECUTION_SURFACE"
+  },
+  "p0": {
+    "percy": {
+      "state": "BLOCKED_EXTERNAL_MAC",
+      "db_integrity": "UNKNOWN",
+      "physical_workers": "UNKNOWN",
+      "logical_agent_capacity": "UNKNOWN",
+      "real_task_counts": "UNKNOWN",
+      "next_gate": "non-destructive SQLite/WAL snapshot, integrity/schema, leases/heartbeats/stale reconciliation, independent recount"
+    },
+    "project_2424": {
+      "state": "BLOCKED_EXTERNAL_SOURCE",
+      "canonical_contract_count": 2424,
+      "source_backed_completion_count": "UNKNOWN",
+      "next_gate": "recover preserved canonical ancestry and dirty overlay before source-dependent experiments"
+    },
+    "vertexed_production": {
+      "state": "BLOCKED_EXTERNAL_DEPLOYMENT_IDENTITY",
+      "latest_monitor_run": 31817794439,
+      "expected_deploy_revision": "e2ecd19ed9816f8f36369c7dc0f38e39942ca73a",
+      "health_revision": "MISSING",
+      "public_smoke_other_boundaries": "PASS_IN_LATEST_BOUNDED_RUN",
+      "monitor_artifact_id": 9225715176,
+      "monitor_artifact_sha256": "e7870e9561748ef4d4247e3bf4e01d3e8feead3780c4e2016d3742d134f2069a",
+      "current_control_head_vercel_status": "FAILURE_BUILD_RATE_LIMIT",
+      "paid_upgrade_authorized": false,
+      "next_gate": "immutable served revision proof then authenticated disposable-account golden journey"
+    },
+    "financemeta": {
+      "state": "BLOCKED_TARGET_WRITE_ACCESS",
+      "canonical_repo": "build-the-future-11/finance4all-global-reach",
+      "canonical_main": "fbdd503223edc5b1780509720391083f485a4a85",
+      "certified_overlay_workflow": 31190278089,
+      "certified_overlay_artifact": 8998523430,
+      "certified_overlay_sha256": "9192207d05d869c75d58fe70b5081961bafaac18de78bda447ab9a265f1bca35",
+      "fresh_branch_write_test": "403_RESOURCE_NOT_ACCESSIBLE_BY_INTEGRATION",
+      "production_supabase_mutated": false,
+      "next_gate": "grant target GitHub integration write access, apply exact-base overlay on isolated branch, reverify before staging/live SQL"
+    },
+    "bu1ld": {
+      "state": "BLOCKED_TARGET_WRITE_ACCESS_AND_RUNTIME",
+      "canonical_repo": "ryangomez010/bu1ld-landing",
+      "canonical_main": "daa80c1124b2a6d7d09b7669e04d29e50cffcbbe",
+      "fresh_branch_write_test": "403_RESOURCE_NOT_ACCESSIBLE_BY_INTEGRATION",
+      "production_mutated": false,
+      "next_gate": "grant target GitHub write plus Supabase/Cloudflare/disposable-role access, then certify immutable deploy and role journeys"
+    }
+  },
+  "p1": {
+    "lam_jepa": {
+      "state": "PUBLISH_NEGATIVE_RESULT_INTERNAL_PACKAGE_VERIFIED_EXTERNAL_PENDING",
+      "main_sha": "bf8311e1a4d240e2891e51af38eaf7754944e300",
+      "scientific_outcome": "FROZEN_NEGATIVE",
+      "root_license": "ABSENT",
+      "citation_cff": "ABSENT",
+      "next_gate": "owner-controlled license/authorship/citation/redistribution metadata then genuinely independent reproduction/review"
+    },
+    "iris": {
+      "state": "SOURCE_GATED_MIXED_NEGATIVE",
+      "public_personal_repo_sha": "787cc54bb4037ca6e54aede97512b3d43481e410",
+      "public_personal_repo_content_boundary": "README_ONLY_NOT_CANONICAL_SOURCE",
+      "retained_control_evidence": true,
+      "next_gate": "recover/hash exact retained development trajectories, implementations and metric code; no approximate reconstruction"
+    }
+  },
+  "write_evidence": {
+    "control_issue_19_comment_id": 5295800858,
+    "control_issue_16_comment_id": 5295802191,
+    "control_issue_137_comment_id": 5295803448,
+    "control_issue_14_comment_id": 5295804785
+  }
+}
