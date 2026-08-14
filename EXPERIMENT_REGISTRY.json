@@ -1,0 +1,22 @@
+{
+  "schema_version": "1.0",
+  "as_of": "2026-08-14",
+  "canonical_human_registry": "EXPERIMENT_LEDGER.md",
+  "canonical_machine_registry": "EXPERIMENT_LEDGER.json",
+  "duplicate_experiment_rows_here": false,
+  "reason": "A canonical experiment ledger already exists; this filename is a compatibility entrypoint rather than a second mutable authority.",
+  "required_provenance_chain": ["claim", "table_or_figure", "processed_artifact", "raw_artifact", "frozen_config", "code_commit", "exact_command"],
+  "truth_rules": {
+    "unknown_fields_must_not_be_guessed": true,
+    "frozen_outcomes_are_immutable": true,
+    "protocol_change_requires_new_version": true,
+    "confirmatory_execution_requires_pre_result_freeze": true
+  },
+  "priority_provenance_gaps": [
+    {"project":"LAM-JEPA","gap":"separate capacity-matched supervised lineage must be explicit in manuscript provenance; full/no-planner/no-target/shuffled-control artifact was independently re-audited"},
+    {"project":"NeuroCAD","gap":"v1 and v2 must remain version-separated; a genuinely new benchmark is required before further mechanism claims"},
+    {"project":"NGMT v0.1","gap":"exact B0/B1/B2/B3 artifact/config/command/environment links"},
+    {"project":"Eigen-JEPA","gap":"14895 current-parser versus 14899 historical-spec row-count provenance"},
+    {"project":"IRIS","gap":"common-adaptation negative development bundle + untouched confirmatory-seed boundary must be retained in canonical ledger"}
+  ]
+}
