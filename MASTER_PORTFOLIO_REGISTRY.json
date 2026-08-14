@@ -1,0 +1,29 @@
+{
+  "schema_version":1,
+  "as_of":"2026-08-14T22:02:00+05:30",
+  "authority":"Evidence-bounded discovered registry. Missing local/PRO-BLADE identities remain UNKNOWN/BLOCKED and are not fabricated.",
+  "coverage":{"control_repo":"VERIFIED","percy_live_mac":"BLOCKED_EXTERNAL_MAC","project_2424_full_map":"BLOCKED_EXTERNAL_SOURCE","vertexed_supabase":"PARTIAL_VERIFIED","finance_meta_source":"PARTIAL_VERIFIED","finance_meta_production":"BLOCKED_EXTERNAL","bu1ld_source":"VERIFIED_CI_PASS","bu1ld_production":"BLOCKED_DEPLOYMENT_VERIFICATION"},
+  "projects":[
+    {"id":"percy","title":"Percy / Percy Prime","state":"BLOCKED","disposition":"F","next_gate":"non-destructive live snapshot/integrity/recount"},
+    {"id":"project-2424","title":"Project 2424 umbrella","state":"PARTIAL","disposition":"F","next_gate":"recover canonical source/overlay then all-2424-ID disposition"},
+    {"id":"LAM-JEPA","state":"VERIFIED","result":"NEGATIVE","disposition":"A","next_gate":"owner release metadata + independent external review"},
+    {"id":"IRIS-v0.2","state":"PARTIALLY_RECOVERED","result":"MIXED_NEGATIVE","disposition":"A","next_gate":"exact trajectory + adaptation-metric provenance recovery"},
+    {"id":"NeuroCAD-v1","state":"VERIFIED","disposition":"B"},
+    {"id":"NeuroCAD-component-v2","state":"VERIFIED","result":"NEGATIVE_MECHANISM","disposition":"D"},
+    {"id":"NGMT-v0.1","state":"VERIFIED","result":"NEGATIVE","disposition":"D"},
+    {"id":"Eigen-JEPA","state":"VERIFIED","result":"MIXED_NEGATIVE","disposition":"D"},
+    {"id":"APEN","state":"VERIFIED","result":"MIXED","disposition":"C"},
+    {"id":"NPMS","state":"PARTIAL","disposition":"F","next_gate":"recover original source/config/checkpoint"},
+    {"id":"T2424-0025","state":"VERIFIED_BOUNDED","disposition":"A"},
+    {"id":"T2424-0050","title":"Darcy Latent Operator","state":"PARTIAL","disposition":"C","protocol":"FROZEN","executed":false,"next_gate":"pre-outcome implementation/config/hash prerequisite closure only"},
+    {"id":"T2424-1863","state":"FROZEN_NEGATIVE_OR_MIXED","disposition":"D"},
+    {"id":"JEPA-TS","state":"DESIGN_ONLY","disposition":"C","next_gate":"separate synthetic freeze; no run authorized"},
+    {"id":"VertexED","repo":"vertex-studyAI/vertexED.ai","state":"PARTIAL","disposition":"B","source":"VERIFIED","production":"BLOCKED_DEPLOYMENT_IDENTITY"},
+    {"id":"FinanceMeta","repo":"build-the-future-11/finance4all-global-reach","state":"PARTIAL","disposition":"B","source_recovery":"RETAINED_BRANCH_RECOVERED_REVIEW_WRITE_BLOCKED","production":"BLOCKED_EXTERNAL"},
+    {"id":"The-Bu1LD","repo":"ryangomez010/bu1ld-landing","state":"PARTIAL","disposition":"B","source":"VERIFIED_CI_PASS","production":"BLOCKED_DEPLOYMENT_VERIFICATION"},
+    {"id":"Hercules-Olympus","state":"ARCHIVED_ACTIVE_COMPUTE","disposition":"E"},
+    {"id":"Notes-to-Video-V6","state":"VERIFIED_LOCAL_ENGINEERING","disposition":"B"}
+  ],
+  "project_2424_note":"Known IDs are inventory hints, not sufficient evidence of source existence or completion. Unrecovered IDs remain UNKNOWN.",
+  "no_fake_completion":true
+}
