@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-08-14T22:40:00+05:30",
+  "state": "PARTIAL_BLOCKED_EXTERNAL_SOURCE",
+  "contract_count": 2424,
+  "canonical_source": {
+    "expected_host_path": "/Volumes/PRO-BLADE/Atlas/Project-2024/Project_2424",
+    "visible_from_current_execution_surface": false,
+    "rule": "Do not infer source existence, SHA, dirty state, experiment completion, result or disposition from an ID or historical count."
+  },
+  "directly_disposition_backed_ids": [
+    {"id":"T2424-0025","title":"robust-readout / NGMT precursor","result":"BOUNDED_EFFECT_MECHANISM_NOT_UNIQUE","disposition":"C","next_gate":"separately frozen learned-memory causal control"},
+    {"id":"T2424-0027","title":"synthetic multilingual/representation line","result":"SYNTHETIC_ONLY","disposition":"C","next_gate":"preregistered real-encoder probes and controls"},
+    {"id":"T2424-0028","title":"residual-event codec mechanics","result":"MECHANICS_REPRODUCED_LOW_INFORMATION_GAIN","disposition":"E","next_gate":null},
+    {"id":"T2424-0029","title":"analytic PDE transition screen","result":"ANALYTIC_ONLY_LOW_INFORMATION_GAIN","disposition":"E","next_gate":null},
+    {"id":"T2424-0037","title":"NeuroCAD","result":"SOFTWARE_USEFUL_VALIDATION_DOMINANT_TYPED_PARSER_CAUSAL_MECHANISM_FALSIFIED_ON_REUSED_DIAGNOSTIC","disposition":"B","next_gate":"release reliability; fresh broader benchmark for any new science"},
+    {"id":"T2424-0050","title":"Darcy Latent Operator","result":"PARENT_SYNTHETIC_REPRODUCED_V2_PROTOCOL_FROZEN_NOT_RUN","disposition":"C","next_gate":"complete pre-outcome comparator/environment/hardware/interpretation locks before v2 run"},
+    {"id":"T2424-1863","title":"Resource-Bounded Local Operator","result":"FROZEN_PROMOTION_GATE_FAILED","disposition":"D","next_gate":null}
+  ],
+  "named_candidates_not_revalidated_from_canonical_source": [
+    "T2424-0016","T2424-0019","T2424-0023","T2424-0024","T2424-0026","T2424-0030","T2424-0034","T2424-0035","T2424-0036","T2424-0038","T2424-0040","T2424-0046","T2424-0049","T2424-0051","T2424-0053","T2424-0054","T2424-1530","T2424-1767","T2424-1768","T2424-1861","T2424-1931"
+  ],
+  "all_other_contracts": {
+    "state": "UNKNOWN_NOT_REVALIDATED_FROM_CANONICAL_SOURCE",
+    "source_exists": null,
+    "experiment_state": null,
+    "result_state": null,
+    "disposition": null
+  },
+  "count_rule": "Historical counts may not be summed unless proven to represent distinct entities. Seven IDs have direct disposition support in retained canonical snapshot/control evidence; this does not imply that only seven source-backed children exist on the inaccessible host."
+}
