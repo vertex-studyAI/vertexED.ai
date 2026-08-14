@@ -13,7 +13,7 @@
 | Eigen-JEPA | **REPRODUCED MIXED/NEGATIVE** | **ABSENT** | no superiority claim; any successor needs a new frozen multi-dataset protocol |
 | NPMS | **BOUNDED PACKAGE REPRODUCIBLE** | **ABSENT** | original new-science source/config/checkpoint must be recovered before extension |
 | Darcy parent / T2424-0050 | **BOUNDED SYNTHETIC REPRODUCED** | **ABSENT** | parent result immutable; learned/OOD v2 is separate |
-| Darcy v2 | **PROTOCOL FROZEN / NOT RUN** | **N/A** | deterministic generator/control scaffolding is on main; PR #376 adds B2 pre-outcome PCA+ridge. Canonical release gate passed once; final state-only CI is still required. Training remains forbidden. |
+| Darcy v2 | **PROTOCOL FROZEN / B2 UNIT-VERIFIED / NOT RUN** | **N/A** | deterministic generator/control scaffolding is on main; PR #376 adds B2 PCA+ridge blob `6e10c6...`. Workflow `31822987002` passed canonical release gate, local accessibility and production-browser jobs after B2 was marked unit-verified. Training, ID-test and OOD evaluation remain forbidden until both generator-interpretation approvals, environment, hardware, B3/FNO and B4/DeepONet locks are complete. |
 | T2424-0025 | **BOUNDED REPRODUCED / MECHANISM NOT UNIQUE** | **ABSENT** | distinct causal test must be a new frozen study |
 | T2424-0027 | **SYNTHETIC AUDIT REPRODUCED** | **ABSENT** | real encoder transfer unestablished |
 | T2424-1863 | **FROZEN REPRODUCED NEGATIVE** | **ABSENT** | promotion gate failed; preserve |
