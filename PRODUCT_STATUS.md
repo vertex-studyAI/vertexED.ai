@@ -1,33 +1,27 @@
 # PRODUCT_STATUS
 
-**As of:** 2026-08-14 13:35 IST
+**As of:** 2026-08-14 convergence re-verification
 
 | Product/system | State | Evidence boundary | Next gate |
 |---|---|---|---|
-| VertexED source | **GREEN** | source repository/control head available; source/release CI evidence is strong, while GitHub/Vercel deployment status remains separate from served production identity | preserve source gates; do not infer served revision |
-| VertexED production | **BLOCKED — EXACT REVISION UNVERIFIED** | scheduled production-health evidence shows the public/security smoke boundaries can pass while `/api/health` still omits the immutable deploy revision expected by the monitor | identify canonical Vercel project/config, expose immutable revision, make scheduled monitor pass, then complete authenticated disposable-account golden journey |
-| VertexED Notes-to-Video V6 child subsystem | **GREEN — LOCAL ENGINEERING / NOT PRODUCTION** | `vertex-studyAI/Text-To-Video` proves a local lesson/render pipeline with real H.264/AAC MP4 encoding, ffprobe verification, validated external render jobs, durable single-host queue semantics, atomic fail-closed output promotion and SHA-256 content-addressed local media storage; the repository explicitly does **not** prove hosted storage, distributed workers, synthesized narration, authenticated deployed callbacks, public URLs or real-user validation | keep as a VertexED child subsystem; no standalone product expansion; productionize only if the parent VertexED user-validation lane demonstrates a real need for notes-to-video |
-| Percy Prime host | **BLOCKED_EXTERNAL_MAC for live/production qualification** | repository/control artifacts exist, but existing host SQLite/WAL/process state is not visible here | non-destructive snapshot/integrity/recount, then crash/restart/provider/lease/resource/soak qualification |
-| FinanceMeta | **BLOCKED_EXTERNAL** | prepared hardening/recovery artifacts exist; canonical writable repo and production Supabase are not exposed | authorize target; apply on isolated exact-base branch; verify authorization denial paths + real saved-progress journey |
-| The Bu1LD | **BLOCKED_EXTERNAL** | prior source/production-hydration evidence retained; canonical writable target/Supabase/Cloudflare surface unavailable | authorize target; establish immutable deploy identity; fix/certify hydration and seven role journeys |
+| VertexED source | **GREEN** | source repository/control head available; source state remains separate from served production identity | preserve source gates; do not infer served revision |
+| VertexED database security | **PARTIAL / BOUNDED CONTROLS VERIFIED** | connected Supabase project is active/healthy; every inspected `public` table has RLS enabled; visible policies are ownership-scoped/fail-closed/public-read-only; two public `SECURITY DEFINER` functions inspected are executable only by `postgres`/`service_role`. Security Advisor still reports leaked-password protection disabled and available Postgres security patches | owner/admin reviews platform configuration, applies approved maintenance, reruns Security Advisor; keep deployment/golden journey separate |
+| VertexED production | **BLOCKED — EXACT REVISION UNVERIFIED** | public/security smoke can pass while `/api/health` omits immutable deploy revision; connected Vercel contexts currently report deployment rate limiting | after external rate-limit unblock, prove intended SHA = served SHA/deployment ID, make monitor pass, then complete authenticated disposable-account golden journey; do not pay/churn code to force deploy |
+| VertexED Notes-to-Video V6 child subsystem | **GREEN — LOCAL ENGINEERING / NOT PRODUCTION** | retained bounded local rendering/queue/storage evidence; no hosted/distributed/public-user claim | keep child-scoped unless parent-user evidence justifies productionization |
+| Percy Prime host | **BLOCKED_EXTERNAL_MAC** | checked-in snapshots are historical; live SQLite/WAL/process state not visible | non-destructive snapshot/integrity/recount, then qualification |
+| FinanceMeta source/security recovery | **PARTIAL — PRESERVED, NOT MERGE-READY** | historical security merge `f18d0f008351a86accbc5ca2fa6ebbec05e57906` is genuine but current main is pre-merge `fbdd503223edc5b1780509720391083f485a4a85`; preserved branch is 41 commits ahead. Exact-head CI fails lint; connected branch/PR mutations return 403 | owner-authorized reviewable recovery path, fix exact-head CI/security issues; never force-move main |
+| FinanceMeta production | **BLOCKED_EXTERNAL_RUNTIME** | production Supabase/runtime and authenticated saved-progress journey unavailable | regain approved production access, audit exact schema/RLS, verify denial paths + golden journey |
+| The Bu1LD source | **GREEN — EXACT CURRENT-MAIN CI PASSED** | current main `daa80c1124b2a6d7d09b7669e04d29e50cffcbbe` is readable and source CI passed | preserve exact SHA; diagnose release check |
+| The Bu1LD production | **BLOCKED — DEPLOYMENT NOT VERIFIED** | Cloudflare workflow verification failed because `release:check` exited 1; deploy job was skipped | fix exact release-check failure, rerun intended SHA, prove served revision, then required role journeys |
 
-## VertexED production incident boundary
+## Product completion boundary
 
-The production monitor is authoritative for the tested public surface. A successful GitHub/Vercel status means a deployment context was reported; it does not prove `www.vertexed.app` serves the intended immutable revision. Until the health response exposes the expected revision and authenticated journeys pass, the state remains `SOURCE_GREEN / PRODUCTION_BLOCKED`.
+Repository access, CI, database-policy inspection and deployment are separate claims. Production certification requires exact served revision plus the relevant authenticated core workflow, persistence, authorization/account isolation, logout/recovery/admin boundaries, error behavior, rollback/monitoring and applicable accessibility/mobile evidence.
 
-## Notes-to-Video boundary
+## Current product priority
 
-The connected `Text-To-Video` repository is not an empty or untriaged experiment. Its current README documents a bounded local VertexED Notes-to-Video V6 subsystem with a real MP4 encoder, verification, lifecycle, durable local queue and content-addressed local artifact store. That is sufficient to retain it as a **child engineering subsystem**, but not as an independent product or production service. Standalone expansion remains archived unless parent-product validation creates a concrete user need.
+1. VertexED: served revision + authenticated golden journey after rate-limit unblock; no feature expansion.
+2. FinanceMeta: preserve/recover security branch, fix exact-head CI, restore reviewable mutation path; production remains separate.
+3. Bu1LD: diagnose/fix deployment release check and verify exact served revision; then role journeys.
 
-## Two-week product-validation rule
-
-Once production identity is fixed, product work shifts from feature creation to real validation:
-
-- **User:** actual approved learner, not an invented persona.
-- **Job:** reach one trustworthy study outcome and retrieve it later.
-- **Activation:** learner creates one useful artifact (for example planner/note/quiz/paper output appropriate to the real workflow) and saves it successfully.
-- **Retention signal:** the learner returns in a fresh session and retrieves/continues the artifact.
-- **Reliability:** auth, ownership/isolation, save/retrieve, logout denial and recovery must not silently fail.
-- **Success metric:** observed activation and return/retrieval rates from real consented usage, with privacy-safe telemetry; do not invent a target population or traction number.
-
-FinanceMeta and The Bu1LD should use the same principle after target access is restored: validate one core user job first, not speculative feature breadth.
+After certification, validate real core jobs with actual approved users and privacy-safe telemetry. Do not invent users, traction or target rates.
