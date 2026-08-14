@@ -1,7 +1,7 @@
 # ORIGINALITY_AUDIT
 
 **Audit date:** 2026-08-14  
-**Scope:** LAM-JEPA, NeuroCAD, IRIS, and Percy as the current Tier-S set.  
+**Scope:** LAM-JEPA, NeuroCAD, IRIS, and Percy as the scientific priority set audited during this wave. NeuroCAD was subsequently demoted from Tier S to Tier A after its frozen validation-confound ablation falsified the typed-IR/parser-specific explanation on the bounded benchmark.  
 **Standard:** conservative. Similarity to prior work is not reduced merely because this portfolio uses a different project name. This is a literature-and-evidence audit, not a patentability opinion and not proof that no uncited prior work exists.
 
 ## Executive verdict
@@ -9,7 +9,7 @@
 | Project | Conservative contribution class | Current originality verdict |
 |---|---|---|
 | LAM-JEPA | **Novel empirical observation / reproducibility case study; architecture is primarily a combination of established directions** | The current defensible paper is the frozen negative ARC evaluation, not a claim that latent-action JEPA planning or JEPA-for-language is a new mechanism. |
-| NeuroCAD | **Useful engineering contribution + bounded empirical benchmark** | Text-to-parametric CAD, CAD-program generation, structured CAD sequences, and programmatic geometry validation are established. The present value is a tightly scoped typed/validated compiler and falsifiable execution/rejection evidence. A mechanism paper needs a much stronger learned/direct baseline and broader OOD set. |
+| NeuroCAD | **Useful engineering contribution + negative causal diagnostic; broad research novelty not established** | Text-to-parametric CAD, CAD-program generation, structured CAD sequences, and programmatic geometry validation are established. The frozen component ablation now shows matched validation alone closes the entire current 20-case gap, so the typed-IR/parser-specific causal claim is falsified on this diagnostic. Only a broader reliability/coverage question versus contemporary learned/constrained generation remains scientifically open. |
 | IRIS | **Novel empirical failure/tradeoff observation at best; current mechanism family not established as novel** | Robust changepoint handling under outliers/heavy tails is established, including current 2026 work. The useful research question is the false-open versus persistent-change adaptation tradeoff under a matched state-estimation harness, not generic “robust memory.” |
 | Percy | **Potential useful systems engineering contribution; research novelty deferred** | Evidence-native orchestration may be practically valuable, but scientific novelty cannot be claimed before real-host crash/recovery/provider/lease/soak evidence and a comparison against established workflow/agent orchestration systems. |
 
@@ -55,40 +55,55 @@ The negative ARC manuscript should avoid “we introduce a novel latent-action J
 
 # 2. NeuroCAD
 
-## Current question that evidence actually answers
+## What the evidence now answers
 
-On a frozen, bounded rectangular-plate language family, does a typed/validated compiler improve exact valid execution and invalid-input rejection over the retained direct flat-extraction baseline?
+Frozen v1 showed `19/20` for the typed/validated route versus `12/20` for the original direct flat extractor, with `12/12` valid cases producing non-empty STL and one retained negative-width failure. That established a **bounded software/reliability gap**, not a typed-IR mechanism.
 
-Current evidence: **19/20 versus 12/20 overall; 12/12 valid cases generated non-empty STL**, with one retained negative-width parser failure. This does not establish arbitrary text-to-CAD capability.
+A second protocol was then frozen **before first execution** specifically to test the validation confound. On the same reused 20-case plate set:
+
+- current typed+validated implementation: `20/20`;
+- original direct flat extraction: `12/20`;
+- direct extraction + matched fail-closed validation: `20/20`;
+- original gap: `0.4`;
+- remaining gap after matched validation: `0`;
+- validation recovery fraction: `1.0`;
+- frozen interpretation: `VALIDATION_DOMINANT`.
+
+Therefore the claim that the current bounded advantage specifically demonstrates a **typed-IR/parser mechanism is falsified on this diagnostic**. This is not a failure of the software product; it is a successful causal attack on the research story.
 
 ## Related-direction map
 
 | Related direction | Similarity | Difference in current project | Is the difference scientifically meaningful now? |
 |---|---|---|---|
-| DeepCAD — Wu, Xiao & Zheng, *A Deep Generative Network for Computer-Aided Design Models*, arXiv:2105.09492 | Represents CAD as sequences of parametric operations rather than only meshes/voxels | NeuroCAD is a deterministic bounded natural-language compiler, not a learned unconditional CAD generator | **Distinct engineering formulation, but not enough for general CAD-generation novelty.** |
-| Text2CAD — Khan et al., *Generating Sequential CAD Models from Beginner-to-Expert Level Text Prompts*, arXiv:2409.17106 | Natural-language to parametric CAD generation with geometric/parametric evaluation | NeuroCAD uses a typed validated intermediary and fails closed for a narrow grammar instead of an end-to-end learned transformer over broad CAD data | **Potential reliability/safety distinction, but current benchmark is far narrower.** |
-| CADFusion — Wang et al., *Text-to-CAD Generation Through Infusing Visual Feedback in Large Language Models*, ICML 2025, PMLR 267 | Text-conditioned parametric-sequence generation with rendered visual feedback | NeuroCAD is deterministic/typed/fail-closed rather than learned with visual feedback | **Shows that generation plus execution/geometry feedback is already an active strong baseline family.** |
-| CAD-Coder — Guan et al., *Text-to-CAD Generation with Chain-of-Thought and Geometric Reward*, arXiv:2505.19713 | Generates executable parametric CAD programs (CadQuery) from text and uses geometric rewards/validation | NeuroCAD is grammar/IR/compiler driven; it does not train an LLM and can explicitly reject unsupported inputs | **Useful systems contrast; not evidence of a superior scientific mechanism until compared directly.** |
-| CADmium — Govindarajan et al., *Fine-Tuning Code Language Models for Text-Driven Sequential CAD Design*, TMLR 2026 | Code-LLMs generate sequential CAD JSON from text at >170k-model scale and are evaluated with geometric/topological metrics | NeuroCAD is a tiny typed compiler benchmark with explicit invalid-input rejection | **Makes scale/generality claims untenable; any contribution must be reliability/causal-IR specific.** |
-| CADSmith — Barkley et al., *Multi-Agent CAD Generation with Programmatic Geometric Validation*, arXiv:2603.26512 | Uses programmatic geometric validation and execution-aware correction for text-to-CAD | NeuroCAD validates a typed deterministic representation before generating OpenSCAD and does not rely on iterative LLM repair | **Programmatic validation itself is not novel. Typed fail-closed compilation may be useful if it wins reliability/coverage tradeoffs under matched prompts.** |
-| Text2CAD-Bench — Wang et al., *A Benchmark for LLM-based Text-to-Parametric CAD Generation*, arXiv:2605.18430 | Evaluates text-to-CAD across geometric complexity and prompt styles | NeuroCAD's frozen v1 benchmark is only 20 held-out linguistic-template cases in one plate family | **Current benchmark breadth is insufficient for a general research claim.** |
+| DeepCAD — Wu, Xiao & Zheng, *A Deep Generative Network for Computer-Aided Design Models*, arXiv:2105.09492 | Represents CAD as sequences of parametric operations rather than only meshes/voxels | NeuroCAD is a deterministic bounded natural-language compiler, not a learned unconditional CAD generator | **Distinct engineering formulation, but not general CAD-generation novelty.** |
+| Text2CAD — Khan et al., *Generating Sequential CAD Models from Beginner-to-Expert Level Text Prompts*, arXiv:2409.17106 | Natural-language to parametric CAD generation with geometric/parametric evaluation | NeuroCAD uses a bounded compiler/validator rather than a learned transformer over broad CAD data | **Potential reliability/safety distinction, but benchmark breadth remains far narrower.** |
+| CADFusion — Wang et al., *Text-to-CAD Generation Through Infusing Visual Feedback in Large Language Models*, ICML 2025, PMLR 267 | Text-conditioned parametric-sequence generation with rendered visual feedback | NeuroCAD is deterministic/fail-closed rather than learned with visual feedback | **Generation plus geometry feedback is established; validation itself is not a novel mechanism.** |
+| CAD-Coder — Guan et al., *Text-to-CAD Generation with Chain-of-Thought and Geometric Reward*, arXiv:2505.19713 | Generates executable parametric CAD programs from text and uses geometric rewards/validation | NeuroCAD is grammar/compiler driven and can reject unsupported inputs | **Useful systems contrast, not evidence of a superior mechanism.** |
+| CADmium — Govindarajan et al., *Fine-Tuning Code Language Models for Text-Driven Sequential CAD Design*, TMLR 2026 | Code-LLMs generate sequential CAD JSON from text at much larger scale with geometric/topological metrics | NeuroCAD is a tiny deterministic compiler benchmark | **Makes scale/generality novelty unavailable; only reliability/coverage may remain distinctive.** |
+| CADSmith — Barkley et al., *Multi-Agent CAD Generation with Programmatic Geometric Validation*, arXiv:2603.26512 | Uses programmatic geometric validation and execution-aware correction | NeuroCAD validates before generation without iterative LLM repair | **Programmatic validation is established.** |
+| Text2CAD-Bench — Wang et al., *A Benchmark for LLM-based Text-to-Parametric CAD Generation*, arXiv:2605.18430 | Evaluates prompt styles and geometric complexity | NeuroCAD v1/v2 use only a 20-case plate-family diagnostic | **Current breadth is insufficient for a broad research claim.** |
 
-## Novelty boundary
+## Novelty boundary after falsification
 
 - **Established technique:** text-to-CAD; sequential/parametric CAD representations; executable CAD code generation; geometric validation; program repair/constraint checking.
-- **Implementation novelty:** bounded grammar → typed parametric specification → validation → SVG/OpenSCAD/STL pipeline with explicit unsupported-input rejection.
-- **Combination novelty:** plausible as a reliability-first compiler formulation.
-- **Mechanism novelty:** not established. Current gain may be due simply to hand-coded grammar/validation on a narrow family.
+- **Implementation novelty:** bounded grammar → parametric specification → fail-closed validation → SVG/OpenSCAD/STL pipeline may remain useful engineering.
+- **Combination novelty:** weak as a scientific claim because validation fully explains the current benchmark gap against the original extractor.
+- **Mechanism novelty:** **falsified for the typed-IR/parser-specific claim on the current diagnostic.**
 - **Theoretical novelty:** none established.
-- **Empirical novelty:** a frozen valid-versus-invalid rejection test with an intentionally retained parser failure and real kernel execution.
+- **Empirical novelty:** the strongest current research contribution is now a **negative causal diagnostic** showing that a simpler matched-validation control fully explains the observed bounded gap.
 
 ## Conservative classification
 
-**Useful engineering contribution + bounded empirical benchmark.** It is **not yet a strong general text-to-CAD research contribution.**
+**Useful engineering contribution + informative negative causal ablation.**  
+Current broad text-to-CAD research novelty: **not established**.
 
-## Promotion criterion
+## Residual promotion criterion
 
-A paper claim becomes interesting only if the typed/validated route is compared against dangerous model-based direct/program-generation and constrained-generation baselines under the **same prompts, backend, execution/semantic criteria and compute/provider budget**, and if the evaluation expands beyond one part family. The decisive question is reliability/coverage tradeoff, not whether a hand-written grammar can beat a weak extractor on its own grammar.
+NeuroCAD remains `C — CONTINUE EXPERIMENTATION` only because a distinct question remains important:
+
+> Under the same prompts/backend/provider/compute budget, does a reliability-first compiler/validator achieve a better executable-correctness / semantic-correctness / fail-closed coverage frontier than contemporary learned direct/program generation or constrained generation on genuinely broader OOD geometry?
+
+This must be a separately frozen experiment. If that residual reliability/coverage advantage disappears, stop the research line and retain the system as engineering/product work rather than naming another mechanism.
 
 ---
 
@@ -105,10 +120,10 @@ The current v0.2/successor evidence does not pass its promotion gate. A robust C
 | Related direction | Similarity | Difference in current project | Is the difference scientifically meaningful now? |
 |---|---|---|---|
 | Fearnhead & Rigaill, *Changepoint Detection in the Presence of Outliers*, arXiv:1609.07363 | Explicitly addresses changepoint detection when outliers/heavy tails create spurious changes; uses robust bounded losses | IRIS is framed as online adaptive memory/state estimation and tracks estimation quality/recovery, not only segmentation | **Problem overlap is substantial. Estimation/tracking may be a distinct evaluation target, but generic robust-change novelty is not available.** |
-| Dürre & Fried, *Robust change point tests by bounded transformations*, arXiv:1905.06201 | Robustifies CUSUM-style changepoint testing for heavy-tailed/corrupted data | IRIS couples robustness, persistent adaptation, memory state and false-open diagnostics | **Again, robust change detection is established; the burden is on an estimator-level tradeoff/mechanism.** |
+| Dürre & Fried, *Robust change point tests by bounded transformations*, arXiv:1905.06201 | Robustifies CUSUM-style changepoint testing for heavy-tailed/corrupted data | IRIS couples robustness, persistent adaptation, memory state and false-open diagnostics | **Robust change detection is established; burden is on an estimator-level tradeoff/mechanism.** |
 | Sankararaman & Narayanaswamy, *Online Heavy-tailed Change-point Detection*, UAI 2023, PMLR 216 | Online detection under heavy-tailed observations with explicit false-positive guarantees | IRIS emphasizes estimation/recovery as well as detection-like gating | **Raises the baseline bar; false-open control is already a formal object in the literature.** |
-| Altamirano, Briol & Knoblauch, *Robust and Scalable Bayesian Online Changepoint Detection*, ICML 2023, PMLR 202 | Provably robust scalable online changepoint inference | Different inference machinery; IRIS is a specific robust-memory/state-estimation line | **Direct robust-online-change novelty is unavailable without a more specific residual question.** |
-| Tang et al., *Online change point detection under heavy-tailedness and contamination*, arXiv:2606.09737 | Directly studies online mean-change detection under Huber contamination and heavy-tailed inliers, including detection-delay guarantees | IRIS evaluates state-estimation/recovery and gate behavior in a synthetic filtering harness, with learned/current mechanisms and false-open diagnostics | **Very high relevance and a serious novelty threat. A successor must compare against or clearly distinguish itself from this current robust-online-detection literature.** |
+| Altamirano, Briol & Knoblauch, *Robust and Scalable Bayesian Online Changepoint Detection*, ICML 2023, PMLR 202 | Robust scalable online changepoint inference | Different inference machinery; IRIS is a specific robust-memory/state-estimation line | **Direct robust-online-change novelty is unavailable without a more specific residual question.** |
+| Tang et al., *Online change point detection under heavy-tailedness and contamination*, arXiv:2606.09737 | Directly studies online mean-change detection under Huber contamination and heavy-tailed inliers, including detection-delay guarantees | IRIS evaluates state-estimation/recovery and gate behavior in a synthetic filtering harness | **Very high relevance and a serious novelty threat.** |
 | Duran-Martin et al., *A unifying framework for generalised Bayesian online learning in non-stationary environments (BONE)*, TMLR 2025 | General non-stationary online learning with an auxiliary changepoint process and adaptation | IRIS asks for a particular robust estimator/memory tradeoff | **Detect-and-adapt is established; residual novelty would need to be estimator-level and empirically isolated.** |
 
 ## Novelty boundary
@@ -116,8 +131,8 @@ The current v0.2/successor evidence does not pass its promotion gate. A robust C
 - **Established technique:** Huber/robust estimation; CUSUM/changepoint switching; robust change detection under outliers/heavy tails; dual-timescale adaptation; recurrent state estimation; general change-aware online learning.
 - **Implementation novelty:** the exact HTAM/PABIM/PGR development harness and frozen false-open/recovery/transition metrics.
 - **Combination novelty:** possible, but not enough to claim a new robust-memory mechanism.
-- **Mechanism novelty:** **unsupported for the current family.** The stronger baselines show that adaptation can be bought by opening the gate more often, while current learned/scalar transfer is mixed/negative.
-- **Theoretical novelty:** none established; current 2026 literature already contains theory for online change detection under contamination/heavy tails.
+- **Mechanism novelty:** **unsupported for the current family.** Stronger baselines show that adaptation can be bought by opening the gate more often.
+- **Theoretical novelty:** none established; current literature already contains robust online-change theory under heavy-tail/contamination.
 - **Empirical novelty:** a useful failure taxonomy connecting transition recovery, false openings and robust-state error across corruption versus persistent-shift regimes.
 
 ## Conservative classification
@@ -126,7 +141,7 @@ The current v0.2/successor evidence does not pass its promotion gate. A robust C
 
 ## Successor implication
 
-Do **not** authorize a new named memory architecture merely to preserve IRIS as a flagship. The next scientific gate should first answer whether a simple robust detector + robust estimator can trace a better false-open/recovery/error Pareto frontier. Only if a residual failure remains should a learned successor mechanism be frozen. Any successor must explicitly cite and distinguish current robust-online-change literature, especially heavy-tail/contamination work.
+Do **not** authorize a new named memory architecture merely to preserve IRIS as a flagship. The next scientific gate should first answer whether a simple robust detector + robust estimator can trace a better false-open/recovery/error Pareto frontier. Only if a residual failure remains should a learned successor mechanism be frozen.
 
 ---
 
@@ -140,14 +155,14 @@ Until real-host qualification and matched-system comparison exist, classify Perc
 
 ---
 
-# Reviewer attack — mandatory Tier-S paper review
+# Reviewer attack — updated after decisive NeuroCAD ablation
 
 ## Reviewer 1 — scientific skeptic
 
 | Project | Strongest criticism | Severity | Evidence required | Cheapest decisive action | Acceptance threat? |
 |---|---|---:|---|---|---|
-| LAM-JEPA | JEPA-for-language and latent-action/world-model ideas already exist; the architecture is not shown to contribute | High for method paper | exact source-level method map; LLM-JEPA/latent-action comparison; narrow negative-result claim | finish related work + implementation map; **no rescue run** | **Yes** unless framed as falsification/reproducibility |
-| NeuroCAD | text-to-CAD/program generation/validation are established and the current grammar is tiny | High | same-provider learned direct/program baseline; OOD geometry; reliability/coverage tradeoff | freeze dangerous baseline/OOD protocol | **Yes** |
+| LAM-JEPA | JEPA-for-language and latent-action/world-model ideas already exist; architecture is not shown to contribute | High for method paper | exact source-level method map; LLM-JEPA/latent-action comparison; narrow negative-result claim | finish related work + implementation map; **no rescue run** | **Yes** unless framed as falsification/reproducibility |
+| NeuroCAD | text-to-CAD/program generation/validation are established; current bounded mechanism was already defeated by matched validation | **Critical for mechanism paper** | only a broader learned/constrained reliability/coverage comparison can justify continued research | freeze one broader OOD/provider-matched protocol; stop if no residual advantage | **Yes — current typed-IR mechanism paper is dead** |
 | IRIS | robust heavy-tail change detection/adaptation is established; current mechanism may be renamed known ingredients | High | baseline frontier against robust change-aware estimators at matched false-open budget | run frozen development-only frontier before any successor | **Yes** |
 
 ## Reviewer 2 — experimental skeptic
@@ -155,26 +170,26 @@ Until real-host qualification and matched-system comparison exist, classify Perc
 | Project | Strongest criticism | Severity | Evidence required | Cheapest decisive action | Acceptance threat? |
 |---|---|---:|---|---|---|
 | LAM-JEPA | one benchmark and five seeds are too narrow for a broad conclusion | Moderate | full provenance, uncertainty, exact environment/hardware, carefully bounded conclusion | independent table/figure recomputation from retained artifacts | Only if claims broaden |
-| NeuroCAD | 20 held-out linguistic-template cases in one part family are insufficient | Critical | larger frozen OOD/compositional set, new geometry families, semantic/execution metrics, independent replay | pre-freeze larger benchmark and run once | **Yes, critical** |
-| IRIS | synthetic/development-heavy evidence and successor selection can overfit development | High | external temporal data, frozen metric hierarchy, untouched confirmatory block, matched compute/statistics | first determine whether simple baseline frontier already kills the direction | **Yes** for positive paper |
+| NeuroCAD | 20 reused plate cases cannot support broad text-to-CAD conclusions | Critical | larger frozen OOD/compositional set, new geometry families, semantic/execution metrics, independent replay | pre-freeze broader benchmark and run once | **Yes, critical** |
+| IRIS | synthetic/development-heavy evidence and successor selection can overfit development | High | external temporal data, frozen metric hierarchy, untouched confirmatory block, matched compute/statistics | first determine whether simple baseline frontier kills the direction | **Yes** for positive paper |
 
 ## Reviewer 3 — mechanism skeptic
 
 | Project | Strongest criticism | Severity | Evidence required | Cheapest decisive action | Acceptance threat? |
 |---|---|---:|---|---|---|
-| LAM-JEPA | planner/target may be inactive or confounded by quantization/trainability rather than scientifically useless | Moderate | source-level gradient/module audit; explicit implementation-specific limitation | audit graph/gradients; keep negative claim local | Low for bounded negative claim |
-| NeuroCAD | the benefit may come solely from hard-coded validation/parser constraints rather than a typed IR | High | no-validator, untyped/flat-but-constrained, constrained-direct, same-provider controls | include typing/validator ablations in frozen protocol | **Yes** to IR-mechanism claim |
-| IRIS | apparent faster recovery may simply reflect a more permissive gate/false-open rate | Critical | matched false-open constraint or preregistered recovery-vs-false-open Pareto analysis | threshold-matched robust detector + estimator on current dev conditions | **Yes, critical** |
+| LAM-JEPA | planner/target may be inactive or confounded by quantization/trainability rather than conceptually useless | Moderate | source-level gradient/module audit; implementation-specific limitation | audit graph/gradients; keep negative claim local | Low for bounded negative claim |
+| NeuroCAD | the gain may come solely from fail-closed validation rather than typed IR | **Resolved against the mechanism** | frozen v2 already supplied the decisive control | **Done:** direct+matched validation fully closed the gap (`recovery=1.0`, `remaining_gap=0`) | **Current typed-IR causal claim rejected** |
+| IRIS | faster recovery may simply reflect a more permissive gate/false-open rate | Critical | matched false-open constraint or preregistered recovery-vs-false-open Pareto analysis | threshold-matched robust detector + estimator on current dev conditions | **Yes, critical** |
 
-Reviewer results determine experiments. They are not rhetorical exercises. If the cheapest decisive experiment defeats the contribution, downgrade or preserve the negative result rather than expanding the experiment suite.
+Reviewer results determine experiments. They are not rhetorical exercises. When a cheapest decisive experiment defeats the contribution, the portfolio must downgrade the claim and priority rather than expand the experiment suite to search for a favorable narrative.
 
 ---
 
 # Portfolio originality consequences
 
-1. **LAM-JEPA remains the first paper conversion**, but as a falsification/reproducibility paper, not an architecture-superiority paper.
-2. **NeuroCAD remains the strongest positive bounded result**, but its dangerous baseline is now more demanding: contemporary text-to-CAD/CAD-program systems and programmatic validators make the current flat-extraction comparator insufficient for a broad paper claim.
-3. **IRIS should not consume successor compute yet.** The robust-change problem is established and has very recent theory; the next gate is a sharper matched Pareto comparison, not another architecture name.
+1. **LAM-JEPA remains the first paper conversion**, as a falsification/reproducibility paper rather than an architecture-superiority paper.
+2. **NeuroCAD is demoted from Tier S to Tier A.** The typed-IR/parser-specific mechanism claim is falsified on the bounded validation-confound diagnostic. One separately frozen learned/constrained + broader-OOD reliability/coverage test remains eligible; failure should end the research line while preserving software utility.
+3. **IRIS should not consume successor-architecture compute.** The next gate is a matched robust baseline frontier, not another architecture name.
 4. **Percy research publication is deferred** until live reliability evidence and a comparative systems protocol exist.
 5. Originality claims must remain narrower than implementation ambition. A new combination, domain or name is not a new scientific mechanism.
 
