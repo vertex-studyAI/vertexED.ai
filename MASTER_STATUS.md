@@ -1,6 +1,6 @@
 # MASTER_STATUS
 
-**As of:** 2026-08-14 after LAM internal verification, Darcy v2 protocol freeze, and latest production-monitor reconciliation  
+**As of:** 2026-08-14 after LAM internal verification, Darcy v2 protocol freeze, latest production-monitor reconciliation, and FinanceMeta source recovery  
 **Truth rule:** claim-specific GREEN. Failed mechanisms remain failed; software/reproduction/product/external/publication states are separate.
 
 ## Portfolio dashboard
@@ -22,7 +22,8 @@
 | Percy host | **BLOCKED_EXTERNAL_MAC for live qualification** | existing SQLite/WAL/process state unavailable here; non-destructive snapshot/integrity/recount first |
 | VertexED source | **GREEN** | do not infer production identity |
 | VertexED production | **BLOCKED — deployment identity unresolved** | latest scheduled production-health run `31817794439` on workflow commit `d5e9fcaa8de4e49b236b18ff7d3c515ed5f1ed6d` failed three bounded attempts: live `/api/health` stayed healthy but omitted revision identity while the workflow expected deploy-relevant revision `e2ecd19ed9816f8f36369c7dc0f38e39942ca73a`; homepage, API-router, malformed-waitlist, logged-out AI/user/admin and untrusted-origin boundaries passed; retained artifact `production-health-31817794439` / `9225715176`, SHA-256 `e7870e9561748ef4d4247e3bf4e01d3e8feead3780c4e2016d3742d134f2069a`; exact served revision/deployment ID and authenticated golden journey remain unproved |
-| FinanceMeta | **BLOCKED_EXTERNAL** | production authorization/golden-journey evidence remains incomplete |
+| FinanceMeta source | **PARTIAL — release-candidate branch recovered; review write blocked on this integration** | canonical portal repo `build-the-future-11/finance4all-global-reach`; hardening branch `cursor/membership-security-supabase-fix` is 41 commits ahead of `main`, 0 behind, with migrations `018`–`021` and retained release/security evidence; connector can read but PR creation returned `403 Resource not accessible by integration`; next = owner-scoped PR + exact-head CI/security review, not code recreation |
+| FinanceMeta production | **BLOCKED_EXTERNAL — live RLS/deployment journey unverified** | live Supabase migration/RLS state, production env, exact deployed revision and authenticated multi-account isolation journey are not proven here; source readiness is not production certification |
 | The Bu1LD | **BLOCKED_EXTERNAL** | canonical production/runtime qualification remains incomplete |
 | Hercules / Olympus | **ARCHIVED FROM ACTIVE COMPUTE / YELLOW EVIDENCE** | decisive matched scientific protocol missing; no reactivation by naming or scale |
 
@@ -42,6 +43,7 @@ No project is promoted merely to keep Tier S full. JEPA × time-series remains a
 6. **IRIS successor compression:** no new architecture is authorized; the only next scientific gate is a frozen false-open/recovery baseline frontier, currently source-blocked.
 7. **JEPA × time-series compression:** seven broad hypotheses were reduced to one mechanism programme with a predeclared cheap synthetic kill gate; no experiment is authorized yet.
 8. **Darcy v2 protocol freeze:** `DARCY-FREEZE-001 / darcy-operator-ood-v2` is frozen before any v2 outcome; implementation/environment/data-manifest/model-budget hashes must be committed before any authorized execution.
+9. **FinanceMeta source recovery:** the canonical portal repository and 41-commit hardening branch are recovered and deduplicated from the prior generic external-source blocker. The remaining source gate is review/CI under an owner-authorized GitHub identity; live production remains separately blocked.
 
 ## New decisive NeuroCAD evidence
 
@@ -71,4 +73,4 @@ LAM-JEPA, IRIS v0.2/current failed successor, NGMT v0.1, Eigen-JEPA, T2424-1863 
 
 ## Immediate scheduling rule
 
-**Zero new major scientific experiment runs are authorized.** LAM is owner metadata + external-review only. IRIS/Percy/Project 2424/NPMS are source/live-state recovery first. Darcy v2 is protocol-frozen but remains pre-execution until its required implementation/environment/split/model-budget/data hashes are committed. JEPA × time-series remains dormant. NeuroCAD research is deprioritized after its mechanism falsifier. VertexED is deployment certification only. Unused compute remains unused rather than being converted into low-information work.
+**Zero new major scientific experiment runs are authorized.** LAM is owner metadata + external-review only. IRIS/Percy/Project 2424/NPMS are source/live-state recovery first. Darcy v2 is protocol-frozen but remains pre-execution until its required implementation/environment/split/model-budget/data hashes are committed. JEPA × time-series remains dormant. NeuroCAD research is deprioritized after its mechanism falsifier. VertexED is deployment certification only. FinanceMeta is source-review + live-production qualification only. Unused compute remains unused rather than being converted into low-information work.
