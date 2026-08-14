@@ -1,76 +1,65 @@
 # PUBLIC_RELEASE_READINESS
 
-**As of:** 2026-08-14 IST  
-**Rule:** readiness is not release. This file does not claim publication, deployment, DOI, acceptance, external reproduction or user validation.
+**As of:** 2026-08-14 convergence run  
+**Rule:** readiness is not release. Nothing here claims publication, deployment, acceptance, external reproduction or user validation.
 
-Legend: `PASS` directly evidenced; `TODO` internally executable; `EXTERNAL` outside/deployment evidence; `BLOCK` release-critical.
+Legend: `PASS` direct evidence; `TODO` internal packaging; `EXTERNAL` owner/target/outside evidence; `BLOCK` release-critical.
 
-| Gate | LAM-JEPA | IRIS negative package | NeuroCAD | Project 2424 registry | Percy | VertexED |
-|---|---|---|---|---|---|---|
-| Canonical source | PASS | PASS preserved package | PASS bounded source | BLOCK source reconciliation | EXTERNAL live host | PASS source |
-| Clean release revision | TODO | TODO | TODO | TODO | EXTERNAL | TODO exact deployment revision |
-| README / installation / quickstart | TODO final audit | TODO | TODO | child-specific | TODO clean-host | TODO production-cert runbook |
-| License decision | **BLOCK** | **BLOCK** | **BLOCK** | **BLOCK** child-specific | **BLOCK** | **BLOCK** release audit |
-| Citation metadata where relevant | TODO | TODO | TODO | child-specific | TODO if report | N/A unless research artifact |
-| Architecture/method overview | TODO final claim scrub | TODO | TODO | TODO registry model | TODO control-plane diagram | TODO final release audit |
-| Explicit limitations/non-claims | TODO final | TODO | TODO supported subset + mechanism falsification | TODO child boundaries | TODO real-host boundary | TODO public/privacy limitations |
-| Tested commands | PASS research | PASS development package | PASS v1/v2 component evidence | mixed | bounded tests; host pending | source gates; production pending |
-| Reproducible quantitative experiment | PASS bounded negative | PASS mixed/negative | PASS v1 + v2 component diagnostic | selected children | N/A science; reliability fixtures pending | N/A product |
-| Model/data/protocol card | TODO as relevant | TODO | TODO benchmark/provider card | child-specific | N/A | TODO as relevant |
-| Security review | N/A | N/A | **BLOCK** sandbox/path/execution for public tool | secret/private scan TODO | **BLOCK** host/runtime review | **BLOCK** exact production/account isolation |
-| Secret/private-data scan | TODO | TODO | TODO | TODO | EXTERNAL host | TODO exact release tree |
-| Claim/artifact provenance | TODO final graph | TODO paper graph | strong bounded artifacts; future fresh benchmark TODO | mixed | provenance graph TODO | deploy provenance TODO |
-| External validation | EXTERNAL | EXTERNAL | EXTERNAL | child-specific | EXTERNAL | EXTERNAL |
-| Publication/deployment verified by this audit | **NO** | **NO** | **NO** | **NO** | **NO** | **NO** |
+| Line | Current release class | Internal/source readiness | External / production blocker |
+|---|---|---|---|
+| LAM-JEPA | negative research repository + technical-report/preprint candidate | **PASS** reproducible negative evidence and immutable review packet | **BLOCK/EXTERNAL** owner license/authorship/citation/release revision + outside reproduction/review |
+| IRIS | preserved mixed/negative package | **PARTIAL** checksum-backed package/source lineage | **BLOCK** exact canonical trajectories + exact frozen adaptation-metric provenance; no successor run |
+| NeuroCAD | bounded software utility + preserved negative mechanism result | **PARTIAL** software/component evidence exists | clean install/security/quickstart/license/secret audit + fresh usefulness evidence |
+| NPMS | negative/mechanism-limitation research package | **PASS** controlled source recovered and cleanly replayed | external review/replication if released; package must foreground `PARAMETER_CONFOUNDED_OR_NON_UNIQUE` |
+| Darcy T2424-0050 | pre-outcome research protocol/package | **PARTIAL** protocol, generator provenance, B2 and split manifest frozen | **BLOCK** B3/B4/env/hardware/budget/interpretation gates; v2 not run and cannot be released as a result |
+| Project 2424 registry | provenance/evidence index, not “2,424 breakthroughs” | **PARTIAL** historical Wave-001 base recovered + current source identity invariant | **BLOCK** later dirty overlay + cross-generation migration provenance; 0 independent Wave-001 reproductions |
+| Percy | systems tooling candidate | **BLOCK/EXTERNAL** real host unavailable | live DB/WAL/recovery/concurrency/resource/security qualification required |
+| VertexED | product deployment | **PASS source / BLOCK production** | exact served revision + authenticated isolation/recovery/admin journey + platform warnings |
+| FinanceMeta | product/security branch | **PARTIAL source / Preview only** | exact-head Actions red, review write blocked, live Supabase/production target unverified |
+| The Bu1LD | product/community platform | **PASS source+CI / BLOCK deploy+DB** | owner deployment vars, live phase33/RLS/Auth verification, successful immutable deploy + seven-role journey |
 
-## LAM-JEPA
+## Research package boundaries
 
-**Release class:** negative research repository + preprint/technical-report candidate.
+### LAM-JEPA
+The frozen result is negative/inconclusive and internally reproducible. Release packaging may proceed only with truthful negative framing, claim→artifact provenance, license/authorship/citation approval, secret/private scan and immutable revision. The locked ARC test remains untouched. Packet readiness is not external validation.
 
-Before public release: remove unsupported positive framing; finish claim→figure/table→processed→raw→config→commit provenance; clean-checkout reproduction; license/authorship/citation audit; secret/private scan; explicit configuration-specific limitation. Locked ARC test remains untouched for the frozen hypothesis.
+### IRIS
+Release only as a preserved mixed/negative development package unless exact provenance is recovered. Confirmatory seeds `1000–1029` remain quarantined; do not regenerate approximate trajectories to make the frontier executable.
 
-## IRIS
+### NeuroCAD
+Software utility and causal mechanism are separate. Component v2 is `VALIDATION_DOMINANT`, so the typed-parser-specific causal advantage is falsified on the reused diagnostic. Public software still requires clean install/quickstart, supported subset, safe failures, sandbox/path/process review, license and secret scan.
 
-**Release class:** preserved mixed/negative package; paper only if the robustness–adaptation failure/tradeoff clears the information-value/originality bar.
+### NPMS
+Controlled Atlas source is recovered and replayed. The regime-classification headline reproduces, but the invariant-parameter control is only `3.57pp` behind, inside the frozen `5pp` non-uniqueness band. Any public research package must present the mechanism as **parameter-confounded/non-unique**, retain delay-PCA/multiscale/switching/mode-scoring/truncation/resolvent limitations, and avoid natural/OOD claims.
 
-Before release: canonical package path; related-work/manuscript framing; license/secret scan; explicit successor-closure record; confirmatory-seed non-access statement. No new architecture is currently authorized.
+### Darcy
+The parent bounded mechanism is retained, but v2 is **not a scientific result yet**. B2 PCA+ridge and the split manifest are pre-outcome frozen; training remains unauthorized until B3/B4, environment, hardware, fixed budgets and two generator-interpretation approvals close. The accidental seed-320007 metric is invalid non-evidence and cannot appear as a result.
 
-## NeuroCAD
+### Project 2424
+Historical Wave-001 recovery establishes 2,424 registry rows but only **24 source-backed packages**, 0 independent reproductions and a rejected historical release state. Current repository identity CI covers represented T2424 directories. Cross-generation numeric suffixes collide, so no full child map or aggregate release claim is allowed until migration provenance is recovered.
 
-**Software utility and scientific mechanism are separate.** Frozen v1 remains `19/20` vs original direct `12/20` with executable valid STL, but frozen component v2 shows direct+matched validation reaches `1.00`, exactly matching the current compiler, recovery fraction `1.00`, interpretation **`VALIDATION_DOMINANT`**. This falsifies the typed-IR/parser-specific causal advantage on the reused diagnostic; it does not erase the software.
+## Product release boundaries
 
-Software-release blockers: clean install/quickstart; explicit supported CAD subset; safe failure examples; sandbox/path/process review; license/secret scan.
+### VertexED
+Exact source SHA must equal served production revision; then disposable authenticated golden journey, account isolation, rollback/monitoring, privacy/secret audit and open platform-security warnings must be handled. Green source/CI alone is insufficient.
 
-Any future research-release gate must use a genuinely fresh broader benchmark with new part families/OOD/compositional tasks and a competent contemporary direct/program-generation baseline. Do not reuse the old 20 cases to rescue the parser mechanism.
+### FinanceMeta
+The 41-commit hardening branch is real source evidence, but exact-head Actions run `29641469740` is red and exact-SHA Vercel deployment `5501026657` is Preview only. Release remains blocked on owner-writable CI repair/review and live target Supabase/deployment certification.
 
-## Project 2424
+### The Bu1LD
+Exact source/CI is green through phase33 source controls, but Cloudflare run `29679123047` fails before deployment because required public Supabase deployment variables are missing. Live database/Auth state is unverified. Configure secrets through the platform, never source, then certify the seven-role journey.
 
-**Release class:** evidence/registry index, not “2,424 breakthroughs.” Expose canonical child IDs, statuses, commands, artifacts, verifiers and non-claims. Preserved archive entries may remain visible but cannot inherit aggregate paper/external-validation status.
+## Mandatory contents for any public research/system release
 
-## Percy
-
-**Release class:** systems tooling candidate only after real-host qualification.
-
-Blockers: canonical Mac state recovery; DB/WAL backup/restore; crash/restart, duplicate-claim and stale-lease fixtures; truthful provider failure; clean install/schema/failure-model docs; measured concurrency/resource report; secret scan; external operator reproduction. The 16,256 logical registry cannot be described as physical workers or completed tasks.
-
-## VertexED
-
-**Release class:** product deployment.
-
-Blockers: intended source SHA equals served production revision; disposable authenticated golden journey; account-isolation/security checks; rollback/monitoring evidence; secret/privacy scan. Green commit/Vercel statuses alone are not production certification because the production monitor exposed a revision-identity gap.
-
-## Mandatory package contents
-
-Every public research/system release must contain or link:
-1. canonical commit/tag candidate;
-2. README + exact environment/install instructions;
+1. immutable source revision/tag candidate;
+2. README + exact environment/install;
 3. quickstart/reproduce command;
-4. tests with expected output/verifier;
+4. tests + expected verifier output;
 5. raw/processed provenance for quantitative claims;
-6. limitations/non-claims;
-7. license + third-party data/asset licensing notes;
+6. limitations/non-claims and adverse controls;
+7. license + third-party data/asset notes;
 8. citation metadata where relevant;
-9. secret/private-data scan result;
-10. external-validation state labeled precisely, e.g. `NONE`, `REVIEWED`, `INDEPENDENTLY_REPRODUCED`.
+9. secret/private-data scan;
+10. external-validation state labeled precisely (`NONE`, `REVIEWED`, `INDEPENDENTLY_REPRODUCED`).
 
-Completing these locally does not itself create a publication, release, deployment or external-validation event.
+Completing these internally does not itself create publication, deployment, adoption or external validation.
