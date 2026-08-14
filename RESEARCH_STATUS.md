@@ -12,10 +12,14 @@
 | NGMT v0.1 | **VERIFIED NEGATIVE / FROZEN** | equal-budget gates fail; clean gate passes | new version only |
 | APEN | **VERIFIED CONTROLLED MIXED** | benefit weakens/reverses under severe dropout | new frozen stronger-control protocol only |
 | Eigen-JEPA | **VERIFIED MIXED/NEGATIVE / FROZEN PRIMARY** | simple baselines stronger on primary covariance MSE | new frozen multi-dataset hierarchy only |
-| NPMS | **PARTIAL / SOURCE-GATED** | retained bounded diagnostic evidence + known negative spectral/switching/truncation cases | recover original source/config/checkpoint; no replacement implementation |
+| NPMS | **VERIFIED CONTROLLED SOURCE / PARAMETER-CONFOUNDED OR NON-UNIQUE** | checksum-matched Atlas source SHA-256 `076f12750d6a8e6c298c17815224a79463bcad149d6cf1283900d98c6e394a2c`; clean controlled replay; invariant-parameter adverse control gives NPMS `92.86%` vs parameter-summary `89.29%`, gap `3.57` pp inside frozen 5-pp non-uniqueness rule | `NPMS-SOURCE-001` closes for the controlled Atlas source; freeze a separate natural/causal successor protocol with invariant-parameter + state-space/spectral controls before any new natural/OOD run |
 | T2424-1863 | **VERIFIED NEGATIVE / ARCHIVE ACTIVE COMPUTE** | frozen >75% gate failed | new real-PDE protocol only |
 | Hercules / Olympus | **YELLOW / ARCHIVED ACTIVE COMPUTE** | no decisive matched learned result | freeze decisive matched protocol before significant training |
 
+## NPMS interpretation boundary
+
+Recovered source reproduces the controlled coordinate-invariance diagnostic, but the stronger frozen adverse control materially narrows the mechanism claim: the simple coordinate-invariant parameter-summary classifier is only `3.57` percentage points behind NPMS, inside the predeclared `5`-point non-uniqueness threshold. The current regime-identification result therefore does **not** establish unique information beyond simple invariant reservoir parameters. Preserve known delay-PCA, multiscale, switching, missing/spurious-mode, conjugate-group and resolvent-proxy limitations. This does not automatically adjudicate a separate trained RNN/GRU Memory Spectrum Transfer claim; that needs its own evidence chain.
+
 ## Scheduling rule
 
-**Zero new major scientific experiment runs are authorized.** Darcy work is limited to unresolved pre-outcome approvals/implementations/hashes; IRIS/NPMS are exact-source/provenance recovery only; frozen negative/mixed results stay frozen.
+**Zero new major scientific experiment runs are authorized.** Darcy work is limited to unresolved pre-outcome approvals/implementations/hashes; IRIS is exact-source/provenance recovery only; NPMS successor work is protocol-freeze only; frozen negative/mixed results stay frozen.
