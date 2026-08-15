@@ -50,3 +50,9 @@ Percy live DB/WAL/process/worktree state remains external. Project 2424 now has 
 
 ## Release rule
 A security gate advances only on direct evidence from the exact target revision/environment. Passing CI, source RLS migrations, database metadata, Preview deployment or a healthy endpoint is not by itself production certification.
+
+## 2026-08-15 08:55 IST security delta
+
+- VertexED source now fails closed if production cannot expose immutable revision identity; merge `d52308aed22ccc3dcefa7d4e3dd90aa731bc5f5a` passed canonical source/browser gates before merge. Both subsequent Vercel deployments failed, so production security/certification remains **BLOCKED** rather than being upgraded from source evidence.
+- FinanceMeta's requested CI repair changes no credential value: the only validated correction is removal of the second duplicate occurrences of the three Vite E2E env keys. Integration write access remains 403, so exact-head security/audit/Playwright gates remain unexecuted after the repair and source stays **PARTIAL**.
+- The Bu1LD workflow consumes Actions secret names `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`, `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`; values were not accessed. Repository-secret metadata is inaccessible to this integration (403), so presence remains **UNKNOWN** and no deployment rerun was attempted.
