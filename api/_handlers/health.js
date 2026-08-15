@@ -59,9 +59,14 @@ export default async function handler(req, res) {
   const readinessRequested = isReadinessRequest(req);
   const readiness = readinessRequested ? getReadinessSnapshot() : null;
   const revision = getDeploymentRevision();
-  const statusCode = readiness && !readiness.ready ? 503 : 200;
+  const revisionRequired = isProduction();
+  const revisionReady = !revisionRequired || Boolean(revision);
+  const dependenciesReady = !readiness || readiness.ready;
+  const healthy = revisionReady && dependenciesReady;
+  const statusCode = healthy ? 200 : 503;
+  const healthStatus = healthy ? (readinessRequested ? 'ready' : 'alive') : 'degraded';
 
-  res.setHeader('X-VertexED-Health', readinessRequested ? (readiness.ready ? 'ready' : 'degraded') : 'alive');
+  res.setHeader('X-VertexED-Health', healthStatus);
   if (revision) res.setHeader('X-VertexED-Revision', revision);
 
   if (req.method === 'HEAD') {
@@ -69,10 +74,10 @@ export default async function handler(req, res) {
   }
 
   const payload = {
-    ok: readiness ? readiness.ready : true,
+    ok: healthy,
     service: 'vertexed',
     apiVersion: API_VERSION,
-    status: readiness ? (readiness.ready ? 'ready' : 'degraded') : 'alive',
+    status: healthStatus,
     timestamp: new Date().toISOString(),
   };
 
