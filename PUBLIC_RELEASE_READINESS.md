@@ -1,43 +1,31 @@
 # PUBLIC_RELEASE_READINESS
 
-**As of:** 2026-08-15 06:00 IST  
-**Rule:** readiness is not release. Nothing here claims publication, deployment, acceptance, external reproduction or user validation.
+**As of:** 2026-08-15 09:04 IST  
+**Rule:** readiness is not release, publication, deployment, adoption or external validation.
 
-| Line | Internal/source readiness | External / production blocker |
+| Line | State | Release boundary |
 |---|---|---|
-| LAM-JEPA | **PASS** reproducible negative evidence + immutable review packet | owner license/authorship/citation/release revision + genuine outside reproduction/review |
-| IRIS | **PARTIAL** checksum-backed package/source lineage + frozen adaptation-metric specification recovered | exact canonical development trajectories + executable metric-equivalence/cross-hash provenance; seeds `1000–1029` forbidden; no approximate regeneration |
-| NeuroCAD | **PARTIAL** software/component evidence | clean install/security/quickstart/license + fresh usefulness evidence; typed-parser mechanism remains falsified on reused diagnostic |
-| NPMS | **PASS** controlled source recovered and replayed | any release must foreground `PARAMETER_CONFOUNDED_OR_NON_UNIQUE`; external review/replication still separate |
-| Darcy T2424-0050 | **PARTIAL** protocol, generator provenance, B2 and split manifest frozen | B3/B4/env/hardware/budget/interpretation gates; v2 not run |
-| Project 2424 registry | **PARTIAL** Wave-001 recovered + current 23-directory source identity invariant | later dirty overlay + cross-generation migration provenance; 0 independent Wave-001 reproductions; do not synthesize remaining identities |
-| Percy | **BLOCKED_EXTERNAL** | real host DB/WAL/runtime/recovery qualification unavailable; live counters remain UNKNOWN |
-| VertexED | **PASS source / BLOCK production** | latest monitor `31847625553` again fails exact served revision; authenticated isolation/recovery/admin journey pending; Supabase platform warnings remain open |
-| FinanceMeta | **PARTIAL source / Preview only** | exact-head Actions red, integration write blocked, live Supabase/production target unverified |
-| The Bu1LD | **PASS source+CI / BLOCK deploy+DB** | deployment vars/live phase33-RLS/Auth verification, immutable deploy + seven-role journey |
+| LAM-JEPA | **PARTIAL** | Internal negative-result/reproduction packet is VERIFIED. Truth-only metadata boundary merged as `cf988f3275a25419995df60ade5931bc0270f9c0`; owner-controlled license/redistribution, authorship/order and `CITATION.cff` remain unresolved; external validation remains absent. |
+| IRIS | **BLOCKED** | Source/executable metric provenance is recovered and frozen. Exact canonical development trajectories or pre-existing authoritative deterministic-equivalence evidence remain missing; seeds `1000–1029` forbidden; no frontier run. |
+| NeuroCAD | **PARTIAL** | Software/component evidence retained; typed-parser mechanism is FAILED on the reused diagnostic. Any new research claim needs fresh evidence. |
+| NPMS | **INCONCLUSIVE** | Controlled source/replay preserved; any release must foreground parameter-confounded/non-unique mechanism evidence. |
+| Darcy T2424-0050 v2 | **BLOCKED** | Pre-outcome package only; B3/B4, environment/hardware and interpretation approvals unresolved; training unauthorized. |
+| Project 2424 | **PARTIAL** | Historical Wave-001 is recovered but proves only 24 source-backed packages among 2,424 registry rows, 0 independent reproductions and historical release rejection. Later dirty overlay/migration provenance remains blocked. |
+| Percy | **UNKNOWN** | Live DB/WAL/checkpoint/runtime state is unavailable from this execution environment. |
+| VertexED | **BLOCKED** | Source identity contract is VERIFIED at `d52308a`; post-fix push monitor `31861568506` still observes served behavior inconsistent with that source. Exact production deployment/runtime identity and authenticated disposable-account journey remain unverified. |
+| FinanceMeta | **BLOCKED** | 41-commit hardening lineage preserved; exact one-file CI defect identified; write access denied; no corrected exact-head CI or live production proof. |
+| The Bu1LD | **BLOCKED** | Source/CI is VERIFIED; exact deployment workflow names are known; immutable deployment identity, live DB/Auth and seven-role certification remain unverified. |
 
-## Claim boundaries
-
-- **LAM-JEPA:** release only with truthful negative framing. Packet readiness is not external validation.
-- **IRIS:** frozen metric specification is recovered, but canonical trajectories and executable-equivalence provenance are still missing. No frontier execution; seeds `1000–1029` stay quarantined.
-- **NPMS:** regime headline reproduces, but invariant-parameter control is only `3.57pp` behind, inside the frozen `5pp` non-uniqueness band. No unique-mechanism or natural/OOD claim.
-- **Darcy:** B2 and split manifest are pre-outcome frozen; training remains unauthorized until B3/B4, environment, hardware, fixed budgets and two generator-interpretation approvals close. Seed `320007` accidental metric is invalid non-evidence.
-- **Project 2424:** historical Wave-001 proves 2,424 registry rows but only **24 source-backed packages**, 0 independent reproductions and historical release rejection. Current identity CI covers 23 represented T2424 directories. Numeric suffixes collide across generations.
-- **VertexED:** monitor `31847625553` on control `cf8540437640702c1204bb747814755a952b8591` again found `/api/health` healthy but revision missing; artifact `9236446930`, SHA-256 `3b08ea6ec1c850b49fa6ac2e5b3af2208c639f4b56fb9269decf61197f4eac6b`. Public smoke passed; production identity did not.
-- **FinanceMeta:** exact-SHA Vercel Preview is not production; exact-head Actions run `29641469740` is red.
-- **The Bu1LD:** source/CI is green through phase33, but Cloudflare run `29679123047` failed before deploy; live DB/Auth remains unverified.
-
-## Mandatory contents for any public research/system release
+## Mandatory public-release contents
 
 1. immutable source revision/tag candidate;
-2. README + exact environment/install;
-3. quickstart/reproduce command;
-4. tests + expected verifier output;
-5. raw/processed provenance for quantitative claims;
-6. limitations/non-claims and adverse controls;
-7. license + third-party data/asset notes;
-8. citation metadata where relevant;
-9. secret/private-data scan;
-10. external-validation state labeled precisely (`NONE`, `REVIEWED`, `INDEPENDENTLY_REPRODUCED`).
+2. exact environment/install and reproduction command;
+3. tests/verifier output;
+4. raw/processed provenance for quantitative claims;
+5. limitations/non-claims and adverse controls;
+6. license and third-party redistribution boundary;
+7. authorship/order and citation metadata where relevant;
+8. secret/private-data scan;
+9. external-validation state labeled truthfully.
 
-Completing these internally does not itself create publication, deployment, adoption or external validation.
+Completing these internally does not itself create publication or external validation.
