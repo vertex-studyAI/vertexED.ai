@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "project": "Weather-JEPA",
+  "study": "v1",
+  "state": "PREOUTCOME_PROTOCOL_FROZEN",
+  "claims": [
+    {
+      "id": "C0_PROTOCOL_EXISTS",
+      "claim": "A preregistered Weather-JEPA v1 protocol exists.",
+      "status": "SUPPORTED",
+      "required_evidence": ["README.md", "EXPERIMENT_MATRIX.yaml"]
+    },
+    {
+      "id": "C1_IMPLEMENTATION_RUNNABLE",
+      "claim": "Weather-JEPA v1 is runnable end to end.",
+      "status": "UNSUPPORTED",
+      "required_evidence": ["clean_install", "deterministic_smoke_tests", "data_manifest", "exact_source_revision"]
+    },
+    {
+      "id": "C2_IMPROVES_FORECASTING",
+      "claim": "Weather-JEPA improves forecasting over matched-budget direct prediction.",
+      "status": "UNSUPPORTED",
+      "required_evidence": ["all_5_seed_runs", "B3_matched_budget_results", "primary_metric", "A1_objective_ablation"]
+    },
+    {
+      "id": "C3_LONG_HORIZON_ADVANTAGE",
+      "claim": "Weather-JEPA degrades more slowly with forecast horizon.",
+      "status": "UNSUPPORTED",
+      "required_evidence": ["preregistered_horizon_results", "per_seed_uncertainty", "120h_slice"]
+    },
+    {
+      "id": "C4_EXTREME_EVENT_ROBUSTNESS",
+      "claim": "Weather-JEPA improves extreme-event forecasting.",
+      "status": "UNSUPPORTED",
+      "required_evidence": ["predefined_extreme_event_labels", "event_metrics", "matched_baseline_results"]
+    },
+    {
+      "id": "C5_EXTERNAL_VALIDATION",
+      "claim": "Weather-JEPA has independent external validation.",
+      "status": "UNSUPPORTED",
+      "required_evidence": ["independent_reproduction_by_external_party"]
+    },
+    {
+      "id": "C6_SOTA",
+      "claim": "Weather-JEPA is state of the art.",
+      "status": "FORBIDDEN_WITH_V1_SCOPE",
+      "required_evidence": ["full_frontier_benchmarking_on_comparable_data_and_compute"]
+    }
+  ],
+  "rules": [
+    "implementation_is_not_scientific_evidence",
+    "internal_reproduction_is_not_external_validation",
+    "published_external_numbers_are_context_not_local_results",
+    "negative_and_mixed_results_must_be_preserved",
+    "no_metric_or_seed_selection_after_outcomes"
+  ]
+}
