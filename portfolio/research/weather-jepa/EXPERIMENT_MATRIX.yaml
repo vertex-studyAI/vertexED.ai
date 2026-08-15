@@ -1,0 +1,146 @@
+schema_version: 1
+project: Weather-JEPA
+study: v1
+state: PREOUTCOME_PROTOCOL_FROZEN
+scientific_outcome_training_authorized: false
+
+question: >-
+  Can masked latent predictive learning improve long-horizon weather-state forecasting
+  relative to matched-budget direct prediction while preserving robustness and reproducibility?
+
+hypothesis_id: H1
+hypothesis: >-
+  Masked prediction of future latent weather regions yields representations whose forecast
+  skill degrades more slowly with horizon than matched-budget direct state prediction.
+
+falsifier: >-
+  H1 is falsified for v1 if Weather-JEPA does not beat the matched-budget direct neural
+  predictor on the preregistered primary aggregate metric, or if the gain disappears when
+  the latent prediction objective is removed.
+
+data:
+  family: ERA5_WeatherBench_compatible
+  exact_snapshot: UNRESOLVED
+  license_verified: false
+  download_manifest_frozen: false
+  checksum_manifest_frozen: false
+  temporal_resolution_hours: 6
+  spatial_resolution: COMPACT_RESOLUTION_TO_FREEZE
+  variables:
+    - t2m
+    - u10
+    - v10
+    - z500
+    - t850
+  splits:
+    train: UNRESOLVED
+    validation: UNRESOLVED
+    test: UNRESOLVED
+  split_hashes: UNRESOLVED
+
+forecast:
+  context_steps: 4
+  lead_hours: [6, 24, 72, 120]
+  autoregressive_rollout: true
+
+model:
+  family: masked_spatiotemporal_JEPA
+  encoder: compact_patch_encoder
+  predictor: latent_spatiotemporal_predictor
+  target_encoder: ema_copy
+  objective:
+    latent_loss: normalized_l2
+    collapse_guard: variance_regularization
+  masking:
+    spatial_blocks: true
+    temporal_future_blocks: true
+    mask_ratio_grid: [0.25, 0.5, 0.75]
+  exact_parameter_budget: UNRESOLVED
+
+baselines:
+  - id: B0_PERSISTENCE
+    type: persistence
+    required: true
+  - id: B1_CLIMATOLOGY
+    type: climatology
+    required: true
+  - id: B2_RIDGE_AR
+    type: linear_ridge_autoregression
+    required: true
+  - id: B3_DIRECT_NEURAL
+    type: matched_budget_direct_forecaster
+    required: true
+    matching_rule: same_backbone_parameter_budget_and_train_tokens
+
+ablations:
+  - id: A1_NO_LATENT_OBJECTIVE
+    change: direct_future_state_prediction_only
+    required: true
+  - id: A2_TEMPORAL_MASK_ONLY
+    change: disable_spatial_masking
+    required: true
+  - id: A3_SPATIAL_MASK_ONLY
+    change: disable_temporal_future_masking
+    required: true
+  - id: A4_RANDOM_ENCODER
+    change: freeze_random_encoder
+    required: false
+
+seeds: [101, 211, 307, 401, 503]
+
+metrics:
+  primary:
+    name: mean_normalized_latitude_weighted_RMSE_skill_delta
+    comparison: WeatherJEPA_minus_B3_DIRECT_NEURAL
+    aggregation: fixed_equal_weight_over_preregistered_variables_and_lead_times
+  secondary:
+    - latitude_weighted_RMSE
+    - anomaly_correlation_coefficient
+    - per_horizon_skill_delta
+    - per_variable_skill_delta
+    - rollout_stability
+    - wall_clock_train_time
+    - peak_memory
+    - inference_latency
+  robustness:
+    - tropical_slice
+    - extratropical_slice
+    - high_gradient_state_slice
+    - seasonal_slice
+  uncertainty:
+    estimator: seed_bootstrap_or_t_interval_to_freeze_before_run
+
+acceptance_gate:
+  positive_requires:
+    - primary_metric_improves_over_B3
+    - no_material_regression_at_120h
+    - improvement_survives_A1
+    - all_5_seeds_retained
+    - raw_outputs_and_environment_retained
+  otherwise_labels:
+    - MIXED
+    - NEGATIVE
+    - INCONCLUSIVE
+    - BLOCKED
+
+stop_rules:
+  - stop_if_data_leakage_detected
+  - stop_if_split_hash_changes_after_freeze
+  - stop_if_parameter_budget_matching_fails
+  - stop_if_seed_control_is_nondeterministic_beyond_documented_backend_limits
+  - do_not_rescue_failed_frozen_run_in_place
+
+required_preoutcome_artifacts:
+  - DATA_MANIFEST.json
+  - SPLIT_MANIFEST.json
+  - ENVIRONMENT_LOCK.txt
+  - MODEL_BUDGET.json
+  - RUN_PLAN.json
+  - deterministic_smoke_test_evidence
+
+required_outputs:
+  - results/raw.json
+  - results/summary.json
+  - evidence/run.json
+  - CLAIM_EVIDENCE_MAP.json
+  - PAPER_STATUS.json
