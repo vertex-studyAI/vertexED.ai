@@ -1,0 +1,141 @@
+{
+  "closeout_date": "2026-08-15",
+  "checkpoint": "10:00 IST",
+  "evidence_current_through": "2026-08-15T09:58:00+05:30",
+  "canonical_parent": "6be65b93d0dc53e87c505508da6105db141e864a",
+  "truth_rule": "Source, CI, deployment, live database state, authenticated behavior, internal reproduction, scientific support, publication, and external validation are separate evidence classes.",
+  "major_science_runs_authorized": 0,
+  "major_science_runs_triggered": 0,
+  "database_mutations": 0,
+  "deployments_triggered": 0,
+  "paid_resource_actions": 0,
+  "destructive_git_actions": 0,
+  "systems": {
+    "percy": {
+      "state": "UNKNOWN",
+      "boundary": "Preserved /Volumes/PRO-BLADE/Atlas/Percy host is not directly observable; DB/WAL/SHM/checkpoint/integrity/schema/workers/tasks/leases/heartbeats/processes/worktrees remain uncertified.",
+      "next_gate": "PERCY-STATE-001"
+    },
+    "project_2424": {
+      "state": "PARTIAL",
+      "historical_registry_rows": 2424,
+      "historical_source_backed_packages": 24,
+      "historical_independent_reproductions": 0,
+      "historical_release_state": "RELEASE_REJECTED",
+      "wave001_head": "ff609f335f91297357b430a2531633fe111cd5a9",
+      "wave001_bundle_sha256": "4c685af70d84052c026602ff7336a522c741d91fb480038e980c21f0bbc63ece",
+      "boundary": "Later dirty overlay and explicit P2424-to-T2424 migration provenance remain blocked; numeric suffix is not an identity key.",
+      "next_gate": "P2424-CANON-002"
+    },
+    "vertexed_source": {
+      "state": "VERIFIED",
+      "source_revision": "d52308aed22ccc3dcefa7d4e3dd90aa731bc5f5a",
+      "ci_run": 31861346546,
+      "boundary": "Source fix and CI do not prove production deployment."
+    },
+    "vertexed_production": {
+      "state": "BLOCKED",
+      "monitor_run": 31861568506,
+      "monitor_conclusion": "failure",
+      "artifact_id": 9240733558,
+      "artifact_sha256": "2c74c4c71bf2f1e03ebe2144ae9c499e13b53292d0a020c1003c1887c0ed18ef",
+      "boundary": "Served /api/health still behaved healthy with immutable revision missing; stale deployment versus runtime/environment identity mismatch unresolved; authenticated disposable-account certification absent.",
+      "next_gate": "VERTEX-PROD-001"
+    },
+    "vertexed_supabase": {
+      "state": "PARTIAL",
+      "project_id": "xwlrzgfuhfbckgvcmyoq",
+      "project_status": "ACTIVE_HEALTHY",
+      "postgres_version": "17.4.1.074",
+      "public_base_tables": 26,
+      "rls_enabled": 26,
+      "rls_disabled": 0,
+      "security_warnings": [
+        "auth_leaked_password_protection",
+        "vulnerable_postgres_version"
+      ],
+      "boundary": "RLS table coverage does not prove every policy's business semantics or authenticated production behavior."
+    },
+    "financemeta_source": {
+      "state": "BLOCKED",
+      "repository": "build-the-future-11/finance4all-global-reach",
+      "branch": "cursor/membership-security-supabase-fix",
+      "branch_revision": "6dcc03710bb6adf9b4b722b308c40a0720bea61f",
+      "main_revision": "fbdd503223edc5b1780509720391083f485a4a85",
+      "ahead_by": 41,
+      "behind_by": 0,
+      "workflow_blob": "5df3a10c74ede1445f9008e99852278488ceeb91",
+      "duplicate_e2e_env_keys": [
+        "VITE_SUPABASE_URL",
+        "VITE_SUPABASE_ANON_KEY",
+        "VITE_APP_URL"
+      ],
+      "next_gate": "FINANCEMETA-CI-001"
+    },
+    "financemeta_production": {
+      "state": "BLOCKED",
+      "boundary": "Live production migrations/RLS, exact served revision, role denial, isolation, authenticated journey, recovery/logout/admin cleanup remain unverified."
+    },
+    "bu1ld_source": {
+      "state": "VERIFIED",
+      "source_revision": "daa80c1124b2a6d7d09b7669e04d29e50cffcbbe"
+    },
+    "bu1ld_production": {
+      "state": "BLOCKED",
+      "boundary": "Public route availability is not deployment identity, DB/Auth identity, phase33 certification, or seven-role behavior.",
+      "next_gate": "BU1LD-PROD-001"
+    },
+    "lam_jepa": {
+      "state": "PARTIAL",
+      "scientific_result": "VERIFIED_NEGATIVE_INTERNAL",
+      "metadata_merge": "cf988f3275a25419995df60ade5931bc0270f9c0",
+      "external_validation": "NONE_RETURNED",
+      "next_gate": "LAM-RELEASE-001"
+    },
+    "iris_v0_2": {
+      "state": "BLOCKED",
+      "scientific_result": "MIXED_NEGATIVE_PRESERVED",
+      "source_archive_sha256": "5d689ade164d80216d0ab6d4376b8acf53b8e0ba13d4bd5e909a94f00ec86b56",
+      "common_harness_sha256": "5643b59e9272099e54f04491aa63906d0d186a1a2c525a574f960008e5f19b90",
+      "run_py_sha256": "b9e35eb2ed1fc945e99ce76f935f36a816eb3d61b99b109bd092e99a731a6de3",
+      "metric_spec_blob": "6f4d6a47e3727596b21714bc269cd8ba5844d2fa",
+      "forbidden_confirmatory_seeds": "1000-1029",
+      "boundary": "Exact canonical development trajectories or authoritative deterministic-equivalence evidence remain missing; no frontier run.",
+      "next_gate": "IRIS-FRONTIER-SOURCE-001"
+    },
+    "darcy_t2424_0050_v2": {
+      "state": "BLOCKED",
+      "training_authorized": false,
+      "boundary": "B3 FNO, B4 DeepONet, exact environment/hardware and covariance/OOD-D interpretation approvals remain unresolved.",
+      "next_gate": "DARCY-V2-PREFLIGHT-001"
+    },
+    "neurocad_typed_parser": {
+      "state": "FAILED",
+      "boundary": "Typed-parser causal mechanism falsified; preserve VALIDATION_DOMINANT."
+    },
+    "ngmt_v0_1": {
+      "state": "FAILED",
+      "boundary": "Frozen negative result; no in-place rescue."
+    },
+    "eigen_jepa_primary": {
+      "state": "INCONCLUSIVE",
+      "boundary": "Frozen mixed/negative primary evidence; no metric shopping or in-place rescue."
+    },
+    "npms_current": {
+      "state": "INCONCLUSIVE",
+      "boundary": "Parameter-confounded/non-unique; any continuation requires a new frozen successor protocol."
+    },
+    "t2424_1863": {
+      "state": "FAILED",
+      "boundary": "Frozen negative synthetic result; no rescue."
+    },
+    "hercules_olympus_active_compute": {
+      "state": "ARCHIVED",
+      "boundary": "No significant compute until a decisive matched protocol is frozen."
+    }
+  },
+  "external_validation": {
+    "returned": false,
+    "statement": "No scientific line received evidence of genuine independent external validation during this closeout."
+  }
+}
