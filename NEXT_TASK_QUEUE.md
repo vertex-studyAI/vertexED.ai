@@ -48,9 +48,9 @@ Secret values were not read or printed. Listing repository secret names is itsel
 **Next action:** owner verifies those four secrets exist without exposing values, reruns the existing `Deploy Cloudflare` workflow at canonical source `daa80c1124b2a6d7d09b7669e04d29e50cffcbbe`, and records workflow run, deployment identity and served revision. Then connect the real Bu1LD Supabase/Auth, verify live phase33/RLS/functions/grants, and complete the seven-role journey with cross-role denials, recovery/logout and cleanup.
 
 ## 7 — LAM-RELEASE-001 — P0/P1 — PARTIAL
-LAM-JEPA remains a VERIFIED reproducible negative result. Immutable external packet `218ea1bea686cdf8c281520b2b636897bc8b8dd2` remains ready but not externally executed. PR #87 at `99e6082debc8b534d2f40ddbaca383522f4f11f1` adds only an owner-controlled metadata/citation handoff; no scientific claim changes.
+LAM-JEPA remains a VERIFIED reproducible negative result. The owner-controlled metadata handoff is now merged on `LAM-JEPA/main` as `55d716e8fcfdcd3e4c50af9bac0478b09994cedd`; license/authorship/release fields intentionally remain placeholders. Immutable external packet `218ea1bea686cdf8c281520b2b636897bc8b8dd2` remains unexecuted by an independent party.
 
-**Next action:** owner approves license/compatibility, author names/order and release metadata; then merge/finalize citation metadata and immutable release revision. Separately send the exact immutable packet to a genuinely independent validator. External validation stays BLOCKED until returned outside evidence exists.
+**Next action:** owner approves/fills the placeholder license/compatibility, author names/order and release metadata, then finalizes citation metadata and immutable release revision. Separately send the exact immutable packet to a genuinely independent validator. External validation stays BLOCKED until returned outside evidence exists.
 
 ## 8 — IRIS-FRONTIER-SOURCE-001 — P1 — BLOCKED
 The frozen adaptation-metric specification is VERIFIED at blob `6f4d6a47e3727596b21714bc269cd8ba5844d2fa`. Exact canonical development trajectories and executable metric byte/deterministic-equivalence provenance remain blocked. Seeds `1000–1029` remain forbidden.
