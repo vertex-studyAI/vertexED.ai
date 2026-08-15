@@ -1,67 +1,46 @@
-# CHECKPOINT — AUGUST 15 08:00 IST
+# CHECKPOINT — AUGUST 15 08:42 IST
 
-**Recovery wave started:** 2026-08-14 22:02 IST  
-**Current checkpoint:** 2026-08-15 08:00 IST  
 **Target checkpoint:** 2026-08-15 10:00 IST  
 **Canonical status:** `MASTER_STATUS.md`  
-**Canonical research:** `RESEARCH_STATUS.md`  
-**Canonical product:** `PRODUCT_STATUS.md`  
-**Canonical security:** `SECURITY_STATUS.md`  
-**Canonical reproducibility:** `REPRODUCIBILITY_LEDGER.md`  
-**Canonical release readiness:** `PUBLIC_RELEASE_READINESS.md`  
-**Canonical queue:** `NEXT_TASK_QUEUE.md` / `NEXT_TASK_QUEUE.json`  
-**Machine-readable start snapshot:** `START_SNAPSHOT.json`
+**Canonical queue:** `NEXT_TASK_QUEUE.md` / `NEXT_TASK_QUEUE.json`
 
-This is the current checkpoint surface. Historical dated checkpoints and prior closeouts remain provenance. Only directly verified material deltas are recorded.
+Only direct evidence deltas are recorded. Historical checkpoints remain provenance.
 
-## Verified current state
+## Current closure state
 
-| Area | Current state | Evidence / next gate |
+| Area | State | Direct evidence / exact next gate |
 |---|---|---|
-| Control plane | **VERIFIED source** | fresh recovery observed `vertex-studyAI/vertexED.ai/main=f56e3ac765cc7f144643a203ec921de5a3caf6af`; this checkpoint then recorded fresh Bu1LD public-surface evidence on canonical main. Zero open PRs were observed before the checkpoint write |
-| LAM-JEPA | **VERIFIED reproducible NEGATIVE internally; external PENDING** | fresh `LAM-JEPA/main=bf8311e1a4d240e2891e51af38eaf7754944e300`; immutable external-review packet `218ea1bea686cdf8c281520b2b636897bc8b8dd2`; no new scientific result or outside validation; locked ARC test untouched |
-| Percy live host | **UNKNOWN / BLOCKED_EXTERNAL_MAC** | no directly accessible SQLite/WAL/checkpoint/process/worktree evidence; DB integrity, workers, leases, heartbeats and live task counts remain UNKNOWN |
-| Project 2424 umbrella | **PARTIAL / SOURCE-GATED** | checksum-verified historical Wave-001 base remains 2,424 registry rows, 24 source-backed packages, 0 independent reproductions; current source-identity invariant binds 23 observed T2424 directories. Later dirty overlay/cross-generation migration provenance remains blocked; never synthesize missing identities |
-| VertexED production | **BLOCKED — EXACT SERVED REVISION / AUTHENTICATED JOURNEY** | latest recovered scheduled monitor `31857629185` on `main@425375f10e0880a8882d3298edab4c90734af8a5` failed after public smoke passed because `/api/health` omitted immutable revision. Artifact `9239532686`, SHA-256 `de8798d79307a61630f8f099ff8d96414dd8a214a1827ea6a463de600679a215`. Exact served revision/deployment ID + monitor PASS + authenticated disposable-account journey remain required |
-| VertexED Supabase | **PARTIAL security evidence / ACTIVE_HEALTHY** | retained fresh read-only evidence: 26 observed public base tables, 26 RLS-enabled, 0 RLS-disabled; two platform WARNs remain—leaked-password protection disabled and hosted PostgreSQL security patches available. No mutation performed |
-| FinanceMeta | **PARTIAL SOURCE / PRODUCTION BLOCKED_EXTERNAL** | retained hardening head `6dcc03710bb6adf9b4b722b308c40a0720bea61f` remains 41 ahead / 0 behind `main@fbdd503223edc5b1780509720391083f485a4a85`; exact-head Actions red; integration write blocked; production Supabase unavailable |
-| The Bu1LD source | **VERIFIED source/CI** | canonical `ryangomez010/bu1ld-landing@daa80c1124b2a6d7d09b7669e04d29e50cffcbbe`; exact-head CI `29679123068` remains successful; phase33 source chain retained |
-| The Bu1LD public production surface | **PARTIAL — PUBLIC ROUTES VERIFIED / IDENTITY+AUTH BLOCKED** | scheduled run `31857746101` succeeded; job `94945553076` passed smoke syntax + route availability. Artifact `9239560598`, SHA-256 `6e1d265586f64f044b85150d7f1d6418557c422a56c231d0e5d09c1a951e4036`, records 8/8 HTTP 200 checks at `https://thebu1ld.com` for `/`, `/signup`, `/login`, `/projects`, `/programs-public`, `/evidence`, `/privacy`, `/terms`. This proves availability only; exact served revision, live Supabase phase33, Auth, role isolation and seven-role behavior remain unverified |
-| IRIS | **METRIC FREEZE RECOVERED / FRONTIER STILL PROTOCOL_BLOCKED** | frozen adaptation-metric specification remains recovered; exact canonical development trajectories and executable metric-equivalence/cross-hash provenance remain unrecovered. Seeds `1000–1029` forbidden; no frontier run |
-| Darcy T2424-0050 | **v2 FROZEN / PRE-OUTCOME PARTIAL / NOT RUN** | B2 PCA+ridge + split remain frozen; B3 FNO, B4 DeepONet, interpretation approvals, environment, hardware, budgets and final manifests remain open. Training/outcome access remains unauthorized |
-| NPMS | **VERIFIED controlled source / adverse non-uniqueness result** | `PARAMETER_CONFOUNDED_OR_NON_UNIQUE` preserved; no rescue |
-| NeuroCAD / NGMT v0.1 / Eigen-JEPA | **negative/mixed/falsified boundaries preserved** | no in-place rescue or metric shopping |
+| Percy preserved host | **BLOCKED** | `/Volumes/PRO-BLADE/Atlas/Percy` is not mounted here. DB/WAL/SHM/checkpoint identity, integrity/schema, processes, tasks, workers, leases, heartbeats, stale workers and dirty worktrees remain **UNKNOWN**. Expose preserved volume; do not initialize/migrate replacement state. |
+| Project 2424 later overlay | **BLOCKED** | `/Volumes/PRO-BLADE/Atlas/Project-2024/Project_2424` is not mounted. Historical Wave-001 and current 23-directory identity guard remain separately preserved; later dirty overlay and provenance-backed `P2424-*`→`T2424-*` migration remain unresolved. |
+| VertexED source contract | **VERIFIED** | Fail-closed identity change manually reviewed and merged as `d52308aed22ccc3dcefa7d4e3dd90aa731bc5f5a`; canonical CI `31861346546` PASS. Production source no longer reports healthy when immutable revision identity is absent. |
+| VertexED production | **BLOCKED** | Revision-enforcing scheduled production monitor `31857629185` / artifact `9239532686` SHA-256 `de8798d79307a61630f8f099ff8d96414dd8a214a1827ea6a463de600679a215` passed public/security smoke but failed exact served revision. Deploy canonical source, prove exact served revision, then authenticated disposable-account journey. |
+| FinanceMeta CI fix | **BLOCKED** | Hardening branch `6dcc037...` preserved. Workflow blob `5df3a10c...` contains the duplicated E2E `VITE_SUPABASE_URL` / `VITE_SUPABASE_ANON_KEY` / `VITE_APP_URL` triplet. Isolated branch creation returned 403; no mutation made. Owner-writable path removes only duplicate triplet, then YAML/audit/lint/typecheck/unit/build/release/Playwright gates. |
+| Bu1LD deployment | **BLOCKED** | Source `daa80c...`, CI `29679123068` PASS. Exact workflow requires secret names `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`, `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`; secret listing returned integration 403, so presence is unverified. Historical deploy `29679123047` failed before deploy. Public smoke remains 8/8 PASS only. |
+| IRIS source/metric provenance | **VERIFIED** | Pre-existing deterministic-equivalence package: ZIP `5643b59e...`; protocol `0cdf22c...`; runner `b9e35eb...`; verifier `74a149d...`; source-lineage archive `5d689ade...`; canonical metric freeze blob `6f4d6a47...`. Runner semantics match frozen TWMSE25, five-sample 0.10·D recovery and POST_MSE50PLUS. Reserved seeds `1000–1029` untouched. **No frontier result run.** |
+| LAM public packet | **PARTIAL** | Scientific negative result remains at `bf8311e...`; draft release packet PR #86 head `dbd9117370f74c43f667974bf6431dd7cd1a760f` adds environment/reproduction/limitations/citation placeholders. Owner metadata + genuine outside reproduction remain blocked. |
+| Darcy v2 pre-outcome | **PARTIAL** | B2 + split frozen; compute budget frozen. B3/B4/env/hardware and two generator interpretation approvals remain blocked; training/outcome access stays forbidden. |
 
-## Current counters
+## Counters and safety
 
-- Percy DB integrity: **UNKNOWN**
-- physical workers: **UNKNOWN**
-- live Percy tasks/queue/leases/heartbeats: **UNKNOWN**
-- Project 2424 registry rows recovered historically: **2,424**
-- historical source-backed Wave-001 packages: **24**
-- historical independent reproductions: **0**
-- current represented T2424 source directories: **23**
-- VertexED public base tables measured: **26**
-- VertexED public base tables with RLS: **26**
-- Bu1LD public routes in latest retained smoke: **8/8 PASS**
-- new major scientific outcome runs authorized: **0**
-- scientific outcome runs triggered by this checkpoint: **0**
-- database mutations triggered by this checkpoint: **0**
-- deployments triggered by this checkpoint: **0**
-- paid-resource actions: **0**
-- frozen negative/mixed/falsified results rescued: **0**
+- Percy live counters: **UNKNOWN**
+- historical Project 2424 registry rows: `2424`
+- historical Wave-001 source-backed packages: `24`
+- historical independent reproductions: `0`
+- current represented T2424 source directories: `23`
+- new major scientific outcome runs authorized: `0`
+- new scientific outcome runs executed in this controller pass: `0`
+- paid-resource actions: `0`
+- destructive recovery actions: `0`
+- credentials printed/committed: `0`
+- frozen negative/mixed/falsified results rescued: `0`
 
-## Highest-value next gates
+## Exact remaining order
 
-1. `PERCY-STATE-001` — direct preserved-host recovery only; otherwise live state remains UNKNOWN.
-2. `P2424-CANON-002` — later dirty overlay + cross-generation migration provenance.
-3. `VERTEX-PROD-001` — exact served revision/deployment identity + monitor PASS + authenticated disposable-account golden journey.
-4. FinanceMeta — owner-writable CI correction/review and real production Supabase/deploy target access.
-5. The Bu1LD — recover exact Cloudflare served revision/deployment identity; connect real Supabase/Auth; verify live phase33/RLS/functions/grants and seven-role journey. Public HTTP 200 is not certification.
-6. `IRIS-FRONTIER-SOURCE-001` — exact canonical trajectories + executable metric cross-hash; remain `PROTOCOL_BLOCKED` until closed.
-7. Darcy v2 — close B3/B4 + interpretation/environment/hardware/budget/final-manifest locks only; **no training or ID/OOD outcome access**.
-8. LAM — owner release metadata + genuinely independent outside reproduction/review only.
+1. expose Percy preserved host and Project 2424 later overlay;
+2. deploy current VertexED fail-closed source revision and prove exact revision + authenticated journey;
+3. owner-writable FinanceMeta duplicate-env fix on existing 41-commit lineage;
+4. provide/verify Bu1LD workflow secrets and rerun exact deployment workflow; then DB/Auth/seven-role proof;
+5. owner-complete LAM metadata and obtain genuine external review;
+6. close Darcy B3/B4/env/hardware/interpretation locks only; no outcome run.
 
-## Checkpoint law
-
-Later checkpoints report only direct evidence deltas. Source presence, CI, public HTTP availability, deployment identity, database metadata, authentication, internal reproduction and project counts remain separate evidence classes. Missing host/source/runtime facts stay `UNKNOWN` or `BLOCKED`; they are never inferred green.
+IRIS source/metric provenance recovery requested for this checkpoint is closed; no frontier execution is authorized by that closure.
