@@ -21,3 +21,10 @@
 Every promoted experiment must retain question, frozen hypothesis, dataset/task/split, baselines, proposed method, ablations, primary metric, seed policy, statistics/effect rule, environment, source commit, exact command, runtime/compute, raw metrics, artifact hashes, aggregate table, uncertainty, failure cases, limitations and claim boundary.
 
 A protocol change after observing an outcome creates a new experiment version. No silent retuning.
+
+## 2026-08-15 08:55 IST reproducibility delta
+
+- **LAM-JEPA:** no new reproduction claim was created. External packet `218ea1bea686cdf8c281520b2b636897bc8b8dd2` remains pending a genuinely independent party; PR `#87` only adds owner metadata/citation placeholders.
+- **IRIS:** metric specification identity is VERIFIED at blob `6f4d6a47e3727596b21714bc269cd8ba5844d2fa`, but executable-equivalence provenance and exact canonical trajectories remain BLOCKED. No result run and no confirmatory seed access occurred.
+- **Darcy v2:** no outcome run occurred. Existing split hash, B2 verifier and frozen budget remain the strongest reproducibility state; B3/B4, environment/hardware and interpretation approvals remain pre-outcome blockers.
+- **Percy/Project 2424 local state:** `/Volumes/PRO-BLADE` is not mounted in this execution environment, so no new local replay/hash claim was manufactured.
