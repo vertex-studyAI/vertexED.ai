@@ -15,6 +15,8 @@ const HEALTH_ENV_KEYS = [
   'GEMINI_API_KEY',
   'VERCEL_GIT_COMMIT_SHA',
   'GITHUB_SHA',
+  'VERCEL_ENV',
+  'NODE_ENV',
 ];
 
 async function withHealthEnv(values, callback) {
@@ -69,7 +71,7 @@ test('getReadinessSnapshot reports each required production capability', () => {
   assert.ok(Object.values(configured.checks).every(Boolean));
 });
 
-test('liveness remains green without evaluating production dependencies', async () => {
+test('liveness remains green in non-production without evaluating production dependencies', async () => {
   await withHealthEnv({}, async () => {
     const { req, res, getStatus, getJson, getHeaders } = createMocks({ method: 'GET' });
     req.url = '/api/health';
@@ -87,9 +89,25 @@ test('liveness remains green without evaluating production dependencies', async 
   });
 });
 
+test('production liveness fails closed when immutable deployment revision is missing', async () => {
+  await withHealthEnv({ VERCEL_ENV: 'production' }, async () => {
+    const { req, res, getStatus, getJson, getHeaders } = createMocks({ method: 'GET' });
+    req.url = '/api/health';
+
+    await handler(req, res);
+
+    assert.equal(getStatus(), 503);
+    assert.equal(getJson().ok, false);
+    assert.equal(getJson().status, 'degraded');
+    assert.equal(getJson().revision, undefined);
+    assert.equal(getHeaders()['X-VertexED-Health'], 'degraded');
+    assert.equal(getHeaders()['X-VertexED-Revision'], undefined);
+  });
+});
+
 test('liveness reports exact deployed revision in body and header when available', async () => {
   const revision = '1234567890abcdef1234567890abcdef12345678';
-  await withHealthEnv({ VERCEL_GIT_COMMIT_SHA: revision }, async () => {
+  await withHealthEnv({ VERCEL_ENV: 'production', VERCEL_GIT_COMMIT_SHA: revision }, async () => {
     const { req, res, getStatus, getJson, getHeaders } = createMocks({ method: 'GET' });
     req.url = '/api/health';
 
