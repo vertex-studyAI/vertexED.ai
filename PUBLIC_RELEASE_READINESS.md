@@ -1,43 +1,42 @@
 # PUBLIC_RELEASE_READINESS
 
-**As of:** 2026-08-15 06:00 IST  
+**As of:** 2026-08-15 08:55 IST final convergence pass  
+**Allowed states:** `VERIFIED`, `PARTIAL`, `BLOCKED`, `UNKNOWN`, `FAILED`, `INCONCLUSIVE`, `STALE`, `ARCHIVED`.  
 **Rule:** readiness is not release. Nothing here claims publication, deployment, acceptance, external reproduction or user validation.
 
-| Line | Internal/source readiness | External / production blocker |
+| Line | State | Exact readiness boundary / blocker |
 |---|---|---|
-| LAM-JEPA | **PASS** reproducible negative evidence + immutable review packet | owner license/authorship/citation/release revision + genuine outside reproduction/review |
-| IRIS | **PARTIAL** checksum-backed package/source lineage + frozen adaptation-metric specification recovered | exact canonical development trajectories + executable metric-equivalence/cross-hash provenance; seeds `1000–1029` forbidden; no approximate regeneration |
-| NeuroCAD | **PARTIAL** software/component evidence | clean install/security/quickstart/license + fresh usefulness evidence; typed-parser mechanism remains falsified on reused diagnostic |
-| NPMS | **PASS** controlled source recovered and replayed | any release must foreground `PARAMETER_CONFOUNDED_OR_NON_UNIQUE`; external review/replication still separate |
-| Darcy T2424-0050 | **PARTIAL** protocol, generator provenance, B2 and split manifest frozen | B3/B4/env/hardware/budget/interpretation gates; v2 not run |
-| Project 2424 registry | **PARTIAL** Wave-001 recovered + current 23-directory source identity invariant | later dirty overlay + cross-generation migration provenance; 0 independent Wave-001 reproductions; do not synthesize remaining identities |
-| Percy | **BLOCKED_EXTERNAL** | real host DB/WAL/runtime/recovery qualification unavailable; live counters remain UNKNOWN |
-| VertexED | **PASS source / BLOCK production** | latest monitor `31847625553` again fails exact served revision; authenticated isolation/recovery/admin journey pending; Supabase platform warnings remain open |
-| FinanceMeta | **PARTIAL source / Preview only** | exact-head Actions red, integration write blocked, live Supabase/production target unverified |
-| The Bu1LD | **PASS source+CI / BLOCK deploy+DB** | deployment vars/live phase33-RLS/Auth verification, immutable deploy + seven-role journey |
+| LAM-JEPA | **PARTIAL** | Reproducible negative evidence and immutable review packet are retained. `LAM-JEPA/main=55d716e8fcfdcd3e4c50af9bac0478b09994cedd` now contains the semantically reviewed owner metadata handoff, but license/authorship/release fields remain placeholders and independent external reproduction has not occurred. |
+| IRIS | **PARTIAL** | Frozen metric specification is recovered; exact canonical development trajectories plus executable metric-equivalence/cross-hash provenance remain blocked. Seeds `1000–1029` forbidden; no frontier run. |
+| NeuroCAD | **PARTIAL** | Historical software/component evidence exists, while typed-parser mechanism remains falsified; public software release still needs ordinary install/license/security/usefulness closure if pursued. |
+| NPMS | **PARTIAL** | Controlled source/result replay is retained with verdict `PARAMETER_CONFOUNDED_OR_NON_UNIQUE`; any release must foreground that adverse boundary and distinguish external review from internal replay. |
+| Darcy T2424-0050 v2 | **PARTIAL** | Protocol, B2, split and budgets are pre-outcome frozen; B3/B4/environment/hardware/interpretation gates remain open and v2 has not been run. |
+| Project 2424 | **PARTIAL** | Historical Wave-001 and current represented-directory identity evidence are separate and retained. Later dirty overlay + cross-generation migration provenance remain blocked; no synthetic identity completion. |
+| Percy | **BLOCKED** | Real host DB/WAL/SHM/checkpoint/runtime qualification is unavailable in this environment; live counters remain UNKNOWN. |
+| VertexED | **BLOCKED** | Source identity hardening is VERIFIED at `d52308aed22ccc3dcefa7d4e3dd90aa731bc5f5a`, but both resulting Vercel deployments failed and authenticated isolation/recovery/admin journey remains unverified. |
+| FinanceMeta | **BLOCKED** | Hardening lineage is preserved and minimal CI duplicate-key repair is structurally identified, but target write is 403, exact-head post-fix Actions have not run, and live production target is unverified. |
+| The Bu1LD | **BLOCKED** | Source/CI and public-route availability are evidence-backed, but secret presence, immutable Cloudflare deployment identity, live phase33 DB/Auth and seven-role journey remain unverified. |
 
 ## Claim boundaries
 
-- **LAM-JEPA:** release only with truthful negative framing. Packet readiness is not external validation.
-- **IRIS:** frozen metric specification is recovered, but canonical trajectories and executable-equivalence provenance are still missing. No frontier execution; seeds `1000–1029` stay quarantined.
-- **NPMS:** regime headline reproduces, but invariant-parameter control is only `3.57pp` behind, inside the frozen `5pp` non-uniqueness band. No unique-mechanism or natural/OOD claim.
-- **Darcy:** B2 and split manifest are pre-outcome frozen; training remains unauthorized until B3/B4, environment, hardware, fixed budgets and two generator-interpretation approvals close. Seed `320007` accidental metric is invalid non-evidence.
-- **Project 2424:** historical Wave-001 proves 2,424 registry rows but only **24 source-backed packages**, 0 independent reproductions and historical release rejection. Current identity CI covers 23 represented T2424 directories. Numeric suffixes collide across generations.
-- **VertexED:** monitor `31847625553` on control `cf8540437640702c1204bb747814755a952b8591` again found `/api/health` healthy but revision missing; artifact `9236446930`, SHA-256 `3b08ea6ec1c850b49fa6ac2e5b3af2208c639f4b56fb9269decf61197f4eac6b`. Public smoke passed; production identity did not.
-- **FinanceMeta:** exact-SHA Vercel Preview is not production; exact-head Actions run `29641469740` is red.
-- **The Bu1LD:** source/CI is green through phase33, but Cloudflare run `29679123047` failed before deploy; live DB/Auth remains unverified.
+- LAM-JEPA remains a negative result; packet readiness is not external validation.
+- IRIS metric-spec recovery does not establish executable equivalence or canonical trajectory identity.
+- NPMS does not support a unique-mechanism claim at the current frozen adverse-control result.
+- Darcy v2 remains pre-outcome; no trained capability or OOD result exists.
+- Project 2424 registry/project counts do not imply implementation, reproduction or publication.
+- VertexED source success does not imply production deployment success.
+- FinanceMeta Preview evidence does not imply production state.
+- Bu1LD public HTTP availability does not imply served source identity, live DB/Auth security or role isolation.
 
-## Mandatory contents for any public research/system release
+## Mandatory contents for any public release
 
 1. immutable source revision/tag candidate;
-2. README + exact environment/install;
-3. quickstart/reproduce command;
-4. tests + expected verifier output;
-5. raw/processed provenance for quantitative claims;
-6. limitations/non-claims and adverse controls;
-7. license + third-party data/asset notes;
-8. citation metadata where relevant;
-9. secret/private-data scan;
-10. external-validation state labeled precisely (`NONE`, `REVIEWED`, `INDEPENDENTLY_REPRODUCED`).
+2. exact environment/install and reproduction/quickstart command;
+3. tests/verifier output and quantitative artifact provenance where applicable;
+4. limitations/non-claims and adverse controls;
+5. approved license/third-party asset boundary;
+6. approved citation metadata where relevant;
+7. secret/private-data scan;
+8. external-validation state stated truthfully.
 
-Completing these internally does not itself create publication, deployment, adoption or external validation.
+Completing these internally does not create publication, deployment, adoption or external validation.

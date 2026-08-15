@@ -1,31 +1,44 @@
 # MASTER_STATUS
 
-**As of:** 2026-08-14 final convergence sync  
+**As of:** 2026-08-15 08:55 IST final convergence pass  
 **Canonical registry:** `portfolio/portfolio.yaml` schema v2; update it in place rather than creating a competing master registry.  
-**Truth rule:** implemented, executed, reproduced, scientifically supported, release-ready, externally validated, deployed and published are separate states.
+**Allowed states:** `VERIFIED`, `PARTIAL`, `BLOCKED`, `UNKNOWN`, `FAILED`, `INCONCLUSIVE`, `STALE`, `ARCHIVED`.  
+**Truth rule:** implemented, executed, reproduced, scientifically supported, release-ready, externally validated, deployed and published are separate evidence classes.
 
-| System | Authoritative state | Exact boundary / next gate |
+| System | State | Exact boundary / next gate |
 |---|---|---|
-| LAM-JEPA | **VERIFIED reproducible NEGATIVE; internal package closed** | owner license/authorship/citation/release metadata + genuine independent outside reproduction/review; no rescue |
-| IRIS v0.2 | **VERIFIED mixed/negative; source PARTIALLY_RECOVERED / frontier BLOCKED** | exact canonical development trajectories + exact frozen adaptation-metric provenance remain missing; seeds `1000–1029` forbidden; no approximate regeneration |
-| NeuroCAD | **VERIFIED historical software; typed-parser mechanism FALSIFIED** | preserve `VALIDATION_DOMINANT`; fresh broader benchmark for any new scientific claim |
-| Darcy T2424-0050 | **VERIFIED bounded parent; v2 FROZEN / PRE-OUTCOME PARTIAL / NOT RUN** | B2 PCA+ridge merged as `86170b1a6bb8fbc1484f99fd680876c271fb5474`; safety `daf548fa9b3953c3d7e188191588a84a04c98093`; `training_authorized=false`. Remaining: two interpretation approvals, B3 FNO, B4 DeepONet, exact environment/hardware/model budgets and final split-manifest hashes |
-| NGMT v0.1 | **VERIFIED NEGATIVE / FROZEN** | no in-place rescue |
-| APEN | **VERIFIED controlled mixed** | new stronger-control protocol only |
-| Eigen-JEPA | **VERIFIED mixed/negative / FROZEN primary** | no metric shopping/in-place rescue |
-| NPMS | **VERIFIED controlled source / PARAMETER-CONFOUNDED OR NON-UNIQUE** | Atlas source SHA `076f12750d6a8e6c298c17815224a79463bcad149d6cf1283900d98c6e394a2c`; NPMS `92.86%` vs invariant-parameter `89.29%`, gap `3.57` pp inside frozen 5-pp non-uniqueness gate. Source recovery closed; freeze a new natural/causal successor protocol before any new run |
-| Project 2424 | **PARTIAL — WAVE-001 BASE RECOVERED / LATER OVERLAY + CANONICALIZATION BLOCKED** | historical bundle SHA `4c685af70d84052c026602ff7336a522c741d91fb480038e980c21f0bbc63ece`; `wave-001-push-ready@ff609f335f91297357b430a2531633fe111cd5a9`; clean quality gate PASS; 2,424 rows, only 24 source-backed packages, 0 independent reproductions, retained `RELEASE_REJECTED`. Current T2424 source-identity guard merged as `f60dafed1563ef51f73c39a4d4d0a392dadc0160`. Recover later dirty overlay + P2424↔T2424 migration provenance; never join by numeric suffix alone |
-| Percy | **UNKNOWN / BLOCKED_EXTERNAL_MAC** | live SQLite/WAL/checkpoint/process/worktree state unavailable; snapshot/integrity/recount before any claim |
-| VertexED source | **VERIFIED source** | source is not served production identity |
-| VertexED Supabase | **PARTIAL controls verified / platform warnings open** | bounded-positive RLS/privileged-function evidence; leaked-password protection disabled and hosted PostgreSQL security update available; owner/platform review only |
-| VertexED production | **BLOCKED exact served revision** | monitor `31817794439`; expected revision `e2ecd19ed9816f8f36369c7dc0f38e39942ca73a`; artifact `9225715176` SHA `e7870e9561748ef4d4247e3bf4e01d3e8feead3780c4e2016d3742d134f2069a`; public/security smoke passed but health revision missing; exact deployment + authenticated golden journey remain |
-| FinanceMeta source | **PARTIAL — 41-commit hardening lineage recovered / CI definition red** | `cursor/membership-security-supabase-fix@6dcc03710bb6adf9b4b722b308c40a0720bea61f`, 41 ahead / 0 behind `main@fbdd503223edc5b1780509720391083f485a4a85`; Actions `29641469740` fails with zero jobs because E2E env duplicates `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`, `VITE_APP_URL`; connector writes return 403 |
-| FinanceMeta Preview | **VERIFIED Preview only** | Vercel deployment `5501026657` for exact hardening SHA succeeded as `Preview`; explicitly not production |
-| FinanceMeta production | **BLOCKED_EXTERNAL** | live Supabase migration/RLS/env/revision + multi-account journey unverified |
-| The Bu1LD source | **VERIFIED exact-main CI** | `ryangomez010/bu1ld-landing@daa80c1124b2a6d7d09b7669e04d29e50cffcbbe`; CI `29679123068` PASS |
-| The Bu1LD production | **BLOCKED release environment / deployment unverified** | Cloudflare `29679123047` failed at `release:check` because `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` were empty; workflow already maps repository secrets correctly. Owner configures intended Actions secrets, reruns exact SHA, then proves served revision + seven-role journey |
-| Hercules / Olympus | **ARCHIVED ACTIVE COMPUTE / YELLOW** | no significant compute before decisive matched protocol |
+| LAM-JEPA | **VERIFIED** | Reproducible negative result and internal evidence package remain frozen. Owner license/authorship/citation/release metadata and genuine independent outside reproduction/review remain separate open gates; no rescue. |
+| IRIS v0.2 | **PARTIAL** | Mixed/negative evidence and metric-freeze specification are recovered, but exact canonical development trajectories plus executable metric byte/deterministic-equivalence provenance remain blocked. Seeds `1000–1029` forbidden; no approximate regeneration or frontier run. |
+| NeuroCAD | **VERIFIED** | Historical controlled software evidence retained; typed-parser mechanism remains falsified on the reused diagnostic (`VALIDATION_DOMINANT`). |
+| Darcy T2424-0050 v2 | **PARTIAL** | Parent bounded mechanism and v2 pre-outcome freeze are retained; `training_authorized=false`. B3 FNO, B4 DeepONet, learned environment/hardware and two generator-interpretation approvals remain open; no training/outcome access. |
+| NGMT v0.1 | **VERIFIED** | Frozen negative result; no in-place rescue. |
+| APEN | **VERIFIED** | Controlled mixed result retained; any continuation requires a new frozen stronger-control protocol. |
+| Eigen-JEPA | **VERIFIED** | Frozen primary mixed/negative result retained; no metric shopping/in-place rescue. |
+| NPMS | **VERIFIED** | Controlled source/result reproduced with verdict `PARAMETER_CONFOUNDED_OR_NON_UNIQUE`; NPMS `92.86%` vs invariant-parameter `89.29%`, gap `3.57` pp inside frozen 5-pp non-uniqueness gate. Current result remains frozen. |
+| T2424-1863 | **VERIFIED** | Frozen negative result retained; no in-place rescue. |
+| Project 2424 | **PARTIAL** | Historical Wave-001 base is checksum-recovered separately from the current T2424 source-directory layer. Later dirty overlay and explicit P2424↔T2424 migration provenance remain unavailable; never join generations by numeric suffix alone. |
+| Percy | **UNKNOWN** | `/Volumes/PRO-BLADE/Atlas/Percy` is not mounted in this execution environment. Live SQLite/WAL/SHM/checkpoint/process/worktree identity, integrity and counters remain unknown. No substitute DB, reset or migration was attempted. |
+| VertexED source | **VERIFIED** | PR `#397` passed canonical CI run `31861346546`, was semantically reviewed, and was squash-merged as `d52308aed22ccc3dcefa7d4e3dd90aa731bc5f5a`. Production health now fails closed when immutable revision identity is missing. |
+| VertexED Supabase | **PARTIAL** | 26 observed public base tables are RLS-enabled; platform warnings remain leaked-password protection disabled and an available hosted PostgreSQL security update. Database controls do not certify production deployment/auth journeys. |
+| VertexED production | **BLOCKED** | Both Vercel deployments for `d52308a...` failed: `dpl_74bsey5Ht3PfDRFqJYcffxVKJTzV` and `dpl_44fbtnhTd7RFnA5QK5SauSHcKZKy`. Diagnose exact deployment logs, obtain successful exact-revision health proof, then complete authenticated disposable-account isolation/recovery/logout/admin cleanup. |
+| FinanceMeta source | **PARTIAL** | Preserve `cursor/membership-security-supabase-fix@6dcc03710bb6adf9b4b722b308c40a0720bea61f` exactly. Duplicate E2E env mapping is localized; strict duplicate-key validation accepts deletion only of the second `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`, `VITE_APP_URL` trio. Target branch creation returned 403, so target CI could not be rerun. |
+| FinanceMeta Preview | **VERIFIED** | Exact hardening SHA has successful Vercel Preview evidence only; it is not production certification. |
+| FinanceMeta production | **BLOCKED** | Live production Supabase/deployment target, applied migrations/RLS, exact served revision and multi-account journey remain unavailable. |
+| The Bu1LD source | **VERIFIED** | Canonical source `daa80c1124b2a6d7d09b7669e04d29e50cffcbbe`, exact-head CI and phase33 source chain remain evidence-backed. |
+| The Bu1LD public surface | **PARTIAL** | Prior 8/8 route availability evidence remains valid; immutable served revision, DB/Auth and role-isolation evidence remain open. |
+| The Bu1LD deployment/DB/Auth | **BLOCKED** | Existing workflow requires Actions secret names `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`, `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`. Secret presence is unknown because metadata listing is 403. Exact Cloudflare revision, live phase33 and seven-role denials remain unverified. |
+| Hercules / Olympus | **ARCHIVED** | No significant compute before a new decisive matched protocol. |
 
 ## Scheduling guard
 
 **Zero new major scientific outcome runs are authorized.** Recovery, owner review, external validation, product certification and frozen pre-outcome/protocol closure outrank new compute. Negative/mixed/falsified results remain preserved.
+
+## Direct convergence evidence retained this pass
+
+- Percy/Project 2424 local-only facts were not inferred because `/Volumes/PRO-BLADE` is unavailable here.
+- VertexED source identity hardening was merged only after manual diff review and CI evidence; the subsequent production deployments failed and were not represented as green.
+- FinanceMeta's existing 41-commit lineage was not recreated or squashed after the integration returned 403 on branch creation.
+- Bu1LD secret values were never read, printed or committed; only required secret names from the existing workflow were recorded.
+- IRIS confirmatory seeds `1000–1029` were not accessed and no frontier result was run.
+- LAM-JEPA, NGMT v0.1, Eigen-JEPA primary, NeuroCAD typed-parser mechanism, T2424-1863 and current NPMS result were not retuned or rescued.
+- Darcy v2 training/ID/OOD outcome access remained disabled.
