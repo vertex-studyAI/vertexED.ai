@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "project": "Weather-JEPA",
+  "study": "v1",
+  "paper_state": "NOT_READY_FOR_RESULTS_MANUSCRIPT",
+  "title_working": "Weather-JEPA: Masked Latent Prediction for Long-Horizon Weather Dynamics",
+  "abstract_state": "PROTOCOL_ONLY",
+  "scientific_result_state": "NO_AUTHORIZED_OUTCOME_RUN",
+  "allowed_now": [
+    "motivation",
+    "research_question",
+    "method_design",
+    "preregistered_experimental_protocol",
+    "related_work_context",
+    "falsification_criteria"
+  ],
+  "forbidden_now": [
+    "positive_result_claims",
+    "performance_numbers",
+    "state_of_the_art_claims",
+    "external_validation_claims",
+    "publication_or_submission_claims"
+  ],
+  "next_gate": "freeze exact data snapshot, splits, environment, model budgets, implementation and smoke-test evidence before scientific outcome training"
+}
