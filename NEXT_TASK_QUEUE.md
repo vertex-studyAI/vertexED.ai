@@ -1,20 +1,20 @@
 # NEXT TASK QUEUE
 
-**Rescored:** 2026-08-15 03:00 IST.  
+**Rescored:** 2026-08-15 06:00 IST.  
 **Rule:** information gain × closure probability × evidence value ÷ cost. Dependencies are hard. **Zero new major scientific experiment runs are authorized.**
 
 ## 1 — PERCY-STATE-001 — P0 / BLOCKED_EXTERNAL_MAC
 Remeasure current internal free space, then preserve/hash SQLite+WAL+checkpoint; integrity/schema; independent counters; leases/heartbeats/stale workers; dirty worktrees. Never reset or initialize replacement state.
 
 ## 2 — P2424-CANON-002 — P0 / HISTORICAL BASE + CURRENT IDENTITY GUARD VERIFIED; LATER OVERLAY/MIGRATION BLOCKED
-Historical Wave-001 is checksum-recovered: bundle SHA-256 `4c685af70d84052c026602ff7336a522c741d91fb480038e980c21f0bbc63ece`, head `ff609f335f91297357b430a2531633fe111cd5a9`, 2,424 registry rows but only **24 source-backed packages**, 0 independent reproductions, release rejected, fresh clean-clone quality gate passed. Current repository source identity is now guarded by `portfolio/project2424/SOURCE_IDENTITY_MANIFEST.json` + CI for 23 represented T2424 directories against the frozen First-100 queue.
+Historical Wave-001 is checksum-recovered: bundle SHA-256 `4c685af70d84052c026602ff7336a522c741d91fb480038e980c21f0bbc63ece`, head `ff609f335f91297357b430a2531633fe111cd5a9`, 2,424 registry rows but only **24 source-backed packages**, 0 independent reproductions, release rejected, fresh clean-clone quality gate passed. Current repository source identity is guarded by `portfolio/project2424/SOURCE_IDENTITY_MANIFEST.json` + CI for 23 represented T2424 directories against the frozen First-100 queue.
 
 **Next gate:** recover/hash the later dirty Mac overlay and cross-generation identity-migration provenance, then build a collision-aware child map. Historical `P2424-*` and current `T2424-*` assignments demonstrably collide; never join by numeric suffix or add historical counts.
 
 ## 3 — VERTEX-PROD-001 — P0 PRODUCT / BLOCKED_EXTERNAL_DEPLOYMENT_IDENTITY
-Latest canonical scheduled monitor `31827246777` on control `main@01bd8e78d70950a8f9cf7b27aa16d2ccd24af1df` failed all three bounded attempts: `/api/health` remained healthy but omitted immutable revision, so it could not match expected deploy revision `e2ecd19ed9816f8f36369c7dc0f38e39942ca73a`. Homepage, unknown-route 404, malformed waitlist 400, logged-out ask/user-content/admin 401 and untrusted-origin 403 boundaries passed. Artifact `9229274951`, SHA-256 `04cd906474b50afd29cf0b337b179a237c88fb16af7e165729ebad6fb56aa4ee`. Current source main has successful Vercel status contexts, but those do not prove which immutable revision `www.vertexed.app` serves.
+Latest canonical scheduled monitor `31847625553` on control `main@cf8540437640702c1204bb747814755a952b8591` again failed all three bounded attempts. The smoke step passed and evidence upload succeeded, but the final unhealthy-production gate failed because `/api/health` remained healthy while omitting immutable revision identity, so it could not match expected deploy revision `e2ecd19ed9816f8f36369c7dc0f38e39942ca73a`. Homepage, unknown-route 404, malformed waitlist 400, logged-out ask/user-content/admin 401 and untrusted-origin 403 boundaries passed. Artifact `9236446930`, SHA-256 `3b08ea6ec1c850b49fa6ac2e5b3af2208c639f4b56fb9269decf61197f4eac6b`.
 
-Fresh connected Supabase evidence remains partial rather than production certification: project `xwlrzgfuhfbckgvcmyoq` is `ACTIVE_HEALTHY`, all 26 observed public base tables are RLS-enabled, and the current security advisor has two WARN findings—leaked-password protection disabled and hosted PostgreSQL security patches available.
+Fresh connected Supabase evidence remains partial rather than production certification: project `xwlrzgfuhfbckgvcmyoq` is `ACTIVE_HEALTHY`, PostgreSQL `17.4.1.074`, all 26 observed public base tables are RLS-enabled, and the current security advisor still has exactly two WARN findings—leaked-password protection disabled and hosted PostgreSQL security patches available.
 
 **Next gate:** existing authorized capacity only. Prove exact served revision/deployment ID and monitor PASS, then disposable-account auth/onboarding/persistence/isolation/recovery/logout/admin cleanup. Owner may separately remediate the two platform warnings; do not spend for capacity, weaken the revision gate, or infer production GREEN from source/Vercel/database metadata.
 
@@ -41,11 +41,11 @@ Owner-approved license/redistribution, author list/order, `CITATION.cff`, immuta
 Send immutable packet `218ea1bea686cdf8c281520b2b636897bc8b8dd2` to a genuinely independent validator for reproduction + skeptical review. External validation remains pending until returned evidence exists.
 
 ## 10 — IRIS-FRONTIER-SOURCE-001 — P1 / METRIC FREEZE RECOVERED, TRAJECTORY/EQUIVALENCE PROVENANCE BLOCKED
-Recovery `d92e06deaa893bfb8273f3f781105ecb155e8aca` closed substantial retained package/source lineage. File Library evidence re-establishes the authoritative-candidate bundle checksum `IRIS_v0.2_bundle.zip` = `41a8e117b6922c3a6641bd12608d5e4246d305a9c3776a62252869045d83dacf`; prior audits record its internal manifest as passing. Fresh current-main inspection now directly recovers the previously missing metric freeze at `portfolio/research/IRIS_SEQUENCE_ADAPTATION_METRIC_FREEZE_20260813.md`, blob `6f4d6a47e3727596b21714bc269cd8ba5844d2fa`. Its definitions match the frontier contract: `TWMSE25` uses fixed window `W=25`; recovery requires the first five consecutive samples within `0.10*D`; `POST_MSE50PLUS` begins at `t0+50`; gate false-open rate is implementation-defined and frozen. This closes the standalone metric-freeze file identity edge, but it does **not** establish byte identity between every recovered harness metric implementation and this specification.
+Recovery `d92e06deaa893bfb8273f3f781105ecb155e8aca` closed substantial retained package/source lineage. Authoritative-candidate bundle checksum `IRIS_v0.2_bundle.zip` remains `41a8e117b6922c3a6641bd12608d5e4246d305a9c3776a62252869045d83dacf`. Current main directly contains the metric freeze at `portfolio/research/IRIS_SEQUENCE_ADAPTATION_METRIC_FREEZE_20260813.md`, blob `6f4d6a47e3727596b21714bc269cd8ba5844d2fa`: `TWMSE25` uses `W=25`; recovery requires the first five consecutive samples within `0.10*D`; `POST_MSE50PLUS` begins at `t0+50`.
 
-Exact canonical development trajectory arrays remain unrecovered. Deterministic generator code or retained metric rows are not permission to synthesize a replacement trajectory corpus. Confirmatory seeds `1000–1029` remain forbidden and no frontier run is authorized.
+Exact canonical development trajectory arrays remain unrecovered, and byte/equivalence provenance between the executable metric code and the frozen specification remains open. Deterministic generator code or retained metric rows are not permission to synthesize a replacement trajectory corpus. Confirmatory seeds `1000–1029` remain forbidden and no frontier run is authorized.
 
-**Next gate:** recover/materialize the authoritative bundle or another retained source artifact if raw bytes become available, verify the manifest directly, locate the canonical observation/state trajectory artifact or a pre-existing authoritative deterministic-equivalence record, and cross-hash the executable metric implementation against the recovered freeze specification. Until those edges close, retain `PROTOCOL_BLOCKED`.
+**Next gate:** recover/materialize the authoritative trajectory artifact or a pre-existing authoritative deterministic-equivalence record, then cross-hash executable metric implementation against the recovered specification. Until those edges close, retain `PROTOCOL_BLOCKED`.
 
 ## 11 — DARCY-V2-MATERIALIZE-003 — P1 / B2 + SPLIT FROZEN, REMAINING PRE-OUTCOME BLOCKERS
 Training remains unauthorized. B2 PCA+ridge is `IMPLEMENTED_PREOUTCOME_UNIT_VERIFIED`, blob `6e10c6fbecf0cf5ce78ed2b5c61e3fa97da47541`, workflow `31822727505`; split-manifest SHA-256 `4211d11da7d40f0991bd963c04fb118f34d9fe923e7664da301122b29b0bef85` is frozen.
@@ -64,6 +64,6 @@ No run authorized; only a separately frozen cheap synthetic falsification gate m
 Re-score only after material new evidence. Current Tier S count remains 3; do not promote work to fill a quota.
 
 ## Closed or materially narrowed this wave
-Project 2424 historical Wave-001 recovery; current T2424 source identity invariant; NPMS controlled-source recovery + adverse-control verdict; Darcy B2/split freeze; IRIS metric-freeze source identity plus partial source recovery; Bu1LD source/CI recovery; FinanceMeta hardening source recovery; LAM internal verification/external packet packaging; NeuroCAD mechanism falsification.
+Project 2424 historical Wave-001 recovery; current T2424 source identity invariant; NPMS controlled-source recovery + adverse-control verdict; Darcy B2/split freeze; IRIS metric-freeze source identity plus partial source recovery; Bu1LD source/CI recovery; FinanceMeta hardening source recovery; LAM internal verification/external packet packaging; NeuroCAD mechanism falsification; stale release-facing PR #395 closed unmerged after its two useful evidence views were replayed onto fresh main as `461b0ef9458c7e8bc1cf5292e4e91177c1b8bf3f` and `e0932de4f9ba3d4a200052312683b7289e1040d5`.
 
 None of those closures imply publication, external validation, trained Darcy v2 capability, production deployment, real-user validation or portfolio-wide completion.
