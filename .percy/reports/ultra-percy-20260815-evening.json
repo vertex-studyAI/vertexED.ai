@@ -1,0 +1,153 @@
+{
+  "schema_version": 1,
+  "checkpoint": "2026-08-15T21:32:00+05:30",
+  "mode": "ULTRA_PERCY_EXECUTION",
+  "truth_rule": "Source, CI, deployment, database state, authenticated behavior, scientific support, publication, and external validation are separate evidence classes. No evidence means not VERIFIED_WORKING.",
+  "scope": {
+    "github": "connected repositories and directly addressable repositories inspected through GitHub",
+    "supabase": "currently connected Supabase account inspected read-only",
+    "local_host": "NOT_OBSERVABLE_FROM_THIS_SESSION",
+    "pro_blade": "NOT_OBSERVABLE_FROM_THIS_SESSION",
+    "cloudflare_account": "NOT_CONNECTED",
+    "vercel_account": "NOT_CONNECTED"
+  },
+  "systems": {
+    "percy_local_control_plane": {
+      "state": "BLOCKED",
+      "reason": "The preserved Mac/PRO-BLADE Percy host, local database/WAL/SHM, worker processes, leases, worktrees, resource governor and Sandevistan runtime are not observable from this session.",
+      "next_action": "Run the host-side Percy state/recovery gate on the Mac with PRO-BLADE mounted; do not infer worker or queue health from repository metadata."
+    },
+    "vertexed_source": {
+      "state": "VERIFIED_WORKING",
+      "main": "bf46f9c4bdc9aa923ef6befd7a4d0e56baa9e7f3",
+      "verified_release_source": "d52308aed22ccc3dcefa7d4e3dd90aa731bc5f5a",
+      "ci_run": 31861346546,
+      "evidence": "Canonical build/release gate plus production-browser and local-accessibility jobs passed before merge."
+    },
+    "vertexed_production": {
+      "state": "BLOCKED",
+      "latest_monitor_run": 31893176288,
+      "latest_monitor_conclusion": "failure",
+      "latest_monitor_time_utc": "2026-08-15T15:36:08Z",
+      "incident": 137,
+      "reason": "Public smoke probes complete but production fails the immutable served-revision health contract; recurring monitor keeps the production incident open. Authenticated golden-journey certification is separately incomplete."
+    },
+    "vertexed_supabase": {
+      "state": "PARTIALLY_VERIFIED",
+      "project_id": "xwlrzgfuhfbckgvcmyoq",
+      "project_status": "ACTIVE_HEALTHY",
+      "postgres_version": "17.4.1.074",
+      "public_base_tables": 26,
+      "rls_enabled": 26,
+      "rls_disabled": 0,
+      "security_warnings": [
+        "auth_leaked_password_protection",
+        "vulnerable_postgres_version"
+      ],
+      "boundary": "RLS coverage does not prove every policy's business semantics or the complete authenticated production journey."
+    },
+    "financemeta_source": {
+      "state": "IMPLEMENTED_NOT_VERIFIED",
+      "repository": "build-the-future-11/finance4all-global-reach",
+      "branch": "cursor/membership-security-supabase-fix",
+      "branch_revision": "6dcc03710bb6adf9b4b722b308c40a0720bea61f",
+      "main_revision": "fbdd503223edc5b1780509720391083f485a4a85",
+      "ahead_by": 41,
+      "behind_by": 0,
+      "latest_branch_ci_run": 29641469740,
+      "latest_branch_ci_conclusion": "failure",
+      "latest_branch_ci_jobs": 0,
+      "diagnosis": "The checked-in CI workflow repeats VITE_SUPABASE_URL, VITE_SUPABASE_ANON_KEY and VITE_APP_URL keys in one YAML env mapping, consistent with a workflow configuration failure before jobs are created.",
+      "git_write_gate": "Creating an isolated repair branch returned 403 Resource not accessible by integration; the long-lived 41-commit branch was intentionally left untouched.",
+      "next_action": "Grant branch-creation/write integration, remove the duplicate env keys on an isolated branch, then run lint/typecheck/unit/build/release/E2E before any integration."
+    },
+    "financemeta_production": {
+      "state": "BLOCKED",
+      "reason": "FinanceMeta production Supabase is not visible to the connected Supabase account; live migrations/RLS, role denial, account isolation and authenticated journeys are uncertified."
+    },
+    "bu1ld_source": {
+      "state": "VERIFIED_WORKING",
+      "repository": "ryangomez010/bu1ld-landing",
+      "main": "daa80c1124b2a6d7d09b7669e04d29e50cffcbbe",
+      "ci_run": 29679123068,
+      "evidence": "Frozen install, dependency audit, typecheck, lint, tests, build and non-strict release check passed on the exact main SHA."
+    },
+    "bu1ld_production": {
+      "state": "BLOCKED",
+      "deploy_run": 29679123047,
+      "deploy_conclusion": "failure",
+      "reason": "Deploy verification failed at release:check before deployment; the deployment workflow relies on real Supabase repository secrets while ordinary CI uses placeholders. Production Supabase, strict schema/RLS verification, role journeys and Cloudflare deployment identity remain unverified.",
+      "boundary": "Do not call production healthy from source CI alone."
+    },
+    "lam_jepa": {
+      "state": "PARTIALLY_VERIFIED",
+      "main": "cf988f3275a25419995df60ade5931bc0270f9c0",
+      "reproducibility_ci": 31862065773,
+      "technical_reproducibility": "VERIFIED_INTERNAL",
+      "scientific_result": "VERIFIED_NEGATIVE_INTERNAL",
+      "external_validation": "NONE_RETURNED",
+      "next_action": "Preserve the negative result; finish owner-controlled release metadata and seek independent external validation rather than retuning to force a positive result."
+    },
+    "text_to_video": {
+      "state": "VERIFIED_WORKING",
+      "main": "5b9835a06f41f07f52029ee830b82565969c0965",
+      "ci_run": 31609979616,
+      "evidence": "Frozen workspace release gate passed; FFmpeg was installed and verified; a real MP4 smoke artifact and validated external render job were encoded; verified media was stored by content hash.",
+      "deployment": "NOT_APPLICABLE_LOCAL_ONLY_BOUNDARY"
+    },
+    "project_2424": {
+      "state": "PARTIALLY_VERIFIED",
+      "historical_registry_rows": 2424,
+      "historical_source_backed_packages": 24,
+      "historical_independent_reproductions": 0,
+      "historical_release_state": "RELEASE_REJECTED",
+      "reason": "Canonical later dirty overlay and explicit P2424-to-T2424 migration provenance remain blocked on local PRO-BLADE state.",
+      "identity_invariant": "T2424-0050 = Darcy Latent Operator",
+      "auto_merge_or_deploy": false
+    },
+    "iris_v0_2": {
+      "state": "BLOCKED",
+      "scientific_result": "MIXED_NEGATIVE_PRESERVED",
+      "reason": "Exact canonical development trajectories / deterministic-equivalence evidence remain missing; no frontier run is authorized from the currently verified boundary."
+    },
+    "darcy_t2424_0050_v2": {
+      "state": "BLOCKED",
+      "training_authorized": false,
+      "reason": "B3 FNO, B4 DeepONet, exact environment/hardware and covariance/OOD-D interpretation approvals remain unresolved."
+    },
+    "neurocad_typed_parser": {
+      "state": "FAILED",
+      "result": "VALIDATION_DOMINANT mechanism falsified",
+      "policy": "preserve result; no in-place rescue"
+    },
+    "ngmt_v0_1": {
+      "state": "FAILED",
+      "result": "frozen negative",
+      "policy": "no in-place rescue"
+    },
+    "eigen_jepa_primary": {
+      "state": "PARTIALLY_VERIFIED",
+      "result": "INCONCLUSIVE_MIXED_NEGATIVE",
+      "policy": "freeze primary evidence; new claims require a new protocol"
+    },
+    "npms_current": {
+      "state": "PARTIALLY_VERIFIED",
+      "result": "INCONCLUSIVE_PARAMETER_CONFOUNDED_NON_UNIQUE",
+      "policy": "continuation requires a new frozen successor protocol"
+    }
+  },
+  "current_highest_value_actions": [
+    "PERCY-STATE-001: certify the local Percy/PRO-BLADE control plane and only then enable Sandevistan on measured stable concurrency.",
+    "VERTEX-PROD-001: fix deployment identity/canonical Vercel path without weakening the production health assertion; then complete authenticated disposable-account certification.",
+    "FINANCEMETA-CI-001: restore GitHub isolated-branch write access, repair invalid CI YAML and obtain a real green branch run.",
+    "BU1LD-PROD-001: expose the production Supabase project and deployment secrets through supported secure integrations, run strict release/schema/RLS gates, then certify role journeys.",
+    "P2424-CANON-002: mount and inspect canonical PRO-BLADE state before any Project 2424 promotion or research maturity claim."
+  ],
+  "safety": {
+    "destructive_git_actions": 0,
+    "production_database_mutations": 0,
+    "deployments_triggered": 0,
+    "paid_actions": 0,
+    "research_results_retuned_to_positive": 0
+  }
+}
