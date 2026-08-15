@@ -1,52 +1,32 @@
 # SECURITY_STATUS
 
-**As of:** 2026-08-14 convergence run.  
-**Rule:** source controls, CI, database policy state, deployed behavior and end-to-end production certification are separate evidence classes.
+**As of:** 2026-08-15 final convergence controller  
+**Rule:** source controls, workflow validation, live database policy state, deployed identity and end-to-end behavior are separate evidence classes.
 
-## VertexED — PARTIAL / DATABASE CONTROLS VERIFIED, PRODUCTION CERTIFICATION OPEN
-Connected Supabase `xwlrzgfuhfbckgvcmyoq` is `ACTIVE_HEALTHY` on PostgreSQL `17.4.1.074`. Read-only inspection found all 26 observed public base tables RLS-enabled; sampled ownership policies bind to `auth.uid()`; observed public `SECURITY DEFINER` functions have explicit search paths and are not executable by PUBLIC/anon/authenticated; no public views were observed. Current advisor warnings remain leaked-password protection disabled and hosted PostgreSQL security patches available.
+## VertexED — PARTIAL
 
-VertexED is not production-certified until exact served revision is proven and the authenticated disposable-account journey verifies persistence, isolation, recovery/logout and admin boundaries.
+Connected Supabase `xwlrzgfuhfbckgvcmyoq`: retained read-only evidence observed 26 public base tables and all 26 RLS-enabled; advisor warnings remain leaked-password protection disabled and an available hosted PostgreSQL security update. No database mutation was performed.
 
-## FinanceMeta — SOURCE PARTIAL / EXACT-HEAD ACTIONS RED / PRODUCTION SECURITY BLOCKED
-Canonical source is directly readable at `build-the-future-11/finance4all-global-reach`. Retained hardening branch `cursor/membership-security-supabase-fix@6dcc03710bb6adf9b4b722b308c40a0720bea61f` is 41 ahead / 0 behind recovered main `fbdd503223edc5b1780509720391083f485a4a85`.
+The production identity source contract is **VERIFIED** on canonical `main@d52308aed22ccc3dcefa7d4e3dd90aa731bc5f5a`; canonical CI `31861346546` passed. Fresh production monitor `31861568506` still observed the live health endpoint as healthy with immutable revision missing and failed the final health gate. Artifact `9240733558`, SHA-256 `2c74c4c71bf2f1e03ebe2144ae9c499e13b53292d0a020c1003c1887c0ed18ef`. This means served behavior does not match the current fail-closed source path; evidence does not distinguish stale deployment from missing production identity environment.
 
-Source review confirms material security hardening:
+**Next gate:** recover actual Vercel production project/deployment/environment identity, prove the served artifact contains the fail-closed source and exact revision, then perform authenticated isolation/recovery/admin journey.
 
-- member E2E credentials are environment-only (`E2E_EMAIL` / `E2E_PASSWORD`);
-- profile self-service is narrowed through validated functions while role/email are outside the member-facing write surface;
-- direct notification insertion is removed from client policy space;
-- later migrations add ownership/moderation controls;
-- migration `018_security_definer_search_path.sql` applies explicit `search_path = public, pg_temp` to every public `SECURITY DEFINER` function in the sequence;
-- retained migration chain extends through `021_analytics_journey_events.sql`.
+## FinanceMeta — BLOCKED
 
-The exact hardening SHA is **not CI-green**: Actions run `29641469740` concluded failure and exposed zero jobs. The branch workflow contains duplicate Vite environment mappings in the Playwright step, which is a concrete workflow-definition defect candidate; the exact GitHub parser error is not exposed by this connector and is not invented. Vercel deployment `5501026657` for the same SHA succeeded only as `Preview`, explicitly not production.
+Retained branch `cursor/membership-security-supabase-fix@6dcc03710bb6adf9b4b722b308c40a0720bea61f` is 41 commits ahead / 0 behind recovered main and already contains substantive profile/RLS/ownership/`SECURITY DEFINER` hardening. Immediate P0 defect: workflow blob `5df3a10c74ede1445f9008e99852278488ceeb91` duplicates the same three Vite keys inside Playwright `env:`. Exact-head Actions `29641469740` exposes zero jobs. Isolated branch creation returned `403 Resource not accessible by integration`, so no mutation was made.
 
-Fresh PR and isolated-branch creation against FinanceMeta both return `403 Resource not accessible by integration`. Live FinanceMeta Supabase is not connected.
+**Next gate:** owner-writable branch from the existing exact head; remove only the second `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`, `VITE_APP_URL` triplet; validate workflow; rerun all source gates. Live production security remains separately BLOCKED.
 
-**Next gate:** owner-writable path fixes and validates CI definition on the retained exact head, exact-head jobs execute and pass, migration ordering/grants/role-escalation/admin boundaries are reviewed, then source merges only on evidence. Separately connect the production database/deployment and certify live migrations/RLS/revision/cross-user denial/recovery/admin behavior.
+## The Bu1LD — PARTIAL
 
-## The Bu1LD — SOURCE/CI VERIFIED / DATABASE + DEPLOYMENT SECURITY BLOCKED
-Canonical source `ryangomez010/bu1ld-landing@daa80c1124b2a6d7d09b7669e04d29e50cffcbbe` is recovered; exact-head CI run `29679123068` succeeded.
+Canonical source `ryangomez010/bu1ld-landing@daa80c1124b2a6d7d09b7669e04d29e50cffcbbe`; exact-head CI `29679123068` VERIFIED. Existing deploy workflow expects repository secret names `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`, `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`. No values were read or printed. Secret enumeration returned integration `403`, so presence is UNKNOWN. Historical Deploy Cloudflare `29679123047` failed before deploy; public-route artifact `9239560598` proves availability only.
 
-Current source contains substantive authorization controls through phase33:
+**Next gate:** owner verifies/provides the four expected secrets, reruns existing exact workflow without changing wiring, captures immutable deployment/source identity, then verifies live phase33/RLS/functions/grants/Auth and seven-role denial matrix.
 
-- non-admin profile role changes are blocked by `protect_profile_role()` while own-profile update retains ownership `USING` + `WITH CHECK`;
-- phase31 moves competition review, invitation acceptance, deliverable review and membership changes behind authenticated authorization functions and restricts direct writes;
-- phase32 prevents contributors from reviewing or being assigned to review their own submissions;
-- phase33 revokes direct application/answer inserts and uses atomic validated `submit_project_application`;
-- `VERIFY_SETUP.sql` expects key RLS/function/migration markers through phase33;
-- `scripts/apply-schema.mjs` applies current full setup plus phases 19–33;
-- `.env.example` uses placeholders and keeps database/service-role/email secrets server-side; `wrangler.jsonc` contains no Supabase/service-role secret values.
+## Percy / Project 2424 — BLOCKED
 
-This is source evidence, not live DB proof. The connected Supabase account exposes VertexED only.
-
-Exact-head Deploy Cloudflare run `29679123047` failed during verify before deployment because `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` were empty; deploy was skipped. No successful main `Deploy Cloudflare` run was recovered. Do not hardcode secrets or weaken `release:prod` to make the gate green.
-
-**Next gate:** owner configures public Supabase deployment values and Cloudflare credentials via platform secrets; connect/verify live Bu1LD phase33/RLS/functions/grants; configure Auth redirects/email/server secrets; rerun exact-head deployment to immutable identity; then seven-role denial/recovery/logout/cleanup testing.
-
-## Percy / Project 2424
-Percy live DB/WAL/process/worktree state remains external. Project 2424 now has a checksum-recovered historical Wave-001 base and a current source-identity invariant, but the later dirty overlay and cross-generation identity-migration provenance remain blocked. Recovery stays non-destructive; numeric suffix alone is not a canonical cross-generation identity key.
+Preserved `/Volumes/PRO-BLADE` paths are not mounted. Percy live DB/WAL/process/worktree security state and later Project 2424 dirty overlay remain UNKNOWN. Historical Wave-001 and current source identity remain separately preserved; no destructive recovery or suffix-only migration.
 
 ## Release rule
-A security gate advances only on direct evidence from the exact target revision/environment. Passing CI, source RLS migrations, database metadata, Preview deployment or a healthy endpoint is not by itself production certification.
+
+A security state advances only on direct evidence from the exact target revision/environment. Source code, CI, Preview, public HTTP availability, database metadata and production certification are not interchangeable.

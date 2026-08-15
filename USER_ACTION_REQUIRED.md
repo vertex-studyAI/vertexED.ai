@@ -1,19 +1,28 @@
 # USER_ACTION_REQUIRED
 
-**As of:** 2026-08-15 08:00 IST. Only owner/local/external actions remain here.
+**As of:** 2026-08-15 final convergence controller. Only owner/local/external actions remain.
 
-1. **Percy:** expose preserved `/Volumes/PRO-BLADE/Atlas/Percy`; snapshot/hash SQLite+WAL+checkpoint, integrity/schema, live counters, leases/heartbeats/stale workers and dirty worktrees. Never initialize replacement state.
-2. **Project 2424:** Wave-001 historical base is already recovered. Expose/hash the later `/Volumes/PRO-BLADE/Atlas/Project-2024/Project_2424` dirty overlay or byte-identical archive plus provenance/migration records explaining old `P2424-*` ↔ current `T2424-*` identities. Never remap by numeric suffix alone.
-3. **VertexED deployment:** identify/prove exact production deployment/revision using existing authorized capacity; make monitor PASS; then disposable-account authenticated journey + isolation/recovery/logout/admin cleanup.
+1. **Percy:** expose `/Volumes/PRO-BLADE/Atlas/Percy`. Snapshot/hash existing SQLite + WAL + SHM + latest checkpoint before integrity/schema and read-only process/task/worker/lease/heartbeat/stale/dirty-worktree inspection. Current live values are UNKNOWN. Never initialize replacement state.
+
+2. **Project 2424:** expose/hash later `/Volumes/PRO-BLADE/Atlas/Project-2024/Project_2424` dirty overlay or byte-identical archive plus provenance records linking historical `P2424-*` generations to current `T2424-*`. Wave-001 is already separately recovered. Never join by suffix alone.
+
+3. **VertexED production:** fail-closed source is VERIFIED on `main@d52308aed22ccc3dcefa7d4e3dd90aa731bc5f5a`, but monitor `31861568506` still observed the live endpoint as healthy with revision missing. Artifact `9240733558`, SHA-256 `2c74c4c71bf2f1e03ebe2144ae9c499e13b53292d0a020c1003c1887c0ed18ef`. Recover actual Vercel production project/deployment/environment identity, prove the served artifact contains current source and exact immutable revision, then run the disposable-account authenticated journey + cleanup. Do not buy capacity or weaken the identity gate.
+
 4. **VertexED platform security:** review/enable leaked-password protection and schedule available hosted PostgreSQL security update with maintenance/rollback planning.
-5. **LAM-JEPA:** approve author list/order, license/redistribution boundary, `CITATION.cff`, immutable release tag; send exact packet `218ea1bea686cdf8c281520b2b636897bc8b8dd2` to a genuinely independent validator. Outreach alone is not validation.
-6. **FinanceMeta CI/source review:** preserve existing `cursor/membership-security-supabase-fix@6dcc03710bb6adf9b4b722b308c40a0720bea61f` (41 ahead / 0 behind recovered main). Actions `29641469740` has zero jobs because `.github/workflows/ci.yml` duplicates `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`, `VITE_APP_URL` in E2E `env:`. On an owner-writable GitHub path remove only those duplicate keys, rerun exact-head CI until jobs execute/pass, then review/merge on evidence. Do not recreate 41 commits.
-7. **FinanceMeta production:** exact SHA has successful Vercel Preview `5501026657`, explicitly not production. Connect the real production Supabase/deploy target and verify intended migrations/RLS/env/revision, role-escalation denial, multi-account isolation, core journey, recovery/logout + cleanup.
-8. **The Bu1LD:** public production smoke is now directly verified: scheduled run `31857746101`, job `94945553076`, artifact `9239560598` (`sha256:6e1d265586f64f044b85150d7f1d6418557c422a56c231d0e5d09c1a951e4036`) records 8/8 HTTP 200 checks for landing/signup/login/projects/programs/evidence/privacy/terms on `https://thebu1ld.com`. Do **not** infer that historical failed Cloudflare run `29679123047` was repaired or that `daa80c1124b2a6d7d09b7669e04d29e50cffcbbe` is the served revision. Recover the current Cloudflare project/deployment identity and exact served revision, then connect the real Bu1LD Supabase/Auth and verify live phase33/RLS/functions/grants plus seven-role denials, recovery/logout and cleanup.
-9. **IRIS:** the metric-freeze specification is already recovered on canonical main at `portfolio/research/IRIS_SEQUENCE_ADAPTATION_METRIC_FREEZE_20260813.md` (blob `6f4d6a47e3727596b21714bc269cd8ba5844d2fa`). Do **not** search for a replacement metric definition. Instead expose/recover the exact canonical development trajectory artifact or a pre-existing authoritative deterministic-equivalence record, and the exact executable metric implementation needed to cross-hash against the recovered specification. No approximate trajectory regeneration; seeds `1000–1029` stay forbidden.
-10. **Darcy v2:** B2 is already merged. Before training, approve the periodic/circulant finite-grid covariance interpretation and current OOD-D global-offset choice, then close B3/B4/environment/hardware/budget/manifest gates. Approval alone does not authorize training.
-11. **NPMS successor only:** controlled source recovery is complete and current result is `PARAMETER_CONFOUNDED_OR_NON_UNIQUE`. Do not search for replacement source. If continuing, approve a new frozen natural/causal protocol before any run.
-12. **PEN only if strategically retained separately:** recover standalone executable MODEL-PEN source; never inherit APEN evidence.
 
-## No rescue action
-Do not manually promote/rescue LAM-JEPA, NGMT v0.1, IRIS successor, Eigen-JEPA primary result, NeuroCAD typed-parser mechanism or T2424-1863. Hercules/Olympus require no immediate compute.
+5. **FinanceMeta source:** preserve `cursor/membership-security-supabase-fix@6dcc03710bb6adf9b4b722b308c40a0720bea61f`. This integration cannot create the required isolated branch (`403`). On an owner-writable branch from that exact head remove **only** the second duplicate E2E mapping of `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`, `VITE_APP_URL`; do not change values or recreate/squash the 41 commits. Validate workflow/YAML and run audit, lint, typecheck, unit, build, release and Playwright before review/merge.
+
+6. **FinanceMeta production:** connect actual production Supabase/deployment after source review; prove intended migrations/RLS, exact served revision, role-escalation denial, multi-account isolation, saved-progress journey, recovery/logout/admin denial + cleanup. Preview is not production.
+
+7. **The Bu1LD:** verify/provide repository secrets already expected by the workflow—`VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`, `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`—without sharing values in chat or committing them. Secret presence cannot be listed here (`403`). Rerun the existing exact deployment workflow without rewiring it; retain workflow run, source SHA, deployment identity, served revision, public health and production DB/Auth identity. Then seven-role journey, cross-role denials, recovery/logout + cleanup.
+
+8. **LAM-JEPA:** review draft public packet PR #86 (`dbd9117370f74c43f667974bf6431dd7cd1a760f`); approve license/redistribution, author list/order, final citation metadata and immutable release tag/revision. Then send immutable packet to a genuinely independent validator. Invitation/internal rerun is not external validation.
+
+9. **Darcy v2:** before any training/outcome access, explicitly approve or require a new protocol version for periodic/circulant finite-grid covariance and OOD-D global offset `mu=0`; record exact hardware/runtime environment after B3 FNO and B4 DeepONet are frozen. Approval alone does not authorize training.
+
+## No owner rescue action
+
+- **IRIS:** requested source/metric deterministic-equivalence provenance is VERIFIED; seeds `1000–1029` stay forbidden; no frontier run.
+- **NPMS:** preserve `PARAMETER_CONFOUNDED_OR_NON_UNIQUE`; no rescue/source search.
+- **NGMT v0.1, Eigen-JEPA primary, NeuroCAD typed-parser mechanism, T2424-1863:** preserve frozen negative/mixed/falsified states.
+- **Hercules/Olympus:** no immediate compute; remain archived until a decisive matched protocol exists.
