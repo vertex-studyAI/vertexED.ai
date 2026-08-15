@@ -30,3 +30,9 @@ This recovery **does not** establish byte identity between every recovered execu
 ## Global science gate
 
 **Zero new major scientific outcome runs are authorized.** Implementation, CI, project count or internal agent review is not a scientific result or independent reproduction.
+
+## 2026-08-15 08:55 IST research delta
+
+- **IRIS remains BLOCKED:** the exact frozen metric specification is directly present at blob `6f4d6a47e3727596b21714bc269cd8ba5844d2fa`. Repository code search finds the specification and retained result evidence but does not surface a standalone executable metric implementation that closes byte/deterministic-equivalence provenance. Exact canonical development trajectory identity also remains open. Seeds `1000–1029` were not accessed and no frontier result run occurred.
+- **LAM-JEPA remains VERIFIED NEGATIVE:** current main is `bf8311e1a4d240e2891e51af38eaf7754944e300`; immutable external packet remains pending external execution. PR `#87` at `99e6082debc8b534d2f40ddbaca383522f4f11f1` adds only owner-approved metadata placeholders and citation handoff; it does not change any scientific outcome or claim external validation.
+- **Darcy v2 remains PARTIAL PRE-OUTCOME:** `v2-freeze-config.json` already freezes split SHA-256 `4211d11da7d40f0991bd963c04fb118f34d9fe923e7664da301122b29b0bef85`, training seeds `{41,73,109}`, parameter ceiling `500000`, maximum wall time `1800s/seed`, and `paid_resources_allowed=false`. B3 FNO and B4 DeepONet remain `BLOCKED_IMPLEMENTATION`; learned environment, hardware identity, periodic/circulant covariance interpretation approval and OOD-D global-offset interpretation approval remain null. No training or outcome inspection occurred.
