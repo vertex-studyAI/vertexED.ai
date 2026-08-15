@@ -1,32 +1,25 @@
 # RESEARCH_STATUS
 
-**As of:** 2026-08-15 04:00 IST convergence checkpoint  
-**Rule:** negative/mixed evidence may be VERIFIED; this never means superiority, publication or external validation.
+**As of:** 2026-08-15 08:54 IST  
+**Rule:** negative, mixed and falsified outcomes remain preserved. No new major scientific outcome run is authorized.
 
-| Line | State | Next gate |
+| Line | State | Evidence / next gate |
 |---|---|---|
-| LAM-JEPA | **VERIFIED reproducible NEGATIVE** | owner release metadata + genuine independent reproduction/review; no rescue |
-| IRIS v0.2 | **VERIFIED mixed/negative; metric freeze recovered / frontier BLOCKED** | canonical metric specification is directly recovered at `portfolio/research/IRIS_SEQUENCE_ADAPTATION_METRIC_FREEZE_20260813.md`, blob `6f4d6a47e3727596b21714bc269cd8ba5844d2fa`. Recover exact canonical development trajectories or a pre-existing authoritative deterministic-equivalence record, then cross-hash the executable metric implementation against this specification. Seeds `1000–1029` forbidden; no approximate regeneration |
-| NeuroCAD | **historical VERIFIED / typed-parser mechanism FALSIFIED** | preserve; fresh broader benchmark for any new scientific claim |
-| Darcy T2424-0050 | **v2 FROZEN / PARTIAL PRE-OUTCOME / NOT RUN** | B2 PCA+ridge merged `86170b1a6bb8fbc1484f99fd680876c271fb5474`; safety `daf548fa9b3953c3d7e188191588a84a04c98093`; training remains unauthorized. Close two interpretation approvals, B3 FNO, B4 DeepONet, environment/hardware/budgets and final manifests before training/ID/OOD outcome access |
-| NGMT v0.1 | **VERIFIED NEGATIVE / FROZEN** | successor = new version/protocol only |
-| APEN | **VERIFIED controlled mixed** | new frozen stronger-control protocol |
-| Eigen-JEPA | **VERIFIED mixed/negative / FROZEN primary** | new frozen hierarchy only; no metric shopping |
-| NPMS | **VERIFIED controlled source / PARAMETER-CONFOUNDED OR NON-UNIQUE** | controlled Atlas source SHA `076f12750d6a8e6c298c17815224a79463bcad149d6cf1283900d98c6e394a2c`; clean replay; NPMS `92.86%` vs invariant-parameter `89.29%`, gap `3.57` pp < frozen 5-pp non-uniqueness threshold. Source recovery closes; freeze a new natural/causal protocol with invariant-parameter + state-space/spectral controls before any run |
-| T2424-1863 | **VERIFIED NEGATIVE / archived active compute** | new real-PDE protocol only |
-| Hercules / Olympus | **YELLOW / archived active compute** | decisive matched protocol before significant training |
+| LAM-JEPA | **VERIFIED** | Frozen ARC result is reproducibly negative. Immutable reproduction checkout remains `725ae2fb17de9c988938d4b03bd8a6be456b8e8b`; external validation has not occurred. Owner metadata remains separate. |
+| IRIS v0.2 | **BLOCKED** | Mixed/negative result preserved. Frozen metric spec blob `6f4d6a47e3727596b21714bc269cd8ba5844d2fa`. Recovered source archive SHA-256 `5d689ade164d80216d0ab6d4376b8acf53b8e0ba13d4bd5e909a94f00ec86b56`; common-harness archive `5643b59e9272099e54f04491aa63906d0d186a1a2c525a574f960008e5f19b90`; `run.py` `b9e35eb2ed1fc945e99ce76f935f36a816eb3d61b99b109bd092e99a731a6de3`; `verify.py` `74a149dfa647d145e788559d043e282bcd76768353272b0b4366ef897da91113`; `protocol.json` `0cdf22c97ddb9459182175e7c17bf51906088f5d3a7ec10131edfa650d2edbdd`. The archived protocol names the frozen spec/source lineage, and executable semantics match TWMSE25 W=25, five-sample recovery within 0.10*D, POST_MSE50PLUS from t0+50 and false-open definition. Executable metric provenance is recovered; exact canonical development trajectories or pre-existing authoritative deterministic-equivalence evidence remain missing. Seeds `1000–1029` forbidden; no frontier run. |
+| NeuroCAD typed-parser mechanism | **FAILED** | Retained component diagnostic falsifies the typed-parser causal interpretation; preserve `VALIDATION_DOMINANT`. Any new scientific claim requires a fresh broader benchmark. |
+| NGMT v0.1 | **FAILED** | Frozen negative result. Any successor must be a new version/protocol. |
+| Eigen-JEPA primary | **INCONCLUSIVE** | Frozen mixed/negative primary evidence; no metric shopping or in-place rescue. |
+| NPMS current result | **INCONCLUSIVE** | Controlled replay is parameter-confounded/non-unique; preserve current result. Any continuation requires a new frozen natural/causal successor protocol. |
+| APEN | **INCONCLUSIVE** | Controlled mixed evidence; stronger controls require a new frozen protocol. |
+| T2424-1863 | **FAILED** | Frozen negative synthetic result; no rescue. |
+| Darcy T2424-0050 v2 | **BLOCKED** | Pre-outcome only. `training_authorized=false`; split manifest SHA-256 `4211d11da7d40f0991bd963c04fb118f34d9fe923e7664da301122b29b0bef85`; B2 unit-verified. B3 FNO/B4 DeepONet, exact environment/hardware and covariance/OOD-D interpretation approvals remain unresolved. No training, ID-test or OOD outcome access. |
+| Hercules / Olympus active compute | **ARCHIVED** | No significant compute before a decisive matched protocol is frozen. |
 
-## IRIS recovered metric boundary
+## IRIS metric provenance closure
 
-The standalone sequence-adaptation metric freeze is no longer a missing-file blocker. Current canonical evidence fixes:
-
-- `TWMSE25`: transition-window normalized MSE with `W=25`;
-- recovery: first five consecutive post-change samples within `0.10*D` of the new target;
-- `POST_MSE50PLUS`: persistent post-change MSE beginning at `t0+50`;
-- false-open rate: implementation-defined but frozen by the protocol lineage.
-
-This recovery **does not** establish byte identity between every recovered executable harness and the specification, and it does not recover the exact canonical development trajectory arrays. The frontier therefore remains `PROTOCOL_BLOCKED` and confirmatory seeds remain quarantined.
+The prior metric-source blocker is closed at the provenance level without running an outcome. The recovered executable is not claimed byte-identical to the Markdown specification; instead its own archived protocol links to the frozen specification/source lineage, its bytes are hashed, and its implementation matches the frozen metric definitions. The only remaining frontier-source gate is canonical development-trajectory identity or authoritative deterministic equivalence.
 
 ## Global science gate
 
-**Zero new major scientific outcome runs are authorized.** Implementation, CI, project count or internal agent review is not a scientific result or independent reproduction.
+No frozen negative/mixed/falsified result may be retuned in place. New hypotheses require new versioned protocols, baselines, controls, seeds, metrics, compute budget, success criterion and falsifier.

@@ -1,70 +1,34 @@
-# NEXT TASK QUEUE
+# NEXT_TASK_QUEUE
 
-**Rescored:** 2026-08-15 08:00 IST.  
-**Rule:** information gain × closure probability × evidence value ÷ cost. Dependencies are hard. **Zero new major scientific experiment runs are authorized.**
+**Rescored:** 2026-08-15 08:54 IST  
+**Rule:** information gain × closure probability × evidence value ÷ cost. Dependencies are hard. Zero new major scientific outcome runs are authorized.
 
-## 1 — PERCY-STATE-001 — P0 / BLOCKED_EXTERNAL_MAC
-Remeasure current internal free space, then preserve/hash SQLite+WAL+checkpoint; integrity/schema; independent counters; leases/heartbeats/stale workers; dirty worktrees. Never reset or initialize replacement state.
+## 1 — PERCY-STATE-001 — P0 — UNKNOWN
+Recover the preserved `/Volumes/PRO-BLADE/Atlas/Percy` state on the Mac only. Snapshot/hash SQLite+WAL+SHM+latest durable checkpoint before touching anything; run integrity/schema; query directly available task/queue/worker/lease/heartbeat counts; inspect processes, stale workers and dirty worktrees. Never initialize replacement state or migrate merely to make it work.
 
-## 2 — P2424-CANON-002 — P0 / HISTORICAL BASE + CURRENT IDENTITY GUARD VERIFIED; LATER OVERLAY/MIGRATION BLOCKED
-Historical Wave-001 is checksum-recovered: bundle SHA-256 `4c685af70d84052c026602ff7336a522c741d91fb480038e980c21f0bbc63ece`, head `ff609f335f91297357b430a2531633fe111cd5a9`, 2,424 registry rows but only **24 source-backed packages**, 0 independent reproductions, release rejected, fresh clean-clone quality gate passed. Current repository source identity is guarded by `portfolio/project2424/SOURCE_IDENTITY_MANIFEST.json` + CI for 23 represented T2424 directories against the frozen First-100 queue.
+## 2 — P2424-CANON-002 — P0 — BLOCKED
+Historical Wave-001 is already recovered and must stay separate. Expose/hash the later dirty `/Volumes/PRO-BLADE/Atlas/Project-2024/Project_2424` overlay or a byte-identical archive plus explicit provenance/migration records connecting historical `P2424-*` identities to current `T2424-*` identities. Never join by numeric suffix alone.
 
-**Next gate:** recover/hash the later dirty Mac overlay and cross-generation identity-migration provenance, then build a collision-aware child map. Historical `P2424-*` and current `T2424-*` assignments demonstrably collide; never join by numeric suffix or add historical counts.
+## 3 — VERTEX-PROD-001 — P0 — BLOCKED
+Source fix is VERIFIED at `d52308aed22ccc3dcefa7d4e3dd90aa731bc5f5a`; CI `31861346546` succeeded. The last direct main-production monitor remains `31860931665`, artifact `9240538693`, SHA-256 `205b0d17ba3c1899addd558f2c0615ab32148af43a5f8fb6a55a510f4eb66394`, with served revision missing. Obtain exact Vercel deployment/project identity using existing authorized capacity, deploy/identify the exact revision, rerun the main monitor, then execute disposable-account auth/onboarding/core persistence/isolation/recovery/logout/admin cleanup. Do not treat PR monitor `31861346551` as production identity proof.
 
-## 3 — VERTEX-PROD-001 — P0 PRODUCT / BLOCKED_EXTERNAL_DEPLOYMENT_IDENTITY
-Latest recovered scheduled monitor `31857629185` on control `main@425375f10e0880a8882d3298edab4c90734af8a5` failed after public smoke passed because `/api/health` remained healthy while omitting immutable revision identity, so it could not match expected deploy revision `e2ecd19ed9816f8f36369c7dc0f38e39942ca73a`. Artifact `9239532686`, SHA-256 `de8798d79307a61630f8f099ff8d96414dd8a214a1827ea6a463de600679a215`.
+## 4 — FINANCEMETA-CI-001 — P0 — BLOCKED
+Preserve `cursor/membership-security-supabase-fix@6dcc03710bb6adf9b4b722b308c40a0720bea61f` (41 ahead / 0 behind). In workflow blob `5df3a10c74ede1445f9008e99852278488ceeb91`, remove only the second duplicated `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`, `VITE_APP_URL` trio from `test:e2e`. The corrected mapping already parses locally. This integration cannot write the repo (403), so use an owner-writable path; then run exact-head audit, lint, typecheck, unit, build, release and Playwright gates before review/merge.
 
-Connected Supabase evidence remains partial rather than production certification: project `xwlrzgfuhfbckgvcmyoq` is `ACTIVE_HEALTHY`, PostgreSQL `17.4.1.074`, all 26 observed public base tables are RLS-enabled, and the current security advisor still has exactly two WARN findings—leaked-password protection disabled and hosted PostgreSQL security patches available.
+## 5 — BU1LD-PROD-001 — P0 — BLOCKED
+Do not rewrite the working deployment workflow. Configure the four exact observed workflow names—`VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`, `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`—without printing values. Rerun the existing exact deployment workflow at `daa80c1124b2a6d7d09b7669e04d29e50cffcbbe`; capture workflow run, source SHA, Cloudflare deployment identity, served revision and production DB/Auth identity. Then run the seven-role journey and cross-role denials.
 
-**Next gate:** existing authorized capacity only. Prove exact served revision/deployment ID and monitor PASS, then disposable-account auth/onboarding/persistence/isolation/recovery/logout/admin cleanup. Owner may separately remediate the two platform warnings; do not spend for capacity, weaken the revision gate, or infer production GREEN from source/Vercel/database metadata.
+## 6 — IRIS-FRONTIER-SOURCE-001 — P1 — BLOCKED
+Executable metric provenance is VERIFIED: source archive `5d689ade...`, common harness `5643b59e...`, `run.py` `b9e35eb2...`, frozen spec blob `6f4d6a47...`; semantics match the frozen metric definitions. Recover the exact canonical development-trajectory artifact or pre-existing authoritative deterministic-equivalence evidence. Seeds `1000–1029` remain forbidden. No frontier result run.
 
-## 4 — FINANCEMETA-REVIEW-001 — P0 PRODUCT / SOURCE RECOVERED, EXACT-HEAD ACTIONS RED, WRITE BLOCKED
-`build-the-future-11/finance4all-global-reach`; existing `cursor/membership-security-supabase-fix@6dcc03710bb6adf9b4b722b308c40a0720bea61f` is 41 ahead / 0 behind recovered `main@fbdd503223edc5b1780509720391083f485a4a85`. Source hardening is substantive, but exact-head Actions run `29641469740` concluded **failure** with zero jobs exposed. The workflow has duplicate Vite env mappings that require owner-writable CI-definition repair/verification; exact parser text is unavailable. Vercel `5501026657` is successful **Preview only**. Fresh PR/branch writes via this integration return 403.
+## 7 — LAM-RELEASE-001 — P1 — PARTIAL
+PR `vertex-studyAI/LAM-JEPA#88` makes owner metadata blockers explicit without changing science. Owner approves license/redistribution, author list/order, `CITATION.cff` and release revision; then send the immutable packet to a genuinely independent validator. External validation remains absent until returned evidence exists.
 
-**Next gate:** preserve the existing branch through an owner-writable path, fix/validate CI definition, make exact-head audit/lint/typecheck/unit/build/release/Playwright jobs execute and pass, then review/merge on evidence. Do not recreate the branch.
+## 8 — DARCY-V2-PREFLIGHT-001 — P1 — BLOCKED
+Keep `training_authorized=false`. Close only B3 FNO, B4 DeepONet, exact learned dependency/environment lock, hardware identity, covariance interpretation approval and OOD-D global-offset interpretation approval under the already-frozen parameter/compute budget. Do not train or inspect ID/OOD outcomes.
 
-## 5 — FINANCEMETA-PROD-002 — P0 PRODUCT / BLOCKED_EXTERNAL_LIVE_STATE
-After source review, connect the real target and verify applied intended migrations/RLS, authorized env, exact served revision, role escalation denial, multi-account isolation, saved-progress journey, recovery/logout/admin and cleanup. Preview is not production proof.
+## 9 — FINANCEMETA-PROD-001 — P1 — BLOCKED
+After exact-head source/CI closure, connect the real production target and verify applied migrations/RLS, exact served revision, role-escalation denial, multi-account isolation, core journey, recovery/logout/admin and cleanup.
 
-## 6 — BU1LD-PROD-001 — P0 PRODUCT / PUBLIC ROUTES VERIFIED; EXACT IDENTITY + DATABASE/AUTH BLOCKED
-Canonical source remains `ryangomez010/bu1ld-landing@daa80c1124b2a6d7d09b7669e04d29e50cffcbbe`; exact-head CI `29679123068` succeeded; source apply/verify reaches phase33. Historical Deploy Cloudflare run `29679123047` failed before deployment because `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` were empty and the deploy job skipped.
-
-Fresh direct public evidence narrows that old blocker: scheduled `Bu1LD Production Health` run `31857746101` on control `main@425375f10e0880a8882d3298edab4c90734af8a5` completed **success**. Job `94945553076` passed smoke-contract syntax and public-route availability. Artifact `9239560598`, SHA-256 `6e1d265586f64f044b85150d7f1d6418557c422a56c231d0e5d09c1a951e4036`, records 8/8 HTTP 200 checks at `https://thebu1ld.com` for `/`, `/signup`, `/login`, `/projects`, `/programs-public`, `/evidence`, `/privacy`, `/terms`.
-
-This is **not** proof that the historical failed workflow was repaired, that `daa80c...` is the served revision, or that live phase33/Auth/role boundaries are correct.
-
-**Next gate:** recover current Cloudflare project/deployment identity + exact served revision, connect real Bu1LD Supabase/Auth, verify live phase33/RLS/functions/grants and Auth/domain/email/server-secret config, then seven-role journey with cross-role denials, recovery/logout and cleanup. No feature expansion before these gates.
-
-## 7 — LAM-RELEASE-METADATA-003 — P0 / BLOCKED_OWNER
-Owner-approved license/redistribution, author list/order, `CITATION.cff`, immutable release revision/tag. Do not infer owner-controlled fields.
-
-## 8 — EXTVAL-LAM-001 — P1 / READY_EXTERNAL_PACKET
-Send immutable packet `218ea1bea686cdf8c281520b2b636897bc8b8dd2` to a genuinely independent validator for reproduction + skeptical review. External validation remains pending until returned evidence exists.
-
-## 9 — IRIS-FRONTIER-SOURCE-001 — P1 / METRIC FREEZE RECOVERED, TRAJECTORY/EQUIVALENCE PROVENANCE BLOCKED
-Recovery `d92e06deaa893bfb8273f3f781105ecb155e8aca` closed substantial retained package/source lineage. Authoritative-candidate bundle checksum `IRIS_v0.2_bundle.zip` remains `41a8e117b6922c3a6641bd12608d5e4246d305a9c3776a62252869045d83dacf`. Current main directly contains the metric freeze at `portfolio/research/IRIS_SEQUENCE_ADAPTATION_METRIC_FREEZE_20260813.md`, blob `6f4d6a47e3727596b21714bc269cd8ba5844d2fa`: `TWMSE25` uses `W=25`; recovery requires the first five consecutive samples within `0.10*D`; `POST_MSE50PLUS` begins at `t0+50`.
-
-Exact canonical development trajectory arrays remain unrecovered, and byte/equivalence provenance between the executable metric code and the frozen specification remains open. Confirmatory seeds `1000–1029` remain forbidden and no frontier run is authorized.
-
-**Next gate:** recover/materialize the authoritative trajectory artifact or a pre-existing authoritative deterministic-equivalence record, then cross-hash executable metric implementation against the recovered specification. Until those edges close, retain `PROTOCOL_BLOCKED`.
-
-## 10 — DARCY-V2-MATERIALIZE-003 — P1 / B2 + SPLIT FROZEN, REMAINING PRE-OUTCOME BLOCKERS
-Training remains unauthorized. B2 PCA+ridge is `IMPLEMENTED_PREOUTCOME_UNIT_VERIFIED`, blob `6e10c6fbecf0cf5ce78ed2b5c61e3fa97da47541`, workflow `31822727505`; split-manifest SHA-256 `4211d11da7d40f0991bd963c04fb118f34d9fe923e7664da301122b29b0bef85` is frozen.
-
-Remaining: approve periodic/circulant finite-grid covariance interpretation and current OOD-D global-offset choice; freeze B3 FNO and B4 DeepONet implementations/eligibility; exact environment/dependencies; hardware identity; fixed parameter/compute budgets. Frozen OOD-C seed `320007` accidental metric computation is **invalid non-evidence**. No learned training or ID/OOD evaluation until every blocker is immutable and independently checked.
-
-## 11 — NPMS-SUCCESSOR-FREEZE-002 — P2 / SOURCE RECOVERED, RESULT REPRODUCED, MECHANISM NON-UNIQUE
-`NPMS-SOURCE-001` is closed for the controlled Atlas source. Recovered archive SHA-256 `076f12750d6a8e6c298c17815224a79463bcad149d6cf1283900d98c6e394a2c`; clean replay reproduced the controlled result. Regime accuracy `0.9285714285714286`; frozen invariant-parameter control `0.8928571428571429`; NPMS advantage **3.57pp**, inside the predeclared 5pp non-uniqueness band. Verdict: `PARAMETER_CONFOUNDED_OR_NON_UNIQUE`.
-
-No natural/OOD run is authorized. A successor requires a **new frozen protocol** testing incremental behavioral/intervention value beyond coordinate-invariant parameter summaries and strong state-space/spectral controls.
-
-## 12 — JEPA-TS-FREEZE-001 — P2 / DORMANT
-No run authorized; only a separately frozen cheap synthetic falsification gate may reactivate this programme after higher-value gates close.
-
-## 13 — PORTFOLIO-RESCORE-003 — P1 / WAITING_DECISIVE_EVIDENCE
-Re-score only after material new evidence. Current Tier S count remains 3; do not promote work to fill a quota.
-
-## Closed or materially narrowed this wave
-Project 2424 historical Wave-001 recovery; current T2424 source identity invariant; NPMS controlled-source recovery + adverse-control verdict; Darcy B2/split freeze; IRIS metric-freeze source identity plus partial source recovery; Bu1LD source/CI recovery plus 8/8 public-route availability verification; FinanceMeta hardening source recovery; LAM internal verification/external packet packaging; NeuroCAD mechanism falsification; stale release-facing PR #395 closed unmerged after its two useful evidence views were replayed onto fresh main.
-
-None of those closures imply publication, external validation, trained Darcy v2 capability, immutable Bu1LD deployment identity, authenticated production behavior, real-user validation or portfolio-wide completion.
+## 10 — PORTFOLIO-RESCORE-001 — P1 — BLOCKED
+Re-score only after a material evidence delta from the gates above. Do not create replacement projects or promote work to fill a quota.
