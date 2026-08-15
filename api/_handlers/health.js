@@ -59,9 +59,16 @@ export default async function handler(req, res) {
   const readinessRequested = isReadinessRequest(req);
   const readiness = readinessRequested ? getReadinessSnapshot() : null;
   const revision = getDeploymentRevision();
-  const statusCode = readiness && !readiness.ready ? 503 : 200;
+  const identityMissing = isProduction() && !revision;
+  const statusCode = identityMissing || (readiness && !readiness.ready) ? 503 : 200;
 
-  res.setHeader('X-VertexED-Health', readinessRequested ? (readiness.ready ? 'ready' : 'degraded') : 'alive');
+  const healthState = identityMissing
+    ? 'unverifiable'
+    : readinessRequested
+      ? (readiness.ready ? 'ready' : 'degraded')
+      : 'alive';
+
+  res.setHeader('X-VertexED-Health', healthState);
   if (revision) res.setHeader('X-VertexED-Revision', revision);
 
   if (req.method === 'HEAD') {
@@ -69,14 +76,15 @@ export default async function handler(req, res) {
   }
 
   const payload = {
-    ok: readiness ? readiness.ready : true,
+    ok: identityMissing ? false : (readiness ? readiness.ready : true),
     service: 'vertexed',
     apiVersion: API_VERSION,
-    status: readiness ? (readiness.ready ? 'ready' : 'degraded') : 'alive',
+    status: healthState,
     timestamp: new Date().toISOString(),
   };
 
   if (revision) payload.revision = revision;
+  if (identityMissing) payload.identity = 'missing';
 
   if (readiness) {
     payload.checks = readiness.checks;
