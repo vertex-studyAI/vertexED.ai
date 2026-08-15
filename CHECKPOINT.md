@@ -24,7 +24,7 @@ Only directly verified material deltas are recorded. State values are restricted
 | The Bu1LD source/public routes | **PARTIAL** | canonical source/CI and prior 8/8 public-route smoke remain evidence-backed. Existing deployment workflow requires Actions secret names `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`, `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`; integration cannot list secret metadata (403), so presence remains UNKNOWN. |
 | The Bu1LD deployment/DB/Auth | **BLOCKED** | exact served Cloudflare revision, live phase33/RLS/functions/grants, Auth and seven-role behavior remain unverified. |
 | IRIS frontier | **BLOCKED** | metric specification blob `6f4d6a47e3727596b21714bc269cd8ba5844d2fa` is VERIFIED; exact canonical trajectories and executable metric equivalence/cross-hash provenance remain open. Seeds `1000–1029` untouched; no frontier run. |
-| LAM-JEPA | **PARTIAL** | scientific result remains VERIFIED negative; immutable packet `218ea1bea686cdf8c281520b2b636897bc8b8dd2` not externally executed. PR #87 / `99e6082debc8b534d2f40ddbaca383522f4f11f1` adds owner-only release metadata/citation placeholders. |
+| LAM-JEPA release | **PARTIAL** | scientific result remains VERIFIED negative; owner metadata handoff is merged on `LAM-JEPA/main` as `55d716e8fcfdcd3e4c50af9bac0478b09994cedd`; placeholder owner fields remain unresolved. Immutable external packet `218ea1bea686cdf8c281520b2b636897bc8b8dd2` has not been executed by an independent party. |
 | Darcy T2424-0050 v2 | **PARTIAL** | `training_authorized=false`; split SHA-256 `4211d11da7d40f0991bd963c04fb118f34d9fe923e7664da301122b29b0bef85`, seeds/budget and B2 remain frozen. B3/B4, learned environment/hardware and two generator-interpretation approvals remain open; no outcome run. |
 | Frozen negative/mixed lines | **VERIFIED** | LAM negative, NGMT v0.1 negative, Eigen-JEPA primary mixed/negative, NeuroCAD typed-parser falsification, T2424-1863 negative and current NPMS adverse result were not retuned or rescued. |
 
@@ -50,7 +50,7 @@ Only directly verified material deltas are recorded. State values are restricted
 4. FinanceMeta owner-side minimal duplicate-key repair on the preserved 41-commit head and exact-head full CI gates.
 5. Bu1LD owner verification of exact secret-name presence, exact existing deploy workflow rerun, immutable served revision, then production DB/Auth/seven-role evidence.
 6. IRIS canonical trajectory + executable metric cross-hash only; no result run.
-7. LAM owner metadata + genuinely independent external packet execution.
+7. LAM owner completion of merged metadata placeholders + genuinely independent external packet execution.
 8. Darcy B3/B4/environment/hardware/interpretation closure only; no training/outcome inspection.
 
 Missing host/source/runtime facts remain UNKNOWN or BLOCKED; they are never inferred green.
