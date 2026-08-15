@@ -23,7 +23,7 @@
 - **NPMS:** regime headline reproduces, but invariant-parameter control is only `3.57pp` behind, inside the frozen `5pp` non-uniqueness band. No unique-mechanism or natural/OOD claim.
 - **Darcy:** B2 and split manifest are pre-outcome frozen; training remains unauthorized until B3/B4, environment, hardware, fixed budgets and two generator-interpretation approvals close. Seed `320007` accidental metric is invalid non-evidence.
 - **Project 2424:** historical Wave-001 proves 2,424 registry rows but only **24 source-backed packages**, 0 independent reproductions and historical release rejection. Current identity CI covers 23 represented T2424 directories. Numeric suffixes collide across generations.
-- **VertexED:** monitor `31847625553` on control `cf8540437640702c1204bb747814755a952b8591` again found `/api/health` healthy but revision missing; artifact `9236446930`, SHA-256 `3b08ea6ec1c850b49fa6ac2e5b3af2208c639f4b56fb9269decf61197f4eac6b`. Public smoke passed; production identity did not.
+- **VertexED:** monitor `31847625553` on control `cf8540437640702c1204bb747814755a952b8591` again found `/api/health` healthy but revision missing; artifact `9236446930`, SHA-256 `3b08ea6ec1c850b49fa6ac2e5b3af2208c639f4b56fb9269dec61197f4eac6b`. Public smoke passed; production identity did not.
 - **FinanceMeta:** exact-SHA Vercel Preview is not production; exact-head Actions run `29641469740` is red.
 - **The Bu1LD:** source/CI is green through phase33, but Cloudflare run `29679123047` failed before deploy; live DB/Auth remains unverified.
 
@@ -41,3 +41,10 @@
 10. external-validation state labeled precisely (`NONE`, `REVIEWED`, `INDEPENDENTLY_REPRODUCED`).
 
 Completing these internally does not itself create publication, deployment, adoption or external validation.
+
+## 2026-08-15 08:55 IST release delta
+
+- **LAM-JEPA:** strongest truthful packet remains the immutable external-validation packet plus `RELEASE_PROVENANCE.md`; release-metadata PR `#87` (`99e6082debc8b534d2f40ddbaca383522f4f11f1`) now supplies explicit owner-only placeholders for license, author list/order, release metadata and future `CITATION.cff` fields. Scientific result remains negative and external validation remains **PENDING**.
+- **VertexED:** source hardening is **PASS** at merge `d52308aed22ccc3dcefa7d4e3dd90aa731bc5f5a`, but both resulting Vercel deployments failed. Public release/production readiness remains **BLOCKED**, and the authenticated production journey has not been certified.
+- **FinanceMeta:** no release upgrade. Minimal duplicate-key repair is validated structurally outside the target repository, but write access and exact-head Actions rerun remain blocked.
+- **The Bu1LD:** no release upgrade. Exact workflow secret names are known; secret presence, immutable Cloudflare deployment identity, production DB/Auth and seven-role behavior remain unverified.
