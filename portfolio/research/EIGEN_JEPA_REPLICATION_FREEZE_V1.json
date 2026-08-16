@@ -1,0 +1,46 @@
+{
+  "protocol_id": "EIGEN-JEPA-MULTIDATASET-V1",
+  "protocol_state": "PREOUTCOME_FREEZE",
+  "evaluation_authorized": false,
+  "base_lineage": {
+    "recovered_archive_sha256": "500e4c6b3e6f1be16ef78c9b55e62f647efefd92e8a27eeadef1190a50352b48",
+    "current_verdict": "REPRODUCED_REAL_DATA_MIXED_NEGATIVE"
+  },
+  "question": "Across separately frozen chronological covariance-forecasting datasets, does Eigen-JEPA beat the strongest direct covariance baseline on one preregistered primary metric without material regression on the full mandatory secondary panel?",
+  "source": {
+    "implementation_sha256": null,
+    "environment_lock_sha256": null,
+    "hardware_identity": null
+  },
+  "datasets": {
+    "dataset_manifest_sha256": null,
+    "minimum_distinct_real_datasets": 2,
+    "at_least_one_additional_dataset_beyond_fama_french": true,
+    "chronological_split_manifest_sha256": null,
+    "no_random_temporal_leakage": true
+  },
+  "methods": {
+    "candidate": "EIGEN_JEPA_SPECTRAL_PLUS_FROZEN_FORECAST_HEAD",
+    "mandatory_baselines": ["PERSISTENCE", "RAW_MATRIX_RIDGE", "LOG_MATRIX_RIDGE", "CHOLESKY_RIDGE"],
+    "preprocessing_rule": null,
+    "shrinkage_rule": null,
+    "block_length": null,
+    "context_length": null,
+    "regularization_selection_rule": null,
+    "parameter_budget_rule": null
+  },
+  "evaluation": {
+    "primary_metric": null,
+    "mandatory_secondary_metrics": ["MATRIX_MSE", "LOG_DISTANCE", "EIGENVALUE_MSE", "SUBSPACE_DISTANCE"],
+    "strongest_direct_baseline_selection_rule": null,
+    "material_primary_improvement_threshold": null,
+    "secondary_regression_guardrail": null,
+    "paired_uncertainty_method": null,
+    "stochastic_seed_rule": null,
+    "deterministic_baseline_seed_replication_forbidden": true,
+    "compute_cap": null,
+    "raw_output_retention": null,
+    "evaluation_script_sha256": null
+  },
+  "falsifier": "Archive the superiority hypothesis if Eigen-JEPA does not beat the strongest frozen direct baseline on the preregistered primary metric, requires post-hoc metric switching, or materially regresses on a mandatory secondary metric under the frozen guardrail."
+}
