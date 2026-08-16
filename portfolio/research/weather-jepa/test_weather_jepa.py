@@ -44,6 +44,17 @@ class WeatherJEPASmokeTests(unittest.TestCase):
         self.assertTrue(math.isfinite(metrics["rmse"]))
         self.assertTrue(math.isfinite(metrics["mae"]))
 
+    def test_reiterable_batches_execute_every_requested_epoch(self) -> None:
+        batches = [(self.context, self.target)]
+        losses = self.model.fit(batches, epochs=2)
+        self.assertEqual(len(losses), 2)
+        self.assertTrue(all(math.isfinite(loss) for loss in losses))
+
+    def test_rejects_one_shot_iterator_for_multiple_epochs(self) -> None:
+        batches = ((self.context, self.target) for _ in range(1))
+        with self.assertRaisesRegex(ValueError, "re-iterable batch source"):
+            self.model.fit(batches, epochs=2)
+
     def test_rejects_non_divisible_spatial_shape(self) -> None:
         context = torch.randn(1, 4, 5, 15, 16)
         target = torch.randn(1, 4, 5, 15, 16)
