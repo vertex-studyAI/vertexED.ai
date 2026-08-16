@@ -22,10 +22,6 @@ def _positive_number(value: Any) -> bool:
     return isinstance(value, (int, float)) and not isinstance(value, bool) and value > 0
 
 
-def _nonnegative_number(value: Any) -> bool:
-    return isinstance(value, (int, float)) and not isinstance(value, bool) and value >= 0
-
-
 def assess_preoutcome_readiness(config: dict[str, Any]) -> dict[str, Any]:
     """Assess Weather-JEPA v1 readiness without loading data or outcomes.
 
@@ -71,8 +67,8 @@ def assess_preoutcome_readiness(config: dict[str, Any]) -> dict[str, Any]:
     require(
         "variance_regularizer_definition",
         _nonempty(method.get("variance_regularizer_form"))
-        and _nonnegative_number(method.get("variance_regularizer_weight")),
-        "variance/collapse regularizer form and weight must be frozen",
+        and _positive_number(method.get("variance_regularizer_weight")),
+        "variance/collapse regularizer form and a positive non-zero weight must be frozen",
     )
     require(
         "spatial_mask_definition",
