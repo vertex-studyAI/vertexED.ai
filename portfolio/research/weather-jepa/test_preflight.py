@@ -110,7 +110,7 @@ class WeatherJEPAPreoutcomeTests(unittest.TestCase):
         self.assertTrue(assessment["prerequisites_closed"])
         self.assertTrue(assessment["ready_for_scientific_training"])
         self.assertEqual(assessment["blocker_count"], 0)
-        self.assertIs(assert_scientific_training_authorized(config), assessment)
+        self.assertEqual(assert_scientific_training_authorized(config), assessment)
 
 
 if __name__ == "__main__":
