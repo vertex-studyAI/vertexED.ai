@@ -176,6 +176,16 @@ class WeatherJEPAModel(nn.Module):
     ) -> list[float]:
         if epochs <= 0:
             raise ValueError("epochs must be positive")
+
+        # A one-shot iterator (for example, a generator expression) is exhausted
+        # after the first pass. Silently accepting it with epochs > 1 would report
+        # a multi-epoch request while actually training for only one epoch.
+        if epochs > 1 and iter(batches) is batches:
+            raise ValueError(
+                "epochs > 1 requires a re-iterable batch source; "
+                "materialize the batches or provide a DataLoader-like iterable"
+            )
+
         self.to(device)
         optimizer = torch.optim.AdamW(
             [p for p in self.parameters() if p.requires_grad],
