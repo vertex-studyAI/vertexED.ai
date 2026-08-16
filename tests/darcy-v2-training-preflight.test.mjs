@@ -48,8 +48,9 @@ test('current Darcy v2 freeze fails closed on the exact unresolved pretraining g
 });
 
 test('assertion refuses current training authorization without touching any outcome surface', async () => {
+  const config = await currentConfig();
   assert.throws(
-    () => assertDarcyV2TrainingAuthorized(await currentConfig()),
+    () => assertDarcyV2TrainingAuthorized(config),
     /DARCY_V2_TRAINING_BLOCKED/,
   );
 });
