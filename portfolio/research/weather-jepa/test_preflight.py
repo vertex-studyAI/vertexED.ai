@@ -61,6 +61,14 @@ class WeatherJEPAPreoutcomeTests(unittest.TestCase):
         self.assertFalse(assessment["ready_for_scientific_training"])
         self.assertGreater(assessment["blocker_count"], 0)
 
+    def test_zero_variance_weight_does_not_satisfy_collapse_guard(self):
+        config = current_freeze()
+        config["method_definition"]["variance_regularizer_form"] = "synthetic-test-form"
+        config["method_definition"]["variance_regularizer_weight"] = 0.0
+        assessment = assess_preoutcome_readiness(config)
+        blocker_ids = {blocker["id"] for blocker in assessment["blockers"]}
+        self.assertIn("variance_regularizer_definition", blocker_ids)
+
     def test_synthetic_fully_frozen_control_can_close_all_gates(self):
         config = current_freeze()
         data = config["data"]
