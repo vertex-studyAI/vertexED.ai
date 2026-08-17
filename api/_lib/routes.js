@@ -165,7 +165,8 @@ export async function ensureJsonBody(req) {
       req.body = JSON.parse(raw);
       return;
     } catch {
-      req.body = {};
+      req.body = null;
+      req._invalidJson = true;
       return;
     }
   }
@@ -203,6 +204,11 @@ export async function dispatchRoute(routeKey, req, res) {
 
   if (req._bodyTooLarge) {
     res.status(413).json({ error: 'Request body too large.' });
+    return;
+  }
+
+  if (req._invalidJson) {
+    res.status(400).json({ error: 'Malformed JSON request body.' });
     return;
   }
 
