@@ -1,6 +1,6 @@
 # BLOCKERS
 
-**As of:** 2026-08-14 convergence run. Only blockers that prevent a stronger evidence claim are listed.
+**As of:** 2026-08-17 live evidence refresh. Only blockers that prevent a stronger evidence claim are listed.
 
 ## P0 — Percy authoritative live state
 Live Mac SQLite/WAL/checkpoint/process/worktree state is unavailable. Preserve/hash DB+WAL+checkpoint, run integrity/schema checks, reconcile counters/leases/heartbeats/stale workers and dirty worktrees, then independently recount. Never reset or create a replacement DB.
@@ -8,8 +8,8 @@ Live Mac SQLite/WAL/checkpoint/process/worktree state is unavailable. Preserve/h
 ## P0 — Project 2424 canonical source
 Umbrella source/ancestry/dirty overlay remains external. Recover and hash preserved source before source-dependent new experiments or 2,424-ID disposition claims. Registry count is not completion.
 
-## P0 PRODUCT — VertexED production identity/security journey
-Latest retained monitor `31817794439` found a healthy public endpoint but no immutable revision identity; expected `e2ecd19ed9816f8f36369c7dc0f38e39942ca73a`; artifact `9225715176` SHA-256 `e7870e9561748ef4d4247e3bf4e01d3e8feead3780c4e2016d3742d134f2069a`. Exact served revision/deployment ID, monitor PASS and authenticated disposable-account isolation/persistence/recovery/logout/admin-boundary journey remain required. Supabase advisor also leaves leaked-password protection disabled and a hosted PostgreSQL security update open. Do not weaken the assertion or buy capacity.
+## P0 PRODUCT — VertexED production deployment + identity/security journey
+Current `main` is `e71da4a8341a2c236f6252b74d078e7464b681ab`. Production-health run `32043132504` passed the public root, unknown-route, logged-out auth/API, and untrusted-origin probes, but `/api/health` did not expose the expected immutable revision. Both Vercel deployments attached to this main SHA failed: `vertex-ed-ai` deployment `dpl_GkCr7NkrA6JW2KiN9ZJ1z6sAN3zz` and `vertex-ai` deployment `dpl_6ZDPzzrVYFB9hrRopAwaLYzLHkhJ`. Inspect the authenticated Vercel logs for both IDs, fix the deployment failure, redeploy the intended immutable SHA, and rerun the monitor. Only after exact served revision is proven should the disposable-account isolation/persistence/recovery/logout/admin-boundary journey be used for production certification. The monitor also hit a separate GitHub 503 while updating the incident; keep that as an observability/control-plane failure, not the deployment root cause. Do not weaken the revision assertion to make the monitor green.
 
 ## P0 — LAM owner release metadata + external validation
 Scientific negative result and internal evidence package are closed. Remaining: owner-approved license/redistribution, author list/order, `CITATION.cff`, immutable release revision/tag, and genuinely independent reproduction/review of packet `218ea1bea686cdf8c281520b2b636897bc8b8dd2`.
