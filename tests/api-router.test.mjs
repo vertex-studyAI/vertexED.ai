@@ -52,6 +52,23 @@ test('ensureJsonBody parses JSON for DELETE requests', async () => {
   assert.equal(req.body.id, 'abc-123');
 });
 
+test('dispatchRoute rejects malformed JSON before loading a handler', async () => {
+  const { req, res, getStatus, getJson } = createMocks({
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+  });
+  req.body = undefined;
+  req.on = (event, cb) => {
+    if (event === 'data') cb(Buffer.from('{"email":'));
+    if (event === 'end') cb();
+  };
+
+  await dispatchRoute('waitlist', req, res);
+
+  assert.equal(getStatus(), 400);
+  assert.deepEqual(getJson(), { error: 'Malformed JSON request body.' });
+});
+
 test('dispatchRoute returns 404 for unknown routes', async () => {
   const { req, res, getStatus, getJson } = createMocks({
     method: 'GET',
