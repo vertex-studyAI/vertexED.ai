@@ -7,6 +7,10 @@ async function readVercelConfig() {
   return JSON.parse(raw);
 }
 
+async function readHealthHandler() {
+  return readFile(new URL('../api/_handlers/health.js', import.meta.url), 'utf8');
+}
+
 test('Vercel stamps immutable revision before serverless function packaging', async () => {
   const config = await readVercelConfig();
   assert.match(
@@ -21,4 +25,12 @@ test('Vercel catch-all function keeps schema-valid includeFiles configuration', 
   assert.ok(fn, 'catch-all Vercel function config must exist');
   assert.equal(typeof fn.includeFiles, 'string');
   assert.equal(fn.includeFiles, 'public/study-guides/myp/**');
+});
+
+test('health handler directly imports the generated revision module for function tracing', async () => {
+  const source = await readHealthHandler();
+  assert.match(
+    source,
+    /import\s*\{\s*BUILD_REVISION\s*\}\s*from\s*['"]\.\.\/_generated\/build-revision\.js['"]/,
+  );
 });
