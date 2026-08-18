@@ -7,10 +7,7 @@
   "functions": {
     "api/[[...path]].js": {
       "maxDuration": 300,
-      "includeFiles": [
-        "public/study-guides/myp/**",
-        "api/_generated/build-revision.js"
-      ]
+      "includeFiles": "public/study-guides/myp/**"
     }
   },
   "rewrites": [
