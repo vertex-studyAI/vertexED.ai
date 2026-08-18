@@ -23,6 +23,7 @@ const RUNTIME_FILES = new Set([
 const ROOT_BUILD_CONFIG = /^(?:eslint\.config\.|postcss\.config\.|tailwind\.config\.|tsconfig(?:\.|$)|vite\.config\.)/;
 const DIFF_FILTER = 'ACDMRTUXB';
 const GIT_REVISION = /^[0-9a-f]{7,40}$/;
+const PREVIOUS_DEPLOY_SHA_ENV = 'VERCEL_GIT_PREVIOUS_SHA';
 
 function normalizePath(filePath) {
   return filePath.trim().replace(/^\.\//, '').replaceAll('\\', '/');
@@ -53,7 +54,7 @@ export function shouldBuild(changedFiles) {
 
 export function readChangedFiles({
   head = 'HEAD',
-  previousSha = process.env.VERCEL_GIT_PREVIOUS_SHA,
+  previousSha = process.env[PREVIOUS_DEPLOY_SHA_ENV],
   runGit = defaultRunGit,
 } = {}) {
   const previous = String(previousSha || '').trim().toLowerCase();
@@ -61,7 +62,7 @@ export function readChangedFiles({
 
   if (previous) {
     if (!GIT_REVISION.test(previous)) {
-      throw new Error(`invalid VERCEL_GIT_PREVIOUS_SHA: ${previous}`);
+      throw new Error(`invalid ${PREVIOUS_DEPLOY_SHA_ENV}: ${previous}`);
     }
     // Vercel defines VERCEL_GIT_PREVIOUS_SHA as the commit from the branch's
     // previous successful deployment. Comparing from that revision prevents a
