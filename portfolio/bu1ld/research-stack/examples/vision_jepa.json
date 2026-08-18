@@ -1,0 +1,1 @@
+{"name":"vision-jepa","components":["cnn_encoder","jepa_predictor","predictive_loss"]}
