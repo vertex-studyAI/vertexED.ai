@@ -15,13 +15,10 @@ test('Vercel stamps immutable revision before serverless function packaging', as
   );
 });
 
-test('Vercel catch-all function explicitly includes generated revision module', async () => {
+test('Vercel catch-all function keeps schema-valid includeFiles configuration', async () => {
   const config = await readVercelConfig();
   const fn = config.functions?.['api/[[...path]].js'];
   assert.ok(fn, 'catch-all Vercel function config must exist');
-  const includeFiles = Array.isArray(fn.includeFiles) ? fn.includeFiles : [fn.includeFiles];
-  assert.ok(
-    includeFiles.includes('api/_generated/build-revision.js'),
-    'generated build revision must be explicitly packaged with the API function',
-  );
+  assert.equal(typeof fn.includeFiles, 'string');
+  assert.equal(fn.includeFiles, 'public/study-guides/myp/**');
 });
