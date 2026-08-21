@@ -55,6 +55,7 @@ export function shouldBuild(changedFiles) {
 export function readChangedFiles({
   head = 'HEAD',
   previousSha = process.env[PREVIOUS_DEPLOY_SHA_ENV],
+  isVercel = process.env.VERCEL === '1' || Boolean(process.env.VERCEL_ENV),
   runGit = defaultRunGit,
 } = {}) {
   const previous = String(previousSha || '').trim().toLowerCase();
@@ -67,6 +68,12 @@ export function readChangedFiles({
     // Compare with the previous successful deployment so a later docs-only
     // commit cannot hide earlier runtime changes whose deployment failed.
     base = previous;
+  } else if (isVercel) {
+    // A missing previous-success identity is normal for a branch's first
+    // deployment and has also been observed in Vercel's ignored-build step.
+    // HEAD^ is unsafe here: a docs-only tip can conceal undeployed runtime
+    // commits earlier in the pushed range. The caller will fail open to build.
+    throw new Error(`missing ${PREVIOUS_DEPLOY_SHA_ENV} in Vercel build context`);
   }
 
   const output = runGit([

@@ -101,13 +101,13 @@ test('deployment diff starts at the previous successful Vercel SHA', () => {
   ]]);
 });
 
-test('deployment diff falls back to the prior commit outside Vercel', () => {
+test('deployment diff falls back to the prior commit only outside Vercel', () => {
   const calls = [];
   const runGit = (args) => {
     calls.push(args);
     return 'docs/release.md\n';
   };
-  assert.deepEqual(readChangedFiles({ previousSha: '', runGit }), ['docs/release.md']);
+  assert.deepEqual(readChangedFiles({ previousSha: '', isVercel: false, runGit }), ['docs/release.md']);
   assert.deepEqual(calls, [[
     'diff',
     '--name-only',
@@ -115,6 +115,13 @@ test('deployment diff falls back to the prior commit outside Vercel', () => {
     'HEAD^',
     'HEAD',
   ]]);
+});
+
+test('Vercel builds conservatively when no previous successful SHA is available', () => {
+  assert.throws(
+    () => readChangedFiles({ previousSha: '', isVercel: true, runGit: () => '' }),
+    /missing VERCEL_GIT_PREVIOUS_SHA in Vercel build context/,
+  );
 });
 
 test('deployment diff rejects a malformed Vercel previous SHA', () => {

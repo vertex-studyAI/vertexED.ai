@@ -58,10 +58,10 @@ Release status: **RED**
 
 ### A4 — Immutable revision packaging and retry safety
 
-- Problem: the generated server revision was stamped only during the build lifecycle; live serverless packaging repeatedly served a function with no revision. The ignore hook also compared only `HEAD^`, allowing a later operations-only commit to hide earlier undeployed runtime changes.
+- Problem: the generated server revision was stamped only during the build lifecycle; live serverless packaging repeatedly served a function with no revision. The ignore hook also compared only `HEAD^`, allowing a later operations-only commit to hide earlier undeployed runtime changes. Publication reproduced that failure: Vercel supplied no previous-success SHA and skipped both preview builds at documentation-only commits `4b776a87` and `6f9c2542`.
 - Reproduction: packaging regression failed 1/3 because `installCommand` was only `npm ci`; live health continues to omit both revision body and header.
 - Files changed: `vercel.json`, `scripts/vercel-ignore-build.mjs`, `tests/vercelRevisionPackaging.test.mjs`, `tests/vercel-ignore-build.test.mjs`.
-- Repair: stamp the exact immutable revision immediately after dependency install, before function tracing; compare deploy relevance from `VERCEL_GIT_PREVIOUS_SHA` when available and fail closed on malformed history identity.
+- Repair: stamp the exact immutable revision immediately after dependency install, before function tracing; compare deploy relevance from `VERCEL_GIT_PREVIOUS_SHA` when available; force a conservative build when Vercel omits that identity; and fail closed on malformed history identity.
 - Commit: `a0ff34b10728422f1df2ef8ba8e6bb65a5a5e858`; integration PR recorded below.
 - Tests: build/health/Vercel-focused tests 26/26; function-count validator green; direct generated-module check matched exact pre-action HEAD.
 - CI/deployment: pending. Both current Vercel owner projects remain inaccessible from this session, and the existing production alias still serves an unidentifiable older function.
