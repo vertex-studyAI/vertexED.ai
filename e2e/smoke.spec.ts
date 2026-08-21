@@ -35,8 +35,9 @@ test.describe('public launch journey', () => {
     await expect(page.getByLabel('Email')).toBeVisible();
     await expect(page.getByLabel('Invite code')).toBeVisible();
     await expect(page.getByLabel('Username')).toBeVisible();
-    await expect(page.getByLabel('Password')).toBeVisible();
-    await expect(page.getByRole('button', { name: /create account/i })).toBeVisible();
+    await expect(page.getByLabel('Password')).toHaveCount(0);
+    await expect(page.getByRole('button', { name: /email secure invite/i })).toBeVisible();
+    await expect(page.locator('body')).toContainText(/verify the email before a password can be set/i);
   });
 
   test('admin page does not expose protected content to logged-out visitors', async ({ page }) => {
