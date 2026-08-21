@@ -1,7 +1,7 @@
 import { readJsonBody, rejectOversizedJsonBody } from '../_lib/auth.js';
 import { getSupabaseAdmin } from '../_lib/supabaseAdmin.js';
 import { checkDbRateLimit } from '../_lib/dbRateLimit.js';
-import { verifyInviteCode } from '../_lib/inviteCode.js';
+import { isInviteCodeConfiguredSafely, verifyInviteCode } from '../_lib/inviteCode.js';
 import { getWaitlistEntryByToken } from '../_lib/waitlistAccess.js';
 import { getClientIp, normalizeEmail, validatePassword } from '../_lib/security.js';
 
@@ -75,8 +75,10 @@ export default async function handler(req, res) {
     let inviteEntry = null;
 
     if (!inviteToken) {
-      if (!process.env.SIGNUP_INVITE_CODE) {
-        return res.status(503).json({ error: 'Team invite signup is currently unavailable.' });
+      if (!isInviteCodeConfiguredSafely()) {
+        return res.status(503).json({
+          error: 'Team invite signup is currently unavailable. The server invite secret must be rotated to a strong private value.',
+        });
       }
       if (!verifyInviteCode(inviteCode)) {
         return res.status(403).json({ error: 'This invite code is invalid.' });
