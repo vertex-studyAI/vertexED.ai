@@ -44,6 +44,17 @@ Release status: **RED**
 - CI/deployment: pending.
 - Remaining risk: this client gate is defense in depth; server routes must continue enforcing `ADMIN_EMAILS` independently.
 
+### A3 — Historical profile and login recovery integrity
+
+- Problem: email login blindly upserted Auth metadata into `profiles`; missing names produced `full_name: null` despite the database `NOT NULL` contract and empty metadata could overwrite learner-edited fields.
+- Reproduction: focused source regression failed on the base blind-upsert implementation.
+- Files changed: `src/contexts/AuthContext.tsx`, `src/lib/profileRecovery.mjs`, `supabase/migrations/20260821131000_backfill_missing_profiles.sql`, and profile/content isolation tests.
+- Repair: update existing rows using only non-empty identity fields; insert missing rows with a stable `Learner` fallback; tolerate only the concurrent unique-key race; provide an idempotent historical backfill migration.
+- Commit/PR: pending.
+- Tests: focused profile and service-role ownership tests 9/9; `npm run typecheck`; `npm run lint:ci`.
+- CI/deployment: pending. The migration is committed but was not applied from this branch; PR #421 separately records a completed production repair with 31/31 profiles.
+- Remaining risk: other environments still require migration application; the authenticated two-account browser journey remains unexecuted here.
+
 ## Release gate
 
 - Verified green: clean source identity; canonical release-gate job on base; public unauthenticated route smoke and production browser suite on base.
