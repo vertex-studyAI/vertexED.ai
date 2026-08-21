@@ -88,12 +88,12 @@ Release status: **RED**
 ## Integration
 
 - Branch: `codex/production-strike-20260821`.
-- Pull request: pending publication.
+- Pull request: draft [#424](https://github.com/vertex-studyAI/vertexED.ai/pull/424). It remains explicitly RED and must not merge until the deployment and authenticated-journey blockers close.
 - No unfinished PR branch was merged, cherry-picked, rebased over, or overwritten. The repairs were independently reproduced and implemented on the isolated branch.
 
 ## Release gate
 
 - Verified green: clean source identity; canonical local release gate on the repair branch; exact-branch production build; local public/accessibility browser proof; server-side unauthorized API checks.
-- Partial: source-level build revision contract; profile/RLS evidence exists in PR #421 but is not in `main`; automated CI is pending branch publication.
+- Partial: source-level build revision contract; profile/RLS evidence exists in PR #421 but is not in `main`; draft PR #424 CI is pending.
 - Blocked: Vercel causal logs/domain ownership; authenticated mailbox journey; exact production revision.
 - Failed: live immutable revision; overall `main` CI; live secure shared team-invite behavior.
