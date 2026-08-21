@@ -33,6 +33,17 @@ Release status: **RED**
 - CI/deployment: pending.
 - Remaining risk: production `SIGNUP_INVITE_CODE` must be rotated if it ever matched a checked-in example; live invite delivery requires an authorized test mailbox.
 
+### A2 — Admin fail-closed behavior
+
+- Problem: when `/api/admin-status` failed or returned non-success, the production hook fell back to `VITE_ADMIN_EMAILS` and treated a browser-visible allowlist as an authorization decision.
+- Reproduction: focused policy test failed on the base source because `useIsAdmin` called `setIsAdmin(isAdminUser(user))` after API failure.
+- Files changed: `src/hooks/useIsAdmin.ts`, `src/lib/adminAccessPolicy.mjs`, `tests/admin-access-policy.test.mjs`.
+- Repair: the server decision is authoritative; missing API decisions deny access in production; the client allowlist is available only for local development.
+- Commit/PR: pending.
+- Tests: focused admin/security tests 8/8; `npm run typecheck`; `npm run lint:ci`.
+- CI/deployment: pending.
+- Remaining risk: this client gate is defense in depth; server routes must continue enforcing `ADMIN_EMAILS` independently.
+
 ## Release gate
 
 - Verified green: clean source identity; canonical release-gate job on base; public unauthenticated route smoke and production browser suite on base.
