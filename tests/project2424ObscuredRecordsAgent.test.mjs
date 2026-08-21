@@ -57,6 +57,21 @@ test('duplicate outlets do not masquerade as independent corroboration', () => {
   assert.ok(scoreLead(diverse).score > scoreLead(duplicated).score);
 });
 
+test('publisher URL and www aliases cannot inflate independence', () => {
+  const aliased = {
+    ...baseLead,
+    sources: [
+      { publisher: 'https://www.same.example/story-a', primary: true, sourceType: 'official', evidence: 0.9 },
+      { publisher: 'same.example/story-b', sourceType: 'analysis', evidence: 0.9 },
+      { publisher: 'WWW.SAME.EXAMPLE', sourceType: 'wire', evidence: 0.9 }
+    ]
+  };
+
+  const profile = evidenceProfile(aliased);
+  assert.equal(profile.independentPublishers, 1);
+  assert.ok(reportingBlockers(aliased).some((item) => item.includes('two independent publishers')));
+});
+
 test('freshness score decays by one half-life', () => {
   assert.equal(freshnessScore(0, 72), 1);
   assert.ok(Math.abs(freshnessScore(72, 72) - 0.5) < 1e-12);
