@@ -4,13 +4,16 @@ import { Helmet } from "react-helmet-async";
 import type { AuthChangeEvent, Session } from "@supabase/supabase-js";
 import { supabase } from "@/lib/supabaseClient";
 import { isOnboardingComplete } from "@/lib/onboardingStatus.js";
+import { isVerifiedInviteSession } from "@/lib/inviteAcceptance.mjs";
 import { markPasswordRecoveryVerified } from "@/lib/passwordRecovery";
 import ResetPassword from "@/pages/ResetPassword";
+import SetInitialPassword from "@/pages/SetInitialPassword";
 
 export default function AuthCallback() {
   const navigate = useNavigate();
   const [error, setError] = useState<string | null>(null);
   const [recoveryReady, setRecoveryReady] = useState(false);
+  const [inviteReady, setInviteReady] = useState(false);
 
   useEffect(() => {
     if (!supabase) {
@@ -29,6 +32,10 @@ export default function AuthCallback() {
       searchParams.get("recovery") === "1" ||
       searchParams.get("type") === "recovery" ||
       hashParams.get("type") === "recovery";
+    const inviteHint =
+      searchParams.get("invite") === "1" ||
+      searchParams.get("type") === "invite" ||
+      hashParams.get("type") === "invite";
 
     const clearCallbackTimeout = () => {
       if (timeout) {
@@ -55,6 +62,26 @@ export default function AuthCallback() {
       // PASSWORD_RECOVERY event for a genuine recovery link, so ignore ordinary
       // INITIAL_SESSION/SIGNED_IN events while a recovery callback is pending.
       if (recoveryHint && event !== "PASSWORD_RECOVERY") return;
+
+      // The invite marker is routing context, not authorization. Require the
+      // authenticated Supabase user to carry invitation provenance and confirmed
+      // mailbox ownership before showing initial-password setup.
+      if (inviteHint) {
+        if (!isVerifiedInviteSession(session.user)) {
+          completed = true;
+          clearCallbackTimeout();
+          unsubscribe?.();
+          setError("This session was not established from a verified account invitation. Open the invitation from your email.");
+          return;
+        }
+
+        completed = true;
+        clearCallbackTimeout();
+        unsubscribe?.();
+        window.history.replaceState({}, document.title, "/auth/callback?invite=1");
+        setInviteReady(true);
+        return;
+      }
 
       completed = true;
       clearCallbackTimeout();
@@ -132,7 +159,9 @@ export default function AuthCallback() {
         }
 
         armCallbackTimeout(
-          "Authentication did not return a Supabase session. Check the provider and redirect URLs, then try again.",
+          inviteHint
+            ? "The account invitation did not establish a verified Supabase session. Open a fresh invitation from your email."
+            : "Authentication did not return a Supabase session. Check the provider and redirect URLs, then try again.",
         );
       } catch (e: unknown) {
         if (!cancelled && !completed) {
@@ -151,6 +180,7 @@ export default function AuthCallback() {
   }, [navigate]);
 
   if (recoveryReady) return <ResetPassword />;
+  if (inviteReady) return <SetInitialPassword />;
 
   return (
     <>

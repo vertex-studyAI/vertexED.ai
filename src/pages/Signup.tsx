@@ -38,6 +38,7 @@ export default function Signup() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [teamInviteSent, setTeamInviteSent] = useState(false);
 
   useEffect(() => {
     if (!waitlistInviteToken) return;
@@ -123,7 +124,7 @@ export default function Signup() {
       setLoading(false);
       return;
     }
-    if (!isStrongPassword(password)) {
+    if (hasWaitlistInvite && !isStrongPassword(password)) {
       setError("Password must be at least 10 characters and include uppercase, lowercase, and a number.");
       setLoading(false);
       return;
@@ -135,7 +136,7 @@ export default function Signup() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           email: useTeamInvite ? normalizedEmail : undefined,
-          password,
+          password: hasWaitlistInvite ? password : undefined,
           username: normalizedUsername,
           inviteCode: useTeamInvite ? normalizedInviteCode : undefined,
           waitlistInviteToken: hasWaitlistInvite ? waitlistInviteToken : undefined,
@@ -149,6 +150,15 @@ export default function Signup() {
           throw new Error(`${data.error || "Too many attempts."} Try again in about ${mins} minute${mins === 1 ? "" : "s"}.`);
         }
         throw new Error(data.error || "Could not create account.");
+      }
+
+      if (useTeamInvite) {
+        if (data.requiresEmailVerification !== true) {
+          throw new Error("The invitation service did not require email verification. No account was created.");
+        }
+        setTeamInviteSent(true);
+        trackProductEvent("Account Invitation Sent", { invite_type: "team" });
+        return;
       }
 
       await login(normalizedEmail, password);
@@ -168,6 +178,7 @@ export default function Signup() {
     setUseTeamInvite((current) => !current);
     setError(null);
     setSuccess(false);
+    setTeamInviteSent(false);
   };
 
   const recoverFromInvalidInvite = () => {
@@ -177,6 +188,7 @@ export default function Signup() {
     setInviteCode("");
     setError(null);
     setSuccess(false);
+    setTeamInviteSent(false);
     setUseTeamInvite(false);
     navigate("/signup", { replace: true });
   };
@@ -184,7 +196,7 @@ export default function Signup() {
   const loadingLabel = hasWaitlistInvite && !email
     ? "Checking..."
     : isAccountSignup
-      ? "Creating..."
+      ? useTeamInvite ? "Sending..." : "Creating..."
       : "Joining...";
   const hasInvalidWaitlistInvite = shouldOfferInvalidInviteRecovery({
     hasWaitlistInvite,
@@ -213,12 +225,19 @@ export default function Signup() {
                 ? email
                   ? <>Your private approval link is active for <span className="font-medium text-foreground">{email}</span>. Choose a username and password.</>
                   : "Checking your private approval link..."
-                : "Enter the email and invite code shared by the VertexED team, then choose your account details."}
+                : "Enter the email and invite code shared by the VertexED team, then choose a username. We'll send a secure link to verify the email before a password can be set."}
           </p>
 
           <input type="text" name="website" tabIndex={-1} autoComplete="off" aria-hidden="true" value={honeypot} onChange={(event) => setHoneypot(event.target.value)} className="absolute h-0 w-0 opacity-0 pointer-events-none overflow-hidden" />
 
-          {!isAccountSignup && success ? (
+          {teamInviteSent ? (
+            <div className="alert-success text-center" role="status">
+              <p className="font-medium mb-2">Check your email</p>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                We sent a secure account invitation to <span className="font-medium text-foreground">{normalizeEmailInput(email)}</span>. Open that email to verify the address and choose your password.
+              </p>
+            </div>
+          ) : !isAccountSignup && success ? (
             <div className="alert-success text-center" role="status">
               <p className="font-medium mb-2">You're on the list</p>
               <p className="text-sm text-muted-foreground leading-relaxed">We saved <span className="font-medium text-foreground">{normalizeEmailInput(email)}</span>. We'll email you when your spot is ready.</p>
@@ -240,18 +259,20 @@ export default function Signup() {
                   <div className="neu-input">
                     <input aria-label="Username" placeholder="Username (3-20 characters)" className="neu-input-el" value={username} onChange={(event) => setUsername(event.target.value)} autoComplete="username" minLength={3} maxLength={20} pattern="[a-zA-Z0-9_.-]{3,20}" required />
                   </div>
-                  <div className="neu-input">
-                    <input aria-label="Password" placeholder="Password (10+ chars, upper, lower, number)" className="neu-input-el" value={password} onChange={(event) => setPassword(event.target.value)} type="password" autoComplete="new-password" minLength={10} required />
-                  </div>
+                  {hasWaitlistInvite && (
+                    <div className="neu-input">
+                      <input aria-label="Password" placeholder="Password (10+ chars, upper, lower, number)" className="neu-input-el" value={password} onChange={(event) => setPassword(event.target.value)} type="password" autoComplete="new-password" minLength={10} required />
+                    </div>
+                  )}
                 </>
               )}
               <button className="w-full btn-solid py-3 mt-2 disabled:opacity-60 disabled:cursor-not-allowed transition" disabled={loading || (hasWaitlistInvite && !email)} type="submit">
-                {loading ? loadingLabel : isAccountSignup ? "Create account" : "Join waitlist"}
+                {loading ? loadingLabel : useTeamInvite ? "Email secure invite" : isAccountSignup ? "Create account" : "Join waitlist"}
               </button>
             </div>
           )}
 
-          {!hasWaitlistInvite && !success && (
+          {!hasWaitlistInvite && !success && !teamInviteSent && (
             <button type="button" onClick={toggleTeamInvite} className="mt-5 w-full text-sm text-primary hover:text-primary/80 underline underline-offset-4">
               {useTeamInvite ? "Join the waitlist instead" : "Have an invite code? Create your account"}
             </button>
