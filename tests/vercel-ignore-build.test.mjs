@@ -1,7 +1,12 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
-import { findLatestRuntimeRevision, isRuntimeRelevant, shouldBuild } from '../scripts/vercel-ignore-build.mjs';
+import {
+  findLatestRuntimeRevision,
+  isRuntimeRelevant,
+  readChangedFiles,
+  shouldBuild,
+} from '../scripts/vercel-ignore-build.mjs';
 
 test('runtime source, API, and database changes continue Vercel builds', () => {
   for (const file of [
@@ -73,6 +78,50 @@ test('path normalization handles checkout-style prefixes and separators', () => 
   assert.equal(isRuntimeRelevant('src\\App.tsx'), true);
   assert.equal(isRuntimeRelevant('./supabase\\migrations\\example.sql'), true);
   assert.equal(isRuntimeRelevant('./docs/README.md'), false);
+});
+
+test('deployment diff starts at the previous successful Vercel SHA', () => {
+  const previousSha = '1111111111111111111111111111111111111111';
+  const calls = [];
+  const runGit = (args) => {
+    calls.push(args);
+    return 'tests/release-contract.test.mjs\nvercel.json\n';
+  };
+
+  assert.deepEqual(readChangedFiles({ previousSha, runGit }), [
+    'tests/release-contract.test.mjs',
+    'vercel.json',
+  ]);
+  assert.deepEqual(calls, [[
+    'diff',
+    '--name-only',
+    '--diff-filter=ACDMRTUXB',
+    previousSha,
+    'HEAD',
+  ]]);
+});
+
+test('deployment diff falls back to the prior commit outside Vercel', () => {
+  const calls = [];
+  const runGit = (args) => {
+    calls.push(args);
+    return 'docs/release.md\n';
+  };
+  assert.deepEqual(readChangedFiles({ previousSha: '', runGit }), ['docs/release.md']);
+  assert.deepEqual(calls, [[
+    'diff',
+    '--name-only',
+    '--diff-filter=ACDMRTUXB',
+    'HEAD^',
+    'HEAD',
+  ]]);
+});
+
+test('deployment diff rejects a malformed Vercel previous SHA', () => {
+  assert.throws(
+    () => readChangedFiles({ previousSha: 'not-a-sha', runGit: () => '' }),
+    /invalid VERCEL_GIT_PREVIOUS_SHA/,
+  );
 });
 
 test('latest runtime revision skips newer operations-only commits', () => {

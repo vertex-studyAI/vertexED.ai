@@ -22,6 +22,8 @@ const RUNTIME_FILES = new Set([
 
 const ROOT_BUILD_CONFIG = /^(?:eslint\.config\.|postcss\.config\.|tailwind\.config\.|tsconfig(?:\.|$)|vite\.config\.)/;
 const DIFF_FILTER = 'ACDMRTUXB';
+const GIT_REVISION = /^[0-9a-f]{7,40}$/;
+const PREVIOUS_DEPLOY_SHA_ENV = 'VERCEL_GIT_PREVIOUS_SHA';
 
 function normalizePath(filePath) {
   return filePath.trim().replace(/^\.\//, '').replaceAll('\\', '/');
@@ -50,13 +52,29 @@ export function shouldBuild(changedFiles) {
   return changedFiles.some(isRuntimeRelevant);
 }
 
-export function readChangedFiles() {
-  const output = defaultRunGit([
+export function readChangedFiles({
+  head = 'HEAD',
+  previousSha = process.env[PREVIOUS_DEPLOY_SHA_ENV],
+  runGit = defaultRunGit,
+} = {}) {
+  const previous = String(previousSha || '').trim().toLowerCase();
+  let base = `${head}^`;
+
+  if (previous) {
+    if (!GIT_REVISION.test(previous)) {
+      throw new Error(`invalid ${PREVIOUS_DEPLOY_SHA_ENV}: ${previous}`);
+    }
+    // Compare with the previous successful deployment so a later docs-only
+    // commit cannot hide earlier runtime changes whose deployment failed.
+    base = previous;
+  }
+
+  const output = runGit([
     'diff',
     '--name-only',
     `--diff-filter=${DIFF_FILTER}`,
-    'HEAD^',
-    'HEAD',
+    base,
+    head,
   ]);
   return splitPaths(output);
 }
@@ -89,7 +107,7 @@ export function findLatestRuntimeRevision({ head = 'HEAD', runGit = defaultRunGi
     // Match the deployment guard's fail-closed behavior: if a commit cannot be
     // classified from changed files, assume it was build-relevant.
     if (changedFiles.length === 0 || shouldBuild(changedFiles)) {
-      if (!/^[0-9a-f]{7,40}$/.test(revision)) {
+      if (!GIT_REVISION.test(revision)) {
         throw new Error(`invalid Git revision returned by history: ${revision}`);
       }
       return revision;
@@ -120,7 +138,7 @@ export function run() {
     return 0;
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
-    console.log(`[vercel-ignore] Unable to inspect the previous commit (${message}); building conservatively.`);
+    console.log(`[vercel-ignore] Unable to inspect deployment diff (${message}); building conservatively.`);
     return 1;
   }
 }

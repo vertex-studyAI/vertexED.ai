@@ -11,7 +11,7 @@ Release status: **RED**
 - Latest `main` release-gate job passed, but the overall CI run `32481664347` failed because production smoke never observed the expected revision.
 - Live `https://www.vertexed.app/api/health` returns HTTP 200 and basic health JSON, but no immutable `revision` and no `X-VertexED-Revision` header.
 - Both Vercel deployments for the base SHA failed: `vertex-ed-ai` deployment `dpl_6NY2bQ5cUuSssbsVczi6EfD2JZE1` and `vertex-ai` deployment `dpl_E6xU2iKzwMKKEcAdjicc718GkCz4`.
-- The authenticated local Vercel account can see neither owning project, so causal deployment logs and canonical-domain ownership remain unavailable from this execution context.
+- The authenticated local Vercel account can see neither owning project. The in-app browser also reaches a Vercel login/404 surface and no alternate connected browser session exists, so causal deployment logs and canonical-domain ownership remain unavailable from this execution context.
 
 ## Blocker graph
 
@@ -54,6 +54,17 @@ Release status: **RED**
 - Tests: focused profile and service-role ownership tests 9/9; `npm run typecheck`; `npm run lint:ci`.
 - CI/deployment: pending. The migration is committed but was not applied from this branch; PR #421 separately records a completed production repair with 31/31 profiles.
 - Remaining risk: other environments still require migration application; the authenticated two-account browser journey remains unexecuted here.
+
+### A4 — Immutable revision packaging and retry safety
+
+- Problem: the generated server revision was stamped only during the build lifecycle; live serverless packaging repeatedly served a function with no revision. The ignore hook also compared only `HEAD^`, allowing a later operations-only commit to hide earlier undeployed runtime changes.
+- Reproduction: packaging regression failed 1/3 because `installCommand` was only `npm ci`; live health continues to omit both revision body and header.
+- Files changed: `vercel.json`, `scripts/vercel-ignore-build.mjs`, `tests/vercelRevisionPackaging.test.mjs`, `tests/vercel-ignore-build.test.mjs`.
+- Repair: stamp the exact immutable revision immediately after dependency install, before function tracing; compare deploy relevance from `VERCEL_GIT_PREVIOUS_SHA` when available and fail closed on malformed history identity.
+- Commit/PR: pending.
+- Tests: build/health/Vercel-focused tests 26/26; function-count validator green; direct generated-module check matched exact pre-action HEAD.
+- CI/deployment: pending. Both current Vercel owner projects remain inaccessible from this session, and the existing production alias still serves an unidentifiable older function.
+- Remaining risk: only a successful deployment plus matching live `/api/health` JSON/header can close this blocker; local packaging tests are not production proof.
 
 ## Release gate
 
