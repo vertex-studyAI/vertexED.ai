@@ -1,0 +1,101 @@
+{
+  "project": "T2424-0050",
+  "audit": "misaligned-correlated-field-and-arithmetic-ablation",
+  "generatedAt": "2026-08-22",
+  "environment": {
+    "runtime": "v22.16.0",
+    "platform": "linux",
+    "arch": "x64"
+  },
+  "configuration": {
+    "cellCount": 24,
+    "blockCount": 6,
+    "seedsPerCondition": 100,
+    "logPermeabilitySigma": 0.9,
+    "rhoValues": [
+      0,
+      0.5,
+      0.9
+    ],
+    "baseline": "linear pressure ignoring heterogeneity",
+    "ablation": "arithmetic-mean block permeability",
+    "candidate": "harmonic-mean block permeability"
+  },
+  "conditions": [
+    {
+      "rho": 0,
+      "seeds": 100,
+      "meanLinearMae": 0.06241664174369735,
+      "meanHarmonicMae": 0.019115757820636386,
+      "meanArithmeticMae": 0.04693084464071361,
+      "meanHarmonicImprovement": 0.6383167800458882,
+      "meanArithmeticImprovement": 0.12464050263843104,
+      "harmonicBeatsLinear": 99,
+      "harmonicBeatsArithmetic": 100,
+      "arithmeticBeatsLinear": 70,
+      "meanHarmonicFluxRelativeError": 1.8671672116439536e-16,
+      "maxHarmonicMae": 0.03576179766373557,
+      "worstHarmonicCase": {
+        "seed": 6,
+        "linearMae": 0.02691531294179892,
+        "harmonicMae": 0.029619728875993533,
+        "arithmeticMae": 0.04862540449061001,
+        "harmonicImprovement": -0.10047871039220617,
+        "arithmeticImprovement": -0.806607435542604,
+        "harmonicFluxRelativeError": 0
+      }
+    },
+    {
+      "rho": 0.5,
+      "seeds": 100,
+      "meanLinearMae": 0.08835438577351434,
+      "meanHarmonicMae": 0.01661550391463666,
+      "meanArithmeticMae": 0.03638885424436835,
+      "meanHarmonicImprovement": 0.7716335330726142,
+      "meanArithmeticImprovement": 0.49437103522018894,
+      "harmonicBeatsLinear": 100,
+      "harmonicBeatsArithmetic": 99,
+      "arithmeticBeatsLinear": 89,
+      "meanHarmonicFluxRelativeError": 2.2944313416837166e-16,
+      "maxHarmonicMae": 0.03726003654959267,
+      "worstHarmonicCase": {
+        "seed": 6,
+        "linearMae": 0.028230452988439146,
+        "harmonicMae": 0.02028616964879407,
+        "arithmeticMae": 0.04660848828568102,
+        "harmonicImprovement": 0.28140828427012476,
+        "arithmeticImprovement": -0.6510003684591243,
+        "harmonicFluxRelativeError": 3.7855241071700225e-16
+      }
+    },
+    {
+      "rho": 0.9,
+      "seeds": 100,
+      "meanLinearMae": 0.09573746199715613,
+      "meanHarmonicMae": 0.009603693529697657,
+      "meanArithmeticMae": 0.014234171773397222,
+      "meanHarmonicImprovement": 0.861674579457186,
+      "meanArithmeticImprovement": 0.7971321122890557,
+      "harmonicBeatsLinear": 100,
+      "harmonicBeatsArithmetic": 96,
+      "arithmeticBeatsLinear": 100,
+      "meanHarmonicFluxRelativeError": 2.2299506355578144e-16,
+      "maxHarmonicMae": 0.0205792015977346,
+      "worstHarmonicCase": {
+        "seed": 16,
+        "linearMae": 0.024285251512115035,
+        "harmonicMae": 0.012311742295877974,
+        "arithmeticMae": 0.01590137022702609,
+        "harmonicImprovement": 0.4930362450750782,
+        "arithmeticImprovement": 0.34522521954967317,
+        "harmonicFluxRelativeError": 1.6085451625100643e-16
+      }
+    }
+  ],
+  "interpretation": {
+    "boundedMechanismReproduced": true,
+    "harderAuditMixed": true,
+    "iidMeanImprovementClearsOriginal65PercentThreshold": false,
+    "claimBoundary": "synthetic 1D robustness audit only; no learned operator, 2D/3D PDE, real porous-media, or publication claim"
+  }
+}
