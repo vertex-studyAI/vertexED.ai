@@ -3,10 +3,19 @@
 **Project:** Obscured Records Agent  
 **Queue rank:** 31  
 **Track:** C — Existing work → minimum experiment  
-**State:** VERIFYING  
+**State:** `TESTED_TOOL / MERGED`  
 **Claim level:** deterministic evidence-gated editorial triage tool
 
-## Implemented
+## Verified implementation
+
+The evidence-gated editorial triage implementation was merged through PR #178.
+
+- exact implementation head: `abf8c998bab4bc0adedfb3d1d1a19432603c355f`
+- merge commit: `fb0c3a78cad2b27bd894c1e59cfbb05606be46a7`
+- canonical CI run: `31411209123` / CI #643
+- CI conclusion: **success**
+
+Implemented and retained:
 
 - [x] structured lead/source validation
 - [x] independent-publisher accounting
@@ -19,9 +28,20 @@
 - [x] focused regression suite
 - [x] limitations and next evidence gate
 
-## Verification gate
+## What this closes
 
-Promote to `TESTED_TOOL` only after canonical GitHub Actions succeeds on the exact branch head.
+The old `VERIFYING` gate is stale: canonical Actions passed on the exact pre-merge head and the implementation subsequently merged. The bounded tool can therefore be described as **tested and merged** within its deterministic research-triage scope.
+
+This does **not** promote the project to production, external validation, Certified Complete, or Research Complete.
+
+## Still open
+
+- [ ] frozen historical-lead evaluation set with blinded editor labels;
+- [ ] baseline ranking comparison;
+- [ ] error analysis by lead/source/risk category;
+- [ ] independent review of publisher-independence assumptions;
+- [ ] product integration only after ownership, editorial-review and audit-log requirements are defined;
+- [ ] any real-world productivity/effectiveness claim only after prospectively retained evidence.
 
 ## Not claimed
 
@@ -32,6 +52,6 @@ Promote to `TESTED_TOOL` only after canonical GitHub Actions succeeds on the exa
 - newsroom productivity gains
 - production deployment
 
-## Next artifact
+## Identity warning
 
-A frozen historical-lead evaluation set with blinded editor labels, baseline ranking comparison, error analysis, and independent review of publisher-independence assumptions.
+Current `T2424-0038` is the Obscured Records Agent. Historical Project-2424 maps contain conflicting `P2424-0038` identities, so this current identity must not be provenance-joined to older `P2424-0038` artifacts by numeric suffix alone.
