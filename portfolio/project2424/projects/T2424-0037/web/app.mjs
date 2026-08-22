@@ -1,12 +1,11 @@
 import {
   createJetEngineDocument,
-  interpretPrompt,
   serializeCADDocument,
   summarizeDocument,
   toAssemblyOpenScad,
   validateCADDocument
 } from "../src/alpha.mjs";
-import { interpretMechanicalPrompt } from "../src/mechanical.mjs";
+import { interpretCADCommand } from "../src/language.mjs";
 
 const $ = (selector) => document.querySelector(selector);
 const promptInput = $("#prompt");
@@ -252,15 +251,7 @@ function runPrompt() {
   errorBox.textContent = "";
   setStatus("UNDERSTANDING → STRUCTURING → VALIDATING → GENERATING");
   try {
-    const mechanical = interpretMechanicalPrompt(promptInput.value);
-    if (mechanical) {
-      documentState = mechanical;
-      selectedId = null;
-      explodedInput.checked = false;
-      renderAll();
-      return;
-    }
-    const result = interpretPrompt(promptInput.value, documentState);
+    const result = interpretCADCommand(promptInput.value, documentState);
     documentState = result.document;
     selectedId = null;
     explodedInput.checked = Boolean(result.view?.exploded);
@@ -293,7 +284,7 @@ function download(name, type, content) {
 }
 
 runButton.addEventListener("click", runPrompt);
-$("#preset-jet").addEventListener("click", () => { promptInput.value = "Generate a simplified axial jet engine concept with 6 compressor stages and 2 turbine stages"; runPrompt(); });
+$("#preset-jet").addEventListener("click", () => { promptInput.value = "Generate a simplified axial jet engine concept with six compressor stages and two turbine stages"; runPrompt(); });
 $("#preset-mechanical").addEventListener("click", () => { promptInput.value = "Create a flanged tube concept length 160 mm outer radius 34 mm wall thickness 5 mm"; runPrompt(); });
 $("#preset-plate").addEventListener("click", () => { promptInput.value = "Create a plate 100 by 60 mm thickness 4 with 4 holes radius 4 inset 10"; runPrompt(); });
 updateButton.addEventListener("click", updateParameters);
