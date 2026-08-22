@@ -1,0 +1,83 @@
+name: NeuroCAD Alpha browser certification
+
+on:
+  pull_request:
+    branches: [main, master]
+    paths:
+      - 'portfolio/project2424/projects/T2424-0037/**'
+      - 'e2e/neurocad-alpha.spec.ts'
+      - '.github/workflows/neurocad-alpha-browser.yml'
+  push:
+    branches: [main, master]
+    paths:
+      - 'portfolio/project2424/projects/T2424-0037/**'
+      - 'e2e/neurocad-alpha.spec.ts'
+      - '.github/workflows/neurocad-alpha-browser.yml'
+
+concurrency:
+  group: neurocad-alpha-browser-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  browser-certification:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Launch standalone NeuroCAD Alpha
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m http.server 8000 --bind 127.0.0.1 --directory portfolio/project2424/projects/T2424-0037 > /tmp/neurocad-alpha-http.log 2>&1 &
+          echo $! > /tmp/neurocad-alpha-http.pid
+          for attempt in $(seq 1 30); do
+            if curl --silent --fail http://127.0.0.1:8000/web/ > /dev/null; then
+              exit 0
+            fi
+            if [ "$attempt" -eq 30 ]; then
+              cat /tmp/neurocad-alpha-http.log
+              exit 1
+            fi
+            sleep 1
+          done
+
+      - name: Run flagship browser certification
+        env:
+          CI: '1'
+          NEUROCAD_BASE_URL: http://127.0.0.1:8000/web/
+        run: npx playwright test e2e/neurocad-alpha.spec.ts --project=desktop-1440
+
+      - name: Stop standalone server
+        if: always()
+        shell: bash
+        run: |
+          if [ -f /tmp/neurocad-alpha-http.pid ]; then
+            kill "$(cat /tmp/neurocad-alpha-http.pid)" 2>/dev/null || true
+          fi
+
+      - name: Upload NeuroCAD browser evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: neurocad-alpha-browser-evidence
+          path: |
+            playwright-report
+            test-results/neurocad-alpha
+            test-results
+          if-no-files-found: ignore
+          retention-days: 14
