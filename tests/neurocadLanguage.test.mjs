@@ -8,6 +8,10 @@ test("engineering command adapter normalizes bounded number words", () => {
     "Generate a jet engine with 6 compressor stages and 2 turbine stages"
   );
   assert.equal(
+    normalizeEngineeringCommand("Generate a jet engine with six compressor stages and two turbine stages", true),
+    "Generate a jet engine with 6 compressor stages and 2 turbine stages"
+  );
+  assert.equal(
     normalizeEngineeringCommand("Use only one turbine stage", true),
     "turbine stages to 1"
   );
@@ -17,6 +21,14 @@ test("hero prompt supports spelled stage counts", () => {
   const result = interpretCADCommand("Generate a simplified axial jet engine concept with six compressor stages and two turbine stages");
   assert.equal(result.document.metadata.jetEngineParams.compressorStages, 6);
   assert.equal(result.document.metadata.jetEngineParams.turbineStages, 2);
+});
+
+test("new creation preserves non-default stage counts even with a current document", () => {
+  const current = interpretCADCommand("Generate a jet engine concept with 6 compressor stages and 2 turbine stages").document;
+  const recreated = interpretCADCommand("Generate a jet engine concept with eight compressor stages and three turbine stages", current);
+  assert.equal(recreated.intent, "CREATE_ASSEMBLY");
+  assert.equal(recreated.document.metadata.jetEngineParams.compressorStages, 8);
+  assert.equal(recreated.document.metadata.jetEngineParams.turbineStages, 3);
 });
 
 test("stateful follow-up supports 'use only one turbine stage'", () => {
