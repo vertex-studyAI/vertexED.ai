@@ -1,0 +1,43 @@
+{
+  "protocol_id": "NPMS-BEYOND-PARAMETERS-V1",
+  "protocol_state": "PREOUTCOME_FREEZE",
+  "evaluation_authorized": false,
+  "base_lineage": {
+    "recovered_atlas_archive_sha256": "076f12750d6a8e6c298c17815224a79463bcad149d6cf1283900d98c6e394a2c",
+    "adverse_control_archive_sha256": "ad765e342e524c17eb8e93ba1c4098ee07c85f009d94a23151ea263b335e29c2",
+    "current_mechanism_verdict": "PARAMETER_CONFOUNDED_OR_NON_UNIQUE"
+  },
+  "question": "Does a frozen memory-spectrum quantity predict held-out behavior or intervention response beyond strong coordinate-invariant parameter summaries and strong state-space/spectral controls?",
+  "successor_source": {
+    "source_sha256": null,
+    "environment_lock_sha256": null,
+    "hardware_identity": null
+  },
+  "data": {
+    "dataset_or_generator_id": null,
+    "dataset_sha256": null,
+    "split_manifest_sha256": null,
+    "train_validation_test_frozen": false,
+    "held_out_outcomes_sealed": false
+  },
+  "mechanism": {
+    "memory_spectrum_definition": null,
+    "behavior_or_intervention_target": null,
+    "coordinate_invariant_parameter_control": null,
+    "state_space_control": null,
+    "spectral_control": null
+  },
+  "evaluation": {
+    "primary_metric": null,
+    "mandatory_secondary_metrics": null,
+    "primary_comparison": null,
+    "success_threshold": null,
+    "material_regression_guardrail": null,
+    "uncertainty_method": null,
+    "seeds_or_determinism_rule": null,
+    "compute_cap": null,
+    "raw_output_retention": null,
+    "evaluation_script_sha256": null
+  },
+  "falsifier": "Archive the incremental-mechanism claim if memory-spectrum features do not materially outperform the strongest frozen non-spectrum control on the primary held-out metric, or if the apparent gain disappears under a parameter/state-space/spectral adverse control."
+}
