@@ -8,7 +8,7 @@ function captureRuntimeErrors(page: Page) {
   const errors: string[] = [];
   page.on('pageerror', (error) => errors.push(`pageerror: ${error.message}`));
   page.on('console', (message) => {
-    if (message.type() === 'error') errors.push(`console.error: ${message.text()}`);
+    if (message.type() === 'error') errors.push(`console.error: ${message.text()}`));
   });
   return errors;
 }
@@ -31,6 +31,19 @@ async function screenshot(page: Page, name: string) {
   await page.screenshot({ path: `${evidenceDir}/${name}`, fullPage: true });
 }
 
+async function viewportCenter(page: Page) {
+  const canvas = page.locator('#viewport');
+  await canvas.scrollIntoViewIfNeeded();
+  const box = await canvas.boundingBox();
+  expect(box).not.toBeNull();
+  const localX = box!.width / 2;
+  const localY = box!.height / 2;
+  await canvas.hover({ position: { x: localX, y: localY } });
+  const visibleBox = await canvas.boundingBox();
+  expect(visibleBox).not.toBeNull();
+  return { canvas, x: visibleBox!.x + localX, y: visibleBox!.y + localY, localX, localY };
+}
+
 test.describe('NeuroCAD Alpha 0.1 flagship browser certification', () => {
   test('jet-engine workflow renders, edits, selects, validates, exports and reloads', async ({ page }) => {
     const runtimeErrors = captureRuntimeErrors(page);
@@ -45,7 +58,6 @@ test.describe('NeuroCAD Alpha 0.1 flagship browser certification', () => {
     await page.getByRole('button', { name: /Jet Engine Concept/i }).click();
     await expect(page.locator('#validation-chip')).toHaveText('VALIDATION PASS');
     await expect(page.locator('#cadspec')).toContainText('jet_engine_concept');
-    await expect(page.locator('#assembly-tree .tree-row')).toHaveCount(await page.locator('#assembly-tree .tree-row').count());
     expect(await page.locator('#assembly-tree .tree-row').count()).toBeGreaterThan(5);
     await screenshot(page, '02-jet-generated.png');
 
@@ -104,35 +116,31 @@ test.describe('NeuroCAD Alpha 0.1 flagship browser certification', () => {
     await expect(page.locator('#validation-chip')).toHaveText('VALIDATION PASS');
     await expectRenderedViewport(page);
 
-    const canvas = page.locator('#viewport');
-    const box = await canvas.boundingBox();
-    expect(box).not.toBeNull();
-    const centerX = box!.x + box!.width / 2;
-    const centerY = box!.y + box!.height / 2;
-
-    const beforeOrbit = await canvas.screenshot();
-    await page.mouse.move(centerX, centerY);
+    let point = await viewportCenter(page);
+    const beforeOrbit = await point.canvas.screenshot();
+    const scrollBeforeOrbit = await page.evaluate(() => window.scrollY);
     await page.mouse.down({ button: 'left' });
-    await page.mouse.move(centerX + 100, centerY + 45, { steps: 8 });
+    await page.mouse.move(point.x + 100, point.y + 45, { steps: 8 });
     await page.mouse.up({ button: 'left' });
-    await page.waitForTimeout(350);
-    const afterOrbit = await canvas.screenshot();
+    await page.waitForTimeout(450);
+    const afterOrbit = await point.canvas.screenshot();
     expect(Buffer.compare(beforeOrbit, afterOrbit)).not.toBe(0);
+    expect(Math.abs((await page.evaluate(() => window.scrollY)) - scrollBeforeOrbit)).toBeLessThan(2);
 
-    const beforeZoom = afterOrbit;
-    await page.mouse.move(centerX, centerY);
+    point = await viewportCenter(page);
+    const beforeZoom = await point.canvas.screenshot();
     await page.mouse.wheel(0, -650);
-    await page.waitForTimeout(350);
-    const afterZoom = await canvas.screenshot();
+    await page.waitForTimeout(450);
+    const afterZoom = await point.canvas.screenshot();
     expect(Buffer.compare(beforeZoom, afterZoom)).not.toBe(0);
 
-    const beforePan = afterZoom;
-    await page.mouse.move(centerX, centerY);
+    point = await viewportCenter(page);
+    const beforePan = await point.canvas.screenshot();
     await page.mouse.down({ button: 'right' });
-    await page.mouse.move(centerX + 75, centerY - 30, { steps: 8 });
+    await page.mouse.move(point.x + 75, point.y - 30, { steps: 8 });
     await page.mouse.up({ button: 'right' });
-    await page.waitForTimeout(350);
-    const afterPan = await canvas.screenshot();
+    await page.waitForTimeout(450);
+    const afterPan = await point.canvas.screenshot();
     expect(Buffer.compare(beforePan, afterPan)).not.toBe(0);
 
     expect(runtimeErrors, runtimeErrors.join('\n')).toEqual([]);
@@ -155,6 +163,7 @@ test.describe('NeuroCAD Alpha 0.1 flagship browser certification', () => {
     await page.locator('input[name="compressorStages"]').fill('500');
     await page.getByRole('button', { name: 'Update model' }).click();
     await expect(page.locator('#validation-chip')).toHaveText(/FAILED CLOSED|VALIDATION FAIL/);
+    await expect(page.locator('#error')).not.toBeEmpty();
     expect(await page.locator('#cadspec').textContent()).toBe(validDocument);
 
     expect(runtimeErrors, runtimeErrors.join('\n')).toEqual([]);
