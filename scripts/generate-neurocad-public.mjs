@@ -18,10 +18,11 @@ async function source(relativePath) {
   return readFile(path.join(projectRoot, relativePath), "utf8");
 }
 
-const [canonicalHtml, canonicalApp, alphaSource, coreSource] = await Promise.all([
+const [canonicalHtml, canonicalApp, alphaSource, mechanicalSource, coreSource] = await Promise.all([
   source("web/index.html"),
   source("web/app.mjs"),
   source("src/alpha.mjs"),
+  source("src/mechanical.mjs"),
   source("src/core.mjs")
 ]);
 
@@ -33,12 +34,20 @@ if (publicHtml === canonicalHtml) {
   throw new Error("NeuroCAD public build could not locate canonical browser script tag");
 }
 
-const publicApp = canonicalApp.replace(
+let publicApp = canonicalApp.replace(
   'from "../src/alpha.mjs";',
   'from "./alpha.mjs";'
 );
 if (publicApp === canonicalApp) {
   throw new Error("NeuroCAD public build could not locate canonical alpha-module import");
+}
+const beforeMechanicalRewrite = publicApp;
+publicApp = publicApp.replace(
+  'from "../src/mechanical.mjs";',
+  'from "./mechanical.mjs";'
+);
+if (publicApp === beforeMechanicalRewrite) {
+  throw new Error("NeuroCAD public build could not locate canonical mechanical-module import");
 }
 
 await mkdir(assetsRoot, { recursive: true });
@@ -46,6 +55,7 @@ await Promise.all([
   writeFile(path.join(outputRoot, "neurocad.html"), publicHtml, "utf8"),
   writeFile(path.join(assetsRoot, "app.mjs"), publicApp, "utf8"),
   writeFile(path.join(assetsRoot, "alpha.mjs"), alphaSource, "utf8"),
+  writeFile(path.join(assetsRoot, "mechanical.mjs"), mechanicalSource, "utf8"),
   writeFile(path.join(assetsRoot, "core.mjs"), coreSource, "utf8")
 ]);
 
@@ -56,12 +66,14 @@ const manifest = {
     "neurocad.html": sha256(publicHtml),
     "neurocad-assets/app.mjs": sha256(publicApp),
     "neurocad-assets/alpha.mjs": sha256(alphaSource),
+    "neurocad-assets/mechanical.mjs": sha256(mechanicalSource),
     "neurocad-assets/core.mjs": sha256(coreSource)
   },
   canonicalSources: {
     "web/index.html": sha256(canonicalHtml),
     "web/app.mjs": sha256(canonicalApp),
     "src/alpha.mjs": sha256(alphaSource),
+    "src/mechanical.mjs": sha256(mechanicalSource),
     "src/core.mjs": sha256(coreSource)
   }
 };
