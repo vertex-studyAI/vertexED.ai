@@ -8,18 +8,15 @@ if (!target || !fs.existsSync(migrationsDir)) {
   throw new Error('usage: apply-registration-immutability.mjs TARGET_FINANCEMETA_CHECKOUT');
 }
 
-const requiredHistory = [
-  '009_event_registration_validation.sql',
-  '019_event_registration_validation_hardening.sql',
-];
-for (const filename of requiredHistory) {
-  if (!fs.existsSync(path.join(migrationsDir, filename))) {
-    throw new Error(`expected FinanceMeta migration history missing: ${filename}`);
-  }
+const migrationFiles = fs.readdirSync(migrationsDir).filter((name) => /^\d+_.*\.sql$/.test(name));
+const findVersion = (version) => migrationFiles.find((name) => name.startsWith(`${version}_`));
+const migration009 = findVersion('009');
+const migration019 = findVersion('019');
+if (!migration009 || !migration019) {
+  throw new Error('expected FinanceMeta migration history containing versions 009 and 019');
 }
 
-const existing = fs.readdirSync(migrationsDir).filter((name) => /^\d+_/.test(name));
-const maxVersion = existing.reduce((max, name) => Math.max(max, Number(name.match(/^(\d+)_/)[1])), 0);
+const maxVersion = migrationFiles.reduce((max, name) => Math.max(max, Number(name.match(/^(\d+)_/)[1])), 0);
 if (maxVersion < 21) {
   throw new Error(`expected FinanceMeta migrations through at least 021; found max ${maxVersion}`);
 }
@@ -29,6 +26,15 @@ const migrationPath = path.join(migrationsDir, migrationName);
 const testPath = path.join(target, 'src/test/event-registration-immutability-contract.test.ts');
 if (fs.existsSync(migrationPath) || fs.existsSync(testPath)) {
   throw new Error('registration immutability target files already exist; refusing ambiguous overwrite');
+}
+
+const migration009Source = fs.readFileSync(path.join(migrationsDir, migration009), 'utf8');
+const migration019Source = fs.readFileSync(path.join(migrationsDir, migration019), 'utf8');
+if (!migration009Source.includes('event_registrations') || !migration009Source.includes('BEFORE INSERT')) {
+  throw new Error(`migration ${migration009} does not prove the expected BEFORE INSERT registration validator`);
+}
+if (!migration019Source.includes('validate_event_registration')) {
+  throw new Error(`migration ${migration019} does not prove the expected hardened registration validator`);
 }
 
 const migration = `-- FinanceMeta event-registration integrity hardening
@@ -87,19 +93,23 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 const migrationsDir = path.resolve(process.cwd(), 'supabase/migrations');
-const migrationFile = fs.readdirSync(migrationsDir).find((name) => name.endsWith('_event_registration_immutability.sql'));
-if (!migrationFile) throw new Error('event registration immutability migration missing');
-const migration = fs.readFileSync(path.join(migrationsDir, migrationFile), 'utf8');
+const migrationFiles = fs.readdirSync(migrationsDir).filter((name) => /^\\d+_.*\\.sql$/.test(name));
+const migrationFile = migrationFiles.find((name) => name.endsWith('_event_registration_immutability.sql'));
+const migration009 = migrationFiles.find((name) => name.startsWith('009_'));
+const migration019 = migrationFiles.find((name) => name.startsWith('019_'));
+if (!migrationFile || !migration009 || !migration019) {
+  throw new Error('required event registration migrations missing');
+}
 
-const registrationValidation = fs.readFileSync(
-  path.join(migrationsDir, '019_event_registration_validation_hardening.sql'),
-  'utf8',
-);
+const migration = fs.readFileSync(path.join(migrationsDir, migrationFile), 'utf8');
+const registrationTrigger = fs.readFileSync(path.join(migrationsDir, migration009), 'utf8');
+const hardenedValidator = fs.readFileSync(path.join(migrationsDir, migration019), 'utf8');
 
 describe('FinanceMeta event registration immutability boundary', () => {
-  it('preserves INSERT-time validation as the only mutation path into registrations', () => {
-    expect(registrationValidation).toContain('validate_event_registration');
-    expect(registrationValidation).toContain('BEFORE INSERT');
+  it('preserves the verified INSERT-time validation path', () => {
+    expect(registrationTrigger).toContain('event_registrations');
+    expect(registrationTrigger).toContain('BEFORE INSERT');
+    expect(hardenedValidator).toContain('validate_event_registration');
   });
 
   it('removes UPDATE-capable RLS policies and table privilege', () => {
@@ -122,4 +132,4 @@ describe('FinanceMeta event registration immutability boundary', () => {
 fs.mkdirSync(path.dirname(testPath), { recursive: true });
 fs.writeFileSync(migrationPath, migration, 'utf8');
 fs.writeFileSync(testPath, test, 'utf8');
-console.log(JSON.stringify({ migrationPath, testPath }, null, 2));
+console.log(JSON.stringify({ migrationPath, testPath, migration009, migration019 }, null, 2));
