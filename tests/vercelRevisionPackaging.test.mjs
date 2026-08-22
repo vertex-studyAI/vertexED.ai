@@ -11,12 +11,22 @@ async function readHealthHandler() {
   return readFile(new URL('../api/_handlers/health.js', import.meta.url), 'utf8');
 }
 
+async function readCheckedInBuildRevision() {
+  return readFile(new URL('../api/_generated/build-revision.js', import.meta.url), 'utf8');
+}
+
 test('Vercel stamps immutable revision before serverless function packaging', async () => {
   const config = await readVercelConfig();
   assert.match(
     config.installCommand,
     /VERTEXED_REQUIRE_BUILD_REVISION=1 node scripts\/generate-build-revision\.mjs/,
   );
+});
+
+test('checked-in generated revision is neutral until a deploy-relevant build stamps it', async () => {
+  const source = await readCheckedInBuildRevision();
+  assert.match(source, /export const BUILD_REVISION = null;/);
+  assert.doesNotMatch(source, /export const BUILD_REVISION = ["'][0-9a-f]{7,40}["'];/i);
 });
 
 test('Vercel catch-all function keeps schema-valid includeFiles configuration', async () => {
