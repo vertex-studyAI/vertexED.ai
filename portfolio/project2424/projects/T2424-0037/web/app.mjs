@@ -180,6 +180,15 @@ function renderViewer() {
   ctx.fillText("DRAG TO ORBIT · SCROLL TO ZOOM", 18, height - 18);
 }
 
+function setObjectVisibility(id, visible) {
+  documentState = {
+    ...documentState,
+    objects: documentState.objects.map((object) => object.id === id ? { ...object, visible } : object)
+  };
+  if (id === "outer_casing") casingInput.checked = visible;
+  renderAll();
+}
+
 function renderTree() {
   tree.replaceChildren();
   const groups = new Map();
@@ -194,12 +203,20 @@ function renderTree() {
     heading.textContent = group.replaceAll("_", " ").toUpperCase();
     section.append(heading);
     for (const object of objects) {
+      const row = document.createElement("div");
+      row.className = "tree-row";
       const button = document.createElement("button");
       button.className = `tree-item${selectedId === object.id ? " selected" : ""}`;
       button.type = "button";
-      button.textContent = `${object.visible ? "●" : "○"} ${object.name}`;
+      button.textContent = object.name;
       button.addEventListener("click", () => { selectedId = selectedId === object.id ? null : object.id; renderTree(); renderViewer(); });
-      section.append(button);
+      const toggle = document.createElement("input");
+      toggle.type = "checkbox";
+      toggle.checked = object.visible;
+      toggle.setAttribute("aria-label", `Toggle ${object.name} visibility`);
+      toggle.addEventListener("change", () => setObjectVisibility(object.id, toggle.checked));
+      row.append(button, toggle);
+      section.append(row);
     }
     tree.append(section);
   }
@@ -282,10 +299,7 @@ $("#preset-plate").addEventListener("click", () => { promptInput.value = "Create
 updateButton.addEventListener("click", updateParameters);
 $("#export-json").addEventListener("click", () => download("neurocad-model.json", "application/json", serializeCADDocument(documentState)));
 $("#export-scad").addEventListener("click", () => download("neurocad-model.scad", "text/plain", toAssemblyOpenScad(documentState)));
-casingInput.addEventListener("change", () => {
-  documentState = { ...documentState, objects: documentState.objects.map((object) => object.id === "outer_casing" ? { ...object, visible: casingInput.checked } : object) };
-  renderAll();
-});
+casingInput.addEventListener("change", () => setObjectVisibility("outer_casing", casingInput.checked));
 explodedInput.addEventListener("change", renderViewer);
 window.addEventListener("resize", renderViewer);
 canvas.addEventListener("pointerdown", (event) => { dragging = true; pointer = { x: event.clientX, y: event.clientY }; canvas.setPointerCapture(event.pointerId); });
