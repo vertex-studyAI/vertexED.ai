@@ -2,6 +2,7 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useRef, use
 import type { Session, User } from "@supabase/supabase-js";
 import { trackLogout } from "@/lib/accountLifecycleAnalytics.mjs";
 import { setPlannerStorageScope } from "@/lib/plannerStorageScope.mjs";
+import { buildMissingProfileInsert, buildProfileUpdate } from "@/lib/profileRecovery.mjs";
 import { supabase } from "@/lib/supabaseClient";
 import { setUserContentStorageScope } from "@/lib/userContentStorageScope.mjs";
 import type { Profile } from "@/types/profile";
@@ -154,7 +155,7 @@ export function AuthProvider({ children }: PropsWithChildren<{}>) {
       },
     });
     if (error) throw error;
-    // Redirect occurs automatically by Supabase; profile upsert will happen post-redirect via onAuthStateChange
+    // Redirect occurs automatically by Supabase; profile creation is enforced by the auth.users trigger.
   };
 
   /**
@@ -224,22 +225,36 @@ export function AuthProvider({ children }: PropsWithChildren<{}>) {
     );
   };
 
-  /** Ensure a profile row exists (id from auth) and update columns from metadata. */
+  /** Ensure a profile row exists without overwriting learner-edited fields with empty Auth metadata. */
   const postAuthUpsertProfile = async (u: User, metadata?: Record<string, any>) => {
     if (!supabase) return;
-    const payload = {
-      id: u.id,
-      email: u.email ?? null,
-      full_name: metadata?.full_name ?? u.user_metadata?.full_name ?? u.user_metadata?.name ?? null,
-      avatar_url: metadata?.avatar_url ?? u.user_metadata?.avatar_url ?? null,
-      updated_at: new Date().toISOString(),
-    };
-    const { error } = await supabase.from("profiles").upsert(payload, { onConflict: "id" });
-    if (error) {
-      console.error("profiles upsert error:", error);
-    } else {
-      await refreshProfile(u.id, u.email);
+
+    const updatedAt = new Date().toISOString();
+    const updatePayload = buildProfileUpdate(u, metadata, updatedAt);
+    const { data: updated, error: updateError } = await supabase
+      .from("profiles")
+      .update(updatePayload)
+      .eq("id", u.id)
+      .select("id")
+      .maybeSingle();
+
+    if (updateError) {
+      console.error("profiles update error:", updateError);
+      return;
     }
+
+    if (!updated) {
+      const insertPayload = buildMissingProfileInsert(u, metadata, updatedAt);
+      const { error: insertError } = await supabase.from("profiles").insert(insertPayload);
+      // A concurrent auth event may have repaired the same profile first. In that
+      // narrow race, the unique-key conflict is success-equivalent for recovery.
+      if (insertError && insertError.code !== "23505") {
+        console.error("profiles recovery insert error:", insertError);
+        return;
+      }
+    }
+
+    await refreshProfile(u.id, u.email);
   };
 
   const value = useMemo<AuthContextType>(
