@@ -1,0 +1,77 @@
+{
+  "protocol_id": "T2424-0037-S3-SUCCESSOR-20260822",
+  "protocol_status": "PROTOCOL_FROZEN_DATASET_AND_MODEL_IDENTITY_BLOCKED",
+  "execution_authorized": false,
+  "results_status": "NOT_RUN",
+  "historical_results_immutable": true,
+  "benchmark_target_cases": 150,
+  "strata": [
+    {"id": "basic_single_part", "cases": 25},
+    {"id": "feature_composition", "cases": 30},
+    {"id": "multi_step_constraints", "cases": 25},
+    {"id": "assembly_interfaces", "cases": 25},
+    {"id": "ambiguous_paraphrase", "cases": 20},
+    {"id": "invalid_contradictory_unsafe", "cases": 25}
+  ],
+  "required_external_benchmark_adapters_min": 2,
+  "external_benchmark_candidates": [
+    {"name": "CADTestBench", "reference": "arXiv:2605.07807", "role": "executable geometric/topological tests", "materialized": false},
+    {"name": "Text2CAD-Bench", "reference": "arXiv:2605.18430", "role": "human-curated multi-level text-to-parametric-CAD tasks", "materialized": false},
+    {"name": "MUSE", "reference": "arXiv:2605.28579", "role": "manufacturability/function/assembly-oriented evaluation", "materialized": false}
+  ],
+  "systems": [
+    {"id": "M0", "name": "typed_ir_successor", "kind": "method", "implementation_frozen": false},
+    {"id": "B0", "name": "matched_direct_program_generation", "kind": "baseline", "implementation_frozen": false},
+    {"id": "B1", "name": "matched_direct_generation_one_repair", "kind": "baseline", "implementation_frozen": false},
+    {"id": "B2", "name": "direct_generation_matched_validation", "kind": "baseline", "implementation_frozen": false},
+    {"id": "B3", "name": "constrained_template_or_retrieval", "kind": "baseline", "implementation_frozen": false}
+  ],
+  "confirmatory_hypotheses": [
+    {"id": "H1", "metric": "semantic_test_pass_rate", "minimum_absolute_delta_vs_strongest_matched_direct": 0.10},
+    {"id": "H2", "metric": "invalid_correct_reject_rate", "minimum_absolute_delta_vs_strongest_matched_direct": 0.15, "maximum_valid_semantic_regression": 0.05},
+    {"id": "H3", "metric": "reopen_edit_success_rate", "minimum_absolute_delta_vs_strongest_matched_direct": 0.10}
+  ],
+  "primary_metric": "semantic_test_pass_rate",
+  "secondary_metrics": [
+    "syntax_or_parse_success",
+    "backend_execution_success",
+    "geometry_validity_rate",
+    "constraint_satisfaction_rate",
+    "invalid_correct_reject_rate",
+    "unsafe_accept_rate",
+    "reopen_edit_success_rate",
+    "provider_calls_per_case",
+    "input_output_tokens_per_case",
+    "wall_clock_seconds_per_case",
+    "backend_runtime_seconds_per_case"
+  ],
+  "required_ablations": [
+    "NO_TYPED_IR",
+    "NO_VALIDATION",
+    "NO_REPAIR",
+    "SCHEMA_ONLY"
+  ],
+  "statistics": {
+    "paired_case_table": true,
+    "bootstrap_ci": 0.95,
+    "stratified_by_stratum": true,
+    "mcnemar_exact_where_applicable": true,
+    "holm_correct_confirmatory_family": true
+  },
+  "validation_dominance_rule": {
+    "recovery_fraction_threshold": 0.80,
+    "classification": "VALIDATION_DOMINANT_OR_NONUNIQUE"
+  },
+  "execution_preconditions": [
+    "benchmark_records_materialized_and_hashed",
+    "evaluation_split_frozen",
+    "M0_commit_frozen",
+    "B0_B3_commits_frozen",
+    "provider_model_ids_frozen",
+    "prompts_and_context_budgets_frozen",
+    "retry_and_repair_policy_frozen",
+    "external_adapters_materialized_min_2",
+    "EXECUTION_AUTHORIZATION.json_written_with_hashes"
+  ],
+  "claim_boundary": "No successor performance result exists yet. This manifest freezes the next scientific question, falsifiers, benchmark shape, baseline families, metrics, ablations and promotion rules only."
+}
