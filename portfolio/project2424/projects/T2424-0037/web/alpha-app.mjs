@@ -1,5 +1,6 @@
 import { createJetEngineConcept, updateJetEngineConcept } from "../src/jet-engine.mjs";
-import { serializeCADDocument, toSceneDescription } from "../src/render3d.mjs";
+import { parseIntent } from "../src/intent.mjs";
+import { serializeCADDocument } from "../src/render3d.mjs";
 
 const state = {
   document: createJetEngineConcept(),
@@ -16,7 +17,7 @@ const canvas = el("viewport");
 const ctx = canvas.getContext("2d");
 
 function project(point, width, height) {
-  let [x, y, z] = point;
+  const [x, y, z] = point;
   const cy = Math.cos(state.yaw), sy = Math.sin(state.yaw);
   const cp = Math.cos(state.pitch), sp = Math.sin(state.pitch);
   const x1 = x * cy - z * sy;
@@ -39,7 +40,7 @@ function explodeOffset(object) {
 function drawCylinder(object, color, alpha = 1) {
   const width = canvas.clientWidth, height = canvas.clientHeight;
   const x = objectX(object) + explodeOffset(object);
-  const length = object.length ?? object.geometry?.length ?? 30;
+  const length = object.length ?? 30;
   const radius = object.radius ?? object.outerRadius ?? object.radiusStart ?? object.tipRadius ?? 40;
   const endRadius = object.radiusEnd ?? radius;
   const [x1, y1] = project([x, radius, 0], width, height);
@@ -75,7 +76,8 @@ function drawBladeRing(object) {
 function renderViewport() {
   const dpr = window.devicePixelRatio || 1;
   const rect = canvas.getBoundingClientRect();
-  canvas.width = Math.max(1, Math.floor(rect.width * dpr)); canvas.height = Math.max(1, Math.floor(rect.height * dpr));
+  canvas.width = Math.max(1, Math.floor(rect.width * dpr));
+  canvas.height = Math.max(1, Math.floor(rect.height * dpr));
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   ctx.clearRect(0, 0, rect.width, rect.height);
   const objects = state.document.objects.filter((object) => object.visible !== false && (object.id !== "outer_casing" || state.casingVisible));
@@ -95,17 +97,36 @@ function renderTree() {
     if (!groups.has(object.group)) groups.set(object.group, []);
     groups.get(object.group).push(object);
   }
-  const root = el("assembly-tree"); root.textContent = "";
+  const root = el("assembly-tree");
+  root.textContent = "";
   for (const [group, objects] of groups) {
     const section = document.createElement("section");
-    const heading = document.createElement("h4"); heading.textContent = group?.replaceAll("_", " ") ?? "components"; section.appendChild(heading);
+    const heading = document.createElement("h4");
+    heading.textContent = group?.replaceAll("_", " ") ?? "components";
+    section.appendChild(heading);
     for (const object of objects) {
-      const button = document.createElement("button"); button.type = "button"; button.className = "tree-item"; button.textContent = object.id.replaceAll("_", " ");
-      button.addEventListener("click", () => { state.selected = object.id; renderViewport(); document.querySelectorAll(".tree-item").forEach((node) => node.classList.toggle("active", node === button)); });
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "tree-item";
+      button.textContent = object.id.replaceAll("_", " ");
+      button.addEventListener("click", () => {
+        state.selected = object.id;
+        renderViewport();
+        document.querySelectorAll(".tree-item").forEach((node) => node.classList.toggle("active", node === button));
+      });
       section.appendChild(button);
     }
     root.appendChild(section);
   }
+}
+
+function syncControls() {
+  const params = state.document.metadata.parameters;
+  el("engine-length").value = params.engineLengthMm;
+  el("outer-diameter").value = params.outerDiameterMm;
+  el("shaft-diameter").value = params.shaftDiameterMm;
+  el("compressor-stages").value = params.compressorStages;
+  el("turbine-stages").value = params.turbineStages;
 }
 
 function renderValidation() {
@@ -114,43 +135,115 @@ function renderValidation() {
 }
 
 function renderAll() {
-  renderTree(); renderValidation(); renderViewport();
+  syncControls();
+  renderTree();
+  renderValidation();
+  renderViewport();
   el("cadspec").textContent = serializeCADDocument(state.document);
 }
 
+function showError(error) {
+  el("error-box").hidden = false;
+  el("error-box").textContent = error.message;
+  el("pipeline").textContent = "FAILED CLOSED";
+}
+
+function clearError() {
+  el("error-box").hidden = true;
+  el("error-box").textContent = "";
+}
+
 function updateFromControls() {
+  state.document = updateJetEngineConcept(state.document, {
+    engineLengthMm: Number(el("engine-length").value),
+    outerDiameterMm: Number(el("outer-diameter").value),
+    shaftDiameterMm: Number(el("shaft-diameter").value),
+    compressorStages: Number(el("compressor-stages").value),
+    turbineStages: Number(el("turbine-stages").value)
+  });
+  clearError();
+  el("pipeline").textContent = "VALIDATING → REGENERATING → READY";
+  renderAll();
+}
+
+function executePrompt() {
   try {
-    state.document = updateJetEngineConcept(state.document, {
-      engineLengthMm: Number(el("engine-length").value),
-      outerDiameterMm: Number(el("outer-diameter").value),
-      shaftDiameterMm: Number(el("shaft-diameter").value),
-      compressorStages: Number(el("compressor-stages").value),
-      turbineStages: Number(el("turbine-stages").value)
-    });
-    el("error-box").hidden = true;
+    el("pipeline").textContent = "UNDERSTANDING → STRUCTURING → VALIDATING → GENERATING";
+    const intent = parseIntent(el("prompt").value, state.document);
+    if (intent.type === "CREATE_ASSEMBLY") {
+      state.document = createJetEngineConcept(intent.parameters);
+    } else if (intent.type === "MODIFY_PARAMETER") {
+      state.document = updateJetEngineConcept(state.document, intent.patch);
+    } else if (intent.type === "SET_VISIBILITY") {
+      state.casingVisible = intent.visible;
+    } else if (intent.type === "SET_VIEW_MODE") {
+      state.exploded = intent.mode === "exploded";
+    }
+    clearError();
+    el("toggle-casing").textContent = state.casingVisible ? "Hide casing" : "Show casing";
+    el("toggle-exploded").textContent = state.exploded ? "Assembled view" : "Exploded view";
+    el("pipeline").textContent = "UNDERSTANDING → STRUCTURING → VALIDATING → GENERATING → READY";
     renderAll();
   } catch (error) {
-    el("error-box").hidden = false; el("error-box").textContent = error.message;
+    showError(error);
   }
 }
 
-el("generate").addEventListener("click", () => { el("pipeline").textContent = "UNDERSTANDING → STRUCTURING → VALIDATING → GENERATING → READY"; updateFromControls(); });
-el("toggle-casing").addEventListener("click", () => { state.casingVisible = !state.casingVisible; el("toggle-casing").textContent = state.casingVisible ? "Hide casing" : "Show casing"; renderViewport(); });
-el("toggle-exploded").addEventListener("click", () => { state.exploded = !state.exploded; el("toggle-exploded").textContent = state.exploded ? "Assembled view" : "Exploded view"; renderViewport(); });
-el("reset-view").addEventListener("click", () => { state.yaw = -0.45; state.pitch = 0.18; state.zoom = 1; renderViewport(); });
+el("generate").addEventListener("click", executePrompt);
+for (const id of ["engine-length", "outer-diameter", "shaft-diameter", "compressor-stages", "turbine-stages"]) {
+  el(id).addEventListener("change", () => {
+    try { updateFromControls(); } catch (error) { showError(error); }
+  });
+}
+el("toggle-casing").addEventListener("click", () => {
+  state.casingVisible = !state.casingVisible;
+  el("toggle-casing").textContent = state.casingVisible ? "Hide casing" : "Show casing";
+  renderViewport();
+});
+el("toggle-exploded").addEventListener("click", () => {
+  state.exploded = !state.exploded;
+  el("toggle-exploded").textContent = state.exploded ? "Assembled view" : "Exploded view";
+  renderViewport();
+});
+el("reset-view").addEventListener("click", () => {
+  state.yaw = -0.45;
+  state.pitch = 0.18;
+  state.zoom = 1;
+  renderViewport();
+});
 el("export-json").addEventListener("click", () => {
   const blob = new Blob([serializeCADDocument(state.document)], { type: "application/json" });
-  const url = URL.createObjectURL(blob); const anchor = document.createElement("a"); anchor.href = url; anchor.download = "neurocad-jet-engine-concept.json"; anchor.click(); URL.revokeObjectURL(url);
+  const url = URL.createObjectURL(blob);
+  const anchor = document.createElement("a");
+  anchor.href = url;
+  anchor.download = "neurocad-jet-engine-concept.json";
+  anchor.click();
+  URL.revokeObjectURL(url);
 });
 el("show-spec").addEventListener("click", () => { el("spec-panel").hidden = !el("spec-panel").hidden; });
 
 let dragging = false, lastX = 0, lastY = 0;
-canvas.addEventListener("pointerdown", (event) => { dragging = true; lastX = event.clientX; lastY = event.clientY; canvas.setPointerCapture(event.pointerId); });
-canvas.addEventListener("pointermove", (event) => { if (!dragging) return; state.yaw += (event.clientX - lastX) * 0.008; state.pitch += (event.clientY - lastY) * 0.008; state.pitch = Math.max(-1.1, Math.min(1.1, state.pitch)); lastX = event.clientX; lastY = event.clientY; renderViewport(); });
+canvas.addEventListener("pointerdown", (event) => {
+  dragging = true;
+  lastX = event.clientX;
+  lastY = event.clientY;
+  canvas.setPointerCapture(event.pointerId);
+});
+canvas.addEventListener("pointermove", (event) => {
+  if (!dragging) return;
+  state.yaw += (event.clientX - lastX) * 0.008;
+  state.pitch += (event.clientY - lastY) * 0.008;
+  state.pitch = Math.max(-1.1, Math.min(1.1, state.pitch));
+  lastX = event.clientX;
+  lastY = event.clientY;
+  renderViewport();
+});
 canvas.addEventListener("pointerup", () => { dragging = false; });
-canvas.addEventListener("wheel", (event) => { event.preventDefault(); state.zoom = Math.max(0.5, Math.min(2.5, state.zoom * (event.deltaY > 0 ? 0.92 : 1.08))); renderViewport(); }, { passive: false });
+canvas.addEventListener("wheel", (event) => {
+  event.preventDefault();
+  state.zoom = Math.max(0.5, Math.min(2.5, state.zoom * (event.deltaY > 0 ? 0.92 : 1.08)));
+  renderViewport();
+}, { passive: false });
 window.addEventListener("resize", renderViewport);
 
-const params = state.document.metadata.parameters;
-el("engine-length").value = params.engineLengthMm; el("outer-diameter").value = params.outerDiameterMm; el("shaft-diameter").value = params.shaftDiameterMm; el("compressor-stages").value = params.compressorStages; el("turbine-stages").value = params.turbineStages;
 renderAll();
