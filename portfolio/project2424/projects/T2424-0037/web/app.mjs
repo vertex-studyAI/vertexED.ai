@@ -6,6 +6,7 @@ import {
   toAssemblyOpenScad,
   validateCADDocument
 } from "../src/alpha.mjs";
+import { interpretMechanicalPrompt } from "../src/mechanical.mjs";
 
 const $ = (selector) => document.querySelector(selector);
 const promptInput = $("#prompt");
@@ -23,6 +24,7 @@ const lengthInput = $("#engine-length");
 const diameterInput = $("#outer-diameter");
 const casingInput = $("#casing-visible");
 const explodedInput = $("#exploded");
+const updateButton = $("#update-params");
 
 let documentState = createJetEngineDocument();
 let selectedId = null;
@@ -30,7 +32,7 @@ let camera = { yaw: -0.45, pitch: 0.28, zoom: 0.78 };
 let dragging = false;
 let pointer = { x: 0, y: 0 };
 
-const GROUP_OFFSET = { inlet: -1.2, compressor: -0.45, shaft: 0, combustor: 0.25, turbine: 0.75, casing: 0, nozzle: 1.25, plate: 0 };
+const GROUP_OFFSET = { inlet: -1.2, compressor: -0.45, shaft: 0, combustor: 0.25, turbine: 0.75, casing: 0, nozzle: 1.25, plate: 0, body: 0, flanges: 0.8 };
 
 function setStatus(message) { statusBox.textContent = message; }
 function fail(error) {
@@ -76,10 +78,30 @@ function lengthOf(object) {
   return object.params.length ?? object.params.thickness ?? 1;
 }
 
+function sceneMetrics() {
+  let minX = Infinity;
+  let maxX = -Infinity;
+  let radial = 1;
+  for (const object of documentState.objects) {
+    if (object.type === "rectangular_plate") {
+      minX = Math.min(minX, object.transform.x - object.params.width / 2);
+      maxX = Math.max(maxX, object.transform.x + object.params.width / 2);
+      radial = Math.max(radial, object.params.height / 2, object.params.thickness / 2);
+      continue;
+    }
+    const length = lengthOf(object);
+    minX = Math.min(minX, object.transform.x);
+    maxX = Math.max(maxX, object.transform.x + length);
+    const [r0, r1] = radiusPair(object);
+    radial = Math.max(radial, r0, r1);
+  }
+  if (!Number.isFinite(minX) || !Number.isFinite(maxX)) return { length: 100, diameter: 100 };
+  return { length: Math.max(20, maxX - minX), diameter: Math.max(20, radial * 2) };
+}
+
 function groupExplodeOffset(object) {
   if (!explodedInput.checked) return 0;
-  const engineLength = documentState.metadata.jetEngineParams?.engineLengthMm ?? 900;
-  return (GROUP_OFFSET[object.group] ?? 0) * engineLength * 0.12;
+  return (GROUP_OFFSET[object.group] ?? 0) * sceneMetrics().length * 0.12;
 }
 
 function objectSegments(object) {
@@ -130,8 +152,8 @@ function renderViewer() {
   for (let x = 0; x < width; x += 36) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, height); ctx.stroke(); }
   for (let y = 0; y < height; y += 36) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(width, y); ctx.stroke(); }
 
-  const engineLength = documentState.metadata.jetEngineParams?.engineLengthMm ?? 900;
-  const scale = (Math.min(width / (engineLength * 1.45), height / 520) || 0.4) * camera.zoom;
+  const metrics = sceneMetrics();
+  const scale = (Math.min(width / (metrics.length * 1.45), height / (metrics.diameter * 1.7)) || 0.4) * camera.zoom;
   const cx = width / 2;
   const cy = height / 2;
   const visible = documentState.objects.filter((object) => object.visible && (casingInput.checked || object.id !== "outer_casing"));
@@ -185,7 +207,12 @@ function renderTree() {
 
 function syncControls() {
   const p = documentState.metadata.jetEngineParams;
-  if (!p) return;
+  const jetOnly = [compressorInput, turbineInput, lengthInput, diameterInput, casingInput, updateButton];
+  for (const control of jetOnly) control.disabled = !p;
+  if (!p) {
+    casingInput.checked = true;
+    return;
+  }
   compressorInput.value = p.compressorStages;
   turbineInput.value = p.turbineStages;
   lengthInput.value = p.engineLengthMm;
@@ -208,8 +235,17 @@ function runPrompt() {
   errorBox.textContent = "";
   setStatus("UNDERSTANDING → STRUCTURING → VALIDATING → GENERATING");
   try {
+    const mechanical = interpretMechanicalPrompt(promptInput.value);
+    if (mechanical) {
+      documentState = mechanical;
+      selectedId = null;
+      explodedInput.checked = false;
+      renderAll();
+      return;
+    }
     const result = interpretPrompt(promptInput.value, documentState);
     documentState = result.document;
+    selectedId = null;
     explodedInput.checked = Boolean(result.view?.exploded);
     casingInput.checked = result.view?.casingVisible !== false;
     renderAll();
@@ -219,6 +255,7 @@ function runPrompt() {
 function updateParameters() {
   errorBox.textContent = "";
   try {
+    if (!documentState.metadata.jetEngineParams) throw new Error("Jet-engine parameters are available only for the jet-engine concept preset");
     documentState = createJetEngineDocument({
       ...documentState.metadata.jetEngineParams,
       compressorStages: Number(compressorInput.value),
@@ -240,8 +277,9 @@ function download(name, type, content) {
 
 runButton.addEventListener("click", runPrompt);
 $("#preset-jet").addEventListener("click", () => { promptInput.value = "Generate a simplified axial jet engine concept with 6 compressor stages and 2 turbine stages"; runPrompt(); });
+$("#preset-mechanical").addEventListener("click", () => { promptInput.value = "Create a flanged tube concept length 160 mm outer radius 34 mm wall thickness 5 mm"; runPrompt(); });
 $("#preset-plate").addEventListener("click", () => { promptInput.value = "Create a plate 100 by 60 mm thickness 4 with 4 holes radius 4 inset 10"; runPrompt(); });
-$("#update-params").addEventListener("click", updateParameters);
+updateButton.addEventListener("click", updateParameters);
 $("#export-json").addEventListener("click", () => download("neurocad-model.json", "application/json", serializeCADDocument(documentState)));
 $("#export-scad").addEventListener("click", () => download("neurocad-model.scad", "text/plain", toAssemblyOpenScad(documentState)));
 casingInput.addEventListener("change", () => {
