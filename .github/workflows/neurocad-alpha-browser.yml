@@ -59,13 +59,18 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          expected_artifact_revision="$(node --input-type=module -e "import { readFile } from 'node:fs/promises'; const manifest = JSON.parse(await readFile('dist/neurocad/release-manifest.json', 'utf8')); process.stdout.write(manifest.artifactRevision);")"
           npm run preview -- --host 127.0.0.1 --port 4173 > /tmp/neurocad-alpha-preview.log 2>&1 &
           echo $! > /tmp/neurocad-alpha-preview.pid
           for attempt in $(seq 1 30); do
             page="$(curl --silent --fail http://127.0.0.1:4173/neurocad/ || true)"
             if [ -n "$page" ]; then
               if ! printf '%s' "$page" | grep -Fq "neurocad-build-revision\" content=\"${GITHUB_SHA}\""; then
-                echo "[neurocad] deploy-shaped route served, but revision stamp did not match ${GITHUB_SHA}"
+                echo "[neurocad] deploy-shaped route served, but repository revision stamp did not match ${GITHUB_SHA}"
+                exit 1
+              fi
+              if ! printf '%s' "$page" | grep -Fq "neurocad-artifact-revision\" content=\"${expected_artifact_revision}\""; then
+                echo "[neurocad] deploy-shaped route served, but artifact revision did not match ${expected_artifact_revision}"
                 exit 1
               fi
               exit 0
@@ -127,22 +132,29 @@ jobs:
       - name: Install Chromium
         run: npx playwright install --with-deps chromium
 
-      - name: Wait for exact NeuroCAD production revision
+      - name: Wait for matching NeuroCAD production artifact
         shell: bash
         run: |
           set -euo pipefail
+          expected_artifact_revision="$(node --input-type=module -e "import { computeNeuroCadArtifactRevision } from './scripts/publish-neurocad-alpha.mjs'; process.stdout.write(await computeNeuroCadArtifactRevision());")"
           matched=0
           for attempt in $(seq 1 10); do
-            echo "[neurocad-smoke] revision check ${attempt}/10"
+            echo "[neurocad-smoke] artifact check ${attempt}/10"
             page="$(curl --silent --fail https://www.vertexed.app/neurocad/ || true)"
-            if printf '%s' "$page" | grep -Fq "neurocad-build-revision\" content=\"${GITHUB_SHA}\""; then
+            if printf '%s' "$page" | grep -Fq "neurocad-artifact-revision\" content=\"${expected_artifact_revision}\""; then
+              served_repository_revision="$(printf '%s' "$page" | sed -n 's/.*neurocad-build-revision" content="\([0-9a-f]\{7,40\}\)".*/\1/p' | head -n 1)"
+              if [ -z "$served_repository_revision" ]; then
+                echo "[neurocad-smoke] matching artifact was served, but immutable repository provenance was missing"
+                exit 1
+              fi
+              echo "[neurocad-smoke] matched artifact ${expected_artifact_revision} from served repository revision ${served_repository_revision}"
               matched=1
               break
             fi
             sleep 30
           done
           if [ "$matched" -ne 1 ]; then
-            echo "[neurocad-smoke] exact main revision ${GITHUB_SHA} was not observed at /neurocad/"
+            echo "[neurocad-smoke] expected NeuroCAD artifact ${expected_artifact_revision} was not observed at /neurocad/"
             exit 1
           fi
 
