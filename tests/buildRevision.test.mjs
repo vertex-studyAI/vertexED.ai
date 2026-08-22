@@ -18,6 +18,12 @@ test('normalizeBuildRevision accepts only hexadecimal Git identifiers', () => {
   assert.equal(normalizeBuildRevision('12345'), null);
 });
 
+test('checked-in build revision remains an unstamped source sentinel', async () => {
+  const contents = await readFile(new URL('../api/_generated/build-revision.js', import.meta.url), 'utf8');
+  assert.match(contents, /export const BUILD_REVISION = null;/);
+  assert.doesNotMatch(contents, /export const BUILD_REVISION = ["'][0-9a-f]{7,40}["'];/i);
+});
+
 test('resolveBuildRevision prefers deployment environment identity over Git fallback', () => {
   let gitCalled = false;
   const revision = resolveBuildRevision({
