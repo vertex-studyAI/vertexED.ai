@@ -18,10 +18,11 @@ async function source(relativePath) {
   return readFile(path.join(projectRoot, relativePath), "utf8");
 }
 
-const [canonicalHtml, canonicalApp, alphaSource, mechanicalSource, coreSource] = await Promise.all([
+const [canonicalHtml, canonicalApp, alphaSource, languageSource, mechanicalSource, coreSource] = await Promise.all([
   source("web/index.html"),
   source("web/app.mjs"),
   source("src/alpha.mjs"),
+  source("src/language.mjs"),
   source("src/mechanical.mjs"),
   source("src/core.mjs")
 ]);
@@ -41,13 +42,13 @@ let publicApp = canonicalApp.replace(
 if (publicApp === canonicalApp) {
   throw new Error("NeuroCAD public build could not locate canonical alpha-module import");
 }
-const beforeMechanicalRewrite = publicApp;
+const beforeLanguageRewrite = publicApp;
 publicApp = publicApp.replace(
-  'from "../src/mechanical.mjs";',
-  'from "./mechanical.mjs";'
+  'from "../src/language.mjs";',
+  'from "./language.mjs";'
 );
-if (publicApp === beforeMechanicalRewrite) {
-  throw new Error("NeuroCAD public build could not locate canonical mechanical-module import");
+if (publicApp === beforeLanguageRewrite) {
+  throw new Error("NeuroCAD public build could not locate canonical language-module import");
 }
 
 await mkdir(assetsRoot, { recursive: true });
@@ -55,6 +56,7 @@ await Promise.all([
   writeFile(path.join(outputRoot, "neurocad.html"), publicHtml, "utf8"),
   writeFile(path.join(assetsRoot, "app.mjs"), publicApp, "utf8"),
   writeFile(path.join(assetsRoot, "alpha.mjs"), alphaSource, "utf8"),
+  writeFile(path.join(assetsRoot, "language.mjs"), languageSource, "utf8"),
   writeFile(path.join(assetsRoot, "mechanical.mjs"), mechanicalSource, "utf8"),
   writeFile(path.join(assetsRoot, "core.mjs"), coreSource, "utf8")
 ]);
@@ -66,6 +68,7 @@ const manifest = {
     "neurocad.html": sha256(publicHtml),
     "neurocad-assets/app.mjs": sha256(publicApp),
     "neurocad-assets/alpha.mjs": sha256(alphaSource),
+    "neurocad-assets/language.mjs": sha256(languageSource),
     "neurocad-assets/mechanical.mjs": sha256(mechanicalSource),
     "neurocad-assets/core.mjs": sha256(coreSource)
   },
@@ -73,6 +76,7 @@ const manifest = {
     "web/index.html": sha256(canonicalHtml),
     "web/app.mjs": sha256(canonicalApp),
     "src/alpha.mjs": sha256(alphaSource),
+    "src/language.mjs": sha256(languageSource),
     "src/mechanical.mjs": sha256(mechanicalSource),
     "src/core.mjs": sha256(coreSource)
   }
