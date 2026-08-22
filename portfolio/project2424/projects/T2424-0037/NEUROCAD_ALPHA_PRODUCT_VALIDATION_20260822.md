@@ -1,6 +1,14 @@
 # NeuroCAD Alpha 0.1 — Product Validation — 2026-08-22
 
-This file records **product QA**, not a new scientific/OOD benchmark. It does not alter the frozen NeuroCAD v1 result or the 2026-08-14 component-ablation verdict.
+This file records **product QA and release certification**, not a new scientific/OOD benchmark. It does not alter the frozen NeuroCAD v1 result or the 2026-08-14 component-ablation verdict.
+
+## Canonical repository gate
+
+The Alpha branch is required to pass the repository's canonical `npm run ci` chain rather than a NeuroCAD-only shortcut. That gate includes lint/typecheck, Vercel-function validation, production dependency audit, the root Node regression suite, evaluation tests and the CI build.
+
+During release certification, the canonical CI workflow completed successfully on the Alpha branch after the frozen Project 2424 identity regression was repaired by restoring `NLP-to-CAD` as the canonical README H1 while retaining NeuroCAD Alpha 0.1 as the product subtitle.
+
+The identity regression itself was **not** weakened or removed.
 
 ## Focused JavaScript QA
 
@@ -11,13 +19,58 @@ node --test \
   tests/neurocadWeb.test.mjs
 ```
 
-Local result during Alpha implementation: **21/21 PASS**.
+Implementation-session focused result: **21/21 PASS**.
 
 Coverage includes historical plate behavior, PR #410-equivalent direct-spec hardening, source-injection-shaped geometry rejection, hole bounds/overlap/unit/count checks, conceptual engine stage extrema, shaft/casing and ratio constraints, non-finite rejection, stateful follow-ups, finite SCAD/JSON generation, flanged-tube and legacy-plate adaptation, cyclic-assembly diagnostics, unsupported-prompt fail-closed behavior, and browser no-`eval`/`Function`/raw-HTML regressions.
 
+## Deterministic 125-case product-QA matrix
+
+`tests/neurocadProductQa.test.mjs` is part of the root test surface and generates machine-readable evidence under `artifacts/neurocad-alpha/` in the focused CI workflow.
+
+The matrix contains exactly:
+
+- 25 plate cases;
+- 20 tube/cylinder cases;
+- 20 flange/component cases;
+- 20 nested/general assembly cases;
+- 20 conceptual jet-engine configurations;
+- 20 malformed/adversarial cases.
+
+Total: **125/125 product-QA cases PASS** in the release-certification workflow.
+
+Valid cases require schema validation, JSON serialization, finite/non-empty OpenSCAD generation and no `NaN`/`Infinity` output. Adversarial cases pass only when the system rejects them or returns structured fail-closed diagnostics.
+
+This is **product QA**, not a scientific OOD benchmark and not evidence of manufacturing or propulsion validity.
+
+## Real Chromium browser certification
+
+A dedicated GitHub Actions workflow performs a fresh checkout and dependency install, installs Chromium, launches the standalone NeuroCAD HTTP demo, and executes the actual workstation with Playwright.
+
+Release-certification environment: Chromium **140.0.7339.16**.
+
+Browser result: **3/3 PASS**.
+
+The real browser flow verifies:
+
+1. the conceptual jet engine renders with a live WebGL canvas and validation PASS;
+2. the assembly tree is populated;
+3. casing visibility can be toggled;
+4. exploded mode can be enabled;
+5. compressor stages can be edited from 6 to 9 and the CADSpec regenerates;
+6. a component can be selected from the hierarchy;
+7. CADSpec contains no `NaN`/`Infinity`;
+8. CADSpec JSON downloads as `neurocad-model.json`;
+9. generated OpenSCAD downloads as `neurocad-model.scad`;
+10. reload returns to a valid generated model;
+11. orbit, zoom and pan visibly change the rendered viewport without scrolling the page;
+12. invalid conceptual parameters fail closed, surface an error and preserve the last valid CAD document;
+13. no captured page exceptions or console errors occur in the certified flow.
+
+The workflow stores screenshots for home/default generation, jet generation, casing hidden, exploded mode, nine compressor stages and CADSpec inspection.
+
 ## Deterministic jet-engine configurations
 
-All seven configurations passed `validateCADDocument()` before export.
+All seven configurations pass `validateCADDocument()` before export.
 
 | Case | Configuration | Validation | Objects | Assemblies |
 |---|---|---:|---:|---:|
@@ -25,40 +78,44 @@ All seven configurations passed `validateCADDocument()` before export.
 | J2 | 8 compressor / 2 turbine | PASS | 25 | 16 |
 | J3 | 3 compressor / 3 turbine | PASS | 16 | 12 |
 | J4 | max stages: 12 compressor / 4 turbine | PASS | 35 | 22 |
-| J5 | minimum length/diameter envelope + 3/1 stages | PASS | 14 | 10 |
+| J5 | minimum supported dimensions + 3/1 stages | PASS | 14 | 10 |
 | J6 | casing hidden | PASS | 21 | 14 |
-| J7 | exploded spacing 70 mm | PASS | 21 | 14 |
+| J7 | exploded spacing 90 mm | PASS | 21 | 14 |
 
-## Real OpenSCAD execution
+## Exact-head OpenSCAD backend certification
 
-Environment available during local verification: `/usr/bin/openscad`.
+A dedicated GitHub Actions workflow installs the real OpenSCAD binary in a fresh Ubuntu runner and runs all J1–J7 through the CAD backend.
 
-Each J1–J7 generated `.scad` source was passed through OpenSCAD and produced a non-empty STL file.
-
-| Case | STL bytes | SHA-256 |
-|---|---:|---|
-| J1 | 1,547,706 | `7f14ac217c52c82f97833d3e9e6c8371ad55320579a8efde34172354f08598da` |
-| J2 | 2,329,682 | `42c7afa30415cc873505c6f1813f9f5fc30e900db1e787f86da2258fc139c402` |
-| J3 | 1,304,741 | `a76680419eb722242f5a8f97199c19b3f05f7765d0387ff2fcfa0c2400b33800` |
-| J4 | 3,453,887 | `cf1c380cacd72ca2ea67151fc02a1aabd6aea26d7806e9fb52df59c7f5d8fd92` |
-| J5 | 1,117,078 | `37ca263c4a7e29b2db3efd7befca4484598a2358837b74b5628de2e693646c62` |
-| J6 | 1,663,658 | `72e45f8bc03327bdb59b2d576824d1c84eae5f2832def0e0d644f10b6f9a45f7` |
-| J7 | 1,919,746 | `711ba513d6fd9d88f06da3a9206f77c7ce83a917af67704d4117c9955448739d` |
-
-### Important retained warning
-
-OpenSCAD emitted:
+Environment:
 
 ```text
-WARNING: Object may not be a valid 2-manifold and may need repair!
-EXPORT-WARNING: Exported object may not be a valid 2-manifold and may need repair
+Ubuntu 24.04.4 LTS
+Node v22.23.2
+npm 10.9.8
+OpenSCAD version 2021.01
 ```
 
-Therefore this QA establishes that the generated OpenSCAD is executable and can produce non-empty STL artifacts for these configurations. It **does not** establish manifold/manufacturing-valid STL geometry. Browser Alpha intentionally exposes CADSpec JSON and `.scad`, not an STL button.
+Result: **7/7 PASS**, each with CAD validation PASS, generated finite `.scad`, OpenSCAD exit code 0 and a non-empty STL artifact.
 
-## Browser status
+| Case | STL bytes | OpenSCAD result | Warning detected by exact-head workflow |
+|---|---:|---:|---:|
+| J1 | 1,475,103 | PASS | NO |
+| J2 | 2,219,911 | PASS | NO |
+| J3 | 1,275,151 | PASS | NO |
+| J4 | 3,313,910 | PASS | NO |
+| J5 | 1,046,192 | PASS | NO |
+| J6 | 1,626,316 | PASS | NO |
+| J7 | 1,775,296 | PASS | NO |
 
-The browser source is syntax-checked/static-tested and served by the documented local HTTP path. A full interactive browser smoke (WebGL + pinned Three.js CDN) remains a separate gate until performed in an actual browser environment.
+### STL/manifold truth boundary
+
+An earlier local implementation run emitted OpenSCAD warnings that the stylized multi-part assembly might not be a valid 2-manifold. The current Ubuntu/OpenSCAD release-certification run did **not** emit the warning for J1–J7.
+
+The later absence of a warning does **not** prove manifold or manufacturing validity, so the earlier warning is preserved rather than erased. Browser Alpha intentionally exposes CADSpec JSON and `.scad`; STL remains local/experimental and STEP/B-rep is not implemented.
+
+## Dependency note
+
+The standalone 3D workstation currently uses version-pinned Three.js `0.179.1` modules from jsDelivr. The real browser certification proves that this pinned runtime path works in the CI browser environment, but a repository-local/self-contained Three.js bundle remains a hardening opportunity before treating offline/no-CDN operation as a release property.
 
 ## Research boundary
 
@@ -68,3 +125,11 @@ Still preserved and unchanged:
 - later component diagnostic: typed + validated `1.00`, direct + matched validation `1.00`, original direct `0.60`;
 - `validation_recovery_fraction = 1.00`;
 - frozen interpretation: `VALIDATION_DOMINANT`.
+
+The Alpha engineering line does not claim typed-IR scientific superiority.
+
+## Release interpretation
+
+The tested local/CI artifact now meets the project's **DEMO READY** definition: generation, interactive 3D, hierarchy inspection, casing/exploded controls, structural parameter editing, validation and honest JSON/SCAD export are all exercised in a real browser without hidden manual intervention.
+
+It is **not PUBLIC ALPHA READY** until an actual public NeuroCAD URL is deployed, its served revision is identified and the same browser flow is independently opened against that deployment.
