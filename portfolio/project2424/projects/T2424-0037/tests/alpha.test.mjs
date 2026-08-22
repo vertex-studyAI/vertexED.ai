@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import { createCADDocument, validateCADDocument } from "../src/cad.mjs";
 import { createJetEngineConcept, updateJetEngineConcept, validateJetEngineParameters } from "../src/jet-engine.mjs";
 import { serializeCADDocument, toSceneDescription } from "../src/render3d.mjs";
+import { toOpenScadDocument } from "../src/scad.mjs";
 
 test("general CAD document validates supported primitives", () => {
   const document = createCADDocument({
@@ -66,4 +67,17 @@ test("scene and CADSpec serialization contain no non-finite numeric output", () 
   assert.equal(scene.objects.length, document.objects.length);
   assert.ok(!serialized.includes("NaN"));
   assert.ok(!serialized.includes("Infinity"));
+});
+
+test("conceptual jet engine exports deterministic OpenSCAD source", () => {
+  const document = createJetEngineConcept({ compressorStages: 5, turbineStages: 1 });
+  const scad = toOpenScadDocument(document);
+  assert.ok(scad.startsWith("// NeuroCAD Alpha 0.1"));
+  assert.ok(scad.includes("// inlet"));
+  assert.ok(scad.includes("// central_shaft"));
+  assert.ok(scad.includes("// exhaust_nozzle"));
+  assert.ok(scad.includes("difference()"));
+  assert.ok(!scad.includes("NaN"));
+  assert.ok(!scad.includes("Infinity"));
+  assert.equal(scad, toOpenScadDocument(document));
 });
