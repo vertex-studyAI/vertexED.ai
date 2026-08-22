@@ -1,4 +1,9 @@
-# NeuroCAD Alpha 0.1 — Language → Engineering Geometry
+# NLP-to-CAD
+
+## NeuroCAD Alpha 0.1 — Language → Engineering Geometry
+
+**Canonical Project 2424 identity:** `NLP-to-CAD`  
+**Current product line:** `NeuroCAD Alpha 0.1`
 
 NeuroCAD is an early engineering-software alpha that turns a **constrained** natural-language engineering description into an explicit parametric CAD representation, validates it before rendering, builds component/assembly structure, previews it interactively in the browser, supports bounded parameter edits, and exports formats it genuinely generates.
 
