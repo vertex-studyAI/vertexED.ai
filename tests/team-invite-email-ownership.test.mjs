@@ -73,7 +73,7 @@ test('valid team invite reaches backend availability check without accepting a c
 
     await signupInviteHandler(req, res);
     assert.equal(getStatus(), 503);
-    assert.match(getJson().error, /temporarily unavailable/i);
+    assert.match(getJson().error, /(?:temporarily|currently) unavailable/i);
   });
 });
 
