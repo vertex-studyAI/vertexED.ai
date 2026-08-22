@@ -1,0 +1,389 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-08-22T09:55:00+05:30",
+  "repository": "vertex-studyAI/vertexED.ai",
+  "base_sha": "75fe4a9047478da9c44c33ff35bb14ec78df3ac2",
+  "audit_branch": "project2424/audit-20260822",
+  "scope": "Evidence-normalized high-value Project2424 subset requested for recovery/verification. This is not a claim that the full modern 2,424-entry T2424 registry is recovered.",
+  "full_modern_t2424_registry_recovered": false,
+  "state_vocabulary": [
+    "IDEA",
+    "IMPLEMENTED",
+    "TESTED",
+    "EXPERIMENTED",
+    "REPRODUCED",
+    "NEGATIVE_RESULT",
+    "FAILED",
+    "PAPER_CANDIDATE",
+    "RELEASE_CANDIDATE",
+    "ARCHIVED"
+  ],
+  "integrity_rules": [
+    "Directory or filename presence is not implementation evidence.",
+    "Code presence is not experiment evidence.",
+    "Historical P2424 and current T2424 numeric suffixes are not interchangeable without a provenance-backed mapping edge.",
+    "T2424-0050 must not be auto-merged or auto-deployed.",
+    "T2424-0050 v2 training/test/OOD evaluation remains forbidden while training_authorized=false or frozen pretraining blockers remain unresolved.",
+    "T2424-1863 is a frozen negative result and must not be retuned into success.",
+    "Recovered PST/NPMS summary evidence must not be treated as recovered original source until the isolated source trees are migrated and rerun from canonical Git identity.",
+    "Failed and negative runs are evidence and must be preserved."
+  ],
+  "entries": [
+    {
+      "TASK_ID": "T2424-0016",
+      "TITLE": "PST — Predictive Single-Cell Transition Score",
+      "PATH": "portfolio/project2424/projects/T2424-0016",
+      "STATUS": "EXPERIMENTED",
+      "CLAIM": "A retained synthetic-controlled PST compact experiment package was executed and recovered. The neural PST variant shows strong in-domain ranking but does not beat the strongest simple raw-expression/logistic control on the recovered generator, calibration worsens the recorded compact metrics, and fixed family-A to family-B transfer is weak.",
+      "CODE": "Original isolated implementation was recorded under /mnt/data/pst_prompt6_bundle/projects/MODEL-PST but is not migrated into canonical Git. Current canonical path contains the evidence-recovery/validation package rather than the original neural source tree.",
+      "TESTS": "Recovered handoff records python -m pytest -q: 7 passed; placeholder and manuscript checks also passed. Canonical recovery validators/regressions preserve claim boundaries but do not substitute for rerunning the original implementation.",
+      "EXPERIMENT": "Smoke: seed 11, synthetic family A. Compact: seeds 11/29/47, 21 runs across main plus six variants. Transfer: seed 71, family A to family B. Family-B in-domain: seed 71.",
+      "RESULT": "Main calibrated PST AUROC 0.9744±0.0115, AUPRC 0.9101±0.0320, Top-K precision 0.8235±0.0519, ECE 0.1692±0.0089, Brier 0.0769±0.0095. Raw-expression logistic AUROC 0.9968 and AUPRC 0.9882. Fixed A→B transfer AUROC 0.6577, AUPRC 0.2877; B in-domain retraining AUROC 0.9903, AUPRC 0.9635.",
+      "EVIDENCE": [
+        "portfolio/project2424/projects/T2424-0016/docs/RECOVERY_REPORT.md",
+        "portfolio/project2424/projects/T2424-0016/evidence/recovered_claims.json",
+        "tests/project2424PstEvidenceRecovery.test.mjs",
+        "retained File Library handoff MODEL-PST.md and compact manuscript",
+        "historical recovery PR #209 exact head 306045f7f65f70d6958b9b62fc1f1b1384fa9a71 with canonical CI 31450400849"
+      ],
+      "INTEGRITY_FLAGS": [
+        "SOURCE_MIGRATION_PENDING",
+        "ORIGINAL_GIT_COMMIT_UNAVAILABLE",
+        "EXTERNAL_BLOCKED",
+        "HISTORICAL_PAUL15_PANCREAS_DENTATE_METRICS_QUARANTINED",
+        "SIMPLE_BASELINE_OUTPERFORMS_NEURAL_VARIANT",
+        "CALIBRATION_NEGATIVE_FINDING",
+        "DO_NOT_RECONSTRUCT_SOURCE_FROM_MANUSCRIPT"
+      ],
+      "PAPER_POTENTIAL": "HIGH_AFTER_SOURCE_RECOVERY_AND_REAL_DATA_GATE",
+      "NEXT_ACTION": "Recover a byte-identical Prompt-6 source/evidence tree or archive/manifest; hash and migrate it without reconstruction; rerun the recovered compact protocol from a canonical immutable commit; only then evaluate whether a leakage-safe licensed real-data protocol is justified."
+    },
+    {
+      "TASK_ID": "T2424-0019",
+      "TITLE": "NPMS — Neural Predictive Memory Spectroscopy",
+      "PATH": "portfolio/project2424/projects/T2424-0019",
+      "STATUS": "EXPERIMENTED",
+      "CLAIM": "Recovered synthetic-controlled NPMS evidence contains useful spectral/memory diagnostics and controlled replay evidence, but the mechanism remains parameter-confounded/non-unique and important missing/spurious-mode limitations remain.",
+      "CODE": "Original MODEL-NPMS implementation/config/result/evidence/manuscript tree is not migrated into canonical Git; current path is an evidence-recovery package.",
+      "TESTS": "Recovered isolated execution records 17 tests passed. Current recovery gate validates evidence boundaries but does not independently rerun the original NPMS implementation.",
+      "EXPERIMENT": "Recovered smoke: 2 runs. Compact: 15 runs, 36 ablation records, five controlled systems, seeds 7/19/41. Robustness: 45 records. Evidence class SYNTHETIC_CONTROLLED.",
+      "RESULT": "Controlled evidence is retained, including negative boundaries around delay-PCA recovery, weak multiscale-AR recovery, poorly recovered switching regime, missing/spurious modes, conjugate-group truncation, and proxy frequency response. Current global ledger classifies the mechanism as inconclusive/non-unique.",
+      "EVIDENCE": [
+        "portfolio/project2424/projects/T2424-0019/STATUS.md",
+        "portfolio/project2424/projects/T2424-0019/evidence/recovered_experiment_report.json",
+        "tests/project2424NpmsEvidenceRecovery.test.mjs",
+        "REPRODUCIBILITY_LEDGER.md",
+        "CLAIM_LEDGER.md"
+      ],
+      "INTEGRITY_FLAGS": [
+        "SOURCE_MIGRATION_PENDING",
+        "CLEAN_CANONICAL_RERUN_PENDING",
+        "EXTERNAL_UNVALIDATED",
+        "MECHANISM_PARAMETER_CONFOUNDED",
+        "MISSING_SPURIOUS_MODES_MUST_REMAIN_VISIBLE",
+        "DO_NOT_RESCUE_BY_RETUNING"
+      ],
+      "PAPER_POTENTIAL": "HIGH_AS_QUALIFIED_OR_NEGATIVE_DIAGNOSTIC_AFTER_SOURCE_RECOVERY",
+      "NEXT_ACTION": "Recover and hash the original isolated NPMS tree, migrate without semantic repair, perform a clean canonical replay, then decide paper disposition around the reproduced controlled diagnostic and its failure modes."
+    },
+    {
+      "TASK_ID": "T2424-0023",
+      "TITLE": "Multilingual Epistemic Blind Spots Benchmark",
+      "PATH": "portfolio/project2424/projects/T2424-0023",
+      "STATUS": "IMPLEMENTED",
+      "CLAIM": "Deterministic synthetic multilingual blind-spot evaluation mechanics are implemented; there is no real-model multilingual, translation, fairness, causal, or publication claim.",
+      "CODE": "Reconciled implementation contains aligned-record validation, correctness derivation, coverage/selective accuracy, confidence/Brier/calibration summaries, strict blind-spot logic, directional language-pair comparison, threshold sensitivity and deterministic fixture.",
+      "TESTS": "Eight focused regression tests are documented. Two predecessor heads had successful canonical CI, but the reconciled status file requires exact-head CI on its own reconciliation head before promotion.",
+      "EXPERIMENT": "Synthetic deterministic three-language fixture/evaluation mechanics; no real model benchmark is evidenced in the current status.",
+      "RESULT": "No scientific promotion recorded for the reconciled package; current exact-head verification gate remains explicit.",
+      "EVIDENCE": [
+        "portfolio/project2424/projects/T2424-0023/STATUS.md",
+        "portfolio/project2424/FIRST_100_QUEUE.ndjson",
+        "portfolio/project2424/SOURCE_IDENTITY_MANIFEST.json"
+      ],
+      "INTEGRITY_FLAGS": [
+        "RECONCILED_DUPLICATE_LINEAGES",
+        "CURRENT_EXACT_HEAD_CI_REQUIRED",
+        "SYNTHETIC_ONLY",
+        "NO_REAL_MODEL_CLAIM"
+      ],
+      "PAPER_POTENTIAL": "MEDIUM_IF_REAL_MODELS_AND_CONFOUND_CONTROLS_ARE_ADDED",
+      "NEXT_ACTION": "Close the exact-head CI gate on the single reconciled package, then freeze a small real-model multilingual protocol with cultural/language confound controls before any paper claim."
+    },
+    {
+      "TASK_ID": "T2424-0025",
+      "TITLE": "Non-Gaussian Memory Transformer",
+      "PATH": "portfolio/project2424/projects/T2424-0025",
+      "STATUS": "EXPERIMENTED",
+      "CLAIM": "A synthetic robust memory-aggregation effect is evidenced under heavy-tail contamination, but the mechanism is not isolated and this is not evidence for a full Transformer or unique non-Gaussian memory mechanism.",
+      "CODE": "Deterministic attention-addressed memory, weighted-mean baseline, weighted-median robust readout, Gaussian clean control and Cauchy contamination condition are implemented.",
+      "TESTS": "Focused regression suite is present. Project-local status still says VERIFYING and requires canonical exact-head CI for TESTED_TOOL promotion.",
+      "EXPERIMENT": "30-seed deterministic robust-readout screen. Global experiment ledger records the robustness effect as reproduced but mechanism not unique.",
+      "RESULT": "Predeclared mechanics gates target >80% heavy-tail relative MAE improvement, <=1.10x clean-control MAE, and >30 percentage-point heavy-tail-vs-clean improvement separation; reference deterministic output clears the mechanics. Separate frozen NGMT v0.1 equal-budget learned experiment is negative and must not be conflated with this readout screen.",
+      "EVIDENCE": [
+        "portfolio/project2424/projects/T2424-0025/STATUS.md",
+        "EXPERIMENT_LEDGER.md",
+        "CLAIM_LEDGER.md"
+      ],
+      "INTEGRITY_FLAGS": [
+        "MECHANISM_NOT_ISOLATED",
+        "FULL_TRANSFORMER_CLAIM_UNSUPPORTED",
+        "PROJECT_STATUS_VERIFYING",
+        "DO_NOT_CONFLATE_WITH_FROZEN_NGMT_V0_1_NEGATIVE_RESULT"
+      ],
+      "PAPER_POTENTIAL": "MEDIUM_HIGH_AFTER_MECHANISM_ISOLATION",
+      "NEXT_ACTION": "Freeze a mechanism-isolation study against multiple robust readout baselines under equal capacity/compute; preserve the existing positive robustness screen and the separate NGMT v0.1 negative result unchanged."
+    },
+    {
+      "TASK_ID": "T2424-0030",
+      "TITLE": "Adaptive Theory Geometry in World Models",
+      "PATH": "portfolio/project2424/projects/T2424-0030",
+      "STATUS": "EXPERIMENTED",
+      "CLAIM": "A synthetic geometry-aware one-step forecasting mechanism clears its deterministic curved/straight mechanics screen; it is not evidence for learned world-model geometry or real scientific forecasting.",
+      "CODE": "Euclidean constant-velocity baseline, signed local-turn estimator, bounded tangent/curvature selection, deterministic curved trajectories and straight negative control are implemented.",
+      "TESTS": "Focused regression suite present; project-local status requires exact-head canonical CI before TESTED_TOOL promotion.",
+      "EXPERIMENT": "20-seed deterministic synthetic trajectory runner with predeclared curved-improvement, geometry-selection and straight-control gates.",
+      "RESULT": "Reference deterministic output clears >85% curved-suite improvement, >95% curved geometry selection and <1% absolute improvement on straight control, subject to exact-head repository verification.",
+      "EVIDENCE": [
+        "portfolio/project2424/projects/T2424-0030/STATUS.md",
+        "portfolio/project2424/FIRST_100_QUEUE.ndjson"
+      ],
+      "INTEGRITY_FLAGS": [
+        "SYNTHETIC_ONLY",
+        "EXACT_HEAD_CI_PENDING_IN_PROJECT_STATUS",
+        "NO_LEARNED_WORLD_MODEL_CLAIM"
+      ],
+      "PAPER_POTENTIAL": "MEDIUM_AFTER_NOISY_REGIME_SWITCHING_AND_LEARNED_BASELINES",
+      "NEXT_ACTION": "Close exact-head verification, then freeze noisy/regime-switching multi-step forecasting with stronger baselines and train-only model-selection rules."
+    },
+    {
+      "TASK_ID": "T2424-0034",
+      "TITLE": "Quant ML Visualizer",
+      "PATH": "portfolio/project2424/projects/T2424-0034",
+      "STATUS": "TESTED",
+      "CLAIM": "A quantitative developer/evaluation tool with no-lookahead walk-forward mechanics is merged and exact-head tested; there is no market-alpha, profitability, investment or ML-superiority claim.",
+      "CODE": "Deterministic quantitative metrics, SVG/HTML renderer, JSON-to-HTML CLI, log-return transformation, historical-only rolling feature, expanding-history linear fit, score-before-train ordering, signal/turnover/cost/equity mechanics.",
+      "TESTS": "Descriptive package exact-head CI 31409366246 SUCCESS. Walk-forward extension head 0e74c1f849eedac10a2365e20e10a64aa8e456ad exact-head CI 31449842758 SUCCESS; merge commit 96264ed62ab004f2308e00b9f8e20865875985e7. Future-price mutation, warm-up and transaction-cost regressions included.",
+      "EXPERIMENT": "Historical-only walk-forward mechanics are tested as software/evaluation behavior; no frozen real-market scientific protocol is evidenced.",
+      "RESULT": "Software/evaluation mechanics verified; scientific result remains absent by design.",
+      "EVIDENCE": [
+        "portfolio/project2424/projects/T2424-0034/STATUS.md"
+      ],
+      "INTEGRITY_FLAGS": [
+        "NO_ALPHA_CLAIM",
+        "NO_REAL_MARKET_SCIENTIFIC_PROTOCOL",
+        "RESEARCH_VALIDATION_PENDING"
+      ],
+      "PAPER_POTENTIAL": "LOW_AS_CURRENT_TOOL_MEDIUM_IF_FROZEN_REAL_MARKET_STUDY_ADDED",
+      "NEXT_ACTION": "Do not add UI polish for research credit; freeze a legally usable chronological real-market protocol with strong baselines, untouched test period, raw artifacts and independent reproduction."
+    },
+    {
+      "TASK_ID": "T2424-0036",
+      "TITLE": "Rubik's A* Intelligence",
+      "PATH": "portfolio/project2424/projects/T2424-0036",
+      "STATUS": "IMPLEMENTED",
+      "CLAIM": "A bounded orientation-free 2x2 corner-permutation A* prototype is implemented; it is not a complete cube solver or intelligence result.",
+      "CODE": "Corner permutation model, U/R/F and inverse moves, admissible heuristic, deterministic A*, explicit depth/node bounds and returned-path verification.",
+      "TESTS": "Root-level regression suite exists; project-local status says canonical exact-head CI is pending.",
+      "EXPERIMENT": "Fixed bounded search benchmark is implemented; no learned heuristic experiment is evidenced.",
+      "RESULT": "No current scientific result promoted.",
+      "EVIDENCE": [
+        "portfolio/project2424/projects/T2424-0036/STATUS.md"
+      ],
+      "INTEGRITY_FLAGS": [
+        "ORIENTATION_NOT_MODELED",
+        "EXACT_HEAD_CI_PENDING",
+        "NO_INTELLIGENCE_CLAIM"
+      ],
+      "PAPER_POTENTIAL": "LOW",
+      "NEXT_ACTION": "Either close exact-head CI and retain as a bounded software artifact, or archive from the research promotion queue unless full-state/strong-baseline/learned-heuristic evidence is strategically justified."
+    },
+    {
+      "TASK_ID": "T2424-0038",
+      "TITLE": "Obscured Records Agent",
+      "PATH": "portfolio/project2424/projects/T2424-0038",
+      "STATUS": "IMPLEMENTED",
+      "CLAIM": "A deterministic evidence-gated editorial triage prototype is implemented; it does not perform factual verification or establish legal/editorial superiority.",
+      "CODE": "Lead/source validation, publisher accounting, source diversity, primary-source coverage, prioritization, freshness decay, corroboration blockers and deterministic decision ledger.",
+      "TESTS": "Focused regression suite present; project-local status requires canonical exact-head CI before TESTED_TOOL promotion.",
+      "EXPERIMENT": "Runnable synthetic example only; no blinded editor-labelled historical evaluation is evidenced.",
+      "RESULT": "No scientific/editorial superiority result promoted.",
+      "EVIDENCE": [
+        "portfolio/project2424/projects/T2424-0038/STATUS.md"
+      ],
+      "INTEGRITY_FLAGS": [
+        "EXACT_HEAD_CI_PENDING",
+        "SYNTHETIC_ONLY",
+        "NO_FACT_CHECKING_OR_LEGAL_SAFETY_CLAIM"
+      ],
+      "PAPER_POTENTIAL": "LOW_MEDIUM_AS_HCI_EDITORIAL_EVALUATION_IF_REAL_LABELS_ADDED",
+      "NEXT_ACTION": "Close exact-head CI, then either move to product/tooling lane or freeze a blinded historical-lead evaluation with editor labels and baseline rankings; otherwise archive from research promotion."
+    },
+    {
+      "TASK_ID": "T2424-0046",
+      "TITLE": "Auto-Research Foundry",
+      "PATH": "portfolio/project2424/projects/T2424-0046",
+      "STATUS": "IMPLEMENTED",
+      "CLAIM": "A deterministic research-planning/evidence-gating library is implemented; manifest commands are metadata and the tool does not autonomously execute research.",
+      "CODE": "Manifest and DAG validation, deterministic priority waves, CPU-minute budget selection, prerequisite-safe deferral, evidence-based state transitions and evidence ledger.",
+      "TESTS": "Focused regression suite present; project-local status requires exact-head canonical CI before TESTED_TOOL promotion.",
+      "EXPERIMENT": "Runnable deterministic demonstration only; no scientific correctness or distributed orchestration experiment.",
+      "RESULT": "Engineering behavior implemented; no research-performance claim.",
+      "EVIDENCE": [
+        "portfolio/project2424/projects/T2424-0046/STATUS.md"
+      ],
+      "INTEGRITY_FLAGS": [
+        "EXACT_HEAD_CI_PENDING",
+        "NO_ARBITRARY_COMMAND_EXECUTION",
+        "PLANNING_TOOL_NOT_AUTONOMOUS_RESEARCH"
+      ],
+      "PAPER_POTENTIAL": "LOW_AS_SCIENCE_HIGH_ENGINEERING_USEFULNESS",
+      "NEXT_ACTION": "Close exact-head CI and integrate only into a disposable evidence-preserving queue fixture; treat as infrastructure rather than a paper candidate unless a rigorous systems evaluation is added."
+    },
+    {
+      "TASK_ID": "T2424-0049",
+      "TITLE": "Multiphase Porous JEPA",
+      "PATH": "portfolio/project2424/projects/T2424-0049",
+      "STATUS": "IMPLEMENTED",
+      "CLAIM": "A bounded synthetic porous-flow predictive-latent prototype is implemented; it is not yet a trained JEPA or evidence of operator superiority.",
+      "CODE": "Deterministic heterogeneous porous-flow surrogate, conservative periodic finite-volume-style update, fixed pooled latent encoder, persistence baseline, learned scalar latent transition predictor, held-out phase conditions and zero-dynamics control.",
+      "TESTS": "Focused regression suite present; project-local status explicitly forbids recording a passing experimental verdict until canonical exact-head CI succeeds.",
+      "EXPERIMENT": "Runnable synthetic experiment with frozen 50% relative-improvement and mass-conservation gates is present, but current status does not authorize promotion of a passing verdict.",
+      "RESULT": "No promoted scientific verdict at this snapshot.",
+      "EVIDENCE": [
+        "portfolio/project2424/projects/T2424-0049/STATUS.md"
+      ],
+      "INTEGRITY_FLAGS": [
+        "EXACT_HEAD_CI_PENDING",
+        "DO_NOT_RECORD_PASS_BEFORE_GATE",
+        "FIXED_ENCODER_NOT_TRAINED_JEPA",
+        "NO_REAL_POROUS_MEDIA_VALIDATION"
+      ],
+      "PAPER_POTENTIAL": "HIGH_IF_UPGRADED_TO_REAL_OPERATOR_BENCHMARK",
+      "NEXT_ACTION": "First close exact-head verification without changing the frozen mechanics. Then decide whether to graduate into a real scientific-ML study with validated simulator/public data, learned encoder/predictor ablations, FNO/DeepONet/PINO-class baselines and independent QA."
+    },
+    {
+      "TASK_ID": "T2424-0050",
+      "TITLE": "Darcy Latent Operator",
+      "PATH": "portfolio/project2424/projects/T2424-0050",
+      "STATUS": "EXPERIMENTED",
+      "CLAIM": "The frozen v1 aligned synthetic 1D reduced-resistance screen shows a large pressure-MAE improvement with near-zero flux error. This does not establish a learned operator, multidimensional/real porous-media generalization, or scientific superiority. The separate v2 learned-operator/OOD protocol is pre-outcome and has not run.",
+      "CODE": "v1 includes positive-permeability validation, steady 1D resistance solver, constant-flux pressure reconstruction, harmonic block compression and deterministic field generator. v2 generator and B2 PCA+ridge baseline are implemented/unit-verified; B3 FNO-1D and B4 DeepONet remain blocked.",
+      "TESTS": "v1 six focused Darcy regressions. v2 B2 unit verification recorded in canonical release gate run 31822727505/job 94839646560. v2 training remains unauthorized.",
+      "EXPERIMENT": "v1: 20-seed aligned synthetic screen, 24 cells to 6 latent blocks, uniform-permeability negative control. v2: protocol frozen but outcome_state=EXPERIMENT_NOT_YET_RUN and training_authorized=false.",
+      "RESULT": "v1 mean baseline pressure MAE 0.0658913916; latent MAE 0.0011366559; relative improvement 97.8766%; mean flux relative error ~1.369e-16; uniform latent MAE 0. v2: no outcome.",
+      "EVIDENCE": [
+        "portfolio/project2424/projects/T2424-0050/STATUS.md",
+        "portfolio/project2424/projects/T2424-0050/results/reference.json",
+        "portfolio/project2424/projects/T2424-0050/v2-freeze-config.json",
+        "portfolio/project2424/projects/T2424-0050/LEARNED_OPERATOR_OOD_PROTOCOL_V2.md",
+        "REPRODUCIBILITY_LEDGER.md",
+        "EXPERIMENT_LEDGER.md",
+        "CLAIM_LEDGER.md"
+      ],
+      "INTEGRITY_FLAGS": [
+        "DO_NOT_AUTO_MERGE",
+        "DO_NOT_AUTO_DEPLOY",
+        "V1_BOUNDED_SYNTHETIC_PASS_ONLY",
+        "V2_PREOUTCOME",
+        "V2_TRAINING_AUTHORIZED_FALSE",
+        "V2_B3_B4_BLOCKED",
+        "V2_GENERATOR_INTERPRETATIONS_REQUIRE_PREOUTCOME_REVIEW",
+        "NO_OUTCOME_INSPECTION_BEFORE_FREEZE_COMPLETE"
+      ],
+      "PAPER_POTENTIAL": "HIGH_AFTER_TRUTHFUL_V2_OR_2D_OPERATOR_COMPARISON",
+      "NEXT_ACTION": "Do not train or evaluate v2. Resolve the two generator interpretation approvals, lock environment/hardware, implement and unit-verify B3/B4, record all immutable SHAs, commit the completed freeze, obtain explicit manual review, and only then consider authorizing training."
+    },
+    {
+      "TASK_ID": "T2424-0051",
+      "TITLE": "ADR Predictive Surrogate",
+      "PATH": "portfolio/new-projects/adr-predictive-surrogate",
+      "STATUS": "EXPERIMENTED",
+      "CLAIM": "A small interpolation surrogate improves its frozen refined-grid error relative to its coarse grid on an analytic 1D periodic linear ADR reference; this is not a novel PDE solver or neural-operator result.",
+      "CODE": "Analytic Fourier ADR snapshots, parameter validation, structured four-axis surrogate, 4D multilinear interpolation, no-extrapolation boundary and deterministic coarse-versus-refined held-out runner.",
+      "TESTS": "Local fixture records 6 tests passed/0 failed. Original branch head e91f55fa98121b374b4a78162cf55003032295b3 passed canonical CI 31449668954; project status says replacement/current-main revalidation remains the merge gate.",
+      "EXPERIMENT": "Coarse snapshots 81, fine snapshots 625, four held-out probes; frozen coarse-vs-refined interpolation comparison.",
+      "RESULT": "Coarse mean relative-L2 0.0283703864 and worst 0.0436989609; fine mean 0.00938106825 and worst 0.0144785814. Both predeclared fixture gates pass.",
+      "EVIDENCE": [
+        "portfolio/new-projects/adr-predictive-surrogate/STATUS.md",
+        "portfolio/new-projects/adr-predictive-surrogate/experiment/run.mjs"
+      ],
+      "INTEGRITY_FLAGS": [
+        "BOUNDED_ANALYTIC_1D_ONLY",
+        "CURRENT_MAIN_REVALIDATION_PENDING_IN_STATUS",
+        "NO_NEURAL_OPERATOR_OR_NOVEL_SOLVER_CLAIM"
+      ],
+      "PAPER_POTENTIAL": "MEDIUM_AFTER_HARDER_NUMERICAL_BENCHMARK",
+      "NEXT_ACTION": "Close current-base verification, then freeze separated train/validation/test ADR regions and compare classical interpolation plus learned reduced-order/neural surrogates under equal evidence budgets."
+    },
+    {
+      "TASK_ID": "T2424-0053",
+      "TITLE": "Scientific Motif Dictionary",
+      "PATH": "portfolio/project2424/projects/T2424-0053",
+      "STATUS": "IMPLEMENTED",
+      "CLAIM": "A normalized univariate time-series motif indexing prototype is implemented; no scientific meaning, novelty or external benchmark performance is established.",
+      "CODE": "Finite-series validation, z-normalized windows, PAA, frozen symbolic quantization, deterministic signatures, non-overlap support counting, dictionary ranking and coverage summary.",
+      "TESTS": "Focused regression suite present; recovered branch requires fresh exact-head canonical CI on final base before promotion.",
+      "EXPERIMENT": "Runnable synthetic repeated-pattern experiment is present.",
+      "RESULT": "No externally validated/promoted scientific result at this snapshot.",
+      "EVIDENCE": [
+        "portfolio/project2424/projects/T2424-0053/STATUS.md"
+      ],
+      "INTEGRITY_FLAGS": [
+        "EXACT_HEAD_CI_PENDING",
+        "SYNTHETIC_ONLY",
+        "NO_NOVELTY_OR_SCIENTIFIC_MEANING_CLAIM"
+      ],
+      "PAPER_POTENTIAL": "LOW_MEDIUM_AFTER_PUBLIC_BENCHMARK_AND_BASELINES",
+      "NEXT_ACTION": "Close exact-head CI; if retained for research, freeze a public scientific time-series comparison against simple Euclidean/SAX-style baselines with parameter sensitivity and raw artifacts; otherwise keep as tooling."
+    },
+    {
+      "TASK_ID": "T2424-1767",
+      "TITLE": "Resource-Bounded Mixture-of-Experts Operator for Scientific ML Benchmarking",
+      "PATH": "portfolio/project2424/projects/T2424-1767",
+      "STATUS": "IMPLEMENTED",
+      "CLAIM": "A resource-bounded routing software prototype and deterministic synthetic benchmark are implemented; no validated Scientific-ML result or measured real resource frontier is established.",
+      "CODE": "Working resource-bounded routing implementation, documented public interface and deterministic synthetic benchmark.",
+      "TESTS": "Root-level regression tests and reproducible local commands are present; project-local status says exact-head canonical repository CI remains pending.",
+      "EXPERIMENT": "Synthetic benchmark only; no real Scientific-ML workload, measured wall-clock/memory model or independent scientific reproduction.",
+      "RESULT": "No validated Scientific-ML research result promoted.",
+      "EVIDENCE": [
+        "portfolio/project2424/projects/T2424-1767/STATUS.md"
+      ],
+      "INTEGRITY_FLAGS": [
+        "EXACT_HEAD_CI_PENDING",
+        "SYNTHETIC_ONLY",
+        "REAL_WORKLOAD_MISSING",
+        "MEASURED_RESOURCE_MODEL_MISSING"
+      ],
+      "PAPER_POTENTIAL": "MEDIUM_AFTER_REAL_WORKLOAD_AND_RESOURCE_MEASUREMENT",
+      "NEXT_ACTION": "Close exact-head CI, then freeze one real Scientific-ML workload with measured latency/memory/quality baselines before considering research promotion."
+    },
+    {
+      "TASK_ID": "T2424-1863",
+      "TITLE": "Resource-Bounded Local Operator for Scientific Forecasting",
+      "PATH": "portfolio/new-projects/t2424-1863-local-diffusion-operator",
+      "STATUS": "NEGATIVE_RESULT",
+      "CLAIM": "The bounded synthetic one-step local-diffusion operator is executable and reproducible but fails its frozen >75% improvement gate; no operator-superiority or real-PDE advantage is supported.",
+      "CODE": "Frozen local-diffusion coefficient learner/screen retained at scientific source commit 7cee0bd4d5cc7a3ac497476d322c6f0e16da9ee6.",
+      "TESTS": "4 tests passed/0 failed in retained reproduction. Current exact-head dedicated workflow and canonical CI both succeeded on head 147ce38bf2d965a4b14fa31844856153e6e18f7b.",
+      "EXPERIMENT": "Frozen 20-seed synthetic one-step diffusion screen with >75% relative-improvement gate and zero-diffusion negative control.",
+      "RESULT": "Mean held-out RMSE improvement vs persistence 67.777%, below the >75% gate. Planted coefficient 0.18 recovered as mean 0.179689. Zero-diffusion control mean relative improvement -0.029%. Verdict frozen negative/inconclusive against predeclared gate.",
+      "EVIDENCE": [
+        "portfolio/new-projects/t2424-1863-local-diffusion-operator/STATUS.md",
+        "portfolio/new-projects/t2424-1863-local-diffusion-operator/experiment_metadata.json",
+        "portfolio/new-projects/t2424-1863-local-diffusion-operator/REPRODUCE.md",
+        "dedicated workflow 31659932936 SUCCESS",
+        "canonical CI 31659932951 SUCCESS"
+      ],
+      "INTEGRITY_FLAGS": [
+        "FROZEN_NEGATIVE_RESULT",
+        "EXACT_HEAD_REPRODUCED",
+        "DO_NOT_RETUNE_TO_PASS",
+        "NO_REAL_PDE_OR_OPERATOR_SUPERIORITY_CLAIM"
+      ],
+      "PAPER_POTENTIAL": "MEDIUM_AS_NEGATIVE_RESULT_OR_FAILURE_ANALYSIS",
+      "NEXT_ACTION": "Preserve and package the negative result. Do not rerun to seek lucky seeds. Any materially different PDE/operator study must be a new version with a new frozen protocol and must not rewrite this verdict."
+    }
+  ]
+}
