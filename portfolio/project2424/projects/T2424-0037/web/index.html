@@ -28,7 +28,9 @@
     .viewport { min-width:0; background:#071019; position:relative; } canvas { width:100%; height:650px; display:block; touch-action:none; }
     .status { position:absolute; top:14px; left:14px; border:1px solid #244050; background:rgba(4,12,18,.86); padding:8px 10px; border-radius:8px; color:#b8f7d0; font:700 11px ui-monospace,monospace; }
     h2 { font-size:.82rem; letter-spacing:.12em; color:#9fb2c1; margin:5px 0 12px; } h3 { font-size:.72rem; letter-spacing:.14em; color:#6f8798; margin:15px 0 5px; }
-    .tree-item { display:block; width:100%; text-align:left; border:0; border-radius:7px; background:transparent; color:#cad8e2; padding:7px 8px; font-size:.83rem; }
+    .tree-row { display:flex; align-items:center; gap:7px; }
+    .tree-row input { flex:0 0 auto; }
+    .tree-item { display:block; flex:1 1 auto; min-width:0; text-align:left; border:0; border-radius:7px; background:transparent; color:#cad8e2; padding:7px 8px; font-size:.83rem; }
     .tree-item:hover,.tree-item.selected { background:#152635; color:white; }
     textarea { width:100%; min-height:105px; border:1px solid #294355; background:#050b11; color:var(--text); border-radius:10px; padding:12px; resize:vertical; }
     textarea:focus,input:focus { outline:2px solid #315e75; outline-offset:1px; }
