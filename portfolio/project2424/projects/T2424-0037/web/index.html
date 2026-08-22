@@ -51,7 +51,7 @@
         <section class="panel inspector-panel">
           <div class="tabs" role="tablist" aria-label="Inspector tabs"><button role="tab" aria-selected="true" data-tab="assembly">Assembly</button><button role="tab" aria-selected="false" data-tab="parameters">Parameters</button><button role="tab" aria-selected="false" data-tab="validation">Validation</button></div>
           <div id="tab-assembly" class="tab-panel" role="tabpanel"><div id="assembly-tree" class="assembly-tree"><p class="empty">Generate a model to inspect its hierarchy.</p></div></div>
-          <div id="tab-parameters" class="tab-panel" role="tabpanel" hidden><form id="parameter-form" class="parameter-form"><p class="empty">Jet-engine conceptual parameters appear here when that preset is active.</p></form></div>
+          <div id="tab-parameters" class="tab-panel" role="tabpanel" hidden><form id="parameter-form" class="parameter-form" novalidate><p class="empty">Jet-engine conceptual parameters appear here when that preset is active.</p></form></div>
           <div id="tab-validation" class="tab-panel" role="tabpanel" hidden><div id="diagnostics" class="diagnostics"><p class="empty">No validation run yet.</p></div></div>
         </section>
         <section class="panel export-panel"><span class="panel-kicker">EXPORT</span><div class="export-actions"><button id="export-json" disabled>CADSpec JSON</button><button id="export-scad" disabled>OpenSCAD .scad</button></div><p>STL is not exposed in the browser alpha. It remains a local/backend OpenSCAD conversion step.</p></section>
