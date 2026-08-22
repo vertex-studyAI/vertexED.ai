@@ -1,4 +1,6 @@
-# NeuroCAD Alpha 0.1 — Language → Engineering Geometry
+# NLP-to-CAD
+
+## NeuroCAD Alpha 0.1 — Language → Engineering Geometry
 
 NeuroCAD is a bounded engineering-language → parametric-geometry system. The current product line combines the historically tested rectangular-plate compiler with a new versioned CAD document/assembly layer and a conceptual multi-part jet-engine showcase.
 
