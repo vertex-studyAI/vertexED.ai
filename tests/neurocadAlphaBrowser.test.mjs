@@ -97,6 +97,12 @@ test("NeuroCAD alpha browser demo exercises simple, mechanical, and jet-engine w
     assert.match(cadSpec.textContent, /"compressorStages": 9/);
     assert.match(tree.textContent, /Compressor Rotor 09/);
 
+    const shaftVisibility = document.querySelector('input[aria-label="Toggle Central Shaft visibility"]');
+    assert.ok(shaftVisibility);
+    shaftVisibility.checked = false;
+    shaftVisibility.dispatchEvent(new Event("change", { bubbles: true }));
+    assert.match(cadSpec.textContent, /"id": "central_shaft"[\s\S]*?"visible": false/);
+
     const casing = document.querySelector("#casing-visible");
     casing.checked = false;
     casing.dispatchEvent(new Event("change", { bubbles: true }));
