@@ -1,0 +1,32 @@
+{
+  "protocol_id": "OBSCURED-HIST-EVAL-001",
+  "outcome_state": "EVALUATION_NOT_YET_RUN",
+  "evaluation_authorized": false,
+  "candidate": {
+    "implementation_path": "portfolio/project2424/projects/T2424-0038/src/core.mjs",
+    "repository_revision": null,
+    "implementation_git_blob_sha": "60b2d03150c5c8ad020a7b403912231ea659a012"
+  },
+  "frozen_baselines": ["B0_RECENCY_ONLY", "B1_MEAN_EVIDENCE_ONLY", "B2_HARD_BLOCKERS_ONLY"],
+  "primary_metrics": ["FALSE_PROMOTION_RATE", "HIGH_RISK_FALSE_PROMOTION_RATE", "BALANCED_ACCURACY", "TOP10_PRECISION"],
+  "primary_gate": {
+    "reference_baseline": "B2_HARD_BLOCKERS_ONLY",
+    "max_absolute_false_promotion_regression": 0.02,
+    "max_absolute_high_risk_false_promotion_regression": 0.02,
+    "minimum_balanced_accuracy_improvement": 0.03,
+    "alternative_minimum_top10_precision_improvement": 0.05,
+    "minimum_high_risk_negative_examples_for_strong_gate": 25
+  },
+  "unresolved_pre_evaluation": {
+    "data_manifest_sha256": null,
+    "sealed_label_manifest_sha256": null,
+    "candidate_repository_revision": null,
+    "baseline_implementation_sha256": null,
+    "selection_rule_record_sha256": null,
+    "editor_blinding_record_sha256": null,
+    "publisher_independence_review_sha256": null,
+    "environment_lock_sha256": null,
+    "evaluation_script_sha256": null,
+    "bootstrap_spec_sha256": null
+  }
+}
