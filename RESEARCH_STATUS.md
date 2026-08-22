@@ -1,25 +1,47 @@
 # RESEARCH_STATUS
 
-**As of:** 2026-08-15 08:54 IST  
-**Rule:** negative, mixed and falsified outcomes remain preserved. No new major scientific outcome run is authorized.
+**As of:** 2026-08-22 14:25 IST  
+**Rule:** preserve negative, mixed, falsified and inconclusive outcomes. Do not retune frozen tests, reuse prohibited seeds, cherry-pick, relabel failures, or promote pre-outcome scaffolds to results.
 
-| Line | State | Evidence / next gate |
+## Current truth
+
+| Line | State | Verified evidence / next gate |
 |---|---|---|
-| LAM-JEPA | **VERIFIED** | Frozen ARC result is reproducibly negative. Immutable reproduction checkout remains `725ae2fb17de9c988938d4b03bd8a6be456b8e8b`; external validation has not occurred. Owner metadata remains separate. |
-| IRIS v0.2 | **BLOCKED** | Mixed/negative result preserved. Frozen metric spec blob `6f4d6a47e3727596b21714bc269cd8ba5844d2fa`. Recovered source archive SHA-256 `5d689ade164d80216d0ab6d4376b8acf53b8e0ba13d4bd5e909a94f00ec86b56`; common-harness archive `5643b59e9272099e54f04491aa63906d0d186a1a2c525a574f960008e5f19b90`; `run.py` `b9e35eb2ed1fc945e99ce76f935f36a816eb3d61b99b109bd092e99a731a6de3`; `verify.py` `74a149dfa647d145e788559d043e282bcd76768353272b0b4366ef897da91113`; `protocol.json` `0cdf22c97ddb9459182175e7c17bf51906088f5d3a7ec10131edfa650d2edbdd`. The archived protocol names the frozen spec/source lineage, and executable semantics match TWMSE25 W=25, five-sample recovery within 0.10*D, POST_MSE50PLUS from t0+50 and false-open definition. Executable metric provenance is recovered; exact canonical development trajectories or pre-existing authoritative deterministic-equivalence evidence remain missing. Seeds `1000–1029` forbidden; no frontier run. |
-| NeuroCAD typed-parser mechanism | **FAILED** | Retained component diagnostic falsifies the typed-parser causal interpretation; preserve `VALIDATION_DOMINANT`. Any new scientific claim requires a fresh broader benchmark. |
-| NGMT v0.1 | **FAILED** | Frozen negative result. Any successor must be a new version/protocol. |
-| Eigen-JEPA primary | **INCONCLUSIVE** | Frozen mixed/negative primary evidence; no metric shopping or in-place rescue. |
-| NPMS current result | **INCONCLUSIVE** | Controlled replay is parameter-confounded/non-unique; preserve current result. Any continuation requires a new frozen natural/causal successor protocol. |
-| APEN | **INCONCLUSIVE** | Controlled mixed evidence; stronger controls require a new frozen protocol. |
-| T2424-1863 | **FAILED** | Frozen negative synthetic result; no rescue. |
-| Darcy T2424-0050 v2 | **BLOCKED** | Pre-outcome only. `training_authorized=false`; split manifest SHA-256 `4211d11da7d40f0991bd963c04fb118f34d9fe923e7664da301122b29b0bef85`; B2 unit-verified. B3 FNO/B4 DeepONet, exact environment/hardware and covariance/OOD-D interpretation approvals remain unresolved. No training, ID-test or OOD outcome access. |
-| Hercules / Olympus active compute | **ARCHIVED** | No significant compute before a decisive matched protocol is frozen. |
+| LAM-JEPA ARC | **NEGATIVE_RESULT_COMPLETE / RELEASE-BLOCKED** | Frozen ARC result remains negative/inconclusive. Reproducibility and paper-provenance infrastructure are verified. Current `LAM-JEPA/main` release gate already marks final related-work integration PASS. Remaining gates are owner-controlled license/authorship/citation/tag decisions and genuinely independent external reproduction/review. No locked-test rescue run. |
+| PHY-JEPA-v1 | **CONTINUE / PRE-OUTCOME** | Protocol predeclared 2026-08-21. Phase-0 deterministic damped-oscillator dataset/provenance sanity completed: 64 trajectories, train/validation/test = 44/9/11, generator/manifest hashes recorded. This is not a JEPA-vs-baseline result. Next authorized gate is a bounded single-system, one-seed phase-1 smoke run under the frozen protocol. |
+| PO-OP-JEPA-v1 | **BLOCKED / PRE-OUTCOME** | Partial-observation operator-JEPA scaffold exists on LAM-JEPA PR #94. Dataset provenance for Burgers/Darcy and explicit mask-leakage checks must be frozen before any outcome run. |
+| IRIS v0.2 | **NEGATIVE/INCONCLUSIVE — FROZEN** | Canonical development evidence failed the strong robust-baseline/persistent-shift development gate. Metric/source provenance was recovered. Seeds `1000–1029` remain prohibited. Do not rerun or reinterpret canonical trajectories. A successor requires a new versioned protocol and clean split from frozen v0.2. |
+| NeuroCAD typed-parser mechanism | **FAILED — FROZEN** | Component ablation remains `VALIDATION_DOMINANT`; matched validation recovers the observed gap, falsifying the typed-parser causal interpretation on the bounded benchmark. Product-engineering Alpha is separate from this research claim. |
+| NeuroCAD S3 successor | **BLOCKED / PRE-OUTCOME** | PR #430 freezes a 150-case broader successor protocol, baseline families, ablations, promotion/falsification thresholds and an execution-authorization hash gate. Current blocker: `DATASET_AND_MODEL_IDENTITY_BLOCKED`; no S3 evaluation is authorized until benchmark records/hashes and model/provider identities are frozen. |
+| NGMT v0.1 | **NEGATIVE_RESULT_COMPLETE** | Frozen negative result. Any continuation must be v0.2+ with a fresh protocol; no in-place rescue. |
+| Eigen-JEPA | **NEGATIVE/MIXED — FROZEN** | Classical baselines beat the primary claim; provenance discrepancy remains historically documented. No metric shopping or in-place rescue. |
+| Eigen-Finance | **UNKNOWN / SEPARATE** | Must be independently verified; do not inherit Eigen-JEPA evidence or status by analogy. |
+| NPMS | **NEGATIVE/INCONCLUSIVE — FROZEN** | Controlled replay remains parameter-confounded/non-unique with missing/spurious modes in the retained result. Any continuation requires a new natural/causal successor protocol. |
+| APEN | **INCONCLUSIVE** | Controlled salience signal existed under aligned salience; shuffled/random controls erased the gain. Architecture-level claim remains unproven. Any stronger claim needs a fresh frozen protocol. |
+| PEN | **BLOCKED / UNKNOWN IMPLEMENTATION** | No current authoritative implementation/result verified in this repository. Inspect actual source before any scientific claim. |
+| Darcy T2424-0050 | **BLOCKED / NO TRAIN** | Pre-outcome only. `training_authorized=false`; do not auto-merge/deploy or run outcome training until frozen B3/B4 baselines, exact environment/hardware and covariance/OOD interpretation gates are closed. |
+| External Darcy FNO audit | **INCONCLUSIVE** | Separate from Project 2424. Three-seed evidence is invalid for the intended sample-count claim because the 16×16 loader supplied 50 instead of 200 samples. Smallest clean rerun/control matrix remains open; do not merge this evidence into T2424-0050. |
+| T2424-1863 | **FAILED — FROZEN** | Negative synthetic result; preserve as failure, no rescue. |
+| Project 2424 overall | **CONTINUE / EVIDENCE-CLOSURE** | Registry historically contains 2,424 rows; strongest implemented/evidence packages should be closed before opening more. NeuroCAD T2424-0037 and other source-backed Wave-001 packages are real; many rows remain ideas/evidence-recovery rather than papers. |
+| Weather-JEPA | **PRE-OUTCOME** | Scaffold/protocol exists with baselines, spatial/temporal splits, uncertainty reporting and stop rules intended frozen before outcome training. No positive result is verified. |
+| Space-JEPA / satellite telemetry | **PRE-OUTCOME / EXTERNAL REVIEW ACTIVE** | Scoped as a falsifiable temporal-JEPA anomaly-detection pilot on ESA-ADB with matched forecasting/reconstruction baselines, leakage-resistant splits, frozen thresholding and kill criteria. Research foundation has external technical reviewers/commenters, but no verified implementation/held-out positive result yet. |
+| Time-Series JEPA | **PRE-OUTCOME / PARTIAL** | Treat only as a successor family under explicit partial-observability hypotheses; no broad superiority claim authorized. |
+| Hercules / Olympus | **ARCHIVED ACTIVE-COMPUTE** | No significant model-scale compute until a decisive matched protocol is frozen. |
 
-## IRIS metric provenance closure
+## Portfolio execution order
 
-The prior metric-source blocker is closed at the provenance level without running an outcome. The recovered executable is not claimed byte-identical to the Markdown specification; instead its own archived protocol links to the frozen specification/source lineage, its bytes are hashed, and its implementation matches the frozen metric definitions. The only remaining frontier-source gate is canonical development-trajectory identity or authoritative deterministic equivalence.
+1. Close LAM-JEPA release metadata + genuinely independent review without changing science.
+2. Run only authorized bounded successor gates: PHY-JEPA phase-1; no broader JEPA training until smoke correctness is recorded.
+3. Close IRIS/NGMT/Eigen-JEPA/NPMS negative-result packages rather than rescue them.
+4. Resolve NeuroCAD S3 dataset/model identity before opening its confirmatory split.
+5. Close Project 2424 evidence/provenance on strongest candidates before adding rows.
+6. Keep Weather-JEPA and Space-JEPA pre-outcome until frozen baselines/splits/thresholds/reviewer gates are complete.
 
-## Global science gate
+## Global stop rules
 
-No frozen negative/mixed/falsified result may be retuned in place. New hypotheses require new versioned protocols, baselines, controls, seeds, metrics, compute budget, success criterion and falsifier.
+- No frozen negative/mixed/falsified result may be retuned in place.
+- No prohibited seed reuse, including IRIS `1000–1029`.
+- No test-label tuning, point adjustment, hand-picked windows, or post-hoc architecture shopping.
+- `T2424-0050` remains `NO TRAIN` until explicit authorization gates close.
+- Product/software improvements do not rewrite scientific mechanism verdicts.
+- `Prepared`, `scaffolded`, `CI-green`, or `review requested` are not scientific outcomes.
