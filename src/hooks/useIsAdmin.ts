@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { authFetch } from '@/lib/apiAuth';
 import { isAdminUser } from '@/lib/admin';
+import { resolveAdminAccess } from '@/lib/adminAccessPolicy.mjs';
 
 function getApiBase() {
   const override = import.meta.env.VITE_CHATBOT_API_URL;
@@ -34,17 +35,30 @@ export function useIsAdmin() {
         if (response.ok) {
           const data = await response.json();
           if (!cancelled) {
-            setIsAdmin(Boolean(data.admin));
+            setIsAdmin(
+              resolveAdminAccess({
+                apiDecision: Boolean(data.admin),
+                isDevelopment: import.meta.env.DEV,
+                clientAllowlistMatch: isAdminUser(user),
+              }),
+            );
             setLoading(false);
           }
           return;
         }
       } catch {
-        // Fall back to client-side env check when API is unavailable in dev.
+        // Production must fail closed. Local development can still use the
+        // mirrored client allowlist when the API is intentionally unavailable.
       }
 
       if (!cancelled) {
-        setIsAdmin(isAdminUser(user));
+        setIsAdmin(
+          resolveAdminAccess({
+            apiDecision: null,
+            isDevelopment: import.meta.env.DEV,
+            clientAllowlistMatch: isAdminUser(user),
+          }),
+        );
         setLoading(false);
       }
     }
