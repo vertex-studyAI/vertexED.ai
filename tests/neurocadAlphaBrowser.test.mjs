@@ -58,7 +58,7 @@ async function loadDemo() {
   };
 }
 
-test("NeuroCAD alpha browser demo generates, edits, and hides casing without runtime errors", async () => {
+test("NeuroCAD alpha browser demo exercises simple, mechanical, and jet-engine workflows", async () => {
   const demo = await loadDemo();
   try {
     const { document, Event } = demo.dom.window;
@@ -73,9 +73,22 @@ test("NeuroCAD alpha browser demo generates, edits, and hides casing without run
     assert.match(tree.textContent, /Outer Casing/);
     assert.match(cadSpec.textContent, /"name": "Turbojet Concept"/);
 
+    document.querySelector("#preset-plate").click();
+    assert.equal(error.textContent, "");
+    assert.match(cadSpec.textContent, /"name": "Mounting Plate"/);
+    assert.match(tree.textContent, /Mounting Plate/);
+
+    document.querySelector("#preset-mechanical").click();
+    assert.equal(error.textContent, "");
+    assert.match(cadSpec.textContent, /"name": "Flanged Tube Concept"/);
+    assert.match(tree.textContent, /Left Flange/);
+    assert.match(tree.textContent, /Right Flange/);
+    assert.equal(document.querySelector("#update-params").disabled, true);
+
     document.querySelector("#preset-jet").click();
     assert.match(status.textContent, /validation PASS/);
     assert.match(cadSpec.textContent, /"compressorStages": 6/);
+    assert.equal(document.querySelector("#update-params").disabled, false);
 
     const compressor = document.querySelector("#compressor-stages");
     compressor.value = "9";
