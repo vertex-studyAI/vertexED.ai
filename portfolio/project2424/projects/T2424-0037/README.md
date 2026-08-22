@@ -1,60 +1,14 @@
-# T2424-0037 — NeuroCAD / Controlled NLP-to-CAD
+# NeuroCAD Alpha 0.1 — Language → Engineering Geometry
 
-A Project 2424 controlled compiler that converts a **bounded natural-language rectangular-plate description** into a typed parametric geometry specification, SVG preview, OpenSCAD source, and geometric summary metrics.
+NeuroCAD is a bounded engineering-language → parametric-geometry system. The current product line combines the historically tested rectangular-plate compiler with a new versioned CAD document/assembly layer and a conceptual multi-part jet-engine showcase.
 
-The scope is intentionally narrow. This is not a general natural-language CAD model and does not claim to infer arbitrary engineering intent.
+The public-alpha claim is deliberately narrower than general text-to-CAD:
 
-## Current evidence state
+> NeuroCAD turns constrained engineering descriptions into validated parametric geometry that can be inspected, edited within supported parameters, visualized, and exported as structured CAD artifacts.
 
-**GREEN — controlled benchmark complete + held-out linguistic-template gate passed + executable CAD backend verified.**
+## Alpha 0.1 demo
 
-This GREEN status is claim-specific. The project remains **not externally validated, not general part-family OOD, not a learned-model superiority result, and not research-complete**.
-
-### Original controlled benchmark
-
-The frozen 20-case deterministic benchmark passes 20/20 with reported syntax/source generation, geometry validity, dimension accuracy, and constraint satisfaction all equal to 1.0 on that controlled set.
-
-### Held-out template benchmark v1
-
-The method and benchmark were frozen before first execution. Across 20 fixed held-out linguistic-template cases:
-
-| System | Valid exact geometry | Invalid rejection | Overall success |
-|---|---:|---:|---:|
-| Typed/validated compiler | **1.000** | **0.875** | **0.950** |
-| Direct flat extraction | 1.000 | 0.000 | 0.600 |
-
-The +0.350 overall delta exceeds the pre-frozen +0.150 development threshold. One adverse case is retained: `plate -50 by 40 thickness 3` is unexpectedly accepted. It is deliberately **not patched into the v1 result**.
-
-The full frozen protocol and result are in:
-
-- [`OOD_PROTOCOL.md`](./OOD_PROTOCOL.md)
-- [`benchmark/OOD_RESULTS.md`](./benchmark/OOD_RESULTS.md)
-
-### Real OpenSCAD execution
-
-All 12 valid held-out cases generated non-empty STL outputs through OpenSCAD 2021.01 in CI: **12/12 passed**.
-
-This establishes executable CAD generation for the tested plate family. It does not establish manufacturing correctness, arbitrary topology handling, or richer CAD editability.
-
-## Supported grammar
-
-Current prompts describe rectangular plates, panels, brackets, or rectangles with:
-
-- width × height in millimetres;
-- optional thickness (default 3 mm);
-- optional 1, 2, or 4 circular holes;
-- hole radius or diameter;
-- optional edge inset/margin/edge offset.
-
-Example:
-
-```text
-plate 80 by 40 thickness 3 with 4 holes radius 2 inset 6
-```
-
-Unsupported geometry fails closed where covered by the current validation rules. The retained negative-width OOD failure shows that this fail-closed behavior is not yet universal.
-
-## Run the demo
+Run:
 
 ```bash
 python3 -m http.server 8000 --directory portfolio/project2424/projects/T2424-0037
@@ -62,61 +16,156 @@ python3 -m http.server 8000 --directory portfolio/project2424/projects/T2424-003
 
 Open `http://localhost:8000/web/`.
 
-## Run the controlled benchmark
+Flagship prompt:
 
-```bash
-node portfolio/project2424/projects/T2424-0037/benchmark/run.mjs
-node --test tests/nlpToCad.test.mjs tests/nlpToCadBenchmark.test.mjs
+```text
+Generate a simplified axial jet engine concept with 6 compressor stages and 2 turbine stages
 ```
 
-## Run the frozen held-out-template benchmark
+The browser workstation supports:
 
-```bash
-node portfolio/project2424/projects/T2424-0037/benchmark/ood_evaluate.mjs
-node --test tests/nlpToCadOodBenchmark.test.mjs
+- deterministic bounded prompt interpretation;
+- a versioned `neurocad-0.1` CAD document;
+- validated multi-part assemblies;
+- interactive 3D wireframe orbit/zoom;
+- assembly-tree component selection;
+- casing hide/show;
+- exploded view;
+- compressor/turbine stage, length, and diameter regeneration;
+- follow-up commands such as `Increase compressor stages to 9`, `Hide the outer casing`, `Show exploded view`, and `Make it longer`;
+- CADSpec JSON export;
+- OpenSCAD source export.
+
+The jet-engine model is a **conceptual / educational CAD assembly only**. It does not calculate or claim thrust, RPM, pressure ratio, fuel flow, temperatures, efficiency, stress, fatigue, materials, tolerances, manufacturing correctness, airworthiness, or certification.
+
+## Alpha architecture
+
+```text
+bounded language command
+        ↓
+structured intent
+        ↓
+versioned CADDocument
+        ↓
+primitive + assembly validation
+        ↓
+procedural geometry
+        ↓
+interactive browser projection / OpenSCAD serialization
+        ↓
+CADSpec JSON / SCAD export
 ```
 
-The evaluator reports a scientific `PASS_...` or `FAIL_...` verdict. A negative verdict must be retained rather than tuned away.
+Supported Alpha structured primitives:
 
-## Run real CAD backend verification
+- `rectangular_plate`
+- `cylinder`
+- `tube`
+- `disk`
+- `frustum`
+- `blade_ring`
 
-With OpenSCAD installed:
+The turbojet is one assembly built on this general layer; the CAD document itself is not engine-specific.
+
+## Trust boundary
+
+Untrusted input does not flow directly into executable CAD source.
+
+- direct plate specs are strictly validated before SVG/OpenSCAD/summary rendering;
+- geometry values must be finite bounded numbers;
+- explicit `mm` units are required by structured plate specs;
+- hole bounds and overlap are checked;
+- object IDs are restricted to safe identifiers;
+- object counts and scene transforms are bounded;
+- primitive geometry is validated before export;
+- duplicate IDs and dangling assembly references fail closed;
+- no `eval`/`Function` execution path is used;
+- prompt text is not interpolated into OpenSCAD source.
+
+## Historical research record
+
+NeuroCAD began as Project 2424 `T2424-0037`, a controlled rectangular-plate NLP→CAD experiment. The product line must remain separate from its frozen scientific history.
+
+### Original controlled benchmark
+
+The frozen deterministic 20-case controlled benchmark recorded **20/20 passed** on its bounded in-grammar cases.
+
+### Held-out linguistic-template v1
+
+The protocol was frozen before execution. Across 20 fixed cases (12 valid, 8 invalid/fail-closed):
+
+| System | Valid exact geometry | Invalid rejection | Overall success |
+|---|---:|---:|---:|
+| typed + validated compiler | **1.000** | **0.875** | **0.950** |
+| original direct flat extraction | 1.000 | 0.000 | 0.600 |
+
+The retained adverse case `O018` (`plate -50 by 40 thickness 3`) remains part of frozen v1 and was not rewritten. The v1 artifact also retained **12/12 non-empty STL outputs** for valid cases through OpenSCAD 2021.01.
+
+### Post-result engineering repair
+
+The signed-negative parsing defect was fixed in a separate engineering lineage. Current code rejects signed-negative numeric literals. That repair does not change the historical v1 result.
+
+### Component ablation / mechanism falsifier
+
+A later protocol was frozen to test whether the measured gap came from the typed/parser path or from fail-closed validation. On the reused 20-case diagnostic:
+
+| System | Overall success |
+|---|---:|
+| current typed + validated compiler | **1.00** |
+| original direct extraction | 0.60 |
+| direct extraction + matched validation | **1.00** |
+
+The frozen interpretation is **`VALIDATION_DOMINANT`** (`validation_recovery_fraction = 1.00`). Therefore NeuroCAD does **not** claim that typed IR itself caused the observed advantage on that benchmark.
+
+## Product QA
+
+Run all repository tests:
 
 ```bash
-node portfolio/project2424/projects/T2424-0037/benchmark/kernel_verify.mjs /tmp/neurocad-kernel
+npm test
 ```
 
-The CI workflow `.github/workflows/neurocad-ood-benchmark.yml` installs OpenSCAD, executes the frozen valid cases, and uploads raw JSON plus SCAD/STL artifacts.
+Focused Alpha tests:
 
-## Safety envelope
+```bash
+node --test tests/neurocadAlpha.test.mjs tests/nlpToCad.test.mjs
+```
 
-The compiler rejects unsupported object classes, missing/non-positive dimensions when correctly parsed, plates over 2000 mm in either planar dimension, thickness over 200 mm, unsupported hole counts, oversized holes, and invalid insets. Generated OpenSCAD is assembled only from numeric `cube`, `translate`, `cylinder`, and `difference` geometry; user text is never copied into executable CAD source.
+The new Alpha test suite covers direct-spec injection-shaped input rejection, primitive constraints, jet-engine stage/proportion bounds, min/max configurations, prompt/follow-up behavior, CADSpec serialization, SCAD output, duplicate IDs, dangling assemblies, and object-count abuse.
 
-Known v1 parser defect: a leading negative width can be skipped by the dimension regex in the held-out case `O018`. Preserve that result; fix only in a separately versioned follow-up.
+Frozen research workflows remain separate and must not be retuned to make Alpha look better.
 
-## Evidence provenance
+## Exports
 
-Latest held-out + CAD-kernel evidence:
+### Available in Alpha browser demo
 
-- GitHub Actions run: `31659488587`;
-- artifact: `9165650301`;
-- artifact digest: `sha256:753a394de4bdced76fd6e1f21419d12cf13fc872691238655b04341193e6cd6d`;
-- Node `v22.23.1`;
-- npm `10.9.8`;
-- OpenSCAD `2021.01`.
+- NeuroCAD CADSpec JSON;
+- OpenSCAD source (`.scad`).
 
-The earlier Project 2424 frozen rerun also independently retained the original T2424-0037 controlled benchmark as 20/20 with focused tests passing.
+### Existing historical evidence
 
-## Limitations / next evidence gate
+The bounded valid plate family has retained OpenSCAD → STL execution evidence.
 
-- one parametric part family;
-- no free-form sketching;
-- no model-provider/LLM baseline in this package;
-- no STEP/B-rep editability validation;
-- no general geometric constraint solver;
-- millimetres only;
-- no tolerances, materials, fillets, chamfers, slots, threads, or assemblies;
-- no manufacturing certification;
-- no external benchmark or independent third-party replication.
+### Not implemented / not claimed
 
-Next scientific family should be frozen separately and target genuinely new part families, a strong model-based direct-generation baseline, richer CAD-kernel/topology checks, and editability/reopen validation.
+- STEP/B-rep export or reopen/editability validation;
+- in-browser STL generation;
+- arbitrary free-form CAD;
+- general model-provider NLP-to-CAD;
+- CFD/FEA/thermal/combustion analysis;
+- manufacturing or certification validation.
+
+## Documentation
+
+- [`QUICKSTART.md`](./QUICKSTART.md)
+- [`ARCHITECTURE.md`](./ARCHITECTURE.md)
+- [`DEMO.md`](./DEMO.md)
+- [`SAFETY_AND_SCOPE.md`](./SAFETY_AND_SCOPE.md)
+- [`CHANGELOG.md`](./CHANGELOG.md)
+- [`NEUROCAD_ALPHA_PRODUCT_VALIDATION_20260822.md`](./NEUROCAD_ALPHA_PRODUCT_VALIDATION_20260822.md)
+- [`OOD_PROTOCOL.md`](./OOD_PROTOCOL.md)
+- [`NEUROCAD_COMPONENT_ABLATION_RESULT_20260814.md`](./NEUROCAD_COMPONENT_ABLATION_RESULT_20260814.md)
+
+## Status boundary
+
+Alpha engineering work may advance independently. Historical negative/mixed research results remain first-class evidence and must never be silently retuned, removed, or rewritten.
