@@ -1,6 +1,6 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "buildCommand": "VERTEXED_REQUIRE_BUILD_REVISION=1 ROLLUP_SKIP_NODEJS_NATIVE=true npm run build",
+  "buildCommand": "node scripts/stage-neurocad-alpha.mjs && VERTEXED_REQUIRE_BUILD_REVISION=1 ROLLUP_SKIP_NODEJS_NATIVE=true npm run build",
   "installCommand": "npm ci",
   "ignoreCommand": "node scripts/vercel-ignore-build.mjs",
   "framework": null,
@@ -11,6 +11,8 @@
     }
   },
   "rewrites": [
+    { "source": "/neurocad", "destination": "/neurocad/index.html" },
+    { "source": "/neurocad/", "destination": "/neurocad/index.html" },
     { "source": "/((?!api|.*\\..*).*)", "destination": "/index.html" }
   ],
   "headers": [
