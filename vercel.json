@@ -11,6 +11,7 @@
     }
   },
   "rewrites": [
+    { "source": "/neurocad", "destination": "/neurocad.html" },
     { "source": "/((?!api|.*\\..*).*)", "destination": "/index.html" }
   ],
   "headers": [
