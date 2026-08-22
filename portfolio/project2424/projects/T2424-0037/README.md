@@ -1,58 +1,51 @@
-# T2424-0037 — NeuroCAD / Controlled NLP-to-CAD
+# NLP-to-CAD
 
-A Project 2424 controlled compiler that converts a **bounded natural-language rectangular-plate description** into a typed parametric geometry specification, SVG preview, OpenSCAD source, and geometric summary metrics.
+## NeuroCAD Alpha 0.1 — Language → Engineering Geometry
 
-The scope is intentionally narrow. This is not a general natural-language CAD model and does not claim to infer arbitrary engineering intent.
+**Canonical Project 2424 identity:** `NLP-to-CAD`  
+**Current product line:** `NeuroCAD Alpha 0.1`
 
-## Current evidence state
+NeuroCAD is an early engineering-software alpha that turns a **constrained** natural-language engineering description into an explicit parametric CAD representation, validates it before rendering, builds component/assembly structure, previews it interactively in the browser, supports bounded parameter edits, and exports formats it genuinely generates.
 
-**GREEN — controlled benchmark complete + held-out linguistic-template gate passed + executable CAD backend verified.**
+The flagship Alpha demo is a **conceptual axial jet-engine assembly**. It exists to demonstrate the CAD architecture visually. It is not a propulsion-performance, manufacturing, airworthiness, combustion, FEA or CFD system.
 
-This GREEN status is claim-specific. The project remains **not externally validated, not general part-family OOD, not a learned-model superiority result, and not research-complete**.
-
-### Original controlled benchmark
-
-The frozen 20-case deterministic benchmark passes 20/20 with reported syntax/source generation, geometry validity, dimension accuracy, and constraint satisfaction all equal to 1.0 on that controlled set.
-
-### Held-out template benchmark v1
-
-The method and benchmark were frozen before first execution. Across 20 fixed held-out linguistic-template cases:
-
-| System | Valid exact geometry | Invalid rejection | Overall success |
-|---|---:|---:|---:|
-| Typed/validated compiler | **1.000** | **0.875** | **0.950** |
-| Direct flat extraction | 1.000 | 0.000 | 0.600 |
-
-The +0.350 overall delta exceeds the pre-frozen +0.150 development threshold. One adverse case is retained: `plate -50 by 40 thickness 3` is unexpectedly accepted. It is deliberately **not patched into the v1 result**.
-
-The full frozen protocol and result are in:
-
-- [`OOD_PROTOCOL.md`](./OOD_PROTOCOL.md)
-- [`benchmark/OOD_RESULTS.md`](./benchmark/OOD_RESULTS.md)
-
-### Real OpenSCAD execution
-
-All 12 valid held-out cases generated non-empty STL outputs through OpenSCAD 2021.01 in CI: **12/12 passed**.
-
-This establishes executable CAD generation for the tested plate family. It does not establish manufacturing correctness, arbitrary topology handling, or richer CAD editability.
-
-## Supported grammar
-
-Current prompts describe rectangular plates, panels, brackets, or rectangles with:
-
-- width × height in millimetres;
-- optional thickness (default 3 mm);
-- optional 1, 2, or 4 circular holes;
-- hole radius or diameter;
-- optional edge inset/margin/edge offset.
-
-Example:
+## Alpha pipeline
 
 ```text
-plate 80 by 40 thickness 3 with 4 holes radius 2 inset 6
+SUPPORTED LANGUAGE
+       ↓
+BOUNDED INTENT
+       ↓
+CADDocument `neurocad-0.1`
+       ↓
+FAIL-CLOSED VALIDATION
+       ↓
+OBJECT + ASSEMBLY GRAPH
+       ↓
+PARAMETRIC GEOMETRY
+       ├──→ INTERACTIVE 3D VIEW
+       ├──→ CADSpec JSON
+       └──→ OpenSCAD .scad
 ```
 
-Unsupported geometry fails closed where covered by the current validation rules. The retained negative-width OOD failure shows that this fail-closed behavior is not yet universal.
+## What works in Alpha 0.1
+
+- historical validated rectangular-plate workflow;
+- versioned CAD document representation;
+- primitive validation for plates, cylinders, tubes/rings/disks, frustums and stylized blade rings;
+- parent/child assembly graph with reference/cycle checks;
+- conceptual jet-engine generator with inlet, compressor, shaft, combustor envelope, turbine, casing and nozzle;
+- 3–12 compressor stages and 1–4 turbine stages;
+- casing visibility and exploded view;
+- bounded follow-up commands such as `Increase compressor stages to 8.`, `Use only one turbine stage.`, `Hide the casing.`, `Show exploded view.`, `Make it longer.`, `Make the shaft slightly thicker.`, and `Reset.`;
+- flanged-tube assembly preset;
+- interactive Three.js viewport with orbit, zoom, pan, selection, fit/reset camera and hierarchy visibility controls;
+- editable conceptual engine parameters;
+- structured validation diagnostics;
+- CADSpec JSON export;
+- generated OpenSCAD export.
+
+Not implemented: arbitrary CAD, STEP/B-rep, browser STL export, free-form sketching, general constraint solving, materials/tolerances, fillets/chamfers/threads, CFD/FEA, or real propulsion calculations.
 
 ## Run the demo
 
@@ -62,61 +55,102 @@ python3 -m http.server 8000 --directory portfolio/project2424/projects/T2424-003
 
 Open `http://localhost:8000/web/`.
 
-## Run the controlled benchmark
+The 3D viewport uses a version-pinned Three.js module from jsDelivr. See [`QUICKSTART.md`](./QUICKSTART.md).
+
+## Run focused Alpha QA
 
 ```bash
-node portfolio/project2424/projects/T2424-0037/benchmark/run.mjs
-node --test tests/nlpToCad.test.mjs tests/nlpToCadBenchmark.test.mjs
+node --test \
+  tests/nlpToCad.test.mjs \
+  tests/neurocadAlpha.test.mjs \
+  tests/neurocadWeb.test.mjs
 ```
 
-## Run the frozen held-out-template benchmark
+The implementation-session product record is in [`NEUROCAD_ALPHA_PRODUCT_VALIDATION_20260822.md`](./NEUROCAD_ALPHA_PRODUCT_VALIDATION_20260822.md). Product QA is deliberately separate from the frozen scientific benchmark family.
 
-```bash
-node portfolio/project2424/projects/T2424-0037/benchmark/ood_evaluate.mjs
-node --test tests/nlpToCadOodBenchmark.test.mjs
+## Architecture
+
+- [`src/core.mjs`](./src/core.mjs) — bounded rectangular-plate compiler and hardened plate renderer/export path.
+- [`src/alpha.mjs`](./src/alpha.mjs) — public Alpha entrypoint.
+- [`src/alpha/`](./src/alpha/) — document/schema validation, conceptual generators and exporters.
+- [`web/`](./web/) — engineering workstation and interactive 3D visualization.
+- [`ARCHITECTURE.md`](./ARCHITECTURE.md) — detailed separation and invariants.
+- [`SAFETY_AND_SCOPE.md`](./SAFETY_AND_SCOPE.md) — claim and safety boundaries.
+- [`DEMO.md`](./DEMO.md) — flagship demo flow.
+
+## Jet-engine concept scope
+
+The default geometry uses only visual/conceptual parameters such as overall length/diameter, shaft diameter, stage counts, section proportions, casing visibility and exploded spacing. It deliberately does **not** calculate or recommend thrust, pressure ratio, RPM, temperature, fuel flow, efficiency, stress, fatigue life or real nozzle performance.
+
+## Research record — preserved, including the falsifier
+
+NeuroCAD began as a controlled rectangular-plate NLP→CAD research experiment.
+
+### Frozen held-out template v1
+
+Across 20 fixed held-out linguistic-template cases:
+
+| System | Valid exact geometry | Invalid rejection | Overall success |
+|---|---:|---:|---:|
+| typed + validated compiler | **1.000** | **0.875** | **0.950** |
+| original direct flat extraction | 1.000 | 0.000 | 0.600 |
+
+The historical typed/validated compiler therefore recorded **19/20** overall success versus **12/20** for the original direct baseline. The adverse negative-width case `O018` was preserved rather than silently rewritten. The 12 valid held-out cases also produced non-empty STL outputs through OpenSCAD in the historical CI evidence family.
+
+### Later component ablation — `VALIDATION_DOMINANT`
+
+The later frozen matched-validation diagnostic reused the bounded cases and found:
+
+| System | Overall success |
+|---|---:|
+| typed + validated | **1.00** |
+| direct + matched validation | **1.00** |
+| original direct without matched validation | 0.60 |
+
+`original_gap = 0.40`, `remaining_gap = 0.00`, and `validation_recovery_fraction = 1.00`.
+
+**Correct interpretation:** the diagnostic falsifies the claim that the measured gap itself demonstrates a typed-IR/parser causal advantage. On those reused cases, the measured advantage was **validation-dominant**. NeuroCAD therefore does not claim that typed IR was scientifically proven superior to direct CAD generation.
+
+The engineering/product line continues independently, with explicit validation retained because it was the mechanism actually supported by the diagnostic.
+
+Historical evidence remains in:
+
+- [`OOD_PROTOCOL.md`](./OOD_PROTOCOL.md)
+- [`benchmark/OOD_RESULTS.md`](./benchmark/OOD_RESULTS.md)
+- [`NEUROCAD_COMPONENT_ABLATION_PROTOCOL_20260814.md`](./NEUROCAD_COMPONENT_ABLATION_PROTOCOL_20260814.md)
+- [`NEUROCAD_COMPONENT_ABLATION_RESULT_20260814.md`](./NEUROCAD_COMPONENT_ABLATION_RESULT_20260814.md)
+
+## Safety invariant
+
+```text
+UNTRUSTED INPUT
+      ↓
+INTERPRET / PARSE
+      ↓
+CAD SPEC
+      ↓
+VALIDATE
+      ↓
+ONLY THEN RENDER / EXPORT
 ```
 
-The evaluator reports a scientific `PASS_...` or `FAIL_...` verdict. A negative verdict must be retained rather than tuned away.
+Direct plate objects are strictly validated before SVG, OpenSCAD or summary generation. The Alpha document validator additionally enforces finite numbers, geometry ranges, primitive invariants, object/assembly complexity limits, resolved references and acyclic assembly relationships.
 
-## Run real CAD backend verification
+Raw prompt text is not executed with `eval`, `Function`, shell interpolation, or direct OpenSCAD source interpolation.
 
-With OpenSCAD installed:
+## Export truth
 
-```bash
-node portfolio/project2424/projects/T2424-0037/benchmark/kernel_verify.mjs /tmp/neurocad-kernel
-```
+Browser Alpha exposes:
 
-The CI workflow `.github/workflows/neurocad-ood-benchmark.yml` installs OpenSCAD, executes the frozen valid cases, and uploads raw JSON plus SCAD/STL artifacts.
+- `.json` — validated NeuroCAD CADSpec;
+- `.scad` — generated OpenSCAD source.
 
-## Safety envelope
+A real local OpenSCAD run produced non-empty STL files for seven deterministic engine configurations during Alpha QA, but OpenSCAD also reported non-2-manifold warnings for the stylized multi-part assembly. STL is therefore **not** represented as manufacturing-valid and is not exposed as a browser Alpha button. STEP/B-rep is not implemented.
 
-The compiler rejects unsupported object classes, missing/non-positive dimensions when correctly parsed, plates over 2000 mm in either planar dimension, thickness over 200 mm, unsupported hole counts, oversized holes, and invalid insets. Generated OpenSCAD is assembled only from numeric `cube`, `translate`, `cylinder`, and `difference` geometry; user text is never copied into executable CAD source.
+## Versioning
 
-Known v1 parser defect: a leading negative width can be skipped by the dimension regex in the held-out case `O018`. Preserve that result; fix only in a separately versioned follow-up.
+- historical research artifacts retain their existing identities;
+- current product version: **NeuroCAD Alpha 0.1**;
+- CAD document schema: **`neurocad-0.1`**.
 
-## Evidence provenance
-
-Latest held-out + CAD-kernel evidence:
-
-- GitHub Actions run: `31659488587`;
-- artifact: `9165650301`;
-- artifact digest: `sha256:753a394de4bdced76fd6e1f21419d12cf13fc872691238655b04341193e6cd6d`;
-- Node `v22.23.1`;
-- npm `10.9.8`;
-- OpenSCAD `2021.01`.
-
-The earlier Project 2424 frozen rerun also independently retained the original T2424-0037 controlled benchmark as 20/20 with focused tests passing.
-
-## Limitations / next evidence gate
-
-- one parametric part family;
-- no free-form sketching;
-- no model-provider/LLM baseline in this package;
-- no STEP/B-rep editability validation;
-- no general geometric constraint solver;
-- millimetres only;
-- no tolerances, materials, fillets, chamfers, slots, threads, or assemblies;
-- no manufacturing certification;
-- no external benchmark or independent third-party replication.
-
-Next scientific family should be frozen separately and target genuinely new part families, a strong model-based direct-generation baseline, richer CAD-kernel/topology checks, and editability/reopen validation.
+See [`CHANGELOG.md`](./CHANGELOG.md).

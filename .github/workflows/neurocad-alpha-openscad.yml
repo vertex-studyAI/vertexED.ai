@@ -1,0 +1,51 @@
+name: NeuroCAD Alpha OpenSCAD certification
+
+on:
+  pull_request:
+    branches: [main, master]
+    paths:
+      - 'portfolio/project2424/projects/T2424-0037/**'
+      - 'scripts/neurocad-alpha-openscad-qa.mjs'
+      - '.github/workflows/neurocad-alpha-openscad.yml'
+  push:
+    branches: [main, master]
+    paths:
+      - 'portfolio/project2424/projects/T2424-0037/**'
+      - 'scripts/neurocad-alpha-openscad-qa.mjs'
+      - '.github/workflows/neurocad-alpha-openscad.yml'
+
+concurrency:
+  group: neurocad-alpha-openscad-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  openscad-certification:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+
+      - name: Install OpenSCAD
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y openscad
+          openscad --version
+
+      - name: Run J1-J7 conceptual-engine OpenSCAD certification
+        run: node scripts/neurocad-alpha-openscad-qa.mjs
+
+      - name: Upload OpenSCAD evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: neurocad-alpha-openscad-evidence
+          path: artifacts/neurocad-alpha/openscad
+          if-no-files-found: error
+          retention-days: 14

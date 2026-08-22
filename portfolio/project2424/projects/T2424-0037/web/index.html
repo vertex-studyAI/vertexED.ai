@@ -3,36 +3,65 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>T2424-0037 NLP-to-CAD</title>
-  <style>
-    :root { font-family:Inter,ui-sans-serif,system-ui,sans-serif; color-scheme:dark; background:#0a0f18; color:#f8fafc; }
-    body { margin:0 auto; max-width:1050px; padding:32px; }
-    h1 { font-size:clamp(2.2rem,6vw,4.5rem); margin:.2em 0; }
-    p { color:#b7c2d8; line-height:1.6; }
-    .panel { border:1px solid #2b394f; border-radius:16px; padding:18px; background:#111827; margin:18px 0; }
-    textarea { width:100%; min-height:90px; box-sizing:border-box; border:1px solid #334155; border-radius:10px; padding:12px; background:#070b12; color:#f8fafc; font:inherit; }
-    button { margin-top:12px; padding:10px 16px; border:0; border-radius:9px; font-weight:800; background:#86efac; color:#052e16; cursor:pointer; }
-    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:18px; }
-    #preview svg { width:100%; max-height:420px; color:#67e8f9; }
-    pre { white-space:pre-wrap; overflow:auto; background:#060a10; border-radius:10px; padding:14px; color:#dbeafe; }
-    .error { color:#fecaca; min-height:1.4em; }
-  </style>
+  <meta name="description" content="NeuroCAD Alpha 0.1 — constrained engineering language to validated parametric geometry." />
+  <title>NeuroCAD Alpha 0.1 — Language → Engineering Geometry</title>
+  <link rel="stylesheet" href="./styles.css" />
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.179.1/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.179.1/examples/jsm/"
+      }
+    }
+  </script>
 </head>
 <body>
-  <div>Project 2424 · T2424-0037</div>
-  <h1>Controlled NLP → CAD</h1>
-  <p>Compile a narrow, auditable plate description into a parametric CAD specification, SVG preview, and OpenSCAD source. Unsupported instructions fail closed rather than being guessed.</p>
-  <section class="panel">
-    <label for="prompt">Describe a rectangular plate</label>
-    <textarea id="prompt">plate 80 by 40 thickness 3 with 4 holes radius 2 inset 6</textarea>
-    <button id="compile">Compile CAD</button>
-    <div id="error" class="error" role="alert" aria-live="polite"></div>
-  </section>
-  <div class="grid">
-    <section class="panel"><h2>Geometry preview</h2><div id="preview"></div><pre id="summary"></pre></section>
-    <section class="panel"><h2>OpenSCAD</h2><pre id="scad"></pre></section>
-  </div>
-  <p>Supported: rectangular plates/panels/brackets, millimetre dimensions, thickness, and 1/2/4 circular holes with an inset.</p>
+  <header class="topbar">
+    <a class="brand" href="#demo" aria-label="NeuroCAD demo home">
+      <span class="brand-mark" aria-hidden="true">N</span>
+      <span><strong>NeuroCAD</strong><small>ALPHA 0.1</small></span>
+    </a>
+    <nav aria-label="Primary navigation">
+      <a href="#demo">Demo</a><a href="#research">Research</a><a href="#how-it-works">How it works</a>
+      <a href="https://github.com/vertex-studyAI/vertexED.ai/tree/main/portfolio/project2424/projects/T2424-0037" target="_blank" rel="noreferrer">GitHub</a>
+    </nav>
+  </header>
+  <main>
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="eyebrow">PARAMETRIC ENGINEERING · EARLY ALPHA</div>
+      <h1 id="hero-title">Language <span aria-hidden="true">→</span> Engineering Geometry</h1>
+      <p>Describe a supported engineering object. NeuroCAD structures the intent, validates the geometry, builds a component graph, renders it in 3D, and exports the validated CAD representation.</p>
+      <div class="hero-actions"><button class="button primary" id="hero-jet">Try the jet engine demo</button><a class="button secondary" href="#research">View the research record</a></div>
+    </section>
+    <section id="demo" class="workstation" aria-label="NeuroCAD engineering workstation">
+      <div class="command-panel panel">
+        <div class="panel-heading"><div><span class="panel-kicker">COMMAND</span><h2>Describe what you want to build</h2></div><span id="validation-chip" class="status-chip neutral">NOT RUN</span></div>
+        <label class="sr-only" for="prompt">Engineering description or follow-up command</label>
+        <textarea id="prompt" rows="4" spellcheck="false">Generate a simplified axial jet-engine concept with an inlet, six compressor stages, a central shaft, combustor envelope, two turbine stages, outer casing and exhaust nozzle.</textarea>
+        <div class="command-actions"><button class="button primary" id="generate">Generate model</button><button class="button ghost" id="reset-command">Reset prompt</button></div>
+        <div class="presets" aria-label="Example gallery"><button data-preset="plate"><span>01</span> Mounting Plate</button><button data-preset="flange"><span>02</span> Flanged Tube</button><button data-preset="jet"><span>03</span> Jet Engine Concept</button></div>
+        <ol id="pipeline" class="pipeline" aria-label="Generation pipeline"><li data-step="understanding"><span>1</span> Understanding</li><li data-step="structuring"><span>2</span> Structuring</li><li data-step="validating"><span>3</span> Validating</li><li data-step="generating"><span>4</span> Generating</li><li data-step="ready"><span>5</span> Ready</li></ol>
+        <div id="error" class="error-box" role="alert" aria-live="polite"></div>
+      </div>
+      <div class="viewport-panel panel">
+        <div class="viewport-toolbar"><div><span class="panel-kicker">3D VIEWPORT</span><strong id="model-name">No model loaded</strong></div><div class="tool-buttons" aria-label="Viewport controls"><button id="toggle-casing" disabled>Hide casing</button><button id="toggle-exploded" disabled>Exploded</button><button id="fit-camera">Fit</button><button id="reset-camera">Reset camera</button></div></div>
+        <div id="viewport-wrap"><canvas id="viewport" tabindex="0" aria-label="Interactive 3D CAD viewport. Use mouse or trackpad to orbit, zoom and pan."></canvas><div class="viewport-hud" aria-live="polite"><span id="object-count">0 components</span><span id="selection-label">Nothing selected</span></div><div id="viewer-fallback" class="viewer-fallback" hidden><strong>3D viewer unavailable.</strong><span>The structured CAD document and exports remain available below.</span></div></div>
+      </div>
+      <aside class="sidebar" aria-label="Model inspector">
+        <section class="panel inspector-panel">
+          <div class="tabs" role="tablist" aria-label="Inspector tabs"><button role="tab" aria-selected="true" data-tab="assembly">Assembly</button><button role="tab" aria-selected="false" data-tab="parameters">Parameters</button><button role="tab" aria-selected="false" data-tab="validation">Validation</button></div>
+          <div id="tab-assembly" class="tab-panel" role="tabpanel"><div id="assembly-tree" class="assembly-tree"><p class="empty">Generate a model to inspect its hierarchy.</p></div></div>
+          <div id="tab-parameters" class="tab-panel" role="tabpanel" hidden><form id="parameter-form" class="parameter-form" novalidate><p class="empty">Jet-engine conceptual parameters appear here when that preset is active.</p></form></div>
+          <div id="tab-validation" class="tab-panel" role="tabpanel" hidden><div id="diagnostics" class="diagnostics"><p class="empty">No validation run yet.</p></div></div>
+        </section>
+        <section class="panel export-panel"><span class="panel-kicker">EXPORT</span><div class="export-actions"><button id="export-json" disabled>CADSpec JSON</button><button id="export-scad" disabled>OpenSCAD .scad</button></div><p>STL is not exposed in the browser alpha. It remains a local/backend OpenSCAD conversion step.</p></section>
+      </aside>
+      <section class="panel data-panel"><div class="panel-heading compact"><div><span class="panel-kicker">STRUCTURED REPRESENTATION</span><h2>Validated CADSpec</h2></div><button class="button ghost small" id="copy-json" disabled>Copy JSON</button></div><pre id="cadspec">No model generated.</pre></section>
+    </section>
+    <section id="how-it-works" class="explain-section"><div class="section-heading"><span class="eyebrow">HOW IT WORKS</span><h2>Language is never executable geometry.</h2></div><div class="flow-grid" aria-label="NeuroCAD processing pipeline"><article><span>01</span><h3>Interpret</h3><p>Supported commands become bounded intents. Unsupported requests fail closed instead of being guessed.</p></article><article><span>02</span><h3>Structure</h3><p>A versioned CAD document describes parametric primitives, transforms and assembly relationships.</p></article><article><span>03</span><h3>Validate</h3><p>Finite dimensions, ranges, radii, stage counts, references and assembly cycles are checked before rendering.</p></article><article><span>04</span><h3>Generate</h3><p>The browser renders validated geometry and can export CADSpec JSON or generated OpenSCAD source.</p></article></div></section>
+    <section id="research" class="research-section"><div class="section-heading"><span class="eyebrow">RESEARCH RECORD</span><h2>The falsifier is part of the product story.</h2></div><div class="research-grid"><article class="research-card"><span class="metric">95%</span><h3>Frozen held-out v1</h3><p>The typed + validated compiler achieved 19/20 overall success on the frozen bounded template benchmark; the negative-width O018 failure remains preserved.</p></article><article class="research-card"><span class="metric">1.00 = 1.00</span><h3>Validation-dominant ablation</h3><p>A later matched-validation ablation recovered the observed gap for the direct baseline. The result does not support a typed-IR-specific causal advantage.</p></article><article class="research-card scope-card"><span class="metric">ALPHA</span><h3>Engineering line continues</h3><p>NeuroCAD Alpha is a separate product-engineering line: constrained language, explicit parametric representation, validation, assemblies, 3D inspection and honest exports.</p></article></div><p class="research-note">The jet-engine model is a conceptual/educational geometry demonstration. It is not airworthy, manufacturable, combustion-qualified, structurally validated, thermodynamically optimized, certified, or a propulsion-performance calculator.</p></section>
+  </main>
+  <footer><strong>NeuroCAD Alpha 0.1</strong><span>Constrained engineering language → validated parametric geometry.</span></footer>
   <script type="module" src="./app.mjs"></script>
 </body>
 </html>

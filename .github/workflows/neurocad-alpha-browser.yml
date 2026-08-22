@@ -1,0 +1,166 @@
+name: NeuroCAD Alpha browser certification
+
+on:
+  pull_request:
+    branches: [main, master]
+    paths:
+      - 'portfolio/project2424/projects/T2424-0037/**'
+      - 'scripts/publish-neurocad-alpha.mjs'
+      - 'tests/neurocadProductQa.test.mjs'
+      - 'tests/neurocadPublicRoute.test.mjs'
+      - 'e2e/neurocad-alpha.spec.ts'
+      - 'package.json'
+      - '.github/workflows/neurocad-alpha-browser.yml'
+  push:
+    branches: [main, master]
+    paths:
+      - 'portfolio/project2424/projects/T2424-0037/**'
+      - 'scripts/publish-neurocad-alpha.mjs'
+      - 'tests/neurocadProductQa.test.mjs'
+      - 'tests/neurocadPublicRoute.test.mjs'
+      - 'e2e/neurocad-alpha.spec.ts'
+      - 'package.json'
+      - '.github/workflows/neurocad-alpha-browser.yml'
+
+concurrency:
+  group: neurocad-alpha-browser-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  browser-certification:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run 125-case NeuroCAD product QA
+        run: node --test tests/neurocadProductQa.test.mjs tests/neurocadPublicRoute.test.mjs
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Build deploy-shaped site
+        run: npm run build:ci
+        env:
+          ROLLUP_SKIP_NODEJS_NATIVE: 'true'
+
+      - name: Launch deploy-shaped NeuroCAD Alpha
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm run preview -- --host 127.0.0.1 --port 4173 > /tmp/neurocad-alpha-preview.log 2>&1 &
+          echo $! > /tmp/neurocad-alpha-preview.pid
+          for attempt in $(seq 1 30); do
+            page="$(curl --silent --fail http://127.0.0.1:4173/neurocad/ || true)"
+            if [ -n "$page" ]; then
+              if ! printf '%s' "$page" | grep -Fq "neurocad-build-revision\" content=\"${GITHUB_SHA}\""; then
+                echo "[neurocad] deploy-shaped route served, but revision stamp did not match ${GITHUB_SHA}"
+                exit 1
+              fi
+              exit 0
+            fi
+            if [ "$attempt" -eq 30 ]; then
+              cat /tmp/neurocad-alpha-preview.log
+              exit 1
+            fi
+            sleep 1
+          done
+
+      - name: Run flagship browser certification against /neurocad/
+        env:
+          CI: '1'
+          NEUROCAD_BASE_URL: http://127.0.0.1:4173/neurocad/
+        run: npx playwright test e2e/neurocad-alpha.spec.ts --project=desktop-1440
+
+      - name: Stop preview server
+        if: always()
+        shell: bash
+        run: |
+          if [ -f /tmp/neurocad-alpha-preview.pid ]; then
+            kill "$(cat /tmp/neurocad-alpha-preview.pid)" 2>/dev/null || true
+          fi
+
+      - name: Upload NeuroCAD release evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: neurocad-alpha-release-evidence
+          path: |
+            artifacts/neurocad-alpha
+            playwright-report
+            test-results/neurocad-alpha
+            test-results
+            dist/neurocad/release-manifest.json
+          if-no-files-found: ignore
+          retention-days: 14
+
+  production-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    needs: browser-certification
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Wait for exact NeuroCAD production revision
+        shell: bash
+        run: |
+          set -euo pipefail
+          matched=0
+          for attempt in $(seq 1 10); do
+            echo "[neurocad-smoke] revision check ${attempt}/10"
+            page="$(curl --silent --fail https://www.vertexed.app/neurocad/ || true)"
+            if printf '%s' "$page" | grep -Fq "neurocad-build-revision\" content=\"${GITHUB_SHA}\""; then
+              matched=1
+              break
+            fi
+            sleep 30
+          done
+          if [ "$matched" -ne 1 ]; then
+            echo "[neurocad-smoke] exact main revision ${GITHUB_SHA} was not observed at /neurocad/"
+            exit 1
+          fi
+
+      - name: Run production flagship browser smoke
+        env:
+          CI: '1'
+          NEUROCAD_BASE_URL: https://www.vertexed.app/neurocad/
+        run: npx playwright test e2e/neurocad-alpha.spec.ts --project=desktop-1440
+
+      - name: Upload NeuroCAD production evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: neurocad-alpha-production-evidence
+          path: |
+            artifacts/neurocad-alpha
+            playwright-report
+            test-results/neurocad-alpha
+            test-results
+          if-no-files-found: ignore
+          retention-days: 14

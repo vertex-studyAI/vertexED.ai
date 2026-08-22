@@ -4,6 +4,20 @@ function finitePositive(value, label) {
   return number;
 }
 
+function strictFinitePositive(value, label) {
+  if (typeof value !== "number" || !Number.isFinite(value) || value <= 0) {
+    throw new RangeError(`${label} must be a finite positive number`);
+  }
+  return value;
+}
+
+function strictFiniteCoordinate(value, label) {
+  if (typeof value !== "number" || !Number.isFinite(value)) {
+    throw new RangeError(`${label} must be a finite number`);
+  }
+  return value;
+}
+
 function integerInRange(value, label, minimum, maximum) {
   const number = Number(value);
   if (!Number.isInteger(number) || number < minimum || number > maximum) {
@@ -69,35 +83,82 @@ export function buildHoleLayout({ width, height, count, radius, inset }) {
   return candidates.map((hole) => ({ ...hole, radius }));
 }
 
+export function validatePlateSpec(spec) {
+  if (!spec || typeof spec !== "object" || Array.isArray(spec)) {
+    throw new TypeError("CAD spec must be an object");
+  }
+  if (spec.type !== "rectangular_plate") throw new TypeError("unsupported CAD spec");
+  if (spec.units !== "mm") throw new TypeError("CAD spec units must be 'mm'");
+
+  const width = strictFinitePositive(spec.width, "width");
+  const height = strictFinitePositive(spec.height, "height");
+  const thickness = strictFinitePositive(spec.thickness, "thickness");
+  if (width > 2_000 || height > 2_000 || thickness > 200) {
+    throw new RangeError("dimensions exceed the demo safety envelope");
+  }
+
+  if (!Array.isArray(spec.holes)) throw new TypeError("CAD spec holes must be an array");
+  if (![0, 1, 2, 4].includes(spec.holes.length)) {
+    throw new RangeError("current controlled-language renderer supports 0, 1, 2, or 4 holes");
+  }
+
+  const holes = spec.holes.map((hole, index) => {
+    if (!hole || typeof hole !== "object" || Array.isArray(hole)) {
+      throw new TypeError(`hole ${index} must be an object`);
+    }
+    const x = strictFiniteCoordinate(hole.x, `hole ${index} x`);
+    const y = strictFiniteCoordinate(hole.y, `hole ${index} y`);
+    const radius = strictFinitePositive(hole.radius, `hole ${index} radius`);
+    if (x - radius < 0 || x + radius > width || y - radius < 0 || y + radius > height) {
+      throw new RangeError(`hole ${index} must fit fully inside the plate`);
+    }
+    return { x, y, radius };
+  });
+
+  for (let left = 0; left < holes.length; left += 1) {
+    for (let right = left + 1; right < holes.length; right += 1) {
+      const dx = holes[left].x - holes[right].x;
+      const dy = holes[left].y - holes[right].y;
+      const centerDistance = Math.hypot(dx, dy);
+      if (centerDistance <= holes[left].radius + holes[right].radius) {
+        throw new RangeError(`holes ${left} and ${right} must not overlap`);
+      }
+    }
+  }
+
+  return { type: "rectangular_plate", units: "mm", width, height, thickness, holes };
+}
+
 export function toOpenScad(spec) {
-  if (!spec || spec.type !== "rectangular_plate") throw new TypeError("unsupported CAD spec");
-  const holeBlocks = spec.holes.map((hole) => `    translate([${hole.x}, ${hole.y}, -1]) cylinder(h=${spec.thickness + 2}, r=${hole.radius}, $fn=48);`);
-  const body = `    cube([${spec.width}, ${spec.height}, ${spec.thickness}], center=false);`;
+  const validated = validatePlateSpec(spec);
+  const holeBlocks = validated.holes.map((hole) => `    translate([${hole.x}, ${hole.y}, -1]) cylinder(h=${validated.thickness + 2}, r=${hole.radius}, $fn=48);`);
+  const body = `    cube([${validated.width}, ${validated.height}, ${validated.thickness}], center=false);`;
   if (holeBlocks.length === 0) return `// T2424-0037 controlled NLP-to-CAD\n${body.trimStart()}\n`;
   return ["// T2424-0037 controlled NLP-to-CAD", "difference() {", body, ...holeBlocks, "}", ""].join("\n");
 }
 
 export function toSvg(spec, options = {}) {
-  if (!spec || spec.type !== "rectangular_plate") throw new TypeError("unsupported CAD spec");
+  const validated = validatePlateSpec(spec);
   const scale = finitePositive(options.scale ?? 5, "scale");
   const padding = 12;
-  const svgWidth = spec.width * scale + padding * 2;
-  const svgHeight = spec.height * scale + padding * 2;
-  const circles = spec.holes.map((hole) => `<circle cx="${padding + hole.x * scale}" cy="${padding + hole.y * scale}" r="${hole.radius * scale}" fill="white" stroke="currentColor" stroke-width="2"/>`).join("");
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${svgWidth} ${svgHeight}" role="img" aria-label="Parametric plate preview"><rect x="${padding}" y="${padding}" width="${spec.width * scale}" height="${spec.height * scale}" rx="3" fill="none" stroke="currentColor" stroke-width="3"/>${circles}</svg>`;
+  const svgWidth = validated.width * scale + padding * 2;
+  const svgHeight = validated.height * scale + padding * 2;
+  const circles = validated.holes.map((hole) => `<circle cx="${padding + hole.x * scale}" cy="${padding + hole.y * scale}" r="${hole.radius * scale}" fill="white" stroke="currentColor" stroke-width="2"/>`).join("");
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${svgWidth} ${svgHeight}" role="img" aria-label="Parametric plate preview"><rect x="${padding}" y="${padding}" width="${validated.width * scale}" height="${validated.height * scale}" rx="3" fill="none" stroke="currentColor" stroke-width="3"/>${circles}</svg>`;
 }
 
 export function summarizeSpec(spec) {
-  const removedArea = spec.holes.reduce((sum, hole) => sum + Math.PI * hole.radius ** 2, 0);
-  const plateArea = spec.width * spec.height;
+  const validated = validatePlateSpec(spec);
+  const removedArea = validated.holes.reduce((sum, hole) => sum + Math.PI * hole.radius ** 2, 0);
+  const plateArea = validated.width * validated.height;
   return {
-    widthMm: spec.width,
-    heightMm: spec.height,
-    thicknessMm: spec.thickness,
-    holeCount: spec.holes.length,
+    widthMm: validated.width,
+    heightMm: validated.height,
+    thicknessMm: validated.thickness,
+    holeCount: validated.holes.length,
     planarAreaMm2: plateArea,
     removedHoleAreaMm2: removedArea,
     remainingPlanarAreaMm2: plateArea - removedArea,
-    approximateVolumeMm3: (plateArea - removedArea) * spec.thickness
+    approximateVolumeMm3: (plateArea - removedArea) * validated.thickness
   };
 }
