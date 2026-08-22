@@ -2,6 +2,7 @@ import { createJetEngineConcept, updateJetEngineConcept } from "../src/jet-engin
 import { parseIntent } from "../src/intent.mjs";
 import { serializeCADDocument } from "../src/render3d.mjs";
 import { toOpenScadDocument } from "../src/scad.mjs";
+import { createWebGLRenderer } from "../src/webgl.mjs";
 
 const state = {
   document: createJetEngineConcept(),
@@ -15,7 +16,10 @@ const state = {
 
 const el = (id) => document.getElementById(id);
 const canvas = el("viewport");
-const ctx = canvas.getContext("2d");
+let webglRenderer = null;
+try { webglRenderer = createWebGLRenderer(canvas); } catch (error) { console.error("NeuroCAD WebGL initialization failed", error); }
+const ctx = webglRenderer ? null : canvas.getContext("2d");
+if (!webglRenderer && !ctx) throw new Error("NeuroCAD could not initialize a browser rendering context");
 
 function project(point, width, height) {
   const [x, y, z] = point;
@@ -35,7 +39,7 @@ function explodeOffset(object) {
   return groups[object.group] ?? 0;
 }
 
-function drawCylinder(object, color, alpha = 1) {
+function drawCylinder2d(object, color, alpha = 1) {
   const width = canvas.clientWidth, height = canvas.clientHeight;
   const x = objectX(object) + explodeOffset(object);
   const length = object.length ?? 30;
@@ -51,7 +55,7 @@ function drawCylinder(object, color, alpha = 1) {
   ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.lineTo(x3, y3); ctx.lineTo(x4, y4); ctx.closePath(); ctx.fill(); ctx.stroke(); ctx.restore();
 }
 
-function drawBladeRing(object) {
+function drawBladeRing2d(object) {
   const width = canvas.clientWidth, height = canvas.clientHeight;
   const x = objectX(object) + explodeOffset(object);
   const radius = object.tipRadius;
@@ -68,20 +72,28 @@ function drawBladeRing(object) {
   ctx.restore();
 }
 
-function renderViewport() {
+function renderCanvas2d() {
   const dpr = window.devicePixelRatio || 1;
   const rect = canvas.getBoundingClientRect();
   canvas.width = Math.max(1, Math.floor(rect.width * dpr)); canvas.height = Math.max(1, Math.floor(rect.height * dpr));
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, rect.width, rect.height);
   const objects = state.document.objects.filter((object) => object.visible !== false && (object.id !== "outer_casing" || state.casingVisible));
   for (const object of objects) {
-    if (object.type === "blade_ring") drawBladeRing(object);
+    if (object.type === "blade_ring") drawBladeRing2d(object);
     else {
       const colors = { inlet: "#334155", compressor: "#1d4ed8", shaft: "#475569", combustor: "#a16207", turbine: "#c2410c", casing: "#0f172a", nozzle: "#334155" };
-      drawCylinder(object, colors[object.group] ?? "#475569", object.translucent ? 0.28 : 0.9);
+      drawCylinder2d(object, colors[object.group] ?? "#475569", object.translucent ? 0.28 : 0.9);
     }
   }
+  canvas.dataset.renderer = "canvas2d-fallback";
+}
+
+function renderViewport() {
+  if (webglRenderer) webglRenderer.render(state.document, state);
+  else renderCanvas2d();
   el("object-count").textContent = `${state.document.objects.length} components`;
+  const rendererLabel = el("renderer-kind");
+  if (rendererLabel) rendererLabel.textContent = webglRenderer ? "WEBGL2" : "2D FALLBACK";
 }
 
 function renderTree() {
