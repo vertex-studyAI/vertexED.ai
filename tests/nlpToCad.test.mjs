@@ -4,7 +4,8 @@ import {
   parsePlatePrompt,
   summarizeSpec,
   toOpenScad,
-  toSvg
+  toSvg,
+  validatePlateSpec
 } from "../portfolio/project2424/projects/T2424-0037/src/core.mjs";
 
 test("controlled language compiles a four-hole plate deterministically", () => {
@@ -60,4 +61,92 @@ test("signed-negative numeric prompts fail closed instead of losing the sign", (
   assert.throws(() => parsePlatePrompt("plate 80 by 40 thickness -3"), /negative numeric values/);
   assert.throws(() => parsePlatePrompt("plate 80 by 40 with 1 hole radius -2 inset 6"), /negative numeric values/);
   assert.throws(() => parsePlatePrompt("plate 80 by 40 with 1 hole radius 2 inset -6"), /negative numeric values/);
+});
+
+test("direct CAD specs are normalized only after strict schema and numeric validation", () => {
+  const input = {
+    type: "rectangular_plate",
+    units: "mm",
+    width: 80,
+    height: 40,
+    thickness: 3,
+    holes: [{ x: 10, y: 10, radius: 2 }]
+  };
+  const validated = validatePlateSpec(input);
+  assert.deepEqual(validated, input);
+  assert.notEqual(validated, input);
+  assert.notEqual(validated.holes, input.holes);
+});
+
+test("direct renderer entrypoints reject string/source-injection geometry", () => {
+  const malicious = {
+    type: "rectangular_plate",
+    units: "mm",
+    width: "80]); import(\"evil.stl\"); cube([1,1,1",
+    height: 40,
+    thickness: 3,
+    holes: []
+  };
+  assert.throws(() => validatePlateSpec(malicious), /finite positive number/);
+  assert.throws(() => toOpenScad(malicious), /finite positive number/);
+  assert.throws(() => toSvg(malicious), /finite positive number/);
+  assert.throws(() => summarizeSpec(malicious), /finite positive number/);
+});
+
+test("direct CAD specs reject out-of-bounds and overlapping holes", () => {
+  assert.throws(
+    () => validatePlateSpec({
+      type: "rectangular_plate",
+      units: "mm",
+      width: 20,
+      height: 10,
+      thickness: 2,
+      holes: [{ x: 1, y: 5, radius: 2 }]
+    }),
+    /fit fully inside/
+  );
+
+  assert.throws(
+    () => validatePlateSpec({
+      type: "rectangular_plate",
+      units: "mm",
+      width: 20,
+      height: 10,
+      thickness: 2,
+      holes: [
+        { x: 5, y: 5, radius: 2 },
+        { x: 8, y: 5, radius: 2 }
+      ]
+    }),
+    /must not overlap/
+  );
+});
+
+test("direct CAD specs require explicit millimetre units and supported hole counts", () => {
+  assert.throws(
+    () => validatePlateSpec({
+      type: "rectangular_plate",
+      width: 20,
+      height: 10,
+      thickness: 2,
+      holes: []
+    }),
+    /units must be 'mm'/
+  );
+
+  assert.throws(
+    () => validatePlateSpec({
+      type: "rectangular_plate",
+      units: "mm",
+      width: 30,
+      height: 20,
+      thickness: 2,
+      holes: [
+        { x: 5, y: 5, radius: 1 },
+        { x: 15, y: 5, radius: 1 },
+        { x: 25, y: 5, radius: 1 }
+      ]
+    }),
+    /0, 1, 2, or 4 holes/
+  );
 });

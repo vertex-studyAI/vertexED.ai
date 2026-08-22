@@ -1,94 +1,80 @@
-# T2424-0037 Status
+# T2424-0037 NeuroCAD — Status
 
-**Project:** NeuroCAD / controlled NLP-to-CAD  
-**Project 2424 ID:** T2424-0037  
-**Track:** existing work → controlled experiment  
-**State:** `GREEN_CONTROLLED_BENCHMARK_AND_HELD_OUT_TEMPLATE_GATE / PR_REVIEW_PENDING`  
-**Claim level:** deterministic rectangular-plate compiler with controlled and held-out-template evidence
+**Research identity:** T2424-0037 controlled NLP-to-CAD  
+**Product identity:** NeuroCAD Alpha 0.1  
+**Research verdict:** historical controlled/held-out evidence retained; typed-parser causal mechanism **falsified by matched-validation diagnostic (`VALIDATION_DOMINANT`)**  
+**Product state on this branch:** `ALPHA_IMPLEMENTED / FOCUSED_QA_PASS / BROWSER_INTERACTIVE_SMOKE_PENDING / PUBLIC_DEPLOYMENT_PENDING`
 
-## Claim-specific GREEN evidence
+## Research state — immutable boundary
 
-### Original controlled benchmark
+The research result family is not rewritten by Alpha product work.
 
-- frozen deterministic 20-case benchmark: **20/20 passed**;
-- syntax/source generation success: 1.0;
-- geometry validity: 1.0;
-- dimension accuracy: 1.0;
-- constraint satisfaction: 1.0;
-- fresh frozen rerun retained in the Project 2424 reproducibility artifact family.
+- original controlled deterministic benchmark: 20/20 on its controlled set;
+- frozen held-out v1: typed + validated 19/20 overall (`0.95`) vs original direct 12/20 (`0.60`), with O018 negative-width acceptance preserved;
+- historical valid held-out OpenSCAD execution: 12/12 non-empty STL;
+- later component diagnostic: typed + validated `1.00`, direct + matched validation `1.00`, original direct `0.60`;
+- `validation_recovery_fraction = 1.00`;
+- frozen interpretation: `VALIDATION_DOMINANT`;
+- no typed-IR-specific superiority claim survives that diagnostic.
 
-This original result remains a controlled in-grammar benchmark, not an OOD or learned-model claim.
+## Alpha product implementation
 
-### Held-out linguistic-template v1
+Implemented on the Alpha branch:
 
-Protocol was frozen before execution in `OOD_PROTOCOL.md`. The existing parser implementation was not changed before seeing the result.
+- [x] PR #410-equivalent strict direct plate-spec validation before SVG/OpenSCAD/summary rendering
+- [x] versioned `neurocad-0.1` CAD document
+- [x] bounded primitive registry/validation
+- [x] generic assembly graph + transforms + visibility metadata
+- [x] cyclic/missing assembly reference rejection
+- [x] conceptual jet-engine generator
+- [x] compressor/turbine stage parameter editing
+- [x] casing visibility
+- [x] exploded/assembled view state
+- [x] stateful deterministic follow-up commands
+- [x] flanged-tube preset
+- [x] CADSpec JSON serialization
+- [x] generated OpenSCAD document export
+- [x] polished browser workstation source
+- [x] Three.js interactive viewport implementation
+- [x] assembly tree, component visibility and selection highlighting
+- [x] parameter panel + structured diagnostics
+- [x] browser JSON/SCAD export controls
+- [x] explicit product/research/safety copy
+- [x] Alpha docs/version/changelog/demo script
 
-20 fixed cases: 12 valid targets, 8 invalid/fail-closed inputs.
+## Verified during implementation
 
-| System | Valid exact | Invalid rejection | Overall |
-|---|---:|---:|---:|
-| typed + validated compiler | **1.000** | **0.875** | **0.950** |
-| direct flat extraction | 1.000 | 0.000 | 0.600 |
+- focused Node tests: **21/21 PASS**;
+- `src/core.mjs`, Alpha modules and `web/app.mjs`: Node syntax checks pass locally;
+- seven deterministic jet configurations: CAD document validation PASS;
+- J1–J7 generated OpenSCAD source executed through the available local OpenSCAD binary and each produced a non-empty STL;
+- OpenSCAD emitted non-2-manifold warnings for the stylized multi-part assembly, so manufacturing-valid STL is **not** claimed.
 
-- overall delta over direct baseline: **+0.350**;
-- frozen gate: **PASS_HELD_OUT_TEMPLATE_GATE**;
-- preserved failure: negative-width case `O018` is unexpectedly accepted and is not patched inside this result family.
+See `NEUROCAD_ALPHA_PRODUCT_VALIDATION_20260822.md` for exact product-QA evidence.
 
-Raw evidence:
+## Gates not yet green
 
-- workflow run `31659488587`;
-- artifact `9165650301`;
-- digest `sha256:753a394de4bdced76fd6e1f21419d12cf13fc872691238655b04341193e6cd6d`.
+- [ ] full repository CI on the exact Alpha branch head;
+- [ ] actual interactive browser/WebGL smoke of orbit/selection/edit/regeneration/export;
+- [ ] fresh-clone install/run smoke on the final exact branch head;
+- [ ] public deployment and independently opened clean URL;
+- [ ] topology/manifold repair if STL is promoted to a supported user-facing export;
+- [ ] external validation.
 
-### Executable CAD backend
+## Public claim boundary
 
-The 12 valid held-out cases were independently passed through real OpenSCAD 2021.01 in CI:
+Allowed Alpha framing:
 
-- generated STL: **12/12**;
-- non-empty STL outputs: **12/12**;
-- verdict: `PASS_OPENSCAD_EXECUTION`.
+> NeuroCAD turns constrained engineering descriptions into validated parametric geometry and lets users inspect, modify and export conceptual CAD assemblies.
 
-This closes the earlier dependency-free evaluator's `backend_execution_success = null` gap for these frozen valid cases.
-
-## Implemented
-
-- [x] controlled plate-language parser
-- [x] typed/parametric intermediate representation
-- [x] 1/2/4-hole layouts
-- [x] dimension and geometry validation
-- [x] OpenSCAD generation and SVG preview generation
-- [x] geometry summary metrics
-- [x] browser demo
-- [x] parser/geometry regression suite
-- [x] frozen `CLAIM.md` and original `PROTOCOL.md`
-- [x] original 20-case controlled benchmark
-- [x] held-out-template protocol frozen before execution
-- [x] executable direct extraction baseline
-- [x] held-out-template raw result artifact
-- [x] real OpenSCAD/STL execution gate
-- [x] explicit failure taxonomy and preserved adverse case
-
-## Still open
-
-- [ ] merge/review the current evidence PR after exact-head checks;
-- [ ] new part-family OOD rather than linguistic-template OOD;
-- [ ] model-based direct-generation comparator if a suitable provider/model is introduced;
-- [ ] richer CAD representation/editability/reopen validation;
-- [ ] topology/constraint validation beyond successful STL rendering;
-- [ ] external benchmark or independent third-party replication;
-- [ ] research novelty audit and paper-level baseline set.
-
-## Provenance
-
-Legacy implementation head `e06c91133dcc16f9e1846dde9b6908a0c64d16bc` passed canonical CI `31410049687`. The current Project 2424 frozen rerun retains successful controlled evidence for T2424-0037. The held-out-template result above is a separate v1 evidence family frozen and executed on 13 August 2026.
-
-## Not claimed
+Not claimed:
 
 - arbitrary-language understanding;
 - arbitrary CAD generation;
-- OOD generalization to new geometry families;
-- superiority to LLM/CAD-generation systems;
+- production-ready mechanical engineering;
 - manufacturing correctness;
-- production deployment;
-- research novelty;
-- Certified Complete / Research Complete.
+- airworthiness/certification;
+- propulsion-performance prediction;
+- typed-IR scientific superiority;
+- external validation;
+- public deployment until a URL and served revision are verified.
