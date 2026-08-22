@@ -4,6 +4,9 @@ on:
   pull_request:
     paths:
       - 'portfolio/project2424/projects/T2424-0037/**'
+      - 'scripts/neurocad-*.mjs'
+      - 'scripts/stage-neurocad-alpha.mjs'
+      - 'vercel.json'
       - '.github/workflows/neurocad-alpha.yml'
   workflow_dispatch:
 
@@ -29,6 +32,54 @@ jobs:
           node --check portfolio/project2424/projects/T2424-0037/src/jet-engine.mjs
           node --check portfolio/project2424/projects/T2424-0037/src/intent.mjs
           node --check portfolio/project2424/projects/T2424-0037/src/render3d.mjs
+          node --check portfolio/project2424/projects/T2424-0037/src/scad.mjs
+          node --check portfolio/project2424/projects/T2424-0037/src/webgl.mjs
           node --check portfolio/project2424/projects/T2424-0037/web/alpha-app.mjs
+          node --check scripts/stage-neurocad-alpha.mjs
+          node --check scripts/neurocad-generate-artifacts.mjs
+          node --check scripts/neurocad-browser-smoke.mjs
           test -s portfolio/project2424/projects/T2424-0037/web/alpha.html
           test -s portfolio/project2424/projects/T2424-0037/web/alpha.css
+
+  alpha-e2e-and-cad:
+    needs: alpha-test
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Install app dependencies
+        run: npm ci
+      - name: Stage deployable NeuroCAD surface
+        run: |
+          node scripts/stage-neurocad-alpha.mjs
+          test -s public/neurocad/index.html
+          test -s public/neurocad/alpha-app.mjs
+          test -s public/neurocad/src/webgl.mjs
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Run NeuroCAD browser journey
+        run: node scripts/neurocad-browser-smoke.mjs
+      - name: Generate deterministic CAD artifacts
+        run: node scripts/neurocad-generate-artifacts.mjs artifacts/neurocad-alpha
+      - name: Install OpenSCAD
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y openscad
+      - name: Compile conceptual engine through OpenSCAD
+        run: |
+          openscad -o artifacts/neurocad-alpha/jet-engine-concept.stl artifacts/neurocad-alpha/jet-engine-concept.scad
+          test -s artifacts/neurocad-alpha/jet-engine-concept.stl
+          stat -c '%n %s bytes' artifacts/neurocad-alpha/jet-engine-concept.stl
+      - name: Upload NeuroCAD demo evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: neurocad-alpha-demo-evidence
+          path: artifacts/neurocad-alpha/
+          if-no-files-found: error
+          retention-days: 14
