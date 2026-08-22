@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "prebuild": "node scripts/generate-study-guide-sitemap.mjs && node scripts/validate-vercel-functions.mjs && node scripts/generate-build-revision.mjs",
+    "prebuild": "node scripts/generate-study-guide-sitemap.mjs && node scripts/validate-vercel-functions.mjs && node scripts/generate-build-revision.mjs && node scripts/publish-neurocad-alpha.mjs",
     "build": "ROLLUP_SKIP_NODEJS_NATIVE=true vite build",
     "build:ci": "VERTEXED_REQUIRE_BUILD_REVISION=1 npm run build",
     "postbuild": "node scripts/update-sitemap-lastmod.mjs public/sitemap.xml",
