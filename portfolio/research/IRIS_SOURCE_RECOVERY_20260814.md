@@ -1,8 +1,8 @@
 # IRIS source recovery — 2026-08-14
 
 **Recovery task:** `IRIS-FRONTIER-SOURCE-001`  
-**State after this recovery:** `PARTIALLY_RECOVERED / PROTOCOL_BLOCKED_ON_EXACT_TRAJECTORY_AND_METRIC_PROVENANCE`  
-**Scientific boundary:** this recovery changes no IRIS result, parameter, seed, threshold, hypothesis verdict or confirmatory-data state. Seeds `1000–1029` were not accessed.
+**State after 2026-08-22 re-verification:** `PARTIALLY_RECOVERED / PROTOCOL_BLOCKED_ON_EXACT_TRAJECTORY_IDENTITY_ONLY`  
+**Scientific boundary:** this recovery changes no IRIS result, parameter, seed, threshold, hypothesis verdict or confirmatory-data state. Seeds `1000–1029` remain forbidden.
 
 ## Purpose
 
@@ -68,67 +68,55 @@ Observed SHA-256:
 
 `5d689ade164d80216d0ab6d4376b8acf53b8e0ba13d4bd5e909a94f00ec86b56`
 
-This exactly matches the source-lineage hash recorded in the common adaptation harness protocol.
+This exactly matches the source-lineage hash recorded in the common-harness protocol.
 
-Recovered contents include v0.2 release source, scalar/sequence scripts, raw result rows, manifests, environment/research documents, tests and SHA manifest.
+### 5. Frozen adaptation-metric specification
+
+The formerly missing standalone specification is present on canonical `main`:
+
+`portfolio/research/IRIS_SEQUENCE_ADAPTATION_METRIC_FREEZE_20260813.md`
+
+Git blob SHA:
+
+`6f4d6a47e3727596b21714bc269cd8ba5844d2fa`
+
+The frozen definitions include `TWMSE25` with `W=25`, five-sample recovery within `0.10 * D`, `POST_MSE50PLUS` beginning at `t0+50`, and the false-open diagnostic. This closes the stale metric-spec provenance blocker. The existing `RESEARCH_STATUS.md` separately records the executable metric provenance hashes and semantic match.
 
 ## What is now established
 
-The earlier broad statement that the original IRIS source is simply unavailable is too coarse. A substantial retained source/evidence chain is recoverable from the Library and its key hashes match the control-repo evidence.
+The retained source/evidence chain now concretely establishes:
 
-In particular, the following provenance edges are now concretely recovered:
+1. v0.2 bundle identity and manifest integrity;
+2. stronger-baseline addendum identity and integrity;
+3. common-adaptation-harness artifact and exact source-lineage archive;
+4. retained v0.2 development result tables/configuration/environment evidence;
+5. frozen adaptation-metric specification identity;
+6. executable metric provenance and semantic match as recorded in `RESEARCH_STATUS.md`.
 
-1. v0.2 bundle identity;
-2. v0.2 bundle manifest integrity;
-3. stronger-baseline addendum identity;
-4. stronger-baseline addendum internal integrity;
-5. common-adaptation-harness artifact;
-6. the exact source archive named by the common-harness lineage hash;
-7. retained v0.2 development result tables/configuration/environment evidence.
+## Remaining frozen-protocol gap
 
-## Remaining frozen-protocol gaps
+The only unresolved frontier-source gate is **canonical development trajectory identity**.
 
-The frozen `IRIS_BASELINE_FRONTIER_PROTOCOL_20260814.md` requires, **before execution**:
+The recovered packages retain per-seed/per-condition metric/result rows and deterministic generator implementations, but no separately identified canonical observation/state trajectory archive has been established, and no pre-existing authoritative evidence has yet been found proving that the frozen protocol intentionally defines those trajectories by a byte-identical deterministic generator/source hash.
 
-- canonical raw development trajectories;
-- exact implementations for all six primary systems;
-- exact retained parameter/config files;
-- metric implementation frozen by `IRIS_SEQUENCE_ADAPTATION_METRIC_FREEZE_20260813.md`;
-- the frontier protocol;
-- environment manifest.
-
-This recovery materially closes the implementation/config/environment/source-lineage side, but two required provenance edges are still not established as exact canonical inputs:
-
-### A. Canonical raw development trajectories
-
-The recovered packages retain per-seed/per-condition **metric/result rows** and deterministic generator implementations, but no separately identified canonical observation/state trajectory archive was found in this recovery pass.
-
-The frontier protocol explicitly says not to regenerate approximately equivalent data and call it the same experiment. Therefore deterministic-looking generator code is not, by itself, permission to reconstruct a replacement trajectory corpus for this frozen protocol.
-
-### B. Frozen adaptation-metric source identity
-
-`IRIS_SEQUENCE_ADAPTATION_METRIC_FREEZE_20260813.md` is referenced by the frozen frontier and by the common adaptation harness, but this exact standalone freeze artifact was not surfaced in the current GitHub control tree or Library search during this recovery pass.
-
-The common harness contains implementations of the named adaptation metrics and previously executed evidence, but the missing frozen-source provenance edge must be closed before claiming the frontier uses the exact canonical metric implementation required by its contract.
+The frontier protocol explicitly forbids regenerating approximately equivalent data and calling it the same experiment. Deterministic-looking generator code alone is not sufficient authorization.
 
 ## Execution verdict
 
 **Do not run `IRIS-FRONTIER-DEV-20260814` yet.**
 
-Current verdict for the source-recovery task:
+Current verdict:
 
-`PARTIALLY_RECOVERED / PROTOCOL_BLOCKED_ON_EXACT_TRAJECTORY_AND_METRIC_PROVENANCE`
-
-This is narrower and stronger than the previous generic source-blocked state, but it is not an execution authorization.
+`PARTIALLY_RECOVERED / PROTOCOL_BLOCKED_ON_EXACT_TRAJECTORY_IDENTITY_ONLY`
 
 ## Exact next recovery actions
 
-1. Locate a retained archive/file whose manifest identifies the exact development observation/state trajectories used by the frozen development package, or a prior evidence record proving that the frozen protocol intentionally defines those trajectories by a specific byte-identical deterministic generator/source hash.
-2. Recover the exact `IRIS_SEQUENCE_ADAPTATION_METRIC_FREEZE_20260813.md` artifact or its verified byte-identical source plus hash.
-3. Cross-hash the six frontier system implementations/parameterizations against the recovered addendum/common-harness/v0.2 source chain.
-4. Only after every required provenance edge is closed, create an execution manifest that lists all input hashes and independently verifies that confirmatory seeds `1000–1029` remain inaccessible.
-5. If either required provenance edge cannot be recovered, retain `PROTOCOL_BLOCKED`; do not reimplement the frontier.
+1. Locate a retained archive/file whose manifest identifies the exact development observation/state trajectories used by the frozen development package, **or** a prior authoritative evidence record proving byte-identical deterministic equivalence to a specific generator/source/config hash.
+2. Cross-check that identity against the already recovered v0.2/addendum/common-harness lineage.
+3. Create an execution manifest listing every input hash and independently verify that confirmatory seeds `1000–1029` remain inaccessible.
+4. Only after the trajectory-identity gate closes may the frozen frontier development run execute.
+5. If the trajectory identity cannot be recovered, retain `PROTOCOL_BLOCKED`; do not reimplement or approximate the frontier.
 
 ## Non-rescue rule
 
-The existing IRIS v0.2 mixed/negative package remains unchanged. The common adaptation harness remains a negative development result. No new architecture is authorized, no confirmatory seeds are unlocked, and no positive mechanism claim is created by source recovery.
+The existing IRIS v0.2 mixed/negative package remains unchanged. The common adaptation harness remains a negative development result. No new architecture is authorized, no confirmatory seeds are unlocked, and no positive mechanism claim is created by this recovery update.
