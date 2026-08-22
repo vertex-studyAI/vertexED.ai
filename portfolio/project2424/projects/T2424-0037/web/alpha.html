@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>NeuroCAD Alpha — Language → Engineering Geometry</title>
+  <link rel="stylesheet" href="./alpha.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div><strong>NEUROCAD</strong><span class="badge">ALPHA 0.1</span></div>
+    <nav aria-label="Primary"><a href="#demo">Demo</a><a href="#research">Research</a><a href="#scope">Scope</a></nav>
+  </header>
+
+  <main>
+    <section class="hero" id="demo">
+      <p class="eyebrow">LANGUAGE → ENGINEERING GEOMETRY</p>
+      <h1>Describe a concept.<br />Inspect the geometry.</h1>
+      <p class="lede">NeuroCAD turns constrained engineering descriptions into validated parametric geometry. This early alpha demonstrates a conceptual jet-engine assembly, not a manufacturable propulsion design.</p>
+      <label for="prompt">Describe what you want to build</label>
+      <div class="prompt-row">
+        <textarea id="prompt" rows="3">Generate a simplified axial jet-engine concept with an inlet, six compressor stages, a central shaft, combustor envelope, two turbine stages, outer casing and exhaust nozzle.</textarea>
+        <button id="generate" class="primary" type="button">Generate concept</button>
+      </div>
+      <div id="pipeline" class="pipeline" aria-live="polite">READY</div>
+      <div id="error-box" class="error" hidden role="alert"></div>
+    </section>
+
+    <section class="workspace" aria-label="NeuroCAD workspace">
+      <aside class="panel sidebar">
+        <div class="panel-head"><span>ASSEMBLY</span><span id="object-count">0 components</span></div>
+        <div id="assembly-tree" class="tree"></div>
+      </aside>
+
+      <section class="viewport-panel">
+        <div class="viewport-toolbar">
+          <div><span class="status-dot"></span><strong>3D CONCEPT VIEW</strong></div>
+          <div class="toolbar-actions">
+            <button id="toggle-casing" type="button">Hide casing</button>
+            <button id="toggle-exploded" type="button">Exploded view</button>
+            <button id="reset-view" type="button">Reset camera</button>
+          </div>
+        </div>
+        <canvas id="viewport" aria-label="Interactive conceptual jet engine geometry viewer" tabindex="0"></canvas>
+        <p class="viewer-help">Drag to orbit · scroll to zoom · select parts from the assembly tree</p>
+      </section>
+
+      <aside class="panel controls">
+        <div class="panel-head"><span>PARAMETERS</span><span>mm</span></div>
+        <label>Engine length<input id="engine-length" type="number" min="300" max="3000" step="25" /></label>
+        <label>Outer diameter<input id="outer-diameter" type="number" min="120" max="1200" step="10" /></label>
+        <label>Shaft diameter<input id="shaft-diameter" type="number" min="10" max="300" step="5" /></label>
+        <label>Compressor stages<input id="compressor-stages" type="number" min="3" max="12" step="1" /></label>
+        <label>Turbine stages<input id="turbine-stages" type="number" min="1" max="4" step="1" /></label>
+        <button id="generate" class="primary duplicate-hidden" type="button" hidden>Update model</button>
+        <div class="validation-card"><div><span>VALIDATION</span><strong id="validation-status">—</strong></div><p id="validation-copy"></p></div>
+        <button id="export-json" type="button">Export CADSpec JSON</button>
+        <button id="show-spec" type="button">Inspect CADSpec</button>
+      </aside>
+    </section>
+
+    <section id="spec-panel" class="spec-panel" hidden>
+      <div class="panel-head"><span>NEUROCAD CADSPEC</span><span>validated structured representation</span></div>
+      <pre id="cadspec"></pre>
+    </section>
+
+    <section class="evidence-grid" id="research">
+      <article><p class="eyebrow">FROZEN V1</p><h2>95% held-out success</h2><p>The historical frozen held-out template result was 19/20 for the typed + validated compiler versus 12/20 for the original direct flat extractor. The O018 adverse case remains preserved.</p></article>
+      <article><p class="eyebrow">ABLATION</p><h2>Validation-dominant</h2><p>A later frozen component ablation showed direct extraction plus matched validation reached 100% on the reused diagnostic, so NeuroCAD does not claim a typed-IR causal advantage from that benchmark.</p></article>
+      <article id="scope"><p class="eyebrow">SCOPE</p><h2>Conceptual geometry</h2><p>This alpha demonstrates bounded parametric CAD generation and inspection. It does not claim airworthiness, manufacturing correctness, structural validation, thermodynamic optimization, thrust prediction, or certification.</p></article>
+    </section>
+  </main>
+
+  <footer>NeuroCAD Alpha 0.1 · Conceptual / educational geometry demonstration</footer>
+  <script type="module" src="./alpha-app.mjs"></script>
+</body>
+</html>
