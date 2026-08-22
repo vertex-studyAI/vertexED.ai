@@ -3,36 +3,93 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>T2424-0037 NLP-to-CAD</title>
+  <title>NeuroCAD Alpha — Language → Engineering Geometry</title>
   <style>
-    :root { font-family:Inter,ui-sans-serif,system-ui,sans-serif; color-scheme:dark; background:#0a0f18; color:#f8fafc; }
-    body { margin:0 auto; max-width:1050px; padding:32px; }
-    h1 { font-size:clamp(2.2rem,6vw,4.5rem); margin:.2em 0; }
-    p { color:#b7c2d8; line-height:1.6; }
-    .panel { border:1px solid #2b394f; border-radius:16px; padding:18px; background:#111827; margin:18px 0; }
-    textarea { width:100%; min-height:90px; box-sizing:border-box; border:1px solid #334155; border-radius:10px; padding:12px; background:#070b12; color:#f8fafc; font:inherit; }
-    button { margin-top:12px; padding:10px 16px; border:0; border-radius:9px; font-weight:800; background:#86efac; color:#052e16; cursor:pointer; }
-    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:18px; }
-    #preview svg { width:100%; max-height:420px; color:#67e8f9; }
-    pre { white-space:pre-wrap; overflow:auto; background:#060a10; border-radius:10px; padding:14px; color:#dbeafe; }
-    .error { color:#fecaca; min-height:1.4em; }
+    :root { font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; color-scheme:dark; --bg:#050a0f; --panel:#0b131c; --line:#1b3040; --text:#e7f2f7; --muted:#91a4bb; --accent:#86efac; }
+    * { box-sizing:border-box; }
+    body { margin:0; min-height:100vh; background:radial-gradient(circle at 50% -20%,#143142 0,#071018 35%,var(--bg) 68%); color:var(--text); }
+    button,input,textarea { font:inherit; } button { cursor:pointer; }
+    .shell { max-width:1500px; margin:0 auto; padding:18px; }
+    nav { display:flex; align-items:center; justify-content:space-between; gap:16px; padding:8px 2px 18px; }
+    .brand { font-weight:900; letter-spacing:.14em; }
+    .badge { border:1px solid #345063; border-radius:999px; padding:6px 10px; color:#b8c9d6; font:700 11px ui-monospace,monospace; }
+    .hero { padding:34px 0 20px; display:grid; grid-template-columns:minmax(0,1fr) minmax(280px,520px); gap:28px; align-items:end; }
+    h1 { font-size:clamp(3rem,8vw,7rem); letter-spacing:-.07em; line-height:.82; margin:0; }
+    .sub { font-size:clamp(1.1rem,2vw,1.6rem); color:#c8d6df; margin:18px 0 0; }
+    .scope { color:var(--muted); line-height:1.6; max-width:660px; }
+    .workstation { border:1px solid var(--line); background:rgba(7,16,24,.9); border-radius:20px; overflow:hidden; box-shadow:0 30px 100px rgba(0,0,0,.35); }
+    .toolbar { display:flex; flex-wrap:wrap; align-items:center; gap:8px; padding:12px; border-bottom:1px solid var(--line); background:#08111a; }
+    .toolbar .spacer { flex:1; }
+    .btn { border:1px solid #27475a; background:#10202d; color:var(--text); border-radius:9px; padding:9px 12px; font-weight:750; }
+    .btn:hover,.btn:focus-visible { border-color:#5b8da7; outline:none; } .btn.primary { background:var(--accent); border-color:var(--accent); color:#052e16; }
+    .main-grid { display:grid; grid-template-columns:280px minmax(0,1fr) 330px; min-height:650px; }
+    .side { padding:14px; background:var(--panel); overflow:auto; max-height:760px; }
+    .side.left { border-right:1px solid var(--line); } .side.right { border-left:1px solid var(--line); }
+    .viewport { min-width:0; background:#071019; position:relative; } canvas { width:100%; height:650px; display:block; touch-action:none; }
+    .status { position:absolute; top:14px; left:14px; border:1px solid #244050; background:rgba(4,12,18,.86); padding:8px 10px; border-radius:8px; color:#b8f7d0; font:700 11px ui-monospace,monospace; }
+    h2 { font-size:.82rem; letter-spacing:.12em; color:#9fb2c1; margin:5px 0 12px; } h3 { font-size:.72rem; letter-spacing:.14em; color:#6f8798; margin:15px 0 5px; }
+    .tree-item { display:block; width:100%; text-align:left; border:0; border-radius:7px; background:transparent; color:#cad8e2; padding:7px 8px; font-size:.83rem; }
+    .tree-item:hover,.tree-item.selected { background:#152635; color:white; }
+    textarea { width:100%; min-height:105px; border:1px solid #294355; background:#050b11; color:var(--text); border-radius:10px; padding:12px; resize:vertical; }
+    textarea:focus,input:focus { outline:2px solid #315e75; outline-offset:1px; }
+    .prompt-actions { display:flex; flex-wrap:wrap; gap:8px; margin-top:9px; } .field { margin:11px 0; }
+    label { display:flex; justify-content:space-between; gap:12px; color:#aebdca; font-size:.8rem; margin-bottom:5px; }
+    input[type="number"] { width:100%; background:#060c12; color:white; border:1px solid #294355; border-radius:8px; padding:8px; }
+    .switch { display:flex; align-items:center; justify-content:space-between; padding:8px 0; color:#c2d0da; font-size:.85rem; }
+    pre { margin:0; max-height:260px; overflow:auto; white-space:pre-wrap; word-break:break-word; border:1px solid #19303f; background:#050a0f; border-radius:9px; padding:10px; color:#b7c9d7; font:11px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace; }
+    .error { min-height:1.4em; color:#fecaca; margin-top:8px; font-size:.83rem; }
+    .warning { margin:14px 0 0; padding:11px; border:1px solid #5b4320; background:#1b1408; border-radius:9px; color:#f7d88a; font-size:.76rem; line-height:1.5; }
+    .research { margin:28px 0 60px; border:1px solid var(--line); border-radius:16px; background:#08111a; padding:22px; display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+    .research p { color:#a8b9c6; line-height:1.65; } .metrics { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+    .metric { border:1px solid #1e3949; background:#071018; border-radius:10px; padding:14px; } .metric strong { font-size:1.7rem; display:block; } .metric span { color:#8095a5; font-size:.75rem; }
+    @media (max-width:1100px) { .main-grid { grid-template-columns:230px minmax(0,1fr); } .side.right { grid-column:1/-1; border-left:0; border-top:1px solid var(--line); max-height:none; } }
+    @media (max-width:760px) { .hero,.research { grid-template-columns:1fr; } .main-grid { display:block; } .side.left { border-right:0; border-bottom:1px solid var(--line); max-height:300px; } canvas { height:480px; } .metrics { grid-template-columns:1fr; } }
   </style>
 </head>
 <body>
-  <div>Project 2424 · T2424-0037</div>
-  <h1>Controlled NLP → CAD</h1>
-  <p>Compile a narrow, auditable plate description into a parametric CAD specification, SVG preview, and OpenSCAD source. Unsupported instructions fail closed rather than being guessed.</p>
-  <section class="panel">
-    <label for="prompt">Describe a rectangular plate</label>
-    <textarea id="prompt">plate 80 by 40 thickness 3 with 4 holes radius 2 inset 6</textarea>
-    <button id="compile">Compile CAD</button>
-    <div id="error" class="error" role="alert" aria-live="polite"></div>
-  </section>
-  <div class="grid">
-    <section class="panel"><h2>Geometry preview</h2><div id="preview"></div><pre id="summary"></pre></section>
-    <section class="panel"><h2>OpenSCAD</h2><pre id="scad"></pre></section>
+  <div class="shell">
+    <nav><div class="brand">NEUROCAD</div><div class="badge">ALPHA 0.1 · CONCEPT CAD</div></nav>
+    <header class="hero">
+      <div><h1>Language →<br>Engineering Geometry</h1><p class="sub">Describe. Structure. Validate. Generate.</p></div>
+      <p class="scope">NeuroCAD turns constrained engineering descriptions into validated parametric geometry. The jet-engine showcase below is a conceptual, educational assembly demo—not a manufacturable, airworthy, propulsion-qualified, or performance-validated engine design.</p>
+    </header>
+
+    <main class="workstation">
+      <div class="toolbar">
+        <button class="btn" id="preset-jet" type="button">JET ENGINE CONCEPT</button>
+        <button class="btn" id="preset-plate" type="button">MOUNTING PLATE</button>
+        <div class="spacer"></div>
+        <button class="btn" id="export-json" type="button">EXPORT CADSPEC</button>
+        <button class="btn" id="export-scad" type="button">EXPORT SCAD</button>
+      </div>
+      <div class="main-grid">
+        <aside class="side left"><h2>ASSEMBLY</h2><div id="tree"></div></aside>
+        <section class="viewport" aria-label="Interactive 3D CAD wireframe viewer"><canvas id="viewer" tabindex="0"></canvas><div class="status" id="status" role="status" aria-live="polite">READY</div></section>
+        <aside class="side right">
+          <h2>LANGUAGE COMMAND</h2>
+          <textarea id="prompt">Generate a simplified axial jet engine concept with 6 compressor stages and 2 turbine stages</textarea>
+          <div class="prompt-actions"><button class="btn primary" id="run" type="button">GENERATE / APPLY</button></div>
+          <div class="error" id="error" role="alert" aria-live="polite"></div>
+          <h2>PARAMETERS</h2>
+          <div class="field"><label for="engine-length">Length <span>mm</span></label><input id="engine-length" type="number" min="600" max="1600" step="10"></div>
+          <div class="field"><label for="outer-diameter">Outer diameter <span>mm</span></label><input id="outer-diameter" type="number" min="200" max="500" step="5"></div>
+          <div class="field"><label for="compressor-stages">Compressor stages <span>3–12</span></label><input id="compressor-stages" type="number" min="3" max="12" step="1"></div>
+          <div class="field"><label for="turbine-stages">Turbine stages <span>1–4</span></label><input id="turbine-stages" type="number" min="1" max="4" step="1"></div>
+          <label class="switch">Outer casing <input id="casing-visible" type="checkbox" checked></label>
+          <label class="switch">Exploded view <input id="exploded" type="checkbox"></label>
+          <button class="btn" id="update-params" type="button">UPDATE MODEL</button>
+          <h2>VALIDATION</h2><pre id="summary"></pre>
+          <h2>CADSPEC</h2><pre id="cad-spec"></pre>
+          <div class="warning">Conceptual geometry only. No thrust, stress, thermal, fatigue, combustion, materials, tolerance, manufacturing, or certification claims are produced by this demo.</div>
+        </aside>
+      </div>
+    </main>
+
+    <section class="research" id="research">
+      <div><h2>RESEARCH RECORD</h2><h3>NEGATIVE RESULTS STAY VISIBLE</h3><p>NeuroCAD began as a bounded NLP→CAD experiment. Its frozen held-out v1 benchmark recorded 95% overall success versus 60% for the original direct flat extractor. A later pre-frozen component ablation showed that a direct extractor with matched fail-closed validation recovered the full measured gap. The supported conclusion is therefore validation-dominant engineering reliability on that diagnostic—not a demonstrated typed-IR causal advantage.</p></div>
+      <div class="metrics"><div class="metric"><strong>95%</strong><span>frozen v1 overall</span></div><div class="metric"><strong>60%</strong><span>original direct baseline</span></div><div class="metric"><strong>1.00</strong><span>validation recovery fraction</span></div></div>
+    </section>
   </div>
-  <p>Supported: rectangular plates/panels/brackets, millimetre dimensions, thickness, and 1/2/4 circular holes with an inset.</p>
   <script type="module" src="./app.mjs"></script>
 </body>
 </html>
