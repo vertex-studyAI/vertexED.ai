@@ -1,0 +1,34 @@
+name: NeuroCAD Alpha product validation
+
+on:
+  pull_request:
+    paths:
+      - 'portfolio/project2424/projects/T2424-0037/**'
+      - '.github/workflows/neurocad-alpha.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  alpha-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Run NeuroCAD Alpha tests
+        run: node --test portfolio/project2424/projects/T2424-0037/tests/alpha.test.mjs portfolio/project2424/projects/T2424-0037/tests/intent.test.mjs
+      - name: Verify alpha browser module graph
+        run: |
+          node --check portfolio/project2424/projects/T2424-0037/src/cad.mjs
+          node --check portfolio/project2424/projects/T2424-0037/src/jet-engine.mjs
+          node --check portfolio/project2424/projects/T2424-0037/src/intent.mjs
+          node --check portfolio/project2424/projects/T2424-0037/src/render3d.mjs
+          node --check portfolio/project2424/projects/T2424-0037/web/alpha-app.mjs
+          test -s portfolio/project2424/projects/T2424-0037/web/alpha.html
+          test -s portfolio/project2424/projects/T2424-0037/web/alpha.css
