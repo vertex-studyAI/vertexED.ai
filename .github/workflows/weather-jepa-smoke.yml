@@ -1,0 +1,45 @@
+name: Weather-JEPA smoke
+
+on:
+  pull_request:
+    branches: [main, master]
+    paths:
+      - 'portfolio/research/weather-jepa/**'
+      - '.github/workflows/weather-jepa-smoke.yml'
+  push:
+    branches: [main, master]
+    paths:
+      - 'portfolio/research/weather-jepa/**'
+      - '.github/workflows/weather-jepa-smoke.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: weather-jepa-smoke-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  unit-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+          cache: pip
+
+      - name: Install engineering smoke dependency
+        run: python -m pip install --disable-pip-version-check torch==2.10.0 --index-url https://download.pytorch.org/whl/cpu
+
+      - name: Run Weather-JEPA synthetic unit smoke
+        working-directory: portfolio/research/weather-jepa
+        run: python -m unittest discover -v -p 'test_*.py'
+
+      - name: Record evidence boundary
+        run: |
+          echo 'Weather-JEPA smoke is engineering/unit evidence only.'
+          echo 'It does not freeze the scientific training environment, authorize real-data training, or evaluate preregistered outcomes.'

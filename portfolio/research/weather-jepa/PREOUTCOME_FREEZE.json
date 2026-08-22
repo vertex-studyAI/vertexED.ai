@@ -1,0 +1,41 @@
+{
+  "protocol_id": "WEATHER-JEPA-V1",
+  "protocol_state": "PREOUTCOME_PROTOCOL_FROZEN",
+  "scientific_outcome_training_authorized": false,
+  "data": {
+    "license_verified": false,
+    "data_manifest_sha256": null,
+    "split_manifest_sha256": null,
+    "exact_snapshot_id": null,
+    "spatial_resolution": null,
+    "split_hashes_frozen": false
+  },
+  "method_definition": {
+    "normalized_l2_normalization_axis": null,
+    "normalized_l2_epsilon": null,
+    "variance_regularizer_form": null,
+    "variance_regularizer_weight": null,
+    "spatial_block_shape_rule": null,
+    "spatial_block_sampling_rule": null,
+    "temporal_future_block_rule": null,
+    "mask_ratio_selection_rule": null
+  },
+  "model_budget": {
+    "model_budget_sha256": null,
+    "exact_parameter_budget": null,
+    "b3_matching_rule_frozen": false
+  },
+  "baselines": {
+    "B0_PERSISTENCE": "IMPLEMENTED_SYNTHETIC_UNIT_VERIFIED",
+    "B1_CLIMATOLOGY": "BLOCKED_ON_DATA_TEMPORAL_SPATIAL_FREEZE",
+    "B2_RIDGE_AR": "BLOCKED_ON_DATA_FEATURE_SPLIT_FREEZE",
+    "B3_DIRECT_NEURAL": "BLOCKED_ON_MODEL_BUDGET_AND_METHOD_FREEZE"
+  },
+  "execution": {
+    "environment_lock_sha256": null,
+    "run_plan_sha256": null,
+    "hardware_identity": null,
+    "uncertainty_estimator_frozen": false,
+    "raw_output_retention_path": null
+  }
+}
