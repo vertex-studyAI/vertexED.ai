@@ -1,12 +1,17 @@
 import { readJsonBody, rejectOversizedJsonBody } from '../_lib/auth.js';
 import { getSupabaseAdmin } from '../_lib/supabaseAdmin.js';
 import { checkDbRateLimit } from '../_lib/dbRateLimit.js';
-import { verifyInviteCode } from '../_lib/inviteCode.js';
+import { isInviteCodeConfiguredSafely, verifyInviteCode } from '../_lib/inviteCode.js';
 import { getWaitlistEntryByToken } from '../_lib/waitlistAccess.js';
 import { getClientIp, normalizeEmail, validatePassword } from '../_lib/security.js';
 
 function hasSignupBackendConfig() {
   return Boolean(process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY);
+}
+
+function getTeamInviteRedirectUrl() {
+  const appUrl = process.env.APP_URL || process.env.SITE_URL || 'https://www.vertexed.app';
+  return `${appUrl.replace(/\/+$/, '')}/auth/callback?invite=1`;
 }
 
 export default async function handler(req, res) {
@@ -50,13 +55,6 @@ export default async function handler(req, res) {
       return res.status(200).json({ ok: true, email: entry.email });
     }
 
-    // Reject malformed account data before touching account-creation services.
-    const pwd = typeof password === 'string' ? password : '';
-    const passwordCheck = validatePassword(pwd);
-    if (!passwordCheck.ok) {
-      return res.status(400).json({ error: passwordCheck.error });
-    }
-
     const normalizedUsername = typeof username === 'string' ? username.trim() : '';
     if (!/^[a-zA-Z0-9_.-]{3,20}$/.test(normalizedUsername)) {
       return res.status(400).json({ error: 'Choose a username with 3-20 letters, numbers, dots, underscores, or hyphens.' });
@@ -77,8 +75,10 @@ export default async function handler(req, res) {
     let inviteEntry = null;
 
     if (!inviteToken) {
-      if (!process.env.SIGNUP_INVITE_CODE) {
-        return res.status(503).json({ error: 'Team invite signup is currently unavailable.' });
+      if (!isInviteCodeConfiguredSafely()) {
+        return res.status(503).json({
+          error: 'Team invite signup is currently unavailable. The server invite secret must be rotated to a strong private value.',
+        });
       }
       if (!verifyInviteCode(inviteCode)) {
         return res.status(403).json({ error: 'This invite code is invalid.' });
@@ -88,6 +88,40 @@ export default async function handler(req, res) {
       if (!normalizedEmail) {
         return res.status(400).json({ error: 'Enter a valid email address.' });
       }
+
+      if (!hasSignupBackendConfig()) {
+        return res.status(503).json({ error: 'Account creation is temporarily unavailable. Please try again later.' });
+      }
+
+      // A shared team code proves invitation eligibility, not ownership of the
+      // caller-supplied email address. Never let it create an already-confirmed
+      // password account. Supabase's invite flow sends a one-time link to the
+      // mailbox; only the recipient can establish the authenticated session and
+      // choose a password after accepting it.
+      const supabase = getSupabaseAdmin();
+      const { error } = await supabase.auth.admin.inviteUserByEmail(normalizedEmail, {
+        data: { username: normalizedUsername },
+        redirectTo: getTeamInviteRedirectUrl(),
+      });
+
+      if (error) {
+        console.error('signup-invite inviteUserByEmail:', error.message);
+        if (error.message?.toLowerCase().includes('already')) {
+          return res.status(409).json({ error: 'This email is already registered. Try logging in.' });
+        }
+        return res.status(400).json({ error: 'Could not send the account invitation. Check your details and try again.' });
+      }
+
+      return res.status(200).json({ ok: true, requiresEmailVerification: true });
+    }
+
+    // Waitlist approval links are themselves single-use bearer credentials sent
+    // to the approved mailbox. That path can accept the password now, but it must
+    // still reject malformed account data before touching account-creation services.
+    const pwd = typeof password === 'string' ? password : '';
+    const passwordCheck = validatePassword(pwd);
+    if (!passwordCheck.ok) {
+      return res.status(400).json({ error: passwordCheck.error });
     }
 
     if (!hasSignupBackendConfig()) {
@@ -96,13 +130,11 @@ export default async function handler(req, res) {
 
     const supabase = getSupabaseAdmin();
 
-    if (inviteToken) {
-      inviteEntry = await getWaitlistEntryByToken(supabase, inviteToken);
-      normalizedEmail = normalizeEmail(inviteEntry?.email);
+    inviteEntry = await getWaitlistEntryByToken(supabase, inviteToken);
+    normalizedEmail = normalizeEmail(inviteEntry?.email);
 
-      if (!inviteEntry || inviteEntry.status !== 'approved' || !normalizedEmail) {
-        return res.status(403).json({ error: 'This approval link is invalid, expired, or has already been used.' });
-      }
+    if (!inviteEntry || inviteEntry.status !== 'approved' || !normalizedEmail) {
+      return res.status(403).json({ error: 'This approval link is invalid, expired, or has already been used.' });
     }
 
     const { data, error } = await supabase.auth.admin.createUser({
@@ -120,18 +152,16 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'Could not create account. Check your details and try again.' });
     }
 
-    if (inviteEntry) {
-      await supabase
-        .from('waitlist')
-        .update({
-          auth_user_id: data.user.id,
-          invite_token: null,
-          updated_at: new Date().toISOString(),
-        })
-        .eq('id', inviteEntry.id);
-    }
+    await supabase
+      .from('waitlist')
+      .update({
+        auth_user_id: data.user.id,
+        invite_token: null,
+        updated_at: new Date().toISOString(),
+      })
+      .eq('id', inviteEntry.id);
 
-    return res.status(200).json({ ok: true });
+    return res.status(200).json({ ok: true, requiresEmailVerification: false });
   } catch (err) {
     console.error('signup-invite error:', err);
     return res.status(500).json({ error: 'Could not create account. Please try again later.' });
