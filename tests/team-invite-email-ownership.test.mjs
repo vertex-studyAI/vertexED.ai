@@ -9,6 +9,7 @@ import {
 import { createMocks } from './helpers/mock-http.mjs';
 
 const handlerSource = fs.readFileSync('api/_handlers/signup-invite.js', 'utf8');
+const waitlistSignupSource = fs.readFileSync('api/_lib/waitlistSignup.js', 'utf8');
 const signupSource = fs.readFileSync('src/pages/Signup.tsx', 'utf8');
 const callbackSource = fs.readFileSync('src/pages/AuthCallback.tsx', 'utf8');
 const passwordPageSource = fs.readFileSync('src/pages/SetInitialPassword.tsx', 'utf8');
@@ -58,8 +59,9 @@ test('waitlist bearer-token flow retains its separate password creation path', (
   const waitlistStart = handlerSource.indexOf('// Waitlist approval links');
   const waitlistBranch = handlerSource.slice(waitlistStart);
   assert.match(waitlistBranch, /validatePassword\(pwd\)/);
-  assert.match(waitlistBranch, /auth\.admin\.createUser\(\{/);
-  assert.match(waitlistBranch, /email_confirm:\s*true/);
+  assert.match(waitlistBranch, /createApprovedWaitlistUser\(supabase,/);
+  assert.match(waitlistSignupSource, /auth\.admin\.createUser\(\{/);
+  assert.match(waitlistSignupSource, /email_confirm:\s*true/);
   assert.match(waitlistBranch, /requiresEmailVerification:\s*false/);
 });
 

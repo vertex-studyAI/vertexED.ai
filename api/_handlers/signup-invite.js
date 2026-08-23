@@ -3,6 +3,7 @@ import { getSupabaseAdmin } from '../_lib/supabaseAdmin.js';
 import { checkDbRateLimit } from '../_lib/dbRateLimit.js';
 import { isInviteCodeConfiguredSafely, verifyInviteCode } from '../_lib/inviteCode.js';
 import { getWaitlistEntryByToken } from '../_lib/waitlistAccess.js';
+import { createApprovedWaitlistUser } from '../_lib/waitlistSignup.js';
 import { getClientIp, normalizeEmail, validatePassword } from '../_lib/security.js';
 
 function hasSignupBackendConfig() {
@@ -137,29 +138,30 @@ export default async function handler(req, res) {
       return res.status(403).json({ error: 'This approval link is invalid, expired, or has already been used.' });
     }
 
-    const { data, error } = await supabase.auth.admin.createUser({
-      email: normalizedEmail,
+    const signup = await createApprovedWaitlistUser(supabase, {
+      inviteEntry: { ...inviteEntry, email: normalizedEmail },
+      inviteToken,
       password: pwd,
-      email_confirm: true,
-      user_metadata: { username: normalizedUsername },
+      username: normalizedUsername,
     });
 
-    if (error) {
-      console.error('signup-invite createUser:', error.message);
-      if (error.message?.toLowerCase().includes('already')) {
-        return res.status(409).json({ error: 'This email is already registered. Try logging in.' });
+    if (signup.error) {
+      if (signup.stage === 'create') {
+        console.error('signup-invite createUser:', signup.error.message);
+        if (signup.error.message?.toLowerCase().includes('already')) {
+          return res.status(409).json({ error: 'This email is already registered. Try logging in.' });
+        }
+        return res.status(400).json({ error: 'Could not create account. Check your details and try again.' });
       }
-      return res.status(400).json({ error: 'Could not create account. Check your details and try again.' });
-    }
 
-    await supabase
-      .from('waitlist')
-      .update({
-        auth_user_id: data.user.id,
-        invite_token: null,
-        updated_at: new Date().toISOString(),
-      })
-      .eq('id', inviteEntry.id);
+      console.error('signup-invite finalization failed:', signup.error.message);
+      if (signup.rollbackError) {
+        console.error('signup-invite rollback failed:', signup.rollbackError.message);
+      }
+      return res.status(503).json({
+        error: 'Could not finalize account creation safely. Please try again.',
+      });
+    }
 
     return res.status(200).json({ ok: true, requiresEmailVerification: false });
   } catch (err) {
