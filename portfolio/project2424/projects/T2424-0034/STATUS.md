@@ -6,7 +6,7 @@
 
 The canonical Quant ML Visualizer package and its historical-only walk-forward/no-lookahead extension are both merged on `main` and have exact-head GitHub Actions evidence.
 
-This is a stronger **software/evaluation-mechanics** state than the prior `CI_VERIFICATION_PENDING` label, but it is still not a validated quantitative-ML research result and is not Certified complete.
+This is a stronger **software/evaluation-mechanics** state than the earlier pending-CI bookkeeping state, but it is still not a validated quantitative-ML research result and is not Certified complete.
 
 ## Merged verification evidence
 
