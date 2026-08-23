@@ -6,7 +6,7 @@ const artifactUrl = new URL('../portfolio/project2424/RECOVERED_EXTERNAL_ARTIFAC
 const evidence = JSON.parse(await readFile(artifactUrl, 'utf8'));
 
 test('recovered external artifacts never silently acquire canonical T2424 identity', () => {
-  assert.ok(evidence.artifacts.length >= 6);
+  assert.ok(evidence.artifacts.length >= 7);
   for (const artifact of evidence.artifacts) {
     if (artifact.canonical_T2424_candidate) {
       assert.equal(artifact.canonical_T2424_crosswalk_complete, false);
@@ -23,6 +23,16 @@ test('Atlas V4 recovery keeps the exact recorded release hashes and bounded veri
   assert.equal(atlas.recorded_project_count, 18);
   assert.equal(atlas.recorded_test_count, 39);
   assert.equal(atlas.recorded_manifest_file_count, 769);
+});
+
+test('recovered FinanceJEPA pilot stays family-crosswalk blocked and preserves adverse ablations', () => {
+  const finance = evidence.artifacts.find((artifact) => artifact.artifact_family === 'MODEL-002 FinanceJEPA');
+  assert.ok(finance);
+  assert.equal(finance.canonical_T2424_candidate, 'T2424-0005');
+  assert.equal(finance.canonical_T2424_crosswalk_complete, false);
+  assert.equal(finance.recorded_local_tests, '9 PASS');
+  assert.ok(finance.claim_boundary.includes('identity collision'));
+  assert.ok(finance.claim_boundary.includes('unsupported'));
 });
 
 test('recovered ESNF evidence preserves the sparse-update negative result and provisional identity', () => {
