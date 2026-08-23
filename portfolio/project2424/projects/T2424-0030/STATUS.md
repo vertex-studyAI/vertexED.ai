@@ -3,8 +3,12 @@
 **Project:** Adaptive Theory Geometry in World Models  
 **Queue rank:** 23  
 **Track:** C — Existing work → minimum experiment  
-**State:** VERIFYING  
-**Claim level:** synthetic geometry-aware forecasting prototype
+**State:** `TESTED_TOOL / MERGED / CONTROLLED_SYNTHETIC_SCREEN / EXTERNAL_VALIDATION_PENDING`  
+**Claim level:** synthetic geometry-aware one-step forecasting prototype
+
+## Integration truth
+
+The canonical First-100 dashboard records T2424-0030 among the queue-consistent runnable/tested implementations merged on `main`. The prior `VERIFYING` label is therefore stale.
 
 ## Implemented
 
@@ -15,24 +19,23 @@
 - [x] straight-motion negative control
 - [x] 20-seed experiment runner
 - [x] focused regression suite
+- [x] canonical merged implementation
 - [x] explicit claim boundary and next evidence gate
 
-## Predeclared gate
+## Frozen controlled gate
 
 - curved-suite relative improvement > 85%
 - curved geometry selection rate > 95%
 - straight-control absolute relative improvement < 1%
 
-Reference deterministic output clears those mechanics, but promote to `TESTED_TOOL` only after canonical GitHub Actions passes on the exact branch head.
+The retained deterministic output clears those **controlled mechanics** gates.
 
-## Not claimed
+## Current interpretation
 
-- neural or learned world-model geometry
-- long-horizon/general dynamical-system performance
-- real scientific forecasting
-- research completeness
-- publication readiness
+Implementation/mechanics status is GREEN at the bounded synthetic scope.
 
-## Next artifact
+The result does not establish learned or neural world-model geometry, long-horizon performance, general dynamical-system validity, real scientific forecasting, publication novelty, or research completion.
 
-A frozen noisy/regime-switching trajectory benchmark with stronger baselines, train-only threshold selection, multi-step rollouts and independent reproduction.
+## Next scientific gate
+
+Use a new frozen noisy/regime-switching trajectory protocol with stronger baselines, train-only threshold selection, multi-step rollouts, uncertainty, and independent reproduction. Preserve the current deterministic result unchanged as baseline evidence.
