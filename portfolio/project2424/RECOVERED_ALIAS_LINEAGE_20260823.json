@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "date": "2026-08-23",
+  "purpose": "Record only provenance relationships corroborated by retained registry/audit artifacts. This file is not a source-code migration manifest.",
+  "global_namespace_boundary": {
+    "T2424_identity_count": 2424,
+    "P2424_identity_count": 2424,
+    "same_suffix_identity_inference_allowed": false,
+    "same_number_normalized_name_matches": "0/2424 in retained forensic audit",
+    "rule": "P2424 and T2424 remain separate namespaces unless an explicit evidence-backed crosswalk proves a relationship."
+  },
+  "corroborated_aliases": [
+    {
+      "canonical_id": "T2424-0016",
+      "canonical_name": "PST — Predictive Single-Cell Transition Score",
+      "historical_aliases": ["MODEL-PST", "MODEL-008", "PST"],
+      "relationship": "NAME_AND_TASK_REGISTRY_CORROBORATED_ALIAS",
+      "source_migration_complete": false,
+      "evidence_boundary": "Retained MODEL-PST handoff reports a complete isolated synthetic-controlled package under /mnt/data/pst_prompt6_bundle/projects/MODEL-PST. A separate Typhon task registry maps MODEL-008 to canonical_name PST. Neither retained artifact supplies the missing source archive bytes inside the current Git repository.",
+      "negative_findings_to_preserve": [
+        "raw-expression logistic and linear logistic-pair controls outperform the neural PST model on the controlled generator",
+        "validation-only calibration worsens multiple metrics relative to the raw score",
+        "four-dimensional latent bottleneck is weaker/unstable across seeds",
+        "variance selection can discard controlled transition signal",
+        "family-A to family-B transfer is weak relative to family-B in-domain retraining"
+      ],
+      "status": "ALIAS_CORROBORATED_SOURCE_MIGRATION_BLOCKED"
+    },
+    {
+      "canonical_id": "T2424-0019",
+      "canonical_name": "NPMS — Neural Predictive Memory Spectroscopy",
+      "historical_aliases": ["MODEL-NPMS", "MODEL-007", "NPMS"],
+      "relationship": "NAME_AND_TASK_REGISTRY_CORROBORATED_ALIAS",
+      "source_migration_complete": false,
+      "evidence_boundary": "Retained MODEL-NPMS handoff and experiment report describe the isolated synthetic-controlled package and match the canonical recovered experiment-report metrics/hashes. A separate Typhon task registry maps MODEL-007 to canonical_name NPMS. The exact original source/config/raw-log tree is still not present in current Git identity.",
+      "negative_findings_to_preserve": [
+        "compact delay-PCA linear-mode recovery is substantially worse than identity smoke recovery",
+        "multiscale AR spectral recovery remains weak",
+        "negative switching regime is poorly recovered",
+        "matched-eigenvalue metric ignores unmatched spurious/missing modes",
+        "mode truncation ranks individual eigenvalues rather than conjugate groups",
+        "frequency response is an autonomous-operator resolvent proxy rather than a full input-output transfer function"
+      ],
+      "status": "ALIAS_CORROBORATED_SOURCE_MIGRATION_BLOCKED"
+    }
+  ],
+  "known_explicit_P_namespace_relationships": [
+    {"name":"APEN","p_id":"P2424-0205","relationship_to_T_namespace":"UNRESOLVED_DO_NOT_COLLAPSE"},
+    {"name":"RIPII","p_id":"P2424-0405","relationship_to_T_namespace":"UNRESOLVED_DO_NOT_COLLAPSE"},
+    {"name":"NeuroCAD","p_id":"P2424-1213","relationship_to_T_namespace":"CONFLICT_GROUP_DO_NOT_COLLAPSE_WITH_T2424-0007_OR_T2424-0037_WITHOUT_CROSSWALK"},
+    {"name":"Velocity-Aware Trajectory Engine","p_id":"P2424-0727","relationship_to_T_namespace":"UNRESOLVED_DO_NOT_COLLAPSE"},
+    {"name":"Velocity-Aware Trajectory Engine for Cell-State Memory","p_id":"P2424-0728","relationship_to_T_namespace":"UNRESOLVED_DO_NOT_COLLAPSE"}
+  ],
+  "closure_rule": "This file may reduce identity ambiguity, but it must never be used as proof that missing original source bytes were migrated or reproduced."
+}
