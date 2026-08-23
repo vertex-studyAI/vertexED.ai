@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "date": "2026-08-23",
+  "queue": "portfolio/project2424/FIRST_100_QUEUE.ndjson",
+  "purpose": "Give every frozen First-100 identity an evidence-safe executable disposition without manufacturing source, experiments or completion.",
+  "allowed_dispositions": ["BUILD", "MERGE", "ONE_FINAL_TEST", "FREEZE_NEGATIVE", "ARCHIVE", "BLOCKED"],
+  "default": {
+    "disposition": "BLOCKED",
+    "reason_code": "SOURCE_NOT_RECOVERED",
+    "rule": "If a frozen queue identity has no stronger evidence-backed override below, do not infer implementation from its name, rank, historical numeric suffix, or adjacent portfolio artifact. Recover canonical source/provenance before new execution."
+  },
+  "overrides": {
+    "T2424-0002": {"disposition":"BLOCKED","reason_code":"IDENTITY_LINEAGE_UNRESOLVED","note":"RIPII has P-series lineage evidence; do not collapse namespaces without an explicit crosswalk."},
+    "T2424-0003": {"disposition":"ARCHIVE","reason_code":"CURRENT_PROTOCOL_MIXED_FROZEN","note":"APEN controlled mixed result is preserved; any successor requires a new matched learned/naturalistic protocol."},
+    "T2424-0004": {"disposition":"BLOCKED","reason_code":"RAW_PROVENANCE_NOT_RECOVERED","note":"PI-JEPA historical negative/reconstructed label is insufficient without direct raw experiment lineage."},
+    "T2424-0007": {"disposition":"BLOCKED","reason_code":"NEUROCAD_IDENTITY_CONFLICT_GROUP","note":"Do not collapse this queue identity with T2424-0037 or P2424 NeuroCAD identities without a source-controlled crosswalk."},
+    "T2424-0016": {"disposition":"BLOCKED","reason_code":"SOURCE_ARCHIVE_BYTES_UNAVAILABLE","note":"PST aliases/evidence corroborated; original source/checkpoint/raw-evidence archive bytes unavailable in connected surfaces."},
+    "T2424-0019": {"disposition":"BLOCKED","reason_code":"SOURCE_ARCHIVE_BYTES_UNAVAILABLE","note":"NPMS aliases/evidence corroborated; original source/config/raw-log archive bytes unavailable in connected surfaces."},
+    "T2424-0023": {"disposition":"ARCHIVE","reason_code":"BOUNDED_PACKAGE_GREEN","note":"Merged benchmark/evaluator mechanics are preserved; real-model multilingual science requires a new protocol."},
+    "T2424-0024": {"disposition":"ARCHIVE","reason_code":"BOUNDED_PACKAGE_GREEN","note":"Merged and exactly reproduced synthetic calibration/selective-prediction mechanics; real-model trustworthiness is a new study."},
+    "T2424-0025": {"disposition":"FREEZE_NEGATIVE","reason_code":"NGMT_LINEAGE_NEGATIVE","note":"Robust-readout precursor remains bounded; separately frozen NGMT v0.1 learned experiment is reproduced negative/inconclusive and cannot be rescue-tuned."},
+    "T2424-0026": {"disposition":"ARCHIVE","reason_code":"BOUNDED_PACKAGE_GREEN","note":"Merged/reproduced deterministic intervention/locality mechanics; learned/stochastic world science is a new protocol."},
+    "T2424-0027": {"disposition":"ARCHIVE","reason_code":"BOUNDED_PACKAGE_GREEN","note":"Merged/reproduced synthetic language-leakage mechanics; no linguistic-relativity or real-encoder claim."},
+    "T2424-0028": {"disposition":"ARCHIVE","reason_code":"BOUNDED_PACKAGE_GREEN","note":"Merged/reproduced synthetic codec mechanics; external rate-distortion is a new protocol."},
+    "T2424-0029": {"disposition":"ARCHIVE","reason_code":"BOUNDED_PACKAGE_GREEN","note":"Merged/reproduced analytic heat-equation spectral-dimension screen; nonlinear PDE science is a new protocol."},
+    "T2424-0030": {"disposition":"ARCHIVE","reason_code":"BOUNDED_PACKAGE_GREEN","note":"Merged synthetic geometry-aware forecasting mechanics; learned multi-step generalization is a new protocol."},
+    "T2424-0032": {"disposition":"ARCHIVE","reason_code":"CURRENT_PROTOCOL_MIXED_NEGATIVE_FROZEN","note":"Eigen-JEPA primary comparison remains reproduced mixed/negative; no metric shopping or in-place rescue."},
+    "T2424-0034": {"disposition":"ARCHIVE","reason_code":"TESTED_TOOL_GREEN","note":"Merged descriptive + no-lookahead evaluation tooling; real-market alpha/ML claim requires a separately frozen study."},
+    "T2424-0035": {"disposition":"ARCHIVE","reason_code":"BOUNDED_PACKAGE_GREEN","note":"Merged/reproduced detector mechanics; real trained-model grokking study is a new protocol."},
+    "T2424-0036": {"disposition":"ARCHIVE","reason_code":"TESTED_TOOL_GREEN","note":"Merged bounded A* prototype; no AGI claim."},
+    "T2424-0037": {"disposition":"FREEZE_NEGATIVE","reason_code":"TYPED_PARSER_CAUSAL_MECHANISM_FALSIFIED","note":"Preserve VALIDATION_DOMINANT. Broader NeuroCAD successor must be separately frozen with external dataset/model identities."},
+    "T2424-0038": {"disposition":"ARCHIVE","reason_code":"TESTED_TOOL_GREEN","note":"Merged deterministic editorial-triage tool; real editorial-effectiveness study is separate."},
+    "T2424-0040": {"disposition":"ARCHIVE","reason_code":"BOUNDED_PACKAGE_GREEN","note":"Merged/reproduced synthetic prerequisite-ordering mechanics; learner-outcome validation is a new protocol."},
+    "T2424-0046": {"disposition":"ARCHIVE","reason_code":"TESTED_TOOL_GREEN","note":"Merged deterministic planning/evidence-gating library; do not silently widen into arbitrary-shell autonomous research execution."},
+    "T2424-0049": {"disposition":"ARCHIVE","reason_code":"IDENTITY_REPAIRED_BOUNDED_PACKAGE_GREEN","note":"Multiphase Porous JEPA identity repaired and bounded synthetic mechanics preserved; external/learned porous-media science is a new version."},
+    "T2424-0050": {"disposition":"BUILD","reason_code":"ACTIVE_VERSIONED_SUCCESSOR_ONLY","note":"Parent bounded Darcy result + harder mixed audit remain immutable/HOLD. Continue only through separately frozen learned/OOD/2D successor gates; never auto-merge/deploy from closure automation."},
+    "T2424-0051": {"disposition":"ARCHIVE","reason_code":"BOUNDED_ADR_PACKAGE_GREEN","note":"Analytic 1D periodic ADR interpolation mechanics exist on current main; harder numerical/learned comparison is a new protocol."},
+    "T2424-0053": {"disposition":"ARCHIVE","reason_code":"TESTED_TOOL_GREEN","note":"Merged synthetic motif-indexing mechanics; external scientific time-series validation is separate."},
+    "T2424-0054": {"disposition":"ARCHIVE","reason_code":"BOUNDED_PACKAGE_GREEN","note":"Merged/reproduced deterministic heuristic planner mechanics; scientific-value validation is separate."},
+    "T2424-1767": {"disposition":"ARCHIVE","reason_code":"TESTED_TOOL_GREEN","note":"Merged synthetic resource/error frontier tool; real Scientific-ML efficiency claim is separate."},
+    "T2424-1768": {"disposition":"ARCHIVE","reason_code":"BOUNDED_PACKAGE_GREEN","note":"Merged/reproduced synthetic contract-verification prototype; real failure-mode validation is separate."},
+    "T2424-1863": {"disposition":"FREEZE_NEGATIVE","reason_code":"PREDECLARED_GATE_FAILED_REPRODUCED","note":"67.777% improvement misses frozen >75% gate. Preserve negative result; any real-PDE successor is a new protocol."}
+  },
+  "classification_semantics": {
+    "BUILD": "There is a justified active successor, but it must be versioned/frozen before outcome access.",
+    "MERGE": "A verified implementation exists but canonical integration is the remaining gate.",
+    "ONE_FINAL_TEST": "Source/protocol are otherwise closed and one decisive preregistered test remains.",
+    "FREEZE_NEGATIVE": "The current frozen scientific question is closed negative/falsified and must not be rescue-tuned.",
+    "ARCHIVE": "The current bounded implementation/result is complete at its supported scope; stronger science is a separate successor, not unfinished work on the old result.",
+    "BLOCKED": "A real provenance/source/identity dependency prevents safe execution; do not reconstruct or guess."
+  }
+}
