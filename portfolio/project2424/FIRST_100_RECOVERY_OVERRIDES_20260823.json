@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "date": "2026-08-23",
+  "purpose": "Incremental evidence-backed refinements discovered after the base First-100 disposition policy was frozen. These overrides may narrow blockers but may not weaken evidence gates.",
+  "overrides": {
+    "T2424-0006": {
+      "disposition": "BLOCKED",
+      "reason_code": "LGWM_P_SERIES_PILOT_T_CROSSWALK_UNRESOLVED",
+      "note": "Frozen T2424-0006 is LGWM — Liquidation Graph World Models. Retained P-namespace inventory separately records P2424-0507 Liquidation Graph World Models as CONTROLLED_PILOT_COMPLETE with source_exists=true and explicitly says no T mapping inferred. Percy source catalogs still mark the canonical LGWM repository/revision unresolved. Preserve the P pilot as provenance, but do not promote it to the T identity until an explicit crosswalk and exact source revision are recovered."
+    },
+    "T2424-0020": {
+      "disposition": "BLOCKED",
+      "reason_code": "ATG_ATLAS_EXECUTION_CANONICAL_CROSSWALK_REQUIRED",
+      "note": "Frozen T2424-0020 is ATG — Adaptive Theory Geometry. A retained BU1LD Research Atlas Version 2 package reports 1,800 paired strategy runs across six theory families, three noise levels and three budgets: identification ATG 71.3%, variance 69.1%, D-optimal 64.4%, random 59.8%; ATG field MSE 0.01188 versus variance 0.01096 and random 0.02115. The package includes raw trials, paired statistics, executable reference code and reproduction commands, and the V4 release reports 39 automated tests across 18 executable packages. The result is bounded/moderate: ATG improves family identification over random/D-optimal, while predictive variance remains stronger for field reconstruction. Canonical Project2424 source/revision crosswalk is still unresolved, so do not silently assign the Atlas package to T2424-0020."
+    },
+    "T2424-0022": {
+      "disposition": "BLOCKED",
+      "reason_code": "PBJEPA_ACCESS_BLOCKED_SOURCE_NOT_RECOVERED",
+      "note": "Frozen T2424-0022 is MahJong PBJEPA. Retained execution-workbench rows for PB-JEPA / Mahjong Belief JEPA mark research design, implementation, baselines, evaluation and release as BLOCKED_ACCESS. No canonical executable source/revision or completed benchmark was recovered in the connected surfaces. Preserve the access blocker rather than inferring implementation from the planned experiment matrix."
+    }
+  },
+  "rule": "An incremental override is valid only when it makes a blocker more specific or preserves a stronger already-frozen terminal state. It must never convert planning evidence into execution evidence."
+}
