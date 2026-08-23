@@ -124,7 +124,10 @@ function getReviewImageDataUrl(image) {
 }
 
 export function validateReviewImages(images) {
-  if (!Array.isArray(images)) return { ok: true, images: [] };
+  if (images === undefined || images === null) return { ok: true, images: [] };
+  if (!Array.isArray(images)) {
+    return { ok: false, error: 'Images must be provided as an array.' };
+  }
   if (images.length > MAX_REVIEW_IMAGES) {
     return { ok: false, error: `Too many images (max ${MAX_REVIEW_IMAGES}).` };
   }
