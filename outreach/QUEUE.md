@@ -14,6 +14,7 @@
 - **Stonehill VertexED pilot:** the admissions mailbox returned a closure auto-response stating that school reopens Monday, 2026-08-24. Do not treat the auto-response as interest or rejection. Allow the school to reopen before any follow-up.
 - **Existing VertexED school-pilot wave:** keep the current sends in conversion mode. No recipient/project duplicate blast while those threads are inside cooldown.
 - **NVIDIA:** current connected mailbox evidence proves NVIDIA Developer Program participation but does not independently prove a separate Inception onboarding entitlement. Confirm portal/member status before using Inception-only claims, benefits, or outreach positioning.
+- **Jump$tart Clearinghouse:** multiple separate direct messages have already been sent to the same referred Clearinghouse contact. Freeze new sends to that recipient now. Preserve the newest valid thread as the only active thread and wait for a response before any follow-up.
 
 ## P1 — warm conversion
 
@@ -22,6 +23,19 @@
 - Convert existing institutional conversations into a specific call, commitment, data/support outcome, or explicit no.
 - Route research outreach to bounded methodological review/replication questions.
 - Re-verify ObscuredRecords analytics before sponsor outreach.
+
+## Mandatory pre-send dedup gate
+
+Before any new outbound message is sent:
+
+1. search the mailbox for the exact recipient address plus project/ask;
+2. search the outreach ledger for the recipient and organization;
+3. if a live thread exists, reply in that thread rather than starting a new one;
+4. if the same ask was already sent and no cooldown has elapsed, do not send;
+5. if several duplicate threads already exist, designate one canonical thread and freeze the rest;
+6. delivery failures must be marked invalid/needs-new-address rather than retried blindly.
+
+No autonomous outbound lane may bypass this gate for volume.
 
 ## Stop rules
 
