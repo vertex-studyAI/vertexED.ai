@@ -3,8 +3,12 @@
 **Project:** Scientific Motif Dictionary  
 **Queue rank:** 46  
 **Track:** C — Existing work → minimum experiment  
-**State:** VERIFYING  
+**State:** `TESTED_TOOL / MERGED / SYNTHETIC_MOTIF_MECHANICS / EXTERNAL_VALIDATION_PENDING`  
 **Claim level:** normalized 1D time-series motif indexing prototype
+
+## Integration truth
+
+The canonical First-100 dashboard records T2424-0053 among the queue-consistent runnable/tested implementations merged on `main`. The prior recovery-branch `VERIFYING` status is stale.
 
 ## Implemented
 
@@ -17,25 +21,15 @@
 - [x] dictionary ranking and coverage summary
 - [x] runnable synthetic repeated-pattern experiment
 - [x] focused regression suite
+- [x] canonical merged implementation
 - [x] explicit limitations and next evidence gate
 
-## Recovery verification
+## Current interpretation
 
-The implementation, runnable experiment, and regression suite were recovered from the previously green T2424-0053 branch after its original PR became stale. This recovery branch is based on the landed T2424-0050 line and is retargeted to current `main`; it must earn fresh canonical GitHub Actions evidence on this final base before promotion or merge.
+The deterministic motif-indexing implementation and bounded synthetic mechanics are GREEN.
 
-## Verification gate
+This package does not establish a novel motif-discovery algorithm, scientific meaning of discovered motifs, multivariate validity, approximate-similarity superiority, external-dataset performance, publication novelty, or research completion.
 
-Promote to `TESTED_TOOL` only after canonical GitHub Actions succeeds on the exact branch head.
+## Next scientific gate
 
-## Not claimed
-
-- novel motif-discovery algorithm
-- scientific meaning of recovered motifs
-- multivariate support
-- approximate similarity search
-- external-dataset performance
-- publication readiness
-
-## Next artifact
-
-Public scientific time-series benchmark, frozen comparison protocol, simple Euclidean/SAX-style baselines, parameter sensitivity, raw result artifacts, and independent reproduction.
+Freeze a public scientific time-series benchmark with legally usable data, Euclidean/SAX-style and other simple baselines, parameter-sensitivity analysis, retained raw artifacts, uncertainty, and independent reproduction. Do not rewrite the current synthetic mechanics result after seeing external outcomes.
