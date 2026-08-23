@@ -26,6 +26,21 @@ test('PST and NPMS aliases are corroborated without inventing source migration',
   assert.equal(npms.status, 'ALIAS_CORROBORATED_SOURCE_MIGRATION_BLOCKED');
 });
 
+test('FinanceJEPA recovered pilot remains a family-crosswalk candidate', () => {
+  const finance = lineage.candidate_aliases_requiring_crosswalk.find(
+    (row) => row.canonical_candidate_id === 'T2424-0005',
+  );
+  assert.ok(finance);
+  assert.equal(finance.recovered_identity, 'MODEL-002');
+  assert.equal(finance.source_migration_complete, false);
+  assert.equal(finance.status, 'CANDIDATE_ALIAS_CROSSWALK_REQUIRED');
+  assert.match(finance.relationship, /IDENTITY_COLLISION_UNRESOLVED/);
+  assert.equal(
+    lineage.corroborated_aliases.some((row) => row.canonical_id === 'T2424-0005'),
+    false,
+  );
+});
+
 test('recovered ESNF and PRC remain candidate crosswalks despite exact-name matches', () => {
   for (const [canonicalId, recoveredId] of [
     ['T2424-0017', 'MODEL-ESNF'],
