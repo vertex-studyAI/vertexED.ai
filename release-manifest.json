@@ -1,7 +1,7 @@
 {
   "product": "NeuroCAD Alpha 0.1",
   "route": "/neurocad/",
-  "revision": "54d12ecd5956292b59d6627f912a214e9f9c9136",
+  "revision": "871213881dc802c4c02fcea7ba377c2a7b77a8d0",
   "artifactRevision": "sha256:aa1aa53d82c6d8aa1bbef4eddde4d205ec80f77d08ccae42d7e29984a93605cb",
   "source": "portfolio/project2424/projects/T2424-0037",
   "generated": true
