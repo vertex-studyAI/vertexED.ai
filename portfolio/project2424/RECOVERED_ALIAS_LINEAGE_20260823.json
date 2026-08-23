@@ -46,6 +46,24 @@
   ],
   "candidate_aliases_requiring_crosswalk": [
     {
+      "canonical_candidate_id": "T2424-0005",
+      "canonical_candidate_name": "FinanceJEPA / Eigen-Finance",
+      "recovered_identity": "MODEL-002",
+      "recovered_name": "FinanceJEPA",
+      "relationship": "HIGH_CONFIDENCE_FAMILY_MEMBER_CANDIDATE_IDENTITY_COLLISION_UNRESOLVED",
+      "source_migration_complete": false,
+      "evidence_boundary": "A retained MODEL-002 handoff reports a complete self-contained FinanceJEPA synthetic-controlled package with 9 passing tests, 15 compact runs, evidence hashes and a checked manuscript. The frozen T row combines FinanceJEPA / Eigen-Finance, while historical governance separately warns of a FinanceJEPA/FI-JEPA/Eigen-Finance/Eigen-JEPA identity collision. Canonical family crosswalk and non-overlapping hypothesis map are required before assigning the pilot to T2424-0005.",
+      "negative_findings_to_preserve": [
+        "no-EMA variant has higher mean regime accuracy than the proposed model",
+        "no-horizon variant has lower mean volatility RMSE than the proposed model",
+        "no-EMA slightly improves mean return RMSE relative to the proposed model",
+        "random features remain competitive on volatility and some regime probes",
+        "shuffled-time pretraining remains competitive on pointwise metrics",
+        "transaction-cost Sharpe has large seed variance and is not external market evidence"
+      ],
+      "status": "CANDIDATE_ALIAS_CROSSWALK_REQUIRED"
+    },
+    {
       "canonical_candidate_id": "T2424-0017",
       "canonical_candidate_name": "ESNF — Event-Sparse Neural Fields",
       "recovered_identity": "MODEL-ESNF",
