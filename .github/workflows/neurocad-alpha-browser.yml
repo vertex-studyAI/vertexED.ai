@@ -24,6 +24,10 @@ on:
       - '.github/workflows/neurocad-alpha-browser.yml'
       - '.github/workflows/neurocad-alpha-public-cdn.yml'
 
+permissions:
+  contents: read
+  issues: write
+
 concurrency:
   group: neurocad-alpha-browser-${{ github.ref }}
   cancel-in-progress: true
@@ -134,7 +138,7 @@ jobs:
       - name: Install Chromium
         run: npx playwright install --with-deps chromium
 
-      - name: Wait for an exact public NeuroCAD artifact
+      - name: Wait for an exact canonical public NeuroCAD artifact
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
@@ -147,7 +151,7 @@ jobs:
           matched=0
 
           for attempt in $(seq 1 16); do
-            echo "[neurocad-smoke] public artifact check ${attempt}/16"
+            echo "[neurocad-smoke] canonical public artifact check ${attempt}/16"
 
             release_sha="$(curl --silent --fail \
               -H "Authorization: Bearer ${GH_TOKEN}" \
@@ -156,12 +160,12 @@ jobs:
               | node --input-type=module -e "let data=''; for await (const chunk of process.stdin) data += chunk; try { process.stdout.write(JSON.parse(data).object.sha ?? '') } catch {}" \
               || true)"
 
-            cdn_url=""
+            canonical_cdn_url=""
             if [ -n "$release_sha" ]; then
-              cdn_url="https://cdn.jsdelivr.net/gh/${GITHUB_REPOSITORY}@${release_sha}/index.html"
+              canonical_cdn_url="https://cdn.jsdelivr.net/gh/${GITHUB_REPOSITORY}@${release_sha}/neurocad/index.html"
             fi
 
-            for url in "$primary_url" "$pages_url" "$cdn_url"; do
+            for url in "$primary_url" "$pages_url" "$canonical_cdn_url"; do
               [ -n "$url" ] || continue
               echo "[neurocad-smoke] checking ${url}"
               page="$(curl --silent --fail "$url" || true)"
@@ -171,8 +175,10 @@ jobs:
                   echo "[neurocad-smoke] matching artifact at ${url} lacked immutable repository provenance"
                   exit 1
                 fi
-                echo "[neurocad-smoke] matched artifact ${expected_artifact_revision} at ${url} from repository revision ${served_repository_revision}"
+                echo "[neurocad-smoke] matched canonical artifact ${expected_artifact_revision} at ${url} from repository revision ${served_repository_revision}"
                 echo "NEUROCAD_PRODUCTION_URL=${url}" >> "$GITHUB_ENV"
+                echo "NEUROCAD_SERVED_REVISION=${served_repository_revision}" >> "$GITHUB_ENV"
+                echo "NEUROCAD_ARTIFACT_REVISION=${expected_artifact_revision}" >> "$GITHUB_ENV"
                 matched=1
                 break 2
               fi
@@ -181,7 +187,7 @@ jobs:
           done
 
           if [ "$matched" -ne 1 ]; then
-            echo "[neurocad-smoke] expected artifact ${expected_artifact_revision} was not observed on any approved public NeuroCAD host"
+            echo "[neurocad-smoke] expected artifact ${expected_artifact_revision} was not observed on a canonical public /neurocad/ host"
             exit 1
           fi
 
@@ -192,6 +198,50 @@ jobs:
           test -n "${NEUROCAD_PRODUCTION_URL:-}"
           NEUROCAD_BASE_URL="$NEUROCAD_PRODUCTION_URL" npx playwright test e2e/neurocad-alpha.spec.ts --project=desktop-1440
 
+      - name: Record G12 certification on deployment issue
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --input-type=module <<'NODE'
+          const repository = process.env.GITHUB_REPOSITORY;
+          const body = [
+            'Automated NeuroCAD G12 production certification: **PASS**',
+            '',
+            `- public URL: \`${process.env.NEUROCAD_PRODUCTION_URL}\``,
+            `- served repository revision: \`${process.env.NEUROCAD_SERVED_REVISION}\``,
+            `- artifact revision: \`${process.env.NEUROCAD_ARTIFACT_REVISION}\``,
+            `- tested from main revision: \`${process.env.GITHUB_SHA}\``,
+            '- flagship Playwright browser smoke: **PASS**',
+            '',
+            'This records deployment evidence only. It does not imply external engineering validation (G13).',
+          ].join('\n');
+          const response = await fetch(`https://api.github.com/repos/${repository}/issues/431/comments`, {
+            method: 'POST',
+            headers: {
+              Authorization: `Bearer ${process.env.GH_TOKEN}`,
+              Accept: 'application/vnd.github+json',
+              'Content-Type': 'application/json',
+              'X-GitHub-Api-Version': '2022-11-28',
+            },
+            body: JSON.stringify({ body }),
+          });
+          if (!response.ok) throw new Error(`failed to record G12 issue evidence: ${response.status} ${await response.text()}`);
+          NODE
+
+      - name: Record production identity evidence
+        if: always()
+        shell: bash
+        run: |
+          mkdir -p artifacts/neurocad-production
+          cat > artifacts/neurocad-production/identity.txt <<EOF
+          public_url=${NEUROCAD_PRODUCTION_URL:-UNVERIFIED}
+          served_repository_revision=${NEUROCAD_SERVED_REVISION:-UNVERIFIED}
+          artifact_revision=${NEUROCAD_ARTIFACT_REVISION:-UNVERIFIED}
+          tested_from_main_revision=${GITHUB_SHA}
+          EOF
+
       - name: Upload NeuroCAD production evidence
         if: always()
         uses: actions/upload-artifact@v7
@@ -199,6 +249,7 @@ jobs:
           name: neurocad-alpha-production-evidence
           path: |
             artifacts/neurocad-alpha
+            artifacts/neurocad-production
             playwright-report
             test-results/neurocad-alpha
             test-results
