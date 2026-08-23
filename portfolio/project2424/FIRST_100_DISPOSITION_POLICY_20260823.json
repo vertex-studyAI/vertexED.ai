@@ -10,6 +10,7 @@
     "rule": "If a frozen queue identity has no stronger evidence-backed override below, do not infer implementation from its name, rank, historical numeric suffix, or adjacent portfolio artifact. Recover canonical source/provenance before new execution."
   },
   "overrides": {
+    "T2424-0001": {"disposition":"BLOCKED","reason_code":"NO_DEFENSIBLE_EXPERIMENT_RECOVERED","note":"Retained closeout evidence classifies Hercules as RED/UNKNOWN: no canonical executable experiment, frozen protocol, data, seeds, matched-budget baseline or raw artifacts were recovered. Design-stage evidence only; AGI/local-superiority claims remain unsupported."},
     "T2424-0002": {"disposition":"BLOCKED","reason_code":"IDENTITY_LINEAGE_UNRESOLVED","note":"RIPII has P-series lineage evidence; do not collapse namespaces without an explicit crosswalk."},
     "T2424-0003": {"disposition":"ARCHIVE","reason_code":"CURRENT_PROTOCOL_MIXED_FROZEN","note":"APEN controlled mixed result is preserved; any successor requires a new matched learned/naturalistic protocol."},
     "T2424-0004": {"disposition":"BLOCKED","reason_code":"RAW_PROVENANCE_NOT_RECOVERED","note":"PI-JEPA historical negative/reconstructed label is insufficient without direct raw experiment lineage."},
@@ -39,6 +40,7 @@
     "T2424-0051": {"disposition":"ARCHIVE","reason_code":"BOUNDED_ADR_PACKAGE_GREEN","note":"Analytic 1D periodic ADR interpolation mechanics exist on current main; harder numerical/learned comparison is a new protocol."},
     "T2424-0053": {"disposition":"ARCHIVE","reason_code":"TESTED_TOOL_GREEN","note":"Merged synthetic motif-indexing mechanics; external scientific time-series validation is separate."},
     "T2424-0054": {"disposition":"ARCHIVE","reason_code":"BOUNDED_PACKAGE_GREEN","note":"Merged/reproduced deterministic heuristic planner mechanics; scientific-value validation is separate."},
+    "T2424-0055": {"disposition":"BLOCKED","reason_code":"TYPHON_RELEASE_ARTIFACTS_RECOVERED_CANONICAL_CROSSWALK_REQUIRED","note":"Multiple Typhon archive/release checksums and a 32-project historical release manifest are recovered, including Typhon_Full_Execution_Bundle.zip SHA-256 300ab721ce07bdb9be5f034cca398a2170bab901bcf89f0343b037f536e2ed25. Checksum/release presence does not prove which artifact is the frozen T2424-0055 Project Typhon implementation or whether its First-100 scientific gate was met. Resolve canonical crosswalk and inspect archive manifest/source before promotion."},
     "T2424-1767": {"disposition":"ARCHIVE","reason_code":"TESTED_TOOL_GREEN","note":"Merged synthetic resource/error frontier tool; real Scientific-ML efficiency claim is separate."},
     "T2424-1768": {"disposition":"ARCHIVE","reason_code":"BOUNDED_PACKAGE_GREEN","note":"Merged/reproduced synthetic contract-verification prototype; real failure-mode validation is separate."},
     "T2424-1863": {"disposition":"FREEZE_NEGATIVE","reason_code":"PREDECLARED_GATE_FAILED_REPRODUCED","note":"67.777% improvement misses frozen >75% gate. Preserve negative result; any real-PDE successor is a new protocol."}
