@@ -13,12 +13,13 @@
       "dataset_host": "huggingface",
       "license": "MIT",
       "public_availability": "FULL_PUBLIC_DATASET",
+      "observed_verified_revision_prefix": "2b9a4a9",
       "role": "primary executable semantic/geometric/topological external adapter",
       "selected_for_successor": true,
       "materialized": false,
       "materialized_revision": null,
       "content_sha256": null,
-      "notes": "Public benchmark identity verified. Materialization still requires an exact immutable dataset revision plus record-level hashes before it may satisfy the S3 external-adapter gate."
+      "notes": "Public benchmark identity and verified current revision prefix observed. Materialization still requires resolution of the full immutable revision plus record-level hashes before it may satisfy the S3 external-adapter gate."
     },
     {
       "id": "muse",
@@ -30,13 +31,14 @@
       "code_license": "MIT",
       "dataset_license": "CC-BY-4.0",
       "public_availability": "FULL_PUBLIC_DATASET",
+      "observed_verified_revision_prefix": "f8a1dc4",
       "role": "secondary engineering-design/rubric external adapter",
       "selected_for_successor": true,
       "materialized": false,
       "materialized_revision": null,
       "content_sha256": null,
       "evaluation_boundary": "Prefer deterministic code/geometry checks for confirmatory evidence. Any model-judged rubric stage requires a separately frozen judge/provider/model/prompt identity and should be reported distinctly.",
-      "notes": "Public benchmark identity verified. It does not become materialized until an immutable dataset revision and local content hashes are frozen."
+      "notes": "Public benchmark identity and verified current revision prefix observed. It does not become materialized until the full immutable revision and local content hashes are frozen."
     },
     {
       "id": "text2cad_bench",
@@ -67,5 +69,6 @@
       "counts_toward_required_materialized_adapters": false
     }
   ],
-  "claim_boundary": "This registry freezes external benchmark identities and admissible-use boundaries only. No external adapter is materialized, no evaluation split is opened, and no S3 performance result exists."
+  "materialization_network_note": "The current execution runtime could not resolve huggingface.co via raw git/DNS, so full dataset SHAs and content hashes were not fabricated. Materialization must occur through a network path that can resolve the selected dataset repositories and record the full revisions/content hashes.",
+  "claim_boundary": "This registry freezes external benchmark identities, observed revision anchors and admissible-use boundaries only. No external adapter is materialized, no evaluation split is opened, and no S3 performance result exists."
 }
