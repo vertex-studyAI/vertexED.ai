@@ -8,6 +8,13 @@
 4. **VertexED users/schools** — production truth and authenticated journey precede broad GTM claims.
 5. **FinanceMeta / The Bu1LD** — restore connected repo/platform access before claiming code or production fixes.
 
+## Live warm queue — 2026-08-23
+
+- **TiE / TYE Bangalore:** the central TYE team has already introduced Ryan to Lakshmi P., the Bangalore TYE Program Head, inside the existing thread. Do not send a duplicate cold message. Await the program-head response and convert it into a concrete application/cohort action when it arrives.
+- **Stonehill VertexED pilot:** the admissions mailbox returned a closure auto-response stating that school reopens Monday, 2026-08-24. Do not treat the auto-response as interest or rejection. Allow the school to reopen before any follow-up.
+- **Existing VertexED school-pilot wave:** keep the current sends in conversion mode. No recipient/project duplicate blast while those threads are inside cooldown.
+- **NVIDIA:** current connected mailbox evidence proves NVIDIA Developer Program participation but does not independently prove a separate Inception onboarding entitlement. Confirm portal/member status before using Inception-only claims, benefits, or outreach positioning.
+
 ## P1 — warm conversion
 
 - Follow up only when each contact's cooldown/date is due.
