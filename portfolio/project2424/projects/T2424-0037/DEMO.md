@@ -1,5 +1,9 @@
 # NeuroCAD Alpha 0.1 — Demo Script
 
+## External engineering pilots
+
+For company/engineer testing, use [`EXTERNAL_PILOT.md`](./EXTERNAL_PILOT.md) so every session uses the same scope boundaries, scripted checks, failure categories and evidence rules. Record results with [`PILOT_FEEDBACK_TEMPLATE.md`](./PILOT_FEEDBACK_TEMPLATE.md).
+
 ## Engineering-object path — recommended public-alpha proof
 
 1. Open the browser demo.
