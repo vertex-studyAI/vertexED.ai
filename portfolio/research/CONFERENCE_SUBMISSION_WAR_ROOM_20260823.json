@@ -1,0 +1,38 @@
+{
+  "as_of": "2026-08-23",
+  "truth_rule": "No SUBMITTED state without portal confirmation/submission ID/receipt",
+  "packages": [
+    {
+      "project": "LAM-JEPA",
+      "venue": "ICDM 2026 Teen Research Track",
+      "deadline": "2026-08-30",
+      "state": "OWNER_ACTION_EXTERNAL_REVIEW",
+      "next_action": "Lock truthful author list/order and affiliations; complete independent human review; upload and capture receipt"
+    },
+    {
+      "project": "NPMS + Memory Causal Use",
+      "venue": "NeurIPS EIML3 candidate",
+      "state": "DEFER_UNLESS_SOURCE_RECOVERED",
+      "next_action": "Migrate original isolated source tree, validate hashes, clean rerun, external/trained-model evaluation, independent QA"
+    },
+    {
+      "project": "Counterfactual Representation Surgery",
+      "venue": "NeurIPS Interpretability for Discovery candidate",
+      "state": "PREPRINT_CANDIDATE_ARCHIVAL_HOLD",
+      "next_action": "Naturalistic dataset, strong baselines, novelty audit, independent QA"
+    },
+    {
+      "project": "Event-Sparse Neural Fields",
+      "venue": "NeurIPS Simbiochem candidate",
+      "state": "DEFER_CURRENT_CYCLE",
+      "next_action": "Actual neural field, genuine reaction-diffusion benchmark, dense and operator baselines, required ablations"
+    },
+    {
+      "project": "Predictive State Transitions / Stability Theory",
+      "venue": "IEEE BigData High School Symposium",
+      "deadline": "2026-09-20",
+      "state": "EXTERNAL_BLOCKED_HISTORICAL_REAL_DATA_QUARANTINED",
+      "next_action": "Recover exact real-data provenance and raw logs or execute a new leakage-safe external-data protocol; otherwise reframe as controlled negative study"
+    }
+  ]
+}
