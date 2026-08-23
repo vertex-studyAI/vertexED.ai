@@ -63,7 +63,10 @@ test('recovered blocker refinements remain blocked rather than being promoted by
   const rows = resolvedRows();
   const expectations = {
     'T2424-0006': 'LGWM_P_SERIES_PILOT_T_CROSSWALK_UNRESOLVED',
+    'T2424-0008': 'SPEECHLY_USER_DEFINED_UNVERIFIED_REGISTRY_PATCH',
     'T2424-0009': 'COLORWORLD_NO_AUTHORITATIVE_DEFINITION_OR_REPO',
+    'T2424-0010': 'NEUROCARE_CONCEPT_SOURCE_EVIDENCE_RECOVERY_REQUIRED',
+    'T2424-0011': 'HERMES_ARCHITECTURE_NO_VERIFIED_12B_CHECKPOINT',
     'T2424-0020': 'ATG_ATLAS_EXECUTION_CANONICAL_CROSSWALK_REQUIRED',
     'T2424-0021': 'NFGM_SOURCE_AND_LITERATURE_MATRIX_ABSENT',
     'T2424-0022': 'PBJEPA_ACCESS_BLOCKED_SOURCE_NOT_RECOVERED',
@@ -77,6 +80,21 @@ test('recovered blocker refinements remain blocked rather than being promoted by
     assert.equal(row.evidence_specific_override, true);
     assert.equal(row.incremental_recovery_override, true);
   }
+});
+
+test('health, speech and foundation-model planning cannot be promoted to implementation evidence', () => {
+  const rows = resolvedRows();
+  const speechly = rows.find((row) => row.id === 'T2424-0008');
+  const neurocare = rows.find((row) => row.id === 'T2424-0010');
+  const hermes = rows.find((row) => row.id === 'T2424-0011');
+
+  assert.equal(speechly?.disposition, 'BLOCKED');
+  assert.match(speechly?.note ?? '', /UNVERIFIED/);
+  assert.equal(neurocare?.disposition, 'BLOCKED');
+  assert.match(neurocare?.note ?? '', /human review/);
+  assert.doesNotMatch(neurocare?.note ?? '', /validated clinical/);
+  assert.equal(hermes?.disposition, 'BLOCKED');
+  assert.match(hermes?.note ?? '', /weights\/checkpoint/);
 });
 
 test('FI-JEPA resolves from its verified retained patch rather than the generic missing-source default', () => {
