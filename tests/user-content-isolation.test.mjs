@@ -40,11 +40,15 @@ test('user-content deletes require both artifact id and verified user ownership'
   );
 });
 
-test('planner replacement deletes only the current user planner rows', () => {
-  const plannerReplaceIndex = source.indexOf("kind === 'planner' && body?.replace === true");
-  const insertIndex = source.indexOf(".insert({", plannerReplaceIndex);
-  const plannerReplaceBlock = source.slice(plannerReplaceIndex, insertIndex);
+test('planner replacement delegates to the non-destructive owner-scoped helper', () => {
+  const postStart = source.indexOf("if (req.method === 'POST')");
+  const putStart = source.indexOf("if (req.method === 'PUT'", postStart);
+  const postBranch = source.slice(postStart, putStart);
 
-  assert.ok(plannerReplaceIndex >= 0, 'planner replace branch must exist');
-  assert.match(plannerReplaceBlock, /\.delete\(\)[\s\S]*?\.eq\('user_id', user\.id\)[\s\S]*?\.eq\('kind', 'planner'\)/);
+  assert.ok(postStart >= 0 && putStart > postStart, 'POST branch must be present');
+  assert.match(
+    postBranch,
+    /kind === 'planner' && body\?\.replace === true[\s\S]*?replacePlannerArtifact\(supabase, \{[\s\S]*?userId:\s*user\.id/,
+  );
+  assert.doesNotMatch(postBranch, /\.delete\(\)/, 'planner replacement must not delete the prior snapshot before the replacement write succeeds');
 });
