@@ -1,0 +1,123 @@
+\documentclass{article}
+\usepackage[dblblindworkshop,nonatbib]{neurips_2026}
+\workshoptitle{Interpretability for Discovery}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{booktabs}
+\usepackage{amsmath,amssymb}
+\usepackage{microtype}
+\usepackage{url}
+\usepackage{xcolor}
+
+\title{Counterfactual Representation Surgery: Paired Interventions Reveal When Concept Erasure Preserves Task Structure}
+\author{Anonymous Author(s)}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Interpretability methods that erase a decodable concept can also delete task-relevant structure when the concept is spuriously correlated with the prediction target. We study a controlled alternative, Counterfactual Representation Surgery (CRS), which estimates a concept subspace from paired representations that share the same latent task state while the concept is intervened upon. Across 30 fixed seeds in a nonlinear synthetic benchmark with severe train-time concept--label correlation, CRS reduces a linear concept probe from 99.7\% to 49.9\% accuracy while increasing out-of-distribution task accuracy from 82.3\% to 88.6\%. A one-direction mean projection reaches similar linear erasure but only 76.7\% task accuracy, while an iterative-nullspace baseline reaches 66.8\% task accuracy and leaves 57.7\% concept accuracy. A preregistered-style stress test supplies the important negative result: as counterfactual pairs become badly mismatched, concept information returns even while task accuracy remains relatively stable. The evidence supports a narrow interpretability lesson---paired interventions can isolate task-safer directions under controlled conditions, but successful linear erasure is not a guarantee of robust or causal removal.
+\end{abstract}
+
+\section{Introduction}
+A recurring problem in representation interpretation is that \emph{decodable} information need not be the information a downstream model causally uses. Linear concept erasure can therefore appear successful while either leaving nonlinear leakage or removing features that support the task. Iterative nullspace projection (INLP) removes probe directions repeatedly \cite{ravfogel2020}; LEACE gives a closed-form minimum-distortion linear erasure map \cite{belrose2023}; amnesic probing and causal localization work emphasize the gap between localization, decodability, and behavioral intervention \cite{elazar2021,hase2023,meng2022}.
+
+We test one mechanism for making the intervention target less dependent on observational correlations. Suppose we can construct paired internal states that hold task content fixed while a concept is changed. Their representation difference should cancel shared task state and emphasize the concept-associated change. CRS estimates the low-rank span of those paired differences and projects representations onto its orthogonal complement.
+
+This paper makes three deliberately bounded contributions. First, it gives an executable paired-intervention mechanism and tests it against simple matched erasure baselines. Second, it reports a 30-seed controlled result in which CRS preserves more out-of-distribution task information while achieving chance-level linear concept probing. Third, it treats a failure condition as a primary result: pair mismatch eventually restores concept leakage. We do \textbf{not} claim that the synthetic benchmark establishes causal fairness, nonlinear erasure, real-domain discovery, or state-of-the-art concept removal.
+
+\section{Method}
+For paired representations $(h_i^+,h_i^-)$ sharing latent task state but differing in concept value, define
+\[
+\Delta_i = h_i^+ - h_i^-.
+\]
+Let $B\in\mathbb{R}^{d\times r}$ contain the top $r$ right singular vectors of the stacked difference matrix $\Delta$. CRS applies
+\[
+T(h)=h-hBB^\top.
+\]
+Under an additive structural model $h=f(z)+B_c g(z,c)+\epsilon$, exact pairs with shared $z$ remove the common $f(z)$ term from the difference. If the paired differences span the concept-associated linear subspace, the projection removes that span while retaining task components orthogonal to it. This is a controlled linear statement, not a theorem that all concept information or causal effects are removed.
+
+\paragraph{Falsification rule.}
+The mechanism-level interpretation fails if its apparent advantage is reproduced by unequal information access, leakage, unequal tuning, or a matched control; it is also weakened if modest pair error reintroduces substantial concept information. This rule was fixed before interpreting the pair-mismatch extension.
+
+\section{Controlled experiment}
+The generator creates 24-dimensional representations from five latent task variables. In training, the binary concept agrees with the task label 90\% of the time; at test time it is sampled independently. The concept contribution has a constant direction plus task-state-dependent directions, so a single mean direction is intentionally incomplete. Seven hundred exact counterfactual pairs calibrate CRS. After each transformation, logistic task and concept probes are refit with the same train/test protocol. Results are averaged over seeds 0--29.
+
+We compare four conditions: no surgery; one-direction mean projection; a five-step INLP-style removal baseline; and rank-three CRS. The primary summary is the pair $(\text{OOD task accuracy},\text{concept-probe accuracy})$. We additionally report an erasure score $1-2|a_c-0.5|$ and a simple joint score $a_t-|a_c-0.5|$ only as compact diagnostics, not universal objectives.
+
+\begin{table}[t]
+\centering
+\caption{Thirty-seed controlled results. Concept-probe accuracy near 0.5 is stronger linear erasure; higher OOD task accuracy is better preservation.}
+\small
+\begin{tabular}{lrrrr}
+\toprule
+Method & OOD task & Concept probe & Erasure & Joint score\\
+\midrule
+CRS & \textbf{0.8865} & 0.4993 & 0.9843 & \textbf{0.8786}\\
+Mean projection & 0.7672 & \textbf{0.4991} & \textbf{0.9846} & 0.7595\\
+INLP-style & 0.6681 & 0.5774 & 0.8451 & 0.5906\\
+None & 0.8233 & 0.9968 & 0.0065 & 0.3265\\
+\bottomrule
+\end{tabular}
+\label{tab:main}
+\end{table}
+
+\section{Results and failure analysis}
+Table~\ref{tab:main} shows the central controlled result. CRS reaches chance-level linear concept probing while improving OOD task accuracy over the unedited representation. The mean projection achieves essentially the same linear probe score but sacrifices 11.9 percentage points of OOD task accuracy relative to CRS. The INLP-style condition removes more task structure and still leaves above-chance concept decodability. The result is consistent with the hypothesis that exact paired differences identify a multi-dimensional concept-associated subspace that is less contaminated by the observational task--concept correlation.
+
+The stronger test is whether the conclusion survives imperfect counterfactual pairs. We independently perturb each member of each calibration pair and evaluate both linear and random-forest concept probes. Table~\ref{tab:noise} gives the full fixed stress ladder.
+
+\begin{table}[t]
+\centering
+\caption{Pair-mismatch stress test. Severe mismatch restores concept leakage; this is a boundary condition, not a post-hoc exclusion.}
+\small
+\begin{tabular}{rrrr}
+\toprule
+Pair noise & OOD task & Linear probe & Nonlinear probe\\
+\midrule
+0.00 & 0.885 & 0.500 & 0.498\\
+0.15 & 0.879 & 0.510 & 0.508\\
+0.35 & 0.878 & 0.519 & 0.495\\
+0.70 & 0.877 & 0.614 & 0.517\\
+1.20 & 0.857 & 0.787 & 0.571\\
+\bottomrule
+\end{tabular}
+\label{tab:noise}
+\end{table}
+
+At low and moderate mismatch, task preservation changes little and both probes remain near chance. At noise 0.70, however, linear concept accuracy rises to 0.614; at 1.20 it reaches 0.787, with the nonlinear probe also rising to 0.571. Thus the method does not provide unconditional concept erasure. More importantly for interpretability, the task metric alone would conceal this degradation: task accuracy remains 0.857 even at the largest mismatch. An interpretation pipeline that validated only downstream accuracy could therefore report a stable intervention while the allegedly removed concept had become recoverable again.
+
+\section{What this says about interpretability for discovery}
+The experiment is not itself a scientific-domain discovery. Its contribution to discovery-oriented interpretability is methodological: it isolates a validation pattern that can distinguish a plausible intervention from a misleading one. Three lessons transfer directly to future scientific-model studies.
+
+\textbf{Interventions need information-access controls.} A probe direction estimated from observational labels can mix target concept and task information. Matched counterfactual differences provide a cleaner test when such pairs are scientifically defensible.
+
+\textbf{Erasure must be evaluated behaviorally and adversarially.} Chance linear probing is insufficient. The pair-noise study shows why at least one nonlinear adversary and an independent task-preservation measure are needed.
+
+\textbf{Counterfactual quality is part of the scientific claim.} Approximate pairs can be useful, but pair fidelity is not a nuisance detail: it directly controls whether the inferred subspace remains interpretable. In a real discovery setting, the pairing mechanism therefore requires domain validation rather than being assumed correct.
+
+These points also set the next experiment: move from exact synthetic pairs to a domain where interventions or matched states have independent scientific meaning, and compare CRS directly with established concept-erasure and attribution methods under matched compute and information budgets.
+
+\section{Reproducibility, limitations, and responsible use}
+\paragraph{Reproducibility.}
+The anonymous supplement contains the exact generator, four transformation conditions, 30-seed experiment, pair-noise extension, tests, raw per-seed CSVs, aggregate tables, statistical JSON, and SHA-256 manifest. A fresh replay of the recovered release source passes 39/39 portfolio tests and reproduces the table values. The experiment uses no private dataset, pretrained checkpoint, or external API.
+
+\paragraph{Limitations.}
+The benchmark is synthetic; pairs are generated from known latent state; the main erasure mechanism is linear and low rank; the downstream task and base probes are logistic; and the nonlinear stress test uses a random forest rather than an exhaustive adversary. The study therefore establishes a controlled mechanism and a concrete failure mode, not external validity or causal fairness. We intentionally do not interpret chance probe accuracy as proof that the concept is absent from the representation.
+
+\paragraph{Responsible-use statement.}
+Concept-erasure tools can create false confidence if used to certify fairness, privacy, safety, or scientific causality. A representation that defeats one probe may still encode sensitive or decision-relevant information, and badly constructed counterfactual pairs can produce misleading interventions. We recommend treating CRS-like methods as diagnostic research tools: use multiple adversaries, preserve downstream and subgroup failure analyses, validate the semantics of counterfactual pairs with domain experts, and never use probe erasure alone to certify high-stakes deployment. The present artifact contains synthetic data only and is not intended for medical, legal, employment, financial, or other consequential decisions.
+
+\section{Conclusion}
+Paired counterfactual differences can identify a task-safer linear intervention subspace in a controlled setting, but their value depends on the quality of the pairing assumption. CRS improves OOD task preservation while driving a linear concept probe to chance across 30 seeds; under severe pair mismatch, concept leakage returns even though task accuracy remains comparatively stable. The scientifically useful outcome is therefore two-sided: a positive mechanism result and a falsifiable warning about when that interpretation stops being trustworthy.
+
+\clearpage
+\begin{thebibliography}{9}
+\bibitem{ravfogel2020} S. Ravfogel, Y. Elazar, H. Gonen, M. Twiton, and Y. Goldberg. Null It Out: Guarding protected attributes by iterative nullspace projection. ACL, 2020.
+\bibitem{belrose2023} N. Belrose et al. LEACE: Perfect linear concept erasure in closed form. NeurIPS, 2023.
+\bibitem{elazar2021} Y. Elazar, S. Ravfogel, A. Jacovi, and Y. Goldberg. Amnesic probing: Behavioral explanation with amnesic counterfactuals. TACL, 9:160--175, 2021.
+\bibitem{hase2023} P. Hase et al. Does localization inform editing? Surprising differences in causality-based localization vs. knowledge editing in language models. NeurIPS, 2023.
+\bibitem{meng2022} K. Meng, D. Bau, A. Andonian, and Y. Belinkov. Locating and editing factual associations in GPT. NeurIPS, 2022.
+\bibitem{kusner2017} M. J. Kusner, J. Loftus, C. Russell, and R. Silva. Counterfactual fairness. NeurIPS, 2017.
+\end{thebibliography}
+\end{document}
