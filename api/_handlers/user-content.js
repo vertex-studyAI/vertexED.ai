@@ -3,6 +3,7 @@ import { getSupabaseAdmin } from '../_lib/supabaseAdmin.js';
 import { getQueryNumber, getQueryParam } from '../_lib/query.js';
 import { checkRateLimit } from '../_lib/rateLimit.js';
 import { isValidUuid } from '../_lib/security.js';
+import { replacePlannerArtifact } from '../_lib/userContentStore.js';
 
 const ALLOWED_KINDS = new Set(['note', 'review', 'paper', 'planner', 'notebook']);
 const MAX_PAYLOAD_BYTES = 256 * 1024;
@@ -73,27 +74,27 @@ export default async function handler(req, res) {
         return res.status(413).json({ error: 'Artifact payload is too large.' });
       }
 
-      if (kind === 'planner' && body?.replace === true) {
-        const { error: deleteError } = await supabase
-          .from('user_study_artifacts')
-          .delete()
-          .eq('user_id', user.id)
-          .eq('kind', 'planner');
-        if (deleteError) throw deleteError;
-      }
+      const updatedAt = new Date().toISOString();
+      const writeResult = kind === 'planner' && body?.replace === true
+        ? await replacePlannerArtifact(supabase, {
+            userId: user.id,
+            title,
+            payload: payloadValue,
+            updatedAt,
+          })
+        : await supabase
+            .from('user_study_artifacts')
+            .insert({
+              user_id: user.id,
+              kind,
+              title,
+              payload: payloadValue,
+              updated_at: updatedAt,
+            })
+            .select('id, kind, title, created_at, updated_at')
+            .single();
 
-      const { data, error } = await supabase
-        .from('user_study_artifacts')
-        .insert({
-          user_id: user.id,
-          kind,
-          title,
-          payload: payloadValue,
-          updated_at: new Date().toISOString(),
-        })
-        .select('id, kind, title, created_at, updated_at')
-        .single();
-
+      const { data, error } = writeResult;
       if (error) {
         if (error.code === '42P01') {
           return res.status(503).json({
