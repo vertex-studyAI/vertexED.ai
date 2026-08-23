@@ -156,12 +156,14 @@ jobs:
               | node --input-type=module -e "let data=''; for await (const chunk of process.stdin) data += chunk; try { process.stdout.write(JSON.parse(data).object.sha ?? '') } catch {}" \
               || true)"
 
-            cdn_url=""
+            canonical_cdn_url=""
+            compatibility_cdn_url=""
             if [ -n "$release_sha" ]; then
-              cdn_url="https://cdn.jsdelivr.net/gh/${GITHUB_REPOSITORY}@${release_sha}/index.html"
+              canonical_cdn_url="https://cdn.jsdelivr.net/gh/${GITHUB_REPOSITORY}@${release_sha}/neurocad/index.html"
+              compatibility_cdn_url="https://cdn.jsdelivr.net/gh/${GITHUB_REPOSITORY}@${release_sha}/index.html"
             fi
 
-            for url in "$primary_url" "$pages_url" "$cdn_url"; do
+            for url in "$primary_url" "$pages_url" "$canonical_cdn_url" "$compatibility_cdn_url"; do
               [ -n "$url" ] || continue
               echo "[neurocad-smoke] checking ${url}"
               page="$(curl --silent --fail "$url" || true)"
@@ -173,6 +175,8 @@ jobs:
                 fi
                 echo "[neurocad-smoke] matched artifact ${expected_artifact_revision} at ${url} from repository revision ${served_repository_revision}"
                 echo "NEUROCAD_PRODUCTION_URL=${url}" >> "$GITHUB_ENV"
+                echo "NEUROCAD_SERVED_REVISION=${served_repository_revision}" >> "$GITHUB_ENV"
+                echo "NEUROCAD_ARTIFACT_REVISION=${expected_artifact_revision}" >> "$GITHUB_ENV"
                 matched=1
                 break 2
               fi
@@ -192,6 +196,18 @@ jobs:
           test -n "${NEUROCAD_PRODUCTION_URL:-}"
           NEUROCAD_BASE_URL="$NEUROCAD_PRODUCTION_URL" npx playwright test e2e/neurocad-alpha.spec.ts --project=desktop-1440
 
+      - name: Record production identity evidence
+        if: always()
+        shell: bash
+        run: |
+          mkdir -p artifacts/neurocad-production
+          cat > artifacts/neurocad-production/identity.txt <<EOF
+          public_url=${NEUROCAD_PRODUCTION_URL:-UNVERIFIED}
+          served_repository_revision=${NEUROCAD_SERVED_REVISION:-UNVERIFIED}
+          artifact_revision=${NEUROCAD_ARTIFACT_REVISION:-UNVERIFIED}
+          tested_from_main_revision=${GITHUB_SHA}
+          EOF
+
       - name: Upload NeuroCAD production evidence
         if: always()
         uses: actions/upload-artifact@v7
@@ -199,6 +215,7 @@ jobs:
           name: neurocad-alpha-production-evidence
           path: |
             artifacts/neurocad-alpha
+            artifacts/neurocad-production
             playwright-report
             test-results/neurocad-alpha
             test-results
