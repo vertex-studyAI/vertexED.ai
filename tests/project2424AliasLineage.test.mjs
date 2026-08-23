@@ -26,6 +26,21 @@ test('PST and NPMS aliases are corroborated without inventing source migration',
   assert.equal(npms.status, 'ALIAS_CORROBORATED_SOURCE_MIGRATION_BLOCKED');
 });
 
+test('recovered PEN remains a candidate crosswalk and cannot be silently assigned T2424-0033', () => {
+  const pen = lineage.candidate_aliases_requiring_crosswalk.find(
+    (row) => row.canonical_candidate_id === 'T2424-0033',
+  );
+  assert.ok(pen);
+  assert.equal(pen.recovered_identity, 'MODEL-PEN');
+  assert.equal(pen.source_migration_complete, false);
+  assert.equal(pen.status, 'CANDIDATE_ALIAS_CROSSWALK_REQUIRED');
+  assert.equal(
+    lineage.corroborated_aliases.some((row) => row.canonical_id === 'T2424-0033'),
+    false,
+  );
+  assert.ok(pen.negative_findings_to_preserve.some((finding) => finding.includes('attention-only')));
+});
+
 test('known P-series relationships remain unresolved unless explicitly crosswalked', () => {
   assert.ok(lineage.known_explicit_P_namespace_relationships.length >= 5);
   for (const row of lineage.known_explicit_P_namespace_relationships) {
