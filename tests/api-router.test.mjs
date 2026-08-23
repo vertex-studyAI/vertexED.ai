@@ -52,6 +52,29 @@ test('ensureJsonBody parses JSON for DELETE requests', async () => {
   assert.equal(req.body.id, 'abc-123');
 });
 
+test('ensureJsonBody honors a route-specific body limit', async () => {
+  const payload = JSON.stringify({ value: '1234567890' });
+  const makeRequest = () => ({
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: undefined,
+    on(event, cb) {
+      if (event === 'data') cb(Buffer.from(payload));
+      if (event === 'end') cb();
+    },
+  });
+
+  const tooSmall = makeRequest();
+  await ensureJsonBody(tooSmall, 5);
+  assert.equal(tooSmall._bodyTooLarge, true);
+
+  const largeEnough = makeRequest();
+  await ensureJsonBody(largeEnough, Buffer.byteLength(payload));
+  assert.equal(largeEnough._bodyTooLarge, undefined);
+  assert.equal(largeEnough.body.value, '1234567890');
+  assert.equal(ROUTES.review.maxBodyBytes, 6 * 1024 * 1024);
+});
+
 test('dispatchRoute rejects malformed JSON before loading a handler', async () => {
   const { req, res, getStatus, getJson } = createMocks({
     method: 'POST',
