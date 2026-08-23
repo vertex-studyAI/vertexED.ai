@@ -76,6 +76,13 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
+          # `npm run build:ci` intentionally stamps tracked generated files such as
+          # api/_generated/build-revision.js and may refresh public/sitemap.xml.
+          # The release payload is already copied outside the working tree, so restore
+          # the source checkout before switching branches. Otherwise Git refuses the
+          # checkout and the immutable release cannot be published.
+          git reset --hard HEAD
+
           if git ls-remote --exit-code origin refs/heads/neurocad-public >/dev/null 2>&1; then
             git fetch origin neurocad-public:refs/remotes/origin/neurocad-public
             git checkout -B neurocad-public refs/remotes/origin/neurocad-public
