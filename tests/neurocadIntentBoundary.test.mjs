@@ -24,6 +24,27 @@ test("flanged-tube intent preserves explicit dimensions instead of silently usin
   assert.deepEqual(byId.rear_flange.transform.position, [94, 0, 0]);
 });
 
+test("engineering OD shorthand preserves bounded flanged-tube dimensions", () => {
+  let result = interpretNeuroCadCommand(
+    "Create a flanged tube 200 mm long with OD 100 mm, wall 5 mm, flange OD 130 mm, and flange thickness 12 mm."
+  );
+  assert.equal(result.intent, "CREATE_ASSEMBLY");
+  assert.equal(result.diagnostics.status, "PASS");
+
+  let byId = Object.fromEntries(result.document.objects.map((object) => [object.id, object]));
+  assert.equal(byId.tube_body.dimensions.outerRadius, 50);
+  assert.equal(byId.tube_body.dimensions.innerRadius, 45);
+  assert.equal(byId.front_flange.dimensions.outerRadius, 65);
+
+  result = interpretNeuroCadCommand("Set OD to 110 mm and flange OD to 140 mm.", result.document);
+  assert.equal(result.intent, "EDIT_ASSEMBLY");
+  assert.equal(result.diagnostics.status, "PASS");
+  byId = Object.fromEntries(result.document.objects.map((object) => [object.id, object]));
+  assert.equal(byId.tube_body.dimensions.outerRadius, 55);
+  assert.equal(byId.tube_body.dimensions.innerRadius, 50);
+  assert.equal(byId.front_flange.dimensions.outerRadius, 70);
+});
+
 test("invalid signed flanged-tube dimensions fail closed instead of falling back to defaults", () => {
   assert.throws(
     () => interpretNeuroCadCommand("Create a flanged tube with length -20 mm and outer diameter 100 mm."),

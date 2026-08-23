@@ -39,7 +39,8 @@ function parseFlangedTubeParameters(text) {
     new RegExp(`(?<!flange\\s)\\b(?:tube\\s+)?outer\\s+radius\\s*(?:to|=|of|is)?\\s*(${numeric})\\s*mm\\b`, "u")
   ]);
   const outerDiameter = captureNumber(text, [
-    new RegExp(`(?<!flange\\s)\\b(?:tube\\s+)?outer\\s+diameter\\s*(?:to|=|of|is)?\\s*(${numeric})\\s*mm\\b`, "u")
+    new RegExp(`(?<!flange\\s)\\b(?:tube\\s+)?outer\\s+diameter\\s*(?:to|=|of|is)?\\s*(${numeric})\\s*mm\\b`, "u"),
+    new RegExp(`(?<!flange\\s)\\b(?:tube\\s+)?od\\s*(?:to|=|of|is)?\\s*(${numeric})\\s*mm\\b`, "u")
   ]);
   const wallThickness = captureNumber(text, [
     new RegExp(`\\bwall(?:\\s+thickness)?\\s*(?:to|=|of|is)?\\s*(${numeric})\\s*mm\\b`, "u"),
@@ -49,7 +50,8 @@ function parseFlangedTubeParameters(text) {
     new RegExp(`\\bflange\\s+outer\\s+radius\\s*(?:to|=|of|is)?\\s*(${numeric})\\s*mm\\b`, "u")
   ]);
   const flangeDiameter = captureNumber(text, [
-    new RegExp(`\\bflange(?:\\s+outer)?\\s+diameter\\s*(?:to|=|of|is)?\\s*(${numeric})\\s*mm\\b`, "u")
+    new RegExp(`\\bflange(?:\\s+outer)?\\s+diameter\\s*(?:to|=|of|is)?\\s*(${numeric})\\s*mm\\b`, "u"),
+    new RegExp(`\\bflange(?:\\s+outer)?\\s+od\\s*(?:to|=|of|is)?\\s*(${numeric})\\s*mm\\b`, "u")
   ]);
   const flangeThickness = captureNumber(text, [
     new RegExp(`\\bflange\\s+thickness\\s*(?:to|=|of|is)?\\s*(${numeric})\\s*mm\\b`, "u"),
