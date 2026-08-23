@@ -8,10 +8,25 @@
       "reason_code": "LGWM_P_SERIES_PILOT_T_CROSSWALK_UNRESOLVED",
       "note": "Frozen T2424-0006 is LGWM — Liquidation Graph World Models. Retained P-namespace inventory separately records P2424-0507 Liquidation Graph World Models as CONTROLLED_PILOT_COMPLETE with source_exists=true and explicitly says no T mapping inferred. Percy source catalogs still mark the canonical LGWM repository/revision unresolved. Preserve the P pilot as provenance, but do not promote it to the T identity until an explicit crosswalk and exact source revision are recovered."
     },
+    "T2424-0008": {
+      "disposition": "BLOCKED",
+      "reason_code": "SPEECHLY_USER_DEFINED_UNVERIFIED_REGISTRY_PATCH",
+      "note": "Frozen T2424-0008 is Speechly. The retained Speechly handoff describes a safe registry patch for a user-defined known concept, marks the evidence class UNVERIFIED and current status MUST_ADD_TO_REGISTRY, and explicitly forbids claims of implementation, validation, fairness or learning improvement without linked evidence. The planned CLI and experiment matrix are specifications only. Recover canonical source/revision and executed audio-to-feedback evidence before promotion."
+    },
     "T2424-0009": {
       "disposition": "BLOCKED",
       "reason_code": "COLORWORLD_NO_AUTHORITATIVE_DEFINITION_OR_REPO",
       "note": "Frozen T2424-0009 is Colorworld. A retained portfolio command-centre audit classifies the ColorWorld overlay as UNVERIFIED / EXTERNALLY BLOCKED with no authoritative definition or repository and unresolved datasets, baselines and metrics. The First-100 experiment matrix is a plan, not execution evidence. Recover the authoritative source and scope before implementing or publishing a scientific claim."
+    },
+    "T2424-0010": {
+      "disposition": "BLOCKED",
+      "reason_code": "NEUROCARE_CONCEPT_SOURCE_EVIDENCE_RECOVERY_REQUIRED",
+      "note": "Frozen T2424-0010 is NeuroCare. Retained command-centre evidence classifies it as Concept / SOURCE_OR_EVIDENCE_RECOVERY, while the mega-foundry record remains Not Started. No canonical clinical experiment or validated product path is recovered. Any successor must separate research from product claims, use consent/privacy/governance controls, preserve human review, and must not be framed as autonomous diagnosis."
+    },
+    "T2424-0011": {
+      "disposition": "BLOCKED",
+      "reason_code": "HERMES_ARCHITECTURE_NO_VERIFIED_12B_CHECKPOINT",
+      "note": "Frozen T2424-0011 is Hermes 12B. Retained command-centre evidence classifies it as Architecture / SOURCE_OR_EVIDENCE_RECOVERY and explicitly says not to claim the named parameter scale unless weights/checkpoint exist; the mega-foundry record remains Not Started. Recover canonical source, model weights/checkpoint provenance and a bounded eval before calling any 12B capability implemented."
     },
     "T2424-0020": {
       "disposition": "BLOCKED",
