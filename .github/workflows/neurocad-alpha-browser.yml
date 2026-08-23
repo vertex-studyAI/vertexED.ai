@@ -11,6 +11,7 @@ on:
       - 'e2e/neurocad-alpha.spec.ts'
       - 'package.json'
       - '.github/workflows/neurocad-alpha-browser.yml'
+      - '.github/workflows/neurocad-alpha-pages.yml'
   push:
     branches: [main, master]
     paths:
@@ -21,6 +22,7 @@ on:
       - 'e2e/neurocad-alpha.spec.ts'
       - 'package.json'
       - '.github/workflows/neurocad-alpha-browser.yml'
+      - '.github/workflows/neurocad-alpha-pages.yml'
 
 concurrency:
   group: neurocad-alpha-browser-${{ github.ref }}
@@ -132,37 +134,47 @@ jobs:
       - name: Install Chromium
         run: npx playwright install --with-deps chromium
 
-      - name: Wait for matching NeuroCAD production artifact
+      - name: Wait for an exact public NeuroCAD artifact
         shell: bash
         run: |
           set -euo pipefail
           expected_artifact_revision="$(node --input-type=module -e "import { computeNeuroCadArtifactRevision } from './scripts/publish-neurocad-alpha.mjs'; process.stdout.write(await computeNeuroCadArtifactRevision());")"
+          repo_name="${GITHUB_REPOSITORY#*/}"
+          pages_url="https://${GITHUB_REPOSITORY_OWNER}.github.io/${repo_name}/neurocad/"
+          primary_url="https://www.vertexed.app/neurocad/"
           matched=0
-          for attempt in $(seq 1 10); do
-            echo "[neurocad-smoke] artifact check ${attempt}/10"
-            page="$(curl --silent --fail https://www.vertexed.app/neurocad/ || true)"
-            if printf '%s' "$page" | grep -Fq "neurocad-artifact-revision\" content=\"${expected_artifact_revision}\""; then
-              served_repository_revision="$(printf '%s' "$page" | sed -n 's/.*neurocad-build-revision" content="\([0-9a-f]\{7,40\}\)".*/\1/p' | head -n 1)"
-              if [ -z "$served_repository_revision" ]; then
-                echo "[neurocad-smoke] matching artifact was served, but immutable repository provenance was missing"
-                exit 1
+
+          for attempt in $(seq 1 12); do
+            echo "[neurocad-smoke] public artifact check ${attempt}/12"
+            for url in "$primary_url" "$pages_url"; do
+              echo "[neurocad-smoke] checking ${url}"
+              page="$(curl --silent --fail "$url" || true)"
+              if printf '%s' "$page" | grep -Fq "neurocad-artifact-revision\" content=\"${expected_artifact_revision}\""; then
+                served_repository_revision="$(printf '%s' "$page" | sed -n 's/.*neurocad-build-revision" content="\([0-9a-f]\{7,40\}\)".*/\1/p' | head -n 1)"
+                if [ -z "$served_repository_revision" ]; then
+                  echo "[neurocad-smoke] matching artifact at ${url} lacked immutable repository provenance"
+                  exit 1
+                fi
+                echo "[neurocad-smoke] matched artifact ${expected_artifact_revision} at ${url} from repository revision ${served_repository_revision}"
+                echo "NEUROCAD_PRODUCTION_URL=${url}" >> "$GITHUB_ENV"
+                matched=1
+                break 2
               fi
-              echo "[neurocad-smoke] matched artifact ${expected_artifact_revision} from served repository revision ${served_repository_revision}"
-              matched=1
-              break
-            fi
+            done
             sleep 30
           done
+
           if [ "$matched" -ne 1 ]; then
-            echo "[neurocad-smoke] expected NeuroCAD artifact ${expected_artifact_revision} was not observed at /neurocad/"
+            echo "[neurocad-smoke] expected artifact ${expected_artifact_revision} was not observed on any approved public NeuroCAD host"
             exit 1
           fi
 
       - name: Run production flagship browser smoke
         env:
           CI: '1'
-          NEUROCAD_BASE_URL: https://www.vertexed.app/neurocad/
-        run: npx playwright test e2e/neurocad-alpha.spec.ts --project=desktop-1440
+        run: |
+          test -n "${NEUROCAD_PRODUCTION_URL:-}"
+          npx playwright test e2e/neurocad-alpha.spec.ts --project=desktop-1440
 
       - name: Upload NeuroCAD production evidence
         if: always()
