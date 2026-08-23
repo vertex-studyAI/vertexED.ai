@@ -1,4 +1,4 @@
-# T2424-0016 — Predictive Stability Theory (PST)
+# T2424-0016 — PST — Predictive Single-Cell Transition Score
 
 This directory is the **canonical Project 2424 evidence-recovery package** for the First-100 entry `T2424-0016`, mapped to the recovered isolated project previously identified as `MODEL-PST`.
 
