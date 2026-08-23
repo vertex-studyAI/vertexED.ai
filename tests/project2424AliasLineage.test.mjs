@@ -26,6 +26,25 @@ test('PST and NPMS aliases are corroborated without inventing source migration',
   assert.equal(npms.status, 'ALIAS_CORROBORATED_SOURCE_MIGRATION_BLOCKED');
 });
 
+test('recovered ESNF and PRC remain candidate crosswalks despite exact-name matches', () => {
+  for (const [canonicalId, recoveredId] of [
+    ['T2424-0017', 'MODEL-ESNF'],
+    ['T2424-0018', 'MODEL-PRC'],
+  ]) {
+    const row = lineage.candidate_aliases_requiring_crosswalk.find(
+      (candidate) => candidate.canonical_candidate_id === canonicalId,
+    );
+    assert.ok(row, `missing candidate ${canonicalId}`);
+    assert.equal(row.recovered_identity, recoveredId);
+    assert.equal(row.source_migration_complete, false);
+    assert.equal(row.status, 'CANDIDATE_ALIAS_CROSSWALK_REQUIRED');
+    assert.equal(
+      lineage.corroborated_aliases.some((candidate) => candidate.canonical_id === canonicalId),
+      false,
+    );
+  }
+});
+
 test('recovered PEN remains a candidate crosswalk and cannot be silently assigned T2424-0033', () => {
   const pen = lineage.candidate_aliases_requiring_crosswalk.find(
     (row) => row.canonical_candidate_id === 'T2424-0033',
