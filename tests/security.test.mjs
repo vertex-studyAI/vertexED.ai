@@ -77,14 +77,22 @@ test('validatePassword enforces complexity rules', () => {
   assert.equal(validatePassword('StrongPass1').ok, true);
 });
 
-test('validateReviewImages rejects oversized and invalid payloads', () => {
-  const tiny = 'data:image/png;base64,AAAA';
-  const ok = validateReviewImages([tiny]);
-  assert.equal(ok.ok, true);
-  assert.equal(ok.images.length, 1);
+test('validateReviewImages accepts supported base64 image payloads', () => {
+  for (const mime of ['png', 'jpeg', 'jpg', 'webp', 'gif']) {
+    const result = validateReviewImages([`data:image/${mime};base64,AAAA`]);
+    assert.equal(result.ok, true, mime);
+    assert.equal(result.images.length, 1);
+  }
+});
 
-  const badType = validateReviewImages(['https://example.com/a.png']);
-  assert.equal(badType.ok, false);
+test('validateReviewImages rejects unsupported or malformed payloads', () => {
+  const tiny = 'data:image/png;base64,AAAA';
+
+  assert.equal(validateReviewImages(['https://example.com/a.png']).ok, false);
+  assert.equal(validateReviewImages(['data:image/svg+xml;base64,PHN2Zz4=']).ok, false);
+  assert.equal(validateReviewImages(['data:image/png,AAAA']).ok, false);
+  assert.equal(validateReviewImages(['data:image/png;base64,not_base64']).ok, false);
+  assert.equal(validateReviewImages(['data:image/png;base64,AAA']).ok, false);
 
   const tooMany = validateReviewImages(Array.from({ length: MAX_REVIEW_IMAGES + 1 }, () => tiny));
   assert.equal(tooMany.ok, false);
