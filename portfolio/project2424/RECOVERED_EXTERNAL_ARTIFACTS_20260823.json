@@ -17,6 +17,23 @@
       "claim_boundary": "Fresh execution/release evidence exists for named Atlas V4 projects, but an exact canonical T2424 identity crosswalk is required before those results can promote a frozen First-100 row that is not already independently represented in the canonical repository."
     },
     {
+      "artifact_family": "MODEL-002 FinanceJEPA",
+      "kind": "isolated_project_workspace",
+      "recovered_name": "FinanceJEPA",
+      "recorded_identity": "MODEL-002",
+      "recorded_local_tests": "9 PASS",
+      "recorded_smoke_runs": 2,
+      "recorded_compact_runs": 15,
+      "recorded_compact_seeds": [7, 17, 29],
+      "recorded_proposed_return_rmse_mean": 0.05238913,
+      "recorded_proposed_volatility_rmse_mean": 0.02764112,
+      "recorded_proposed_regime_accuracy_mean": 0.74479167,
+      "recorded_persistence_return_rmse_mean": 0.06063059,
+      "canonical_T2424_candidate": "T2424-0005",
+      "canonical_T2424_crosswalk_complete": false,
+      "claim_boundary": "The provisional MODEL-002 package is a complete synthetic-controlled FinanceJEPA pilot. Frozen T2424-0005 is named FinanceJEPA / Eigen-Finance, and historical governance also records a finance-representation identity collision among FinanceJEPA, FI-JEPA, Eigen-Finance and Eigen-JEPA. Do not collapse these identities without a family crosswalk. No-EMA and no-horizon variants beat parts of the proposed aggregate, so the full representation advantage is unsupported."
+    },
+    {
       "artifact_family": "MODEL-ESNF",
       "kind": "isolated_project_workspace",
       "recovered_name": "Event-Sparse Neural Fields (ESNF)",
