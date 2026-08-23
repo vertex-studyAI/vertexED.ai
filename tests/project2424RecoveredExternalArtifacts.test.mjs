@@ -6,7 +6,7 @@ const artifactUrl = new URL('../portfolio/project2424/RECOVERED_EXTERNAL_ARTIFAC
 const evidence = JSON.parse(await readFile(artifactUrl, 'utf8'));
 
 test('recovered external artifacts never silently acquire canonical T2424 identity', () => {
-  assert.ok(evidence.artifacts.length >= 4);
+  assert.ok(evidence.artifacts.length >= 6);
   for (const artifact of evidence.artifacts) {
     if (artifact.canonical_T2424_candidate) {
       assert.equal(artifact.canonical_T2424_crosswalk_complete, false);
@@ -23,6 +23,25 @@ test('Atlas V4 recovery keeps the exact recorded release hashes and bounded veri
   assert.equal(atlas.recorded_project_count, 18);
   assert.equal(atlas.recorded_test_count, 39);
   assert.equal(atlas.recorded_manifest_file_count, 769);
+});
+
+test('recovered ESNF evidence preserves the sparse-update negative result and provisional identity', () => {
+  const esnf = evidence.artifacts.find((artifact) => artifact.artifact_family === 'MODEL-ESNF');
+  assert.ok(esnf);
+  assert.equal(esnf.canonical_T2424_candidate, 'T2424-0017');
+  assert.equal(esnf.canonical_T2424_crosswalk_complete, false);
+  assert.equal(esnf.recorded_local_tests, '10 PASS');
+  assert.equal(esnf.recorded_workspace_sha256, '686d480dcc32143499b0b563081014264dd77c6db18d801fff53253380aea118');
+  assert.ok(esnf.claim_boundary.includes('worse than dense and matched-budget uniform refinement'));
+});
+
+test('recovered PRC evidence preserves the dominant linear-autoregression baseline', () => {
+  const prc = evidence.artifacts.find((artifact) => artifact.artifact_family === 'MODEL-PRC');
+  assert.ok(prc);
+  assert.equal(prc.canonical_T2424_candidate, 'T2424-0018');
+  assert.equal(prc.canonical_T2424_crosswalk_complete, false);
+  assert.equal(prc.recorded_git_commit, 'b07342dbcb7bc1dca2284394101e0bdd751ce603');
+  assert.ok(prc.recorded_linear_autoregression_mean_rmse < prc.recorded_prc_mean_rmse);
 });
 
 test('recovered PEN evidence preserves the adverse primary-control comparison', () => {
