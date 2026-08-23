@@ -27,6 +27,14 @@ test('review image validation still fails closed for malformed attachment object
   assert.equal(validateReviewImages([{ src: 'data:image/png;base64,%%%%' }]).ok, false);
 });
 
+test('review image validation rejects malformed non-array image fields instead of dropping evidence', () => {
+  assert.equal(validateReviewImages('data:image/png;base64,AAAA').ok, false);
+  assert.equal(validateReviewImages({ src: 'data:image/png;base64,AAAA' }).ok, false);
+  assert.equal(validateReviewImages(42).ok, false);
+  assert.deepEqual(validateReviewImages(undefined), { ok: true, images: [] });
+  assert.deepEqual(validateReviewImages(null), { ok: true, images: [] });
+});
+
 test('review image validation remains backward compatible with raw data URLs', () => {
   const image = 'data:image/webp;base64,AAAA';
   const result = validateReviewImages([image]);
