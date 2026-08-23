@@ -7,16 +7,30 @@ const here = path.dirname(fileURLToPath(import.meta.url));
 const projectDir = path.resolve(here, '..');
 const queuePath = path.join(projectDir, 'FIRST_100_QUEUE.ndjson');
 const policyPath = path.join(projectDir, 'FIRST_100_DISPOSITION_POLICY_20260823.json');
+const recoveryOverridePath = path.join(projectDir, 'FIRST_100_RECOVERY_OVERRIDES_20260823.json');
 
 const queue = fs.readFileSync(queuePath, 'utf8')
   .split(/\r?\n/)
   .filter(Boolean)
   .map((line) => JSON.parse(line));
 const policy = JSON.parse(fs.readFileSync(policyPath, 'utf8'));
+const recoveryOverrides = fs.existsSync(recoveryOverridePath)
+  ? JSON.parse(fs.readFileSync(recoveryOverridePath, 'utf8'))
+  : { overrides: {} };
+const mergedOverrides = {
+  ...policy.overrides,
+  ...recoveryOverrides.overrides,
+};
 const allowed = new Set(policy.allowed_dispositions);
 
 if (queue.length !== 100) {
   throw new Error(`Expected frozen First-100 queue to contain 100 rows; found ${queue.length}`);
+}
+
+for (const id of Object.keys(recoveryOverrides.overrides)) {
+  if (!queue.some((row) => row.id === id)) {
+    throw new Error(`Recovery override targets non-First-100 identity: ${id}`);
+  }
 }
 
 const ids = new Set();
@@ -29,7 +43,7 @@ const resolved = queue.map((row, index) => {
   }
   ids.add(row.id);
 
-  const override = policy.overrides[row.id];
+  const override = mergedOverrides[row.id];
   const decision = override ?? policy.default;
   if (!allowed.has(decision.disposition)) {
     throw new Error(`Invalid disposition for ${row.id}: ${decision.disposition}`);
@@ -46,6 +60,7 @@ const resolved = queue.map((row, index) => {
     disposition: decision.disposition,
     reason_code: decision.reason_code,
     evidence_specific_override: Boolean(override),
+    incremental_recovery_override: Boolean(recoveryOverrides.overrides[row.id]),
     note: override?.note ?? policy.default.rule,
   };
 });
