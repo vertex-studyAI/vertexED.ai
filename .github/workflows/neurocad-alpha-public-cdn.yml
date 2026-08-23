@@ -68,7 +68,8 @@ jobs:
         run: |
           set -euo pipefail
           release_dir="$(mktemp -d)"
-          cp -R dist/neurocad/. "$release_dir/"
+          mkdir -p "$release_dir/neurocad"
+          cp -R dist/neurocad/. "$release_dir/neurocad/"
           touch "$release_dir/.nojekyll"
 
           git config user.name "github-actions[bot]"
@@ -84,11 +85,16 @@ jobs:
           find . -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
           cp -R "$release_dir/." .
           git add -A
-          git commit -m "release(neurocad): ${GITHUB_SHA}"
-          git push origin HEAD:neurocad-public
+
+          if git diff --cached --quiet; then
+            echo "[neurocad-cdn] generated artifact already matches current release branch; reusing immutable release commit"
+          else
+            git commit -m "release(neurocad): ${GITHUB_SHA}"
+            git push origin HEAD:neurocad-public
+          fi
 
           release_sha="$(git rev-parse HEAD)"
-          public_url="https://cdn.jsdelivr.net/gh/${GITHUB_REPOSITORY}@${release_sha}/index.html"
+          public_url="https://cdn.jsdelivr.net/gh/${GITHUB_REPOSITORY}@${release_sha}/neurocad/index.html"
           echo "release_sha=${release_sha}" >> "$GITHUB_OUTPUT"
           echo "public_url=${public_url}" >> "$GITHUB_OUTPUT"
           echo "[neurocad-cdn] public immutable release ${public_url}"
@@ -112,7 +118,7 @@ jobs:
             sleep 15
           done
           if [ "$matched" -ne 1 ]; then
-            echo "[neurocad-cdn] exact immutable artifact did not become observable"
+            echo "[neurocad-cdn] exact immutable /neurocad/ artifact did not become observable"
             exit 1
           fi
 
@@ -139,6 +145,7 @@ jobs:
           artifact_revision=${ARTIFACT_REVISION}
           release_commit=${RELEASE_SHA}
           public_url=${PUBLIC_URL}
+          route=/neurocad/
           EOF
 
       - name: Upload public release evidence
