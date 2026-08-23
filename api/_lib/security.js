@@ -115,19 +115,29 @@ export function getWaitlistRateLimitSalt() {
 export const MAX_REVIEW_IMAGES = 5;
 export const MAX_REVIEW_IMAGE_BYTES = 4 * 1024 * 1024;
 
+function getReviewImageDataUrl(image) {
+  if (typeof image === 'string') return image;
+  if (image && typeof image === 'object' && !Array.isArray(image) && typeof image.src === 'string') {
+    return image.src;
+  }
+  return null;
+}
+
 export function validateReviewImages(images) {
   if (!Array.isArray(images)) return { ok: true, images: [] };
   if (images.length > MAX_REVIEW_IMAGES) {
     return { ok: false, error: `Too many images (max ${MAX_REVIEW_IMAGES}).` };
   }
 
+  const normalizedImages = [];
   for (const image of images) {
-    if (typeof image !== 'string' || !REVIEW_IMAGE_DATA_URL_RE.test(image)) {
+    const dataUrl = getReviewImageDataUrl(image);
+    if (!dataUrl || !REVIEW_IMAGE_DATA_URL_RE.test(dataUrl)) {
       return { ok: false, error: 'Images must be PNG, JPEG, WEBP, or GIF base64 data URLs.' };
     }
 
-    const comma = image.indexOf(',');
-    const base64 = image.slice(comma + 1);
+    const comma = dataUrl.indexOf(',');
+    const base64 = dataUrl.slice(comma + 1);
     if (!base64 || base64.length % 4 !== 0 || !BASE64_RE.test(base64)) {
       return { ok: false, error: 'Images must contain valid base64 data.' };
     }
@@ -137,9 +147,10 @@ export function validateReviewImages(images) {
     if (bytes > MAX_REVIEW_IMAGE_BYTES) {
       return { ok: false, error: `Each image must be ${MAX_REVIEW_IMAGE_BYTES / (1024 * 1024)} MB or smaller.` };
     }
+    normalizedImages.push(dataUrl);
   }
 
-  return { ok: true, images };
+  return { ok: true, images: normalizedImages };
 }
 
 export function safeErrorMessage(error, fallback = 'Request failed. Please try again.') {
