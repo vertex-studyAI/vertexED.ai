@@ -1,0 +1,71 @@
+{
+  "registry_id": "T2424-0037-S3-EXTERNAL-ADAPTERS-20260823",
+  "status": "IDENTITIES_VERIFIED_NOT_MATERIALIZED",
+  "confirmatory_execution_authorized": false,
+  "required_materialized_adapters": 2,
+  "adapters": [
+    {
+      "id": "cadtestbench",
+      "name": "CADTestBench",
+      "paper": "arXiv:2605.07807",
+      "code_repository": "dimitrismallis/CADTestBench",
+      "dataset_repository": "dimitrismallis/CADTestBench",
+      "dataset_host": "huggingface",
+      "license": "MIT",
+      "public_availability": "FULL_PUBLIC_DATASET",
+      "role": "primary executable semantic/geometric/topological external adapter",
+      "selected_for_successor": true,
+      "materialized": false,
+      "materialized_revision": null,
+      "content_sha256": null,
+      "notes": "Public benchmark identity verified. Materialization still requires an exact immutable dataset revision plus record-level hashes before it may satisfy the S3 external-adapter gate."
+    },
+    {
+      "id": "muse",
+      "name": "MUSE",
+      "paper": "arXiv:2605.28579",
+      "code_repository": "dong7313/muse",
+      "dataset_repository": "dongxiaoyu/MUSE",
+      "dataset_host": "huggingface",
+      "code_license": "MIT",
+      "dataset_license": "CC-BY-4.0",
+      "public_availability": "FULL_PUBLIC_DATASET",
+      "role": "secondary engineering-design/rubric external adapter",
+      "selected_for_successor": true,
+      "materialized": false,
+      "materialized_revision": null,
+      "content_sha256": null,
+      "evaluation_boundary": "Prefer deterministic code/geometry checks for confirmatory evidence. Any model-judged rubric stage requires a separately frozen judge/provider/model/prompt identity and should be reported distinctly.",
+      "notes": "Public benchmark identity verified. It does not become materialized until an immutable dataset revision and local content hashes are frozen."
+    },
+    {
+      "id": "text2cad_bench",
+      "name": "Text2CAD-Bench",
+      "paper": "arXiv:2605.18430",
+      "dataset_repository": "AICAD/Text2CAD-Bench",
+      "dataset_host": "huggingface",
+      "public_availability": "PREVIEW_ONLY_30_PERCENT_PROMPTS",
+      "role": "related benchmark / development preview until full evaluation assets are available",
+      "selected_for_successor": false,
+      "materialized": false,
+      "materialized_revision": null,
+      "content_sha256": null,
+      "counts_toward_required_materialized_adapters": false,
+      "notes": "Public card states v1.0 exposes 30% prompts for preview. Do not treat preview access as the full 600-case benchmark or as access to withheld ground-truth assets."
+    },
+    {
+      "id": "assemcad",
+      "name": "AssemCAD",
+      "paper": "arXiv:2607.05123",
+      "code_repository": "KnowledgeXLab/ASSEMCAD",
+      "public_availability": "CODE_REFERENCE_VERIFIED_DATASET_IDENTITY_UNVERIFIED",
+      "role": "assembly-related-work reference until benchmark data identity/licensing is verified",
+      "selected_for_successor": false,
+      "materialized": false,
+      "materialized_revision": null,
+      "content_sha256": null,
+      "counts_toward_required_materialized_adapters": false
+    }
+  ],
+  "claim_boundary": "This registry freezes external benchmark identities and admissible-use boundaries only. No external adapter is materialized, no evaluation split is opened, and no S3 performance result exists."
+}
