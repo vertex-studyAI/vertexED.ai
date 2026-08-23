@@ -44,6 +44,26 @@
       "status": "ALIAS_CORROBORATED_SOURCE_MIGRATION_BLOCKED"
     }
   ],
+  "candidate_aliases_requiring_crosswalk": [
+    {
+      "canonical_candidate_id": "T2424-0033",
+      "canonical_candidate_name": "Neural Predictive Engram Networks",
+      "recovered_identity": "MODEL-PEN",
+      "recovered_name": "Predictive Engram Networks (PEN)",
+      "relationship": "HIGH_CONFIDENCE_NAME_FAMILY_CANDIDATE_NOT_CANONICALLY_PROVEN",
+      "source_migration_complete": false,
+      "evidence_boundary": "A retained MODEL-PEN handoff reports a complete isolated /mnt/data/typhon-omega/projects/MODEL-PEN package with source, six passing tests, benchmark protocol, multi-seed synthetic-controlled experiments, ablations, robustness runs, manuscript and SHA-256 workspace records. The provisional handoff explicitly states that no Project 2424 registry was mounted, so T2424-0033 must not be assigned automatically despite the close PEN name match.",
+      "negative_findings_to_preserve": [
+        "PEN only slightly beats the no-memory control on three synthetic-controlled seeds",
+        "random-write memory is slightly better than PEN on mean predictive MSE",
+        "attention-only is better than PEN on predictive and causal-event MSE",
+        "retrieval precision is low and interference is high",
+        "learned salience superiority is unsupported",
+        "the first compact objective collapsed salience/write activity and remains preserved as an invalidated run"
+      ],
+      "status": "CANDIDATE_ALIAS_CROSSWALK_REQUIRED"
+    }
+  ],
   "known_explicit_P_namespace_relationships": [
     {"name":"APEN","p_id":"P2424-0205","relationship_to_T_namespace":"UNRESOLVED_DO_NOT_COLLAPSE"},
     {"name":"RIPII","p_id":"P2424-0405","relationship_to_T_namespace":"UNRESOLVED_DO_NOT_COLLAPSE"},
