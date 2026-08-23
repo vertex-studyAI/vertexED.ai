@@ -1,36 +1,57 @@
 # BLOCKERS
 
-**As of:** 2026-08-14 convergence run. Only blockers that prevent a stronger evidence claim are listed.
+**As of:** 2026-08-23 execution run. Only blockers that prevent a stronger evidence claim are listed.
+
+## P0 PRODUCT — VertexED exact production identity + authenticated journey
+Repository-side release evidence is strong, including the current private-beta QA contract merged in PR #495. The latest retained production-health failure is still issue #137 / run `32637040541`: the public surface is reachable and logged-out boundaries pass, but `/api/health` does not expose the required immutable deployed revision. Both connected Vercel project contexts remain subject to free-tier deployment-rate limiting and the canonical project/domain owner has not been proven through the connected surface.
+
+Remaining release gates:
+- identify the single Vercel project that owns `www.vertexed.app`;
+- deploy a current release-relevant `main` revision once capacity is available;
+- prove body + `X-VertexED-Revision` expose that exact immutable SHA;
+- run the disposable private-beta journey in issue #13, including persistence, recovery, logout rejection and two-account isolation;
+- resolve the two Supabase platform warnings tracked in #42 without unapproved billing or unsafe upgrade behavior.
+
+Do not weaken the revision assertion, substitute logged-out smoke evidence for authenticated certification, expose credentials, or buy deployment capacity without an explicit owner decision.
+
+## P0 PRODUCT — NeuroCAD public artifact certification + external validation
+PR #497 merged as `54d12ecd5956292b59d6627f912a214e9f9c9136`, replacing the blocked Pages/Vercel publication path with an immutable commit-pinned CDN release workflow. The workflow has created branch `neurocad-public` at release commit `e184db4673c266a8f36301668ec923fbe00267fc`. The generated `index.html` is stamped with source revision `54d12ecd5956292b59d6627f912a214e9f9c9136` and artifact revision `sha256:aa1aa53d82c6d8aa1bbef4eddde4d205ec80f77d08ccae42d7e29984a93605cb`.
+
+Publication alone is not the final product gate. Remaining:
+- retain a successful public flagship browser-certification run against the immutable CDN URL before closing G12;
+- preserve the `VALIDATION_DOMINANT` scientific result and bounded Alpha claims;
+- complete external engineering pilots: outreach alone is not validation;
+- reach at least three evidence-backed design partners, two repeat tests and one bounded organization pilot before any enterprise-ready claim.
 
 ## P0 — Percy authoritative live state
-Live Mac SQLite/WAL/checkpoint/process/worktree state is unavailable. Preserve/hash DB+WAL+checkpoint, run integrity/schema checks, reconcile counters/leases/heartbeats/stale workers and dirty worktrees, then independently recount. Never reset or create a replacement DB.
+Live Mac SQLite/WAL/checkpoint/process/worktree state is unavailable through the connected GitHub/Supabase surfaces. Preserve/hash DB + WAL + checkpoint, run integrity/schema checks, reconcile counters/leases/heartbeats/stale workers and dirty worktrees, and independently recount. Never reset or create a replacement DB to manufacture a pass.
 
-## P0 — Project 2424 canonical source
-Umbrella source/ancestry/dirty overlay remains external. Recover and hash preserved source before source-dependent new experiments or 2,424-ID disposition claims. Registry count is not completion.
+## P0 — Project 2424 canonical source + provenance closure
+The control-plane closure work in PR #492 is still draft and must preserve negative/mixed/falsified outcomes. Umbrella source/ancestry/dirty-overlay recovery remains external for claims that depend on the canonical historical source. Issue #496 tracks the remaining evidence-changing work: authoritative historical-to-current lineage, First-100 reconciliation, PST/NPMS canonical source identity, Darcy 2D successor freeze, NeuroCAD successor identities and the IRIS exact-provenance edge.
 
-## P0 PRODUCT — VertexED production identity/security journey
-Latest retained monitor `31817794439` found a healthy public endpoint but no immutable revision identity; expected `e2ecd19ed9816f8f36369c7dc0f38e39942ca73a`; artifact `9225715176` SHA-256 `e7870e9561748ef4d4247e3bf4e01d3e8feead3780c4e2016d3742d134f2069a`. Exact served revision/deployment ID, monitor PASS and authenticated disposable-account isolation/persistence/recovery/logout/admin-boundary journey remain required. Supabase advisor also leaves leaked-password protection disabled and a hosted PostgreSQL security update open. Do not weaken the assertion or buy capacity.
+Never infer `P2424-*` ↔ `T2424-*` identity from numeric suffix alone. Registry/proposal counts are not implementation or completion counts.
 
 ## P0 — LAM owner release metadata + external validation
 Scientific negative result and internal evidence package are closed. Remaining: owner-approved license/redistribution, author list/order, `CITATION.cff`, immutable release revision/tag, and genuinely independent reproduction/review of packet `218ea1bea686cdf8c281520b2b636897bc8b8dd2`.
 
-## P0 PRODUCT — FinanceMeta source review
-Recovered `build-the-future-11/finance4all-global-reach`; `cursor/membership-security-supabase-fix@6dcc03710bb6adf9b4b722b308c40a0720bea61f` is 41 ahead / 0 behind recovered main. Fresh PR creation through this integration returns `403`. Owner-authorized path must review the existing branch and run exact-head CI/security gates. Do not recreate the commits.
+## P0 PRODUCT — FinanceMeta source hardening publication
+Canonical target is `build-the-future-11/finance4all-global-reach`. The confirmed role-escalation risk and prepared hardening package remain tracked in issue #19. This connector can read the repository but does not currently have the owner write path or FinanceMeta Supabase project required to apply and production-certify the remediation. Source readiness is not production authorization.
 
-## P0 PRODUCT — FinanceMeta production
-Live Supabase migration/RLS/env/exact deployed revision and multi-account authorization journey are unavailable. Source readiness is not production certification.
+Required external dependency: owner-authorized repository write access plus the FinanceMeta production Supabase target. Then apply the guarded hardening branch/migration, run exact-head CI/security gates, and verify normal-member role escalation is impossible before production certification.
 
 ## P0 PRODUCT — The Bu1LD production
-Canonical source recovery is closed at `ryangomez010/bu1ld-landing@daa80c1124b2a6d7d09b7669e04d29e50cffcbbe`. Production Supabase/auth/domain/deployment and role-separated journeys remain external; certify exact revision, schema/migrations, hydration, RLS/role/object boundaries, seven-role journey and cleanup.
+Canonical accessible source remains `ryangomez010/bu1ld-landing@daa80c1124b2a6d7d09b7669e04d29e50cffcbbe`. Live production certification is still blocked by inaccessible production Supabase/Cloudflare configuration and the unresolved production hydration/deployment-skew issue #84. Source-gate evidence must not override live role-journey requirements in #16.
+
+Required: exact deployed revision, coherent SSR/client build, clean hydration on desktop/mobile, production schema/RLS checks, seven-role journey, recovery/notification/export/deletion checks and cleanup evidence.
 
 ## P1 — IRIS exact residual provenance
 Checksum-backed retained source/package lineage is recovered via `d92e06deaa893bfb8273f3f781105ecb155e8aca`. Remaining: exact canonical development trajectories and exact frozen adaptation-metric provenance, then cross-hash the six frontier systems/parameters and input manifest. Seeds `1000–1029` remain forbidden; approximate regeneration is prohibited.
 
-## P1 — Darcy v2 pre-outcome safety/freeze
-Protocol is frozen and no v2 outcome exists. Scaffold `4280156c94fdac3e92ff300e743e2f2899cd4869`; safety `daf548fa9b3953c3d7e188191588a84a04c98093` removes frozen-outcome peeking and records generator provenance. Before training, explicitly approve the periodic/circulant finite-grid covariance interpretation and current OOD-D global-offset choice, then freeze B2 PCA+ridge/B3 FNO/B4 DeepONet, exact environment, hardware, budgets and final split-manifest hash. Training/ID/OOD evaluation remain forbidden until all blockers are non-null and independently checked.
+## P1 — Darcy 2D successor freeze
+The retained T2424-0050 parent remains `HOLD / MIXED_ROBUSTNESS` and must not be rescue-tuned. Before new training or test-outcome access, freeze the 2D generator/dataset hashes, ID/OOD/resolution-transfer splits, harmonic/arithmetic/PCA controls, matched FNO + DeepONet comparators, seeds, metrics, falsification criteria, compute accounting, environment/hardware/model budgets and an execution-authorization manifest. No closure automation may auto-merge/deploy this experiment.
 
 ## P1 — NPMS source identity
-Recover original source/config/checkpoint or record `SOURCE_UNRECOVERED`; preserve known negative cases and do not invent a replacement.
+Recover the original canonical source/config/result/evidence tree or close the canonical package explicitly as `SOURCE_BLOCKED`. Do not silently substitute later derived Atlas bundles. Preserve the current `PARAMETER_CONFOUNDED_OR_NON_UNIQUE` mechanism boundary and known negative cases.
 
 ## Scheduling guard
-Zero new major scientific experiment runs are authorized. Blocked work does not justify speculative substitute projects.
+Zero new major scientific experiment runs are authorized merely because a lane is blocked. Prefer closure, provenance recovery, reproducibility and independently reviewable evidence over speculative substitute projects.
