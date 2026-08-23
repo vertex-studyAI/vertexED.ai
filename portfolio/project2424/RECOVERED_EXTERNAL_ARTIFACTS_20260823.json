@@ -17,6 +17,37 @@
       "claim_boundary": "Fresh execution/release evidence exists for named Atlas V4 projects, but an exact canonical T2424 identity crosswalk is required before those results can promote a frozen First-100 row that is not already independently represented in the canonical repository."
     },
     {
+      "artifact_family": "MODEL-ESNF",
+      "kind": "isolated_project_workspace",
+      "recovered_name": "Event-Sparse Neural Fields (ESNF)",
+      "recorded_workspace": "/mnt/data/typhon-omega/projects/MODEL-ESNF",
+      "recorded_workspace_sha256": "686d480dcc32143499b0b563081014264dd77c6db18d801fff53253380aea118",
+      "recorded_local_tests": "10 PASS",
+      "recorded_compact_runs": 24,
+      "recorded_compact_seeds": [7, 19],
+      "recorded_compact_tasks": ["advection", "diffusion", "reaction-diffusion", "wave"],
+      "recorded_update_fraction_vs_dense_approx": 0.19,
+      "canonical_T2424_candidate": "T2424-0017",
+      "canonical_T2424_crosswalk_complete": false,
+      "claim_boundary": "MODEL-ESNF is a complete synthetic-controlled package with source/tests/evidence/manuscript, but the handoff explicitly says its ID is provisional because no Project 2424 registry was mounted. Its residual-triggered method reduced update count but was worse than dense and matched-budget uniform refinement on every compact analytic task; the negative result must be preserved."
+    },
+    {
+      "artifact_family": "MODEL-PRC",
+      "kind": "isolated_project_workspace_with_git_commit",
+      "recovered_name": "Physics Reservoir Computing (PRC)",
+      "recorded_workspace": "/mnt/data/typhon-omega/projects/MODEL-PRC",
+      "recorded_git_commit": "b07342dbcb7bc1dca2284394101e0bdd751ce603",
+      "recorded_local_tests": "7 PASS",
+      "recorded_compact_seeds": [11, 23, 47],
+      "recorded_prc_mean_rmse": 0.13445138787738575,
+      "recorded_unconstrained_reservoir_mean_rmse": 0.13683132734179276,
+      "recorded_linear_autoregression_mean_rmse": 0.005668026904725093,
+      "recorded_persistence_mean_rmse": 0.24086832316081944,
+      "canonical_T2424_candidate": "T2424-0018",
+      "canonical_T2424_crosswalk_complete": false,
+      "claim_boundary": "MODEL-PRC records a clean project-local Git commit, tests, smoke, compact, ablations and robustness, but its canonical ID was provisional because no Typhon registry or prior repository was mounted. Linear autoregression decisively beats the default PRC configuration on the compact oscillator and external physical validation remains unexecuted."
+    },
+    {
       "artifact_family": "MODEL-PEN",
       "kind": "isolated_project_workspace",
       "recovered_name": "Predictive Engram Networks (PEN)",
