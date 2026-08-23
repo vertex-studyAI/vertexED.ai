@@ -11,7 +11,7 @@ on:
       - 'e2e/neurocad-alpha.spec.ts'
       - 'package.json'
       - '.github/workflows/neurocad-alpha-browser.yml'
-      - '.github/workflows/neurocad-alpha-pages.yml'
+      - '.github/workflows/neurocad-alpha-public-cdn.yml'
   push:
     branches: [main, master]
     paths:
@@ -22,7 +22,7 @@ on:
       - 'e2e/neurocad-alpha.spec.ts'
       - 'package.json'
       - '.github/workflows/neurocad-alpha-browser.yml'
-      - '.github/workflows/neurocad-alpha-pages.yml'
+      - '.github/workflows/neurocad-alpha-public-cdn.yml'
 
 concurrency:
   group: neurocad-alpha-browser-${{ github.ref }}
@@ -136,6 +136,8 @@ jobs:
 
       - name: Wait for an exact public NeuroCAD artifact
         shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
           expected_artifact_revision="$(node --input-type=module -e "import { computeNeuroCadArtifactRevision } from './scripts/publish-neurocad-alpha.mjs'; process.stdout.write(await computeNeuroCadArtifactRevision());")"
@@ -144,9 +146,23 @@ jobs:
           primary_url="https://www.vertexed.app/neurocad/"
           matched=0
 
-          for attempt in $(seq 1 12); do
-            echo "[neurocad-smoke] public artifact check ${attempt}/12"
-            for url in "$primary_url" "$pages_url"; do
+          for attempt in $(seq 1 16); do
+            echo "[neurocad-smoke] public artifact check ${attempt}/16"
+
+            release_sha="$(curl --silent --fail \
+              -H "Authorization: Bearer ${GH_TOKEN}" \
+              -H "Accept: application/vnd.github+json" \
+              "https://api.github.com/repos/${GITHUB_REPOSITORY}/git/ref/heads/neurocad-public" \
+              | node --input-type=module -e "let data=''; for await (const chunk of process.stdin) data += chunk; try { process.stdout.write(JSON.parse(data).object.sha ?? '') } catch {}" \
+              || true)"
+
+            cdn_url=""
+            if [ -n "$release_sha" ]; then
+              cdn_url="https://cdn.jsdelivr.net/gh/${GITHUB_REPOSITORY}@${release_sha}/index.html"
+            fi
+
+            for url in "$primary_url" "$pages_url" "$cdn_url"; do
+              [ -n "$url" ] || continue
               echo "[neurocad-smoke] checking ${url}"
               page="$(curl --silent --fail "$url" || true)"
               if printf '%s' "$page" | grep -Fq "neurocad-artifact-revision\" content=\"${expected_artifact_revision}\""; then
@@ -161,7 +177,7 @@ jobs:
                 break 2
               fi
             done
-            sleep 30
+            sleep 15
           done
 
           if [ "$matched" -ne 1 ]; then
