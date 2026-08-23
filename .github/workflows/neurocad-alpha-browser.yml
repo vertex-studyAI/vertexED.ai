@@ -8,6 +8,7 @@ on:
       - 'scripts/publish-neurocad-alpha.mjs'
       - 'tests/neurocadProductQa.test.mjs'
       - 'tests/neurocadPublicRoute.test.mjs'
+      - 'tests/neurocadCdnWorkflowGuard.test.mjs'
       - 'e2e/neurocad-alpha.spec.ts'
       - 'package.json'
       - '.github/workflows/neurocad-alpha-browser.yml'
@@ -19,6 +20,7 @@ on:
       - 'scripts/publish-neurocad-alpha.mjs'
       - 'tests/neurocadProductQa.test.mjs'
       - 'tests/neurocadPublicRoute.test.mjs'
+      - 'tests/neurocadCdnWorkflowGuard.test.mjs'
       - 'e2e/neurocad-alpha.spec.ts'
       - 'package.json'
       - '.github/workflows/neurocad-alpha-browser.yml'
@@ -138,10 +140,8 @@ jobs:
       - name: Install Chromium
         run: npx playwright install --with-deps chromium
 
-      - name: Wait for an exact canonical public NeuroCAD artifact
+      - name: Wait for an exact executable public NeuroCAD artifact
         shell: bash
-        env:
-          GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
           expected_artifact_revision="$(node --input-type=module -e "import { computeNeuroCadArtifactRevision } from './scripts/publish-neurocad-alpha.mjs'; process.stdout.write(await computeNeuroCadArtifactRevision());")"
@@ -150,23 +150,12 @@ jobs:
           primary_url="https://www.vertexed.app/neurocad/"
           matched=0
 
+          # G12 is a browser-host certification. Artifact CDNs such as jsDelivr are
+          # intentionally excluded because jsDelivr serves HTML as text/plain for
+          # security; byte availability there is release provenance, not an app host.
           for attempt in $(seq 1 16); do
-            echo "[neurocad-smoke] canonical public artifact check ${attempt}/16"
-
-            release_sha="$(curl --silent --fail \
-              -H "Authorization: Bearer ${GH_TOKEN}" \
-              -H "Accept: application/vnd.github+json" \
-              "https://api.github.com/repos/${GITHUB_REPOSITORY}/git/ref/heads/neurocad-public" \
-              | node --input-type=module -e "let data=''; for await (const chunk of process.stdin) data += chunk; try { process.stdout.write(JSON.parse(data).object.sha ?? '') } catch {}" \
-              || true)"
-
-            canonical_cdn_url=""
-            if [ -n "$release_sha" ]; then
-              canonical_cdn_url="https://cdn.jsdelivr.net/gh/${GITHUB_REPOSITORY}@${release_sha}/neurocad/index.html"
-            fi
-
-            for url in "$primary_url" "$pages_url" "$canonical_cdn_url"; do
-              [ -n "$url" ] || continue
+            echo "[neurocad-smoke] executable public artifact check ${attempt}/16"
+            for url in "$primary_url" "$pages_url"; do
               echo "[neurocad-smoke] checking ${url}"
               page="$(curl --silent --fail "$url" || true)"
               if printf '%s' "$page" | grep -Fq "neurocad-artifact-revision\" content=\"${expected_artifact_revision}\""; then
@@ -175,7 +164,7 @@ jobs:
                   echo "[neurocad-smoke] matching artifact at ${url} lacked immutable repository provenance"
                   exit 1
                 fi
-                echo "[neurocad-smoke] matched canonical artifact ${expected_artifact_revision} at ${url} from repository revision ${served_repository_revision}"
+                echo "[neurocad-smoke] matched executable artifact ${expected_artifact_revision} at ${url} from repository revision ${served_repository_revision}"
                 echo "NEUROCAD_PRODUCTION_URL=${url}" >> "$GITHUB_ENV"
                 echo "NEUROCAD_SERVED_REVISION=${served_repository_revision}" >> "$GITHUB_ENV"
                 echo "NEUROCAD_ARTIFACT_REVISION=${expected_artifact_revision}" >> "$GITHUB_ENV"
@@ -187,7 +176,7 @@ jobs:
           done
 
           if [ "$matched" -ne 1 ]; then
-            echo "[neurocad-smoke] expected artifact ${expected_artifact_revision} was not observed on a canonical public /neurocad/ host"
+            echo "[neurocad-smoke] expected artifact ${expected_artifact_revision} was not observed on an executable canonical /neurocad/ host"
             exit 1
           fi
 
