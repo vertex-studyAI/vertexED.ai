@@ -175,6 +175,7 @@ export default function UserSettings() {
   const linkGoogleIdentity = async () => {
     if (!supabase || !user) return;
     setLinkingGoogle(true);
+    sessionStorage.setItem("vertex_google_link_return", "/user-settings");
     try {
       const { error } = await supabase.auth.linkIdentity({
         provider: "google",
@@ -182,6 +183,7 @@ export default function UserSettings() {
       });
       if (error) throw error;
     } catch (err) {
+      sessionStorage.removeItem("vertex_google_link_return");
       toast({
         title: "Could not connect Google",
         description: err instanceof Error ? err.message : "Try again.",
