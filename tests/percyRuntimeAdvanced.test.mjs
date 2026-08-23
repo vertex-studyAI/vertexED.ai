@@ -42,13 +42,14 @@ test('JSONL logger redacts credentials embedded inside provider error strings', 
   try {
     const path = join(dir, 'events.jsonl'); const log = new JsonlLogger(path);
     log.write('task_failed', {
-      error: 'provider 401 https://example.invalid?api_key=url-secret&mode=test Authorization: Bearer sk-exampleprovidersecret123456',
+      error: 'provider 401 https://example.invalid?api_key=url-secret&access_token=access-secret&mode=test Authorization: Bearer sk-exampleprovidersecret123456',
       detail: ['token=array-secret', 'password=form-secret', 'safe diagnostic'],
     });
     const raw = readFileSync(path, 'utf8').trim();
     const row = JSON.parse(raw);
-    assert.doesNotMatch(raw, /url-secret|array-secret|form-secret|sk-exampleprovidersecret123456/);
+    assert.doesNotMatch(raw, /url-secret|access-secret|array-secret|form-secret|sk-exampleprovidersecret123456/);
     assert.match(row.error, /api_key=\[REDACTED\]/);
+    assert.match(row.error, /access_token=\[REDACTED\]/);
     assert.match(row.error, /Authorization: \[REDACTED\]/);
     assert.match(row.error, /mode=test/);
     assert.equal(row.detail[0], 'token=[REDACTED]');
