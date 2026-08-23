@@ -139,24 +139,23 @@ jobs:
           EOF
 
           issue_number="$(
-            gh issue list \
-              --repo "$GITHUB_REPOSITORY" \
-              --state open \
-              --limit 100 \
-              --json number,title \
+            gh api --method GET \
+              "/repos/${GITHUB_REPOSITORY}/issues?state=open&per_page=100" \
               --jq ".[] | select(.title == \"${INCIDENT_TITLE}\") | .number" \
               | head -n 1
           )"
 
           if [ -n "$issue_number" ]; then
-            gh issue edit "$issue_number" \
-              --repo "$GITHUB_REPOSITORY" \
-              --body-file "$body_file"
+            gh api --method PATCH \
+              "/repos/${GITHUB_REPOSITORY}/issues/${issue_number}" \
+              -f "body=$(cat "$body_file")" \
+              >/dev/null
           else
-            gh issue create \
-              --repo "$GITHUB_REPOSITORY" \
-              --title "$INCIDENT_TITLE" \
-              --body-file "$body_file"
+            gh api --method POST \
+              "/repos/${GITHUB_REPOSITORY}/issues" \
+              -f "title=${INCIDENT_TITLE}" \
+              -f "body=$(cat "$body_file")" \
+              >/dev/null
           fi
 
       - name: Close recovered production incident
@@ -168,21 +167,23 @@ jobs:
           set -euo pipefail
 
           issue_number="$(
-            gh issue list \
-              --repo "$GITHUB_REPOSITORY" \
-              --state open \
-              --limit 100 \
-              --json number,title \
+            gh api --method GET \
+              "/repos/${GITHUB_REPOSITORY}/issues?state=open&per_page=100" \
               --jq ".[] | select(.title == \"${INCIDENT_TITLE}\") | .number" \
               | head -n 1
           )"
 
           if [ -n "$issue_number" ]; then
             run_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
-            gh issue close "$issue_number" \
-              --repo "$GITHUB_REPOSITORY" \
-              --reason completed \
-              --comment "Production smoke checks recovered successfully. Evidence: ${run_url}"
+            gh api --method POST \
+              "/repos/${GITHUB_REPOSITORY}/issues/${issue_number}/comments" \
+              -f "body=Production smoke checks recovered successfully. Evidence: ${run_url}" \
+              >/dev/null
+            gh api --method PATCH \
+              "/repos/${GITHUB_REPOSITORY}/issues/${issue_number}" \
+              -f state=closed \
+              -f state_reason=completed \
+              >/dev/null
           fi
 
       - name: Fail workflow when production is unhealthy
