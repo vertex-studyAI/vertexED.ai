@@ -7,6 +7,7 @@ import { execFileSync } from 'node:child_process';
 const root = process.cwd();
 const queuePath = path.join(root, 'portfolio/project2424/FIRST_100_QUEUE.ndjson');
 const policyPath = path.join(root, 'portfolio/project2424/FIRST_100_DISPOSITION_POLICY_20260823.json');
+const recoveryOverridePath = path.join(root, 'portfolio/project2424/FIRST_100_RECOVERY_OVERRIDES_20260823.json');
 const resolverPath = path.join(root, 'portfolio/project2424/tools/resolve-first-100.mjs');
 
 function queueRows() {
@@ -48,10 +49,39 @@ test('unrecovered First-100 rows fail closed instead of inheriting evidence from
   }
 });
 
+test('incremental recovery overrides target only frozen identities and remain explicit', () => {
+  const queueIds = new Set(queueRows().map((row) => row.id));
+  const recovery = JSON.parse(fs.readFileSync(recoveryOverridePath, 'utf8'));
+  for (const [id, override] of Object.entries(recovery.overrides)) {
+    assert.ok(queueIds.has(id), `${id} is not a frozen First-100 identity`);
+    assert.ok(override.reason_code);
+    assert.ok(override.note);
+  }
+});
+
+test('ATG, LGWM and PBJEPA use recovered blocker evidence without being promoted to execution-complete', () => {
+  const rows = resolvedRows();
+  const expectations = {
+    'T2424-0006': 'LGWM_P_SERIES_PILOT_T_CROSSWALK_UNRESOLVED',
+    'T2424-0020': 'ATG_ATLAS_EXECUTION_CANONICAL_CROSSWALK_REQUIRED',
+    'T2424-0022': 'PBJEPA_ACCESS_BLOCKED_SOURCE_NOT_RECOVERED',
+  };
+
+  for (const [id, reason] of Object.entries(expectations)) {
+    const row = rows.find((candidate) => candidate.id === id);
+    assert.ok(row, `missing resolved row ${id}`);
+    assert.equal(row.disposition, 'BLOCKED');
+    assert.equal(row.reason_code, reason);
+    assert.equal(row.evidence_specific_override, true);
+    assert.equal(row.incremental_recovery_override, true);
+  }
+});
+
 test('FI-JEPA resolves from its verified retained patch rather than the generic missing-source default', () => {
   const row = resolvedRows().find((candidate) => candidate.id === 'T2424-0031');
   assert.ok(row);
   assert.equal(row.disposition, 'MERGE');
   assert.equal(row.reason_code, 'VERIFIED_PATCH_TARGET_REF_CREATION_BLOCKED');
   assert.equal(row.evidence_specific_override, true);
+  assert.equal(row.incremental_recovery_override, false);
 });
