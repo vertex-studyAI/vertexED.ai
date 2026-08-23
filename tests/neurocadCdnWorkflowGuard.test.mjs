@@ -2,10 +2,11 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 
-const workflowPath = '.github/workflows/neurocad-alpha-public-cdn.yml';
+const cdnWorkflowPath = '.github/workflows/neurocad-alpha-public-cdn.yml';
+const browserWorkflowPath = '.github/workflows/neurocad-alpha-browser.yml';
 
-test('CDN release copies the artifact before restoring generated source changes and switching branches', async () => {
-  const workflow = await readFile(workflowPath, 'utf8');
+test('artifact CDN release copies the exact build before switching release branches', async () => {
+  const workflow = await readFile(cdnWorkflowPath, 'utf8');
 
   const copyIndex = workflow.indexOf('cp -R dist/neurocad/. "$release_dir/"');
   const resetIndex = workflow.indexOf('git reset --hard HEAD');
@@ -18,33 +19,25 @@ test('CDN release copies the artifact before restoring generated source changes 
   assert.ok(resetIndex < checkoutIndex, 'generated source changes must be restored before release branch checkout');
 });
 
-test('CDN release restores the exact source tree and project dependencies before browser certification', async () => {
-  const workflow = await readFile(workflowPath, 'utf8');
+test('jsDelivr is treated as immutable artifact transport, never as browser certification', async () => {
+  const workflow = await readFile(cdnWorkflowPath, 'utf8');
 
-  const publishIndex = workflow.indexOf('name: Publish generated artifact to release branch');
-  const restoreIndex = workflow.indexOf('name: Restore source checkout for certification');
-  const sourceCheckoutIndex = workflow.indexOf('git checkout --force "${GITHUB_SHA}"', restoreIndex);
-  const dependencyInstallIndex = workflow.indexOf('npm ci', restoreIndex);
-  const configGuardIndex = workflow.indexOf('test -f playwright.config.ts', restoreIndex);
-  const browserIndex = workflow.indexOf('name: Run public flagship browser certification');
-
-  assert.notEqual(publishIndex, -1, 'release publish step missing');
-  assert.notEqual(restoreIndex, -1, 'source restore step missing');
-  assert.notEqual(sourceCheckoutIndex, -1, 'exact source checkout missing');
-  assert.notEqual(dependencyInstallIndex, -1, 'post-release dependency restoration missing');
-  assert.notEqual(configGuardIndex, -1, 'Playwright config guard missing');
-  assert.notEqual(browserIndex, -1, 'public browser certification step missing');
-
-  assert.ok(publishIndex < restoreIndex, 'source should be restored only after release publication');
-  assert.ok(restoreIndex < sourceCheckoutIndex, 'exact source checkout must occur inside restore step');
-  assert.ok(sourceCheckoutIndex < dependencyInstallIndex, 'dependencies must be restored from the exact source tree');
-  assert.ok(dependencyInstallIndex < configGuardIndex, 'config guard should run after dependency/source restoration');
-  assert.ok(configGuardIndex < browserIndex, 'source/config restoration must complete before browser certification');
-});
-
-test('CDN release still requires exact source and artifact revision stamps', async () => {
-  const workflow = await readFile(workflowPath, 'utf8');
   assert.match(workflow, /neurocad-build-revision/);
   assert.match(workflow, /neurocad-artifact-revision/);
-  assert.match(workflow, /Run public flagship browser certification/);
+  assert.match(workflow, /Verify immutable CDN artifact transport/);
+  assert.match(workflow, /text\/plain/);
+  assert.match(workflow, /g12_status=OPEN_REQUIRES_EXECUTABLE_PUBLIC_HOST/);
+  assert.doesNotMatch(workflow, /Run public flagship browser certification/);
+  assert.doesNotMatch(workflow, /playwright test/);
+});
+
+test('G12 production smoke excludes jsDelivr and requires an executable canonical host', async () => {
+  const workflow = await readFile(browserWorkflowPath, 'utf8');
+  const productionSmoke = workflow.slice(workflow.indexOf('production-smoke:'));
+
+  assert.match(productionSmoke, /https:\/\/www\.vertexed\.app\/neurocad\//);
+  assert.match(productionSmoke, /github\.io\/\$\{repo_name\}\/neurocad\//);
+  assert.match(productionSmoke, /Run production flagship browser smoke/);
+  assert.match(productionSmoke, /npx playwright test e2e\/neurocad-alpha\.spec\.ts/);
+  assert.doesNotMatch(productionSmoke, /cdn\.jsdelivr\.net/);
 });
