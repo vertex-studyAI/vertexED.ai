@@ -59,11 +59,13 @@ test('incremental recovery overrides target only frozen identities and remain ex
   }
 });
 
-test('ATG, LGWM and PBJEPA use recovered blocker evidence without being promoted to execution-complete', () => {
+test('recovered blocker refinements remain blocked rather than being promoted by planning/provenance evidence', () => {
   const rows = resolvedRows();
   const expectations = {
     'T2424-0006': 'LGWM_P_SERIES_PILOT_T_CROSSWALK_UNRESOLVED',
+    'T2424-0009': 'COLORWORLD_NO_AUTHORITATIVE_DEFINITION_OR_REPO',
     'T2424-0020': 'ATG_ATLAS_EXECUTION_CANONICAL_CROSSWALK_REQUIRED',
+    'T2424-0021': 'NFGM_SOURCE_AND_LITERATURE_MATRIX_ABSENT',
     'T2424-0022': 'PBJEPA_ACCESS_BLOCKED_SOURCE_NOT_RECOVERED',
   };
 
