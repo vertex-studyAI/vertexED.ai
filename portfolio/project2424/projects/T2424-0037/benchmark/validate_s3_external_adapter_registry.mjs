@@ -30,11 +30,13 @@ export async function validateS3ExternalAdapterRegistry() {
 
   assert(cadtestbench?.dataset_repository === 'dimitrismallis/CADTestBench', 'CADTestBench dataset identity drifted');
   assert(cadtestbench?.license === 'MIT', 'CADTestBench license boundary drifted');
+  assert(cadtestbench?.observed_verified_revision_prefix === '2b9a4a9', 'CADTestBench observed revision anchor drifted');
   assert(cadtestbench?.selected_for_successor === true, 'CADTestBench must remain selected');
   assert(cadtestbench?.materialized === false, 'CADTestBench must not be marked materialized without frozen hashes');
 
   assert(muse?.dataset_repository === 'dongxiaoyu/MUSE', 'MUSE dataset identity drifted');
   assert(muse?.dataset_license === 'CC-BY-4.0', 'MUSE dataset license boundary drifted');
+  assert(muse?.observed_verified_revision_prefix === 'f8a1dc4', 'MUSE observed revision anchor drifted');
   assert(muse?.selected_for_successor === true, 'MUSE must remain selected');
   assert(muse?.materialized === false, 'MUSE must not be marked materialized without frozen hashes');
   assert(muse?.evaluation_boundary?.includes('frozen judge/provider/model/prompt identity'), 'MUSE model-judge freeze boundary missing');
@@ -49,11 +51,13 @@ export async function validateS3ExternalAdapterRegistry() {
   assert(selected.length === 2, `expected exactly two selected feasible adapter identities, found ${selected.length}`);
   assert(materialized.length === 0, 'no external adapter may be materialized by identity registry alone');
   assert(materializedEligible.length < registry.required_materialized_adapters, 'identity registry unexpectedly satisfies execution materialization gate');
+  assert(registry.materialization_network_note?.includes('full dataset SHAs and content hashes were not fabricated'), 'runtime network limitation must be documented instead of guessed around');
 
   return {
     registry_id: registry.registry_id,
     verdict: 'PASS_EXTERNAL_ADAPTER_IDENTITY_GATE',
     selected_adapter_ids: selected.map((item) => item.id),
+    observed_revision_prefixes: Object.fromEntries(selected.map((item) => [item.id, item.observed_verified_revision_prefix])),
     materialized_count: materialized.length,
     required_materialized_adapters: registry.required_materialized_adapters,
     confirmatory_execution_authorized: registry.confirmatory_execution_authorized,
