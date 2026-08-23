@@ -1,22 +1,24 @@
 # T2424-0019 Status
 
 **Project:** NPMS — Neural Predictive Memory Spectroscopy  
-**Recovered/source alias:** Neural Predictive Memory Spectroscopy (NPMS) / `MODEL-NPMS`
+**Recovered/source aliases:** `MODEL-NPMS`, `MODEL-007`, NPMS
 
-State: `RECOVERED_COMPACT_EVIDENCE / SOURCE_MIGRATION_PENDING / EXTERNAL_UNVALIDATED`
+State: `ALIAS_CORROBORATED / RECOVERED_COMPACT_EVIDENCE / SOURCE_ARCHIVE_BYTES_UNAVAILABLE / EXTERNAL_UNVALIDATED`
 
 Certified complete: **NO**
 
 ## Canonical identity
 
-The frozen First-100 queue is authoritative for Project 2424 identity. `T2424-0019` therefore uses the canonical title **NPMS — Neural Predictive Memory Spectroscopy**. The retained isolated package uses `MODEL-NPMS`; that provisional/source label remains provenance only.
+The frozen First-100 queue is authoritative: `T2424-0019` is **NPMS — Neural Predictive Memory Spectroscopy**.
 
-- Project 2424 ID: `T2424-0019`
-- Recovered provisional ID: `MODEL-NPMS`
-- Canonical queue name: NPMS — Neural Predictive Memory Spectroscopy
-- Protected role: diagnostic interpretation of predictive memory through spectral, temporal and intervention-based analysis
+Two independent retained provenance surfaces corroborate the historical source-family aliasing:
 
-## Recovered isolated execution
+- the isolated handoff names the source package `MODEL-NPMS`;
+- the retained Typhon task registry maps `MODEL-007` to canonical name `NPMS`.
+
+These aliases reduce identity ambiguity but do **not** establish that the missing original source/config/raw-log tree has been migrated into this Git identity.
+
+## Recovered controlled execution
 
 - 17 tests passed;
 - smoke: 2 runs;
@@ -25,7 +27,7 @@ The frozen First-100 queue is authoritative for Project 2424 identity. `T2424-00
 - evidence class: `SYNTHETIC_CONTROLLED`;
 - isolated verdict: `COMPACT_EVIDENCE_COMPLETE`.
 
-This canonical branch validates the recovered report and its claim boundaries. It has not yet migrated or rerun the original NPMS implementation.
+The retained isolated experiment report's key output hashes/metrics match the current recovered evidence report, strengthening report-level provenance. A separate Typhon clean-room workspace still retained `MODEL-007` as incomplete at portfolio level, which is consistent with a controlled package that had not reached full release/scientific completion.
 
 ## Required negative boundaries
 
@@ -38,16 +40,25 @@ The following remain first-class evidence, not cleanup targets:
 5. truncation ranks individual eigenvalues instead of conjugate groups;
 6. frequency response is an autonomous resolvent proxy rather than a complete input-output transfer function.
 
-## Hard blockers
+The broader current NPMS research family also contains an independently replayed control whose correct interpretation is `PARAMETER_CONFOUNDED_OR_NON_UNIQUE`; that result must not be overwritten by this source-recovery effort.
 
-- original source/config/result/evidence/manuscript tree is not migrated into canonical Git identity;
-- retained hashes have not been independently revalidated here;
-- clean canonical rerun is pending;
-- residual spectral verification and uncertainty quantification are missing;
-- contiguous switching fits and conjugate-group truncation need repair;
-- no actual trained-model checkpoint or external dataset has been evaluated;
-- no independent literature/manuscript audit has completed.
+## Exact source-recovery blocker
 
-## Promotion rule
+Search across the connected Git repository and available retained File Library evidence found handoffs, experiment reports, task registries, clean-room logs and archive/hash references, but **not the original `MODEL-NPMS` source/config/result/raw-log archive bytes themselves**.
 
-Do not mark `TESTED` for the original scientific implementation, `EXTERNAL_VALIDATED`, `NOVEL`, `RESEARCH_COMPLETE` or `CERTIFIED_COMPLETE` merely because this recovery validator passes. Canonical CI on this branch only verifies the evidence-recovery package and its fail-closed boundaries.
+Therefore a clean canonical rerun of the original package cannot be performed from current connected surfaces without reconstructing source from prose or substituting a later derived bundle. Both are forbidden.
+
+This is now explicit:
+
+`BLOCKED_SOURCE_ARCHIVE_BYTES_UNAVAILABLE_IN_CONNECTED_SURFACES`
+
+## Additional scientific blockers
+
+- residual spectral verification and uncertainty quantification remain incomplete;
+- contiguous switching fits and conjugate-group truncation need a separately versioned repair/evaluation if the original source is recovered;
+- no actual trained-model checkpoint or external dataset has been evaluated by this canonical recovery package;
+- no independent external literature/manuscript audit closes publication novelty.
+
+## Closure rule
+
+Either recover the exact original archive and independently rerun it, or retain this explicit source-blocked state. Do not silently substitute later Atlas-derived bundles, and do not rescue the current non-unique/negative mechanism evidence.
