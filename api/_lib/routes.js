@@ -62,7 +62,7 @@ export const ROUTES = {
     methods: ['POST'],
   },
   review: {
-    loader: () => import('../_handlers/review.ts'),
+    loader: () => import('../_handlers/review-safe.ts'),
     methods: ['POST'],
   },
   'user-content': {
