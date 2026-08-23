@@ -118,8 +118,8 @@ export function resolveRouteKey(req) {
 }
 
 export function isTestAgentsEnabled() {
-  if (process.env.ENABLE_TEST_AGENTS === 'true') return true;
-  return process.env.VERCEL_ENV !== 'production';
+  if (process.env.VERCEL_ENV === 'production') return false;
+  return process.env.ENABLE_TEST_AGENTS === 'true';
 }
 
 export async function ensureJsonBody(req) {
