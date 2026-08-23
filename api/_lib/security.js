@@ -1,5 +1,7 @@
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const REVIEW_IMAGE_DATA_URL_RE = /^data:image\/(?:png|jpe?g|webp|gif);base64,/i;
+const BASE64_RE = /^[A-Za-z0-9+/]+={0,2}$/;
 
 const DEFAULT_ALLOWED_ORIGINS = [
   'https://www.vertexed.app',
@@ -120,15 +122,18 @@ export function validateReviewImages(images) {
   }
 
   for (const image of images) {
-    if (typeof image !== 'string' || !image.startsWith('data:image/')) {
-      return { ok: false, error: 'Images must be valid data URLs.' };
+    if (typeof image !== 'string' || !REVIEW_IMAGE_DATA_URL_RE.test(image)) {
+      return { ok: false, error: 'Images must be PNG, JPEG, WEBP, or GIF base64 data URLs.' };
     }
+
     const comma = image.indexOf(',');
-    if (comma === -1) {
-      return { ok: false, error: 'Images must be valid data URLs.' };
-    }
     const base64 = image.slice(comma + 1);
-    const bytes = Math.ceil((base64.length * 3) / 4);
+    if (!base64 || base64.length % 4 !== 0 || !BASE64_RE.test(base64)) {
+      return { ok: false, error: 'Images must contain valid base64 data.' };
+    }
+
+    const padding = base64.endsWith('==') ? 2 : base64.endsWith('=') ? 1 : 0;
+    const bytes = (base64.length * 3) / 4 - padding;
     if (bytes > MAX_REVIEW_IMAGE_BYTES) {
       return { ok: false, error: `Each image must be ${MAX_REVIEW_IMAGE_BYTES / (1024 * 1024)} MB or smaller.` };
     }
