@@ -25,7 +25,20 @@ function nonNegative(value, label) {
 }
 
 function normalizePublisher(value) {
-  return String(value ?? '').trim().toLowerCase();
+  const raw = String(value ?? '').trim().toLowerCase();
+  if (!raw) return '';
+
+  const urlCandidate = /^[a-z][a-z0-9+.-]*:\/\//i.test(raw) ? raw : `https://${raw}`;
+  try {
+    const hostname = new URL(urlCandidate).hostname
+      .replace(/\.$/, '')
+      .replace(/^www\./, '');
+    if (hostname) return hostname;
+  } catch {
+    // Free-form publisher labels are allowed; normalize only obvious host aliases.
+  }
+
+  return raw.replace(/\.$/, '').replace(/^www\./, '');
 }
 
 function validateSource(source, index) {
