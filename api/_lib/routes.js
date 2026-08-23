@@ -7,7 +7,7 @@ import { MAX_JSON_BODY_BYTES } from './auth.js';
 
 export const API_VERSION = '1';
 
-/** @type {Record<string, { loader: () => Promise<{ default: Function }>, methods?: string[], rawBody?: boolean }>} */
+/** @type {Record<string, { loader: () => Promise<{ default: Function }>, methods?: string[], rawBody?: boolean, maxBodyBytes?: number }>} */
 export const ROUTES = {
   health: {
     loader: () => import('../_handlers/health.js'),
@@ -64,6 +64,7 @@ export const ROUTES = {
   review: {
     loader: () => import('../_handlers/review-safe.ts'),
     methods: ['POST'],
+    maxBodyBytes: 6 * 1024 * 1024,
   },
   'user-content': {
     loader: () => import('../_handlers/user-content.js'),
@@ -122,7 +123,7 @@ export function isTestAgentsEnabled() {
   return process.env.ENABLE_TEST_AGENTS === 'true';
 }
 
-export async function ensureJsonBody(req) {
+export async function ensureJsonBody(req, maxBytes = MAX_JSON_BODY_BYTES) {
   if (req.body !== undefined && req.body !== null) return;
   if (!BODY_METHODS.has(req.method)) return;
 
@@ -136,7 +137,7 @@ export async function ensureJsonBody(req) {
     await new Promise((resolve, reject) => {
       req.on('data', (chunk) => {
         totalBytes += chunk.length;
-        if (totalBytes > MAX_JSON_BODY_BYTES) {
+        if (totalBytes > maxBytes) {
           reject(new Error('BODY_TOO_LARGE'));
           return;
         }
@@ -199,7 +200,7 @@ export async function dispatchRoute(routeKey, req, res) {
   }
 
   if (!route.rawBody) {
-    await ensureJsonBody(req);
+    await ensureJsonBody(req, route.maxBodyBytes ?? MAX_JSON_BODY_BYTES);
   }
 
   if (req._bodyTooLarge) {
