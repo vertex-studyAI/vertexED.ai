@@ -1,95 +1,86 @@
-const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const REVIEW_IMAGE_DATA_URL_RE = /^data:image\/(?:png|jpe?g|webp|gif);base64,/i;
-const BASE64_RE = /^[A-Za-z0-9+/]+={0,2}$/;
+import crypto from 'node:crypto';
 
-const DEFAULT_ALLOWED_ORIGINS = [
-  'https://www.vertexed.app',
-  'https://vertexed.app',
-];
+const PROD_VALUES = new Set(['production', 'prod']);
 
 export function isProduction() {
-  return process.env.VERCEL_ENV === 'production' || process.env.NODE_ENV === 'production';
+  return PROD_VALUES.has(String(process.env.VERCEL_ENV || process.env.NODE_ENV || '').toLowerCase());
+}
+
+export function isAllowedOrigin(origin) {
+  if (!origin) return true;
+
+  try {
+    const url = new URL(origin);
+    const hostname = url.hostname.toLowerCase();
+
+    if (url.protocol !== 'https:' && !(url.protocol === 'http:' && (hostname === 'localhost' || hostname === '127.0.0.1'))) {
+      return false;
+    }
+
+    if (hostname === 'vertexed.app' || hostname === 'www.vertexed.app') return true;
+    if (!isProduction() && (hostname === 'localhost' || hostname === '127.0.0.1' || hostname.endsWith('.vercel.app'))) return true;
+    return false;
+  } catch {
+    return false;
+  }
+}
+
+export function assertAllowedOrigin(req, res) {
+  const origin = req.headers?.origin;
+  if (!isAllowedOrigin(origin)) {
+    res.status(403).json({ error: 'Origin not allowed' });
+    return false;
+  }
+  return true;
+}
+
+export function hashRateLimitIdentity(value, salt) {
+  return crypto.createHmac('sha256', salt).update(String(value)).digest('hex');
 }
 
 export function getClientIp(req) {
-  const forwarded = req.headers['x-forwarded-for'];
-  if (typeof forwarded === 'string' && forwarded.trim()) {
-    return forwarded.split(',')[0].trim();
-  }
-  const realIp = req.headers['x-real-ip'];
-  if (typeof realIp === 'string' && realIp.trim()) {
-    return realIp.trim();
-  }
-  return req.socket?.remoteAddress || 'unknown';
+  const forwarded = req.headers?.['x-forwarded-for'];
+  const first = Array.isArray(forwarded) ? forwarded[0] : forwarded;
+  if (first) return String(first).split(',')[0].trim();
+  return req.headers?.['x-real-ip'] || req.socket?.remoteAddress || 'unknown';
 }
 
-export function applyApiSecurityHeaders(res) {
-  res.setHeader('X-Content-Type-Options', 'nosniff');
-  res.setHeader('X-Frame-Options', 'DENY');
-  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
-  res.setHeader('Cache-Control', 'no-store');
-  res.setHeader('X-Robots-Tag', 'noindex, nofollow');
+export function normalizeEmail(email) {
+  return String(email || '').trim().toLowerCase();
 }
 
-function getAllowedOrigins() {
-  const extra = (process.env.ALLOWED_ORIGINS || '')
-    .split(',')
-    .map((value) => value.trim())
-    .filter(Boolean);
-  const origins = [...DEFAULT_ALLOWED_ORIGINS, ...extra];
-  if (!isProduction()) {
-    origins.push('http://localhost:8080', 'http://127.0.0.1:8080', 'http://localhost:5173', 'http://127.0.0.1:5173');
-  }
-  return origins;
+export function validateEmail(email) {
+  const value = normalizeEmail(email);
+  if (!value || value.length > 254) return false;
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) return false;
+  return true;
 }
 
-export function enforceSameOriginCors(req, res) {
-  const origin = req.headers?.origin || req.headers?.Origin;
-  if (!origin || typeof origin !== 'string') {
-    return true;
+const BASE64_RE = /^[A-Za-z0-9+/]*={0,2}$/;
+const REVIEW_IMAGE_DATA_URL_RE = /^data:image\/(?:png|jpe?g|webp|gif);base64,/i;
+
+export function validateWaitlistPayload(body) {
+  if (!body || typeof body !== 'object' || Array.isArray(body)) {
+    return { ok: false, error: 'Invalid request body' };
   }
 
-  const allowed = getAllowedOrigins();
-  if (allowed.includes(origin)) {
-    res.setHeader('Access-Control-Allow-Origin', origin);
-    res.setHeader('Vary', 'Origin');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, HEAD, POST, PUT, PATCH, DELETE, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Authorization, Content-Type');
-    res.setHeader('Access-Control-Max-Age', '600');
-    return true;
+  const email = normalizeEmail(body.email);
+  if (!validateEmail(email)) return { ok: false, error: 'Invalid email' };
+
+  if (body.source !== undefined && typeof body.source !== 'string') {
+    return { ok: false, error: 'Invalid source' };
+  }
+  if (typeof body.source === 'string' && body.source.length > 80) {
+    return { ok: false, error: 'Invalid source' };
   }
 
-  res.status(403).json({ error: 'Cross-origin requests are not allowed.' });
-  return false;
-}
-
-export function isValidUuid(value) {
-  return typeof value === 'string' && UUID_RE.test(value);
-}
-
-export function normalizeEmail(raw) {
-  if (typeof raw !== 'string') return null;
-  const email = raw.trim().toLowerCase();
-  if (!email || email.length > 254 || !EMAIL_RE.test(email)) return null;
-  return email;
-}
-
-export function validatePassword(password) {
-  const pwd = typeof password === 'string' ? password : '';
-  if (pwd.length < 10) {
-    return { ok: false, error: 'Password must be at least 10 characters.' };
-  }
-  if (pwd.length > 128) {
-    return { ok: false, error: 'Password must be 128 characters or fewer.' };
-  }
-  if (!/[a-z]/.test(pwd) || !/[A-Z]/.test(pwd) || !/[0-9]/.test(pwd)) {
-    return {
-      ok: false,
-      error: 'Password must include uppercase, lowercase, and a number.',
-    };
-  }
-  return { ok: true };
+  return {
+    ok: true,
+    value: {
+      email,
+      source: typeof body.source === 'string' && body.source.trim() ? body.source.trim() : 'website',
+    },
+  };
 }
 
 export function getWaitlistRateLimitSalt() {
@@ -124,7 +115,10 @@ function getReviewImageDataUrl(image) {
 }
 
 export function validateReviewImages(images) {
-  if (!Array.isArray(images)) return { ok: true, images: [] };
+  if (images === undefined || images === null) return { ok: true, images: [] };
+  if (!Array.isArray(images)) {
+    return { ok: false, error: 'Images must be provided as an array.' };
+  }
   if (images.length > MAX_REVIEW_IMAGES) {
     return { ok: false, error: `Too many images (max ${MAX_REVIEW_IMAGES}).` };
   }
