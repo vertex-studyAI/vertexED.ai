@@ -46,6 +46,40 @@
   ],
   "candidate_aliases_requiring_crosswalk": [
     {
+      "canonical_candidate_id": "T2424-0017",
+      "canonical_candidate_name": "ESNF — Event-Sparse Neural Fields",
+      "recovered_identity": "MODEL-ESNF",
+      "recovered_name": "Event-Sparse Neural Fields (ESNF)",
+      "relationship": "HIGH_CONFIDENCE_EXACT_NAME_CANDIDATE_NOT_CANONICALLY_PROVEN",
+      "source_migration_complete": false,
+      "evidence_boundary": "The frozen T identity inventory names T2424-0017 as ESNF — Event-Sparse Neural Fields. A retained MODEL-ESNF handoff uses the same project name and reports a complete isolated package, but explicitly states the identifier is provisional because no Project 2424 registry was mounted and no Git repository was available. Preserve the workspace hash and negative result until an explicit crosswalk is committed.",
+      "negative_findings_to_preserve": [
+        "residual-triggered ESNF uses about 19 percent of dense training point updates but has worse solution RMSE than dense and matched-budget uniform refinement on every compact analytic task",
+        "warm-start plus diversity repair did not reverse the result",
+        "threshold changes are often dominated by the hard event budget",
+        "wave residual error remains high"
+      ],
+      "status": "CANDIDATE_ALIAS_CROSSWALK_REQUIRED"
+    },
+    {
+      "canonical_candidate_id": "T2424-0018",
+      "canonical_candidate_name": "PRC — Physics Reservoir Computing",
+      "recovered_identity": "MODEL-PRC",
+      "recovered_name": "Physics Reservoir Computing (PRC)",
+      "relationship": "HIGH_CONFIDENCE_EXACT_NAME_CANDIDATE_NOT_CANONICALLY_PROVEN",
+      "source_migration_complete": false,
+      "evidence_boundary": "The frozen T identity inventory names T2424-0018 as PRC — Physics Reservoir Computing. A retained MODEL-PRC handoff uses the same project name and records clean experiment commit b07342dbcb7bc1dca2284394101e0bdd751ce603, but explicitly states the canonical ID is provisional because no Typhon registry or prior repository was mounted. Crosswalk before canonical integration.",
+      "negative_findings_to_preserve": [
+        "linear autoregression decisively outperforms the default PRC configuration on the compact oscillator",
+        "physics penalty only slightly improves mean RMSE relative to matched unconstrained reservoir and the difference is small relative to seed variability",
+        "random reservoir seed sensitivity is large",
+        "spectral radius 1.15 substantially worsens rollout",
+        "parameter shift and sparse observations strongly degrade PRC",
+        "Lorenz and diffusion runs validate code paths only and are not external evidence"
+      ],
+      "status": "CANDIDATE_ALIAS_CROSSWALK_REQUIRED"
+    },
+    {
       "canonical_candidate_id": "T2424-0033",
       "canonical_candidate_name": "Neural Predictive Engram Networks",
       "recovered_identity": "MODEL-PEN",
