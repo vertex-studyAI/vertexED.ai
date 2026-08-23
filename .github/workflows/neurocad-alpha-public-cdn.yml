@@ -1,4 +1,4 @@
-name: NeuroCAD Alpha public CDN release
+name: NeuroCAD Alpha artifact CDN release
 
 on:
   push:
@@ -20,13 +20,13 @@ permissions:
   contents: write
 
 concurrency:
-  group: neurocad-alpha-public-cdn
+  group: neurocad-alpha-artifact-cdn
   cancel-in-progress: true
 
 jobs:
-  publish-and-certify:
+  publish-and-verify:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 20
 
     steps:
       - name: Checkout source revision
@@ -77,11 +77,9 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          # `npm run build:ci` intentionally stamps tracked generated files such as
-          # api/_generated/build-revision.js and may refresh public/sitemap.xml.
-          # The release payload is already copied outside the working tree, so restore
-          # the source checkout before switching branches. Otherwise Git refuses the
-          # checkout and the immutable release cannot be published.
+          # build:ci intentionally stamps tracked generated source files. The exact
+          # release payload is already copied outside the working tree, so restore
+          # the disposable Actions checkout before switching release branches.
           git reset --hard HEAD
 
           if git ls-remote --exit-code origin refs/heads/neurocad-public >/dev/null 2>&1; then
@@ -103,33 +101,24 @@ jobs:
           fi
 
           release_sha="$(git rev-parse HEAD)"
-          public_url="https://cdn.jsdelivr.net/gh/${GITHUB_REPOSITORY}@${release_sha}/neurocad/index.html"
+          transport_url="https://cdn.jsdelivr.net/gh/${GITHUB_REPOSITORY}@${release_sha}/neurocad/index.html"
           compatibility_url="https://cdn.jsdelivr.net/gh/${GITHUB_REPOSITORY}@${release_sha}/index.html"
           echo "release_sha=${release_sha}" >> "$GITHUB_OUTPUT"
-          echo "public_url=${public_url}" >> "$GITHUB_OUTPUT"
+          echo "transport_url=${transport_url}" >> "$GITHUB_OUTPUT"
           echo "compatibility_url=${compatibility_url}" >> "$GITHUB_OUTPUT"
-          echo "[neurocad-cdn] public immutable /neurocad/ release ${public_url}"
+          echo "[neurocad-cdn] immutable artifact transport ${transport_url}"
 
-      - name: Restore source checkout for certification
-        shell: bash
-        run: |
-          set -euo pipefail
-          git checkout --force "${GITHUB_SHA}"
-          npm ci
-          test -f playwright.config.ts
-          test -f e2e/neurocad-alpha.spec.ts
-
-      - name: Wait for immutable CDN artifact
+      - name: Verify immutable CDN artifact transport
         shell: bash
         env:
-          PUBLIC_URL: ${{ steps.release.outputs.public_url }}
+          TRANSPORT_URL: ${{ steps.release.outputs.transport_url }}
           ARTIFACT_REVISION: ${{ steps.artifact.outputs.artifact_revision }}
         run: |
           set -euo pipefail
           matched=0
           for attempt in $(seq 1 20); do
             echo "[neurocad-cdn] artifact check ${attempt}/20"
-            page="$(curl --silent --show-error --fail "$PUBLIC_URL" || true)"
+            page="$(curl --silent --show-error --fail "$TRANSPORT_URL" || true)"
             if printf '%s' "$page" | grep -Fq "neurocad-artifact-revision\" content=\"${ARTIFACT_REVISION}\"" \
               && printf '%s' "$page" | grep -Fq "neurocad-build-revision\" content=\"${GITHUB_SHA}\""; then
               matched=1
@@ -138,24 +127,29 @@ jobs:
             sleep 15
           done
           if [ "$matched" -ne 1 ]; then
-            echo "[neurocad-cdn] exact immutable /neurocad/ artifact did not become observable"
+            echo "[neurocad-cdn] exact immutable artifact did not become observable"
             exit 1
           fi
 
-      - name: Install Chromium
-        run: npx playwright install --with-deps chromium
+          # jsDelivr intentionally serves HTML as text/plain for security. This URL
+          # proves immutable byte transport only; it is NOT a browser-hosted G12 app.
+          content_type="$(curl --silent --show-error --fail --head "$TRANSPORT_URL" \
+            | tr -d '\r' \
+            | awk 'BEGIN{IGNORECASE=1} /^content-type:/ {sub(/^content-type:[[:space:]]*/, ""); print; exit}')"
+          echo "[neurocad-cdn] transport content-type=${content_type:-UNKNOWN}"
+          case "${content_type,,}" in
+            text/plain*) ;;
+            *)
+              echo "[neurocad-cdn] expected jsDelivr HTML transport to remain non-executable text/plain; got ${content_type:-UNKNOWN}"
+              exit 1
+              ;;
+          esac
 
-      - name: Run public flagship browser certification
-        env:
-          CI: '1'
-          NEUROCAD_BASE_URL: ${{ steps.release.outputs.public_url }}
-        run: npx playwright test e2e/neurocad-alpha.spec.ts --project=desktop-1440
-
-      - name: Record public release evidence
+      - name: Record artifact release evidence
         if: always()
         shell: bash
         env:
-          PUBLIC_URL: ${{ steps.release.outputs.public_url }}
+          TRANSPORT_URL: ${{ steps.release.outputs.transport_url }}
           COMPATIBILITY_URL: ${{ steps.release.outputs.compatibility_url }}
           RELEASE_SHA: ${{ steps.release.outputs.release_sha }}
           ARTIFACT_REVISION: ${{ steps.artifact.outputs.artifact_revision }}
@@ -165,22 +159,21 @@ jobs:
           source_revision=${GITHUB_SHA}
           artifact_revision=${ARTIFACT_REVISION}
           release_commit=${RELEASE_SHA}
-          public_url=${PUBLIC_URL}
-          compatibility_url=${COMPATIBILITY_URL}
-          route=/neurocad/
+          artifact_transport_url=${TRANSPORT_URL}
+          compatibility_transport_url=${COMPATIBILITY_URL}
+          artifact_path=/neurocad/index.html
+          browser_host_certification=NOT_APPLICABLE_JSDELIVR_TEXT_PLAIN
+          g12_status=OPEN_REQUIRES_EXECUTABLE_PUBLIC_HOST
           EOF
 
-      - name: Upload public release evidence
+      - name: Upload artifact release evidence
         if: always()
         uses: actions/upload-artifact@v7
         with:
-          name: neurocad-alpha-public-cdn-evidence
+          name: neurocad-alpha-artifact-cdn-evidence
           path: |
             artifacts/neurocad-public-release
             artifacts/neurocad-alpha
-            playwright-report
-            test-results/neurocad-alpha
-            test-results
             dist/neurocad/release-manifest.json
           if-no-files-found: ignore
           retention-days: 30
