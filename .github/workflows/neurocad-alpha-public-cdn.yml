@@ -1,0 +1,157 @@
+name: NeuroCAD Alpha public CDN release
+
+on:
+  push:
+    branches: [main, master]
+    paths:
+      - 'portfolio/project2424/projects/T2424-0037/**'
+      - 'scripts/publish-neurocad-alpha.mjs'
+      - 'tests/neurocadProductQa.test.mjs'
+      - 'tests/neurocadPublicRoute.test.mjs'
+      - 'e2e/neurocad-alpha.spec.ts'
+      - 'package.json'
+      - 'package-lock.json'
+      - '.github/workflows/neurocad-alpha-public-cdn.yml'
+      - '.github/workflows/neurocad-alpha-browser.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: neurocad-alpha-public-cdn
+  cancel-in-progress: true
+
+jobs:
+  publish-and-certify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+
+    steps:
+      - name: Checkout source revision
+        uses: actions/checkout@v5
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run bounded NeuroCAD product QA
+        run: node --test tests/neurocadProductQa.test.mjs tests/neurocadPublicRoute.test.mjs
+
+      - name: Build exact NeuroCAD release artifact
+        run: npm run build:ci
+        env:
+          ROLLUP_SKIP_NODEJS_NATIVE: 'true'
+
+      - name: Verify exact artifact stamps
+        id: artifact
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f dist/neurocad/index.html
+          test -f dist/neurocad/release-manifest.json
+          page="$(cat dist/neurocad/index.html)"
+          printf '%s' "$page" | grep -Fq "neurocad-build-revision\" content=\"${GITHUB_SHA}\""
+          artifact_revision="$(node --input-type=module -e "import { readFile } from 'node:fs/promises'; const m=JSON.parse(await readFile('dist/neurocad/release-manifest.json','utf8')); process.stdout.write(m.artifactRevision);")"
+          printf '%s' "$page" | grep -Fq "neurocad-artifact-revision\" content=\"${artifact_revision}\""
+          echo "artifact_revision=${artifact_revision}" >> "$GITHUB_OUTPUT"
+          echo "[neurocad-cdn] verified ${artifact_revision} from ${GITHUB_SHA}"
+
+      - name: Publish generated artifact to release branch
+        id: release
+        shell: bash
+        run: |
+          set -euo pipefail
+          release_dir="$(mktemp -d)"
+          cp -R dist/neurocad/. "$release_dir/"
+          touch "$release_dir/.nojekyll"
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          if git ls-remote --exit-code origin refs/heads/neurocad-public >/dev/null 2>&1; then
+            git fetch origin neurocad-public:refs/remotes/origin/neurocad-public
+            git checkout -B neurocad-public refs/remotes/origin/neurocad-public
+          else
+            git checkout --orphan neurocad-public
+          fi
+
+          find . -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
+          cp -R "$release_dir/." .
+          git add -A
+          git commit -m "release(neurocad): ${GITHUB_SHA}"
+          git push origin HEAD:neurocad-public
+
+          release_sha="$(git rev-parse HEAD)"
+          public_url="https://cdn.jsdelivr.net/gh/${GITHUB_REPOSITORY}@${release_sha}/index.html"
+          echo "release_sha=${release_sha}" >> "$GITHUB_OUTPUT"
+          echo "public_url=${public_url}" >> "$GITHUB_OUTPUT"
+          echo "[neurocad-cdn] public immutable release ${public_url}"
+
+      - name: Wait for immutable CDN artifact
+        shell: bash
+        env:
+          PUBLIC_URL: ${{ steps.release.outputs.public_url }}
+          ARTIFACT_REVISION: ${{ steps.artifact.outputs.artifact_revision }}
+        run: |
+          set -euo pipefail
+          matched=0
+          for attempt in $(seq 1 20); do
+            echo "[neurocad-cdn] artifact check ${attempt}/20"
+            page="$(curl --silent --show-error --fail "$PUBLIC_URL" || true)"
+            if printf '%s' "$page" | grep -Fq "neurocad-artifact-revision\" content=\"${ARTIFACT_REVISION}\"" \
+              && printf '%s' "$page" | grep -Fq "neurocad-build-revision\" content=\"${GITHUB_SHA}\""; then
+              matched=1
+              break
+            fi
+            sleep 15
+          done
+          if [ "$matched" -ne 1 ]; then
+            echo "[neurocad-cdn] exact immutable artifact did not become observable"
+            exit 1
+          fi
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Run public flagship browser certification
+        env:
+          CI: '1'
+          NEUROCAD_BASE_URL: ${{ steps.release.outputs.public_url }}
+        run: npx playwright test e2e/neurocad-alpha.spec.ts --project=desktop-1440
+
+      - name: Record public release evidence
+        if: always()
+        shell: bash
+        env:
+          PUBLIC_URL: ${{ steps.release.outputs.public_url }}
+          RELEASE_SHA: ${{ steps.release.outputs.release_sha }}
+          ARTIFACT_REVISION: ${{ steps.artifact.outputs.artifact_revision }}
+        run: |
+          mkdir -p artifacts/neurocad-public-release
+          cat > artifacts/neurocad-public-release/release.txt <<EOF
+          source_revision=${GITHUB_SHA}
+          artifact_revision=${ARTIFACT_REVISION}
+          release_commit=${RELEASE_SHA}
+          public_url=${PUBLIC_URL}
+          EOF
+
+      - name: Upload public release evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: neurocad-alpha-public-cdn-evidence
+          path: |
+            artifacts/neurocad-public-release
+            artifacts/neurocad-alpha
+            playwright-report
+            test-results/neurocad-alpha
+            test-results
+            dist/neurocad/release-manifest.json
+          if-no-files-found: ignore
+          retention-days: 30
