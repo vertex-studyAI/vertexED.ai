@@ -123,11 +123,39 @@ export function isTestAgentsEnabled() {
   return process.env.ENABLE_TEST_AGENTS === 'true';
 }
 
+function parsedBodyByteLength(body) {
+  if (Buffer.isBuffer(body)) return body.length;
+  if (body instanceof Uint8Array) return body.byteLength;
+  if (typeof body === 'string') return Buffer.byteLength(body, 'utf8');
+  return Buffer.byteLength(JSON.stringify(body), 'utf8');
+}
+
 export async function ensureJsonBody(req, maxBytes = MAX_JSON_BODY_BYTES) {
-  if (req.body !== undefined && req.body !== null) return;
   if (!BODY_METHODS.has(req.method)) return;
 
-  const contentType = String(req.headers['content-type'] || '').toLowerCase();
+  const declaredLength = Number(req.headers?.['content-length'] || 0);
+  if (Number.isFinite(declaredLength) && declaredLength > maxBytes) {
+    req._bodyTooLarge = true;
+    return;
+  }
+
+  // Vercel may parse JSON before the catch-all dispatcher runs. The previous
+  // early return trusted that pre-parsed body without enforcing this route's
+  // application-level byte cap. Measure it as well so missing/incorrect
+  // Content-Length headers cannot bypass the limit.
+  if (req.body !== undefined && req.body !== null) {
+    try {
+      if (parsedBodyByteLength(req.body) > maxBytes) {
+        req._bodyTooLarge = true;
+      }
+    } catch {
+      req.body = null;
+      req._invalidJson = true;
+    }
+    return;
+  }
+
+  const contentType = String(req.headers?.['content-type'] || '').toLowerCase();
   if (contentType.includes('multipart/form-data')) return;
 
   const chunks = [];
