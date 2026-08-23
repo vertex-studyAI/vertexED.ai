@@ -14,6 +14,7 @@ function normalizeRevision(value) {
 }
 
 export function getDeploymentRevision(env = process.env, buildRevision = BUILD_REVISION) {
+  // Keep deployment identity fail-closed and sourced only from immutable build/runtime provenance.
   return (
     normalizeRevision(env.VERCEL_GIT_COMMIT_SHA) ||
     normalizeRevision(env.GITHUB_SHA) ||
