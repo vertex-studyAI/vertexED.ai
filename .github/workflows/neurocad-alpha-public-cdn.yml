@@ -8,6 +8,7 @@ on:
       - 'scripts/publish-neurocad-alpha.mjs'
       - 'tests/neurocadProductQa.test.mjs'
       - 'tests/neurocadPublicRoute.test.mjs'
+      - 'tests/neurocadCdnWorkflowGuard.test.mjs'
       - 'e2e/neurocad-alpha.spec.ts'
       - 'package.json'
       - 'package-lock.json'
@@ -108,6 +109,15 @@ jobs:
           echo "public_url=${public_url}" >> "$GITHUB_OUTPUT"
           echo "compatibility_url=${compatibility_url}" >> "$GITHUB_OUTPUT"
           echo "[neurocad-cdn] public immutable /neurocad/ release ${public_url}"
+
+      - name: Restore source checkout for certification
+        shell: bash
+        run: |
+          set -euo pipefail
+          git checkout --force "${GITHUB_SHA}"
+          npm ci
+          test -f playwright.config.ts
+          test -f e2e/neurocad-alpha.spec.ts
 
       - name: Wait for immutable CDN artifact
         shell: bash
