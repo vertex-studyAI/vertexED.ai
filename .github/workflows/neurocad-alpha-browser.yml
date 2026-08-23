@@ -174,7 +174,7 @@ jobs:
           CI: '1'
         run: |
           test -n "${NEUROCAD_PRODUCTION_URL:-}"
-          npx playwright test e2e/neurocad-alpha.spec.ts --project=desktop-1440
+          NEUROCAD_BASE_URL="$NEUROCAD_PRODUCTION_URL" npx playwright test e2e/neurocad-alpha.spec.ts --project=desktop-1440
 
       - name: Upload NeuroCAD production evidence
         if: always()
