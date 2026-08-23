@@ -36,10 +36,10 @@ function parseFlangedTubeParameters(text) {
     new RegExp(`\\b(${numeric})\\s*mm\\s*(?:long|length)\\b`, "u")
   ]);
   const outerRadius = captureNumber(text, [
-    new RegExp(`\\b(?:tube\\s+)?outer\\s+radius\\s*(?:to|=|of|is)?\\s*(${numeric})\\s*mm\\b`, "u")
+    new RegExp(`(?<!flange\\s)\\b(?:tube\\s+)?outer\\s+radius\\s*(?:to|=|of|is)?\\s*(${numeric})\\s*mm\\b`, "u")
   ]);
   const outerDiameter = captureNumber(text, [
-    new RegExp(`\\b(?:tube\\s+)?outer\\s+diameter\\s*(?:to|=|of|is)?\\s*(${numeric})\\s*mm\\b`, "u")
+    new RegExp(`(?<!flange\\s)\\b(?:tube\\s+)?outer\\s+diameter\\s*(?:to|=|of|is)?\\s*(${numeric})\\s*mm\\b`, "u")
   ]);
   const wallThickness = captureNumber(text, [
     new RegExp(`\\bwall(?:\\s+thickness)?\\s*(?:to|=|of|is)?\\s*(${numeric})\\s*mm\\b`, "u"),
@@ -67,6 +67,35 @@ function parseFlangedTubeParameters(text) {
   return parameters;
 }
 
+function currentFlangedTubeParameters(current) {
+  const tube = current?.objects?.find((object) => object.id === "tube_body");
+  const flange = current?.objects?.find((object) => object.id === "front_flange");
+  if (!tube || !flange) {
+    throw new Error("Cannot edit this flanged tube because its generated parameter source could not be recovered.");
+  }
+  const { length, outerRadius, innerRadius } = tube.dimensions ?? {};
+  const flangeOuterRadius = flange.dimensions?.outerRadius;
+  const flangeThickness = flange.dimensions?.length;
+  if (![length, outerRadius, innerRadius, flangeOuterRadius, flangeThickness].every(Number.isFinite)) {
+    throw new Error("Cannot edit this flanged tube because its current dimensions are invalid.");
+  }
+  return {
+    length,
+    outerRadius,
+    wallThickness: outerRadius - innerRadius,
+    flangeOuterRadius,
+    flangeThickness
+  };
+}
+
+function validatedResult(intent, document) {
+  return {
+    intent,
+    document,
+    diagnostics: validateCADDocument(document, validatePlateSpec)
+  };
+}
+
 export function interpretNeuroCadCommand(prompt, current = null) {
   const text = normalizePrompt(prompt);
 
@@ -77,12 +106,15 @@ export function interpretNeuroCadCommand(prompt, current = null) {
   }
 
   if (/\bflanged\s+tube\b/u.test(text)) {
-    const document = createFlangedTubeDocument(parseFlangedTubeParameters(text));
-    return {
-      intent: "CREATE_ASSEMBLY",
-      document,
-      diagnostics: validateCADDocument(document, validatePlateSpec)
-    };
+    return validatedResult("CREATE_ASSEMBLY", createFlangedTubeDocument(parseFlangedTubeParameters(text)));
+  }
+
+  if (current?.metadata?.kind === "flanged_tube") {
+    const updates = parseFlangedTubeParameters(text);
+    if (Object.keys(updates).length > 0) {
+      const parameters = { ...currentFlangedTubeParameters(current), ...updates };
+      return validatedResult("EDIT_ASSEMBLY", createFlangedTubeDocument(parameters));
+    }
   }
 
   return interpretEngineCommand(prompt, current);

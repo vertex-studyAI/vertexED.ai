@@ -110,6 +110,56 @@ test.describe('NeuroCAD Alpha 0.1 flagship browser certification', () => {
     expect(runtimeErrors, runtimeErrors.join('\n')).toEqual([]);
   });
 
+  test('flanged-tube workflow regenerates visibly from stateful text edits and fails closed', async ({ page }) => {
+    const runtimeErrors = captureRuntimeErrors(page);
+    await page.goto(NEUROCAD_URL, { waitUntil: 'networkidle' });
+    await expectRenderedViewport(page);
+
+    const prompt = page.locator('#prompt');
+    await prompt.fill('Create a flanged tube 200 mm long with outer diameter 100 mm, 5 mm wall thickness, flange diameter 130 mm, and 12 mm flange thickness.');
+    await page.locator('#generate').click();
+    await expect(page.locator('#validation-chip')).toHaveText('VALIDATION PASS');
+    await expect(page.locator('#object-count')).toHaveText('3 components');
+    await expect(page.locator('#cadspec')).toContainText('flanged_tube');
+    await expect(page.locator('#cadspec')).toContainText('"length": 200');
+    await expect(page.locator('#cadspec')).toContainText('"outerRadius": 50');
+    const beforeEdit = await page.locator('#viewport').screenshot();
+    await screenshot(page, '07-flanged-tube-created.png');
+
+    await prompt.fill('Set tube length to 240 mm and wall thickness to 6 mm.');
+    await page.locator('#generate').click();
+    await expect(page.locator('#validation-chip')).toHaveText('VALIDATION PASS');
+    await expect(page.locator('#cadspec')).toContainText('"length": 240');
+    await expect(page.locator('#cadspec')).toContainText('"outerRadius": 50');
+    await expect(page.locator('#cadspec')).toContainText('"innerRadius": 44');
+    await page.waitForTimeout(150);
+    const afterLengthEdit = await page.locator('#viewport').screenshot();
+    expect(Buffer.compare(beforeEdit, afterLengthEdit)).not.toBe(0);
+
+    await prompt.fill('Set flange outer diameter to 150 mm and flange thickness to 14 mm.');
+    await page.locator('#generate').click();
+    await expect(page.locator('#validation-chip')).toHaveText('VALIDATION PASS');
+    await expect(page.locator('#cadspec')).toContainText('"outerRadius": 75');
+    await expect(page.locator('#cadspec')).toContainText('"length": 14');
+    await screenshot(page, '08-flanged-tube-regenerated.png');
+
+    const lastValidDocument = await page.locator('#cadspec').textContent();
+    const jsonDownloadPromise = page.waitForEvent('download');
+    await page.locator('#export-json').click();
+    expect((await jsonDownloadPromise).suggestedFilename()).toBe('neurocad-model.json');
+    const scadDownloadPromise = page.waitForEvent('download');
+    await page.locator('#export-scad').click();
+    expect((await scadDownloadPromise).suggestedFilename()).toBe('neurocad-model.scad');
+
+    await prompt.fill('Set tube length to -20 mm.');
+    await page.locator('#generate').click();
+    await expect(page.locator('#validation-chip')).toHaveText(/FAILED CLOSED|VALIDATION FAIL/);
+    await expect(page.locator('#error')).not.toBeEmpty();
+    expect(await page.locator('#cadspec').textContent()).toBe(lastValidDocument);
+
+    expect(runtimeErrors, runtimeErrors.join('\n')).toEqual([]);
+  });
+
   test('viewport responds to orbit, zoom and pan interactions', async ({ page }) => {
     const runtimeErrors = captureRuntimeErrors(page);
     await page.goto(NEUROCAD_URL, { waitUntil: 'networkidle' });

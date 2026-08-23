@@ -37,15 +37,17 @@ PARAMETRIC GEOMETRY
 - conceptual jet-engine generator with inlet, compressor, shaft, combustor envelope, turbine, casing and nozzle;
 - 3–12 compressor stages and 1–4 turbine stages;
 - casing visibility and exploded view;
-- bounded follow-up commands such as `Increase compressor stages to 8.`, `Use only one turbine stage.`, `Hide the casing.`, `Show exploded view.`, `Make it longer.`, `Make the shaft slightly thicker.`, and `Reset.`;
-- flanged-tube assembly preset;
+- bounded jet-engine follow-up commands such as `Increase compressor stages to 8.`, `Use only one turbine stage.`, `Hide the casing.`, `Show exploded view.`, `Make it longer.`, `Make the shaft slightly thicker.`, and `Reset.`;
+- flanged-tube assembly creation with explicit length, tube outer radius/diameter, wall thickness, flange outer radius/diameter and flange thickness;
+- stateful flanged-tube parameter regeneration from follow-up language such as `Set tube length to 240 mm and wall thickness to 6 mm.` while preserving unspecified dimensions;
+- deterministic rejection of invalid signed dimensions and conflicting radius/diameter descriptions;
 - interactive Three.js viewport with orbit, zoom, pan, selection, fit/reset camera and hierarchy visibility controls;
-- editable conceptual engine parameters;
+- editable conceptual engine parameters in the browser parameter form;
 - structured validation diagnostics;
 - CADSpec JSON export;
 - generated OpenSCAD export.
 
-Not implemented: arbitrary CAD, STEP/B-rep, browser STL export, free-form sketching, general constraint solving, materials/tolerances, fillets/chamfers/threads, CFD/FEA, or real propulsion calculations.
+Not implemented: arbitrary CAD, STEP/B-rep, browser STL export, free-form sketching, general constraint solving, materials/tolerances, fillets/chamfers/threads, CFD/FEA, real propulsion calculations, or a general browser form editor for every primitive family.
 
 ## Run the demo
 
@@ -63,6 +65,8 @@ The 3D viewport uses a version-pinned Three.js module from jsDelivr. See [`QUICK
 node --test \
   tests/nlpToCad.test.mjs \
   tests/neurocadAlpha.test.mjs \
+  tests/neurocadIntentBoundary.test.mjs \
+  tests/neurocadFlangedTubeEdit.test.mjs \
   tests/neurocadWeb.test.mjs
 ```
 
@@ -76,7 +80,7 @@ The implementation-session product record is in [`NEUROCAD_ALPHA_PRODUCT_VALIDAT
 - [`web/`](./web/) — engineering workstation and interactive 3D visualization.
 - [`ARCHITECTURE.md`](./ARCHITECTURE.md) — detailed separation and invariants.
 - [`SAFETY_AND_SCOPE.md`](./SAFETY_AND_SCOPE.md) — claim and safety boundaries.
-- [`DEMO.md`](./DEMO.md) — flagship demo flow.
+- [`DEMO.md`](./DEMO.md) — public demo flow, including the narrow editable flanged-tube path.
 
 ## Jet-engine concept scope
 
