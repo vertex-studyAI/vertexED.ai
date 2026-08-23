@@ -1,4 +1,4 @@
-# T2424-0019 — Neural Predictive Memory Spectroscopy (NPMS)
+# T2424-0019 — NPMS — Neural Predictive Memory Spectroscopy
 
 This is the canonical Project 2424 recovery package for First-100 rank #3, mapped from the retained provisional project `MODEL-NPMS`.
 
