@@ -1,4 +1,4 @@
-// Minimal diagnostic endpoint — disabled in production unless ENABLE_TEST_AGENTS=true
+// Minimal diagnostic endpoint — explicit opt-in outside production only.
 
 export const config = {
   maxDuration: 60,
@@ -9,7 +9,9 @@ export default async function handler(req: any, res: any) {
   const isProduction = process.env.VERCEL_ENV === 'production';
   const explicitlyEnabled = process.env.ENABLE_TEST_AGENTS === 'true';
 
-  if (isProduction && !explicitlyEnabled) {
+  // Defense in depth: even if this module is imported or routed directly,
+  // production must never expose environment-capability diagnostics.
+  if (isProduction || !explicitlyEnabled) {
     return res.status(404).json({ error: 'Not found' });
   }
 
