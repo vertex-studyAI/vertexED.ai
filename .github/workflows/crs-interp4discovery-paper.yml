@@ -1,0 +1,82 @@
+name: CRS Interp4Discovery Paper
+
+on:
+  push:
+    branches:
+      - research/crs-interp4discovery-20260823
+    paths:
+      - 'portfolio/research/conference_submissions/crs_interp4discovery_2026/**'
+      - '.github/workflows/crs-interp4discovery-paper.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  compile-and-audit:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: portfolio/research/conference_submissions/crs_interp4discovery_2026
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch official NeurIPS 2026 style
+        run: |
+          set -euo pipefail
+          curl -fsSL 'https://media.neurips.cc/Conferences/NeurIPS2026/Formatting_Instructions_For_NeurIPS_2026.zip' -o /tmp/neurips2026.zip
+          rm -rf /tmp/neurips2026-style
+          mkdir -p /tmp/neurips2026-style
+          unzip -q /tmp/neurips2026.zip -d /tmp/neurips2026-style
+          STYLE="$(find /tmp/neurips2026-style -name neurips_2026.sty -print -quit)"
+          test -n "$STYLE"
+          cp "$STYLE" neurips_2026.sty
+          sha256sum /tmp/neurips2026.zip neurips_2026.sty | tee official_style_sha256.txt
+
+      - name: Compile anonymous workshop PDF
+        uses: xu-cheng/latex-action@v4
+        with:
+          root_file: paper.tex
+          working_directory: portfolio/research/conference_submissions/crs_interp4discovery_2026
+          args: -pdf -file-line-error -halt-on-error -interaction=nonstopmode
+
+      - name: Audit anonymity and five-page main-text gate
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq poppler-utils
+          test -s paper.pdf
+          pdftotext -layout paper.pdf paper.txt
+          if grep -Eiq 'Ryan|Gomez|BU1LD|vertex-studyAI|ryangomez|Research Atlas' paper.txt paper.tex; then
+            echo 'Identifying text detected in submission artifact.' >&2
+            exit 1
+          fi
+          PAGES="$(pdfinfo paper.pdf | awk '/^Pages:/ {print $2}')"
+          REF_PAGE=''
+          for p in $(seq 1 "$PAGES"); do
+            if pdftotext -f "$p" -l "$p" paper.pdf - | grep -Eq '(^|[[:space:]])References([[:space:]]|$)'; then
+              REF_PAGE="$p"
+              break
+            fi
+          done
+          test -n "$REF_PAGE"
+          MAIN_PAGES=$((REF_PAGE - 1))
+          echo "total_pages=$PAGES" | tee page_audit.txt
+          echo "references_start_page=$REF_PAGE" | tee -a page_audit.txt
+          echo "main_text_pages=$MAIN_PAGES" | tee -a page_audit.txt
+          test "$MAIN_PAGES" -le 5
+          grep -q 'Responsible-use statement' paper.tex
+          grep -q '\\usepackage\[dblblindworkshop,nonatbib\]{neurips_2026}' paper.tex
+          sha256sum paper.tex paper.pdf | tee paper_sha256.txt
+
+      - name: Upload compiled review artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: crs-interp4discovery-anonymous-paper
+          path: |
+            portfolio/research/conference_submissions/crs_interp4discovery_2026/paper.pdf
+            portfolio/research/conference_submissions/crs_interp4discovery_2026/paper.tex
+            portfolio/research/conference_submissions/crs_interp4discovery_2026/page_audit.txt
+            portfolio/research/conference_submissions/crs_interp4discovery_2026/paper_sha256.txt
+            portfolio/research/conference_submissions/crs_interp4discovery_2026/official_style_sha256.txt
+          if-no-files-found: error
