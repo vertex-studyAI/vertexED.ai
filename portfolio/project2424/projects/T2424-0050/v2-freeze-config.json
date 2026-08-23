@@ -12,11 +12,13 @@
     "primary_block_count": 8,
     "block_ablations": [4, 8, 16, 32],
     "smooth_covariance": "periodic squared-exponential on the frozen 128-cell grid; exact finite-grid Gaussian draw through the real Fourier basis of the circulant covariance",
-    "covariance_interpretation_status": "PRE_OUTCOME_IMPLEMENTATION_CHOICE_REQUIRES_EXPLICIT_REVIEW_BEFORE_TRAINING",
-    "covariance_interpretation_note": "The frozen protocol says squared-exponential covariance but does not specify finite-grid boundary extension. This implementation uses a periodic/circulant SE kernel. Changing that choice after any outcome is inspected is forbidden and requires a new protocol version.",
-    "ood_d_global_offset_status": "PRE_OUTCOME_INTERPRETATION_REQUIRES_EXPLICIT_REVIEW_BEFORE_TRAINING",
+    "covariance_interpretation_status": "APPROVED_PRE_OUTCOME_2026_08_23",
+    "covariance_interpretation_decision": "Retain the already-implemented periodic/circulant squared-exponential covariance for v2 rather than silently replacing it with a non-periodic covariance after implementation. This is a generator-definition choice, not a physical-periodicity claim about the Darcy boundary-value problem. The periodic smooth-field construction must be disclosed in results and limitations. A non-periodic covariance study would be a separately versioned successor.",
+    "covariance_interpretation_rationale": "The v2 protocol froze a squared-exponential smooth-family concept but omitted finite-grid boundary extension. The existing implementation made the ambiguity concrete before learned training or ID/OOD outcome access. Freezing that implementation now preserves preregistration integrity and avoids a post-outcome choice between covariance conventions.",
+    "ood_d_global_offset_status": "APPROVED_PRE_OUTCOME_2026_08_23",
     "ood_d_global_offset_current": 0,
-    "ood_d_global_offset_note": "The frozen OOD-D text fixes ell, sigma and clipping but does not explicitly state whether the ID-family global log-offset range carries over. Current code fixes mu=0. This ambiguity must be accepted or changed before training/test outcomes; any later change requires a new version.",
+    "ood_d_global_offset_decision": "Retain mu=0 for OOD-D so the primary shift isolates high contrast through sigma/support rather than simultaneously shifting the field-wide log-permeability mean. Report this as an explicit v2 family definition.",
+    "ood_d_global_offset_rationale": "OOD-D explicitly freezes ell, sigma and clipping but does not state that the ID mu range carries over. Fixing mu=0 isolates the declared high-contrast axis and is now locked before learned training or test/OOD outcome access. Any alternative global-offset study requires a new protocol version.",
     "prng": "mulberry32-compatible deterministic 32-bit stream; seed zero allowed",
     "normal_sampler": "Box-Muller",
     "manifest_required_before_training": true
@@ -72,8 +74,8 @@
     }
   },
   "unresolved_pretraining_blockers": {
-    "covariance_interpretation_approval": null,
-    "ood_d_global_offset_interpretation_approval": null,
+    "covariance_interpretation_approval": "APPROVED_2026_08_23_PERIODIC_CIRCULANT_SE_V2_ONLY",
+    "ood_d_global_offset_interpretation_approval": "APPROVED_2026_08_23_MU_ZERO_HIGH_CONTRAST_ISOLATION",
     "learned_environment_lock": null,
     "hardware_identity": null,
     "B2_implementation_sha": "6e10c6fbecf0cf5ce78ed2b5c61e3fa97da47541",
