@@ -54,7 +54,16 @@ export function safeSubmit(store, task, {
   return { id, payloadBytes: checked.payloadBytes };
 }
 
+function redactString(value) {
+  return value
+    .replace(/\b(authorization\s*[:=]\s*)(?:bearer\s+)?[^\s,;]+/gi, '$1[REDACTED]')
+    .replace(/\b(bearer)\s+[A-Za-z0-9._~+/=-]+/gi, '$1 [REDACTED]')
+    .replace(/\b(token|secret|password|api[_-]?key|access[_-]?token|refresh[_-]?token)\s*=\s*([^&\s]+)/gi, '$1=[REDACTED]')
+    .replace(/\bsk-[A-Za-z0-9_-]{12,}\b/g, '[REDACTED]');
+}
+
 function redact(value) {
+  if (typeof value === 'string') return redactString(value);
   if (Array.isArray(value)) return value.map(redact);
   if (value && typeof value === 'object') {
     return Object.fromEntries(Object.entries(value).map(([key, val]) => {
