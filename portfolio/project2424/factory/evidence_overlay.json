@@ -1,0 +1,58 @@
+{
+  "T2424-0003": {
+    "state": "RESULT_FROZEN",
+    "headline_result": "Across 48 paired controlled salience-stress conditions, the APEN benefit weakens and can reverse under severe dropout; the correct scientific verdict is mixed rather than uniformly positive.",
+    "verdict": "MIXED",
+    "primary_metric": "paired salience-stress performance",
+    "notes": "Frozen ledger outcome; preserve the mixed result.",
+    "next_gate": "Recover exact artifacts/config identity and independently reproduce the headline stress result before preprint certification."
+  },
+  "T2424-0007": {
+    "state": "RESULT_FROZEN",
+    "headline_result": "Historical NeuroCAD v1 reports 19/20 on the frozen 20-case benchmark versus 12/20 for direct generation, with 12/12 valid STL outputs. A later component diagnostic gives M2=1.00, B0=0.60, and direct+matched-validation B1=1.00, closing the gap and falsifying the typed-parser causal interpretation on that reused diagnostic.",
+    "verdict": "HISTORICAL_PASS_WITH_NEGATIVE_MECHANISM_DIAGNOSTIC",
+    "primary_metric": "case success rate",
+    "notes": "The v2 diagnostic is not a new held-out/OOD generalization result. Do not rewrite v1 history.",
+    "next_gate": "Add a genuinely new held-out/expert evaluation and independent reproduction; preserve the validation-dominant mechanism finding."
+  },
+  "T2424-0025": {
+    "state": "RESULT_FROZEN",
+    "headline_result": "The robust-readout effect reproduces on the controlled screen, but the mechanism is not uniquely isolated; the correct result is positive robustness with mechanism uncertainty.",
+    "verdict": "POSITIVE_ROBUSTNESS_MECHANISM_NOT_ISOLATED",
+    "primary_metric": "robust-readout effect",
+    "notes": "Do not convert this into a general Transformer-superiority claim.",
+    "next_gate": "Recover exact artifact/config identities, run independent reproduction, and write the paper as a robustness/mechanism study."
+  },
+  "T2424-0027": {
+    "state": "RESULT_FROZEN",
+    "headline_result": "The deterministic 72-record synthetic audit passes 8/8 verifier checks. Retained normalized excess language-leakage reduction is 0.9583333333333334; this is controlled synthetic diagnostic evidence only.",
+    "verdict": "SYNTHETIC_AUDIT_PASS",
+    "primary_metric": "normalized excess language-leakage reduction",
+    "notes": "No Sapir-Whorf, cultural, translation, real-model, or external-validity claim is supported.",
+    "next_gate": "Independently reproduce the frozen generator/verifier and decide whether the bounded diagnostic is sufficiently novel for a standalone paper."
+  },
+  "T2424-0032": {
+    "state": "RESULT_FROZEN",
+    "headline_result": "On the primary real-market covariance target, raw/log ridge baselines remain stronger than the Eigen-JEPA approach; the correct verdict is mixed/negative.",
+    "verdict": "MIXED_NEGATIVE",
+    "primary_metric": "primary covariance target performance",
+    "notes": "Preserve the stronger simple baseline result.",
+    "next_gate": "Freeze a failure-analysis manuscript, recover exact market-data/version provenance, and independently reproduce before preprint certification."
+  },
+  "T2424-0050": {
+    "state": "RESULT_FROZEN",
+    "headline_result": "On the frozen 20-seed aligned synthetic Darcy screen, the primary error changes from 0.0658913916 to 0.0011366559, a 97.8766% reduction, with reported flux error approximately 1.369e-16. This is a bounded synthetic mechanism pass, not a general neural-operator superiority result.",
+    "verdict": "BOUNDED_MECHANISM_PASS",
+    "primary_metric": "aligned synthetic Darcy primary error",
+    "notes": "Canonical identity repair must land before publication. Do not auto-merge/deploy the identity repair without review.",
+    "next_gate": "Resolve the T2424-0050 canonical identity collision, recover exact run artifacts/hashes, add strong external baselines if pre-specified, independently reproduce, then finish the manuscript."
+  },
+  "T2424-1863": {
+    "state": "RESULT_FROZEN",
+    "headline_result": "The frozen synthetic screen failed its pre-specified >75% improvement gate, achieving 67.777%; the result is negative/inconclusive and must not be rescued by post-hoc threshold changes.",
+    "verdict": "NEGATIVE_REPRODUCED",
+    "primary_metric": "relative improvement against frozen gate",
+    "notes": "Negative result is a valid terminal scientific outcome.",
+    "next_gate": "Package the negative-result analysis and independent reproduction into a concise preprint without retuning."
+  }
+}
