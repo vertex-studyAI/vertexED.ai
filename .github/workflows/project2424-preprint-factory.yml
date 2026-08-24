@@ -1,0 +1,44 @@
+name: Project 2424 Preprint Factory
+
+on:
+  pull_request:
+    paths:
+      - 'portfolio/project2424/**'
+      - '.github/workflows/project2424-preprint-factory.yml'
+  push:
+    branches:
+      - 'project2424/**'
+    paths:
+      - 'portfolio/project2424/**'
+      - '.github/workflows/project2424-preprint-factory.yml'
+
+jobs:
+  materialize-and-validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Materialize all 2,424 child packages
+        run: |
+          python portfolio/project2424/factory/build_all.py \
+            --out "$RUNNER_TEMP/project2424-packages" \
+            --validate
+      - name: Assert exact child count
+        run: |
+          test "$(find "$RUNNER_TEMP/project2424-packages" -mindepth 1 -maxdepth 1 -type d -name 'T2424-*' | wc -l | tr -d ' ')" = "2424"
+      - name: Fail if any child is falsely preprint-ready
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json, os
+          root = Path(os.environ['RUNNER_TEMP']) / 'project2424-packages'
+          bad=[]
+          for p in root.glob('T2424-*'):
+              e=json.loads((p/'EVIDENCE.json').read_text())
+              if e.get('preprint_gate'):
+                  bad.append(p.name)
+          assert not bad, f'unreviewed generated packages marked preprint-ready: {bad[:20]}'
+          print('All generated packages remain fail-closed until project-specific release evidence passes.')
+          PY
