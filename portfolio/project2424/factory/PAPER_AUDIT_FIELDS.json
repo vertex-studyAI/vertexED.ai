@@ -1,0 +1,17 @@
+{
+  "required_audit_fields": [
+    "paper_state",
+    "supported_claims",
+    "unsupported_claims_removed",
+    "primary_result_artifact_ids",
+    "figure_generation_commands",
+    "table_generation_commands",
+    "literature_review_date",
+    "independent_reviewer",
+    "reproduction_status",
+    "authorship_status",
+    "license_status",
+    "data_availability_status",
+    "pdf_build_status"
+  ]
+}
