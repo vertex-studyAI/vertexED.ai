@@ -1,0 +1,192 @@
+{
+  "schema_version": 1,
+  "protocol_id": "JEPA-TS-PSTATE-V1-PREOUTCOME",
+  "state": "PROTOCOL_MATERIALIZED_NOT_OUTCOME_AUTHORIZED",
+  "source_design": "portfolio/research/JEPA_TIME_SERIES_RESEARCH_PROGRAM_20260814.md",
+  "scientific_question": "When observations contain substantial unpredictable noise or missingness, does strictly causal future-latent prediction learn a representation of the underlying predictive state that transfers across horizons/noise regimes better than masked JEPA, reconstruction, autoregression, self-distillation, contrastive learning, and simple forecasting controls under matched encoder/compute budgets?",
+  "novelty_boundary": {
+    "not_claimed": [
+      "JEPA for time series",
+      "EMA teacher/target encoder for time series",
+      "masked latent prediction in time series",
+      "latent time-series forecasting alone",
+      "JEPA plus Transformer encoder"
+    ],
+    "candidate_contribution_if_supported": "controlled predictable-state recovery and nuisance-suppression mechanism/failure-boundary evidence for strictly causal future-target latent prediction under partial/heavy-tailed observations"
+  },
+  "primary_hypothesis": {
+    "id": "H-PSTATE",
+    "statement": "Under matched encoder/predictor capacity and pretraining budget, causal future-latent prediction retains more information about the true predictive state and loses less downstream performance as unpredictable observation corruption increases than the strongest objective-matched baselines.",
+    "falsifiers": [
+      "high-corruption latent-state probe advantage over strongest self-supervised baseline is less than 0.05 absolute",
+      "state-probe advantage fails to translate into at least one preregistered downstream benefit among forecasting, missing-observation state inference, or cross-noise transfer",
+      "a simple linear/state-space/statistical baseline matches downstream performance such that representation learning is unnecessary for the task"
+    ],
+    "absolute_effect_threshold": 0.05
+  },
+  "synthetic_families": [
+    {
+      "id": "linear_gaussian_latent_nonlinear_observation",
+      "requirements": [
+        "ground-truth latent state available",
+        "optimal or strong linear/state-space reference available",
+        "train/development/test trajectories use disjoint random parameter draws"
+      ]
+    },
+    {
+      "id": "nonlinear_switching_or_coupled_dynamics",
+      "requirements": [
+        "known latent state",
+        "known regime/state labels where applicable",
+        "train/development/test trajectories use disjoint random parameter draws"
+      ]
+    }
+  ],
+  "corruptions": [
+    "additive_gaussian_observation_noise",
+    "student_t_heavy_tailed_noise",
+    "sparse_large_outliers",
+    "missing_at_random_observation_blocks",
+    "structured_sensor_nuisance_independent_of_latent_state",
+    "combined_heavy_tail_plus_missingness"
+  ],
+  "initial_screen_corruptions": [
+    "additive_gaussian_observation_noise",
+    "student_t_heavy_tailed_noise",
+    "missing_at_random_observation_blocks"
+  ],
+  "initial_screen_levels": ["low", "medium", "high"],
+  "objectives": {
+    "primary": "strictly_causal_future_latent_prediction",
+    "required_initial": [
+      "strictly_causal_future_latent_prediction",
+      "ts_jepa_style_masked_latent_prediction",
+      "masked_input_reconstruction",
+      "causal_autoregressive_input_prediction"
+    ],
+    "required_full": [
+      "strictly_causal_future_latent_prediction",
+      "ts_jepa_style_masked_latent_prediction",
+      "data2vec_style_masked_latent_self_distillation",
+      "masked_input_reconstruction_ti_mae_style",
+      "causal_autoregressive_input_prediction",
+      "ts2vec_family_contrastive_representation_learning",
+      "random_frozen_encoder",
+      "fully_supervised_encoder_reference"
+    ]
+  },
+  "fairness_contract": {
+    "same_tokenizer": true,
+    "matched_encoder_width_depth": true,
+    "same_optimizer_family": true,
+    "matched_update_count": true,
+    "same_data": true,
+    "approximately_matched_flops_and_parameters": true,
+    "report_actual_compute": true,
+    "intrinsic_extra_predictor_or_decoder_cost_must_be_reported": true
+  },
+  "non_neural_baselines": [
+    "persistence_or_seasonal_persistence_where_meaningful",
+    "linear_autoregression_or_ridge",
+    "kalman_filter_or_state_space_estimator_on_linear_synthetic_family",
+    "simple_linear_forecasting_model_on_real_data",
+    "tree_boosting_only_when_tabular_lag_features_make_it_legitimate"
+  ],
+  "ground_truth_representation_metrics": [
+    "linear_probe_r2",
+    "linear_probe_normalized_mse",
+    "regime_classification_accuracy_where_applicable",
+    "canonical_correlation_or_subspace_similarity_after_allowed_linear_transform",
+    "nuisance_predictability_from_representation",
+    "predictive_state_to_nuisance_probe_tradeoff"
+  ],
+  "downstream_benefit_set": [
+    "forecasting",
+    "missing_observation_state_inference",
+    "cross_noise_transfer"
+  ],
+  "critical_ablations": [
+    "future_target_to_random_masked_target",
+    "latent_target_to_raw_reconstruction",
+    "ema_target_to_shared_or_non_ema_target_when_stable",
+    "multi_horizon_to_single_horizon",
+    "predictor_removed_or_linear_predictor",
+    "future_temporal_order_shuffled_with_marginals_preserved",
+    "nuisance_correlated_vs_independent_corruption",
+    "shared_nuisance_realization_vs_independently_corrupted_target_view"
+  ],
+  "development": {
+    "seeds": [0, 1, 2],
+    "label": "DEVELOPMENT_ONLY",
+    "encoder_parameter_cap": 1000000,
+    "objectives": [
+      "strictly_causal_future_latent_prediction",
+      "ts_jepa_style_masked_latent_prediction",
+      "masked_input_reconstruction",
+      "causal_autoregressive_input_prediction"
+    ],
+    "families": 2,
+    "primary_outputs": [
+      "state_probe_metric",
+      "one_downstream_forecast_metric"
+    ],
+    "allowed_now": "smoke_and_implementation_debugging_only"
+  },
+  "confirmatory": {
+    "paired_seed_count": 10,
+    "seed_integers": null,
+    "seed_status": "MUST_BE_COMMITTED_BEFORE_FIRST_CONFIRMATORY_RUN",
+    "identical_trajectories_per_seed_across_methods": true,
+    "primary_statistic": "paired_difference_in_high_corruption_state_probe_score_averaged_across_two_frozen_dynamical_families",
+    "report": [
+      "mean",
+      "sample_sd",
+      "paired_bootstrap_95pct_ci",
+      "per_seed_values"
+    ],
+    "effect_threshold_absolute": 0.05,
+    "repeated_seed_generation_after_unfavorable_result": false,
+    "authorized": false
+  },
+  "kill_rule": "Stop before real datasets if future-latent representation does not show a consistent state-recovery advantage at high corruption against both TS-JEPA-style masked latent prediction and the best reconstruction/autoregressive baseline.",
+  "real_data_stage": {
+    "authorized": false,
+    "requires_initial_gate_pass": true,
+    "candidate_datasets": ["ETT", "Electricity", "one_verified_missing_or_irregular_sensor_dataset"],
+    "primary_rule": "do not use standard forecasting datasets to claim ground-truth latent-state recovery",
+    "evaluation_corruptions": [
+      "heavy_tailed_observation_contamination",
+      "block_missingness",
+      "sensor_channel_corruption"
+    ],
+    "report_clean_and_corrupted_performance": true,
+    "horizon_aggregate_must_be_frozen_before_results": true
+  },
+  "artifact_contract": {
+    "required_before_outcome": [
+      "exact_generator_code_and_hash",
+      "train_dev_test_seed_manifest",
+      "exact_encoder_and_predictor_architecture",
+      "objective_definitions",
+      "baseline_implementation_identities",
+      "corruption_grid",
+      "primary_metric_and_horizon_aggregate",
+      "confirmatory_seed_list",
+      "compute_budget",
+      "stop_rule",
+      "raw_artifact_destination",
+      "independent_verifier"
+    ],
+    "result_cells_may_not_be_hand_entered": true
+  },
+  "current_blockers": [
+    "implementation_source_tree_not_materialized_for_this_protocol",
+    "exact_generator_code_and_hash_not_frozen",
+    "exact_architecture_not_frozen",
+    "confirmatory_seed_integers_not_frozen",
+    "compute_budget_not_frozen",
+    "verifier_not_implemented"
+  ],
+  "outcome_authorized": false,
+  "claim_boundary": "This JSON materializes the pre-outcome design. It is not experimental evidence and does not establish that future-latent JEPA is superior."
+}
