@@ -4,14 +4,14 @@ on:
   pull_request:
     paths:
       - 'portfolio/project2424/projects/T2424-0050/**'
-      - 'tests/darcy-v2-learned.test.py'
+      - 'tests/darcy_v2_learned_test.py'
       - '.github/workflows/darcy-v2-learned-smoke.yml'
   push:
     branches:
       - 'project2424/**'
     paths:
       - 'portfolio/project2424/projects/T2424-0050/**'
-      - 'tests/darcy-v2-learned.test.py'
+      - 'tests/darcy_v2_learned_test.py'
       - '.github/workflows/darcy-v2-learned-smoke.yml'
 
 jobs:
@@ -34,4 +34,4 @@ jobs:
           node --test tests/darcy-v2-freeze.test.mjs tests/darcy-v2-b2.test.mjs
       - name: Learned baseline contract/smoke tests
         run: |
-          pytest -q tests/darcy-v2-learned.test.py
+          pytest -q tests/darcy_v2_learned_test.py
