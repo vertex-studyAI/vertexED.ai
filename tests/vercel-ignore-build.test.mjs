@@ -61,10 +61,40 @@ test('deployment diff uses the previous successful Vercel SHA when available', (
   assert.deepEqual(calls, [['diff','--name-only','--diff-filter=ACDMRTUXB',previousSha,'HEAD']]);
 });
 
+test('first Vercel preview compares the whole branch against the main merge base', () => {
+  const mergeBase = '6666666666666666666666666666666666666666';
+  const calls = [];
+  const runGit = (args) => {
+    calls.push(args);
+    const key = args.join(' ');
+    if (key === 'merge-base HEAD origin/main') return `${mergeBase}\n`;
+    if (key === `diff --name-only --diff-filter=ACDMRTUXB ${mergeBase} HEAD`) {
+      return 'scripts/vercel-ignore-build.mjs\ntests/vercel-ignore-build.test.mjs\n';
+    }
+    throw new Error(`unexpected git call: ${key}`);
+  };
+  assert.deepEqual(
+    readChangedFiles({ previousSha: '', isVercel: true, runGit }),
+    ['scripts/vercel-ignore-build.mjs', 'tests/vercel-ignore-build.test.mjs'],
+  );
+  assert.deepEqual(calls, [
+    ['merge-base','HEAD','origin/main'],
+    ['diff','--name-only','--diff-filter=ACDMRTUXB',mergeBase,'HEAD'],
+  ]);
+});
+
+test('first Vercel preview fails closed when no safe branch base is available', () => {
+  const runGit = () => { throw new Error('ref unavailable'); };
+  assert.throws(
+    () => readChangedFiles({ previousSha: '', isVercel: true, runGit }),
+    /unable to establish a merge base with main/,
+  );
+});
+
 test('deployment diff falls back to the previous commit outside Vercel', () => {
   const calls = [];
   const runGit = (args) => { calls.push(args); return 'docs/release.md\n'; };
-  assert.deepEqual(readChangedFiles({ previousSha: '', runGit }), ['docs/release.md']);
+  assert.deepEqual(readChangedFiles({ previousSha: '', isVercel: false, runGit }), ['docs/release.md']);
   assert.deepEqual(calls, [['diff','--name-only','--diff-filter=ACDMRTUXB','HEAD^','HEAD']]);
 });
 
