@@ -7,21 +7,13 @@
     "notes": "Frozen ledger outcome; preserve the mixed result.",
     "next_gate": "Recover exact artifacts/config identity and independently reproduce the headline stress result before preprint certification."
   },
-  "T2424-0007": {
-    "state": "RESULT_FROZEN",
-    "headline_result": "Historical NeuroCAD v1 reports 19/20 on the frozen 20-case benchmark versus 12/20 for direct generation, with 12/12 valid STL outputs. A later component diagnostic gives M2=1.00, B0=0.60, and direct+matched-validation B1=1.00, closing the gap and falsifying the typed-parser causal interpretation on that reused diagnostic.",
-    "verdict": "HISTORICAL_PASS_WITH_NEGATIVE_MECHANISM_DIAGNOSTIC",
-    "primary_metric": "case success rate",
-    "notes": "The v2 diagnostic is not a new held-out/OOD generalization result. Do not rewrite v1 history.",
-    "next_gate": "Add a genuinely new held-out/expert evaluation and independent reproduction; preserve the validation-dominant mechanism finding."
-  },
   "T2424-0025": {
     "state": "RESULT_FROZEN",
-    "headline_result": "The robust-readout effect reproduces on the controlled screen, but the mechanism is not uniquely isolated; the correct result is positive robustness with mechanism uncertainty.",
+    "headline_result": "The reproduced 30-seed screen shows weighted-median MAE 0.0165609423 versus 0.3615267855 for the weighted arithmetic mean under the heavy-tail condition (95.42% relative reduction). A 50-seed contamination sweep confirms broad robust-readout stability, but the 0% Cauchy control also favors robust readouts, so a uniquely non-Gaussian mechanism is not isolated.",
     "verdict": "POSITIVE_ROBUSTNESS_MECHANISM_NOT_ISOLATED",
-    "primary_metric": "robust-readout effect",
-    "notes": "Do not convert this into a general Transformer-superiority claim.",
-    "next_gate": "Recover exact artifact/config identities, run independent reproduction, and write the paper as a robustness/mechanism study."
+    "primary_metric": "mean absolute retrieval error",
+    "notes": "Fresh local reproduction on 2026-08-12 matched checked-in values to machine precision; follow-up sweep is post-hoc mechanism analysis, not independent preregistration.",
+    "next_gate": "Complete current novelty audit, repository-conformant independent reproduction record, manuscript build, authorship/license/data review, and final paper QA."
   },
   "T2424-0027": {
     "state": "RESULT_FROZEN",
@@ -39,13 +31,21 @@
     "notes": "Preserve the stronger simple baseline result.",
     "next_gate": "Freeze a failure-analysis manuscript, recover exact market-data/version provenance, and independently reproduce before preprint certification."
   },
+  "T2424-0037": {
+    "state": "RESULT_FROZEN",
+    "headline_result": "NeuroCAD component ablation v2 on the reused 20-case diagnostic gives current typed+validated M2 success 1.00, original direct B0 0.60, and direct+matched-validation B1 1.00. Matched validation recovers 100% of the original gap, yielding the frozen interpretation VALIDATION_DOMINANT and falsifying a typed-parser causal explanation on that reused diagnostic. Historical v1 remains 19/20 versus 12/20 with 12/12 valid cases producing non-empty STL.",
+    "verdict": "VALIDATION_DOMINANT_NEGATIVE_MECHANISM_RESULT",
+    "primary_metric": "paired executable geometry/invalid-rejection success",
+    "notes": "Canonical scientific evidence currently resides under T2424-0037 / NLP-to-CAD. T2424-0007 is a queue identity without a corresponding canonical project directory and must be resolved as lineage/alias rather than creating a duplicate paper.",
+    "next_gate": "Materialize the frozen S3 150-case successor benchmark, at least two contemporary external benchmark adapters, model/provider identity and matched baselines; create EXECUTION_AUTHORIZATION.json before any confirmatory evaluation."
+  },
   "T2424-0050": {
     "state": "RESULT_FROZEN",
-    "headline_result": "On the frozen 20-seed aligned synthetic Darcy screen, the primary error changes from 0.0658913916 to 0.0011366559, a 97.8766% reduction, with reported flux error approximately 1.369e-16. This is a bounded synthetic mechanism pass, not a general neural-operator superiority result.",
-    "verdict": "BOUNDED_MECHANISM_PASS",
-    "primary_metric": "aligned synthetic Darcy primary error",
-    "notes": "Canonical identity repair must land before publication. Do not auto-merge/deploy the identity repair without review.",
-    "next_gate": "Resolve the T2424-0050 canonical identity collision, recover exact run artifacts/hashes, add strong external baselines if pre-specified, independently reproduce, then finish the manuscript."
+    "headline_result": "Fresh 2026-08-22 reproduction of the frozen 20-seed aligned synthetic Darcy screen matches retained metrics exactly: mean pressure MAE 0.0658913916 to 0.0011366559 (97.8766% relative reduction), flux relative error about 1.369e-16. A harder 300-case misaligned/correlated audit is mixed: mean improvements 63.8317%, 77.1634%, and 86.1675% at rho 0, 0.5, 0.9, with an explicit negative seed retained.",
+    "verdict": "REPRODUCED_BOUNDED_WITH_MIXED_HARDER_AUDIT",
+    "primary_metric": "pressure-profile MAE under bounded and harder 1D synthetic audits",
+    "notes": "The T2424-0050 canonical Darcy identity repair was already manually merged on 2026-08-12. Evidence grade remains B because broad learned-operator/OOD evidence is not yet executed.",
+    "next_gate": "Finish FNO/DeepONet implementation and pretraining freeze for v2, then execute only after every authorization blocker is resolved; independently reproduce and paperize whichever positive/negative result survives."
   },
   "T2424-1863": {
     "state": "RESULT_FROZEN",
