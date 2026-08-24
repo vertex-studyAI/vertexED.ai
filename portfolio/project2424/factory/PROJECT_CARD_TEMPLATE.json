@@ -1,0 +1,19 @@
+{
+  "project_id": "T2424-XXXX",
+  "canonical_name": null,
+  "domain": null,
+  "research_family": null,
+  "research_question": null,
+  "hypothesis": null,
+  "falsifier": null,
+  "closest_work": [],
+  "novelty_type": null,
+  "dataset_or_environment": null,
+  "baselines": [],
+  "primary_metric": null,
+  "protocol_version": null,
+  "compute_tier": null,
+  "duplication_relation": null,
+  "state": "RESERVED",
+  "paper_disposition": "NO_PAPER_YET"
+}
