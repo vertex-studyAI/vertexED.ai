@@ -1,0 +1,256 @@
+schema_version: 1
+as_of: "2026-08-24T19:50:00+05:30"
+mode: PRE_OUTCOME_PREPARATION
+scientific_outcome_runs_authorized: false
+truth_source:
+  portfolio_registry: portfolio/portfolio.yaml
+  research_status: RESEARCH_STATUS.md
+  execution_ledger: portfolio/research/REMAINING_RESEARCH_EXECUTION_20260822.md
+  project_2424_identity_manifest: portfolio/project2424/SOURCE_IDENTITY_MANIFEST.json
+
+invariants:
+  - preserve_negative_mixed_inconclusive_and_falsified_results
+  - never_rescue_frozen_result_in_place
+  - unknown_remains_unknown_without_canonical_source
+  - no_IRIS_seeds_1000_through_1029
+  - no_Darcy_v2_training_or_ID_OOD_outcome_access_until_explicit_authorization
+  - no_project_2424_identity_join_by_numeric_suffix
+  - CI_or_directory_presence_is_not_scientific_success
+  - all_result_tables_and_figures_must_be_generated_from_machine_outputs
+
+universal_required_surfaces:
+  - canonical_identity
+  - source_identity
+  - research_question
+  - falsifier
+  - benchmark
+  - data_identity_or_loader
+  - frozen_splits
+  - main_method
+  - baselines
+  - experiment_config
+  - ablations_if_mechanism_claimed
+  - robustness_or_OOD_if_applicable
+  - seed_policy
+  - metrics_and_units
+  - statistical_aggregation
+  - result_schema
+  - table_generation
+  - figure_generation
+  - environment_lock
+  - smoke_path
+  - full_run_entrypoint
+  - artifact_provenance
+  - claim_gate
+
+lines:
+  - id: lam_jepa
+    class: EXTERNAL_VALIDATION
+    repository: vertex-studyAI/LAM-JEPA
+    allowed_now:
+      - verify_reproduction_commands
+      - verify_release_provenance
+      - package_external_review
+      - owner_metadata_closure
+    forbidden:
+      - retune_negative_ARC_result
+      - unlock_confirmatory_test_for_rescue
+    morning_gate: external_reproduction_packet_is_executable_and_self_contained
+
+  - id: iris_v02
+    class: PREOUTCOME_BLOCKED
+    repository: vertex-studyAI/vertexED.ai
+    allowed_now:
+      - recover_exact_development_trajectory_identity
+      - recover_authoritative_deterministic_equivalence_record
+      - hash_recovered_inputs
+      - construct_execution_manifest_after_provenance_closure
+    forbidden:
+      - seeds_1000_1029
+      - approximate_trajectory_regeneration
+      - frontier_outcome_run
+    morning_gate: exact_trajectory_provenance_closed_or_blocker_precisely_recorded
+
+  - id: neurocad_component_v2
+    class: FROZEN_RESULT
+    repository: vertex-studyAI/vertexED.ai
+    allowed_now:
+      - preserve_validation_dominant_result
+      - design_new_broader_benchmark_namespace
+      - prepare_external_evaluator_protocol
+      - product_reliability_smokes_separately
+    forbidden:
+      - rewrite_falsified_mechanism_positive
+    morning_gate: frozen_result_preserved_and_successor_benchmark_scaffold_separate
+
+  - id: ngmt_v01
+    class: FROZEN_RESULT
+    repository: vertex-studyAI/vertexED.ai
+    allowed_now:
+      - immutable_result_packaging
+      - successor_protocol_design_in_new_version
+    forbidden:
+      - in_place_rescue
+    morning_gate: v01_frozen_and_successor_namespace_clean_if_continued
+
+  - id: apen
+    class: PROTOCOL_FREEZE
+    repository: vertex-studyAI/vertexED.ai
+    allowed_now:
+      - matched_learned_memory_control
+      - naturalistic_salience_control
+      - failure_region_protocol
+    forbidden:
+      - reinterpret_existing_mixed_result_as_success
+    morning_gate: new_protocol_machine_readable_and_preoutcome_only
+
+  - id: pen
+    class: SOURCE_RECOVERY
+    repository: vertex-studyAI/vertexED.ai
+    allowed_now:
+      - recover_exact_source
+      - hash_source
+      - recover_original_compact_commands
+    forbidden:
+      - inherit_APEN_evidence
+    morning_gate: exact_source_recovered_or_unknown_blocker_recorded
+
+  - id: eigen_jepa
+    class: FROZEN_RESULT_AND_SUCCESSOR_PROTOCOL
+    repository: vertex-studyAI/vertexED.ai
+    allowed_now:
+      - preserve_current_mixed_negative_result
+      - define_multi_dataset_successor
+      - define_stronger_spectral_and_direct_baselines
+    forbidden:
+      - metric_switching
+      - in_place_rescue
+    morning_gate: current_result_immutable_and_successor_protocol_frozen_preoutcome
+
+  - id: eigen_finance
+    class: SOURCE_RECOVERY
+    repository: vertex-studyAI/vertexED.ai
+    allowed_now:
+      - recover_distinct_source
+      - isolate_contribution_from_adjacent_eigen_finance_lines
+    forbidden:
+      - novelty_claim_before_identity_closure
+    morning_gate: source_and_contribution_identity_closed_or_explicit_unknown
+
+  - id: npms
+    class: PROTOCOL_FREEZE
+    repository: vertex-studyAI/vertexED.ai
+    project_2424_id: T2424-0019
+    allowed_now:
+      - freeze_natural_or_causal_intervention_successor
+      - include_invariant_parameter_control
+      - include_state_space_control
+      - include_spectral_control
+    forbidden:
+      - natural_or_OOD_outcome_run_before_authorization
+    morning_gate: successor_protocol_and_controls_implemented_without_outcome_access
+
+  - id: jepa_timeseries
+    class: PROTOCOL_FREEZE
+    repository: vertex-studyAI/vertexED.ai
+    allowed_now:
+      - machine_readable_synthetic_protocol
+      - statistical_baselines
+      - objective_baselines
+      - budget_and_seed_freeze
+      - explicit_falsifier
+    forbidden:
+      - outcome_run_before_authorization
+    morning_gate: cheap_protocol_frozen_and_smoke_only
+
+  - id: weather_jepa
+    class: SOURCE_RECOVERY
+    repository: vertex-studyAI/vertexED.ai
+    allowed_now:
+      - recover_canonical_source
+      - prepare_loader_and_temporal_split_only_if_source_exists
+      - prepare_persistence_and_statistical_baselines_only_if_source_exists
+    forbidden:
+      - claim_implementation_without_source
+    morning_gate: source_recovered_and_scaffolded_or_UNKNOWN
+
+  - id: space_jepa
+    class: SOURCE_RECOVERY
+    repository: vertex-studyAI/vertexED.ai
+    allowed_now:
+      - recover_canonical_source
+      - prepare_mission_loader_only_if_source_exists
+      - prepare_persistence_ridge_reconstruction_baselines_only_if_source_exists
+    forbidden:
+      - claim_results_from_protocol_ideas
+    morning_gate: source_recovered_and_scaffolded_or_UNKNOWN
+
+  - id: audio_light
+    class: SOURCE_RECOVERY
+    repository: vertex-studyAI/vertexED.ai
+    allowed_now:
+      - recover_source
+      - retain_UNKNOWN_if_absent
+    forbidden:
+      - manufacture_implementation_status
+    morning_gate: source_truth_resolved
+
+  - id: hercules
+    class: SOURCE_RECOVERY_ARCHIVED_COMPUTE
+    repository: vertex-studyAI/vertexED.ai
+    allowed_now:
+      - recover_real_implementation
+      - freeze_one_matched_budget_protocol
+    forbidden:
+      - significant_training
+    morning_gate: implementation_truth_and_decisive_protocol_resolved
+
+  - id: olympus_family
+    class: SOURCE_RECOVERY_ARCHIVED_COMPUTE
+    repository: vertex-studyAI/vertexED.ai
+    aliases: [Olympus, Hermes, Prometheus, Perseus, Atlas, Kronos, Aion, Themis, Pantheon, Mnemosyne]
+    allowed_now:
+      - separate_real_implementations_from_names_and_specs
+      - freeze_matched_provider_task_tool_budget_protocol
+    forbidden:
+      - capability_claim_from_spec_or_name
+      - significant_training
+    morning_gate: component_truth_map_and_matched_protocol
+
+  - id: darcy_t2424_0050
+    class: PREOUTCOME_BLOCKED
+    repository: vertex-studyAI/vertexED.ai
+    project_path: portfolio/project2424/projects/T2424-0050
+    allowed_now:
+      - covariance_interpretation_closure
+      - OOD_D_interpretation_closure
+      - environment_lock
+      - hardware_identity
+      - B3_FNO_implementation_freeze
+      - B4_DeepONet_implementation_freeze
+      - final_split_manifest_hash
+      - final_budget_hash
+      - smoke_and_unit_checks_without_outcome_access
+    forbidden:
+      - learned_training
+      - ID_test_access
+      - OOD_outcome_access
+      - auto_merge_or_auto_deploy
+    morning_gate: every_pretraining_lock_closed_with_training_authorized_still_false
+
+  - id: t2424_1863
+    class: FROZEN_RESULT
+    repository: vertex-studyAI/vertexED.ai
+    allowed_now:
+      - package_exact_negative_synthetic_result
+      - design_new_real_PDE_successor_namespace
+    forbidden:
+      - current_result_rescue
+    morning_gate: frozen_package_self_contained_and_active_compute_archived
+
+project_2424:
+  structural_auditor: portfolio/project2424/tools/audit_run_readiness.py
+  identity_manifest: portfolio/project2424/SOURCE_IDENTITY_MANIFEST.json
+  represented_directory_count: 23
+  full_registry_recovered: false
+  classification_rule: structural_score_never_overrides_scientific_lock_or_result_state
