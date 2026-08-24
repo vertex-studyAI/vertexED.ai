@@ -1,0 +1,75 @@
+name: Project 2424 Run-Readiness Audit
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'portfolio/project2424/**'
+      - 'portfolio/research/RUN_READY_FREEZE_20260825.md'
+      - 'portfolio/research/run_ready_manifest_20260825.yaml'
+      - '.github/workflows/project2424-run-ready-audit.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  structural-audit:
+    name: Structural readiness only
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Compile auditor
+        run: |
+          python -m py_compile portfolio/project2424/tools/audit_run_readiness.py
+
+      - name: Audit repository-backed Project 2424 children
+        run: |
+          mkdir -p artifacts/project2424-run-ready
+          python portfolio/project2424/tools/audit_run_readiness.py \
+            --json-out artifacts/project2424-run-ready/audit.json \
+            --md-out artifacts/project2424-run-ready/audit.md
+
+      - name: Validate audit truth boundary
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          p = Path('artifacts/project2424-run-ready/audit.json')
+          data = json.loads(p.read_text())
+          assert data['scientific_claim_boundary'] == 'STRUCTURAL_ONLY'
+          assert data['project_count'] == 23, data['project_count']
+          assert len(data['projects']) == data['project_count']
+
+          ids = [row['project_id'] for row in data['projects']]
+          assert len(ids) == len(set(ids))
+          assert 'T2424-0050' in ids
+
+          print('STRUCTURAL_AUDIT_TRUTH_BOUNDARY_OK')
+          PY
+
+      - name: Print Markdown audit
+        run: cat artifacts/project2424-run-ready/audit.md
+
+      - name: Upload structural audit evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: project2424-run-ready-structural-audit
+          path: artifacts/project2424-run-ready/
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Scientific boundary reminder
+        run: |
+          printf '%s\n' \
+            'This workflow executes no scientific outcome runs.' \
+            'A green workflow is not evidence of model quality, novelty, reproduction, external validation, or a positive result.'
