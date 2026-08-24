@@ -1,0 +1,88 @@
+name: Research Pre-Outcome Readiness
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'portfolio/research/**'
+      - 'portfolio/project2424/projects/T2424-0036/report.mjs'
+      - 'portfolio/project2424/projects/T2424-0049/report.mjs'
+      - 'portfolio/project2424/projects/T2424-0053/report.mjs'
+      - '.github/workflows/research-preoutcome-readiness.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  contracts:
+    name: Validate non-outcome research contracts
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Compile Python readiness tools
+        run: |
+          python -m py_compile portfolio/research/tools/validate_preoutcome_queue.py
+          python -m py_compile portfolio/project2424/tools/audit_run_readiness.py
+
+      - name: Validate pre-outcome executor queue
+        run: |
+          python portfolio/research/tools/validate_preoutcome_queue.py \
+            portfolio/research/PREOUTCOME_EXECUTOR_QUEUE_20260825.ndjson
+
+      - name: Validate machine-readable JEPA time-series protocol
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          path = Path('portfolio/research/jepa_timeseries/PREOUTCOME_PROTOCOL_V1.json')
+          data = json.loads(path.read_text())
+          assert data['state'] == 'PROTOCOL_MATERIALIZED_NOT_OUTCOME_AUTHORIZED'
+          assert data['outcome_authorized'] is False
+          assert data['confirmatory']['authorized'] is False
+          assert data['confirmatory']['seed_integers'] is None
+          assert data['primary_hypothesis']['absolute_effect_threshold'] == 0.05
+          assert data['development']['seeds'] == [0, 1, 2]
+          print('JEPA_TS_PREOUTCOME_PROTOCOL_VALID')
+          PY
+
+      - name: Syntax-check machine reporting surfaces
+        run: |
+          node --check portfolio/project2424/projects/T2424-0036/report.mjs
+          node --check portfolio/project2424/projects/T2424-0049/report.mjs
+          node --check portfolio/project2424/projects/T2424-0053/report.mjs
+
+      - name: Validate Project 2424 structural audit contract
+        run: |
+          mkdir -p /tmp/project2424-readiness
+          python portfolio/project2424/tools/audit_run_readiness.py \
+            --json-out /tmp/project2424-readiness/audit.json \
+            --md-out /tmp/project2424-readiness/audit.md
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          data = json.loads(Path('/tmp/project2424-readiness/audit.json').read_text())
+          assert data['scientific_claim_boundary'] == 'STRUCTURAL_ONLY'
+          assert data['project_count'] == 23
+          print('PROJECT2424_STRUCTURAL_ONLY_CONTRACT_VALID')
+          PY
+
+      - name: Assert this workflow ran no scientific outcome command
+        run: |
+          printf '%s\n' \
+            'PREOUTCOME_READINESS_GREEN' \
+            'No protected scientific outcome run was executed by this workflow.'
