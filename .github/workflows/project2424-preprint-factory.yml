@@ -20,14 +20,23 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+
       - name: Materialize all 2,424 child packages
         run: |
           python portfolio/project2424/factory/build_all.py \
             --out "$RUNNER_TEMP/project2424-packages" \
             --validate
+
+      - name: Complete and verify 13/13 structural contract for all children
+        run: |
+          python portfolio/project2424/factory/complete_structural_contract.py \
+            --root "$RUNNER_TEMP/project2424-packages" \
+            --summary "$RUNNER_TEMP/project2424-13of13-summary.json"
+
       - name: Assert exact child count
         run: |
           test "$(find "$RUNNER_TEMP/project2424-packages" -mindepth 1 -maxdepth 1 -type d -name 'T2424-*' | wc -l | tr -d ' ')" = "2424"
+
       - name: Fail if any child is falsely preprint-ready
         run: |
           python - <<'PY'
@@ -42,3 +51,25 @@ jobs:
           assert not bad, f'unreviewed generated packages marked preprint-ready: {bad[:20]}'
           print('All generated packages remain fail-closed until project-specific release evidence passes.')
           PY
+
+      - name: Assert aggregate 2,424/2,424 at 13/13
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          p = Path(os.environ['RUNNER_TEMP']) / 'project2424-13of13-summary.json'
+          s = json.loads(p.read_text())
+          assert s['project_count'] == 2424, s
+          assert s['projects_at_13_of_13'] == 2424, s
+          assert s['all_13_of_13'] is True, s
+          assert s['scientific_completion_implied'] is False, s
+          print('VERIFIED: 2,424/2,424 generated child repos are structurally 13/13; no scientific completion is implied.')
+          PY
+
+      - name: Upload structural truth summary
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: project2424-13of13-structural-summary
+          path: ${{ runner.temp }}/project2424-13of13-summary.json
+          if-no-files-found: error
