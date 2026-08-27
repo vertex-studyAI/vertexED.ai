@@ -6,7 +6,6 @@ import { pathToFileURL } from 'node:url';
 const RUNTIME_PREFIXES = [
   'api/',
   'public/',
-  'scripts/',
   'src/',
   'supabase/',
 ];
@@ -17,6 +16,12 @@ const RUNTIME_FILES = new Set([
   'index.html',
   'package-lock.json',
   'package.json',
+  'scripts/build.mjs',
+  'scripts/generate-build-revision.mjs',
+  'scripts/generate-study-guide-sitemap.mjs',
+  'scripts/publish-neurocad-alpha.mjs',
+  'scripts/validate-vercel-functions.mjs',
+  'scripts/vercel-ignore-build.mjs',
   'vercel.json',
 ]);
 
@@ -24,6 +29,7 @@ const ROOT_BUILD_CONFIG = /^(?:eslint\.config\.|postcss\.config\.|tailwind\.conf
 const DIFF_FILTER = 'ACDMRTUXB';
 const GIT_REVISION = /^[0-9a-f]{7,40}$/;
 const PREVIOUS_DEPLOY_SHA_ENV = 'VERCEL_GIT_PREVIOUS_SHA';
+const DEFAULT_BRANCH_CANDIDATES = ['origin/main', 'main'];
 
 function normalizePath(filePath) {
   return filePath.trim().replace(/^\.\//, '').replaceAll('\\', '/');
@@ -38,6 +44,19 @@ function splitPaths(output) {
 
 function defaultRunGit(args) {
   return execFileSync('git', args, { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] });
+}
+
+function resolveFirstVercelDeploymentBase({ head, runGit }) {
+  for (const candidate of DEFAULT_BRANCH_CANDIDATES) {
+    try {
+      const mergeBase = String(runGit(['merge-base', head, candidate]) || '').trim().toLowerCase();
+      if (GIT_REVISION.test(mergeBase) && mergeBase !== head) return mergeBase;
+    } catch {
+      // Try the next locally available representation of the default branch.
+    }
+  }
+
+  throw new Error(`missing ${PREVIOUS_DEPLOY_SHA_ENV} and unable to establish a merge base with main`);
 }
 
 export function isRuntimeRelevant(filePath) {
@@ -55,6 +74,7 @@ export function shouldBuild(changedFiles) {
 export function readChangedFiles({
   head = 'HEAD',
   previousSha = process.env[PREVIOUS_DEPLOY_SHA_ENV],
+  isVercel = Boolean(process.env.VERCEL),
   runGit = defaultRunGit,
 } = {}) {
   const previous = String(previousSha || '').trim().toLowerCase();
@@ -65,6 +85,11 @@ export function readChangedFiles({
       throw new Error(`invalid ${PREVIOUS_DEPLOY_SHA_ENV}: ${previous}`);
     }
     base = previous;
+  } else if (isVercel) {
+    // VERCEL_GIT_PREVIOUS_SHA is empty on a branch's first deployment. Comparing
+    // only HEAD^ can miss runtime changes made earlier on a multi-commit PR, so
+    // compare the complete branch delta against main or build conservatively.
+    base = resolveFirstVercelDeploymentBase({ head, runGit });
   }
 
   const output = runGit([
