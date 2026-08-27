@@ -2,6 +2,8 @@
 
 This file is a pointer ledger. It does not replace the underlying raw artifacts, test outputs, PRs or historical result files.
 
+**Truth refresh:** 2026-08-27.
+
 ## Historical research evidence
 
 ### Frozen v1
@@ -33,6 +35,8 @@ Primary repository evidence:
 - `NEUROCAD_COMPONENT_ABLATION_RESULT_20260814.md`
 - `benchmark/component_ablation_evaluate.mjs`
 - component-ablation GitHub Actions workflow.
+
+The mechanism diagnostic falsifies a typed-parser-specific causal interpretation on the reused 20-case diagnostic. It does not erase the historical v1 system result and must not be retuned to rescue that mechanism claim.
 
 ## Alpha product evidence
 
@@ -72,34 +76,68 @@ Merged. Adds bounded `OD` / `flange OD` interpretation with create/edit regressi
 
 ## Deployment evidence
 
-Current gate: **NOT VERIFIED**.
+Current gate: **G12 NOT VERIFIED**.
 
-- GitHub issue #431 tracks G12.
-- The production job checks the live `https://www.vertexed.app/neurocad/` artifact identity before running the production browser smoke.
-- Recent main-branch failure notifications are consistent with this intentionally strict production gate.
-- Do not cite PR-head browser certification as proof of live deployment.
+Verified deployment/provenance facts:
+
+- deterministic NeuroCAD artifact publication exists on the dedicated `neurocad-public` release path;
+- exact source/artifact identity is retained by the release machinery;
+- merged PR #520 records the confirmed failure mode of the jsDelivr candidate: HTML is served as `text/plain`, so the immutable CDN is valid artifact transport but not an executable browser host;
+- the production browser gate therefore requires an accepted executable canonical host rather than treating artifact visibility as deployment completion.
+
+Still required:
+
+- an executable accepted public NeuroCAD route serving the intended artifact;
+- served source/artifact identity evidence;
+- unchanged flagship Playwright/browser smoke PASS against that public route;
+- only then may issue #431/G12 close.
+
+Do not cite PR-head browser certification or a downloadable CDN artifact as proof of public deployment.
 
 ## External validation evidence
 
-Current gate: **NOT VERIFIED**.
+Current gate: **G13 NOT VERIFIED**.
 
 - GitHub issue #458 tracks external pilots.
 - 15 targeted invitations were sent on 2026-08-23.
 - `EXTERNAL_PILOT.md` standardizes the test.
 - `PILOT_FEEDBACK_TEMPLATE.md` standardizes evidence capture.
-- As of this ledger update, no external engineer/team has completed a recorded pilot.
+- no completed external engineer/team pilot is currently retained in the public project evidence.
+
+Outreach, interest, methodological advice, or a scheduled walkthrough do not by themselves satisfy G13.
 
 ## Successor research evidence
 
-Historical PR #430 proposed a stronger 150-case successor protocol with matched baselines, predeclared falsifiers, mechanism ablations and external benchmark adapters.
+The 150-case successor research gate is now represented on `main`; the old statement that it exists only in closed PR #430 is stale.
 
-Current truth:
+Current retained successor evidence:
 
-- PR #430 was closed unmerged;
-- no successor performance result exists;
-- the proposed protocol explicitly remained `DATASET_AND_MODEL_IDENTITY_BLOCKED`;
+- `S3_SUCCESSOR_PROTOCOL_20260822.md` — frozen research question, 150-case benchmark shape, H1/H2/H3 thresholds, falsifiers, B0-B3 baseline requirements, ablations, statistics, split/freeze order and authorization gate;
+- `benchmark/s3_successor_manifest.json` — machine-readable successor protocol surface;
+- `benchmark/generate_s3_execution_authorization.mjs` — authorization-generation surface;
+- `benchmark/s3_external_adapter_registry.json` — external benchmark identity registry;
+- `benchmark/validate_s3_external_adapter_registry.mjs` and regression tests — fail-closed guards.
+
+### External adapter identity state
+
+Registry status: `IDENTITIES_VERIFIED_NOT_MATERIALIZED`.
+
+- CADTestBench is selected as the primary executable semantic/geometric/topological adapter;
+- MUSE is selected as the secondary engineering-design/rubric adapter;
+- Text2CAD-Bench is retained as preview/related-work evidence rather than counted as a full materialized adapter;
+- AssemCAD remains a code/reference identity until dataset identity/licensing is verified;
+- required materialized adapters: 2;
+- current materialized adapters: 0;
+- confirmatory execution authorized: `false`.
+
+### Successor result state
+
+- no S3 confirmatory performance result exists;
+- exact dataset revisions/content hashes are not yet frozen;
+- provider/model identity and matched model-based baselines are not yet frozen;
+- evaluation split must remain unopened until the authorization contract is satisfied;
 - historical v1/v2 results remain immutable.
 
 ## Claim rule
 
-A claim may move to VERIFIED only when this ledger can point to the exact version, test/evaluator, observed result and retained evidence. No inference from outreach, source presence, or visual plausibility is sufficient.
+A claim may move to VERIFIED only when this ledger can point to the exact version, test/evaluator, observed result and retained evidence. No inference from outreach, source presence, artifact transport, visual plausibility, or an unexecuted protocol is sufficient.

@@ -1,10 +1,10 @@
 # NeuroCAD — Current Verified State
 
-**As of:** 2026-08-23
+**As of:** 2026-08-27
 
 ## Overall state
 
-`DEMO_READY / PUBLIC_ALPHA_DEPLOYMENT_NOT_VERIFIED / EXTERNAL_VALIDATION_PENDING`
+`DEMO_READY / PUBLIC_ALPHA_EXECUTABLE_HOST_BLOCKED / EXTERNAL_VALIDATION_PENDING / S3_PROTOCOL_FROZEN_IDENTITY_BLOCKED`
 
 Historical research mechanism state: `VALIDATION_DOMINANT`; the old typed-IR-specific superiority claim is not supported by the matched-validation diagnostic.
 
@@ -27,20 +27,27 @@ Historical research mechanism state: `VALIDATION_DOMINANT`; the old typed-IR-spe
 - frozen historical held-out benchmark retained;
 - frozen component-ablation diagnostic retained;
 - external engineering pilot protocol and feedback template merged;
-- 15 targeted external pilot invitations sent on 2026-08-23.
+- 15 targeted external pilot invitations sent on 2026-08-23;
+- deterministic `neurocad-public` artifact publication/provenance path exists;
+- merged PR #520 established that jsDelivr is artifact transport only because served HTML is `text/plain`, and therefore cannot satisfy G12 browser certification;
+- S3 successor protocol is present on `main` and remains frozen before confirmatory execution;
+- S3 external-adapter registry is present on `main` with CADTestBench and MUSE selected as intended adapters, but neither is materialized and confirmatory execution remains unauthorized.
 
 ## Open / not verified
 
-- exact current public NeuroCAD artifact served at `https://www.vertexed.app/neurocad/`;
-- passing production flagship smoke against that served artifact;
+- an executable public NeuroCAD host serving the intended artifact at an accepted canonical route;
+- passing production flagship smoke against that executable served artifact;
 - any completed external engineering pilot;
 - externally discovered defect -> fix -> external retest loop;
 - product-market value, retention or willingness to pay;
 - broader CAD interoperability beyond the documented Alpha export surface;
 - strong positive typed-IR methods claim;
-- new 150-case successor research result.
+- materialized and content-hashed S3 external benchmark adapters;
+- frozen provider/model identity and matched model-based baseline implementations for S3;
+- `EXECUTION_AUTHORIZATION.json` satisfying the S3 preconditions;
+- any new 150-case successor performance result.
 
-## Release gates
+## Release / research gates
 
 | Gate | State | Current truth |
 |---|---|---|
@@ -56,13 +63,19 @@ Historical research mechanism state: `VALIDATION_DOMINANT`; the old typed-IR-spe
 | G9 QA | GREEN | deterministic QA + workflow certifications |
 | G10 Product demo | GREEN | end-to-end bounded workflow exists |
 | G11 Claims/integrity | GREEN | negative evidence and falsifier preserved |
-| G12 Public deployment | RED | production artifact identity/smoke not verified |
-| G13 External pilot evidence | RED | no completed third-party pilot yet |
+| G12 Public deployment | RED | immutable artifact transport exists, but no accepted executable public host has passed the production browser smoke |
+| G13 External pilot evidence | RED | no completed third-party pilot is retained |
+| S3 Protocol | GREEN | successor protocol and falsifiers are frozen on `main` |
+| S3 Adapter identity | YELLOW | CADTestBench + MUSE identities selected; materialization/hashes remain absent |
+| S3 Execution authorization | RED | provider/model/baselines/data hashes are incomplete; confirmatory execution is forbidden |
+| S3 Result | RED | no successor performance result exists |
 
 ## Current blockers
 
-1. **G12:** hosting/deployment has not produced a currently verified matching public artifact. The production-smoke job is intentionally strict and remains red until it does.
-2. **G13:** pilot invitations exist, but no external engineer has completed a recorded workflow yet.
-3. **Successor research:** the closed/unmerged successor protocol was `DATASET_AND_MODEL_IDENTITY_BLOCKED`; no successor result exists.
+1. **G12 executable public host:** jsDelivr is valid immutable artifact transport but serves HTML as `text/plain`; it cannot satisfy the browser gate. An accepted executable host must serve the intended artifact and pass the unchanged flagship smoke.
+2. **G13 external pilot:** invitations and pilot tooling exist, but no completed independent workflow is retained yet.
+3. **S3 benchmark materialization:** selected external adapter identities exist, but exact immutable dataset revisions and content hashes are not frozen.
+4. **S3 model/baseline identity:** matched provider/model/budget policy and B0-B3 implementations/configs are not fully frozen.
+5. **S3 authorization:** do not run the confirmatory benchmark until the predeclared authorization artifact exists and hashes every required identity.
 
-Do not turn any blocker green by weakening a test, changing a claim definition, or counting outreach as validation.
+Do not turn any blocker green by weakening a test, changing a claim definition, counting outreach as validation, or running confirmatory research before the frozen authorization gate is satisfied.
