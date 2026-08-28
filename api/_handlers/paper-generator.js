@@ -4,7 +4,17 @@ import { rateLimitUserEndpoint } from '../_lib/rateLimit.js';
 const OPENAI_URL = "https://api.openai.com/v1/chat/completions";
 const DEFAULT_MODEL = "gpt-4.1";
 const MAX_BASE64_BYTES = 3 * 1024 * 1024;
+const MAX_IMAGES = 10;
 const REQUEST_TIMEOUT_MS = 30_000;
+const ALLOWED_IMAGE_MIME_TYPES = new Set(["image/jpeg", "image/png", "image/webp"]);
+const BASE64_RE = /^[A-Za-z0-9+/]*={0,2}$/;
+
+class InputValidationError extends Error {
+  constructor(message) {
+    super(message);
+    this.name = "InputValidationError";
+  }
+}
 
 function normalizeDifficulty(input) {
   const map = {
@@ -25,20 +35,64 @@ function normalizeTopics(topicsRaw) {
   return [];
 }
 
-function validateImages(imagesInput = []) {
-  if (!Array.isArray(imagesInput)) return [];
+function decodedBase64Bytes(value) {
+  if (!value) return 0;
+  const padding = value.endsWith("==") ? 2 : value.endsWith("=") ? 1 : 0;
+  return Math.floor((value.length * 3) / 4) - padding;
+}
+
+export function validateImages(imagesInput = []) {
+  if (!Array.isArray(imagesInput)) {
+    throw new InputValidationError("Images must be an array");
+  }
+  if (imagesInput.length > MAX_IMAGES) {
+    throw new InputValidationError(`At most ${MAX_IMAGES} images are allowed`);
+  }
 
   const seen = new Set();
   const out = [];
 
-  for (const img of imagesInput.slice(0, 10)) {
-    const { name, mime, b64, url, caption } = img || {};
-    if (!name && !url) continue;
+  for (const rawImage of imagesInput) {
+    if (!rawImage || typeof rawImage !== "object" || Array.isArray(rawImage)) {
+      throw new InputValidationError("Each image must be an object");
+    }
 
-    if (b64 && typeof b64 === "string") {
-      const approxBytes = Math.ceil((b64.length * 3) / 4);
-      if (approxBytes > MAX_BASE64_BYTES) {
-        throw new Error(`Image ${name || "unnamed"} exceeds size limit`);
+    const name = typeof rawImage.name === "string" ? rawImage.name.trim() : "";
+    const mime = typeof rawImage.mime === "string" ? rawImage.mime.trim().toLowerCase() : "";
+    const b64 = typeof rawImage.b64 === "string" ? rawImage.b64.trim() : "";
+    const url = typeof rawImage.url === "string" ? rawImage.url.trim() : "";
+    const caption = typeof rawImage.caption === "string" ? rawImage.caption.slice(0, 500) : null;
+
+    if (!name && !url) {
+      throw new InputValidationError("Each image requires a name or URL");
+    }
+
+    if (b64) {
+      if (!name) {
+        throw new InputValidationError("Uploaded images require a file name");
+      }
+      if (!ALLOWED_IMAGE_MIME_TYPES.has(mime)) {
+        throw new InputValidationError(`Unsupported image type for ${name}`);
+      }
+      if (b64.startsWith("data:") || b64.length % 4 !== 0 || !BASE64_RE.test(b64)) {
+        throw new InputValidationError(`Image ${name} contains malformed base64 data`);
+      }
+      if (decodedBase64Bytes(b64) > MAX_BASE64_BYTES) {
+        throw new InputValidationError(`Image ${name} exceeds size limit`);
+      }
+    } else if (mime && !ALLOWED_IMAGE_MIME_TYPES.has(mime)) {
+      throw new InputValidationError(`Unsupported image type for ${name || "image"}`);
+    }
+
+    if (url) {
+      let parsedUrl;
+      try {
+        parsedUrl = new URL(url);
+      } catch {
+        throw new InputValidationError("Image URL is invalid");
+      }
+      if (parsedUrl.protocol !== "https:") {
+        throw new InputValidationError("Image URLs must use HTTPS");
       }
     }
 
@@ -51,7 +105,7 @@ function validateImages(imagesInput = []) {
       mime: mime || null,
       b64: b64 || null,
       url: url || null,
-      caption: caption || null,
+      caption,
     });
   }
 
@@ -281,6 +335,9 @@ export default async function handler(req, res) {
       },
     });
   } catch (err) {
+    if (err?.name === "InputValidationError") {
+      return res.status(400).json({ success: false, error: err.message });
+    }
     const isAbort = err.name === "AbortError";
     return res.status(isAbort ? 504 : 500).json({
       success: false,
