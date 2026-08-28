@@ -9,6 +9,8 @@ export type DailySnapshot = {
   habitCount: number;
   reviewsCompleted: number;
   avgMastery: number;
+  /** Number of tracked topic aggregates used to compute avgMastery. */
+  masterySampleCount?: number;
 };
 
 export type ProgressTrend = {
@@ -17,6 +19,7 @@ export type ProgressTrend = {
   reviewsThisWeek: number;
   masteryTrend: 'up' | 'down' | 'flat';
   avgMastery: number;
+  hasMasteryData: boolean;
   studyMinutesEstimate: number;
 };
 
@@ -46,10 +49,10 @@ function writeSnapshots(snapshots: DailySnapshot[]) {
 export function recordDailySnapshot() {
   const stats = getStudyStats();
   const heatmap = getWeaknessHeatmap(20);
-  const avgMastery =
-    heatmap.length > 0
-      ? Math.round(heatmap.reduce((s, h) => s + h.avgPercent, 0) / heatmap.length)
-      : 50;
+  const masterySampleCount = heatmap.length;
+  const avgMastery = masterySampleCount
+    ? Math.round(heatmap.reduce((s, h) => s + h.avgPercent, 0) / masterySampleCount)
+    : 0;
 
   const today = todayKey();
   const snapshots = readSnapshots().filter((s) => s.date !== today);
@@ -60,6 +63,7 @@ export function recordDailySnapshot() {
     habitCount: stats.habitCount,
     reviewsCompleted: heatmap.reduce((s, h) => s + h.attempts, 0),
     avgMastery,
+    masterySampleCount,
   });
   writeSnapshots(snapshots);
 }
@@ -72,18 +76,25 @@ export function getProgressTrend(recordSnapshot = false): ProgressTrend {
   const last7 = snapshots.slice(-7);
   const reviewsThisWeek = last7.reduce((s, d) => s + d.reviewsCompleted, 0);
 
+  // Legacy snapshots did not record whether mastery was measured and used a
+  // synthetic default. Treat them as unavailable instead of silently carrying
+  // that placeholder into evidence-facing analytics.
+  const masterySnapshots = last7.filter((snapshot) => (snapshot.masterySampleCount ?? 0) > 0);
+  const hasMasteryData = masterySnapshots.length > 0;
+
   let masteryTrend: ProgressTrend['masteryTrend'] = 'flat';
-  if (last7.length >= 2) {
-    const first = last7[0].avgMastery;
-    const last = last7[last7.length - 1].avgMastery;
+  if (masterySnapshots.length >= 2) {
+    const first = masterySnapshots[0].avgMastery;
+    const last = masterySnapshots[masterySnapshots.length - 1].avgMastery;
     if (last > first + 3) masteryTrend = 'up';
     else if (last < first - 3) masteryTrend = 'down';
   }
 
-  const avgMastery = last7.length
-    ? Math.round(last7.reduce((s, d) => s + d.avgMastery, 0) / last7.length)
-    : 50;
+  const avgMastery = hasMasteryData
+    ? Math.round(masterySnapshots.reduce((s, d) => s + d.avgMastery, 0) / masterySnapshots.length)
+    : 0;
 
+  // This remains a heuristic convenience estimate, not measured study time.
   const studyMinutesEstimate = stats.studyStreak * 25 + stats.habitsDoneToday * 15;
 
   return {
@@ -92,6 +103,7 @@ export function getProgressTrend(recordSnapshot = false): ProgressTrend {
     reviewsThisWeek,
     masteryTrend,
     avgMastery,
+    hasMasteryData,
     studyMinutesEstimate,
   };
 }
