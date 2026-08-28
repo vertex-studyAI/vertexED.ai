@@ -80,10 +80,17 @@ export default function ResetPassword() {
       if (updateError) throw updateError;
 
       clearPasswordRecoveryMarker();
-      await supabase.auth.signOut();
       setPassword("");
       setConfirmPassword("");
       setAuthorized(false);
+
+      const { error: signOutError } = await supabase.auth.signOut();
+      if (signOutError) {
+        throw new Error(
+          "Password updated, but VertexED could not verify that this recovery session was signed out. Do not continue using this session; return to login after the session is fully cleared.",
+        );
+      }
+
       setSuccess(true);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Could not update your password. Request a new reset link and try again.");
