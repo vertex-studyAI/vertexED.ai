@@ -1,6 +1,7 @@
 import { verifyAuthUser, readJsonBody, rejectOversizedJsonBody } from '../_lib/auth.js';
 import { rateLimitUserEndpoint } from '../_lib/rateLimit.js';
 import { formatSourcesForPrompt, GROUNDED_CHAT_RULES } from '../_lib/grounding.js';
+import { callChatProvider, extractChatAnswer, resolveChatProvider } from '../_lib/aiProviders.js';
 
 const MAX_QUESTION_CHARS = 4000;
 
@@ -19,15 +20,11 @@ export default async function handler(req, res) {
   if (rejectOversizedJsonBody(req, res, 256 * 1024)) return;
   if (!(await rateLimitUserEndpoint(user.id, 'ask', res))) return;
 
-  const OPENAI_API_KEY =
-    process.env.OPENAI_API_KEY ||
-    process.env.ChatbotKey ||
-    process.env.CHATBOT_KEY;
-
-  if (!OPENAI_API_KEY) {
-    console.error(
-      "❌ Missing OpenAI API key env var (set OPENAI_API_KEY or ChatbotKey)",
-    );
+  let providerConfig;
+  try {
+    providerConfig = resolveChatProvider(process.env);
+  } catch (error) {
+    console.error('❌ Chat provider configuration error:', error instanceof Error ? error.message : 'unknown error');
     return res.status(500).json({
       error: "Server configuration error",
     });
@@ -99,66 +96,33 @@ Rules:
     };
 
     const chatMessages = buildMessages();
+    const PRIMARY_MODEL = providerConfig.primaryModel;
+    const FALLBACK_MODEL = providerConfig.fallbackModel;
 
-    const PRIMARY_MODEL =
-      process.env.CHATBOT_MODEL ||
-      "ft:gpt-4.1-mini-2025-04-14:verteded:apex-chatbot:CSgJ1mRt";
-    const FALLBACK_MODEL = process.env.CHATBOT_FALLBACK_MODEL || "gpt-4o-mini";
-
-    const extractAnswer = (data) => {
-      const content = data?.choices?.[0]?.message?.content;
-      if (typeof content === "string" && content.trim()) return content.trim();
-      const refusal = data?.choices?.[0]?.message?.refusal;
-      if (typeof refusal === "string" && refusal.trim()) return refusal.trim();
-      const text = data?.choices?.[0]?.text;
-      if (typeof text === "string" && text.trim()) return text.trim();
-
-      const outputText = data?.output_text;
-      if (typeof outputText === "string" && outputText.trim()) return outputText.trim();
-      const responseText = data?.output?.[0]?.content?.[0]?.text;
-      if (typeof responseText === "string" && responseText.trim()) return responseText.trim();
-
-      return null;
-    };
-
-    const callOpenAI = async (model) => {
-      const payload = {
+    const callProvider = (model) =>
+      callChatProvider({
+        config: providerConfig,
         model,
         messages: chatMessages,
         temperature: 0.4,
-        max_tokens: 1200,
-      };
+        maxTokens: 1200,
+      });
 
-      const response = await fetch(
-        "https://api.openai.com/v1/chat/completions",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${OPENAI_API_KEY}`,
-          },
-          body: JSON.stringify(payload),
-        },
-      );
+    let { response, raw, model, provider } = await callProvider(PRIMARY_MODEL);
 
-      const raw = await response.text();
-      return { response, raw, model };
-    };
-
-    let { response, raw, model } = await callOpenAI(PRIMARY_MODEL);
-
-    // If the fine-tuned model is unavailable (common on new keys), fall back.
+    // Preserve the existing OpenAI fallback behavior and allow an explicitly configured
+    // provider-specific fallback without ever switching providers implicitly.
     if (!response.ok && FALLBACK_MODEL && FALLBACK_MODEL !== PRIMARY_MODEL && response.status !== 401) {
       console.warn(
-        `⚠️ Primary chatbot model failed (${PRIMARY_MODEL}, status ${response.status}). Retrying with fallback model (${FALLBACK_MODEL}).`,
+        `⚠️ Primary chatbot model failed (${provider}/${PRIMARY_MODEL}, status ${response.status}). Retrying with fallback model (${FALLBACK_MODEL}).`,
       );
-      ({ response, raw, model } = await callOpenAI(FALLBACK_MODEL));
+      ({ response, raw, model, provider } = await callProvider(FALLBACK_MODEL));
     }
 
-    console.log("OpenAI status:", response.status, "model:", model);
+    console.log("AI provider status:", response.status, "provider:", provider, "model:", model);
 
     if (!response.ok) {
-      console.error("❌ OpenAI error:", response.status, model);
+      console.error("❌ AI provider error:", response.status, provider, model);
       return respondAiFailure(res);
     }
 
@@ -166,42 +130,44 @@ Rules:
     try {
       data = JSON.parse(raw);
     } catch {
-      console.error("❌ Invalid JSON from OpenAI:", raw);
+      console.error("❌ Invalid JSON from AI provider:", provider, model);
       return res.status(500).json({ error: "Invalid AI response format" });
     }
 
-    let answer = extractAnswer(data);
+    let answer = extractChatAnswer(data);
 
-    // Some fine-tunes can return empty output (content: ""). Treat that as failure.
+    // Some models can return empty output. Treat that as failure and retry only
+    // with an explicitly configured fallback model on the same provider.
     if (!answer && FALLBACK_MODEL && FALLBACK_MODEL !== model) {
       console.warn(
-        `⚠️ Model returned empty output (${model}). Retrying with fallback model (${FALLBACK_MODEL}).`,
+        `⚠️ Model returned empty output (${provider}/${model}). Retrying with fallback model (${FALLBACK_MODEL}).`,
       );
 
-      const fallbackCall = await callOpenAI(FALLBACK_MODEL);
+      const fallbackCall = await callProvider(FALLBACK_MODEL);
       model = fallbackCall.model;
       raw = fallbackCall.raw;
       response = fallbackCall.response;
+      provider = fallbackCall.provider;
 
-      console.log("OpenAI status:", response.status, "model:", model);
+      console.log("AI provider status:", response.status, "provider:", provider, "model:", model);
 
       if (!response.ok) {
-        console.error("❌ OpenAI fallback error:", response.status, model);
+        console.error("❌ AI provider fallback error:", response.status, provider, model);
         return respondAiFailure(res);
       }
 
       try {
         data = JSON.parse(raw);
       } catch {
-        console.error("❌ Invalid JSON from OpenAI:", raw);
+        console.error("❌ Invalid JSON from AI provider fallback:", provider, model);
         return res.status(500).json({ error: "Invalid AI response format" });
       }
 
-      answer = extractAnswer(data);
+      answer = extractChatAnswer(data);
     }
 
     if (!answer) {
-      console.error("❌ No answer in OpenAI response:", data);
+      console.error("❌ No answer in AI provider response:", provider, model);
       return res.status(500).json({
         error: "AI returned no answer",
       });
