@@ -19,7 +19,8 @@ export default function ExamReadinessRing({ readiness, size = 'md', showFactors 
   const r = size === 'sm' ? 36 : 52;
   const stroke = size === 'sm' ? 5 : 7;
   const c = 2 * Math.PI * r;
-  const offset = c - (readiness.score / 100) * c;
+  const hasReadinessEvidence = readiness.band !== 'unknown';
+  const offset = hasReadinessEvidence ? c - (readiness.score / 100) * c : c;
 
   return (
     <div className={cn('exam-readiness', size === 'sm' && 'exam-readiness-sm', ringOnly && 'exam-readiness-ring-only')}>
@@ -48,7 +49,7 @@ export default function ExamReadinessRing({ readiness, size = 'md', showFactors 
             />
           </svg>
           <div className="exam-readiness-score">
-            <span className="tabular-nums font-bold text-foreground">{readiness.score}</span>
+            <span className="tabular-nums font-bold text-foreground">{hasReadinessEvidence ? readiness.score : '—'}</span>
           </div>
         </div>
         {!ringOnly && (
