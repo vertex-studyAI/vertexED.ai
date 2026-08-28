@@ -16,6 +16,67 @@ function pushBlocker(blockers, code, detail) {
   blockers.push({ code, detail });
 }
 
+function diagnoseResourceHardStops(runtime, blockers) {
+  const freeBytes = runtime.disk?.free_bytes;
+  const diskHardStopBytes = runtime.disk?.hard_stop_free_bytes;
+  if (!finiteNumber(freeBytes) || freeBytes < 0 || !finiteNumber(diskHardStopBytes) || diskHardStopBytes <= 0) {
+    pushBlocker(blockers, 'DISK_EVIDENCE_INVALID', 'free_bytes must be non-negative and hard_stop_free_bytes must be positive');
+  } else if (freeBytes < diskHardStopBytes) {
+    pushBlocker(blockers, 'DISK_HARD_STOP', `${freeBytes} free bytes is below hard stop ${diskHardStopBytes}`);
+  }
+
+  const physicalBytes = runtime.memory?.physical_bytes;
+  const availableBytes = runtime.memory?.available_bytes;
+  const memoryHardStopBytes = runtime.memory?.hard_stop_available_bytes;
+  if (
+    !finiteNumber(physicalBytes) || physicalBytes <= 0 ||
+    !finiteNumber(availableBytes) || availableBytes < 0 || availableBytes > physicalBytes ||
+    !finiteNumber(memoryHardStopBytes) || memoryHardStopBytes <= 0 || memoryHardStopBytes > physicalBytes
+  ) {
+    pushBlocker(
+      blockers,
+      'MEMORY_EVIDENCE_INVALID',
+      'physical_bytes must be positive; available_bytes and hard_stop_available_bytes must be within physical memory',
+    );
+  } else if (availableBytes < memoryHardStopBytes) {
+    pushBlocker(
+      blockers,
+      'MEMORY_HARD_STOP',
+      `${availableBytes} available bytes is below hard stop ${memoryHardStopBytes}`,
+    );
+  }
+
+  const swapUsedBytes = runtime.memory?.swap_used_bytes;
+  const swapHardStopBytes = runtime.memory?.hard_stop_swap_used_bytes;
+  if (!finiteNumber(swapUsedBytes) || swapUsedBytes < 0 || !finiteNumber(swapHardStopBytes) || swapHardStopBytes <= 0) {
+    pushBlocker(
+      blockers,
+      'SWAP_EVIDENCE_INVALID',
+      'swap_used_bytes must be non-negative and hard_stop_swap_used_bytes must be positive',
+    );
+  } else if (swapUsedBytes >= swapHardStopBytes) {
+    pushBlocker(
+      blockers,
+      'SWAP_HARD_STOP',
+      `${swapUsedBytes} swap-used bytes reached hard stop ${swapHardStopBytes}`,
+    );
+  }
+
+  return {
+    disk: {
+      freeBytes: finiteNumber(freeBytes) ? freeBytes : null,
+      hardStopFreeBytes: finiteNumber(diskHardStopBytes) ? diskHardStopBytes : null,
+    },
+    memory: {
+      physicalBytes: finiteNumber(physicalBytes) ? physicalBytes : null,
+      availableBytes: finiteNumber(availableBytes) ? availableBytes : null,
+      hardStopAvailableBytes: finiteNumber(memoryHardStopBytes) ? memoryHardStopBytes : null,
+      swapUsedBytes: finiteNumber(swapUsedBytes) ? swapUsedBytes : null,
+      hardStopSwapUsedBytes: finiteNumber(swapHardStopBytes) ? swapHardStopBytes : null,
+    },
+  };
+}
+
 export function diagnosePercyRuntimeReadiness({
   state,
   queue,
@@ -24,14 +85,7 @@ export function diagnosePercyRuntimeReadiness({
   now = new Date(),
   maxAgeHours = DEFAULT_MAX_AGE_HOURS,
 } = {}) {
-  const durable = diagnosePercySnapshots({
-    state,
-    queue,
-    blockers: blockerSnapshot,
-    now,
-    maxAgeHours,
-  });
-
+  const durable = diagnosePercySnapshots({ state, queue, blockers: blockerSnapshot, now, maxAgeHours });
   const blockers = [];
   const warnings = [...durable.warnings];
 
@@ -44,19 +98,12 @@ export function diagnosePercyRuntimeReadiness({
 
   if (!runtime || typeof runtime !== 'object') {
     pushBlocker(blockers, 'MISSING_RUNTIME_EVIDENCE', 'runtime evidence JSON is required');
-    return {
-      verdict: 'BLOCKED_RUNTIME_EVIDENCE',
-      blockers,
-      warnings,
-      durable,
-      runtimeEvidence: false,
-    };
+    return { verdict: 'BLOCKED_RUNTIME_EVIDENCE', blockers, warnings, durable, runtimeEvidence: false };
   }
 
   if (runtime.schema_version !== 1) {
     pushBlocker(blockers, 'UNSUPPORTED_RUNTIME_SCHEMA', `expected 1, received ${String(runtime.schema_version)}`);
   }
-
   if (runtime.source?.available !== true) {
     pushBlocker(blockers, 'RUNTIME_SOURCE_UNAVAILABLE', 'runtime source checkout was not verified as available');
   }
@@ -81,7 +128,6 @@ export function diagnosePercyRuntimeReadiness({
   if (runtime.database?.migration_state !== 'CURRENT') {
     pushBlocker(blockers, 'DATABASE_SCHEMA_NOT_CURRENT', `migration_state=${String(runtime.database?.migration_state ?? 'UNKNOWN')}`);
   }
-
   if (runtime.queue?.persistent !== true) {
     pushBlocker(blockers, 'QUEUE_NOT_PERSISTENT', 'task queue persistence must be verified');
   }
@@ -89,37 +135,19 @@ export function diagnosePercyRuntimeReadiness({
     pushBlocker(blockers, 'HEARTBEAT_STALE', 'worker heartbeat must be fresh');
   }
 
-  const freeBytes = runtime.disk?.free_bytes;
-  const hardStopBytes = runtime.disk?.hard_stop_free_bytes;
-  if (!finiteNumber(freeBytes) || freeBytes < 0 || !finiteNumber(hardStopBytes) || hardStopBytes < 0) {
-    pushBlocker(blockers, 'DISK_EVIDENCE_INVALID', 'free_bytes and hard_stop_free_bytes must be non-negative numbers');
-  } else if (freeBytes < hardStopBytes) {
-    pushBlocker(blockers, 'DISK_HARD_STOP', `${freeBytes} free bytes is below hard stop ${hardStopBytes}`);
-  }
+  const resources = diagnoseResourceHardStops(runtime, blockers);
 
   const providerStates = Array.isArray(runtime.providers) ? runtime.providers : [];
-  if (!providerStates.length) {
-    warnings.push('no provider availability evidence supplied');
-  }
-  const unavailableRequiredProviders = providerStates.filter((provider) => provider?.required === true && provider?.available !== true);
-  for (const provider of unavailableRequiredProviders) {
+  if (!providerStates.length) warnings.push('no provider availability evidence supplied');
+  for (const provider of providerStates.filter((provider) => provider?.required === true && provider?.available !== true)) {
     pushBlocker(blockers, 'REQUIRED_PROVIDER_UNAVAILABLE', String(provider?.name ?? 'unknown-provider'));
   }
 
   const runtimeEvidence = blockers.every((item) => ![
-    'MISSING_RUNTIME_EVIDENCE',
-    'UNSUPPORTED_RUNTIME_SCHEMA',
-    'RUNTIME_SOURCE_UNAVAILABLE',
-    'RUNTIME_HEAD_UNKNOWN',
-    'WORKER_NOT_RUNNING',
-    'WORKER_PID_INVALID',
-    'WORKER_COMMAND_UNKNOWN',
-    'DATABASE_UNREACHABLE',
-    'DATABASE_SCHEMA_NOT_CURRENT',
-    'QUEUE_NOT_PERSISTENT',
-    'HEARTBEAT_STALE',
-    'DISK_EVIDENCE_INVALID',
-    'DISK_HARD_STOP',
+    'MISSING_RUNTIME_EVIDENCE', 'UNSUPPORTED_RUNTIME_SCHEMA', 'RUNTIME_SOURCE_UNAVAILABLE', 'RUNTIME_HEAD_UNKNOWN',
+    'WORKER_NOT_RUNNING', 'WORKER_PID_INVALID', 'WORKER_COMMAND_UNKNOWN', 'DATABASE_UNREACHABLE',
+    'DATABASE_SCHEMA_NOT_CURRENT', 'QUEUE_NOT_PERSISTENT', 'HEARTBEAT_STALE', 'DISK_EVIDENCE_INVALID',
+    'DISK_HARD_STOP', 'MEMORY_EVIDENCE_INVALID', 'MEMORY_HARD_STOP', 'SWAP_EVIDENCE_INVALID', 'SWAP_HARD_STOP',
     'REQUIRED_PROVIDER_UNAVAILABLE',
   ].includes(item.code));
 
@@ -137,10 +165,7 @@ export function diagnosePercyRuntimeReadiness({
       migrationState: runtime.database?.migration_state ?? 'UNKNOWN',
       queuePersistent: runtime.queue?.persistent === true,
       heartbeatFresh: runtime.heartbeat?.fresh === true,
-      disk: {
-        freeBytes: finiteNumber(freeBytes) ? freeBytes : null,
-        hardStopFreeBytes: finiteNumber(hardStopBytes) ? hardStopBytes : null,
-      },
+      ...resources,
     },
   };
 }
@@ -162,9 +187,7 @@ async function run() {
   const runtimePath = readArgValue('--runtime-evidence=');
   const maxAgeRaw = readArgValue('--max-age-hours=');
   const maxAgeHours = maxAgeRaw === null ? DEFAULT_MAX_AGE_HOURS : Number(maxAgeRaw);
-  if (!Number.isFinite(maxAgeHours) || maxAgeHours < 0) {
-    throw new Error('--max-age-hours must be a non-negative number');
-  }
+  if (!Number.isFinite(maxAgeHours) || maxAgeHours < 0) throw new Error('--max-age-hours must be a non-negative number');
 
   const [state, queue, blockerSnapshot, runtime] = await Promise.all([
     readJson('.percy/state.json'),
@@ -173,13 +196,7 @@ async function run() {
     runtimePath ? readJson(runtimePath) : Promise.resolve(null),
   ]);
 
-  const diagnosis = diagnosePercyRuntimeReadiness({
-    state,
-    queue,
-    blockers: blockerSnapshot,
-    runtime,
-    maxAgeHours,
-  });
+  const diagnosis = diagnosePercyRuntimeReadiness({ state, queue, blockers: blockerSnapshot, runtime, maxAgeHours });
   console.log(JSON.stringify(diagnosis, null, 2));
   process.exitCode = exitCodeForRuntimeReadiness(diagnosis);
 }
