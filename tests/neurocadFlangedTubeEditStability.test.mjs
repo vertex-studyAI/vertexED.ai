@@ -87,7 +87,7 @@ const invalidPrompts = [
   "Set tube outer radius to -2 mm.",
   "Set tube OD to -4 mm.",
   "Set wall thickness to -1 mm.",
-  "Set wall thickness to 50 mm.",
+  "Set flange outer radius to 40 mm.",
   "Set wall thickness to 60 mm.",
   "Set flange outer radius to -3 mm.",
   "Set flange OD to -6 mm.",
