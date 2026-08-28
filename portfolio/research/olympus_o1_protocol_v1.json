@@ -1,0 +1,76 @@
+{
+  "protocol": "olympus-o1-v1",
+  "status": "PREREGISTERED_NOT_RUN",
+  "date": "2026-08-29",
+  "task_count": 100,
+  "task_families_min": 2,
+  "arms": [
+    "monolithic",
+    "olympus_full_prometheus_perseus_hermes",
+    "olympus_without_perseus",
+    "olympus_without_evidence_enforcement"
+  ],
+  "paired_by": "task_id",
+  "required_task_fields": [
+    "task_id",
+    "family",
+    "input",
+    "success_rubric",
+    "allowed_tools",
+    "evidence_requirements"
+  ],
+  "frozen_execution_fields": [
+    "provider_model_exact_id",
+    "provider_version",
+    "sampling_config",
+    "system_prompt_hashes",
+    "tool_allowlist",
+    "wall_clock_limit_seconds",
+    "token_limit",
+    "retry_policy",
+    "runtime_identity"
+  ],
+  "metrics": [
+    "reliable_completion",
+    "schema_valid",
+    "unsupported_or_incorrect_claim",
+    "falsification_caught",
+    "tool_execution_correct",
+    "evidence_complete",
+    "latency_seconds",
+    "token_use",
+    "peak_ram_bytes"
+  ],
+  "primary_endpoint": "paired_reliable_completion_full_minus_monolithic",
+  "promotion_gates": {
+    "full_olympus_min_improvement_points": 5,
+    "paired_bootstrap_ci_lower_bound_gt": 0,
+    "perseus_min_falsification_gain_points": 5,
+    "perseus_no_reliable_completion_reduction": true,
+    "evidence_enforcement_min_relative_claim_error_reduction": 0.30,
+    "evidence_enforcement_max_success_reduction_points": 5,
+    "max_latency_or_token_multiplier_without_10pt_gain": 1.5,
+    "exception_min_reliable_completion_gain_points": 10
+  },
+  "analysis": {
+    "paired_bootstrap_resamples": 10000,
+    "rng_seed_must_be_frozen_before_analysis": true,
+    "retain_all_task_rows": true,
+    "no_posthoc_family_deletion": true
+  },
+  "integrity": {
+    "current_verified_maturity": "O0",
+    "larger_training_authorized": false,
+    "runtime_role_names_are_model_checkpoint_evidence": false,
+    "negative_null_mixed_results_are_valid": true
+  },
+  "run_ready_requires": [
+    "100_row_task_manifest",
+    "provider_runtime_freeze_metadata",
+    "four_exact_prompt_config_definitions",
+    "executable_harness_command",
+    "deterministic_analysis_script",
+    "artifact_output_schema",
+    "budget_parity_ci_checks"
+  ]
+}
