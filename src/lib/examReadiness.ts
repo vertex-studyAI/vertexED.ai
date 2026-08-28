@@ -30,7 +30,7 @@ function bandLabel(band: ReadinessBand): string {
     case 'warming':
       return 'Early week — pick one step and start';
     default:
-      return 'Complete a session to calibrate';
+      return 'Complete a scored review to calibrate';
   }
 }
 
@@ -41,14 +41,14 @@ export function computeExamReadiness(profile: LearnerProfile): ExamReadiness {
   const trend = getProgressTrend(false);
   const dueCards = getDueFlashcardCount();
   const examDays = daysUntilExam(profile.curriculum.examDate ?? null);
+  const hasAssessmentEvidence = heatmap.length > 0;
 
   const loopScore = Math.round((loop.completed.length / 5) * 30);
   const streakScore = Math.min(20, stats.studyStreak * 4);
-  const masteryAvg =
-    heatmap.length > 0
-      ? heatmap.reduce((s, h) => s + h.avgPercent, 0) / heatmap.length
-      : 55;
-  const masteryScore = Math.round((masteryAvg / 100) * 25);
+  const masteryAvg = hasAssessmentEvidence
+    ? heatmap.reduce((s, h) => s + h.avgPercent, 0) / heatmap.length
+    : 0;
+  const masteryScore = hasAssessmentEvidence ? Math.round((masteryAvg / 100) * 25) : 0;
   const activityScore = Math.min(25, trend.reviewsThisWeek * 5 + (stats.activityEntries > 0 ? 5 : 0));
 
   let examPressureBonus = 0;
@@ -57,8 +57,11 @@ export function computeExamReadiness(profile: LearnerProfile): ExamReadiness {
   }
 
   const raw = loopScore + streakScore + masteryScore + activityScore + examPressureBonus;
-  const score = Math.min(100, Math.max(8, raw));
-  const band = heatmap.length === 0 && loop.completed.length === 0 ? 'unknown' : bandForScore(score);
+  // A numeric "exam readiness" score implies assessment evidence. Study habits
+  // can still be shown as factors, but they do not manufacture readiness when
+  // no scored review/quiz/mock exists for the learner.
+  const score = hasAssessmentEvidence ? Math.min(100, Math.max(0, raw)) : 0;
+  const band: ReadinessBand = hasAssessmentEvidence ? bandForScore(score) : 'unknown';
 
   const factors = [
     {
@@ -77,7 +80,7 @@ export function computeExamReadiness(profile: LearnerProfile): ExamReadiness {
       name: 'Topic mastery',
       score: masteryScore,
       max: 25,
-      detail: heatmap.length ? `${Math.round(masteryAvg)}% avg on tracked topics` : 'No review data yet',
+      detail: hasAssessmentEvidence ? `${Math.round(masteryAvg)}% avg on tracked topics` : 'No scored review data yet',
     },
     {
       name: 'Active retrieval',
@@ -98,7 +101,7 @@ export function computeExamReadiness(profile: LearnerProfile): ExamReadiness {
 
   return {
     score,
-    band: band === 'unknown' && score > 20 ? 'warming' : band,
+    band,
     label: bandLabel(band),
     factors,
   };
