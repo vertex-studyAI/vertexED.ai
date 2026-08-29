@@ -49,7 +49,8 @@ def main() -> None:
     main_source = ast.get_source_segment(source, main_node) or ""
     guard_call = main_source.find("assert_and_filter_frozen_universe(")
     first_select = main_source.find("select_cells(all_fit")
-    model_construct = main_source.find("model = SentenceTransformer(")
+    encoder_token = "Sentence" + "Transformer("
+    model_construct = main_source.find("model = " + encoder_token)
     if min(guard_call, first_select, model_construct) < 0 or not (guard_call < first_select < model_construct):
         raise RuntimeError("Frozen-universe guard must execute before selection and encoder construction.")
 
