@@ -11,6 +11,7 @@ This document freezes the manuscript claim boundary for the current evidence-bea
 - Retained machine-readable metrics: `raw_metrics/repro-wave-20260812.json`.
 - Evidence-bounded manuscript: `MANUSCRIPT.md`.
 - Sentence-level claim audit: `CLAIM_AUDIT.md`.
+- Release metadata gate: `RELEASE_METADATA.md`.
 - Evidence-derived figure generator: `figures/generate.mjs`.
 - Figure derivation ledger: `figures/FIGURE_DATA.json`.
 - Figure provenance/claim audit: `figures/FIGURE_AUDIT.md`.
@@ -77,10 +78,13 @@ The final bibliography should still receive a mechanical metadata check during P
 
 ## Data / code / authorship / licensing
 
-- **Code statement:** repository code and exact reproduction commands are identified.
-- **Data statement:** current study uses synthetic generated data; the generator identity and parameters are described from the frozen source lineage.
-- **Authorship statement:** OPEN; final author list/contributions must be explicitly reviewed.
-- **License statement:** BLOCKED; an obvious root `LICENSE` file was not found in the repository and release rights must not be inferred.
+`RELEASE_METADATA.md` now separates what can be closed from repository evidence from what requires an explicit human release decision.
+
+- **Code identity/reproduction statement:** RESOLVED.
+- **Synthetic-data statement:** RESOLVED for this precursor; no real-world dataset claim is allowed.
+- **External-validation statement:** RESOLVED as a non-claim; reproduction is not external validation.
+- **Authorship/contributions:** OPEN; must be explicitly approved by an authorized human and must not be inferred from commit history.
+- **License/release rights:** BLOCKED; no repository-root `LICENSE` was present at audit time, so a license must not be invented or implied.
 
 ## Release gate
 
@@ -96,9 +100,11 @@ The final bibliography should still receive a mechanical metadata check during P
 - [x] Introduction and Related Work are integrated from verified sources;
 - [x] final Methods/Results/Discussion manuscript is assembled without upgrading the claim;
 - [x] final sentence-level scientific claim audit is complete;
+- [x] code identity/reproduction statement is explicit;
+- [x] synthetic-data and external-validation statements are explicit;
 - [ ] authorship/contribution statement is complete;
-- [ ] license/code/data release statements are complete;
-- [ ] clean manuscript/PDF is compiled and audited.
+- [ ] release license is explicitly chosen/approved and documented;
+- [ ] clean manuscript/PDF is compiled and visually audited.
 
 ## Successor science is separate
 
