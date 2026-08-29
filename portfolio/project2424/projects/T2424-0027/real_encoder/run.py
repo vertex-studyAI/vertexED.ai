@@ -9,7 +9,7 @@ import platform
 import shutil
 import subprocess
 import sys
-from collections import defaultdict
+from collections import Counter, defaultdict
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Sequence, Tuple
 
@@ -93,6 +93,63 @@ def select_cells(records: Sequence[Dict[str, str]], seed: int, n: int, split_sal
             raise RuntimeError(f"Cell {key} has {len(cell)} rows; protocol requires {n}.")
         selected.extend(cell[:n])
     return selected
+
+
+def assert_and_filter_frozen_universe(
+    fit_records: Sequence[Dict[str, str]],
+    eval_records: Sequence[Dict[str, str]],
+    locales: Sequence[str],
+    frozen_intents: Sequence[str],
+    expected_intent_count: int,
+    n: int,
+) -> Tuple[List[Dict[str, str]], List[Dict[str, str]], Dict[str, Any]]:
+    """Fail closed on v3 dataset drift before any encoder construction."""
+    frozen = list(frozen_intents)
+    if not frozen or len(frozen) != expected_intent_count or len(set(frozen)) != len(frozen):
+        raise RuntimeError("Frozen intent registry is empty, duplicated, or has the wrong declared count.")
+
+    fit_counts = Counter((r["locale"], r["intent"]) for r in fit_records)
+    eval_counts = Counter((r["locale"], r["intent"]) for r in eval_records)
+    observed_intents = sorted({r["intent"] for r in fit_records} | {r["intent"] for r in eval_records})
+    admissible = sorted(
+        intent
+        for intent in observed_intents
+        if all(
+            fit_counts[(locale, intent)] >= n and eval_counts[(locale, intent)] >= n
+            for locale in locales
+        )
+    )
+    if admissible != frozen:
+        missing = sorted(set(frozen) - set(admissible))
+        unexpected = sorted(set(admissible) - set(frozen))
+        raise RuntimeError(
+            f"Frozen intent universe mismatch before encoder construction: missing={missing}, unexpected={unexpected}"
+        )
+
+    minimum_frozen_cell = min(
+        min(fit_counts[(locale, intent)], eval_counts[(locale, intent)])
+        for locale in locales
+        for intent in frozen
+    )
+    if minimum_frozen_cell < n:
+        raise RuntimeError(f"Frozen cell minimum {minimum_frozen_cell} is below required n={n}.")
+
+    frozen_set = set(frozen)
+    filtered_fit = [r for r in fit_records if r["intent"] in frozen_set]
+    filtered_eval = [r for r in eval_records if r["intent"] in frozen_set]
+    if {r["intent"] for r in filtered_fit} != frozen_set or {r["intent"] for r in filtered_eval} != frozen_set:
+        raise RuntimeError("Filtering did not preserve every frozen intent in both split roles.")
+
+    evidence = {
+        "admissible_intent_count": len(admissible),
+        "admissible_intents": admissible,
+        "minimum_frozen_cell_count": minimum_frozen_cell,
+        "fit_rows_after_frozen_filter": len(filtered_fit),
+        "evaluation_rows_after_frozen_filter": len(filtered_eval),
+        "encoder_instantiated": False,
+        "model_outcomes_accessed": False,
+    }
+    return filtered_fit, filtered_eval, evidence
 
 
 def centroid_predict(x_fit: np.ndarray, y_fit: Sequence[str], x_eval: np.ndarray) -> np.ndarray:
@@ -213,6 +270,15 @@ def main() -> None:
         all_fit.extend(fit_rows)
         all_eval.extend(eval_rows)
         dataset_meta.append(meta)
+
+    all_fit, all_eval, frozen_gate = assert_and_filter_frozen_universe(
+        all_fit,
+        all_eval,
+        dataset_cfg["locales"],
+        dataset_cfg["frozen_intents"],
+        int(dataset_cfg["expected_intent_count"]),
+        sample_n,
+    )
     write_json(
         out / "dataset_fingerprint.json",
         {
@@ -221,6 +287,7 @@ def main() -> None:
             "dataset_version": dataset_cfg["dataset_version"],
             "examples_per_locale_intent_per_split": sample_n,
             "locales": dataset_meta,
+            "frozen_universe_gate": frozen_gate,
         },
     )
 
