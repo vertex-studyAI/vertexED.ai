@@ -1,0 +1,57 @@
+name: T2424-0027 Feasibility Census
+
+on:
+  push:
+    branches:
+      - experiment/t2424-0027-feasibility-census-20260829
+    paths:
+      - "portfolio/project2424/projects/T2424-0027/real_encoder/feasibility_census.py"
+      - ".github/workflows/t2424-0027-feasibility-census.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  census:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      HF_HUB_DISABLE_TELEMETRY: "1"
+      PYTHONHASHSEED: "0"
+    steps:
+      - name: Checkout exact branch revision
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dataset-only environment
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install datasets==2.21.0
+
+      - name: Verify census is encoder-free
+        run: |
+          ! grep -q "sentence_transformers\|SentenceTransformer" portfolio/project2424/projects/T2424-0027/real_encoder/feasibility_census.py
+
+      - name: Execute outcome-free census
+        working-directory: portfolio/project2424/projects/T2424-0027/real_encoder
+        run: python feasibility_census.py --out feasibility_artifacts
+
+      - name: Capture environment and hashes
+        working-directory: portfolio/project2424/projects/T2424-0027/real_encoder
+        run: |
+          python --version > feasibility_artifacts/PYTHON_VERSION.txt
+          python -m pip freeze > feasibility_artifacts/PIP_FREEZE.txt
+          find feasibility_artifacts -type f -print0 | sort -z | xargs -0 sha256sum > feasibility_artifacts/SHA256SUMS.txt
+
+      - name: Upload census evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: t2424-0027-feasibility-census
+          path: portfolio/project2424/projects/T2424-0027/real_encoder/feasibility_artifacts
+          if-no-files-found: error
+          retention-days: 90
