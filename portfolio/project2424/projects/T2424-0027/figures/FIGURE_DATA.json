@@ -1,0 +1,13 @@
+{
+  "source": "../evidence/raw/results.json",
+  "metrics": {
+    "rawConceptAccuracy": 1,
+    "rawLanguageAccuracy": 1,
+    "centeredConceptAccuracy": 1,
+    "centeredLanguageAccuracy": 0.3611111111111111,
+    "globalCenteredLanguageAccuracy": 1,
+    "languageChance": 0.3333333333333333,
+    "normalizedLanguageLeakageReduction": 0.9583333333333334
+  },
+  "verdict": "PASS_CONTROLLED_LANGUAGE_LEAKAGE_MECHANICS"
+}
