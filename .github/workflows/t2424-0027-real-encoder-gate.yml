@@ -1,0 +1,66 @@
+name: T2424-0027 Real Encoder Gate
+
+on:
+  push:
+    branches:
+      - experiment/t2424-0027-real-encoder-gate-20260829
+    paths:
+      - "portfolio/project2424/projects/T2424-0027/real_encoder/**"
+      - ".github/workflows/t2424-0027-real-encoder-gate.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  frozen-transfer-gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    env:
+      HF_HUB_DISABLE_TELEMETRY: "1"
+      TOKENIZERS_PARALLELISM: "false"
+      PYTHONHASHSEED: "0"
+    steps:
+      - name: Checkout exact branch revision
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: portfolio/project2424/projects/T2424-0027/real_encoder/requirements.txt
+
+      - name: Install frozen environment
+        working-directory: portfolio/project2424/projects/T2424-0027/real_encoder
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
+          python -m pip install pytest==8.3.3
+
+      - name: Validate preregistration locks
+        working-directory: portfolio/project2424/projects/T2424-0027/real_encoder
+        run: |
+          python validate_manifest.py
+          python -m pytest -q test_manifest.py
+
+      - name: Execute frozen real-encoder gate
+        working-directory: portfolio/project2424/projects/T2424-0027/real_encoder
+        run: python run.py --out artifacts
+
+      - name: Hash retained artifacts
+        if: always()
+        working-directory: portfolio/project2424/projects/T2424-0027/real_encoder
+        run: |
+          if [ -d artifacts ]; then
+            find artifacts -type f -print0 | sort -z | xargs -0 sha256sum > artifacts/SHA256SUMS.txt
+          fi
+
+      - name: Upload evidence bundle
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: t2424-0027-real-encoder-gate
+          path: portfolio/project2424/projects/T2424-0027/real_encoder/artifacts
+          if-no-files-found: error
+          retention-days: 30
