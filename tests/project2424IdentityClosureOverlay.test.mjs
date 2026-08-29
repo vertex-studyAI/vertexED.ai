@@ -33,6 +33,26 @@ test('identity closure overlay preserves fail-closed counting rules', () => {
   assert.equal(overlay.integrity_rules.unresolved_mapping_increases_completion_count, false);
 });
 
+test('all 100 First-100 rows resolve exactly once to the sealed disposition counts', () => {
+  const closure = JSON.parse(fs.readFileSync(closurePath, 'utf8'));
+  const rows = resolvedRows();
+  const ids = new Set(rows.map((value) => value.id));
+  const counts = Object.fromEntries(
+    Object.keys(closure.first_100_accounting.classification_counts).map((key) => [key, 0]),
+  );
+
+  assert.equal(rows.length, 100);
+  assert.equal(ids.size, 100);
+  for (const value of rows) {
+    assert.ok(Object.hasOwn(counts, value.disposition), `unexpected disposition ${value.disposition}`);
+    counts[value.disposition] += 1;
+  }
+
+  assert.deepEqual(counts, closure.first_100_accounting.classification_counts);
+  assert.equal(closure.first_100_accounting.registry_rows, 100);
+  assert.equal(closure.first_100_accounting.classified_rows, 100);
+});
+
 test('NPMS controlled source lineage resolves to frozen negative rather than stale source-blocked state', () => {
   const npms = row('T2424-0019');
   assert.equal(npms.disposition, 'FREEZE_NEGATIVE');
