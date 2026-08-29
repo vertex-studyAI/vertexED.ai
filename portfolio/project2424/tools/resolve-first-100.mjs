@@ -8,6 +8,7 @@ const projectDir = path.resolve(here, '..');
 const queuePath = path.join(projectDir, 'FIRST_100_QUEUE.ndjson');
 const policyPath = path.join(projectDir, 'FIRST_100_DISPOSITION_POLICY_20260823.json');
 const recoveryOverridePath = path.join(projectDir, 'FIRST_100_RECOVERY_OVERRIDES_20260823.json');
+const identityClosureOverridePath = path.join(projectDir, 'FIRST_100_IDENTITY_CLOSURE_OVERRIDES_20260829.json');
 
 const queue = fs.readFileSync(queuePath, 'utf8')
   .split(/\r?\n/)
@@ -17,9 +18,13 @@ const policy = JSON.parse(fs.readFileSync(policyPath, 'utf8'));
 const recoveryOverrides = fs.existsSync(recoveryOverridePath)
   ? JSON.parse(fs.readFileSync(recoveryOverridePath, 'utf8'))
   : { overrides: {} };
+const identityClosureOverrides = fs.existsSync(identityClosureOverridePath)
+  ? JSON.parse(fs.readFileSync(identityClosureOverridePath, 'utf8'))
+  : { overrides: {} };
 const mergedOverrides = {
   ...policy.overrides,
   ...recoveryOverrides.overrides,
+  ...identityClosureOverrides.overrides,
 };
 const allowed = new Set(policy.allowed_dispositions);
 
@@ -27,9 +32,14 @@ if (queue.length !== 100) {
   throw new Error(`Expected frozen First-100 queue to contain 100 rows; found ${queue.length}`);
 }
 
-for (const id of Object.keys(recoveryOverrides.overrides)) {
-  if (!queue.some((row) => row.id === id)) {
-    throw new Error(`Recovery override targets non-First-100 identity: ${id}`);
+for (const [label, overlay] of [
+  ['recovery', recoveryOverrides],
+  ['identity closure', identityClosureOverrides],
+]) {
+  for (const id of Object.keys(overlay.overrides)) {
+    if (!queue.some((row) => row.id === id)) {
+      throw new Error(`${label} override targets non-First-100 identity: ${id}`);
+    }
   }
 }
 
@@ -59,8 +69,10 @@ const resolved = queue.map((row, index) => {
     track: row.track,
     disposition: decision.disposition,
     reason_code: decision.reason_code,
+    mapping_status: decision.mapping_status ?? null,
     evidence_specific_override: Boolean(override),
     incremental_recovery_override: Boolean(recoveryOverrides.overrides[row.id]),
+    identity_closure_override: Boolean(identityClosureOverrides.overrides[row.id]),
     note: override?.note ?? policy.default.rule,
   };
 });
