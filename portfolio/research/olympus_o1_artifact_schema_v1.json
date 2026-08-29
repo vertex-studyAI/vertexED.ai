@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "olympus-o1-artifact-v1",
+  "title": "Olympus O1 per-task result artifact",
+  "type": "object",
+  "required": ["protocol","task_id","family","arm","source_revision","execution_freeze_hash","metrics","evidence"],
+  "properties": {
+    "protocol": {"const": "olympus-o1-v1"},
+    "task_id": {"type": "string", "minLength": 1},
+    "family": {"type": "string", "minLength": 1},
+    "arm": {"enum": ["monolithic","olympus_full_prometheus_perseus_hermes","olympus_without_perseus","olympus_without_evidence_enforcement"]},
+    "source_revision": {"type": "string", "minLength": 7},
+    "execution_freeze_hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "metrics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["reliable_completion","schema_valid","unsupported_or_incorrect_claim","falsification_caught","tool_execution_correct","evidence_complete","latency_seconds","token_use","peak_ram_bytes"],
+      "properties": {
+        "reliable_completion": {"type": "boolean"},
+        "schema_valid": {"type": "boolean"},
+        "unsupported_or_incorrect_claim": {"type": "boolean"},
+        "falsification_caught": {"type": "boolean"},
+        "tool_execution_correct": {"type": "boolean"},
+        "evidence_complete": {"type": "boolean"},
+        "latency_seconds": {"type": "number", "minimum": 0},
+        "token_use": {"type": "integer", "minimum": 0},
+        "peak_ram_bytes": {"type": "integer", "minimum": 0}
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "required": ["raw_output_path","tool_trace_path","verdict_path"],
+      "properties": {
+        "raw_output_path": {"type": "string", "minLength": 1},
+        "tool_trace_path": {"type": "string", "minLength": 1},
+        "verdict_path": {"type": "string", "minLength": 1}
+      }
+    }
+  },
+  "additionalProperties": false
+}
