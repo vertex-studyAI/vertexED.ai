@@ -1,0 +1,39 @@
+name: T2424-0027 v3 Preregistration Lock
+
+on:
+  push:
+    branches:
+      - experiment/t2424-0027-v3-prereg-20260830
+    paths:
+      - "portfolio/project2424/projects/T2424-0027/real_encoder/manifest.json"
+      - "portfolio/project2424/projects/T2424-0027/real_encoder/manifest_v3_preregistered.json"
+      - "portfolio/project2424/projects/T2424-0027/real_encoder/validate_v3_prereg.py"
+      - ".github/workflows/t2424-0027-v3-prereg.yml"
+  pull_request:
+    paths:
+      - "portfolio/project2424/projects/T2424-0027/real_encoder/manifest_v3_preregistered.json"
+      - "portfolio/project2424/projects/T2424-0027/real_encoder/validate_v3_prereg.py"
+      - ".github/workflows/t2424-0027-v3-prereg.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  prereg-lock:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout exact revision
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Verify v3 is outcome-inaccessible and frozen against v2
+        working-directory: portfolio/project2424/projects/T2424-0027/real_encoder
+        run: python validate_v3_prereg.py
+      - name: Verify prereg files contain no model execution
+        run: |
+          ! grep -Eiq "SentenceTransformer\(|\.encode\(|fit\(|predict\(" portfolio/project2424/projects/T2424-0027/real_encoder/manifest_v3_preregistered.json
+          ! grep -Eiq "SentenceTransformer\(|\.encode\(|fit\(|predict\(" portfolio/project2424/projects/T2424-0027/real_encoder/validate_v3_prereg.py
