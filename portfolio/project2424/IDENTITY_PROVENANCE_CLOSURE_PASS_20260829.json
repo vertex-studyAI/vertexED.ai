@@ -1,0 +1,91 @@
+{
+  "schema_version": 1,
+  "date": "2026-08-29",
+  "scope": "Issue #496 identity/provenance closure pass over the frozen First-100 registry",
+  "inherits": {
+    "first_100_policy": "portfolio/project2424/FIRST_100_DISPOSITION_POLICY_20260823.json",
+    "first_100_policy_blob_sha": "1ae46c3475de93e0a8a7f244d02b0a0ec74aae09",
+    "alias_lineage": "portfolio/project2424/RECOVERED_ALIAS_LINEAGE_20260823.json",
+    "alias_lineage_blob_sha": "b1e59e4c10ffc79e0c65c67930cc5bf38174e526"
+  },
+  "integrity_rules": {
+    "numeric_suffix_identity_inference_allowed": false,
+    "unresolved_mapping_increases_implementation_count": false,
+    "unresolved_mapping_increases_completion_count": false,
+    "historical_evidence_mutated": false,
+    "rule": "P2424 and T2424 remain separate namespaces unless an explicit evidence-backed crosswalk proves a relationship. Unresolved aliases fail closed."
+  },
+  "reconciliations": [
+    {
+      "canonical_id": "T2424-0019",
+      "canonical_name": "NPMS — Neural Predictive Memory Spectroscopy",
+      "historical_aliases": ["MODEL-NPMS", "MODEL-007", "NPMS"],
+      "mapping_status": "CONTROLLED_SOURCE_LINEAGE_CLOSED",
+      "disposition": "FREEZE_NEGATIVE",
+      "reason_code": "CONTROLLED_SOURCE_REPRODUCED_MECHANISM_CONFOUNDED",
+      "evidence": {
+        "retained_source_recovery_commit": "10e4a5641ab5345e2c3356275ea668c1e822f0e0",
+        "merged_pr": 565,
+        "merge_commit": "95a0241710251058d580637770fddbe29d5de52a",
+        "closure_file": "portfolio/research/NPMS_CANONICAL_LINEAGE_CLOSURE_20260829.md",
+        "closure_file_blob_sha": "49d3140c621f73989df2bda7b03c15e12265970a",
+        "controlled_archive_sha256": "076f12750d6a8e6c298c17815224a79463bcad149d6cf1283900d98c6e394a2c",
+        "replay": "2 tests passed; 112 reservoir realizations; retained summary/statistical/raw evidence hashes reproduced byte-identically"
+      },
+      "scientific_boundary": "PARAMETER_CONFOUNDED_OR_NON_UNIQUE",
+      "successor_state": "PROTOCOL_BLOCKED",
+      "successor_blocker": "Natural/OOD successor remains unauthorized until exact dataset/source/split/arm/seed/threshold/budget/environment identities are frozen and the fail-closed authorization validator passes.",
+      "counting_rule": "Counts once as a closed bounded negative/confounded controlled-source lineage; it does not count as natural/OOD validation or positive mechanism evidence."
+    },
+    {
+      "canonical_id": "T2424-0016",
+      "canonical_name": "PST — Predictive Single-Cell Transition Score",
+      "historical_aliases": ["MODEL-PST", "MODEL-008", "PST"],
+      "mapping_status": "ALIAS_CORROBORATED_SOURCE_MIGRATION_BLOCKED",
+      "disposition": "BLOCKED",
+      "reason_code": "SOURCE_BLOCKED",
+      "evidence": {
+        "relationship": "NAME_AND_TASK_REGISTRY_CORROBORATED_ALIAS",
+        "source_bytes_recovered": false,
+        "checkpoint_bytes_recovered": false,
+        "raw_evidence_tree_recovered": false
+      },
+      "scientific_boundary": "Recovered controlled evidence and negative findings are provenance only until exact MODEL-PST source/checkpoint/raw-evidence bytes are migrated and clean-rerun.",
+      "counting_rule": "Alias corroboration contributes zero source-migration, reproduction, implementation-completion, or external-biology completion credit."
+    },
+    {
+      "canonical_id": "T2424-0007",
+      "canonical_name": "NeuroCAD",
+      "mapping_status": "UNRESOLVED_CONFLICT_GROUP",
+      "disposition": "BLOCKED",
+      "reason_code": "NEUROCAD_IDENTITY_CONFLICT_GROUP",
+      "conflict_with": ["T2424-0037", "P2424-1213"],
+      "counting_rule": "Contributes zero implementation/completion credit while the crosswalk is unresolved. Do not merge by name or numeric suffix."
+    },
+    {
+      "canonical_id": "T2424-0037",
+      "canonical_name": "NLP-to-CAD",
+      "mapping_status": "CURRENT_EVIDENCE_BEARING_NEUROCAD_SCIENTIFIC_LINEAGE",
+      "disposition": "FREEZE_NEGATIVE",
+      "reason_code": "TYPED_PARSER_CAUSAL_MECHANISM_FALSIFIED",
+      "scientific_boundary": "VALIDATION_DOMINANT",
+      "counting_rule": "Count the current NeuroCAD typed-parser scientific evidence lineage once here. Do not also count T2424-0007 or P2424-1213 as the same completed lineage without an explicit source-controlled crosswalk."
+    },
+    {
+      "historical_id": "P2424-1213",
+      "historical_name": "NeuroCAD",
+      "mapping_status": "UNRESOLVED_DO_NOT_COLLAPSE",
+      "disposition": "BLOCKED",
+      "reason_code": "CROSSWALK_NOT_RECOVERED",
+      "counting_rule": "Historical conflict-group evidence only; zero current T-series completion credit."
+    }
+  ],
+  "explicit_unresolved_first_100_alias_candidates": [
+    {"canonical_id":"T2424-0005","recovered_identity":"MODEL-002","status":"UNRESOLVED","disposition":"BLOCKED","reason_code":"RECOVERED_FINANCEJEPA_FAMILY_CROSSWALK_REQUIRED"},
+    {"canonical_id":"T2424-0017","recovered_identity":"MODEL-ESNF","status":"UNRESOLVED","disposition":"BLOCKED","reason_code":"RECOVERED_MODEL_ESNF_CROSSWALK_REQUIRED"},
+    {"canonical_id":"T2424-0018","recovered_identity":"MODEL-PRC","status":"UNRESOLVED","disposition":"BLOCKED","reason_code":"RECOVERED_MODEL_PRC_CROSSWALK_REQUIRED"},
+    {"canonical_id":"T2424-0033","recovered_identity":"MODEL-PEN","status":"UNRESOLVED","disposition":"BLOCKED","reason_code":"RECOVERED_MODEL_PEN_CROSSWALK_REQUIRED"}
+  ],
+  "first_100_classification_rule": "All First-100 rows inherit the evidence-backed disposition policy; rows without a stronger override remain BLOCKED/SOURCE_NOT_RECOVERED. This pass changes only T2424-0019 from the now-stale source-blocked state to FREEZE_NEGATIVE for its reproduced controlled-source result. No unresolved mapping may inflate implementation or completion counts.",
+  "next_exact_lineage_gate": "Recover an authoritative historical manifest/registry artifact with immutable source SHA or explicit redirect/alias evidence that relates T2424-0007, T2424-0037 and/or P2424-1213. If exhaustive canonical-source recovery yields none, retain T2424-0007 as terminal BLOCKED rather than manufacture a crosswalk. For PST, recover the exact MODEL-PST source/checkpoint/raw-evidence bytes; otherwise SOURCE_BLOCKED remains terminal."
+}
