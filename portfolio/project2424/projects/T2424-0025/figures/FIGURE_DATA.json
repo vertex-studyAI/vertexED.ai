@@ -1,0 +1,31 @@
+{
+  "source": "../raw_metrics/repro-wave-20260812.json",
+  "source_commit": "0d2a14e559b0caa9b5b1cbeef0995013594ecf15",
+  "formula": "(mean_mae - median_mae) / mean_mae",
+  "derived": [
+    {
+      "contamination": 0.0,
+      "median_relative_improvement_vs_mean": 0.4900015846867857
+    },
+    {
+      "contamination": 0.05,
+      "median_relative_improvement_vs_mean": 0.9080304309426918
+    },
+    {
+      "contamination": 0.1,
+      "median_relative_improvement_vs_mean": 0.9558532421806805
+    },
+    {
+      "contamination": 0.18,
+      "median_relative_improvement_vs_mean": 0.9513434493986207
+    },
+    {
+      "contamination": 0.25,
+      "median_relative_improvement_vs_mean": 0.9510349121825024
+    },
+    {
+      "contamination": 0.35,
+      "median_relative_improvement_vs_mean": 0.9668661894954228
+    }
+  ]
+}
