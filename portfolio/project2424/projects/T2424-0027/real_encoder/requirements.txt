@@ -1,0 +1,6 @@
+datasets==2.21.0
+huggingface-hub==0.24.7
+numpy==1.26.4
+scikit-learn==1.5.2
+sentence-transformers==3.0.1
+torch==2.4.1
