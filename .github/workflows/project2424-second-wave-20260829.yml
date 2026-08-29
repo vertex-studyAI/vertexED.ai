@@ -1,0 +1,97 @@
+name: Project 2424 Second Wave 2026-08-29
+
+on:
+  push:
+    branches:
+      - research/2424-pending-benchmark-wave-20260829
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  second-wave:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Prepare evidence directory
+        run: mkdir -p project2424-second-wave-evidence
+
+      - name: T2424-0016 recovery validator
+        run: |
+          node portfolio/project2424/projects/T2424-0016/experiment/validate_recovery.mjs \
+            | tee project2424-second-wave-evidence/T2424-0016-recovery.log
+
+      - name: T2424-0023 multilingual epistemic blind spots
+        run: |
+          node portfolio/project2424/projects/T2424-0023/experiment/run.mjs \
+            | tee project2424-second-wave-evidence/T2424-0023.log
+
+      - name: T2424-0030 adaptive theory geometry
+        run: |
+          node portfolio/project2424/projects/T2424-0030/experiment/run.mjs \
+            | tee project2424-second-wave-evidence/T2424-0030.log
+
+      - name: T2424-0036 Rubik A-star benchmark
+        run: |
+          node portfolio/project2424/projects/T2424-0036/experiment/benchmark.mjs \
+            | tee project2424-second-wave-evidence/T2424-0036.log
+
+      - name: T2424-0036 focused regression test
+        run: node --test tests/project2424T0036RubiksAstar.test.mjs
+
+      - name: T2424-0038 evidence-gated editorial triage
+        run: |
+          node portfolio/project2424/projects/T2424-0038/experiment/run.mjs \
+            | tee project2424-second-wave-evidence/T2424-0038.log
+
+      - name: T2424-0046 auto-research foundry mechanics
+        run: |
+          node portfolio/project2424/projects/T2424-0046/experiment/run.mjs \
+            | tee project2424-second-wave-evidence/T2424-0046.log
+
+      - name: T2424-0049 multiphase porous JEPA screen
+        run: |
+          node portfolio/project2424/projects/T2424-0049/experiment/run.mjs \
+            | tee project2424-second-wave-evidence/T2424-0049.log
+
+      - name: T2424-0053 scientific motif dictionary
+        run: |
+          node portfolio/project2424/projects/T2424-0053/experiment/run.mjs \
+            | tee project2424-second-wave-evidence/T2424-0053.log
+
+      - name: Canonical repository tests
+        run: npm test
+
+      - name: Hash retained evidence
+        if: always()
+        run: |
+          sha256sum project2424-second-wave-evidence/*.log \
+            | tee project2424-second-wave-evidence/SHA256SUMS.txt
+          {
+            echo "commit=${GITHUB_SHA}"
+            echo "runner_os=${RUNNER_OS}"
+            echo "runner_arch=${RUNNER_ARCH}"
+            node --version
+            npm --version
+          } > project2424-second-wave-evidence/ENVIRONMENT.txt
+
+      - name: Upload retained evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: project2424-second-wave-${{ github.sha }}
+          path: project2424-second-wave-evidence
+          if-no-files-found: error
