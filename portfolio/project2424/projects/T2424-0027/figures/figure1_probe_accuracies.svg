@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="560" viewBox="0 0 960 560">
+<rect width="100%" height="100%" fill="white"/>
+<style>text{font-family:Arial,Helvetica,sans-serif;fill:#111}.title{font-size:21px;font-weight:700}.label{font-size:14px}.small{font-size:12px}.axis{stroke:#111;stroke-width:1.4}.grid{stroke:#bbb;stroke-width:1;stroke-dasharray:3 5}.bar{fill:#ddd;stroke:#111;stroke-width:1.5}.chance{stroke:#111;stroke-width:2;stroke-dasharray:7 5}.value{font-size:13px;font-weight:700}</style>
+<text x="480" y="32" text-anchor="middle" class="title">T2424-0027 held-out probe accuracies</text>
+<text x="480" y="54" text-anchor="middle" class="small">Deterministic synthetic diagnostic; chance language accuracy = 33.33%</text>
+<line x1="255.00" y1="75" x2="255.00" y2="480" class="grid"/><text x="255.00" y="504" text-anchor="middle" class="small">0%</text>
+<line x1="417.50" y1="75" x2="417.50" y2="480" class="grid"/><text x="417.50" y="504" text-anchor="middle" class="small">25%</text>
+<line x1="580.00" y1="75" x2="580.00" y2="480" class="grid"/><text x="580.00" y="504" text-anchor="middle" class="small">50%</text>
+<line x1="742.50" y1="75" x2="742.50" y2="480" class="grid"/><text x="742.50" y="504" text-anchor="middle" class="small">75%</text>
+<line x1="905.00" y1="75" x2="905.00" y2="480" class="grid"/><text x="905.00" y="504" text-anchor="middle" class="small">100%</text>
+<text x="241" y="120.50" text-anchor="end" class="label">Raw concept</text><rect x="255" y="96.50" width="650.00" height="38" class="bar"/><text x="901.00" y="120.50" class="value" text-anchor="end">100.00%</text>
+<text x="241" y="201.50" text-anchor="end" class="label">Centered concept</text><rect x="255" y="177.50" width="650.00" height="38" class="bar"/><text x="901.00" y="201.50" class="value" text-anchor="end">100.00%</text>
+<text x="241" y="282.50" text-anchor="end" class="label">Raw language</text><rect x="255" y="258.50" width="650.00" height="38" class="bar"/><text x="901.00" y="282.50" class="value" text-anchor="end">100.00%</text>
+<text x="241" y="363.50" text-anchor="end" class="label">Language-centered language</text><rect x="255" y="339.50" width="234.72" height="38" class="bar"/><text x="497.72" y="363.50" class="value">36.11%</text>
+<text x="241" y="444.50" text-anchor="end" class="label">Global-centered language</text><rect x="255" y="420.50" width="650.00" height="38" class="bar"/><text x="901.00" y="444.50" class="value" text-anchor="end">100.00%</text>
+<line x1="471.67" y1="75" x2="471.67" y2="480" class="chance"/><text x="478.67" y="90" class="small">language chance</text>
+<line x1="255" y1="480" x2="905" y2="480" class="axis"/>
+<text x="580" y="535" text-anchor="middle" class="label">Accuracy</text>
+<text x="255" y="555" class="small">Source: evidence/raw/results.json; verdict: PASS_CONTROLLED_LANGUAGE_LEAKAGE_MECHANICS</text>
+</svg>
