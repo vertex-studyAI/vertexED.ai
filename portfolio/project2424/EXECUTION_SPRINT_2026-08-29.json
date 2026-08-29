@@ -45,7 +45,8 @@
     "NeuroCAD": "VALIDATION_DOMINANT_TYPED_PARSER_CAUSAL_STORY_FALSIFIED",
     "T2424-0016": "RECOVER_EXACT_SOURCE_OR_EXPLICIT_SOURCE_BLOCKER",
     "T2424-0019": "RECOVER_EXACT_CANONICAL_SOURCE_OR_SOURCE_BLOCKED",
-    "T2424-0025": "ROBUSTNESS_MECHANISM_FRAMING_WITH_MECHANISM_UNCERTAINTY"
+    "T2424-0025": "BOUNDED_SYNTHETIC_ROBUST_READOUT_PRECURSOR_CLEAN_CONTROL_BLOCKS_UNIQUE_NONGAUSSIAN_MECHANISM",
+    "T2424-0027": "MERGED_REPRODUCED_SYNTHETIC_LANGUAGE_LEAKAGE_MECHANICS_REAL_MODEL_SUCCESSOR_MUST_PREREGISTER"
   },
   "immediate_order": [
     "first_100_identity_provenance_closure",
@@ -54,6 +55,78 @@
     "evidence_bounded_preprint_conversion",
     "independent_qa",
     "merge_duplicates_and_archive_weak_candidates"
+  ],
+  "completed_this_pass": [
+    {
+      "project": "T2424-0025",
+      "pr": 567,
+      "state": "DRAFT_NO_GO",
+      "head": "6074155eb4bf02230302ce2038f7964f7352c8dd",
+      "ci": "SUCCESS_RUN_33256225386",
+      "outputs": [
+        "evidence_bounded_manuscript",
+        "primary_source_related_work_audit",
+        "two_evidence_derived_figures",
+        "deterministic_figure_generator",
+        "figure_provenance_audit",
+        "preprint_release_gate"
+      ],
+      "remaining": [
+        "authorship_contributions",
+        "release_license_resolution",
+        "clean_pdf_audit",
+        "final_sentence_level_claim_audit"
+      ]
+    },
+    {
+      "project": "T2424-0027",
+      "pr": 568,
+      "state": "DRAFT_CI_RUNNING_AT_CHECKPOINT",
+      "outputs": [
+        "merged_status_truth_correction",
+        "evidence_bounded_manuscript",
+        "primary_source_related_work_audit",
+        "evidence_derived_probe_figure",
+        "deterministic_figure_generator",
+        "figure_provenance_audit",
+        "preprint_release_gate",
+        "real_model_successor_preregistration"
+      ],
+      "frozen_result": {
+        "raw_concept_accuracy": 1.0,
+        "raw_language_accuracy": 1.0,
+        "centered_concept_accuracy": 1.0,
+        "centered_language_accuracy": 0.3611111111111111,
+        "language_chance": 0.3333333333333333,
+        "normalized_excess_language_leakage_reduction": 0.9583333333333334,
+        "global_centered_language_accuracy": 1.0
+      }
+    },
+    {
+      "project": "Fabric-Induced-Memory",
+      "repository": "build-the-future-11/Fabric-Induced-Memory",
+      "pr": 1,
+      "state": "TOOLING_CI_GREEN_RESULT_UNVALIDATED",
+      "head": "22fff864e94aa1450bc6ec9be6d47543998d9ef8",
+      "ci": "SUCCESS_RUN_33255712860",
+      "outputs": [
+        "current_code_ablation_runner",
+        "explicit_full_no_memory_no_retrieval_controls",
+        "three_seed_default",
+        "per_run_provenance",
+        "ablation_manifest",
+        "descriptive_across_seed_report",
+        "control_semantics_tests",
+        "evidence_ledger",
+        "ci_gate"
+      ],
+      "claim_blockers": [
+        "clean_completed_ablation_runs",
+        "retained_outputs",
+        "matched_strong_non_memory_baseline",
+        "appropriate_statistical_comparison"
+      ]
+    }
   ],
   "non_completion_signals": [
     "proposal_count",
