@@ -1,0 +1,21 @@
+{
+  "protocol": "olympus-o1-v1",
+  "status": "UNFROZEN_DO_NOT_RUN",
+  "provider_model_exact_id": null,
+  "provider_version": null,
+  "sampling_config": null,
+  "system_prompt_hashes": {
+    "monolithic": null,
+    "olympus_full_prometheus_perseus_hermes": null,
+    "olympus_without_perseus": null,
+    "olympus_without_evidence_enforcement": null
+  },
+  "tool_allowlist": null,
+  "wall_clock_limit_seconds": null,
+  "token_limit": null,
+  "retry_policy": null,
+  "runtime_identity": null,
+  "analysis_rng_seed": null,
+  "task_manifest_sha256": null,
+  "notes": "All null fields must be replaced and this object hashed before any scored O1 run. Do not infer provider availability or runtime health from repository state."
+}
