@@ -8,11 +8,13 @@ on:
       - "portfolio/project2424/projects/T2424-0027/real_encoder/manifest.json"
       - "portfolio/project2424/projects/T2424-0027/real_encoder/manifest_v3_preregistered.json"
       - "portfolio/project2424/projects/T2424-0027/real_encoder/validate_v3_prereg.py"
+      - "portfolio/project2424/projects/T2424-0027/real_encoder/verify_v3_dataset_gate.py"
       - ".github/workflows/t2424-0027-v3-prereg.yml"
   pull_request:
     paths:
       - "portfolio/project2424/projects/T2424-0027/real_encoder/manifest_v3_preregistered.json"
       - "portfolio/project2424/projects/T2424-0027/real_encoder/validate_v3_prereg.py"
+      - "portfolio/project2424/projects/T2424-0027/real_encoder/verify_v3_dataset_gate.py"
       - ".github/workflows/t2424-0027-v3-prereg.yml"
   workflow_dispatch:
 
@@ -22,7 +24,7 @@ permissions:
 jobs:
   prereg-lock:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 12
     steps:
       - name: Checkout exact revision
         uses: actions/checkout@v4
@@ -37,3 +39,30 @@ jobs:
         run: |
           ! grep -Eiq "SentenceTransformer\(|\.encode\(|fit\(|predict\(" portfolio/project2424/projects/T2424-0027/real_encoder/manifest_v3_preregistered.json
           ! grep -Eiq "SentenceTransformer\(|\.encode\(|fit\(|predict\(" portfolio/project2424/projects/T2424-0027/real_encoder/validate_v3_prereg.py
+          ! grep -Eiq "SentenceTransformer\(|\.encode\(|fit\(|predict\(" portfolio/project2424/projects/T2424-0027/real_encoder/verify_v3_dataset_gate.py
+      - name: Install dataset-only dependency
+        run: python -m pip install --disable-pip-version-check datasets==2.21.0 huggingface-hub==0.24.7
+      - name: Recompute frozen v3 feasibility set before encoder access
+        working-directory: portfolio/project2424/projects/T2424-0027/real_encoder
+        run: python verify_v3_dataset_gate.py
+      - name: Verify retained gate evidence remains outcome-free
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p = Path("portfolio/project2424/projects/T2424-0027/real_encoder/v3_dataset_gate_evidence.json")
+          d = json.loads(p.read_text())
+          assert d["verdict"] == "PASS_DATASET_ONLY_V3_FEASIBILITY_GATE"
+          assert d["admissible_intent_count"] == 50
+          assert d["minimum_frozen_cell_count"] >= 15
+          assert d["execution_authorized"] is False
+          assert d["encoder_instantiated"] is False
+          assert d["model_outcomes_accessed"] is False
+          PY
+      - name: Upload dataset-only feasibility evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: t2424-0027-v3-dataset-gate-${{ github.sha }}
+          path: portfolio/project2424/projects/T2424-0027/real_encoder/v3_dataset_gate_evidence.json
+          if-no-files-found: error
+          retention-days: 90
