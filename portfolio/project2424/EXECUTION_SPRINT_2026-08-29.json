@@ -1,0 +1,66 @@
+{
+  "date": "2026-08-29",
+  "purpose": "execution_checkpoint_not_canonical_registry",
+  "canonical_refs": ["issue:#496", "issue:#523"],
+  "lanes": [
+    {
+      "name": "identity_closure",
+      "priority": 0,
+      "rules": [
+        "no_numeric_suffix_identity_inference",
+        "unresolved_mappings_do_not_increase_completion_counts",
+        "first_100_dispositions_require_evidence"
+      ]
+    },
+    {
+      "name": "repro_and_experiments",
+      "priority": 0,
+      "rules": [
+        "frozen_studies_reproduce_unchanged",
+        "successor_protocols_freeze_before_outcome_access",
+        "preserve_negative_mixed_falsified_results"
+      ]
+    },
+    {
+      "name": "preprint_factory",
+      "priority": 1,
+      "rules": [
+        "tables_and_figures_from_retained_artifacts_only",
+        "preprint_ready_requires_identity_protocol_artifacts_reproduction_claim_audit_pdf",
+        "no_superiority_claim_beyond_evidence"
+      ]
+    },
+    {
+      "name": "independent_qa",
+      "priority": 1,
+      "rules": [
+        "qa_does_not_certify_same_pass_authored_work",
+        "reject_source_template_proposal_ci_only_completion"
+      ]
+    }
+  ],
+  "integrity_locks": {
+    "T2424-1863": "FROZEN_NEGATIVE",
+    "T2424-0050": "HOLD_MIXED_ROBUSTNESS_NO_SUCCESSOR_TRAINING_WITHOUT_FROZEN_AUTHORIZED_PROTOCOL",
+    "NeuroCAD": "VALIDATION_DOMINANT_TYPED_PARSER_CAUSAL_STORY_FALSIFIED",
+    "T2424-0016": "RECOVER_EXACT_SOURCE_OR_EXPLICIT_SOURCE_BLOCKER",
+    "T2424-0019": "RECOVER_EXACT_CANONICAL_SOURCE_OR_SOURCE_BLOCKED",
+    "T2424-0025": "ROBUSTNESS_MECHANISM_FRAMING_WITH_MECHANISM_UNCERTAINTY"
+  },
+  "immediate_order": [
+    "first_100_identity_provenance_closure",
+    "strongest_dependency_ready_frozen_reproduction",
+    "freeze_ready_successor_protocols_before_outcomes",
+    "evidence_bounded_preprint_conversion",
+    "independent_qa",
+    "merge_duplicates_and_archive_weak_candidates"
+  ],
+  "non_completion_signals": [
+    "proposal_count",
+    "source_directory_presence",
+    "generated_scaffold",
+    "manuscript_template",
+    "green_ci_only",
+    "internal_review_only"
+  ]
+}
