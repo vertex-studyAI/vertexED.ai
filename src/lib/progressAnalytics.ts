@@ -8,7 +8,8 @@ export type DailySnapshot = {
   habitsDone: number;
   habitCount: number;
   reviewsCompleted: number;
-  avgMastery: number;
+  /** Null means there was no measured assessment evidence for this snapshot. */
+  avgMastery: number | null;
 };
 
 export type ProgressTrend = {
@@ -16,8 +17,10 @@ export type ProgressTrend = {
   streakDays: number;
   reviewsThisWeek: number;
   masteryTrend: 'up' | 'down' | 'flat';
-  avgMastery: number;
-  studyMinutesEstimate: number;
+  /** Measured mastery only. Null means insufficient measured assessment evidence. */
+  avgMastery: number | null;
+  /** Heuristic estimate, not measured study time. */
+  estimatedStudyMinutes: number;
 };
 
 function storageKey() {
@@ -43,13 +46,24 @@ function writeSnapshots(snapshots: DailySnapshot[]) {
   window.localStorage.setItem(storageKey(), JSON.stringify(snapshots.slice(-30)));
 }
 
+function hasMeasuredMastery(snapshot: DailySnapshot): snapshot is DailySnapshot & { avgMastery: number } {
+  // `reviewsCompleted > 0` also prevents legacy no-data snapshots whose old fallback
+  // stored a synthetic 50 from being treated as measured evidence.
+  return (
+    snapshot.reviewsCompleted > 0 &&
+    typeof snapshot.avgMastery === 'number' &&
+    Number.isFinite(snapshot.avgMastery)
+  );
+}
+
 export function recordDailySnapshot() {
   const stats = getStudyStats();
   const heatmap = getWeaknessHeatmap(20);
+  const reviewsCompleted = heatmap.reduce((s, h) => s + h.attempts, 0);
   const avgMastery =
-    heatmap.length > 0
+    heatmap.length > 0 && reviewsCompleted > 0
       ? Math.round(heatmap.reduce((s, h) => s + h.avgPercent, 0) / heatmap.length)
-      : 50;
+      : null;
 
   const today = todayKey();
   const snapshots = readSnapshots().filter((s) => s.date !== today);
@@ -58,7 +72,7 @@ export function recordDailySnapshot() {
     studyStreak: stats.studyStreak,
     habitsDone: stats.habitsDoneToday,
     habitCount: stats.habitCount,
-    reviewsCompleted: heatmap.reduce((s, h) => s + h.attempts, 0),
+    reviewsCompleted,
     avgMastery,
   });
   writeSnapshots(snapshots);
@@ -71,20 +85,23 @@ export function getProgressTrend(recordSnapshot = false): ProgressTrend {
   const stats = getStudyStats();
   const last7 = snapshots.slice(-7);
   const reviewsThisWeek = last7.reduce((s, d) => s + d.reviewsCompleted, 0);
+  const measuredMastery = last7.filter(hasMeasuredMastery);
 
   let masteryTrend: ProgressTrend['masteryTrend'] = 'flat';
-  if (last7.length >= 2) {
-    const first = last7[0].avgMastery;
-    const last = last7[last7.length - 1].avgMastery;
+  if (measuredMastery.length >= 2) {
+    const first = measuredMastery[0].avgMastery;
+    const last = measuredMastery[measuredMastery.length - 1].avgMastery;
     if (last > first + 3) masteryTrend = 'up';
     else if (last < first - 3) masteryTrend = 'down';
   }
 
-  const avgMastery = last7.length
-    ? Math.round(last7.reduce((s, d) => s + d.avgMastery, 0) / last7.length)
-    : 50;
+  const avgMastery = measuredMastery.length
+    ? Math.round(measuredMastery.reduce((s, d) => s + d.avgMastery, 0) / measuredMastery.length)
+    : null;
 
-  const studyMinutesEstimate = stats.studyStreak * 25 + stats.habitsDoneToday * 15;
+  // This remains a heuristic derived from streak/habit counters. Naming it as an
+  // estimate prevents evidence-oriented consumers from presenting it as measured time.
+  const estimatedStudyMinutes = stats.studyStreak * 25 + stats.habitsDoneToday * 15;
 
   return {
     snapshots: last7,
@@ -92,6 +109,6 @@ export function getProgressTrend(recordSnapshot = false): ProgressTrend {
     reviewsThisWeek,
     masteryTrend,
     avgMastery,
-    studyMinutesEstimate,
+    estimatedStudyMinutes,
   };
 }
