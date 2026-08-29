@@ -12,6 +12,7 @@ This document freezes the manuscript claim boundary for the current evidence-bea
 - Evidence-derived figure generator: `figures/generate.mjs`.
 - Figure derivation ledger: `figures/FIGURE_DATA.json`.
 - Figure provenance/claim audit: `figures/FIGURE_AUDIT.md`.
+- Primary-source literature audit: `RELATED_WORK_AUDIT.md`.
 - Reproduction commands:
   - `node portfolio/project2424/projects/T2424-0025/experiment/run.mjs > screen.json`
   - `node portfolio/project2424/projects/T2424-0025/experiment/ablation.mjs > ablation.json`
@@ -84,16 +85,16 @@ Both figures are generated directly from `raw_metrics/repro-wave-20260812.json`.
 
 ## Related-work audit status
 
-**OPEN.** No citations are approved merely from memory. A current related-work pass must verify primary sources for robust attention/readout methods, robust statistics under heavy tails, learned memory mechanisms, and contamination-robust sequence modeling before the manuscript is citation-complete.
+**PRIMARY-SOURCE AUDIT COMPLETE; MANUSCRIPT INTEGRATION OPEN.** `RELATED_WORK_AUDIT.md` verifies primary/original records spanning classical robust estimation, robust aggregation in learned systems, contaminated time-series forecasting, learned external memory, and robust Transformer attention. It also records explicit non-equivalence boundaries so those citations cannot be used to upgrade this precursor into a learned-memory or Transformer result.
 
-Until verified citations are attached, Introduction and Related Work are not release-complete.
+Introduction and Related Work are still not release-complete until those verified sources are integrated sentence-by-sentence and the final bibliography is checked against the primary records.
 
 ## Data / code / authorship / licensing
 
 - **Code statement:** repository code and exact reproduction commands are identified.
 - **Data statement:** current study uses synthetic generated data; the generator identity and parameters must be referenced directly from the frozen source in the final paper.
 - **Authorship statement:** OPEN; final author list/contributions must be explicitly reviewed.
-- **License statement:** OPEN; repository/source licensing must be checked before release.
+- **License statement:** BLOCKED; an obvious root `LICENSE` file was not found in the repository and release rights must not be inferred.
 
 ## Release gate
 
@@ -105,7 +106,7 @@ Until verified citations are attached, Introduction and Related Work are not rel
 - [x] central negative control is preserved;
 - [x] claim boundary is explicit;
 - [x] evidence-derived figures are generated and checked against raw metrics;
-- [ ] current primary-source related-work audit is complete;
+- [x] current primary-source related-work audit is complete;
 - [ ] Introduction and Related Work are citation-complete;
 - [ ] final Methods/Results/Discussion manuscript is assembled without upgrading the claim;
 - [ ] authorship/contribution statement is complete;
