@@ -9,7 +9,7 @@
   "claim_boundary": "Real frozen-encoder representation diagnostic only. No linguistic-relativity, cognition, translation-quality, universal-representation, or fine-tuned-model claim.",
   "dataset": {
     "repo": "AmazonScience/massive",
-    "revision": "ff6bd8e",
+    "revision": "ff6bd8e4b27c3543e4f8fe2108f32bb95a6f8740",
     "dataset_version": "1.1",
     "license": "CC-BY-4.0",
     "locales": ["en-US", "es-ES", "fr-FR"],
@@ -23,7 +23,7 @@
   },
   "encoder": {
     "repo": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
-    "revision": "e8f8c21",
+    "revision": "e8f8c211226b894fcb81acc59f3b34ba3efd5f42",
     "license": "Apache-2.0",
     "embedding_dimension": 384,
     "fine_tuning": false,
