@@ -8,6 +8,10 @@ This document freezes the manuscript claim boundary for the current evidence-bea
 
 - Independent reproduction merge: `715aea0b632c70493c226a84473d77ff7ca8cfc6` (PR #311).
 - Frozen historical experiment revision recorded in `RESULTS.md`: `0d2a14e559b0caa9b5b1cbeef0995013594ecf15`.
+- Retained machine-readable metrics: `raw_metrics/repro-wave-20260812.json`.
+- Evidence-derived figure generator: `figures/generate.mjs`.
+- Figure derivation ledger: `figures/FIGURE_DATA.json`.
+- Figure provenance/claim audit: `figures/FIGURE_AUDIT.md`.
 - Reproduction commands:
   - `node portfolio/project2424/projects/T2424-0025/experiment/run.mjs > screen.json`
   - `node portfolio/project2424/projects/T2424-0025/experiment/ablation.mjs > ablation.json`
@@ -68,15 +72,15 @@ Required limitations:
 
 The paper can cite the exact commands, frozen source identity, environment, and output digests listed above. No new rerun is required solely to improve the narrative.
 
-## Tables and figures allowed from retained evidence
+## Tables and figures from retained evidence
 
 Allowed without new experimentation:
 1. **Table 1:** 30-seed heavy-tail vs clean screen from `RESULTS.md`.
 2. **Table 2:** 50-seed contamination sweep across mean / median / trimmed / Huber.
-3. **Figure 1:** contamination level vs MAE for the four readouts, generated only from retained raw metrics.
-4. **Figure 2:** relative improvement of median over mean vs contamination, including the non-zero improvement at 0% contamination.
+3. **Figure 1:** `figures/figure1_contamination_mae.svg`, contamination level vs MAE for the four readouts.
+4. **Figure 2:** `figures/figure2_relative_improvement.svg`, relative improvement of median over mean vs contamination, including the non-zero improvement at 0% contamination.
 
-Any figure must be generated directly from retained machine-readable metrics. No visually estimated or manually invented points are permitted.
+Both figures are generated directly from `raw_metrics/repro-wave-20260812.json`. Exact derived values and the formula used by Figure 2 are retained in `figures/FIGURE_DATA.json`; `figures/FIGURE_AUDIT.md` records provenance and the interpretation boundary. No visually estimated or manually invented points are permitted.
 
 ## Related-work audit status
 
@@ -100,7 +104,7 @@ Until verified citations are attached, Introduction and Related Work are not rel
 - [x] independent reproduction is evidenced;
 - [x] central negative control is preserved;
 - [x] claim boundary is explicit;
-- [ ] evidence-derived figures are generated and checked against raw metrics;
+- [x] evidence-derived figures are generated and checked against raw metrics;
 - [ ] current primary-source related-work audit is complete;
 - [ ] Introduction and Related Work are citation-complete;
 - [ ] final Methods/Results/Discussion manuscript is assembled without upgrading the claim;
