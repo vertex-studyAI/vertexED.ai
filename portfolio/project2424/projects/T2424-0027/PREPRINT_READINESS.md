@@ -1,6 +1,6 @@
 # T2424-0027 Preprint Readiness
 
-Status: **NO-GO / TECHNICAL MANUSCRIPT ASSEMBLED**
+Status: **NO-GO / TECHNICAL MANUSCRIPT + EVIDENCE FIGURE ASSEMBLED**
 
 ## Evidence state
 
@@ -32,7 +32,8 @@ Canonical recovery merged through PR #281, merge commit `03eea7acfff37765f1a3d1a
 - [x] predeclared thresholds retained without post-result changes
 - [x] negative control retained in the main result
 - [x] exact run/verifier/test commands retained
-- [ ] manuscript figures generated from raw evidence
+- [x] manuscript figure generated directly from retained raw evidence
+- [x] figure values/provenance retained in `figures/FIGURE_DATA.json` and `figures/FIGURE_AUDIT.md`
 - [ ] final author/contribution statement
 - [ ] repository/release license state resolved
 - [ ] formatted PDF compiled and checked
@@ -59,4 +60,4 @@ The synthetic PASS must not be copied forward as evidence for that successor.
 
 ## Release verdict
 
-**NO-GO for public preprint release at this checkpoint.** The evidence and prose are substantially organized, but figure generation, authorship, licensing, PDF production, and final claim-language review remain open. A real-model validation result is not required to publish this as a bounded technical note, but any broader multilingual-representation claim requires that separate evidence.
+**NO-GO for public preprint release at this checkpoint.** The evidence, prose, literature audit, and evidence-derived figure are assembled. Authorship, licensing, PDF production, and final claim-language review remain open. A real-model validation result is not required to publish this as a bounded technical note, but any broader multilingual-representation claim requires that separate evidence.
