@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="540" viewBox="0 0 900 540">
+<rect width="100%" height="100%" fill="white"/>
+<style>text{font-family:Arial,Helvetica,sans-serif;fill:#111}.axis{stroke:#111;stroke-width:1.5}.grid{stroke:#bbb;stroke-width:1;stroke-dasharray:3 5}.series{fill:none;stroke:#111;stroke-width:2.2}.pt{fill:white;stroke:#111;stroke-width:1.8}.small{font-size:12px}.label{font-size:14px}.title{font-size:20px;font-weight:700}.legend{font-size:13px}</style>
+<text x="450.0" y="30" text-anchor="middle" class="title">T2424-0025 contamination sweep: MAE by robust readout</text>
+<line x1="90" y1="460.00" x2="870" y2="460.00" class="grid"/>
+<text x="80" y="464.00" text-anchor="end" class="small">0.01</text>
+<line x1="90" y1="399.79" x2="870" y2="399.79" class="grid"/>
+<text x="80" y="403.79" text-anchor="end" class="small">0.02</text>
+<line x1="90" y1="320.21" x2="870" y2="320.21" class="grid"/>
+<text x="80" y="324.21" text-anchor="end" class="small">0.05</text>
+<line x1="90" y1="260.00" x2="870" y2="260.00" class="grid"/>
+<text x="80" y="264.00" text-anchor="end" class="small">0.10</text>
+<line x1="90" y1="199.79" x2="870" y2="199.79" class="grid"/>
+<text x="80" y="203.79" text-anchor="end" class="small">0.20</text>
+<line x1="90" y1="120.21" x2="870" y2="120.21" class="grid"/>
+<text x="80" y="124.21" text-anchor="end" class="small">0.50</text>
+<line x1="90" y1="60.00" x2="870" y2="60.00" class="grid"/>
+<text x="80" y="64.00" text-anchor="end" class="small">1.00</text>
+<line x1="90.00" y1="60" x2="90.00" y2="460" class="grid"/>
+<text x="90.00" y="484" text-anchor="middle" class="small">0.00</text>
+<line x1="201.43" y1="60" x2="201.43" y2="460" class="grid"/>
+<text x="201.43" y="484" text-anchor="middle" class="small">0.05</text>
+<line x1="312.86" y1="60" x2="312.86" y2="460" class="grid"/>
+<text x="312.86" y="484" text-anchor="middle" class="small">0.10</text>
+<line x1="491.14" y1="60" x2="491.14" y2="460" class="grid"/>
+<text x="491.14" y="484" text-anchor="middle" class="small">0.18</text>
+<line x1="647.14" y1="60" x2="647.14" y2="460" class="grid"/>
+<text x="647.14" y="484" text-anchor="middle" class="small">0.25</text>
+<line x1="870.00" y1="60" x2="870.00" y2="460" class="grid"/>
+<text x="870.00" y="484" text-anchor="middle" class="small">0.35</text>
+<line x1="90" y1="60" x2="90" y2="460" class="axis"/>
+<line x1="90" y1="460" x2="870" y2="460" class="axis"/>
+<text x="480.0" y="512" text-anchor="middle" class="label">Cauchy contamination fraction</text>
+<text x="24" y="260.0" transform="rotate(-90 24 260.0)" text-anchor="middle" class="label">MAE (log scale)</text>
+<polyline points="90.00,381.65 201.43,227.72 312.86,158.66 491.14,151.33 647.14,128.06 870.00,72.54" class="series"/>
+<circle cx="90.00" cy="381.65" r="3.3" class="pt"/>
+<circle cx="201.43" cy="227.72" r="3.3" class="pt"/>
+<circle cx="312.86" cy="158.66" r="3.3" class="pt"/>
+<circle cx="491.14" cy="151.33" r="3.3" class="pt"/>
+<circle cx="647.14" cy="128.06" r="3.3" class="pt"/>
+<circle cx="870.00" cy="72.54" r="3.3" class="pt"/>
+<polyline points="90.00,440.13 201.43,434.99 312.86,429.68 491.14,413.90 647.14,390.09 870.00,368.48" class="series" stroke-dasharray="6 4"/>
+<circle cx="90.00" cy="440.13" r="3.3" class="pt"/>
+<circle cx="201.43" cy="434.99" r="3.3" class="pt"/>
+<circle cx="312.86" cy="429.68" r="3.3" class="pt"/>
+<circle cx="491.14" cy="413.90" r="3.3" class="pt"/>
+<circle cx="647.14" cy="390.09" r="3.3" class="pt"/>
+<circle cx="870.00" cy="368.48" r="3.3" class="pt"/>
+<polyline points="90.00,405.58 201.43,389.09 312.86,364.54 491.14,328.39 647.14,294.70 870.00,259.16" class="series" stroke-dasharray="2 4"/>
+<circle cx="90.00" cy="405.58" r="3.3" class="pt"/>
+<circle cx="201.43" cy="389.09" r="3.3" class="pt"/>
+<circle cx="312.86" cy="364.54" r="3.3" class="pt"/>
+<circle cx="491.14" cy="328.39" r="3.3" class="pt"/>
+<circle cx="647.14" cy="294.70" r="3.3" class="pt"/>
+<circle cx="870.00" cy="259.16" r="3.3" class="pt"/>
+<polyline points="90.00,403.89 201.43,391.40 312.86,378.76 491.14,361.94 647.14,342.66 870.00,326.12" class="series" stroke-dasharray="10 4 2 4"/>
+<circle cx="90.00" cy="403.89" r="3.3" class="pt"/>
+<circle cx="201.43" cy="391.40" r="3.3" class="pt"/>
+<circle cx="312.86" cy="378.76" r="3.3" class="pt"/>
+<circle cx="491.14" cy="361.94" r="3.3" class="pt"/>
+<circle cx="647.14" cy="342.66" r="3.3" class="pt"/>
+<circle cx="870.00" cy="326.12" r="3.3" class="pt"/>
+<line x1="585" y1="78" x2="627" y2="78" class="series"/>
+<text x="635" y="82" class="legend">Arithmetic mean</text>
+<line x1="585" y1="101" x2="627" y2="101" class="series" stroke-dasharray="6 4"/>
+<text x="635" y="105" class="legend">Weighted median</text>
+<line x1="585" y1="124" x2="627" y2="124" class="series" stroke-dasharray="2 4"/>
+<text x="635" y="128" class="legend">10% trimmed mean</text>
+<line x1="585" y1="147" x2="627" y2="147" class="series" stroke-dasharray="10 4 2 4"/>
+<text x="635" y="151" class="legend">Huber</text>
+<text x="90" y="532" class="small">Source: raw_metrics/repro-wave-20260812.json; frozen source 0d2a14e559b0…</text>
+</svg>
