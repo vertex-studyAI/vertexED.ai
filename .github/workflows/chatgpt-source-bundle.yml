@@ -1,0 +1,27 @@
+name: ChatGPT Source Bundle
+
+on:
+  push:
+    branches:
+      - chatgpt/source-bundle-20260829
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  bundle:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Upload source tree
+        uses: actions/upload-artifact@v4
+        with:
+          name: vertexED.ai-source
+          path: |
+            .
+            !.git/**
+          include-hidden-files: true
+          retention-days: 1
