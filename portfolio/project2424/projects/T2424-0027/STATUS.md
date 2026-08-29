@@ -3,10 +3,16 @@
 **Project:** Sapir–Whorf Latent Tongue  
 **Frozen queue rank:** 20  
 **Track:** C — Existing work → minimum experiment  
-**State:** `CERTIFICATION_PENDING / MANUAL_MERGE_PENDING`  
+**State:** `MERGED / TESTED_TOOL / CERTIFICATION_PENDING`  
 **Claim level:** deterministic synthetic concept-vs-language latent diagnostic mechanics
 
-## Implemented
+## Current integration truth
+
+The canonical recovery PR #281 was merged to `main` on 2026-08-12 with merge commit `03eea7acfff37765f1a3d1ab7856f6ac3e7f6fee`. The earlier `CERTIFICATION_PENDING / MANUAL_MERGE_PENDING` wording was stale and is superseded by this status refresh.
+
+Merged does not mean externally validated or research-complete. The supported result remains the bounded deterministic synthetic mechanics claim only.
+
+## Implemented and retained
 
 - [x] frozen queue identity resolved from `FIRST_100_QUEUE.ndjson`
 - [x] strict latent-record validation
@@ -24,12 +30,10 @@
 - [x] explicit GO / STOP verdict
 - [x] fail-closed evidence-consistency verifier
 - [x] focused regression suite
-- [x] pre-refresh exact head `6e71f109db7bba64e222029f298072ed64cc42de` passed canonical CI `31457981699`
-- [ ] merged to current `main`
-
-## Latest-base integration refresh
-
-Repository `main` advanced from this branch's original base to `662de36af18b1251e6441391ac3fc06df7a3bf71` via monitoring-only PR #243. This `STATUS.md`-only refresh intentionally creates a new branch head so GitHub Actions validates the pull-request merge ref against that latest base before any manual merge decision. The generator, protocol, thresholds, retained result, SHA-256 evidence binding and scientific verdict are unchanged.
+- [x] independent exact reproduction retained through PR #311
+- [x] canonical package merged to current history through PR #281
+- [ ] external multilingual-model validation
+- [ ] portfolio-wide independent certification
 
 ## Frozen deterministic result
 
@@ -44,9 +48,11 @@ Repository `main` advanced from this branch's original base to `662de36af18b1251
 
 The centered language probe is slightly above chance, but the predeclared normalized leakage-reduction gate is `>= 0.90` and the retained value is `0.9583333333333334`. No threshold was moved after observation.
 
+Independent reproduction retained for this project records output SHA-256 `0eac35dd7b8af1488efab0392c2e82dab8f9a90332af7c6ad54633263fa13605`.
+
 ## Nine-gate state
 
-1. immutable source/evidence identity: **protocol implementation commit + raw SHA-256 present; final merge identity pending**
+1. immutable source/evidence identity: **present**
 2. falsifiable claim: **present**
 3. frozen protocol: **present**
 4. clean runnable command: **present**
@@ -54,9 +60,9 @@ The centered language probe is slightly above chance, but the predeclared normal
 6. raw result artifacts: **present, retained JSON**
 7. ablation / negative-result analysis: **present as raw-vs-language-centered transform plus global-centering negative control**
 8. explicit go/no-go verdict: **present**
-9. independent QA/reproduction: **separate fail-closed verifier + regression suite present; latest-base repository CI refresh pending**
+9. independent QA/reproduction: **present for the bounded deterministic package**
 
-This is **not `Certified complete`**. Even after repository CI, the supported claim remains only the deterministic synthetic mechanics claim. A real multilingual-model or linguistic-relativity claim requires a new preregistered protocol and external evidence.
+The nine project-local gates support a tested, reproducible synthetic tool/result. They do not satisfy the stricter portfolio-wide meaning of `Certified complete` and do not establish external validity.
 
 ## Claim boundary
 
@@ -64,6 +70,6 @@ Do not claim this package establishes the Sapir–Whorf hypothesis, linguistic r
 
 ## Promotion rule
 
-Promote to merged `TESTED_TOOL / CERTIFICATION_PENDING` only after latest-base canonical GitHub Actions is fully green and the final diff remains restricted to the canonical T2424-0027 package plus its focused test. Keep `Certified complete = 0` unless the stricter portfolio-wide independent-certification rule is separately satisfied.
+Keep `Certified complete = 0` unless the separate portfolio-wide independent-certification rule is satisfied. Any real multilingual-encoder experiment must use a new preregistered protocol and must not inherit the synthetic PASS verdict.
 
-**DO NOT AUTO-MERGE OR DEPLOY. MANUAL REVIEW REQUIRED.**
+No deployment or production mutation is part of this research package.
