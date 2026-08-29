@@ -36,12 +36,16 @@ test('password recovery route binds the verified marker to the live account', ()
   assert.match(resetSource, /This password reset session has expired/);
 });
 
-test('password update validates confirmation, updates Supabase, clears recovery marker, and signs out', () => {
+test('password update validates confirmation, updates Supabase, clears recovery marker, and verifies signout before success', () => {
   assert.match(resetSource, /password\.length < 8/);
   assert.match(resetSource, /password !== confirmPassword/);
   assert.match(resetSource, /supabase\.auth\.updateUser\(\{ password \}\)/);
   assert.match(resetSource, /clearPasswordRecoveryMarker\(\)/);
-  assert.match(resetSource, /await supabase\.auth\.signOut\(\)/);
+  assert.match(resetSource, /const \{ error: signOutError \} = await supabase\.auth\.signOut\(\)/);
+  assert.match(resetSource, /if \(signOutError\)/);
+  assert.match(resetSource, /could not verify that this recovery session was signed out/);
+  assert.match(resetSource, /if \(signOutError\)[\s\S]*?throw new Error[\s\S]*?setSuccess\(true\)/);
+  assert.doesNotMatch(resetSource, /await supabase\.auth\.signOut\(\);\s*setSuccess\(true\)/);
   assert.match(resetSource, /Sign in with your new password to continue/);
 });
 
