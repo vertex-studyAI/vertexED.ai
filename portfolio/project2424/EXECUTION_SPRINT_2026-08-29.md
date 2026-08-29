@@ -31,7 +31,8 @@ This file is an execution checkpoint, not a second canonical registry. The canon
 - NeuroCAD: preserve the typed-parser causal falsification / validation-dominant interpretation. Resolve the `T2424-0007` vs `T2424-0037` lineage before counting a publication twice.
 - `T2424-0016` PST: exact source/checkpoint/raw-evidence lineage must be recovered and reproduced or closed with an explicit source blocker.
 - `T2424-0019` NPMS: exact canonical source lineage must be recovered or the canonical package must close `SOURCE_BLOCKED`; later derived bundles cannot silently substitute for the missing source.
-- `T2424-0025` NGMT: paper framing is robustness/mechanism with mechanism uncertainty, not generic superiority.
+- `T2424-0025`: bounded synthetic robust-readout precursor. The 0% contamination control preserves a large median advantage, so the current evidence does not isolate a uniquely heavy-tail/non-Gaussian mechanism and does not establish a Transformer or learned-memory result.
+- `T2424-0027`: merged and independently reproduced deterministic synthetic language-leakage diagnostic. The 95.83% normalized excess leakage reduction supports only the controlled synthetic mechanics claim; any real multilingual-encoder study is a separate preregistered line.
 
 ## Immediate execution order
 
@@ -41,6 +42,26 @@ This file is an execution checkpoint, not a second canonical registry. The canon
 4. Convert evidence-backed candidates into claim-audited manuscript sections/tables/figures.
 5. Independently QA the strongest claimed closure from another lane.
 6. Merge duplicates and archive weak/unsupported candidates instead of increasing nominal project count.
+
+## Completed in the 2026-08-29 execution pass
+
+### T2424-0025 paper conversion
+
+Draft PR #567 now contains a full evidence-bounded manuscript, primary-source literature audit, deterministic figure generator, two figures derived directly from retained raw metrics, a figure provenance ledger, and an updated release gate. Canonical CI run #1810 completed successfully on head `6074155eb4bf02230302ce2038f7964f7352c8dd`.
+
+The release verdict remains `NO-GO / NOT PREPRINT_READY` until authorship/contributions, release/license state, clean PDF compilation, and final sentence-level claim review are complete. No experimental outcome or threshold was changed.
+
+### T2424-0027 paper conversion
+
+The stale merge-pending status was corrected on paper-conversion PR #568 because canonical recovery PR #281 was already merged on 2026-08-12. The branch now includes a bounded technical manuscript, primary-source literature audit, retained-evidence figure and generator, figure audit, preprint release gate, and a separate real-model successor preregistration that blocks outcome access until immutable model/data revisions, exact thresholds, controls, splits, and uncertainty procedures are frozen.
+
+The synthetic result remains unchanged: raw concept/language accuracy `1.0/1.0`, centered concept/language accuracy `1.0/0.361111...`, chance `0.333333...`, normalized excess leakage reduction `0.958333...`, global-centering language accuracy `1.0`.
+
+### Fabric-Induced Memory support lane
+
+In `build-the-future-11/Fabric-Induced-Memory` PR #1, the legacy dead ablation path was replaced with a current-code full/no-memory/no-retrieval runner, predeclared three-seed default, per-run provenance, manifest, across-seed descriptive reporting, focused tests, evidence ledger, and CI gate. CI run `33255712860` completed successfully across dependency install, source compilation, experiment/ablation CLIs, report CLI, and ablation-control tests.
+
+This validates the tooling only. A positive FIM memory/retrieval mechanism claim remains blocked until clean completed ablations, retained outputs, matched strong non-memory baselines, and appropriate statistical comparisons exist.
 
 ## Non-negotiable completion rule
 
