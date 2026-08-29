@@ -7,13 +7,17 @@ on:
     paths:
       - "portfolio/project2424/projects/T2424-0027/real_encoder/manifest.json"
       - "portfolio/project2424/projects/T2424-0027/real_encoder/manifest_v3_preregistered.json"
+      - "portfolio/project2424/projects/T2424-0027/real_encoder/run.py"
       - "portfolio/project2424/projects/T2424-0027/real_encoder/validate_v3_prereg.py"
+      - "portfolio/project2424/projects/T2424-0027/real_encoder/validate_v3_runner_lock.py"
       - "portfolio/project2424/projects/T2424-0027/real_encoder/verify_v3_dataset_gate.py"
       - ".github/workflows/t2424-0027-v3-prereg.yml"
   pull_request:
     paths:
       - "portfolio/project2424/projects/T2424-0027/real_encoder/manifest_v3_preregistered.json"
+      - "portfolio/project2424/projects/T2424-0027/real_encoder/run.py"
       - "portfolio/project2424/projects/T2424-0027/real_encoder/validate_v3_prereg.py"
+      - "portfolio/project2424/projects/T2424-0027/real_encoder/validate_v3_runner_lock.py"
       - "portfolio/project2424/projects/T2424-0027/real_encoder/verify_v3_dataset_gate.py"
       - ".github/workflows/t2424-0027-v3-prereg.yml"
   workflow_dispatch:
@@ -35,11 +39,15 @@ jobs:
       - name: Verify v3 is outcome-inaccessible and frozen against v2
         working-directory: portfolio/project2424/projects/T2424-0027/real_encoder
         run: python validate_v3_prereg.py
+      - name: Verify v3 runner is locked before encoder construction
+        working-directory: portfolio/project2424/projects/T2424-0027/real_encoder
+        run: python validate_v3_runner_lock.py
       - name: Verify prereg files contain no model execution
         run: |
           ! grep -Eiq "SentenceTransformer\(|model\.encode\(|model\.fit\(|model\.predict\(" portfolio/project2424/projects/T2424-0027/real_encoder/manifest_v3_preregistered.json
           ! grep -Eiq "SentenceTransformer\(|model\.encode\(|model\.fit\(|model\.predict\(" portfolio/project2424/projects/T2424-0027/real_encoder/validate_v3_prereg.py
           ! grep -Eiq "SentenceTransformer\(|model\.encode\(|model\.fit\(|model\.predict\(" portfolio/project2424/projects/T2424-0027/real_encoder/verify_v3_dataset_gate.py
+          ! grep -Eiq "SentenceTransformer\(|model\.encode\(|model\.fit\(|model\.predict\(" portfolio/project2424/projects/T2424-0027/real_encoder/validate_v3_runner_lock.py
       - name: Install dataset-only dependency
         run: python -m pip install --disable-pip-version-check datasets==2.21.0 huggingface-hub==0.24.7
       - name: Recompute frozen v3 feasibility set before encoder access
