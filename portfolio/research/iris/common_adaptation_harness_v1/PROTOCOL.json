@@ -1,0 +1,55 @@
+{
+  "experiment_id": "EXP-DEV-20260813-IRIS-COMMON-ADAPTATION-HARNESS-V1",
+  "status": "FROZEN_DEVELOPMENT_ONLY_BEFORE_EXECUTION",
+  "scientific_role": "Apply the already-frozen IRIS adaptation metrics in one common scalar harness to the existing PABIM candidate and strong fixed/change-aware robust controls. This is development evidence only and cannot authorize confirmatory seeds by itself.",
+  "source_lineage": {
+    "iris_archive_sha256": "5d689ade164d80216d0ab6d4376b8acf53b8e0ba13d4bd5e909a94f00ec86b56",
+    "robust_change_protocol_sha256": "cb52be5c1168017e139ffac4c89a0ad9ed95127f707ddce9fdcf5a27f332b8ec",
+    "adaptation_metric_freeze": "portfolio/research/IRIS_SEQUENCE_ADAPTATION_METRIC_FREEZE_20260813.md"
+  },
+  "seed_policy": {
+    "development_seeds": [0,1,2,3,4,5,6,7,8,9],
+    "reserved_confirmatory_seeds": [1000,1001,1002,1003,1004,1005,1006,1007,1008,1009,1010,1011,1012,1013,1014,1015,1016,1017,1018,1019,1020,1021,1022,1023,1024,1025,1026,1027,1028,1029],
+    "confirmatory_access_forbidden": true
+  },
+  "stream": {"T": 4000, "burn": 100, "change_index": 2000},
+  "conditions": {
+    "gaussian": "N(0,1)",
+    "student_t2": "MAD-matched Student-t df=2",
+    "student_t3": "MAD-matched Student-t df=3",
+    "contaminated": "N(0,1) with iid 5% N(0,10) replacement",
+    "spikes": "N(0,1) with iid 2% signed magnitude U(10,25) additive spikes",
+    "burst": "N(0,1) with one length-10 signed magnitude 12 burst beginning at fixed index 1200 plus seed-dependent sign",
+    "regime": "N(0,1), latent mean jumps 0->3 at index 2000",
+    "variance_shift": "variance 1->25 at index 2000 with zero latent-mean change",
+    "mixed_shift_corruption": "latent mean 0->3 at index 2000 plus iid 2% signed magnitude U(8,15) additive spikes"
+  },
+  "methods": {
+    "huber_cap4": {"alpha":0.083,"c":2.5,"scale_beta":0.03,"scale_cap":4.0},
+    "clipped_ema": {"alpha":0.083,"clip_z":2.5,"fixed_scale":true},
+    "htam": {"alpha":0.112,"nu":3.0,"scale_beta":0.03,"scale_cap":4.0},
+    "student_t_matched_alpha": {"alpha":0.083,"nu":3.0,"scale_beta":0.03,"scale_cap":4.0},
+    "pabim": {"alpha":0.112,"nu":3.0,"k":4.0,"rho":0.40,"tau_p":0.35,"tau_z":2.0,"gamma":15.0,"scale_beta":0.03,"scale_cap":4.0},
+    "robust_cusum_switch": {"alpha_slow":0.083,"alpha_fast":0.25,"c":2.5,"scale_beta":0.03,"scale_cap":4.0,"z_deadzone":1.0,"cusum_decay":0.90,"open_threshold":3.0,"close_threshold":1.0},
+    "confirmed_streak_huber": {"alpha_slow":0.083,"alpha_fast":0.25,"huber_c":2.5,"scale_beta":0.03,"scale_cap":4.0,"large_residual_threshold_z":2.0,"same_sign_large_residuals_to_open":3,"small_residual_threshold_z":1.0,"small_residuals_to_close":5},
+    "dual_timescale_huber": {"alpha_slow":0.05,"alpha_fast":0.25,"c":2.5,"scale_beta":0.03,"scale_cap":4.0,"z_deadzone":1.0,"cusum_decay":0.90,"open_threshold":3.0,"close_threshold":1.0}
+  },
+  "metrics": {
+    "overall_mse": "mean squared state error after burn",
+    "tail_mse": "MSE on top 5% absolute observation-noise magnitudes after burn",
+    "TWMSE25": "for persistent regime conditions only, mean(((m_t-mu_t)/D)^2) over t0..t0+24, D=max(|mu_post-mu_pre|,1e-8)",
+    "recovery": "first t>=t0 with |m_j-mu_post|<=0.10*D for 5 consecutive samples; right-censored if absent",
+    "POST_MSE50PLUS": "mean squared state error from t0+50 onward when eligible",
+    "false_open_rate": "gate-open fraction after burn in conditions with no persistent mean change; not applicable for methods without gates"
+  },
+  "frozen_development_gate": {
+    "clean_noninferiority": "PABIM mean Gaussian MSE / Huber mean Gaussian MSE <= 1.05",
+    "heavy_tail_information_gain": "PABIM must improve mean MSE vs Huber by >=5% in at least two of student_t2, student_t3, contaminated, spikes, burst",
+    "strong_robust_control_guardrail": "Across those five adverse conditions, PABIM mean MSE may not exceed the mean of the per-condition best fixed robust control among Huber, HTAM, and student_t_matched_alpha by >5%",
+    "persistent_shift_gate": "On regime, PABIM must have TWMSE25 no worse than both Huber and confirmed_streak_huber AND recovery median no worse than both, with recovery fraction not lower by >0.10",
+    "false_open_guardrail": "PABIM mean false-open rate across gaussian, student_t2, contaminated, spikes, burst must be <=0.15",
+    "verdict": "PASS_DEVELOPMENT_GATE only if every criterion passes; otherwise NEGATIVE_OR_INCONCLUSIVE_DEVELOPMENT_GATE"
+  },
+  "no_retuning_rule": "Run this exact configuration once. After observing results, do not change seeds, generators, method parameters, metrics, thresholds, or gate. Any successor is V2 with a new protocol.",
+  "promotion_boundary": "This development result cannot establish IRIS novelty, external validity, submission readiness, or authorize reserved confirmatory seeds unless the separate successor-freeze requirements are satisfied."
+}
