@@ -1,6 +1,17 @@
 {
-  "protocol_id": "T2424-0027-REAL-ENCODER-GATE-v1",
+  "protocol_id": "T2424-0027-REAL-ENCODER-GATE-v2",
+  "supersedes_protocol_id": "T2424-0027-REAL-ENCODER-GATE-v1",
   "status": "FROZEN_BEFORE_OUTCOME_ACCESS",
+  "feasibility_basis": {
+    "prior_run": 33258014658,
+    "prior_job": 99114992140,
+    "prior_artifact_id": 9716423869,
+    "prior_artifact_zip_sha256": "77690038ee0366bac7ae81d60d3138387bb2a0f13f91986ac993595bbee3f65f",
+    "observed_failure": "MASSIVE en-US/audio_volume_other has 18 train rows; v1 required 20 per locale-intent cell.",
+    "encoder_loaded": false,
+    "model_metrics_computed": false,
+    "permitted_change": "Sampling cardinality only: 20 -> 15 examples per locale-intent cell per split."
+  },
   "parent_protocol": "portfolio/project2424/projects/T2424-0027/PROTOCOL.md",
   "parent_frozen_implementation_commit": "d3250fe5fc399905c93a517bbbd61d0c5ad8d5d6",
   "parent_reproduced_output_sha256": "0eac35dd7b8af1488efab0392c2e82dab8f9a90332af7c6ad54633263fa13605",
@@ -17,7 +28,8 @@
       "fit": "train",
       "evaluation": "test"
     },
-    "selection": "For each locale and intent, rank examples by SHA-256(seed || id); select the first 20 fit examples and first 20 evaluation examples. Fail closed if any locale-intent cell has fewer than 20 examples in either split.",
+    "examples_per_locale_intent_per_split": 15,
+    "selection": "For each locale and intent, rank examples by SHA-256(seed || id); select the first 15 fit examples and first 15 evaluation examples. Fail closed if any locale-intent cell has fewer than 15 examples in either split.",
     "label_for_concept": "intent",
     "label_for_language": "locale"
   },
@@ -82,5 +94,5 @@
     ]
   },
   "execution_authorized": true,
-  "authorization_scope": "Execute exactly this cheap frozen gate. Any additional encoder, locale, dataset, threshold, transform, probe or tuned successor requires a new versioned manifest before outcome access."
+  "authorization_scope": "Execute exactly this v2 cheap frozen gate. Any additional encoder, locale, dataset, threshold, transform, probe, sampling-cardinality change, or tuned successor requires a new versioned manifest before outcome access."
 }
