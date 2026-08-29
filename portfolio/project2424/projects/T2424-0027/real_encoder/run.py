@@ -198,6 +198,7 @@ def main() -> None:
     write_json(out / "environment.json", build_environment())
 
     dataset_cfg = manifest["dataset"]
+    sample_n = int(dataset_cfg["examples_per_locale_intent_per_split"])
     all_fit: List[Dict[str, str]] = []
     all_eval: List[Dict[str, str]] = []
     dataset_meta: List[Dict[str, Any]] = []
@@ -218,6 +219,7 @@ def main() -> None:
             "repo": dataset_cfg["repo"],
             "revision": dataset_cfg["revision"],
             "dataset_version": dataset_cfg["dataset_version"],
+            "examples_per_locale_intent_per_split": sample_n,
             "locales": dataset_meta,
         },
     )
@@ -225,8 +227,8 @@ def main() -> None:
     selections: Dict[int, Tuple[List[Dict[str, str]], List[Dict[str, str]]]] = {}
     union: Dict[Tuple[str, str], Dict[str, str]] = {}
     for seed in manifest["seeds"]:
-        fit = select_cells(all_fit, int(seed), 20, "fit")
-        ev = select_cells(all_eval, int(seed), 20, "evaluation")
+        fit = select_cells(all_fit, int(seed), sample_n, "fit")
+        ev = select_cells(all_eval, int(seed), sample_n, "evaluation")
         selections[int(seed)] = (fit, ev)
         for record in fit + ev:
             union[(record["locale"], record["id"])] = record
