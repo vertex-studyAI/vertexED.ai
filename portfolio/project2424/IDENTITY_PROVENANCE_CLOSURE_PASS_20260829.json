@@ -1,10 +1,14 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "date": "2026-08-29",
   "scope": "Issue #496 identity/provenance closure pass over the frozen First-100 registry",
   "inherits": {
     "first_100_policy": "portfolio/project2424/FIRST_100_DISPOSITION_POLICY_20260823.json",
     "first_100_policy_blob_sha": "1ae46c3475de93e0a8a7f244d02b0a0ec74aae09",
+    "recovery_overrides": "portfolio/project2424/FIRST_100_RECOVERY_OVERRIDES_20260823.json",
+    "recovery_overrides_blob_sha": "e437725e53420ab6ecacd077faf2138c4196be92",
+    "identity_closure_overrides": "portfolio/project2424/FIRST_100_IDENTITY_CLOSURE_OVERRIDES_20260829.json",
+    "identity_closure_overrides_blob_sha": "202e1f84b33c5ea87d57fb1a8df3d01229e1c2d4",
     "alias_lineage": "portfolio/project2424/RECOVERED_ALIAS_LINEAGE_20260823.json",
     "alias_lineage_blob_sha": "b1e59e4c10ffc79e0c65c67930cc5bf38174e526"
   },
@@ -14,6 +18,20 @@
     "unresolved_mapping_increases_completion_count": false,
     "historical_evidence_mutated": false,
     "rule": "P2424 and T2424 remain separate namespaces unless an explicit evidence-backed crosswalk proves a relationship. Unresolved aliases fail closed."
+  },
+  "first_100_accounting": {
+    "registry_rows": 100,
+    "classified_rows": 100,
+    "classification_counts": {
+      "BUILD": 1,
+      "MERGE": 1,
+      "ONE_FINAL_TEST": 0,
+      "FREEZE_NEGATIVE": 4,
+      "ARCHIVE": 21,
+      "BLOCKED": 73
+    },
+    "default_blocked_rows_without_stronger_evidence": 46,
+    "rule": "Classification is a workflow disposition, not a completion count. BLOCKED and unresolved mappings contribute zero implementation/completion credit. ARCHIVE and FREEZE_NEGATIVE preserve bounded or terminal evidence only at their supported scope."
   },
   "reconciliations": [
     {
@@ -86,6 +104,12 @@
     {"canonical_id":"T2424-0018","recovered_identity":"MODEL-PRC","status":"UNRESOLVED","disposition":"BLOCKED","reason_code":"RECOVERED_MODEL_PRC_CROSSWALK_REQUIRED"},
     {"canonical_id":"T2424-0033","recovered_identity":"MODEL-PEN","status":"UNRESOLVED","disposition":"BLOCKED","reason_code":"RECOVERED_MODEL_PEN_CROSSWALK_REQUIRED"}
   ],
-  "first_100_classification_rule": "All First-100 rows inherit the evidence-backed disposition policy; rows without a stronger override remain BLOCKED/SOURCE_NOT_RECOVERED. This pass changes only T2424-0019 from the now-stale source-blocked state to FREEZE_NEGATIVE for its reproduced controlled-source result. No unresolved mapping may inflate implementation or completion counts.",
+  "verification": {
+    "prior_resolver_head": "9a0786a9b995b88a74171ae6cdeba2a4ab0ace4b",
+    "canonical_ci_run": 33262717735,
+    "canonical_ci_conclusion": "success",
+    "verified_rule": "The resolver/identity-overlay state that produced the above dispositions passed canonical repository CI before this accounting-only seal."
+  },
+  "first_100_classification_rule": "All First-100 rows inherit the evidence-backed disposition policy, then recovery refinements, then identity-closure overrides. Rows without a stronger override remain BLOCKED/SOURCE_NOT_RECOVERED. T2424-0019 supersedes the stale source-blocked base-policy entry with FREEZE_NEGATIVE only for its reproduced controlled-source result. No unresolved mapping may inflate implementation or completion counts.",
   "next_exact_lineage_gate": "Recover an authoritative historical manifest/registry artifact with immutable source SHA or explicit redirect/alias evidence that relates T2424-0007, T2424-0037 and/or P2424-1213. If exhaustive canonical-source recovery yields none, retain T2424-0007 as terminal BLOCKED rather than manufacture a crosswalk. For PST, recover the exact MODEL-PST source/checkpoint/raw-evidence bytes; otherwise SOURCE_BLOCKED remains terminal."
 }
