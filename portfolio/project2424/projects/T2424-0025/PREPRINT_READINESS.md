@@ -10,6 +10,7 @@ This document freezes the manuscript claim boundary for the current evidence-bea
 - Frozen historical experiment revision recorded in `RESULTS.md`: `0d2a14e559b0caa9b5b1cbeef0995013594ecf15`.
 - Retained machine-readable metrics: `raw_metrics/repro-wave-20260812.json`.
 - Evidence-bounded manuscript: `MANUSCRIPT.md`.
+- Sentence-level claim audit: `CLAIM_AUDIT.md`.
 - Evidence-derived figure generator: `figures/generate.mjs`.
 - Figure derivation ledger: `figures/FIGURE_DATA.json`.
 - Figure provenance/claim audit: `figures/FIGURE_AUDIT.md`.
@@ -37,22 +38,11 @@ This document freezes the manuscript claim boundary for the current evidence-bea
 
 ### Introduction and Related Work — ASSEMBLED, SOURCE-BOUNDED
 
-`MANUSCRIPT.md` now integrates the verified primary sources from `RELATED_WORK_AUDIT.md`. The prose keeps classical robust estimation, learned robust aggregation, forecasting robustness, learned external memory, and robust Transformer attention distinct from the frozen precursor.
+`MANUSCRIPT.md` integrates the verified primary sources from `RELATED_WORK_AUDIT.md`. The prose keeps classical robust estimation, learned robust aggregation, forecasting robustness, learned external memory, and robust Transformer attention distinct from the frozen precursor.
 
 ### Methods / Setup — ASSEMBLED
 
-The manuscript describes:
-- synthetic bounded aggregation with 24 anchor queries on `[0,1]`;
-- seven replicas per anchor;
-- deterministic smooth latent signal;
-- Gaussian clean condition and Cauchy-contamination heavy-tail condition;
-- deterministic RBF attention weights;
-- weighted arithmetic mean baseline;
-- weighted median candidate;
-- 10% weighted trimmed mean and Huber (`delta=0.15`) references;
-- MAE as the primary metric;
-- 30 deterministic seeds for the screen;
-- 50 deterministic seeds per contamination level for the ablation.
+The manuscript describes the frozen synthetic aggregation setup, deterministic RBF weights, weighted arithmetic mean, weighted median, 10% weighted trimmed mean, Huber readout, MAE, 30-seed screen, and 50-seed contamination ablation without changing the protocol.
 
 ### Results — ASSEMBLED
 
@@ -65,6 +55,10 @@ The manuscript explicitly states that the robust median improves substantially e
 ### Reproducibility — ASSEMBLED
 
 The manuscript records the exact commands, frozen source identity, reproduction merge, output digests, environment, raw metric path, and figure-audit path. No new rerun is required solely to improve the narrative.
+
+### Sentence-level claim audit — PASS
+
+`CLAIM_AUDIT.md` checks Transformer/learned-memory language, unique non-Gaussian attribution, general superiority wording, statistical-significance language, real-data/forecasting claims, reproduction scope, and negative-control preservation. Current manuscript wording passes the bounded scientific claim audit.
 
 ## Tables and figures from retained evidence
 
@@ -101,10 +95,10 @@ The final bibliography should still receive a mechanical metadata check during P
 - [x] current primary-source related-work audit is complete;
 - [x] Introduction and Related Work are integrated from verified sources;
 - [x] final Methods/Results/Discussion manuscript is assembled without upgrading the claim;
+- [x] final sentence-level scientific claim audit is complete;
 - [ ] authorship/contribution statement is complete;
 - [ ] license/code/data release statements are complete;
-- [ ] clean manuscript/PDF is compiled and audited;
-- [ ] final sentence-level claim-language audit is complete;
+- [ ] clean manuscript/PDF is compiled and audited.
 
 ## Successor science is separate
 
