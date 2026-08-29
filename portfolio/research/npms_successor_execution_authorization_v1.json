@@ -1,0 +1,30 @@
+{
+  "protocol": "NPMS_SUCCESSOR_PREREGISTRATION_V1_20260829",
+  "status": "BLOCKED",
+  "canonical_source_commit": null,
+  "dataset": {
+    "name": null,
+    "version": null,
+    "sha256": null,
+    "license_or_access_provenance": null
+  },
+  "split_manifest_sha256": null,
+  "arms": {
+    "NPMS": null,
+    "PARAMETER": null,
+    "STATE_SPACE": null,
+    "SPECTRAL_CONTROL": null,
+    "COMBINED_CONTROL": null
+  },
+  "seeds": null,
+  "primary_metric": null,
+  "practical_equivalence_margin": null,
+  "uncertainty_procedure": null,
+  "decision_rule": null,
+  "matched_budget_table_sha256": null,
+  "environment_identity": null,
+  "compute_cap": null,
+  "raw_evidence_retention_path": null,
+  "raw_evidence_hash_procedure": "sha256",
+  "held_out_outcomes_accessed": false
+}
