@@ -34,6 +34,12 @@ def main() -> int:
         "darcy_hold": next(row for row in rows if row["canonical_id"] == "T2424-0050")["disposition"] == "HOLD_NO_AUTO_MERGE_OR_DEPLOY",
         "neurocad_falsification": next(row for row in rows if row["canonical_id"] == "T2424-0037")["scientific_verdict"] == "VALIDATION_DOMINANT_TYPED_MECHANISM_FALSIFIED",
         "negative_preserved": next(row for row in rows if row["canonical_id"] == "T2424-1863")["scientific_verdict"] == "FROZEN_NEGATIVE_FAILED_GT75_GATE",
+        "t2424_0027_v3_negative": next(row for row in rows if row["canonical_id"] == "T2424-0027")["scientific_verdict"] == "PASS_CONTROLLED_LANGUAGE_LEAKAGE_MECHANICS_V3_FAIL_PREDECLARED_REAL_ENCODER_GATE",
+        "t2424_0027_v3_integrity_verified": next(row for row in rows if row["canonical_id"] == "T2424-0027")["reproduction_status"] == "SYNTHETIC_INDEPENDENT_REPRODUCED_V3_RESULT_INTEGRITY_VERIFIED",
+        "t2424_0027_no_pending_state": all(
+            marker not in next(row for row in rows if row["canonical_id"] == "T2424-0027").values()
+            for marker in ("PASS_CONTROLLED_LANGUAGE_LEAKAGE_MECHANICS_V3_PENDING", "HOLD_FOR_FROZEN_V3_GATE")
+        ),
     }
     failed = [name for name, passed in checks.items() if not passed]
     print(json.dumps({
