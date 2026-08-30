@@ -1,0 +1,37 @@
+name: Release Gate Diagnostic
+
+on:
+  pull_request:
+    branches: [main, master]
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Lint CI surface
+        run: npm run lint:ci
+      - name: Typecheck
+        run: npm run typecheck
+      - name: Validate Vercel functions
+        run: node scripts/validate-vercel-functions.mjs
+      - name: Audit production dependencies
+        run: npm run audit:prod
+      - name: Run unit tests
+        run: npm test
+      - name: Run eval tests
+        run: npm run test:eval
+      - name: Build with immutable revision required
+        run: npm run build:ci
+        env:
+          ROLLUP_SKIP_NODEJS_NATIVE: 'true'
