@@ -117,6 +117,7 @@ Release language must point to an immutable commit/archive. Repository inspectio
 - [ ] finalize authorship/contribution statement;
 - [ ] record authorized license/release metadata;
 - [x] deterministic point-level figure retained from raw evidence with generator and SHA-256 provenance;
+- [x] automated source claim audit enforces negative framing, retained metrics, prohibited affirmative claims, and figure completeness;
 - [ ] compile PDF from exact manuscript commit;
 - [ ] visually inspect rendered PDF;
 - [ ] rerun sentence-level claim audit against PDF text, captions, tables, and references;
