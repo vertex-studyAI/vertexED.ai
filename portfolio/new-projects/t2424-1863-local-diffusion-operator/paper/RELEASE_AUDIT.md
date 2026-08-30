@@ -20,24 +20,14 @@ Citation stop rules:
 
 ## Figure and table provenance
 
-**Current release choice: table-only.**
+The exact-head reproduction artifact is now retained on this branch under `paper/evidence/`:
 
-Authorized numerical sources are the exact retained scientific source/metadata, exact-source 10-seed calculation, retained 20-seed benchmark summaries, and reproduction records cited below.
+- workflow run `33273832236`, head `abf8fdef9294e096ce364f6bfe8558fa3bd00439`;
+- artifact `9720891119`, archive SHA-256 `481d366c7cabab099378aeb1347400e4d68f72a416213f409e000ae6e011d7c1`;
+- `raw_metrics.json` SHA-256 `571fd7ade574cd40e8cf15d325090ecba6e7b692665afe21cfb4681a265f9100`;
+- `uncertainty_metrics.json` SHA-256 `740aed16bc362a3ab1b247eb3b107a65aed04536aff4fae8d9fd7556d1daf357`.
 
-Permitted release content:
-
-1. the primary 10-seed aggregate table already present in the manuscript;
-2. the expanded retained 20-seed aggregate table already present in the manuscript;
-3. textual reporting of retained ranges and sample standard deviations where evidenced.
-
-Blocked unless an immutable raw per-seed artifact is recovered and checksummed:
-
-- per-seed scatter plots;
-- violin/distribution plots;
-- per-seed error-bar plots;
-- any reconstructed point-level visualization.
-
-Do not fabricate missing per-seed values from summary statistics. A future figure-bearing release requires recovered raw evidence or a separately labeled reproduction artifact with provenance and digest.
+The manuscript may retain its current aggregate tables. A future point-level figure is permitted only when generated deterministically from the committed raw file, with its generation command and output digest retained. No point-level figure is claimed in the current package, and summary statistics must never be expanded into invented observations.
 
 ## Reproducibility gate
 
@@ -116,7 +106,7 @@ Release language must point to an immutable commit/archive. Repository inspectio
 - [x] bounded related-work audit with primary references re-verified;
 - [x] data/code statement drafted without overclaim;
 - [x] resolve 10-vs-20 seed provenance wording while preserving history;
-- [x] explicit table-only release decision given missing immutable raw per-seed artifact;
+- [x] immutable exact-head raw per-seed and uncertainty artifacts retained with workflow and SHA-256 provenance;
 - [ ] finalize authorship/contribution statement;
 - [ ] record authorized license/release metadata;
 - [ ] compile PDF from exact manuscript commit;
