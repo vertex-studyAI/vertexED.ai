@@ -1,0 +1,72 @@
+{
+  "analysis_status": "POST_OUTCOME_DESCRIPTIVE_ONLY_DOES_NOT_CHANGE_FROZEN_GATE",
+  "method": "Arithmetic mean, sample standard deviation (ddof=1), and two-sided 95% Student-t interval across the five frozen seeds; df=4; t*=2.7764451051977987.",
+  "metrics": {
+    "effect_retention": {
+      "ci95_student_t": [0.7644827226540121, 0.9781677489823346],
+      "mean": 0.8713252358181733,
+      "n": 5,
+      "sample_sd": 0.08604784653394425
+    },
+    "global_centering_normalized_reduction": {
+      "ci95_student_t": [0.0, 0.0],
+      "mean": 0.0,
+      "n": 5,
+      "sample_sd": 0.0
+    },
+    "intent_drop": {
+      "ci95_student_t": [-0.005501407252500313, 0.0005236294747225654],
+      "mean": -0.002488888888888874,
+      "n": 5,
+      "sample_sd": 0.0024261945002588873
+    },
+    "language_centered_intent_accuracy": {
+      "ci95_student_t": [0.7093123145653775, 0.736732129879067],
+      "mean": 0.7230222222222222,
+      "n": 5,
+      "sample_sd": 0.011041560097319394
+    },
+    "language_centered_language_accuracy": {
+      "ci95_student_t": [0.3445032000524733, 0.3735412443919712],
+      "mean": 0.35902222222222224,
+      "n": 5,
+      "sample_sd": 0.011693197347070257
+    },
+    "normalized_language_leakage_reduction": {
+      "ci95_student_t": [0.7326292758767614, 0.9374107594414041],
+      "mean": 0.8350200176590827,
+      "n": 5,
+      "sample_sd": 0.08246251959502993
+    },
+    "random_group_centering_normalized_reduction": {
+      "ci95_student_t": [-0.014224370212418638, 0.024538139924207343],
+      "mean": 0.005156884855894353,
+      "n": 5,
+      "sample_sd": 0.01560909803002308
+    },
+    "random_subspace_normalized_reduction": {
+      "ci95_student_t": [-0.012454413580802352, 0.030435044413859056],
+      "mean": 0.008990315416528352,
+      "n": 5,
+      "sample_sd": 0.017270959799392898
+    },
+    "raw_intent_accuracy": {
+      "ci95_student_t": [0.7086243499338075, 0.7324423167328592],
+      "mean": 0.7205333333333334,
+      "n": 5,
+      "sample_sd": 0.00959114818240183
+    },
+    "raw_language_accuracy": {
+      "ci95_student_t": [0.4808829000723366, 0.5038282110387745],
+      "mean": 0.49235555555555555,
+      "n": 5,
+      "sample_sd": 0.009239742393929214
+    },
+    "specificity_margin": {
+      "ci95_student_t": [0.7180541608665219, 0.9156736408381654],
+      "mean": 0.8168639008523436,
+      "n": 5,
+      "sample_sd": 0.07957848510447535
+    }
+  }
+}
