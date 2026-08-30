@@ -1,0 +1,200 @@
+{
+  "protocol_id": "T2424-0027-REAL-ENCODER-GATE-v3",
+  "supersedes_protocol_id": "T2424-0027-REAL-ENCODER-GATE-v2",
+  "status": "FROZEN_BEFORE_OUTCOME_ACCESS",
+  "hypothesis": "On a mechanically feasibility-filtered subset of the pinned MASSIVE dataset, language-centroid removal will reduce locale leakage in the fixed multilingual encoder while preserving intent signal more specifically than generic centering and random controls.",
+  "claim_boundary": "Frozen-encoder representation diagnostic only. No linguistic-relativity, cognition, translation-quality, universal-representation, fine-tuned-model, or model-superiority claim.",
+  "parent_protocol": "portfolio/project2424/projects/T2424-0027/PROTOCOL.md",
+  "parent_frozen_implementation_commit": "d3250fe5fc399905c93a517bbbd61d0c5ad8d5d6",
+  "parent_reproduced_output_sha256": "0eac35dd7b8af1488efab0392c2e82dab8f9a90332af7c6ad54633263fa13605",
+  "parent_normalized_language_leakage_reduction": 0.9583333333333334,
+  "feasibility_evidence": {
+    "census_pr": 577,
+    "census_commit": "3cdee594cafa98d12537daf54b55bb93f8eeb36c",
+    "census_workflow_run": 33265519582,
+    "census_job": 99134775039,
+    "census_artifact_id": 9718525342,
+    "census_artifact_zip_sha256": "fac53763ae4367765afb215a1c02a6c4826433d9c761d9b634465356b3ea773e",
+    "census_json_sha256": "cffb5fd5e6147c925958a5cafbaeebb278cd9a3104b1ef3e68239f3f225690db",
+    "encoder_instantiated": false,
+    "model_outcomes_accessed": false,
+    "observed_fact": "Exactly 50 intents have minimum cell size >=15 across every pinned locale and both train/test splits."
+  },
+  "dataset": {
+    "repo": "AmazonScience/massive",
+    "revision": "ff6bd8e4b27c3543e4f8fe2108f32bb95a6f8740",
+    "dataset_version": "1.1",
+    "license": "CC-BY-4.0",
+    "locales": [
+      "en-US",
+      "es-ES",
+      "fr-FR"
+    ],
+    "splits": {
+      "fit": "train",
+      "evaluation": "test"
+    },
+    "examples_per_locale_intent_per_split": 15,
+    "intent_universe_rule": "Include exactly those intents whose minimum count across every pinned locale and both pinned splits is >=15 in retained census artifact 9718525342.",
+    "expected_intent_count": 50,
+    "frozen_intents": [
+      "alarm_query",
+      "alarm_remove",
+      "alarm_set",
+      "audio_volume_mute",
+      "calendar_query",
+      "calendar_remove",
+      "calendar_set",
+      "cooking_recipe",
+      "datetime_convert",
+      "datetime_query",
+      "email_query",
+      "email_querycontact",
+      "email_sendemail",
+      "general_joke",
+      "general_quirky",
+      "iot_cleaning",
+      "iot_coffee",
+      "iot_hue_lightchange",
+      "iot_hue_lightdim",
+      "iot_hue_lightoff",
+      "iot_hue_lightup",
+      "iot_wemo_off",
+      "lists_createoradd",
+      "lists_query",
+      "lists_remove",
+      "music_likeness",
+      "music_query",
+      "news_query",
+      "play_audiobook",
+      "play_game",
+      "play_music",
+      "play_podcasts",
+      "play_radio",
+      "qa_currency",
+      "qa_definition",
+      "qa_factoid",
+      "qa_maths",
+      "qa_stock",
+      "recommendation_events",
+      "recommendation_locations",
+      "recommendation_movies",
+      "social_post",
+      "social_query",
+      "takeaway_order",
+      "takeaway_query",
+      "transport_query",
+      "transport_taxi",
+      "transport_ticket",
+      "transport_traffic",
+      "weather_query"
+    ],
+    "selection": "For each frozen locale and frozen intent, rank examples by SHA-256(seed || id); select the first 15 fit examples and first 15 evaluation examples. Fail closed if the recomputed admissible intent set differs from frozen_intents or any frozen cell has fewer than 15 rows.",
+    "label_for_concept": "intent",
+    "label_for_language": "locale"
+  },
+  "encoder": {
+    "repo": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+    "revision": "e8f8c211226b894fcb81acc59f3b34ba3efd5f42",
+    "license": "Apache-2.0",
+    "embedding_dimension": 384,
+    "fine_tuning": false,
+    "pooling": "model-default sentence-transformers pooling",
+    "normalize_embeddings": false
+  },
+  "seeds": [
+    2401,
+    2402,
+    2403,
+    2404,
+    2405
+  ],
+  "primary_probe": "nearest-centroid Euclidean classifier fit only on the fit split",
+  "comparator_family": [
+    "raw embeddings",
+    "global centering",
+    "deterministic random-group centering",
+    "deterministic random-subspace removal"
+  ],
+  "transforms": {
+    "raw": "no transform",
+    "language_centering": "subtract each locale's fit-split embedding centroid from fit and evaluation embeddings of that locale",
+    "global_centering": "subtract one global fit-split centroid",
+    "random_group_centering": "assign records to 3 deterministic SHA-256 groups per seed and subtract fit centroids for those pseudo-groups",
+    "random_subspace": "remove projection onto 2 deterministic Gaussian orthonormal directions per seed"
+  },
+  "metrics": {
+    "intent_accuracy": "nearest-centroid accuracy on MASSIVE intent",
+    "language_accuracy": "nearest-centroid accuracy on locale",
+    "language_chance": 0.3333333333333333,
+    "normalized_language_leakage_reduction": "(raw_language_accuracy - transformed_language_accuracy) / (raw_language_accuracy - language_chance)",
+    "effect_retention": "language_centering_normalized_reduction / 0.9583333333333334",
+    "intent_drop": "raw_intent_accuracy - language_centered_intent_accuracy",
+    "specificity_margin": "language_centering_normalized_reduction - max(global_centering, random_group_centering, random_subspace normalized reductions)"
+  },
+  "statistics": {
+    "primary_reporting": "Report every per-seed metric plus arithmetic mean across the five frozen seeds.",
+    "uncertainty": "Report sample standard deviation and two-sided 95% Student-t confidence interval across the five frozen seeds for aggregate metrics; descriptive only and not a replacement for the frozen success gate.",
+    "multiple_testing": "No exploratory hypothesis family and no p-value based success criterion; no correction is used.",
+    "post_hoc_selection": "forbidden"
+  },
+  "predeclared_success_gate": {
+    "mean_raw_language_accuracy_min": 0.75,
+    "mean_effect_retention_min": 0.7,
+    "mean_intent_drop_max": 0.02,
+    "mean_specificity_margin_min": 0.15,
+    "required_seed_passes": 4,
+    "required_seed_count": 5
+  },
+  "predeclared_falsifiers": [
+    "Mean effect retention < 0.30.",
+    "Mean intent drop > 0.05.",
+    "Specificity margin <= 0, meaning a generic control matches or beats language centering.",
+    "The sign of the parent effect reverses.",
+    "The pinned data/model revisions cannot be materialized exactly or provenance hashes are missing.",
+    "The recomputed >=15 feasibility set differs from the 50 frozen intents, which is an infrastructure/provenance failure before outcome access."
+  ],
+  "compute_budget": {
+    "encoder_fine_tuning": "forbidden",
+    "gpu_hours": 0,
+    "maximum_encoder_forward_passes_per_unique_utterance": 1,
+    "hyperparameter_search": "forbidden",
+    "threshold_changes_after_outcome_access": "forbidden",
+    "model_or_dataset_swap_after_outcome_access": "forbidden"
+  },
+  "stop_rules": [
+    "Stop before encoder construction if dataset revision, fingerprints, frozen intent set, or minimum cell counts do not match the preregistration.",
+    "Stop and classify as infrastructure/provenance failure if the pinned model revision cannot be materialized exactly.",
+    "After any model outcome is produced, retain the complete result regardless of success or failure; do not rescue-tune under this protocol ID.",
+    "Execute at most once under this exact frozen protocol unless a rerun is solely to reproduce the unchanged protocol and is labeled as reproduction."
+  ],
+  "environment": {
+    "python": "3.11",
+    "requirements_file": "portfolio/project2424/projects/T2424-0027/real_encoder/requirements.txt",
+    "required_capture": [
+      "python version",
+      "pip freeze",
+      "OS/kernel",
+      "dataset fingerprints",
+      "resolved model revision",
+      "git commit"
+    ]
+  },
+  "artifacts": {
+    "output_directory": "portfolio/project2424/projects/T2424-0027/real_encoder/artifacts_v3",
+    "required": [
+      "resolved_manifest.json",
+      "environment.json",
+      "dataset_fingerprint.json",
+      "model_revision.json",
+      "per_seed_metrics.jsonl",
+      "summary.json",
+      "verdict.json",
+      "SHA256SUMS.txt"
+    ],
+    "retention_rule": "Retain raw metrics and all provenance artifacts for positive, mixed, negative, and infrastructure-failure outcomes."
+  },
+  "execution_authorized": true,
+  "authorization_gate": "Authorization may become true only after the runner filters to frozen_intents before encoder construction, independently recomputes and asserts the >=15 census set equals frozen_intents, manifest-lock tests pass on the exact commit, and exact-head CI is green. Authorization must be committed before any v3 outcome access.",
+  "scientific_integrity": "No outcome-dependent intent selection, threshold movement, seed changes, encoder swapping, control deletion, rescue tuning, or superiority claim without strong matched evidence."
+}
