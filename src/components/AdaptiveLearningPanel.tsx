@@ -1,3 +1,4 @@
+import { useId } from 'react';
 import { Link } from 'react-router';
 import { ArrowRight, Brain, Clock, Target, Zap } from 'lucide-react';
 import LiquidGlass from '@/components/LiquidGlass';
@@ -33,51 +34,65 @@ export default function AdaptiveLearningPanel({
   estimatedMinutes,
   className,
 }: Props) {
+  const titleId = useId();
+
   if (recommendations.length === 0) return null;
 
   return (
     <LiquidGlass variant="panel" className={cn('rounded-2xl', className)}>
-      <div className="p-5">
-      <div className="flex items-center justify-between gap-3 mb-4">
-        <div>
-          <p className="text-xs uppercase tracking-widest text-muted-foreground">Adaptive learning</p>
-          <h2 className="text-sm font-semibold text-foreground">
-            {cramModeActive ? 'Exam cram priorities' : 'Your next best actions'}
-          </h2>
+      <section
+        className="p-5"
+        aria-labelledby={titleId}
+        aria-live="polite"
+        aria-relevant="additions text"
+      >
+        <div className="flex items-center justify-between gap-3 mb-4">
+          <div>
+            <p className="text-xs uppercase tracking-widest text-muted-foreground">Adaptive learning</p>
+            <h2 id={titleId} className="text-sm font-semibold text-foreground">
+              {cramModeActive ? 'Exam cram priorities' : 'Your next best actions'}
+            </h2>
+          </div>
+          {estimatedMinutes != null && estimatedMinutes > 0 && (
+            <span className="text-xs text-muted-foreground shrink-0">~{estimatedMinutes} min today</span>
+          )}
         </div>
-        {estimatedMinutes != null && estimatedMinutes > 0 && (
-          <span className="text-xs text-muted-foreground shrink-0">~{estimatedMinutes} min today</span>
-        )}
-      </div>
 
-      <div className="space-y-2">
-        {recommendations.map((rec) => {
-          const Icon = KIND_ICONS[rec.kind];
-          return (
-            <Link
-              key={rec.id}
-              to={rec.to}
-              className={cn(
-                'group flex items-start gap-3 rounded-xl border px-4 py-3 transition hover:scale-[1.01]',
-                PRIORITY_STYLES[rec.priority],
-              )}
-            >
-              <Icon className="h-4 w-4 text-primary shrink-0 mt-0.5" />
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-foreground">{rec.title}</p>
-                <p className="text-xs text-muted-foreground mt-0.5 line-clamp-2">{rec.description}</p>
-                {rec.score != null && (
-                  <p className="text-xs text-amber-600 dark:text-amber-400/90 mt-1">
-                    {Math.round(rec.score)}% recent score
-                  </p>
-                )}
-              </div>
-              <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-primary shrink-0 mt-1" />
-            </Link>
-          );
-        })}
-      </div>
-      </div>
+        <ul className="space-y-2">
+          {recommendations.map((rec) => {
+            const Icon = KIND_ICONS[rec.kind];
+            return (
+              <li key={rec.id}>
+                <Link
+                  to={rec.to}
+                  className={cn(
+                    'group flex items-start gap-3 rounded-xl border px-4 py-3 transition hover:scale-[1.01]',
+                    PRIORITY_STYLES[rec.priority],
+                  )}
+                >
+                  <Icon className="h-4 w-4 text-primary shrink-0 mt-0.5" aria-hidden="true" />
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium text-foreground">
+                      <span className="sr-only">{rec.priority} priority. </span>
+                      {rec.title}
+                    </p>
+                    <p className="text-xs text-muted-foreground mt-0.5 line-clamp-2">{rec.description}</p>
+                    {rec.score != null && (
+                      <p className="text-xs text-amber-600 dark:text-amber-400/90 mt-1">
+                        {Math.round(rec.score)}% recent score
+                      </p>
+                    )}
+                  </div>
+                  <ArrowRight
+                    className="h-4 w-4 text-muted-foreground group-hover:text-primary shrink-0 mt-1"
+                    aria-hidden="true"
+                  />
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
+      </section>
     </LiquidGlass>
   );
 }
