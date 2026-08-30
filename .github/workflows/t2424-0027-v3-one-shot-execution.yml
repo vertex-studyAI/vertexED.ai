@@ -16,7 +16,8 @@ permissions:
 
 jobs:
   preflight-and-execute:
-    if: github.event.head_commit.message == 'research(2424): execute one authorized T2424-0027 v3 outcome'
+    if: >-
+      github.event.head_commit.message == 'research(2424): execute one authorized T2424-0027 v3 outcome'
     runs-on: ubuntu-latest
     timeout-minutes: 60
     steps:
