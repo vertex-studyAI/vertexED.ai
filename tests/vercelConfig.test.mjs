@@ -19,5 +19,6 @@ test('Vercel install phase only installs dependencies', () => {
 test('Vercel build remains fail-closed on immutable revision identity', () => {
   assert.match(vercelConfig.buildCommand, /VERTEXED_REQUIRE_BUILD_REVISION=1/);
   assert.match(vercelConfig.buildCommand, /npm run build/);
-  assert.match(packageJson.scripts.prebuild, /generate-build-revision\.mjs/);
+  assert.equal(packageJson.scripts.prebuild, 'npm run generate:revision');
+  assert.equal(packageJson.scripts['generate:revision'], 'node scripts/generate-build-revision.mjs');
 });
