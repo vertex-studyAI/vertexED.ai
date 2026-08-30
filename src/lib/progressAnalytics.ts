@@ -1,6 +1,11 @@
 import { getStudyStats } from '@/lib/studyStats';
 import { userContentStorageKeys } from '@/lib/userContentStorageScope.mjs';
 import { getWeaknessHeatmap } from '@/lib/weaknessTracker';
+import {
+  estimateStudyMinutes,
+  summarizeHeatmapMastery,
+  summarizeSnapshotMastery,
+} from '@/lib/progressAnalyticsCore.mjs';
 
 export type DailySnapshot = {
   date: string;
@@ -46,24 +51,10 @@ function writeSnapshots(snapshots: DailySnapshot[]) {
   window.localStorage.setItem(storageKey(), JSON.stringify(snapshots.slice(-30)));
 }
 
-function hasMeasuredMastery(snapshot: DailySnapshot): snapshot is DailySnapshot & { avgMastery: number } {
-  // `reviewsCompleted > 0` also prevents legacy no-data snapshots whose old fallback
-  // stored a synthetic 50 from being treated as measured evidence.
-  return (
-    snapshot.reviewsCompleted > 0 &&
-    typeof snapshot.avgMastery === 'number' &&
-    Number.isFinite(snapshot.avgMastery)
-  );
-}
-
 export function recordDailySnapshot() {
   const stats = getStudyStats();
   const heatmap = getWeaknessHeatmap(20);
-  const reviewsCompleted = heatmap.reduce((s, h) => s + h.attempts, 0);
-  const avgMastery =
-    heatmap.length > 0 && reviewsCompleted > 0
-      ? Math.round(heatmap.reduce((s, h) => s + h.avgPercent, 0) / heatmap.length)
-      : null;
+  const { reviewsCompleted, avgMastery } = summarizeHeatmapMastery(heatmap);
 
   const today = todayKey();
   const snapshots = readSnapshots().filter((s) => s.date !== today);
@@ -85,23 +76,7 @@ export function getProgressTrend(recordSnapshot = false): ProgressTrend {
   const stats = getStudyStats();
   const last7 = snapshots.slice(-7);
   const reviewsThisWeek = last7.reduce((s, d) => s + d.reviewsCompleted, 0);
-  const measuredMastery = last7.filter(hasMeasuredMastery);
-
-  let masteryTrend: ProgressTrend['masteryTrend'] = 'flat';
-  if (measuredMastery.length >= 2) {
-    const first = measuredMastery[0].avgMastery;
-    const last = measuredMastery[measuredMastery.length - 1].avgMastery;
-    if (last > first + 3) masteryTrend = 'up';
-    else if (last < first - 3) masteryTrend = 'down';
-  }
-
-  const avgMastery = measuredMastery.length
-    ? Math.round(measuredMastery.reduce((s, d) => s + d.avgMastery, 0) / measuredMastery.length)
-    : null;
-
-  // This remains a heuristic derived from streak/habit counters. Naming it as an
-  // estimate prevents evidence-oriented consumers from presenting it as measured time.
-  const estimatedStudyMinutes = stats.studyStreak * 25 + stats.habitsDoneToday * 15;
+  const { avgMastery, masteryTrend } = summarizeSnapshotMastery(last7);
 
   return {
     snapshots: last7,
@@ -109,6 +84,7 @@ export function getProgressTrend(recordSnapshot = false): ProgressTrend {
     reviewsThisWeek,
     masteryTrend,
     avgMastery,
-    estimatedStudyMinutes,
+    // Explicitly named as an estimate so consumers cannot mistake it for measured time.
+    estimatedStudyMinutes: estimateStudyMinutes(stats),
   };
 }
