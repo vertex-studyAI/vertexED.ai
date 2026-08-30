@@ -30,6 +30,7 @@ const DIFF_FILTER = 'ACDMRTUXB';
 const GIT_REVISION = /^[0-9a-f]{7,40}$/;
 const PREVIOUS_DEPLOY_SHA_ENV = 'VERCEL_GIT_PREVIOUS_SHA';
 const DEFAULT_BRANCH_CANDIDATES = ['origin/main', 'main'];
+const DEFAULT_BRANCH_FETCH_ARGS = ['fetch', '--no-tags', '--depth=64', 'origin', 'main:refs/remotes/origin/main'];
 
 function normalizePath(filePath) {
   return filePath.trim().replace(/^\.\//, '').replaceAll('\\', '/');
@@ -54,6 +55,17 @@ function resolveFirstVercelDeploymentBase({ head, runGit }) {
     } catch {
       // Try the next locally available representation of the default branch.
     }
+  }
+
+  // Vercel's first preview clone may not expose origin/main locally. Fetch a
+  // bounded main history once, then retry. If that still cannot establish a
+  // common ancestor, the caller remains conservative and performs a build.
+  try {
+    runGit(DEFAULT_BRANCH_FETCH_ARGS);
+    const mergeBase = String(runGit(['merge-base', head, 'origin/main']) || '').trim().toLowerCase();
+    if (GIT_REVISION.test(mergeBase) && mergeBase !== head) return mergeBase;
+  } catch {
+    // Fall through to the fail-closed build path.
   }
 
   throw new Error(`missing ${PREVIOUS_DEPLOY_SHA_ENV} and unable to establish a merge base with main`);
