@@ -21,15 +21,36 @@ export default function CloudSaveBanner() {
     !location.pathname.startsWith("/resources");
 
   useEffect(() => {
-    if (!showOnRoute || dismissed) return;
-    void listStudyArtifactsDetailed().then((result) => {
-      if (result.cloudUnavailable) {
+    let cancelled = false;
+
+    if (!showOnRoute || dismissed) {
+      setMessage(null);
+      return () => {
+        cancelled = true;
+      };
+    }
+
+    setMessage(null);
+    void listStudyArtifactsDetailed()
+      .then((result) => {
+        if (cancelled) return;
+        if (result.cloudUnavailable) {
+          setMessage(
+            result.error ||
+              "Cloud sync isn't available right now. Your notes, papers, and reviews still save on this device.",
+          );
+        }
+      })
+      .catch(() => {
+        if (cancelled) return;
         setMessage(
-          result.error ||
-            "Cloud sync isn't configured yet. Your notes, papers, and reviews still save on this device.",
+          "Cloud sync status couldn't be verified. Your notes, papers, and reviews still save on this device.",
         );
-      }
-    });
+      });
+
+    return () => {
+      cancelled = true;
+    };
   }, [showOnRoute, dismissed, location.pathname]);
 
   if (!showOnRoute || dismissed || !message) return null;
@@ -37,16 +58,16 @@ export default function CloudSaveBanner() {
   return (
     <div
       role="status"
+      aria-live="polite"
+      aria-atomic="true"
       className="mx-4 mt-3 max-w-6xl lg:mx-auto rounded-xl border border-sky-500/25 bg-sky-500/10 px-4 py-3 flex items-start gap-3 text-sm text-sky-100"
     >
-      <CloudOff className="h-4 w-4 shrink-0 mt-0.5" />
+      <CloudOff className="h-4 w-4 shrink-0 mt-0.5" aria-hidden="true" />
       <div className="flex-1 min-w-0">
         <p className="font-medium text-sky-200">Working in device-save mode</p>
         <p className="mt-1 text-sky-100/90">{message}</p>
         <p className="mt-1 text-xs text-sky-100/70">
-          To sync across devices, run{" "}
-          <code className="rounded bg-black/20 px-1">supabase/migrations/20260709_user_study_artifacts.sql</code>{" "}
-          and set <code className="rounded bg-black/20 px-1">SUPABASE_SERVICE_ROLE_KEY</code> in Vercel.
+          You can keep studying here. Cloud sync will resume when the service is available again.
         </p>
       </div>
       <button
@@ -58,7 +79,7 @@ export default function CloudSaveBanner() {
         className="shrink-0 rounded-lg p-1.5 hover:bg-sky-500/20 transition"
         aria-label="Dismiss sync notice"
       >
-        <X className="h-4 w-4" />
+        <X className="h-4 w-4" aria-hidden="true" />
       </button>
     </div>
   );
