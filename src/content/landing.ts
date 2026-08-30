@@ -19,111 +19,111 @@ export type FloatingInsight = {
   body: string;
 };
 
-/** Flip cards — tap to reveal the full problem (stat = ordinal, not a fabricated survey figure) */
+/** Flip cards — stat is an ordinal, not a survey claim. */
 export const LANDING_PROBLEMS: LandingProblem[] = [
   {
     stat: "01",
-    title: "Too many tabs, not enough progress",
-    text: "The planner lives in one app, past papers in a folder, flashcards in another, and YouTube for the topic you still don't get. By 11 p.m. you've been busy — but you can't point to what moved you closer to a full mark on Paper 2.",
+    title: "Busy all evening. Still no clear progress.",
+    text: "Your planner is in one app, papers are in a folder, flashcards live somewhere else, and the explanation you need is buried in another tab. VertexED is built to turn that activity into one visible revision loop with a next step.",
   },
   {
     stat: "02",
-    title: "Notes that never become memory",
-    text: "Colour-coded highlights feel like progress until you close the notebook. Then the exam asks you to recall a mechanism, define a term, or structure an argument under time — and recognition on a page isn't the same as retrieval in the hall.",
+    title: "Notes feel familiar. Exams demand recall.",
+    text: "Reading and highlighting can make a topic feel known without making it retrievable. The useful question is whether you can explain it, apply it, or produce it under time. Notes should lead into retrieval, not end the session.",
   },
   {
     stat: "03",
-    title: "Practice on the wrong shape",
-    text: "Random online quizzes test facts in isolation. Your board asks you to evaluate, justify, or show working within a mark scheme and a time limit. You rehearse easy wins — then the command words and pacing on the real paper feel foreign.",
+    title: "Practice that does not look like the exam.",
+    text: "A quick quiz can check facts, but real papers test command words, structure, working, pacing, and mark schemes. Practice should rehearse the shape of the task you will actually sit.",
   },
   {
     stat: "04",
-    title: "Anxiety without a plan",
-    text: "The syllabus is a list of topics, not a sequence for your week. Sport, school, and sleep don't fit into a generic \"study more\" plan. Stress isn't laziness — it's not knowing whether tonight should be content, a mock, or flashcards.",
+    title: "A syllabus is not a study plan.",
+    text: "Knowing what is on the course does not tell you what to do tonight. A useful plan has to fit around school, sport, sleep, deadlines, weak topics, and the time you genuinely have left.",
   },
   {
     stat: "05",
-    title: "Gaps where boards need depth",
-    text: "IB MYP, smaller national programmes, and niche subjects rarely get quality past papers, worked exemplars, or a clear revision path. You end up stitching PDFs, teacher notes, and forum threads into something that almost matches what you'll actually sit.",
+    title: "Good resources are scattered everywhere.",
+    text: "Students often have enough material and still lack a workflow. The missing piece is continuity: the weak topic from a mock should become tomorrow's task, the next practice set, and the next retrieval session.",
   },
   {
     stat: "06",
-    title: "Tools that answer, not teach",
-    text: "Paste the essay prompt, get a finished paragraph — useful until you can't reproduce the reasoning in the exam. What actually helps is someone naming which marks you earned, which you lost, and what to try before you rewrite.",
+    title: "AI can finish the task without teaching it.",
+    text: "A polished answer is not useful if you cannot reproduce the reasoning yourself. VertexED is designed to show what earned marks, what lost them, and what to try next — so the student still does the thinking.",
   },
 ];
 
-/** Edmo-style scroll stack — each card surfaces a real learning tension */
+/** Floating story cards — product philosophy, not unsupported outcome claims. */
 export const FLOATING_INSIGHTS: FloatingInsight[] = [
   {
-    label: "Why we built this",
-    headline: "More apps did not make revision simpler",
-    body: "Every year there was another tool with smarter summaries or a prettier dashboard. Students still opened six tabs just to plan one week. VertexED follows one loop: plan the week, focus, practise under time, review against rubrics, then retrieve on schedule.",
+    label: "The idea",
+    headline: "A revision system, not a pile of tools",
+    body: "Planning, focus, practice, feedback, and retrieval should feed one another. VertexED connects those steps so a study session starts with a reason and ends with a useful next action.",
   },
   {
-    label: "Marks + meaning",
-    headline: "Good grades and real understanding can go together",
-    body: "You can memorise a mark-scheme phrase and still not understand the next unit. We lean on rubric feedback, timed mocks, and spaced retrieval so the grade reflects something you can explain, not just repeat back.",
+    label: "The loop",
+    headline: "Practice should change what you do next",
+    body: "A mock is only valuable if the mistakes become decisions. Review the marks you lost, turn the gaps into targeted work, then come back to them through retrieval before the next paper.",
   },
   {
-    label: "Exam season reality",
-    headline: "A realistic week beats a heroic intention",
-    body: "When mocks stack up and sleep drops, the calendar matters more than willpower. VertexED assumes you have school, sport, and a limited number of good hours. The planner and Study Zone are built for 25-minute blocks you can actually finish.",
+    label: "The reality",
+    headline: "A realistic week beats a perfect timetable",
+    body: "Students have classes, activities, deadlines, and limited energy. The planner and Study Zone are built around work you can actually finish, not an imaginary six-hour evening that collapses by Wednesday.",
   },
   {
-    label: "What we built for",
-    headline: "One desk instead of twelve tabs",
-    body: "Thursday's mock shows a weak topic in Answer Reviewer. Friday's flashcards target it. Apex explains the gap before you rewrite. Planner, Study Zone, Paper Maker, Reviewer, notes, and Apex share context instead of just sharing a logo.",
+    label: "The goal",
+    headline: "Know the next move without opening twelve tabs",
+    body: "Planner sets the task. Study Zone runs the session. Paper Maker creates practice. Answer Reviewer finds the gaps. Notes, flashcards, quizzes, and Apex help you close them. One loop, one place to continue from.",
   },
 ];
 
 export const LANDING_FEATURES: LandingFeature[] = [
   {
     title: 'Study Planner',
-    desc: 'Map the week around mocks, sport, and sleep — tasks sized to the hours you actually have.',
-    side: 'See what fits before Sunday panic. Each task can link to the tool that runs it — mock, cards, or focus block.',
+    desc: 'Turn exams and deadlines into a week you can actually execute.',
+    side: 'Build around the hours you really have, then send each task straight into the tool that helps you complete it.',
     loop: 'plan',
     href: '/planner',
-    outcome: 'Closes the Plan step — a week you can execute',
+    outcome: 'Plan — know what deserves your next study block',
   },
   {
     title: 'Study Zone',
-    desc: 'Timers, habits, calculator, Desmos, session log, and Apex on one page.',
-    side: 'Built for 25-minute blocks: start the timer, stay on one topic, log what you finished.',
+    desc: 'Run focused sessions without rebuilding your setup every time.',
+    side: 'Timers, session tools, calculator access, habits, and logs stay together so the plan becomes actual study time.',
     loop: 'focus',
     href: '/study-zone',
-    outcome: 'Closes the Focus step — minutes that count toward the plan',
+    outcome: 'Focus — turn scheduled time into completed work',
   },
   {
     title: 'Paper Maker',
-    desc: 'Board-shaped mocks with mark schemes — IB, IGCSE, CBSE, AP, A Level, and more.',
-    side: 'Choose topics, total marks, and question count; sit under time in mock mode; send answers to Reviewer.',
+    desc: 'Generate exam-style practice around the topics and marks you need.',
+    side: 'Choose topics, marks, and question count, practise under time, then move the same attempt into review.',
     loop: 'practise',
     href: '/paper-maker',
-    outcome: 'Closes the Practise step — pace and command words under time',
+    outcome: 'Practise — rehearse the format, pacing, and command words',
   },
   {
     title: 'Answer Reviewer',
-    desc: 'Rubric feedback that names marks earned and marks lost — structure, evidence, command terms.',
-    side: 'Paste typed work or upload a photo. Know what to fix before the next attempt, not after results day.',
+    desc: 'See where marks were earned, where they were lost, and what to fix next.',
+    side: 'Review typed work or an uploaded answer against rubric-style criteria, then turn the feedback into another attempt instead of a dead-end score.',
     loop: 'review',
     href: '/answer-reviewer',
-    outcome: 'Closes the Review step — actionable gaps, not "good effort"',
+    outcome: 'Review — convert mistakes into a specific next action',
   },
   {
     title: 'Notes · Flashcards · Quiz',
-    desc: 'Turn lectures and topics into retrieval — spaced cards and quizzes, not a highlight graveyard.',
-    side: 'Same source feeds the deck on a schedule. If it does not become practice, it does not count.',
+    desc: 'Turn source material into active retrieval instead of passive rereading.',
+    side: 'Keep notes, cards, and quizzes connected so a topic can move from explanation to recall and back into practice.',
     loop: 'remember',
     href: '/notetaker',
-    outcome: 'Closes the Remember step — memory on a clock',
+    outcome: 'Remember — revisit weak material before it disappears',
   },
   {
     title: 'Apex',
-    desc: 'Discussion-first AI that stress-tests reasoning before you commit pen to paper.',
-    side: 'Socratic follow-ups, mock strategy, rubric sense — asks what you tried before suggesting the fix.',
+    desc: 'Use AI to question, explain, and stress-test your reasoning — not replace it.',
+    side: 'Ask for an explanation, test an argument, unpack a command term, or work through a gap before you try the question again.',
     loop: 'review',
     href: '/chatbot',
-    outcome: 'Available at every loop step when you are stuck or need exam technique',
+    outcome: 'Support — get unstuck without handing over the thinking',
   },
 ];
