@@ -28,3 +28,18 @@ test('adaptive recommendations expose generated updates and list semantics', asy
   assert.match(source, /<span className="sr-only">\{rec\.priority\} priority\. <\/span>/);
   assert.match(source, /aria-hidden="true"/);
 });
+
+test('route loader explains slow networks without noisy accessibility output', async () => {
+  const source = await readSource('src/components/PageLoader.tsx');
+
+  assert.match(source, /const SLOW_LOAD_DELAY_MS = 8_000/);
+  assert.match(source, /window\.setTimeout\(\(\) => setIsTakingLonger\(true\), SLOW_LOAD_DELAY_MS\)/);
+  assert.match(source, /return \(\) => window\.clearTimeout\(timeoutId\)/);
+  assert.match(source, /This is taking longer than usual\. Check your connection; this page will keep trying to open\./);
+  assert.match(source, /role="status"/);
+  assert.match(source, /aria-live="polite"/);
+  assert.match(source, /aria-atomic="true"/);
+  assert.equal((source.match(/aria-hidden="true"/g) ?? []).length, 2);
+  assert.match(source, /motion-reduce:animate-none/);
+  assert.equal((source.match(/motion-reduce:\[animation:none\]/g) ?? []).length, 2);
+});
