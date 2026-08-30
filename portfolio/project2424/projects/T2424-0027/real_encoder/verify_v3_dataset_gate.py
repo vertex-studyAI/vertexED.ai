@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 from collections import Counter
 from pathlib import Path
 from typing import Any
@@ -18,7 +19,16 @@ def stable_json_sha256(value: Any) -> str:
     return hashlib.sha256(payload).hexdigest()
 
 
+def _required_git_sha(env_name: str) -> str:
+    value = os.environ.get(env_name, "").strip().lower()
+    if len(value) != 40 or any(char not in "0123456789abcdef" for char in value):
+        raise RuntimeError(f"{env_name} must contain an exact 40-character Git SHA.")
+    return value
+
+
 def main() -> None:
+    source_head_sha = _required_git_sha("T2424_SOURCE_HEAD_SHA")
+    executed_github_sha = _required_git_sha("T2424_EXECUTED_GITHUB_SHA")
     manifest = json.loads(MANIFEST.read_text(encoding="utf-8"))
     if manifest.get("execution_authorized") is not False:
         raise RuntimeError("Dataset-only verification requires execution_authorized=false.")
@@ -89,6 +99,8 @@ def main() -> None:
 
     evidence = {
         "protocol_id": manifest["protocol_id"],
+        "source_head_sha": source_head_sha,
+        "executed_github_sha": executed_github_sha,
         "dataset_repo": cfg["repo"],
         "dataset_revision": cfg["revision"],
         "locales": locales,
