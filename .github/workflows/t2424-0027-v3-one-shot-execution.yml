@@ -1,0 +1,97 @@
+name: T2424-0027 v3 One Authorized Outcome Execution
+
+on:
+  push:
+    branches:
+      - experiment/t2424-0027-v3-execution-20260830
+    paths:
+      - "portfolio/project2424/projects/T2424-0027/real_encoder/manifest_v3_execution.json"
+      - "portfolio/project2424/projects/T2424-0027/real_encoder/validate_v3_execution_manifest.py"
+      - "portfolio/project2424/projects/T2424-0027/real_encoder/finalize_v3_artifacts.py"
+      - "portfolio/project2424/projects/T2424-0027/real_encoder/test_finalize_v3_artifacts.py"
+      - ".github/workflows/t2424-0027-v3-one-shot-execution.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  preflight-and-execute:
+    if: github.event.head_commit.message == 'research(2424): execute one authorized T2424-0027 v3 outcome'
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - name: Checkout exact execution head
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Verify preregistration and zero execution-manifest drift
+        working-directory: portfolio/project2424/projects/T2424-0027/real_encoder
+        run: |
+          python validate_v3_prereg.py
+          python validate_v3_runner_lock.py
+          python validate_v3_execution_manifest.py
+          python test_finalize_v3_artifacts.py
+
+      - name: Install exact frozen dependencies
+        working-directory: portfolio/project2424/projects/T2424-0027/real_encoder
+        run: python -m pip install --disable-pip-version-check -r requirements.txt
+
+      - name: Recompute dataset-only frozen feasibility gate before encoder access
+        working-directory: portfolio/project2424/projects/T2424-0027/real_encoder
+        run: python verify_v3_dataset_gate.py
+
+      - name: Execute exactly one frozen outcome-bearing run
+        id: outcome
+        continue-on-error: true
+        working-directory: portfolio/project2424/projects/T2424-0027/real_encoder
+        env:
+          HF_HUB_DISABLE_TELEMETRY: "1"
+          TOKENIZERS_PARALLELISM: "false"
+        run: python run.py --manifest manifest_v3_execution.json --out artifacts_v3
+
+      - name: Add preregistered uncertainty and immutable digests
+        if: steps.outcome.outcome == 'success'
+        working-directory: portfolio/project2424/projects/T2424-0027/real_encoder
+        run: python finalize_v3_artifacts.py --out artifacts_v3
+
+      - name: Retain infrastructure failure without inventing a scientific verdict
+        if: steps.outcome.outcome != 'success'
+        working-directory: portfolio/project2424/projects/T2424-0027/real_encoder
+        run: |
+          python - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+          out = Path('artifacts_v3')
+          out.mkdir(exist_ok=True)
+          (out / 'infrastructure_failure.json').write_text(json.dumps({
+              'protocol_id': 'T2424-0027-REAL-ENCODER-GATE-v3',
+              'execution_status': 'INFRASTRUCTURE_OR_EXECUTION_FAILURE',
+              'scientific_verdict': 'NOT_ASSESSED',
+              'rescue_tuning_authorized': False
+          }, indent=2) + '\n')
+          names = sorted(p.name for p in out.iterdir() if p.is_file() and p.name != 'SHA256SUMS.txt')
+          (out / 'SHA256SUMS.txt').write_text(''.join(
+              f"{hashlib.sha256((out / name).read_bytes()).hexdigest()}  {name}\n" for name in names
+          ))
+          PY
+
+      - name: Upload all retained v3 evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: t2424-0027-v3-one-shot-${{ github.sha }}
+          path: |
+            portfolio/project2424/projects/T2424-0027/real_encoder/artifacts_v3
+            portfolio/project2424/projects/T2424-0027/real_encoder/v3_dataset_gate_evidence.json
+            portfolio/project2424/projects/T2424-0027/real_encoder/manifest_v3_execution.json
+            portfolio/project2424/projects/T2424-0027/real_encoder/AUTHORIZATION_V3.json
+          if-no-files-found: error
+          retention-days: 90
+
+      - name: Preserve failure as failure
+        if: steps.outcome.outcome != 'success'
+        run: exit 1
