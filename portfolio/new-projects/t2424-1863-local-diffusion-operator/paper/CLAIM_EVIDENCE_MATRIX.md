@@ -20,7 +20,7 @@ The 20-seed execution is corroborating expanded evidence, not a replacement prer
 | Claim | Evidence | Status | Boundary |
 |---|---|---|---|
 | The literal preregistered >75% improvement hypothesis failed on seeds `0..9`. | Source README predeclares 10 deterministic seeds; exact-source subset mean improvement `67.88187868646336%`, range `66.69998212218728%–69.58569386836451%`. | SUPPORTED / PRIMARY NEGATIVE RESULT | Threshold and primary seed count must not be rewritten post hoc. |
-| The expanded retained 20-seed execution independently preserves the negative verdict. | `experiment_metadata.json`: mean improvement `67.77662111%`, range `65.4364%–70.5814%`, n=20. | SUPPORTED / REPRODUCTION | Expanded evidence must be labeled as such. |
+| The expanded retained 20-seed execution independently preserves the negative verdict. | `paper/evidence/raw_metrics.json` and `uncertainty_metrics.json`, retained from exact-head workflow artifact `9720891119`: mean improvement `67.77662111%`, range `65.4364%–70.5814%`, n=20. | SUPPORTED / REPRODUCTION | Expanded evidence must be labeled as such. |
 | The frozen local 3-point operator recovered the planted diffusion coefficient near 0.18. | 10-seed primary subset mean `0.17950753587054252`; retained 20-seed mean `0.1796885855`. | SUPPORTED | Synthetic 1D one-step task only. |
 | The operator reduced one-step held-out RMSE relative to persistence. | 10-seed primary: `0.015649163991132017` → `0.005021982408139878`; 20-seed expanded: `0.0156104849` → `0.0050231824`. | SUPPORTED | Descriptive deterministic synthetic trials; no significance claim. |
 | Zero-diffusion behavior does not show a material gain over persistence. | 10-seed primary subset mean improvement `-0.042850715586669554%`; 20-seed expanded mean `-0.0289%`. | SUPPORTED | Synthetic negative control only. |
@@ -42,7 +42,7 @@ The manuscript must state in the abstract, results, discussion, and conclusion t
 
 ## Evidence-derived table source
 
-All 20-seed numerical tables must be generated only from `experiment_metadata.json` or retained benchmark `--json` output. Any 10-seed table must be a deterministic subset calculation over the exact retained source for seeds `0..9`, labeled explicitly as the preregistered subset. No manual interpolation, retuning, threshold change, or alternate seed selection is permitted.
+All 20-seed numerical tables must be generated only from committed `paper/evidence/raw_metrics.json`, `uncertainty_metrics.json`, `experiment_metadata.json`, or retained benchmark `--json` output. Any 10-seed table must be a deterministic subset calculation over the exact retained source for seeds `0..9`, labeled explicitly as the preregistered subset. No manual interpolation, retuning, threshold change, or alternate seed selection is permitted.
 
 ## Completion gates
 
@@ -51,6 +51,7 @@ All 20-seed numerical tables must be generated only from `experiment_metadata.js
 - [x] literal 10-seed preregistered gate distinguished from 20-seed expanded execution;
 - [x] both 10-seed and 20-seed evidence preserve the negative verdict;
 - [x] 20 deterministic seed records summarized with dispersion;
+- [x] exact-head raw per-seed and uncertainty files retained with artifact and SHA-256 provenance;
 - [x] zero-diffusion negative control retained;
 - [x] exact-head reproduction documented;
 - [x] claim boundary recorded;
