@@ -31,15 +31,22 @@ export default function CloudSaveBanner() {
     }
 
     setMessage(null);
-    void listStudyArtifactsDetailed().then((result) => {
-      if (cancelled) return;
-      if (result.cloudUnavailable) {
+    void listStudyArtifactsDetailed()
+      .then((result) => {
+        if (cancelled) return;
+        if (result.cloudUnavailable) {
+          setMessage(
+            result.error ||
+              "Cloud sync isn't available right now. Your notes, papers, and reviews still save on this device.",
+          );
+        }
+      })
+      .catch(() => {
+        if (cancelled) return;
         setMessage(
-          result.error ||
-            "Cloud sync isn't available right now. Your notes, papers, and reviews still save on this device.",
+          "Cloud sync status couldn't be verified. Your notes, papers, and reviews still save on this device.",
         );
-      }
-    });
+      });
 
     return () => {
       cancelled = true;
