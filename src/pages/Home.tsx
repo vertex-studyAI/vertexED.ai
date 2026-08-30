@@ -203,8 +203,8 @@ export default function Home() {
   return (
     <>
       <SEO
-        title="AI study planner, MYP guides and exam practice tools | VertexED"
-        description="VertexED brings together an AI study planner, MYP study guides, IGCSE and IB practice-paper tools, notes, flashcards, and exam feedback for students."
+        title="AI Study Planner & Exam Practice Tools | VertexED"
+        description="VertexED connects revision planning, focused study, exam-style practice, rubric feedback, notes, flashcards, quizzes, and AI support in one study workflow."
         keywords="AI study planner, MYP study guides, IGCSE paper generator, IB practice papers, revision planner, study tools for students"
         canonical="https://www.vertexed.app/"
         jsonLd={[
@@ -215,17 +215,19 @@ export default function Home() {
 
       <LiquidGlass as="section" variant="hero" className="hero-section px-6 md:px-10 pt-16 md:pt-24 pb-16 md:pb-20 text-center cinematic-section">
         <div className="max-w-5xl mx-auto">
-          <p className="glass-chip mb-8 mx-auto w-fit">Built for exam season — and the weeks before it</p>
+          <p className="glass-chip mb-8 mx-auto w-fit">One system for your next exam</p>
 
           <h1 className="text-[clamp(2.5rem,8vw,4.5rem)] font-bold text-foreground leading-[1.05] tracking-tight">
             <TypeAnimation
               sequence={[
                 800,
-                "Understand the concept.",
+                "Know what to study.",
                 1800,
-                "Train for the mark scheme.",
+                "Practise like the exam.",
                 1800,
-                "Walk in prepared.",
+                "Turn feedback into marks.",
+                1800,
+                "Remember it on test day.",
               ]}
               speed={42}
               wrapper="span"
@@ -235,18 +237,18 @@ export default function Home() {
           </h1>
 
           <p className="mt-8 text-xl md:text-2xl font-medium text-foreground/90 max-w-3xl mx-auto leading-snug">
-            Most study apps sell features. VertexED connects planning, timed practice, rubric feedback, and spaced retrieval
-            so tonight&apos;s session has a clear job and tomorrow&apos;s mock shows whether it worked.
+            VertexED connects your plan, focused study, exam-style practice, rubric feedback, and retrieval into one loop —
+            so every session answers two questions: what do I do now, and what do I do next?
           </p>
 
           <p className="mt-6 text-lg md:text-xl text-muted-foreground leading-relaxed max-w-2xl mx-auto">
-            Plan the week, run a focus block in Study Zone, sit a board-shaped mock, read where marks were lost,
-            then retrieve the weak topics on schedule. One workspace, not another tab chain.
+            Build the week. Run the session. Sit the paper. Find the lost marks. Revisit the weak topics before they fade.
+            One workspace that keeps the next move clear.
           </p>
 
           <div className="flex gap-4 justify-center mt-12 flex-wrap">
-            <Link to="/signup" className="btn-solid text-lg">Start free</Link>
-            <Link to="/features" className="btn-glass text-lg">How it works</Link>
+            <Link to="/signup" className="btn-solid text-lg">Start studying free</Link>
+            <Link to="/features" className="btn-glass text-lg">See the system</Link>
           </div>
         </div>
       </LiquidGlass>
@@ -257,10 +259,11 @@ export default function Home() {
 
       <section className="max-w-6xl mx-auto px-6 py-16 cinematic-section">
         <h2 className="text-3xl md:text-4xl font-bold text-foreground text-center mb-3">
-          The problems students actually face
+          Studying is not the hard part. Knowing what works is.
         </h2>
         <p className="text-center text-muted-foreground text-lg mb-12 max-w-2xl mx-auto leading-relaxed">
-          Tap a card. Each one names a pattern we kept hearing from students during mocks — tab overload, notes that don&apos;t stick, practice that doesn&apos;t match the paper.
+          The real problem is fragmentation: plans that do not drive practice, feedback that does not change revision,
+          and notes that never get tested. VertexED is built to close those gaps.
         </p>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {LANDING_PROBLEMS.map((p, i) => (
@@ -270,12 +273,12 @@ export default function Home() {
       </section>
 
       <section className="max-w-6xl mx-auto px-6 py-20 cinematic-section">
-        <p className="text-xs uppercase tracking-[0.2em] text-primary mb-3 text-center">The toolkit</p>
+        <p className="text-xs uppercase tracking-[0.2em] text-primary mb-3 text-center">The VertexED loop</p>
         <h2 className="text-3xl md:text-5xl font-bold text-foreground text-center leading-tight mb-4">
-          Six tools. One revision loop.
+          Six tools. One clear next move.
         </h2>
         <p className="text-center text-muted-foreground text-lg mb-16 max-w-2xl mx-auto leading-relaxed">
-          Each piece does a specific job — plan the week, focus, practise under time, review against rubrics, remember on schedule.
+          Everything in VertexED has one job: move you to the next useful action — from planning, to practice, to feedback, to recall.
         </p>
         <div className="space-y-20 md:space-y-28">
           {LANDING_FEATURES.map((f, i) => (
@@ -283,36 +286,36 @@ export default function Home() {
           ))}
         </div>
         <div className="mt-16 text-center">
-          <Link to="/features" className="btn-glass">Full feature walkthrough →</Link>
+          <Link to="/features" className="btn-glass">Explore every tool →</Link>
         </div>
       </section>
 
       <section className="max-w-4xl mx-auto mt-8 px-6 cinematic-section">
         <div className="neu-card p-10 md:p-12 text-left">
-          <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-5">How we think about learning</h2>
+          <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-5">A study loop that gets smarter after every attempt</h2>
           <p className="text-lg leading-relaxed text-foreground/90 mb-5">
-            Education was never the problem — access to the right structure was. VertexED ties planning to practice to review:
-            set a goal and exam date, work in Study Zone with a timer that matches your plan, generate a paper aligned to your board,
-            and get feedback that names missing marks, weak command terms, and what to rewrite — not a vague &ldquo;good effort.&rdquo;
+            We built VertexED around a simple idea: the output of one study step should become the input to the next.
+            A plan should become focused work. Practice should reveal gaps. Feedback should change the next attempt.
+            Weak topics should come back through retrieval before the exam.
           </p>
           <p className="text-lg leading-relaxed text-muted-foreground mb-6">
-            We care as much about curiosity as scores. A Sunday session should have a defined outcome — you know which topic,
-            which tool, and how you&apos;ll know if it stuck. The aim is material that survives past the week of the test.
+            That means less time deciding what to open and more time doing the work that matters. The goal is not to make studying effortless.
+            It is to make progress visible, practice deliberate, and the next step obvious.
           </p>
           <ul className="space-y-3 text-foreground/90">
-            <li className="flex gap-3"><span className="text-primary font-bold">→</span> Active recall in notes, flashcards, and quizzes</li>
-            <li className="flex gap-3"><span className="text-primary font-bold">→</span> Mock papers that respect mark schemes</li>
-            <li className="flex gap-3"><span className="text-primary font-bold">→</span> AI that explains your reasoning — not a substitute for it</li>
+            <li className="flex gap-3"><span className="text-primary font-bold">→</span> Plan around real deadlines and the time you actually have</li>
+            <li className="flex gap-3"><span className="text-primary font-bold">→</span> Practise in exam-shaped formats and review against rubrics</li>
+            <li className="flex gap-3"><span className="text-primary font-bold">→</span> Turn weak topics into targeted retrieval instead of another forgotten to-do</li>
           </ul>
         </div>
       </section>
 
       <section className="max-w-5xl mx-auto px-6 mt-28 cinematic-section">
         <div className="neu-card p-10 md:p-12 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">Built by students, used by students</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">Built by students who use it to study</h2>
           <p className="text-lg text-muted-foreground leading-relaxed max-w-2xl mx-auto mb-10">
-            Three co-founders who wanted one workspace instead of twelve tabs. We still use VertexED during
-            exam season — that keeps us honest about what actually helps when the clock matters.
+            We wanted one place that could carry a revision session from “what should I do?” to “what did I learn, and what comes next?”
+            We still use VertexED during exam season, which keeps the product anchored to the moments where study tools actually have to work.
           </p>
           <div className="grid sm:grid-cols-3 gap-6 mb-10">
             {founders.map((f) => (
@@ -322,19 +325,19 @@ export default function Home() {
               </div>
             ))}
           </div>
-          <Link to="/about" className="btn-glass">Read our story</Link>
+          <Link to="/about" className="btn-glass">Meet the team</Link>
         </div>
       </section>
 
       <section className="max-w-3xl mx-auto px-6 mt-20 mb-16 text-center cinematic-section">
-        <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-5">Ready when you are</h2>
+        <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-5">Make the next study session count</h2>
         <p className="text-lg text-muted-foreground leading-relaxed mb-8">
-          We&apos;re in private beta. Join the waitlist and we&apos;ll email when a spot opens, or use an invite code if someone on the team shared one.
-          Either way, one full revision loop this week — plan, focus, mock, review — tells you whether this fits how you actually study.
+          VertexED is in private beta. Join the beta or use a team invite to try the full loop: plan one real week,
+          practise one real paper, review the gaps, and come back to the topics that need another pass.
         </p>
         <div className="flex gap-4 justify-center flex-wrap">
-          <Link to="/signup" className="btn-solid text-lg">Create account</Link>
-          <a href="mailto:vertexed.25@gmail.com" className="btn-glass text-lg">Contact the team</a>
+          <Link to="/signup" className="btn-solid text-lg">Join VertexED</Link>
+          <Link to="/features" className="btn-glass text-lg">Explore the tools</Link>
         </div>
       </section>
     </>
