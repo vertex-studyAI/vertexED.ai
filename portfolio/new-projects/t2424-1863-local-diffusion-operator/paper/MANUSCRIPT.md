@@ -115,4 +115,4 @@ A compact local operator recovered the planted diffusion coefficient and reduced
 
 ## Release status
 
-**NOT PREPRINT_READY.** Seed-provenance wording is now closed. Remaining gates: authorship/contributions; repository/code license applicability; clean PDF build and visual inspection; sentence-level claim audit against rendered text/captions; immutable manuscript/evidence/PDF digests; and final archive/DOI selection.
+**NOT PREPRINT_READY.** Seed provenance, exact-head PDF generation, page-by-page visual inspection, and rendered negative-claim reconciliation are closed on the current draft. Remaining gates: authorship/contributions; repository/code license applicability; release-manifest inclusion of the verified PDF digest; immutable archival release; and final archive/DOI selection.
