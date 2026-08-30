@@ -1,0 +1,47 @@
+{
+  "baseline_definition": "Every canonical T identity has a registry-backed identity row, explicit unknown/not-run states, one disposition, one blocker, and one next decisive action. This is not an implementation or experiment claim.",
+  "counts": {
+    "evidence_audited": 5,
+    "p_namespace_rows": 0,
+    "ready_to_submit_today": 0,
+    "source_backed_total": 24,
+    "source_directory_present_audit_pending": 19,
+    "source_not_recovered": 2400,
+    "total_t_identities": 2424,
+    "validation_errors": 0
+  },
+  "csv_sha256": "c19340206ba0bbd943ff73b0ae0b00d8c82db7d80d154b4f06c852ed16020ff4",
+  "dispositions": {
+    "BOUNDED_PREPRINT_RELEASE_GATES": 1,
+    "EVIDENCE_AUDIT_REQUIRED": 17,
+    "HOLD_FOR_FROZEN_V3_GATE": 1,
+    "HOLD_NO_AUTO_MERGE_OR_DEPLOY": 1,
+    "IDENTITY_RESOLUTION_BLOCKED": 1,
+    "NEGATIVE_RESULT_RELEASE_GATES": 1,
+    "SOURCE_MIGRATION_BLOCKED": 2,
+    "SOURCE_RECOVERY_REQUIRED": 2400
+  },
+  "errors": [],
+  "integrity_locks": [
+    "P2424 and T2424 are separate namespaces; no suffix-based mapping is inferred",
+    "unknown stays unknown and not-run stays not-run",
+    "negative, mixed, inconclusive, and falsified results are preserved",
+    "T2424-0050 remains HOLD / no auto-merge or deploy",
+    "IRIS seeds 1000-1029 remain prohibited outside this registry pass"
+  ],
+  "readiness_bands": {
+    "CONCEPT": 2420,
+    "PREPRINT_CANDIDATE": 4
+  },
+  "scientific_verdicts": {
+    "FROZEN_NEGATIVE_FAILED_GT75_GATE": 1,
+    "HOLD_MIXED_ROBUSTNESS": 1,
+    "PASS_CONTROLLED_LANGUAGE_LEAKAGE_MECHANICS_V3_PENDING": 1,
+    "REPRODUCED_MECHANISM_NON_UNIQUE": 1,
+    "UNKNOWN_NO_CLAIM": 2419,
+    "VALIDATION_DOMINANT_TYPED_MECHANISM_FALSIFIED": 1
+  },
+  "source_inventory": "PROJECT_2424_IDENTITY_INVENTORY_2026-08-15.jsonl",
+  "source_inventory_rows_all_namespaces": 4850,
+  "validation": "PASS"
+}
