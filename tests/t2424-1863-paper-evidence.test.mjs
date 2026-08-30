@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { readFile } from 'node:fs/promises';
 import test from 'node:test';
+import { renderEvidenceFigure } from '../portfolio/new-projects/t2424-1863-local-diffusion-operator/scripts/generate-evidence-figure.mjs';
 
 const root = new URL('../portfolio/new-projects/t2424-1863-local-diffusion-operator/paper/evidence/', import.meta.url);
 const sha256 = (buffer) => createHash('sha256').update(buffer).digest('hex');
@@ -26,6 +27,11 @@ test('T2424-1863 paper evidence is digest-bound and recomputes from all fixed se
 
   assert.equal(sha256(rawBuffer), manifest.files['raw_metrics.json'].sha256);
   assert.equal(sha256(uncertaintyBuffer), manifest.files['uncertainty_metrics.json'].sha256);
+
+  const figureBuffer = await readFile(new URL('per_seed_relative_improvement.svg', root));
+  assert.equal(sha256(figureBuffer), manifest.files['per_seed_relative_improvement.svg'].sha256);
+  assert.equal(figureBuffer.toString('utf8'), renderEvidenceFigure(raw));
+  assert.match(figureBuffer.toString('utf8'), /Every diffusion result is below the frozen greater-than-75-percent gate/);
   assert.equal(manifest.artifact.id, 9720891119);
   assert.equal(manifest.artifact.workflow_run, 33273832236);
   assert.equal(manifest.artifact.workflow_head, 'abf8fdef9294e096ce364f6bfe8558fa3bd00439');
