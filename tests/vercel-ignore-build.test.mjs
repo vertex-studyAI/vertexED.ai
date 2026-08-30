@@ -83,6 +83,34 @@ test('first Vercel preview compares the whole branch against the main merge base
   ]);
 });
 
+test('first Vercel preview fetches bounded main history when the clone lacks a base ref', () => {
+  const mergeBase = '7777777777777777777777777777777777777777';
+  let fetched = false;
+  const calls = [];
+  const runGit = (args) => {
+    calls.push(args);
+    const key = args.join(' ');
+    if (key === 'fetch --no-tags --depth=64 origin main:refs/remotes/origin/main') {
+      fetched = true;
+      return '';
+    }
+    if (key === 'merge-base HEAD origin/main' && fetched) return `${mergeBase}\n`;
+    if (key === 'merge-base HEAD origin/main' || key === 'merge-base HEAD main') {
+      throw new Error('ref unavailable in initial clone');
+    }
+    if (key === `diff --name-only --diff-filter=ACDMRTUXB ${mergeBase} HEAD`) {
+      return '.github/workflows/research.yml\nportfolio/project2424/manifest.json\n';
+    }
+    throw new Error(`unexpected git call: ${key}`);
+  };
+
+  assert.deepEqual(
+    readChangedFiles({ previousSha: '', isVercel: true, runGit }),
+    ['.github/workflows/research.yml', 'portfolio/project2424/manifest.json'],
+  );
+  assert.ok(calls.some((args) => args[0] === 'fetch'));
+});
+
 test('first Vercel preview fails closed when no safe branch base is available', () => {
   const runGit = () => { throw new Error('ref unavailable'); };
   assert.throws(
