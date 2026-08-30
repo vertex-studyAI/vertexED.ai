@@ -1,4 +1,6 @@
-# T2424-0025 — Robust Weighted Readout Precursor
+# T2424-0025 — Non-Gaussian Memory Transformer
+
+## Robust Weighted Readout Precursor
 
 This package is a **bounded synthetic memory-aggregation study**. It does not implement or validate a full Transformer architecture, a learned memory controller, or a uniquely non-Gaussian mechanism.
 
