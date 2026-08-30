@@ -2,6 +2,7 @@ import { isAccountDeletionRequest, trackAccountDeletion } from '@/lib/accountLif
 import { getAiFeatureForRequest, trackAiRequestOutcome } from '@/lib/aiRequestAnalytics.mjs';
 import {
   createRequestDeadline,
+  shouldClearLocalSessionAfterRefreshFailure,
   shouldRetryAfterUnauthorized,
   toRequestError,
 } from '@/lib/apiRequestRecovery.mjs';
@@ -49,9 +50,11 @@ async function refreshAccessToken(): Promise<string | null> {
   const token = data.session?.access_token ?? null;
   if (!error && token) return token;
 
-  // An invalid refresh token cannot recover. Clear only this browser session so
-  // AuthContext receives SIGNED_OUT and protected routes can return to login.
-  await supabase.auth.signOut({ scope: 'local' });
+  // Clear local auth only when the refresh credential is terminally invalid.
+  // Retryable network/server failures must not destroy a recoverable session.
+  if (shouldClearLocalSessionAfterRefreshFailure(error)) {
+    await supabase.auth.signOut({ scope: 'local' });
+  }
   return null;
 }
 
