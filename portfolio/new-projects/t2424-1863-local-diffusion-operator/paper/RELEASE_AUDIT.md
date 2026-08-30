@@ -27,7 +27,14 @@ The exact-head reproduction artifact is now retained on this branch under `paper
 - `raw_metrics.json` SHA-256 `571fd7ade574cd40e8cf15d325090ecba6e7b692665afe21cfb4681a265f9100`;
 - `uncertainty_metrics.json` SHA-256 `740aed16bc362a3ab1b247eb3b107a65aed04536aff4fae8d9fd7556d1daf357`.
 
-The manuscript may retain its current aggregate tables. A future point-level figure is permitted only when generated deterministically from the committed raw file, with its generation command and output digest retained. No point-level figure is claimed in the current package, and summary statistics must never be expanded into invented observations.
+The manuscript retains its aggregate tables and a deterministic point-level SVG generated only from the committed raw file:
+
+- source: `paper/evidence/raw_metrics.json`;
+- generator: `node scripts/generate-evidence-figure.mjs paper/evidence/raw_metrics.json paper/evidence/per_seed_relative_improvement.svg`;
+- output: `paper/evidence/per_seed_relative_improvement.svg`;
+- output SHA-256: `21005d36d313816e786445354f9522afeae0277f3d7611eaeccf936644e5c86b`.
+
+The figure plots all 20 diffusion and 20 zero-diffusion records, includes the frozen >75% gate, and explicitly preserves the negative verdict. Summary statistics are not expanded into invented observations.
 
 ## Reproducibility gate
 
@@ -109,6 +116,7 @@ Release language must point to an immutable commit/archive. Repository inspectio
 - [x] immutable exact-head raw per-seed and uncertainty artifacts retained with workflow and SHA-256 provenance;
 - [ ] finalize authorship/contribution statement;
 - [ ] record authorized license/release metadata;
+- [x] deterministic point-level figure retained from raw evidence with generator and SHA-256 provenance;
 - [ ] compile PDF from exact manuscript commit;
 - [ ] visually inspect rendered PDF;
 - [ ] rerun sentence-level claim audit against PDF text, captions, tables, and references;
