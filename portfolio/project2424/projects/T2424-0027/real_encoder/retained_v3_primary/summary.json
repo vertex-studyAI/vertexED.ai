@@ -1,0 +1,12 @@
+{
+  "mean_effect_retention": 0.8713252358181732,
+  "mean_intent_drop": -0.002488888888888874,
+  "mean_language_centered_intent_accuracy": 0.7230222222222222,
+  "mean_language_centered_language_accuracy": 0.35902222222222224,
+  "mean_normalized_language_leakage_reduction": 0.8350200176590828,
+  "mean_raw_intent_accuracy": 0.7205333333333334,
+  "mean_raw_language_accuracy": 0.49235555555555555,
+  "mean_specificity_margin": 0.8168639008523437,
+  "seed_count": 5,
+  "seed_passes": 0
+}
