@@ -99,11 +99,11 @@ The retained documentation contains a genuine 10-versus-20-seed provenance split
 
 ## 8. Data and code availability
 
-The experiment uses generated synthetic states and therefore requires no external dataset download. Source, tests, frozen metadata, reproduction instructions, and summarized results are retained in `portfolio/new-projects/t2424-1863-local-diffusion-operator/`. A release should point to an immutable repository commit or archival DOI rather than only a moving branch. Raw per-seed output should be archived before release, or the release must explicitly state that only retained machine-readable/tabulated summaries are distributed.
+The experiment uses generated synthetic states and therefore requires no external dataset download. Source, tests, frozen metadata, reproduction instructions, and summarized results are retained in `portfolio/new-projects/t2424-1863-local-diffusion-operator/`. A release should point to an immutable repository commit or archival DOI rather than only a moving branch. Exact-head 20-seed per-seed and uncertainty outputs are retained under `paper/evidence/` with workflow, source, archive, and file digests in `EVIDENCE_MANIFEST.json`. The 10-seed primary values remain the literal `0..9` subset accounting described above.
 
 ## 9. Reproducibility statement
 
-The original hosted reproduction reports four passing tests and retained environment metadata. A later exact-head verification on PR #302 reran the unchanged frozen 20-seed benchmark and canonical repository CI against head `147ce38bf2d965a4b14fa31844856153e6e18f7b`, preserving the negative gate. The exact-source 10-seed calculation uses the deterministic preregistered seeds `0..9` from the same source and benchmark logic. No threshold, baseline, benchmark task, or scientific source was rescue-tuned to obtain a passing scientific outcome.
+The original hosted reproduction reports four passing tests and retained environment metadata. A later exact-head verification on PR #302 reran the unchanged frozen 20-seed benchmark and canonical repository CI against head `147ce38bf2d965a4b14fa31844856153e6e18f7b`, preserving the negative gate. Paper-head workflow `33273832236` retained the exact 20-seed raw and reporting-only uncertainty outputs as artifact `9720891119`; those files and their SHA-256 provenance are now committed under `paper/evidence/`. The exact-source 10-seed calculation uses the deterministic preregistered seeds `0..9` from the same source and benchmark logic. No threshold, baseline, benchmark task, or scientific source was rescue-tuned to obtain a passing scientific outcome.
 
 ## 10. Conclusion
 
@@ -111,4 +111,4 @@ A compact local operator recovered the planted diffusion coefficient and reduced
 
 ## Release status
 
-**NOT PREPRINT_READY.** Seed-provenance wording is now closed. Remaining gates: authorship/contributions; repository/code license applicability; raw per-seed archive or explicit table-only release decision; clean PDF build and visual inspection; sentence-level claim audit against rendered text/captions; immutable manuscript/evidence/PDF digests; and final archive/DOI selection.
+**NOT PREPRINT_READY.** Seed-provenance wording is now closed. Remaining gates: authorship/contributions; repository/code license applicability; clean PDF build and visual inspection; sentence-level claim audit against rendered text/captions; immutable manuscript/evidence/PDF digests; and final archive/DOI selection.
