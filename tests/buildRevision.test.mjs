@@ -7,6 +7,7 @@ import { join } from 'node:path';
 
 import {
   normalizeBuildRevision,
+  requiresImmutableBuildRevision,
   resolveBuildRevision,
   writeBuildRevisionModule,
 } from '../scripts/generate-build-revision.mjs';
@@ -47,6 +48,12 @@ test('resolveBuildRevision falls back to the checked-out Git HEAD', () => {
   assert.equal(revision, 'fedcba9');
 });
 
+test('Vercel builds automatically require an immutable revision', () => {
+  assert.equal(requiresImmutableBuildRevision({ VERCEL: '1' }), true);
+  assert.equal(requiresImmutableBuildRevision({ VERTEXED_REQUIRE_BUILD_REVISION: '1' }), true);
+  assert.equal(requiresImmutableBuildRevision({}), false);
+});
+
 test('writeBuildRevisionModule emits an importable immutable revision literal', async () => {
   const root = await mkdtemp(join(tmpdir(), 'vertexed-build-revision-'));
   const outputPath = join(root, 'build-revision.js');
@@ -71,6 +78,22 @@ test('deploy-relevant generation fails closed when no immutable revision exists'
     () => writeBuildRevisionModule({
       outputPath,
       env: { VERTEXED_REQUIRE_BUILD_REVISION: '1' },
+      runGit() {
+        throw new Error('no git metadata');
+      },
+    }),
+    /Refusing to produce an unverifiable deployment artifact/,
+  );
+});
+
+test('Vercel generation fails closed when deployment revision and Git metadata are unavailable', async () => {
+  const root = await mkdtemp(join(tmpdir(), 'vertexed-build-revision-vercel-'));
+  const outputPath = join(root, 'build-revision.js');
+
+  await assert.rejects(
+    () => writeBuildRevisionModule({
+      outputPath,
+      env: { VERCEL: '1' },
       runGit() {
         throw new Error('no git metadata');
       },

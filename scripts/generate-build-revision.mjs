@@ -34,11 +34,15 @@ export function resolveBuildRevision({ env = process.env, runGit = defaultRunGit
   }
 }
 
+export function requiresImmutableBuildRevision(env = process.env) {
+  return env.VERTEXED_REQUIRE_BUILD_REVISION === '1' || env.VERCEL === '1';
+}
+
 export async function writeBuildRevisionModule({
   outputPath = DEFAULT_OUTPUT,
   env = process.env,
   runGit = defaultRunGit,
-  required = env.VERTEXED_REQUIRE_BUILD_REVISION === '1',
+  required = requiresImmutableBuildRevision(env),
 } = {}) {
   const revision = resolveBuildRevision({ env, runGit });
 
