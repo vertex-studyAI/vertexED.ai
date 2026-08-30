@@ -1,7 +1,10 @@
 {
   "branch": "project2424-conference-readiness-20260830",
   "tracking_issue": 582,
-  "pr_created": false,
+  "pr_created": true,
+  "pr_number": 601,
   "scientific_state_promoted": false,
-  "notes": "Readiness-control artifacts committed; exact priority-lane evidence audit still required before scores or portfolio-wide counts are populated."
+  "priority_readiness_scores_assigned": true,
+  "t2424_0027_v3_outcome": "FAIL_PREDECLARED_REAL_ENCODER_GATE",
+  "notes": "PR #601 is open in draft. Five canonical T2424 priority rows have evidence-backed readiness scores. T2424-0027 v3 is a retained frozen negative result from PR #580; no rerun or threshold movement is authorized. Portfolio-wide unaudited identities remain explicit unknown/source-recovery states."
 }
