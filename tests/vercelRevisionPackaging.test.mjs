@@ -15,12 +15,13 @@ async function readCheckedInBuildRevision() {
   return readFile(new URL('../api/_generated/build-revision.js', import.meta.url), 'utf8');
 }
 
-test('Vercel stamps immutable revision before serverless function packaging', async () => {
+test('Vercel stamps immutable revision during the build before serverless function packaging', async () => {
   const config = await readVercelConfig();
   assert.match(
-    config.installCommand,
-    /VERTEXED_REQUIRE_BUILD_REVISION=1 node scripts\/generate-build-revision\.mjs/,
+    config.buildCommand,
+    /VERTEXED_REQUIRE_BUILD_REVISION=1 .*npm run build/,
   );
+  assert.equal(config.installCommand, 'npm ci');
 });
 
 test('checked-in generated revision is neutral until a deploy-relevant build stamps it', async () => {

@@ -1,7 +1,7 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "buildCommand": "VERTEXED_REQUIRE_BUILD_REVISION=1 ROLLUP_SKIP_NODEJS_NATIVE=true npm run build",
-  "installCommand": "npm ci && VERTEXED_REQUIRE_BUILD_REVISION=1 node scripts/generate-build-revision.mjs",
+  "installCommand": "npm ci",
   "ignoreCommand": "node scripts/vercel-ignore-build.mjs",
   "framework": null,
   "functions": {
