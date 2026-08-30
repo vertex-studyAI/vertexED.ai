@@ -26,7 +26,7 @@ const notificationsSchema = fs.readFileSync(sourcePaths.notifications, 'utf8');
 const authContextSource = fs.readFileSync(sourcePaths.authContext, 'utf8');
 const sourceAssumptions = [
   ['001 profile update policy', initialSchema.includes('Users can update own profile')],
-  ['001 role-backed authorization surface', /\brole\b/.test(initialSchema)],
+  ['001 role-backed authorization surface', initialSchema.includes('role')],
   ['003 direct notification insert policy', notificationsSchema.includes('System insert notifications')],
   ['003 permissive notification check', /WITH\s+CHECK\s*\(\s*true\s*\)/i.test(notificationsSchema)],
   ['AuthContext profile update surface', authContextSource.includes('const updateProfile = useCallback')],
