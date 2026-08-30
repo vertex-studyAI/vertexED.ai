@@ -55,6 +55,7 @@ All 20-seed numerical tables must be generated only from committed `paper/eviden
 - [x] zero-diffusion negative control retained;
 - [x] exact-head reproduction documented;
 - [x] claim boundary recorded;
+- [x] deterministic point-level figure reconciled against all committed raw seeds and the frozen threshold;
 - [ ] independent manuscript claim audit against rendered PDF;
 - [ ] clean PDF build and visual inspection;
 - [ ] authorship/contribution statement finalized;
