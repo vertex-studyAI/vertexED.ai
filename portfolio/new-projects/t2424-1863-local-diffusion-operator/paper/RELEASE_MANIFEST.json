@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "release_status": "NOT_PREPRINT_READY",
+  "preprint_ready": false,
+  "protocol_change": false,
+  "scientific_verdict": "NEGATIVE_OR_INCONCLUSIVE_AGAINST_PREDECLARED_GATE",
+  "scientific_source": "7cee0bd4d5cc7a3ac497476d322c6f0e16da9ee6",
+  "retained_evidence_artifact": {
+    "id": 9720891119,
+    "name": "t2424-1863-reproducibility-evidence",
+    "workflow_run": 33273832236,
+    "workflow_head": "abf8fdef9294e096ce364f6bfe8558fa3bd00439",
+    "archive_sha256": "481d366c7cabab099378aeb1347400e4d68f72a416213f409e000ae6e011d7c1"
+  },
+  "files": {
+    "MANUSCRIPT.md": {
+      "bytes": 12794,
+      "sha256": "73332beeb9c0e40c5f27e61b2eb7bc45588234815860a80d20f6de08f0048a8c"
+    },
+    "CLAIM_EVIDENCE_MATRIX.md": {
+      "bytes": 5792,
+      "sha256": "225e9a658e47b8cecaa3168f5048f2241445405719b22f97b7ea7e8fc9dd3689"
+    },
+    "RELEASE_AUDIT.md": {
+      "bytes": 7655,
+      "sha256": "11eaea31dd6409ad06973259da148501d126fe8a04f2bd0e1eff507cfcb5d960"
+    },
+    "evidence/EVIDENCE_MANIFEST.json": {
+      "bytes": 1127,
+      "sha256": "53eded6feff5e36534d1e69e85b825e53c6c67ba69b26336b78d87ba2cf83bd4"
+    },
+    "evidence/raw_metrics.json": {
+      "bytes": 13670,
+      "sha256": "571fd7ade574cd40e8cf15d325090ecba6e7b692665afe21cfb4681a265f9100"
+    },
+    "evidence/uncertainty_metrics.json": {
+      "bytes": 1778,
+      "sha256": "740aed16bc362a3ab1b247eb3b107a65aed04536aff4fae8d9fd7556d1daf357"
+    },
+    "evidence/per_seed_relative_improvement.svg": {
+      "bytes": 8520,
+      "sha256": "21005d36d313816e786445354f9522afeae0277f3d7611eaeccf936644e5c86b"
+    }
+  },
+  "unresolved_release_gates": [
+    "authorship_and_contributions",
+    "authorized_license_metadata",
+    "compiled_pdf",
+    "visual_pdf_inspection",
+    "rendered_pdf_claim_audit",
+    "immutable_pdf_digest",
+    "archive_or_doi_selection"
+  ]
+}
