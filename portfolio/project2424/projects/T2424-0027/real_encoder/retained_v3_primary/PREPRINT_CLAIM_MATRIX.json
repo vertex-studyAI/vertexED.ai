@@ -1,0 +1,52 @@
+{
+  "project_id": "T2424-0027",
+  "protocol_id": "T2424-0027-REAL-ENCODER-GATE-v3",
+  "primary_verdict": "FAIL_PREDECLARED_REAL_ENCODER_GATE",
+  "scientific_state": "FROZEN_NEGATIVE_PRIMARY_REAL_ENCODER_RESULT",
+  "evidence_identity": {
+    "preregistration_commit": "a3fc8fb13c600ec5a7b5a3bc4379b88c80a11c7a",
+    "preregistration_manifest_blob": "3adc92ebf9203f20319582e33c98ba570f9d884c",
+    "execution_trigger_commit": "0e9d7c9ad4abd61b8996303fdcd45579b898f327",
+    "actions_run": 33307308534,
+    "actions_job": 99246007605,
+    "artifact_id": 9730910606,
+    "artifact_zip_sha256": "5bebd21c4e0b763a68c100c58bdea10d1822550d08fcda505ed65c84eb44a757",
+    "summary_sha256": "a85d3dc88fa733a9317557308da190f470d5515da10d9725716846ee92a10999",
+    "verdict_sha256": "657121323bef83cf9bbcd7f176259dd274b133e42bad05f276dfadc719b4a09e",
+    "per_seed_metrics_sha256": "4fa50c475e02d3928753a4019f9c29eb964c033b12be6c448c24dd95eeacbae2"
+  },
+  "frozen_gate": {
+    "raw_language_accuracy_min": 0.75,
+    "effect_retention_min": 0.70,
+    "intent_drop_max": 0.02,
+    "specificity_margin_min": 0.15,
+    "required_seed_passes": 4,
+    "seed_count": 5
+  },
+  "observed": {
+    "mean_raw_language_accuracy": 0.49235555555555555,
+    "mean_effect_retention": 0.8713252358181732,
+    "mean_intent_drop": -0.002488888888888874,
+    "mean_specificity_margin": 0.8168639008523437,
+    "mean_normalized_language_leakage_reduction": 0.8350200176590828,
+    "seed_passes": 0
+  },
+  "allowed_claims": [
+    "The separately preregistered real-encoder v3 successor failed its primary success gate.",
+    "Raw language/locale probe accuracy remained below the frozen 0.75 floor on every fixed seed.",
+    "Language-specific centering showed a substantial descriptive leakage reduction while preserving intent structure in this frozen diagnostic.",
+    "The descriptive centering effect does not rescue the failed primary gate."
+  ],
+  "prohibited_claims": [
+    "linguistic relativity established",
+    "cognition claim",
+    "translation quality claim",
+    "universal language-invariant representation claim",
+    "fine-tuned model claim",
+    "model superiority claim without matched baselines",
+    "reinterpretation of 0/5 seed passes as a partial primary pass",
+    "retroactive threshold, seed, intent, encoder, dataset, or control changes"
+  ],
+  "successor_rule": "Any scientific protocol change after outcome access must be a new preregistration and must not alter the v3 verdict.",
+  "manuscript_integration_status": "READY_FOR_SEPARATE_NEGATIVE_RESULT_SECTION"
+}
