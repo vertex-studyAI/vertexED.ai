@@ -3,8 +3,40 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 const target = path.resolve(process.argv[2] || '');
-if (!target || !fs.existsSync(path.join(target, 'supabase/migrations/001_initial_schema.sql'))) {
+if (!target) {
   throw new Error('usage: apply-authorization-hardening.mjs TARGET_FINANCEMETA_CHECKOUT');
+}
+
+const sourcePaths = {
+  initial: path.join(target, 'supabase/migrations/001_initial_schema.sql'),
+  oauth: path.join(target, 'supabase/migrations/002_google_oauth.sql'),
+  notifications: path.join(target, 'supabase/migrations/003_bookmarks_notifications.sql'),
+  authContext: path.join(target, 'src/contexts/AuthContext.tsx'),
+};
+const missingSources = Object.values(sourcePaths).filter((sourcePath) => !fs.existsSync(sourcePath));
+if (missingSources.length > 0) {
+  throw new Error(
+    'FinanceMeta source preflight failed; missing required canonical files: ' +
+      missingSources.map((sourcePath) => path.relative(target, sourcePath)).join(', '),
+  );
+}
+
+const initialSchema = fs.readFileSync(sourcePaths.initial, 'utf8');
+const notificationsSchema = fs.readFileSync(sourcePaths.notifications, 'utf8');
+const authContextSource = fs.readFileSync(sourcePaths.authContext, 'utf8');
+const sourceAssumptions = [
+  ['001 profile update policy', initialSchema.includes('Users can update own profile')],
+  ['001 role-backed authorization surface', initialSchema.includes('role')],
+  ['003 direct notification insert policy', notificationsSchema.includes('System insert notifications')],
+  ['003 permissive notification check', /WITH\s+CHECK\s*\(\s*true\s*\)/i.test(notificationsSchema)],
+  ['AuthContext profile update surface', authContextSource.includes('const updateProfile = useCallback')],
+];
+const driftedAssumptions = sourceAssumptions.filter(([, matches]) => !matches).map(([name]) => name);
+if (driftedAssumptions.length > 0) {
+  throw new Error(
+    'FinanceMeta source preflight failed; canonical source shape drifted: ' +
+      driftedAssumptions.join(', '),
+  );
 }
 
 const migrationPath = path.join(target, 'supabase/migrations/004_authorization_hardening.sql');
