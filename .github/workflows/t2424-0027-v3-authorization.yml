@@ -1,0 +1,32 @@
+name: T2424-0027 v3 Authorization Lock
+
+on:
+  pull_request:
+    paths:
+      - "portfolio/project2424/projects/T2424-0027/real_encoder/AUTHORIZATION_V3.json"
+      - "portfolio/project2424/projects/T2424-0027/real_encoder/manifest_v3_preregistered.json"
+      - "portfolio/project2424/projects/T2424-0027/real_encoder/validate_v3_authorization.py"
+      - ".github/workflows/t2424-0027-v3-authorization.yml"
+  push:
+    branches:
+      - "experiment/t2424-0027-v3-authorization-20260830"
+    paths:
+      - "portfolio/project2424/projects/T2424-0027/real_encoder/AUTHORIZATION_V3.json"
+      - "portfolio/project2424/projects/T2424-0027/real_encoder/manifest_v3_preregistered.json"
+      - "portfolio/project2424/projects/T2424-0027/real_encoder/validate_v3_authorization.py"
+      - ".github/workflows/t2424-0027-v3-authorization.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  authorization-lock:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Verify exact preregistration binding and zero scientific drift
+        run: python portfolio/project2424/projects/T2424-0027/real_encoder/validate_v3_authorization.py
