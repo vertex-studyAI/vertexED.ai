@@ -73,6 +73,10 @@ The primary relative-improvement range is `66.6999821%–69.5856939%`. The mean 
 
 The expanded relative-improvement range is `65.4364%–70.5814%`. This larger retained execution independently preserves the same negative verdict. It is corroborating reproduction evidence, not a replacement for the literal 10-seed preregistration.
 
+![Per-seed relative improvement for the diffusion and zero-diffusion conditions, with the frozen greater-than-75-percent criterion shown above every diffusion result.](evidence/per_seed_relative_improvement.svg)
+
+**Figure 1.** Relative one-step RMSE improvement versus persistence for every fixed seed in the retained 20-seed execution. All diffusion seeds remain below the frozen >75% criterion; the zero-diffusion control remains near zero. The figure is generated deterministically from committed `raw_metrics.json` and does not change the primary 10-seed or expanded 20-seed negative verdict.
+
 The learned coefficient closely tracks the planted value and the local operator reduces one-step RMSE relative to persistence in both accountings. These are secondary observations and do not override the failed primary criterion.
 
 ## 5. Failure analysis
