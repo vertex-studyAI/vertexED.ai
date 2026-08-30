@@ -27,7 +27,9 @@ jobs:
         run: node scripts/validate-vercel-functions.mjs
       - name: Audit production dependencies
         run: npm run audit:prod
-      - name: Run unit tests
+      - name: Run Vercel phase regression test
+        run: node --test tests/vercelConfig.test.mjs
+      - name: Run full unit tests
         run: npm test
       - name: Run eval tests
         run: npm run test:eval
