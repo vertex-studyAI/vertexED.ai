@@ -25,6 +25,10 @@ on:
 permissions:
   contents: read
 
+env:
+  T2424_SOURCE_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+  T2424_EXECUTED_GITHUB_SHA: ${{ github.sha }}
+
 jobs:
   prereg-lock:
     runs-on: ubuntu-latest
@@ -57,6 +61,7 @@ jobs:
         run: |
           python - <<'PY'
           import json
+          import os
           from pathlib import Path
           p = Path("portfolio/project2424/projects/T2424-0027/real_encoder/v3_dataset_gate_evidence.json")
           d = json.loads(p.read_text())
@@ -66,6 +71,8 @@ jobs:
           assert d["execution_authorized"] is False
           assert d["encoder_instantiated"] is False
           assert d["model_outcomes_accessed"] is False
+          assert d["source_head_sha"] == os.environ["T2424_SOURCE_HEAD_SHA"]
+          assert d["executed_github_sha"] == os.environ["T2424_EXECUTED_GITHUB_SHA"]
           PY
       - name: Upload dataset-only feasibility evidence
         uses: actions/upload-artifact@v4
