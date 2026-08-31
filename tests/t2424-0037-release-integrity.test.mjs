@@ -12,6 +12,16 @@ test("NeuroCAD release manifest deterministically binds every current evidence f
   assert.deepEqual(retained, generated);
   assert.equal(Object.keys(retained.artifacts).length, evidenceFiles.length);
   assert.equal(retained.preprint_ready, false);
+  assert.deepEqual(retained.generated_artifacts, {
+    "dist/t2424-0037-paper/T2424-0037-NeuroCAD-bounded-result.pdf": {
+      bytes: 89197,
+      sha256: "1108c9f78eaf078b84a0e73f5dbeb0ff8734f363b84956c6eaa3f5d401209e04",
+      workflow_run: 33355893567,
+      artifact_id: 9745116157,
+      artifact_archive_sha256: "3f91345ace7bc5999e38e41a1550babccb6dc4309d7fc10ebefedb5b15cb3c4f",
+      permanent_archive: false
+    }
+  });
   assert.equal(
     retained.scientific_status,
     "VALIDATION_DOMINANT_TYPED_PARSER_CAUSALITY_FALSIFIED_ON_REUSED_DIAGNOSTIC"
