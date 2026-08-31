@@ -17,6 +17,21 @@ const TERMINAL_REFRESH_ERROR_CODES = new Set([
   "session_not_found",
 ]);
 
+export function createSingleFlight(task) {
+  let inFlight = null;
+
+  return function runSingleFlight(...args) {
+    if (!inFlight) {
+      inFlight = Promise.resolve()
+        .then(() => task(...args))
+        .finally(() => {
+          inFlight = null;
+        });
+    }
+    return inFlight;
+  };
+}
+
 export function shouldClearLocalSessionAfterRefreshFailure(error) {
   if (!error || typeof error !== "object") return false;
   const code = typeof error.code === "string" ? error.code.toLowerCase() : "";
