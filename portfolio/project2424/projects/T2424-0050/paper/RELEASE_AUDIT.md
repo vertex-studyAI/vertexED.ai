@@ -18,6 +18,7 @@ This checklist is deliberately stricter than code/CI success. HOLD/MIXED scienti
 - [x] Tables use only retained JSON metrics.
 - [x] No learned-operator/FNO/DeepONet/PINN/POD/SOTA superiority claim.
 - [x] Every bibliography entry is reconciled by title and stable identifier against its primary arXiv, Nature, or Wiley record; full metadata and explicit non-comparison boundaries are retained in `BIBLIOGRAPHY_AUDIT.md`.
+- [x] Independent sentence-level audit maps every quantitative result, protocol fact, comparison, interpretation, scope boundary, and release conclusion to direct evidence in `SENTENCE_CLAIM_AUDIT.md`; prohibited significance, superiority, generalization, novelty, and readiness claims remain absent.
 - [x] Deterministic release-manifest generation binds the exact status, protocols, frozen configuration, retained result JSON, claim matrix, manuscript, bibliography audit, and release audit by byte length and SHA-256.
 - [x] Automated metric reconciliation derives aligned and harder-audit values from retained JSON and fails closed if HOLD/MIXED, the rho=0 miss, seed-6 reversal, or prohibited-claim boundary drifts.
 - [x] Exact-head PDF workflow renders twice and requires byte-for-byte equality after metadata normalization.
@@ -29,7 +30,6 @@ This checklist is deliberately stricter than code/CI success. HOLD/MIXED scienti
 
 - [ ] Verify repository/code license and state it exactly; do not infer.
 - [ ] Record authorship and contribution statement.
-- [ ] Perform independent sentence-level claim audit against the exact manuscript head.
 - [ ] Place the exact digest-bound PDF in an authorized permanent archive and record its stable identifier; the expiring workflow artifact is not permanent archival evidence.
 - [ ] Decide whether the parent bounded/mixed result is sufficiently novel for a standalone preprint; current evidence does not establish novelty.
 
