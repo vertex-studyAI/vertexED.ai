@@ -4,6 +4,16 @@
   "scientific_status": "VALIDATION_DOMINANT_TYPED_PARSER_CAUSALITY_FALSIFIED_ON_REUSED_DIAGNOSTIC",
   "preprint_ready": false,
   "generated_by": "scripts/generate-neurocad-release-manifest.mjs",
+  "generated_artifacts": {
+    "dist/t2424-0037-paper/T2424-0037-NeuroCAD-bounded-result.pdf": {
+      "bytes": 89197,
+      "sha256": "1108c9f78eaf078b84a0e73f5dbeb0ff8734f363b84956c6eaa3f5d401209e04",
+      "workflow_run": 33355893567,
+      "artifact_id": 9745116157,
+      "artifact_archive_sha256": "3f91345ace7bc5999e38e41a1550babccb6dc4309d7fc10ebefedb5b15cb3c4f",
+      "permanent_archive": false
+    }
+  },
   "artifacts": {
     "portfolio/project2424/NEUROCAD_IDENTITY_ACCOUNTING_20260829.md": {
       "bytes": 2023,
