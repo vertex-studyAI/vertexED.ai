@@ -1,0 +1,94 @@
+{
+  "protocol_id": "TEMPORAL-JEPA-INTERVENTION-DUFFING-v1",
+  "status": "PRE_OUTCOME_EXECUTION_NOT_AUTHORIZED",
+  "execution_authorized": false,
+  "created_utc": "2026-08-31",
+  "scientific_question": "Does a JEPA-style temporal predictive representation retain useful dynamical structure under a controlled forcing event absent from nominal representation training?",
+  "system": {
+    "name": "forced_duffing_oscillator",
+    "equation": "x_ddot + delta*x_dot + alpha*x + beta*x^3 = gamma*cos(omega*t) + u(t)",
+    "parameters": {
+      "delta": 0.2,
+      "alpha": -1.0,
+      "beta": 1.0,
+      "gamma": 0.3,
+      "omega": 1.2
+    },
+    "state": ["x", "v"]
+  },
+  "numerics": {
+    "integrator": "rk4_fixed_step",
+    "dt": 0.01,
+    "trajectory_duration": 40.0,
+    "context_duration": 8.0,
+    "recovery_evaluation_duration": 5.0
+  },
+  "intervention": {
+    "type": "finite_duration_additive_step",
+    "amplitude": 0.25,
+    "onset_time": 20.0,
+    "duration": 1.0,
+    "post_intervention_control": 0.0,
+    "primary_zero_shot": true
+  },
+  "data": {
+    "initial_condition_box": {
+      "x_min": -1.5,
+      "x_max": 1.5,
+      "v_min": -1.0,
+      "v_max": 1.0
+    },
+    "train_seed": 2401,
+    "validation_seed": 2402,
+    "test_seed": 2403,
+    "train_trajectories": 128,
+    "validation_trajectories": 32,
+    "nominal_test_trajectories": 64,
+    "intervention_test_trajectories": 64,
+    "intervention_examples_in_primary_training": 0
+  },
+  "models": {
+    "primary": "temporal_jepa",
+    "required_baselines": [
+      "persistence",
+      "linear_autoregressive_state",
+      "matched_compute_next_state_mlp",
+      "matched_compute_direct_prediction_representation"
+    ],
+    "mechanistic_reference_allowed": true,
+    "intervention_specific_finetuning_primary": false
+  },
+  "probe": {
+    "type": "linear_state_readout",
+    "fit_data": "nominal_training_only",
+    "targets": ["x", "v"],
+    "nonlinear_probe_search": false
+  },
+  "primary_metric": {
+    "name": "post_intervention_joint_state_nrmse",
+    "window_start": "forcing_end",
+    "window_duration": 5.0
+  },
+  "success_gate": {
+    "numeric_thresholds_frozen": false,
+    "must_beat_persistence": true,
+    "must_beat_matched_direct_representation_baseline": true,
+    "must_hold_across_majority_of_predeclared_groups": true,
+    "nominal_catastrophic_degradation_forbidden": true
+  },
+  "integrity": {
+    "post_outcome_intervention_change_forbidden": true,
+    "post_outcome_horizon_change_forbidden": true,
+    "post_outcome_seed_deletion_forbidden": true,
+    "rescue_tuning_forbidden": true,
+    "retain_negative_and_mixed_results": true
+  },
+  "authorization_blockers": [
+    "freeze exact temporal JEPA architecture",
+    "freeze matched baseline architectures and compute policy",
+    "run simulator/trivial-baseline-only metric scale calibration",
+    "freeze numeric primary success thresholds",
+    "freeze optimizer and training schedule",
+    "freeze artifact paths and checksums"
+  ]
+}
