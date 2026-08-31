@@ -108,6 +108,18 @@ export function renderMarkdown(markdown, figures = {}) {
       continue;
     }
 
+    if (line.trim().startsWith('```')) {
+      const code = [];
+      index += 1;
+      while (index < lines.length && !lines[index].trim().startsWith('```')) {
+        code.push(lines[index]);
+        index += 1;
+      }
+      if (index < lines.length) index += 1;
+      output.push(`<pre><code>${escapeHtml(normalizePrintText(code.join('\n')))}</code></pre>`);
+      continue;
+    }
+
     if (/^>\s?/.test(line)) {
       const quote = [];
       while (index < lines.length && /^>\s?/.test(lines[index])) {
@@ -153,6 +165,8 @@ export function documentHtml(markdown, figures = {}) {
   p { margin: 0 0 7pt; text-align: justify; orphans: 3; widows: 3; }
   blockquote { margin: 10pt 12pt; padding: 8pt 12pt; border-left: 3px solid #185fa5; background: #f4f8fb; font-style: italic; }
   code { font: 8.7pt/1.35 "SFMono-Regular", Consolas, monospace; background: #f1f4f7; padding: 1px 3px; overflow-wrap: anywhere; }
+  pre { margin: 7pt 0 10pt; padding: 8pt 10pt; background: #f1f4f7; border: 0.6px solid #cbd5df; white-space: pre-wrap; overflow-wrap: anywhere; break-inside: avoid; }
+  pre code { padding: 0; background: transparent; }
   a { color: #185fa5; text-decoration: none; }
   ol, ul { margin: 5pt 0 9pt 18pt; padding: 0; }
   li { margin: 2pt 0; }
@@ -185,7 +199,7 @@ async function main() {
   };
   const anchor = 'Figure 1 in `figures/figure1_contamination_mae.svg` plots the four retained MAE series on a logarithmic vertical axis. Figure 2 in `figures/figure2_relative_improvement.svg` plots the median\'s relative reduction compared with the arithmetic mean.';
   if (!markdown.includes(anchor)) throw new Error('Expected retained figure paragraph is missing.');
-  markdown = markdown.replace(anchor, '![Figure 1. Retained contamination sweep MAE for all four readouts.](figure1)\\n\\n![Figure 2. Retained weighted-median relative reduction versus arithmetic mean, including the 0% confound.](figure2)\\n\\n' + anchor);
+  markdown = markdown.replace(anchor, '![Figure 1. Retained contamination sweep MAE for all four readouts.](figure1)\n\n![Figure 2. Retained weighted-median relative reduction versus arithmetic mean, including the 0% confound.](figure2)\n\n' + anchor);
   await mkdir(dirname(outputPath), { recursive: true });
 
   const browser = await chromium.launch({ headless: true });
