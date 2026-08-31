@@ -42,9 +42,12 @@ jobs:
           cmp dist/t2424-0037-paper/T2424-0037-NeuroCAD-bounded-result.pdf dist/t2424-0037-paper/rebuilt.pdf
           rm dist/t2424-0037-paper/rebuilt.pdf
       - name: Retain build provenance
+        env:
+          SOURCE_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
+          EXECUTED_REF: ${{ github.sha }}
         run: |
           sha256sum dist/t2424-0037-paper/T2424-0037-NeuroCAD-bounded-result.pdf | tee dist/t2424-0037-paper/SHA256SUMS
-          node -e 'const fs=require("fs"); fs.writeFileSync("dist/t2424-0037-paper/build.json", JSON.stringify({head:process.env.GITHUB_SHA, run:process.env.GITHUB_RUN_ID, protocol_change:false, scientific_verdict:"VALIDATION_DOMINANT_TYPED_PARSER_CAUSALITY_FALSIFIED_ON_REUSED_DIAGNOSTIC", preprint_ready:false}, null, 2)+"\n")'
+          node -e 'const fs=require("fs"); fs.writeFileSync("dist/t2424-0037-paper/build.json", JSON.stringify({source_head:process.env.SOURCE_HEAD, executed_ref:process.env.EXECUTED_REF, run:process.env.GITHUB_RUN_ID, protocol_change:false, scientific_verdict:"VALIDATION_DOMINANT_TYPED_PARSER_CAUSALITY_FALSIFIED_ON_REUSED_DIAGNOSTIC", preprint_ready:false}, null, 2)+"\n")'
       - name: Upload rendered manuscript
         uses: actions/upload-artifact@v4
         with:
