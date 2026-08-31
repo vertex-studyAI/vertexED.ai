@@ -49,6 +49,6 @@ test('NGMT v0.1 reports no significance or unsupported superiority', async () =>
   const results = await readFile(`${ROOT}/RESULTS.md`, 'utf8');
   assert.match(results, /negative\/inconclusive/);
   assert.match(results, /Do not claim NGMT superiority/);
-  assert.match(results, /Do not claim NGMT superiority[\\s\\S]*statistical significance/i);
-  assert.match(results, /Do not rescue v0\.1/);
+  assert.match(results, /Do not claim NGMT superiority[\s\S]*statistical significance/i);
+  assert.match(results, /not used to rescue this failed result/i);
 });
