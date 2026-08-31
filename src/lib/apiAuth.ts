@@ -2,6 +2,7 @@ import { isAccountDeletionRequest, trackAccountDeletion } from '@/lib/accountLif
 import { getAiFeatureForRequest, trackAiRequestOutcome } from '@/lib/aiRequestAnalytics.mjs';
 import {
   createRequestDeadline,
+  createSingleFlight,
   shouldClearLocalSessionAfterRefreshFailure,
   shouldRetryAfterUnauthorized,
   toRequestError,
@@ -43,19 +44,23 @@ function requestInputForAttempt(input: RequestInfo | URL): RequestInfo | URL {
   return isRequestInput(input) ? input.clone() : input;
 }
 
-async function refreshAccessToken(): Promise<string | null> {
+const runRefreshAccessTokenSingleFlight = createSingleFlight(async (): Promise<string | null> => {
   if (!supabase) return null;
 
   const { data, error } = await supabase.auth.refreshSession();
   const token = data.session?.access_token ?? null;
   if (!error && token) return token;
 
-  // Clear local auth only when the refresh credential is terminally invalid.
+  // Clear local auth only when the shared refresh credential is terminally invalid.
   // Retryable network/server failures must not destroy a recoverable session.
   if (shouldClearLocalSessionAfterRefreshFailure(error)) {
     await supabase.auth.signOut({ scope: 'local' });
   }
   return null;
+});
+
+async function refreshAccessToken(): Promise<string | null> {
+  return runRefreshAccessTokenSingleFlight();
 }
 
 export async function authFetch(input: RequestInfo | URL, init?: RequestInit): Promise<Response> {
