@@ -68,3 +68,11 @@ test("NeuroCAD release evidence preserves the frozen falsification and stop rule
   assert.match(identity, /COUNT ONCE HERE/);
   assert.match(identity, /BLOCKED; DO NOT COUNT A SECOND PAPER/);
 });
+
+test("NeuroCAD PDF workflow retains authored and executed GitHub identities", async () => {
+  const workflow = await read(".github/workflows/t2424-0037-paper-pdf.yml");
+  assert.match(workflow, /SOURCE_HEAD: \$\{\{ github\.event\.pull_request\.head\.sha \|\| github\.sha \}\}/);
+  assert.match(workflow, /EXECUTED_REF: \$\{\{ github\.sha \}\}/);
+  assert.match(workflow, /source_head:process\.env\.SOURCE_HEAD/);
+  assert.match(workflow, /executed_ref:process\.env\.EXECUTED_REF/);
+});
