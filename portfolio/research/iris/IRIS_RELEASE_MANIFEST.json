@@ -1,0 +1,101 @@
+{
+  "schema_version": 1,
+  "project": "IRIS v0.2 and common adaptation harness v1",
+  "scientific_status": "REPRODUCED_MIXED_NEGATIVE",
+  "harness_verdict": "NEGATIVE_OR_INCONCLUSIVE_DEVELOPMENT_GATE",
+  "source_recovery_status": "PARTIALLY_RECOVERED_PROTOCOL_BLOCKED_ON_EXACT_TRAJECTORY_IDENTITY_ONLY",
+  "branch_local_release_status": "BLOCKED_ON_RETAINED_EVIDENCE_PROVENANCE",
+  "confirmatory_seed_quarantine": {
+    "first": 1000,
+    "last": 1029,
+    "count": 30,
+    "accessed": false,
+    "authorized": false
+  },
+  "promotion": {
+    "positive_architecture_proven": false,
+    "external_validation": false,
+    "submission_ready": false,
+    "successor_authorized": false
+  },
+  "missing_release_evidence": [
+    "original common-harness results/raw.csv",
+    "original common-harness results/summary.csv",
+    "exact common-harness verify.py or traceable canonical verifier location",
+    "canonical development trajectory identity or authoritative deterministic-equivalence record"
+  ],
+  "stop_rules": [
+    "do_not_access_confirmatory_seeds_1000_1029",
+    "do_not_regenerate_missing_evidence_as_original",
+    "do_not_retune_pabim_after_negative_gate",
+    "do_not_change_frozen_thresholds_metrics_methods_or_seeds",
+    "new_experiment_id_and_protocol_required_for_successor"
+  ],
+  "files": [
+    {
+      "path": "portfolio/research/IRIS_BASELINE_AUDIT_20260813.md",
+      "bytes": 6219,
+      "sha256": "8f6f129ae2c91222f86aba626092cda247e538b0f297acb2ceaa23c055351e2d"
+    },
+    {
+      "path": "portfolio/research/IRIS_BASELINE_FRONTIER_PROTOCOL_20260814.md",
+      "bytes": 10545,
+      "sha256": "ad4697615a9a8dea67336eaf68d7f46e992277e61e87577ba86a378be48301b8"
+    },
+    {
+      "path": "portfolio/research/IRIS_REPRO_STATUS_20260813.md",
+      "bytes": 6683,
+      "sha256": "ea353a88f38939650461acb68e005b65d992d0fa58158f901a9155ef5793264e"
+    },
+    {
+      "path": "portfolio/research/IRIS_SEQUENCE_ADAPTATION_METRIC_FREEZE_20260813.md",
+      "bytes": 6200,
+      "sha256": "dcfd7eaafb5103fa7d5707ee42cbec12d569e862e0b770205a236b332619c216"
+    },
+    {
+      "path": "portfolio/research/IRIS_SOURCE_RECOVERY_20260814.md",
+      "bytes": 5931,
+      "sha256": "a1fe2322bcc8858db1c5681e2b4de28be109d974621fff1b0166bdccfb7af8e8"
+    },
+    {
+      "path": "portfolio/research/IRIS_SUCCESSOR_DECISION_20260814.md",
+      "bytes": 4698,
+      "sha256": "d44a5d0c66d01e78a20566053d494dd946b65fe4312032299310741ed7cc0766"
+    },
+    {
+      "path": "portfolio/research/evidence/iris-v0.2-development-baselines-20260813.json",
+      "bytes": 5081,
+      "sha256": "8e0369f85b62700d5a4c9e5be41a418761a30987af76d4cdd8ebf1e2efa6123f"
+    },
+    {
+      "path": "portfolio/research/evidence/iris-v0.2-fresh-reproduction-20260813.json",
+      "bytes": 6335,
+      "sha256": "51fd69e2952b396513a5673a2755c11aac457e67eb7c0d2d8b6e8d037b84c22e"
+    },
+    {
+      "path": "portfolio/research/iris/common_adaptation_harness_v1/EVIDENCE_GAP.md",
+      "bytes": 3503,
+      "sha256": "ebf56696bd50516316f27fe28fd041bd1fe4aace9871597dca81715216cc1202"
+    },
+    {
+      "path": "portfolio/research/iris/common_adaptation_harness_v1/PROTOCOL.json",
+      "bytes": 4853,
+      "sha256": "0cdf22c97ddb9459182175e7c17bf51906088f5d3a7ec10131edfa650d2edbdd"
+    },
+    {
+      "path": "portfolio/research/iris/common_adaptation_harness_v1/REPRODUCE.md",
+      "bytes": 1895,
+      "sha256": "805ab464c37cee6779448a15f48dc94d2e29397d99b1481f07c45be486dea441"
+    },
+    {
+      "path": "portfolio/research/iris/common_adaptation_harness_v1/RESULTS.md",
+      "bytes": 5552,
+      "sha256": "04ead8295664267eab5bb60369fe41702b058e67e52975347471aedc8df636fe"
+    },
+    {
+      "path": "portfolio/research/papers/IRIS_V02_NEGATIVE_RESULT_MANUSCRIPT.md",
+      "bytes": 7278,
+      "sha256": "aa41a47fb1832c369f2f65fa7e7c17413fd977cde77bc9fd763f501cfad2181b"
+    }
+  ]
+}
