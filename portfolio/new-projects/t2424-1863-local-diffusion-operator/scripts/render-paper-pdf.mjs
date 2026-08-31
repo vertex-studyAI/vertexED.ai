@@ -1,5 +1,5 @@
 import { chromium } from '@playwright/test';
-import { mkdir, readFile } from 'node:fs/promises';
+import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { dirname, resolve } from 'node:path';
 
 const escapeHtml = (value) => value
@@ -11,6 +11,27 @@ const escapeHtml = (value) => value
 const normalizePrintText = (value) => value
   .replace(/[\u2010-\u2015]/g, '-')
   .replace(/\u00a0/g, ' ');
+
+
+const CANONICAL_PDF_DATE = "D:19700101000000+00'00'";
+
+export function normalizePdfMetadata(pdf) {
+  const source = Buffer.isBuffer(pdf) ? pdf : Buffer.from(pdf);
+  const latin1 = source.toString('latin1');
+  let replacements = 0;
+  const normalized = latin1.replace(
+    /\/(?:CreationDate|ModDate) \(D:\d{14}[+-]\d{2}'\d{2}'\)/g,
+    (entry) => {
+      replacements += 1;
+      const key = entry.startsWith('/CreationDate') ? '/CreationDate' : '/ModDate';
+      return `${key} (${CANONICAL_PDF_DATE})`;
+    },
+  );
+  if (replacements !== 2 || normalized.length !== latin1.length) {
+    throw new Error(`Expected exactly two fixed-width PDF date fields; found ${replacements}`);
+  }
+  return Buffer.from(normalized, 'latin1');
+}
 
 const inline = (source) => {
   let value = escapeHtml(normalizePrintText(source));
@@ -177,6 +198,8 @@ async function main() {
       margin: { top: '20mm', right: '18mm', bottom: '22mm', left: '18mm' },
       preferCSSPageSize: true,
     });
+    const rendered = await readFile(outputPath);
+    await writeFile(outputPath, normalizePdfMetadata(rendered));
   } finally {
     await browser.close();
   }
