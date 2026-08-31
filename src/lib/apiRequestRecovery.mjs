@@ -42,6 +42,19 @@ export function shouldClearLocalSessionAfterRefreshFailure(error) {
     /(?:invalid|expired|not found|already used|reuse detected)/i.test(message);
 }
 
+export async function resolveRefreshSession(result, clearLocalSession) {
+  const token = result?.data?.session?.access_token;
+  if (!result?.error && typeof token === "string" && token) return token;
+
+  if (
+    shouldClearLocalSessionAfterRefreshFailure(result?.error) &&
+    typeof clearLocalSession === "function"
+  ) {
+    await clearLocalSession();
+  }
+  return null;
+}
+
 export function shouldRetryAfterUnauthorized({
   status,
   hasAuthorization,
