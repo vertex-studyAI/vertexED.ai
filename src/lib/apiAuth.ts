@@ -2,6 +2,8 @@ import { isAccountDeletionRequest, trackAccountDeletion } from '@/lib/accountLif
 import { getAiFeatureForRequest, trackAiRequestOutcome } from '@/lib/aiRequestAnalytics.mjs';
 import {
   createRequestDeadline,
+  createSingleFlight,
+  runRefreshAttempt,
   shouldRetryAfterUnauthorized,
   toRequestError,
 } from '@/lib/apiRequestRecovery.mjs';
@@ -42,17 +44,17 @@ function requestInputForAttempt(input: RequestInfo | URL): RequestInfo | URL {
   return isRequestInput(input) ? input.clone() : input;
 }
 
-async function refreshAccessToken(): Promise<string | null> {
+const runRefreshAccessTokenSingleFlight = createSingleFlight(async (): Promise<string | null> => {
   if (!supabase) return null;
 
-  const { data, error } = await supabase.auth.refreshSession();
-  const token = data.session?.access_token ?? null;
-  if (!error && token) return token;
+  return runRefreshAttempt(
+    () => supabase.auth.refreshSession(),
+    () => supabase.auth.signOut({ scope: 'local' }),
+  );
+});
 
-  // An invalid refresh token cannot recover. Clear only this browser session so
-  // AuthContext receives SIGNED_OUT and protected routes can return to login.
-  await supabase.auth.signOut({ scope: 'local' });
-  return null;
+async function refreshAccessToken(): Promise<string | null> {
+  return runRefreshAccessTokenSingleFlight();
 }
 
 export async function authFetch(input: RequestInfo | URL, init?: RequestInit): Promise<Response> {
