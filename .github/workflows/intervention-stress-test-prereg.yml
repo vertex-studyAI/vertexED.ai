@@ -1,0 +1,62 @@
+name: Intervention Stress-Test Preregistration
+
+on:
+  pull_request:
+    paths:
+      - "research/INTERVENTION_STRESS_TEST_PROTOCOL_20260831.md"
+      - "research/intervention_stress_test/**"
+      - ".github/workflows/intervention-stress-test-prereg.yml"
+  push:
+    branches:
+      - research/intervention-stress-test-20260831
+    paths:
+      - "research/INTERVENTION_STRESS_TEST_PROTOCOL_20260831.md"
+      - "research/intervention_stress_test/**"
+      - ".github/workflows/intervention-stress-test-prereg.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  preregistration-lock:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Compile simulator and validator
+        run: python -m py_compile research/intervention_stress_test/simulate_duffing.py research/intervention_stress_test/validate_manifest.py
+      - name: Validate frozen pre-outcome manifest
+        run: python research/intervention_stress_test/validate_manifest.py
+      - name: Smoke-test nominal and intervention trajectories
+        run: |
+          python - <<'PY'
+          import importlib.util
+          import json
+          from pathlib import Path
+
+          root = Path("research/intervention_stress_test")
+          spec = importlib.util.spec_from_file_location("sim", root / "simulate_duffing.py")
+          sim = importlib.util.module_from_spec(spec)
+          spec.loader.exec_module(sim)
+
+          manifest = json.loads((root / "manifest.json").read_text())
+          state0 = (0.25, -0.1)
+          nominal = sim.simulate_one(manifest, state0, False)
+          forced = sim.simulate_one(manifest, state0, True)
+
+          expected_rows = int(round(manifest["numerics"]["trajectory_duration"] / manifest["numerics"]["dt"])) + 1
+          assert len(nominal["rows"]) == expected_rows
+          assert len(forced["rows"]) == expected_rows
+          assert all(row[3] == 0.0 for row in nominal["rows"])
+          assert any(row[3] == manifest["intervention"]["amplitude"] for row in forced["rows"])
+          assert nominal["rows"] != forced["rows"]
+          assert manifest["execution_authorized"] is False
+          print("PASS: deterministic simulator smoke test; no learned model executed")
+          PY
+      - name: Guard against learned-model execution in prereg files
+        run: |
+          ! grep -REiq "SentenceTransformer\(|torch\.load\(|model\.fit\(|model\.predict\(|optimizer\.step\(" research/intervention_stress_test
