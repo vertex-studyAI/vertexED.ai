@@ -4,6 +4,7 @@ import test from "node:test";
 import {
   evidenceFiles,
   generateDarcyReleaseManifest,
+  pdfProvenance,
 } from "../scripts/generate-darcy-release-manifest.mjs";
 
 const read = (relativePath) => readFile(new URL("../" + relativePath, import.meta.url), "utf8");
@@ -18,6 +19,15 @@ test("Darcy release manifest deterministically binds current evidence", async ()
   assert.equal(Object.keys(retained.artifacts).length, evidenceFiles.length);
   assert.equal(retained.scientific_status, "HOLD_MIXED_ROBUSTNESS");
   assert.equal(retained.preprint_ready, false);
+  assert.deepEqual(retained.pdf_provenance, pdfProvenance);
+  assert.equal(retained.pdf_provenance.source_head, "0011292fcfd4109bce271025c9a467f9ac333acb");
+  assert.equal(retained.pdf_provenance.pdf.sha256, "9be0a8d53bc20512e46b874651768d22cd1b2001626b3e77afdbf26529483c4e");
+  assert.equal(retained.pdf_provenance.pdf.bytes, 84630);
+  assert.equal(retained.pdf_provenance.pdf.pages, 4);
+  assert.equal(retained.pdf_provenance.pdf.encrypted, false);
+  assert.equal(retained.pdf_provenance.pdf.javascript, false);
+  assert.equal(retained.pdf_provenance.permanent_archive, false);
+  assert.match(retained.pdf_provenance.artifact_expires_at, /^2026-09-30T/);
   for (const entry of Object.values(retained.artifacts)) {
     assert.match(entry.sha256, /^[0-9a-f]{64}$/);
     assert.ok(entry.bytes > 0);
@@ -76,5 +86,6 @@ test("Darcy HOLD/MIXED failure evidence and stop rules remain fail-closed", asyn
   assert.match(manuscript, /This is not a neural-operator study/);
   assert.match(claims, /No conversion of HOLD\/MIXED into PASS/);
   assert.match(release, /NO-GO for PREPRINT_READY/);
+  assert.match(release, /expiring workflow artifact is not permanent archival evidence/);
   assert.match(release, /No parent-paper edit may relax the original result, remove the rho=0 miss, or erase seed 6/);
 });
