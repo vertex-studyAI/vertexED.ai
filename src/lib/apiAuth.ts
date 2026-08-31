@@ -3,7 +3,7 @@ import { getAiFeatureForRequest, trackAiRequestOutcome } from '@/lib/aiRequestAn
 import {
   createRequestDeadline,
   createSingleFlight,
-  shouldClearLocalSessionAfterRefreshFailure,
+  resolveRefreshSession,
   shouldRetryAfterUnauthorized,
   toRequestError,
 } from '@/lib/apiRequestRecovery.mjs';
@@ -47,16 +47,8 @@ function requestInputForAttempt(input: RequestInfo | URL): RequestInfo | URL {
 const runRefreshAccessTokenSingleFlight = createSingleFlight(async (): Promise<string | null> => {
   if (!supabase) return null;
 
-  const { data, error } = await supabase.auth.refreshSession();
-  const token = data.session?.access_token ?? null;
-  if (!error && token) return token;
-
-  // Clear local auth only when the shared refresh credential is terminally invalid.
-  // Retryable network/server failures must not destroy a recoverable session.
-  if (shouldClearLocalSessionAfterRefreshFailure(error)) {
-    await supabase.auth.signOut({ scope: 'local' });
-  }
-  return null;
+  const result = await supabase.auth.refreshSession();
+  return resolveRefreshSession(result, () => supabase.auth.signOut({ scope: 'local' }));
 });
 
 async function refreshAccessToken(): Promise<string | null> {
