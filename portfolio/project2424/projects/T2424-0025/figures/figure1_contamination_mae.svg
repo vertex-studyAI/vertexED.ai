@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="900" height="540" viewBox="0 0 900 540">
 <rect width="100%" height="100%" fill="white"/>
 <style>text{font-family:Arial,Helvetica,sans-serif;fill:#111}.axis{stroke:#111;stroke-width:1.5}.grid{stroke:#bbb;stroke-width:1;stroke-dasharray:3 5}.series{fill:none;stroke:#111;stroke-width:2.2}.pt{fill:white;stroke:#111;stroke-width:1.8}.small{font-size:12px}.label{font-size:14px}.title{font-size:20px;font-weight:700}.legend{font-size:13px}</style>
-<text x="450.0" y="30" text-anchor="middle" class="title">T2424-0025 contamination sweep: MAE by robust readout</text>
+<text x="450" y="30" text-anchor="middle" class="title">T2424-0025 contamination sweep: MAE by robust readout</text>
 <line x1="90" y1="460.00" x2="870" y2="460.00" class="grid"/>
 <text x="80" y="464.00" text-anchor="end" class="small">0.01</text>
 <line x1="90" y1="399.79" x2="870" y2="399.79" class="grid"/>
@@ -30,8 +30,8 @@
 <text x="870.00" y="484" text-anchor="middle" class="small">0.35</text>
 <line x1="90" y1="60" x2="90" y2="460" class="axis"/>
 <line x1="90" y1="460" x2="870" y2="460" class="axis"/>
-<text x="480.0" y="512" text-anchor="middle" class="label">Cauchy contamination fraction</text>
-<text x="24" y="260.0" transform="rotate(-90 24 260.0)" text-anchor="middle" class="label">MAE (log scale)</text>
+<text x="480" y="512" text-anchor="middle" class="label">Cauchy contamination fraction</text>
+<text x="24" y="260" transform="rotate(-90 24 260)" text-anchor="middle" class="label">MAE (log scale)</text>
 <polyline points="90.00,381.65 201.43,227.72 312.86,158.66 491.14,151.33 647.14,128.06 870.00,72.54" class="series"/>
 <circle cx="90.00" cy="381.65" r="3.3" class="pt"/>
 <circle cx="201.43" cy="227.72" r="3.3" class="pt"/>
