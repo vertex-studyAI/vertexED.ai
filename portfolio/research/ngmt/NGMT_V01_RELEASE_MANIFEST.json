@@ -1,0 +1,158 @@
+{
+  "schema_version": 1,
+  "experiment_id": "NGMT-v0.1-frozen-2026-08-13",
+  "scientific_status": "REPRODUCED_NEGATIVE_OR_INCONCLUSIVE",
+  "verdict": "NEGATIVE_OR_INCONCLUSIVE_NGMT_V01",
+  "hypothesis_supported": false,
+  "mechanism_advantage_supported": false,
+  "preprint_ready": false,
+  "relationship_to_t2424_0025": "distinct learned B0-B3 experiment; precursor contributes no positive result",
+  "protocol_freeze_commits": [
+    "60d03821177a179ba0aec4253e3f987103c45f87",
+    "c077168986ebbf64a5e94eb12eff0afcf220ea56",
+    "876e1ca64f1f756d1d426bceea42139b743872fc",
+    "8234b335c046b893fe241d25859f84a475ab907f"
+  ],
+  "implementation_commit": "540c471c329244363e18193b4ae982ffafc00b44",
+  "files": [
+    {
+      "path": ".github/workflows/ngmt-v01-frozen.yml",
+      "sha256": "69d045e5c0cbf4d2ac0c5dc8c10ad0d8482109bb494ff810f0bd827ae7c864d0",
+      "bytes": 3427
+    },
+    {
+      "path": "portfolio/research/ngmt/NGMT_V01_BUG_LOG.md",
+      "sha256": "aeb09d2f60e5211a56dd30a6e3393da7e026895aac6c3e710d2d8adad3030eb3",
+      "bytes": 2961
+    },
+    {
+      "path": "portfolio/research/ngmt/NGMT_V01_INDEPENDENT_REPRODUCTION_PROTOCOL.md",
+      "sha256": "64806ea692b3f47606f608f5d4b10e46f3950a73c97f1f771f04d5b585d660fa",
+      "bytes": 11306
+    },
+    {
+      "path": "portfolio/research/ngmt/NGMT_V01_PROTOCOL.md",
+      "sha256": "60aeaf5b562c5ef0cc95a62f0ddd2787e6345177d569ee079fdc34f8a0ca814b",
+      "bytes": 9070
+    },
+    {
+      "path": "portfolio/research/ngmt/NGMT_V01_PROTOCOL_CLARIFICATION.md",
+      "sha256": "e98fa66f396bee03bd68ea5357e537024064fca2f37b029f145c6ff389e635b9",
+      "bytes": 1159
+    },
+    {
+      "path": "portfolio/research/ngmt/NGMT_V01_REPLICATION.md",
+      "sha256": "91c56d7063594e8248878123b18d3c36634da07f86f66540bf95d6bb877081d4",
+      "bytes": 2333
+    },
+    {
+      "path": "portfolio/research/ngmt/NGMT_V01_TRAINING_FIXTURE.md",
+      "sha256": "7f271c732b9a46078c75eae93cb5f9fc03e4908a09111b87a4fa4a24e3888dc0",
+      "bytes": 2369
+    },
+    {
+      "path": "portfolio/research/ngmt/NGMT_V01_VERDICT_RULE.md",
+      "sha256": "f3c34df7413ff3143cc083139c087ab722b9f90dbf96fa296bc0c63ac6752735",
+      "bytes": 1138
+    },
+    {
+      "path": "portfolio/research/ngmt/REPRODUCE.md",
+      "sha256": "38b42b983bfaa33caa7cdf34b6706180ffcc19fe63948579c06b113465f5f5da",
+      "bytes": 5585
+    },
+    {
+      "path": "portfolio/research/ngmt/RESULTS.md",
+      "sha256": "9665894188162b5ebe3655fa766168c7bc076c28ac8a78e341ee90b27c32510d",
+      "bytes": 8910
+    },
+    {
+      "path": "portfolio/research/ngmt/ngmt_v01_experiment_metadata.json",
+      "sha256": "4d3fd02c1980e3f530d6b5daebbacdd1ef8f05a672c27e8db7a7a5e8e1c7ad61",
+      "bytes": 6974
+    },
+    {
+      "path": "portfolio/research/ngmt/ngmt_v01_replay_verification.json",
+      "sha256": "e152fc718dbe646a448022b243ccc4c9e4c4217fa26ea633dc1b068f75fff0ef",
+      "bytes": 1659
+    },
+    {
+      "path": "portfolio/research/ngmt/v01/run.py",
+      "sha256": "fe83f47c30e256a29719dad00bc6b4fb867d9afbd911ee6d06163ed51099974a",
+      "bytes": 20754
+    },
+    {
+      "path": "tests/test_ngmt_v01.py",
+      "sha256": "196ae45fbca15ab861dc0252736fb14a6a9cd7ca8e7f673f132a1ecf99d2069f",
+      "bytes": 3245
+    }
+  ],
+  "invalid_attempt": {
+    "run_id": 31661146957,
+    "head_sha": "475fd26c568a71db8a82be87a1321fc1f06f9afd",
+    "artifact_id": 9166231239,
+    "artifact_sha256": "97b191ac1a8ba3de2776c07caa6e38b28a6cd77330e8af82e69802b82995c42a",
+    "classification": "INVALID_EXECUTION_PLUMBING_FAILURE_PRE_SCIENTIFIC_RUN",
+    "scientific_training_executed": false
+  },
+  "first_valid_run": {
+    "run_id": 31661313386,
+    "head_sha": "385ea6251561ed2a7b05b6a6f10307666b169b80",
+    "artifact_id": 9166307730,
+    "artifact_sha256": "ec7d88d342271ad28b6f9ae485338985a219b7d43d55dd45350a4611c585ce76",
+    "results_json_sha256": "f8feeccc6ca864efc6389c9e8b9b952698d349251d332f81735c542913f33b14"
+  },
+  "unchanged_protocol_replay": {
+    "run_id": 31661621771,
+    "head_sha": "7e4547345052c3514219005fc00f396d4efa0838",
+    "artifact_id": 9166406618,
+    "artifact_sha256": "5a34b13b54761e894b5cd3de2941c44121ea39705f8588e83aaf8a18dd2d7d06",
+    "results_json_sha256": "7f67822872960ed037cb4bbe66dbcd1faa99d86d7ea0b954636c5ccc37c7b684",
+    "scientific_payload_exact_matches": [
+      "condition_summary",
+      "paired_seed_effects",
+      "paired_effect_summary",
+      "parameter_counts",
+      "runtime_memory_capacities",
+      "criteria",
+      "verdict",
+      "all_12_training_histories",
+      "all_12_checkpoint_sha256"
+    ],
+    "expected_nonmatches": [
+      "runtime_seconds",
+      "full_results_json_sha256",
+      "artifact_zip_sha256"
+    ]
+  },
+  "frozen_effects": {
+    "b3_over_b2_mean": 0.004945732296129727,
+    "b3_over_b2_required_min": 0.05,
+    "b3_over_b2_pass": false,
+    "b3_over_b1_mean": 0.004392875989642753,
+    "b3_over_b1_required_min": 0.03,
+    "b3_over_b1_pass": false,
+    "clean_regression_mean": 0.009600300111813348,
+    "clean_regression_allowed_max": 0.02,
+    "clean_guardrail_pass": true,
+    "n_seeds": 3,
+    "statistical_significance_claim": false
+  },
+  "fairness": {
+    "trainable_parameters_each": 6049,
+    "memory_scalars": {
+      "B0": 0,
+      "B1": 18,
+      "B2": 18,
+      "B3": 18
+    },
+    "b3_failed_or_divergent_seeds": 0
+  },
+  "stop_rules": [
+    "no_rescue_tuning",
+    "no_seed_expansion",
+    "no_condition_dropping",
+    "no_threshold_movement",
+    "no_positive_result_ablations",
+    "new_versioned_protocol_required_for_successor"
+  ]
+}
