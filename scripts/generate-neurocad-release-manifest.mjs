@@ -11,6 +11,7 @@ export const evidenceFiles = [
   "portfolio/project2424/projects/T2424-0037/CLAIM_AUDIT_20260829.md",
   "portfolio/project2424/projects/T2424-0037/EVIDENCE.md",
   "portfolio/project2424/projects/T2424-0037/MANUSCRIPT.md",
+  "portfolio/project2424/projects/T2424-0037/SENTENCE_CLAIM_AUDIT_20260831.md",
   "portfolio/project2424/projects/T2424-0037/NEUROCAD_COMPONENT_ABLATION_PROTOCOL_20260814.md",
   "portfolio/project2424/projects/T2424-0037/NEUROCAD_COMPONENT_ABLATION_RESULT_20260814.md",
   "portfolio/project2424/projects/T2424-0037/PREPRINT_READINESS_20260829.md",
