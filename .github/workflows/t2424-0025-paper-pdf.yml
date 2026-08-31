@@ -25,7 +25,8 @@ jobs:
       - run: npm ci
       - run: npx playwright install --with-deps chromium
       - name: Assert frozen scientific boundary
-        run: node -e 'const fs=require("fs"); const text=fs.readFileSync("portfolio/project2424/projects/T2424-0025/MANUSCRIPT.md","utf8"); for (const claim of ["0.0246469","0.0125699","49.00%","does not establish a Transformer result","rather than as a preregistered confirmatory test"]) { if (!text.includes(claim)) throw new Error("Missing frozen boundary: "+claim); }'
+        run: |
+          node -e 'const fs=require("fs"); const text=fs.readFileSync("portfolio/project2424/projects/T2424-0025/MANUSCRIPT.md","utf8"); for (const claim of ["0.0246469","0.0125699","49.00%","does not establish a Transformer result","rather than as a preregistered confirmatory test"]) { if (!text.includes(claim)) throw new Error("Missing frozen boundary: "+claim); }'
       - name: Regenerate retained evidence figures
         run: node portfolio/project2424/projects/T2424-0025/figures/generate.mjs
       - name: Reject figure drift
