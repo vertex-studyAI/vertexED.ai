@@ -1,4 +1,5 @@
 name: NGMT v0.1 release integrity
+# Documentation-only integrity checks; never runs scientific training.
 
 on:
   workflow_dispatch:
