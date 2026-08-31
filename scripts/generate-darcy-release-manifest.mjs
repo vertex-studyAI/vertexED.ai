@@ -17,6 +17,26 @@ export const evidenceFiles = [
   "portfolio/project2424/projects/T2424-0050/paper/RELEASE_AUDIT.md"
 ];
 
+export const pdfProvenance = {
+  source_head: "0011292fcfd4109bce271025c9a467f9ac333acb",
+  workflow_run_id: 33368603717,
+  workflow_url: "https://github.com/vertex-studyAI/vertexED.ai/actions/runs/33368603717",
+  artifact_id: 9749201374,
+  artifact_name: "t2424-0050-darcy-rendered-paper",
+  artifact_expires_at: "2026-09-30T07:30:28Z",
+  artifact_archive_sha256: "5803474339e84d17257e8dcb6f2e51749ad4dbc77a59428153373bafa696abfe",
+  permanent_archive: false,
+  pdf: {
+    filename: "T2424-0050-Darcy-bounded-mixed-result.pdf",
+    bytes: 84630,
+    sha256: "9be0a8d53bc20512e46b874651768d22cd1b2001626b3e77afdbf26529483c4e",
+    pages: 4,
+    page_size: "A4",
+    encrypted: false,
+    javascript: false
+  }
+};
+
 export async function generateDarcyReleaseManifest() {
   const artifacts = {};
   for (const relativePath of evidenceFiles) {
@@ -33,6 +53,7 @@ export async function generateDarcyReleaseManifest() {
     scientific_status: "HOLD_MIXED_ROBUSTNESS",
     preprint_ready: false,
     generated_by: "scripts/generate-darcy-release-manifest.mjs",
+    pdf_provenance: pdfProvenance,
     artifacts
   };
 }
