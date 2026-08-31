@@ -4,7 +4,7 @@
   "formula": "(mean_mae - median_mae) / mean_mae",
   "derived": [
     {
-      "contamination": 0.0,
+      "contamination": 0,
       "median_relative_improvement_vs_mean": 0.4900015846867857
     },
     {
