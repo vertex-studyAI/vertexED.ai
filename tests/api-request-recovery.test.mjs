@@ -7,6 +7,7 @@ import {
   createRequestDeadline,
   createSingleFlight,
   resolveRefreshSession,
+  runRefreshAttempt,
   shouldClearLocalSessionAfterRefreshFailure,
   shouldRetryAfterUnauthorized,
   toRequestError,
@@ -233,5 +234,73 @@ test("concurrent successful refresh propagates one shared token without sign-out
 
   assert.deepEqual(await Promise.all([refresh(), refresh()]), ["fresh-token", "fresh-token"]);
   assert.equal(refreshCalls, 1);
+  assert.equal(localSignOuts, 0);
+});
+
+test("thrown transient refresh failure preserves the original unauthorized response path", async () => {
+  let localSignOuts = 0;
+  const token = await runRefreshAttempt(
+    async () => {
+      throw Object.assign(new Error("Failed to fetch"), {
+        name: "AuthRetryableFetchError",
+        status: 0,
+      });
+    },
+    async () => {
+      localSignOuts += 1;
+    },
+  );
+
+  assert.equal(token, null);
+  assert.equal(localSignOuts, 0);
+});
+
+test("concurrent thrown terminal refresh failure clears local state exactly once", async () => {
+  let refreshCalls = 0;
+  let localSignOuts = 0;
+  const refresh = createSingleFlight(() =>
+    runRefreshAttempt(
+      async () => {
+        refreshCalls += 1;
+        throw Object.assign(new Error("Refresh token reuse detected"), {
+          code: "refresh_token_reuse_detected",
+          status: 400,
+        });
+      },
+      async () => {
+        localSignOuts += 1;
+      },
+    ),
+  );
+
+  assert.deepEqual(await Promise.all([refresh(), refresh(), refresh()]), [null, null, null]);
+  assert.equal(refreshCalls, 1);
+  assert.equal(localSignOuts, 1);
+});
+
+test("a later request can recover after a thrown transient refresh failure", async () => {
+  let refreshCalls = 0;
+  let localSignOuts = 0;
+  const refresh = createSingleFlight(() =>
+    runRefreshAttempt(
+      async () => {
+        refreshCalls += 1;
+        if (refreshCalls === 1) {
+          throw Object.assign(new Error("Service unavailable"), { status: 503 });
+        }
+        return {
+          data: { session: { access_token: "recovered-token" } },
+          error: null,
+        };
+      },
+      async () => {
+        localSignOuts += 1;
+      },
+    ),
+  );
+
+  assert.equal(await refresh(), null);
+  assert.equal(await refresh(), "recovered-token");
+  assert.equal(refreshCalls, 2);
   assert.equal(localSignOuts, 0);
 });
