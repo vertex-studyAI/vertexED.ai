@@ -29,6 +29,14 @@ jobs:
             portfolio/new-projects/t2424-1863-local-diffusion-operator/paper/MANUSCRIPT.md \
             portfolio/new-projects/t2424-1863-local-diffusion-operator/paper/evidence/per_seed_relative_improvement.svg \
             dist/t2424-1863-paper/T2424-1863-negative-result.pdf
+      - name: Verify deterministic PDF bytes
+        run: |
+          node portfolio/new-projects/t2424-1863-local-diffusion-operator/scripts/render-paper-pdf.mjs \
+            portfolio/new-projects/t2424-1863-local-diffusion-operator/paper/MANUSCRIPT.md \
+            portfolio/new-projects/t2424-1863-local-diffusion-operator/paper/evidence/per_seed_relative_improvement.svg \
+            dist/t2424-1863-paper/rebuilt.pdf
+          cmp dist/t2424-1863-paper/T2424-1863-negative-result.pdf dist/t2424-1863-paper/rebuilt.pdf
+          rm dist/t2424-1863-paper/rebuilt.pdf
       - name: Retain build provenance
         run: |
           sha256sum dist/t2424-1863-paper/T2424-1863-negative-result.pdf | tee dist/t2424-1863-paper/SHA256SUMS
