@@ -18,13 +18,14 @@ This checklist is deliberately stricter than code/CI success. HOLD/MIXED scienti
 - [x] Tables use only retained JSON metrics.
 - [x] No learned-operator/FNO/DeepONet/PINN/POD/SOTA superiority claim.
 - [x] Three primary related-work items verified sufficiently for citation-gap tracking; none is represented as an executed comparator.
+- [x] Deterministic release-manifest generation binds the exact status, protocols, frozen configuration, retained result JSON, claim matrix, manuscript, and release audit by byte length and SHA-256.
+- [x] Automated metric reconciliation derives aligned and harder-audit values from retained JSON and fails closed if HOLD/MIXED, the rho=0 miss, seed-6 reversal, or prohibited-claim boundary drifts.
 
 ## Open gates before PREPRINT_READY
 
 - [ ] Verify repository/code license and state it exactly; do not infer.
 - [ ] Record authorship and contribution statement.
 - [ ] Finalize bibliography metadata against primary sources and check every in-text citation.
-- [ ] Add an immutable release evidence manifest containing SHA-256 for source snapshot, `results/reference.json`, `results/misaligned-audit.json`, manuscript source, and final PDF.
 - [ ] Perform independent sentence-level claim audit against the exact manuscript head.
 - [ ] Build a clean PDF from the final manuscript source.
 - [ ] Visually inspect every PDF page for truncation, tables, equations, captions, references, and accidental positive-story wording.
