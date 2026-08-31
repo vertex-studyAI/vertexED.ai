@@ -76,3 +76,34 @@ test("NeuroCAD PDF workflow retains authored and executed GitHub identities", as
   assert.match(workflow, /source_head:process\.env\.SOURCE_HEAD/);
   assert.match(workflow, /executed_ref:process\.env\.EXECUTED_REF/);
 });
+
+test("NeuroCAD bibliography identities and non-comparison boundaries remain fail-closed", async () => {
+  const [bibliography, manuscript, release] = await Promise.all([
+    read("portfolio/project2424/projects/T2424-0037/BIBLIOGRAPHY_AUDIT_20260831.md"),
+    read("portfolio/project2424/projects/T2424-0037/MANUSCRIPT.md"),
+    read("portfolio/project2424/projects/T2424-0037/RELEASE_AUDIT_20260829.md")
+  ]);
+
+  assert.ok(evidenceFiles.includes("portfolio/project2424/projects/T2424-0037/BIBLIOGRAPHY_AUDIT_20260831.md"));
+  const arxivIds = [
+    "2105.09492",
+    "2007.08506",
+    "2409.17106",
+    "2412.14042",
+    "2605.18430",
+    "2607.05750"
+  ];
+  for (const id of arxivIds) {
+    assert.ok(bibliography.includes("arXiv:" + id));
+    assert.ok(bibliography.includes("10.48550/arXiv." + id));
+    assert.ok(manuscript.includes("arXiv:" + id));
+  }
+
+  assert.ok(bibliography.includes("10.52202/079017-0242"));
+  assert.match(bibliography, /All six references are contextual only; none was executed/);
+  assert.match(bibliography, /No relabeling of the reused 20-case diagnostic as held-out or OOD/);
+  assert.match(bibliography, /does not change `VALIDATION_DOMINANT`/);
+  assert.match(manuscript, /These systems are contextual references, not matched NeuroCAD baselines/);
+  assert.match(release, /Final bibliography identities, complete author lists/);
+  assert.doesNotMatch(release, /\[ \] Verify final bibliography metadata/);
+});
