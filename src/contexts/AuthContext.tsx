@@ -62,6 +62,12 @@ export function AuthProvider({ children }: PropsWithChildren<{}>) {
   useEffect(() => {
     let isMounted = true;
     let loadingSafetyTimer: number | undefined;
+    const clearLoadingSafetyTimer = () => {
+      if (loadingSafetyTimer !== undefined) {
+        window.clearTimeout(loadingSafetyTimer);
+        loadingSafetyTimer = undefined;
+      }
+    };
 
     // Until Supabase resolves the current identity, sensitive device fallback remains
     // in isolated "unhydrated" storage scopes.
@@ -87,6 +93,7 @@ export function AuthProvider({ children }: PropsWithChildren<{}>) {
 
       const { data, error } = await supabase.auth.getSession();
       if (!isMounted) return;
+      clearLoadingSafetyTimer();
       if (error) {
         console.error("Supabase getSession error:", error);
       }
@@ -106,6 +113,7 @@ export function AuthProvider({ children }: PropsWithChildren<{}>) {
 
     const { data: sub } = supabase.auth.onAuthStateChange(async (_event, newSession) => {
       if (!isMounted) return;
+      clearLoadingSafetyTimer();
       const nextUser = newSession?.user ?? null;
       // Change profile/storage ownership before React descendants can act on the new session.
       bindProfileIdentity(nextUser?.id ?? null);
@@ -124,7 +132,7 @@ export function AuthProvider({ children }: PropsWithChildren<{}>) {
 
     return () => {
       isMounted = false;
-      if (loadingSafetyTimer) clearTimeout(loadingSafetyTimer);
+      clearLoadingSafetyTimer();
       sub.subscription.unsubscribe();
     };
   }, [bindProfileIdentity]);

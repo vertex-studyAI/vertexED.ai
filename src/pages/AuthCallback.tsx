@@ -37,6 +37,20 @@ export default function AuthCallback() {
       searchParams.get("type") === "invite" ||
       hashParams.get("type") === "invite";
 
+    // OAuth codes, provider errors, and access tokens must not remain in browser
+    // history while the callback performs network work or renders an error.
+    const safeCallbackPath = recoveryHint
+      ? "/auth/callback?recovery=1"
+      : inviteHint
+        ? "/auth/callback?invite=1"
+        : "/auth/callback";
+    window.history.replaceState({}, document.title, safeCallbackPath);
+
+    if (recoveryHint && inviteHint) {
+      setError("This authentication link contains conflicting account actions. Request a fresh link and try again.");
+      return;
+    }
+
     const clearCallbackTimeout = () => {
       if (timeout) {
         window.clearTimeout(timeout);
@@ -111,12 +125,14 @@ export default function AuthCallback() {
     const run = async () => {
       try {
         const authError =
-          searchParams.get("error_description") ||
           searchParams.get("error") ||
-          hashParams.get("error_description") ||
-          hashParams.get("error");
+          hashParams.get("error") ||
+          searchParams.get("error_description") ||
+          hashParams.get("error_description");
         if (authError) {
-          setError(`Authentication could not be completed: ${authError}`);
+          // Provider text can contain implementation details. Keep the UI stable
+          // and actionable without reflecting third-party error payloads.
+          setError("Authentication could not be completed. Return to login and try again.");
           return;
         }
         const code = searchParams.get("code");
@@ -125,7 +141,7 @@ export default function AuthCallback() {
           const { data, error: exchangeError } = await supabase.auth.exchangeCodeForSession(code);
           if (cancelled || completed) return;
           if (exchangeError) {
-            setError(exchangeError.message);
+            setError("The authentication link could not be verified. Return to login and try again.");
             return;
           }
           if (data.session && !recoveryHint) {
@@ -150,7 +166,7 @@ export default function AuthCallback() {
         const { data, error: sessionError } = await supabase.auth.getSession();
         if (cancelled || completed) return;
         if (sessionError) {
-          setError(sessionError.message);
+          setError("Your authenticated session could not be verified. Return to login and try again.");
           return;
         }
         if (data.session) {
@@ -165,7 +181,7 @@ export default function AuthCallback() {
         );
       } catch (e: unknown) {
         if (!cancelled && !completed) {
-          setError(e instanceof Error ? e.message : "Unexpected error");
+          setError("Authentication could not be completed. Return to login and try again.");
         }
       }
     };
