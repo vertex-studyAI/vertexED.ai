@@ -43,6 +43,12 @@ Before public preprint/code release, explicitly determine and record:
 
 Until that decision is recorded, the paper may describe reproducibility commands but should not claim a specific open-source license.
 
+## Verified PDF artifact
+
+The deterministic seven-page A4 PDF from workflow run `33409968826` has SHA-256 `6cb16ac5662b7fadbf06c50e14174d190693fe22e56023cd8c0d106646b3722c` and byte length `155174`. It is unencrypted, contains no JavaScript, and has normalized metadata dates. All pages were visually inspected.
+
+Artifact `9764731032` expires on 2026-09-30. It is temporary workflow evidence and must not be represented as a permanent archive. Exact evidence and repository-file identities are retained in `RELEASE_MANIFEST.json`.
+
 ## Release checklist
 
 - [x] frozen experiment/source identity documented;
@@ -50,7 +56,8 @@ Until that decision is recorded, the paper may describe reproducibility commands
 - [x] external-validation non-claim documented;
 - [ ] final authorship and contribution statement approved;
 - [ ] code/release license approved and added;
-- [ ] clean PDF compiled and visually audited;
-- [ ] final claim audit re-run after PDF/title/caption edits.
+- [x] clean PDF compiled and visually audited;
+- [x] final claim audit re-run after PDF/title/caption edits;
+- [ ] exact digest-bound package placed in an authorized permanent archive.
 
 `PREPRINT_READY` remains blocked while any unchecked item above is open.

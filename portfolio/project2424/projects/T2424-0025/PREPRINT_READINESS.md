@@ -12,6 +12,7 @@ This document freezes the manuscript claim boundary for the current evidence-bea
 - Evidence-bounded manuscript: `MANUSCRIPT.md`.
 - Sentence-level claim audit: `CLAIM_AUDIT.md`.
 - Release metadata gate: `RELEASE_METADATA.md`.
+- Deterministic evidence/PDF manifest: `RELEASE_MANIFEST.json`.
 - Evidence-derived figure generator: `figures/generate.mjs`.
 - Figure derivation ledger: `figures/FIGURE_DATA.json`.
 - Figure provenance/claim audit: `figures/FIGURE_AUDIT.md`.
@@ -74,7 +75,7 @@ Both figures are generated directly from `raw_metrics/repro-wave-20260812.json`.
 
 **PRIMARY-SOURCE AUDIT COMPLETE AND INTEGRATED INTO THE DRAFT.** `RELATED_WORK_AUDIT.md` verifies original records spanning classical robust estimation, robust aggregation in learned systems, contaminated time-series forecasting, learned external memory, and robust Transformer attention. It also records explicit non-equivalence boundaries so those citations cannot be used to upgrade this precursor into a learned-memory or Transformer result.
 
-The final bibliography should still receive a mechanical metadata check during PDF release preparation.
+The final bibliography and rendered references were mechanically reconciled during PDF release preparation; the primary-source non-equivalence boundaries remain unchanged.
 
 ## Data / code / authorship / licensing
 
@@ -104,7 +105,15 @@ The final bibliography should still receive a mechanical metadata check during P
 - [x] synthetic-data and external-validation statements are explicit;
 - [ ] authorship/contribution statement is complete;
 - [ ] release license is explicitly chosen/approved and documented;
-- [ ] clean manuscript/PDF is compiled and visually audited.
+- [x] clean manuscript/PDF is compiled and visually audited;
+- [x] exact PDF and repository evidence identities are bound in a deterministic manifest;
+- [ ] exact digest-bound package is placed in an authorized permanent archive.
+
+## Verified PDF status
+
+The exact seven-page A4 PDF from workflow run `33409968826` has SHA-256 `6cb16ac5662b7fadbf06c50e14174d190693fe22e56023cd8c0d106646b3722c`. Visual, structural, metadata, security, and rendered-text checks passed. Artifact `9764731032` expires on 2026-09-30 and is not permanent archival evidence.
+
+The package remains **NO-GO / NOT PREPRINT_READY** because authorship, licensing, and permanent archival release require explicit human authority.
 
 ## Successor science is separate
 

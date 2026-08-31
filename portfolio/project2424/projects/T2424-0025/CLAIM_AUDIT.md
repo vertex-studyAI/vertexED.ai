@@ -1,6 +1,6 @@
 # T2424-0025 Manuscript Claim Audit
 
-Status: **PASS FOR EVIDENCE BOUNDARY / RELEASE METADATA STILL OPEN**
+Status: **FINAL PDF CLAIM AUDIT PASS / RELEASE AUTHORITY STILL OPEN**
 
 Audited artifact: `MANUSCRIPT.md` on `paper/t2424-0025-preprint-closure-20260829`.
 
@@ -41,6 +41,12 @@ PASS. The clean-control finding is in the abstract, results, discussion, limitat
 - “robust readouts substantially outperform” is permitted only when immediately scoped to the frozen synthetic procedure.
 - “reproduced” is permitted only for the retained precursor outputs and must not be read as independent external validation.
 
+## Final rendered-PDF reconciliation
+
+**FINAL PDF CLAIM AUDIT PASS.** The exact workflow artifact from run `33409968826` was inspected across all seven A4 pages. Its extracted text retains the 0% contamination values `0.0246469` and `0.0125699`, the `49.00%` reduction, the non-confirmatory sweep boundary, and the statement that the result does not establish a Transformer result, learned-memory advantage, or uniquely non-Gaussian mechanism.
+
+Both evidence-derived figures are visibly embedded with the clean-control confound. No clipping, overlap, missing glyphs, broken tables, or pagination defects were observed. The manuscript source was not changed during PDF production.
+
 ## Release blockers outside claim language
 
 This audit does not resolve:
@@ -48,8 +54,8 @@ This audit does not resolve:
 - final authorship and contribution assignment;
 - repository/release licensing;
 - final code/data release statements;
-- clean PDF compilation and visual inspection.
+- permanent archival release of the exact digest-bound package.
 
 ## Verdict
 
-`MANUSCRIPT.md` passes the current sentence-level scientific claim-boundary audit. Do not broaden the abstract, title, captions, or conclusion during PDF production without re-running this audit.
+`MANUSCRIPT.md` passes the current sentence-level scientific claim-boundary audit. The final rendered title and inserted figure captions preserve the bounded claim. Any later scientific wording change requires this audit to be re-run.
