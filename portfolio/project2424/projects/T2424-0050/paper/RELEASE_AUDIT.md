@@ -17,8 +17,8 @@ This checklist is deliberately stricter than code/CI success. HOLD/MIXED scienti
 - [x] Manuscript sections added: abstract, scope, methods, reproducibility, results, failure analysis, related-work boundary, limitations, data/code statement, conclusion.
 - [x] Tables use only retained JSON metrics.
 - [x] No learned-operator/FNO/DeepONet/PINN/POD/SOTA superiority claim.
-- [x] Three primary related-work items verified sufficiently for citation-gap tracking; none is represented as an executed comparator.
-- [x] Deterministic release-manifest generation binds the exact status, protocols, frozen configuration, retained result JSON, claim matrix, manuscript, and release audit by byte length and SHA-256.
+- [x] Every bibliography entry is reconciled by title and stable identifier against its primary arXiv, Nature, or Wiley record; full metadata and explicit non-comparison boundaries are retained in `BIBLIOGRAPHY_AUDIT.md`.
+- [x] Deterministic release-manifest generation binds the exact status, protocols, frozen configuration, retained result JSON, claim matrix, manuscript, bibliography audit, and release audit by byte length and SHA-256.
 - [x] Automated metric reconciliation derives aligned and harder-audit values from retained JSON and fails closed if HOLD/MIXED, the rho=0 miss, seed-6 reversal, or prohibited-claim boundary drifts.
 - [x] Exact-head PDF workflow renders twice and requires byte-for-byte equality after metadata normalization.
 - [x] Four A4 pages visually inspected with no clipping, overlap, broken tables, missing glyphs, or pagination defects.
@@ -29,7 +29,6 @@ This checklist is deliberately stricter than code/CI success. HOLD/MIXED scienti
 
 - [ ] Verify repository/code license and state it exactly; do not infer.
 - [ ] Record authorship and contribution statement.
-- [ ] Finalize bibliography metadata against primary sources and check every in-text citation.
 - [ ] Perform independent sentence-level claim audit against the exact manuscript head.
 - [ ] Place the exact digest-bound PDF in an authorized permanent archive and record its stable identifier; the expiring workflow artifact is not permanent archival evidence.
 - [ ] Decide whether the parent bounded/mixed result is sufficiently novel for a standalone preprint; current evidence does not establish novelty.
