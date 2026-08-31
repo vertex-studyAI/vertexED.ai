@@ -39,17 +39,17 @@ The figure plots all 20 diffusion and 20 zero-diffusion records, includes the fr
 
 ## Rendered PDF provenance
 
-The current draft was rendered from exact head `5d359f785f2d7a3bf1ad6667f37ac20f89e9763d` by workflow run `33338717351`:
+The current draft was rendered from exact head `ffac9fd9b2a7bda5b51a33e288bf7ffc3492f291` by workflow run `33346673784`:
 
-- artifact: `9739849560` (`t2424-1863-rendered-paper`);
-- artifact archive SHA-256: `a9febbfe785239882754abdea3838489c26ec3a070c21fdc25d1b98562550842`;
-- PDF SHA-256: `e4bb67c3fe8dfe7018e6148a6f7296a0895047445dbe99e917315c4eaf446703`;
+- artifact: `9742216790` (`t2424-1863-rendered-paper`);
+- artifact archive SHA-256: `7f3e58bc3deb8bb7d7c5616b45e7e12010c234e450bb05e2788f05c3716b6c94`;
+- PDF SHA-256: `b20701a5329670d01af8d89b6437c58636b8d1b4c86282741f59d3af4cc860b0`;
 - PDF byte length: `124650`;
 - format: 5 A4 pages, unencrypted, no embedded JavaScript;
 - page-by-page visual inspection: passed for legibility, tables, figure, captions, page numbering, negative conclusion, and release status;
 - rendered-text audit: preserved the failed primary hypothesis, Figure 1 caption, and `NOT_PREPRINT_READY` status.
 
-This Actions artifact expires on 2026-09-29 and is not a permanent archive or DOI. Its digest is immutable evidence of the inspected bytes, not evidence of permanent availability.
+The workflow renders twice and requires byte-for-byte equality after fixed-width metadata normalization. This Actions artifact expires on 2026-09-30 and is not a permanent archive or DOI. Its digest is immutable evidence of the inspected bytes, not evidence of permanent availability.
 
 ## Reproducibility gate
 
