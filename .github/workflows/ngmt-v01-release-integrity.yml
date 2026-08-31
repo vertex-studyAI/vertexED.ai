@@ -1,0 +1,25 @@
+name: NGMT v0.1 release integrity
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'portfolio/research/ngmt/NGMT_V01_RELEASE_MANIFEST.json'
+      - 'scripts/generate-ngmt-v01-release-manifest.mjs'
+      - 'tests/ngmt-v01-release-integrity.test.mjs'
+      - '.github/workflows/ngmt-v01-release-integrity.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  integrity:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify deterministic manifest and frozen negative boundaries
+        run: node --test tests/ngmt-v01-release-integrity.test.mjs
