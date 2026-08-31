@@ -2,7 +2,7 @@
 import SiteLayout from "@/components/layout/SiteLayout";
 import AuthLandingRedirect from "@/components/AuthLandingRedirect";
 import Features from "@/pages/Features";
-import { lazy, useState } from "react";
+import { lazy, useEffect, useState } from "react";
 const Login = lazy(() => import("@/pages/Login"));
 const Signup = lazy(() => import("@/pages/Signup"));
 const WaitlistPending = lazy(() => import("@/pages/WaitlistPending"));
@@ -61,7 +61,6 @@ import { AppPreferencesProvider } from "@/contexts/AppPreferencesContext";
 import AdminRoute from "@/components/AdminRoute";
 import NotetakerAccessibilityBoundary from "@/components/NotetakerAccessibilityBoundary";
 import { HelmetProvider } from "react-helmet-async";
-import { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import { Toaster } from "@/components/ui/toaster";
@@ -71,7 +70,7 @@ import { Navigate } from "react-router";
 function App() {
 const [telemetryReady, setTelemetryReady] = useState(false);
 useEffect(() => {
-	// Avoid prefetching on constrained networks or touch-only devices to improve mobile TTI
+	// Avoid prefetching on constrained networks or touch-only devices to improve mobile TTI.
 	const isFinePointer = typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(hover:hover) and (pointer:fine)').matches : true;
 	// @ts-ignore
 	const connection = (navigator as any).connection;
@@ -88,32 +87,48 @@ useEffect(() => {
 		return typeof cancelIdleCallback !== 'undefined' ? cancelIdleCallback(id) : clearTimeout(id);
 	};
 
+	let waitingForLoad = false;
+	const start = () => {
+		// Prefetch is optional. A stale or unavailable chunk must not create an unhandled rejection.
+		void Promise.allSettled([
+			import("@/pages/Login"),
+			import("@/pages/Signup"),
+			import("@/pages/About"),
+			import("@/pages/Main"),
+			import("@/pages/StudyPlanner"),
+		]);
+	};
 	const warm = () => {
-		// Wait until after the main load event to avoid competing with critical path
-		const start = () => {
-			import("@/pages/Login");
-			import("@/pages/Signup");
-			import("@/pages/About");
-			import("@/pages/Main");
-			import("@/pages/StudyPlanner");
-		};
-		if (document.readyState === 'complete') start();
-		else window.addEventListener('load', start, { once: true });
+		if (document.readyState === 'complete') {
+			start();
+		} else {
+			waitingForLoad = true;
+			window.addEventListener('load', start, { once: true });
+		}
 	};
 	const id = idle(warm);
-	return () => cancel(id);
+	return () => {
+		cancel(id);
+		if (waitingForLoad) window.removeEventListener('load', start);
+	};
 }, []);
 
 useEffect(() => {
   // Telemetry is valuable, but it is not part of the rendered experience.
   // Mount it after interaction is possible so it cannot affect FCP or INP.
-  const start = () => window.setTimeout(() => setTelemetryReady(true), 4000);
+  let timer: number | undefined;
+  const start = () => {
+    timer = window.setTimeout(() => setTelemetryReady(true), 4000);
+  };
   if (document.readyState === 'complete') {
-    const timer = start();
-    return () => window.clearTimeout(timer);
+    start();
+  } else {
+    window.addEventListener('load', start, { once: true });
   }
-  window.addEventListener('load', start, { once: true });
-  return () => window.removeEventListener('load', start);
+  return () => {
+    window.removeEventListener('load', start);
+    if (timer !== undefined) window.clearTimeout(timer);
+  };
 }, []);
 
 
@@ -213,6 +228,8 @@ function DeferredTelemetry() {
     ]).then(([speed, analytics]) => {
       if (!active) return;
       setTelemetry(() => () => <><speed.SpeedInsights /><analytics.Analytics /></>);
+    }).catch(() => {
+      // Optional telemetry must fail open when a vendor chunk is unavailable.
     });
     return () => { active = false; };
   }, []);
