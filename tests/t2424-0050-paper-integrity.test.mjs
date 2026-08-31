@@ -17,6 +17,7 @@ test("Darcy release manifest deterministically binds current evidence", async ()
 
   assert.deepEqual(retained, generated);
   assert.equal(Object.keys(retained.artifacts).length, evidenceFiles.length);
+  assert.ok(evidenceFiles.includes("portfolio/project2424/projects/T2424-0050/paper/BIBLIOGRAPHY_AUDIT.md"));
   assert.equal(retained.scientific_status, "HOLD_MIXED_ROBUSTNESS");
   assert.equal(retained.preprint_ready, false);
   assert.deepEqual(retained.pdf_provenance, pdfProvenance);
@@ -59,6 +60,33 @@ test("Darcy manuscript metrics recompute from retained JSON", async () => {
   for (const percentage of expectedPercentages) {
     assert.match(manuscript, new RegExp(percentage + "%"));
   }
+});
+
+test("Darcy bibliography identities and non-comparison boundary remain fail-closed", async () => {
+  const [bibliography, manuscript, release] = await Promise.all([
+    read("portfolio/project2424/projects/T2424-0050/paper/BIBLIOGRAPHY_AUDIT.md"),
+    read("portfolio/project2424/projects/T2424-0050/paper/MANUSCRIPT.md"),
+    read("portfolio/project2424/projects/T2424-0050/paper/RELEASE_AUDIT.md"),
+  ]);
+
+  const identities = [
+    ["Fourier Neural Operator for Parametric Partial Differential Equations", "arXiv:2010.08895", "10.48550/arXiv.2010.08895"],
+    ["Learning nonlinear operators via DeepONet based on the universal approximation theorem of operators", "10.1038/s42256-021-00302-5"],
+    ["A constrained proper orthogonal decomposition model for upscaling permeability", "10.1002/fld.5171"],
+  ];
+  for (const identity of identities) {
+    for (const token of identity) {
+      assert.match(bibliography, new RegExp(token.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "i"));
+    }
+    assert.match(manuscript, new RegExp(identity[0].replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "i"));
+  }
+
+  assert.match(bibliography, /none was executed as a matched baseline or comparator/);
+  assert.match(bibliography, /do not supply evidence for superiority, reproduction, or readiness claims/);
+  assert.match(manuscript, /These are relevant future comparator families, not baselines in the present experiment/);
+  assert.match(manuscript, /No sentence in this manuscript should be read as a matched comparison/);
+  assert.match(release, /Every bibliography entry is reconciled/);
+  assert.doesNotMatch(release, /\[ \] Finalize bibliography metadata/);
 });
 
 test("Darcy HOLD/MIXED failure evidence and stop rules remain fail-closed", async () => {
