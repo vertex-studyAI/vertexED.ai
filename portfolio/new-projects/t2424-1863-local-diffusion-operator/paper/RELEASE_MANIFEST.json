@@ -22,8 +22,8 @@
       "sha256": "225e9a658e47b8cecaa3168f5048f2241445405719b22f97b7ea7e8fc9dd3689"
     },
     "RELEASE_AUDIT.md": {
-      "bytes": 7655,
-      "sha256": "11eaea31dd6409ad06973259da148501d126fe8a04f2bd0e1eff507cfcb5d960"
+      "bytes": 8661,
+      "sha256": "f1b1536ffe393153bab4394e4f44899ae000379807dbf860f8208108b6b981f8"
     },
     "evidence/EVIDENCE_MANIFEST.json": {
       "bytes": 1127,
@@ -45,10 +45,24 @@
   "unresolved_release_gates": [
     "authorship_and_contributions",
     "authorized_license_metadata",
-    "compiled_pdf",
-    "visual_pdf_inspection",
-    "rendered_pdf_claim_audit",
-    "immutable_pdf_digest",
+    "permanent_pdf_archive",
     "archive_or_doi_selection"
-  ]
+  ],
+  "retained_pdf_artifact": {
+    "id": 9739849560,
+    "name": "t2424-1863-rendered-paper",
+    "workflow_run": 33338717351,
+    "workflow_head": "5d359f785f2d7a3bf1ad6667f37ac20f89e9763d",
+    "archive_sha256": "a9febbfe785239882754abdea3838489c26ec3a070c21fdc25d1b98562550842",
+    "pdf_sha256": "e4bb67c3fe8dfe7018e6148a6f7296a0895047445dbe99e917315c4eaf446703",
+    "pdf_bytes": 124650,
+    "pages": 5,
+    "page_size": "A4",
+    "encrypted": false,
+    "javascript": false,
+    "visual_inspection": "PASSED_ALL_5_PAGES",
+    "rendered_claim_audit": "PASSED_NEGATIVE_RESULT_BOUNDARY",
+    "expires_at": "2026-09-29T22:17:37Z",
+    "permanent_archive": false
+  }
 }
