@@ -55,6 +55,17 @@ export async function resolveRefreshSession(result, clearLocalSession) {
   return null;
 }
 
+export async function runRefreshAttempt(refreshSession, clearLocalSession) {
+  try {
+    return await resolveRefreshSession(await refreshSession(), clearLocalSession);
+  } catch (error) {
+    return resolveRefreshSession(
+      { data: { session: null }, error },
+      clearLocalSession,
+    );
+  }
+}
+
 export function shouldRetryAfterUnauthorized({
   status,
   hasAuthorization,
