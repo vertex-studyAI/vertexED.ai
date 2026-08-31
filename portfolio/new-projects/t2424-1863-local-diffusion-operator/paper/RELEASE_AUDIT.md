@@ -36,6 +36,21 @@ The manuscript retains its aggregate tables and a deterministic point-level SVG 
 
 The figure plots all 20 diffusion and 20 zero-diffusion records, includes the frozen >75% gate, and explicitly preserves the negative verdict. Summary statistics are not expanded into invented observations.
 
+
+## Rendered PDF provenance
+
+The current draft was rendered from exact head `5d359f785f2d7a3bf1ad6667f37ac20f89e9763d` by workflow run `33338717351`:
+
+- artifact: `9739849560` (`t2424-1863-rendered-paper`);
+- artifact archive SHA-256: `a9febbfe785239882754abdea3838489c26ec3a070c21fdc25d1b98562550842`;
+- PDF SHA-256: `e4bb67c3fe8dfe7018e6148a6f7296a0895047445dbe99e917315c4eaf446703`;
+- PDF byte length: `124650`;
+- format: 5 A4 pages, unencrypted, no embedded JavaScript;
+- page-by-page visual inspection: passed for legibility, tables, figure, captions, page numbering, negative conclusion, and release status;
+- rendered-text audit: preserved the failed primary hypothesis, Figure 1 caption, and `NOT_PREPRINT_READY` status.
+
+This Actions artifact expires on 2026-09-29 and is not a permanent archive or DOI. Its digest is immutable evidence of the inspected bytes, not evidence of permanent availability.
+
 ## Reproducibility gate
 
 Evidence retained:
@@ -119,10 +134,11 @@ Release language must point to an immutable commit/archive. Repository inspectio
 - [x] deterministic point-level figure retained from raw evidence with generator and SHA-256 provenance;
 - [x] automated source claim audit enforces negative framing, retained metrics, prohibited affirmative claims, and figure completeness;
 - [x] current manuscript and evidence inventory is SHA-256-bound in a deterministic no-go release manifest;
-- [ ] compile PDF from exact manuscript commit;
-- [ ] visually inspect rendered PDF;
-- [ ] rerun sentence-level claim audit against PDF text, captions, tables, and references;
-- [ ] archive exact release artifact and record manuscript/evidence/PDF digests;
+- [x] compile PDF from exact manuscript commit;
+- [x] visually inspect all rendered PDF pages;
+- [x] rerun sentence-level claim audit against PDF text, captions, tables, and references;
+- [x] record the inspected PDF and artifact digests in the deterministic release manifest;
+- [ ] move the exact release artifact into a permanent authorized archive;
 - [ ] select final archive/DOI target.
 
 Until every unchecked item is evidenced, status remains **NOT PREPRINT_READY**.
