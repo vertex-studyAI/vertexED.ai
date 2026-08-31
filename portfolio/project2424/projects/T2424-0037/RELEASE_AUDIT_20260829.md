@@ -19,6 +19,8 @@ Paper scope selected for this branch: **historical system result + matched-valid
 - [x] Failure analysis distinguishes historical implementation failure, invalid-acceptance behavior, mechanism-attribution falsification, and evaluation-scope limitation.
 - [x] Primary-source related-work audit exists for DeepCAD, SketchGraphs, Text2CAD, CAD-Recode, Text2CAD-Bench, and ArtisanCAD.
 - [x] Final bibliography identities, complete author lists, dates, arXiv-issued DOIs, and the Text2CAD proceedings DOI are reconciled against primary records in `BIBLIOGRAPHY_AUDIT_20260831.md`.
+- [x] Independent sentence-level audit reconciles 15 quantitative, provenance, interpretation, limitation, and release claim classes against the exact manuscript digest.
+- [x] Prohibited-claim audit rejects significance, superiority, typed-parser causal advantage, OOD relabeling, manufacturing/external-validation/deployment, executed-S3, novelty, and readiness inflation.
 - [x] Related-work audit explicitly forbids unmatched superiority claims.
 - [x] Data/code/artifact statement exists and separates current evidence from unmaterialized S3 adapters.
 - [x] Limitations section explicitly excludes OOD generalization, manufacturing correctness, external validation, deployment proof, and state-of-the-art claims.
@@ -31,7 +33,6 @@ Paper scope selected for this branch: **historical system result + matched-valid
 
 - [ ] Resolve repository/code release license for the exact source/artifacts to be cited or distributed with the preprint.
 - [ ] Record final authorship and contribution statement.
-- [ ] Perform an independent sentence-level claim audit against the final manuscript text.
 - [ ] Place the exact digest-bound PDF in an authorized permanent archive; the current GitHub artifact is temporary and `permanent_archive=false`.
 
 ## Experiment boundary
