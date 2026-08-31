@@ -117,3 +117,41 @@ test("Darcy HOLD/MIXED failure evidence and stop rules remain fail-closed", asyn
   assert.match(release, /expiring workflow artifact is not permanent archival evidence/);
   assert.match(release, /No parent-paper edit may relax the original result, remove the rho=0 miss, or erase seed 6/);
 });
+
+test("Darcy sentence audit covers retained claims and prohibits scope inflation", async () => {
+  const [sentenceAudit, manuscript, release] = await Promise.all([
+    read("portfolio/project2424/projects/T2424-0050/paper/SENTENCE_CLAIM_AUDIT.md"),
+    read("portfolio/project2424/projects/T2424-0050/paper/MANUSCRIPT.md"),
+    read("portfolio/project2424/projects/T2424-0050/paper/RELEASE_AUDIT.md"),
+  ]);
+
+  assert.match(sentenceAudit, /Audited manuscript: .*9,572 bytes/);
+  assert.match(sentenceAudit, /f7523041fe13f04cb3f917aac41c5c0f3525a1be7bc89cb0f06d85f603cc4a35/);
+  for (let id = 1; id <= 15; id += 1) {
+    assert.match(sentenceAudit, new RegExp("S" + String(id).padStart(2, "0")));
+  }
+
+  const requiredEvidence = [
+    "0.06589139155637647",
+    "0.0011366559231966065",
+    "97.876632%",
+    "63.8317%",
+    "77.1634%",
+    "86.1675%",
+    "99/100",
+    "seed 6",
+    "-10.0479%",
+    "HOLD/MIXED",
+  ];
+  for (const token of requiredEvidence) {
+    assert.ok(sentenceAudit.includes(token), "sentence audit missing " + token);
+  }
+
+  assert.match(sentenceAudit, /no claim of:[\s\S]*statistical significance/i);
+  assert.match(sentenceAudit, /state-of-the-art superiority/);
+  assert.match(sentenceAudit, /publication novelty, preprint readiness/);
+  assert.match(sentenceAudit, /NO-GO for PREPRINT_READY remains unchanged/);
+  assert.match(manuscript, /NO-GO for `PREPRINT_READY`/);
+  assert.match(release, /Independent sentence-level audit maps every quantitative result/);
+  assert.doesNotMatch(release, /\[ \] Perform independent sentence-level claim audit/);
+});
