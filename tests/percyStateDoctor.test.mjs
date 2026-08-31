@@ -47,6 +47,24 @@ test('valid but old Percy snapshots are explicitly stale, not runtime evidence',
   assert.equal(exitCodeForDiagnosis(diagnosis, { requireFresh: true }), 2);
 });
 
+test('one fresh file cannot mask an older required snapshot', () => {
+  const snapshots = validSnapshots();
+  snapshots.queue.as_of = '2026-08-05T15:42:00+05:30';
+  snapshots.blockers.as_of = '2026-08-05T15:42:00+05:30';
+
+  const diagnosis = diagnosePercySnapshots({
+    ...snapshots,
+    now: new Date('2026-08-05T16:00:00+05:30'),
+    maxAgeHours: 24,
+  });
+
+  assert.equal(diagnosis.verdict, 'STALE_SNAPSHOT');
+  assert.equal(diagnosis.freshness.status, 'STALE');
+  assert.equal(diagnosis.freshness.oldestSnapshotAt, '2026-08-02T10:12:00.000Z');
+  assert.match(diagnosis.warnings.join('\n'), /oldest required snapshot/);
+  assert.equal(exitCodeForDiagnosis(diagnosis, { requireFresh: true }), 2);
+});
+
 test('iteration discontinuity fails closed', () => {
   const snapshots = validSnapshots();
   snapshots.state.next_iteration = 'PERCY-00015';
