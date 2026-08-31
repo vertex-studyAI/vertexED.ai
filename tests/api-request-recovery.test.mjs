@@ -6,6 +6,7 @@ import {
   ApiRequestTimeoutError,
   createRequestDeadline,
   createSingleFlight,
+  resolveRefreshSession,
   shouldClearLocalSessionAfterRefreshFailure,
   shouldRetryAfterUnauthorized,
   toRequestError,
@@ -170,4 +171,67 @@ test("single-flight refresh resets after settlement", async () => {
   assert.equal(await refresh(), "token-1");
   assert.equal(await refresh(), "token-2");
   assert.equal(calls, 2);
+});
+
+test("concurrent terminal refresh failure clears the local session exactly once", async () => {
+  let refreshCalls = 0;
+  let localSignOuts = 0;
+  const refresh = createSingleFlight(async () => {
+    refreshCalls += 1;
+    return resolveRefreshSession(
+      {
+        data: { session: null },
+        error: { code: "refresh_token_reuse_detected", status: 400 },
+      },
+      async () => {
+        localSignOuts += 1;
+      },
+    );
+  });
+
+  assert.deepEqual(await Promise.all([refresh(), refresh(), refresh()]), [null, null, null]);
+  assert.equal(refreshCalls, 1);
+  assert.equal(localSignOuts, 1);
+});
+
+test("concurrent transient refresh failure never clears the local session", async () => {
+  let refreshCalls = 0;
+  let localSignOuts = 0;
+  const refresh = createSingleFlight(async () => {
+    refreshCalls += 1;
+    return resolveRefreshSession(
+      {
+        data: { session: null },
+        error: { status: 503, message: "Service unavailable" },
+      },
+      async () => {
+        localSignOuts += 1;
+      },
+    );
+  });
+
+  assert.deepEqual(await Promise.all([refresh(), refresh()]), [null, null]);
+  assert.equal(refreshCalls, 1);
+  assert.equal(localSignOuts, 0);
+});
+
+test("concurrent successful refresh propagates one shared token without sign-out", async () => {
+  let refreshCalls = 0;
+  let localSignOuts = 0;
+  const refresh = createSingleFlight(async () => {
+    refreshCalls += 1;
+    return resolveRefreshSession(
+      {
+        data: { session: { access_token: "fresh-token" } },
+        error: null,
+      },
+      async () => {
+        localSignOuts += 1;
+      },
+    );
+  });
+
+  assert.deepEqual(await Promise.all([refresh(), refresh()]), ["fresh-token", "fresh-token"]);
+  assert.equal(refreshCalls, 1);
+  assert.equal(localSignOuts, 0);
 });
