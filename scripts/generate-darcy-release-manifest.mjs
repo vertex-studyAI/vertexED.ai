@@ -14,6 +14,7 @@ export const evidenceFiles = [
   "portfolio/project2424/projects/T2424-0050/results/misaligned-audit.json",
   "portfolio/project2424/projects/T2424-0050/paper/CLAIM_EVIDENCE_MATRIX.md",
   "portfolio/project2424/projects/T2424-0050/paper/MANUSCRIPT.md",
+  "portfolio/project2424/projects/T2424-0050/paper/BIBLIOGRAPHY_AUDIT.md",
   "portfolio/project2424/projects/T2424-0050/paper/RELEASE_AUDIT.md"
 ];
 
