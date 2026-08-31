@@ -107,3 +107,33 @@ test("NeuroCAD bibliography identities and non-comparison boundaries remain fail
   assert.match(release, /Final bibliography identities, complete author lists/);
   assert.doesNotMatch(release, /\[ \] Verify final bibliography metadata/);
 });
+
+test("NeuroCAD sentence audit preserves quantitative truth and prohibits claim inflation", async () => {
+  const [audit, manuscript, release, table] = await Promise.all([
+    read("portfolio/project2424/projects/T2424-0037/SENTENCE_CLAIM_AUDIT_20260831.md"),
+    read("portfolio/project2424/projects/T2424-0037/MANUSCRIPT.md"),
+    read("portfolio/project2424/projects/T2424-0037/RELEASE_AUDIT_20260829.md"),
+    read("portfolio/project2424/projects/T2424-0037/TABLE_DATA_20260829.json").then(JSON.parse)
+  ]);
+
+  assert.ok(evidenceFiles.includes("portfolio/project2424/projects/T2424-0037/SENTENCE_CLAIM_AUDIT_20260831.md"));
+  assert.match(audit, /Audited manuscript bytes: `12877`/);
+  assert.match(audit, /fd2e6c026c0f1ed146ed820b9d890bff743b2c45b3850eeca122c244d93a9ac5/);
+  for (let index = 1; index <= 15; index += 1) {
+    assert.match(audit, new RegExp("N" + String(index).padStart(2, "0")));
+  }
+
+  assert.equal(table.historical_v1.typed_validated_pass / table.historical_v1.benchmark_n, 0.95);
+  assert.equal(table.historical_v1.original_direct_pass / table.historical_v1.benchmark_n, 0.6);
+  assert.equal(table.historical_v1.typed_validated_accuracy - table.historical_v1.original_direct_accuracy, 0.35);
+  assert.equal(table.matched_validation_diagnostic.validation_recovery_fraction, 1);
+  assert.equal(table.matched_validation_diagnostic.verdict, "VALIDATION_DOMINANT");
+
+  assert.match(audit, /typed-parser-specific causality is falsified on the reused diagnostic/i);
+  assert.match(audit, /S3 is unexecuted and unauthorized/i);
+  assert.match(audit, /NOT PREPRINT_READY remains unchanged/);
+  assert.match(manuscript, /no claim of out-of-distribution generalization, manufacturing correctness, external validation, or superiority/i);
+  assert.match(manuscript, /not a typed-parser causal breakthrough/i);
+  assert.match(release, /Independent sentence-level audit reconciles 15/);
+  assert.doesNotMatch(release, /\[ \] Perform an independent sentence-level claim audit/);
+});
