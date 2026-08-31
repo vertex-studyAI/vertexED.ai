@@ -32,6 +32,7 @@ function snapshots() {
 function healthyRuntime() {
   return {
     schema_version: 1,
+    as_of: '2026-08-28T11:55:00.000Z',
     source: { available: true, head: '0123456789abcdef0123456789abcdef01234567' },
     process: { state: 'RUNNING', pid: 4242, command: 'python -m percy daemon' },
     database: { reachable: true, migration_state: 'CURRENT' },
@@ -72,6 +73,8 @@ test('healthy fresh runtime evidence is the only ready-to-resume state', () => {
   assert.equal(diagnosis.verdict, 'READY_TO_RESUME');
   assert.equal(diagnosis.runtimeEvidence, true);
   assert.deepEqual(diagnosis.blockers, []);
+  assert.equal(diagnosis.runtime.observedAt, '2026-08-28T11:55:00.000Z');
+  assert.ok(Math.abs(diagnosis.runtime.evidenceAgeHours - (5 / 60)) < 1e-12);
   assert.equal(exitCodeForRuntimeReadiness(diagnosis), 0);
 });
 
@@ -81,6 +84,52 @@ test('missing runtime evidence fails closed even when durable snapshots are fres
   assert.equal(diagnosis.runtimeEvidence, false);
   assert.ok(diagnosis.blockers.some((blocker) => blocker.code === 'MISSING_RUNTIME_EVIDENCE'));
   assert.equal(exitCodeForRuntimeReadiness(diagnosis), 2);
+});
+
+test('missing runtime timestamp blocks resume even when saved heartbeat says fresh', () => {
+  const runtime = healthyRuntime();
+  delete runtime.as_of;
+  const diagnosis = diagnose(runtime);
+  assert.equal(diagnosis.verdict, 'BLOCKED_RUNTIME_EVIDENCE');
+  assert.equal(diagnosis.runtimeEvidence, false);
+  assert.ok(diagnosis.blockers.some((blocker) => blocker.code === 'RUNTIME_TIMESTAMP_MISSING'));
+});
+
+test('invalid runtime timestamp blocks resume', () => {
+  const runtime = healthyRuntime();
+  runtime.as_of = '2026-08-28 11:55:00Z';
+  const diagnosis = diagnose(runtime);
+  assert.equal(diagnosis.verdict, 'BLOCKED_RUNTIME_EVIDENCE');
+  assert.equal(diagnosis.runtimeEvidence, false);
+  assert.ok(diagnosis.blockers.some((blocker) => blocker.code === 'RUNTIME_TIMESTAMP_INVALID'));
+});
+
+test('stale runtime evidence blocks even when heartbeat.fresh is still true', () => {
+  const runtime = healthyRuntime();
+  runtime.as_of = '2026-08-27T11:59:59.999Z';
+  runtime.heartbeat.fresh = true;
+  const diagnosis = diagnose(runtime);
+  assert.equal(diagnosis.verdict, 'BLOCKED_RUNTIME_EVIDENCE');
+  assert.equal(diagnosis.runtimeEvidence, false);
+  assert.ok(diagnosis.blockers.some((blocker) => blocker.code === 'RUNTIME_EVIDENCE_STALE'));
+  assert.ok(diagnosis.runtime.evidenceAgeHours > 24);
+});
+
+test('materially future-dated runtime evidence blocks resume', () => {
+  const runtime = healthyRuntime();
+  runtime.as_of = '2026-08-28T12:06:00.000Z';
+  const diagnosis = diagnose(runtime);
+  assert.equal(diagnosis.verdict, 'BLOCKED_RUNTIME_EVIDENCE');
+  assert.equal(diagnosis.runtimeEvidence, false);
+  assert.ok(diagnosis.blockers.some((blocker) => blocker.code === 'RUNTIME_TIMESTAMP_FUTURE'));
+});
+
+test('small runtime clock skew within five minutes is tolerated', () => {
+  const runtime = healthyRuntime();
+  runtime.as_of = '2026-08-28T12:04:59.000Z';
+  const diagnosis = diagnose(runtime);
+  assert.equal(diagnosis.verdict, 'READY_TO_RESUME');
+  assert.equal(diagnosis.runtimeEvidence, true);
 });
 
 test('interactive shell without a real agent process is not treated as running', () => {
@@ -147,16 +196,20 @@ test('stale heartbeat, database migration, queue persistence, and required provi
   assert.equal(diagnosis.verdict, 'BLOCKED_RUNTIME_EVIDENCE');
 });
 
-test('stale durable snapshots block resume even with otherwise healthy runtime evidence', () => {
+test('stale durable snapshots block independently with separately fresh runtime timestamp', () => {
   const { state, queue, blockerSnapshot } = snapshots();
+  const runtime = healthyRuntime();
+  runtime.as_of = '2026-08-30T11:55:00.000Z';
   const diagnosis = diagnosePercyRuntimeReadiness({
     state,
     queue,
     blockers: blockerSnapshot,
-    runtime: healthyRuntime(),
+    runtime,
     now: new Date('2026-08-30T12:00:00.000Z'),
     maxAgeHours: 24,
   });
   assert.equal(diagnosis.verdict, 'BLOCKED_RUNTIME_EVIDENCE');
+  assert.equal(diagnosis.runtimeEvidence, true);
   assert.ok(diagnosis.blockers.some((blocker) => blocker.code === 'STALE_DURABLE_STATE'));
+  assert.ok(!diagnosis.blockers.some((blocker) => blocker.code === 'RUNTIME_EVIDENCE_STALE'));
 });

@@ -7,6 +7,8 @@ import { pathToFileURL } from 'node:url';
 import { diagnosePercySnapshots } from './percy-state-doctor.mjs';
 
 const DEFAULT_MAX_AGE_HOURS = 24;
+const RUNTIME_FUTURE_SKEW_MS = 5 * 60 * 1000;
+const STRICT_UTC_TIMESTAMP = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/;
 
 function finiteNumber(value) {
   return typeof value === 'number' && Number.isFinite(value);
@@ -14,6 +16,58 @@ function finiteNumber(value) {
 
 function pushBlocker(blockers, code, detail) {
   blockers.push({ code, detail });
+}
+
+function diagnoseRuntimeFreshness(runtime, now, maxAgeHours, blockers) {
+  const observedAt = runtime.as_of;
+  if (typeof observedAt !== 'string' || !observedAt.trim()) {
+    pushBlocker(blockers, 'RUNTIME_TIMESTAMP_MISSING', 'runtime evidence requires canonical UTC as_of timestamp');
+    return { observedAt: null, ageHours: null, maxAgeHours, futureSkewToleranceMinutes: 5 };
+  }
+
+  const normalized = observedAt.trim();
+  const observedMs = Date.parse(normalized);
+  if (
+    !STRICT_UTC_TIMESTAMP.test(normalized) ||
+    !Number.isFinite(observedMs) ||
+    new Date(observedMs).toISOString() !== normalized
+  ) {
+    pushBlocker(
+      blockers,
+      'RUNTIME_TIMESTAMP_INVALID',
+      'runtime as_of must be a real canonical UTC timestamp in YYYY-MM-DDTHH:mm:ss.sssZ form',
+    );
+    return { observedAt: normalized, ageHours: null, maxAgeHours, futureSkewToleranceMinutes: 5 };
+  }
+
+  const nowMs = now instanceof Date ? now.getTime() : Number.NaN;
+  if (!Number.isFinite(nowMs)) {
+    pushBlocker(blockers, 'RUNTIME_NOW_INVALID', 'readiness evaluation time must be a valid Date');
+    return { observedAt: normalized, ageHours: null, maxAgeHours, futureSkewToleranceMinutes: 5 };
+  }
+
+  const ageMs = nowMs - observedMs;
+  const ageHours = ageMs / (60 * 60 * 1000);
+  if (ageMs < -RUNTIME_FUTURE_SKEW_MS) {
+    pushBlocker(
+      blockers,
+      'RUNTIME_TIMESTAMP_FUTURE',
+      `runtime evidence is ${Math.abs(ageHours).toFixed(3)} hours in the future; tolerance is 5 minutes`,
+    );
+  } else if (ageMs > maxAgeHours * 60 * 60 * 1000) {
+    pushBlocker(
+      blockers,
+      'RUNTIME_EVIDENCE_STALE',
+      `runtime evidence age ${ageHours.toFixed(3)} hours exceeds maxAgeHours=${maxAgeHours}`,
+    );
+  }
+
+  return {
+    observedAt: normalized,
+    ageHours,
+    maxAgeHours,
+    futureSkewToleranceMinutes: 5,
+  };
 }
 
 function diagnoseResourceHardStops(runtime, blockers) {
@@ -101,6 +155,8 @@ export function diagnosePercyRuntimeReadiness({
     return { verdict: 'BLOCKED_RUNTIME_EVIDENCE', blockers, warnings, durable, runtimeEvidence: false };
   }
 
+  const runtimeFreshness = diagnoseRuntimeFreshness(runtime, now, maxAgeHours, blockers);
+
   if (runtime.schema_version !== 1) {
     pushBlocker(blockers, 'UNSUPPORTED_RUNTIME_SCHEMA', `expected 1, received ${String(runtime.schema_version)}`);
   }
@@ -144,8 +200,9 @@ export function diagnosePercyRuntimeReadiness({
   }
 
   const runtimeEvidence = blockers.every((item) => ![
-    'MISSING_RUNTIME_EVIDENCE', 'UNSUPPORTED_RUNTIME_SCHEMA', 'RUNTIME_SOURCE_UNAVAILABLE', 'RUNTIME_HEAD_UNKNOWN',
-    'WORKER_NOT_RUNNING', 'WORKER_PID_INVALID', 'WORKER_COMMAND_UNKNOWN', 'DATABASE_UNREACHABLE',
+    'MISSING_RUNTIME_EVIDENCE', 'RUNTIME_TIMESTAMP_MISSING', 'RUNTIME_TIMESTAMP_INVALID', 'RUNTIME_NOW_INVALID',
+    'RUNTIME_TIMESTAMP_FUTURE', 'RUNTIME_EVIDENCE_STALE', 'UNSUPPORTED_RUNTIME_SCHEMA', 'RUNTIME_SOURCE_UNAVAILABLE',
+    'RUNTIME_HEAD_UNKNOWN', 'WORKER_NOT_RUNNING', 'WORKER_PID_INVALID', 'WORKER_COMMAND_UNKNOWN', 'DATABASE_UNREACHABLE',
     'DATABASE_SCHEMA_NOT_CURRENT', 'QUEUE_NOT_PERSISTENT', 'HEARTBEAT_STALE', 'DISK_EVIDENCE_INVALID',
     'DISK_HARD_STOP', 'MEMORY_EVIDENCE_INVALID', 'MEMORY_HARD_STOP', 'SWAP_EVIDENCE_INVALID', 'SWAP_HARD_STOP',
     'REQUIRED_PROVIDER_UNAVAILABLE',
@@ -158,6 +215,10 @@ export function diagnosePercyRuntimeReadiness({
     durable,
     runtimeEvidence,
     runtime: {
+      observedAt: runtimeFreshness.observedAt,
+      evidenceAgeHours: runtimeFreshness.ageHours,
+      maxAgeHours: runtimeFreshness.maxAgeHours,
+      futureSkewToleranceMinutes: runtimeFreshness.futureSkewToleranceMinutes,
       sourceHead: runtime.source?.head ?? null,
       processState: processState ?? 'UNKNOWN',
       pid: runtime.process?.pid ?? null,
