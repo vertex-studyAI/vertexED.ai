@@ -5,6 +5,7 @@ import {
   AI_REQUEST_TIMEOUT_MESSAGE,
   ApiRequestTimeoutError,
   createRequestDeadline,
+  createSingleFlight,
   shouldClearLocalSessionAfterRefreshFailure,
   shouldRetryAfterUnauthorized,
   toRequestError,
@@ -112,4 +113,61 @@ test("refresh failure classification is fail-safe for unknown payloads", () => {
   assert.equal(shouldClearLocalSessionAfterRefreshFailure("invalid_refresh_token"), false);
   assert.equal(shouldClearLocalSessionAfterRefreshFailure({ code: 42 }), false);
   assert.equal(shouldClearLocalSessionAfterRefreshFailure({ message: "token error" }), false);
+});
+
+test("concurrent unauthorized requests share one token refresh", async () => {
+  let calls = 0;
+  let release;
+  const gate = new Promise((resolve) => {
+    release = resolve;
+  });
+  const refresh = createSingleFlight(async () => {
+    calls += 1;
+    await gate;
+    return "fresh-token";
+  });
+
+  const first = refresh();
+  const second = refresh();
+
+  assert.equal(first, second);
+  assert.equal(calls, 0);
+  await Promise.resolve();
+  assert.equal(calls, 1);
+
+  release();
+  assert.deepEqual(await Promise.all([first, second]), ["fresh-token", "fresh-token"]);
+  assert.equal(calls, 1);
+});
+
+test("concurrent refresh callers share the same failure", async () => {
+  let calls = 0;
+  const refresh = createSingleFlight(async () => {
+    calls += 1;
+    throw new Error("refresh unavailable");
+  });
+
+  const first = refresh();
+  const second = refresh();
+
+  assert.equal(first, second);
+  const outcomes = await Promise.allSettled([first, second]);
+  assert.equal(calls, 1);
+  assert.deepEqual(
+    outcomes.map(({ status }) => status),
+    ["rejected", "rejected"],
+  );
+  assert.equal(outcomes[0].reason, outcomes[1].reason);
+});
+
+test("single-flight refresh resets after settlement", async () => {
+  let calls = 0;
+  const refresh = createSingleFlight(async () => {
+    calls += 1;
+    return `token-${calls}`;
+  });
+
+  assert.equal(await refresh(), "token-1");
+  assert.equal(await refresh(), "token-2");
+  assert.equal(calls, 2);
 });
