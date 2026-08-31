@@ -19,7 +19,7 @@ This checklist is deliberately stricter than code/CI success. HOLD/MIXED scienti
 - [x] No learned-operator/FNO/DeepONet/PINN/POD/SOTA superiority claim.
 - [x] Three primary related-work items verified sufficiently for citation-gap tracking; none is represented as an executed comparator.
 - [x] Deterministic release-manifest generation binds the exact status, protocols, frozen configuration, retained result JSON, claim matrix, manuscript, and release audit by byte length and SHA-256.
-- [x] Automated metric reconciliation derives aligned and harder-audit values from retained JSON and fails closed if HOLD/MIXED, the rho=0 miss, seed-6 reversal, or prohibited-claim boundary drifts.
+- [x] Automated metric reconciliation derives aligned and harder-audit values from retained JSON and fails closed if HOLD/MIXED, the rho=0 miss, seed-6 reversal, or prohibited-claim boundary drifts.\n- [x] Exact-head PDF workflow renders twice and requires byte-for-byte equality after metadata normalization.\n- [x] Four A4 pages visually inspected with no clipping, overlap, broken tables, missing glyphs, or pagination defects.\n- [x] Extracted PDF text reconciled against the rho=0 miss, seed-6 reversal, no-learned-operator boundary, and NO-GO release state.\n- [x] Release manifest records the verified PDF SHA-256, byte length, page/security properties, authored head, workflow run, temporary artifact identity, archive digest, and expiry.
 
 ## Open gates before PREPRINT_READY
 
