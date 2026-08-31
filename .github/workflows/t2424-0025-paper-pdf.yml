@@ -30,7 +30,7 @@ jobs:
           grep -q "0.0125699" portfolio/project2424/projects/T2424-0025/MANUSCRIPT.md
           grep -q "49.00%" portfolio/project2424/projects/T2424-0025/MANUSCRIPT.md
           grep -q "does not establish a Transformer result" portfolio/project2424/projects/T2424-0025/MANUSCRIPT.md
-          grep -q "not a preregistered confirmatory test" portfolio/project2424/projects/T2424-0025/MANUSCRIPT.md
+          grep -q "rather than as a preregistered confirmatory test" portfolio/project2424/projects/T2424-0025/MANUSCRIPT.md
       - name: Regenerate retained evidence figures
         run: node portfolio/project2424/projects/T2424-0025/figures/generate.mjs
       - name: Reject figure drift
