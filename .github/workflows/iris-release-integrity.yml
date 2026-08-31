@@ -1,0 +1,26 @@
+name: IRIS release integrity
+
+on:
+  pull_request:
+    paths:
+      - 'portfolio/research/IRIS_*'
+      - 'portfolio/research/evidence/iris-*'
+      - 'portfolio/research/iris/**'
+      - 'portfolio/research/papers/IRIS_*'
+      - 'scripts/generate-iris-release-manifest.mjs'
+      - 'tests/iris-release-integrity.test.mjs'
+      - '.github/workflows/iris-release-integrity.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node --test tests/iris-release-integrity.test.mjs
