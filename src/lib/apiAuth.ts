@@ -3,7 +3,7 @@ import { getAiFeatureForRequest, trackAiRequestOutcome } from '@/lib/aiRequestAn
 import {
   createRequestDeadline,
   createSingleFlight,
-  resolveRefreshSession,
+  runRefreshAttempt,
   shouldRetryAfterUnauthorized,
   toRequestError,
 } from '@/lib/apiRequestRecovery.mjs';
@@ -47,8 +47,10 @@ function requestInputForAttempt(input: RequestInfo | URL): RequestInfo | URL {
 const runRefreshAccessTokenSingleFlight = createSingleFlight(async (): Promise<string | null> => {
   if (!supabase) return null;
 
-  const result = await supabase.auth.refreshSession();
-  return resolveRefreshSession(result, () => supabase.auth.signOut({ scope: 'local' }));
+  return runRefreshAttempt(
+    () => supabase.auth.refreshSession(),
+    () => supabase.auth.signOut({ scope: 'local' }),
+  );
 });
 
 async function refreshAccessToken(): Promise<string | null> {
