@@ -31,6 +31,10 @@
       "bytes": 12877,
       "sha256": "fd2e6c026c0f1ed146ed820b9d890bff743b2c45b3850eeca122c244d93a9ac5"
     },
+    "portfolio/project2424/projects/T2424-0037/SENTENCE_CLAIM_AUDIT_20260831.md": {
+      "bytes": 5731,
+      "sha256": "b5065e4c9d0b61efd68281f9a39931d58e2825951aa4e3594c5aa49ecb95f069"
+    },
     "portfolio/project2424/projects/T2424-0037/NEUROCAD_COMPONENT_ABLATION_PROTOCOL_20260814.md": {
       "bytes": 4674,
       "sha256": "a87a373442a0fef75846260f3ef82b3373dae5e8e56aac08f5ceeb3a9be96acb"
@@ -52,8 +56,8 @@
       "sha256": "16a719cc1b04a964e596743a27bbef203eb602c141d192c90d046242976a406a"
     },
     "portfolio/project2424/projects/T2424-0037/RELEASE_AUDIT_20260829.md": {
-      "bytes": 4314,
-      "sha256": "845f0258cdc3055795f15507ccf8c6459f3d9de78744b29a49057a86c0f2bfea"
+      "bytes": 4597,
+      "sha256": "02ebb546f605792e53b44b31dd4cde508900d99acbd9998a91c3ed26d31b0c9e"
     },
     "portfolio/project2424/projects/T2424-0037/TABLE_DATA_20260829.json": {
       "bytes": 1528,
