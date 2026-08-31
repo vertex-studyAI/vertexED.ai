@@ -22,6 +22,8 @@ Paper scope selected for this branch: **historical system result + matched-valid
 - [x] Data/code/artifact statement exists and separates current evidence from unmaterialized S3 adapters.
 - [x] Limitations section explicitly excludes OOD generalization, manufacturing correctness, external validation, deployment proof, and state-of-the-art claims.
 - [x] Product QA is separated from scientific evidence.
+- [x] Deterministic release-manifest generation binds the current manuscript, scientific audits, frozen component protocol/result, table data, evidence ledger, and identity-accounting record by byte length and SHA-256.
+- [x] Automated release tests fail closed if the frozen `VALIDATION_DOMINANT` result, typed-parser-specific falsification, reused-case boundary, identity accounting, or `NOT_PREPRINT_READY` status drifts.
 
 ## Open release gates
 
@@ -29,7 +31,6 @@ Paper scope selected for this branch: **historical system result + matched-valid
 - [ ] Record final authorship and contribution statement.
 - [ ] Verify final bibliography metadata/DOIs where available and ensure every manuscript citation maps to a primary source.
 - [ ] Decide whether to include a figure. Current table-only presentation is sufficient; any figure must be deterministically generated from `TABLE_DATA_20260829.json` and must not add inferred values.
-- [ ] Freeze an immutable paper-evidence manifest that hashes the exact manuscript, claim audit, table data, protocol/result files, and any distributable artifact files.
 - [ ] Perform an independent sentence-level claim audit against the final manuscript text.
 - [ ] Compile a clean PDF from the exact reviewed manuscript.
 - [ ] Visually inspect every PDF page, table, equation, link/citation, and reference.
