@@ -115,13 +115,16 @@ export function diagnosePercySnapshots({
 
   let ageHours = null;
   let freshnessStatus = 'UNKNOWN';
-  if (newestSnapshot && !Number.isNaN(nowDate.getTime())) {
-    ageHours = (nowDate.getTime() - newestSnapshot.getTime()) / 3_600_000;
+  // Freshness is only as strong as the oldest required durable snapshot. Using
+  // the newest timestamp can incorrectly hide a stale state/queue/blocker file
+  // when another file was refreshed recently.
+  if (oldestSnapshot && !Number.isNaN(nowDate.getTime())) {
+    ageHours = (nowDate.getTime() - oldestSnapshot.getTime()) / 3_600_000;
     if (ageHours < -1) {
       errors.push('Percy snapshot timestamp is materially in the future');
     } else if (ageHours > maxAgeHours) {
       freshnessStatus = 'STALE';
-      warnings.push(`Percy durable state is stale by policy: ${ageHours.toFixed(1)}h old > ${maxAgeHours}h`);
+      warnings.push(`Percy durable state is stale by policy: oldest required snapshot is ${ageHours.toFixed(1)}h old > ${maxAgeHours}h`);
     } else {
       freshnessStatus = 'FRESH';
     }
@@ -141,6 +144,7 @@ export function diagnosePercySnapshots({
       status: freshnessStatus,
       ageHours: ageHours === null ? null : Number(ageHours.toFixed(2)),
       maxAgeHours,
+      oldestSnapshotAt: oldestSnapshot?.toISOString() ?? null,
       newestSnapshotAt: newestSnapshot?.toISOString() ?? null,
     },
     iteration: {
@@ -156,8 +160,6 @@ export function diagnosePercySnapshots({
       count: blockerList.length,
       open: blockerList.filter((blocker) => blocker?.status === 'OPEN').length,
     },
-    // These JSON files are durable control snapshots. They do not prove that a
-    // worker, heartbeat, lease, process or local queue is alive right now.
     runtimeEvidence: false,
   };
 }
