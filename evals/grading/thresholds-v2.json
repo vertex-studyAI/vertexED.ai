@@ -1,0 +1,13 @@
+{
+  "thresholdVersion": "vertexed-grading-thresholds-v2",
+  "frozenBeforeEvaluation": true,
+  "metrics": {
+    "reviewDecisionAccuracyMin": 1,
+    "falseVerifiedRateMax": 0,
+    "severeFalseVerifiedRateMax": 0,
+    "acceptedEvidencePrecisionMin": 1,
+    "groundingFailureCaptureRateMin": 1,
+    "remediationChoiceAccuracyMin": 1,
+    "normalizationFailureRateMax": 0
+  }
+}

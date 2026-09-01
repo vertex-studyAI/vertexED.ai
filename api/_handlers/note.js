@@ -2,6 +2,11 @@
 
 import { verifyAuthUser, readJsonBody, rejectOversizedJsonBody } from '../_lib/auth.js';
 import { rateLimitUserEndpoint } from '../_lib/rateLimit.js';
+import {
+  buildDeterministicFlashcards,
+  buildDeterministicNoteFallback,
+  buildGenerationMetadata,
+} from '../_lib/learningArtifactFallbacks.js';
 
 const PRIMARY_NOTE_MODEL = process.env.NOTE_MODEL || 'ft:gpt-4o-mini-2024-07-18:verteded:notes:CRuakY3O';
 const FALLBACK_NOTE_MODEL = process.env.NOTE_FALLBACK_MODEL || 'gpt-4o-mini';
@@ -71,15 +76,39 @@ async function callNotesChatFallback(apiKey, systemMessage, userMessage) {
 
 async function generateNotesRaw(apiKey, systemMessage, userMessage) {
   try {
-    return await callNotesResponsesApi(apiKey, systemMessage, userMessage, PRIMARY_NOTE_MODEL);
+    return {
+      raw: await callNotesResponsesApi(apiKey, systemMessage, userMessage, PRIMARY_NOTE_MODEL),
+      model: PRIMARY_NOTE_MODEL,
+    };
   } catch (primaryErr) {
-    console.warn('Primary note model failed, retrying fallback:', primaryErr?.message || primaryErr);
+    console.warn('Primary note model failed; retrying configured fallback.');
     try {
-      return await callNotesResponsesApi(apiKey, systemMessage, userMessage, FALLBACK_NOTE_MODEL);
+      return {
+        raw: await callNotesResponsesApi(apiKey, systemMessage, userMessage, FALLBACK_NOTE_MODEL),
+        model: FALLBACK_NOTE_MODEL,
+      };
     } catch {
-      return callNotesChatFallback(apiKey, systemMessage, userMessage);
+      return {
+        raw: await callNotesChatFallback(apiKey, systemMessage, userMessage),
+        model: FALLBACK_NOTE_MODEL,
+      };
     }
   }
+}
+
+function fallbackNoteResponse({ topic, additionalInfo, flashCount, board, subjects }, failureClass) {
+  const fallback = buildDeterministicNoteFallback({ topic, additionalInfo, flashCount });
+  const source = JSON.stringify({ topic, additionalInfo, board, subjects });
+  return {
+    ...fallback,
+    provenance: { topic, board: board || null, subjects: Array.isArray(subjects) ? subjects : [] },
+    generation: buildGenerationMetadata({
+      capability: 'note',
+      mode: 'deterministic-fallback',
+      source,
+      failureClass,
+    }),
+  };
 }
 
 export default async function handler(req, res) {
@@ -93,12 +122,6 @@ export default async function handler(req, res) {
   if (rejectOversizedJsonBody(req, res)) return;
   if (!(await rateLimitUserEndpoint(user.id, 'note', res))) return;
 
-  const OPENAI_API_KEY =
-    process.env.ChatbotKey || process.env.OPENAI_API_KEY || process.env.CHATBOT_KEY;
-  if (!OPENAI_API_KEY) {
-    return res.status(500).json({ error: "AI not set" });
-  }
-
   try {
     const body = readJsonBody(req);
     const {
@@ -111,10 +134,26 @@ export default async function handler(req, res) {
       mode,
       source,
       text,
+      board,
+      subjects,
     } = body;
+
+    const OPENAI_API_KEY =
+      process.env.ChatbotKey || process.env.OPENAI_API_KEY || process.env.CHATBOT_KEY;
 
     if (mode === "flashcards" && source === "notes" && text?.trim()) {
       const safeFlashCount = Math.max(4, Math.min(16, Number(flashCount || 8)));
+      const deterministicFlashcards = () => ({
+        flashcards: buildDeterministicFlashcards(text, safeFlashCount),
+        provenance: { topic: topic || null, board: board || null, subjects: Array.isArray(subjects) ? subjects : [] },
+        generation: buildGenerationMetadata({
+          capability: 'flashcards',
+          mode: 'deterministic-fallback',
+          source: text,
+          failureClass: OPENAI_API_KEY ? 'provider_failure' : 'provider_unconfigured',
+        }),
+      });
+      if (!OPENAI_API_KEY) return res.status(200).json(deterministicFlashcards());
       const flashPrompt = `Create ${safeFlashCount} study flashcards from the notes below.
 Return ONLY JSON: { "flashcards": [ { "front": "...", "back": "..." } ] }
 
@@ -136,10 +175,7 @@ ${String(text).slice(0, 10000)}`;
         }),
       });
 
-      if (!flashResponse.ok) {
-        const errText = await flashResponse.text();
-        throw new Error(`OpenAI error: ${errText}`);
-      }
+      if (!flashResponse.ok) return res.status(200).json(deterministicFlashcards());
 
       const flashData = await flashResponse.json();
       const rawFlash = flashData.choices?.[0]?.message?.content ?? "{}";
@@ -160,7 +196,17 @@ ${String(text).slice(0, 10000)}`;
         }))
         .filter((f) => f.front && f.back);
 
-      return res.status(200).json({ flashcards: finalFlashcards });
+      if (!finalFlashcards.length) return res.status(200).json(deterministicFlashcards());
+      return res.status(200).json({
+        flashcards: finalFlashcards,
+        provenance: { topic: topic || null, board: board || null, subjects: Array.isArray(subjects) ? subjects : [] },
+        generation: buildGenerationMetadata({
+          capability: 'flashcards',
+          mode: 'model',
+          model: 'gpt-4o-mini',
+          source: text,
+        }),
+      });
     }
 
     const {
@@ -209,8 +255,19 @@ Extra info: ${noteAdditionalInfo || "none"}
 Flashcards: 4–${safeFlashCount}`,
     };
 
+    if (!OPENAI_API_KEY) {
+      return res.status(200).json(fallbackNoteResponse({
+        topic: noteTopic,
+        additionalInfo: noteAdditionalInfo,
+        flashCount: safeFlashCount,
+        board,
+        subjects,
+      }, 'provider_unconfigured'));
+    }
+
     // ---- OpenAI Responses API (with fallback) ----
-    const raw = await generateNotesRaw(OPENAI_API_KEY, systemMessage, userMessage);
+    const generated = await generateNotesRaw(OPENAI_API_KEY, systemMessage, userMessage);
+    const raw = generated.raw;
     // ---- Protect LaTeX ----
     const latexBlocks = [];
     let protectedRaw = raw.replace(/\$\$[\s\S]*?\$\$/g, (m) => {
@@ -244,7 +301,7 @@ Flashcards: 4–${safeFlashCount}`,
     }
 
     // ---- Normalize flashcards ----
-    const finalFlashcards = (parsed.flashcards || [])
+    const modelFlashcards = (Array.isArray(parsed.flashcards) ? parsed.flashcards : [])
       .slice(0, safeFlashCount)
       .map((f) => ({
         front: (f.front || f.question || "").trim(),
@@ -260,21 +317,56 @@ Flashcards: 4–${safeFlashCount}`,
     const summary =
       notesText.split("\n").find((l) => l.trim()) || `Notes on ${noteTopic}`;
 
+    const partialModelOutput = modelFlashcards.length === 0;
+    const finalFlashcards = partialModelOutput
+      ? buildDeterministicFlashcards(notesText, safeFlashCount)
+      : modelFlashcards;
+
     return res.status(200).json({
       result: notesText.trim(),
       summary,
       flashcards: finalFlashcards,
       structured: {
-        tables: parsed.tables || [],
-        charts: parsed.charts || [],
+        tables: Array.isArray(parsed.tables) ? parsed.tables : [],
+        charts: Array.isArray(parsed.charts) ? parsed.charts : [],
       },
+      provenance: { topic: noteTopic, board: board || null, subjects: Array.isArray(subjects) ? subjects : [] },
+      generation: buildGenerationMetadata({
+        capability: 'note',
+        mode: partialModelOutput ? 'model-partial-fallback' : 'model',
+        model: generated.model,
+        source: JSON.stringify({ topic: noteTopic, additionalInfo: noteAdditionalInfo, board, subjects }),
+        failureClass: partialModelOutput ? 'malformed_model_output' : null,
+      }),
     });
 
   } catch (err) {
-    console.error("Note API error:", err);
-    return res.status(500).json({
-      error: "Failed to generate notes",
-      details: err.message,
-    });
+    console.error("Note API generation failed; returning deterministic scaffold.");
+    const body = readJsonBody(req);
+    if (body?.mode === 'flashcards' && body?.source === 'notes' && body?.text?.trim()) {
+      return res.status(200).json({
+        flashcards: buildDeterministicFlashcards(body.text, body.flashCount),
+        provenance: {
+          topic: body.topic || null,
+          board: body.board || null,
+          subjects: Array.isArray(body.subjects) ? body.subjects : [],
+        },
+        generation: buildGenerationMetadata({
+          capability: 'flashcards',
+          mode: 'deterministic-fallback',
+          source: body.text,
+          failureClass: err?.name === 'AbortError' ? 'provider_timeout' : 'provider_failure',
+        }),
+      });
+    }
+    const topic = body?.topic;
+    if (!topic) return res.status(400).json({ error: 'Missing topic' });
+    return res.status(200).json(fallbackNoteResponse({
+      topic,
+      additionalInfo: body?.additionalInfo,
+      flashCount: body?.flashCount,
+      board: body?.board,
+      subjects: body?.subjects,
+    }, err?.name === 'AbortError' ? 'provider_timeout' : 'provider_failure'));
   }
 }

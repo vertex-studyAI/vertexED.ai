@@ -1,0 +1,124 @@
+{
+  "datasetVersion": "vertexed-grading-synthetic-v2",
+  "thresholdVersion": "vertexed-grading-thresholds-v2",
+  "measuredAt": "2026-09-01T19:03:41.019Z",
+  "fixtureCount": 6,
+  "metrics": {
+    "reviewDecisionAccuracy": 1,
+    "falseVerifiedRate": 0,
+    "acceptedEvidencePrecision": 1,
+    "evidenceAcceptanceRate": 0.6,
+    "severeFalseVerifiedRate": 0,
+    "groundingFailureCaptureRate": 1,
+    "remediationChoiceAccuracy": 1,
+    "normalizationFailureRate": 0,
+    "normalizationLatencyMs": 4.85
+  },
+  "baselines": {
+    "alwaysGrade": {
+      "falseVerifiedRate": 1,
+      "reviewDecisionAccuracy": 0.3333333333333333
+    },
+    "simpleRules": {
+      "reviewDecisionAccuracy": 0.6666666666666666,
+      "falseVerifiedRate": 0.5
+    },
+    "retrievalRules": {
+      "reviewDecisionAccuracy": 0.8333333333333334,
+      "falseVerifiedRate": 0.25
+    },
+    "currentLiveModel": {
+      "status": "NOT_RUN",
+      "reason": "No authorized isolated provider evaluation environment."
+    }
+  },
+  "decisions": [
+    {
+      "id": "exact-high-confidence",
+      "expectedReview": false,
+      "actualReview": false,
+      "correct": true,
+      "scoreStatus": "VERIFIED",
+      "severity": "none",
+      "actualErrorCodes": [],
+      "expectedErrorCodes": [],
+      "remediationCorrect": true
+    },
+    {
+      "id": "hallucinated-evidence",
+      "expectedReview": true,
+      "actualReview": true,
+      "correct": true,
+      "scoreStatus": "PROVISIONAL",
+      "severity": "severe",
+      "actualErrorCodes": [
+        "EVIDENCE_GAP"
+      ],
+      "expectedErrorCodes": [
+        "EVIDENCE_GAP"
+      ],
+      "remediationCorrect": true
+    },
+    {
+      "id": "low-confidence",
+      "expectedReview": true,
+      "actualReview": true,
+      "correct": true,
+      "scoreStatus": "PROVISIONAL",
+      "severity": "moderate",
+      "actualErrorCodes": [],
+      "expectedErrorCodes": [],
+      "remediationCorrect": true
+    },
+    {
+      "id": "empty-answer",
+      "expectedReview": true,
+      "actualReview": true,
+      "correct": true,
+      "scoreStatus": "PROVISIONAL",
+      "severity": "severe",
+      "actualErrorCodes": [
+        "INCOMPLETE"
+      ],
+      "expectedErrorCodes": [
+        "INCOMPLETE"
+      ],
+      "remediationCorrect": true
+    },
+    {
+      "id": "zero-credit-concept-gap",
+      "expectedReview": false,
+      "actualReview": false,
+      "correct": true,
+      "scoreStatus": "VERIFIED",
+      "severity": "moderate",
+      "actualErrorCodes": [
+        "CONCEPT_GAP"
+      ],
+      "expectedErrorCodes": [
+        "CONCEPT_GAP"
+      ],
+      "remediationCorrect": true
+    },
+    {
+      "id": "criterion-mixed-evidence",
+      "expectedReview": true,
+      "actualReview": true,
+      "correct": true,
+      "scoreStatus": "PROVISIONAL",
+      "severity": "severe",
+      "actualErrorCodes": [
+        "EVIDENCE_GAP"
+      ],
+      "expectedErrorCodes": [
+        "EVIDENCE_GAP"
+      ],
+      "remediationCorrect": true
+    }
+  ],
+  "passed": true,
+  "claimBoundary": "Synthetic contract validation only; latency covers local normalization, not provider latency. Live model quality and failure rate were not measured.",
+  "datasetSha256": "8e788d33ec1b2c8204962de9e850fea09dcc73af6e750246960dd582c5e0a85a",
+  "thresholdsSha256": "434c6d2b805be402ece9a223f51552bf9c9624f2b65d53a361f5a99b9a6ecf60",
+  "graderImplementationSha256": "b1508a4ec28207e297f4893096d60dbcc21daf38d9e9346ce96ceba99b01e917"
+}

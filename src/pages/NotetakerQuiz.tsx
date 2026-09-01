@@ -286,12 +286,16 @@ export default function NotetakerQuiz(): React.JSX.Element {
 
     try {
       analyserRef.current?.disconnect();
-    } catch {}
+    } catch {
+      // The analyser may already be detached during account changes or unmount.
+    }
     analyserRef.current = null;
 
     try {
       audioCtxRef.current?.close();
-    } catch {}
+    } catch {
+      // Closing an already-closed audio context is harmless during cleanup.
+    }
     audioCtxRef.current = null;
 
     if (mediaStreamRef.current) {
@@ -355,7 +359,9 @@ export default function NotetakerQuiz(): React.JSX.Element {
         ta.focus();
         const pos = start + text.length;
         ta.setSelectionRange(pos, pos);
-      } catch {}
+      } catch {
+        // Selection restoration is best-effort if the textarea unmounts.
+      }
     });
   };
 
@@ -450,6 +456,8 @@ export default function NotetakerQuiz(): React.JSX.Element {
     length: notesLength,
     flashCount,
     additionalInfo: additionalInfo.trim(),
+    board: learner.curriculum.board,
+    subjects: learner.curriculum.subjects,
   });
 
   const handleGenerateNotes = async () => {
@@ -485,10 +493,18 @@ export default function NotetakerQuiz(): React.JSX.Element {
       setFlashRevealed(false);
       pushNotesSnapshot(nextNotes);
       recordStudySession();
+      if (data?.generation?.degraded) {
+        toast({
+          title: "Offline scaffold generated",
+          description: "The AI provider was unavailable. Verify this source-bound scaffold against your syllabus before use.",
+        });
+      }
       void saveStudyArtifact("note", topic.trim(), {
         notes: nextNotes,
         format: displayFormatLabel,
         flashcards: data?.flashcards ?? [],
+        provenance: data?.provenance ?? null,
+        generation: data?.generation ?? null,
       }).then((r) => {
         if (r.ok) {
           toast({
@@ -743,6 +759,8 @@ export default function NotetakerQuiz(): React.JSX.Element {
     if (!srDeck.length) return;
     const id = window.setTimeout(() => startStudyMode(cramStudy), 400);
     return () => window.clearTimeout(id);
+    // startStudyMode intentionally reads the latest deck; rerun is keyed by deck length.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams, srDeck.length, cramStudy]);
 
   const rateStudyCard = (rating: SrRating) => {
@@ -906,7 +924,9 @@ export default function NotetakerQuiz(): React.JSX.Element {
           if (next >= MAX_RECORDED_SECONDS) {
             try {
               mediaRecorderRef.current?.stop();
-            } catch {}
+            } catch {
+              // The recorder can already be inactive at the duration boundary.
+            }
             alert("Maximum recording time reached (1 hour). Recording stopped automatically.");
             return MAX_RECORDED_SECONDS;
           }
@@ -922,7 +942,9 @@ export default function NotetakerQuiz(): React.JSX.Element {
   const stopRecording = () => {
     try {
       mediaRecorderRef.current?.stop();
-    } catch {}
+    } catch {
+      // Stopping an already-inactive recorder is a no-op for this cleanup path.
+    }
     setRecording(false);
 
     if (animationRef.current) {
@@ -932,7 +954,9 @@ export default function NotetakerQuiz(): React.JSX.Element {
 
     try {
       audioCtxRef.current?.suspend();
-    } catch {}
+    } catch {
+      // Suspending a closed context is harmless during cleanup.
+    }
 
     if (recordingTimerRef.current) {
       window.clearInterval(recordingTimerRef.current);
@@ -969,6 +993,8 @@ export default function NotetakerQuiz(): React.JSX.Element {
           source: "notes",
           text: notes,
           flashCount: count,
+          board: learner.curriculum.board,
+          subjects: learner.curriculum.subjects,
         }),
       });
 
@@ -979,7 +1005,9 @@ export default function NotetakerQuiz(): React.JSX.Element {
       setFlashcards(data.flashcards.slice(0, count));
       setCurrentFlashIndex(0);
       pushNotesSnapshot(notes);
-      alert("Flashcards generated successfully.");
+      alert(data?.generation?.degraded
+        ? "Source-bound fallback flashcards generated. Verify them before use."
+        : "Flashcards generated successfully.");
     } catch (err) {
       console.error("sendNotesToCards error:", err);
       alert("Failed to generate flashcards.");

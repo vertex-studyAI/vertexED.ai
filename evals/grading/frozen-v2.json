@@ -1,0 +1,71 @@
+{
+  "datasetVersion": "vertexed-grading-synthetic-v2",
+  "consentClass": "synthetic-no-personal-data",
+  "frozenAt": "2026-09-02T00:00:00Z",
+  "cases": [
+    {
+      "id": "exact-high-confidence",
+      "question": { "id": "q1", "maxScore": 4, "objectiveIds": ["biology:osmosis"] },
+      "answer": "Water moves from high water potential to low water potential through a partially permeable membrane.",
+      "rawGrade": { "id": "q1", "score": 4, "maxScore": 4, "confidence": 0.92, "evidenceQuotes": ["high water potential to low water potential"] },
+      "expectedReview": false,
+      "expectedErrorCodes": [],
+      "severity": "none"
+    },
+    {
+      "id": "hallucinated-evidence",
+      "question": { "id": "q2", "maxScore": 4, "objectiveIds": ["biology:osmosis"] },
+      "answer": "Water crosses a membrane.",
+      "rawGrade": { "id": "q2", "score": 4, "maxScore": 4, "confidence": 0.96, "evidenceQuotes": ["from high to low water potential"], "errorCodes": ["EVIDENCE_GAP"] },
+      "expectedReview": true,
+      "expectedErrorCodes": ["EVIDENCE_GAP"],
+      "severity": "severe"
+    },
+    {
+      "id": "low-confidence",
+      "question": { "id": "q3", "maxScore": 6, "objectiveIds": ["history:evaluation"] },
+      "answer": "The source may be useful because the author witnessed the event, but bias limits reliability.",
+      "rawGrade": { "id": "q3", "score": 4, "maxScore": 6, "confidence": 0.55, "evidenceQuotes": ["bias limits reliability"] },
+      "expectedReview": true,
+      "expectedErrorCodes": [],
+      "severity": "moderate"
+    },
+    {
+      "id": "empty-answer",
+      "question": { "id": "q4", "maxScore": 3, "objectiveIds": ["physics:forces"] },
+      "answer": "",
+      "rawGrade": { "id": "q4", "score": 3, "maxScore": 3, "confidence": 0.99 },
+      "expectedReview": true,
+      "expectedErrorCodes": ["INCOMPLETE"],
+      "severity": "severe"
+    },
+    {
+      "id": "zero-credit-concept-gap",
+      "question": { "id": "q5", "maxScore": 5, "objectiveIds": ["chemistry:bonding"] },
+      "answer": "I do not know.",
+      "rawGrade": { "id": "q5", "score": 0, "maxScore": 5, "confidence": 0.88, "errorCodes": ["CONCEPT_GAP"] },
+      "expectedReview": false,
+      "expectedErrorCodes": ["CONCEPT_GAP"],
+      "severity": "moderate"
+    },
+    {
+      "id": "criterion-mixed-evidence",
+      "question": { "id": "q6", "maxScore": 6, "objectiveIds": ["english:analysis"] },
+      "answer": "The repeated image creates a threatening tone.",
+      "rawGrade": {
+        "id": "q6",
+        "score": 5,
+        "maxScore": 6,
+        "confidence": 0.9,
+        "errorCodes": ["EVIDENCE_GAP"],
+        "criteria": [
+          { "id": "technique", "label": "Technique", "score": 2, "maxScore": 2, "evidenceQuotes": ["repeated image"] },
+          { "id": "effect", "label": "Effect", "score": 3, "maxScore": 4, "evidenceQuotes": ["reader feels trapped"] }
+        ]
+      },
+      "expectedReview": true,
+      "expectedErrorCodes": ["EVIDENCE_GAP"],
+      "severity": "severe"
+    }
+  ]
+}

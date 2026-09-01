@@ -200,12 +200,27 @@ export default function PaperMaker({ priorPapers = [] }) {
       }
 
       if (paperData && typeof paperData === "object") {
+        paperData = { ...paperData, generation: data?.generation ?? null };
         setPaper(paperData);
         setRaw(null);
+        if (data?.generation?.degraded) {
+          setSaveStatus("Deterministic fallback — verify against the current syllabus");
+          toast({
+            title: "Practice scaffold generated",
+            description: "The AI provider was unavailable. Questions contain no asserted factual answer key and require syllabus verification.",
+          });
+        }
         recordStudySession();
         recordLoopStep("practise");
         const title = paperData.title || `${boardApiLabel} ${subject} paper`;
-        saveStudyArtifact("paper", title, { paper: paperData, board: boardApiLabel, subject, grade }).then((r) => {
+        saveStudyArtifact("paper", title, {
+          paper: paperData,
+          board: boardApiLabel,
+          subject,
+          grade,
+          provenance: paperData.provenance ?? null,
+          generation: data?.generation ?? null,
+        }).then((r) => {
           if (r.ok) {
             setSaveStatus(r.localOnly ? "Saved on this device" : "Saved to your account");
             toast({
@@ -439,6 +454,12 @@ export default function PaperMaker({ priorPapers = [] }) {
                       </ul>
                     </div>
 
+                    {paper.generation?.degraded ? (
+                      <div className="rounded-xl border border-amber-400/40 bg-amber-500/10 p-3 text-sm text-amber-800 dark:text-amber-200" role="status">
+                        Deterministic fallback scaffold — the AI provider was unavailable. Verify every prompt and rubric note against the current syllabus before timed or graded use.
+                      </div>
+                    ) : null}
+
                     {paper.sections?.map((s) => (
                       <div key={s.id} className="surface-tile p-4">
                         <div className="font-medium mb-2">{s.title}</div>
@@ -502,4 +523,3 @@ export default function PaperMaker({ priorPapers = [] }) {
     </>
   );
 }
-

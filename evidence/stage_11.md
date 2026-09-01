@@ -1,7 +1,7 @@
 # VertexED Stage 11 — production release certification
 
 **Gate: BLOCKED; `DEPLOYED_VERIFIED=false`.** The candidate working tree passes Node
-22.22 typecheck, CI lint, 696/696 source tests, the frozen grading eval, 17 local public
+22.22 typecheck, CI lint, 707/707 source tests, the frozen grading eval, 17 local public
 browser/accessibility checks and a production build of 2,767 modules. The checked-in
 generated revision module was restored to neutral after local build verification.
 

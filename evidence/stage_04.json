@@ -1,1 +1,1 @@
-{"stage":4,"gate":"PARTIAL_EXTERNAL","source_tests":{"passed":696,"failed":0},"deterministic_quiz_fallback":true,"artifact_contract":true,"live_provider_persistence":"NOT_RUN","deployed_verified":false}
+{"stage":4,"gate":"PARTIAL_EXTERNAL_ONLY","source_tests":{"passed":707,"failed":0},"focused_fallback_tests":{"passed":11,"failed":0},"deterministic_note_fallback":true,"deterministic_quiz_fallback":true,"deterministic_paper_fallback":true,"artifact_contract":true,"live_provider_persistence":"NOT_RUN","deployed_verified":false}

@@ -144,6 +144,14 @@ Gemini-backed study planner.
 ### `POST /api/note`, `/api/quiz`, `/api/paper-generator`, `/api/notebook`, `/api/transcribe`, `/api/board-resource`
 Feature-specific AI handlers. See handler files in `api/_handlers/`.
 
+`/api/note`, `/api/quiz`, and `/api/paper-generator` return a
+`vertexed.learning-artifact.v1` generation envelope. When a provider is missing,
+times out, fails, or returns unusable structure, the endpoint returns a deterministic
+source-bound scaffold with `generation.degraded: true` and a fixed `failureClass`.
+Fallback papers contain no asserted factual answer key and visibly require syllabus or
+human verification. A degraded response is usable practice material, not verified AI
+output.
+
 ## Admin endpoints
 
 Require admin JWT (`ADMIN_EMAILS` env).

@@ -1,1 +1,1 @@
-{"stage":12,"gate":"PASS_HANDOFF","source_tests_passed":696,"local_browser_checks_passed":17,"minimum_requested_checks":64,"truth_matrix":true,"pilot_protocol":"SPECIFIED_NOT_RUN","deployed_verified":false,"outcome_verified":false}
+{"stage":12,"gate":"PASS_HANDOFF","source_tests_passed":707,"local_browser_checks_passed":17,"minimum_requested_checks":64,"truth_matrix":true,"pilot_protocol":"SPECIFIED_NOT_RUN","deployed_verified":false,"outcome_verified":false}
