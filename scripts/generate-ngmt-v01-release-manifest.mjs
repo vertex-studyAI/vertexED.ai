@@ -17,7 +17,9 @@ export const FILES = [
   "portfolio/research/ngmt/ngmt_v01_experiment_metadata.json",
   "portfolio/research/ngmt/ngmt_v01_replay_verification.json",
   "portfolio/research/ngmt/v01/run.py",
-  "tests/test_ngmt_v01.py",\n  "portfolio/research/ngmt/NGMT_V01_NEGATIVE_RESULT_MANUSCRIPT.md",\n  "portfolio/research/ngmt/NGMT_V01_MANUSCRIPT_CLAIM_AUDIT.md"
+  "tests/test_ngmt_v01.py",
+  "portfolio/research/ngmt/NGMT_V01_NEGATIVE_RESULT_MANUSCRIPT.md",
+  "portfolio/research/ngmt/NGMT_V01_MANUSCRIPT_CLAIM_AUDIT.md"
 ];
 const sha256 = (bytes) => createHash('sha256').update(bytes).digest('hex');
 
@@ -34,7 +36,21 @@ export async function buildManifest() {
   "verdict": "NEGATIVE_OR_INCONCLUSIVE_NGMT_V01",
   "hypothesis_supported": false,
   "mechanism_advantage_supported": false,
-  "preprint_ready": false,\n  "pdf_artifact": {\n    "path": "portfolio/research/ngmt/paper/ngmt-v01-negative-result.pdf",\n    "sha256": "abf50c62977187a8d63fe7bf92ae372d7a72164ba393de3ed9fe83de4fa4050d",\n    "bytes": 24292,\n    "pages": 3,\n    "page_size": "letter",\n    "encrypted": false,\n    "javascript": false,\n    "all_fonts_embedded": false,\n    "reportlab_version": "4.4.9",\n    "deterministic_two_render_equality": true,\n    "visually_inspected": true,\n    "permanent_archive": false\n  },
+  "preprint_ready": false,
+  "pdf_artifact": {
+    "path": "portfolio/research/ngmt/paper/ngmt-v01-negative-result.pdf",
+    "sha256": "abf50c62977187a8d63fe7bf92ae372d7a72164ba393de3ed9fe83de4fa4050d",
+    "bytes": 24292,
+    "pages": 3,
+    "page_size": "letter",
+    "encrypted": false,
+    "javascript": false,
+    "all_fonts_embedded": false,
+    "reportlab_version": "4.4.9",
+    "deterministic_two_render_equality": true,
+    "visually_inspected": true,
+    "permanent_archive": false
+  },
   "relationship_to_t2424_0025": "distinct learned B0-B3 experiment; precursor contributes no positive result",
   "protocol_freeze_commits": [
     "60d03821177a179ba0aec4253e3f987103c45f87",
@@ -118,5 +134,6 @@ export async function buildManifest() {
 
 if (process.argv[1] && resolve(process.argv[1]) === resolve(new URL(import.meta.url).pathname)) {
   const output = process.argv[2] || `${ROOT}/NGMT_V01_RELEASE_MANIFEST.json`;
-  await writeFile(output, JSON.stringify(await buildManifest(), null, 2) + '\n');
+  await writeFile(output, JSON.stringify(await buildManifest(), null, 2) + '
+');
 }
