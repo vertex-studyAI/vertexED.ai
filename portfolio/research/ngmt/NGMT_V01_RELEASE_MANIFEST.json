@@ -6,6 +6,20 @@
   "hypothesis_supported": false,
   "mechanism_advantage_supported": false,
   "preprint_ready": false,
+  "pdf_artifact": {
+    "path": "portfolio/research/ngmt/paper/ngmt-v01-negative-result.pdf",
+    "sha256": "abf50c62977187a8d63fe7bf92ae372d7a72164ba393de3ed9fe83de4fa4050d",
+    "bytes": 24292,
+    "pages": 3,
+    "page_size": "letter",
+    "encrypted": false,
+    "javascript": false,
+    "all_fonts_embedded": false,
+    "reportlab_version": "4.4.9",
+    "deterministic_two_render_equality": true,
+    "visually_inspected": true,
+    "permanent_archive": false
+  },
   "relationship_to_t2424_0025": "distinct learned B0-B3 experiment; precursor contributes no positive result",
   "protocol_freeze_commits": [
     "60d03821177a179ba0aec4253e3f987103c45f87",
