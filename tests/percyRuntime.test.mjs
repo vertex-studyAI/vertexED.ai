@@ -5,6 +5,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { DatabaseSync } from 'node:sqlite';
 import { PercyStore } from '../tools/percy-runtime/core.mjs';
+import { createVerifiedBackup } from '../tools/percy-runtime/backup.mjs';
 
 function fresh(options = {}) {
   const dir = mkdtempSync(join(tmpdir(), 'percy-'));
@@ -76,6 +77,44 @@ test('payload byte cap rejects oversized task payloads before insertion', () => 
     assert.equal(f.store.get('large'), null);
     assert.equal(f.store.submit({ id: 'small', payload: { x: 1 } }), 'small');
   } finally { cleanup(f); }
+});
+
+test('verified online backup restores task, evidence, and failure history', async () => {
+  const f = fresh();
+  let restored;
+  try {
+    f.store.submit({ id: 'backup-task', payload: { durable: true }, maxAttempts: 2 });
+    f.store.claim('backup-worker', 1000);
+    f.store.start('backup-task', 'backup-worker');
+    f.store.addEvidence('backup-task', 'pre-failure-checkpoint', { ok: true });
+    f.store.fail('backup-task', 'backup-worker', new Error('retry me'), 0);
+
+    const backupPath = join(f.dir, 'backups', 'percy.sqlite');
+    const result = await createVerifiedBackup(f.store.db, f.store.path, backupPath);
+    assert.deepEqual(result.integrity, ['ok']);
+    assert.equal(result.counts.tasks, 1);
+    assert.equal(result.counts.evidence, 1);
+    assert.equal(result.counts.failures, 1);
+
+    await assert.rejects(
+      createVerifiedBackup(f.store.db, f.store.path, backupPath),
+      /backup output already exists/,
+    );
+    await assert.rejects(
+      createVerifiedBackup(f.store.db, f.store.path, f.store.path),
+      /backup output must differ/,
+    );
+
+    restored = new PercyStore(backupPath);
+    assert.equal(restored.get('backup-task').status, 'READY');
+    assert.deepEqual(restored.get('backup-task').payload, { durable: true });
+    assert.equal(restored.listEvidence('backup-task').length, 1);
+    assert.equal(restored.db.prepare('SELECT COUNT(*) AS n FROM failures WHERE task_id=?').get('backup-task').n, 1);
+    assert.deepEqual(restored.integrityCheck(), ['ok']);
+  } finally {
+    try { restored?.close(); } catch (error) { void error; }
+    cleanup(f);
+  }
 });
 
 test('active lease prevents duplicate execution', () => {
