@@ -1,5 +1,9 @@
 import { verifyAuthUser, readJsonBody, rejectOversizedJsonBody } from '../_lib/auth.js';
 import { rateLimitUserEndpoint } from '../_lib/rateLimit.js';
+import {
+  buildDeterministicQuizFallback,
+  normalizeGradeAudits,
+} from '../_lib/verifiedGrading.js';
 
 function parseJsonBody(req) {
   let body = req.body ?? {};
@@ -96,6 +100,17 @@ async function handleGenerate(body, apiKey, res) {
     ? `\nStudent board: ${board}. Subjects: ${(subjects || []).join(", ") || "general"}. Use board-appropriate command terms.`
     : "";
 
+  const fallbackQuestions = () => buildDeterministicQuizFallback({ notes, board, subjects });
+
+  if (!apiKey) {
+    const questions = fallbackQuestions();
+    if (!questions.length) return res.status(400).json({ error: "Notes need at least one complete idea." });
+    return res.status(200).json({
+      questions,
+      generation: { mode: 'deterministic-fallback', model: null, degraded: true },
+    });
+  }
+
   const prompt = `Generate a quiz from the study notes below.
 
 Quiz style: ${quizType}
@@ -135,10 +150,40 @@ ${String(notes).slice(0, 12000)}`;
       return res.status(500).json({ error: "Failed to parse quiz questions", raw: raw.slice(0, 1000) });
     }
 
-    return res.status(200).json({ questions });
+    const model = process.env.OPENAI_MODEL || "gpt-4o-mini";
+    const generatedAt = new Date().toISOString();
+    const normalizedQuestions = questions.map((question, index) => ({
+      ...question,
+      objectiveIds: Array.isArray(question?.objectiveIds) ? question.objectiveIds : [`generated:${index + 1}`],
+      provenance: {
+        source: 'learner-notes',
+        generator: 'openai-chat-completions',
+        generatorVersion: '1.0.0',
+        model,
+        generatedAt,
+        board: board || 'Generic',
+        subjects: Array.isArray(subjects) ? subjects.slice(0, 12) : [],
+      },
+    }));
+    return res.status(200).json({
+      questions: normalizedQuestions,
+      generation: { mode: 'ai', model, degraded: false, generatedAt },
+    });
   } catch (err) {
     console.error("Quiz generate error:", err);
-    return res.status(500).json({ error: err.message || "Quiz generation failed" });
+    const questions = fallbackQuestions();
+    if (questions.length) {
+      return res.status(200).json({
+        questions,
+        generation: {
+          mode: 'deterministic-fallback',
+          model: null,
+          degraded: true,
+          reason: 'AI generation was unavailable.',
+        },
+      });
+    }
+    return res.status(503).json({ error: "Quiz generation is temporarily unavailable." });
   }
 }
 
@@ -155,7 +200,18 @@ async function handleGrade(body, apiKey, res) {
   );
 
   if (!toGrade.length) {
-    return res.status(200).json({ grades: [] });
+    return res.status(200).json({ grades: [], coverage: [], contractVersion: 'vertexed.grading.v1' });
+  }
+
+  const model = process.env.OPENAI_MODEL || "gpt-4o-mini";
+  if (!apiKey) {
+    const normalized = normalizeGradeAudits({ questions: toGrade, userAnswers, rawGrades: [], model: 'unavailable' });
+    return res.status(200).json({
+      grades: normalized.audits,
+      coverage: normalized.coverage,
+      contractVersion: 'vertexed.grading.v1',
+      degraded: true,
+    });
   }
 
   const prompt = `Grade the student's free-response answers using the rubric below.
@@ -168,8 +224,13 @@ For each question return:
 - maxScore (number)
 - feedback (short string)
 - includes (what the answer covered)
+- confidence (0 to 1; calibrated probability that the criterion decisions are defensible)
+- criteria (criterion id, label, score, maxScore, feedback, and evidenceQuotes)
+- evidenceQuotes (exact short spans copied from the student's answer; never paraphrases)
+- errorCodes selected only from CONCEPT_GAP, EVIDENCE_GAP, REASONING_GAP, COMMAND_TERM, CALCULATION, COMMUNICATION, INCOMPLETE
 
-Return ONLY JSON: { "grades": [ { "id": "...", "score": 0, "maxScore": 5, "feedback": "...", "includes": "..." } ] }
+If the answer does not contain evidence for credit, use score 0 for that criterion and low confidence.
+Return ONLY JSON: { "grades": [ { "id": "...", "score": 0, "maxScore": 5, "feedback": "...", "includes": "...", "confidence": 0.0, "criteria": [], "errorCodes": [] } ] }
 
 QUESTIONS AND ANSWERS:
 ${JSON.stringify(
@@ -188,11 +249,23 @@ ${JSON.stringify(
   try {
     const raw = await callOpenAI(apiKey, [{ role: "user", content: prompt }], 2000);
     const parsed = extractJson(raw);
-    const grades = Array.isArray(parsed?.grades) ? parsed.grades : [];
-    return res.status(200).json({ grades });
+    const rawGrades = Array.isArray(parsed?.grades) ? parsed.grades : [];
+    const normalized = normalizeGradeAudits({ questions: toGrade, userAnswers, rawGrades, model });
+    return res.status(200).json({
+      grades: normalized.audits,
+      coverage: normalized.coverage,
+      contractVersion: 'vertexed.grading.v1',
+      degraded: false,
+    });
   } catch (err) {
     console.error("Quiz grade error:", err);
-    return res.status(500).json({ error: err.message || "Quiz grading failed" });
+    const normalized = normalizeGradeAudits({ questions: toGrade, userAnswers, rawGrades: [], model });
+    return res.status(200).json({
+      grades: normalized.audits,
+      coverage: normalized.coverage,
+      contractVersion: 'vertexed.grading.v1',
+      degraded: true,
+    });
   }
 }
 
@@ -207,13 +280,9 @@ export default async function handler(req, res) {
 
   if (rejectOversizedJsonBody(req, res)) return;
 
-  const apiKey = getApiKey();
-  if (!apiKey) {
-    return res.status(500).json({ error: "AI not configured" });
-  }
-
   const body = parseJsonBody(req);
   const action = body?.action;
+  const apiKey = getApiKey();
 
   if (action === "generate") {
     return handleGenerate(body, apiKey, res);

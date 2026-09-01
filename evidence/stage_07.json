@@ -1,0 +1,1 @@
+{"stage":7,"gate":"PARTIAL_EXTERNAL","rls_schema_tests":{"passed":5,"failed":0},"auth_isolation_tests":{"passed":98,"failed":0},"forward_migration":true,"restore_runbook":true,"live_advisor_role_restore":"BLOCKED_EXTERNAL"}

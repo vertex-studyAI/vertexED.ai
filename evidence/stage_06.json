@@ -1,0 +1,1 @@
+{"stage":6,"gate":"PASS_SYNTHETIC_BOUNDARY","fixture_count":6,"metrics":{"reviewDecisionAccuracy":1,"falseVerifiedRate":0,"acceptedEvidencePrecision":1,"evidenceAcceptanceRate":0.6},"always_grade":{"falseVerifiedRate":1,"reviewDecisionAccuracy":0.3333333333333333},"live_model_metrics":"NOT_MEASURED"}

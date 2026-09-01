@@ -41,6 +41,7 @@ import {
 import { recordStudySession } from "@/lib/studyStats";
 import { recordLoopStep } from "@/lib/studyLoopTracker";
 import { saveStudyArtifact, consumeArtifactRestore } from "@/lib/userContent";
+import { recordWeakness } from "@/lib/weaknessTracker";
 import { toast } from "@/hooks/use-toast";
 import {
   FileText,
@@ -83,6 +84,8 @@ type QuizQuestion = {
   answer?: any;
   expected?: any;
   maxScore?: number;
+  objectiveIds?: string[];
+  provenance?: Record<string, unknown>;
 };
 
 type QuizResult = {
@@ -95,6 +98,11 @@ type QuizResult = {
   includes?: string;
   isCorrect?: boolean;
   type?: string;
+  scoreStatus?: "VERIFIED" | "PROVISIONAL";
+  confidence?: number;
+  humanReviewRequired?: boolean;
+  escalationReason?: string | null;
+  remediation?: string[];
 };
 
 const NOTE_FORMATS = [
@@ -572,6 +580,9 @@ export default function NotetakerQuiz(): React.JSX.Element {
           isCorrect,
           score: isCorrect ? (q.maxScore ?? 2) : 0,
           maxScore: q.maxScore ?? 2,
+          scoreStatus: "VERIFIED",
+          confidence: 1,
+          humanReviewRequired: false,
           type: q.type,
         };
       }
@@ -611,7 +622,7 @@ export default function NotetakerQuiz(): React.JSX.Element {
       const gradeData = await gradeRes.json();
       const grades = Array.isArray(gradeData?.grades) ? gradeData.grades : [];
 
-      const merged = localResults.map((r) => {
+      const merged: QuizResult[] = localResults.map((r): QuizResult => {
         const g = grades.find((x: any) => x.id === r.id);
         if (!g) return r;
         const maxScore = g.maxScore ?? g.max_points ?? r.maxScore ?? 2;
@@ -622,15 +633,48 @@ export default function NotetakerQuiz(): React.JSX.Element {
           maxScore,
           feedback: g.feedback,
           includes: g.includes || g.whatIncluded || "",
-          isCorrect: score >= Math.max(0.1, (gradingLeniency / 5) * maxScore * 0.5),
+          scoreStatus: g.scoreStatus === "VERIFIED" ? "VERIFIED" : "PROVISIONAL",
+          confidence: typeof g.confidence === "number" ? g.confidence : 0,
+          humanReviewRequired: g.humanReviewRequired !== false,
+          escalationReason: g.escalationReason ?? null,
+          remediation: Array.isArray(g.remediation) ? g.remediation : [],
+          isCorrect: g.humanReviewRequired === false
+            ? score >= Math.max(0.1, (gradingLeniency / 5) * maxScore * 0.5)
+            : undefined,
         };
       });
 
       setQuizResults(merged);
       setQuizSubmitted(true);
-      const totalScore = merged.reduce((sum, r) => sum + (Number(r.score) || 0), 0);
-      const totalMax = merged.reduce((sum, r) => sum + (Number(r.maxScore) || 0), 0);
+      const verified = merged.filter((result) => result.scoreStatus === "VERIFIED");
+      const totalScore = verified.reduce((sum, r) => sum + (Number(r.score) || 0), 0);
+      const totalMax = verified.reduce((sum, r) => sum + (Number(r.maxScore) || 0), 0);
       if (totalMax > 0) setQuizHistory((h) => [...h, Math.round((totalScore / totalMax) * 100)]);
+
+      for (const result of verified) {
+        const sourceQuestion = generatedQuestions.find((question) => question.id === result.id);
+        recordWeakness({
+          topic: sourceQuestion?.objectiveIds?.[0] || sourceQuestion?.prompt || sourceQuestion?.question || String(result.id),
+          subject: learner.curriculum.subjects[0] || "General",
+          board: learner.curriculum.board || undefined,
+          score: Number(result.score) || 0,
+          maxScore: Number(result.maxScore) || 1,
+          source: "quiz",
+        });
+      }
+
+      void saveStudyArtifact("review", `Quiz review — ${topic.trim() || "study notes"}`, {
+        contractVersion: gradeData?.contractVersion || "vertexed.grading.v1",
+        questions: generatedQuestions,
+        results: merged,
+        coverage: Array.isArray(gradeData?.coverage) ? gradeData.coverage : [],
+        degraded: gradeData?.degraded === true,
+        provenance: {
+          board: learner.curriculum.board,
+          subjects: learner.curriculum.subjects,
+          recordedAt: new Date().toISOString(),
+        },
+      });
     } catch (err) {
       console.error("Grading failed:", err);
       alert("Failed to grade FRQ. Try again.");
@@ -948,8 +992,9 @@ export default function NotetakerQuiz(): React.JSX.Element {
 
   const accuracy = useMemo(() => {
     if (!quizSubmitted || !quizResults?.length) return null;
-    const totalScore = quizResults.reduce((sum, r) => sum + (Number(r.score) || 0), 0);
-    const totalMax = quizResults.reduce((sum, r) => sum + (Number(r.maxScore) || 0), 0);
+    const verified = quizResults.filter((result) => result.scoreStatus !== "PROVISIONAL");
+    const totalScore = verified.reduce((sum, r) => sum + (Number(r.score) || 0), 0);
+    const totalMax = verified.reduce((sum, r) => sum + (Number(r.maxScore) || 0), 0);
     return totalMax > 0 ? Math.round((totalScore / totalMax) * 100) : null;
   }, [quizSubmitted, quizResults]);
 
@@ -1629,11 +1674,17 @@ export default function NotetakerQuiz(): React.JSX.Element {
                               <div className="mt-3 space-y-1 text-sm">
                                 {typeof res.score !== "undefined" && (
                                   <div>
-                                    Score: <strong>{res.score}/{res.maxScore}</strong>
+                                    {res.scoreStatus === "PROVISIONAL" ? "Provisional score guidance" : "Score"}: <strong>{res.score}/{res.maxScore}</strong>
+                                  </div>
+                                )}
+                                {res.humanReviewRequired && (
+                                  <div className="text-xs text-amber-700 dark:text-amber-300" role="status">
+                                    Human review recommended{res.escalationReason ? ` — ${res.escalationReason}` : "."}
                                   </div>
                                 )}
                                 {res.feedback && <div className="text-xs text-muted-foreground">Feedback: {res.feedback}</div>}
                                 {res.includes && <div className="text-xs text-muted-foreground">Includes: {res.includes}</div>}
+                                {res.remediation?.length ? <div className="text-xs text-muted-foreground">Next practice: {res.remediation.join(", ")}</div> : null}
                               </div>
                             )}
                           </div>

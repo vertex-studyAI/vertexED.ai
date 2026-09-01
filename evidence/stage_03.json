@@ -1,0 +1,28 @@
+{
+  "stage": 3,
+  "checked_at": "2026-09-01",
+  "gate": "PARTIAL",
+  "canonical_baseline": "eb72c18897773edd42cb81188a0d7938b554c99f",
+  "source_state": "SMOKE_TESTED",
+  "focused_tests": { "passed": 98, "failed": 0 },
+  "full_tests_before_stage": { "passed": 682, "failed": 0 },
+  "isolation_surfaces": [
+    "profiles_rls",
+    "user_study_artifacts_rls",
+    "owner_scoped_api_queries",
+    "planner_replace_ownership",
+    "notebook_storage_scope",
+    "learner_state_storage_scope",
+    "session_handoff_storage_scope",
+    "account_deletion_order"
+  ],
+  "real_two_account_journey": "BLOCKED_EXTERNAL",
+  "blockers": [
+    "no isolated staging Supabase/deployment",
+    "no explicitly disposable approved test identities",
+    "canonical production Vercel project inaccessible",
+    "live production revision unverified"
+  ],
+  "not_proven": ["DEPLOYED_VERIFIED", "OUTCOME_VERIFIED"],
+  "next_action": "Provide an isolated staging surface or two explicitly disposable approved accounts, then run and clean up the full cross-account denial journey."
+}

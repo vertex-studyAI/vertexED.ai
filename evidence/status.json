@@ -1,0 +1,39 @@
+{
+  "checked_at": "2026-09-01T17:23:31Z",
+  "canonical_baseline": "eb72c18897773edd42cb81188a0d7938b554c99f",
+  "candidate_state": "WORKING_TREE_OVERLAY",
+  "automated_checks": {
+    "source_tests_passed": 696,
+    "source_tests_failed": 0,
+    "focused_contract_tests_passed": 39,
+    "responsive_accessibility_checks_passed": 9,
+    "public_browser_journey_checks_passed": 8,
+    "production_build": "PASS",
+    "minimum_requested_checks": 64,
+    "minimum_exceeded": true
+  },
+  "stages": {
+    "01": "PASS",
+    "02": "PASS",
+    "03": "PARTIAL_EXTERNAL",
+    "04": "PARTIAL_EXTERNAL",
+    "05": "PASS",
+    "06": "PASS_SYNTHETIC_BOUNDARY",
+    "07": "PARTIAL_EXTERNAL",
+    "08": "PASS_LOCAL",
+    "09": "PARTIAL_EXTERNAL",
+    "10": "PARTIAL_EXTERNAL",
+    "11": "BLOCKED_EXTERNAL",
+    "12": "PASS_HANDOFF"
+  },
+  "production": {
+    "url": "https://www.vertexed.app",
+    "health_http": 200,
+    "readiness_query_http": 200,
+    "revision_attested": false,
+    "readiness_contract_present": false,
+    "deployed_verified": false
+  },
+  "outcome_verified": false,
+  "next_action": "Grant access to the canonical Vercel project, deploy one intentional immutable candidate, then run exact-revision readiness and disposable two-account golden-journey certification."
+}

@@ -1,0 +1,1 @@
+{"stage":10,"gate":"PARTIAL_EXTERNAL","telemetry_tests":{"passed":4,"failed":0},"privacy_safe_schema":true,"source_revision_contract":true,"live_health_http":200,"live_readiness_query_http":200,"live_revision":null,"live_readiness_contract":false}

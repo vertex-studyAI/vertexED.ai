@@ -17,6 +17,7 @@
     "test:eval": "node --test evals/tests/*.test.mjs",
     "eval:ask": "node evals/scripts/run-ask-eval.mjs",
     "eval:ask:live": "node evals/scripts/run-ask-eval.mjs --live",
+    "eval:grading": "node evals/scripts/run-grading-eval.mjs",
     "test:e2e": "playwright test e2e/smoke.spec.ts",
     "test:e2e:local-accessibility": "playwright test e2e/local-accessibility.spec.ts",
     "test:smoke": "node scripts/smoke-deploy.mjs",

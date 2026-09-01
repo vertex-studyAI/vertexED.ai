@@ -1,7 +1,7 @@
 import { authFetch } from '@/lib/apiAuth';
 import { userContentStorageKeys } from '@/lib/userContentStorageScope.mjs';
-
-export type StudyArtifactKind = 'note' | 'review' | 'paper';
+import type { StudyArtifactKind } from '@/contracts/domain';
+export type { StudyArtifactKind } from '@/contracts/domain';
 
 export type StudyArtifact = {
   id: string;
@@ -91,6 +91,10 @@ export function artifactTargetRoute(kind: StudyArtifactKind): string {
       return '/paper-maker';
     case 'review':
       return '/answer-reviewer';
+    case 'planner':
+      return '/planner';
+    case 'notebook':
+      return '/study-notebook';
   }
 }
 

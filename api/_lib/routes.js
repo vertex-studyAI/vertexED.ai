@@ -13,6 +13,11 @@ export const ROUTES = {
     loader: () => import('../_handlers/health.js'),
     methods: ['GET', 'HEAD'],
   },
+  telemetry: {
+    loader: () => import('../_handlers/telemetry.js'),
+    methods: ['POST'],
+    maxBodyBytes: 8 * 1024,
+  },
   'admin-status': {
     loader: () => import('../_handlers/admin-status.js'),
     methods: ['GET', 'HEAD'],

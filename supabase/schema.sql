@@ -54,6 +54,10 @@ create trigger on_auth_user_created
   after insert on auth.users
   for each row execute function public.handle_new_user();
 
+-- Trigger functions do not need direct API-role execution. The trigger still
+-- executes as its owner when auth.users changes.
+revoke execute on function public.handle_new_user() from public, anon, authenticated;
+
 -- -----------------------------------------------------------------------------
 -- Waitlist (public signup via /api/waitlist using service role)
 -- -----------------------------------------------------------------------------
@@ -109,6 +113,7 @@ as $$
 $$;
 
 revoke all on function public.auth_email_exists(text) from public;
+revoke all on function public.auth_email_exists(text) from anon, authenticated;
 grant execute on function public.auth_email_exists(text) to service_role;
 
 -- -----------------------------------------------------------------------------

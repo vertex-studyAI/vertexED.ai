@@ -1,0 +1,1 @@
+{"stage":11,"gate":"BLOCKED_EXTERNAL","source_tests":{"passed":696,"failed":0},"build":"PASS","deployed_verified":false,"deployment_receipt":null,"served_revision":null,"production_golden_journey":"NOT_RUN","blocker":"canonical Vercel project access and disposable authenticated staging identities"}

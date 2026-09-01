@@ -92,6 +92,15 @@ Invite signup attempts are rate limited before shared-code validation. The confi
 - `429` — rate limited
 - `503` — invite signup or account-creation backend unavailable
 
+### `POST /api/telemetry`
+Accepts a privacy-safe operational event from the browser. The fixed schema permits
+only event class, outcome, capability, normalized route path, bounded duration, and
+an error class. Prompts, answers, names, email addresses, tokens, stack traces, query
+strings, and arbitrary metadata are rejected or discarded. Requests are rate limited.
+
+This endpoint is operational evidence only; it is not learner analytics and must not
+be used to infer learning outcomes.
+
 ## Authenticated endpoints
 
 Send `Authorization: Bearer <supabase_access_token>`.

@@ -32,6 +32,7 @@ as $$
 $$;
 
 revoke all on function public.auth_email_exists(text) from public;
+revoke all on function public.auth_email_exists(text) from anon, authenticated;
 grant execute on function public.auth_email_exists(text) to service_role;
 
 -- Profile auto-create on signup
@@ -60,3 +61,5 @@ drop trigger if exists on_auth_user_created on auth.users;
 create trigger on_auth_user_created
   after insert on auth.users
   for each row execute function public.handle_new_user();
+
+revoke execute on function public.handle_new_user() from public, anon, authenticated;

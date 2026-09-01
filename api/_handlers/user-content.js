@@ -4,8 +4,13 @@ import { getQueryNumber, getQueryParam } from '../_lib/query.js';
 import { checkRateLimit } from '../_lib/rateLimit.js';
 import { isValidUuid } from '../_lib/security.js';
 import { replacePlannerArtifact } from '../_lib/userContentStore.js';
+import {
+  STUDY_ARTIFACT_KINDS,
+  normalizeStudyArtifactPayload,
+  parseStudyArtifactCreate,
+} from '../../contracts/studyArtifact.js';
 
-const ALLOWED_KINDS = new Set(['note', 'review', 'paper', 'planner', 'notebook']);
+const ALLOWED_KINDS = new Set(STUDY_ARTIFACT_KINDS);
 const MAX_PAYLOAD_BYTES = 256 * 1024;
 
 export default async function handler(req, res) {
@@ -60,15 +65,9 @@ export default async function handler(req, res) {
     if (req.method === 'POST') {
       if (rejectOversizedJsonBody(req, res, 512_000)) return;
       const body = readJsonBody(req);
-      const kind = body?.kind;
-      const title = typeof body?.title === 'string' ? body.title.trim().slice(0, 200) : null;
-      const payload = body?.payload ?? body?.content ?? body;
-
-      if (!ALLOWED_KINDS.has(kind)) {
-        return res.status(400).json({ error: 'Invalid kind. Use note, review, paper, planner, or notebook.' });
-      }
-
-      const payloadValue = typeof payload === 'object' ? payload : { text: String(payload) };
+      const parsed = parseStudyArtifactCreate(body);
+      if (!parsed.ok) return res.status(400).json({ error: parsed.error });
+      const { kind, title, payload: payloadValue } = parsed.value;
       const payloadSize = Buffer.byteLength(JSON.stringify(payloadValue), 'utf8');
       if (payloadSize > MAX_PAYLOAD_BYTES) {
         return res.status(413).json({ error: 'Artifact payload is too large.' });
@@ -120,7 +119,9 @@ export default async function handler(req, res) {
 
       if (title !== undefined) updates.title = title || null;
       if (payload !== undefined) {
-        const payloadValue = typeof payload === 'object' ? payload : { text: String(payload) };
+        const parsedPayload = normalizeStudyArtifactPayload(payload);
+        if (!parsedPayload.ok) return res.status(400).json({ error: parsedPayload.error });
+        const payloadValue = parsedPayload.value;
         const payloadSize = Buffer.byteLength(JSON.stringify(payloadValue), 'utf8');
         if (payloadSize > MAX_PAYLOAD_BYTES) {
           return res.status(413).json({ error: 'Artifact payload is too large.' });
