@@ -1,0 +1,11 @@
+{
+  "protocol": "olympus-o1-v1",
+  "status": "UNFROZEN_DO_NOT_RUN",
+  "arms": {
+    "monolithic": {"system_prompt": null, "enabled_roles": ["monolithic"], "evidence_enforcement": true},
+    "olympus_full_prometheus_perseus_hermes": {"system_prompt": null, "enabled_roles": ["prometheus","perseus","hermes"], "evidence_enforcement": true},
+    "olympus_without_perseus": {"system_prompt": null, "enabled_roles": ["prometheus","hermes"], "evidence_enforcement": true},
+    "olympus_without_evidence_enforcement": {"system_prompt": null, "enabled_roles": ["prometheus","perseus","hermes"], "evidence_enforcement": false}
+  },
+  "notes": "Prompts must be frozen and hashed before execution. Role labels describe runtime behavior only; they are not evidence of separately trained model checkpoints."
+}
