@@ -4,6 +4,7 @@ import { readFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 
+import { classifyPercyProcess } from './percy-process-liveness.mjs';
 import { diagnosePercySnapshots } from './percy-state-doctor.mjs';
 
 const DEFAULT_MAX_AGE_HOURS = 24;
@@ -167,9 +168,14 @@ export function diagnosePercyRuntimeReadiness({
     pushBlocker(blockers, 'RUNTIME_HEAD_UNKNOWN', 'runtime source HEAD is required');
   }
 
-  const processState = runtime.process?.state;
+  const processClassification = classifyPercyProcess(runtime.process);
+  const processState = processClassification.state;
   if (processState !== 'RUNNING') {
-    pushBlocker(blockers, 'WORKER_NOT_RUNNING', `process state=${String(processState ?? 'UNKNOWN')}`);
+    pushBlocker(
+      blockers,
+      'WORKER_NOT_RUNNING',
+      `process state=${String(processState)}; reported=${String(processClassification.reportedState)}`,
+    );
   }
   if (!Number.isInteger(runtime.process?.pid) || runtime.process.pid <= 0) {
     pushBlocker(blockers, 'WORKER_PID_INVALID', 'positive worker pid is required');
@@ -220,7 +226,8 @@ export function diagnosePercyRuntimeReadiness({
       maxAgeHours: runtimeFreshness.maxAgeHours,
       futureSkewToleranceMinutes: runtimeFreshness.futureSkewToleranceMinutes,
       sourceHead: runtime.source?.head ?? null,
-      processState: processState ?? 'UNKNOWN',
+      processState,
+      reportedProcessState: processClassification.reportedState,
       pid: runtime.process?.pid ?? null,
       databaseReachable: runtime.database?.reachable === true,
       migrationState: runtime.database?.migration_state ?? 'UNKNOWN',
