@@ -1,0 +1,22 @@
+name: Clear connector-only research PR drafts
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  ready:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Mark integrity PRs ready for review
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh pr ready 639 --repo vertex-studyAI/vertexED.ai
+          gh pr ready 640 --repo vertex-studyAI/vertexED.ai
+          test "$(gh pr view 639 --repo vertex-studyAI/vertexED.ai --json isDraft --jq .isDraft)" = "false"
+          test "$(gh pr view 640 --repo vertex-studyAI/vertexED.ai --json isDraft --jq .isDraft)" = "false"
