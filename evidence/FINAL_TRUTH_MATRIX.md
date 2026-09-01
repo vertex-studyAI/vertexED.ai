@@ -1,4 +1,4 @@
-# VertexED final truth matrix — 2026-09-01
+# VertexED final truth matrix — 2026-09-02
 
 | Surface | Source-complete | Local verification | Production verified | Outcome verified |
 | --- | --- | --- | --- | --- |
@@ -10,7 +10,7 @@
 | Supabase hardening and recovery runbook | yes | 5 schema tests | migration not applied/verified | n/a |
 | Responsive/accessibility public experience | yes | 18 applicable browser checks | current site not exact revision | n/a |
 | Revision/readiness/operational telemetry | yes | unit/build/smoke contract green | live endpoint omits identity/readiness | n/a |
-| Release | candidate source passes build and 707 tests | yes | **no** | n/a |
+| Release | candidate source passes build and 708 tests | yes | **no** | n/a |
 | Learning value | pilot protocol frozen | not run | not run | **no** |
 
 `source-complete` means the checked working tree implements and tests the stated

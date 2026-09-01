@@ -1,7 +1,7 @@
 # VertexED Stage 04 — core learning engine
 
 **Gate: PARTIAL only at the external live boundary.** Mock, notes, reviewer, paper,
-notebook and persistence paths pass the 707-test source suite. Notes, flashcards, quizzes
+notebook and persistence paths pass the 708-test source suite. Notes, flashcards, quizzes
 and papers now carry source digests, curriculum/model/prompt metadata, explicit degraded
 state, deterministic fallback, malformed-output handling, and persisted generation
 identity. Fallback papers preserve requested count/marks but contain no asserted factual
@@ -11,7 +11,7 @@ reaching storage.
 Material changes: `api/_handlers/note.js`, `api/_handlers/quiz.js`,
 `api/_handlers/paper-generator.js`, `api/_lib/learningArtifactFallbacks.js`,
 `api/_lib/verifiedGrading.js`, both learning clients, `contracts/studyArtifact.js`, and
-the shared typed domain contracts. Verification: `npm test` PASS 707/707; deterministic
+the shared typed domain contracts. Verification: `npm test` PASS 708/708; deterministic
 artifact fallback tests PASS 11/11; production build PASS.
 
 Truth boundary: successful live OpenAI/Gemini generation and persistence were not run
