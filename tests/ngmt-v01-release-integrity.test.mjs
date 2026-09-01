@@ -1,4 +1,4 @@
-import assert from 'node:assert/strict';
+import assert from 'node:assert/strict';\nimport { createHash } from 'node:crypto';
 import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 
@@ -88,4 +88,21 @@ test('NGMT v0.1 negative-result manuscript is sentence-level evidence bounded', 
     sha256: '1af622391086c6f4c56004912d012a7645217d33fec542fc8852b7095aa5098a',
     bytes: 2523,
   });
+});
+
+
+test('NGMT v0.1 deterministic PDF matches its fail-closed manifest identity', async () => {
+  const manifest = JSON.parse(await readFile(`${ROOT}/NGMT_V01_RELEASE_MANIFEST.json`, 'utf8'));
+  const pdf = await readFile(manifest.pdf_artifact.path);
+  assert.equal(createHash('sha256').update(pdf).digest('hex'), manifest.pdf_artifact.sha256);
+  assert.equal(pdf.length, manifest.pdf_artifact.bytes);
+  assert.equal(manifest.pdf_artifact.pages, 3);
+  assert.equal(manifest.pdf_artifact.page_size, 'letter');
+  assert.equal(manifest.pdf_artifact.encrypted, false);
+  assert.equal(manifest.pdf_artifact.javascript, false);
+  assert.equal(manifest.pdf_artifact.all_fonts_embedded, false);
+  assert.equal(manifest.pdf_artifact.deterministic_two_render_equality, true);
+  assert.equal(manifest.pdf_artifact.visually_inspected, true);
+  assert.equal(manifest.pdf_artifact.permanent_archive, false);
+  assert.equal(manifest.preprint_ready, false);
 });
