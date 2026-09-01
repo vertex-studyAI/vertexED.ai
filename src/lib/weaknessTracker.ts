@@ -2,9 +2,19 @@
  * Tracks topic-level weaknesses from reviews, quizzes, and mock scores.
  * Stored in account-scoped localStorage; sync can be added when the backend
  * supports a dedicated learner-state contract.
+ *
+ * Measurement integrity: only entries explicitly tagged with the measured-v1
+ * evidence contract are allowed to influence mastery/weakness summaries.
+ * Legacy or heuristic records remain stored but are ignored as measured data.
  */
 
 import { userContentStorageKeys } from '@/lib/userContentStorageScope.mjs';
+import {
+  MEASURED_WEAKNESS_EVIDENCE,
+  normalizeMeasuredWeaknessEntry,
+  retainNewestWeaknessEntries,
+  summarizeMeasuredWeakness,
+} from '@/lib/weaknessEvidenceCore.mjs';
 
 export type WeaknessEntry = {
   topic: string;
@@ -13,6 +23,7 @@ export type WeaknessEntry = {
   score: number;
   maxScore: number;
   source: 'review' | 'quiz' | 'mock';
+  evidence?: typeof MEASURED_WEAKNESS_EVIDENCE;
   recordedAt: string;
 };
 
@@ -24,7 +35,9 @@ function readEntries(): WeaknessEntry[] {
   if (typeof window === 'undefined') return [];
   try {
     const raw = window.localStorage.getItem(storageKey());
-    return raw ? (JSON.parse(raw) as WeaknessEntry[]) : [];
+    if (!raw) return [];
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? (parsed as WeaknessEntry[]) : [];
   } catch {
     return [];
   }
@@ -32,13 +45,20 @@ function readEntries(): WeaknessEntry[] {
 
 function writeEntries(entries: WeaknessEntry[]) {
   if (typeof window === 'undefined') return;
-  window.localStorage.setItem(storageKey(), JSON.stringify(entries.slice(-200)));
+  window.localStorage.setItem(storageKey(), JSON.stringify(retainNewestWeaknessEntries(entries, 200)));
 }
 
 export function recordWeakness(entry: Omit<WeaknessEntry, 'recordedAt'>) {
+  const normalized = normalizeMeasuredWeaknessEntry({
+    ...entry,
+    recordedAt: new Date().toISOString(),
+  });
+  if (!normalized) return false;
+
   const entries = readEntries();
-  entries.unshift({ ...entry, recordedAt: new Date().toISOString() });
+  entries.unshift(normalized as WeaknessEntry);
   writeEntries(entries);
+  return true;
 }
 
 export type TopicHeat = {
@@ -50,34 +70,7 @@ export type TopicHeat = {
 };
 
 export function getWeaknessHeatmap(limit = 12): TopicHeat[] {
-  const entries = readEntries();
-  const byTopic = new Map<string, TopicHeat & { total: number }>();
-
-  for (const e of entries) {
-    const key = `${e.subject}::${e.topic}`;
-    const pct = e.maxScore > 0 ? (e.score / e.maxScore) * 100 : 0;
-    const existing = byTopic.get(key);
-    if (existing) {
-      existing.attempts += 1;
-      existing.total += pct;
-      existing.avgPercent = existing.total / existing.attempts;
-      if (e.recordedAt > existing.lastSeen) existing.lastSeen = e.recordedAt;
-    } else {
-      byTopic.set(key, {
-        topic: e.topic,
-        subject: e.subject,
-        attempts: 1,
-        avgPercent: pct,
-        lastSeen: e.recordedAt,
-        total: pct,
-      });
-    }
-  }
-
-  return Array.from(byTopic.values())
-    .sort((a, b) => a.avgPercent - b.avgPercent)
-    .slice(0, limit)
-    .map(({ total: _t, ...rest }) => rest);
+  return summarizeMeasuredWeakness(readEntries(), limit) as TopicHeat[];
 }
 
 export function getWeakestTopics(count = 5): TopicHeat[] {
