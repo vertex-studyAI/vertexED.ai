@@ -39,7 +39,7 @@ export async function buildManifest() {
   "preprint_ready": false,
   "pdf_artifact": {
     "path": "portfolio/research/ngmt/paper/ngmt-v01-negative-result.pdf",
-    "sha256": "abf50c62977187a8d63fe7bf92ae372d7a72164ba393de3ed9fe83de4fa4050d",
+    "sha256": "c2e5fbc0b9dd8f4a4752ac7f3f90a4b60238fa4383fe81ff03638fd2a8f7bcb9",
     "bytes": 24292,
     "pages": 3,
     "page_size": "letter",
