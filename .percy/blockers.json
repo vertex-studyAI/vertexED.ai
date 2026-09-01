@@ -56,10 +56,10 @@
       "id": "BLOCKER-VERTEXED-PRODUCTION-IDENTITY",
       "project": "VertexED.ai",
       "severity": "HIGH",
-      "description": "Public production health cannot yet certify that www.vertexed.app is serving the exact deploy-relevant source revision.",
-      "evidence": "Production health issue #137 remains open; the previously isolated failure was deployment revision identity rather than public/auth-boundary availability.",
-      "smallest_user_action": "Connect the Vercel project integration or redeploy the intended immutable main revision and verify /api/health reports that revision.",
-      "retry_condition": "The production health monitor passes exact revision identity on the intended deployment.",
+      "description": "The intended deploy-relevant VertexED runtime revision did not reach production because both linked Vercel projects hit their build-rate limit; production therefore remains on an older artifact that cannot attest its immutable source revision.",
+      "evidence": "GitHub combined status for deploy-relevant commit 70a7a6c5d2e1fa73e1d57c6a13871d27478568e3 reports both `Vercel – vertex-ed-ai` and `Vercel – vertex-ai` as failure, with target URLs in Vercel's `upgradeToPro=build-rate-limit` state. The bounded production smoke passed every tested public/auth/security boundary on all 8 retries and failed only because /api/health returned no revision instead of 70a7a6c5d2e1fa73e1d57c6a13871d27478568e3. Issue #137 records the incident evidence.",
+      "smallest_user_action": "Restore Vercel build capacity, and disconnect the redundant duplicate Vercel project if it is not intentionally deploying this repository. Then deploy the intended runtime revision and verify /api/health reports the exact immutable SHA.",
+      "retry_condition": "The intended Vercel deployment succeeds and the production health monitor passes exact revision identity.",
       "status": "OPEN"
     },
     {
