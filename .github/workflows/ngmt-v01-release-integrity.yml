@@ -3,6 +3,12 @@ name: NGMT v0.1 release integrity
 
 on:
   workflow_dispatch:
+  pull_request:
+    paths:
+      - 'portfolio/research/ngmt/NGMT_V01_RELEASE_MANIFEST.json'
+      - 'scripts/generate-ngmt-v01-release-manifest.mjs'
+      - 'tests/ngmt-v01-release-integrity.test.mjs'
+      - '.github/workflows/ngmt-v01-release-integrity.yml'
   push:
     paths:
       - 'portfolio/research/ngmt/NGMT_V01_RELEASE_MANIFEST.json'
@@ -23,4 +29,16 @@ jobs:
         with:
           node-version: '22'
       - name: Verify deterministic manifest and frozen negative boundaries
-        run: node --test tests/ngmt-v01-release-integrity.test.mjs
+        run: node --test tests/ngmt-v01-release-integrity.test.mjs | tee ngmt-v01-release-integrity.txt
+      - name: Upload frozen negative-evidence checkpoint
+        uses: actions/upload-artifact@v4
+        with:
+          name: ngmt-v01-negative-evidence-${{ github.sha }}
+          if-no-files-found: error
+          retention-days: 30
+          path: |
+            portfolio/research/ngmt/NGMT_V01_RELEASE_MANIFEST.json
+            portfolio/research/ngmt/ngmt_v01_experiment_metadata.json
+            portfolio/research/ngmt/ngmt_v01_replay_verification.json
+            portfolio/research/ngmt/RESULTS.md
+            ngmt-v01-release-integrity.txt
