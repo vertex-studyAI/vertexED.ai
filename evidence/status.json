@@ -1,7 +1,8 @@
 {
-  "checked_at": "2026-09-02T00:00:00+05:30",
+  "checked_at": "2026-09-01T19:24:48Z",
   "canonical_baseline": "906f517e2c250ca578ff9ca6a3f16180c4a5c66c",
-  "candidate_state": "WORKING_TREE_OVERLAY",
+  "runtime_candidate": "1d1824f5664779c42289b728d0526bc10e4b05ce",
+  "candidate_state": "BRANCH_RUNTIME_COMMIT",
   "automated_checks": {
     "source_tests_passed": 719,
     "source_tests_failed": 0,
