@@ -4,6 +4,7 @@ import test from 'node:test';
 import {
   MEASURED_WEAKNESS_EVIDENCE,
   normalizeMeasuredWeaknessEntry,
+  retainNewestWeaknessEntries,
   summarizeMeasuredWeakness,
 } from '../src/lib/weaknessEvidenceCore.mjs';
 
@@ -89,4 +90,19 @@ test('weakest-topic ordering remains deterministic for trusted measurements', ()
     summary.map((entry) => entry.topic),
     ['Functions', 'Probability'],
   );
+});
+
+test('retention keeps newest entries when the local history cap is reached', () => {
+  const entries = [
+    { id: 'newest' },
+    { id: 'newer' },
+    { id: 'older' },
+    { id: 'oldest' },
+  ];
+
+  assert.deepEqual(retainNewestWeaknessEntries(entries, 2), [
+    { id: 'newest' },
+    { id: 'newer' },
+  ]);
+  assert.deepEqual(retainNewestWeaknessEntries(entries, 0), []);
 });
