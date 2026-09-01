@@ -55,6 +55,20 @@ async function request(path, options = {}) {
   }
 }
 
+function assertExpectedRevision(response, surface) {
+  if (!EXPECTED_REVISION) return;
+
+  const bodyRevision = normalizeRevision(response.body?.revision);
+  const headerRevision = normalizeRevision(response.headers.get('x-vertexed-revision'));
+  if (bodyRevision !== EXPECTED_REVISION) {
+    fail(`${surface} revision ${bodyRevision ?? 'missing'} does not match expected ${EXPECTED_REVISION}`);
+  } else if (headerRevision !== EXPECTED_REVISION) {
+    fail(`${surface} X-VertexED-Revision ${headerRevision ?? 'missing'} does not match expected ${EXPECTED_REVISION}`);
+  } else {
+    pass(`${surface} serves expected revision ${EXPECTED_REVISION}`);
+  }
+}
+
 async function main() {
   console.log(`[smoke] Target: ${BASE_URL}`);
 
@@ -72,19 +86,50 @@ async function main() {
       pass(`/api/health returns ok (routes=${health.body.routes ?? '?'})`);
     }
 
-    if (EXPECTED_REVISION) {
-      const bodyRevision = normalizeRevision(health.body?.revision);
-      const headerRevision = normalizeRevision(health.headers.get('x-vertexed-revision'));
-      if (bodyRevision !== EXPECTED_REVISION) {
-        fail(`/api/health revision ${bodyRevision ?? 'missing'} does not match expected ${EXPECTED_REVISION}`);
-      } else if (headerRevision !== EXPECTED_REVISION) {
-        fail(`X-VertexED-Revision ${headerRevision ?? 'missing'} does not match expected ${EXPECTED_REVISION}`);
-      } else {
-        pass(`/api/health serves expected revision ${EXPECTED_REVISION}`);
-      }
-    }
+    assertExpectedRevision(health, '/api/health');
   } catch (error) {
     fail(`/api/health check failed: ${error.message}`);
+  }
+
+  try {
+    const readiness = await request('/api/health?readiness=1', { method: 'GET', headers: {} });
+    const checks = readiness.body?.checks;
+    const requiredChecks = ['authentication', 'waitlist', 'coreAi', 'plannerAi'];
+    const missingChecks = requiredChecks.filter((key) => checks?.[key] !== true);
+
+    if (readiness.status !== 200 || !readiness.body?.ok || readiness.body?.status !== 'ready') {
+      fail(`/api/health?readiness=1 returned ${readiness.status} with status ${readiness.body?.status ?? 'missing'}`);
+    } else if (readiness.headers.get('x-vertexed-health') !== 'ready') {
+      fail('/api/health?readiness=1 missing X-VertexED-Health: ready');
+    } else if (missingChecks.length > 0) {
+      fail(`/api/health?readiness=1 missing ready capability checks: ${missingChecks.join(', ')}`);
+    } else {
+      pass('/api/health?readiness=1 reports authentication, waitlist, core AI, and planner AI ready');
+    }
+
+    assertExpectedRevision(readiness, '/api/health?readiness=1');
+  } catch (error) {
+    fail(`/api/health readiness check failed: ${error.message}`);
+  }
+
+  try {
+    const head = await request('/api/health', { method: 'HEAD', headers: {} });
+    if (head.status !== 200) {
+      fail(`HEAD /api/health returned ${head.status}`);
+    } else if (head.headers.get('x-vertexed-health') !== 'alive') {
+      fail('HEAD /api/health missing X-VertexED-Health: alive');
+    } else if (EXPECTED_REVISION) {
+      const headerRevision = normalizeRevision(head.headers.get('x-vertexed-revision'));
+      if (headerRevision !== EXPECTED_REVISION) {
+        fail(`HEAD /api/health X-VertexED-Revision ${headerRevision ?? 'missing'} does not match expected ${EXPECTED_REVISION}`);
+      } else {
+        pass('HEAD /api/health exposes the expected immutable revision');
+      }
+    } else {
+      pass('HEAD /api/health reports liveness headers');
+    }
+  } catch (error) {
+    fail(`HEAD /api/health check failed: ${error.message}`);
   }
 
   try {
