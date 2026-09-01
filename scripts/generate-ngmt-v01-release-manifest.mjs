@@ -34,7 +34,7 @@ export async function buildManifest() {
   "verdict": "NEGATIVE_OR_INCONCLUSIVE_NGMT_V01",
   "hypothesis_supported": false,
   "mechanism_advantage_supported": false,
-  "preprint_ready": false,
+  "preprint_ready": false,\n  "pdf_artifact": {\n    "path": "portfolio/research/ngmt/paper/ngmt-v01-negative-result.pdf",\n    "sha256": "abf50c62977187a8d63fe7bf92ae372d7a72164ba393de3ed9fe83de4fa4050d",\n    "bytes": 24292,\n    "pages": 3,\n    "page_size": "letter",\n    "encrypted": false,\n    "javascript": false,\n    "all_fonts_embedded": false,\n    "reportlab_version": "4.4.9",\n    "deterministic_two_render_equality": true,\n    "visually_inspected": true,\n    "permanent_archive": false\n  },
   "relationship_to_t2424_0025": "distinct learned B0-B3 experiment; precursor contributes no positive result",
   "protocol_freeze_commits": [
     "60d03821177a179ba0aec4253e3f987103c45f87",
