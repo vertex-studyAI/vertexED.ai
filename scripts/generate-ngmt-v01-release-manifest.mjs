@@ -17,7 +17,7 @@ export const FILES = [
   "portfolio/research/ngmt/ngmt_v01_experiment_metadata.json",
   "portfolio/research/ngmt/ngmt_v01_replay_verification.json",
   "portfolio/research/ngmt/v01/run.py",
-  "tests/test_ngmt_v01.py"
+  "tests/test_ngmt_v01.py",\n  "portfolio/research/ngmt/NGMT_V01_NEGATIVE_RESULT_MANUSCRIPT.md",\n  "portfolio/research/ngmt/NGMT_V01_MANUSCRIPT_CLAIM_AUDIT.md"
 ];
 const sha256 = (bytes) => createHash('sha256').update(bytes).digest('hex');
 
