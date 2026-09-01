@@ -9,10 +9,23 @@ const parse = (value) => value == null ? null : JSON.parse(value);
 const sha256 = (value) => createHash('sha256').update(typeof value === 'string' ? value : json(value)).digest('hex');
 
 export class PercyStore {
-  constructor(path = '.percy/percy.sqlite', { maxActive = Number(process.env.PERCY_MAX_ACTIVE ?? 2) } = {}) {
+  constructor(
+    path = '.percy/percy.sqlite',
+    {
+      maxActive = Number(process.env.PERCY_MAX_ACTIVE ?? 2),
+      maxQueued = Number(process.env.PERCY_MAX_QUEUED ?? 500),
+      maxPayloadBytes = Number(process.env.PERCY_MAX_PAYLOAD_BYTES ?? 65_536),
+    } = {},
+  ) {
     if (!Number.isInteger(maxActive) || maxActive < 1 || maxActive > 4) throw new RangeError('maxActive must be in [1,4]');
+    if (!Number.isInteger(maxQueued) || maxQueued < 1 || maxQueued > 100_000) throw new RangeError('maxQueued must be in [1,100000]');
+    if (!Number.isInteger(maxPayloadBytes) || maxPayloadBytes < 1 || maxPayloadBytes > 1_048_576) {
+      throw new RangeError('maxPayloadBytes must be in [1,1048576]');
+    }
     this.path = resolve(path);
     this.maxActive = maxActive;
+    this.maxQueued = maxQueued;
+    this.maxPayloadBytes = maxPayloadBytes;
     mkdirSync(dirname(this.path), { recursive: true });
     this.db = new DatabaseSync(this.path);
     this.db.exec('PRAGMA journal_mode=WAL; PRAGMA foreign_keys=ON; PRAGMA busy_timeout=5000;');
@@ -102,13 +115,31 @@ export class PercyStore {
   integrityCheck() { return this.db.prepare('PRAGMA integrity_check').all().map(r => r.integrity_check); }
   isPaused() { return this.db.prepare("SELECT value FROM meta WHERE key='paused'").get()?.value === '1'; }
   setPaused(paused) { this.db.prepare("UPDATE meta SET value=? WHERE key='paused'").run(paused ? '1' : '0'); }
+  queueDepth() { return Number(this.db.prepare("SELECT COUNT(*) AS n FROM tasks WHERE status='READY'").get().n); }
 
   submit({ id = randomUUID(), kind = 'echo', payload = {}, maxAttempts = 3, availableAt = now() } = {}) {
     if (!Number.isInteger(maxAttempts) || maxAttempts < 1 || maxAttempts > 20) throw new RangeError('maxAttempts must be in [1,20]');
+    const packed = json(payload);
+    const payloadBytes = Buffer.byteLength(packed, 'utf8');
+    if (payloadBytes > this.maxPayloadBytes) {
+      throw new RangeError(`payload exceeds maxPayloadBytes (${payloadBytes} > ${this.maxPayloadBytes})`);
+    }
+
     const t = now();
-    this.db.prepare(`INSERT INTO tasks(id,kind,payload,status,attempts,max_attempts,available_at,created_at,updated_at)
-      VALUES(?,?,?,'READY',0,?,?,?,?)`).run(id, kind, json(payload), maxAttempts, availableAt, t, t);
-    return id;
+    this.db.exec('BEGIN IMMEDIATE');
+    try {
+      const depth = this.queueDepth();
+      if (depth >= this.maxQueued) {
+        throw new Error(`queue depth limit reached (${depth} >= ${this.maxQueued})`);
+      }
+      this.db.prepare(`INSERT INTO tasks(id,kind,payload,status,attempts,max_attempts,available_at,created_at,updated_at)
+        VALUES(?,?,?,'READY',0,?,?,?,?)`).run(id, kind, packed, maxAttempts, availableAt, t, t);
+      this.db.exec('COMMIT');
+      return id;
+    } catch (error) {
+      try { this.db.exec('ROLLBACK'); } catch {}
+      throw error;
+    }
   }
 
   activeCount() {
