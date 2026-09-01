@@ -12,6 +12,7 @@ import { userContentStorageKeys } from '@/lib/userContentStorageScope.mjs';
 import {
   MEASURED_WEAKNESS_EVIDENCE,
   normalizeMeasuredWeaknessEntry,
+  retainNewestWeaknessEntries,
   summarizeMeasuredWeakness,
 } from '@/lib/weaknessEvidenceCore.mjs';
 
@@ -44,7 +45,7 @@ function readEntries(): WeaknessEntry[] {
 
 function writeEntries(entries: WeaknessEntry[]) {
   if (typeof window === 'undefined') return;
-  window.localStorage.setItem(storageKey(), JSON.stringify(entries.slice(-200)));
+  window.localStorage.setItem(storageKey(), JSON.stringify(retainNewestWeaknessEntries(entries, 200)));
 }
 
 export function recordWeakness(entry: Omit<WeaknessEntry, 'recordedAt'>) {
