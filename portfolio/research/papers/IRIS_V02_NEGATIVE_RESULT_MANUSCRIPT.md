@@ -1,11 +1,11 @@
 # IRIS v0.2: A Falsification-First Study of Robust Memory Under Regime Change
 
 **Status:** internally complete technical-report manuscript from retained evidence; not externally validated.  
-**Claim boundary:** reports the frozen mixed/negative v0.2 development result. It does not claim adaptive superiority, and confirmatory seeds `1000–1029` remain untouched.
+**Claim boundary:** reports the frozen mixed/negative v0.2 development result. It does not claim adaptive superiority. The reserved confirmatory **experiment IDs** `1000–1029` remain unevaluated; historical development code did use some numerically overlapping derived RNG values internally, so this report does not make the broader claim that those integers never appeared in any RNG call.
 
 ## Abstract
 
-We study whether a robust-memory estimator can separate transient outliers from persistent distributional change better than strong robust controls. The frozen IRIS v0.2 line tests a successor criterion requiring at least a 10% abrupt-regime improvement over a fixed HTAM comparator while remaining competitive with robust baselines such as Huber-family estimators. Across retained development and stress evaluations, the best supported abrupt-regime gain is approximately 5.33–5.36%, below the preregistered 10% promotion gate. The PCRW variant also fails to cleanly dominate Huber on the relevant abrupt comparison, and coherent burst outliers remain a documented adverse case. We therefore reject the broad successor-superiority claim for v0.2 and preserve the result as a bounded robustness–adaptation tradeoff. Confirmatory seeds `1000–1029` remain quarantined because exact canonical development-trajectory identity/equivalence has not been recovered. This report emphasizes negative-result retention, explicit promotion gates, and provenance discipline rather than post-hoc rescue.
+We study whether a robust-memory estimator can separate transient outliers from persistent distributional change better than strong robust controls. The frozen IRIS v0.2 line tests a successor criterion requiring at least a 10% abrupt-regime improvement over a fixed HTAM comparator while remaining competitive with robust baselines such as Huber-family estimators. Across retained development and stress evaluations, the best supported abrupt-regime gain is approximately 5.33–5.36%, below the preregistered 10% promotion gate. The PCRW variant also fails to cleanly dominate Huber on the relevant abrupt comparison, and coherent burst outliers remain a documented adverse case. We therefore reject the broad successor-superiority claim for v0.2 and preserve the result as a bounded robustness–adaptation tradeoff. The planned confirmatory experiment family with outer IDs `1000–1029` remains quarantined and unevaluated because exact canonical development-trajectory identity/equivalence has not been recovered. This report emphasizes negative-result retention, explicit promotion gates, and provenance discipline rather than post-hoc rescue.
 
 ## 1. Introduction
 
@@ -21,14 +21,14 @@ The frozen successor line required:
 
 1. at least `10%` abrupt-regime improvement over fixed HTAM on the primary frozen effect statistic;
 2. competitive behavior against Huber-family robust controls;
-3. no hidden dependence on confirmatory seeds;
+3. no hidden dependence on the reserved confirmatory experiment family;
 4. no promotion if coherent burst outliers expose an unresolved failure mode.
 
 The falsifier is therefore any development package in which the abrupt-regime improvement is below `10%`, a strong robust baseline dominates the candidate on the key abrupt comparison, or coherent burst behavior remains adverse.
 
 ## 3. Experimental Protocol
 
-The retained protocol uses synthetic scalar/sequence settings containing heavy-tailed corruption, abrupt regime changes, and stress cases designed to distinguish one-off outliers from persistent change. Development seeds are separated from reserved confirmatory seeds. The currently retained policy quarantines seeds `1000–1029` until the complete frozen analysis plan and exact canonical trajectory identity/equivalence are established.
+The retained protocol uses synthetic scalar/sequence settings containing heavy-tailed corruption, abrupt regime changes, and stress cases designed to distinguish one-off outliers from persistent change. Development experiment IDs are separated from the reserved confirmatory experiment family. The currently retained policy quarantines outer confirmatory IDs `1000–1029` until the complete frozen analysis plan and exact canonical trajectory identity/equivalence are established. Historical development code did use some numerically overlapping values as derived RNG seeds inside other experiment IDs; those internal RNG calls are not confirmatory evaluations and must not be conflated with the reserved confirmatory experiment family.
 
 Primary comparators include fixed HTAM and robust Huber-family controls. Candidate memory behavior is evaluated on the frozen regime-adaptation effect statistic rather than by selecting whichever metric is most favorable after inspection.
 
@@ -46,7 +46,7 @@ Accordingly:
 | Clean dominance over robust Huber-family control | **UNSUPPORTED** |
 | Broad adaptive-memory superiority | **UNSUPPORTED** |
 | Localized robustness/adaptation tradeoff exists | **SUPPORTED** |
-| Confirmatory validation completed | **FALSE** |
+| Confirmatory experiment family evaluated | **FALSE** |
 
 ## 5. Failure Analysis
 
@@ -58,9 +58,9 @@ These findings suggest that future work should treat robustness and adaptation a
 
 ## 6. Provenance and Confirmatory Boundary
 
-The current blocker is not a desire for more random seeds. It is exact provenance of the canonical development trajectories. Before any confirmatory access, the project must recover either the exact retained observation/state trajectory corpus or an authoritative byte-identical deterministic generator/configuration record, then hash every input and freeze the analysis manifest.
+The current blocker is not a desire for more random seeds. It is exact provenance of the canonical development trajectories. Before any confirmatory evaluation, the project must recover either the exact retained observation/state trajectory corpus or an authoritative byte-identical deterministic generator/configuration record, then hash every input and freeze the analysis manifest.
 
-Until that gate closes, seeds `1000–1029` remain unavailable. The current v0.2 conclusion must not be altered by tuning against them.
+Until that gate closes, the reserved outer confirmatory experiment IDs `1000–1029` remain unavailable for evaluation. This boundary is about the confirmatory experiment family, not a claim that the numeric integers `1000–1029` never appeared inside historical development RNG derivations. The current v0.2 conclusion must not be altered by tuning against the reserved confirmatory evaluation surface.
 
 ## 7. Limitations
 
@@ -77,7 +77,8 @@ IRIS v0.2 does not satisfy its frozen successor gate. The retained abrupt-regime
 ## Reproducibility checklist
 
 - Preserve current v0.2 results and thresholds.
-- Do not access seeds `1000–1029`.
+- Do not evaluate the reserved confirmatory experiment family with outer IDs `1000–1029`.
+- Keep internal derived RNG values distinct from confirmatory experiment IDs in all provenance claims.
 - Recover and hash canonical trajectories or deterministic-equivalence evidence.
 - Freeze baselines, metric, effect statistic, failure taxonomy, and analysis code.
 - Run confirmatory evaluation only after those gates are independently verified.
