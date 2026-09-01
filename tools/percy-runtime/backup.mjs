@@ -21,6 +21,14 @@ function assertPercySchema(db) {
   if (missing.length) throw new Error(`backup is missing Percy tables: ${missing.join(', ')}`);
 }
 
+function backupArtifacts(output) {
+  return [output, `${output}-wal`, `${output}-shm`];
+}
+
+function removeBackupArtifacts(output) {
+  for (const path of backupArtifacts(output)) rmSync(path, { force: true });
+}
+
 export async function createVerifiedBackup(
   sourceDb,
   sourcePath,
@@ -34,12 +42,14 @@ export async function createVerifiedBackup(
   const source = resolve(sourcePath);
   const output = resolve(outputPath);
   if (source === output) throw new Error('backup output must differ from the live database path');
-  if (existsSync(output) && !overwrite) {
-    throw new Error(`backup output already exists: ${output}`);
+
+  const existingArtifacts = backupArtifacts(output).filter((path) => existsSync(path));
+  if (existingArtifacts.length && !overwrite) {
+    throw new Error(`backup output already exists: ${existingArtifacts.join(', ')}`);
   }
 
   mkdirSync(dirname(output), { recursive: true });
-  if (overwrite) rmSync(output, { force: true });
+  if (overwrite) removeBackupArtifacts(output);
 
   const sourceIntegrity = sourceDb.prepare('PRAGMA integrity_check').all().map((row) => row.integrity_check);
   if (sourceIntegrity.length !== 1 || sourceIntegrity[0] !== 'ok') {
@@ -61,7 +71,7 @@ export async function createVerifiedBackup(
       copy.close();
     }
   } catch (error) {
-    rmSync(output, { force: true });
+    removeBackupArtifacts(output);
     throw error;
   }
 }
