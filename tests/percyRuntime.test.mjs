@@ -52,6 +52,32 @@ test('default concurrency cap permits two active claims and rejects the third', 
   } finally { cleanup(f); }
 });
 
+test('queue depth cap rejects runaway READY submissions and releases capacity after claim', () => {
+  const f = fresh({ maxQueued: 2 });
+  try {
+    f.store.submit({ id: 'a' });
+    f.store.submit({ id: 'b' });
+    assert.equal(f.store.queueDepth(), 2);
+    assert.throws(() => f.store.submit({ id: 'c' }), /queue depth limit reached/);
+    assert.equal(f.store.claim('w1', 1000).id, 'a');
+    assert.equal(f.store.queueDepth(), 1);
+    assert.equal(f.store.submit({ id: 'c' }), 'c');
+    assert.equal(f.store.queueDepth(), 2);
+  } finally { cleanup(f); }
+});
+
+test('payload byte cap rejects oversized task payloads before insertion', () => {
+  const f = fresh({ maxPayloadBytes: 8 });
+  try {
+    assert.throws(
+      () => f.store.submit({ id: 'large', payload: { x: '1234567890' } }),
+      /payload exceeds maxPayloadBytes/,
+    );
+    assert.equal(f.store.get('large'), null);
+    assert.equal(f.store.submit({ id: 'small', payload: { x: 1 } }), 'small');
+  } finally { cleanup(f); }
+});
+
 test('active lease prevents duplicate execution', () => {
   const f = fresh();
   try {

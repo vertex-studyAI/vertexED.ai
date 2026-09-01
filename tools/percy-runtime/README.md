@@ -23,6 +23,8 @@ SQLite task store (WAL)
   - attempts / retained failures
   - worker owner_id
   - lease expiry / heartbeat
+  - bounded READY queue
+  - bounded task payload bytes
   - evidence + SHA-256
   - result/error
         |
@@ -42,10 +44,13 @@ There is **no arbitrary shell task kind**. Provider/model adapters must be expli
 
 ## Exact launcher
 
-Initialize:
+Initialize with the conservative defaults explicitly shown:
 
 ```bash
-PERCY_MAX_ACTIVE=2 node tools/percy-runtime/cli.mjs init
+PERCY_MAX_ACTIVE=2 \
+PERCY_MAX_QUEUED=500 \
+PERCY_MAX_PAYLOAD_BYTES=65536 \
+node tools/percy-runtime/cli.mjs init
 ```
 
 Submit a safe smoke task:
@@ -74,7 +79,15 @@ node tools/percy-runtime/cli.mjs pause
 node tools/percy-runtime/cli.mjs resume
 ```
 
-The database defaults to `.percy/percy.sqlite`; override with `--db` or `PERCY_DB`. Active work defaults to **2** and can be changed only within `1..4` using `PERCY_MAX_ACTIVE` or `--max-active`.
+The database defaults to `.percy/percy.sqlite`; override with `--db` or `PERCY_DB`.
+
+Safety limits are deliberately bounded:
+
+- active work defaults to **2** and may only be set within `1..4` using `PERCY_MAX_ACTIVE` or `--max-active`;
+- READY queue depth defaults to **500** and may only be set within `1..100000` using `PERCY_MAX_QUEUED` or `--max-queued`;
+- serialized task payload size defaults to **65,536 bytes** and may only be set within `1..1,048,576` using `PERCY_MAX_PAYLOAD_BYTES` or `--max-payload-bytes`.
+
+A submission that would exceed the READY queue limit fails before insertion. The depth check and insert run under `BEGIN IMMEDIATE`, so concurrent submitters share one serialized admission boundary. Payload bytes are checked before the transaction begins; oversized payloads never enter the task table.
 
 ## Persistence, migration, crash recovery and shutdown
 
@@ -103,6 +116,8 @@ The current regression matrix covers:
 - `READY -> CLAIMED -> RUNNING -> VERIFYING -> COMPLETE` persistence across reopen;
 - completion blocked when evidence is absent;
 - default two-active-task concurrency cap and third-claim rejection;
+- READY queue-depth admission cap and capacity release after claim;
+- payload-byte rejection before insertion;
 - duplicate-claim prevention;
 - expired-lease recovery;
 - stale-owner transition rejection;
@@ -111,8 +126,6 @@ The current regression matrix covers:
 - graceful stale marking and requeue;
 - legacy database migration with history preservation;
 - database integrity after reopen/migration.
-
-A fresh isolated run on 12 August 2026 passed **10/10 tests**.
 
 ## Concurrency policy
 
@@ -148,11 +161,10 @@ Required Discord gates:
 2. Measure two-worker contention/resource behavior on that machine; promote above two only from evidence.
 3. Add per-provider class/semaphore limits and backoff policy.
 4. Add structured JSONL logs with redaction.
-5. Add queue-depth and payload-size limits.
-6. Add periodic SQLite backup + restore testing.
-7. Add a long-running worker loop with bounded jitter/backoff.
-8. Add real provider adapters behind explicit interfaces.
-9. Add Discord only as a thin authenticated adapter after the runtime is qualified.
-10. Pin the exact production Node version.
+5. Add periodic SQLite backup + restore testing.
+6. Add a long-running worker loop with bounded jitter/backoff.
+7. Add real provider adapters behind explicit interfaces.
+8. Add Discord only as a thin authenticated adapter after the runtime is qualified.
+9. Pin the exact production Node version.
 
 Production reliability remains incomplete until the real Mac passes the crash/restart, multiworker contention and shutdown gates.
