@@ -5,13 +5,17 @@ on:
   workflow_dispatch:
   pull_request:
     paths:
-      - 'portfolio/research/ngmt/NGMT_V01_RELEASE_MANIFEST.json'\n      - 'portfolio/research/ngmt/NGMT_V01_NEGATIVE_RESULT_MANUSCRIPT.md'\n      - 'portfolio/research/ngmt/NGMT_V01_MANUSCRIPT_CLAIM_AUDIT.md'
+      - 'portfolio/research/ngmt/NGMT_V01_RELEASE_MANIFEST.json'
+      - 'portfolio/research/ngmt/NGMT_V01_NEGATIVE_RESULT_MANUSCRIPT.md'
+      - 'portfolio/research/ngmt/NGMT_V01_MANUSCRIPT_CLAIM_AUDIT.md'
       - 'scripts/generate-ngmt-v01-release-manifest.mjs'
       - 'tests/ngmt-v01-release-integrity.test.mjs'
       - '.github/workflows/ngmt-v01-release-integrity.yml'
   push:
     paths:
-      - 'portfolio/research/ngmt/NGMT_V01_RELEASE_MANIFEST.json'\n      - 'portfolio/research/ngmt/NGMT_V01_NEGATIVE_RESULT_MANUSCRIPT.md'\n      - 'portfolio/research/ngmt/NGMT_V01_MANUSCRIPT_CLAIM_AUDIT.md'
+      - 'portfolio/research/ngmt/NGMT_V01_RELEASE_MANIFEST.json'
+      - 'portfolio/research/ngmt/NGMT_V01_NEGATIVE_RESULT_MANUSCRIPT.md'
+      - 'portfolio/research/ngmt/NGMT_V01_MANUSCRIPT_CLAIM_AUDIT.md'
       - 'scripts/generate-ngmt-v01-release-manifest.mjs'
       - 'tests/ngmt-v01-release-integrity.test.mjs'
       - '.github/workflows/ngmt-v01-release-integrity.yml'
@@ -37,7 +41,9 @@ jobs:
           if-no-files-found: error
           retention-days: 30
           path: |
-            portfolio/research/ngmt/NGMT_V01_RELEASE_MANIFEST.json\n            portfolio/research/ngmt/NGMT_V01_NEGATIVE_RESULT_MANUSCRIPT.md\n            portfolio/research/ngmt/NGMT_V01_MANUSCRIPT_CLAIM_AUDIT.md
+            portfolio/research/ngmt/NGMT_V01_RELEASE_MANIFEST.json
+            portfolio/research/ngmt/NGMT_V01_NEGATIVE_RESULT_MANUSCRIPT.md
+            portfolio/research/ngmt/NGMT_V01_MANUSCRIPT_CLAIM_AUDIT.md
             portfolio/research/ngmt/ngmt_v01_experiment_metadata.json
             portfolio/research/ngmt/ngmt_v01_replay_verification.json
             portfolio/research/ngmt/RESULTS.md
