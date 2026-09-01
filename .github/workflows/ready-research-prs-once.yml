@@ -1,11 +1,7 @@
 name: Clear connector-only research PR drafts
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - .github/workflows/ready-research-prs-once.yml
+  workflow_dispatch:
 
 permissions:
   contents: read
