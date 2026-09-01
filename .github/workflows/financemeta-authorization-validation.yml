@@ -67,7 +67,7 @@ jobs:
           grep -F 'ALTER VIEW public.essay_submissions_with_counts SET (security_invoker = true)' "$migration"
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: '22'
           cache: npm
