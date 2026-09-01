@@ -25,6 +25,7 @@ SQLite task store (WAL)
   - lease expiry / heartbeat
   - bounded READY queue
   - bounded task payload bytes
+  - verified online backups
   - evidence + SHA-256
   - result/error
         |
@@ -39,7 +40,7 @@ There is **no arbitrary shell task kind**. Provider/model adapters must be expli
 
 ## Requirements
 
-- Node 22+ with `node:sqlite` available.
+- Node 22.22+ with `node:sqlite` available. The online backup API used here is available in the supported Node 22 line.
 - Pin/test the production Node version because `node:sqlite` may still emit an experimental-feature warning on some releases.
 
 ## Exact launcher
@@ -71,6 +72,14 @@ Inspect state and SQLite integrity:
 node tools/percy-runtime/cli.mjs status
 node tools/percy-runtime/cli.mjs integrity
 ```
+
+Create an online backup without stopping Percy:
+
+```bash
+node tools/percy-runtime/cli.mjs backup --output .percy/backups/percy-$(date +%Y%m%d-%H%M%S).sqlite
+```
+
+The backup command refuses the live database path and refuses an existing output by default. Use `--overwrite` only when replacement is intentional. A backup is reported as `BACKUP_VERIFIED` only after the live database passes `PRAGMA integrity_check`, SQLite's online backup completes, the copy independently passes `PRAGMA integrity_check`, and row counts match for `meta`, `tasks`, `evidence`, and `failures`. A failed verification removes the invalid copy.
 
 Pause/resume new claims:
 
@@ -118,6 +127,8 @@ The current regression matrix covers:
 - default two-active-task concurrency cap and third-claim rejection;
 - READY queue-depth admission cap and capacity release after claim;
 - payload-byte rejection before insertion;
+- verified online backup plus restore of task, evidence, and failure history;
+- refusal to overwrite an existing backup or back up onto the live DB path accidentally;
 - duplicate-claim prevention;
 - expired-lease recovery;
 - stale-owner transition rejection;
@@ -161,7 +172,7 @@ Required Discord gates:
 2. Measure two-worker contention/resource behavior on that machine; promote above two only from evidence.
 3. Add per-provider class/semaphore limits and backoff policy.
 4. Add structured JSONL logs with redaction.
-5. Add periodic SQLite backup + restore testing.
+5. Schedule and exercise periodic verified backups on the actual Mac, including an operational restore drill.
 6. Add a long-running worker loop with bounded jitter/backoff.
 7. Add real provider adapters behind explicit interfaces.
 8. Add Discord only as a thin authenticated adapter after the runtime is qualified.
