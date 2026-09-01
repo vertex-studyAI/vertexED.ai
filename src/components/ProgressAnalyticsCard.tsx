@@ -1,5 +1,6 @@
 import { TrendingDown, TrendingUp, Minus } from 'lucide-react';
 import type { ProgressTrend } from '@/lib/progressAnalytics';
+import { formatMeasuredMastery } from '@/lib/progressAnalyticsCore.mjs';
 import { cn } from '@/lib/utils';
 
 type Props = {
@@ -9,6 +10,7 @@ type Props = {
 
 export default function ProgressAnalyticsCard({ trend, className }: Props) {
   const maxStreak = Math.max(...trend.snapshots.map((s) => s.studyStreak), 1);
+  const hasMeasuredMastery = trend.avgMastery !== null;
 
   return (
     <div id="streak-calendar" className={cn('neu-card p-5', className)}>
@@ -21,10 +23,16 @@ export default function ProgressAnalyticsCard({ trend, className }: Props) {
         </div>
         <div>
           <p className="text-2xl font-semibold text-foreground flex items-center gap-1">
-            {trend.avgMastery}%
-            {trend.masteryTrend === 'up' && <TrendingUp className="h-4 w-4 text-emerald-500" />}
-            {trend.masteryTrend === 'down' && <TrendingDown className="h-4 w-4 text-amber-500" />}
-            {trend.masteryTrend === 'flat' && <Minus className="h-4 w-4 text-muted-foreground" />}
+            {formatMeasuredMastery(trend.avgMastery)}
+            {hasMeasuredMastery && trend.masteryTrend === 'up' && (
+              <TrendingUp className="h-4 w-4 text-emerald-500" />
+            )}
+            {hasMeasuredMastery && trend.masteryTrend === 'down' && (
+              <TrendingDown className="h-4 w-4 text-amber-500" />
+            )}
+            {hasMeasuredMastery && trend.masteryTrend === 'flat' && (
+              <Minus className="h-4 w-4 text-muted-foreground" />
+            )}
           </p>
           <p className="text-xs text-muted-foreground">Avg mastery</p>
         </div>
