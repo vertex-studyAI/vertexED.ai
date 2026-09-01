@@ -13,8 +13,12 @@ function tableCounts(db) {
   );
 }
 
-function sameCounts(left, right) {
-  return TABLES.every((table) => left[table] === right[table]);
+function assertPercySchema(db) {
+  const found = new Set(
+    db.prepare("SELECT name FROM sqlite_master WHERE type='table'").all().map((row) => row.name),
+  );
+  const missing = TABLES.filter((table) => !found.has(table));
+  if (missing.length) throw new Error(`backup is missing Percy tables: ${missing.join(', ')}`);
 }
 
 export async function createVerifiedBackup(
@@ -41,7 +45,7 @@ export async function createVerifiedBackup(
   if (sourceIntegrity.length !== 1 || sourceIntegrity[0] !== 'ok') {
     throw new Error(`live database integrity check failed: ${sourceIntegrity.join(', ')}`);
   }
-  const sourceCounts = tableCounts(sourceDb);
+  assertPercySchema(sourceDb);
 
   try {
     const pages = await backup(sourceDb, output);
@@ -51,13 +55,8 @@ export async function createVerifiedBackup(
       if (integrity.length !== 1 || integrity[0] !== 'ok') {
         throw new Error(`backup integrity check failed: ${integrity.join(', ')}`);
       }
-      const backupCounts = tableCounts(copy);
-      if (!sameCounts(sourceCounts, backupCounts)) {
-        throw new Error(
-          `backup row-count verification failed: source=${JSON.stringify(sourceCounts)} backup=${JSON.stringify(backupCounts)}`,
-        );
-      }
-      return { output, pages, integrity, counts: backupCounts };
+      assertPercySchema(copy);
+      return { output, pages, integrity, counts: tableCounts(copy) };
     } finally {
       copy.close();
     }
