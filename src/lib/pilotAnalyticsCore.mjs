@@ -1,5 +1,7 @@
 const PSEUDONYMOUS_ID = /^[A-Za-z0-9_-]{6,64}$/;
 const ISO_TIMESTAMP = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{3})?Z$/;
+const GIT_REVISION = /^(?:[0-9a-f]{40}|[0-9a-f]{64})$/i;
+const DANGEROUS_CSV_PREFIX = /^[\u0009\u000A\u000D ]*[=+\-@]/;
 
 export const PILOT_EXPORT_SCHEMA = 'vertexed-pilot-analytics-v1';
 
@@ -67,12 +69,14 @@ export function normalizePilotSession(record) {
     return null;
   }
 
+  if (Date.parse(interventionStart) < Date.parse(startedAt)) return null;
   if (Date.parse(interventionEnd) < Date.parse(interventionStart)) return null;
-  if (completedAt && Date.parse(completedAt) < Date.parse(startedAt)) return null;
+  if (completedAt && Date.parse(completedAt) < Date.parse(interventionEnd)) return null;
   if (usefulness !== null && (usefulness < 1 || usefulness > 5)) return null;
 
   const completionFlag = record.completion_flag === true;
   if (completionFlag && (!post || !completedAt)) return null;
+  if (!completionFlag && (post || completedAt)) return null;
 
   return {
     participant_id: record.participant_id,
@@ -195,8 +199,10 @@ export function buildPilotExport(records, metadata) {
   const generatedAt = normalizeTimestamp(metadata.generated_at);
   const sourceRevision = requiredText(metadata.source_revision);
   const source = requiredText(metadata.source);
-  if (!generatedAt || !sourceRevision || !source) {
-    throw new TypeError('metadata.generated_at, metadata.source_revision, and metadata.source are required');
+  if (!generatedAt || !sourceRevision || !GIT_REVISION.test(sourceRevision) || !source) {
+    throw new TypeError(
+      'metadata.generated_at, metadata.source_revision (full Git SHA), and metadata.source are required',
+    );
   }
 
   const { sessions, rejectedRecordCount } = normalizePilotRecords(records);
@@ -253,7 +259,8 @@ const CSV_COLUMNS = [
 const csvCell = (value) => {
   if (value == null) return '';
   const text = String(value);
-  return /[",\n]/.test(text) ? `"${text.replaceAll('"', '""')}"` : text;
+  const safeText = DANGEROUS_CSV_PREFIX.test(text) ? `'${text}` : text;
+  return /[",\n]/.test(safeText) ? `"${safeText.replaceAll('"', '""')}"` : safeText;
 };
 
 export function pilotSessionsToCsv(sessions) {
