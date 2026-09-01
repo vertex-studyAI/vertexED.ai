@@ -11,7 +11,7 @@ import {
 
 const metadata = {
   generated_at: '2026-09-02T00:00:00.000Z',
-  source_revision: 'deadbeef',
+  source_revision: '0123456789abcdef0123456789abcdef01234567',
   source: 'fixture:pseudonymous-pilot-v1',
 };
 
@@ -133,4 +133,70 @@ test('export records accepted and rejected counts without leaking rejected ident
   assert.equal(exported.metadata.accepted_session_count, 1);
   assert.equal(exported.metadata.rejected_record_count, 1);
   assert.equal(JSON.stringify(exported).includes('student@example.com'), false);
+});
+
+test('source revision must be a full immutable Git SHA', () => {
+  assert.throws(
+    () => buildPilotExport([session()], { ...metadata, source_revision: 'deadbeef' }),
+    /full Git SHA/,
+  );
+  assert.doesNotThrow(() => buildPilotExport([session()], metadata));
+});
+
+test('temporally contradictory sessions fail closed', () => {
+  const records = [
+    session({ session_id: 'before-start', intervention_start: '2026-09-01T09:59:00.000Z' }),
+    session({ session_id: 'reverse-intervention', intervention_end: '2026-09-01T10:04:00.000Z' }),
+    session({ session_id: 'complete-before-end', completed_at: '2026-09-01T10:30:00.000Z' }),
+    session({ participant_id: 'pilot_B002', session_id: 'valid-session' }),
+  ];
+
+  const exported = buildPilotExport(records, metadata);
+  assert.equal(exported.metadata.accepted_session_count, 1);
+  assert.equal(exported.metadata.rejected_record_count, 3);
+  assert.equal(exported.sessions[0].session_id, 'valid-session');
+});
+
+test('completion flag cannot disagree with post-assessment or completion timestamp', () => {
+  const exported = buildPilotExport(
+    [
+      session({
+        session_id: 'flag-false-with-post',
+        completion_flag: false,
+      }),
+      session({
+        session_id: 'flag-false-with-completed-at',
+        completion_flag: false,
+        post_assessment: null,
+      }),
+      session({
+        participant_id: 'pilot_B002',
+        session_id: 'valid-partial',
+        completion_flag: false,
+        post_assessment: null,
+        completed_at: null,
+      }),
+    ],
+    metadata,
+  );
+
+  assert.equal(exported.metadata.accepted_session_count, 1);
+  assert.equal(exported.metadata.rejected_record_count, 2);
+  assert.equal(exported.sessions[0].session_id, 'valid-partial');
+});
+
+test('CSV neutralizes spreadsheet formula prefixes in user-controlled text', () => {
+  const csv = pilotSessionsToCsv([
+    session({
+      session_id: '@session-formula',
+      subject: '+SUM(A1:A2)',
+      topic: '=1+1',
+      curriculum: '-2+3',
+    }),
+  ]);
+
+  assert.match(csv, /'@session-formula/);
+  assert.match(csv, /'\+SUM\(A1:A2\)/);
+  assert.match(csv, /'=1\+1/);
+  assert.match(csv, /'-2\+3/);
 });
