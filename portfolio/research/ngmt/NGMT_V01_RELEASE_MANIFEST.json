@@ -84,6 +84,16 @@
       "path": "tests/test_ngmt_v01.py",
       "sha256": "196ae45fbca15ab861dc0252736fb14a6a9cd7ca8e7f673f132a1ecf99d2069f",
       "bytes": 3245
+    },
+    {
+      "path": "portfolio/research/ngmt/NGMT_V01_NEGATIVE_RESULT_MANUSCRIPT.md",
+      "sha256": "db0109e2b874d38ad2dc92ed5c65f70b7f5f4eb3f6b3148c4f51c86322a3f573",
+      "bytes": 7498
+    },
+    {
+      "path": "portfolio/research/ngmt/NGMT_V01_MANUSCRIPT_CLAIM_AUDIT.md",
+      "sha256": "1af622391086c6f4c56004912d012a7645217d33fec542fc8852b7095aa5098a",
+      "bytes": 2523
     }
   ],
   "invalid_attempt": {
