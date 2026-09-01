@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Chaos — Sensitivity to Initial Conditions</title>
+  <style>
+    :root { color-scheme: dark; font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    body { margin: 0; min-height: 100vh; background: #06070b; color: #f7f7fb; display: grid; place-items: center; }
+    main { width: min(1120px, 94vw); padding: 24px; }
+    h1 { margin: 0 0 4px; font-size: clamp(24px, 4vw, 44px); }
+    p { color: #b7bbca; margin: 0 0 20px; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    canvas { width: 100%; background: #0d1018; border: 1px solid #242938; border-radius: 16px; }
+    .controls { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin: 18px 0; }
+    button { border: 1px solid #343b50; background: #151a26; color: white; border-radius: 10px; padding: 9px 14px; cursor: pointer; }
+    label { color: #c9ccda; font-size: 14px; }
+    input[type=range] { width: 220px; }
+    .readout { font-variant-numeric: tabular-nums; color: #dfe3f2; }
+    .equation { font-size: clamp(18px, 2.5vw, 28px); text-align: center; margin: 18px 0 8px; }
+    .note { text-align: center; font-size: 13px; color: #8e95a8; }
+    @media (max-width: 760px) { .grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Almost the same start. Exactly the same rule.</h1>
+  <p>Two logistic-map trajectories begin only 10⁻⁹ apart. At r = 4 they rapidly become macroscopically different.</p>
+
+  <div class="equation">x<sub>n+1</sub> = r x<sub>n</sub>(1 − x<sub>n</sub>)</div>
+  <div class="note">A deterministic rule can still be highly sensitive to initial conditions.</div>
+
+  <div class="controls">
+    <button id="restart">Restart animation</button>
+    <label>r <input id="r" type="range" min="3.5" max="4" step="0.001" value="4" /></label>
+    <span id="rValue" class="readout">4.000</span>
+    <span id="step" class="readout">n = 0</span>
+    <span id="delta" class="readout">Δ = 1.00e−9</span>
+  </div>
+
+  <div class="grid">
+    <canvas id="traj" width="900" height="460" aria-label="Two chaotic trajectories"></canvas>
+    <canvas id="div" width="900" height="460" aria-label="Log separation over time"></canvas>
+  </div>
+</main>
+<script>
+(() => {
+  const trajectoryCanvas = document.getElementById('traj');
+  const divergenceCanvas = document.getElementById('div');
+  const tctx = trajectoryCanvas.getContext('2d');
+  const dctx = divergenceCanvas.getContext('2d');
+  const rInput = document.getElementById('r');
+  const rValue = document.getElementById('rValue');
+  const stepReadout = document.getElementById('step');
+  const deltaReadout = document.getElementById('delta');
+  const restart = document.getElementById('restart');
+
+  const maxSteps = 70;
+  let frame = 0;
+  let timer = null;
+  let xs = [];
+  let ys = [];
+  let deltas = [];
+
+  function logistic(x, r) { return r * x * (1 - x); }
+
+  function resetData() {
+    const r = Number(rInput.value);
+    xs = [0.2];
+    ys = [0.2 + 1e-9];
+    deltas = [Math.abs(ys[0] - xs[0])];
+    for (let i = 1; i <= maxSteps; i += 1) {
+      xs.push(logistic(xs[i - 1], r));
+      ys.push(logistic(ys[i - 1], r));
+      deltas.push(Math.abs(ys[i] - xs[i]));
+    }
+    frame = 0;
+  }
+
+  function clear(ctx, canvas) {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#0d1018';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+  }
+
+  function axes(ctx, canvas, title, yLabel) {
+    ctx.fillStyle = '#e9ecf7';
+    ctx.font = '600 26px system-ui';
+    ctx.fillText(title, 64, 40);
+    ctx.strokeStyle = '#3a4051';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(60, 55); ctx.lineTo(60, canvas.height - 54); ctx.lineTo(canvas.width - 26, canvas.height - 54);
+    ctx.stroke();
+    ctx.fillStyle = '#8f97aa';
+    ctx.font = '16px system-ui';
+    ctx.fillText('iteration n', canvas.width - 100, canvas.height - 18);
+    ctx.save();
+    ctx.translate(20, canvas.height / 2 + 30);
+    ctx.rotate(-Math.PI / 2);
+    ctx.fillText(yLabel, 0, 0);
+    ctx.restore();
+  }
+
+  function plotLine(ctx, values, upto, transformY, strokeStyle) {
+    const left = 60, right = ctx.canvas.width - 26, top = 55, bottom = ctx.canvas.height - 54;
+    ctx.strokeStyle = strokeStyle;
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    for (let i = 0; i <= upto; i += 1) {
+      const x = left + (right - left) * i / maxSteps;
+      const y = transformY(values[i], top, bottom);
+      if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+  }
+
+  function render() {
+    clear(tctx, trajectoryCanvas);
+    clear(dctx, divergenceCanvas);
+    axes(tctx, trajectoryCanvas, 'Same rule, diverging states', 'state x');
+    axes(dctx, divergenceCanvas, 'Separation grows', 'log₁₀ Δ');
+
+    const stateY = (v, top, bottom) => bottom - v * (bottom - top);
+    plotLine(tctx, xs, frame, stateY, '#61dafb');
+    plotLine(tctx, ys, frame, stateY, '#ff6b9a');
+
+    const safeLogs = deltas.map(d => Math.log10(Math.max(d, 1e-16)));
+    const minLog = -12, maxLog = 0;
+    const logY = (v, top, bottom) => bottom - ((Math.max(minLog, Math.min(maxLog, v)) - minLog) / (maxLog - minLog)) * (bottom - top);
+    plotLine(dctx, safeLogs, frame, logY, '#f8d66d');
+
+    tctx.fillStyle = '#61dafb'; tctx.fillRect(74, 74, 18, 4);
+    tctx.fillStyle = '#d7dbe8'; tctx.font = '15px system-ui'; tctx.fillText('x₀ = 0.2', 100, 80);
+    tctx.fillStyle = '#ff6b9a'; tctx.fillRect(210, 74, 18, 4);
+    tctx.fillStyle = '#d7dbe8'; tctx.fillText('x₀ + 10⁻⁹', 236, 80);
+
+    stepReadout.textContent = `n = ${frame}`;
+    const delta = deltas[frame];
+    deltaReadout.textContent = `Δ = ${delta.toExponential(2).replace('e-', 'e−')}`;
+  }
+
+  function start() {
+    if (timer) clearInterval(timer);
+    resetData();
+    render();
+    timer = setInterval(() => {
+      if (frame >= maxSteps) { clearInterval(timer); timer = null; return; }
+      frame += 1;
+      render();
+    }, 90);
+  }
+
+  rInput.addEventListener('input', () => { rValue.textContent = Number(rInput.value).toFixed(3); start(); });
+  restart.addEventListener('click', start);
+  start();
+})();
+</script>
+</body>
+</html>
