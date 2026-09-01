@@ -5,8 +5,15 @@ from __future__ import annotations
 
 import argparse
 import html
+import os
 import re
+import time
 from pathlib import Path
+
+os.environ["TZ"] = "UTC"
+os.environ["SOURCE_DATE_EPOCH"] = "946684800"
+if hasattr(time, "tzset"):
+    time.tzset()
 
 from reportlab.lib import colors
 from reportlab.lib.enums import TA_CENTER, TA_JUSTIFY
