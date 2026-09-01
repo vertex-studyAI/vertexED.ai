@@ -29,6 +29,11 @@ export function normalizeMeasuredWeaknessEntry(entry) {
   };
 }
 
+export function retainNewestWeaknessEntries(entries, limit = 200) {
+  const safeLimit = Number.isFinite(Number(limit)) ? Math.max(0, Math.floor(Number(limit))) : 200;
+  return (Array.isArray(entries) ? entries : []).slice(0, safeLimit);
+}
+
 export function summarizeMeasuredWeakness(entries, limit = 12) {
   const safeLimit = Number.isFinite(Number(limit)) ? Math.max(0, Math.floor(Number(limit))) : 12;
   const byTopic = new Map();
