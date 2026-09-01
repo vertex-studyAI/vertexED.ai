@@ -18,9 +18,11 @@ export type StudyArtifactCreate = {
   title: string | null;
   payload: StudyArtifactPayload;
   replace: boolean;
+  idempotencyKey: string | null;
 };
 
 export function isStudyArtifactKind(value: unknown): value is StudyArtifactKind;
 export function isPlainRecord(value: unknown): value is StudyArtifactPayload;
 export function normalizeStudyArtifactPayload(value: unknown): ContractResult<StudyArtifactPayload>;
+export function normalizeArtifactIdempotencyKey(value: unknown): ContractResult<string | null>;
 export function parseStudyArtifactCreate(value: unknown): ContractResult<StudyArtifactCreate>;

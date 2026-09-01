@@ -126,8 +126,13 @@ create table if not exists public.user_study_artifacts (
   kind text not null check (kind in ('note', 'review', 'paper', 'planner', 'notebook')),
   title text,
   payload jsonb not null default '{}'::jsonb,
+  idempotency_key text,
   created_at timestamptz not null default now(),
-  updated_at timestamptz not null default now()
+  updated_at timestamptz not null default now(),
+  constraint user_study_artifacts_idempotency_key_format
+    check (idempotency_key is null or idempotency_key ~ '^[A-Za-z0-9][A-Za-z0-9._:-]{7,127}$'),
+  constraint user_study_artifacts_user_idempotency_key_key
+    unique (user_id, idempotency_key)
 );
 
 create index if not exists user_study_artifacts_user_kind_idx

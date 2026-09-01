@@ -4,7 +4,7 @@
 data, security, grading, eval, recovery, monitoring and API documents are packaged with
 machine-readable stage status and a final truth matrix. A bounded, consent-aware pilot
 protocol freezes pre/post/delayed-retention measures, comparator, leakage controls,
-analysis, stopping rules and publication boundaries. The evidence registry records 708
+analysis, stopping rules and publication boundaries. The evidence registry records 719
 green source tests and 17 clean local browser checks—well above the requested minimum of
 64 verifiable checks.
 

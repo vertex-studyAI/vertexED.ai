@@ -121,7 +121,10 @@ AI answer review workflow (OpenAI Agents).
 List saved study artifacts (`note`, `review`, `paper`, `planner`, `notebook`).
 
 ### `POST /api/user-content`
-Create artifact. Planner/notebook support `{ "replace": true }` for single-snapshot kinds.
+Create artifact. The client sends an 8–128 character `idempotencyKey`; a repeated POST
+with the same owner, key, and content returns the original row with `replayed: true`
+instead of creating a duplicate. Reusing the key for different content returns `409`.
+Planner/notebook support `{ "replace": true }` for single-snapshot kinds.
 
 ### `PUT /api/user-content`
 Update artifact by id (prevents duplicate rows).

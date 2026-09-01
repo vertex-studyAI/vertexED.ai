@@ -3,7 +3,7 @@
   "canonical_baseline": "906f517e2c250ca578ff9ca6a3f16180c4a5c66c",
   "candidate_state": "WORKING_TREE_OVERLAY",
   "automated_checks": {
-    "source_tests_passed": 708,
+    "source_tests_passed": 719,
     "source_tests_failed": 0,
     "focused_contract_tests_passed": 39,
     "responsive_accessibility_checks_passed": 9,

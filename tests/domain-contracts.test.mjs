@@ -4,6 +4,7 @@ import test from 'node:test';
 
 import {
   STUDY_ARTIFACT_KINDS,
+  normalizeArtifactIdempotencyKey,
   normalizeStudyArtifactPayload,
   parseStudyArtifactCreate,
 } from '../contracts/studyArtifact.js';
@@ -35,6 +36,7 @@ test('artifact create contract normalizes text but rejects missing, null, and ar
       title: 'Revision',
       payload: { text: 'bounded text' },
       replace: false,
+      idempotencyKey: null,
     },
   });
 
@@ -42,6 +44,22 @@ test('artifact create contract normalizes text but rejects missing, null, and ar
   assert.equal(parseStudyArtifactCreate({ kind: 'unknown', payload: {} }).ok, false);
   assert.equal(parseStudyArtifactCreate({ kind: 'note', payload: null }).ok, false);
   assert.equal(parseStudyArtifactCreate({ kind: 'note', payload: [] }).ok, false);
+});
+
+test('artifact idempotency keys are optional and fail closed when malformed', () => {
+  assert.deepEqual(normalizeArtifactIdempotencyKey(undefined), { ok: true, value: null });
+  assert.deepEqual(normalizeArtifactIdempotencyKey('artifact:12345678'), {
+    ok: true,
+    value: 'artifact:12345678',
+  });
+  assert.equal(normalizeArtifactIdempotencyKey('short').ok, false);
+  assert.equal(normalizeArtifactIdempotencyKey('artifact key with spaces').ok, false);
+  assert.equal(normalizeArtifactIdempotencyKey(42).ok, false);
+  assert.equal(parseStudyArtifactCreate({
+    kind: 'paper',
+    payload: { version: 1 },
+    idempotencyKey: 'artifact:stable-operation',
+  }).value.idempotencyKey, 'artifact:stable-operation');
 });
 
 test('artifact update payload contract accepts only JSON records or the legacy text alias', () => {

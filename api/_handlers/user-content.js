@@ -3,7 +3,7 @@ import { getSupabaseAdmin } from '../_lib/supabaseAdmin.js';
 import { getQueryNumber, getQueryParam } from '../_lib/query.js';
 import { checkRateLimit } from '../_lib/rateLimit.js';
 import { isValidUuid } from '../_lib/security.js';
-import { replacePlannerArtifact } from '../_lib/userContentStore.js';
+import { createStudyArtifact, replaceSingletonArtifact } from '../_lib/userContentStore.js';
 import {
   STUDY_ARTIFACT_KINDS,
   normalizeStudyArtifactPayload,
@@ -67,33 +67,36 @@ export default async function handler(req, res) {
       const body = readJsonBody(req);
       const parsed = parseStudyArtifactCreate(body);
       if (!parsed.ok) return res.status(400).json({ error: parsed.error });
-      const { kind, title, payload: payloadValue } = parsed.value;
+      const { kind, title, payload: payloadValue, idempotencyKey } = parsed.value;
       const payloadSize = Buffer.byteLength(JSON.stringify(payloadValue), 'utf8');
       if (payloadSize > MAX_PAYLOAD_BYTES) {
         return res.status(413).json({ error: 'Artifact payload is too large.' });
       }
 
       const updatedAt = new Date().toISOString();
-      const writeResult = kind === 'planner' && body?.replace === true
-        ? await replacePlannerArtifact(supabase, {
+      const writeResult = (kind === 'planner' || kind === 'notebook') && body?.replace === true
+        ? await replaceSingletonArtifact(supabase, {
             userId: user.id,
+            kind,
             title,
             payload: payloadValue,
             updatedAt,
           })
-        : await supabase
-            .from('user_study_artifacts')
-            .insert({
-              user_id: user.id,
-              kind,
-              title,
-              payload: payloadValue,
-              updated_at: updatedAt,
-            })
-            .select('id, kind, title, created_at, updated_at')
-            .single();
+        : await createStudyArtifact(supabase, {
+            userId: user.id,
+            kind,
+            title,
+            payload: payloadValue,
+            idempotencyKey,
+            updatedAt,
+          });
 
-      const { data, error } = writeResult;
+      const { data, error, replayed = false, conflict = false } = writeResult;
+      if (conflict) {
+        return res.status(409).json({
+          error: 'Idempotency key was already used for different artifact content.',
+        });
+      }
       if (error) {
         if (error.code === '42P01') {
           return res.status(503).json({
@@ -102,7 +105,14 @@ export default async function handler(req, res) {
         }
         throw error;
       }
-      return res.status(201).json({ ok: true, item: data });
+      const item = data ? {
+        id: data.id,
+        kind: data.kind,
+        title: data.title,
+        created_at: data.created_at,
+        updated_at: data.updated_at,
+      } : null;
+      return res.status(replayed ? 200 : 201).json({ ok: true, item, replayed });
     }
 
     if (req.method === 'PUT' || req.method === 'PATCH') {

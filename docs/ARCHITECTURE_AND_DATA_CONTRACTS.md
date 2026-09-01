@@ -37,12 +37,13 @@ Persisted learner artifacts use the envelope below:
   "kind": "note | review | paper | planner | notebook",
   "title": "bounded display title",
   "payload": { "contractVersion": "feature-specific version", "...": "feature data" },
+  "idempotency_key": "optional owner-scoped retry key",
   "created_at": "ISO-8601",
   "updated_at": "ISO-8601"
 }
 ```
 
-The database supplies `id`, `user_id`, and timestamps. Clients cannot set ownership. Payloads are bounded to 256 KiB and request bodies to 512 KiB. Planner replacement is idempotent and owner-scoped.
+The database supplies `id`, `user_id`, and timestamps. Clients cannot set ownership. Payloads are bounded to 256 KiB and request bodies to 512 KiB. Artifact creation retries reuse an owner-scoped idempotency key; identical replays return the existing row, while key reuse with different content fails with `409`. Planner and notebook singleton replacement is owner-scoped and updates the existing snapshot without delete-before-insert data loss.
 
 ## Grading and learning evidence
 
@@ -54,6 +55,7 @@ Generated quiz artifacts identify their board, subject, source, generator/versio
 
 - Schema changes are append-only migrations under `supabase/migrations/`; production is never reset.
 - Existing `user_study_artifacts` rows remain readable. New payload fields are versioned and optional at the envelope boundary.
+- `20260902_artifact_idempotency.sql` adds a nullable key, so historical rows remain valid while new clients gain concurrency-safe retry semantics.
 - Shared legacy browser keys are not migrated across accounts. Account-scoped storage keys are resolved before reads.
 - Compatibility redirects may remain, but duplicate feature implementations must not acquire separate persistence or authorization rules.
 - Rollback means reverting application code and applying an explicit forward recovery migration; applied production migrations are not destructively removed.
