@@ -25,6 +25,7 @@ SQLite task store (WAL)
   - lease expiry / heartbeat
   - bounded READY queue
   - bounded task payload bytes
+  - verified online backups
   - evidence + SHA-256
   - result/error
         |
@@ -37,9 +38,11 @@ bounded worker executor
 
 There is **no arbitrary shell task kind**. Provider/model adapters must be explicit allow-listed executors with their own concurrency and timeout limits.
 
+`advanced.mjs` already contains tested building blocks for class-based concurrency limits, recursive JSONL secret redaction, online backup/restore, and a lease-heartbeating worker loop. Those helpers are not yet equivalent to production provider integration; the primary CLI and future provider adapters still need to consume them explicitly.
+
 ## Requirements
 
-- Node 22+ with `node:sqlite` available.
+- Node 22.22+ with `node:sqlite` available. The online backup API used here is available in the supported Node 22 line.
 - Pin/test the production Node version because `node:sqlite` may still emit an experimental-feature warning on some releases.
 
 ## Exact launcher
@@ -71,6 +74,14 @@ Inspect state and SQLite integrity:
 node tools/percy-runtime/cli.mjs status
 node tools/percy-runtime/cli.mjs integrity
 ```
+
+Create an online backup without stopping Percy:
+
+```bash
+node tools/percy-runtime/cli.mjs backup --output .percy/backups/percy-$(date +%Y%m%d-%H%M%S).sqlite
+```
+
+The backup command refuses the live database path and refuses an existing output by default. Use `--overwrite` only when replacement is intentional. A backup is reported as `BACKUP_VERIFIED` only after the live database passes `PRAGMA integrity_check`, SQLite's online backup completes, the copy independently passes `PRAGMA integrity_check`, and the required Percy tables (`meta`, `tasks`, `evidence`, `failures`) are present. Snapshot row counts are returned as evidence but are intentionally not compared with a pre-backup count because legitimate concurrent writes can occur during an online backup. A failed verification removes the invalid copy.
 
 Pause/resume new claims:
 
@@ -109,6 +120,7 @@ Real provider adapters must use stronger evidence kinds—tests, benchmark outpu
 
 ```bash
 node --test tests/percyRuntime.test.mjs
+node --test tests/percyRuntimeAdvanced.test.mjs
 ```
 
 The current regression matrix covers:
@@ -118,6 +130,8 @@ The current regression matrix covers:
 - default two-active-task concurrency cap and third-claim rejection;
 - READY queue-depth admission cap and capacity release after claim;
 - payload-byte rejection before insertion;
+- verified online backup plus restore of task, evidence, and failure history;
+- refusal to overwrite an existing backup or back up onto the live DB path accidentally;
 - duplicate-claim prevention;
 - expired-lease recovery;
 - stale-owner transition rejection;
@@ -125,7 +139,10 @@ The current regression matrix covers:
 - pause/resume;
 - graceful stale marking and requeue;
 - legacy database migration with history preservation;
-- database integrity after reopen/migration.
+- database integrity after reopen/migration;
+- recursive JSONL redaction of secret keys and embedded credential strings;
+- class-based concurrency limiting;
+- worker-loop lease heartbeats, evidence completion, and provider-slot wait ownership.
 
 ## Concurrency policy
 
@@ -159,10 +176,10 @@ Required Discord gates:
 
 1. Run crash/kill/restart qualification on the actual Mac/Percy installation.
 2. Measure two-worker contention/resource behavior on that machine; promote above two only from evidence.
-3. Add per-provider class/semaphore limits and backoff policy.
-4. Add structured JSONL logs with redaction.
-5. Add periodic SQLite backup + restore testing.
-6. Add a long-running worker loop with bounded jitter/backoff.
+3. Integrate the existing class limiter into real provider adapters and add provider-specific retry/backoff policy.
+4. Wire the existing redacting JSONL logger into the primary CLI/worker entrypoints.
+5. Schedule and exercise periodic verified backups on the actual Mac, including an operational restore drill.
+6. Expose the existing worker loop through the primary launcher and add bounded jitter/backoff.
 7. Add real provider adapters behind explicit interfaces.
 8. Add Discord only as a thin authenticated adapter after the runtime is qualified.
 9. Pin the exact production Node version.

@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import { PercyStore, executeBoundedTask } from './core.mjs';
+import { createVerifiedBackup } from './backup.mjs';
 
 const args = process.argv.slice(2);
 const cmd = args.shift() ?? 'status';
@@ -9,6 +10,12 @@ const take = (name, fallback) => {
   const value = args[i + 1];
   args.splice(i, 2);
   return value;
+};
+const flag = (name) => {
+  const i = args.indexOf(name);
+  if (i < 0) return false;
+  args.splice(i, 1);
+  return true;
 };
 const dbPath = take('--db', process.env.PERCY_DB ?? '.percy/percy.sqlite');
 const maxActive = Number(take('--max-active', process.env.PERCY_MAX_ACTIVE ?? '2'));
@@ -47,6 +54,12 @@ try {
     const rows = store.integrityCheck();
     console.log(rows.join('\n'));
     process.exitCode = rows.length === 1 && rows[0] === 'ok' ? 0 : 1;
+  } else if (cmd === 'backup') {
+    const output = take('--output');
+    if (!output) throw new Error('--output required');
+    const overwrite = flag('--overwrite');
+    const result = await createVerifiedBackup(store.db, store.path, output, { overwrite });
+    console.log(JSON.stringify({ status: 'BACKUP_VERIFIED', ...result }, null, 2));
   } else if (cmd === 'pause') {
     store.setPaused(true);
     console.log('paused');
