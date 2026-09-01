@@ -12,20 +12,37 @@ const take = (name, fallback) => {
 };
 const dbPath = take('--db', process.env.PERCY_DB ?? '.percy/percy.sqlite');
 const maxActive = Number(take('--max-active', process.env.PERCY_MAX_ACTIVE ?? '2'));
-const store = new PercyStore(dbPath, { maxActive });
+const maxQueued = Number(take('--max-queued', process.env.PERCY_MAX_QUEUED ?? '500'));
+const maxPayloadBytes = Number(take('--max-payload-bytes', process.env.PERCY_MAX_PAYLOAD_BYTES ?? '65536'));
+const store = new PercyStore(dbPath, { maxActive, maxQueued, maxPayloadBytes });
 let closed = false;
 const close = () => { if (!closed) { store.close(); closed = true; } };
 
 try {
   if (cmd === 'init') {
-    console.log(JSON.stringify({ db: store.path, maxActive: store.maxActive, integrity: store.integrityCheck() }, null, 2));
+    console.log(JSON.stringify({
+      db: store.path,
+      maxActive: store.maxActive,
+      maxQueued: store.maxQueued,
+      maxPayloadBytes: store.maxPayloadBytes,
+      integrity: store.integrityCheck(),
+    }, null, 2));
   } else if (cmd === 'submit') {
     const kind = take('--kind', 'echo');
     const payload = JSON.parse(take('--payload', '{}'));
     const maxAttempts = Number(take('--max-attempts', '3'));
     console.log(store.submit({ kind, payload, maxAttempts }));
   } else if (cmd === 'status') {
-    console.log(JSON.stringify({ paused: store.isPaused(), maxActive: store.maxActive, active: store.activeCount(), counts: store.counts(), tasks: store.list(20) }, null, 2));
+    console.log(JSON.stringify({
+      paused: store.isPaused(),
+      maxActive: store.maxActive,
+      maxQueued: store.maxQueued,
+      maxPayloadBytes: store.maxPayloadBytes,
+      active: store.activeCount(),
+      queued: store.queueDepth(),
+      counts: store.counts(),
+      tasks: store.list(20),
+    }, null, 2));
   } else if (cmd === 'integrity') {
     const rows = store.integrityCheck();
     console.log(rows.join('\n'));
