@@ -31,6 +31,12 @@ export function summarizeSnapshotMastery(snapshots) {
   return { avgMastery, masteryTrend, measuredCount: measured.length };
 }
 
+export function formatMeasuredMastery(avgMastery) {
+  return typeof avgMastery === 'number' && Number.isFinite(avgMastery)
+    ? `${Math.round(avgMastery)}%`
+    : 'No data';
+}
+
 export function estimateStudyMinutes(stats) {
   return stats.studyStreak * 25 + stats.habitsDoneToday * 15;
 }

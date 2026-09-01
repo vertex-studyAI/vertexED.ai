@@ -3,6 +3,7 @@ import test from 'node:test';
 
 import {
   estimateStudyMinutes,
+  formatMeasuredMastery,
   summarizeHeatmapMastery,
   summarizeSnapshotMastery,
 } from '../src/lib/progressAnalyticsCore.mjs';
@@ -18,6 +19,12 @@ test('empty learner history reports no measured mastery', () => {
     masteryTrend: 'flat',
     measuredCount: 0,
   });
+});
+
+test('mastery display never turns missing evidence into a percentage', () => {
+  assert.equal(formatMeasuredMastery(null), 'No data');
+  assert.equal(formatMeasuredMastery(Number.NaN), 'No data');
+  assert.equal(formatMeasuredMastery(84), '84%');
 });
 
 test('one recorded assessment reports measured mastery without inventing a trend', () => {
