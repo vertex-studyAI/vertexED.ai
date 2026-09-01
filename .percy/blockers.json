@@ -1,55 +1,75 @@
 {
   "schema_version": 1,
-  "as_of": "2026-08-02T15:42:00+05:30",
+  "as_of": "2026-09-01T14:30:00+05:30",
   "blockers": [
     {
       "id": "BLOCKER-GITHUB-FINANCEMETA-WRITE",
       "project": "FinanceMeta",
-      "severity": "HIGH",
-      "description": "GitHub branch creation fails with 403 Resource not accessible by integration.",
-      "evidence": "create_branch on build-the-future-11/finance4all-global-reach failed on 2026-08-02",
-      "smallest_user_action": "Configure the GitHub App for build-the-future-11/finance4all-global-reach with repository contents and pull-request write access.",
-      "retry_condition": "Installed account or repository authorization changes",
-      "status": "OPEN"
+      "severity": "INFO",
+      "description": "GitHub repository write access is restored for build-the-future-11/finance4all-global-reach.",
+      "evidence": "Connected GitHub repository metadata on 2026-09-01 reports admin=true, maintain=true, pull=true, push=true, triage=true.",
+      "smallest_user_action": "None while repository push permission remains available.",
+      "retry_condition": "Repository permissions regress or a write mutation returns an authorization failure.",
+      "status": "RESOLVED"
     },
     {
       "id": "BLOCKER-GITHUB-BU1LD-WRITE",
       "project": "The Bu1LD",
-      "severity": "HIGH",
-      "description": "GitHub branch creation fails with 403 Resource not accessible by integration.",
-      "evidence": "create_branch on ryangomez010/bu1ld-landing failed on 2026-08-02",
-      "smallest_user_action": "Configure the GitHub App for ryangomez010/bu1ld-landing with repository contents and pull-request write access.",
-      "retry_condition": "Installed account or repository authorization changes",
-      "status": "OPEN"
+      "severity": "INFO",
+      "description": "GitHub repository write access is restored for ryangomez010/bu1ld-landing, and the current Bu1LD nexus repository has already accepted and merged connector-authored fixes.",
+      "evidence": "Connected GitHub repository metadata on 2026-09-01 reports pull=true, push=true, triage=true for ryangomez010/bu1ld-landing; the-bu1ld-nexus PR #14 merged with green main CI.",
+      "smallest_user_action": "None while repository push permission remains available.",
+      "retry_condition": "Repository permissions regress or a write mutation returns an authorization failure.",
+      "status": "RESOLVED"
     },
     {
       "id": "BLOCKER-SUPABASE-PROJECT-COVERAGE",
       "project": "FinanceMeta and The Bu1LD",
       "severity": "HIGH",
-      "description": "Only the VertexED Supabase project is visible to connected tools.",
-      "evidence": "Supabase.list_projects returned one project: xwlrzgfuhfbckgvcmyoq",
+      "description": "Only the VertexED Supabase project is visible to connected tools; FinanceMeta and The Bu1LD production Supabase projects are still not exposed in this integration.",
+      "evidence": "Fresh Supabase.list_projects on 2026-09-01 returned exactly one project: xwlrzgfuhfbckgvcmyoq (VertexED), ACTIVE_HEALTHY.",
       "smallest_user_action": "Reconnect or extend the Supabase integration to the FinanceMeta and The Bu1LD production projects.",
-      "retry_condition": "Supabase authorization changes",
+      "retry_condition": "Supabase authorization changes and list_projects exposes the missing production projects.",
       "status": "OPEN"
     },
     {
       "id": "BLOCKER-VERTEXED-AUTH-CERTIFICATION",
       "project": "VertexED.ai",
       "severity": "HIGH",
-      "description": "Authenticated production flows require secure disposable test identities and production access.",
-      "evidence": "GitHub issue #13 remains open",
-      "smallest_user_action": "Create secure disposable admin and approved beta identities through the supported app flow; do not paste credentials in chat.",
-      "retry_condition": "Secure identities and dashboard access become available",
+      "description": "Authenticated production certification is incomplete and must use disposable production identities against one verified immutable deployment.",
+      "evidence": "GitHub issue #13 remains open. Database/RLS certification is complete, but the disposable-account product journey and environment verification remain incomplete.",
+      "smallest_user_action": "Create or authorize secure disposable admin and approved beta identities through the supported production flow; do not paste credentials in chat.",
+      "retry_condition": "Secure disposable identities and exact-deployment production access become available.",
+      "status": "OPEN"
+    },
+    {
+      "id": "BLOCKER-VERTEXED-SUPABASE-PLATFORM-CONTROLS",
+      "project": "VertexED.ai",
+      "severity": "HIGH",
+      "description": "Two Supabase platform-level security controls remain unresolved: leaked-password protection is disabled and the current Postgres build has security patches available.",
+      "evidence": "Fresh Supabase security advisors on 2026-09-01 report auth_leaked_password_protection and vulnerable_postgres_version for supabase-postgres-17.4.1.074. No public-table RLS blocker remains.",
+      "smallest_user_action": "Enable leaked-password protection in Supabase Auth settings and apply the available database upgrade from Supabase infrastructure settings.",
+      "retry_condition": "Fresh Supabase security advisors return neither warning.",
+      "status": "OPEN"
+    },
+    {
+      "id": "BLOCKER-VERTEXED-PRODUCTION-IDENTITY",
+      "project": "VertexED.ai",
+      "severity": "HIGH",
+      "description": "Public production health cannot yet certify that www.vertexed.app is serving the exact deploy-relevant source revision.",
+      "evidence": "Production health issue #137 remains open; the previously isolated failure was deployment revision identity rather than public/auth-boundary availability.",
+      "smallest_user_action": "Connect the Vercel project integration or redeploy the intended immutable main revision and verify /api/health reports that revision.",
+      "retry_condition": "The production health monitor passes exact revision identity on the intended deployment.",
       "status": "OPEN"
     },
     {
       "id": "BLOCKER-P2424-LOCAL-CLOUD",
       "project": "Project 2424 / Inkling",
       "severity": "HIGH",
-      "description": "Canonical dirty source and PRO-BLADE plus authenticated gcloud are not connected to this session.",
-      "evidence": "portfolio control center and issue #20",
-      "smallest_user_action": "Run portfolio/scripts/restore_project2424_to_inkling.sh --verify --keep-local-package on the Mac.",
-      "retry_condition": "Restore evidence or connected source becomes available",
+      "description": "The canonical dirty Project 2424 source on PRO-BLADE and authenticated gcloud/Inkling access are not connected to this session.",
+      "evidence": "The repository contains a preservation-first restore script that bundles all refs plus staged, unstaged, and untracked work, verifies hashes, restores to isolated Inkling staging, runs the repository quality gate, backs up the prior cloud checkout, and only then promotes.",
+      "smallest_user_action": "On the Mac with PRO-BLADE mounted and authenticated gcloud, run: bash portfolio/scripts/restore_project2424_to_inkling.sh --verify --keep-local-package",
+      "retry_condition": "The restore emits PROJECT_2424_INKLING_RESTORE_PASSED and evidence is retained.",
       "status": "OPEN"
     }
   ]
