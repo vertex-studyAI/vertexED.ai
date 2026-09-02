@@ -301,7 +301,7 @@ test('approved learner completes the golden study journey and resumes saved work
   await page.getByPlaceholder(/IB Biology — photosynthesis/).fill('IB Biology photosynthesis');
   await page.getByRole('button', { name: 'Generate Notes' }).click();
   await expect(page.getByText('Photosynthesis converts light energy')).toBeVisible();
-  await expect(page.getByText('Notes saved')).toBeVisible();
+  await expect(page.getByText('Notes saved', { exact: true })).toBeVisible();
 
   await page.getByRole('button', { name: 'Generate Quiz' }).first().click();
   await expect(page.getByText('Explain how light intensity can limit')).toBeVisible();
