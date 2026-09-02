@@ -20,6 +20,7 @@
     "eval:grading": "node evals/scripts/run-grading-eval.mjs",
     "test:e2e": "playwright test e2e/smoke.spec.ts",
     "test:e2e:local-accessibility": "playwright test e2e/local-accessibility.spec.ts",
+    "test:e2e:authenticated-golden": "playwright test --config=playwright.golden.config.ts",
     "test:smoke": "node scripts/smoke-deploy.mjs",
     "audit:prod": "npm audit --omit=dev --audit-level=high",
     "ci": "npm run lint:ci && npm run typecheck && node scripts/validate-vercel-functions.mjs && npm run audit:prod && npm test && npm run test:eval && npm run build:ci",

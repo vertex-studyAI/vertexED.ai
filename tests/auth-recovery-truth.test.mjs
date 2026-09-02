@@ -34,6 +34,8 @@ test('protected routes distinguish pending, rejected, and unavailable access tru
   assert.match(source, /Your access status was not changed/);
   assert.match(source, /setRetryAttempt\(\(attempt\) => attempt \+ 1\)/);
   assert.match(source, /role="alert"/);
+  assert.match(source, /location\.pathname === "\/connect-google" \|\| location\.pathname === "\/onboarding"/);
+  assert.match(source, /!isOnboardingComplete\(user\) && !isPreOnboardingRoute/);
   assert.doesNotMatch(source, /\.catch\(\(\) => active && setAccess\("pending"\)\)/);
 });
 

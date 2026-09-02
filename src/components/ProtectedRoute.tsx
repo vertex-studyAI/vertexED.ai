@@ -71,6 +71,7 @@ export default function ProtectedRoute({ children }: { children: React.JSX.Eleme
   if (access === "unavailable") return <WaitlistUnavailable onRetry={() => setRetryAttempt((attempt) => attempt + 1)} />;
   if (access === "rejected") return <WaitlistRejected />;
   if (access === "pending") return <WaitlistPending />;
-  if (!isOnboardingComplete(user) && location.pathname !== "/onboarding") return <Navigate to="/onboarding" replace />;
+  const isPreOnboardingRoute = location.pathname === "/connect-google" || location.pathname === "/onboarding";
+  if (!isOnboardingComplete(user) && !isPreOnboardingRoute) return <Navigate to="/onboarding" replace />;
   return children;
 }
