@@ -150,7 +150,7 @@ export function getGradesForBoard(board: ExamBoard): number[] {
 }
 
 export function getSubjectsForBoard(board: ExamBoard, grade?: number | null): string[] {
-  let list = [...BOARD_CONFIGS[board].subjects];
+  const list = [...BOARD_CONFIGS[board].subjects];
   if (board === 'IB_MYP') {
     if (grade === 10 && !list.includes('Math Extended')) list.push('Math Extended');
     if (grade && grade >= 8 && grade <= 10) {

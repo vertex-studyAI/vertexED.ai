@@ -326,6 +326,18 @@ test('approved learner completes the golden study journey and resumes saved work
   await expect(page.getByText('IB Biology photosynthesis', { exact: true })).toBeVisible();
   await expect(page.getByText('Quiz review — IB Biology photosynthesis', { exact: true })).toBeVisible();
 
+  await page.goto('/paper-maker');
+  await expect(page.getByRole('heading', { name: 'Paper Configuration' })).toBeVisible();
+  await expect(page.getByLabel('Board')).toHaveValue('IB_MYP');
+  await expect(page.getByLabel('Grade')).toHaveValue('10');
+  await expect(page.getByLabel('Subject')).toHaveValue('Biology');
+  await page.getByLabel('Topics').fill('cell respiration, enzymes');
+  await expect(page.getByLabel('Total marks')).toBeVisible();
+  await expect(page.getByLabel('Number of questions')).toBeVisible();
+  await expect(page.getByLabel('Question format')).toBeVisible();
+  await expect(page.getByLabel('Difficulty')).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Generate practice paper' })).toBeEnabled();
+
   expect(harness.observed).toMatchObject({
     inviteValidated: true,
     accountCreated: true,

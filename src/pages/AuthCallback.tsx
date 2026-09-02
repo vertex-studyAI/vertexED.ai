@@ -24,7 +24,7 @@ export default function AuthCallback() {
     let cancelled = false;
     let completed = false;
     let timeout: number | undefined;
-    let unsubscribe: (() => void) | undefined;
+    const unsubscribeRef: { current?: () => void } = {};
 
     const searchParams = new URLSearchParams(window.location.search);
     const hashParams = new URLSearchParams(window.location.hash.replace(/^#/, ""));
@@ -84,14 +84,14 @@ export default function AuthCallback() {
         if (!isVerifiedInviteSession(session.user)) {
           completed = true;
           clearCallbackTimeout();
-          unsubscribe?.();
+          unsubscribeRef.current?.();
           setError("This session was not established from a verified account invitation. Open the invitation from your email.");
           return;
         }
 
         completed = true;
         clearCallbackTimeout();
-        unsubscribe?.();
+        unsubscribeRef.current?.();
         window.history.replaceState({}, document.title, "/auth/callback?invite=1");
         setInviteReady(true);
         return;
@@ -99,7 +99,7 @@ export default function AuthCallback() {
 
       completed = true;
       clearCallbackTimeout();
-      unsubscribe?.();
+      unsubscribeRef.current?.();
 
       if (event === "PASSWORD_RECOVERY") {
         markPasswordRecoveryVerified(session.user.id);
@@ -120,7 +120,7 @@ export default function AuthCallback() {
     const { data: authSubscription } = supabase.auth.onAuthStateChange((event, session) => {
       if (session) void finish(session, event);
     });
-    unsubscribe = () => authSubscription.subscription.unsubscribe();
+    unsubscribeRef.current = () => authSubscription.subscription.unsubscribe();
 
     const run = async () => {
       try {
@@ -190,7 +190,7 @@ export default function AuthCallback() {
 
     return () => {
       cancelled = true;
-      unsubscribe?.();
+      unsubscribeRef.current?.();
       clearCallbackTimeout();
     };
   }, [navigate]);

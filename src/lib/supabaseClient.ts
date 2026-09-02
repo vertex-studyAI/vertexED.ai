@@ -11,7 +11,6 @@ let client: SupabaseClient | null = null;
 if (supabaseUrl && supabaseKey) {
 	client = createClient(supabaseUrl, supabaseKey);
 } else {
-	// eslint-disable-next-line no-console
 	console.warn(
 		"Supabase env vars are not set (VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY). Auth is disabled locally."
 	);

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useCallback, useEffect, useState, useRef } from "react";
 import Tabs from "./Tabs";
 
 const generateTimeSlots = () => {
@@ -13,7 +13,8 @@ const generateTimeSlots = () => {
 
 const parseTime = (timeString: string) => {
   const [time, modifier] = timeString.split(' ');
-  let [hours, minutes] = time.split(':').map(Number);
+  const [initialHours, minutes] = time.split(':').map(Number);
+  let hours = initialHours;
 
   const mod = (modifier || '').toUpperCase();
   if (mod === "PM" && hours !== 12) {
@@ -54,13 +55,13 @@ const Schedule = ({
   const currentTimeLineRef = useRef<HTMLDivElement>(null);
   const scheduleContainerRef = useRef<HTMLDivElement>(null);
 
-  const scrollToCurrentTime = () => {
+  const scrollToCurrentTime = useCallback(() => {
     if (!scheduleContainerRef.current) return;
     const el = scheduleContainerRef.current;
     const hourHeight = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--hour-height')) || 88;
     const y = (currentMinutes / 60) * hourHeight - (el.clientHeight * 0.25);
     if (y > 0) el.scrollTo({ top: y, behavior: 'smooth' });
-  };
+  }, [currentMinutes]);
 
   const handleTaskClick = (task: TaskItem) => {
     onEditTask(task);
@@ -87,21 +88,24 @@ const Schedule = ({
     return () => clearInterval(id);
   }, []);
 
-  useEffect(() => { if (isMobile) scrollToCurrentTime(); }, [currentMinutes, mode, isMobile]);
+  useEffect(() => { if (isMobile) scrollToCurrentTime(); }, [isMobile, scrollToCurrentTime]);
 
   // Inactivity auto-scroll: after 5s without user scroll / mouse / key
   useEffect(() => {
     if (!scheduleContainerRef.current) return;
-    let timer: any;
+    let timer: ReturnType<typeof setTimeout> | undefined;
     const reset = () => {
-      clearTimeout(timer);
+      if (timer) clearTimeout(timer);
       timer = setTimeout(() => { scrollToCurrentTime(); }, 5000);
     };
     const el = scheduleContainerRef.current;
     ['scroll','wheel','touchstart','mousemove','keydown'].forEach(evt => window.addEventListener(evt, reset, { passive: true }));
     reset();
-    return () => { clearTimeout(timer); ['scroll','wheel','touchstart','mousemove','keydown'].forEach(evt => window.removeEventListener(evt, reset)); };
-  }, [isMobile, mode, currentMinutes]);
+    return () => {
+      if (timer) clearTimeout(timer);
+      ['scroll','wheel','touchstart','mousemove','keydown'].forEach(evt => window.removeEventListener(evt, reset));
+    };
+  }, [isMobile, mode, scrollToCurrentTime]);
 
   // Media query listener
   useEffect(() => {
@@ -113,8 +117,18 @@ const Schedule = ({
     };
     // Initial sync
     handler(mq);
-    mq.addEventListener ? mq.addEventListener('change', handler) : mq.addListener(handler as any);
-    return () => { mq.removeEventListener ? mq.removeEventListener('change', handler) : mq.removeListener(handler as any); };
+    if (mq.addEventListener) {
+      mq.addEventListener('change', handler);
+    } else {
+      mq.addListener(handler);
+    }
+    return () => {
+      if (mq.removeEventListener) {
+        mq.removeEventListener('change', handler);
+      } else {
+        mq.removeListener(handler);
+      }
+    };
   }, []);
 
   const containerHeight = mode === "Week" ? "80%" : undefined;

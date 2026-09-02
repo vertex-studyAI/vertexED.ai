@@ -7,7 +7,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router";
 import { User, LogOut, Settings, RefreshCw, AlertTriangle, Save, Trash2 } from "lucide-react";
 import PageSection from "@/components/PageSection";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { getStudyStats } from "@/lib/studyStats";
 import {
   getLearnerProfile,
@@ -141,7 +141,7 @@ export default function UserSettings() {
     }
   };
 
-  const loadArtifacts = async () => {
+  const loadArtifacts = useCallback(async () => {
     setLoadingArtifacts(true);
     const result = await listStudyArtifactsDetailed(
       kindFilter === "all" ? undefined : kindFilter,
@@ -156,11 +156,11 @@ export default function UserSettings() {
           : result.error || "Unable to load saved work.",
     );
     setLoadingArtifacts(false);
-  };
+  }, [kindFilter]);
 
   useEffect(() => {
     void loadArtifacts();
-  }, [kindFilter]);
+  }, [loadArtifacts]);
 
   const handleLogout = async () => {
     try {

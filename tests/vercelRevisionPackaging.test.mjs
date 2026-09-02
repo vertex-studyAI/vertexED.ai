@@ -11,6 +11,10 @@ async function readHealthHandler() {
   return readFile(new URL('../api/_handlers/health.js', import.meta.url), 'utf8');
 }
 
+async function readBuildScript() {
+  return readFile(new URL('../scripts/build.mjs', import.meta.url), 'utf8');
+}
+
 async function readCheckedInBuildRevision() {
   return readFile(new URL('../api/_generated/build-revision.js', import.meta.url), 'utf8');
 }
@@ -28,6 +32,12 @@ test('checked-in generated revision is neutral until a deploy-relevant build sta
   const source = await readCheckedInBuildRevision();
   assert.match(source, /export const BUILD_REVISION = null;/);
   assert.doesNotMatch(source, /export const BUILD_REVISION = ["'][0-9a-f]{7,40}["'];/i);
+});
+
+test('local and CI builds restore neutral source identity after packaging', async () => {
+  const source = await readBuildScript();
+  assert.match(source, /if \(process\.env\.VERCEL !== '1'\)/);
+  assert.match(source, /writeFileSync\(buildRevisionModule, neutralBuildRevision/);
 });
 
 test('Vercel catch-all function keeps schema-valid includeFiles configuration', async () => {

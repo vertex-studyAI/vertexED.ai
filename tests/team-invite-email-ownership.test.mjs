@@ -6,6 +6,7 @@ import {
   isVerifiedInviteSession,
   validateInitialPassword,
 } from '../src/lib/inviteAcceptance.mjs';
+import { validateAccountPassword } from '../src/lib/passwordPolicy.mjs';
 import { createMocks } from './helpers/mock-http.mjs';
 
 const handlerSource = fs.readFileSync('api/_handlers/signup-invite.js', 'utf8');
@@ -100,6 +101,12 @@ test('initial invite password policy matches the hardened signup minimum', () =>
   assert.equal(validateInitialPassword('NoNumbersHere').ok, false);
   assert.equal(validateInitialPassword('StrongPass1').ok, true);
   assert.equal(validateInitialPassword(`A1${'x'.repeat(127)}`).ok, false);
+});
+
+test('shared account password policy remains identical to invite validation', () => {
+  for (const password of ['short', 'alllowercase123', 'StrongPass1', `A1${'x'.repeat(127)}`]) {
+    assert.deepEqual(validateInitialPassword(password), validateAccountPassword(password));
+  }
 });
 
 test('client team-invite flow sends no password and fails closed without verification response', () => {

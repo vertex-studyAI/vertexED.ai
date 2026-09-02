@@ -235,9 +235,14 @@ test("NeuroCAD Alpha deterministic 125-case product QA matrix", () => {
     records
   };
 
-  mkdirSync(dirname(ARTIFACT_JSON), { recursive: true });
-  writeFileSync(ARTIFACT_JSON, `${JSON.stringify(result, null, 2)}\n`);
-  writeFileSync(ARTIFACT_MD, markdownReport(result));
+  // The ordinary test suite must be read-only. Runtime timings are inherently
+  // machine-dependent and must not dirty a checkout merely because CI ran.
+  // Refresh the retained human-readable evidence only through an explicit run.
+  if (process.env.UPDATE_NEUROCAD_PRODUCT_QA === "1") {
+    mkdirSync(dirname(ARTIFACT_JSON), { recursive: true });
+    writeFileSync(ARTIFACT_JSON, `${JSON.stringify(result, null, 2)}\n`);
+    writeFileSync(ARTIFACT_MD, markdownReport(result));
+  }
 
   assert.deepEqual(failedRecords.map((record) => ({ id: record.id, error: record.error })), []);
 });

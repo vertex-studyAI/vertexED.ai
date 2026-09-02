@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
 	accentTextStyle,
 	sectionHeadingStyle,
@@ -114,7 +114,10 @@ const Timer: React.FC<{ accent: string }> = ({ accent }) => {
 		}
 	}, [timeMs, isRunning, totalMs]);
 
-	const computeTotal = () => (hours * 3600 + minutes * 60 + seconds) * 1000;
+	const computeTotal = useCallback(
+		() => (hours * 3600 + minutes * 60 + seconds) * 1000,
+		[hours, minutes, seconds],
+	);
 
 	useEffect(() => {
 		if (isRunning) {
@@ -123,7 +126,7 @@ const Timer: React.FC<{ accent: string }> = ({ accent }) => {
 		const nextTotal = computeTotal();
 		setTotalMs(nextTotal);
 		setTimeMs(nextTotal);
-	}, [hours, minutes, seconds, isRunning]);
+	}, [computeTotal, isRunning]);
 
 	const handleStartPause = () => {
 		if (!isRunning) {
@@ -521,4 +524,3 @@ const TimerApp: React.FC<TimerAppProps> = ({ accent }) => {
 };
 
 export default TimerApp;
-

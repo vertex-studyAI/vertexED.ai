@@ -118,8 +118,18 @@ const PlannerView: React.FC = () => {
       setIsMobile(match);
     };
     handler(mq);
-    mq.addEventListener ? mq.addEventListener('change', handler) : mq.addListener(handler as any);
-    return () => { mq.removeEventListener ? mq.removeEventListener('change', handler) : mq.removeListener(handler as any); };
+    if (mq.addEventListener) {
+      mq.addEventListener('change', handler);
+    } else {
+      mq.addListener(handler);
+    }
+    return () => {
+      if (mq.removeEventListener) {
+        mq.removeEventListener('change', handler);
+      } else {
+        mq.removeListener(handler);
+      }
+    };
   }, []);
 
   // Force Day mode on mobile if Week was set
@@ -174,7 +184,8 @@ const PlannerView: React.FC = () => {
     const toInputTime = (t12: string) => {
       if (!t12) return "";
       const [time, mer] = t12.split(' ');
-      let [h, m] = time.split(':').map(Number);
+      const [initialHour, m] = time.split(':').map(Number);
+      let h = initialHour;
       const up = (mer||'').toUpperCase();
       if (up === 'PM' && h !== 12) h += 12; if (up === 'AM' && h === 12) h = 0;
       return `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`;
@@ -188,7 +199,8 @@ const PlannerView: React.FC = () => {
 
   const toMinutes = (time12: string) => {
     const [time, mer] = time12.trim().split(' ');
-    let [h, m] = time.split(':').map(Number);
+    const [initialHour, m] = time.split(':').map(Number);
+    let h = initialHour;
     const up = (mer || '').toUpperCase();
     if (up === 'PM' && h !== 12) h += 12;
     if (up === 'AM' && h === 12) h = 0;

@@ -64,7 +64,7 @@ export default function ProtectedRoute({ children }: { children: React.JSX.Eleme
       })
       .catch(() => active && setAccess("unavailable"));
     return () => { active = false; };
-  }, [user?.id, retryAttempt]);
+  }, [user, retryAttempt]);
 
   if (loading || (user && access === "checking")) return <PageLoader label="Checking your access" />;
   if (!user) return <Navigate to="/login" replace state={{ from: location.pathname }} />;

@@ -69,6 +69,11 @@ test.describe('public launch journey', () => {
 });
 
 test.describe('production API contract', () => {
+  test.skip(
+    !process.env.PLAYWRIGHT_API_URL,
+    'Set PLAYWRIGHT_API_URL to a deployed VertexED API host before certifying production API behavior.',
+  );
+
   test('health endpoint responds with API marker', async ({ request }) => {
     const res = await request.get(`${apiBase}/api/health`);
     expect(res.status()).toBe(200);

@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, PropsWithChildren } from "react";
+import { createContext, useCallback, useContext, useEffect, useRef, useState, PropsWithChildren } from "react";
 import type { Session, User } from "@supabase/supabase-js";
 import { trackLogout } from "@/lib/accountLifecycleAnalytics.mjs";
 import { setAuthAccessToken } from "@/lib/apiAuth";
@@ -278,20 +278,17 @@ export function AuthProvider({ children }: PropsWithChildren) {
     await refreshProfile(u.id, u.email);
   };
 
-  const value = useMemo<AuthContextType>(
-    () => ({
-      user,
-      session,
-      isAuthenticated: !!user,
-      loading,
-      profile,
-      login,
-      loginWithGoogle,
-      signUp,
-      logout,
-    }),
-    [user, session, loading, profile]
-  );
+  const value: AuthContextType = {
+    user,
+    session,
+    isAuthenticated: !!user,
+    loading,
+    profile,
+    login,
+    loginWithGoogle,
+    signUp,
+    logout,
+  };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

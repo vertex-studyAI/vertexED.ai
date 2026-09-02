@@ -24,7 +24,6 @@ const evaluateExpression = (raw: string) => {
 		.replace(/\be\b/g, "Math.E")
 		.replace(/\^/g, "**");
 
-	// eslint-disable-next-line no-new-func
 	const fn = new Function(`return (${normalized})`);
 	const result = fn();
 	if (typeof result !== "number" || Number.isNaN(result) || !Number.isFinite(result)) {
