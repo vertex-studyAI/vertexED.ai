@@ -118,10 +118,27 @@ async function installExternalServiceHarness(page: Page) {
     return json(route, { message: `Unhandled Supabase route: ${request.method()} ${url.pathname}` }, 501);
   });
 
+  // Vercel injects these scripts on the deployed host; deterministic local
+  // production preview supplies inert equivalents instead of reporting 404s.
+  for (const path of ['speed-insights', 'insights']) {
+    await page.route(`**/_vercel/${path}/script.js`, (route) => route.fulfill({
+      status: 200,
+      contentType: 'application/javascript',
+      body: '',
+    }));
+  }
+
   // Keep background telemetry and optional API probes inside the deterministic
   // harness. Endpoint-specific routes registered below take precedence.
   await page.route('**/api/**', async (route) => {
     return json(route, { ok: true, items: [] });
+  });
+
+  await page.route('**/api/waitlist-status', async (route) => {
+    const authorized = route.request().headers().authorization === `Bearer ${accessToken()}`;
+    return authorized
+      ? json(route, { status: 'approved' })
+      : json(route, { error: 'Authentication required' }, 401);
   });
 
   await page.route('**/api/signup-invite', async (route) => {

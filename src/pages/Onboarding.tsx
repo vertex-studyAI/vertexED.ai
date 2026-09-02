@@ -30,7 +30,7 @@ function getErrorMessage(err: unknown) {
 }
 
 export default function Onboarding() {
-  const { user } = useAuth();
+  const { user, session } = useAuth();
   const navigate = useNavigate();
   const savedUsername = typeof user?.user_metadata?.username === "string"
     ? user.user_metadata.username.trim()
@@ -85,6 +85,10 @@ export default function Onboarding() {
       setError("Choose at least one subject so we can make your first plan.");
       return;
     }
+    if (!user?.id || !session?.access_token) {
+      setError("Your session is not ready. Refresh and try again.");
+      return;
+    }
     if (!supabase) {
       setError("Auth is disabled: Supabase is not configured.");
       return;
@@ -92,6 +96,14 @@ export default function Onboarding() {
 
     try {
       setLoading(true);
+      // Persist while the existing session is stable. Supabase serializes auth
+      // mutations, so starting an authenticated API request after updateUser can
+      // otherwise wait behind the metadata refresh lock.
+      const planResult = await savePlannerSnapshot(
+        createFirstStudyPlan(curriculum),
+        user.id,
+        session.access_token,
+      );
       const metadata = buildCurriculumMetadata(curriculum, {
         ...(user?.user_metadata ?? {}),
         username: trimmedUsername,
@@ -99,7 +111,6 @@ export default function Onboarding() {
       const { error: updateError } = await supabase.auth.updateUser({ data: metadata });
       if (updateError) throw updateError;
 
-      const planResult = await savePlannerSnapshot(createFirstStudyPlan(curriculum));
       if (!planResult.cloudSynced) {
         sessionStorage.setItem(
           "vertex_plan_sync_notice",

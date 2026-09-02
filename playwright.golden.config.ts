@@ -24,9 +24,12 @@ export default defineConfig({
     video: 'retain-on-failure',
   },
   webServer: {
-    command: `VITE_SUPABASE_URL=https://vertexed-e2e.supabase.co VITE_SUPABASE_ANON_KEY=${e2eAnonKey} npm run dev -- --host 127.0.0.1 --port 4174`,
+    // Certify the optimized artifact learners receive. Vite's development
+    // server cold-transforms lazy route modules on first navigation, which can
+    // make a correct route appear unavailable without reflecting production.
+    command: `VITE_SUPABASE_URL=https://vertexed-e2e.supabase.co VITE_SUPABASE_ANON_KEY=${e2eAnonKey} npm run build && npm run preview -- --host 127.0.0.1 --port 4174`,
     url: baseURL,
     reuseExistingServer: false,
-    timeout: 120_000,
+    timeout: 300_000,
   },
 });

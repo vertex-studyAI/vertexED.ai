@@ -144,6 +144,7 @@ export async function loadPlannerSnapshot(storageScope?: string | null): Promise
 export async function savePlannerSnapshot(
   snapshot: PlannerSnapshot,
   storageScope?: string | null,
+  accessToken?: string | null,
 ): Promise<{ ok: boolean; cloudSynced: boolean; error?: string }> {
   const resolvedScope = await resolveStorageScope(storageScope);
   writeLocalPlannerSnapshot(snapshot, resolvedScope);
@@ -151,7 +152,10 @@ export async function savePlannerSnapshot(
   try {
     const res = await authFetch('/api/user-content', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
+      },
       body: JSON.stringify({
         kind: 'planner',
         title: 'Study Planner',

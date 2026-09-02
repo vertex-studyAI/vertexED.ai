@@ -13,6 +13,9 @@ import {
 } from '../src/lib/plannerStorageScope.mjs';
 
 const plannerSyncSource = fs.readFileSync('src/lib/plannerSync.ts', 'utf8');
+const onboardingSource = fs.readFileSync('src/pages/Onboarding.tsx', 'utf8');
+const apiAuthSource = fs.readFileSync('src/lib/apiAuth.ts', 'utf8');
+const authContextSource = fs.readFileSync('src/contexts/AuthContext.tsx', 'utf8');
 
 test('planner snapshot merge prefers newest updatedAt', () => {
   const local = {
@@ -58,6 +61,38 @@ test('planner sync derives account scope before reading or writing device state'
   assert.match(plannerSyncSource, /writeLocalPlannerSnapshot\(snapshot, resolvedScope\)/);
   assert.doesNotMatch(plannerSyncSource, /const LOCAL_TASKS_KEY = 'planner_tasks'/);
   assert.doesNotMatch(plannerSyncSource, /localStorage\.getItem\('planner_tasks'\)/);
+});
+
+test('onboarding planner save uses the verified auth identity without reacquiring the session', () => {
+  assert.match(onboardingSource, /if \(!user\?\.id \|\| !session\?\.access_token\)/);
+  assert.match(
+    onboardingSource,
+    /savePlannerSnapshot\([\s\S]*?createFirstStudyPlan\(curriculum\),[\s\S]*?user\.id,[\s\S]*?session\.access_token,[\s\S]*?\)/,
+  );
+  assert.doesNotMatch(
+    onboardingSource,
+    /savePlannerSnapshot\(createFirstStudyPlan\(curriculum\)\)/,
+  );
+  assert.ok(
+    onboardingSource.indexOf('const planResult = await savePlannerSnapshot(')
+      < onboardingSource.indexOf('supabase.auth.updateUser({ data: metadata })'),
+    'the authenticated plan save must complete before the serialized auth mutation starts',
+  );
+  assert.match(plannerSyncSource, /accessToken \? \{ Authorization: `Bearer \$\{accessToken\}` \} : \{\}/);
+  assert.match(apiAuthSource, /if \(headers\.has\('Authorization'\)\) return headers/);
+});
+
+test('authenticated API calls use the auth-event token before consulting session storage', () => {
+  assert.match(apiAuthSource, /let currentAccessToken: string \| null = null/);
+  assert.ok(
+    apiAuthSource.indexOf('if (currentAccessToken) return currentAccessToken;')
+      < apiAuthSource.indexOf('supabase.auth.getSession()'),
+    'the in-memory auth-event token must bypass the serialized session lookup',
+  );
+  assert.match(apiAuthSource, /setAuthAccessToken\(token\);[\s\S]*?return token;/);
+  assert.match(authContextSource, /setAuthAccessToken\(newSession\?\.access_token\)/);
+  assert.match(authContextSource, /setAuthAccessToken\(data\.session\?\.access_token\)/);
+  assert.match(authContextSource, /setAuthAccessToken\(null\)/);
 });
 
 test('user-content allows planner kind in registry', async () => {
