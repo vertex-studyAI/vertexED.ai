@@ -149,7 +149,13 @@ export function AuthProvider({ children }: PropsWithChildren<{}>) {
     setSensitiveStorageScopes(data.user?.id ?? null);
     setSession(data.session);
     setUser(data.user);
-    if (data.user) await postAuthUpsertProfile(data.user);
+    if (data.user) {
+      // Authentication is already complete. Profile repair is best-effort and must
+      // never hold navigation hostage to a slow or unavailable profile backend.
+      void postAuthUpsertProfile(data.user).catch((profileError) => {
+        console.error("post-login profile recovery error:", profileError);
+      });
+    }
   };
 
   /** Sign in with Google (OAuth). */
