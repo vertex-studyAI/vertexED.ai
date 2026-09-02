@@ -27,15 +27,27 @@ trace, focused passing rerun and the final exact-candidate serial pass are docum
 
 ## Live boundary
 
-At `2026-09-02T11:11:33Z`, `https://www.vertexed.app/api/health?readiness=1`
+At `2026-09-02T15:32:10Z`, `https://www.vertexed.app/api/health?readiness=1`
 returned HTTP 200 and the legacy 88-byte envelope:
 
 `{"ok":true,"service":"vertexed","apiVersion":"1","timestamp":"..."}`
 
 It did not return `revision`, readiness capability state, `X-VertexED-Revision`, or
-`X-VertexED-Health`. No authorized deployment was attempted. Provider environment,
-OAuth redirects, Supabase target, deployment receipt, rollback point and a real
-authenticated production journey therefore remain unverified.
+`X-VertexED-Health`; HEAD also returned HTTP 200 without VertexED identity headers.
+
+## Authorized deployment access probe
+
+The pinned Node 22 toolchain successfully authenticated Vercel CLI 59.5.0 as
+`build-the-future-11`. That identity exposes one team,
+`build-the-future-11s-projects`, whose project listing contains no VertexED project and
+whose domain listing is empty. Direct inspection of both `vertexed.app` and
+`www.vertexed.app` returned Vercel's explicit “You don't have access” error. The
+worktree has no `.vercel/project.json` link.
+
+Creating a new project in the accessible team would not prove control of the canonical
+domain or its production environment, so no duplicate project or unauthorized deployment
+was attempted. Provider environment, OAuth redirects, Supabase target, deployment
+receipt, rollback point and a real authenticated production journey remain unverified.
 
 Smallest exact unblock: grant access to the Vercel project owning `www.vertexed.app`,
 deploy this candidate through its authorized path, attest body/header/HEAD revision and
