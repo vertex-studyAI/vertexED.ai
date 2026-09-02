@@ -1,26 +1,42 @@
 # VertexED Stage 11 — production release certification
 
-**Gate: BLOCKED; `DEPLOYED_VERIFIED=false`.** Runtime candidate
-`1dc3134a6a89c9f673dbd81f4f29fd6cf125bfa1` passes Node
-22.22 typecheck, CI lint, 738/738 source tests, 25/25 frozen grading-eval tests,
-19 exact-candidate browser accessibility/modal checks, one deterministic authenticated
-golden journey, and a production build of 2,768 modules. The checked-in generated
-revision module was restored to neutral after local build verification.
+**Gate: BLOCKED externally; `DEPLOYED_VERIFIED=false`.** Exact merged runtime candidate
+`9cb1c81de9725152ad46c8928c1b0556f1251131` contains current canonical main
+`6b92c32d59772aca3dec93d06336c062a8d67cba` and passes the complete local release gate.
 
-The candidate is rebased on canonical main
-`fab4cdf86c11fd7a4f4638777ddb1834784f23aa`. No deployment or public launch was
-attempted: the canonical Vercel project is not
-accessible to the current identity, and the user request did not authorize bypassing
-the repository's deployment path. Live `https://www.vertexed.app/api/health` and its
-readiness query both return legacy HTTP 200 bodies without immutable revision/readiness
-identity. Provider environment, OAuth redirect, Supabase target, deployment receipt,
-rollback point and authenticated production journey therefore remain unverified.
+## Exact-candidate certification
 
-Latest direct recheck: `2026-09-02T06:30:57Z`. The readiness GET
-returned HTTP 200 but no `revision`, `status`, `X-VertexED-Revision`, or
-`X-VertexED-Health`; the body remained the 88-byte legacy health envelope. Upstream
-`origin/main` is `fab4cdf86c11fd7a4f4638777ddb1834784f23aa`.
+- `npm ci`: PASS; 677 packages installed, lockfile SHA-256
+  `ae6c944073e669629e7d0d6af643cb956533253175a74541ff05910c266ac955` unchanged,
+  and Git SHA unchanged.
+- `npm run ci`: PASS after the clean install.
+- Source tests: 745/745 PASS.
+- Frozen evaluation tests: 25/25 PASS.
+- Full and production dependency audits: PASS with **zero known vulnerabilities** after
+  a lockfile-only refresh to patched transitive build-tool versions.
+- Production build: PASS; 2,768 modules, one Vercel function, 19 routed endpoints,
+  immutable revision stamped during the build.
+- Frozen bundle budgets: all four PASS with zero violations.
+- Exact-candidate browser: 34 accessibility/responsive PASS, two inapplicable skips,
+  and one authenticated production-preview golden journey PASS.
+
+The accessibility total is the final exact candidate's complete serial production-bundle
+rerun. A runtime-equivalent parent's initial parallel rerun had one host-I/O timeout; its
+trace, focused passing rerun and the final exact-candidate serial pass are documented in
+`evidence/stage_08.md` rather than omitted.
+
+## Live boundary
+
+At `2026-09-02T11:11:33Z`, `https://www.vertexed.app/api/health?readiness=1`
+returned HTTP 200 and the legacy 88-byte envelope:
+
+`{"ok":true,"service":"vertexed","apiVersion":"1","timestamp":"..."}`
+
+It did not return `revision`, readiness capability state, `X-VertexED-Revision`, or
+`X-VertexED-Health`. No authorized deployment was attempted. Provider environment,
+OAuth redirects, Supabase target, deployment receipt, rollback point and a real
+authenticated production journey therefore remain unverified.
 
 Smallest exact unblock: grant access to the Vercel project owning `www.vertexed.app`,
-retain the first causal deployment error, deploy one intentional candidate, attest the
-body/header/HEAD revision and readiness, then run the disposable two-account journey.
+deploy this candidate through its authorized path, attest body/header/HEAD revision and
+readiness, then run and clean up two disposable approved accounts.

@@ -6,7 +6,7 @@ escalation, a seven-class error taxonomy, targeted remediation, objective covera
 stable audit identifiers. Provisional grades never update mastery or weakness history.
 
 Verification: `node --test tests/verified-grading.test.mjs` PASS 16/16 and the combined
-contract run PASS 39/39. UI/typecheck/lint and the full 738-test suite pass. Evidence is
+contract run PASS 39/39. UI/typecheck/lint and the full 745-test suite pass. Evidence is
 in `api/_lib/verifiedGrading.js`, `src/types/learning.ts`, and
 `src/pages/NotetakerQuiz.tsx`.
 

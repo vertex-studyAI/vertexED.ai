@@ -9,10 +9,11 @@ identity, query text, messages and stacks are excluded. Monitoring and incident/
 documents identify the canonical target and gates.
 
 Verification: telemetry tests PASS 4/4; health/revision and smoke-contract tests are in
-the 738/738 green suite; production build validates 19 routes. Live checks at
-2026-09-02T06:30:57Z returned HTTP 200 for liveness and the readiness query, but both
-returned the same legacy body with no `status`, `revision`, capability checks or revision
-header. Therefore the live readiness/revision gate is red.
+the 745/745 green suite; production build validates 19 routed endpoints. A live check at
+2026-09-02T11:11:33Z returned HTTP 200 for the readiness query, but served the legacy
+88-byte liveness envelope with no `status`, `revision`, capability checks,
+`X-VertexED-Revision`, or `X-VertexED-Health` header. Therefore the live
+readiness/revision gate is red.
 
 Next action: deploy one immutable candidate through the owning Vercel project, then
 require body/header revision, HEAD identity and readiness before any green claim.

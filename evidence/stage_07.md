@@ -7,7 +7,7 @@ are denied direct execution. A forward-only hardening migration was added, toget
 non-destructive dump, catalog, isolated restore and rollback guidance.
 
 Verification: `node --test tests/rls-schema.test.mjs` PASS 5/5; auth/isolation focused
-suite PASS 101/101; full suite PASS 738/738. Evidence:
+suite PASS 101/101; full suite PASS 745/745. Evidence:
 `supabase/migrations/20260901173000_security_definer_execute_hardening.sql` and
 `docs/DATABASE_BACKUP_RESTORE.md`.
 

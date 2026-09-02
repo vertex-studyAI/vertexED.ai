@@ -3,6 +3,12 @@
 **Checked:** 2026-09-01T16:57:06Z
 **Gate:** PASS — current truth and exact external release blocker are reproduced; no source-side P0 defect was found.
 
+> Historical snapshot: the revision, package count, test totals and advisory result below
+> describe the Stage 01 baseline at its stated check time. The superseding exact-candidate
+> certification is `evidence/stage_11.md`; it reports candidate `9cb1c81`, 745 source
+> tests, 25 frozen evaluations, 35 browser checks and zero known dependency
+> vulnerabilities.
+
 ## Revision and workspace identity
 
 - Canonical repository: `vertex-studyAI/vertexED.ai`.

@@ -1,27 +1,49 @@
 {
-  "checked_at": "2026-09-02T06:30:57Z",
-  "canonical_baseline": "fab4cdf86c11fd7a4f4638777ddb1834784f23aa",
-  "runtime_candidate": "1dc3134a6a89c9f673dbd81f4f29fd6cf125bfa1",
-  "candidate_state": "BRANCH_RUNTIME_COMMIT",
+  "checked_at": "2026-09-02T15:27:23Z",
+  "canonical_baseline": "6b92c32d59772aca3dec93d06336c062a8d67cba",
+  "runtime_candidate": "9cb1c81de9725152ad46c8928c1b0556f1251131",
+  "candidate_state": "BRANCH_AUDITED_RUNTIME_COMMIT",
   "automated_checks": {
-    "source_tests_passed": 738,
+    "clean_install": "PASS",
+    "source_tests_passed": 745,
     "source_tests_failed": 0,
-    "focused_contract_tests_passed": 39,
-    "focused_auth_isolation_tests_passed": 101,
-    "responsive_accessibility_checks_passed": 19,
-    "authenticated_golden_journey_checks_passed": 1,
-    "exact_candidate_browser_checks_passed": 20,
-    "exact_candidate_browser_checks_skipped": 1,
+    "frozen_eval_tests_passed": 25,
+    "frozen_eval_tests_failed": 0,
+    "responsive_accessibility_checks_passed": 34,
+    "responsive_accessibility_checks_skipped": 2,
+    "exact_candidate_authenticated_golden_journey_passed": 1,
+    "runtime_parent_golden_stress_repetitions_passed": 3,
+    "exact_candidate_browser_checks_passed": 35,
+    "exact_candidate_browser_checks_skipped": 2,
     "local_authenticated_golden_journey": "PASS_MOCKED_EXTERNAL_SERVICES",
     "production_build": "PASS",
+    "build_modules": 2768,
+    "dependency_audit": {
+      "all_dependencies_known_vulnerabilities": 0,
+      "production_known_vulnerabilities": 0
+    },
+    "bundle_performance": {
+      "initial_javascript_gzip_bytes": 237637,
+      "initial_css_gzip_bytes": 33424,
+      "largest_javascript_gzip_bytes": 232813,
+      "total_javascript_gzip_bytes": 969955,
+      "violations": 0
+    },
+    "audited_deliverable_records": 64,
     "minimum_requested_checks": 64,
     "minimum_exceeded": true
+  },
+  "completion_ledger": {
+    "verified_local_or_synthetic_boundary": 42,
+    "partial_external": 17,
+    "blocked_external": 5,
+    "path": "evidence/EXECUTION_BUNDLE_COMPLETION_AUDIT.json"
   },
   "stages": {
     "01": "PASS",
     "02": "PASS",
     "03": "PARTIAL_EXTERNAL",
-    "04": "PARTIAL_EXTERNAL",
+    "04": "PASS_LOCAL",
     "05": "PASS",
     "06": "PASS_SYNTHETIC_BOUNDARY",
     "07": "PARTIAL_EXTERNAL",
@@ -33,6 +55,7 @@
   },
   "production": {
     "url": "https://www.vertexed.app",
+    "checked_at": "2026-09-02T11:11:33Z",
     "health_http": 200,
     "readiness_query_http": 200,
     "revision_attested": false,
@@ -40,5 +63,5 @@
     "deployed_verified": false
   },
   "outcome_verified": false,
-  "next_action": "Grant access to the canonical Vercel project, deploy one intentional immutable candidate, then run exact-revision readiness and disposable two-account golden-journey certification."
+  "next_action": "Grant access to the canonical Vercel project, deploy candidate 9cb1c81de9725152ad46c8928c1b0556f1251131 through the authorized path, then run exact-revision readiness and disposable two-account certification before the bounded learning-outcome pilot."
 }

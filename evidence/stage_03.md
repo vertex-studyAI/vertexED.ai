@@ -5,8 +5,8 @@
 
 ## Revision boundary
 
-- Canonical source baseline: `vertex-studyAI/vertexED.ai@fab4cdf86c11fd7a4f4638777ddb1834784f23aa`.
-- Exact local runtime candidate: `1dc3134a6a89c9f673dbd81f4f29fd6cf125bfa1`.
+- Canonical source baseline: `vertex-studyAI/vertexED.ai@6b92c32d59772aca3dec93d06336c062a8d67cba`.
+- Exact audited local runtime candidate: `9cb1c81de9725152ad46c8928c1b0556f1251131`.
 
 ## Unblocked work completed
 
@@ -22,11 +22,15 @@ Command:
 
 Observed result: **101/101 PASS** under isolated Node `v22.22.0`.
 
-The full exact-candidate suite passed **738/738**. The deterministic local browser
+The final merged candidate passed the full source suite **745/745**. Its deterministic local browser
 journey also passed approved signup, Google-link choice, onboarding, planner save,
 note generation, FRQ answer/verified feedback/remediation, cloud-save requests, logout,
 relogin, route restoration and saved-work recovery. Supabase, invite, AI and persistence
 services were explicitly mocked; this is not a live-environment claim.
+
+The exact merged candidate passed this production-preview golden journey once. Its
+auth-critical-path parent passed three consecutive repetitions after the redundant
+session-lock regression was removed.
 
 ## Explicit isolation evidence
 
@@ -57,4 +61,5 @@ production callback allowlist, and deployed account isolation are not `DEPLOYED_
 
 ## Next action
 
-Supply the isolated two-account test surface above; absent that, continue with the source-only Stage 04 learning-engine work while keeping Stage 03 PARTIAL.
+Supply the isolated two-account test surface above and retain Stage 03 as PARTIAL until
+the live cross-account denial and provider journeys pass.
