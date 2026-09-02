@@ -44,6 +44,17 @@ jobs:
         run: |
           node --test tests/nlpToCadComponentAblation.test.mjs \
             | tee artifacts/neurocad-component-ablation/tests.log
+      - name: Generate patched root dependency lock
+        run: |
+          npm install --package-lock-only --ignore-scripts
+          npm audit --omit=dev --audit-level=high
+      - name: Upload regenerated root lock
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: dependency-lock-wave12-${{ github.run_id }}
+          path: package-lock.json
+          if-no-files-found: error
+          retention-days: 1
       - name: Upload retained evidence
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
