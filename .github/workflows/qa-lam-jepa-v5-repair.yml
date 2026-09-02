@@ -22,14 +22,17 @@ jobs:
 
     steps:
       - name: Checkout independent QA
-        uses: actions/checkout@v6
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          persist-credentials: false
 
       - name: Checkout immutable repaired LAM-JEPA target
-        uses: actions/checkout@v6
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
         with:
           repository: vertex-studyAI/LAM-JEPA
           ref: ${{ env.TARGET_COMMIT }}
           path: target
+          persist-credentials: false
 
       - name: Assert exact clean target
         run: |
@@ -39,7 +42,7 @@ jobs:
           printf '%s\n' "$(git -C target rev-parse HEAD)" > target-commit.txt
 
       - name: Set up Python
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
         with:
           python-version: "3.11"
 
@@ -52,7 +55,7 @@ jobs:
           python -m py_compile portfolio/qa/verify_lam_jepa_arc_v5_repair.py
 
       - name: Download exact primary repair claim artifact
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7
         with:
           github-token: ${{ github.token }}
           repository: vertex-studyAI/LAM-JEPA
@@ -111,7 +114,7 @@ jobs:
 
       - name: Upload independent QA evidence
         if: always()
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
           name: qa-lam-jepa-arc-v5-repair
           path: |
