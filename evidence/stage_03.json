@@ -1,11 +1,13 @@
 {
   "stage": 3,
-  "checked_at": "2026-09-01",
+  "checked_at": "2026-09-02T06:30:57Z",
   "gate": "PARTIAL",
-  "canonical_baseline": "eb72c18897773edd42cb81188a0d7938b554c99f",
-  "source_state": "SMOKE_TESTED",
-  "focused_tests": { "passed": 98, "failed": 0 },
-  "full_tests_before_stage": { "passed": 682, "failed": 0 },
+  "canonical_baseline": "fab4cdf86c11fd7a4f4638777ddb1834784f23aa",
+  "runtime_candidate": "1dc3134a6a89c9f673dbd81f4f29fd6cf125bfa1",
+  "source_state": "GOLDEN_JOURNEY_TESTED_LOCAL",
+  "focused_tests": { "passed": 101, "failed": 0 },
+  "full_tests": { "passed": 738, "failed": 0 },
+  "local_authenticated_golden_journey": { "passed": 1, "failed": 0, "external_services": "MOCKED" },
   "isolation_surfaces": [
     "profiles_rls",
     "user_study_artifacts_rls",

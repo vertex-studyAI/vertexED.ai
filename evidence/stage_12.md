@@ -4,8 +4,8 @@
 data, security, grading, eval, recovery, monitoring and API documents are packaged with
 machine-readable stage status and a final truth matrix. A bounded, consent-aware pilot
 protocol freezes pre/post/delayed-retention measures, comparator, leakage controls,
-analysis, stopping rules and publication boundaries. The evidence registry records 736
-green source tests and 17 clean local browser checks—well above the requested minimum of
+analysis, stopping rules and publication boundaries. The evidence registry records 738
+green source tests and 20 exact-candidate local browser checks—well above the requested minimum of
 64 verifiable checks.
 
 Artifacts: `docs/ARCHITECTURE_AND_DATA_CONTRACTS.md`,
@@ -19,5 +19,6 @@ The pilot export is source-complete and passes 12 privacy/provenance/CSV-safety 
 but no participant data has been collected. Truth boundary: `DEPLOYED_VERIFIED=false`
 and `OUTCOME_VERIFIED=false`. No test count,
 synthetic eval, local build, screenshot, or search-engine crawl is represented as a live
-release or measured learning gain. The only remaining P0 is the exact authorized deploy
-and disposable-account certification described in `NEXT.md`.
+release or measured learning gain. The deterministic single-account learner journey is
+green with explicitly mocked external services. The remaining external P0 is the exact
+authorized deploy and real disposable two-account certification described in `NEXT.md`.

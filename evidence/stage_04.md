@@ -1,7 +1,7 @@
 # VertexED Stage 04 — core learning engine
 
 **Gate: PARTIAL only at the external live boundary.** Mock, notes, reviewer, paper,
-notebook and persistence paths pass the 736-test source suite. Notes, flashcards, quizzes
+notebook and persistence paths pass the 738-test source suite. Notes, flashcards, quizzes
 and papers now carry source digests, curriculum/model/prompt metadata, explicit degraded
 state, deterministic fallback, malformed-output handling, and persisted generation
 identity. Fallback papers preserve requested count/marks but contain no asserted factual
@@ -14,7 +14,7 @@ Material changes: `api/_handlers/note.js`, `api/_handlers/quiz.js`,
 `api/_handlers/paper-generator.js`, `api/_lib/learningArtifactFallbacks.js`,
 `api/_lib/verifiedGrading.js`, `api/_lib/userContentStore.js`, both learning clients,
 `contracts/studyArtifact.js`, `supabase/migrations/20260902_artifact_idempotency.sql`,
-and the shared typed domain contracts. Verification: `npm test` PASS 736/736;
+and the shared typed domain contracts. Verification: `npm test` PASS 738/738;
 deterministic artifact fallback tests PASS 11/11; artifact idempotency tests PASS 8/8;
 singleton planner/notebook replacement tests PASS 5/5;
 production build PASS.

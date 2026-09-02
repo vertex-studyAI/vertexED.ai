@@ -3,17 +3,19 @@
 | Surface | Source-complete | Local verification | Production verified | Outcome verified |
 | --- | --- | --- | --- | --- |
 | Canonical architecture and artifact contracts | yes | 10 contract tests | no | n/a |
-| Auth, onboarding, recovery, logout, deletion | yes | 98 focused tests | no | n/a |
+| Auth, onboarding, recovery, logout, deletion | yes | 101 focused tests + deterministic authenticated golden journey | no | n/a |
 | Account-scoped persistence, idempotent retry and RLS contract | yes | 8 retry + 5 singleton tests; structural matrix green | migration not applied; no live two-account proof | n/a |
 | Notes, quiz and paper generation with deterministic fallback | yes | 27 focused grading/fallback tests | no | no |
 | Evidence-bound grading/remediation/coverage | yes | 16 contract + 5 frozen-eval tests | no | no |
 | Supabase hardening and recovery runbook | yes | 5 schema tests | migration not applied/verified | n/a |
-| Responsive/accessibility public experience | yes | 17 applicable browser checks | current site not exact revision | n/a |
+| Responsive/accessibility public experience | yes | 19 exact-candidate checks; 1 inapplicable desktop case skipped | current site not exact revision | n/a |
 | Revision/readiness/operational telemetry | yes | unit/build/smoke contract green | live endpoint omits identity/readiness | n/a |
-| Release | candidate source passes build and 736 tests | yes | **no** | n/a |
+| Release | candidate source passes build and 738 tests | 20 browser checks pass; 1 skipped | **no** | n/a |
 | Learning value | pilot protocol + privacy-safe export implemented | 12 export tests; no participant rows | not run | **no** |
 
 `source-complete` means the checked working tree implements and tests the stated
 contract. It does not mean deployed. `production verified` requires the live body and
 headers to attest the exact candidate SHA plus a successful disposable-account golden
 journey. `outcome verified` requires the bounded pilot in `docs/PILOT_PROTOCOL.md`.
+The local authenticated browser journey uses deterministic mocks for Supabase, invite,
+AI generation, and persistence and therefore is not production certification.
