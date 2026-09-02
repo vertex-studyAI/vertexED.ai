@@ -54,3 +54,10 @@ test('resolved auth state cancels delayed loading fallback', async () => {
   assert.ok(firstClearAfterEvent > authEvent);
   assert.match(source, /return \(\) => \{[\s\S]*clearLoadingSafetyTimer\(\);[\s\S]*sub\.subscription\.unsubscribe\(\)/);
 });
+
+test('signup username constraint remains valid under the HTML pattern v-mode grammar', async () => {
+  const source = await readSource('src/pages/Signup.tsx');
+
+  assert.match(source, /pattern="\(\?:\[a-zA-Z0-9_\.\]\|-\)\{3,20\}"/);
+  assert.doesNotMatch(source, /pattern="\[[^"]*-\][^"]*"/);
+});

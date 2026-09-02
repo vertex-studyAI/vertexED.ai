@@ -265,7 +265,7 @@ export default function Signup() {
               {isAccountSignup && (
                 <>
                   <div className="neu-input">
-                    <input aria-label="Username" placeholder="Username (3-20 characters)" className="neu-input-el" value={username} onChange={(event) => setUsername(event.target.value)} autoComplete="username" minLength={3} maxLength={20} pattern="[a-zA-Z0-9_.-]{3,20}" required />
+                    <input aria-label="Username" placeholder="Username (3-20 characters)" className="neu-input-el" value={username} onChange={(event) => setUsername(event.target.value)} autoComplete="username" minLength={3} maxLength={20} pattern="(?:[a-zA-Z0-9_.]|-){3,20}" required />
                   </div>
                   {hasWaitlistInvite && (
                     <div className="neu-input">

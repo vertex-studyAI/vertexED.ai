@@ -253,6 +253,11 @@ async function installExternalServiceHarness(page: Page) {
 
 test('approved learner completes the golden study journey and resumes saved work', async ({ page }) => {
   const harness = await installExternalServiceHarness(page);
+  const browserErrors: string[] = [];
+  page.on('pageerror', (error) => browserErrors.push(`pageerror: ${error.message}`));
+  page.on('console', (message) => {
+    if (message.type() === 'error') browserErrors.push(`console.error: ${message.text()}`);
+  });
 
   await page.goto('/signup?invite=vertexed-e2e-approved');
   await expect(page.getByRole('heading', { name: 'Create your account' })).toBeVisible();
@@ -315,4 +320,5 @@ test('approved learner completes the golden study journey and resumes saved work
   expect(harness.artifacts.map((item) => item.kind)).toEqual(
     expect.arrayContaining(['planner', 'note', 'review']),
   );
+  expect(browserErrors).toEqual([]);
 });
