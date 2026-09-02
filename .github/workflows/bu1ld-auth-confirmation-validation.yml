@@ -24,14 +24,17 @@ jobs:
 
     steps:
       - name: Checkout control repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          persist-credentials: false
 
       - name: Checkout immutable Bu1LD source
-        uses: actions/checkout@v5
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
         with:
           repository: ryangomez010/bu1ld-landing
           ref: ${{ env.TARGET_COMMIT }}
           path: target
+          persist-credentials: false
 
       - name: Apply confirmation-aware signup recovery
         shell: bash
