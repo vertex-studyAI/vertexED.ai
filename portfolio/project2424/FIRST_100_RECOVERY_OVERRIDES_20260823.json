@@ -1,0 +1,93 @@
+{
+  "schema_version": 1,
+  "date": "2026-08-23",
+  "purpose": "Incremental evidence-backed refinements discovered after the base First-100 disposition policy was frozen. These overrides may narrow blockers but may not weaken evidence gates.",
+  "overrides": {
+    "T2424-0006": {
+      "disposition": "BLOCKED",
+      "reason_code": "LGWM_P_SERIES_PILOT_T_CROSSWALK_UNRESOLVED",
+      "note": "Frozen T2424-0006 is LGWM — Liquidation Graph World Models. Retained P-namespace inventory separately records P2424-0507 Liquidation Graph World Models as CONTROLLED_PILOT_COMPLETE with source_exists=true and explicitly says no T mapping inferred. Percy source catalogs still mark the canonical LGWM repository/revision unresolved. Preserve the P pilot as provenance, but do not promote it to the T identity until an explicit crosswalk and exact source revision are recovered."
+    },
+    "T2424-0008": {
+      "disposition": "BLOCKED",
+      "reason_code": "SPEECHLY_USER_DEFINED_UNVERIFIED_REGISTRY_PATCH",
+      "note": "Frozen T2424-0008 is Speechly. The retained Speechly handoff describes a safe registry patch for a user-defined known concept, marks the evidence class UNVERIFIED and current status MUST_ADD_TO_REGISTRY, and explicitly forbids claims of implementation, validation, fairness or learning improvement without linked evidence. The planned CLI and experiment matrix are specifications only. Recover canonical source/revision and executed audio-to-feedback evidence before promotion."
+    },
+    "T2424-0009": {
+      "disposition": "BLOCKED",
+      "reason_code": "COLORWORLD_NO_AUTHORITATIVE_DEFINITION_OR_REPO",
+      "note": "Frozen T2424-0009 is Colorworld. A retained portfolio command-centre audit classifies the ColorWorld overlay as UNVERIFIED / EXTERNALLY BLOCKED with no authoritative definition or repository and unresolved datasets, baselines and metrics. The First-100 experiment matrix is a plan, not execution evidence. Recover the authoritative source and scope before implementing or publishing a scientific claim."
+    },
+    "T2424-0010": {
+      "disposition": "BLOCKED",
+      "reason_code": "NEUROCARE_CONCEPT_SOURCE_EVIDENCE_RECOVERY_REQUIRED",
+      "note": "Frozen T2424-0010 is NeuroCare. Retained command-centre evidence classifies it as Concept / SOURCE_OR_EVIDENCE_RECOVERY, while the mega-foundry record remains Not Started. No canonical clinical experiment or validated product path is recovered. Any successor must separate research from product claims, use consent/privacy/governance controls, preserve human review, and must not be framed as autonomous diagnosis."
+    },
+    "T2424-0011": {
+      "disposition": "BLOCKED",
+      "reason_code": "HERMES_ARCHITECTURE_NO_VERIFIED_12B_CHECKPOINT",
+      "note": "Frozen T2424-0011 is Hermes 12B. Retained command-centre evidence classifies it as Architecture / SOURCE_OR_EVIDENCE_RECOVERY; the Olympus evidence-backed roadmap separately states the Hermes/Prometheus/Perseus/Atlas/Kronos parameter-scale sequence is concept-only absent a specific learned checkpoint, training record and evaluation. Recover canonical source, model weights/checkpoint provenance and a bounded eval before calling any 12B learned capability implemented."
+    },
+    "T2424-0020": {
+      "disposition": "BLOCKED",
+      "reason_code": "ATG_ATLAS_EXECUTION_CANONICAL_CROSSWALK_REQUIRED",
+      "note": "Frozen T2424-0020 is ATG — Adaptive Theory Geometry. A retained BU1LD Research Atlas Version 2 package reports 1,800 paired strategy runs across six theory families, three noise levels and three budgets: identification ATG 71.3%, variance 69.1%, D-optimal 64.4%, random 59.8%; ATG field MSE 0.01188 versus variance 0.01096 and random 0.02115. The package includes raw trials, paired statistics, executable reference code and reproduction commands, and the V4 release reports 39 automated tests across 18 executable packages. The result is bounded/moderate: ATG improves family identification over random/D-optimal, while predictive variance remains stronger for field reconstruction. Canonical Project2424 source/revision crosswalk is still unresolved, so do not silently assign the Atlas package to T2424-0020."
+    },
+    "T2424-0021": {
+      "disposition": "BLOCKED",
+      "reason_code": "NFGM_SOURCE_AND_LITERATURE_MATRIX_ABSENT",
+      "note": "Frozen T2424-0021 is NFGM — Neural Flow Geometry Models. Retained portfolio status material classifies NFGM as PLANNED / SPECIFICATION COMPLETE and explicitly records source/literature matrix absent. The First-100 execution wave lists intended baseline, comparison, ablation, low-data, OOD and efficiency experiments but does not record execution. Recover canonical source and literature/novelty matrix before any model-result claim."
+    },
+    "T2424-0022": {
+      "disposition": "BLOCKED",
+      "reason_code": "PBJEPA_ACCESS_BLOCKED_SOURCE_NOT_RECOVERED",
+      "note": "Frozen T2424-0022 is MahJong PBJEPA. Retained execution-workbench rows for PB-JEPA / Mahjong Belief JEPA mark research design, implementation, baselines, evaluation and release as BLOCKED_ACCESS; an independent July portfolio status records SPECIFICATION COMPLETE with source/evidence unavailable. No canonical executable source/revision or completed benchmark was recovered in the connected surfaces. Preserve the access/source blocker rather than inferring implementation from the planned experiment matrix."
+    },
+    "T2424-0039": {
+      "disposition": "BLOCKED",
+      "reason_code": "VERTEXED_PRODUCT_FEATURE_EXISTS_RESEARCH_IDENTITY_PROTOCOL_UNRECOVERED",
+      "note": "Frozen T2424-0039 is VertexED Adaptive Tutor. The current VertexED product repository contains a real AI-tutor product route (`/chatbot`) and broader study workflow, but code/product existence is not evidence that the frozen T2424-0039 research hypothesis, dataset, baselines, seeds or evaluation protocol executed. Recover an explicit T2424-0039 source/protocol crosswalk before promoting the product feature into a scientific result."
+    },
+    "T2424-0041": {
+      "disposition": "BLOCKED",
+      "reason_code": "ZENIPATH_ASSERTED_ONLY_ORIGINAL_SOURCE_NOT_IMPORTED",
+      "note": "Frozen T2424-0041 is Zenipath. Retained project inventory classifies Zenipath as RECOVERED_UNVERIFIED / E0_ASSERTED with ORIGINAL_SOURCE_NOT_YET_IMPORTED, while the Mega Research Foundry row is Not Started and the T identity inventory labels its revision registry-only. Recover the original source and project-specific protocol before execution claims."
+    },
+    "T2424-0042": {
+      "disposition": "BLOCKED",
+      "reason_code": "SISTER_REGISTRY_DESIGN_ONLY_NOT_STARTED",
+      "note": "Frozen T2424-0042 is SISTER Economic Research Platform. The Mega Research Foundry master registry records the project as Not Started / 0%, and the T identity inventory says its revision is registry revision, not execution revision. The six experiment rows are planned acceptance tests, not run evidence."
+    },
+    "T2424-0043": {
+      "disposition": "BLOCKED",
+      "reason_code": "EXOVIAN_REGISTRY_DESIGN_ONLY_NOT_STARTED",
+      "note": "Frozen T2424-0043 is Exovian Games Intelligence. Retained foundry/First-100 artifacts provide a design and experiment matrix but no canonical source revision, test run or benchmark output; the T identity inventory labels the revision registry-only. Treat as design-only until direct implementation/execution evidence is recovered."
+    },
+    "T2424-0044": {
+      "disposition": "BLOCKED",
+      "reason_code": "EIGEN_DELTA_REGISTRY_REVISION_NOT_EXECUTION_REVISION",
+      "note": "Frozen T2424-0044 is Eigen Delta. Retained First-100/foundry materials provide E1–E6 planned experiments, while the T identity inventory explicitly labels the revision as registry revision, not execution revision. No direct source/test/result package was recovered in the connected evidence surface."
+    },
+    "T2424-0045": {
+      "disposition": "BLOCKED",
+      "reason_code": "LEGO_ML_REGISTRY_REVISION_NOT_EXECUTION_REVISION",
+      "note": "Frozen T2424-0045 is Lego ML. Retained First-100/foundry materials contain the generic planned experiment matrix; the T identity inventory explicitly labels the revision registry-only. No direct source/test/result package was recovered, so planning evidence cannot become implementation evidence."
+    },
+    "T2424-0047": {
+      "disposition": "BLOCKED",
+      "reason_code": "NFGM_DUPLICATE_NAME_CANDIDATE_AND_NO_DIRECT_EXECUTION_EVIDENCE",
+      "note": "Frozen T2424-0047 is Neural Flow Geometry Models. The A–X maturity matrix records implementation/tests/experiment/output as UNKNOWN with exact blocker 'Registry/design record only; no direct source/execution evidence recovered.' A separate registry audit flags T2424-0021 NFGM and T2424-0047 Neural Flow Geometry Models as a probable alias pending history/code comparison. Resolve identity first, then recover direct source/revision."
+    },
+    "T2424-0048": {
+      "disposition": "BLOCKED",
+      "reason_code": "OPERATOR_SPLITTING_REGISTRY_DESIGN_ONLY_NO_EXECUTION_EVIDENCE",
+      "note": "Frozen T2424-0048 is Physics-Informed Operator Splitting Network. Retained First-100/foundry rows are a planned E1–E6 matrix; the identity inventory labels the revision registry-only and the A–X audit records no direct source/execution evidence. Recover canonical implementation, tests and immutable experiment artifacts before any result claim."
+    },
+    "T2424-0052": {
+      "disposition": "BLOCKED",
+      "reason_code": "TURBULENCE_ENGRAM_REGISTRY_DESIGN_ONLY_NO_EXECUTION_EVIDENCE",
+      "note": "Frozen T2424-0052 is Turbulence Engram Memory. Retained evidence exposes only the generic E1–E6 experiment design and a T identity inventory entry whose revision is explicitly registry revision, not execution revision. No direct source/test/result package was recovered; keep the row blocked rather than treating experiment specifications as completed work."
+    }
+  },
+  "rule": "An incremental override is valid only when it makes a blocker more specific or preserves a stronger already-frozen terminal state. It must never convert planning evidence into execution evidence."
+}

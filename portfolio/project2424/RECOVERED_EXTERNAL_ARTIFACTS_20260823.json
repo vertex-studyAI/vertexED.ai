@@ -1,0 +1,115 @@
+{
+  "schema_version": 1,
+  "date": "2026-08-23",
+  "purpose": "Record recovered Project2424-adjacent artifacts whose bytes or checksums are evidenced outside the canonical Project2424 directory tree, without silently assigning them to frozen T2424 identities.",
+  "artifacts": [
+    {
+      "artifact_family": "BU1LD Research Atlas V4",
+      "kind": "research_release",
+      "research_source_evidence_sha256": "076f12750d6a8e6c298c17815224a79463bcad149d6cf1283900d98c6e394a2c",
+      "papers_release_sha256": "1be70acf821c57dee65b13f80940a9a195bc64ebc8c31464c9fcc87ce33ce5ae",
+      "recorded_project_count": 18,
+      "recorded_registry_count": 512,
+      "recorded_test_count": 39,
+      "recorded_test_result": "39/39 PASS on fresh extraction and 39/39 PASS after regenerated release extraction",
+      "recorded_manifest_file_count": 769,
+      "canonical_T2424_crosswalk_complete": false,
+      "claim_boundary": "Fresh execution/release evidence exists for named Atlas V4 projects, but an exact canonical T2424 identity crosswalk is required before those results can promote a frozen First-100 row that is not already independently represented in the canonical repository."
+    },
+    {
+      "artifact_family": "MODEL-002 FinanceJEPA",
+      "kind": "isolated_project_workspace",
+      "recovered_name": "FinanceJEPA",
+      "recorded_identity": "MODEL-002",
+      "recorded_local_tests": "9 PASS",
+      "recorded_smoke_runs": 2,
+      "recorded_compact_runs": 15,
+      "recorded_compact_seeds": [7, 17, 29],
+      "recorded_proposed_return_rmse_mean": 0.05238913,
+      "recorded_proposed_volatility_rmse_mean": 0.02764112,
+      "recorded_proposed_regime_accuracy_mean": 0.74479167,
+      "recorded_persistence_return_rmse_mean": 0.06063059,
+      "canonical_T2424_candidate": "T2424-0005",
+      "canonical_T2424_crosswalk_complete": false,
+      "claim_boundary": "The provisional MODEL-002 package is a complete synthetic-controlled FinanceJEPA pilot. Frozen T2424-0005 is named FinanceJEPA / Eigen-Finance, and historical governance also records a finance-representation identity collision among FinanceJEPA, FI-JEPA, Eigen-Finance and Eigen-JEPA. Do not collapse these identities without a family crosswalk. No-EMA and no-horizon variants beat parts of the proposed aggregate, so the full representation advantage is unsupported."
+    },
+    {
+      "artifact_family": "MODEL-ESNF",
+      "kind": "isolated_project_workspace",
+      "recovered_name": "Event-Sparse Neural Fields (ESNF)",
+      "recorded_workspace": "/mnt/data/typhon-omega/projects/MODEL-ESNF",
+      "recorded_workspace_sha256": "686d480dcc32143499b0b563081014264dd77c6db18d801fff53253380aea118",
+      "recorded_local_tests": "10 PASS",
+      "recorded_compact_runs": 24,
+      "recorded_compact_seeds": [7, 19],
+      "recorded_compact_tasks": ["advection", "diffusion", "reaction-diffusion", "wave"],
+      "recorded_update_fraction_vs_dense_approx": 0.19,
+      "canonical_T2424_candidate": "T2424-0017",
+      "canonical_T2424_crosswalk_complete": false,
+      "claim_boundary": "MODEL-ESNF is a complete synthetic-controlled package with source/tests/evidence/manuscript, but the handoff explicitly says its ID is provisional because no Project 2424 registry was mounted. Its residual-triggered method reduced update count but was worse than dense and matched-budget uniform refinement on every compact analytic task; the negative result must be preserved."
+    },
+    {
+      "artifact_family": "MODEL-PRC",
+      "kind": "isolated_project_workspace_with_git_commit",
+      "recovered_name": "Physics Reservoir Computing (PRC)",
+      "recorded_workspace": "/mnt/data/typhon-omega/projects/MODEL-PRC",
+      "recorded_git_commit": "b07342dbcb7bc1dca2284394101e0bdd751ce603",
+      "recorded_local_tests": "7 PASS",
+      "recorded_compact_seeds": [11, 23, 47],
+      "recorded_prc_mean_rmse": 0.13445138787738575,
+      "recorded_unconstrained_reservoir_mean_rmse": 0.13683132734179276,
+      "recorded_linear_autoregression_mean_rmse": 0.005668026904725093,
+      "recorded_persistence_mean_rmse": 0.24086832316081944,
+      "canonical_T2424_candidate": "T2424-0018",
+      "canonical_T2424_crosswalk_complete": false,
+      "claim_boundary": "MODEL-PRC records a clean project-local Git commit, tests, smoke, compact, ablations and robustness, but its canonical ID was provisional because no Typhon registry or prior repository was mounted. Linear autoregression decisively beats the default PRC configuration on the compact oscillator and external physical validation remains unexecuted."
+    },
+    {
+      "artifact_family": "MODEL-PEN",
+      "kind": "isolated_project_workspace",
+      "recovered_name": "Predictive Engram Networks (PEN)",
+      "recorded_workspace": "/mnt/data/typhon-omega/projects/MODEL-PEN",
+      "recorded_local_tests": "6 PASS",
+      "recorded_compact_seeds": [17, 23, 29],
+      "recorded_mean_predictive_mse": 0.2382847617,
+      "recorded_no_memory_mean_predictive_mse": 0.2414076626,
+      "recorded_random_write_mean_predictive_mse": 0.2373956343,
+      "recorded_attention_only_mean_predictive_mse": 0.2357257257,
+      "canonical_T2424_candidate": "T2424-0033",
+      "canonical_T2424_crosswalk_complete": false,
+      "claim_boundary": "The provisional MODEL-PEN package is a real synthetic-controlled evidence lead, but its handoff states that no Project 2424 registry was mounted. Do not automatically relabel it T2424-0033. Learned-salience superiority is unsupported because random-write and attention-only controls match or beat PEN."
+    },
+    {
+      "artifact_family": "Typhon Foundation / Full Execution",
+      "kind": "archive_checksums",
+      "archives": [
+        {"file":"Typhon_Foundation_Phase1.zip","sha256":"48bf1d4fd98e46a986b8ceb1d367893d4005fc462d2c047166352f4d1c14fb2e"},
+        {"file":"Typhon_Full_Execution_Bundle.zip","sha256":"300ab721ce07bdb9be5f034cca398a2170bab901bcf89f0343b037f536e2ed25"},
+        {"file":"Typhon-Omega-Execution-Checkpoint-2026-07-23.zip","sha256":"caef586699c6bc64d24885cfc838905135f73e28cc009bb7d1c336bbf2b8861e"}
+      ],
+      "canonical_T2424_candidate": "T2424-0055",
+      "canonical_T2424_crosswalk_complete": false,
+      "claim_boundary": "Typhon archives/checksums are recovered, but checksum presence alone does not prove that frozen First-100 T2424-0055 Project Typhon is scientifically or operationally complete."
+    },
+    {
+      "artifact_family": "Typhon BU1LD Verified Reference v1.0.0",
+      "kind": "release_manifest",
+      "release": "Typhon-BU1LD-All-Projects-Verified-Reference-v1.0.0",
+      "full_archive": {
+        "file": "Typhon-BU1LD-All-Projects-Verified-Reference-v1.0.0.zip",
+        "bytes": 121384,
+        "sha256": "d54e27a02eb46407122df607eeff8e9f687dde7ddab46241b0450f049da8fe65"
+      },
+      "individual_archive_collection": {
+        "file": "Typhon-BU1LD-Individual-Project-Zips-v1.0.0.zip",
+        "bytes": 290352,
+        "sha256": "7da4e312cb4f11010bb7131ba9ec52218ddce8876acf6859678f9dd680cc80ba",
+        "recorded_individual_zip_count": 32
+      },
+      "canonical_T2424_candidate": "T2424-0055",
+      "canonical_T2424_crosswalk_complete": false,
+      "claim_boundary": "A historical Typhon release manifest exists; its release naming and archive counts do not by themselves establish the canonical identity, scope, or present completion state of T2424-0055."
+    }
+  ],
+  "hard_rule": "Recovered artifacts may narrow a blocker or establish provenance, but may not inherit a frozen T2424 ID unless an explicit identity crosswalk or canonical source record supports that assignment."
+}

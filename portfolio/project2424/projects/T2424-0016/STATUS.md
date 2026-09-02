@@ -1,28 +1,36 @@
 # T2424-0016 Status
 
 **Project:** PST — Predictive Single-Cell Transition Score  
-**Recovered/source alias:** Predictive Stability Theory (PST) / `MODEL-PST`
+**Recovered/source aliases:** `MODEL-PST`, `MODEL-008`, PST / Predictive Stability Theory
 
-State: `RECOVERED_COMPACT_EVIDENCE / SOURCE_MIGRATION_PENDING / EXTERNAL_BLOCKED`
+State: `ALIAS_CORROBORATED / RECOVERED_COMPACT_EVIDENCE / SOURCE_ARCHIVE_BYTES_UNAVAILABLE / EXTERNAL_BLOCKED`
 
 Certified complete: **NO**
 
 ## Canonical identity
 
-The frozen First-100 queue is authoritative for Project 2424 identity. `T2424-0016` therefore uses the canonical title **PST — Predictive Single-Cell Transition Score**. The recovered isolated package and historical materials use **Predictive Stability Theory (PST)** / `MODEL-PST`; that label is preserved as provenance and must not replace the queue identity.
+The frozen First-100 queue is authoritative: `T2424-0016` is **PST — Predictive Single-Cell Transition Score**.
+
+Two independent retained provenance surfaces corroborate the historical source-family aliasing:
+
+- the isolated handoff names the source package `MODEL-PST`;
+- the retained Typhon task registry maps `MODEL-008` to canonical name `PST`.
+
+These aliases reduce identity ambiguity, but they do **not** prove that the missing source bytes have been migrated into this Git repository.
 
 ## Recovered evidence state
 
-The user's retained PST handoff identifies an isolated `MODEL-PST` package with:
+The retained PST handoff reports an isolated controlled package with:
 
 - 7 behavioural tests passing;
 - deterministic smoke execution;
 - 21 compact synthetic-controlled runs across three seeds;
 - family-B in-domain robustness and A→B transfer probes;
 - 24 recorded per-experiment evidence manifests with SHA-256/size validation;
-- a 5,569-word checked manuscript and verified project bibliography.
+- a 5,569-word checked manuscript and verified project bibliography;
+- isolated verdict `COMPACT_EVIDENCE_COMPLETE`.
 
-The recovered report's own verdict is `COMPACT_EVIDENCE_COMPLETE`, meaning the controlled package was completed in that isolated workspace. This canonical GitHub package does **not** convert that verdict into Project 2424 `Certified complete`, because the original source/evidence tree has not yet been migrated and independently rerun here.
+A separate Typhon clean-room workspace retained `MODEL-008` as incomplete at portfolio level. That is consistent with this status: local controlled evidence existed, while full portfolio/release completion did not.
 
 ## Negative findings preserved
 
@@ -32,14 +40,23 @@ The recovered report's own verdict is `COMPACT_EVIDENCE_COMPLETE`, meaning the c
 - all-feature selection outperforms variance selection in the controlled generator;
 - fixed family-A→family-B transfer is weak (`AUROC 0.6577`) despite strong family-B in-domain retraining (`AUROC 0.9903`).
 
-## Hard blockers
+## Exact source-recovery blocker
 
-1. Original isolated `projects/MODEL-PST/` source/checkpoint/raw-evidence tree is not yet mounted into the connected GitHub repository.
-2. External Paul15/Pancreas/Dentate Gyrus historical headline values remain `UNVERIFIED`.
-3. Approved accessions, versions, licences, checksums, metadata contracts, biological split rules and transition-label contracts are unresolved for external validation.
-4. No external established transition-scoring comparator was executed in the recovered controlled release.
-5. No independent clean reproduction has been performed on a canonical Git commit.
+Search across the connected Git repository and available retained File Library evidence found handoffs, logs, task registries and archive/hash references, but **not the original `projects/MODEL-PST/` source/checkpoint/raw-evidence archive bytes themselves**.
 
-## Promotion rule
+Therefore the canonical original implementation cannot be clean-rerun from current connected surfaces without reconstructing code from prose, which is forbidden.
 
-Do not promote this project beyond the current state until the isolated source and retained evidence are migrated, hashes are revalidated, the compact commands reproduce from a clean canonical checkout, and independent QA records the result. External biological claims require a separate dataset/protocol gate.
+This is no longer a vague `migration pending` state. It is an explicit evidence-backed source-availability blocker:
+
+`BLOCKED_SOURCE_ARCHIVE_BYTES_UNAVAILABLE_IN_CONNECTED_SURFACES`
+
+## External-science blockers
+
+- historical Paul15/Pancreas/Dentate Gyrus headline values remain unverified;
+- accessions, versions, licences, checksums, metadata contracts, biological split rules and transition-label contracts are unresolved;
+- no external established transition-scoring comparator was executed in the recovered controlled release;
+- no independent clean reproduction exists on a canonical Git commit.
+
+## Closure rule
+
+Do not reconstruct the missing original implementation from handoff prose merely to turn this row green. Either recover the exact source archive and rerun it, or retain this explicit source-blocked state. The controlled negative findings remain preserved either way.

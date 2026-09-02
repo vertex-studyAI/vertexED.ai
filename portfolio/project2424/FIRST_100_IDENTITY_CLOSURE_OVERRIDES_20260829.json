@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "date": "2026-08-29",
+  "issue": 496,
+  "purpose": "Machine-readable identity/provenance closure overrides applied after the frozen 2026-08-23 First-100 policy and recovery refinements. Historical policy and evidence files remain unchanged.",
+  "integrity_rules": {
+    "numeric_suffix_identity_inference_allowed": false,
+    "unresolved_mapping_increases_implementation_count": false,
+    "unresolved_mapping_increases_completion_count": false,
+    "historical_evidence_mutated": false
+  },
+  "overrides": {
+    "T2424-0005": {
+      "disposition": "BLOCKED",
+      "reason_code": "RECOVERED_FINANCEJEPA_FAMILY_CROSSWALK_REQUIRED",
+      "mapping_status": "UNRESOLVED",
+      "note": "MODEL-002 FinanceJEPA is retained evidence, but no authoritative crosswalk assigns it to frozen T2424-0005 FinanceJEPA / Eigen-Finance. Zero implementation/completion credit until an explicit source-controlled mapping is recovered."
+    },
+    "T2424-0007": {
+      "disposition": "BLOCKED",
+      "reason_code": "NEUROCAD_IDENTITY_CONFLICT_GROUP",
+      "mapping_status": "UNRESOLVED",
+      "note": "T2424-0007 NeuroCAD must not be collapsed with T2424-0037 NLP-to-CAD or historical P2424-1213 NeuroCAD by name or suffix. Zero implementation/completion credit until an explicit source-controlled crosswalk is recovered."
+    },
+    "T2424-0016": {
+      "disposition": "BLOCKED",
+      "reason_code": "SOURCE_BLOCKED",
+      "mapping_status": "ALIAS_CORROBORATED_SOURCE_MIGRATION_BLOCKED",
+      "note": "MODEL-PST / MODEL-008 / PST aliases are corroborated, but exact source, checkpoint and raw-evidence bytes are not recovered in the canonical repository. Alias evidence alone contributes zero source-migration, reproduction, implementation-completion or external-biology credit."
+    },
+    "T2424-0017": {
+      "disposition": "BLOCKED",
+      "reason_code": "RECOVERED_MODEL_ESNF_CROSSWALK_REQUIRED",
+      "mapping_status": "UNRESOLVED",
+      "note": "MODEL-ESNF is retained with direct controlled evidence, but its handoff explicitly used a provisional identity. Exact-name similarity is insufficient to assign it to T2424-0017 without an authoritative crosswalk."
+    },
+    "T2424-0018": {
+      "disposition": "BLOCKED",
+      "reason_code": "RECOVERED_MODEL_PRC_CROSSWALK_REQUIRED",
+      "mapping_status": "UNRESOLVED",
+      "note": "MODEL-PRC is retained with direct controlled evidence, but its canonical Project 2424 identity was explicitly provisional. Do not assign it to T2424-0018 without an authoritative crosswalk."
+    },
+    "T2424-0019": {
+      "disposition": "FREEZE_NEGATIVE",
+      "reason_code": "CONTROLLED_SOURCE_REPRODUCED_MECHANISM_CONFOUNDED",
+      "mapping_status": "CONTROLLED_SOURCE_LINEAGE_CLOSED",
+      "note": "Merged PR #565 closes the checksum-pinned controlled Atlas source lineage for T2424-0019 with retained source-recovery commit 10e4a5641ab5345e2c3356275ea668c1e822f0e0 and merge commit 95a0241710251058d580637770fddbe29d5de52a. Clean replay reproduced 2 tests, 112 reservoir realizations and retained evidence hashes byte-identically. Preserve PARAMETER_CONFOUNDED_OR_NON_UNIQUE. Natural/OOD successor science remains PROTOCOL_BLOCKED and receives no completion credit."
+    },
+    "T2424-0033": {
+      "disposition": "BLOCKED",
+      "reason_code": "RECOVERED_MODEL_PEN_CROSSWALK_REQUIRED",
+      "mapping_status": "UNRESOLVED",
+      "note": "MODEL-PEN has retained controlled evidence but its handoff explicitly used a provisional identity. Name-family similarity cannot establish T2424-0033 canonical identity without an authoritative crosswalk."
+    },
+    "T2424-0037": {
+      "disposition": "FREEZE_NEGATIVE",
+      "reason_code": "TYPED_PARSER_CAUSAL_MECHANISM_FALSIFIED",
+      "mapping_status": "CURRENT_EVIDENCE_BEARING_NEUROCAD_SCIENTIFIC_LINEAGE",
+      "note": "Count the current typed-parser NeuroCAD/NLP-to-CAD evidence lineage once at T2424-0037 with scientific boundary VALIDATION_DOMINANT. Do not also count T2424-0007 or P2424-1213 as completed instances of this lineage without an explicit crosswalk."
+    }
+  },
+  "counting_rule": "Only evidence-backed canonical mappings may contribute implementation or completion credit. Every unresolved mapping in this overlay contributes zero such credit."
+}

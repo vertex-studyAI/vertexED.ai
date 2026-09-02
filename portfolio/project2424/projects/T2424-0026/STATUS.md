@@ -4,8 +4,14 @@
 **Project 2424 ID:** T2424-0026  
 **Queue rank:** 19  
 **Track:** C — Existing work → minimum experiment  
-**State:** TESTED_TOOL / MANUAL_MERGE_PENDING  
+**State:** `MERGED / EXACT_HEAD_REPRODUCED / TESTED_SYNTHETIC_TOOL / EXTERNAL_SCIENCE_PENDING`  
 **Claim level:** deterministic causal-intervention simulator + locality tests
+
+## Current integration and reproduction truth
+
+Later portfolio reconciliation records T2424-0026 among the completed Project2424 integrations. The fail-closed Project2424 reproducibility runner subsequently executed this path on exact head `faad54b05de4dbfd7f9f6720342b22e50a283ef3` in Actions run `31660595576`, conclusion **success**, artifact `9166031673`.
+
+The prior `MANUAL_MERGE_PENDING` label is stale.
 
 ## Implemented
 
@@ -18,27 +24,17 @@
 - [x] causal-cone violation detector
 - [x] deterministic seed generator
 - [x] runnable Rule-110 minimum experiment
-- [x] causal locality regression suite
+- [x] causal-locality regression suite
 - [x] explicit GO/STOP verdict and limitations
-- [x] final pre-refresh status head `63bb6cf0ab946681323bb752de65ecc4635badb4` passed canonical CI `31457353108`
+- [x] merged source identity
+- [x] exact-head fail-closed reproduction
 
-## Latest-base integration refresh
+## Current interpretation
 
-Repository `main` advanced to `662de36af18b1251e6441391ac3fc06df7a3bf71` via monitoring-only PR #243, which does not touch this package. This status refresh intentionally creates a new head so canonical CI revalidates the pull-request merge ref against the latest base before manual review.
+The deterministic intervention/locality mechanics are GREEN at the synthetic cellular-automaton scope.
 
-Green CI does not satisfy the nine-gate `Certified complete` contract because retained raw evidence, independent reproduction, broader ablation/negative-result packaging, and external validity remain incomplete.
+This does not establish learned world-model performance, physical realism, causal discovery from observational data, scientific transfer from cellular automata, publication novelty, or broad research completion.
 
-**DO NOT AUTO-MERGE OR DEPLOY. MANUAL REVIEW REQUIRED.**
+## Next scientific gate
 
-## Not claimed
-
-- learned world-model performance
-- physical realism
-- causal discovery from observational data
-- scientific transfer from cellular automata
-- publication novelty
-- Certified complete
-
-## Next artifact
-
-Retain the exact frozen experiment JSON as an evidence artifact after exact-head execution, add an independent QA path that checks claim ↔ raw-output consistency, then extend only under a separately frozen stochastic/learned-model protocol.
+Any continuation should be a separately frozen stochastic/learned-model protocol with retained raw evidence, matched baselines, independent claim-to-evidence QA, uncertainty, and external validity tests. The existing Rule-110 result remains immutable baseline evidence.

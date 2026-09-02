@@ -1,0 +1,133 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-08-23",
+  "project": "Project2424",
+  "truth_boundary": {
+    "historical_contract_identity_count": 2424,
+    "full_current_canonical_registry_recovered": false,
+    "first_100_registry_recovered": true,
+    "historical_wave001_registry_rows": 2424,
+    "historical_wave001_source_packages": 24,
+    "current_manifest_represented_directories": 23,
+    "numeric_suffix_is_provenance_safe": false,
+    "directory_presence_implies_scientific_completion": false,
+    "ci_green_implies_scientific_success": false
+  },
+  "integrity_locks": [
+    "DO_NOT_SUFFIX_MATCH_P2424_TO_T2424",
+    "PRESERVE_NEGATIVE_MIXED_FAILED_FALSIFIED_RESULTS",
+    "NO_POST_RESULT_RETUNING_OF_FROZEN_PROTOCOLS",
+    "IRIS_SEEDS_1000_1029_PROHIBITED",
+    "T2424_0050_NO_AUTO_MERGE_OR_DEPLOY_BY_CLOSURE_AUTOMATION",
+    "NEW_HYPOTHESIS_REQUIRES_NEW_VERSIONED_PROTOCOL"
+  ],
+  "records": [
+    {
+      "key": "NGMT-v0.1",
+      "canonical_project_id": "T2424-0025-related-successor",
+      "status": "NEGATIVE_OR_INCONCLUSIVE",
+      "reproducibility": "REPRODUCED_NEGATIVE",
+      "terminal": true,
+      "green": true,
+      "claim": "The frozen B3 non-Gaussian memory arm does not satisfy the preregistered adverse-MSE effect gates against B1/B2.",
+      "next_action": "FREEZE_NO_IN_PLACE_RESCUE"
+    },
+    {
+      "key": "T2424-1863",
+      "canonical_project_id": "T2424-1863",
+      "status": "NEGATIVE",
+      "reproducibility": "REPRODUCED_NEGATIVE",
+      "terminal": true,
+      "green": true,
+      "claim": "The frozen local-operator experiment misses the >75% improvement gate; observed mean improvement is below threshold.",
+      "next_action": "ARCHIVE_CURRENT_PROTOCOL_NEW_REAL_PDE_SUCCESSOR_ONLY"
+    },
+    {
+      "key": "NeuroCAD-typed-parser-mechanism",
+      "canonical_project_id": "T2424-0037",
+      "status": "FAILED_FALSIFIED",
+      "reproducibility": "VERIFIED_CONTROLLED_MECHANISM_FALSIFIER",
+      "terminal": true,
+      "green": true,
+      "claim": "Matched validation falsifies the typed-parser causal interpretation on the reused diagnostic; retain VALIDATION_DOMINANT.",
+      "next_action": "FREEZE_CAUSAL_CLAIM_NEW_BROADER_PROTOCOL_ONLY"
+    },
+    {
+      "key": "Eigen-JEPA-primary",
+      "canonical_project_id": "T2424-0032",
+      "status": "MIXED_NEGATIVE",
+      "reproducibility": "REPRODUCED_MIXED_NEGATIVE",
+      "terminal": true,
+      "green": true,
+      "claim": "The current primary comparison does not establish superiority over strong raw/log ridge baselines.",
+      "next_action": "FREEZE_NO_METRIC_SHOPPING"
+    },
+    {
+      "key": "APEN-current",
+      "canonical_project_id": "T2424-0003",
+      "status": "MIXED",
+      "reproducibility": "REPRODUCED_CONTROLLED_MIXED",
+      "terminal": true,
+      "green": true,
+      "claim": "The controlled advantage weakens/reverses under harder salience controls.",
+      "next_action": "FREEZE_NEW_MATCHED_NATURALISTIC_PROTOCOL_ONLY"
+    },
+    {
+      "key": "NPMS-current",
+      "canonical_project_id": "T2424-0019",
+      "status": "INCONCLUSIVE_NON_UNIQUE",
+      "reproducibility": "INDEPENDENTLY_REPLAYED_NEGATIVE_NON_UNIQUE",
+      "terminal": true,
+      "green": true,
+      "claim": "The current mechanism is parameter-confounded or non-unique under the frozen control band.",
+      "next_action": "FREEZE_NEW_CAUSAL_INTERVENTION_PROTOCOL_ONLY"
+    },
+    {
+      "key": "Darcy-parent",
+      "canonical_project_id": "T2424-0050",
+      "status": "HOLD_MIXED_ROBUSTNESS",
+      "reproducibility": "REPRODUCED_BOUNDED_SYNTHETIC_MECHANISM",
+      "terminal": false,
+      "green": false,
+      "supported": [
+        "original controlled 1D harmonic resistance-preserving compression result reproduces",
+        "harder synthetic conditions retain strong performance in some regimes"
+      ],
+      "unsupported": [
+        "learned neural operator superiority",
+        "arbitrary-field >=65% robustness",
+        "FNO/DeepONet/PINN superiority",
+        "2D/3D Darcy validity",
+        "real porous-media validity",
+        "publication novelty",
+        "SOTA"
+      ],
+      "next_action": "FREEZE_NEW_2D_FINITE_VOLUME_MATCHED_BENCHMARK_BEFORE_TRAINING"
+    },
+    {
+      "key": "NeuroCAD-successor",
+      "canonical_project_id": "T2424-0037",
+      "status": "BLOCKED_DATASET_AND_MODEL_IDENTITY",
+      "reproducibility": "PRE_OUTCOME",
+      "terminal": false,
+      "green": false,
+      "next_action": "FREEZE_EXTERNAL_DATASET_MODEL_BASELINE_IDENTITIES_AND_AUTHORIZATION"
+    },
+    {
+      "key": "IRIS-v0.2",
+      "canonical_project_id": null,
+      "status": "PROTOCOL_BLOCKED",
+      "reproducibility": "SOURCE_LINEAGE_PARTIALLY_RECOVERED_MIXED_NEGATIVE_PRESERVED",
+      "terminal": false,
+      "green": false,
+      "prohibited_seeds": [1000,1001,1002,1003,1004,1005,1006,1007,1008,1009,1010,1011,1012,1013,1014,1015,1016,1017,1018,1019,1020,1021,1022,1023,1024,1025,1026,1027,1028,1029],
+      "next_action": "RECOVER_EXACT_CANONICAL_DEVELOPMENT_TRAJECTORIES_OR_RETAIN_BLOCKED"
+    }
+  ],
+  "priority_research_families": [
+    "Darcy / Scientific Operators",
+    "NeuroCAD Reliability",
+    "Memory Mechanisms: NGMT + NPMS + related transfer work",
+    "Failure-Oriented Representation Studies: Eigen-JEPA + APEN"
+  ]
+}

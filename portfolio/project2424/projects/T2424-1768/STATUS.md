@@ -9,7 +9,13 @@
 
 ## Current state
 
-`IMPLEMENTED / CI_VERIFICATION_PENDING`
+`MERGED / EXACT_HEAD_REPRODUCED / TESTED_SYNTHETIC_CONTRACT_VERIFICATION / REAL_WORKLOAD_VALIDATION_PENDING`
+
+## Current integration and reproduction truth
+
+Later portfolio reconciliation records T2424-1768 among the completed Project2424 integrations. The fail-closed Project2424 reproducibility runner subsequently executed this path on exact head `faad54b05de4dbfd7f9f6720342b22e50a283ef3` in GitHub Actions run `31660595576`, conclusion **success**, artifact `9166031673`.
+
+The prior `CI_VERIFICATION_PENDING` label is stale.
 
 ## Evidence checklist
 
@@ -22,12 +28,15 @@
 - [x] focused root-level regression tests
 - [x] reproducible commands
 - [x] limitations / claim boundary
-- [ ] exact-head canonical GitHub Actions CI success
-- [ ] retained real Scientific-ML workload evidence
-- [ ] independent reproduction
+- [x] merged source identity
+- [x] exact-head fail-closed reproduction
 
-## Promotion boundary
+## Current interpretation
 
-After the exact branch head passes canonical repository CI, this project may be described as a **RUNNABLE / TESTED synthetic contract-verification prototype**.
+The synthetic contract-verification prototype is GREEN at its stated scope.
 
-It must not be described as a validated Scientific-ML method, formal verification system, safety mechanism, superior MoE architecture, publication-ready result, or research-complete project without the stronger external evidence gates documented in the README.
+It is not a validated Scientific-ML method, formal verification system, general safety mechanism, superior MoE architecture, publication-ready result, or research-complete project.
+
+## Next scientific gate
+
+Use a frozen real Scientific-ML workload with explicit failure modes, strong routing/verification baselines, measured compute/resource costs, calibration of false accepts/rejects, retained raw evidence, and independent reproduction. Preserve corrupted-expert failures rather than weakening the quorum or acceptance gates after observation.

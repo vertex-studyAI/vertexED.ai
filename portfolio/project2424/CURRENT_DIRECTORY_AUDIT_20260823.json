@@ -1,0 +1,274 @@
+{
+  "schema_version": 1,
+  "date": "2026-08-23",
+  "source_manifest": "portfolio/project2424/SOURCE_IDENTITY_MANIFEST.json",
+  "represented_directory_count": 23,
+  "semantics": {
+    "integration_green": "Canonical repository identity/integration state is explicit and no stale merge/CI blocker remains for the bounded package.",
+    "bounded_evidence_green": "The currently supported bounded claim has explicit evidence and interpretation. This does not imply external validation or publication readiness.",
+    "external_science_green": "External/real-data/strong-baseline scientific validation is closed for the claim. False for nearly all bounded tool/mechanics packages.",
+    "terminal_science_green": "A scientific question is legitimately closed at its frozen terminal state, including negative/mixed/falsified outcomes."
+  },
+  "projects": [
+    {
+      "id": "T2424-0016",
+      "name": "PST — Predictive Single-Cell Transition Score",
+      "integration_state": "EVIDENCE_RECOVERY_MERGED_OR_PRESENT / ORIGINAL_SOURCE_MIGRATION_BLOCKED",
+      "integration_green": false,
+      "bounded_evidence_green": false,
+      "external_science_green": false,
+      "terminal_science_green": false,
+      "scientific_state": "RECOVERED_COMPACT_EVIDENCE / NEGATIVE_FINDINGS_PRESERVED / CANONICAL_SOURCE_RERUN_MISSING",
+      "next_gate": "Migrate original MODEL-PST source/checkpoints/raw-evidence tree, revalidate hashes, clean-rerun canonical source, then independently QA; external biology requires separately frozen datasets/comparators."
+    },
+    {
+      "id": "T2424-0019",
+      "name": "NPMS — Neural Predictive Memory Spectroscopy",
+      "integration_state": "EVIDENCE_RECOVERY_PRESENT / ORIGINAL_SOURCE_MIGRATION_IDENTITY_BLOCKED",
+      "integration_green": false,
+      "bounded_evidence_green": false,
+      "external_science_green": false,
+      "terminal_science_green": false,
+      "scientific_state": "RECOVERED_COMPACT_EVIDENCE; broader NPMS family has reproduced/non-unique evidence but canonical MODEL-NPMS-to-T2424 source migration remains unresolved",
+      "next_gate": "Recover/migrate exact original canonical source identity or explicitly close the canonical package as source-blocked; do not substitute later derived bundles silently."
+    },
+    {
+      "id": "T2424-0023",
+      "name": "Multilingual Epistemic Blind Spots Benchmark",
+      "integration_state": "MERGED / EXACT_HEAD_CI_VERIFIED",
+      "integration_green": true,
+      "bounded_evidence_green": true,
+      "external_science_green": false,
+      "terminal_science_green": false,
+      "scientific_state": "SYNTHETIC_ALIGNED_RECORD_EVALUATION_MECHANICS",
+      "next_gate": "New frozen real-model multilingual protocol with immutable model/data/alignment identities, baselines, uncertainty and external reproduction."
+    },
+    {
+      "id": "T2424-0024",
+      "name": "Trust Under Uncertainty",
+      "integration_state": "MERGED / EXACT_HEAD_FAIL_CLOSED_REPRODUCED",
+      "integration_green": true,
+      "bounded_evidence_green": true,
+      "external_science_green": false,
+      "terminal_science_green": false,
+      "scientific_state": "BOUNDED_SYNTHETIC_CALIBRATION_AND_SELECTIVE_PREDICTION_MECHANICS",
+      "next_gate": "Real held-out predictions, immutable model/data identities, calibration split discipline, stronger baselines, uncertainty and subgroup/error analysis."
+    },
+    {
+      "id": "T2424-0025",
+      "name": "Non-Gaussian Memory Transformer",
+      "integration_state": "MERGED / PRECURSOR_EXACTLY_REPRODUCED",
+      "integration_green": true,
+      "bounded_evidence_green": true,
+      "external_science_green": false,
+      "terminal_science_green": true,
+      "scientific_state": "ROBUST_READOUT_PRECURSOR_REPRODUCED; UNIQUE_NON_GAUSSIAN_ATTRIBUTION_REJECTED. Separate NGMT v0.1 learned successor is reproduced negative/inconclusive.",
+      "next_gate": "Freeze current precursor and NGMT v0.1 verdicts. Any successor must be separately versioned and preregistered before outcome access."
+    },
+    {
+      "id": "T2424-0026",
+      "name": "Counterfactual Defect Worlds",
+      "integration_state": "MERGED / EXACT_HEAD_FAIL_CLOSED_REPRODUCED",
+      "integration_green": true,
+      "bounded_evidence_green": true,
+      "external_science_green": false,
+      "terminal_science_green": false,
+      "scientific_state": "DETERMINISTIC_CELLULAR_AUTOMATON_INTERVENTION_AND_LOCALITY_MECHANICS",
+      "next_gate": "Separately frozen stochastic/learned-world protocol with baselines, raw evidence, uncertainty, external validity and independent QA."
+    },
+    {
+      "id": "T2424-0027",
+      "name": "Sapir–Whorf Latent Tongue",
+      "integration_state": "MERGED / EXACT_HEAD_CI_VERIFIED / EXACT_RERUN_EVIDENCE",
+      "integration_green": true,
+      "bounded_evidence_green": true,
+      "external_science_green": false,
+      "terminal_science_green": false,
+      "scientific_state": "CONTROLLED_SYNTHETIC_LANGUAGE_LEAKAGE_MECHANICS_PASS",
+      "next_gate": "New preregistered real multilingual model/data protocol; no linguistic-relativity claim from injected synthetic coordinates."
+    },
+    {
+      "id": "T2424-0028",
+      "name": "Residual Event Tokenization",
+      "integration_state": "MERGED / FRESHLY_REPRODUCED_BOUNDED_CODEC_MECHANICS",
+      "integration_green": true,
+      "bounded_evidence_green": true,
+      "external_science_green": false,
+      "terminal_science_green": false,
+      "scientific_state": "DETERMINISTIC_SYNTHETIC_RATE_ERROR_MECHANICS",
+      "next_gate": "External byte-level rate-distortion, noisy/nonlinear signals, matched codec baselines, overhead accounting and independent reproduction."
+    },
+    {
+      "id": "T2424-0029",
+      "name": "Representation Phase Transitions for PDEs",
+      "integration_state": "MERGED / FRESHLY_REPRODUCED_ANALYTIC_SCREEN",
+      "integration_green": true,
+      "bounded_evidence_green": true,
+      "external_science_green": false,
+      "terminal_science_green": false,
+      "scientific_state": "CONTROLLED_ANALYTIC_HEAT_EQUATION_SPECTRAL_DIMENSION_SCREEN",
+      "next_gate": "New frozen nonlinear numerical PDE study with threshold/grid sensitivity and Fourier-vs-learned latent comparison at matched reconstruction error."
+    },
+    {
+      "id": "T2424-0030",
+      "name": "Adaptive Theory Geometry in World Models",
+      "integration_state": "MERGED / TESTED_SYNTHETIC_TOOL",
+      "integration_green": true,
+      "bounded_evidence_green": true,
+      "external_science_green": false,
+      "terminal_science_green": false,
+      "scientific_state": "SYNTHETIC_ONE_STEP_GEOMETRY_AWARE_FORECASTING_MECHANICS",
+      "next_gate": "Frozen noisy/regime-switching multi-step benchmark, stronger baselines, train-only selection, uncertainty and independent reproduction."
+    },
+    {
+      "id": "T2424-0034",
+      "name": "Quant ML Visualizer",
+      "integration_state": "MERGED / EXACT_HEAD_TESTED / WALK_FORWARD_MECHANICS_MERGED",
+      "integration_green": true,
+      "bounded_evidence_green": true,
+      "external_science_green": false,
+      "terminal_science_green": false,
+      "scientific_state": "DESCRIPTIVE_AND_NO_LOOKAHEAD_EVALUATION_TOOLING",
+      "next_gate": "Separate frozen legally usable real-market protocol with chronological splits, strong baselines, untouched test evidence, costs, raw outputs and independent reproduction."
+    },
+    {
+      "id": "T2424-0035",
+      "name": "Grokking Agent",
+      "integration_state": "MERGED / EXACT_HEAD_FAIL_CLOSED_REPRODUCED",
+      "integration_green": true,
+      "bounded_evidence_green": true,
+      "external_science_green": false,
+      "terminal_science_green": false,
+      "scientific_state": "DETERMINISTIC_DELAYED_GENERALIZATION_DETECTOR_MECHANICS",
+      "next_gate": "Actual trained-model curves, matched non-grokking controls, frozen detector thresholds, seed uncertainty, baseline detectors and independent reproduction."
+    },
+    {
+      "id": "T2424-0036",
+      "name": "Rubik's A* Intelligence",
+      "integration_state": "MERGED / EXACT_HEAD_CI_VERIFIED / TESTED_TOOL",
+      "integration_green": true,
+      "bounded_evidence_green": true,
+      "external_science_green": false,
+      "terminal_science_green": false,
+      "scientific_state": "BOUNDED_ORIENTATION_FREE_2X2_SEARCH_PROTOTYPE",
+      "next_gate": "Full corner orientation + deterministic comparator study; learned heuristic only under separately frozen protocol."
+    },
+    {
+      "id": "T2424-0037",
+      "name": "NLP-to-CAD / NeuroCAD",
+      "integration_state": "MERGED_AND_PRODUCT_ALPHA_VERIFIED_AT_BOUNDED_SCOPE",
+      "integration_green": true,
+      "bounded_evidence_green": true,
+      "external_science_green": false,
+      "terminal_science_green": true,
+      "scientific_state": "TYPED_PARSER_CAUSAL_MECHANISM_FALSIFIED; VALIDATION_DOMINANT. Product demo mechanics separately green.",
+      "next_gate": "Preserve falsifier. Successor science requires exact external dataset/model/baseline identities, >=2 adapters, frozen ablations and execution authorization before evaluation."
+    },
+    {
+      "id": "T2424-0038",
+      "name": "Obscured Records Agent",
+      "integration_state": "MERGED / EXACT_HEAD_CI_VERIFIED / TESTED_TOOL",
+      "integration_green": true,
+      "bounded_evidence_green": true,
+      "external_science_green": false,
+      "terminal_science_green": false,
+      "scientific_state": "DETERMINISTIC_EDITORIAL_TRIAGE_MECHANICS",
+      "next_gate": "Blinded historical-lead evaluation with editor labels, baseline ranking, error analysis and independent review of source-independence assumptions."
+    },
+    {
+      "id": "T2424-0040",
+      "name": "FinanceMeta Learning Graph",
+      "integration_state": "MERGED / EXACT_HEAD_FAIL_CLOSED_REPRODUCED",
+      "integration_green": true,
+      "bounded_evidence_green": true,
+      "external_science_green": false,
+      "terminal_science_green": false,
+      "scientific_state": "SYNTHETIC_PREREQUISITE_ORDERING_MECHANICS",
+      "next_gate": "Separately frozen real learner/curriculum outcome protocol with matched ordering baselines, outcomes, uncertainty and independent reproduction."
+    },
+    {
+      "id": "T2424-0046",
+      "name": "Auto-Research Foundry",
+      "integration_state": "MERGED / TESTED_TOOL",
+      "integration_green": true,
+      "bounded_evidence_green": true,
+      "external_science_green": false,
+      "terminal_science_green": false,
+      "scientific_state": "DETERMINISTIC_PLANNING_AND_EVIDENCE_GATING_MECHANICS",
+      "next_gate": "Disposable persisted-queue integration with crash/recovery/concurrency evidence; do not silently enable arbitrary shell execution."
+    },
+    {
+      "id": "T2424-0049",
+      "name": "Multiphase Porous JEPA",
+      "integration_state": "IDENTITY_REPAIRED / MERGED / TESTED_SYNTHETIC_TOOL",
+      "integration_green": true,
+      "bounded_evidence_green": true,
+      "external_science_green": false,
+      "terminal_science_green": false,
+      "scientific_state": "BOUNDED_SYNTHETIC_POROUS_LATENT_PREDICTION_SCREEN",
+      "next_gate": "Public/validated porous benchmark, learned encoder/predictor ablations, strong operator baselines, raw evidence, compute accounting and independent QA."
+    },
+    {
+      "id": "T2424-0050",
+      "name": "Darcy Latent Operator",
+      "integration_state": "CANONICAL_IDENTITY_REPAIRED / ORIGINAL_BOUNDED_RESULT_REPRODUCED / HARDER_AUDIT_MERGED",
+      "integration_green": true,
+      "bounded_evidence_green": true,
+      "external_science_green": false,
+      "terminal_science_green": false,
+      "scientific_state": "HOLD_MIXED_ROBUSTNESS; positive controlled 1D mechanism with harder negative/mixed cases preserved",
+      "next_gate": "Freeze a new 2D finite-volume Darcy protocol with harmonic/arithmetic/PCA/reduced baselines plus FNO/DeepONet, immutable splits/seeds/environment, OOD/resolution transfer, compute and uncertainty. No auto-merge/deploy or training before authorization."
+    },
+    {
+      "id": "T2424-0053",
+      "name": "Scientific Motif Dictionary",
+      "integration_state": "MERGED / TESTED_SYNTHETIC_TOOL",
+      "integration_green": true,
+      "bounded_evidence_green": true,
+      "external_science_green": false,
+      "terminal_science_green": false,
+      "scientific_state": "NORMALIZED_1D_TIME_SERIES_MOTIF_INDEXING_MECHANICS",
+      "next_gate": "Frozen public scientific time-series benchmark, Euclidean/SAX-style baselines, parameter sensitivity, raw artifacts, uncertainty and independent reproduction."
+    },
+    {
+      "id": "T2424-0054",
+      "name": "Theory-Manifold Experiment Planner",
+      "integration_state": "MERGED / EXACT_HEAD_FAIL_CLOSED_REPRODUCED",
+      "integration_green": true,
+      "bounded_evidence_green": true,
+      "external_science_green": false,
+      "terminal_science_green": false,
+      "scientific_state": "DETERMINISTIC_HEURISTIC_PLANNER_MECHANICS",
+      "next_gate": "Frozen retrospective/prospective planning benchmark with blinded realized-value assessment, simple baselines, calibration and independent review."
+    },
+    {
+      "id": "T2424-1767",
+      "name": "Resource-Bounded Mixture-of-Experts Operator for Scientific ML Benchmarking",
+      "integration_state": "MERGED / EXACT_HEAD_CI_VERIFIED / TESTED_TOOL",
+      "integration_green": true,
+      "bounded_evidence_green": true,
+      "external_science_green": false,
+      "terminal_science_green": false,
+      "scientific_state": "SYNTHETIC_RESOURCE_ERROR_FRONTIER_TOOL",
+      "next_gate": "Frozen real Scientific-ML workload, measured wall-clock/memory/accelerator costs, matched routing baselines, raw outputs, uncertainty and independent reproduction."
+    },
+    {
+      "id": "T2424-1768",
+      "name": "Self-Verifying Mixture-of-Experts Engine for Scientific ML Benchmarking",
+      "integration_state": "MERGED / EXACT_HEAD_FAIL_CLOSED_REPRODUCED",
+      "integration_green": true,
+      "bounded_evidence_green": true,
+      "external_science_green": false,
+      "terminal_science_green": false,
+      "scientific_state": "SYNTHETIC_CONTRACT_VERIFICATION_PROTOTYPE",
+      "next_gate": "Frozen real Scientific-ML workload/failure modes, strong baselines, measured compute, false-accept/reject calibration, raw evidence and independent reproduction."
+    }
+  ],
+  "summary": {
+    "represented_directories": 23,
+    "integration_green": 21,
+    "integration_blocked_on_original_source_migration": 2,
+    "external_science_green": 0,
+    "note": "External-science zero is intentional: bounded synthetic/tool/reproduction evidence is not silently promoted into real-data or publication claims. Terminal negative/falsified questions may still be scientifically closed at their exact frozen scope."
+  }
+}

@@ -1,32 +1,46 @@
 # T2424-1767 Status
 
+**Project:** Resource-Bounded Mixture-of-Experts Operator for Scientific ML Benchmarking
+
 ## Current state
 
-`IMPLEMENTED / CI_VERIFICATION_PENDING`
+`TESTED_TOOL / EXACT_HEAD_CI_VERIFIED / MERGED / REAL_WORKLOAD_VALIDATION_PENDING`
+
+## Verified integration evidence
+
+Canonical PR #162 passed exact-head GitHub Actions CI run `31409012137` on head `1496c991a3b00473700b2f4c3d173d428f793e9b` and merged as commit `8c4bb2b31140f8e580135a5595f2731b0068d146`.
+
+An older separate cheap-screen implementation was intentionally superseded so this ID is not double-counted.
 
 ## Substance present
 
 - [x] working resource-bounded routing implementation
-- [x] documented public interface
-- [x] deterministic synthetic benchmark
+- [x] explicit expert costs and per-sample budget
+- [x] deterministic score-per-cost routing
+- [x] top-K cap and fail-closed impossible-budget behavior
+- [x] selected-expert softmax mixture
+- [x] deterministic synthetic resource/error frontier
 - [x] root-level regression tests
-- [x] reproducible local commands
+- [x] reproducible commands
+- [x] exact-head canonical CI
+- [x] canonical merge
 - [x] limitations and claim boundary
-- [ ] canonical repository CI verified on this exact branch head
-- [ ] real Scientific-ML workload benchmark
-- [ ] measured wall-clock / memory resource model
-- [ ] independent scientific reproduction
 
-## Completion boundary
+## Current interpretation
 
-This package may count as a **software/tool prototype** after the exact branch head passes the repository's canonical test gate. It must not count as a validated Scientific-ML research result until a real workload, measured costs, frozen baselines, and retained experiment evidence exist.
+The software/tool prototype is GREEN.
 
-## Expected verification
+The Scientific-ML research claim is not green: costs remain abstract, the benchmark is synthetic, and there is no retained real-workload or independent scientific evidence establishing superiority.
 
-```bash
-node --test tests/project2424T1767ResourceBoundedMoe.test.mjs
-npm test
-npm run ci
-```
+## Not claimed
 
-Do not replace a failing result with a completion claim. Record the exact GitHub Actions run and immutable commit after CI finishes.
+- validated Scientific-ML superiority;
+- measured wall-clock or memory efficiency;
+- real-workload quality/resource frontier;
+- publication novelty;
+- independent external validation;
+- research completion.
+
+## Next scientific gate
+
+Use a frozen real Scientific-ML workload, measured wall-clock/memory/accelerator costs, matched strong routing baselines, retained raw outputs, uncertainty, and independent reproduction. Preserve any failure to beat simple routing controls.

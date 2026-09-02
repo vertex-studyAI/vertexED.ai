@@ -3,39 +3,55 @@
 **Project:** Multilingual Epistemic Blind Spots Benchmark  
 **Queue rank:** 1  
 **Track:** C — Protocol / evaluation package  
-**State:** `RECONCILED_IMPLEMENTATION / CI_PENDING`  
+**State:** `IMPLEMENTED / EXACT_HEAD_CI_VERIFIED / MERGED / SCIENTIFIC_SCOPE_BOUNDED`  
 **Certified complete:** NO
 
-## Why this branch exists
+## Canonical identity
 
-Two separate branches (#196 and #198) independently implemented the same canonical First-100 ID and both later obtained exact-head CI success. Keeping both as active canonical candidates would create identity ambiguity and possible double-counting.
+The frozen First-100 queue is authoritative. `T2424-0023` is **Multilingual Epistemic Blind Spots Benchmark**.
 
-This branch starts from current `main` and reconciles the strongest non-conflicting behavior into one canonical package:
+## Identity reconciliation
 
-- caller supplies expected/predicted answers; correctness is derived internally;
-- strict aligned-record validation and concept/language uniqueness;
-- at least two languages per concept;
-- coverage and selective accuracy;
-- mean confidence, Brier and calibration-gap summaries;
-- ordinary mismatch separated from strict blind spot;
-- strict blind spot requires high-confidence wrong + high-confidence correct reference on the same concept;
-- directional language-pair comparison;
-- canonical input ordering for deterministic aggregation;
+Two earlier branches (#196 and #198) independently implemented the same canonical ID. They are superseded review paths and must not be double-counted.
+
+Canonical reconciliation PR **#212** merged on 2026-08-11 as merge commit `3ce1260a3d3e80788b3c5d12cfe0df617b13665a` after exact-head GitHub Actions CI succeeded on head `58449933c38afb9a9017dbd067a43874dec88354` in run `31450669750`.
+
+## Implemented and verified mechanics
+
+The merged canonical package includes:
+
+- expected/predicted aligned-record contract with internally derived correctness;
+- duplicate and singleton-concept fail-closed validation;
+- coverage + raw/selective accuracy;
+- mean confidence, Brier score and calibration-gap summaries;
+- ordinary cross-language mismatch separated from strict blind spot;
+- strict blind spot requiring high-confidence wrong in one language and high-confidence correct in another on the same concept;
+- directional pairwise language comparison;
+- canonical record ordering for deterministic aggregation;
 - threshold sensitivity;
-- deterministic three-language fixture;
-- eight focused regression tests.
+- deterministic English/Spanish/French fixture;
+- eight regression tests.
 
-## Prior branch evidence
+## Scientific interpretation
 
-- PR #196 head `3b7584e7ef249ca30af19351590f7c233507cfa0`: canonical CI `31449636468` success.
-- PR #198 head `7946ccdbec797b2c31d71a4099cffb44aad39f6e`: canonical CI `31449913019` success after repairing a floating-point order-invariance bug.
-
-Prior CI proves those branch heads, not this reconciled head.
-
-## Current promotion gate
-
-Do not close the prior review paths or mark this package tested until canonical GitHub Actions succeeds on this exact reconciliation head. If it passes, this PR should become the sole canonical T2424-0023 review path and #196/#198 should be closed as superseded duplicates.
+This package verifies **synthetic evaluation mechanics on supplied aligned multilingual records**. It does not itself evaluate a real model or establish multilingual model performance.
 
 ## Claim boundary
 
-Synthetic fixture/evaluation mechanics only. No real-model, translation-quality, language-fairness, causal, publication, production or research-complete claim.
+Not supported by this package:
+
+- real-model multilingual performance;
+- translation quality or semantic-equivalence validity;
+- language fairness or causal conclusions;
+- population representativeness;
+- publication novelty;
+- production readiness;
+- Project2424 `Certified complete` or research-complete status.
+
+## Current closure state
+
+Repository implementation/integration evidence is GREEN. Scientific completion remains YELLOW because real-model/external evaluation, external validation, and broader research gates are not closed.
+
+## Next scientific gate
+
+A new versioned real-model protocol must freeze dataset/model identities, semantic-equivalence/alignment procedure, baselines, language groups, metrics, seeds, thresholds and external-validation plan before any stronger scientific claim.

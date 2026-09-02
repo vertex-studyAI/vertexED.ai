@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "date": "2026-08-23",
+  "purpose": "Prevent accidental promotion, rescue-tuning, deletion, or relabeling of closed negative/mixed/falsified Project2424 research outcomes.",
+  "frozen": [
+    {
+      "key": "NGMT-v0.1",
+      "verdict": "NEGATIVE_OR_INCONCLUSIVE_NGMT_V01",
+      "allowed_successor": "new versioned protocol only",
+      "forbidden": ["in-place retune", "threshold relaxation", "superiority claim from v0.1"]
+    },
+    {
+      "key": "T2424-1863",
+      "verdict": "NEGATIVE_AGAINST_PREDECLARED_GATE",
+      "allowed_successor": "new real-PDE question/protocol only",
+      "forbidden": ["lowering >75% gate after result", "relabeling as positive"]
+    },
+    {
+      "key": "NeuroCAD-typed-parser-mechanism",
+      "verdict": "FAILED_VALIDATION_DOMINANT",
+      "allowed_successor": "new broader benchmark/protocol only",
+      "forbidden": ["retroactive typed-parser causal upgrade", "using post-result engineering repair as causal evidence"]
+    },
+    {
+      "key": "Eigen-JEPA-primary",
+      "verdict": "MIXED_NEGATIVE",
+      "allowed_successor": "new frozen multi-dataset study only",
+      "forbidden": ["metric shopping", "hiding stronger raw/log baselines"]
+    },
+    {
+      "key": "APEN-current",
+      "verdict": "CONTROLLED_MIXED",
+      "allowed_successor": "new matched learned/naturalistic protocol only",
+      "forbidden": ["hiding salience-dropout reversal", "architecture superiority claim from current protocol"]
+    },
+    {
+      "key": "NPMS-current",
+      "verdict": "PARAMETER_CONFOUNDED_OR_NON_UNIQUE",
+      "allowed_successor": "new causal/behavioral/intervention protocol only",
+      "forbidden": ["unique-mechanism claim from current evidence", "silent substitution of derived source bundle"]
+    }
+  ]
+}
