@@ -44,9 +44,11 @@ for (const required of [
   "VITE_EMAIL_ENDPOINT: ${{ secrets.VITE_EMAIL_ENDPOINT }}",
   "run: bun run release:prod",
   "run: node scripts/verify-deployed-build.mjs",
+  "uses: actions/checkout@v5",
 ]) {
   requireText(deploy, required, "deploy workflow");
 }
+rejectText(deploy, "uses: actions/checkout@v4", "deploy workflow");
 rejectText(deploy, "run: bun run build\n      - name: Deploy Worker", "deploy workflow");
 
 const deployment = await read("DEPLOYMENT.md");
@@ -87,6 +89,7 @@ console.log(
       expectedCommit: expectedCommit || null,
       onboardingGate: true,
       strictDeployGate: true,
+      checkoutRuntimeGate: true,
       immutableBuildIdentity: true,
       deploymentDocs: true,
     },
