@@ -23,10 +23,13 @@ jobs:
 
     steps:
       - name: Checkout control repo
-        uses: actions/checkout@v5
-      - name: Checkout immutable FinanceMeta target
-        uses: actions/checkout@v5
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
         with:
+          persist-credentials: false
+      - name: Checkout immutable FinanceMeta target
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          persist-credentials: false
           repository: build-the-future-11/finance4all-global-reach
           ref: ${{ env.TARGET_COMMIT }}
           path: target
@@ -35,7 +38,7 @@ jobs:
           set -euo pipefail
           test "$(git -C target rev-parse HEAD)" = "$TARGET_COMMIT"
           test -z "$(git -C target status --porcelain)"
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
         with:
           node-version: '22'
           cache: npm
@@ -108,7 +111,7 @@ jobs:
           git apply --check "$GITHUB_WORKSPACE/financemeta-dependency-recovery.patch" --reverse
           sha256sum "$GITHUB_WORKSPACE/financemeta-dependency-recovery.patch" > "$GITHUB_WORKSPACE/financemeta-dependency-recovery.patch.sha256"
       - if: always()
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
           name: financemeta-dependency-${{ github.run_id }}
           path: |
