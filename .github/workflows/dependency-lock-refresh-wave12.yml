@@ -1,14 +1,15 @@
 name: Dependency lock refresh wave12
 
 on:
-  pull_request:
+  push:
+    branches:
+      - ci/harden-bu1ld-component-actions-20260902-wave12
     paths:
       - 'package.json'
-      - 'package-lock.json'
       - '.github/workflows/dependency-lock-refresh-wave12.yml'
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   refresh-lock:
@@ -17,7 +18,7 @@ jobs:
     steps:
       - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
         with:
-          persist-credentials: false
+          ref: ci/harden-bu1ld-component-actions-20260902-wave12
       - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
         with:
           node-version: '22.23.2'
@@ -25,10 +26,16 @@ jobs:
         run: npm install --package-lock-only --ignore-scripts
       - name: Verify production audit on regenerated lock
         run: npm audit --omit=dev --audit-level=high
-      - name: Upload regenerated lockfile
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
-        with:
-          name: dependency-lock-wave12-${{ github.run_id }}
-          path: package-lock.json
-          if-no-files-found: error
-          retention-days: 1
+      - name: Commit generated lockfile to this isolated branch only
+        shell: bash
+        run: |
+          set -euo pipefail
+          git add package-lock.json
+          if git diff --cached --quiet; then
+            echo 'Lockfile already current.'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'security: refresh lockfile for patched transitives'
+          git push origin HEAD:ci/harden-bu1ld-component-actions-20260902-wave12
