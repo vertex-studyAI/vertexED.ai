@@ -60,6 +60,9 @@ jobs:
       - name: Install Chromium
         run: npx playwright install --with-deps chromium
 
+      - name: Materialize quarantined NeuroCAD Alpha artifact
+        run: node scripts/publish-neurocad-alpha.mjs
+
       - name: Build deploy-shaped site
         run: npm run build:ci
         env:
