@@ -317,7 +317,7 @@ test('approved learner completes the golden study journey and resumes saved work
   await expect(page).toHaveURL(/\/login$/);
   await page.getByLabel('Email').fill(learnerEmail);
   await page.getByLabel('Password').fill(learnerPassword);
-  await page.getByRole('button', { name: 'Continue', exact: true }).click();
+  await page.getByRole('button', { name: 'Log in', exact: true }).click();
 
   await expect(page).toHaveURL(/\/notetaker$/);
   await page.getByRole('banner').getByRole('link', { name: 'Dashboard', exact: true }).click();

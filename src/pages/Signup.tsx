@@ -221,14 +221,14 @@ export default function Signup() {
         <link rel="canonical" href="https://www.vertexed.app/signup" />
         <meta name="robots" content="noindex, nofollow" />
       </Helmet>
-      <PageSection className="relative min-h-[70vh] flex items-center justify-center overflow-hidden px-4">
-        <form className="relative liquid-glass neu-card w-full max-w-md p-8 md:p-10 animate-fade-in" onSubmit={isAccountSignup ? submitInvite : submitWaitlist}>
+      <PageSection className="relative min-h-[70vh] flex items-center justify-center px-4 py-12">
+        <form className="relative liquid-glass neu-card w-full max-w-md p-8 md:p-10" onSubmit={isAccountSignup ? submitInvite : submitWaitlist}>
           <h1 className="text-3xl font-semibold mb-2 text-center text-foreground">
             {isAccountSignup ? "Create your account" : "Join the waitlist"}
           </h1>
           <p className="text-center mb-6 text-sm text-muted-foreground leading-relaxed">
             {!isAccountSignup
-              ? "Private beta - join with your email and we'll send an account-creation link when a spot opens."
+              ? "Private beta—join with your email and we'll send an account-creation link when a spot opens."
               : hasWaitlistInvite
                 ? email
                   ? <>Your private approval link is active for <span className="font-medium text-foreground">{email}</span>. Choose a username and password.</>
@@ -253,23 +253,36 @@ export default function Signup() {
           ) : (
             <div className="space-y-4">
               {(!isAccountSignup || useTeamInvite) && (
-                <div className="neu-input">
-                  <input aria-label="Email" placeholder="you@school.edu" className="neu-input-el" value={email} onChange={(event) => setEmail(event.target.value)} type="email" inputMode="email" autoComplete="email" required />
+                <div>
+                  <label htmlFor="signup-email" className="form-label">Email address</label>
+                  <div className="neu-input mt-1.5">
+                    <input id="signup-email" placeholder="you@school.edu" className="neu-input-el" value={email} onChange={(event) => setEmail(event.target.value)} type="email" inputMode="email" autoComplete="email" required />
+                  </div>
                 </div>
               )}
               {useTeamInvite && (
-                <div className="neu-input">
-                  <input aria-label="Invite code" placeholder="Team invite code" className="neu-input-el" value={inviteCode} onChange={(event) => setInviteCode(event.target.value)} type="password" autoComplete="one-time-code" required />
+                <div>
+                  <label htmlFor="signup-invite" className="form-label">Team invite code</label>
+                  <div className="neu-input mt-1.5">
+                    <input id="signup-invite" placeholder="Enter your invite code" className="neu-input-el" value={inviteCode} onChange={(event) => setInviteCode(event.target.value)} type="password" autoComplete="one-time-code" required />
+                  </div>
                 </div>
               )}
               {isAccountSignup && (
                 <>
-                  <div className="neu-input">
-                    <input aria-label="Username" placeholder="Username (3-20 characters)" className="neu-input-el" value={username} onChange={(event) => setUsername(event.target.value)} autoComplete="username" minLength={3} maxLength={20} pattern="(?:[a-zA-Z0-9_.]|-){3,20}" required />
+                  <div>
+                    <label htmlFor="signup-username" className="form-label">Username</label>
+                    <div className="neu-input mt-1.5">
+                      <input id="signup-username" placeholder="3–20 characters" className="neu-input-el" value={username} onChange={(event) => setUsername(event.target.value)} autoComplete="username" minLength={3} maxLength={20} pattern="(?:[a-zA-Z0-9_.]|-){3,20}" required />
+                    </div>
                   </div>
                   {hasWaitlistInvite && (
-                    <div className="neu-input">
-                      <input aria-label="Password" placeholder="Password (10+ chars, upper, lower, number)" className="neu-input-el" value={password} onChange={(event) => setPassword(event.target.value)} type="password" autoComplete="new-password" minLength={10} required />
+                    <div>
+                      <label htmlFor="signup-password" className="form-label">Password</label>
+                      <div className="neu-input mt-1.5">
+                        <input id="signup-password" aria-describedby="signup-password-hint" placeholder="Create a password" className="neu-input-el" value={password} onChange={(event) => setPassword(event.target.value)} type="password" autoComplete="new-password" minLength={10} required />
+                      </div>
+                      <p id="signup-password-hint" className="mt-1.5 text-xs text-muted-foreground">At least 10 characters with uppercase, lowercase, and a number.</p>
                     </div>
                   )}
                 </>

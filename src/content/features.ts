@@ -471,10 +471,10 @@ export const PROBLEM_INSIGHTS = [
 ];
 
 export const MATH_DEMO_LINES = [
-  "The area under f(x) from 0 to 2 is given by ∫_0^2 f(x) dx.",
-  "For y = x^3, the derivative dy/dx = 3x^2.",
-  "Quadratic roots: x = (-b ± √(b^2 - 4ac)) / 2a.",
-  "Newton's second law: F = ma, and kinetic energy E_k = 1/2 mv^2.",
+  "The area under $f(x)$ from 0 to 2 is $\\int_0^2 f(x)\\,dx$.",
+  "For $y = x^3$, the derivative is $\\frac{dy}{dx} = 3x^2$.",
+  "Quadratic roots: $x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}$.",
+  "Newton's second law is $F = ma$; kinetic energy is $E_k = \\frac{1}{2}mv^2$.",
 ];
 
 export function getFeatureById(id: string): Feature | undefined {
