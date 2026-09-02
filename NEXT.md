@@ -6,7 +6,7 @@ currently inaccessible) and its matching Supabase staging/production target. Ins
 deployment IDs `dpl_7a7udZEiyCciSSXoZebqoMcMmngQ` and
 `dpl_9MFkY2LAAJUvzTrkw8daZxPVXhVr`, retain the first causal deployment error, make one
 intentional immutable deployment of runtime candidate
-`9cb1c81de9725152ad46c8928c1b0556f1251131`, prove revision plus readiness in
+`f53721f58d6979b98a893a26085e19fe050e4c10`, prove revision plus readiness in
 body/header/HEAD,
 then run and clean up two approved disposable identities through onboarding, artifact
 CRUD, logout/relogin persistence, OAuth/recovery where configured, and cross-account

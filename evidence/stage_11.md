@@ -1,5 +1,10 @@
 # VertexED Stage 11 — production release certification
 
+> **2026-09-02 UX successor:** locally certified candidate
+> `f53721f58d6979b98a893a26085e19fe050e4c10` supersedes the runtime candidate
+> named below. Its design, interaction, performance, and verification record is in
+> `evidence/stage_12_ux_refinement.md`. The external deployment gate is unchanged.
+
 **Gate: BLOCKED externally; `DEPLOYED_VERIFIED=false`.** Exact merged runtime candidate
 `9cb1c81de9725152ad46c8928c1b0556f1251131` contains current canonical main
 `6b92c32d59772aca3dec93d06336c062a8d67cba` and passes the complete local release gate.
