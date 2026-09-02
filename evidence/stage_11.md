@@ -44,6 +44,10 @@ whose domain listing is empty. Direct inspection of both `vertexed.app` and
 `www.vertexed.app` returned Vercel's explicit “You don't have access” error. The
 worktree has no `.vercel/project.json` link.
 
+A read-only alternate-session check at `2026-09-02T15:40:12Z` reached Vercel's login
+page in the in-app browser with no existing session. No connected Chrome profile was
+available. No login, credential entry, or account mutation was attempted.
+
 Creating a new project in the accessible team would not prove control of the canonical
 domain or its production environment, so no duplicate project or unauthorized deployment
 was attempted. Provider environment, OAuth redirects, Supabase target, deployment

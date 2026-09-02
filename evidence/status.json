@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-09-02T15:37:35Z",
+  "checked_at": "2026-09-02T15:40:12Z",
   "canonical_baseline": "6b92c32d59772aca3dec93d06336c062a8d67cba",
   "runtime_candidate": "9cb1c81de9725152ad46c8928c1b0556f1251131",
   "candidate_state": "BRANCH_AUDITED_RUNTIME_COMMIT",
@@ -70,6 +70,8 @@
     "accessible_domains": 0,
     "canonical_domain_access": "DENIED",
     "local_project_link": false,
+    "in_app_browser_session": false,
+    "connected_chrome_profile": false,
     "latest_main_github_run": 33641031556,
     "connected_vercel_contexts": 2,
     "connected_vercel_contexts_failed": 2,
