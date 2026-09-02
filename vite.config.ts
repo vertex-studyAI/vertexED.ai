@@ -112,9 +112,6 @@ export default defineConfig(({ mode }) => {
                 id.includes('/src/lib/studyStats') ||
                 id.includes('/src/lib/srDeck');
               if (appChunk) return 'ecosystem';
-              if (id.includes('/src/components/chat/ChatMarkdown')) {
-                return 'chat-markdown';
-              }
               return undefined;
             }
             if (id.includes('@supabase/supabase-js')) return 'supabase';

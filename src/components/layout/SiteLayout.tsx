@@ -1,5 +1,5 @@
 import { Outlet, Link, useLocation } from "react-router";
-import React, { Suspense, useState, useEffect, useRef } from "react";
+import React, { lazy, Suspense, useState, useEffect, useRef } from "react";
 import { Helmet } from "react-helmet-async";
 
 import { RouteSemanticHeadings } from "@/components/SemanticHeadings";
@@ -8,7 +8,6 @@ import { useAppPreferences } from "@/contexts/AppPreferencesContext";
 import BreadcrumbsJsonLd from "@/components/BreadcrumbsJsonLd";
 import RouteErrorBoundary from "@/components/RouteErrorBoundary";
 import { useIsAdmin } from "@/hooks/useIsAdmin";
-import GlobalChatPanel from "@/components/chat/GlobalChatPanel";
 import CloudSaveBanner from "@/components/CloudSaveBanner";
 import ThemeToggle from "@/components/ThemeToggle";
 import ParticleDrift from "@/components/ParticleDrift";
@@ -16,6 +15,8 @@ import AmbientBackground from "@/components/AmbientBackground";
 import FluidCursorLayer from "@/components/FluidCursorLayer";
 import PageLoader from "@/components/PageLoader";
 import { useStudySessionTracker } from "@/hooks/useStudySessionTracker";
+
+const GlobalChatPanel = lazy(() => import("@/components/chat/GlobalChatPanel"));
 
 function usePointerGlass() {
   const { settings } = useAppPreferences();
@@ -52,6 +53,14 @@ export default function SiteLayout() {
   const mobileNavRef = useRef<HTMLElement | null>(null);
   const isActive = (to: string) =>
     location.pathname === to || (to !== "/" && location.pathname.startsWith(`${to}/`));
+  const isStudyGuideRoute = location.pathname.startsWith("/study-guides");
+  const chatEligibleRoute =
+    location.pathname !== "/chatbot" &&
+    !["/login", "/signup", "/auth/callback", "/onboarding", "/", "/home", "/about", "/features"].includes(
+      location.pathname,
+    ) &&
+    !location.pathname.startsWith("/resources");
+  const shouldLoadGlobalChat = chatEligibleRoute && (isAuthenticated || isStudyGuideRoute);
 
   useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "";
@@ -321,7 +330,11 @@ export default function SiteLayout() {
         </RouteErrorBoundary>
       </main>
 
-      <GlobalChatPanel />
+      {shouldLoadGlobalChat && (
+        <Suspense fallback={null}>
+          <GlobalChatPanel />
+        </Suspense>
+      )}
 
       <footer className="relative z-10 border-t border-border/60 bg-background/50 backdrop-blur-sm">
         <div className="mx-auto w-full max-w-[1400px] px-4 md:px-6 py-8 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
