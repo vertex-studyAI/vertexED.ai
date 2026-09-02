@@ -49,6 +49,16 @@ domain or its production environment, so no duplicate project or unauthorized de
 was attempted. Provider environment, OAuth redirects, Supabase target, deployment
 receipt, rollback point and a real authenticated production journey remain unverified.
 
+GitHub provides a second, independent confirmation. On canonical `main`
+`6b92c32d59772aca3dec93d06336c062a8d67cba`, Actions run
+`33641031556` passed `build-and-test`, local accessibility and production browser jobs.
+Its production smoke job then exhausted eight attempts because the live service omitted
+the expected deploy-relevant revision `58c8a29c72426a12c39d7a37ce16d4dffc90c247`,
+readiness status and HEAD identity. Both connected deployment contexts were red:
+`Vercel – vertex-ed-ai` (`dpl_7a7udZEiyCciSSXoZebqoMcMmngQ`) and
+`Vercel – vertex-ai` (`dpl_9MFkY2LAAJUvzTrkw8daZxPVXhVr`). Vercel CLI could not find
+either deployment in the only accessible team, so their causal logs remain unavailable.
+
 Smallest exact unblock: grant access to the Vercel project owning `www.vertexed.app`,
 deploy this candidate through its authorized path, attest body/header/HEAD revision and
 readiness, then run and clean up two disposable approved accounts.

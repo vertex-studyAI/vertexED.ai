@@ -1,7 +1,10 @@
 # Next
 
-Grant access to the canonical Vercel project owning `www.vertexed.app` and its matching
-Supabase staging/production target. Retain the first causal deployment error, make one
+Grant `build-the-future-11` access to the canonical Vercel project owning
+`www.vertexed.app` (the connected `vertex-ed-ai` and `vertex-ai` contexts are both
+currently inaccessible) and its matching Supabase staging/production target. Inspect
+deployment IDs `dpl_7a7udZEiyCciSSXoZebqoMcMmngQ` and
+`dpl_9MFkY2LAAJUvzTrkw8daZxPVXhVr`, retain the first causal deployment error, make one
 intentional immutable deployment of runtime candidate
 `9cb1c81de9725152ad46c8928c1b0556f1251131`, prove revision plus readiness in
 body/header/HEAD,
