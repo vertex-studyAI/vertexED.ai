@@ -18,6 +18,13 @@ function requirePattern(text, pattern, label) {
   if (!pattern.test(text)) throw new Error(`${label}: missing pattern ${pattern}`);
 }
 
+function requireCount(text, needle, expected, label) {
+  const observed = text.split(needle).length - 1;
+  if (observed !== expected) {
+    throw new Error(`${label}: expected ${expected} occurrences of ${needle}, observed ${observed}`);
+  }
+}
+
 function rejectText(text, needle, label) {
   if (text.includes(needle)) throw new Error(`${label}: forbidden ${needle}`);
 }
@@ -48,6 +55,8 @@ for (const required of [
 ]) {
   requireText(deploy, required, "deploy workflow");
 }
+requireCount(deploy, "uses: oven-sh/setup-bun@v2", 2, "deploy workflow Bun setup");
+requireCount(deploy, "bun-version: 1.3.14", 2, "deploy workflow Bun pin");
 rejectText(deploy, "uses: actions/checkout@v4", "deploy workflow");
 rejectText(deploy, "run: bun run build\n      - name: Deploy Worker", "deploy workflow");
 
@@ -90,6 +99,7 @@ console.log(
       onboardingGate: true,
       strictDeployGate: true,
       checkoutRuntimeGate: true,
+      bunRuntimeGate: true,
       immutableBuildIdentity: true,
       deploymentDocs: true,
     },
