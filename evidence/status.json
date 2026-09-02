@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-09-02T15:32:10Z",
+  "checked_at": "2026-09-02T15:37:35Z",
   "canonical_baseline": "6b92c32d59772aca3dec93d06336c062a8d67cba",
   "runtime_candidate": "9cb1c81de9725152ad46c8928c1b0556f1251131",
   "candidate_state": "BRANCH_AUDITED_RUNTIME_COMMIT",
@@ -74,6 +74,12 @@
     "connected_vercel_contexts": 2,
     "connected_vercel_contexts_failed": 2,
     "deployment_logs_accessible": false
+  },
+  "supabase_access": {
+    "authenticated": false,
+    "access_token_present": false,
+    "repository_project_link": false,
+    "live_advisor_role_restore": "BLOCKED_EXTERNAL"
   },
   "outcome_verified": false,
   "next_action": "Grant access to the canonical Vercel project, deploy candidate 9cb1c81de9725152ad46c8928c1b0556f1251131 through the authorized path, then run exact-revision readiness and disposable two-account certification before the bounded learning-outcome pilot."

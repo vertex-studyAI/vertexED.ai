@@ -12,6 +12,11 @@ then run and clean up two approved disposable identities through onboarding, art
 CRUD, logout/relogin persistence, OAuth/recovery where configured, and cross-account
 read/update/delete denials. Do not mark the release green before every assertion passes.
 
+Supply least-privilege Supabase CLI access through `SUPABASE_ACCESS_TOKEN` or an approved
+secret manager and identify the disposable staging/restore target out of band. Never
+commit or paste the token, database URL, service-role key, or learner data into this
+repository or its evidence files.
+
 After production security certification, run the bounded learner study in
 `docs/PILOT_PROTOCOL.md`. Until participant pre/post/delayed-retention data exists,
 describe VertexED as pilot-ready and do not claim measured learning improvement.

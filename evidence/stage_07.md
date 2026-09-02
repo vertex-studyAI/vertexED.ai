@@ -13,5 +13,12 @@ suite PASS 101/101; full suite PASS 745/745. Evidence:
 
 Truth boundary: no production migration, advisor run, live role impersonation, backup,
 or isolated restore was executed without access to the owning Supabase project. The
-smallest unblock is an authorized staging project snapshot on which to apply the forward
-migration, run advisor/role tests, and restore a new isolated database.
+2026-09-02 access probe found no installed/authenticated Supabase CLI session, no
+`SUPABASE_ACCESS_TOKEN`, no repository project link, and no local environment file beyond
+the variable-name-only `.env.example`. `npx supabase@latest projects list` returned
+`LegacyPlatformAuthRequiredError` before exposing any project data.
+
+The smallest unblock is an authorized staging project snapshot or least-privilege CLI
+access on which to compare the migration ledger, run advisor/role tests, and restore a
+backup into a new isolated database. Credentials must be supplied through the environment
+or approved secret manager, never committed or pasted into evidence.
