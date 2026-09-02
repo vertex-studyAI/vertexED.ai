@@ -105,7 +105,7 @@ test('initial invite password policy matches the hardened signup minimum', () =>
 test('client team-invite flow sends no password and fails closed without verification response', () => {
   assert.match(signupSource, /password:\s*hasWaitlistInvite\s*\?\s*password\s*:\s*undefined/);
   assert.match(signupSource, /if \(useTeamInvite\)[\s\S]*?requiresEmailVerification !== true[\s\S]*?setTeamInviteSent\(true\)/);
-  assert.match(signupSource, /\{hasWaitlistInvite && \([\s\S]*?aria-label="Password"/);
+  assert.match(signupSource, /\{hasWaitlistInvite && \([\s\S]*?htmlFor="signup-password"[\s\S]*?id="signup-password"/);
 });
 
 test('invite callback does not trust the invite query parameter as authorization', () => {
