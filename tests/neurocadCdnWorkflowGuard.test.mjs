@@ -5,6 +5,35 @@ import { readFile } from 'node:fs/promises';
 const cdnWorkflowPath = '.github/workflows/neurocad-alpha-public-cdn.yml';
 const browserWorkflowPath = '.github/workflows/neurocad-alpha-browser.yml';
 
+const CHECKOUT_V5_SHA = 'fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09';
+const SETUP_NODE_V6_SHA = '249970729cb0ef3589644e2896645e5dc5ba9c38';
+const UPLOAD_ARTIFACT_V7_SHA = '043fb46d1a93c77aae656e7c1c64a875d1fc6a0a';
+
+test('artifact CDN release materializes quarantined NeuroCAD explicitly before the deploy-shaped build', async () => {
+  const workflow = await readFile(cdnWorkflowPath, 'utf8');
+
+  const materializeIndex = workflow.indexOf('node scripts/publish-neurocad-alpha.mjs');
+  const buildIndex = workflow.indexOf('npm run build:ci');
+  const verifyIndex = workflow.indexOf('Verify exact artifact stamps');
+
+  assert.notEqual(materializeIndex, -1, 'explicit NeuroCAD artifact materialization step missing');
+  assert.notEqual(buildIndex, -1, 'deploy-shaped build step missing');
+  assert.notEqual(verifyIndex, -1, 'exact artifact verification step missing');
+  assert.ok(materializeIndex < buildIndex, 'quarantined NeuroCAD artifact must be materialized before build:ci');
+  assert.ok(buildIndex < verifyIndex, 'artifact stamps must be verified after the deploy-shaped build');
+});
+
+test('artifact CDN release pins third-party Actions used in the privileged release path', async () => {
+  const workflow = await readFile(cdnWorkflowPath, 'utf8');
+
+  assert.match(workflow, new RegExp(`actions/checkout@${CHECKOUT_V5_SHA}`));
+  assert.match(workflow, new RegExp(`actions/setup-node@${SETUP_NODE_V6_SHA}`));
+  assert.match(workflow, new RegExp(`actions/upload-artifact@${UPLOAD_ARTIFACT_V7_SHA}`));
+  assert.doesNotMatch(workflow, /actions\/checkout@v\d+/);
+  assert.doesNotMatch(workflow, /actions\/setup-node@v\d+/);
+  assert.doesNotMatch(workflow, /actions\/upload-artifact@v\d+/);
+});
+
 test('artifact CDN release copies the exact build before switching release branches', async () => {
   const workflow = await readFile(cdnWorkflowPath, 'utf8');
 
