@@ -10,8 +10,8 @@
 | Supabase hardening and recovery runbook | yes | 5 schema tests | migration not applied/verified | n/a |
 | Responsive/accessibility public experience | yes | 17 applicable browser checks | current site not exact revision | n/a |
 | Revision/readiness/operational telemetry | yes | unit/build/smoke contract green | live endpoint omits identity/readiness | n/a |
-| Release | candidate source passes build and 719 tests | yes | **no** | n/a |
-| Learning value | pilot protocol frozen | not run | not run | **no** |
+| Release | candidate source passes build and 736 tests | yes | **no** | n/a |
+| Learning value | pilot protocol + privacy-safe export implemented | 12 export tests; no participant rows | not run | **no** |
 
 `source-complete` means the checked working tree implements and tests the stated
 contract. It does not mean deployed. `production verified` requires the live body and
