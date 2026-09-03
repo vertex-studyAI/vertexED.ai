@@ -72,6 +72,7 @@ Observed remote `main`: `06545ab4e43932179c2238a78574b1bf8950f3cb`
 2. Canonical Supabase access and approved disposable identities for live RLS/auth certification.
 3. Live provider configuration/quota for OpenAI/Gemini quality evaluation.
 4. Consented learner cohort and school/privacy owner for outcome claims.
+5. GitHub API/Git transport was unreachable during final push attempts, so canonical CI for this branch is not run.
 
 `SOURCE_VERIFIED=true`
 

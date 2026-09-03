@@ -41,6 +41,8 @@ Malformed/missing/oversized input, auth denial, account-scoped local state, idem
 
 Two clean-install attempts failed with npm registry `ETIMEDOUT` reads. A bounded low-concurrency, prefer-offline retry then installed 672 packages and audited 673 with zero vulnerabilities. The in-app browser webview also failed to attach after its documented retry; the repository's local Chromium/Playwright accessibility suite was run instead and passed. Neither tooling incident is represented as product evidence.
 
+Final GitHub API and Git transport attempts timed out before the branch could be pushed, so canonical CI for the candidate remains `NOT_RUN/BLOCKED_NETWORK`.
+
 ## Verdict
 
 The source candidate is stronger and locally verified, but **NOT READY**. Deploy through the Vercel project owning `vertexed.app`, prove revision/readiness, then run the two-account production matrix.

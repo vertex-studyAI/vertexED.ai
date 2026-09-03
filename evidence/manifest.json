@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-03T11:22:12Z",
+  "generatedAt": "2026-09-03T11:30:00Z",
   "repository": "https://github.com/vertex-studyAI/vertexED.ai.git",
   "branch": "codex/vertexed-publication-readiness",
   "sourceRevision": "28b590890ad2196d222913efd83e25b8f017dafa",
@@ -32,6 +32,7 @@
     "Live provider quality and controlled learner outcomes are not run.",
     "The in-app browser webview did not attach; repository Playwright was used instead.",
     "Two npm clean-install attempts timed out at the registry before a bounded low-concurrency retry passed.",
-    "The exact npm 10.9.8 runtime upgrade stalled; verification used Node 22.22.0's npm 10.9.4."
+    "The exact npm 10.9.8 runtime upgrade stalled; verification used Node 22.22.0's npm 10.9.4.",
+    "GitHub API and Git transport timed out during final push attempts; candidate CI is not run."
   ]
 }
