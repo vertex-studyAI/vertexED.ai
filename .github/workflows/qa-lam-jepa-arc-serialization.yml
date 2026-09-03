@@ -20,14 +20,17 @@ jobs:
 
     steps:
       - name: Checkout independent verifier
-        uses: actions/checkout@v6
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
 
       - name: Checkout immutable LAM-JEPA target
-        uses: actions/checkout@v6
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
           repository: vertex-studyAI/LAM-JEPA
           ref: ${{ env.TARGET_COMMIT }}
           path: target
+          persist-credentials: false
 
       - name: Assert exact clean target
         run: |
@@ -89,7 +92,7 @@ jobs:
 
       - name: Upload independent serialization evidence
         if: always()
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
           name: qa-lam-jepa-arc-serialization
           path: |
