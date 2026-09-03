@@ -2,8 +2,8 @@
 import SiteLayout from "@/components/layout/SiteLayout";
 import AuthLandingRedirect from "@/components/AuthLandingRedirect";
 import FeedbackLauncher from "@/components/FeedbackLauncher";
+import Features from "@/pages/Features";
 import { lazy, useEffect, useState } from "react";
-const Features = lazy(() => import("@/pages/Features"));
 const Login = lazy(() => import("@/pages/Login"));
 const Signup = lazy(() => import("@/pages/Signup"));
 const WaitlistPending = lazy(() => import("@/pages/WaitlistPending"));
@@ -73,15 +73,18 @@ const [telemetryReady, setTelemetryReady] = useState(false);
 useEffect(() => {
 	// Avoid prefetching on constrained networks or touch-only devices to improve mobile TTI.
 	const isFinePointer = typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(hover:hover) and (pointer:fine)').matches : true;
+	// @ts-ignore
 	const connection = (navigator as any).connection;
 	const saveData = !!connection?.saveData;
 	const slow = ['slow-2g','2g','3g'].includes(connection?.effectiveType || '');
 	if (!isFinePointer || saveData || slow) return;
 
 	const idle = (cb: () => void) => {
+		// @ts-ignore
 		return typeof requestIdleCallback !== 'undefined' ? requestIdleCallback(cb, { timeout: 3000 }) : setTimeout(cb, 1200);
 	};
 	const cancel = (id: any) => {
+		// @ts-ignore
 		return typeof cancelIdleCallback !== 'undefined' ? cancelIdleCallback(id) : clearTimeout(id);
 	};
 
