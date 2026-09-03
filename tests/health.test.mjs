@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import handler, { getDeploymentRevision, getReadinessSnapshot } from '../api/_handlers/health.js';
+import handler, { HEALTH_CONTRACT_VERSION, getDeploymentRevision, getReadinessSnapshot } from '../api/_handlers/health.js';
 import { createMocks } from './helpers/mock-http.mjs';
 
 const HEALTH_ENV_KEYS = [
@@ -80,10 +80,12 @@ test('liveness remains green without evaluating production dependencies', async 
     assert.equal(getStatus(), 200);
     assert.equal(getJson().ok, true);
     assert.equal(getJson().status, 'alive');
+    assert.equal(getJson().healthContract, HEALTH_CONTRACT_VERSION);
     assert.equal(getJson().checks, undefined);
     assert.equal(getJson().revision, undefined);
     assert.equal(getHeaders()['Cache-Control'], 'no-store');
     assert.equal(getHeaders()['X-VertexED-Health'], 'alive');
+    assert.equal(getHeaders()['X-VertexED-Health-Contract'], HEALTH_CONTRACT_VERSION);
     assert.equal(getHeaders()['X-VertexED-Revision'], undefined);
   });
 });
@@ -101,6 +103,7 @@ test('production liveness fails closed when immutable revision identity is missi
     assert.equal(getJson().identity, 'missing');
     assert.equal(getJson().revision, undefined);
     assert.equal(getHeaders()['X-VertexED-Health'], 'unverifiable');
+    assert.equal(getHeaders()['X-VertexED-Health-Contract'], HEALTH_CONTRACT_VERSION);
     assert.equal(getHeaders()['X-VertexED-Revision'], undefined);
   });
 });
@@ -116,7 +119,9 @@ test('liveness reports exact deployed revision in body and header when available
     assert.equal(getStatus(), 200);
     assert.equal(getJson().status, 'alive');
     assert.equal(getJson().revision, revision);
+    assert.equal(getJson().healthContract, HEALTH_CONTRACT_VERSION);
     assert.equal(getHeaders()['X-VertexED-Revision'], revision);
+    assert.equal(getHeaders()['X-VertexED-Health-Contract'], HEALTH_CONTRACT_VERSION);
   });
 });
 
@@ -131,9 +136,11 @@ test('readiness returns 503 and capability evidence when configuration is incomp
     assert.equal(getStatus(), 503);
     assert.equal(getJson().ok, false);
     assert.equal(getJson().status, 'degraded');
+    assert.equal(getJson().healthContract, HEALTH_CONTRACT_VERSION);
     assert.equal(getJson().checks.authentication, false);
     assert.equal(getJson().checks.waitlist, false);
     assert.equal(getHeaders()['X-VertexED-Health'], 'degraded');
+    assert.equal(getHeaders()['X-VertexED-Health-Contract'], HEALTH_CONTRACT_VERSION);
   });
 });
 
@@ -154,7 +161,9 @@ test('readiness returns 200 when all production capabilities are configured', as
     assert.equal(getStatus(), 200);
     assert.equal(getJson().ok, true);
     assert.equal(getJson().status, 'ready');
+    assert.equal(getJson().healthContract, HEALTH_CONTRACT_VERSION);
     assert.ok(Object.values(getJson().checks).every(Boolean));
     assert.equal(getHeaders()['X-VertexED-Health'], 'ready');
+    assert.equal(getHeaders()['X-VertexED-Health-Contract'], HEALTH_CONTRACT_VERSION);
   });
 });
