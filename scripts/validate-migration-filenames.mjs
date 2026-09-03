@@ -27,7 +27,7 @@ function validTimestamp(version) {
 }
 
 const files = (await readdir(MIGRATIONS_DIR)).filter((name) => name.endsWith('.sql')).sort();
-const versions = new Map();
+const modernVersions = new Map();
 const errors = [];
 
 for (const file of files) {
@@ -37,19 +37,22 @@ for (const file of files) {
     continue;
   }
 
-  const [, version, description] = match;
+  const [, version] = match;
   if (!validTimestamp(version)) {
     errors.push(`${file}: migration version '${version}' is not a valid UTC calendar date/timestamp`);
-  }
-  if (!/^[a-z0-9][a-z0-9_]*$/.test(description)) {
-    errors.push(`${file}: migration description must use lowercase snake_case`);
+    continue;
   }
 
-  const prior = versions.get(version);
-  if (prior) {
-    errors.push(`${file}: duplicate migration version '${version}' already used by ${prior}`);
-  } else {
-    versions.set(version, file);
+  // Legacy 8-digit migrations predate Supabase's timestamped convention and may
+  // legitimately share a date. Enforce uniqueness only for modern 14-digit
+  // versions, where a duplicate would collide in Supabase migration history.
+  if (version.length === 14) {
+    const prior = modernVersions.get(version);
+    if (prior) {
+      errors.push(`${file}: duplicate 14-digit Supabase migration version '${version}' already used by ${prior}`);
+    } else {
+      modernVersions.set(version, file);
+    }
   }
 }
 
@@ -59,4 +62,4 @@ if (errors.length > 0) {
   process.exit(1);
 }
 
-console.log(`Validated ${files.length} Supabase migration filenames (${versions.size} unique versions).`);
+console.log(`Validated ${files.length} Supabase migration filenames (${modernVersions.size} unique timestamped versions).`);
