@@ -1,11 +1,17 @@
 # VertexED Project Truth
 
-Evidence timestamp: 2026-09-03 16:52 IST  
-Canonical repository: `https://github.com/vertex-studyAI/vertexED.ai.git`  
-Canonical release branch: `main`  
-Current execution branch: `codex/vertexed-publication-readiness`  
-Verified source revision before this document: `28b590890ad2196d222913efd83e25b8f017dafa`  
-Adaptive-learning implementation commit: `0928312e8ca83a4ab128df563ee83b529bed2f87`  
+Evidence timestamp: 2026-09-03 16:52 IST
+
+Canonical repository: `https://github.com/vertex-studyAI/vertexED.ai.git`
+
+Canonical release branch: `main`
+
+Current execution branch: `codex/vertexed-publication-readiness`
+
+Verified source revision before this document: `28b590890ad2196d222913efd83e25b8f017dafa`
+
+Adaptive-learning implementation commit: `0928312e8ca83a4ab128df563ee83b529bed2f87`
+
 Observed remote `main`: `06545ab4e43932179c2238a78574b1bf8950f3cb`
 
 ## Repository state
@@ -67,7 +73,10 @@ Observed remote `main`: `06545ab4e43932179c2238a78574b1bf8950f3cb`
 3. Live provider configuration/quota for OpenAI/Gemini quality evaluation.
 4. Consented learner cohort and school/privacy owner for outcome claims.
 
-`SOURCE_VERIFIED=true`  
-`DEPLOYED_VERIFIED=false`  
-`AUTHENTICATED_PRODUCTION_VERIFIED=false`  
+`SOURCE_VERIFIED=true`
+
+`DEPLOYED_VERIFIED=false`
+
+`AUTHENTICATED_PRODUCTION_VERIFIED=false`
+
 `LEARNING_OUTCOME_VERIFIED=false`

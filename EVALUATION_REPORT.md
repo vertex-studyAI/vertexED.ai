@@ -1,6 +1,7 @@
 # VertexED Evaluation Report
 
-Evaluation date: 2026-09-03  
+Evaluation date: 2026-09-03
+
 Source baseline: `28b590890ad2196d222913efd83e25b8f017dafa`
 
 ## Result summary
