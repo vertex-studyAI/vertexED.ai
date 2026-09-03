@@ -101,3 +101,40 @@ def test_csv_adapter_checks_all_rows_and_keeps_blank_numeric(tmp_path):
     assert x.shape == (2, 2)
     assert np.isnan(x[0, 1])
     assert y.tolist() == [0, 1]
+
+
+def test_lightcurve_featurizer_is_train_fit_and_handles_unknown_band():
+    from space_jepa.astro import LightCurveFeaturizer, LightCurveSeries
+
+    series = LightCurveSeries(
+        times=np.array([1.0, 2.0, 4.0, 8.0, 16.0]),
+        values=np.array([20.0, 20.1, 20.2, 20.3, 99.0], dtype=np.float32),
+        errors=np.array([0.1, 0.1, 0.2, 0.2, 9.0], dtype=np.float32),
+        bands=np.array(["g", "r", "g", "r", "i"], dtype=object),
+    )
+    featurizer = LightCurveFeaturizer.fit(series, train_end=4)
+    x = featurizer.transform(series)
+    x_no_time = featurizer.transform(series, include_time=False)
+    assert featurizer.bands == ("g", "r")
+    assert featurizer.n_features == 6
+    assert x.shape == (5, 6)
+    assert x[-1, -1] == 1.0  # unseen i-band -> <UNK>
+    assert np.all(x_no_time[:, 2] == 0.0)
+    # Held-out outlier cannot change the train-fit center.
+    assert featurizer.center[0] < 21.0
+
+
+def test_lightcurve_csv_is_sorted_chronologically(tmp_path):
+    from space_jepa.astro import load_lightcurve_csv
+
+    path = tmp_path / "lc.csv"
+    path.write_text(
+        "mjd,mag,magerr,band,label\n"
+        "3,19.8,0.2,r,1\n"
+        "1,20.1,0.1,g,0\n"
+        "2,20.0,0.1,g,0\n",
+        encoding="utf-8",
+    )
+    series = load_lightcurve_csv(path, label_column="label")
+    assert series.times.tolist() == [1.0, 2.0, 3.0]
+    assert series.labels.tolist() == [0, 0, 1]

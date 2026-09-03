@@ -48,6 +48,10 @@ python run_csv.py path/to/telemetry.csv --train-end <EXCLUSIVE_TRAIN_ROW> --seed
 
 It records the dataset SHA-256, exact resolved model config, seed, train boundary, thresholds, raw score arrays, checkpoint, and local diagnostic metrics. The frozen first-pass settings live in `configs/esa_first_pass.json`; the seed set is fixed to 17, 29, 43, 71, and 101.
 
+## Astronomy collaboration track
+
+The astronomy collaboration is kept as a **separate claim/evaluation track** rather than being silently mixed into ESA telemetry. `ASTRONOMY_TRACK.md` freezes a first question around irregular-time-aware future-latent prediction for public multi-epoch photometry. `space_jepa.astro` adds a train-fit light-curve featurizer that preserves observation time gaps, photometric uncertainty, and passband identity without interpolating to an artificial regular cadence. The same JEPA backbone can therefore support a capacity-matched time-aware vs time-agnostic ablation.
+
 ## Research integrity
 
 - do not train the scaler on test data
