@@ -1,0 +1,27 @@
+{
+  "model": {
+    "context_length": 64,
+    "target_length": 16,
+    "d_model": 96,
+    "n_heads": 4,
+    "n_layers": 3,
+    "predictor_layers": 2,
+    "ff_mult": 4,
+    "dropout": 0.1,
+    "ema_decay": 0.996,
+    "variance_weight": 0.05
+  },
+  "training": {
+    "epochs": 20,
+    "batch_size": 128,
+    "lr": 0.0003,
+    "train_stride": 4
+  },
+  "scoring": {
+    "stride": 1,
+    "batch_size": 256,
+    "threshold_quantile": 0.995
+  },
+  "seeds": [17, 29, 43, 71, 101],
+  "status": "FROZEN_PRE_OUTCOME_FIRST_PASS"
+}

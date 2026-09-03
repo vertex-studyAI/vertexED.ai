@@ -1,0 +1,84 @@
+name: Space-JEPA engineering verification
+
+on:
+  pull_request:
+    paths:
+      - "portfolio/research/space-jepa/**"
+      - ".github/workflows/space-jepa-ci.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-space-jepa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: "3.11"
+
+      - name: Install CPU engineering environment
+        run: |
+          set -euo pipefail
+          python -m pip install --upgrade pip
+          python -m pip install pytest
+          python -m pip install torch --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install -e portfolio/research/space-jepa
+
+      - name: Compile Space-JEPA package and entry points
+        run: |
+          set -euo pipefail
+          python -m compileall -q \
+            portfolio/research/space-jepa/space_jepa \
+            portfolio/research/space-jepa/run_csv.py \
+            portfolio/research/space-jepa/smoke.py
+
+      - name: Run Space-JEPA unit tests
+        run: |
+          set -euo pipefail
+          python -m pytest -q portfolio/research/space-jepa/tests
+
+      - name: Run synthetic engineering smoke
+        run: |
+          set -euo pipefail
+          mkdir -p ci-evidence
+          python portfolio/research/space-jepa/smoke.py \
+            --epochs 1 \
+            --out ci-evidence/space-jepa-smoke.json
+          python - <<'PY'
+          import json
+          import math
+          from pathlib import Path
+
+          path = Path('ci-evidence/space-jepa-smoke.json')
+          payload = json.loads(path.read_text(encoding='utf-8'))
+          assert payload['status'] == 'SYNTHETIC_SMOKE_ONLY_NOT_RESEARCH_EVIDENCE'
+          assert payload['epochs'] == 1
+          assert payload['optimizer_steps'] > 0
+          assert math.isfinite(payload['initial_loss'])
+          assert math.isfinite(payload['final_loss'])
+          assert payload['threshold_source'] == 'nominal-train-score-quantile-0.995'
+          print(json.dumps({
+              'status': payload['status'],
+              'epochs': payload['epochs'],
+              'optimizer_steps': payload['optimizer_steps'],
+          }, indent=2))
+          PY
+
+      - name: Upload synthetic smoke evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: space-jepa-engineering-smoke
+          path: ci-evidence/space-jepa-smoke.json
+          if-no-files-found: error
+          retention-days: 14
