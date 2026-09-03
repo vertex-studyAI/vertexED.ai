@@ -29,6 +29,7 @@ import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { useSearchParams } from "react-router";
 import { getCramDueCards } from "@/lib/srDeck";
 import { getAdaptiveTopicsForQuiz } from "@/lib/adaptiveLearning";
+import { resolveAdaptiveNoteTarget } from "@/lib/adaptiveNotes.mjs";
 import { getLearnerProfile } from "@/lib/learnerProfile";
 import { useAuth } from "@/contexts/AuthContext";
 import {
@@ -41,7 +42,8 @@ import {
 import { recordStudySession } from "@/lib/studyStats";
 import { recordLoopStep } from "@/lib/studyLoopTracker";
 import { saveStudyArtifact, consumeArtifactRestore } from "@/lib/userContent";
-import { recordWeakness } from "@/lib/weaknessTracker";
+import { getWeakestTopics, recordWeakness, type TopicHeat } from "@/lib/weaknessTracker";
+import { MEASURED_WEAKNESS_EVIDENCE } from "@/lib/weaknessEvidenceCore.mjs";
 import { toast } from "@/hooks/use-toast";
 import {
   FileText,
@@ -177,6 +179,7 @@ export default function NotetakerQuiz(): React.JSX.Element {
   const cramStudy = searchParams.get("cram") === "1";
   const learner = getLearnerProfile(user);
   const [topic, setTopic] = useState("");
+  const [adaptiveTarget, setAdaptiveTarget] = useState<TopicHeat | null>(null);
   const [format, setFormat] = useState<(typeof NOTE_FORMATS)[number]>("Quick Notes");
   const [customFormatText, setCustomFormatText] = useState("");
   const [notes, setNotes] = useState("");
@@ -228,6 +231,21 @@ export default function NotetakerQuiz(): React.JSX.Element {
   const [mcqOptionCount, setMcqOptionCount] = useState<number>(4);
   const [recordingSeconds, setRecordingSeconds] = useState<number>(0);
   const recordingTimerRef = useRef<number | null>(null);
+  useEffect(() => {
+    const target = resolveAdaptiveNoteTarget(searchParams, getWeakestTopics(12));
+    if (!target) {
+      setAdaptiveTarget(null);
+      return;
+    }
+    setAdaptiveTarget(target);
+    setTopic(target.topic);
+    setAdditionalInfo((current) => current.trim() || [
+      `Adaptive revision for ${target.subject}.`,
+      `Recent verified attempts average ${Math.round(target.avgPercent)}% across ${target.attempts} attempt${target.attempts === 1 ? '' : 's'}.`,
+      'Re-teach the underlying idea, identify likely misconceptions, include one worked example, and finish with a short retrieval check.',
+    ].join(' '));
+  }, [searchParams]);
+
   const [targetMin, setTargetMin] = useState<number>(70);
   const [targetMax, setTargetMax] = useState<number>(90);
   const [showQuizPanel, setShowQuizPanel] = useState(true);
@@ -676,6 +694,7 @@ export default function NotetakerQuiz(): React.JSX.Element {
           score: Number(result.score) || 0,
           maxScore: Number(result.maxScore) || 1,
           source: "quiz",
+          evidence: MEASURED_WEAKNESS_EVIDENCE,
         });
       }
 
@@ -1103,7 +1122,7 @@ export default function NotetakerQuiz(): React.JSX.Element {
 
       <PageSection>
         <div className="mb-6 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-          <Link to="/main" className="neu-button inline-flex items-center gap-2 px-4 py-2 text-sm transition-transform hover:scale-105">
+          <Link to="/main" className="neu-button inline-flex items-center gap-2 px-4 py-2 text-sm">
             <ArrowLeft size={16} />
             <span>Back to Main</span>
           </Link>
@@ -1123,6 +1142,19 @@ export default function NotetakerQuiz(): React.JSX.Element {
           className="space-y-8 font-sans"
         >
           <NeumorphicCard className="p-6">
+            {adaptiveTarget && (
+              <div className="mb-5 rounded-2xl border border-amber-500/30 bg-amber-500/10 p-4" role="status">
+                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-amber-700 dark:text-amber-300">
+                  Based on your verified quiz results
+                </p>
+                <p className="mt-1 text-sm font-medium text-foreground">
+                  Rebuild {adaptiveTarget.topic} before practising it again.
+                </p>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  Your measured record for {adaptiveTarget.subject} averages {Math.round(adaptiveTarget.avgPercent)}% across {adaptiveTarget.attempts} attempt{adaptiveTarget.attempts === 1 ? "" : "s"}. The brief below asks for a re-teach, likely misconceptions, a worked example, and a retrieval check.
+                </p>
+              </div>
+            )}
             <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
               <div>
                 <h2 className="mb-2 flex items-center gap-2 text-xl font-medium">
@@ -1148,12 +1180,17 @@ export default function NotetakerQuiz(): React.JSX.Element {
             </div>
 
             <div className="mt-5 grid gap-4 md:grid-cols-3 items-end">
-              <div className="neu-input">
-                <input className="neu-input-el h-11" placeholder="e.g. IB Biology — photosynthesis, or paste after generating" value={topic} onChange={(e) => setTopic(e.target.value)} />
+              <div>
+                <label htmlFor="notes-topic" className="mb-2 block text-sm font-medium text-foreground">Topic or source material</label>
+                <div className="neu-input">
+                  <input id="notes-topic" className="neu-input-el h-11" placeholder="e.g. IB Biology — photosynthesis" value={topic} onChange={(e) => setTopic(e.target.value)} />
+                </div>
               </div>
 
-              <div className="neu-input">
-                <select className="neu-input-el h-11" value={format} onChange={(e) => setFormat(e.target.value as any)}>
+              <div>
+                <label htmlFor="notes-format" className="mb-2 block text-sm font-medium text-foreground">Note structure</label>
+                <div className="neu-input">
+                <select id="notes-format" className="neu-input-el h-11" value={format} onChange={(e) => setFormat(e.target.value as (typeof NOTE_FORMATS)[number])}>
                   {NOTE_FORMATS.map((opt) => (
                     <option key={opt} value={opt}>
                       {opt}
@@ -1163,21 +1200,27 @@ export default function NotetakerQuiz(): React.JSX.Element {
 
                 {format === "Custom" && (
                   <div className="mt-2">
-                    <input className="neu-input-el h-10 text-sm" placeholder="Describe custom format (max 64 chars)" maxLength={64} value={customFormatText} onChange={(e) => setCustomFormatText(e.target.value)} />
+                    <label htmlFor="custom-note-format" className="sr-only">Custom note structure</label>
+                    <input id="custom-note-format" className="neu-input-el h-10 text-sm" placeholder="Describe the structure" maxLength={64} value={customFormatText} onChange={(e) => setCustomFormatText(e.target.value)} />
                     <div className="mt-1 text-xs text-muted-foreground">{customFormatText.length}/64</div>
                   </div>
                 )}
+                </div>
               </div>
 
-              <div className="neu-input">
+              <div>
+                <span className="mb-2 block text-sm font-medium text-foreground">Output settings</span>
+                <div className="neu-input">
                 <div className="flex gap-2 items-center">
-                  <select className="neu-input-el h-11" value={notesLength} onChange={(e) => setNotesLength(e.target.value as any)}>
+                  <label htmlFor="notes-length" className="sr-only">Note length</label>
+                  <select id="notes-length" className="neu-input-el h-11" value={notesLength} onChange={(e) => setNotesLength(e.target.value as "short" | "medium" | "long")}>
                     <option value="short">Short notes</option>
                     <option value="medium">Medium notes</option>
                     <option value="long">Long notes</option>
                   </select>
 
-                  <select className="neu-input-el h-11" value={flashCount} onChange={(e) => setFlashCount(Number(e.target.value))}>
+                  <label htmlFor="flashcard-count" className="sr-only">Number of flashcards</label>
+                  <select id="flashcard-count" className="neu-input-el h-11" value={flashCount} onChange={(e) => setFlashCount(Number(e.target.value))}>
                     {Array.from({ length: 13 }, (_, i) => 4 + i).map((v) => (
                       <option key={v} value={v}>
                         {v} flashcards
@@ -1185,19 +1228,20 @@ export default function NotetakerQuiz(): React.JSX.Element {
                     ))}
                   </select>
                 </div>
-                <div className="mt-2 text-xs text-muted-foreground">Output length depends on the topic — we'll do our best.</div>
+                <div className="mt-2 text-xs text-muted-foreground">Longer outputs take more time and still need checking against your course materials.</div>
+                </div>
               </div>
             </div>
 
             <div className="mt-3 flex flex-wrap gap-3">
               <button className="neu-button inline-flex items-center gap-2 px-4 py-2" onClick={handleGenerateNotes} disabled={loading}>
                 <Wand2 size={16} />
-                <span>{loading ? "Generating..." : "Generate Notes"}</span>
+                <span>{loading ? "Building notes…" : adaptiveTarget ? "Build adaptive notes" : "Build notes"}</span>
               </button>
 
               <button className="neu-button inline-flex items-center gap-2 px-4 py-2" onClick={handleGenerateQuiz} disabled={loading || !notes.trim()}>
                 <Sparkles size={16} />
-                <span>{loading ? "..." : "Generate Quiz"}</span>
+                <span>{loading ? "Working…" : "Create quiz from notes"}</span>
               </button>
 
               <button className="neu-button px-4 py-2" onClick={undoNotes} disabled={historyIndex <= 0}>
@@ -1219,8 +1263,8 @@ export default function NotetakerQuiz(): React.JSX.Element {
             </div>
 
             <div className="mt-4">
-              <label className="mb-2 block text-sm font-medium">Additional Information (optional)</label>
-              <textarea className="neu-input-el mt-2 w-full min-h-20" placeholder="Board, command words, equations to include, or topics to emphasise (optional)" value={additionalInfo} onChange={(e) => setAdditionalInfo(e.target.value)} />
+              <label htmlFor="notes-brief" className="mb-2 block text-sm font-medium">What should these notes emphasise? <span className="font-normal text-muted-foreground">Optional</span></label>
+              <textarea id="notes-brief" className="neu-input-el mt-2 w-full min-h-20" placeholder="Add command words, equations, misconceptions, or syllabus constraints" value={additionalInfo} onChange={(e) => setAdditionalInfo(e.target.value)} />
             </div>
           </NeumorphicCard>
 
