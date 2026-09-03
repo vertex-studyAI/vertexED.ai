@@ -1,6 +1,7 @@
 // File: /src/App.tsx
 import SiteLayout from "@/components/layout/SiteLayout";
 import AuthLandingRedirect from "@/components/AuthLandingRedirect";
+import FeedbackLauncher from "@/components/FeedbackLauncher";
 import { lazy, useEffect, useState } from "react";
 const Features = lazy(() => import("@/pages/Features"));
 const Login = lazy(() => import("@/pages/Login"));
@@ -205,6 +206,7 @@ return (
 </Route>
 </Routes>
 </BrowserRouter>
+<FeedbackLauncher />
 <Toaster />
 {telemetryReady && <DeferredTelemetry />}
 </AppPreferencesProvider>
