@@ -6,7 +6,7 @@ from .data import RobustScaler
 
 
 def robust_zscore(train: np.ndarray, test: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
-    """Per-timestep maximum robust z-score; scaler is fit only on nominal training data."""
+    """Per-timestep maximum robust z-score; scaler is fit on the training prefix only."""
     scaler = RobustScaler.fit(train)
     train_score = np.max(np.abs(scaler.transform(train)), axis=1)
     test_score = np.max(np.abs(scaler.transform(test)), axis=1)
