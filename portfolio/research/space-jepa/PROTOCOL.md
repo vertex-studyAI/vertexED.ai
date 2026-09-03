@@ -6,7 +6,7 @@ This repository contains an implementation and a synthetic engineering smoke tes
 
 ## Research question
 
-Does JEPA-style future latent prediction improve spacecraft telemetry anomaly detection under a leakage-controlled evaluation, relative to simple and established baselines, without requiring anomaly labels during representation training?
+Does JEPA-style future latent prediction improve spacecraft telemetry anomaly detection under a leakage-controlled evaluation, relative to simple and established baselines, without requiring anomaly labels during representation training or threshold fitting?
 
 ## Primary dataset
 
@@ -18,7 +18,7 @@ Use the official ESA Anomaly Detection Benchmark (ESA-ADB), retaining its missio
 2. **Normalization:** fit robust median/MAD statistics on the training partition only.
 3. **Representation training:** train Space-JEPA only on the allowed training data. The online encoder receives context windows; the EMA target encoder receives future target windows; the predictor minimizes latent cosine error plus a small anti-collapse variance regularizer.
 4. **Anomaly score:** future-target latent prediction error aligned back to telemetry timesteps by averaging overlapping windows.
-5. **Threshold:** select from training/validation nominal scores only. Default frozen rule: 99.5th percentile of nominal training scores. Any alternative must be declared before viewing test labels.
+5. **Threshold:** fit from valid training-prefix scores only, without consulting anomaly labels. Default frozen rule: 99.5th percentile of all valid training-prefix scores. If the official benchmark later requires labeled validation thresholding, that must be frozen as a separate protocol amendment before any test-outcome access.
 6. **Baselines:** at minimum robust z-score, one-step persistence error, and official ESA-ADB benchmark methods that are feasible under the same split.
 7. **Primary metrics:** official ESA-ADB metrics when the benchmark pipeline is wired. Repository-native diagnostics may include AUROC, average precision, point F1, event F1, false positives, and recall, but they are secondary if they conflict with the official evaluation.
 8. **Seeds:** 17, 29, 43, 71, 101 for stochastic runs. Report every seed, not only the best.
@@ -28,11 +28,11 @@ Use the official ESA Anomaly Detection Benchmark (ESA-ADB), retaining its missio
 ## Leakage checks required before a retained run
 
 - scaler parameters computed from training only
-- no test labels used for threshold choice
+- anomaly labels are not used for scaler fitting, representation training, threshold fitting, hyperparameter selection, or early stopping
 - no test windows appear in training batches
 - chronological or official mission split preserved
 - hyperparameters selected without test-set feedback
-- anomaly labels used only in evaluation unless a supervised comparator explicitly requires them
+- anomaly labels are consumed only after thresholds are frozen, for evaluation, unless a separately declared supervised comparator explicitly requires them
 
 ## Promotion gate
 
