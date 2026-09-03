@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-03T11:22:12Z",
+  "repository": "https://github.com/vertex-studyAI/vertexED.ai.git",
+  "branch": "codex/vertexed-publication-readiness",
+  "sourceRevision": "28b590890ad2196d222913efd83e25b8f017dafa",
+  "implementationRevision": "0928312e8ca83a4ab128df563ee83b529bed2f87",
+  "observedMainRevision": "06545ab4e43932179c2238a78574b1bf8950f3cb",
+  "environment": {"os": "macOS", "architecture": "arm64", "node": "v22.22.0", "npm": "10.9.4", "declaredPackageManager": "npm@10.9.8"},
+  "commands": [
+    {"command": "npm ci", "status": "PASS"},
+    {"command": "node --test tests/adaptive-notes-workflow.test.mjs", "status": "PASS", "tests": 5},
+    {"command": "npm run ci", "status": "PASS", "sourceTests": 752, "evaluationTests": 25, "productionAuditVulnerabilities": 0, "vercelFunctions": 1, "routedEndpoints": 19, "buildModules": 2757},
+    {"command": "node --test tests/adaptive-notes-workflow.test.mjs tests/health.test.mjs", "status": "PASS", "tests": 12},
+    {"command": "PLAYWRIGHT_BASE_URL=http://127.0.0.1:4173 PLAYWRIGHT_API_URL=http://127.0.0.1:4173 npm run test:e2e:local-accessibility", "status": "PASS", "passed": 34, "skipped": 2}
+  ],
+  "bundleMetrics": {"initialJavaScriptGzipBytes": 177142, "initialCssGzipBytes": 33762, "largestJavaScriptGzipBytes": 232813, "totalJavaScriptGzipBytes": 910156, "violations": 0},
+  "externalEvidence": [
+    {"kind": "githubActions", "runId": 33718062679, "revision": "06545ab4e43932179c2238a78574b1bf8950f3cb", "status": "MIXED", "detail": "source/browser jobs passed; smoke-production failed"},
+    {"kind": "productionHealth", "runId": 33720576227, "expectedDeployRevision": "614ef5216fc3752768fe1bdb965a67385cb82cdb", "status": "FAIL", "detail": "live revision, readiness and HEAD health header missing"}
+  ],
+  "claims": [
+    {"claim": "Adaptive recommendations use measured quiz evidence and not completion/free-form AI text", "reproductionCommand": "node --test tests/adaptive-notes-workflow.test.mjs", "status": "VERIFIED_LOCAL"},
+    {"claim": "Source candidate passes canonical release gate", "reproductionCommand": "npm run ci", "status": "VERIFIED_LOCAL"},
+    {"claim": "Canonical production serves this revision", "reproductionCommand": "EXPECTED_VERTEXED_REVISION=28b590890ad2196d222913efd83e25b8f017dafa npm run test:smoke", "status": "NEGATIVE"},
+    {"claim": "VertexED improves learner outcomes", "reproductionCommand": null, "status": "NOT_RUN"}
+  ],
+  "knownFailures": [
+    "Canonical Vercel project is unavailable in the authenticated scope.",
+    "Production serves a legacy health contract without revision/readiness proof.",
+    "Authenticated production lifecycle and two-account isolation are not run.",
+    "Live provider quality and controlled learner outcomes are not run.",
+    "The in-app browser webview did not attach; repository Playwright was used instead.",
+    "Two npm clean-install attempts timed out at the registry before a bounded low-concurrency retry passed.",
+    "The exact npm 10.9.8 runtime upgrade stalled; verification used Node 22.22.0's npm 10.9.4."
+  ]
+}
