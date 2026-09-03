@@ -1,0 +1,13 @@
+{
+  "n_features": 8,
+  "context_length": 48,
+  "target_length": 12,
+  "d_model": 64,
+  "n_heads": 4,
+  "n_layers": 2,
+  "predictor_layers": 1,
+  "ff_mult": 4,
+  "dropout": 0.0,
+  "ema_decay": 0.996,
+  "variance_weight": 0.05
+}
