@@ -178,12 +178,15 @@ jobs:
           set -euo pipefail
           export EXPECTED_VERTEXED_REVISION="$(node scripts/vercel-ignore-build.mjs --print-latest-runtime-revision)"
           echo "[smoke] Expected deploy-relevant revision: ${EXPECTED_VERTEXED_REVISION}"
+          mkdir -p ci-evidence
+          printf '%s\n' "${EXPECTED_VERTEXED_REVISION}" > ci-evidence/expected-deploy-revision.txt
           max_attempts=8
           retry_delay_seconds=30
 
           for attempt in $(seq 1 "$max_attempts"); do
             echo "[smoke] Attempt ${attempt}/${max_attempts}"
-            if npm run test:smoke; then
+            attempt_log="ci-evidence/smoke-attempt-${attempt}.log"
+            if npm run test:smoke 2>&1 | tee "$attempt_log"; then
               exit 0
             fi
 
@@ -195,3 +198,12 @@ jobs:
 
           echo "[smoke] Production smoke tests failed after ${max_attempts} attempts"
           exit 1
+
+      - name: Upload production smoke evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: vertexed-production-smoke-${{ github.sha }}
+          path: ci-evidence
+          if-no-files-found: ignore
+          retention-days: 14
