@@ -40,6 +40,8 @@ jobs:
           python -m compileall -q \
             portfolio/research/space-jepa/space_jepa \
             portfolio/research/space-jepa/run_csv.py \
+            portfolio/research/space-jepa/run_esa_adb.py \
+            portfolio/research/space-jepa/evaluate_esa_adb.py \
             portfolio/research/space-jepa/smoke.py
 
       - name: Run Space-JEPA unit tests

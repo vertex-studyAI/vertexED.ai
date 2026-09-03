@@ -1,7 +1,4 @@
-import importlib.util
-import inspect
 from pathlib import Path
-
 import numpy as np
 import torch
 
@@ -75,14 +72,12 @@ def test_auroc_handles_ties_without_pairwise_matrix():
 
     y = np.array([0, 1, 0, 1], dtype=np.int64)
     scores = np.array([0.1, 0.5, 0.5, 0.9], dtype=np.float64)
-    # Positive scores: .5, .9. Negative scores: .1, .5 -> 3 wins + 1 tie over 4 pairs.
     assert auroc(y, scores) == 0.875
 
 
 def test_event_metric_is_one_to_one():
     from space_jepa.metrics import event_f1
 
-    # One broad predicted event overlaps two true events but may match only one.
     y = np.array([0, 1, 1, 0, 1, 1, 0], dtype=np.int64)
     scores = np.array([0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.0])
     metrics = event_f1(y, scores, 0.5)
@@ -122,9 +117,8 @@ def test_lightcurve_featurizer_is_train_fit_and_handles_unknown_band():
     assert featurizer.bands == ("g", "r")
     assert featurizer.n_features == 6
     assert x.shape == (5, 6)
-    assert x[-1, -1] == 1.0  # unseen i-band -> <UNK>
+    assert x[-1, -1] == 1.0
     assert np.all(x_no_time[:, 2] == 0.0)
-    # Held-out outlier cannot change the train-fit center.
     assert featurizer.center[0] < 21.0
 
 
@@ -144,19 +138,114 @@ def test_lightcurve_csv_is_sorted_chronologically(tmp_path):
     assert series.labels.tolist() == [0, 0, 1]
 
 
+def test_lazy_window_dataset_matches_materialized_windows():
+    from space_jepa.training import TelemetryWindowDataset
+
+    x = np.arange(72, dtype=np.float32).reshape(24, 3)
+    materialized = make_windows(x, 5, 3, stride=2)
+    lazy = TelemetryWindowDataset(x, 5, 3, stride=2)
+    assert len(lazy) == len(materialized.starts)
+    contexts = []
+    targets = []
+    starts = []
+    for i in range(len(lazy)):
+        context, target, start = lazy[i]
+        contexts.append(context.numpy())
+        targets.append(target.numpy())
+        starts.append(start)
+    np.testing.assert_array_equal(np.stack(contexts), materialized.context)
+    np.testing.assert_array_equal(np.stack(targets), materialized.target)
+    assert starts == materialized.starts.tolist()
+
+
+def test_official_esa_adb_adapter_excludes_annotation_columns(tmp_path):
+    from space_jepa.esa_adb import load_esa_adb_csv
+
+    path = tmp_path / "esa.csv"
+    path.write_text(
+        "timestamp,channel_41,channel_42,is_anomaly_channel_41,is_anomaly_channel_42\n"
+        "2007-01-01 00:00:00,1.0,5.0,0,0\n"
+        "2007-01-01 00:00:30,2.0,6.0,1,0\n"
+        "2007-01-01 00:01:00,3.0,7.0,0,2\n"
+        "2007-01-01 00:01:30,4.0,8.0,3,0\n",
+        encoding="utf-8",
+    )
+    table = load_esa_adb_csv(path, channels=("channel_41", "channel_42"))
+    assert table.feature_names == ("channel_41", "channel_42")
+    assert table.telemetry.shape == (4, 2)
+    assert table.channel_labels.shape == (4, 2)
+    np.testing.assert_array_equal(table.telemetry[:, 0], [1.0, 2.0, 3.0, 4.0])
+    assert table.binary_labels(include_rare_events=False).tolist() == [0, 1, 0, 0]
+    assert table.binary_labels(include_rare_events=True).tolist() == [0, 1, 1, 0]
+    assert table.diagnostic_valid_mask().tolist() == [True, True, True, False]
+
+
+def test_esa_adb_official_lite_presets_match_benchmark_scripts():
+    from space_jepa.esa_adb import MISSION1_LITE_CHANNELS, MISSION2_LITE_CHANNELS
+
+    assert MISSION1_LITE_CHANNELS == tuple(f"channel_{i}" for i in range(41, 47))
+    assert MISSION2_LITE_CHANNELS == tuple(f"channel_{i}" for i in range(18, 29))
+
+
+def test_esa_test_warm_start_uses_only_training_tail():
+    import importlib.util
+
+    path = Path(__file__).parents[1] / "run_esa_adb.py"
+    spec = importlib.util.spec_from_file_location("space_jepa_run_esa", path)
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+
+    train = np.arange(20, dtype=np.float32).reshape(10, 2)
+    test = np.arange(8, dtype=np.float32).reshape(4, 2) + 100
+    warmed = module.warm_start_test(train, test, context_length=3)
+    np.testing.assert_array_equal(warmed[:3], train[-3:])
+    np.testing.assert_array_equal(warmed[3:], test)
+
+
+def test_official_ground_truth_merge_and_clip(tmp_path):
+    import importlib.util
+    import pandas as pd
+
+    labels = tmp_path / "labels.csv"
+    types = tmp_path / "anomaly_types.csv"
+    labels.write_text(
+        "ID,Channel,StartTime,EndTime\n"
+        "a1,channel_41,2006-12-31 23:59:30,2007-01-01 00:00:30\n"
+        "a2,channel_42,2007-01-01 00:02:00,2007-01-01 00:03:00\n",
+        encoding="utf-8",
+    )
+    types.write_text(
+        "ID,Category,Dimensionality,Locality,Length\n"
+        "a1,Anomaly,Univariate,Local,Subsequence\n"
+        "a2,Rare Event,Univariate,Local,Subsequence\n",
+        encoding="utf-8",
+    )
+    path = Path(__file__).parents[1] / "evaluate_esa_adb.py"
+    spec = importlib.util.spec_from_file_location("space_jepa_eval_esa", path)
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    start = pd.Timestamp("2007-01-01 00:00:00")
+    end = pd.Timestamp("2007-01-01 00:02:30")
+    ground_truth = module.prepare_ground_truth(labels, types, start, end)
+    assert set(ground_truth["Category"]) == {"Anomaly", "Rare Event"}
+    assert ground_truth["StartTime"].min() == start
+    assert ground_truth["EndTime"].max() == end
+
+
 def test_threshold_training_score_selection_cannot_consume_labels():
+    import importlib.util
+    import inspect
+
     run_csv_path = Path(__file__).parents[1] / "run_csv.py"
     spec = importlib.util.spec_from_file_location("space_jepa_run_csv", run_csv_path)
     assert spec is not None and spec.loader is not None
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
-
     signature = inspect.signature(module.valid_train_scores)
     assert tuple(signature.parameters) == ("scores", "coverage", "train_end")
-
     scores = np.array([0.1, 9.0, 0.2, 100.0], dtype=np.float64)
     coverage = np.array([1, 1, 1, 1], dtype=np.int64)
     selected = module.valid_train_scores(scores, coverage, train_end=3)
-    # The high score remains in the threshold-fit population because no anomaly
-    # labels are available to this boundary; test/evaluation labels cannot leak in.
     assert selected.tolist() == [0.1, 9.0, 0.2]

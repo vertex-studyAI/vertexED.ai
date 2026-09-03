@@ -36,11 +36,11 @@ The smoke run writes `artifacts/smoke.json`. Its only purpose is to prove the co
 
 ## ESA-ADB integration path
 
-The official ESA-ADB repository provides raw ESA Mission 1 / Mission 2 data and preprocessing scripts for its TimeEval-based benchmark. Use that official preprocessing first. `space_jepa.data.load_csv()` is deliberately a small adapter for flat, preprocessed telemetry CSVs; it ignores nonnumeric timestamp/id columns and can discover common anomaly-label column names.
+The official ESA-ADB repository provides raw Mission 1 / Mission 2 data and preprocessing scripts for its modified TimeEval benchmark. `space_jepa.esa_adb` now reads the **official preprocessed multivariate format** without leaking `is_anomaly_*` annotation columns into model inputs. It includes the exact lightweight and target-channel presets declared by the upstream Mission 1 / Mission 2 experiment scripts.
 
-Before any retained experiment, wire the official ESA-ADB evaluation pipeline and preserve the benchmark split. The local metrics in this repo are diagnostics, not a replacement for ESA-ADB's operational metrics.
+`run_esa_adb.py` trains on official preprocessed train files, warm-starts test scoring from the training tail, freezes thresholds from training scores only, and exports timestamped binary predictions. `evaluate_esa_adb.py` can then be run inside the official ESA-ADB environment to invoke upstream `ESAScores` at beta 0.5 for both Anomaly-only and Anomaly+Rare-Event views. ChannelAwareFScore/ADTQC remain intentionally unclaimed until Space-JEPA has a meaningful per-channel score head. See `ESA_ADB_INTEGRATION.md` for the complete source/evaluation contract.
 
-For a flat preprocessed telemetry CSV, the reproducible runner is:
+For a generic flat preprocessed telemetry CSV, the reproducible runner remains:
 
 ```bash
 python run_csv.py path/to/telemetry.csv --train-end <EXCLUSIVE_TRAIN_ROW> --seed 17 --out-dir artifacts/real_runs/seed-17
@@ -65,8 +65,8 @@ See `PROTOCOL.md` for the frozen first-pass evaluation.
 
 ## Next engineering slice
 
-1. Add a converter for official ESA-ADB preprocessed Mission 1 and Mission 2 outputs.
-2. Wire the official ESA-ADB metric/evaluation adapter around the reproducible runner.
-3. Run official baselines first, then all five frozen Space-JEPA seeds.
+1. Execute `mission1-lite` and `mission2-lite` engineering pilots against official preprocessed files.
+2. Run official ESAScores for baselines first, then all five frozen Space-JEPA seeds under `configs/esa_first_pass.json`.
+3. Add a separately frozen per-channel score head before attempting ChannelAwareFScore or ADTQC.
 4. Run only the declared ablations after the frozen first pass.
 5. Promote a result only after official benchmark evaluation and provenance review.

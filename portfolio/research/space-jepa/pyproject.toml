@@ -7,7 +7,7 @@ name = "space-jepa"
 version = "0.1.0"
 description = "Pre-outcome JEPA baseline for ESA spacecraft telemetry anomaly detection"
 requires-python = ">=3.11"
-dependencies = ["numpy>=1.26", "torch>=2.2"]
+dependencies = ["numpy>=1.26", "pandas>=2.0", "torch>=2.2"]
 
 [tool.setuptools]
 packages = ["space_jepa"]
