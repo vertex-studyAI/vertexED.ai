@@ -1,4 +1,5 @@
 -- Privacy-safe in-product feedback for authenticated VertexED users.
+-- Applied to production as Supabase migration 20260903121711_product_feedback.
 -- The table stores only the authenticated user UUID plus bounded feedback fields.
 -- Email, name, prompts, answers, auth tokens, and analytics identifiers are not stored here.
 
@@ -30,7 +31,7 @@ create policy "Users can submit their own product feedback"
   on public.product_feedback
   for insert
   to authenticated
-  with check ((select auth.uid()) = user_id);
+  with check ((select auth.uid()) is not null and (select auth.uid()) = user_id);
 
 create index if not exists product_feedback_created_at_idx
   on public.product_feedback (created_at desc);

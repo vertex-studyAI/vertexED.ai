@@ -66,7 +66,7 @@ test("analytics payload contains no feedback text, page path, or identity", () =
 
 test("feedback migration is authenticated insert-only and user-bound", () => {
   const migration = fs.readFileSync(
-    "supabase/migrations/20260903180000_product_feedback.sql",
+    "supabase/migrations/20260903121711_product_feedback.sql",
     "utf8",
   );
 
@@ -76,6 +76,6 @@ test("feedback migration is authenticated insert-only and user-bound", () => {
     migration,
     /grant insert \(user_id, category, rating, feedback, page_path\)[\s\S]*to authenticated/i,
   );
-  assert.match(migration, /with check \(\(select auth\.uid\(\)\) = user_id\)/i);
+  assert.match(migration, /with check \(\(select auth\.uid\(\)\) is not null and \(select auth\.uid\(\)\) = user_id\)/i);
   assert.doesNotMatch(migration, /grant\s+select[\s\S]*authenticated/i);
 });
