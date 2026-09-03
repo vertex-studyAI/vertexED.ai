@@ -3,6 +3,8 @@ import { API_VERSION, ROUTES } from '../_lib/routes.js';
 import { getQueryParam } from '../_lib/query.js';
 import { applyApiSecurityHeaders, isProduction } from '../_lib/security.js';
 
+export const HEALTH_CONTRACT_VERSION = '2';
+
 function hasValue(value) {
   return typeof value === 'string' && value.trim().length > 0;
 }
@@ -70,6 +72,7 @@ export default async function handler(req, res) {
       : 'alive';
 
   res.setHeader('X-VertexED-Health', healthState);
+  res.setHeader('X-VertexED-Health-Contract', HEALTH_CONTRACT_VERSION);
   if (revision) res.setHeader('X-VertexED-Revision', revision);
 
   if (req.method === 'HEAD') {
@@ -80,6 +83,7 @@ export default async function handler(req, res) {
     ok: identityMissing ? false : (readiness ? readiness.ready : true),
     service: 'vertexed',
     apiVersion: API_VERSION,
+    healthContract: HEALTH_CONTRACT_VERSION,
     status: healthState,
     timestamp: new Date().toISOString(),
   };

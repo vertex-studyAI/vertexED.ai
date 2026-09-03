@@ -24,11 +24,14 @@ jobs:
 
     steps:
       - name: Checkout control repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          persist-credentials: false
 
       - name: Checkout immutable Bu1LD source
-        uses: actions/checkout@v5
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
         with:
+          persist-credentials: false
           repository: ryangomez010/bu1ld-landing
           ref: ${{ env.TARGET_COMMIT }}
           path: target
@@ -42,7 +45,7 @@ jobs:
           git -C target diff --check
 
       - name: Setup Bun
-        uses: oven-sh/setup-bun@v2
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2
         with:
           bun-version: 1.3.14
 
@@ -88,7 +91,7 @@ jobs:
 
       - name: Upload certification evidence
         if: always()
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
           name: bu1ld-auth-confirmation-${{ github.run_id }}
           path: |
