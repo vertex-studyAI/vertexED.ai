@@ -43,18 +43,16 @@ def evaluate(y: np.ndarray, scores: np.ndarray, threshold: float) -> dict[str, f
     return result
 
 
-def nominal_train_scores(
+def valid_train_scores(
     scores: np.ndarray,
     coverage: np.ndarray,
     train_end: int,
-    labels: np.ndarray | None,
 ) -> np.ndarray:
+    """Select valid training-prefix scores without consulting anomaly labels."""
     valid = np.isfinite(scores[:train_end]) & (coverage[:train_end] > 0)
-    if labels is not None:
-        valid &= labels[:train_end] == 0
     selected = scores[:train_end][valid]
     if selected.size == 0:
-        raise ValueError("no valid nominal training scores available for threshold fitting")
+        raise ValueError("no valid training scores available for threshold fitting")
     return selected
 
 
@@ -123,20 +121,16 @@ def main() -> None:
         batch_size=score_batch,
         device=args.device,
     )
-    threshold_train = nominal_train_scores(train_scores, train_coverage, args.train_end, y)
+    threshold_train = valid_train_scores(train_scores, train_coverage, args.train_end)
     threshold = threshold_from_nominal(threshold_train, float(scoring["threshold_quantile"]))
 
+    # Threshold fitting is deliberately label-blind. Labels, when supplied, are
+    # consumed only after the training-prefix thresholds have been frozen.
     z_train, z_scores = robust_zscore(x[: args.train_end], x)
-    if y is not None:
-        z_nominal = z_train[y[: args.train_end] == 0]
-    else:
-        z_nominal = z_train
-    z_threshold = threshold_from_nominal(z_nominal, float(scoring["threshold_quantile"]))
+    z_threshold = threshold_from_nominal(z_train, float(scoring["threshold_quantile"]))
 
     p_scores = persistence_error(x_scaled)
     p_train = p_scores[1 : args.train_end]
-    if y is not None:
-        p_train = p_train[y[1 : args.train_end] == 0]
     p_threshold = threshold_from_nominal(p_train, float(scoring["threshold_quantile"]))
 
     eval_mask = np.arange(len(x)) >= args.train_end
@@ -185,7 +179,7 @@ def main() -> None:
             "space_jepa": threshold,
             "robust_zscore": z_threshold,
             "persistence": p_threshold,
-            "source": f"nominal-training-score-quantile-{scoring['threshold_quantile']}",
+            "source": f"label-blind-training-score-quantile-{scoring['threshold_quantile']}",
         },
         "metrics": metrics,
         "artifacts": {
