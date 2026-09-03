@@ -1,3 +1,7 @@
+import importlib.util
+import inspect
+from pathlib import Path
+
 import numpy as np
 import torch
 
@@ -138,3 +142,21 @@ def test_lightcurve_csv_is_sorted_chronologically(tmp_path):
     series = load_lightcurve_csv(path, label_column="label")
     assert series.times.tolist() == [1.0, 2.0, 3.0]
     assert series.labels.tolist() == [0, 0, 1]
+
+
+def test_threshold_training_score_selection_cannot_consume_labels():
+    run_csv_path = Path(__file__).parents[1] / "run_csv.py"
+    spec = importlib.util.spec_from_file_location("space_jepa_run_csv", run_csv_path)
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+
+    signature = inspect.signature(module.valid_train_scores)
+    assert tuple(signature.parameters) == ("scores", "coverage", "train_end")
+
+    scores = np.array([0.1, 9.0, 0.2, 100.0], dtype=np.float64)
+    coverage = np.array([1, 1, 1, 1], dtype=np.int64)
+    selected = module.valid_train_scores(scores, coverage, train_end=3)
+    # The high score remains in the threshold-fit population because no anomaly
+    # labels are available to this boundary; test/evaluation labels cannot leak in.
+    assert selected.tolist() == [0.1, 9.0, 0.2]
