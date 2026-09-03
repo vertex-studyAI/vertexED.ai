@@ -43,7 +43,7 @@ jobs:
           printf '%s\n' "$(git -C target rev-parse HEAD)" > target-commit.txt
 
       - name: Set up Python
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
         with:
           python-version: "3.11"
 
@@ -107,7 +107,7 @@ jobs:
 
       - name: Upload independent evidence
         if: always()
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
           name: independent-lam-jepa-deberta-qa
           path: |
