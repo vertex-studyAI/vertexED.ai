@@ -31,7 +31,7 @@ where table_schema = 'public'
     (table_name = 'profiles' and column_name in ('id', 'email', 'full_name', 'avatar_url', 'created_at', 'updated_at'))
     or (table_name = 'waitlist' and column_name in ('id', 'email', 'status', 'invite_token', 'signup_method', 'auth_user_id', 'created_at', 'updated_at'))
     or (table_name = 'waitlist_rate_limits' and column_name in ('id', 'ip_hash', 'attempted_at'))
-    or (table_name = 'user_study_artifacts' and column_name in ('id', 'user_id', 'kind', 'title', 'payload', 'created_at', 'updated_at'))
+    or (table_name = 'user_study_artifacts' and column_name in ('id', 'user_id', 'kind', 'title', 'payload', 'idempotency_key', 'created_at', 'updated_at'))
   )
 order by table_name, ordinal_position;
 
@@ -69,6 +69,7 @@ order by tablename, indexname;
 -- waitlist_status_idx
 -- waitlist_rate_limits_ip_time_idx
 -- user_study_artifacts_user_kind_idx
+-- user_study_artifacts_user_idempotency_key_key (unique constraint index)
 
 -- 5. Check constraints and foreign keys.
 select
@@ -85,6 +86,7 @@ where connamespace = 'public'::regnamespace
 order by table_name::text, constraint_name;
 -- Confirm waitlist status is limited to pending/approved/rejected.
 -- Confirm artifact kind includes note/review/paper/planner/notebook.
+-- Confirm artifact idempotency keys are URL-safe and unique per user.
 -- Confirm user-owned rows reference auth.users with the intended delete behavior.
 
 -- 6. New-user profile trigger.

@@ -160,7 +160,7 @@ Use category names verbatim:
 ### OUTPUT FORMAT
 Return a single line of JSON, and nothing else:
 \`\`\`json
-{\"category\":\"<one of the categories exactly as listed>\"}
+{"category":"<one of the categories exactly as listed>"}
 \`\`\``,
   model: "gpt-4.1",
   outputType: CurriculumSchema,
@@ -193,7 +193,7 @@ Use category names verbatim:
 ### OUTPUT FORMAT
 Return a single line of JSON, and nothing else:
 \`\`\`json
-{\"category\":\"<one of the categories exactly as listed>\"}
+{"category":"<one of the categories exactly as listed>"}
 \`\`\``,
   model: "gpt-4.1",
   outputType: ClassifySchema,
@@ -226,7 +226,7 @@ Use category names verbatim:
 ### OUTPUT FORMAT
 Return a single line of JSON, and nothing else:
 \`\`\`json
-{\"category\":\"<one of the categories exactly as listed>\"}
+{"category":"<one of the categories exactly as listed>"}
 \`\`\``,
   model: "gpt-4.1",
   outputType: ClassifySchema1,

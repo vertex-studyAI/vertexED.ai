@@ -22,15 +22,18 @@ indefinitely.
 
 The canonical public smoke contract verifies:
 
-1. `/api/health` returns HTTP 200, `ok: true`, and the expected Vertex API
-   router header.
-2. An unknown API route returns HTTP 404 instead of the application shell.
-3. The public homepage returns HTTP 200.
-4. `/api/waitlist` rejects malformed email input with HTTP 400.
-5. `/api/ask` rejects a logged-out request with HTTP 401.
-6. `/api/user-content` rejects a logged-out request with HTTP 401.
-7. `/api/admin-status` rejects a logged-out request with HTTP 401.
-8. The API rejects an untrusted cross-origin request with HTTP 403.
+1. `/api/health` returns HTTP 200, `ok: true`, the expected Vertex API router
+   header, and the expected immutable source revision in both body and header.
+2. `HEAD /api/health` preserves that revision identity without a response body.
+3. `/api/health?readiness=1` returns ready and confirms every required capability
+   without disclosing configuration values.
+4. An unknown API route returns HTTP 404 instead of the application shell.
+5. The public homepage returns HTTP 200.
+6. `/api/waitlist` rejects malformed email input with HTTP 400.
+7. `/api/ask` rejects a logged-out request with HTTP 401.
+8. `/api/user-content` rejects a logged-out request with HTTP 401.
+9. `/api/admin-status` rejects a logged-out request with HTTP 401.
+10. The API rejects an untrusted cross-origin request with HTTP 403.
 
 The monitor does not create waitlist entries, authenticate users, call an AI
 provider successfully, or alter user-owned data.
@@ -71,8 +74,9 @@ or health-handler change.
 
 ## Coverage boundary
 
-This monitor proves logged-out availability and selected public security
-invariants only. It does not prove:
+This monitor proves exact-revision logged-out availability, configuration readiness,
+and selected public security invariants only. A green source build is not a substitute
+for this deployed check. It does not prove:
 
 - administrator approval;
 - approval-link or team-invite account creation;

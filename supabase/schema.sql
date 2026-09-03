@@ -54,6 +54,10 @@ create trigger on_auth_user_created
   after insert on auth.users
   for each row execute function public.handle_new_user();
 
+-- Trigger functions do not need direct API-role execution. The trigger still
+-- executes as its owner when auth.users changes.
+revoke execute on function public.handle_new_user() from public, anon, authenticated;
+
 -- -----------------------------------------------------------------------------
 -- Waitlist (public signup via /api/waitlist using service role)
 -- -----------------------------------------------------------------------------
@@ -109,6 +113,7 @@ as $$
 $$;
 
 revoke all on function public.auth_email_exists(text) from public;
+revoke all on function public.auth_email_exists(text) from anon, authenticated;
 grant execute on function public.auth_email_exists(text) to service_role;
 
 -- -----------------------------------------------------------------------------
@@ -121,8 +126,13 @@ create table if not exists public.user_study_artifacts (
   kind text not null check (kind in ('note', 'review', 'paper', 'planner', 'notebook')),
   title text,
   payload jsonb not null default '{}'::jsonb,
+  idempotency_key text,
   created_at timestamptz not null default now(),
-  updated_at timestamptz not null default now()
+  updated_at timestamptz not null default now(),
+  constraint user_study_artifacts_idempotency_key_format
+    check (idempotency_key is null or idempotency_key ~ '^[A-Za-z0-9][A-Za-z0-9._:-]{7,127}$'),
+  constraint user_study_artifacts_user_idempotency_key_key
+    unique (user_id, idempotency_key)
 );
 
 create index if not exists user_study_artifacts_user_kind_idx

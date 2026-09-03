@@ -3,9 +3,14 @@ import { getSupabaseAdmin } from '../_lib/supabaseAdmin.js';
 import { getQueryNumber, getQueryParam } from '../_lib/query.js';
 import { checkRateLimit } from '../_lib/rateLimit.js';
 import { isValidUuid } from '../_lib/security.js';
-import { replacePlannerArtifact } from '../_lib/userContentStore.js';
+import { createStudyArtifact, replaceSingletonArtifact } from '../_lib/userContentStore.js';
+import {
+  STUDY_ARTIFACT_KINDS,
+  normalizeStudyArtifactPayload,
+  parseStudyArtifactCreate,
+} from '../../contracts/studyArtifact.js';
 
-const ALLOWED_KINDS = new Set(['note', 'review', 'paper', 'planner', 'notebook']);
+const ALLOWED_KINDS = new Set(STUDY_ARTIFACT_KINDS);
 const MAX_PAYLOAD_BYTES = 256 * 1024;
 
 export default async function handler(req, res) {
@@ -60,41 +65,38 @@ export default async function handler(req, res) {
     if (req.method === 'POST') {
       if (rejectOversizedJsonBody(req, res, 512_000)) return;
       const body = readJsonBody(req);
-      const kind = body?.kind;
-      const title = typeof body?.title === 'string' ? body.title.trim().slice(0, 200) : null;
-      const payload = body?.payload ?? body?.content ?? body;
-
-      if (!ALLOWED_KINDS.has(kind)) {
-        return res.status(400).json({ error: 'Invalid kind. Use note, review, paper, planner, or notebook.' });
-      }
-
-      const payloadValue = typeof payload === 'object' ? payload : { text: String(payload) };
+      const parsed = parseStudyArtifactCreate(body);
+      if (!parsed.ok) return res.status(400).json({ error: parsed.error });
+      const { kind, title, payload: payloadValue, idempotencyKey } = parsed.value;
       const payloadSize = Buffer.byteLength(JSON.stringify(payloadValue), 'utf8');
       if (payloadSize > MAX_PAYLOAD_BYTES) {
         return res.status(413).json({ error: 'Artifact payload is too large.' });
       }
 
       const updatedAt = new Date().toISOString();
-      const writeResult = kind === 'planner' && body?.replace === true
-        ? await replacePlannerArtifact(supabase, {
+      const writeResult = (kind === 'planner' || kind === 'notebook') && body?.replace === true
+        ? await replaceSingletonArtifact(supabase, {
             userId: user.id,
+            kind,
             title,
             payload: payloadValue,
             updatedAt,
           })
-        : await supabase
-            .from('user_study_artifacts')
-            .insert({
-              user_id: user.id,
-              kind,
-              title,
-              payload: payloadValue,
-              updated_at: updatedAt,
-            })
-            .select('id, kind, title, created_at, updated_at')
-            .single();
+        : await createStudyArtifact(supabase, {
+            userId: user.id,
+            kind,
+            title,
+            payload: payloadValue,
+            idempotencyKey,
+            updatedAt,
+          });
 
-      const { data, error } = writeResult;
+      const { data, error, replayed = false, conflict = false } = writeResult;
+      if (conflict) {
+        return res.status(409).json({
+          error: 'Idempotency key was already used for different artifact content.',
+        });
+      }
       if (error) {
         if (error.code === '42P01') {
           return res.status(503).json({
@@ -103,7 +105,14 @@ export default async function handler(req, res) {
         }
         throw error;
       }
-      return res.status(201).json({ ok: true, item: data });
+      const item = data ? {
+        id: data.id,
+        kind: data.kind,
+        title: data.title,
+        created_at: data.created_at,
+        updated_at: data.updated_at,
+      } : null;
+      return res.status(replayed ? 200 : 201).json({ ok: true, item, replayed });
     }
 
     if (req.method === 'PUT' || req.method === 'PATCH') {
@@ -120,7 +129,9 @@ export default async function handler(req, res) {
 
       if (title !== undefined) updates.title = title || null;
       if (payload !== undefined) {
-        const payloadValue = typeof payload === 'object' ? payload : { text: String(payload) };
+        const parsedPayload = normalizeStudyArtifactPayload(payload);
+        if (!parsedPayload.ok) return res.status(400).json({ error: parsedPayload.error });
+        const payloadValue = parsedPayload.value;
         const payloadSize = Buffer.byteLength(JSON.stringify(payloadValue), 'utf8');
         if (payloadSize > MAX_PAYLOAD_BYTES) {
           return res.status(413).json({ error: 'Artifact payload is too large.' });

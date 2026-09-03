@@ -27,7 +27,7 @@ test.describe('public launch journey', () => {
     await expect(page.getByRole('button', { name: /join waitlist/i })).toBeVisible();
   });
 
-  test('team invite account flow is exposed without revealing the server secret', async ({ page }) => {
+  test('team invite flow verifies email before password creation without revealing the server secret', async ({ page }) => {
     await page.goto('/signup');
     await page.getByRole('button', { name: /have an invite code/i }).click();
 
@@ -35,8 +35,8 @@ test.describe('public launch journey', () => {
     await expect(page.getByLabel('Email')).toBeVisible();
     await expect(page.getByLabel('Invite code')).toBeVisible();
     await expect(page.getByLabel('Username')).toBeVisible();
-    await expect(page.getByLabel('Password')).toBeVisible();
-    await expect(page.getByRole('button', { name: /create account/i })).toBeVisible();
+    await expect(page.getByLabel('Password')).toHaveCount(0);
+    await expect(page.getByRole('button', { name: /email secure invite/i })).toBeVisible();
   });
 
   test('admin page does not expose protected content to logged-out visitors', async ({ page }) => {
@@ -69,6 +69,11 @@ test.describe('public launch journey', () => {
 });
 
 test.describe('production API contract', () => {
+  test.skip(
+    !process.env.PLAYWRIGHT_API_URL,
+    'Set PLAYWRIGHT_API_URL to a deployed VertexED API host before certifying production API behavior.',
+  );
+
   test('health endpoint responds with API marker', async ({ request }) => {
     const res = await request.get(`${apiBase}/api/health`);
     expect(res.status()).toBe(200);

@@ -6,6 +6,7 @@ import {
   clearPasswordRecoveryMarker,
   hasVerifiedPasswordRecovery,
 } from "@/lib/passwordRecovery";
+import { validateAccountPassword } from "@/lib/passwordPolicy.mjs";
 import { supabase } from "@/lib/supabaseClient";
 
 export default function ResetPassword() {
@@ -61,12 +62,9 @@ export default function ResetPassword() {
       setError("Open a fresh password reset link from your email to continue.");
       return;
     }
-    if (password.length < 8) {
-      setError("Password must be at least 8 characters.");
-      return;
-    }
-    if (password.length > 128) {
-      setError("Password must be 128 characters or fewer.");
+    const passwordCheck = validateAccountPassword(password);
+    if (!passwordCheck.ok) {
+      setError(passwordCheck.error);
       return;
     }
     if (password !== confirmPassword) {
@@ -132,29 +130,45 @@ export default function ResetPassword() {
               <p className="text-sm text-muted-foreground text-center leading-relaxed">
                 Choose a new password for this account. You will be signed out after the update and asked to log in again.
               </p>
-              <div className="neu-input">
-                <input
-                  type="password"
-                  autoComplete="new-password"
-                  aria-label="New password"
-                  placeholder="New password"
-                  className="neu-input-el"
-                  value={password}
-                  onChange={(event) => setPassword(event.target.value)}
-                  disabled={saving}
-                />
+              <div>
+                <label htmlFor="reset-password" className="form-label">New password</label>
+                <div className="neu-input">
+                  <input
+                    id="reset-password"
+                    type="password"
+                    autoComplete="new-password"
+                    aria-describedby="reset-password-hint"
+                    placeholder="Enter a new password"
+                    className="neu-input-el"
+                    value={password}
+                    onChange={(event) => setPassword(event.target.value)}
+                    disabled={saving}
+                    minLength={10}
+                    maxLength={128}
+                    required
+                  />
+                </div>
+                <p id="reset-password-hint" className="mt-1.5 text-xs text-muted-foreground">
+                  At least 10 characters with uppercase, lowercase, and a number.
+                </p>
               </div>
-              <div className="neu-input">
-                <input
-                  type="password"
-                  autoComplete="new-password"
-                  aria-label="Confirm new password"
-                  placeholder="Confirm new password"
-                  className="neu-input-el"
-                  value={confirmPassword}
-                  onChange={(event) => setConfirmPassword(event.target.value)}
-                  disabled={saving}
-                />
+              <div>
+                <label htmlFor="reset-password-confirm" className="form-label">Confirm new password</label>
+                <div className="neu-input">
+                  <input
+                    id="reset-password-confirm"
+                    type="password"
+                    autoComplete="new-password"
+                    placeholder="Re-enter your new password"
+                    className="neu-input-el"
+                    value={confirmPassword}
+                    onChange={(event) => setConfirmPassword(event.target.value)}
+                    disabled={saving}
+                    minLength={10}
+                    maxLength={128}
+                    required
+                  />
+                </div>
               </div>
               <button
                 type="submit"

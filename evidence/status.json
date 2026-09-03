@@ -1,0 +1,88 @@
+{
+  "checked_at": "2026-09-02T15:40:12Z",
+  "canonical_baseline": "6b92c32d59772aca3dec93d06336c062a8d67cba",
+  "runtime_candidate": "9cb1c81de9725152ad46c8928c1b0556f1251131",
+  "candidate_state": "BRANCH_AUDITED_RUNTIME_COMMIT",
+  "automated_checks": {
+    "clean_install": "PASS",
+    "source_tests_passed": 745,
+    "source_tests_failed": 0,
+    "frozen_eval_tests_passed": 25,
+    "frozen_eval_tests_failed": 0,
+    "responsive_accessibility_checks_passed": 34,
+    "responsive_accessibility_checks_skipped": 2,
+    "exact_candidate_authenticated_golden_journey_passed": 1,
+    "runtime_parent_golden_stress_repetitions_passed": 3,
+    "exact_candidate_browser_checks_passed": 35,
+    "exact_candidate_browser_checks_skipped": 2,
+    "local_authenticated_golden_journey": "PASS_MOCKED_EXTERNAL_SERVICES",
+    "production_build": "PASS",
+    "build_modules": 2768,
+    "dependency_audit": {
+      "all_dependencies_known_vulnerabilities": 0,
+      "production_known_vulnerabilities": 0
+    },
+    "bundle_performance": {
+      "initial_javascript_gzip_bytes": 237637,
+      "initial_css_gzip_bytes": 33424,
+      "largest_javascript_gzip_bytes": 232813,
+      "total_javascript_gzip_bytes": 969955,
+      "violations": 0
+    },
+    "audited_deliverable_records": 64,
+    "minimum_requested_checks": 64,
+    "minimum_exceeded": true
+  },
+  "completion_ledger": {
+    "verified_local_or_synthetic_boundary": 42,
+    "partial_external": 17,
+    "blocked_external": 5,
+    "path": "evidence/EXECUTION_BUNDLE_COMPLETION_AUDIT.json"
+  },
+  "stages": {
+    "01": "PASS",
+    "02": "PASS",
+    "03": "PARTIAL_EXTERNAL",
+    "04": "PASS_LOCAL",
+    "05": "PASS",
+    "06": "PASS_SYNTHETIC_BOUNDARY",
+    "07": "PARTIAL_EXTERNAL",
+    "08": "PASS_LOCAL",
+    "09": "PARTIAL_EXTERNAL",
+    "10": "PARTIAL_EXTERNAL",
+    "11": "BLOCKED_EXTERNAL",
+    "12": "PASS_HANDOFF"
+  },
+  "production": {
+    "url": "https://www.vertexed.app",
+    "checked_at": "2026-09-02T15:32:10Z",
+    "health_http": 200,
+    "readiness_query_http": 200,
+    "revision_attested": false,
+    "readiness_contract_present": false,
+    "deployed_verified": false
+  },
+  "deployment_access": {
+    "vercel_cli_authenticated": true,
+    "identity": "build-the-future-11",
+    "accessible_teams": 1,
+    "vertexed_projects": 0,
+    "accessible_domains": 0,
+    "canonical_domain_access": "DENIED",
+    "local_project_link": false,
+    "in_app_browser_session": false,
+    "connected_chrome_profile": false,
+    "latest_main_github_run": 33641031556,
+    "connected_vercel_contexts": 2,
+    "connected_vercel_contexts_failed": 2,
+    "deployment_logs_accessible": false
+  },
+  "supabase_access": {
+    "authenticated": false,
+    "access_token_present": false,
+    "repository_project_link": false,
+    "live_advisor_role_restore": "BLOCKED_EXTERNAL"
+  },
+  "outcome_verified": false,
+  "next_action": "Grant access to the canonical Vercel project, deploy candidate 9cb1c81de9725152ad46c8928c1b0556f1251131 through the authorized path, then run exact-revision readiness and disposable two-account certification before the bounded learning-outcome pilot."
+}

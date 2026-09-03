@@ -200,12 +200,27 @@ export default function PaperMaker({ priorPapers = [] }) {
       }
 
       if (paperData && typeof paperData === "object") {
+        paperData = { ...paperData, generation: data?.generation ?? null };
         setPaper(paperData);
         setRaw(null);
+        if (data?.generation?.degraded) {
+          setSaveStatus("Deterministic fallback — verify against the current syllabus");
+          toast({
+            title: "Practice scaffold generated",
+            description: "The AI provider was unavailable. Questions contain no asserted factual answer key and require syllabus verification.",
+          });
+        }
         recordStudySession();
         recordLoopStep("practise");
         const title = paperData.title || `${boardApiLabel} ${subject} paper`;
-        saveStudyArtifact("paper", title, { paper: paperData, board: boardApiLabel, subject, grade }).then((r) => {
+        saveStudyArtifact("paper", title, {
+          paper: paperData,
+          board: boardApiLabel,
+          subject,
+          grade,
+          provenance: paperData.provenance ?? null,
+          generation: data?.generation ?? null,
+        }).then((r) => {
           if (r.ok) {
             setSaveStatus(r.localOnly ? "Saved on this device" : "Saved to your account");
             toast({
@@ -307,8 +322,8 @@ export default function PaperMaker({ priorPapers = [] }) {
           <Link to="/main" className="neu-button px-4 py-2 text-sm flex items-center gap-2">
             <ArrowLeft size={14} /> <span>Back to Main</span>
           </Link>
-          <div className="ml-auto text-sm opacity-70 flex items-center gap-2">
-            <Sparkles size={14} /> <span>Adaptive UI • Animated</span>
+          <div className="ml-auto text-sm text-muted-foreground flex items-center gap-2">
+            <Sparkles size={14} aria-hidden /> <span>Exam-aligned practice</span>
           </div>
         </div>
 
@@ -316,76 +331,96 @@ export default function PaperMaker({ priorPapers = [] }) {
           <NeumorphicCard className="p-6 min-h-[28rem]" title="Paper Configuration" info="Choose board, subject, grade, topics, and total marks. Add teacher notes or past-paper style hints if you have them.">
             <form className="grid gap-5" onSubmit={handleGenerate}>
               <div className="grid grid-cols-2 gap-4">
-                <motion.div whileHover={{ scale: 1.02 }} className="neu-input">
-                  <label className="sr-only">Board</label>
-                  <select className="neu-input-el" value={board} onChange={(e) => setBoard(e.target.value as ExamBoard)} aria-label="Board">
+                <div>
+                  <label htmlFor="paper-board" className="form-label">Board</label>
+                  <div className="neu-input">
+                  <select id="paper-board" className="neu-input-el" value={board} onChange={(e) => setBoard(e.target.value as ExamBoard)}>
                     {EXAM_BOARDS.map((b) => <option key={b} value={b}>{BOARD_CONFIGS[b].label}</option>)}
                   </select>
-                </motion.div>
+                  </div>
+                </div>
 
-                <motion.div whileHover={{ scale: 1.02 }} className="neu-input">
-                  <select className="neu-input-el" value={grade ?? ""} onChange={(e) => setGrade(Number(e.target.value))} aria-label="Grade">
+                <div>
+                  <label htmlFor="paper-grade" className="form-label">Grade</label>
+                  <div className="neu-input">
+                  <select id="paper-grade" className="neu-input-el" value={grade ?? ""} onChange={(e) => setGrade(Number(e.target.value))}>
                     <option value="">Select Grade</option>
                     {gradesForBoard.map(g => <option key={g} value={g}>{g}</option>)}
                   </select>
-                </motion.div>
+                  </div>
+                </div>
               </div>
 
-              <motion.div whileHover={{ scale: 1.01 }} className="neu-input">
-                <select className="neu-input-el" value={subject} onChange={(e) => setSubject(e.target.value)} aria-label="Subject" disabled={!grade}>
+              <div>
+                <label htmlFor="paper-subject" className="form-label">Subject</label>
+                <div className="neu-input">
+                <select id="paper-subject" className="neu-input-el" value={subject} onChange={(e) => setSubject(e.target.value)} disabled={!grade}>
                   <option value="">Select Subject</option>
                   {subjectsForBoard.map(s => <option key={s} value={s}>{s}</option>)}
                 </select>
-              </motion.div>
+                </div>
+              </div>
 
-              <motion.div whileHover={{ translateY: -2 }} className="neu-input">
-                <input className="neu-input-el" placeholder="Specific topics (comma separated)" value={topics} onChange={(e) => setTopics(e.target.value)} aria-label="Topics" />
-                <div className="mt-2 flex flex-wrap gap-2">{topicTags.map(t => <motion.span key={t} className="px-3 py-1 rounded-full text-xs bg-gray-100 border">{t}</motion.span>)}</div>
-              </motion.div>
-
-              <div className="grid grid-cols-2 gap-4">
-                {useCriteria ? (
-                  <motion.div whileHover={{ scale: 1.02 }} className="neu-input">
-                    <select className="neu-input-el" value={criteria} onChange={(e) => setCriteria(e.target.value)}>
-                      <option value="">Select Criteria / Component</option>
-                      {(criteriaOptions).map(c => <option key={c} value={c}>{c}</option>)}
-                    </select>
-                    <div className="text-xs text-muted-foreground mt-1">Criteria mode hides total marks and uses rubric weightings.</div>
-                  </motion.div>
-                ) : (
-                  <motion.div whileHover={{ scale: 1.02 }} className="neu-input">
-                    <input className="neu-input-el" type="number" min={32} max={100} value={marks ?? ""} onChange={(e) => setMarks(Number(e.target.value))} placeholder="Total marks (32-100)" />
-                  </motion.div>
-                )}
-                <motion.div whileHover={{ scale: 1.02 }} className="neu-input">
-                  <input className="neu-input-el" type="number" min={1} max={100} value={numQuestions} onChange={(e) => setNumQuestions(Number(e.target.value))} placeholder="Number of questions" />
-                </motion.div>
+              <div>
+                <label htmlFor="paper-topics" className="form-label">Topics</label>
+                <div className="neu-input">
+                  <input id="paper-topics" className="neu-input-el" placeholder="e.g. cell respiration, stoichiometry" value={topics} onChange={(e) => setTopics(e.target.value)} />
+                </div>
+                <div className="mt-2 flex flex-wrap gap-2">{topicTags.map(t => <span key={t} className="rounded-full border border-border bg-muted px-3 py-1 text-xs text-foreground">{t}</span>)}</div>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
-                <motion.div whileHover={{ scale: 1.01 }} className="neu-input">
-                  <select className="neu-input-el" value={format} onChange={(e) => setFormat(e.target.value)}>
+                {useCriteria ? (
+                  <div>
+                    <label htmlFor="paper-criteria" className="form-label">Criteria or component</label>
+                    <div className="neu-input">
+                    <select id="paper-criteria" className="neu-input-el" value={criteria} onChange={(e) => setCriteria(e.target.value)}>
+                      <option value="">Select Criteria / Component</option>
+                      {(criteriaOptions).map(c => <option key={c} value={c}>{c}</option>)}
+                    </select>
+                    </div>
+                    <div className="text-xs text-muted-foreground mt-1">Criteria mode hides total marks and uses rubric weightings.</div>
+                  </div>
+                ) : (
+                  <div>
+                    <label htmlFor="paper-marks" className="form-label">Total marks</label>
+                    <div className="neu-input"><input id="paper-marks" className="neu-input-el" type="number" min={32} max={100} value={marks ?? ""} onChange={(e) => setMarks(Number(e.target.value))} /></div>
+                  </div>
+                )}
+                <div>
+                  <label htmlFor="paper-question-count" className="form-label">Number of questions</label>
+                  <div className="neu-input"><input id="paper-question-count" className="neu-input-el" type="number" min={1} max={100} value={numQuestions} onChange={(e) => setNumQuestions(Number(e.target.value))} /></div>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label htmlFor="paper-format" className="form-label">Question format</label>
+                  <div className="neu-input">
+                  <select id="paper-format" className="neu-input-el" value={format} onChange={(e) => setFormat(e.target.value)}>
                     <option>Mixed Format</option>
                     <option>Short Answer Only</option>
                     <option>Structured Questions</option>
                     <option>Essay Format</option>
                   </select>
-                </motion.div>
+                  </div>
+                </div>
 
-                <motion.div whileHover={{ translateY: -2 }} className="neu-input p-4">
-                  <label className="block text-xs text-muted-foreground mb-2">Difficulty</label>
-                  <input aria-label="Difficulty" type="range" min={1} max={3} step={1} value={difficulty} onChange={(e) => setDifficulty(Number(e.target.value))} />
+                <div className="neu-input p-4">
+                  <label htmlFor="paper-difficulty" className="form-label">Difficulty</label>
+                  <input id="paper-difficulty" className="w-full" type="range" min={1} max={3} step={1} value={difficulty} onChange={(e) => setDifficulty(Number(e.target.value))} />
                   <div className="flex justify-between text-xs text-muted-foreground mt-1"><span>Easy</span><span>Medium</span><span>Hard</span></div>
-                </motion.div>
+                </div>
               </div>
 
-              <motion.div whileHover={{ scale: 1.01 }} className="neu-input">
-                <textarea className="neu-input-el h-20" value={anythingElse} onChange={(e) => setAnythingElse(e.target.value)} placeholder="Anything else? (teacher notes, style preferences, past paper references...)" />
-              </motion.div>
+              <div>
+                <label htmlFor="paper-notes" className="form-label">Additional instructions <span className="font-normal text-muted-foreground">(optional)</span></label>
+                <div className="neu-input"><textarea id="paper-notes" className="neu-input-el h-20" value={anythingElse} onChange={(e) => setAnythingElse(e.target.value)} placeholder="Teacher notes, style preferences, or past-paper references" /></div>
+              </div>
 
-              <motion.div whileHover={{ scale: 1.01 }} className="neu-input">
+              <div className="neu-input">
                 <label className="flex items-center gap-2 cursor-pointer text-sm">
-                  <ImagePlus /> <span>Attach images (diagrams) - optional</span>
+                  <ImagePlus aria-hidden /> <span>Attach diagrams <span className="text-muted-foreground">(optional)</span></span>
                   <input type="file" className="sr-only" accept="image/*" multiple onChange={handleFilesChange} />
                 </label>
                 <div className="mt-2 grid grid-cols-3 gap-2">
@@ -399,13 +434,13 @@ export default function PaperMaker({ priorPapers = [] }) {
                     );
                   })}
                 </div>
-              </motion.div>
+              </div>
 
-              {error && <div className="text-red-500 text-sm">{error}</div>}
+              {error && <div className="alert-error text-sm" role="alert">{error}</div>}
 
-              <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className={`neu-button py-4 text-lg font-medium flex items-center justify-center gap-3 ${formComplete ? "" : "opacity-50 cursor-not-allowed"}`} disabled={!formComplete || loading} type="submit">
-                <FileText size={16} /> {loading ? "Generating..." : "Generate Practice Paper"}
-              </motion.button>
+              <button className={`neu-button py-4 text-lg font-medium flex items-center justify-center gap-3 ${formComplete ? "" : "opacity-50 cursor-not-allowed"}`} disabled={!formComplete || loading} type="submit">
+                <FileText size={16} aria-hidden /> {loading ? "Generating…" : "Generate practice paper"}
+              </button>
             </form>
           </NeumorphicCard>
 
@@ -438,6 +473,12 @@ export default function PaperMaker({ priorPapers = [] }) {
                         <li>Difficulty: {paper.metadata.difficulty}</li>
                       </ul>
                     </div>
+
+                    {paper.generation?.degraded ? (
+                      <div className="rounded-xl border border-amber-400/40 bg-amber-500/10 p-3 text-sm text-amber-800 dark:text-amber-200" role="status">
+                        Deterministic fallback scaffold — the AI provider was unavailable. Verify every prompt and rubric note against the current syllabus before timed or graded use.
+                      </div>
+                    ) : null}
 
                     {paper.sections?.map((s) => (
                       <div key={s.id} className="surface-tile p-4">
@@ -502,4 +543,3 @@ export default function PaperMaker({ priorPapers = [] }) {
     </>
   );
 }
-

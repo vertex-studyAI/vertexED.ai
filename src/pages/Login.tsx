@@ -84,16 +84,16 @@ export default function Login() {
         <meta name="robots" content="noindex, nofollow" />
       </Helmet>
 
-      <PageSection className="relative min-h-[70vh] flex items-center justify-center px-4">
+      <PageSection className="relative min-h-[70vh] flex items-center justify-center px-4 py-12">
         <form
-          className="relative glass-panel w-full max-w-md p-8 md:p-10 animate-fade-in"
+          className="relative glass-panel w-full max-w-md p-8 md:p-10"
           onSubmit={handleSubmit}
         >
           <h1 className="text-3xl font-semibold mb-2 text-center text-foreground">
             Log in
           </h1>
           <p className="text-center mb-6 text-sm text-muted-foreground leading-relaxed">
-            Your planner tasks, saved mocks, and due flashcards are waiting on the dashboard.
+            Return to your planner, practice attempts, and review queue.
           </p>
 
           <div className="space-y-4">
@@ -124,29 +124,38 @@ export default function Login() {
               <span>Sign in with Google</span>
             </button>
             <p className="text-center text-xs text-muted-foreground leading-relaxed">
-              Google sign-in is for beta accounts that have already connected Google. New here? Use waitlist or invite signup below.
+              Use the Google account connected to your VertexED beta access.
             </p>
-            <div className="text-center text-xs opacity-60">or</div>
-            <div className="neu-input">
-              <input
-                aria-label="Email"
-                placeholder="Email"
-                className="neu-input-el"
-                autoComplete="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
+            <div className="flex items-center gap-3 text-xs text-muted-foreground" aria-hidden>
+              <span className="h-px flex-1 bg-border" /><span>or use email</span><span className="h-px flex-1 bg-border" />
             </div>
-            <div className="neu-input">
-              <input
-                aria-label="Password"
-                placeholder="Password"
-                type="password"
-                className="neu-input-el"
-                autoComplete="current-password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
+            <div>
+              <label htmlFor="login-email" className="form-label">Email address</label>
+              <div className="neu-input mt-1.5">
+                <input
+                  id="login-email"
+                  type="email"
+                  placeholder="you@example.com"
+                  className="neu-input-el"
+                  autoComplete="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </div>
+            </div>
+            <div>
+              <label htmlFor="login-password" className="form-label">Password</label>
+              <div className="neu-input mt-1.5">
+                <input
+                  id="login-password"
+                  placeholder="Enter your password"
+                  type="password"
+                  className="neu-input-el"
+                  autoComplete="current-password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </div>
             </div>
             <div className="flex justify-end">
               <button
@@ -169,7 +178,7 @@ export default function Login() {
                   Signing in…
                 </span>
               ) : (
-                "Continue"
+                "Log in"
               )}
             </button>
           </div>
@@ -187,9 +196,9 @@ export default function Login() {
           )}
 
           <p className="text-center mt-4 text-sm text-muted-foreground">
-            Don&apos;t have an account?{" "}
+            Need access?{" "}
             <Link to="/signup" className="sketch-underline text-foreground hover:text-primary">
-              Waitlist or invite signup
+              Join the beta or use an invite
             </Link>
           </p>
         </form>

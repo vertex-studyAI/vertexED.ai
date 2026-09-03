@@ -29,6 +29,7 @@ import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { useSearchParams } from "react-router";
 import { getCramDueCards } from "@/lib/srDeck";
 import { getAdaptiveTopicsForQuiz } from "@/lib/adaptiveLearning";
+import { resolveAdaptiveNoteTarget } from "@/lib/adaptiveNotes.mjs";
 import { getLearnerProfile } from "@/lib/learnerProfile";
 import { useAuth } from "@/contexts/AuthContext";
 import {
@@ -41,6 +42,8 @@ import {
 import { recordStudySession } from "@/lib/studyStats";
 import { recordLoopStep } from "@/lib/studyLoopTracker";
 import { saveStudyArtifact, consumeArtifactRestore } from "@/lib/userContent";
+import { getWeakestTopics, recordWeakness, type TopicHeat } from "@/lib/weaknessTracker";
+import { MEASURED_WEAKNESS_EVIDENCE } from "@/lib/weaknessEvidenceCore.mjs";
 import { toast } from "@/hooks/use-toast";
 import {
   FileText,
@@ -83,6 +86,8 @@ type QuizQuestion = {
   answer?: any;
   expected?: any;
   maxScore?: number;
+  objectiveIds?: string[];
+  provenance?: Record<string, unknown>;
 };
 
 type QuizResult = {
@@ -95,6 +100,11 @@ type QuizResult = {
   includes?: string;
   isCorrect?: boolean;
   type?: string;
+  scoreStatus?: "VERIFIED" | "PROVISIONAL";
+  confidence?: number;
+  humanReviewRequired?: boolean;
+  escalationReason?: string | null;
+  remediation?: string[];
 };
 
 const NOTE_FORMATS = [
@@ -169,6 +179,7 @@ export default function NotetakerQuiz(): React.JSX.Element {
   const cramStudy = searchParams.get("cram") === "1";
   const learner = getLearnerProfile(user);
   const [topic, setTopic] = useState("");
+  const [adaptiveTarget, setAdaptiveTarget] = useState<TopicHeat | null>(null);
   const [format, setFormat] = useState<(typeof NOTE_FORMATS)[number]>("Quick Notes");
   const [customFormatText, setCustomFormatText] = useState("");
   const [notes, setNotes] = useState("");
@@ -220,6 +231,21 @@ export default function NotetakerQuiz(): React.JSX.Element {
   const [mcqOptionCount, setMcqOptionCount] = useState<number>(4);
   const [recordingSeconds, setRecordingSeconds] = useState<number>(0);
   const recordingTimerRef = useRef<number | null>(null);
+  useEffect(() => {
+    const target = resolveAdaptiveNoteTarget(searchParams, getWeakestTopics(12));
+    if (!target) {
+      setAdaptiveTarget(null);
+      return;
+    }
+    setAdaptiveTarget(target);
+    setTopic(target.topic);
+    setAdditionalInfo((current) => current.trim() || [
+      `Adaptive revision for ${target.subject}.`,
+      `Recent verified attempts average ${Math.round(target.avgPercent)}% across ${target.attempts} attempt${target.attempts === 1 ? '' : 's'}.`,
+      'Re-teach the underlying idea, identify likely misconceptions, include one worked example, and finish with a short retrieval check.',
+    ].join(' '));
+  }, [searchParams]);
+
   const [targetMin, setTargetMin] = useState<number>(70);
   const [targetMax, setTargetMax] = useState<number>(90);
   const [showQuizPanel, setShowQuizPanel] = useState(true);
@@ -278,12 +304,16 @@ export default function NotetakerQuiz(): React.JSX.Element {
 
     try {
       analyserRef.current?.disconnect();
-    } catch {}
+    } catch {
+      // The analyser may already be detached during account changes or unmount.
+    }
     analyserRef.current = null;
 
     try {
       audioCtxRef.current?.close();
-    } catch {}
+    } catch {
+      // Closing an already-closed audio context is harmless during cleanup.
+    }
     audioCtxRef.current = null;
 
     if (mediaStreamRef.current) {
@@ -347,7 +377,9 @@ export default function NotetakerQuiz(): React.JSX.Element {
         ta.focus();
         const pos = start + text.length;
         ta.setSelectionRange(pos, pos);
-      } catch {}
+      } catch {
+        // Selection restoration is best-effort if the textarea unmounts.
+      }
     });
   };
 
@@ -442,6 +474,8 @@ export default function NotetakerQuiz(): React.JSX.Element {
     length: notesLength,
     flashCount,
     additionalInfo: additionalInfo.trim(),
+    board: learner.curriculum.board,
+    subjects: learner.curriculum.subjects,
   });
 
   const handleGenerateNotes = async () => {
@@ -477,10 +511,18 @@ export default function NotetakerQuiz(): React.JSX.Element {
       setFlashRevealed(false);
       pushNotesSnapshot(nextNotes);
       recordStudySession();
+      if (data?.generation?.degraded) {
+        toast({
+          title: "Offline scaffold generated",
+          description: "The AI provider was unavailable. Verify this source-bound scaffold against your syllabus before use.",
+        });
+      }
       void saveStudyArtifact("note", topic.trim(), {
         notes: nextNotes,
         format: displayFormatLabel,
         flashcards: data?.flashcards ?? [],
+        provenance: data?.provenance ?? null,
+        generation: data?.generation ?? null,
       }).then((r) => {
         if (r.ok) {
           toast({
@@ -572,6 +614,9 @@ export default function NotetakerQuiz(): React.JSX.Element {
           isCorrect,
           score: isCorrect ? (q.maxScore ?? 2) : 0,
           maxScore: q.maxScore ?? 2,
+          scoreStatus: "VERIFIED",
+          confidence: 1,
+          humanReviewRequired: false,
           type: q.type,
         };
       }
@@ -611,7 +656,7 @@ export default function NotetakerQuiz(): React.JSX.Element {
       const gradeData = await gradeRes.json();
       const grades = Array.isArray(gradeData?.grades) ? gradeData.grades : [];
 
-      const merged = localResults.map((r) => {
+      const merged: QuizResult[] = localResults.map((r): QuizResult => {
         const g = grades.find((x: any) => x.id === r.id);
         if (!g) return r;
         const maxScore = g.maxScore ?? g.max_points ?? r.maxScore ?? 2;
@@ -622,15 +667,49 @@ export default function NotetakerQuiz(): React.JSX.Element {
           maxScore,
           feedback: g.feedback,
           includes: g.includes || g.whatIncluded || "",
-          isCorrect: score >= Math.max(0.1, (gradingLeniency / 5) * maxScore * 0.5),
+          scoreStatus: g.scoreStatus === "VERIFIED" ? "VERIFIED" : "PROVISIONAL",
+          confidence: typeof g.confidence === "number" ? g.confidence : 0,
+          humanReviewRequired: g.humanReviewRequired !== false,
+          escalationReason: g.escalationReason ?? null,
+          remediation: Array.isArray(g.remediation) ? g.remediation : [],
+          isCorrect: g.humanReviewRequired === false
+            ? score >= Math.max(0.1, (gradingLeniency / 5) * maxScore * 0.5)
+            : undefined,
         };
       });
 
       setQuizResults(merged);
       setQuizSubmitted(true);
-      const totalScore = merged.reduce((sum, r) => sum + (Number(r.score) || 0), 0);
-      const totalMax = merged.reduce((sum, r) => sum + (Number(r.maxScore) || 0), 0);
+      const verified = merged.filter((result) => result.scoreStatus === "VERIFIED");
+      const totalScore = verified.reduce((sum, r) => sum + (Number(r.score) || 0), 0);
+      const totalMax = verified.reduce((sum, r) => sum + (Number(r.maxScore) || 0), 0);
       if (totalMax > 0) setQuizHistory((h) => [...h, Math.round((totalScore / totalMax) * 100)]);
+
+      for (const result of verified) {
+        const sourceQuestion = generatedQuestions.find((question) => question.id === result.id);
+        recordWeakness({
+          topic: sourceQuestion?.objectiveIds?.[0] || sourceQuestion?.prompt || sourceQuestion?.question || String(result.id),
+          subject: learner.curriculum.subjects[0] || "General",
+          board: learner.curriculum.board || undefined,
+          score: Number(result.score) || 0,
+          maxScore: Number(result.maxScore) || 1,
+          source: "quiz",
+          evidence: MEASURED_WEAKNESS_EVIDENCE,
+        });
+      }
+
+      void saveStudyArtifact("review", `Quiz review — ${topic.trim() || "study notes"}`, {
+        contractVersion: gradeData?.contractVersion || "vertexed.grading.v1",
+        questions: generatedQuestions,
+        results: merged,
+        coverage: Array.isArray(gradeData?.coverage) ? gradeData.coverage : [],
+        degraded: gradeData?.degraded === true,
+        provenance: {
+          board: learner.curriculum.board,
+          subjects: learner.curriculum.subjects,
+          recordedAt: new Date().toISOString(),
+        },
+      });
     } catch (err) {
       console.error("Grading failed:", err);
       alert("Failed to grade FRQ. Try again.");
@@ -699,6 +778,8 @@ export default function NotetakerQuiz(): React.JSX.Element {
     if (!srDeck.length) return;
     const id = window.setTimeout(() => startStudyMode(cramStudy), 400);
     return () => window.clearTimeout(id);
+    // startStudyMode intentionally reads the latest deck; rerun is keyed by deck length.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams, srDeck.length, cramStudy]);
 
   const rateStudyCard = (rating: SrRating) => {
@@ -862,7 +943,9 @@ export default function NotetakerQuiz(): React.JSX.Element {
           if (next >= MAX_RECORDED_SECONDS) {
             try {
               mediaRecorderRef.current?.stop();
-            } catch {}
+            } catch {
+              // The recorder can already be inactive at the duration boundary.
+            }
             alert("Maximum recording time reached (1 hour). Recording stopped automatically.");
             return MAX_RECORDED_SECONDS;
           }
@@ -878,7 +961,9 @@ export default function NotetakerQuiz(): React.JSX.Element {
   const stopRecording = () => {
     try {
       mediaRecorderRef.current?.stop();
-    } catch {}
+    } catch {
+      // Stopping an already-inactive recorder is a no-op for this cleanup path.
+    }
     setRecording(false);
 
     if (animationRef.current) {
@@ -888,7 +973,9 @@ export default function NotetakerQuiz(): React.JSX.Element {
 
     try {
       audioCtxRef.current?.suspend();
-    } catch {}
+    } catch {
+      // Suspending a closed context is harmless during cleanup.
+    }
 
     if (recordingTimerRef.current) {
       window.clearInterval(recordingTimerRef.current);
@@ -925,6 +1012,8 @@ export default function NotetakerQuiz(): React.JSX.Element {
           source: "notes",
           text: notes,
           flashCount: count,
+          board: learner.curriculum.board,
+          subjects: learner.curriculum.subjects,
         }),
       });
 
@@ -935,7 +1024,9 @@ export default function NotetakerQuiz(): React.JSX.Element {
       setFlashcards(data.flashcards.slice(0, count));
       setCurrentFlashIndex(0);
       pushNotesSnapshot(notes);
-      alert("Flashcards generated successfully.");
+      alert(data?.generation?.degraded
+        ? "Source-bound fallback flashcards generated. Verify them before use."
+        : "Flashcards generated successfully.");
     } catch (err) {
       console.error("sendNotesToCards error:", err);
       alert("Failed to generate flashcards.");
@@ -948,8 +1039,9 @@ export default function NotetakerQuiz(): React.JSX.Element {
 
   const accuracy = useMemo(() => {
     if (!quizSubmitted || !quizResults?.length) return null;
-    const totalScore = quizResults.reduce((sum, r) => sum + (Number(r.score) || 0), 0);
-    const totalMax = quizResults.reduce((sum, r) => sum + (Number(r.maxScore) || 0), 0);
+    const verified = quizResults.filter((result) => result.scoreStatus !== "PROVISIONAL");
+    const totalScore = verified.reduce((sum, r) => sum + (Number(r.score) || 0), 0);
+    const totalMax = verified.reduce((sum, r) => sum + (Number(r.maxScore) || 0), 0);
     return totalMax > 0 ? Math.round((totalScore / totalMax) * 100) : null;
   }, [quizSubmitted, quizResults]);
 
@@ -1030,7 +1122,7 @@ export default function NotetakerQuiz(): React.JSX.Element {
 
       <PageSection>
         <div className="mb-6 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-          <Link to="/main" className="neu-button inline-flex items-center gap-2 px-4 py-2 text-sm transition-transform hover:scale-105">
+          <Link to="/main" className="neu-button inline-flex items-center gap-2 px-4 py-2 text-sm">
             <ArrowLeft size={16} />
             <span>Back to Main</span>
           </Link>
@@ -1050,6 +1142,19 @@ export default function NotetakerQuiz(): React.JSX.Element {
           className="space-y-8 font-sans"
         >
           <NeumorphicCard className="p-6">
+            {adaptiveTarget && (
+              <div className="mb-5 rounded-2xl border border-amber-500/30 bg-amber-500/10 p-4" role="status">
+                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-amber-700 dark:text-amber-300">
+                  Based on your verified quiz results
+                </p>
+                <p className="mt-1 text-sm font-medium text-foreground">
+                  Rebuild {adaptiveTarget.topic} before practising it again.
+                </p>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  Your measured record for {adaptiveTarget.subject} averages {Math.round(adaptiveTarget.avgPercent)}% across {adaptiveTarget.attempts} attempt{adaptiveTarget.attempts === 1 ? "" : "s"}. The brief below asks for a re-teach, likely misconceptions, a worked example, and a retrieval check.
+                </p>
+              </div>
+            )}
             <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
               <div>
                 <h2 className="mb-2 flex items-center gap-2 text-xl font-medium">
@@ -1075,12 +1180,17 @@ export default function NotetakerQuiz(): React.JSX.Element {
             </div>
 
             <div className="mt-5 grid gap-4 md:grid-cols-3 items-end">
-              <div className="neu-input">
-                <input className="neu-input-el h-11" placeholder="e.g. IB Biology — photosynthesis, or paste after generating" value={topic} onChange={(e) => setTopic(e.target.value)} />
+              <div>
+                <label htmlFor="notes-topic" className="mb-2 block text-sm font-medium text-foreground">Topic or source material</label>
+                <div className="neu-input">
+                  <input id="notes-topic" className="neu-input-el h-11" placeholder="e.g. IB Biology — photosynthesis" value={topic} onChange={(e) => setTopic(e.target.value)} />
+                </div>
               </div>
 
-              <div className="neu-input">
-                <select className="neu-input-el h-11" value={format} onChange={(e) => setFormat(e.target.value as any)}>
+              <div>
+                <label htmlFor="notes-format" className="mb-2 block text-sm font-medium text-foreground">Note structure</label>
+                <div className="neu-input">
+                <select id="notes-format" className="neu-input-el h-11" value={format} onChange={(e) => setFormat(e.target.value as (typeof NOTE_FORMATS)[number])}>
                   {NOTE_FORMATS.map((opt) => (
                     <option key={opt} value={opt}>
                       {opt}
@@ -1090,21 +1200,27 @@ export default function NotetakerQuiz(): React.JSX.Element {
 
                 {format === "Custom" && (
                   <div className="mt-2">
-                    <input className="neu-input-el h-10 text-sm" placeholder="Describe custom format (max 64 chars)" maxLength={64} value={customFormatText} onChange={(e) => setCustomFormatText(e.target.value)} />
+                    <label htmlFor="custom-note-format" className="sr-only">Custom note structure</label>
+                    <input id="custom-note-format" className="neu-input-el h-10 text-sm" placeholder="Describe the structure" maxLength={64} value={customFormatText} onChange={(e) => setCustomFormatText(e.target.value)} />
                     <div className="mt-1 text-xs text-muted-foreground">{customFormatText.length}/64</div>
                   </div>
                 )}
+                </div>
               </div>
 
-              <div className="neu-input">
+              <div>
+                <span className="mb-2 block text-sm font-medium text-foreground">Output settings</span>
+                <div className="neu-input">
                 <div className="flex gap-2 items-center">
-                  <select className="neu-input-el h-11" value={notesLength} onChange={(e) => setNotesLength(e.target.value as any)}>
+                  <label htmlFor="notes-length" className="sr-only">Note length</label>
+                  <select id="notes-length" className="neu-input-el h-11" value={notesLength} onChange={(e) => setNotesLength(e.target.value as "short" | "medium" | "long")}>
                     <option value="short">Short notes</option>
                     <option value="medium">Medium notes</option>
                     <option value="long">Long notes</option>
                   </select>
 
-                  <select className="neu-input-el h-11" value={flashCount} onChange={(e) => setFlashCount(Number(e.target.value))}>
+                  <label htmlFor="flashcard-count" className="sr-only">Number of flashcards</label>
+                  <select id="flashcard-count" className="neu-input-el h-11" value={flashCount} onChange={(e) => setFlashCount(Number(e.target.value))}>
                     {Array.from({ length: 13 }, (_, i) => 4 + i).map((v) => (
                       <option key={v} value={v}>
                         {v} flashcards
@@ -1112,19 +1228,20 @@ export default function NotetakerQuiz(): React.JSX.Element {
                     ))}
                   </select>
                 </div>
-                <div className="mt-2 text-xs text-muted-foreground">Output length depends on the topic — we'll do our best.</div>
+                <div className="mt-2 text-xs text-muted-foreground">Longer outputs take more time and still need checking against your course materials.</div>
+                </div>
               </div>
             </div>
 
             <div className="mt-3 flex flex-wrap gap-3">
               <button className="neu-button inline-flex items-center gap-2 px-4 py-2" onClick={handleGenerateNotes} disabled={loading}>
                 <Wand2 size={16} />
-                <span>{loading ? "Generating..." : "Generate Notes"}</span>
+                <span>{loading ? "Building notes…" : adaptiveTarget ? "Build adaptive notes" : "Build notes"}</span>
               </button>
 
               <button className="neu-button inline-flex items-center gap-2 px-4 py-2" onClick={handleGenerateQuiz} disabled={loading || !notes.trim()}>
                 <Sparkles size={16} />
-                <span>{loading ? "..." : "Generate Quiz"}</span>
+                <span>{loading ? "Working…" : "Create quiz from notes"}</span>
               </button>
 
               <button className="neu-button px-4 py-2" onClick={undoNotes} disabled={historyIndex <= 0}>
@@ -1146,8 +1263,8 @@ export default function NotetakerQuiz(): React.JSX.Element {
             </div>
 
             <div className="mt-4">
-              <label className="mb-2 block text-sm font-medium">Additional Information (optional)</label>
-              <textarea className="neu-input-el mt-2 w-full min-h-20" placeholder="Board, command words, equations to include, or topics to emphasise (optional)" value={additionalInfo} onChange={(e) => setAdditionalInfo(e.target.value)} />
+              <label htmlFor="notes-brief" className="mb-2 block text-sm font-medium">What should these notes emphasise? <span className="font-normal text-muted-foreground">Optional</span></label>
+              <textarea id="notes-brief" className="neu-input-el mt-2 w-full min-h-20" placeholder="Add command words, equations, misconceptions, or syllabus constraints" value={additionalInfo} onChange={(e) => setAdditionalInfo(e.target.value)} />
             </div>
           </NeumorphicCard>
 
@@ -1629,11 +1746,17 @@ export default function NotetakerQuiz(): React.JSX.Element {
                               <div className="mt-3 space-y-1 text-sm">
                                 {typeof res.score !== "undefined" && (
                                   <div>
-                                    Score: <strong>{res.score}/{res.maxScore}</strong>
+                                    {res.scoreStatus === "PROVISIONAL" ? "Provisional score guidance" : "Score"}: <strong>{res.score}/{res.maxScore}</strong>
+                                  </div>
+                                )}
+                                {res.humanReviewRequired && (
+                                  <div className="text-xs text-amber-700 dark:text-amber-300" role="status">
+                                    Human review recommended{res.escalationReason ? ` — ${res.escalationReason}` : "."}
                                   </div>
                                 )}
                                 {res.feedback && <div className="text-xs text-muted-foreground">Feedback: {res.feedback}</div>}
                                 {res.includes && <div className="text-xs text-muted-foreground">Includes: {res.includes}</div>}
+                                {res.remediation?.length ? <div className="text-xs text-muted-foreground">Next practice: {res.remediation.join(", ")}</div> : null}
                               </div>
                             )}
                           </div>

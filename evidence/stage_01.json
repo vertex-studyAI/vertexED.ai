@@ -1,0 +1,53 @@
+{
+  "stage": 1,
+  "checked_at": "2026-09-01T16:57:06Z",
+  "gate": "PASS",
+  "canonical_repository": "vertex-studyAI/vertexED.ai",
+  "canonical_revision": "eb72c18897773edd42cb81188a0d7938b554c99f",
+  "source_gate": {
+    "state": "GREEN",
+    "local_ci": "PASS",
+    "unit_integration": { "passed": 661, "failed": 0 },
+    "frozen_evals": { "passed": 20, "failed": 0 },
+    "production_browser": { "passed": 52, "failed": 0 },
+    "github_run": 33517831023
+  },
+  "production": {
+    "state": "RED",
+    "monitor_run": 33522521960,
+    "artifact_id": 9806296610,
+    "artifact_sha256": "b45ad4292d5731ee5b8acb67e4807f651672abcea28200fca3d92e7bb8437f5e",
+    "expected_deploy_revision": "70a7a6c5d2e1fa73e1d57c6a13871d27478568e3",
+    "observed_failures": [
+      "live health revision missing",
+      "live readiness status missing",
+      "HEAD X-VertexED-Health missing",
+      "both exact-main Vercel deployments failed"
+    ],
+    "vercel_deployments": [
+      {
+        "scope": "ryan-gomezs-projects-5a5ab995",
+        "project": "vertex-ed-ai",
+        "deployment": "dpl_2gq9Lu5StKBpfvsQgSJiDNv4r2U9",
+        "access": "BLOCKED"
+      },
+      {
+        "scope": "pratyush-vel-shankars-projects",
+        "project": "vertex-ai",
+        "deployment": "dpl_5ezcsyZ3XcDWPi9m229L6m5bwvjd",
+        "access": "BLOCKED"
+      }
+    ]
+  },
+  "truth_matrix": {
+    "ci_source": "GREEN",
+    "auth": "YELLOW",
+    "data_security": "YELLOW",
+    "ai": "YELLOW",
+    "public_ui": "GREEN",
+    "deployment_identity_readiness": "RED"
+  },
+  "claim_boundary": ["IMPLEMENTED", "SMOKE_TESTED"],
+  "not_proven": ["DEPLOYED_VERIFIED", "OUTCOME_VERIFIED"],
+  "next_action": "Grant access to the canonical Vercel project owning www.vertexed.app, retain the first causal failure from the listed exact-main deployment, then perform one intentional immutable deployment and certify revision/readiness before the authenticated golden journey."
+}

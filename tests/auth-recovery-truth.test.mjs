@@ -34,6 +34,8 @@ test('protected routes distinguish pending, rejected, and unavailable access tru
   assert.match(source, /Your access status was not changed/);
   assert.match(source, /setRetryAttempt\(\(attempt\) => attempt \+ 1\)/);
   assert.match(source, /role="alert"/);
+  assert.match(source, /location\.pathname === "\/connect-google" \|\| location\.pathname === "\/onboarding"/);
+  assert.match(source, /!isOnboardingComplete\(user\) && !isPreOnboardingRoute/);
   assert.doesNotMatch(source, /\.catch\(\(\) => active && setAccess\("pending"\)\)/);
 });
 
@@ -51,4 +53,11 @@ test('resolved auth state cancels delayed loading fallback', async () => {
   assert.ok(firstClearAfterSession > sessionResolution && firstClearAfterSession < authEvent);
   assert.ok(firstClearAfterEvent > authEvent);
   assert.match(source, /return \(\) => \{[\s\S]*clearLoadingSafetyTimer\(\);[\s\S]*sub\.subscription\.unsubscribe\(\)/);
+});
+
+test('signup username constraint remains valid under the HTML pattern v-mode grammar', async () => {
+  const source = await readSource('src/pages/Signup.tsx');
+
+  assert.match(source, /pattern="\(\?:\[a-zA-Z0-9_\.\]\|-\)\{3,20\}"/);
+  assert.doesNotMatch(source, /pattern="\[[^"]*-\][^"]*"/);
 });

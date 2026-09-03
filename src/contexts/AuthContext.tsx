@@ -1,6 +1,7 @@
-import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, PropsWithChildren } from "react";
+import { createContext, useCallback, useContext, useEffect, useRef, useState, PropsWithChildren } from "react";
 import type { Session, User } from "@supabase/supabase-js";
 import { trackLogout } from "@/lib/accountLifecycleAnalytics.mjs";
+import { setAuthAccessToken } from "@/lib/apiAuth";
 import { setPlannerStorageScope } from "@/lib/plannerStorageScope.mjs";
 import { buildMissingProfileInsert, buildProfileUpdate } from "@/lib/profileRecovery.mjs";
 import { supabase } from "@/lib/supabaseClient";
@@ -41,7 +42,7 @@ function setSensitiveStorageScopes(scope?: string | null) {
   setPlannerStorageScope(scope);
 }
 
-export function AuthProvider({ children }: PropsWithChildren<{}>) {
+export function AuthProvider({ children }: PropsWithChildren) {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
@@ -73,12 +74,14 @@ export function AuthProvider({ children }: PropsWithChildren<{}>) {
     // in isolated "unhydrated" storage scopes.
     bindProfileIdentity(undefined);
     setSensitiveStorageScopes(undefined);
+    setAuthAccessToken(null);
 
     const init = async () => {
       if (!supabase) {
         // Graceful fallback when env vars are missing; treat as signed-out.
         bindProfileIdentity(null);
         setSensitiveStorageScopes(null);
+        setAuthAccessToken(null);
         setSession(null);
         setUser(null);
         setProfile(null);
@@ -86,7 +89,6 @@ export function AuthProvider({ children }: PropsWithChildren<{}>) {
         return;
       }
       // Safety: ensure we don't stay in loading forever due to a flaky network
-      // @ts-ignore - window.setTimeout typing differences
       loadingSafetyTimer = window.setTimeout(() => {
         if (isMounted) setLoading(false);
       }, 4000);
@@ -100,6 +102,7 @@ export function AuthProvider({ children }: PropsWithChildren<{}>) {
       const nextUser = data.session?.user ?? null;
       bindProfileIdentity(nextUser?.id ?? null);
       setSensitiveStorageScopes(nextUser?.id ?? null);
+      setAuthAccessToken(data.session?.access_token);
       setSession(data.session ?? null);
       setUser(nextUser);
       // Don't block app on profile fetch; fire and forget
@@ -118,6 +121,7 @@ export function AuthProvider({ children }: PropsWithChildren<{}>) {
       // Change profile/storage ownership before React descendants can act on the new session.
       bindProfileIdentity(nextUser?.id ?? null);
       setSensitiveStorageScopes(nextUser?.id ?? null);
+      setAuthAccessToken(newSession?.access_token);
       setSession(newSession);
       setUser(nextUser);
       if (nextUser) {
@@ -147,9 +151,16 @@ export function AuthProvider({ children }: PropsWithChildren<{}>) {
     if (error) throw error;
     bindProfileIdentity(data.user?.id ?? null);
     setSensitiveStorageScopes(data.user?.id ?? null);
+    setAuthAccessToken(data.session?.access_token);
     setSession(data.session);
     setUser(data.user);
-    if (data.user) await postAuthUpsertProfile(data.user);
+    if (data.user) {
+      // Authentication is already complete. Profile repair is best-effort and must
+      // never hold navigation hostage to a slow or unavailable profile backend.
+      void postAuthUpsertProfile(data.user).catch((profileError) => {
+        console.error("post-login profile recovery error:", profileError);
+      });
+    }
   };
 
   /** Sign in with Google (OAuth). */
@@ -185,6 +196,7 @@ export function AuthProvider({ children }: PropsWithChildren<{}>) {
     if (!supabase) {
       bindProfileIdentity(null);
       setSensitiveStorageScopes(null);
+      setAuthAccessToken(null);
       setSession(null);
       setUser(null);
       setProfile(null);
@@ -200,6 +212,7 @@ export function AuthProvider({ children }: PropsWithChildren<{}>) {
 
     bindProfileIdentity(null);
     setSensitiveStorageScopes(null);
+    setAuthAccessToken(null);
     setSession(null);
     setUser(null);
     setProfile(null);
@@ -265,20 +278,17 @@ export function AuthProvider({ children }: PropsWithChildren<{}>) {
     await refreshProfile(u.id, u.email);
   };
 
-  const value = useMemo<AuthContextType>(
-    () => ({
-      user,
-      session,
-      isAuthenticated: !!user,
-      loading,
-      profile,
-      login,
-      loginWithGoogle,
-      signUp,
-      logout,
-    }),
-    [user, session, loading, profile]
-  );
+  const value: AuthContextType = {
+    user,
+    session,
+    isAuthenticated: !!user,
+    loading,
+    profile,
+    login,
+    loginWithGoogle,
+    signUp,
+    logout,
+  };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

@@ -3,7 +3,6 @@ import { Link } from "react-router";
 import { Clock, X, BookOpen } from "lucide-react";
 import AccessibleModal from "@/components/AccessibleModal";
 import { buildReviewHandoffFromPaper, mockExamAnswersStorageKey, saveMockReviewHandoff } from "@/lib/examFlow";
-import { recordWeakness } from "@/lib/weaknessTracker";
 import type { ExamBoard } from "@/types/curriculum";
 
 type Question = {
@@ -100,8 +99,11 @@ export default function MockExamMode({ paper, onClose, board, subject, grade, cr
   }, [submitted]);
 
   useEffect(() => {
-    if (!submitted && secondsLeft === 0 && timerStartedRef.current) setSubmitted(true);
-  }, [secondsLeft, submitted]);
+    if (!submitted && secondsLeft === 0 && timerStartedRef.current) {
+      saveExamHandoff(paper, questions, answers, board, subject, grade ?? null);
+      setSubmitted(true);
+    }
+  }, [answers, board, grade, paper, questions, secondsLeft, subject, submitted]);
 
   const current = questions[index];
   const currentId = current?.id ?? String(index);
@@ -110,16 +112,7 @@ export default function MockExamMode({ paper, onClose, board, subject, grade, cr
 
   const handleComplete = () => {
     saveExamHandoff(paper, questions, answers, board, subject, grade ?? null);
-    const answered = Object.values(answers).filter((a) => a.trim()).length;
-    const completionRate = questions.length > 0 ? answered / questions.length : 0;
-    recordWeakness({
-      topic: paper.title || "Mock exam",
-      subject: subject ?? paper.metadata?.subject ?? "General",
-      board: paper.metadata?.board,
-      score: Math.round(completionRate * totalMarks * 0.7),
-      maxScore: totalMarks,
-      source: "mock",
-    });
+    setSubmitted(true);
   };
 
   if (!questions.length) {
@@ -168,7 +161,8 @@ export default function MockExamMode({ paper, onClose, board, subject, grade, cr
           {cramMode ? "Cram session complete" : "Exam complete"}
         </h2>
         <p id="mock-exam-description" className="mb-4 text-muted-foreground">
-          You answered {answered} of {questions.length} questions in {durationMinutes} minutes.
+          You submitted {answered} of {questions.length} questions. No score has been estimated;
+          review the responses against the available criteria before they affect your progress.
         </p>
 
         {paper.rubricNotes && paper.rubricNotes.length > 0 && (
@@ -200,9 +194,8 @@ export default function MockExamMode({ paper, onClose, board, subject, grade, cr
           <Link
             to="/answer-reviewer"
             className="neu-button px-4 py-2 text-sm"
-            onClick={handleComplete}
           >
-            Review with rubric →
+            Review submitted answers →
           </Link>
           <button type="button" className="neu-button px-4 py-2 text-sm" onClick={onClose}>
             Back to paper
@@ -313,7 +306,7 @@ export default function MockExamMode({ paper, onClose, board, subject, grade, cr
           <button
             type="button"
             className="neu-button border-primary/25 bg-primary/15 px-4 py-2 text-sm"
-            onClick={() => setSubmitted(true)}
+            onClick={handleComplete}
           >
             Submit exam
           </button>

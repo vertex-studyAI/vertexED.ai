@@ -20,8 +20,8 @@ test('user-content reads are scoped to the verified auth user', () => {
   );
 });
 
-test('user-content inserts derive ownership from the verified auth user', () => {
-  assert.match(source, /\.insert\(\{[\s\S]*?user_id:\s*user\.id,[\s\S]*?kind,/);
+test('user-content creates derive ownership and idempotency from verified request state', () => {
+  assert.match(source, /createStudyArtifact\(supabase, \{[\s\S]*?userId:\s*user\.id,[\s\S]*?idempotencyKey,/);
   assert.doesNotMatch(source, /user_id:\s*body(?:\.|\[)/);
 });
 
@@ -40,7 +40,7 @@ test('user-content deletes require both artifact id and verified user ownership'
   );
 });
 
-test('planner replacement delegates to the non-destructive owner-scoped helper', () => {
+test('planner and notebook replacement delegate to the non-destructive owner-scoped helper', () => {
   const postStart = source.indexOf("if (req.method === 'POST')");
   const putStart = source.indexOf("if (req.method === 'PUT'", postStart);
   const postBranch = source.slice(postStart, putStart);
@@ -48,7 +48,7 @@ test('planner replacement delegates to the non-destructive owner-scoped helper',
   assert.ok(postStart >= 0 && putStart > postStart, 'POST branch must be present');
   assert.match(
     postBranch,
-    /kind === 'planner' && body\?\.replace === true[\s\S]*?replacePlannerArtifact\(supabase, \{[\s\S]*?userId:\s*user\.id/,
+    /\(kind === 'planner' \|\| kind === 'notebook'\) && body\?\.replace === true[\s\S]*?replaceSingletonArtifact\(supabase, \{[\s\S]*?userId:\s*user\.id,[\s\S]*?kind,/,
   );
   assert.doesNotMatch(postBranch, /\.delete\(\)/, 'planner replacement must not delete the prior snapshot before the replacement write succeeds');
 });

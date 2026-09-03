@@ -2,16 +2,15 @@
  * Optional error monitoring — no-ops when VITE_SENTRY_DSN is unset.
  */
 export function initMonitoring(): void {
-  const dsn = import.meta.env.VITE_SENTRY_DSN;
-  if (!dsn || typeof window === 'undefined') return;
+  if (typeof window === 'undefined') return;
 
   window.addEventListener('error', (event) => {
-    reportClientError(event.error ?? event.message, { source: 'window.error' });
+    reportClientError(event.error ?? event.message, { source: 'client_error' });
   });
 
   window.addEventListener('unhandledrejection', (event) => {
     const reason = event.reason instanceof Error ? event.reason.message : String(event.reason ?? 'unknown');
-    reportClientError(reason, { source: 'unhandledrejection' });
+    reportClientError(reason, { source: 'unhandled_rejection' });
   });
 }
 
@@ -19,24 +18,31 @@ export function reportClientError(
   error: unknown,
   context?: Record<string, unknown>,
 ): void {
-  const dsn = import.meta.env.VITE_SENTRY_DSN;
-  const message = error instanceof Error ? error.message : String(error);
-  const payload = { message, context, ts: new Date().toISOString() };
+  const errorClass = error instanceof Error ? error.name : typeof error;
+  const event = context?.source === 'unhandled_rejection' ? 'unhandled_rejection' : 'client_error';
+  const payload = {
+    event,
+    errorClass: String(errorClass || 'unknown').toLowerCase().replace(/[^a-z0-9_.-]/g, '_').slice(0, 80),
+    route: typeof window === 'undefined' ? 'unknown' : window.location.pathname,
+    capability: 'web',
+    outcome: 'failed',
+  };
 
-  if (!dsn) {
-    if (import.meta.env.DEV) {
-      console.warn('[monitoring]', payload);
-    }
-    return;
-  }
-
-  // Lightweight beacon — swap for @sentry/react when DSN is configured in production.
+  // The server accepts only a fixed, privacy-safe telemetry schema. Never send
+  // the error message, stack, prompt, answer, identity, or route query string.
   try {
-    const body = JSON.stringify({ ...payload, dsn: '[redacted]' });
+    const body = JSON.stringify(payload);
     if (navigator.sendBeacon) {
-      navigator.sendBeacon('/api/health', body);
+      navigator.sendBeacon('/api/telemetry', new Blob([body], { type: 'application/json' }));
+    } else {
+      void fetch('/api/telemetry', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body,
+        keepalive: true,
+      }).catch(() => undefined);
     }
   } catch (err) {
-    console.error('monitoring report failed', err);
+    if (import.meta.env.DEV) console.warn('monitoring report failed', err);
   }
 }

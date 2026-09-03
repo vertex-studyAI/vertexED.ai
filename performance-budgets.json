@@ -1,0 +1,9 @@
+{
+  "version": 1,
+  "budgets": {
+    "initialJavaScriptGzipBytes": 275000,
+    "initialCssGzipBytes": 45000,
+    "largestJavaScriptGzipBytes": 240000,
+    "totalJavaScriptGzipBytes": 1000000
+  }
+}

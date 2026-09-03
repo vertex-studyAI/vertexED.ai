@@ -18,11 +18,6 @@ import {
   SUPPORTED_BOARDS,
 } from "@/content/features";
 
-const prefersReducedMotion = () =>
-  typeof window === "undefined" || !window.matchMedia
-    ? true
-    : window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
 const ALL_SECTIONS = [
   ...PLATFORM_FEATURES.map((f) => ({ id: f.id, label: f.title.split(" · ")[0], kind: "tool" as const })),
   { id: "revision-week", label: "Revision week", kind: "extra" as const },
@@ -89,59 +84,6 @@ export default function Features() {
     }
   }, []);
 
-  useEffect(() => {
-    if (typeof window === "undefined" || prefersReducedMotion()) return;
-
-    let cleanup = () => {};
-    const idle = (cb: () => void) =>
-      typeof requestIdleCallback !== "undefined"
-        ? requestIdleCallback(cb, { timeout: 1500 })
-        : (setTimeout(cb, 400) as unknown as number);
-    const cancel = (id: number) =>
-      typeof cancelIdleCallback !== "undefined" ? cancelIdleCallback(id) : clearTimeout(id);
-
-    const id = idle(async () => {
-      try {
-        const [{ default: gsap }, mod] = await Promise.all([
-          import("gsap"),
-          import("gsap/ScrollTrigger"),
-        ]);
-        type ScrollTriggerApi = {
-          create: (opts: Record<string, unknown>) => void;
-          getAll?: () => Array<{ kill?: () => void }>;
-        };
-        const ScrollTrigger = ((mod as { default?: ScrollTriggerApi }).default ??
-          mod) as ScrollTriggerApi;
-        gsap.registerPlugin(ScrollTrigger as object);
-
-        gsap.utils.toArray<HTMLElement>(".reveal-section").forEach((el) => {
-          gsap.fromTo(
-            el,
-            { y: 40, opacity: 0 },
-            {
-              y: 0,
-              opacity: 1,
-              duration: 0.85,
-              ease: "power3.out",
-              scrollTrigger: { trigger: el, start: "top 90%", toggleActions: "play none none reverse" },
-            },
-          );
-        });
-
-        cleanup = () => {
-          try {
-            ScrollTrigger.getAll?.().forEach((t) => t.kill?.());
-          } catch {}
-        };
-      } catch {}
-    });
-
-    return () => {
-      cancel(id);
-      cleanup();
-    };
-  }, [activeId]);
-
   const selectSection = (id: string) => {
     setActiveId(id);
     if (typeof window !== "undefined") {
@@ -173,7 +115,7 @@ export default function Features() {
             when to use it, and how it fits a real exam week.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
-            <Link to="/signup" className="btn-solid">Start free</Link>
+            <Link to="/signup" className="btn-solid">Join the private beta</Link>
             <button
               type="button"
               className="btn-glass"
@@ -255,7 +197,7 @@ export default function Features() {
           <div className="grid sm:grid-cols-2 gap-3">
             {MATH_DEMO_LINES.map((line) => (
               <div key={line} className="glass-tile p-5">
-                <RichMarkdown className="prose-base">{line}</RichMarkdown>
+                <RichMarkdown className="prose-base" transformMath={false}>{line}</RichMarkdown>
               </div>
             ))}
           </div>
@@ -273,7 +215,7 @@ export default function Features() {
             If that workflow clicks, you&apos;ll know. If something&apos;s missing, tell us. We build from exam weeks, not pitch decks.
           </p>
           <div className="flex flex-wrap gap-3 justify-center">
-            <Link to="/signup" className="btn-solid text-lg">Create account</Link>
+            <Link to="/signup" className="btn-solid text-lg">Join the private beta</Link>
             <Link to="/resources" className="btn-glass text-lg">Read the guides</Link>
           </div>
         </div>

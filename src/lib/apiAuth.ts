@@ -9,14 +9,26 @@ import {
 } from '@/lib/apiRequestRecovery.mjs';
 import { supabase } from '@/lib/supabaseClient';
 
+let currentAccessToken: string | null = null;
+
+export function setAuthAccessToken(token?: string | null) {
+  currentAccessToken = typeof token === 'string' && token ? token : null;
+}
+
 export async function getAccessToken(): Promise<string | null> {
+  if (currentAccessToken) return currentAccessToken;
   if (!supabase) return null;
   const { data } = await supabase.auth.getSession();
-  return data.session?.access_token ?? null;
+  const token = data.session?.access_token ?? null;
+  setAuthAccessToken(token);
+  return token;
 }
 
 export async function authHeaders(init?: HeadersInit): Promise<Headers> {
   const headers = new Headers(init);
+  // Callers that already hold a verified current-session token can avoid a
+  // redundant Supabase session lookup (and its serialized auth lock).
+  if (headers.has('Authorization')) return headers;
   const token = await getAccessToken();
   if (token) {
     headers.set('Authorization', `Bearer ${token}`);
@@ -54,7 +66,9 @@ const runRefreshAccessTokenSingleFlight = createSingleFlight(async (): Promise<s
 });
 
 async function refreshAccessToken(): Promise<string | null> {
-  return runRefreshAccessTokenSingleFlight();
+  const token = await runRefreshAccessTokenSingleFlight();
+  setAuthAccessToken(token);
+  return token;
 }
 
 export async function authFetch(input: RequestInfo | URL, init?: RequestInit): Promise<Response> {

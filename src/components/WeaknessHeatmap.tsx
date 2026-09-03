@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { getWeaknessHeatmap, type TopicHeat } from '@/lib/weaknessTracker';
 import { Link } from 'react-router';
+import { buildAdaptiveNoteRoute } from '@/lib/adaptiveNotes.mjs';
 
 export default function WeaknessHeatmap({ compact = false }: { compact?: boolean }) {
   const limit = compact ? 5 : 10;
@@ -53,9 +54,14 @@ export default function WeaknessHeatmap({ compact = false }: { compact?: boolean
         );
       })}
       {!compact && (
-        <Link to="/paper-maker" className="text-xs text-primary hover:underline inline-block mt-2">
-          Practice weak topics →
-        </Link>
+        <div className="mt-3 flex flex-wrap gap-x-4 gap-y-2 text-xs">
+          <Link to={buildAdaptiveNoteRoute(topics[0])} className="text-primary hover:underline">
+            Build adaptive notes for {topics[0].topic} →
+          </Link>
+          <Link to={`/paper-maker?subject=${encodeURIComponent(topics[0].subject)}&topic=${encodeURIComponent(topics[0].topic)}`} className="text-primary hover:underline">
+            Practise it in a mock →
+          </Link>
+        </div>
       )}
     </div>
   );

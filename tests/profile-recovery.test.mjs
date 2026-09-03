@@ -1,5 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import { readFile } from 'node:fs/promises';
 import {
   buildMissingProfileInsert,
   buildProfileUpdate,
@@ -31,6 +32,13 @@ test('missing profile recovery supplies the database-required full_name fallback
     avatar_url: null,
     updated_at: NOW,
   });
+});
+
+test('successful authentication does not wait for best-effort profile recovery', async () => {
+  const source = await readFile(new URL('../src/contexts/AuthContext.tsx', import.meta.url), 'utf8');
+
+  assert.match(source, /void postAuthUpsertProfile\(data\.user\)\.catch/);
+  assert.doesNotMatch(source, /if \(data\.user\) await postAuthUpsertProfile\(data\.user\)/);
 });
 
 test('explicit profile metadata wins and is trimmed before persistence', () => {

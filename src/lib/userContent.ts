@@ -1,7 +1,7 @@
 import { authFetch } from '@/lib/apiAuth';
 import { userContentStorageKeys } from '@/lib/userContentStorageScope.mjs';
-
-export type StudyArtifactKind = 'note' | 'review' | 'paper';
+import type { StudyArtifactKind } from '@/contracts/domain';
+export type { StudyArtifactKind } from '@/contracts/domain';
 
 export type StudyArtifact = {
   id: string;
@@ -25,9 +25,17 @@ export type SaveArtifactResult = {
   id?: string;
   error?: string;
   localOnly?: boolean;
+  replayed?: boolean;
 };
 
 const LOCAL_LIMIT = 30;
+
+export function createArtifactIdempotencyKey(): string {
+  if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
+    return `artifact:${crypto.randomUUID()}`;
+  }
+  return `artifact:${Date.now()}:${Math.random().toString(36).slice(2, 12)}`;
+}
 
 function readRawLocalArtifacts(): StudyArtifact[] {
   if (typeof window === 'undefined') return [];
@@ -91,6 +99,10 @@ export function artifactTargetRoute(kind: StudyArtifactKind): string {
       return '/paper-maker';
     case 'review':
       return '/answer-reviewer';
+    case 'planner':
+      return '/planner';
+    case 'notebook':
+      return '/study-notebook';
   }
 }
 
@@ -173,13 +185,22 @@ export async function saveStudyArtifact(
   kind: StudyArtifactKind,
   title: string,
   payload: Record<string, unknown>,
+  options: { idempotencyKey?: string } = {},
 ): Promise<SaveArtifactResult> {
+  const idempotencyKey = options.idempotencyKey || createArtifactIdempotencyKey();
+  const request = () => authFetch('/api/user-content', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ kind, title, payload, idempotencyKey }),
+  });
   try {
-    const res = await authFetch('/api/user-content', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ kind, title, payload }),
-    });
+    let res: Response;
+    try {
+      res = await request();
+    } catch {
+      // A committed response can be lost in transit. One retry with the same key is safe.
+      res = await request();
+    }
     const data = await res.json().catch(() => null);
     if (!res.ok) {
       const local = saveLocalArtifact(kind, title, payload);
@@ -190,7 +211,7 @@ export async function saveStudyArtifact(
         error: data?.error || 'Saved on this device only',
       };
     }
-    return { ok: true, id: data?.item?.id };
+    return { ok: true, id: data?.item?.id, replayed: data?.replayed === true };
   } catch (err) {
     const local = saveLocalArtifact(kind, title, payload);
     return {

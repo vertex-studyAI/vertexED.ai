@@ -1,0 +1,35 @@
+{
+  "stage": 3,
+  "checked_at": "2026-09-02T15:27:23Z",
+  "gate": "PARTIAL",
+  "canonical_baseline": "6b92c32d59772aca3dec93d06336c062a8d67cba",
+  "runtime_candidate": "9cb1c81de9725152ad46c8928c1b0556f1251131",
+  "source_state": "GOLDEN_JOURNEY_TESTED_LOCAL",
+  "focused_tests": { "passed": 101, "failed": 0 },
+  "full_tests": { "passed": 745, "failed": 0 },
+  "local_authenticated_golden_journey": {
+    "exact_candidate_passed": 1,
+    "runtime_parent_stress_repetitions_passed": 3,
+    "failed": 0,
+    "external_services": "MOCKED"
+  },
+  "isolation_surfaces": [
+    "profiles_rls",
+    "user_study_artifacts_rls",
+    "owner_scoped_api_queries",
+    "planner_replace_ownership",
+    "notebook_storage_scope",
+    "learner_state_storage_scope",
+    "session_handoff_storage_scope",
+    "account_deletion_order"
+  ],
+  "real_two_account_journey": "BLOCKED_EXTERNAL",
+  "blockers": [
+    "no isolated staging Supabase/deployment",
+    "no explicitly disposable approved test identities",
+    "canonical production Vercel project inaccessible",
+    "live production revision unverified"
+  ],
+  "not_proven": ["DEPLOYED_VERIFIED", "OUTCOME_VERIFIED"],
+  "next_action": "Provide an isolated staging surface or two explicitly disposable approved accounts, then run and clean up the full cross-account denial journey."
+}

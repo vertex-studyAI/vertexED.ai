@@ -5,6 +5,7 @@ import { getDueFlashcardCount, getCramDueCount } from '@/lib/srDeck';
 import { getConfidenceRatings } from '@/lib/portalFeatures';
 import type { LearnerProfile } from '@/lib/learnerProfile';
 import type { StudyStats } from '@/lib/studyStats';
+import { buildAdaptiveNoteRoute } from '@/lib/adaptiveNotes.mjs';
 
 export type AdaptiveActionKind = 'learn' | 'practice' | 'review' | 'remember' | 'plan' | 'cram';
 
@@ -174,10 +175,10 @@ export function buildAdaptivePlan(input: BuildAdaptiveInput): AdaptivePlan {
     recs.push({
       id: `weak-${w.subject}-${w.topic}`,
       priority: w.avgPercent < 50 ? 'urgent' : 'high',
-      kind: 'review',
-      title: `Strengthen: ${w.topic.slice(0, 40)}`,
-      description: `${w.subject} — scoring ${Math.round(w.avgPercent)}% on recent attempts`,
-      to: `/answer-reviewer?subject=${encodeURIComponent(w.subject)}&topic=${encodeURIComponent(w.topic)}`,
+      kind: 'learn',
+      title: `Build adaptive notes: ${w.topic.slice(0, 40)}`,
+      description: `${w.subject} — ${Math.round(w.avgPercent)}% across ${w.attempts} verified attempt${w.attempts === 1 ? '' : 's'}`,
+      to: buildAdaptiveNoteRoute(w),
       subject: w.subject,
       topic: w.topic,
       score: w.avgPercent,

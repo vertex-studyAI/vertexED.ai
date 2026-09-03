@@ -12,8 +12,8 @@ test('private-beta signup stays invite-gated while Google is presented as linked
   assert.match(authSource, /Direct signup is disabled\. Use \/signup with a waitlist approval or team invite code\./);
   assert.match(connectGoogleSource, /supabase\.auth\.linkIdentity\(/);
   assert.match(loginSource, /Sign in with Google/);
-  assert.match(loginSource, /beta accounts that have already connected Google/);
-  assert.match(loginSource, /waitlist or invite signup/i);
+  assert.match(loginSource, /Google account connected to your VertexED beta access/);
+  assert.match(loginSource, /Join the beta or use an invite/i);
   assert.doesNotMatch(loginSource, /Continue with Google/);
 });
 

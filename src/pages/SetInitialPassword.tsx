@@ -105,33 +105,45 @@ export default function SetInitialPassword() {
               <p className="text-sm text-muted-foreground text-center leading-relaxed">
                 Your email is verified. Choose the password you will use to sign in to VertexED.
               </p>
-              <div className="neu-input">
-                <input
-                  type="password"
-                  autoComplete="new-password"
-                  aria-label="New password"
-                  placeholder="Password (10+ chars, upper, lower, number)"
-                  className="neu-input-el"
-                  value={password}
-                  onChange={(event) => setPassword(event.target.value)}
-                  disabled={saving}
-                  minLength={10}
-                  required
-                />
+              <div>
+                <label htmlFor="initial-password" className="form-label">Password</label>
+                <div className="neu-input">
+                  <input
+                    id="initial-password"
+                    type="password"
+                    autoComplete="new-password"
+                    aria-describedby="initial-password-hint"
+                    placeholder="Create a password"
+                    className="neu-input-el"
+                    value={password}
+                    onChange={(event) => setPassword(event.target.value)}
+                    disabled={saving}
+                    minLength={10}
+                    maxLength={128}
+                    required
+                  />
+                </div>
+                <p id="initial-password-hint" className="mt-1.5 text-xs text-muted-foreground">
+                  At least 10 characters with uppercase, lowercase, and a number.
+                </p>
               </div>
-              <div className="neu-input">
-                <input
-                  type="password"
-                  autoComplete="new-password"
-                  aria-label="Confirm new password"
-                  placeholder="Confirm password"
-                  className="neu-input-el"
-                  value={confirmPassword}
-                  onChange={(event) => setConfirmPassword(event.target.value)}
-                  disabled={saving}
-                  minLength={10}
-                  required
-                />
+              <div>
+                <label htmlFor="initial-password-confirm" className="form-label">Confirm password</label>
+                <div className="neu-input">
+                  <input
+                    id="initial-password-confirm"
+                    type="password"
+                    autoComplete="new-password"
+                    placeholder="Re-enter your password"
+                    className="neu-input-el"
+                    value={confirmPassword}
+                    onChange={(event) => setConfirmPassword(event.target.value)}
+                    disabled={saving}
+                    minLength={10}
+                    maxLength={128}
+                    required
+                  />
+                </div>
               </div>
               <button
                 type="submit"

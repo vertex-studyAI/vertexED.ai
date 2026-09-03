@@ -92,6 +92,15 @@ Invite signup attempts are rate limited before shared-code validation. The confi
 - `429` — rate limited
 - `503` — invite signup or account-creation backend unavailable
 
+### `POST /api/telemetry`
+Accepts a privacy-safe operational event from the browser. The fixed schema permits
+only event class, outcome, capability, normalized route path, bounded duration, and
+an error class. Prompts, answers, names, email addresses, tokens, stack traces, query
+strings, and arbitrary metadata are rejected or discarded. Requests are rate limited.
+
+This endpoint is operational evidence only; it is not learner analytics and must not
+be used to infer learning outcomes.
+
 ## Authenticated endpoints
 
 Send `Authorization: Bearer <supabase_access_token>`.
@@ -112,7 +121,10 @@ AI answer review workflow (OpenAI Agents).
 List saved study artifacts (`note`, `review`, `paper`, `planner`, `notebook`).
 
 ### `POST /api/user-content`
-Create artifact. Planner/notebook support `{ "replace": true }` for single-snapshot kinds.
+Create artifact. The client sends an 8–128 character `idempotencyKey`; a repeated POST
+with the same owner, key, and content returns the original row with `replayed: true`
+instead of creating a duplicate. Reusing the key for different content returns `409`.
+Planner/notebook support `{ "replace": true }` for single-snapshot kinds.
 
 ### `PUT /api/user-content`
 Update artifact by id (prevents duplicate rows).
@@ -134,6 +146,14 @@ Gemini-backed study planner.
 
 ### `POST /api/note`, `/api/quiz`, `/api/paper-generator`, `/api/notebook`, `/api/transcribe`, `/api/board-resource`
 Feature-specific AI handlers. See handler files in `api/_handlers/`.
+
+`/api/note`, `/api/quiz`, and `/api/paper-generator` return a
+`vertexed.learning-artifact.v1` generation envelope. When a provider is missing,
+times out, fails, or returns unusable structure, the endpoint returns a deterministic
+source-bound scaffold with `generation.degraded: true` and a fixed `failureClass`.
+Fallback papers contain no asserted factual answer key and visibly require syllabus or
+human verification. A degraded response is usable practice material, not verified AI
+output.
 
 ## Admin endpoints
 

@@ -1,0 +1,30 @@
+{
+  "stage": 2,
+  "checked_at": "2026-09-01",
+  "gate": "PASS",
+  "canonical_baseline": "eb72c18897773edd42cb81188a0d7938b554c99f",
+  "workspace_git_metadata": true,
+  "state": "SMOKE_TESTED",
+  "contracts": [
+    "user_profile",
+    "course_subject",
+    "mock",
+    "student_response",
+    "rubric_feedback",
+    "note",
+    "study_plan",
+    "evidence_reference",
+    "ai_run_metadata",
+    "study_artifact_row"
+  ],
+  "artifact_kinds": ["note", "review", "paper", "planner", "notebook"],
+  "verification": {
+    "typecheck": "PASS",
+    "targeted_contract_tests": { "passed": 5, "failed": 0 },
+    "full_tests": { "passed": 682, "failed": 0 },
+    "changed_file_lint": "PASS"
+  },
+  "migration_state": "SPECIFIED_NOT_RUN",
+  "deployment_state": "NOT_DEPLOYED",
+  "next_action": "Execute Stage 03 auth, onboarding, and account-isolation certification using the canonical contracts."
+}

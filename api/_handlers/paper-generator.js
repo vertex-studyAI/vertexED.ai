@@ -1,5 +1,10 @@
 import { verifyAuthUser, rejectOversizedJsonBody } from '../_lib/auth.js';
 import { rateLimitUserEndpoint } from '../_lib/rateLimit.js';
+import {
+  buildDeterministicPaperFallback,
+  buildGenerationMetadata,
+  normalizeGeneratedPaper,
+} from '../_lib/learningArtifactFallbacks.js';
 
 const OPENAI_URL = "https://api.openai.com/v1/chat/completions";
 const DEFAULT_MODEL = "gpt-4.1";
@@ -196,6 +201,34 @@ function parsePaperContent(content) {
   }
 }
 
+function fallbackPaperResponse(data, failureClass) {
+  const source = JSON.stringify({
+    board: data.board,
+    grade: data.grade,
+    subject: data.subject,
+    topics: data.topics,
+    marks: data.marks,
+    criteria: data.criteria,
+    criteriaMode: data.criteriaMode,
+    numQuestions: data.numQuestions,
+    format: data.format,
+    difficulty: data.difficulty,
+  });
+  return {
+    success: true,
+    parsed: true,
+    paper: buildDeterministicPaperFallback(data),
+    images: data.images,
+    openai: null,
+    generation: buildGenerationMetadata({
+      capability: 'paper',
+      mode: 'deterministic-fallback',
+      source,
+      failureClass,
+    }),
+  };
+}
+
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     res.setHeader("Allow", "POST");
@@ -209,11 +242,6 @@ export default async function handler(req, res) {
   if (rejectOversizedJsonBody(req, res, 4 * 1024 * 1024)) return;
 
   try {
-    const apiKey = process.env.OPENAI_API_KEY || process.env.ChatbotKey;
-    if (!apiKey) {
-      return res.status(500).json({ success: false, error: "OpenAI API key missing" });
-    }
-
     const payload = req.body ?? {};
     const criteriaMode = Boolean(payload.criteria ?? payload.marks === null);
 
@@ -233,96 +261,124 @@ export default async function handler(req, res) {
       images: validateImages(payload.images),
     };
 
+    const apiKey = process.env.OPENAI_API_KEY || process.env.ChatbotKey;
+    if (!apiKey) {
+      return res.status(200).json(fallbackPaperResponse(data, 'provider_unconfigured'));
+    }
+
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
-
-    const openaiResp = await fetch(OPENAI_URL, {
-      method: "POST",
-      signal: controller.signal,
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        model: process.env.OPENAI_MODEL || DEFAULT_MODEL,
-        temperature: 0.15,
-        max_tokens: 3500,
-        messages: [
-          { role: "system", content: buildSystemPrompt() },
-          { role: "user", content: buildUserPrompt(data) },
-        ],
-        response_format: {
-          type: "json_schema",
-          json_schema: {
-            name: "exam_paper",
-            schema: {
-              type: "object",
-              required: ["title", "metadata", "sections", "rubricNotes", "images"],
-              properties: {
-                title: { type: "string" },
-                metadata: {
-                  type: "object",
-                  required: [
-                    "board",
-                    "grade",
-                    "subject",
-                    "format",
-                    "difficulty",
-                    "numQuestions",
-                    "totalMarks",
-                    "criteriaMode",
-                  ],
-                  properties: {
-                    board: { type: "string" },
-                    grade: { type: ["number", "string"] },
-                    subject: { type: "string" },
-                    format: { type: "string" },
-                    difficulty: { enum: ["Easy", "Medium", "Hard"] },
-                    numQuestions: { type: "integer" },
-                    totalMarks: { type: ["integer", "null"] },
-                    criteriaMode: { type: "boolean" },
+    let openaiResp;
+    try {
+      openaiResp = await fetch(OPENAI_URL, {
+        method: "POST",
+        signal: controller.signal,
+        headers: {
+          Authorization: `Bearer ${apiKey}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          model: process.env.OPENAI_MODEL || DEFAULT_MODEL,
+          temperature: 0.15,
+          max_tokens: 3500,
+          messages: [
+            { role: "system", content: buildSystemPrompt() },
+            { role: "user", content: buildUserPrompt(data) },
+          ],
+          response_format: {
+            type: "json_schema",
+            json_schema: {
+              name: "exam_paper",
+              schema: {
+                type: "object",
+                required: ["title", "metadata", "sections", "rubricNotes", "images"],
+                properties: {
+                  title: { type: "string" },
+                  metadata: {
+                    type: "object",
+                    required: [
+                      "board", "grade", "subject", "format", "difficulty",
+                      "numQuestions", "totalMarks", "criteriaMode",
+                    ],
+                    properties: {
+                      board: { type: "string" },
+                      grade: { type: ["number", "string"] },
+                      subject: { type: "string" },
+                      format: { type: "string" },
+                      difficulty: { enum: ["Easy", "Medium", "Hard"] },
+                      numQuestions: { type: "integer" },
+                      totalMarks: { type: ["integer", "null"] },
+                      criteriaMode: { type: "boolean" },
+                    },
                   },
+                  sections: { type: "array" },
+                  rubricNotes: { type: "array" },
+                  images: { type: "array" },
                 },
-                sections: { type: "array" },
-                rubricNotes: { type: "array" },
-                images: { type: "array" },
               },
             },
           },
-        },
-      }),
-    });
-
-    clearTimeout(timeout);
-
-    if (!openaiResp.ok) {
-      const errText = await openaiResp.text();
-      return res.status(502).json({
-        success: false,
-        error: "OpenAI API error",
-        details: errText.slice(0, 800),
+        }),
       });
+    } catch (error) {
+      return res.status(200).json(fallbackPaperResponse(
+        data,
+        error?.name === 'AbortError' ? 'provider_timeout' : 'provider_failure',
+      ));
+    } finally {
+      clearTimeout(timeout);
     }
 
-    const result = await openaiResp.json();
+    if (!openaiResp.ok) {
+      return res.status(200).json(fallbackPaperResponse(data, 'provider_failure'));
+    }
+
+    let result;
+    try {
+      result = await openaiResp.json();
+    } catch {
+      return res.status(200).json(fallbackPaperResponse(data, 'malformed_provider_response'));
+    }
     const rawPaper = result?.choices?.[0]?.message?.content;
 
     if (!rawPaper) {
-      return res.status(422).json({ success: false, error: "Empty model output" });
+      return res.status(200).json(fallbackPaperResponse(data, 'empty_model_output'));
     }
 
-    const parsedPaper = parsePaperContent(rawPaper);
+    const parsedPaper = normalizeGeneratedPaper(parsePaperContent(rawPaper), data);
     if (!parsedPaper) {
-      return res.status(422).json({
-        success: false,
-        error: "Could not parse paper JSON from model",
-        raw: typeof rawPaper === "string" ? rawPaper.slice(0, 2000) : String(rawPaper),
-      });
+      return res.status(200).json(fallbackPaperResponse(data, 'malformed_model_output'));
     }
 
     if (Array.isArray(data.images) && data.images.length) {
-      parsedPaper.images = [...(parsedPaper.images || []), ...data.images];
+      parsedPaper.images = [...parsedPaper.images, ...data.images];
     }
+    const source = JSON.stringify({
+      board: data.board,
+      grade: data.grade,
+      subject: data.subject,
+      topics: data.topics,
+      marks: data.marks,
+      criteria: data.criteria,
+      criteriaMode: data.criteriaMode,
+      numQuestions: data.numQuestions,
+      format: data.format,
+      difficulty: data.difficulty,
+    });
+    const generation = buildGenerationMetadata({
+      capability: 'paper',
+      mode: 'model',
+      model: process.env.OPENAI_MODEL || DEFAULT_MODEL,
+      source,
+    });
+    parsedPaper.provenance = {
+      ...(parsedPaper.provenance && typeof parsedPaper.provenance === 'object' ? parsedPaper.provenance : {}),
+      sourceDigest: generation.sourceDigest,
+      board: data.board,
+      grade: data.grade,
+      subject: data.subject,
+      topics: data.topics,
+    };
 
     return res.status(200).json({
       success: true,
@@ -333,16 +389,15 @@ export default async function handler(req, res) {
         model: process.env.OPENAI_MODEL || DEFAULT_MODEL,
         usage: result.usage ?? null,
       },
+      generation,
     });
   } catch (err) {
     if (err?.name === "InputValidationError") {
       return res.status(400).json({ success: false, error: err.message });
     }
-    const isAbort = err.name === "AbortError";
-    return res.status(isAbort ? 504 : 500).json({
+    return res.status(500).json({
       success: false,
-      error: isAbort ? "OpenAI request timed out" : "Server error",
-      details: String(err),
+      error: "Server error",
     });
   }
 }

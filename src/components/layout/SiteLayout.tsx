@@ -1,49 +1,24 @@
 import { Outlet, Link, useLocation } from "react-router";
-import React, { Suspense, useState, useEffect, useRef } from "react";
+import React, { lazy, Suspense, useState, useEffect, useRef } from "react";
 import { Helmet } from "react-helmet-async";
 
-import { RouteSemanticHeadings } from "@/components/SemanticHeadings";
 import { useAuth } from "@/contexts/AuthContext";
 import { useAppPreferences } from "@/contexts/AppPreferencesContext";
 import BreadcrumbsJsonLd from "@/components/BreadcrumbsJsonLd";
 import RouteErrorBoundary from "@/components/RouteErrorBoundary";
 import { useIsAdmin } from "@/hooks/useIsAdmin";
-import GlobalChatPanel from "@/components/chat/GlobalChatPanel";
 import CloudSaveBanner from "@/components/CloudSaveBanner";
 import ThemeToggle from "@/components/ThemeToggle";
-import ParticleDrift from "@/components/ParticleDrift";
 import AmbientBackground from "@/components/AmbientBackground";
-import FluidCursorLayer from "@/components/FluidCursorLayer";
 import PageLoader from "@/components/PageLoader";
 import { useStudySessionTracker } from "@/hooks/useStudySessionTracker";
 
-function usePointerGlass() {
-  const { settings } = useAppPreferences();
-
-  useEffect(() => {
-    if (settings.reducedMotion) return;
-    const root = document.documentElement;
-    const connection = (navigator as Navigator & { connection?: { saveData?: boolean; effectiveType?: string } }).connection;
-    const lowPower = connection?.saveData || ['slow-2g', '2g', '3g'].includes(connection?.effectiveType ?? '');
-    const motionTimer = lowPower ? 0 : window.setTimeout(() => root.classList.add('enhanced-motion'), 1800);
-    const onMove = (e: MouseEvent) => {
-      root.style.setProperty("--pointer-x", `${(e.clientX / window.innerWidth) * 100}%`);
-      root.style.setProperty("--pointer-y", `${(e.clientY / window.innerHeight) * 100}%`);
-    };
-    window.addEventListener("mousemove", onMove, { passive: true });
-    return () => {
-      if (motionTimer) window.clearTimeout(motionTimer);
-      root.classList.remove('enhanced-motion');
-      window.removeEventListener("mousemove", onMove);
-    };
-  }, [settings.reducedMotion]);
-}
+const GlobalChatPanel = lazy(() => import("@/components/chat/GlobalChatPanel"));
 
 export default function SiteLayout() {
   const { isAuthenticated, logout, user } = useAuth();
   const { themeColor } = useAppPreferences();
   const { isAdmin } = useIsAdmin();
-  usePointerGlass();
   const showAdmin = isAuthenticated && isAdmin;
   const location = useLocation();
   useStudySessionTracker(isAuthenticated);
@@ -52,6 +27,14 @@ export default function SiteLayout() {
   const mobileNavRef = useRef<HTMLElement | null>(null);
   const isActive = (to: string) =>
     location.pathname === to || (to !== "/" && location.pathname.startsWith(`${to}/`));
+  const isStudyGuideRoute = location.pathname.startsWith("/study-guides");
+  const chatEligibleRoute =
+    location.pathname !== "/chatbot" &&
+    !["/login", "/signup", "/auth/callback", "/onboarding", "/", "/home", "/about", "/features"].includes(
+      location.pathname,
+    ) &&
+    !location.pathname.startsWith("/resources");
+  const shouldLoadGlobalChat = chatEligibleRoute && (isAuthenticated || isStudyGuideRoute);
 
   useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "";
@@ -112,8 +95,6 @@ export default function SiteLayout() {
       </Helmet>
 
       <AmbientBackground />
-      <ParticleDrift />
-      <FluidCursorLayer />
 
       <BreadcrumbsJsonLd />
 
@@ -181,7 +162,7 @@ export default function SiteLayout() {
                 to="/signup"
                 className="ml-2 rounded-full px-4 py-2 text-sm font-semibold brand-cta brand-ink-dark transition hover:brightness-110"
               >
-                Try Now
+                Join beta
               </Link>
             )}
           </nav>
@@ -193,7 +174,7 @@ export default function SiteLayout() {
                 to="/signup"
                 className="rounded-full px-3 py-1.5 text-xs font-semibold brand-cta brand-ink-dark"
               >
-                Try
+                Join
               </Link>
             )}
             <button
@@ -288,7 +269,7 @@ export default function SiteLayout() {
                 onClick={() => setMenuOpen(false)}
                 className="mt-2 rounded-full px-4 py-2.5 text-sm font-semibold text-center brand-cta brand-ink-dark"
               >
-                Try Now
+                Join the private beta
               </Link>
             )}
             {isAuthenticated && (
@@ -310,9 +291,8 @@ export default function SiteLayout() {
       <main
         id="main-content"
         tabIndex={-1}
-        className="relative z-10 flex-1 container mx-auto px-4 md:px-6 pt-6 md:pt-8 pb-10 animate-fade-in"
+        className="relative z-10 flex-1 container mx-auto px-4 md:px-6 pt-6 md:pt-8 pb-10"
       >
-        <RouteSemanticHeadings />
         <CloudSaveBanner />
         <RouteErrorBoundary>
           <Suspense fallback={<PageLoader label="Opening" />}>
@@ -321,11 +301,15 @@ export default function SiteLayout() {
         </RouteErrorBoundary>
       </main>
 
-      <GlobalChatPanel />
+      {shouldLoadGlobalChat && (
+        <Suspense fallback={null}>
+          <GlobalChatPanel />
+        </Suspense>
+      )}
 
       <footer className="relative z-10 border-t border-border/60 bg-background/50 backdrop-blur-sm">
         <div className="mx-auto w-full max-w-[1400px] px-4 md:px-6 py-8 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
-          <p>© {new Date().getFullYear()} VertexED — AI study tools for students.</p>
+          <p>© {new Date().getFullYear()} VertexED — plan, practise, review, remember.</p>
           <nav className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2">
             {isAuthenticated ? (
               <>

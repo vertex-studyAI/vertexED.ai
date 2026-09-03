@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
-import { replacePlannerArtifact } from '../api/_lib/userContentStore.js';
+import { replacePlannerArtifact, replaceSingletonArtifact } from '../api/_lib/userContentStore.js';
 
 function fakeSupabase({ existing = null, lookupError = null, updateError = null, insertError = null } = {}) {
   const calls = [];
@@ -103,4 +103,34 @@ test('planner replace fails closed on lookup errors before any write', async () 
   assert.equal(result.error, lookupError);
   assert.equal(calls.filter(([name]) => name === 'update').length, 0);
   assert.equal(calls.filter(([name]) => name === 'insert').length, 0);
+});
+
+test('notebook replacement updates the owned singleton instead of inserting an autosave duplicate', async () => {
+  const { client, calls } = fakeSupabase({ existing: { id: 'notebook-1' } });
+
+  const result = await replaceSingletonArtifact(client, {
+    userId: 'user-4',
+    kind: 'notebook',
+    title: 'Study Notebooks',
+    payload: { notebooks: [{ id: 'n1' }] },
+  });
+
+  assert.equal(result.created, false);
+  assert.equal(calls.filter(([name]) => name === 'update').length, 1);
+  assert.equal(calls.filter(([name]) => name === 'insert').length, 0);
+  assert.ok(calls.some(([name, field, value]) => name === 'eq' && field === 'kind' && value === 'notebook'));
+});
+
+test('singleton replacement rejects non-singleton artifact kinds before database access', async () => {
+  const { client, calls } = fakeSupabase();
+  await assert.rejects(
+    replaceSingletonArtifact(client, {
+      userId: 'user-5',
+      kind: 'note',
+      title: 'Not singleton',
+      payload: {},
+    }),
+    /Only planner and notebook/,
+  );
+  assert.equal(calls.length, 0);
 });

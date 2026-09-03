@@ -1,0 +1,93 @@
+{
+  "schema": "vertexed.execution-bundle-audit.v1",
+  "checked_at": "2026-09-02T15:27:23Z",
+  "canonical_baseline": "6b92c32d59772aca3dec93d06336c062a8d67cba",
+  "runtime_candidate": "9cb1c81de9725152ad46c8928c1b0556f1251131",
+  "record_count": 64,
+  "summary": {
+    "verified_local_or_synthetic_boundary": 42,
+    "partial_external": 17,
+    "blocked_external": 5,
+    "deployed_verified": false,
+    "outcome_verified": false
+  },
+  "records": [
+    {"id":"01.1","stage":1,"kind":"ordered_work","status":"VERIFIED_LOCAL","requirement":"Inspect repository, branches, workflows, scripts, environment contracts and deployment configuration.","evidence":"evidence/stage_01.md; package.json; vercel.json; .github/workflows"},
+    {"id":"01.2","stage":1,"kind":"ordered_work","status":"VERIFIED_LOCAL","requirement":"Reproduce lint, typecheck, unit, integration, browser and release checks on exact head.","evidence":"Clean lock install plus npm run ci on 9cb1c81; zero audit findings; 745 source tests; 25 eval tests; 35 browser checks"},
+    {"id":"01.3","stage":1,"kind":"ordered_work","status":"VERIFIED_LOCAL","requirement":"Map Vercel, domains, Supabase, migrations, OAuth and health/revision dependencies.","evidence":"evidence/stage_01.md; docs/ENVIRONMENT_MATRIX.md; docs/PRODUCTION_LAUNCH.md"},
+    {"id":"01.4","stage":1,"kind":"ordered_work","status":"VERIFIED_LOCAL","requirement":"Produce a red/yellow/green matrix and repair the earliest safe source P0.","evidence":"evidence/stage_01.md; evidence/status.json; auth critical-path repairs through b62dbec"},
+
+    {"id":"02.1","stage":2,"kind":"ordered_work","status":"VERIFIED_LOCAL","requirement":"Trace routes, modules, API boundaries, schema/RLS, auth and persistence.","evidence":"docs/ARCHITECTURE_AND_DATA_CONTRACTS.md; tests/architecture-contracts.test.mjs"},
+    {"id":"02.2","stage":2,"kind":"ordered_work","status":"VERIFIED_LOCAL","requirement":"Consolidate legacy surfaces and document the canonical architecture.","evidence":"docs/CANONICAL_ARCHITECTURE.md; src/app/App.tsx"},
+    {"id":"02.3","stage":2,"kind":"ordered_work","status":"VERIFIED_LOCAL","requirement":"Define typed profile, course, mock, response, feedback, note, plan, evidence and AI-run contracts.","evidence":"src/types/domain.ts; src/types/learning.ts; src/contracts/domain.ts"},
+    {"id":"02.4","stage":2,"kind":"ordered_work","status":"VERIFIED_LOCAL","requirement":"Add fail-closed schema/config and architecture tests.","evidence":"tests/domain-contracts.test.mjs; tests/architecture-contracts.test.mjs; tests/rls-schema.test.mjs"},
+
+    {"id":"03.1","stage":3,"kind":"ordered_work","status":"PARTIAL_EXTERNAL","requirement":"Complete email auth, Google OAuth, recovery, logout, return login, onboarding and protected routes.","evidence":"Source contracts and local tests pass; real OAuth and recovery delivery were not exercised"},
+    {"id":"03.2","stage":3,"kind":"ordered_work","status":"PARTIAL_EXTERNAL","requirement":"Verify disposable-account create, onboard, use, logout and relogin.","evidence":"Production-preview mocked-service golden journey passes; no disposable live account run"},
+    {"id":"03.3","stage":3,"kind":"ordered_work","status":"PARTIAL_EXTERNAL","requirement":"Test cross-account denial for all owned records and storage.","evidence":"Owner-scoped structural/simulated tests pass; intended-target two-account proof absent"},
+    {"id":"03.4","stage":3,"kind":"ordered_work","status":"VERIFIED_LOCAL","requirement":"Repair RLS/policy or client assumptions with regression coverage.","evidence":"RLS migrations, owner-derived queries, account-scoped storage and auth-lock regressions in 745-test suite"},
+
+    {"id":"04.1","stage":4,"kind":"ordered_work","status":"VERIFIED_LOCAL","requirement":"Finish mocks, adaptive notes, review, references and saved progress.","evidence":"PaperMaker, NotetakerQuiz, AnswerReviewer, study guides and user-content persistence; golden journey"},
+    {"id":"04.2","stage":4,"kind":"ordered_work","status":"VERIFIED_LOCAL","requirement":"Attach provenance, model/version metadata and clear failure states to generated artifacts.","evidence":"contracts/studyArtifact.js; API handlers; domain and artifact tests"},
+    {"id":"04.3","stage":4,"kind":"ordered_work","status":"VERIFIED_LOCAL","requirement":"Provide deterministic fallback when AI is unavailable.","evidence":"api/_lib/learningArtifactFallbacks.js; tests/learning-artifact-fallbacks.test.mjs"},
+    {"id":"04.4","stage":4,"kind":"ordered_work","status":"VERIFIED_LOCAL","requirement":"Test persistence, retry/idempotency, malformed output and partial failure.","evidence":"tests/artifact-idempotency.test.mjs; fallback and user-content tests"},
+
+    {"id":"05.1","stage":5,"kind":"ordered_work","status":"VERIFIED_LOCAL","requirement":"Implement criterion grading with evidence, uncertainty and human-review escalation.","evidence":"api/_lib/verifiedGrading.js; tests/verified-grading.test.mjs"},
+    {"id":"05.2","stage":5,"kind":"ordered_work","status":"VERIFIED_LOCAL","requirement":"Route verified errors through taxonomy/mastery to targeted remediation.","evidence":"verified grading and learner evidence modules; grading tests and golden journey"},
+    {"id":"05.3","stage":5,"kind":"ordered_work","status":"VERIFIED_LOCAL","requirement":"Track assessment coverage against objectives.","evidence":"coverage contracts and verified-grading coverage tests"},
+    {"id":"05.4","stage":5,"kind":"ordered_work","status":"VERIFIED_LOCAL","requirement":"Bound automated certainty and forbid correctness without evidence.","evidence":"provisional/human-review rules; frozen grading gates"},
+
+    {"id":"06.1","stage":6,"kind":"ordered_work","status":"VERIFIED_SYNTHETIC_BOUNDARY","requirement":"Create a versioned synthetic evaluation set separated from development data.","evidence":"evals/grading/frozen-v2.json; declared synthetic provenance"},
+    {"id":"06.2","stage":6,"kind":"ordered_work","status":"PARTIAL_EXTERNAL","requirement":"Evaluate error, evidence, grounding, remediation, latency and failure rate.","evidence":"Frozen contract metrics pass; provider latency/failure and live-model quality not measured"},
+    {"id":"06.3","stage":6,"kind":"ordered_work","status":"VERIFIED_SYNTHETIC_BOUNDARY","requirement":"Compare always-grade, rules/retrieval and current baselines under matched conditions.","evidence":"evals/results/grading-v2.json; matched synthetic baselines"},
+    {"id":"06.4","stage":6,"kind":"ordered_work","status":"VERIFIED_SYNTHETIC_BOUNDARY","requirement":"Freeze thresholds before evaluation and capture hashes.","evidence":"thresholds-v2.json and dataset/threshold/grader SHA-256 identities"},
+
+    {"id":"07.1","stage":7,"kind":"ordered_work","status":"PARTIAL_EXTERNAL","requirement":"Run schema diff and inspect RLS, functions, storage and privileged paths.","evidence":"Source schema/migration structural checks pass; no intended-target diff"},
+    {"id":"07.2","stage":7,"kind":"ordered_work","status":"BLOCKED_EXTERNAL","requirement":"Resolve or explicitly accept live advisor warnings.","evidence":"Requires authorized owning Supabase project advisor output"},
+    {"id":"07.3","stage":7,"kind":"ordered_work","status":"PARTIAL_EXTERNAL","requirement":"Add two-account/role tests, abuse controls and safe errors.","evidence":"Structural/simulated ownership and rate-limit tests pass; live role impersonation absent"},
+    {"id":"07.4","stage":7,"kind":"ordered_work","status":"PARTIAL_EXTERNAL","requirement":"Create and non-destructively test backup/restore and rollback runbooks.","evidence":"docs/DATABASE_BACKUP_RESTORE.md exists; isolated restore was not executed"},
+
+    {"id":"08.1","stage":8,"kind":"ordered_work","status":"VERIFIED_LOCAL","requirement":"Audit major routes across viewports, keyboard, reduced motion and screen-reader semantics.","evidence":"34 Playwright accessibility/responsive checks pass; two inapplicable skips"},
+    {"id":"08.2","stage":8,"kind":"ordered_work","status":"VERIFIED_LOCAL","requirement":"Remove dead ends/loading ambiguity/navigation inconsistency and improve states.","evidence":"Route, focus, protected-state and auth recovery regressions in browser/source suites"},
+    {"id":"08.3","stage":8,"kind":"ordered_work","status":"VERIFIED_LOCAL","requirement":"Measure bundle/runtime performance and remove obvious regressions.","evidence":"Initial JS reduced 37.2%; four fail-closed gzip budgets pass"},
+    {"id":"08.4","stage":8,"kind":"ordered_work","status":"VERIFIED_LOCAL","requirement":"Polish hierarchy without hiding uncertainty/evidence.","evidence":"Accessible route surfaces and explicit verified/provisional/remediation states"},
+
+    {"id":"09.1","stage":9,"kind":"ordered_work","status":"VERIFIED_LOCAL","requirement":"Automate the complete learner browser journey through persistence and relogin.","evidence":"e2e/authenticated-student-golden.spec.ts passes on production preview"},
+    {"id":"09.2","stage":9,"kind":"ordered_work","status":"PARTIAL_EXTERNAL","requirement":"Exercise Google OAuth, recovery and destructive-account edges safely.","evidence":"Source tests exist; live OAuth/recovery delivery/destructive cleanup not run"},
+    {"id":"09.3","stage":9,"kind":"ordered_work","status":"PARTIAL_EXTERNAL","requirement":"Assert exact deployed revision, persistence, authorization and analytics boundaries.","evidence":"Local exact candidate and persistence/auth assertions pass; deployed revision/analytics delivery absent"},
+    {"id":"09.4","stage":9,"kind":"ordered_work","status":"VERIFIED_LOCAL","requirement":"Use screenshots/logs/traces only as evidence, not substitutes for assertions.","evidence":"Golden suite gates on DOM, requests, persistence, authorization and browser-error assertions"},
+
+    {"id":"10.1","stage":10,"kind":"ordered_work","status":"PARTIAL_EXTERNAL","requirement":"Expose immutable revision and readiness capability checks.","evidence":"Source/build contract passes; live endpoint still serves legacy unidentified envelope"},
+    {"id":"10.2","stage":10,"kind":"ordered_work","status":"VERIFIED_LOCAL","requirement":"Add privacy-safe logs, hooks, AI telemetry and budgets without payload storage.","evidence":"telemetry schema/tests; AI analytics and performance budgets"},
+    {"id":"10.3","stage":10,"kind":"ordered_work","status":"VERIFIED_LOCAL","requirement":"Create release dashboard/runbook, rollback criteria and deploy smoke.","evidence":"docs/PRODUCTION_MONITORING.md; docs/PRODUCTION_INCIDENT_RUNBOOK.md; scripts/smoke-deploy.mjs"},
+    {"id":"10.4","stage":10,"kind":"ordered_work","status":"PARTIAL_EXTERNAL","requirement":"Eliminate deployment ambiguity and document canonical production target.","evidence":"Canonical target documented; owning deployment access/served revision still unverified"},
+
+    {"id":"11.1","stage":11,"kind":"ordered_work","status":"VERIFIED_LOCAL","requirement":"Run clean install/build/test on exact candidate with mandatory CI green.","evidence":"npm ci and npm run ci PASS on exact 9cb1c81; unchanged lock digest; zero audit findings; 745 tests; 25 evals; build/budgets pass"},
+    {"id":"11.2","stage":11,"kind":"ordered_work","status":"BLOCKED_EXTERNAL","requirement":"Deploy through the authorized path and verify production health/revision/golden journey.","evidence":"No canonical Vercel access; no deployment attempted"},
+    {"id":"11.3","stage":11,"kind":"ordered_work","status":"BLOCKED_EXTERNAL","requirement":"Confirm production environment, OAuth redirects and Supabase target.","evidence":"Source matrix exists; live owning configuration is inaccessible"},
+    {"id":"11.4","stage":11,"kind":"ordered_work","status":"BLOCKED_EXTERNAL","requirement":"Record deployment receipt, exact SHA, smoke evidence and rollback point.","evidence":"Candidate SHA recorded; receipt/live smoke/rollback deployment absent until authorized release"},
+
+    {"id":"12.1","stage":12,"kind":"ordered_work","status":"PARTIAL_EXTERNAL","requirement":"Close remaining P0/P1 defects and finalize docs.","evidence":"Known local critical defects fixed and docs packaged; deployment/security live gates remain external P0"},
+    {"id":"12.2","stage":12,"kind":"ordered_work","status":"VERIFIED_LOCAL","requirement":"Create a bounded no-leakage learning-outcome pilot protocol.","evidence":"docs/PILOT_PROTOCOL.md; docs/PILOT_ANALYTICS_EXPORT.md"},
+    {"id":"12.3","stage":12,"kind":"ordered_work","status":"VERIFIED_LOCAL","requirement":"Package architecture, security, evaluation, release and outcome ledgers.","evidence":"docs and evidence/stage_01 through stage_12"},
+    {"id":"12.4","stage":12,"kind":"ordered_work","status":"VERIFIED_LOCAL","requirement":"Produce a source/production/outcome truth matrix.","evidence":"evidence/FINAL_TRUTH_MATRIX.md"},
+
+    {"id":"G01","stage":1,"kind":"acceptance_gate","status":"VERIFIED_LOCAL","requirement":"Current truth map, exact failing log and verified P0 repair or precise blocker.","evidence":"stage_01 evidence plus auth critical-path repairs"},
+    {"id":"G02","stage":2,"kind":"acceptance_gate","status":"VERIFIED_LOCAL","requirement":"Coherent typed architecture, migration plan and green structural tests.","evidence":"canonical architecture/docs/contracts/schema tests"},
+    {"id":"G03","stage":3,"kind":"acceptance_gate","status":"PARTIAL_EXTERNAL","requirement":"Authenticated golden source plus local/staging evidence and explicit cross-account denial.","evidence":"Local mocked golden and structural denials pass; real staging proof absent"},
+    {"id":"G04","stage":4,"kind":"acceptance_gate","status":"PARTIAL_EXTERNAL","requirement":"Core learning features work end to end with persistence and failure safety.","evidence":"Local mocked end-to-end and source failures pass; live provider persistence not run"},
+    {"id":"G05","stage":5,"kind":"acceptance_gate","status":"VERIFIED_LOCAL","requirement":"Testable grading/remediation loop with uncertainty, coverage and audit trail.","evidence":"verified grading contracts and frozen evaluation"},
+    {"id":"G06","stage":6,"kind":"acceptance_gate","status":"VERIFIED_SYNTHETIC_BOUNDARY","requirement":"Reproducible eval artifact bundle with claims restricted to measured results.","evidence":"25 eval tests; versioned results and hashes; live claims explicitly forbidden"},
+    {"id":"G07","stage":7,"kind":"acceptance_gate","status":"PARTIAL_EXTERNAL","requirement":"Security matrix passes on intended target with warning dispositions.","evidence":"Source matrix passes; intended-target advisor/role/restore work blocked"},
+    {"id":"G08","stage":8,"kind":"acceptance_gate","status":"VERIFIED_LOCAL","requirement":"Core routes meet accessibility/responsiveness and performance regressions are fixed.","evidence":"34 browser checks and four bundle budgets pass"},
+    {"id":"G09","stage":9,"kind":"acceptance_gate","status":"PARTIAL_EXTERNAL","requirement":"Repeatable complete browser journey on an exact revision.","evidence":"Exact local production-preview revision passes; deployed revision journey absent"},
+    {"id":"G10","stage":10,"kind":"acceptance_gate","status":"PARTIAL_EXTERNAL","requirement":"Operators can prove runtime identity, detect breakage and roll back.","evidence":"Source tooling/runbooks pass; live runtime identity is missing"},
+    {"id":"G11","stage":11,"kind":"acceptance_gate","status":"BLOCKED_EXTERNAL","requirement":"DEPLOYED_VERIFIED only after exact live revision and golden journey pass.","evidence":"Correctly remains red; live health lacks revision/readiness and no production journey ran"},
+    {"id":"G12","stage":12,"kind":"acceptance_gate","status":"VERIFIED_LOCAL","requirement":"Clean handoff bundle with no inflated launch or learning claims.","evidence":"Truth matrix, status, 64-record audit and pilot claim boundary"},
+
+    {"id":"X01","stage":0,"kind":"cross_cutting_certification","status":"VERIFIED_LOCAL","requirement":"Candidate contains current canonical upstream without losing VertexED work.","evidence":"Candidate 9cb1c81 contains origin/main 6b92c32 plus audited dependency/auth/performance work"},
+    {"id":"X02","stage":0,"kind":"cross_cutting_certification","status":"VERIFIED_LOCAL","requirement":"Exact clean-tree source suite passes.","evidence":"745/745 source tests after npm ci; zero known dependency vulnerabilities"},
+    {"id":"X03","stage":0,"kind":"cross_cutting_certification","status":"VERIFIED_SYNTHETIC_BOUNDARY","requirement":"Frozen evaluation suite passes with bounded claims.","evidence":"25/25 evaluation tests; live model metrics not claimed"},
+    {"id":"X04","stage":0,"kind":"cross_cutting_certification","status":"VERIFIED_LOCAL","requirement":"Exact candidate passes build, bundle and browser certification.","evidence":"2,768-module build; four budgets; 34 accessibility checks; one golden journey"}
+  ]
+}

@@ -258,6 +258,7 @@ function StudyGuidesLibrary({ routePath, hasAccess, onUnlock }: { routePath?: st
 
   const subject = manifest?.subjects.find((item) => item.slug === subjectSlug) ?? null;
   const activePage = subject?.pages.find((page) => page.path === pagePath) ?? null;
+  const activePagePath = activePage?.path;
   const routeParts = (routePath ?? "").split("/").filter(Boolean);
   const isSubjectHub = routeParts[0]?.toLowerCase() === "myp" && routeParts.length === 2;
   const seo = subject && activePage
@@ -266,9 +267,9 @@ function StudyGuidesLibrary({ routePath, hasAccess, onUnlock }: { routePath?: st
   const preview = useMemo(() => markdownPreview(content), [content]);
 
   useEffect(() => {
-    if (!activePage) return;
+    if (!activePagePath) return;
     const controller = new AbortController();
-    const cached = pageCache.current.get(activePage.path);
+    const cached = pageCache.current.get(activePagePath);
     setError(null);
     setContent(cached ?? "");
     if (cached !== undefined) {
@@ -277,7 +278,7 @@ function StudyGuidesLibrary({ routePath, hasAccess, onUnlock }: { routePath?: st
     }
 
     setPageLoading(true);
-    void fetch(activePage.path, { signal: controller.signal })
+    void fetch(activePagePath, { signal: controller.signal })
       .then(async (response) => {
         if (!response.ok) throw new Error("This guide page could not be loaded.");
         const text = (await response.text()).replace(/^\uFEFF/, "");
@@ -285,7 +286,7 @@ function StudyGuidesLibrary({ routePath, hasAccess, onUnlock }: { routePath?: st
         return text;
       })
       .then((text) => {
-        pageCache.current.set(activePage.path, text);
+        pageCache.current.set(activePagePath, text);
         setContent(text);
       })
       .catch((cause: unknown) => {
@@ -294,7 +295,7 @@ function StudyGuidesLibrary({ routePath, hasAccess, onUnlock }: { routePath?: st
       })
       .finally(() => !controller.signal.aborted && setPageLoading(false));
     return () => controller.abort();
-  }, [activePage?.path]);
+  }, [activePagePath]);
 
   const visiblePages = useMemo(() => {
     if (!subject) return [];

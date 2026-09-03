@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router";
 import { Bot, Minimize2, Trash2, X } from "lucide-react";
 
@@ -8,11 +8,11 @@ import { recordStudySession } from "@/lib/studyStats";
 import { consumeChatHandoff } from "@/lib/userContent";
 import { useApexChat } from "@/hooks/useApexChat";
 import { formatHandoffPrefill } from "@/content/apex";
-import ApexMessageList from "@/components/chat/ApexMessageList";
 import ApexPromptChips from "@/components/chat/ApexPromptChips";
 import ApexChatInput from "@/components/chat/ApexChatInput";
 
 const STORAGE_KEY = "vertex_global_chat_open";
+const ApexMessageList = lazy(() => import("@/components/chat/ApexMessageList"));
 
 export default function GlobalChatPanel() {
   const { isAuthenticated, user } = useAuth();
@@ -176,13 +176,15 @@ export default function GlobalChatPanel() {
                     compact
                   />
                 )}
-                <ApexMessageList
-                  messages={messages}
-                  loading={loading}
-                  streamingMessageId={streamingMessageId}
-                  context={studyContext}
-                  compact
-                />
+                <Suspense fallback={<p className="text-sm text-muted-foreground">Opening tutor…</p>}>
+                  <ApexMessageList
+                    messages={messages}
+                    loading={loading}
+                    streamingMessageId={streamingMessageId}
+                    context={studyContext}
+                    compact
+                  />
+                </Suspense>
               </div>
 
               <div className="apex-panel-footer">

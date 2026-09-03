@@ -1,0 +1,66 @@
+{
+  "datasetVersion": "vertexed-grading-synthetic-v1",
+  "thresholdVersion": "vertexed-grading-thresholds-v1",
+  "measuredAt": "2026-09-01T17:06:42.211Z",
+  "fixtureCount": 6,
+  "metrics": {
+    "reviewDecisionAccuracy": 1,
+    "falseVerifiedRate": 0,
+    "acceptedEvidencePrecision": 1,
+    "evidenceAcceptanceRate": 0.6
+  },
+  "baselines": {
+    "alwaysGrade": {
+      "falseVerifiedRate": 1,
+      "reviewDecisionAccuracy": 0.3333333333333333
+    }
+  },
+  "decisions": [
+    {
+      "id": "exact-high-confidence",
+      "expectedReview": false,
+      "actualReview": false,
+      "correct": true,
+      "scoreStatus": "VERIFIED"
+    },
+    {
+      "id": "hallucinated-evidence",
+      "expectedReview": true,
+      "actualReview": true,
+      "correct": true,
+      "scoreStatus": "PROVISIONAL"
+    },
+    {
+      "id": "low-confidence",
+      "expectedReview": true,
+      "actualReview": true,
+      "correct": true,
+      "scoreStatus": "PROVISIONAL"
+    },
+    {
+      "id": "empty-answer",
+      "expectedReview": true,
+      "actualReview": true,
+      "correct": true,
+      "scoreStatus": "PROVISIONAL"
+    },
+    {
+      "id": "zero-credit-no-evidence-needed",
+      "expectedReview": false,
+      "actualReview": false,
+      "correct": true,
+      "scoreStatus": "VERIFIED"
+    },
+    {
+      "id": "criterion-mixed-evidence",
+      "expectedReview": true,
+      "actualReview": true,
+      "correct": true,
+      "scoreStatus": "PROVISIONAL"
+    }
+  ],
+  "passed": true,
+  "claimBoundary": "Synthetic contract validation only; not a measurement of live model grading quality.",
+  "datasetSha256": "4994ba508f70c92cc76978dde509311797c1c69ffcf79aa9b2d6e092efd1b2e0",
+  "thresholdsSha256": "b7752fda6f84bb9e383cdbdf9bc16a7c2bb5cbd8c2fcfc96b8fff27620814dfc"
+}
