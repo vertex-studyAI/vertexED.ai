@@ -17,16 +17,22 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: research-repro-wave-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   project2424-reproduce:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 25
     defaults:
       run:
         shell: bash
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
         with:
           node-version: '22'
 
@@ -35,7 +41,10 @@ jobs:
           set -euo pipefail
           mkdir -p reproducibility-wave/raw reproducibility-wave/timing
           {
-            echo "commit=$(git rev-parse HEAD)"
+            echo "source_commit=$(git rev-parse HEAD)"
+            echo "workflow_sha=${{ github.sha }}"
+            echo "workflow_ref=${{ github.workflow_ref }}"
+            echo "runner_image=ubuntu-24.04"
             echo "node=$(node --version)"
             echo "npm=$(npm --version)"
             echo "kernel=$(uname -a)"
@@ -196,8 +205,8 @@ jobs:
 
       - name: Upload raw reproduction evidence
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
-          name: research-repro-wave-20260813-current-main
+          name: research-repro-wave-${{ github.sha }}
           path: reproducibility-wave/
           if-no-files-found: error
