@@ -1,0 +1,99 @@
+name: Obscured Records certification
+
+on:
+  pull_request:
+    paths:
+      - 'portfolio/project2424/projects/T2424-0038/**'
+      - 'tests/project2424ObscuredRecordsAgent.test.mjs'
+      - '.github/workflows/obscured-records-certification.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  certify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout exact head
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.22.0'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Record source identity
+        run: |
+          mkdir -p evidence/obscured-records
+          git rev-parse HEAD | tee evidence/obscured-records/source_sha.txt
+          sha256sum package-lock.json \
+            portfolio/project2424/projects/T2424-0038/src/core.mjs \
+            tests/project2424ObscuredRecordsAgent.test.mjs \
+            > evidence/obscured-records/input_sha256.txt
+
+      - name: Run focused Obscured Records regression
+        run: |
+          set -o pipefail
+          node --test tests/project2424ObscuredRecordsAgent.test.mjs \
+            2>&1 | tee evidence/obscured-records/focused-test.log
+
+      - name: Run deterministic synthetic smoke
+        run: |
+          node portfolio/project2424/projects/T2424-0038/experiment/run.mjs \
+            > evidence/obscured-records/smoke.json
+
+      - name: Verify smoke claim boundary and structure
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          const p = 'evidence/obscured-records/smoke.json';
+          const data = JSON.parse(fs.readFileSync(p, 'utf8'));
+          if (data.experiment !== 'T2424-0038 Obscured Records evidence-gated editorial triage') {
+            throw new Error(`unexpected experiment identity: ${data.experiment}`);
+          }
+          if (typeof data.claimBoundary !== 'string' ||
+              !data.claimBoundary.includes('deterministic prioritization aid only') ||
+              !data.claimBoundary.includes('no truth, legal-safety, or publication-autonomy claim')) {
+            throw new Error(`claim boundary missing or broadened: ${data.claimBoundary}`);
+          }
+          if (!Array.isArray(data.ledger) || data.ledger.length === 0) {
+            throw new Error('synthetic decision ledger is missing or empty');
+          }
+          console.log('OBSCURED_RECORDS_SMOKE_BOUNDARY_PASSED');
+          NODE
+
+      - name: Run full repository regression
+        run: |
+          set -o pipefail
+          npm test 2>&1 | tee evidence/obscured-records/full-test.log
+
+      - name: Run canonical lint integrity gate
+        run: |
+          set -o pipefail
+          npm run lint:ci 2>&1 | tee evidence/obscured-records/lint-ci.log
+
+      - name: Verify test execution did not mutate tracked source
+        run: git diff --exit-code
+
+      - name: Seal evidence checksums
+        if: always()
+        run: |
+          cd evidence/obscured-records
+          find . -maxdepth 1 -type f ! -name SHA256SUMS -print0 \
+            | sort -z \
+            | xargs -0 sha256sum > SHA256SUMS
+
+      - name: Upload exact-head certification evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: obscured-records-certification-${{ github.sha }}
+          path: evidence/obscured-records
+          if-no-files-found: error
+          retention-days: 30
