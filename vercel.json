@@ -1,5 +1,11 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
+  "git": {
+    "deploymentEnabled": {
+      "research/**": false,
+      "paper/**": false
+    }
+  },
   "buildCommand": "VERTEXED_REQUIRE_BUILD_REVISION=1 ROLLUP_SKIP_NODEJS_NATIVE=true npm run build",
   "installCommand": "npm ci",
   "ignoreCommand": "node scripts/vercel-ignore-build.mjs",
