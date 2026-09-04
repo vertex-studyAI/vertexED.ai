@@ -45,8 +45,10 @@
     "method": "teacher_forced_option_log_likelihood",
     "score_definition": "For each answer option independently, score the canonical option label continuation under an identical frozen prompt prefix and sum token log probabilities over the full continuation. Do not use sampled output, verbal self-confidence, or post-outcome prompt changes.",
     "normalization": "softmax_over_option_log_likelihoods",
-    "prompt_template_path": null,
-    "prompt_template_sha256": null,
+    "prompt_template_path": "research/multimodal-calibration/prompt-template.mjs",
+    "prompt_template_sha256": "cc2c262712aa35455b24c4b4d55713c6400c43fdcf1355c95934b3c9841deab4",
+    "implementation_path": "research/multimodal-calibration/option-scoring.mjs",
+    "implementation_sha256": "6b225e1c27aefd32cb549fdc35b1379674cbd67548256f7194dfb0d82e5896f4",
     "fail_closed_if_any_option_unscorable": true
   },
   "transforms": {
