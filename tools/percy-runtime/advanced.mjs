@@ -153,6 +153,15 @@ export class ClassLimiter {
   }
 }
 
+function nextIdleDelay(baseMs, maxMs, jitterRatio, random) {
+  const sample = Number(random());
+  if (!Number.isFinite(sample) || sample < 0 || sample > 1) {
+    throw new RangeError('random() must return a number in [0,1]');
+  }
+  const jitter = baseMs * jitterRatio * ((sample * 2) - 1);
+  return Math.max(1, Math.min(maxMs, Math.round(baseMs + jitter)));
+}
+
 export async function runWorkerLoop({
   store,
   execute,
@@ -162,26 +171,67 @@ export async function runWorkerLoop({
   leaseMs = 30_000,
   timeoutMs = 10_000,
   idleMs = 250,
+  maxIdleSleepMs = idleMs,
+  idleBackoffFactor = 1,
+  idleJitterRatio = 0,
   maxIdleMs = 0,
   shouldStop = () => false,
+  sleepFn = sleep,
+  random = Math.random,
 } = {}) {
   if (!store || typeof store.claim !== 'function') throw new TypeError('store required');
   if (typeof execute !== 'function') throw new TypeError('execute required');
   if (!workerId) throw new TypeError('workerId required');
   if (!Number.isFinite(leaseMs) || leaseMs < 100) throw new RangeError('leaseMs must be >=100');
+  if (!Number.isFinite(idleMs) || idleMs < 1) throw new RangeError('idleMs must be >=1');
+  if (!Number.isFinite(maxIdleSleepMs) || maxIdleSleepMs < idleMs) throw new RangeError('maxIdleSleepMs must be >= idleMs');
+  if (!Number.isFinite(idleBackoffFactor) || idleBackoffFactor < 1 || idleBackoffFactor > 10) {
+    throw new RangeError('idleBackoffFactor must be in [1,10]');
+  }
+  if (!Number.isFinite(idleJitterRatio) || idleJitterRatio < 0 || idleJitterRatio > 1) {
+    throw new RangeError('idleJitterRatio must be in [0,1]');
+  }
+  if (!Number.isFinite(maxIdleMs) || maxIdleMs < 0) throw new RangeError('maxIdleMs must be >=0');
+  if (typeof shouldStop !== 'function') throw new TypeError('shouldStop must be a function');
+  if (typeof sleepFn !== 'function') throw new TypeError('sleepFn must be a function');
+  if (typeof random !== 'function') throw new TypeError('random must be a function');
+
   const effectiveLeaseMs = Math.max(leaseMs, MIN_WORKER_LEASE_MS);
   let lastWorkAt = Date.now();
+  let currentIdleMs = idleMs;
   let completed = 0;
   let failed = 0;
+
+  logger?.write('worker_loop_start', {
+    workerId,
+    requestedLeaseMs: leaseMs,
+    effectiveLeaseMs,
+    timeoutMs,
+    idleMs,
+    maxIdleSleepMs,
+    idleBackoffFactor,
+    idleJitterRatio,
+    maxIdleMs,
+  });
 
   while (!shouldStop()) {
     const task = store.claim(workerId, effectiveLeaseMs);
     if (!task) {
-      if (maxIdleMs > 0 && Date.now() - lastWorkAt >= maxIdleMs) break;
-      await sleep(idleMs);
+      const idleForMs = Date.now() - lastWorkAt;
+      if (maxIdleMs > 0 && idleForMs >= maxIdleMs) break;
+
+      const baseDelay = Math.min(maxIdleSleepMs, currentIdleMs);
+      let waitMs = nextIdleDelay(baseDelay, maxIdleSleepMs, idleJitterRatio, random);
+      if (maxIdleMs > 0) {
+        waitMs = Math.min(waitMs, Math.max(1, maxIdleMs - idleForMs));
+      }
+      await sleepFn(waitMs);
+      currentIdleMs = Math.min(maxIdleSleepMs, Math.max(idleMs, currentIdleMs * idleBackoffFactor));
       continue;
     }
+
     lastWorkAt = Date.now();
+    currentIdleMs = idleMs;
     const className = String(task.payload?.providerClass ?? task.payload?.taskClass ?? 'default');
     let release;
     let heartbeat;
@@ -232,5 +282,8 @@ export async function runWorkerLoop({
       release?.();
     }
   }
-  return { workerId, completed, failed };
+
+  const result = { workerId, completed, failed };
+  logger?.write('worker_loop_stop', result);
+  return result;
 }
