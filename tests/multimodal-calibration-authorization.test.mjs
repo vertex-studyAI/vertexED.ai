@@ -72,13 +72,17 @@ function completeManifest(manifest) {
   return filled;
 }
 
-test('checked-in manifest is valid but remains fail-closed and blocked', async () => {
+test('checked-in manifest pins official ScienceQA source but remains fail-closed and blocked', async () => {
   const manifest = await loadManifest();
   const assessment = validateAuthorizationManifest(manifest);
 
+  assert.equal(manifest.dataset.source_uri, 'https://github.com/lupantech/ScienceQA');
+  assert.equal(manifest.dataset.release_revision, '2cbf8318e07b9ece895bb2ae605e71e38d623264');
+  assert.equal(manifest.dataset.source_files.pid_splits.git_blob_sha, 'bde005092576ebebfed08087879ff774fcd75b62');
+  assert.equal(manifest.dataset.source_files.problems.git_blob_sha, '3920b762556abfbfa001f298c9740c36d4e041e1');
   assert.equal(assessment.authorized, false);
   assert.ok(assessment.errors.length > 0);
-  assert.ok(assessment.errors.some((error) => error.includes('dataset.source_uri is unresolved')));
+  assert.ok(assessment.errors.some((error) => error.includes('dataset.development_ids_manifest_path is unresolved')));
   assert.ok(assessment.errors.some((error) => error.includes('model_runtime.model_id is unresolved')));
   assert.ok(assessment.errors.some((error) => error.includes('fitted_temperature is unresolved')));
   assert.ok(assessment.errors.some((error) => error.includes('package_lock_sha256')));
