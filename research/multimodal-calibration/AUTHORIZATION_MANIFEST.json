@@ -1,0 +1,122 @@
+{
+  "schema_version": "multimodal-calibration.authorization.v1",
+  "protocol_id": "MULTIMODAL-CALIBRATION-SCIENCEQA-20260904",
+  "protocol_path": "research/multimodal-calibration/PROTOCOL_20260904.md",
+  "protocol_frozen_date": "2026-09-04",
+  "status": "NOT_AUTHORIZED",
+  "execution_authorized": false,
+  "results_status": "NOT_RUN",
+  "dataset": {
+    "source_uri": null,
+    "release_revision": null,
+    "development_ids_manifest_path": null,
+    "development_ids_sha256": null,
+    "development_count": null,
+    "evaluation_ids_manifest_path": null,
+    "evaluation_ids_sha256": null,
+    "evaluation_count": null,
+    "malformed_record_exclusion_rule": "Exclude only records that cannot be deterministically decoded into the frozen ScienceQA image-present multiple-choice schema; retain every exclusion with record ID and machine-readable reason before evaluation metrics are opened.",
+    "temperature_fit_uses_development_only": true
+  },
+  "model_runtime": {
+    "provider": null,
+    "model_id": null,
+    "model_revision": null,
+    "processor_id": null,
+    "processor_revision": null,
+    "tokenizer_id": null,
+    "tokenizer_revision": null,
+    "inference_precision": null,
+    "runtime_identity": null
+  },
+  "option_score_extraction": {
+    "procedure_frozen": true,
+    "validated_against_model": false,
+    "method": "teacher_forced_option_log_likelihood",
+    "score_definition": "For each answer option independently, score the canonical option label continuation under an identical frozen prompt prefix and sum token log probabilities over the full continuation. Do not use sampled output, verbal self-confidence, or post-outcome prompt changes.",
+    "normalization": "softmax_over_option_log_likelihoods",
+    "prompt_template_path": null,
+    "prompt_template_sha256": null,
+    "fail_closed_if_any_option_unscorable": true
+  },
+  "transforms": {
+    "seed": 20260904,
+    "library": "sharp",
+    "locked_library_version": "0.35.3",
+    "implementation_path": null,
+    "implementation_sha256": null,
+    "processor_stochastic_transforms_allowed": false,
+    "conditions": {
+      "S0": "clean",
+      "S1": "gaussian_blur_sigma_1.0",
+      "S2": "gaussian_blur_sigma_2.0",
+      "S3": "gaussian_blur_sigma_4.0",
+      "S4": "centered_neutral_occlusion_25_percent_area",
+      "S5": "fixed_neutral_placeholder_original_dimensions"
+    }
+  },
+  "temperature_scaling": {
+    "procedure_frozen": true,
+    "fit_set": "development_only_clean_S0",
+    "objective": "multiclass_negative_log_likelihood",
+    "optimizer": "deterministic_bounded_scalar_search",
+    "temperature_bounds": [0.05, 20.0],
+    "stopping_tolerance": 1e-8,
+    "max_iterations": 500,
+    "fit_set_sha256": null,
+    "fitted_temperature": null,
+    "fitting_log_sha256": null
+  },
+  "statistics": {
+    "ece_equal_width_bins": 15,
+    "bootstrap_seed": 20260904,
+    "bootstrap_replicates": 5000,
+    "bootstrap_interval": 0.95,
+    "paired_record_level_bootstrap": true,
+    "shift_aggregate_rule": "arithmetic_mean_over_S1_through_S5_per_metric",
+    "target_selective_risk": 0.2,
+    "calibration_warning_rule": {
+      "minimum_relative_worsening": 0.1,
+      "minimum_primary_calibration_metrics_meeting_threshold": 2,
+      "required_aurc_relative_worsening": 0.1,
+      "maximum_absolute_accuracy_drop_percentage_points": 5.0
+    },
+    "temperature_shift_robustness_rule": {
+      "minimum_shift_mean_brier_relative_improvement": 0.05,
+      "minimum_shift_mean_nll_relative_improvement": 0.05,
+      "maximum_any_shift_brier_relative_worsening": 0.02,
+      "maximum_any_shift_nll_relative_worsening": 0.02
+    }
+  },
+  "environment": {
+    "node_engine": ">=22.22.0 <23",
+    "package_manager": "npm@10.9.8",
+    "package_lock_path": "package-lock.json",
+    "package_lock_sha256": null,
+    "execution_image_or_host_identity": null
+  },
+  "artifacts": {
+    "non_overwriting_run_root": "research/multimodal-calibration/retained/<run_id>",
+    "required_paths": [
+      "dataset/development_ids.jsonl",
+      "dataset/evaluation_ids.jsonl",
+      "model/identity.json",
+      "calibration/temperature_fit.json",
+      "rows/example_shift_method.jsonl",
+      "metrics/aggregate.json",
+      "metrics/bootstrap.json",
+      "logs/stdout.log",
+      "logs/stderr.log",
+      "execution/command.txt",
+      "CHECKSUMS.sha256"
+    ],
+    "checksum_algorithm": "SHA-256",
+    "overwrite_existing_run": false
+  },
+  "pre_outcome_attestation": {
+    "evaluation_metrics_inspected": false,
+    "evaluation_outputs_generated": false,
+    "choices_selected_after_evaluation_outcomes": false,
+    "statement": "No evaluation metrics or evaluation outputs were inspected while selecting the currently frozen protocol and manifest settings."
+  }
+}
