@@ -178,6 +178,7 @@ export async function runWorkerLoop({
   shouldStop = () => false,
   sleepFn = sleep,
   random = Math.random,
+  nowFn = Date.now,
 } = {}) {
   if (!store || typeof store.claim !== 'function') throw new TypeError('store required');
   if (typeof execute !== 'function') throw new TypeError('execute required');
@@ -195,9 +196,16 @@ export async function runWorkerLoop({
   if (typeof shouldStop !== 'function') throw new TypeError('shouldStop must be a function');
   if (typeof sleepFn !== 'function') throw new TypeError('sleepFn must be a function');
   if (typeof random !== 'function') throw new TypeError('random must be a function');
+  if (typeof nowFn !== 'function') throw new TypeError('nowFn must be a function');
+
+  const readNow = () => {
+    const now = Number(nowFn());
+    if (!Number.isFinite(now)) throw new RangeError('nowFn() must return a finite number');
+    return now;
+  };
 
   const effectiveLeaseMs = Math.max(leaseMs, MIN_WORKER_LEASE_MS);
-  let lastWorkAt = Date.now();
+  let lastWorkAt = readNow();
   let currentIdleMs = idleMs;
   let completed = 0;
   let failed = 0;
@@ -217,8 +225,11 @@ export async function runWorkerLoop({
   while (!shouldStop()) {
     const task = store.claim(workerId, effectiveLeaseMs);
     if (!task) {
-      const idleForMs = Date.now() - lastWorkAt;
-      if (maxIdleMs > 0 && idleForMs >= maxIdleMs) break;
+      const idleForMs = Math.max(0, readNow() - lastWorkAt);
+      if (maxIdleMs > 0 && idleForMs >= maxIdleMs) {
+        logger?.write('worker_idle_timeout', { workerId, idleForMs, maxIdleMs });
+        break;
+      }
 
       const baseDelay = Math.min(maxIdleSleepMs, currentIdleMs);
       let waitMs = nextIdleDelay(baseDelay, maxIdleSleepMs, idleJitterRatio, random);
@@ -230,7 +241,7 @@ export async function runWorkerLoop({
       continue;
     }
 
-    lastWorkAt = Date.now();
+    lastWorkAt = readNow();
     currentIdleMs = idleMs;
     const className = String(task.payload?.providerClass ?? task.payload?.taskClass ?? 'default');
     let release;
