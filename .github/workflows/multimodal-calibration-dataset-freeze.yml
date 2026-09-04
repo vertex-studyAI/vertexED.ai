@@ -17,6 +17,7 @@ jobs:
       - name: Checkout exact PR head
         uses: actions/checkout@v4
         with:
+          ref: ${{ github.event.pull_request.head.sha }}
           persist-credentials: false
 
       - name: Setup Node 22
@@ -43,6 +44,32 @@ jobs:
             --output-root "$RUNNER_TEMP/multimodal-calibration-dataset-freeze" \
             | tee "$RUNNER_TEMP/freeze-result.json"
           sha256sum "$RUNNER_TEMP/multimodal-calibration-dataset-freeze/"* | tee "$RUNNER_TEMP/file-checksums.sha256"
+
+      - name: Verify generated freeze matches preregistered receipt and authorization manifest
+        shell: bash
+        run: |
+          set -euo pipefail
+          RECEIPT='research/multimodal-calibration/DATASET_FREEZE.json'
+          GENERATED="$RUNNER_TEMP/multimodal-calibration-dataset-freeze/FREEZE.json"
+          echo '39078814f97c3c120f8c76ac5ac7a312e0e036cf6c027e47ffcf51676287b736  research/multimodal-calibration/DATASET_FREEZE.json' | sha256sum -c -
+          cmp --silent "$GENERATED" "$RECEIPT"
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          import assert from 'node:assert/strict';
+
+          const manifest = JSON.parse(fs.readFileSync('research/multimodal-calibration/AUTHORIZATION_MANIFEST.json', 'utf8'));
+          const receipt = JSON.parse(fs.readFileSync('research/multimodal-calibration/DATASET_FREEZE.json', 'utf8'));
+
+          assert.equal(manifest.dataset.freeze_receipt_path, 'research/multimodal-calibration/DATASET_FREEZE.json');
+          assert.equal(manifest.dataset.freeze_receipt_sha256, '39078814f97c3c120f8c76ac5ac7a312e0e036cf6c027e47ffcf51676287b736');
+          assert.equal(manifest.dataset.development_ids_manifest_path, 'dataset/development_ids.jsonl');
+          assert.equal(manifest.dataset.development_count, receipt.development.count);
+          assert.equal(manifest.dataset.development_ids_sha256, receipt.development.sha256);
+          assert.equal(manifest.dataset.evaluation_ids_manifest_path, 'dataset/evaluation_ids.jsonl');
+          assert.equal(manifest.dataset.evaluation_count, receipt.evaluation.count);
+          assert.equal(manifest.dataset.evaluation_ids_sha256, receipt.evaluation.sha256);
+          assert.equal(receipt.overlap_count, 0);
+          NODE
 
       - name: Upload immutable freeze evidence
         uses: actions/upload-artifact@v4
