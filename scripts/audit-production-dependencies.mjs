@@ -45,16 +45,20 @@ function npmInvocation(args) {
   return { command: process.platform === 'win32' ? 'npm.cmd' : 'npm', args };
 }
 
-export function runAuditAttempt({ timeoutMs, evidenceDir, attempt }) {
-  const auditArgs = [
+export function buildAuditArgs() {
+  return [
     'audit',
     '--omit=dev',
+    '--package-lock-only',
     '--audit-level=high',
     '--json',
     '--fetch-timeout=150000',
     '--fetch-retries=0',
   ];
-  const invocation = npmInvocation(auditArgs);
+}
+
+export function runAuditAttempt({ timeoutMs, evidenceDir, attempt }) {
+  const invocation = npmInvocation(buildAuditArgs());
   const result = spawnSync(invocation.command, invocation.args, {
     cwd: process.cwd(),
     env: process.env,
