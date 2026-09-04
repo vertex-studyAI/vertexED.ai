@@ -16,7 +16,15 @@ const FROZEN = Object.freeze({
     pidSplitsPath: 'data/scienceqa/pid_splits.json',
     pidSplitsBlob: 'bde005092576ebebfed08087879ff774fcd75b62',
     problemsPath: 'data/scienceqa/problems.json',
-    problemsBlob: '3920b762556abfbfa001f298c9740c36d4e041e1'
+    problemsBlob: '3920b762556abfbfa001f298c9740c36d4e041e1',
+    freezeReceiptPath: 'research/multimodal-calibration/DATASET_FREEZE.json',
+    freezeReceiptSha256: '39078814f97c3c120f8c76ac5ac7a312e0e036cf6c027e47ffcf51676287b736',
+    developmentManifestPath: 'dataset/development_ids.jsonl',
+    developmentSha256: '84846b05bc8c04c13f026bdd69e7f0fdba9dd884f900615dd4db8754e6179698',
+    developmentCount: 2097,
+    evaluationManifestPath: 'dataset/evaluation_ids.jsonl',
+    evaluationSha256: '656886545f24857c86718443aac5270c50e64ae4665dae96df3f373ff799fa8a',
+    evaluationCount: 2017
   }),
   scoring: Object.freeze({
     method: 'teacher_forced_option_log_likelihood',
@@ -60,10 +68,6 @@ function isNonEmptyString(value) {
   return typeof value === 'string' && value.trim().length > 0;
 }
 
-function isPositiveInteger(value) {
-  return Number.isInteger(value) && value > 0;
-}
-
 function isFinitePositive(value) {
   return Number.isFinite(value) && value > 0;
 }
@@ -103,12 +107,14 @@ export function assessAuthorization(manifest) {
   requireExact(errors, dataset.source_files?.pid_splits?.git_blob_sha, FROZEN.dataset.pidSplitsBlob, 'dataset.source_files.pid_splits.git_blob_sha');
   requireExact(errors, dataset.source_files?.problems?.path, FROZEN.dataset.problemsPath, 'dataset.source_files.problems.path');
   requireExact(errors, dataset.source_files?.problems?.git_blob_sha, FROZEN.dataset.problemsBlob, 'dataset.source_files.problems.git_blob_sha');
-  requireCondition(errors, isNonEmptyString(dataset.development_ids_manifest_path), 'dataset.development_ids_manifest_path is unresolved');
-  requireSha256(errors, dataset.development_ids_sha256, 'dataset.development_ids_sha256');
-  requireCondition(errors, isPositiveInteger(dataset.development_count), 'dataset.development_count must be a positive integer');
-  requireCondition(errors, isNonEmptyString(dataset.evaluation_ids_manifest_path), 'dataset.evaluation_ids_manifest_path is unresolved');
-  requireSha256(errors, dataset.evaluation_ids_sha256, 'dataset.evaluation_ids_sha256');
-  requireCondition(errors, isPositiveInteger(dataset.evaluation_count), 'dataset.evaluation_count must be a positive integer');
+  requireExact(errors, dataset.freeze_receipt_path, FROZEN.dataset.freezeReceiptPath, 'dataset.freeze_receipt_path');
+  requireExact(errors, dataset.freeze_receipt_sha256, FROZEN.dataset.freezeReceiptSha256, 'dataset.freeze_receipt_sha256');
+  requireExact(errors, dataset.development_ids_manifest_path, FROZEN.dataset.developmentManifestPath, 'dataset.development_ids_manifest_path');
+  requireExact(errors, dataset.development_ids_sha256, FROZEN.dataset.developmentSha256, 'dataset.development_ids_sha256');
+  requireExact(errors, dataset.development_count, FROZEN.dataset.developmentCount, 'dataset.development_count');
+  requireExact(errors, dataset.evaluation_ids_manifest_path, FROZEN.dataset.evaluationManifestPath, 'dataset.evaluation_ids_manifest_path');
+  requireExact(errors, dataset.evaluation_ids_sha256, FROZEN.dataset.evaluationSha256, 'dataset.evaluation_ids_sha256');
+  requireExact(errors, dataset.evaluation_count, FROZEN.dataset.evaluationCount, 'dataset.evaluation_count');
   requireCondition(errors, isNonEmptyString(dataset.malformed_record_exclusion_rule), 'dataset.malformed_record_exclusion_rule must be frozen');
   requireCondition(errors, dataset.temperature_fit_uses_development_only === true, 'temperature fitting must use development records only');
 
