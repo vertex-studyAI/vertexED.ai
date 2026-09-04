@@ -40,6 +40,30 @@ test('Percy worker jitter is deterministic with injected randomness and remains 
   for (const wait of waits) assert.ok(wait >= 40 && wait <= 60);
 });
 
+test('Percy worker maxIdleMs caps the final sleep and terminates on an injected clock', async () => {
+  const waits = [];
+  const events = [];
+  let now = 1_000;
+  const result = await runWorkerLoop({
+    store: idleStore(),
+    execute: async () => ({ ok: true }),
+    workerId: 'idle-timeout',
+    idleMs: 50,
+    maxIdleSleepMs: 100,
+    idleBackoffFactor: 2,
+    maxIdleMs: 120,
+    nowFn: () => now,
+    sleepFn: async (ms) => { waits.push(ms); now += ms; },
+    logger: { write: (event, data) => { events.push({ event, data }); } },
+  });
+  assert.deepEqual(waits, [50, 70]);
+  assert.deepEqual(result, { workerId: 'idle-timeout', completed: 0, failed: 0 });
+  assert.deepEqual(events.find(({ event }) => event === 'worker_idle_timeout'), {
+    event: 'worker_idle_timeout',
+    data: { workerId: 'idle-timeout', idleForMs: 120, maxIdleMs: 120 },
+  });
+});
+
 test('Percy worker resets idle backoff after successfully claiming work', async () => {
   const waits = [];
   let claimCalls = 0;
@@ -76,7 +100,7 @@ test('Percy worker resets idle backoff after successfully claiming work', async 
   assert.equal(result.failed, 0);
 });
 
-test('Percy worker validates idle backoff, jitter, sleep, stop, and random controls fail closed', async () => {
+test('Percy worker validates idle backoff, jitter, sleep, stop, random, and clock controls fail closed', async () => {
   const base = {
     store: idleStore(),
     execute: async () => ({ ok: true }),
@@ -92,6 +116,8 @@ test('Percy worker validates idle backoff, jitter, sleep, stop, and random contr
   await assert.rejects(() => runWorkerLoop({ ...base, maxIdleMs: -1 }), /maxIdleMs must be >=0/);
   await assert.rejects(() => runWorkerLoop({ ...base, sleepFn: null }), /sleepFn must be a function/);
   await assert.rejects(() => runWorkerLoop({ ...base, random: null }), /random must be a function/);
+  await assert.rejects(() => runWorkerLoop({ ...base, nowFn: null }), /nowFn must be a function/);
+  await assert.rejects(() => runWorkerLoop({ ...base, nowFn: () => Number.NaN }), /nowFn\(\) must return a finite number/);
   await assert.rejects(() => runWorkerLoop({ ...base, shouldStop: null }), /shouldStop must be a function/);
 
   let stopped = false;
