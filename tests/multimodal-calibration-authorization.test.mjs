@@ -17,14 +17,10 @@ function completeManifest(manifest) {
   const filled = structuredClone(manifest);
   const digestA = 'a'.repeat(64);
   const digestB = 'b'.repeat(64);
-  const digestC = 'c'.repeat(64);
-  const digestD = 'd'.repeat(64);
   const digestE = 'e'.repeat(64);
   const digestF = 'f'.repeat(64);
 
   Object.assign(filled.dataset, {
-    source_uri: 'https://example.invalid/scienceqa-frozen-source',
-    release_revision: 'scienceqa-frozen-revision',
     development_ids_manifest_path: 'research/multimodal-calibration/freeze/development_ids.jsonl',
     development_ids_sha256: digestA,
     development_count: 100,
@@ -36,25 +32,16 @@ function completeManifest(manifest) {
   Object.assign(filled.model_runtime, {
     provider: 'local',
     model_id: 'example/model',
-    model_revision: '0123456789abcdef',
+    model_revision: '0123456789abcdef0123456789abcdef01234567',
     processor_id: 'example/processor',
-    processor_revision: '0123456789abcdef',
+    processor_revision: '123456789abcdef0123456789abcdef012345678',
     tokenizer_id: 'example/tokenizer',
-    tokenizer_revision: '0123456789abcdef',
+    tokenizer_revision: '23456789abcdef0123456789abcdef0123456789',
     inference_precision: 'float32',
-    runtime_identity: 'example-runtime'
+    runtime_identity: 'example-runtime@immutable-build-1'
   });
 
-  Object.assign(filled.option_score_extraction, {
-    validated_against_model: true,
-    prompt_template_path: 'research/multimodal-calibration/freeze/prompt.txt',
-    prompt_template_sha256: digestC
-  });
-
-  Object.assign(filled.transforms, {
-    implementation_path: 'research/multimodal-calibration/freeze/transforms.mjs',
-    implementation_sha256: digestD
-  });
+  filled.option_score_extraction.validated_against_model = true;
 
   Object.assign(filled.temperature_scaling, {
     fit_set_sha256: digestA,
@@ -128,4 +115,50 @@ test('malformed digests are rejected instead of treated as frozen identities', a
   const assessment = assessAuthorization(manifest);
   assert.equal(assessment.authorized, false);
   assert.ok(assessment.errors.includes('dataset.evaluation_ids_sha256 must be a lowercase SHA-256 digest'));
+});
+
+test('ScienceQA repository and source-blob identities cannot drift', async () => {
+  const manifest = completeManifest(await loadManifest());
+  manifest.dataset.release_revision = 'main';
+  manifest.dataset.source_files.problems.git_blob_sha = '0'.repeat(40);
+
+  const assessment = assessAuthorization(manifest);
+  assert.equal(assessment.authorized, false);
+  assert.ok(assessment.errors.some((error) => error.startsWith('dataset.release_revision must remain')));
+  assert.ok(assessment.errors.some((error) => error.startsWith('dataset.source_files.problems.git_blob_sha must remain')));
+});
+
+test('frozen prompt, scorer, transform and shift definitions are authorization-bound', async () => {
+  const manifest = completeManifest(await loadManifest());
+  manifest.option_score_extraction.prompt_template_sha256 = '0'.repeat(64);
+  manifest.option_score_extraction.implementation_sha256 = '1'.repeat(64);
+  manifest.transforms.implementation_sha256 = '2'.repeat(64);
+  manifest.transforms.conditions.S3 = 'gaussian_blur_sigma_3.0';
+
+  const assessment = assessAuthorization(manifest);
+  assert.equal(assessment.authorized, false);
+  assert.ok(assessment.errors.some((error) => error.startsWith('option_score_extraction.prompt_template_sha256 must remain')));
+  assert.ok(assessment.errors.some((error) => error.startsWith('option_score_extraction.implementation_sha256 must remain')));
+  assert.ok(assessment.errors.some((error) => error.startsWith('transforms.implementation_sha256 must remain')));
+  assert.ok(assessment.errors.some((error) => error.startsWith('transforms.conditions.S3 must remain')));
+});
+
+test('floating model-family revisions are rejected before authorization', async () => {
+  const manifest = completeManifest(await loadManifest());
+  manifest.model_runtime.model_revision = 'main';
+  manifest.model_runtime.processor_revision = 'latest';
+
+  const assessment = assessAuthorization(manifest);
+  assert.equal(assessment.authorized, false);
+  assert.ok(assessment.errors.includes('model_runtime.model_revision must be an immutable revision, not a floating ref'));
+  assert.ok(assessment.errors.includes('model_runtime.processor_revision must be an immutable revision, not a floating ref'));
+});
+
+test('artifact contract rejects silent additions or destination drift', async () => {
+  const manifest = completeManifest(await loadManifest());
+  manifest.artifacts.required_paths.push('metrics/posthoc-rescue.json');
+
+  const assessment = assessAuthorization(manifest);
+  assert.equal(assessment.authorized, false);
+  assert.ok(assessment.errors.includes('artifact destination list must exactly match the frozen non-overwriting contract'));
 });
