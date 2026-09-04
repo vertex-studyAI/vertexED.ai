@@ -1,6 +1,21 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { evaluateAuditReport, parseAuditReport } from '../scripts/audit-production-dependencies.mjs';
+import {
+  buildAuditArgs,
+  evaluateAuditReport,
+  parseAuditReport,
+} from '../scripts/audit-production-dependencies.mjs';
+
+test('production audit is lockfile-only and keeps the high-severity production boundary', () => {
+  const args = buildAuditArgs();
+  assert.deepEqual(args.slice(0, 5), [
+    'audit',
+    '--omit=dev',
+    '--package-lock-only',
+    '--audit-level=high',
+    '--json',
+  ]);
+});
 
 test('production audit accepts a structurally valid report with zero high and critical findings', () => {
   const result = evaluateAuditReport({
@@ -33,6 +48,11 @@ test('production audit fails closed and never retries a valid critical-severity 
 
 test('production audit treats missing or invalid vulnerability schema as retryable transport/schema failure', () => {
   assert.deepEqual(evaluateAuditReport({}), {
+    ok: false,
+    retryable: true,
+    reason: 'missing metadata.vulnerabilities',
+  });
+  assert.deepEqual(evaluateAuditReport({ metadata: { vulnerabilities: [] } }), {
     ok: false,
     retryable: true,
     reason: 'missing metadata.vulnerabilities',
