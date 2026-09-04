@@ -26,6 +26,18 @@ const FROZEN = Object.freeze({
     evaluationSha256: '656886545f24857c86718443aac5270c50e64ae4665dae96df3f373ff799fa8a',
     evaluationCount: 2017
   }),
+  model: Object.freeze({
+    identityFreezePath: 'research/multimodal-calibration/MODEL_RUNTIME_FREEZE_20260905.json',
+    identityFreezeSha256: '7fe2877fb942e82de6ebc58768bfad2c00b2edc02722f371a10f417e34fbc892',
+    provider: 'huggingface_transformers_local',
+    modelId: 'Qwen/Qwen2.5-VL-3B-Instruct',
+    modelRevision: '243fd99abe513d2a02a98274ea34c07e8f961b0f',
+    processorId: 'Qwen/Qwen2.5-VL-3B-Instruct',
+    processorRevision: '243fd99abe513d2a02a98274ea34c07e8f961b0f',
+    tokenizerId: 'Qwen/Qwen2.5-VL-3B-Instruct',
+    tokenizerRevision: '243fd99abe513d2a02a98274ea34c07e8f961b0f',
+    inferencePrecision: 'bfloat16_model_float32_option_logprob_accumulation'
+  }),
   scoring: Object.freeze({
     method: 'teacher_forced_option_log_likelihood',
     normalization: 'softmax_over_option_log_likelihoods',
@@ -119,12 +131,20 @@ export function assessAuthorization(manifest) {
   requireCondition(errors, dataset.temperature_fit_uses_development_only === true, 'temperature fitting must use development records only');
 
   const model = manifest?.model_runtime ?? {};
-  for (const field of ['provider', 'model_id', 'processor_id', 'tokenizer_id', 'inference_precision', 'runtime_identity']) {
-    requireCondition(errors, isNonEmptyString(model[field]), `model_runtime.${field} is unresolved`);
-  }
-  for (const field of ['model_revision', 'processor_revision', 'tokenizer_revision']) {
-    requireResolvedRevision(errors, model[field], `model_runtime.${field}`);
-  }
+  requireExact(errors, model.identity_freeze_path, FROZEN.model.identityFreezePath, 'model_runtime.identity_freeze_path');
+  requireExact(errors, model.identity_freeze_sha256, FROZEN.model.identityFreezeSha256, 'model_runtime.identity_freeze_sha256');
+  requireExact(errors, model.provider, FROZEN.model.provider, 'model_runtime.provider');
+  requireExact(errors, model.model_id, FROZEN.model.modelId, 'model_runtime.model_id');
+  requireExact(errors, model.model_revision, FROZEN.model.modelRevision, 'model_runtime.model_revision');
+  requireExact(errors, model.processor_id, FROZEN.model.processorId, 'model_runtime.processor_id');
+  requireExact(errors, model.processor_revision, FROZEN.model.processorRevision, 'model_runtime.processor_revision');
+  requireExact(errors, model.tokenizer_id, FROZEN.model.tokenizerId, 'model_runtime.tokenizer_id');
+  requireExact(errors, model.tokenizer_revision, FROZEN.model.tokenizerRevision, 'model_runtime.tokenizer_revision');
+  requireExact(errors, model.inference_precision, FROZEN.model.inferencePrecision, 'model_runtime.inference_precision');
+  requireResolvedRevision(errors, model.model_revision, 'model_runtime.model_revision');
+  requireResolvedRevision(errors, model.processor_revision, 'model_runtime.processor_revision');
+  requireResolvedRevision(errors, model.tokenizer_revision, 'model_runtime.tokenizer_revision');
+  requireCondition(errors, isNonEmptyString(model.runtime_identity), 'model_runtime.runtime_identity is unresolved');
 
   const scoring = manifest?.option_score_extraction ?? {};
   requireCondition(errors, scoring.procedure_frozen === true, 'option-score extraction procedure must be frozen');
