@@ -64,6 +64,48 @@ test('Percy worker maxIdleMs caps the final sleep and terminates on an injected 
   });
 });
 
+test('Percy worker maxIdleMs remains authoritative when positive jitter exceeds the remaining budget', async () => {
+  const waits = [];
+  let now = 1_000;
+  const result = await runWorkerLoop({
+    store: idleStore(),
+    execute: async () => ({ ok: true }),
+    workerId: 'idle-jitter-budget',
+    idleMs: 80,
+    maxIdleSleepMs: 200,
+    idleBackoffFactor: 2,
+    idleJitterRatio: 0.5,
+    maxIdleMs: 100,
+    random: () => 1,
+    nowFn: () => now,
+    sleepFn: async (ms) => { waits.push(ms); now += ms; },
+  });
+  assert.deepEqual(waits, [100]);
+  assert.deepEqual(result, { workerId: 'idle-jitter-budget', completed: 0, failed: 0 });
+});
+
+test('Percy worker clock rollback cannot create a negative idle duration or premature timeout', async () => {
+  const waits = [];
+  const events = [];
+  const readings = [1_000, 900];
+  let readIndex = 0;
+  const result = await runWorkerLoop({
+    store: idleStore(),
+    execute: async () => ({ ok: true }),
+    workerId: 'idle-clock-rollback',
+    idleMs: 50,
+    maxIdleSleepMs: 100,
+    maxIdleMs: 100,
+    nowFn: () => readings[Math.min(readIndex++, readings.length - 1)],
+    sleepFn: async (ms) => { waits.push(ms); },
+    shouldStop: () => waits.length >= 1,
+    logger: { write: (event, data) => { events.push({ event, data }); } },
+  });
+  assert.deepEqual(waits, [50]);
+  assert.deepEqual(result, { workerId: 'idle-clock-rollback', completed: 0, failed: 0 });
+  assert.equal(events.some(({ event }) => event === 'worker_idle_timeout'), false);
+});
+
 test('Percy worker resets idle backoff after successfully claiming work', async () => {
   const waits = [];
   let claimCalls = 0;
