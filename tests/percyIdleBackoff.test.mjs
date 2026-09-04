@@ -134,7 +134,7 @@ test('Percy worker emits start/stop observability with resolved idle controls', 
       maxIdleMs: 0,
     },
   });
-  assert.deepEqual(events.at(-1], {
+  assert.deepEqual(events.at(-1), {
     event: 'worker_loop_stop',
     data: { workerId: 'idle-observability', completed: 0, failed: 0 },
   });
