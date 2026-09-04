@@ -1,0 +1,33 @@
+{
+  "schema_version": "multimodal-calibration.dataset-freeze.v1",
+  "source": {
+    "repository": "https://github.com/lupantech/ScienceQA",
+    "revision": "2cbf8318e07b9ece895bb2ae605e71e38d623264",
+    "pid_splits": {
+      "path": "data/scienceqa/pid_splits.json",
+      "git_blob_sha": "bde005092576ebebfed08087879ff774fcd75b62"
+    },
+    "problems": {
+      "path": "data/scienceqa/problems.json",
+      "git_blob_sha": "3920b762556abfbfa001f298c9740c36d4e041e1"
+    }
+  },
+  "mapping": {
+    "development": "val",
+    "evaluation": "test"
+  },
+  "development": {
+    "source_split": "val",
+    "count": 2097,
+    "sha256": "84846b05bc8c04c13f026bdd69e7f0fdba9dd884f900615dd4db8754e6179698",
+    "path": "development_ids.jsonl"
+  },
+  "evaluation": {
+    "source_split": "test",
+    "count": 2017,
+    "sha256": "656886545f24857c86718443aac5270c50e64ae4665dae96df3f373ff799fa8a",
+    "path": "evaluation_ids.jsonl"
+  },
+  "filter": "problem.image is a non-empty string",
+  "overlap_count": 0
+}
