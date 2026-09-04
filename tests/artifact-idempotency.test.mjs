@@ -123,7 +123,7 @@ test('client retries a lost POST response with one stable idempotency key', asyn
 });
 
 test('schema migration enforces per-user idempotency uniqueness', async () => {
-  const migration = await readFile(new URL('../supabase/migrations/20260902_artifact_idempotency.sql', import.meta.url), 'utf8');
+  const migration = await readFile(new URL('../supabase/migrations/20260903164601_artifact_idempotency.sql', import.meta.url), 'utf8');
   assert.match(migration, /unique \(user_id, idempotency_key\)/i);
   assert.match(migration, /idempotency_key_format/i);
 });
