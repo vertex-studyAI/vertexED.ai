@@ -1,0 +1,56 @@
+name: Multimodal Calibration Dataset Freeze
+
+on:
+  pull_request:
+    paths:
+      - 'research/multimodal-calibration/**'
+      - '.github/workflows/multimodal-calibration-dataset-freeze.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  freeze-scienceqa-image-present:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout exact PR head
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Setup Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.22.0'
+
+      - name: Materialize exact pinned ScienceQA source bytes
+        shell: bash
+        run: |
+          set -euo pipefail
+          DATA_ROOT="$RUNNER_TEMP/scienceqa"
+          mkdir -p "$DATA_ROOT"
+          BASE='https://raw.githubusercontent.com/lupantech/ScienceQA/2cbf8318e07b9ece895bb2ae605e71e38d623264/data/scienceqa'
+          curl --fail --location --retry 3 --retry-all-errors --silent --show-error "$BASE/pid_splits.json" -o "$DATA_ROOT/pid_splits.json"
+          curl --fail --location --retry 3 --retry-all-errors --silent --show-error "$BASE/problems.json" -o "$DATA_ROOT/problems.json"
+
+      - name: Freeze image-present development and evaluation manifests
+        shell: bash
+        run: |
+          set -euo pipefail
+          node research/multimodal-calibration/freeze-dataset.mjs \
+            --data-root "$RUNNER_TEMP/scienceqa" \
+            --output-root "$RUNNER_TEMP/multimodal-calibration-dataset-freeze" \
+            | tee "$RUNNER_TEMP/freeze-result.json"
+          sha256sum "$RUNNER_TEMP/multimodal-calibration-dataset-freeze/"* | tee "$RUNNER_TEMP/file-checksums.sha256"
+
+      - name: Upload immutable freeze evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: multimodal-calibration-dataset-freeze-${{ github.event.pull_request.head.sha }}
+          path: |
+            ${{ runner.temp }}/multimodal-calibration-dataset-freeze/
+            ${{ runner.temp }}/freeze-result.json
+            ${{ runner.temp }}/file-checksums.sha256
+          if-no-files-found: error
+          retention-days: 30
