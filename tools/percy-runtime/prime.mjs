@@ -51,7 +51,10 @@ try {
     const workers = Number(take('--workers', String(maxActive)));
     const leaseMs = Number(take('--lease-ms', '30000'));
     const timeoutMs = Number(take('--timeout-ms', '10000'));
-    const idleMs = Number(take('--idle-ms', '250'));
+    const idleMs = Number(take('--idle-ms', process.env.PERCY_IDLE_MS ?? '250'));
+    const maxIdleSleepMs = Number(take('--max-idle-sleep-ms', process.env.PERCY_MAX_IDLE_SLEEP_MS ?? String(idleMs)));
+    const idleBackoffFactor = Number(take('--idle-backoff-factor', process.env.PERCY_IDLE_BACKOFF_FACTOR ?? '1'));
+    const idleJitterRatio = Number(take('--idle-jitter-ratio', process.env.PERCY_IDLE_JITTER_RATIO ?? '0'));
     const maxIdleMs = Number(take('--max-idle-ms', '0'));
     const logPath = take('--log', '.percy/logs/percy-runtime.jsonl');
     if (!Number.isInteger(workers) || workers < 1 || workers > 4) throw new RangeError('--workers must be in [1,4]');
@@ -71,7 +74,16 @@ try {
     };
     process.on('SIGINT', () => onSignal('SIGINT'));
     process.on('SIGTERM', () => onSignal('SIGTERM'));
-    logger.write('worker_pool_start', { workers, maxActive, classLimits: Object.fromEntries(limiter.limits) });
+    logger.write('worker_pool_start', {
+      workers,
+      maxActive,
+      classLimits: Object.fromEntries(limiter.limits),
+      idleMs,
+      maxIdleSleepMs,
+      idleBackoffFactor,
+      idleJitterRatio,
+      maxIdleMs,
+    });
     const rows = await Promise.all(Array.from({ length: workers }, (_, i) => runWorkerLoop({
       store,
       execute: executeBoundedTask,
@@ -81,6 +93,9 @@ try {
       leaseMs,
       timeoutMs,
       idleMs,
+      maxIdleSleepMs,
+      idleBackoffFactor,
+      idleJitterRatio,
       maxIdleMs,
       shouldStop: () => draining,
     })));
