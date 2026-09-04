@@ -107,7 +107,7 @@ export function runAuditAttempt({ timeoutMs, evidenceDir, attempt }) {
 }
 
 export function runProductionAudit({
-  attempts = integerEnv('VERTEXED_AUDIT_ATTEMPTS', 2, { min: 1, max: 3 }),
+  attempts = integerEnv('VERTEXED_AUDIT_ATTEMPTS', 3, { min: 1, max: 3 }),
   timeoutMs = integerEnv('VERTEXED_AUDIT_TIMEOUT_MS', 180_000, { min: 30_000, max: 300_000 }),
   evidenceDir = resolve(process.env.VERTEXED_AUDIT_EVIDENCE_DIR ?? 'ci-evidence/npm-audit'),
 } = {}) {
