@@ -31,14 +31,16 @@
     "temperature_fit_uses_development_only": true
   },
   "model_runtime": {
-    "provider": null,
-    "model_id": null,
-    "model_revision": null,
-    "processor_id": null,
-    "processor_revision": null,
-    "tokenizer_id": null,
-    "tokenizer_revision": null,
-    "inference_precision": null,
+    "identity_freeze_path": "research/multimodal-calibration/MODEL_RUNTIME_FREEZE_20260905.json",
+    "identity_freeze_sha256": "7fe2877fb942e82de6ebc58768bfad2c00b2edc02722f371a10f417e34fbc892",
+    "provider": "huggingface_transformers_local",
+    "model_id": "Qwen/Qwen2.5-VL-3B-Instruct",
+    "model_revision": "243fd99abe513d2a02a98274ea34c07e8f961b0f",
+    "processor_id": "Qwen/Qwen2.5-VL-3B-Instruct",
+    "processor_revision": "243fd99abe513d2a02a98274ea34c07e8f961b0f",
+    "tokenizer_id": "Qwen/Qwen2.5-VL-3B-Instruct",
+    "tokenizer_revision": "243fd99abe513d2a02a98274ea34c07e8f961b0f",
+    "inference_precision": "bfloat16_model_float32_option_logprob_accumulation",
     "runtime_identity": null
   },
   "option_score_extraction": {
