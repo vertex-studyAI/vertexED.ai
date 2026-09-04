@@ -16,18 +16,8 @@ async function loadManifest() {
 function completeManifest(manifest) {
   const filled = structuredClone(manifest);
   const digestA = 'a'.repeat(64);
-  const digestB = 'b'.repeat(64);
   const digestE = 'e'.repeat(64);
   const digestF = 'f'.repeat(64);
-
-  Object.assign(filled.dataset, {
-    development_ids_manifest_path: 'research/multimodal-calibration/freeze/development_ids.jsonl',
-    development_ids_sha256: digestA,
-    development_count: 100,
-    evaluation_ids_manifest_path: 'research/multimodal-calibration/freeze/evaluation_ids.jsonl',
-    evaluation_ids_sha256: digestB,
-    evaluation_count: 200
-  });
 
   Object.assign(filled.model_runtime, {
     provider: 'local',
@@ -59,7 +49,7 @@ function completeManifest(manifest) {
   return filled;
 }
 
-test('checked-in manifest pins official ScienceQA source but remains fail-closed and blocked', async () => {
+test('checked-in manifest binds the exact ScienceQA freeze but remains fail-closed and blocked', async () => {
   const manifest = await loadManifest();
   const assessment = validateAuthorizationManifest(manifest);
 
@@ -67,9 +57,14 @@ test('checked-in manifest pins official ScienceQA source but remains fail-closed
   assert.equal(manifest.dataset.release_revision, '2cbf8318e07b9ece895bb2ae605e71e38d623264');
   assert.equal(manifest.dataset.source_files.pid_splits.git_blob_sha, 'bde005092576ebebfed08087879ff774fcd75b62');
   assert.equal(manifest.dataset.source_files.problems.git_blob_sha, '3920b762556abfbfa001f298c9740c36d4e041e1');
+  assert.equal(manifest.dataset.freeze_receipt_sha256, '39078814f97c3c120f8c76ac5ac7a312e0e036cf6c027e47ffcf51676287b736');
+  assert.equal(manifest.dataset.development_count, 2097);
+  assert.equal(manifest.dataset.development_ids_sha256, '84846b05bc8c04c13f026bdd69e7f0fdba9dd884f900615dd4db8754e6179698');
+  assert.equal(manifest.dataset.evaluation_count, 2017);
+  assert.equal(manifest.dataset.evaluation_ids_sha256, '656886545f24857c86718443aac5270c50e64ae4665dae96df3f373ff799fa8a');
   assert.equal(assessment.authorized, false);
   assert.ok(assessment.errors.length > 0);
-  assert.ok(assessment.errors.some((error) => error.includes('dataset.development_ids_manifest_path is unresolved')));
+  assert.ok(!assessment.errors.some((error) => error.startsWith('dataset.')));
   assert.ok(assessment.errors.some((error) => error.includes('model_runtime.model_id is unresolved')));
   assert.ok(assessment.errors.some((error) => error.includes('fitted_temperature is unresolved')));
   assert.ok(assessment.errors.some((error) => error.includes('package_lock_sha256')));
@@ -108,13 +103,19 @@ test('outcome access permanently blocks pre-outcome authorization state', async 
   );
 });
 
-test('malformed digests are rejected instead of treated as frozen identities', async () => {
+test('exact dataset receipt, manifest paths, counts and digests cannot drift', async () => {
   const manifest = completeManifest(await loadManifest());
-  manifest.dataset.evaluation_ids_sha256 = 'not-a-digest';
+  manifest.dataset.freeze_receipt_sha256 = '0'.repeat(64);
+  manifest.dataset.development_ids_manifest_path = 'dataset/dev-posthoc.jsonl';
+  manifest.dataset.development_count += 1;
+  manifest.dataset.evaluation_ids_sha256 = '1'.repeat(64);
 
   const assessment = assessAuthorization(manifest);
   assert.equal(assessment.authorized, false);
-  assert.ok(assessment.errors.includes('dataset.evaluation_ids_sha256 must be a lowercase SHA-256 digest'));
+  assert.ok(assessment.errors.some((error) => error.startsWith('dataset.freeze_receipt_sha256 must remain')));
+  assert.ok(assessment.errors.some((error) => error.startsWith('dataset.development_ids_manifest_path must remain')));
+  assert.ok(assessment.errors.some((error) => error.startsWith('dataset.development_count must remain')));
+  assert.ok(assessment.errors.some((error) => error.startsWith('dataset.evaluation_ids_sha256 must remain')));
 });
 
 test('ScienceQA repository and source-blob identities cannot drift', async () => {
