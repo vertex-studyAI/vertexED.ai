@@ -43,8 +43,8 @@
     "seed": 20260904,
     "library": "sharp",
     "locked_library_version": "0.35.3",
-    "implementation_path": null,
-    "implementation_sha256": null,
+    "implementation_path": "research/multimodal-calibration/transforms.mjs",
+    "implementation_sha256": "db13dfe39bac853c5367f7dea9796d165542a91f6fc5b6213f8554e45acac496",
     "processor_stochastic_transforms_allowed": false,
     "conditions": {
       "S0": "clean",
