@@ -19,18 +19,7 @@ function completeManifest(manifest) {
   const digestE = 'e'.repeat(64);
   const digestF = 'f'.repeat(64);
 
-  Object.assign(filled.model_runtime, {
-    provider: 'local',
-    model_id: 'example/model',
-    model_revision: '0123456789abcdef0123456789abcdef01234567',
-    processor_id: 'example/processor',
-    processor_revision: '123456789abcdef0123456789abcdef012345678',
-    tokenizer_id: 'example/tokenizer',
-    tokenizer_revision: '23456789abcdef0123456789abcdef0123456789',
-    inference_precision: 'float32',
-    runtime_identity: 'example-runtime@immutable-build-1'
-  });
-
+  filled.model_runtime.runtime_identity = 'example-runtime@immutable-build-1';
   filled.option_score_extraction.validated_against_model = true;
 
   Object.assign(filled.temperature_scaling, {
@@ -49,7 +38,7 @@ function completeManifest(manifest) {
   return filled;
 }
 
-test('checked-in manifest binds the exact ScienceQA freeze but remains fail-closed and blocked', async () => {
+test('checked-in manifest binds the exact ScienceQA and model-family freezes but remains fail-closed and blocked', async () => {
   const manifest = await loadManifest();
   const assessment = validateAuthorizationManifest(manifest);
 
@@ -62,10 +51,17 @@ test('checked-in manifest binds the exact ScienceQA freeze but remains fail-clos
   assert.equal(manifest.dataset.development_ids_sha256, '84846b05bc8c04c13f026bdd69e7f0fdba9dd884f900615dd4db8754e6179698');
   assert.equal(manifest.dataset.evaluation_count, 2017);
   assert.equal(manifest.dataset.evaluation_ids_sha256, '656886545f24857c86718443aac5270c50e64ae4665dae96df3f373ff799fa8a');
+
+  assert.equal(manifest.model_runtime.provider, 'huggingface_transformers_local');
+  assert.equal(manifest.model_runtime.model_id, 'Qwen/Qwen2.5-VL-3B-Instruct');
+  assert.equal(manifest.model_runtime.model_revision, '243fd99abe513d2a02a98274ea34c07e8f961b0f');
+  assert.equal(manifest.model_runtime.identity_freeze_sha256, '7fe2877fb942e82de6ebc58768bfad2c00b2edc02722f371a10f417e34fbc892');
+
   assert.equal(assessment.authorized, false);
   assert.ok(assessment.errors.length > 0);
   assert.ok(!assessment.errors.some((error) => error.startsWith('dataset.')));
-  assert.ok(assessment.errors.some((error) => error.includes('model_runtime.model_id is unresolved')));
+  assert.ok(assessment.errors.includes('model_runtime.runtime_identity is unresolved'));
+  assert.ok(!assessment.errors.some((error) => error.includes('model_runtime.model_id is unresolved')));
   assert.ok(assessment.errors.some((error) => error.includes('fitted_temperature is unresolved')));
   assert.ok(assessment.errors.some((error) => error.includes('package_lock_sha256')));
 });
@@ -144,15 +140,23 @@ test('frozen prompt, scorer, transform and shift definitions are authorization-b
   assert.ok(assessment.errors.some((error) => error.startsWith('transforms.conditions.S3 must remain')));
 });
 
-test('floating model-family revisions are rejected before authorization', async () => {
+test('frozen model-family identity and immutable revisions cannot drift', async () => {
   const manifest = completeManifest(await loadManifest());
+  manifest.model_runtime.identity_freeze_sha256 = '0'.repeat(64);
   manifest.model_runtime.model_revision = 'main';
   manifest.model_runtime.processor_revision = 'latest';
+  manifest.model_runtime.tokenizer_id = 'different/tokenizer';
+  manifest.model_runtime.inference_precision = 'float16';
 
   const assessment = assessAuthorization(manifest);
   assert.equal(assessment.authorized, false);
+  assert.ok(assessment.errors.some((error) => error.startsWith('model_runtime.identity_freeze_sha256 must remain')));
+  assert.ok(assessment.errors.some((error) => error.startsWith('model_runtime.model_revision must remain')));
   assert.ok(assessment.errors.includes('model_runtime.model_revision must be an immutable revision, not a floating ref'));
+  assert.ok(assessment.errors.some((error) => error.startsWith('model_runtime.processor_revision must remain')));
   assert.ok(assessment.errors.includes('model_runtime.processor_revision must be an immutable revision, not a floating ref'));
+  assert.ok(assessment.errors.some((error) => error.startsWith('model_runtime.tokenizer_id must remain')));
+  assert.ok(assessment.errors.some((error) => error.startsWith('model_runtime.inference_precision must remain')));
 });
 
 test('artifact contract rejects silent additions or destination drift', async () => {
