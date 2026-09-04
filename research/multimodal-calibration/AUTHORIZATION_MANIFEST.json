@@ -19,12 +19,14 @@
         "git_blob_sha": "3920b762556abfbfa001f298c9740c36d4e041e1"
       }
     },
-    "development_ids_manifest_path": null,
-    "development_ids_sha256": null,
-    "development_count": null,
-    "evaluation_ids_manifest_path": null,
-    "evaluation_ids_sha256": null,
-    "evaluation_count": null,
+    "freeze_receipt_path": "research/multimodal-calibration/DATASET_FREEZE.json",
+    "freeze_receipt_sha256": "39078814f97c3c120f8c76ac5ac7a312e0e036cf6c027e47ffcf51676287b736",
+    "development_ids_manifest_path": "dataset/development_ids.jsonl",
+    "development_ids_sha256": "84846b05bc8c04c13f026bdd69e7f0fdba9dd884f900615dd4db8754e6179698",
+    "development_count": 2097,
+    "evaluation_ids_manifest_path": "dataset/evaluation_ids.jsonl",
+    "evaluation_ids_sha256": "656886545f24857c86718443aac5270c50e64ae4665dae96df3f373ff799fa8a",
+    "evaluation_count": 2017,
     "malformed_record_exclusion_rule": "Exclude only records that cannot be deterministically decoded into the frozen ScienceQA image-present multiple-choice schema; retain every exclusion with record ID and machine-readable reason before evaluation metrics are opened.",
     "temperature_fit_uses_development_only": true
   },
