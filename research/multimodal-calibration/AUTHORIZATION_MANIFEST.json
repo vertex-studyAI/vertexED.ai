@@ -7,8 +7,18 @@
   "execution_authorized": false,
   "results_status": "NOT_RUN",
   "dataset": {
-    "source_uri": null,
-    "release_revision": null,
+    "source_uri": "https://github.com/lupantech/ScienceQA",
+    "release_revision": "2cbf8318e07b9ece895bb2ae605e71e38d623264",
+    "source_files": {
+      "pid_splits": {
+        "path": "data/scienceqa/pid_splits.json",
+        "git_blob_sha": "bde005092576ebebfed08087879ff774fcd75b62"
+      },
+      "problems": {
+        "path": "data/scienceqa/problems.json",
+        "git_blob_sha": "3920b762556abfbfa001f298c9740c36d4e041e1"
+      }
+    },
     "development_ids_manifest_path": null,
     "development_ids_sha256": null,
     "development_count": null,
