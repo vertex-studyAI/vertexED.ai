@@ -1,0 +1,57 @@
+name: Multimodal Calibration Authorization File Bindings
+
+on:
+  pull_request:
+    paths:
+      - 'research/multimodal-calibration/**'
+      - 'tests/multimodal-calibration-authorization-file-bindings.test.mjs'
+      - '.github/workflows/multimodal-calibration-authorization-bindings.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  verify-authorization-bound-bytes:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout exact PR head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+
+      - name: Setup Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.22.0'
+
+      - name: Run authorization file-binding regressions
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --test tests/multimodal-calibration-authorization-file-bindings.test.mjs \
+            | tee "$RUNNER_TEMP/multimodal-calibration-authorization-bindings-tests.log"
+
+      - name: Verify resolved manifest digests bind exact checked-in bytes
+        shell: bash
+        run: |
+          set -euo pipefail
+          node research/multimodal-calibration/verify-authorization-bindings.mjs \
+            | tee "$RUNNER_TEMP/multimodal-calibration-authorization-bindings.log"
+          grep -Fx 'MULTIMODAL_CALIBRATION_AUTHORIZATION_BINDINGS=PASS' \
+            "$RUNNER_TEMP/multimodal-calibration-authorization-bindings.log"
+          grep -Fx 'MULTIMODAL_CALIBRATION_AUTHORIZATION=BLOCKED' \
+            "$RUNNER_TEMP/multimodal-calibration-authorization-bindings.log"
+          grep -F 'UNRESOLVED_FILE_BINDINGS=environment.package_lock' \
+            "$RUNNER_TEMP/multimodal-calibration-authorization-bindings.log"
+
+      - name: Retain pre-outcome binding evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: multimodal-calibration-authorization-bindings-${{ github.event.pull_request.head.sha }}
+          path: |
+            ${{ runner.temp }}/multimodal-calibration-authorization-bindings-tests.log
+            ${{ runner.temp }}/multimodal-calibration-authorization-bindings.log
+          if-no-files-found: error
+          retention-days: 30
