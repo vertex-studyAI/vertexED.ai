@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "project": "T2424-0050",
+  "scientific_status": "HOLD_MIXED_ROBUSTNESS",
+  "preprint_ready": false,
+  "generated_by": "scripts/generate-darcy-release-manifest.mjs",
+  "pdf_provenance": {
+    "source_head": "0011292fcfd4109bce271025c9a467f9ac333acb",
+    "workflow_run_id": 33368603717,
+    "workflow_url": "https://github.com/vertex-studyAI/vertexED.ai/actions/runs/33368603717",
+    "artifact_id": 9749201374,
+    "artifact_name": "t2424-0050-darcy-rendered-paper",
+    "artifact_expires_at": "2026-09-30T07:30:28Z",
+    "artifact_archive_sha256": "5803474339e84d17257e8dcb6f2e51749ad4dbc77a59428153373bafa696abfe",
+    "permanent_archive": false,
+    "pdf": {
+      "filename": "T2424-0050-Darcy-bounded-mixed-result.pdf",
+      "bytes": 84630,
+      "sha256": "9be0a8d53bc20512e46b874651768d22cd1b2001626b3e77afdbf26529483c4e",
+      "pages": 4,
+      "page_size": "A4",
+      "encrypted": false,
+      "javascript": false
+    }
+  },
+  "artifacts": {
+    "portfolio/project2424/projects/T2424-0050/LEARNED_OPERATOR_OOD_PROTOCOL_V2.md": {
+      "bytes": 14117,
+      "sha256": "d8f00e6d4baf746e420c28a589ae3f21a2785f259271822e9fff5ffcc1e82f11"
+    },
+    "portfolio/project2424/projects/T2424-0050/STATUS.md": {
+      "bytes": 5147,
+      "sha256": "b5f9109a184ed9fe0895a93884647391bc71dedb096cf52dbdcaa729ec1afa20"
+    },
+    "portfolio/project2424/projects/T2424-0050/v2-freeze-config.json": {
+      "bytes": 4637,
+      "sha256": "500a13c6550c9e862e622716e741eb69b66d9e33dd4e49c47ecffa7db632b3ea"
+    },
+    "portfolio/project2424/projects/T2424-0050/results/reference.json": {
+      "bytes": 1395,
+      "sha256": "0dc1ff7f1b651fafc9231912568d56e3ed1eff4d1adec049c577276b6af85c35"
+    },
+    "portfolio/project2424/projects/T2424-0050/results/misaligned-audit.json": {
+      "bytes": 3467,
+      "sha256": "84f1df9938beec0b2d4e140a8017fe49cf4102ac0dd607c76e8ce7d456c86f3d"
+    },
+    "portfolio/project2424/projects/T2424-0050/paper/CLAIM_EVIDENCE_MATRIX.md": {
+      "bytes": 4226,
+      "sha256": "4cea9dddf76a636817c83fdf064c44fd57f62e199da5d1c5edf989173c86c5f5"
+    },
+    "portfolio/project2424/projects/T2424-0050/paper/MANUSCRIPT.md": {
+      "bytes": 9572,
+      "sha256": "f7523041fe13f04cb3f917aac41c5c0f3525a1be7bc89cb0f06d85f603cc4a35"
+    },
+    "portfolio/project2424/projects/T2424-0050/paper/BIBLIOGRAPHY_AUDIT.md": {
+      "bytes": 2545,
+      "sha256": "9b964d67592961b70017331742c7c50151ca311f50c7e0a43f3da5ce50ead544"
+    },
+    "portfolio/project2424/projects/T2424-0050/paper/SENTENCE_CLAIM_AUDIT.md": {
+      "bytes": 5372,
+      "sha256": "6d6a718e60891bd7d212c55e7200c52886fea11ebc00b5beda42fb5afbf4fec9"
+    },
+    "portfolio/project2424/projects/T2424-0050/paper/RELEASE_AUDIT.md": {
+      "bytes": 4079,
+      "sha256": "af1c7b60a2a5945ec6a5806850635e733380a84e34847f720e81d1bffe251a01"
+    }
+  }
+}
