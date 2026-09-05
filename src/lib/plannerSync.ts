@@ -1,4 +1,5 @@
 import { authFetch } from '@/lib/apiAuth';
+import { createRequestDeadline } from '@/lib/apiRequestRecovery.mjs';
 import type { TaskItem } from '@/features/study-calendar/components/Schedule';
 import { trackPlannerRetrieved, trackPlannerSaved } from '@/lib/plannerPersistenceAnalytics.mjs';
 import { plannerStorageKeys } from '@/lib/plannerStorageScope.mjs';
@@ -9,6 +10,9 @@ export type PlannerSnapshot = {
   mode: string;
   updatedAt: string;
 };
+
+const PLANNER_SYNC_TIMEOUT_MS = 15_000;
+const PLANNER_SYNC_TIMEOUT_MESSAGE = 'Cloud sync timed out; using planner saved on this device';
 
 function emptySnapshot(): PlannerSnapshot {
   return { tasks: [], mode: 'Day', updatedAt: new Date(0).toISOString() };
@@ -79,9 +83,12 @@ export async function loadPlannerSnapshot(storageScope?: string | null): Promise
 }> {
   const resolvedScope = await resolveStorageScope(storageScope);
   const local = readLocalSnapshot(resolvedScope);
+  const deadline = createRequestDeadline(undefined, PLANNER_SYNC_TIMEOUT_MS);
 
   try {
-    const res = await authFetch('/api/user-content?kind=planner&limit=1');
+    const res = await authFetch('/api/user-content?kind=planner&limit=1', {
+      signal: deadline.signal,
+    });
     const data = await res.json().catch(() => null);
     if (!res.ok) {
       trackPlannerRetrieved({
@@ -136,8 +143,14 @@ export async function loadPlannerSnapshot(storageScope?: string | null): Promise
     return {
       snapshot: local,
       cloudSynced: false,
-      error: err instanceof Error ? err.message : 'Planner saved on this device only',
+      error: deadline.didTimeout()
+        ? PLANNER_SYNC_TIMEOUT_MESSAGE
+        : err instanceof Error
+          ? err.message
+          : 'Planner saved on this device only',
     };
+  } finally {
+    deadline.cleanup();
   }
 }
 
@@ -148,6 +161,7 @@ export async function savePlannerSnapshot(
 ): Promise<{ ok: boolean; cloudSynced: boolean; error?: string }> {
   const resolvedScope = await resolveStorageScope(storageScope);
   writeLocalPlannerSnapshot(snapshot, resolvedScope);
+  const deadline = createRequestDeadline(undefined, PLANNER_SYNC_TIMEOUT_MS);
 
   try {
     const res = await authFetch('/api/user-content', {
@@ -166,6 +180,7 @@ export async function savePlannerSnapshot(
           version: 1,
         },
       }),
+      signal: deadline.signal,
     });
     const data = await res.json().catch(() => null);
     if (!res.ok) {
@@ -183,7 +198,13 @@ export async function savePlannerSnapshot(
     return {
       ok: true,
       cloudSynced: false,
-      error: err instanceof Error ? err.message : 'Saved on this device only',
+      error: deadline.didTimeout()
+        ? PLANNER_SYNC_TIMEOUT_MESSAGE
+        : err instanceof Error
+          ? err.message
+          : 'Saved on this device only',
     };
+  } finally {
+    deadline.cleanup();
   }
 }
