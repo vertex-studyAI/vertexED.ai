@@ -1,0 +1,110 @@
+name: Multimodal Calibration Processor Input Preflight
+
+on:
+  pull_request:
+    paths:
+      - 'research/multimodal-calibration/**'
+      - 'tests/test_multimodal_calibration_processor_input_preflight.py'
+      - '.github/workflows/multimodal-calibration-processor-input-preflight.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  frozen-processor-input-preflight:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout exact PR head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+
+      - name: Setup Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.22.0'
+
+      - name: Setup Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12.8'
+          cache: 'pip'
+
+      - name: Run offline processor-boundary regressions
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m unittest -v tests/test_multimodal_calibration_processor_input_preflight.py
+
+      - name: Install bounded processor-preflight dependencies
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip install --disable-pip-version-check \
+            'transformers==4.57.1' \
+            'tokenizers==0.22.1' \
+            'huggingface-hub==0.35.3' \
+            'Pillow==11.3.0'
+          python -m pip check
+
+      - name: Render synthetic prompt through the frozen repository template
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --input-type=module > "$RUNNER_TEMP/multimodal-calibration-processor-prompt.txt" <<'NODE'
+          import { renderScienceQaPrompt } from './research/multimodal-calibration/prompt-template.mjs';
+          process.stdout.write(renderScienceQaPrompt({
+            question: 'Which synthetic option is selected for processor input preflight?',
+            hint: 'This fixture is synthetic and is not a ScienceQA development or evaluation record.',
+            choices: ['Alpha', 'Beta', 'Gamma', 'Delta']
+          }));
+          NODE
+
+      - name: Verify exact frozen processor/chat-template/image-input behavior
+        shell: bash
+        env:
+          HF_HUB_DISABLE_TELEMETRY: '1'
+          TRANSFORMERS_OFFLINE: '0'
+        run: |
+          set -euo pipefail
+          OUT="$RUNNER_TEMP/multimodal-calibration-processor-input-preflight.json"
+          python research/multimodal-calibration/processor-input-preflight.py \
+            --prompt-file "$RUNNER_TEMP/multimodal-calibration-processor-prompt.txt" \
+            --output "$OUT"
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          receipt = json.loads(Path(os.environ['RUNNER_TEMP'], 'multimodal-calibration-processor-input-preflight.json').read_text())
+          assert receipt['status'] == 'PROCESSOR_INPUT_PREFLIGHT_PASS_MODEL_FORWARD_NOT_VALIDATED'
+          assert receipt['model']['id'] == 'Qwen/Qwen2.5-VL-3B-Instruct'
+          assert receipt['model']['revision'] == '243fd99abe513d2a02a98274ea34c07e8f961b0f'
+          assert receipt['synthetic_fixture']['evaluation_record'] is False
+          assert receipt['evaluation_data_accessed'] is False
+          assert receipt['model_weights_downloaded_by_preflight'] is False
+          assert receipt['model_forward_executed'] is False
+          assert receipt['option_scorer_validated_against_model'] is False
+          assert receipt['execution_authorized'] is False
+          rows = receipt['option_label_processor_sequences']
+          assert [row['continuation'] for row in rows] == ['A', 'B', 'C', 'D']
+          assert len({row['context_token_ids_sha256'] for row in rows}) == 1
+          assert len({row['pixel_values_sha256'] for row in rows}) == 1
+          assert len({json.dumps(row['image_grid_thw'], sort_keys=True) for row in rows}) == 1
+          assert receipt['processor_prefix']['pixel_values_sha256'] == rows[0]['pixel_values_sha256']
+          PY
+          sha256sum "$OUT" "$RUNNER_TEMP/multimodal-calibration-processor-prompt.txt" \
+            | tee "$RUNNER_TEMP/multimodal-calibration-processor-input-preflight.sha256"
+
+      - name: Upload pre-outcome processor-input evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: multimodal-calibration-processor-input-preflight-${{ github.event.pull_request.head.sha }}
+          path: |
+            ${{ runner.temp }}/multimodal-calibration-processor-input-preflight.json
+            ${{ runner.temp }}/multimodal-calibration-processor-input-preflight.sha256
+            ${{ runner.temp }}/multimodal-calibration-processor-prompt.txt
+          if-no-files-found: error
+          retention-days: 30
