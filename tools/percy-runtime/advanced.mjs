@@ -35,6 +35,7 @@ export function validateSubmission({ kind = 'echo', payload = {}, maxAttempts = 
 } = {}) {
   if (!allowedKinds.includes(kind)) throw new Error(`task kind not allowed: ${kind}`);
   if (!Number.isInteger(maxAttempts) || maxAttempts < 1 || maxAttempts > 20) throw new RangeError('maxAttempts must be in [1,20]');
+  if (!Number.isInteger(maxPayloadBytes) || maxPayloadBytes < 1) throw new RangeError('maxPayloadBytes must be >=1');
   const bytes = payloadBytes(payload);
   if (bytes > maxPayloadBytes) throw new RangeError(`payload too large: ${bytes} > ${maxPayloadBytes}`);
   return { kind, payload, maxAttempts, payloadBytes: bytes };
@@ -123,10 +124,20 @@ export class ClassLimiter {
   limitFor(name) { return this.limits.get(name) ?? this.limits.get('default') ?? 1; }
   activeFor(name) { return this.active.get(name) ?? 0; }
 
+  releaseHandle(name) {
+    let released = false;
+    return () => {
+      if (released) return false;
+      released = true;
+      this.release(name);
+      return true;
+    };
+  }
+
   async acquire(name = 'default') {
     if (this.activeFor(name) < this.limitFor(name)) {
       this.active.set(name, this.activeFor(name) + 1);
-      return () => this.release(name);
+      return this.releaseHandle(name);
     }
     await new Promise((resolveWaiter) => {
       const queue = this.waiters.get(name) ?? [];
@@ -136,7 +147,7 @@ export class ClassLimiter {
     // release() transfers an existing occupied slot directly to this waiter.
     // Do not increment active here or a release/acquire handoff can briefly
     // exceed the declared provider-class limit.
-    return () => this.release(name);
+    return this.releaseHandle(name);
   }
 
   release(name = 'default') {
@@ -178,11 +189,13 @@ export async function runWorkerLoop({
   shouldStop = () => false,
   sleepFn = sleep,
   random = Math.random,
+  nowFn = Date.now,
 } = {}) {
   if (!store || typeof store.claim !== 'function') throw new TypeError('store required');
   if (typeof execute !== 'function') throw new TypeError('execute required');
   if (!workerId) throw new TypeError('workerId required');
   if (!Number.isFinite(leaseMs) || leaseMs < 100) throw new RangeError('leaseMs must be >=100');
+  if (!Number.isFinite(timeoutMs) || timeoutMs < 1) throw new RangeError('timeoutMs must be >=1');
   if (!Number.isFinite(idleMs) || idleMs < 1) throw new RangeError('idleMs must be >=1');
   if (!Number.isFinite(maxIdleSleepMs) || maxIdleSleepMs < idleMs) throw new RangeError('maxIdleSleepMs must be >= idleMs');
   if (!Number.isFinite(idleBackoffFactor) || idleBackoffFactor < 1 || idleBackoffFactor > 10) {
@@ -195,9 +208,16 @@ export async function runWorkerLoop({
   if (typeof shouldStop !== 'function') throw new TypeError('shouldStop must be a function');
   if (typeof sleepFn !== 'function') throw new TypeError('sleepFn must be a function');
   if (typeof random !== 'function') throw new TypeError('random must be a function');
+  if (typeof nowFn !== 'function') throw new TypeError('nowFn must be a function');
+
+  const readNow = () => {
+    const now = Number(nowFn());
+    if (!Number.isFinite(now)) throw new RangeError('nowFn() must return a finite number');
+    return now;
+  };
 
   const effectiveLeaseMs = Math.max(leaseMs, MIN_WORKER_LEASE_MS);
-  let lastWorkAt = Date.now();
+  let lastWorkAt = readNow();
   let currentIdleMs = idleMs;
   let completed = 0;
   let failed = 0;
@@ -217,8 +237,11 @@ export async function runWorkerLoop({
   while (!shouldStop()) {
     const task = store.claim(workerId, effectiveLeaseMs);
     if (!task) {
-      const idleForMs = Date.now() - lastWorkAt;
-      if (maxIdleMs > 0 && idleForMs >= maxIdleMs) break;
+      const idleForMs = Math.max(0, readNow() - lastWorkAt);
+      if (maxIdleMs > 0 && idleForMs >= maxIdleMs) {
+        logger?.write('worker_idle_timeout', { workerId, idleForMs, maxIdleMs });
+        break;
+      }
 
       const baseDelay = Math.min(maxIdleSleepMs, currentIdleMs);
       let waitMs = nextIdleDelay(baseDelay, maxIdleSleepMs, idleJitterRatio, random);
@@ -230,7 +253,7 @@ export async function runWorkerLoop({
       continue;
     }
 
-    lastWorkAt = Date.now();
+    lastWorkAt = readNow();
     currentIdleMs = idleMs;
     const className = String(task.payload?.providerClass ?? task.payload?.taskClass ?? 'default');
     let release;
@@ -280,6 +303,10 @@ export async function runWorkerLoop({
     } finally {
       clearInterval(heartbeat);
       release?.();
+      // maxIdleMs measures time with no task activity, not task runtime. Reset the
+      // idle epoch after every claimed-task attempt (success, failure, or ownership
+      // loss) so a long provider wait/execution cannot cause an immediate idle exit.
+      lastWorkAt = readNow();
     }
   }
 
