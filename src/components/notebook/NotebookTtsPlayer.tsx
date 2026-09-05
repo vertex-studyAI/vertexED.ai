@@ -153,8 +153,12 @@ export default function NotebookTtsPlayer({ script, className }: Props) {
     ) {
       return;
     }
+    const activeUtterance = utteranceRef.current;
     try {
       window.speechSynthesis.pause();
+      // Browsers/polyfills may synchronously complete the utterance from inside
+      // pause(). Do not overwrite completion state with a stale paused UI.
+      if (utteranceRef.current !== activeUtterance) return;
       setPaused(true);
       setPlaying(false);
     } catch {
