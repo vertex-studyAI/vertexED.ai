@@ -86,11 +86,15 @@ try {
     const workers = Number(take('--workers', String(maxActive)));
     const leaseMs = parseTimerMs('--lease-ms', take('--lease-ms', '30000'), 100);
     const timeoutMs = parseTimerMs('--timeout-ms', take('--timeout-ms', '10000'), 1);
-    const idleMs = Number(take('--idle-ms', process.env.PERCY_IDLE_MS ?? '250'));
-    const maxIdleSleepMs = Number(take('--max-idle-sleep-ms', process.env.PERCY_MAX_IDLE_SLEEP_MS ?? String(idleMs)));
+    const idleMs = parseTimerMs('--idle-ms', take('--idle-ms', process.env.PERCY_IDLE_MS ?? '250'), 1);
+    const maxIdleSleepMs = parseTimerMs(
+      '--max-idle-sleep-ms',
+      take('--max-idle-sleep-ms', process.env.PERCY_MAX_IDLE_SLEEP_MS ?? String(idleMs)),
+      1,
+    );
     const idleBackoffFactor = Number(take('--idle-backoff-factor', process.env.PERCY_IDLE_BACKOFF_FACTOR ?? '1'));
     const idleJitterRatio = Number(take('--idle-jitter-ratio', process.env.PERCY_IDLE_JITTER_RATIO ?? '0'));
-    const maxIdleMs = Number(take('--max-idle-ms', '0'));
+    const maxIdleMs = parseTimerMs('--max-idle-ms', take('--max-idle-ms', '0'), 0);
     const logPath = take('--log', '.percy/logs/percy-runtime.jsonl');
     const classLimits = normalizeClassLimitsSpec(
       take('--class-limits', process.env.PERCY_CLASS_LIMITS ?? 'default=2'),
