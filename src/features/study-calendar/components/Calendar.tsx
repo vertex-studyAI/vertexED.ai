@@ -7,8 +7,15 @@ interface CalendarProps {
   mode: string; // "Day" | "Week"
 }
 
+const isSameCalendarDay = (left: Date, right: Date) => (
+  left.getFullYear() === right.getFullYear()
+  && left.getMonth() === right.getMonth()
+  && left.getDate() === right.getDate()
+);
+
 const Calendar: React.FC<CalendarProps> = ({ selectedDate, onDateChange, mode }) => {
   const [currentDate, setCurrentDate] = useState(selectedDate);
+  const today = new Date();
 
   useEffect(() => {
     setCurrentDate(selectedDate);
@@ -38,6 +45,8 @@ const Calendar: React.FC<CalendarProps> = ({ selectedDate, onDateChange, mode })
         key={"prev" + i}
         type="button"
         className="calendar-day previous-month"
+        aria-current={isSameCalendarDay(dayDate, today) ? 'date' : undefined}
+        aria-pressed={isSameCalendarDay(dayDate, currentDate)}
         aria-label={`Select ${dayDate.toLocaleDateString('en-US', { weekday:'long', month:'long', day:'numeric', year:'numeric' })}`}
         onClick={() => {
           setCurrentDate(dayDate);
@@ -56,7 +65,8 @@ const Calendar: React.FC<CalendarProps> = ({ selectedDate, onDateChange, mode })
         key={i}
         type="button"
         className={`calendar-day ${i === currentDay ? "accent" : ""} ${isHighlighted ? "highlight" : ""}`}
-        aria-current={i === currentDay ? 'date' : undefined}
+        aria-current={isSameCalendarDay(dayDate, today) ? 'date' : undefined}
+        aria-pressed={isSameCalendarDay(dayDate, currentDate)}
         aria-label={`Select ${dayDate.toLocaleDateString('en-US', { weekday:'long', month:'long', day:'numeric', year:'numeric' })}`}
         onClick={() => {
           setCurrentDate(dayDate);
@@ -74,6 +84,8 @@ const Calendar: React.FC<CalendarProps> = ({ selectedDate, onDateChange, mode })
         key={"next" + i}
         type="button"
         className="calendar-day next-month"
+        aria-current={isSameCalendarDay(dayDate, today) ? 'date' : undefined}
+        aria-pressed={isSameCalendarDay(dayDate, currentDate)}
         aria-label={`Select ${dayDate.toLocaleDateString('en-US', { weekday:'long', month:'long', day:'numeric', year:'numeric' })}`}
         onClick={() => {
           setCurrentDate(dayDate);
