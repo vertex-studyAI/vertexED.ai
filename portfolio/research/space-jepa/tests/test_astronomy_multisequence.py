@@ -62,7 +62,7 @@ def test_fit_many_resets_delta_time_at_each_object_boundary():
 def test_multisequence_dataset_never_crosses_object_boundaries():
     a = np.full((9, 3), 1.0, dtype=np.float32)
     b = np.full((10, 3), 100.0, dtype=np.float32)
-    ds = MultiSequenceWindowDataset(a if False else [a, b], 4, 2, stride=2)
+    ds = MultiSequenceWindowDataset([a, b], 4, 2, stride=2)
 
     assert ds.window_counts == (2, 3)
     assert len(ds) == 5
