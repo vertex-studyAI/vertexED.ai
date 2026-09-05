@@ -12,9 +12,9 @@ const MAX_TIMER_MS = 2_147_483_647;
 // lease behavior can still be tested independently.
 export const MIN_WORKER_LEASE_MS = 1_000;
 
-function validateWorkerTimerMs(name, value, minimum) {
-  if (!Number.isSafeInteger(value) || value < minimum || value > MAX_TIMER_MS) {
-    throw new RangeError(`${name} must be an integer in [${minimum},${MAX_TIMER_MS}]`);
+function validateWorkerTimerCeiling(name, value) {
+  if (!Number.isSafeInteger(value) || value > MAX_TIMER_MS) {
+    throw new RangeError(`${name} must be a safe integer <= ${MAX_TIMER_MS}`);
   }
   return value;
 }
@@ -192,9 +192,6 @@ export class ClassLimiter {
       queue.push(resolveWaiter);
       this.waiters.set(className, queue);
     });
-    // release() transfers an existing occupied slot directly to this waiter.
-    // Do not increment active here or a release/acquire handoff can briefly
-    // exceed the declared provider-class limit.
     return this.releaseHandle(className);
   }
 
@@ -204,7 +201,6 @@ export class ClassLimiter {
     const waiter = queue.shift();
     if (waiter) {
       if (queue.length) this.waiters.set(className, queue); else this.waiters.delete(className);
-      // Keep active unchanged: the slot is reserved for the queued waiter.
       queueMicrotask(waiter);
       return;
     }
@@ -243,17 +239,22 @@ export async function runWorkerLoop({
   if (!store || typeof store.claim !== 'function') throw new TypeError('store required');
   if (typeof execute !== 'function') throw new TypeError('execute required');
   if (!workerId) throw new TypeError('workerId required');
-  validateWorkerTimerMs('leaseMs', leaseMs, 100);
-  validateWorkerTimerMs('timeoutMs', timeoutMs, 1);
-  validateWorkerTimerMs('idleMs', idleMs, 1);
-  validateWorkerTimerMs('maxIdleSleepMs', maxIdleSleepMs, idleMs);
-  validateWorkerTimerMs('maxIdleMs', maxIdleMs, 0);
+  if (!Number.isFinite(leaseMs) || leaseMs < 100) throw new RangeError('leaseMs must be >=100');
+  validateWorkerTimerCeiling('leaseMs', leaseMs);
+  if (!Number.isFinite(timeoutMs) || timeoutMs < 1) throw new RangeError('timeoutMs must be >=1');
+  validateWorkerTimerCeiling('timeoutMs', timeoutMs);
+  if (!Number.isFinite(idleMs) || idleMs < 1) throw new RangeError('idleMs must be >=1');
+  validateWorkerTimerCeiling('idleMs', idleMs);
+  if (!Number.isFinite(maxIdleSleepMs) || maxIdleSleepMs < idleMs) throw new RangeError('maxIdleSleepMs must be >= idleMs');
+  validateWorkerTimerCeiling('maxIdleSleepMs', maxIdleSleepMs);
   if (!Number.isFinite(idleBackoffFactor) || idleBackoffFactor < 1 || idleBackoffFactor > 10) {
     throw new RangeError('idleBackoffFactor must be in [1,10]');
   }
   if (!Number.isFinite(idleJitterRatio) || idleJitterRatio < 0 || idleJitterRatio > 1) {
     throw new RangeError('idleJitterRatio must be in [0,1]');
   }
+  if (!Number.isFinite(maxIdleMs) || maxIdleMs < 0) throw new RangeError('maxIdleMs must be >=0');
+  validateWorkerTimerCeiling('maxIdleMs', maxIdleMs);
   if (typeof shouldStop !== 'function') throw new TypeError('shouldStop must be a function');
   if (typeof sleepFn !== 'function') throw new TypeError('sleepFn must be a function');
   if (typeof random !== 'function') throw new TypeError('random must be a function');
@@ -309,11 +310,6 @@ export async function runWorkerLoop({
     let release;
     let heartbeat;
     try {
-      // A claimed task can wait behind a stricter provider/class limiter. Keep the
-      // ownership lease alive while queued for that slot so another worker cannot
-      // reclaim the task and create duplicate execution. The scheduler-safe lease
-      // floor protects this timer from ordinary CI/event-loop jitter; production's
-      // default 30 s lease remains unchanged.
       heartbeat = setInterval(() => {
         const owned = store.heartbeat(task.id, workerId, effectiveLeaseMs);
         if (!owned) logger?.write('heartbeat_ownership_lost', { workerId, taskId: task.id, className });
@@ -321,8 +317,6 @@ export async function runWorkerLoop({
       heartbeat.unref?.();
 
       release = await limiter.acquire(className);
-      // Refresh immediately at provider-slot handoff before changing CLAIMED -> RUNNING.
-      // If ownership was actually lost, fail closed and never execute the task.
       if (!store.heartbeat(task.id, workerId, effectiveLeaseMs)) {
         logger?.write('ownership_lost_at_provider_handoff', { workerId, taskId: task.id, className });
         continue;
@@ -353,9 +347,6 @@ export async function runWorkerLoop({
     } finally {
       clearInterval(heartbeat);
       release?.();
-      // maxIdleMs measures time with no task activity, not task runtime. Reset the
-      // idle epoch after every claimed-task attempt (success, failure, or ownership
-      // loss) so a long provider wait/execution cannot cause an immediate idle exit.
       lastWorkAt = readNow();
     }
   }
