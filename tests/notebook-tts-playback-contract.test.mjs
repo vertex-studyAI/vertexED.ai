@@ -23,7 +23,7 @@ test('replacing generated script content only cancels speech owned by this playe
   );
   assert.match(
     player,
-    /const activeUtterance = utteranceRef\.current;\s*if \(activeUtterance && typeof window !== 'undefined' && window\.speechSynthesis\) \{\s*window\.speechSynthesis\.cancel\(\);/,
+    /const activeUtterance = utteranceRef\.current;\s*if \(activeUtterance && typeof window !== 'undefined' && window\.speechSynthesis\) \{[\s\S]*?window\.speechSynthesis\.cancel\(\);/,
   );
 });
 
@@ -59,6 +59,18 @@ test('speak failures clear owned playback state instead of leaving a hidden acti
   );
 });
 
+test('stop clears local playback ownership even when browser cancellation throws', () => {
+  const stopStart = player.indexOf('const stop = useCallback');
+  const cleanupStart = player.indexOf('// Cleanup must not call', stopStart);
+  assert.ok(stopStart >= 0 && cleanupStart > stopStart);
+  const stopSection = player.slice(stopStart, cleanupStart);
+
+  assert.match(stopSection, /try \{\s*window\.speechSynthesis\.cancel\(\);\s*\} catch \{/);
+  const cancelIndex = stopSection.indexOf('window.speechSynthesis.cancel()');
+  const clearIndex = stopSection.indexOf('utteranceRef.current = null');
+  assert.ok(cancelIndex >= 0 && clearIndex > cancelIndex);
+});
+
 test('unmount cleanup cancels only an owned utterance and never calls stateful stop', () => {
   assert.match(
     player,
@@ -68,9 +80,25 @@ test('unmount cleanup cancels only an owned utterance and never calls stateful s
 });
 
 test('pause cannot affect the global speech queue without an owned utterance', () => {
+  const pauseStart = player.indexOf('const pause = () =>');
+  const renderStart = player.indexOf('// Render the same empty tree', pauseStart);
+  assert.ok(pauseStart >= 0 && renderStart > pauseStart);
+  const pauseSection = player.slice(pauseStart, renderStart);
+
   assert.match(
-    player,
-    /!window\.speechSynthesis \|\|\s*!utteranceRef\.current\s*\) \{\s*return;\s*\}\s*window\.speechSynthesis\.pause\(\);/,
+    pauseSection,
+    /!window\.speechSynthesis \|\|\s*!utteranceRef\.current\s*\) \{\s*return;/,
+  );
+  assert.match(pauseSection, /try \{\s*window\.speechSynthesis\.pause\(\);/);
+});
+
+test('pause failures fail closed through the owned stop path', () => {
+  const pauseStart = player.indexOf('const pause = () =>');
+  const renderStart = player.indexOf('// Render the same empty tree', pauseStart);
+  const pauseSection = player.slice(pauseStart, renderStart);
+  assert.match(
+    pauseSection,
+    /try \{\s*window\.speechSynthesis\.pause\(\);\s*setPaused\(true\);\s*setPlaying\(false\);\s*\} catch \{[\s\S]*?stop\(\);\s*\}/,
   );
 });
 
