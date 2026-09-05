@@ -37,6 +37,26 @@ export function parseClassLimits(spec = process.env.PERCY_CLASS_LIMITS ?? 'defau
   return limits;
 }
 
+function canonicalClassName(name = 'default') {
+  const normalized = String(name ?? 'default').trim();
+  return normalized || 'default';
+}
+
+function normalizeClassLimitMap(limits) {
+  const normalized = new Map();
+  for (const [rawName, rawLimit] of limits) {
+    const name = String(rawName ?? '').trim();
+    const limit = Number(rawLimit);
+    if (!name || !Number.isInteger(limit) || limit < 1 || limit > 32) {
+      throw new RangeError(`invalid class limit: ${String(rawName)}=${String(rawLimit)}`);
+    }
+    if (normalized.has(name)) throw new RangeError(`duplicate class limit: ${name}`);
+    normalized.set(name, limit);
+  }
+  if (!normalized.has('default')) normalized.set('default', 1);
+  return normalized;
+}
+
 export function payloadBytes(payload) {
   return Buffer.byteLength(JSON.stringify(payload ?? null), 'utf8');
 }
@@ -128,51 +148,60 @@ export async function restoreDatabase(backupPath, destination) {
 
 export class ClassLimiter {
   constructor(limits = parseClassLimits()) {
-    this.limits = limits instanceof Map ? limits : parseClassLimits(limits);
+    this.limits = limits instanceof Map ? normalizeClassLimitMap(limits) : parseClassLimits(limits);
     this.active = new Map();
     this.waiters = new Map();
   }
 
-  limitFor(name) { return this.limits.get(name) ?? this.limits.get('default') ?? 1; }
-  activeFor(name) { return this.active.get(name) ?? 0; }
+  limitFor(name) {
+    const className = canonicalClassName(name);
+    return this.limits.get(className) ?? this.limits.get('default') ?? 1;
+  }
+
+  activeFor(name) {
+    return this.active.get(canonicalClassName(name)) ?? 0;
+  }
 
   releaseHandle(name) {
+    const className = canonicalClassName(name);
     let released = false;
     return () => {
       if (released) return false;
       released = true;
-      this.release(name);
+      this.release(className);
       return true;
     };
   }
 
   async acquire(name = 'default') {
-    if (this.activeFor(name) < this.limitFor(name)) {
-      this.active.set(name, this.activeFor(name) + 1);
-      return this.releaseHandle(name);
+    const className = canonicalClassName(name);
+    if (this.activeFor(className) < this.limitFor(className)) {
+      this.active.set(className, this.activeFor(className) + 1);
+      return this.releaseHandle(className);
     }
     await new Promise((resolveWaiter) => {
-      const queue = this.waiters.get(name) ?? [];
+      const queue = this.waiters.get(className) ?? [];
       queue.push(resolveWaiter);
-      this.waiters.set(name, queue);
+      this.waiters.set(className, queue);
     });
     // release() transfers an existing occupied slot directly to this waiter.
     // Do not increment active here or a release/acquire handoff can briefly
     // exceed the declared provider-class limit.
-    return this.releaseHandle(name);
+    return this.releaseHandle(className);
   }
 
   release(name = 'default') {
-    const queue = this.waiters.get(name) ?? [];
+    const className = canonicalClassName(name);
+    const queue = this.waiters.get(className) ?? [];
     const waiter = queue.shift();
     if (waiter) {
-      if (queue.length) this.waiters.set(name, queue); else this.waiters.delete(name);
+      if (queue.length) this.waiters.set(className, queue); else this.waiters.delete(className);
       // Keep active unchanged: the slot is reserved for the queued waiter.
       queueMicrotask(waiter);
       return;
     }
-    this.active.set(name, Math.max(0, this.activeFor(name) - 1));
-    this.waiters.delete(name);
+    this.active.set(className, Math.max(0, this.activeFor(className) - 1));
+    this.waiters.delete(className);
   }
 }
 
