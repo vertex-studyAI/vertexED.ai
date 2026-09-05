@@ -61,14 +61,32 @@ test('play requires both the speech queue and utterance constructor', () => {
 test('resume failures stop only the utterance owned by this player', () => {
   assert.match(
     player,
-    /if \(paused && utteranceRef\.current\) \{\s*try \{\s*window\.speechSynthesis\.resume\(\);\s*setPaused\(false\);\s*setPlaying\(true\);\s*\} catch \{\s*stop\(\);\s*\}\s*return;/,
+    /if \(paused && utteranceRef\.current\) \{[\s\S]*?try \{\s*window\.speechSynthesis\.resume\(\);[\s\S]*?\} catch \{\s*stop\(\);\s*\}\s*return;/,
+  );
+});
+
+test('synchronous resume completion cannot resurrect playback state', () => {
+  assert.match(
+    player,
+    /if \(paused && utteranceRef\.current\) \{\s*const activeUtterance = utteranceRef\.current;\s*try \{\s*window\.speechSynthesis\.resume\(\);[\s\S]*?if \(utteranceRef\.current !== activeUtterance\) return;\s*setPaused\(false\);\s*setPlaying\(true\);/,
   );
 });
 
 test('speak failures clear owned playback state instead of leaving a hidden active utterance', () => {
   assert.match(
     player,
-    /utteranceRef\.current = utterance;\s*try \{\s*window\.speechSynthesis\.speak\(utterance\);\s*setPlaying\(true\);\s*\} catch \{\s*if \(utteranceRef\.current === utterance\) \{\s*utteranceRef\.current = null;\s*setPlaying\(false\);\s*setPaused\(false\);/,
+    /utteranceRef\.current = utterance;\s*try \{\s*window\.speechSynthesis\.speak\(utterance\);[\s\S]*?\} catch \{\s*if \(utteranceRef\.current === utterance\) \{\s*utteranceRef\.current = null;\s*setPlaying\(false\);\s*setPaused\(false\);/,
+  );
+});
+
+test('synchronous speak completion cannot set playing after ownership was released', () => {
+  assert.match(
+    player,
+    /window\.speechSynthesis\.speak\(utterance\);[\s\S]*?if \(utteranceRef\.current === utterance\) setPlaying\(true\);/,
+  );
+  assert.doesNotMatch(
+    player,
+    /window\.speechSynthesis\.speak\(utterance\);\s*setPlaying\(true\);/,
   );
 });
 
