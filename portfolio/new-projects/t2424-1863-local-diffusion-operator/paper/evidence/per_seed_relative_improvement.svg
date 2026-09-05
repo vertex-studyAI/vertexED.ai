@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540" viewBox="0 0 960 540" role="img" aria-labelledby="title desc">
+  <title id="title">T2424-1863 per-seed relative improvement</title>
+  <desc id="desc">Twenty fixed diffusion seeds and twenty zero-diffusion control seeds. Every diffusion result is below the frozen greater-than-75-percent gate, preserving the negative verdict.</desc>
+  <rect width="100%" height="100%" fill="#ffffff"/>
+  <text x="82" y="34" font-family="system-ui, sans-serif" font-size="22" font-weight="700" fill="#17202A">T2424-1863: every retained seed misses the frozen gate</text>
+  <text x="82" y="60" font-family="system-ui, sans-serif" font-size="14" fill="#4D5B68">Relative one-step RMSE improvement vs persistence; fixed seeds 0–19</text>
+  <line x1="82" x2="924" y1="444.00" y2="444.00" stroke="#D9E1E8" stroke-width="1"/>
+  <text x="70" y="449.00" text-anchor="end" font-family="system-ui, sans-serif" font-size="12" fill="#4D5B68">0%</text>
+  <line x1="82" x2="924" y1="334.00" y2="334.00" stroke="#D9E1E8" stroke-width="1"/>
+  <text x="70" y="339.00" text-anchor="end" font-family="system-ui, sans-serif" font-size="12" fill="#4D5B68">25%</text>
+  <line x1="82" x2="924" y1="224.00" y2="224.00" stroke="#D9E1E8" stroke-width="1"/>
+  <text x="70" y="229.00" text-anchor="end" font-family="system-ui, sans-serif" font-size="12" fill="#4D5B68">50%</text>
+  <line x1="82" x2="924" y1="114.00" y2="114.00" stroke="#D9E1E8" stroke-width="1"/>
+  <text x="70" y="119.00" text-anchor="end" font-family="system-ui, sans-serif" font-size="12" fill="#4D5B68">75%</text>
+  <line x1="82" x2="924" y1="114.00" y2="114.00" stroke="#C43C39" stroke-width="3" stroke-dasharray="8 6"/>
+  <text x="924" y="105.00" text-anchor="end" font-family="system-ui, sans-serif" font-size="13" font-weight="700" fill="#C43C39">Frozen &gt;75% criterion</text>
+  <polyline points="82.00,149.35 126.32,142.87 170.63,150.52 214.95,147.26 259.26,137.82 303.58,148.53 347.89,146.37 392.21,140.16 436.53,148.58 480.84,141.73 525.16,147.55 569.47,152.47 613.79,152.75 658.11,140.56 702.42,154.10 746.74,138.69 791.05,156.08 835.37,145.58 879.68,133.44 924.00,141.23" fill="none" stroke="#185FA5" stroke-width="2"/>
+  <polyline points="82.00,444.41 126.32,444.40 170.63,443.92 214.95,443.30 259.26,444.02 303.58,443.98 347.89,444.00 392.21,444.45 436.53,444.27 480.84,445.14 525.16,443.88 569.47,444.06 613.79,444.10 658.11,443.91 702.42,443.94 746.74,444.24 791.05,444.11 835.37,444.02 879.68,444.32 924.00,444.08" fill="none" stroke="#BA7517" stroke-width="2"/>
+  <circle cx="82.00" cy="149.35" r="4" fill="#185FA5"><title>Diffusion seed 0: 66.966%</title></circle>
+  <circle cx="126.32" cy="142.87" r="4" fill="#185FA5"><title>Diffusion seed 1: 68.439%</title></circle>
+  <circle cx="170.63" cy="150.52" r="4" fill="#185FA5"><title>Diffusion seed 2: 66.700%</title></circle>
+  <circle cx="214.95" cy="147.26" r="4" fill="#185FA5"><title>Diffusion seed 3: 67.441%</title></circle>
+  <circle cx="259.26" cy="137.82" r="4" fill="#185FA5"><title>Diffusion seed 4: 69.586%</title></circle>
+  <circle cx="303.58" cy="148.53" r="4" fill="#185FA5"><title>Diffusion seed 5: 67.151%</title></circle>
+  <circle cx="347.89" cy="146.37" r="4" fill="#185FA5"><title>Diffusion seed 6: 67.643%</title></circle>
+  <circle cx="392.21" cy="140.16" r="4" fill="#185FA5"><title>Diffusion seed 7: 69.055%</title></circle>
+  <circle cx="436.53" cy="148.58" r="4" fill="#185FA5"><title>Diffusion seed 8: 67.140%</title></circle>
+  <circle cx="480.84" cy="141.73" r="4" fill="#185FA5"><title>Diffusion seed 9: 68.698%</title></circle>
+  <circle cx="525.16" cy="147.55" r="4" fill="#185FA5"><title>Diffusion seed 10: 67.375%</title></circle>
+  <circle cx="569.47" cy="152.47" r="4" fill="#185FA5"><title>Diffusion seed 11: 66.256%</title></circle>
+  <circle cx="613.79" cy="152.75" r="4" fill="#185FA5"><title>Diffusion seed 12: 66.194%</title></circle>
+  <circle cx="658.11" cy="140.56" r="4" fill="#185FA5"><title>Diffusion seed 13: 68.964%</title></circle>
+  <circle cx="702.42" cy="154.10" r="4" fill="#185FA5"><title>Diffusion seed 14: 65.886%</title></circle>
+  <circle cx="746.74" cy="138.69" r="4" fill="#185FA5"><title>Diffusion seed 15: 69.388%</title></circle>
+  <circle cx="791.05" cy="156.08" r="4" fill="#185FA5"><title>Diffusion seed 16: 65.436%</title></circle>
+  <circle cx="835.37" cy="145.58" r="4" fill="#185FA5"><title>Diffusion seed 17: 67.822%</title></circle>
+  <circle cx="879.68" cy="133.44" r="4" fill="#185FA5"><title>Diffusion seed 18: 70.581%</title></circle>
+  <circle cx="924.00" cy="141.23" r="4" fill="#185FA5"><title>Diffusion seed 19: 68.811%</title></circle>
+  <circle cx="82.00" cy="444.41" r="4" fill="#BA7517"><title>Zero-diffusion control seed 0: -0.093%</title></circle>
+  <circle cx="126.32" cy="444.40" r="4" fill="#BA7517"><title>Zero-diffusion control seed 1: -0.091%</title></circle>
+  <circle cx="170.63" cy="443.92" r="4" fill="#BA7517"><title>Zero-diffusion control seed 2: 0.017%</title></circle>
+  <circle cx="214.95" cy="443.30" r="4" fill="#BA7517"><title>Zero-diffusion control seed 3: 0.158%</title></circle>
+  <circle cx="259.26" cy="444.02" r="4" fill="#BA7517"><title>Zero-diffusion control seed 4: -0.003%</title></circle>
+  <circle cx="303.58" cy="443.98" r="4" fill="#BA7517"><title>Zero-diffusion control seed 5: 0.006%</title></circle>
+  <circle cx="347.89" cy="444.00" r="4" fill="#BA7517"><title>Zero-diffusion control seed 6: -0.000%</title></circle>
+  <circle cx="392.21" cy="444.45" r="4" fill="#BA7517"><title>Zero-diffusion control seed 7: -0.101%</title></circle>
+  <circle cx="436.53" cy="444.27" r="4" fill="#BA7517"><title>Zero-diffusion control seed 8: -0.061%</title></circle>
+  <circle cx="480.84" cy="445.14" r="4" fill="#BA7517"><title>Zero-diffusion control seed 9: -0.260%</title></circle>
+  <circle cx="525.16" cy="443.88" r="4" fill="#BA7517"><title>Zero-diffusion control seed 10: 0.028%</title></circle>
+  <circle cx="569.47" cy="444.06" r="4" fill="#BA7517"><title>Zero-diffusion control seed 11: -0.015%</title></circle>
+  <circle cx="613.79" cy="444.10" r="4" fill="#BA7517"><title>Zero-diffusion control seed 12: -0.022%</title></circle>
+  <circle cx="658.11" cy="443.91" r="4" fill="#BA7517"><title>Zero-diffusion control seed 13: 0.021%</title></circle>
+  <circle cx="702.42" cy="443.94" r="4" fill="#BA7517"><title>Zero-diffusion control seed 14: 0.013%</title></circle>
+  <circle cx="746.74" cy="444.24" r="4" fill="#BA7517"><title>Zero-diffusion control seed 15: -0.055%</title></circle>
+  <circle cx="791.05" cy="444.11" r="4" fill="#BA7517"><title>Zero-diffusion control seed 16: -0.025%</title></circle>
+  <circle cx="835.37" cy="444.02" r="4" fill="#BA7517"><title>Zero-diffusion control seed 17: -0.005%</title></circle>
+  <circle cx="879.68" cy="444.32" r="4" fill="#BA7517"><title>Zero-diffusion control seed 18: -0.072%</title></circle>
+  <circle cx="924.00" cy="444.08" r="4" fill="#BA7517"><title>Zero-diffusion control seed 19: -0.017%</title></circle>
+  <line x1="82" x2="924" y1="466" y2="466" stroke="#17202A"/>
+  <line x1="82.00" x2="82.00" y1="466" y2="472" stroke="#17202A"/>
+  <text x="82.00" y="490" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" fill="#4D5B68">0</text>
+  <line x1="303.58" x2="303.58" y1="466" y2="472" stroke="#17202A"/>
+  <text x="303.58" y="490" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" fill="#4D5B68">5</text>
+  <line x1="525.16" x2="525.16" y1="466" y2="472" stroke="#17202A"/>
+  <text x="525.16" y="490" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" fill="#4D5B68">10</text>
+  <line x1="746.74" x2="746.74" y1="466" y2="472" stroke="#17202A"/>
+  <text x="746.74" y="490" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" fill="#4D5B68">15</text>
+  <line x1="924.00" x2="924.00" y1="466" y2="472" stroke="#17202A"/>
+  <text x="924.00" y="490" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" fill="#4D5B68">19</text>
+  <text x="503" y="520" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" fill="#17202A">Fixed seed</text>
+  <circle cx="640" cy="74" r="4" fill="#185FA5"/><text x="650" y="79" font-family="system-ui, sans-serif" font-size="12" fill="#17202A">Diffusion</text>
+  <circle cx="735" cy="74" r="4" fill="#BA7517"/><text x="745" y="79" font-family="system-ui, sans-serif" font-size="12" fill="#17202A">Zero-diffusion control</text>
+</svg>
