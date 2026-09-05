@@ -45,22 +45,23 @@ export default function NotebookTtsPlayer({ script, className }: Props) {
     utteranceRef.current = null;
   }, []);
 
-  // Cleanup must not call the stateful stop helper after unmount. Only cancel
-  // the global speech queue when this player still owns an active utterance.
-  // Browser speech implementations can throw during teardown; local ownership
-  // must still be released so stale callbacks cannot retain this player.
+  // Cleanup must not call the stateful stop helper after unmount. Release local
+  // ownership before touching the shared browser queue so a synchronous
+  // cancel-generated onend/onerror callback sees no current owner and cannot
+  // schedule state updates while the component is tearing down.
   useEffect(
     () => () => {
-      if (!utteranceRef.current) return;
+      const activeUtterance = utteranceRef.current;
+      if (!activeUtterance) return;
+      utteranceRef.current = null;
       if (typeof window !== 'undefined' && window.speechSynthesis) {
         try {
           window.speechSynthesis.cancel();
         } catch {
-          // Unmount cleanup is best-effort for the shared browser queue. Never
-          // let a provider exception prevent local utterance ownership cleanup.
+          // Unmount cleanup is best-effort for the shared browser queue. Local
+          // ownership was already released before entering the provider API.
         }
       }
-      utteranceRef.current = null;
     },
     [],
   );
