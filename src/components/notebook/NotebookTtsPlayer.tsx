@@ -98,8 +98,13 @@ export default function NotebookTtsPlayer({ script, className }: Props) {
     if (!clean) return;
 
     if (paused && utteranceRef.current) {
+      const activeUtterance = utteranceRef.current;
       try {
         window.speechSynthesis.resume();
+        // A provider/mocked queue may synchronously emit completion while resume()
+        // is on the stack. Never resurrect playback state after that callback has
+        // already released ownership of this exact utterance.
+        if (utteranceRef.current !== activeUtterance) return;
         setPaused(false);
         setPlaying(true);
       } catch {
@@ -127,7 +132,10 @@ export default function NotebookTtsPlayer({ script, className }: Props) {
     utteranceRef.current = utterance;
     try {
       window.speechSynthesis.speak(utterance);
-      setPlaying(true);
+      // The Web Speech event contract is normally asynchronous, but browsers,
+      // polyfills, and deterministic test doubles can complete synchronously.
+      // Do not set playing=true after onend/onerror has already released ownership.
+      if (utteranceRef.current === utterance) setPlaying(true);
     } catch {
       if (utteranceRef.current === utterance) {
         utteranceRef.current = null;
