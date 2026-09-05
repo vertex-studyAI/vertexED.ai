@@ -14,16 +14,25 @@ type Props = {
   onAskQuestion?: (q: string) => void;
 };
 
+type QuizDisclosureState = {
+  outputId: string;
+  revealed: Set<number>;
+};
+
 export default function NotebookOutputPanel({ output, notebookTitle, onAskQuestion }: Props) {
-  const [revealedQuiz, setRevealedQuiz] = useState<Set<number>>(new Set());
+  const [quizDisclosure, setQuizDisclosure] = useState<QuizDisclosureState>(() => ({
+    outputId: output.id,
+    revealed: new Set(),
+  }));
+  const revealedQuiz = quizDisclosure.outputId === output.id ? quizDisclosure.revealed : new Set<number>();
   const generatedRegionLabel = `Generated ${outputKindLabel(output.kind)}`;
 
   const toggleQuiz = (index: number) => {
-    setRevealedQuiz((prev) => {
-      const next = new Set(prev);
+    setQuizDisclosure((prev) => {
+      const next = prev.outputId === output.id ? new Set(prev.revealed) : new Set<number>();
       if (next.has(index)) next.delete(index);
       else next.add(index);
-      return next;
+      return { outputId: output.id, revealed: next };
     });
   };
 
@@ -116,9 +125,9 @@ export default function NotebookOutputPanel({ output, notebookTitle, onAskQuesti
             ? 'Tap a question to ask Apex with your sources attached.'
             : 'Suggested questions generated from your sources.'}
         </p>
-        {output.suggestedQuestions.map((q) => (
+        {output.suggestedQuestions.map((q, i) => (
           <button
-            key={q}
+            key={`${q}-${i}`}
             type="button"
             onClick={() => onAskQuestion?.(q)}
             disabled={!canAskQuestion}
