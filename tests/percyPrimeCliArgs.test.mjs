@@ -40,15 +40,16 @@ test('Percy Prime rejects timer values that Node would truncate, overflow, or cl
   const dir = mkdtempSync(join(tmpdir(), 'percy-prime-timers-'));
   const db = join(dir, 'percy.sqlite');
   const log = join(dir, 'percy.jsonl');
-  const base = [
+  const workArgs = ({ idleMs = '1', maxIdleSleepMs = '1', maxIdleMs = '1' } = {}) => [
     'work',
     '--db', db,
     '--workers', '1',
-    '--max-idle-ms', '1',
-    '--idle-ms', '1',
-    '--max-idle-sleep-ms', '1',
+    '--max-idle-ms', maxIdleMs,
+    '--idle-ms', idleMs,
+    '--max-idle-sleep-ms', maxIdleSleepMs,
     '--log', log,
   ];
+  const base = workArgs();
 
   try {
     for (const timeoutMs of ['1.5', '2147483648', 'Infinity', 'NaN']) {
@@ -61,6 +62,24 @@ test('Percy Prime rejects timer values that Node would truncate, overflow, or cl
       const result = runPrime([...base, '--lease-ms', leaseMs]);
       assert.notEqual(result.status, 0);
       assert.match(result.stderr, /--lease-ms must be an integer in \[100,2147483647\]/);
+    }
+
+    for (const idleMs of ['1.5', '2147483648', 'Infinity', 'NaN']) {
+      const result = runPrime(workArgs({ idleMs }));
+      assert.notEqual(result.status, 0);
+      assert.match(result.stderr, /--idle-ms must be an integer in \[1,2147483647\]/);
+    }
+
+    for (const maxIdleSleepMs of ['1.5', '2147483648', 'Infinity', 'NaN']) {
+      const result = runPrime(workArgs({ maxIdleSleepMs }));
+      assert.notEqual(result.status, 0);
+      assert.match(result.stderr, /--max-idle-sleep-ms must be an integer in \[1,2147483647\]/);
+    }
+
+    for (const maxIdleMs of ['-1', '1.5', '2147483648', 'Infinity', 'NaN']) {
+      const result = runPrime(workArgs({ maxIdleMs }));
+      assert.notEqual(result.status, 0);
+      assert.match(result.stderr, /--max-idle-ms must be an integer in \[0,2147483647\]/);
     }
   } finally {
     rmSync(dir, { recursive: true, force: true });
