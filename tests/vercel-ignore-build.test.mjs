@@ -18,6 +18,7 @@ test('runtime source, API, database, and production build-script changes continu
     'scripts/build.mjs',
     'scripts/generate-build-revision.mjs',
     'scripts/generate-study-guide-sitemap.mjs',
+    'scripts/immutable-revision.mjs',
     'scripts/publish-neurocad-alpha.mjs',
     'scripts/validate-vercel-functions.mjs',
     'scripts/vercel-ignore-build.mjs',
@@ -128,6 +129,10 @@ test('deployment diff falls back to the previous commit outside Vercel', () => {
 
 test('deployment diff rejects a malformed Vercel previous SHA', () => {
   assert.throws(() => readChangedFiles({ previousSha: 'not-a-sha', runGit: () => '' }), /invalid VERCEL_GIT_PREVIOUS_SHA/);
+});
+
+test('deployment diff rejects an abbreviated Vercel previous SHA', () => {
+  assert.throws(() => readChangedFiles({ previousSha: '1234567', runGit: () => '' }), /invalid VERCEL_GIT_PREVIOUS_SHA/);
 });
 
 test('latest runtime revision skips newer operations-only commits', () => {
