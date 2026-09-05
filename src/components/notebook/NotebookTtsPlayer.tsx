@@ -33,7 +33,12 @@ export default function NotebookTtsPlayer({ script, className }: Props) {
   const stop = useCallback(() => {
     const activeUtterance = utteranceRef.current;
     if (activeUtterance && typeof window !== 'undefined' && window.speechSynthesis) {
-      window.speechSynthesis.cancel();
+      try {
+        window.speechSynthesis.cancel();
+      } catch {
+        // The browser speech queue is shared state. Even if its cancellation
+        // API fails, never leave this player's local ownership/UI state stale.
+      }
     }
     setPlaying(false);
     setPaused(false);
@@ -122,9 +127,15 @@ export default function NotebookTtsPlayer({ script, className }: Props) {
     ) {
       return;
     }
-    window.speechSynthesis.pause();
-    setPaused(true);
-    setPlaying(false);
+    try {
+      window.speechSynthesis.pause();
+      setPaused(true);
+      setPlaying(false);
+    } catch {
+      // A failed pause must not strand local state as if playback were still
+      // controllable. Stop only this player's owned utterance and fail closed.
+      stop();
+    }
   };
 
   // Render the same empty tree on the server and during the first client render;
