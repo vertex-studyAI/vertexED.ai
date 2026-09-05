@@ -79,6 +79,12 @@
     "temperature_bounds": [0.05, 20.0],
     "stopping_tolerance": 1e-8,
     "max_iterations": 500,
+    "fit_implementation_path": "research/multimodal-calibration/fit-temperature.mjs",
+    "fit_implementation_sha256": "48953e39fec204d5abe44b81235d7ac09a2580cb13408ad5c46ea2491703fefd",
+    "freeze_implementation_path": "research/multimodal-calibration/freeze-temperature-fit.mjs",
+    "freeze_implementation_sha256": "572e3e6a104a6e84d89b1ccc2f4f24715f3b847c023c717963436ec9cfa5a930",
+    "receipt_verifier_path": "research/multimodal-calibration/verify-temperature-fit-receipt.mjs",
+    "receipt_verifier_sha256": "a51afd5dd53242e71128b1013d89cd99b8c9f8156ebbc711763709231c3b85f6",
     "fit_set_sha256": null,
     "fitted_temperature": null,
     "fitting_log_sha256": null
