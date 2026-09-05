@@ -142,6 +142,24 @@ test('Percy worker resets idle backoff after successfully claiming work', async 
   assert.equal(result.failed, 0);
 });
 
+test('Percy class limiter release handles are idempotent across queued handoffs', async () => {
+  const limiter = new ClassLimiter(parseClassLimits('default=1,remote=1'));
+  const releaseFirst = await limiter.acquire('remote');
+  assert.equal(limiter.activeFor('remote'), 1);
+
+  const secondAcquire = limiter.acquire('remote');
+  releaseFirst();
+  const releaseSecond = await secondAcquire;
+  assert.equal(limiter.activeFor('remote'), 1);
+
+  assert.equal(releaseFirst(), false);
+  assert.equal(limiter.activeFor('remote'), 1);
+  assert.equal(releaseSecond(), true);
+  assert.equal(limiter.activeFor('remote'), 0);
+  assert.equal(releaseSecond(), false);
+  assert.equal(limiter.activeFor('remote'), 0);
+});
+
 test('Percy worker validates timeout, idle backoff, jitter, sleep, stop, random, and clock controls fail closed', async () => {
   const base = {
     store: idleStore(),
