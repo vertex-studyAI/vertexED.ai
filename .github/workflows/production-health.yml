@@ -7,6 +7,9 @@ on:
       - 'api/_handlers/health.js'
       - 'scripts/smoke-deploy.mjs'
       - 'scripts/vercel-ignore-build.mjs'
+      - 'scripts/immutable-revision.mjs'
+      - 'scripts/validate-immutable-revision.mjs'
+      - 'tests/immutableRevision.test.mjs'
   push:
     branches:
       - main
@@ -15,6 +18,9 @@ on:
       - 'api/_handlers/health.js'
       - 'scripts/smoke-deploy.mjs'
       - 'scripts/vercel-ignore-build.mjs'
+      - 'scripts/immutable-revision.mjs'
+      - 'scripts/validate-immutable-revision.mjs'
+      - 'tests/immutableRevision.test.mjs'
   schedule:
     # Offset from the top of the hour to reduce scheduler congestion.
     - cron: '17 * * * *'
@@ -64,7 +70,8 @@ jobs:
           expected_revision='not-enforced-for-this-ref'
 
           if [ "${GITHUB_REF}" = 'refs/heads/main' ]; then
-            expected_revision="$(node scripts/vercel-ignore-build.mjs --print-latest-runtime-revision)"
+            deploy_revision="$(node scripts/vercel-ignore-build.mjs --print-latest-runtime-revision)"
+            expected_revision="$(node scripts/validate-immutable-revision.mjs "$deploy_revision")"
             export EXPECTED_VERTEXED_REVISION="$expected_revision"
           else
             unset EXPECTED_VERTEXED_REVISION || true
@@ -134,7 +141,7 @@ jobs:
           - Evidence artifact: production-health-${GITHUB_RUN_ID}
           - Workflow commit: ${GITHUB_SHA}
 
-          On main, the retained log also records the latest deploy-relevant revision derived from the same path contract used by the Vercel ignored-build guard and requires the live health endpoint to serve that exact SHA. Review the evidence and production logs before changing or rolling back production. Authenticated product journeys remain tracked separately in issue #13.
+          On main, the retained log also records the latest deploy-relevant revision derived from the same path contract used by the Vercel ignored-build guard and requires the live health endpoint to serve that exact immutable 40-character Git SHA. Review the evidence and production logs before changing or rolling back production. Authenticated product journeys remain tracked separately in issue #13.
 
           This incident body is updated in place on repeated failures so the hourly monitor does not flood the issue timeline with duplicate alerts. GitHub Actions and retained artifacts remain the chronological evidence trail.
           EOF
