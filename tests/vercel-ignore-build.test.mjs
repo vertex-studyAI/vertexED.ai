@@ -130,6 +130,10 @@ test('deployment diff rejects a malformed Vercel previous SHA', () => {
   assert.throws(() => readChangedFiles({ previousSha: 'not-a-sha', runGit: () => '' }), /invalid VERCEL_GIT_PREVIOUS_SHA/);
 });
 
+test('deployment diff rejects an abbreviated Vercel previous SHA', () => {
+  assert.throws(() => readChangedFiles({ previousSha: '1234567', runGit: () => '' }), /invalid VERCEL_GIT_PREVIOUS_SHA/);
+});
+
 test('latest runtime revision skips newer operations-only commits', () => {
   const operationsRevision = 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa';
   const runtimeRevision = 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb';
