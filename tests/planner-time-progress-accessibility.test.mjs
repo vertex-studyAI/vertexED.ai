@@ -29,3 +29,14 @@ test("planner time bars have distinct accessible names and value text", () => {
 test("visual progress fills are hidden from the accessibility tree", () => {
   assert.equal(source.match(/className="fill" aria-hidden="true"/g)?.length, 3);
 });
+
+test("calendar progress uses real local period boundaries instead of fixed 24h and 7d durations", () => {
+  assert.match(source, /const endOfHour = new Date\(/);
+  assert.match(source, /const endOfDay = new Date\(/);
+  assert.match(source, /const endOfWeek = new Date\(/);
+  assert.match(source, /elapsedPercent\(now, startOfHour, endOfHour\)/);
+  assert.match(source, /elapsedPercent\(now, startOfDay, endOfDay\)/);
+  assert.match(source, /elapsedPercent\(now, startOfWeek, endOfWeek\)/);
+  assert.doesNotMatch(source, /24 \* 60 \* 60 \* 1000/);
+  assert.doesNotMatch(source, /7 \* 24 \* 60 \* 60 \* 1000/);
+});
