@@ -167,11 +167,11 @@ export function diagnosePercyRuntimeReadiness({
   }
   if (typeof runtime.source?.head !== 'string' || !runtime.source.head.trim()) {
     pushBlocker(blockers, 'RUNTIME_HEAD_UNKNOWN', 'runtime source HEAD is required');
-  } else if (!STRICT_GIT_SHA.test(runtime.source.head.trim())) {
+  } else if (runtime.source.head !== runtime.source.head.trim() || !STRICT_GIT_SHA.test(runtime.source.head)) {
     pushBlocker(
       blockers,
       'RUNTIME_HEAD_NOT_IMMUTABLE',
-      'runtime source HEAD must be an exact lowercase 40-character Git commit SHA',
+      'runtime source HEAD must be an exact lowercase 40-character Git commit SHA with no surrounding whitespace',
     );
   }
 
