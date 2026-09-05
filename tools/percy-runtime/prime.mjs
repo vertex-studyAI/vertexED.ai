@@ -19,6 +19,14 @@ const assertNoUnexpectedArgs = () => {
   if (args.length === 0) return;
   throw new Error(`unexpected argument(s): ${args.join(' ')}`);
 };
+const MAX_TIMER_MS = 2_147_483_647;
+const parseTimerMs = (name, rawValue, minimum) => {
+  const value = Number(rawValue);
+  if (!Number.isSafeInteger(value) || value < minimum || value > MAX_TIMER_MS) {
+    throw new RangeError(`${name} must be an integer in [${minimum},${MAX_TIMER_MS}]`);
+  }
+  return value;
+};
 const normalizeClassLimitsSpec = (spec) => {
   const normalized = [];
   const seen = new Set();
@@ -76,8 +84,8 @@ try {
     console.log(JSON.stringify({ backedUp: true, ...result }, null, 2));
   } else if (cmd === 'work') {
     const workers = Number(take('--workers', String(maxActive)));
-    const leaseMs = Number(take('--lease-ms', '30000'));
-    const timeoutMs = Number(take('--timeout-ms', '10000'));
+    const leaseMs = parseTimerMs('--lease-ms', take('--lease-ms', '30000'), 100);
+    const timeoutMs = parseTimerMs('--timeout-ms', take('--timeout-ms', '10000'), 1);
     const idleMs = Number(take('--idle-ms', process.env.PERCY_IDLE_MS ?? '250'));
     const maxIdleSleepMs = Number(take('--max-idle-sleep-ms', process.env.PERCY_MAX_IDLE_SLEEP_MS ?? String(idleMs)));
     const idleBackoffFactor = Number(take('--idle-backoff-factor', process.env.PERCY_IDLE_BACKOFF_FACTOR ?? '1'));
