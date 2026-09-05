@@ -56,7 +56,11 @@ jobs:
         with:
           node-version: '22'
 
+      - name: Verify immutable revision contract
+        run: node --test tests/immutableRevision.test.mjs
+
       - name: Run canonical public production smoke checks
+        if: github.event_name != 'pull_request'
         id: probe
         continue-on-error: true
         shell: bash
@@ -115,7 +119,7 @@ jobs:
           fi
 
       - name: Upload probe evidence
-        if: always()
+        if: always() && github.event_name != 'pull_request'
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
           name: production-health-${{ github.run_id }}
@@ -195,5 +199,5 @@ jobs:
           fi
 
       - name: Fail workflow when production is unhealthy
-        if: steps.probe.outcome == 'failure'
+        if: github.event_name != 'pull_request' && steps.probe.outcome == 'failure'
         run: exit 1
