@@ -47,12 +47,16 @@ export default function NotebookTtsPlayer({ script, className }: Props) {
     utterance.rate = 1;
     utterance.pitch = 1;
     utterance.onend = () => {
+      if (utteranceRef.current !== utterance) return;
       setPlaying(false);
       setPaused(false);
+      utteranceRef.current = null;
     };
     utterance.onerror = () => {
+      if (utteranceRef.current !== utterance) return;
       setPlaying(false);
       setPaused(false);
+      utteranceRef.current = null;
     };
     utteranceRef.current = utterance;
     window.speechSynthesis.speak(utterance);
@@ -75,18 +79,18 @@ export default function NotebookTtsPlayer({ script, className }: Props) {
       <span className="text-[10px] uppercase tracking-widest text-muted-foreground">Listen</span>
       {!playing ? (
         <button type="button" onClick={play} className="btn-glass text-xs inline-flex items-center gap-1.5 px-3 py-1.5">
-          <Play className="h-3.5 w-3.5" />
+          <Play className="h-3.5 w-3.5" aria-hidden />
           {paused ? 'Resume' : 'Play overview'}
         </button>
       ) : (
         <button type="button" onClick={pause} className="btn-glass text-xs inline-flex items-center gap-1.5 px-3 py-1.5">
-          <Pause className="h-3.5 w-3.5" />
+          <Pause className="h-3.5 w-3.5" aria-hidden />
           Pause
         </button>
       )}
       {(playing || paused) && (
         <button type="button" onClick={stop} className="btn-glass text-xs inline-flex items-center gap-1 p-1.5" aria-label="Stop">
-          <Square className="h-3 w-3" />
+          <Square className="h-3 w-3" aria-hidden />
         </button>
       )}
     </div>
