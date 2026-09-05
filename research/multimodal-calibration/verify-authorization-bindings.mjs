@@ -65,6 +65,21 @@ function bindingCandidates(manifest) {
       sha256: manifest?.transforms?.implementation_sha256,
     },
     {
+      field: 'temperature_scaling.fit_implementation',
+      path: manifest?.temperature_scaling?.fit_implementation_path,
+      sha256: manifest?.temperature_scaling?.fit_implementation_sha256,
+    },
+    {
+      field: 'temperature_scaling.freeze_implementation',
+      path: manifest?.temperature_scaling?.freeze_implementation_path,
+      sha256: manifest?.temperature_scaling?.freeze_implementation_sha256,
+    },
+    {
+      field: 'temperature_scaling.receipt_verifier',
+      path: manifest?.temperature_scaling?.receipt_verifier_path,
+      sha256: manifest?.temperature_scaling?.receipt_verifier_sha256,
+    },
+    {
       field: 'environment.package_lock',
       path: manifest?.environment?.package_lock_path,
       sha256: manifest?.environment?.package_lock_sha256,
