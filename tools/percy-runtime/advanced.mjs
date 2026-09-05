@@ -35,6 +35,7 @@ export function validateSubmission({ kind = 'echo', payload = {}, maxAttempts = 
 } = {}) {
   if (!allowedKinds.includes(kind)) throw new Error(`task kind not allowed: ${kind}`);
   if (!Number.isInteger(maxAttempts) || maxAttempts < 1 || maxAttempts > 20) throw new RangeError('maxAttempts must be in [1,20]');
+  if (!Number.isInteger(maxPayloadBytes) || maxPayloadBytes < 1) throw new RangeError('maxPayloadBytes must be >=1');
   const bytes = payloadBytes(payload);
   if (bytes > maxPayloadBytes) throw new RangeError(`payload too large: ${bytes} > ${maxPayloadBytes}`);
   return { kind, payload, maxAttempts, payloadBytes: bytes };
