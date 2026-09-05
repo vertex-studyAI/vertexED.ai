@@ -76,7 +76,7 @@ test('harmonic M1 resistance/flux unit property uses a non-protocol fixture, not
   assert.ok(result.report.M1.rightBoundaryError < 1e-12);
 });
 
-test('machine-readable freeze keeps outcome work locked while allowing pre-outcome comparator materialization', async () => {
+test('machine-readable freeze keeps outcome work locked while binding verified pre-outcome comparators', async () => {
   const config = JSON.parse(await readFile(configUrl, 'utf8'));
   assert.equal(config.outcome_state, 'EXPERIMENT_NOT_YET_RUN');
   assert.equal(config.training_authorized, false);
@@ -84,16 +84,26 @@ test('machine-readable freeze keeps outcome work locked while allowing pre-outco
   assert.equal(config.systems.A1.state, 'IMPLEMENTED');
   assert.equal(config.systems.A2.state, 'IMPLEMENTED');
   assert.equal(config.systems.B1.state, 'IMPLEMENTED');
-  assert.match(config.systems.B2.state, /^IMPLEMENTED_PREOUTCOME_(CI_PENDING|UNIT_VERIFIED)$/);
-  assert.match(config.systems.B2.implementation_git_blob_sha, /^[0-9a-f]{40}$/);
-  assert.equal(config.systems.B2.test_or_ood_for_selection, false);
-  assert.equal(config.systems.B3.state, 'BLOCKED_IMPLEMENTATION');
-  assert.equal(config.systems.B4.state, 'BLOCKED_IMPLEMENTATION');
+
+  for (const systemName of ['B2', 'B3', 'B4']) {
+    const system = config.systems[systemName];
+    assert.equal(system.state, 'IMPLEMENTED_PREOUTCOME_UNIT_VERIFIED');
+    assert.match(system.implementation_git_blob_sha, /^[0-9a-f]{40}$/);
+    assert.equal(system.test_or_ood_for_selection, false);
+    assert.ok(Number.isSafeInteger(system.verification_workflow_run) && system.verification_workflow_run > 0);
+    assert.ok(Number.isSafeInteger(system.verification_job) && system.verification_job > 0);
+    assert.equal(typeof system.verification_gate, 'string');
+    assert.ok(system.verification_gate.length > 0);
+    assert.equal(
+      config.unresolved_pretraining_blockers[`${systemName}_implementation_sha`],
+      system.implementation_git_blob_sha,
+    );
+  }
+
   assert.match(config.generator.implementation_git_blob_sha, /^[0-9a-f]{40}$/);
+  assert.equal(config.unresolved_pretraining_blockers.covariance_interpretation_approval, null);
+  assert.equal(config.unresolved_pretraining_blockers.ood_d_global_offset_interpretation_approval, null);
   assert.equal(config.unresolved_pretraining_blockers.hardware_identity, null);
   assert.equal(config.unresolved_pretraining_blockers.learned_environment_lock, null);
-  assert.equal(config.unresolved_pretraining_blockers.B2_implementation_sha, config.systems.B2.implementation_git_blob_sha);
-  assert.equal(config.unresolved_pretraining_blockers.B3_implementation_sha, null);
-  assert.equal(config.unresolved_pretraining_blockers.B4_implementation_sha, null);
   assert.equal(config.unresolved_pretraining_blockers.split_manifest_sha256, frozenSplitManifestSha256);
 });
