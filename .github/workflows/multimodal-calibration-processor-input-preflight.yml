@@ -70,9 +70,19 @@ jobs:
         run: |
           set -euo pipefail
           OUT="$RUNNER_TEMP/multimodal-calibration-processor-input-preflight.json"
+          STDOUT_LOG="$RUNNER_TEMP/multimodal-calibration-processor-input-preflight.stdout.log"
+          STDERR_LOG="$RUNNER_TEMP/multimodal-calibration-processor-input-preflight.stderr.log"
+          set +e
           python research/multimodal-calibration/processor-input-preflight.py \
             --prompt-file "$RUNNER_TEMP/multimodal-calibration-processor-prompt.txt" \
-            --output "$OUT"
+            --output "$OUT" \
+            > >(tee "$STDOUT_LOG") \
+            2> >(tee "$STDERR_LOG" >&2)
+          STATUS=$?
+          set -e
+          if [ "$STATUS" -ne 0 ]; then
+            exit "$STATUS"
+          fi
           python - <<'PY'
           import json
           import os
@@ -99,12 +109,15 @@ jobs:
             | tee "$RUNNER_TEMP/multimodal-calibration-processor-input-preflight.sha256"
 
       - name: Upload pre-outcome processor-input evidence
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: multimodal-calibration-processor-input-preflight-${{ github.event.pull_request.head.sha }}
           path: |
             ${{ runner.temp }}/multimodal-calibration-processor-input-preflight.json
             ${{ runner.temp }}/multimodal-calibration-processor-input-preflight.sha256
+            ${{ runner.temp }}/multimodal-calibration-processor-input-preflight.stdout.log
+            ${{ runner.temp }}/multimodal-calibration-processor-input-preflight.stderr.log
             ${{ runner.temp }}/multimodal-calibration-processor-prompt.txt
-          if-no-files-found: error
+          if-no-files-found: warn
           retention-days: 30
