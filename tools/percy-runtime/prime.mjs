@@ -19,6 +19,25 @@ const assertNoUnexpectedArgs = () => {
   if (args.length === 0) return;
   throw new Error(`unexpected argument(s): ${args.join(' ')}`);
 };
+const normalizeClassLimitsSpec = (spec) => {
+  const normalized = [];
+  const seen = new Set();
+  for (const raw of String(spec).split(',')) {
+    const item = raw.trim();
+    if (!item) continue;
+    const separator = item.indexOf('=');
+    if (separator <= 0 || separator === item.length - 1 || item.indexOf('=', separator + 1) !== -1) {
+      throw new RangeError(`invalid class limit: ${item}`);
+    }
+    const name = item.slice(0, separator).trim();
+    const value = item.slice(separator + 1).trim();
+    if (!name || !value) throw new RangeError(`invalid class limit: ${item}`);
+    if (seen.has(name)) throw new RangeError(`duplicate class limit: ${name}`);
+    seen.add(name);
+    normalized.push(`${name}=${value}`);
+  }
+  return normalized.join(',');
+};
 const dbPath = take('--db', process.env.PERCY_DB ?? '.percy/percy.sqlite');
 const maxActive = Number(take('--max-active', process.env.PERCY_MAX_ACTIVE ?? '2'));
 
@@ -65,7 +84,9 @@ try {
     const idleJitterRatio = Number(take('--idle-jitter-ratio', process.env.PERCY_IDLE_JITTER_RATIO ?? '0'));
     const maxIdleMs = Number(take('--max-idle-ms', '0'));
     const logPath = take('--log', '.percy/logs/percy-runtime.jsonl');
-    const classLimits = take('--class-limits', process.env.PERCY_CLASS_LIMITS ?? 'default=2');
+    const classLimits = normalizeClassLimitsSpec(
+      take('--class-limits', process.env.PERCY_CLASS_LIMITS ?? 'default=2'),
+    );
     assertNoUnexpectedArgs();
     if (!Number.isInteger(workers) || workers < 1 || workers > 4) throw new RangeError('--workers must be in [1,4]');
     const limiter = new ClassLimiter(parseClassLimits(classLimits));
