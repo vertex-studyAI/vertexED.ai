@@ -15,14 +15,14 @@ type Props = {
 };
 
 export default function NotebookOutputPanel({ output, notebookTitle, onAskQuestion }: Props) {
-  const [revealedQuiz, setRevealedQuiz] = useState<Set<string>>(new Set());
+  const [revealedQuiz, setRevealedQuiz] = useState<Set<number>>(new Set());
   const generatedRegionLabel = `Generated ${outputKindLabel(output.kind)}`;
 
-  const toggleQuiz = (id: string) => {
+  const toggleQuiz = (index: number) => {
     setRevealedQuiz((prev) => {
       const next = new Set(prev);
-      if (next.has(id)) next.delete(id);
-      else next.add(id);
+      if (next.has(index)) next.delete(index);
+      else next.add(index);
       return next;
     });
   };
@@ -47,12 +47,17 @@ export default function NotebookOutputPanel({ output, notebookTitle, onAskQuesti
     return (
       <section className="space-y-4" aria-label={generatedRegionLabel}>
         {output.quiz.map((q, i) => {
-          const show = revealedQuiz.has(q.id);
-          const questionId = `notebook-quiz-question-${q.id}`;
-          const answerId = `notebook-quiz-answer-${q.id}`;
+          // Model-generated question ids are useful data, but they are not a safe
+          // DOM identity boundary: duplicate ids would couple two disclosures and
+          // whitespace/special characters can produce invalid aria relationships.
+          // Use the rendered position within this output for local interaction and
+          // bind the DOM ids to the internally-generated output identity instead.
+          const show = revealedQuiz.has(i);
+          const questionId = `notebook-quiz-${output.id}-question-${i}`;
+          const answerId = `notebook-quiz-${output.id}-answer-${i}`;
           return (
             <article
-              key={q.id}
+              key={`${q.id}-${i}`}
               className="notebook-quiz-card rounded-xl border border-border/60 p-4"
               aria-labelledby={questionId}
             >
@@ -73,7 +78,7 @@ export default function NotebookOutputPanel({ output, notebookTitle, onAskQuesti
               )}
               <button
                 type="button"
-                onClick={() => toggleQuiz(q.id)}
+                onClick={() => toggleQuiz(i)}
                 className="text-xs text-primary hover:underline inline-flex items-center gap-1"
                 aria-expanded={show}
                 aria-controls={answerId}
