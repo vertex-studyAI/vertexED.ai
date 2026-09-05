@@ -35,3 +35,36 @@ test('Percy Prime rejects unknown and duplicate CLI arguments instead of silentl
     rmSync(dir, { recursive: true, force: true });
   }
 });
+
+test('Percy Prime canonicalizes class-limit whitespace and rejects duplicate provider classes', () => {
+  const dir = mkdtempSync(join(tmpdir(), 'percy-prime-class-limits-'));
+  const db = join(dir, 'percy.sqlite');
+  const log = join(dir, 'percy.jsonl');
+  const baseWorkArgs = [
+    'work',
+    '--db', db,
+    '--workers', '1',
+    '--idle-ms', '1',
+    '--max-idle-sleep-ms', '1',
+    '--max-idle-ms', '1',
+    '--log', log,
+  ];
+
+  try {
+    const whitespace = runPrime([
+      ...baseWorkArgs,
+      '--class-limits', ' default = 1 , gpu = 2 ',
+    ]);
+    assert.equal(whitespace.status, 0, whitespace.stderr);
+    assert.match(whitespace.stdout, /"draining": false/);
+
+    const duplicateClass = runPrime([
+      ...baseWorkArgs,
+      '--class-limits', 'default=1,gpu=2,gpu=3',
+    ]);
+    assert.notEqual(duplicateClass.status, 0);
+    assert.match(duplicateClass.stderr, /duplicate class limit: gpu/);
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+});
