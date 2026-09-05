@@ -13,14 +13,42 @@ test('speech completion callbacks cannot clobber a newer utterance', () => {
     player,
     /utterance\.onerror = \(\) => \{\s*if \(utteranceRef\.current !== utterance\) return;/,
   );
-  assert.equal((player.match(/utteranceRef\.current = null;/g) ?? []).length, 3);
 });
 
-test('replacing generated script content stops stale speech before it can be resumed', () => {
+test('replacing generated script content only cancels speech owned by this player', () => {
   assert.match(player, /const previousScriptRef = useRef\(script\);/);
   assert.match(
     player,
-    /useEffect\(\(\) => \{\s*if \(previousScriptRef\.current === script\) return;\s*previousScriptRef\.current = script;\s*stop\(\);\s*\}, \[script, stop\]\);/,
+    /if \(previousScriptRef\.current === script\) return;\s*previousScriptRef\.current = script;\s*if \(utteranceRef\.current\) stop\(\);/,
+  );
+  assert.match(
+    player,
+    /const activeUtterance = utteranceRef\.current;\s*if \(activeUtterance && typeof window !== 'undefined' && window\.speechSynthesis\) \{\s*window\.speechSynthesis\.cancel\(\);/,
+  );
+});
+
+test('unsupported speech synthesis does not create a server/client hydration mismatch', () => {
+  assert.match(player, /const \[speechSupported, setSpeechSupported\] = useState\(false\);/);
+  assert.match(
+    player,
+    /setSpeechSupported\(typeof window !== 'undefined' && Boolean\(window\.speechSynthesis\)\);/,
+  );
+  assert.match(player, /if \(!speechSupported\) return null;/);
+  assert.doesNotMatch(player, /if \(typeof window !== 'undefined' && !window\.speechSynthesis\)/);
+});
+
+test('unmount cleanup cancels only an owned utterance and never calls stateful stop', () => {
+  assert.match(
+    player,
+    /\(\) => \(\) => \{\s*if \(!utteranceRef\.current\) return;[\s\S]*?window\.speechSynthesis\.cancel\(\);[\s\S]*?utteranceRef\.current = null;\s*\}/,
+  );
+  assert.doesNotMatch(player, /useEffect\(\(\) => \(\) => stop\(\), \[stop\]\)/);
+});
+
+test('pause cannot affect the global speech queue without an owned utterance', () => {
+  assert.match(
+    player,
+    /!window\.speechSynthesis \|\|\s*!utteranceRef\.current\s*\) \{\s*return;\s*\}\s*window\.speechSynthesis\.pause\(\);/,
   );
 });
 
