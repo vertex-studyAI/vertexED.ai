@@ -28,10 +28,14 @@ test('account changes close stale planner editing surfaces before hydration', ()
   assert.match(planner, /\{plannerReady && editOpen && editTask && \(/);
 });
 
-test('planner task controls expose complete keyboard and accessible names', () => {
-  assert.match(schedule, /event\.key === 'Enter' \|\| event\.key === ' '/);
-  assert.match(schedule, /event\.preventDefault\(\)/);
+test('planner task controls use native keyboard actions and accessible names', () => {
+  assert.doesNotMatch(schedule, /role="button"/);
+  assert.doesNotMatch(schedule, /tabIndex=\{0\}/);
+  assert.doesNotMatch(schedule, /event\.key === 'Enter'/);
+  assert.doesNotMatch(schedule, /event\.key === ' '/);
+  assert.match(schedule, /event\.key === 'Delete'/);
+  assert.match(schedule, /className="task-edit-button [^"]*focus-visible:ring-2/);
+  assert.match(schedule, /aria-label=\{`Edit \$\{name\}, starting at \$\{startTime\} for \$\{duration\} minutes`\}/);
   assert.match(schedule, /aria-label=\{`Mark \$\{name\} complete`\}/);
-  assert.match(schedule, /Press Enter or Space to edit, or Delete to complete/);
   assert.match(schedule, /aria-label=\{`\$\{mode\} planner schedule for/);
 });
