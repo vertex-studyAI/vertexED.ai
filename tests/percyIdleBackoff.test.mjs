@@ -142,13 +142,16 @@ test('Percy worker resets idle backoff after successfully claiming work', async 
   assert.equal(result.failed, 0);
 });
 
-test('Percy worker validates idle backoff, jitter, sleep, stop, random, and clock controls fail closed', async () => {
+test('Percy worker validates timeout, idle backoff, jitter, sleep, stop, random, and clock controls fail closed', async () => {
   const base = {
     store: idleStore(),
     execute: async () => ({ ok: true }),
     workerId: 'validation',
     shouldStop: () => true,
   };
+  await assert.rejects(() => runWorkerLoop({ ...base, timeoutMs: 0 }), /timeoutMs must be >=1/);
+  await assert.rejects(() => runWorkerLoop({ ...base, timeoutMs: Number.NaN }), /timeoutMs must be >=1/);
+  await assert.rejects(() => runWorkerLoop({ ...base, timeoutMs: Number.POSITIVE_INFINITY }), /timeoutMs must be >=1/);
   await assert.rejects(() => runWorkerLoop({ ...base, idleMs: 0 }), /idleMs must be >=1/);
   await assert.rejects(() => runWorkerLoop({ ...base, idleMs: 10, maxIdleSleepMs: 9 }), /maxIdleSleepMs must be >= idleMs/);
   await assert.rejects(() => runWorkerLoop({ ...base, idleBackoffFactor: 0.9 }), /idleBackoffFactor must be in \[1,10\]/);
