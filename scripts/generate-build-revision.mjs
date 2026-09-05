@@ -5,12 +5,12 @@ import { mkdir, writeFile } from 'node:fs/promises';
 import { dirname, resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 
+import { normalizeImmutableGitSha } from './immutable-revision.mjs';
+
 const DEFAULT_OUTPUT = resolve('api/_generated/build-revision.js');
 
 export function normalizeBuildRevision(value) {
-  if (typeof value !== 'string') return null;
-  const revision = value.trim().toLowerCase();
-  return /^[0-9a-f]{7,40}$/.test(revision) ? revision : null;
+  return normalizeImmutableGitSha(value);
 }
 
 function defaultRunGit(args) {
