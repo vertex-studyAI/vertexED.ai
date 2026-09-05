@@ -32,9 +32,10 @@ class LightCurveSeries:
 class LightCurveFeaturizer:
     """Train-fit featurizer for irregular photometric event sequences.
 
-    Continuous features are robust-scaled using only the training prefix. Passbands use a
-    training-derived vocabulary plus an explicit `<UNK>` bucket, so held-out bands cannot alter
-    dimensionality or training statistics.
+    Continuous features are robust-scaled using only the training prefix or the explicitly
+    supplied collection of training objects. Passbands use a training-derived vocabulary plus
+    an explicit `<UNK>` bucket, so held-out bands cannot alter dimensionality or training
+    statistics.
     """
 
     center: np.ndarray
@@ -55,21 +56,65 @@ class LightCurveFeaturizer:
             ]
         )
 
+    @staticmethod
+    def _fit_from_training_rows(
+        continuous: np.ndarray,
+        bands: tuple[str, ...],
+        *,
+        eps: float,
+    ) -> "LightCurveFeaturizer":
+        if continuous.ndim != 2 or continuous.shape[0] < 2 or continuous.shape[1] != 3:
+            raise ValueError("training surface must contain at least two 3-feature observations")
+        center = np.nanmedian(continuous, axis=0)
+        mad = np.nanmedian(np.abs(continuous - center), axis=0)
+        scale = 1.4826 * mad
+        fallback = np.nanstd(continuous, axis=0)
+        scale = np.where(scale > eps, scale, np.where(fallback > eps, fallback, 1.0))
+        if not bands:
+            raise ValueError("training surface has no passbands")
+        return LightCurveFeaturizer(
+            center=center.astype(np.float32),
+            scale=scale.astype(np.float32),
+            bands=tuple(sorted(set(bands))),
+        )
+
     @classmethod
     def fit(cls, series: LightCurveSeries, train_end: int, eps: float = 1e-6) -> "LightCurveFeaturizer":
         series.validate()
         if not 2 <= train_end <= len(series.times):
             raise ValueError("train_end must include at least two observations and stay within series")
         continuous = cls._continuous(series)[:train_end]
-        center = np.nanmedian(continuous, axis=0)
-        mad = np.nanmedian(np.abs(continuous - center), axis=0)
-        scale = 1.4826 * mad
-        fallback = np.nanstd(continuous, axis=0)
-        scale = np.where(scale > eps, scale, np.where(fallback > eps, fallback, 1.0))
-        bands = tuple(sorted({str(b) for b in series.bands[:train_end]}))
-        if not bands:
-            raise ValueError("training prefix has no passbands")
-        return cls(center=center.astype(np.float32), scale=scale.astype(np.float32), bands=bands)
+        bands = tuple(str(b) for b in series.bands[:train_end])
+        return cls._fit_from_training_rows(continuous, bands, eps=eps)
+
+    @classmethod
+    def fit_many(
+        cls,
+        series: list[LightCurveSeries] | tuple[LightCurveSeries, ...],
+        *,
+        eps: float = 1e-6,
+    ) -> "LightCurveFeaturizer":
+        """Fit one astronomy featurizer from complete *training objects only*.
+
+        This is the object-level counterpart to :meth:`fit`. It intentionally accepts no
+        validation/test objects and performs no concatenation before delta-time construction:
+        the first event of every object receives delta-time zero, so an artificial time gap
+        between unrelated light curves can never enter the scaler.
+        """
+        if not series:
+            raise ValueError("at least one training light curve is required")
+        continuous_parts: list[np.ndarray] = []
+        training_bands: list[str] = []
+        for light_curve in series:
+            light_curve.validate()
+            continuous_parts.append(cls._continuous(light_curve))
+            training_bands.extend(str(b) for b in light_curve.bands)
+        continuous = np.concatenate(continuous_parts, axis=0)
+        return cls._fit_from_training_rows(
+            continuous,
+            tuple(training_bands),
+            eps=eps,
+        )
 
     def transform(self, series: LightCurveSeries, *, include_time: bool = True) -> np.ndarray:
         continuous = self._continuous(series)
