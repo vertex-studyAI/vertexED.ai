@@ -51,7 +51,7 @@ jobs:
             | tee "$RUNNER_TEMP/multimodal-calibration-authorization-bindings.log"
           grep -Fx 'MULTIMODAL_CALIBRATION_AUTHORIZATION_BINDINGS=PASS' \
             "$RUNNER_TEMP/multimodal-calibration-authorization-bindings.log"
-          grep -Fx 'CHECKED_FILE_BINDINGS=6' \
+          grep -Fx 'CHECKED_FILE_BINDINGS=9' \
             "$RUNNER_TEMP/multimodal-calibration-authorization-bindings.log"
           grep -Fx 'MULTIMODAL_CALIBRATION_AUTHORIZATION=BLOCKED' \
             "$RUNNER_TEMP/multimodal-calibration-authorization-bindings.log"
