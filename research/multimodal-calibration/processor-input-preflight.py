@@ -150,7 +150,18 @@ def run_live_preflight(prompt: str) -> dict[str, Any]:
         MODEL_ID,
         revision=MODEL_REVISION,
         trust_remote_code=False,
+        use_fast=False,
     )
+    image_processor = getattr(processor, "image_processor", None)
+    video_processor = getattr(processor, "video_processor", None)
+    tokenizer = getattr(processor, "tokenizer", None)
+    if image_processor is None:
+        raise ProcessorInputPreflightError("processor is missing image_processor")
+    if video_processor is None:
+        raise ProcessorInputPreflightError("processor is missing video_processor")
+    if tokenizer is None:
+        raise ProcessorInputPreflightError("processor is missing tokenizer")
+
     messages = [
         {
             "role": "user",
@@ -180,9 +191,6 @@ def run_live_preflight(prompt: str) -> dict[str, Any]:
     prefix_encoded = _encode(processor, rendered_text=rendered_prefix, image=image)
     analyses: list[dict[str, Any]] = []
     decoded_labels: dict[str, str] = {}
-    tokenizer = getattr(processor, "tokenizer", None)
-    if tokenizer is None:
-        raise ProcessorInputPreflightError("processor is missing tokenizer")
 
     for label in LABELS:
         full_encoded = _encode(processor, rendered_text=rendered_prefix + label, image=image)
@@ -226,6 +234,15 @@ def run_live_preflight(prompt: str) -> dict[str, Any]:
             "huggingface_hub": _package_version("huggingface-hub"),
             "pillow": _package_version("Pillow"),
             "numpy": _package_version("numpy"),
+            "torch": _package_version("torch"),
+            "torchvision": _package_version("torchvision"),
+        },
+        "processor": {
+            "class": processor.__class__.__name__,
+            "image_processor_class": image_processor.__class__.__name__,
+            "video_processor_class": video_processor.__class__.__name__,
+            "tokenizer_class": tokenizer.__class__.__name__,
+            "image_processor_use_fast": False,
         },
         "synthetic_fixture": {
             "prompt_sha256": sha256_bytes(prompt.encode("utf-8")),
