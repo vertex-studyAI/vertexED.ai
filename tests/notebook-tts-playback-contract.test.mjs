@@ -27,17 +27,17 @@ test('replacing generated script content only cancels speech owned by this playe
   );
 });
 
-test('play reconciles script identity before resume so effects cannot expose stale speech', () => {
+test('play reconciles script identity and speakable text before resume so effects cannot expose stale speech', () => {
   const playStart = player.indexOf('const play = () =>');
-  const cleanStart = player.indexOf('const clean = scriptToSpeech(script);', playStart);
   const resumeStart = player.indexOf('if (paused && utteranceRef.current)', playStart);
-  assert.ok(playStart >= 0 && cleanStart > playStart && resumeStart > cleanStart);
+  assert.ok(playStart >= 0 && resumeStart > playStart);
 
   const preResume = player.slice(playStart, resumeStart);
   assert.match(
     preResume,
     /if \(previousScriptRef\.current !== script\) \{\s*previousScriptRef\.current = script;\s*if \(utteranceRef\.current\) stop\(\);\s*\}/,
   );
+  assert.match(preResume, /if \(!speechText\) return;/);
 });
 
 test('unsupported speech synthesis does not create a server/client hydration mismatch', () => {
@@ -46,7 +46,7 @@ test('unsupported speech synthesis does not create a server/client hydration mis
     player,
     /setSpeechSupported\(\s*typeof window !== 'undefined' &&\s*Boolean\(window\.speechSynthesis\) &&\s*typeof SpeechSynthesisUtterance === 'function',\s*\);/,
   );
-  assert.match(player, /if \(!speechSupported\) return null;/);
+  assert.match(player, /if \(!speechSupported \|\| \(!speechText && !playing && !paused\)\) return null;/);
   assert.doesNotMatch(player, /if \(typeof window !== 'undefined' && !window\.speechSynthesis\)/);
 });
 
@@ -55,7 +55,7 @@ test('play requires both the speech queue and utterance constructor', () => {
     player,
     /typeof window === 'undefined' \|\|\s*!window\.speechSynthesis \|\|\s*typeof SpeechSynthesisUtterance !== 'function'/,
   );
-  assert.match(player, /const utterance = new SpeechSynthesisUtterance\(clean\);/);
+  assert.match(player, /const utterance = new SpeechSynthesisUtterance\(speechText\);/);
 });
 
 test('resume failures stop only the utterance owned by this player', () => {
