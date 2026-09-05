@@ -31,10 +31,18 @@ test('unsupported speech synthesis does not create a server/client hydration mis
   assert.match(player, /const \[speechSupported, setSpeechSupported\] = useState\(false\);/);
   assert.match(
     player,
-    /setSpeechSupported\(typeof window !== 'undefined' && Boolean\(window\.speechSynthesis\)\);/,
+    /setSpeechSupported\(\s*typeof window !== 'undefined' &&\s*Boolean\(window\.speechSynthesis\) &&\s*typeof SpeechSynthesisUtterance === 'function',\s*\);/,
   );
   assert.match(player, /if \(!speechSupported\) return null;/);
   assert.doesNotMatch(player, /if \(typeof window !== 'undefined' && !window\.speechSynthesis\)/);
+});
+
+test('play requires both the speech queue and utterance constructor', () => {
+  assert.match(
+    player,
+    /typeof window === 'undefined' \|\|\s*!window\.speechSynthesis \|\|\s*typeof SpeechSynthesisUtterance !== 'function'/,
+  );
+  assert.match(player, /const utterance = new SpeechSynthesisUtterance\(clean\);/);
 });
 
 test('unmount cleanup cancels only an owned utterance and never calls stateful stop', () => {
