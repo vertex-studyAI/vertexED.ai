@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 
+const clampProgress = (value: number) => Math.min(100, Math.max(0, Math.round(value)));
+
 const TimeLeftWidget = () => {
   const [timeCompletedInHour, setTimeCompletedInHour] = useState(0);
   const [timeCompletedInDay, setTimeCompletedInDay] = useState(0);
@@ -26,11 +28,54 @@ const TimeLeftWidget = () => {
     return () => clearInterval(interval);
   }, []);
 
+  const hourProgress = clampProgress(timeCompletedInHour);
+  const dayProgress = clampProgress(timeCompletedInDay);
+  const weekProgress = clampProgress(timeCompletedInWeek);
+
   return (
-    <div className="time-left-widget">
-      <div className="time-bar"><span>Hour:</span><div className="bar"><div className="fill" style={{ width: `${timeCompletedInHour}%` }}></div></div></div>
-      <div className="time-bar"><span>Day:</span><div className="bar"><div className="fill" style={{ width: `${timeCompletedInDay}%` }}></div></div></div>
-      <div className="time-bar"><span>Week:</span><div className="bar"><div className="fill" style={{ width: `${timeCompletedInWeek}%` }}></div></div></div>
+    <div className="time-left-widget" aria-label="Time elapsed">
+      <div className="time-bar">
+        <span>Hour:</span>
+        <div
+          className="bar"
+          role="progressbar"
+          aria-label="Time elapsed in current hour"
+          aria-valuemin={0}
+          aria-valuemax={100}
+          aria-valuenow={hourProgress}
+          aria-valuetext={`${hourProgress}% of the current hour elapsed`}
+        >
+          <div className="fill" aria-hidden="true" style={{ width: `${hourProgress}%` }}></div>
+        </div>
+      </div>
+      <div className="time-bar">
+        <span>Day:</span>
+        <div
+          className="bar"
+          role="progressbar"
+          aria-label="Time elapsed in current day"
+          aria-valuemin={0}
+          aria-valuemax={100}
+          aria-valuenow={dayProgress}
+          aria-valuetext={`${dayProgress}% of the current day elapsed`}
+        >
+          <div className="fill" aria-hidden="true" style={{ width: `${dayProgress}%` }}></div>
+        </div>
+      </div>
+      <div className="time-bar">
+        <span>Week:</span>
+        <div
+          className="bar"
+          role="progressbar"
+          aria-label="Time elapsed in current week"
+          aria-valuemin={0}
+          aria-valuemax={100}
+          aria-valuenow={weekProgress}
+          aria-valuetext={`${weekProgress}% of the current week elapsed`}
+        >
+          <div className="fill" aria-hidden="true" style={{ width: `${weekProgress}%` }}></div>
+        </div>
+      </div>
     </div>
   );
 };
