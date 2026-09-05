@@ -23,7 +23,24 @@ test('normalizeBuildRevision accepts only full hexadecimal Git SHAs', () => {
   assert.equal(normalizeBuildRevision('not-a-sha'), null);
 });
 
-test('resolveBuildRevision prefers exact deployment environment identity over Git fallback', () => {
+test('resolveBuildRevision binds GitHub CI builds to explicit exact SOURCE_SHA', () => {
+  let gitCalled = false;
+  const revision = resolveBuildRevision({
+    env: {
+      SOURCE_SHA: SHA_A,
+      GITHUB_SHA: SHA_B,
+    },
+    runGit() {
+      gitCalled = true;
+      return SHA_B;
+    },
+  });
+
+  assert.equal(revision, SHA_A);
+  assert.equal(gitCalled, false);
+});
+
+test('resolveBuildRevision prefers exact Vercel identity over GitHub fallback when SOURCE_SHA is absent', () => {
   let gitCalled = false;
   const revision = resolveBuildRevision({
     env: {
@@ -40,12 +57,44 @@ test('resolveBuildRevision prefers exact deployment environment identity over Gi
   assert.equal(gitCalled, false);
 });
 
-test('resolveBuildRevision ignores ambiguous short environment identifiers and uses exact Git HEAD', () => {
+test('resolveBuildRevision fails closed when exact CI and Vercel source identities disagree', () => {
+  let gitCalled = false;
+  const revision = resolveBuildRevision({
+    env: {
+      SOURCE_SHA: SHA_A,
+      VERCEL_GIT_COMMIT_SHA: SHA_B,
+      GITHUB_SHA: SHA_A,
+    },
+    runGit() {
+      gitCalled = true;
+      return SHA_A;
+    },
+  });
+
+  assert.equal(revision, null);
+  assert.equal(gitCalled, false);
+});
+
+test('resolveBuildRevision fails closed on malformed declared Vercel identity', () => {
+  let gitCalled = false;
   const revision = resolveBuildRevision({
     env: {
       VERCEL_GIT_COMMIT_SHA: 'abcdef1',
-      GITHUB_SHA: 'fedcba9',
+      GITHUB_SHA: SHA_A,
     },
+    runGit() {
+      gitCalled = true;
+      return SHA_A;
+    },
+  });
+
+  assert.equal(revision, null);
+  assert.equal(gitCalled, false);
+});
+
+test('resolveBuildRevision can ignore ambiguous GitHub fallback and use exact checked-out Git HEAD', () => {
+  const revision = resolveBuildRevision({
+    env: { GITHUB_SHA: 'fedcba9' },
     runGit(args) {
       assert.deepEqual(args, ['rev-parse', 'HEAD']);
       return `${SHA_B}\n`;
@@ -73,12 +122,12 @@ test('Vercel builds automatically require an immutable revision', () => {
   assert.equal(requiresImmutableBuildRevision({}), false);
 });
 
-test('writeBuildRevisionModule emits an importable full immutable revision literal', async () => {
+test('writeBuildRevisionModule emits the explicit exact source revision when available', async () => {
   const root = await mkdtemp(join(tmpdir(), 'vertexed-build-revision-'));
   const outputPath = join(root, 'build-revision.js');
   const revision = await writeBuildRevisionModule({
     outputPath,
-    env: { GITHUB_SHA: SHA_A.toUpperCase() },
+    env: { SOURCE_SHA: SHA_A.toUpperCase(), GITHUB_SHA: SHA_B },
     runGit() {
       throw new Error('Git fallback should not be used');
     },
@@ -87,6 +136,26 @@ test('writeBuildRevisionModule emits an importable full immutable revision liter
   assert.equal(revision, SHA_A);
   const contents = await readFile(outputPath, 'utf8');
   assert.match(contents, new RegExp(`export const BUILD_REVISION = "${SHA_A}";`));
+});
+
+test('deploy-relevant generation fails closed when declared source identities disagree', async () => {
+  const root = await mkdtemp(join(tmpdir(), 'vertexed-build-revision-conflict-'));
+  const outputPath = join(root, 'build-revision.js');
+
+  await assert.rejects(
+    () => writeBuildRevisionModule({
+      outputPath,
+      env: {
+        VERTEXED_REQUIRE_BUILD_REVISION: '1',
+        SOURCE_SHA: SHA_A,
+        VERCEL_GIT_COMMIT_SHA: SHA_B,
+      },
+      runGit() {
+        return SHA_A;
+      },
+    }),
+    /Refusing to produce an unverifiable deployment artifact/,
+  );
 });
 
 test('deploy-relevant generation fails closed when no full immutable revision exists', async () => {
