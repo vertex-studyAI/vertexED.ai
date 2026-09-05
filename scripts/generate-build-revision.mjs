@@ -20,12 +20,27 @@ function defaultRunGit(args) {
   });
 }
 
-export function resolveBuildRevision({ env = process.env, runGit = defaultRunGit } = {}) {
-  const fromEnvironment =
-    normalizeBuildRevision(env.VERCEL_GIT_COMMIT_SHA) ||
-    normalizeBuildRevision(env.GITHUB_SHA);
+function readDeclaredRevision(env, key) {
+  const raw = env[key];
+  if (raw == null || String(raw).trim() === '') return { present: false, revision: null };
+  return { present: true, revision: normalizeBuildRevision(raw) };
+}
 
-  if (fromEnvironment) return fromEnvironment;
+export function resolveBuildRevision({ env = process.env, runGit = defaultRunGit } = {}) {
+  const source = readDeclaredRevision(env, 'SOURCE_SHA');
+  const vercel = readDeclaredRevision(env, 'VERCEL_GIT_COMMIT_SHA');
+
+  if ((source.present && !source.revision) || (vercel.present && !vercel.revision)) {
+    return null;
+  }
+  if (source.revision && vercel.revision && source.revision !== vercel.revision) {
+    return null;
+  }
+  if (source.revision) return source.revision;
+  if (vercel.revision) return vercel.revision;
+
+  const githubRevision = normalizeBuildRevision(env.GITHUB_SHA);
+  if (githubRevision) return githubRevision;
 
   try {
     return normalizeBuildRevision(runGit(['rev-parse', 'HEAD']));
