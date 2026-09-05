@@ -184,6 +184,7 @@ export async function runWorkerLoop({
   if (typeof execute !== 'function') throw new TypeError('execute required');
   if (!workerId) throw new TypeError('workerId required');
   if (!Number.isFinite(leaseMs) || leaseMs < 100) throw new RangeError('leaseMs must be >=100');
+  if (!Number.isFinite(timeoutMs) || timeoutMs < 1) throw new RangeError('timeoutMs must be >=1');
   if (!Number.isFinite(idleMs) || idleMs < 1) throw new RangeError('idleMs must be >=1');
   if (!Number.isFinite(maxIdleSleepMs) || maxIdleSleepMs < idleMs) throw new RangeError('maxIdleSleepMs must be >= idleMs');
   if (!Number.isFinite(idleBackoffFactor) || idleBackoffFactor < 1 || idleBackoffFactor > 10) {
