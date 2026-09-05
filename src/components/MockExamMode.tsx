@@ -72,8 +72,8 @@ function saveExamHandoff(
 }
 
 const CENTERED_OVERLAY =
-  "fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black/85 p-4 backdrop-blur-sm";
-const FULL_SCREEN_OVERLAY = "fixed inset-0 z-50 bg-background";
+  "fixed inset-0 z-[110] flex items-center justify-center overflow-y-auto bg-black/85 p-4 backdrop-blur-sm";
+const FULL_SCREEN_OVERLAY = "fixed inset-0 z-[110] bg-background";
 
 export default function MockExamMode({ paper, onClose, board, subject, grade, cramMode }: Props) {
   const questions = useMemo(() => flattenQuestions(paper), [paper]);

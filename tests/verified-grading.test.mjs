@@ -83,6 +83,29 @@ test('scores and confidence are bounded to declared ranges', () => {
   assert.equal(audits[0].confidence, 1);
 });
 
+test('displayed score is derived from criteria instead of a conflicting provider total', () => {
+  const { audits } = normalizeGradeAudits({
+    questions: [question],
+    userAnswers: { q1: 'Exact evidence.' },
+    rawGrades: [{ id: 'q1', score: 4, maxScore: 4, confidence: 0.95,
+      criteria: [{ id: 'accuracy', score: 2, maxScore: 4, evidenceQuotes: ['Exact evidence'] }] }],
+  });
+  assert.equal(audits[0].score, 2);
+  assert.equal(audits[0].scoreStatus, 'VERIFIED');
+});
+
+test('criterion totals that do not match the declared maximum require review', () => {
+  const { audits } = normalizeGradeAudits({
+    questions: [question],
+    userAnswers: { q1: 'Exact evidence.' },
+    rawGrades: [{ id: 'q1', maxScore: 4, confidence: 0.95,
+      criteria: [{ id: 'accuracy', score: 2, maxScore: 3, evidenceQuotes: ['Exact evidence'] }] }],
+  });
+  assert.equal(audits[0].rubricTotalVerified, false);
+  assert.equal(audits[0].scoreStatus, 'PROVISIONAL');
+  assert.match(audits[0].escalationReason, /do not add up/);
+});
+
 test('unknown error codes never enter the remediation audit', () => {
   const { audits } = normalizeGradeAudits({
     questions: [question],

@@ -12,7 +12,7 @@ export class ReviewImageProcessingError extends Error {
  * workflow. Image-dependent grading must fail closed if this step cannot
  * produce usable evidence.
  */
-export async function describeReviewImages(client, images) {
+export async function describeReviewImages(client, images, contentRole = 'submitted material') {
   if (!Array.isArray(images) || images.length === 0) return '';
 
   let response;
@@ -24,7 +24,7 @@ export async function describeReviewImages(client, images) {
         content: [
           {
             type: 'text',
-            text: 'Analyze these images and provide a detailed description of their content, especially any text, diagrams, or questions present, to be used as context.',
+            text: `Transcribe and describe only the ${contentRole} shown in these images. Preserve wording, symbols, equations, labels, and line order as exactly as possible. Do not solve, grade, correct, or add content.`,
           },
           ...images.map((image) => ({
             type: 'image_url',

@@ -29,7 +29,9 @@ export default defineConfig({
     // make a correct route appear unavailable without reflecting production.
     command: `VITE_SUPABASE_URL=https://vertexed-e2e.supabase.co VITE_SUPABASE_ANON_KEY=${e2eAnonKey} npm run build && npm run preview -- --host 127.0.0.1 --port 4174`,
     url: baseURL,
-    reuseExistingServer: false,
+    // Local iteration can reuse an already-built preview; CI starts from a
+    // clean runner and therefore still executes the production build above.
+    reuseExistingServer: !process.env.CI,
     timeout: 300_000,
   },
 });

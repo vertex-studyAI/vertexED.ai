@@ -126,11 +126,12 @@ export function normalizeGradeAudits({ questions = [], userAnswers = {}, rawGrad
     const criteria = normalizeCriteria(raw, answer, maxScore);
     const computedScore = criteria.reduce((sum, criterion) => sum + criterion.score, 0);
     const computedMax = criteria.reduce((sum, criterion) => sum + criterion.maxScore, 0);
-    const score = boundedNumber(raw?.score, 0, maxScore, Math.min(maxScore, computedScore));
+    const score = Math.min(maxScore, computedScore);
     const confidence = boundedNumber(raw?.confidence, 0, 1, 0);
     const evidenceVerified = criteria.every((criterion) => criterion.evidenceVerified);
+    const rubricTotalVerified = Math.abs(computedMax - maxScore) < 0.001;
     const errors = normalizeErrors(raw?.errorCodes, answer);
-    const humanReviewRequired = !answer || !evidenceVerified || confidence < HUMAN_REVIEW_CONFIDENCE_THRESHOLD;
+    const humanReviewRequired = !answer || !evidenceVerified || !rubricTotalVerified || confidence < HUMAN_REVIEW_CONFIDENCE_THRESHOLD;
 
     return {
       contractVersion: GRADING_CONTRACT_VERSION,
@@ -145,6 +146,8 @@ export function normalizeGradeAudits({ questions = [], userAnswers = {}, rawGrad
         ? 'No student answer was supplied.'
         : !evidenceVerified
           ? 'Awarded credit is not backed by an exact span from the student answer.'
+          : !rubricTotalVerified
+            ? 'Criterion marks do not add up to the declared maximum score.'
           : confidence < HUMAN_REVIEW_CONFIDENCE_THRESHOLD
             ? 'Model confidence is below the human-review threshold.'
             : null,
@@ -157,6 +160,7 @@ export function normalizeGradeAudits({ questions = [], userAnswers = {}, rawGrad
       model: cleanText(model, 160) || 'unknown',
       computedCriterionScore: computedScore,
       computedCriterionMaxScore: computedMax,
+      rubricTotalVerified,
     };
   });
 

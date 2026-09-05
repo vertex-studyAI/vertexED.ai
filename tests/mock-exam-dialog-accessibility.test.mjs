@@ -10,6 +10,14 @@ const modalSource = await readFile(
   new URL("../src/components/AccessibleModal.tsx", import.meta.url),
   "utf8",
 );
+const toastSource = await readFile(
+  new URL("../src/components/ui/toast.tsx", import.meta.url),
+  "utf8",
+);
+const globalStyles = await readFile(
+  new URL("../src/index.css", import.meta.url),
+  "utf8",
+);
 
 test("mock exam reuses the shared accessible modal in every rendered state", () => {
   assert.match(mockExamSource, /import AccessibleModal from "@\/components\/AccessibleModal"/);
@@ -45,4 +53,10 @@ test("mock-exam overlays do not depend on planner-only CSS", () => {
   assert.match(mockExamSource, /const FULL_SCREEN_OVERLAY =/);
   assert.match(mockExamSource, /overlayClassName={CENTERED_OVERLAY}/);
   assert.match(mockExamSource, /overlayClassName={FULL_SCREEN_OVERLAY}/);
+});
+
+test("mock-exam actions stay above global toast and tutor overlays", () => {
+  assert.match(mockExamSource, /fixed inset-0 z-\[110\]/);
+  assert.match(toastSource, /fixed top-0 z-\[100\]/);
+  assert.match(globalStyles, /\.apex-fab\s*{[^}]*z-index:\s*60;/s);
 });
