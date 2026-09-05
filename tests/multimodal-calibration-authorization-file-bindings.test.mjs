@@ -33,8 +33,9 @@ test('checked-in authorization-bound source bytes match every resolved digest', 
 
   assert.equal(assessment.ok, true);
   assert.deepEqual(assessment.errors, []);
-  assert.ok(assessment.checked.length >= 5);
-  assert.ok(assessment.unresolved.includes('environment.package_lock'));
+  assert.equal(assessment.checked.length, 6);
+  assert.deepEqual(assessment.unresolved, []);
+  assert.deepEqual(assessment.observed_unresolved, []);
   assert.ok(
     assessment.checked.some((binding) => binding.field === 'dataset.freeze_receipt'),
   );
@@ -49,6 +50,9 @@ test('checked-in authorization-bound source bytes match every resolved digest', 
   );
   assert.ok(
     assessment.checked.some((binding) => binding.field === 'transforms.implementation'),
+  );
+  assert.ok(
+    assessment.checked.some((binding) => binding.field === 'environment.package_lock'),
   );
 });
 
@@ -107,6 +111,7 @@ test('canonical verifier remains blocked before outcomes while file bindings sta
   assert.equal(result.authorized, false);
   assert.equal(result.structural_authorized, false);
   assert.equal(result.file_bindings.ok, true);
+  assert.deepEqual(result.file_bindings.unresolved, []);
   assert.ok(result.structural_errors.includes('model_runtime.runtime_identity is unresolved'));
   assert.ok(
     result.structural_errors.some((error) =>
@@ -117,6 +122,6 @@ test('canonical verifier remains blocked before outcomes while file bindings sta
     result.structural_errors.some((error) => error.includes('fitted_temperature is unresolved')),
   );
   assert.ok(
-    result.structural_errors.some((error) => error.includes('package_lock_sha256')),
+    !result.structural_errors.some((error) => error.includes('package_lock_sha256')),
   );
 });
