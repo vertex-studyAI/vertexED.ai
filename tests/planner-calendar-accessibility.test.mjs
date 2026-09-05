@@ -16,6 +16,12 @@ test("planner calendar exposes valid grouped date-picker semantics", () => {
   assert.match(source, /aria-label="Next month" type="button"/);
 });
 
+test("planner calendar month heading excludes navigation controls", () => {
+  assert.match(source, /<div className="calendar-header">/);
+  assert.doesNotMatch(source, /className="calendar-header" role="heading"/);
+  assert.match(source, /<span role="heading" aria-level=\{2\} aria-live="polite">/);
+});
+
 test("planner calendar retains explicit keyboard activation for custom date controls", () => {
   const activations = source.match(/e\.key === 'Enter' \|\| e\.key === ' '/g) ?? [];
   assert.equal(activations.length, 3);
