@@ -7,6 +7,11 @@ const source = await readFile(
   "utf8",
 );
 
+const nativeControlStyles = await readFile(
+  new URL("../src/features/study-calendar/styles/calendar-native-controls.css", import.meta.url),
+  "utf8",
+);
+
 test("planner calendar exposes valid grouped date-picker semantics", () => {
   assert.match(source, /className="calendar-grid" role="group" aria-label="Choose a date"/);
   assert.doesNotMatch(source, /className="calendar-grid" role="grid"/);
@@ -22,8 +27,18 @@ test("planner calendar month heading excludes navigation controls", () => {
   assert.match(source, /<span role="heading" aria-level=\{2\} aria-live="polite">/);
 });
 
-test("planner calendar retains explicit keyboard activation for custom date controls", () => {
-  const activations = source.match(/e\.key === 'Enter' \|\| e\.key === ' '/g) ?? [];
-  assert.equal(activations.length, 3);
-  assert.equal(source.match(/tabIndex=\{0\}/g)?.length, 3);
+test("planner calendar uses native date buttons without custom keyboard emulation", () => {
+  assert.equal(source.match(/<button\n\s+key=/g)?.length, 3);
+  assert.equal(source.match(/type="button"\n\s+className=/g)?.length, 3);
+  assert.doesNotMatch(source, /role="button"/);
+  assert.doesNotMatch(source, /tabIndex=\{0\}/);
+  assert.doesNotMatch(source, /e\.key === 'Enter' \|\| e\.key === ' '/);
+});
+
+test("native date-button reset preserves planner styling without browser chrome", () => {
+  assert.match(source, /import "\.\.\/styles\/calendar-native-controls\.css";/);
+  assert.match(nativeControlStyles, /button\.calendar-day/);
+  assert.match(nativeControlStyles, /appearance: none;/);
+  assert.match(nativeControlStyles, /border: 0;/);
+  assert.match(nativeControlStyles, /background-color: transparent;/);
 });
