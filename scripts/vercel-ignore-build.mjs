@@ -19,6 +19,7 @@ const RUNTIME_FILES = new Set([
   'scripts/build.mjs',
   'scripts/generate-build-revision.mjs',
   'scripts/generate-study-guide-sitemap.mjs',
+  'scripts/immutable-revision.mjs',
   'scripts/publish-neurocad-alpha.mjs',
   'scripts/validate-vercel-functions.mjs',
   'scripts/vercel-ignore-build.mjs',
