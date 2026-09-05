@@ -123,10 +123,20 @@ export class ClassLimiter {
   limitFor(name) { return this.limits.get(name) ?? this.limits.get('default') ?? 1; }
   activeFor(name) { return this.active.get(name) ?? 0; }
 
+  releaseHandle(name) {
+    let released = false;
+    return () => {
+      if (released) return false;
+      released = true;
+      this.release(name);
+      return true;
+    };
+  }
+
   async acquire(name = 'default') {
     if (this.activeFor(name) < this.limitFor(name)) {
       this.active.set(name, this.activeFor(name) + 1);
-      return () => this.release(name);
+      return this.releaseHandle(name);
     }
     await new Promise((resolveWaiter) => {
       const queue = this.waiters.get(name) ?? [];
@@ -136,7 +146,7 @@ export class ClassLimiter {
     // release() transfers an existing occupied slot directly to this waiter.
     // Do not increment active here or a release/acquire handoff can briefly
     // exceed the declared provider-class limit.
-    return () => this.release(name);
+    return this.releaseHandle(name);
   }
 
   release(name = 'default') {
