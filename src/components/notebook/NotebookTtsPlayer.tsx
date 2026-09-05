@@ -18,25 +18,45 @@ function scriptToSpeech(text: string): string {
 export default function NotebookTtsPlayer({ script, className }: Props) {
   const [playing, setPlaying] = useState(false);
   const [paused, setPaused] = useState(false);
+  const [speechSupported, setSpeechSupported] = useState(false);
   const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
   const previousScriptRef = useRef(script);
 
+  useEffect(() => {
+    setSpeechSupported(typeof window !== 'undefined' && Boolean(window.speechSynthesis));
+  }, []);
+
   const stop = useCallback(() => {
-    if (typeof window === 'undefined' || !window.speechSynthesis) return;
-    window.speechSynthesis.cancel();
+    const activeUtterance = utteranceRef.current;
+    if (activeUtterance && typeof window !== 'undefined' && window.speechSynthesis) {
+      window.speechSynthesis.cancel();
+    }
     setPlaying(false);
     setPaused(false);
     utteranceRef.current = null;
   }, []);
 
-  useEffect(() => () => stop(), [stop]);
+  // Cleanup must not call the stateful stop() helper after unmount. Only cancel
+  // the global speech queue when this player still owns an active utterance.
+  useEffect(
+    () => () => {
+      if (!utteranceRef.current) return;
+      if (typeof window !== 'undefined' && window.speechSynthesis) {
+        window.speechSynthesis.cancel();
+      }
+      utteranceRef.current = null;
+    },
+    [],
+  );
 
   // Generated notebook content can be replaced in-place. Never keep speaking or
-  // resume an utterance that belongs to the previous generated script.
+  // resume an utterance that belongs to the previous generated script. An idle
+  // player does not call the global cancel() API and therefore cannot interrupt
+  // speech started elsewhere in the application.
   useEffect(() => {
     if (previousScriptRef.current === script) return;
     previousScriptRef.current = script;
-    stop();
+    if (utteranceRef.current) stop();
   }, [script, stop]);
 
   const play = () => {
@@ -73,15 +93,22 @@ export default function NotebookTtsPlayer({ script, className }: Props) {
   };
 
   const pause = () => {
-    if (typeof window === 'undefined' || !window.speechSynthesis) return;
+    if (
+      typeof window === 'undefined' ||
+      !window.speechSynthesis ||
+      !utteranceRef.current
+    ) {
+      return;
+    }
     window.speechSynthesis.pause();
     setPaused(true);
     setPlaying(false);
   };
 
-  if (typeof window !== 'undefined' && !window.speechSynthesis) {
-    return null;
-  }
+  // Render the same empty tree on the server and during the first client render;
+  // capability detection happens after mount, avoiding an unsupported-browser
+  // hydration mismatch.
+  if (!speechSupported) return null;
 
   return (
     <div className={`notebook-tts flex flex-wrap items-center gap-2 ${className ?? ''}`}>
