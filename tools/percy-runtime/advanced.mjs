@@ -16,9 +16,21 @@ export function parseClassLimits(spec = process.env.PERCY_CLASS_LIMITS ?? 'defau
   for (const raw of String(spec).split(',')) {
     const item = raw.trim();
     if (!item) continue;
-    const [name, value] = item.split('=', 2);
+    const separator = item.indexOf('=');
+    if (
+      separator <= 0 ||
+      separator === item.length - 1 ||
+      item.indexOf('=', separator + 1) !== -1
+    ) {
+      throw new RangeError(`invalid class limit: ${item}`);
+    }
+    const name = item.slice(0, separator).trim();
+    const value = item.slice(separator + 1).trim();
     const n = Number(value);
-    if (!name || !Number.isInteger(n) || n < 1 || n > 32) throw new RangeError(`invalid class limit: ${item}`);
+    if (!name || !value || !Number.isInteger(n) || n < 1 || n > 32) {
+      throw new RangeError(`invalid class limit: ${item}`);
+    }
+    if (limits.has(name)) throw new RangeError(`duplicate class limit: ${name}`);
     limits.set(name, n);
   }
   if (!limits.has('default')) limits.set('default', 1);
@@ -255,7 +267,8 @@ export async function runWorkerLoop({
 
     lastWorkAt = readNow();
     currentIdleMs = idleMs;
-    const className = String(task.payload?.providerClass ?? task.payload?.taskClass ?? 'default');
+    const rawClassName = String(task.payload?.providerClass ?? task.payload?.taskClass ?? 'default').trim();
+    const className = rawClassName || 'default';
     let release;
     let heartbeat;
     try {
