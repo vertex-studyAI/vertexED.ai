@@ -45,7 +45,7 @@ export default function NotebookTtsPlayer({ script, className }: Props) {
     utteranceRef.current = null;
   }, []);
 
-  // Cleanup must not call the stateful stop() helper after unmount. Only cancel
+  // Cleanup must not call the stateful stop helper after unmount. Only cancel
   // the global speech queue when this player still owns an active utterance.
   // Browser speech implementations can throw during teardown; local ownership
   // must still be released so stale callbacks cannot retain this player.
