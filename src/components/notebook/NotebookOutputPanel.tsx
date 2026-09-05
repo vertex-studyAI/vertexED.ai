@@ -103,15 +103,21 @@ export default function NotebookOutputPanel({ output, notebookTitle, onAskQuesti
   }
 
   if (output.kind === 'suggested-questions' && output.suggestedQuestions?.length) {
+    const canAskQuestion = typeof onAskQuestion === 'function';
     return (
       <section className="space-y-2" aria-label={generatedRegionLabel}>
-        <p className="text-xs text-muted-foreground mb-3">Tap a question to ask Apex with your sources attached.</p>
+        <p className="text-xs text-muted-foreground mb-3">
+          {canAskQuestion
+            ? 'Tap a question to ask Apex with your sources attached.'
+            : 'Suggested questions generated from your sources.'}
+        </p>
         {output.suggestedQuestions.map((q) => (
           <button
             key={q}
             type="button"
             onClick={() => onAskQuestion?.(q)}
-            className="notebook-suggest-q w-full text-left text-sm px-4 py-3 rounded-xl border border-border/50 hover:border-primary/30 hover:bg-primary/5 transition"
+            disabled={!canAskQuestion}
+            className="notebook-suggest-q w-full text-left text-sm px-4 py-3 rounded-xl border border-border/50 hover:border-primary/30 hover:bg-primary/5 transition disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:border-border/50 disabled:hover:bg-transparent"
           >
             {q}
           </button>
