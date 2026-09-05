@@ -41,10 +41,15 @@ jobs:
             | tee "$RUNNER_TEMP/multimodal-calibration-authorization-bindings.log"
           grep -Fx 'MULTIMODAL_CALIBRATION_AUTHORIZATION_BINDINGS=PASS' \
             "$RUNNER_TEMP/multimodal-calibration-authorization-bindings.log"
+          grep -Fx 'CHECKED_FILE_BINDINGS=6' \
+            "$RUNNER_TEMP/multimodal-calibration-authorization-bindings.log"
           grep -Fx 'MULTIMODAL_CALIBRATION_AUTHORIZATION=BLOCKED' \
             "$RUNNER_TEMP/multimodal-calibration-authorization-bindings.log"
-          grep -F 'UNRESOLVED_FILE_BINDINGS=environment.package_lock' \
-            "$RUNNER_TEMP/multimodal-calibration-authorization-bindings.log"
+          if grep -q '^UNRESOLVED_FILE_BINDINGS=' \
+            "$RUNNER_TEMP/multimodal-calibration-authorization-bindings.log"; then
+            echo 'All file-backed authorization identities must be resolved.' >&2
+            exit 1
+          fi
 
       - name: Retain pre-outcome binding evidence
         uses: actions/upload-artifact@v4
