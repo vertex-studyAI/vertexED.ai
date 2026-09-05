@@ -8,13 +8,17 @@ export function summarizeHeatmapMastery(heatmap) {
   return { reviewsCompleted, avgMastery };
 }
 
-export function summarizeSnapshotMastery(snapshots) {
-  const measured = snapshots.filter(
+function measuredSnapshots(snapshots) {
+  return snapshots.filter(
     (snapshot) =>
       snapshot.reviewsCompleted > 0 &&
       typeof snapshot.avgMastery === 'number' &&
       Number.isFinite(snapshot.avgMastery),
   );
+}
+
+export function summarizeSnapshotMastery(snapshots) {
+  const measured = measuredSnapshots(snapshots);
 
   let masteryTrend = 'flat';
   if (measured.length >= 2) {
@@ -29,6 +33,20 @@ export function summarizeSnapshotMastery(snapshots) {
     : null;
 
   return { avgMastery, masteryTrend, measuredCount: measured.length };
+}
+
+export function summarizeMasteryVelocity(snapshots) {
+  const measured = measuredSnapshots(snapshots);
+  if (measured.length < 2) {
+    return { delta: null, trend: 'flat', measuredCount: measured.length };
+  }
+
+  const first = measured[0].avgMastery;
+  const last = measured[measured.length - 1].avgMastery;
+  const delta = last - first;
+  const trend = delta > 3 ? 'up' : delta < -3 ? 'down' : 'flat';
+
+  return { delta, trend, measuredCount: measured.length };
 }
 
 export function formatMeasuredMastery(avgMastery) {

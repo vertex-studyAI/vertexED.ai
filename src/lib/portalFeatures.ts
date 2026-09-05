@@ -9,6 +9,7 @@ import type { StudyStats } from '@/lib/studyStats';
 import type { ProgressTrend } from '@/lib/progressAnalytics';
 import { getWeaknessHeatmap } from '@/lib/weaknessTracker';
 import { getProgressTrend } from '@/lib/progressAnalytics';
+import { summarizeMasteryVelocity } from '@/lib/progressAnalyticsCore.mjs';
 import { getLoopWeekStatus, LOOP_STEPS, type LoopStep } from '@/lib/studyLoopTracker';
 import { loadSrDeck, getDueFlashcardCount } from '@/lib/srDeck';
 import { dueCards } from '@/lib/spacedRepetition';
@@ -41,7 +42,7 @@ export type ExamNightItem = { id: string; label: string };
 export type PortalIntelligence = {
   apexBrief: string;
   memoryDecay: MemoryDecayItem[];
-  revisionVelocity: { delta: number; label: string; trend: 'up' | 'down' | 'flat' };
+  revisionVelocity: { delta: number | null; label: string; trend: 'up' | 'down' | 'flat' };
   marksGaps: MarksGap[];
   interleave: { subjects: string[]; reason: string };
   examNight: { active: boolean; items: ExamNightItem[] };
@@ -151,19 +152,20 @@ export function buildPortalIntelligence(
     .slice(0, 5);
 
   const last7 = trend.snapshots.slice(-7);
-  let delta = 0;
-  let velocityTrend: PortalIntelligence['revisionVelocity']['trend'] = 'flat';
-  if (last7.length >= 2) {
-    delta = last7[last7.length - 1].avgMastery - last7[0].avgMastery;
-    if (delta > 3) velocityTrend = 'up';
-    else if (delta < -3) velocityTrend = 'down';
-  }
+  const velocity = summarizeMasteryVelocity(last7) as {
+    delta: number | null;
+    trend: PortalIntelligence['revisionVelocity']['trend'];
+  };
+  const { delta } = velocity;
+  const velocityTrend = velocity.trend;
   const velocityLabel =
-    velocityTrend === 'up'
-      ? `+${delta}% mastery this week`
-      : velocityTrend === 'down'
-        ? `${delta}% dip — schedule a review block`
-        : 'Steady — add one deliberate practice session';
+    delta === null
+      ? 'No measured mastery trend yet — complete at least two answer reviews'
+      : velocityTrend === 'up'
+        ? `+${delta}% mastery this week`
+        : velocityTrend === 'down'
+          ? `${delta}% dip — schedule a review block`
+          : 'Measured mastery is steady this week';
 
   const marksGaps: MarksGap[] = adaptivePlan.masteryBySubject
     .map((m) => ({
@@ -208,8 +210,9 @@ export function buildPortalIntelligence(
 
   const habitRatio = stats.habitCount > 0 ? stats.habitsDoneToday / stats.habitCount : 0;
   const loopRatio = loop.completed.length / 5;
+  const measuredMasteryContribution = trend.avgMastery === null ? 0 : trend.avgMastery * 0.15;
   const focusScore = Math.round(
-    Math.min(100, habitRatio * 35 + loopRatio * 35 + Math.min(stats.studyStreak, 14) * 2.14 + trend.avgMastery * 0.15),
+    Math.min(100, habitRatio * 35 + loopRatio * 35 + Math.min(stats.studyStreak, 14) * 2.14 + measuredMasteryContribution),
   );
 
   const weakest = heatmap[0] ?? null;
