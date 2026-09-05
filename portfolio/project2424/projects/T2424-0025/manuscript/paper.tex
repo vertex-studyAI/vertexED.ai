@@ -1,0 +1,122 @@
+\documentclass[10pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{microtype}
+\usepackage{siunitx}
+\title{Robust Readouts Under Heavy-Tailed Contamination: A Reproduced Synthetic Attention-Aggregation Study}
+\author{Project 2424 Research Team\\\small Authorship metadata pending contributor review}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Arithmetic averaging is fragile under heavy-tailed contamination, motivating robust alternatives such as medians, trimmed estimators, and Huber-type location estimators. We study these readouts in a deliberately bounded attention-addressed synthetic aggregation task rather than a learned Transformer. In a reproduced 30-seed screen with Cauchy-contaminated values, weighted-median mean absolute error (MAE) is 0.01656 compared with 0.36153 for the weighted arithmetic mean, a 95.42\% relative reduction. A 50-seed contamination sweep from 0\% to 35\% shows that the median, a 10\% weighted trimmed mean, and a Huber readout remain substantially more stable as contamination increases. However, the key negative control weakens a specifically non-Gaussian mechanism claim: even at 0\% Cauchy contamination, the weighted median improves over the mean by about 49\%. The experiment therefore supports a narrow robust-readout result in this synthetic aggregation setting, not a Transformer-level or uniquely non-Gaussian memory advantage. The code path and checked-in reference values reproduced to machine precision; the follow-up contamination sweep is explicitly post hoc and is used for mechanism diagnosis rather than preregistered confirmation.
+\end{abstract}
+
+\section{Introduction}
+A sample mean is efficient under favorable light-tailed assumptions but can be highly sensitive to extreme observations. Robust statistics develops estimators that trade some ideal-model efficiency for stability under contamination and model deviation \cite{huber1964,rousseeuw1991,loh2025}. Median-, trimmed-, and M-estimation approaches are classical examples.
+
+This study asks a much narrower systems question: when attention weights are held fixed and only the value aggregation rule changes, how strongly do robust readouts protect a synthetic memory-retrieval estimate from heavy-tailed value contamination? The experiment originated as a mechanism screen for a broader ``Non-Gaussian Memory Transformer'' idea. The evidence does not justify that broader name as a scientific claim. The implementation is an attention-addressed synthetic aggregation mechanism with deterministic radial-basis-function (RBF) weights and hand-specified noise, not a trained Transformer.
+
+Our contribution is therefore intentionally modest. We (1) reproduce a 30-seed heavy-tail versus clean-control screen, (2) report a 50-seed contamination sweep comparing four readouts, and (3) preserve the negative mechanism evidence that robust readouts also help materially in the 0\% Cauchy control. The latter observation prevents us from attributing the full gain uniquely to non-Gaussian contamination.
+
+\section{Related Work}
+Robust location estimation has a long history. Huber's contamination framework formalized estimators intermediate between the mean and median under model deviation \cite{huber1964}. The sample median and trimmed estimators are standard robust summaries, while Huber-type M-estimators bound the influence of large residuals \cite{rousseeuw1991}. Recent reviews emphasize that robustness remains relevant in modern high-dimensional and contamination settings \cite{loh2025}.
+
+The present experiment should not be read as proposing a new robust estimator. Instead, it evaluates familiar robust location rules inside a fixed attention-weighted aggregation mechanism. Because the task, attention rule, and contamination model are synthetic and deliberately small, the novelty claim is limited to the empirical diagnostic within this Project 2424 mechanism screen; novelty relative to the broader robust-aggregation literature remains a release-gate item.
+
+\section{Methods}
+\subsection{Synthetic attention-addressed aggregation task}
+The task contains 24 anchor queries on $[0,1]$, seven replicas per anchor, a deterministic smooth latent signal, small key noise, and noisy values. Attention weights are deterministic RBF weights and are held fixed while the value readout changes. The clean condition uses Gaussian value noise; the heavy-tail condition injects Cauchy contamination.
+
+Let normalized nonnegative attention weights be $w_i$ and retrieved values be $v_i$. The arithmetic baseline is
+\begin{equation}
+\hat{v}_{\mathrm{mean}} = \sum_i w_i v_i.
+\end{equation}
+We compare it with a weighted median, a 10\% weighted trimmed mean, and a weighted Huber location estimator with $\delta=0.15$. The primary metric is mean absolute error (MAE), lower being better.
+
+\subsection{Original bounded screen}
+The original deterministic screen uses 30 seeds. Its predeclared mechanism gate requires: (1) more than 80\% relative MAE improvement under heavy-tail contamination; (2) clean-control robust MAE no greater than 1.10 times baseline MAE; and (3) the heavy-tail relative improvement minus clean-control relative improvement to exceed 30 percentage points.
+
+\subsection{Post-hoc contamination sweep}
+After the bounded result was already known, a follow-up diagnostic sweeps Cauchy contamination rates $\{0,0.05,0.10,0.18,0.25,0.35\}$ with 50 deterministic seeds at every level. The four readouts are evaluated under the same synthetic construction. This sweep is explicitly exploratory/post hoc and is not presented as an independent preregistration.
+
+\subsection{Reproduction}
+The frozen source revision is \texttt{0d2a14e559b0caa9b5b1cbeef0995013594ecf15}. A fresh local reproduction on Linux x86\_64 with Node.js v22.16.0 executed
+\begin{verbatim}
+node experiment/run.mjs
+node experiment/ablation.mjs
+\end{verbatim}
+and matched the checked-in reference values to machine precision. The project reproduction record also specifies a repository-conformant GitHub Actions path pinned to Node 22.22.0. Local timing measurements were 0.15 s for the 30-seed screen and 0.91 s for the 50-seed sweep; these timings are environment-specific and are not treated as throughput benchmarks.
+
+\section{Results}
+\subsection{Reproduced 30-seed screen}
+Table~\ref{tab:screen} reports the reproduced bounded screen.
+
+\begin{table}[h]
+\centering
+\caption{Reproduced 30-seed synthetic screen. Relative improvement is measured against the weighted arithmetic mean.}
+\label{tab:screen}
+\begin{tabular}{lrrr}
+\toprule
+Condition & Weighted mean MAE & Weighted median MAE & Relative improvement \\
+\midrule
+Heavy-tail contamination & 0.3615268 & 0.0165609 & 95.42\% \\
+Clean Gaussian control & 0.0243550 & 0.0125940 & 48.29\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The difference in relative improvement is 47.1292 percentage points in favor of the heavy-tail condition, so the bounded screen clears its predeclared mechanics. This establishes neither a trained memory architecture nor a general non-Gaussian-memory advantage.
+
+\subsection{Fifty-seed contamination sweep}
+Table~\ref{tab:sweep} shows mean MAE $\pm$ sample standard deviation across 50 seeds. The arithmetic mean becomes increasingly unstable as Cauchy contamination grows, while all three robust readouts degrade much more gradually.
+
+\begin{table}[h]
+\centering
+\small
+\caption{Mean MAE $\pm$ sample SD across 50 deterministic seeds.}
+\label{tab:sweep}
+\begin{tabular}{rrrrr}
+\toprule
+Cauchy rate & Mean & Median & 10\% trim & Huber \\
+\midrule
+0.00 & 0.0246469 $\pm$ 0.0023116 & 0.0125699 $\pm$ 0.0020831 & 0.0187115 $\pm$ 0.0022061 & 0.0190792 $\pm$ 0.0019665 \\
+0.05 & 0.1450123 $\pm$ 0.1996837 & 0.0133367 $\pm$ 0.0021542 & 0.0226237 $\pm$ 0.0042661 & 0.0220305 $\pm$ 0.0033708 \\
+0.10 & 0.3211625 $\pm$ 0.5111811 & 0.0141783 $\pm$ 0.0029325 & 0.0300138 $\pm$ 0.0072377 & 0.0254792 $\pm$ 0.0046659 \\
+0.18 & 0.3494393 $\pm$ 0.3472034 & 0.0170025 $\pm$ 0.0048577 & 0.0455063 $\pm$ 0.0157134 & 0.0309255 $\pm$ 0.0067962 \\
+0.25 & 0.4567522 $\pm$ 0.4225194 & 0.0223649 $\pm$ 0.0064166 & 0.0670628 $\pm$ 0.0210941 & 0.0386112 $\pm$ 0.0060222 \\
+0.35 & 0.8655903 $\pm$ 1.4660585 & 0.0286803 $\pm$ 0.0109628 & 0.1009767 $\pm$ 0.0354171 & 0.0467106 $\pm$ 0.0107741 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The weighted median is the lowest-MAE readout at every tested contamination rate. At 18\% contamination, for example, the arithmetic mean has MAE $0.34944\pm0.34720$ while the weighted median has $0.01700\pm0.00486$.
+
+\subsection{Negative mechanism evidence}
+The 0\% Cauchy control is scientifically important. Even with no Cauchy contamination, median MAE is 0.0125699 versus 0.0246469 for the arithmetic mean, roughly a 49\% reduction. The 10\% trimmed and Huber readouts also outperform the mean at 0\%. Thus, although the robust advantage becomes dramatic under heavy tails, the current construction does not isolate a uniquely non-Gaussian mechanism. Some benefit is generic robustness or smoothing under the synthetic noisy-memory setup.
+
+The arithmetic baseline also develops extreme dispersion at high Cauchy rates: at 35\% contamination its sample SD is 1.4661, larger than its already large mean MAE of 0.8656. This motivates future distribution-aware reporting with medians, quantiles, and bootstrap intervals rather than relying only on mean $\pm$ SD.
+
+\section{Discussion}
+The reproduced experiment demonstrates a simple point clearly: replacing a weighted arithmetic mean with robust location rules can dramatically stabilize this attention-weighted synthetic retrieval task under Cauchy contamination. The effect is not unique to the weighted median; trimmed and Huber readouts show the same qualitative pattern.
+
+However, the experiment is more useful because of what it rules out. Since robust readouts also improve substantially in the Gaussian/0\%-Cauchy control, the data do not support attributing the gain solely to a specialized non-Gaussian memory mechanism. A broader NGMT claim would require an actual learned memory mechanism, capacity-matched reference memories, train/validation/test separation, multiple corruption families, and sequence-level tasks such as delayed recall or regime switching.
+
+The heavy-tailed arithmetic-mean failures are consistent with classical robust-statistics intuition rather than evidence for a new estimator. Accordingly, the strongest current interpretation is a reproduced systems diagnostic showing that readout choice alone can dominate performance in this particular synthetic memory-aggregation setup.
+
+\section{Limitations}
+The study is synthetic; attention weights are deterministic; the latent signal and noise models are hand-specified; no learned Transformer, memory controller, language data, or delayed sequence-retrieval task is used. The 50-seed contamination sweep was designed after the original bounded result was known, so it is mechanism analysis rather than preregistered confirmation. No formal significance claim is made. The heavy-tailed MAE distribution for the arithmetic mean is highly skewed, and mean $\pm$ SD is an incomplete summary. Finally, publication novelty relative to the full robust-aggregation literature requires a dedicated current-literature audit before release.
+
+\section{Conclusion}
+In a reproduced synthetic attention-aggregation task, weighted median, trimmed, and Huber readouts are far more stable than an arithmetic mean under Cauchy contamination. The median reduces heavy-tail MAE by 95.42\% in the original 30-seed screen and remains the strongest tested readout throughout a 50-seed contamination sweep. Yet the 0\% contamination control also strongly favors robust readouts, so the experiment does not isolate a uniquely non-Gaussian memory mechanism. The appropriate conclusion is a bounded robust-readout result and a falsification of the stronger mechanism story, not evidence for a completed Non-Gaussian Memory Transformer.
+
+\section*{Reproducibility and Data Availability}
+The project repository contains the experiment scripts, checked-in result summaries, raw-metric directory, reproduction instructions, and frozen source revision. A final public preprint release remains gated on contributor/authorship review, a current novelty audit, repository-conformant independent reproduction evidence, licensing/data statements, and a clean manuscript build.
+
+\bibliographystyle{plain}
+\bibliography{references}
+\end{document}

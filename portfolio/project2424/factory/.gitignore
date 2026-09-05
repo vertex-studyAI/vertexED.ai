@@ -1,0 +1,9 @@
+generated/
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
+*.pdf
+__pycache__/
+.pytest_cache/

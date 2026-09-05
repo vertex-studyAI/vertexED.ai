@@ -1,0 +1,37 @@
+name: Darcy v2 learned-baseline smoke
+
+on:
+  pull_request:
+    paths:
+      - 'portfolio/project2424/projects/T2424-0050/**'
+      - 'tests/darcy_v2_learned_test.py'
+      - '.github/workflows/darcy-v2-learned-smoke.yml'
+  push:
+    branches:
+      - 'project2424/**'
+    paths:
+      - 'portfolio/project2424/projects/T2424-0050/**'
+      - 'tests/darcy_v2_learned_test.py'
+      - '.github/workflows/darcy-v2-learned-smoke.yml'
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+          cache: 'pip'
+          cache-dependency-path: 'portfolio/project2424/projects/T2424-0050/requirements-v2.lock.txt'
+      - name: Install frozen learned-baseline dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r portfolio/project2424/projects/T2424-0050/requirements-v2.lock.txt pytest
+      - name: Existing frozen generator/baseline tests
+        run: |
+          node --test tests/darcy-v2-freeze.test.mjs tests/darcy-v2-b2.test.mjs
+      - name: Learned baseline contract/smoke tests
+        run: |
+          pytest -q tests/darcy_v2_learned_test.py

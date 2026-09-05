@@ -1,0 +1,100 @@
+\documentclass[10pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{microtype}
+\title{When Validation Explains the Gain: A Negative Mechanism Result in a Constrained Text-to-CAD Pipeline}
+\author{Project 2424 Research Team\\\small Authorship metadata pending contributor review}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Text-to-CAD systems can differ simultaneously in representation, parsing, validation, and execution, making apparent architectural gains difficult to attribute. We revisit a constrained NeuroCAD plate-generation diagnostic in which a historical typed-and-validated compiler achieved 19/20 successes versus 12/20 for an original direct flat extractor. To isolate the source of the gap, we preregistered a component ablation on the reused 20-case diagnostic. The current typed+validated system succeeds on all 20 cases, the original direct extractor succeeds on 12/20, and direct extraction equipped with matched fail-closed validation also succeeds on all 20. Thus matched validation recovers 100\% of the observed B0-to-M2 gap, yielding the frozen interpretation \texttt{VALIDATION\_DOMINANT}. This falsifies the claim that the performance gap on these cases specifically demonstrates a causal advantage from the typed parser/intermediate representation. The result is deliberately narrow: the diagnostic is reused rather than newly held out, the grammar is limited, and it does not establish modern text-to-CAD performance. We discuss the result against a rapidly strengthening 2026 evaluation landscape, including executable CAD tests, complexity-diverse parametric benchmarks, manufacturability/assembly evaluation, and typed assembly specifications. A frozen 150-case successor protocol is defined but remains blocked on benchmark and model identity; no successor outcomes are reported here.
+\end{abstract}
+
+\section{Introduction}
+Text-to-CAD research increasingly evaluates more than whether generated code parses or a mesh can be rendered. Recent benchmarks test geometric/topological requirements directly \cite{mallis2026cadtests}, broaden parametric complexity and application diversity \cite{wang2026text2cadbench}, and evaluate manufacturability, functionality, and assemblability \cite{dong2026muse}. Assembly-focused work such as AssemCAD further argues for typed, verifiable specifications with deterministic geometric execution \cite{dong2026assemcad}. These developments raise a basic causal question for structured generation systems: when a typed intermediate representation appears to outperform direct generation, is the gain caused by the representation itself, by validation, or by some other engineering difference?
+
+NeuroCAD began as a constrained natural-language-to-parametric-CAD pipeline with a typed representation, validation checks, and deterministic backend emission. A historical frozen 20-case plate benchmark reported 19/20 for the typed/validated compiler versus 12/20 for an original direct flat extractor. That gap was initially suggestive of an architectural advantage, but the systems were not component matched.
+
+This paper reports a preregistered component diagnostic designed to test a narrower mechanism claim. We compare the current typed+validated compiler (M2), the original direct flat extractor (B0), and the direct extractor augmented with matched fail-closed validation (B1). The central result is negative: B1 closes the entire observed gap and matches M2 exactly on the reused diagnostic. This does not imply that typed representations are useless; it means that these 20 cases do not isolate a typed-representation causal advantage.
+
+\section{Related Work and Evaluation Context}
+Text2CAD-Bench introduces 600 human-curated examples across four complexity levels and dual prompt styles, emphasizing that text-to-parametric-CAD quality falls substantially on more complex topology and features \cite{wang2026text2cadbench}. CADTestBench evaluates generated models using executable CADTests that encode geometric and topological prompt requirements; importantly, its authors also show that tests can guide generation and that simple test-guided baselines can outperform recent methods \cite{mallis2026cadtests}. This is closely related to our finding that validation can explain an apparent architectural gap.
+
+MUSE moves evaluation toward editable B-Rep assemblies and assesses code execution, geometric validity, and design-intent alignment including functionality, manufacturability, and assemblability \cite{dong2026muse}. AssemCAD uses an explicit typed assembly specification with parts, ports, mates, and engineering axioms, providing contemporary evidence that structured intermediate specifications are a serious design direction for assembly generation \cite{dong2026assemcad}. These works also make clear why our narrow rectangular-plate diagnostic cannot support a broad state-of-the-art or manufacturing claim.
+
+\section{Historical Evidence Boundary}
+The frozen historical v1 result is retained exactly rather than rewritten by later implementation repairs. On the original 20-case rectangular-plate benchmark, the then-frozen typed/validated compiler succeeded on 19/20 cases while the original direct baseline succeeded on 12/20. The signed negative-width failure (O018) is preserved. Among the 12 valid cases tracked for mesh output, 12/12 produced non-empty STL.
+
+Subsequent engineering hardening changed the current implementation. Therefore the component experiment below evaluates the current repaired implementation on the same 20 cases for causal diagnosis; it is not a fresh held-out or OOD result and does not replace v1 history.
+
+\section{Component Ablation Protocol}
+The frozen question was: how much of the current advantage over the original direct flat extractor on the existing 20-case plate diagnostic is explained by adding a matched fail-closed validation layer, rather than by the parser/typed path itself?
+
+The protocol was committed before the first v2 execution. Three systems are compared:
+
+\begin{itemize}
+\item \textbf{M2}: current typed specification + fail-closed validation + compiler;
+\item \textbf{B0}: original direct flat extraction;
+\item \textbf{B1}: direct flat extraction + matched fail-closed validation.
+\end{itemize}
+
+The retained outcomes are valid exact geometry, invalid rejection, overall success, and accepted-invalid count. The derived mechanism quantities are the original M2--B0 gap, the remaining M2--B1 gap, and the fraction of the original gap recovered by adding validation to the direct extractor.
+
+\section{Reproducibility}
+The frozen source/protocol commit is \texttt{2cd90f30b4299acf52b110b8a5bc5784fa9fc8b8}. GitHub Actions workflow \texttt{31777954088} completed successfully and retained artifact \texttt{9210587354} with SHA-256 \texttt{b05facbec0ef17b81d618e604ffa120a1f75ba3ae9579bcd1b4d7b9500985d5c}. The recorded environment was Node v22.23.1, npm 10.9.8, and Ubuntu/Azure Linux kernel 6.17.0-1020-azure. The focused contract test passed 1/1.
+
+\section{Results}
+Table~\ref{tab:ablation} reports the frozen component result.
+
+\begin{table}[h]
+\centering
+\caption{Component diagnostic on the reused 20-case plate set.}
+\label{tab:ablation}
+\begin{tabular}{lrrrr}
+\toprule
+System & Valid exact geometry & Invalid rejection & Overall success & Accepted invalid \\
+\midrule
+M2 typed + validated & 1.00 & 1.00 & 1.00 & 0 \\
+B0 direct flat extraction & 1.00 & 0.00 & 0.60 & 8 \\
+B1 direct + matched validation & 1.00 & 1.00 & 1.00 & 0 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The original B0-to-M2 success gap is 0.40. After adding matched validation, the B1-to-M2 remaining gap is 0.00. The validation recovery fraction is therefore
+\begin{equation}
+\frac{\mathrm{B1}-\mathrm{B0}}{\mathrm{M2}-\mathrm{B0}} = \frac{1.00-0.60}{1.00-0.60}=1.00.
+\end{equation}
+The frozen interpretation is \texttt{VALIDATION\_DOMINANT}.
+
+This result falsifies the narrow causal statement that the M2--B0 performance gap on these 20 cases demonstrates an advantage specifically from the typed parser/IR. Direct extraction plus matched fail-closed validation recovers the entire measured gap.
+
+\section{Discussion}
+The result illustrates a common evaluation hazard in systems research: comparing two end-to-end pipelines that differ in multiple components can make a reliability mechanism look like a representation mechanism. Here, invalid-case rejection is the decisive difference. B0 already produces exact geometry for the valid cases in the diagnostic; its failures come from accepting invalid inputs. Once B1 receives the same fail-closed validation behavior, it matches the typed path.
+
+The conclusion is not that validation is trivial or that typed representations cannot help. Explicit validation is itself valuable engineering, especially in CAD where silently accepting contradictory dimensions can be worse than abstaining. Nor does the experiment test whether typed structure improves compositionality, editability, constraint reasoning, assembly semantics, model efficiency, or robustness to broader language. Instead, it removes one specific causal interpretation of an existing result.
+
+The current text-to-CAD landscape further limits any attempt to promote this diagnostic into a broad benchmark claim. CADTestBench emphasizes executable semantic/geometric tests \cite{mallis2026cadtests}; Text2CAD-Bench contains far broader parametric complexity \cite{wang2026text2cadbench}; MUSE examines engineering-ready design qualities \cite{dong2026muse}; and AssemCAD develops typed assembly specifications in a richer assembly setting \cite{dong2026assemcad}. A modern successor must therefore evaluate broader tasks and stronger direct/program-generation baselines under matched model/provider budgets.
+
+\section{Frozen Successor Study}
+A separate successor protocol, \texttt{T2424-0037-S3-SUCCESSOR-20260822}, is frozen but not authorized for confirmatory execution. It defines a 150-case benchmark across basic parametric parts, feature composition, multi-step constraints, assemblies/interfaces, ambiguous/paraphrased requests, and invalid/contradictory/unsafe tasks. Its primary hypothesis requires at least a 10-percentage-point semantic-test-pass improvement over the strongest matched direct-generation baseline; safety and editability hypotheses are also predeclared.
+
+Critically, the successor requires matched direct generation, direct+repair, direct+matched-validation, and constrained/template baselines; at least two contemporary external benchmark adapters; a full component ablation family; paired statistical analysis; frozen provider/model identity and budgets; and an \texttt{EXECUTION\_AUTHORIZATION.json} containing all hashes before opening confirmatory evaluation. At present, benchmark records/checksums and model/provider identity remain blocked, so no S3 outcome is reported or implied.
+
+\section{Limitations}
+The component diagnostic reuses only 20 historical rectangular-plate cases. It is not a new held-out/OOD benchmark. The direct system is a constrained flat extractor rather than a contemporary foundation-model CAD generator. The experiment measures correctness/rejection under a narrow grammar, not manufacturability, functionality, assemblability, advanced topology, broad parametric editability, or general natural-language robustness. It also does not establish novelty of typed IR or validation. Finally, publication accounting must first reconcile the Project 2424 identity lineage between the First-100 NeuroCAD identity and the evidence-bearing T2424-0037 NLP-to-CAD directory to avoid duplicate papers.
+
+\section{Conclusion}
+A matched validation ablation closes 100\% of the observed direct-to-typed performance gap on the reused NeuroCAD 20-case diagnostic. This is a useful negative mechanism result: the existing evidence does not demonstrate that typed parsing or an intermediate representation causes the gap. Instead, fail-closed validation is sufficient to explain it in this setting. The correct next step is not to retune the same 20 cases, but to execute the already frozen broader successor study with contemporary baselines and semantic tests once its dataset and model identities are fixed.
+
+\section*{Release Status}
+The reproduced component result and manuscript are evidence-backed, but this is not yet a certified preprint. Release remains gated on identity-lineage resolution, a current novelty audit, contributor/authorship and licensing review, final manuscript QA/build, and a decision on whether this negative mechanism result is best released standalone or folded into the broader successor/family paper.
+
+\bibliographystyle{plain}
+\bibliography{references}
+\end{document}
