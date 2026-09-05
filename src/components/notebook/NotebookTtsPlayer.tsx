@@ -75,9 +75,13 @@ export default function NotebookTtsPlayer({ script, className }: Props) {
     if (!clean) return;
 
     if (paused && utteranceRef.current) {
-      window.speechSynthesis.resume();
-      setPaused(false);
-      setPlaying(true);
+      try {
+        window.speechSynthesis.resume();
+        setPaused(false);
+        setPlaying(true);
+      } catch {
+        stop();
+      }
       return;
     }
 
@@ -98,8 +102,16 @@ export default function NotebookTtsPlayer({ script, className }: Props) {
       utteranceRef.current = null;
     };
     utteranceRef.current = utterance;
-    window.speechSynthesis.speak(utterance);
-    setPlaying(true);
+    try {
+      window.speechSynthesis.speak(utterance);
+      setPlaying(true);
+    } catch {
+      if (utteranceRef.current === utterance) {
+        utteranceRef.current = null;
+        setPlaying(false);
+        setPaused(false);
+      }
+    }
   };
 
   const pause = () => {
