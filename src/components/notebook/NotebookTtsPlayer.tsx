@@ -21,6 +21,7 @@ export default function NotebookTtsPlayer({ script, className }: Props) {
   const [speechSupported, setSpeechSupported] = useState(false);
   const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
   const previousScriptRef = useRef(script);
+  const speechText = scriptToSpeech(script);
 
   useEffect(() => {
     setSpeechSupported(
@@ -94,8 +95,7 @@ export default function NotebookTtsPlayer({ script, className }: Props) {
       if (utteranceRef.current) stop();
     }
 
-    const clean = scriptToSpeech(script);
-    if (!clean) return;
+    if (!speechText) return;
 
     if (paused && utteranceRef.current) {
       const activeUtterance = utteranceRef.current;
@@ -114,7 +114,7 @@ export default function NotebookTtsPlayer({ script, className }: Props) {
     }
 
     stop();
-    const utterance = new SpeechSynthesisUtterance(clean);
+    const utterance = new SpeechSynthesisUtterance(speechText);
     utterance.rate = 1;
     utterance.pitch = 1;
     utterance.onend = () => {
@@ -170,14 +170,22 @@ export default function NotebookTtsPlayer({ script, className }: Props) {
 
   // Render the same empty tree on the server and during the first client render;
   // capability detection happens after mount, avoiding an unsupported-browser
-  // hydration mismatch.
-  if (!speechSupported) return null;
+  // hydration mismatch. Once mounted, do not expose an enabled Play control for
+  // content that becomes empty after markdown/code stripping. Keep the controls
+  // visible only while an older owned utterance is still being stopped by the
+  // script-change effect.
+  if (!speechSupported || (!speechText && !playing && !paused)) return null;
 
   return (
     <div className={`notebook-tts flex flex-wrap items-center gap-2 ${className ?? ''}`}>
       <span className="text-[10px] uppercase tracking-widest text-muted-foreground">Listen</span>
       {!playing ? (
-        <button type="button" onClick={play} className="btn-glass text-xs inline-flex items-center gap-1.5 px-3 py-1.5">
+        <button
+          type="button"
+          onClick={play}
+          disabled={!speechText}
+          className="btn-glass text-xs inline-flex items-center gap-1.5 px-3 py-1.5 disabled:cursor-not-allowed disabled:opacity-60"
+        >
           <Play className="h-3.5 w-3.5" aria-hidden />
           {paused ? 'Resume' : 'Play overview'}
         </button>
