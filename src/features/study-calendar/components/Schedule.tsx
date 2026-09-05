@@ -174,6 +174,7 @@ const Schedule = ({
         className={`schedule-container ${mode === 'Day' ? (isMobile ? 'day-view mobile' : 'desktop-day') : 'week-view'}`}
         ref={scheduleContainerRef}
         style={{ height: containerHeight, top: containerTop }}
+        role="region"
         aria-label={`${mode} planner schedule for ${selectedDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}`}
       >
         {/* Mobile timeline */}
