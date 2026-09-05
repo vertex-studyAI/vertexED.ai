@@ -83,6 +83,16 @@ export default function NotebookTtsPlayer({ script, className }: Props) {
     ) {
       return;
     }
+
+    // Effects run after paint. If generated content changes while an utterance
+    // is paused, a user can click Resume before the script-change effect runs.
+    // Reconcile the script synchronously at the interaction boundary so stale
+    // speech can never be resumed during that render/effect window.
+    if (previousScriptRef.current !== script) {
+      previousScriptRef.current = script;
+      if (utteranceRef.current) stop();
+    }
+
     const clean = scriptToSpeech(script);
     if (!clean) return;
 
