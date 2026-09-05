@@ -18,6 +18,13 @@ test('generated quiz cards bind each question to its disclosure control and answ
   assert.match(panel, /<div id=\{answerId\}/);
 });
 
+test('suggested-question controls are not exposed as actionable when no ask handler exists', () => {
+  assert.match(panel, /const canAskQuestion = typeof onAskQuestion === 'function';/);
+  assert.match(panel, /disabled=\{!canAskQuestion\}/);
+  assert.match(panel, /\? 'Tap a question to ask Apex with your sources attached\.'/);
+  assert.match(panel, /: 'Suggested questions generated from your sources\.'/);
+});
+
 test('decorative generated-content icons stay out of the accessibility tree', () => {
   assert.match(panel, /<ChevronDown className="h-3 w-3" aria-hidden \/>/);
   assert.match(panel, /<ChevronRight className="h-3 w-3" aria-hidden \/>/);
