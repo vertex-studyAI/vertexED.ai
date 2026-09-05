@@ -10,12 +10,26 @@ test('generated notebook outputs expose a stable accessible region name', () => 
 });
 
 test('generated quiz cards bind each question to its disclosure control and answer', () => {
-  assert.match(panel, /const questionId = `notebook-quiz-question-\$\{q\.id\}`;/);
-  assert.match(panel, /const answerId = `notebook-quiz-answer-\$\{q\.id\}`;/);
+  assert.match(panel, /const questionId = `notebook-quiz-\$\{output\.id\}-question-\$\{i\}`;/);
+  assert.match(panel, /const answerId = `notebook-quiz-\$\{output\.id\}-answer-\$\{i\}`;/);
   assert.match(panel, /aria-labelledby=\{questionId\}/);
   assert.match(panel, /aria-expanded=\{show\}/);
   assert.match(panel, /aria-controls=\{answerId\}/);
   assert.match(panel, /<div id=\{answerId\}/);
+});
+
+test('quiz disclosure state does not trust model-generated ids for interaction identity', () => {
+  assert.match(panel, /useState<Set<number>>\(new Set\(\)\)/);
+  assert.match(panel, /const show = revealedQuiz\.has\(i\);/);
+  assert.match(panel, /onClick=\{\(\) => toggleQuiz\(i\)\}/);
+  assert.doesNotMatch(panel, /revealedQuiz\.has\(q\.id\)/);
+  assert.doesNotMatch(panel, /toggleQuiz\(q\.id\)/);
+});
+
+test('quiz aria ids do not embed model-generated question ids', () => {
+  assert.doesNotMatch(panel, /notebook-quiz-question-\$\{q\.id\}/);
+  assert.doesNotMatch(panel, /notebook-quiz-answer-\$\{q\.id\}/);
+  assert.match(panel, /key=\{`\$\{q\.id\}-\$\{i\}`\}/);
 });
 
 test('suggested-question controls are not exposed as actionable when no ask handler exists', () => {
