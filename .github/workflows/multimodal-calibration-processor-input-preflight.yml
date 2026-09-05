@@ -43,6 +43,10 @@ jobs:
         run: |
           set -euo pipefail
           python -m pip install --disable-pip-version-check \
+            --index-url https://download.pytorch.org/whl/cpu \
+            'torch==2.8.0' \
+            'torchvision==0.23.0'
+          python -m pip install --disable-pip-version-check \
             'transformers==4.57.1' \
             'tokenizers==0.22.1' \
             'huggingface-hub==0.35.3' \
@@ -98,6 +102,7 @@ jobs:
           assert receipt['model_forward_executed'] is False
           assert receipt['option_scorer_validated_against_model'] is False
           assert receipt['execution_authorized'] is False
+          assert receipt['processor']['image_processor_use_fast'] is False
           rows = receipt['option_label_processor_sequences']
           assert [row['continuation'] for row in rows] == ['A', 'B', 'C', 'D']
           assert len({row['context_token_ids_sha256'] for row in rows}) == 1
