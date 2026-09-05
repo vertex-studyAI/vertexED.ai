@@ -1,0 +1,63 @@
+name: T2424-0025 bounded paper PDF
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "portfolio/project2424/projects/T2424-0025/**"
+      - "scripts/render-t2424-0025-paper-pdf.mjs"
+      - "tests/t2424-0025-paper-pdf.test.mjs"
+      - ".github/workflows/t2424-0025-paper-pdf.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  render-and-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22.22.0"
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - name: Assert frozen scientific boundary
+        run: |
+          node -e 'const fs=require("fs"); const text=fs.readFileSync("portfolio/project2424/projects/T2424-0025/MANUSCRIPT.md","utf8"); for (const claim of ["0.0246469","0.0125699","49.00%","does not establish a Transformer result","rather than a preregistered confirmatory test"]) { if (!text.includes(claim)) throw new Error("Missing frozen boundary: "+claim); }'
+      - name: Regenerate retained evidence figures
+        run: node portfolio/project2424/projects/T2424-0025/figures/generate.mjs
+      - name: Reject figure drift
+        run: git diff --exit-code -- portfolio/project2424/projects/T2424-0025/figures
+      - name: Test deterministic renderer
+        run: node --test tests/t2424-0025-paper-pdf.test.mjs
+      - name: Render exact-head PDF twice
+        run: |
+          node scripts/render-t2424-0025-paper-pdf.mjs \
+            portfolio/project2424/projects/T2424-0025/MANUSCRIPT.md \
+            portfolio/project2424/projects/T2424-0025/figures/figure1_contamination_mae.svg \
+            portfolio/project2424/projects/T2424-0025/figures/figure2_relative_improvement.svg \
+            dist/t2424-0025-paper/T2424-0025-robust-weighted-readouts.pdf
+          node scripts/render-t2424-0025-paper-pdf.mjs \
+            portfolio/project2424/projects/T2424-0025/MANUSCRIPT.md \
+            portfolio/project2424/projects/T2424-0025/figures/figure1_contamination_mae.svg \
+            portfolio/project2424/projects/T2424-0025/figures/figure2_relative_improvement.svg \
+            dist/t2424-0025-paper/rebuilt.pdf
+          cmp dist/t2424-0025-paper/T2424-0025-robust-weighted-readouts.pdf dist/t2424-0025-paper/rebuilt.pdf
+          rm dist/t2424-0025-paper/rebuilt.pdf
+      - name: Retain exact-head provenance
+        env:
+          SOURCE_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
+          EXECUTED_REF: ${{ github.sha }}
+        run: |
+          sha256sum dist/t2424-0025-paper/T2424-0025-robust-weighted-readouts.pdf | tee dist/t2424-0025-paper/SHA256SUMS
+          node -e 'const fs=require("fs"); fs.writeFileSync("dist/t2424-0025-paper/build.json", JSON.stringify({source_head:process.env.SOURCE_HEAD, executed_ref:process.env.EXECUTED_REF, run:process.env.GITHUB_RUN_ID, protocol_change:false, scientific_verdict:"BOUNDED_ROBUST_READOUT_EFFECT_MECHANISM_NOT_UNIQUELY_ISOLATED", preprint_ready:false}, null, 2)+"\\n")'
+      - name: Upload rendered manuscript
+        uses: actions/upload-artifact@v4
+        with:
+          name: t2424-0025-bounded-rendered-paper
+          path: dist/t2424-0025-paper
+          if-no-files-found: error
+          retention-days: 30
