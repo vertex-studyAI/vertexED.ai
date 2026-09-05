@@ -10,6 +10,7 @@ import { diagnosePercySnapshots } from './percy-state-doctor.mjs';
 const DEFAULT_MAX_AGE_HOURS = 24;
 const RUNTIME_FUTURE_SKEW_MS = 5 * 60 * 1000;
 const STRICT_UTC_TIMESTAMP = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/;
+const STRICT_GIT_SHA = /^[0-9a-f]{40}$/;
 
 function finiteNumber(value) {
   return typeof value === 'number' && Number.isFinite(value);
@@ -166,6 +167,12 @@ export function diagnosePercyRuntimeReadiness({
   }
   if (typeof runtime.source?.head !== 'string' || !runtime.source.head.trim()) {
     pushBlocker(blockers, 'RUNTIME_HEAD_UNKNOWN', 'runtime source HEAD is required');
+  } else if (!STRICT_GIT_SHA.test(runtime.source.head.trim())) {
+    pushBlocker(
+      blockers,
+      'RUNTIME_HEAD_NOT_IMMUTABLE',
+      'runtime source HEAD must be an exact lowercase 40-character Git commit SHA',
+    );
   }
 
   const processClassification = classifyPercyProcess(runtime.process);
@@ -208,10 +215,10 @@ export function diagnosePercyRuntimeReadiness({
   const runtimeEvidence = blockers.every((item) => ![
     'MISSING_RUNTIME_EVIDENCE', 'RUNTIME_TIMESTAMP_MISSING', 'RUNTIME_TIMESTAMP_INVALID', 'RUNTIME_NOW_INVALID',
     'RUNTIME_TIMESTAMP_FUTURE', 'RUNTIME_EVIDENCE_STALE', 'UNSUPPORTED_RUNTIME_SCHEMA', 'RUNTIME_SOURCE_UNAVAILABLE',
-    'RUNTIME_HEAD_UNKNOWN', 'WORKER_NOT_RUNNING', 'WORKER_PID_INVALID', 'WORKER_COMMAND_UNKNOWN', 'DATABASE_UNREACHABLE',
-    'DATABASE_SCHEMA_NOT_CURRENT', 'QUEUE_NOT_PERSISTENT', 'HEARTBEAT_STALE', 'DISK_EVIDENCE_INVALID',
-    'DISK_HARD_STOP', 'MEMORY_EVIDENCE_INVALID', 'MEMORY_HARD_STOP', 'SWAP_EVIDENCE_INVALID', 'SWAP_HARD_STOP',
-    'REQUIRED_PROVIDER_UNAVAILABLE',
+    'RUNTIME_HEAD_UNKNOWN', 'RUNTIME_HEAD_NOT_IMMUTABLE', 'WORKER_NOT_RUNNING', 'WORKER_PID_INVALID', 'WORKER_COMMAND_UNKNOWN',
+    'DATABASE_UNREACHABLE', 'DATABASE_SCHEMA_NOT_CURRENT', 'QUEUE_NOT_PERSISTENT', 'HEARTBEAT_STALE',
+    'DISK_EVIDENCE_INVALID', 'DISK_HARD_STOP', 'MEMORY_EVIDENCE_INVALID', 'MEMORY_HARD_STOP',
+    'SWAP_EVIDENCE_INVALID', 'SWAP_HARD_STOP', 'REQUIRED_PROVIDER_UNAVAILABLE',
   ].includes(item.code));
 
   return {
