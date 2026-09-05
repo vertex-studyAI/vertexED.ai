@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import "../styles/calendar-native-controls.css";
 
 interface CalendarProps {
   selectedDate: Date;
@@ -33,78 +34,54 @@ const Calendar: React.FC<CalendarProps> = ({ selectedDate, onDateChange, mode })
     const day = daysInPreviousMonth - i;
     const dayDate = new Date(previousMonthYear, previousMonth, day);
     days.push(
-      <div
+      <button
         key={"prev" + i}
+        type="button"
         className="calendar-day previous-month"
-        role="button"
-        tabIndex={0}
         aria-label={`Select ${dayDate.toLocaleDateString('en-US', { weekday:'long', month:'long', day:'numeric', year:'numeric' })}`}
         onClick={() => {
           setCurrentDate(dayDate);
           onDateChange(dayDate);
         }}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            setCurrentDate(dayDate);
-            onDateChange(dayDate);
-          }
-        }}
       >
         {day}
-      </div>
+      </button>
     );
   }
   for (let i = 1; i <= daysInMonth; i++) {
     const isHighlighted = mode === "Week" && i > currentDay && i <= currentDay + 4;
     const dayDate = new Date(currentYear, currentMonth, i);
     days.push(
-      <div
+      <button
         key={i}
+        type="button"
         className={`calendar-day ${i === currentDay ? "accent" : ""} ${isHighlighted ? "highlight" : ""}`}
-        role="button"
-        tabIndex={0}
         aria-current={i === currentDay ? 'date' : undefined}
         aria-label={`Select ${dayDate.toLocaleDateString('en-US', { weekday:'long', month:'long', day:'numeric', year:'numeric' })}`}
         onClick={() => {
           setCurrentDate(dayDate);
           onDateChange(dayDate);
         }}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            setCurrentDate(dayDate);
-            onDateChange(dayDate);
-          }
-        }}
       >
         {i}
-      </div>
+      </button>
     );
   }
   for (let i = 1; i < 7 - lastDayOfMonth; i++) {
     const dayDate = new Date(nextMonthYear, nextMonth, i);
     days.push(
-      <div
+      <button
         key={"next" + i}
+        type="button"
         className="calendar-day next-month"
-        role="button"
-        tabIndex={0}
         aria-label={`Select ${dayDate.toLocaleDateString('en-US', { weekday:'long', month:'long', day:'numeric', year:'numeric' })}`}
         onClick={() => {
           setCurrentDate(dayDate);
           onDateChange(dayDate);
         }}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            setCurrentDate(dayDate);
-            onDateChange(dayDate);
-          }
-        }}
       >
         {i}
-      </div>
+      </button>
     );
   }
 
