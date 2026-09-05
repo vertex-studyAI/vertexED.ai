@@ -302,6 +302,10 @@ export async function runWorkerLoop({
     } finally {
       clearInterval(heartbeat);
       release?.();
+      // maxIdleMs measures time with no task activity, not task runtime. Reset the
+      // idle epoch after every claimed-task attempt (success, failure, or ownership
+      // loss) so a long provider wait/execution cannot cause an immediate idle exit.
+      lastWorkAt = readNow();
     }
   }
 
