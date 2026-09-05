@@ -1,0 +1,57 @@
+name: Darcy v2 learned-operator verification
+
+on:
+  pull_request:
+    paths:
+      - "portfolio/project2424/projects/T2424-0050/learned/**"
+      - "portfolio/project2424/projects/T2424-0050/tests/test_darcy_v2_learned_operators.py"
+      - "portfolio/project2424/projects/T2424-0050/v2-freeze-config.json"
+      - ".github/workflows/darcy-v2-learned-operator-ci.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-learned-operators:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout exact source
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: "3.11"
+
+      - name: Install unit-verification environment
+        run: |
+          set -euo pipefail
+          python -m pip install --upgrade pip
+          python -m pip install pytest==8.4.1
+          python -m pip install torch==2.8.0 --index-url https://download.pytorch.org/whl/cpu
+
+      - name: Compile learned operator implementation
+        run: |
+          set -euo pipefail
+          python -m compileall -q portfolio/project2424/projects/T2424-0050/learned
+
+      - name: Run frozen-grid learned operator tests
+        run: |
+          set -euo pipefail
+          python -m pytest -q portfolio/project2424/projects/T2424-0050/tests/test_darcy_v2_learned_operators.py
+
+      - name: Record non-authorization boundary
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          config = json.loads(Path('portfolio/project2424/projects/T2424-0050/v2-freeze-config.json').read_text())
+          assert config['training_authorized'] is False
+          assert config['outcome_state'] == 'EXPERIMENT_NOT_YET_RUN'
+          print('UNIT_VERIFICATION_ONLY_TRAINING_NOT_AUTHORIZED')
+          PY
