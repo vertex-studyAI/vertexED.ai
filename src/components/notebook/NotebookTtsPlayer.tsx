@@ -23,7 +23,11 @@ export default function NotebookTtsPlayer({ script, className }: Props) {
   const previousScriptRef = useRef(script);
 
   useEffect(() => {
-    setSpeechSupported(typeof window !== 'undefined' && Boolean(window.speechSynthesis));
+    setSpeechSupported(
+      typeof window !== 'undefined' &&
+        Boolean(window.speechSynthesis) &&
+        typeof SpeechSynthesisUtterance === 'function',
+    );
   }, []);
 
   const stop = useCallback(() => {
@@ -60,7 +64,13 @@ export default function NotebookTtsPlayer({ script, className }: Props) {
   }, [script, stop]);
 
   const play = () => {
-    if (typeof window === 'undefined' || !window.speechSynthesis) return;
+    if (
+      typeof window === 'undefined' ||
+      !window.speechSynthesis ||
+      typeof SpeechSynthesisUtterance !== 'function'
+    ) {
+      return;
+    }
     const clean = scriptToSpeech(script);
     if (!clean) return;
 
