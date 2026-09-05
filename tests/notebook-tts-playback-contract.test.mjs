@@ -27,6 +27,19 @@ test('replacing generated script content only cancels speech owned by this playe
   );
 });
 
+test('play reconciles script identity before resume so effects cannot expose stale speech', () => {
+  const playStart = player.indexOf('const play = () =>');
+  const cleanStart = player.indexOf('const clean = scriptToSpeech(script);', playStart);
+  const resumeStart = player.indexOf('if (paused && utteranceRef.current)', playStart);
+  assert.ok(playStart >= 0 && cleanStart > playStart && resumeStart > cleanStart);
+
+  const preResume = player.slice(playStart, resumeStart);
+  assert.match(
+    preResume,
+    /if \(previousScriptRef\.current !== script\) \{\s*previousScriptRef\.current = script;\s*if \(utteranceRef\.current\) stop\(\);\s*\}/,
+  );
+});
+
 test('unsupported speech synthesis does not create a server/client hydration mismatch', () => {
   assert.match(player, /const \[speechSupported, setSpeechSupported\] = useState\(false\);/);
   assert.match(
