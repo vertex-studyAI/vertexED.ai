@@ -45,6 +45,20 @@ test('play requires both the speech queue and utterance constructor', () => {
   assert.match(player, /const utterance = new SpeechSynthesisUtterance\(clean\);/);
 });
 
+test('resume failures stop only the utterance owned by this player', () => {
+  assert.match(
+    player,
+    /if \(paused && utteranceRef\.current\) \{\s*try \{\s*window\.speechSynthesis\.resume\(\);\s*setPaused\(false\);\s*setPlaying\(true\);\s*\} catch \{\s*stop\(\);\s*\}\s*return;/,
+  );
+});
+
+test('speak failures clear owned playback state instead of leaving a hidden active utterance', () => {
+  assert.match(
+    player,
+    /utteranceRef\.current = utterance;\s*try \{\s*window\.speechSynthesis\.speak\(utterance\);\s*setPlaying\(true\);\s*\} catch \{\s*if \(utteranceRef\.current === utterance\) \{\s*utteranceRef\.current = null;\s*setPlaying\(false\);\s*setPaused\(false\);/,
+  );
+});
+
 test('unmount cleanup cancels only an owned utterance and never calls stateful stop', () => {
   assert.match(
     player,
