@@ -36,6 +36,37 @@ test('Percy Prime rejects unknown and duplicate CLI arguments instead of silentl
   }
 });
 
+test('Percy Prime rejects timer values that Node would truncate, overflow, or clamp', () => {
+  const dir = mkdtempSync(join(tmpdir(), 'percy-prime-timers-'));
+  const db = join(dir, 'percy.sqlite');
+  const log = join(dir, 'percy.jsonl');
+  const base = [
+    'work',
+    '--db', db,
+    '--workers', '1',
+    '--max-idle-ms', '1',
+    '--idle-ms', '1',
+    '--max-idle-sleep-ms', '1',
+    '--log', log,
+  ];
+
+  try {
+    for (const timeoutMs of ['1.5', '2147483648', 'Infinity', 'NaN']) {
+      const result = runPrime([...base, '--timeout-ms', timeoutMs]);
+      assert.notEqual(result.status, 0);
+      assert.match(result.stderr, /--timeout-ms must be an integer in \[1,2147483647\]/);
+    }
+
+    for (const leaseMs of ['100.5', '2147483648', 'Infinity', 'NaN']) {
+      const result = runPrime([...base, '--lease-ms', leaseMs]);
+      assert.notEqual(result.status, 0);
+      assert.match(result.stderr, /--lease-ms must be an integer in \[100,2147483647\]/);
+    }
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+});
+
 test('Percy Prime canonicalizes class-limit whitespace and rejects duplicate provider classes', () => {
   const dir = mkdtempSync(join(tmpdir(), 'percy-prime-class-limits-'));
   const db = join(dir, 'percy.sqlite');
