@@ -35,6 +35,20 @@ test("planner calendar uses native date buttons without custom keyboard emulatio
   assert.doesNotMatch(source, /e\.key === 'Enter' \|\| e\.key === ' '/);
 });
 
+test("planner calendar distinguishes the real current date from the selected date", () => {
+  assert.match(source, /const isSameCalendarDay = \(left: Date, right: Date\) =>/);
+  assert.match(source, /const today = new Date\(\);/);
+  assert.equal(
+    source.split("aria-current={isSameCalendarDay(dayDate, today) ? 'date' : undefined}").length - 1,
+    3,
+  );
+  assert.equal(
+    source.split("aria-pressed={isSameCalendarDay(dayDate, currentDate)}").length - 1,
+    3,
+  );
+  assert.doesNotMatch(source, /aria-current=\{i === currentDay \? 'date' : undefined\}/);
+});
+
 test("native date-button reset preserves planner styling without browser chrome", () => {
   assert.match(source, /import "\.\.\/styles\/calendar-native-controls\.css";/);
   assert.match(nativeControlStyles, /button\.calendar-day/);
