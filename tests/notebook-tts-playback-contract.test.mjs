@@ -144,7 +144,17 @@ test('pause failures fail closed through the owned stop path', () => {
   const pauseSection = player.slice(pauseStart, renderStart);
   assert.match(
     pauseSection,
-    /try \{\s*window\.speechSynthesis\.pause\(\);\s*setPaused\(true\);\s*setPlaying\(false\);\s*\} catch \{[\s\S]*?stop\(\);\s*\}/,
+    /try \{\s*window\.speechSynthesis\.pause\(\);[\s\S]*?\} catch \{[\s\S]*?stop\(\);\s*\}/,
+  );
+});
+
+test('synchronous pause completion cannot resurrect paused playback state', () => {
+  const pauseStart = player.indexOf('const pause = () =>');
+  const renderStart = player.indexOf('// Render the same empty tree', pauseStart);
+  const pauseSection = player.slice(pauseStart, renderStart);
+  assert.match(
+    pauseSection,
+    /const activeUtterance = utteranceRef\.current;\s*try \{\s*window\.speechSynthesis\.pause\(\);[\s\S]*?if \(utteranceRef\.current !== activeUtterance\) return;\s*setPaused\(true\);\s*setPlaying\(false\);/,
   );
 });
 
