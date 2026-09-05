@@ -21,7 +21,7 @@ Each observation is represented as an event token, preserving irregular cadence 
 - robust-scaled `log1p(delta_time)` since the previous observation
 - one-hot passband identity, with an explicit unknown-band bucket
 
-The featurizer is fit on the training prefix only. Future observations may use the learned scaling parameters and band vocabulary but cannot update them.
+The featurizer is fit on training observations only. For an object-level benchmark, `LightCurveFeaturizer.fit_many` fits a single scaler and passband vocabulary from the complete set of training objects and receives no validation/test objects. Delta time is constructed separately inside each object before fitting, so the arbitrary gap between two unrelated light curves can never become a feature statistic. Future observations may use the learned scaling parameters and band vocabulary but cannot update them.
 
 ## Frozen comparison
 
@@ -35,15 +35,19 @@ Primary retained metrics must be chosen to match the actual public benchmark/tas
 ## Leakage rules
 
 - chronological split or benchmark-provided split only
-- scaler and passband vocabulary fit on training observations only
+- object identity must be disjoint across train/validation/test whenever the benchmark consists of separate astronomical objects
+- scaler and passband vocabulary fit on training observations/objects only
+- context/target windows may never cross from one astronomical object into another
 - no held-out labels for thresholds, early stopping, feature selection, or architecture choice
 - no tuning on Aadi's reported transient or any other named showcase object
 - retain null/negative results and all frozen seeds
 
 ## Immediate implementation included here
 
-`space_jepa.astro.LightCurveFeaturizer` converts irregular light-curve events into model-ready feature vectors without interpolation. It is intentionally model-agnostic so the same `SpaceJEPA` backbone can run a time-aware and time-agnostic ablation with identical capacity.
+`space_jepa.astro.LightCurveFeaturizer` converts irregular light-curve events into model-ready feature vectors without interpolation. `LightCurveFeaturizer.fit_many` supports one train-only transform across multiple training objects. `space_jepa.training.MultiSequenceWindowDataset` and `train_model_sequences` train the existing `SpaceJEPA` backbone over multiple independent light curves without concatenating them or permitting a context/target window to cross an object boundary. `score_sequences` preserves that boundary during evaluation. The same fitted transform and backbone can therefore run a time-aware and time-agnostic ablation with identical capacity.
+
+These are experiment-enabling controls, not astronomy results. No public transient benchmark has been claimed as executed by this document.
 
 ## Promotion gate
 
-No astronomy claim is retained until the run records dataset identity/hash, exact split, code commit, config, seed, raw scores/predictions, baseline outputs, and the frozen evaluation metric. Named transient examples are illustrations after the quantitative evaluation, never substitutes for it.
+No astronomy claim is retained until the run records dataset identity/hash, exact object/split identities, code commit, config, seed, raw scores/predictions, baseline outputs, and the frozen evaluation metric. Named transient examples are illustrations after the quantitative evaluation, never substitutes for it.
