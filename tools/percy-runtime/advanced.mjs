@@ -16,13 +16,45 @@ export function parseClassLimits(spec = process.env.PERCY_CLASS_LIMITS ?? 'defau
   for (const raw of String(spec).split(',')) {
     const item = raw.trim();
     if (!item) continue;
-    const [name, value] = item.split('=', 2);
+    const separator = item.indexOf('=');
+    if (
+      separator <= 0 ||
+      separator === item.length - 1 ||
+      item.indexOf('=', separator + 1) !== -1
+    ) {
+      throw new RangeError(`invalid class limit: ${item}`);
+    }
+    const name = item.slice(0, separator).trim();
+    const value = item.slice(separator + 1).trim();
     const n = Number(value);
-    if (!name || !Number.isInteger(n) || n < 1 || n > 32) throw new RangeError(`invalid class limit: ${item}`);
+    if (!name || !value || !Number.isInteger(n) || n < 1 || n > 32) {
+      throw new RangeError(`invalid class limit: ${item}`);
+    }
+    if (limits.has(name)) throw new RangeError(`duplicate class limit: ${name}`);
     limits.set(name, n);
   }
   if (!limits.has('default')) limits.set('default', 1);
   return limits;
+}
+
+function canonicalClassName(name = 'default') {
+  const normalized = String(name ?? 'default').trim();
+  return normalized || 'default';
+}
+
+function normalizeClassLimitMap(limits) {
+  const normalized = new Map();
+  for (const [rawName, rawLimit] of limits) {
+    const name = String(rawName ?? '').trim();
+    const limit = Number(rawLimit);
+    if (!name || !Number.isInteger(limit) || limit < 1 || limit > 32) {
+      throw new RangeError(`invalid class limit: ${String(rawName)}=${String(rawLimit)}`);
+    }
+    if (normalized.has(name)) throw new RangeError(`duplicate class limit: ${name}`);
+    normalized.set(name, limit);
+  }
+  if (!normalized.has('default')) normalized.set('default', 1);
+  return normalized;
 }
 
 export function payloadBytes(payload) {
@@ -35,6 +67,7 @@ export function validateSubmission({ kind = 'echo', payload = {}, maxAttempts = 
 } = {}) {
   if (!allowedKinds.includes(kind)) throw new Error(`task kind not allowed: ${kind}`);
   if (!Number.isInteger(maxAttempts) || maxAttempts < 1 || maxAttempts > 20) throw new RangeError('maxAttempts must be in [1,20]');
+  if (!Number.isInteger(maxPayloadBytes) || maxPayloadBytes < 1) throw new RangeError('maxPayloadBytes must be >=1');
   const bytes = payloadBytes(payload);
   if (bytes > maxPayloadBytes) throw new RangeError(`payload too large: ${bytes} > ${maxPayloadBytes}`);
   return { kind, payload, maxAttempts, payloadBytes: bytes };
@@ -115,41 +148,60 @@ export async function restoreDatabase(backupPath, destination) {
 
 export class ClassLimiter {
   constructor(limits = parseClassLimits()) {
-    this.limits = limits instanceof Map ? limits : parseClassLimits(limits);
+    this.limits = limits instanceof Map ? normalizeClassLimitMap(limits) : parseClassLimits(limits);
     this.active = new Map();
     this.waiters = new Map();
   }
 
-  limitFor(name) { return this.limits.get(name) ?? this.limits.get('default') ?? 1; }
-  activeFor(name) { return this.active.get(name) ?? 0; }
+  limitFor(name) {
+    const className = canonicalClassName(name);
+    return this.limits.get(className) ?? this.limits.get('default') ?? 1;
+  }
+
+  activeFor(name) {
+    return this.active.get(canonicalClassName(name)) ?? 0;
+  }
+
+  releaseHandle(name) {
+    const className = canonicalClassName(name);
+    let released = false;
+    return () => {
+      if (released) return false;
+      released = true;
+      this.release(className);
+      return true;
+    };
+  }
 
   async acquire(name = 'default') {
-    if (this.activeFor(name) < this.limitFor(name)) {
-      this.active.set(name, this.activeFor(name) + 1);
-      return () => this.release(name);
+    const className = canonicalClassName(name);
+    if (this.activeFor(className) < this.limitFor(className)) {
+      this.active.set(className, this.activeFor(className) + 1);
+      return this.releaseHandle(className);
     }
     await new Promise((resolveWaiter) => {
-      const queue = this.waiters.get(name) ?? [];
+      const queue = this.waiters.get(className) ?? [];
       queue.push(resolveWaiter);
-      this.waiters.set(name, queue);
+      this.waiters.set(className, queue);
     });
     // release() transfers an existing occupied slot directly to this waiter.
     // Do not increment active here or a release/acquire handoff can briefly
     // exceed the declared provider-class limit.
-    return () => this.release(name);
+    return this.releaseHandle(className);
   }
 
   release(name = 'default') {
-    const queue = this.waiters.get(name) ?? [];
+    const className = canonicalClassName(name);
+    const queue = this.waiters.get(className) ?? [];
     const waiter = queue.shift();
     if (waiter) {
-      if (queue.length) this.waiters.set(name, queue); else this.waiters.delete(name);
+      if (queue.length) this.waiters.set(className, queue); else this.waiters.delete(className);
       // Keep active unchanged: the slot is reserved for the queued waiter.
       queueMicrotask(waiter);
       return;
     }
-    this.active.set(name, Math.max(0, this.activeFor(name) - 1));
-    this.waiters.delete(name);
+    this.active.set(className, Math.max(0, this.activeFor(className) - 1));
+    this.waiters.delete(className);
   }
 }
 
@@ -178,11 +230,13 @@ export async function runWorkerLoop({
   shouldStop = () => false,
   sleepFn = sleep,
   random = Math.random,
+  nowFn = Date.now,
 } = {}) {
   if (!store || typeof store.claim !== 'function') throw new TypeError('store required');
   if (typeof execute !== 'function') throw new TypeError('execute required');
   if (!workerId) throw new TypeError('workerId required');
   if (!Number.isFinite(leaseMs) || leaseMs < 100) throw new RangeError('leaseMs must be >=100');
+  if (!Number.isFinite(timeoutMs) || timeoutMs < 1) throw new RangeError('timeoutMs must be >=1');
   if (!Number.isFinite(idleMs) || idleMs < 1) throw new RangeError('idleMs must be >=1');
   if (!Number.isFinite(maxIdleSleepMs) || maxIdleSleepMs < idleMs) throw new RangeError('maxIdleSleepMs must be >= idleMs');
   if (!Number.isFinite(idleBackoffFactor) || idleBackoffFactor < 1 || idleBackoffFactor > 10) {
@@ -195,9 +249,16 @@ export async function runWorkerLoop({
   if (typeof shouldStop !== 'function') throw new TypeError('shouldStop must be a function');
   if (typeof sleepFn !== 'function') throw new TypeError('sleepFn must be a function');
   if (typeof random !== 'function') throw new TypeError('random must be a function');
+  if (typeof nowFn !== 'function') throw new TypeError('nowFn must be a function');
+
+  const readNow = () => {
+    const now = Number(nowFn());
+    if (!Number.isFinite(now)) throw new RangeError('nowFn() must return a finite number');
+    return now;
+  };
 
   const effectiveLeaseMs = Math.max(leaseMs, MIN_WORKER_LEASE_MS);
-  let lastWorkAt = Date.now();
+  let lastWorkAt = readNow();
   let currentIdleMs = idleMs;
   let completed = 0;
   let failed = 0;
@@ -217,8 +278,11 @@ export async function runWorkerLoop({
   while (!shouldStop()) {
     const task = store.claim(workerId, effectiveLeaseMs);
     if (!task) {
-      const idleForMs = Date.now() - lastWorkAt;
-      if (maxIdleMs > 0 && idleForMs >= maxIdleMs) break;
+      const idleForMs = Math.max(0, readNow() - lastWorkAt);
+      if (maxIdleMs > 0 && idleForMs >= maxIdleMs) {
+        logger?.write('worker_idle_timeout', { workerId, idleForMs, maxIdleMs });
+        break;
+      }
 
       const baseDelay = Math.min(maxIdleSleepMs, currentIdleMs);
       let waitMs = nextIdleDelay(baseDelay, maxIdleSleepMs, idleJitterRatio, random);
@@ -230,9 +294,10 @@ export async function runWorkerLoop({
       continue;
     }
 
-    lastWorkAt = Date.now();
+    lastWorkAt = readNow();
     currentIdleMs = idleMs;
-    const className = String(task.payload?.providerClass ?? task.payload?.taskClass ?? 'default');
+    const rawClassName = String(task.payload?.providerClass ?? task.payload?.taskClass ?? 'default').trim();
+    const className = rawClassName || 'default';
     let release;
     let heartbeat;
     try {
@@ -280,6 +345,10 @@ export async function runWorkerLoop({
     } finally {
       clearInterval(heartbeat);
       release?.();
+      // maxIdleMs measures time with no task activity, not task runtime. Reset the
+      // idle epoch after every claimed-task attempt (success, failure, or ownership
+      // loss) so a long provider wait/execution cannot cause an immediate idle exit.
+      lastWorkAt = readNow();
     }
   }
 

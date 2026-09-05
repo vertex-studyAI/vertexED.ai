@@ -15,12 +15,44 @@ const take = (name, fallback) => {
   args.splice(i, 2);
   return value;
 };
+const assertNoUnexpectedArgs = () => {
+  if (args.length === 0) return;
+  throw new Error(`unexpected argument(s): ${args.join(' ')}`);
+};
+const MAX_TIMER_MS = 2_147_483_647;
+const parseTimerMs = (name, rawValue, minimum) => {
+  const value = Number(rawValue);
+  if (!Number.isSafeInteger(value) || value < minimum || value > MAX_TIMER_MS) {
+    throw new RangeError(`${name} must be an integer in [${minimum},${MAX_TIMER_MS}]`);
+  }
+  return value;
+};
+const normalizeClassLimitsSpec = (spec) => {
+  const normalized = [];
+  const seen = new Set();
+  for (const raw of String(spec).split(',')) {
+    const item = raw.trim();
+    if (!item) continue;
+    const separator = item.indexOf('=');
+    if (separator <= 0 || separator === item.length - 1 || item.indexOf('=', separator + 1) !== -1) {
+      throw new RangeError(`invalid class limit: ${item}`);
+    }
+    const name = item.slice(0, separator).trim();
+    const value = item.slice(separator + 1).trim();
+    if (!name || !value) throw new RangeError(`invalid class limit: ${item}`);
+    if (seen.has(name)) throw new RangeError(`duplicate class limit: ${name}`);
+    seen.add(name);
+    normalized.push(`${name}=${value}`);
+  }
+  return normalized.join(',');
+};
 const dbPath = take('--db', process.env.PERCY_DB ?? '.percy/percy.sqlite');
 const maxActive = Number(take('--max-active', process.env.PERCY_MAX_ACTIVE ?? '2'));
 
 if (cmd === 'restore') {
   const from = take('--from');
   if (!from) throw new Error('--from required');
+  assertNoUnexpectedArgs();
   const result = await restoreDatabase(from, dbPath);
   console.log(JSON.stringify({ restored: true, ...result }, null, 2));
   process.exit(0);
@@ -32,6 +64,7 @@ const close = () => { if (!closed) { store.close(); closed = true; } };
 
 try {
   if (cmd === 'doctor') {
+    assertNoUnexpectedArgs();
     const integrity = store.integrityCheck();
     const ok = integrity.length === 1 && integrity[0] === 'ok';
     console.log(JSON.stringify({ ok, db: store.path, paused: store.isPaused(), maxActive: store.maxActive, counts: store.counts(), integrity }, null, 2));
@@ -42,23 +75,29 @@ try {
     const maxAttempts = Number(take('--max-attempts', '3'));
     const maxReady = Number(take('--max-ready', process.env.PERCY_MAX_READY ?? '1000'));
     const maxPayloadBytes = Number(take('--max-payload-bytes', process.env.PERCY_MAX_PAYLOAD_BYTES ?? String(64 * 1024)));
+    assertNoUnexpectedArgs();
     console.log(JSON.stringify(safeSubmit(store, { kind, payload, maxAttempts }, { maxReady, maxPayloadBytes }), null, 2));
   } else if (cmd === 'backup') {
     const to = take('--to', `${dbPath}.backup`);
+    assertNoUnexpectedArgs();
     const result = await backupDatabase(store.db, to);
     console.log(JSON.stringify({ backedUp: true, ...result }, null, 2));
   } else if (cmd === 'work') {
     const workers = Number(take('--workers', String(maxActive)));
-    const leaseMs = Number(take('--lease-ms', '30000'));
-    const timeoutMs = Number(take('--timeout-ms', '10000'));
+    const leaseMs = parseTimerMs('--lease-ms', take('--lease-ms', '30000'), 100);
+    const timeoutMs = parseTimerMs('--timeout-ms', take('--timeout-ms', '10000'), 1);
     const idleMs = Number(take('--idle-ms', process.env.PERCY_IDLE_MS ?? '250'));
     const maxIdleSleepMs = Number(take('--max-idle-sleep-ms', process.env.PERCY_MAX_IDLE_SLEEP_MS ?? String(idleMs)));
     const idleBackoffFactor = Number(take('--idle-backoff-factor', process.env.PERCY_IDLE_BACKOFF_FACTOR ?? '1'));
     const idleJitterRatio = Number(take('--idle-jitter-ratio', process.env.PERCY_IDLE_JITTER_RATIO ?? '0'));
     const maxIdleMs = Number(take('--max-idle-ms', '0'));
     const logPath = take('--log', '.percy/logs/percy-runtime.jsonl');
+    const classLimits = normalizeClassLimitsSpec(
+      take('--class-limits', process.env.PERCY_CLASS_LIMITS ?? 'default=2'),
+    );
+    assertNoUnexpectedArgs();
     if (!Number.isInteger(workers) || workers < 1 || workers > 4) throw new RangeError('--workers must be in [1,4]');
-    const limiter = new ClassLimiter(parseClassLimits(take('--class-limits', process.env.PERCY_CLASS_LIMITS ?? 'default=2')));
+    const limiter = new ClassLimiter(parseClassLimits(classLimits));
     const logger = new JsonlLogger(logPath);
     let draining = false;
     let signalCount = 0;
