@@ -38,7 +38,7 @@ function completeManifest(manifest) {
   return filled;
 }
 
-test('checked-in manifest binds the exact ScienceQA and model-family freezes but remains fail-closed and blocked', async () => {
+test('checked-in manifest binds the exact ScienceQA, model-family, and package-lock freezes but remains fail-closed and blocked', async () => {
   const manifest = await loadManifest();
   const assessment = validateAuthorizationManifest(manifest);
 
@@ -56,6 +56,8 @@ test('checked-in manifest binds the exact ScienceQA and model-family freezes but
   assert.equal(manifest.model_runtime.model_id, 'Qwen/Qwen2.5-VL-3B-Instruct');
   assert.equal(manifest.model_runtime.model_revision, '243fd99abe513d2a02a98274ea34c07e8f961b0f');
   assert.equal(manifest.model_runtime.identity_freeze_sha256, '7fe2877fb942e82de6ebc58768bfad2c00b2edc02722f371a10f417e34fbc892');
+  assert.equal(manifest.environment.package_lock_path, 'package-lock.json');
+  assert.equal(manifest.environment.package_lock_sha256, 'e382fc8cdfb3bf65067084b4d2b124837818d41cadb76bf8ad34a93b7243126b');
 
   assert.equal(assessment.authorized, false);
   assert.ok(assessment.errors.length > 0);
@@ -63,7 +65,7 @@ test('checked-in manifest binds the exact ScienceQA and model-family freezes but
   assert.ok(assessment.errors.includes('model_runtime.runtime_identity is unresolved'));
   assert.ok(!assessment.errors.some((error) => error.includes('model_runtime.model_id is unresolved')));
   assert.ok(assessment.errors.some((error) => error.includes('fitted_temperature is unresolved')));
-  assert.ok(assessment.errors.some((error) => error.includes('package_lock_sha256')));
+  assert.ok(!assessment.errors.some((error) => error.includes('package_lock_sha256')));
 });
 
 test('an incomplete manifest cannot declare execution authorization', async () => {
