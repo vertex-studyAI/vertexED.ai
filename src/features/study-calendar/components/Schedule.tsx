@@ -67,17 +67,35 @@ const Schedule = ({
     onEditTask(task);
   };
 
-  const handleTaskKeyDown = (event: React.KeyboardEvent, task: TaskItem) => {
-    if (event.key === 'Enter' || event.key === ' ') {
-      event.preventDefault();
-      handleTaskClick(task);
-      return;
-    }
+  const handleTaskEditKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>, task: TaskItem) => {
     if (event.key === 'Delete') {
       event.preventDefault();
       onTaskComplete(task.id);
     }
   };
+
+  const renderTaskControls = (task: TaskItem, name: string, duration: number, startTime: string) => (
+    <>
+      <button
+        type="button"
+        className="task-edit-button absolute inset-0 h-full w-full cursor-pointer border-0 bg-transparent px-10 text-inherit outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+        style={{ font: 'inherit', fontWeight: 'inherit', letterSpacing: 'inherit', lineHeight: 'inherit' }}
+        aria-label={`Edit ${name}, starting at ${startTime} for ${duration} minutes`}
+        onClick={() => handleTaskClick(task)}
+        onKeyDown={(event) => handleTaskEditKeyDown(event, task)}
+      >
+        {name}
+      </button>
+      <button
+        onClick={() => onTaskComplete(task.id)}
+        className="complete-task-button"
+        aria-label={`Mark ${name} complete`}
+        type="button"
+      >
+        ✔
+      </button>
+    </>
+  );
 
   useEffect(() => {
     const update = () => {
@@ -174,7 +192,7 @@ const Schedule = ({
         )}
 
         {/* Mobile day tasks */}
-  {mode === 'Day' && isMobile && filteredTasks.map((task) => {
+        {mode === 'Day' && isMobile && filteredTasks.map((task) => {
           const startStr = task['start time']; if (!startStr) return null;
           const { hours, minutes } = parseTime(startStr);
           const duration = Math.max(15, parseInt(String(task['task duration']),10) || 0);
@@ -188,14 +206,10 @@ const Schedule = ({
               key={task.id}
               className="task task-day"
               style={{ top, height, borderColor: tagColor }}
-              role="button"
-              tabIndex={0}
-              aria-label={`${name} starting at ${task['start time']} for ${duration} minutes. Press Enter or Space to edit, or Delete to complete.`}
-              onClick={() => handleTaskClick(task)}
-              onKeyDown={(event) => handleTaskKeyDown(event, task)}
+              role="group"
+              aria-label={`${name} actions`}
             >
-              <button onClick={(e) => { e.stopPropagation(); onTaskComplete(task.id); }} className="complete-task-button" aria-label={`Mark ${name} complete`} type="button">✔</button>
-              {name}
+              {renderTaskControls(task, name, duration, startStr)}
             </div>
           );
         })}
@@ -231,26 +245,23 @@ const Schedule = ({
                     borderColor: tagColor,
                     background: 'repeating-linear-gradient(45deg, #6b728033 0 10px, transparent 10px 20px), linear-gradient(145deg,hsl(var(--primary) / 0.18),hsl(var(--accent) / 0.18))'
                   }}
-                  role="button"
-                  tabIndex={0}
-                  aria-label={`${name} starting at ${task['start time']} for ${duration} minutes. Press Enter or Space to edit, or Delete to complete.`}
-                  onClick={() => onEditTask(task)}
-                  onKeyDown={(event) => handleTaskKeyDown(event, task)}
+                  role="group"
+                  aria-label={`${name} actions`}
                 >
-                  <button onClick={(e) => { e.stopPropagation(); onTaskComplete(task.id); }} className="complete-task-button" aria-label={`Mark ${name} complete`} type="button">✔</button>
-                  {name}
+                  {renderTaskControls(task, name, duration, startStr)}
                 </div>
               );
             })}
           </>
         )}
 
-  {mode === "Week" && weekDates.map((date, dayIndex) => {
+        {mode === "Week" && weekDates.map((date, dayIndex) => {
           const dayTasks = tasks.filter(task => task.date === date);
           const dayLeft = `${dayIndex * 18.74 + 7.85}%`;
           return dayTasks.map((task) => {
             if (!task["start time"]) return null;
-            const { hours, minutes } = parseTime(task["start time"]);
+            const startStr = String(task["start time"]);
+            const { hours, minutes } = parseTime(startStr);
             const duration = Math.max(15, parseInt(String(task["task duration"]), 10) || 0);
             const total = hours * 60 + minutes;
             const top = (total / (24 * 60)) * 100 * 2.4;
@@ -271,14 +282,10 @@ const Schedule = ({
                   borderColor: tagColor,
                   background: 'repeating-linear-gradient(45deg, #6b728033 0 10px, transparent 10px 20px), linear-gradient(145deg,hsl(var(--primary) / 0.18),hsl(var(--accent) / 0.18))'
                 }}
-                role="button"
-                tabIndex={0}
-                aria-label={`${name} starting at ${task["start time"]} for ${duration} minutes. Press Enter or Space to edit, or Delete to complete.`}
-                onClick={() => handleTaskClick(task)}
-                onKeyDown={(event) => handleTaskKeyDown(event, task)}
+                role="group"
+                aria-label={`${name} actions`}
               >
-                <button onClick={(e) => { e.stopPropagation(); onTaskComplete(task.id); }} className="complete-task-button" aria-label={`Mark ${name} complete`} type="button">✔</button>
-                {name}
+                {renderTaskControls(task, name, duration, startStr)}
               </div>
             );
           });
