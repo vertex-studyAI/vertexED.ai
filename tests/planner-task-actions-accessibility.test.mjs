@@ -7,6 +7,20 @@ const source = await readFile(
   "utf8",
 );
 
+test("planner schedule exposes its dynamic accessible name on a semantic region", () => {
+  const scheduleStart = source.indexOf('className={`schedule-container');
+  const scheduleEnd = source.indexOf('>', scheduleStart);
+  assert.ok(scheduleStart >= 0);
+  assert.ok(scheduleEnd > scheduleStart);
+
+  const scheduleOpeningTag = source.slice(scheduleStart, scheduleEnd);
+  assert.match(scheduleOpeningTag, /role="region"/);
+  assert.match(
+    scheduleOpeningTag,
+    /aria-label=\{`\$\{mode\} planner schedule for \$\{selectedDate\.toLocaleDateString/,
+  );
+});
+
 test("planner task cards expose sibling native actions instead of nested interactive roles", () => {
   assert.doesNotMatch(source, /role="button"/);
   assert.doesNotMatch(source, /tabIndex=\{0\}/);
