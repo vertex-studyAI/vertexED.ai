@@ -108,7 +108,7 @@
     "node_engine": ">=22.22.0 <23",
     "package_manager": "npm@10.9.8",
     "package_lock_path": "package-lock.json",
-    "package_lock_sha256": null,
+    "package_lock_sha256": "e382fc8cdfb3bf65067084b4d2b124837818d41cadb76bf8ad34a93b7243126b",
     "execution_image_or_host_identity": null
   },
   "artifacts": {
