@@ -33,6 +33,16 @@ jobs:
           node --test tests/multimodal-calibration-authorization-file-bindings.test.mjs \
             | tee "$RUNNER_TEMP/multimodal-calibration-authorization-bindings-tests.log"
 
+      - name: Record temperature-fit implementation byte identities
+        shell: bash
+        run: |
+          set -euo pipefail
+          sha256sum \
+            research/multimodal-calibration/fit-temperature.mjs \
+            research/multimodal-calibration/freeze-temperature-fit.mjs \
+            research/multimodal-calibration/verify-temperature-fit-receipt.mjs \
+            | tee "$RUNNER_TEMP/multimodal-calibration-temperature-source-sha256.log"
+
       - name: Verify resolved manifest digests bind exact checked-in bytes
         shell: bash
         run: |
@@ -58,5 +68,6 @@ jobs:
           path: |
             ${{ runner.temp }}/multimodal-calibration-authorization-bindings-tests.log
             ${{ runner.temp }}/multimodal-calibration-authorization-bindings.log
+            ${{ runner.temp }}/multimodal-calibration-temperature-source-sha256.log
           if-no-files-found: error
           retention-days: 30
