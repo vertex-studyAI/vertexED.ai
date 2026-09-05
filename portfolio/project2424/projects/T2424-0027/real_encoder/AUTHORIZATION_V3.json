@@ -1,0 +1,54 @@
+{
+  "protocol_id": "T2424-0027-REAL-ENCODER-GATE-v3",
+  "authorization_status": "AUTHORIZED_FOR_ONE_FROZEN_OUTCOME_EXECUTION",
+  "authorized_preregistration_commit": "a3fc8fb13c600ec5a7b5a3bc4379b88c80a11c7a",
+  "authorized_manifest_path": "portfolio/project2424/projects/T2424-0027/real_encoder/manifest_v3_preregistered.json",
+  "authorized_manifest_blob_sha": "3adc92ebf9203f20319582e33c98ba570f9d884c",
+  "preregistration_ci_run": 33281085988,
+  "preregistration_ci_conclusion": "success",
+  "dataset_only_gate": {
+    "admissible_intent_count": 50,
+    "minimum_cell_count": 15,
+    "encoder_instantiated": false,
+    "model_outcomes_accessed": false
+  },
+  "authorization_scope": "Exactly one outcome-bearing execution of the unchanged v3 protocol, followed only by unchanged-protocol reproduction if separately labeled.",
+  "scientific_fields_locked": [
+    "hypothesis",
+    "claim_boundary",
+    "dataset repository and revision",
+    "dataset splits",
+    "frozen 50-intent universe",
+    "examples per locale-intent per split",
+    "encoder repository and revision",
+    "fine-tuning prohibition",
+    "seeds 2401-2405",
+    "nearest-centroid primary probe",
+    "comparator family",
+    "transforms and controls",
+    "metrics",
+    "statistics and uncertainty reporting",
+    "success thresholds",
+    "falsifiers",
+    "compute budget",
+    "stop rules",
+    "environment requirements",
+    "artifact requirements"
+  ],
+  "prohibited_after_authorization": [
+    "rescue tuning",
+    "seed changes",
+    "threshold movement",
+    "dataset or encoder swapping",
+    "control deletion",
+    "outcome-dependent intent selection",
+    "hyperparameter search",
+    "superiority claims unsupported by matched baselines"
+  ],
+  "required_execution_behavior": "Materialize an execution manifest from the authorized preregistration with only execution state changed to FROZEN_BEFORE_OUTCOME_ACCESS and execution_authorized=true; verify zero scientific-field drift before encoder construction; retain positive, mixed, negative, or infrastructure-failure artifacts unchanged.",
+  "preserved_external_verdicts": {
+    "T2424-1863": "FROZEN_NEGATIVE",
+    "T2424-0050_Darcy": "HOLD_MIXED",
+    "T2424-0025_NGMT": "REPRODUCED_MECHANISM_NON_UNIQUE"
+  }
+}

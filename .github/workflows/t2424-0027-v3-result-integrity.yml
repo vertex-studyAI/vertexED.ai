@@ -1,0 +1,74 @@
+name: T2424-0027 v3 Result Integrity
+
+on:
+  pull_request:
+    paths:
+      - "portfolio/project2424/projects/T2424-0027/real_encoder/retained_v3_primary/**"
+      - ".github/workflows/t2424-0027-v3-result-integrity.yml"
+  push:
+    branches:
+      - "experiment/t2424-0027-v3-authorization-20260830"
+    paths:
+      - "portfolio/project2424/projects/T2424-0027/real_encoder/retained_v3_primary/**"
+      - ".github/workflows/t2424-0027-v3-result-integrity.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  retained-result-lock:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify exact retained primary outputs and negative verdict
+        run: |
+          python - <<'PY'
+          import hashlib
+          import json
+          from pathlib import Path
+
+          root = Path("portfolio/project2424/projects/T2424-0027/real_encoder/retained_v3_primary")
+          expected = {
+              "summary.json": "a85d3dc88fa733a9317557308da190f470d5515da10d9725716846ee92a10999",
+              "verdict.json": "657121323bef83cf9bbcd7f176259dd274b133e42bad05f276dfadc719b4a09e",
+              "per_seed_metrics.jsonl": "4fa50c475e02d3928753a4019f9c29eb964c033b12be6c448c24dd95eeacbae2",
+          }
+          for name, digest in expected.items():
+              observed = hashlib.sha256((root / name).read_bytes()).hexdigest()
+              if observed != digest:
+                  raise SystemExit(f"retained primary artifact drift: {name}: {observed} != {digest}")
+
+          summary = json.loads((root / "summary.json").read_text(encoding="utf-8"))
+          verdict = json.loads((root / "verdict.json").read_text(encoding="utf-8"))
+          rows = [json.loads(line) for line in (root / "per_seed_metrics.jsonl").read_text(encoding="utf-8").splitlines() if line.strip()]
+
+          if summary.get("seed_count") != 5 or summary.get("seed_passes") != 0:
+              raise SystemExit("retained seed outcome drifted")
+          if not all(row.get("predeclared_seed_pass") is False for row in rows):
+              raise SystemExit("a retained frozen seed was rewritten as passing")
+          if verdict.get("verdict") != "FAIL_PREDECLARED_REAL_ENCODER_GATE":
+              raise SystemExit("retained primary verdict was rewritten")
+          if verdict.get("success_gate_passed") is not False:
+              raise SystemExit("retained frozen gate must remain failed")
+          if verdict.get("no_thresholds_moved_after_outcome_access") is not True:
+              raise SystemExit("threshold-integrity assertion is missing")
+          if not summary["mean_raw_language_accuracy"] < 0.75:
+              raise SystemExit("unexpected retained raw-language gate state")
+
+          uncertainty = json.loads((root / "descriptive_uncertainty.json").read_text(encoding="utf-8"))
+          if uncertainty.get("analysis_status") != "POST_OUTCOME_DESCRIPTIVE_ONLY_DOES_NOT_CHANGE_FROZEN_GATE":
+              raise SystemExit("post-outcome uncertainty lost its non-gating label")
+
+          result_text = (root / "RESULT.md").read_text(encoding="utf-8")
+          required = [
+              "FAIL_PREDECLARED_REAL_ENCODER_GATE",
+              "Any future protocol revision must be labeled as a new preregistration",
+              "does not modify the frozen success gate or primary verdict",
+          ]
+          missing = [text for text in required if text not in result_text]
+          if missing:
+              raise SystemExit(f"result interpretation boundary drifted: {missing}")
+
+          print("PASS: retained v3 primary result is byte-locked to the uploaded negative artifacts")
+          PY

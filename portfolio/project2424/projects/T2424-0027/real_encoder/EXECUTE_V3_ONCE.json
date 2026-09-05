@@ -1,0 +1,12 @@
+{
+  "execution_id": "T2424-0027-v3-primary-20260830",
+  "execution_kind": "PRIMARY_FROZEN_OUTCOME_EXECUTION",
+  "authorized_source_commit": "f6d4d9cffe956ae20c7f33026b5558a688f1ee01",
+  "authorized_preregistration_commit": "a3fc8fb13c600ec5a7b5a3bc4379b88c80a11c7a",
+  "authorized_manifest_blob_sha": "3adc92ebf9203f20319582e33c98ba570f9d884c",
+  "authorization_lock_run": 33307242105,
+  "authorization_lock_conclusion": "success",
+  "maximum_primary_executions": 1,
+  "rerun_policy": "GitHub workflow attempts above 1 must not execute the model. Any unchanged-protocol reproduction requires a separately labeled future trigger and evidence record.",
+  "outcome_policy": "Retain positive, mixed, negative, falsifying, and infrastructure-failure artifacts without rescue tuning or threshold/seed/model/data/control changes."
+}

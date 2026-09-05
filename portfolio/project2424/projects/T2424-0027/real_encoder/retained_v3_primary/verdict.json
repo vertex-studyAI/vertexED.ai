@@ -1,0 +1,12 @@
+{
+  "claim_boundary": "Frozen-encoder representation diagnostic only. No linguistic-relativity, cognition, translation-quality, universal-representation, fine-tuned-model, or model-superiority claim.",
+  "falsifiers": {
+    "effect_below_30pct_parent": false,
+    "generic_control_matches_or_beats": false,
+    "intent_drop_over_5pct": false
+  },
+  "no_thresholds_moved_after_outcome_access": true,
+  "protocol_id": "T2424-0027-REAL-ENCODER-GATE-v3",
+  "success_gate_passed": false,
+  "verdict": "FAIL_PREDECLARED_REAL_ENCODER_GATE"
+}

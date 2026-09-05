@@ -1,0 +1,98 @@
+{
+  "protocol_id": "T2424-0027-REAL-ENCODER-GATE-v2",
+  "supersedes_protocol_id": "T2424-0027-REAL-ENCODER-GATE-v1",
+  "status": "FROZEN_BEFORE_OUTCOME_ACCESS",
+  "feasibility_basis": {
+    "prior_run": 33258014658,
+    "prior_job": 99114992140,
+    "prior_artifact_id": 9716423869,
+    "prior_artifact_zip_sha256": "77690038ee0366bac7ae81d60d3138387bb2a0f13f91986ac993595bbee3f65f",
+    "observed_failure": "MASSIVE en-US/audio_volume_other has 18 train rows; v1 required 20 per locale-intent cell.",
+    "encoder_loaded": false,
+    "model_metrics_computed": false,
+    "permitted_change": "Sampling cardinality only: 20 -> 15 examples per locale-intent cell per split."
+  },
+  "parent_protocol": "portfolio/project2424/projects/T2424-0027/PROTOCOL.md",
+  "parent_frozen_implementation_commit": "d3250fe5fc399905c93a517bbbd61d0c5ad8d5d6",
+  "parent_reproduced_output_sha256": "0eac35dd7b8af1488efab0392c2e82dab8f9a90332af7c6ad54633263fa13605",
+  "parent_normalized_language_leakage_reduction": 0.9583333333333334,
+  "question": "Does language-centroid removal suppress real multilingual encoder language leakage while preserving intent signal, and does it do so more specifically than generic controls?",
+  "claim_boundary": "Real frozen-encoder representation diagnostic only. No linguistic-relativity, cognition, translation-quality, universal-representation, or fine-tuned-model claim.",
+  "dataset": {
+    "repo": "AmazonScience/massive",
+    "revision": "ff6bd8e4b27c3543e4f8fe2108f32bb95a6f8740",
+    "dataset_version": "1.1",
+    "license": "CC-BY-4.0",
+    "locales": ["en-US", "es-ES", "fr-FR"],
+    "splits": {
+      "fit": "train",
+      "evaluation": "test"
+    },
+    "examples_per_locale_intent_per_split": 15,
+    "selection": "For each locale and intent, rank examples by SHA-256(seed || id); select the first 15 fit examples and first 15 evaluation examples. Fail closed if any locale-intent cell has fewer than 15 examples in either split.",
+    "label_for_concept": "intent",
+    "label_for_language": "locale"
+  },
+  "encoder": {
+    "repo": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+    "revision": "e8f8c211226b894fcb81acc59f3b34ba3efd5f42",
+    "license": "Apache-2.0",
+    "embedding_dimension": 384,
+    "fine_tuning": false,
+    "pooling": "model-default sentence-transformers pooling",
+    "normalize_embeddings": false
+  },
+  "seeds": [2401, 2402, 2403, 2404, 2405],
+  "primary_probe": "nearest-centroid Euclidean classifier fit only on the fit split",
+  "transforms": {
+    "raw": "no transform",
+    "language_centering": "subtract each locale's fit-split embedding centroid from fit and evaluation embeddings of that locale",
+    "global_centering": "subtract one global fit-split centroid",
+    "random_group_centering": "assign records to 3 deterministic SHA-256 groups per seed and subtract fit centroids for those pseudo-groups",
+    "random_subspace": "remove projection onto 2 deterministic Gaussian orthonormal directions per seed"
+  },
+  "metrics": {
+    "intent_accuracy": "nearest-centroid accuracy on MASSIVE intent",
+    "language_accuracy": "nearest-centroid accuracy on locale",
+    "language_chance": 0.3333333333333333,
+    "normalized_language_leakage_reduction": "(raw_language_accuracy - transformed_language_accuracy) / (raw_language_accuracy - language_chance)",
+    "effect_retention": "language_centering_normalized_reduction / 0.9583333333333334",
+    "intent_drop": "raw_intent_accuracy - language_centered_intent_accuracy",
+    "specificity_margin": "language_centering_normalized_reduction - max(global_centering, random_group_centering, random_subspace normalized reductions)"
+  },
+  "predeclared_success_gate": {
+    "mean_raw_language_accuracy_min": 0.75,
+    "mean_effect_retention_min": 0.70,
+    "mean_intent_drop_max": 0.02,
+    "mean_specificity_margin_min": 0.15,
+    "required_seed_passes": 4,
+    "required_seed_count": 5
+  },
+  "predeclared_falsifiers": [
+    "Mean effect retention < 0.30.",
+    "Mean intent drop > 0.05.",
+    "Specificity margin <= 0, meaning a generic control matches or beats language centering.",
+    "The sign of the parent effect reverses.",
+    "The data/model revisions cannot be materialized exactly or provenance hashes are missing."
+  ],
+  "budget": {
+    "encoder_fine_tuning": "forbidden",
+    "gpu_hours": 0,
+    "maximum_encoder_forward_passes_per_unique_utterance": 1,
+    "hyperparameter_search": "forbidden",
+    "threshold_changes_after_outcome_access": "forbidden"
+  },
+  "artifacts": {
+    "required": [
+      "resolved_manifest.json",
+      "environment.json",
+      "dataset_fingerprint.json",
+      "model_revision.json",
+      "per_seed_metrics.jsonl",
+      "summary.json",
+      "verdict.json"
+    ]
+  },
+  "execution_authorized": true,
+  "authorization_scope": "Execute exactly this v2 cheap frozen gate. Any additional encoder, locale, dataset, threshold, transform, probe, sampling-cardinality change, or tuned successor requires a new versioned manifest before outcome access."
+}
