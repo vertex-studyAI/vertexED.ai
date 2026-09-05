@@ -72,11 +72,28 @@ test('stop clears local playback ownership even when browser cancellation throws
 });
 
 test('unmount cleanup cancels only an owned utterance and never calls stateful stop', () => {
-  assert.match(
-    player,
-    /\(\) => \(\) => \{\s*if \(!utteranceRef\.current\) return;[\s\S]*?window\.speechSynthesis\.cancel\(\);[\s\S]*?utteranceRef\.current = null;\s*\}/,
-  );
-  assert.doesNotMatch(player, /useEffect\(\(\) => \(\) => stop\(\), \[stop\]\)/);
+  const cleanupStart = player.indexOf('// Cleanup must not call');
+  const scriptChangeStart = player.indexOf('// Generated notebook content can be replaced', cleanupStart);
+  assert.ok(cleanupStart >= 0 && scriptChangeStart > cleanupStart);
+  const cleanupSection = player.slice(cleanupStart, scriptChangeStart);
+
+  assert.match(cleanupSection, /if \(!utteranceRef\.current\) return;/);
+  assert.match(cleanupSection, /try \{\s*window\.speechSynthesis\.cancel\(\);\s*\} catch \{/);
+  assert.match(cleanupSection, /utteranceRef\.current = null;/);
+  assert.doesNotMatch(cleanupSection, /\bstop\(\)/);
+});
+
+test('unmount cleanup releases local ownership even when browser cancellation throws', () => {
+  const cleanupStart = player.indexOf('// Cleanup must not call');
+  const scriptChangeStart = player.indexOf('// Generated notebook content can be replaced', cleanupStart);
+  const cleanupSection = player.slice(cleanupStart, scriptChangeStart);
+  const cancelIndex = cleanupSection.indexOf('window.speechSynthesis.cancel()');
+  const catchIndex = cleanupSection.indexOf('} catch {', cancelIndex);
+  const clearIndex = cleanupSection.indexOf('utteranceRef.current = null', catchIndex);
+
+  assert.ok(cancelIndex >= 0);
+  assert.ok(catchIndex > cancelIndex);
+  assert.ok(clearIndex > catchIndex);
 });
 
 test('pause cannot affect the global speech queue without an owned utterance', () => {
