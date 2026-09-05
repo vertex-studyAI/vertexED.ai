@@ -30,26 +30,34 @@ const Calendar: React.FC<CalendarProps> = ({ selectedDate, onDateChange, mode })
 
   const days: React.ReactNode[] = [];
   for (let i = firstDayOfMonth - 1; i >= 0; i--) {
+    const day = daysInPreviousMonth - i;
+    const dayDate = new Date(previousMonthYear, previousMonth, day);
     days.push(
       <div
         key={"prev" + i}
         className="calendar-day previous-month"
         role="button"
         tabIndex={0}
-        aria-label={`Previous month day ${daysInPreviousMonth - i}`}
+        aria-label={`Select ${dayDate.toLocaleDateString('en-US', { weekday:'long', month:'long', day:'numeric', year:'numeric' })}`}
         onClick={() => {
-          const newDate = new Date(previousMonthYear, previousMonth, daysInPreviousMonth - i);
-          setCurrentDate(newDate);
-          onDateChange(newDate);
+          setCurrentDate(dayDate);
+          onDateChange(dayDate);
         }}
-        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); const newDate = new Date(previousMonthYear, previousMonth, daysInPreviousMonth - i); setCurrentDate(newDate); onDateChange(newDate);} }}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            setCurrentDate(dayDate);
+            onDateChange(dayDate);
+          }
+        }}
       >
-        {daysInPreviousMonth - i}
+        {day}
       </div>
     );
   }
   for (let i = 1; i <= daysInMonth; i++) {
     const isHighlighted = mode === "Week" && i > currentDay && i <= currentDay + 4;
+    const dayDate = new Date(currentYear, currentMonth, i);
     days.push(
       <div
         key={i}
@@ -57,32 +65,43 @@ const Calendar: React.FC<CalendarProps> = ({ selectedDate, onDateChange, mode })
         role="button"
         tabIndex={0}
         aria-current={i === currentDay ? 'date' : undefined}
-        aria-label={`Select ${new Date(currentYear, currentMonth, i).toLocaleDateString('en-US', { weekday:'long', month:'long', day:'numeric', year:'numeric'})}`}
+        aria-label={`Select ${dayDate.toLocaleDateString('en-US', { weekday:'long', month:'long', day:'numeric', year:'numeric' })}`}
         onClick={() => {
-          const newDate = new Date(currentYear, currentMonth, i);
-          setCurrentDate(newDate);
-          onDateChange(newDate);
+          setCurrentDate(dayDate);
+          onDateChange(dayDate);
         }}
-        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); const newDate = new Date(currentYear, currentMonth, i); setCurrentDate(newDate); onDateChange(newDate);} }}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            setCurrentDate(dayDate);
+            onDateChange(dayDate);
+          }
+        }}
       >
         {i}
       </div>
     );
   }
   for (let i = 1; i < 7 - lastDayOfMonth; i++) {
+    const dayDate = new Date(nextMonthYear, nextMonth, i);
     days.push(
       <div
         key={"next" + i}
         className="calendar-day next-month"
         role="button"
         tabIndex={0}
-        aria-label={`Next month day ${i}`}
+        aria-label={`Select ${dayDate.toLocaleDateString('en-US', { weekday:'long', month:'long', day:'numeric', year:'numeric' })}`}
         onClick={() => {
-          const newDate = new Date(nextMonthYear, nextMonth, i);
-          setCurrentDate(newDate);
-          onDateChange(newDate);
+          setCurrentDate(dayDate);
+          onDateChange(dayDate);
         }}
-        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); const newDate = new Date(nextMonthYear, nextMonth, i); setCurrentDate(newDate); onDateChange(newDate);} }}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            setCurrentDate(dayDate);
+            onDateChange(dayDate);
+          }
+        }}
       >
         {i}
       </div>
@@ -117,7 +136,7 @@ const Calendar: React.FC<CalendarProps> = ({ selectedDate, onDateChange, mode })
             </svg>
           </button>
         </div>
-        <div className="calendar-grid" role="grid">
+        <div className="calendar-grid" role="group" aria-label="Choose a date">
           {days}
         </div>
       </div>
