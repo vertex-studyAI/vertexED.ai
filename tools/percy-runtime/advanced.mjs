@@ -4,12 +4,20 @@ import { dirname, resolve } from 'node:path';
 import { createHash } from 'node:crypto';
 
 const sleep = (ms) => new Promise((resolveSleep) => setTimeout(resolveSleep, ms));
+const MAX_TIMER_MS = 2_147_483_647;
 
 // Sub-second leases are useful in direct store tests, but they are too short for
 // an event-loop-driven worker under scheduler/CI pressure. The worker loop uses
 // this floor while the underlying PercyStore keeps its >=100 ms API so stale
 // lease behavior can still be tested independently.
 export const MIN_WORKER_LEASE_MS = 1_000;
+
+function validateWorkerTimerMs(name, value, minimum) {
+  if (!Number.isSafeInteger(value) || value < minimum || value > MAX_TIMER_MS) {
+    throw new RangeError(`${name} must be an integer in [${minimum},${MAX_TIMER_MS}]`);
+  }
+  return value;
+}
 
 export function parseClassLimits(spec = process.env.PERCY_CLASS_LIMITS ?? 'default=2') {
   const limits = new Map();
@@ -235,17 +243,17 @@ export async function runWorkerLoop({
   if (!store || typeof store.claim !== 'function') throw new TypeError('store required');
   if (typeof execute !== 'function') throw new TypeError('execute required');
   if (!workerId) throw new TypeError('workerId required');
-  if (!Number.isFinite(leaseMs) || leaseMs < 100) throw new RangeError('leaseMs must be >=100');
-  if (!Number.isFinite(timeoutMs) || timeoutMs < 1) throw new RangeError('timeoutMs must be >=1');
-  if (!Number.isFinite(idleMs) || idleMs < 1) throw new RangeError('idleMs must be >=1');
-  if (!Number.isFinite(maxIdleSleepMs) || maxIdleSleepMs < idleMs) throw new RangeError('maxIdleSleepMs must be >= idleMs');
+  validateWorkerTimerMs('leaseMs', leaseMs, 100);
+  validateWorkerTimerMs('timeoutMs', timeoutMs, 1);
+  validateWorkerTimerMs('idleMs', idleMs, 1);
+  validateWorkerTimerMs('maxIdleSleepMs', maxIdleSleepMs, idleMs);
+  validateWorkerTimerMs('maxIdleMs', maxIdleMs, 0);
   if (!Number.isFinite(idleBackoffFactor) || idleBackoffFactor < 1 || idleBackoffFactor > 10) {
     throw new RangeError('idleBackoffFactor must be in [1,10]');
   }
   if (!Number.isFinite(idleJitterRatio) || idleJitterRatio < 0 || idleJitterRatio > 1) {
     throw new RangeError('idleJitterRatio must be in [0,1]');
   }
-  if (!Number.isFinite(maxIdleMs) || maxIdleMs < 0) throw new RangeError('maxIdleMs must be >=0');
   if (typeof shouldStop !== 'function') throw new TypeError('shouldStop must be a function');
   if (typeof sleepFn !== 'function') throw new TypeError('sleepFn must be a function');
   if (typeof random !== 'function') throw new TypeError('random must be a function');
