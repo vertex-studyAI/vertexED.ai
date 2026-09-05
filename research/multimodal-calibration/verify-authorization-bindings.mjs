@@ -76,10 +76,11 @@ export async function assessAuthorizationFileBindings(manifest, manifestPath) {
   const repositoryRoot = repositoryRootForManifest(manifestPath);
   const checked = [];
   const unresolved = [];
+  const observedUnresolved = [];
   const errors = [];
 
   for (const binding of bindingCandidates(manifest)) {
-    if (!isNonEmptyString(binding.path) || !SHA256_RE.test(binding.sha256 ?? '')) {
+    if (!isNonEmptyString(binding.path)) {
       unresolved.push(binding.field);
       continue;
     }
@@ -89,6 +90,22 @@ export async function assessAuthorizationFileBindings(manifest, manifestPath) {
       absolutePath = resolveBoundPath(repositoryRoot, binding.path, binding.field);
     } catch (error) {
       errors.push(error instanceof Error ? error.message : String(error));
+      continue;
+    }
+
+    if (!SHA256_RE.test(binding.sha256 ?? '')) {
+      unresolved.push(binding.field);
+      try {
+        observedUnresolved.push({
+          field: binding.field,
+          path: binding.path,
+          actual_sha256: await sha256File(absolutePath),
+        });
+      } catch (error) {
+        errors.push(
+          `${binding.field} could not be read: ${error instanceof Error ? error.message : String(error)}`,
+        );
+      }
       continue;
     }
 
@@ -117,6 +134,7 @@ export async function assessAuthorizationFileBindings(manifest, manifestPath) {
     repository_root: repositoryRoot,
     checked,
     unresolved,
+    observed_unresolved: observedUnresolved,
     errors,
   };
 }
@@ -151,6 +169,11 @@ if (process.argv[1] && path.resolve(process.argv[1]) === path.resolve(thisFile))
   console.log(`CHECKED_FILE_BINDINGS=${result.file_bindings.checked.length}`);
   if (result.file_bindings.unresolved.length > 0) {
     console.log(`UNRESOLVED_FILE_BINDINGS=${result.file_bindings.unresolved.join(',')}`);
+  }
+  for (const observed of result.file_bindings.observed_unresolved) {
+    console.log(
+      `UNRESOLVED_OBSERVED_SHA256 field=${observed.field} path=${observed.path} sha256=${observed.actual_sha256}`,
+    );
   }
 
   if (result.authorized) {
