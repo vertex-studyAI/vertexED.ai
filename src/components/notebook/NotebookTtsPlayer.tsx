@@ -19,6 +19,7 @@ export default function NotebookTtsPlayer({ script, className }: Props) {
   const [playing, setPlaying] = useState(false);
   const [paused, setPaused] = useState(false);
   const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
+  const previousScriptRef = useRef(script);
 
   const stop = useCallback(() => {
     if (typeof window === 'undefined' || !window.speechSynthesis) return;
@@ -29,6 +30,14 @@ export default function NotebookTtsPlayer({ script, className }: Props) {
   }, []);
 
   useEffect(() => () => stop(), [stop]);
+
+  // Generated notebook content can be replaced in-place. Never keep speaking or
+  // resume an utterance that belongs to the previous generated script.
+  useEffect(() => {
+    if (previousScriptRef.current === script) return;
+    previousScriptRef.current = script;
+    stop();
+  }, [script, stop]);
 
   const play = () => {
     if (typeof window === 'undefined' || !window.speechSynthesis) return;
