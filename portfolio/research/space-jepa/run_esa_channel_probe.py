@@ -14,13 +14,13 @@ import torch
 from space_jepa.channel_probe import fit_channel_probe, score_channel_errors
 from space_jepa.config import SpaceJEPAConfig
 from space_jepa.data import RobustScaler
-from space_jepa.esa_adb import load_esa_adb_csv
 from space_jepa.model import SpaceJEPA
 
 RIDGE_ALPHA = 1.0
 FIT_STRIDE = 4
 SCORE_STRIDE = 1
 BATCH_SIZE = 128
+TIMESTAMP_COLUMN = "timestamp"
 
 
 def sha256(path: Path) -> str:
@@ -93,7 +93,40 @@ def _source_channels(run: dict[str, Any]) -> tuple[str, ...]:
     channels = contract.get("channels")
     if not isinstance(channels, list) or not channels or any(not isinstance(c, str) for c in channels):
         raise ValueError("source run is missing exact ordered channel list")
+    if len(set(channels)) != len(channels):
+        raise ValueError("source run contains duplicate channel identities")
     return tuple(channels)
+
+
+def _load_telemetry_only(
+    path: Path,
+    channels: tuple[str, ...],
+    *,
+    load_timestamps: bool,
+) -> tuple[np.ndarray, np.ndarray | None]:
+    """Read only frozen telemetry columns; annotation columns are never loaded."""
+
+    header = tuple(str(c) for c in pd.read_csv(path, nrows=0).columns)
+    missing = [channel for channel in channels if channel not in header]
+    if missing:
+        raise ValueError(f"ESA-ADB CSV is missing frozen telemetry channels: {missing}")
+    usecols = list(channels)
+    dtypes: dict[str, object] = {channel: np.float32 for channel in channels}
+    if load_timestamps:
+        if TIMESTAMP_COLUMN not in header:
+            raise ValueError("test ESA-ADB CSV is missing timestamp column")
+        usecols.insert(0, TIMESTAMP_COLUMN)
+        dtypes[TIMESTAMP_COLUMN] = "string"
+    frame = pd.read_csv(path, usecols=usecols, dtype=dtypes)
+    telemetry = frame.loc[:, list(channels)].to_numpy(dtype=np.float32, copy=True)
+    if telemetry.ndim != 2 or telemetry.shape[1] != len(channels) or len(telemetry) < 1:
+        raise ValueError("telemetry-only read produced invalid geometry")
+    timestamps = None
+    if load_timestamps:
+        timestamps = frame[TIMESTAMP_COLUMN].astype(str).to_numpy(copy=True)
+        if len(timestamps) != len(telemetry):
+            raise ValueError("timestamps must align with telemetry rows")
+    return telemetry, timestamps
 
 
 def warm_start_test(train: np.ndarray, test: np.ndarray, context_length: int) -> np.ndarray:
@@ -119,16 +152,18 @@ def main() -> None:
     source_run = _load_json(args.run_json)
     _verify_source_bytes(source_run, args.train_csv, args.test_csv)
     channels = _source_channels(source_run)
-    train = load_esa_adb_csv(args.train_csv, channels=channels, load_timestamps=False)
-    test = load_esa_adb_csv(args.test_csv, channels=channels, load_timestamps=True)
-    if train.feature_names != channels or test.feature_names != channels:
-        raise ValueError("ESA-ADB loader changed the frozen ordered channel identity")
-    if test.timestamps is None:
+    train_telemetry, _ = _load_telemetry_only(
+        args.train_csv, channels, load_timestamps=False
+    )
+    test_telemetry, test_timestamps = _load_telemetry_only(
+        args.test_csv, channels, load_timestamps=True
+    )
+    if test_timestamps is None:
         raise ValueError("test timestamps are required for channel-score export")
 
-    scaler = RobustScaler.fit(train.telemetry)
-    train_x = scaler.transform(train.telemetry)
-    test_x = scaler.transform(test.telemetry)
+    scaler = RobustScaler.fit(train_telemetry)
+    train_x = scaler.transform(train_telemetry)
+    test_x = scaler.transform(test_telemetry)
     model = _load_model(source_run, args.run_json.parent, args.device)
     if model.cfg.n_features != len(channels):
         raise ValueError("checkpoint feature count does not match frozen channel list")
@@ -157,7 +192,7 @@ def main() -> None:
 
     args.out_dir.mkdir(parents=True, exist_ok=False)
     score_path = args.out_dir / "channel_scores.csv"
-    frame: dict[str, object] = {"timestamp": test.timestamps}
+    frame: dict[str, object] = {"timestamp": test_timestamps}
     for index, channel in enumerate(channels):
         frame[f"{channel}_score"] = scores[:, index]
     pd.DataFrame(frame).to_csv(score_path, index=False)
@@ -173,7 +208,8 @@ def main() -> None:
         "train_csv_sha256": sha256(args.train_csv),
         "test_csv_sha256": sha256(args.test_csv),
         "channels": list(channels),
-        "label_access": False,
+        "annotation_columns_loaded": False,
+        "anomaly_label_access": False,
         "probe": {
             **probe.to_dict(),
             "fit_stride": FIT_STRIDE,
