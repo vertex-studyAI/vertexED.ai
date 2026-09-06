@@ -206,10 +206,35 @@ jobs:
         run: npx playwright install --with-deps chromium
 
       - name: Run production browser certification
+        shell: bash
         env:
           PLAYWRIGHT_BASE_URL: https://www.vertexed.app
           PLAYWRIGHT_API_URL: https://www.vertexed.app
-        run: npm run test:e2e
+        run: |
+          set -o pipefail
+          mkdir -p ci-evidence/production-browser
+          browser_log="ci-evidence/production-browser/playwright-production.log"
+
+          if npm run test:e2e 2>&1 | tee "$browser_log"; then
+            exit 0
+          fi
+
+          {
+            echo "### Production browser certification failure"
+            echo
+            echo "- source SHA: \`${SOURCE_SHA}\`"
+            echo "- target: \`${PLAYWRIGHT_BASE_URL}\`"
+            echo "- retained log: \`${browser_log}\`"
+            echo
+            echo '<details><summary>Last 120 log lines</summary>'
+            echo
+            echo '```text'
+            tail -n 120 "$browser_log"
+            echo '```'
+            echo '</details>'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          exit 1
 
       - name: Upload browser evidence
         if: always()
@@ -219,6 +244,7 @@ jobs:
           path: |
             playwright-report
             test-results
+            ci-evidence/production-browser
           if-no-files-found: ignore
           retention-days: 14
 
@@ -265,6 +291,23 @@ jobs:
               sleep "$retry_delay_seconds"
             fi
           done
+
+          {
+            echo "### Production smoke failure"
+            echo
+            echo "- source SHA: \`${SOURCE_SHA}\`"
+            echo "- expected deploy-relevant revision: \`${EXPECTED_VERTEXED_REVISION}\`"
+            echo "- target: \`${SMOKE_BASE_URL}\`"
+            echo "- attempts: \`${max_attempts}\`"
+            echo "- retained final attempt log: \`${attempt_log}\`"
+            echo
+            echo '<details><summary>Last 120 lines from final attempt</summary>'
+            echo
+            echo '```text'
+            tail -n 120 "$attempt_log"
+            echo '```'
+            echo '</details>'
+          } >> "$GITHUB_STEP_SUMMARY"
 
           echo "[smoke] Production smoke tests failed after ${max_attempts} attempts"
           exit 1
