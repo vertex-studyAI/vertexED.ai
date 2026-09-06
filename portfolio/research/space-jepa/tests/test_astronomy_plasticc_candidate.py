@@ -149,7 +149,9 @@ class PlasticcCandidateTests(unittest.TestCase):
 
         candidate = load_candidate()
         candidate["remaining_preoutcome_blockers"] = [
-            item for item in candidate["remaining_preoutcome_blockers"] if "readout" not in item.lower()
+            item
+            for item in candidate["remaining_preoutcome_blockers"]
+            if not item.lower().startswith("exact representation-to-class-probability readout")
         ]
         candidate["remaining_preoutcome_blockers"].append(
             "additional unrelated preoutcome gate retained only to keep blocker-count validation independent"
