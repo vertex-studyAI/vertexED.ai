@@ -148,19 +148,10 @@ export class PercyStore {
 
   resumeStale() {
     const t = now();
-    const rows = this.db.prepare("SELECT id FROM tasks WHERE status IN ('CLAIMED','RUNNING') AND lease_expires_at IS NOT NULL AND lease_expires_at <= ?").all(t);
-    if (!rows.length) return 0;
-    const stmt = this.db.prepare(`UPDATE tasks SET status='READY', owner_id=NULL, lease_expires_at=NULL, heartbeat_at=NULL,
-      error=COALESCE(error,'stale lease recovered'), updated_at=? WHERE id=? AND status IN ('CLAIMED','RUNNING')`);
-    this.db.exec('BEGIN IMMEDIATE');
-    try {
-      for (const row of rows) stmt.run(t, row.id);
-      this.db.exec('COMMIT');
-      return rows.length;
-    } catch (error) {
-      try { this.db.exec('ROLLBACK'); } catch {}
-      throw error;
-    }
+    const result = this.db.prepare(`UPDATE tasks SET status='READY', owner_id=NULL, lease_expires_at=NULL, heartbeat_at=NULL,
+      error=COALESCE(error,'stale lease recovered'), updated_at=?
+      WHERE status IN ('CLAIMED','RUNNING') AND lease_expires_at IS NOT NULL AND lease_expires_at <= ?`).run(t, t);
+    return Number(result.changes);
   }
 
   claim(workerId, leaseMs = 30_000) {
