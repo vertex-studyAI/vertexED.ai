@@ -254,21 +254,42 @@ export class PercyStore {
   }
 
   fail(taskId, workerId, error, retryDelayMs = 250) {
-    const task = this.db.prepare("SELECT attempts,max_attempts FROM tasks WHERE id=? AND status IN ('CLAIMED','RUNNING') AND owner_id=?").get(taskId, workerId);
-    if (!task) return false;
     const message = String(error?.message ?? error);
-    const terminal = task.attempts >= task.max_attempts;
     const t = now();
-    this.db.prepare('INSERT INTO failures(task_id,owner_id,attempt,error,created_at) VALUES(?,?,?,?,?)')
-      .run(taskId, workerId, task.attempts, message, t);
-    return this.db.prepare(`UPDATE tasks SET status=?, error=?, owner_id=NULL, lease_expires_at=NULL,
-      heartbeat_at=NULL, available_at=?, updated_at=? WHERE id=? AND status IN ('CLAIMED','RUNNING') AND owner_id=?`)
-      .run(terminal ? 'FAILED' : 'READY', message, t + (terminal ? 0 : retryDelayMs), t, taskId, workerId).changes === 1;
+    this.db.exec('BEGIN IMMEDIATE');
+    try {
+      const task = this.db.prepare(`SELECT attempts,max_attempts FROM tasks
+        WHERE id=? AND status IN ('CLAIMED','RUNNING') AND owner_id=?
+          AND lease_expires_at IS NOT NULL AND lease_expires_at > ?`).get(taskId, workerId, t);
+      if (!task) {
+        this.db.exec('ROLLBACK');
+        return false;
+      }
+      const terminal = task.attempts >= task.max_attempts;
+      const updated = this.db.prepare(`UPDATE tasks SET status=?, error=?, owner_id=NULL, lease_expires_at=NULL,
+        heartbeat_at=NULL, available_at=?, updated_at=?
+        WHERE id=? AND status IN ('CLAIMED','RUNNING') AND owner_id=?
+          AND lease_expires_at IS NOT NULL AND lease_expires_at > ?`)
+        .run(terminal ? 'FAILED' : 'READY', message, t + (terminal ? 0 : retryDelayMs), t, taskId, workerId, t);
+      if (updated.changes !== 1) {
+        this.db.exec('ROLLBACK');
+        return false;
+      }
+      this.db.prepare('INSERT INTO failures(task_id,owner_id,attempt,error,created_at) VALUES(?,?,?,?,?)')
+        .run(taskId, workerId, task.attempts, message, t);
+      this.db.exec('COMMIT');
+      return true;
+    } catch (error_) {
+      try { this.db.exec('ROLLBACK'); } catch {}
+      throw error_;
+    }
   }
 
   markStale(taskId, workerId, reason = 'worker stopped') {
+    const t = now();
     return this.db.prepare(`UPDATE tasks SET status='STALE', error=?, owner_id=NULL, lease_expires_at=NULL, heartbeat_at=NULL, updated_at=?
-      WHERE id=? AND status IN ('CLAIMED','RUNNING') AND owner_id=?`).run(reason, now(), taskId, workerId).changes === 1;
+      WHERE id=? AND status IN ('CLAIMED','RUNNING') AND owner_id=?
+        AND lease_expires_at IS NOT NULL AND lease_expires_at > ?`).run(reason, t, taskId, workerId, t).changes === 1;
   }
 
   requeueStale(taskId) {
