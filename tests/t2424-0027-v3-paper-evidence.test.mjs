@@ -31,7 +31,7 @@ test('paper stays bound to the frozen negative authorization boundary', () => {
   assert.equal(summary.seed_passes, 0);
 
   expectPaper(
-    'FAIL\\_PREDECLARED\\_REAL\\_ENCODER\\_GATE',
+    'FAIL_PREDECLARED_REAL_ENCODER_GATE',
     '0/5',
     '0.75',
     '0.70',
