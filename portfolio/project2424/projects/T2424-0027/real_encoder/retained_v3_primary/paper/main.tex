@@ -10,6 +10,7 @@
 \hypersetup{hidelinks,pdfauthor={Anonymous submission},pdftitle={T2424-0027 v3 negative result}}
 \setlength{\parindent}{1em}
 \setlength{\parskip}{0pt}
+\setlength{\emergencystretch}{1.5em}
 \newcommand{\gatefail}{\textbf{FAIL}}
 \newcommand{\gatepass}{pass}
 
@@ -30,9 +31,9 @@ The narrow question is whether, when a fixed multilingual representation contain
 The study uses MASSIVE \cite{fitzgerald2023massive}, but only the preregistered three-locale, 50-intent subset is evidence for the present result. The encoder is a pinned multilingual sentence-transformer from the knowledge-distillation family of Reimers and Gurevych \cite{reimers2020multilingual}; it is not fine-tuned in this study.
 
 \section{Preregistered design}
-\paragraph{Data.} The source is \texttt{AmazonScience/massive} at revision \texttt{ff6bd8e4b27c3543e4f8fe2108f32bb95a6f8740}, dataset version 1.1. Locales are exactly \texttt{en-US}, \texttt{es-ES}, and \texttt{fr-FR}. MASSIVE \texttt{train} is the fit split and \texttt{test} is the evaluation split. An outcome-free feasibility census fixed 50 intents with at least 15 examples in every locale and both splits; exactly 15 examples per locale-intent cell were selected in each split by the preregistered SHA-256 ranking rule.
+\paragraph{Data.} The source is \texttt{AmazonScience/massive} at revision \nolinkurl{ff6bd8e4b27c3543e4f8fe2108f32bb95a6f8740}, dataset version 1.1. Locales are exactly \texttt{en-US}, \texttt{es-ES}, and \texttt{fr-FR}. MASSIVE \texttt{train} is the fit split and \texttt{test} is the evaluation split. An outcome-free feasibility census fixed 50 intents with at least 15 examples in every locale and both splits; exactly 15 examples per locale-intent cell were selected in each split by the preregistered SHA-256 ranking rule.
 
-\paragraph{Representation and probes.} The encoder is \texttt{sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2} at revision \texttt{e8f8c211226b894fcb81acc59f3b34ba3efd5f42}, producing 384-dimensional embeddings. The primary probe family is nearest-centroid Euclidean classification fitted only on the fit split. Labels are intent and locale.
+\paragraph{Representation and probes.} The encoder is \nolinkurl{sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2} at revision \nolinkurl{e8f8c211226b894fcb81acc59f3b34ba3efd5f42}, producing 384-dimensional embeddings. The primary probe family is nearest-centroid Euclidean classification fitted only on the fit split. Labels are intent and locale.
 
 \paragraph{Intervention and controls.} Language centering subtracts the fit-split embedding centroid for each true locale. The preregistered controls are global centering, deterministic random-group centering, and deterministic random-subspace removal. Seeds are exactly 2401, 2402, 2403, 2404, and 2405. Seed substitution, favorable-seed reruns, post-outcome intent selection, encoder swapping, control deletion, and threshold movement were prohibited.
 
@@ -43,7 +44,7 @@ The study uses MASSIVE \cite{fitzgerald2023massive}, but only the preregistered 
 The frozen success rule required all five conditions in Table~\ref{tab:primary}. No $p$-value criterion was preregistered. Intervals reported below were computed post-outcome for description only and cannot replace the conjunction.
 
 \section{Results}
-The frozen verdict is \texttt{FAIL\_PREDECLARED\_REAL\_ENCODER\_GATE}. Table~\ref{tab:primary} binds the publication-facing values to the retained result package.
+The frozen verdict is \nolinkurl{FAIL_PREDECLARED_REAL_ENCODER_GATE}. Table~\ref{tab:primary} binds the publication-facing values to the retained result package.
 
 \begin{table}[t]
 \centering
@@ -83,8 +84,8 @@ tick label style={font=\scriptsize},label style={font=\scriptsize}]
 (Raw,0.492356) +- (0,0.011473)
 (Locale-centered,0.359022) +- (0,0.014519)
 };
-\addplot+[sharp plot,dashed,domain=-1:2] {0.75};
-\addplot+[sharp plot,dotted,domain=-1:2] {0.3333333333};
+\addplot+[sharp plot,dashed] coordinates {(Raw,0.75) (Locale-centered,0.75)};
+\addplot+[sharp plot,dotted] coordinates {(Raw,0.3333333333) (Locale-centered,0.3333333333)};
 \legend{Retained mean $\pm$ descriptive CI half-width,Preregistered raw floor,Chance}
 \end{axis}
 \end{tikzpicture}
@@ -129,7 +130,7 @@ Crucially, INLP and LEACE were not matched baselines in the frozen v3 protocol. 
 Nearest-centroid probe accuracy is only one operationalization of representational information. The evaluation covers exactly three locales and 50 feasibility-filtered intents, not MASSIVE's full language inventory. The encoder is frozen and not fine-tuned. Descriptive intervals summarize only five fixed seeds and were not part of the success rule. Locale centering uses true locale identity and is thus a diagnostic rather than a language-agnostic deployment method. Most importantly, raw locale accuracy failed the preregistered 0.75 prerequisite, directly limiting claims about removal of strong locale information.
 
 \section{Reproducibility and evidence identity}
-The retained lineage is protocol \texttt{T2424-0027-REAL-ENCODER-GATE-v3}. The preregistration commit is \texttt{a3fc8fb13c600ec5a7b5a3bc4379b88c80a11c7a}; the preregistration manifest Git blob is \texttt{3adc92ebf9203f20319582e33c98ba570f9d884c}; and the one-shot trigger commit is \texttt{0e9d7c9ad4abd61b8996303fdcd45579b898f327}. The primary retained GitHub Actions execution is run 33307308534, job 99246007605, artifact 9730910606, with retained artifact ZIP SHA-256 \texttt{5bebd21c4e0b763a68c100c58bdea10d1822550d08fcda505ed65c84eb44a757}.
+The retained lineage is protocol \nolinkurl{T2424-0027-REAL-ENCODER-GATE-v3}. The preregistration commit is \nolinkurl{a3fc8fb13c600ec5a7b5a3bc4379b88c80a11c7a}; the preregistration manifest Git blob is \nolinkurl{3adc92ebf9203f20319582e33c98ba570f9d884c}; and the one-shot trigger commit is \nolinkurl{0e9d7c9ad4abd61b8996303fdcd45579b898f327}. The primary retained GitHub Actions execution is run 33307308534, job 99246007605, artifact 9730910606, with retained artifact ZIP SHA-256 \nolinkurl{5bebd21c4e0b763a68c100c58bdea10d1822550d08fcda505ed65c84eb44a757}.
 
 The publication package is fail-closed: it must preserve the negative primary verdict, raw-locale prerequisite failure, 0/5 seed-pass count, and the separation between this real-encoder successor and the earlier synthetic mechanics experiment. Any revised protocol requires a new preregistration.
 
