@@ -50,7 +50,7 @@
   "preoutcome_split_intent": {
     "development": "PLAsTiCC published training surface only, subject to an exact object-disjoint internal train/validation manifest frozen before model comparison.",
     "candidate_confirmatory": "PLAsTiCC published test surface only if independent review establishes that its now-public unblinded labels have not entered method/threshold development and an outcome-blind loader can enforce label isolation.",
-    "fallback_if_confirmatory_freshness_fails": "Treat PLAsTiCC as development/external-characterization only and select a separate genuinely unobserved astronomy benchmark before making confirmatory claims.",
+    "fallback_if_confirmatory_freshness_fails": "If confirmatory freshness fails, treat PLAsTiCC as development/external-characterization only and select a separate genuinely unobserved astronomy benchmark before making confirmatory claims.",
     "object_identity_disjoint": true,
     "train_only_feature_fit": true,
     "windows_may_cross_objects": false
