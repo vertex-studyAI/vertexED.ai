@@ -18,6 +18,7 @@ test('runtime source, API, database, and production build-script changes continu
     'scripts/build.mjs',
     'scripts/generate-build-revision.mjs',
     'scripts/generate-study-guide-sitemap.mjs',
+    'scripts/immutable-revision.mjs',
     'scripts/publish-neurocad-alpha.mjs',
     'scripts/validate-vercel-functions.mjs',
     'scripts/vercel-ignore-build.mjs',
@@ -68,19 +69,11 @@ test('first Vercel preview compares the whole branch against the main merge base
     calls.push(args);
     const key = args.join(' ');
     if (key === 'merge-base HEAD origin/main') return `${mergeBase}\n`;
-    if (key === `diff --name-only --diff-filter=ACDMRTUXB ${mergeBase} HEAD`) {
-      return 'scripts/vercel-ignore-build.mjs\ntests/vercel-ignore-build.test.mjs\n';
-    }
+    if (key === `diff --name-only --diff-filter=ACDMRTUXB ${mergeBase} HEAD`) return 'scripts/vercel-ignore-build.mjs\ntests/vercel-ignore-build.test.mjs\n';
     throw new Error(`unexpected git call: ${key}`);
   };
-  assert.deepEqual(
-    readChangedFiles({ previousSha: '', isVercel: true, runGit }),
-    ['scripts/vercel-ignore-build.mjs', 'tests/vercel-ignore-build.test.mjs'],
-  );
-  assert.deepEqual(calls, [
-    ['merge-base','HEAD','origin/main'],
-    ['diff','--name-only','--diff-filter=ACDMRTUXB',mergeBase,'HEAD'],
-  ]);
+  assert.deepEqual(readChangedFiles({ previousSha: '', isVercel: true, runGit }), ['scripts/vercel-ignore-build.mjs', 'tests/vercel-ignore-build.test.mjs']);
+  assert.deepEqual(calls, [['merge-base','HEAD','origin/main'], ['diff','--name-only','--diff-filter=ACDMRTUXB',mergeBase,'HEAD']]);
 });
 
 test('first Vercel preview fetches bounded main history when the clone lacks a base ref', () => {
@@ -90,33 +83,19 @@ test('first Vercel preview fetches bounded main history when the clone lacks a b
   const runGit = (args) => {
     calls.push(args);
     const key = args.join(' ');
-    if (key === 'fetch --no-tags --depth=64 origin main:refs/remotes/origin/main') {
-      fetched = true;
-      return '';
-    }
+    if (key === 'fetch --no-tags --depth=64 origin main:refs/remotes/origin/main') { fetched = true; return ''; }
     if (key === 'merge-base HEAD origin/main' && fetched) return `${mergeBase}\n`;
-    if (key === 'merge-base HEAD origin/main' || key === 'merge-base HEAD main') {
-      throw new Error('ref unavailable in initial clone');
-    }
-    if (key === `diff --name-only --diff-filter=ACDMRTUXB ${mergeBase} HEAD`) {
-      return '.github/workflows/research.yml\nportfolio/project2424/manifest.json\n';
-    }
+    if (key === 'merge-base HEAD origin/main' || key === 'merge-base HEAD main') throw new Error('ref unavailable in initial clone');
+    if (key === `diff --name-only --diff-filter=ACDMRTUXB ${mergeBase} HEAD`) return '.github/workflows/research.yml\nportfolio/project2424/manifest.json\n';
     throw new Error(`unexpected git call: ${key}`);
   };
-
-  assert.deepEqual(
-    readChangedFiles({ previousSha: '', isVercel: true, runGit }),
-    ['.github/workflows/research.yml', 'portfolio/project2424/manifest.json'],
-  );
+  assert.deepEqual(readChangedFiles({ previousSha: '', isVercel: true, runGit }), ['.github/workflows/research.yml', 'portfolio/project2424/manifest.json']);
   assert.ok(calls.some((args) => args[0] === 'fetch'));
 });
 
 test('first Vercel preview fails closed when no safe branch base is available', () => {
   const runGit = () => { throw new Error('ref unavailable'); };
-  assert.throws(
-    () => readChangedFiles({ previousSha: '', isVercel: true, runGit }),
-    /unable to establish a merge base with main/,
-  );
+  assert.throws(() => readChangedFiles({ previousSha: '', isVercel: true, runGit }), /unable to establish a merge base with main/);
 });
 
 test('deployment diff falls back to the previous commit outside Vercel', () => {
@@ -128,6 +107,10 @@ test('deployment diff falls back to the previous commit outside Vercel', () => {
 
 test('deployment diff rejects a malformed Vercel previous SHA', () => {
   assert.throws(() => readChangedFiles({ previousSha: 'not-a-sha', runGit: () => '' }), /invalid VERCEL_GIT_PREVIOUS_SHA/);
+});
+
+test('deployment diff rejects an abbreviated Vercel previous SHA', () => {
+  assert.throws(() => readChangedFiles({ previousSha: '1234567', runGit: () => '' }), /invalid VERCEL_GIT_PREVIOUS_SHA/);
 });
 
 test('latest runtime revision skips newer operations-only commits', () => {
