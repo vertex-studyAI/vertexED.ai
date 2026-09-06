@@ -18,7 +18,7 @@ The annotation encoding used by the upstream preprocessing utilities is:
 - `3` — communication gap
 - `4` — invalid
 
-Those annotation columns are **never model inputs**. `space_jepa.esa_adb.load_esa_adb_csv()` selects feature columns and their matching annotation columns separately and fails closed if a requested label column is missing.
+Those annotation columns are **never model inputs**. The ordinary evaluation adapter can separate telemetry from annotations for post-freeze diagnostics, while the pre-outcome channel-probe exporter is stricter: it reads only the exact telemetry columns plus test timestamps and never parses the interleaved `is_anomaly_*` columns.
 
 ## Official channel presets
 
@@ -41,8 +41,6 @@ The lightweight presets are the recommended first engineering runs on constraine
 ## Memory contract
 
 ESA-ADB can contain millions of timesteps. The Space-JEPA trainer and scorer therefore use `TelemetryWindowDataset`, which slices context/target windows lazily and materializes only the current batch. Do not replace this with an all-window `np.stack` path for retained runs.
-
-CSV loading for the ordinary evaluation path uses `pandas.read_csv(usecols=...)` with float32 telemetry and uint8 annotation dtypes. This allows the lightweight channel presets to avoid loading every mission channel into RAM. The pre-outcome channel-probe exporter is stricter: it uses a telemetry-only `usecols` read and never loads the interleaved `is_anomaly_*` columns.
 
 The per-channel probe uses streaming ridge sufficient statistics: it materializes only one context/target batch at a time and retains an `(latent_dim + 1) x (latent_dim + 1)` normal-equation matrix plus the latent-to-channel cross-product. It does not stack the full mission's windows.
 
@@ -67,18 +65,18 @@ For Mission 2 use `--preset mission2-lite` and the matching preprocessed train/t
 
 1. fits robust normalization on training telemetry only;
 2. trains Space-JEPA without consuming annotation labels;
-3. fits the frozen score threshold from valid training scores only;
+3. fits the frozen global score threshold from valid training scores only;
 4. warm-starts test scoring using only the final training context window;
 5. computes repository-native diagnostics only after thresholds are frozen;
 6. writes `predictions.csv`, `model.pt`, and `run.json` with dataset hashes and provenance.
 
 The local diagnostics are useful engineering checks but are **not** the official ESA-ADB result.
 
-## Pre-outcome per-channel score surface
+## Pre-outcome per-channel score and binary-prediction surface
 
-`ESA_CHANNEL_PROBE_PROTOCOL_V0.md` freezes a secondary train-only ridge decoder that maps predicted JEPA target latents back to normalized telemetry channels. It is designed to produce a meaningful channel-resolved residual surface without changing the JEPA training objective or using anomaly labels for probe fitting.
+`ESA_CHANNEL_PROBE_PROTOCOL_V0.md` freezes a secondary train-only ridge decoder that maps predicted JEPA target latents back to normalized telemetry channels. It produces continuous channel residuals and one binary decision surface suitable for later `ChannelAwareFScore` evaluation, without changing the JEPA objective or reading anomaly labels.
 
-After an ordinary `run_esa_adb.py` run exists, materialize the channel-score artifact with the exact same dataset bytes:
+After an ordinary `run_esa_adb.py` run exists, materialize the channel artifact with the exact same dataset bytes:
 
 ```bash
 python run_esa_channel_probe.py \
@@ -89,20 +87,38 @@ python run_esa_channel_probe.py \
   --out-dir artifacts/esa_adb/mission1-lite/seed-17/channel-probe-v0
 ```
 
-The exporter verifies the train/test SHA-256 identities retained by the source run, reloads the exact checkpoint/config and ordered channel list, reads only the frozen telemetry columns plus test timestamps, refits the scaler on training telemetry only, fits the frozen ridge probe on training windows only, warm-starts test scoring from the final training context, and refuses to overwrite an existing output directory. The retained receipt binds the source run, checkpoint, train/test bytes, exact channels, probe parameters, code commit, and channel-score CSV hash while recording `annotation_columns_loaded: false` and `anomaly_label_access: false`.
+The exporter:
+
+1. verifies the train/test SHA-256 identities retained by the parent run;
+2. reloads the exact checkpoint/config and ordered channel list;
+3. reads only the frozen telemetry columns plus test timestamps;
+4. refits the scaler on training telemetry only;
+5. fits the frozen ridge probe on training windows only;
+6. scores covered training residuals and freezes one **0.995 quantile threshold per channel** from training residuals only;
+7. warm-starts test scoring from the final training context;
+8. exports `<channel>_score` and `<channel>_pred`, where the binary rule is `score >= channel_threshold`;
+9. refuses to overwrite an existing output directory.
+
+The retained receipt binds the source run, checkpoint, train/test bytes, exact channels, probe parameters, channel thresholds, code commit, and output CSV hash while recording `annotation_columns_loaded: false` and `anomaly_label_access: false`.
 
 This artifact is still **pre-outcome**. It is not an official channel-localization result.
 
+## Pinned official ranking-metric semantics
+
+`ESA_CHANNEL_METRIC_SEMANTICS_V0.md` pins the reviewed ESA-ADB/TimeEval source at commit `aeebcd9ecd3e7266d6d6a035a8081b3da83dfe33`, including exact blob identities for Mission-1 experiment declaration, `ChannelAwareFScore`, `ADTQC`, and TimeEval experiment orchestration.
+
+The source review resolves two important ambiguities before outcome access:
+
+- **ChannelAwareFScore is binary and per-channel.** It does not support continuous anomaly scores. It expects a dictionary keyed by channel, each containing timestamp/binary-indicator pairs. That is why the Space-JEPA compatibility head now retains both continuous residuals and train-thresholded binary predictions.
+- **The pinned official ADTQC orchestration is global, not the per-channel ranking loop.** TimeEval builds a single binary `global` series from the maximum score across channels, rewrites the ground-truth channel to `global`, evaluates ADTQC there, and explicitly skips ADTQC in the later per-channel ranking loop. The new channel probe therefore must not be advertised as an ADTQC head.
+
+The upstream Mission-1 experiment uses beta `0.5` and reports both `Category = Anomaly` and `Category in {Anomaly, Rare Event}` views. Those category selections remain frozen for any later official comparison.
+
+The Space-JEPA per-channel `0.995` threshold is a predeclared project decision rule chosen to mirror the existing train-only global threshold policy. It is **not** claimed to be TimeEval's own threshold-selection rule, and it may not be changed after held-out metric access.
+
 ## Official ESA event metrics
 
-The upstream Mission 1 / Mission 2 experiments use `ESAScores`, `ChannelAwareFScore`, and `ADTQC`, with beta `0.5`, and report both:
-
-- `Category = Anomaly`
-- `Category = {Anomaly, Rare Event}`
-
-The frozen primary Space-JEPA path emits one global anomaly score per timestep, so it can be evaluated honestly with the official **ESAScores event metric**. The new secondary probe also emits continuous per-channel residual scores, but **ChannelAwareFScore and ADTQC remain blocked** until their exact upstream input/ranking/timing semantics are independently verified and a comparator policy is frozen. Merely having per-channel scores does not authorize those claims.
-
-Run the official event metric adapter **inside the official ESA-ADB environment**, where its modified TimeEval fork is importable:
+The frozen primary Space-JEPA path emits one global anomaly score per timestep, so it can be evaluated with official **ESAScores** after the benchmark environment and inputs are frozen. Run the existing adapter only inside the pinned ESA-ADB environment where the modified TimeEval fork is importable:
 
 ```bash
 python /path/to/vertexED.ai/portfolio/research/space-jepa/evaluate_esa_adb.py \
@@ -113,11 +129,13 @@ python /path/to/vertexED.ai/portfolio/research/space-jepa/evaluate_esa_adb.py \
   --out artifacts/esa_adb/mission1-lite/seed-17/official_esa_scores.json
 ```
 
-The evaluator merges `labels.csv` with `anomaly_types.csv`, clips events to the test prediction range, and invokes upstream `ESAScores` twice using the two category selections above.
+The evaluator merges `labels.csv` with `anomaly_types.csv`, clips events to the test prediction range, and invokes upstream `ESAScores` for both frozen category selections.
+
+For **ChannelAwareFScore**, the input shape and binary semantics are now source-pinned, but outcome access remains blocked until an exact adapter is retained and matched per-channel comparator predictions are frozen under a predeclared policy. For **ADTQC**, retain the separate pinned global evaluation path; do not route the channel-probe outputs into a post-hoc alternative timing metric.
 
 ## Baselines and claim gate
 
-`run_esa_adb.py` produces the same frozen-threshold outputs for:
+`run_esa_adb.py` already produces frozen-threshold global outputs for:
 
 - Space-JEPA latent prediction error
 - robust z-score
@@ -126,13 +144,16 @@ The evaluator merges `labels.csv` with `anomaly_types.csv`, clips events to the 
 Before any result is promoted:
 
 - run every frozen seed: `17, 29, 43, 71, 101`;
-- preserve all outcomes, including failures;
-- run the upstream ESA event metric adapter;
+- preserve all outcomes, including failures and adverse comparator results;
 - retain dataset hashes, exact channel preset, config, commit SHA, hardware/runtime, raw predictions, and thresholds;
-- do not tune on the official test labels;
+- do not tune on official test labels or metric outcomes;
 - do not describe repository-native AUROC/F1 as the official ESA-ADB score;
-- if channel-aware metrics are later authorized, retain the exact probe receipt and channel-score bytes for every seed and provide matched per-channel comparator outputs under the same frozen evaluation.
+- for ChannelAwareFScore, retain the exact probe receipt and per-channel binary-prediction bytes for every seed and matched per-channel comparator outputs under the same frozen evaluation;
+- for ADTQC, preserve the pinned global orchestration rather than silently introducing a channel-wise successor definition;
+- do not interpret channel detection as causal attribution or root-cause identification.
 
 ## Current limitation / next research head
 
-The repository now has a pre-outcome, train-only per-channel prediction-residual probe with provenance-bound export. The remaining channel-aware gap is no longer “invent a channel score”; it is to **pin and validate the official ChannelAwareFScore/ADTQC adapter semantics and freeze matched comparator inputs before any such outcome is inspected**. Until that is done, only the global ESAScores path is authorized for official ESA event-metric reporting.
+The repository now has the previously missing **pre-outcome ChannelAwareFScore-compatible prediction head**: provenance-bound per-channel residuals plus train-only binary decisions, with the official ranking-metric input semantics pinned to exact upstream source.
+
+The next hard gate is narrower and executable: implement and freeze the exact `ChannelAwareFScore` adapter against the pinned upstream commit, generate matched per-channel binary comparator outputs under a predeclared train-only policy, bind labels/anomaly-types/channels metadata hashes, and only then run all frozen seeds. No channel-aware benchmark outcome has been generated or inspected by this work.
