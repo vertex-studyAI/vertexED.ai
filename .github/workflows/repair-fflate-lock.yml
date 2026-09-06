@@ -24,22 +24,36 @@ jobs:
           node-version: 20
           cache: npm
 
-      - name: Update only fflate lock resolution
+      - name: Update fflate lock resolution with npm
+        shell: bash
+        run: |
+          cp package-lock.json /tmp/package-lock.before.json
+          npm update fflate --package-lock-only --ignore-scripts
+
+      - name: Assert npm changed only fflate resolution
         shell: bash
         run: |
           node <<'NODE'
           const fs = require('node:fs');
-          const path = 'package-lock.json';
-          const lock = JSON.parse(fs.readFileSync(path, 'utf8'));
-          const entry = lock?.packages?.['node_modules/fflate'];
-          if (!entry || entry.version !== '0.8.2') {
-            throw new Error(`Expected locked fflate 0.8.2, found ${entry?.version ?? 'missing'}`);
+          const before = JSON.parse(fs.readFileSync('/tmp/package-lock.before.json', 'utf8'));
+          const after = JSON.parse(fs.readFileSync('package-lock.json', 'utf8'));
+          const key = 'node_modules/fflate';
+          const beforeEntry = before?.packages?.[key];
+          const afterEntry = after?.packages?.[key];
+          if (!beforeEntry || beforeEntry.version !== '0.8.2') {
+            throw new Error(`Expected prior fflate 0.8.2, found ${beforeEntry?.version ?? 'missing'}`);
           }
-          entry.version = '0.8.3';
-          entry.resolved = 'https://registry.npmjs.org/fflate/-/fflate-0.8.3.tgz';
-          entry.integrity = 'sha512-fAI2eGIIRpiKpCpFoGjJaJcLH3SXwGc7Se82eu1vriQKE/YlR+JwRRM2tl+gXyQEfFt9Zn5f4RzXMoPRQEaZHg==';
-          fs.writeFileSync(path, `${JSON.stringify(lock, null, 2)}\n`);
+          if (!afterEntry || afterEntry.version !== '0.8.3') {
+            throw new Error(`Expected repaired fflate 0.8.3, found ${afterEntry?.version ?? 'missing'}`);
+          }
+          delete before.packages[key];
+          delete after.packages[key];
+          if (JSON.stringify(before) !== JSON.stringify(after)) {
+            throw new Error('npm changed package-lock content outside node_modules/fflate');
+          }
           NODE
+          test "$(git diff --name-only)" = "package-lock.json"
+          git diff --check
 
       - name: Verify lock installs exactly
         run: npm ci --ignore-scripts
@@ -47,12 +61,8 @@ jobs:
       - name: Verify production audit clears moderate findings
         run: npm audit --omit=dev --audit-level=moderate
 
-      - name: Assert scoped lock-only diff
-        shell: bash
-        run: |
-          test "$(git diff --name-only)" = "package-lock.json"
-          git diff --check
-          git diff -- package-lock.json
+      - name: Show scoped lock diff
+        run: git diff -- package-lock.json
 
       - name: Commit repaired lockfile
         shell: bash
