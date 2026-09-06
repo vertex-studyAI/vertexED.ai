@@ -17,6 +17,8 @@ PLASTICC_LIGHTCURVE_COLUMNS = {
     "flux_err",
     "detected",
 }
+PLASTICC_PRIMARY_CLASS_LABELS = (6, 15, 16, 42, 52, 53, 62, 64, 65, 67, 88, 90, 92, 95)
+PLASTICC_OPEN_SET_CLASS_LABEL = 99
 
 
 @dataclass(frozen=True)
@@ -27,13 +29,14 @@ class PlasticcObject:
 
 @dataclass(frozen=True)
 class PlasticcLinearReadout:
-    """Deterministic train-only affine softmax readout for frozen object embeddings.
+    """Deterministic development-only affine softmax readout for the 14 seen classes.
 
-    The fitting rule is intentionally simple and fully deterministic: standardize using the
-    development-fitting embeddings only, optimize a single affine softmax layer with full-batch
-    gradient descent for a fixed number of steps, use class-balanced sample weights, and apply L2
-    regularization to weights but not the bias. No held-out object or held-out label is accepted by
-    ``fit``.
+    PLAsTiCC's public challenge schema states that class 99 occurs in the test surface but not the
+    training surface. The confirmatory representation comparison therefore freezes the readout to
+    the 14 classes observed in training and treats class 99 as a separate open-set question rather
+    than inventing a trainable class-99 output. The fitting rule is deterministic: development-fit
+    standardization, a single affine softmax layer, equal total weight per class, full-batch gradient
+    descent, fixed hyperparameters, and no early stopping. No held-out object or label is accepted.
     """
 
     classes: np.ndarray
@@ -71,8 +74,12 @@ class PlasticcLinearReadout:
             raise ValueError("steps must be positive")
 
         classes, inverse = np.unique(y, return_inverse=True)
-        if len(classes) < 2:
-            raise ValueError("readout requires at least two development classes")
+        expected = np.asarray(PLASTICC_PRIMARY_CLASS_LABELS, dtype=classes.dtype)
+        if not np.array_equal(classes, expected):
+            raise ValueError(
+                "development labels must contain exactly the frozen 14 PLAsTiCC seen classes; "
+                f"observed={classes.tolist()}"
+            )
         counts = np.bincount(inverse, minlength=len(classes)).astype(np.float64)
         if np.any(counts < 2):
             raise ValueError("every development class must contain at least two objects")
@@ -131,6 +138,9 @@ class PlasticcLinearReadout:
     def protocol_dict(self) -> dict[str, object]:
         return {
             "architecture": "single_affine_softmax_layer",
+            "primary_class_labels": list(PLASTICC_PRIMARY_CLASS_LABELS),
+            "open_set_class_label": PLASTICC_OPEN_SET_CLASS_LABEL,
+            "open_set_class_fit_authorized": False,
             "standardization": "development_fit_mean_and_population_std_only",
             "class_weighting": "equal_total_weight_per_development_class",
             "optimizer": "deterministic_full_batch_gradient_descent",
@@ -141,6 +151,26 @@ class PlasticcLinearReadout:
             "early_stopping": False,
             "heldout_input_to_fit_authorized": False,
         }
+
+
+def plasticc_primary_seen_class_mask(labels: np.ndarray) -> np.ndarray:
+    """Return the prospectively frozen primary-evaluation mask.
+
+    Only the 14 challenge classes represented in the training surface enter the primary
+    representation-comparison metric. Class 99 is the public challenge's test-only open-set class
+    and is excluded from the primary metric by design; its analysis is separate and cannot rescue
+    the primary result. Any other label fails closed.
+    """
+
+    y = np.asarray(labels).reshape(-1)
+    allowed = np.asarray((*PLASTICC_PRIMARY_CLASS_LABELS, PLASTICC_OPEN_SET_CLASS_LABEL))
+    unknown = np.unique(y[~np.isin(y, allowed)])
+    if unknown.size:
+        raise ValueError(f"labels contain values outside the frozen PLAsTiCC class universe: {unknown.tolist()}")
+    mask = np.isin(y, np.asarray(PLASTICC_PRIMARY_CLASS_LABELS))
+    if not mask.any():
+        raise ValueError("primary seen-class evaluation contains no objects")
+    return mask
 
 
 def load_plasticc_lightcurves_outcome_blind(path: str | Path) -> list[PlasticcObject]:
