@@ -75,7 +75,7 @@ jobs:
             texlive-latex-recommended \
             texlive-publishers
 
-      - name: Build twice and require byte-identical PDF
+      - name: Build twice and require byte-identical column-safe PDF
         shell: bash
         run: |
           set -euo pipefail
@@ -92,6 +92,10 @@ jobs:
 
           test "$first_sha" = "$second_sha"
           cmp /tmp/space-jepa-ai4autosci-first.pdf main.pdf
+          if grep -F 'Overfull \hbox' main.log; then
+            echo "paper contains an overfull box; refusing conference artifact" >&2
+            exit 1
+          fi
           echo "deterministic_pdf_sha256=$second_sha"
 
       - name: Verify rendered artifact and frozen page limit
