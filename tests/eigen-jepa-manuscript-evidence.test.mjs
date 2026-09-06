@@ -84,6 +84,18 @@ test('Eigen-JEPA manuscript cannot silently rescue the frozen mixed/negative res
   }
 });
 
+test('Eigen-JEPA related work is contextual only and cannot become retroactive evidence', () => {
+  for (const [needle, label] of [
+    ['10.1016/S0047-259X(03)00096-4', 'Ledoit-Wolf DOI'],
+    ['10.1198/073500102288618487', 'Engle DCC DOI'],
+    ['10.1103/PhysRevLett.83.1467', 'Laloux et al. DOI'],
+    ['none of these methods was executed as a matched comparator', 'unexecuted comparator boundary'],
+    ['literature context, not retroactive baselines', 'retroactive-baseline prohibition'],
+  ]) {
+    requireText(manuscript, needle, label);
+  }
+});
+
 test('canonical Eigen-JEPA result remains explicitly boundary/negative evidence', () => {
   requireText(results, 'FRESHLY REPRODUCED BOUNDARY/NEGATIVE COMPARISON', 'canonical negative status');
   requireText(results, 'does not establish superiority over raw ridge', 'canonical raw-ridge verdict');
