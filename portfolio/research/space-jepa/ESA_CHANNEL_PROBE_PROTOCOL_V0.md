@@ -12,12 +12,13 @@ For each already-trained Space-JEPA run:
 
 1. reload the exact checkpoint and resolved model config retained by that run;
 2. verify the provided train/test CSV bytes against the SHA-256 identities retained in `run.json`;
-3. recover the exact ordered channel list retained in `run.json` and fail closed if the loader changes it;
-4. refit the same robust scaler on **training telemetry only** and transform train/test telemetry with those frozen statistics;
-5. fit a linear ridge decoder from **predicted target latents** to normalized telemetry targets using training windows only;
-6. compute squared residuals independently for every telemetry channel on overlapping target windows;
-7. warm-start test scoring only with the final training context, exactly as the global Space-JEPA score does;
-8. average overlapping residuals at each target timestep and export continuous per-channel scores.
+3. recover the exact ordered channel list retained in `run.json` and fail closed on missing or duplicate identities;
+4. read **only** those telemetry columns (plus test timestamps) from the interleaved official CSVs; annotation columns are never loaded by this exporter;
+5. refit the same robust scaler on **training telemetry only** and transform train/test telemetry with those frozen statistics;
+6. fit a linear ridge decoder from **predicted target latents** to normalized telemetry targets using training windows only;
+7. compute squared residuals independently for every telemetry channel on overlapping target windows;
+8. warm-start test scoring only with the final training context, exactly as the global Space-JEPA score does;
+9. average overlapping residuals at each target timestep and export continuous per-channel scores.
 
 The ridge fit is implemented from streaming sufficient statistics, so it does not materialize all ESA-ADB windows in memory.
 
@@ -34,7 +35,9 @@ These constants are hard-coded in `run_esa_channel_probe.py` for v0. They are no
 
 ## Leakage and provenance boundary
 
-The probe API accepts telemetry only and has no anomaly-label argument. `run_esa_channel_probe.py` loads the official preprocessed files through the existing ESA adapter because the file format interleaves telemetry with annotations, but the probe receives only the already-separated telemetry matrix. It does not consume channel labels, binary labels, anomaly types, ground-truth events, thresholds, or official metric outputs.
+The probe API accepts telemetry only and has no anomaly-label argument. The exporter uses a telemetry-only `usecols` read so the `is_anomaly_*` columns interleaved in official ESA-ADB preprocessing are not parsed or materialized at all. Regression coverage deliberately places nonnumeric garbage in annotation columns and requires the telemetry-only read to succeed, which would fail if those columns were consumed.
+
+The exporter therefore does not read or consume channel labels, binary labels, anomaly types, ground-truth events, thresholds, or official metric outputs. The source files themselves are still exact-byte verified against the parent run before selective reading.
 
 The retained receipt records:
 
@@ -42,9 +45,9 @@ The retained receipt records:
 - checkpoint SHA-256;
 - train/test CSV SHA-256;
 - exact ordered channels;
+- `annotation_columns_loaded: false` and `anomaly_label_access: false`;
 - probe constants and learned weights/biases;
 - channel-score CSV SHA-256;
-- `label_access: false`;
 - exact code commit when available.
 
 The exporter refuses to overwrite an existing output directory.
