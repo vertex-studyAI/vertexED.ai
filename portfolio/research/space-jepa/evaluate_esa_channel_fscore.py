@@ -5,7 +5,9 @@ import hashlib
 import importlib
 import json
 from pathlib import Path
+import platform
 import re
+import subprocess
 import sys
 from typing import Any
 
@@ -14,6 +16,7 @@ import pandas as pd
 
 PINNED_ESA_ADB_COMMIT = "aeebcd9ecd3e7266d6d6a035a8081b3da83dfe33"
 PINNED_UPSTREAM_BLOBS = {
+    "environment.yml": "364c8a60019063a50b7754e08b1dfb34a3a099f7",
     "mission1_experiments.py": "255578f0aaeb53880818ce4c266f22ca7d2cbc44",
     "timeeval/metrics/ranking_metrics.py": "ded09a56bcccf01375c98889d1b4b7e19f71d621",
     "timeeval/metrics/latency_metrics.py": "bfe6d88a5e6c6668e202f756566aa81c06480400",
@@ -42,8 +45,24 @@ def git_blob_sha1(path: Path) -> str:
     return hashlib.sha1(header + content).hexdigest()
 
 
-def verify_upstream_source(root: Path) -> dict[str, str]:
-    actual: dict[str, str] = {}
+def verify_upstream_source(root: Path) -> dict[str, Any]:
+    root = root.resolve()
+    if not (root / ".git").exists():
+        raise ValueError("ESA-ADB root must be an exact Git checkout, not an unbound source copy")
+    try:
+        head = subprocess.check_output(
+            ["git", "-C", str(root), "rev-parse", "HEAD"],
+            stderr=subprocess.STDOUT,
+            text=True,
+        ).strip()
+    except (OSError, subprocess.CalledProcessError) as exc:
+        raise ValueError("unable to resolve ESA-ADB Git checkout identity") from exc
+    if head != PINNED_ESA_ADB_COMMIT:
+        raise ValueError(
+            f"ESA-ADB checkout drift: expected {PINNED_ESA_ADB_COMMIT}, got {head}"
+        )
+
+    blobs: dict[str, str] = {}
     for relative, expected in PINNED_UPSTREAM_BLOBS.items():
         path = root / relative
         if not path.is_file():
@@ -53,8 +72,8 @@ def verify_upstream_source(root: Path) -> dict[str, str]:
             raise ValueError(
                 f"ESA-ADB source drift for {relative}: expected Git blob {expected}, got {observed}"
             )
-        actual[relative] = observed
-    return actual
+        blobs[relative] = observed
+    return {"commit": head, "git_blobs": blobs}
 
 
 def verify_expected_sha256(path: Path, expected: str, label: str) -> str:
@@ -189,7 +208,15 @@ def prediction_dict(
 
 
 def _load_pinned_metric(root: Path):
-    root_string = str(root.resolve())
+    root = root.resolve()
+    root_string = str(root)
+    for name, loaded in tuple(sys.modules.items()):
+        if name == "timeeval" or name.startswith("timeeval."):
+            loaded_file = getattr(loaded, "__file__", None)
+            if loaded_file is not None and root not in Path(loaded_file).resolve().parents:
+                raise ValueError(
+                    f"refusing to reuse preloaded TimeEval module from outside pinned tree: {loaded_file}"
+                )
     sys.path.insert(0, root_string)
     try:
         module = importlib.import_module("timeeval.metrics")
@@ -225,7 +252,7 @@ def main() -> None:
 
     if args.out.exists():
         raise FileExistsError(f"refusing to overwrite retained metric result: {args.out}")
-    upstream_blobs = verify_upstream_source(args.esa_adb_root)
+    upstream_identity = verify_upstream_source(args.esa_adb_root)
     metadata_hashes = {
         "labels_csv": verify_expected_sha256(args.labels_csv, args.labels_sha256, "labels.csv"),
         "anomaly_types_csv": verify_expected_sha256(
@@ -258,22 +285,23 @@ def main() -> None:
         y_pred = prediction_dict(timestamps, channels, predictions)
         method_results: dict[str, dict[str, float]] = {}
         for selection_name, categories in CATEGORY_SELECTIONS.items():
-            metric = ChannelAwareFScore(
-                beta=BETA,
-                select_labels={"Category": categories},
-            )
-            # Upstream mutates prediction arrays when extending to full_range; isolate each evaluation.
+            metric = ChannelAwareFScore(beta=BETA, select_labels={"Category": categories})
             score = metric.score(labels.copy(), {k: v.copy() for k, v in y_pred.items()}, subsystems)
             method_results[selection_name] = {key: float(value) for key, value in score.items()}
         results[method] = method_results
 
     payload = {
-        "schema_version": 1,
+        "schema_version": 2,
         "status": "OFFICIAL_PINNED_ESADB_CHANNEL_AWARE_FSCORE_RESULT",
         "upstream": {
             "repository": "kplabs-pl/ESA-ADB",
-            "commit": PINNED_ESA_ADB_COMMIT,
-            "verified_git_blobs": upstream_blobs,
+            **upstream_identity,
+        },
+        "runtime": {
+            "python": platform.python_version(),
+            "numpy": np.__version__,
+            "pandas": pd.__version__,
+            "pinned_environment_git_blob": PINNED_UPSTREAM_BLOBS["environment.yml"],
         },
         "channel_receipt_sha256": receipt_sha,
         "benchmark_metadata_sha256": metadata_hashes,
