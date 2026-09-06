@@ -120,7 +120,7 @@ test('Percy worker resets idle backoff after successfully claiming work', async 
     },
     heartbeat: () => true,
     start: () => state === 'CLAIMED' ? (state = 'RUNNING', true) : false,
-    addEvidence: () => {},
+    addOwnedEvidence: () => ({ id: 'evidence-1' }),
     markVerifying: () => state === 'RUNNING' ? (state = 'VERIFYING', true) : false,
     verifyComplete: () => state === 'VERIFYING' ? (state = 'COMPLETE', true) : false,
     fail: () => { state = 'FAILED'; return true; },
