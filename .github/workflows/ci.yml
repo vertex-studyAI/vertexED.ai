@@ -54,8 +54,56 @@ jobs:
       - name: Install dependencies without duplicate advisory fetch
         run: npm ci --no-audit --fund=false
 
-      - name: Run canonical release gate
-        run: npm run ci
+      - name: Canonical gate — lint
+        run: npm run lint:ci
+        env:
+          ROLLUP_SKIP_NODEJS_NATIVE: 'true'
+
+      - name: Canonical gate — typecheck
+        run: npm run typecheck
+        env:
+          ROLLUP_SKIP_NODEJS_NATIVE: 'true'
+
+      - name: Canonical gate — validate Vercel functions
+        run: node scripts/validate-vercel-functions.mjs
+        env:
+          ROLLUP_SKIP_NODEJS_NATIVE: 'true'
+
+      - name: Canonical gate — production dependency audit
+        run: npm run audit:prod
+        env:
+          ROLLUP_SKIP_NODEJS_NATIVE: 'true'
+
+      - name: Canonical gate — application tests
+        shell: bash
+        run: |
+          set -o pipefail
+          mkdir -p ci-evidence/application-tests
+          npm test 2>&1 | tee ci-evidence/application-tests/npm-test.log
+        env:
+          ROLLUP_SKIP_NODEJS_NATIVE: 'true'
+
+      - name: Upload application-test evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: vertexed-application-tests-${{ env.SOURCE_SHA }}
+          path: ci-evidence/application-tests
+          if-no-files-found: ignore
+          retention-days: 14
+
+      - name: Canonical gate — evaluation tests
+        run: npm run test:eval
+        env:
+          ROLLUP_SKIP_NODEJS_NATIVE: 'true'
+
+      - name: Canonical gate — exact build
+        run: npm run build:ci
+        env:
+          ROLLUP_SKIP_NODEJS_NATIVE: 'true'
+
+      - name: Canonical gate — bundle performance
+        run: npm run performance:bundle
         env:
           ROLLUP_SKIP_NODEJS_NATIVE: 'true'
 
