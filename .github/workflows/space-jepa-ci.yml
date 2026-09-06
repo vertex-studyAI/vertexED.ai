@@ -100,7 +100,7 @@ jobs:
           set -euo pipefail
           git rev-parse HEAD | tee ci-evidence/source-head.txt
           test "$(cat ci-evidence/source-head.txt)" = "$EXPECTED_HEAD"
-          md5sum portfolio/research/space-jepa/ASTRONOMY_PLASTICC_CANDIDATE_V0.json > ci-evidence/plasticc-candidate.md5
+          sha256sum portfolio/research/space-jepa/ASTRONOMY_PLASTICC_CANDIDATE_V0.json > ci-evidence/plasticc-candidate.sha256
           python portfolio/research/space-jepa/verify_astronomy_plasticc_candidate.py \
             portfolio/research/space-jepa/ASTRONOMY_PLASTICC_CANDIDATE_V0.json \
             > ci-evidence/plasticc-candidate-verification.json
