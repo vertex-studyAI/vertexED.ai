@@ -1,0 +1,135 @@
+name: Eigen-JEPA Paper PDF
+
+on:
+  pull_request:
+    paths:
+      - "portfolio/research/eigen-jepa/**"
+      - "portfolio/research/papers/EIGEN_JEPA_MIXED_NEGATIVE_MANUSCRIPT.md"
+      - "scripts/generate-eigen-jepa-paper-figure.mjs"
+      - "tests/eigen-jepa-manuscript-evidence.test.mjs"
+      - "tests/eigen-jepa-paper-figure.test.mjs"
+      - "tests/eigen-jepa-paper-pdf-evidence.test.mjs"
+      - ".github/workflows/eigen-jepa-paper-pdf.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  SOURCE_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+  PAPER_DIR: portfolio/research/eigen-jepa/paper
+  FIGURE_DIR: portfolio/research/eigen-jepa/figures
+
+jobs:
+  paper:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Checkout exact source revision
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ env.SOURCE_SHA }}
+          fetch-depth: 1
+
+      - name: Bind checkout to PR head
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$SOURCE_SHA"
+          printf 'source_sha=%s\n' "$SOURCE_SHA"
+
+      - name: Set up Node 22
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: "22"
+
+      - name: Verify manuscript and retained-result figure
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --test tests/eigen-jepa-manuscript-evidence.test.mjs
+          node --test tests/eigen-jepa-paper-figure.test.mjs
+          node --test tests/eigen-jepa-paper-pdf-evidence.test.mjs
+          cp "$FIGURE_DIR/primary-comparison.svg" /tmp/primary-comparison.committed.svg
+          node scripts/generate-eigen-jepa-paper-figure.mjs
+          cmp -s /tmp/primary-comparison.committed.svg "$FIGURE_DIR/primary-comparison.svg"
+
+      - name: Install minimal paper toolchain
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            texlive-latex-base \
+            texlive-latex-extra \
+            poppler-utils \
+            librsvg2-bin
+
+      - name: Convert audited SVG to vector PDF
+        shell: bash
+        run: |
+          set -euo pipefail
+          rsvg-convert -f pdf -o "$FIGURE_DIR/primary-comparison.pdf" "$FIGURE_DIR/primary-comparison.svg"
+          test -s "$FIGURE_DIR/primary-comparison.pdf"
+
+      - name: Build fresh source-bound PDF
+        shell: bash
+        working-directory: ${{ env.PAPER_DIR }}
+        run: |
+          set -euo pipefail
+          rm -f main.aux main.log main.out main.pdf main.txt pdfinfo.txt
+          export TZ=UTC
+          export SOURCE_DATE_EPOCH="$(git show -s --format=%ct "$SOURCE_SHA")"
+          pdflatex -interaction=nonstopmode -halt-on-error -file-line-error main.tex
+          pdflatex -interaction=nonstopmode -halt-on-error -file-line-error main.tex
+          test -s main.pdf
+          pdfinfo main.pdf | tee pdfinfo.txt
+          pdftotext -layout main.pdf main.txt
+
+      - name: Fail closed on paper defects and claim drift
+        shell: bash
+        working-directory: ${{ env.PAPER_DIR }}
+        run: |
+          set -euo pipefail
+          ! grep -Eq 'LaTeX Warning: (Reference|Citation).*undefined|There were undefined (references|citations)' main.log
+          ! grep -Eq 'Overfull \\hbox|Overfull \\vbox' main.log
+          grep -q 'mixed/negative' main.txt
+          grep -q '5.8318226' main.txt
+          grep -q '5.7734384' main.txt
+          grep -q '5.7896089' main.txt
+          grep -q '111 blocks' main.txt
+          grep -q 'External validation remains unresolved' main.txt
+          grep -q 'does not establish superiority' main.txt
+
+      - name: Record exact paper receipt
+        shell: bash
+        run: |
+          set -euo pipefail
+          out="/tmp/eigen-jepa-paper"
+          mkdir -p "$out"
+          cp "$PAPER_DIR/main.pdf" "$out/Eigen-JEPA-mixed-negative.pdf"
+          cp "$PAPER_DIR/main.log" "$out/main.log"
+          cp "$PAPER_DIR/main.txt" "$out/main.txt"
+          cp "$PAPER_DIR/pdfinfo.txt" "$out/pdfinfo.txt"
+          cp "$FIGURE_DIR/primary-comparison.svg" "$out/primary-comparison.svg"
+          cp "$FIGURE_DIR/primary-comparison.pdf" "$out/primary-comparison.pdf"
+          printf '%s\n' "$SOURCE_SHA" > "$out/SOURCE_SHA.txt"
+          dpkg-query -W -f='${Package}=${Version}\n' \
+            texlive-latex-base texlive-latex-extra poppler-utils librsvg2-bin \
+            | sort > "$out/TOOLCHAIN_PACKAGES.txt"
+          sha256sum \
+            "$PAPER_DIR/main.tex" \
+            "$PAPER_DIR/main.pdf" \
+            portfolio/research/eigen-jepa/RESULTS.md \
+            portfolio/research/eigen-jepa/FIGURE_DATA.json \
+            "$FIGURE_DIR/primary-comparison.svg" \
+            "$FIGURE_DIR/primary-comparison.pdf" \
+            > "$out/SHA256SUMS.txt"
+
+      - name: Upload paper and diagnostics
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: eigen-jepa-paper-${{ env.SOURCE_SHA }}
+          path: /tmp/eigen-jepa-paper
+          if-no-files-found: error
+          retention-days: 90
