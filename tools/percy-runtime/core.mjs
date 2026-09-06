@@ -206,6 +206,33 @@ export class PercyStore {
     return { id, task_id: taskId, kind, sha256: digest };
   }
 
+  addOwnedEvidence(taskId, workerId, kind, value, metadata = {}) {
+    if (!workerId) throw new TypeError('workerId required');
+    if (!kind) throw new TypeError('evidence kind required');
+    const id = randomUUID();
+    const packed = json(value);
+    const digest = sha256(packed);
+    const t = now();
+
+    this.db.exec('BEGIN IMMEDIATE');
+    try {
+      const owned = this.db.prepare(`SELECT id FROM tasks
+        WHERE id=? AND status IN ('CLAIMED','RUNNING') AND owner_id=?
+          AND lease_expires_at IS NOT NULL AND lease_expires_at > ?`).get(taskId, workerId, t);
+      if (!owned) {
+        this.db.exec('ROLLBACK');
+        return null;
+      }
+      this.db.prepare('INSERT INTO evidence(id,task_id,kind,value,sha256,metadata,created_at) VALUES(?,?,?,?,?,?,?)')
+        .run(id, taskId, kind, packed, digest, json(metadata), t);
+      this.db.exec('COMMIT');
+      return { id, task_id: taskId, kind, sha256: digest };
+    } catch (error) {
+      try { this.db.exec('ROLLBACK'); } catch {}
+      throw error;
+    }
+  }
+
   listEvidence(taskId) {
     return this.db.prepare('SELECT * FROM evidence WHERE task_id=? ORDER BY created_at,id').all(taskId)
       .map(row => ({ ...row, value: parse(row.value), metadata: parse(row.metadata) }));
