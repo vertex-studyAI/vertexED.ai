@@ -8,6 +8,7 @@ from pathlib import Path
 from typing import Any, Mapping
 
 MD5 = re.compile(r"^md5:[0-9a-f]{32}$")
+GIT_BLOB = re.compile(r"^[0-9a-f]{40}$")
 EXPECTED_TRAIN = {
     "plasticc_train_lightcurves.csv.gz": "md5:1aa1605908b5a6398bd46bf9120b6400",
     "plasticc_train_metadata.csv.gz": "md5:8c6b00fd503d6cf3d9a42bfb53046e0f",
@@ -32,6 +33,8 @@ EXPECTED_COMPARATORS = [
     "persistence_baseline",
     "train_fit_robust_deviation_baseline",
 ]
+EXPECTED_PRIMARY_CLASSES = [6, 15, 16, 42, 52, 53, 62, 64, 65, 67, 88, 90, 92, 95]
+EXPECTED_OPEN_SET_CLASS = 99
 EXPECTED_SEEDS = [11, 23, 37, 53, 71]
 EXPECTED_SECONDARY = [
     "macro_one_vs_rest_average_precision",
@@ -42,11 +45,14 @@ EXPECTED_BLOCKER_PREFIXES = {
     "licensing": "applicable licensing/usage terms",
     "sha-256": "exact downloaded byte receipts and local sha-256 identities",
     "object-level": "exact object-level internal train/validation manifest",
-    "readout": "exact representation-to-class-probability readout architecture and fitting rule",
-    "outcome-blind": "outcome-blind heldout parser",
     "runtime": "exact code commit, dependency environment, and hardware/runtime identity",
     "approval receipt": "independent approval receipt",
 }
+EXPECTED_IMPLEMENTATION_PATH = "portfolio/research/space-jepa/space_jepa/plasticc.py"
+EXPECTED_IMPLEMENTATION_BLOB = "6d07ab34d3fde108ea299309c299dc9ff389ab06"
+EXPECTED_REGRESSION_PATH = "portfolio/research/space-jepa/tests/test_astronomy_plasticc_readout_parser.py"
+EXPECTED_REGRESSION_BLOB = "4eff6e09cbd02856340b3e1adccf3007f7c2837d"
+EXPECTED_FREEZE_PATH = "portfolio/research/space-jepa/ASTRONOMY_PLASTICC_IMPLEMENTATION_FREEZE_V0.json"
 
 
 class CandidateError(ValueError):
@@ -91,6 +97,26 @@ def verify(candidate: Mapping[str, Any]) -> dict[str, Any]:
     require(source.get("task_rows_displayed_or_parsed_for_this_candidate_freeze") is False, "candidate must not claim task-row access")
     require(source.get("heldout_labels_displayed_or_parsed_for_this_candidate_freeze") is False, "candidate must not claim heldout-label access")
 
+    challenge = mapping(candidate.get("public_challenge_class_schema"), "public_challenge_class_schema")
+    require(challenge.get("training_surface_class_labels") == EXPECTED_PRIMARY_CLASSES, "public challenge training class universe drift")
+    require(challenge.get("test_only_open_set_class_label") == EXPECTED_OPEN_SET_CLASS, "public challenge open-set class drift")
+    require("does not occur in the training set" in str(challenge.get("published_statement", "")).lower(), "class-99 public challenge statement missing")
+    require(challenge.get("specific_test_object_class_memberships_inspected") is False, "public schema freeze must not claim object-level heldout inspection")
+
+    implementation = mapping(candidate.get("implementation_freeze"), "implementation_freeze")
+    require(implementation.get("path") == EXPECTED_FREEZE_PATH, "implementation freeze path drift")
+    require(implementation.get("status") == "PRE_OUTCOME_IMPLEMENTATION_FROZEN_NOT_AUTHORIZED", "implementation freeze status drift")
+    require(implementation.get("implementation_path") == EXPECTED_IMPLEMENTATION_PATH, "implementation path drift")
+    require(implementation.get("implementation_git_blob_sha1") == EXPECTED_IMPLEMENTATION_BLOB, "implementation blob drift")
+    require(implementation.get("regression_path") == EXPECTED_REGRESSION_PATH, "implementation regression path drift")
+    require(implementation.get("regression_git_blob_sha1") == EXPECTED_REGRESSION_BLOB, "implementation regression blob drift")
+    require(GIT_BLOB.fullmatch(str(implementation.get("implementation_git_blob_sha1", ""))) is not None, "invalid implementation blob identity")
+    require(GIT_BLOB.fullmatch(str(implementation.get("regression_git_blob_sha1", ""))) is not None, "invalid regression blob identity")
+    require(implementation.get("synthetic_verification_only") is True, "implementation verification must remain synthetic-only")
+    require(implementation.get("closes_readout_choice_only") is True, "readout implementation freeze must be explicit")
+    require(implementation.get("closes_outcome_blind_parser_choice_only") is True, "parser implementation freeze must be explicit")
+    require(implementation.get("closes_primary_seen_class_universe_choice_only") is True, "primary class-universe freeze must be explicit")
+
     split = mapping(candidate.get("preoutcome_split_intent"), "preoutcome_split_intent")
     require(split.get("object_identity_disjoint") is True, "object-disjoint boundary must remain required")
     require(split.get("train_only_feature_fit") is True, "feature fitting must remain train-only")
@@ -101,9 +127,14 @@ def verify(candidate: Mapping[str, Any]) -> dict[str, Any]:
 
     decision = mapping(candidate.get("frozen_decision_policy_if_candidate_is_approved"), "frozen_decision_policy_if_candidate_is_approved")
     require(decision.get("primary_comparison") == "time_aware_jepa_vs_time_agnostic_jepa_same_capacity", "primary comparison drift")
+    require(decision.get("primary_class_labels") == EXPECTED_PRIMARY_CLASSES, "primary class universe drift")
+    require(decision.get("test_only_open_set_class_label") == EXPECTED_OPEN_SET_CLASS, "test-only open-set class drift")
+    require(decision.get("class_99_primary_policy") == "exclude_prospectively_from_primary_seen_class_representation_comparison", "class-99 primary policy drift")
+    class99_policy = str(decision.get("class_99_analysis_policy", "")).lower()
+    require("descriptive_only" in class99_policy and "cannot_rescue_primary" in class99_policy, "class-99 no-rescue policy drift")
     require(decision.get("primary_metric") == "class_balanced_multiclass_log_loss", "primary metric drift")
     metric_definition = str(decision.get("primary_metric_definition", "")).lower()
-    for term in ("true class", "renormalization", "1e-15", "unweighted mean"):
+    for term in ("14", "excluding test-only class_99", "true class", "renormalization", "1e-15", "unweighted mean"):
         require(term in metric_definition, f"primary metric definition missing {term}")
     require(decision.get("metric_direction") == "lower_is_better", "metric direction drift")
     require(decision.get("effect_definition") == "delta = loss_time_agnostic_jepa - loss_time_aware_jepa; positive favors time-aware JEPA", "effect definition drift")
@@ -117,7 +148,7 @@ def verify(candidate: Mapping[str, Any]) -> dict[str, Any]:
     require(uncertainty.get("bootstrap_seed") == 20260906, "bootstrap seed drift")
     require(uncertainty.get("confidence_interval") == "two_sided_95_percentile", "confidence interval drift")
     resampling = str(uncertainty.get("resampling_unit", "")).lower()
-    for term in ("model seeds", "confirmatory objects", "separately inside each true class", "paired delta"):
+    for term in ("model seeds", "confirmatory objects", "14 primary true classes", "paired delta"):
         require(term in resampling, f"hierarchical resampling rule missing {term}")
 
     require(
@@ -126,28 +157,33 @@ def verify(candidate: Mapping[str, Any]) -> dict[str, Any]:
         "primary success rule drift",
     )
     failure_rule = str(decision.get("primary_failure_rule", "")).lower()
-    require("no secondary metric" in failure_rule and "rescue" in failure_rule, "primary failure/no-rescue rule drift")
+    require("no secondary metric" in failure_rule and "class_99" in failure_rule and "rescue" in failure_rule, "primary failure/no-rescue rule drift")
     require(decision.get("secondary_metrics_descriptive_only") == EXPECTED_SECONDARY, "secondary metric set drift")
     require(decision.get("secondary_rescue_authorized") is False, "secondary metrics must not rescue primary failure")
-    require("only the time-aware versus time-agnostic" in str(decision.get("multiple_comparison_policy", "")).lower(), "confirmatory comparison boundary drift")
+    comparison_policy = str(decision.get("multiple_comparison_policy", "")).lower()
+    require("only the time-aware versus time-agnostic" in comparison_policy and "14" in comparison_policy and "class_99" in comparison_policy, "confirmatory comparison boundary drift")
     require(decision.get("post_outcome_threshold_or_seed_changes_authorized") is False, "post-outcome threshold/seed changes must remain prohibited")
 
     blockers = candidate.get("remaining_preoutcome_blockers")
-    require(isinstance(blockers, list) and len(blockers) >= 8, "remaining preoutcome blockers missing")
+    require(isinstance(blockers, list) and len(blockers) >= 6, "remaining preoutcome blockers missing")
     normalized_blockers = [str(item).strip().lower() for item in blockers]
     for label, prefix in EXPECTED_BLOCKER_PREFIXES.items():
         require(any(item.startswith(prefix) for item in normalized_blockers), f"remaining blocker must retain {label} gate")
+    require(not any("representation-to-class-probability readout" in item for item in normalized_blockers), "readout implementation gate is already frozen and must not be reported as unresolved")
+    require(not any(item.startswith("outcome-blind heldout parser") for item in normalized_blockers), "outcome-blind parser gate is already frozen and must not be reported as unresolved")
 
     review = candidate.get("required_independent_review_before_any_heldout_execution")
-    require(isinstance(review, list) and len(review) >= 7, "independent review gates missing")
+    require(isinstance(review, list) and len(review) >= 8, "independent review gates missing")
     joined = " ".join(str(item).lower() for item in review)
-    for term in ("checksum", "license", "unblind", "label", "decision policy", "simulated"):
+    for term in ("checksum", "class_99", "license", "unblind", "label", "decision policy", "simulated"):
         require(term in joined, f"independent review must retain {term} gate")
 
     boundary = str(candidate.get("claim_boundary", "")).lower()
     require("not an astronomy result" in boundary, "result claim boundary missing")
     require("simulated transient-classification" in boundary, "simulation claim boundary missing")
-    require("freezes its confirmatory decision policy" in boundary, "decision-policy claim boundary missing")
+    require("14-seen-class confirmatory decision policy" in boundary, "seen-class decision-policy claim boundary missing")
+    require("implementation surface" in boundary, "implementation-freeze claim boundary missing")
+    require("class_99" in boundary and "not to inspect specific test-object outcomes" in boundary, "class-99 public-schema boundary missing")
 
     return {
         "status": "PLASTICC_ASTRONOMY_CANDIDATE_VERIFIED_NOT_APPROVED",
@@ -156,9 +192,12 @@ def verify(candidate: Mapping[str, Any]) -> dict[str, Any]:
         "execution_authorized": False,
         "heldout_label_access_authorized": False,
         "primary_metric": decision["primary_metric"],
+        "primary_class_labels": decision["primary_class_labels"],
+        "test_only_open_set_class_label": decision["test_only_open_set_class_label"],
         "practical_effect_threshold_absolute": decision["practical_effect_threshold_absolute"],
         "model_seeds": decision["model_seeds"],
         "bootstrap_replicates": uncertainty["replicates"],
+        "implementation_blob": implementation["implementation_git_blob_sha1"],
     }
 
 

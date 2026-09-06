@@ -89,7 +89,7 @@ test('worker loop completes bounded task with heartbeat and evidence gate', asyn
     claim: () => state === 'READY' ? (state = 'CLAIMED', { ...task }) : null,
     start: () => state === 'CLAIMED' ? (state = 'RUNNING', true) : false,
     heartbeat: () => { heartbeats += 1; return true; },
-    addEvidence: () => { evidence += 1; },
+    addOwnedEvidence: () => { evidence += 1; return { id: `e${evidence}` }; },
     markVerifying: () => state === 'RUNNING' ? (state = 'VERIFYING', true) : false,
     verifyComplete: () => evidence > 0 && state === 'VERIFYING' ? (state = 'COMPLETE', true) : false,
     fail: () => { state = 'FAILED'; return true; },
@@ -101,6 +101,45 @@ test('worker loop completes bounded task with heartbeat and evidence gate', asyn
   });
   assert.equal(state, 'COMPLETE'); assert.equal(evidence, 1); assert.equal(result.completed, 1); assert.equal(result.failed, 0);
   assert.equal(heartbeats > 0, true);
+});
+
+test('worker loop cannot append stale result evidence after atomic ownership is lost', async () => {
+  const task = { id: 'race', kind: 'echo', payload: { providerClass: 'remote' } };
+  let state = 'READY';
+  let unsafeEvidence = 0;
+  let verifyingCalls = 0;
+  const events = [];
+  const store = {
+    claim: () => state === 'READY' ? (state = 'CLAIMED', { ...task }) : null,
+    start: () => state === 'CLAIMED' ? (state = 'RUNNING', true) : false,
+    heartbeat: () => true,
+    addEvidence: () => { unsafeEvidence += 1; return { id: 'unsafe' }; },
+    addOwnedEvidence: () => null,
+    markVerifying: () => { verifyingCalls += 1; return false; },
+    verifyComplete: () => false,
+    fail: () => { state = 'FAILED'; return true; },
+  };
+
+  const result = await runWorkerLoop({
+    store,
+    workerId: 'stale-worker',
+    leaseMs: 1_000,
+    idleMs: 1,
+    maxIdleSleepMs: 1,
+    limiter: new ClassLimiter(parseClassLimits('default=1,remote=1')),
+    execute: async () => ({ ok: true }),
+    shouldStop: () => state === 'FAILED',
+    logger: { write: (event, data) => { events.push({ event, data }); } },
+  });
+
+  assert.equal(state, 'FAILED');
+  assert.equal(unsafeEvidence, 0);
+  assert.equal(verifyingCalls, 0);
+  assert.deepEqual(result, { workerId: 'stale-worker', completed: 0, failed: 1 });
+  assert.match(
+    events.find(({ event }) => event === 'task_failed')?.data?.error ?? '',
+    /lost task ownership during evidence commit/,
+  );
 });
 
 test('worker waiting on provider capacity retains its claim lease and executes once', async () => {
