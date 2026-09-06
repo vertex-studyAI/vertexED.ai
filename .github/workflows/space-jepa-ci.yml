@@ -53,6 +53,7 @@ jobs:
             portfolio/research/space-jepa/evaluate_esa_adb.py \
             portfolio/research/space-jepa/evaluate_esa_channel_fscore.py \
             portfolio/research/space-jepa/verify_astronomy_plasticc_candidate.py \
+            portfolio/research/space-jepa/verify_astronomy_plasticc_implementation.py \
             portfolio/research/space-jepa/smoke.py
 
       - name: Verify astronomy benchmark candidate remains pre-outcome
@@ -60,6 +61,12 @@ jobs:
           set -euo pipefail
           python portfolio/research/space-jepa/verify_astronomy_plasticc_candidate.py \
             portfolio/research/space-jepa/ASTRONOMY_PLASTICC_CANDIDATE_V0.json
+
+      - name: Verify frozen PLAsTiCC readout and outcome-blind parser
+        run: |
+          set -euo pipefail
+          python portfolio/research/space-jepa/verify_astronomy_plasticc_implementation.py \
+            portfolio/research/space-jepa/ASTRONOMY_PLASTICC_IMPLEMENTATION_FREEZE_V0.json
 
       - name: Run Space-JEPA unit tests
         run: |
@@ -101,9 +108,15 @@ jobs:
           git rev-parse HEAD | tee ci-evidence/source-head.txt
           test "$(cat ci-evidence/source-head.txt)" = "$EXPECTED_HEAD"
           sha256sum portfolio/research/space-jepa/ASTRONOMY_PLASTICC_CANDIDATE_V0.json > ci-evidence/plasticc-candidate.sha256
+          sha256sum portfolio/research/space-jepa/ASTRONOMY_PLASTICC_IMPLEMENTATION_FREEZE_V0.json > ci-evidence/plasticc-implementation-freeze.sha256
+          git hash-object portfolio/research/space-jepa/space_jepa/plasticc.py > ci-evidence/plasticc-implementation.git-blob-sha1
+          git hash-object portfolio/research/space-jepa/tests/test_astronomy_plasticc_readout_parser.py > ci-evidence/plasticc-regression.git-blob-sha1
           python portfolio/research/space-jepa/verify_astronomy_plasticc_candidate.py \
             portfolio/research/space-jepa/ASTRONOMY_PLASTICC_CANDIDATE_V0.json \
             > ci-evidence/plasticc-candidate-verification.json
+          python portfolio/research/space-jepa/verify_astronomy_plasticc_implementation.py \
+            portfolio/research/space-jepa/ASTRONOMY_PLASTICC_IMPLEMENTATION_FREEZE_V0.json \
+            > ci-evidence/plasticc-implementation-verification.json
 
       - name: Upload synthetic and provenance evidence
         if: always()
