@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import copy
 import importlib.util
 import json
 import unittest
@@ -65,8 +64,10 @@ class PlasticcCandidateTests(unittest.TestCase):
 
     def test_candidate_must_retain_public_unblinding_review(self) -> None:
         candidate = load_candidate()
+        review = candidate["required_independent_review_before_any_heldout_execution"]
         candidate["required_independent_review_before_any_heldout_execution"] = [
-            item for item in candidate["required_independent_review_before_any_heldout_execution"] if "unblind" not in item.lower()
+            "confirm an additional generic benchmark property" if "unblind" in item.lower() else item
+            for item in review
         ]
         self.assert_rejected(candidate, "unblind")
 
