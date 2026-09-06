@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="620" viewBox="0 0 900 620">
+<rect width="100%" height="100%" fill="white"/>
+<g font-family="Arial, Helvetica, sans-serif" fill="#111">
+<text x="40" y="42" font-size="22" font-weight="700">Eigen-JEPA frozen primary comparison</text>
+<text x="40" y="70" font-size="14">Retained held-out aggregate evidence; n=111 chronological test blocks.</text>
+<text x="40" y="98" font-size="17" font-weight="700">A. Covariance-matrix MSE (×10⁻⁹; lower is better)</text>
+<line x1="220" y1="95" x2="220" y2="405" stroke="#ddd" stroke-width="1"/>
+<text x="220" y="430" text-anchor="middle" font-size="13">0</text>
+<line x1="360" y1="95" x2="360" y2="405" stroke="#ddd" stroke-width="1"/>
+<text x="360" y="430" text-anchor="middle" font-size="13">2</text>
+<line x1="500" y1="95" x2="500" y2="405" stroke="#ddd" stroke-width="1"/>
+<text x="500" y="430" text-anchor="middle" font-size="13">4</text>
+<line x1="640" y1="95" x2="640" y2="405" stroke="#ddd" stroke-width="1"/>
+<text x="640" y="430" text-anchor="middle" font-size="13">6</text>
+<line x1="780" y1="95" x2="780" y2="405" stroke="#ddd" stroke-width="1"/>
+<text x="780" y="430" text-anchor="middle" font-size="13">8</text>
+<text x="206" y="130" text-anchor="end" font-size="16">raw ridge</text>
+<rect x="220" y="110" width="404.141" height="28" fill="#bbb" stroke="#222" stroke-width="1"/>
+<text x="632.141" y="130" font-size="14">5.7734384</text>
+<text x="206" y="192" text-anchor="end" font-size="16">log ridge</text>
+<rect x="220" y="172" width="405.273" height="28" fill="#bbb" stroke="#222" stroke-width="1"/>
+<text x="633.273" y="192" font-size="14">5.7896089</text>
+<text x="206" y="254" text-anchor="end" font-size="16">Eigen-JEPA</text>
+<rect x="220" y="234" width="408.228" height="28" fill="#777" stroke="#222" stroke-width="1"/>
+<text x="636.228" y="254" font-size="14">5.8318226</text>
+<text x="206" y="316" text-anchor="end" font-size="16">Cholesky</text>
+<rect x="220" y="296" width="411.337" height="28" fill="#bbb" stroke="#222" stroke-width="1"/>
+<text x="639.337" y="316" font-size="14">5.8762487</text>
+<text x="206" y="378" text-anchor="end" font-size="16">persistence</text>
+<rect x="220" y="358" width="543.958" height="28" fill="#bbb" stroke="#222" stroke-width="1"/>
+<text x="771.958" y="378" font-size="14">7.7708315</text>
+<line x1="220" y1="405" x2="780" y2="405" stroke="#222" stroke-width="1.5"/>
+<text x="500" y="455" text-anchor="middle" font-size="14">Primary matrix MSE ×10⁻⁹</text>
+<text x="40" y="490" font-size="17" font-weight="700">B. Paired Eigen-JEPA − raw-ridge MSE difference (×10⁻⁹)</text>
+<line x1="220" y1="520" x2="780" y2="520" stroke="#222" stroke-width="1.5"/>
+<line x1="430.000" y1="495" x2="430.000" y2="555" stroke="#555" stroke-width="1.5" stroke-dasharray="5 4"/>
+<line x1="265.045" y1="520" x2="722.208" y2="520" stroke="#222" stroke-width="4"/>
+<line x1="265.045" y1="510" x2="265.045" y2="530" stroke="#222" stroke-width="2"/>
+<line x1="722.208" y1="510" x2="722.208" y2="530" stroke="#222" stroke-width="2"/>
+<circle cx="470.869" cy="520" r="7" fill="#777" stroke="#111" stroke-width="1.5"/>
+<text x="220.000" y="585" text-anchor="middle" font-size="13">-0.3</text>
+<text x="360.000" y="585" text-anchor="middle" font-size="13">-0.1</text>
+<text x="500.000" y="585" text-anchor="middle" font-size="13">0.1</text>
+<text x="640.000" y="585" text-anchor="middle" font-size="13">0.3</text>
+<text x="780.000" y="585" text-anchor="middle" font-size="13">0.5</text>
+<text x="500" y="607" text-anchor="middle" font-size="13">Positive favors raw ridge under the frozen difference convention; retained 95% interval crosses zero.</text>
+</g>
+</svg>
