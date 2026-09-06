@@ -10,6 +10,8 @@ from typing import Any, Mapping
 EXPECTED_IMPLEMENTATION = "portfolio/research/space-jepa/space_jepa/plasticc.py"
 EXPECTED_REGRESSION = "portfolio/research/space-jepa/tests/test_astronomy_plasticc_readout_parser.py"
 EXPECTED_COLUMNS = ["detected", "flux", "flux_err", "mjd", "object_id", "passband"]
+EXPECTED_PRIMARY_CLASSES = [6, 15, 16, 42, 52, 53, 62, 64, 65, 67, 88, 90, 92, 95]
+EXPECTED_OPEN_SET_CLASS = 99
 
 
 class FreezeError(ValueError):
@@ -55,10 +57,20 @@ def verify(freeze: Mapping[str, Any], *, repo_root: Path) -> dict[str, Any]:
     require(observed_impl == implementation.get("git_blob_sha1"), "implementation byte identity drift")
     require(observed_test == regression.get("git_blob_sha1"), "regression byte identity drift")
 
+    schema = mapping(freeze.get("public_challenge_class_schema"), "public_challenge_class_schema")
+    require(schema.get("primary_seen_class_labels") == EXPECTED_PRIMARY_CLASSES, "public challenge primary class universe drift")
+    require(schema.get("test_only_open_set_class_label") == EXPECTED_OPEN_SET_CLASS, "public challenge open-set class drift")
+    require(schema.get("class_99_occurs_in_training") is False, "class 99 must remain identified as absent from training")
+    require(schema.get("primary_metric_includes_class_99") is False, "class 99 must not silently enter the 14-class primary metric")
+    require(schema.get("class_99_secondary_open_set_analysis_may_rescue_primary") is False, "class 99 analysis must not rescue primary failure")
+
     readout = mapping(freeze.get("probability_readout"), "probability_readout")
     expected_readout = {
         "architecture": "single_affine_softmax_layer",
         "input": "frozen_object_level_representation",
+        "primary_class_labels": EXPECTED_PRIMARY_CLASSES,
+        "open_set_class_label": EXPECTED_OPEN_SET_CLASS,
+        "open_set_class_fit_authorized": False,
         "standardization": "development_fit_mean_and_population_std_only",
         "class_weighting": "equal_total_weight_per_development_class",
         "optimizer": "deterministic_full_batch_gradient_descent",
@@ -68,11 +80,19 @@ def verify(freeze: Mapping[str, Any], *, repo_root: Path) -> dict[str, Any]:
         "steps": 2000,
         "early_stopping": False,
         "minimum_development_objects_per_class": 2,
-        "class_order": "sorted_unique_development_labels",
+        "class_order": "frozen_primary_seen_class_labels",
         "heldout_input_to_fit_authorized": False,
         "heldout_label_input_to_fit_authorized": False,
     }
     require(dict(readout) == expected_readout, "probability readout freeze drift")
+
+    policy = mapping(freeze.get("primary_evaluation_class_policy"), "primary_evaluation_class_policy")
+    require(policy.get("primary_includes_only_seen_training_classes") is True, "primary seen-class boundary missing")
+    require(policy.get("primary_excludes_test_only_class_99") is True, "class-99 primary exclusion missing")
+    require(policy.get("exclusion_rule_frozen_before_dataset_download_or_model_outcome_access") is True, "class-99 rule must remain prospectively frozen")
+    require(policy.get("class_99_analysis") == "separate_open_set_descriptive_only_until_separately_preregistered", "class-99 analysis boundary drift")
+    require(policy.get("class_99_result_may_rescue_primary") is False, "class-99 result must not rescue primary")
+    require(policy.get("unexpected_class_label_policy") == "fail_closed", "unexpected class labels must fail closed")
 
     parser = mapping(freeze.get("outcome_blind_parser"), "outcome_blind_parser")
     require(parser.get("accepted_columns_exact_set") == EXPECTED_COLUMNS, "outcome-blind parser column surface drift")
@@ -82,7 +102,7 @@ def verify(freeze: Mapping[str, Any], *, repo_root: Path) -> dict[str, Any]:
     require(parser.get("within_object_order") == "ascending_mjd", "parser ordering drift")
 
     boundary = str(freeze.get("scientific_boundary", "")).lower()
-    for term in ("synthetic", "does not establish plasticc freshness", "scientific performance", "execution authorization"):
+    for term in ("class 99", "test-only open-set", "synthetic", "does not establish plasticc freshness", "scientific performance", "execution authorization"):
         require(term in boundary, f"scientific boundary missing {term}")
 
     return {
@@ -90,6 +110,8 @@ def verify(freeze: Mapping[str, Any], *, repo_root: Path) -> dict[str, Any]:
         "implementation_git_blob_sha1": observed_impl,
         "regression_git_blob_sha1": observed_test,
         "accepted_columns": EXPECTED_COLUMNS,
+        "primary_class_labels": EXPECTED_PRIMARY_CLASSES,
+        "open_set_class_label": EXPECTED_OPEN_SET_CLASS,
         "execution_authorized": False,
     }
 
