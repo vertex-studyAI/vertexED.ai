@@ -21,7 +21,8 @@ function expireLease(store, taskId) {
 }
 
 function failureRows(store, taskId) {
-  return store.db.prepare('SELECT owner_id,attempt,error FROM failures WHERE task_id=? ORDER BY id').all(taskId);
+  return store.db.prepare('SELECT owner_id,attempt,error FROM failures WHERE task_id=? ORDER BY id').all(taskId)
+    .map(({ owner_id, attempt, error }) => ({ owner_id, attempt, error }));
 }
 
 test('live owner can record a retry failure atomically', () => {
