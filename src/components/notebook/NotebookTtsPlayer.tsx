@@ -18,75 +18,157 @@ function scriptToSpeech(text: string): string {
 export default function NotebookTtsPlayer({ script, className }: Props) {
   const [playing, setPlaying] = useState(false);
   const [paused, setPaused] = useState(false);
+  const [speechSupported, setSpeechSupported] = useState(false);
   const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
+  const previousScriptRef = useRef(script);
+  const speechText = scriptToSpeech(script);
+
+  useEffect(() => {
+    setSpeechSupported(
+      typeof window !== 'undefined' &&
+        Boolean(window.speechSynthesis) &&
+        typeof SpeechSynthesisUtterance === 'function',
+    );
+  }, []);
 
   const stop = useCallback(() => {
-    if (typeof window === 'undefined' || !window.speechSynthesis) return;
-    window.speechSynthesis.cancel();
+    const activeUtterance = utteranceRef.current;
+    if (activeUtterance && typeof window !== 'undefined' && window.speechSynthesis) {
+      try {
+        window.speechSynthesis.cancel();
+      } catch {
+        // The browser speech queue is shared state. Even if its cancellation
+        // API fails, never leave this player's local ownership/UI state stale.
+      }
+    }
     setPlaying(false);
     setPaused(false);
     utteranceRef.current = null;
   }, []);
 
-  useEffect(() => () => stop(), [stop]);
+  useEffect(
+    () => () => {
+      const activeUtterance = utteranceRef.current;
+      if (!activeUtterance) return;
+      utteranceRef.current = null;
+      if (typeof window !== 'undefined' && window.speechSynthesis) {
+        try {
+          window.speechSynthesis.cancel();
+        } catch {
+          // Local ownership was already released before entering the provider API.
+        }
+      }
+    },
+    [],
+  );
+
+  useEffect(() => {
+    if (previousScriptRef.current === script) return;
+    previousScriptRef.current = script;
+    if (utteranceRef.current) stop();
+  }, [script, stop]);
 
   const play = () => {
-    if (typeof window === 'undefined' || !window.speechSynthesis) return;
-    const clean = scriptToSpeech(script);
-    if (!clean) return;
+    if (
+      typeof window === 'undefined' ||
+      !window.speechSynthesis ||
+      typeof SpeechSynthesisUtterance !== 'function'
+    ) {
+      return;
+    }
+
+    if (previousScriptRef.current !== script) {
+      previousScriptRef.current = script;
+      if (utteranceRef.current) stop();
+    }
+
+    if (!speechText) return;
 
     if (paused && utteranceRef.current) {
-      window.speechSynthesis.resume();
-      setPaused(false);
-      setPlaying(true);
+      const activeUtterance = utteranceRef.current;
+      try {
+        window.speechSynthesis.resume();
+        if (utteranceRef.current !== activeUtterance) return;
+        setPaused(false);
+        setPlaying(true);
+      } catch {
+        stop();
+      }
       return;
     }
 
     stop();
-    const utterance = new SpeechSynthesisUtterance(clean);
+    const utterance = new SpeechSynthesisUtterance(speechText);
     utterance.rate = 1;
     utterance.pitch = 1;
     utterance.onend = () => {
+      if (utteranceRef.current !== utterance) return;
       setPlaying(false);
       setPaused(false);
+      utteranceRef.current = null;
     };
     utterance.onerror = () => {
+      if (utteranceRef.current !== utterance) return;
       setPlaying(false);
       setPaused(false);
+      utteranceRef.current = null;
     };
     utteranceRef.current = utterance;
-    window.speechSynthesis.speak(utterance);
-    setPlaying(true);
+    try {
+      window.speechSynthesis.speak(utterance);
+      if (utteranceRef.current === utterance) setPlaying(true);
+    } catch {
+      if (utteranceRef.current === utterance) {
+        utteranceRef.current = null;
+        setPlaying(false);
+        setPaused(false);
+      }
+    }
   };
 
   const pause = () => {
-    if (typeof window === 'undefined' || !window.speechSynthesis) return;
-    window.speechSynthesis.pause();
-    setPaused(true);
-    setPlaying(false);
+    if (
+      typeof window === 'undefined' ||
+      !window.speechSynthesis ||
+      !utteranceRef.current
+    ) {
+      return;
+    }
+    const activeUtterance = utteranceRef.current;
+    try {
+      window.speechSynthesis.pause();
+      if (utteranceRef.current !== activeUtterance) return;
+      setPaused(true);
+      setPlaying(false);
+    } catch {
+      stop();
+    }
   };
 
-  if (typeof window !== 'undefined' && !window.speechSynthesis) {
-    return null;
-  }
+  if (!speechSupported || (!speechText && !playing && !paused)) return null;
 
   return (
     <div className={`notebook-tts flex flex-wrap items-center gap-2 ${className ?? ''}`}>
       <span className="text-[10px] uppercase tracking-widest text-muted-foreground">Listen</span>
       {!playing ? (
-        <button type="button" onClick={play} className="btn-glass text-xs inline-flex items-center gap-1.5 px-3 py-1.5">
-          <Play className="h-3.5 w-3.5" />
+        <button
+          type="button"
+          onClick={play}
+          disabled={!speechText}
+          className="btn-glass text-xs inline-flex items-center gap-1.5 px-3 py-1.5 disabled:cursor-not-allowed disabled:opacity-60"
+        >
+          <Play className="h-3.5 w-3.5" aria-hidden />
           {paused ? 'Resume' : 'Play overview'}
         </button>
       ) : (
         <button type="button" onClick={pause} className="btn-glass text-xs inline-flex items-center gap-1.5 px-3 py-1.5">
-          <Pause className="h-3.5 w-3.5" />
+          <Pause className="h-3.5 w-3.5" aria-hidden />
           Pause
         </button>
       )}
       {(playing || paused) && (
         <button type="button" onClick={stop} className="btn-glass text-xs inline-flex items-center gap-1 p-1.5" aria-label="Stop">
-          <Square className="h-3 w-3" />
+          <Square className="h-3 w-3" aria-hidden />
         </button>
       )}
     </div>
