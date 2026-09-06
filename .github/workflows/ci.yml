@@ -75,9 +75,22 @@ jobs:
           ROLLUP_SKIP_NODEJS_NATIVE: 'true'
 
       - name: Canonical gate — application tests
-        run: npm test
+        shell: bash
+        run: |
+          set -o pipefail
+          mkdir -p ci-evidence/application-tests
+          npm test 2>&1 | tee ci-evidence/application-tests/npm-test.log
         env:
           ROLLUP_SKIP_NODEJS_NATIVE: 'true'
+
+      - name: Upload application-test evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: vertexed-application-tests-${{ env.SOURCE_SHA }}
+          path: ci-evidence/application-tests
+          if-no-files-found: ignore
+          retention-days: 14
 
       - name: Canonical gate — evaluation tests
         run: npm run test:eval
