@@ -11,7 +11,12 @@ import numpy as np
 import pandas as pd
 import torch
 
-from space_jepa.channel_probe import fit_channel_probe, score_channel_errors
+from space_jepa.channel_probe import (
+    apply_channel_thresholds,
+    fit_channel_probe,
+    fit_channel_thresholds,
+    score_channel_errors,
+)
 from space_jepa.config import SpaceJEPAConfig
 from space_jepa.data import RobustScaler
 from space_jepa.model import SpaceJEPA
@@ -20,6 +25,7 @@ RIDGE_ALPHA = 1.0
 FIT_STRIDE = 4
 SCORE_STRIDE = 1
 BATCH_SIZE = 128
+CHANNEL_THRESHOLD_QUANTILE = 0.995
 TIMESTAMP_COLUMN = "timestamp"
 
 
@@ -139,7 +145,8 @@ def main() -> None:
     parser = argparse.ArgumentParser(
         description=(
             "Fit the frozen train-only Space-JEPA ridge decoder and export per-channel ESA-ADB "
-            "prediction residuals without reading anomaly labels."
+            "prediction residuals plus train-thresholded binary channel predictions without "
+            "reading anomaly labels."
         )
     )
     parser.add_argument("run_json", type=Path)
@@ -176,6 +183,22 @@ def main() -> None:
         batch_size=BATCH_SIZE,
         device=args.device,
     )
+
+    # Fit one binary-decision threshold per channel from covered training residuals only.
+    train_scores, train_coverage = score_channel_errors(
+        model,
+        probe,
+        train_x,
+        stride=SCORE_STRIDE,
+        batch_size=BATCH_SIZE,
+        device=args.device,
+    )
+    thresholds = fit_channel_thresholds(
+        train_scores,
+        train_coverage,
+        quantile=CHANNEL_THRESHOLD_QUANTILE,
+    )
+
     warmed = warm_start_test(train_x, test_x, model.cfg.context_length)
     warmed_scores, warmed_coverage = score_channel_errors(
         model,
@@ -189,19 +212,21 @@ def main() -> None:
     coverage = warmed_coverage[model.cfg.context_length :]
     if not np.all(coverage > 0) or not np.isfinite(scores).all():
         raise RuntimeError("per-channel scoring left uncovered or non-finite test rows")
+    predictions = apply_channel_thresholds(scores, thresholds)
 
     args.out_dir.mkdir(parents=True, exist_ok=False)
     score_path = args.out_dir / "channel_scores.csv"
     frame: dict[str, object] = {"timestamp": test_timestamps}
     for index, channel in enumerate(channels):
         frame[f"{channel}_score"] = scores[:, index]
+        frame[f"{channel}_pred"] = predictions[:, index]
     pd.DataFrame(frame).to_csv(score_path, index=False)
 
     checkpoint_name = str(source_run["artifacts"]["checkpoint"])
     checkpoint_path = args.run_json.parent / checkpoint_name
     receipt = {
         "schema_version": 1,
-        "status": "PRE_OUTCOME_CHANNEL_SCORES_ONLY_NOT_OFFICIAL_RESULT",
+        "status": "PRE_OUTCOME_CHANNEL_SCORES_AND_BINARY_PREDS_NOT_OFFICIAL_RESULT",
         "code_commit": git_head(),
         "source_run_json_sha256": sha256(args.run_json),
         "source_checkpoint_sha256": sha256(checkpoint_path),
@@ -218,13 +243,20 @@ def main() -> None:
             "fit_surface": "normalized training telemetry only",
             "score_definition": "squared residual per normalized telemetry channel from predicted target latent ridge decode",
         },
+        "channel_thresholds": {
+            "source": "covered normalized-training channel residuals only",
+            "quantile": CHANNEL_THRESHOLD_QUANTILE,
+            "comparison": "score >= threshold",
+            "values": {channel: float(thresholds[index]) for index, channel in enumerate(channels)},
+        },
         "artifacts": {
             "channel_scores_csv": score_path.name,
             "channel_scores_csv_sha256": sha256(score_path),
         },
         "claim_boundary": (
-            "This artifact is a pre-outcome per-channel score surface. It is not an official ESA-ADB "
-            "ChannelAwareFScore or ADTQC result and does not change the frozen global-score claim."
+            "This artifact is a pre-outcome per-channel score/binary-prediction surface. It is not "
+            "an official ESA-ADB ChannelAwareFScore or ADTQC result and does not change the frozen "
+            "global-score claim."
         ),
     }
     receipt_path = args.out_dir / "channel_probe.json"
