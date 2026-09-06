@@ -32,6 +32,21 @@ EXPECTED_COMPARATORS = [
     "persistence_baseline",
     "train_fit_robust_deviation_baseline",
 ]
+EXPECTED_SEEDS = [11, 23, 37, 53, 71]
+EXPECTED_SECONDARY = [
+    "macro_one_vs_rest_average_precision",
+    "macro_one_vs_rest_auroc",
+]
+EXPECTED_BLOCKER_TERMS = (
+    "freshness",
+    "licensing",
+    "sha-256",
+    "object-level",
+    "readout",
+    "outcome-blind",
+    "runtime",
+    "approval receipt",
+)
 
 
 class CandidateError(ValueError):
@@ -83,18 +98,56 @@ def verify(candidate: Mapping[str, Any]) -> dict[str, Any]:
     require("freshness fails" in str(split.get("fallback_if_confirmatory_freshness_fails", "")).lower(), "freshness fallback missing")
 
     require(candidate.get("frozen_comparator_family_if_candidate_is_approved") == EXPECTED_COMPARATORS, "comparator family drift")
-    metrics = candidate.get("metrics_not_yet_frozen")
-    require(isinstance(metrics, list) and len(metrics) >= 5, "metric/decision-rule blockers must remain explicit")
+
+    decision = mapping(candidate.get("frozen_decision_policy_if_candidate_is_approved"), "frozen_decision_policy_if_candidate_is_approved")
+    require(decision.get("primary_comparison") == "time_aware_jepa_vs_time_agnostic_jepa_same_capacity", "primary comparison drift")
+    require(decision.get("primary_metric") == "class_balanced_multiclass_log_loss", "primary metric drift")
+    metric_definition = str(decision.get("primary_metric_definition", "")).lower()
+    for term in ("true class", "renormalization", "1e-15", "unweighted mean"):
+        require(term in metric_definition, f"primary metric definition missing {term}")
+    require(decision.get("metric_direction") == "lower_is_better", "metric direction drift")
+    require(decision.get("effect_definition") == "delta = loss_time_agnostic_jepa - loss_time_aware_jepa; positive favors time-aware JEPA", "effect definition drift")
+    require(decision.get("practical_effect_threshold_absolute") == 0.02, "practical effect threshold drift")
+    require(decision.get("model_seeds") == EXPECTED_SEEDS, "model seed set drift")
+    require(decision.get("seed_consistency_rule") == "at_least_4_of_5_seed_specific_deltas_strictly_positive", "seed consistency rule drift")
+
+    uncertainty = mapping(decision.get("uncertainty"), "uncertainty")
+    require(uncertainty.get("method") == "paired_hierarchical_bootstrap", "uncertainty method drift")
+    require(uncertainty.get("replicates") == 10000, "bootstrap replicate drift")
+    require(uncertainty.get("bootstrap_seed") == 20260906, "bootstrap seed drift")
+    require(uncertainty.get("confidence_interval") == "two_sided_95_percentile", "confidence interval drift")
+    resampling = str(uncertainty.get("resampling_unit", "")).lower()
+    for term in ("model seeds", "confirmatory objects", "separately inside each true class", "paired delta"):
+        require(term in resampling, f"hierarchical resampling rule missing {term}")
+
+    require(
+        decision.get("primary_success_rule")
+        == "mean_seed_delta >= 0.02 AND paired_hierarchical_bootstrap_95pct_lower_bound > 0 AND at_least_4_of_5_seed_specific_deltas_strictly_positive",
+        "primary success rule drift",
+    )
+    failure_rule = str(decision.get("primary_failure_rule", "")).lower()
+    require("no secondary metric" in failure_rule and "cannot rescue" in failure_rule, "primary failure/no-rescue rule drift")
+    require(decision.get("secondary_metrics_descriptive_only") == EXPECTED_SECONDARY, "secondary metric set drift")
+    require(decision.get("secondary_rescue_authorized") is False, "secondary metrics must not rescue primary failure")
+    require("only the time-aware versus time-agnostic" in str(decision.get("multiple_comparison_policy", "")).lower(), "confirmatory comparison boundary drift")
+    require(decision.get("post_outcome_threshold_or_seed_changes_authorized") is False, "post-outcome threshold/seed changes must remain prohibited")
+
+    blockers = candidate.get("remaining_preoutcome_blockers")
+    require(isinstance(blockers, list) and len(blockers) >= 8, "remaining preoutcome blockers missing")
+    blockers_joined = " ".join(str(item).lower() for item in blockers)
+    for term in EXPECTED_BLOCKER_TERMS:
+        require(term in blockers_joined, f"remaining blocker must retain {term} gate")
 
     review = candidate.get("required_independent_review_before_any_heldout_execution")
     require(isinstance(review, list) and len(review) >= 7, "independent review gates missing")
     joined = " ".join(str(item).lower() for item in review)
-    for term in ("checksum", "license", "unblind", "label", "metric", "simulated"):
+    for term in ("checksum", "license", "unblind", "label", "decision policy", "simulated"):
         require(term in joined, f"independent review must retain {term} gate")
 
     boundary = str(candidate.get("claim_boundary", "")).lower()
     require("not an astronomy result" in boundary, "result claim boundary missing")
     require("simulated transient-classification" in boundary, "simulation claim boundary missing")
+    require("freezes its confirmatory decision policy" in boundary, "decision-policy claim boundary missing")
 
     return {
         "status": "PLASTICC_ASTRONOMY_CANDIDATE_VERIFIED_NOT_APPROVED",
@@ -102,6 +155,10 @@ def verify(candidate: Mapping[str, Any]) -> dict[str, Any]:
         "heldout_files": len(test),
         "execution_authorized": False,
         "heldout_label_access_authorized": False,
+        "primary_metric": decision["primary_metric"],
+        "practical_effect_threshold_absolute": decision["practical_effect_threshold_absolute"],
+        "model_seeds": decision["model_seeds"],
+        "bootstrap_replicates": uncertainty["replicates"],
     }
 
 
