@@ -1,0 +1,84 @@
+name: T2424-0025 preprint readiness
+
+on:
+  pull_request:
+    paths:
+      - "portfolio/project2424/projects/T2424-0025/**"
+      - "tests/t2424-0025-preprint-readiness.test.mjs"
+      - ".github/workflows/t2424-0025-preprint-readiness.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: t2424-0025-preprint-readiness-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  claim-and-release-boundary:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    env:
+      EXPECTED_SOURCE_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+    steps:
+      - name: Checkout exact source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ env.EXPECTED_SOURCE_SHA }}
+          persist-credentials: false
+          fetch-depth: 1
+      - name: Assert exact source binding
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$EXPECTED_SOURCE_SHA"
+      - name: Verify retained claim, result, and release boundaries
+        run: node --test tests/t2424-0025-current-main-reconciliation.test.mjs tests/t2424-0025-preprint-readiness.test.mjs
+      - name: Confirm no scientific execution or release authorization
+        shell: bash
+        run: |
+          set -euo pipefail
+          node - <<'NODE'
+          const receipt = require('./portfolio/project2424/projects/T2424-0025/PREPRINT_READINESS.json');
+          if (receipt.scientific_execution_performed !== false) process.exit(1);
+          if (receipt.outcome_reexecution_performed !== false) process.exit(1);
+          if (receipt.outcome_access_changed !== false) process.exit(1);
+          if (receipt.preprint_ready !== false) process.exit(1);
+          if (receipt.release_authorized !== false) process.exit(1);
+          if (!Array.isArray(receipt.open_release_blocks) || receipt.open_release_blocks.length !== 4) process.exit(1);
+          NODE
+      - name: Build source-bound readiness evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p dist/t2424-0025-preprint-readiness
+          cp portfolio/project2424/projects/T2424-0025/PREPRINT_READINESS.json dist/t2424-0025-preprint-readiness/readiness.json
+          cp portfolio/project2424/projects/T2424-0025/PREPRINT_READINESS.md dist/t2424-0025-preprint-readiness/PREPRINT_READINESS.md
+          cp portfolio/project2424/projects/T2424-0025/CLAIM_AUDIT.md dist/t2424-0025-preprint-readiness/CLAIM_AUDIT.md
+          cp portfolio/project2424/projects/T2424-0025/RELEASE_METADATA.md dist/t2424-0025-preprint-readiness/RELEASE_METADATA.md
+          cp portfolio/project2424/projects/T2424-0025/RELATED_WORK_AUDIT.md dist/t2424-0025-preprint-readiness/RELATED_WORK_AUDIT.md
+          sha256sum dist/t2424-0025-preprint-readiness/* > dist/t2424-0025-preprint-readiness/SHA256SUMS
+          node - <<'NODE'
+          const fs = require('fs');
+          const readiness = require('./portfolio/project2424/projects/T2424-0025/PREPRINT_READINESS.json');
+          const receipt = {
+            source_head: process.env.EXPECTED_SOURCE_SHA,
+            run_id: process.env.GITHUB_RUN_ID,
+            parent_paper_head: readiness.parent_head,
+            frozen_experiment_source: readiness.frozen_experiment_source,
+            scientific_execution_performed: false,
+            outcome_accessed: false,
+            preprint_ready: false,
+            release_authorized: false,
+            human_release_blocks_preserved: readiness.open_release_blocks
+          };
+          fs.writeFileSync('dist/t2424-0025-preprint-readiness/ci-receipt.json', JSON.stringify(receipt, null, 2) + '\n');
+          NODE
+      - name: Upload readiness evidence
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: t2424-0025-preprint-readiness-${{ env.EXPECTED_SOURCE_SHA }}
+          path: dist/t2424-0025-preprint-readiness
+          if-no-files-found: error
+          retention-days: 30
