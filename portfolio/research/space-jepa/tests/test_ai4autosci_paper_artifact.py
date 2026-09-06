@@ -88,3 +88,17 @@ def test_rendered_text_requires_preoutcome_markers():
     module.verify_rendered_text(good)
     with pytest.raises(ValueError):
         module.verify_rendered_text(good.replace("RESULTS_BLOCKED_PRE_OUTCOME", ""))
+
+
+def test_rendered_text_accepts_extractor_separator_variants_only():
+    extracted = " ".join(
+        [
+            "Anonymous Authors",
+            "RESULTS _ BLOCKED _ PRE _ OUTCOME",
+            "CHANNEL [] RESULTS [] BLOCKED [] PRE [] OUTCOME",
+            "mission1 - lite",
+            "mission2 - lite",
+            "EW _ F _ 0 . 50",
+        ]
+    )
+    module.verify_rendered_text(extracted)
