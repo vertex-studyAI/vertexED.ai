@@ -12,7 +12,7 @@ function fresh() {
 }
 
 function cleanup(fixture) {
-  try { fixture.store.close(); } catch {}
+  try { fixture.store.close(); } catch (error) { void error; }
   rmSync(fixture.dir, { recursive: true, force: true });
 }
 
