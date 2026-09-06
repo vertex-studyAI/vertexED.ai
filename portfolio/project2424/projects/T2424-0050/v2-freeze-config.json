@@ -42,8 +42,34 @@
       "verification_job": 94839646560,
       "verification_gate": "canonical release gate"
     },
-    "B3": {"state": "BLOCKED_IMPLEMENTATION", "name": "FNO-1D"},
-    "B4": {"state": "BLOCKED_IMPLEMENTATION", "name": "DeepONet"}
+    "B3": {
+      "state": "IMPLEMENTED_PREOUTCOME_UNIT_VERIFIED",
+      "name": "FNO-1D",
+      "implementation": "learned/operators.py",
+      "implementation_git_blob_sha": "231e93b663c2bfc616d807c61f9b968e93105a26",
+      "input": "128-cell log permeability plus deterministic right-interface coordinate channel",
+      "output": "predict p_1..p_128 and prepend known p_0=1; right boundary remains unprojected",
+      "candidate_grid": {"modes": [12, 20], "width": [32, 64], "layers": [4]},
+      "eligibility_tests": "tests/test_darcy_v2_learned_operators.py",
+      "verification_workflow_run": 33998326427,
+      "verification_job": 101392632853,
+      "verification_gate": "Darcy v2 learned-operator verification",
+      "test_or_ood_for_selection": false
+    },
+    "B4": {
+      "state": "IMPLEMENTED_PREOUTCOME_UNIT_VERIFIED",
+      "name": "DeepONet",
+      "implementation": "learned/operators.py",
+      "implementation_git_blob_sha": "231e93b663c2bfc616d807c61f9b968e93105a26",
+      "branch_input": "128 frozen log-permeability sensors",
+      "trunk_input": "129 output coordinates from x=0 to x=1",
+      "candidate_grid": {"branch_width": [64, 128], "trunk_width": [64, 128], "hidden_layers": [3], "latent_width": [64]},
+      "eligibility_tests": "tests/test_darcy_v2_learned_operators.py",
+      "verification_workflow_run": 33998326427,
+      "verification_job": 101392632853,
+      "verification_gate": "Darcy v2 learned-operator verification",
+      "test_or_ood_for_selection": false
+    }
   },
   "learned_model_freeze": {
     "training_seeds": [41, 73, 109],
@@ -69,6 +95,13 @@
       "trunk_width": [64, 128],
       "hidden_layers": [3],
       "latent_width": [64]
+    },
+    "unit_verification_environment": {
+      "scientific_role": "implementation unit verification only; not the final training environment lock",
+      "python": "3.11",
+      "torch": "2.8.0+cpu",
+      "pytest": "8.4.1",
+      "workflow": ".github/workflows/darcy-v2-learned-operator-ci.yml"
     }
   },
   "unresolved_pretraining_blockers": {
@@ -77,8 +110,8 @@
     "learned_environment_lock": null,
     "hardware_identity": null,
     "B2_implementation_sha": "6e10c6fbecf0cf5ce78ed2b5c61e3fa97da47541",
-    "B3_implementation_sha": null,
-    "B4_implementation_sha": null,
+    "B3_implementation_sha": "231e93b663c2bfc616d807c61f9b968e93105a26",
+    "B4_implementation_sha": "231e93b663c2bfc616d807c61f9b968e93105a26",
     "split_manifest_sha256": "4211d11da7d40f0991bd963c04fb118f34d9fe923e7664da301122b29b0bef85"
   },
   "authorization_rule": "Training, ID-test evaluation and OOD evaluation remain forbidden until generator.implementation_git_blob_sha is recorded, all unresolved_pretraining_blockers are non-null, implementations pass frozen eligibility/unit tests, and the resulting freeze revision is committed before outcomes are inspected."
