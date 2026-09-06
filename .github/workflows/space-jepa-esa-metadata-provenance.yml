@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - "portfolio/research/space-jepa/freeze_esa_metadata_hashes.py"
+      - "portfolio/research/space-jepa/ESA_MISSION1_METADATA_FREEZE_V0.json"
       - "portfolio/research/space-jepa/tests/test_esa_metadata_freeze.py"
       - ".github/workflows/space-jepa-esa-metadata-provenance.yml"
   workflow_dispatch:
@@ -21,6 +22,7 @@ jobs:
         uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
           persist-credentials: false
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
       - name: Set up Python
         uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
@@ -34,37 +36,59 @@ jobs:
           python portfolio/research/space-jepa/freeze_esa_metadata_hashes.py \
             --out ci-evidence/esa-mission1-metadata-sha256.json | tee ci-evidence/esa-mission1-metadata-sha256.log
 
-      - name: Verify provenance artifact remains outcome blind
+      - name: Verify live provenance equals frozen pre-outcome identities
         run: |
           set -euo pipefail
           python - <<'PY'
           import json
           from pathlib import Path
 
-          path = Path("ci-evidence/esa-mission1-metadata-sha256.json")
-          payload = json.loads(path.read_text(encoding="utf-8"))
-          assert payload["status"] == "PREOUTCOME_METADATA_BYTES_HASHED_NO_CSV_ROWS_PARSED"
-          assert payload["execution_authorized"] is False
-          assert payload["channel_aware_outcome_access_authorized"] is False
-          assert payload["zenodo_record_id"] == "12528696"
-          assert payload["zenodo_doi"] == "10.5281/zenodo.12528696"
-          assert payload["archive"]["zenodo_declared_md5"] == "80750189d171f5f398fb3d96c49df12b"
-          assert payload["pinned_esa_adb_commit"] == "aeebcd9ecd3e7266d6d6a035a8081b3da83dfe33"
-          assert set(payload["entries"]) == {"labels.csv", "anomaly_types.csv", "channels.csv"}
-          assert payload["access_boundary"] == {
+          observed = json.loads(
+              Path("ci-evidence/esa-mission1-metadata-sha256.json").read_text(encoding="utf-8")
+          )
+          frozen = json.loads(
+              Path("portfolio/research/space-jepa/ESA_MISSION1_METADATA_FREEZE_V0.json").read_text(
+                  encoding="utf-8"
+              )
+          )
+
+          assert observed["status"] == "PREOUTCOME_METADATA_BYTES_HASHED_NO_CSV_ROWS_PARSED"
+          assert observed["execution_authorized"] is False
+          assert observed["channel_aware_outcome_access_authorized"] is False
+          assert observed["zenodo_record_id"] == frozen["dataset"]["zenodo_record_id"] == "12528696"
+          assert observed["zenodo_doi"] == frozen["dataset"]["doi"] == "10.5281/zenodo.12528696"
+          assert observed["archive"]["zenodo_declared_md5"] == frozen["dataset"]["zenodo_declared_md5"]
+          assert observed["archive"]["remote_size_bytes"] == frozen["dataset"]["remote_size_bytes"]
+          assert observed["pinned_esa_adb_commit"] == frozen["upstream_evaluation_source"]["commit"]
+          assert set(observed["entries"]) == set(frozen["metadata"]) == {
+              "labels.csv",
+              "anomaly_types.csv",
+              "channels.csv",
+          }
+          assert observed["access_boundary"] == {
               "csv_rows_parsed": False,
               "labels_interpreted": False,
               "anomaly_types_interpreted": False,
               "channel_declarations_interpreted": False,
               "model_outputs_generated": False,
           }
-          for name, entry in payload["entries"].items():
+          assert frozen["status"] == "PREOUTCOME_METADATA_PROVENANCE_FROZEN_NOT_RESULT"
+          assert frozen["execution_authorized"] is False
+          assert frozen["channel_aware_outcome_access_authorized"] is False
+          for name, entry in observed["entries"].items():
+              expected = frozen["metadata"][name]
+              for key in (
+                  "path",
+                  "sha256",
+                  "bytes",
+                  "zip_crc32",
+                  "compressed_bytes",
+                  "compress_type",
+              ):
+                  assert entry[key] == expected[key], (name, key, entry[key], expected[key])
               assert len(entry["sha256"]) == 64
               int(entry["sha256"], 16)
-              assert entry["bytes"] > 0
-              assert entry["compressed_bytes"] > 0
-              assert entry["path"].endswith("/" + name)
-          print("OUTCOME_BLIND_PROVENANCE_ARTIFACT_VERIFIED")
+          print("FROZEN_OUTCOME_BLIND_METADATA_IDENTITIES_VERIFIED")
           PY
 
       - name: Upload metadata digest evidence only
