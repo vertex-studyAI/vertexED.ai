@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "project_id": "T2424-0025",
+  "purpose": "Restack the bounded manuscript and retained-data figures onto current main without scientific re-execution or reinterpretation.",
+  "current_main_base": "f4dbbb4bc9d0942332b03b32d65e3e39f1052382",
+  "historical_paper_pr": 567,
+  "historical_paper_head": "5ba11a2a921df5b27556c31013f09ed66595b588",
+  "historical_manuscript_blob_sha": "d749aea340aed8a17f1e151dbce7f0a94f3e8705",
+  "retained_results_blob_sha": "26a1e670fc1e30d62a89000ad4564d34bf47c636",
+  "retained_metrics_blob_sha": "363c22a11abbe8fbb7f0b261054f4e46f9723e24",
+  "frozen_experiment_source": "0d2a14e559b0caa9b5b1cbeef0995013594ecf15",
+  "retained_screen_verdict": "PASS_HEAVY_TAIL_MEMORY_SCREEN",
+  "scientific_execution_performed": false,
+  "outcome_reexecution_performed": false,
+  "seed_policy_changed": false,
+  "split_policy_changed": false,
+  "threshold_changed": false,
+  "claim_boundary_changed": false,
+  "interpretation_boundary": "The retained synthetic robust-readout effect is reproducible, but the 0% Cauchy-contamination control prevents attribution of the overall advantage to a uniquely heavy-tail or specifically non-Gaussian mechanism; this is not Transformer-level or learned-memory evidence.",
+  "release_authorized": false,
+  "open_release_blocks": [
+    "final authorship and contribution assignment",
+    "repository/release licensing",
+    "final code/data release statement",
+    "permanent archival release of the exact digest-bound package"
+  ]
+}
