@@ -9,7 +9,7 @@ permissions:
   contents: read
 
 jobs:
-  isolate-node-tests:
+  capture-failures:
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
@@ -20,52 +20,36 @@ jobs:
           cache: npm
       - name: Install locked dependencies
         run: npm ci --ignore-scripts
-      - name: Run every Node test file independently
-        id: isolate
+      - name: Capture failing Node test logs
         shell: bash
         run: |
           set +e
           : > /tmp/failing-tests.txt
-          failures=0
+          : > /tmp/failing-test-logs.txt
           for file in tests/*.test.mjs; do
             node --test "$file" >/tmp/one-test.log 2>&1
             code=$?
             if [ "$code" -ne 0 ]; then
-              echo "$file" | tee -a /tmp/failing-tests.txt
-              cat /tmp/one-test.log
-              failures=$((failures + 1))
+              echo "$file" >> /tmp/failing-tests.txt
+              printf '\n===== %s =====\n' "$file" >> /tmp/failing-test-logs.txt
+              cat /tmp/one-test.log >> /tmp/failing-test-logs.txt
             fi
           done
-          echo "failure_count=$failures" >> "$GITHUB_OUTPUT"
-          exit "$([ "$failures" -eq 0 ] && echo 0 || echo 1)"
-      - name: Upload failing test filenames
-        if: always()
+          exit 0
+      - name: Capture serverless validator logs
+        shell: bash
+        run: |
+          set +e
+          npm run validate:serverless:functions >/tmp/serverless-functions.log 2>&1
+          npm run validate:function-sizes >/tmp/function-sizes.log 2>&1
+          exit 0
+      - name: Upload diagnostic logs
         uses: actions/upload-artifact@v4
         with:
-          name: notebook-733-failing-tests
-          path: /tmp/failing-tests.txt
+          name: notebook-733-diagnostic-logs
+          path: |
+            /tmp/failing-tests.txt
+            /tmp/failing-test-logs.txt
+            /tmp/serverless-functions.log
+            /tmp/function-sizes.log
           if-no-files-found: error
-
-  validate-serverless-functions:
-    runs-on: ubuntu-24.04
-    timeout-minutes: 10
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: npm
-      - run: npm ci --ignore-scripts
-      - run: npm run validate:serverless:functions
-
-  validate-function-sizes:
-    runs-on: ubuntu-24.04
-    timeout-minutes: 10
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: npm
-      - run: npm ci --ignore-scripts
-      - run: npm run validate:function-sizes
