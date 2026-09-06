@@ -46,6 +46,10 @@ export default function NotebookTtsPlayer({ script, className }: Props) {
     utteranceRef.current = null;
   }, []);
 
+  // Cleanup must not call the stateful stop helper after unmount. Release local
+  // ownership before touching the shared browser queue so a synchronous
+  // cancel-generated onend/onerror callback sees no current owner and cannot
+  // schedule state updates while the component is tearing down.
   useEffect(
     () => () => {
       const activeUtterance = utteranceRef.current;
@@ -55,13 +59,18 @@ export default function NotebookTtsPlayer({ script, className }: Props) {
         try {
           window.speechSynthesis.cancel();
         } catch {
-          // Local ownership was already released before entering the provider API.
+          // Unmount cleanup is best-effort for the shared browser queue. Local
+          // ownership was already released before entering the provider API.
         }
       }
     },
     [],
   );
 
+  // Generated notebook content can be replaced in-place. Never keep speaking or
+  // resume an utterance that belongs to the previous generated script. An idle
+  // player does not call the global cancel() API and therefore cannot interrupt
+  // speech started elsewhere in the application.
   useEffect(() => {
     if (previousScriptRef.current === script) return;
     previousScriptRef.current = script;
@@ -77,6 +86,10 @@ export default function NotebookTtsPlayer({ script, className }: Props) {
       return;
     }
 
+    // Effects run after paint. If generated content changes while an utterance
+    // is paused, a user can click Resume before the script-change effect runs.
+    // Reconcile the script synchronously at the interaction boundary so stale
+    // speech can never be resumed during that render/effect window.
     if (previousScriptRef.current !== script) {
       previousScriptRef.current = script;
       if (utteranceRef.current) stop();
@@ -88,6 +101,9 @@ export default function NotebookTtsPlayer({ script, className }: Props) {
       const activeUtterance = utteranceRef.current;
       try {
         window.speechSynthesis.resume();
+        // A provider/mocked queue may synchronously emit completion while resume()
+        // is on the stack. Never resurrect playback state after that callback has
+        // already released ownership of this exact utterance.
         if (utteranceRef.current !== activeUtterance) return;
         setPaused(false);
         setPlaying(true);
@@ -116,6 +132,9 @@ export default function NotebookTtsPlayer({ script, className }: Props) {
     utteranceRef.current = utterance;
     try {
       window.speechSynthesis.speak(utterance);
+      // The Web Speech event contract is normally asynchronous, but browsers,
+      // polyfills, and deterministic test doubles can complete synchronously.
+      // Do not set playing=true after onend/onerror has already released ownership.
       if (utteranceRef.current === utterance) setPlaying(true);
     } catch {
       if (utteranceRef.current === utterance) {
@@ -137,14 +156,24 @@ export default function NotebookTtsPlayer({ script, className }: Props) {
     const activeUtterance = utteranceRef.current;
     try {
       window.speechSynthesis.pause();
+      // Browsers/polyfills may synchronously complete the utterance from inside
+      // pause(). Do not overwrite completion state with a stale paused UI.
       if (utteranceRef.current !== activeUtterance) return;
       setPaused(true);
       setPlaying(false);
     } catch {
+      // A failed pause must not strand local state as if playback were still
+      // controllable. Stop only this player's owned utterance and fail closed.
       stop();
     }
   };
 
+  // Render the same empty tree on the server and during the first client render;
+  // capability detection happens after mount, avoiding an unsupported-browser
+  // hydration mismatch. Once mounted, do not expose an enabled Play control for
+  // content that becomes empty after markdown/code stripping. Keep the controls
+  // visible only while an older owned utterance is still being stopped by the
+  // script-change effect.
   if (!speechSupported || (!speechText && !playing && !paused)) return null;
 
   return (
