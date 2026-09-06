@@ -156,7 +156,7 @@ def verify_prep(state: dict[str, Any], tex: str) -> list[str]:
     for marker in RESULT_MARKERS:
         _require(marker in tex, f"required pre-outcome blocker marker missing: {marker}", errors)
 
-    _require("EW_F_0.50" in tex, "manuscript must name the frozen ESA primary metric", errors)
+    _require("EW\\_F\\_0.50" in tex, "manuscript must name the frozen ESA primary metric", errors)
     _require("mission1-lite" in tex and "mission2-lite" in tex,
              "manuscript must name both frozen ESA primary mission surfaces", errors)
     _require("4/5" in tex, "manuscript must state the frozen per-mission seed-consistency rule", errors)
@@ -183,7 +183,9 @@ def verify_submission(state: dict[str, Any], tex: str) -> list[str]:
     _require("Anonymous Authors" in tex, "double-blind submission must remain anonymous", errors)
     _require(manuscript.get("status") == "SUBMISSION_READY", "manuscript status is not SUBMISSION_READY", errors)
     _require(manuscript.get("quantitative_results_inserted") is True, "quantitative results are not recorded as inserted", errors)
+    _require(primary.get("execution_authorized") is True, "ESA primary execution is not recorded as independently authorized", errors)
     _require(primary.get("outcome_access_authorized") is True, "ESA primary outcome access is not recorded as independently authorized", errors)
+    _require(primary.get("model_outcomes_generated") is True, "ESA primary model outcomes are not recorded as generated", errors)
     _require(primary.get("retained_result_package_complete") is True, "ESA primary retained result package is incomplete", errors)
 
     for key in (
