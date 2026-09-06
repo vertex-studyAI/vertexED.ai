@@ -1,0 +1,76 @@
+{
+  "schema": "space-jepa.esa-primary-endpoint.v0",
+  "status": "FROZEN_PRE_OUTCOME_NOT_EXECUTED",
+  "frozen_on": "2026-09-06",
+  "claim": "Space-JEPA improves leakage-controlled global anomaly detection over the strongest matched simple baseline on both frozen ESA-ADB lightweight mission surfaces.",
+  "benchmark": {
+    "name": "ESA-ADB",
+    "upstream_commit": "aeebcd9ecd3e7266d6d6a035a8081b3da83dfe33",
+    "esascores_source_path": "timeeval/metrics/ESA_ADB_metrics.py",
+    "esascores_source_git_blob": "dbfe1e20b121012f1f144cff1303710b98ed0df5",
+    "metric_view": "anomaly_only",
+    "metric_key": "EW_F_0.50",
+    "beta": 0.5,
+    "direction": "higher_is_better"
+  },
+  "surfaces": [
+    "mission1-lite",
+    "mission2-lite"
+  ],
+  "seeds": [
+    17,
+    29,
+    43,
+    71,
+    101
+  ],
+  "method": "space_jepa",
+  "matched_baselines": [
+    "robust_zscore",
+    "persistence"
+  ],
+  "comparison": {
+    "per_seed_reference": "max(EW_F_0.50(robust_zscore), EW_F_0.50(persistence)) on the same mission surface",
+    "paired_delta": "EW_F_0.50(space_jepa) - strongest_matched_baseline",
+    "surface_aggregation": "arithmetic_mean_of_five_paired_seed_deltas",
+    "surface_success_requires": {
+      "mean_paired_delta_strictly_greater_than": 0.0,
+      "strictly_positive_seed_deltas_at_least": 4,
+      "required_seed_count": 5
+    },
+    "overall_success": "conjunction: both mission1-lite and mission2-lite must satisfy the surface success rule",
+    "ties_are_wins": false,
+    "missing_or_failed_seed_policy": "fail_closed; do not drop, replace, or rerun a seed selectively",
+    "multiplicity_policy": "no separate per-surface success claim: the primary paper claim is the conjunction across both frozen surfaces",
+    "practical_effect_threshold": null,
+    "significance_test": null
+  },
+  "secondary_only": {
+    "metric_views": [
+      "anomaly_plus_rare_event"
+    ],
+    "metric_keys": [
+      "AFF_F_0.50",
+      "EW_precision",
+      "EW_recall",
+      "AFF_precision",
+      "AFF_recall",
+      "alarming_precision"
+    ],
+    "channel_aware_probe": "secondary under ESA_CHANNEL_PROBE_PROTOCOL_V0.md",
+    "repository_native_metrics": "secondary and cannot rescue a failed primary endpoint"
+  },
+  "claim_boundaries": [
+    "No outcome from official ESA held-out labels was used to choose this endpoint, seed rule, mission conjunction, or comparator family.",
+    "A primary failure cannot be rescued by anomaly-plus-rare-event, affiliation, channel-aware, repository-native, ablation, or astronomy results.",
+    "This endpoint supports comparison only against the two retained matched simple baselines; unexecuted official benchmark methods remain contextual rather than defeated baselines.",
+    "No causal diagnosis, root-cause attribution, closed-loop control, cross-mission generalization beyond the two named surfaces, or deployment claim follows from primary success.",
+    "All null, adverse, failed-seed, and comparator-favorable outcomes must be retained."
+  ],
+  "authorization": {
+    "heldout_label_access_authorized": false,
+    "model_outcomes_generated": false,
+    "execution_authorized": false,
+    "remaining_external_gate": "retain and independently review exact official benchmark metadata/data byte identities and runtime receipts before outcome access"
+  }
+}
