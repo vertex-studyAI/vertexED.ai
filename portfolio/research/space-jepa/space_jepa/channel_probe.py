@@ -214,3 +214,45 @@ def score_channel_errors(
     scores[valid] /= counts[valid, None]
     scores[~valid] = np.nan
     return scores, counts
+
+
+def fit_channel_thresholds(
+    train_scores: np.ndarray,
+    coverage: np.ndarray,
+    *,
+    quantile: float = 0.995,
+) -> np.ndarray:
+    """Freeze one threshold per channel from covered training scores only."""
+
+    scores = np.asarray(train_scores, dtype=np.float64)
+    counts = np.asarray(coverage)
+    if scores.ndim != 2 or scores.shape[0] < 1 or scores.shape[1] < 1:
+        raise ValueError("train_scores must have shape [time, channels]")
+    if counts.shape != (scores.shape[0],):
+        raise ValueError("coverage must have shape [time]")
+    if not 0.0 < quantile < 1.0:
+        raise ValueError("quantile must be strictly between 0 and 1")
+    valid = counts > 0
+    if not np.any(valid):
+        raise ValueError("no covered training scores available for threshold fitting")
+    covered = scores[valid]
+    if not np.isfinite(covered).all():
+        raise ValueError("covered training scores must be finite")
+    thresholds = np.quantile(covered, quantile, axis=0)
+    if thresholds.shape != (scores.shape[1],) or not np.isfinite(thresholds).all():
+        raise ValueError("threshold fitting produced invalid channel thresholds")
+    return thresholds.astype(np.float64, copy=False)
+
+
+def apply_channel_thresholds(scores: np.ndarray, thresholds: np.ndarray) -> np.ndarray:
+    """Convert covered finite channel scores to binary anomaly indicators."""
+
+    values = np.asarray(scores, dtype=np.float64)
+    limits = np.asarray(thresholds, dtype=np.float64)
+    if values.ndim != 2 or values.shape[1] < 1:
+        raise ValueError("scores must have shape [time, channels]")
+    if limits.shape != (values.shape[1],):
+        raise ValueError("threshold count must match channel count")
+    if not np.isfinite(values).all() or not np.isfinite(limits).all():
+        raise ValueError("scores and thresholds must be finite before binarization")
+    return (values >= limits[None, :]).astype(np.uint8)
