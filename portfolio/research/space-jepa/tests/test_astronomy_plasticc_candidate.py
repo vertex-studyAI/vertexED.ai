@@ -35,10 +35,12 @@ class PlasticcCandidateTests(unittest.TestCase):
         self.assertFalse(result["execution_authorized"])
         self.assertFalse(result["heldout_label_access_authorized"])
         self.assertEqual(result["primary_metric"], "class_balanced_multiclass_log_loss")
+        self.assertEqual(result["primary_class_labels"], [6, 15, 16, 42, 52, 53, 62, 64, 65, 67, 88, 90, 92, 95])
+        self.assertEqual(result["test_only_open_set_class_label"], 99)
         self.assertEqual(result["practical_effect_threshold_absolute"], 0.02)
         self.assertEqual(result["model_seeds"], [11, 23, 37, 53, 71])
         self.assertEqual(result["bootstrap_replicates"], 10000)
-        self.assertEqual(result["implementation_blob"], "317a107a549bc67e703a880f564e940fbe5c63e6")
+        self.assertEqual(result["implementation_blob"], "6d07ab34d3fde108ea299309c299dc9ff389ab06")
 
     def test_candidate_cannot_self_authorize(self) -> None:
         for field in ("execution_authorized", "heldout_label_access_authorized", "model_outcomes_generated"):
@@ -67,7 +69,28 @@ class PlasticcCandidateTests(unittest.TestCase):
         candidate["preoutcome_split_intent"]["windows_may_cross_objects"] = True
         self.assert_rejected(candidate, "must not cross")
 
-    def test_candidate_must_retain_public_unblinding_review(self) -> None:
+    def test_public_class_99_boundary_cannot_be_rewritten_or_promoted_to_primary() -> None:
+        candidate = load_candidate()
+        candidate["public_challenge_class_schema"]["training_surface_class_labels"] = [6, 15]
+        self.assert_rejected(candidate, "training class universe drift")
+
+        candidate = load_candidate()
+        candidate["public_challenge_class_schema"]["test_only_open_set_class_label"] = 98
+        self.assert_rejected(candidate, "open-set class drift")
+
+        candidate = load_candidate()
+        candidate["frozen_decision_policy_if_candidate_is_approved"]["primary_class_labels"].append(99)
+        self.assert_rejected(candidate, "primary class universe drift")
+
+        candidate = load_candidate()
+        candidate["frozen_decision_policy_if_candidate_is_approved"]["class_99_primary_policy"] = "include_in_primary"
+        self.assert_rejected(candidate, "class-99 primary policy drift")
+
+        candidate = load_candidate()
+        candidate["frozen_decision_policy_if_candidate_is_approved"]["class_99_analysis_policy"] = "may_rescue_primary"
+        self.assert_rejected(candidate, "class-99 no-rescue policy drift")
+
+    def test_candidate_must_retain_public_unblinding_and_class99_review(self) -> None:
         candidate = load_candidate()
         review = candidate["required_independent_review_before_any_heldout_execution"]
         candidate["required_independent_review_before_any_heldout_execution"] = [
@@ -75,6 +98,14 @@ class PlasticcCandidateTests(unittest.TestCase):
             for item in review
         ]
         self.assert_rejected(candidate, "unblind")
+
+        candidate = load_candidate()
+        review = candidate["required_independent_review_before_any_heldout_execution"]
+        candidate["required_independent_review_before_any_heldout_execution"] = [
+            "confirm an additional generic benchmark property" if "class_99" in item.lower() else item
+            for item in review
+        ]
+        self.assert_rejected(candidate, "class_99")
 
     def test_candidate_must_retain_simulated_only_claim_boundary(self) -> None:
         candidate = load_candidate()
@@ -132,14 +163,14 @@ class PlasticcCandidateTests(unittest.TestCase):
         uncertainty["bootstrap_seed"] = 7
         self.assert_rejected(candidate, "bootstrap seed drift")
 
-    def test_secondary_metrics_cannot_rescue_primary_failure(self) -> None:
+    def test_secondary_metrics_or_class99_cannot_rescue_primary_failure(self) -> None:
         candidate = load_candidate()
         candidate["frozen_decision_policy_if_candidate_is_approved"]["secondary_rescue_authorized"] = True
         self.assert_rejected(candidate, "must not rescue")
 
         candidate = load_candidate()
         candidate["frozen_decision_policy_if_candidate_is_approved"]["primary_failure_rule"] = (
-            "A strong AUROC may rescue a failed log-loss result."
+            "A strong class_99 result may rescue a failed log-loss result."
         )
         self.assert_rejected(candidate, "no-rescue")
 
