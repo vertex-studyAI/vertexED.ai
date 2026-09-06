@@ -34,14 +34,30 @@ Primary retained metrics must be chosen to match the actual public benchmark/tas
 
 ## PLAsTiCC candidate selected for provenance review
 
-`ASTRONOMY_PLASTICC_CANDIDATE_V0.json` now pins **PLAsTiCC v1** (Zenodo DOI `10.5281/zenodo.2539456`) as the first benchmark candidate to take through pre-outcome review. The dossier retains the official-record MD5 identities for both published training files and all 12 published test-surface files and records that no dataset rows or held-out labels were downloaded, displayed, or parsed while creating the candidate metadata.
+`ASTRONOMY_PLASTICC_CANDIDATE_V0.json` pins **PLAsTiCC v1** (Zenodo DOI `10.5281/zenodo.2539456`) as the first benchmark candidate to take through pre-outcome review. The dossier retains the official-record MD5 identities for both published training files and all 12 published test-surface files and records that no dataset rows or held-out labels were downloaded, displayed, or parsed while creating the candidate metadata.
 
 This selection is **not** a dataset freeze or execution authorization. Two boundaries are especially important:
 
 - the current Zenodo release is explicitly unblinded/public, so independent review must determine whether the original test labels remain genuinely fresh for this project; if not, PLAsTiCC becomes development/external-characterization evidence only and a separate confirmatory dataset is required;
 - PLAsTiCC is a **simulated** transient/variable benchmark. Even a strong result cannot be described as real-sky validation without a separately frozen evaluation on real observations.
 
-Before any held-out PLAsTiCC execution, independently confirm the official record/file checksums and usage terms, freeze exact local byte receipts and object identities, verify the loader cannot expose held-out labels to fitting/tuning, and preregister the primary metric, uncertainty rule, seeds, operating point, and material-effect threshold.
+Before any held-out PLAsTiCC execution, independently confirm the official record/file checksums and usage terms, freeze exact local byte receipts and object identities, verify the loader cannot expose held-out labels to fitting/tuning, and close every remaining pre-outcome blocker.
+
+### Frozen PLAsTiCC confirmatory decision policy
+
+The PLAsTiCC candidate now freezes the statistical decision rule **before any dataset rows or outcomes are opened for this project**. This closes a major researcher-degree-of-freedom while deliberately leaving execution blocked.
+
+The only confirmatory comparison is **time-aware JEPA versus the same-capacity time-agnostic JEPA**. The primary metric is class-balanced multiclass logarithmic loss: compute negative log probability of the true class, average within each represented true class, then take the unweighted mean across classes. Predicted rows are renormalized before scoring and probabilities are clipped to `[1e-15, 1-1e-15]`. Lower is better. The paired effect is defined as `loss_time_agnostic - loss_time_aware`, so a positive value favors the time-aware representation.
+
+The practical-effect threshold is fixed at an absolute **+0.02 log-loss improvement**. Model seeds are fixed to `11, 23, 37, 53, 71`. Primary success requires all three of the following:
+
+1. the mean seed-specific paired improvement is at least `+0.02`;
+2. the lower endpoint of the frozen 95% paired hierarchical bootstrap interval is strictly above zero;
+3. at least four of five seed-specific paired improvements are strictly positive.
+
+The uncertainty procedure is fixed to 10,000 paired hierarchical bootstrap replicates with bootstrap seed `20260906`: resample model seeds with replacement and, inside each selected seed, resample confirmatory objects separately within each true class before recomputing the class-balanced paired effect. Macro one-vs-rest average precision and AUROC are secondary/descriptive only. They cannot rescue a failed primary result, and the persistence/robust-deviation baselines are contextual rather than alternative confirmatory hypotheses.
+
+This decision freeze does **not** authorize execution. The exact representation-to-class-probability readout is still unresolved and must be frozen before held-out access; so must dataset byte receipts/local SHA-256 identities, object-level development split identities, licensing/use terms, outcome-blind parsing, environment/runtime identity, freshness review, and an independent approval receipt. No post-outcome seed substitution, threshold movement, or secondary-metric rescue is allowed.
 
 ## Leakage rules
 
