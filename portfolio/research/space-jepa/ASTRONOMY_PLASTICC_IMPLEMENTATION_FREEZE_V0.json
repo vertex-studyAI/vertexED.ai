@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "freeze_id": "space-jepa-plasticc-readout-parser-v0-20260906",
+  "status": "PRE_OUTCOME_IMPLEMENTATION_FROZEN_NOT_AUTHORIZED",
+  "execution_authorized": false,
+  "heldout_label_access_authorized": false,
+  "model_outcomes_generated": false,
+  "implementation": {
+    "path": "portfolio/research/space-jepa/space_jepa/plasticc.py",
+    "git_blob_sha1": "317a107a549bc67e703a880f564e940fbe5c63e6"
+  },
+  "regression_suite": {
+    "path": "portfolio/research/space-jepa/tests/test_astronomy_plasticc_readout_parser.py",
+    "git_blob_sha1": "67d79726c99dacdc2fd102ae0e363320a635ce17",
+    "fixtures": "synthetic_only"
+  },
+  "probability_readout": {
+    "architecture": "single_affine_softmax_layer",
+    "input": "frozen_object_level_representation",
+    "standardization": "development_fit_mean_and_population_std_only",
+    "class_weighting": "equal_total_weight_per_development_class",
+    "optimizer": "deterministic_full_batch_gradient_descent",
+    "learning_rate": 0.1,
+    "l2_weight_penalty": 0.0001,
+    "bias_regularized": false,
+    "steps": 2000,
+    "early_stopping": false,
+    "minimum_development_objects_per_class": 2,
+    "class_order": "sorted_unique_development_labels",
+    "heldout_input_to_fit_authorized": false,
+    "heldout_label_input_to_fit_authorized": false
+  },
+  "outcome_blind_parser": {
+    "accepted_columns_exact_set": [
+      "detected",
+      "flux",
+      "flux_err",
+      "mjd",
+      "object_id",
+      "passband"
+    ],
+    "reject_any_extra_column": true,
+    "returns_labels": false,
+    "grouping_unit": "object_id",
+    "within_object_order": "ascending_mjd",
+    "value_field": "flux",
+    "error_field": "flux_err",
+    "band_field": "passband"
+  },
+  "scientific_boundary": "This freeze closes only the previously open implementation choice for the representation-to-probability readout and the label-isolating light-curve parser. Synthetic regression tests establish deterministic software behavior only. It does not establish PLAsTiCC freshness, dataset byte identity, a valid confirmatory class universe, scientific performance, or execution authorization."
+}
