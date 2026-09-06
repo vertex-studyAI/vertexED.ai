@@ -335,7 +335,14 @@ export async function runWorkerLoop({
       });
       const result = await execute(task, { timeoutMs });
       if (!store.heartbeat(task.id, workerId, effectiveLeaseMs)) throw new Error('lost task ownership before evidence commit');
-      store.addEvidence(task.id, 'bounded-task-result', result, { workerId, kind: task.kind, className });
+      const evidence = store.addOwnedEvidence(
+        task.id,
+        workerId,
+        'bounded-task-result',
+        result,
+        { workerId, kind: task.kind, className },
+      );
+      if (!evidence) throw new Error('lost task ownership during evidence commit');
       if (!store.markVerifying(task.id, workerId, result)) throw new Error('lost task ownership before verification');
       if (!store.verifyComplete(task.id)) throw new Error('evidence gate rejected completion');
       completed += 1;

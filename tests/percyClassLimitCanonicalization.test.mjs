@@ -49,7 +49,7 @@ test('worker canonicalizes task provider class before limiter acquisition', asyn
     },
     heartbeat() { return true; },
     start() { return true; },
-    addEvidence() {},
+    addOwnedEvidence() { return { id: 'evidence-1' }; },
     markVerifying() { return true; },
     verifyComplete() { return true; },
     fail() { return true; },
