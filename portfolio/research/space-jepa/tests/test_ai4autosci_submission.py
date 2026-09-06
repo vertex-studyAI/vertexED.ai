@@ -30,8 +30,11 @@ def test_localization_claim_requires_channel_evidence():
     state = copy.deepcopy(module.load_state())
     state["manuscript"]["status"] = "SUBMISSION_READY"
     state["manuscript"]["quantitative_results_inserted"] = True
+    state["esa_primary"]["execution_authorized"] = True
     state["esa_primary"]["outcome_access_authorized"] = True
+    state["esa_primary"]["model_outcomes_generated"] = True
     state["esa_primary"]["retained_result_package_complete"] = True
+    state["manuscript"]["localization_claim_allowed"] = True
     for key in state["submission_gate"]:
         state["submission_gate"][key] = True
 
@@ -48,7 +51,9 @@ def test_submission_gate_can_close_only_after_explicit_evidence_state():
     state = copy.deepcopy(module.load_state())
     state["manuscript"]["status"] = "SUBMISSION_READY"
     state["manuscript"]["quantitative_results_inserted"] = True
+    state["esa_primary"]["execution_authorized"] = True
     state["esa_primary"]["outcome_access_authorized"] = True
+    state["esa_primary"]["model_outcomes_generated"] = True
     state["esa_primary"]["retained_result_package_complete"] = True
     for key in state["submission_gate"]:
         state["submission_gate"][key] = True
@@ -58,6 +63,24 @@ def test_submission_gate_can_close_only_after_explicit_evidence_state():
         tex = tex.replace(marker, "AUTHORIZED_RESULT_PLACEHOLDER_REMOVED")
 
     assert module.verify_submission(state, tex) == []
+
+
+def test_submission_rejects_result_state_without_execution_authorization():
+    state = copy.deepcopy(module.load_state())
+    state["manuscript"]["status"] = "SUBMISSION_READY"
+    state["manuscript"]["quantitative_results_inserted"] = True
+    state["esa_primary"]["outcome_access_authorized"] = True
+    state["esa_primary"]["model_outcomes_generated"] = True
+    state["esa_primary"]["retained_result_package_complete"] = True
+    for key in state["submission_gate"]:
+        state["submission_gate"][key] = True
+
+    tex = module.TEX_PATH.read_text(encoding="utf-8")
+    for marker in module.RESULT_MARKERS:
+        tex = tex.replace(marker, "AUTHORIZED_RESULT_PLACEHOLDER_REMOVED")
+
+    errors = module.verify_submission(state, tex)
+    assert any("execution is not recorded as independently authorized" in error for error in errors)
 
 
 def test_primary_endpoint_metric_drift_fails_closed():
