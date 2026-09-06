@@ -1,6 +1,6 @@
 # ESA-ADB ranking-metric semantics — pinned pre-outcome review v0
 
-This note pins the upstream implementation semantics that Space-JEPA must satisfy before any channel-aware ESA-ADB outcome is inspected. It is a source review, not a benchmark result.
+This note pins the upstream implementation semantics that Space-JEPA must satisfy before any channel-aware ESA-ADB outcome is inspected. It is a source review and execution contract, not a benchmark result.
 
 ## Upstream source identity
 
@@ -15,16 +15,16 @@ Reviewed Git blob identities at that commit:
 - `timeeval/metrics/latency_metrics.py`: `bfe6d88a5e6c6668e202f756566aa81c06480400`
 - `timeeval/core/experiments.py`: `c0e4a42c3efa5bd53df3833565d3984801add2d6`
 
-A retained official-metric run must use this exact source identity or explicitly freeze and review a successor upstream commit before outcome access.
+`evaluate_esa_channel_fscore.py` verifies those Git blob identities from raw bytes **before importing the metric**. A retained official-metric run must use this exact source identity or explicitly freeze and review a successor upstream commit before outcome access.
 
 ## Mission-1 ranking metric declaration
 
-The pinned Mission-1 experiment declares beta `0.5` and two label selections for both event/ranking reporting:
+The pinned Mission-1 experiment declares beta `0.5` and two label selections:
 
 1. `Category = Anomaly`
 2. `Category in {Rare Event, Anomaly}`
 
-It declares `ChannelAwareFScore` and `ADTQC` as ranking metrics and passes the official `labels.csv` plus `84_months.test.csv` into TimeEval. The experiment can use either the six-channel lightweight subset (`channel_41` through `channel_46`) or the larger target-channel list.
+It declares `ChannelAwareFScore` and `ADTQC` as ranking metrics and passes official `labels.csv` plus `84_months.test.csv` into TimeEval. The experiment can use either the six-channel lightweight subset (`channel_41` through `channel_46`) or the larger target-channel list.
 
 ## ChannelAwareFScore input semantics
 
@@ -35,53 +35,62 @@ The pinned `ChannelAwareFScore` implementation does **not** accept continuous an
 - each channel value: timestamp/binary-indicator pairs, where `0` is nominal and `1` is anomaly;
 - optional subsystem mapping.
 
-The TimeEval experiment filters the ground-truth label table to the configured `target_channels` before ranking evaluation. It then constructs one prediction series per target channel and passes the subsystem mapping to `ChannelAwareFScore`.
-
-The metric evaluates each anomaly ID over the union of affected-channel intervals, counts whether each configured channel was affected and whether a predicted event overlaps the anomaly interval, suppresses some false detections that overlap a true event for another anomaly, computes per-event channel precision/recall/F-beta, and averages those event-level values. When subsystem metadata is present it repeats an analogous affected/detected calculation at subsystem level.
+The TimeEval experiment filters ground truth to configured `target_channels`, constructs one binary prediction series per channel, and passes subsystem metadata to `ChannelAwareFScore`. The metric evaluates channel detection per anomaly ID and averages event-level precision/recall/F-beta; with subsystem metadata it also evaluates subsystem detection.
 
 ### Consequence for Space-JEPA
 
-A continuous per-channel residual alone is insufficient for the official metric. Space-JEPA therefore freezes a **train-only** conversion to binary channel predictions: one `0.995` residual quantile per channel, fit only from covered training residuals, followed by `score >= threshold` on test residuals. The threshold is not fit from ESA labels or official metric outcomes.
+A continuous per-channel residual alone is insufficient. Space-JEPA freezes a **train-only** conversion to binary channel predictions: one `0.995` residual quantile per channel, fit only from covered training residuals, followed by `score >= threshold` on test residuals. The same train-only quantile/comparison rule is applied to the matched robust-z and one-step persistence channel comparators.
 
-This choice is a Space-JEPA decision rule, not a claim that TimeEval itself selects the 0.995 quantile.
+This is a Space-JEPA/comparator decision rule, not a claim that TimeEval itself selects the 0.995 quantile.
 
-## ADTQC semantics and an important correction
+## ADTQC semantics and correction
 
-The pinned `ADTQC` metric class also declares that it does not support continuous scorings and accepts a dictionary of timestamp/binary-indicator series. Its timing curve scores the earliest overlapping detection relative to the global start of each selected anomaly, with an early-detection window based on anomaly duration and spacing from the previous anomaly.
-
-However, the pinned **TimeEval experiment orchestration does not run ADTQC as a per-channel ranking metric**. In `Experiment.evaluate()` it:
+The pinned `ADTQC` class also declares that continuous scorings are unsupported and accepts timestamp/binary-indicator series. However, the pinned **TimeEval experiment orchestration does not run ADTQC as a per-channel ranking metric**. In `Experiment.evaluate()` it:
 
 1. constructs a single `global` binary prediction series from the maximum score across channels;
 2. rewrites the filtered ground-truth `Channel` field to `global`;
 3. evaluates ADTQC on that global series;
 4. explicitly skips ADTQC inside the later per-channel ranking loop.
 
-Therefore the new Space-JEPA per-channel probe is directly required for `ChannelAwareFScore`, but it should **not** be advertised as necessary for reproducing the pinned official ADTQC orchestration. ADTQC remains a separate global timing-evaluation path.
+Therefore the Space-JEPA per-channel probe is directly required for `ChannelAwareFScore`, but must **not** be advertised as an ADTQC head. ADTQC remains a separate global timing-evaluation path.
+
+## Frozen adapter
+
+`evaluate_esa_channel_fscore.py` now provides the exact fail-closed evaluation adapter for the pinned `ChannelAwareFScore` path. It is deliberately incapable of silently evaluating arbitrary source/data combinations:
+
+- verifies all four pinned upstream Git blob identities before metric import;
+- requires explicit expected SHA-256 values for `labels.csv`, `anomaly_types.csv`, and `channels.csv`, and aborts on byte drift;
+- verifies the retained channel-probe receipt is the matched three-method, annotation-blind status;
+- verifies every retained Space-JEPA/robust-z/persistence channel CSV against the SHA-256 in that receipt;
+- requires exact identical timestamps and ordered channels across all three methods;
+- requires binary 0/1 `<channel>_pred` values and finite continuous scores;
+- filters official event ground truth to the frozen channel set and prediction time range;
+- constructs subsystem mapping from the hash-bound `channels.csv`;
+- imports `ChannelAwareFScore` only from the verified pinned ESA-ADB tree;
+- evaluates all three frozen methods through the same beta `0.5`, `Anomaly` and `{Anomaly, Rare Event}` category selections;
+- refuses to overwrite an existing retained result;
+- records source/data/receipt identities and the claim boundary in the result JSON.
+
+The adapter writes real official metric outcomes when executed, so **it has not been run against held-out ESA labels by this pre-outcome implementation work**.
 
 ## Thresholding boundary
 
-The pinned TimeEval orchestration rescales algorithm score columns and casts ranking-metric inputs to `uint8`. That orchestration does not provide a benchmark-wide train-only threshold-selection rule appropriate to a new external model's continuous channel residuals. Space-JEPA must therefore retain its own threshold provenance rather than reverse-engineering a favorable binary conversion from test labels.
+The pinned TimeEval orchestration rescales algorithm score columns and casts ranking-metric inputs to `uint8`, but does not provide a benchmark-wide train-only threshold-selection rule appropriate to this external continuous channel-residual head. Space-JEPA therefore retains its own threshold provenance rather than reverse-engineering a favorable binary conversion from test labels.
 
-Frozen Space-JEPA v0 channel decision rule:
+Frozen v0 channel decision rule for Space-JEPA and matched comparators:
 
-- fit surface: covered training channel-residual scores only;
+- fit surface: each method's training channel scores only;
 - quantile: `0.995` independently per channel;
 - test decision: `score >= channel_threshold`;
-- anomaly/rare-event labels: never read by the channel-probe exporter;
-- no test-label tuning, no per-channel favorable threshold sweep.
+- anomaly/rare-event labels: never read by the channel-surface exporter;
+- no test-label tuning and no favorable threshold sweep.
 
 ## Remaining authorization gate
 
-This source review resolves the previously vague question of the official ranking-metric input shape. It does **not** authorize outcome inspection yet.
+The implementation and upstream-semantics gaps are now closed. Outcome inspection is still blocked until the **actual benchmark metadata bytes are prospectively frozen** by recording the exact expected SHA-256 values for:
 
-Before `ChannelAwareFScore` is run on Space-JEPA, retain:
+- `labels.csv`;
+- `anomaly_types.csv`;
+- `channels.csv`.
 
-- an adapter pinned to the exact upstream commit above;
-- exact mission/preset/channel ordering;
-- exact binary prediction CSV and channel-probe receipt for every frozen seed;
-- matched per-channel binary outputs for every comparator admitted to the channel-aware comparison;
-- exact category selections and beta `0.5`;
-- official labels/anomaly-types/channel-subsystem file hashes;
-- the full frozen seed set, including adverse outcomes.
-
-Do not reinterpret a channel-aware result as causal attribution or root-cause identification.
+After those three hashes are independently reviewed and retained, run the adapter for every frozen seed `17,29,43,71,101`, keep all three methods and all adverse outcomes, and do not reinterpret ChannelAwareFScore as causal attribution or root-cause identification.
