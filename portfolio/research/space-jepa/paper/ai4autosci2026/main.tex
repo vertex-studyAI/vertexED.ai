@@ -1,6 +1,7 @@
 \documentclass[conference]{IEEEtran}
 
 \usepackage{amsmath}
+\usepackage{amsfonts}
 \usepackage{booktabs}
 \usepackage{hyperref}
 \usepackage{microtype}
@@ -61,10 +62,11 @@ A secondary pre-outcome head fits a ridge decoder from predicted target latents 
 \subsection{Benchmark and exact primary endpoint}
 The primary benchmark is ESA-ADB, pinned pre-outcome to upstream commit \texttt{aeebcd9ecd3e7266d6a035a8081b3da83dfe33}. The primary metric is the anomaly-only \texttt{ESAScores} view with $\beta=0.5$ and exact output key \texttt{EW\_F\_0.50}, where higher is better. The two frozen primary surfaces are \texttt{mission1-lite} and \texttt{mission2-lite}. Exact data identities, preprocessing identities, benchmark-source identity, and runtime information must be retained before a run is promoted to scientific evidence.
 
-For each surface and each frozen seed, define
-\begin{equation}
-\Delta = \texttt{EW\_F\_0.50}(\text{Space-JEPA}) - \max\!\left(\texttt{EW\_F\_0.50}(\text{robust-z}),\texttt{EW\_F\_0.50}(\text{persistence})\right).
-\end{equation}
+For each surface and each frozen seed, let $M(a)$ denote the official \texttt{EW\_F\_0.50} score of algorithm $a$ on that matched mission-seed pair, and define
+\begin{align}
+b &= \max\{M(\text{robust-z}), M(\text{persistence})\},\\
+\Delta &= M(\text{Space-JEPA}) - b.
+\end{align}
 A mission surface passes only if the arithmetic mean of its five paired deltas is strictly positive and at least 4/5 paired deltas are strictly positive. Ties are not wins. Overall primary success is the conjunction of success on \texttt{mission1-lite} and \texttt{mission2-lite}. Missing or failed seeds fail closed; they cannot be dropped, replaced, or selectively rerun. No post-outcome significance test or practical-effect threshold is part of this primary decision rule.
 
 \subsection{Frozen stochastic runs}
@@ -85,14 +87,15 @@ An outcome-bearing run is retained only when it records the exact code revision,
 
 \begin{table}[t]
 \centering
+\footnotesize
 \caption{Primary retained comparison structure. Values remain intentionally blank before authorized outcome access.}
-\begin{tabular}{lcc}
+\begin{tabular}{@{}lcc@{}}
 \toprule
-Surface & Official primary metric & Frozen decision summary \\
+Surface & Metric & Frozen rule \\
 \midrule
-\texttt{mission1-lite} & \texttt{EW\_F\_0.50} & mean $\Delta>0$ and $\geq$4/5 wins \\
-\texttt{mission2-lite} & \texttt{EW\_F\_0.50} & mean $\Delta>0$ and $\geq$4/5 wins \\
-Overall & -- & conjunction of both surfaces \\
+\texttt{mission1-lite} & \texttt{EW\_F\_0.50} & mean $\Delta>0$, $\geq$4/5 wins \\
+\texttt{mission2-lite} & \texttt{EW\_F\_0.50} & mean $\Delta>0$, $\geq$4/5 wins \\
+Overall & -- & both surfaces pass \\
 \bottomrule
 \end{tabular}
 \end{table}

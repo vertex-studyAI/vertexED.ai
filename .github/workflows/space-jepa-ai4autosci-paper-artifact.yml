@@ -1,0 +1,131 @@
+name: Space-JEPA AI4AutoSci paper artifact
+
+on:
+  pull_request:
+    paths:
+      - "portfolio/research/space-jepa/paper/ai4autosci2026/**"
+      - "portfolio/research/space-jepa/verify_ai4autosci_submission.py"
+      - "portfolio/research/space-jepa/tests/test_ai4autosci_submission.py"
+      - ".github/workflows/space-jepa-ai4autosci-paper-artifact.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  paper-artifact:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      PAPER_DIR: portfolio/research/space-jepa/paper/ai4autosci2026
+      EXPECTED_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
+      SOURCE_DATE_EPOCH: "0"
+      TZ: UTC
+
+    steps:
+      - name: Check out exact source head
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 1
+
+      - name: Assert exact source binding
+        shell: bash
+        run: |
+          set -euo pipefail
+          actual="$(git rev-parse HEAD)"
+          test "$actual" = "$EXPECTED_HEAD"
+          echo "source_sha=$actual"
+
+      - name: Preserve pre-outcome submission boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 portfolio/research/space-jepa/verify_ai4autosci_submission.py --mode prep
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+
+          state = json.loads(Path("portfolio/research/space-jepa/paper/ai4autosci2026/SUBMISSION_STATE_V0.json").read_text())
+          esa = state["esa_primary"]
+          gate = state["submission_gate"]
+          manuscript = state["manuscript"]
+          assert manuscript["status"] == "DRAFT_PRE_OUTCOME"
+          assert manuscript["quantitative_results_inserted"] is False
+          assert esa["execution_authorized"] is False
+          assert esa["outcome_access_authorized"] is False
+          assert esa["model_outcomes_generated"] is False
+          assert esa["retained_result_package_complete"] is False
+          assert gate["scientifically_ready"] is False
+          assert gate["results_section_ready"] is False
+          print("PRE_OUTCOME_BOUNDARY_OK")
+          PY
+
+      - name: Install deterministic LaTeX and PDF inspection tooling
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            latexmk \
+            poppler-utils \
+            texlive-fonts-recommended \
+            texlive-latex-base \
+            texlive-latex-extra \
+            texlive-latex-recommended \
+            texlive-publishers
+
+      - name: Build twice and require byte-identical column-safe PDF
+        shell: bash
+        run: |
+          set -euo pipefail
+          export SOURCE_DATE_EPOCH="$(git show -s --format=%ct "$EXPECTED_HEAD")"
+          cd "$PAPER_DIR"
+
+          latexmk -pdf -interaction=nonstopmode -halt-on-error -file-line-error main.tex
+          cp main.pdf /tmp/space-jepa-ai4autosci-first.pdf
+          first_sha="$(sha256sum /tmp/space-jepa-ai4autosci-first.pdf | awk '{print $1}')"
+
+          latexmk -C
+          latexmk -pdf -interaction=nonstopmode -halt-on-error -file-line-error main.tex
+          second_sha="$(sha256sum main.pdf | awk '{print $1}')"
+
+          test "$first_sha" = "$second_sha"
+          cmp /tmp/space-jepa-ai4autosci-first.pdf main.pdf
+          if grep -F 'Overfull \hbox' main.log; then
+            echo "paper contains an overfull box; refusing conference artifact" >&2
+            exit 1
+          fi
+          echo "deterministic_pdf_sha256=$second_sha"
+
+      - name: Verify rendered artifact and frozen page limit
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p evidence/space-jepa-ai4autosci-paper
+          python3 "$PAPER_DIR/verify_paper_artifact.py" \
+            --paper-dir "$PAPER_DIR" \
+            --pdf "$PAPER_DIR/main.pdf" \
+            --source-sha "$EXPECTED_HEAD" \
+            --receipt evidence/space-jepa-ai4autosci-paper/PAPER_BUILD_RECEIPT.json
+
+          cp "$PAPER_DIR/main.pdf" evidence/space-jepa-ai4autosci-paper/Space-JEPA-AI4AutoSci-2026.pdf
+          cp "$PAPER_DIR/main.tex" evidence/space-jepa-ai4autosci-paper/main.tex
+          cp "$PAPER_DIR/SUBMISSION_STATE_V0.json" evidence/space-jepa-ai4autosci-paper/SUBMISSION_STATE_V0.json
+          sha256sum \
+            evidence/space-jepa-ai4autosci-paper/Space-JEPA-AI4AutoSci-2026.pdf \
+            evidence/space-jepa-ai4autosci-paper/main.tex \
+            evidence/space-jepa-ai4autosci-paper/SUBMISSION_STATE_V0.json \
+            evidence/space-jepa-ai4autosci-paper/PAPER_BUILD_RECEIPT.json \
+            > evidence/space-jepa-ai4autosci-paper/SHA256SUMS
+          cat evidence/space-jepa-ai4autosci-paper/PAPER_BUILD_RECEIPT.json
+          cat evidence/space-jepa-ai4autosci-paper/SHA256SUMS
+
+      - name: Upload exact-head pre-outcome paper artifact
+        if: success()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: space-jepa-ai4autosci-paper-${{ github.event.pull_request.head.sha || github.sha }}
+          path: evidence/space-jepa-ai4autosci-paper
+          if-no-files-found: error
+          retention-days: 30
