@@ -62,7 +62,19 @@ The negative result is decision-useful because representation complexity alone d
 
 The secondary log-distance metric also does not rescue the primary claim. Log ridge has the lowest retained log-distance (`0.1506057`), while Eigen-JEPA records `0.1595020` and raw ridge `0.1945980`. Because covariance-matrix MSE is the frozen primary metric, this secondary ordering is descriptive only.
 
-## 5. Reproducibility
+## 5. Related-work boundary and missing controls
+
+The current study is intentionally narrower than the covariance-estimation and dynamic-correlation literature. Ledoit and Wolf's shrinkage work establishes a classical route to better-conditioned large-dimensional covariance estimation; Engle's dynamic conditional correlation model provides a parsimonious time-varying correlation framework; and Laloux et al. use random-matrix theory to characterize noise in empirical financial correlation spectra. These families are relevant because they represent strong statistical/spectral alternatives that a future Eigen-JEPA superiority study should confront.
+
+Crucially, **none of these methods was executed as a matched comparator in the retained frozen study**. They are literature context, not retroactive baselines. This manuscript therefore does not claim that Eigen-JEPA beats shrinkage covariance estimation, DCC-type models, random-matrix cleaning, or other unexecuted spectral/time-series methods. Adding such baselines after observing the present result would create a new scientific protocol; a successor must freeze them prospectively.
+
+Primary references for this boundary:
+
+1. O. Ledoit and M. Wolf, “A well-conditioned estimator for large-dimensional covariance matrices,” *Journal of Multivariate Analysis*, 88(2):365–411, 2004. DOI: `10.1016/S0047-259X(03)00096-4`.
+2. R. Engle, “Dynamic Conditional Correlation: A Simple Class of Multivariate Generalized Autoregressive Conditional Heteroskedasticity Models,” *Journal of Business & Economic Statistics*, 20(3):339–350, 2002. DOI: `10.1198/073500102288618487`.
+3. L. Laloux, P. Cizeau, J.-P. Bouchaud, and M. Potters, “Noise Dressing of Financial Correlation Matrices,” *Physical Review Letters*, 83:1467–1470, 1999. DOI: `10.1103/PhysRevLett.83.1467`.
+
+## 6. Reproducibility
 
 The retained Atlas suite passed `39/39`. The Eigen-JEPA CSV/JSON numerical outputs and PNG figure reproduced exactly. The generated PDF differed only by Matplotlib creation-timestamp metadata in the retained reproduction record. This manuscript therefore treats the numerical adverse result as reproducible within the retained source package while keeping external reproduction explicitly unresolved.
 
@@ -73,19 +85,19 @@ Evidence identities retained in the canonical project record:
 - canonical result surface: `portfolio/research/eigen-jepa/RESULTS.md`;
 - canonical reproduction surface: `portfolio/research/eigen-jepa/REPRODUCE.md`.
 
-## 6. Limitations
+## 7. Limitations
 
-The retained study covers one bundled real-market dataset and historical period, one covariance-block construction, one chronological split family, and a limited baseline set. It does not span multiple markets, frequencies, transaction-cost settings, live trading, or distribution-shift regimes. Stronger spectral/statistical and time-series comparators remain unexecuted in this frozen study. No external reproduction has been completed, and no claim of publication novelty is made from the current evidence alone.
+The retained study covers one bundled real-market dataset and historical period, one covariance-block construction, one chronological split family, and a limited baseline set. It does not span multiple markets, frequencies, transaction-cost settings, live trading, or distribution-shift regimes. Stronger shrinkage, spectral, dynamic-correlation, and time-series comparators remain unexecuted in this frozen study. No external reproduction has been completed, and no claim of publication novelty is made from the current evidence alone.
 
 The retained evidence also includes a separate compact `MODEL-003` Eigen-JEPA lineage in the broader portfolio record. That lineage must not be silently combined with this covariance-forecasting result to manufacture a stronger aggregate claim; cross-lineage synthesis requires explicit provenance reconciliation.
 
-## 7. Next scientific gate
+## 8. Next scientific gate
 
 Any successor must be a new preregistration. Before outcome access it should freeze:
 
 1. a multi-dataset or multi-market evaluation hierarchy;
 2. the exact primary metric and secondary-metric ordering;
-3. stronger direct, spectral, shrinkage, and time-series baselines;
+3. stronger direct, shrinkage, dynamic-correlation, spectral/random-matrix, and time-series baselines;
 4. chronological train/validation/test identities and OOD periods;
 5. seed policy and aggregation rule;
 6. practical-effect/statistical decision rules, if any;
@@ -94,6 +106,6 @@ Any successor must be a new preregistration. Before outcome access it should fre
 
 Metric switching, favorable-period selection, baseline removal, or in-place rescue tuning after observing successor outcomes is prohibited.
 
-## 8. Conclusion
+## 9. Conclusion
 
 The current Eigen-JEPA study does not establish covariance-forecasting superiority. On the frozen held-out task, Eigen-JEPA records matrix MSE `5.8318226e-09`, compared with `5.7734384e-09` for raw ridge and `5.7896089e-09` for log ridge. The paired primary comparison against raw ridge does not favor Eigen-JEPA and its retained 95% interval crosses zero. Eigen-JEPA is better than persistence on this task, but that narrower observation does not rescue the stronger superiority claim. The current study should remain frozen as mixed/negative real-data evidence; any broader claim requires a separately preregistered successor.
