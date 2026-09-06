@@ -69,7 +69,7 @@ class PlasticcCandidateTests(unittest.TestCase):
         candidate["preoutcome_split_intent"]["windows_may_cross_objects"] = True
         self.assert_rejected(candidate, "must not cross")
 
-    def test_public_class_99_boundary_cannot_be_rewritten_or_promoted_to_primary() -> None:
+    def test_public_class_99_boundary_cannot_be_rewritten_or_promoted_to_primary(self) -> None:
         candidate = load_candidate()
         candidate["public_challenge_class_schema"]["training_surface_class_labels"] = [6, 15]
         self.assert_rejected(candidate, "training class universe drift")
