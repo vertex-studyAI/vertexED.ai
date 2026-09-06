@@ -1,0 +1,33 @@
+{
+  "schema": "eigen-jepa.paper-figure-data.v1",
+  "source": {
+    "canonical_results": "portfolio/research/eigen-jepa/RESULTS.md",
+    "source_package": "BU1LD_Research_Atlas_Flagships_v4_FRESH_2026-08-12.zip",
+    "source_sha256": "076f12750d6a8e6c298c17815224a79463bcad149d6cf1283900d98c6e394a2c",
+    "heldout_blocks": 111
+  },
+  "primary_metric": {
+    "name": "covariance-matrix MSE",
+    "direction": "lower_is_better",
+    "display_scale": "1e-9",
+    "methods": [
+      {"name": "raw ridge", "matrix_mse": "5.7734384e-09"},
+      {"name": "log ridge", "matrix_mse": "5.7896089e-09"},
+      {"name": "Eigen-JEPA", "matrix_mse": "5.8318226e-09"},
+      {"name": "Cholesky", "matrix_mse": "5.8762487e-09"},
+      {"name": "persistence", "matrix_mse": "7.7708315e-09"}
+    ]
+  },
+  "paired_primary_comparison": {
+    "comparison": "Eigen-JEPA minus raw ridge",
+    "difference": "+5.8384e-11",
+    "interval_95": ["-2.3565e-10", "4.1744e-10"],
+    "interpretation": "positive favors raw ridge under this difference convention; retained interval crosses zero"
+  },
+  "scientific_boundary": {
+    "status": "BOUNDARY_NEGATIVE_COMPARISON",
+    "primary_superiority_supported": false,
+    "external_validation_complete": false,
+    "post_outcome_rescue_allowed": false
+  }
+}
