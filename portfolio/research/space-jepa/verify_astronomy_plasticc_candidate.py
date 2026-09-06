@@ -8,6 +8,7 @@ from pathlib import Path
 from typing import Any, Mapping
 
 MD5 = re.compile(r"^md5:[0-9a-f]{32}$")
+GIT_BLOB = re.compile(r"^[0-9a-f]{40}$")
 EXPECTED_TRAIN = {
     "plasticc_train_lightcurves.csv.gz": "md5:1aa1605908b5a6398bd46bf9120b6400",
     "plasticc_train_metadata.csv.gz": "md5:8c6b00fd503d6cf3d9a42bfb53046e0f",
@@ -42,11 +43,14 @@ EXPECTED_BLOCKER_PREFIXES = {
     "licensing": "applicable licensing/usage terms",
     "sha-256": "exact downloaded byte receipts and local sha-256 identities",
     "object-level": "exact object-level internal train/validation manifest",
-    "readout": "exact representation-to-class-probability readout architecture and fitting rule",
-    "outcome-blind": "outcome-blind heldout parser",
     "runtime": "exact code commit, dependency environment, and hardware/runtime identity",
     "approval receipt": "independent approval receipt",
 }
+EXPECTED_IMPLEMENTATION_PATH = "portfolio/research/space-jepa/space_jepa/plasticc.py"
+EXPECTED_IMPLEMENTATION_BLOB = "317a107a549bc67e703a880f564e940fbe5c63e6"
+EXPECTED_REGRESSION_PATH = "portfolio/research/space-jepa/tests/test_astronomy_plasticc_readout_parser.py"
+EXPECTED_REGRESSION_BLOB = "67d79726c99dacdc2fd102ae0e363320a635ce17"
+EXPECTED_FREEZE_PATH = "portfolio/research/space-jepa/ASTRONOMY_PLASTICC_IMPLEMENTATION_FREEZE_V0.json"
 
 
 class CandidateError(ValueError):
@@ -91,6 +95,19 @@ def verify(candidate: Mapping[str, Any]) -> dict[str, Any]:
     require(source.get("task_rows_displayed_or_parsed_for_this_candidate_freeze") is False, "candidate must not claim task-row access")
     require(source.get("heldout_labels_displayed_or_parsed_for_this_candidate_freeze") is False, "candidate must not claim heldout-label access")
 
+    implementation = mapping(candidate.get("implementation_freeze"), "implementation_freeze")
+    require(implementation.get("path") == EXPECTED_FREEZE_PATH, "implementation freeze path drift")
+    require(implementation.get("status") == "PRE_OUTCOME_IMPLEMENTATION_FROZEN_NOT_AUTHORIZED", "implementation freeze status drift")
+    require(implementation.get("implementation_path") == EXPECTED_IMPLEMENTATION_PATH, "implementation path drift")
+    require(implementation.get("implementation_git_blob_sha1") == EXPECTED_IMPLEMENTATION_BLOB, "implementation blob drift")
+    require(implementation.get("regression_path") == EXPECTED_REGRESSION_PATH, "implementation regression path drift")
+    require(implementation.get("regression_git_blob_sha1") == EXPECTED_REGRESSION_BLOB, "implementation regression blob drift")
+    require(GIT_BLOB.fullmatch(str(implementation.get("implementation_git_blob_sha1", ""))) is not None, "invalid implementation blob identity")
+    require(GIT_BLOB.fullmatch(str(implementation.get("regression_git_blob_sha1", ""))) is not None, "invalid regression blob identity")
+    require(implementation.get("synthetic_verification_only") is True, "implementation verification must remain synthetic-only")
+    require(implementation.get("closes_readout_choice_only") is True, "readout implementation freeze must be explicit")
+    require(implementation.get("closes_outcome_blind_parser_choice_only") is True, "parser implementation freeze must be explicit")
+
     split = mapping(candidate.get("preoutcome_split_intent"), "preoutcome_split_intent")
     require(split.get("object_identity_disjoint") is True, "object-disjoint boundary must remain required")
     require(split.get("train_only_feature_fit") is True, "feature fitting must remain train-only")
@@ -133,10 +150,12 @@ def verify(candidate: Mapping[str, Any]) -> dict[str, Any]:
     require(decision.get("post_outcome_threshold_or_seed_changes_authorized") is False, "post-outcome threshold/seed changes must remain prohibited")
 
     blockers = candidate.get("remaining_preoutcome_blockers")
-    require(isinstance(blockers, list) and len(blockers) >= 8, "remaining preoutcome blockers missing")
+    require(isinstance(blockers, list) and len(blockers) >= 6, "remaining preoutcome blockers missing")
     normalized_blockers = [str(item).strip().lower() for item in blockers]
     for label, prefix in EXPECTED_BLOCKER_PREFIXES.items():
         require(any(item.startswith(prefix) for item in normalized_blockers), f"remaining blocker must retain {label} gate")
+    require(not any("representation-to-class-probability readout" in item for item in normalized_blockers), "readout implementation gate is already frozen and must not be reported as unresolved")
+    require(not any(item.startswith("outcome-blind heldout parser") for item in normalized_blockers), "outcome-blind parser gate is already frozen and must not be reported as unresolved")
 
     review = candidate.get("required_independent_review_before_any_heldout_execution")
     require(isinstance(review, list) and len(review) >= 7, "independent review gates missing")
@@ -148,6 +167,7 @@ def verify(candidate: Mapping[str, Any]) -> dict[str, Any]:
     require("not an astronomy result" in boundary, "result claim boundary missing")
     require("simulated transient-classification" in boundary, "simulation claim boundary missing")
     require("freezes its confirmatory decision policy" in boundary, "decision-policy claim boundary missing")
+    require("implementation surface" in boundary, "implementation-freeze claim boundary missing")
 
     return {
         "status": "PLASTICC_ASTRONOMY_CANDIDATE_VERIFIED_NOT_APPROVED",
@@ -159,6 +179,7 @@ def verify(candidate: Mapping[str, Any]) -> dict[str, Any]:
         "practical_effect_threshold_absolute": decision["practical_effect_threshold_absolute"],
         "model_seeds": decision["model_seeds"],
         "bootstrap_replicates": uncertainty["replicates"],
+        "implementation_blob": implementation["implementation_git_blob_sha1"],
     }
 
 
