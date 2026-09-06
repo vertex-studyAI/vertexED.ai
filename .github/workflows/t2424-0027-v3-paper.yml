@@ -1,0 +1,110 @@
+name: T2424-0027 v3 Paper PDF
+
+on:
+  pull_request:
+    paths:
+      - "portfolio/project2424/projects/T2424-0027/real_encoder/retained_v3_primary/**"
+      - "tests/t2424-0027-v3-paper-evidence.test.mjs"
+      - ".github/workflows/t2424-0027-v3-paper.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  SOURCE_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+  PAPER_DIR: portfolio/project2424/projects/T2424-0027/real_encoder/retained_v3_primary/paper
+
+jobs:
+  paper:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Checkout exact source revision
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ env.SOURCE_SHA }}
+          fetch-depth: 1
+
+      - name: Bind checkout to PR head
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$SOURCE_SHA"
+          printf 'source_sha=%s\n' "$SOURCE_SHA"
+
+      - name: Set up Node 22
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: "22"
+
+      - name: Verify paper against retained evidence
+        run: node --test tests/t2424-0027-v3-paper-evidence.test.mjs
+
+      - name: Install minimal paper toolchain
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            texlive-latex-base \
+            texlive-latex-extra \
+            texlive-pictures \
+            poppler-utils
+
+      - name: Build fresh source-bound PDF
+        shell: bash
+        working-directory: ${{ env.PAPER_DIR }}
+        run: |
+          set -euo pipefail
+          rm -f main.aux main.log main.out main.pdf main.txt
+          export TZ=UTC
+          export SOURCE_DATE_EPOCH="$(git show -s --format=%ct "$SOURCE_SHA")"
+          pdflatex -interaction=nonstopmode -halt-on-error -file-line-error main.tex
+          pdflatex -interaction=nonstopmode -halt-on-error -file-line-error main.tex
+          test -s main.pdf
+          pdfinfo main.pdf | tee pdfinfo.txt
+          pdftotext -layout main.pdf main.txt
+
+      - name: Fail closed on paper defects and claim drift
+        shell: bash
+        working-directory: ${{ env.PAPER_DIR }}
+        run: |
+          set -euo pipefail
+          ! grep -Eq 'LaTeX Warning: (Reference|Citation).*undefined|There were undefined (references|citations)' main.log
+          ! grep -Eq 'Overfull \\hbox|Overfull \\vbox' main.log
+          grep -q 'FAIL_PREDECLARED' main.txt
+          grep -q '0/5' main.txt
+          grep -q 'negative primary result' main.txt
+          grep -q 'cannot replace the conjunction' main.txt
+
+      - name: Record exact paper receipt
+        shell: bash
+        run: |
+          set -euo pipefail
+          out="/tmp/t2424-0027-v3-paper"
+          mkdir -p "$out"
+          cp "$PAPER_DIR/main.pdf" "$out/T2424-0027-v3-negative-result.pdf"
+          cp "$PAPER_DIR/main.log" "$out/main.log"
+          cp "$PAPER_DIR/main.txt" "$out/main.txt"
+          cp "$PAPER_DIR/pdfinfo.txt" "$out/pdfinfo.txt"
+          printf '%s\n' "$SOURCE_SHA" > "$out/SOURCE_SHA.txt"
+          dpkg-query -W -f='${Package}=${Version}\n' \
+            texlive-latex-base texlive-latex-extra texlive-pictures poppler-utils \
+            | sort > "$out/TOOLCHAIN_PACKAGES.txt"
+          sha256sum \
+            "$PAPER_DIR/main.tex" \
+            "$PAPER_DIR/main.pdf" \
+            portfolio/project2424/projects/T2424-0027/real_encoder/retained_v3_primary/summary.json \
+            portfolio/project2424/projects/T2424-0027/real_encoder/retained_v3_primary/verdict.json \
+            portfolio/project2424/projects/T2424-0027/real_encoder/retained_v3_primary/per_seed_metrics.jsonl \
+            portfolio/project2424/projects/T2424-0027/real_encoder/retained_v3_primary/descriptive_uncertainty.json \
+            > "$out/SHA256SUMS.txt"
+
+      - name: Upload paper and diagnostics
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: t2424-0027-v3-paper-${{ env.SOURCE_SHA }}
+          path: /tmp/t2424-0027-v3-paper
+          if-no-files-found: error
+          retention-days: 90
