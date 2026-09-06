@@ -37,16 +37,16 @@ EXPECTED_SECONDARY = [
     "macro_one_vs_rest_average_precision",
     "macro_one_vs_rest_auroc",
 ]
-EXPECTED_BLOCKER_TERMS = (
-    "freshness",
-    "licensing",
-    "sha-256",
-    "object-level",
-    "readout",
-    "outcome-blind",
-    "runtime",
-    "approval receipt",
-)
+EXPECTED_BLOCKER_PREFIXES = {
+    "freshness": "independent freshness review",
+    "licensing": "applicable licensing/usage terms",
+    "sha-256": "exact downloaded byte receipts and local sha-256 identities",
+    "object-level": "exact object-level internal train/validation manifest",
+    "readout": "exact representation-to-class-probability readout architecture and fitting rule",
+    "outcome-blind": "outcome-blind heldout parser",
+    "runtime": "exact code commit, dependency environment, and hardware/runtime identity",
+    "approval receipt": "independent approval receipt",
+}
 
 
 class CandidateError(ValueError):
@@ -134,9 +134,9 @@ def verify(candidate: Mapping[str, Any]) -> dict[str, Any]:
 
     blockers = candidate.get("remaining_preoutcome_blockers")
     require(isinstance(blockers, list) and len(blockers) >= 8, "remaining preoutcome blockers missing")
-    blockers_joined = " ".join(str(item).lower() for item in blockers)
-    for term in EXPECTED_BLOCKER_TERMS:
-        require(term in blockers_joined, f"remaining blocker must retain {term} gate")
+    normalized_blockers = [str(item).strip().lower() for item in blockers]
+    for label, prefix in EXPECTED_BLOCKER_PREFIXES.items():
+        require(any(item.startswith(prefix) for item in normalized_blockers), f"remaining blocker must retain {label} gate")
 
     review = candidate.get("required_independent_review_before_any_heldout_execution")
     require(isinstance(review, list) and len(review) >= 7, "independent review gates missing")
