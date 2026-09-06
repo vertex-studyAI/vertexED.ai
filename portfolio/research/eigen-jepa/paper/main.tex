@@ -20,7 +20,7 @@ We evaluate whether the project-named Eigen-JEPA spectral representation improve
 \end{abstract}
 
 \section{Question and Frozen Study Boundary}
-The frozen question is whether the tested spectral/eigen representation improves next-block covariance forecasting over direct statistical baselines on covariance-matrix MSE. The canonical retained evidence is \texttt{portfolio/research/eigen-jepa/RESULTS.md}, derived from source package \texttt{BU1LD\_Research\_Atlas\_Flagships\_v4\_FRESH\_2026-08-12.zip} with SHA-256 \texttt{076f12750d6a8e6c298c17815224a79463bcad149d6cf1283900d98c6e394a2c}.
+The frozen question is whether the tested spectral/eigen representation improves next-block covariance forecasting over direct statistical baselines on covariance-matrix MSE. The canonical retained evidence is \path{portfolio/research/eigen-jepa/RESULTS.md}, derived from source package \path{BU1LD_Research_Atlas_Flagships_v4_FRESH_2026-08-12.zip} with SHA-256 \path{076f12750d6a8e6c298c17815224a79463bcad149d6cf1283900d98c6e394a2c}.
 
 The packaged study uses the bundled Fama--French five-factor daily data file. It forms non-overlapping 20-day covariance blocks, uses four prior blocks as context, and predicts the next block. Splits are chronological, regularization is selected on the validation split under the frozen protocol, and the held-out test contains 111 blocks.
 
