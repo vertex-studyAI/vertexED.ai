@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "venue": {
+    "name": "AI4AutoSci @ IEEE BigData 2026",
+    "submission_deadline_date": "2026-10-31",
+    "notification_date": "2026-11-21",
+    "camera_ready_date": "2026-11-28",
+    "format": "IEEE 2-column",
+    "max_pages": 10,
+    "double_blind": true,
+    "presentation": "in-person",
+    "portal_announced_at_freeze": false
+  },
+  "manuscript": {
+    "working_title": "Space-JEPA: Predictive Latent State Learning for Scientific Instrument Telemetry Anomaly Detection",
+    "status": "DRAFT_PRE_OUTCOME",
+    "primary_track": "ESA spacecraft telemetry anomaly detection",
+    "secondary_track": "ESA per-channel ChannelAwareFScore-compatible residual surface",
+    "optional_separate_track": "PLAsTiCC irregular-time astronomy characterization",
+    "quantitative_results_inserted": false,
+    "superiority_claim_allowed": false,
+    "localization_claim_allowed": false,
+    "astronomy_real_sky_claim_allowed": false
+  },
+  "esa_primary": {
+    "protocol": "portfolio/research/space-jepa/PROTOCOL.md",
+    "seeds": [17, 29, 43, 71, 101],
+    "threshold_quantile": 0.995,
+    "threshold_source": "training scores only",
+    "minimum_baselines": ["robust_zscore", "one_step_persistence"],
+    "outcome_access_authorized": false,
+    "retained_result_package_complete": false
+  },
+  "esa_channel_secondary": {
+    "protocol": "portfolio/research/space-jepa/ESA_CHANNEL_PROBE_PROTOCOL_V0.md",
+    "ridge_alpha": 1.0,
+    "probe_fit_stride": 4,
+    "score_stride": 1,
+    "batch_size": 128,
+    "threshold_quantile": 0.995,
+    "outcome_access_authorized": false,
+    "retained_result_package_complete": false
+  },
+  "plasticc_optional": {
+    "protocol": "portfolio/research/space-jepa/ASTRONOMY_TRACK.md",
+    "benchmark": "PLAsTiCC v1",
+    "simulated": true,
+    "publicly_unblinded": true,
+    "confirmatory_freshness_established": false,
+    "execution_authorized": false,
+    "real_sky_validation_claim_allowed": false,
+    "seeds": [11, 23, 37, 53, 71],
+    "primary_metric": "class-balanced multiclass log loss",
+    "practical_effect_threshold": 0.02,
+    "bootstrap_replicates": 10000,
+    "bootstrap_seed": 20260906
+  },
+  "submission_gate": {
+    "scientifically_ready": false,
+    "double_blind_ready": true,
+    "results_section_ready": false,
+    "claims_reconciled_to_evidence": false,
+    "final_page_count_checked": false,
+    "official_submission_portal_checked": false
+  }
+}
