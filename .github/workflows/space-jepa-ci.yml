@@ -41,7 +41,9 @@ jobs:
             portfolio/research/space-jepa/space_jepa \
             portfolio/research/space-jepa/run_csv.py \
             portfolio/research/space-jepa/run_esa_adb.py \
+            portfolio/research/space-jepa/run_esa_channel_probe.py \
             portfolio/research/space-jepa/evaluate_esa_adb.py \
+            portfolio/research/space-jepa/evaluate_esa_channel_fscore.py \
             portfolio/research/space-jepa/smoke.py
 
       - name: Run Space-JEPA unit tests

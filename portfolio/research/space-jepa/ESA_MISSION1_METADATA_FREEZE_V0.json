@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "freeze_id": "space-jepa-esa-mission1-metadata-v0-20260906",
+  "status": "PREOUTCOME_METADATA_PROVENANCE_FROZEN_NOT_RESULT",
+  "execution_authorized": false,
+  "channel_aware_outcome_access_authorized": false,
+  "dataset": {
+    "zenodo_record_id": "12528696",
+    "doi": "10.5281/zenodo.12528696",
+    "archive_name": "ESA-Mission1.zip",
+    "archive_url": "https://zenodo.org/records/12528696/files/ESA-Mission1.zip?download=1",
+    "zenodo_declared_md5": "80750189d171f5f398fb3d96c49df12b",
+    "remote_size_bytes": 3776246054
+  },
+  "upstream_evaluation_source": {
+    "repository": "kplabs-pl/ESA-ADB",
+    "commit": "aeebcd9ecd3e7266d6d6a035a8081b3da83dfe33"
+  },
+  "metadata": {
+    "labels.csv": {
+      "path": "ESA-Mission1/labels.csv",
+      "sha256": "1564d630f1ec1387d699ec81531ce57118051a220c8b7cba050a446a652b9082",
+      "bytes": 245564,
+      "zip_crc32": "372f9603",
+      "compressed_bytes": 27950,
+      "compress_type": 8
+    },
+    "anomaly_types.csv": {
+      "path": "ESA-Mission1/anomaly_types.csv",
+      "sha256": "e0cadee4ee9697c5ca8d4f9e81067454d7d7a00d063ee0de33cbc77660eec8bc",
+      "bytes": 13299,
+      "zip_crc32": "cb4fc8e2",
+      "compressed_bytes": 1103,
+      "compress_type": 8
+    },
+    "channels.csv": {
+      "path": "ESA-Mission1/channels.csv",
+      "sha256": "92fe4582f1907e42129a764e52afddaef02de8e555e4c47302acd4225222abbf",
+      "bytes": 3542,
+      "zip_crc32": "c71ef823",
+      "compressed_bytes": 397,
+      "compress_type": 8
+    }
+  },
+  "discovery_evidence": {
+    "github_actions_run_id": 34004806814,
+    "github_actions_artifact_id": 9980602495,
+    "artifact_zip_sha256": "283d2444ef27160238a27595a54b43468b5b899dfa1b41f6ff945bc567caa08d",
+    "method": "HTTP byte-range ZIP central-directory access plus raw hashing of exactly the three metadata members",
+    "csv_rows_parsed": false,
+    "labels_interpreted": false,
+    "anomaly_types_interpreted": false,
+    "channel_declarations_interpreted": false,
+    "model_outputs_generated": false
+  },
+  "remaining_gate": "Independent pre-outcome review must verify these identities and approve benchmark-metadata access before the held-out ChannelAwareFScore adapter is executed.",
+  "claim_boundary": "This artifact freezes benchmark metadata byte identities only. It is not a Space-JEPA result, does not authorize held-out evaluation, and does not support anomaly-detection, channel-localization, causal-attribution, or baseline-superiority claims."
+}
