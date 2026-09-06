@@ -6,7 +6,13 @@ import importlib.util
 import numpy as np
 import torch
 
-from space_jepa.channel_probe import RidgeChannelProbe, fit_channel_probe, score_channel_errors
+from space_jepa.channel_probe import (
+    RidgeChannelProbe,
+    apply_channel_thresholds,
+    fit_channel_probe,
+    fit_channel_thresholds,
+    score_channel_errors,
+)
 
 
 class LinearFutureModel(torch.nn.Module):
@@ -61,6 +67,8 @@ def test_probe_is_train_only_and_does_not_accept_labels():
 
     assert "labels" not in inspect.signature(fit_channel_probe).parameters
     assert "y" not in inspect.signature(fit_channel_probe).parameters
+    assert "labels" not in inspect.signature(fit_channel_thresholds).parameters
+    assert "y" not in inspect.signature(fit_channel_thresholds).parameters
 
 
 def test_probe_rejects_nonfinite_telemetry_and_channel_mismatch():
@@ -98,12 +106,45 @@ def test_probe_serialization_records_predeclared_ridge_strength():
     assert payload["n_channels"] == 2
 
 
+def test_channel_thresholds_use_covered_training_scores_only():
+    scores = np.array(
+        [
+            [np.nan, np.nan],
+            [1.0, 10.0],
+            [2.0, 20.0],
+            [3.0, 30.0],
+            [4.0, 40.0],
+        ],
+        dtype=np.float64,
+    )
+    coverage = np.array([0, 1, 1, 1, 1])
+    thresholds = fit_channel_thresholds(scores, coverage, quantile=0.75)
+    np.testing.assert_allclose(thresholds, [3.25, 32.5])
+    preds = apply_channel_thresholds(
+        np.array([[3.24, 32.5], [3.25, 33.0]], dtype=np.float64), thresholds
+    )
+    np.testing.assert_array_equal(preds, [[0, 1], [1, 1]])
+    assert preds.dtype == np.uint8
+
+
+def test_channel_thresholds_fail_closed_on_invalid_covered_scores():
+    scores = np.array([[1.0, 2.0], [np.nan, 3.0]])
+    coverage = np.array([1, 1])
+    try:
+        fit_channel_thresholds(scores, coverage, quantile=0.995)
+    except ValueError as exc:
+        assert "finite" in str(exc)
+    else:
+        raise AssertionError("nonfinite covered train score must fail closed")
+
+
 def test_probe_runner_freezes_constants_and_verifies_source_bytes(tmp_path):
     module = _load_probe_runner()
     assert module.RIDGE_ALPHA == 1.0
     assert module.FIT_STRIDE == 4
     assert module.SCORE_STRIDE == 1
     assert module.BATCH_SIZE == 128
+    assert module.CHANNEL_THRESHOLD_QUANTILE == 0.995
 
     train = tmp_path / "train.csv"
     test = tmp_path / "test.csv"
