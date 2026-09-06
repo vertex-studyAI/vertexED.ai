@@ -1,4 +1,7 @@
+from pathlib import Path
 from types import SimpleNamespace
+import hashlib
+import importlib.util
 
 import numpy as np
 import torch
@@ -20,6 +23,15 @@ class LinearFutureModel(torch.nn.Module):
     def latent_pairs(self, context: torch.Tensor, target: torch.Tensor):
         predicted = target.clone()
         return predicted, predicted.detach()
+
+
+def _load_probe_runner():
+    path = Path(__file__).parents[1] / "run_esa_channel_probe.py"
+    spec = importlib.util.spec_from_file_location("space_jepa_channel_probe_runner", path)
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
 
 
 def test_probe_recovers_identity_decoder_and_alignment():
@@ -84,3 +96,31 @@ def test_probe_serialization_records_predeclared_ridge_strength():
     assert payload["ridge_alpha"] == 0.25
     assert payload["latent_dim"] == 2
     assert payload["n_channels"] == 2
+
+
+def test_probe_runner_freezes_constants_and_verifies_source_bytes(tmp_path):
+    module = _load_probe_runner()
+    assert module.RIDGE_ALPHA == 1.0
+    assert module.FIT_STRIDE == 4
+    assert module.SCORE_STRIDE == 1
+    assert module.BATCH_SIZE == 128
+
+    train = tmp_path / "train.csv"
+    test = tmp_path / "test.csv"
+    train.write_bytes(b"train-bytes")
+    test.write_bytes(b"test-bytes")
+    run = {
+        "train": {"sha256": hashlib.sha256(train.read_bytes()).hexdigest()},
+        "test": {"sha256": hashlib.sha256(test.read_bytes()).hexdigest()},
+        "source_contract": {"channels": ["channel_41", "channel_42"]},
+    }
+    module._verify_source_bytes(run, train, test)
+    assert module._source_channels(run) == ("channel_41", "channel_42")
+
+    run["test"]["sha256"] = "0" * 64
+    try:
+        module._verify_source_bytes(run, train, test)
+    except ValueError as exc:
+        assert "test CSV bytes" in str(exc)
+    else:
+        raise AssertionError("mismatched source bytes must fail closed")
