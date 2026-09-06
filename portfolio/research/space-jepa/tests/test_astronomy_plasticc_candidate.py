@@ -151,6 +151,9 @@ class PlasticcCandidateTests(unittest.TestCase):
         candidate["remaining_preoutcome_blockers"] = [
             item for item in candidate["remaining_preoutcome_blockers"] if "readout" not in item.lower()
         ]
+        candidate["remaining_preoutcome_blockers"].append(
+            "additional unrelated preoutcome gate retained only to keep blocker-count validation independent"
+        )
         self.assert_rejected(candidate, "readout")
 
 
