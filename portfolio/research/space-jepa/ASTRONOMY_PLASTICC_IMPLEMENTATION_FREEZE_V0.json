@@ -7,16 +7,27 @@
   "model_outcomes_generated": false,
   "implementation": {
     "path": "portfolio/research/space-jepa/space_jepa/plasticc.py",
-    "git_blob_sha1": "317a107a549bc67e703a880f564e940fbe5c63e6"
+    "git_blob_sha1": "6d07ab34d3fde108ea299309c299dc9ff389ab06"
   },
   "regression_suite": {
     "path": "portfolio/research/space-jepa/tests/test_astronomy_plasticc_readout_parser.py",
-    "git_blob_sha1": "67d79726c99dacdc2fd102ae0e363320a635ce17",
+    "git_blob_sha1": "4eff6e09cbd02856340b3e1adccf3007f7c2837d",
     "fixtures": "synthetic_only"
+  },
+  "public_challenge_class_schema": {
+    "source": "Kaggle PLAsTiCC Astronomical Classification dataset description",
+    "primary_seen_class_labels": [6, 15, 16, 42, 52, 53, 62, 64, 65, 67, 88, 90, 92, 95],
+    "test_only_open_set_class_label": 99,
+    "class_99_occurs_in_training": false,
+    "primary_metric_includes_class_99": false,
+    "class_99_secondary_open_set_analysis_may_rescue_primary": false
   },
   "probability_readout": {
     "architecture": "single_affine_softmax_layer",
     "input": "frozen_object_level_representation",
+    "primary_class_labels": [6, 15, 16, 42, 52, 53, 62, 64, 65, 67, 88, 90, 92, 95],
+    "open_set_class_label": 99,
+    "open_set_class_fit_authorized": false,
     "standardization": "development_fit_mean_and_population_std_only",
     "class_weighting": "equal_total_weight_per_development_class",
     "optimizer": "deterministic_full_batch_gradient_descent",
@@ -26,9 +37,17 @@
     "steps": 2000,
     "early_stopping": false,
     "minimum_development_objects_per_class": 2,
-    "class_order": "sorted_unique_development_labels",
+    "class_order": "frozen_primary_seen_class_labels",
     "heldout_input_to_fit_authorized": false,
     "heldout_label_input_to_fit_authorized": false
+  },
+  "primary_evaluation_class_policy": {
+    "primary_includes_only_seen_training_classes": true,
+    "primary_excludes_test_only_class_99": true,
+    "exclusion_rule_frozen_before_dataset_download_or_model_outcome_access": true,
+    "class_99_analysis": "separate_open_set_descriptive_only_until_separately_preregistered",
+    "class_99_result_may_rescue_primary": false,
+    "unexpected_class_label_policy": "fail_closed"
   },
   "outcome_blind_parser": {
     "accepted_columns_exact_set": [
@@ -47,5 +66,5 @@
     "error_field": "flux_err",
     "band_field": "passband"
   },
-  "scientific_boundary": "This freeze closes only the previously open implementation choice for the representation-to-probability readout and the label-isolating light-curve parser. Synthetic regression tests establish deterministic software behavior only. It does not establish PLAsTiCC freshness, dataset byte identity, a valid confirmatory class universe, scientific performance, or execution authorization."
+  "scientific_boundary": "This freeze closes the representation-to-probability readout, label-isolating light-curve parser, and the prospectively declared seen-class primary universe. The public challenge schema states that class 99 is a test-only open-set class, so it is excluded from the 14-class primary representation comparison and cannot rescue it. Synthetic regression tests establish deterministic software behavior only. This freeze does not establish PLAsTiCC freshness, dataset byte identity, scientific performance, or execution authorization."
 }
