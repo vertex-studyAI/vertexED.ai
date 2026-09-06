@@ -1,0 +1,64 @@
+name: Repair fflate lock
+
+on:
+  push:
+    branches:
+      - fix/deps-fflate-083-20260906
+
+permissions:
+  contents: write
+
+jobs:
+  repair-lock:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout exact branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Update only fflate lock resolution
+        shell: bash
+        run: |
+          node <<'NODE'
+          const fs = require('node:fs');
+          const path = 'package-lock.json';
+          const lock = JSON.parse(fs.readFileSync(path, 'utf8'));
+          const entry = lock?.packages?.['node_modules/fflate'];
+          if (!entry || entry.version !== '0.8.2') {
+            throw new Error(`Expected locked fflate 0.8.2, found ${entry?.version ?? 'missing'}`);
+          }
+          entry.version = '0.8.3';
+          entry.resolved = 'https://registry.npmjs.org/fflate/-/fflate-0.8.3.tgz';
+          entry.integrity = 'sha512-fAI2eGIIRpiKpCpFoGjJaJcLH3SXwGc7Se82eu1vriQKE/YlR+JwRRM2tl+gXyQEfFt9Zn5f4RzXMoPRQEaZHg==';
+          fs.writeFileSync(path, `${JSON.stringify(lock, null, 2)}\n`);
+          NODE
+
+      - name: Verify lock installs exactly
+        run: npm ci --ignore-scripts
+
+      - name: Verify production audit clears moderate findings
+        run: npm audit --omit=dev --audit-level=moderate
+
+      - name: Assert scoped lock-only diff
+        shell: bash
+        run: |
+          test "$(git diff --name-only)" = "package-lock.json"
+          git diff --check
+          git diff -- package-lock.json
+
+      - name: Commit repaired lockfile
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add package-lock.json
+          git commit -m "fix(deps): update fflate lock to 0.8.3"
+          git push origin HEAD:${GITHUB_REF_NAME}
