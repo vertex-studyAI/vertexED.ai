@@ -13,7 +13,7 @@
 \maketitle
 
 \begin{abstract}
-Scientific instruments generate multivariate telemetry whose nominal dynamics can be highly structured while labeled failures remain sparse. We study whether joint-embedding predictive learning can provide a useful label-free predictive state for spacecraft telemetry anomaly detection. Space-JEPA trains an online encoder to predict future target-encoder latents from past telemetry windows, fits normalization and anomaly thresholds using training telemetry only, and evaluates against fixed simple comparators under the official ESA Anomaly Detection Benchmark evaluation path. The study is governed by a pre-outcome protocol that fixes the data boundary, seed set, threshold rule, baselines, retained artifacts, and negative-result policy before held-out labels are opened. A secondary predeclared channel-aware decoder exposes per-channel residual surfaces without anomaly-label fitting. This manuscript is currently a pre-outcome shell: quantitative claims are intentionally withheld until the frozen evaluation is independently authorized and all retained outcomes are available.
+Scientific instruments generate multivariate telemetry whose nominal dynamics can be highly structured while labeled failures remain sparse. We study whether joint-embedding predictive learning can provide a useful label-free predictive state for spacecraft telemetry anomaly detection. Space-JEPA trains an online encoder to predict future target-encoder latents from past telemetry windows, fits normalization and anomaly thresholds using training telemetry only, and evaluates against fixed simple comparators under the official ESA Anomaly Detection Benchmark evaluation path. Before outcome access, the primary paper endpoint is frozen to the anomaly-only ESA-ADB \texttt{ESAScores} metric \texttt{EW\_F\_0.50} on both \texttt{mission1-lite} and \texttt{mission2-lite}. For each mission and each of five frozen seeds, Space-JEPA is paired against the stronger of robust z-score and persistence; primary success requires a strictly positive mean paired delta and at least 4/5 strictly positive seed deltas on each mission, with overall success defined as the conjunction across both missions. A secondary predeclared channel-aware decoder exposes per-channel residual surfaces without anomaly-label fitting and cannot rescue a failed primary endpoint. This manuscript is currently a pre-outcome shell: quantitative claims are intentionally withheld until the frozen evaluation is independently authorized and all retained outcomes are available.
 \end{abstract}
 
 \section{Introduction}
@@ -27,7 +27,7 @@ The intended contributions are:
 \begin{itemize}
     \item a JEPA-style predictive latent-state model for multivariate spacecraft telemetry;
     \item a leakage-controlled evaluation protocol with label-free representation training and threshold fitting;
-    \item fixed robust-deviation and persistence comparators plus the official benchmark evaluation path;
+    \item an exact pre-outcome primary endpoint on ESA-ADB \texttt{EW\_F\_0.50}, pairing Space-JEPA against the stronger of robust-deviation and persistence comparators on two frozen mission surfaces;
     \item a secondary predeclared channel-resolved residual head compatible with channel-aware failure evaluation; and
     \item an auditable evidence package binding every retained outcome to source, configuration, dataset identities, thresholds, and raw artifacts.
 \end{itemize}
@@ -52,14 +52,20 @@ Robust location and scale statistics are fitted on the training partition only. 
 The primary Space-JEPA score is future-target latent prediction error aligned to telemetry timesteps by averaging overlapping target-window errors. The frozen binary operating point uses the 0.995 quantile of valid training-prefix scores. The exact threshold is retained with each run.
 
 \subsection{Fixed comparators}
-At minimum, the study retains a robust z-score comparator and a one-step persistence-error comparator under the same split and train-only transformation boundary. Official ESA benchmark methods may be added only where they can be executed under a matched, predeclared evaluation contract.
+The primary comparison retains a robust z-score comparator and a one-step persistence comparator under the same mission surface, seed, split, and train-only transformation boundary. For each mission-seed pair, the reference is whichever of these two matched baselines has the larger official \texttt{EW\_F\_0.50} value. This stronger-baseline rule is frozen before outcome access. No unexecuted official benchmark algorithm is represented as a defeated baseline.
 
 \subsection{Secondary channel-aware probe}
-A secondary pre-outcome head fits a ridge decoder from predicted target latents to normalized telemetry targets using training windows only. Squared residuals are retained per telemetry channel, with one train-only 0.995 quantile threshold per channel. Ridge alpha, fitting stride, scoring stride, and batch size are frozen before held-out channel-aware evaluation. This surface is secondary and cannot replace the global primary comparison.
+A secondary pre-outcome head fits a ridge decoder from predicted target latents to normalized telemetry targets using training windows only. Squared residuals are retained per telemetry channel, with one train-only 0.995 quantile threshold per channel. Ridge alpha, fitting stride, scoring stride, and batch size are frozen before held-out channel-aware evaluation. This surface is secondary and cannot replace or rescue the global primary comparison.
 
 \section{Experimental Protocol}
-\subsection{Benchmark}
-The primary benchmark is the official ESA Anomaly Detection Benchmark under its retained mission split and compatible official evaluation path. Exact data identities, preprocessing identities, and runtime information must be retained before a run is promoted to scientific evidence.
+\subsection{Benchmark and exact primary endpoint}
+The primary benchmark is ESA-ADB, pinned pre-outcome to upstream commit \texttt{aeebcd9ecd3e7266d6a035a8081b3da83dfe33}. The primary metric is the anomaly-only \texttt{ESAScores} view with $\beta=0.5$ and exact output key \texttt{EW\_F\_0.50}, where higher is better. The two frozen primary surfaces are \texttt{mission1-lite} and \texttt{mission2-lite}. Exact data identities, preprocessing identities, benchmark-source identity, and runtime information must be retained before a run is promoted to scientific evidence.
+
+For each surface and each frozen seed, define
+\begin{equation}
+\Delta = \texttt{EW\_F\_0.50}(\text{Space-JEPA}) - \max\!\left(\texttt{EW\_F\_0.50}(\text{robust-z}),\texttt{EW\_F\_0.50}(\text{persistence})\right).
+\end{equation}
+A mission surface passes only if the arithmetic mean of its five paired deltas is strictly positive and at least 4/5 paired deltas are strictly positive. Ties are not wins. Overall primary success is the conjunction of success on \texttt{mission1-lite} and \texttt{mission2-lite}. Missing or failed seeds fail closed; they cannot be dropped, replaced, or selectively rerun. No post-outcome significance test or practical-effect threshold is part of this primary decision rule.
 
 \subsection{Frozen stochastic runs}
 The primary Space-JEPA stochastic seed set is
@@ -72,36 +78,36 @@ Every seed is reported. Seed substitution after outcome access is prohibited.
 The predeclared ablation family includes removal of the EMA target encoder, removal of the anti-collapse term, and bounded context/target-window length variations where compute permits. Ablations are not allowed to rescue a failed primary result.
 
 \subsection{Outcome-access boundary}
-An outcome-bearing run is retained only when it records the exact code revision, resolved configuration, dataset identity or hashes, preprocessing description, seed, hardware/runtime, raw score artifacts, metric artifacts, thresholds, checkpoint identity, and baseline outputs. Synthetic smoke runs are engineering evidence only.
+An outcome-bearing run is retained only when it records the exact code revision, resolved configuration, dataset identity or hashes, preprocessing description, seed, hardware/runtime, raw score artifacts, metric artifacts, thresholds, checkpoint identity, and baseline outputs. Synthetic smoke runs are engineering evidence only. Outcome access and execution remain blocked until the independent pre-outcome authorization boundary is explicitly closed.
 
 \section{Results}
-\textbf{RESULTS\_BLOCKED\_PRE\_OUTCOME.} No quantitative ESA result is inserted into this draft until independent pre-outcome review authorizes the frozen evaluation and the complete retained result package exists. When populated, this section must report all frozen seeds and all favorable, null, mixed, and adverse outcomes.
+\textbf{RESULTS\_BLOCKED\_PRE\_OUTCOME.} No quantitative ESA result is inserted into this draft until independent pre-outcome review authorizes the frozen evaluation and the complete retained result package exists. When populated, this section must report all five frozen seeds on both primary mission surfaces, the stronger matched baseline chosen separately for each mission-seed pair, every paired delta, each mission's mean paired delta and positive-seed count, and the final cross-mission conjunction. All favorable, null, mixed, and adverse outcomes must be retained.
 
 \begin{table}[t]
 \centering
-\caption{Primary retained comparison. Values remain intentionally blank before authorized outcome access.}
+\caption{Primary retained comparison structure. Values remain intentionally blank before authorized outcome access.}
 \begin{tabular}{lcc}
 \toprule
-Method & Official primary metric & Across-seed summary \\
+Surface & Official primary metric & Frozen decision summary \\
 \midrule
-Space-JEPA & -- & -- \\
-Robust z-score & -- & deterministic/frozen \\
-Persistence & -- & deterministic/frozen \\
+\texttt{mission1-lite} & \texttt{EW\_F\_0.50} & mean $\Delta>0$ and $\geq$4/5 wins \\
+\texttt{mission2-lite} & \texttt{EW\_F\_0.50} & mean $\Delta>0$ and $\geq$4/5 wins \\
+Overall & -- & conjunction of both surfaces \\
 \bottomrule
 \end{tabular}
 \end{table}
 
 \section{Failure Analysis and Channel-Aware Evaluation}
-\textbf{CHANNEL\_RESULTS\_BLOCKED\_PRE\_OUTCOME.} If authorized, this section will report the frozen per-channel Space-JEPA, robust-z, and persistence surfaces under the pinned official ChannelAwareFScore adapter. A channel-resolved residual is not itself evidence of causal localization. Claims must be limited to the metric and artifacts actually retained.
+\textbf{CHANNEL\_RESULTS\_BLOCKED\_PRE\_OUTCOME.} If authorized, this section will report the frozen per-channel Space-JEPA, robust-z, and persistence surfaces under the pinned official ChannelAwareFScore adapter. A channel-resolved residual is not itself evidence of causal localization. Claims must be limited to the metric and artifacts actually retained. Channel-aware, anomaly-plus-rare-event, affiliation, repository-native, ablation, or astronomy results cannot rescue failure of the frozen primary conjunction.
 
 \section{Astronomy Extension}
 The repository contains a scientifically separate irregular-time astronomical light-curve track. It is not evidence for the ESA claim. Its first candidate benchmark, PLAsTiCC, is simulated and publicly unblinded; therefore it may be reported only within its independently frozen freshness and claim boundary. It cannot establish real-sky validation. The astronomy result is optional for this workshop manuscript and must be omitted rather than mixed with ESA evidence if its own gate remains unresolved.
 
 \section{Limitations}
-The primary benchmark is spacecraft telemetry rather than a physical laboratory instrument operated in closed loop. Anomaly detection does not by itself establish causal diagnosis, autonomous control, or failure mitigation. The channel-aware probe can expose localized residual structure but cannot establish causal channels without separate evidence. Threshold performance may depend on benchmark distribution and mission characteristics. Any PLAsTiCC extension is simulated and cannot be generalized to real-sky astronomy without a separately retained real-observation evaluation.
+The primary benchmark is spacecraft telemetry rather than a physical laboratory instrument operated in closed loop. Anomaly detection does not by itself establish causal diagnosis, autonomous control, or failure mitigation. The channel-aware probe can expose localized residual structure but cannot establish causal channels without separate evidence. The primary claim is limited to comparison against the two retained matched simple baselines on the two named lightweight mission surfaces; it does not establish superiority over unexecuted official benchmark methods or cross-mission generalization beyond those surfaces. Threshold performance may depend on benchmark distribution and mission characteristics. Any PLAsTiCC extension is simulated and cannot be generalized to real-sky astronomy without a separately retained real-observation evaluation.
 
 \section{Reproducibility and Research Integrity}
-The implementation retains a pre-outcome protocol, fixed seeds and thresholds, fail-closed benchmark adapters, exact source/data checks, raw artifacts, and an explicit negative-result policy. The manuscript must be reconciled only from retained result packages. CI success, compilation, or synthetic smoke tests are never upgraded into scientific performance evidence.
+The implementation retains a pre-outcome protocol, fixed seeds and thresholds, fail-closed benchmark adapters, exact source/data checks, raw artifacts, and an explicit negative-result policy. The manuscript package additionally binds its written primary endpoint to the independently frozen ESA endpoint identity so metric, mission surfaces, matched comparator family, five-seed aggregation, 4/5 consistency rule, cross-mission conjunction, and no-rescue boundary cannot drift silently. The manuscript must be reconciled only from retained result packages. CI success, compilation, or synthetic smoke tests are never upgraded into scientific performance evidence.
 
 \section{Conclusion}
 We present a predeclared study of predictive latent-state learning for scientific-instrument telemetry. The scientific conclusion is intentionally deferred until the frozen ESA evaluation is executed and retained. The final manuscript will state the result supported by that evidence, including a null or adverse conclusion if that is what the benchmark shows.
