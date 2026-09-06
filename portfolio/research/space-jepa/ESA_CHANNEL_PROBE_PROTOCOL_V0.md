@@ -4,7 +4,7 @@
 
 This amendment adds a **secondary, pre-outcome per-channel score and binary-prediction surface** to the existing frozen Space-JEPA ESA-ADB experiment. It does not replace or alter the primary global latent-error score, the frozen seeds, global threshold rule, train/test split, baselines, or the claim boundary in `PROTOCOL.md`.
 
-The purpose is narrow: make a channel-resolved signal available for later `ChannelAwareFScore` evaluation without using anomaly labels to fit the representation, probe, comparator transformations, or channel thresholds. `ESA_CHANNEL_METRIC_SEMANTICS_V0.md` separately pins the reviewed upstream metric implementation and records that the pinned TimeEval orchestration evaluates ADTQC globally rather than through the per-channel ranking loop.
+The purpose is narrow: make a channel-resolved signal available for later `ChannelAwareFScore` evaluation without using anomaly labels to fit the representation, probe, comparator transformations, or channel thresholds. `ESA_CHANNEL_METRIC_SEMANTICS_V0.md` pins the reviewed upstream metric implementation and records that the pinned TimeEval orchestration evaluates ADTQC globally rather than through the per-channel ranking loop.
 
 ## Frozen Space-JEPA probe construction
 
@@ -34,11 +34,11 @@ The ridge fit is implemented from streaming sufficient statistics, so it does no
 - Space-JEPA score for channel `c`: squared residual between normalized observed telemetry and the ridge decode of the predicted JEPA target latent for channel `c`, averaged across overlapping target windows
 - intercept is unregularized; latent coefficients are ridge-regularized
 
-These constants are hard-coded in `run_esa_channel_probe.py` for v0. They are not tuning knobs after any held-out outcome access. The 0.995 quantile is a Space-JEPA predeclared decision rule chosen to mirror the existing global train-only threshold quantile; it is **not** claimed to be an upstream TimeEval threshold-selection rule.
+These constants are hard-coded in `run_esa_channel_probe.py` for v0. They are not tuning knobs after any held-out outcome access. The 0.995 quantile is a predeclared project decision rule chosen to mirror the existing global train-only threshold quantile; it is **not** claimed to be an upstream TimeEval threshold-selection rule.
 
 ## Matched per-channel comparators
 
-The same exporter now retains two matched comparator surfaces so a future channel-aware comparison does not compare Space-JEPA against no baseline or against post-hoc comparator definitions.
+The same exporter retains two matched comparator surfaces so a future channel-aware comparison does not compare Space-JEPA against no baseline or against post-hoc comparator definitions.
 
 ### Robust z-score
 
@@ -81,12 +81,18 @@ The retained receipt records:
 
 The exporter refuses to overwrite an existing output directory.
 
+## Pinned official metric adapter
+
+`evaluate_esa_channel_fscore.py` is the frozen execution adapter for this v0 surface. It verifies the exact reviewed ESA-ADB/TimeEval Git blobs before importing `ChannelAwareFScore`, requires predeclared SHA-256 identities for `labels.csv`, `anomaly_types.csv`, and `channels.csv`, re-verifies all three method artifacts against the retained receipt, requires exact timestamp/channel alignment, applies the same beta/category selections to every method, and refuses to overwrite a retained result.
+
+The adapter contains the machinery that would open real held-out channel-aware outcomes. **It has not been run against ESA held-out labels by this implementation work.**
+
 ## Scientific interpretation
 
 A per-channel residual or binary-prediction artifact is **not** itself a scientific result. It does not establish that Space-JEPA identifies causal channels, improves localization, improves ChannelAwareFScore, improves timing quality, or beats either comparator.
 
-The pinned upstream review establishes that `ChannelAwareFScore` expects binary timestamped predictions keyed by channel and does not accept continuous scorings. It also establishes that the pinned TimeEval `Experiment.evaluate()` path computes ADTQC from a global max-across-channels binary series and explicitly skips ADTQC in the per-channel ranking loop. The per-channel probe should therefore be described as a `ChannelAwareFScore` compatibility head, not an ADTQC head.
+The pinned upstream review establishes that `ChannelAwareFScore` expects binary timestamped predictions keyed by channel and does not accept continuous scorings. It also establishes that pinned TimeEval computes ADTQC from a global max-across-channels binary series and explicitly skips ADTQC in the per-channel ranking loop. The per-channel probe is therefore a `ChannelAwareFScore` compatibility head, not an ADTQC head.
 
-The remaining official channel-aware outcome gate is now the exact pinned metric adapter plus benchmark metadata provenance. No official channel-aware outcome should be inspected until the adapter is bound to the reviewed upstream source and the exact labels/anomaly-types/channel-subsystem files are hashed. When evaluation is authorized, all frozen seeds and adverse outcomes must be retained.
+The implementation gate is closed; the remaining pre-outcome gate is **benchmark metadata provenance**. No official channel-aware outcome should be inspected until exact SHA-256 identities for the real `labels.csv`, `anomaly_types.csv`, and `channels.csv` are independently frozen and reviewed. When evaluation is authorized, all frozen seeds `17,29,43,71,101`, all three methods, and all adverse outcomes must be retained.
 
 The original global-score primary comparison remains authoritative unless a separately preregistered successor protocol changes that hierarchy before outcome access.
