@@ -5,7 +5,7 @@
   "execution_authorized": false,
   "heldout_label_access_authorized": false,
   "model_outcomes_generated": false,
-  "research_question": "Does an irregular-time-aware JEPA representation improve held-out transient ranking/classification relative to a time-agnostic JEPA and simple photometric baselines under an object-disjoint frozen evaluation?",
+  "research_question": "Does an irregular-time-aware JEPA representation improve held-out classification among PLAsTiCC classes represented in the training surface relative to a time-agnostic JEPA and simple photometric baselines under an object-disjoint frozen evaluation?",
   "candidate_dataset": {
     "name": "Unblinded Data for PLAsTiCC Classification Challenge",
     "version": "v1",
@@ -47,16 +47,26 @@
     "task_rows_displayed_or_parsed_for_this_candidate_freeze": false,
     "heldout_labels_displayed_or_parsed_for_this_candidate_freeze": false
   },
+  "public_challenge_class_schema": {
+    "source": "Kaggle PLAsTiCC Astronomical Classification dataset description",
+    "source_url": "https://www.kaggle.com/c/PLAsTiCC-2018/data",
+    "observed_at_utc": "2026-09-06",
+    "training_surface_class_labels": [6, 15, 16, 42, 52, 53, 62, 64, 65, 67, 88, 90, 92, 95],
+    "test_only_open_set_class_label": 99,
+    "published_statement": "class_99 is an other class in the test set that does not occur in the training set",
+    "specific_test_object_class_memberships_inspected": false
+  },
   "implementation_freeze": {
     "path": "portfolio/research/space-jepa/ASTRONOMY_PLASTICC_IMPLEMENTATION_FREEZE_V0.json",
     "status": "PRE_OUTCOME_IMPLEMENTATION_FROZEN_NOT_AUTHORIZED",
     "implementation_path": "portfolio/research/space-jepa/space_jepa/plasticc.py",
-    "implementation_git_blob_sha1": "317a107a549bc67e703a880f564e940fbe5c63e6",
+    "implementation_git_blob_sha1": "6d07ab34d3fde108ea299309c299dc9ff389ab06",
     "regression_path": "portfolio/research/space-jepa/tests/test_astronomy_plasticc_readout_parser.py",
-    "regression_git_blob_sha1": "67d79726c99dacdc2fd102ae0e363320a635ce17",
+    "regression_git_blob_sha1": "4eff6e09cbd02856340b3e1adccf3007f7c2837d",
     "synthetic_verification_only": true,
     "closes_readout_choice_only": true,
-    "closes_outcome_blind_parser_choice_only": true
+    "closes_outcome_blind_parser_choice_only": true,
+    "closes_primary_seen_class_universe_choice_only": true
   },
   "preoutcome_split_intent": {
     "development": "PLAsTiCC published training surface only, subject to an exact object-disjoint internal train/validation manifest frozen before model comparison.",
@@ -74,8 +84,12 @@
   ],
   "frozen_decision_policy_if_candidate_is_approved": {
     "primary_comparison": "time_aware_jepa_vs_time_agnostic_jepa_same_capacity",
+    "primary_class_labels": [6, 15, 16, 42, 52, 53, 62, 64, 65, 67, 88, 90, 92, 95],
+    "test_only_open_set_class_label": 99,
+    "class_99_primary_policy": "exclude_prospectively_from_primary_seen_class_representation_comparison",
+    "class_99_analysis_policy": "separate_open_set_descriptive_only_until_separately_preregistered_and_cannot_rescue_primary",
     "primary_metric": "class_balanced_multiclass_log_loss",
-    "primary_metric_definition": "For each represented class, compute mean negative log probability assigned to the true class across confirmatory objects in that class after row-wise probability renormalization and clipping each normalized probability to [1e-15, 1-1e-15]; then take the unweighted mean of the class means.",
+    "primary_metric_definition": "Restrict the confirmatory evaluation prospectively to the 14 published PLAsTiCC classes represented in the training surface, excluding test-only class_99. For each of those 14 classes, compute mean negative log probability assigned to the true class across confirmatory objects in that class after row-wise probability renormalization and clipping each normalized probability to [1e-15, 1-1e-15]; then take the unweighted mean of the 14 class means.",
     "metric_direction": "lower_is_better",
     "effect_definition": "delta = loss_time_agnostic_jepa - loss_time_aware_jepa; positive favors time-aware JEPA",
     "practical_effect_threshold_absolute": 0.02,
@@ -86,16 +100,16 @@
       "replicates": 10000,
       "bootstrap_seed": 20260906,
       "confidence_interval": "two_sided_95_percentile",
-      "resampling_unit": "resample model seeds with replacement; within each selected seed, resample confirmatory objects with replacement separately inside each true class; recompute the class-balanced paired delta"
+      "resampling_unit": "resample model seeds with replacement; within each selected seed, resample confirmatory objects with replacement separately inside each of the 14 primary true classes; recompute the class-balanced paired delta"
     },
     "primary_success_rule": "mean_seed_delta >= 0.02 AND paired_hierarchical_bootstrap_95pct_lower_bound > 0 AND at_least_4_of_5_seed_specific_deltas_strictly_positive",
-    "primary_failure_rule": "If any primary success condition fails, the primary result is not positive; no secondary metric or named transient can rescue it.",
+    "primary_failure_rule": "If any primary success condition fails, the primary result is not positive; no secondary metric, class_99 analysis, or named transient can rescue it.",
     "secondary_metrics_descriptive_only": [
       "macro_one_vs_rest_average_precision",
       "macro_one_vs_rest_auroc"
     ],
     "secondary_rescue_authorized": false,
-    "multiple_comparison_policy": "Only the time-aware versus time-agnostic JEPA comparison is confirmatory. Persistence and robust-deviation baselines are contextual/descriptive and cannot substitute for the primary comparison.",
+    "multiple_comparison_policy": "Only the time-aware versus time-agnostic JEPA comparison on the 14 prospectively frozen seen classes is confirmatory. Persistence, robust-deviation, and any class_99 open-set analysis are contextual/descriptive and cannot substitute for the primary comparison.",
     "post_outcome_threshold_or_seed_changes_authorized": false
   },
   "remaining_preoutcome_blockers": [
@@ -108,6 +122,7 @@
   ],
   "required_independent_review_before_any_heldout_execution": [
     "confirm the Zenodo v1 record and every retained file checksum against the live official record",
+    "confirm the public challenge statement that class_99 is test-only and review the prospectively frozen 14-class primary exclusion policy before any outcome access",
     "record applicable licensing/usage terms; the observed Zenodo record does not display a license value",
     "determine whether public unblinding or prior team exposure makes the original PLAsTiCC test labels unsuitable for confirmatory use",
     "review the exact outcome-blind parser implementation so heldout labels/classes are inaccessible to feature fitting, model fitting, early stopping, threshold selection, architecture selection, and hyperparameter search",
@@ -115,5 +130,5 @@
     "confirm the frozen decision policy, probability readout implementation, uncertainty procedure, seeds, and practical-effect threshold before model outcomes",
     "confirm that a simulated PLAsTiCC result will be described as simulated-benchmark evidence rather than real-sky clinical/operational validation"
   ],
-  "claim_boundary": "This artifact selects a provenance-pinned candidate and freezes its confirmatory decision policy plus a synthetic-verified implementation surface for the readout/parser; it is not a dataset freeze, not proof of freshness, not execution authorization, and not an astronomy result. A positive PLAsTiCC result would support only a simulated transient-classification claim unless separately confirmed on real observations."
+  "claim_boundary": "This artifact selects a provenance-pinned candidate and freezes its 14-seen-class confirmatory decision policy plus a synthetic-verified implementation surface for the readout/parser; it is not a dataset freeze, not proof of freshness, not execution authorization, and not an astronomy result. Public class_99 schema information is used only to freeze a pre-outcome open-set boundary, not to inspect specific test-object outcomes. A positive PLAsTiCC result would support only a simulated transient-classification claim unless separately confirmed on real observations."
 }
