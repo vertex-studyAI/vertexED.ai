@@ -77,7 +77,7 @@ jobs:
         working-directory: ${{ env.PAPER_DIR }}
         run: |
           set -euo pipefail
-          rm -f main.aux main.log main.out main.pdf main.txt pdfinfo.txt
+          rm -f main.aux main.log main.out main.pdf main.txt main.normalized.txt pdfinfo.txt
           export TZ=UTC
           export SOURCE_DATE_EPOCH="$(git show -s --format=%ct "$SOURCE_SHA")"
           pdflatex -interaction=nonstopmode -halt-on-error -file-line-error main.tex
@@ -85,21 +85,34 @@ jobs:
           test -s main.pdf
           pdfinfo main.pdf | tee pdfinfo.txt
           pdftotext -layout main.pdf main.txt
+          tr '\n' ' ' < main.txt | tr -s '[:space:]' ' ' > main.normalized.txt
 
-      - name: Fail closed on paper defects and claim drift
+      - name: Reject unresolved references and citations
         shell: bash
         working-directory: ${{ env.PAPER_DIR }}
         run: |
           set -euo pipefail
           ! grep -Eq 'LaTeX Warning: (Reference|Citation).*undefined|There were undefined (references|citations)' main.log
+
+      - name: Reject overfull boxes
+        shell: bash
+        working-directory: ${{ env.PAPER_DIR }}
+        run: |
+          set -euo pipefail
           ! grep -Eq 'Overfull \\hbox|Overfull \\vbox' main.log
-          grep -q 'mixed/negative' main.txt
-          grep -q '5.8318226' main.txt
-          grep -q '5.7734384' main.txt
-          grep -q '5.7896089' main.txt
-          grep -q '111 blocks' main.txt
-          grep -q 'External validation remains unresolved' main.txt
-          grep -q 'does not establish superiority' main.txt
+
+      - name: Verify rendered evidence and negative claim boundary
+        shell: bash
+        working-directory: ${{ env.PAPER_DIR }}
+        run: |
+          set -euo pipefail
+          grep -q 'mixed/negative' main.normalized.txt
+          grep -q '5.8318226' main.normalized.txt
+          grep -q '5.7734384' main.normalized.txt
+          grep -q '5.7896089' main.normalized.txt
+          grep -q '111 blocks' main.normalized.txt
+          grep -q 'External validation remains unresolved' main.normalized.txt
+          grep -q 'does not establish superiority' main.normalized.txt
 
       - name: Record exact paper receipt
         shell: bash
@@ -110,6 +123,7 @@ jobs:
           cp "$PAPER_DIR/main.pdf" "$out/Eigen-JEPA-mixed-negative.pdf"
           cp "$PAPER_DIR/main.log" "$out/main.log"
           cp "$PAPER_DIR/main.txt" "$out/main.txt"
+          cp "$PAPER_DIR/main.normalized.txt" "$out/main.normalized.txt"
           cp "$PAPER_DIR/pdfinfo.txt" "$out/pdfinfo.txt"
           cp "$FIGURE_DIR/primary-comparison.svg" "$out/primary-comparison.svg"
           cp "$FIGURE_DIR/primary-comparison.pdf" "$out/primary-comparison.pdf"
