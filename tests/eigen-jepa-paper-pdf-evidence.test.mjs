@@ -111,17 +111,23 @@ test('related-work references are inherited from the evidence-bound manuscript a
   );
 });
 
-test('submission source rejects unsupported promotion language', () => {
-  const forbidden = [
-    /statistically significant/i,
-    /state[- ]of[- ]the[- ]art/i,
-    /establish(?:es|ed)? financial alpha/i,
-    /trading value is demonstrated/i,
-    /externally validated/i,
-    /universal spectral superiority/i,
-    /outperform(?:s|ed)? (?:shrinkage|DCC|random-matrix)/i
+test('submission source keeps explicit negative boundaries and rejects affirmative promotion language', () => {
+  expectPaper(
+    'No claim of state-of-the-art performance',
+    'universal spectral superiority',
+    'External validation remains unresolved'
+  );
+
+  const forbiddenAffirmativeClaims = [
+    /results? (?:are|is) statistically significant/i,
+    /Eigen-JEPA (?:is|was) state[- ]of[- ]the[- ]art/i,
+    /Eigen-JEPA establish(?:es|ed)? financial alpha/i,
+    /trading value (?:is|was) demonstrated/i,
+    /externally validated (?:study|result|model)/i,
+    /Eigen-JEPA establish(?:es|ed)? universal spectral superiority/i,
+    /Eigen-JEPA outperform(?:s|ed)? (?:shrinkage|DCC|random-matrix)/i
   ];
-  for (const pattern of forbidden) {
+  for (const pattern of forbiddenAffirmativeClaims) {
     assert.doesNotMatch(paper, pattern);
   }
 });
