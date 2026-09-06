@@ -11,6 +11,7 @@ import numpy as np
 import pandas as pd
 import torch
 
+from space_jepa.baselines import persistence_error_channels, robust_zscore_channels
 from space_jepa.channel_probe import (
     apply_channel_thresholds,
     fit_channel_probe,
@@ -141,12 +142,39 @@ def warm_start_test(train: np.ndarray, test: np.ndarray, context_length: int) ->
     return np.concatenate([train[-context_length:], test], axis=0)
 
 
+def _write_channel_surface(
+    path: Path,
+    timestamps: np.ndarray,
+    channels: tuple[str, ...],
+    scores: np.ndarray,
+    predictions: np.ndarray,
+) -> None:
+    if scores.shape != predictions.shape or scores.shape != (len(timestamps), len(channels)):
+        raise ValueError("channel score/prediction geometry does not match timestamps and channels")
+    if not np.isfinite(scores).all():
+        raise ValueError("retained channel scores must be finite")
+    frame: dict[str, object] = {"timestamp": timestamps}
+    for index, channel in enumerate(channels):
+        frame[f"{channel}_score"] = scores[:, index]
+        frame[f"{channel}_pred"] = predictions[:, index]
+    pd.DataFrame(frame).to_csv(path, index=False)
+
+
+def _threshold_payload(channels: tuple[str, ...], thresholds: np.ndarray, source: str) -> dict[str, object]:
+    return {
+        "source": source,
+        "quantile": CHANNEL_THRESHOLD_QUANTILE,
+        "comparison": "score >= threshold",
+        "values": {channel: float(thresholds[index]) for index, channel in enumerate(channels)},
+    }
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(
         description=(
-            "Fit the frozen train-only Space-JEPA ridge decoder and export per-channel ESA-ADB "
-            "prediction residuals plus train-thresholded binary channel predictions without "
-            "reading anomaly labels."
+            "Fit the frozen train-only Space-JEPA ridge decoder and matched per-channel comparators, "
+            "then export continuous scores plus train-thresholded binary predictions without reading "
+            "ESA anomaly labels."
         )
     )
     parser.add_argument("run_json", type=Path)
@@ -159,12 +187,8 @@ def main() -> None:
     source_run = _load_json(args.run_json)
     _verify_source_bytes(source_run, args.train_csv, args.test_csv)
     channels = _source_channels(source_run)
-    train_telemetry, _ = _load_telemetry_only(
-        args.train_csv, channels, load_timestamps=False
-    )
-    test_telemetry, test_timestamps = _load_telemetry_only(
-        args.test_csv, channels, load_timestamps=True
-    )
+    train_telemetry, _ = _load_telemetry_only(args.train_csv, channels, load_timestamps=False)
+    test_telemetry, test_timestamps = _load_telemetry_only(args.test_csv, channels, load_timestamps=True)
     if test_timestamps is None:
         raise ValueError("test timestamps are required for channel-score export")
 
@@ -175,6 +199,7 @@ def main() -> None:
     if model.cfg.n_features != len(channels):
         raise ValueError("checkpoint feature count does not match frozen channel list")
 
+    # Space-JEPA compatibility head.
     probe = fit_channel_probe(
         model,
         train_x,
@@ -183,50 +208,58 @@ def main() -> None:
         batch_size=BATCH_SIZE,
         device=args.device,
     )
-
-    # Fit one binary-decision threshold per channel from covered training residuals only.
     train_scores, train_coverage = score_channel_errors(
-        model,
-        probe,
-        train_x,
-        stride=SCORE_STRIDE,
-        batch_size=BATCH_SIZE,
-        device=args.device,
+        model, probe, train_x, stride=SCORE_STRIDE, batch_size=BATCH_SIZE, device=args.device
     )
     thresholds = fit_channel_thresholds(
-        train_scores,
-        train_coverage,
-        quantile=CHANNEL_THRESHOLD_QUANTILE,
+        train_scores, train_coverage, quantile=CHANNEL_THRESHOLD_QUANTILE
     )
-
     warmed = warm_start_test(train_x, test_x, model.cfg.context_length)
     warmed_scores, warmed_coverage = score_channel_errors(
-        model,
-        probe,
-        warmed,
-        stride=SCORE_STRIDE,
-        batch_size=BATCH_SIZE,
-        device=args.device,
+        model, probe, warmed, stride=SCORE_STRIDE, batch_size=BATCH_SIZE, device=args.device
     )
     scores = warmed_scores[model.cfg.context_length :]
     coverage = warmed_coverage[model.cfg.context_length :]
     if not np.all(coverage > 0) or not np.isfinite(scores).all():
-        raise RuntimeError("per-channel scoring left uncovered or non-finite test rows")
+        raise RuntimeError("Space-JEPA per-channel scoring left uncovered or non-finite test rows")
     predictions = apply_channel_thresholds(scores, thresholds)
 
+    # Matched comparator 1: per-channel absolute robust z score, with train-only robust scaling.
+    z_train, z_test = robust_zscore_channels(train_telemetry, test_telemetry)
+    z_thresholds = fit_channel_thresholds(
+        z_train, np.ones(len(z_train), dtype=np.int64), quantile=CHANNEL_THRESHOLD_QUANTILE
+    )
+    z_predictions = apply_channel_thresholds(z_test, z_thresholds)
+
+    # Matched comparator 2: per-channel one-step persistence residual on the same normalized surface.
+    p_train, p_train_coverage = persistence_error_channels(train_x)
+    p_thresholds = fit_channel_thresholds(
+        p_train, p_train_coverage, quantile=CHANNEL_THRESHOLD_QUANTILE
+    )
+    p_warmed, p_warmed_coverage = persistence_error_channels(
+        np.concatenate([train_x[-1:], test_x], axis=0)
+    )
+    p_test = p_warmed[1:]
+    p_test_coverage = p_warmed_coverage[1:]
+    if not np.all(p_test_coverage > 0) or not np.isfinite(p_test).all():
+        raise RuntimeError("persistence comparator left uncovered or non-finite test rows")
+    p_predictions = apply_channel_thresholds(p_test, p_thresholds)
+
     args.out_dir.mkdir(parents=True, exist_ok=False)
-    score_path = args.out_dir / "channel_scores.csv"
-    frame: dict[str, object] = {"timestamp": test_timestamps}
-    for index, channel in enumerate(channels):
-        frame[f"{channel}_score"] = scores[:, index]
-        frame[f"{channel}_pred"] = predictions[:, index]
-    pd.DataFrame(frame).to_csv(score_path, index=False)
+    surface_paths = {
+        "space_jepa": args.out_dir / "space_jepa_channels.csv",
+        "robust_zscore": args.out_dir / "robust_zscore_channels.csv",
+        "persistence": args.out_dir / "persistence_channels.csv",
+    }
+    _write_channel_surface(surface_paths["space_jepa"], test_timestamps, channels, scores, predictions)
+    _write_channel_surface(surface_paths["robust_zscore"], test_timestamps, channels, z_test, z_predictions)
+    _write_channel_surface(surface_paths["persistence"], test_timestamps, channels, p_test, p_predictions)
 
     checkpoint_name = str(source_run["artifacts"]["checkpoint"])
     checkpoint_path = args.run_json.parent / checkpoint_name
     receipt = {
-        "schema_version": 1,
-        "status": "PRE_OUTCOME_CHANNEL_SCORES_AND_BINARY_PREDS_NOT_OFFICIAL_RESULT",
+        "schema_version": 2,
+        "status": "PRE_OUTCOME_MATCHED_CHANNEL_SURFACES_NOT_OFFICIAL_RESULT",
         "code_commit": git_head(),
         "source_run_json_sha256": sha256(args.run_json),
         "source_checkpoint_sha256": sha256(checkpoint_path),
@@ -243,19 +276,35 @@ def main() -> None:
             "fit_surface": "normalized training telemetry only",
             "score_definition": "squared residual per normalized telemetry channel from predicted target latent ridge decode",
         },
-        "channel_thresholds": {
-            "source": "covered normalized-training channel residuals only",
-            "quantile": CHANNEL_THRESHOLD_QUANTILE,
-            "comparison": "score >= threshold",
-            "values": {channel: float(thresholds[index]) for index, channel in enumerate(channels)},
+        "methods": {
+            "space_jepa": {
+                "score_definition": "predicted-latent ridge decode squared residual per normalized telemetry channel",
+                "thresholds": _threshold_payload(
+                    channels, thresholds, "covered normalized-training channel residuals only"
+                ),
+            },
+            "robust_zscore": {
+                "score_definition": "absolute robust-scaled telemetry value per channel",
+                "scaler_fit_surface": "training telemetry only",
+                "thresholds": _threshold_payload(
+                    channels, z_thresholds, "training per-channel robust-z scores only"
+                ),
+            },
+            "persistence": {
+                "score_definition": "absolute one-step persistence residual per normalized telemetry channel",
+                "test_warm_start": "final normalized training row only",
+                "thresholds": _threshold_payload(
+                    channels, p_thresholds, "covered training per-channel persistence residuals only"
+                ),
+            },
         },
         "artifacts": {
-            "channel_scores_csv": score_path.name,
-            "channel_scores_csv_sha256": sha256(score_path),
+            method: {"path": path.name, "sha256": sha256(path)}
+            for method, path in surface_paths.items()
         },
         "claim_boundary": (
-            "This artifact is a pre-outcome per-channel score/binary-prediction surface. It is not "
-            "an official ESA-ADB ChannelAwareFScore or ADTQC result and does not change the frozen "
+            "These are pre-outcome matched per-channel score/binary-prediction surfaces. They are "
+            "not official ESA-ADB ChannelAwareFScore or ADTQC results and do not change the frozen "
             "global-score claim."
         ),
     }
