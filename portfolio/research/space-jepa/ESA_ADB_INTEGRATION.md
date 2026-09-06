@@ -42,7 +42,7 @@ The lightweight presets are the recommended first engineering runs on constraine
 
 ESA-ADB can contain millions of timesteps. The Space-JEPA trainer and scorer therefore use `TelemetryWindowDataset`, which slices context/target windows lazily and materializes only the current batch. Do not replace this with an all-window `np.stack` path for retained runs.
 
-CSV loading uses `pandas.read_csv(usecols=...)` with float32 telemetry and uint8 annotation dtypes. This allows the lightweight channel presets to avoid loading every mission channel into RAM.
+CSV loading for the ordinary evaluation path uses `pandas.read_csv(usecols=...)` with float32 telemetry and uint8 annotation dtypes. This allows the lightweight channel presets to avoid loading every mission channel into RAM. The pre-outcome channel-probe exporter is stricter: it uses a telemetry-only `usecols` read and never loads the interleaved `is_anomaly_*` columns.
 
 The per-channel probe uses streaming ridge sufficient statistics: it materializes only one context/target batch at a time and retains an `(latent_dim + 1) x (latent_dim + 1)` normal-equation matrix plus the latent-to-channel cross-product. It does not stack the full mission's windows.
 
@@ -89,7 +89,7 @@ python run_esa_channel_probe.py \
   --out-dir artifacts/esa_adb/mission1-lite/seed-17/channel-probe-v0
 ```
 
-The exporter verifies the train/test SHA-256 identities retained by the source run, reloads the exact checkpoint/config and ordered channel list, refits the scaler on training telemetry only, fits the frozen ridge probe on training windows only, warm-starts test scoring from the final training context, and refuses to overwrite an existing output directory. The retained receipt binds the source run, checkpoint, train/test bytes, exact channels, probe parameters, code commit, and channel-score CSV hash while recording `label_access: false`.
+The exporter verifies the train/test SHA-256 identities retained by the source run, reloads the exact checkpoint/config and ordered channel list, reads only the frozen telemetry columns plus test timestamps, refits the scaler on training telemetry only, fits the frozen ridge probe on training windows only, warm-starts test scoring from the final training context, and refuses to overwrite an existing output directory. The retained receipt binds the source run, checkpoint, train/test bytes, exact channels, probe parameters, code commit, and channel-score CSV hash while recording `annotation_columns_loaded: false` and `anomaly_label_access: false`.
 
 This artifact is still **pre-outcome**. It is not an official channel-localization result.
 
