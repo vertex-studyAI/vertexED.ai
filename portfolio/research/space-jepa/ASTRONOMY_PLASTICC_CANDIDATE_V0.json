@@ -61,13 +61,41 @@
     "persistence_baseline",
     "train_fit_robust_deviation_baseline"
   ],
-  "metrics_not_yet_frozen": [
-    "primary ranking/classification metric",
-    "secondary AUROC/average-precision reporting policy",
-    "operating-point threshold selection rule",
-    "uncertainty estimator",
-    "seed set",
-    "material-effect threshold"
+  "frozen_decision_policy_if_candidate_is_approved": {
+    "primary_comparison": "time_aware_jepa_vs_time_agnostic_jepa_same_capacity",
+    "primary_metric": "class_balanced_multiclass_log_loss",
+    "primary_metric_definition": "For each represented class, compute mean negative log probability assigned to the true class across confirmatory objects in that class after row-wise probability renormalization and clipping each normalized probability to [1e-15, 1-1e-15]; then take the unweighted mean of the class means.",
+    "metric_direction": "lower_is_better",
+    "effect_definition": "delta = loss_time_agnostic_jepa - loss_time_aware_jepa; positive favors time-aware JEPA",
+    "practical_effect_threshold_absolute": 0.02,
+    "model_seeds": [11, 23, 37, 53, 71],
+    "seed_consistency_rule": "at_least_4_of_5_seed_specific_deltas_strictly_positive",
+    "uncertainty": {
+      "method": "paired_hierarchical_bootstrap",
+      "replicates": 10000,
+      "bootstrap_seed": 20260906,
+      "confidence_interval": "two_sided_95_percentile",
+      "resampling_unit": "resample model seeds with replacement; within each selected seed, resample confirmatory objects with replacement separately inside each true class; recompute the class-balanced paired delta"
+    },
+    "primary_success_rule": "mean_seed_delta >= 0.02 AND paired_hierarchical_bootstrap_95pct_lower_bound > 0 AND at_least_4_of_5_seed_specific_deltas_strictly_positive",
+    "primary_failure_rule": "If any primary success condition fails, the primary result is not positive; no secondary metric or named transient can rescue it.",
+    "secondary_metrics_descriptive_only": [
+      "macro_one_vs_rest_average_precision",
+      "macro_one_vs_rest_auroc"
+    ],
+    "secondary_rescue_authorized": false,
+    "multiple_comparison_policy": "Only the time-aware versus time-agnostic JEPA comparison is confirmatory. Persistence and robust-deviation baselines are contextual/descriptive and cannot substitute for the primary comparison.",
+    "post_outcome_threshold_or_seed_changes_authorized": false
+  },
+  "remaining_preoutcome_blockers": [
+    "independent freshness review of the now-public unblinded PLAsTiCC test labels",
+    "applicable licensing/usage terms recorded from an authoritative source",
+    "exact downloaded byte receipts and local SHA-256 identities for every approved dataset file",
+    "exact object-level internal train/validation manifest for development-only fitting and tuning",
+    "exact representation-to-class-probability readout architecture and fitting rule frozen before heldout access",
+    "outcome-blind heldout parser proving labels/classes are inaccessible during feature/model/readout fitting and threshold selection",
+    "exact code commit, dependency environment, and hardware/runtime identity",
+    "independent approval receipt that cannot be self-issued by the execution script"
   ],
   "required_independent_review_before_any_heldout_execution": [
     "confirm the Zenodo v1 record and every retained file checksum against the live official record",
@@ -75,8 +103,8 @@
     "determine whether public unblinding or prior team exposure makes the original PLAsTiCC test labels unsuitable for confirmatory use",
     "review the exact parser so heldout labels/classes are inaccessible to feature fitting, model fitting, early stopping, threshold selection, architecture selection, and hyperparameter search",
     "freeze exact object/split identities and byte receipts after download without inspecting heldout outcome summaries",
-    "freeze the primary metric, uncertainty rule, seeds, operating point, and practical-effect threshold before model outcomes",
+    "confirm the frozen decision policy, probability readout, uncertainty procedure, seeds, and practical-effect threshold before model outcomes",
     "confirm that a simulated PLAsTiCC result will be described as simulated-benchmark evidence rather than real-sky clinical/operational validation"
   ],
-  "claim_boundary": "This artifact selects a provenance-pinned candidate for the Space-JEPA astronomy track; it is not a dataset freeze, not proof of freshness, not execution authorization, and not an astronomy result. A positive PLAsTiCC result would support only a simulated transient-classification claim unless separately confirmed on real observations."
+  "claim_boundary": "This artifact selects a provenance-pinned candidate and freezes its confirmatory decision policy for the Space-JEPA astronomy track; it is not a dataset freeze, not proof of freshness, not execution authorization, and not an astronomy result. A positive PLAsTiCC result would support only a simulated transient-classification claim unless separately confirmed on real observations."
 }
