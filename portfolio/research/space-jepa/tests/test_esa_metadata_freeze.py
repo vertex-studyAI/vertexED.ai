@@ -1,9 +1,16 @@
 import io
+from pathlib import Path
+import sys
 import zipfile
 
 import pytest
 
-from freeze_esa_metadata_hashes import ProvenanceError, hash_metadata_entries
+RESEARCH_ROOT = Path(__file__).parents[1]
+sys.path.insert(0, str(RESEARCH_ROOT))
+try:
+    from freeze_esa_metadata_hashes import ProvenanceError, hash_metadata_entries
+finally:
+    sys.path.remove(str(RESEARCH_ROOT))
 
 
 def _archive(entries):
