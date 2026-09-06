@@ -1,0 +1,47 @@
+name: Diagnose Notebook 733
+
+on:
+  push:
+    branches:
+      - fix/notebook-generated-content-a11y-main2-20260906
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose:
+    name: ${{ matrix.area }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - area: lint-ci
+            command: npm run lint:ci
+          - area: typecheck
+            command: npm run typecheck
+          - area: serverless-validation
+            command: npm run validate:serverless:functions && npm run validate:function-sizes
+          - area: production-audit
+            command: npm run audit:prod
+          - area: node-test-suite
+            command: npm test
+          - area: notebook-contract-tests
+            command: node --test tests/notebook-generated-content-accessibility.test.mjs tests/notebook-tts-empty-content-contract.test.mjs tests/notebook-tts-playback-contract.test.mjs
+          - area: eval-tests
+            command: npm run test:eval
+          - area: production-build
+            command: npm run build
+    steps:
+      - name: Checkout exact candidate
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - name: Install locked dependencies
+        run: npm ci --ignore-scripts
+      - name: Run diagnostic area
+        run: ${{ matrix.command }}
