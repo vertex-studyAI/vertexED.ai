@@ -1,0 +1,80 @@
+name: Eigen-JEPA paper figure
+
+on:
+  push:
+    branches:
+      - 'research/eigen-jepa-figure-closure-*'
+  pull_request:
+    branches: [main, master]
+    paths:
+      - 'portfolio/research/eigen-jepa/**'
+      - 'portfolio/research/papers/EIGEN_JEPA_MIXED_NEGATIVE_MANUSCRIPT.md'
+      - 'scripts/generate-eigen-jepa-paper-figure.mjs'
+      - 'tests/eigen-jepa-*.test.mjs'
+      - '.github/workflows/eigen-jepa-paper-figure.yml'
+
+permissions:
+  contents: read
+
+env:
+  SOURCE_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+
+jobs:
+  verify-paper-figure:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout exact source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ env.SOURCE_SHA }}
+          persist-credentials: false
+
+      - name: Verify exact source binding
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "${SOURCE_SHA}"
+
+      - name: Setup Node.js
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: '22'
+
+      - name: Verify manuscript and figure evidence bindings
+        run: >-
+          node --test
+          tests/eigen-jepa-manuscript-evidence.test.mjs
+          tests/eigen-jepa-paper-figure.test.mjs
+
+      - name: Regenerate committed figure and require byte identity
+        shell: bash
+        run: |
+          set -euo pipefail
+          node scripts/generate-eigen-jepa-paper-figure.mjs
+          git diff --exit-code -- portfolio/research/eigen-jepa/figures/primary-comparison.svg
+
+      - name: Record exact-source figure evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p ci-evidence/eigen-jepa-paper-figure
+          printf 'SOURCE_SHA=%s\n' "${SOURCE_SHA}" > ci-evidence/eigen-jepa-paper-figure/receipt.txt
+          sha256sum \
+            portfolio/research/eigen-jepa/FIGURE_DATA.json \
+            portfolio/research/eigen-jepa/figures/primary-comparison.svg \
+            portfolio/research/eigen-jepa/FIGURE_AUDIT.md \
+            >> ci-evidence/eigen-jepa-paper-figure/receipt.txt
+
+      - name: Upload exact-head paper-figure evidence
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: eigen-jepa-paper-figure-${{ env.SOURCE_SHA }}
+          path: |
+            portfolio/research/eigen-jepa/FIGURE_DATA.json
+            portfolio/research/eigen-jepa/figures/primary-comparison.svg
+            portfolio/research/eigen-jepa/FIGURE_AUDIT.md
+            ci-evidence/eigen-jepa-paper-figure/receipt.txt
+          if-no-files-found: error
+          retention-days: 30
