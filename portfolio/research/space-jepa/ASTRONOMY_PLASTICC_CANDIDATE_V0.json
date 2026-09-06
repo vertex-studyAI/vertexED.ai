@@ -47,6 +47,17 @@
     "task_rows_displayed_or_parsed_for_this_candidate_freeze": false,
     "heldout_labels_displayed_or_parsed_for_this_candidate_freeze": false
   },
+  "implementation_freeze": {
+    "path": "portfolio/research/space-jepa/ASTRONOMY_PLASTICC_IMPLEMENTATION_FREEZE_V0.json",
+    "status": "PRE_OUTCOME_IMPLEMENTATION_FROZEN_NOT_AUTHORIZED",
+    "implementation_path": "portfolio/research/space-jepa/space_jepa/plasticc.py",
+    "implementation_git_blob_sha1": "317a107a549bc67e703a880f564e940fbe5c63e6",
+    "regression_path": "portfolio/research/space-jepa/tests/test_astronomy_plasticc_readout_parser.py",
+    "regression_git_blob_sha1": "67d79726c99dacdc2fd102ae0e363320a635ce17",
+    "synthetic_verification_only": true,
+    "closes_readout_choice_only": true,
+    "closes_outcome_blind_parser_choice_only": true
+  },
   "preoutcome_split_intent": {
     "development": "PLAsTiCC published training surface only, subject to an exact object-disjoint internal train/validation manifest frozen before model comparison.",
     "candidate_confirmatory": "PLAsTiCC published test surface only if independent review establishes that its now-public unblinded labels have not entered method/threshold development and an outcome-blind loader can enforce label isolation.",
@@ -92,8 +103,6 @@
     "applicable licensing/usage terms recorded from an authoritative source",
     "exact downloaded byte receipts and local SHA-256 identities for every approved dataset file",
     "exact object-level internal train/validation manifest for development-only fitting and tuning",
-    "exact representation-to-class-probability readout architecture and fitting rule frozen before heldout access",
-    "outcome-blind heldout parser proving labels/classes are inaccessible during feature/model/readout fitting and threshold selection",
     "exact code commit, dependency environment, and hardware/runtime identity",
     "independent approval receipt that cannot be self-issued by the execution script"
   ],
@@ -101,10 +110,10 @@
     "confirm the Zenodo v1 record and every retained file checksum against the live official record",
     "record applicable licensing/usage terms; the observed Zenodo record does not display a license value",
     "determine whether public unblinding or prior team exposure makes the original PLAsTiCC test labels unsuitable for confirmatory use",
-    "review the exact parser so heldout labels/classes are inaccessible to feature fitting, model fitting, early stopping, threshold selection, architecture selection, and hyperparameter search",
+    "review the exact outcome-blind parser implementation so heldout labels/classes are inaccessible to feature fitting, model fitting, early stopping, threshold selection, architecture selection, and hyperparameter search",
     "freeze exact object/split identities and byte receipts after download without inspecting heldout outcome summaries",
-    "confirm the frozen decision policy, probability readout, uncertainty procedure, seeds, and practical-effect threshold before model outcomes",
+    "confirm the frozen decision policy, probability readout implementation, uncertainty procedure, seeds, and practical-effect threshold before model outcomes",
     "confirm that a simulated PLAsTiCC result will be described as simulated-benchmark evidence rather than real-sky clinical/operational validation"
   ],
-  "claim_boundary": "This artifact selects a provenance-pinned candidate and freezes its confirmatory decision policy for the Space-JEPA astronomy track; it is not a dataset freeze, not proof of freshness, not execution authorization, and not an astronomy result. A positive PLAsTiCC result would support only a simulated transient-classification claim unless separately confirmed on real observations."
+  "claim_boundary": "This artifact selects a provenance-pinned candidate and freezes its confirmatory decision policy plus a synthetic-verified implementation surface for the readout/parser; it is not a dataset freeze, not proof of freshness, not execution authorization, and not an astronomy result. A positive PLAsTiCC result would support only a simulated transient-classification claim unless separately confirmed on real observations."
 }
