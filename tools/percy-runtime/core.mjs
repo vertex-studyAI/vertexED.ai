@@ -241,8 +241,9 @@ export class PercyStore {
   markVerifying(taskId, workerId, result) {
     const t = now();
     return this.db.prepare(`UPDATE tasks SET status='VERIFYING', result=?, owner_id=NULL, lease_expires_at=NULL,
-      heartbeat_at=NULL, updated_at=? WHERE id=? AND status='RUNNING' AND owner_id=?`)
-      .run(json(result), t, taskId, workerId).changes === 1;
+      heartbeat_at=NULL, updated_at=? WHERE id=? AND status='RUNNING' AND owner_id=?
+        AND lease_expires_at IS NOT NULL AND lease_expires_at > ?`)
+      .run(json(result), t, taskId, workerId, t).changes === 1;
   }
 
   verifyComplete(taskId) {
