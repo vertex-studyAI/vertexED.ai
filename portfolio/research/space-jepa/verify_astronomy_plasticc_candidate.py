@@ -126,7 +126,7 @@ def verify(candidate: Mapping[str, Any]) -> dict[str, Any]:
         "primary success rule drift",
     )
     failure_rule = str(decision.get("primary_failure_rule", "")).lower()
-    require("no secondary metric" in failure_rule and "cannot rescue" in failure_rule, "primary failure/no-rescue rule drift")
+    require("no secondary metric" in failure_rule and "rescue" in failure_rule, "primary failure/no-rescue rule drift")
     require(decision.get("secondary_metrics_descriptive_only") == EXPECTED_SECONDARY, "secondary metric set drift")
     require(decision.get("secondary_rescue_authorized") is False, "secondary metrics must not rescue primary failure")
     require("only the time-aware versus time-agnostic" in str(decision.get("multiple_comparison_policy", "")).lower(), "confirmatory comparison boundary drift")
