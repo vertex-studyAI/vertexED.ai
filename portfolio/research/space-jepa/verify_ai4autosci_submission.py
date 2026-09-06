@@ -5,6 +5,11 @@ This verifier deliberately separates a safe *pre-outcome draft* from an actually
 *submission-ready* paper. Passing ``--mode prep`` is not scientific authorization.
 ``--mode submission`` remains red until retained outcome evidence and manuscript
 reconciliation are explicitly recorded in SUBMISSION_STATE_V0.json.
+
+The manuscript package is also bound to the independently frozen ESA primary
+endpoint from PR #751. That binding prevents the paper from silently drifting to a
+friendlier metric, comparator, seed rule, mission surface, or post-outcome rescue
+criterion while the endpoint-control branch is still under review.
 """
 
 from __future__ import annotations
@@ -24,6 +29,26 @@ RESULT_MARKERS = (
     "CHANNEL\\_RESULTS\\_BLOCKED\\_PRE\\_OUTCOME",
 )
 
+EXPECTED_ENDPOINT_SOURCE = {
+    "pull_request": 751,
+    "head_sha": "751a788e36d082ba96b0513289afb59e64ccef2f",
+    "path": "portfolio/research/space-jepa/ESA_PRIMARY_ENDPOINT_V0.json",
+    "blob_sha": "d6f0d48494271f1fb02f23cf6b554f8d2d12be3a",
+}
+EXPECTED_BENCHMARK = {
+    "name": "ESA-ADB",
+    "upstream_commit": "aeebcd9ecd3e7266d6d6a035a8081b3da83dfe33",
+    "esascores_source_path": "timeeval/metrics/ESA_ADB_metrics.py",
+    "esascores_source_git_blob": "dbfe1e20b121012f1f144cff1303710b98ed0df5",
+    "metric_view": "anomaly_only",
+    "metric_key": "EW_F_0.50",
+    "beta": 0.5,
+    "direction": "higher_is_better",
+}
+EXPECTED_SURFACES = ["mission1-lite", "mission2-lite"]
+EXPECTED_SEEDS = [17, 29, 43, 71, 101]
+EXPECTED_BASELINES = ["robust_zscore", "persistence"]
+
 
 def load_state(path: Path = STATE_PATH) -> dict[str, Any]:
     data = json.loads(path.read_text(encoding="utf-8"))
@@ -37,6 +62,50 @@ def _require(condition: bool, message: str, errors: list[str]) -> None:
         errors.append(message)
 
 
+def verify_primary_endpoint_binding(primary: dict[str, Any], gate: dict[str, Any]) -> list[str]:
+    """Verify exact manuscript-to-preregistration binding without reading outcomes."""
+
+    errors: list[str] = []
+    comparison = primary.get("comparison", {})
+
+    _require(primary.get("endpoint_freeze_source") == EXPECTED_ENDPOINT_SOURCE,
+             "ESA endpoint freeze source identity drifted", errors)
+    _require(primary.get("benchmark") == EXPECTED_BENCHMARK,
+             "ESA official primary metric/source binding drifted", errors)
+    _require(primary.get("surfaces") == EXPECTED_SURFACES,
+             "ESA primary mission surfaces drifted", errors)
+    _require(primary.get("seeds") == EXPECTED_SEEDS,
+             "ESA primary seed set drifted", errors)
+    _require(primary.get("matched_baselines") == EXPECTED_BASELINES,
+             "ESA matched baseline family drifted", errors)
+
+    _require(comparison.get("surface_aggregation") == "arithmetic_mean_of_five_paired_seed_deltas",
+             "ESA primary seed aggregation drifted", errors)
+    _require(comparison.get("mean_paired_delta_strictly_greater_than") == 0.0,
+             "ESA primary mean-delta decision threshold drifted", errors)
+    _require(comparison.get("strictly_positive_seed_deltas_at_least") == 4,
+             "ESA primary seed-consistency rule drifted", errors)
+    _require(comparison.get("required_seed_count") == 5,
+             "ESA primary required seed count drifted", errors)
+    _require(comparison.get("ties_are_wins") is False,
+             "ESA primary tie handling drifted", errors)
+    _require(comparison.get("overall_success") == "conjunction across mission1-lite and mission2-lite",
+             "ESA primary cross-mission conjunction drifted", errors)
+    _require(comparison.get("practical_effect_threshold") is None,
+             "post-outcome practical-effect threshold is forbidden for ESA primary", errors)
+    _require(comparison.get("significance_test") is None,
+             "post-outcome significance test is forbidden for ESA primary", errors)
+    _require(comparison.get("missing_or_failed_seed_policy") ==
+             "fail_closed; do not drop, replace, or selectively rerun a seed",
+             "ESA missing/failed-seed policy drifted", errors)
+    _require(primary.get("secondary_cannot_rescue_primary") is True,
+             "secondary results must not be allowed to rescue ESA primary failure", errors)
+    _require(gate.get("primary_endpoint_reconciled_to_freeze") is True,
+             "submission package does not record endpoint reconciliation", errors)
+
+    return errors
+
+
 def verify_prep(state: dict[str, Any], tex: str) -> list[str]:
     """Verify that the checked-in manuscript is a safe pre-outcome draft."""
 
@@ -48,6 +117,7 @@ def verify_prep(state: dict[str, Any], tex: str) -> list[str]:
     plasticc = state.get("plasticc_optional", {})
     gate = state.get("submission_gate", {})
 
+    _require(state.get("schema_version") == 2, "submission state schema must be endpoint-bound v2", errors)
     _require(venue.get("double_blind") is True, "venue must remain double-blind", errors)
     _require(venue.get("max_pages") == 10, "frozen workshop max_pages must be 10", errors)
     _require(venue.get("submission_deadline_date") == "2026-10-31", "unexpected workshop deadline date", errors)
@@ -58,9 +128,11 @@ def verify_prep(state: dict[str, Any], tex: str) -> list[str]:
     _require(manuscript.get("superiority_claim_allowed") is False, "superiority claim cannot be enabled pre-outcome", errors)
     _require(manuscript.get("localization_claim_allowed") is False, "localization claim cannot be enabled pre-outcome", errors)
 
-    _require(primary.get("seeds") == [17, 29, 43, 71, 101], "ESA primary seed set drifted", errors)
+    errors.extend(verify_primary_endpoint_binding(primary, gate))
     _require(primary.get("threshold_quantile") == 0.995, "ESA global threshold quantile drifted", errors)
     _require(primary.get("outcome_access_authorized") is False, "ESA held-out outcome access unexpectedly authorized", errors)
+    _require(primary.get("execution_authorized") is False, "ESA execution unexpectedly authorized", errors)
+    _require(primary.get("model_outcomes_generated") is False, "ESA model outcomes unexpectedly marked generated", errors)
     _require(primary.get("retained_result_package_complete") is False, "ESA result package cannot be complete before execution", errors)
 
     _require(channel.get("ridge_alpha") == 1.0, "channel-probe ridge alpha drifted", errors)
@@ -84,6 +156,12 @@ def verify_prep(state: dict[str, Any], tex: str) -> list[str]:
     for marker in RESULT_MARKERS:
         _require(marker in tex, f"required pre-outcome blocker marker missing: {marker}", errors)
 
+    _require("EW_F_0.50" in tex, "manuscript must name the frozen ESA primary metric", errors)
+    _require("mission1-lite" in tex and "mission2-lite" in tex,
+             "manuscript must name both frozen ESA primary mission surfaces", errors)
+    _require("4/5" in tex, "manuscript must state the frozen per-mission seed-consistency rule", errors)
+    _require("conjunction" in tex.lower(), "manuscript must state the frozen cross-mission conjunction", errors)
+
     return errors
 
 
@@ -101,6 +179,7 @@ def verify_submission(state: dict[str, Any], tex: str) -> list[str]:
     channel = state.get("esa_channel_secondary", {})
     gate = state.get("submission_gate", {})
 
+    errors.extend(verify_primary_endpoint_binding(primary, gate))
     _require("Anonymous Authors" in tex, "double-blind submission must remain anonymous", errors)
     _require(manuscript.get("status") == "SUBMISSION_READY", "manuscript status is not SUBMISSION_READY", errors)
     _require(manuscript.get("quantitative_results_inserted") is True, "quantitative results are not recorded as inserted", errors)
@@ -112,6 +191,7 @@ def verify_submission(state: dict[str, Any], tex: str) -> list[str]:
         "double_blind_ready",
         "results_section_ready",
         "claims_reconciled_to_evidence",
+        "primary_endpoint_reconciled_to_freeze",
         "final_page_count_checked",
         "official_submission_portal_checked",
     ):
@@ -146,7 +226,7 @@ def main() -> int:
 
     print(f"AI4AutoSci {args.mode} verification: PASS")
     if args.mode == "prep":
-        print("PASS means the draft is safely pre-outcome; it is not execution or submission authorization.")
+        print("PASS means the draft is safely pre-outcome and endpoint-bound; it is not execution or submission authorization.")
     return 0
 
 
