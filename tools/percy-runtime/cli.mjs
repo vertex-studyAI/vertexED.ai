@@ -92,7 +92,9 @@ try {
       heartbeat = setInterval(() => store.heartbeat(task.id, workerId, leaseMs), Math.max(100, Math.floor(leaseMs / 3)));
       try {
         const result = await executeBoundedTask(task, { timeoutMs });
-        store.addEvidence(task.id, 'bounded-task-result', result, { workerId, kind: task.kind });
+        if (!store.heartbeat(task.id, workerId, leaseMs)) throw new Error('lost task ownership before evidence commit');
+        const evidence = store.addOwnedEvidence(task.id, workerId, 'bounded-task-result', result, { workerId, kind: task.kind });
+        if (!evidence) throw new Error('lost task ownership during evidence commit');
         if (!store.markVerifying(task.id, workerId, result)) throw new Error('lost task ownership before verification');
         if (!store.verifyComplete(task.id)) throw new Error('evidence gate rejected completion');
         console.log(JSON.stringify({ workerId, taskId: task.id, status: 'COMPLETE', result }));
