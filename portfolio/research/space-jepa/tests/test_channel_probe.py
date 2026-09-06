@@ -124,3 +124,31 @@ def test_probe_runner_freezes_constants_and_verifies_source_bytes(tmp_path):
         assert "test CSV bytes" in str(exc)
     else:
         raise AssertionError("mismatched source bytes must fail closed")
+
+
+def test_telemetry_only_reader_does_not_parse_annotation_columns(tmp_path):
+    module = _load_probe_runner()
+    path = tmp_path / "esa.csv"
+    path.write_text(
+        "timestamp,channel_41,is_anomaly_channel_41,channel_42,is_anomaly_channel_42\n"
+        "t0,1.5,THIS_IS_NOT_A_NUMERIC_LABEL,2.5,ALSO_NOT_NUMERIC\n"
+        "t1,3.5,UNREADABLE,4.5,UNREADABLE\n",
+        encoding="utf-8",
+    )
+    telemetry, timestamps = module._load_telemetry_only(
+        path, ("channel_41", "channel_42"), load_timestamps=True
+    )
+    np.testing.assert_allclose(telemetry, [[1.5, 2.5], [3.5, 4.5]])
+    assert timestamps is not None
+    assert timestamps.tolist() == ["t0", "t1"]
+
+
+def test_source_channel_identity_rejects_duplicates():
+    module = _load_probe_runner()
+    run = {"source_contract": {"channels": ["channel_41", "channel_41"]}}
+    try:
+        module._source_channels(run)
+    except ValueError as exc:
+        assert "duplicate" in str(exc)
+    else:
+        raise AssertionError("duplicate channel identity must fail closed")
