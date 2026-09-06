@@ -2,13 +2,17 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+import sys
 
 import pytest
 
-from verify_esa_primary_endpoint import verify_freeze
-
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+
+from verify_esa_primary_endpoint import verify_freeze  # noqa: E402
+
+
 FREEZE = ROOT / "ESA_PRIMARY_ENDPOINT_V0.json"
 
 
