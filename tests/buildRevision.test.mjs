@@ -26,9 +26,16 @@ test('normalizeBuildRevision accepts only full hexadecimal Git SHAs', () => {
 test('resolveBuildRevision binds GitHub CI builds to explicit exact SOURCE_SHA', () => {
   let gitCalled = false;
   const revision = resolveBuildRevision({
-    env: { SOURCE_SHA: SHA_A, GITHUB_SHA: SHA_B },
-    runGit() { gitCalled = true; return SHA_B; },
+    env: {
+      SOURCE_SHA: SHA_A,
+      GITHUB_SHA: SHA_B,
+    },
+    runGit() {
+      gitCalled = true;
+      return SHA_B;
+    },
   });
+
   assert.equal(revision, SHA_A);
   assert.equal(gitCalled, false);
 });
@@ -36,9 +43,16 @@ test('resolveBuildRevision binds GitHub CI builds to explicit exact SOURCE_SHA',
 test('resolveBuildRevision prefers exact Vercel identity over GitHub fallback when SOURCE_SHA is absent', () => {
   let gitCalled = false;
   const revision = resolveBuildRevision({
-    env: { VERCEL_GIT_COMMIT_SHA: SHA_A, GITHUB_SHA: SHA_B },
-    runGit() { gitCalled = true; return SHA_B; },
+    env: {
+      VERCEL_GIT_COMMIT_SHA: SHA_A,
+      GITHUB_SHA: SHA_B,
+    },
+    runGit() {
+      gitCalled = true;
+      return SHA_B;
+    },
   });
+
   assert.equal(revision, SHA_A);
   assert.equal(gitCalled, false);
 });
@@ -46,9 +60,17 @@ test('resolveBuildRevision prefers exact Vercel identity over GitHub fallback wh
 test('resolveBuildRevision fails closed when exact CI and Vercel source identities disagree', () => {
   let gitCalled = false;
   const revision = resolveBuildRevision({
-    env: { SOURCE_SHA: SHA_A, VERCEL_GIT_COMMIT_SHA: SHA_B, GITHUB_SHA: SHA_A },
-    runGit() { gitCalled = true; return SHA_A; },
+    env: {
+      SOURCE_SHA: SHA_A,
+      VERCEL_GIT_COMMIT_SHA: SHA_B,
+      GITHUB_SHA: SHA_A,
+    },
+    runGit() {
+      gitCalled = true;
+      return SHA_A;
+    },
   });
+
   assert.equal(revision, null);
   assert.equal(gitCalled, false);
 });
@@ -56,9 +78,16 @@ test('resolveBuildRevision fails closed when exact CI and Vercel source identiti
 test('resolveBuildRevision fails closed on malformed declared Vercel identity', () => {
   let gitCalled = false;
   const revision = resolveBuildRevision({
-    env: { VERCEL_GIT_COMMIT_SHA: 'abcdef1', GITHUB_SHA: SHA_A },
-    runGit() { gitCalled = true; return SHA_A; },
+    env: {
+      VERCEL_GIT_COMMIT_SHA: 'abcdef1',
+      GITHUB_SHA: SHA_A,
+    },
+    runGit() {
+      gitCalled = true;
+      return SHA_A;
+    },
   });
+
   assert.equal(revision, null);
   assert.equal(gitCalled, false);
 });
@@ -66,16 +95,24 @@ test('resolveBuildRevision fails closed on malformed declared Vercel identity', 
 test('resolveBuildRevision can ignore ambiguous GitHub fallback and use exact checked-out Git HEAD', () => {
   const revision = resolveBuildRevision({
     env: { GITHUB_SHA: 'fedcba9' },
-    runGit(args) { assert.deepEqual(args, ['rev-parse', 'HEAD']); return `${SHA_B}\n`; },
+    runGit(args) {
+      assert.deepEqual(args, ['rev-parse', 'HEAD']);
+      return `${SHA_B}\n`;
+    },
   });
+
   assert.equal(revision, SHA_B);
 });
 
 test('resolveBuildRevision falls back to the checked-out exact Git HEAD', () => {
   const revision = resolveBuildRevision({
     env: {},
-    runGit(args) { assert.deepEqual(args, ['rev-parse', 'HEAD']); return `${SHA_B.toUpperCase()}\n`; },
+    runGit(args) {
+      assert.deepEqual(args, ['rev-parse', 'HEAD']);
+      return `${SHA_B.toUpperCase()}\n`;
+    },
   });
+
   assert.equal(revision, SHA_B);
 });
 
@@ -91,8 +128,11 @@ test('writeBuildRevisionModule emits the explicit exact source revision when ava
   const revision = await writeBuildRevisionModule({
     outputPath,
     env: { SOURCE_SHA: SHA_A.toUpperCase(), GITHUB_SHA: SHA_B },
-    runGit() { throw new Error('Git fallback should not be used'); },
+    runGit() {
+      throw new Error('Git fallback should not be used');
+    },
   });
+
   assert.equal(revision, SHA_A);
   const contents = await readFile(outputPath, 'utf8');
   assert.match(contents, new RegExp(`export const BUILD_REVISION = "${SHA_A}";`));
@@ -101,11 +141,18 @@ test('writeBuildRevisionModule emits the explicit exact source revision when ava
 test('deploy-relevant generation fails closed when declared source identities disagree', async () => {
   const root = await mkdtemp(join(tmpdir(), 'vertexed-build-revision-conflict-'));
   const outputPath = join(root, 'build-revision.js');
+
   await assert.rejects(
     () => writeBuildRevisionModule({
       outputPath,
-      env: { VERTEXED_REQUIRE_BUILD_REVISION: '1', SOURCE_SHA: SHA_A, VERCEL_GIT_COMMIT_SHA: SHA_B },
-      runGit() { return SHA_A; },
+      env: {
+        VERTEXED_REQUIRE_BUILD_REVISION: '1',
+        SOURCE_SHA: SHA_A,
+        VERCEL_GIT_COMMIT_SHA: SHA_B,
+      },
+      runGit() {
+        return SHA_A;
+      },
     }),
     /Refusing to produce an unverifiable deployment artifact/,
   );
@@ -114,11 +161,17 @@ test('deploy-relevant generation fails closed when declared source identities di
 test('deploy-relevant generation fails closed when no full immutable revision exists', async () => {
   const root = await mkdtemp(join(tmpdir(), 'vertexed-build-revision-required-'));
   const outputPath = join(root, 'build-revision.js');
+
   await assert.rejects(
     () => writeBuildRevisionModule({
       outputPath,
-      env: { VERTEXED_REQUIRE_BUILD_REVISION: '1', GITHUB_SHA: 'abcdef1' },
-      runGit() { return 'fedcba9'; },
+      env: {
+        VERTEXED_REQUIRE_BUILD_REVISION: '1',
+        GITHUB_SHA: 'abcdef1',
+      },
+      runGit() {
+        return 'fedcba9';
+      },
     }),
     /Refusing to produce an unverifiable deployment artifact/,
   );
@@ -127,11 +180,14 @@ test('deploy-relevant generation fails closed when no full immutable revision ex
 test('Vercel generation fails closed when deployment revision and Git metadata are unavailable', async () => {
   const root = await mkdtemp(join(tmpdir(), 'vertexed-build-revision-vercel-'));
   const outputPath = join(root, 'build-revision.js');
+
   await assert.rejects(
     () => writeBuildRevisionModule({
       outputPath,
       env: { VERCEL: '1' },
-      runGit() { throw new Error('no git metadata'); },
+      runGit() {
+        throw new Error('no git metadata');
+      },
     }),
     /Refusing to produce an unverifiable deployment artifact/,
   );
