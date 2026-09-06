@@ -1,0 +1,79 @@
+name: Space-JEPA ESA metadata provenance
+
+on:
+  pull_request:
+    paths:
+      - "portfolio/research/space-jepa/freeze_esa_metadata_hashes.py"
+      - "portfolio/research/space-jepa/tests/test_esa_metadata_freeze.py"
+      - ".github/workflows/space-jepa-esa-metadata-provenance.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  freeze-mission1-metadata-identities:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout exact PR head
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: "3.11"
+
+      - name: Hash official Mission-1 benchmark metadata without parsing CSV rows
+        run: |
+          set -euo pipefail
+          mkdir -p ci-evidence
+          python portfolio/research/space-jepa/freeze_esa_metadata_hashes.py \
+            --out ci-evidence/esa-mission1-metadata-sha256.json | tee ci-evidence/esa-mission1-metadata-sha256.log
+
+      - name: Verify provenance artifact remains outcome blind
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          path = Path("ci-evidence/esa-mission1-metadata-sha256.json")
+          payload = json.loads(path.read_text(encoding="utf-8"))
+          assert payload["status"] == "PREOUTCOME_METADATA_BYTES_HASHED_NO_CSV_ROWS_PARSED"
+          assert payload["execution_authorized"] is False
+          assert payload["channel_aware_outcome_access_authorized"] is False
+          assert payload["zenodo_record_id"] == "12528696"
+          assert payload["zenodo_doi"] == "10.5281/zenodo.12528696"
+          assert payload["archive"]["zenodo_declared_md5"] == "80750189d171f5f398fb3d96c49df12b"
+          assert payload["pinned_esa_adb_commit"] == "aeebcd9ecd3e7266d6d6a035a8081b3da83dfe33"
+          assert set(payload["entries"]) == {"labels.csv", "anomaly_types.csv", "channels.csv"}
+          assert payload["access_boundary"] == {
+              "csv_rows_parsed": False,
+              "labels_interpreted": False,
+              "anomaly_types_interpreted": False,
+              "channel_declarations_interpreted": False,
+              "model_outputs_generated": False,
+          }
+          for name, entry in payload["entries"].items():
+              assert len(entry["sha256"]) == 64
+              int(entry["sha256"], 16)
+              assert entry["bytes"] > 0
+              assert entry["compressed_bytes"] > 0
+              assert entry["path"].endswith("/" + name)
+          print("OUTCOME_BLIND_PROVENANCE_ARTIFACT_VERIFIED")
+          PY
+
+      - name: Upload metadata digest evidence only
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: space-jepa-esa-mission1-metadata-provenance
+          path: |
+            ci-evidence/esa-mission1-metadata-sha256.json
+            ci-evidence/esa-mission1-metadata-sha256.log
+          if-no-files-found: error
+          retention-days: 30
