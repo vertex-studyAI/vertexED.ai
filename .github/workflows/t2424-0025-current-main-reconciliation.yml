@@ -33,6 +33,11 @@ jobs:
         run: |
           set -euo pipefail
           test "$(git rev-parse HEAD)" = "$EXPECTED_SOURCE_SHA"
+      - name: Regenerate retained-data figures only
+        run: node portfolio/project2424/projects/T2424-0025/figures/generate.mjs
+      - name: Reject figure or derived-data drift
+        shell: bash
+        run: git diff --exit-code -- portfolio/project2424/projects/T2424-0025/figures
       - name: Verify retained claim-to-evidence boundary
         run: node --test tests/t2424-0025-current-main-reconciliation.test.mjs
       - name: Confirm scientific runners were not invoked
