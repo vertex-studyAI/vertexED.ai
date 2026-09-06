@@ -1,0 +1,97 @@
+\documentclass[10pt,twocolumn]{article}
+\usepackage[margin=0.72in]{geometry}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{microtype}
+\usepackage[hidelinks]{hyperref}
+\usepackage{xurl}
+\usepackage{enumitem}
+
+\title{Eigen-JEPA: A Mixed/Negative Real-Data Study of Spectral Representation for Covariance Forecasting}
+\author{Anonymous submission}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We evaluate whether the project-named Eigen-JEPA spectral representation improves next-block covariance forecasting relative to direct statistical baselines on a frozen real-market task. The retained experiment contains 14,895 daily Fama--French five-factor observations from 1963-07-01 through 2022-08-31, aggregated into non-overlapping 20-day covariance blocks with four previous blocks as context and the next block as target. The chronological held-out test contains 111 blocks. On the frozen primary covariance-matrix mean-squared-error (MSE) metric, Eigen-JEPA obtains $5.8318226\times10^{-9}$, compared with $5.7734384\times10^{-9}$ for raw covariance ridge and $5.7896089\times10^{-9}$ for log-covariance ridge. The retained paired Eigen-JEPA-minus-raw-ridge MSE difference is $+5.8384\times10^{-11}$ with retained 95\% interval $[-2.3565\times10^{-10},\,4.1744\times10^{-10}]$, which crosses zero. Eigen-JEPA improves on persistence ($7.7708315\times10^{-9}$) in this retained run but does not establish superiority over the stronger ridge controls. We preserve the adverse primary comparison rather than switching metrics or selecting a favorable period after inspection. The result is a reproducible mixed/negative boundary case, not evidence of financial alpha, broad-market generalization, or universal spectral superiority.
+\end{abstract}
+
+\section{Question and Frozen Study Boundary}
+The frozen question is whether the tested spectral/eigen representation improves next-block covariance forecasting over direct statistical baselines on covariance-matrix MSE. The canonical retained evidence is \texttt{portfolio/research/eigen-jepa/RESULTS.md}, derived from source package \texttt{BU1LD\_Research\_Atlas\_Flagships\_v4\_FRESH\_2026-08-12.zip} with SHA-256 \texttt{076f12750d6a8e6c298c17815224a79463bcad149d6cf1283900d98c6e394a2c}.
+
+The packaged study uses the bundled Fama--French five-factor daily data file. It forms non-overlapping 20-day covariance blocks, uses four prior blocks as context, and predicts the next block. Splits are chronological, regularization is selected on the validation split under the frozen protocol, and the held-out test contains 111 blocks.
+
+Compared methods are persistence, raw covariance ridge, log-covariance ridge, a Cholesky representation, and the project-named Eigen-JEPA spectral/PCA log-space representation. Covariance-matrix MSE is primary. Log-distance is secondary and descriptive where available; it cannot rescue the primary claim.
+
+\section{Held-Out Results}
+\begin{table}[t]
+\centering
+\caption{Frozen chronological held-out results. Lower matrix MSE is better.}
+\begin{tabular}{lrr}
+\toprule
+Method & Matrix MSE & Log-distance \\
+\midrule
+raw ridge & $5.7734384\mathrm{e}{-9}$ & 0.1945980 \\
+log ridge & $5.7896089\mathrm{e}{-9}$ & 0.1506057 \\
+Eigen-JEPA & $5.8318226\mathrm{e}{-9}$ & 0.1595020 \\
+Cholesky & $5.8762487\mathrm{e}{-9}$ & -- \\
+persistence & $7.7708315\mathrm{e}{-9}$ & -- \\
+\bottomrule
+\end{tabular}
+\label{tab:primary}
+\end{table}
+
+Eigen-JEPA improves on persistence in this retained task, but both raw ridge and log ridge have lower primary matrix MSE. The paired Eigen-JEPA-minus-raw-ridge difference across the 111 held-out blocks is $+5.8384\times10^{-11}$. Under the retained difference convention, positive values favor raw ridge. The retained 95\% interval is $[-2.3565\times10^{-10},\,4.1744\times10^{-10}]$ and crosses zero. This interval is reported as retained evidence only; the paper introduces no new post-outcome significance or practical-effect threshold.
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=0.92\textwidth]{../figures/primary-comparison.pdf}
+\caption{Frozen held-out primary comparison for Eigen-JEPA. Panel A shows covariance-matrix MSE for the five retained methods on the chronological 111-block test set; lower is better. Eigen-JEPA improves on persistence but has higher primary MSE than raw and log ridge in this retained run. Panel B shows the retained paired Eigen-JEPA-minus-raw-ridge MSE difference and retained 95\% interval. Positive values favor raw ridge under the frozen difference convention, and the interval crosses zero. The figure is descriptive evidence from the frozen study and does not introduce a new post-outcome decision threshold.}
+\label{fig:primary}
+\end{figure*}
+
+\section{Claim-to-Evidence Reconciliation}
+The supported claim is deliberately narrow. Eigen-JEPA improves over persistence on this particular retained covariance-forecasting task. The stronger claim that Eigen-JEPA improves the frozen primary metric over direct ridge controls is unsupported: raw ridge and log ridge both have lower primary MSE, and the paired point estimate against raw ridge does not favor Eigen-JEPA.
+
+The secondary log-distance ordering cannot rescue the primary claim. Log ridge has the lowest retained log-distance (0.1506057), followed by Eigen-JEPA (0.1595020) and raw ridge (0.1945980). Because covariance-matrix MSE is the frozen primary metric, this secondary ordering is descriptive only.
+
+No claim of state-of-the-art performance, financial alpha, trading value, external validation, multi-market generalization, or universal spectral superiority is made. A separate compact MODEL-003 Eigen-JEPA lineage in the broader portfolio record is not combined with this covariance-forecasting result.
+
+\section{Related-Work Boundary}
+Classical covariance and dynamic-correlation literature provides important stronger controls for any successor study. Ledoit and Wolf study well-conditioned covariance estimation \cite{ledoitwolf2004}; Engle develops dynamic conditional correlation models \cite{engle2002}; and Laloux et al. characterize noise in empirical financial correlation spectra using random-matrix theory \cite{laloux1999}. These methods are relevant scientific context, not retroactive baselines.
+
+None of those families was executed as a matched comparator in the retained frozen study. We therefore do not claim that Eigen-JEPA beats shrinkage covariance estimation, DCC-type models, random-matrix cleaning, or other unexecuted spectral/time-series methods. Adding such baselines after observing the present result would define a new scientific protocol and must be frozen prospectively.
+
+\section{Reproducibility}
+The retained Atlas suite passed 39/39. Eigen-JEPA CSV/JSON numerical outputs and the retained PNG figure reproduced exactly; the retained generated PDF differed only by Matplotlib creation-timestamp metadata. The current submission figure is generated deterministically from \texttt{FIGURE\_DATA.json}, which is itself bound to the canonical retained result surface and source-package SHA-256. The submission build regenerates and verifies that figure before converting it to the PDF vector graphic included in Figure~\ref{fig:primary}.
+
+These checks establish reproducibility within the retained source package and exact-source paper build. They do not constitute external reproduction. External validation remains unresolved.
+
+\section{Limitations}
+The study covers one bundled real-market dataset and historical period, one covariance-block construction, one chronological split family, and a limited baseline set. It does not evaluate multiple markets, frequencies, transaction costs, live trading, or distribution-shift regimes. Stronger shrinkage, spectral, dynamic-correlation, and time-series comparators remain unexecuted. No external reproduction has been completed, and no claim of publication novelty is made from the current evidence alone.
+
+The retained paired interval is evidence from the frozen analysis; it is not introduced here as a post-outcome decision rule. Likewise, improved performance relative to persistence does not replace the primary comparison against stronger ridge controls.
+
+\section{Prospective Successor Gate}
+Any successor must be a new preregistration. Before outcome access it should freeze: (i) a multi-dataset or multi-market hierarchy; (ii) the exact primary metric and ordering of secondary metrics; (iii) stronger direct, shrinkage, dynamic-correlation, spectral/random-matrix, and time-series baselines; (iv) chronological train/validation/test and OOD-period identities; (v) seed and aggregation policy; (vi) any practical-effect or statistical decision rule; (vii) exact environment, source, and artifact-retention identities; and (viii) a prospective falsifier for the superiority claim.
+
+Metric switching, favorable-period selection, baseline removal, or in-place rescue tuning after observing successor outcomes is prohibited.
+
+\section{Conclusion}
+The current Eigen-JEPA study remains mixed/negative. On the frozen held-out task, Eigen-JEPA records matrix MSE $5.8318226\times10^{-9}$, compared with $5.7734384\times10^{-9}$ for raw ridge and $5.7896089\times10^{-9}$ for log ridge. The paired primary comparison against raw ridge does not favor Eigen-JEPA and its retained 95\% interval crosses zero. Eigen-JEPA is better than persistence on this task, but that narrower observation does not rescue the stronger superiority claim. Broader claims require a separately preregistered successor rather than reinterpretation of this frozen result.
+
+\begin{thebibliography}{9}
+\bibitem{ledoitwolf2004}
+O. Ledoit and M. Wolf. A well-conditioned estimator for large-dimensional covariance matrices. \emph{Journal of Multivariate Analysis}, 88(2):365--411, 2004. DOI: \url{https://doi.org/10.1016/S0047-259X(03)00096-4}.
+
+\bibitem{engle2002}
+R. Engle. Dynamic Conditional Correlation: A Simple Class of Multivariate Generalized Autoregressive Conditional Heteroskedasticity Models. \emph{Journal of Business \& Economic Statistics}, 20(3):339--350, 2002. DOI: \url{https://doi.org/10.1198/073500102288618487}.
+
+\bibitem{laloux1999}
+L. Laloux, P. Cizeau, J.-P. Bouchaud, and M. Potters. Noise Dressing of Financial Correlation Matrices. \emph{Physical Review Letters}, 83:1467--1470, 1999. DOI: \url{https://doi.org/10.1103/PhysRevLett.83.1467}.
+\end{thebibliography}
+
+\end{document}
