@@ -4,12 +4,15 @@ on:
   pull_request:
     paths:
       - "portfolio/project2424/projects/T2424-0027/real_encoder/retained_v3_primary/**"
+      - "tests/t2424-0027-v3-manuscript-evidence.test.mjs"
       - ".github/workflows/t2424-0027-v3-result-integrity.yml"
   push:
     branches:
       - "experiment/t2424-0027-v3-authorization-20260830"
+      - "paper/t2424-0027-v3-negative-manuscript"
     paths:
       - "portfolio/project2424/projects/T2424-0027/real_encoder/retained_v3_primary/**"
+      - "tests/t2424-0027-v3-manuscript-evidence.test.mjs"
       - ".github/workflows/t2424-0027-v3-result-integrity.yml"
 
 permissions:
@@ -72,3 +75,5 @@ jobs:
 
           print("PASS: retained v3 primary result is byte-locked to the uploaded negative artifacts")
           PY
+      - name: Verify manuscript values and claim boundary against retained evidence
+        run: node --test tests/t2424-0027-v3-manuscript-evidence.test.mjs
