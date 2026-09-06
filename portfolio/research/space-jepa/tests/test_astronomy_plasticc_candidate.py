@@ -38,6 +38,7 @@ class PlasticcCandidateTests(unittest.TestCase):
         self.assertEqual(result["practical_effect_threshold_absolute"], 0.02)
         self.assertEqual(result["model_seeds"], [11, 23, 37, 53, 71])
         self.assertEqual(result["bootstrap_replicates"], 10000)
+        self.assertEqual(result["implementation_blob"], "317a107a549bc67e703a880f564e940fbe5c63e6")
 
     def test_candidate_cannot_self_authorize(self) -> None:
         for field in ("execution_authorized", "heldout_label_access_authorized", "model_outcomes_generated"):
@@ -142,7 +143,20 @@ class PlasticcCandidateTests(unittest.TestCase):
         )
         self.assert_rejected(candidate, "no-rescue")
 
-    def test_execution_blockers_cannot_be_erased_by_decision_freeze(self) -> None:
+    def test_frozen_implementation_identity_cannot_drift_or_self_authorize(self) -> None:
+        candidate = load_candidate()
+        candidate["implementation_freeze"]["implementation_git_blob_sha1"] = "0" * 40
+        self.assert_rejected(candidate, "implementation blob drift")
+
+        candidate = load_candidate()
+        candidate["implementation_freeze"]["synthetic_verification_only"] = False
+        self.assert_rejected(candidate, "synthetic-only")
+
+        candidate = load_candidate()
+        candidate["implementation_freeze"]["status"] = "AUTHORIZED"
+        self.assert_rejected(candidate, "implementation freeze status drift")
+
+    def test_execution_blockers_cannot_be_erased_after_implementation_freeze(self) -> None:
         candidate = load_candidate()
         candidate["remaining_preoutcome_blockers"] = ["freshness only"]
         self.assert_rejected(candidate, "remaining preoutcome blockers missing")
@@ -151,12 +165,18 @@ class PlasticcCandidateTests(unittest.TestCase):
         candidate["remaining_preoutcome_blockers"] = [
             item
             for item in candidate["remaining_preoutcome_blockers"]
-            if not item.lower().startswith("exact representation-to-class-probability readout")
+            if not item.lower().startswith("exact code commit")
         ]
         candidate["remaining_preoutcome_blockers"].append(
             "additional unrelated preoutcome gate retained only to keep blocker-count validation independent"
         )
-        self.assert_rejected(candidate, "readout")
+        self.assert_rejected(candidate, "runtime")
+
+        candidate = load_candidate()
+        candidate["remaining_preoutcome_blockers"].append(
+            "exact representation-to-class-probability readout architecture and fitting rule frozen before heldout access"
+        )
+        self.assert_rejected(candidate, "already frozen")
 
 
 if __name__ == "__main__":
