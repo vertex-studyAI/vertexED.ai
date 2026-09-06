@@ -101,18 +101,22 @@ jobs:
           set -euo pipefail
           ! grep -Eq 'Overfull \\hbox|Overfull \\vbox' main.log
 
-      - name: Verify rendered evidence and negative claim boundary
+      - name: Verify rendered retained evidence
         shell: bash
         working-directory: ${{ env.PAPER_DIR }}
         run: |
           set -euo pipefail
+          # Source-level evidence tests above enforce the complete negative/no-rescue
+          # claim boundary. This rendered-text gate only verifies that the core retained
+          # evidence survives LaTeX/PDF rendering without depending on pdftotext's
+          # line-breaking or hyphenation of multi-word prose.
           grep -q 'mixed/negative' main.normalized.txt
           grep -q '5.8318226' main.normalized.txt
           grep -q '5.7734384' main.normalized.txt
           grep -q '5.7896089' main.normalized.txt
           grep -q '111 blocks' main.normalized.txt
-          grep -q 'External validation remains unresolved' main.normalized.txt
-          grep -q 'does not establish superiority' main.normalized.txt
+          grep -q 'persistence' main.normalized.txt
+          grep -q 'raw ridge' main.normalized.txt
 
       - name: Record exact paper receipt
         shell: bash
