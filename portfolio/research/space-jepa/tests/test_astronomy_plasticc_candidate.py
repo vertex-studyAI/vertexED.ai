@@ -34,6 +34,10 @@ class PlasticcCandidateTests(unittest.TestCase):
         self.assertEqual(result["heldout_files"], 12)
         self.assertFalse(result["execution_authorized"])
         self.assertFalse(result["heldout_label_access_authorized"])
+        self.assertEqual(result["primary_metric"], "class_balanced_multiclass_log_loss")
+        self.assertEqual(result["practical_effect_threshold_absolute"], 0.02)
+        self.assertEqual(result["model_seeds"], [11, 23, 37, 53, 71])
+        self.assertEqual(result["bootstrap_replicates"], 10000)
 
     def test_candidate_cannot_self_authorize(self) -> None:
         for field in ("execution_authorized", "heldout_label_access_authorized", "model_outcomes_generated"):
@@ -75,6 +79,84 @@ class PlasticcCandidateTests(unittest.TestCase):
         candidate = load_candidate()
         candidate["claim_boundary"] = "This candidate is a confirmed real-sky astronomy result."
         self.assert_rejected(candidate, "result claim boundary")
+
+    def test_primary_metric_and_effect_direction_are_frozen(self) -> None:
+        candidate = load_candidate()
+        candidate["frozen_decision_policy_if_candidate_is_approved"]["primary_metric"] = "accuracy"
+        self.assert_rejected(candidate, "primary metric drift")
+
+        candidate = load_candidate()
+        candidate["frozen_decision_policy_if_candidate_is_approved"]["metric_direction"] = "higher_is_better"
+        self.assert_rejected(candidate, "metric direction drift")
+
+        candidate = load_candidate()
+        candidate["frozen_decision_policy_if_candidate_is_approved"]["effect_definition"] = "positive favors time-agnostic JEPA"
+        self.assert_rejected(candidate, "effect definition drift")
+
+    def test_practical_effect_threshold_cannot_be_loosened_post_freeze(self) -> None:
+        candidate = load_candidate()
+        candidate["frozen_decision_policy_if_candidate_is_approved"]["practical_effect_threshold_absolute"] = 0.0
+        self.assert_rejected(candidate, "practical effect threshold drift")
+
+        candidate = load_candidate()
+        candidate["frozen_decision_policy_if_candidate_is_approved"]["primary_success_rule"] = (
+            "mean_seed_delta > 0 AND paired_hierarchical_bootstrap_95pct_lower_bound > 0"
+        )
+        self.assert_rejected(candidate, "primary success rule drift")
+
+    def test_seed_consistency_and_seed_set_cannot_be_relaxed(self) -> None:
+        candidate = load_candidate()
+        candidate["frozen_decision_policy_if_candidate_is_approved"]["model_seeds"] = [11, 23, 37]
+        self.assert_rejected(candidate, "model seed set drift")
+
+        candidate = load_candidate()
+        candidate["frozen_decision_policy_if_candidate_is_approved"]["seed_consistency_rule"] = (
+            "at_least_3_of_5_seed_specific_deltas_strictly_positive"
+        )
+        self.assert_rejected(candidate, "seed consistency rule drift")
+
+    def test_uncertainty_procedure_is_paired_hierarchical_and_fixed(self) -> None:
+        candidate = load_candidate()
+        uncertainty = candidate["frozen_decision_policy_if_candidate_is_approved"]["uncertainty"]
+        uncertainty["method"] = "unpaired_bootstrap"
+        self.assert_rejected(candidate, "uncertainty method drift")
+
+        candidate = load_candidate()
+        uncertainty = candidate["frozen_decision_policy_if_candidate_is_approved"]["uncertainty"]
+        uncertainty["replicates"] = 1000
+        self.assert_rejected(candidate, "bootstrap replicate drift")
+
+        candidate = load_candidate()
+        uncertainty = candidate["frozen_decision_policy_if_candidate_is_approved"]["uncertainty"]
+        uncertainty["bootstrap_seed"] = 7
+        self.assert_rejected(candidate, "bootstrap seed drift")
+
+    def test_secondary_metrics_cannot_rescue_primary_failure(self) -> None:
+        candidate = load_candidate()
+        candidate["frozen_decision_policy_if_candidate_is_approved"]["secondary_rescue_authorized"] = True
+        self.assert_rejected(candidate, "must not rescue")
+
+        candidate = load_candidate()
+        candidate["frozen_decision_policy_if_candidate_is_approved"]["primary_failure_rule"] = (
+            "A strong AUROC may rescue a failed log-loss result."
+        )
+        self.assert_rejected(candidate, "no-rescue")
+
+    def test_execution_blockers_cannot_be_erased_by_decision_freeze(self) -> None:
+        candidate = load_candidate()
+        candidate["remaining_preoutcome_blockers"] = ["freshness only"]
+        self.assert_rejected(candidate, "remaining preoutcome blockers missing")
+
+        candidate = load_candidate()
+        candidate["remaining_preoutcome_blockers"] = [
+            item
+            for item in candidate["remaining_preoutcome_blockers"]
+            if not item.lower().startswith("exact representation-to-class-probability readout")
+        ]
+        candidate["remaining_preoutcome_blockers"].append(
+            "additional unrelated preoutcome gate retained only to keep blocker-count validation independent"
+        )
+        self.assert_rejected(candidate, "readout")
 
 
 if __name__ == "__main__":
