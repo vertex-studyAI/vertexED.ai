@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "candidate_id": "space-jepa-astronomy-plasticc-v1-candidate-20260906",
+  "status": "CANDIDATE_METADATA_ONLY_NOT_APPROVED_NOT_DOWNLOADED",
+  "execution_authorized": false,
+  "heldout_label_access_authorized": false,
+  "model_outcomes_generated": false,
+  "research_question": "Does an irregular-time-aware JEPA representation improve held-out transient ranking/classification relative to a time-agnostic JEPA and simple photometric baselines under an object-disjoint frozen evaluation?",
+  "candidate_dataset": {
+    "name": "Unblinded Data for PLAsTiCC Classification Challenge",
+    "version": "v1",
+    "publisher": "Zenodo",
+    "doi": "10.5281/zenodo.2539456",
+    "record_url": "https://zenodo.org/records/2539456",
+    "published_date": "2019-01-21",
+    "record_modified_date_observed": "2024-07-25",
+    "resource_type": "Dataset",
+    "dataset_character": "simulated astronomical transient/variable classification benchmark",
+    "original_challenge_window": "2018-09-28 to 2018-12-17"
+  },
+  "official_record_file_identities": {
+    "development_candidate": {
+      "plasticc_train_lightcurves.csv.gz": "md5:1aa1605908b5a6398bd46bf9120b6400",
+      "plasticc_train_metadata.csv.gz": "md5:8c6b00fd503d6cf3d9a42bfb53046e0f"
+    },
+    "heldout_candidate": {
+      "plasticc_test_lightcurves_01.csv.gz": "md5:8f05f93db926e53bd846ec3a5a2352f2",
+      "plasticc_test_lightcurves_02.csv.gz": "md5:58f0c553847975c828705e63775ea066",
+      "plasticc_test_lightcurves_03.csv.gz": "md5:199b777a3ed921e3cdbf29e692881e03",
+      "plasticc_test_lightcurves_04.csv.gz": "md5:794318beea64467992d4125837e7486f",
+      "plasticc_test_lightcurves_05.csv.gz": "md5:d3898309a5953aa86bc3f7c2bce7bbad",
+      "plasticc_test_lightcurves_06.csv.gz": "md5:a894cfb1af13945dc39498f65ffc9336",
+      "plasticc_test_lightcurves_07.csv.gz": "md5:054724d4099d5f1fac1b07d7040cac5a",
+      "plasticc_test_lightcurves_08.csv.gz": "md5:88a43509da99b9bab6e4bc5733617024",
+      "plasticc_test_lightcurves_09.csv.gz": "md5:b92feaa474cd73a24770543c0b6a8bce",
+      "plasticc_test_lightcurves_10.csv.gz": "md5:f8c743ccbfa47f350069dddf3de5b295",
+      "plasticc_test_lightcurves_11.csv.gz": "md5:6e19c19702f64567a83b98faeb008b7a",
+      "plasticc_test_metadata.csv.gz": "md5:a1fea25a371f04416f9560f9088b745c"
+    }
+  },
+  "source_evidence": {
+    "record_checked_at_utc": "2026-09-06",
+    "record_reports_total_files_size": "7.5 GB",
+    "record_reference": "PLASTICC Team, The PLASTICC Data Set, arXiv:1810.00001",
+    "metadata_only": true,
+    "dataset_files_downloaded_for_this_candidate_freeze": false,
+    "task_rows_displayed_or_parsed_for_this_candidate_freeze": false,
+    "heldout_labels_displayed_or_parsed_for_this_candidate_freeze": false
+  },
+  "preoutcome_split_intent": {
+    "development": "PLAsTiCC published training surface only, subject to an exact object-disjoint internal train/validation manifest frozen before model comparison.",
+    "candidate_confirmatory": "PLAsTiCC published test surface only if independent review establishes that its now-public unblinded labels have not entered method/threshold development and an outcome-blind loader can enforce label isolation.",
+    "fallback_if_confirmatory_freshness_fails": "If confirmatory freshness fails, treat PLAsTiCC as development/external-characterization only and select a separate genuinely unobserved astronomy benchmark before making confirmatory claims.",
+    "object_identity_disjoint": true,
+    "train_only_feature_fit": true,
+    "windows_may_cross_objects": false
+  },
+  "frozen_comparator_family_if_candidate_is_approved": [
+    "time_aware_jepa",
+    "time_agnostic_jepa_same_capacity",
+    "persistence_baseline",
+    "train_fit_robust_deviation_baseline"
+  ],
+  "metrics_not_yet_frozen": [
+    "primary ranking/classification metric",
+    "secondary AUROC/average-precision reporting policy",
+    "operating-point threshold selection rule",
+    "uncertainty estimator",
+    "seed set",
+    "material-effect threshold"
+  ],
+  "required_independent_review_before_any_heldout_execution": [
+    "confirm the Zenodo v1 record and every retained file checksum against the live official record",
+    "record applicable licensing/usage terms; the observed Zenodo record does not display a license value",
+    "determine whether public unblinding or prior team exposure makes the original PLAsTiCC test labels unsuitable for confirmatory use",
+    "review the exact parser so heldout labels/classes are inaccessible to feature fitting, model fitting, early stopping, threshold selection, architecture selection, and hyperparameter search",
+    "freeze exact object/split identities and byte receipts after download without inspecting heldout outcome summaries",
+    "freeze the primary metric, uncertainty rule, seeds, operating point, and practical-effect threshold before model outcomes",
+    "confirm that a simulated PLAsTiCC result will be described as simulated-benchmark evidence rather than real-sky clinical/operational validation"
+  ],
+  "claim_boundary": "This artifact selects a provenance-pinned candidate for the Space-JEPA astronomy track; it is not a dataset freeze, not proof of freshness, not execution authorization, and not an astronomy result. A positive PLAsTiCC result would support only a simulated transient-classification claim unless separately confirmed on real observations."
+}
