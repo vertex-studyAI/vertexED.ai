@@ -4,6 +4,9 @@ import SEO from "@/components/SEO";
 import { useAuth } from "@/contexts/AuthContext";
 import { LANDING_FEATURES } from "@/content/landing";
 
+const VERTEX_INTEREST_URL =
+  "https://tally.so/r/QKZByA?utm_source=vertexed.app&utm_medium=homepage&utm_campaign=school_research_contributor_interest";
+
 const workflow = [
   { step: "01", title: "Plan the week", body: "Turn exams and deadlines into study blocks that fit the time you actually have." },
   { step: "02", title: "Do the work", body: "Open a focused session, practise in exam-shaped formats, and keep the attempt with the task." },
@@ -115,10 +118,19 @@ export default function Home() {
         <p className="section-kicker">Private beta</p>
         <h2 id="beta-title" className="mx-auto max-w-2xl">Try VertexED with one real week and one real paper.</h2>
         <p className="mx-auto mt-4 max-w-2xl text-muted-foreground leading-relaxed">
-          Built by {founders.join(", ")}. Join the beta or use a team invite to test the complete study loop.
+          Built by {founders.join(", ")}. Students can join the private beta directly. Educators, schools, researchers,
+          contributors, and partners can use the separate interest form so the right team can follow up.
         </p>
         <div className="mt-8 flex flex-wrap justify-center gap-3">
           <Link to="/signup" className="btn-solid">Join the private beta</Link>
+          <a
+            href={VERTEX_INTEREST_URL}
+            target="_blank"
+            rel="noreferrer"
+            className="btn-glass"
+          >
+            School / contributor interest
+          </a>
           <Link to="/about" className="btn-glass">About the team</Link>
         </div>
       </section>
