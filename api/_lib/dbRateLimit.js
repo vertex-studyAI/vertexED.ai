@@ -28,8 +28,8 @@ function checkInMemoryFallback(scope, key, maxAttempts, windowMs) {
   return { allowed: true };
 }
 
-function denyForWindow(windowMs) {
-  return { allowed: false, retryAfterSec: Math.ceil(windowMs / 1000) };
+function denyForWindow(windowMs, configurationError = false) {
+  return { allowed: false, retryAfterSec: Math.ceil(windowMs / 1000), configurationError };
 }
 
 /**
@@ -41,43 +41,42 @@ export async function checkDbRateLimit(scope, key, maxAttempts, windowMs) {
   try {
     supabase = getSupabaseAdmin();
   } catch (err) {
-    console.error('dbRateLimit config error:', err);
+    console.error('dbRateLimit config error:', err instanceof Error ? err.name : 'UnknownError');
     if (isProduction()) {
-      return denyForWindow(windowMs);
+      return denyForWindow(windowMs, true);
     }
     return checkInMemoryFallback(scope, key, maxAttempts, windowMs);
   }
 
   const ipHash = hashKey(scope, key);
   if (!ipHash) {
-    console.error('WAITLIST_RATE_LIMIT_SALT missing; using in-memory rate limit fallback');
+    console.error('WAITLIST_RATE_LIMIT_SALT missing');
+    if (isProduction()) return denyForWindow(windowMs, true);
     return checkInMemoryFallback(scope, key, maxAttempts, windowMs);
   }
   const since = new Date(Date.now() - windowMs).toISOString();
 
-  const { count, error } = await supabase
-    .from('waitlist_rate_limits')
-    .select('*', { count: 'exact', head: true })
-    .eq('ip_hash', ipHash)
-    .gte('attempted_at', since);
+  const { data, error } = await supabase.rpc('consume_waitlist_rate_limit', {
+    rate_key: ipHash,
+    window_start: since,
+    max_attempts: maxAttempts,
+    attempted_at: new Date().toISOString(),
+  });
 
   if (error) {
-    console.error('dbRateLimit check failed; using in-memory fallback:', error);
+    console.error('dbRateLimit atomic check failed:', error?.code || 'DatabaseError');
+    if (isProduction()) return denyForWindow(windowMs, true);
     return checkInMemoryFallback(scope, key, maxAttempts, windowMs);
   }
 
-  if ((count ?? 0) >= maxAttempts) {
-    return denyForWindow(windowMs);
+  const result = Array.isArray(data) ? data[0] : data;
+  if (!result || result.allowed !== true) {
+    return {
+      allowed: false,
+      retryAfterSec: Number.isFinite(Number(result?.retry_after_sec))
+        ? Math.max(1, Math.ceil(Number(result.retry_after_sec)))
+        : Math.ceil(windowMs / 1000),
+    };
   }
-
-  const { error: insertError } = await supabase
-    .from('waitlist_rate_limits')
-    .insert({ ip_hash: ipHash });
-
-  if (insertError) {
-    console.error('dbRateLimit insert failed; using in-memory fallback:', insertError);
-    return checkInMemoryFallback(scope, key, maxAttempts, windowMs);
-  }
-
   return { allowed: true };
 }

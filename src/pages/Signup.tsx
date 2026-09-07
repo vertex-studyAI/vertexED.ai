@@ -228,7 +228,7 @@ export default function Signup() {
           </h1>
           <p className="text-center mb-6 text-sm text-muted-foreground leading-relaxed">
             {!isAccountSignup
-              ? "Private beta—join with your email and we'll send an account-creation link when a spot opens."
+              ? "Join with your email. We'll send an account-creation link when a private-beta spot opens."
               : hasWaitlistInvite
                 ? email
                   ? <>Your private approval link is active for <span className="font-medium text-foreground">{email}</span>. Choose a username and password.</>

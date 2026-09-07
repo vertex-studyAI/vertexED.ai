@@ -9,6 +9,7 @@ import {
   FlaskConical,
   Sigma,
   Sparkles,
+  Target,
   Zap,
 } from "lucide-react";
 
@@ -64,11 +65,11 @@ const FORMULAS: Record<FormulaTab, { name: string; expr: string }[]> = {
 
 const TECHNIQUES = [
   { title: "Active Recall", desc: "Test yourself before re-reading. Use flashcards and quizzes.", to: "/resources/active-recall-spaced-repetition" },
-  { title: "Spaced Repetition", desc: "Review just before you forget. Study Mode in AI Notes uses this.", to: "/notetaker" },
+  { title: "Spaced Practice", desc: "Rate each card and let Study Mode calculate when it is due again.", to: "/notetaker" },
   { title: "Pomodoro", desc: "25 min focus + 5 min break. Built into Study Zone timer.", to: "/study-zone" },
   { title: "Feynman Technique", desc: "Explain a concept in simple words to find gaps.", to: "/chatbot" },
-  { title: "Past Papers", desc: "Board-aligned mocks with Paper Maker, then review answers.", to: "/paper-maker" },
-  { title: "Rubric Review", desc: "Upload drafts to Answer Reviewer for examiner-style feedback.", to: "/answer-reviewer" },
+  { title: "Practice Papers", desc: "Generate extra practice, then check your answers against trusted material.", to: "/paper-maker" },
+  { title: "Answer Review", desc: "Get evidence-linked AI feedback, then verify any score you plan to track.", to: "/answer-reviewer" },
 ];
 
 const EXAM_CHECKLIST = [
@@ -80,10 +81,11 @@ const EXAM_CHECKLIST = [
 ];
 
 const QUICK_TOOLS = [
+  { title: "Exam Prep", desc: "Countdown + next session", to: "/exam-prep", icon: Target },
   { title: "Study Zone", desc: "Timer, calculator, Desmos, habits", to: "/study-zone", icon: Clock },
   { title: "AI Notes", desc: "Notes → flashcards → quiz", to: "/notetaker", icon: FileText },
-  { title: "Paper Maker", desc: "IB, IGCSE, CBSE mock exams", to: "/paper-maker", icon: BookOpen },
-  { title: "Planner", desc: "Calendar + AI task scheduling", to: "/planner", icon: Sparkles },
+  { title: "Paper Maker", desc: "AI-generated practice", to: "/paper-maker", icon: BookOpen },
+  { title: "Planner", desc: "Calendar + editable suggestions", to: "/planner", icon: Sparkles },
 ];
 
 export default function StudyTools() {
@@ -105,11 +107,11 @@ export default function StudyTools() {
             Study Tools & Resources
           </h1>
           <p className="text-muted-foreground mt-3 max-w-2xl leading-relaxed">
-            Formula sheets by subject, study techniques with links to guides, command-term glossary, exam-day checklist, and one-click access to core tools.
+            A compact reference for common formulas, study methods, command terms, and the tools you may need during a revision block.
           </p>
         </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-10">
           {QUICK_TOOLS.map((tool) => (
             <Link key={tool.to} to={tool.to} className="group">
               <NeumorphicCard className="p-5 h-full hover:border-primary/30 transition">
@@ -159,6 +161,9 @@ export default function StudyTools() {
               </div>
             ))}
           </div>
+          <p className="mt-4 text-xs leading-relaxed text-muted-foreground">
+            This is a general reference, not a board-specific formula sheet. Check notation, permitted formulas, and constants against your current course materials.
+          </p>
         </NeumorphicCard>
 
         <NeumorphicCard className="p-6 mb-10">

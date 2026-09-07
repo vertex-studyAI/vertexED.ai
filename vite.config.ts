@@ -31,14 +31,11 @@ export default defineConfig(({ mode }) => {
             const run = async (body: unknown) => {
               try {
                 const { dispatchRoute, API_VERSION } = await import('./api/_lib/routes.js');
-                const nextReq = {
-                  ...req,
-                  url: req.url,
-                  query: { ...queryParams, path: routeKey.split('/').filter(Boolean) },
-                  method: req.method,
-                  headers: req.headers,
-                  body,
-                };
+                // Preserve IncomingMessage's prototype methods (`on`, async
+                // iteration) so raw multipart handlers work in local dev.
+                const nextReq = req as typeof req & { query?: Record<string, unknown>; body?: unknown };
+                nextReq.query = { ...queryParams, path: routeKey.split('/').filter(Boolean) };
+                nextReq.body = body;
                 const nextRes = {
                   status: (code: number) => { res.statusCode = code; return nextRes; },
                   json: (data: unknown) => {
@@ -63,7 +60,7 @@ export default defineConfig(({ mode }) => {
               }
             };
 
-            if (req.method === 'GET' || req.method === 'HEAD' || req.method === 'DELETE') {
+            if (req.method === 'GET' || req.method === 'HEAD') {
               void run(undefined);
               return;
             }

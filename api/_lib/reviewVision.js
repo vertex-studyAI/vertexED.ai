@@ -1,3 +1,5 @@
+import { logProviderRun } from './providerTelemetry.js';
+
 export class ReviewImageProcessingError extends Error {
   constructor(message = 'Attached image preprocessing failed.', options = {}) {
     super(message, options);
@@ -16,6 +18,7 @@ export async function describeReviewImages(client, images, contentRole = 'submit
   if (!Array.isArray(images) || images.length === 0) return '';
 
   let response;
+  const startedAt = Date.now();
   try {
     response = await client.chat.completions.create({
       model: 'gpt-4o',
@@ -33,7 +36,21 @@ export async function describeReviewImages(client, images, contentRole = 'submit
         ],
       }],
     });
+    await logProviderRun({
+      capability: 'answer_review_vision',
+      provider: 'openai',
+      model: 'gpt-4o',
+      status: 200,
+      durationMs: Date.now() - startedAt,
+    });
   } catch (cause) {
+    await logProviderRun({
+      capability: 'answer_review_vision',
+      provider: 'openai',
+      model: 'gpt-4o',
+      durationMs: Date.now() - startedAt,
+      error: true,
+    });
     throw new ReviewImageProcessingError(undefined, { cause });
   }
 

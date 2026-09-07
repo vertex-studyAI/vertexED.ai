@@ -35,6 +35,8 @@ test("shared modal accepts a self-contained overlay without weakening defaults",
   assert.match(modalSource, /aria-modal="true"/);
   assert.match(modalSource, /trapModalFocus/);
   assert.match(modalSource, /restoreModalFocus/);
+  assert.match(modalSource, /import { createPortal } from "react-dom"/);
+  assert.match(modalSource, /document\.body/);
 });
 
 test("generated mock-exam content has screen-reader labels", () => {
@@ -56,6 +58,7 @@ test("mock-exam overlays do not depend on planner-only CSS", () => {
 });
 
 test("mock-exam actions stay above global toast and tutor overlays", () => {
+  assert.match(modalSource, /return createPortal\(/);
   assert.match(mockExamSource, /fixed inset-0 z-\[110\]/);
   assert.match(toastSource, /fixed top-0 z-\[100\]/);
   assert.match(globalStyles, /\.apex-fab\s*{[^}]*z-index:\s*60;/s);

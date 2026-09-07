@@ -38,8 +38,8 @@ export default function Home() {
           <p className="section-kicker">Study planning, practice, and feedback</p>
           <h1 id="home-title">Know what to study. Practise what matters.</h1>
           <p className="editorial-lead">
-            VertexED connects your plan, focused work, exam practice, feedback, and retrieval. Start each session with a
-            clear task and finish with a useful next step.
+            VertexED brings your plan, focused work, exam practice, feedback, and retrieval into one place. Open it,
+            choose the next job, and keep the evidence from what you actually did.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Link to="/signup" className="btn-solid">Join the private beta</Link>
@@ -78,7 +78,7 @@ export default function Home() {
             <p className="section-kicker">The workspace</p>
             <h2 id="tools-title">Tools with a defined job</h2>
           </div>
-          <p>No isolated generators or dead-end scores. Each tool points to the next useful action.</p>
+          <p>Each tool has a clear role, and saved work can move into the next part of the study process.</p>
         </div>
         <div className="tool-grid">
           {LANDING_FEATURES.map((feature) => (
@@ -105,8 +105,8 @@ export default function Home() {
             and decides how to improve it.
           </p>
           <p className="mt-4 text-muted-foreground leading-relaxed">
-            That makes progress inspectable: you can see the task completed, the marks lost, and the topic that needs
-            another attempt—instead of receiving a polished answer you cannot reproduce.
+            You can see the task you completed, the evidence behind feedback, and the topic that deserves another
+            attempt. A polished answer is much less useful if you cannot reproduce the reasoning yourself.
           </p>
         </div>
       </section>

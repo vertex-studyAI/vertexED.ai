@@ -3,8 +3,9 @@ import test from 'node:test';
 
 import { replacePlannerArtifact, replaceSingletonArtifact } from '../api/_lib/userContentStore.js';
 
-function fakeSupabase({ existing = null, lookupError = null, updateError = null, insertError = null } = {}) {
+function fakeSupabase({ existing = null, lookupSequence = null, lookupError = null, updateError = null, insertError = null } = {}) {
   const calls = [];
+  let lookupIndex = 0;
   const resultRow = { id: existing?.id ?? 'new-planner', kind: 'planner', title: 'Study Planner' };
 
   const makeEqChain = (terminal) => {
@@ -29,7 +30,10 @@ function fakeSupabase({ existing = null, lookupError = null, updateError = null,
             calls.push(['select', fields]);
             return makeEqChain(async (mode) => {
               calls.push([mode]);
-              return { data: existing, error: lookupError };
+              const lookupValue = Array.isArray(lookupSequence)
+                ? lookupSequence[Math.min(lookupIndex++, lookupSequence.length - 1)]
+                : existing;
+              return { data: lookupValue, error: lookupError };
             });
           },
           update(values) {
@@ -133,4 +137,25 @@ test('singleton replacement rejects non-singleton artifact kinds before database
     /Only planner and notebook/,
   );
   assert.equal(calls.length, 0);
+});
+
+test('singleton replacement recovers when a concurrent insert wins the unique-index race', async () => {
+  const duplicate = { code: '23505', message: 'duplicate key' };
+  const { client, calls } = fakeSupabase({
+    lookupSequence: [null, { id: 'winner-1' }],
+    insertError: duplicate,
+  });
+
+  const result = await replaceSingletonArtifact(client, {
+    userId: 'user-6',
+    kind: 'planner',
+    title: 'Study Planner',
+    payload: { tasks: [{ id: 'latest' }] },
+  });
+
+  assert.equal(result.error, null);
+  assert.equal(result.created, false);
+  assert.equal(calls.filter(([name]) => name === 'insert').length, 1);
+  assert.equal(calls.filter(([name]) => name === 'update').length, 1);
+  assert.ok(calls.some(([name, field, value]) => name === 'eq' && field === 'id' && value === 'winner-1'));
 });

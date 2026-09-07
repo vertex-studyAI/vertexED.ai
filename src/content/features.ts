@@ -7,6 +7,7 @@ import {
   LayoutDashboard,
   Library,
   Timer,
+  Target,
   Wrench,
   type LucideIcon,
 } from "lucide-react";
@@ -40,6 +41,7 @@ export type EcosystemExtra = {
 
 export const FEATURE_ICONS = {
   "study-zone": Timer,
+  "exam-prep": Target,
   apex: Bot,
   planner: Calendar,
   "paper-maker": FileText,
@@ -50,7 +52,7 @@ export const FEATURE_ICONS = {
 export const STUDY_LOOP = [
   {
     step: "Plan",
-    desc: "Block time around real deadlines — not fantasy 6-hour sessions.",
+    desc: "Block time around real deadlines and the hours available in your week.",
     tool: "Study Planner",
     href: "/planner",
   },
@@ -62,7 +64,7 @@ export const STUDY_LOOP = [
   },
   {
     step: "Practise",
-    desc: "Mocks with command words and mark schemes you recognise.",
+    desc: "AI-generated mocks with visible marks, timing, and review handoff.",
     tool: "Paper Maker",
     href: "/paper-maker",
   },
@@ -74,7 +76,7 @@ export const STUDY_LOOP = [
   },
   {
     step: "Remember",
-    desc: "Flashcards on a schedule — not the night before.",
+    desc: "Flashcards return on a review schedule you control.",
     tool: "Notes & Quiz",
     href: "/notetaker",
   },
@@ -93,27 +95,27 @@ export const SUPPORTED_BOARDS = [
 export const BOARD_SPOTLIGHTS = [
   {
     board: "IBDP",
-    note: "Extended responses, TOK angles, and sciences with show-your-working expectations — Paper Maker and Reviewer respect command terms like evaluate and justify.",
+    note: "Select an IB DP subject and grade to give Paper Maker and Answer Reviewer useful context. Check generated questions and criteria against the current subject guide.",
   },
   {
     board: "IGCSE",
-    note: "Mixed papers with structured short answers; timed mocks help you learn pace before the hall feels rushed.",
+    note: "Use timed generated sets to practise pacing, then compare coverage and phrasing with current official past papers.",
   },
   {
     board: "AP",
-    note: "FRQ-style practice and rubric feedback on free-response structure — not just whether the final number matches.",
+    note: "Request free-response practice and review written reasoning. Treat the generated rubric as a draft until you compare it with College Board material.",
   },
   {
     board: "A Level",
-    note: "Longer written arguments and multi-step maths; Apex helps you test logic before you commit pen to paper.",
+    note: "Generate longer written or multi-step practice by subject, and use Apex to question your reasoning before another attempt.",
   },
   {
     board: "CBSE / ICSE",
-    note: "Structured short answers and numericals with step marks — Reviewer highlights where working earns credit vs where you jumped too fast.",
+    note: "Generate practice by grade and subject. Verify chapter coverage, mark allocation, and required method with current school and board material.",
   },
   {
     board: "IB MYP",
-    note: "Criteria-based tasks and interdisciplinary projects; Planner helps you stage work across subjects without everything landing the same week.",
+    note: "Use MYP subject context for independent practice and keep project deadlines visible in the Planner. Teacher-provided criteria remain the source of truth.",
   },
 ] as const;
 
@@ -126,7 +128,7 @@ export const REVISION_WEEK = [
   {
     day: "Tuesday",
     title: "Retrieval block",
-    text: "Study Zone timer: 25 minutes on organic mechanisms. Log the session. Missed a step on electrophilic addition — note it. Generate three flashcards from your notes before bed.",
+    text: "Study Zone timer: 25 minutes on organic mechanisms. Log the session. If a step in electrophilic addition is unclear, note it and create three flashcards from your source material.",
   },
   {
     day: "Wednesday",
@@ -141,7 +143,7 @@ export const REVISION_WEEK = [
   {
     day: "Friday",
     title: "Close the loop",
-    text: "Read reviewer feedback. Planner gets two short slots next week on the gaps it named. Flashcard deck schedules six due cards for Sunday. You know what Monday starts with.",
+    text: "Read the reviewer feedback and verify any score with a teacher or official mark scheme. Add two short retry slots to the planner and rate the flashcards you review so the deck can schedule their next appearance.",
   },
 ] as const;
 
@@ -152,7 +154,7 @@ export const SCATTERED_VS_VERTEX = [
   },
   {
     scattered: "“You got 7/10” with no rubric detail",
-    vertex: "Answer Reviewer names the missing link, command term, or example",
+    vertex: "Answer Reviewer links feedback to quoted evidence and labels a score provisional until you verify it",
   },
   {
     scattered: "Notes that never become practice",
@@ -175,11 +177,11 @@ export const SCATTERED_VS_VERTEX = [
 export const FEATURE_FAQ = [
   {
     q: "Is this just ChatGPT with a calendar?",
-    a: "No. The planner, timers, mock papers, rubric reviewer, flashcard scheduling, and archives are purpose-built study tools. Apex is one layer — it explains and deliberates; it doesn't replace the rest of the workflow.",
+    a: "No. The planner, timers, generated practice, evidence-linked reviewer, flashcard scheduling, exam-prep page, and archives are separate study workflows. Apex is the conversational layer.",
   },
   {
     q: "Will the papers match my exact board?",
-    a: "We approximate syllabus patterns and mark-scheme language for IB, IGCSE, CBSE, AP, A Level, and others. VertexED is not affiliated with exam boards — use mocks to build technique, then verify with your teacher's past papers.",
+    a: "No. Generated papers use the board, grade, subject, topics, and marks you select, but they are independent practice. Check current official materials and your teacher's guidance for exact coverage and format.",
   },
   {
     q: "Do I have to use every tool?",
@@ -199,7 +201,7 @@ export const FEATURE_FAQ = [
   },
   {
     q: "How is this different from Anki or Notion?",
-    a: "Anki is brilliant at cards; Notion is brilliant at pages. VertexED connects planning, timed practice, rubric feedback, and spaced repetition in one loop built for exam-shaped work — not general productivity.",
+    a: "Anki specializes in cards and Notion in flexible pages. VertexED connects planning, timed practice, answer feedback, and spaced review around exam preparation.",
   },
   {
     q: "Does it work on mobile?",
@@ -209,25 +211,59 @@ export const FEATURE_FAQ = [
 
 export const PLATFORM_FEATURES: Feature[] = [
   {
+    id: "exam-prep",
+    title: "Exam Prep",
+    tagline: "A useful session for the time left",
+    icon: Target,
+    lead: "Your exam date should change what you do today. Six weeks out and two days out are different jobs.",
+    body: "Exam Prep reads the board, subjects, and exam date in your profile, then checks for unfinished mocks, scheduled retries, verified weak topics, and due flashcards. Pick a subject and a 25, 45, or 75-minute block to get a three-part session you can work through.",
+    detail: "The evidence panel is intentionally modest. It shows which study signals exist; it does not claim to know your final grade or certify that you are ready.",
+    scenario: "Twelve days before biology, a completed mock is still waiting for review. Exam Prep puts that review first, divides the session into retrieval, focused work, and marking, and keeps the checklist for the day on this device.",
+    outcomes: [
+      "A next task based on work already in VertexED",
+      "Session lengths that fit the time you have",
+      "A clear boundary between study activity and predicted performance",
+    ],
+    bullets: [
+      "Preparation phases based on your saved exam date",
+      "Subject-specific session builder",
+      "Priority for unfinished mocks and due retries",
+      "Visible counts for verified topics, retries, and flashcards",
+      "Daily checklist stored to your account on the current device",
+    ],
+    whenToUse: [
+      "At the start of a revision block when several tasks compete",
+      "During the final six weeks before an exam",
+      "After a mock when review is easier to postpone than new work",
+    ],
+    notFor: "Predicting a grade or replacing the current specification and your teacher's guidance.",
+    connectsTo: [
+      { id: "paper-maker", label: "Start or resume timed practice" },
+      { id: "answer-reviewer", label: "Review a completed attempt" },
+      { id: "notes", label: "Clear due retrieval cards" },
+    ],
+    href: "/exam-prep",
+  },
+  {
     id: "study-zone",
     title: "Study Zone",
     tagline: "One room for deep work",
     icon: Timer,
     lead: "Two hours before bed. One tab open. Timer running, calculator nearby, session logged — no hunting through bookmarks.",
-    body: "Study Zone is where long sessions actually happen. Timers with sensible breaks, a graphing calculator when you need to check a shape, habit tracking for the routines that stick, and an activity log that records what you worked on — not just how long you sat there.",
+    body: "Study Zone keeps the small tools used during a revision block on one page: timers, calculator, graphing, daily habits, quick notes, and a short activity log.",
     detail: "We built this because every productivity stack we tried meant leaving the desk to find another tool. Study Zone keeps friction low so attention stays on the material.",
     scenario: "Sunday afternoon: 90-minute chemistry block. Start the timer, log the topic, use the calculator for a quick enthalpy check, note what still felt shaky in the activity log. Next session, you know exactly where to pick up.",
     outcomes: [
       "Fewer context switches mid-session",
-      "An honest record of what you actually covered",
+      "A short record of what you covered",
       "Tools surfaced when you need them, hidden when you don't",
     ],
     bullets: [
       "Focus timers with break prompts tuned for sustained work",
-      "Activity log tied to subjects and session notes",
+      "Activity log for short session reflections",
       "Graphing calculator and math helpers without leaving the page",
       "Habit tracker and short meditation breaks for long revision days",
-      "Widgets you can arrange for how you actually study",
+      "Daily habits that reset for a fresh check-in each day",
     ],
     whenToUse: [
       "Long revision blocks when tab-hopping kills momentum",
@@ -247,12 +283,12 @@ export const PLATFORM_FEATURES: Feature[] = [
     title: "Apex",
     tagline: "Explain, don't just answer",
     icon: Bot,
-    lead: "You don't need another wall of text. You need someone to walk through why the step works — and what would break if you skipped it.",
-    body: "Apex asks what you have tried before suggesting the next step. It can challenge a weak line of reasoning, name how an examiner might phrase the question, and stay patient when you are stuck on step two of a proof.",
-    detail: "It knows your board context where it matters — command words, mark scheme language, the difference between describe and evaluate — without turning every reply into an essay.",
+    lead: "Sometimes you need the next step explained clearly, with enough room to ask why it works.",
+    body: "Apex can explain a concept, question an argument, or work through a problem with you. It receives the study context you have saved, but its answers can still be wrong and should be checked when accuracy matters.",
+    detail: "Board, subject, goal, and response-style preferences can be included in the prompt context. That helps make replies relevant without turning the model into an examiner or an official source.",
     scenario: "You're rewriting a history paragraph and the argument feels thin. Apex helps you test whether each sentence earns its place, suggests where evidence is missing, and pushes you to link back to the question stem — the kind of feedback you'd want before handing it in.",
     outcomes: [
-      "Understanding that survives the next mock, not just tonight's homework",
+      "Explanations you can test in a follow-up question",
       "Clearer essays and structured science responses",
       "A place to deliberate ideas before committing them to paper",
     ],
@@ -280,16 +316,16 @@ export const PLATFORM_FEATURES: Feature[] = [
   {
     id: "planner",
     title: "Study Planner",
-    tagline: "A week you can actually run",
+    tagline: "An editable week",
     icon: Calendar,
     lead: "The problem isn't that students don't plan. It's that plans ignore real life — matches, labs, the mock that moved to Thursday.",
-    body: "The planner asks what you're sitting, when, and what else competes for your time. It proposes blocks: short recall bursts, longer problem sets, mock slots before the real thing. You edit everything. When school shifts a deadline, the plan shifts with you.",
-    detail: "Spacing and mixed practice are baked into how sessions are suggested — not because it sounds good in a blog post, but because cramming the night before is a strategy everyone regrets.",
-    scenario: "Three subjects, two assessments in the same fortnight. The planner spreads chemistry retrieval across four evenings, leaves Friday lighter for an essay draft, and books a full mock paper for Saturday morning when you're freshest.",
+    body: "Add tasks and deadlines to a calendar, then request suggested study blocks when you want help getting started. Every suggested task remains editable, so you decide what fits and what moves.",
+    detail: "The planner is a place to make revision concrete. It does not resolve timetable conflicts automatically or know how much energy you will have on a given evening.",
+    scenario: "Three subjects and two assessments land in the same fortnight. You add the deadlines, accept the useful suggested blocks, shorten Friday's work, and reserve Saturday morning for a mock.",
     outcomes: [
       "Revision that fits around sport, clubs, and sleep",
       "Less guilt from unrealistic 8-hour blocks",
-      "Visible progress through the week, not just a todo list",
+      "Visible progress across the week",
     ],
     bullets: [
       "Calendar view with session types, not generic study",
@@ -316,13 +352,13 @@ export const PLATFORM_FEATURES: Feature[] = [
     title: "Paper Maker",
     tagline: "Practice that feels like the hall",
     icon: FileText,
-    lead: "Generic quizzes train the wrong muscle. You need command words, mark allocation, and timing — the shape of the paper you'll actually sit.",
-    body: "Paper Maker generates mocks aligned to your syllabus: topic selection, difficulty, and phrasing that respects how your board writes questions. Run a full paper under timed conditions or drill one topic until the method is automatic.",
-    detail: "VertexED is not affiliated with exam boards. We study past paper patterns and mark schemes to approximate the rigour you should expect — then you practise until the format feels familiar, not frightening.",
+    lead: "Short quizzes test recall. Longer practice is useful for command words, mark allocation, working, and pacing.",
+    body: "Paper Maker generates original practice from the board, subject, grade, topics, difficulty, and marks you select. Run the result in a timed mode, save an unfinished attempt, or send completed answers into review.",
+    detail: "The papers are AI-generated and VertexED is not affiliated with any exam board. Treat them as extra practice, then use current official materials and teacher guidance to check coverage and format.",
     scenario: "IGCSE physics paper next month. You generate a Paper 2-style set on electricity and magnetism, sit it in 75 minutes, then send your written responses to Answer Reviewer. Weak areas feed back into next week's planner blocks.",
     outcomes: [
       "Less surprise on exam day from unfamiliar wording",
-      "Timed practice that builds pace, not just knowledge",
+      "Timed practice for pacing as well as knowledge",
       "Papers saved in your work history for repeat attempts",
     ],
     bullets: [
@@ -352,11 +388,11 @@ export const PLATFORM_FEATURES: Feature[] = [
     tagline: "Marks earned, marks lost",
     icon: ClipboardCheck,
     lead: "You wrote three pages. You still don't know if it's worth six marks or two. That's the gap we wanted to close.",
-    body: "Submit a response — typed or photographed — and get feedback aligned to how examiners think: where marks were gained, where they were lost, and what to change in the next draft. Math notation renders properly; ∫ and dy/dx look like math, not broken symbols.",
-    detail: "The reviewer is deliberately strict. Good effort doesn't help you improve. Naming the missing definition, the weak linkage, or the step you skipped does.",
+    body: "Submit a typed or photographed response and receive criterion-by-criterion AI feedback. The reviewer quotes evidence from the answer when it assigns marks and clearly labels unsupported scoring as provisional.",
+    detail: "Only a result you confirm against a teacher, official mark scheme, or validated answer key can feed the measured weak-topic and retry system. AI feedback alone does not become a mastery score.",
     scenario: "A 6-mark biology extended response. The reviewer flags that you described the process but didn't link it to the question's command term, suggests one concrete example to add, and points you to a similar prompt to retry tomorrow.",
     outcomes: [
-      "Answers that read like top-band responses over time",
+      "Specific changes to test in the next attempt",
       "Clear next steps instead of vague encouragement",
       "Technique improvements you can apply across subjects",
     ],
@@ -386,10 +422,10 @@ export const PLATFORM_FEATURES: Feature[] = [
     title: "Notes · Flashcards · Quiz",
     tagline: "Capture once, recall many times",
     icon: BookOpen,
-    lead: "Highlighting feels productive until you close the book. The work is turning notes into something your memory will actually retrieve under pressure.",
-    body: "Record or paste notes, structure them quickly, and spin up flashcards and quizzes in the same flow. Spaced repetition schedules reviews so cards resurface when you're about to forget — not when you've already forgotten.",
+    lead: "Notes become more useful when they lead to a question you have to answer from memory.",
+    body: "Record or paste notes, generate a structured draft, and create flashcards or a quiz in the same flow. In Study Mode, your card rating determines when each card is due again.",
     detail: "The loop is deliberate: exposure in class or from a text, condensation into cards, retrieval practice with honest feedback, then spacing so it sticks past the unit test.",
-    scenario: "After a history unit, you paste key dates and arguments, generate ten flashcards, run a quiz, and mark what you missed. The deck schedules the weak cards for Wednesday; the planner already has a 20-minute slot for them.",
+    scenario: "After a history unit, you paste key dates and arguments, generate ten flashcards, and rate each answer in Study Mode. Harder cards come back sooner, and the dashboard shows how many are due.",
     outcomes: [
       "Notes that become practice, not archive",
       "Measurable retention instead of false confidence",
@@ -419,18 +455,18 @@ export const PLATFORM_FEATURES: Feature[] = [
 
 export const ECOSYSTEM_EXTRAS: EcosystemExtra[] = [
   {
-    id: "learning-hub",
-    title: "Learning Hub",
-    summary: "Your board-aware home for paths, goals, and what to do next.",
-    detail: "Connects curriculum choice to daily suggestions — not a generic dashboard, but a view that knows you're on IBDP vs IGCSE and what week of term you're in.",
-    href: "/learning-hub",
+    id: "dashboard",
+    title: "Study Dashboard",
+    summary: "Your account home for the next task, saved work, and study signals.",
+    detail: "The dashboard brings together due cards, scheduled retries, unfinished mocks, planner work, and links into each study tool.",
+    href: "/main",
     icon: LayoutDashboard,
   },
   {
     id: "archives",
     title: "Archives",
     summary: "Curated exemplars in Language & Literature, History, and Geography.",
-    detail: "Close readings, timelines, and practice prompts — the kind of material you actually revise from, not link dumps.",
+    detail: "Close readings, timelines, and practice prompts collected into a small subject reference library.",
     href: "/archives",
     icon: Library,
   },
@@ -446,7 +482,7 @@ export const ECOSYSTEM_EXTRAS: EcosystemExtra[] = [
     id: "resources",
     title: "Resources",
     summary: "Long-form guides on active recall, cramming honestly, and using AI well.",
-    detail: "Written for students who want depth, not listicles — how to plan, how to review, when AI helps and when it hurts.",
+    detail: "Longer explanations of planning, review, retrieval, and responsible uses of AI while studying.",
     href: "/resources",
     icon: BookOpen,
   },

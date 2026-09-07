@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { existsSync } from 'node:fs';
 import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 
@@ -11,6 +12,12 @@ test('one route authority owns the canonical React surface', () => {
   assert.match(app, /<Routes>/);
   assert.match(app, /path="learning-hub" element={<Navigate to="\/main"/);
   assert.match(app, /path="world-model" element={<Navigate to="\/study-notebook"/);
+});
+
+test('retired World Model has no parallel implementation or generator surface', () => {
+  assert.equal(existsSync(new URL('../src/pages/WorldModel.tsx', import.meta.url)), false);
+  assert.equal(existsSync(new URL('../src/lib/worldModel.ts', import.meta.url)), false);
+  assert.doesNotMatch(app, /lazy\(\(\) => import\("@\/pages\/WorldModel"\)\)/);
 });
 
 test('one catch-all function delegates through the explicit route registry', () => {

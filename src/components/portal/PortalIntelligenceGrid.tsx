@@ -37,11 +37,11 @@ export default function PortalIntelligenceGrid({ intel, profile, stats }: Props)
   return (
     <div className="portal-bento-grid">
       <PortalWidget id="readiness-benchmark" span={1}>
-        <WidgetHeader icon={<Target className="h-4 w-4" />} title="Readiness Index" subtitle="From your study signals" />
+        <WidgetHeader icon={<Target className="h-4 w-4" />} title="Preparation Activity" subtitle="From saved study signals" />
         <p className="text-3xl font-bold mt-3 tabular-nums text-primary">{intel.readinessIndex}%</p>
         <p className="text-sm text-foreground/90 mt-1">{intel.readinessLabel}</p>
         <p className="text-xs text-muted-foreground mt-2 leading-relaxed">
-          Built from due cards, loop completion, and recent review scores — your data, not a comparison to other users.
+          Built from due cards, loop completion, and verified review scores. It measures recorded activity, not your likely grade.
         </p>
       </PortalWidget>
 
@@ -70,7 +70,7 @@ export default function PortalIntelligenceGrid({ intel, profile, stats }: Props)
       </PortalWidget>
 
       <PortalWidget id="marks-gap" span={1}>
-        <WidgetHeader icon={<Gauge className="h-4 w-4" />} title="Marks Gap" subtitle="Distance to 80% target" />
+        <WidgetHeader icon={<Gauge className="h-4 w-4" />} title="Tracked Practice" subtitle="Verified average against an 80% working target" />
         {intel.marksGaps.length > 0 ? (
           <ul className="space-y-2.5 mt-3">
             {intel.marksGaps.map((g) => (
@@ -88,7 +88,7 @@ export default function PortalIntelligenceGrid({ intel, profile, stats }: Props)
           </ul>
         ) : (
           <p className="text-xs text-muted-foreground mt-3">
-            Submit answer reviews to map how far each subject is from exam-ready marks.
+            Confirm an answer against a teacher or official mark scheme to start a subject-level practice average.
           </p>
         )}
         <Link

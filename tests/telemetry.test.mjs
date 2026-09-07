@@ -3,6 +3,8 @@ import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 
 import { normalizeTelemetry } from '../api/_handlers/telemetry.js';
+import telemetryHandler from '../api/_handlers/telemetry.js';
+import { createMocks } from './helpers/mock-http.mjs';
 
 test('telemetry keeps only fixed privacy-safe fields', () => {
   const event = normalizeTelemetry({
@@ -33,10 +35,34 @@ test('telemetry rejects unknown event classes', () => {
   assert.equal(normalizeTelemetry({ event: 'upload_everything' }), null);
 });
 
+test('AI feedback accepts only fixed privacy-safe categories', () => {
+  const event = normalizeTelemetry({
+    event: 'ai_feedback',
+    route: '/answer-reviewer?answer=private',
+    capability: 'answer_review',
+    outcome: 'failed',
+    feedback: 'incorrect',
+    reason: 'incorrect',
+    answer: 'private learner text',
+  }, new Date('2026-09-01T00:00:00Z'));
+
+  assert.equal(event.feedback, 'incorrect');
+  assert.equal(event.reason, 'incorrect');
+  assert.equal(event.route, '/answer-reviewer');
+  assert.equal('answer' in event, false);
+  assert.equal(normalizeTelemetry({ event: 'ai_feedback', feedback: 'free text', reason: 'other' }), null);
+});
+
 test('telemetry bounds duration and rejects unsafe route text', () => {
   const event = normalizeTelemetry({ event: 'performance', route: 'https://evil.example/?x=1', durationMs: 9e9 });
   assert.equal(event.route, 'unknown');
   assert.equal(event.durationMs, 300_000);
+});
+
+test('telemetry endpoint rejects non-POST methods before rate-limit work', async () => {
+  const { req, res, getStatus } = createMocks({ method: 'GET' });
+  await telemetryHandler(req, res);
+  assert.equal(getStatus(), 405);
 });
 
 test('client monitoring never sends raw messages or stacks', async () => {

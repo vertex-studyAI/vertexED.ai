@@ -13,16 +13,27 @@ import {
   MessageCircle,
   PenLine,
   Timer,
+  Target,
 } from "lucide-react";
 
 import ContinueSessionBanner from "@/components/ContinueSessionBanner";
 import LiquidGlass from "@/components/LiquidGlass";
 import SavedWorkList from "@/components/SavedWorkList";
 import TodayPlanPanel from "@/components/dashboard/TodayPlanPanel";
+import LearningCommandCenter from "@/components/dashboard/LearningCommandCenter";
 import { useAuth } from "@/contexts/AuthContext";
 import { buildEcosystemBrief, type EcosystemBrief } from "@/lib/studyEcosystem";
 import { buildTodayPlanItems } from "@/lib/todayPlan";
-import { listStudyArtifactsDetailed, type StudyArtifact } from "@/lib/userContent";
+import {
+  getLocalArtifactCount,
+  listStudyArtifactsDetailed,
+  syncLocalStudyArtifacts,
+  type StudyArtifact,
+} from "@/lib/userContent";
+import { getPendingMockReview, type PendingMockReview } from "@/lib/examFlow";
+import { getDueRetries, getRetryQueue, type RetryItem } from "@/lib/retryQueue";
+import { getWeaknessHeatmap, type TopicHeat } from "@/lib/weaknessTracker";
+import { getPendingLearnerStateCount, hydrateLearnerState, syncLearnerState } from "@/lib/learnerStateSync";
 
 type Tool = {
   title: string;
@@ -33,6 +44,7 @@ type Tool = {
 };
 
 const CORE_TOOLS: Tool[] = [
+  { title: "Exam prep", description: "Build today's session from your exam date, subjects, due reviews, and verified weak-topic evidence.", to: "/exam-prep", cta: "Open exam plan", icon: Target },
   { title: "Plan your week", description: "Add deadlines and build a realistic revision plan.", to: "/planner", cta: "Open planner", icon: CalendarDays },
   { title: "Focus tools", description: "Run a timer, work through problems, and keep session notes in one place.", to: "/study-zone?focus=timer", cta: "Start a session", icon: Timer },
   { title: "Notes, flashcards & quizzes", description: "Turn a topic or class material into notes and retrieval practice.", to: "/notetaker", cta: "Make study material", icon: Brain },
@@ -47,17 +59,44 @@ export default function Main() {
   const { user } = useAuth();
   const [brief, setBrief] = useState<EcosystemBrief | null>(null);
   const [recentArtifacts, setRecentArtifacts] = useState<StudyArtifact[]>([]);
+  const [retries, setRetries] = useState<RetryItem[]>([]);
+  const [weaknesses, setWeaknesses] = useState<TopicHeat[]>([]);
+  const [pendingMock, setPendingMock] = useState<PendingMockReview | null>(null);
+  const [localSaveCount, setLocalSaveCount] = useState(0);
+  const [cloudUnavailable, setCloudUnavailable] = useState(false);
+  const [syncing, setSyncing] = useState(false);
+  const [syncMessage, setSyncMessage] = useState<string>();
 
   useEffect(() => {
-    const refresh = () => setBrief(buildEcosystemBrief(user));
+    const refresh = () => {
+      setBrief(buildEcosystemBrief(user));
+      setRetries(getRetryQueue());
+      setWeaknesses(getWeaknessHeatmap(6));
+      setPendingMock(getPendingMockReview());
+      setLocalSaveCount(getLocalArtifactCount() + getPendingLearnerStateCount());
+    };
+    const refreshArtifacts = () => void listStudyArtifactsDetailed().then((result) => {
+      setRecentArtifacts(result.items.slice(0, 4));
+      setCloudUnavailable(result.cloudUnavailable === true);
+      setLocalSaveCount(getLocalArtifactCount() + getPendingLearnerStateCount());
+    });
     refresh();
-    void listStudyArtifactsDetailed().then(({ items }) => setRecentArtifacts(items.slice(0, 4)));
-    window.addEventListener("focus", refresh);
-    return () => window.removeEventListener("focus", refresh);
+    refreshArtifacts();
+    const onFocus = () => {
+      refresh();
+      refreshArtifacts();
+    };
+    window.addEventListener("focus", onFocus);
+    window.addEventListener("vertexed:learner-state-changed", onFocus);
+    return () => {
+      window.removeEventListener("focus", onFocus);
+      window.removeEventListener("vertexed:learner-state-changed", onFocus);
+    };
   }, [user]);
 
   const todayItems = brief ? buildTodayPlanItems(brief.todayTasks, brief.adaptivePlan.recommendations) : [];
   const dueFlashcards = brief?.dueFlashcards ?? 0;
+  const dueRetries = getDueRetries().length;
   const firstName = user?.user_metadata?.full_name?.split(" ")[0] || user?.email?.split("@")[0];
 
   return (
@@ -78,8 +117,8 @@ export default function Main() {
             <h1>Make this study session count.</h1>
             <p className="dashboard-hero-text">Pick one clear task. Plan it, work on it, practise it, or get help with it.</p>
             <div className="dashboard-hero-actions">
-              <Link to="/study-zone?focus=timer" className="dashboard-primary-action">
-                Start a focus session <ArrowRight className="h-4 w-4" aria-hidden />
+              <Link to="/exam-prep" className="dashboard-primary-action">
+                Open today&apos;s exam plan <ArrowRight className="h-4 w-4" aria-hidden />
               </Link>
               <Link to="/study-guides" className="dashboard-secondary-action">Open MYP study guides</Link>
               <Link to="/planner" className="dashboard-secondary-action">Open planner</Link>
@@ -87,12 +126,40 @@ export default function Main() {
           </div>
           <div className="dashboard-hero-stats" aria-label="Study summary">
             <div><span>Today</span><strong>{todayItems.length || "-"}</strong><small>{todayItems.length === 1 ? "next step" : "next steps"}</small></div>
-            <div><span>Review</span><strong>{dueFlashcards || "-"}</strong><small>{dueFlashcards === 1 ? "card due" : "cards due"}</small></div>
+            <div><span>Review</span><strong>{dueFlashcards + dueRetries || "-"}</strong><small>cards and retries due</small></div>
             <div><span>Tools</span><strong>{CORE_TOOLS.length}</strong><small>clear workflows</small></div>
           </div>
         </LiquidGlass>
 
         <ContinueSessionBanner />
+
+        <LearningCommandCenter
+          retries={retries}
+          weaknesses={weaknesses}
+          pendingMock={pendingMock}
+          localSaveCount={localSaveCount}
+          cloudUnavailable={cloudUnavailable}
+          syncing={syncing}
+          syncMessage={syncMessage}
+          onRetrySync={() => {
+            setSyncing(true);
+            setSyncMessage(undefined);
+            void Promise.all([syncLocalStudyArtifacts(), syncLearnerState()])
+              .then(async ([artifactResult, stateResult]) => {
+                await hydrateLearnerState();
+                const refreshed = await listStudyArtifactsDetailed();
+                setRecentArtifacts(refreshed.items.slice(0, 4));
+                setCloudUnavailable(refreshed.cloudUnavailable === true);
+                const synced = artifactResult.synced + stateResult.synced;
+                const remaining = artifactResult.remaining + stateResult.remaining;
+                setLocalSaveCount(remaining);
+                setSyncMessage(remaining === 0
+                  ? `${synced} device save${synced === 1 ? '' : 's'} synced.`
+                  : `${synced} synced; ${remaining} still safe on this device.`);
+              })
+              .finally(() => setSyncing(false));
+          }}
+        />
 
         {todayItems.length > 0 && (
           <section className="dashboard-today-wrap" aria-label="Your next study steps">

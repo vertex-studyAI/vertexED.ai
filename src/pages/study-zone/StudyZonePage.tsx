@@ -9,6 +9,7 @@ import Meditation from "./components/Meditation";
 import NoteTaker from "./components/NoteTaker";
 import TimerApp from "./components/TimerApp";
 import GraphingSuite from "./components/GraphingSuite";
+import HabitTracker from "./components/HabitTracker";
 import SketchPad from "@/components/sketch/SketchPad";
 
 type WidgetKey =
@@ -18,7 +19,8 @@ type WidgetKey =
   | "meditation"
   | "graphing"
   | "sketch"
-  | "notes";
+  | "notes"
+  | "habits";
 
 interface WidgetMeta {
   key: WidgetKey;
@@ -62,8 +64,14 @@ const StudyZonePage: React.FC = () => {
       {
         key: "activity",
         title: "Activity Log",
-        description: "Record what you covered, where you got stuck, and what to retry — feeds your dashboard and next plan.",
+        description: "Record what you covered, where you got stuck, and what deserves another attempt.",
         accent: "hsl(12 78% 54%)",
+      },
+      {
+        key: "habits",
+        title: "Daily Habits",
+        description: "Set a few repeatable study routines and check them off each day.",
+        accent: "hsl(154 64% 43%)",
       },
       {
         key: "calculator",
@@ -109,6 +117,8 @@ const StudyZonePage: React.FC = () => {
         return <TimerApp accent={accent} />;
       case "activity":
         return <ActivityLog accent={accent} />;
+      case "habits":
+        return <HabitTracker accent={accent} />;
       case "calculator":
         return <Calculator accent={accent} />;
       case "graphing":

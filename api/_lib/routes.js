@@ -26,6 +26,10 @@ export const ROUTES = {
     loader: () => import('../_handlers/account.js'),
     methods: ['DELETE'],
   },
+  'account-export': {
+    loader: () => import('../_handlers/account-export.js'),
+    methods: ['GET'],
+  },
   waitlist: {
     loader: () => import('../_handlers/waitlist.js'),
     methods: ['POST'],
@@ -75,6 +79,11 @@ export const ROUTES = {
     loader: () => import('../_handlers/user-content.js'),
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
   },
+  'learner-state': {
+    loader: () => import('../_handlers/learner-state.js'),
+    methods: ['GET', 'POST'],
+    maxBodyBytes: 1024 * 1024,
+  },
   transcribe: {
     loader: () => import('../_handlers/transcribe.js'),
     methods: ['POST'],
@@ -90,7 +99,6 @@ export const ROUTES = {
   },
 };
 
-const TEST_AGENTS_ROUTE = 'test-agents';
 const BODY_METHODS = new Set(['POST', 'PUT', 'PATCH', 'DELETE']);
 
 /** Parse /api/<route> from Vercel request URLs when query.path is missing. */
@@ -121,11 +129,6 @@ export function resolveRouteKey(req) {
   }
 
   return key.replace(/^\/+|\/+$/g, '') || 'health';
-}
-
-export function isTestAgentsEnabled() {
-  if (process.env.VERCEL_ENV === 'production') return false;
-  return process.env.ENABLE_TEST_AGENTS === 'true';
 }
 
 export async function ensureJsonBody(req, maxBytes = MAX_JSON_BODY_BYTES) {
@@ -182,14 +185,7 @@ export async function ensureJsonBody(req, maxBytes = MAX_JSON_BODY_BYTES) {
 
 export async function dispatchRoute(routeKey, req, res) {
   const key = routeKey.replace(/^\/+|\/+$/g, '') || 'health';
-  let route = ROUTES[key];
-
-  if (!route && key === TEST_AGENTS_ROUTE && isTestAgentsEnabled()) {
-    route = {
-      loader: () => import('../../scripts/test-agents.ts'),
-      methods: ['GET', 'POST'],
-    };
-  }
+  const route = ROUTES[key];
 
   if (!route) {
     res.status(404).json({

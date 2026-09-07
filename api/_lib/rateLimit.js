@@ -51,9 +51,13 @@ export async function checkRateLimit(key, limit = DEFAULT_LIMIT, windowMs = WIND
   return checkInMemoryRateLimit(key, limit, windowMs);
 }
 
-export async function rateLimitUserEndpoint(userId, endpoint, res) {
+export async function rateLimitUserEndpoint(userId, endpoint, res, options = {}) {
   const key = `${userId}:${endpoint}`;
-  const result = await checkRateLimit(key);
+  const result = await checkRateLimit(
+    key,
+    options.limit ?? DEFAULT_LIMIT,
+    options.windowMs ?? WINDOW_MS,
+  );
   if (!result.allowed) {
     if (result.configurationError) {
       res.status(503).json({

@@ -18,6 +18,9 @@ const localStorageHookSource = fs.readFileSync('src/hooks/useLocalStorage.ts', '
 const notetakerSource = fs.readFileSync('src/pages/NotetakerQuiz.tsx', 'utf8');
 const activityLogSource = fs.readFileSync('src/pages/study-zone/components/ActivityLog.tsx', 'utf8');
 const sketchPadSource = fs.readFileSync('src/components/sketch/SketchPad.tsx', 'utf8');
+const habitTrackerSource = fs.readFileSync('src/pages/study-zone/components/HabitTracker.tsx', 'utf8');
+const boardResourcesSource = fs.readFileSync('src/lib/boardResources.ts', 'utf8');
+const examPrepSource = fs.readFileSync('src/pages/ExamPrep.tsx', 'utf8');
 
 test('learner-derived state keys are different for different accounts', () => {
   const first = userContentStorageKeys('learner-a');
@@ -25,6 +28,7 @@ test('learner-derived state keys are different for different accounts', () => {
   const stateKeys = [
     'srDeck',
     'weaknessHeatmap',
+    'retryQueue',
     'studyLoopWeek',
     'progressSnapshots',
     'todayPlanDone',
@@ -34,6 +38,8 @@ test('learner-derived state keys are different for different accounts', () => {
     'lastStudyDate',
     'habits',
     'habitsResetDate',
+    'boardGuides',
+    'examPrepSession',
   ];
 
   for (const key of stateKeys) {
@@ -113,4 +119,11 @@ test('transient study-zone drafts clear when the account scope changes', () => {
   assert.match(activityLogSource, /useEffect\(\(\) => \{\s*setDraft\(""\);\s*\}, \[activityKey\]\);/s);
   assert.match(sketchPadSource, /const storageKey = userContentStorageKeys\(authLoading \? undefined : user\?\.id \?\? null\)\.sketchPad/);
   assert.match(sketchPadSource, /useEffect\(\(\) => \{[\s\S]*setCaption\(''\);[\s\S]*\}, \[resizeCanvas, storageKey\]\);/);
+});
+
+test('habit, board-guide, and exam-prep device state stays account scoped', () => {
+  assert.match(habitTrackerSource, /userContentStorageKeys\(authLoading \? undefined : user\?\.id \?\? null\)/);
+  assert.match(boardResourcesSource, /userContentStorageKeys\(\)\.boardGuides/);
+  assert.match(examPrepSource, /\.examPrepSession/);
+  assert.doesNotMatch(boardResourcesSource, /vertex_board_guides_v1/);
 });

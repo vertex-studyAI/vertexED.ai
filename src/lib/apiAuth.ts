@@ -8,6 +8,7 @@ import {
   toRequestError,
 } from '@/lib/apiRequestRecovery.mjs';
 import { supabase } from '@/lib/supabaseClient';
+import { reportAiRun } from '@/lib/monitoring';
 
 let currentAccessToken: string | null = null;
 
@@ -34,6 +35,22 @@ export async function authHeaders(init?: HeadersInit): Promise<Headers> {
     headers.set('Authorization', `Bearer ${token}`);
   }
   return headers;
+}
+
+/**
+ * Performs one request with an already captured access token. This deliberately
+ * does not refresh on 401: background persistence must never retry an old
+ * account's payload with credentials from a newly active account.
+ */
+export async function authFetchWithAccessToken(
+  input: RequestInfo | URL,
+  accessToken: string,
+  init?: RequestInit,
+): Promise<Response> {
+  if (!accessToken) throw new Error('A bound access token is required.');
+  const headers = new Headers(init?.headers);
+  headers.set('Authorization', `Bearer ${accessToken}`);
+  return fetch(input, { ...init, headers });
 }
 
 function isRequestInput(input: RequestInfo | URL): input is Request {
@@ -108,9 +125,15 @@ export async function authFetch(input: RequestInfo | URL, init?: RequestInit): P
     }
 
     if (shouldTrackAiRequest) {
+      const durationMs = Date.now() - startedAt;
       trackAiRequestOutcome(input, {
         status: response.status,
-        durationMs: Date.now() - startedAt,
+        durationMs,
+      });
+      reportAiRun({
+        capability: getAiFeatureForRequest(input) || 'unknown',
+        status: response.status,
+        durationMs,
       });
     }
     if (shouldTrackAccountDeletion) {
@@ -123,8 +146,15 @@ export async function authFetch(input: RequestInfo | URL, init?: RequestInit): P
   } catch (error) {
     const timedOut = deadline?.didTimeout() ?? false;
     if (shouldTrackAiRequest) {
+      const durationMs = Date.now() - startedAt;
       trackAiRequestOutcome(input, {
-        durationMs: Date.now() - startedAt,
+        durationMs,
+        networkError: !timedOut,
+        timedOut,
+      });
+      reportAiRun({
+        capability: getAiFeatureForRequest(input) || 'unknown',
+        durationMs,
         networkError: !timedOut,
         timedOut,
       });

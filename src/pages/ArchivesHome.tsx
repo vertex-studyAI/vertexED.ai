@@ -17,8 +17,8 @@ import { useAuth } from "@/contexts/AuthContext";
 export default function ArchivesHome() {
   const reduceMotion = useReducedMotion();
   const { isAuthenticated } = useAuth();
-  const hubTarget = isAuthenticated ? "/learning-hub" : "/signup";
-  const hubLabel = isAuthenticated ? "Learning Hub" : "sign up for Learning Hub";
+  const hubTarget = isAuthenticated ? "/main" : "/signup";
+  const hubLabel = isAuthenticated ? "study dashboard" : "sign up for the study dashboard";
 
   return (
     <>

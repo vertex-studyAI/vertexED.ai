@@ -1,5 +1,10 @@
-import { authFetch } from '@/lib/apiAuth';
-import { userContentStorageKeys } from '@/lib/userContentStorageScope.mjs';
+import { authFetchWithAccessToken, getAccessToken } from '@/lib/apiAuth';
+import { getUserContentStorageScope, userContentStorageKeys } from '@/lib/userContentStorageScope.mjs';
+import {
+  deleteDurableOutboxRecord,
+  listDurableOutboxRecords,
+  putDurableOutboxRecord,
+} from '@/lib/durableOutbox';
 import type { StudyArtifactKind } from '@/contracts/domain';
 export type { StudyArtifactKind } from '@/contracts/domain';
 
@@ -11,11 +16,16 @@ export type StudyArtifact = {
   created_at: string;
   updated_at: string;
   localOnly?: boolean;
+  idempotencyKey?: string;
+  idempotency_key?: string | null;
+  localRevision?: string;
 };
 
 export type StudyArtifactListResult = {
   ok: boolean;
   items: StudyArtifact[];
+  total?: number;
+  nextOffset?: number | null;
   error?: string;
   cloudUnavailable?: boolean;
 };
@@ -28,8 +38,6 @@ export type SaveArtifactResult = {
   replayed?: boolean;
 };
 
-const LOCAL_LIMIT = 30;
-
 export function createArtifactIdempotencyKey(): string {
   if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
     return `artifact:${crypto.randomUUID()}`;
@@ -37,9 +45,9 @@ export function createArtifactIdempotencyKey(): string {
   return `artifact:${Date.now()}:${Math.random().toString(36).slice(2, 12)}`;
 }
 
-function readRawLocalArtifacts(): StudyArtifact[] {
+function readRawLocalArtifacts(scope = getUserContentStorageScope()): StudyArtifact[] {
   if (typeof window === 'undefined') return [];
-  const { artifacts } = userContentStorageKeys();
+  const { artifacts } = userContentStorageKeys(scope);
   try {
     const raw = window.localStorage.getItem(artifacts);
     return raw ? (JSON.parse(raw) as StudyArtifact[]) : [];
@@ -48,24 +56,40 @@ function readRawLocalArtifacts(): StudyArtifact[] {
   }
 }
 
-function readLocalArtifacts(kind?: StudyArtifactKind): StudyArtifact[] {
-  const items = readRawLocalArtifacts();
-  const filtered = kind ? items.filter((item) => item.kind === kind) : items;
-  return filtered.map((item) => ({ ...item, localOnly: true }));
-}
-
-function writeLocalArtifacts(items: StudyArtifact[]): void {
-  if (typeof window === 'undefined') return;
-  const { artifacts } = userContentStorageKeys();
+function writeLocalArtifacts(items: StudyArtifact[], scope = getUserContentStorageScope()): boolean {
+  if (typeof window === 'undefined') return false;
+  const { artifacts } = userContentStorageKeys(scope);
   const stripped = items.map(({ localOnly: _localOnly, ...rest }) => rest);
-  window.localStorage.setItem(artifacts, JSON.stringify(stripped.slice(0, LOCAL_LIMIT)));
+  // This is a recovery outbox, not a recent-items cache. Never silently evict
+  // unsynced work because a learner crossed an arbitrary item count.
+  try {
+    window.localStorage.setItem(artifacts, JSON.stringify(stripped));
+    return true;
+  } catch {
+    return false;
+  }
 }
 
-function saveLocalArtifact(
+async function readRecoveryArtifacts(scope: string): Promise<StudyArtifact[]> {
+  const local = readRawLocalArtifacts(scope);
+  const durable = await listDurableOutboxRecords<StudyArtifact>('artifact', scope);
+  const byId = new Map(local.map((item) => [item.id, item]));
+  for (const record of durable) {
+    const existing = byId.get(record.logicalKey);
+    if (!existing || String(existing.updated_at) <= String(record.payload.updated_at)) {
+      byId.set(record.logicalKey, record.payload);
+    }
+  }
+  return [...byId.values()].sort((a, b) => String(b.updated_at).localeCompare(String(a.updated_at)));
+}
+
+async function saveLocalArtifact(
   kind: StudyArtifactKind,
   title: string,
   payload: Record<string, unknown>,
-): StudyArtifact {
+  idempotencyKey: string,
+  scope: string,
+): Promise<StudyArtifact | null> {
   const now = new Date().toISOString();
   const item: StudyArtifact = {
     id: `local-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`,
@@ -75,16 +99,29 @@ function saveLocalArtifact(
     created_at: now,
     updated_at: now,
     localOnly: true,
+    idempotencyKey,
+    localRevision: createArtifactIdempotencyKey(),
   };
-  writeLocalArtifacts([item, ...readRawLocalArtifacts()]);
-  return item;
+  const durable = await putDurableOutboxRecord({
+    channel: 'artifact',
+    scope,
+    logicalKey: item.id,
+    revision: item.localRevision!,
+    payload: item,
+    updatedAt: now,
+  });
+  const mirrored = writeLocalArtifacts([item, ...readRawLocalArtifacts(scope)], scope);
+  return durable || mirrored ? item : null;
 }
 
 function mergeArtifacts(cloud: StudyArtifact[], local: StudyArtifact[]): StudyArtifact[] {
   const seen = new Set(cloud.map((item) => item.id));
+  const confirmedKeys = new Set(cloud.map((item) => item.idempotency_key).filter(Boolean));
   const merged = [...cloud];
   for (const item of local) {
-    if (!seen.has(item.id)) merged.push(item);
+    if (!seen.has(item.id) && !(item.idempotencyKey && confirmedKeys.has(item.idempotencyKey))) {
+      merged.push(item);
+    }
   }
   return merged.sort(
     (a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime(),
@@ -143,8 +180,10 @@ export async function updateStudyArtifact(
   id: string,
   patch: { title?: string; payload?: Record<string, unknown> },
 ): Promise<SaveArtifactResult> {
+  const scope = getUserContentStorageScope();
+  if (!scope) return { ok: false, error: 'Sign in before saving study work.' };
   if (id.startsWith('local-')) {
-    const items = readRawLocalArtifacts();
+    const items = await readRecoveryArtifacts(scope);
     const idx = items.findIndex((item) => item.id === id);
     if (idx === -1) return { ok: false, error: 'Artifact not found' };
     const now = new Date().toISOString();
@@ -153,13 +192,23 @@ export async function updateStudyArtifact(
       title: patch.title !== undefined ? patch.title.trim().slice(0, 200) || items[idx].title : items[idx].title,
       payload: patch.payload ?? items[idx].payload,
       updated_at: now,
+      idempotencyKey: createArtifactIdempotencyKey(),
+      localRevision: createArtifactIdempotencyKey(),
     };
-    writeLocalArtifacts(items);
-    return { ok: true, id, localOnly: true };
+    const updated = items[idx];
+    const durable = await putDurableOutboxRecord({
+      channel: 'artifact', scope, logicalKey: id, revision: updated.localRevision!, payload: updated, updatedAt: now,
+    });
+    const mirrored = writeLocalArtifacts(items, scope);
+    return durable || mirrored
+      ? { ok: true, id, localOnly: true }
+      : { ok: false, error: 'Device recovery storage is full or unavailable.' };
   }
 
   try {
-    const res = await authFetch('/api/user-content', {
+    const accessToken = await getAccessToken();
+    if (!accessToken) return { ok: false, error: 'Your session is unavailable.' };
+    const res = await authFetchWithAccessToken('/api/user-content', accessToken, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ id, ...patch }),
@@ -187,12 +236,18 @@ export async function saveStudyArtifact(
   payload: Record<string, unknown>,
   options: { idempotencyKey?: string } = {},
 ): Promise<SaveArtifactResult> {
+  const scope = getUserContentStorageScope();
+  if (!scope) return { ok: false, error: 'Sign in before saving study work.' };
   const idempotencyKey = options.idempotencyKey || createArtifactIdempotencyKey();
-  const request = () => authFetch('/api/user-content', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ kind, title, payload, idempotencyKey }),
-  });
+  const accessToken = await getAccessToken();
+  const request = () => {
+    if (!accessToken) throw new Error('Your session is unavailable.');
+    return authFetchWithAccessToken('/api/user-content', accessToken, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ kind, title, payload, idempotencyKey }),
+    });
+  };
   try {
     let res: Response;
     try {
@@ -203,7 +258,8 @@ export async function saveStudyArtifact(
     }
     const data = await res.json().catch(() => null);
     if (!res.ok) {
-      const local = saveLocalArtifact(kind, title, payload);
+      const local = await saveLocalArtifact(kind, title, payload, idempotencyKey, scope);
+      if (!local) return { ok: false, error: 'Device recovery storage is full or unavailable.' };
       return {
         ok: true,
         id: local.id,
@@ -213,7 +269,8 @@ export async function saveStudyArtifact(
     }
     return { ok: true, id: data?.item?.id, replayed: data?.replayed === true };
   } catch (err) {
-    const local = saveLocalArtifact(kind, title, payload);
+    const local = await saveLocalArtifact(kind, title, payload, idempotencyKey, scope);
+    if (!local) return { ok: false, error: 'Device recovery storage is full or unavailable.' };
     return {
       ok: true,
       id: local.id,
@@ -223,16 +280,83 @@ export async function saveStudyArtifact(
   }
 }
 
+export type ArtifactSyncResult = {
+  attempted: number;
+  synced: number;
+  remaining: number;
+  error?: string;
+};
+
+export function getLocalArtifactCount(): number {
+  return readRawLocalArtifacts().length;
+}
+
+/**
+ * Replays device-only saves with their original idempotency keys. Successful
+ * items are removed locally only after the cloud confirms the write or replay.
+ */
+export async function syncLocalStudyArtifacts(): Promise<ArtifactSyncResult> {
+  const scope = getUserContentStorageScope();
+  if (!scope) return { attempted: 0, synced: 0, remaining: 0 };
+  const pending = await readRecoveryArtifacts(scope);
+  const accessToken = await getAccessToken();
+  if (!accessToken || getUserContentStorageScope() !== scope) {
+    return { attempted: pending.length, synced: 0, remaining: pending.length, error: 'Authenticated sync is unavailable.' };
+  }
+  let synced = 0;
+  let lastError: string | undefined;
+
+  for (const item of pending) {
+    const idempotencyKey = item.idempotencyKey || `artifact:sync:${item.id.replace(/[^A-Za-z0-9._:-]/g, '-').slice(0, 100)}`;
+    const attemptedRevision = item.localRevision || idempotencyKey;
+    try {
+      const res = await authFetchWithAccessToken('/api/user-content', accessToken, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          kind: item.kind,
+          title: item.title,
+          payload: item.payload,
+          idempotencyKey,
+        }),
+      });
+      const data = await res.json().catch(() => null);
+      if (!res.ok) {
+        lastError = data?.error || `Sync failed (${res.status})`;
+        continue;
+      }
+      writeLocalArtifacts(readRawLocalArtifacts(scope).filter((candidate) =>
+        candidate.id !== item.id || (candidate.localRevision || candidate.idempotencyKey) !== attemptedRevision), scope);
+      await deleteDurableOutboxRecord('artifact', scope, item.id, attemptedRevision);
+      synced += 1;
+    } catch (err) {
+      lastError = err instanceof Error ? err.message : 'Cloud sync unavailable';
+    }
+  }
+
+  return {
+    attempted: pending.length,
+    synced,
+    remaining: (await readRecoveryArtifacts(scope)).length,
+    error: lastError,
+  };
+}
+
 export async function deleteStudyArtifact(
   id: string,
 ): Promise<{ ok: boolean; error?: string }> {
+  const scope = getUserContentStorageScope();
+  if (!scope) return { ok: false, error: 'Sign in before deleting study work.' };
   if (id.startsWith('local-')) {
-    writeLocalArtifacts(readRawLocalArtifacts().filter((item) => item.id !== id));
+    writeLocalArtifacts(readRawLocalArtifacts(scope).filter((item) => item.id !== id), scope);
+    await deleteDurableOutboxRecord('artifact', scope, id);
     return { ok: true };
   }
 
   try {
-    const res = await authFetch('/api/user-content', {
+    const accessToken = await getAccessToken();
+    if (!accessToken) return { ok: false, error: 'Your session is unavailable.' };
+    const res = await authFetchWithAccessToken('/api/user-content', accessToken, {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ id }),
@@ -254,13 +378,29 @@ export async function listStudyArtifacts(kind?: StudyArtifactKind): Promise<Stud
 
 export async function listStudyArtifactsDetailed(
   kind?: StudyArtifactKind,
+  options: { limit?: number; offset?: number } = {},
 ): Promise<StudyArtifactListResult> {
-  const local = readLocalArtifacts(kind);
+  const scope = getUserContentStorageScope();
+  if (!scope) return { ok: false, items: [], cloudUnavailable: true, error: 'Sign in to load study work.' };
+  const limit = Math.max(1, Math.min(50, Math.floor(options.limit ?? 30)));
+  const offset = Math.max(0, Math.floor(options.offset ?? 0));
+  const recovered = await readRecoveryArtifacts(scope);
+  const local = offset === 0
+    ? (kind ? recovered.filter((item) => item.kind === kind) : recovered)
+      .map((item) => ({ ...item, localOnly: true }))
+    : [];
 
   try {
-    const qs = kind ? `?kind=${kind}&limit=30` : '?limit=30';
-    const res = await authFetch(`/api/user-content${qs}`);
+    const accessToken = await getAccessToken();
+    if (!accessToken) throw new Error('Your session is unavailable.');
+    const search = new URLSearchParams({ limit: String(limit), offset: String(offset) });
+    if (kind) search.set('kind', kind);
+    const qs = `?${search.toString()}`;
+    const res = await authFetchWithAccessToken(`/api/user-content${qs}`, accessToken);
     const data = await res.json().catch(() => null);
+    if (getUserContentStorageScope() !== scope) {
+      return { ok: false, items: [], cloudUnavailable: true, error: 'Account changed while study work was loading.' };
+    }
     if (!res.ok) {
       return {
         ok: local.length > 0,
@@ -270,7 +410,12 @@ export async function listStudyArtifactsDetailed(
       };
     }
     const cloud = Array.isArray(data?.items) ? (data.items as StudyArtifact[]) : [];
-    return { ok: true, items: mergeArtifacts(cloud, local) };
+    return {
+      ok: true,
+      items: mergeArtifacts(cloud, local),
+      total: typeof data?.total === 'number' ? data.total : cloud.length,
+      nextOffset: typeof data?.nextOffset === 'number' ? data.nextOffset : null,
+    };
   } catch (err) {
     return {
       ok: local.length > 0,

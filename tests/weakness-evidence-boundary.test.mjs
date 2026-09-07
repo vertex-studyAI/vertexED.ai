@@ -16,6 +16,7 @@ const measured = (overrides = {}) => ({
   source: 'review',
   evidence: MEASURED_WEAKNESS_EVIDENCE,
   recordedAt: '2026-09-02T00:00:00.000Z',
+  verification: { method: 'official-mark-scheme', confirmedAt: '2026-09-02T00:00:00.000Z' },
   ...overrides,
 });
 
@@ -46,7 +47,7 @@ test('legacy and heuristic-looking records are not treated as measured evidence'
   );
 });
 
-test('only valid measured-v1 scores enter mastery summaries', () => {
+test('only valid measured-v2 scores with human or validated-key provenance enter mastery summaries', () => {
   const normalized = normalizeMeasuredWeaknessEntry(measured());
   assert.equal(normalized?.score, 14);
   assert.equal(normalized?.maxScore, 20);
@@ -56,6 +57,8 @@ test('only valid measured-v1 scores enter mastery summaries', () => {
   assert.equal(normalizeMeasuredWeaknessEntry(measured({ score: -1 })), null);
   assert.equal(normalizeMeasuredWeaknessEntry(measured({ maxScore: 0 })), null);
   assert.equal(normalizeMeasuredWeaknessEntry(measured({ score: Number.NaN })), null);
+  assert.equal(normalizeMeasuredWeaknessEntry(measured({ verification: undefined })), null);
+  assert.equal(normalizeMeasuredWeaknessEntry(measured({ verification: { method: 'ai-confidence', confirmedAt: '2026-09-02T00:00:00Z' } })), null);
 });
 
 test('measured summaries average attempts and ignore untrusted records', () => {

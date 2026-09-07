@@ -104,7 +104,10 @@ test('dispatchRoute returns 404 for unknown routes', async () => {
   assert.match(getJson().error, /not found/i);
 });
 
-test('route registry stays within hobby serverless limits', () => {
+test('catch-all route registry remains explicit and reasonably bounded', () => {
   assert.ok(Object.keys(ROUTES).length >= 10);
-  assert.ok(Object.keys(ROUTES).length <= 20);
+  // Endpoint count does not consume Vercel functions: the separately tested
+  // catch-all topology remains one deployed function. Keep a high sanity cap
+  // only to catch accidental/generated registry growth.
+  assert.ok(Object.keys(ROUTES).length <= 64);
 });

@@ -23,15 +23,17 @@ export type GradingErrorCode =
   | 'COMMUNICATION'
   | 'INCOMPLETE';
 
-export type VerifiedGradeAudit = {
-  contractVersion: 'vertexed.grading.v1';
+export type GradeAudit = {
+  contractVersion: 'vertexed.grading.v2';
   auditId: string;
   id: string;
   score: number;
   maxScore: number;
-  scoreStatus: 'VERIFIED' | 'PROVISIONAL';
+  scoreStatus: 'EVIDENCE_LINKED' | 'PROVISIONAL' | 'MEASURED';
   confidence: number;
   humanReviewRequired: boolean;
+  measurementEligible: boolean;
+  evidenceState: 'MODEL_EVIDENCE_LINKED' | 'MODEL_PROVISIONAL' | 'HUMAN_CONFIRMED' | 'VALIDATED_ANSWER_KEY';
   escalationReason: string | null;
   feedback: string;
   includes: string;
@@ -57,7 +59,7 @@ export type LearningArtifactProvenance = {
 export type AssessmentCoverage = {
   objectiveId: string;
   attempted: number;
-  verified: number;
+  measured: number;
   score: number;
   maxScore: number;
   masteryPercent: number | null;

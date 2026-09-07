@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import test from 'node:test';
 
-import { createApprovedWaitlistUser } from '../api/_lib/waitlistSignup.js';
+import { createApprovedWaitlistUser, createTeamInvitedUser } from '../api/_lib/waitlistSignup.js';
 
 function fakeSupabase({ createError = null, finalizeError = null, finalized = { id: 'wait-1' }, rollbackError = null } = {}) {
   const calls = [];
@@ -100,4 +100,99 @@ test('signup handler delegates waitlist account creation to fail-closed finaliza
   const source = fs.readFileSync('api/_handlers/signup-invite.js', 'utf8');
   assert.match(source, /await createApprovedWaitlistUser\(supabase,/);
   assert.doesNotMatch(source, /await supabase[\s\S]*?\.from\('waitlist'\)[\s\S]*?invite_token:\s*null/);
+});
+
+function fakeTeamInviteSupabase({ existingId = null, lookupError = null, writeError = null } = {}) {
+  const calls = [];
+  const writeChain = {
+    eq(field, value) { calls.push(['eq', field, value]); return writeChain; },
+    select(fields) { calls.push(['write-select', fields]); return writeChain; },
+    async maybeSingle() {
+      calls.push(['write-maybeSingle']);
+      return { data: writeError ? null : { id: existingId || 'wait-new' }, error: writeError };
+    },
+  };
+
+  return {
+    calls,
+    client: {
+      auth: {
+        admin: {
+          async inviteUserByEmail(email, options) {
+            calls.push(['inviteUserByEmail', email, options]);
+            return { data: { user: { id: 'invited-user-1', email } }, error: null };
+          },
+          async deleteUser(id) {
+            calls.push(['deleteUser', id]);
+            return { error: null };
+          },
+        },
+      },
+      from(table) {
+        calls.push(['from', table]);
+        return {
+          select(fields) {
+            calls.push(['lookup-select', fields]);
+            return {
+              ilike(field, value) {
+                calls.push(['ilike', field, value]);
+                return {
+                  async maybeSingle() {
+                    calls.push(['lookup-maybeSingle']);
+                    return { data: existingId ? { id: existingId } : null, error: lookupError };
+                  },
+                };
+              },
+            };
+          },
+          update(values) { calls.push(['team-update', values]); return writeChain; },
+          insert(values) { calls.push(['team-insert', values]); return writeChain; },
+        };
+      },
+    },
+  };
+}
+
+test('team invitation persists explicit access tied to the invited auth identity', async () => {
+  const { client, calls } = fakeTeamInviteSupabase();
+  const result = await createTeamInvitedUser(client, {
+    email: 'student@example.com',
+    username: 'student',
+    redirectTo: 'https://www.vertexed.app/auth/callback?invite=1',
+    updatedAt: signupInput.updatedAt,
+  });
+
+  assert.equal(result.stage, 'complete');
+  const inserted = calls.find(([name]) => name === 'team-insert')?.[1];
+  assert.equal(inserted.auth_user_id, 'invited-user-1');
+  assert.equal(inserted.status, 'approved');
+  assert.equal(inserted.email, 'student@example.com');
+  assert.equal(calls.some(([name]) => name === 'deleteUser'), false);
+});
+
+test('team invitation removes the incomplete Auth identity when access persistence fails', async () => {
+  const writeError = new Error('database unavailable');
+  const { client, calls } = fakeTeamInviteSupabase({ writeError });
+  const result = await createTeamInvitedUser(client, {
+    email: 'student@example.com',
+    username: 'student',
+    redirectTo: 'https://www.vertexed.app/auth/callback?invite=1',
+  });
+
+  assert.equal(result.stage, 'finalize');
+  assert.equal(result.error, writeError);
+  assert.deepEqual(calls.find(([name]) => name === 'deleteUser'), ['deleteUser', 'invited-user-1']);
+});
+
+test('missing waitlist membership is never treated as approved authorization', () => {
+  const statusSource = fs.readFileSync('api/_handlers/waitlist-status.js', 'utf8');
+  assert.match(statusSource, /entry\?\.status \?\? 'unregistered'/);
+  assert.doesNotMatch(statusSource, /entry\?\.status \?\? 'approved'/);
+});
+
+test('migration preserves only historical or provider-invited orphan identities', () => {
+  const migration = fs.readFileSync('supabase/migrations/20260906115242_account_deletion_privacy_and_rate_limit_invoker.sql', 'utf8');
+  assert.match(migration, /auth_user\.created_at < timestamptz '2026-07-25 00:00:00\+00'/);
+  assert.match(migration, /auth_user\.invited_at is not null/);
+  assert.doesNotMatch(migration, /from auth\.users as auth_user\s+where auth_user\.email is not null\s+and not exists/i);
 });

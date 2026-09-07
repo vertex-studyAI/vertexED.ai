@@ -46,3 +46,18 @@ export function buildMissingProfileInsert(user, metadata = {}, updatedAt = new D
     updated_at: updatedAt,
   };
 }
+
+export function buildCurriculumProfileUpsert(
+  user,
+  curriculum,
+  metadata = {},
+  updatedAt = new Date().toISOString(),
+) {
+  return {
+    ...buildMissingProfileInsert(user, metadata, updatedAt),
+    board: curriculum?.board ?? null,
+    grade: curriculum?.grade ?? null,
+    subjects: Array.isArray(curriculum?.subjects) ? [...new Set(curriculum.subjects)] : [],
+    exam_date: curriculum?.examDate ?? null,
+  };
+}

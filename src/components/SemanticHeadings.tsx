@@ -91,10 +91,15 @@ export const routeHeadingsMap: Record<string, HeadingEntry> = {
     h2: ["Today's plan", "Study tools"],
     h3: ["Quick actions", "Recent saved work"],
   },
+  "/exam-prep": {
+    title: "Exam Prep",
+    h2: ["Best next move", "Today's session", "Preparation evidence"],
+    h3: ["Exam countdown", "Subject", "Session length"],
+  },
   "/learning-hub": {
-    title: "Learning Hub",
-    h2: ["Your learning path", "Subject tracks"],
-    h3: ["Daily progress", "Command terms"],
+    title: "Study Dashboard",
+    h2: ["Your next step", "Study tools"],
+    h3: ["Saved work", "Study signals"],
   },
   "/notetaker": {
     title: "Notes, flashcards, and quizzes",

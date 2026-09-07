@@ -6,6 +6,7 @@ import {
   useEffect,
   useRef,
 } from "react";
+import { createPortal } from "react-dom";
 import {
   focusInitialModalElement,
   restoreModalFocus,
@@ -62,7 +63,7 @@ export default function AccessibleModal({
     trapModalFocus(event, dialogRef.current);
   };
 
-  return (
+  return createPortal(
     <div className={overlayClassName} role="presentation">
       <div
         ref={dialogRef}
@@ -78,6 +79,7 @@ export default function AccessibleModal({
       >
         {children}
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }

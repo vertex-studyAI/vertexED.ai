@@ -22,6 +22,8 @@ import {
   getSubjectsForBoard,
 } from "@/lib/curriculum";
 import type { ExamBoard } from "@/types/curriculum";
+import AiFeedbackControls from "@/components/AiFeedbackControls";
+import { loadMockExamDraft } from "@/lib/examFlow";
 
 export default function PaperMaker({ priorPapers = [] }) {
   const { user } = useAuth();
@@ -95,6 +97,25 @@ export default function PaperMaker({ priorPapers = [] }) {
       toast({ title: "Paper restored", description: restored.title || "Your saved paper is ready." });
     }
   }, []);
+
+  useEffect(() => {
+    if (searchParams.get("resumeMock") !== "1") return;
+    const draft = loadMockExamDraft();
+    if (!draft) {
+      setError("That mock draft is no longer available in this browser tab.");
+      return;
+    }
+    if (draft.board) {
+      prevBoardRef.current = draft.board;
+      setBoard(draft.board);
+    }
+    if (typeof draft.grade === "number") setGrade(draft.grade);
+    if (draft.subject) setSubject(draft.subject);
+    setPaper(draft.paper);
+    setMockCramMode(draft.cramMode);
+    setMockExamOpen(true);
+    setSaveStatus("Resumed saved mock draft");
+  }, [searchParams]);
 
   useEffect(() => {
     if (prevBoardRef.current === board) return;
@@ -555,6 +576,9 @@ export default function PaperMaker({ priorPapers = [] }) {
                     )}
                     {saveStatus && <span className="text-xs text-emerald-400">{saveStatus}</span>}
                     <div className="ml-auto text-sm text-muted-foreground flex items-center gap-2"><Grid size={14} /> <span>{(paper?.sections || []).reduce((c, s) => c + (s.questions?.length || 0), 0)} questions</span></div>
+                  </div>
+                  <div className="mt-3 border-t border-border/60 pt-3">
+                    <AiFeedbackControls capability="paper" />
                   </div>
                 </div>
               )}

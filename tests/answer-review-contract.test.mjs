@@ -40,7 +40,7 @@ test('provider JSON extraction accepts clean JSON and rejects prose without an o
   assert.equal(extractAnswerReviewGrade('No structured result'), null);
 });
 
-test('verified review requires exact answer evidence and calibrated confidence', () => {
+test('evidence-linked review still requires human confirmation for mastery', () => {
   const result = createAnswerReviewResult({
     input, model: 'fixture-model',
     rawGrade: {
@@ -51,9 +51,10 @@ test('verified review requires exact answer evidence and calibrated confidence',
     },
   });
   assert.equal(result.contractVersion, ANSWER_REVIEW_CONTRACT_VERSION);
-  assert.equal(result.review.scoreStatus, 'VERIFIED');
-  assert.equal(result.review.humanReviewRequired, false);
-  assert.match(result.output, /Evidence-verified AI review/);
+  assert.equal(result.review.scoreStatus, 'EVIDENCE_LINKED');
+  assert.equal(result.review.humanReviewRequired, true);
+  assert.equal(result.review.measurementEligible, false);
+  assert.match(result.output, /Evidence-linked AI review/);
 });
 
 test('invented evidence forces a provisional review', () => {

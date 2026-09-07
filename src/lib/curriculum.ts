@@ -250,12 +250,27 @@ export function buildCurriculumMetadata(
 
 export function daysUntilExam(examDate: string | null): number | null {
   if (!examDate) return null;
-  const target = new Date(examDate);
-  if (Number.isNaN(target.getTime())) return null;
+  const dateOnly = /^(\d{4})-(\d{2})-(\d{2})$/.exec(examDate);
+  let targetDay: number;
+  if (dateOnly) {
+    const year = Number(dateOnly[1]);
+    const month = Number(dateOnly[2]);
+    const day = Number(dateOnly[3]);
+    const candidate = new Date(Date.UTC(year, month - 1, day));
+    if (
+      candidate.getUTCFullYear() !== year
+      || candidate.getUTCMonth() !== month - 1
+      || candidate.getUTCDate() !== day
+    ) return null;
+    targetDay = candidate.getTime();
+  } else {
+    const target = new Date(examDate);
+    if (Number.isNaN(target.getTime())) return null;
+    targetDay = Date.UTC(target.getFullYear(), target.getMonth(), target.getDate());
+  }
   const now = new Date();
-  now.setHours(0, 0, 0, 0);
-  target.setHours(0, 0, 0, 0);
-  return Math.ceil((target.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
+  const today = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate());
+  return Math.round((targetDay - today) / (1000 * 60 * 60 * 24));
 }
 
 export type BoardLearningTrack = {

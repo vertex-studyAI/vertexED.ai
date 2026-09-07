@@ -68,7 +68,7 @@ export async function replaceSingletonArtifact(
   if (!SINGLETON_ARTIFACT_KINDS.has(kind)) {
     throw new TypeError('Only planner and notebook artifacts can use singleton replacement.');
   }
-  const { data: existing, error: lookupError } = await supabase
+  const findExisting = () => supabase
     .from('user_study_artifacts')
     .select('id')
     .eq('user_id', userId)
@@ -76,19 +76,22 @@ export async function replaceSingletonArtifact(
     .order('updated_at', { ascending: false })
     .limit(1)
     .maybeSingle();
+  const updateExisting = (id) => supabase
+    .from('user_study_artifacts')
+    .update({ title, payload, updated_at: updatedAt })
+    .eq('id', id)
+    .eq('user_id', userId)
+    .select(ARTIFACT_RETURN_FIELDS)
+    .single();
+
+  const { data: existing, error: lookupError } = await findExisting();
 
   if (lookupError) {
     return { data: null, error: lookupError, created: false };
   }
 
   if (existing?.id) {
-    const { data, error } = await supabase
-      .from('user_study_artifacts')
-      .update({ title, payload, updated_at: updatedAt })
-      .eq('id', existing.id)
-      .eq('user_id', userId)
-      .select(ARTIFACT_RETURN_FIELDS)
-      .single();
+    const { data, error } = await updateExisting(existing.id);
     return { data, error, created: false };
   }
 
@@ -103,7 +106,16 @@ export async function replaceSingletonArtifact(
     })
     .select(ARTIFACT_RETURN_FIELDS)
     .single();
-  return { data, error, created: true };
+  if (!error || error.code !== '23505') return { data, error, created: !error };
+
+  // A concurrent first write can win after our lookup. The partial unique index
+  // turns that race into a safe retry against the single winning row.
+  const collision = await findExisting();
+  if (collision.error || !collision.data?.id) {
+    return { data: null, error: collision.error || error, created: false };
+  }
+  const retry = await updateExisting(collision.data.id);
+  return { data: retry.data, error: retry.error, created: false };
 }
 
 export function replacePlannerArtifact(supabase, options) {

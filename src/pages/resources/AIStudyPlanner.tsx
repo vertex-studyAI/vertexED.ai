@@ -30,24 +30,23 @@ export default function AIStudyPlannerArticle() {
   <BreadcrumbsJsonLd />
       <Article title="AI study planner and calendar" subtitle="Block mocks, retrieval, and focus sessions around real life — not six-hour fantasy study days." kicker="Guides">
         <p className="lead">
-          Most planners list tasks. VertexED plans learning: topics become 20–40 minute blocks, micro-reviews
-          land before you forget key items, and school hours, sport, and sleep stay in the picture. The goal
-          is a week you will actually follow — not a colour-coded wish list.
+          A useful revision plan says what you will do, when you will do it, and how long it should take.
+          VertexED gives you an editable calendar for that work and can suggest study tasks from your profile and saved study signals.
         </p>
 
         <h2>Key capabilities</h2>
         <ul>
-          <li>Auto‑schedules tasks around fixed events and personal constraints.</li>
-          <li>Prioritises sessions by urgency and expected learning impact.</li>
-          <li>Integrates with the <Link to="/study-zone">Study Zone</Link> timers for time‑boxing and logs.</li>
-          <li>Surfaces micro‑reviews just before forgetting curves kick in.</li>
+          <li>Create, edit, move, and complete study tasks on a calendar.</li>
+          <li>Request AI suggestions, then keep, edit, or discard each result.</li>
+          <li>Open the <Link to="/study-zone">Study Zone</Link> when a task needs a focused timer block.</li>
+          <li>Keep planner work tied to your account, with a device fallback if cloud sync is unavailable.</li>
         </ul>
 
         <h2>Workflow</h2>
         <ol>
-          <li>Create a task with topic, target exam/board, and desired date.</li>
-          <li>Pick intensity (light/standard/deep). The planner converts this into session lengths.</li>
-          <li>Accept the suggested calendar or drag to rearrange. Conflicts are auto‑resolved.</li>
+          <li>Add the task, date, start time, and duration.</li>
+          <li>Use suggestions when you need ideas for what to schedule.</li>
+          <li>Review the week yourself and move anything that does not fit.</li>
         </ol>
 
         <h2>Design principles</h2>
@@ -58,20 +57,20 @@ export default function AIStudyPlannerArticle() {
         </ul>
 
         <h2>Feature deep dive</h2>
-        <h3>Constraints‑aware scheduling</h3>
+        <h3>Editable scheduling</h3>
         <p>
-          Add busy hours, bedtime, preferred session length, and VertexED will only schedule inside realistic
-          windows. Conflicts are auto‑resolved and the planner proposes alternatives.
+          The calendar gives every task a visible time and duration. Suggestions are drafts, not automatic decisions:
+          you remain responsible for checking clashes with school, sleep, travel, sport, and other commitments.
         </p>
         <h3>Priority and urgency</h3>
         <p>
-          Sessions are ordered by due date proximity and expected learning impact. Higher‑yield items (exam
-          prompts, weak topics, micro‑reviews) float to the top of your day.
+          Suggestions can use your exam date, subjects, and verified weak-topic evidence. Those signals help choose
+          a reasonable next task, but they do not estimate how many marks a session will add.
         </p>
         <h3>Micro‑reviews</h3>
         <p>
-          Tiny 3–10 minute reviews land just before you forget key items, often the night before an assessment.
-          They’re short by design so you actually do them.
+          Flashcard timing lives in Study Mode, where your rating determines the next due date. Add a planner task
+          when you want a protected calendar block for that review.
         </p>
 
         <h2>Plan a real study week</h2>
@@ -82,10 +81,10 @@ export default function AIStudyPlannerArticle() {
         <ol>
           <li>Add “IGCSE Physics — Waves recap” due Fri; set intensity to “standard”.</li>
           <li>Add “IB History — Essay outline (Cold War)” due Mon; intensity “deep”.</li>
-          <li>Block school hours and sports practice; set weekday cut‑off at 9pm.</li>
-          <li>Let VertexED suggest 4 sessions: two short Physics blocks (Tue/Thu), one History reading (Wed), one outline (Sat).</li>
+          <li>Check school and sport in your own calendar, then keep the evenings you can actually use.</li>
+          <li>Add four sessions: two short Physics blocks, one History reading, and one outline.</li>
         </ol>
-        <p>The micro‑review for Physics drops on Thu night; a 10‑minute touch keeps the quiz fresh.</p>
+        <p>Add a ten-minute Thursday review if you want the Physics material fresh before Friday.</p>
 
         <h2>Examples by subject</h2>
         <ul>
@@ -97,7 +96,7 @@ export default function AIStudyPlannerArticle() {
         <h2>From plan to action</h2>
         <p>
           Start each session from the dashboard. The Study Zone provides a focus timer and quick logs; when you finish,
-          VertexED records the duration and nudges the schedule if you ran long or short.
+          log what you covered, then return to the planner and adjust future blocks if the estimate was wrong.
         </p>
 
         <h2>How it fits a revision week</h2>
@@ -110,14 +109,14 @@ export default function AIStudyPlannerArticle() {
         <h2>Common pitfalls (and fixes)</h2>
         <ul>
           <li><strong>Oversized tasks:</strong> Split into 20–40 minute sessions so they fit real days.</li>
-          <li><strong>Only content, no recall:</strong> Convert notes to <Link to="/notetaker">flashcards</Link> and add a <Link to="/study-zone">quiz</Link>.</li>
-          <li><strong>Ignoring weak topics:</strong> Tag sessions and let the planner rebalance distribution.</li>
+          <li><strong>Only content, no recall:</strong> Convert notes to <Link to="/notetaker">flashcards or a quiz</Link>.</li>
+          <li><strong>Ignoring weak topics:</strong> Add a retry block after you verify a weak result.</li>
         </ul>
 
         <h2>FAQ</h2>
-        <p><strong>Does it sync with Google Calendar?</strong> We are working on a 2-way sync. For now, you can export your VertexED plan to an `.ics` file to import into Google Calendar or Outlook.</p>
-        <p><strong>What if I miss a day?</strong> Life happens. The AI automatically detects missed tasks and prompts you to "Reschedule" them. It will intelligently slot them into future free blocks without overloading you.</p>
-        <p><strong>How does it know what I need to study?</strong> It combines your exam date (deadline) with your self-reported confidence levels. Low confidence + near deadline = High Priority.</p>
+        <p><strong>Does it sync with Google Calendar?</strong> No two-way calendar sync is available in the current beta. Keep important commitments in your main calendar as well.</p>
+        <p><strong>What if I miss a day?</strong> Move the task to a realistic time or delete it. VertexED does not silently rebuild your week.</p>
+        <p><strong>How does it know what I need to study?</strong> Suggestions can use your exam date, profile, due reviews, and verified weak-topic evidence. You decide whether the result makes sense.</p>
 
         <div className="not-prose mt-8 flex gap-3">
           <Link to="/planner" className="neu-button">Open Planner</Link>
@@ -134,7 +133,7 @@ export default function AIStudyPlannerArticle() {
 
         <div className="article-footer">
           Editorial note: Reviewed for clarity and usefulness. Always cross‑check with your official syllabus and teacher guidance.
-          <div className="mt-1">Last updated: 2025-12-24 · Author: VertexED Team</div>
+          <div className="mt-1">Product walkthrough checked: 6 September 2026 · VertexED Team</div>
         </div>
 
         <hr className="article-divider" />

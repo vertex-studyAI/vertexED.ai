@@ -1,6 +1,6 @@
 import { normalizeGradeAudits } from './verifiedGrading.js';
 
-export const ANSWER_REVIEW_CONTRACT_VERSION = 'vertexed.answer-review.v1';
+export const ANSWER_REVIEW_CONTRACT_VERSION = 'vertexed.answer-review.v2';
 
 function cleanText(value, limit) {
   return typeof value === 'string' ? value.trim().slice(0, limit) : '';
@@ -129,7 +129,7 @@ function formatPercent(value) {
 }
 
 export function formatAnswerReview(audit) {
-  const status = audit.scoreStatus === 'VERIFIED' ? 'Evidence-verified AI review' : 'Provisional AI review';
+  const status = audit.scoreStatus === 'EVIDENCE_LINKED' ? 'Evidence-linked AI review' : 'Provisional AI review';
   const lines = [
     `## ${status}`,
     '',
@@ -137,9 +137,7 @@ export function formatAnswerReview(audit) {
     `**Confidence:** ${formatPercent(audit.confidence)}`,
     '',
   ];
-  if (audit.humanReviewRequired) {
-    lines.push(`> This mark is provisional and must not update mastery. ${audit.escalationReason || 'Human review is required.'}`, '');
-  }
+  lines.push(`> This AI-suggested mark does not update mastery. ${audit.escalationReason || 'Confirm it against an official mark scheme or teacher decision first.'}`, '');
   if (audit.feedback) lines.push('### Overall feedback', '', audit.feedback, '');
   if (audit.includes) lines.push('### Demonstrated in the answer', '', audit.includes, '');
   if (audit.criteria.length) {
@@ -156,7 +154,7 @@ export function formatAnswerReview(audit) {
     for (const error of audit.errors) lines.push(`- ${error.label}`);
     lines.push('');
   }
-  lines.push('Compare this feedback with your current mark scheme or teacher guidance before relying on the mark.');
+  lines.push('Compare this feedback with a current official mark scheme or teacher decision before confirming it as measured evidence.');
   return lines.join('\n');
 }
 

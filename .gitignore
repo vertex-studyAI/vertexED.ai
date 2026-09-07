@@ -10,6 +10,9 @@ node_modules/
 dist/
 dist-ssr/
 /public/neurocad/
+.tmp/
+test-results/
+playwright-report/
 
 # Logs
 logs/

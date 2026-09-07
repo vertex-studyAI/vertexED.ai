@@ -94,9 +94,9 @@ export default function AIChatbotTutorGuide() {
         </ol>
 
         <h2>FAQ</h2>
-        <p><strong>Is the chatbot available offline?</strong> No, the AI models run in the cloud to ensure they are always up-to-date and powerful enough to handle complex queries.</p>
-        <p><strong>Can it solve image-based problems?</strong> Yes, you can upload photos of diagrams, graphs, or handwritten equations, and the AI will analyze them.</p>
-        <p><strong>Does it know the 2025 syllabus changes?</strong> Yes, VertexED's knowledge base is regularly updated to reflect the latest curriculum changes for IB, IGCSE, and AP.</p>
+        <p><strong>Is the chatbot available offline?</strong> No. It needs a network connection because responses come from an external AI provider.</p>
+        <p><strong>Can it read an image in chat?</strong> The current chat interface is text-first. Use Answer Reviewer when you need to submit a photographed written response.</p>
+        <p><strong>Does it know the latest syllabus?</strong> Do not assume that it does. Check current curriculum changes, dates, and assessment rules against the official board website.</p>
 
         <div className="not-prose mt-8 flex gap-3 flex-wrap">
           <Link to="/chatbot" className="neu-button">Start Chatting</Link>
@@ -111,7 +111,7 @@ export default function AIChatbotTutorGuide() {
 
         <div className="article-footer">
           Editorial note: Reviewed for clarity and usefulness. Always cross‑check with your official syllabus and teacher guidance.
-          <div className="mt-1">Last updated: 2025-12-24 · Author: VertexED Team</div>
+          <div className="mt-1">Product walkthrough checked: 6 September 2026 · VertexED Team</div>
         </div>
 
         <hr className="article-divider" />

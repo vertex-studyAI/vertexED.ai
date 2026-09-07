@@ -1,228 +1,144 @@
-import { verifyAuthUser, MAX_AUDIO_BYTES } from '../_lib/auth.js';
+import { verifyAuthUser } from '../_lib/auth.js';
 import { rateLimitUserEndpoint } from '../_lib/rateLimit.js';
+import { fetchProvider } from '../_lib/providerRequest.js';
+import { parseTranscriptionRequest, TranscriptionInputError } from '../_lib/transcriptionInput.js';
+
+const TRANSCRIPTION_MODEL = 'gpt-4o-mini-transcribe';
+const ENRICHMENT_MODEL = 'gpt-4o-mini';
+
+function parseFlashcards(raw, limit) {
+  try {
+    const parsed = JSON.parse(raw);
+    return (Array.isArray(parsed?.flashcards) ? parsed.flashcards : [])
+      .slice(0, limit)
+      .map((card) => ({
+        front: String(card?.front || card?.question || '').trim().slice(0, 500),
+        back: String(card?.back || card?.answer || '').trim().slice(0, 1000),
+      }))
+      .filter((card) => card.front && card.back);
+  } catch {
+    return [];
+  }
+}
+
+async function generateNotes(apiKey, transcript, noteFormat, noteLength) {
+  const response = await fetchProvider({
+    capability: 'transcription_notes', provider: 'openai', model: ENRICHMENT_MODEL,
+    url: 'https://api.openai.com/v1/chat/completions',
+    options: {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: ENRICHMENT_MODEL,
+        messages: [
+          { role: 'system', content: 'You are a precise academic notetaker. Preserve facts from the transcript and never add unsupported claims.' },
+          { role: 'user', content: `Convert this transcript into ${noteFormat} notes with ${noteLength} detail. Keep chronological order and key points.\n\n${transcript.slice(0, 30_000)}` },
+        ],
+        temperature: 0.3,
+        max_tokens: 2200,
+      }),
+    },
+  });
+  if (!response.ok) throw new Error(`Note enrichment returned ${response.status}.`);
+  const data = await response.json();
+  const result = data?.choices?.[0]?.message?.content;
+  if (typeof result !== 'string' || !result.trim()) throw new Error('Note enrichment was empty.');
+  return result.trim();
+}
+
+async function generateFlashcards(apiKey, content, count) {
+  const response = await fetchProvider({
+    capability: 'transcription_flashcards', provider: 'openai', model: ENRICHMENT_MODEL,
+    url: 'https://api.openai.com/v1/chat/completions',
+    options: {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: ENRICHMENT_MODEL,
+        messages: [{ role: 'user', content: `Create ${count} flashcards from the content. Return only JSON as {"flashcards":[{"front":"...","back":"..."}]}.\n\n${content.slice(0, 10_000)}` }],
+        temperature: 0.35,
+        max_tokens: 1200,
+        response_format: { type: 'json_object' },
+      }),
+    },
+  });
+  if (!response.ok) throw new Error(`Flashcard enrichment returned ${response.status}.`);
+  const data = await response.json();
+  return parseFlashcards(data?.choices?.[0]?.message?.content ?? '{}', count);
+}
 
 export default async function handler(req, res) {
-  if (req.method !== "POST") {
-    return res.status(405).json({ error: "Method not allowed" });
-  }
+  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
   const user = await verifyAuthUser(req, res);
   if (!user) return;
+  if (!(await rateLimitUserEndpoint(user.id, 'transcribe', res, { limit: 20, windowMs: 60 * 60 * 1000 }))) return;
 
-  if (!(await rateLimitUserEndpoint(user.id, 'transcribe', res))) return;
-
-  const contentLength = Number(req.headers['content-length'] || 0);
-  if (contentLength > MAX_AUDIO_BYTES) {
-    return res.status(413).json({ error: 'Audio upload too large (max 15 MB).' });
-  }
-
-  const OPENAI_API_KEY =
-    process.env.ChatbotKey || process.env.OPENAI_API_KEY || process.env.CHATBOT_KEY;
-  if (!OPENAI_API_KEY) {
-    return res.status(500).json({ error: "OpenAI API key not set" });
-  }
+  const apiKey = process.env.ChatbotKey || process.env.OPENAI_API_KEY || process.env.CHATBOT_KEY;
+  if (!apiKey) return res.status(503).json({ error: 'Transcription is not configured.' });
 
   try {
-    const getRawBody = (req) =>
-      new Promise((resolve, reject) => {
-        const chunks = [];
-        let totalBytes = 0;
-        req.on("data", (c) => {
-          totalBytes += c.length;
-          if (totalBytes > MAX_AUDIO_BYTES) {
-            reject(new Error('AUDIO_TOO_LARGE'));
-            return;
-          }
-          chunks.push(c);
-        });
-        req.on("end", () => resolve(Buffer.concat(chunks)));
-        req.on("error", reject);
-      });
-
-    const contentType = (req.headers["content-type"] || "").toLowerCase();
-
-    let audioBuffer = null;
-    let filename = `recording_${Date.now()}.webm`;
-    let language = undefined;
-    let createCards = false;
-    let flashCount = 6;
-    let summaryOnly = false;
-    let createNotes = false;
-    let noteFormat = "Quick Notes";
-    let noteLength = "medium";
-
-    if (contentType.startsWith("multipart/form-data")) {
-      const raw = await getRawBody(req);
-      const ct = req.headers["content-type"];
-      const m = ct.match(/boundary=(.*)$/);
-      if (!m) return res.status(400).json({ error: "Boundary not found in content-type" });
-      const boundary = `--${m[1]}`;
-      const rawStr = raw.toString("binary");
-      const parts = rawStr.split(boundary).filter(Boolean);
-      let filePartBuf = null;
-      for (const p of parts) {
-        if (p.indexOf('name="file"') !== -1 || p.indexOf('name="audio"') !== -1) {
-          const headerEnd = p.indexOf("\r\n\r\n");
-          if (headerEnd === -1) continue;
-          const header = p.slice(0, headerEnd);
-          const fnMatch = header.match(/filename="(.+?)"/i);
-          if (fnMatch) filename = fnMatch[1];
-          const fileDataBinary = p.slice(headerEnd + 4, p.length - 2);
-          const fileBuf = Buffer.from(fileDataBinary, "binary");
-          filePartBuf = fileBuf;
-          break;
-        }
-      }
-      if (!filePartBuf) return res.status(400).json({ error: "No file part found in multipart body" });
-      audioBuffer = filePartBuf;
-      const lower = rawStr.toLowerCase();
-      createCards = /name="createcards"/i.test(lower);
-      const fcMatch = rawStr.match(/name="flashcount"[\s\S]*?(\d{1,2})/i);
-      if (fcMatch) flashCount = Math.max(4, Math.min(16, Number(fcMatch[1])));
-      const langMatch = rawStr.match(/name="language"[\s\S]*?([a-z\-]{2,10})/i);
-      if (langMatch) language = langMatch[1];
-      summaryOnly = /name="summaryonly"/i.test(lower);
-      createNotes = /name="createnotes"/i.test(lower) || /name="createnote"/i.test(lower);
-      const nfMatch = rawStr.match(/name="noteformat"[\s\S]*?([^\r\n<]+)/i);
-      if (nfMatch) noteFormat = String(nfMatch[1]).trim();
-      const nlMatch = rawStr.match(/name="length"[\s\S]*?([^\r\n<]+)/i);
-      if (nlMatch) noteLength = String(nlMatch[1]).trim();
-    } else {
-      const body = req.body || {};
-      const {
-        audioBase64,
-        filename: fn,
-        language: lang,
-        createCards: cCards = false,
-        flashCount: fCount = 6,
-        summaryOnly: sOnly = false,
-        createNotes: cNotes = false,
-        noteFormat: nFormat = "Quick Notes",
-        length: nLen = "medium"
-      } = body;
-
-      if (!audioBase64) {
-        return res.status(400).json({ error: "Missing audioBase64 (or send multipart/form-data)" });
-      }
-
-      audioBuffer = Buffer.from(audioBase64, "base64");
-      if (fn) filename = fn;
-      language = lang;
-      createCards = !!cCards;
-      flashCount = Math.max(4, Math.min(16, Number(fCount)));
-      summaryOnly = !!sOnly;
-      createNotes = !!cNotes;
-      noteFormat = nFormat;
-      noteLength = nLen;
-    }
-
-    if (!audioBuffer) {
-      return res.status(400).json({ error: "No audio buffer received" });
-    }
-
-    if (audioBuffer.length > MAX_AUDIO_BYTES) {
-      return res.status(413).json({ error: "Audio file too large (max 15 MB)." });
-    }
-
+    const input = await parseTranscriptionRequest(req);
     const formData = new FormData();
-    formData.append("file", new Blob([audioBuffer], { type: "audio/webm" }), filename);
-    formData.append("model", "gpt-4o-mini-transcribe");
-    if (language) formData.append("language", language);
+    formData.append('file', new Blob([input.audioBuffer], { type: input.mimeType }), input.filename);
+    formData.append('model', TRANSCRIPTION_MODEL);
+    if (input.language) formData.append('language', input.language);
 
-    const response = await fetch("https://api.openai.com/v1/audio/transcriptions", {
-      method: "POST",
-      headers: { Authorization: `Bearer ${OPENAI_API_KEY}` },
-      body: formData
+    const response = await fetchProvider({
+      capability: 'transcription', provider: 'openai', model: TRANSCRIPTION_MODEL,
+      url: 'https://api.openai.com/v1/audio/transcriptions',
+      timeoutMs: 60_000,
+      options: { method: 'POST', headers: { Authorization: `Bearer ${apiKey}` }, body: formData },
     });
-
     if (!response.ok) {
-      const txt = await response.text();
-      console.error('OpenAI transcription error:', txt);
+      console.error('Transcription provider rejected request:', response.status);
       return res.status(502).json({ error: 'Transcription service unavailable. Please try again.' });
     }
-
     const transcription = await response.json();
-    let transcriptText = transcription.text || "";
+    const transcript = typeof transcription?.text === 'string' ? transcription.text.trim() : '';
+    if (!transcript) return res.status(502).json({ error: 'Transcription service returned no text.' });
 
-    if (createNotes) {
-      const prompt = `Convert this lecture transcript into ${noteFormat} style notes in ${noteLength} length. Ensure chronological order and capture all key points:\n\n${transcriptText}`;
-      const aiResponse = await fetch("https://api.openai.com/v1/chat/completions", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${OPENAI_API_KEY}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          model: "gpt-4o-mini",
-          messages: [
-            { role: "system", content: "You are a precise, structured academic notetaker." },
-            { role: "user", content: prompt },
-          ],
-          temperature: 0.3,
-        }),
-      });
-      const noteData = await aiResponse.json();
-      transcriptText = noteData.choices?.[0]?.message?.content || transcriptText;
+    let notes = transcript;
+    let notesDegraded = false;
+    if (input.createNotes) {
+      try {
+        notes = await generateNotes(apiKey, transcript, input.noteFormat, input.noteLength);
+      } catch (error) {
+        notesDegraded = true;
+        console.error('Transcription note enrichment failed:', error instanceof Error ? error.name : 'UnknownError');
+      }
     }
 
     let flashcards = [];
-    if (createCards && transcriptText.trim()) {
-      const flashPrompt = `Create ${flashCount} flashcards from the content below.
-Return ONLY JSON: { "flashcards": [ { "front": "...", "back": "..." } ] }
-
-CONTENT:
-${transcriptText.slice(0, 10000)}`;
-
-      const flashResponse = await fetch("https://api.openai.com/v1/chat/completions", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${OPENAI_API_KEY}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          model: "gpt-4o-mini",
-          messages: [{ role: "user", content: flashPrompt }],
-          temperature: 0.35,
-          max_tokens: 1200,
-          response_format: { type: "json_object" },
-        }),
-      });
-
-      if (flashResponse.ok) {
-        const flashData = await flashResponse.json();
-        const rawFlash = flashData.choices?.[0]?.message?.content ?? "{}";
-        try {
-          const parsed = JSON.parse(rawFlash);
-          flashcards = (parsed.flashcards || [])
-            .slice(0, flashCount)
-            .map((f) => ({
-              front: (f.front || f.question || "").trim(),
-              back: (f.back || f.answer || "").trim(),
-            }))
-            .filter((f) => f.front && f.back);
-        } catch {
-          flashcards = [];
-        }
+    let flashcardsDegraded = false;
+    if (input.createCards) {
+      try {
+        flashcards = await generateFlashcards(apiKey, notes, input.flashCount);
+        flashcardsDegraded = flashcards.length === 0;
+      } catch (error) {
+        flashcardsDegraded = true;
+        console.error('Transcription flashcard enrichment failed:', error instanceof Error ? error.name : 'UnknownError');
       }
     }
 
     return res.status(200).json({
       success: true,
-      transcription: transcriptText,
-      transcript: transcriptText,
-      notes: transcriptText,
-      summary: transcriptText.slice(0, 240),
+      transcription: transcript,
+      transcript,
+      notes,
+      summary: notes.slice(0, 240),
       flashcards,
-      createdCards: createCards,
-      summaryOnly,
-      noteFormat,
-      noteLength,
+      createdCards: input.createCards,
+      summaryOnly: input.summaryOnly,
+      noteFormat: input.noteFormat,
+      noteLength: input.noteLength,
+      degraded: { notes: notesDegraded, flashcards: flashcardsDegraded },
     });
   } catch (error) {
-    if (error instanceof Error && error.message === 'AUDIO_TOO_LARGE') {
-      return res.status(413).json({ error: 'Audio upload too large (max 15 MB).' });
+    if (error instanceof TranscriptionInputError) {
+      return res.status(error.status).json({ error: error.message });
     }
-    console.error("Transcribe error:", error);
-    return res.status(500).json({ error: "Server error during transcription" });
+    console.error('Transcribe error:', error instanceof Error ? error.name : 'UnknownError');
+    return res.status(502).json({ error: 'Transcription is temporarily unavailable.' });
   }
 }

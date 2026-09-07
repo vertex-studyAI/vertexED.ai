@@ -1,9 +1,17 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router";
 import { Clock, X, BookOpen } from "lucide-react";
 import AccessibleModal from "@/components/AccessibleModal";
-import { buildReviewHandoffFromPaper, mockExamAnswersStorageKey, saveMockReviewHandoff } from "@/lib/examFlow";
+import {
+  buildReviewHandoffFromPaper,
+  clearMockExamDraft,
+  loadMockExamDraft,
+  mockExamAnswersStorageKey,
+  saveMockExamDraft,
+  saveMockReviewHandoff,
+} from "@/lib/examFlow";
 import type { ExamBoard } from "@/types/curriculum";
+import { boardToApiLabel } from "@/lib/curriculum";
 
 type Question = {
   id?: string;
@@ -58,11 +66,12 @@ function saveExamHandoff(
       answers,
       questions,
       rubricNotes: paper.rubricNotes ?? [],
-      board: paper.metadata?.board,
+      board: board ? boardToApiLabel(board) : paper.metadata?.board,
       subject: subject ?? paper.metadata?.subject,
       grade: grade ?? paper.metadata?.grade,
     }),
   );
+  clearMockExamDraft();
 
   if (board) {
     saveMockReviewHandoff(
@@ -81,13 +90,52 @@ export default function MockExamMode({ paper, onClose, board, subject, grade, cr
   const baseMinutes = cramMode ? Math.min(30, Math.round(totalMarks * 0.8)) : Math.round(totalMarks * 1.2);
   const durationMinutes = Math.max(cramMode ? 15 : 30, Math.min(cramMode ? 45 : 180, baseMinutes));
 
-  const [secondsLeft, setSecondsLeft] = useState(durationMinutes * 60);
-  const [index, setIndex] = useState(0);
-  const [answers, setAnswers] = useState<Record<string, string>>({});
+  const restoredDraft = useMemo(() => {
+    const draft = loadMockExamDraft();
+    if (!draft || draft.paperTitle !== (paper.title || 'Practice paper') || draft.total !== questions.length) return null;
+    const draftQuestions = flattenQuestions(draft.paper as Paper);
+    const sameQuestions = draftQuestions.length === questions.length
+      && questions.every((question, questionIndex) =>
+        (question.question || '') === (draftQuestions[questionIndex]?.question || ''));
+    return sameQuestions ? draft : null;
+  }, [paper, questions]);
+  const initialDeadline = restoredDraft?.deadlineAt
+    || new Date(Date.now() + durationMinutes * 60 * 1000).toISOString();
+  const deadlineRef = useRef(initialDeadline);
+  const [secondsLeft, setSecondsLeft] = useState(() => Math.max(0, Math.ceil((Date.parse(initialDeadline) - Date.now()) / 1000)));
+  const [index, setIndex] = useState(() => Math.min(restoredDraft?.currentIndex ?? 0, Math.max(0, questions.length - 1)));
+  const [answers, setAnswers] = useState<Record<string, string>>(() => restoredDraft?.answers ?? {});
   const [submitted, setSubmitted] = useState(false);
   const [showRubric, setShowRubric] = useState(false);
   const timerStartedRef = useRef(false);
   const titleRef = useRef<HTMLHeadingElement>(null);
+
+  const persistDraft = useCallback(() => {
+    if (submitted || !questions.length) return;
+    const answered = Object.values(answers).filter((answer) => answer.trim()).length;
+    saveMockExamDraft({
+      paper: paper as unknown as Record<string, unknown>,
+      paperTitle: paper.title || 'Practice paper',
+      answers,
+      answered,
+      total: questions.length,
+      currentIndex: index,
+      deadlineAt: deadlineRef.current,
+      board,
+      subject: subject ?? paper.metadata?.subject,
+      grade: grade ?? paper.metadata?.grade,
+      cramMode: Boolean(cramMode),
+    });
+  }, [answers, board, cramMode, grade, index, paper, questions.length, subject, submitted]);
+
+  useEffect(() => {
+    persistDraft();
+  }, [persistDraft]);
+
+  const handleExit = () => {
+    persistDraft();
+    onClose();
+  };
 
   useEffect(() => {
     if (submitted) return;
@@ -120,7 +168,7 @@ export default function MockExamMode({ paper, onClose, board, subject, grade, cr
       <AccessibleModal
         titleId="mock-exam-title"
         descriptionId="mock-exam-description"
-        onClose={onClose}
+        onClose={handleExit}
         initialFocusRef={titleRef}
         overlayClassName={CENTERED_OVERLAY}
         className="glass-panel max-w-md p-6 text-center"
@@ -136,7 +184,7 @@ export default function MockExamMode({ paper, onClose, board, subject, grade, cr
         <p id="mock-exam-description" className="mb-4 text-muted-foreground">
           This paper has no questions to attempt.
         </p>
-        <button type="button" className="neu-button px-4 py-2" onClick={onClose}>Close</button>
+        <button type="button" className="neu-button px-4 py-2" onClick={handleExit}>Close</button>
       </AccessibleModal>
     );
   }
@@ -147,7 +195,7 @@ export default function MockExamMode({ paper, onClose, board, subject, grade, cr
       <AccessibleModal
         titleId="mock-exam-title"
         descriptionId="mock-exam-description"
-        onClose={onClose}
+        onClose={handleExit}
         initialFocusRef={titleRef}
         overlayClassName={CENTERED_OVERLAY}
         className="glass-panel my-8 w-full max-w-lg border border-primary/20 p-8 text-center"
@@ -197,7 +245,7 @@ export default function MockExamMode({ paper, onClose, board, subject, grade, cr
           >
             Review submitted answers →
           </Link>
-          <button type="button" className="neu-button px-4 py-2 text-sm" onClick={onClose}>
+          <button type="button" className="neu-button px-4 py-2 text-sm" onClick={handleExit}>
             Back to paper
           </button>
         </div>
@@ -209,7 +257,7 @@ export default function MockExamMode({ paper, onClose, board, subject, grade, cr
     <AccessibleModal
       titleId="mock-exam-title"
       descriptionId="mock-exam-description"
-      onClose={onClose}
+      onClose={handleExit}
       initialFocusRef={titleRef}
       overlayClassName={FULL_SCREEN_OVERLAY}
       className="flex h-full w-full flex-col bg-background"
@@ -238,7 +286,7 @@ export default function MockExamMode({ paper, onClose, board, subject, grade, cr
             <Clock className="h-4 w-4" aria-hidden />
             <span aria-hidden>{mm}:{ss}</span>
           </span>
-          <button type="button" className="neu-button p-2" onClick={onClose} aria-label="Exit exam">
+          <button type="button" className="neu-button p-2" onClick={handleExit} aria-label="Exit exam">
             <X className="h-4 w-4" aria-hidden />
           </button>
         </div>

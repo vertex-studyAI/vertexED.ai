@@ -12,7 +12,7 @@ type Props = {
   profile: LearnerProfile;
 };
 
-const CONFIDENCE_LABELS = ['Panicking', 'Shaky', 'Okay', 'Solid', 'Exam-ready'] as const;
+const CONFIDENCE_LABELS = ['Very unsure', 'Unsure', 'Mixed', 'Confident', 'Very confident'] as const;
 
 export default function PortalEngagementRow({ profile }: Props) {
   const { user } = useAuth();
@@ -70,7 +70,7 @@ export default function PortalEngagementRow({ profile }: Props) {
       <PortalWidget id="confidence-checkin" span={1}>
         <p className="text-sm font-semibold mb-1">Confidence Check-in</p>
         <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-2">
-          How exam-ready does each subject feel?
+          How confident do you feel in each subject today?
         </p>
         <p className="text-[10px] text-muted-foreground mb-3 flex flex-wrap gap-x-2 gap-y-0.5">
           {CONFIDENCE_LABELS.map((label, i) => (

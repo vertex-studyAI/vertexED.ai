@@ -158,17 +158,6 @@ Focus on strengths, weaknesses, and how to improve exam answers.`,
 **Sam:** ...
 End with what an examiner would want in a balanced conclusion.`,
   },
-  'world-model': {
-    label: 'World Model Map',
-    instruction: `Build a "world model" learning map from the sources.
-Return markdown with:
-## Foundation layer (definitions & prerequisites)
-## Core layer (main concepts with links between them)
-## Exam layer (what examiners test and how marks are awarded)
-## Weak links (gaps a student must fix)
-## Mermaid concept graph (\`\`\`mermaid flowchart TD\`\`\` with max 18 nodes)
-End with a 3-step retrieval plan for the next 48 hours.`,
-  },
   'board-deep-dive': {
     label: 'Board Deep Dive',
     instruction: `Write an in-depth board-specific study resource (minimum 1000 words) from the sources.

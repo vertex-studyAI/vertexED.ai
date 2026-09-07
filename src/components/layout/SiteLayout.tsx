@@ -12,6 +12,8 @@ import ThemeToggle from "@/components/ThemeToggle";
 import AmbientBackground from "@/components/AmbientBackground";
 import PageLoader from "@/components/PageLoader";
 import { useStudySessionTracker } from "@/hooks/useStudySessionTracker";
+import { toast } from "@/hooks/use-toast";
+import { logoutWithLocalFallback } from "@/lib/logoutFlow.mjs";
 
 const GlobalChatPanel = lazy(() => import("@/components/chat/GlobalChatPanel"));
 
@@ -35,6 +37,25 @@ export default function SiteLayout() {
     ) &&
     !location.pathname.startsWith("/resources");
   const shouldLoadGlobalChat = chatEligibleRoute && (isAuthenticated || isStudyGuideRoute);
+
+  const handleLogout = async () => {
+    try {
+      const result = await logoutWithLocalFallback(logout);
+      if (result.scope === "local") {
+        toast({
+          title: "Signed out on this device",
+          description: "Other active sessions could not be revoked. Sign out there separately if needed.",
+        });
+      }
+      setMenuOpen(false);
+    } catch (error) {
+      toast({
+        title: "Could not sign out",
+        description: error instanceof Error ? error.message : "Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
 
   useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "";
@@ -61,9 +82,9 @@ export default function SiteLayout() {
   const navLinks = isAuthenticated
     ? [
         { to: "/main", label: "Dashboard" },
+        { to: "/exam-prep", label: "Exam prep" },
         { to: "/planner", label: "Plan" },
         { to: "/study-zone", label: "Focus" },
-        { to: "/notetaker", label: "Notes & quizzes" },
         { to: "/paper-maker", label: "Practice" },
         { to: "/chatbot", label: "AI tutor" },
       ]
@@ -151,7 +172,7 @@ export default function SiteLayout() {
             {isAuthenticated && (
               <button
                 type="button"
-                onClick={() => void logout()}
+                onClick={() => void handleLogout()}
                 className="nav-link-pill"
               >
                 Sign out
@@ -275,10 +296,7 @@ export default function SiteLayout() {
             {isAuthenticated && (
               <button
                 type="button"
-                onClick={async () => {
-                  await logout();
-                  setMenuOpen(false);
-                }}
+                onClick={() => void handleLogout()}
                 className="mt-2 rounded-full px-4 py-2.5 text-sm font-semibold border border-border bg-accent/20 hover:bg-accent/30 transition"
               >
                 Sign Out

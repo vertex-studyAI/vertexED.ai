@@ -7,14 +7,14 @@ import {
   buildDeterministicNoteFallback,
   buildGenerationMetadata,
 } from '../_lib/learningArtifactFallbacks.js';
+import { fetchProvider } from '../_lib/providerRequest.js';
 
 const PRIMARY_NOTE_MODEL = process.env.NOTE_MODEL || 'ft:gpt-4o-mini-2024-07-18:verteded:notes:CRuakY3O';
 const FALLBACK_NOTE_MODEL = process.env.NOTE_FALLBACK_MODEL || 'gpt-4o-mini';
 
 async function extractResponsesText(response) {
   if (!response.ok) {
-    const errText = await response.text();
-    throw new Error(`OpenAI error: ${errText}`);
+    throw new Error(`Note provider returned ${response.status}.`);
   }
   const data = await response.json();
   let raw = '';
@@ -34,7 +34,10 @@ async function extractResponsesText(response) {
 }
 
 async function callNotesResponsesApi(apiKey, systemMessage, userMessage, model) {
-  const response = await fetch('https://api.openai.com/v1/responses', {
+  const response = await fetchProvider({
+    capability: 'note', provider: 'openai', model,
+    url: 'https://api.openai.com/v1/responses',
+    options: {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -46,12 +49,16 @@ async function callNotesResponsesApi(apiKey, systemMessage, userMessage, model) 
       temperature: 0.45,
       max_output_tokens: 1600,
     }),
+    },
   });
   return extractResponsesText(response);
 }
 
 async function callNotesChatFallback(apiKey, systemMessage, userMessage) {
-  const response = await fetch('https://api.openai.com/v1/chat/completions', {
+  const response = await fetchProvider({
+    capability: 'note', provider: 'openai', model: FALLBACK_NOTE_MODEL,
+    url: 'https://api.openai.com/v1/chat/completions',
+    options: {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -63,10 +70,10 @@ async function callNotesChatFallback(apiKey, systemMessage, userMessage) {
       temperature: 0.45,
       max_tokens: 1600,
     }),
+    },
   });
   if (!response.ok) {
-    const errText = await response.text();
-    throw new Error(`OpenAI fallback error: ${errText}`);
+    throw new Error(`Note fallback provider returned ${response.status}.`);
   }
   const data = await response.json();
   const raw = data.choices?.[0]?.message?.content ?? '';
@@ -160,7 +167,10 @@ Return ONLY JSON: { "flashcards": [ { "front": "...", "back": "..." } ] }
 NOTES:
 ${String(text).slice(0, 10000)}`;
 
-      const flashResponse = await fetch("https://api.openai.com/v1/chat/completions", {
+      const flashResponse = await fetchProvider({
+        capability: 'flashcards', provider: 'openai', model: 'gpt-4o-mini',
+        url: "https://api.openai.com/v1/chat/completions",
+        options: {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -173,6 +183,7 @@ ${String(text).slice(0, 10000)}`;
           max_tokens: 1200,
           response_format: { type: "json_object" },
         }),
+        },
       });
 
       if (!flashResponse.ok) return res.status(200).json(deterministicFlashcards());

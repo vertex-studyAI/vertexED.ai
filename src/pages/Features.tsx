@@ -95,7 +95,7 @@ export default function Features() {
     <>
       <SEO
         title="Features · VertexED — Full study ecosystem"
-        description="Deep dive into Study Zone, Apex, Planner, Paper Maker, Answer Reviewer, Notes, Learning Hub, Archives, and how they connect in one revision loop."
+        description="See how Exam Prep, Study Zone, Apex, Planner, Paper Maker, Answer Reviewer, Notes, the dashboard, and study resources connect."
         canonical="https://www.vertexed.app/features"
       />
       <Helmet>
@@ -106,12 +106,12 @@ export default function Features() {
         <div className="max-w-6xl mx-auto">
           <p className="text-xs uppercase tracking-[0.22em] text-primary mb-5">How VertexED works</p>
           <h1 className="text-[clamp(2.25rem,7vw,4.75rem)] font-bold text-foreground leading-[1.02] tracking-tight max-w-4xl">
-            The full picture.
+            What each tool does,
             <br />
-            <span className="text-muted-foreground">Not the brochure version.</span>
+            <span className="text-muted-foreground">and where its limits are.</span>
           </h1>
           <p className="mt-6 text-lg md:text-xl text-foreground/88 leading-relaxed max-w-2xl">
-            Six core tools, four supporting surfaces, one revision loop. Pick a section below to read what it does,
+            Seven core tools, four supporting surfaces, one revision loop. Pick a section below to read what it does,
             when to use it, and how it fits a real exam week.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
@@ -212,7 +212,7 @@ export default function Features() {
             Thursday: mock under time. Friday: read reviewer feedback and schedule retries.
           </p>
           <p className="text-sm text-muted-foreground mb-8">
-            If that workflow clicks, you&apos;ll know. If something&apos;s missing, tell us. We build from exam weeks, not pitch decks.
+            If the workflow helps, keep it. If a step adds friction or makes an unsupported claim, tell us what happened.
           </p>
           <div className="flex flex-wrap gap-3 justify-center">
             <Link to="/signup" className="btn-solid text-lg">Join the private beta</Link>

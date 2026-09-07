@@ -1,11 +1,15 @@
 import assert from 'node:assert/strict';
-import { readFile } from 'node:fs/promises';
+import { readdir, readFile } from 'node:fs/promises';
 import test from 'node:test';
 
-const schema = await readFile(new URL('../supabase/schema.sql', import.meta.url), 'utf8');
+const migrationDirectory = new URL('../supabase/migrations/', import.meta.url);
+const migrationFiles = (await readdir(migrationDirectory)).filter((name) => name.endsWith('.sql')).sort();
+const schema = (await Promise.all(migrationFiles.map((name) => readFile(new URL(name, migrationDirectory), 'utf8')))).join('\n');
 const hardening = await readFile(new URL('../supabase/migrations/20260901173000_security_definer_execute_hardening.sql', import.meta.url), 'utf8');
 
-const publicTables = [...schema.matchAll(/create table if not exists public\.([a-z_]+)/gi)].map((match) => match[1]);
+const publicTables = [...new Set(
+  [...schema.matchAll(/create table(?: if not exists)? public\.([a-z_]+)/gi)].map((match) => match[1]),
+)];
 
 test('every canonical public table explicitly enables row level security', () => {
   assert.ok(publicTables.length >= 4);

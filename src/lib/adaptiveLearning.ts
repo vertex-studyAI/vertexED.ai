@@ -6,6 +6,7 @@ import { getConfidenceRatings } from '@/lib/portalFeatures';
 import type { LearnerProfile } from '@/lib/learnerProfile';
 import type { StudyStats } from '@/lib/studyStats';
 import { buildAdaptiveNoteRoute } from '@/lib/adaptiveNotes.mjs';
+import { getDueRetries, retryTargetRoute } from '@/lib/retryQueue';
 
 export type AdaptiveActionKind = 'learn' | 'practice' | 'review' | 'remember' | 'plan' | 'cram';
 
@@ -76,15 +77,6 @@ function masteryFromWeaknesses(weaknesses: TopicHeat[]): SubjectMastery[] {
   });
 }
 
-function defaultMasteryForSubjects(subjects: string[]): SubjectMastery[] {
-  return subjects.map((subject) => ({
-    subject,
-    mastery: 50,
-    attempts: 0,
-    trend: 'unknown' as const,
-  }));
-}
-
 export function buildAdaptivePlan(input: BuildAdaptiveInput): AdaptivePlan {
   const { profile, stats, dueFlashcards, examDaysLeft, todayTaskCount } = input;
   const { curriculum } = profile;
@@ -92,15 +84,27 @@ export function buildAdaptivePlan(input: BuildAdaptiveInput): AdaptivePlan {
   const cramDue = getCramDueCount();
   const cramModeActive = examDaysLeft !== null && examDaysLeft >= 0 && examDaysLeft <= 7;
 
-  let masteryBySubject = masteryFromWeaknesses(weaknesses);
-  if (masteryBySubject.length === 0 && curriculum.subjects.length > 0) {
-    masteryBySubject = defaultMasteryForSubjects(curriculum.subjects);
-  }
+  const masteryBySubject = masteryFromWeaknesses(weaknesses);
 
   const weakest = masteryBySubject.sort((a, b) => a.mastery - b.mastery)[0];
   const focusSubject = weakest?.subject ?? curriculum.subjects[0] ?? null;
 
   const recs: AdaptiveRecommendation[] = [];
+  const dueRetries = getDueRetries();
+
+  for (const retry of dueRetries.slice(0, 2)) {
+    recs.push({
+      id: retry.id,
+      priority: retry.scorePercent < 40 ? 'urgent' : 'high',
+      kind: 'practice',
+      title: `Retry: ${retry.topic.slice(0, 44)}`,
+      description: `${retry.subject} — scheduled from a verified ${retry.source} score of ${retry.scorePercent}%`,
+      to: retryTargetRoute(retry),
+      subject: retry.subject,
+      topic: retry.topic,
+      score: retry.scorePercent,
+    });
+  }
 
   if (cramModeActive) {
     recs.push({
@@ -177,7 +181,7 @@ export function buildAdaptivePlan(input: BuildAdaptiveInput): AdaptivePlan {
       priority: w.avgPercent < 50 ? 'urgent' : 'high',
       kind: 'learn',
       title: `Build adaptive notes: ${w.topic.slice(0, 40)}`,
-      description: `${w.subject} — ${Math.round(w.avgPercent)}% across ${w.attempts} verified attempt${w.attempts === 1 ? '' : 's'}`,
+      description: `${w.subject} — ${Math.round(w.avgPercent)}% across ${w.attempts} measured attempt${w.attempts === 1 ? '' : 's'}`,
       to: buildAdaptiveNoteRoute(w),
       subject: w.subject,
       topic: w.topic,
@@ -252,7 +256,8 @@ export function buildAdaptivePlan(input: BuildAdaptiveInput): AdaptivePlan {
   const estimatedMinutesToday =
     (cardsToReview > 0 ? Math.min(cardsToReview * 2, 30) : 0) +
     (cramModeActive ? 45 : 25) +
-    (weakest && weakest.mastery < 60 ? 30 : 0);
+    (weakest && weakest.mastery < 60 ? 30 : 0) +
+    (dueRetries.length > 0 ? Math.min(dueRetries.length * 15, 30) : 0);
 
   return {
     recommendations,

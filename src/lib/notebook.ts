@@ -34,7 +34,6 @@ export type NotebookOutputKind =
   | 'mind-map'
   | 'compare'
   | 'suggested-questions'
-  | 'world-model'
   | 'board-deep-dive';
 
 export type QuizQuestion = {
@@ -113,7 +112,7 @@ export const NOTEBOOK_STUDIO_GROUPS: Array<{
   {
     id: 'analyze',
     label: 'Analyze',
-    kinds: ['briefing', 'compare', 'world-model', 'board-deep-dive'],
+    kinds: ['briefing', 'compare', 'board-deep-dive'],
   },
 ];
 
@@ -195,11 +194,6 @@ export const NOTEBOOK_OUTPUT_META: Record<
     label: 'Ask This',
     description: 'Starter questions for the AI tutor — grounded in what your sources actually say',
     icon: 'spark',
-  },
-  'world-model': {
-    label: 'Concept structure',
-    description: 'Topic layers and prerequisites mapped from your sources, with weak links flagged',
-    icon: 'network',
   },
   'board-deep-dive': {
     label: 'Exam-board guide',

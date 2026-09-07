@@ -12,7 +12,6 @@ import {
   Loader2,
   MessageCircle,
   Mic,
-  Network,
   GraduationCap,
   Plus,
   Sparkles,
@@ -64,7 +63,6 @@ const OUTPUT_ICONS: Partial<Record<NotebookOutputKind, typeof BookOpen>> = {
   'audio-critique': Mic,
   'audio-debate': Mic,
   flashcards: Layers,
-  'world-model': Network,
   'board-deep-dive': GraduationCap,
 };
 

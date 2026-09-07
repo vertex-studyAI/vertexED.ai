@@ -118,7 +118,8 @@ test('non-unique database failures do not trigger a replay lookup', async () => 
 test('client retries a lost POST response with one stable idempotency key', async () => {
   const source = await readFile(new URL('../src/lib/userContent.ts', import.meta.url), 'utf8');
   assert.match(source, /const idempotencyKey = options\.idempotencyKey \|\| createArtifactIdempotencyKey\(\)/);
-  assert.match(source, /const request = \(\) => authFetch[\s\S]*?JSON\.stringify\(\{ kind, title, payload, idempotencyKey \}\)/);
+  assert.match(source, /const accessToken = await getAccessToken\(\)[\s\S]*?const request = \(\) => \{/);
+  assert.match(source, /authFetchWithAccessToken\('\/api\/user-content', accessToken,[\s\S]*?JSON\.stringify\(\{ kind, title, payload, idempotencyKey \}\)/);
   assert.match(source, /catch \{[\s\S]*?res = await request\(\)/);
 });
 

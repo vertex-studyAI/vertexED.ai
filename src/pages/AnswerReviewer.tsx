@@ -8,11 +8,12 @@ import { toast } from "@/hooks/use-toast";
 import { recordStudySession } from "@/lib/studyStats";
 import { recordLoopStep } from "@/lib/studyLoopTracker";
 import { logStudyActivity } from "@/lib/studyActivity";
-import { consumeMockReviewHandoff } from "@/lib/examFlow";
+import { consumeMockExamAnswers, consumeMockReviewHandoff } from "@/lib/examFlow";
 import { Link, useNavigate, useSearchParams } from "react-router";
 import { useAuth } from "@/contexts/AuthContext";
 import {
   boardToApiLabel,
+  boardFromApiLabel,
   getGradesForBoard,
   getSubjectsForBoard,
   BOARD_CONFIGS,
@@ -25,6 +26,10 @@ import rehypeKatex from "rehype-katex";
 import { enrichMathInText } from "@/lib/mathText";
 import { Sliders, ArrowRight, FileText, Copy, Download, Image as ImageIcon, X, Sparkles, Shield, MessageSquareQuote, CheckCircle2, ClipboardCheck, Loader2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import AiFeedbackControls from "@/components/AiFeedbackControls";
+import { recordWeakness } from "@/lib/weaknessTracker";
+import { MEASURED_WEAKNESS_EVIDENCE } from "@/lib/weaknessEvidenceCore.mjs";
+import { completeRetry } from "@/lib/retryQueue";
 
 type Attachment = {
   id: string;
@@ -59,9 +64,11 @@ type StructuredReview = {
   auditId: string;
   score: number;
   maxScore: number;
-  scoreStatus: "VERIFIED" | "PROVISIONAL";
+  scoreStatus: "EVIDENCE_LINKED" | "PROVISIONAL" | "MEASURED";
   confidence: number;
   humanReviewRequired: boolean;
+  measurementEligible: boolean;
+  evidenceState: "MODEL_EVIDENCE_LINKED" | "MODEL_PROVISIONAL" | "HUMAN_CONFIRMED";
   escalationReason: string | null;
   feedback: string;
   includes: string;
@@ -129,6 +136,9 @@ export default function AIAnswerReview() {
   const [lastSubmittedAt, setLastSubmittedAt] = useState<string | null>(null);
   const [submitCount, setSubmitCount] = useState(0);
   const [examImportNote, setExamImportNote] = useState<string | null>(null);
+  const [reviewSource, setReviewSource] = useState<"review" | "mock">("review");
+  const [confirmationMethod, setConfirmationMethod] = useState<"" | "teacher-confirmed" | "official-mark-scheme">("");
+  const [masteryConfirmed, setMasteryConfirmed] = useState(false);
   const responseRef = useRef<HTMLDivElement | null>(null);
   const fileInputQuestionRef = useRef<HTMLInputElement | null>(null);
   const fileInputAnswerRef = useRef<HTMLInputElement | null>(null);
@@ -212,8 +222,46 @@ export default function AIAnswerReview() {
       return;
     }
 
+    const examAnswers = consumeMockExamAnswers();
+    if (examAnswers) {
+      setReviewSource("mock");
+      const importedBoard = examAnswers.board
+        ? (EXAM_BOARDS.includes(examAnswers.board as ExamBoard)
+          ? examAnswers.board as ExamBoard
+          : boardFromApiLabel(examAnswers.board))
+        : null;
+      if (importedBoard) setBoard(importedBoard);
+      const questionText = examAnswers.questions
+        .map((q, i) => `${i + 1}. ${q.question || "Question"}`)
+        .join("\n\n");
+      const answerText = examAnswers.questions
+        .map((q, i) => {
+          const id = q.id ?? String(i);
+          const answer = examAnswers.answers[id]?.trim();
+          return `Answer ${i + 1}:\n${answer || "[No answer written]"}`;
+        })
+        .join("\n\n");
+      setFormData((prev) => ({
+        ...prev,
+        curriculum: importedBoard ? boardToApiLabel(importedBoard) : prev.curriculum,
+        subject: examAnswers.subject || prev.subject,
+        grade: examAnswers.grade ? String(examAnswers.grade) : prev.grade,
+        question: `Mock exam: ${examAnswers.paperTitle || "Practice paper"}\n\n${questionText}`,
+        answer: answerText,
+        additional: [
+          "Imported from timed mock exam in Paper Maker.",
+          examAnswers.rubricNotes?.length
+            ? `\nMark scheme notes:\n${examAnswers.rubricNotes.map((note) => `• ${note}`).join("\n")}`
+            : "",
+        ].join(""),
+      }));
+      setExamImportNote("Mock exam answers imported — run a review when you're ready.");
+      return;
+    }
+
     const handoff = consumeMockReviewHandoff();
     if (handoff?.questions?.length) {
+      setReviewSource("mock");
       const questionText = handoff.questions
         .map((q, i) => `${i + 1}. ${q.question}`)
         .join("\n\n");
@@ -227,44 +275,6 @@ export default function AIAnswerReview() {
       }));
       if (handoff.board) setBoard(handoff.board);
       setExamImportNote("Mock paper imported — add your answers and submit for rubric feedback.");
-      return;
-    }
-
-    const raw = sessionStorage.getItem("vertex_exam_answers");
-    if (!raw) return;
-    sessionStorage.removeItem("vertex_exam_answers");
-    try {
-      const data = JSON.parse(raw) as {
-        paperTitle?: string;
-        questions?: { id?: string; question?: string }[];
-        answers?: Record<string, string>;
-        rubricNotes?: string[];
-      };
-      const questions = data.questions ?? [];
-      const questionText = questions
-        .map((q, i) => `${i + 1}. ${q.question || "Question"}`)
-        .join("\n\n");
-      const answerText = questions
-        .map((q, i) => {
-          const id = q.id ?? String(i);
-          const answer = data.answers?.[id]?.trim();
-          return `Answer ${i + 1}:\n${answer || "[No answer written]"}`;
-        })
-        .join("\n\n");
-      setFormData((prev) => ({
-        ...prev,
-        question: `Mock exam: ${data.paperTitle || "Practice paper"}\n\n${questionText}`,
-        answer: answerText,
-        additional: [
-          "Imported from timed mock exam in Paper Maker.",
-          data.rubricNotes?.length
-            ? `\nMark scheme notes:\n${data.rubricNotes.map((n) => `• ${n}`).join("\n")}`
-            : "",
-        ].join(""),
-      }));
-      setExamImportNote("Mock exam answers imported — run a review when you're ready.");
-    } catch {
-      setError("Could not import mock exam answers.");
     }
   }, []);
 
@@ -380,6 +390,7 @@ export default function AIAnswerReview() {
     setError(null);
     setSavedPost(false);
     setLastSubmittedAt(null);
+    setReviewSource("review");
   };
 
   const canSubmit = useMemo(() => {
@@ -437,6 +448,8 @@ export default function AIAnswerReview() {
         ? data.review as StructuredReview
         : null;
       setStructuredReview(audit);
+      setConfirmationMethod("");
+      setMasteryConfirmed(false);
       setDegradedReview(Boolean(data && typeof data === "object" && data.degraded));
       setResponse(out);
       setLastSubmittedAt(new Date().toLocaleString());
@@ -487,6 +500,52 @@ export default function AIAnswerReview() {
       setResponse("Error: Could not get review. Please try again.");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const confirmReviewForMastery = () => {
+    const audit = structuredReview;
+    if (!audit || audit.scoreStatus !== "EVIDENCE_LINKED" || degradedReview || !confirmationMethod) return;
+    const confirmedAt = new Date().toISOString();
+    const subject = formData.subject.trim() || "General";
+    const measurements = audit.criteria
+      .filter((criterion) => Number.isFinite(criterion.score)
+        && Number.isFinite(criterion.maxScore)
+        && criterion.maxScore > 0
+        && criterion.score >= 0
+        && criterion.score <= criterion.maxScore)
+      .map((criterion) => ({ topic: criterion.label, score: criterion.score, maxScore: criterion.maxScore }));
+    const safeMeasurements = measurements.length > 0 ? measurements : [{
+      topic: formData.question.trim().slice(0, 120) || "Written response",
+      score: audit.score,
+      maxScore: audit.maxScore,
+    }];
+
+    const recorded = safeMeasurements.every((measurement) => recordWeakness({
+      topic: measurement.topic,
+      subject,
+      board: board || undefined,
+      score: measurement.score,
+      maxScore: measurement.maxScore,
+      source: reviewSource,
+      evidence: MEASURED_WEAKNESS_EVIDENCE,
+      verification: {
+        method: confirmationMethod,
+        confirmedAt,
+        reference: confirmationMethod === "teacher-confirmed" ? "Teacher-confirmed mark" : "Official mark scheme checked",
+      },
+    }));
+
+    if (recorded) {
+      const retryId = searchParams.get("retry");
+      if (retryId) {
+        completeRetry(retryId, Math.round((audit.score / Math.max(1, audit.maxScore)) * 100));
+      }
+      setMasteryConfirmed(true);
+      toast({
+        title: "Added to measured progress",
+        description: "This mark is now recorded with your human verification method.",
+      });
     }
   };
 
@@ -835,10 +894,10 @@ export default function AIAnswerReview() {
                 </div>
 
                 <div className="review-panel">
-                  <div className={`mb-4 rounded-xl border p-3 text-sm ${structuredReview?.scoreStatus === "VERIFIED" ? "border-emerald-500/25 bg-emerald-500/10" : "border-amber-500/25 bg-amber-500/10"}`}>
-                    {structuredReview?.scoreStatus === "VERIFIED"
-                      ? "This AI review passed VertexED’s exact-evidence and confidence checks. It is still not an official examiner result; compare it with your current mark scheme or teacher guidance."
-                      : "This is provisional AI feedback, not an official examiner result. It does not update mastery because its evidence or confidence checks were not satisfied."}
+                  <div className={`mb-4 rounded-xl border p-3 text-sm ${structuredReview?.scoreStatus === "EVIDENCE_LINKED" ? "border-sky-500/25 bg-sky-500/10" : "border-amber-500/25 bg-amber-500/10"}`}>
+                    {structuredReview?.scoreStatus === "EVIDENCE_LINKED"
+                      ? "This AI review is linked to exact spans in your answer, but the model cannot verify its own mark. This AI output does not update mastery unless you confirm it against an official mark scheme or teacher decision."
+                      : "This is provisional AI feedback, not an official examiner result. This AI output does not update mastery."}
                   </div>
                   <div className="mb-4 flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
                     <Badge><Sliders size={12} /> Strict {formData.strictness}/10</Badge>
@@ -868,7 +927,7 @@ export default function AIAnswerReview() {
                                 <div className="flex flex-wrap items-end justify-between gap-4">
                                   <div>
                                     <div className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">
-                                      {structuredReview.scoreStatus === "VERIFIED" ? "Evidence-verified AI review" : "Provisional AI review"}
+                                      {structuredReview.scoreStatus === "EVIDENCE_LINKED" ? "Evidence-linked AI review" : "Provisional AI review"}
                                     </div>
                                     <div className="mt-2 text-4xl font-semibold tabular-nums text-foreground">
                                       {structuredReview.score}<span className="text-xl text-muted-foreground">/{structuredReview.maxScore}</span>
@@ -885,6 +944,38 @@ export default function AIAnswerReview() {
                                   </p>
                                 )}
                               </div>
+
+                              {structuredReview.scoreStatus === "EVIDENCE_LINKED" && !degradedReview && (
+                                <section className="rounded-2xl border border-sky-500/25 bg-sky-500/5 p-4">
+                                  <h3 className="text-sm font-semibold text-foreground">Confirm before adding to mastery</h3>
+                                  <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+                                    Only confirm after checking the suggested mark against a teacher decision or the current official mark scheme.
+                                  </p>
+                                  <div className="mt-3 flex flex-wrap items-end gap-2">
+                                    <label className="grid gap-1 text-xs text-muted-foreground">
+                                      Verification method
+                                      <select
+                                        className="neu-input-el min-w-56 px-3 py-2 text-sm text-foreground"
+                                        value={confirmationMethod}
+                                        onChange={(event) => setConfirmationMethod(event.target.value as typeof confirmationMethod)}
+                                        disabled={masteryConfirmed}
+                                      >
+                                        <option value="">Select verification</option>
+                                        <option value="official-mark-scheme">Official mark scheme checked</option>
+                                        <option value="teacher-confirmed">Teacher confirmed the mark</option>
+                                      </select>
+                                    </label>
+                                    <button
+                                      type="button"
+                                      className="btn-solid rounded-xl px-4 py-2 text-sm disabled:cursor-not-allowed disabled:opacity-50"
+                                      disabled={!confirmationMethod || masteryConfirmed}
+                                      onClick={confirmReviewForMastery}
+                                    >
+                                      {masteryConfirmed ? "Added to measured progress" : "Confirm mark for mastery"}
+                                    </button>
+                                  </div>
+                                </section>
+                              )}
 
                               <section>
                                 <h3 className="text-sm font-semibold uppercase tracking-[0.12em] text-muted-foreground">Overall feedback</h3>
@@ -974,6 +1065,7 @@ export default function AIAnswerReview() {
                             </button>
                             <div className="ml-auto text-sm text-muted-foreground">Successful reviews are saved to your account or this device.</div>
                           </div>
+                          <AiFeedbackControls capability="answer_review" />
                         </motion.div>
                       ) : (
                         <motion.div key="empty" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex min-h-[18rem] items-center justify-center text-center">

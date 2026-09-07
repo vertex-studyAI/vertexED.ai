@@ -1,104 +1,119 @@
 # Project Status
 
-**Evidence date:** 2026-09-02
+**Evidence date:** 2026-09-06
 
 **Branch:** `codex/vertexed-publication-readiness`
 
-**Release truth:** the local source candidate is verified; the canonical production deployment is not.
+**Candidate base revision:** `19baf858dca033226c7f8aa8942fbdd70d1feffe` plus the current uncommitted audit worktree
 
-## Current objective
+**Project status:** **Salvageable**
 
-Finish VertexED as a dependable private-beta learning product: a student should be able to gain approved access, establish an account, create a curriculum-aware plan, produce and save study material, practise, receive evidence-bound feedback, and resume work later without crossing account boundaries.
+**Release truth:** the local source candidate is a credible private-beta release candidate. It is not production-certified until the exact database migration set and deployed revision pass their external gates.
 
-## Working
+## What is demonstrably working
 
-- Private-beta waitlist, approved-link and team-invite account paths with server-side validation.
-- Supabase session handling, onboarding gates, logout, recovery routing and account-scoped browser storage.
-- Dashboard study loop connecting planning, notes, quizzes, review and saved work.
-- Study Planner with local persistence, cloud-artifact synchronization and accessible task editing.
-- Notetaker, flashcards, quiz generation and graded review with deterministic degraded behavior when an AI provider is unavailable.
-- Paper Maker, timed mock handoff, Answer Reviewer, Study Notebook, Apex tutor and Study Zone tools.
-- One Vercel catch-all function dispatching 19 API routes, with authenticated AI/content endpoints, origin checks and bounded request validation.
-- Responsive public pages, keyboard navigation, visible focus, light/dark contrast and reduced-motion support.
-- Reproducible production build, immutable deployment revision contract and frozen bundle budgets.
+- Private-beta waitlist, approved-link and team-invite account paths with server-side validation and direct Supabase signup disabled.
+- Supabase session handling, onboarding gates, recovery routing, global logout, confirmed account deletion and complete paginated account export.
+- Account-scoped browser state, durable cloud learner state, retry queues and recoverable mock-exam drafts. Timed-exam answers no longer cross a browser-global handoff.
+- Dashboard study loop connecting planning, notes, flashcards, quizzes, mocks, evidence-bound review, saved work and resumption.
+- Personalized Exam Prep session builder driven by the saved exam date, subjects, unfinished mocks, scheduled retries, verified weak-topic evidence and due flashcards. It explicitly avoids grade prediction.
+- Study Zone daily habits with account-scoped device storage and daily reset behavior.
+- AI-backed planner, tutor, notes, quizzes, paper generation, transcription, notebook and guide assistance with bounded inputs, provider deadlines, sanitized operational logs and deterministic degraded behavior where appropriate.
+- AI review results are explicitly model-generated (`EVIDENCE_LINKED` or `PROVISIONAL`) until a human confirms them; synthetic model output cannot silently become measured mastery.
+- One Vercel catch-all function dispatching 21 routes, with authenticated content/AI endpoints, origin checks, bounded request IDs, durable rate limits and a readiness contract.
+- Responsive public pages, keyboard navigation, focus restoration, light/dark contrast and reduced-motion behavior.
+- Twenty ordered Supabase migrations, RLS/ownership policies, explicit grants and pgTAP structure checks are present in source.
+- Reproducible Node 22 build, immutable deployment revision contract, SHA-pinned GitHub Actions and frozen bundle budgets.
 
-## Implemented this run
+## Implemented in the audit worktree
 
-- Removed unused WebGL cursor and particle renderers while retaining Three.js for the live NeuroCAD module.
-- Fixed every repository lint error and every React effect-dependency warning found by the initial audit. Remaining lint output is 14 Fast Refresh file-organization warnings only.
-- Repaired media-query listeners, timer callbacks, planner time parsing, auth subscription cleanup, artifact loading, guide caching and context-value behavior.
-- Consolidated account password validation into one 10–128 character policy requiring uppercase, lowercase and a number; recovery can no longer accept weaker credentials than signup or invitations.
-- Added persistent labels, constraints and help text to invitation and password-recovery forms.
-- Reworked Paper Maker configuration into a stable, explicitly labeled form; removed hover-scaling inputs, decorative status copy and placeholder-only field identity.
-- Updated the vulnerable `fast-uri` transitive override from 3.1.5 to 3.1.6, clearing the production dependency audit.
-- Fixed local/CI build revision contamination: Vercel retains the deployment stamp for packaging, while local and CI builds restore the neutral checked-in module after producing the artifact.
-- Made public Playwright runs truthfully withhold production-API assertions unless `PLAYWRIGHT_API_URL` names an executable deployed API host.
-- Extended the authenticated golden journey to verify Paper Maker curriculum defaults, labeled controls and enabled generation action.
+- Added durable learner-state synchronization, idempotent artifact recovery, queued retries and account-bound storage.
+- Added full account data export, explicit destructive confirmation, refresh-session revocation and cascade-backed account deletion.
+- Added paginated saved-work loading so the settings UI no longer silently truncates a user's content.
+- Rebuilt transcription input handling with binary-safe multipart parsing, strict size/type validation, bounded base64 decoding and explicit degraded enrichment states.
+- Added a shared provider timeout/telemetry boundary and applied it across every server-side AI provider path.
+- Removed raw provider bodies, email addresses, invite tokens and one-time links from operational logging and admin responses.
+- Made waitlist/admin rate limiting durable, converted the rate-limit database function to security invoker and tightened database privileges.
+- Replaced calculator runtime evaluation with a constrained parser and replaced planner SDK coupling with a small validated REST boundary.
+- Removed unused `@google/genai` and `debug` packages, obsolete feature scaffolding, dead test-agent routes and duplicate review code.
+- Removed unsupported founder/award/research claims and added prominent independent/unverified-source warnings to study-guide and mark-scheme surfaces.
+- Removed build-time sitemap dates that falsely claimed every URL changed on every build.
+- Added the protected Exam Prep module, made it the dashboard's primary exam-season route, and added account-scoped daily habits to Study Zone.
+- Replaced synthetic readiness defaults with zero/unknown states until real activity exists, fixed past-date cram activation, and made date-only countdowns timezone-safe.
+- Scoped generated board-guide caches by account, added expiry/provenance metadata, and made their unverified AI status visible in both UI and server prompts.
+- Rewrote the central marketing, feature, planner, study-method, privacy and terms copy to match current behavior and remove unsupported automation, examiner and syllabus claims.
+- Removed implicit approval for authenticated accounts without an explicit waitlist row. Historical and team-invited accounts now receive durable rows, email-based ownership repair is atomic, and a row linked to another identity is denied.
+- Made team invitations transactional across Auth and the waitlist authorization record, including rollback of incomplete identities when persistence fails.
+- Mirrored onboarding curriculum into the profile table, added local-device fallback for failed global logout, bounded all server Supabase calls, and distinguished provider outages from invalid sessions.
+- Removed 48 unreachable copied UI primitives and the TypeScript exclusions that hid them; the three primitives imported by the app remain.
+- Kept the study-guide library readable while excluding detailed unverified pages from the sitemap, adding `noindex` to detail routes, returning an explicit not-found state for invalid paths, and restoring 16px mobile reader text.
+- Expanded CI to enforce lint, types, function topology, production dependency audit, source/evaluation suites, grading truth, build and bundle budgets; database tests run in a separate Supabase job.
 
-## Tested
+## Verification completed
 
-- `npm run ci`: **PASS**.
-- Source tests: **747 passed, 0 failed**.
+- Source/repository tests: **844 passed, 0 failed**. This is repository-wide coverage and includes quarantined portfolio/research/product contracts; it is not a count of 844 VertexED app tests.
 - Frozen evaluation tests: **25 passed, 0 failed**.
+- Ask fixture evaluation: **13/13 cases passed**, average score **4.38/5**.
+- Synthetic grading gate: **6 fixtures passed**, **0 false verified**, **0 severe false verified**; live model explicitly **NOT_RUN**.
 - TypeScript application check: **PASS**.
-- Full ESLint: **0 errors, 14 Fast Refresh warnings**.
-- Production dependency audit: **0 vulnerabilities**.
-- Vercel topology: **1 function, 19 routed endpoints**.
-- Production build: **PASS, 2,756 modules transformed**.
-- Authenticated production-preview golden journey: **1 passed**.
-- Local accessibility matrix: **34 passed, 2 inapplicable skips**.
-- Public responsive/browser matrix: **32 passed** across 375, 390, 768 and 1,440 pixel projects; **20 deployed-API checks skipped by design** without `PLAYWRIGHT_API_URL`.
-- Browser console inspection: no runtime errors; only the expected warning when local Supabase variables are absent.
+- Full ESLint: **PASS, 0 errors and 0 warnings**.
+- Production dependency audit: **0 known vulnerabilities**.
+- Vercel topology: **1 function, 21 routed endpoints**.
+- Production build: **PASS, 2,769 modules transformed**.
+- Bundle budgets: **PASS, 0 violations**.
+- Authenticated production-preview journey: **1 passed in the preceding automated candidate baseline**; the final account/access patch still needs a disposable-account run against a real Supabase environment.
+- Local accessibility matrix: **34 passed, 2 inapplicable skips in the preceding automated candidate baseline**.
+- Current in-app browser verification: **PASS** for desktop landing semantics/layout; 390px landing, navigation, signup, login and guide layouts; protected Exam Prep redirect; valid/invalid guide routing; guide `noindex`; zero observed horizontal overflow; and zero captured console errors on checked pages.
 - Git whitespace validation: **PASS**.
 
-## Partially working
+## What remains unverified or unfinished
 
-- AI capabilities are executable and tested with provider contracts and deterministic degraded modes, but live provider behavior still depends on correctly configured server credentials and quotas.
-- Database migrations, RLS and ownership contracts exist and have local/source evidence. The exact current canonical production database state has not been recertified for this candidate.
-- Public pages and the deterministic authenticated preview journey are verified. Real email delivery, OAuth, recovery email and production account lifecycle still require authorized disposable-account testing.
-- Full ESLint exits successfully, but 14 component-module Fast Refresh warnings remain as non-release-blocking developer-experience debt.
+- The twenty migrations and pgTAP suite have not run against a clean local or canonical Supabase instance in this audit. Colima was stopped and the Docker socket was unavailable. Source inspection and SQL contract tests are not substitutes for database execution.
+- This exact worktree has not been deployed through the Vercel project that owns `vertexed.app`; revision, readiness, headers and protected API behavior remain unproved in production.
+- The final Exam Prep, habit and readability pass has compile, lint, source-test and production-build evidence. Current browser spot checks also cover the public responsive shell, access redirect and guide reader, but not a real authenticated Exam Prep session.
+- Real email delivery, OAuth, password recovery, two-account isolation, export and destructive deletion require authorized disposable-account tests against the canonical environment.
+- Live AI quality, provider quotas, latency and fallback frequency have not been certified with production credentials. Local evaluations are synthetic fixtures.
+- The study-guide corpus contains 244 navigable pages (245 Markdown files on disk) and lacks a complete per-page provenance, licensing and factual-validation ledger. A reproducible phrase scan flags 45 files containing `reconstruct`, `verbatim`, `exact mark scheme`, `placeholder`, or `no paper`. Detailed pages are now `noindex` and absent from the sitemap, but the corpus still needs an editorial audit before broad publication.
+- The privacy and terms pages now describe the current beta more accurately, but the contracting entity, governing-law language, processor agreements, retention schedule and public contact mailboxes still require legal/operational verification before a public commercial launch.
+- No controlled learner study establishes learning gains, marking agreement or efficacy. Engagement telemetry and synthetic tests must not be presented as outcome evidence.
+- Several UI modules remain too large (`NotetakerQuiz`, `AnswerReviewer`, `StudyNotebook`, `UserSettings`, planner/sidebar components), increasing change risk even though current gates pass.
+- Research workflows preserve explicit negative/frozen results, but several Python installs remain unpinned. Historic research artifacts are evidence records, not all reproducible environments.
 
-## Broken
+## Bundle evidence
 
-- No known P0 source, build, unit, evaluation or deterministic browser failure remains in this candidate.
-- The served canonical production revision does not have current proof matching this source candidate, so production must not be represented as verified.
-
-## Blockers
-
-- Authorized access to the Vercel project serving `www.vertexed.app` is required to deploy and prove the exact immutable revision. Do not create a duplicate project as a substitute.
-- Authorized access to the canonical Supabase project and disposable test identities is required for current migration/RLS inspection and destructive-cleanup-safe account lifecycle certification.
-- Live AI and email-provider certification requires the real production configuration without exposing credentials.
-- No controlled learner study has established learning-outcome or efficacy claims; no such claim should be published.
-
-## Metrics / experimental evidence
-
-- Initial JavaScript: **176,901 bytes gzip** / 275,000 budget.
-- Initial CSS: **33,751 bytes gzip** / 45,000 budget.
-- Largest JavaScript asset: **232,813 bytes gzip** / 240,000 budget.
-- Total JavaScript: **909,469 bytes gzip** / 1,000,000 budget.
-- Bundle-budget violations: **0**.
-- The repository contains deterministic research/evaluation artifacts, but these are not evidence that VertexED improves real learner outcomes.
+- Initial JavaScript: **182,584 bytes gzip** / 275,000 budget.
+- Initial CSS: **29,301 bytes gzip** / 45,000 budget.
+- Largest JavaScript asset: **232,810 bytes gzip** / 240,000 budget.
+- Total JavaScript: **929,173 bytes gzip** / 1,000,000 budget.
+- Bundle-budget violations: **0**. The largest and total JavaScript budgets have little headroom, so new heavy dependencies should be blocked or offset.
 
 ## Highest-value next actions
 
-1. Deploy this exact candidate through the canonical Vercel project and prove `/api/health` returns the intended immutable revision.
-2. Verify the production environment matrix without revealing values, then run `npm run test:smoke` and the Playwright API contract against the canonical host.
-3. Using approved disposable accounts, certify invite/signup, email/OAuth, onboarding, save/resume, account isolation, recovery, logout, admin denial and cleanup.
-4. Verify canonical Supabase migrations, RLS, foreign keys, indexes and advisor findings against the exact production project.
-5. Split remaining mixed component/helper modules to remove the 14 Fast Refresh warnings without weakening ESLint.
-6. Run a consented, preregistered pilot before making any quantitative efficacy claim.
+1. Run `supabase db reset`, pgTAP and local lint from a clean Docker/Colima environment; fix SQL based on executed results, not static assumptions.
+2. Deploy this exact candidate through the canonical Vercel project and prove `/api/health`, readiness, HEAD headers and the immutable revision.
+3. Run the documented disposable two-account lifecycle matrix, including team invite, waitlist ownership linking, onboarding profile persistence, export completeness and post-deletion denial/cleanup.
+4. Create a per-page provenance/licensing/curriculum-version/factual-review ledger for the guide corpus; re-index only reviewed pages.
+5. Exercise every provider route with production-like credentials and record latency, timeout, fallback and schema-conformance evidence without retaining learner content.
+6. Split VertexED app tests from quarantined repository contracts so CI reports app coverage separately without deleting retained research evidence.
+7. Split the largest feature modules along existing domain boundaries without changing behavior, preserving the golden journey after each extraction.
+8. Pin Python research dependencies or capture immutable environment locks per frozen experiment before claiming reproducibility, then run a consented preregistered pilot before publishing efficacy claims.
 
 ## Reproduction commands
 
-Use Node 22 and a clean dependency install:
+Use Node 22.22.x and a clean dependency install:
 
 ```bash
 npm ci
-npm run lint
 npm run ci
 npm run test:e2e:local-accessibility
 npm run test:e2e
 npm run test:e2e:authenticated-golden
+```
+
+With a working local container runtime:
+
+```bash
+npm run db:test
 ```
 
 Only against an authorized deployed target:

@@ -66,7 +66,7 @@ export function buildRetrievalPulse(
     });
   }
 
-  if (examDays != null && examDays <= 21) {
+  if (examDays != null && examDays >= 0 && examDays <= 21) {
     signals.push({
       label: 'Exam countdown',
       value: examDays === 0 ? 'Today' : `${examDays} day${examDays === 1 ? '' : 's'}`,
@@ -113,7 +113,7 @@ export function buildRetrievalPulse(
     headline = 'Close the loop';
     narrative = `This week's loop is ${loop.completionPercent}% complete. The missing piece: ${step.label.toLowerCase()}.`;
     apexPrompt = `I haven't done the "${step.label}" step in my revision loop this week. What should a realistic ${step.label.toLowerCase()} session look like tonight?`;
-  } else if (examDays != null && examDays <= 14) {
+  } else if (examDays != null && examDays >= 0 && examDays <= 14) {
     nextAction = { label: 'Mock under time', href: '/paper-maker', reason: 'Exam fortnight — pace and rubric shape matter now.' };
     headline = 'Exam fortnight';
     narrative = `${examDays} days left. Prioritise timed practice and rubric feedback over new content.`;

@@ -2,6 +2,7 @@ import ChatMarkdown from '@/components/chat/ChatMarkdown';
 import type { ApexChatMessage } from '@/hooks/useApexChat';
 import { APEX_TAGLINE } from '@/content/apex';
 import type { StudyPageContext } from '@/lib/studyContext';
+import AiFeedbackControls from '@/components/AiFeedbackControls';
 
 type Props = {
   messages: ApexChatMessage[];
@@ -50,6 +51,11 @@ export default function ApexMessageList({
               )
             ) : (
               <p className="text-sm text-foreground/95 whitespace-pre-wrap">{msg.text}</p>
+            )}
+            {msg.role === 'assistant' && !isStreamingAssistant && msg.text && !compact && (
+              <div className="mt-3 border-t border-border/50 pt-2">
+                <AiFeedbackControls capability="chatbot" />
+              </div>
             )}
           </div>
         );

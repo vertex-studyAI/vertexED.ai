@@ -53,11 +53,11 @@ export function buildCramSession(
   items.push({
     type: 'mock',
     title: 'Mini timed mock',
-    description: examDaysLeft !== null && examDaysLeft <= 3
+    description: examDaysLeft !== null && examDaysLeft >= 0 && examDaysLeft <= 3
       ? 'Full conditions — review immediately after'
       : '20-minute focused practice paper',
     to: '/paper-maker',
-    minutes: examDaysLeft !== null && examDaysLeft <= 3 ? 60 : 20,
+    minutes: examDaysLeft !== null && examDaysLeft >= 0 && examDaysLeft <= 3 ? 60 : 20,
   });
 
   return items;

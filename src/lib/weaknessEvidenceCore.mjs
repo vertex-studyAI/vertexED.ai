@@ -1,4 +1,12 @@
-export const MEASURED_WEAKNESS_EVIDENCE = 'measured-v1';
+export const MEASURED_WEAKNESS_EVIDENCE = 'measured-v2';
+
+export const MEASUREMENT_METHODS = Object.freeze([
+  'teacher-confirmed',
+  'official-mark-scheme',
+  'validated-answer-key',
+]);
+
+const MEASUREMENT_METHOD_SET = new Set(MEASUREMENT_METHODS);
 
 const ALLOWED_SOURCES = new Set(['review', 'quiz', 'mock']);
 
@@ -12,10 +20,13 @@ export function normalizeMeasuredWeaknessEntry(entry) {
   const recordedAt = typeof entry.recordedAt === 'string' ? entry.recordedAt : '';
   const score = Number(entry.score);
   const maxScore = Number(entry.maxScore);
+  const verification = entry.verification;
 
   if (!topic || !subject || !ALLOWED_SOURCES.has(source) || !recordedAt) return null;
   if (!Number.isFinite(score) || !Number.isFinite(maxScore)) return null;
   if (score < 0 || maxScore <= 0 || score > maxScore) return null;
+  if (!verification || !MEASUREMENT_METHOD_SET.has(verification.method)) return null;
+  if (!Number.isFinite(Date.parse(verification.confirmedAt))) return null;
 
   return {
     ...entry,
@@ -26,6 +37,13 @@ export function normalizeMeasuredWeaknessEntry(entry) {
     source,
     recordedAt,
     evidence: MEASURED_WEAKNESS_EVIDENCE,
+    verification: {
+      method: verification.method,
+      confirmedAt: verification.confirmedAt,
+      reference: typeof verification.reference === 'string'
+        ? verification.reference.trim().slice(0, 160)
+        : undefined,
+    },
   };
 }
 

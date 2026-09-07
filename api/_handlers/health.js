@@ -2,6 +2,7 @@ import { BUILD_REVISION } from '../_generated/build-revision.js';
 import { API_VERSION, ROUTES } from '../_lib/routes.js';
 import { getQueryParam } from '../_lib/query.js';
 import { applyApiSecurityHeaders, isProduction } from '../_lib/security.js';
+import { getSupabaseAdmin } from '../_lib/supabaseAdmin.js';
 
 export const HEALTH_CONTRACT_VERSION = '2';
 
@@ -31,17 +32,56 @@ export function getReadinessSnapshot(env = process.env) {
   const hasSupabaseServiceRole = hasValue(env.SUPABASE_SERVICE_ROLE_KEY) || hasValue(env.SUPABASE_SECRET_KEY);
   const hasOpenAi = hasValue(env.OPENAI_API_KEY) || hasValue(env.ChatbotKey);
   const hasGemini = hasValue(env.GEMINI_API_KEY);
+  const hasRateLimitSalt = hasValue(env.WAITLIST_RATE_LIMIT_SALT);
 
   const checks = {
     authentication: hasSupabaseUrl && hasSupabaseAnonKey,
     waitlist: hasSupabaseUrl && hasSupabaseServiceRole,
     coreAi: hasOpenAi,
     plannerAi: hasGemini,
+    durableRateLimiting: hasRateLimitSalt,
   };
 
   return {
     ready: Object.values(checks).every(Boolean),
     checks,
+  };
+}
+
+export async function getDeepReadinessSnapshot(env = process.env) {
+  const base = getReadinessSnapshot(env);
+  const databaseChecks = {
+    databaseConnection: false,
+    atomicRateLimitRpc: false,
+    learnerStateStorage: false,
+    batchLearnerStateSync: false,
+    observabilityStorage: false,
+    singletonIntegrity: false,
+  };
+  let databaseError = null;
+
+  if (base.checks.authentication && base.checks.waitlist) {
+    try {
+      const supabase = getSupabaseAdmin();
+      const { data, error } = await supabase.rpc('vertexed_readiness');
+      if (error) throw error;
+      const snapshot = Array.isArray(data) ? data[0] : data;
+      databaseChecks.databaseConnection = true;
+      databaseChecks.atomicRateLimitRpc = snapshot?.atomicRateLimitRpc === true;
+      databaseChecks.learnerStateStorage = snapshot?.learnerStateStorage === true;
+      databaseChecks.batchLearnerStateSync = snapshot?.batchLearnerStateSync === true;
+      databaseChecks.observabilityStorage = snapshot?.observabilityStorage === true;
+      databaseChecks.singletonIntegrity = snapshot?.singletonIntegrity === true;
+    } catch (error) {
+      databaseError = typeof error?.code === 'string' ? error.code : 'unavailable';
+    }
+  }
+
+  const checks = { ...base.checks, ...databaseChecks };
+  return {
+    ready: Object.values(checks).every(Boolean),
+    checks,
+    ...(databaseError ? { databaseError } : {}),
   };
 }
 
@@ -60,7 +100,7 @@ export default async function handler(req, res) {
   }
 
   const readinessRequested = isReadinessRequest(req);
-  const readiness = readinessRequested ? getReadinessSnapshot() : null;
+  const readiness = readinessRequested ? await getDeepReadinessSnapshot() : null;
   const revision = getDeploymentRevision();
   const identityMissing = isProduction() && !revision;
   const statusCode = identityMissing || (readiness && !readiness.ready) ? 503 : 200;
@@ -93,6 +133,7 @@ export default async function handler(req, res) {
 
   if (readiness) {
     payload.checks = readiness.checks;
+    if (readiness.databaseError) payload.databaseError = readiness.databaseError;
   } else if (!isProduction()) {
     payload.routes = Object.keys(ROUTES).length;
   }

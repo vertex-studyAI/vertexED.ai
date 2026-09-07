@@ -1,4 +1,6 @@
-VertexED.ai is an all‑in‑one study hub aiming to make the process of education better for all.
+# VertexED
+
+VertexED is a private-beta exam-prep workspace for planning, focused study, generated practice, evidence-linked answer review, notes, flashcards, and tutoring.
 
 ## Overview
 
@@ -7,18 +9,21 @@ This project brings together AI assisted study utilities (notes, quiz, paper gen
 - React + TypeScript (Vite)
 - Tailwind CSS with a small layer of custom design tokens (HSL variables) for dark/light theming
 - Supabase (auth + data)
-- Serverless / edge functions (API route scripts)
+- One Node.js Vercel Serverless Function with an explicit route registry
 
 ## Key Features (current focus)
 
-- AI Note Taking & Quiz Generation
-- Paper / Mock Exam Generator
-- Study Planner (calendar + schedule + AI task suggestions)
-- Answer Reviewer & Chatbot assistant
+- Unified learner dashboard with measured weak-topic, retry, mock-review, and sync status
+- Personalized Exam Prep page using the learner's exam date, subjects, unfinished mocks, due retries, verified weak topics, and flashcard queue
+- Study Zone with timers, calculator, graphing, quick notes, an activity log, and account-scoped daily habits
+- AI note taking, deterministic/AI quiz grading, and evidence-gated progress updates
+- Practice-paper generator with timed mock → answer review → scheduled retry handoff
+- Study planner with device recovery and cloud sync
+- Answer reviewer and AI tutor with privacy-safe quality feedback
 
 ## Design Tokens & Theming
 
-The UI relies on CSS custom properties defined globally (see `index.css`). Core tokens include:
+The UI relies on CSS custom properties defined globally in `src/index.css`. Core tokens include:
 
 ```
 --background
@@ -29,7 +34,7 @@ The UI relies on CSS custom properties defined globally (see `index.css`). Core 
 --border
 ```
 
-Planner-specific styling now consumes ONLY these tokens (no hard‑coded hex colors) to ensure visual consistency with the rest of the app. Any additional color nuance (e.g. subtle gradients or glass effects) is derived using transparency (`background: hsl(var(--card) / 0.7)`) or layered shadows rather than introducing new brand colors.
+New product surfaces should use these tokens, solid card backgrounds, high-contrast body text, visible focus states, and restrained motion.
 
 ## Study Planner Styling Guide
 
@@ -43,7 +48,7 @@ Files of interest:
 - `planner.css` (theme-aligned custom rules – font, layout refinements, glass surfaces, focus rings)
 
 ### Fonts
-The entire planner enforces the project primary font `"Sen", sans-serif`. If you add new interactive elements, rely on inheritance; only explicitly set the font where browser default widgets might override it.
+The application uses the system-first Inter stack declared in `src/index.css`. New controls should inherit it.
 
 ### Layout Principles
 
@@ -75,11 +80,11 @@ The entire planner enforces the project primary font `"Sen", sans-serif`. If you
 Keep additions token-driven:
 
 ```
-/* Example: subtle elevated surface */
+/* Example: quiet elevated surface */
 .planner-surface {
-	background: hsl(var(--card) / 0.75);
-	backdrop-filter: blur(12px) saturate(140%);
-	box-shadow: 0 4px 10px -2px hsl(var(--background) / 0.6), 0 0 0 1px hsl(var(--border) / 0.4);
+	background: hsl(var(--card) / 0.97);
+	border: 1px solid hsl(var(--border));
+	box-shadow: 0 10px 28px hsl(var(--background) / 0.25);
 }
 ```
 
@@ -98,10 +103,10 @@ When adding new components, ensure:
 
 ## Development
 
-Install & run (Node 22.x recommended — see `engines` in `package.json`):
+Install & run (Node 22.x required — see `engines` in `package.json`):
 
 ```
-npm install
+npm ci
 cp .env.example .env.local   # then fill in your keys
 npm run dev
 ```
@@ -121,7 +126,7 @@ Copy `.env.example` to `.env.local` for local development. The same variables mu
 | `VITE_SUPABASE_URL` | Client | Supabase project URL |
 | `VITE_SUPABASE_ANON_KEY` | Client | Supabase anon key (auth) |
 | `SUPABASE_URL` | Server | Same URL, for `/api/waitlist` and JWT verification |
-| `SUPABASE_SERVICE_ROLE_KEY` | Server | Service role key (waitlist only — never expose) |
+| `SUPABASE_SERVICE_ROLE_KEY` | Server | Service role key for server-owned database operations — never expose |
 | `SUPABASE_ANON_KEY` | Server | Anon key for verifying user JWTs on AI API routes |
 | `ADMIN_EMAILS` | Server | Comma-separated emails allowed to use `/admin/waitlist` |
 | `OPENAI_API_KEY` / `ChatbotKey` | Server | AI features (chatbot, notes, quiz, review, papers) |
@@ -132,10 +137,11 @@ See `.env.example` for the full list and optional overrides.
 ## Supabase Setup
 
 1. Create a project at [supabase.com](https://supabase.com).
-2. Run `supabase/schema.sql` in **SQL Editor** (creates `profiles`, `waitlist`, rate-limit table, and RPCs).
-   - If you already ran an older schema, also run `supabase/migrations/20260708_phase3_waitlist_auth.sql`.
-   - For planner cloud sync: run `supabase/migrations/20260711_planner_artifact_kind.sql`.
+2. Link the Supabase CLI to the target project and run `npx supabase db push`. The ordered files in `supabase/migrations/` are the only schema source of truth.
+   - For local verification, run `npx supabase start` and then `npm run db:test`; this rebuilds a blank database, runs pgTAP contracts, and lints the result.
+   - Never paste an individual migration or a stale schema snapshot into SQL Editor as a substitute for the migration ledger.
 3. Enable **Email** auth under Authentication → Providers.
+   - Keep direct email and general account signup disabled for private beta; accounts are created only by the server after waitlist approval or a verified team invitation.
 4. Enable **Google** OAuth if using Google login; set redirect URL to:
    - Local: `http://localhost:8080/auth/callback`
    - Production: `https://www.vertexed.app/auth/callback`
@@ -147,11 +153,14 @@ See `.env.example` for the full list and optional overrides.
 - Emails are normalized to lowercase before storage.
 - Duplicate emails and existing auth accounts are rejected with clear errors.
 - Rate limited to **5 submissions per IP per minute** (stored in `waitlist_rate_limits`).
-- Optional env: `WAITLIST_RATE_LIMIT_SALT` to salt IP hashes.
+- Required in production: `WAITLIST_RATE_LIMIT_SALT` salts rate-limit identities. Production fails closed when rate-limit persistence is unavailable.
 - **Account creation** (`/api/signup-invite`): requires either a valid team invite code **or** `waitlist.status = approved` for that email. Pending/rejected waitlist emails cannot create accounts without a code.
+- Account export (`GET /api/account-export`) returns all cloud artifacts and learner-state rows without silent pagination truncation; Settings adds explicit account-scoped device data before download.
+- Account deletion revokes refresh sessions, deletes the Auth identity, and cascades learner-owned rows plus the linked waitlist email.
 
 ### Security (AI routes)
-- All AI API routes (`/api/ask`, `/api/note`, `/api/quiz`, `/api/transcribe`, `/api/paper-generator`, `/api/review`, `/api/planner`) require a valid Supabase session token (`Authorization: Bearer <jwt>`).
+- All AI API routes (`/api/ask`, `/api/note`, `/api/quiz`, `/api/transcribe`, `/api/paper-generator`, `/api/review`, `/api/planner`, `/api/notebook`, `/api/board-resource`, `/api/study-guide-chat`) require a valid Supabase session token (`Authorization: Bearer <jwt>`).
+- Provider requests have hard deadlines and record only fixed-field operational telemetry; prompts, answers, source text, emails, and provider bodies are not logged.
 - `/api/waitlist` remains public (no auth).
 - `/api/waitlist-admin` requires auth + email in `ADMIN_EMAILS`.
 - `GET /api/health` is public (deploy monitoring).
@@ -173,11 +182,15 @@ GitHub Actions runs on push/PR to `main`:
 |---------|---------|
 | `npm test` | Unit + handler smoke tests (auth, waitlist validation, `/api/ask` 401) |
 | `npm run build:ci` | Production build without SEO ping side effects |
-| `npm run lint:ci` | Lint `api/lib` and `tests` only |
-| `npm run ci` | Full local CI: lint + test + build |
+| `npm run lint:ci` | Lint the complete application, API, scripts, evals, and tests |
+| `npm run db:test` | Rebuild and verify the local Supabase schema (requires `npx supabase start`) |
+| `npm run test:e2e:authenticated-golden` | Run the mocked authenticated candidate journey |
+| `npm run ci` | Candidate gate: lint + types + security audit + unit/eval checks + build + bundle budget |
 | `npm run test:smoke` | Live checks against `https://www.vertexed.app` (or `SMOKE_BASE_URL`) |
 
 Pre-deploy QA: see [`docs/QA_CHECKLIST.md`](docs/QA_CHECKLIST.md).
+
+Learner-loop and recovery contract: [`docs/LEARNER_LOOP_AND_RECOVERY.md`](docs/LEARNER_LOOP_AND_RECOVERY.md).
 
 **Launch gate:** [`docs/PRODUCTION_LAUNCH.md`](docs/PRODUCTION_LAUNCH.md)
 
@@ -187,19 +200,10 @@ Styling Consistency Checklist:
 
 - Use design tokens – never raw hex unless adding a new global variable
 - Reuse shared utility classes or create a small, purposeful class (avoid deep nesting)
-- Maintain font: `Sen` for all textual UI
+- Inherit the global system-first font stack
 - Provide focus styles (rely on `:focus-visible` + outline)
 - Test dark mode contrast (use a contrast checker if introducing new combinations)
 
-## Future Improvements (Ideas)
+## Release truth
 
-- Mobile-specific condensed planner layout
-- Task categories / color coding via token hue shifts
-- Animation preference toggle (reduced motion)
-- Drag & drop task rescheduling
-
----
-
-This document will evolve as new features/components are added. Feel free to extend sections with implementation details or architectural decisions.
-
-✨✨😊😁
+A green local build is necessary but does not prove production readiness. Apply the current database migrations, deploy the same tested revision, and complete the live smoke and authenticated journey gates in `docs/PRODUCTION_LAUNCH.md` before calling the app ready.

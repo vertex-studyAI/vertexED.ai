@@ -6,6 +6,8 @@ import { setPlannerStorageScope } from "@/lib/plannerStorageScope.mjs";
 import { buildMissingProfileInsert, buildProfileUpdate } from "@/lib/profileRecovery.mjs";
 import { supabase } from "@/lib/supabaseClient";
 import { setUserContentStorageScope } from "@/lib/userContentStorageScope.mjs";
+import { initializeLearnerStateSync } from "@/lib/learnerStateSync";
+import { syncLocalStudyArtifacts } from "@/lib/userContent";
 import type { Profile } from "@/types/profile";
 
 type AuthContextType = {
@@ -21,7 +23,7 @@ type AuthContextType = {
     password: string,
     metadata?: Record<string, any>
   ) => Promise<{ user: User | null; session: Session | null; needsConfirmation: boolean }>;
-  logout: () => Promise<void>;
+  logout: (options?: { localOnly?: boolean }) => Promise<void>;
 };
 
 const AuthContext = createContext<AuthContextType>({
@@ -40,6 +42,10 @@ const AuthContext = createContext<AuthContextType>({
 function setSensitiveStorageScopes(scope?: string | null) {
   setUserContentStorageScope(scope);
   setPlannerStorageScope(scope);
+}
+
+function initializeAccountPersistence() {
+  void Promise.allSettled([initializeLearnerStateSync(), syncLocalStudyArtifacts()]);
 }
 
 export function AuthProvider({ children }: PropsWithChildren) {
@@ -103,6 +109,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
       bindProfileIdentity(nextUser?.id ?? null);
       setSensitiveStorageScopes(nextUser?.id ?? null);
       setAuthAccessToken(data.session?.access_token);
+      if (nextUser) initializeAccountPersistence();
       setSession(data.session ?? null);
       setUser(nextUser);
       // Don't block app on profile fetch; fire and forget
@@ -122,6 +129,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
       bindProfileIdentity(nextUser?.id ?? null);
       setSensitiveStorageScopes(nextUser?.id ?? null);
       setAuthAccessToken(newSession?.access_token);
+      if (nextUser) initializeAccountPersistence();
       setSession(newSession);
       setUser(nextUser);
       if (nextUser) {
@@ -152,6 +160,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
     bindProfileIdentity(data.user?.id ?? null);
     setSensitiveStorageScopes(data.user?.id ?? null);
     setAuthAccessToken(data.session?.access_token);
+    if (data.user) initializeAccountPersistence();
     setSession(data.session);
     setUser(data.user);
     if (data.user) {
@@ -192,7 +201,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
   };
 
   /** Sign out current user and clear auth state. */
-  const logout = async () => {
+  const logout = async (options: { localOnly?: boolean } = {}) => {
     if (!supabase) {
       bindProfileIdentity(null);
       setSensitiveStorageScopes(null);
@@ -204,7 +213,9 @@ export function AuthProvider({ children }: PropsWithChildren) {
       return;
     }
 
-    const { error } = await supabase.auth.signOut();
+    const { error } = await supabase.auth.signOut(
+      options.localOnly ? { scope: "local" } : { scope: "global" },
+    );
     if (error) {
       trackLogout({ outcome: "failure", backend: "supabase" });
       throw error;

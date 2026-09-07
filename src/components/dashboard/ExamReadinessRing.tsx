@@ -53,13 +53,19 @@ export default function ExamReadinessRing({ readiness, size = 'md', showFactors 
         </div>
         {!ringOnly && (
         <div className="min-w-0">
-          <p className="text-xs uppercase tracking-widest text-muted-foreground">Exam readiness</p>
+          <p className="text-xs uppercase tracking-widest text-muted-foreground">Preparation activity</p>
           <p className={cn('text-sm font-semibold mt-0.5', BAND_COLORS[readiness.band])}>
             {readiness.label}
           </p>
         </div>
         )}
       </div>
+
+      {showFactors && (
+        <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
+          Activity from your study loop and verified reviews. This is not a grade prediction.
+        </p>
+      )}
 
       {showFactors && (
         <ul className="mt-4 space-y-2">

@@ -2,7 +2,7 @@ import type { ExamBoard } from '@/types/curriculum';
 import type {
   AssessmentCoverage,
   LearningArtifactProvenance,
-  VerifiedGradeAudit,
+  GradeAudit,
 } from '@/types/learning';
 
 export type IsoDateTime = string;
@@ -66,9 +66,9 @@ export type LearnerResponseContract = {
 export type RubricFeedbackContract = {
   assessmentId: Uuid | string;
   ownerId: Uuid;
-  grades: VerifiedGradeAudit[];
+  grades: GradeAudit[];
   coverage: AssessmentCoverage[];
-  contractVersion: 'vertexed.grading.v1';
+  contractVersion: 'vertexed.grading.v2';
   recordedAt: IsoDateTime;
 };
 

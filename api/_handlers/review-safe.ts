@@ -6,6 +6,8 @@ import {
   extractAnswerReviewGrade,
   normalizeAnswerReviewInput,
 } from '../_lib/answerReview.js';
+import { logProviderRun } from '../_lib/providerTelemetry.js';
+import { fetchWithTimeout } from '../_lib/fetchWithTimeout.js';
 
 export const config = { maxDuration: 60, runtime: 'nodejs' };
 
@@ -15,17 +17,25 @@ function getApiKey() {
 
 async function requestStructuredReview(apiKey: string, prompt: string) {
   const model = process.env.OPENAI_MODEL || 'gpt-4o-mini';
-  const response = await fetch('https://api.openai.com/v1/chat/completions', {
-    method: 'POST',
-    headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      model,
-      messages: [{ role: 'user', content: prompt }],
-      temperature: 0.2,
-      max_tokens: 2400,
-      response_format: { type: 'json_object' },
-    }),
-  });
+  const startedAt = Date.now();
+  let response: Response;
+  try {
+    response = await fetchWithTimeout('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model,
+        messages: [{ role: 'user', content: prompt }],
+        temperature: 0.2,
+        max_tokens: 2400,
+        response_format: { type: 'json_object' },
+      }),
+    }, 30_000);
+    await logProviderRun({ capability: 'answer_review', provider: 'openai', model, status: response.status, durationMs: Date.now() - startedAt });
+  } catch (error) {
+    await logProviderRun({ capability: 'answer_review', provider: 'openai', model, durationMs: Date.now() - startedAt, error: true });
+    throw error;
+  }
   if (!response.ok) throw new Error(`Review provider returned ${response.status}.`);
   const payload = await response.json();
   const raw = payload?.choices?.[0]?.message?.content;
@@ -79,7 +89,7 @@ export default async function handler(req: any, res: any) {
     let extractedQuestion = '';
     let extractedAnswer = '';
     if (apiKey && (questionCheck.images.length || answerCheck.images.length)) {
-      const client = new OpenAI({ apiKey });
+      const client = new OpenAI({ apiKey, timeout: 30_000, maxRetries: 0 });
       try {
         [extractedQuestion, extractedAnswer] = await Promise.all([
           describeReviewImages(client, questionCheck.images, 'question'),

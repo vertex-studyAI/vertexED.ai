@@ -107,8 +107,8 @@ export default function EcosystemPanel({
         <div className="glass-panel p-5 lg:col-span-1">
           <div className="flex items-center justify-between gap-3 mb-4">
             <h2 className="text-sm font-semibold text-foreground">Learning path</h2>
-            <Link to="/learning-hub" className="text-xs text-primary hover:underline">
-              Full hub →
+            <Link to="/exam-prep" className="text-xs text-primary hover:underline">
+              Exam plan →
             </Link>
           </div>
           <ol className="space-y-2">

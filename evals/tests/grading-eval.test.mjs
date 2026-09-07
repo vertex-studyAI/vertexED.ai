@@ -13,7 +13,7 @@ test('frozen grading fixture contains only declared synthetic data', () => {
   assert.equal(thresholds.frozenBeforeEvaluation, true);
 });
 
-test('verified grading gate passes frozen review and evidence thresholds', () => {
+test('evidence-linked grading gate passes frozen review and evidence thresholds', () => {
   const result = evaluateGradingFixture(dataset, thresholds, { measuredAt: '2026-09-01T00:00:00Z' });
   assert.equal(result.passed, true);
   assert.equal(result.metrics.reviewDecisionAccuracy, 1);

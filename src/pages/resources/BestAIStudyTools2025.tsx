@@ -23,7 +23,7 @@ export default function BestAIStudyTools2025() {
           This guide separates what matters for exam prep from what sounds impressive in a product demo.
         </p>
         <p>
-          We evaluated tools on three questions students actually ask during exam season: Does it respect how my board
+          This editorial guide compares tools using three questions students often ask during exam season: Does it respect how my board
           writes questions? Does feedback name marks lost, not just a score? Does captured material become practice,
           or sit in a folder you never reopen?
         </p>

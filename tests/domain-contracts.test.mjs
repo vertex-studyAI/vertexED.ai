@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { readFile } from 'node:fs/promises';
+import { readdir, readFile } from 'node:fs/promises';
 import test from 'node:test';
 
 import {
@@ -11,7 +11,9 @@ import {
 
 const domain = await import('../src/contracts/domain.ts');
 
-const schema = await readFile(new URL('../supabase/schema.sql', import.meta.url), 'utf8');
+const migrationDirectory = new URL('../supabase/migrations/', import.meta.url);
+const migrationFiles = (await readdir(migrationDirectory)).filter((name) => name.endsWith('.sql')).sort();
+const schema = (await Promise.all(migrationFiles.map((name) => readFile(new URL(name, migrationDirectory), 'utf8')))).join('\n');
 const handler = await readFile(new URL('../api/_handlers/user-content.js', import.meta.url), 'utf8');
 const client = await readFile(new URL('../src/lib/userContent.ts', import.meta.url), 'utf8');
 
@@ -22,6 +24,7 @@ test('artifact kinds are canonical across runtime, SQL, API, and client routing'
     assert.match(client, new RegExp(`case '${kind}'`));
   }
   assert.match(handler, /new Set\(STUDY_ARTIFACT_KINDS\)/);
+  assert.match(schema, /restore_artifact_kind_contract|Repair the final artifact constraint/);
 });
 
 test('artifact create contract normalizes text but rejects missing, null, and array payloads', () => {

@@ -15,8 +15,15 @@ function applyApiHeaders(res, requestId) {
   res.setHeader('X-Request-Id', requestId);
 }
 
+export function normalizeRequestId(value) {
+  const candidate = Array.isArray(value) ? value[0] : value;
+  return typeof candidate === 'string' && /^[A-Za-z0-9._:-]{1,80}$/.test(candidate)
+    ? candidate
+    : randomUUID();
+}
+
 export default async function handler(req, res) {
-  const requestId = req.headers['x-request-id'] || randomUUID();
+  const requestId = normalizeRequestId(req.headers['x-request-id']);
   applyApiHeaders(res, requestId);
 
   if (!enforceSameOriginCors(req, res)) {
@@ -38,7 +45,11 @@ export default async function handler(req, res) {
       res.status(500).json(payload);
     }
   } catch (error) {
-    console.error(`[api/${routeKey}]`, requestId, error);
+    console.error(
+      `[api/${routeKey}]`,
+      requestId,
+      error instanceof Error ? error.name : 'UnknownError',
+    );
     if (!res.headersSent && !res.writableEnded) {
       const payload = { error: 'Internal server error', requestId };
       if (!isProduction()) payload.route = routeKey;

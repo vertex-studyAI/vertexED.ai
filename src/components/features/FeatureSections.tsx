@@ -119,13 +119,13 @@ export function EcosystemExtras({ embedded = false }: { embedded?: boolean }) {
       aria-labelledby="ecosystem-heading"
     >
       <div className={embedded ? "" : "max-w-6xl mx-auto"}>
-        <p className="text-xs uppercase tracking-[0.2em] text-primary mb-3">Beyond the core six</p>
+        <p className="text-xs uppercase tracking-[0.2em] text-primary mb-3">Reference and support</p>
         <h2 id="ecosystem-heading" className="text-3xl md:text-4xl font-bold text-foreground mb-4">
           The rest of the ecosystem
         </h2>
         <p className="text-muted-foreground max-w-2xl mb-10 leading-relaxed">
-          Learning Hub, Archives, Study Tools, and Resources handle the parts of studying that happen
-          before and between sessions.
+          The dashboard, Archives, Study Tools, and Resources cover saved work, reference material,
+          and the reading you may need between sessions.
         </p>
         <div className="grid sm:grid-cols-2 gap-5">
           {ECOSYSTEM_EXTRAS.map((item) => {

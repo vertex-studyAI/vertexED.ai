@@ -13,6 +13,7 @@ const HEALTH_ENV_KEYS = [
   'OPENAI_API_KEY',
   'ChatbotKey',
   'GEMINI_API_KEY',
+  'WAITLIST_RATE_LIMIT_SALT',
   'VERCEL_GIT_COMMIT_SHA',
   'GITHUB_SHA',
   'VERCEL_ENV',
@@ -56,6 +57,7 @@ test('getReadinessSnapshot reports each required production capability', () => {
     waitlist: false,
     coreAi: false,
     plannerAi: false,
+    durableRateLimiting: false,
   });
 
   const configured = getReadinessSnapshot({
@@ -64,6 +66,7 @@ test('getReadinessSnapshot reports each required production capability', () => {
     SUPABASE_SERVICE_ROLE_KEY: 'service-role-key',
     OPENAI_API_KEY: 'openai-key',
     GEMINI_API_KEY: 'gemini-key',
+    WAITLIST_RATE_LIMIT_SALT: 'rate-limit-salt',
   });
 
   assert.equal(configured.ready, true);
@@ -151,12 +154,25 @@ test('readiness returns 200 when all production capabilities are configured', as
     SUPABASE_SERVICE_ROLE_KEY: 'service-role-key',
     ChatbotKey: 'openai-key',
     GEMINI_API_KEY: 'gemini-key',
+    WAITLIST_RATE_LIMIT_SALT: 'rate-limit-salt',
   }, async () => {
+    const originalFetch = globalThis.fetch;
+    globalThis.fetch = async () => new Response(JSON.stringify({
+      atomicRateLimitRpc: true,
+      learnerStateStorage: true,
+      batchLearnerStateSync: true,
+      observabilityStorage: true,
+      singletonIntegrity: true,
+    }), { status: 200, headers: { 'content-type': 'application/json' } });
     const { req, res, getStatus, getJson, getHeaders } = createMocks({ method: 'GET' });
     req.query = { mode: 'readiness' };
     req.url = '/api/health?mode=readiness';
 
-    await handler(req, res);
+    try {
+      await handler(req, res);
+    } finally {
+      globalThis.fetch = originalFetch;
+    }
 
     assert.equal(getStatus(), 200);
     assert.equal(getJson().ok, true);

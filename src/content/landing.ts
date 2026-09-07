@@ -34,12 +34,12 @@ export const LANDING_PROBLEMS: LandingProblem[] = [
   {
     stat: "03",
     title: "Practice that does not look like the exam.",
-    text: "A quick quiz can check facts, but real papers test command words, structure, working, pacing, and mark schemes. Practice should rehearse the shape of the task you will actually sit.",
+    text: "A quick quiz can check facts. A full paper also tests command words, structure, working, and pacing. Practice needs both formats.",
   },
   {
     stat: "04",
     title: "A syllabus is not a study plan.",
-    text: "Knowing what is on the course does not tell you what to do tonight. A useful plan has to fit around school, sport, sleep, deadlines, weak topics, and the time you genuinely have left.",
+    text: "Knowing the syllabus still leaves a practical question: what can you finish tonight? A useful plan has to fit around school, sport, sleep, deadlines, weak topics, and limited time.",
   },
   {
     stat: "05",
@@ -49,7 +49,7 @@ export const LANDING_PROBLEMS: LandingProblem[] = [
   {
     stat: "06",
     title: "AI can finish the task without teaching it.",
-    text: "A polished answer is not useful if you cannot reproduce the reasoning yourself. VertexED is designed to show what earned marks, what lost them, and what to try next — so the student still does the thinking.",
+    text: "A polished answer can hide weak understanding. VertexED keeps the student attempt at the centre and uses feedback to identify what to try next.",
   },
 ];
 
@@ -68,19 +68,27 @@ export const FLOATING_INSIGHTS: FloatingInsight[] = [
   {
     label: "The reality",
     headline: "A realistic week beats a perfect timetable",
-    body: "Students have classes, activities, deadlines, and limited energy. The planner and Study Zone are built around work you can actually finish, not an imaginary six-hour evening that collapses by Wednesday.",
+    body: "Students have classes, activities, deadlines, and limited energy. The planner and Study Zone work best when blocks are short enough to finish and easy to adjust when the week changes.",
   },
   {
     label: "The goal",
     headline: "Know the next move without opening twelve tabs",
-    body: "Planner sets the task. Study Zone runs the session. Paper Maker creates practice. Answer Reviewer finds the gaps. Notes, flashcards, quizzes, and Apex help you close them. One loop, one place to continue from.",
+    body: "Planner sets the task. Study Zone runs the session. Paper Maker creates practice. Answer Reviewer finds the gaps. Notes, flashcards, quizzes, and Apex support the next attempt.",
   },
 ];
 
 export const LANDING_FEATURES: LandingFeature[] = [
   {
+    title: 'Exam Prep',
+    desc: 'Open a session plan shaped by your exam date and the work already waiting for review.',
+    side: 'Choose a subject and session length. VertexED prioritizes unfinished mocks, scheduled retries, verified weak topics, and due flashcards without pretending to predict your grade.',
+    loop: 'plan',
+    href: '/exam-prep',
+    outcome: 'Prepare — turn your remaining time into a useful session',
+  },
+  {
     title: 'Study Planner',
-    desc: 'Turn exams and deadlines into a week you can actually execute.',
+    desc: 'Turn exams and deadlines into a week with specific, editable study blocks.',
     side: 'Build around the hours you really have, then send each task straight into the tool that helps you complete it.',
     loop: 'plan',
     href: '/planner',
@@ -89,7 +97,7 @@ export const LANDING_FEATURES: LandingFeature[] = [
   {
     title: 'Study Zone',
     desc: 'Run focused sessions without rebuilding your setup every time.',
-    side: 'Timers, session tools, calculator access, habits, and logs stay together so the plan becomes actual study time.',
+    side: 'Timers, calculators, graphing, daily habits, and session notes stay together so you can start work without rebuilding your setup.',
     loop: 'focus',
     href: '/study-zone',
     outcome: 'Focus — turn scheduled time into completed work',
@@ -120,7 +128,7 @@ export const LANDING_FEATURES: LandingFeature[] = [
   },
   {
     title: 'Apex',
-    desc: 'Use AI to question, explain, and stress-test your reasoning — not replace it.',
+    desc: 'Use AI to question, explain, and stress-test your reasoning while you keep control of the work.',
     side: 'Ask for an explanation, test an argument, unpack a command term, or work through a gap before you try the question again.',
     loop: 'review',
     href: '/chatbot',

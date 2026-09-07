@@ -9,6 +9,7 @@ import { buildCurriculumMetadata } from "@/lib/curriculum";
 import { createFirstStudyPlan } from "@/lib/onboardingPlan";
 import { isOnboardingComplete } from "@/lib/onboardingStatus.js";
 import { savePlannerSnapshot } from "@/lib/plannerSync";
+import { buildCurriculumProfileUpsert } from "@/lib/profileRecovery.mjs";
 import { trackProductEvent } from "@/lib/productAnalytics.mjs";
 import type { CurriculumPreference } from "@/types/curriculum";
 
@@ -30,7 +31,7 @@ function getErrorMessage(err: unknown) {
 }
 
 export default function Onboarding() {
-  const { user, session } = useAuth();
+  const { user, session, profile } = useAuth();
   const navigate = useNavigate();
   const savedUsername = typeof user?.user_metadata?.username === "string"
     ? user.user_metadata.username.trim()
@@ -108,6 +109,20 @@ export default function Onboarding() {
         ...(user?.user_metadata ?? {}),
         username: trimmedUsername,
       });
+      const profilePayload = buildCurriculumProfileUpsert(
+        user,
+        curriculum,
+        {
+          ...metadata,
+          full_name: profile?.full_name ?? metadata.full_name,
+          avatar_url: profile?.avatar_url ?? metadata.avatar_url,
+        },
+      );
+      const { error: profileError } = await supabase
+        .from("profiles")
+        .upsert(profilePayload, { onConflict: "id" });
+      if (profileError) throw profileError;
+
       const { error: updateError } = await supabase.auth.updateUser({ data: metadata });
       if (updateError) throw updateError;
 

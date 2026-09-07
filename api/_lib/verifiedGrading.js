@@ -1,6 +1,6 @@
 import { createHash } from 'node:crypto';
 
-export const GRADING_CONTRACT_VERSION = 'vertexed.grading.v1';
+export const GRADING_CONTRACT_VERSION = 'vertexed.grading.v2';
 export const HUMAN_REVIEW_CONFIDENCE_THRESHOLD = 0.7;
 
 const ERROR_TAXONOMY = Object.freeze({
@@ -96,13 +96,13 @@ export function buildCoverageMap(questions, gradeAudits) {
       const current = coverage.get(objectiveId) ?? {
         objectiveId,
         attempted: 0,
-        verified: 0,
+        measured: 0,
         score: 0,
         maxScore: 0,
       };
       current.attempted += 1;
-      if (grade && !grade.humanReviewRequired) {
-        current.verified += 1;
+      if (grade?.measurementEligible === true || grade?.scoreStatus === 'MEASURED') {
+        current.measured += 1;
         current.score += grade.score;
         current.maxScore += grade.maxScore;
       }
@@ -131,7 +131,10 @@ export function normalizeGradeAudits({ questions = [], userAnswers = {}, rawGrad
     const evidenceVerified = criteria.every((criterion) => criterion.evidenceVerified);
     const rubricTotalVerified = Math.abs(computedMax - maxScore) < 0.001;
     const errors = normalizeErrors(raw?.errorCodes, answer);
-    const humanReviewRequired = !answer || !evidenceVerified || !rubricTotalVerified || confidence < HUMAN_REVIEW_CONFIDENCE_THRESHOLD;
+    const evidenceLinked = Boolean(answer)
+      && evidenceVerified
+      && rubricTotalVerified
+      && confidence >= HUMAN_REVIEW_CONFIDENCE_THRESHOLD;
 
     return {
       contractVersion: GRADING_CONTRACT_VERSION,
@@ -139,9 +142,13 @@ export function normalizeGradeAudits({ questions = [], userAnswers = {}, rawGrad
       id,
       score,
       maxScore,
-      scoreStatus: humanReviewRequired ? 'PROVISIONAL' : 'VERIFIED',
+      // A model cannot promote its own judgment into measured mastery. Exact
+      // quotes and a valid rubric total establish traceability only.
+      scoreStatus: evidenceLinked ? 'EVIDENCE_LINKED' : 'PROVISIONAL',
       confidence,
-      humanReviewRequired,
+      humanReviewRequired: true,
+      measurementEligible: false,
+      evidenceState: evidenceLinked ? 'MODEL_EVIDENCE_LINKED' : 'MODEL_PROVISIONAL',
       escalationReason: !answer
         ? 'No student answer was supplied.'
         : !evidenceVerified
@@ -150,7 +157,7 @@ export function normalizeGradeAudits({ questions = [], userAnswers = {}, rawGrad
             ? 'Criterion marks do not add up to the declared maximum score.'
           : confidence < HUMAN_REVIEW_CONFIDENCE_THRESHOLD
             ? 'Model confidence is below the human-review threshold.'
-            : null,
+            : 'AI feedback requires confirmation against a teacher decision or official mark scheme before it can update mastery.',
       feedback: cleanText(raw?.feedback, 2_000) || 'No model feedback was returned.',
       includes: cleanText(raw?.includes ?? raw?.whatIncluded, 1_000),
       criteria,

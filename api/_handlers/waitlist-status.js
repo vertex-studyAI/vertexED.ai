@@ -1,7 +1,7 @@
 import { verifyAuthUser } from '../_lib/auth.js';
 import { getSupabaseAdmin } from '../_lib/supabaseAdmin.js';
-import { normalizeEmail } from '../_lib/security.js';
 import { isAdminUser } from '../_lib/admin.js';
+import { getAccountWaitlistEntry } from '../_lib/waitlistAccess.js';
 
 export default async function handler(req, res) {
   if (req.method !== 'GET') {
@@ -20,28 +20,15 @@ export default async function handler(req, res) {
 
   try {
     const supabase = getSupabaseAdmin();
-    let { data: entry, error } = await supabase
-      .from('waitlist')
-      .select('status, signup_method')
-      .eq('auth_user_id', user.id)
-      .maybeSingle();
+    const entry = await getAccountWaitlistEntry(supabase, user);
 
-    if (error) throw error;
-    if (!entry && user.email) {
-      const email = normalizeEmail(user.email);
-      ({ data: entry, error } = await supabase
-        .from('waitlist')
-        .select('status, signup_method')
-        .eq('email', email)
-        .maybeSingle());
-      if (error) throw error;
-    }
-
-    // Existing accounts predating waitlist gating remain usable.
-    const status = entry?.status ?? 'approved';
+    // Historical accounts and team invitations are materialized as approved
+    // rows by migration/signup. A missing row is not authorization: this also
+    // fails closed if hosted Auth signup is accidentally enabled.
+    const status = entry?.status ?? 'unregistered';
     return res.status(200).json({ status, method: entry?.signup_method ?? null, access: status === 'approved' });
   } catch (err) {
-    console.error('waitlist-status error:', err);
+    console.error('waitlist-status error:', err?.code || (err instanceof Error ? err.name : 'UnknownError'));
     return res.status(500).json({ error: 'Could not verify account access.' });
   }
 }

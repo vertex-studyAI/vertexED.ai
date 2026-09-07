@@ -28,9 +28,9 @@ export default function StudyTechniquesActiveRecall() {
         kicker="Study Techniques"
       >
         <p className="lead">
-          Reread a chapter and you feel ready — until the mock. Active recall and spaced repetition
-          force retrieval and spread practice over time. Less total study time, better retention on
-          exam day. This guide shows how to run both inside VertexED.
+          Rereading can create familiarity without showing whether you can produce an answer. Active recall
+          asks you to retrieve first; spaced practice brings the material back after a delay. This guide shows
+          a practical way to use both in VertexED.
         </p>
 
         <h2>What is active recall?</h2>
@@ -42,8 +42,7 @@ export default function StudyTechniquesActiveRecall() {
         <p>
           In VertexED, the fastest way to switch to active recall is to convert your notes into
           flashcards or quizzes, then attempt them cold. You can do this directly with the
-          <Link to="/notetaker"> Notetaker</Link> → <em>Flashcards</em> workflow, or paste topics into the
-          <Link to="/study-zone"> Study Zone</Link> to generate quick quizzes.
+          <Link to="/notetaker"> Notetaker</Link> and then open its <em>Flashcards</em> or <em>Quiz</em> workflow.
         </p>
 
         <h2>Why spaced repetition works</h2>
@@ -70,7 +69,7 @@ export default function StudyTechniquesActiveRecall() {
         <ol>
           <li>
             <strong>Create recall materials:</strong> Use <Link to="/notetaker">Notetaker</Link> to turn notes into
-            flashcards. Or, type topics into <Link to="/study-zone">Study Zone</Link> to generate quiz items.
+            flashcards or a short quiz from the same source.
           </li>
           <li>
             <strong>Schedule spaced blocks:</strong> In the <Link to="/planner">Planner</Link>, create short
@@ -134,7 +133,7 @@ export default function StudyTechniquesActiveRecall() {
 
         <div className="article-footer">
           Editorial note: Reviewed for clarity and usefulness. Always cross‑check with your official syllabus and teacher guidance.
-          <div className="mt-1">Last updated: 2025‑10‑11 · Author: VertexED Team</div>
+          <div className="mt-1">Product walkthrough checked: 6 September 2026 · VertexED Team</div>
         </div>
 
         <hr className="article-divider" />
