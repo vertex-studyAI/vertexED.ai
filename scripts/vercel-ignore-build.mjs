@@ -19,6 +19,7 @@ const RUNTIME_FILES = new Set([
   'scripts/build.mjs',
   'scripts/generate-build-revision.mjs',
   'scripts/generate-study-guide-sitemap.mjs',
+  'scripts/immutable-revision.mjs',
   'scripts/publish-neurocad-alpha.mjs',
   'scripts/validate-vercel-functions.mjs',
   'scripts/vercel-ignore-build.mjs',
@@ -27,7 +28,7 @@ const RUNTIME_FILES = new Set([
 
 const ROOT_BUILD_CONFIG = /^(?:eslint\.config\.|postcss\.config\.|tailwind\.config\.|tsconfig(?:\.|$)|vite\.config\.)/;
 const DIFF_FILTER = 'ACDMRTUXB';
-const GIT_REVISION = /^[0-9a-f]{7,40}$/;
+const GIT_REVISION = /^[0-9a-f]{40}$/;
 const PREVIOUS_DEPLOY_SHA_ENV = 'VERCEL_GIT_PREVIOUS_SHA';
 const DEFAULT_BRANCH_CANDIDATES = ['origin/main', 'main'];
 const DEFAULT_BRANCH_FETCH_ARGS = ['fetch', '--no-tags', '--depth=64', 'origin', 'main:refs/remotes/origin/main'];
