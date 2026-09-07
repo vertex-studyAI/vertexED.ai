@@ -16,12 +16,24 @@ test('transport diagnostic script is syntax-valid and captures each network laye
 
   assert.equal(syntax.status, 0, syntax.stderr);
   assert.match(scriptSource, /dns\.lookup/);
+  assert.match(scriptSource, /dns\.resolveCname/);
   assert.match(scriptSource, /net\.connect/);
   assert.match(scriptSource, /tls\.connect/);
   assert.match(scriptSource, /https\.get/);
   assert.match(scriptSource, /rejectUnauthorized: true/);
   assert.match(scriptSource, /x-vertexed-revision/);
   assert.match(scriptSource, /x-vertexed-health/);
+});
+
+test('DNS evidence preserves bounded CNAME routing without making CNAME absence a failure', () => {
+  assert.match(scriptSource, /DNS_CNAME_MAX_HOPS = 8/);
+  assert.match(scriptSource, /CNAME loop detected/);
+  assert.match(scriptSource, /CNAME chain exceeded/);
+  assert.match(scriptSource, /error\?\.code === 'ENODATA'/);
+  assert.match(scriptSource, /error\?\.code === 'ENOTFOUND'/);
+  assert.match(scriptSource, /cname,/);
+  assert.match(scriptSource, /ok: addresses\.length > 0/);
+  assert.doesNotMatch(scriptSource, /ok: addresses\.length > 0 && cname\.ok/);
 });
 
 test('transport diagnostic preserves nested network error causes without exposing secrets', () => {
