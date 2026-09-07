@@ -5,14 +5,26 @@
 Canonical source is `main@6ed3e09b524b2bf86ef3372f517da6cfa627387e`, the verified merge of PR #773.
 PR #773 landed read-only failed-SHA transport diagnostics that preserve a bounded CNAME
 chain alongside final DNS addresses; the exact PR head passed canonical CI before merge.
-The post-merge main CI run `34116347054` was still executing at the latest repository
-checkpoint, so do not infer its final production lanes from the PR result.
 
-The most recent retained production transport evidence localizes the first observable
+Post-merge main CI run `34116347054` is complete:
+
+- `build-and-test`: **SUCCESS**;
+- `browser-local-accessibility`: **SUCCESS**;
+- `browser-production`: **FAILURE**;
+- `smoke-production`: **FAILURE**.
+
+The failed-main transport workflow `34116777521` then completed **SUCCESS** as an evidence
+workflow and retained artifact `10016567327`
+(`sha256:fe66adaa3d69065c3500fad70ae53fcfe58c9c0b8ee711474483b68a7fdcb49f`) against that
+same exact source SHA.
+
+Fresh retained transport evidence at `2026-09-07T11:28:23Z` localizes the first observable
 live break after DNS and TCP but before application HTTP semantics:
 
-- `www.vertexed.app` resolves to `104.219.250.37` and `2.59.170.20`;
-- TCP/443 is reachable;
+- DNS succeeds;
+- `www.vertexed.app` has **no CNAME chain** and terminates directly at A records
+  `2.59.170.20` and `104.219.250.37`;
+- TCP/443 succeeds;
 - authenticated TLS fails with `ECONNRESET` before a secure session is established;
 - HTTPS fails at the same pre-handshake boundary;
 - the final A destinations are announced by Namecheap and Worldstream rather than Vercel.
