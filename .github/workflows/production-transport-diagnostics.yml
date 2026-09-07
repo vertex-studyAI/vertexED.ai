@@ -1,0 +1,79 @@
+name: Production Transport Diagnostics
+
+on:
+  workflow_run:
+    workflows:
+      - CI
+      - Production Health Monitor
+    types:
+      - completed
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: production-transport-diagnostics-${{ github.event.workflow_run.id || github.run_id }}
+  cancel-in-progress: false
+
+jobs:
+  diagnose:
+    if: >-
+      ${{
+        github.event_name == 'workflow_dispatch' ||
+        (github.event.workflow_run.head_branch == 'main' && github.event.workflow_run.conclusion == 'failure')
+      }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 4
+
+    steps:
+      - name: Checkout exact failed source
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+          persist-credentials: false
+          fetch-depth: 1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: '22'
+
+      - name: Capture DNS, TCP, TLS, and HTTPS evidence
+        env:
+          TRANSPORT_DIAGNOSTIC_URL: https://www.vertexed.app
+          TRANSPORT_DIAGNOSTIC_TIMEOUT_MS: '10000'
+          TRANSPORT_DIAGNOSTIC_OUTPUT: artifacts/production-transport/transport.json
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/production-transport
+          {
+            echo "trigger_workflow=${{ github.event.workflow_run.name || 'manual' }}"
+            echo "trigger_run_id=${{ github.event.workflow_run.id || github.run_id }}"
+            echo "trigger_conclusion=${{ github.event.workflow_run.conclusion || 'manual' }}"
+            echo "trigger_head_sha=${{ github.event.workflow_run.head_sha || github.sha }}"
+          } > artifacts/production-transport/context.txt
+          node scripts/diagnose-production-transport.mjs \
+            | tee artifacts/production-transport/transport.log
+
+      - name: Summarize retained diagnostic
+        if: always()
+        run: |
+          {
+            echo '# VertexED production transport diagnostic'
+            echo
+            echo "- Trigger workflow: ${{ github.event.workflow_run.name || 'manual' }}"
+            echo "- Trigger conclusion: ${{ github.event.workflow_run.conclusion || 'manual' }}"
+            echo "- Exact source: ${{ github.event.workflow_run.head_sha || github.sha }}"
+            echo '- Layers captured: DNS lookup, TCP connect, authenticated TLS handshake, HTTPS `/api/health`.'
+            echo '- This workflow observes transport only; it does not deploy, mutate production, or weaken health/revision checks.'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload transport evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: vertexed-production-transport-${{ github.event.workflow_run.head_sha || github.sha }}-${{ github.run_id }}
+          path: artifacts/production-transport
+          if-no-files-found: error
+          retention-days: 14
