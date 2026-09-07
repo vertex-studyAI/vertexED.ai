@@ -1,0 +1,58 @@
+{
+  "T2424-0003": {
+    "state": "RESULT_FROZEN",
+    "headline_result": "Across 48 paired controlled salience-stress conditions, the APEN benefit weakens and can reverse under severe dropout; the correct scientific verdict is mixed rather than uniformly positive.",
+    "verdict": "MIXED",
+    "primary_metric": "paired salience-stress performance",
+    "notes": "Frozen ledger outcome; preserve the mixed result.",
+    "next_gate": "Recover exact artifacts/config identity and independently reproduce the headline stress result before preprint certification."
+  },
+  "T2424-0025": {
+    "state": "RESULT_FROZEN",
+    "headline_result": "The reproduced 30-seed screen shows weighted-median MAE 0.0165609423 versus 0.3615267855 for the weighted arithmetic mean under the heavy-tail condition (95.42% relative reduction). A 50-seed contamination sweep confirms broad robust-readout stability, but the 0% Cauchy control also favors robust readouts, so a uniquely non-Gaussian mechanism is not isolated.",
+    "verdict": "POSITIVE_ROBUSTNESS_MECHANISM_NOT_ISOLATED",
+    "primary_metric": "mean absolute retrieval error",
+    "notes": "Fresh local reproduction on 2026-08-12 matched checked-in values to machine precision; follow-up sweep is post-hoc mechanism analysis, not independent preregistration.",
+    "next_gate": "Complete current novelty audit, repository-conformant independent reproduction record, manuscript build, authorship/license/data review, and final paper QA."
+  },
+  "T2424-0027": {
+    "state": "RESULT_FROZEN",
+    "headline_result": "The deterministic 72-record synthetic audit passes 8/8 verifier checks. Retained normalized excess language-leakage reduction is 0.9583333333333334; this is controlled synthetic diagnostic evidence only.",
+    "verdict": "SYNTHETIC_AUDIT_PASS",
+    "primary_metric": "normalized excess language-leakage reduction",
+    "notes": "No Sapir-Whorf, cultural, translation, real-model, or external-validity claim is supported.",
+    "next_gate": "Independently reproduce the frozen generator/verifier and decide whether the bounded diagnostic is sufficiently novel for a standalone paper."
+  },
+  "T2424-0032": {
+    "state": "RESULT_FROZEN",
+    "headline_result": "On the primary real-market covariance target, raw/log ridge baselines remain stronger than the Eigen-JEPA approach; the correct verdict is mixed/negative.",
+    "verdict": "MIXED_NEGATIVE",
+    "primary_metric": "primary covariance target performance",
+    "notes": "Preserve the stronger simple baseline result.",
+    "next_gate": "Freeze a failure-analysis manuscript, recover exact market-data/version provenance, and independently reproduce before preprint certification."
+  },
+  "T2424-0037": {
+    "state": "RESULT_FROZEN",
+    "headline_result": "NeuroCAD component ablation v2 on the reused 20-case diagnostic gives current typed+validated M2 success 1.00, original direct B0 0.60, and direct+matched-validation B1 1.00. Matched validation recovers 100% of the original gap, yielding the frozen interpretation VALIDATION_DOMINANT and falsifying a typed-parser causal explanation on that reused diagnostic. Historical v1 remains 19/20 versus 12/20 with 12/12 valid cases producing non-empty STL.",
+    "verdict": "VALIDATION_DOMINANT_NEGATIVE_MECHANISM_RESULT",
+    "primary_metric": "paired executable geometry/invalid-rejection success",
+    "notes": "Canonical scientific evidence currently resides under T2424-0037 / NLP-to-CAD. T2424-0007 is a queue identity without a corresponding canonical project directory and must be resolved as lineage/alias rather than creating a duplicate paper.",
+    "next_gate": "Materialize the frozen S3 150-case successor benchmark, at least two contemporary external benchmark adapters, model/provider identity and matched baselines; create EXECUTION_AUTHORIZATION.json before any confirmatory evaluation."
+  },
+  "T2424-0050": {
+    "state": "RESULT_FROZEN",
+    "headline_result": "Fresh 2026-08-22 reproduction of the frozen 20-seed aligned synthetic Darcy screen matches retained metrics exactly: mean pressure MAE 0.0658913916 to 0.0011366559 (97.8766% relative reduction), flux relative error about 1.369e-16. A harder 300-case misaligned/correlated audit is mixed: mean improvements 63.8317%, 77.1634%, and 86.1675% at rho 0, 0.5, 0.9, with an explicit negative seed retained.",
+    "verdict": "REPRODUCED_BOUNDED_WITH_MIXED_HARDER_AUDIT",
+    "primary_metric": "pressure-profile MAE under bounded and harder 1D synthetic audits",
+    "notes": "The T2424-0050 canonical Darcy identity repair was already manually merged on 2026-08-12. Evidence grade remains B because broad learned-operator/OOD evidence is not yet executed.",
+    "next_gate": "Finish FNO/DeepONet implementation and pretraining freeze for v2, then execute only after every authorization blocker is resolved; independently reproduce and paperize whichever positive/negative result survives."
+  },
+  "T2424-1863": {
+    "state": "RESULT_FROZEN",
+    "headline_result": "The frozen synthetic screen failed its pre-specified >75% improvement gate, achieving 67.777%; the result is negative/inconclusive and must not be rescued by post-hoc threshold changes.",
+    "verdict": "NEGATIVE_REPRODUCED",
+    "primary_metric": "relative improvement against frozen gate",
+    "notes": "Negative result is a valid terminal scientific outcome.",
+    "next_gate": "Package the negative-result analysis and independent reproduction into a concise preprint without retuning."
+  }
+}

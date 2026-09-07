@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "required_run_fields": [
+    "project_id",
+    "experiment_id",
+    "commit_sha",
+    "protocol_hash",
+    "config_hash",
+    "environment_hash",
+    "dataset_version",
+    "seed_or_determinism_key",
+    "primary_metric",
+    "raw_artifact_paths",
+    "artifact_checksums",
+    "verdict"
+  ],
+  "forbidden_practices": [
+    "overwrite_failed_runs",
+    "change_frozen_threshold_after_observation",
+    "use_locked_confirmatory_data_to_rescue_hypothesis",
+    "mark_generated_placeholder_as_observed_result",
+    "drop_material_negative_result_from_claim_audit"
+  ]
+}

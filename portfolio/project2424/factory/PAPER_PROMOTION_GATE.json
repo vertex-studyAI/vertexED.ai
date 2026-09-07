@@ -1,0 +1,13 @@
+{
+  "promotion_order": [
+    "RESULT_FROZEN",
+    "SCIENTIFIC_QA_PASSED",
+    "REPRODUCED",
+    "FULL_DRAFT",
+    "CLAIM_AUDIT_PASSED",
+    "RELEASE_AUDIT_PASSED",
+    "PREPRINT_READY"
+  ],
+  "cannot_skip": true,
+  "missing_evidence_behavior": "FAIL_CLOSED"
+}

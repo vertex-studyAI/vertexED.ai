@@ -1,0 +1,134 @@
+\documentclass[10pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{microtype}
+\title{Resistance-Preserving Coarse Representations for One-Dimensional Darcy Flow: A Reproduced Synthetic Robustness Study}
+\author{Project 2424 Research Team\\\small Authorship metadata pending contributor review}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We evaluate a simple, explicit coarse representation for steady one-dimensional Darcy flow through heterogeneous positive permeability fields. The representation compresses 24 fine cells into six fixed blocks using harmonic-mean permeability, thereby preserving integrated block resistance. On a reproduced 20-seed block-structured synthetic screen, the coarse surrogate reduces mean pressure-profile MAE from 0.0658914 for a heterogeneity-blind linear-pressure baseline to 0.00113666, a 97.8766\% mean relative improvement, while preserving flux to numerical precision. Because the original generator is aligned with the coarse block scale, this result is a mechanism sanity check rather than evidence of competitive operator learning. A harder 300-case audit using misaligned/correlated fields and an arithmetic-mean block ablation provides more discriminating evidence: harmonic compression improves over the linear baseline by 63.83\%, 77.16\%, and 86.17\% at correlation parameters $\rho=0,0.5,0.9$, respectively, and beats arithmetic block averaging in 100/100, 99/100, and 96/100 cases. The harder audit also preserves a negative case where harmonic compression is worse than the linear baseline. We therefore support only a bounded claim about resistance-preserving coarse representations in controlled 1D settings. A separately frozen operator-learning/OOD protocol with PCA+ridge, FNO, and DeepONet comparators has not yet been executed and is not used to strengthen the present result.
+\end{abstract}
+
+\section{Introduction}
+For steady Darcy flow in one spatial dimension with positive permeability $k(x)$, fixed boundary pressures, and no source term, flux is constant and pressure drop is determined by cumulative hydraulic resistance. This structure makes one-dimensional Darcy flow a useful setting for studying coarse representations whose inductive bias is explicitly tied to the governing equation.
+
+Project T2424-0050 asks whether a low-dimensional block representation that preserves resistance can approximate the fine-grid pressure profile better than a heterogeneity-blind baseline. The representation is not learned: each coarse block stores the harmonic mean permeability of its fine cells. Since the integrated resistance of a block is proportional to the mean of $1/k$, harmonic averaging preserves total block resistance exactly under the discrete model.
+
+The original screen reports a very large error reduction, but its synthetic generator is itself block-structured at the same scale as the surrogate. That alignment makes the experiment a favorable mechanism test and prevents a broad operator-learning interpretation. We therefore add a harder, reproducible audit with misaligned/correlated fields and an arithmetic-mean block ablation. The paper's contribution is the combination of (i) exact reproduction of the bounded screen, (ii) a more adversarial audit that retains failures, and (iii) an explicit claim boundary separating physical coarse-graining from learned neural operators.
+
+Neural operator methods such as Fourier Neural Operator (FNO) and DeepONet provide powerful learned baselines for PDE solution operators \cite{li2021fno,lu2021deeponet}. Those methods motivate the next-stage frozen protocol, but no FNO/DeepONet scientific outcome is included in the current paper because that protocol has not yet been executed.
+
+\section{Problem and Methods}
+\subsection{Discrete one-dimensional Darcy flow}
+Consider $x\in[0,1]$ with boundary pressures $p(0)=1$ and $p(1)=0$. On $N$ equal-width cells with permeability $k_i>0$ and $\Delta x=1/N$, the cell resistance is
+\begin{equation}
+r_i = \frac{\Delta x}{k_i}.
+\end{equation}
+The total resistance is $R=\sum_i r_i$, so the constant flux is
+\begin{equation}
+q = \frac{p(0)-p(1)}{R}.
+\end{equation}
+Interface pressures are recovered from cumulative resistance. The repository implementation uses this discrete resistance formulation as the reference solution.
+
+\subsection{Harmonic coarse representation}
+The primary bounded screen uses $N=24$ fine cells and $B=6$ equal coarse blocks, a $4\times$ compression in permeability representation. For a block containing $m$ equal-width fine cells, the stored coarse permeability is the harmonic mean
+\begin{equation}
+\bar{k}_H = \frac{m}{\sum_{j=1}^{m} 1/k_j}.
+\end{equation}
+Expanding each block's coarse value back across its cells preserves the block's integrated resistance by construction. The approximate pressure field is then obtained by applying the same discrete Darcy solver to the reconstructed permeability.
+
+The weak comparator is a linear pressure profile between the two fixed boundary values, which ignores heterogeneous resistance. The harder audit also includes arithmetic block averaging as a mechanism ablation.
+
+\subsection{Original bounded screen}
+The original experiment contains 20 deterministic heterogeneous fields. Before the screen, the following gates were declared: mean pressure-MAE improvement of at least 65\% versus the linear baseline, mean flux relative error at most 1\%, and an exact uniform-permeability control to tolerance $10^{-12}$. The block-structured generator is intentionally favorable to the six-block representation and is treated only as a mechanism sanity check.
+
+\subsection{Harder misaligned/correlated audit}
+The follow-up audit evaluates 100 deterministic synthetic fields for each $\rho\in\{0,0.5,0.9\}$, where $\rho$ controls correlation in log-permeability variation. It compares the linear profile, the harmonic-mean block representation, and an arithmetic-mean block ablation. Unlike the original screen, the fields are not constructed to align perfectly with the harmonic representation's easiest regime. The audit reports aggregate MAE improvement as well as counts of pairwise wins and explicit worst cases.
+
+\section{Reproducibility}
+The canonical identity repair for T2424-0050 was manually merged on 12 August 2026. A fresh reproduction on 22 August 2026 started from current repository main at revision \texttt{9cb6939711b82ef63c9bdd347863d74b71579d6f} and used Linux x64 with Node.js v22.16.0. The focused regression suite passed 6/6 tests. The primary commands are
+\begin{verbatim}
+node --test tests/project2424DarcyLatentOperator.test.mjs
+node portfolio/project2424/projects/T2424-0050/experiment/run.mjs
+node portfolio/project2424/projects/T2424-0050/experiment/audit-misaligned.mjs
+\end{verbatim}
+The reproduced bounded metrics match the retained machine-readable reference exactly. The harder audit is retained as \texttt{results/misaligned-audit.json}.
+
+\section{Results}
+\subsection{Reproduced bounded screen}
+Table~\ref{tab:bounded} reports the 20-seed reproduction.
+
+\begin{table}[h]
+\centering
+\caption{Reproduced bounded 1D block-structured screen.}
+\label{tab:bounded}
+\begin{tabular}{lr}
+\toprule
+Quantity & Reproduced value \\
+\midrule
+Seeds & 20 \\
+Fine cells / coarse blocks & 24 / 6 \\
+Compression ratio & $4\times$ \\
+Mean linear-baseline pressure MAE & 0.0658913916 \\
+Mean harmonic-surrogate pressure MAE & 0.0011366559 \\
+Mean relative improvement & 97.8766\% \\
+Mean flux relative error & $1.369\times10^{-16}$ \\
+Maximum harmonic-surrogate MAE & 0.0014613492 \\
+Uniform-control baseline MAE & $9.326\times10^{-17}$ \\
+Uniform-control harmonic MAE & 0 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+All three predeclared cheap-screen gates pass. The nearly exact flux behavior is expected from resistance preservation and should not be interpreted as learned generalization.
+
+\subsection{Harder audit}
+Table~\ref{tab:audit} summarizes the 300-case harder audit.
+
+\begin{table}[h]
+\centering
+\caption{Harder audit with 100 deterministic fields at each correlation setting.}
+\label{tab:audit}
+\begin{tabular}{rrrr}
+\toprule
+$\rho$ & Harmonic improvement vs linear & Harmonic $>$ linear & Harmonic $>$ arithmetic \\
+\midrule
+0.0 & 63.8317\% & 99/100 & 100/100 \\
+0.5 & 77.1634\% & 100/100 & 99/100 \\
+0.9 & 86.1675\% & 100/100 & 96/100 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The IID/misaligned $\rho=0$ condition is the most challenging of the three and does not reach the 65\% threshold used for the easier original screen, achieving 63.8317\% mean improvement. That original threshold was not preregistered for this new audit, so this is recorded as mixed robustness evidence rather than a retroactive failure of the earlier frozen experiment.
+
+The arithmetic ablation is informative: harmonic averaging has lower pressure MAE in every $\rho=0$ case, 99/100 cases at $\rho=0.5$, and 96/100 cases at $\rho=0.9$. This is consistent with the resistance-preservation rationale, while still leaving clear failure cases.
+
+\subsection{Preserved negative case}
+At $\rho=0$, seed 6 is a concrete counterexample to uniform superiority over the linear baseline: linear-profile MAE is 0.0269153 while harmonic MAE is 0.0296197, corresponding to a $-10.05\%$ relative ``improvement.'' The arithmetic representation is worse still at 0.0486254. Preserving this case is important because it demonstrates that the coarse harmonic representation is not pointwise dominant under misalignment.
+
+\section{Discussion}
+The original 97.88\% average reduction is real and reproducible, but its magnitude is largely explained by a favorable experimental design: the generator varies permeability in a way aligned with the coarse blocks, and harmonic averaging preserves each block's integrated resistance. The result should therefore be understood as validation of a physically motivated coarse representation rather than evidence of a general-purpose learned operator.
+
+The harder audit strengthens the mechanistic interpretation while substantially narrowing the headline. Harmonic averaging remains better than arithmetic averaging in nearly all cases and strongly improves on the linear baseline on average, but the advantage falls below the original easy-screen threshold in the $\rho=0$ condition and is not universal at the individual-case level. This is exactly the kind of boundary evidence that a mechanism study should preserve.
+
+A stronger scientific question is whether the explicit resistance-preserving surrogate offers an attractive accuracy--data--compute or OOD-degradation trade-off against learned operator baselines. FNO learns solution operators through Fourier-domain kernel parameterization and was originally evaluated on Darcy flow among other PDEs \cite{li2021fno}. DeepONet learns nonlinear operators using separate branch and trunk networks \cite{lu2021deeponet}. The repository contains a frozen v2 protocol with train/validation/test and five OOD groups, PCA+ridge, FNO, and DeepONet comparators. That protocol remains outcome-locked; it is not permissible to infer its results from the present 1D audits.
+
+\section{Limitations}
+The evidence is synthetic and one-dimensional. The primary result uses an aligned block-structured generator. The harder audit still uses generated 1D fields and does not establish performance on 2D/3D porous media, transient or multiphase flow, or experimental data. The candidate is an explicit coarse representation, not a neural latent model. No claim of novelty over numerical upscaling methods is made without a dedicated current-literature audit. The current paper also does not compare against FNO, DeepONet, PINNs, finite-volume model reduction, or other learned/numerical operator baselines.
+
+\section{Conclusion}
+An explicit harmonic-mean coarse representation is reproducibly accurate on a controlled one-dimensional Darcy screen and remains substantially stronger than a heterogeneity-blind linear baseline across a harder misaligned/correlated audit. Arithmetic averaging is generally worse, supporting the physical resistance-preservation rationale. At the same time, the harder audit lowers the apparent margin and contains a preserved counterexample, ruling out universal superiority. The defensible contribution is therefore a bounded coarse-representation mechanism study. Whether this representation has a useful learned-operator/OOD trade-off is a separate, frozen experiment that remains to be executed.
+
+\section*{Release Status}
+This is a full evidence-bounded manuscript draft, not yet a certified public preprint. Preprint promotion remains gated on a current novelty review, final artifact/checksum manifest, contributor/authorship and licensing review, independent paper review, and a clean reproducible PDF build. The separately frozen v2 learned-operator experiment must remain clearly segregated unless and until it is executed under its locked protocol.
+
+\bibliographystyle{plain}
+\bibliography{references}
+\end{document}

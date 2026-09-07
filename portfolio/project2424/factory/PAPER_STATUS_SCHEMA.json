@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "allowed_states": [
+    "NO_PAPER",
+    "OUTLINE_ONLY",
+    "THROUGH_METHODS",
+    "THROUGH_RESULTS",
+    "FULL_DRAFT",
+    "REPRODUCTION_PENDING",
+    "CLAIM_AUDIT_PENDING",
+    "PREPRINT_READY",
+    "PREPRINTED",
+    "MERGED_INTO_FAMILY_PAPER",
+    "TERMINATED_NO_PAPER"
+  ],
+  "required_for_preprint_ready": [
+    "identity_locked",
+    "novelty_review_complete",
+    "protocol_frozen",
+    "credible_baselines_present",
+    "raw_artifacts_preserved",
+    "exact_commit_recorded",
+    "independent_reproduction_passed",
+    "results_match_evidence",
+    "claim_audit_passed",
+    "limitations_complete",
+    "authorship_resolved",
+    "license_and_data_statements_resolved",
+    "pdf_build_green"
+  ]
+}
