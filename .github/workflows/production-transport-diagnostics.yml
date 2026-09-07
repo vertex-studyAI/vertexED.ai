@@ -65,7 +65,7 @@ jobs:
             echo "- Trigger workflow: ${{ github.event.workflow_run.name || 'manual' }}"
             echo "- Trigger conclusion: ${{ github.event.workflow_run.conclusion || 'manual' }}"
             echo "- Exact source: ${{ github.event.workflow_run.head_sha || github.sha }}"
-            echo '- Layers captured: DNS lookup, TCP connect, authenticated TLS handshake, HTTPS `/api/health`.'
+            echo '- Layers captured: DNS address lookup plus bounded CNAME chain, TCP connect, authenticated TLS handshake, HTTPS `/api/health`.'
             echo '- This workflow observes transport only; it does not deploy, mutate production, or weaken health/revision checks.'
           } >> "$GITHUB_STEP_SUMMARY"
 
