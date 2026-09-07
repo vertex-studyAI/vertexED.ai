@@ -1,0 +1,84 @@
+name: Multimodal Calibration Model Forward Scoring Kernel
+
+on:
+  pull_request:
+    paths:
+      - 'research/multimodal-calibration/model_forward_scoring.py'
+      - 'tests/test_multimodal_calibration_model_forward_scoring.py'
+      - '.github/workflows/multimodal-calibration-model-forward-scoring.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  synthetic-model-forward-scoring-kernel:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout exact PR head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+
+      - name: Setup Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12.8'
+          cache: 'pip'
+
+      - name: Install bounded CPU scoring runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip install --disable-pip-version-check 'numpy==2.3.2'
+          python -m pip install --disable-pip-version-check \
+            --index-url https://download.pytorch.org/whl/cpu \
+            'torch==2.8.0'
+          python -m pip check
+
+      - name: Run fail-closed scoring regressions
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m unittest -v tests/test_multimodal_calibration_model_forward_scoring.py
+
+      - name: Execute synthetic model-forward scoring kernel
+        shell: bash
+        run: |
+          set -euo pipefail
+          OUT="$RUNNER_TEMP/multimodal-calibration-model-forward-scoring.json"
+          python research/multimodal-calibration/model_forward_scoring.py \
+            --synthetic-preflight-output "$OUT" \
+            | tee "$RUNNER_TEMP/multimodal-calibration-model-forward-scoring.stdout.log"
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          receipt = json.loads(Path(os.environ['RUNNER_TEMP'], 'multimodal-calibration-model-forward-scoring.json').read_text())
+          assert receipt['status'] == 'SYNTHETIC_SCORING_KERNEL_FORWARD_PASS_FROZEN_MODEL_NOT_VALIDATED'
+          assert receipt['result']['predicted_label'] == 'B'
+          assert receipt['result']['continuation_token_counts'] == [1, 1, 1, 1]
+          assert receipt['evaluation_data_accessed'] is False
+          assert receipt['frozen_model_weights_loaded'] is False
+          assert receipt['frozen_model_forward_executed'] is False
+          assert receipt['scoring_kernel_forward_executed'] is True
+          assert receipt['option_scorer_validated_against_frozen_model'] is False
+          assert receipt['execution_authorized'] is False
+          assert receipt['runtime']['torch'] == '2.8.0+cpu'
+          PY
+          sha256sum "$OUT" research/multimodal-calibration/model_forward_scoring.py \
+            | tee "$RUNNER_TEMP/multimodal-calibration-model-forward-scoring.sha256"
+
+      - name: Upload pre-outcome scoring-kernel evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: multimodal-calibration-model-forward-scoring-${{ github.event.pull_request.head.sha }}
+          path: |
+            ${{ runner.temp }}/multimodal-calibration-model-forward-scoring.json
+            ${{ runner.temp }}/multimodal-calibration-model-forward-scoring.sha256
+            ${{ runner.temp }}/multimodal-calibration-model-forward-scoring.stdout.log
+          if-no-files-found: warn
+          retention-days: 30

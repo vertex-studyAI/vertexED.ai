@@ -1,0 +1,104 @@
+name: Multimodal Calibration Runtime Source Preflight
+
+on:
+  pull_request:
+    paths:
+      - 'research/multimodal-calibration/**'
+      - 'tests/test_multimodal_calibration_runtime_source_preflight.py'
+      - '.github/workflows/multimodal-calibration-runtime-source-preflight.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  frozen-model-tokenizer-preflight:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout exact PR head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+
+      - name: Setup Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.22.0'
+
+      - name: Setup Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12.8'
+          cache: 'pip'
+
+      - name: Run offline preflight regression tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m unittest -v tests/test_multimodal_calibration_runtime_source_preflight.py
+
+      - name: Install bounded source-preflight dependencies
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip install --disable-pip-version-check \
+            'transformers==4.57.1' \
+            'tokenizers==0.22.1' \
+            'huggingface-hub==0.35.3'
+          python -m pip check
+
+      - name: Render synthetic prompt through the frozen repository template
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --input-type=module > "$RUNNER_TEMP/multimodal-calibration-preflight-prompt.txt" <<'NODE'
+          import { renderScienceQaPrompt } from './research/multimodal-calibration/prompt-template.mjs';
+          process.stdout.write(renderScienceQaPrompt({
+            question: 'Which synthetic option is selected for runtime source preflight?',
+            hint: 'This fixture is not a ScienceQA evaluation record.',
+            choices: ['Alpha', 'Beta', 'Gamma', 'Delta']
+          }));
+          NODE
+
+      - name: Verify exact frozen model source and tokenizer boundary behavior
+        shell: bash
+        env:
+          HF_HUB_DISABLE_TELEMETRY: '1'
+          TRANSFORMERS_OFFLINE: '0'
+        run: |
+          set -euo pipefail
+          OUT="$RUNNER_TEMP/multimodal-calibration-runtime-source-preflight.json"
+          python research/multimodal-calibration/runtime-source-preflight.py \
+            --prompt-file "$RUNNER_TEMP/multimodal-calibration-preflight-prompt.txt" \
+            --output "$OUT"
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          receipt = json.loads(Path(os.environ['RUNNER_TEMP'], 'multimodal-calibration-runtime-source-preflight.json').read_text())
+          assert receipt['status'] == 'PROCESSOR_TOKENIZER_SOURCE_PREFLIGHT_PASS_MODEL_FORWARD_NOT_VALIDATED'
+          assert receipt['model']['id'] == 'Qwen/Qwen2.5-VL-3B-Instruct'
+          assert receipt['model']['revision'] == '243fd99abe513d2a02a98274ea34c07e8f961b0f'
+          assert receipt['evaluation_data_accessed'] is False
+          assert receipt['model_weights_downloaded_by_preflight'] is False
+          assert receipt['model_forward_executed'] is False
+          assert receipt['option_scorer_validated_against_model'] is False
+          assert receipt['execution_authorized'] is False
+          assert [row['continuation'] for row in receipt['option_label_tokenization']] == ['A', 'B', 'C', 'D']
+          assert len({row['context_token_ids_sha256'] for row in receipt['option_label_tokenization']}) == 1
+          PY
+          sha256sum "$OUT" "$RUNNER_TEMP/multimodal-calibration-preflight-prompt.txt" \
+            | tee "$RUNNER_TEMP/multimodal-calibration-runtime-source-preflight.sha256"
+
+      - name: Upload pre-outcome source-preflight evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: multimodal-calibration-runtime-source-preflight-${{ github.event.pull_request.head.sha }}
+          path: |
+            ${{ runner.temp }}/multimodal-calibration-runtime-source-preflight.json
+            ${{ runner.temp }}/multimodal-calibration-runtime-source-preflight.sha256
+            ${{ runner.temp }}/multimodal-calibration-preflight-prompt.txt
+          if-no-files-found: error
+          retention-days: 30
