@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "project": "T2424-0037",
+  "scope": "evidence-derived manuscript table values only",
+  "sources": [
+    "EVIDENCE.md",
+    "CLAIM_AUDIT_20260829.md",
+    "PREPRINT_READINESS_20260829.md",
+    "NEUROCAD_COMPONENT_ABLATION_RESULT_20260814.md"
+  ],
+  "historical_v1": {
+    "benchmark_n": 20,
+    "typed_validated_pass": 19,
+    "typed_validated_accuracy": 0.95,
+    "original_direct_pass": 12,
+    "original_direct_accuracy": 0.60,
+    "valid_openscad_cases": 12,
+    "nonempty_stl_cases": 12,
+    "retained_failure_id": "O018"
+  },
+  "matched_validation_diagnostic": {
+    "case_set": "reused_20_case_component_diagnostic",
+    "typed_validated_accuracy": 1.00,
+    "direct_matched_validation_accuracy": 1.00,
+    "original_direct_accuracy": 0.60,
+    "validation_recovery_fraction": 1.00,
+    "verdict": "VALIDATION_DOMINANT"
+  },
+  "mechanism_evidence": {
+    "source_protocol_commit": "2cd90f30b4299acf52b110b8a5bc5784fa9fc8b8",
+    "workflow_run": 31777954088,
+    "artifact_id": 9210587354,
+    "artifact_sha256": "b05facbec0ef17b81d618e604ffa120a1f75ba3ae9579bcd1b4d7b9500985d5c",
+    "node": "v22.23.1",
+    "npm": "10.9.8",
+    "kernel": "6.17.0-1020-azure"
+  },
+  "claim_boundary": {
+    "typed_parser_specific_causality": "FALSIFIED_ON_REUSED_DIAGNOSTIC",
+    "historical_system_result": "SUPPORTED_BOUNDED",
+    "ood_generalization": "UNSUPPORTED",
+    "contemporary_superiority": "UNSUPPORTED",
+    "manufacturing_correctness": "UNSUPPORTED",
+    "external_validation": "UNSUPPORTED"
+  }
+}

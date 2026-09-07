@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "project": "T2424-0037",
+  "scientific_status": "VALIDATION_DOMINANT_TYPED_PARSER_CAUSALITY_FALSIFIED_ON_REUSED_DIAGNOSTIC",
+  "preprint_ready": false,
+  "generated_by": "scripts/generate-neurocad-release-manifest.mjs",
+  "generated_artifacts": {
+    "dist/t2424-0037-paper/T2424-0037-NeuroCAD-bounded-result.pdf": {
+      "bytes": 89197,
+      "sha256": "1108c9f78eaf078b84a0e73f5dbeb0ff8734f363b84956c6eaa3f5d401209e04",
+      "workflow_run": 33355893567,
+      "artifact_id": 9745116157,
+      "artifact_archive_sha256": "3f91345ace7bc5999e38e41a1550babccb6dc4309d7fc10ebefedb5b15cb3c4f",
+      "permanent_archive": false
+    }
+  },
+  "artifacts": {
+    "portfolio/project2424/NEUROCAD_IDENTITY_ACCOUNTING_20260829.md": {
+      "bytes": 2023,
+      "sha256": "8fac0145f648bbeb3dc6ca9c68da993d8fbb05c80ee18c4191af0f0f433773a6"
+    },
+    "portfolio/project2424/projects/T2424-0037/CLAIM_AUDIT_20260829.md": {
+      "bytes": 5436,
+      "sha256": "e330c8c27c74835556585b5331a80f0c39a8c704347382940f451900ef668d2b"
+    },
+    "portfolio/project2424/projects/T2424-0037/EVIDENCE.md": {
+      "bytes": 5958,
+      "sha256": "c87e29b800d50420dbcf47435c55e487eb507abd87e1ac59123d9356bb4f877d"
+    },
+    "portfolio/project2424/projects/T2424-0037/MANUSCRIPT.md": {
+      "bytes": 12877,
+      "sha256": "fd2e6c026c0f1ed146ed820b9d890bff743b2c45b3850eeca122c244d93a9ac5"
+    },
+    "portfolio/project2424/projects/T2424-0037/SENTENCE_CLAIM_AUDIT_20260831.md": {
+      "bytes": 5731,
+      "sha256": "b5065e4c9d0b61efd68281f9a39931d58e2825951aa4e3594c5aa49ecb95f069"
+    },
+    "portfolio/project2424/projects/T2424-0037/NEUROCAD_COMPONENT_ABLATION_PROTOCOL_20260814.md": {
+      "bytes": 4674,
+      "sha256": "a87a373442a0fef75846260f3ef82b3373dae5e8e56aac08f5ceeb3a9be96acb"
+    },
+    "portfolio/project2424/projects/T2424-0037/NEUROCAD_COMPONENT_ABLATION_RESULT_20260814.md": {
+      "bytes": 3107,
+      "sha256": "ed4e22cb6b2ea70432e7f541106563c953dc5cb94bbc591bc5613a822c46a232"
+    },
+    "portfolio/project2424/projects/T2424-0037/PREPRINT_READINESS_20260829.md": {
+      "bytes": 6631,
+      "sha256": "e74ca6cb3d48af933963c05e4893d0ba7366579fb7219b2197c9ee368d4c774a"
+    },
+    "portfolio/project2424/projects/T2424-0037/BIBLIOGRAPHY_AUDIT_20260831.md": {
+      "bytes": 5409,
+      "sha256": "ae4575246602bce8c3c6e22b2e7dd77efc8b95cac8c16dab17df29d3200de75a"
+    },
+    "portfolio/project2424/projects/T2424-0037/RELATED_WORK_AUDIT_20260829.md": {
+      "bytes": 5516,
+      "sha256": "16a719cc1b04a964e596743a27bbef203eb602c141d192c90d046242976a406a"
+    },
+    "portfolio/project2424/projects/T2424-0037/RELEASE_AUDIT_20260829.md": {
+      "bytes": 4597,
+      "sha256": "02ebb546f605792e53b44b31dd4cde508900d99acbd9998a91c3ed26d31b0c9e"
+    },
+    "portfolio/project2424/projects/T2424-0037/TABLE_DATA_20260829.json": {
+      "bytes": 1528,
+      "sha256": "fc919b20d8570e696303c025e5c6efa72d73b1ab95429a1bd5bda1cb85b9a38c"
+    }
+  }
+}
