@@ -55,7 +55,7 @@ Generated quiz artifacts identify their board, subject, source, generator/versio
 
 - Schema changes are append-only migrations under `supabase/migrations/`; production is never reset.
 - Existing `user_study_artifacts` rows remain readable. New payload fields are versioned and optional at the envelope boundary.
-- `20260902_artifact_idempotency.sql` adds a nullable key, so historical rows remain valid while new clients gain concurrency-safe retry semantics.
+- `20260903164601_artifact_idempotency.sql` adds a nullable key, so historical rows remain valid while new clients gain concurrency-safe retry semantics.
 - Shared legacy browser keys are not migrated across accounts. Account-scoped storage keys are resolved before reads.
 - Compatibility redirects may remain, but duplicate feature implementations must not acquire separate persistence or authorization rules.
 - Rollback means reverting application code and applying an explicit forward recovery migration; applied production migrations are not destructively removed.
