@@ -110,8 +110,9 @@ export default function PortalIntelligenceGrid({ intel, profile, stats }: Props)
                 : 'text-foreground'
           }`}
         >
-          {intel.revisionVelocity.delta > 0 ? '+' : ''}
-          {intel.revisionVelocity.delta}%
+          {intel.revisionVelocity.delta === null
+            ? 'No data'
+            : `${intel.revisionVelocity.delta > 0 ? '+' : ''}${intel.revisionVelocity.delta}%`}
         </p>
         <p className="text-xs text-muted-foreground mt-1 leading-relaxed">{intel.revisionVelocity.label}</p>
       </PortalWidget>
