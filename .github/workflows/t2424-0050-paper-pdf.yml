@@ -1,0 +1,60 @@
+name: T2424-0050 Darcy paper PDF
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "portfolio/project2424/projects/T2424-0050/**"
+      - "scripts/render-darcy-paper-pdf.mjs"
+      - "tests/t2424-0050-paper-pdf.test.mjs"
+      - ".github/workflows/t2424-0050-paper-pdf.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  render-and-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22.22.0"
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - name: Assert frozen scientific boundary
+        run: |
+          grep -q "NO-GO for \`PREPRINT_READY\`" portfolio/project2424/projects/T2424-0050/paper/MANUSCRIPT.md
+          grep -q "63.8317%" portfolio/project2424/projects/T2424-0050/paper/MANUSCRIPT.md
+          grep -q "seed 6 reverses the ordering" portfolio/project2424/projects/T2424-0050/paper/MANUSCRIPT.md
+          grep -q "not learned-operator" portfolio/project2424/projects/T2424-0050/paper/MANUSCRIPT.md
+      - name: Test deterministic renderer
+        run: node --test tests/t2424-0050-paper-pdf.test.mjs
+      - name: Render exact-head PDF
+        run: |
+          node scripts/render-darcy-paper-pdf.mjs \
+            portfolio/project2424/projects/T2424-0050/paper/MANUSCRIPT.md \
+            dist/t2424-0050-paper/T2424-0050-Darcy-bounded-mixed-result.pdf
+      - name: Verify deterministic PDF bytes
+        run: |
+          node scripts/render-darcy-paper-pdf.mjs \
+            portfolio/project2424/projects/T2424-0050/paper/MANUSCRIPT.md \
+            dist/t2424-0050-paper/rebuilt.pdf
+          cmp dist/t2424-0050-paper/T2424-0050-Darcy-bounded-mixed-result.pdf dist/t2424-0050-paper/rebuilt.pdf
+          rm dist/t2424-0050-paper/rebuilt.pdf
+      - name: Retain build provenance
+        env:
+          SOURCE_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
+          EXECUTED_REF: ${{ github.sha }}
+        run: |
+          sha256sum dist/t2424-0050-paper/T2424-0050-Darcy-bounded-mixed-result.pdf | tee dist/t2424-0050-paper/SHA256SUMS
+          node -e 'const fs=require("fs"); fs.writeFileSync("dist/t2424-0050-paper/build.json", JSON.stringify({source_head:process.env.SOURCE_HEAD, executed_ref:process.env.EXECUTED_REF, run:process.env.GITHUB_RUN_ID, protocol_change:false, scientific_verdict:"HOLD_MIXED_ROBUSTNESS", preprint_ready:false}, null, 2)+"\\n")'
+      - name: Upload rendered manuscript
+        uses: actions/upload-artifact@v4
+        with:
+          name: t2424-0050-darcy-rendered-paper
+          path: dist/t2424-0050-paper
+          if-no-files-found: error
+          retention-days: 30
