@@ -10,6 +10,7 @@ import { dirname } from 'node:path';
 const TARGET_URL = new URL(process.env.TRANSPORT_DIAGNOSTIC_URL || 'https://www.vertexed.app');
 const TIMEOUT_MS = Number(process.env.TRANSPORT_DIAGNOSTIC_TIMEOUT_MS || 10_000);
 const OUTPUT_PATH = process.env.TRANSPORT_DIAGNOSTIC_OUTPUT || '';
+const DNS_CNAME_MAX_HOPS = 8;
 
 function describeError(error) {
   const details = [];
@@ -59,15 +60,70 @@ function withSocketTimeout(socket, reject, label) {
   });
 }
 
+function isExpectedCnameAbsence(error) {
+  return error?.code === 'ENODATA' || error?.code === 'ENOTFOUND';
+}
+
+async function diagnoseCnameChain(hostname) {
+  const chain = [];
+  const seen = new Set([hostname]);
+  let current = hostname;
+
+  for (let hop = 0; hop < DNS_CNAME_MAX_HOPS; hop += 1) {
+    try {
+      const targets = await dns.resolveCname(current);
+      if (targets.length === 0) {
+        return { ok: true, chain, terminalName: current };
+      }
+
+      const next = targets[0];
+      chain.push({ from: current, to: next });
+
+      if (seen.has(next)) {
+        return {
+          ok: false,
+          chain,
+          terminalName: current,
+          error: `CNAME loop detected at ${next}`,
+        };
+      }
+
+      seen.add(next);
+      current = next;
+    } catch (error) {
+      if (isExpectedCnameAbsence(error)) {
+        return { ok: true, chain, terminalName: current };
+      }
+
+      return {
+        ok: false,
+        chain,
+        terminalName: current,
+        error: describeError(error),
+      };
+    }
+  }
+
+  return {
+    ok: false,
+    chain,
+    terminalName: current,
+    error: `CNAME chain exceeded ${DNS_CNAME_MAX_HOPS} hops`,
+  };
+}
+
 async function diagnoseDns(hostname) {
+  const cname = await diagnoseCnameChain(hostname);
+
   try {
     const addresses = await dns.lookup(hostname, { all: true });
     return {
       ok: addresses.length > 0,
       addresses: addresses.map(({ address, family }) => ({ address, family })),
+      cname,
     };
   } catch (error) {
-    return { ok: false, error: describeError(error) };
+    return { ok: false, error: describeError(error), cname };
   }
 }
 
