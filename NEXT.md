@@ -1,22 +1,51 @@
 # Next
 
-Grant `build-the-future-11` access to the canonical Vercel project owning
-`www.vertexed.app` (the connected `vertex-ed-ai` and `vertex-ai` contexts are both
-currently inaccessible) and its matching Supabase staging/production target. Inspect
-deployment IDs `dpl_7a7udZEiyCciSSXoZebqoMcMmngQ` and
-`dpl_9MFkY2LAAJUvzTrkw8daZxPVXhVr`, retain the first causal deployment error, make one
-intentional immutable deployment of runtime candidate
-`f53721f58d6979b98a893a26085e19fe050e4c10`, prove revision plus readiness in
-body/header/HEAD,
-then run and clean up two approved disposable identities through onboarding, artifact
-CRUD, logout/relogin persistence, OAuth/recovery where configured, and cross-account
-read/update/delete denials. Do not mark the release green before every assertion passes.
+## Current engineering release boundary
 
-Supply least-privilege Supabase CLI access through `SUPABASE_ACCESS_TOKEN` or an approved
-secret manager and identify the disposable staging/restore target out of band. Never
-commit or paste the token, database URL, service-role key, or learner data into this
-repository or its evidence files.
+Canonical source is `main@67f9a0b861fcac886a6f676202e1068281725723`, the verified merge of PR #771.
+Repository source/build and local keyboard accessibility are green on this SHA, while the
+live production browser and smoke lanes remain red.
 
-After production security certification, run the bounded learner study in
-`docs/PILOT_PROTOCOL.md`. Until participant pre/post/delayed-retention data exists,
-describe VertexED as pilot-ready and do not claim measured learning improvement.
+The exact failed-SHA transport diagnostic retained by workflow run `34106267097`
+localizes the first observable production break after DNS and TCP but before application
+HTTP semantics:
+
+- `www.vertexed.app` resolves successfully;
+- TCP/443 is reachable;
+- authenticated TLS fails with `ECONNRESET` before a secure session is established;
+- HTTPS fails at the same pre-handshake boundary.
+
+Both connected Vercel integrations also fail this exact source SHA:
+
+- `vertex-ed-ai` → `dpl_5YwjUzJZX4fe5YNpfLa4f7VVgQJn`;
+- `vertex-ai` → `dpl_CEyGKs3zzXzzZ8i24qketxrXPqWG`.
+
+Do not create a sentinel/no-op commit, weaken immutable revision/readiness checks, or
+rewrite unrelated product code to probe this failure.
+
+## Next engineering gates
+
+1. Prove which Vercel project intentionally owns the `www.vertexed.app` production alias
+   and which DNS record/target is authoritative.
+2. Inspect the first causal private deployment log for that canonical project without
+   copying secret values into repository evidence. Inspect the duplicate project only far
+   enough to determine whether it shares the same cause or should be detached.
+3. Compare the canonical project's required custom-domain DNS target with the published
+   DNS path and repair only a demonstrated mismatch.
+4. Make one deliberate immutable deployment of the selected current release SHA through
+   the canonical project.
+5. Require the same SHA to pass DNS/TLS, `/api/health` liveness, exact revision in body and
+   headers, `HEAD` health identity, dependency-aware readiness, production browser,
+   production smoke, and the scheduled Production Health monitor.
+6. Separately remediate the open Supabase platform security warnings tracked in #686
+   through authorized infrastructure controls; do not simulate them in application code
+   or perform an unattended database upgrade.
+7. After exact production identity is certified, run approved disposable-account auth/RLS
+   journeys. Never commit or paste access tokens, database URLs, service-role keys, or
+   learner data into this repository or evidence artifacts.
+
+## Scientific boundary
+
+Learner-study execution and interpretation remain outside engineering automation. Keep
+`docs/PILOT_PROTOCOL.md` frozen for the research workflow; until participant evidence
+exists, do not claim measured learning improvement.
