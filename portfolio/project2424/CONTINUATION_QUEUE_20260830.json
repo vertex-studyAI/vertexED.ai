@@ -1,0 +1,55 @@
+{
+  "project": "Project 2424",
+  "date": "2026-08-30",
+  "policy": "evidence_bounded_fail_closed",
+  "tasks": [
+    {
+      "priority": 1,
+      "id": "T2424-0027",
+      "action": "Audit the existing bounded manuscript/release package against canonical evidence and verify the separately authorized v3 real-encoder manifest has zero scientific-field drift before any outcome access.",
+      "forbidden": ["promote synthetic result to real multilingual evidence", "change frozen thresholds/seeds/dataset/model after outcome access"]
+    },
+    {
+      "priority": 2,
+      "id": "T2424-0025",
+      "action": "Close manuscript/release gates while preserving the zero-contamination control as a central mechanism-non-uniqueness limitation.",
+      "forbidden": ["claim uniquely heavy-tail mechanism", "claim Transformer or NGMT superiority"]
+    },
+    {
+      "priority": 3,
+      "id": "T2424-1863",
+      "action": "Close negative-result release metadata/PDF/claim-audit gates without altering the failed preregistered >75% criterion.",
+      "forbidden": ["rescue tuning", "hide failed gate", "invent missing per-seed figure data"]
+    },
+    {
+      "priority": 4,
+      "id": "T2424-0050",
+      "action": "Finish the bounded mixed-result manuscript and retain the rho=0 threshold miss and adverse seed as required evidence.",
+      "forbidden": ["claim learned-operator superiority", "claim 2D/3D or real-media validity"]
+    },
+    {
+      "priority": 5,
+      "id": "T2424-0037",
+      "action": "Paperize the validation-dominant mechanism falsification; keep S3 unexecuted until dataset/model identities and external benchmark adapters are frozen and authorized.",
+      "forbidden": ["revive typed-parser-specific causal claim", "relabel reused cases held-out/OOD"]
+    },
+    {
+      "priority": 6,
+      "id": "NGMT-v0.1",
+      "action": "Create a negative/inconclusive paper package from frozen B0-B3 evidence and exact replay records.",
+      "forbidden": ["retune failed effect thresholds", "present negative/inconclusive result as superiority"]
+    },
+    {
+      "priority": 7,
+      "id": "PORTFOLIO-FIRST-100",
+      "action": "Reconstruct exact canonical identities and evidence states, then move each to EXPERIMENT_READY or an honest terminal state.",
+      "forbidden": ["suffix-based P2424/T2424 identity inference", "placeholder manuscript inflation"]
+    },
+    {
+      "priority": 8,
+      "id": "PORTFOLIO-ALL-2424",
+      "action": "Populate the readiness table only from canonical evidence; unresolved rows stay UNKNOWN/BLOCKED/NOT_RUN as appropriate.",
+      "forbidden": ["estimated counts", "optimistic inferred fields", "fabricated novelty or venue fit"]
+    }
+  ]
+}

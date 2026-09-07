@@ -1,0 +1,17 @@
+{
+  "venue": "ICLR 2027",
+  "abstract_deadline": "2026-09-18 AoE",
+  "paper_deadline": "2026-09-25 AoE",
+  "max_simultaneous_project2424_allocations": 3,
+  "allocation_requires": [
+    "current_primary_literature_audit",
+    "dangerous_baseline_closure",
+    "exact_retained_evidence",
+    "reproduction_or_explicit_limitation",
+    "complete_manuscript",
+    "claim_evidence_matrix",
+    "authorship_license_release_metadata",
+    "clean_pdf_visual_audit",
+    "reviewer_demand_closure"
+  ]
+}
