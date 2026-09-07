@@ -8,6 +8,9 @@ name: Research Reproducibility Wave 2026-08-12
 # 2026-08-13 hardening: fail closed through tee pipelines and retain per-command
 # wall timings. Scientific implementations, fixtures, seeds, metrics and gates
 # are unchanged.
+# 2026-08-29 pending-wave expansion: add the source-backed NPMS recovery validator
+# and T2424-1767 resource-bounded MoE smoke benchmark. This does not authorize a
+# successor study or upgrade either package beyond its existing claim boundary.
 on:
   workflow_dispatch:
   push:
@@ -51,6 +54,15 @@ jobs:
             echo "cpu_count=$(getconf _NPROCESSORS_ONLN)"
             echo "started_utc=$(date -u +%Y-%m-%dT%H:%M:%SZ)"
           } | tee reproducibility-wave/environment.txt
+
+      - name: T2424-0019 recovered NPMS evidence validator
+        run: |
+          set -euo pipefail
+          /usr/bin/time -p -o reproducibility-wave/timing/T2424-0019-recovery.time \
+            node portfolio/project2424/projects/T2424-0019/experiment/validate_recovery.mjs \
+            | tee reproducibility-wave/raw/T2424-0019-recovery-validation.json
+          sha256sum portfolio/project2424/projects/T2424-0019/evidence/recovered_experiment_report.json \
+            | tee reproducibility-wave/raw/T2424-0019-recovered-report.sha256
 
       - name: T2424-0025 frozen screen
         run: |
@@ -183,6 +195,17 @@ jobs:
             | tee reproducibility-wave/raw/T2424-0054-results.json
           node --test tests/theoryManifoldExperimentPlanner.test.mjs \
             | tee reproducibility-wave/T2424-0054-tests.log
+
+      - name: T2424-1767 resource-bounded MoE smoke benchmark
+        run: |
+          set -euo pipefail
+          /usr/bin/time -p -o reproducibility-wave/timing/T2424-1767.time \
+            node portfolio/project2424/projects/T2424-1767/experiment/syntheticBenchmark.mjs \
+            | tee reproducibility-wave/raw/T2424-1767-results.json
+          node --test tests/project2424T1767ResourceBoundedMoe.test.mjs \
+            | tee reproducibility-wave/T2424-1767-tests.log
+          sha256sum reproducibility-wave/raw/T2424-1767-results.json \
+            | tee reproducibility-wave/raw/T2424-1767-results.sha256
 
       - name: T2424-1768 self-verifying MoE synthetic screen
         run: |
