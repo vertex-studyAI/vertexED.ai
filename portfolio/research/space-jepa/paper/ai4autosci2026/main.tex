@@ -1,0 +1,109 @@
+\documentclass[conference]{IEEEtran}
+
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{microtype}
+
+\title{Space-JEPA: Predictive Latent State Learning for Scientific Instrument Telemetry Anomaly Detection}
+
+\author{\IEEEauthorblockN{Anonymous Authors}}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Scientific instruments generate multivariate telemetry whose nominal dynamics can be highly structured while labeled failures remain sparse. We study whether joint-embedding predictive learning can provide a useful label-free predictive state for spacecraft telemetry anomaly detection. Space-JEPA trains an online encoder to predict future target-encoder latents from past telemetry windows, fits normalization and anomaly thresholds using training telemetry only, and evaluates against fixed simple comparators under the official ESA Anomaly Detection Benchmark evaluation path. The study is governed by a pre-outcome protocol that fixes the data boundary, seed set, threshold rule, baselines, retained artifacts, and negative-result policy before held-out labels are opened. A secondary predeclared channel-aware decoder exposes per-channel residual surfaces without anomaly-label fitting. This manuscript is currently a pre-outcome shell: quantitative claims are intentionally withheld until the frozen evaluation is independently authorized and all retained outcomes are available.
+\end{abstract}
+
+\section{Introduction}
+Modern experimental and observational systems produce dense telemetry streams while failures, rare events, and labeled anomalies are comparatively scarce. This creates a useful test bed for self-supervised predictive representation learning: a model may learn regularities in nominal system evolution without requiring anomaly labels during representation training.
+
+Space-JEPA asks a deliberately narrow question: \emph{does future-latent prediction improve leakage-controlled spacecraft telemetry anomaly detection relative to fixed baselines without anomaly labels during representation training or threshold fitting?}
+
+The paper is designed around three principles. First, the scientific comparison is frozen before held-out outcomes are inspected. Second, the benchmark and artifact path is fail-closed: training statistics, thresholds, code identity, data identity, checkpoints, raw predictions, and metrics must be retained. Third, null and adverse results are first-class outcomes; the method or claim is not changed after observing the confirmatory result.
+
+The intended contributions are:
+\begin{itemize}
+    \item a JEPA-style predictive latent-state model for multivariate spacecraft telemetry;
+    \item a leakage-controlled evaluation protocol with label-free representation training and threshold fitting;
+    \item fixed robust-deviation and persistence comparators plus the official benchmark evaluation path;
+    \item a secondary predeclared channel-resolved residual head compatible with channel-aware failure evaluation; and
+    \item an auditable evidence package binding every retained outcome to source, configuration, dataset identities, thresholds, and raw artifacts.
+\end{itemize}
+
+\section{Problem Setting}
+Let $x_t \in \mathbb{R}^d$ denote a multivariate telemetry vector at time $t$. A context window $X_{t-c+1:t}$ is mapped by an online encoder $f_\theta$ to a latent state. A predictor $g_\phi$ uses that state to predict a representation of a future target window $X_{t+1:t+h}$. The target representation is produced by an exponential-moving-average encoder $f_{\bar\theta}$.
+
+The representation is trained without anomaly labels. At evaluation time, prediction error is aligned back to telemetry timesteps by averaging contributions from overlapping future windows. A threshold is fitted from valid training-prefix scores only.
+
+\section{Method}
+\subsection{Predictive latent objective}
+For context window $C$ and future target window $T$, Space-JEPA minimizes a latent prediction objective
+\begin{equation}
+\mathcal{L}_{\mathrm{pred}} = 1 - \cos\left(g_\phi(f_\theta(C)),\;\mathrm{sg}[f_{\bar\theta}(T)]\right),
+\end{equation}
+augmented by the frozen anti-collapse variance term used by the implementation. Here $\mathrm{sg}$ denotes stop-gradient, and the target encoder parameters are updated by exponential moving average rather than direct gradient descent.
+
+\subsection{Train-only preprocessing}
+Robust location and scale statistics are fitted on the training partition only. No test telemetry, anomaly labels, anomaly types, or held-out metric outputs may influence scaling, representation training, threshold fitting, hyperparameter selection, or early stopping.
+
+\subsection{Global anomaly score}
+The primary Space-JEPA score is future-target latent prediction error aligned to telemetry timesteps by averaging overlapping target-window errors. The frozen binary operating point uses the 0.995 quantile of valid training-prefix scores. The exact threshold is retained with each run.
+
+\subsection{Fixed comparators}
+At minimum, the study retains a robust z-score comparator and a one-step persistence-error comparator under the same split and train-only transformation boundary. Official ESA benchmark methods may be added only where they can be executed under a matched, predeclared evaluation contract.
+
+\subsection{Secondary channel-aware probe}
+A secondary pre-outcome head fits a ridge decoder from predicted target latents to normalized telemetry targets using training windows only. Squared residuals are retained per telemetry channel, with one train-only 0.995 quantile threshold per channel. Ridge alpha, fitting stride, scoring stride, and batch size are frozen before held-out channel-aware evaluation. This surface is secondary and cannot replace the global primary comparison.
+
+\section{Experimental Protocol}
+\subsection{Benchmark}
+The primary benchmark is the official ESA Anomaly Detection Benchmark under its retained mission split and compatible official evaluation path. Exact data identities, preprocessing identities, and runtime information must be retained before a run is promoted to scientific evidence.
+
+\subsection{Frozen stochastic runs}
+The primary Space-JEPA stochastic seed set is
+\begin{equation}
+\{17, 29, 43, 71, 101\}.
+\end{equation}
+Every seed is reported. Seed substitution after outcome access is prohibited.
+
+\subsection{Ablations}
+The predeclared ablation family includes removal of the EMA target encoder, removal of the anti-collapse term, and bounded context/target-window length variations where compute permits. Ablations are not allowed to rescue a failed primary result.
+
+\subsection{Outcome-access boundary}
+An outcome-bearing run is retained only when it records the exact code revision, resolved configuration, dataset identity or hashes, preprocessing description, seed, hardware/runtime, raw score artifacts, metric artifacts, thresholds, checkpoint identity, and baseline outputs. Synthetic smoke runs are engineering evidence only.
+
+\section{Results}
+\textbf{RESULTS\_BLOCKED\_PRE\_OUTCOME.} No quantitative ESA result is inserted into this draft until independent pre-outcome review authorizes the frozen evaluation and the complete retained result package exists. When populated, this section must report all frozen seeds and all favorable, null, mixed, and adverse outcomes.
+
+\begin{table}[t]
+\centering
+\caption{Primary retained comparison. Values remain intentionally blank before authorized outcome access.}
+\begin{tabular}{lcc}
+\toprule
+Method & Official primary metric & Across-seed summary \\
+\midrule
+Space-JEPA & -- & -- \\
+Robust z-score & -- & deterministic/frozen \\
+Persistence & -- & deterministic/frozen \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Failure Analysis and Channel-Aware Evaluation}
+\textbf{CHANNEL\_RESULTS\_BLOCKED\_PRE\_OUTCOME.} If authorized, this section will report the frozen per-channel Space-JEPA, robust-z, and persistence surfaces under the pinned official ChannelAwareFScore adapter. A channel-resolved residual is not itself evidence of causal localization. Claims must be limited to the metric and artifacts actually retained.
+
+\section{Astronomy Extension}
+The repository contains a scientifically separate irregular-time astronomical light-curve track. It is not evidence for the ESA claim. Its first candidate benchmark, PLAsTiCC, is simulated and publicly unblinded; therefore it may be reported only within its independently frozen freshness and claim boundary. It cannot establish real-sky validation. The astronomy result is optional for this workshop manuscript and must be omitted rather than mixed with ESA evidence if its own gate remains unresolved.
+
+\section{Limitations}
+The primary benchmark is spacecraft telemetry rather than a physical laboratory instrument operated in closed loop. Anomaly detection does not by itself establish causal diagnosis, autonomous control, or failure mitigation. The channel-aware probe can expose localized residual structure but cannot establish causal channels without separate evidence. Threshold performance may depend on benchmark distribution and mission characteristics. Any PLAsTiCC extension is simulated and cannot be generalized to real-sky astronomy without a separately retained real-observation evaluation.
+
+\section{Reproducibility and Research Integrity}
+The implementation retains a pre-outcome protocol, fixed seeds and thresholds, fail-closed benchmark adapters, exact source/data checks, raw artifacts, and an explicit negative-result policy. The manuscript must be reconciled only from retained result packages. CI success, compilation, or synthetic smoke tests are never upgraded into scientific performance evidence.
+
+\section{Conclusion}
+We present a predeclared study of predictive latent-state learning for scientific-instrument telemetry. The scientific conclusion is intentionally deferred until the frozen ESA evaluation is executed and retained. The final manuscript will state the result supported by that evidence, including a null or adverse conclusion if that is what the benchmark shows.
+
+\end{document}
