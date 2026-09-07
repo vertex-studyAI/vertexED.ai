@@ -5,7 +5,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { LANDING_FEATURES } from "@/content/landing";
 
 const VERTEX_INTEREST_URL =
-  "https://tally.so/r/QKZByA?utm_source=vertexed.app&utm_medium=homepage&utm_campaign=school_research_contributor_interest";
+  "https://tally.so/r/D48vZq?utm_source=vertexed.app&utm_medium=homepage&utm_campaign=school_research_contributor_interest";
 
 const workflow = [
   { step: "01", title: "Plan the week", body: "Turn exams and deadlines into study blocks that fit the time you actually have." },
