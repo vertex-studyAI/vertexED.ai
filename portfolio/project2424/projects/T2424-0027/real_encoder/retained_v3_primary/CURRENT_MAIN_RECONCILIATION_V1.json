@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "project_id": "T2424-0027",
+  "protocol_id": "T2424-0027-REAL-ENCODER-GATE-v3",
+  "current_main_base": "f4dbbb4bc9d0942332b03b32d65e3e39f1052382",
+  "historical_result_pr": 580,
+  "historical_result_head": "2271e867200783c810ef94d8b9129d0b9f61dd9b",
+  "historical_paper_pr": 752,
+  "historical_paper_head": "20aae07f31ab0bd10627376db0cb69c07ad48852",
+  "reconciliation_kind": "RESULT_AND_MANUSCRIPT_BYTES_ONLY_NO_REEXECUTION",
+  "execution_authorized": false,
+  "outcome_reexecution_authorized": false,
+  "scientific_verdict": "FAIL_PREDECLARED_REAL_ENCODER_GATE",
+  "success_gate_passed": false,
+  "frozen_gate": {
+    "raw_language_accuracy_min": 0.75,
+    "effect_retention_min": 0.7,
+    "intent_drop_max": 0.02,
+    "specificity_margin_min": 0.15,
+    "required_seed_passes": 4,
+    "seed_count": 5,
+    "seeds": [2401, 2402, 2403, 2404, 2405]
+  },
+  "retained_evidence": {
+    "summary": {
+      "source_git_blob": "69041360382ac3ec978e8cf876e43a1930d77cbe",
+      "sha256": "a85d3dc88fa733a9317557308da190f470d5515da10d9725716846ee92a10999"
+    },
+    "verdict": {
+      "source_git_blob": "2ceb423ee5feda603b0c6b9b87c1973b0e7fd5ba",
+      "sha256": "657121323bef83cf9bbcd7f176259dd274b133e42bad05f276dfadc719b4a09e"
+    },
+    "per_seed_metrics": {
+      "source_git_blob": "dcf90ce703ee84bfdbd3412d8b72765976b9395e",
+      "sha256": "4fa50c475e02d3928753a4019f9c29eb964c033b12be6c448c24dd95eeacbae2"
+    },
+    "descriptive_uncertainty_source_git_blob": "be60d072c996800ad6ddda0da5fa84817e7c7b92",
+    "original_checksum_ledger_source_git_blob": "95641a1b076daa85f3f6cbb0ca27cff1e8cb010c"
+  },
+  "publication_surfaces": {
+    "result_source_git_blob": "b03ebc0831f42af149fc73281cf3a40dbf2e11fb",
+    "preprint_bridge_source_git_blob": "978df66c4121527a19b5c59ebfe2e6297e3c7fba",
+    "claim_matrix_source_git_blob": "1863060de4c324676042c15a99b9d07b26059ea5",
+    "manuscript_source_git_blob": "fc7c9a6e76229adde6c737cfe77814b013ed6290",
+    "related_work_source_git_blob": "ba1fc4c9b86168e8570595eb6ae1c78823c5f01e"
+  },
+  "integrity_boundaries": [
+    "No seed, split, threshold, dataset, encoder, control, or metric is changed by reconciliation.",
+    "No outcome is rerun, regenerated, or reinterpreted.",
+    "The post-outcome Student-t intervals remain descriptive only and cannot rescue the primary gate.",
+    "The 0/5 seed-pass result remains a primary failure against the frozen >=4/5 requirement.",
+    "Any successor scientific protocol must be a new preregistration and cannot alter the v3 verdict."
+  ]
+}

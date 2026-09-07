@@ -1,0 +1,62 @@
+name: T2424-0027 v3 Current-Main Reconciliation
+
+on:
+  pull_request:
+    paths:
+      - "portfolio/project2424/projects/T2424-0027/real_encoder/retained_v3_primary/**"
+      - "tests/t2424-0027-v3-current-main-reconciliation.test.mjs"
+      - ".github/workflows/t2424-0027-v3-current-main-reconciliation.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  evidence-reconciliation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout exact revision
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Bind checkout to triggering source SHA
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          printf 'source_sha=%s\n' "$GITHUB_SHA"
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Verify frozen result and manuscript reconciliation
+        run: node --test tests/t2424-0027-v3-current-main-reconciliation.test.mjs
+
+      - name: Retain reconciliation receipt
+        shell: bash
+        run: |
+          set -euo pipefail
+          out="/tmp/t2424-0027-v3-current-main-reconciliation"
+          mkdir -p "$out"
+          printf '%s\n' "$GITHUB_SHA" > "$out/SOURCE_SHA.txt"
+          sha256sum \
+            portfolio/project2424/projects/T2424-0027/real_encoder/retained_v3_primary/summary.json \
+            portfolio/project2424/projects/T2424-0027/real_encoder/retained_v3_primary/verdict.json \
+            portfolio/project2424/projects/T2424-0027/real_encoder/retained_v3_primary/per_seed_metrics.jsonl \
+            portfolio/project2424/projects/T2424-0027/real_encoder/retained_v3_primary/descriptive_uncertainty.json \
+            portfolio/project2424/projects/T2424-0027/real_encoder/retained_v3_primary/MANUSCRIPT_V3_NEGATIVE.md \
+            portfolio/project2424/projects/T2424-0027/real_encoder/retained_v3_primary/CURRENT_MAIN_RECONCILIATION_V1.json \
+            > "$out/SHA256SUMS_CURRENT_MAIN.txt"
+          cp portfolio/project2424/projects/T2424-0027/real_encoder/retained_v3_primary/CURRENT_MAIN_RECONCILIATION_V1.json "$out/"
+
+      - name: Upload reconciliation evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: t2424-0027-v3-current-main-${{ github.sha }}
+          path: /tmp/t2424-0027-v3-current-main-reconciliation
+          if-no-files-found: error
+          retention-days: 90
