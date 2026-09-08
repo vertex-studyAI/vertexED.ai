@@ -19,7 +19,7 @@ export type FloatingInsight = {
   body: string;
 };
 
-/** Flip cards — stat is an ordinal, not a survey claim. */
+/** Flip cards: stat is an ordinal, not a survey claim. */
 export const LANDING_PROBLEMS: LandingProblem[] = [
   {
     stat: "01",
@@ -49,11 +49,11 @@ export const LANDING_PROBLEMS: LandingProblem[] = [
   {
     stat: "06",
     title: "AI can finish the task without teaching it.",
-    text: "A polished answer is not useful if you cannot reproduce the reasoning yourself. VertexED is designed to show what earned marks, what lost them, and what to try next — so the student still does the thinking.",
+    text: "A polished answer is not useful if you cannot reproduce the reasoning yourself. VertexED is designed to show what earned marks, what lost them, and what to try next, so the student still does the thinking.",
   },
 ];
 
-/** Floating story cards — product philosophy, not unsupported outcome claims. */
+/** Floating story cards: product philosophy, not unsupported outcome claims. */
 export const FLOATING_INSIGHTS: FloatingInsight[] = [
   {
     label: "The idea",
@@ -84,7 +84,7 @@ export const LANDING_FEATURES: LandingFeature[] = [
     side: 'Build around the hours you really have, then send each task straight into the tool that helps you complete it.',
     loop: 'plan',
     href: '/planner',
-    outcome: 'Plan — know what deserves your next study block',
+    outcome: 'Plan: know what deserves your next study block',
   },
   {
     title: 'Study Zone',
@@ -92,7 +92,7 @@ export const LANDING_FEATURES: LandingFeature[] = [
     side: 'Timers, session tools, calculator access, habits, and logs stay together so the plan becomes actual study time.',
     loop: 'focus',
     href: '/study-zone',
-    outcome: 'Focus — turn scheduled time into completed work',
+    outcome: 'Focus: turn scheduled time into completed work',
   },
   {
     title: 'Paper Maker',
@@ -100,7 +100,7 @@ export const LANDING_FEATURES: LandingFeature[] = [
     side: 'Choose topics, marks, and question count, practise under time, then move the same attempt into review.',
     loop: 'practise',
     href: '/paper-maker',
-    outcome: 'Practise — rehearse the format, pacing, and command words',
+    outcome: 'Practise: rehearse the format, pacing, and command words',
   },
   {
     title: 'Answer Reviewer',
@@ -108,7 +108,7 @@ export const LANDING_FEATURES: LandingFeature[] = [
     side: 'Review typed work or an uploaded answer against rubric-style criteria, then turn the feedback into another attempt instead of a dead-end score.',
     loop: 'review',
     href: '/answer-reviewer',
-    outcome: 'Review — convert mistakes into a specific next action',
+    outcome: 'Review: convert mistakes into a specific next action',
   },
   {
     title: 'Notes · Flashcards · Quiz',
@@ -116,14 +116,14 @@ export const LANDING_FEATURES: LandingFeature[] = [
     side: 'Keep notes, cards, and quizzes connected so a topic can move from explanation to recall and back into practice.',
     loop: 'remember',
     href: '/notetaker',
-    outcome: 'Remember — revisit weak material before it disappears',
+    outcome: 'Remember: revisit weak material before it disappears',
   },
   {
     title: 'Apex',
-    desc: 'Use AI to question, explain, and stress-test your reasoning — not replace it.',
+    desc: 'Use AI to question, explain, and stress-test your reasoning without replacing it.',
     side: 'Ask for an explanation, test an argument, unpack a command term, or work through a gap before you try the question again.',
     loop: 'review',
     href: '/chatbot',
-    outcome: 'Support — get unstuck without handing over the thinking',
+    outcome: 'Support: get unstuck without handing over the thinking',
   },
 ];
