@@ -2,6 +2,7 @@
 import { PercyStore, executeBoundedTask } from './core.mjs';
 import { createVerifiedBackup } from './backup.mjs';
 import { JsonlLogger, redactSensitive } from './advanced.mjs';
+import { recoverInterruptedTasks } from './recovery.mjs';
 
 const args = process.argv.slice(2);
 const cmd = args.shift() ?? 'status';
@@ -65,8 +66,9 @@ try {
     store.setPaused(true);
     console.log('paused');
   } else if (cmd === 'resume') {
+    const recovery = recoverInterruptedTasks(store);
     store.setPaused(false);
-    console.log(JSON.stringify({ resumed: true, staleRecovered: store.resumeStale() }));
+    console.log(JSON.stringify({ resumed: true, ...recovery }));
   } else if (cmd === 'verify') {
     const taskId = take('--task-id');
     if (!taskId) throw new Error('--task-id required');
