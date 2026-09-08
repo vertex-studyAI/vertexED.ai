@@ -24,7 +24,12 @@ We evaluate whether the project-named Eigen-JEPA spectral representation improve
 \section{Question and Frozen Protocol}
 The study asks whether the tested spectral/eigen representation improves next-block covariance forecasting over direct statistical baselines on the frozen primary covariance-matrix mean-squared-error metric.
 
-The canonical retained evidence is \texttt{portfolio/research/eigen-jepa/RESULTS.md}, derived from source package \texttt{BU1LD\_Research\_Atlas\_Flagships\_v4\_FRESH\_2026-08-12.zip} with source SHA-256 \texttt{076f12750d6a8e6c298c17815224a79463bcad149d6cf1283900d98c6e394a2c}. The bundled study contains 14,895 Fama--French five-factor daily rows spanning 1963-07-01 through 2022-08-31. Non-overlapping 20-day covariance blocks are formed; four previous blocks provide context and the next block is the forecast target. Splits are chronological. The retained held-out test has $n=111$ blocks, and regularization is selected on the validation split under the frozen protocol.
+The canonical retained evidence is \texttt{portfolio/research/eigen-jepa/RESULTS.md}. It derives from the retained source identity below; these identifiers are provenance, not scientific results.
+
+\noindent{\scriptsize\ttfamily BU1LD\_Research\_Atlas\_Flagships\_v4\_FRESH\_2026-08-12.zip}\par
+\noindent{\tiny\ttfamily 076f12750d6a8e6c298c17815224a79463bcad149d6cf1283900d98c6e394a2c}\par
+
+The bundled study contains 14,895 Fama--French five-factor daily rows spanning 1963-07-01 through 2022-08-31. Non-overlapping 20-day covariance blocks are formed; four previous blocks provide context and the next block is the forecast target. Splits are chronological. The retained held-out test has $n=111$ blocks, and regularization is selected on the validation split under the frozen protocol.
 
 Compared methods are persistence, raw covariance ridge, log-covariance ridge, a Cholesky representation, and the Eigen-JEPA spectral/PCA log-space representation. Covariance-matrix MSE is the primary metric. Log-distance is secondary and descriptive where available. The study is judged on the frozen primary metric rather than a post-outcome alternative.
 
