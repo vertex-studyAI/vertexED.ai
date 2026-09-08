@@ -6,7 +6,7 @@ This document records the exact external benchmark seams used by Space-JEPA. It 
 
 Space-JEPA targets the official **European Space Agency Anomaly Detection Benchmark (ESA-ADB)** repository and its official Mission 1 / Mission 2 preprocessing. The benchmark's preprocessing scripts produce multivariate CSV files with `timestamp`, telemetry / telecommand feature columns, and one annotation column per feature named `is_anomaly_<channel>`.
 
-Those annotation columns are **never model inputs**. The ordinary evaluation adapter can separate telemetry from annotations for post-freeze diagnostics, while the pre-outcome channel-surface exporter is stricter: it reads only exact telemetry columns plus test timestamps and never parses the interleaved annotation columns.
+Those annotation columns are **never model inputs**. More strongly, the pre-outcome global runner and channel-surface exporter do not load held-out test annotation columns at all: they read only the exact frozen telemetry columns plus test timestamps. Label-backed repository diagnostics and official benchmark metrics belong to separate outcome-access-gated evaluation steps.
 
 ## Official channel presets
 
@@ -30,7 +30,7 @@ ESA-ADB can contain millions of timesteps. Space-JEPA slices context/target wind
 
 ## Primary global path
 
-`run_esa_adb.py` fits normalization, model parameters, and the global score threshold from training telemetry/scores only; warm-starts test scoring only from the final training context; preserves global robust-z and persistence comparators; and writes `predictions.csv`, `model.pt`, and `run.json` with dataset/config/provenance identities. Repository-native diagnostics are engineering checks, not official ESA-ADB results.
+`run_esa_adb.py` fits normalization, model parameters, and the global score threshold from training telemetry/scores only; warm-starts test scoring only from the final training context; preserves global robust-z and persistence comparators; and writes `predictions.csv`, `model.pt`, and `run.json` with dataset/config/provenance identities. Its test-data reader selects only the frozen telemetry columns plus timestamps, so the pre-outcome run cannot parse the interleaved held-out `is_anomaly_*` columns. The retained receipt records `test_annotation_columns_loaded: false` and `heldout_label_access: false`. Repository-native label-backed diagnostics are deliberately not computed in this runner; official ESA-ADB evaluation remains a separate gated step.
 
 ## Pre-outcome per-channel surfaces
 
@@ -95,4 +95,4 @@ Before any ESA-ADB result is promoted:
 
 ## Current limitation / next research head
 
-The channel-head, matched-comparator, upstream-semantics, and exact-adapter engineering gaps are now closed. The remaining pre-outcome blocker is **real benchmark metadata provenance**: independently freeze the exact SHA-256 identities of `labels.csv`, `anomaly_types.csv`, and `channels.csv`. Only after those identities are retained should the exact adapter be run for all frozen seeds. No official channel-aware benchmark outcome has been generated or inspected by this work.
+The global-run held-out-label guard, channel-head, matched-comparator, upstream-semantics, and exact-adapter engineering gaps are now closed. The remaining pre-outcome blocker is **real benchmark metadata provenance**: independently freeze the exact SHA-256 identities of `labels.csv`, `anomaly_types.csv`, and `channels.csv`, along with the exact retained train/test data-byte identities and runtime receipt required by the frozen primary study. Only after those identities are independently reviewed and scientific outcome access is explicitly authorized should any label-backed official adapter be run. No official ESA held-out benchmark outcome has been generated or inspected by this work.
