@@ -7,6 +7,7 @@ import {
 const DIALOG_MARKER = 'data-vertexed-notetaker-dialog';
 const CONTROL_MARKER = 'data-vertexed-notetaker-labelled';
 const STATUS_MARKER = 'data-vertexed-notetaker-status';
+const GENERATED_NOTES_MARKER = 'data-vertexed-generated-notes-region';
 
 function normalize(value) {
   return String(value || '').replace(/\s+/g, ' ').trim();
@@ -137,6 +138,16 @@ function markLiveRegions(root) {
   }
 }
 
+function labelGeneratedNotesRegion(root) {
+  for (const element of root.querySelectorAll('div')) {
+    if (element.getAttribute(GENERATED_NOTES_MARKER) === 'true') continue;
+    if (!element.classList?.contains('max-h-[28rem]') || !element.classList?.contains('overflow-auto')) continue;
+    element.setAttribute('role', 'region');
+    if (!hasAccessibleName(element)) element.setAttribute('aria-label', 'Generated study notes preview');
+    element.setAttribute(GENERATED_NOTES_MARKER, 'true');
+  }
+}
+
 function isStudyOverlay(overlay) {
   const text = normalize(overlay.textContent);
   return text.includes('Spaced Repetition · Study Mode') || (/Card \d+\/\d+/.test(text) && /Reveal|Previous|Next/.test(text));
@@ -211,6 +222,7 @@ export function applyNotetakerAccessibility(root) {
   labelControls(root);
   labelQuizGroups(root);
   markLiveRegions(root);
+  labelGeneratedNotesRegion(root);
 }
 
 export function installNotetakerAccessibility(root) {
