@@ -14,7 +14,7 @@ function runCli(args) {
   return result;
 }
 
-test('work-one emits a redacted durable JSONL audit trail', () => {
+test('work-one redacts secrets from its durable audit trail and console result', () => {
   const dir = mkdtempSync(join(tmpdir(), 'percy-cli-log-'));
   const db = join(dir, 'percy.sqlite');
   const log = join(dir, 'events.jsonl');
@@ -25,18 +25,22 @@ test('work-one emits a redacted durable JSONL audit trail', () => {
       'submit', '--db', db, '--kind', 'echo', '--payload',
       JSON.stringify({ message: 'hello', token: secret }),
     ]);
-    runCli([
+    const work = runCli([
       'work-one', '--db', db, '--log', log, '--worker-id', 'audit-worker',
       '--lease-ms', '30000', '--timeout-ms', '10000',
     ]);
 
     const raw = readFileSync(log, 'utf8').trim();
     const rows = raw.split('\n').map((line) => JSON.parse(line));
+    const output = JSON.parse(work.stdout.trim());
     assert.deepEqual(rows.map(({ event }) => event), ['task_claimed', 'task_started', 'task_complete']);
     assert.doesNotMatch(raw, new RegExp(secret));
+    assert.doesNotMatch(work.stdout, new RegExp(secret));
     assert.equal(rows[2].result.token, '[REDACTED]');
     assert.equal(rows[2].result.message, 'hello');
     assert.equal(rows[2].workerId, 'audit-worker');
+    assert.equal(output.result.token, '[REDACTED]');
+    assert.equal(output.result.message, 'hello');
   } finally {
     rmSync(dir, { recursive: true, force: true });
   }
