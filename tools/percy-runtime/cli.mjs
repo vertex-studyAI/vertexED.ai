@@ -118,12 +118,12 @@ try {
         if (!evidence) throw new Error('lost task ownership during evidence commit');
         if (!store.markVerifying(task.id, workerId, result)) throw new Error('lost task ownership before verification');
         if (!store.verifyComplete(task.id)) throw new Error('evidence gate rejected completion');
-        logger.write('task_complete', { workerId, taskId: task.id, kind: task.kind, result });
-        console.log(JSON.stringify({ workerId, taskId: task.id, status: 'COMPLETE', result }));
+        const logged = logger.write('task_complete', { workerId, taskId: task.id, kind: task.kind, result });
+        console.log(JSON.stringify({ workerId, taskId: task.id, status: 'COMPLETE', result: logged.result }));
       } catch (error) {
         const failed = store.fail(task.id, workerId, error);
         const taskStatus = store.get(task.id)?.status;
-        logger.write('task_failed', {
+        const logged = logger.write('task_failed', {
           workerId,
           taskId: task.id,
           kind: task.kind,
@@ -131,7 +131,7 @@ try {
           error: error instanceof Error ? error.message : String(error),
         });
         if (!failed && taskStatus !== 'VERIFYING') {
-          console.error(JSON.stringify({ workerId, taskId: task.id, status: taskStatus, error: error.message }));
+          console.error(JSON.stringify({ workerId, taskId: task.id, status: taskStatus, error: logged.error }));
         }
         process.exitCode = 1;
       } finally {
