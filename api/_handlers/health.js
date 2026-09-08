@@ -28,7 +28,7 @@ export function getDeploymentRevision(env = process.env, buildRevision = BUILD_R
 
 export function getReadinessSnapshot(env = process.env) {
   const hasSupabaseUrl = hasValue(env.SUPABASE_URL) || hasValue(env.VITE_SUPABASE_URL);
-  const hasSupabaseAnonKey = hasValue(env.SUPABASE_ANON_KEY) || hasValue(env.VITE_SUPABASE_ANON_KEY);
+  const hasSupabaseAnonKey = hasValue(env.SUPABASE_PUBLISHABLE_KEY) || hasValue(env.SUPABASE_ANON_KEY) || hasValue(env.VITE_SUPABASE_PUBLISHABLE_KEY) || hasValue(env.VITE_SUPABASE_ANON_KEY);
   const hasSupabaseServiceRole = hasValue(env.SUPABASE_SERVICE_ROLE_KEY) || hasValue(env.SUPABASE_SECRET_KEY);
   const hasOpenAi = hasValue(env.OPENAI_API_KEY) || hasValue(env.ChatbotKey);
   const hasGemini = hasValue(env.GEMINI_API_KEY);

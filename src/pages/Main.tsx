@@ -108,30 +108,47 @@ export default function Main() {
       </Helmet>
 
       <div className="dashboard-shell mx-auto w-full max-w-7xl space-y-7 pb-6">
-        <LiquidGlass as="section" variant="hero" className="dashboard-hero">
-          <span className="dashboard-orb dashboard-orb-one" aria-hidden />
-          <span className="dashboard-orb dashboard-orb-two" aria-hidden />
-          <span className="dashboard-grid-glow" aria-hidden />
+        <section className="desk-header">
+          <div className="desk-header-layout">
           <div className="dashboard-hero-copy">
             <p className="dashboard-kicker">{firstName ? `Welcome back, ${firstName}` : "Welcome back"}</p>
-            <h1>Make this study session count.</h1>
-            <p className="dashboard-hero-text">Pick one clear task. Plan it, work on it, practise it, or get help with it.</p>
+            <h1>Your study desk</h1>
+            <p className="dashboard-hero-text">Start with today&apos;s plan, or pick up a piece of saved work.</p>
             <div className="dashboard-hero-actions">
               <Link to="/exam-prep" className="dashboard-primary-action">
                 Open today&apos;s exam plan <ArrowRight className="h-4 w-4" aria-hidden />
               </Link>
-              <Link to="/study-guides" className="dashboard-secondary-action">Open MYP study guides</Link>
               <Link to="/planner" className="dashboard-secondary-action">Open planner</Link>
             </div>
           </div>
           <div className="dashboard-hero-stats" aria-label="Study summary">
             <div><span>Today</span><strong>{todayItems.length || "-"}</strong><small>{todayItems.length === 1 ? "next step" : "next steps"}</small></div>
             <div><span>Review</span><strong>{dueFlashcards + dueRetries || "-"}</strong><small>cards and retries due</small></div>
-            <div><span>Tools</span><strong>{CORE_TOOLS.length}</strong><small>clear workflows</small></div>
           </div>
-        </LiquidGlass>
+          </div>
+        </section>
 
         <ContinueSessionBanner />
+
+        <section className="desk-recent" aria-labelledby="recent-work-heading">
+          <div className="dashboard-section-heading">
+            <h2 id="recent-work-heading">Continue studying</h2>
+            <Link to="/user-settings" className="dashboard-due-link">All saved work <ArrowRight className="h-4 w-4" aria-hidden /></Link>
+          </div>
+          {recentArtifacts.length > 0 ? (
+            <SavedWorkList
+              items={recentArtifacts}
+              compact
+              variant="dashboard"
+              onChanged={() => void listStudyArtifactsDetailed().then(({ items }) => setRecentArtifacts(items.slice(0, 4)))}
+            />
+          ) : (
+            <div className="desk-first-session">
+              <div><h3>Start with something you&apos;re learning.</h3><p>Add your class notes to a notebook, or build a practice session. Your saved work will appear here.</p></div>
+              <Link to="/study-notebook" className="btn-glass">Open a notebook <ArrowRight className="h-4 w-4" aria-hidden /></Link>
+            </div>
+          )}
+        </section>
 
         <LearningCommandCenter
           retries={retries}
@@ -180,19 +197,17 @@ export default function Main() {
             )}
           </div>
 
-          <div className="dashboard-tool-grid">
-            {CORE_TOOLS.map((tool, index) => {
+          <div className="desk-tool-list">
+            {CORE_TOOLS.map((tool) => {
               const Icon = tool.icon;
               return (
-                <Link key={tool.title} to={tool.to} className={`dashboard-tool-link dashboard-tool-${index + 1}`}>
-                  <LiquidGlass as="article" variant="tile" className="dashboard-tool-card">
-                    <div className="dashboard-tool-icon"><Icon className="h-5 w-5" aria-hidden /></div>
-                    <div className="dashboard-tool-copy">
+                <Link key={tool.title} to={tool.to} className="desk-tool-row">
+                    <Icon className="h-5 w-5" aria-hidden />
+                    <div>
                       <h3>{tool.title}</h3>
                       <p>{tool.description}</p>
                     </div>
-                    <span className="dashboard-tool-cta">{tool.cta} <ArrowRight className="h-4 w-4" aria-hidden /></span>
-                  </LiquidGlass>
+                    <ArrowRight className="h-4 w-4" aria-hidden />
                 </Link>
               );
             })}
@@ -225,23 +240,6 @@ export default function Main() {
           </LiquidGlass>
         </section>
 
-        {recentArtifacts.length > 0 && (
-          <LiquidGlass as="section" variant="panel" className="dashboard-recent" aria-labelledby="recent-work-heading">
-            <div className="dashboard-section-heading">
-              <div>
-                <p className="dashboard-kicker">Saved work</p>
-                <h2 id="recent-work-heading">Pick up where you left off</h2>
-              </div>
-              <Link to="/user-settings" className="dashboard-due-link">View all <ArrowRight className="h-4 w-4" aria-hidden /></Link>
-            </div>
-            <SavedWorkList
-              items={recentArtifacts}
-              compact
-              variant="dashboard"
-              onChanged={() => void listStudyArtifactsDetailed().then(({ items }) => setRecentArtifacts(items.slice(0, 4)))}
-            />
-          </LiquidGlass>
-        )}
       </div>
     </>
   );

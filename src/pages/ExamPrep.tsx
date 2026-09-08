@@ -165,11 +165,11 @@ export default function ExamPrep() {
         <meta name="robots" content="noindex, follow" />
       </Helmet>
 
-      <main className="exam-prep-shell">
+      <div className="exam-prep-shell workbook-exam">
         <header className="exam-prep-hero">
           <div className="exam-prep-hero-copy">
             <p className="exam-prep-kicker"><Target className="h-4 w-4" aria-hidden /> Personal exam plan</p>
-            <h1>{phase.label}</h1>
+            <h1>Exam preparation</h1>
             <p>{phase.description}</p>
             <div className="exam-prep-meta" aria-label="Exam target">
               <span><CalendarClock className="h-4 w-4" aria-hidden /> {countdownCopy(days)}</span>
@@ -189,7 +189,7 @@ export default function ExamPrep() {
             <Settings2 className="h-5 w-5" aria-hidden />
             <div>
               <h2 id="exam-setup-title">Finish your exam setup</h2>
-              <p>Add your board, subjects, and exam date. Until then, this page can build a session, but it cannot time the preparation phases accurately.</p>
+              <p>Add your board, subjects, and exam date to tailor your plan. You can still start a practice session now.</p>
             </div>
             <Link to="/user-settings">Update profile <ArrowRight className="h-4 w-4" aria-hidden /></Link>
           </section>
@@ -200,7 +200,7 @@ export default function ExamPrep() {
             <section className="exam-prep-panel" aria-labelledby="mission-title">
               <div className="exam-prep-section-head">
                 <div>
-                  <p className="exam-prep-kicker"><Gauge className="h-4 w-4" aria-hidden /> Best next move</p>
+                  <p className="exam-prep-kicker"><Gauge className="h-4 w-4" aria-hidden /> Recommended next</p>
                   <h2 id="mission-title">{mission.title}</h2>
                 </div>
                 <Link to={missionRoute(mission, subject)} className="exam-prep-action">
@@ -209,7 +209,7 @@ export default function ExamPrep() {
               </div>
               <p className="exam-prep-supporting-copy">{mission.detail}</p>
               <p className="exam-prep-evidence-note">
-                This recommendation uses saved workflow signals only. It is not a predicted grade or an official assessment.
+                Based on your saved work. This is a study suggestion, not a predicted grade.
               </p>
             </section>
 
@@ -269,7 +269,7 @@ export default function ExamPrep() {
           <aside className="exam-prep-sidebar">
             <section className="exam-prep-panel" aria-labelledby="subject-title">
               <p className="exam-prep-kicker">Session subject</p>
-              <h2 id="subject-title">Choose one lane</h2>
+              <h2 id="subject-title">What are you studying?</h2>
               <div className="exam-prep-subjects">
                 {(subjects.length ? subjects : ['General preparation']).map((item) => (
                   <button
@@ -304,7 +304,7 @@ export default function ExamPrep() {
             </section>
           </aside>
         </div>
-      </main>
+      </div>
     </>
   );
 }

@@ -9,7 +9,6 @@ import RouteErrorBoundary from "@/components/RouteErrorBoundary";
 import { useIsAdmin } from "@/hooks/useIsAdmin";
 import CloudSaveBanner from "@/components/CloudSaveBanner";
 import ThemeToggle from "@/components/ThemeToggle";
-import AmbientBackground from "@/components/AmbientBackground";
 import PageLoader from "@/components/PageLoader";
 import { useStudySessionTracker } from "@/hooks/useStudySessionTracker";
 import { toast } from "@/hooks/use-toast";
@@ -115,7 +114,6 @@ export default function SiteLayout() {
         <meta name="theme-color" content={themeColor} />
       </Helmet>
 
-      <AmbientBackground />
 
       <BreadcrumbsJsonLd />
 
@@ -139,7 +137,7 @@ export default function SiteLayout() {
             </span>
           </Link>
 
-          <nav className="hidden md:flex items-center gap-2 text-sm font-medium">
+          <nav aria-label="Main navigation" className="hidden xl:flex items-center gap-1 text-sm font-medium">
             {navLinks.map((l) => (
               <Link
                 key={l.label}
@@ -188,7 +186,7 @@ export default function SiteLayout() {
             )}
           </nav>
 
-          <div className="flex md:hidden items-center gap-2 ml-auto">
+          <div className="flex xl:hidden items-center gap-2 ml-auto">
             <ThemeToggle compact />
             {!isAuthenticated && (
               <Link
@@ -231,7 +229,7 @@ export default function SiteLayout() {
 
         <div
           aria-hidden={!menuOpen}
-          className={`md:hidden overflow-hidden transition-[max-height,opacity] duration-300 border-t border-border/60 ${
+          className={`xl:hidden overflow-hidden transition-[max-height,opacity] duration-150 border-t border-border/60 ${
             menuOpen ? "max-h-[560px] opacity-100" : "max-h-0 opacity-0 pointer-events-none"
           }`}
         >

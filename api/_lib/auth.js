@@ -5,7 +5,7 @@ export const MAX_AUDIO_BYTES = 15 * 1024 * 1024;
 
 function getSupabaseAuthClient() {
   const url = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL;
-  const anonKey = process.env.SUPABASE_ANON_KEY || process.env.VITE_SUPABASE_ANON_KEY;
+  const anonKey = process.env.SUPABASE_PUBLISHABLE_KEY || process.env.SUPABASE_ANON_KEY || process.env.VITE_SUPABASE_PUBLISHABLE_KEY || process.env.VITE_SUPABASE_ANON_KEY;
   if (!url || !anonKey) return null;
   return createServerSupabaseClient(url, anonKey);
 }

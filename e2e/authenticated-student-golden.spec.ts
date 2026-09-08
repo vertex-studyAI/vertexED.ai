@@ -425,8 +425,38 @@ test('approved learner completes the golden study journey and resumes saved work
   await page.getByRole('button', { name: 'Create my study plan' }).click();
 
   await expect(page).toHaveURL(/\/main$/);
-  await expect(page.getByRole('heading', { name: 'Make this study session count.' })).toBeVisible();
-  await page.locator('a[href="/notetaker"]').filter({ hasText: 'Make study material' }).click();
+  await expect(page.getByRole('heading', { name: 'Your study desk' })).toBeVisible();
+  for (const width of [390, 768, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto('/main');
+    await expect(page.getByRole('heading', { name: 'Your study desk' })).toBeVisible();
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width + 1);
+    await page.screenshot({ path: `test-results/dashboard-${width}.png`, fullPage: true });
+    await page.goto('/exam-prep');
+    await expect(page.getByRole('heading', { name: 'Exam preparation', exact: true })).toBeVisible();
+    await page.getByRole('button', { name: '45m', exact: true }).click();
+    await expect(page.getByRole('heading', { name: 'A 45-minute exam block' })).toBeVisible();
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width + 1);
+    await page.screenshot({ path: `test-results/exam-prep-${width}.png`, fullPage: true });
+  }
+  await page.goto('/main');
+  await expect(page.getByRole('link', { name: 'Resume', exact: true })).toHaveAttribute('href', '/exam-prep');
+  const completedFromNavigation = await page.evaluate(() => {
+    const key = Object.keys(localStorage).find((name) => name.endsWith(':study_loop_week'));
+    return key ? Object.keys(JSON.parse(localStorage.getItem(key) || '{}').steps || {}) : [];
+  });
+  expect(completedFromNavigation).not.toContain('practise');
+  expect(completedFromNavigation).not.toContain('review');
+  expect(completedFromNavigation).not.toContain('remember');
+  const feedbackLauncher = page.getByRole('button', { name: 'Give VertexED feedback' });
+  await feedbackLauncher.click();
+  const feedbackDialog = page.getByRole('dialog', { name: 'Help improve VertexED' });
+  await expect(feedbackDialog).toBeVisible();
+  await expect(page.getByLabel('Your feedback')).toBeFocused();
+  await page.keyboard.press('Escape');
+  await expect(feedbackDialog).not.toBeVisible();
+  await expect(feedbackLauncher).toBeFocused();
+  await page.locator('a[href="/notetaker"]').filter({ hasText: 'Notes, flashcards & quizzes' }).click();
   await expect(page).toHaveURL(/\/notetaker$/);
 
   await page.getByPlaceholder(/IB Biology — photosynthesis/).fill('IB Biology photosynthesis');
@@ -463,7 +493,7 @@ test('approved learner completes the golden study journey and resumes saved work
   await expect(page).toHaveURL(/\/notetaker$/);
   await page.getByRole('banner').getByRole('link', { name: 'Dashboard', exact: true }).click();
   await expect(page).toHaveURL(/\/main$/);
-  await expect(page.getByRole('heading', { name: 'Pick up where you left off' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Continue studying' })).toBeVisible();
   await expect(page.getByText('IB Biology photosynthesis', { exact: true })).toBeVisible();
   await expect(page.getByText('Quiz review — IB Biology photosynthesis', { exact: true })).toBeVisible();
 

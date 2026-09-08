@@ -38,15 +38,15 @@ export default function LearningCommandCenter({
   const weakest = weaknesses[0];
 
   return (
-    <LiquidGlass as="section" variant="panel" className="rounded-[1.7rem]" aria-labelledby="learning-command-heading">
+    <LiquidGlass as="section" variant="panel" className="desk-attention" aria-labelledby="learning-command-heading">
       <div className="p-5 md:p-6">
         <div className="mb-4 flex flex-wrap items-start justify-between gap-3">
           <div>
-            <p className="dashboard-kicker">Learning command center</p>
+            <p className="dashboard-kicker">Your progress</p>
             <h2 id="learning-command-heading" className="text-xl font-semibold text-foreground">What needs attention</h2>
           </div>
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/25 bg-emerald-500/10 px-3 py-1 text-xs text-emerald-700 dark:text-emerald-300">
-            <ShieldCheck className="h-3.5 w-3.5" aria-hidden /> Mastery uses human-confirmed or validated-key evidence
+          <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground">
+            <ShieldCheck className="h-3.5 w-3.5" aria-hidden /> Based on confirmed work
           </span>
         </div>
 

@@ -8,6 +8,8 @@ const HEALTH_ENV_KEYS = [
   'VITE_SUPABASE_URL',
   'SUPABASE_ANON_KEY',
   'VITE_SUPABASE_ANON_KEY',
+  'SUPABASE_PUBLISHABLE_KEY',
+  'VITE_SUPABASE_PUBLISHABLE_KEY',
   'SUPABASE_SERVICE_ROLE_KEY',
   'SUPABASE_SECRET_KEY',
   'OPENAI_API_KEY',
@@ -71,6 +73,17 @@ test('getReadinessSnapshot reports each required production capability', () => {
 
   assert.equal(configured.ready, true);
   assert.ok(Object.values(configured.checks).every(Boolean));
+});
+
+test('authentication readiness accepts publishable keys without a legacy anon key', () => {
+  for (const key of ['SUPABASE_PUBLISHABLE_KEY', 'VITE_SUPABASE_PUBLISHABLE_KEY']) {
+    const snapshot = getReadinessSnapshot({
+      VITE_SUPABASE_URL: 'https://example.supabase.co',
+      [key]: 'sb_publishable_test',
+    });
+    assert.equal(snapshot.checks.authentication, true);
+    assert.equal(snapshot.ready, false);
+  }
 });
 
 test('liveness remains green without evaluating production dependencies', async () => {

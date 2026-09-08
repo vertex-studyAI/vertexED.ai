@@ -2,6 +2,7 @@ import { createRoot } from 'react-dom/client'
 import App from './app/App'
 import AppErrorBoundary from '@/components/AppErrorBoundary'
 import './index.css'
+import './styles/workbook.css'
 import { initMonitoring } from '@/lib/monitoring'
 import { initTransientSessionIsolation } from '@/lib/transientSessionIsolation'
 

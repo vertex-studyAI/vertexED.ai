@@ -33,13 +33,12 @@ export default function Home() {
         ]}
       />
 
-      <section className="editorial-hero" aria-labelledby="home-title">
+      <section className="editorial-hero workbook-hero" aria-labelledby="home-title">
         <div className="max-w-4xl">
           <p className="section-kicker">Study planning, practice, and feedback</p>
-          <h1 id="home-title">Know what to study. Practise what matters.</h1>
+          <h1 id="home-title">A clearer path to your next exam.</h1>
           <p className="editorial-lead">
-            VertexED brings your plan, focused work, exam practice, feedback, and retrieval into one place. Open it,
-            choose the next job, and keep the evidence from what you actually did.
+            Make a plan you can follow. Practise the hard questions. Turn feedback into your next study session.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Link to="/signup" className="btn-solid">Join the private beta</Link>
@@ -51,13 +50,24 @@ export default function Home() {
             ))}
           </ul>
         </div>
+        <aside className="workbook-preview" aria-label="Example study session">
+          <div className="workbook-preview-heading"><span>YOUR STUDY DESK</span><span>Example session</span></div>
+          <h2>One topic. Three steps.</h2>
+          <p className="workbook-preview-topic">Biology / Cell transport</p>
+          <ol>
+            <li><span>01</span><div><strong>Recall what you know</strong><p>Explain osmosis without your notes.</p></div><small>5 min</small></li>
+            <li><span>02</span><div><strong>Put it into practice</strong><p>Attempt a question, then check your reasoning.</p></div><small>15 min</small></li>
+            <li><span>03</span><div><strong>Make the next attempt easier</strong><p>Save the mistake you want to revisit.</p></div><small>5 min</small></li>
+          </ol>
+          <Link to="/signup" className="text-link">Build your own session <span aria-hidden>→</span></Link>
+        </aside>
       </section>
 
       <section className="editorial-section" aria-labelledby="workflow-title">
         <div className="section-heading-row">
           <div>
             <p className="section-kicker">One connected workflow</p>
-            <h2 id="workflow-title">A study system that carries evidence forward</h2>
+            <h2 id="workflow-title">Less organising. More studying.</h2>
           </div>
           <p>Plans guide practice. Practice produces feedback. Feedback changes the next plan.</p>
         </div>
@@ -80,9 +90,9 @@ export default function Home() {
           </div>
           <p>Each tool has a clear role, and saved work can move into the next part of the study process.</p>
         </div>
-        <div className="tool-grid">
+        <div className="tool-directory">
           {LANDING_FEATURES.map((feature) => (
-            <article key={feature.title} className="quiet-card flex flex-col">
+            <article key={feature.title} className="tool-directory-row">
               <p className="tool-phase">{feature.loop}</p>
               <h3>{feature.title}</h3>
               <p className="flex-1">{feature.desc}</p>

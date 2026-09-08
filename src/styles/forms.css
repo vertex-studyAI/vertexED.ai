@@ -5,7 +5,7 @@
     @apply mb-2 block text-sm font-medium text-foreground/90;
   }
   .form-control {
-    @apply w-full rounded-2xl border border-border/60 bg-foreground/[0.04] px-4 py-3 text-foreground shadow-inner outline-none transition;
+    @apply w-full rounded-lg border border-border bg-card px-4 py-3 text-foreground outline-none transition-colors;
     @apply placeholder:text-muted-foreground/60;
     @apply focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background;
   }
@@ -13,7 +13,7 @@
     @apply form-control cursor-pointer appearance-none;
   }
   .form-textarea {
-    @apply form-control resize-none;
+    @apply form-control resize-y min-h-32;
   }
   .glass-badge {
     @apply inline-flex items-center gap-1 rounded-full border border-border/60 bg-foreground/[0.04] px-3 py-1 text-xs text-muted-foreground backdrop-blur-sm;

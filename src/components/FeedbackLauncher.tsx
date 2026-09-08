@@ -1,9 +1,10 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { MessageSquare, X } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/lib/supabaseClient";
 import { trackProductEvent } from "@/lib/productAnalytics.mjs";
+import AccessibleModal from "@/components/AccessibleModal";
 import {
   buildFeedbackAnalyticsProperties,
   normalizeProductFeedback,
@@ -29,16 +30,6 @@ export default function FeedbackLauncher() {
   const [feedback, setFeedback] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
-
-  useEffect(() => {
-    if (!open) return;
-    textareaRef.current?.focus();
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape" && !submitting) setOpen(false);
-    };
-    window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
-  }, [open, submitting]);
 
   if (!user) return null;
 
@@ -98,7 +89,7 @@ export default function FeedbackLauncher() {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="fixed bottom-5 right-5 z-40 inline-flex items-center gap-2 rounded-full border border-primary/30 bg-background/95 px-4 py-3 text-sm font-medium shadow-lg backdrop-blur transition hover:border-primary/60 hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+        className="fixed bottom-5 left-5 z-40 inline-flex items-center gap-2 rounded-lg border border-border bg-background px-4 py-3 text-sm font-medium transition hover:border-primary/60 hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
         aria-label="Give VertexED feedback"
       >
         <MessageSquare className="h-4 w-4" aria-hidden="true" />
@@ -106,18 +97,14 @@ export default function FeedbackLauncher() {
       </button>
 
       {open && (
-        <div
-          className="fixed inset-0 z-50 flex items-end justify-center bg-black/55 p-4 sm:items-center"
-          onMouseDown={(event) => {
-            if (event.target === event.currentTarget && !submitting) setOpen(false);
-          }}
-        >
-          <section
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="product-feedback-title"
-            aria-describedby="product-feedback-description"
-            className="w-full max-w-lg rounded-2xl border border-border bg-background p-5 shadow-2xl sm:p-6"
+          <AccessibleModal
+            titleId="product-feedback-title"
+            descriptionId="product-feedback-description"
+            initialFocusRef={textareaRef}
+            onClose={() => { if (!submitting) setOpen(false); }}
+            busy={submitting}
+            overlayClassName="fixed inset-0 z-50 flex items-end justify-center bg-black/55 p-4 sm:items-center"
+            className="w-full max-w-lg max-h-[calc(100dvh-2rem)] overflow-y-auto rounded-xl border border-border bg-background p-5 shadow-xl sm:p-6"
           >
             <div className="mb-5 flex items-start justify-between gap-4">
               <div>
@@ -208,8 +195,7 @@ export default function FeedbackLauncher() {
                 {submitting ? "Sending…" : supabase ? "Send feedback" : "Feedback unavailable"}
               </button>
             </div>
-          </section>
-        </div>
+          </AccessibleModal>
       )}
     </>
   );

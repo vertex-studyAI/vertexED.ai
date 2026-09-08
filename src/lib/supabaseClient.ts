@@ -1,7 +1,7 @@
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL as string | undefined;
-const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined;
+const supabaseKey = (import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY || import.meta.env.VITE_SUPABASE_ANON_KEY) as string | undefined;
 
 /**
  * Create Supabase client only when env vars are present. When missing, export null and let
@@ -12,7 +12,7 @@ if (supabaseUrl && supabaseKey) {
 	client = createClient(supabaseUrl, supabaseKey);
 } else {
 	console.warn(
-		"Supabase env vars are not set (VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY). Auth is disabled locally."
+		"Supabase env vars are not set (VITE_SUPABASE_URL / VITE_SUPABASE_PUBLISHABLE_KEY). Auth is disabled locally."
 	);
 }
 

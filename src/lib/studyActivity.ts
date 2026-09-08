@@ -19,7 +19,8 @@ function readActivities(): ActivityEntry[] {
   const { activity } = userContentStorageKeys();
   try {
     const raw = window.localStorage.getItem(activity);
-    return raw ? (JSON.parse(raw) as ActivityEntry[]) : [];
+    const parsed: unknown = raw ? JSON.parse(raw) : [];
+    return Array.isArray(parsed) ? parsed.filter((entry) => entry && typeof entry.message === 'string' && typeof entry.createdAt === 'string') : [];
   } catch {
     return [];
   }
@@ -35,25 +36,38 @@ export function logStudyActivity(message: string): void {
     createdAt: new Date().toISOString(),
   };
   const next = [entry, ...readActivities()].slice(0, ACTIVITY_LIMIT);
-  window.localStorage.setItem(activity, JSON.stringify(next));
+  try {
+    window.localStorage.setItem(activity, JSON.stringify(next));
+  } catch {
+    // Optional activity history must not interrupt saving the study work itself.
+  }
 }
 
 export function rememberStudySession(path: string, label: string): void {
   if (typeof window === 'undefined') return;
   const { lastStudySession } = userContentStorageKeys();
-  sessionStorage.setItem(
-    lastStudySession,
-    JSON.stringify({ path, label, at: new Date().toISOString() } satisfies LastStudySession),
-  );
+  try {
+    window.sessionStorage.setItem(
+      lastStudySession,
+      JSON.stringify({ path, label, at: new Date().toISOString() } satisfies LastStudySession),
+    );
+  } catch {
+    // Navigation remains available when browser storage is blocked or full.
+  }
 }
 
 export function getLastStudySession(): LastStudySession | null {
   if (typeof window === 'undefined') return null;
   const { lastStudySession } = userContentStorageKeys();
-  const raw = sessionStorage.getItem(lastStudySession);
-  if (!raw) return null;
   try {
-    return JSON.parse(raw) as LastStudySession;
+    const raw = window.sessionStorage.getItem(lastStudySession);
+    if (!raw) return null;
+    const value = JSON.parse(raw);
+    if (!value || typeof value.path !== 'string' || !value.path.startsWith('/')
+      || value.path.startsWith('//') || value.path.includes('\\')
+      || typeof value.label !== 'string' || typeof value.at !== 'string'
+      || !Number.isFinite(Date.parse(value.at))) return null;
+    return value as LastStudySession;
   } catch {
     return null;
   }
