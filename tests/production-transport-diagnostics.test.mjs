@@ -53,7 +53,8 @@ test('workflow runs only after failed main release checks or explicit manual dis
   assert.match(workflowSource, /conclusion == 'failure'/);
   assert.match(workflowSource, /workflow_run\.head_sha \|\| github\.sha/);
   assert.match(workflowSource, /persist-credentials: false/);
-  assert.match(workflowSource, /actions\/checkout@d23441a48e516b6c34aea4fa41551a30e30af803/);
+  assert.match(workflowSource, /actions\/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1/);
+  assert.match(workflowSource, /test "\$\(git rev-parse HEAD\)" = "\$\{SOURCE_SHA\}"/);
   assert.match(workflowSource, /actions\/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38/);
   assert.match(workflowSource, /actions\/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a/);
   assert.doesNotMatch(workflowSource, /pull_request:/);
