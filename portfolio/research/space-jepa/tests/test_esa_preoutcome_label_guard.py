@@ -20,12 +20,12 @@ def load_runner():
     return module
 
 
-def test_test_telemetry_loader_never_parses_annotation_columns(tmp_path):
+def test_test_telemetry_loader_does_not_materialize_annotation_values(tmp_path):
     module = load_runner()
     path = tmp_path / "esa-test.csv"
     path.write_text(
         "timestamp,channel_41,is_anomaly_channel_41,channel_42,is_anomaly_channel_42\n"
-        "2007-01-01 00:00:00,1.0,DO_NOT_PARSE,5.0,ALSO_DO_NOT_PARSE\n"
+        "2007-01-01 00:00:00,1.0,DO_NOT_MATERIALIZE,5.0,ALSO_DO_NOT_MATERIALIZE\n"
         "2007-01-01 00:00:30,2.0,NOT_A_NUMBER,6.0,NOT_A_NUMBER\n",
         encoding="utf-8",
     )
@@ -80,6 +80,23 @@ def test_global_runner_never_hashes_label_bearing_test_file():
             and first_arg.value.id == "args"
             and first_arg.attr == "test_csv"
         )
+
+
+def test_runner_receipt_does_not_claim_zero_test_source_access():
+    source = RUNNER_PATH.read_text(encoding="utf-8")
+    assert '"heldout_label_access"' not in source
+    assert '"test_annotation_columns_loaded"' not in source
+    assert '"test_source_contains_interleaved_annotations": True' in source
+    assert '"test_annotation_values_materialized": False' in source
+    assert '"test_annotation_values_exposed_to_model": False' in source
+    assert (
+        '"test_source_io_scope": "INTERLEAVED_CSV_TOKENIZED_TELEMETRY_TIMESTAMP_PROJECTION_ONLY"'
+        in source
+    )
+    assert (
+        '"full_source_sha256_status": "NOT_COMPUTED_PRE_OUTCOME_TO_AVOID_FULL_FILE_BYTE_READ"'
+        in source
+    )
 
 
 def test_label_blind_projection_digest_is_deterministic_and_channel_bound():
