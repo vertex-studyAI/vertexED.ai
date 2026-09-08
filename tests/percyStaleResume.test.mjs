@@ -25,6 +25,23 @@ function runResume(db) {
   return JSON.parse(result.stdout);
 }
 
+function runWorkOne(db, dir) {
+  const result = spawnSync(process.execPath, [
+    cli,
+    'work-one',
+    '--db', db,
+    '--worker-id', 'worker-recovery',
+    '--lease-ms', '1000',
+    '--timeout-ms', '1000',
+    '--log', join(dir, 'events.jsonl'),
+  ], {
+    cwd: root,
+    encoding: 'utf8',
+  });
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  return JSON.parse(result.stdout);
+}
+
 function failures(store, taskId) {
   return store.db.prepare('SELECT owner_id,attempt,error FROM failures WHERE task_id=? ORDER BY id').all(taskId);
 }
@@ -115,6 +132,34 @@ test('resume terminalizes an expired final lease instead of stranding READY work
       { owner_id: 'worker-a', attempt: 1, error: 'stale lease recovered' },
     ]);
     assert.equal(fixture.store.queueDepth(), 0);
+  } finally {
+    cleanup(fixture);
+  }
+});
+
+test('work-one automatically recovers signal-stale work before claiming the retry', () => {
+  const fixture = fresh();
+  try {
+    fixture.store.submit({ id: 'task', payload: { safe: true }, maxAttempts: 2 });
+    fixture.store.claim('worker-a', 1_000);
+    fixture.store.start('task', 'worker-a');
+    fixture.store.markStale('task', 'worker-a', 'worker received SIGTERM');
+    fixture.store.close();
+    fixture.store = null;
+
+    assert.deepEqual(runWorkOne(fixture.db, fixture.dir), {
+      workerId: 'worker-recovery',
+      taskId: 'task',
+      status: 'COMPLETE',
+      result: { safe: true },
+    });
+
+    fixture.store = new PercyStore(fixture.db);
+    assert.equal(fixture.store.get('task').status, 'COMPLETE');
+    assert.equal(fixture.store.get('task').attempts, 2);
+    assert.deepEqual(failures(fixture.store, 'task'), [
+      { owner_id: null, attempt: 1, error: 'worker received SIGTERM' },
+    ]);
   } finally {
     cleanup(fixture);
   }
