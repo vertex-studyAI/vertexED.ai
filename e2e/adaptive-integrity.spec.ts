@@ -70,6 +70,29 @@ async function installHarness(page: Page) {
   });
   await page.route('**/api/**', (route) => json(route, { ok: true, items: [] }));
   await page.route('**/api/waitlist-status', (route) => json(route, { status: 'approved' }));
+  await page.route('**/api/paper-generator', (route) => json(route, {
+    success: true,
+    generation: {
+      contractVersion: 'vertexed.learning-artifact.v1',
+      capability: 'paper',
+      mode: 'provider',
+      sourceDigest: 'b'.repeat(64),
+      degraded: false,
+    },
+    paper: {
+      title: 'Integrity Mock',
+      metadata: { totalMarks: 10, subject: 'Biology', board: 'IB_MYP', grade: 10 },
+      sections: [{
+        id: 'section-a',
+        title: 'Section A',
+        questions: [
+          { id: 'q1', question: 'Explain one role of chlorophyll.', marks: 5 },
+          { id: 'q2', question: 'State one factor that can limit photosynthesis.', marks: 5 },
+        ],
+      }],
+      rubricNotes: ['Review answers against the current syllabus before assigning marks.'],
+    },
+  }));
 }
 
 async function login(page: Page) {
@@ -108,4 +131,34 @@ test('adaptive note URL state requires matching measured weakness', async ({ pag
   await page.goto('/notetaker?adaptive=1&subject=Mathematics&topic=Fabricated%20mastery');
   await expect(page.getByLabel('Topic or source material')).toHaveValue('');
   await expect(page.getByText(/Based on your verified quiz results/)).toHaveCount(0);
+});
+
+test('timed mock completion does not manufacture mastery data', async ({ page }) => {
+  await installHarness(page);
+  await login(page);
+  await page.evaluate(({ key, entry }) => localStorage.setItem(key, JSON.stringify([entry])), {
+    key: weaknessStorageKey,
+    entry: measuredWeakness('Cell structure'),
+  });
+  const before = await page.evaluate((key) => localStorage.getItem(key), weaknessStorageKey);
+
+  await page.goto('/paper-maker');
+  await expect(page.getByRole('heading', { name: 'Paper Configuration' })).toBeVisible();
+  await expect(page.getByLabel('Grade')).toHaveValue('10');
+  await expect(page.getByLabel('Subject')).toHaveValue('Biology');
+  await page.getByLabel('Topics').fill('photosynthesis');
+  await page.getByRole('button', { name: 'Generate practice paper' }).click();
+  await expect(page.getByText('Integrity Mock', { exact: true })).toBeVisible();
+
+  await page.getByRole('button', { name: /Take timed exam/i }).click();
+  await page.getByLabel('Answer for question 1').fill('Chlorophyll absorbs light energy.');
+  await page.getByRole('button', { name: 'Next', exact: true }).click();
+  await page.getByLabel('Answer for question 2').fill('Light intensity can be limiting.');
+  await page.getByRole('button', { name: 'Submit exam', exact: true }).click();
+
+  await expect(page.getByRole('heading', { name: 'Exam complete' })).toBeVisible();
+  await expect(page.getByText(/No score has been estimated/)).toBeVisible();
+  await expect(page.getByRole('link', { name: /Review submitted answers/ })).toBeVisible();
+  const after = await page.evaluate((key) => localStorage.getItem(key), weaknessStorageKey);
+  expect(after).toBe(before);
 });
