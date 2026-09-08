@@ -1,9 +1,10 @@
-name: Bu1LD Production Health
+name: Bu1LD Public Route Legacy Smoke
 
+# VertexED is not the canonical Bu1LD release owner. Keep this bounded,
+# read-only compatibility smoke available for explicit/manual or source-change
+# verification, but do not schedule it as an autonomous release monitor.
 on:
   workflow_dispatch:
-  schedule:
-    - cron: '23 */6 * * *'
   push:
     branches:
       - main
@@ -57,12 +58,13 @@ jobs:
         if: always()
         run: |
           {
-            echo '## Bu1LD public route availability'
+            echo '## Bu1LD public route legacy smoke'
             echo
             echo '- Target: https://thebu1ld.com'
+            echo '- Ownership: VertexED is not the canonical Bu1LD release owner; this workflow is not a release monitor'
             echo '- Contract: landing, signup, login, projects, programs, evidence, privacy, and terms return meaningful HTML'
             echo '- Safety: read-only GET requests; no authentication, account creation, or data writes'
-            echo '- Boundary: does not execute client JavaScript or certify authenticated behavior'
+            echo '- Boundary: does not execute client JavaScript, certify authenticated behavior, or certify deployment identity'
             echo '- Evidence: bu1ld-production-smoke-${{ github.run_id }}'
           } >> "$GITHUB_STEP_SUMMARY"
 
