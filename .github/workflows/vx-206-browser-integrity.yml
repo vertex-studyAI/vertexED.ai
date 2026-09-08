@@ -14,12 +14,25 @@ on:
       - 'src/pages/NotetakerQuiz.tsx'
       - 'src/pages/PaperMaker.tsx'
       - '.github/workflows/vx-206-browser-integrity.yml'
+  push:
+    branches: [main, master]
+    paths:
+      - 'e2e/adaptive-integrity.spec.ts'
+      - 'playwright.integrity.config.ts'
+      - 'playwright.golden.config.ts'
+      - 'src/components/MockExamMode.tsx'
+      - 'src/lib/adaptiveNotes.mjs'
+      - 'src/lib/weaknessTracker.ts'
+      - 'src/lib/weaknessEvidenceCore.mjs'
+      - 'src/pages/NotetakerQuiz.tsx'
+      - 'src/pages/PaperMaker.tsx'
+      - '.github/workflows/vx-206-browser-integrity.yml'
 
 permissions:
   contents: read
 
 env:
-  SOURCE_SHA: ${{ github.event.pull_request.head.sha }}
+  SOURCE_SHA: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
 
 jobs:
   browser-integrity:
