@@ -7,6 +7,7 @@ export function recoverInterruptedTasks(store) {
     const rows = store.db.prepare(`SELECT id,status,attempts,max_attempts,owner_id,error FROM tasks
       WHERE status='STALE'
         OR (status IN ('CLAIMED','RUNNING') AND lease_expires_at IS NOT NULL AND lease_expires_at <= ?)
+        OR (status='READY' AND attempts >= max_attempts)
       ORDER BY created_at,id`).all(t);
 
     const update = store.db.prepare(`UPDATE tasks
@@ -22,7 +23,13 @@ export function recoverInterruptedTasks(store) {
     for (const row of rows) {
       const exhausted = Number(row.attempts) >= Number(row.max_attempts);
       const target = exhausted ? 'FAILED' : 'READY';
-      const reason = row.error ?? (row.status === 'STALE' ? 'stale task recovered' : 'stale lease recovered');
+      const reason = row.error ?? (
+        row.status === 'STALE'
+          ? 'stale task recovered'
+          : row.status === 'READY'
+            ? 'retry budget exhausted'
+            : 'stale lease recovered'
+      );
       update.run(target, t, reason, t, row.id);
       recordFailure.run(row.id, row.owner_id, row.attempts, reason, t);
       if (exhausted) failed += 1;
