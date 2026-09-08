@@ -62,6 +62,42 @@ def test_global_runner_only_uses_label_aware_loader_for_training_input():
     assert first_arg.attr == "train_csv"
 
 
+def test_global_runner_never_hashes_label_bearing_test_file():
+    tree = ast.parse(RUNNER_PATH.read_text(encoding="utf-8"))
+    calls = [
+        node
+        for node in ast.walk(tree)
+        if isinstance(node, ast.Call)
+        and isinstance(node.func, ast.Name)
+        and node.func.id == "sha256"
+    ]
+    for call in calls:
+        assert call.args
+        first_arg = call.args[0]
+        assert not (
+            isinstance(first_arg, ast.Attribute)
+            and isinstance(first_arg.value, ast.Name)
+            and first_arg.value.id == "args"
+            and first_arg.attr == "test_csv"
+        )
+
+
+def test_label_blind_projection_digest_is_deterministic_and_channel_bound():
+    module = load_runner()
+    timestamps = np.array(["t0", "t1"], dtype=object)
+    telemetry = np.array([[1.0, 5.0], [2.0, 6.0]], dtype=np.float32)
+    channels = ("channel_41", "channel_42")
+
+    digest = module.telemetry_projection_sha256(timestamps, telemetry, channels)
+    assert digest == module.telemetry_projection_sha256(timestamps, telemetry, channels)
+    assert digest != module.telemetry_projection_sha256(
+        timestamps, telemetry, tuple(reversed(channels))
+    )
+    changed = telemetry.copy()
+    changed[1, 1] = 7.0
+    assert digest != module.telemetry_projection_sha256(timestamps, changed, channels)
+
+
 def test_prediction_export_requires_score_timestamp_alignment(tmp_path):
     module = load_runner()
     output = tmp_path / "predictions.csv"
