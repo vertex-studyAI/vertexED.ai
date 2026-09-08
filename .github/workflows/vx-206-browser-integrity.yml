@@ -1,0 +1,71 @@
+name: VX-206 Browser Integrity
+
+on:
+  pull_request:
+    branches: [main, master]
+    paths:
+      - 'e2e/adaptive-integrity.spec.ts'
+      - 'playwright.integrity.config.ts'
+      - 'playwright.golden.config.ts'
+      - 'src/components/MockExamMode.tsx'
+      - 'src/lib/adaptiveNotes.mjs'
+      - 'src/lib/weaknessTracker.ts'
+      - 'src/lib/weaknessEvidenceCore.mjs'
+      - 'src/pages/NotetakerQuiz.tsx'
+      - 'src/pages/PaperMaker.tsx'
+      - '.github/workflows/vx-206-browser-integrity.yml'
+
+permissions:
+  contents: read
+
+env:
+  SOURCE_SHA: ${{ github.event.pull_request.head.sha }}
+
+jobs:
+  browser-integrity:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout exact source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ env.SOURCE_SHA }}
+          persist-credentials: false
+
+      - name: Verify exact source binding
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "${SOURCE_SHA}"
+
+      - name: Setup Node.js
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci --no-audit --fund=false
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Run VX-206 browser integrity gate
+        shell: bash
+        run: |
+          set -o pipefail
+          mkdir -p ci-evidence/vx-206
+          npx playwright test --config=playwright.integrity.config.ts 2>&1 | tee ci-evidence/vx-206/playwright.log
+
+      - name: Upload VX-206 browser evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: vx-206-browser-integrity-${{ env.SOURCE_SHA }}
+          path: |
+            playwright-report
+            test-results
+            ci-evidence/vx-206
+          if-no-files-found: ignore
+          retention-days: 14
