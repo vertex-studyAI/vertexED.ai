@@ -108,6 +108,7 @@ try {
         logger.write('task_complete', { workerId, taskId: task.id, kind: task.kind, result });
         console.log(JSON.stringify({ workerId, taskId: task.id, status: 'COMPLETE', result }));
       } catch (error) {
+        const failed = store.fail(task.id, workerId, error);
         const taskStatus = store.get(task.id)?.status;
         logger.write('task_failed', {
           workerId,
@@ -116,7 +117,7 @@ try {
           status: taskStatus,
           error: error instanceof Error ? error.message : String(error),
         });
-        if (!store.fail(task.id, workerId, error) && taskStatus !== 'VERIFYING') {
+        if (!failed && taskStatus !== 'VERIFYING') {
           console.error(JSON.stringify({ workerId, taskId: task.id, status: taskStatus, error: error.message }));
         }
         process.exitCode = 1;
