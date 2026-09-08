@@ -59,6 +59,7 @@ export class PercyStore {
         kind TEXT NOT NULL,
         value TEXT NOT NULL,
         sha256 TEXT NOT NULL,
+        attempt INTEGER NOT NULL DEFAULT 0,
         metadata TEXT NOT NULL,
         created_at INTEGER NOT NULL
       );
@@ -74,11 +75,29 @@ export class PercyStore {
     `);
   }
 
+  ensureEvidenceAttemptColumn() {
+    this.db.exec('BEGIN IMMEDIATE');
+    try {
+      const columns = new Set(
+        this.db.prepare('PRAGMA table_info(evidence)').all().map((row) => row.name),
+      );
+      if (!columns.has('attempt')) {
+        this.db.exec('ALTER TABLE evidence ADD COLUMN attempt INTEGER NOT NULL DEFAULT 0;');
+      }
+      this.db.exec('CREATE INDEX IF NOT EXISTS idx_evidence_task_attempt ON evidence(task_id, attempt, created_at);');
+      this.db.exec('COMMIT');
+    } catch (error) {
+      try { this.db.exec('ROLLBACK'); } catch {}
+      throw error;
+    }
+  }
+
   migrate() {
     const existing = this.db.prepare("SELECT sql FROM sqlite_master WHERE type='table' AND name='tasks'").get()?.sql ?? '';
     const legacy = existing.includes("'queued'") || existing.includes("'succeeded'");
     if (!legacy) {
       this.createSchema();
+      this.ensureEvidenceAttemptColumn();
       return;
     }
 
@@ -109,6 +128,7 @@ export class PercyStore {
       try { this.db.exec('ROLLBACK'); } catch {}
       throw error;
     }
+    this.ensureEvidenceAttemptColumn();
   }
 
   close() { this.db.close(); }
@@ -197,13 +217,14 @@ export class PercyStore {
 
   addEvidence(taskId, kind, value, metadata = {}) {
     if (!kind) throw new TypeError('evidence kind required');
-    if (!this.db.prepare('SELECT id FROM tasks WHERE id=?').get(taskId)) throw new Error(`unknown task: ${taskId}`);
+    const task = this.db.prepare('SELECT id,attempts FROM tasks WHERE id=?').get(taskId);
+    if (!task) throw new Error(`unknown task: ${taskId}`);
     const id = randomUUID();
     const packed = json(value);
     const digest = sha256(packed);
-    this.db.prepare('INSERT INTO evidence(id,task_id,kind,value,sha256,metadata,created_at) VALUES(?,?,?,?,?,?,?)')
-      .run(id, taskId, kind, packed, digest, json(metadata), now());
-    return { id, task_id: taskId, kind, sha256: digest };
+    this.db.prepare('INSERT INTO evidence(id,task_id,kind,value,sha256,attempt,metadata,created_at) VALUES(?,?,?,?,?,?,?,?)')
+      .run(id, taskId, kind, packed, digest, task.attempts, json(metadata), now());
+    return { id, task_id: taskId, kind, sha256: digest, attempt: Number(task.attempts) };
   }
 
   addOwnedEvidence(taskId, workerId, kind, value, metadata = {}) {
@@ -216,17 +237,17 @@ export class PercyStore {
 
     this.db.exec('BEGIN IMMEDIATE');
     try {
-      const owned = this.db.prepare(`SELECT id FROM tasks
+      const owned = this.db.prepare(`SELECT id,attempts FROM tasks
         WHERE id=? AND status IN ('CLAIMED','RUNNING') AND owner_id=?
           AND lease_expires_at IS NOT NULL AND lease_expires_at > ?`).get(taskId, workerId, t);
       if (!owned) {
         this.db.exec('ROLLBACK');
         return null;
       }
-      this.db.prepare('INSERT INTO evidence(id,task_id,kind,value,sha256,metadata,created_at) VALUES(?,?,?,?,?,?,?)')
-        .run(id, taskId, kind, packed, digest, json(metadata), t);
+      this.db.prepare('INSERT INTO evidence(id,task_id,kind,value,sha256,attempt,metadata,created_at) VALUES(?,?,?,?,?,?,?,?)')
+        .run(id, taskId, kind, packed, digest, owned.attempts, json(metadata), t);
       this.db.exec('COMMIT');
-      return { id, task_id: taskId, kind, sha256: digest };
+      return { id, task_id: taskId, kind, sha256: digest, attempt: Number(owned.attempts) };
     } catch (error) {
       try { this.db.exec('ROLLBACK'); } catch {}
       throw error;
@@ -247,7 +268,12 @@ export class PercyStore {
   }
 
   verifyComplete(taskId) {
-    const count = Number(this.db.prepare('SELECT COUNT(*) AS n FROM evidence WHERE task_id=?').get(taskId).n);
+    const task = this.db.prepare("SELECT attempts FROM tasks WHERE id=? AND status='VERIFYING'").get(taskId);
+    if (!task) return false;
+    const count = Number(
+      this.db.prepare('SELECT COUNT(*) AS n FROM evidence WHERE task_id=? AND attempt=?')
+        .get(taskId, task.attempts).n,
+    );
     if (count < 1) return false;
     return this.db.prepare("UPDATE tasks SET status='COMPLETE', updated_at=? WHERE id=? AND status='VERIFYING'")
       .run(now(), taskId).changes === 1;
