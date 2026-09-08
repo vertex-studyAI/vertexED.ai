@@ -25,6 +25,10 @@ function runResume(db) {
   return JSON.parse(result.stdout);
 }
 
+function failures(store, taskId) {
+  return store.db.prepare('SELECT owner_id,attempt,error FROM failures WHERE task_id=? ORDER BY id').all(taskId);
+}
+
 function cleanup(fixture) {
   try { fixture.store?.close(); } catch (error) { void error; }
   rmSync(fixture.dir, { recursive: true, force: true });
@@ -50,6 +54,9 @@ test('resume requeues a signal-stale task when retry budget remains', () => {
 
     fixture.store = new PercyStore(fixture.db);
     assert.equal(fixture.store.get('task').status, 'READY');
+    assert.deepEqual(failures(fixture.store, 'task'), [
+      { owner_id: null, attempt: 1, error: 'worker received SIGTERM' },
+    ]);
     assert.equal(fixture.store.claim('worker-b', 1_000).attempts, 2);
   } finally {
     cleanup(fixture);
@@ -75,6 +82,9 @@ test('resume terminalizes a signal-stale task when retry budget is exhausted', (
 
     fixture.store = new PercyStore(fixture.db);
     assert.equal(fixture.store.get('task').status, 'FAILED');
+    assert.deepEqual(failures(fixture.store, 'task'), [
+      { owner_id: null, attempt: 1, error: 'worker received SIGINT' },
+    ]);
     assert.equal(fixture.store.queueDepth(), 0);
     assert.equal(fixture.store.claim('worker-b', 1_000), null);
   } finally {
@@ -101,6 +111,9 @@ test('resume terminalizes an expired final lease instead of stranding READY work
 
     fixture.store = new PercyStore(fixture.db);
     assert.equal(fixture.store.get('task').status, 'FAILED');
+    assert.deepEqual(failures(fixture.store, 'task'), [
+      { owner_id: 'worker-a', attempt: 1, error: 'stale lease recovered' },
+    ]);
     assert.equal(fixture.store.queueDepth(), 0);
   } finally {
     cleanup(fixture);
