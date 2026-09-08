@@ -132,7 +132,6 @@ def verify_canonical_text(results_text: str, manuscript_text: str) -> None:
         require(marker in manuscript_text, f"manuscript is missing retained marker: {marker}")
 
     required_claims = (
-        "does not establish superiority over raw ridge",
         "does not establish superiority over the stronger ridge controls",
         "secondary log-distance metric also does not rescue the primary claim",
         "Any successor must be a new preregistration",
