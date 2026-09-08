@@ -8,9 +8,9 @@ import { spawnSync } from 'node:child_process';
 
 const cliPath = fileURLToPath(new URL('../tools/percy-runtime/cli.mjs', import.meta.url));
 
-function runCli(args) {
+function runCli(args, expectedStatus = 0) {
   const result = spawnSync(process.execPath, [cliPath, ...args], { encoding: 'utf8' });
-  assert.equal(result.status, 0, `CLI failed: ${result.stderr || result.stdout}`);
+  assert.equal(result.status, expectedStatus, `CLI failed: ${result.stderr || result.stdout}`);
   return result;
 }
 
@@ -31,7 +31,10 @@ test('Percy CLI redacts secrets from audit and human-readable task surfaces', ()
       '--lease-ms', '30000', '--timeout-ms', '10000',
     ]);
     const status = runCli(['status', '--db', db]);
-    const verify = runCli(['verify', '--db', db, '--task-id', taskId]);
+    // `work-one` already moved this task from VERIFYING to COMPLETE, so the
+    // existing `verify` command returns 2 when asked to transition it again.
+    // Its evidence read surface is still emitted and must remain redacted.
+    const verify = runCli(['verify', '--db', db, '--task-id', taskId], 2);
 
     const raw = readFileSync(log, 'utf8').trim();
     const rows = raw.split('\n').map((line) => JSON.parse(line));
@@ -52,15 +55,17 @@ test('Percy CLI redacts secrets from audit and human-readable task surfaces', ()
     assert.equal(workOutput.result.message, 'hello');
 
     assert.ok(listedTask, 'completed task should remain visible in status');
+    assert.equal(listedTask.status, 'COMPLETE');
     assert.equal(listedTask.payload.token, '[REDACTED]');
     assert.equal(listedTask.payload.message, 'hello');
     assert.equal(listedTask.result.token, '[REDACTED]');
     assert.equal(listedTask.result.message, 'hello');
 
     assert.equal(verifyOutput.taskId, taskId);
-    assert.equal(verifyOutput.complete, true);
+    assert.equal(verifyOutput.complete, false);
     assert.equal(verifyOutput.evidence.length, 1);
     assert.equal(verifyOutput.evidence[0].kind, 'bounded-task-result');
+    assert.match(verifyOutput.evidence[0].sha256, /^[a-f0-9]{64}$/);
     assert.equal(verifyOutput.evidence[0].value.token, '[REDACTED]');
     assert.equal(verifyOutput.evidence[0].value.message, 'hello');
   } finally {
