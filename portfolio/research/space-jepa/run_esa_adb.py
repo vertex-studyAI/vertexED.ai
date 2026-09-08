@@ -87,6 +87,30 @@ def load_test_telemetry_only(
     return telemetry, timestamps
 
 
+def telemetry_projection_sha256(
+    timestamps: np.ndarray,
+    telemetry: np.ndarray,
+    channels: tuple[str, ...],
+) -> str:
+    """Hash only the label-blind test projection already loaded by the runner."""
+
+    if len(timestamps) != len(telemetry):
+        raise ValueError("test timestamps must align with telemetry rows")
+    if telemetry.ndim != 2 or telemetry.shape[1] != len(channels):
+        raise ValueError("telemetry projection geometry does not match frozen channels")
+
+    digest = hashlib.sha256()
+    digest.update(b"space-jepa-esa-test-telemetry-projection-v1\0")
+    for channel in channels:
+        digest.update(channel.encode("utf-8"))
+        digest.update(b"\0")
+    for timestamp, row in zip(timestamps, telemetry, strict=True):
+        digest.update(str(timestamp).encode("utf-8"))
+        digest.update(b"\0")
+        digest.update(np.asarray(row, dtype="<f4").tobytes(order="C"))
+    return digest.hexdigest()
+
+
 def warm_start_test(train: np.ndarray, test: np.ndarray, context_length: int) -> np.ndarray:
     if len(train) < context_length:
         raise ValueError("training data is shorter than context_length")
@@ -226,7 +250,15 @@ def main() -> None:
             "heldout_label_access": False,
         },
         "train": {"path": str(args.train_csv), "sha256": sha256(args.train_csv), "rows": len(train.telemetry)},
-        "test": {"path": str(args.test_csv), "sha256": sha256(args.test_csv), "rows": len(test_telemetry)},
+        "test": {
+            "path": str(args.test_csv),
+            "label_blind_projection_sha256": telemetry_projection_sha256(
+                test_timestamps, test_telemetry, train.feature_names
+            ),
+            "full_source_sha256": None,
+            "full_source_sha256_status": "NOT_COMPUTED_PRE_OUTCOME_LABEL_ACCESS_BLOCKED",
+            "rows": len(test_telemetry),
+        },
         "experiment_config": experiment,
         "resolved_model_config": cfg.to_dict(),
         "seed": args.seed,
