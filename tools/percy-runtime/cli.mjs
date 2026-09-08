@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import { PercyStore, executeBoundedTask } from './core.mjs';
 import { createVerifiedBackup } from './backup.mjs';
+import { JsonlLogger } from './advanced.mjs';
 
 const args = process.argv.slice(2);
 const cmd = args.shift() ?? 'status';
@@ -76,15 +77,35 @@ try {
     const workerId = take('--worker-id', `worker-${process.pid}`);
     const leaseMs = Number(take('--lease-ms', '30000'));
     const timeoutMs = Number(take('--timeout-ms', '10000'));
+    const logPath = take('--log', process.env.PERCY_LOG ?? '.percy/events.jsonl');
+    const logger = new JsonlLogger(logPath);
     const task = store.claim(workerId, leaseMs);
     if (!task) {
+      logger.write('worker_idle', { workerId });
       console.log(JSON.stringify({ workerId, status: 'idle' }));
     } else {
+      logger.write('task_claimed', { workerId, taskId: task.id, kind: task.kind });
       if (!store.start(task.id, workerId)) throw new Error('lost task ownership before start');
+      logger.write('task_started', { workerId, taskId: task.id, kind: task.kind });
       let heartbeat;
       const stop = (signal) => {
-        try { store.markStale(task.id, workerId, `worker received ${signal}`); }
-        finally { clearInterval(heartbeat); close(); }
+        let markedStale = false;
+        try {
+          markedStale = store.markStale(task.id, workerId, `worker received ${signal}`);
+        } finally {
+          try {
+            logger.write('task_stale', { workerId, taskId: task.id, signal, markedStale });
+          } catch (error) {
+            console.error(JSON.stringify({
+              workerId,
+              taskId: task.id,
+              status: 'STALE',
+              auditLogError: error instanceof Error ? error.message : String(error),
+            }));
+          }
+          clearInterval(heartbeat);
+          close();
+        }
         process.exit(signal === 'SIGTERM' ? 143 : 130);
       };
       process.once('SIGINT', () => stop('SIGINT'));
@@ -97,10 +118,20 @@ try {
         if (!evidence) throw new Error('lost task ownership during evidence commit');
         if (!store.markVerifying(task.id, workerId, result)) throw new Error('lost task ownership before verification');
         if (!store.verifyComplete(task.id)) throw new Error('evidence gate rejected completion');
+        logger.write('task_complete', { workerId, taskId: task.id, kind: task.kind, result });
         console.log(JSON.stringify({ workerId, taskId: task.id, status: 'COMPLETE', result }));
       } catch (error) {
-        if (!store.fail(task.id, workerId, error) && store.get(task.id)?.status !== 'VERIFYING') {
-          console.error(JSON.stringify({ workerId, taskId: task.id, status: store.get(task.id)?.status, error: error.message }));
+        const failed = store.fail(task.id, workerId, error);
+        const taskStatus = store.get(task.id)?.status;
+        logger.write('task_failed', {
+          workerId,
+          taskId: task.id,
+          kind: task.kind,
+          status: taskStatus,
+          error: error instanceof Error ? error.message : String(error),
+        });
+        if (!failed && taskStatus !== 'VERIFYING') {
+          console.error(JSON.stringify({ workerId, taskId: task.id, status: taskStatus, error: error.message }));
         }
         process.exitCode = 1;
       } finally {
