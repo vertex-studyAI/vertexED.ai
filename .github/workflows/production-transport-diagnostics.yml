@@ -16,6 +16,9 @@ concurrency:
   group: production-transport-diagnostics-${{ github.event.workflow_run.id || github.run_id }}
   cancel-in-progress: false
 
+env:
+  SOURCE_SHA: ${{ github.event.workflow_run.head_sha || github.sha }}
+
 jobs:
   diagnose:
     if: >-
@@ -28,11 +31,17 @@ jobs:
 
     steps:
       - name: Checkout exact failed source
-        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
-          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+          ref: ${{ env.SOURCE_SHA }}
           persist-credentials: false
           fetch-depth: 1
+
+      - name: Verify exact failed source binding
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "${SOURCE_SHA}"
 
       - name: Setup Node.js
         uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
@@ -51,7 +60,7 @@ jobs:
             echo "trigger_workflow=${{ github.event.workflow_run.name || 'manual' }}"
             echo "trigger_run_id=${{ github.event.workflow_run.id || github.run_id }}"
             echo "trigger_conclusion=${{ github.event.workflow_run.conclusion || 'manual' }}"
-            echo "trigger_head_sha=${{ github.event.workflow_run.head_sha || github.sha }}"
+            echo "trigger_head_sha=${SOURCE_SHA}"
           } > artifacts/production-transport/context.txt
           node scripts/diagnose-production-transport.mjs \
             | tee artifacts/production-transport/transport.log
@@ -64,7 +73,7 @@ jobs:
             echo
             echo "- Trigger workflow: ${{ github.event.workflow_run.name || 'manual' }}"
             echo "- Trigger conclusion: ${{ github.event.workflow_run.conclusion || 'manual' }}"
-            echo "- Exact source: ${{ github.event.workflow_run.head_sha || github.sha }}"
+            echo "- Exact source: ${SOURCE_SHA}"
             echo '- Layers captured: DNS address lookup plus bounded CNAME chain, TCP connect, authenticated TLS handshake, HTTPS `/api/health`.'
             echo '- This workflow observes transport only; it does not deploy, mutate production, or weaken health/revision checks.'
           } >> "$GITHUB_STEP_SUMMARY"
@@ -73,7 +82,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
-          name: vertexed-production-transport-${{ github.event.workflow_run.head_sha || github.sha }}-${{ github.run_id }}
+          name: vertexed-production-transport-${{ env.SOURCE_SHA }}-${{ github.run_id }}
           path: artifacts/production-transport
           if-no-files-found: error
           retention-days: 14
