@@ -6,6 +6,7 @@ import {
   useEffect,
   useRef,
 } from "react";
+import { createPortal } from "react-dom";
 import {
   focusInitialModalElement,
   restoreModalFocus,
@@ -62,7 +63,7 @@ export default function AccessibleModal({
     trapModalFocus(event, dialogRef.current);
   };
 
-  return (
+  const modal = (
     <div className={overlayClassName} role="presentation">
       <div
         ref={dialogRef}
@@ -80,4 +81,6 @@ export default function AccessibleModal({
       </div>
     </div>
   );
+
+  return typeof document === "undefined" ? modal : createPortal(modal, document.body);
 }
