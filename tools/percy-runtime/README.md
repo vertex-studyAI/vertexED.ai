@@ -38,7 +38,7 @@ bounded worker executor
 
 There is **no arbitrary shell task kind**. Provider/model adapters must be explicit allow-listed executors with their own concurrency and timeout limits.
 
-`advanced.mjs` already contains tested building blocks for class-based concurrency limits, recursive JSONL secret redaction, online backup/restore, and a lease-heartbeating worker loop. Those helpers are not yet equivalent to production provider integration; the primary CLI and future provider adapters still need to consume them explicitly.
+`advanced.mjs` contains tested building blocks for class-based concurrency limits, recursive JSONL secret redaction, online backup/restore, and a lease-heartbeating worker loop. The primary `work-one` CLI now writes its task lifecycle through the redacting JSONL logger. The class limiter and worker-loop helpers are not yet equivalent to production provider integration; future provider adapters still need to consume them explicitly with provider-specific limits and retry policy.
 
 ## Requirements
 
@@ -67,6 +67,8 @@ Run one worker iteration:
 ```bash
 node tools/percy-runtime/cli.mjs work-one --worker-id percy-local-01 --lease-ms 30000 --timeout-ms 10000
 ```
+
+`work-one` writes a redacted durable audit stream to `.percy/events.jsonl` by default. Override the destination with `--log <path>` or `PERCY_LOG`. Claim/start metadata intentionally omits task payloads; completion and failure data pass through recursive key/string secret redaction before being appended.
 
 Inspect state and SQLite integrity:
 
@@ -121,6 +123,7 @@ Real provider adapters must use stronger evidence kinds—tests, benchmark outpu
 ```bash
 node --test tests/percyRuntime.test.mjs
 node --test tests/percyRuntimeAdvanced.test.mjs
+node --test tests/percyRuntimeCliLogging.test.mjs
 ```
 
 The current regression matrix covers:
@@ -141,6 +144,7 @@ The current regression matrix covers:
 - legacy database migration with history preservation;
 - database integrity after reopen/migration;
 - recursive JSONL redaction of secret keys and embedded credential strings;
+- primary CLI lifecycle audit logging with secret-bearing results redacted;
 - class-based concurrency limiting;
 - worker-loop lease heartbeats, evidence completion, and provider-slot wait ownership.
 
@@ -177,11 +181,10 @@ Required Discord gates:
 1. Run crash/kill/restart qualification on the actual Mac/Percy installation.
 2. Measure two-worker contention/resource behavior on that machine; promote above two only from evidence.
 3. Integrate the existing class limiter into real provider adapters and add provider-specific retry/backoff policy.
-4. Wire the existing redacting JSONL logger into the primary CLI/worker entrypoints.
-5. Schedule and exercise periodic verified backups on the actual Mac, including an operational restore drill.
-6. Expose the existing worker loop through the primary launcher and add bounded jitter/backoff.
-7. Add real provider adapters behind explicit interfaces.
-8. Add Discord only as a thin authenticated adapter after the runtime is qualified.
-9. Pin the exact production Node version.
+4. Schedule and exercise periodic verified backups on the actual Mac, including an operational restore drill.
+5. Expose the existing worker loop through the primary launcher and add bounded jitter/backoff.
+6. Add real provider adapters behind explicit interfaces.
+7. Add Discord only as a thin authenticated adapter after the runtime is qualified.
+8. Pin the exact production Node version.
 
 Production reliability remains incomplete until the real Mac passes the crash/restart, multiworker contention and shutdown gates.
