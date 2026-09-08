@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "artifact_status": "MIXED_NEGATIVE_CONFERENCE_FORMAT_RELEASE_CANDIDATE",
+  "format": {
+    "class": "IEEEtran conference",
+    "double_blind": true,
+    "internal_page_ceiling": 8,
+    "venue_compliance_claimed": false
+  },
+  "canonical_evidence": {
+    "results_path": "portfolio/research/eigen-jepa/RESULTS.md",
+    "manuscript_path": "portfolio/research/papers/EIGEN_JEPA_MIXED_NEGATIVE_MANUSCRIPT.md",
+    "source_sha256": "076f12750d6a8e6c298c17815224a79463bcad149d6cf1283900d98c6e394a2c"
+  },
+  "science": {
+    "retained_result_status": "FRESHLY REPRODUCED BOUNDARY/NEGATIVE COMPARISON",
+    "primary_metric": "covariance matrix MSE",
+    "superiority_over_raw_ridge_established": false,
+    "superiority_over_log_ridge_established": false,
+    "external_validation": false,
+    "publication_novelty_claimed": false,
+    "financial_alpha_or_trading_claimed": false,
+    "successor_requires_new_preregistration": true
+  }
+}
