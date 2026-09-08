@@ -43,7 +43,8 @@ function runWorkOne(db, dir) {
 }
 
 function failures(store, taskId) {
-  return store.db.prepare('SELECT owner_id,attempt,error FROM failures WHERE task_id=? ORDER BY id').all(taskId);
+  return store.db.prepare('SELECT owner_id,attempt,error FROM failures WHERE task_id=? ORDER BY id').all(taskId)
+    .map(({ owner_id, attempt, error }) => ({ owner_id, attempt, error }));
 }
 
 function cleanup(fixture) {
