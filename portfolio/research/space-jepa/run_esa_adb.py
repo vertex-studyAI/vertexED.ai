@@ -59,11 +59,13 @@ def load_test_telemetry_only(
     path: Path,
     channels: tuple[str, ...],
 ) -> tuple[np.ndarray, np.ndarray]:
-    """Load frozen test telemetry and timestamps without reading annotation columns.
+    """Materialize only frozen test telemetry and timestamps.
 
     ESA-ADB's preprocessed test CSV interleaves held-out ``is_anomaly_*`` columns
-    with telemetry. The global pre-outcome runner must not parse those labels at all;
-    official outcome evaluation is a separate, explicitly gated step.
+    with telemetry. Pandas still opens and tokenizes that same source file, but this
+    loader selects only timestamp + frozen telemetry columns, so annotation values
+    are never materialized or exposed to the runner/model. Official outcome
+    evaluation is a separate, explicitly gated step.
     """
 
     header = tuple(str(column) for column in pd.read_csv(path, nrows=0).columns)
@@ -138,7 +140,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(
         description=(
             "Run Space-JEPA on official ESA-ADB preprocessed train/test CSV files without "
-            "reading held-out test annotation columns. Official metric evaluation is separate."
+            "materializing held-out test annotation values. Official metric evaluation is separate."
         )
     )
     parser.add_argument("train_csv", type=Path)
@@ -166,7 +168,8 @@ def main() -> None:
         preset = None
 
     # Training annotations may exist in the official preprocessed file, but are not model
-    # features. Test annotations are stricter: the pre-outcome runner never loads them.
+    # features. Test annotation values are stricter: this runner does not materialize or
+    # expose them, although pandas necessarily opens/tokenizes the interleaved source CSV.
     train = load_esa_adb_csv(
         args.train_csv, channels=explicit_channels, preset=preset, load_timestamps=False
     )
@@ -246,8 +249,10 @@ def main() -> None:
             "preset": preset,
             "channels": list(train.feature_names),
             "annotation_columns_used_as_features": False,
-            "test_annotation_columns_loaded": False,
-            "heldout_label_access": False,
+            "test_source_contains_interleaved_annotations": True,
+            "test_annotation_values_materialized": False,
+            "test_annotation_values_exposed_to_model": False,
+            "test_source_io_scope": "INTERLEAVED_CSV_TOKENIZED_TELEMETRY_TIMESTAMP_PROJECTION_ONLY",
         },
         "train": {"path": str(args.train_csv), "sha256": sha256(args.train_csv), "rows": len(train.telemetry)},
         "test": {
@@ -256,7 +261,7 @@ def main() -> None:
                 test_timestamps, test_telemetry, train.feature_names
             ),
             "full_source_sha256": None,
-            "full_source_sha256_status": "NOT_COMPUTED_PRE_OUTCOME_LABEL_ACCESS_BLOCKED",
+            "full_source_sha256_status": "NOT_COMPUTED_PRE_OUTCOME_TO_AVOID_FULL_FILE_BYTE_READ",
             "rows": len(test_telemetry),
         },
         "experiment_config": experiment,
