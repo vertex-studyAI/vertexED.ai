@@ -87,6 +87,7 @@ try {
     const logger = new JsonlLogger(logPath);
     if (!store.isPaused()) recoverInterruptedTasks(store);
     const task = store.claim(workerId, leaseMs);
+    if (!store.isPaused()) recoverInterruptedTasks(store);
     if (!task) {
       logger.write('worker_idle', { workerId });
       console.log(JSON.stringify({ workerId, status: 'idle' }));
