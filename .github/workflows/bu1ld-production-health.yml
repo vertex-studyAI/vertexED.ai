@@ -27,16 +27,26 @@ concurrency:
   group: bu1ld-production-health-${{ github.event_name }}
   cancel-in-progress: true
 
+env:
+  SOURCE_SHA: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
+
 jobs:
   public-routes:
     runs-on: ubuntu-24.04
     timeout-minutes: 8
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+      - name: Checkout exact source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
+          ref: ${{ env.SOURCE_SHA }}
           persist-credentials: false
+
+      - name: Verify exact source binding
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "${SOURCE_SHA}"
 
       - name: Setup Node.js
         uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
