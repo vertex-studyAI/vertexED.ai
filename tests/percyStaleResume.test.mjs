@@ -164,3 +164,34 @@ test('work-one automatically recovers signal-stale work before claiming the retr
     cleanup(fixture);
   }
 });
+
+test('resume heals an exhausted READY row left by legacy lease recovery', () => {
+  const fixture = fresh();
+  try {
+    fixture.store.submit({ id: 'task', maxAttempts: 1 });
+    fixture.store.claim('worker-a', 1_000);
+    fixture.store.start('task', 'worker-a');
+    fixture.store.db.prepare('UPDATE tasks SET lease_expires_at=0 WHERE id=?').run('task');
+
+    assert.equal(fixture.store.claim('worker-b', 1_000), null);
+    assert.equal(fixture.store.get('task').status, 'READY');
+    assert.equal(fixture.store.get('task').attempts, 1);
+    fixture.store.close();
+    fixture.store = null;
+
+    assert.deepEqual(runResume(fixture.db), {
+      resumed: true,
+      recovered: 1,
+      requeued: 0,
+      failed: 1,
+    });
+
+    fixture.store = new PercyStore(fixture.db);
+    assert.equal(fixture.store.get('task').status, 'FAILED');
+    assert.deepEqual(failures(fixture.store, 'task'), [
+      { owner_id: null, attempt: 1, error: 'stale lease recovered' },
+    ]);
+  } finally {
+    cleanup(fixture);
+  }
+});
