@@ -1,6 +1,12 @@
 name: Obscured Records certification
 
 on:
+  push:
+    branches: [main, master]
+    paths:
+      - 'portfolio/project2424/projects/T2424-0038/**'
+      - 'tests/project2424ObscuredRecordsAgent.test.mjs'
+      - '.github/workflows/obscured-records-certification.yml'
   pull_request:
     paths:
       - 'portfolio/project2424/projects/T2424-0038/**'
