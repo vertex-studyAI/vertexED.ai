@@ -89,10 +89,23 @@ try {
       logger.write('task_started', { workerId, taskId: task.id, kind: task.kind });
       let heartbeat;
       const stop = (signal) => {
+        let markedStale = false;
         try {
-          const markedStale = store.markStale(task.id, workerId, `worker received ${signal}`);
-          logger.write('task_stale', { workerId, taskId: task.id, signal, markedStale });
-        } finally { clearInterval(heartbeat); close(); }
+          markedStale = store.markStale(task.id, workerId, `worker received ${signal}`);
+        } finally {
+          try {
+            logger.write('task_stale', { workerId, taskId: task.id, signal, markedStale });
+          } catch (error) {
+            console.error(JSON.stringify({
+              workerId,
+              taskId: task.id,
+              status: 'STALE',
+              auditLogError: error instanceof Error ? error.message : String(error),
+            }));
+          }
+          clearInterval(heartbeat);
+          close();
+        }
         process.exit(signal === 'SIGTERM' ? 143 : 130);
       };
       process.once('SIGINT', () => stop('SIGINT'));
