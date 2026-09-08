@@ -85,6 +85,7 @@ try {
     const timeoutMs = Number(take('--timeout-ms', '10000'));
     const logPath = take('--log', process.env.PERCY_LOG ?? '.percy/events.jsonl');
     const logger = new JsonlLogger(logPath);
+    if (!store.isPaused()) recoverInterruptedTasks(store);
     const task = store.claim(workerId, leaseMs);
     if (!task) {
       logger.write('worker_idle', { workerId });
