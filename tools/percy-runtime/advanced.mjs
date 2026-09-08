@@ -103,13 +103,13 @@ function redactString(value) {
     .replace(/\bsk-[A-Za-z0-9_-]{12,}\b/g, '[REDACTED]');
 }
 
-function redact(value) {
+export function redactSensitive(value) {
   if (typeof value === 'string') return redactString(value);
-  if (Array.isArray(value)) return value.map(redact);
+  if (Array.isArray(value)) return value.map(redactSensitive);
   if (value && typeof value === 'object') {
     return Object.fromEntries(Object.entries(value).map(([key, val]) => {
       if (/(token|secret|password|authorization|api[_-]?key|cookie)/i.test(key)) return [key, '[REDACTED]'];
-      return [key, redact(val)];
+      return [key, redactSensitive(val)];
     }));
   }
   return value;
@@ -122,7 +122,7 @@ export class JsonlLogger {
   }
 
   write(event, data = {}) {
-    const row = { at: new Date().toISOString(), event, ...redact(data) };
+    const row = { at: new Date().toISOString(), event, ...redactSensitive(data) };
     appendFileSync(this.path, `${JSON.stringify(row)}\n`, 'utf8');
     return row;
   }
