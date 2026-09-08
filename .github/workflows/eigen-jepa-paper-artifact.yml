@@ -1,0 +1,124 @@
+name: Eigen-JEPA deterministic paper artifact
+
+on:
+  pull_request:
+    paths:
+      - "portfolio/research/eigen-jepa/RESULTS.md"
+      - "portfolio/research/eigen-jepa/paper/**"
+      - "portfolio/research/papers/EIGEN_JEPA_MIXED_NEGATIVE_MANUSCRIPT.md"
+      - "tests/eigen-jepa-manuscript-evidence.test.mjs"
+      - ".github/workflows/eigen-jepa-paper-artifact.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  paper-artifact:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      PAPER_DIR: portfolio/research/eigen-jepa/paper
+      EXPECTED_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
+      TZ: UTC
+
+    steps:
+      - name: Check out exact source head
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Assert exact source binding
+        shell: bash
+        run: |
+          set -euo pipefail
+          actual="$(git rev-parse HEAD)"
+          test "$actual" = "$EXPECTED_HEAD"
+          echo "source_sha=$actual"
+
+      - name: Recheck canonical mixed-negative evidence binding
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --test tests/eigen-jepa-manuscript-evidence.test.mjs
+          python3 "$PAPER_DIR/test_release_gate.py"
+
+      - name: Install deterministic LaTeX and PDF inspection tooling
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            latexmk \
+            lmodern \
+            poppler-utils \
+            texlive-fonts-recommended \
+            texlive-latex-base \
+            texlive-latex-recommended \
+            texlive-publishers
+
+      - name: Build twice and require byte-identical PDF
+        shell: bash
+        run: |
+          set -euo pipefail
+          export SOURCE_DATE_EPOCH="$(git show -s --format=%ct "$EXPECTED_HEAD")"
+          export FORCE_SOURCE_DATE=1
+          cd "$PAPER_DIR"
+
+          latexmk -pdf -interaction=nonstopmode -halt-on-error -file-line-error main.tex
+          cp main.pdf /tmp/eigen-jepa-first.pdf
+          first_sha="$(sha256sum /tmp/eigen-jepa-first.pdf | awk '{print $1}')"
+
+          latexmk -C
+          latexmk -pdf -interaction=nonstopmode -halt-on-error -file-line-error main.tex
+          second_sha="$(sha256sum main.pdf | awk '{print $1}')"
+
+          test "$first_sha" = "$second_sha"
+          cmp /tmp/eigen-jepa-first.pdf main.pdf
+          if grep -F 'Overfull \hbox' main.log; then
+            echo "paper contains an overfull box; refusing release artifact" >&2
+            exit 1
+          fi
+          echo "deterministic_pdf_sha256=$second_sha"
+
+      - name: Verify rendered artifact and retain inspection pages
+        shell: bash
+        run: |
+          set -euo pipefail
+          out="evidence/eigen-jepa-paper"
+          mkdir -p "$out/pages"
+
+          python3 "$PAPER_DIR/verify_paper_artifact.py" \
+            --repo-root . \
+            --paper-dir "$PAPER_DIR" \
+            --pdf "$PAPER_DIR/main.pdf" \
+            --source-sha "$EXPECTED_HEAD" \
+            --receipt "$out/PAPER_BUILD_RECEIPT.json"
+
+          pdftoppm -png -r 180 "$PAPER_DIR/main.pdf" "$out/pages/page"
+          cp "$PAPER_DIR/main.pdf" "$out/Eigen-JEPA-Mixed-Negative.pdf"
+          cp "$PAPER_DIR/main.tex" "$out/main.tex"
+          cp "$PAPER_DIR/RELEASE_STATE_V0.json" "$out/RELEASE_STATE_V0.json"
+          cp portfolio/research/eigen-jepa/RESULTS.md "$out/RESULTS.md"
+          cp portfolio/research/papers/EIGEN_JEPA_MIXED_NEGATIVE_MANUSCRIPT.md "$out/EIGEN_JEPA_MIXED_NEGATIVE_MANUSCRIPT.md"
+          sha256sum \
+            "$out/Eigen-JEPA-Mixed-Negative.pdf" \
+            "$out/main.tex" \
+            "$out/RELEASE_STATE_V0.json" \
+            "$out/RESULTS.md" \
+            "$out/EIGEN_JEPA_MIXED_NEGATIVE_MANUSCRIPT.md" \
+            "$out/PAPER_BUILD_RECEIPT.json" \
+            > "$out/SHA256SUMS"
+          cat "$out/PAPER_BUILD_RECEIPT.json"
+          cat "$out/SHA256SUMS"
+
+      - name: Upload exact-head release artifact
+        if: success()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: eigen-jepa-paper-${{ github.event.pull_request.head.sha || github.sha }}
+          path: evidence/eigen-jepa-paper
+          if-no-files-found: error
+          retention-days: 30
