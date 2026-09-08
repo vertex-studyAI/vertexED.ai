@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import { PercyStore, executeBoundedTask } from './core.mjs';
 import { createVerifiedBackup } from './backup.mjs';
-import { JsonlLogger } from './advanced.mjs';
+import { JsonlLogger, redactSensitive } from './advanced.mjs';
 
 const args = process.argv.slice(2);
 const cmd = args.shift() ?? 'status';
@@ -49,7 +49,7 @@ try {
       active: store.activeCount(),
       queued: store.queueDepth(),
       counts: store.counts(),
-      tasks: store.list(20),
+      tasks: redactSensitive(store.list(20)),
     }, null, 2));
   } else if (cmd === 'integrity') {
     const rows = store.integrityCheck();
@@ -71,7 +71,11 @@ try {
     const taskId = take('--task-id');
     if (!taskId) throw new Error('--task-id required');
     const ok = store.verifyComplete(taskId);
-    console.log(JSON.stringify({ taskId, complete: ok, evidence: store.listEvidence(taskId) }, null, 2));
+    console.log(JSON.stringify({
+      taskId,
+      complete: ok,
+      evidence: redactSensitive(store.listEvidence(taskId)),
+    }, null, 2));
     if (!ok) process.exitCode = 2;
   } else if (cmd === 'work-one') {
     const workerId = take('--worker-id', `worker-${process.pid}`);
