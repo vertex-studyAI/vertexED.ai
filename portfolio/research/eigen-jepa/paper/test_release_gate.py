@@ -47,7 +47,7 @@ class ReleaseGateTests(unittest.TestCase):
             VERIFY.verify_release_state(state)
 
     def test_missing_retained_metric_fails_closed(self) -> None:
-        damaged = self.manuscript.replace("5.8318226e-09", "REMOVED", 1)
+        damaged = self.manuscript.replace("5.8318226e-09", "REMOVED")
         with self.assertRaises(ValueError):
             VERIFY.verify_canonical_text(self.results, damaged)
 
