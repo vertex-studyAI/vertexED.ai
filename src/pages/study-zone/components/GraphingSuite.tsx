@@ -38,7 +38,7 @@ const GraphingSuite: React.FC<GraphingSuiteProps> = () => {
 			</div>
 
 			<p className="zone-subtle text-[13px] m-0">
-				Start plotting right away — parabolas, trig, surfaces, vectors. Switch between 2D and 3D anytime. Your work saves locally in your browser.
+				Plot functions, surfaces, and vectors without leaving your study session. Desmos controls whether a graph is retained, so export or copy anything you need to keep.
 			</p>
 		</div>
 	);

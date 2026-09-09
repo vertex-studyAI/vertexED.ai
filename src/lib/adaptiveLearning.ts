@@ -1,11 +1,13 @@
+import { summarizeMeasuredSubjects } from '@/lib/progressAnalyticsCore.mjs';
 import type { ExamBoard } from '@/types/curriculum';
 import { BOARD_CONFIGS, daysUntilExam } from '@/lib/curriculum';
-import { getWeakestTopics, type TopicHeat } from '@/lib/weaknessTracker';
+import { getWeakestTopics, getMeasuredEntries } from '@/lib/weaknessTracker';
 import { getDueFlashcardCount, getCramDueCount } from '@/lib/srDeck';
 import { getConfidenceRatings } from '@/lib/portalFeatures';
 import type { LearnerProfile } from '@/lib/learnerProfile';
 import type { StudyStats } from '@/lib/studyStats';
 import { buildAdaptiveNoteRoute } from '@/lib/adaptiveNotes.mjs';
+import { getDueRetries, retryTargetRoute } from '@/lib/retryQueue';
 
 export type AdaptiveActionKind = 'learn' | 'practice' | 'review' | 'remember' | 'plan' | 'cram';
 
@@ -44,47 +46,6 @@ type BuildAdaptiveInput = {
   todayTaskCount: number;
 };
 
-function masteryFromWeaknesses(weaknesses: TopicHeat[]): SubjectMastery[] {
-  const bySubject = new Map<string, { total: number; count: number; scores: number[] }>();
-
-  for (const w of weaknesses) {
-    const entry = bySubject.get(w.subject) ?? { total: 0, count: 0, scores: [] };
-    entry.total += w.avgPercent;
-    entry.count += 1;
-    entry.scores.push(w.avgPercent);
-    bySubject.set(w.subject, entry);
-  }
-
-  return Array.from(bySubject.entries()).map(([subject, data]) => {
-    const avg = data.total / data.count;
-    const recent = data.scores.slice(0, 3);
-    const older = data.scores.slice(3, 6);
-    const recentAvg = recent.length ? recent.reduce((a, b) => a + b, 0) / recent.length : avg;
-    const olderAvg = older.length ? older.reduce((a, b) => a + b, 0) / older.length : recentAvg;
-    let trend: SubjectMastery['trend'] = 'unknown';
-    if (data.count >= 2) {
-      if (recentAvg > olderAvg + 5) trend = 'improving';
-      else if (recentAvg < olderAvg - 5) trend = 'declining';
-      else trend = 'stable';
-    }
-    return {
-      subject,
-      mastery: Math.round(avg),
-      attempts: data.count,
-      trend,
-    };
-  });
-}
-
-function defaultMasteryForSubjects(subjects: string[]): SubjectMastery[] {
-  return subjects.map((subject) => ({
-    subject,
-    mastery: 50,
-    attempts: 0,
-    trend: 'unknown' as const,
-  }));
-}
-
 export function buildAdaptivePlan(input: BuildAdaptiveInput): AdaptivePlan {
   const { profile, stats, dueFlashcards, examDaysLeft, todayTaskCount } = input;
   const { curriculum } = profile;
@@ -92,15 +53,27 @@ export function buildAdaptivePlan(input: BuildAdaptiveInput): AdaptivePlan {
   const cramDue = getCramDueCount();
   const cramModeActive = examDaysLeft !== null && examDaysLeft >= 0 && examDaysLeft <= 7;
 
-  let masteryBySubject = masteryFromWeaknesses(weaknesses);
-  if (masteryBySubject.length === 0 && curriculum.subjects.length > 0) {
-    masteryBySubject = defaultMasteryForSubjects(curriculum.subjects);
-  }
+  const masteryBySubject = summarizeMeasuredSubjects(getMeasuredEntries()) as SubjectMastery[];
 
   const weakest = masteryBySubject.sort((a, b) => a.mastery - b.mastery)[0];
   const focusSubject = weakest?.subject ?? curriculum.subjects[0] ?? null;
 
   const recs: AdaptiveRecommendation[] = [];
+  const dueRetries = getDueRetries();
+
+  for (const retry of dueRetries.slice(0, 2)) {
+    recs.push({
+      id: retry.id,
+      priority: retry.scorePercent < 40 ? 'urgent' : 'high',
+      kind: 'practice',
+      title: `Retry: ${retry.topic.slice(0, 44)}`,
+      description: `${retry.subject} - scheduled from a verified ${retry.source} score of ${retry.scorePercent}%`,
+      to: retryTargetRoute(retry),
+      subject: retry.subject,
+      topic: retry.topic,
+      score: retry.scorePercent,
+    });
+  }
 
   if (cramModeActive) {
     recs.push({
@@ -108,7 +81,7 @@ export function buildAdaptivePlan(input: BuildAdaptiveInput): AdaptivePlan {
       priority: 'urgent',
       kind: 'cram',
       title: 'Exam cram session',
-      description: `${examDaysLeft} day${examDaysLeft === 1 ? '' : 's'} left — high-yield review on weak topics only`,
+      description: `${examDaysLeft} day${examDaysLeft === 1 ? '' : 's'} left - high-yield review on weak topics only`,
       to: '/planner',
       subject: focusSubject ?? undefined,
     });
@@ -128,8 +101,8 @@ export function buildAdaptivePlan(input: BuildAdaptiveInput): AdaptivePlan {
       kind: 'review',
       title: `Rebuild confidence: ${c.subject}`,
       description: weakInSubject
-        ? `You rated this subject low — review ${weakInSubject.topic.slice(0, 36)} with rubric feedback`
-        : 'You rated this subject low — a short rubric review can shift how it feels on exam day',
+        ? `You rated this subject low - review ${weakInSubject.topic.slice(0, 36)} with rubric feedback`
+        : 'You rated this subject low - a short rubric review can shift how it feels on exam day',
       to: weakInSubject
         ? `/answer-reviewer?subject=${encodeURIComponent(c.subject)}&topic=${encodeURIComponent(weakInSubject.topic)}`
         : `/answer-reviewer?subject=${encodeURIComponent(c.subject)}`,
@@ -144,7 +117,7 @@ export function buildAdaptivePlan(input: BuildAdaptiveInput): AdaptivePlan {
       priority: 'medium',
       kind: 'practice',
       title: 'Foundation quiz',
-      description: 'Shorter questions with clear steps — build confidence before harder papers',
+      description: 'Shorter questions with clear steps - build confidence before harder papers',
       to: '/notetaker',
     });
   } else if (profile.gradeLevel === 'undergraduate') {
@@ -153,7 +126,7 @@ export function buildAdaptivePlan(input: BuildAdaptiveInput): AdaptivePlan {
       priority: 'low',
       kind: 'learn',
       title: 'Synthesis notes',
-      description: 'Connect ideas across topics — undergraduate exams reward links, not isolated facts',
+      description: 'Connect ideas across topics - undergraduate exams reward links, not isolated facts',
       to: '/notetaker',
     });
   }
@@ -177,7 +150,7 @@ export function buildAdaptivePlan(input: BuildAdaptiveInput): AdaptivePlan {
       priority: w.avgPercent < 50 ? 'urgent' : 'high',
       kind: 'learn',
       title: `Build adaptive notes: ${w.topic.slice(0, 40)}`,
-      description: `${w.subject} — ${Math.round(w.avgPercent)}% across ${w.attempts} verified attempt${w.attempts === 1 ? '' : 's'}`,
+      description: `${w.subject} - ${Math.round(w.avgPercent)}% across ${w.attempts} measured attempt${w.attempts === 1 ? '' : 's'}`,
       to: buildAdaptiveNoteRoute(w),
       subject: w.subject,
       topic: w.topic,
@@ -193,7 +166,7 @@ export function buildAdaptivePlan(input: BuildAdaptiveInput): AdaptivePlan {
       kind: 'remember',
       title: cramModeActive ? `Cram ${cardsToReview} high-yield cards` : `Review ${cardsToReview} due cards`,
       description: cramModeActive
-        ? 'Spaced repetition in exam cram mode — hardest cards first'
+        ? 'Spaced repetition in exam cram mode - hardest cards first'
         : 'Lock in facts before they slip',
       to: '/notetaker?mode=study',
     });
@@ -239,7 +212,7 @@ export function buildAdaptivePlan(input: BuildAdaptiveInput): AdaptivePlan {
       priority: 'low',
       kind: 'learn',
       title: 'Deep-dive with AI tutor',
-      description: 'Ask why, not just what — clarify concepts step by step',
+      description: 'Ask why, not just what - clarify concepts step by step',
       to: '/chatbot',
     });
   }
@@ -252,7 +225,8 @@ export function buildAdaptivePlan(input: BuildAdaptiveInput): AdaptivePlan {
   const estimatedMinutesToday =
     (cardsToReview > 0 ? Math.min(cardsToReview * 2, 30) : 0) +
     (cramModeActive ? 45 : 25) +
-    (weakest && weakest.mastery < 60 ? 30 : 0);
+    (weakest && weakest.mastery < 60 ? 30 : 0) +
+    (dueRetries.length > 0 ? Math.min(dueRetries.length * 15, 30) : 0);
 
   return {
     recommendations,

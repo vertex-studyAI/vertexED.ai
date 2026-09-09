@@ -1,232 +1,71 @@
-# VertexED Design System
+# VertexED: the revision trace
 
-## Product identity
+The BU1LD-inspired structural pass adds a numbered editorial introduction before the revision desk. Oversized study-specific type pairs with a short explanatory column, then the real interactive example. Thin blue chapter rules connect the sections. This extends the folio direction without replacing the logo, palette or study objects. Mobile uses a single reading column.
 
-VertexED is a study operating system built around one continuous loop: plan, focus, practise, review, remember. The interface should make that continuity visible. A task should feel like it travels through the product instead of disappearing into separate tools.
+## Folio opening, 9 September 2026
 
-The visual identity is blue and white. This is not a default SaaS palette. White is the field for clarity and academic focus. Blue represents active knowledge, selected context, motion, connection, and progress.
+This supersedes the centred opening below. Pair the headline with an interactive example folio. The three stages describe an attempt, a review and a retry, never saved progress. A cobalt paper edge and thin elliptical paths frame the document without a decorative grid. Keep the full revision desk below. Mobile stacks headline and folio, removes perspective and retains all controls. Both themes use opaque reading surfaces and existing primary tokens.
 
-The landing page may be cinematic. The product workspace must be calm enough to use for hours.
+## Planner task entry, 9 September 2026
 
-## Signature idea: the Vertex Field
+Planner creation opens in manual mode. Date, start time and duration are first-class controls; AI suggestion is an optional entry method, not a prerequisite for scheduling. Reuse AccessibleModal and native inputs. The task form has an opaque reading surface, a cobalt primary action, 16px input text and 14px labels. Date and time pickers follow the active colour scheme. Mobile stacks the fields without hiding them. Existing notebook and planner recovery states continue to preserve damaged records instead of presenting them as an empty collection.
 
-The primary visual behavior is the Vertex Field: real study objects connected through a visible trajectory.
+## Identity and evidence
 
-Use it to represent:
+VertexED is a private-beta study workspace. Its objects are a topic, a timed attempt, an answer, a review, a source, and a scheduled retry. Students use Plan, Focus, Practise, Review and Remember. Preserve Paper Maker, Answer Reviewer, Study Zone and Apex as product names.
 
-- a plan becoming a focused session
-- a session becoming practice
-- practice producing feedback
-- feedback producing a retrieval task
-- weak topics returning into the next plan
+Repository inspection covered the runtime inventory, route root, shared controls, landing content, styles, logo, artifact contract, retry and loop models, architecture, recovery contract, evaluation rubric, pilot protocol, and branch history. This is a repository-wide structural inspection, not a claim to have read every imported guide or unrelated research file. `VERTEXED_REPO_ISOLATION.md` excludes portfolio research from this product. The pilot is preregistered, not evidence of learning gains. Imported guides are not editorially approved.
 
-The field may appear as paths, nodes, flowing traces, expanding context, or shared-layout transitions. It must represent product structure. Do not use random particles or decorative graphs.
+The existing mark is an intersecting geometric network inside a circle. Keep the asset unchanged. Its line relationships inform our trace between study stages; do not invent a new logo or recolor the raster with a filter.
 
-## Color system
+## Visual thesis
 
-Primary family:
+### Current landing: an open revision desk
 
-- Vertex Blue 700: deep active contrast
-- Vertex Blue 600: primary action and selected state
-- Vertex Blue 500: high-energy motion accent
-- Vertex Blue 200: structural line and soft state
-- Vertex Blue 100: pale field tint
-- White: primary light surface
-- Ink: dark blue-black text, never neutral charcoal by accident
+The Inspira interaction refinement keeps this composition intact. Fine-pointer input adds at most two degrees of tilt to the desk and gallery previews, with a blue light confined to the shell. Keyboard focus immediately flattens the surface. The glass dock identifies the current reading section with both a blue surface and `aria-current`, without scrolling or focusing anything automatically. Tool details pair an enlarged, explicitly labelled example with actual tool information and bounded Previous/Next controls. Modals use the same light/dark tokens as the landing even though they render outside its DOM subtree. No globe, starfield, decorative grid or additional component library is introduced.
 
-Rules:
+This section supersedes earlier landing compositions below. The user explicitly rejected the background grid. Do not reintroduce decorative grids, graph paper, crosshairs or flickering squares. Functional layout grids are fine. The opening is spacious and centred, followed by a wide answer desk that restores the topic rail, answer and feedback margin on desktop. An unpatterned blue light beneath the desk supplies depth. Light uses near-white paper and cobalt; dark uses deep blue ink and brighter annotations. The headline's blue second line uses Georgia italic, extending the existing margin-handwriting convention to the hero and closing invitation. Body copy and controls retain the system-first Inter stack.
 
-- The first visual impression must remain blue and white.
-- Electric blue is an accent, not a page fill.
-- Prefer tonal blue depth to rainbow gradients.
-- Use success, warning, and destructive colors only for semantic states.
-- Avoid purple as a decorative shortcut.
+A starting-point guide routes notes, practice topics and answers to existing tools using local Radix tabs. It never generates or saves learner work. The horizontally browsable tool index uses concrete, labelled study examples rather than repeated floating icons. A native details section answers account, paper-provenance and suggested-mark questions. The comparison and interactive session split remain. `src/styles/landing.css` owns this composition and `.site-landing` scopes its palette across chrome and footer, without restyling authenticated workspaces.
 
-## Surfaces
+The comparison opens with both answers fully readable; the slider is optional. A dedicated cobalt Exam Prep section changes the page's rhythm and keeps its example plan on an opaque reading surface. In dark mode that section uses a deeper blue and retains a dark reading surface. Native duration controls wrap at enlarged text sizes. Mobile example sheets are flat, not tilted.
 
-Landing surfaces may use:
+The home layout must not inherit the shared `bg-transparent overflow-x-hidden` utility pair. It owns its opaque background and `overflow-x: clip` rule. A hidden/auto wrapper can become an invisible horizontal scroll container when focus changes, shifting the entire page while the document width still appears correct. The browser suite checks the computed overflow mode and wrapper scroll position, not just document width.
 
-- large white fields
-- deep blue fields
-- translucent blue layers
-- masked gradients that follow the Vertex Field
-- controlled blur at transitions
-- edge highlights tied to motion
+The headline is “You’ve read it. Now try it.” Reading text stays opaque. Depth belongs to the desk boundary and controls. Use the existing AccessibleModal for tool detail, native range for comparison and native scroll-snap for the gallery. There is no fake testimonial, grade improvement, user count or invented product screenshot. Illustrative answers, timer faces and study blocks are explicitly labelled examples, not a live timer or saved schedule. Small icons describe tool categories; they are not analytical outputs.
 
-Product surfaces should prefer:
+An exam workbook with a visible revision trace. Blue annotation lines connect the answer a student wrote to the next thing they practise. This relationship, not an AI orb or decorative dashboard, is the signature.
 
-- white or near-white workspace backgrounds
-- restrained blue selection states
-- thin structural dividers
-- tonal grouping before card containers
-- dark mode as a deep ink and blue system, not a generic black glass theme
+- Primary identity: white paper, deep blue ink, cobalt action. Shared tokens remain in `src/styles/workbook.css`. Light primary is HSL 216 75% 40%; dark primary is HSL 213 88% 73%. Do not introduce purple, teal or rainbow brand gradients.
+- Preserve dark mode and accessibility preferences. Semantic error/success colors may remain; they are not brand accents.
+- System-first Inter stack. Body 16px minimum on new surfaces; controls 14px; metadata 12px. Monospace is limited to stage numbers and document metadata.
+- Spacing: 4, 8, 12, 16, 24, 32, 48, 64px. Radius: controls 8px, paper 12px, glass shell 24px. No arbitrary mixture of pill-shaped cards.
+- White reading surfaces inside translucent blue chrome. Use glass only when overlapping layers make its purpose visible. Solid fallback for unsupported/reduced-transparency/forced-color modes.
+- Landing: deliberate asymmetry, oversized task-specific headline, interactive sample answer with a linked annotation rail. Study routes: compact headers and useful controls first.
+- Use lines, margins, stage numbers and highlighted passages instead of enclosing every sentence in a card.
 
-## Typography
+## Native interface ideas
 
-Typography should feel academic, technical, and direct.
+Latest landing direction: left-aligned oversized typography, an edition rule, a cobalt ink underline and pointer-driven ink ribbon. This is an explicit user-requested extension of the revision-trace identity. Effects frame the answer sheet without obscuring its text or adding fictional metrics. Preserve the original logo and the real tool directory. The edition text is product copy, not a release/version claim.
 
-- Display: tight tracking, strong scale, short lines
-- Page title: clear and compact
-- Section title: functional, not theatrical
-- Body: high readability and moderate line length
-- Metadata: small but not faint
-- Numerical data: tabular numerals when useful
+1. Revision trace: one topic stays anchored while a tab moves from Attempt to Review to Retry. Never imply that clicking the demonstration records real progress.
+2. Annotation rail: blue ruled commentary beside an opaque answer sheet. Sources and provisional status remain visible.
+3. Evidence-first state: show saved/local-only/pending/confirmed explicitly. No fabricated readiness percentages or grade predictions.
 
-Do not use giant type as a substitute for composition. Landing typography may become spatial and animated when it remains readable.
+4. Dashboard retry trace: display the actual retry record's score, measured-attempt count and due date together. Label a previous score as recorded, not predicted. Do not draw a relationship to a pending mock unless an explicit data link exists. Empty retry state offers practice without pretending the learner has completed work.
 
-## Spacing
+## Engineering and review
 
-Core spacing scale:
+### Landing refinement, 8 September 2026
 
-4, 8, 12, 16, 24, 32, 48, 64, 96
+The landing now uses a centred two-line editorial opening above a wide revision desk. The same topic remains visible in a left context rail, an opaque answer sheet and a right feedback margin. On tablet the noninteractive topic rail is omitted; on mobile feedback follows the answer. Georgia italic is reserved for example margin annotations, never body copy or controls. The original logo is reused unchanged. A saturated cobalt invitation closes the page; the tool directory is a compact two-column index, not a wall of cards. Landing-specific composition lives in `src/styles/landing.css`; it must not restyle authenticated tools. Minimum metadata size remains 12px. Rendered approval is pending browser-policy access.
 
-Use denser spacing inside product workflows and broader spacing in narrative landing sections. Do not add large empty areas without a compositional reason.
+Reuse the repository Radix tabs, AccessibleModal, existing navigation and theme controls. No new component dependency or registry import is needed for this pass. No private registry manifest was found. Read COPY.md, MOTION.md and REFERENCES.md before subsequent interface changes. Validate 1440, 1024 and 390px, keyboard tabs, reduced motion and dark mode. Preserve active user work. New factual claims require evidence and human review, not linter autofixes.
 
-## Radius
+## Apex companion extension, 9 September 2026
 
-- Small controls: 6 to 8px
-- Input and compact panels: 8 to 10px
-- Larger panels: 10 to 14px
-- Pills only for true tags, compact filters, status, or deliberately capsule-shaped actions
+The user requested an original VertexED sprite, then named him Apex. Apex is a small pixel-art open-workbook creature, with white pages, cobalt folded corners, ink-blue eyes, little feet and a bookmark tail. He is a secondary character, never a replacement for the circular network logo or the revision trace. His complete generated artwork and prompt are documented in `brand/SPRITE.md`. The earlier working name Vee is retired from interface copy. Existing asset URLs and CSS selectors remain stable.
 
-Do not round every surface into a floating bubble.
+Apex sits in the lower-right corner at 96px on desktop and 72px on mobile. His current form is an original 32-bit-style open workbook with cobalt covers, a triangular chest mark and crisp square-pixel shading. Paper is the white reading-surface version; Ink is the midnight version with the same blue details. This is an illustration of the revision trace, not a replacement for the product mark. A labelled button opens an opaque study-shortcut sheet. Plan, Focus and Practise lead to existing tools. Asking the AI tutor opens the existing Apex panel when available; do not add a second chat system. Only one tutor/companion launcher is shown at once. Keep him out of authentication, onboarding, admin and legal screens. Simple Mode suppresses him. The footer and shortcut sheet expose a hide control, stored only as a device preference. Three small Hop, Wiggle and Spin controls play finite reactions without changing learner data. No automated nudges, streak pressure, invented progress or learner monitoring.
 
-## Borders and shadows
-
-Borders are structural, not decorative. Use them to show containment, focus, and state.
-
-Shadows should be rare. Prefer contrast, layering, overlap, and tonal changes. Large soft shadows are acceptable on expressive landing objects when they communicate depth.
-
-## Layout
-
-### Landing
-
-The landing page should feel authored as a sequence, not stacked templates.
-
-Use:
-
-- asymmetrical compositions
-- edge-to-edge field moments
-- sections connected by shared visual material
-- product objects that transform between sections
-- typography anchored to the study trajectory
-- controlled changes in density
-
-Avoid:
-
-- hero plus screenshot plus three cards
-- repeated three-column feature grids
-- centered text in every section
-- endless bordered cards
-
-### Product
-
-The logged-in product should prioritize:
-
-- clear location
-- the current study object
-- the next useful action
-- visible relationship to surrounding work
-- keyboard speed
-- compact information density
-
-Do not bring landing-page spectacle into focused study sessions.
-
-## Product objects
-
-Treat these as first-class interface material rather than generic cards:
-
-- study task
-- subject
-- topic
-- study session
-- paper or question set
-- answer attempt
-- rubric feedback
-- mark loss
-- note
-- flashcard
-- quiz
-- planner block
-- retrieval task
-- AI explanation or review context
-
-## Signature interaction candidates
-
-### Study Trajectory
-
-A persistent visual trace that connects Plan, Focus, Practise, Review, and Remember. It can compress in the product and expand on the landing page.
-
-### Focus Lens
-
-Selecting a study object should reduce surrounding visual noise while preserving spatial context.
-
-### Evidence Carry
-
-When a user moves from an answer review to a new plan or retrieval task, the relevant weak topic should visually carry into the next state rather than vanish.
-
-### Context Ribbon
-
-A compact location system for subject, unit, topic, task, and attempt. It can expand on demand and compress during focused work.
-
-## Data visualization
-
-Visualizations must answer a real question. Prefer:
-
-- trajectory over isolated percentages
-- comparisons over decorative charts
-- topic relationships over arbitrary node clouds
-- change over time over static KPI cards
-- uncertainty or evidence state when meaningful
-
-Never fabricate progress, confidence, mastery, or model certainty.
-
-## Icons
-
-Use one coherent outlined icon family. Keep icons subordinate to nouns and actions. Do not place icons beside every sentence.
-
-## Responsive behavior
-
-Design intentionally for 1440, 1280, 1024, 768, 430, 390, and 360px.
-
-On smaller screens:
-
-- simplify field geometry
-- reduce concurrent motion
-- preserve the core study trajectory
-- remove nonessential depth layers
-- keep primary actions reachable
-- transform dense desktop compositions rather than simply stacking them
-
-## Accessibility
-
-Visual ambition must preserve:
-
-- semantic HTML
-- visible keyboard focus
-- readable contrast
-- reduced motion
-- clear labels
-- touch target size
-- predictable focus order
-
-## Forbidden patterns
-
-Do not use:
-
-- random particles
-- decorative neural-network imagery
-- purple AI gradients
-- card grids as the default layout
-- glass on every surface
-- giant pill buttons everywhere
-- fake analytics
-- fabricated testimonials
-- decorative 3D with no product meaning
-- excessive glow
-- animation that delays task completion
-- copied visual identity from reference sites
-
-## Identity test
-
-Remove the logo and project name mentally. If the screen could belong to any unrelated AI study startup, the design is not finished. The study trajectory, blue and white field, continuity between academic objects, typography, and motion should still identify VertexED.
+The launcher may be dragged to any viewport-bounded position. Store a relative device position so it survives resizing without becoming stranded off screen. Arrow keys are the keyboard equivalent; Shift plus an arrow makes a larger move. The shortcut sheet exposes Reset position. Blink and Turn page use paired Paper and Ink raster frames with the same workbook silhouette. These are finite reactions, not an idle animation.

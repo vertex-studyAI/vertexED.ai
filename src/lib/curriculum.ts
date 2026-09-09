@@ -1,4 +1,5 @@
 import type { BoardConfig, CurriculumPreference, ExamBoard } from '@/types/curriculum';
+import { normalizeExamTargets } from './examTargets.mjs';
 
 function range(start: number, end: number): number[] {
   return Array.from({ length: end - start + 1 }, (_, i) => start + i);
@@ -211,7 +212,8 @@ export function getCurriculumPreference(
   const rawExamDate = readMetadataValue(metadata, 'exam_date', 'examDate');
   const examDate = typeof rawExamDate === 'string' ? rawExamDate : null;
 
-  return { board, grade, subjects, examDate };
+  const examTargets = normalizeExamTargets(readMetadataValue(metadata, 'exam_targets', 'examTargets'), subjects);
+  return { board, grade, subjects, examDate, examTargets };
 }
 
 export function buildCurriculumMetadata(
@@ -237,6 +239,12 @@ export function buildCurriculumMetadata(
     metadata.exam_date = pref.examDate;
     prefs.examDate = pref.examDate;
   }
+  if (pref.examTargets !== undefined) {
+    const subjects = pref.subjects ?? getCurriculumPreference({ user_metadata: existing }).subjects;
+    const targets = normalizeExamTargets(pref.examTargets, subjects);
+    metadata.exam_targets = targets;
+    prefs.examTargets = targets;
+  }
 
   if (Object.keys(prefs).length > 0) {
     metadata.preferences = {
@@ -250,12 +258,27 @@ export function buildCurriculumMetadata(
 
 export function daysUntilExam(examDate: string | null): number | null {
   if (!examDate) return null;
-  const target = new Date(examDate);
-  if (Number.isNaN(target.getTime())) return null;
+  const dateOnly = /^(\d{4})-(\d{2})-(\d{2})$/.exec(examDate);
+  let targetDay: number;
+  if (dateOnly) {
+    const year = Number(dateOnly[1]);
+    const month = Number(dateOnly[2]);
+    const day = Number(dateOnly[3]);
+    const candidate = new Date(Date.UTC(year, month - 1, day));
+    if (
+      candidate.getUTCFullYear() !== year
+      || candidate.getUTCMonth() !== month - 1
+      || candidate.getUTCDate() !== day
+    ) return null;
+    targetDay = candidate.getTime();
+  } else {
+    const target = new Date(examDate);
+    if (Number.isNaN(target.getTime())) return null;
+    targetDay = Date.UTC(target.getFullYear(), target.getMonth(), target.getDate());
+  }
   const now = new Date();
-  now.setHours(0, 0, 0, 0);
-  target.setHours(0, 0, 0, 0);
-  return Math.ceil((target.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
+  const today = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate());
+  return Math.round((targetDay - today) / (1000 * 60 * 60 * 24));
 }
 
 export type BoardLearningTrack = {
@@ -267,7 +290,7 @@ export type BoardLearningTrack = {
 
 export const BOARD_LEARNING_TRACKS: BoardLearningTrack[] = [
   {
-    title: 'English — Language & Literature',
+    title: 'English - Language & Literature',
     to: '/archives-lnl',
     boards: ['IB_MYP', 'IB_DP', 'IGCSE', 'GCSE', 'A_LEVELS'],
     tools: [
@@ -346,10 +369,10 @@ export function getTracksForBoard(board: ExamBoard | null): BoardLearningTrack[]
 }
 
 export function getBoardHeroMessage(board: ExamBoard | null): string {
-  if (!board) return 'Everything connects here — notes flow into flashcards, papers into reviews, and progress follows you across every tool.';
+  if (!board) return 'Everything connects here - notes flow into flashcards, papers into reviews, and progress follows you across every tool.';
   const config = BOARD_CONFIGS[board];
   const features = config.features?.slice(0, 2).join(', ') ?? 'exam prep';
-  return `Your ${config.label} workspace — ${features}, and tools tuned to your board.`;
+  return `Your ${config.label} workspace - ${features}, and tools tuned to your board.`;
 }
 
 export function getThisWeekFocus(
@@ -359,7 +382,7 @@ export function getThisWeekFocus(
 ): string[] {
   const focus: string[] = [];
   if (daysLeft !== null && daysLeft >= 0 && daysLeft <= 14) {
-    focus.push(`Exam in ${daysLeft} day${daysLeft === 1 ? '' : 's'} — prioritize weak topics and timed mocks`);
+    focus.push(`Exam in ${daysLeft} day${daysLeft === 1 ? '' : 's'} - prioritize weak topics and timed mocks`);
   }
   if (subjects.length > 0) {
     focus.push(`This week: drill ${subjects.slice(0, 2).join(' & ')} with flashcards and a mock paper`);

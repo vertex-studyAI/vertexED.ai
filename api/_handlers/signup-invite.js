@@ -1,14 +1,11 @@
 import { readJsonBody, rejectOversizedJsonBody } from '../_lib/auth.js';
 import { getSupabaseAdmin } from '../_lib/supabaseAdmin.js';
+import { hasServerSupabaseConfig } from '../_lib/serverSupabase.js';
 import { checkDbRateLimit } from '../_lib/dbRateLimit.js';
 import { isInviteCodeConfiguredSafely, verifyInviteCode } from '../_lib/inviteCode.js';
 import { getWaitlistEntryByToken } from '../_lib/waitlistAccess.js';
-import { createApprovedWaitlistUser } from '../_lib/waitlistSignup.js';
+import { createApprovedWaitlistUser, createTeamInvitedUser } from '../_lib/waitlistSignup.js';
 import { getClientIp, normalizeEmail, validatePassword } from '../_lib/security.js';
-
-function hasSignupBackendConfig() {
-  return Boolean(process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY);
-}
 
 function getTeamInviteRedirectUrl() {
   const appUrl = process.env.APP_URL || process.env.SITE_URL || 'https://www.vertexed.app';
@@ -44,7 +41,7 @@ export default async function handler(req, res) {
       if (!inviteToken) {
         return res.status(400).json({ error: 'Approval token is required.' });
       }
-      if (!hasSignupBackendConfig()) {
+      if (!hasServerSupabaseConfig()) {
         return res.status(503).json({ error: 'Account creation is temporarily unavailable. Please try again later.' });
       }
 
@@ -90,7 +87,7 @@ export default async function handler(req, res) {
         return res.status(400).json({ error: 'Enter a valid email address.' });
       }
 
-      if (!hasSignupBackendConfig()) {
+      if (!hasServerSupabaseConfig()) {
         return res.status(503).json({ error: 'Account creation is temporarily unavailable. Please try again later.' });
       }
 
@@ -100,17 +97,25 @@ export default async function handler(req, res) {
       // mailbox; only the recipient can establish the authenticated session and
       // choose a password after accepting it.
       const supabase = getSupabaseAdmin();
-      const { error } = await supabase.auth.admin.inviteUserByEmail(normalizedEmail, {
-        data: { username: normalizedUsername },
+      const invitation = await createTeamInvitedUser(supabase, {
+        email: normalizedEmail,
+        username: normalizedUsername,
         redirectTo: getTeamInviteRedirectUrl(),
       });
 
-      if (error) {
-        console.error('signup-invite inviteUserByEmail:', error.message);
-        if (error.message?.toLowerCase().includes('already')) {
+      if (invitation.error) {
+        console.error('signup-invite team invitation:', invitation.error.code || invitation.error.name || 'AuthError');
+        if (invitation.rollbackError) {
+          console.error('signup-invite team rollback:', invitation.rollbackError.code || invitation.rollbackError.name || 'AuthError');
+        }
+        if (invitation.stage === 'invite' && invitation.error.message?.toLowerCase().includes('already')) {
           return res.status(409).json({ error: 'This email is already registered. Try logging in.' });
         }
-        return res.status(400).json({ error: 'Could not send the account invitation. Check your details and try again.' });
+        return res.status(invitation.stage === 'finalize' ? 503 : 400).json({
+          error: invitation.stage === 'finalize'
+            ? 'Could not finalize the invitation safely. Please try again.'
+            : 'Could not send the account invitation. Check your details and try again.',
+        });
       }
 
       return res.status(200).json({ ok: true, requiresEmailVerification: true });
@@ -125,7 +130,7 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: passwordCheck.error });
     }
 
-    if (!hasSignupBackendConfig()) {
+    if (!hasServerSupabaseConfig()) {
       return res.status(503).json({ error: 'Account creation is temporarily unavailable. Please try again later.' });
     }
 
@@ -147,16 +152,16 @@ export default async function handler(req, res) {
 
     if (signup.error) {
       if (signup.stage === 'create') {
-        console.error('signup-invite createUser:', signup.error.message);
+        console.error('signup-invite createUser:', signup.error.code || signup.error.name || 'AuthError');
         if (signup.error.message?.toLowerCase().includes('already')) {
           return res.status(409).json({ error: 'This email is already registered. Try logging in.' });
         }
         return res.status(400).json({ error: 'Could not create account. Check your details and try again.' });
       }
 
-      console.error('signup-invite finalization failed:', signup.error.message);
+      console.error('signup-invite finalization failed:', signup.error.code || signup.error.name || 'DatabaseError');
       if (signup.rollbackError) {
-        console.error('signup-invite rollback failed:', signup.rollbackError.message);
+        console.error('signup-invite rollback failed:', signup.rollbackError.code || signup.rollbackError.name || 'AuthError');
       }
       return res.status(503).json({
         error: 'Could not finalize account creation safely. Please try again.',
@@ -165,7 +170,7 @@ export default async function handler(req, res) {
 
     return res.status(200).json({ ok: true, requiresEmailVerification: false });
   } catch (err) {
-    console.error('signup-invite error:', err);
+    console.error('signup-invite error:', err?.code || (err instanceof Error ? err.name : 'UnknownError'));
     return res.status(500).json({ error: 'Could not create account. Please try again later.' });
   }
 }

@@ -17,13 +17,13 @@ import { useAuth } from "@/contexts/AuthContext";
 export default function ArchivesHome() {
   const reduceMotion = useReducedMotion();
   const { isAuthenticated } = useAuth();
-  const hubTarget = isAuthenticated ? "/learning-hub" : "/signup";
-  const hubLabel = isAuthenticated ? "Learning Hub" : "sign up for Learning Hub";
+  const hubTarget = isAuthenticated ? "/main" : "/signup";
+  const hubLabel = isAuthenticated ? "study dashboard" : "sign up for the study dashboard";
 
   return (
     <>
       <Helmet>
-        <title>Archives — VertexED</title>
+        <title>Archives - VertexED</title>
         <meta
           name="description"
           content="A curated, subject-wise archive of IB MYP notes, exemplars, and study material."
@@ -37,7 +37,7 @@ export default function ArchivesHome() {
             Archives
           </h1>
           <p className="text-sm text-muted-foreground mt-1 max-w-4xl leading-relaxed">
-            Subject-wise notes, exemplars, and study material — English Language &amp; Literature, History, and Geography.
+            Subject-wise notes, exemplars, and study material - English Language &amp; Literature, History, and Geography.
             Built to reference during revision, not replace your own notes or teacher feedback.
           </p>
         </header>
@@ -46,7 +46,7 @@ export default function ArchivesHome() {
           <div className="flex items-start gap-3">
             <Clock className="h-5 w-5 text-primary shrink-0 mt-0.5" aria-hidden />
             <p className="text-sm text-muted-foreground">
-              Starter guides and exemplars are live for LnL, History, and Geography — with more subjects on the way. Browse below, explore the{" "}
+              Starter guides and exemplars are live for LnL, History, and Geography - with more subjects on the way. Browse below, explore the{" "}
               <Link to={hubTarget} className="text-primary hover:underline">
                 {hubLabel}
               </Link>
@@ -76,8 +76,8 @@ export default function ArchivesHome() {
                 answers, and explanations you can actually learn from.
               </li>
               <li>
-                A <span className="text-foreground font-medium">reference library</span>, not a scroll feed —
-                every piece is added on purpose.
+                A <span className="text-foreground font-medium">reference library</span>, not a scroll feed.
+                Every piece is added on purpose.
               </li>
               <li>
                 Shows you <span className="text-foreground font-medium">how strong answers are built</span>,
@@ -89,7 +89,7 @@ export default function ArchivesHome() {
               <div className="flex items-start gap-3 text-sm text-muted-foreground">
                 <UploadCloud size={18} className="mt-0.5 shrink-0" aria-hidden />
                 <p>
-                  Got notes or exemplars to share? Send them our way — we review everything before it goes live.
+                  Got notes or exemplars to share? Send them our way - we review everything before it goes live.
                   <br />
                   <a
                     href="mailto:vertexed.25@gmail.com"
@@ -105,7 +105,7 @@ export default function ArchivesHome() {
           <div className="lg:col-span-2 space-y-4">
             <ArchiveCard
               to="/archives-lnl"
-              title="English — Language & Literature"
+              title="English - Language & Literature"
               description="Literary analysis, annotated texts, and exemplar responses across prose, poetry, and non-fiction."
               reduceMotion={reduceMotion}
             />

@@ -10,6 +10,7 @@ test('production smoke certifies readiness capabilities and immutable identity',
   assert.match(smokeSource, /waitlist/);
   assert.match(smokeSource, /coreAi/);
   assert.match(smokeSource, /plannerAi/);
+  assert.match(smokeSource, /examSessionStorage/);
   assert.match(smokeSource, /x-vertexed-health/);
   assert.match(smokeSource, /assertExpectedRevision\(readiness/);
 });

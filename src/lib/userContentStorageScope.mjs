@@ -12,6 +12,10 @@ export function setUserContentStorageScope(scope) {
   activeScope = scope;
 }
 
+export function getUserContentStorageScope() {
+  return typeof activeScope === 'string' && activeScope.trim() ? activeScope : null;
+}
+
 export function userContentStorageKeys(scope = activeScope) {
   const normalized = normalizeUserContentStorageScope(scope);
   const prefix = `vertex_content:${normalized}`;
@@ -22,12 +26,15 @@ export function userContentStorageKeys(scope = activeScope) {
     apexPrefill: `${prefix}:apex_prefill`,
     mockReviewHandoff: `${prefix}:mock_review_handoff`,
     mockExamAnswers: `${prefix}:mock_exam_answers`,
+    mockExamDraft: `${prefix}:mock_exam_draft`,
     sketchPad: `${prefix}:sketch_pad`,
     activity: `${prefix}:study_activity`,
     quickNotes: `${prefix}:quick_notes`,
     lastStudySession: `${prefix}:last_study_session`,
     srDeck: `${prefix}:sr_deck`,
     weaknessHeatmap: `${prefix}:weakness_heatmap`,
+    retryQueue: `${prefix}:retry_queue`,
+    learnerStateOutbox: `${prefix}:learner_state_outbox`,
     studyLoopWeek: `${prefix}:study_loop_week`,
     progressSnapshots: `${prefix}:progress_snapshots`,
     todayPlanDone: `${prefix}:today_plan_done`,
@@ -37,5 +44,8 @@ export function userContentStorageKeys(scope = activeScope) {
     lastStudyDate: `${prefix}:last_study_date`,
     habits: `${prefix}:habits`,
     habitsResetDate: `${prefix}:habits_reset_date`,
+    boardGuides: `${prefix}:board_guides`,
+    examPrepSession: `${prefix}:exam_prep_session`,
+    examPrepHistory: `${prefix}:exam_prep_history`,
   };
 }

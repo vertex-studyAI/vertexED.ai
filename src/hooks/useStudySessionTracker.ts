@@ -3,11 +3,10 @@ import { useLocation } from 'react-router';
 
 import { getStudyContext } from '@/lib/studyContext';
 import { rememberStudySession } from '@/lib/studyActivity';
-import { recordLoopStep, ROUTE_LOOP_STEP } from '@/lib/studyLoopTracker';
 
 const TRACKED_PREFIXES = [
-  '/main',
-  '/learning-hub',
+  '/exam-prep',
+  '/study-notebook',
   '/study-zone',
   '/notetaker',
   '/planner',
@@ -17,7 +16,7 @@ const TRACKED_PREFIXES = [
 ];
 
 export function useStudySessionTracker(enabled: boolean): void {
-  const { pathname } = useLocation();
+  const { pathname, search } = useLocation();
 
   useEffect(() => {
     if (!enabled) return;
@@ -26,11 +25,8 @@ export function useStudySessionTracker(enabled: boolean): void {
     );
     if (!tracked) return;
     const context = getStudyContext(pathname);
-    rememberStudySession(pathname, context.label);
-
-    const loopStep = Object.entries(ROUTE_LOOP_STEP).find(
-      ([prefix]) => pathname === prefix || pathname.startsWith(`${prefix}/`),
-    )?.[1];
-    if (loopStep) recordLoopStep(loopStep);
-  }, [enabled, pathname]);
+    // Navigation records a resume location; completion is recorded by the
+    // planner, timer, practice and review actions themselves.
+    rememberStudySession(`${pathname}${search}`, context.label);
+  }, [enabled, pathname, search]);
 }

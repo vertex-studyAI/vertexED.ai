@@ -12,13 +12,40 @@ export type SrRating = "again" | "hard" | "good" | "easy";
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 
+function cardId() {
+  return `card:${crypto.randomUUID()}`;
+}
+
+/** Preserve valid identities and scheduling while repairing historical collisions. */
+export function repairCardIds(cards: SrCard[]): SrCard[] {
+  const seen = new Set<string>();
+  return (Array.isArray(cards) ? cards : []).filter(card => card && typeof card.front === 'string' && typeof card.back === 'string').map(card => {
+    const id = card.id && !seen.has(card.id) ? card.id : cardId();
+    seen.add(id);
+    return id === card.id ? card : { ...card, id };
+  });
+}
+
+export function mergeReviewCards(existing: SrCard[], flashcards: { front: string; back: string }[], deckId: string): SrCard[] {
+  const repaired = repairCardIds(existing);
+  const seen = new Set(repaired.map(card => JSON.stringify([card.front, card.back])));
+  const incoming = flashcards.filter(card => {
+    const key = JSON.stringify([card.front, card.back]);
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+  if (!incoming.length && repaired.length === existing.length && repaired.every((card, i) => card === existing[i])) return existing;
+  return [...repaired, ...cardsFromFlashcards(incoming, deckId)];
+}
+
 export function cardsFromFlashcards(
   flashcards: { front: string; back: string }[],
   deckId: string,
 ): SrCard[] {
   const now = new Date().toISOString();
-  return flashcards.map((card, i) => ({
-    id: `${deckId}-${i}`,
+  return flashcards.map((card) => ({
+    id: cardId(),
     front: card.front,
     back: card.back,
     ease: 2.5,

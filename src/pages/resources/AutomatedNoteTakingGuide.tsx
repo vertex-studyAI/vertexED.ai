@@ -8,18 +8,18 @@ export default function AutomatedNoteTakingGuide() {
     <>
       <SEO
         title="Automated note taking for revision | VertexED"
-        description="When AI handles capture, you can listen in class and turn lectures into summaries, flashcards, and quizzes the same evening — without transcribing word for word."
+        description="When AI handles capture, you can listen in class and turn lectures into summaries, flashcards, and quizzes the same evening - without transcribing word for word."
         canonical="https://www.vertexed.app/resources/automated-note-taking-guide"
         keywords="automated note taking, AI note taker, summarize lecture notes, convert notes to flashcards, study efficiency, VertexED"
       />
       <Article
         title="Automated note taking: capture, then actually learn"
-        subtitle="Offload transcription so you can listen in class — then turn material into retrieval the same evening."
+        subtitle="Offload transcription so you can listen in class - then turn material into retrieval the same evening."
         kicker="Guides"
       >
         <p className="lead">
           Writing everything the teacher says feels productive. Often it is not. Splitting attention between
-          listening and transcribing means you capture words without encoding meaning — a notebook full of
+          listening and transcribing means you capture words without encoding meaning - a notebook full of
           lines you will not revisit before the mock.
         </p>
         <p>
@@ -30,7 +30,7 @@ export default function AutomatedNoteTakingGuide() {
 
         <h2>Why manual transcription often fails</h2>
         <p>
-          The forgetting curve is steep — you lose a large share of new information within an hour. Notes
+          The forgetting curve is steep - you lose a large share of new information within an hour. Notes
           are meant to slow that loss. But if you are focused on <em>transcribing</em> (word-for-word), you
           are not engaging in <em>encoding</em> (processing what it means).
         </p>
@@ -124,7 +124,7 @@ export default function AutomatedNoteTakingGuide() {
 
         <h2>FAQ</h2>
         <p><strong>Does taking notes by hand help memory more?</strong> Handwriting can aid encoding. But automated capture frees time for active recall, which matters more for exam day. A common split: AI for initial capture, handwriting for revision (e.g., mind maps from the summary).</p>
-        <p><strong>Can I upload handwritten notes?</strong> Yes — VertexED&apos;s Notetaker includes OCR to convert photos of handwriting into text for summarization.</p>
+        <p><strong>Can I upload handwritten notes?</strong> Yes - VertexED&apos;s Notetaker includes OCR to convert photos of handwriting into text for summarization.</p>
         <p><strong>Is it safe to upload my textbook?</strong> Yes, for personal study use. VertexED does not train public models on your private uploads.</p>
 
         <div className="not-prose mt-8 flex gap-3 flex-wrap">
@@ -134,8 +134,8 @@ export default function AutomatedNoteTakingGuide() {
 
         <h2 className="mt-10">Evidence &amp; references</h2>
         <ul>
-          <li>Mueller, P. A., &amp; Oppenheimer, D. M. (2014): The Pen Is Mightier Than the Keyboard — advantages of longhand over laptop note taking.</li>
-          <li>Dunlosky et al. (2013): Improving Students&apos; Learning with Effective Learning Techniques — summarization alone scores low; practice testing scores high.</li>
+          <li>Mueller, P. A., &amp; Oppenheimer, D. M. (2014): The Pen Is Mightier Than the Keyboard - advantages of longhand over laptop note taking.</li>
+          <li>Dunlosky et al. (2013): Improving Students&apos; Learning with Effective Learning Techniques - summarization alone scores low; practice testing scores high.</li>
         </ul>
 
         <div className="article-footer">
@@ -155,7 +155,7 @@ export default function AutomatedNoteTakingGuide() {
         <p>
           Automated note taking is not a shortcut around thinking. It moves low-value transcription off your
           plate so you can spend revision blocks on analysis, retrieval, and timed practice. Start with one
-          lecture and run the full loop — capture, trim, quiz — in <Link to="/signup">VertexED</Link>.
+          lecture and run the full loop - capture, trim, quiz - in <Link to="/signup">VertexED</Link>.
         </p>
       </Article>
     </>

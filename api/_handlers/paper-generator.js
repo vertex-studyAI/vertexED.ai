@@ -5,6 +5,7 @@ import {
   buildGenerationMetadata,
   normalizeGeneratedPaper,
 } from '../_lib/learningArtifactFallbacks.js';
+import { fetchProvider } from '../_lib/providerRequest.js';
 
 const OPENAI_URL = "https://api.openai.com/v1/chat/completions";
 const DEFAULT_MODEL = "gpt-4.1";
@@ -266,19 +267,20 @@ export default async function handler(req, res) {
       return res.status(200).json(fallbackPaperResponse(data, 'provider_unconfigured'));
     }
 
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
+    const model = process.env.OPENAI_MODEL || DEFAULT_MODEL;
     let openaiResp;
     try {
-      openaiResp = await fetch(OPENAI_URL, {
+      openaiResp = await fetchProvider({
+        capability: 'paper', provider: 'openai', model, url: OPENAI_URL,
+        timeoutMs: REQUEST_TIMEOUT_MS,
+        options: {
         method: "POST",
-        signal: controller.signal,
         headers: {
           Authorization: `Bearer ${apiKey}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          model: process.env.OPENAI_MODEL || DEFAULT_MODEL,
+          model,
           temperature: 0.15,
           max_tokens: 3500,
           messages: [
@@ -319,14 +321,13 @@ export default async function handler(req, res) {
             },
           },
         }),
+        },
       });
     } catch (error) {
       return res.status(200).json(fallbackPaperResponse(
         data,
-        error?.name === 'AbortError' ? 'provider_timeout' : 'provider_failure',
+        error?.code === 'PROVIDER_TIMEOUT' ? 'provider_timeout' : 'provider_failure',
       ));
-    } finally {
-      clearTimeout(timeout);
     }
 
     if (!openaiResp.ok) {

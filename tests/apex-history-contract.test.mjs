@@ -3,7 +3,7 @@ import fs from 'node:fs';
 import test from 'node:test';
 
 const apexHookSource = fs.readFileSync('src/hooks/useApexChat.ts', 'utf8');
-const askSource = fs.readFileSync('api/_handlers/ask.js', 'utf8');
+const askSource = fs.readFileSync('api/_lib/askPrompt.js', 'utf8');
 const guideSource = fs.readFileSync('api/_handlers/study-guide-chat.js', 'utf8');
 
 test('Apex client sends only completed prior turns in history', () => {
@@ -19,9 +19,9 @@ test('Apex client sends only completed prior turns in history', () => {
 test('ask handler drops an older-client trailing duplicate of the current question', () => {
   assert.match(askSource, /const recentHistory = history\.slice\(-10\)/);
   assert.match(askSource, /duplicatesCurrentQuestion/);
-  assert.match(askSource, /index === recentHistory\.length - 1 && role === "user" && text === trimmedQuestion/);
+  assert.match(askSource, /index === recentHistory\.length - 1 && role === ['"]user['"] && text === trimmedQuestion/);
   assert.match(askSource, /if \(text && !duplicatesCurrentQuestion\) messages\.push/);
-  assert.match(askSource, /messages\.push\(\{ role: "user", content: trimmedQuestion \}\)/);
+  assert.match(askSource, /messages\.push\(\{ role: ['"]user['"], content: trimmedQuestion \}\)/);
 });
 
 test('study-guide chat also drops a trailing duplicate current question', () => {

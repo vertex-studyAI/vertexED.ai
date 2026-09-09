@@ -40,6 +40,16 @@ test('local and CI builds restore neutral source identity after packaging', asyn
   assert.match(source, /writeFileSync\(buildRevisionModule, neutralBuildRevision/);
 });
 
+test('fixture browser builds are isolated from the normal local preview', async () => {
+  const build = await readBuildScript();
+  const config = await readFile(new URL('../playwright.golden.config.ts', import.meta.url), 'utf8');
+  const ignored = await readFile(new URL('../.gitignore', import.meta.url), 'utf8');
+  assert.match(build, /\[viteCli, 'build', \.\.\.process\.argv\.slice\(2\)\]/);
+  assert.match(config, /npm run build -- --outDir \.vertexed-test-dist/);
+  assert.match(config, /npm run preview -- --outDir \.vertexed-test-dist/);
+  assert.match(ignored, /^\.vertexed-test-dist\/$/m);
+});
+
 test('Vercel catch-all function keeps schema-valid includeFiles configuration', async () => {
   const config = await readVercelConfig();
   const fn = config.functions?.['api/[[...path]].js'];

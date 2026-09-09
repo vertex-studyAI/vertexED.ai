@@ -1,3 +1,5 @@
+import { fetchWithTimeout } from './fetchWithTimeout.js';
+
 const APP_URL = process.env.APP_URL || process.env.SITE_URL || 'https://www.vertexed.app';
 
 /**
@@ -15,12 +17,12 @@ export async function sendWaitlistApprovedEmail(email, inviteLink, signupMethod 
     : `<p>Hi,</p><p>Your VertexED private beta application has been <strong>approved</strong>.</p><p>Create your username and password using this link:</p><p><a href="${signupUrl}">${signupUrl}</a></p><p>- The VertexED team</p>`;
 
   if (!apiKey) {
-    console.info('[notify] Waitlist approved (email not sent — set RESEND_API_KEY):', email, signupUrl);
+    console.info('[notify] Waitlist approval email not sent because RESEND_API_KEY is not configured.');
     return { sent: false, reason: 'RESEND_API_KEY not configured' };
   }
 
   try {
-    const response = await fetch('https://api.resend.com/emails', {
+    const response = await fetchWithTimeout('https://api.resend.com/emails', {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${apiKey}`,
@@ -32,17 +34,16 @@ export async function sendWaitlistApprovedEmail(email, inviteLink, signupMethod 
         subject,
         html,
       }),
-    });
+    }, 15_000);
 
     if (!response.ok) {
-      const body = await response.text();
-      console.error('[notify] Resend error:', response.status, body);
+      console.error('[notify] Resend rejected approval email:', response.status);
       return { sent: false, reason: 'Email provider error' };
     }
 
     return { sent: true };
   } catch (err) {
-    console.error('[notify] Failed to send approval email:', err);
+    console.error('[notify] Failed to send approval email:', err instanceof Error ? err.name : 'UnknownError');
     return { sent: false, reason: 'Email send failed' };
   }
 }

@@ -94,7 +94,9 @@ async function main() {
   try {
     const readiness = await request('/api/health?readiness=1', { method: 'GET', headers: {} });
     const checks = readiness.body?.checks;
-    const requiredChecks = ['authentication', 'waitlist', 'coreAi', 'plannerAi'];
+    const requiredChecks = ['authentication', 'waitlist', 'coreAi', 'plannerAi', 'durableRateLimiting',
+      'databaseConnection', 'atomicRateLimitRpc', 'learnerStateStorage', 'batchLearnerStateSync',
+      'examSessionStorage', 'observabilityStorage', 'singletonIntegrity'];
     const missingChecks = requiredChecks.filter((key) => checks?.[key] !== true);
 
     if (readiness.status !== 200 || !readiness.body?.ok || readiness.body?.status !== 'ready') {
@@ -104,7 +106,7 @@ async function main() {
     } else if (missingChecks.length > 0) {
       fail(`/api/health?readiness=1 missing ready capability checks: ${missingChecks.join(', ')}`);
     } else {
-      pass('/api/health?readiness=1 reports authentication, waitlist, core AI, and planner AI ready');
+      pass('/api/health?readiness=1 reports all required capabilities, including exam-session storage');
     }
 
     assertExpectedRevision(readiness, '/api/health?readiness=1');

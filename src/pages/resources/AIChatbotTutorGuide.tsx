@@ -7,14 +7,14 @@ export default function AIChatbotTutorGuide() {
   return (
     <>
       <SEO
-        title="Using Apex for study help — Socratic AI | VertexED"
-        description="How to use VertexED's Apex chat for explanations, rubric feedback, and exam technique — without outsourcing answers you can't reproduce in the hall."
+        title="Using Apex for study help - Socratic AI | VertexED"
+        description="How to use VertexED's Apex chat for explanations, rubric feedback, and exam technique - without outsourcing answers you can't reproduce in the hall."
         canonical="https://www.vertexed.app/resources/ai-chatbot-tutor"
         keywords="Apex, study chatbot, Socratic tutoring, IB help, IGCSE revision, AP exam prep, mark scheme feedback, VertexED, exam technique, active recall"
       />
       <Article
         title="Using Apex: Socratic help instead of copy-paste answers"
-        subtitle="Apex is built to ask what you've tried, walk through reasoning, and stress-test essays against rubrics — not to finish homework for you."
+        subtitle="Apex is built to ask what you've tried, walk through reasoning, and stress-test essays against rubrics - not to finish homework for you."
         kicker="Guides"
       >
         <p className="lead">
@@ -94,9 +94,9 @@ export default function AIChatbotTutorGuide() {
         </ol>
 
         <h2>FAQ</h2>
-        <p><strong>Is the chatbot available offline?</strong> No, the AI models run in the cloud to ensure they are always up-to-date and powerful enough to handle complex queries.</p>
-        <p><strong>Can it solve image-based problems?</strong> Yes, you can upload photos of diagrams, graphs, or handwritten equations, and the AI will analyze them.</p>
-        <p><strong>Does it know the 2025 syllabus changes?</strong> Yes, VertexED's knowledge base is regularly updated to reflect the latest curriculum changes for IB, IGCSE, and AP.</p>
+        <p><strong>Is the chatbot available offline?</strong> No. It needs a network connection because responses come from an external AI provider.</p>
+        <p><strong>Can it read an image in chat?</strong> The current chat interface is text-first. Use Answer Reviewer when you need to submit a photographed written response.</p>
+        <p><strong>Does it know the latest syllabus?</strong> Do not assume that it does. Check current curriculum changes, dates, and assessment rules against the official board website.</p>
 
         <div className="not-prose mt-8 flex gap-3 flex-wrap">
           <Link to="/chatbot" className="neu-button">Start Chatting</Link>
@@ -105,13 +105,13 @@ export default function AIChatbotTutorGuide() {
 
         <h2 className="mt-10">Evidence & references</h2>
         <ul>
-          <li>Chi, M. T. H. et al. (2001): Learning from Human Tutoring — the effectiveness of Socratic dialogue.</li>
-          <li>Sal Khan (2023): Harnessing AI for Education (TED Talk) — the potential of AI as a personalized tutor.</li>
+          <li>Chi, M. T. H. et al. (2001): Learning from Human Tutoring - the effectiveness of Socratic dialogue.</li>
+          <li>Sal Khan (2023): Harnessing AI for Education (TED Talk) - the potential of AI as a personalized tutor.</li>
         </ul>
 
         <div className="article-footer">
           Editorial note: Reviewed for clarity and usefulness. Always cross‑check with your official syllabus and teacher guidance.
-          <div className="mt-1">Last updated: 2025-12-24 · Author: VertexED Team</div>
+          <div className="mt-1">Product walkthrough checked: 6 September 2026 · VertexED Team</div>
         </div>
 
         <hr className="article-divider" />
@@ -124,7 +124,7 @@ export default function AIChatbotTutorGuide() {
 
         <h2>Bottom line</h2>
         <p>
-          Apex works when you treat it like office hours — bring your attempt, accept questions before answers, and retry without AI afterward.
+          Apex works when you treat it like office hours - bring your attempt, accept questions before answers, and retry without AI afterward.
           Generic prompts get generic replies; specific attempts get mark-scheme-aware help.
         </p>
       </Article>

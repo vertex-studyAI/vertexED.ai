@@ -54,7 +54,7 @@ export default function Login() {
       return;
     }
     if (!supabase) {
-      setError("Password reset is unavailable — auth is not configured.");
+      setError("Password reset is unavailable - auth is not configured.");
       return;
     }
 
@@ -75,10 +75,10 @@ export default function Login() {
   return (
     <>
       <Helmet>
-        <title>Log in — VertexED</title>
+        <title>Log in - VertexED</title>
         <meta
           name="description"
-          content="Sign in to VertexED — planner, mocks, flashcards, and Apex where you left them."
+          content="Sign in to VertexED - planner, mocks, flashcards, and Apex where you left them."
         />
         <link rel="canonical" href="https://www.vertexed.app/login" />
         <meta name="robots" content="noindex, nofollow" />

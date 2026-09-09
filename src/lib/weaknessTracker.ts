@@ -1,10 +1,8 @@
 /**
  * Tracks topic-level weaknesses from reviews, quizzes, and mock scores.
- * Stored in account-scoped localStorage; sync can be added when the backend
- * supports a dedicated learner-state contract.
- *
- * Measurement integrity: only entries explicitly tagged with the measured-v1
- * evidence contract are allowed to influence mastery/weakness summaries.
+ * Measurement integrity: only entries explicitly tagged with the measured-v2
+ * evidence contract and a human/validated-key verification method influence
+ * mastery. Legacy and AI-only records remain stored but are ignored.
  * Legacy or heuristic records remain stored but are ignored as measured data.
  */
 
@@ -15,8 +13,12 @@ import {
   retainNewestWeaknessEntries,
   summarizeMeasuredWeakness,
 } from '@/lib/weaknessEvidenceCore.mjs';
+import { scheduleRetry } from '@/lib/retryQueue';
+import { queueLearnerStateWrite } from '@/lib/learnerStateSync';
 
 export type WeaknessEntry = {
+  id: string;
+  attemptId?: string;
   topic: string;
   subject: string;
   board?: string;
@@ -24,6 +26,11 @@ export type WeaknessEntry = {
   maxScore: number;
   source: 'review' | 'quiz' | 'mock';
   evidence?: typeof MEASURED_WEAKNESS_EVIDENCE;
+  verification: {
+    method: 'teacher-confirmed' | 'official-mark-scheme' | 'validated-answer-key';
+    confirmedAt: string;
+    reference?: string;
+  };
   recordedAt: string;
 };
 
@@ -43,21 +50,36 @@ function readEntries(): WeaknessEntry[] {
   }
 }
 
-function writeEntries(entries: WeaknessEntry[]) {
-  if (typeof window === 'undefined') return;
-  window.localStorage.setItem(storageKey(), JSON.stringify(retainNewestWeaknessEntries(entries, 200)));
+export function getMeasuredEntries(): WeaknessEntry[] {
+  return readEntries().map(normalizeMeasuredWeaknessEntry).filter(Boolean) as WeaknessEntry[];
 }
 
-export function recordWeakness(entry: Omit<WeaknessEntry, 'recordedAt'>) {
+function writeEntries(entries: WeaknessEntry[]) {
+  if (typeof window === 'undefined') return;
+  window.localStorage.setItem(storageKey(), JSON.stringify(retainNewestWeaknessEntries(entries, 500)));
+}
+
+function measurementId() {
+  const token = typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function'
+    ? crypto.randomUUID()
+    : `${Date.now()}-${Math.random().toString(36).slice(2, 12)}`;
+  return `measurement:${token}`;
+}
+
+export function recordWeakness(entry: Omit<WeaknessEntry, 'id' | 'recordedAt'>) {
+  const now = new Date();
   const normalized = normalizeMeasuredWeaknessEntry({
     ...entry,
-    recordedAt: new Date().toISOString(),
+    id: measurementId(),
+    recordedAt: now.toISOString(),
   });
   if (!normalized) return false;
 
   const entries = readEntries();
   entries.unshift(normalized as WeaknessEntry);
   writeEntries(entries);
+  scheduleRetry(normalized as WeaknessEntry);
+  queueLearnerStateWrite('weakness', normalized.id, normalized as Record<string, unknown>, now);
   return true;
 }
 

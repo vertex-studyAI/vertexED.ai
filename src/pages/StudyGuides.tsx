@@ -1,12 +1,11 @@
-import { type FormEvent, useEffect, useId, useMemo, useRef, useState } from "react";
-import { Link, useLocation, useNavigate, useParams } from "react-router";
-import { BookOpen, ChevronDown, ChevronRight, FileText, GraduationCap, Loader2, LockKeyhole, Search } from "lucide-react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { Link, useNavigate, useParams } from "react-router";
+import { BookOpen, ChevronDown, ChevronRight, FileText, GraduationCap, Loader2, Search } from "lucide-react";
 
 import LiquidGlass from "@/components/LiquidGlass";
 import PageSection from "@/components/PageSection";
 import RichMarkdown from "@/components/RichMarkdown";
 import SEO from "@/components/SEO";
-import { useAuth } from "@/contexts/AuthContext";
 
 type GuidePage = {
   title: string;
@@ -26,6 +25,21 @@ type GuideManifest = {
   subjects: GuideSubject[];
 };
 
+type GuideProvenance = {
+  path: string;
+  license: string;
+  editorialStatus: "approved" | "quarantined" | "unreviewed";
+  publicationStatus: "published" | "held-from-index";
+  factualReviewer: string | null;
+  reviewedAt: string | null;
+  riskFlags: string[];
+};
+
+type GuideProvenanceLedger = {
+  evidenceBoundary: string;
+  entries: GuideProvenance[];
+};
+
 type GuideSeo = {
   title: string;
   description: string;
@@ -33,8 +47,6 @@ type GuideSeo = {
   canonical: string;
 };
 
-const GUIDE_ACCESS_KEY = "vertexed-myp-study-guides-access";
-const GUIDE_PASSWORD = "whotfstudies";
 const SITE_URL = "https://www.vertexed.app";
 const SUBJECT_SEARCH_ALIASES: Record<string, string[]> = {
   Biology: ["MYP Biology", "IB MYP Biology"],
@@ -133,7 +145,7 @@ function seoForRoute(routePath?: string): GuideSeo {
   }
   return {
     title: "MYP Study Guides | VertexED",
-    description: "Complete MYP study guides across Biology, Chemistry, English, Geography, History, Interdisciplinary Learning, Mathematics, and Physics.",
+    description: "MYP revision guides across Biology, Chemistry, English, Geography, History, Interdisciplinary Learning, Mathematics, and Physics.",
     keywords: "MYP study guides, MYP revision, MYP past papers",
     canonical: `${SITE_URL}/study-guides`,
   };
@@ -148,75 +160,21 @@ function studyGuideJsonLd(seo: GuideSeo) {
     educationalLevel: "MYP",
     learningResourceType: "Study guide",
     inLanguage: "en",
-    isAccessibleForFree: false,
+    isAccessibleForFree: true,
     provider: { "@type": "Organization", name: "VertexED", url: SITE_URL },
     about: { "@type": "Thing", name: seo.title.replace(" | VertexED", "") },
     keywords: seo.keywords,
   };
 }
 
-function GuideAccessPrompt({ onUnlock, returnTo, compact = false }: { onUnlock: () => void; returnTo: string; compact?: boolean }) {
-  const [password, setPassword] = useState("");
-  const [invalid, setInvalid] = useState(false);
-  const inputId = useId();
-
-  const submit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (password !== GUIDE_PASSWORD) {
-      setInvalid(true);
-      return;
-    }
-    window.sessionStorage.setItem(GUIDE_ACCESS_KEY, "granted");
-    onUnlock();
-  };
-
-  return (
-    <div className={`study-guides-paywall ${compact ? "is-compact" : ""}`}>
-      <LockKeyhole className="h-5 w-5" aria-hidden />
-      <div>
-        <strong>{compact ? "Guide index locked" : "Continue reading"}</strong>
-        <p>{compact ? "Sign in or enter the guide password to browse all pages." : "Sign in to unlock the full guide, or use the access password."}</p>
-      </div>
-      <Link to="/login" state={{ from: returnTo }} className="study-guides-login-link">Sign in</Link>
-      <span className="study-guides-access-or">or</span>
-      <form onSubmit={submit} className="study-guides-inline-access-form">
-        <label className="sr-only" htmlFor={inputId}>Study guide access password</label>
-        <input id={inputId} type="password" value={password} onChange={(event) => { setPassword(event.target.value); setInvalid(false); }} placeholder="Access password" autoComplete="current-password" required />
-        <button type="submit">Unlock</button>
-      </form>
-      {invalid && <p className="study-guides-access-error" role="alert">That password is not correct.</p>}
-    </div>
-  );
-}
-
-function markdownPreview(markdown: string) {
-  const blocks = markdown.trim().split(/\n\s*\n/);
-  const targetLength = markdown.length * 0.25;
-  let visibleLength = 0;
-  let visibleCount = 0;
-
-  while (visibleCount < blocks.length && (visibleCount === 0 || visibleLength < targetLength)) {
-    visibleLength += blocks[visibleCount].length + 2;
-    visibleCount += 1;
-  }
-
-  const visible = blocks.slice(0, visibleCount).join("\n\n");
-  const blurred = blocks.slice(visibleCount, visibleCount + 3).join("\n\n");
-  return { visible: visible || markdown, blurred };
-}
 export default function StudyGuides() {
   const { "*": routePath } = useParams();
-  const { user } = useAuth();
-  const [passwordUnlocked, setPasswordUnlocked] = useState(() => (
-    typeof window !== "undefined" && window.sessionStorage.getItem(GUIDE_ACCESS_KEY) === "granted"
-  ));
-
-  return <StudyGuidesLibrary routePath={routePath} hasAccess={Boolean(user) || passwordUnlocked} onUnlock={() => setPasswordUnlocked(true)} />;
+  return <StudyGuidesLibrary routePath={routePath} />;
 }
-function StudyGuidesLibrary({ routePath, hasAccess, onUnlock }: { routePath?: string; hasAccess: boolean; onUnlock: () => void }) {
+function StudyGuidesLibrary({ routePath }: { routePath?: string }) {
   const navigate = useNavigate();
-  const location = useLocation();
   const [manifest, setManifest] = useState<GuideManifest | null>(null);
+  const [provenance, setProvenance] = useState<Map<string, GuideProvenance>>(() => new Map());
   const [subjectSlug, setSubjectSlug] = useState<string | null>(null);
   const [pagePath, setPagePath] = useState<string | null>(null);
   const [content, setContent] = useState("");
@@ -224,17 +182,27 @@ function StudyGuidesLibrary({ routePath, hasAccess, onUnlock }: { routePath?: st
   const [loading, setLoading] = useState(true);
   const [pageLoading, setPageLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [routeNotFound, setRouteNotFound] = useState(false);
   const [expandedGroups, setExpandedGroups] = useState<Set<string>>(() => new Set());
   const pageCache = useRef(new Map<string, string>());
 
   useEffect(() => {
     const controller = new AbortController();
-    void fetch("/study-guides/myp/manifest.json", { signal: controller.signal })
-      .then((response) => {
-        if (!response.ok) throw new Error("The MYP guide index could not be loaded.");
-        return response.json() as Promise<GuideManifest>;
+    void Promise.all([
+      fetch("/study-guides/myp/manifest.json", { signal: controller.signal }),
+      fetch("/study-guides/myp/provenance-ledger.json", { signal: controller.signal }),
+    ])
+      .then(async ([manifestResponse, provenanceResponse]) => {
+        if (!manifestResponse.ok) throw new Error("The MYP guide index could not be loaded.");
+        if (!provenanceResponse.ok) throw new Error("The guide review ledger could not be loaded.");
+        const nextManifest = await manifestResponse.json() as GuideManifest;
+        const nextProvenance = await provenanceResponse.json() as GuideProvenanceLedger;
+        return { nextManifest, nextProvenance };
       })
-      .then(setManifest)
+      .then(({ nextManifest, nextProvenance }) => {
+        setManifest(nextManifest);
+        setProvenance(new Map(nextProvenance.entries.map((entry) => [entry.path, entry])));
+      })
       .catch((cause: unknown) => {
         if (cause instanceof DOMException && cause.name === "AbortError") return;
         setError(cause instanceof Error ? cause.message : "The MYP guide index could not be loaded.");
@@ -246,26 +214,50 @@ function StudyGuidesLibrary({ routePath, hasAccess, onUnlock }: { routePath?: st
   useEffect(() => {
     if (!manifest) return;
     const parts = (routePath ?? "").split("/").filter(Boolean).map((part) => decodeURIComponent(part).toLowerCase());
+    if (parts.length > 0 && parts[0] !== "myp") {
+      setRouteNotFound(true);
+      setSubjectSlug(null);
+      setPagePath(null);
+      return;
+    }
     const requestedSubject = parts[0] === "myp" ? parts[1] : undefined;
     const requestedPage = parts[0] === "myp" ? parts.slice(2).join("/") : "";
-    const nextSubject = manifest.subjects.find((item) => item.slug === requestedSubject) ?? manifest.subjects[0];
-    const nextPage = nextSubject?.pages.find((page) => page.relativePath.replace(/\.md$/i, "").toLowerCase() === requestedPage)
-      ?? nextSubject?.pages.find((page) => page.relativePath === "overview.md")
-      ?? nextSubject?.pages[0];
+    const nextSubject = requestedSubject
+      ? manifest.subjects.find((item) => item.slug === requestedSubject)
+      : manifest.subjects[0];
+    if (!nextSubject || (parts[0] === "myp" && !requestedSubject)) {
+      setRouteNotFound(true);
+      setSubjectSlug(null);
+      setPagePath(null);
+      return;
+    }
+    const isSubjectRoute = parts.length === 2;
+    const requestedPageEntry = requestedPage
+      ? nextSubject.pages.find((page) => page.relativePath.replace(/\.md$/i, "").toLowerCase() === requestedPage)
+      : null;
+    if (requestedPage && !requestedPageEntry) {
+      setRouteNotFound(true);
+      setSubjectSlug(null);
+      setPagePath(null);
+      return;
+    }
+    const nextPage = requestedPageEntry
+      ?? nextSubject.pages.find((page) => page.relativePath === "overview.md")
+      ?? nextSubject.pages[0];
+    setRouteNotFound(parts.length > 0 && !isSubjectRoute && !requestedPageEntry);
     setSubjectSlug(nextSubject?.slug ?? null);
     setPagePath(nextPage?.path ?? null);
   }, [manifest, routePath]);
 
   const subject = manifest?.subjects.find((item) => item.slug === subjectSlug) ?? null;
   const activePage = subject?.pages.find((page) => page.path === pagePath) ?? null;
+  const activeProvenance = activePage ? provenance.get(activePage.path) ?? null : null;
   const activePagePath = activePage?.path;
   const routeParts = (routePath ?? "").split("/").filter(Boolean);
   const isSubjectHub = routeParts[0]?.toLowerCase() === "myp" && routeParts.length === 2;
   const seo = subject && activePage
     ? isSubjectHub ? seoForSubject(subject) : routeParts.length === 0 ? seoForRoute(routePath) : seoForPage(subject, activePage)
     : seoForRoute(routePath);
-  const preview = useMemo(() => markdownPreview(content), [content]);
-
   useEffect(() => {
     if (!activePagePath) return;
     const controller = new AbortController();
@@ -320,15 +312,41 @@ function StudyGuidesLibrary({ routePath, hasAccess, onUnlock }: { routePath?: st
     setExpandedGroups(new Set());
   };
 
+  if (manifest && routeNotFound) {
+    return (
+      <>
+        <SEO
+          title="Study guide not found | VertexED"
+          description="That study-guide URL does not match an available VertexED guide."
+          canonical={`${SITE_URL}/study-guides`}
+          robots="noindex, nofollow"
+        />
+        <PageSection className="flex min-h-[60vh] items-center justify-center">
+          <div className="glass-panel mx-auto w-full max-w-lg p-8 text-center">
+            <p className="study-guides-eyebrow">Study guides</p>
+            <h1 className="mt-2 text-3xl font-semibold text-foreground">Guide page not found</h1>
+            <p className="mt-3 text-muted-foreground">The link may be outdated or mistyped. Open the guide library to choose an available subject and page.</p>
+            <Link to="/study-guides" className="btn-solid mt-6 inline-flex">Open study guides</Link>
+          </div>
+        </PageSection>
+      </>
+    );
+  }
+
   return (
     <>
-      <SEO {...seo} ogType="article" jsonLd={studyGuideJsonLd(seo)} />
+      <SEO
+        {...seo}
+        ogType="article"
+        robots={routeParts.length === 0 ? "index, follow" : "noindex, follow"}
+        jsonLd={studyGuideJsonLd(seo)}
+      />
       <PageSection className="max-w-7xl space-y-6">
         <LiquidGlass as="section" variant="hero" className="study-guides-hero">
           <div className="study-guides-hero-content">
             <p className="study-guides-eyebrow"><GraduationCap className="h-4 w-4" /> Study guides</p>
             <h1>MYP subject guides</h1>
-            <p>Every imported guide page is available here by subject. The guide text is preserved from the source material; only the presentation has been adapted to VertexED.</p>
+            <p>Revision material from the repository&apos;s guide corpus is available here by subject. It is independent study support, not an official IB publication or verified mark scheme.</p>
             {manifest && <span className="study-guides-count">{manifest.subjects.length} subjects - {manifest.subjects.reduce((total, item) => total + item.pages.length, 0)} guide pages</span>}
           </div>
         </LiquidGlass>
@@ -352,7 +370,7 @@ function StudyGuidesLibrary({ routePath, hasAccess, onUnlock }: { routePath?: st
 
             <div className="study-guides-layout">
               <aside className="study-guides-sidebar">
-                {hasAccess ? <>
+                <>
                   <label className="study-guides-search"><Search className="h-4 w-4" aria-hidden /><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder={`Search ${subject?.name ?? "guide"} pages`} /></label>
                   <div className="study-guides-page-list">
                     {Object.entries(groupedPages).sort(([a], [b]) => GUIDE_GROUP_ORDER.indexOf(a) - GUIDE_GROUP_ORDER.indexOf(b)).map(([group, pages]) => {
@@ -366,17 +384,25 @@ function StudyGuidesLibrary({ routePath, hasAccess, onUnlock }: { routePath?: st
                     })}
                     {visiblePages.length === 0 && <p className="study-guides-empty">No guide pages match that search.</p>}
                   </div>
-                </> : <div className="study-guides-sidebar-paywall"><GuideAccessPrompt compact returnTo={location.pathname} onUnlock={onUnlock} /></div>}
+                </>
               </aside>
 
               <LiquidGlass as="article" variant="panel" className="study-guides-reader">
                 <div className="study-guides-reader-header"><div><p className="study-guides-eyebrow">{subject?.name} - {activePage && normalizedGroup(activePage)}</p><h2>{activePage ? pageLabel(activePage) : "Select a guide page"}</h2></div>{pageLoading && <Loader2 className="h-4 w-4 animate-spin text-primary" aria-label="Loading guide page" />}</div>
+                <section className="study-guides-review-status" aria-label="Content review status">
+                  <div>
+                    <strong>{activeProvenance?.editorialStatus === "approved" ? "Editorially reviewed" : "Held for editorial review"}</strong>
+                    <span>{activeProvenance?.editorialStatus === "quarantined" ? "Automated checks found wording that needs human review." : "Source, licence, curriculum version, and factual accuracy have not all been verified."}</span>
+                  </div>
+                  <span className={`study-guides-review-badge is-${activeProvenance?.editorialStatus ?? "unreviewed"}`}>
+                    {activeProvenance?.editorialStatus ?? "unreviewed"}
+                  </span>
+                </section>
+                <p className="mb-4 text-sm text-foreground">
+                  Independent revision notes. Verify exact questions, marks, syllabus details, and command-term guidance against your teacher and official exam-board material.
+                </p>
                 {error && <div className="study-guides-error">{error}</div>}
-                {!error && (hasAccess ? <RichMarkdown className="study-guides-markdown">{content}</RichMarkdown> : <div className="study-guides-preview">
-                  <RichMarkdown className="study-guides-markdown">{preview.visible}</RichMarkdown>
-                  <div className="study-guides-preview-blur" aria-hidden>{preview.blurred && <RichMarkdown className="study-guides-markdown">{preview.blurred}</RichMarkdown>}</div>
-                  <div className="study-guides-preview-paywall"><GuideAccessPrompt returnTo={location.pathname} onUnlock={onUnlock} /></div>
-                </div>)}
+                {!error && <RichMarkdown className="study-guides-markdown">{content}</RichMarkdown>}
               </LiquidGlass>
             </div>
           </>

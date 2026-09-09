@@ -3,14 +3,12 @@ import { resolve } from "node:path";
 
 const siteUrl = "https://www.vertexed.app";
 const projectRoot = resolve(import.meta.dirname, "..");
-const manifestPath = resolve(projectRoot, "public/study-guides/myp/manifest.json");
 const sitemapPath = resolve(projectRoot, "public/sitemap.xml");
-const manifest = JSON.parse(await readFile(manifestPath, "utf8"));
-const lastmod = new Date().toISOString().slice(0, 10);
-
+const provenancePath = resolve(projectRoot, "public/study-guides/myp/provenance-ledger.json");
 // Keep the sitemap limited to pages a search visitor can actually read. Account-only
 // tools are promoted by their public resource pages rather than dead-ending crawlers
-// at the login screen.
+// at the login screen. Omit lastmod until each URL has an authoritative content
+// revision date; stamping every URL during every build would be false freshness data.
 const publicPages = [
   ["/", "weekly", "1.0"],
   ["/features", "weekly", "0.9"],
@@ -50,20 +48,6 @@ const publicPages = [
   ["/resources/college-essays-with-ai", "monthly", "0.6"],
 ];
 
-const guidePath = (subject, page) => {
-  const pathname = page.relativePath
-    .replace(/\.md$/i, "")
-    .split("/")
-    .map((part) => encodeURIComponent(part.toLowerCase()))
-    .join("/");
-  return `/study-guides/myp/${subject.slug}/${pathname}`;
-};
-
-const guidePages = manifest.subjects.flatMap((subject) => [
-  [`/study-guides/myp/${subject.slug}`, "monthly", "0.8"],
-  ...subject.pages.map((page) => [guidePath(subject, page), "monthly", "0.7"]),
-]);
-
 const curriculumSlugs = ["ib-myp", "ib-dp", "igcse", "gcse", "a-level", "ap", "cbse", "icse"];
 const featureSlugs = ["study-planner", "study-zone", "paper-maker", "answer-reviewer", "ai-notes", "ai-tutor"];
 const curriculumFeaturePages = curriculumSlugs.flatMap((curriculum) => featureSlugs.map((feature) => [
@@ -72,14 +56,28 @@ const curriculumFeaturePages = curriculumSlugs.flatMap((curriculum) => featureSl
   "0.75",
 ]));
 
-const urls = [...publicPages, ...curriculumFeaturePages, ...guidePages];
+const provenance = JSON.parse(await readFile(provenancePath, "utf8"));
+const approvedGuidePages = provenance.entries
+  .filter((entry) => (
+    entry.editorialStatus === "approved"
+    && entry.publicationStatus === "published"
+    && entry.license !== "unknown"
+    && entry.source
+    && entry.factualReviewer
+    && entry.reviewedAt
+  ))
+  .map((entry) => [entry.path.replace(/\.md$/i, ""), "monthly", "0.65"]);
+
+// Detailed guide pages remain readable, but enter discovery only when their
+// deterministic provenance record contains approval, source, licensing and
+// reviewer evidence. The public library index remains discoverable.
+const urls = [...publicPages, ...curriculumFeaturePages, ...approvedGuidePages];
 const xml = [
   '<?xml version="1.0" encoding="UTF-8"?>',
   '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
   ...urls.map(([path, changefreq, priority]) => [
     "  <url>",
     `    <loc>${siteUrl}${path}</loc>`,
-    `    <lastmod>${lastmod}</lastmod>`,
     `    <changefreq>${changefreq}</changefreq>`,
     `    <priority>${priority}</priority>`,
     "  </url>",
@@ -89,4 +87,4 @@ const xml = [
 ].join("\n");
 
 await writeFile(sitemapPath, xml, "utf8");
-console.log(`Generated ${urls.length} public sitemap URLs, including ${guidePages.length} MYP guide URLs and ${curriculumFeaturePages.length} curriculum-tool URLs.`);
+console.log(`Generated ${urls.length} public sitemap URLs, including ${curriculumFeaturePages.length} curriculum-tool URLs and ${approvedGuidePages.length} editorially approved guide URLs.`);

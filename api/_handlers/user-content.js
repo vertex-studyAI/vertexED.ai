@@ -19,17 +19,16 @@ export default async function handler(req, res) {
 
   const rate = await checkRateLimit(`${user.id}:user-content`, 120, 60 * 1000);
   if (!rate.allowed) {
-    return res.status(429).json({
-      error: 'Too many requests. Slow down and try again.',
-      retryAfter: rate.retryAfterSec,
-    });
+    return res.status(rate.configurationError ? 503 : 429).json(rate.configurationError
+      ? { error: 'Rate limiting is temporarily unavailable. Try again later.' }
+      : { error: 'Too many requests. Slow down and try again.', retryAfter: rate.retryAfterSec });
   }
 
   let supabase;
   try {
     supabase = getSupabaseAdmin();
   } catch (err) {
-    console.error('user-content supabase config:', err);
+    console.error('user-content supabase config:', err instanceof Error ? err.name : 'UnknownError');
     return res.status(503).json({ error: 'Database not configured' });
   }
 
@@ -37,29 +36,35 @@ export default async function handler(req, res) {
     if (req.method === 'GET') {
       const kind = getQueryParam(req, 'kind');
       const limit = getQueryNumber(req, 'limit', 20, 50);
+      const offset = Math.floor(getQueryNumber(req, 'offset', 0, 100_000));
+      if (kind && !ALLOWED_KINDS.has(kind)) {
+        return res.status(400).json({ error: 'Invalid artifact kind.' });
+      }
 
       let query = supabase
         .from('user_study_artifacts')
-        .select('id, kind, title, payload, created_at, updated_at')
+        .select('id, kind, title, payload, idempotency_key, created_at, updated_at', { count: 'exact' })
         .eq('user_id', user.id)
         .order('updated_at', { ascending: false })
-        .limit(limit);
+        .range(offset, offset + limit - 1);
 
       if (kind && ALLOWED_KINDS.has(kind)) {
         query = query.eq('kind', kind);
       }
 
-      const { data, error } = await query;
+      const { data, error, count } = await query;
       if (error) {
         if (error.code === '42P01') {
           return res.status(503).json({
-            error: 'Run supabase/migrations/20260709_user_study_artifacts.sql in Supabase first.',
+            error: 'The database migration ledger is not applied.',
           });
         }
         throw error;
       }
 
-      return res.status(200).json({ items: data ?? [] });
+      const items = data ?? [];
+      const nextOffset = offset + items.length < (count ?? 0) ? offset + items.length : null;
+      return res.status(200).json({ items, total: count ?? items.length, nextOffset });
     }
 
     if (req.method === 'POST') {
@@ -73,6 +78,12 @@ export default async function handler(req, res) {
         return res.status(413).json({ error: 'Artifact payload is too large.' });
       }
 
+      if ((kind === 'planner' || kind === 'notebook') && body?.replace === true) {
+        if (!Object.hasOwn(body, 'expectedUpdatedAt')) return res.status(428).json({ error: 'Reload this page before saving; a snapshot revision is required.' });
+        if (body.expectedUpdatedAt !== null && (typeof body.expectedUpdatedAt !== 'string' || !Number.isFinite(Date.parse(body.expectedUpdatedAt)))) {
+          return res.status(400).json({ error: 'Invalid snapshot revision.' });
+        }
+      }
       const updatedAt = new Date().toISOString();
       const writeResult = (kind === 'planner' || kind === 'notebook') && body?.replace === true
         ? await replaceSingletonArtifact(supabase, {
@@ -81,6 +92,7 @@ export default async function handler(req, res) {
             title,
             payload: payloadValue,
             updatedAt,
+            expectedUpdatedAt: body.expectedUpdatedAt,
           })
         : await createStudyArtifact(supabase, {
             userId: user.id,
@@ -94,13 +106,13 @@ export default async function handler(req, res) {
       const { data, error, replayed = false, conflict = false } = writeResult;
       if (conflict) {
         return res.status(409).json({
-          error: 'Idempotency key was already used for different artifact content.',
+          error: body?.replace === true ? 'Cloud work changed on another device. Your local copy is preserved; export it or reload the cloud copy before continuing.' : 'Idempotency key was already used for different artifact content.',
         });
       }
       if (error) {
         if (error.code === '42P01') {
           return res.status(503).json({
-            error: 'Run supabase/migrations/20260709_user_study_artifacts.sql in Supabase first.',
+            error: 'The database migration ledger is not applied.',
           });
         }
         throw error;
@@ -148,13 +160,15 @@ export default async function handler(req, res) {
         .update(updates)
         .eq('id', id)
         .eq('user_id', user.id)
+        // Singleton snapshots must use the revision-checked replacement route.
+        .not('kind', 'in', '(planner,notebook)')
         .select('id, kind, title, created_at, updated_at')
         .maybeSingle();
 
       if (error) {
         if (error.code === '42P01') {
           return res.status(503).json({
-            error: 'Run supabase/migrations/20260709_user_study_artifacts.sql in Supabase first.',
+            error: 'The database migration ledger is not applied.',
           });
         }
         throw error;
@@ -184,7 +198,7 @@ export default async function handler(req, res) {
 
     return res.status(405).json({ error: 'Method not allowed' });
   } catch (err) {
-    console.error('user-content error:', err);
+    console.error('user-content error:', err?.code || (err instanceof Error ? err.name : 'UnknownError'));
     return res.status(500).json({ error: 'Failed to process study content' });
   }
 }

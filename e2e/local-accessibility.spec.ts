@@ -68,7 +68,7 @@ test.describe('local keyboard accessibility', () => {
   });
 
   test('closed mobile navigation is inert and Escape restores the trigger', async ({ page }) => {
-    test.skip((page.viewportSize()?.width ?? 1024) >= 768, 'Mobile navigation is rendered below 768px.');
+    test.skip((page.viewportSize()?.width ?? 1440) >= 1280, 'Collapsed navigation is rendered below 1280px.');
 
     await page.goto('/');
     const trigger = page.getByRole('button', { name: 'Open navigation menu' });

@@ -18,7 +18,7 @@ export default function CommandTermsGlossary({ className, compact = false }: Pro
       {!compact && (
         <p className="text-sm text-muted-foreground">
           {board
-            ? 'Command terms used in your board\'s mark schemes — underline these in exam questions.'
+            ? 'Command terms used in your board\'s mark schemes - underline these in exam questions.'
             : 'Common exam command terms across curricula.'}
         </p>
       )}

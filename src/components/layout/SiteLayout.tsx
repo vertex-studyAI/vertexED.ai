@@ -9,20 +9,24 @@ import RouteErrorBoundary from "@/components/RouteErrorBoundary";
 import { useIsAdmin } from "@/hooks/useIsAdmin";
 import CloudSaveBanner from "@/components/CloudSaveBanner";
 import ThemeToggle from "@/components/ThemeToggle";
-import AmbientBackground from "@/components/AmbientBackground";
 import PageLoader from "@/components/PageLoader";
 import { useStudySessionTracker } from "@/hooks/useStudySessionTracker";
+import { toast } from "@/hooks/use-toast";
+import { logoutWithLocalFallback } from "@/lib/logoutFlow.mjs";
 
 const GlobalChatPanel = lazy(() => import("@/components/chat/GlobalChatPanel"));
+const ApexCompanion = lazy(() => import("@/components/ApexCompanion"));
 
 export default function SiteLayout() {
   const { isAuthenticated, logout, user } = useAuth();
-  const { themeColor } = useAppPreferences();
+  const { themeColor, settings } = useAppPreferences();
   const { isAdmin } = useIsAdmin();
   const showAdmin = isAuthenticated && isAdmin;
   const location = useLocation();
   useStudySessionTracker(isAuthenticated);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [tutorRequest, setTutorRequest] = useState(0);
+  const [tutorOpen, setTutorOpen] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement | null>(null);
   const mobileNavRef = useRef<HTMLElement | null>(null);
   const isActive = (to: string) =>
@@ -35,6 +39,27 @@ export default function SiteLayout() {
     ) &&
     !location.pathname.startsWith("/resources");
   const shouldLoadGlobalChat = chatEligibleRoute && (isAuthenticated || isStudyGuideRoute);
+  const companionEligible = ['/', '/home', '/about', '/features', '/main', '/planner', '/exam-prep', '/study-zone', '/study-notebook', '/notetaker', '/paper-maker', '/answer-reviewer', '/resource-library'].includes(location.pathname) || isStudyGuideRoute;
+  const companionVisible = companionEligible && settings.studyCompanion && !settings.simpleMode;
+
+  const handleLogout = async () => {
+    try {
+      const result = await logoutWithLocalFallback(logout);
+      if (result.scope === "local") {
+        toast({
+          title: "Signed out on this device",
+          description: "Other active sessions could not be revoked. Sign out there separately if needed.",
+        });
+      }
+      setMenuOpen(false);
+    } catch (error) {
+      toast({
+        title: "Could not sign out",
+        description: error instanceof Error ? error.message : "Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
 
   useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "";
@@ -61,9 +86,9 @@ export default function SiteLayout() {
   const navLinks = isAuthenticated
     ? [
         { to: "/main", label: "Dashboard" },
+        { to: "/exam-prep", label: "Exam prep" },
         { to: "/planner", label: "Plan" },
         { to: "/study-zone", label: "Focus" },
-        { to: "/notetaker", label: "Notes & quizzes" },
         { to: "/paper-maker", label: "Practice" },
         { to: "/chatbot", label: "AI tutor" },
       ]
@@ -75,7 +100,7 @@ export default function SiteLayout() {
       ];
 
   return (
-    <div className="relative min-h-screen flex flex-col bg-transparent text-foreground overflow-x-hidden">
+    <div className={`relative min-h-screen flex flex-col text-foreground ${['/', '/home'].includes(location.pathname) ? 'site-landing' : 'bg-transparent overflow-x-hidden'}`}>
       <a
         href="#main-content"
         className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[100] focus:rounded-lg focus:bg-primary focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-primary-foreground"
@@ -83,10 +108,10 @@ export default function SiteLayout() {
         Skip to content
       </a>
       <Helmet>
-        <title>VertexED — Study tools for marks and understanding</title>
+        <title>VertexED: Revision planning and exam practice</title>
         <meta
           name="description"
-          content="One workspace for exam prep — planning, focus tools, practice papers, answer feedback, notes, flashcards, and an AI tutor. Built around plan, focus, practise, review, remember."
+          content="Plan revision, practise papers, review answers, and revisit topics with notes and flashcards in VertexED."
         />
         <meta property="og:site_name" content="VertexED" />
         <meta property="og:image" content="https://www.vertexed.app/socialpreview.jpg" />
@@ -94,7 +119,6 @@ export default function SiteLayout() {
         <meta name="theme-color" content={themeColor} />
       </Helmet>
 
-      <AmbientBackground />
 
       <BreadcrumbsJsonLd />
 
@@ -118,7 +142,7 @@ export default function SiteLayout() {
             </span>
           </Link>
 
-          <nav className="hidden md:flex items-center gap-2 text-sm font-medium">
+          <nav aria-label="Main navigation" className="hidden xl:flex items-center gap-1 text-sm font-medium">
             {navLinks.map((l) => (
               <Link
                 key={l.label}
@@ -151,7 +175,7 @@ export default function SiteLayout() {
             {isAuthenticated && (
               <button
                 type="button"
-                onClick={() => void logout()}
+                onClick={() => void handleLogout()}
                 className="nav-link-pill"
               >
                 Sign out
@@ -167,7 +191,7 @@ export default function SiteLayout() {
             )}
           </nav>
 
-          <div className="flex md:hidden items-center gap-2 ml-auto">
+          <div className="flex xl:hidden items-center gap-2 ml-auto">
             <ThemeToggle compact />
             {!isAuthenticated && (
               <Link
@@ -210,7 +234,7 @@ export default function SiteLayout() {
 
         <div
           aria-hidden={!menuOpen}
-          className={`md:hidden overflow-hidden transition-[max-height,opacity] duration-300 border-t border-border/60 ${
+          className={`xl:hidden overflow-hidden transition-[max-height,opacity] duration-150 border-t border-border/60 ${
             menuOpen ? "max-h-[560px] opacity-100" : "max-h-0 opacity-0 pointer-events-none"
           }`}
         >
@@ -275,10 +299,7 @@ export default function SiteLayout() {
             {isAuthenticated && (
               <button
                 type="button"
-                onClick={async () => {
-                  await logout();
-                  setMenuOpen(false);
-                }}
+                onClick={() => void handleLogout()}
                 className="mt-2 rounded-full px-4 py-2.5 text-sm font-semibold border border-border bg-accent/20 hover:bg-accent/30 transition"
               >
                 Sign Out
@@ -303,13 +324,13 @@ export default function SiteLayout() {
 
       {shouldLoadGlobalChat && (
         <Suspense fallback={null}>
-          <GlobalChatPanel />
+          <GlobalChatPanel openRequest={tutorRequest} hideLauncher={companionVisible} onOpenChange={setTutorOpen} />
         </Suspense>
       )}
 
       <footer className="relative z-10 border-t border-border/60 bg-background/50 backdrop-blur-sm">
         <div className="mx-auto w-full max-w-[1400px] px-4 md:px-6 py-8 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
-          <p>© {new Date().getFullYear()} VertexED — plan, practise, review, remember.</p>
+          <p>© {new Date().getFullYear()} VertexED. Plan, practise, review, remember.</p>
           <nav className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2">
             {isAuthenticated ? (
               <>
@@ -329,6 +350,12 @@ export default function SiteLayout() {
               </>
             )}
             <a href="mailto:vertexed.25@gmail.com" className="hover:text-foreground transition">Contact</a>
+            {companionEligible && (
+              <Suspense fallback={null}>
+                <ApexCompanion key={location.pathname} suspended={menuOpen || (shouldLoadGlobalChat && tutorOpen)}
+                  onOpenTutor={shouldLoadGlobalChat ? () => setTutorRequest((request) => request + 1) : undefined} />
+              </Suspense>
+            )}
           </nav>
         </div>
       </footer>

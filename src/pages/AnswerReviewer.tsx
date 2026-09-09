@@ -1,3 +1,4 @@
+import { resolveConfirmedCriteria } from '@/lib/confirmedReview.mjs';
 import { Helmet } from "react-helmet-async";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import PageSection from "@/components/PageSection";
@@ -8,11 +9,12 @@ import { toast } from "@/hooks/use-toast";
 import { recordStudySession } from "@/lib/studyStats";
 import { recordLoopStep } from "@/lib/studyLoopTracker";
 import { logStudyActivity } from "@/lib/studyActivity";
-import { consumeMockReviewHandoff } from "@/lib/examFlow";
+import { consumeMockExamAnswers, consumeMockReviewHandoff } from "@/lib/examFlow";
 import { Link, useNavigate, useSearchParams } from "react-router";
 import { useAuth } from "@/contexts/AuthContext";
 import {
   boardToApiLabel,
+  boardFromApiLabel,
   getGradesForBoard,
   getSubjectsForBoard,
   BOARD_CONFIGS,
@@ -25,6 +27,10 @@ import rehypeKatex from "rehype-katex";
 import { enrichMathInText } from "@/lib/mathText";
 import { Sliders, ArrowRight, FileText, Copy, Download, Image as ImageIcon, X, Sparkles, Shield, MessageSquareQuote, CheckCircle2, ClipboardCheck, Loader2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import AiFeedbackControls from "@/components/AiFeedbackControls";
+import { recordWeakness } from "@/lib/weaknessTracker";
+import { MEASURED_WEAKNESS_EVIDENCE } from "@/lib/weaknessEvidenceCore.mjs";
+import { completeRetry } from "@/lib/retryQueue";
 
 type Attachment = {
   id: string;
@@ -45,6 +51,32 @@ type FormState = {
 
 type ApiResponseLike = Record<string, any> | string | null;
 
+type ReviewEvidence = { quote: string; start: number; end: number };
+type ReviewCriterion = {
+  id: string;
+  label: string;
+  score: number;
+  maxScore: number;
+  evidence: ReviewEvidence[];
+  feedback: string;
+  evidenceVerified: boolean;
+};
+type StructuredReview = {
+  auditId: string;
+  score: number;
+  maxScore: number;
+  scoreStatus: "EVIDENCE_LINKED" | "PROVISIONAL" | "MEASURED";
+  confidence: number;
+  humanReviewRequired: boolean;
+  measurementEligible: boolean;
+  evidenceState: "MODEL_EVIDENCE_LINKED" | "MODEL_PROVISIONAL" | "HUMAN_CONFIRMED";
+  escalationReason: string | null;
+  feedback: string;
+  includes: string;
+  criteria: ReviewCriterion[];
+  errors: { code: string; label: string; remediation: string }[];
+};
+
 const initialFormState: FormState = {
   curriculum: "",
   subject: "",
@@ -60,46 +92,6 @@ const safeText = (value: unknown) => {
   if (typeof value === "string") return value;
   if (value === null || value === undefined) return "";
   return String(value);
-};
-
-const buildInputAsText = (formData: FormState) => {
-  const curriculum = formData.curriculum.trim() || "N/A";
-  const subject = formData.subject.trim() || "N/A";
-  const grade = formData.grade.trim() || "N/A";
-  const marks = formData.marks?.trim() || "N/A";
-  const question = formData.question.trim() || "[No question provided]";
-  const answer = formData.answer.trim() || "[No answer provided]";
-  const additional = formData.additional.trim() || "None";
-  const strictness = formData.strictness.trim() || "5";
-
-  return [
-    `Curriculum: ${curriculum}`,
-    `Subject: ${subject}`,
-    `Grade: ${grade}`,
-    `Marks (out of): ${marks}`,
-    "",
-    "------------------------------",
-    "QUESTION",
-    "------------------------------",
-    question,
-    "",
-    "------------------------------",
-    "STUDENT ANSWER",
-    "------------------------------",
-    answer,
-    "",
-    "------------------------------",
-    "ADDITIONAL INFORMATION",
-    "------------------------------",
-    additional,
-    "",
-    "------------------------------",
-    "STRICTNESS LEVEL",
-    "------------------------------",
-    strictness,
-    "",
-    "END OF INPUT",
-  ].join("\n");
 };
 
 function toApiSafeString(data: ApiResponseLike) {
@@ -136,14 +128,20 @@ export default function AIAnswerReview() {
   const [answerImages, setAnswerImages] = useState<Attachment[]>([]);
   const [loading, setLoading] = useState(false);
   const [response, setResponse] = useState("");
+  const [structuredReview, setStructuredReview] = useState<StructuredReview | null>(null);
+  const [degradedReview, setDegradedReview] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
   const [savedPost, setSavedPost] = useState(false);
   const [showImages, setShowImages] = useState(true);
-  const [showRaw, setShowRaw] = useState(false);
   const [lastSubmittedAt, setLastSubmittedAt] = useState<string | null>(null);
   const [submitCount, setSubmitCount] = useState(0);
   const [examImportNote, setExamImportNote] = useState<string | null>(null);
+  const [reviewSource, setReviewSource] = useState<"review" | "mock">("review");
+  const [confirmedMarks, setConfirmedMarks] = useState<Record<string, string>>({});
+  const [confirmationReference, setConfirmationReference] = useState("");
+  const [confirmationMethod, setConfirmationMethod] = useState<"" | "teacher-confirmed" | "official-mark-scheme">("");
+  const [masteryConfirmed, setMasteryConfirmed] = useState(false);
   const responseRef = useRef<HTMLDivElement | null>(null);
   const fileInputQuestionRef = useRef<HTMLInputElement | null>(null);
   const fileInputAnswerRef = useRef<HTMLInputElement | null>(null);
@@ -223,12 +221,50 @@ export default function AIAnswerReview() {
         question: metadata.question || prev.question,
         answer: metadata.answer || prev.answer,
       }));
-      setExamImportNote("Saved review restored — you can re-run or discuss in chat.");
+      setExamImportNote("Saved review restored - you can re-run or discuss in chat.");
+      return;
+    }
+
+    const examAnswers = consumeMockExamAnswers();
+    if (examAnswers) {
+      setReviewSource("mock");
+      const importedBoard = examAnswers.board
+        ? (EXAM_BOARDS.includes(examAnswers.board as ExamBoard)
+          ? examAnswers.board as ExamBoard
+          : boardFromApiLabel(examAnswers.board))
+        : null;
+      if (importedBoard) setBoard(importedBoard);
+      const questionText = examAnswers.questions
+        .map((q, i) => `${i + 1}. ${q.question || "Question"}`)
+        .join("\n\n");
+      const answerText = examAnswers.questions
+        .map((q, i) => {
+          const id = q.id ?? String(i);
+          const answer = examAnswers.answers[id]?.trim();
+          return `Answer ${i + 1}:\n${answer || "[No answer written]"}`;
+        })
+        .join("\n\n");
+      setFormData((prev) => ({
+        ...prev,
+        curriculum: importedBoard ? boardToApiLabel(importedBoard) : prev.curriculum,
+        subject: examAnswers.subject || prev.subject,
+        grade: examAnswers.grade ? String(examAnswers.grade) : prev.grade,
+        question: `Mock exam: ${examAnswers.paperTitle || "Practice paper"}\n\n${questionText}`,
+        answer: answerText,
+        additional: [
+          "Imported from timed mock exam in Paper Maker.",
+          examAnswers.rubricNotes?.length
+            ? `\nMark scheme notes:\n${examAnswers.rubricNotes.map((note) => `• ${note}`).join("\n")}`
+            : "",
+        ].join(""),
+      }));
+      setExamImportNote("Mock exam answers imported - run a review when you're ready.");
       return;
     }
 
     const handoff = consumeMockReviewHandoff();
     if (handoff?.questions?.length) {
+      setReviewSource("mock");
       const questionText = handoff.questions
         .map((q, i) => `${i + 1}. ${q.question}`)
         .join("\n\n");
@@ -241,45 +277,7 @@ export default function AIAnswerReview() {
         additional: "Imported from Paper Maker mock exam.",
       }));
       if (handoff.board) setBoard(handoff.board);
-      setExamImportNote("Mock paper imported — add your answers and submit for rubric feedback.");
-      return;
-    }
-
-    const raw = sessionStorage.getItem("vertex_exam_answers");
-    if (!raw) return;
-    sessionStorage.removeItem("vertex_exam_answers");
-    try {
-      const data = JSON.parse(raw) as {
-        paperTitle?: string;
-        questions?: { id?: string; question?: string }[];
-        answers?: Record<string, string>;
-        rubricNotes?: string[];
-      };
-      const questions = data.questions ?? [];
-      const questionText = questions
-        .map((q, i) => `${i + 1}. ${q.question || "Question"}`)
-        .join("\n\n");
-      const answerText = questions
-        .map((q, i) => {
-          const id = q.id ?? String(i);
-          const answer = data.answers?.[id]?.trim();
-          return `Answer ${i + 1}:\n${answer || "[No answer written]"}`;
-        })
-        .join("\n\n");
-      setFormData((prev) => ({
-        ...prev,
-        question: `Mock exam: ${data.paperTitle || "Practice paper"}\n\n${questionText}`,
-        answer: answerText,
-        additional: [
-          "Imported from timed mock exam in Paper Maker.",
-          data.rubricNotes?.length
-            ? `\nMark scheme notes:\n${data.rubricNotes.map((n) => `• ${n}`).join("\n")}`
-            : "",
-        ].join(""),
-      }));
-      setExamImportNote("Mock exam answers imported — run a review when you're ready.");
-    } catch {
-      setError("Could not import mock exam answers.");
+      setExamImportNote("Mock paper imported - add your answers and submit for rubric feedback.");
     }
   }, []);
 
@@ -293,8 +291,25 @@ export default function AIAnswerReview() {
   const readFilesAsAttachments = (files: FileList | null) => {
     if (!files?.length) return Promise.resolve<Attachment[]>([]);
 
+    const remaining = Math.max(0, 5 - questionImages.length - answerImages.length);
+    if (remaining === 0) {
+      setError("You can attach up to five images across the question and answer.");
+      return Promise.resolve([]);
+    }
+
+    const candidates = Array.from(files);
+    const unsupported = candidates.find((file) => !/^image\/(png|jpeg|webp|gif)$/i.test(file.type));
+    const oversized = candidates.find((file) => file.size > 4 * 1024 * 1024);
+    if (unsupported) setError(`${unsupported.name} is not a supported image. Use PNG, JPEG, WEBP, or GIF.`);
+    else if (oversized) setError(`${oversized.name} is larger than 4 MB. Compress it before attaching.`);
+    else if (candidates.length > remaining) setError("Some images were skipped. You can attach up to five files in total.");
+
+    const supported = candidates
+      .filter((file) => /^image\/(png|jpeg|webp|gif)$/i.test(file.type) && file.size <= 4 * 1024 * 1024)
+      .slice(0, remaining);
+
     return Promise.all(
-      Array.from(files).map(
+      supported.map(
         (file) =>
           new Promise<Attachment>((resolve, reject) => {
             const reader = new FileReader();
@@ -373,9 +388,12 @@ export default function AIAnswerReview() {
     setQuestionImages([]);
     setAnswerImages([]);
     setResponse("");
+    setStructuredReview(null);
+    setDegradedReview(false);
     setError(null);
     setSavedPost(false);
     setLastSubmittedAt(null);
+    setReviewSource("review");
   };
 
   const canSubmit = useMemo(() => {
@@ -388,16 +406,27 @@ export default function AIAnswerReview() {
     e.preventDefault();
     setLoading(true);
     setResponse("");
+    setStructuredReview(null);
+    setDegradedReview(false);
     setError(null);
     setSavedPost(false);
-
-    const input_as_text = buildInputAsText(formData);
 
     try {
       const res = await authFetch("/api/review", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ input_as_text, questionImages, answerImages }),
+        body: JSON.stringify({
+          curriculum: formData.curriculum,
+          subject: formData.subject,
+          grade: formData.grade,
+          marks: formData.marks,
+          question: formData.question,
+          answer: formData.answer,
+          context: formData.additional,
+          strictness: formData.strictness,
+          questionImages,
+          answerImages,
+        }),
       });
 
       const text = await res.text();
@@ -418,7 +447,16 @@ export default function AIAnswerReview() {
       }
 
       const out = toApiSafeString(data).trim() || text.trim() || "No response received.";
-      setTimeout(() => setResponse(out), 120);
+      const audit = data && typeof data === "object" && data.review && typeof data.review === "object"
+        ? data.review as StructuredReview
+        : null;
+      setStructuredReview(audit);
+      setConfirmationMethod("");
+      setMasteryConfirmed(false);
+    setConfirmedMarks({});
+    setConfirmationReference("");
+      setDegradedReview(Boolean(data && typeof data === "object" && data.degraded));
+      setResponse(out);
       setLastSubmittedAt(new Date().toLocaleString());
       setSubmitCount((c) => c + 1);
 
@@ -427,6 +465,8 @@ export default function AIAnswerReview() {
           const title = `${formData.curriculum || "Review"} ${formData.subject || ""}`.trim() || "Answer review";
           const saved = await saveStudyArtifact("review", title, {
             review: out,
+            structuredReview: audit,
+            contractVersion: data && typeof data === "object" ? data.contractVersion : undefined,
             metadata: {
               curriculum: formData.curriculum,
               subject: formData.subject,
@@ -468,6 +508,58 @@ export default function AIAnswerReview() {
     }
   };
 
+  const confirmReviewForMastery = () => {
+    const audit = structuredReview;
+    if (!audit || audit.scoreStatus !== "EVIDENCE_LINKED" || degradedReview || !confirmationMethod) return;
+    const confirmedAt = new Date().toISOString();
+    const subject = formData.subject.trim() || "General";
+    const correctedCriteria = resolveConfirmedCriteria(audit.criteria, confirmedMarks);
+    if (!correctedCriteria) {
+      toast({ title: "Check your confirmed marks", description: "Each criterion needs a mark between zero and its maximum.", variant: "destructive" });
+      return;
+    }
+    const measurements = correctedCriteria
+      .filter((criterion) => Number.isFinite(criterion.score)
+        && Number.isFinite(criterion.maxScore)
+        && criterion.maxScore > 0
+        && criterion.score >= 0
+        && criterion.score <= criterion.maxScore)
+      .map((criterion) => ({ topic: criterion.label, score: criterion.score, maxScore: criterion.maxScore }));
+    const safeMeasurements = measurements.length > 0 ? measurements : [{
+      topic: formData.question.trim().slice(0, 120) || "Written response",
+      score: audit.score,
+      maxScore: audit.maxScore,
+    }];
+
+    const recorded = safeMeasurements.every((measurement) => recordWeakness({
+      attemptId: audit.auditId,
+      topic: measurement.topic,
+      subject,
+      board: board || undefined,
+      score: measurement.score,
+      maxScore: measurement.maxScore,
+      source: reviewSource,
+      evidence: MEASURED_WEAKNESS_EVIDENCE,
+      verification: {
+        method: confirmationMethod,
+        confirmedAt,
+        reference: confirmationReference.trim() || (confirmationMethod === "teacher-confirmed" ? "Learner attests teacher checked the mark" : "Learner attests official mark scheme checked"),
+      },
+    }));
+
+    if (recorded) {
+      const retryId = searchParams.get("retry");
+      if (retryId) {
+        completeRetry(retryId, Math.round((safeMeasurements.reduce((sum, item) => sum + item.score, 0) / Math.max(1, safeMeasurements.reduce((sum, item) => sum + item.maxScore, 0))) * 100));
+      }
+      setMasteryConfirmed(true);
+      toast({
+        title: "Added to measured progress",
+        description: "This mark is now recorded with your human verification method.",
+      });
+    }
+  };
+
   const handleCopy = async () => {
     try {
       await navigator.clipboard.writeText(response || "");
@@ -504,8 +596,8 @@ export default function AIAnswerReview() {
   return (
     <>
       <Helmet>
-        <title>Answer Reviewer — VertexED</title>
-        <meta name="description" content="Submit handwritten or typed answers for mark-scheme feedback — structure, command terms, evidence, and what to rewrite before the next attempt." />
+        <title>Answer Reviewer - VertexED</title>
+        <meta name="description" content="Submit handwritten or typed answers for mark-scheme feedback - structure, command terms, evidence, and what to rewrite before the next attempt." />
       </Helmet>
 
       <PageSection>
@@ -519,18 +611,18 @@ export default function AIAnswerReview() {
 
             <div className="mb-6 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
               <div className="flex items-start gap-4">
-                <motion.div whileHover={{ scale: 1.06, rotate: 3 }} className="rounded-2xl bg-gradient-to-br from-primary to-primary/70 p-3 text-primary-foreground shadow-lg shadow-primary/20">
+                <div className="rounded-2xl bg-primary p-3 text-primary-foreground shadow-lg shadow-primary/20">
                   <FileText size={22} />
-                </motion.div>
+                </div>
                 <div>
                   <div className="flex flex-wrap items-center gap-2">
                     <h1 className="text-2xl font-semibold tracking-tight text-foreground md:text-3xl">Answer Reviewer</h1>
-                    <Badge><Shield size={12} /> Teacher-style</Badge>
-                    <Badge><Sparkles size={12} /> Strict feedback</Badge>
+                    <Badge><Sparkles size={12} /> AI-assisted</Badge>
+                    <Badge><Shield size={12} /> Not an official grade</Badge>
                   </div>
                   <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-                    Paste the question and your answer — typed or from a photo. Feedback names marks earned and lost,
-                    flags command-term gaps, and suggests what to change before you retry. Adjust strictness to match your board.
+                    Paste the question and your answer - typed or from a photo. VertexED suggests where marks may have been
+                    earned or missed, flags command-term gaps, and gives you a concrete retry. Check the result against your current mark scheme or teacher guidance.
                   </p>
                 </div>
               </div>
@@ -560,8 +652,9 @@ export default function AIAnswerReview() {
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid gap-4 md:grid-cols-2">
                   <div>
-                    <label className="form-label">Curriculum</label>
+                    <label htmlFor="review-curriculum" className="form-label">Curriculum</label>
                     <select
+                      id="review-curriculum"
                       name="curriculum"
                       value={board}
                       onChange={(e) => {
@@ -584,8 +677,9 @@ export default function AIAnswerReview() {
                   </div>
 
                   <div>
-                    <label className="form-label">Subject</label>
+                    <label htmlFor="review-subject" className="form-label">Subject</label>
                     <select
+                      id="review-subject"
                       name="subject"
                       value={formData.subject}
                       onChange={handleChange}
@@ -599,8 +693,9 @@ export default function AIAnswerReview() {
 
                 <div className="grid gap-4 md:grid-cols-2">
                   <div>
-                    <label className="form-label">Grade</label>
+                    <label htmlFor="review-grade" className="form-label">Grade</label>
                     <select
+                      id="review-grade"
                       name="grade"
                       value={formData.grade}
                       onChange={handleChange}
@@ -612,10 +707,12 @@ export default function AIAnswerReview() {
                   </div>
 
                   <div>
-                    <label className="form-label">Marks (out of)</label>
+                    <label htmlFor="review-marks" className="form-label">Marks available</label>
                     <input
+                      id="review-marks"
                       type="number"
                       min={1}
+                      max={100}
                       name="marks"
                       value={formData.marks}
                       onChange={handleChange}
@@ -627,12 +724,13 @@ export default function AIAnswerReview() {
 
                 <div>
                   <div className="mb-2 flex items-center justify-between gap-3">
-                    <label className="form-label mb-0">Question Segment</label>
+                    <label htmlFor="review-question" className="form-label mb-0">Question</label>
                     <button type="button" className="text-xs text-primary hover:text-primary/80 transition-colors" onClick={() => fileInputQuestionRef.current?.click()}>
                       Upload images
                     </button>
                   </div>
                   <textarea
+                    id="review-question"
                     name="question"
                     value={formData.question}
                     onChange={handleChange}
@@ -679,12 +777,13 @@ export default function AIAnswerReview() {
 
                 <div>
                   <div className="mb-2 flex items-center justify-between gap-3">
-                    <label className="form-label mb-0">Student Answer</label>
+                    <label htmlFor="review-answer" className="form-label mb-0">Your answer</label>
                     <button type="button" className="text-xs text-primary hover:text-primary/80 transition-colors" onClick={() => fileInputAnswerRef.current?.click()}>
                       Upload images
                     </button>
                   </div>
                   <textarea
+                    id="review-answer"
                     name="answer"
                     value={formData.answer}
                     onChange={handleChange}
@@ -730,8 +829,9 @@ export default function AIAnswerReview() {
                 </div>
 
                 <div>
-                  <label className="form-label">Additional Information</label>
+                  <label htmlFor="review-context" className="form-label">Mark scheme or context <span className="font-normal text-muted-foreground">Optional</span></label>
                   <textarea
+                    id="review-context"
                     name="additional"
                     value={formData.additional}
                     onChange={handleChange}
@@ -743,9 +843,10 @@ export default function AIAnswerReview() {
 
                 <div className="grid gap-4 md:grid-cols-[1fr_auto] md:items-end">
                   <div>
-                    <label className="form-label">Strictness (1-10)</label>
+                    <label htmlFor="review-strictness" className="form-label">Feedback strictness</label>
                     <div className="flex flex-wrap items-center gap-3">
                       <select
+                        id="review-strictness"
                         name="strictness"
                         value={formData.strictness}
                         onChange={handleChange}
@@ -755,12 +856,12 @@ export default function AIAnswerReview() {
                           <option key={v} value={String(v)}>{v}</option>
                         ))}
                       </select>
-                      <div className="text-sm text-muted-foreground">Higher = tougher grading and more detail in the feedback.</div>
+                      <div className="text-sm text-muted-foreground">Higher values ask the reviewer to challenge omissions and imprecise reasoning more aggressively.</div>
                     </div>
                   </div>
 
                   <div className="flex flex-wrap gap-3 md:justify-end">
-                    <motion.button
+                    {(questionImages.length > 0 || answerImages.length > 0) && <motion.button
                       type="button"
                       onClick={() => setShowImages((s) => !s)}
                       className="neu-button inline-flex items-center gap-2 rounded-2xl px-4 py-3"
@@ -769,7 +870,7 @@ export default function AIAnswerReview() {
                     >
                       <ImageIcon size={16} />
                       <span>{showImages ? "Hide images" : "Show images"}</span>
-                    </motion.button>
+                    </motion.button>}
 
                     <motion.button
                       type="submit"
@@ -780,7 +881,7 @@ export default function AIAnswerReview() {
                       disabled={!canSubmit}
                     >
                       {loading ? <Loader2 size={16} className="animate-spin" /> : <ArrowRight size={16} />}
-                      <span>{loading ? "Reviewing..." : "Submit for Review"}</span>
+                      <span>{loading ? "Reviewing…" : "Review my answer"}</span>
                     </motion.button>
                   </div>
                 </div>
@@ -795,7 +896,7 @@ export default function AIAnswerReview() {
               <div className="flex flex-col gap-4">
                 <div className="flex items-center justify-between gap-3">
                   <h2 className="flex items-center gap-2 text-lg font-semibold text-foreground md:text-xl">
-                    <MessageSquareQuote size={18} /> AI Review
+                    <MessageSquareQuote size={18} /> Review
                   </h2>
                   <div className="flex items-center gap-2 text-xs text-muted-foreground">
                     <ClipboardCheck size={14} />
@@ -804,6 +905,11 @@ export default function AIAnswerReview() {
                 </div>
 
                 <div className="review-panel">
+                  <div className={`mb-4 rounded-xl border p-3 text-sm ${structuredReview?.scoreStatus === "EVIDENCE_LINKED" ? "border-sky-500/25 bg-sky-500/10" : "border-amber-500/25 bg-amber-500/10"}`}>
+                    {structuredReview?.scoreStatus === "EVIDENCE_LINKED"
+                      ? "This AI review is linked to exact spans in your answer, but the model cannot verify its own mark. This AI output does not update mastery unless you confirm it against an official mark scheme or teacher decision."
+                      : "This is provisional AI feedback, not an official examiner result. This AI output does not update mastery."}
+                  </div>
                   <div className="mb-4 flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
                     <Badge><Sliders size={12} /> Strict {formData.strictness}/10</Badge>
                     {lastSubmittedAt && <Badge><CheckCircle2 size={12} /> Updated {lastSubmittedAt}</Badge>}
@@ -826,7 +932,110 @@ export default function AIAnswerReview() {
                           transition={{ duration: 0.28 }}
                           className="space-y-4"
                         >
-                          <ReactMarkdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex]} components={{
+                          {structuredReview ? (
+                            <div className="space-y-5">
+                              <div className="rounded-2xl border border-border/70 bg-background/60 p-5">
+                                <div className="flex flex-wrap items-end justify-between gap-4">
+                                  <div>
+                                    <div className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+                                      {structuredReview.scoreStatus === "EVIDENCE_LINKED" ? "Evidence-linked AI review" : "Provisional AI review"}
+                                    </div>
+                                    <div className="mt-2 text-4xl font-semibold tabular-nums text-foreground">
+                                      {structuredReview.score}<span className="text-xl text-muted-foreground">/{structuredReview.maxScore}</span>
+                                    </div>
+                                  </div>
+                                  <div className="text-right text-sm text-muted-foreground">
+                                    <div>{Math.round(structuredReview.confidence * 100)}% confidence</div>
+                                    {degradedReview && <div className="mt-1 text-amber-700 dark:text-amber-300">Automated marking unavailable</div>}
+                                  </div>
+                                </div>
+                                {structuredReview.escalationReason && (
+                                  <p className="mt-4 border-t border-border/60 pt-4 text-sm leading-relaxed text-muted-foreground">
+                                    {structuredReview.escalationReason}
+                                  </p>
+                                )}
+                              </div>
+
+                              {structuredReview.scoreStatus === "EVIDENCE_LINKED" && !degradedReview && (
+                                <section className="rounded-2xl border border-sky-500/25 bg-sky-500/5 p-4">
+                                  <h3 className="text-sm font-semibold text-foreground">Confirm before adding to mastery</h3>
+                                  <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+                                    Only confirm after checking the suggested mark against a teacher decision or the current official mark scheme.
+                                  </p>
+                                  <p className="mt-2 text-xs text-muted-foreground">This records your attestation, not an authenticated teacher approval. Correct the suggested marks before confirming.</p>
+                                  <div className="mt-3 grid gap-2 sm:grid-cols-2">
+                                    {structuredReview.criteria.map(criterion => <label key={criterion.id} className="grid gap-1 text-xs">
+                                      {criterion.label}  - confirmed mark out of {criterion.maxScore}
+                                      <input type="number" min={0} max={criterion.maxScore} step="any" className="neu-input-el px-3 py-2" disabled={masteryConfirmed} value={confirmedMarks[criterion.id] ?? String(criterion.score)} onChange={event => setConfirmedMarks(previous => ({ ...previous, [criterion.id]: event.target.value }))} />
+                                    </label>)}
+                                    <label className="grid gap-1 text-xs">Source or teacher reference (optional)<input className="neu-input-el px-3 py-2" maxLength={160} value={confirmationReference} disabled={masteryConfirmed} onChange={event => setConfirmationReference(event.target.value)} /></label>
+                                  </div>
+                                  <div className="mt-3 flex flex-wrap items-end gap-2">
+                                    <label className="grid gap-1 text-xs text-muted-foreground">
+                                      Verification method
+                                      <select
+                                        className="neu-input-el min-w-56 px-3 py-2 text-sm text-foreground"
+                                        value={confirmationMethod}
+                                        onChange={(event) => setConfirmationMethod(event.target.value as typeof confirmationMethod)}
+                                        disabled={masteryConfirmed}
+                                      >
+                                        <option value="">Select verification</option>
+                                        <option value="official-mark-scheme">Official mark scheme checked</option>
+                                        <option value="teacher-confirmed">Teacher confirmed the mark</option>
+                                      </select>
+                                    </label>
+                                    <button
+                                      type="button"
+                                      className="btn-solid rounded-xl px-4 py-2 text-sm disabled:cursor-not-allowed disabled:opacity-50"
+                                      disabled={!confirmationMethod || masteryConfirmed}
+                                      onClick={confirmReviewForMastery}
+                                    >
+                                      {masteryConfirmed ? "Added to measured progress" : "Confirm mark for mastery"}
+                                    </button>
+                                  </div>
+                                </section>
+                              )}
+
+                              <section>
+                                <h3 className="text-sm font-semibold uppercase tracking-[0.12em] text-muted-foreground">Overall feedback</h3>
+                                <p className="mt-2 leading-relaxed text-foreground">{structuredReview.feedback}</p>
+                                {structuredReview.includes && <p className="mt-2 text-sm leading-relaxed text-muted-foreground">Demonstrated: {structuredReview.includes}</p>}
+                              </section>
+
+                              <section className="space-y-3">
+                                <h3 className="text-sm font-semibold uppercase tracking-[0.12em] text-muted-foreground">Criteria</h3>
+                                {structuredReview.criteria.map((criterion) => (
+                                  <div key={criterion.id} className="rounded-2xl border border-border/70 bg-background/40 p-4">
+                                    <div className="flex items-start justify-between gap-4">
+                                      <h4 className="font-medium text-foreground">{criterion.label}</h4>
+                                      <span className="shrink-0 font-medium tabular-nums text-foreground">{criterion.score}/{criterion.maxScore}</span>
+                                    </div>
+                                    {criterion.feedback && <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{criterion.feedback}</p>}
+                                    {criterion.evidence.length > 0 ? (
+                                      <div className="mt-3 space-y-2">
+                                        {criterion.evidence.map((evidence, index) => (
+                                          <blockquote key={`${criterion.id}-${index}`} className="border-l-2 border-primary/50 pl-3 text-sm italic text-foreground/85">
+                                            “{evidence.quote}”
+                                          </blockquote>
+                                        ))}
+                                      </div>
+                                    ) : criterion.score > 0 ? (
+                                      <p className="mt-3 text-sm text-amber-700 dark:text-amber-300">No exact answer evidence was verified for this awarded credit.</p>
+                                    ) : null}
+                                  </div>
+                                ))}
+                              </section>
+
+                              {structuredReview.errors.length > 0 && (
+                                <section>
+                                  <h3 className="text-sm font-semibold uppercase tracking-[0.12em] text-muted-foreground">What to fix next</h3>
+                                  <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-muted-foreground">
+                                    {structuredReview.errors.map((item) => <li key={item.code}>{item.label}</li>)}
+                                  </ul>
+                                </section>
+                              )}
+                            </div>
+                          ) : <ReactMarkdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex]} components={{
                             p: ({ children }) => <p className="leading-relaxed text-muted-foreground">{children}</p>,
                             h1: ({ children }) => <h1 className="text-2xl font-bold text-foreground">{children}</h1>,
                             h2: ({ children }) => <h2 className="text-xl font-semibold text-foreground">{children}</h2>,
@@ -848,7 +1057,7 @@ export default function AIAnswerReview() {
                             ),
                           }}>
                             {enrichMathInText(response)}
-                          </ReactMarkdown>
+                          </ReactMarkdown>}
 
                           <div className="flex flex-wrap items-center gap-3 border-t border-border/60 pt-4">
                             <button onClick={handleCopy} className="neu-button inline-flex items-center gap-2 rounded-2xl px-3 py-2 text-sm">
@@ -873,24 +1082,9 @@ export default function AIAnswerReview() {
                             >
                               <MessageSquareQuote size={14} /> Discuss with Apex
                             </button>
-                            <button onClick={() => setShowRaw((s) => !s)} className="neu-button px-3 py-2 text-sm">
-                              {showRaw ? "Hide raw" : "Show raw"}
-                            </button>
-                            <div className="ml-auto text-sm text-muted-foreground">Stored review is posted automatically</div>
+                            <div className="ml-auto text-sm text-muted-foreground">Successful reviews are saved to your account or this device.</div>
                           </div>
-
-                          <AnimatePresence>
-                            {showRaw && (
-                              <motion.pre
-                                initial={{ opacity: 0, y: 8 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, y: 8 }}
-                                className="overflow-auto rounded-2xl border border-border/60 bg-muted/50 p-4 text-xs text-muted-foreground"
-                              >
-                                {response}
-                              </motion.pre>
-                            )}
-                          </AnimatePresence>
+                          <AiFeedbackControls capability="answer_review" />
                         </motion.div>
                       ) : (
                         <motion.div key="empty" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex min-h-[18rem] items-center justify-center text-center">

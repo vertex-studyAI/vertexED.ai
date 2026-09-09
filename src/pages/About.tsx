@@ -7,7 +7,7 @@ interface Person {
   name: string;
   role: string;
   bio: string;
-  linkedin: string;
+  linkedin?: string;
 }
 
 export default function About(): React.JSX.Element {
@@ -15,30 +15,26 @@ export default function About(): React.JSX.Element {
     {
       name: "Ryan Gomez",
       role: "Co-founder · CFO · Head of AI Product Development",
-      bio: `Ryan is a sophomore at Oakridge International School, Bangalore — maximalist in and out of the classroom. Between Model UN awards, international olympiads, published research, and writing on quantum mechanics, he has founded initiatives like Obscured Records, expanded a UNICEF-recognised nonprofit, and run Oakridge Junior Codefest for five years. He still plays football, builds side projects, and learns at a pace that keeps the rest of us honest.`,
+      bio: `Ryan leads the AI product and financial planning work behind VertexED. His focus is turning model output into study workflows that label uncertainty, preserve learner work, and remain useful when providers are unavailable.`,
       linkedin: "https://www.linkedin.com/in/ryan-gomez-03701b363/?originalSubdomain=in",
     },
     {
       name: "Pratyush Vel Shankar",
       role: "Co-founder · CEO · Head of Vision",
-      bio: `Pratyush had the original spark for Vertex — the idea that study tools should feel like one coherent workspace, not a pile of tabs. After winning prize money at Bangalore's largest high-school hackathon and co-founding OneVertex.AI, he leads product vision while balancing perfect PSAT scores, Oakridge's tech club, and the occasional Nintendo session.`,
-      linkedin: "#",
+      bio: `Pratyush leads product vision for VertexED: one coherent workspace for planning, notes, practice, and review instead of a collection of disconnected study tabs.`,
     },
     {
       name: "Ritayush Dey",
       role: "Co-founder · CTO · Finance Oversight",
-      bio: `Ritayush brings engineering discipline and a bias for shipping. World Scholars Cup awards, cricket captaincy, Trinity Grade 6 music, and organising what aims to be India's largest overnight school-level hackathon — he handles the systems that keep Vertex reliable while the rest of us argue about copy.`,
-      linkedin: "#",
+      bio: `Ritayush leads the engineering systems work: application structure, operational reliability, and the technical decisions needed to turn product ideas into maintainable releases.`,
     },
   ];
-
-  const isExternal = (url: string) => url.startsWith("http");
 
   return (
     <>
       <SEO
-        title="About VertexED — founding team and story"
-        description="VertexED started as a hackathon project between three students who wanted one workspace for exam season — planning, mocks, rubric feedback, and retrieval without tab overload."
+        title="About VertexED - founding team and story"
+        description="VertexED started as a hackathon project between three students who wanted one workspace for exam season - planning, mocks, rubric feedback, and retrieval without tab overload."
         canonical="https://www.vertexed.app/about"
         jsonLd={[
           {
@@ -53,7 +49,7 @@ export default function About(): React.JSX.Element {
               name: p.name,
               jobTitle: p.role,
               description: p.bio,
-              sameAs: p.linkedin !== "#" ? [p.linkedin] : [],
+              sameAs: p.linkedin ? [p.linkedin] : [],
             })),
           },
         ]}
@@ -65,14 +61,14 @@ export default function About(): React.JSX.Element {
         </h1>
 
         <p className="text-lg md:text-xl max-w-3xl leading-relaxed text-muted-foreground">
-          VertexED began as a late-night hackathon build — three classmates who wanted planning,
-          notes, flashcards, timed mocks, and honest AI feedback in one place they would actually open during exam season. After
-          winning prize money at a major overnight student hackathon, we kept shipping because we
-          were still using it ourselves the week before mocks.
+          VertexED began as a late-night hackathon build - three classmates who wanted planning,
+          notes, flashcards, timed mocks, and evidence-linked AI feedback in one place they would use during exam season.
+          The prototype became an ongoing student-led product because we were still using it
+          ourselves the week before mocks.
         </p>
         <p className="mt-5 text-lg md:text-xl max-w-3xl leading-relaxed text-foreground/90">
-          We are not trying to replace teachers or skip the work. We are trying to remove the friction that makes revision harder than it needs to be — scattered PDFs,
-          feedback that stops at &ldquo;good effort,&rdquo; and tools that look impressive in a demo but fall apart at midnight before Paper 2.
+          We are building study infrastructure, not a teacher replacement. The useful work is practical: keeping materials together,
+          making feedback specific, and ensuring saved work is still there when a provider or network connection fails.
         </p>
 
         <div className="grid md:grid-cols-3 gap-10 mt-20">
@@ -82,16 +78,17 @@ export default function About(): React.JSX.Element {
               <p className="text-sm text-primary/90 mb-4">{person.role}</p>
               <p className="text-sm leading-relaxed text-muted-foreground mb-6">{person.bio}</p>
 
-              <a
-                href={person.linkedin}
-                aria-label={`${person.name} on LinkedIn`}
-                className="inline-flex items-center justify-center h-11 w-11 rounded-full border border-border bg-foreground/5 hover:bg-primary/20 hover:border-primary/35 transition-colors"
-                {...(isExternal(person.linkedin)
-                  ? { target: "_blank", rel: "noopener noreferrer" }
-                  : {})}
-              >
-                <Linkedin className="h-5 w-5 text-foreground" />
-              </a>
+              {person.linkedin && (
+                <a
+                  href={person.linkedin}
+                  aria-label={`${person.name} on LinkedIn`}
+                  className="inline-flex items-center justify-center h-11 w-11 rounded-full border border-border bg-foreground/5 hover:bg-primary/20 hover:border-primary/35 transition-colors"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Linkedin className="h-5 w-5 text-foreground" />
+                </a>
+              )}
             </article>
           ))}
         </div>

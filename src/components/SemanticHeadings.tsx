@@ -57,17 +57,17 @@ export type HeadingEntry = { title: string; h2: string[]; h3: string[] };
 
 export const routeHeadingsMap: Record<string, HeadingEntry> = {
   "/": {
-    title: "VertexED — study tools for exam preparation",
+    title: "VertexED - study tools for exam preparation",
     h2: ["The problems students actually face", "Six tools, one revision loop"],
     h3: ["How we think about learning", "Built by students, used by students"],
   },
   "/home": {
-    title: "VertexED — study tools for exam preparation",
+    title: "VertexED - study tools for exam preparation",
     h2: ["The problems students actually face", "Six tools, one revision loop"],
     h3: ["How we think about learning", "Built by students, used by students"],
   },
   "/features": {
-    title: "How VertexED works — full feature walkthrough",
+    title: "How VertexED works - full feature walkthrough",
     h2: ["The revision loop", "Platform tools and ecosystem"],
     h3: ["Board support", "Revision week workflow"],
   },
@@ -91,10 +91,15 @@ export const routeHeadingsMap: Record<string, HeadingEntry> = {
     h2: ["Today's plan", "Study tools"],
     h3: ["Quick actions", "Recent saved work"],
   },
+  "/exam-prep": {
+    title: "Exam Prep",
+    h2: ["Best next move", "Today's session", "Preparation evidence"],
+    h3: ["Exam countdown", "Subject", "Session length"],
+  },
   "/learning-hub": {
-    title: "Learning Hub",
-    h2: ["Your learning path", "Subject tracks"],
-    h3: ["Daily progress", "Command terms"],
+    title: "Study Dashboard",
+    h2: ["Your next step", "Study tools"],
+    h3: ["Saved work", "Study signals"],
   },
   "/notetaker": {
     title: "Notes, flashcards, and quizzes",
@@ -107,7 +112,7 @@ export const routeHeadingsMap: Record<string, HeadingEntry> = {
     h3: ["Timer", "Session notes"],
   },
   "/chatbot": {
-    title: "Apex — discussion-first study AI",
+    title: "Apex - discussion-first study AI",
     h2: ["Socratic help", "Exam technique"],
     h3: ["Board-aware answers", "Socratic drill"],
   },

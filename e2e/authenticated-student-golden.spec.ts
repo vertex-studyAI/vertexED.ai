@@ -57,12 +57,17 @@ function createLearner() {
 async function installExternalServiceHarness(page: Page) {
   let learner = createLearner();
   const artifacts: Artifact[] = [];
+  const learnerState = new Map<string, Record<string, unknown>>();
   const observed = {
     inviteValidated: false,
     accountCreated: false,
     plannerSaved: false,
     notesSaved: false,
     reviewSaved: false,
+    answerReviewRequested: false,
+    answerReviewSaved: false,
+    adaptiveNoteRequested: false,
+    learnerStateSaved: false,
     authHeaders: 0,
   };
 
@@ -134,6 +139,36 @@ async function installExternalServiceHarness(page: Page) {
     return json(route, { ok: true, items: [] });
   });
 
+  await page.route('**/api/learner-state', async (route) => {
+    const request = route.request();
+    if (request.headers().authorization === `Bearer ${accessToken()}`) observed.authHeaders += 1;
+    if (request.method() === 'GET') {
+      return json(route, { contractVersion: 'vertexed.learner-state.v1', items: [...learnerState.values()] });
+    }
+    if (request.method() === 'POST') {
+      const body = request.postDataJSON() as { items?: Array<Record<string, unknown>> };
+      const items = Array.isArray(body.items) ? body.items : [];
+      const results = items.map((item) => {
+        const stateType = String(item.stateType);
+        const stateKey = String(item.stateKey);
+        const serverUpdatedAt = new Date().toISOString();
+        learnerState.set(`${stateType}:${stateKey}`, { ...item, serverUpdatedAt });
+        return {
+          stateType,
+          stateKey,
+          requestedRevision: item.clientRevision,
+          currentRevision: item.clientRevision,
+          applied: true,
+          serverUpdatedAt,
+        };
+      });
+      const savedTypes = new Set([...learnerState.values()].map((item) => item.stateType));
+      observed.learnerStateSaved ||= savedTypes.has('weakness') && savedTypes.has('retry');
+      return json(route, { contractVersion: 'vertexed.learner-state.v1', results });
+    }
+    return json(route, { error: 'Unsupported learner-state operation' }, 405);
+  });
+
   await page.route('**/api/waitlist-status', async (route) => {
     const authorized = route.request().headers().authorization === `Bearer ${accessToken()}`;
     return authorized
@@ -190,6 +225,8 @@ async function installExternalServiceHarness(page: Page) {
       observed.plannerSaved ||= body.kind === 'planner';
       observed.notesSaved ||= body.kind === 'note' && body.title === 'IB Biology photosynthesis';
       observed.reviewSaved ||= body.kind === 'review' && body.title.includes('Quiz review');
+      observed.answerReviewSaved ||= body.kind === 'review'
+        && typeof body.payload?.structuredReview === 'object';
       return json(route, { ok: true, item, replayed: false }, 201);
     }
 
@@ -201,6 +238,10 @@ async function installExternalServiceHarness(page: Page) {
     if (request.headers().authorization === `Bearer ${accessToken()}`) {
       observed.authHeaders += 1;
     }
+    const body = request.postDataJSON() as { topic?: string };
+    observed.adaptiveNoteRequested ||= body.topic?.includes(
+      'IB_MYP_BIO_PHOTOSYNTHESIS_LIMITING_FACTORS',
+    ) === true;
     return json(route, {
       result: [
         '# Photosynthesis',
@@ -247,17 +288,19 @@ async function installExternalServiceHarness(page: Page) {
       });
     }
     return json(route, {
-      contractVersion: 'vertexed.grading.v1',
+      contractVersion: 'vertexed.grading.v2',
       grades: [{
         id: 'photosynthesis-frq-1',
         score: 2,
         maxScore: 4,
         feedback: 'You identified light as a factor; explain the plateau when another factor becomes limiting.',
         includes: 'A correct link between light and photosynthesis rate.',
-        scoreStatus: 'VERIFIED',
+        scoreStatus: 'EVIDENCE_LINKED',
         confidence: 0.96,
-        humanReviewRequired: false,
-        escalationReason: null,
+        humanReviewRequired: true,
+        measurementEligible: false,
+        evidenceState: 'MODEL_EVIDENCE_LINKED',
+        escalationReason: 'AI feedback requires human confirmation before it can update mastery.',
         remediation: ['Practise interpreting a limiting-factor graph'],
       }],
       coverage: [{ objectiveId: 'IB_MYP_BIO_PHOTOSYNTHESIS_LIMITING_FACTORS', status: 'partial' }],
@@ -265,7 +308,95 @@ async function installExternalServiceHarness(page: Page) {
     });
   });
 
-  return { artifacts, observed };
+  await page.route('**/api/review', async (route) => {
+    const request = route.request();
+    if (request.headers().authorization === `Bearer ${accessToken()}`) {
+      observed.authHeaders += 1;
+    }
+    const body = request.postDataJSON() as { question?: string; answer?: string; marks?: string };
+    observed.answerReviewRequested = body.question === 'Explain why photosynthesis plateaus at high light intensity.'
+      && body.answer === 'Carbon dioxide becomes limiting, so extra light cannot increase the rate.'
+      && body.marks === '4';
+    const quote = 'Carbon dioxide becomes limiting';
+    return json(route, {
+      contractVersion: 'vertexed.answer-review.v2',
+      gradingContractVersion: 'vertexed.grading.v2',
+      degraded: false,
+      blocked: false,
+      safe_text: 'Evidence-linked AI review: 4/4.',
+      output: 'Evidence-linked AI review: 4/4.',
+      review: {
+        auditId: 'answer-review-audit-1',
+        id: 'answer-review',
+        score: 4,
+        maxScore: 4,
+        scoreStatus: 'EVIDENCE_LINKED',
+        confidence: 0.94,
+        humanReviewRequired: true,
+        measurementEligible: false,
+        evidenceState: 'MODEL_EVIDENCE_LINKED',
+        escalationReason: 'AI feedback requires confirmation against a teacher decision or official mark scheme before it can update mastery.',
+        feedback: 'The answer identifies another limiting factor and explains the plateau.',
+        includes: 'Carbon dioxide as the limiting factor.',
+        criteria: [{
+          id: 'explanation',
+          label: 'Scientific explanation',
+          score: 4,
+          maxScore: 4,
+          feedback: 'The causal link is explicit.',
+          evidence: [{ quote, start: 0, end: quote.length }],
+          evidenceVerified: true,
+        }],
+        errors: [],
+      },
+      coverage: [],
+    });
+  });
+
+  await page.route('**/api/paper-generator', async (route) => {
+    const request = route.request();
+    if (request.headers().authorization === `Bearer ${accessToken()}`) {
+      observed.authHeaders += 1;
+    }
+    return json(route, {
+      success: true,
+      paper: {
+        title: 'IB Biology limiting factors practice',
+        metadata: {
+          board: 'IB MYP',
+          grade: 10,
+          subject: 'Biology',
+          format: 'Mixed Format',
+          numQuestions: 1,
+          totalMarks: 4,
+          difficulty: 'Medium',
+          criteriaMode: false,
+        },
+        sections: [{
+          id: 'section-1',
+          title: 'Photosynthesis',
+          instructions: 'Answer using complete scientific reasoning.',
+          questions: [{
+            id: 'mock-1',
+            question: 'Explain why photosynthesis reaches a plateau at high light intensity.',
+            marks: 4,
+            approxTime: '5 minutes',
+            modelAnswerOutline: 'Another factor becomes limiting.',
+          }],
+        }],
+        rubricNotes: ['Award credit only for identifying and explaining another limiting factor.'],
+      },
+      generation: {
+        contractVersion: 'vertexed.learning-artifact.v1',
+        capability: 'paper',
+        mode: 'provider',
+        sourceDigest: 'b'.repeat(64),
+        degraded: false,
+      },
+    });
+  });
+
+  return { artifacts, learnerState, observed };
 }
 
 test('approved learner completes the golden study journey and resumes saved work', async ({ page }) => {
@@ -294,24 +425,64 @@ test('approved learner completes the golden study journey and resumes saved work
   await page.getByRole('button', { name: 'Create my study plan' }).click();
 
   await expect(page).toHaveURL(/\/main$/);
-  await expect(page.getByRole('heading', { name: 'Make this study session count.' })).toBeVisible();
-  await page.locator('a[href="/notetaker"]').filter({ hasText: 'Make study material' }).click();
+  await expect(page.getByRole('heading', { name: 'Your study desk' })).toBeVisible();
+  for (const width of [390, 1024, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto('/main');
+    await expect(page.getByRole('heading', { name: 'Your study desk' })).toBeVisible();
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width + 1);
+    await page.screenshot({ path: `test-results/dashboard-${width}.png`, fullPage: true });
+    await page.goto('/exam-prep');
+    await expect(page.getByRole('heading', { name: 'Exam preparation', exact: true })).toBeVisible();
+    await page.getByRole('button', { name: '45m', exact: true }).click();
+    await expect(page.getByRole('heading', { name: 'A 45-minute exam block' })).toBeVisible();
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width + 1);
+    await page.screenshot({ path: `test-results/exam-prep-${width}.png`, fullPage: true });
+  }
+  await page.goto('/main');
+  await expect(page.getByRole('link', { name: 'Resume', exact: true })).toHaveAttribute('href', '/exam-prep');
+  const completedFromNavigation = await page.evaluate(() => {
+    const key = Object.keys(localStorage).find((name) => name.endsWith(':study_loop_week'));
+    return key ? Object.keys(JSON.parse(localStorage.getItem(key) || '{}').steps || {}) : [];
+  });
+  expect(completedFromNavigation).not.toContain('practise');
+  expect(completedFromNavigation).not.toContain('review');
+  expect(completedFromNavigation).not.toContain('remember');
+  const feedbackLauncher = page.getByRole('button', { name: 'Give VertexED feedback' });
+  await feedbackLauncher.click();
+  const feedbackDialog = page.getByRole('dialog', { name: 'Help improve VertexED' });
+  await expect(feedbackDialog).toBeVisible();
+  await expect(page.getByLabel('Your feedback')).toBeFocused();
+  await page.keyboard.press('Escape');
+  await expect(feedbackDialog).not.toBeVisible();
+  await expect(feedbackLauncher).toBeFocused();
+  await page.locator('a[href="/notetaker"]').filter({ hasText: 'Notes, flashcards & quizzes' }).click();
   await expect(page).toHaveURL(/\/notetaker$/);
 
-  await page.getByPlaceholder(/IB Biology — photosynthesis/).fill('IB Biology photosynthesis');
-  await page.getByRole('button', { name: 'Generate Notes' }).click();
+  await page.getByPlaceholder(/IB Biology - photosynthesis/).fill('IB Biology photosynthesis');
+  await page.getByRole('button', { name: 'Build notes' }).click();
   await expect(page.getByText('Photosynthesis converts light energy')).toBeVisible();
   await expect(page.getByText('Notes saved', { exact: true })).toBeVisible();
 
-  await page.getByRole('button', { name: 'Generate Quiz' }).first().click();
+  await page.getByRole('button', { name: 'Create quiz from notes' }).click();
   await expect(page.getByText('Explain how light intensity can limit')).toBeVisible();
   await page.getByPlaceholder('Write your answer...').fill('More light makes photosynthesis faster.');
   await page.getByRole('button', { name: 'Submit', exact: true }).click();
 
-  await expect(page.getByText(/Score:\s*2\/4/)).toBeVisible();
+  await expect(page.getByText(/Practice score guidance:\s*2\/4/i)).toBeVisible();
   await expect(page.getByText(/Feedback: You identified light as a factor/)).toBeVisible();
   await expect(page.getByText(/Next practice: Practise interpreting a limiting-factor graph/)).toBeVisible();
   await expect.poll(() => harness.observed.reviewSaved).toBe(true);
+
+  await page.getByRole('banner').getByRole('link', { name: 'Dashboard', exact: true }).click();
+  await expect(page).toHaveURL(/\/main$/);
+  await expect(page.getByRole('link', { name: /^Build adaptive notes:/ })).toHaveCount(0);
+  await expect(page.getByText('Confirm a review or complete a validated assessment before a retry appears here.', { exact: true })).toBeVisible();
+
+  // A forged adaptive URL cannot manufacture a target without matching measured evidence.
+  await page.goto('/notetaker?adaptive=1&subject=Biology&topic=FORGED_TOPIC');
+  await expect(page.getByText('Based on your measured quiz results')).toHaveCount(0);
+  await expect(page.getByRole('button', { name: 'Build notes' })).toBeVisible();
 
   await page.getByRole('button', { name: 'Sign out', exact: true }).click();
   await expect(page).toHaveURL(/\/login$/);
@@ -322,9 +493,72 @@ test('approved learner completes the golden study journey and resumes saved work
   await expect(page).toHaveURL(/\/notetaker$/);
   await page.getByRole('banner').getByRole('link', { name: 'Dashboard', exact: true }).click();
   await expect(page).toHaveURL(/\/main$/);
-  await expect(page.getByRole('heading', { name: 'Pick up where you left off' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Continue studying' })).toBeVisible();
   await expect(page.getByText('IB Biology photosynthesis', { exact: true })).toBeVisible();
-  await expect(page.getByText('Quiz review — IB Biology photosynthesis', { exact: true })).toBeVisible();
+  await expect(page.getByText('Quiz review - IB Biology photosynthesis', { exact: true })).toBeVisible();
+
+  await page.goto('/answer-reviewer');
+  await expect(page.getByRole('heading', { name: 'Answer Reviewer' })).toBeVisible();
+  await page.getByLabel('Marks available').fill('4');
+  await page.getByLabel('Question').fill('Explain why photosynthesis plateaus at high light intensity.');
+  await page.getByLabel('Your answer').fill('Carbon dioxide becomes limiting, so extra light cannot increase the rate.');
+  await page.getByLabel(/Mark scheme or context/).fill('Award for naming and explaining another limiting factor.');
+  await page.getByRole('button', { name: 'Review my answer' }).click();
+  await expect(page.getByText('Evidence-linked AI review', { exact: true })).toBeVisible();
+  await expect(page.getByText('94% confidence')).toBeVisible();
+  await expect(page.locator('blockquote').filter({ hasText: 'Carbon dioxide becomes limiting' })).toBeVisible();
+  await page.getByLabel('Verification method').selectOption('official-mark-scheme');
+  await page.getByRole('button', { name: 'Confirm mark for mastery' }).click();
+  await expect(page.getByRole('button', { name: 'Added to measured progress' })).toBeDisabled();
+  await expect.poll(() => harness.observed.answerReviewSaved).toBe(true);
+  await expect.poll(() => harness.observed.learnerStateSaved).toBe(true);
+  await expect.poll(() => page.evaluate(() => new Promise<number>((resolve) => {
+    const open = indexedDB.open('vertexed-recovery-v1', 1);
+    open.onupgradeneeded = () => {
+      if (!open.result.objectStoreNames.contains('outbox')) open.result.createObjectStore('outbox', { keyPath: 'id' });
+    };
+    open.onerror = () => resolve(-1);
+    open.onsuccess = () => {
+      const database = open.result;
+      const request = database.transaction('outbox', 'readonly').objectStore('outbox').getAll();
+      request.onerror = () => { database.close(); resolve(-1); };
+      request.onsuccess = () => {
+        const pending = request.result.filter((record) => record.channel === 'learner-state').length;
+        database.close();
+        resolve(pending);
+      };
+    };
+  }))).toBe(0);
+
+  // Remove both device recovery layers. The dashboard must reconstruct the
+  // measured weakness and retry from the server-side learner-state contract.
+  await page.evaluate(async () => {
+    for (const key of Object.keys(localStorage)) {
+      if (/:weakness_heatmap$|:retry_queue$|:learner_state_outbox$/.test(key)) localStorage.removeItem(key);
+    }
+    await new Promise<void>((resolve, reject) => {
+      const request = indexedDB.deleteDatabase('vertexed-recovery-v1');
+      request.onsuccess = () => resolve();
+      request.onerror = () => reject(request.error);
+      request.onblocked = () => reject(new Error('IndexedDB deletion was blocked'));
+    });
+  });
+
+  await page.goto('/main');
+  const retryCard = page.locator('article').filter({ hasText: 'Retry queue' });
+  await expect(retryCard).toContainText('Scientific explanation');
+  await expect(retryCard).toContainText('Biology');
+  await expect(retryCard).toContainText('100%');
+  await expect(retryCard).toContainText('Recorded score, not a predicted grade');
+  for (const width of [390, 1024, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width + 1);
+    await retryCard.screenshot({ path: `test-results/retry-trace-${width}.png` });
+  }
+  await expect(retryCard.getByRole('link', { name: 'Start retry' })).toHaveAttribute(
+    'href',
+    /\/answer-reviewer\?.*retry=retry%3Abiology%3Ascientific-explanation/,
+  );
 
   await page.goto('/paper-maker');
   await expect(page.getByRole('heading', { name: 'Paper Configuration' })).toBeVisible();
@@ -337,6 +571,51 @@ test('approved learner completes the golden study journey and resumes saved work
   await expect(page.getByLabel('Question format')).toBeVisible();
   await expect(page.getByLabel('Difficulty')).toBeVisible();
   await expect(page.getByRole('button', { name: 'Generate practice paper' })).toBeEnabled();
+  await page.getByRole('button', { name: 'Generate practice paper' }).click();
+  await expect(page.getByText('IB Biology limiting factors practice')).toBeVisible();
+  await page.getByRole('button', { name: 'Take timed exam' }).click();
+  await page.getByLabel('Answer for question 1').fill('Carbon dioxide becomes limiting.');
+  await page.getByRole('button', { name: 'Submit exam' }).click();
+  await expect(page.getByRole('heading', { name: 'Exam complete' })).toBeVisible();
+  await expect(page.getByText(/No score has been estimated/)).toBeVisible();
+
+  const measuredEntries = await page.evaluate(() => {
+    const key = Object.keys(localStorage).find((candidate) => candidate.endsWith(':weakness_heatmap'));
+    return key ? JSON.parse(localStorage.getItem(key) || '[]') : [];
+  });
+  expect(measuredEntries).toHaveLength(1);
+  expect(measuredEntries[0]).toMatchObject({
+    source: 'review',
+    score: 4,
+    maxScore: 4,
+    evidence: 'measured-v2',
+    verification: { method: 'official-mark-scheme' },
+  });
+
+  await page.goto('/exam-prep');
+  await expect(page.getByRole('heading', { name: 'Exam preparation', exact: true })).toBeVisible();
+  await page.getByLabel('Session choice').selectOption('practice');
+  await expect(page.locator('#mission-title')).toHaveText('Practise Biology');
+  const retrievalStep = page.getByRole('button', { name: /Retrieve before reviewing/ });
+  await retrievalStep.click();
+  await expect(retrievalStep).toHaveAttribute('aria-pressed', 'true');
+  await page.reload();
+  await expect(retrievalStep).toHaveAttribute('aria-pressed', 'true');
+  await page.getByRole('button', { name: '45m', exact: true }).click();
+  await expect(retrievalStep).toHaveAttribute('aria-pressed', 'false');
+  await retrievalStep.click();
+  await page.getByRole('button', { name: 'Start another session' }).click();
+  await expect(retrievalStep).toHaveAttribute('aria-pressed', 'false');
+  await page.getByLabel('Session choice').selectOption('diagnostic');
+  await expect(page.getByText(/not a validated diagnostic assessment/)).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Topic evidence and mistakes' })).toBeVisible();
+  await page.getByText('Scientific explanation (1 recorded attempts)', { exact: false }).click();
+  await expect(page.getByText('Recorded verification: official mark scheme')).toBeVisible();
+  for (const width of [1440, 1024, 390]) {
+    await page.setViewportSize({ width, height: 900 });
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width + 1);
+    await page.screenshot({ path: `test-results/exam-prep-${width}.png`, fullPage: true });
+  }
 
   expect(harness.observed).toMatchObject({
     inviteValidated: true,
@@ -344,6 +623,10 @@ test('approved learner completes the golden study journey and resumes saved work
     plannerSaved: true,
     notesSaved: true,
     reviewSaved: true,
+    answerReviewRequested: true,
+    answerReviewSaved: true,
+    learnerStateSaved: true,
+    adaptiveNoteRequested: false,
   });
   expect(harness.observed.authHeaders).toBeGreaterThanOrEqual(5);
   expect(harness.artifacts.map((item) => item.kind)).toEqual(

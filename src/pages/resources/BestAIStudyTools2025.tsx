@@ -8,13 +8,13 @@ export default function BestAIStudyTools2025() {
     <>
       <SEO
         title="Choosing AI study tools in 2025 | VertexED"
-        description="What to look for in AI study tools — rubric feedback, board-shaped mocks, spaced retrieval, and Socratic help — plus how VertexED fits into a real revision week."
+        description="What to look for in AI study tools - rubric feedback, board-shaped mocks, spaced retrieval, and Socratic help - plus how VertexED fits into a real revision week."
         canonical="https://www.vertexed.app/resources/best-ai-study-tools-2025"
         keywords="AI study tools 2025, exam preparation, study planner, flashcards, rubric feedback, IB IGCSE AP, VertexED"
       />
       <Article
         title="Choosing AI study tools that actually help with exams"
-        subtitle="A practical checklist for 2025 — accuracy, syllabus shape, and whether the tool closes the loop from practice to feedback to retrieval."
+        subtitle="A practical checklist for 2025 - accuracy, syllabus shape, and whether the tool closes the loop from practice to feedback to retrieval."
         kicker="Guides"
       >
         <p className="lead">
@@ -23,7 +23,7 @@ export default function BestAIStudyTools2025() {
           This guide separates what matters for exam prep from what sounds impressive in a product demo.
         </p>
         <p>
-          We evaluated tools on three questions students actually ask during exam season: Does it respect how my board
+          This editorial guide compares tools using three questions students often ask during exam season: Does it respect how my board
           writes questions? Does feedback name marks lost, not just a score? Does captured material become practice,
           or sit in a folder you never reopen?
         </p>
@@ -50,24 +50,24 @@ export default function BestAIStudyTools2025() {
           <Link to="/paper-maker">Paper Maker</Link>, read mark-scheme feedback in{" "}
           <Link to="/answer-reviewer">Answer Reviewer</Link>, and schedule retrieval in{" "}
           <Link to="/notetaker">AI Notes + Flashcards</Link>.{" "}
-          <Link to="/chatbot">Apex</Link> threads through when you are stuck — Socratic first, not copy-paste.
+          <Link to="/chatbot">Apex</Link> threads through when you are stuck - Socratic first, not copy-paste.
         </p>
         <h3>What is different in practice</h3>
         <ul>
-          <li><strong>Planner:</strong> Tasks sized to real life — mocks, sport, sleep — not six-hour fantasy blocks.</li>
+          <li><strong>Planner:</strong> Tasks sized to real life - mocks, sport, sleep - not six-hour fantasy blocks.</li>
           <li><strong>Paper Maker:</strong> Topic, mark total, and command-word phrasing approximating IB, IGCSE, CBSE, AP, and A Level papers (VertexED is not affiliated with exam boards).</li>
-          <li><strong>Answer Reviewer:</strong> Typed or photographed answers with rubric-style gaps named — structure, evidence, working, command terms.</li>
+          <li><strong>Answer Reviewer:</strong> Typed or photographed answers with rubric-style gaps named - structure, evidence, working, command terms.</li>
           <li><strong>Notes → cards → quiz:</strong> Same source material feeds spaced flashcards; due counts show on the dashboard.</li>
         </ul>
 
         <h2>2. Note capture and transcription</h2>
         <p>
-          <strong>Best for:</strong> Heavy lecture loads — university seminars, long science units, humanities blocks.
+          <strong>Best for:</strong> Heavy lecture loads - university seminars, long science units, humanities blocks.
         </p>
         <p>
           Otter and similar tools excel at meeting transcription. For revision, the question is what happens after capture:
           do definitions and formulas get extracted, or do you still re-read a 40-minute transcript? VertexED&apos;s notetaker
-          is aimed at condensation into notes, then cards and quizzes — the step most students skip.
+          is aimed at condensation into notes, then cards and quizzes - the step most students skip.
         </p>
         <p>
           <em>Practical rule:</em> Review and trim AI summaries within 24 hours of the lecture, while you still remember what confused you.
@@ -78,14 +78,14 @@ export default function BestAIStudyTools2025() {
           <strong>Best for:</strong> Biology definitions, history dates, language vocabulary, formula recall.
         </p>
         <p>
-          Anki remains the standard for manual decks. AI tools that generate cards from PDFs can save time — if you edit
+          Anki remains the standard for manual decks. AI tools that generate cards from PDFs can save time - if you edit
           cards for clarity and connect them to past-paper command words. VertexED schedules due cards on the dashboard
           and links weak decks to Paper Maker topics.
         </p>
 
         <h2>4. Writing feedback and rubric review</h2>
         <p>
-          <strong>Best for:</strong> Extended responses — history, English, psychology, economics essays.
+          <strong>Best for:</strong> Extended responses - history, English, psychology, economics essays.
         </p>
         <p>
           Grammar tools fix sentences. Exam prep needs argument structure, evidence, and command-term alignment.
@@ -109,13 +109,13 @@ export default function BestAIStudyTools2025() {
         <h3>Is AI studying cheating?</h3>
         <p>
           Using AI to explain a step you almost had, or to critique a draft against a rubric, is closer to a tutor.
-          Submitting AI-generated work as your own is not. Check your school&apos;s policy — and ask whether you could
+          Submitting AI-generated work as your own is not. Check your school&apos;s policy - and ask whether you could
           reproduce the reasoning in an exam without the tool.
         </p>
 
         <h3>Can AI replace a teacher?</h3>
         <p>
-          No — teachers know your class, your mocks, and your oral. AI helps with spacing, extra mocks, and late-night
+          No - teachers know your class, your mocks, and your oral. AI helps with spacing, extra mocks, and late-night
           explanations. Use it to extend revision, not to skip class.
         </p>
 
@@ -154,7 +154,7 @@ export default function BestAIStudyTools2025() {
         <h2>Bottom line</h2>
         <p>
           Pick tools that fit one revision loop you will actually run this week: plan, focus, mock, review, retrieve.
-          Start with the bottleneck — usually timed practice or rubric feedback — then add flashcards and Apex where you get stuck.
+          Start with the bottleneck - usually timed practice or rubric feedback - then add flashcards and Apex where you get stuck.
         </p>
       </Article>
     </>

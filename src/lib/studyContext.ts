@@ -10,14 +10,19 @@ export type StudyPageContext = {
 
 const ROUTE_CONTEXT: Record<string, StudyPageContext> = {
   '/learning-hub': {
-    page: 'learning-hub',
-    label: 'Learning Hub',
-    hint: 'Guide the student through their connected learning path and subject tracks.',
+    page: 'dashboard',
+    label: 'Study Dashboard',
+    hint: 'Help the student choose a next study action from the evidence already saved.',
   },
   '/main': {
     page: 'dashboard',
     label: 'Dashboard',
     hint: 'Help the student pick their next best study action for tonight.',
+  },
+  '/exam-prep': {
+    page: 'exam-prep',
+    label: 'Exam Prep',
+    hint: 'Help the student complete the selected session using the exam date, subject, due reviews, and verified weak-topic evidence shown on the page.',
   },
   '/notetaker': {
     page: 'ai-notes',

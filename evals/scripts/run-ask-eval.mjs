@@ -4,7 +4,7 @@
  * ask-specific golden set and baseline fixture.
  *
  * By default uses the fixture (offline / regression mode). Pass --live to
- * call the actual handler with mocked OpenAI client.
+ * call the configured provider directly with the same prompt builder as the API.
  */
 
 import { resolve, dirname } from 'node:path';
@@ -38,20 +38,42 @@ const fixture = JSON.parse(readFileSync(fixturePath, 'utf-8'));
 
 let handler = null;
 if (isLive) {
-  // Lazy import so fixture-mode doesn't load OpenAI client.
-  const mod = await import('../../api/_handlers/ask.js');
+  const { buildAskMessages } = await import('../../api/_lib/askPrompt.js');
+  const { callChatProvider, extractChatAnswer, resolveChatProvider } = await import('../../api/_lib/aiProviders.js');
+  let providerConfig;
+  try {
+    providerConfig = resolveChatProvider(process.env);
+  } catch (error) {
+    console.error(`Live eval configuration error: ${error instanceof Error ? error.message : String(error)}`);
+    process.exit(2);
+  }
+
   handler = async (req) => {
-    const fakeRes = {
-      statusCode: 200,
-      body: null,
-      status(code) { this.statusCode = code; return this; },
-      json(data) { this.body = data; return this; },
-      setHeader() { return this; },
-      end(data) { if (data) this.body = { answer: String(data) }; return this; },
-    };
-    const fakeReq = { method: 'POST', body: req, headers: {}, socket: { remoteAddress: '127.0.0.1' } };
-    await mod.default(fakeReq, fakeRes);
-    return fakeRes.body || { answer: '' };
+    const messages = buildAskMessages(req);
+    const run = (model) => callChatProvider({
+      config: providerConfig,
+      model,
+      messages,
+      temperature: 0.4,
+      maxTokens: 1200,
+    });
+
+    let result = await run(providerConfig.primaryModel);
+    if (!result.response.ok && providerConfig.fallbackModel && result.response.status !== 401) {
+      result = await run(providerConfig.fallbackModel);
+    }
+    if (!result.response.ok) {
+      throw new Error(`${result.provider}/${result.model} returned HTTP ${result.response.status}`);
+    }
+    const parsed = JSON.parse(result.raw);
+    let answer = extractChatAnswer(parsed);
+    if (!answer && providerConfig.fallbackModel && result.model !== providerConfig.fallbackModel) {
+      result = await run(providerConfig.fallbackModel);
+      if (!result.response.ok) throw new Error(`${result.provider}/${result.model} returned HTTP ${result.response.status}`);
+      answer = extractChatAnswer(JSON.parse(result.raw));
+    }
+    if (!answer) throw new Error(`${result.provider}/${result.model} returned an empty answer`);
+    return { answer };
   };
 }
 

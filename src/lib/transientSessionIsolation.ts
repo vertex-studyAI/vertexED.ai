@@ -18,9 +18,8 @@ export function clearLegacySharedSessionHandoffs() {
 
 /**
  * Fail-closed migration guard for transient study data that historically used
- * browser-global sessionStorage keys. New handoffs use account-scoped keys,
- * while the timed exam-answer flow remains legacy-scoped until its large
- * reviewer surface is migrated separately.
+ * browser-global sessionStorage keys. Current handoffs use account-scoped keys;
+ * the legacy list exists only to discard data written by older revisions.
  *
  * Clear stale legacy values at bootstrap and whenever auth ownership changes so
  * one account cannot inherit another account's transient questions/answers.

@@ -15,6 +15,7 @@ export function formatSourcesForPrompt(sources, maxChars = DEFAULT_MAX_CHARS) {
   const blocks = [];
 
   for (const source of sources) {
+    if (!source || typeof source !== 'object') continue;
     const title =
       typeof source.title === 'string' && source.title.trim()
         ? source.title.trim().slice(0, 120)
@@ -117,8 +118,10 @@ Show how topics connect for revision planning.`,
   'mind-map': {
     label: 'Concept Map',
     instruction: `Create a concept map as a Mermaid flowchart showing how ideas in the sources connect.
-Return markdown with a \`\`\`mermaid code block only (flowchart TD or mindmap).
-Max 20 nodes. Label edges with relationship verbs.`,
+Return a \`\`\`mermaid code block only, beginning with flowchart TD.
+Use only declarations such as A["Cell"] and separate edges such as A -->|contains| B.
+Use alphanumeric node IDs, short plain-text labels, at most 20 nodes and 40 edges.
+Do not use HTML, styling, click handlers, subgraphs, or other Mermaid syntax. Label edges with relationship verbs.`,
   },
   compare: {
     label: 'Source Compare',
@@ -157,17 +160,6 @@ Focus on strengths, weaknesses, and how to improve exam answers.`,
 **Alex:** ...
 **Sam:** ...
 End with what an examiner would want in a balanced conclusion.`,
-  },
-  'world-model': {
-    label: 'World Model Map',
-    instruction: `Build a "world model" learning map from the sources.
-Return markdown with:
-## Foundation layer (definitions & prerequisites)
-## Core layer (main concepts with links between them)
-## Exam layer (what examiners test and how marks are awarded)
-## Weak links (gaps a student must fix)
-## Mermaid concept graph (\`\`\`mermaid flowchart TD\`\`\` with max 18 nodes)
-End with a 3-step retrieval plan for the next 48 hours.`,
   },
   'board-deep-dive': {
     label: 'Board Deep Dive',

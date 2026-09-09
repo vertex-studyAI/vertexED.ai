@@ -137,11 +137,11 @@ export default function AIChatbot() {
                   },
                   {
                     title: "Math & essays",
-                    body: "Notation renders properly. Long responses won't get cut off mid-thought — take your time with follow-ups.",
+                    body: "Notation renders properly. Long responses won't get cut off mid-thought - take your time with follow-ups.",
                   },
                   {
                     title: "Socratic Drill",
-                    body: "Five rounds of probing questions on one topic — no answers until you've tried. Ends with a gap summary and one practice task.",
+                    body: "Five rounds of probing questions on one topic - no answers until you've tried. Ends with a gap summary and one practice task.",
                   },
                 ].map((item) => (
                   <div key={item.title} className="glass-tile p-5">

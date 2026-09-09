@@ -2,6 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import {
   getBearerToken,
+  isTransientAuthError,
   readJsonBody,
   rejectOversizedJsonBody,
   verifyAuthUser,
@@ -10,6 +11,13 @@ import { createMocks } from './helpers/mock-http.mjs';
 
 test('getBearerToken returns null when header is missing', () => {
   assert.equal(getBearerToken({ headers: {} }), null);
+});
+
+test('authentication provider outages are distinguishable from invalid sessions', () => {
+  assert.equal(isTransientAuthError({ name: 'AuthRetryableFetchError', status: 0 }), true);
+  assert.equal(isTransientAuthError({ code: 'PROVIDER_TIMEOUT' }), true);
+  assert.equal(isTransientAuthError({ status: 503 }), true);
+  assert.equal(isTransientAuthError({ status: 401 }), false);
 });
 
 test('getBearerToken extracts bearer token', () => {

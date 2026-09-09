@@ -1,13 +1,13 @@
-import { createClient } from '@supabase/supabase-js';
+import { createServerSupabaseClient } from './serverSupabase.js';
 
 export const MAX_JSON_BODY_BYTES = 2 * 1024 * 1024;
 export const MAX_AUDIO_BYTES = 15 * 1024 * 1024;
 
 function getSupabaseAuthClient() {
   const url = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL;
-  const anonKey = process.env.SUPABASE_ANON_KEY || process.env.VITE_SUPABASE_ANON_KEY;
+  const anonKey = process.env.SUPABASE_PUBLISHABLE_KEY || process.env.SUPABASE_ANON_KEY || process.env.VITE_SUPABASE_PUBLISHABLE_KEY || process.env.VITE_SUPABASE_ANON_KEY;
   if (!url || !anonKey) return null;
-  return createClient(url, anonKey);
+  return createServerSupabaseClient(url, anonKey);
 }
 
 export function getBearerToken(req) {
@@ -16,6 +16,14 @@ export function getBearerToken(req) {
     return null;
   }
   return header.slice(7).trim();
+}
+
+export function isTransientAuthError(error) {
+  const status = Number(error?.status);
+  return error?.name === 'AuthRetryableFetchError'
+    || error?.code === 'PROVIDER_TIMEOUT'
+    || status === 0
+    || status >= 500;
 }
 
 export async function verifyAuthUser(req, res) {
@@ -27,11 +35,15 @@ export async function verifyAuthUser(req, res) {
 
   const supabase = getSupabaseAuthClient();
   if (!supabase) {
-    res.status(500).json({ error: 'Auth is not configured on the server.' });
+    res.status(503).json({ error: 'Auth is not configured on the server.' });
     return null;
   }
 
   const { data: { user }, error } = await supabase.auth.getUser(token);
+  if (error && isTransientAuthError(error)) {
+    res.status(503).json({ error: 'Authentication service is temporarily unavailable. Please try again.' });
+    return null;
+  }
   if (error || !user) {
     res.status(401).json({ error: 'Invalid or expired session. Please log in again.' });
     return null;

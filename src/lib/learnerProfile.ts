@@ -185,9 +185,9 @@ export function getProfileCompleteness(profile: LearnerProfile): ProfileComplete
     const first = missing[0];
     nudge =
       first === 'exam date'
-        ? 'Add your exam date — countdown, cram mode, and tonight\'s plan use it.'
+        ? 'Add your exam date - countdown, cram mode, and tonight\'s plan use it.'
         : first === 'subjects'
-          ? 'Add subjects — mastery charts and interleaving need them.'
+          ? 'Add subjects - mastery charts and interleaving need them.'
           : `Add your ${first} in settings for sharper recommendations.`;
   }
 
@@ -201,23 +201,23 @@ export function getPersonalizedSubline(profile: LearnerProfile): string {
     ? BOARD_CONFIGS[profile.curriculum.board]?.label
     : null;
 
-  if (examDays != null && examDays <= 14) {
+  if (examDays != null && examDays >= 0 && examDays <= 14) {
       return examDays === 0
-      ? `Exam day — light retrieval, sleep, and calm execution.`
-      : `${examDays} day${examDays === 1 ? '' : 's'} to ${boardLabel ?? 'your exam'} — prioritise timed mocks and rubric review.`;
+      ? `Exam day - light retrieval, sleep, and calm execution.`
+      : `${examDays} day${examDays === 1 ? '' : 's'} to ${boardLabel ?? 'your exam'} - prioritise timed mocks and rubric review.`;
   }
 
   switch (goal) {
     case 'ace_exams':
-      return 'Train for mark schemes, not just understanding — mocks and rubric feedback are your edge.';
+      return 'Use timed attempts and verify the feedback against a trusted mark scheme.';
     case 'catch_up':
-      return 'Close gaps in order: notes → targeted quiz → rubric review. No heroic all-nighters needed.';
+      return 'Choose one gap, review the source, test it, and schedule another attempt.';
     case 'build_habits':
-      return 'Small, repeatable blocks beat marathon sessions. Your streak and planner are the lever.';
+      return 'Keep today\'s block small enough to repeat and record what you finish.';
     case 'understand_better':
-      return 'Ask why until it clicks — then lock it in with retrieval so it survives exam pressure.';
+      return 'Ask why, explain the idea in your own words, and test it again from memory.';
     default:
-      return 'One loop: plan the week, focus, practise under time, review against rubrics, retrieve on schedule.';
+      return 'Plan the week, complete one focused task, review the result, and return to the gaps later.';
   }
 }
 
@@ -283,7 +283,7 @@ export function getGoalLearningPath(goal: StudyGoal | null): LearningPathStep[] 
     case 'catch_up':
       return [
         { phase: 'learn', title: 'Condense notes', description: 'Generate or paste notes on one gap topic only.', to: '/notetaker' },
-        { phase: 'practice', title: 'Topic quiz', description: 'Ten questions — honest scoring, no re-read first.', to: '/notetaker' },
+        { phase: 'practice', title: 'Topic quiz', description: 'Ten questions - honest scoring, no re-read first.', to: '/notetaker' },
         { phase: 'review', title: 'Ask Apex', description: 'One Socratic pass on what you missed.', to: '/chatbot' },
         { phase: 'remember', title: 'Exemplars', description: 'See how strong answers are structured.', to: '/archives' },
       ];

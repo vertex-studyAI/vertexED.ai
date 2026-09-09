@@ -1,3 +1,5 @@
+import { fetchWithTimeout } from './fetchWithTimeout.js';
+
 const DEFAULT_OPENAI_BASE_URL = 'https://api.openai.com/v1';
 const DEFAULT_NVIDIA_BASE_URL = 'https://integrate.api.nvidia.com/v1';
 const DEFAULT_OPENAI_PRIMARY_MODEL = 'ft:gpt-4.1-mini-2025-04-14:verteded:apex-chatbot:CSgJ1mRt';
@@ -72,7 +74,8 @@ export async function callChatProvider({
   messages,
   temperature = 0.4,
   maxTokens = 1200,
-  fetchImpl = fetch,
+  fetchImpl,
+  timeoutMs = 30_000,
 }) {
   if (!config?.baseUrl || !config?.apiKey || !config?.name) {
     throw new Error('Invalid chat provider configuration');
@@ -85,7 +88,8 @@ export async function callChatProvider({
     max_tokens: maxTokens,
   };
 
-  const response = await fetchImpl(`${config.baseUrl}/chat/completions`, {
+  const executeFetch = fetchImpl || ((url, options) => fetchWithTimeout(url, options, timeoutMs));
+  const response = await executeFetch(`${config.baseUrl}/chat/completions`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

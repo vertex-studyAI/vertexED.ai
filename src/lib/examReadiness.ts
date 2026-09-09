@@ -24,13 +24,13 @@ function bandForScore(score: number): ReadinessBand {
 function bandLabel(band: ReadinessBand): string {
   switch (band) {
     case 'exam-ready':
-      return 'Closing gaps — keep the loop spinning';
+      return 'Strong preparation activity';
     case 'building':
-      return 'Momentum building — one loop step today helps';
+      return 'Preparation activity is building';
     case 'warming':
-      return 'Early week — pick one step and start';
+      return 'A few study signals are recorded';
     default:
-      return 'Complete a session to calibrate';
+      return 'No preparation evidence yet';
   }
 }
 
@@ -47,18 +47,19 @@ export function computeExamReadiness(profile: LearnerProfile): ExamReadiness {
   const masteryAvg =
     heatmap.length > 0
       ? heatmap.reduce((s, h) => s + h.avgPercent, 0) / heatmap.length
-      : 55;
-  const masteryScore = Math.round((masteryAvg / 100) * 25);
+      : 0;
+  const masteryScore = heatmap.length > 0 ? Math.round((masteryAvg / 100) * 25) : 0;
   const activityScore = Math.min(25, trend.reviewsThisWeek * 5 + (stats.activityEntries > 0 ? 5 : 0));
 
   let examPressureBonus = 0;
-  if (examDays != null && examDays <= 14) {
+  if (examDays != null && examDays >= 0 && examDays <= 14) {
     examPressureBonus = loop.completed.includes('practise') && loop.completed.includes('review') ? 5 : 0;
   }
 
   const raw = loopScore + streakScore + masteryScore + activityScore + examPressureBonus;
-  const score = Math.min(100, Math.max(8, raw));
-  const band = heatmap.length === 0 && loop.completed.length === 0 ? 'unknown' : bandForScore(score);
+  const score = Math.min(100, Math.max(0, raw));
+  const hasEvidence = heatmap.length > 0 || loop.completed.length > 0 || stats.studyStreak > 0 || trend.reviewsThisWeek > 0;
+  const band = hasEvidence ? bandForScore(score) : 'unknown';
 
   const factors = [
     {
@@ -98,7 +99,7 @@ export function computeExamReadiness(profile: LearnerProfile): ExamReadiness {
 
   return {
     score,
-    band: band === 'unknown' && score > 20 ? 'warming' : band,
+    band,
     label: bandLabel(band),
     factors,
   };

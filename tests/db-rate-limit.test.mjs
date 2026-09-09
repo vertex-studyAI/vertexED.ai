@@ -30,7 +30,7 @@ test('checkDbRateLimit uses in-memory fallback when Supabase is not configured',
   }
 });
 
-test('checkDbRateLimit uses in-memory protection when rate-limit salt is missing', async () => {
+test('checkDbRateLimit fails closed in production when rate-limit salt is missing', async () => {
   const previousSalt = process.env.WAITLIST_RATE_LIMIT_SALT;
   const previousUrl = process.env.SUPABASE_URL;
   const previousKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
@@ -42,10 +42,9 @@ test('checkDbRateLimit uses in-memory protection when rate-limit salt is missing
 
   try {
     const key = `saltless-${Date.now()}`;
-    const first = await checkDbRateLimit('test-scope', key, 1, 60_000);
-    const second = await checkDbRateLimit('test-scope', key, 1, 60_000);
-    assert.equal(first.allowed, true);
-    assert.equal(second.allowed, false);
+    const result = await checkDbRateLimit('test-scope', key, 1, 60_000);
+    assert.equal(result.allowed, false);
+    assert.equal(result.configurationError, true);
   } finally {
     restoreEnv('WAITLIST_RATE_LIMIT_SALT', previousSalt);
     restoreEnv('SUPABASE_URL', previousUrl);
@@ -54,7 +53,7 @@ test('checkDbRateLimit uses in-memory protection when rate-limit salt is missing
   }
 });
 
-test('checkDbRateLimit keeps in-memory protection when Supabase queries fail', async () => {
+test('checkDbRateLimit fails closed in production when the atomic database check fails', async () => {
   const previousSalt = process.env.WAITLIST_RATE_LIMIT_SALT;
   const previousUrl = process.env.SUPABASE_URL;
   const previousKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
@@ -66,14 +65,24 @@ test('checkDbRateLimit keeps in-memory protection when Supabase queries fail', a
 
   try {
     const key = `db-failure-${Date.now()}`;
-    const first = await checkDbRateLimit('test-scope', key, 1, 60_000);
-    const second = await checkDbRateLimit('test-scope', key, 1, 60_000);
-    assert.equal(first.allowed, true);
-    assert.equal(second.allowed, false);
+    const result = await checkDbRateLimit('test-scope', key, 1, 60_000);
+    assert.equal(result.allowed, false);
+    assert.equal(result.configurationError, true);
   } finally {
     restoreEnv('WAITLIST_RATE_LIMIT_SALT', previousSalt);
     restoreEnv('SUPABASE_URL', previousUrl);
     restoreEnv('SUPABASE_SERVICE_ROLE_KEY', previousKey);
     restoreEnv('VERCEL_ENV', previousEnv);
   }
+});
+
+test('database migration makes the rate-limit decision atomic and singleton artifacts unique', async () => {
+  const { readFile } = await import('node:fs/promises');
+  const migration = await readFile(new URL('../supabase/migrations/20260906103806_atomic_rate_limits_and_singletons.sql', import.meta.url), 'utf8');
+  assert.match(migration, /pg_advisory_xact_lock/);
+  assert.match(migration, /consume_waitlist_rate_limit/);
+  assert.match(migration, /create unique index[\s\S]*user_study_artifacts_singleton_kind_idx/);
+  assert.match(migration, /where kind in \('planner', 'notebook'\)/);
+  assert.match(migration, /Duplicate planner\/notebook artifacts require manual reconciliation/);
+  assert.doesNotMatch(migration, /delete from public\.user_study_artifacts/);
 });

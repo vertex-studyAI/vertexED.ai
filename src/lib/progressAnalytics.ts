@@ -1,7 +1,9 @@
+import { localDayKey } from '@/lib/studyDates.mjs';
 import { getStudyStats } from '@/lib/studyStats';
 import { userContentStorageKeys } from '@/lib/userContentStorageScope.mjs';
-import { getWeaknessHeatmap } from '@/lib/weaknessTracker';
+import { getWeaknessHeatmap, getMeasuredEntries } from '@/lib/weaknessTracker';
 import {
+  countRecentAttempts,
   estimateStudyMinutes,
   summarizeHeatmapMastery,
   summarizeSnapshotMastery,
@@ -33,7 +35,7 @@ function storageKey() {
 }
 
 function todayKey(): string {
-  return new Date().toISOString().slice(0, 10);
+  return localDayKey();
 }
 
 function readSnapshots(): DailySnapshot[] {
@@ -74,8 +76,9 @@ export function getProgressTrend(recordSnapshot = false): ProgressTrend {
   if (recordSnapshot) recordDailySnapshot();
   const snapshots = readSnapshots();
   const stats = getStudyStats();
-  const last7 = snapshots.slice(-7);
-  const reviewsThisWeek = last7.reduce((s, d) => s + d.reviewsCompleted, 0);
+  const cutoff = localDayKey(new Date(Date.now() - 7 * 86400000));
+  const last7 = snapshots.filter(snapshot => snapshot.date > cutoff && snapshot.date <= todayKey()).sort((a, b) => a.date.localeCompare(b.date));
+  const reviewsThisWeek = countRecentAttempts(getMeasuredEntries());
   const { avgMastery, masteryTrend } = summarizeSnapshotMastery(last7);
 
   return {

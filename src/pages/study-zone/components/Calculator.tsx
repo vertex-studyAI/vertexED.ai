@@ -1,36 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-
-const allowedPattern = /^[0-9+\-*/().^a-zA-Z]*$/;
-
-const replaceFunctions = (expression: string) =>
-	expression
-		.replace(/log10\(/g, "__LOG10__")
-		.replace(/sin\(/g, "Math.sin(")
-		.replace(/cos\(/g, "Math.cos(")
-		.replace(/tan\(/g, "Math.tan(")
-		.replace(/sqrt\(/g, "Math.sqrt(")
-		.replace(/abs\(/g, "Math.abs(")
-		.replace(/ln\(/g, "Math.log(")
-		.replace(/log\(/g, "Math.log10(")
-		.replace(/__LOG10__/g, "Math.log10(");
-
-const evaluateExpression = (raw: string) => {
-	if (!raw || !allowedPattern.test(raw)) {
-		throw new Error("Invalid characters");
-	}
-
-	const normalized = replaceFunctions(raw)
-		.replace(/\bpi\b/gi, "Math.PI")
-		.replace(/\be\b/g, "Math.E")
-		.replace(/\^/g, "**");
-
-	const fn = new Function(`return (${normalized})`);
-	const result = fn();
-	if (typeof result !== "number" || Number.isNaN(result) || !Number.isFinite(result)) {
-		throw new Error("Invalid result");
-	}
-	return result;
-};
+import { evaluateExpression } from "./calculatorCore.mjs";
 
 interface CalculatorProps {
 	accent: string;
@@ -118,7 +87,7 @@ const Calculator: React.FC<CalculatorProps> = () => {
 		>
 			<div>
 				<h2 className="zone-heading">Scientific Calculator</h2>
-				<p className="zone-subtle">Trig, logs, square roots, constants — the math you reach for most often.</p>
+				<p className="zone-subtle">Trig, logs, square roots, constants - the math you reach for most often.</p>
 			</div>
 
 			<div className="zone-calc-display">

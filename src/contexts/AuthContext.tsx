@@ -6,6 +6,8 @@ import { setPlannerStorageScope } from "@/lib/plannerStorageScope.mjs";
 import { buildMissingProfileInsert, buildProfileUpdate } from "@/lib/profileRecovery.mjs";
 import { supabase } from "@/lib/supabaseClient";
 import { setUserContentStorageScope } from "@/lib/userContentStorageScope.mjs";
+import { initializeLearnerStateSync } from "@/lib/learnerStateSync";
+import { syncLocalStudyArtifacts } from "@/lib/userContent";
 import type { Profile } from "@/types/profile";
 
 type AuthContextType = {
@@ -21,7 +23,7 @@ type AuthContextType = {
     password: string,
     metadata?: Record<string, any>
   ) => Promise<{ user: User | null; session: Session | null; needsConfirmation: boolean }>;
-  logout: () => Promise<void>;
+  logout: (options?: { localOnly?: boolean }) => Promise<void>;
 };
 
 const AuthContext = createContext<AuthContextType>({
@@ -40,6 +42,10 @@ const AuthContext = createContext<AuthContextType>({
 function setSensitiveStorageScopes(scope?: string | null) {
   setUserContentStorageScope(scope);
   setPlannerStorageScope(scope);
+}
+
+function initializeAccountPersistence() {
+  void Promise.allSettled([initializeLearnerStateSync(), syncLocalStudyArtifacts()]);
 }
 
 export function AuthProvider({ children }: PropsWithChildren) {
@@ -62,6 +68,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
   // Initialize auth state and subscribe to changes
   useEffect(() => {
     let isMounted = true;
+    let sessionEventRevision = 0;
     let loadingSafetyTimer: number | undefined;
     const clearLoadingSafetyTimer = () => {
       if (loadingSafetyTimer !== undefined) {
@@ -93,40 +100,59 @@ export function AuthProvider({ children }: PropsWithChildren) {
         if (isMounted) setLoading(false);
       }, 4000);
 
-      const { data, error } = await supabase.auth.getSession();
-      if (!isMounted) return;
-      clearLoadingSafetyTimer();
-      if (error) {
-        console.error("Supabase getSession error:", error);
+      const initialRevision = sessionEventRevision;
+      try {
+        const { data, error } = await supabase.auth.getSession();
+        if (!isMounted || initialRevision !== sessionEventRevision) return;
+        clearLoadingSafetyTimer();
+        if (error) throw error;
+        const nextUser = data.session?.user ?? null;
+        bindProfileIdentity(nextUser?.id ?? null);
+        setSensitiveStorageScopes(nextUser?.id ?? null);
+        setAuthAccessToken(data.session?.access_token);
+        if (nextUser) initializeAccountPersistence();
+        setSession(data.session ?? null);
+        setUser(nextUser);
+        // Don't block app on profile fetch; fire and forget with a handled failure.
+        if (nextUser) void refreshProfile(nextUser.id, nextUser.email).catch(() => {
+          console.warn("Profile refresh unavailable after session initialization.");
+        });
+        setLoading(false);
+      } catch {
+        if (!isMounted || initialRevision !== sessionEventRevision) return;
+        clearLoadingSafetyTimer();
+        bindProfileIdentity(null);
+        setSensitiveStorageScopes(null);
+        setAuthAccessToken(null);
+        setSession(null);
+        setUser(null);
+        setProfile(null);
+        setLoading(false);
+        console.warn("Authentication session could not be restored.");
       }
-      const nextUser = data.session?.user ?? null;
-      bindProfileIdentity(nextUser?.id ?? null);
-      setSensitiveStorageScopes(nextUser?.id ?? null);
-      setAuthAccessToken(data.session?.access_token);
-      setSession(data.session ?? null);
-      setUser(nextUser);
-      // Don't block app on profile fetch; fire and forget
-      if (nextUser) refreshProfile(nextUser.id, nextUser.email);
-      setLoading(false);
     };
 
     init();
 
     if (!supabase) return () => { isMounted = false; };
 
-    const { data: sub } = supabase.auth.onAuthStateChange(async (_event, newSession) => {
+    const { data: sub } = supabase.auth.onAuthStateChange((_event, newSession) => {
       if (!isMounted) return;
+      sessionEventRevision += 1;
       clearLoadingSafetyTimer();
       const nextUser = newSession?.user ?? null;
       // Change profile/storage ownership before React descendants can act on the new session.
       bindProfileIdentity(nextUser?.id ?? null);
       setSensitiveStorageScopes(nextUser?.id ?? null);
       setAuthAccessToken(newSession?.access_token);
+      if (nextUser) initializeAccountPersistence();
       setSession(newSession);
       setUser(nextUser);
       if (nextUser) {
         // Update profile in background
-        refreshProfile(nextUser.id, nextUser.email);
+        void refreshProfile(nextUser.id, nextUser.email).catch(() => {
+          console.warn("Profile refresh unavailable after authentication changed.");
+        });
       } else {
         setProfile(null);
       }
@@ -152,6 +178,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
     bindProfileIdentity(data.user?.id ?? null);
     setSensitiveStorageScopes(data.user?.id ?? null);
     setAuthAccessToken(data.session?.access_token);
+    if (data.user) initializeAccountPersistence();
     setSession(data.session);
     setUser(data.user);
     if (data.user) {
@@ -192,7 +219,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
   };
 
   /** Sign out current user and clear auth state. */
-  const logout = async () => {
+  const logout = async (options: { localOnly?: boolean } = {}) => {
     if (!supabase) {
       bindProfileIdentity(null);
       setSensitiveStorageScopes(null);
@@ -204,7 +231,9 @@ export function AuthProvider({ children }: PropsWithChildren) {
       return;
     }
 
-    const { error } = await supabase.auth.signOut();
+    const { error } = await supabase.auth.signOut(
+      options.localOnly ? { scope: "local" } : { scope: "global" },
+    );
     if (error) {
       trackLogout({ outcome: "failure", backend: "supabase" });
       throw error;

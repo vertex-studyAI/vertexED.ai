@@ -47,8 +47,8 @@ export function evaluateGradingFixture(dataset, thresholds, { measuredAt = new D
     decisions.push({
       id: fixture.id,
       expectedReview: fixture.expectedReview,
-      actualReview: audit.humanReviewRequired,
-      correct: audit.humanReviewRequired === fixture.expectedReview,
+      actualReview: audit.scoreStatus === 'PROVISIONAL',
+      correct: (audit.scoreStatus === 'PROVISIONAL') === fixture.expectedReview,
       scoreStatus: audit.scoreStatus,
       severity: fixture.severity,
       actualErrorCodes,
@@ -134,8 +134,10 @@ async function main() {
     thresholdsSha256: digest(thresholdsRaw),
     graderImplementationSha256: digest(implementationRaw),
   };
-  await mkdir(dirname(outputPath), { recursive: true });
-  await writeFile(outputPath, `${JSON.stringify(artifact, null, 2)}\n`, 'utf8');
+  if (!process.argv.includes('--no-write')) {
+    await mkdir(dirname(outputPath), { recursive: true });
+    await writeFile(outputPath, `${JSON.stringify(artifact, null, 2)}\n`, 'utf8');
+  }
   console.log(JSON.stringify(artifact, null, 2));
   if (!artifact.passed) process.exitCode = 1;
 }

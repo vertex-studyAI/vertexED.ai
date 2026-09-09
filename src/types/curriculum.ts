@@ -8,11 +8,14 @@ export type ExamBoard =
   | 'CBSE'
   | 'ICSE';
 
+export type ExamTarget = { id: string; subject: string; paper: string; date: string };
+
 export type CurriculumPreference = {
   board: ExamBoard | null;
   grade: number | null;
   subjects: string[];
   examDate: string | null;
+  examTargets?: ExamTarget[];
 };
 
 export type BoardConfig = {

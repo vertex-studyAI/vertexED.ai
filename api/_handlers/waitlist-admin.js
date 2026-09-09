@@ -1,23 +1,15 @@
-import { createClient } from '@supabase/supabase-js';
 import { verifyAuthUser, readJsonBody, rejectOversizedJsonBody } from '../_lib/auth.js';
 import { requireAdmin } from '../_lib/admin.js';
+import { getSupabaseAdmin } from '../_lib/supabaseAdmin.js';
 import { sendWaitlistApprovedEmail } from '../_lib/notify.js';
 import { isValidUuid } from '../_lib/security.js';
-import { buildInviteSignupUrl, generateInviteToken } from '../_lib/inviteToken.js';
+import { buildInviteSignupUrl, generateInviteToken, getInviteExpiry, hashInviteToken } from '../_lib/inviteToken.js';
+import { rateLimitUserEndpoint } from '../_lib/rateLimit.js';
 
 const VALID_STATUSES = new Set(['pending', 'approved', 'rejected']);
 
 function isValidWaitlistId(id) {
   return isValidUuid(id) || (typeof id === 'number' && Number.isSafeInteger(id) && id > 0) || (/^\d+$/.test(String(id)) && Number(String(id)) > 0);
-}
-
-function getSupabase() {
-  const url = process.env.SUPABASE_URL;
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  if (!url || !key) {
-    throw new Error('Missing SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY');
-  }
-  return createClient(url, key);
 }
 
 export default async function handler(req, res) {
@@ -28,15 +20,16 @@ export default async function handler(req, res) {
   const user = await verifyAuthUser(req, res);
   if (!user) return;
   if (!requireAdmin(user, res)) return;
+  if (!(await rateLimitUserEndpoint(user.id, 'waitlist-admin', res, { limit: 300, windowMs: 60 * 60 * 1000 }))) return;
 
   if (rejectOversizedJsonBody(req, res)) return;
 
   let supabase;
   try {
-    supabase = getSupabase();
+    supabase = getSupabaseAdmin();
   } catch (err) {
-    console.error('Waitlist admin config error:', err);
-    return res.status(500).json({ error: 'Waitlist admin is not configured on the server.' });
+    console.error('Waitlist admin config error:', err instanceof Error ? err.name : 'UnknownError');
+    return res.status(503).json({ error: 'Waitlist admin is not configured on the server.' });
   }
 
   try {
@@ -51,7 +44,7 @@ export default async function handler(req, res) {
       const from = (page - 1) * pageSize;
       let query = supabase
         .from('waitlist')
-        .select('id, email, status, signup_method, invite_token, created_at, updated_at', { count: 'exact' })
+        .select('id, email, status, signup_method, created_at, updated_at', { count: 'exact' })
         .order('created_at', { ascending: false })
         .range(from, from + pageSize - 1);
 
@@ -104,18 +97,28 @@ export default async function handler(req, res) {
       if (existingError) throw existingError;
       if (!existing) return res.status(404).json({ error: 'Waitlist entry not found.' });
 
-      const updates = { status, updated_at: new Date().toISOString() };
+      const issuedAt = new Date();
+      const updates = { status, updated_at: issuedAt.toISOString() };
+      let inviteToken = null;
       if (status === 'approved' && existing.signup_method !== 'google') {
-        updates.invite_token = generateInviteToken();
-      }if (status === 'pending' || status === 'rejected') {
+        inviteToken = generateInviteToken();
         updates.invite_token = null;
+        updates.invite_token_hash = hashInviteToken(inviteToken);
+        updates.invite_issued_at = issuedAt.toISOString();
+        updates.invite_expires_at = getInviteExpiry(issuedAt);
+      }
+      if (status === 'pending' || status === 'rejected') {
+        updates.invite_token = null;
+        updates.invite_token_hash = null;
+        updates.invite_issued_at = null;
+        updates.invite_expires_at = null;
       }
 
       const { data, error } = await supabase
         .from('waitlist')
         .update(updates)
         .eq('id', id)
-        .select('id, email, status, signup_method, invite_token, created_at, updated_at')
+        .select('id, email, status, signup_method, created_at, updated_at')
         .maybeSingle();
 
       if (error) throw error;
@@ -123,9 +126,9 @@ export default async function handler(req, res) {
         return res.status(404).json({ error: 'Waitlist entry not found.' });
       }
 
-      const origin = req.headers.origin || req.headers.referer?.replace(/\/[^/]*$/, '') || process.env.SITE_URL;
-      const inviteLink = data.invite_token
-        ? buildInviteSignupUrl(origin, data.invite_token)
+      const origin = process.env.APP_URL || process.env.SITE_URL || 'https://www.vertexed.app';
+      const inviteLink = inviteToken
+        ? buildInviteSignupUrl(origin, inviteToken)
         : null;
 
       let emailSent = false;
@@ -139,7 +142,7 @@ export default async function handler(req, res) {
 
     return res.status(400).json({ error: 'Unknown action. Use "list" or "update".' });
   } catch (err) {
-    console.error('Waitlist admin error:', err);
+    console.error('Waitlist admin error:', err instanceof Error ? err.name : 'UnknownError');
     return res.status(500).json({ error: 'Could not process waitlist admin request.' });
   }
 }

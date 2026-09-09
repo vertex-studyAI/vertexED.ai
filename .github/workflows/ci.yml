@@ -18,130 +18,50 @@ env:
 
 jobs:
   build-and-test:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     timeout-minutes: 20
 
     steps:
-      - name: Checkout exact source
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - name: Checkout
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
         with:
           ref: ${{ env.SOURCE_SHA }}
           persist-credentials: false
 
-      - name: Verify exact source binding
-        shell: bash
-        run: |
-          set -euo pipefail
-          test "$(git rev-parse HEAD)" = "${SOURCE_SHA}"
-
-      - name: Validate portfolio shell scripts
-        run: |
-          set -euo pipefail
-          find portfolio/scripts -type f -name '*.sh' -print0 | xargs -0 -r -n1 bash -n
-
-      - name: Test Project 2424 recovery package
-        run: bash portfolio/tests/test_project2424_restore_package.sh
-
-      - name: Test Bu1LD deployment repair fail-closed behavior
-        run: bash portfolio/tests/test_bu1ld_deployment_repair.sh
-
       - name: Setup Node.js
         uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
         with:
-          node-version: '22'
+          node-version: '22.22.0'
           cache: npm
 
-      - name: Install dependencies without duplicate advisory fetch
-        run: npm ci --no-audit --fund=false
+      - name: Install dependencies
+        run: npm ci
 
-      - name: Canonical gate — lint
-        run: npm run lint:ci
+      - name: Run canonical release gate
+        run: npm run ci
         env:
           ROLLUP_SKIP_NODEJS_NATIVE: 'true'
-
-      - name: Canonical gate — typecheck
-        run: npm run typecheck
-        env:
-          ROLLUP_SKIP_NODEJS_NATIVE: 'true'
-
-      - name: Canonical gate — validate Vercel functions
-        run: node scripts/validate-vercel-functions.mjs
-        env:
-          ROLLUP_SKIP_NODEJS_NATIVE: 'true'
-
-      - name: Canonical gate — production dependency audit
-        run: npm run audit:prod
-        env:
-          ROLLUP_SKIP_NODEJS_NATIVE: 'true'
-
-      - name: Canonical gate — application tests
-        shell: bash
-        run: |
-          set -o pipefail
-          mkdir -p ci-evidence/application-tests
-          npm test 2>&1 | tee ci-evidence/application-tests/npm-test.log
-        env:
-          ROLLUP_SKIP_NODEJS_NATIVE: 'true'
-
-      - name: Upload application-test evidence
-        if: always()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
-        with:
-          name: vertexed-application-tests-${{ env.SOURCE_SHA }}
-          path: ci-evidence/application-tests
-          if-no-files-found: ignore
-          retention-days: 14
-
-      - name: Canonical gate — evaluation tests
-        run: npm run test:eval
-        env:
-          ROLLUP_SKIP_NODEJS_NATIVE: 'true'
-
-      - name: Canonical gate — exact build
-        run: npm run build:ci
-        env:
-          ROLLUP_SKIP_NODEJS_NATIVE: 'true'
-
-      - name: Canonical gate — bundle performance
-        run: npm run performance:bundle
-        env:
-          ROLLUP_SKIP_NODEJS_NATIVE: 'true'
-
-      - name: Upload production-audit evidence
-        if: always()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
-        with:
-          name: vertexed-production-audit-${{ env.SOURCE_SHA }}
-          path: ci-evidence/npm-audit
-          if-no-files-found: ignore
-          retention-days: 14
 
   browser-local-accessibility:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     timeout-minutes: 20
     needs: build-and-test
 
     steps:
-      - name: Checkout exact source
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - name: Checkout
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
         with:
           ref: ${{ env.SOURCE_SHA }}
           persist-credentials: false
 
-      - name: Verify exact source binding
-        shell: bash
-        run: |
-          set -euo pipefail
-          test "$(git rev-parse HEAD)" = "${SOURCE_SHA}"
-
       - name: Setup Node.js
         uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
         with:
-          node-version: '22'
+          node-version: '22.22.0'
           cache: npm
 
-      - name: Install dependencies without duplicate advisory fetch
-        run: npm ci --no-audit --fund=false
+      - name: Install dependencies
+        run: npm ci
 
       - name: Install Chromium
         run: npx playwright install --with-deps chromium
@@ -180,6 +100,75 @@ jobs:
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
           name: playwright-local-accessibility-report
+          path: |
+            playwright-report
+            test-results
+          if-no-files-found: ignore
+          retention-days: 14
+
+  database-contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    needs: build-and-test
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          ref: ${{ env.SOURCE_SHA }}
+          persist-credentials: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: '22.22.0'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Start local Supabase
+        run: npx supabase start -x gotrue,realtime,storage-api,imgproxy,kong,mailpit,postgrest,postgres-meta,studio,edge-runtime,logflare,vector,supavisor
+
+      - name: Rebuild and test database contracts
+        run: npm run db:test
+
+      - name: Stop local Supabase
+        if: always()
+        run: npx supabase stop
+
+  browser-authenticated-golden:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    needs: build-and-test
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          ref: ${{ env.SOURCE_SHA }}
+          persist-credentials: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: '22.22.0'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Run authenticated candidate journey
+        run: npm run test:e2e:authenticated-golden
+
+      - name: Upload browser evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: playwright-authenticated-golden-report
           path: |
             playwright-report
             test-results
@@ -261,29 +250,23 @@ jobs:
           retention-days: 14
 
   smoke-production:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     timeout-minutes: 12
-    needs: build-and-test
+    needs: [build-and-test, database-contract, browser-local-accessibility, browser-authenticated-golden]
     if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
 
     steps:
-      - name: Checkout exact source
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - name: Checkout
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
         with:
-          ref: ${{ env.SOURCE_SHA }}
           fetch-depth: 0
+          ref: ${{ env.SOURCE_SHA }}
           persist-credentials: false
-
-      - name: Verify exact source binding
-        shell: bash
-        run: |
-          set -euo pipefail
-          test "$(git rev-parse HEAD)" = "${SOURCE_SHA}"
 
       - name: Setup Node.js
         uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
         with:
-          node-version: '22'
+          node-version: '22.22.0'
 
       - name: Wait for production deployment and run smoke tests
         env:
@@ -310,23 +293,6 @@ jobs:
             fi
           done
 
-          {
-            echo "### Production smoke failure"
-            echo
-            echo "- source SHA: \`${SOURCE_SHA}\`"
-            echo "- expected deploy-relevant revision: \`${EXPECTED_VERTEXED_REVISION}\`"
-            echo "- target: \`${SMOKE_BASE_URL}\`"
-            echo "- attempts: \`${max_attempts}\`"
-            echo "- retained final attempt log: \`${attempt_log}\`"
-            echo
-            echo '<details><summary>Last 120 lines from final attempt</summary>'
-            echo
-            echo '```text'
-            tail -n 120 "$attempt_log"
-            echo '```'
-            echo '</details>'
-          } >> "$GITHUB_STEP_SUMMARY"
-
           echo "[smoke] Production smoke tests failed after ${max_attempts} attempts"
           exit 1
 
@@ -334,7 +300,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
-          name: vertexed-production-smoke-${{ env.SOURCE_SHA }}
+          name: vertexed-production-smoke-${{ github.sha }}
           path: ci-evidence
           if-no-files-found: ignore
           retention-days: 14

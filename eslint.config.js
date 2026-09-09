@@ -5,9 +5,9 @@ import reactRefresh from "eslint-plugin-react-refresh";
 import tseslint from "typescript-eslint";
 
 export default tseslint.config(
-  { ignores: ["dist", "node_modules"] },
+  { ignores: ["dist", "node_modules", ".tmp", "test-results", "playwright-report"] },
   {
-    files: ["api/_lib/**/*.js", "tests/**/*.mjs"],
+    files: ["api/**/*.js", "tests/**/*.mjs", "scripts/**/*.mjs", "evals/**/*.mjs", "contracts/**/*.js"],
     languageOptions: {
       ecmaVersion: 2022,
       globals: globals.node,
@@ -16,6 +16,11 @@ export default tseslint.config(
     rules: {
       ...js.configs.recommended.rules,
     },
+  },
+  {
+    files: ["src/**/*.{js,mjs}"],
+    languageOptions: { ecmaVersion: 2022, globals: globals.browser, sourceType: "module" },
+    rules: { ...js.configs.recommended.rules },
   },
   {
     extends: [js.configs.recommended, ...tseslint.configs.recommended],
@@ -31,8 +36,27 @@ export default tseslint.config(
     rules: {
       ...reactHooks.configs.recommended.rules,
       "react-refresh/only-export-components": [
-        "warn",
-        { allowConstantExport: true },
+        "error",
+        {
+          allowConstantExport: true,
+          allowExportNames: [
+            "badgeVariants",
+            "buttonVariants",
+            "CURRICULA",
+            "FEATURES",
+            "getHeadingsForPath",
+            "navigationMenuTriggerStyle",
+            "outputKindLabel",
+            "routeHeadingsMap",
+            "toast",
+            "toggleVariants",
+            "useAccessibility",
+            "useAppPreferences",
+            "useAuth",
+            "useFormField",
+            "useSidebar",
+          ],
+        },
       ],
       "@typescript-eslint/no-unused-vars": "off",
       "@typescript-eslint/no-explicit-any": "off",

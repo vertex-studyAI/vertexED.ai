@@ -8,14 +8,14 @@ export default function AIAnswerReviewerArticle() {
   return (
     <>
       <SEO
-        title="AI Answer Reviewer — rubric-style feedback | VertexED"
-        description="Paste or photograph an answer and get mark-scheme feedback — missing definitions, weak links, and command-term gaps named, not just a generic score."
+        title="AI Answer Reviewer - rubric-style feedback | VertexED"
+        description="Paste or photograph an answer and get mark-scheme feedback - missing definitions, weak links, and command-term gaps named, not just a generic score."
         canonical={canonical}
         ogType="article"
         jsonLd={{
           "@context": "https://schema.org",
           "@type": "TechArticle",
-          headline: "AI Answer Reviewer — How It Helps",
+          headline: "AI Answer Reviewer - How It Helps",
           datePublished: "2025-10-11",
           dateModified: "2025-10-11",
           author: { "@type": "Organization", name: "VertexED" },
@@ -28,9 +28,9 @@ export default function AIAnswerReviewerArticle() {
         }}
       />
   <BreadcrumbsJsonLd />
-      <Article title="AI Answer Reviewer" subtitle="Rubric-style feedback on typed or photographed answers — what examiners look for, named clearly." kicker="Guides">
+      <Article title="AI Answer Reviewer" subtitle="Rubric-style feedback on typed or photographed answers - what examiners look for, named clearly." kicker="Guides">
         <p className="lead">
-          Paste a question and your response — typed or photographed — and Answer Reviewer maps your
+          Paste a question and your response - typed or photographed - and Answer Reviewer maps your
           answer to likely rubric criteria. It names missing definitions, weak causal links, and
           command-term gaps. Feedback is guidance, not a final grade; compare against your official
           mark scheme.
@@ -58,7 +58,7 @@ export default function AIAnswerReviewerArticle() {
 
         <h2>Example (History short response)</h2>
         <p>
-          If the command term is “Evaluate”, the Reviewer will look for criteria and a justified judgment—not just
+          If the command term is “Evaluate”, the Reviewer will look for criteria and a justified judgment - not just
           description. Missing either piece leads to targeted suggestions such as “State criteria explicitly, then weigh
           evidence before concluding.”
         </p>
@@ -91,8 +91,8 @@ export default function AIAnswerReviewerArticle() {
 
         <h2 className="mt-10">Evidence & references</h2>
         <ul>
-          <li>Hattie, J., & Timperley, H. (2007): The Power of Feedback — feedback is one of the most powerful influences on learning and achievement.</li>
-          <li>Black, P., & Wiliam, D. (1998): Assessment and Classroom Learning — the value of formative assessment.</li>
+          <li>Hattie, J., & Timperley, H. (2007): The Power of Feedback - feedback is one of the most powerful influences on learning and achievement.</li>
+          <li>Black, P., & Wiliam, D. (1998): Assessment and Classroom Learning - the value of formative assessment.</li>
         </ul>
 
         <div className="article-footer">

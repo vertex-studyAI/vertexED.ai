@@ -19,7 +19,7 @@ export type FloatingInsight = {
   body: string;
 };
 
-/** Flip cards: stat is an ordinal, not a survey claim. */
+/** Flip cards — stat is an ordinal, not a survey claim. */
 export const LANDING_PROBLEMS: LandingProblem[] = [
   {
     stat: "01",
@@ -34,12 +34,12 @@ export const LANDING_PROBLEMS: LandingProblem[] = [
   {
     stat: "03",
     title: "Practice that does not look like the exam.",
-    text: "A quick quiz can check facts, but real papers test command words, structure, working, pacing, and mark schemes. Practice should rehearse the shape of the task you will actually sit.",
+    text: "A quick quiz can check facts. A full paper also tests command words, structure, working, and pacing. Practice needs both formats.",
   },
   {
     stat: "04",
     title: "A syllabus is not a study plan.",
-    text: "Knowing what is on the course does not tell you what to do tonight. A useful plan has to fit around school, sport, sleep, deadlines, weak topics, and the time you genuinely have left.",
+    text: "Knowing the syllabus still leaves a practical question: what can you finish tonight? A useful plan has to fit around school, sport, sleep, deadlines, weak topics, and limited time.",
   },
   {
     stat: "05",
@@ -49,11 +49,11 @@ export const LANDING_PROBLEMS: LandingProblem[] = [
   {
     stat: "06",
     title: "AI can finish the task without teaching it.",
-    text: "A polished answer is not useful if you cannot reproduce the reasoning yourself. VertexED is designed to show what earned marks, what lost them, and what to try next, so the student still does the thinking.",
+    text: "A polished answer can hide weak understanding. VertexED keeps the student attempt at the centre and uses feedback to identify what to try next.",
   },
 ];
 
-/** Floating story cards: product philosophy, not unsupported outcome claims. */
+/** Floating story cards — product philosophy, not unsupported outcome claims. */
 export const FLOATING_INSIGHTS: FloatingInsight[] = [
   {
     label: "The idea",
@@ -68,62 +68,70 @@ export const FLOATING_INSIGHTS: FloatingInsight[] = [
   {
     label: "The reality",
     headline: "A realistic week beats a perfect timetable",
-    body: "Students have classes, activities, deadlines, and limited energy. The planner and Study Zone are built around work you can actually finish, not an imaginary six-hour evening that collapses by Wednesday.",
+    body: "Students have classes, activities, deadlines, and limited energy. The planner and Study Zone work best when blocks are short enough to finish and easy to adjust when the week changes.",
   },
   {
     label: "The goal",
     headline: "Know the next move without opening twelve tabs",
-    body: "Planner sets the task. Study Zone runs the session. Paper Maker creates practice. Answer Reviewer finds the gaps. Notes, flashcards, quizzes, and Apex help you close them. One loop, one place to continue from.",
+    body: "Planner sets the task. Study Zone runs the session. Paper Maker creates practice. Answer Reviewer finds the gaps. Notes, flashcards, quizzes, and Apex support the next attempt.",
   },
 ];
 
 export const LANDING_FEATURES: LandingFeature[] = [
   {
+    title: 'Exam Prep',
+    desc: 'Choose a subject and a 25-, 45-, or 75-minute revision session.',
+    side: 'Choose a subject and the time available. Your session can include unfinished mocks, scheduled retries, recorded weak topics and due flashcards. It does not predict an exam grade.',
+    loop: 'plan',
+    href: '/exam-prep',
+    outcome: 'Prepare: choose a revision session',
+  },
+  {
     title: 'Study Planner',
-    desc: 'Turn exams and deadlines into a week you can actually execute.',
-    side: 'Build around the hours you really have, then send each task straight into the tool that helps you complete it.',
+    desc: 'Turn exams and deadlines into a week with specific, editable study blocks.',
+    side: 'Add exams and deadlines, set your available hours, then edit the study blocks. Open a scheduled task in the relevant study tool.',
     loop: 'plan',
     href: '/planner',
-    outcome: 'Plan: know what deserves your next study block',
+    outcome: 'Plan: schedule your next study block',
   },
   {
     title: 'Study Zone',
-    desc: 'Run focused sessions without rebuilding your setup every time.',
-    side: 'Timers, session tools, calculator access, habits, and logs stay together so the plan becomes actual study time.',
+    desc: 'Study with a timer, calculator, graphing tools, and session notes.',
+    side: 'Set a focus timer and keep a calculator, graph and session notes beside your work. Pause when you need to and return to the same task.',
     loop: 'focus',
     href: '/study-zone',
-    outcome: 'Focus: turn scheduled time into completed work',
+    outcome: 'Focus: start a timed session',
   },
   {
     title: 'Paper Maker',
     desc: 'Generate exam-style practice around the topics and marks you need.',
-    side: 'Choose topics, marks, and question count, practise under time, then move the same attempt into review.',
+    side: 'Choose topics, marks and question count. Generate an exam-style paper, attempt it under time, then review your answers. Generated questions are not official past papers.',
     loop: 'practise',
     href: '/paper-maker',
-    outcome: 'Practise: rehearse the format, pacing, and command words',
+    outcome: 'Practise: attempt exam-style questions',
   },
   {
     title: 'Answer Reviewer',
-    desc: 'See where marks were earned, where they were lost, and what to fix next.',
-    side: 'Review typed work or an uploaded answer against rubric-style criteria, then turn the feedback into another attempt instead of a dead-end score.',
+    desc: 'Get suggested marks and feedback on a typed or uploaded answer.',
+    side: 'Type an answer or upload your work. Read the suggested marks and criterion-level feedback, then check the explanation against your course materials before deciding what to practise.',
     loop: 'review',
     href: '/answer-reviewer',
-    outcome: 'Review: convert mistakes into a specific next action',
+    outcome: 'Review: check your answer',
   },
   {
     title: 'Notes · Flashcards · Quiz',
-    desc: 'Turn source material into active retrieval instead of passive rereading.',
-    side: 'Keep notes, cards, and quizzes connected so a topic can move from explanation to recall and back into practice.',
+    desc: 'Create notes, flashcards, and practice quizzes from your material.',
+    side: 'Use your study material to create notes, flashcards or a quiz. Check generated content before relying on it, then practise recalling the topic without looking at the notes.',
     loop: 'remember',
     href: '/notetaker',
-    outcome: 'Remember: revisit weak material before it disappears',
+    outcome: 'Remember: practise recalling a topic',
   },
   {
     title: 'Apex',
-    desc: 'Use AI to question, explain, and stress-test your reasoning without replacing it.',
-    side: 'Ask for an explanation, test an argument, unpack a command term, or work through a gap before you try the question again.',
+    desc: 'Ask for a topic explanation or help understanding a question.',
+    side: 'Ask about a topic, an unfamiliar command term or a step in your reasoning. Apex can explain and ask follow-up questions. Check its answers before using them in your work.',
     loop: 'review',
     href: '/chatbot',
-    outcome: 'Support: get unstuck without handing over the thinking',
+    outcome: 'Support: ask about a topic or question',
   },
 ];

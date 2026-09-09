@@ -11,6 +11,7 @@
 ## Typed and runtime boundaries
 
 - `src/contracts/domain.ts` defines strict schemas and inferred types for profiles, course/subject identity, mocks, responses, rubric feedback, notes, study plans, evidence references, AI-run metadata, and persisted artifact rows.
+- `src/types/domain.ts` and `src/types/learning.ts` describe the current feature-facing shapes. They are not proof that every legacy payload passes the newer schemas. Migrate boundaries individually, with compatibility tests.
 - `contracts/studyArtifact.js` is the dependency-light runtime contract shared by the browser and Serverless Function. Its adjacent declaration file provides the TypeScript surface.
 - Artifact kinds must match in four places: shared runtime contract, SQL constraint/migrations, API validation, and client routing. `tests/domain-contracts.test.mjs` fails if these surfaces drift.
 - New payload versions should remain JSON objects and carry a payload-local `version`. Readers must accept the currently deployed unversioned shapes until a read-compatible migration is shipped and measured.
@@ -20,8 +21,10 @@
 1. The browser obtains a Supabase session and calls the same-origin `/api/*` route with a bearer token.
 2. The catch-all router applies API security controls and dispatches to one handler.
 3. The handler authenticates before creating the service-role client, validates method/body/size, derives ownership only from the verified user, and performs an owner-scoped query.
-4. Supabase RLS independently enforces the same ownership boundary.
-5. The browser records a scoped local fallback only when cloud persistence is unavailable and clearly marks that state as local-only.
+4. RLS protects direct non-service database access. The service role bypasses RLS, so verified-owner predicates in server handlers remain essential; RLS cannot compensate for a missing service-role filter.
+5. The browser keeps an account-scoped device copy and explicitly marks pending, local-only, conflicting and cloud-synced states. Planner/notebook writes compare the revision actually read, not another tab's newer shared-storage revision. Corrupt device JSON is not an empty collection; editing pauses until explicit recovery, with original bytes retained in an account-owned backup.
+
+Local Vite API requests use `api/_lib/nodeAdapter.js` to enter the same catch-all handler, with identical CORS, JSON parsing and request limits. Vite preview serves static files only; it is not an API deployment.
 
 ## Migration plan
 

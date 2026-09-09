@@ -140,7 +140,7 @@ const NoteTaker: React.FC<NoteTakerProps> = () => {
 				<div className="zone-list-surface !p-3.5">
 					<div style={{ ...scrollAreaStyle, maxHeight: "320px" }} className="grid gap-2">
 						{sortedNotes.length === 0 ? (
-							<p className="zone-subtle text-center my-10">Nothing here yet — jot down your first thought on the right.</p>
+							<p className="zone-subtle text-center my-10">Nothing here yet - jot down your first thought on the right.</p>
 						) : (
 							sortedNotes.map((note) => (
 								<button

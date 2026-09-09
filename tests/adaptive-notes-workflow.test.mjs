@@ -44,15 +44,18 @@ test('timed mocks never manufacture a mastery score from answer completion', () 
   assert.match(source, /onClick=\{handleComplete\}/);
 });
 
-test('free-form answer reviewer output is not promoted into measured weakness data', () => {
+test('answer reviews update mastery only after an explicit human verification method', () => {
   const source = fs.readFileSync('src/pages/AnswerReviewer.tsx', 'utf8');
-  assert.doesNotMatch(source, /recordWeakness/);
+  assert.match(source, /audit\.scoreStatus !== "EVIDENCE_LINKED"/);
+  assert.match(source, /confirmationMethod/);
+  assert.match(source, /evidence: MEASURED_WEAKNESS_EVIDENCE/);
+  assert.match(source, /Confirm mark for mastery/);
   assert.doesNotMatch(source, /scoreMatch/);
 });
 
 test('adaptive notes explain the evidence and expose real form labels', () => {
   const source = fs.readFileSync('src/pages/NotetakerQuiz.tsx', 'utf8');
-  assert.match(source, /Based on your verified quiz results/);
+  assert.match(source, /Based on your measured quiz results/);
   assert.match(source, /htmlFor="notes-topic"/);
   assert.match(source, /htmlFor="notes-format"/);
   assert.match(source, /htmlFor="notes-brief"/);

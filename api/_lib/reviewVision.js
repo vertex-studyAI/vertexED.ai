@@ -1,3 +1,5 @@
+import { logProviderRun } from './providerTelemetry.js';
+
 export class ReviewImageProcessingError extends Error {
   constructor(message = 'Attached image preprocessing failed.', options = {}) {
     super(message, options);
@@ -12,10 +14,11 @@ export class ReviewImageProcessingError extends Error {
  * workflow. Image-dependent grading must fail closed if this step cannot
  * produce usable evidence.
  */
-export async function describeReviewImages(client, images) {
+export async function describeReviewImages(client, images, contentRole = 'submitted material') {
   if (!Array.isArray(images) || images.length === 0) return '';
 
   let response;
+  const startedAt = Date.now();
   try {
     response = await client.chat.completions.create({
       model: 'gpt-4o',
@@ -24,7 +27,7 @@ export async function describeReviewImages(client, images) {
         content: [
           {
             type: 'text',
-            text: 'Analyze these images and provide a detailed description of their content, especially any text, diagrams, or questions present, to be used as context.',
+            text: `Transcribe and describe only the ${contentRole} shown in these images. Preserve wording, symbols, equations, labels, and line order as exactly as possible. Do not solve, grade, correct, or add content.`,
           },
           ...images.map((image) => ({
             type: 'image_url',
@@ -33,7 +36,21 @@ export async function describeReviewImages(client, images) {
         ],
       }],
     });
+    await logProviderRun({
+      capability: 'answer_review_vision',
+      provider: 'openai',
+      model: 'gpt-4o',
+      status: 200,
+      durationMs: Date.now() - startedAt,
+    });
   } catch (cause) {
+    await logProviderRun({
+      capability: 'answer_review_vision',
+      provider: 'openai',
+      model: 'gpt-4o',
+      durationMs: Date.now() - startedAt,
+      error: true,
+    });
     throw new ReviewImageProcessingError(undefined, { cause });
   }
 

@@ -30,12 +30,12 @@ test("planner task cards expose sibling native actions instead of nested interac
   assert.match(source, /className="complete-task-button"/);
 });
 
-test("native edit action keeps activation semantics and the existing Delete completion shortcut", () => {
-  assert.match(source, /const handleTaskEditKeyDown = \(event: React\.KeyboardEvent<HTMLButtonElement>, task: TaskItem\) => \{/);
-  assert.match(source, /if \(event\.key === 'Delete'\)/);
+test("native edit action keeps activation semantics without accidental Delete completion", () => {
+  assert.doesNotMatch(source, /handleTaskEditKeyDown/);
+  assert.doesNotMatch(source, /if \(event\.key === 'Delete'\)/);
   assert.doesNotMatch(source, /event\.key === 'Enter' \|\| event\.key === ' '/);
   assert.match(source, /onClick=\{\(\) => handleTaskClick\(task\)\}/);
-  assert.match(source, /onKeyDown=\{\(event\) => handleTaskEditKeyDown\(event, task\)\}/);
+  assert.doesNotMatch(source, /onKeyDown=/);
 });
 
 test("all three planner layouts reuse the same edit and complete control pair", () => {

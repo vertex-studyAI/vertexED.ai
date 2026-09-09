@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useRef, useState } from "react";
+import { lazy, Suspense, useCallback, useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router";
 import { Bot, Minimize2, Trash2, X } from "lucide-react";
 
@@ -14,7 +14,11 @@ import ApexChatInput from "@/components/chat/ApexChatInput";
 const STORAGE_KEY = "vertex_global_chat_open";
 const ApexMessageList = lazy(() => import("@/components/chat/ApexMessageList"));
 
-export default function GlobalChatPanel() {
+export default function GlobalChatPanel({ openRequest = 0, hideLauncher = false, onOpenChange }: {
+  openRequest?: number;
+  hideLauncher?: boolean;
+  onOpenChange?: (open: boolean) => void;
+}) {
   const { isAuthenticated, user } = useAuth();
   const location = useLocation();
   const studyContext = getStudyContext(location.pathname, user);
@@ -25,7 +29,7 @@ export default function GlobalChatPanel() {
 
   const [open, setOpen] = useState(() => {
     if (typeof window === "undefined") return false;
-    return window.localStorage.getItem(STORAGE_KEY) === "1";
+    try { return window.localStorage.getItem(STORAGE_KEY) === "1"; } catch { return false; }
   });
   const [minimized, setMinimized] = useState(false);
 
@@ -50,15 +54,26 @@ export default function GlobalChatPanel() {
     setOpen(true);
   };
 
-  const closeChat = () => {
+  const closeChat = useCallback(() => {
     setOpen(false);
     setMinimized(false);
-    window.requestAnimationFrame(() => openerRef.current?.focus());
-  };
+    // Reveal the companion in the same update, before returning focus to it.
+    onOpenChange?.(false);
+    window.requestAnimationFrame(() => (openerRef.current ?? document.getElementById('vee-launcher'))?.focus());
+  }, [onOpenChange]);
 
   useEffect(() => {
-    window.localStorage.setItem(STORAGE_KEY, open ? "1" : "0");
+    try { window.localStorage.setItem(STORAGE_KEY, open ? "1" : "0"); } catch { /* Keep chat usable without device preferences. */ }
   }, [open]);
+
+  useEffect(() => { onOpenChange?.(open); }, [open, onOpenChange]);
+
+  const lastOpenRequest = useRef(openRequest);
+  useEffect(() => {
+    if (openRequest === lastOpenRequest.current) return;
+    lastOpenRequest.current = openRequest;
+    openChat();
+  }, [openRequest]);
 
   useEffect(() => {
     if (!open || !focusPanelOnOpenRef.current) return;
@@ -77,7 +92,7 @@ export default function GlobalChatPanel() {
 
     document.addEventListener("keydown", closeOnEscape);
     return () => document.removeEventListener("keydown", closeOnEscape);
-  }, [open]);
+  }, [open, closeChat]);
 
   useEffect(() => {
     const handoff = consumeChatHandoff();
@@ -97,6 +112,7 @@ export default function GlobalChatPanel() {
   const send = () => void sendMessage();
 
   if (!open) {
+    if (hideLauncher) return null;
     return (
       <button
         ref={openerRef}

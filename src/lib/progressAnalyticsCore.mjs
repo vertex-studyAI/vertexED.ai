@@ -1,3 +1,57 @@
+import { normalizeMeasuredWeaknessEntry } from './weaknessEvidenceCore.mjs';
+
+function measuredEntries(entries) {
+  const seen = new Set();
+  return entries.map(normalizeMeasuredWeaknessEntry).filter(entry => {
+    if (!entry || !Number.isFinite(Date.parse(entry.recordedAt))) return false;
+    const key = entry.id || JSON.stringify(entry);
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
+
+export function countRecentAttempts(entries, now = new Date()) {
+  const end = now.getTime();
+  const start = end - 7 * 24 * 60 * 60 * 1000;
+  return new Set(measuredEntries(entries).filter(entry => {
+    const time = Date.parse(entry.recordedAt);
+    return time > start && time <= end;
+  }).map(entry => entry.attemptId || entry.id || JSON.stringify(entry))).size;
+}
+
+export function summarizeMeasuredSubjects(entries) {
+  const subjects = new Map();
+  for (const entry of measuredEntries(entries)) {
+    const rows = subjects.get(entry.subject) || [];
+    rows.push(entry);
+    subjects.set(entry.subject, rows);
+  }
+  return [...subjects].map(([subject, rows]) => {
+    const topics = new Map();
+    for (const row of rows) {
+      const key = JSON.stringify([row.board || '', row.topic]);
+      const attempts = topics.get(key) || [];
+      attempts.push(row);
+      topics.set(key, attempts);
+    }
+    const changes = [...topics.values()].flatMap(attempts => {
+      const sorted = attempts.toSorted((a, b) => Date.parse(a.recordedAt) - Date.parse(b.recordedAt));
+      const first = sorted[0];
+      const last = sorted.at(-1);
+      if (Date.parse(first.recordedAt) === Date.parse(last.recordedAt)) return [];
+      return [(last.score / last.maxScore - first.score / first.maxScore) * 100];
+    });
+    const change = changes.reduce((sum, value) => sum + value, 0) / changes.length;
+    return {
+      subject,
+      mastery: Math.round(rows.reduce((sum, row) => sum + row.score / row.maxScore * 100, 0) / rows.length),
+      attempts: new Set(rows.map(row => row.attemptId || row.id || JSON.stringify(row))).size,
+      trend: !changes.length ? 'unknown' : change > 5 ? 'improving' : change < -5 ? 'declining' : 'stable',
+    };
+  });
+}
+
 export function summarizeHeatmapMastery(heatmap) {
   const reviewsCompleted = heatmap.reduce((sum, item) => sum + item.attempts, 0);
   const avgMastery =

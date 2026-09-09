@@ -1,171 +1,102 @@
-import { Link, useNavigate } from "react-router";
-import { useEffect } from "react";
-import SEO from "@/components/SEO";
-import VertexLearningField from "@/components/landing/VertexLearningField";
-import { useAuth } from "@/contexts/AuthContext";
-import { LANDING_FEATURES } from "@/content/landing";
-import "@/styles/vertex-landing.css";
+import { Link, useNavigate } from 'react-router';
+import { useEffect, useRef, useState, type CSSProperties } from 'react';
+import SEO from '@/components/SEO';
+import { useAuth } from '@/contexts/AuthContext';
+import RevisionTrace from '@/components/RevisionTrace';
+import LandingInk from '@/components/LandingInk';
+import AnswerCompare from '@/components/landing/AnswerCompare';
+import ToolGallery from '@/components/landing/ToolGallery';
+import StudyEntry from '@/components/landing/StudyEntry';
+import LandingDock from '@/components/landing/LandingDock';
+import StudyFolio from '@/components/landing/StudyFolio';
+import { useLandingMotion } from '@/hooks/useLandingMotion';
+import { ArrowUpRight, ArrowDown, ArrowRight, BookOpen, ScanLine, SlidersHorizontal, Check } from 'lucide-react';
+import '@/styles/landing.css';
 
-const VERTEX_INTEREST_URL =
-  "https://tally.so/r/QKZByA?utm_source=vertexed.app&utm_medium=homepage&utm_campaign=school_research_contributor_interest";
-
-const workflow = [
-  {
-    step: "01",
-    title: "Plan the week",
-    body: "Turn exams and deadlines into study blocks that fit the time you actually have. The task should already know where it goes next.",
-  },
-  {
-    step: "02",
-    title: "Do the work",
-    body: "Open a focused session, practise in exam-shaped formats, and keep the attempt attached to the topic instead of losing it in another tab.",
-  },
-  {
-    step: "03",
-    title: "Use the evidence",
-    body: "Review lost marks, turn the weak topic into another task, and retrieve it again before the next paper.",
-  },
-];
-
-const trajectory = ["Plan", "Focus", "Practise", "Review", "Remember"];
-const founders = ["Ryan Gomez", "Pratyush Vel Shankar", "Ritayush Dey"];
-
+const sessions = [
+  { minutes: 25, blocks: [['Recall', 5], ['Practise', 15], ['Review', 5]] },
+  { minutes: 45, blocks: [['Recall', 10], ['Practise', 25], ['Review', 10]] },
+  { minutes: 75, blocks: [['Recall', 15], ['Practise', 45], ['Review', 15]] },
+] as const;
 export default function Home() {
+  const root = useRef<HTMLDivElement>(null);
+  const [effects, setEffects] = useState(() => {
+    try { return localStorage.getItem('vertexed:landing-effects') !== 'off'; } catch { return true; }
+  });
+  const [session, setSession] = useState(1);
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
+  useLandingMotion(root, effects);
+  useEffect(() => { if (isAuthenticated) navigate('/main', { replace: true }); }, [isAuthenticated, navigate]);
+  const toggleEffects = () => {
+    setEffects(!effects);
+    try { localStorage.setItem('vertexed:landing-effects', effects ? 'off' : 'on'); } catch { /* Device preference is optional. */ }
+  };
 
-  useEffect(() => {
-    if (isAuthenticated) navigate("/main", { replace: true });
-  }, [isAuthenticated, navigate]);
-
-  return (
-    <div className="vertex-landing">
-      <SEO
-        title="AI Study Planner & Exam Practice Tools | VertexED"
-        description="VertexED connects revision planning, focused study, exam-style practice, rubric feedback, notes, flashcards, quizzes, and AI support in one study workflow."
-        keywords="AI study planner, MYP study guides, IGCSE paper generator, IB practice papers, revision planner, study tools for students"
-        canonical="https://www.vertexed.app/"
-        jsonLd={[
-          { "@context": "https://schema.org", "@type": "WebSite", name: "VertexED", url: "https://www.vertexed.app/" },
-          { "@context": "https://schema.org", "@type": "Organization", name: "VertexED", url: "https://www.vertexed.app", logo: "https://www.vertexed.app/logo.png" },
-        ]}
-      />
-
-      <section className="vertex-hero" aria-labelledby="home-title">
-        <div className="vertex-hero-copy">
-          <p className="vertex-hero-kicker">One connected study loop</p>
-          <h1 id="home-title">
-            Know what to study. <span className="vertex-word-accent">Practise</span> what matters.
-          </h1>
-          <p className="vertex-hero-lead">
-            VertexED carries the same study task through planning, focused work, exam practice, feedback, and retrieval.
-            Start with a clear reason. Finish with a specific next move.
-          </p>
-          <div className="vertex-hero-actions">
-            <Link to="/signup" className="vertex-primary-action">
-              Join the private beta <span aria-hidden="true">↗</span>
-            </Link>
-            <Link to="/features" className="vertex-secondary-action">
-              See the study loop <span aria-hidden="true">→</span>
-            </Link>
+  return <>
+    <SEO title="AI Study Planner & Exam Practice Tools | VertexED"
+      description="Plan a study session, practise exam-style questions, review your answers and return to the topics that need another attempt."
+      canonical="https://www.vertexed.app/"
+      jsonLd={[{ '@context': 'https://schema.org', '@type': 'WebSite', name: 'VertexED', url: 'https://www.vertexed.app/' }]} />
+    <div className="landing-v3" ref={root} data-effects={effects ? 'on' : 'off'}>
+      <LandingInk enabled={effects} />
+      <div className="landing-edition"><span><i aria-hidden/> THE REVISION WORKSPACE</span><button type="button" aria-pressed={effects} onClick={toggleEffects}><SlidersHorizontal size={15} aria-hidden/> Effects {effects ? 'on' : 'off'}</button></div>
+      <section className="landing-hero" aria-labelledby="home-title">
+        <div className="hero-opening">
+        <div className="hero-copy">
+          <p className="hero-eyebrow"><span>Private beta</span> Plan. Practise. Review.</p>
+          <h1 id="home-title"><span className="heading-line">You’ve read it.</span><span className="heading-line hero-blue">Now try it.<svg viewBox="0 0 500 24" preserveAspectRatio="none" aria-hidden><path d="M4 16 Q190 0 496 11 M58 22 Q252 10 456 17" /></svg></span></h1>
+          <p className="hero-subtext">Put your notes to the test. Practise a question, check your reasoning and come back to what you missed.</p>
+          <div className="landing-actions"><Link to="/signup" className="landing-primary"><span>Join the private beta</span><ArrowUpRight size={19} aria-hidden/></Link><a href="#revision-example" className="landing-secondary">Try the revision loop <ArrowDown size={17} aria-hidden/></a></div>
+        </div>
+        <StudyFolio />
+        </div>
+        <div className="hero-desk" id="revision-example">
+          <div className="revision-chapter" data-reveal>
+            <p className="section-kicker"><span>00</span> / The work between attempts</p>
+            <h2>Keep the question.<br/><em>Follow the gap.</em></h2>
+            <div><p>One biology question, shown three ways. Start with the answer, inspect the explanation, then choose what to try again.</p><a href="#revision-sheet" className="landing-secondary">Explore the example <ArrowDown size={17} aria-hidden/></a></div>
           </div>
-          <div className="vertex-hero-loop" aria-label="VertexED study loop">
-            {trajectory.map((item) => <span key={item}>{item}</span>)}
-          </div>
+          <div className="desk-overline"><span>ONE TOPIC. ATTEMPT, REVIEW, RETRY.</span><span>Try the tabs <ArrowDown size={13} aria-hidden/></span></div>
+          <div className="desk-depth" id="revision-sheet" data-float><RevisionTrace /></div>
+          <div className="desk-under"><span aria-hidden>↳</span> The next attempt starts with what this one missed.</div>
         </div>
+      </section>
+      <LandingDock />
 
-        <VertexLearningField />
+      <StudyEntry />
+
+      <section className="landing-section compare-section" aria-labelledby="comparison-title" data-reveal>
+        <div className="section-intro"><p className="section-kicker">02 / Look closer</p><h2 id="comparison-title">A familiar word.<br/>A missing <span className="ink-highlight">explanation.</span></h2><p>Knowing “osmosis” is a start. Describing the direction and the membrane makes the answer more specific. Compare the two attempts.</p><Link to="/answer-reviewer" className="landing-secondary">Open Answer Reviewer <ArrowUpRight size={17}/></Link></div>
+        <AnswerCompare />
       </section>
 
-      <div className="vertex-trajectory-band" aria-hidden="true">
-        <div className="vertex-trajectory-band-track">
-          {[...trajectory, ...trajectory].map((item, index) => (
-            <span key={`${item}-${index}`}>{item}</span>
-          ))}
-        </div>
-      </div>
-
-      <section className="vertex-section" aria-labelledby="workflow-title">
-        <div className="vertex-section-header">
-          <div>
-            <p className="vertex-section-kicker">Evidence carries forward</p>
-            <h2 id="workflow-title">Practice should change the next plan.</h2>
-          </div>
-          <p>
-            The useful output of a study session is not another dashboard number. It is a clearer decision about what to
-            do next and why.
-          </p>
-        </div>
-
-        <ol className="vertex-process">
-          {workflow.map((item) => (
-            <li key={item.step} className="vertex-process-item">
-              <span className="vertex-process-step">{item.step}</span>
-              <h3>{item.title}</h3>
-              <p>{item.body}</p>
-            </li>
-          ))}
-        </ol>
+      <section className="landing-section tools-section" id="study-tools" aria-labelledby="tools-title" data-reveal>
+        <div className="section-intro section-wide"><p className="section-kicker">03 / Your study desk</p><h2 id="tools-title">Room for your<br/><span className="ink-highlight">whole study session.</span></h2><p>From the first plan to the question you try again. Open the tool that fits the work in front of you.</p></div>
+        <ToolGallery effects={effects}/>
       </section>
 
-      <section className="vertex-tools-section" aria-labelledby="tools-title">
-        <div className="vertex-section-header">
-          <div>
-            <p className="vertex-section-kicker">The workspace</p>
-            <h2 id="tools-title">Different tools. One trajectory.</h2>
-          </div>
-          <p>
-            Each tool has a defined job in the loop. Work should move between them with context instead of ending as an
-            isolated score or generated file.
-          </p>
-        </div>
-
-        <div className="vertex-tool-runway">
-          {LANDING_FEATURES.map((feature) => (
-            <article key={feature.title} className="vertex-tool-row">
-              <p className="vertex-tool-phase">{feature.loop}</p>
-              <h3>{feature.title}</h3>
-              <p>{feature.desc}</p>
-              <Link to={feature.href} className="vertex-tool-link" aria-label={`Open ${feature.title}`}>
-                Open <span aria-hidden="true">→</span>
-              </Link>
-            </article>
-          ))}
+      <section className="landing-section session-section" id="exam-session" aria-labelledby="session-title" data-reveal>
+        <div className="section-intro"><p className="section-kicker">04 / Exam Prep</p><h2 id="session-title">An evening.<br/>An hour.<br/><span className="ink-highlight">Or just 25 minutes.</span></h2><p>Choose your subject and session length. Exam Prep brings unfinished mocks, scheduled retries and due flashcards into the next session.</p><Link to="/exam-prep" className="landing-primary"><span>Build my study session</span><ArrowUpRight size={18}/></Link></div>
+        <div className="session-preview"><div className="session-caption"><BookOpen size={18}/><span>A session, broken down</span><span>Example</span></div>
+          <div className="session-duration" role="group" aria-label="Example session duration">{sessions.map((entry, index) => <button key={entry.minutes} type="button" aria-pressed={session === index} onClick={() => setSession(index)}>{entry.minutes}<span>min</span></button>)}</div>
+          <p className="session-question">{sessions[session].minutes} minutes, with a place to start.</p>
+          <div className="session-bar" aria-hidden>{sessions[session].blocks.map(([name, minutes]) => <span key={name} style={{ flex: minutes } as CSSProperties}/>)}</div>
+          <ol className="session-blocks">{sessions[session].blocks.map(([name, minutes], index) => <li key={name}><span className="session-step">0{index + 1}</span><div><strong>{name}</strong><p>{['Bring the topic back without notes.', 'Work through a question on your own.', 'Check the gaps. Choose a next attempt.'][index]}</p></div><span>{minutes} min</span></li>)}</ol>
+          <p className="landing-fineprint">A sample time split, not your saved plan. Your session depends on your subject and available work.</p>
         </div>
       </section>
 
-      <section className="vertex-principle" aria-labelledby="principle-title">
-        <div>
-          <p className="vertex-section-kicker">Product principle</p>
-          <h2 id="principle-title">AI should support the thinking, not replace it.</h2>
-        </div>
-        <div className="vertex-principle-copy">
-          <p>
-            VertexED is designed to explain, question, and review. The student still makes the plan, attempts the work,
-            and decides how to improve it.
-          </p>
-          <p>
-            Progress stays inspectable. You can see the task completed, the marks lost, and the topic that needs another
-            attempt instead of receiving a polished answer you cannot reproduce.
-          </p>
+      <section className="landing-principle" aria-labelledby="principle-title" data-reveal><div className="principle-mark" aria-hidden><ScanLine size={32}/></div><div><p className="section-kicker">Your thinking comes first</p><h2 id="principle-title">Feedback is a starting point.<br/>Not the final word.</h2><p>AI explanations and suggested marks can be wrong. Check them against your teacher’s feedback, syllabus and official mark schemes.</p></div><ul><li><Check size={16}/> Make your own attempt</li><li><Check size={16}/> Check the explanation</li><li><Check size={16}/> Try again without help</li></ul></section>
+      <section className="landing-faq landing-section" aria-labelledby="faq-title" data-reveal>
+        <div className="section-intro"><p className="section-kicker">Before you start</p><h2 id="faq-title">A few things<br/>worth <span className="ink-highlight">knowing.</span></h2></div>
+        <div className="faq-answers">
+          <details><summary>Can I try it without an account?<span aria-hidden>+</span></summary><p>The revision desk and examples on this page work without signing in. To use the study tools with your own material, join the private beta or log in.</p><Link to="/signup">Join the private beta <ArrowUpRight size={16}/></Link></details>
+          <details><summary>Are generated papers official exam papers?<span aria-hidden>+</span></summary><p>No. Paper Maker creates exam-style practice, not official past papers. Check generated questions against your syllabus and use official exam-board resources alongside them.</p></details>
+          <details><summary>Should I trust the suggested marks?<span aria-hidden>+</span></summary><p>Treat them as feedback to investigate, not a final grade. AI can miss context or apply a criterion incorrectly. Compare the reasoning with an official mark scheme or your teacher’s feedback.</p></details>
         </div>
       </section>
-
-      <section className="vertex-final" aria-labelledby="beta-title">
-        <p className="vertex-section-kicker">Private beta</p>
-        <h2 id="beta-title">Try it with one real week and one real paper.</h2>
-        <p>
-          Built by {founders.join(", ")}. Students can join the private beta directly. Educators, schools, researchers,
-          contributors, and partners can use the separate interest form so the right team can follow up.
-        </p>
-        <div className="vertex-final-actions">
-          <Link to="/signup" className="vertex-primary-action">Join the private beta</Link>
-          <a href={VERTEX_INTEREST_URL} target="_blank" rel="noreferrer" className="vertex-secondary-action">
-            School / contributor interest
-          </a>
-          <Link to="/about" className="vertex-secondary-action">About the team</Link>
-        </div>
-      </section>
+      <section className="landing-invitation" aria-labelledby="beta-title" data-reveal><p className="section-kicker">VERTEXED / PRIVATE BETA</p><h2 id="beta-title">Your next attempt<br/>starts <em>here.</em></h2><p>Built by Ryan Gomez, Pratyush Vel Shankar and Ritayush Dey. Bring your work. Try the tools. Tell us what needs fixing.</p><div className="landing-actions"><Link to="/signup" className="landing-primary"><span>Join the private beta</span><ArrowRight size={18}/></Link><Link to="/about" className="landing-secondary">Meet the team <ArrowUpRight size={17}/></Link></div></section>
     </div>
-  );
+  </>;
 }

@@ -44,7 +44,7 @@ test('awarded credit without exact evidence remains provisional', () => {
   assert.match(audits[0].escalationReason, /exact span/);
 });
 
-test('high-confidence criterion grades with exact evidence are verified', () => {
+test('high-confidence criterion grades with exact evidence are evidence-linked, not self-verified', () => {
   const { audits } = normalizeGradeAudits({
     questions: [question],
     userAnswers: { q1: 'Water moves from high potential to low potential.' },
@@ -57,8 +57,9 @@ test('high-confidence criterion grades with exact evidence are verified', () => 
     }],
     model: 'fixture-model',
   });
-  assert.equal(audits[0].scoreStatus, 'VERIFIED');
-  assert.equal(audits[0].humanReviewRequired, false);
+  assert.equal(audits[0].scoreStatus, 'EVIDENCE_LINKED');
+  assert.equal(audits[0].humanReviewRequired, true);
+  assert.equal(audits[0].measurementEligible, false);
   assert.equal(audits[0].criteria[0].evidenceVerified, true);
   assert.equal(audits[0].model, 'fixture-model');
 });
@@ -81,6 +82,29 @@ test('scores and confidence are bounded to declared ranges', () => {
   });
   assert.equal(audits[0].score, 4);
   assert.equal(audits[0].confidence, 1);
+});
+
+test('displayed score is derived from criteria instead of a conflicting provider total', () => {
+  const { audits } = normalizeGradeAudits({
+    questions: [question],
+    userAnswers: { q1: 'Exact evidence.' },
+    rawGrades: [{ id: 'q1', score: 4, maxScore: 4, confidence: 0.95,
+      criteria: [{ id: 'accuracy', score: 2, maxScore: 4, evidenceQuotes: ['Exact evidence'] }] }],
+  });
+  assert.equal(audits[0].score, 2);
+  assert.equal(audits[0].scoreStatus, 'EVIDENCE_LINKED');
+});
+
+test('criterion totals that do not match the declared maximum require review', () => {
+  const { audits } = normalizeGradeAudits({
+    questions: [question],
+    userAnswers: { q1: 'Exact evidence.' },
+    rawGrades: [{ id: 'q1', maxScore: 4, confidence: 0.95,
+      criteria: [{ id: 'accuracy', score: 2, maxScore: 3, evidenceQuotes: ['Exact evidence'] }] }],
+  });
+  assert.equal(audits[0].rubricTotalVerified, false);
+  assert.equal(audits[0].scoreStatus, 'PROVISIONAL');
+  assert.match(audits[0].escalationReason, /do not add up/);
 });
 
 test('unknown error codes never enter the remediation audit', () => {
@@ -106,14 +130,14 @@ test('audit identifiers are stable for identical inputs', () => {
 test('coverage counts attempted objectives but excludes provisional mastery', () => {
   const coverage = buildCoverageMap([question], [{ id: 'q1', humanReviewRequired: true, score: 4, maxScore: 4 }]);
   assert.deepEqual(coverage, [{
-    objectiveId: 'biology:osmosis', attempted: 1, verified: 0, score: 0, maxScore: 0, masteryPercent: null,
+    objectiveId: 'biology:osmosis', attempted: 1, measured: 0, score: 0, maxScore: 0, masteryPercent: null,
   }]);
 });
 
-test('coverage computes mastery only from verified grades', () => {
-  const coverage = buildCoverageMap([question], [{ id: 'q1', humanReviewRequired: false, score: 3, maxScore: 4 }]);
+test('coverage computes mastery only from explicitly measured grades', () => {
+  const coverage = buildCoverageMap([question], [{ id: 'q1', scoreStatus: 'MEASURED', measurementEligible: true, score: 3, maxScore: 4 }]);
   assert.equal(coverage[0].masteryPercent, 75);
-  assert.equal(coverage[0].verified, 1);
+  assert.equal(coverage[0].measured, 1);
 });
 
 test('fallback questions are deterministic and carry source hashes', () => {

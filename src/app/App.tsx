@@ -57,6 +57,7 @@ const StudyGuides = lazy(() => import("@/pages/StudyGuides"));
 const WaitlistAdmin = lazy(() => import("@/pages/admin/WaitlistAdmin"));
 const PrivacyPolicy = lazy(() => import("@/pages/PrivacyPolicy"));
 const TermsOfService = lazy(() => import("@/pages/TermsOfService"));
+const ExamPrep = lazy(() => import("@/pages/ExamPrep"));
 import { AuthProvider } from "@/contexts/AuthContext";
 import { AppPreferencesProvider } from "@/contexts/AppPreferencesContext";
 import AdminRoute from "@/components/AdminRoute";
@@ -171,6 +172,7 @@ return (
 <Route path="auth/callback" element={<AuthCallback />} />
 <Route path="onboarding" element={<ProtectedRoute><Onboarding /></ProtectedRoute>} />
 <Route path="main" element={<ProtectedRoute><Main /></ProtectedRoute>} />
+<Route path="exam-prep" element={<ProtectedRoute><ExamPrep /></ProtectedRoute>} />
 <Route path="learning-hub" element={<Navigate to="/main" replace />} />
 <Route path="notetaker" element={<ProtectedRoute><NotetakerAccessibilityBoundary><NotetakerQuiz /></NotetakerAccessibilityBoundary></ProtectedRoute>} />
 <Route path="study-notebook" element={<ProtectedRoute><StudyNotebook /></ProtectedRoute>} />

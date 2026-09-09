@@ -177,7 +177,7 @@ export default function SketchPad({ accent = 'hsl(266 72% 74%)' }: Props) {
       '',
       `![${title}](${dataUrl.length < 120_000 ? dataUrl : ''})`,
       dataUrl.length >= 120_000
-        ? '_Image too large for inline storage — export PNG from Study Zone and attach manually._'
+        ? '_Image too large for inline storage - export PNG from Study Zone and attach manually._'
         : '',
       '',
       'Use this visual as a source for concept maps, flashcards, or rubric review.',
@@ -256,7 +256,7 @@ export default function SketchPad({ accent = 'hsl(266 72% 74%)' }: Props) {
 
       <input
         type="text"
-        placeholder="Caption (optional) — e.g. Free-body diagram for inclined plane"
+        placeholder="Caption (optional) - e.g. Free-body diagram for inclined plane"
         value={caption}
         onChange={(e) => setCaption(e.target.value)}
         style={{
@@ -289,12 +289,12 @@ export default function SketchPad({ accent = 'hsl(266 72% 74%)' }: Props) {
           onPointerLeave={endStroke}
           onPointerCancel={endStroke}
           style={{ display: 'block', cursor: 'crosshair', touchAction: 'none' }}
-          aria-label="Sketch canvas — use Apple Pencil or finger to draw"
+          aria-label="Sketch canvas - use Apple Pencil or finger to draw"
         />
       </div>
 
       <p style={{ margin: 0, fontSize: 12, opacity: 0.65 }}>
-        Optimized for iPad and Apple Pencil — pressure-sensitive strokes, auto-saved locally.{' '}
+        Optimized for iPad and Apple Pencil - pressure-sensitive strokes, auto-saved locally.{' '}
         <Link to="/study-notebook" style={{ color: accent }}>
           Open Study Notebook →
         </Link>

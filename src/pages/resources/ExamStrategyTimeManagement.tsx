@@ -8,13 +8,13 @@ export default function ExamStrategyTimeManagement() {
     <>
       <SEO
         title="Exam strategy and time management for IB/IGCSE | VertexED"
-        description="Command terms, mark-scheme checklists, and weekly timed rehearsals — so exam day feels like practice, not a surprise."
+        description="Command terms, mark-scheme checklists, and weekly timed rehearsals - so exam day feels like practice, not a surprise."
         canonical={canonical}
         ogType="article"
         jsonLd={{
           "@context": "https://schema.org",
           "@type": "TechArticle",
-          headline: "Exam Strategy & Time Management — IB/IGCSE",
+          headline: "Exam Strategy & Time Management - IB/IGCSE",
           datePublished: "2025-10-11",
           dateModified: "2025-10-11",
           author: { "@type": "Organization", name: "VertexED" },
@@ -24,11 +24,11 @@ export default function ExamStrategyTimeManagement() {
       />
       <Article
         title="Exam strategy and time management"
-        subtitle="Mark schemes and timing as habits you practise weekly — not rules you read the night before."
+        subtitle="Mark schemes and timing as habits you practise weekly - not rules you read the night before."
         kicker="Exam Skills"
       >
         <p className="lead">
-          Knowing the content is not enough. Exams reward precision under time — command terms met,
+          Knowing the content is not enough. Exams reward precision under time - command terms met,
           easy marks secured early, a buffer left at the end. This guide turns mark schemes into
           behaviours you rehearse each week with Paper Maker and Answer Reviewer.
         </p>
@@ -85,9 +85,9 @@ export default function ExamStrategyTimeManagement() {
 
         <h2>Template: 30‑mark timed set</h2>
         <ul>
-          <li>Q1: Definitions/short items (6–8 marks) — secure these in ~6–7 minutes.</li>
-          <li>Q2: Data/diagram or structured response (10–12 marks) — outline then write, 12–13 minutes.</li>
-          <li>Q3: Extended response (10 marks) — thesis, 2–3 arguments with evidence, conclusion, 10 minutes.</li>
+          <li>Q1: Definitions/short items (6–8 marks) - secure these in ~6–7 minutes.</li>
+          <li>Q2: Data/diagram or structured response (10–12 marks) - outline then write, 12–13 minutes.</li>
+          <li>Q3: Extended response (10 marks) - thesis, 2–3 arguments with evidence, conclusion, 10 minutes.</li>
         </ul>
 
         <h2>FAQ</h2>

@@ -1,3 +1,4 @@
+import { getUserContentStorageScope } from '@/lib/userContentStorageScope.mjs';
 import { isAccountDeletionRequest, trackAccountDeletion } from '@/lib/accountLifecycleAnalytics.mjs';
 import { getAiFeatureForRequest, trackAiRequestOutcome } from '@/lib/aiRequestAnalytics.mjs';
 import {
@@ -8,6 +9,7 @@ import {
   toRequestError,
 } from '@/lib/apiRequestRecovery.mjs';
 import { supabase } from '@/lib/supabaseClient';
+import { reportAiRun } from '@/lib/monitoring';
 
 let currentAccessToken: string | null = null;
 
@@ -18,10 +20,14 @@ export function setAuthAccessToken(token?: string | null) {
 export async function getAccessToken(): Promise<string | null> {
   if (currentAccessToken) return currentAccessToken;
   if (!supabase) return null;
-  const { data } = await supabase.auth.getSession();
-  const token = data.session?.access_token ?? null;
-  setAuthAccessToken(token);
-  return token;
+  const accountScope = getUserContentStorageScope();
+  try {
+    const { data } = await supabase.auth.getSession();
+    if (getUserContentStorageScope() !== accountScope) return null;
+    const token = data.session?.access_token ?? null;
+    setAuthAccessToken(token);
+    return token;
+  } catch { return null; }
 }
 
 export async function authHeaders(init?: HeadersInit): Promise<Headers> {
@@ -34,6 +40,33 @@ export async function authHeaders(init?: HeadersInit): Promise<Headers> {
     headers.set('Authorization', `Bearer ${token}`);
   }
   return headers;
+}
+
+/**
+ * Performs one request with an already captured access token. This deliberately
+ * does not refresh on 401: background persistence must never retry an old
+ * account's payload with credentials from a newly active account.
+ */
+export async function authFetchWithAccessToken(
+  input: RequestInfo | URL,
+  accessToken: string,
+  init?: RequestInit,
+): Promise<Response> {
+  if (!accessToken) throw new Error('A bound access token is required.');
+  const headers = new Headers(init?.headers);
+  headers.set('Authorization', `Bearer ${accessToken}`);
+  const deadline = createRequestDeadline(init?.signal, 30_000);
+  try {
+    const response = await fetch(input, { ...init, headers, signal: deadline.signal });
+    // Persistence/export responses are finite JSON. Keep the deadline active
+    // through the body so a stalled response cannot block the save queue.
+    await response.clone().arrayBuffer();
+    return response;
+  } catch (error) {
+    throw toRequestError(error, deadline.didTimeout());
+  } finally {
+    deadline.cleanup();
+  }
 }
 
 function isRequestInput(input: RequestInfo | URL): input is Request {
@@ -59,19 +92,24 @@ function requestInputForAttempt(input: RequestInfo | URL): RequestInfo | URL {
 const runRefreshAccessTokenSingleFlight = createSingleFlight(async (): Promise<string | null> => {
   if (!supabase) return null;
 
-  return runRefreshAttempt(
+  const accountScope = getUserContentStorageScope();
+  const token = await runRefreshAttempt(
     () => supabase.auth.refreshSession(),
-    () => supabase.auth.signOut({ scope: 'local' }),
+    () => getUserContentStorageScope() === accountScope ? supabase.auth.signOut({ scope: 'local' }) : Promise.resolve(),
   );
+  return getUserContentStorageScope() === accountScope ? token : null;
 });
 
 async function refreshAccessToken(): Promise<string | null> {
+  const accountScope = getUserContentStorageScope();
   const token = await runRefreshAccessTokenSingleFlight();
+  if (getUserContentStorageScope() !== accountScope) return null;
   setAuthAccessToken(token);
   return token;
 }
 
 export async function authFetch(input: RequestInfo | URL, init?: RequestInit): Promise<Response> {
+  const accountScope = getUserContentStorageScope();
   const method = requestMethod(input, init);
   const shouldTrackAiRequest = method === 'POST' && Boolean(getAiFeatureForRequest(input));
   const shouldTrackAccountDeletion = isAccountDeletionRequest(input, method);
@@ -88,18 +126,19 @@ export async function authFetch(input: RequestInfo | URL, init?: RequestInit): P
     });
 
   try {
+    if (getUserContentStorageScope() !== accountScope) throw new Error('Account changed before the request. Try again in the current account.');
     let response = await performRequest(headers);
     let retried = false;
 
     if (
-      shouldRetryAfterUnauthorized({
+      getUserContentStorageScope() === accountScope && shouldRetryAfterUnauthorized({
         status: response.status,
         hasAuthorization: hadAuthorization,
         alreadyRetried: retried,
       })
     ) {
       const refreshedToken = await refreshAccessToken();
-      if (refreshedToken) {
+      if (refreshedToken && getUserContentStorageScope() === accountScope) {
         retried = true;
         const retryHeaders = new Headers(headers);
         retryHeaders.set('Authorization', `Bearer ${refreshedToken}`);
@@ -108,9 +147,18 @@ export async function authFetch(input: RequestInfo | URL, init?: RequestInit): P
     }
 
     if (shouldTrackAiRequest) {
+      const durationMs = Date.now() - startedAt;
       trackAiRequestOutcome(input, {
         status: response.status,
-        durationMs: Date.now() - startedAt,
+        durationMs,
+      });
+      const resultBody = response.ok ? await response.clone().json().catch(() => null) : null;
+      reportAiRun({
+        degraded: resultBody?.degraded === true || resultBody?.generation?.degraded === true,
+        invalidOutput: response.ok && !resultBody,
+        capability: getAiFeatureForRequest(input) || 'unknown',
+        status: response.status,
+        durationMs,
       });
     }
     if (shouldTrackAccountDeletion) {
@@ -123,8 +171,15 @@ export async function authFetch(input: RequestInfo | URL, init?: RequestInit): P
   } catch (error) {
     const timedOut = deadline?.didTimeout() ?? false;
     if (shouldTrackAiRequest) {
+      const durationMs = Date.now() - startedAt;
       trackAiRequestOutcome(input, {
-        durationMs: Date.now() - startedAt,
+        durationMs,
+        networkError: !timedOut,
+        timedOut,
+      });
+      reportAiRun({
+        capability: getAiFeatureForRequest(input) || 'unknown',
+        durationMs,
         networkError: !timedOut,
         timedOut,
       });

@@ -12,7 +12,6 @@ import {
   Loader2,
   MessageCircle,
   Mic,
-  Network,
   GraduationCap,
   Plus,
   Sparkles,
@@ -53,6 +52,7 @@ import LiquidGlass from '@/components/LiquidGlass';
 import AccessibleModal from '@/components/AccessibleModal';
 import { toast } from '@/hooks/use-toast';
 import { logStudyActivity } from '@/lib/studyActivity';
+import { getUserContentStorageScope } from '@/lib/userContentStorageScope.mjs';
 import { loadNotebookSnapshot, saveNotebookSnapshot } from '@/lib/notebookSync';
 
 const OUTPUT_ICONS: Partial<Record<NotebookOutputKind, typeof BookOpen>> = {
@@ -64,7 +64,6 @@ const OUTPUT_ICONS: Partial<Record<NotebookOutputKind, typeof BookOpen>> = {
   'audio-critique': Mic,
   'audio-debate': Mic,
   flashcards: Layers,
-  'world-model': Network,
   'board-deep-dive': GraduationCap,
 };
 
@@ -116,13 +115,14 @@ export default function StudyNotebook() {
 
   useEffect(() => {
     let cancelled = false;
-    void loadNotebookSnapshot().then(({ snapshot, cloudSynced, error }) => {
+    setNotebookHydrated(false);
+    void loadNotebookSnapshot(user?.id).then(({ snapshot, cloudSynced, error, readOnly }) => {
       if (cancelled) return;
       setNotebooks(snapshot.notebooks);
       setActiveId(snapshot.notebooks[0]?.id ?? null);
       setNotebookCloudSynced(cloudSynced);
       setNotebookSyncError(error ?? null);
-      setNotebookHydrated(true);
+      setNotebookHydrated(!readOnly);
     });
     return () => {
       cancelled = true;
@@ -139,7 +139,7 @@ export default function StudyNotebook() {
       void saveNotebookSnapshot({
         notebooks,
         updatedAt: new Date().toISOString(),
-      }).then((result) => {
+      }, user?.id).then((result) => {
         if (cancelled) return;
         setNotebookCloudSynced(result.cloudSynced);
         setNotebookSyncError(result.error ?? null);
@@ -150,11 +150,31 @@ export default function StudyNotebook() {
       cancelled = true;
       if (notebookSaveTimerRef.current !== null) window.clearTimeout(notebookSaveTimerRef.current);
     };
-  }, [notebookHydrated, notebooks]);
+  }, [notebookHydrated, notebooks, user?.id]);
 
   useEffect(() => {
     chatScrollRef.current?.scrollTo({ top: chatScrollRef.current.scrollHeight, behavior: 'smooth' });
   }, [messages, loading]);
+
+  const runNotebookMutation = (operation: () => void) => {
+    if (!notebookHydrated || getUserContentStorageScope() !== user?.id) return;
+    try { operation(); } catch (error) {
+      toast({ title: 'Notebook change could not be saved', description: error instanceof Error ? error.message : 'Export your work and check browser storage.', variant: 'destructive' });
+    }
+  };
+
+  const reloadCloudNotebooks = () => {
+    if (!window.confirm('Load cloud notebooks? Your local copy will be kept in your account export as a recovery backup.')) return;
+    setNotebookHydrated(false);
+    void loadNotebookSnapshot(user?.id, true).then(result => {
+      if (getUserContentStorageScope() !== user?.id) return;
+      setNotebooks(result.snapshot.notebooks);
+      setActiveId(result.snapshot.notebooks[0]?.id ?? null);
+      setNotebookCloudSynced(result.cloudSynced);
+      setNotebookSyncError(result.error ?? null);
+      setNotebookHydrated(!result.readOnly);
+    });
+  };
 
   const ensureNotebook = () => {
     if (active) return active;
@@ -164,7 +184,7 @@ export default function StudyNotebook() {
     return nb;
   };
 
-  const handleAddPaste = () => {
+  const handleAddPaste = () => runNotebookMutation(() => {
     const nb = ensureNotebook();
     if (!pasteContent.trim()) return;
     addTextSource(nb.id, pasteTitle || 'Pasted text', pasteContent, 'paste');
@@ -173,7 +193,7 @@ export default function StudyNotebook() {
     refresh();
     toast({ title: 'Source added' });
     logStudyActivity('Added a source to Study Notebook');
-  };
+  });
 
   const handleFileUpload = (file: File) => {
     const allowed = /\.(txt|md|markdown|csv)$/i;
@@ -185,14 +205,18 @@ export default function StudyNotebook() {
       });
       return;
     }
+    if (file.size > 200_000) { toast({ title: 'Source file too large', description: 'Use a text source of at most 50,000 characters.', variant: 'destructive' }); return; }
+    const sourceOwner = user?.id;
     const reader = new FileReader();
-    reader.onload = () => {
+    reader.onerror = () => toast({ title: 'Could not read the source file', variant: 'destructive' });
+    reader.onload = () => runNotebookMutation(() => {
+      if (getUserContentStorageScope() !== sourceOwner) return;
       const text = String(reader.result ?? '');
       const nb = ensureNotebook();
       addTextSource(nb.id, file.name.replace(/\.[^.]+$/, ''), text, 'file');
       refresh();
       toast({ title: `Imported ${file.name}` });
-    };
+    });
     reader.readAsText(file);
   };
 
@@ -215,6 +239,7 @@ export default function StudyNotebook() {
         sources,
         notebookTitle: active.title,
       });
+      if (getUserContentStorageScope() !== user?.id) return;
       saveOutput(active.id, {
         kind,
         title: result.title,
@@ -251,13 +276,13 @@ export default function StudyNotebook() {
     setImportable(items);
   };
 
-  const importArtifact = (item: { title: string; content: string }) => {
+  const importArtifact = (item: { title: string; content: string }) => runNotebookMutation(() => {
     const nb = ensureNotebook();
     addTextSource(nb.id, item.title, item.content, 'artifact');
     refresh();
     setShowImport(false);
     toast({ title: 'Imported from saved work' });
-  };
+  });
 
   const downloadOutput = (content: string, filename: string) => {
     const blob = new Blob([content], { type: 'text/markdown;charset=utf-8' });
@@ -281,10 +306,10 @@ export default function StudyNotebook() {
   return (
     <>
       <Helmet>
-        <title>Study Notebook — VertexED</title>
+        <title>Study Notebook - VertexED</title>
         <meta
           name="description"
-          content="Source-based study workspace — grounded chat, study guides, quizzes, concept maps, and audio overviews from your uploaded materials."
+          content="Source-based study workspace - grounded chat, study guides, quizzes, concept maps, and audio overviews from your uploaded materials."
         />
         <meta name="robots" content="noindex, follow" />
       </Helmet>
@@ -299,10 +324,21 @@ export default function StudyNotebook() {
             <h1 className="portal-hero-title text-3xl md:text-4xl">Study Notebook</h1>
             <p className="portal-hero-brief mt-3 text-sm md:text-base max-w-3xl leading-relaxed">
               Add lecture notes, PDF excerpts, or saved mocks as sources. Chat with citations, then generate study guides,
-              flashcards, quizzes, concept maps, glossaries, comparisons, and audio overviews — grounded in what you uploaded, not the open web.
+              flashcards, quizzes, concept maps, glossaries, comparisons, and audio overviews - grounded in what you uploaded, not the open web.
             </p>
           </LiquidGlass>
         </header>
+
+        {!active && notebookSyncError && (
+          <div role="alert" className="mb-6 rounded-xl border border-primary/30 bg-background p-4 text-foreground">
+            <p className="font-medium">Notebook recovery needs attention</p>
+            <p className="mt-2 text-base text-muted-foreground">{notebookSyncError}</p>
+            <div className="mt-4 flex flex-wrap gap-3">
+              <a className="inline-flex min-h-11 items-center rounded-lg border border-border bg-card px-4 py-2 text-sm text-foreground hover:bg-accent" href="/user-settings">Open account data export</a>
+              <button type="button" className="inline-flex min-h-11 items-center rounded-lg border border-border bg-card px-4 py-2 text-sm text-foreground hover:bg-accent" onClick={reloadCloudNotebooks}>Reload cloud copy</button>
+            </div>
+          </div>
+        )}
 
         <div className="notebook-layout grid lg:grid-cols-[220px_260px_1fr] gap-4 md:gap-5">
           <aside className="notebook-sidebar portal-rise portal-stagger-1">
@@ -314,11 +350,12 @@ export default function StudyNotebook() {
                     type="button"
                     className="p-1.5 rounded-lg hover:bg-foreground/5 text-primary"
                     aria-label="New notebook"
-                    onClick={() => {
+                    disabled={!notebookHydrated}
+                    onClick={() => runNotebookMutation(() => {
                       const nb = createNotebook(`Notebook ${notebooks.length + 1}`);
                       setActiveId(nb.id);
                       refresh();
-                    }}
+                    })}
                   >
                     <Plus className="h-4 w-4" />
                   </button>
@@ -363,10 +400,10 @@ export default function StudyNotebook() {
                       <input
                         type="checkbox"
                         checked={src.enabled}
-                        onChange={(e) => {
+                        onChange={(e) => runNotebookMutation(() => {
                           toggleSource(active!.id, src.id, e.target.checked);
                           refresh();
-                        }}
+                        })}
                         className="mt-1"
                         aria-label={`Include ${src.title}`}
                       />
@@ -386,10 +423,10 @@ export default function StudyNotebook() {
                       </button>
                       <button
                         type="button"
-                        onClick={() => {
+                        onClick={() => runNotebookMutation(() => {
                           removeSource(active!.id, src.id);
                           refresh();
-                        }}
+                        })}
                         className="text-muted-foreground hover:text-rose-400 p-1"
                         aria-label={`Remove ${src.title}`}
                       >
@@ -403,6 +440,7 @@ export default function StudyNotebook() {
                   <input
                     type="text"
                     aria-label="Source title"
+                    disabled={!notebookHydrated}
                     placeholder="Source title (optional)"
                     value={pasteTitle}
                     onChange={(e) => setPasteTitle(e.target.value)}
@@ -410,6 +448,7 @@ export default function StudyNotebook() {
                   />
                   <textarea
                     aria-label="Source content"
+                    disabled={!notebookHydrated}
                     placeholder="Paste notes, excerpts, or lecture transcripts…"
                     value={pasteContent}
                     onChange={(e) => setPasteContent(e.target.value)}
@@ -417,7 +456,7 @@ export default function StudyNotebook() {
                     rows={3}
                   />
                   <div className="flex gap-2 mt-2">
-                    <button type="button" onClick={handleAddPaste} className="btn-solid text-xs flex-1">
+                    <button type="button" disabled={!notebookHydrated || !pasteContent.trim()} onClick={handleAddPaste} className="btn-solid text-xs flex-1 disabled:opacity-50">
                       Add
                     </button>
                     <button
@@ -425,6 +464,7 @@ export default function StudyNotebook() {
                       onClick={() => fileInputRef.current?.click()}
                       className="btn-glass text-xs px-2.5"
                       aria-label="Upload a text, Markdown, or CSV source"
+                      disabled={!notebookHydrated}
                       title="Upload .txt, .md, or .csv"
                     >
                       <Upload className="h-3.5 w-3.5" aria-hidden />
@@ -434,6 +474,7 @@ export default function StudyNotebook() {
                       onClick={() => void loadImportable()}
                       className="btn-glass text-xs px-2.5"
                       aria-label="Import saved work as a source"
+                      disabled={!notebookHydrated}
                       title="Import saved work"
                     >
                       <BookOpen className="h-3.5 w-3.5" aria-hidden />
@@ -488,7 +529,7 @@ export default function StudyNotebook() {
                     aria-label="Notebook title"
                     value={active.title}
                     onChange={(e) => {
-                      updateNotebook(active.id, { title: e.target.value });
+                      runNotebookMutation(() => updateNotebook(active.id, { title: e.target.value }));
                       refresh();
                     }}
                     className="notebook-title-input text-lg font-semibold bg-transparent border-none outline-none flex-1 min-w-[10rem]"
@@ -522,9 +563,10 @@ export default function StudyNotebook() {
                           ? 'Cloud synced'
                           : 'Saved locally'}
                     {notebookHydrated && !notebookSaving && !notebookCloudSynced && notebookSyncError && (
-                      <span className="sr-only">. Cloud sync is currently unavailable.</span>
+                      <span>. {notebookSyncError}</span>
                     )}
                   </span>
+                  {!notebookCloudSynced && <button type="button" className="btn-glass text-xs" onClick={reloadCloudNotebooks}>Reload cloud copy</button>}
                   <button
                     type="button"
                     className="btn-glass text-xs"
@@ -535,11 +577,11 @@ export default function StudyNotebook() {
                   <button
                     type="button"
                     className="text-xs text-rose-400 hover:underline"
-                    onClick={() => {
+                    onClick={() => runNotebookMutation(() => {
                       if (!confirm('Delete this notebook?')) return;
                       deleteNotebook(active.id);
                       refresh();
-                    }}
+                    })}
                   >
                     Delete
                   </button>
@@ -597,7 +639,7 @@ export default function StudyNotebook() {
                         <div className="text-center py-10 text-muted-foreground text-sm max-w-md mx-auto">
                           <MessageCircle className="h-10 w-10 mx-auto mb-3 opacity-40" />
                           <p className="font-medium text-foreground mb-1">Grounded chat</p>
-                          <p>Add sources, then ask anything — Apex cites [Source: title] in answers.</p>
+                          <p>Add sources, then ask anything - Apex cites [Source: title] in answers.</p>
                         </div>
                       ) : (
                         <>

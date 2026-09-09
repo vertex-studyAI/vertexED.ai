@@ -1,6 +1,8 @@
 import { verifyAuthUser, readJsonBody, rejectOversizedJsonBody } from '../_lib/auth.js';
 import { rateLimitUserEndpoint } from '../_lib/rateLimit.js';
 import { formatSourcesForPrompt, NOTEBOOK_OUTPUT_MODES } from '../_lib/grounding.js';
+import { fetchProvider } from '../_lib/providerRequest.js';
+import { validateNotebookOutput } from '../../contracts/learningOutputs.js';
 
 const ALLOWED_MODES = new Set(Object.keys(NOTEBOOK_OUTPUT_MODES));
 
@@ -21,7 +23,7 @@ export default async function handler(req, res) {
 
   const OPENAI_API_KEY = getOpenAiKey();
   if (!OPENAI_API_KEY) {
-    return res.status(500).json({ error: 'AI not configured' });
+    return res.status(503).json({ error: 'AI not configured' });
   }
 
   try {
@@ -51,14 +53,18 @@ ${customPrompt ? `STUDENT INSTRUCTIONS: ${customPrompt}` : ''}
 SOURCES:
 ${sourceBlock}`;
 
-    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+    const model = process.env.NOTEBOOK_MODEL || 'gpt-4o-mini';
+    const response = await fetchProvider({
+      capability: 'notebook', provider: 'openai', model,
+      url: 'https://api.openai.com/v1/chat/completions',
+      options: {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${OPENAI_API_KEY}`,
       },
       body: JSON.stringify({
-        model: process.env.NOTEBOOK_MODEL || 'gpt-4o-mini',
+        model,
         messages: [
           {
             role: 'system',
@@ -71,6 +77,7 @@ ${sourceBlock}`;
         max_tokens: spec.json ? 2000 : 2500,
         ...(spec.json ? { response_format: { type: 'json_object' } } : {}),
       }),
+      },
     });
 
     if (!response.ok) {
@@ -94,6 +101,10 @@ ${sourceBlock}`;
         const end = raw.lastIndexOf('}') + 1;
         if (start >= 0 && end > start) parsed = JSON.parse(raw.slice(start, end));
       }
+
+      const validated = validateNotebookOutput(mode, parsed);
+      if (!validated.success) return res.status(502).json({ error: 'Generated material was incomplete or invalid. Your sources are unchanged; please retry.' });
+      parsed = validated.data;
 
       if (spec.questions) {
         const questions = (parsed.questions || [])
@@ -176,7 +187,7 @@ ${sourceBlock}`;
       generatedAt: new Date().toISOString(),
     });
   } catch (err) {
-    console.error('Notebook handler error:', err);
+    console.error('Notebook handler error:', err instanceof Error ? err.name : 'UnknownError');
     return res.status(500).json({ error: 'Internal server error' });
   }
 }

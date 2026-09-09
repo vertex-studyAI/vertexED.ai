@@ -9,6 +9,7 @@ import Meditation from "./components/Meditation";
 import NoteTaker from "./components/NoteTaker";
 import TimerApp from "./components/TimerApp";
 import GraphingSuite from "./components/GraphingSuite";
+import HabitTracker from "./components/HabitTracker";
 import SketchPad from "@/components/sketch/SketchPad";
 
 type WidgetKey =
@@ -18,7 +19,8 @@ type WidgetKey =
   | "meditation"
   | "graphing"
   | "sketch"
-  | "notes";
+  | "notes"
+  | "habits";
 
 interface WidgetMeta {
   key: WidgetKey;
@@ -54,7 +56,7 @@ const StudyZonePage: React.FC = () => {
       {
         key: "timer",
         title: "Timer Suite",
-        description: "Countdown, stopwatch, or Pomodoro — set the length to match your planner block and log when you finish.",
+        description: "Countdown, stopwatch, or Pomodoro - set the length to match your planner block and log when you finish.",
         accent: "hsl(var(--primary))",
         badge: "Focus",
         span: "wide",
@@ -62,8 +64,14 @@ const StudyZonePage: React.FC = () => {
       {
         key: "activity",
         title: "Activity Log",
-        description: "Record what you covered, where you got stuck, and what to retry — feeds your dashboard and next plan.",
+        description: "Record what you covered, where you got stuck, and what deserves another attempt.",
         accent: "hsl(12 78% 54%)",
+      },
+      {
+        key: "habits",
+        title: "Daily Habits",
+        description: "Set a few repeatable study routines and check them off each day.",
+        accent: "hsl(154 64% 43%)",
       },
       {
         key: "calculator",
@@ -74,7 +82,7 @@ const StudyZonePage: React.FC = () => {
       {
         key: "graphing",
         title: "Graphing Suite",
-        description: "Desmos 2D and 3D embedded here — plot functions and check graphs while you revise.",
+        description: "Desmos 2D and 3D embedded here - plot functions and check graphs while you revise.",
         accent: "hsl(var(--primary))",
         badge: "New",
         span: "wide",
@@ -82,13 +90,13 @@ const StudyZonePage: React.FC = () => {
       {
         key: "meditation",
         title: "Breath Meditation",
-        description: "Short guided breathing between blocks — useful before a mock or when anxiety spikes.",
+        description: "Short guided breathing between blocks - useful before a mock or when anxiety spikes.",
         accent: "hsl(266 72% 58%)",
       },
       {
         key: "sketch",
         title: "Sketch Notepad",
-        description: "Draw diagrams, annotate problems, and send sketches to your Study Notebook — built for iPad and Apple Pencil.",
+        description: "Draw diagrams, annotate problems, and send sketches to your Study Notebook - built for iPad and Apple Pencil.",
         accent: "hsl(280 68% 58%)",
         badge: "iPad",
         span: "wide",
@@ -109,6 +117,8 @@ const StudyZonePage: React.FC = () => {
         return <TimerApp accent={accent} />;
       case "activity":
         return <ActivityLog accent={accent} />;
+      case "habits":
+        return <HabitTracker accent={accent} />;
       case "calculator":
         return <Calculator accent={accent} />;
       case "graphing":
@@ -127,7 +137,7 @@ const StudyZonePage: React.FC = () => {
   return (
     <div className="min-h-screen max-w-7xl mx-auto px-4 md:px-6 py-10 md:py-12 pb-24 flex flex-col gap-8 md:gap-10">
       <Helmet>
-        <title>Study Zone — VertexED</title>
+        <title>Study Zone - VertexED</title>
         <meta name="description" content="Focus tools for one study session: a timer, calculator, graphing, notes, and a short reset between blocks." />
         <link rel="canonical" href="https://www.vertexed.app/study-zone" />
       </Helmet>
@@ -158,7 +168,7 @@ const StudyZonePage: React.FC = () => {
         </h1>
         <p className="text-base text-muted-foreground leading-relaxed max-w-2xl">
           {focusMode
-            ? "Timer below — set length, start, and stay on one task until the block ends. Other widgets stay visible but dimmed."
+            ? "Timer below - set length, start, and stay on one task until the block ends. Other widgets stay visible but dimmed."
             : "Use only the tools that help you finish the next block: a timer, calculator, graphing, quick notes, a session log, and a short reset between blocks."}
         </p>
       </header>

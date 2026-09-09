@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import {
   buildMissingProfileInsert,
+  buildCurriculumProfileUpsert,
   buildProfileUpdate,
   getProfileIdentityFields,
 } from '../src/lib/profileRecovery.mjs';
@@ -19,6 +20,33 @@ test('profile recovery preserves learner-edited fields when Auth metadata is emp
   });
   assert.equal('full_name' in update, false);
   assert.equal('avatar_url' in update, false);
+});
+
+test('onboarding profile persistence includes curriculum identity and removes duplicate subjects', () => {
+  const user = { id: 'user-5', email: 'student@example.com', user_metadata: {} };
+  const payload = buildCurriculumProfileUpsert(
+    user,
+    {
+      board: 'IB_MYP',
+      grade: 5,
+      subjects: ['Biology', 'Chemistry', 'Biology'],
+      examDate: '2026-11-01',
+    },
+    { full_name: 'Student Name' },
+    NOW,
+  );
+
+  assert.deepEqual(payload, {
+    id: 'user-5',
+    email: 'student@example.com',
+    full_name: 'Student Name',
+    avatar_url: null,
+    board: 'IB_MYP',
+    grade: 5,
+    subjects: ['Biology', 'Chemistry'],
+    exam_date: '2026-11-01',
+    updated_at: NOW,
+  });
 });
 
 test('missing profile recovery supplies the database-required full_name fallback', () => {

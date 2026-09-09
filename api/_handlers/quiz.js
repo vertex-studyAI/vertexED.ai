@@ -1,9 +1,12 @@
-import { verifyAuthUser, readJsonBody, rejectOversizedJsonBody } from '../_lib/auth.js';
+import { verifyAuthUser, rejectOversizedJsonBody } from '../_lib/auth.js';
 import { rateLimitUserEndpoint } from '../_lib/rateLimit.js';
 import {
+  GRADING_CONTRACT_VERSION,
   buildDeterministicQuizFallback,
   normalizeGradeAudits,
 } from '../_lib/verifiedGrading.js';
+import { fetchProvider } from '../_lib/providerRequest.js';
+import { validateGeneratedQuiz } from '../../contracts/learningOutputs.js';
 
 function parseJsonBody(req) {
   let body = req.body ?? {};
@@ -38,24 +41,28 @@ function extractJson(raw) {
 }
 
 async function callOpenAI(apiKey, messages, maxTokens = 2500) {
-  const response = await fetch("https://api.openai.com/v1/chat/completions", {
+  const model = process.env.OPENAI_MODEL || "gpt-4o-mini";
+  const response = await fetchProvider({
+    capability: 'quiz', provider: 'openai', model,
+    url: "https://api.openai.com/v1/chat/completions",
+    options: {
     method: "POST",
     headers: {
       Authorization: `Bearer ${apiKey}`,
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      model: process.env.OPENAI_MODEL || "gpt-4o-mini",
+      model,
       messages,
       temperature: 0.35,
       max_tokens: maxTokens,
       response_format: { type: "json_object" },
     }),
+    },
   });
 
   if (!response.ok) {
-    const err = await response.text();
-    throw new Error(`OpenAI error: ${err.slice(0, 500)}`);
+    throw new Error(`Quiz provider returned ${response.status}.`);
   }
 
   const data = await response.json();
@@ -89,7 +96,7 @@ async function handleGenerate(body, apiKey, res) {
     return res.status(400).json({ error: "Missing notes" });
   }
 
-  const optionCount = Math.max(2, Math.min(5, Number(mcqOptionCount) || 4));
+  const optionCount = Math.max(2, Math.min(5, Math.floor(Number(mcqOptionCount) || 4)));
   const counts = questionCounts(frqLength);
 
   const adaptiveHint =
@@ -97,7 +104,7 @@ async function handleGenerate(body, apiKey, res) {
       ? `\nPrioritize these weak/high-yield topics: ${adaptiveTopics.join(", ")}.`
       : "";
   const boardHint = board
-    ? `\nStudent board: ${board}. Subjects: ${(subjects || []).join(", ") || "general"}. Use board-appropriate command terms.`
+    ? `\nStudent board: ${board}. Subjects: ${(Array.isArray(subjects) ? subjects : []).join(", ") || "general"}. Use board-appropriate command terms.`
     : "";
 
   const fallbackQuestions = () => buildDeterministicQuizFallback({ notes, board, subjects });
@@ -144,10 +151,10 @@ ${String(notes).slice(0, 12000)}`;
   try {
     const raw = await callOpenAI(apiKey, [{ role: "user", content: prompt }], 3000);
     const parsed = extractJson(raw);
-    const questions = Array.isArray(parsed?.questions) ? parsed.questions : [];
+    const questions = validateGeneratedQuiz(parsed, counts, optionCount);
 
-    if (!questions.length) {
-      return res.status(500).json({ error: "Failed to parse quiz questions", raw: raw.slice(0, 1000) });
+    if (!questions) {
+      throw new Error('Quiz provider returned invalid question structure.');
     }
 
     const model = process.env.OPENAI_MODEL || "gpt-4o-mini";
@@ -170,7 +177,7 @@ ${String(notes).slice(0, 12000)}`;
       generation: { mode: 'ai', model, degraded: false, generatedAt },
     });
   } catch (err) {
-    console.error("Quiz generate error:", err);
+    console.error("Quiz generate error:", err instanceof Error ? err.name : 'UnknownError');
     const questions = fallbackQuestions();
     if (questions.length) {
       return res.status(200).json({
@@ -200,7 +207,7 @@ async function handleGrade(body, apiKey, res) {
   );
 
   if (!toGrade.length) {
-    return res.status(200).json({ grades: [], coverage: [], contractVersion: 'vertexed.grading.v1' });
+    return res.status(200).json({ grades: [], coverage: [], contractVersion: GRADING_CONTRACT_VERSION });
   }
 
   const model = process.env.OPENAI_MODEL || "gpt-4o-mini";
@@ -209,7 +216,7 @@ async function handleGrade(body, apiKey, res) {
     return res.status(200).json({
       grades: normalized.audits,
       coverage: normalized.coverage,
-      contractVersion: 'vertexed.grading.v1',
+      contractVersion: GRADING_CONTRACT_VERSION,
       degraded: true,
     });
   }
@@ -254,16 +261,16 @@ ${JSON.stringify(
     return res.status(200).json({
       grades: normalized.audits,
       coverage: normalized.coverage,
-      contractVersion: 'vertexed.grading.v1',
+      contractVersion: GRADING_CONTRACT_VERSION,
       degraded: false,
     });
   } catch (err) {
-    console.error("Quiz grade error:", err);
+    console.error("Quiz grade error:", err instanceof Error ? err.name : 'UnknownError');
     const normalized = normalizeGradeAudits({ questions: toGrade, userAnswers, rawGrades: [], model });
     return res.status(200).json({
       grades: normalized.audits,
       coverage: normalized.coverage,
-      contractVersion: 'vertexed.grading.v1',
+      contractVersion: GRADING_CONTRACT_VERSION,
       degraded: true,
     });
   }

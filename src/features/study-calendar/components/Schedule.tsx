@@ -60,18 +60,11 @@ const Schedule = ({
     const el = scheduleContainerRef.current;
     const hourHeight = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--hour-height')) || 88;
     const y = (currentMinutes / 60) * hourHeight - (el.clientHeight * 0.25);
-    if (y > 0) el.scrollTo({ top: y, behavior: 'smooth' });
+    if (y > 0) el.scrollTo({ top: y, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
   }, [currentMinutes]);
 
   const handleTaskClick = (task: TaskItem) => {
     onEditTask(task);
-  };
-
-  const handleTaskEditKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>, task: TaskItem) => {
-    if (event.key === 'Delete') {
-      event.preventDefault();
-      onTaskComplete(task.id);
-    }
   };
 
   const renderTaskControls = (task: TaskItem, name: string, duration: number, startTime: string) => (
@@ -82,7 +75,6 @@ const Schedule = ({
         style={{ font: 'inherit', fontWeight: 'inherit', letterSpacing: 'inherit', lineHeight: 'inherit' }}
         aria-label={`Edit ${name}, starting at ${startTime} for ${duration} minutes`}
         onClick={() => handleTaskClick(task)}
-        onKeyDown={(event) => handleTaskEditKeyDown(event, task)}
       >
         {name}
       </button>
@@ -105,25 +97,6 @@ const Schedule = ({
     const id = setInterval(update, 30000);
     return () => clearInterval(id);
   }, []);
-
-  useEffect(() => { if (isMobile) scrollToCurrentTime(); }, [isMobile, scrollToCurrentTime]);
-
-  // Inactivity auto-scroll: after 5s without user scroll / mouse / key
-  useEffect(() => {
-    if (!scheduleContainerRef.current) return;
-    let timer: ReturnType<typeof setTimeout> | undefined;
-    const reset = () => {
-      if (timer) clearTimeout(timer);
-      timer = setTimeout(() => { scrollToCurrentTime(); }, 5000);
-    };
-    const el = scheduleContainerRef.current;
-    ['scroll','wheel','touchstart','mousemove','keydown'].forEach(evt => window.addEventListener(evt, reset, { passive: true }));
-    reset();
-    return () => {
-      if (timer) clearTimeout(timer);
-      ['scroll','wheel','touchstart','mousemove','keydown'].forEach(evt => window.removeEventListener(evt, reset));
-    };
-  }, [isMobile, mode, scrollToCurrentTime]);
 
   // Media query listener
   useEffect(() => {
@@ -169,6 +142,9 @@ const Schedule = ({
 
   return (
     <div className="schedule-wrapper">
+      {mode === 'Day' && selectedDate.toDateString() === new Date().toDateString() && (
+        <button type="button" className="planner-today planner-jump-now" onClick={scrollToCurrentTime}>Jump to current time</button>
+      )}
       {mode === "Week" && <Tabs selectedDate={selectedDate} />}
       <div
         className={`schedule-container ${mode === 'Day' ? (isMobile ? 'day-view mobile' : 'desktop-day') : 'week-view'}`}

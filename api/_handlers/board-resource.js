@@ -1,5 +1,6 @@
 import { verifyAuthUser, readJsonBody, rejectOversizedJsonBody } from '../_lib/auth.js';
 import { rateLimitUserEndpoint } from '../_lib/rateLimit.js';
+import { fetchProvider } from '../_lib/providerRequest.js';
 
 function countWords(text) {
   return String(text).trim().split(/\s+/).filter(Boolean).length;
@@ -20,7 +21,7 @@ export default async function handler(req, res) {
     process.env.OPENAI_API_KEY || process.env.ChatbotKey || process.env.CHATBOT_KEY;
 
   if (!OPENAI_API_KEY) {
-    return res.status(500).json({ error: 'AI not configured' });
+    return res.status(503).json({ error: 'AI not configured' });
   }
 
   try {
@@ -38,7 +39,7 @@ export default async function handler(req, res) {
       : [];
     const grade = body.grade != null ? String(body.grade).slice(0, 4) : null;
 
-    const prompt = `Write a comprehensive ${boardLabel} study resource: "${title}" (${subject}).
+    const prompt = `Draft an independent practice guide for a student preparing for ${boardLabel}: "${title}" (${subject}).
 
 CONTEXT: ${description}
 ${grade ? `Grade/year: ${grade}` : ''}
@@ -48,30 +49,36 @@ Command terms to explain and use: ${commandTerms.join(', ') || 'standard'}
 REQUIREMENTS:
 - Minimum ${targetWords} words of substantive educational content (not filler)
 - Use markdown: ## and ### headings, bullet lists, tables where helpful
-- Include: (1) what the board expects, (2) topic breakdown, (3) mark-scheme thinking, (4) common mistakes, (5) revision schedule, (6) practice strategy with VertexED tools mentioned naturally (mock papers, answer review, flashcards)
-- Board-specific terminology (${boardLabel} paper structure, criteria, units)
+- Include: (1) a clearly labelled summary of likely assessment demands, (2) topic breakdown, (3) ways to check work against an official mark scheme, (4) common mistakes, (5) revision schedule, (6) practice strategy using mocks, answer review, and flashcards
+- Use board-specific terminology only where it is present in the supplied context. Do not invent paper structures, criteria, weightings, grade boundaries, or examiner guidance.
+- State near the top that the guide is AI-generated independent practice material and must be checked against the learner's current official specification and teacher guidance.
 - Original paraphrased explanations — do not copy copyrighted textbook text
 - End with "Quick wins this week" — 5 actionable bullets
 - Tone: direct, student-friendly, exam-focused`;
 
-    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+    const model = process.env.BOARD_RESOURCE_MODEL || 'gpt-4o-mini';
+    const response = await fetchProvider({
+      capability: 'board_resource', provider: 'openai', model,
+      url: 'https://api.openai.com/v1/chat/completions',
+      options: {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${OPENAI_API_KEY}`,
       },
       body: JSON.stringify({
-        model: process.env.BOARD_RESOURCE_MODEL || 'gpt-4o-mini',
+        model,
         messages: [
           {
             role: 'system',
-            content: `You are VertexED's curriculum author. Write original, in-depth ${boardLabel} study guides that help students earn marks. Never plagiarize — synthesize exam technique from first principles.`,
+            content: `You draft independent study material. You are not an examiner or an official representative of ${boardLabel}. Separate general study advice from board-specific claims, never invent official requirements, and tell the learner to verify the current specification and mark scheme. Use original wording and do not reproduce copyrighted source material.`,
           },
           { role: 'user', content: prompt },
         ],
         temperature: 0.45,
         max_tokens: 4000,
       }),
+      },
     });
 
     if (!response.ok) {
@@ -90,9 +97,14 @@ REQUIREMENTS:
       content,
       wordCount: countWords(content),
       generatedAt: new Date().toISOString(),
+      generation: {
+        status: 'AI_GENERATED_UNVERIFIED',
+        provider: 'openai',
+        model,
+      },
     });
   } catch (err) {
-    console.error('Board resource error:', err);
+    console.error('Board resource error:', err instanceof Error ? err.name : 'UnknownError');
     return res.status(500).json({ error: 'Internal server error' });
   }
 }

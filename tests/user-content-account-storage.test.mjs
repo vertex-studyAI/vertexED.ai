@@ -33,6 +33,7 @@ test('learner content device storage is isolated by authenticated account', () =
     'activity',
     'quickNotes',
     'lastStudySession',
+    'retryQueue',
   ]) {
     assert.notEqual(first[key], second[key]);
     assert.match(first[key], /^vertex_content:/);

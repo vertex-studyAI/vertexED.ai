@@ -12,7 +12,7 @@ type Props = {
   profile: LearnerProfile;
 };
 
-const CONFIDENCE_LABELS = ['Panicking', 'Shaky', 'Okay', 'Solid', 'Exam-ready'] as const;
+const CONFIDENCE_LABELS = ['Very unsure', 'Unsure', 'Mixed', 'Confident', 'Very confident'] as const;
 
 export default function PortalEngagementRow({ profile }: Props) {
   const { user } = useAuth();
@@ -47,7 +47,7 @@ export default function PortalEngagementRow({ profile }: Props) {
           <p className="text-sm font-semibold">Quick Capture</p>
         </div>
         <p className="text-xs text-muted-foreground mb-3">
-          Jot a doubt mid-session — Apex opens with your question ready.
+          Jot a doubt mid-session - Apex opens with your question ready.
         </p>
         <textarea
           value={capture}
@@ -70,7 +70,7 @@ export default function PortalEngagementRow({ profile }: Props) {
       <PortalWidget id="confidence-checkin" span={1}>
         <p className="text-sm font-semibold mb-1">Confidence Check-in</p>
         <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-2">
-          How exam-ready does each subject feel?
+          How confident do you feel in each subject today?
         </p>
         <p className="text-[10px] text-muted-foreground mb-3 flex flex-wrap gap-x-2 gap-y-0.5">
           {CONFIDENCE_LABELS.map((label, i) => (
@@ -89,7 +89,7 @@ export default function PortalEngagementRow({ profile }: Props) {
                     <button
                       key={n}
                       type="button"
-                      aria-label={`${row.subject} confidence ${n} of 5 — ${CONFIDENCE_LABELS[n - 1]}`}
+                      aria-label={`${row.subject} confidence ${n} of 5 - ${CONFIDENCE_LABELS[n - 1]}`}
                       onClick={() => {
                         setConfidenceRating(row.subject, n);
                         setConfidence(getConfidenceRatings(subjects));
@@ -104,7 +104,7 @@ export default function PortalEngagementRow({ profile }: Props) {
         ) : (
           <div className="rounded-xl border border-border/60 bg-foreground/[0.03] p-4 text-center">
             <p className="text-xs text-muted-foreground mb-3">
-              Add your subjects in settings to rate confidence per subject — we use this in your adaptive plan.
+              Add your subjects in settings to rate confidence per subject - we use this in your adaptive plan.
             </p>
             <Link to="/user-settings" className="btn-glass text-xs inline-flex items-center gap-1.5">
               <Settings className="h-3 w-3" />
@@ -128,7 +128,7 @@ export default function PortalEngagementRow({ profile }: Props) {
         </div>
         <p className="text-xs text-muted-foreground mb-3">
           {profile.curriculum.board
-            ? 'Mark-scheme verbs for your board — tap to reveal, then try using it in an answer.'
+            ? 'Mark-scheme verbs for your board - tap to reveal, then try using it in an answer.'
             : 'Set your exam board in settings for board-specific command terms.'}
         </p>
         <button

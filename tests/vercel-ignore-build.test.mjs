@@ -18,8 +18,9 @@ test('runtime source, API, database, and production build-script changes continu
     'scripts/build.mjs',
     'scripts/generate-build-revision.mjs',
     'scripts/generate-study-guide-sitemap.mjs',
+    'scripts/generate-study-guide-provenance.mjs',
+    'contracts/studyArtifact.js',
     'scripts/immutable-revision.mjs',
-    'scripts/publish-neurocad-alpha.mjs',
     'scripts/validate-vercel-functions.mjs',
     'scripts/vercel-ignore-build.mjs',
   ]) assert.equal(isRuntimeRelevant(file), true, file);

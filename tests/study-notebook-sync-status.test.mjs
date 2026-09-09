@@ -20,9 +20,9 @@ test("Study Notebook exposes hydration, saving, and sync state to users", () => 
 });
 
 test("cloud writes wait for the latest snapshot to hydrate", () => {
-  assert.match(source, /setNotebookHydrated\(true\)/);
+  assert.match(source, /setNotebookHydrated\(!readOnly\)/);
   assert.match(source, /if \(!notebookHydrated\) return;/);
-  assert.match(source, /\}, \[notebookHydrated, notebooks\]\);/);
+  assert.match(source, /\}, \[notebookHydrated, notebooks, user\?\.id\]\);/);
   assert.match(source, /Loading your latest notebook snapshot before enabling cloud saves\./);
 });
 
@@ -36,6 +36,6 @@ test("notebook save completions cannot overwrite newer sync state", () => {
 
 test("local-only saves remain reassuring and screen-reader friendly", () => {
   assert.match(source, /Cloud sync is unavailable; your notebook is still saved on this device\./);
-  assert.match(source, /Cloud sync is currently unavailable\./);
+  assert.match(source, /<span>\. \{notebookSyncError\}<\/span>/);
   assert.match(source, /notebookSyncError/);
 });

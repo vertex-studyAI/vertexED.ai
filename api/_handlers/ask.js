@@ -1,7 +1,8 @@
 import { verifyAuthUser, readJsonBody, rejectOversizedJsonBody } from '../_lib/auth.js';
 import { rateLimitUserEndpoint } from '../_lib/rateLimit.js';
-import { formatSourcesForPrompt, GROUNDED_CHAT_RULES } from '../_lib/grounding.js';
 import { callChatProvider, extractChatAnswer, resolveChatProvider } from '../_lib/aiProviders.js';
+import { buildAskMessages } from '../_lib/askPrompt.js';
+import { logProviderRun } from '../_lib/providerTelemetry.js';
 
 const MAX_QUESTION_CHARS = 4000;
 
@@ -24,8 +25,8 @@ export default async function handler(req, res) {
   try {
     providerConfig = resolveChatProvider(process.env);
   } catch (error) {
-    console.error('❌ Chat provider configuration error:', error instanceof Error ? error.message : 'unknown error');
-    return res.status(500).json({
+    console.error('❌ Chat provider configuration error:', error instanceof Error ? error.name : 'UnknownError');
+    return res.status(503).json({
       error: "Server configuration error",
     });
   }
@@ -45,68 +46,39 @@ export default async function handler(req, res) {
 
     const trimmedQuestion = question.trim();
 
-    const buildMessages = () => {
-      const messages = [];
-
-      if (context && typeof context === "object") {
-        const label =
-          typeof context.label === "string"
-            ? context.label.trim().slice(0, 120)
-            : "VertexED";
-        const hint =
-          typeof context.hint === "string"
-            ? context.hint.trim().slice(0, 2000)
-            : "";
-        messages.push({
-          role: "system",
-          content: `You are Apex, VertexED's discussion-first study tutor. The student is on: ${label}. ${hint}
-
-Rules:
-- Deliberate step-by-step; ask what they've tried before giving full solutions.
-- Prefer Socratic follow-ups over dumping answers.
-- Use clear structure for math (steps, not just final values).
-- When relevant, reference exam technique, command terms, and mark-scheme thinking.
-- Keep responses focused; if a topic is large, offer a sensible first step and invite follow-up.`,
-        });
-      }
-
-      const sourceBlock = formatSourcesForPrompt(sources);
-      if (sourceBlock && messages.length > 0) {
-        messages[0].content += `\n\n${GROUNDED_CHAT_RULES}\n\n${sourceBlock}`;
-      } else if (sourceBlock) {
-        messages.push({
-          role: "system",
-          content: `${GROUNDED_CHAT_RULES}\n\n${sourceBlock}`,
-        });
-      }
-
-      if (Array.isArray(history)) {
-        const recentHistory = history.slice(-10);
-        for (const [index, entry] of recentHistory.entries()) {
-          const role = entry?.role === "assistant" ? "assistant" : "user";
-          const text = typeof entry?.text === "string" ? entry.text.trim() : "";
-          const duplicatesCurrentQuestion =
-            index === recentHistory.length - 1 && role === "user" && text === trimmedQuestion;
-          if (text && !duplicatesCurrentQuestion) messages.push({ role, content: text.slice(0, 2000) });
-        }
-      }
-
-      messages.push({ role: "user", content: trimmedQuestion });
-      return messages;
-    };
-
-    const chatMessages = buildMessages();
+    const chatMessages = buildAskMessages({ question: trimmedQuestion, history, context, sources });
     const PRIMARY_MODEL = providerConfig.primaryModel;
     const FALLBACK_MODEL = providerConfig.fallbackModel;
 
-    const callProvider = (model) =>
-      callChatProvider({
-        config: providerConfig,
-        model,
-        messages: chatMessages,
-        temperature: 0.4,
-        maxTokens: 1200,
-      });
+    const callProvider = async (model) => {
+      const startedAt = Date.now();
+      try {
+        const result = await callChatProvider({
+          config: providerConfig,
+          model,
+          messages: chatMessages,
+          temperature: 0.4,
+          maxTokens: 1200,
+        });
+        await logProviderRun({
+          capability: 'chatbot',
+          provider: result.provider,
+          model: result.model,
+          status: result.response.status,
+          durationMs: Date.now() - startedAt,
+        });
+        return result;
+      } catch (error) {
+        await logProviderRun({
+          capability: 'chatbot',
+          provider: providerConfig.name,
+          model,
+          durationMs: Date.now() - startedAt,
+          error: true,
+        });
+        throw error;
+      }
+    };
 
     let { response, raw, model, provider } = await callProvider(PRIMARY_MODEL);
 
@@ -175,7 +147,7 @@ Rules:
 
     return res.status(200).json({ answer });
   } catch (err) {
-    console.error("❌ Server crash:", err);
-    return res.status(500).json({ error: "Internal server error" });
+    console.error("❌ Chat handler failed:", err instanceof Error ? err.name : 'UnknownError');
+    return res.status(502).json({ error: "AI request failed. Please try again shortly." });
   }
 }

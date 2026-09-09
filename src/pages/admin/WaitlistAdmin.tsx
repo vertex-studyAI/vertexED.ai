@@ -8,7 +8,6 @@ type WaitlistEntry = {
   id: string;
   email: string;
   status: 'pending' | 'approved' | 'rejected';
-  invite_token?: string | null;
   signup_method?: 'email' | 'google';
   created_at: string;
   updated_at: string;
@@ -208,7 +207,7 @@ export default function WaitlistAdmin() {
               )}
               {emailSent === false && (
                 <span className="text-xs text-amber-300 self-center">
-                  Email not sent — set RESEND_API_KEY or share the link manually
+                  Email not sent - set RESEND_API_KEY or share the link manually
                 </span>
               )}
             </div>
@@ -303,21 +302,17 @@ export default function WaitlistAdmin() {
                           </button>
                         )}
                         </div>
-                        {(inviteLinks[entry.id] || entry.invite_token) && entry.status === 'approved' && (
+                        {inviteLinks[entry.id] && entry.status === 'approved' && (
                           <div className="rounded-md border border-emerald-500/30 bg-emerald-500/10 px-2 py-1.5 text-xs">
                             <p className="text-emerald-200 font-medium mb-1">Invite link</p>
                             <code className="block break-all text-emerald-100/90">
-                              {inviteLinks[entry.id] ||
-                                `${window.location.origin}/signup?invite=${entry.invite_token}`}
+                              {inviteLinks[entry.id]}
                             </code>
                             <button
                               type="button"
                               className="mt-1 text-emerald-300 hover:underline"
                               onClick={() => {
-                                const link =
-                                  inviteLinks[entry.id] ||
-                                  `${window.location.origin}/signup?invite=${entry.invite_token}`;
-                                void navigator.clipboard.writeText(link);
+                                void navigator.clipboard.writeText(inviteLinks[entry.id]);
                               }}
                             >
                               Copy link

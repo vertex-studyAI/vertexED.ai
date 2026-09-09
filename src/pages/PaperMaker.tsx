@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link, useSearchParams } from "react-router";
 import { motion } from "framer-motion";
-import { ArrowLeft, Sparkles, FileText, ImagePlus, Download, Grid, FileArchive, Clock } from "lucide-react";
+import { ArrowLeft, Sparkles, FileText, ImagePlus, Download, Grid, FileArchive, Clock, Eye, EyeOff, X } from "lucide-react";
 import NeumorphicCard from "@/components/NeumorphicCard";
 import PageSection from "@/components/PageSection";
 import { authFetch } from "@/lib/apiAuth";
@@ -22,6 +22,8 @@ import {
   getSubjectsForBoard,
 } from "@/lib/curriculum";
 import type { ExamBoard } from "@/types/curriculum";
+import AiFeedbackControls from "@/components/AiFeedbackControls";
+import { loadMockExamDraft } from "@/lib/examFlow";
 
 export default function PaperMaker({ priorPapers = [] }) {
   const { user } = useAuth();
@@ -43,6 +45,7 @@ export default function PaperMaker({ priorPapers = [] }) {
   const [error, setError] = useState("");
   const [paper, setPaper] = useState(null);
   const [raw, setRaw] = useState(null);
+  const [showMarkScheme, setShowMarkScheme] = useState(false);
   const [mockExamOpen, setMockExamOpen] = useState(false);
   const [mockCramMode, setMockCramMode] = useState(false);
   const [saveStatus, setSaveStatus] = useState("");
@@ -96,6 +99,25 @@ export default function PaperMaker({ priorPapers = [] }) {
   }, []);
 
   useEffect(() => {
+    if (searchParams.get("resumeMock") !== "1") return;
+    const draft = loadMockExamDraft();
+    if (!draft) {
+      setError("That mock draft is no longer available in this browser tab.");
+      return;
+    }
+    if (draft.board) {
+      prevBoardRef.current = draft.board;
+      setBoard(draft.board);
+    }
+    if (typeof draft.grade === "number") setGrade(draft.grade);
+    if (draft.subject) setSubject(draft.subject);
+    setPaper(draft.paper);
+    setMockCramMode(draft.cramMode);
+    setMockExamOpen(true);
+    setSaveStatus("Resumed saved mock draft");
+  }, [searchParams]);
+
+  useEffect(() => {
     if (prevBoardRef.current === board) return;
     prevBoardRef.current = board;
     setGrade(null);
@@ -112,6 +134,7 @@ export default function PaperMaker({ priorPapers = [] }) {
     setFiles([]);
     setPaper(null);
     setRaw(null);
+    setShowMarkScheme(false);
     setError("");
   }, [board]);
 
@@ -132,13 +155,16 @@ export default function PaperMaker({ priorPapers = [] }) {
   async function handleFilesChange(ev) {
     const list = Array.from(ev.target.files || []);
     const converted = await Promise.all(list.map(fileToBase64Safe));
-    setFiles((prev) => [...prev, ...converted]);
+    const valid = converted.filter(Boolean);
+    if (valid.length) setFiles((prev) => [...prev, ...valid]);
+    ev.target.value = "";
   }
 
   async function fileToBase64Safe(file) {
     const maxBytes = 3 * 1024 * 1024;
     if (file.size > maxBytes) {
       setError(`File ${file.name} is larger than ${Math.round(maxBytes / 1024)} KB; please reduce size.`);
+      return null;
     }
     return new Promise((resolve) => {
       const reader = new FileReader();
@@ -158,6 +184,7 @@ export default function PaperMaker({ priorPapers = [] }) {
     setLoading(true);
     setPaper(null);
     setRaw(null);
+    setShowMarkScheme(false);
 
     const payload = {
       board: boardApiLabel,
@@ -181,7 +208,6 @@ export default function PaperMaker({ priorPapers = [] }) {
         body: JSON.stringify(payload),
       });
       const data = await res.json();
-      setLoading(false);
       if (!data.success) {
         setError(data.error || "Generation failed");
         setRaw(data?.raw ?? null);
@@ -204,7 +230,7 @@ export default function PaperMaker({ priorPapers = [] }) {
         setPaper(paperData);
         setRaw(null);
         if (data?.generation?.degraded) {
-          setSaveStatus("Deterministic fallback — verify against the current syllabus");
+          setSaveStatus("Deterministic fallback - verify against the current syllabus");
           toast({
             title: "Practice scaffold generated",
             description: "The AI provider was unavailable. Questions contain no asserted factual answer key and require syllabus verification.",
@@ -226,7 +252,7 @@ export default function PaperMaker({ priorPapers = [] }) {
             toast({
               title: r.localOnly ? "Saved on this device" : "Paper saved",
               description: r.localOnly
-                ? "Cloud sync pending — your paper is stored locally for now."
+                ? "Cloud sync pending - your paper is stored locally for now."
                 : "Your mock paper is in your account.",
             });
           } else if (r.error) {
@@ -243,8 +269,10 @@ export default function PaperMaker({ priorPapers = [] }) {
         setError("Generation returned an unexpected format.");
       }
     } catch (err) {
+      console.error("Paper generation failed", err);
+      setError("The paper could not be generated. Check your connection and try again.");
+    } finally {
       setLoading(false);
-      setError(String(err));
     }
   }
 
@@ -269,7 +297,7 @@ export default function PaperMaker({ priorPapers = [] }) {
     }
   }
 
-  async function exportDocx() {
+  async function exportDocx(includeMarkScheme = false) {
     if (!paper) return;
     try {
       const { Document, Packer, Paragraph, TextRun } = await import("docx");
@@ -280,24 +308,33 @@ export default function PaperMaker({ priorPapers = [] }) {
         new Paragraph({ children: [new TextRun({ text: `Board: ${paper?.metadata?.board || ""}` })] }),
         new Paragraph({ children: [new TextRun({ text: `Grade: ${paper?.metadata?.grade || ""}` })] }),
         new Paragraph(""),
-        ...flattenSectionsToParagraphs(paper.sections || [], Paragraph, TextRun),
+        ...flattenSectionsToParagraphs(paper.sections || [], Paragraph, TextRun, includeMarkScheme),
+        ...(includeMarkScheme && paper.rubricNotes?.length
+          ? [
+              new Paragraph({ children: [new TextRun({ text: "Mark scheme notes", bold: true, size: 24 })] }),
+              ...paper.rubricNotes.map((note) => new Paragraph({ text: `• ${note}` })),
+            ]
+          : []),
       ];
       const doc = new Document({ sections: [{ children }] });
       const blob = await Packer.toBlob(doc);
-      saveAs(blob, `${(paper?.title || "practice-paper").replace(/\s+/g, "_")}.docx`);
+      const suffix = includeMarkScheme ? "_mark_scheme" : "_question_paper";
+      saveAs(blob, `${(paper?.title || "practice-paper").replace(/\s+/g, "_")}${suffix}.docx`);
     } catch (err) {
       setError("DOCX export failed: " + String(err));
     }
   }
 
-  function flattenSectionsToParagraphs(sections, Paragraph, TextRun) {
+  function flattenSectionsToParagraphs(sections, Paragraph, TextRun, includeMarkScheme = false) {
     const paras = [];
     for (const s of sections) {
       paras.push(new Paragraph({ children: [new TextRun({ text: s.title || "", bold: true })] }));
       if (s.instructions) paras.push(new Paragraph(s.instructions));
       for (const q of s.questions || []) {
         paras.push(new Paragraph({ children: [new TextRun({ text: `Q: ${q.question}`, break: 1 })] }));
-        if (q.modelAnswerOutline) paras.push(new Paragraph({ children: [new TextRun({ text: `Model answer / rubric: ${q.modelAnswerOutline}` })] }));
+        if (includeMarkScheme && q.modelAnswerOutline) {
+          paras.push(new Paragraph({ children: [new TextRun({ text: `Marking guidance: ${q.modelAnswerOutline}` })] }));
+        }
         paras.push(new Paragraph({ children: [new TextRun({ text: "" })] }));
       }
       paras.push(new Paragraph({ children: [new TextRun({ text: "" })] }));
@@ -308,11 +345,11 @@ export default function PaperMaker({ priorPapers = [] }) {
   return (
     <>
       <Helmet>
-        <title>IB/IGCSE Practice Paper Generator — VertexED</title>
-        <meta name="description" content="Create syllabus-aligned IB, IGCSE, CBSE, and A-Level practice papers instantly with rubric-style guidance and model answers." />
+        <title>IB/IGCSE Practice Paper Generator - VertexED</title>
+        <meta name="description" content="Create board-shaped IB, IGCSE, CBSE, and A-Level practice papers, then attempt them under time and review your answers." />
         <link rel="canonical" href="https://www.vertexed.app/paper-maker" />
-        <meta property="og:title" content="IB/IGCSE Practice Paper Generator — VertexED" />
-        <meta property="og:description" content="Generate syllabus-aligned practice papers with authentic phrasing and mark schemes." />
+        <meta property="og:title" content="IB/IGCSE Practice Paper Generator - VertexED" />
+        <meta property="og:description" content="Build configurable practice papers with a separate mark scheme and timed attempt mode." />
         <meta property="og:url" content="https://www.vertexed.app/paper-maker" />
         <meta property="og:image" content="https://www.vertexed.app/socialpreview.jpg" />
       </Helmet>
@@ -328,7 +365,7 @@ export default function PaperMaker({ priorPapers = [] }) {
         </div>
 
         <div className="grid md:grid-cols-2 gap-8">
-          <NeumorphicCard className="p-6 min-h-[28rem]" title="Paper Configuration" info="Choose board, subject, grade, topics, and total marks. Add teacher notes or past-paper style hints if you have them.">
+          <NeumorphicCard className="p-6 min-h-[28rem]" title="Paper configuration" info="Choose a board, course level, subject, topics, and assessment shape. Add constraints only when they change the questions you need.">
             <form className="grid gap-5" onSubmit={handleGenerate}>
               <div className="grid grid-cols-2 gap-4">
                 <div>
@@ -424,10 +461,18 @@ export default function PaperMaker({ priorPapers = [] }) {
                   <input type="file" className="sr-only" accept="image/*" multiple onChange={handleFilesChange} />
                 </label>
                 <div className="mt-2 grid grid-cols-3 gap-2">
-                  {files.map((f) => {
+                  {files.map((f, fileIndex) => {
                     const src = f.b64 ? `data:${f.mime};base64,${f.b64}` : null;
                     return (
-                      <div key={f.name} className="flex flex-col items-center text-xs bg-gray-50 rounded p-2">
+                      <div key={`${f.name}-${fileIndex}`} className="relative flex flex-col items-center rounded-lg border border-border/60 bg-muted/40 p-2 text-xs">
+                        <button
+                          type="button"
+                          className="absolute right-1 top-1 rounded-md bg-background/90 p-1 text-muted-foreground hover:text-foreground"
+                          aria-label={`Remove ${f.name}`}
+                          onClick={() => setFiles((current) => current.filter((_, index) => index !== fileIndex))}
+                        >
+                          <X className="h-3.5 w-3.5" aria-hidden />
+                        </button>
                         {src ? <img src={src} alt={f.name} style={{ maxWidth: 120, maxHeight: 80, objectFit: 'contain' }} /> : <FileArchive />}
                         <div className="mt-1 truncate w-full text-center text-sm">{f.name}</div>
                       </div>
@@ -444,7 +489,7 @@ export default function PaperMaker({ priorPapers = [] }) {
             </form>
           </NeumorphicCard>
 
-          <NeumorphicCard className="p-6 min-h-[28rem]" title="Paper Preview" info="Generated sections and mark schemes appear here. Export to PDF or Word, or open mock mode to sit the paper under time.">
+          <NeumorphicCard className="p-6 min-h-[28rem]" title="Question paper" info="Questions stay separate from marking guidance. Attempt the paper under time before revealing or exporting its mark scheme.">
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.35 }} className="neu-surface inset p-6 rounded-2xl h-full overflow-auto">
               {!paper && !raw ? (
                 <div className="h-full flex flex-col items-center justify-center text-center p-4 text-muted-foreground">
@@ -458,7 +503,7 @@ export default function PaperMaker({ priorPapers = [] }) {
                   <div ref={previewRef} id="paper-preview" className="space-y-4 text-foreground">
                     <div className="flex items-start justify-between">
                       <div>
-                        <h3 className="text-lg font-semibold">{paper.title || `${paper.metadata.board} — Grade ${paper.metadata.grade}`}</h3>
+                        <h3 className="text-lg font-semibold">{paper.title || `${paper.metadata.board} - Grade ${paper.metadata.grade}`}</h3>
                         <div className="text-sm text-muted-foreground">{paper.metadata.subject} • {paper.metadata.format} • {paper.metadata.numQuestions} questions</div>
                       </div>
                       <div className="text-xs text-muted-foreground">Generated: {new Date().toLocaleString()}</div>
@@ -476,7 +521,7 @@ export default function PaperMaker({ priorPapers = [] }) {
 
                     {paper.generation?.degraded ? (
                       <div className="rounded-xl border border-amber-400/40 bg-amber-500/10 p-3 text-sm text-amber-800 dark:text-amber-200" role="status">
-                        Deterministic fallback scaffold — the AI provider was unavailable. Verify every prompt and rubric note against the current syllabus before timed or graded use.
+                        Deterministic fallback scaffold - the AI provider was unavailable. Verify every prompt and rubric note against the current syllabus before timed or graded use.
                       </div>
                     ) : null}
 
@@ -488,8 +533,12 @@ export default function PaperMaker({ priorPapers = [] }) {
                           {s.questions.map((q) => (
                             <li key={q.id}>
                               <div className="font-medium">{q.question}</div>
-                              <div className="text-xs text-muted-foreground">Marks: {q.marks ?? "(see rubric)"} • Time: {q.approxTime ?? "—"}</div>
-                              <div className="text-sm mt-1 text-muted-foreground">Rubric: {q.modelAnswerOutline}</div>
+                              <div className="text-xs text-muted-foreground">Marks: {q.marks ?? "(see criteria)"} • Time: {q.approxTime ?? " - "}</div>
+                              {showMarkScheme && q.modelAnswerOutline ? (
+                                <div className="mt-2 rounded-lg border border-amber-500/25 bg-amber-500/10 p-3 text-sm text-foreground">
+                                  <span className="font-medium">Marking guidance:</span> {q.modelAnswerOutline}
+                                </div>
+                              ) : null}
                               {q.imageRefs?.length ? (
                                 <div className="mt-2 space-x-2">
                                   {q.imageRefs.map((n) => {
@@ -506,22 +555,30 @@ export default function PaperMaker({ priorPapers = [] }) {
                       </div>
                     ))}
 
-                    {paper.rubricNotes?.length ? <div className="surface-tile p-3"><div className="font-medium text-foreground">Rubric notes</div><ul className="list-disc pl-5 text-sm text-muted-foreground">{paper.rubricNotes.map((r,i)=> <li key={i}>{r}</li>)}</ul></div> : null}
+                    {showMarkScheme && paper.rubricNotes?.length ? <div className="surface-tile p-3"><div className="font-medium text-foreground">Mark scheme notes</div><ul className="list-disc pl-5 text-sm text-muted-foreground">{paper.rubricNotes.map((r,i)=> <li key={i}>{r}</li>)}</ul></div> : null}
                   </div>
 
-                  <div className="flex flex-wrap gap-3 mt-4 items-center">
-                    <motion.button whileHover={{ scale: 1.02 }} className="neu-button px-4 py-2 flex items-center gap-2" onClick={exportPDF}><Download size={16} />Export PDF</motion.button>
-                    <motion.button whileHover={{ scale: 1.02 }} className="neu-button px-4 py-2 flex items-center gap-2" onClick={exportDocx}><Download size={16} />Export Word</motion.button>
-                    <motion.button whileHover={{ scale: 1.02 }} className="neu-button px-4 py-2 flex items-center gap-2 bg-primary/15 border-primary/25" onClick={() => { setMockCramMode(false); setMockExamOpen(true); }}>
+                  <div className="mt-4 flex flex-wrap items-center gap-3">
+                    <button type="button" className="neu-button flex items-center gap-2 px-4 py-2" onClick={() => setShowMarkScheme((current) => !current)} aria-expanded={showMarkScheme}>
+                      {showMarkScheme ? <EyeOff size={16} aria-hidden /> : <Eye size={16} aria-hidden />}
+                      {showMarkScheme ? "Hide mark scheme" : "Reveal mark scheme"}
+                    </button>
+                    <button type="button" className="neu-button flex items-center gap-2 px-4 py-2" onClick={exportPDF}><Download size={16} aria-hidden />Question PDF</button>
+                    <button type="button" className="neu-button flex items-center gap-2 px-4 py-2" onClick={() => void exportDocx(false)}><Download size={16} aria-hidden />Question Word</button>
+                    <button type="button" className="neu-button flex items-center gap-2 px-4 py-2" onClick={() => void exportDocx(true)}><Download size={16} aria-hidden />Mark scheme Word</button>
+                    <button type="button" className="neu-button flex items-center gap-2 border-primary/25 bg-primary/15 px-4 py-2" onClick={() => { setMockCramMode(false); setMockExamOpen(true); }}>
                       <Clock size={16} />Take timed exam
-                    </motion.button>
+                    </button>
                     {examDaysLeft !== null && examDaysLeft >= 0 && examDaysLeft <= 7 && (
-                      <motion.button whileHover={{ scale: 1.02 }} className="neu-button px-4 py-2 flex items-center gap-2 bg-amber-500/15 border-amber-400/25" onClick={() => { setMockCramMode(true); setMockExamOpen(true); }}>
+                      <button type="button" className="neu-button flex items-center gap-2 border-amber-400/25 bg-amber-500/15 px-4 py-2" onClick={() => { setMockCramMode(true); setMockExamOpen(true); }}>
                         <Clock size={16} />Cram mock ({examDaysLeft}d left)
-                      </motion.button>
+                      </button>
                     )}
                     {saveStatus && <span className="text-xs text-emerald-400">{saveStatus}</span>}
                     <div className="ml-auto text-sm text-muted-foreground flex items-center gap-2"><Grid size={14} /> <span>{(paper?.sections || []).reduce((c, s) => c + (s.questions?.length || 0), 0)} questions</span></div>
+                  </div>
+                  <div className="mt-3 border-t border-border/60 pt-3">
+                    <AiFeedbackControls capability="paper" />
                   </div>
                 </div>
               )}

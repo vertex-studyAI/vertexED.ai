@@ -1,6 +1,7 @@
 import { verifyAuthUser, readJsonBody, rejectOversizedJsonBody } from '../_lib/auth.js';
 import { rateLimitUserEndpoint } from '../_lib/rateLimit.js';
 import { retrieveStudyGuideContext } from '../_lib/studyGuideRetrieval.js';
+import { fetchProvider } from '../_lib/providerRequest.js';
 
 const MAX_QUESTION_CHARS = 2000;
 
@@ -22,6 +23,7 @@ export default async function handler(req, res) {
     const trimmedQuestion = question.trim();
     const currentGuidePath = typeof context?.guidePath === 'string' ? context.guidePath : undefined;
     const passages = await retrieveStudyGuideContext(trimmedQuestion, { currentGuidePath });
+    if (!passages.length) return res.status(200).json({ answer: 'No approved study-guide passage is available for this question yet. Check your teacher or current official syllabus. The guide collection is still undergoing editorial review.', sources: [], generation: { degraded: true, reason: 'no-approved-source' } });
     const sourceText = passages.length
       ? passages.map((source, index) => `[${index + 1}] ${source.label} (${source.path})\n${source.text}`).join('\n\n')
       : 'No directly matching guide passage was found.';
@@ -38,7 +40,10 @@ export default async function handler(req, res) {
     // Flash Lite keeps retrieval-grounded guide answers economical. The former
     // 2.5 Lite model is no longer enabled for newly created Gemini projects.
     const model = process.env.GEMINI_STUDY_GUIDE_MODEL || 'gemini-3.1-flash-lite';
-    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`, {
+    const response = await fetchProvider({
+      capability: 'study_guide_chat', provider: 'google', model,
+      url: `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`,
+      options: {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'x-goog-api-key': apiKey },
       body: JSON.stringify({
@@ -46,17 +51,18 @@ export default async function handler(req, res) {
         contents: [{ role: 'user', parts: [{ text: prompt }] }],
         generationConfig: { temperature: 0.2, maxOutputTokens: 700 },
       }),
+      },
     });
     const data = await response.json();
     if (!response.ok) {
-      console.error('Gemini study guide error:', response.status, data?.error?.message);
+      console.error('Gemini study guide error:', response.status);
       return res.status(502).json({ error: 'Study guide AI request failed. Please try again shortly.' });
     }
     const answer = data?.candidates?.[0]?.content?.parts?.map((part) => part.text || '').join('').trim();
     if (!answer) return res.status(502).json({ error: 'Study guide AI returned no answer.' });
     return res.status(200).json({ answer, sources: passages.map(({ label, path }) => ({ label, path })) });
   } catch (error) {
-    console.error('study-guide-chat error:', error);
+    console.error('study-guide-chat error:', error instanceof Error ? error.name : 'UnknownError');
     return res.status(500).json({ error: 'Could not search the study guides.' });
   }
 }

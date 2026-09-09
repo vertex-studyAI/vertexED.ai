@@ -58,14 +58,14 @@ export type PortalIntelligence = {
 };
 
 const BOARD_TIPS: Record<string, string> = {
-  IB_DP: 'IB mark schemes reward command terms in the question stem — underline them before you write.',
-  IB_MYP: 'MYP criteria want explicit links to the statement of inquiry — name the criterion you are hitting.',
-  IGCSE: 'IGCSE examiners want concise points; one mark usually equals one clear idea.',
-  A_LEVELS: 'A Level essays need a line of argument in the intro — state your judgment early.',
-  AP: 'AP FRQs: label diagrams and show units; partial credit is generous when working is visible.',
-  GCSE: 'GCSE 6-markers need a conclusion that directly answers the question.',
-  ICSE: 'ICSE step marking rewards neat working — never skip units or intermediate lines.',
-  CBSE: 'CBSE long answers need point-wise structure with labelled diagrams where applicable.',
+  IB_DP: 'Check the command term and current subject guide before deciding how much depth an answer needs.',
+  IB_MYP: 'Keep the task-specific criteria beside you while practising; generated guidance does not replace them.',
+  IGCSE: 'Compare generated practice with a current official paper so wording and mark allocation stay familiar.',
+  A_LEVELS: 'Use the current specification and official exemplars when checking the structure of a longer response.',
+  AP: 'Compare free-response practice with current College Board questions and scoring guidance.',
+  GCSE: 'Check the current board mark scheme before treating a generated answer structure as complete.',
+  ICSE: 'Keep units and working visible, then confirm the required method against current school and board material.',
+  CBSE: 'Use current school and board material to confirm required answer structure and diagram conventions.',
 };
 
 function daysSince(iso: string): number {
@@ -117,17 +117,17 @@ function buildFlashcardHeatmap(): FlashcardBucket[] {
 function buildApexBrief(pulse: RetrievalPulse, profile: LearnerProfile): string {
   const name = profile.displayName.split(' ')[0] || 'there';
   if (pulse.readiness.score >= 75) {
-    return `${name}, retrieval and loop look solid — protect sleep before the paper and avoid new chapters the night before.`;
+    return `${name}, your recorded study activity is consistent. Keep checking weak topics with timed attempts and trusted mark schemes.`;
   }
   if (pulse.loopGap) {
     const step = LOOP_STEPS.find((s) => s.id === pulse.loopGap);
-    return `${name}, you haven't "${step?.label ?? pulse.loopGap}" this week yet — that's the best thing to do tonight.`;
+    return `${name}, you haven't "${step?.label ?? pulse.loopGap}" this week yet - that's the best thing to do tonight.`;
   }
   if (pulse.signals.some((s) => s.urgency === 'high')) {
     const urgent = pulse.signals.find((s) => s.urgency === 'high');
     return `${name}, ${urgent?.value ?? 'one priority'} needs attention before you add new content.`;
   }
-  return `${name} — ${pulse.nextAction.reason}`;
+  return `${name} - ${pulse.nextAction.reason}`;
 }
 
 export function buildPortalIntelligence(
@@ -160,11 +160,11 @@ export function buildPortalIntelligence(
   const velocityTrend = velocity.trend;
   const velocityLabel =
     delta === null
-      ? 'No measured mastery trend yet — complete at least two answer reviews'
+      ? 'No measured mastery trend yet. Complete at least two answer reviews.'
       : velocityTrend === 'up'
         ? `+${delta}% mastery this week`
         : velocityTrend === 'down'
-          ? `${delta}% dip — schedule a review block`
+          ? `${delta}% dip. Schedule a review block.`
           : 'Measured mastery is steady this week';
 
   const marksGaps: MarksGap[] = adaptivePlan.masteryBySubject
@@ -190,17 +190,17 @@ export function buildPortalIntelligence(
     subjects: interleaveSubjects,
     reason:
       interleaveSubjects.length >= 2
-        ? 'Mixing two subjects in one session helps long-term retention — try 25 minutes each with a short break.'
+        ? 'Mixing two subjects in one session helps long-term retention - try 25 minutes each with a short break.'
         : 'Add at least two subjects in settings to get an interleaved session plan.',
   };
 
   const examNight =
-    examDays != null && examDays <= 3
+    examDays != null && examDays >= 0 && examDays <= 3
       ? {
           active: true,
           items: [
             { id: 'pack-id', label: 'Pack ID, pens, calculator (if allowed)' },
-            { id: 'command-sheet', label: 'Skim your command-term sheet — no new content tonight' },
+            { id: 'command-sheet', label: 'Skim your command-term sheet - no new content tonight' },
             { id: 'retrieval', label: 'Run 10-minute retrieval on your weakest topic only' },
             { id: 'alarm', label: 'Set alarm with buffer time for travel' },
             { id: 'sleep', label: 'Sleep beats one more chapter' },
@@ -237,15 +237,15 @@ export function buildPortalIntelligence(
   const board = profile.curriculum.board;
   const boardTip =
     (board && BOARD_TIPS[board]) ||
-    (board ? `Your ${BOARD_CONFIGS[board]?.label ?? board} rewards structured answers — plan before you write.` : 'Set your exam board in settings for mark-scheme-specific coaching.');
+    (board ? `Use the current ${BOARD_CONFIGS[board]?.label ?? board} specification and mark scheme when checking generated practice.` : 'Set your exam board in settings for more relevant practice context.');
 
   const readinessIndex = Math.min(100, Math.max(0, pulse.readiness.score));
   const readinessLabel =
     readinessIndex >= 75
-      ? 'Strong retrieval band'
+      ? 'Strong recorded study rhythm'
       : readinessIndex >= 55
-        ? 'Building — keep the loop closed'
-        : 'Focus on mocks and review';
+        ? 'Preparation activity is building'
+        : 'Add a measured practice and review';
 
   return {
     apexBrief: buildApexBrief(pulse, profile),
@@ -342,5 +342,5 @@ export function exportLearnerSnapshot(profile: LearnerProfile, stats: StudyStats
 export function masteryLabel(m: SubjectMastery): string {
   if (m.mastery >= 80) return 'On target (80%+)';
   if (m.mastery >= 65) return 'Building';
-  return 'Below target — drill this';
+  return 'Below target - drill this';
 }

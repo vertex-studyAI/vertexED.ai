@@ -8,13 +8,13 @@ export default function StudyTechniquesActiveRecall() {
     <>
       <SEO
         title="Active recall and spaced repetition for IB/IGCSE | VertexED"
-        description="Why rereading fails under exam pressure — and how to build retrieval, spacing, and interleaving into a weekly loop with VertexED."
+        description="Why rereading fails under exam pressure - and how to build retrieval, spacing, and interleaving into a weekly loop with VertexED."
         canonical={canonical}
         ogType="article"
         jsonLd={{
           "@context": "https://schema.org",
           "@type": "TechArticle",
-          headline: "Active Recall & Spaced Repetition — IB/IGCSE Guide",
+          headline: "Active Recall & Spaced Repetition - IB/IGCSE Guide",
           datePublished: "2025-10-11",
           dateModified: "2025-10-11",
           author: { "@type": "Organization", name: "VertexED" },
@@ -24,13 +24,13 @@ export default function StudyTechniquesActiveRecall() {
       />
       <Article
         title="Active recall and spaced repetition"
-        subtitle="Retrieval beats rereading — a weekly template for IB and IGCSE with VertexED workflows."
+        subtitle="Retrieval beats rereading - a weekly template for IB and IGCSE with VertexED workflows."
         kicker="Study Techniques"
       >
         <p className="lead">
-          Reread a chapter and you feel ready — until the mock. Active recall and spaced repetition
-          force retrieval and spread practice over time. Less total study time, better retention on
-          exam day. This guide shows how to run both inside VertexED.
+          Rereading can create familiarity without showing whether you can produce an answer. Active recall
+          asks you to retrieve first; spaced practice brings the material back after a delay. This guide shows
+          a practical way to use both in VertexED.
         </p>
 
         <h2>What is active recall?</h2>
@@ -42,8 +42,7 @@ export default function StudyTechniquesActiveRecall() {
         <p>
           In VertexED, the fastest way to switch to active recall is to convert your notes into
           flashcards or quizzes, then attempt them cold. You can do this directly with the
-          <Link to="/notetaker"> Notetaker</Link> → <em>Flashcards</em> workflow, or paste topics into the
-          <Link to="/study-zone"> Study Zone</Link> to generate quick quizzes.
+          <Link to="/notetaker"> Notetaker</Link> and then open its <em>Flashcards</em> or <em>Quiz</em> workflow.
         </p>
 
         <h2>Why spaced repetition works</h2>
@@ -70,7 +69,7 @@ export default function StudyTechniquesActiveRecall() {
         <ol>
           <li>
             <strong>Create recall materials:</strong> Use <Link to="/notetaker">Notetaker</Link> to turn notes into
-            flashcards. Or, type topics into <Link to="/study-zone">Study Zone</Link> to generate quiz items.
+            flashcards or a short quiz from the same source.
           </li>
           <li>
             <strong>Schedule spaced blocks:</strong> In the <Link to="/planner">Planner</Link>, create short
@@ -100,10 +99,10 @@ export default function StudyTechniquesActiveRecall() {
 
         <h2>Common pitfalls</h2>
         <ul>
-          <li>Don’t review everything every day—space it.</li>
-          <li>Don’t only do recognition—force production (explain/write/solve).</li>
-          <li>Don’t avoid errors—use them to tune the next session.</li>
-          <li>Don’t keep cards too easy—rewrite to demand recall and reasoning.</li>
+          <li>Don’t review everything every day - space it.</li>
+          <li>Don’t only do recognition - force production (explain/write/solve).</li>
+          <li>Don’t avoid errors - use them to tune the next session.</li>
+          <li>Don’t keep cards too easy - rewrite to demand recall and reasoning.</li>
         </ul>
 
         <h2>IB/IGCSE‑specific tips</h2>
@@ -116,7 +115,7 @@ export default function StudyTechniquesActiveRecall() {
         <h2>FAQ</h2>
         <p><strong>How many cards per subject?</strong> Start with 30–50 high‑value cards that cover definitions, formulas, and common misconceptions. Grow slowly.</p>
         <p><strong>How long should sessions be?</strong> 20–30 minutes is enough for focused recall. Stop before fatigue kills quality.</p>
-        <p><strong>What about burnout?</strong> Mix modalities—verbal explanation, drawing, and mixed quizzes keep energy higher than pure reading.</p>
+        <p><strong>What about burnout?</strong> Mix modalities - verbal explanation, drawing, and mixed quizzes keep energy higher than pure reading.</p>
 
         <div className="not-prose mt-8 flex gap-3 flex-wrap">
           <Link to="/planner" className="neu-button">Plan spaced sessions</Link>
@@ -127,14 +126,14 @@ export default function StudyTechniquesActiveRecall() {
 
         <h2 className="mt-10">Evidence & references</h2>
         <ul>
-          <li>Roediger & Karpicke (2006): On the testing effect — retrieval practice improves long‑term retention.</li>
-          <li>Cepeda et al. (2006): Spacing effect — distributed practice yields better learning than massed practice.</li>
-          <li>Bjork (1994 onward): Desirable difficulties — making learning effortful can enhance retention.</li>
+          <li>Roediger & Karpicke (2006): On the testing effect - retrieval practice improves long‑term retention.</li>
+          <li>Cepeda et al. (2006): Spacing effect - distributed practice yields better learning than massed practice.</li>
+          <li>Bjork (1994 onward): Desirable difficulties - making learning effortful can enhance retention.</li>
         </ul>
 
         <div className="article-footer">
           Editorial note: Reviewed for clarity and usefulness. Always cross‑check with your official syllabus and teacher guidance.
-          <div className="mt-1">Last updated: 2025‑10‑11 · Author: VertexED Team</div>
+          <div className="mt-1">Product walkthrough checked: 6 September 2026 · VertexED Team</div>
         </div>
 
         <hr className="article-divider" />

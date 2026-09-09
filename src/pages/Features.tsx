@@ -94,25 +94,20 @@ export default function Features() {
   return (
     <>
       <SEO
-        title="Features · VertexED — Full study ecosystem"
-        description="Deep dive into Study Zone, Apex, Planner, Paper Maker, Answer Reviewer, Notes, Learning Hub, Archives, and how they connect in one revision loop."
+        title="VertexED study tools"
+        description="See how Exam Prep, Study Zone, Apex, Planner, Paper Maker, Answer Reviewer, Notes, the dashboard, and study resources connect."
         canonical="https://www.vertexed.app/features"
       />
       <Helmet>
         <meta name="robots" content="index, follow" />
       </Helmet>
 
-      <section className="feat-hero px-4 md:px-6 pt-12 md:pt-16 pb-10 md:pb-12 reveal-section">
+      <section className="feat-hero workbook-features px-4 md:px-6 pt-8 pb-8">
         <div className="max-w-6xl mx-auto">
           <p className="text-xs uppercase tracking-[0.22em] text-primary mb-5">How VertexED works</p>
-          <h1 className="text-[clamp(2.25rem,7vw,4.75rem)] font-bold text-foreground leading-[1.02] tracking-tight max-w-4xl">
-            The full picture.
-            <br />
-            <span className="text-muted-foreground">Not the brochure version.</span>
-          </h1>
+          <h1 className="text-3xl md:text-4xl font-semibold text-foreground tracking-tight">Find the right tool for the task.</h1>
           <p className="mt-6 text-lg md:text-xl text-foreground/88 leading-relaxed max-w-2xl">
-            Six core tools, four supporting surfaces, one revision loop. Pick a section below to read what it does,
-            when to use it, and how it fits a real exam week.
+            Explore how each tool works, when to use it, and what to check in its output.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Link to="/signup" className="btn-solid">Join the private beta</Link>
@@ -143,7 +138,6 @@ export default function Features() {
         </div>
       </section>
 
-      <BoardSpotlights />
 
       <div className="max-w-6xl mx-auto px-4 md:px-6 pb-16">
         <div className="feat-layout feat-layout-tabs">
@@ -155,6 +149,7 @@ export default function Features() {
                   <li key={s.id}>
                     <button
                       type="button"
+                      aria-pressed={activeId === s.id}
                       className={`feat-sidebar-link w-full text-left ${activeId === s.id ? "is-active" : ""}`}
                       onClick={() => selectSection(s.id)}
                     >
@@ -175,6 +170,7 @@ export default function Features() {
                 <button
                   key={s.id}
                   type="button"
+                  aria-pressed={activeId === s.id}
                   onClick={() => selectSection(s.id)}
                   className={`feat-mobile-tab shrink-0 ${activeId === s.id ? "is-active" : ""}`}
                 >
@@ -187,6 +183,8 @@ export default function Features() {
           </div>
         </div>
       </div>
+
+      <BoardSpotlights />
 
       <section className="px-4 md:px-6 pb-16 reveal-section">
         <div className="max-w-4xl mx-auto">
@@ -212,7 +210,7 @@ export default function Features() {
             Thursday: mock under time. Friday: read reviewer feedback and schedule retries.
           </p>
           <p className="text-sm text-muted-foreground mb-8">
-            If that workflow clicks, you&apos;ll know. If something&apos;s missing, tell us. We build from exam weeks, not pitch decks.
+            If the workflow helps, keep it. If a step adds friction or makes an unsupported claim, tell us what happened.
           </p>
           <div className="flex flex-wrap gap-3 justify-center">
             <Link to="/signup" className="btn-solid text-lg">Join the private beta</Link>

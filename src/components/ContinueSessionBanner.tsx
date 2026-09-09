@@ -1,11 +1,12 @@
 import { useState } from 'react';
-import { Link } from 'react-router';
+import { Link, useLocation } from 'react-router';
 import { ArrowRight, CheckCircle2, CloudOff, Sparkles, X } from 'lucide-react';
 
 import { consumeFirstSessionHandoff } from '@/lib/firstSessionHandoff.mjs';
 import { getLastStudySession } from '@/lib/studyActivity';
 
 export default function ContinueSessionBanner() {
+  const location = useLocation();
   const [handoff, setHandoff] = useState(() =>
     typeof window === 'undefined' ? null : consumeFirstSessionHandoff(window.sessionStorage),
   );
@@ -19,7 +20,7 @@ export default function ContinueSessionBanner() {
         aria-live="polite"
         aria-labelledby="first-session-handoff-title"
       >
-        <div className="mx-auto flex max-w-6xl flex-col gap-3 rounded-xl border border-primary/25 bg-gradient-to-r from-primary/10 via-violet-500/10 to-sky-500/10 px-5 py-4 sm:flex-row sm:items-center">
+        <div className="mx-auto flex max-w-6xl flex-col gap-3 rounded-xl border border-border bg-muted px-5 py-4 sm:flex-row sm:items-center">
           <div className="flex min-w-0 flex-1 items-start gap-3">
             <Icon className="mt-0.5 h-5 w-5 shrink-0 text-primary" aria-hidden />
             <div>
@@ -56,16 +57,16 @@ export default function ContinueSessionBanner() {
   }
 
   const last = getLastStudySession();
-  if (!last) return null;
+  if (!last || last.path === '/main' || last.path === `${location.pathname}${location.search}`) return null;
 
   const when = formatRelative(last.at);
   if (!when) return null;
 
   return (
     <section className="px-6 pb-4 fade-up">
-      <div className="max-w-6xl mx-auto rounded-xl border border-violet-400/25 bg-gradient-to-r from-violet-500/10 via-primary/10 to-sky-500/10 px-5 py-4 flex flex-col sm:flex-row sm:items-center gap-3">
+      <div className="max-w-6xl mx-auto rounded-xl border border-border bg-muted px-5 py-4 flex flex-col sm:flex-row sm:items-center gap-3">
         <div className="flex items-start gap-3 flex-1 min-w-0">
-          <Sparkles className="h-5 w-5 text-violet-500 dark:text-violet-300 shrink-0 mt-0.5" />
+          <Sparkles className="h-5 w-5 text-primary shrink-0 mt-0.5" aria-hidden />
           <div>
             <p className="text-sm font-medium text-foreground">Continue where you left off</p>
             <p className="text-xs text-muted-foreground mt-0.5">
@@ -88,6 +89,7 @@ export default function ContinueSessionBanner() {
 function formatRelative(iso: string): string | null {
   try {
     const diff = Date.now() - new Date(iso).getTime();
+    if (!Number.isFinite(diff) || diff < 0) return null;
     if (diff > 1000 * 60 * 60 * 48) return null;
     const mins = Math.floor(diff / 60000);
     if (mins < 1) return 'just now';

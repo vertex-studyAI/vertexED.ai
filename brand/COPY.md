@@ -1,56 +1,20 @@
-# VertexED Copy System
+# VertexED copy contract
 
-## Voice
+Chapter introduction: “Keep the question. Follow the gap.” Explain immediately that the biology answer is an example shown in three stages. The starting-point heading is “Your notes. Your next question.” Do not import institutional or research claims from a design reference.
 
-VertexED copy is concrete, calm, specific, and academically literate. It should sound like a product that understands how students actually revise.
+Current hero subtext: “Put your notes to the test. Practise a question, check your reasoning and come back to what you missed.” This supersedes earlier subtext. The folio says “Example” and “Illustration only. Nothing is saved.” Its text is illustrative, not feedback computed from a visitor's answer.
 
-Prefer short sentences. Use specific nouns and verbs. Say what the tool does and what changes next.
+Planner entry labels are “Manual entry” and “AI suggestion”. Manual tasks do not use AI; saving and cloud sync are still separate states. State scheduling conflicts directly and name the conflicting task. AI-added task notices expose actual dates and times. An unreadable session history must say that original device data is preserved, not “No history yet”. Completion is a learner action, not a measured improvement in knowledge.
 
-## Product vocabulary
+Write for a student choosing a topic, attempting a paper or reviewing an answer. Name the action and object. Preserve the established tool names. Use British English for practise and personalised. Labels may use the existing Practice route convention where compatibility requires it.
 
-Preserve established terms when they are accurate:
+Never use the Unicode em dash. Use a full stop, colon or parentheses. Do not invent customers, testimonials, marks, retention gains, usage totals or research results. Label demonstrations as examples. AI marks are suggested, not verified merely because a model produced them. Empty evidence stays empty.
 
-- Study Planner
-- Study Zone
-- Paper Maker
-- Answer Reviewer
-- Notes
-- Flashcards
-- Quiz
-- Apex
-- plan
-- focus
-- practise
-- review
-- remember
-- task
-- topic
-- subject
-- attempt
-- rubric
-- mark
-- retrieval
-- study session
+Legacy punctuation migration: source-string separators use a plain hyphen where sentence-level editorial review has not occurred. This preserves factual content. A passing copy scan is not approval of the educational claims in those articles.
 
-Do not rename product objects casually for style.
+## Banned phrases
 
-## Core copy rule
-
-Describe the observable action or workflow.
-
-Prefer:
-
-- "Turn the weak topic into tomorrow's task."
-- "Review where marks were lost."
-- "Open the next study block."
-- "Practise this topic again."
-
-Avoid vague promises about intelligence, transformation, or potential.
-
-## Banned marketing language
-
-Do not use these phrases in product copy unless they appear inside a quoted source that must remain exact:
-
+<!-- copy-lint:phrases:start -->
 - unlock
 - unleash
 - reimagine
@@ -65,119 +29,29 @@ Do not use these phrases in product copy unless they appear inside a quoted sour
 - future of
 - built for the future
 - transform the way
-- where X meets Y
-- limitless possibilities
 - everything you need to
 - designed to help you
-- not just X, but Y
-- whether you're X, Y, or Z
+<!-- copy-lint:phrases:end -->
 
-## Punctuation
+Also flag the patterns “where X meets Y”, “not just X, but Y” and “whether you're X”. Avoid vague heroic statements, unnecessary rhetorical questions and exclamation marks. Do not call something complete without evidence.
 
-Do not use the Unicode em dash character in product copy.
+## Examples
 
-Use a period, comma, colon, parentheses, or a short hyphenated construction when needed.
+Current hero subtext supersedes the earlier version below: “Turn your notes into an attempt. Work through the gaps, then try again without help.” The comparison opens with both answers visible, so say “Compare the two attempts”, not “Slide between the two”. Gallery counters represent navigation position, not product usage. Expanded tool samples remain labelled “Example only. No account progress is recorded.”
 
-Avoid unnecessary exclamation marks.
+Current landing: “You’ve read it. Now try it.” Follow with: “A place for the work between exams. Make an attempt. Find the gap. Come back to it.” Starting-point labels are “I have notes”, “I need practice” and “I have an answer”. Their calls to action open real tools, not generated outputs. Do not label a generated paper as official. Session duration controls change an illustrative time split, not a saved plan; state this immediately below the example. Timer faces and study blocks in the tool gallery are labelled examples. The comparison is an illustrative revision, not a marked student submission. Effects on is an optional visual preference, still subject to system accessibility settings. Tool-detail copy names inputs, actions and limitations.
 
-## Headings
+Landing copy names the sequence and the task. “Try the revision loop” scrolls to the interactive example, not an unimplemented feature. The example explicitly says it does not change account progress. Topic labels in the example rail are context, not links. Keep the beta invitation honest and retain the guidance to check AI feedback against course materials.
 
-A good heading contains product meaning.
+Use: “Review your answer”, “Retry cell transport”, “Saved on this device”, “AI-suggested feedback”.
+Avoid: vague promises, grade guarantees, unnamed evidence and ornamental three-part slogans.
 
-Good:
+## Automated checks
 
-- "Know what to study. Practise what matters."
-- "Practice should change the next plan."
-- "See where the marks went."
-- "Turn feedback into the next attempt."
+`npm run lint:copy` scans source string literals and JSX text throughout src. It reports file, line, rule and excerpt, and exits nonzero on findings. `--files path ...` scopes a pre-commit check. `npm run test:copy` verifies its rules. It reports suspicious testimonial and metric patterns for review; it cannot establish whether a claim is true. It does not rewrite text. Comments, research archives, tests and learner-entered content are outside the product-copy scan. Existing findings must remain visible until reviewed; do not hide them with a baseline.
 
-Weak:
+## Apex copy extension, 9 September 2026
 
-- "A better way to learn"
-- "Study smarter"
-- "Powerful tools"
-- "Built for students"
-- "The future of learning"
+The user named the optional workbook companion Apex, retiring the working name Vee. Use "Open Apex study shortcuts", "Show Apex" and "Hide Apex" for controls. "The book in your corner" refers to his folded-workbook form. Keep Plan, Focus, Practise and AI tutor labels concrete. Apex is also the existing tutor's name, but opening the companion is navigation, not an AI conversation. Never imply that the sprite has inspected work, observed study time, assessed a learner or generated advice. His shortcut text is static navigation, not personalised feedback. Hop, Wiggle and Spin are literal animation controls, not rewards or progress claims. The appearance field is labelled “Appearance”, with “Paper” and “Ink” options. It changes only the local companion artwork.
 
-## Buttons
-
-Buttons should name the action.
-
-Prefer:
-
-- Join the private beta
-- Open Study Planner
-- Review answer
-- Start study session
-- Create practice paper
-- Save changes
-
-Avoid:
-
-- Get started today
-- Learn more
-- Discover
-- Explore possibilities
-
-Use "Learn more" only when there is genuinely no more specific action.
-
-## AI copy
-
-Do not describe Apex or other AI features as magic, a companion, a genius, or a replacement for student thinking.
-
-Describe the exact useful behavior:
-
-- explain a concept
-- question an argument
-- inspect an answer
-- retrieve relevant course context
-- generate bounded practice
-- identify a gap
-
-Never claim reasoning, confidence, accuracy, or personalization beyond what the implementation and retained evidence support.
-
-## Claims policy
-
-Never fabricate:
-
-- users
-- institutions
-- customers
-- schools
-- grade improvements
-- success rates
-- accuracy metrics
-- testimonials
-- research results
-- partner relationships
-
-If a number or institutional claim cannot be traced to evidence in the repository, remove it or state a narrower supported fact.
-
-## Empty states
-
-Empty states should explain what is missing and name one useful next action.
-
-Example:
-
-"No review attempts yet. Submit an answer to keep the feedback with this topic."
-
-## Errors
-
-State what failed and what the user can do next. Do not blame the user. Do not use generic "Something went wrong" when a more useful message is available.
-
-Example:
-
-"The paper could not be saved. Your draft is still open. Try saving again."
-
-## Copy lint
-
-The automated copy lint should report at minimum:
-
-- Unicode em dash characters in product-facing copy
-- banned phrases in this file
-- lorem ipsum or template filler
-- suspicious placeholder testimonials
-- suspicious placeholder metrics
-- repeated generic headings
-
-The linter must not silently rewrite factual claims. It should point to the file and line so a human can review the source.
+Use “Drag Apex anywhere on screen” for position guidance. Follow with the keyboard equivalent in a separate sentence. “Blink” and “Turn page” describe literal finite frames. Do not present movement or reactions as learner progress, attention, emotion detection or personalised advice.

@@ -1,6 +1,14 @@
 # VertexED Repository Isolation — 2026-09-02
 
+## Approved removal, 9 September 2026
+
+The owner approved the exact 509-file cleanup manifest. Those remaining cross-project sources, workflows, tests and mixed historical ledgers have been removed. Their current pre-removal contents were verified in a durable archive at `/Volumes/PRO-BLADE/GitHub-Every-Repo/Project-2424/vertexed-removal-backups/20260909.oJHxSc/non-vertexed.tar.gz`. Git history remains unchanged. The historical descriptions below are retained as an audit trail, not the present repository inventory. VertexED runtime, brand, contracts, evaluations, product evidence and release documentation remain. `npm test` runs only VertexED tests and fails if known unrelated test families are reintroduced.
+
 This branch is a non-destructive cleanup surface for VertexED.
+
+## 9 September cleanup update
+
+The earlier preservation statements below describe the 2 September baseline, not the current working tree. The explicitly scoped Percy and NeuroCAD sources, tests, workflows and supporting artifacts are now staged for deletion. Their prior contents remain recoverable from Git history. Other portfolio and research material remains quarantined pending an ownership-reviewed archival move. VertexED's `contracts/`, `brand/` and product `evidence/` remain in scope and must not be removed as generic research. The unused Three.js dependency was removed after checking runtime imports. Build relevance now includes shared contracts and study-guide provenance generation.
 
 ## Preservation guarantees
 

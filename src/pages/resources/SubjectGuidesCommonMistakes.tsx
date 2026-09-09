@@ -8,13 +8,13 @@ export default function SubjectGuidesCommonMistakes() {
     <>
       <SEO
         title="Common exam mistakes in Math, Sciences, and Humanities | VertexED"
-        description="High-yield fixes for IB and IGCSE — missing working, loose definitions, thesis drift — with 15-minute drills you can schedule this week."
+        description="High-yield fixes for IB and IGCSE - missing working, loose definitions, thesis drift - with 15-minute drills you can schedule this week."
         canonical={canonical}
         ogType="article"
         jsonLd={{
           "@context": "https://schema.org",
           "@type": "TechArticle",
-          headline: "Subject Guides — Common Mistakes & Fixes",
+          headline: "Subject Guides - Common Mistakes & Fixes",
           datePublished: "2025-10-11",
           author: { "@type": "Organization", name: "VertexED" },
           mainEntityOfPage: canonical,
@@ -22,11 +22,11 @@ export default function SubjectGuidesCommonMistakes() {
       />
       <Article
         title="Common exam mistakes and how to fix them"
-        subtitle="Marks lost on working, definitions, and argument structure — with short drills for each."
+        subtitle="Marks lost on working, definitions, and argument structure - with short drills for each."
         kicker="Subject Guides"
       >
         <p className="lead">
-          Examiner reports repeat the same errors every year — working not shown, definitions too vague,
+          Examiner reports repeat the same errors every year - working not shown, definitions too vague,
           essays that list evidence without analysis. This guide turns those patterns into fifteen-minute
           drills you can schedule in the Planner before the next mock.
         </p>
@@ -35,7 +35,7 @@ export default function SubjectGuidesCommonMistakes() {
         <ul>
           <li><strong>Showing working:</strong> Lose fewer marks by writing intermediate steps, even when mental math is easy.</li>
           <li><strong>Units and rounding:</strong> Carry units through; round only at the end unless specified.</li>
-          <li><strong>Diagrams:</strong> Draw quick sketches—axes labeled, knowns shown—before solving.</li>
+          <li><strong>Diagrams:</strong> Draw quick sketches - axes labeled, knowns shown - before solving.</li>
         </ul>
         <p>
           Drill with a mixed set each week. In <Link to="/study-zone">Study Zone</Link>, generate problem variants of
@@ -92,8 +92,8 @@ export default function SubjectGuidesCommonMistakes() {
 
         <h2 className="mt-10">Evidence & references</h2>
         <ul>
-          <li>Examiner Reports (Cambridge, IB, College Board) 2023-2024 — direct insights from the people who mark your exams.</li>
-          <li>Hattie, J. (2012): Visible Learning for Teachers — maximizing impact on learning.</li>
+          <li>Examiner Reports (Cambridge, IB, College Board) 2023-2024 - direct insights from the people who mark your exams.</li>
+          <li>Hattie, J. (2012): Visible Learning for Teachers - maximizing impact on learning.</li>
         </ul>
 
         <div className="article-footer">

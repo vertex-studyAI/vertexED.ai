@@ -8,19 +8,19 @@ export default function ALevelAPGuide() {
     <>
       <SEO
         title="A-Level and AP exam prep with AI | VertexED"
-        description="Revision strategies for A-Level depth and AP speed — synoptic questions, FRQ rubrics, spaced schedules, and board-shaped mocks in one loop."
+        description="Revision strategies for A-Level depth and AP speed - synoptic questions, FRQ rubrics, spaced schedules, and board-shaped mocks in one loop."
         canonical="https://www.vertexed.app/resources/alevel-ap-exam-prep"
         keywords="A-Level revision, AP exam prep, Advanced Placement, GCE A-Levels, AP Calculus, AP Biology, AP US History, A-Level Math, A-Level Physics, college prep, university entrance exams, AI study planner, VertexED, exam revision tips"
       />
       <Article
         title="A-Level and AP exam prep: what each qualification demands"
-        subtitle="A-Levels reward depth and synoptic links; APs reward volume and speed under time — plan revision accordingly."
+        subtitle="A-Levels reward depth and synoptic links; APs reward volume and speed under time - plan revision accordingly."
         kicker="A-Levels &amp; AP"
       >
         <p className="lead">
           The step up from GCSE or MYP to A-Levels or APs is the biggest academic jump most students take in
           high school. Content runs deeper, marking is stricter, and university offers depend on the outcome.
-          You need a revision system — not last-minute rereading.
+          You need a revision system - not last-minute rereading.
         </p>
 
         <h2>The divide: depth (A-Level) vs. speed (AP)</h2>
@@ -50,7 +50,7 @@ export default function ALevelAPGuide() {
 
         <h2>Strategy 1: Synoptic questions (A-Level)</h2>
         <p>
-          A-Level papers often blend topics — a Chemistry question might move from organic synthesis to thermodynamics.
+          A-Level papers often blend topics - a Chemistry question might move from organic synthesis to thermodynamics.
         </p>
         <p>
           <strong>Workflow:</strong> Open <Link to="/paper-maker">Paper Maker</Link>.
@@ -96,9 +96,9 @@ export default function ALevelAPGuide() {
         </p>
 
         <h2>FAQ</h2>
-        <p><strong>Does this work for AP Capstone?</strong> Yes — for Seminar and Research. Use AI to tighten your research question and check source credibility, not to write the final report.</p>
-        <p><strong>Can I generate full mock exams?</strong> Yes — Paper Maker can compile a 90-minute mixed paper from your topic list.</p>
-        <p><strong>How do I handle data response questions?</strong> Upload the graph or table to Apex. Ask it to analyze trends and link them to [concept] — then write the answer yourself.</p>
+        <p><strong>Does this work for AP Capstone?</strong> Yes - for Seminar and Research. Use AI to tighten your research question and check source credibility, not to write the final report.</p>
+        <p><strong>Can I generate full mock exams?</strong> Yes - Paper Maker can compile a 90-minute mixed paper from your topic list.</p>
+        <p><strong>How do I handle data response questions?</strong> Upload the graph or table to Apex. Ask it to analyze trends and link them to [concept] - then write the answer yourself.</p>
 
         <div className="not-prose mt-8 flex gap-3 flex-wrap">
           <Link to="/paper-maker" className="neu-button">Generate mock exams</Link>

@@ -13,16 +13,27 @@ import {
   MessageCircle,
   PenLine,
   Timer,
+  Target,
 } from "lucide-react";
 
 import ContinueSessionBanner from "@/components/ContinueSessionBanner";
 import LiquidGlass from "@/components/LiquidGlass";
 import SavedWorkList from "@/components/SavedWorkList";
 import TodayPlanPanel from "@/components/dashboard/TodayPlanPanel";
+import LearningCommandCenter from "@/components/dashboard/LearningCommandCenter";
 import { useAuth } from "@/contexts/AuthContext";
 import { buildEcosystemBrief, type EcosystemBrief } from "@/lib/studyEcosystem";
 import { buildTodayPlanItems } from "@/lib/todayPlan";
-import { listStudyArtifactsDetailed, type StudyArtifact } from "@/lib/userContent";
+import {
+  getLocalArtifactCount,
+  listStudyArtifactsDetailed,
+  syncLocalStudyArtifacts,
+  type StudyArtifact,
+} from "@/lib/userContent";
+import { getPendingMockReview, type PendingMockReview } from "@/lib/examFlow";
+import { getDueRetries, getRetryQueue, type RetryItem } from "@/lib/retryQueue";
+import { getWeaknessHeatmap, type TopicHeat } from "@/lib/weaknessTracker";
+import { getPendingLearnerStateCount, hydrateLearnerState, syncLearnerState } from "@/lib/learnerStateSync";
 
 type Tool = {
   title: string;
@@ -33,6 +44,7 @@ type Tool = {
 };
 
 const CORE_TOOLS: Tool[] = [
+  { title: "Exam prep", description: "Build today's session from your exam date, subjects, due reviews, and verified weak-topic evidence.", to: "/exam-prep", cta: "Open exam plan", icon: Target },
   { title: "Plan your week", description: "Add deadlines and build a realistic revision plan.", to: "/planner", cta: "Open planner", icon: CalendarDays },
   { title: "Focus tools", description: "Run a timer, work through problems, and keep session notes in one place.", to: "/study-zone?focus=timer", cta: "Start a session", icon: Timer },
   { title: "Notes, flashcards & quizzes", description: "Turn a topic or class material into notes and retrieval practice.", to: "/notetaker", cta: "Make study material", icon: Brain },
@@ -47,17 +59,44 @@ export default function Main() {
   const { user } = useAuth();
   const [brief, setBrief] = useState<EcosystemBrief | null>(null);
   const [recentArtifacts, setRecentArtifacts] = useState<StudyArtifact[]>([]);
+  const [retries, setRetries] = useState<RetryItem[]>([]);
+  const [weaknesses, setWeaknesses] = useState<TopicHeat[]>([]);
+  const [pendingMock, setPendingMock] = useState<PendingMockReview | null>(null);
+  const [localSaveCount, setLocalSaveCount] = useState(0);
+  const [cloudUnavailable, setCloudUnavailable] = useState(false);
+  const [syncing, setSyncing] = useState(false);
+  const [syncMessage, setSyncMessage] = useState<string>();
 
   useEffect(() => {
-    const refresh = () => setBrief(buildEcosystemBrief(user));
+    const refresh = () => {
+      setBrief(buildEcosystemBrief(user));
+      setRetries(getRetryQueue());
+      setWeaknesses(getWeaknessHeatmap(6));
+      setPendingMock(getPendingMockReview());
+      setLocalSaveCount(getLocalArtifactCount() + getPendingLearnerStateCount());
+    };
+    const refreshArtifacts = () => void listStudyArtifactsDetailed().then((result) => {
+      setRecentArtifacts(result.items.slice(0, 4));
+      setCloudUnavailable(result.cloudUnavailable === true);
+      setLocalSaveCount(getLocalArtifactCount() + getPendingLearnerStateCount());
+    });
     refresh();
-    void listStudyArtifactsDetailed().then(({ items }) => setRecentArtifacts(items.slice(0, 4)));
-    window.addEventListener("focus", refresh);
-    return () => window.removeEventListener("focus", refresh);
+    refreshArtifacts();
+    const onFocus = () => {
+      refresh();
+      refreshArtifacts();
+    };
+    window.addEventListener("focus", onFocus);
+    window.addEventListener("vertexed:learner-state-changed", onFocus);
+    return () => {
+      window.removeEventListener("focus", onFocus);
+      window.removeEventListener("vertexed:learner-state-changed", onFocus);
+    };
   }, [user]);
 
   const todayItems = brief ? buildTodayPlanItems(brief.todayTasks, brief.adaptivePlan.recommendations) : [];
   const dueFlashcards = brief?.dueFlashcards ?? 0;
+  const dueRetries = getDueRetries().length;
   const firstName = user?.user_metadata?.full_name?.split(" ")[0] || user?.email?.split("@")[0];
 
   return (
@@ -69,30 +108,75 @@ export default function Main() {
       </Helmet>
 
       <div className="dashboard-shell mx-auto w-full max-w-7xl space-y-7 pb-6">
-        <LiquidGlass as="section" variant="hero" className="dashboard-hero">
-          <span className="dashboard-orb dashboard-orb-one" aria-hidden />
-          <span className="dashboard-orb dashboard-orb-two" aria-hidden />
-          <span className="dashboard-grid-glow" aria-hidden />
+        <section className="desk-header">
+          <div className="desk-header-layout">
           <div className="dashboard-hero-copy">
             <p className="dashboard-kicker">{firstName ? `Welcome back, ${firstName}` : "Welcome back"}</p>
-            <h1>Make this study session count.</h1>
-            <p className="dashboard-hero-text">Pick one clear task. Plan it, work on it, practise it, or get help with it.</p>
+            <h1>Your study desk</h1>
+            <p className="dashboard-hero-text">Start with today&apos;s plan, or pick up a piece of saved work.</p>
             <div className="dashboard-hero-actions">
-              <Link to="/study-zone?focus=timer" className="dashboard-primary-action">
-                Start a focus session <ArrowRight className="h-4 w-4" aria-hidden />
+              <Link to="/exam-prep" className="dashboard-primary-action">
+                Open today&apos;s exam plan <ArrowRight className="h-4 w-4" aria-hidden />
               </Link>
-              <Link to="/study-guides" className="dashboard-secondary-action">Open MYP study guides</Link>
               <Link to="/planner" className="dashboard-secondary-action">Open planner</Link>
             </div>
           </div>
           <div className="dashboard-hero-stats" aria-label="Study summary">
             <div><span>Today</span><strong>{todayItems.length || "-"}</strong><small>{todayItems.length === 1 ? "next step" : "next steps"}</small></div>
-            <div><span>Review</span><strong>{dueFlashcards || "-"}</strong><small>{dueFlashcards === 1 ? "card due" : "cards due"}</small></div>
-            <div><span>Tools</span><strong>{CORE_TOOLS.length}</strong><small>clear workflows</small></div>
+            <div><span>Review</span><strong>{dueFlashcards + dueRetries || "-"}</strong><small>cards and retries due</small></div>
           </div>
-        </LiquidGlass>
+          </div>
+        </section>
 
         <ContinueSessionBanner />
+
+        <section className="desk-recent" aria-labelledby="recent-work-heading">
+          <div className="dashboard-section-heading">
+            <h2 id="recent-work-heading">Continue studying</h2>
+            <Link to="/user-settings" className="dashboard-due-link">All saved work <ArrowRight className="h-4 w-4" aria-hidden /></Link>
+          </div>
+          {recentArtifacts.length > 0 ? (
+            <SavedWorkList
+              items={recentArtifacts}
+              compact
+              variant="dashboard"
+              onChanged={() => void listStudyArtifactsDetailed().then(({ items }) => setRecentArtifacts(items.slice(0, 4)))}
+            />
+          ) : (
+            <div className="desk-first-session">
+              <div><h3>Start with something you&apos;re learning.</h3><p>Add your class notes to a notebook, or build a practice session. Your saved work will appear here.</p></div>
+              <Link to="/study-notebook" className="btn-glass">Open a notebook <ArrowRight className="h-4 w-4" aria-hidden /></Link>
+            </div>
+          )}
+        </section>
+
+        <LearningCommandCenter
+          retries={retries}
+          weaknesses={weaknesses}
+          pendingMock={pendingMock}
+          localSaveCount={localSaveCount}
+          cloudUnavailable={cloudUnavailable}
+          syncing={syncing}
+          syncMessage={syncMessage}
+          onRetrySync={() => {
+            setSyncing(true);
+            setSyncMessage(undefined);
+            void Promise.all([syncLocalStudyArtifacts(), syncLearnerState()])
+              .then(async ([artifactResult, stateResult]) => {
+                await hydrateLearnerState();
+                const refreshed = await listStudyArtifactsDetailed();
+                setRecentArtifacts(refreshed.items.slice(0, 4));
+                setCloudUnavailable(refreshed.cloudUnavailable === true);
+                const synced = artifactResult.synced + stateResult.synced;
+                const remaining = artifactResult.remaining + stateResult.remaining;
+                setLocalSaveCount(remaining);
+                setSyncMessage(remaining === 0
+                  ? `${synced} device save${synced === 1 ? '' : 's'} synced.`
+                  : `${synced} synced; ${remaining} still safe on this device.`);
+              })
+              .finally(() => setSyncing(false));
+          }}
+        />
 
         {todayItems.length > 0 && (
           <section className="dashboard-today-wrap" aria-label="Your next study steps">
@@ -113,19 +197,17 @@ export default function Main() {
             )}
           </div>
 
-          <div className="dashboard-tool-grid">
-            {CORE_TOOLS.map((tool, index) => {
+          <div className="desk-tool-list">
+            {CORE_TOOLS.map((tool) => {
               const Icon = tool.icon;
               return (
-                <Link key={tool.title} to={tool.to} className={`dashboard-tool-link dashboard-tool-${index + 1}`}>
-                  <LiquidGlass as="article" variant="tile" className="dashboard-tool-card">
-                    <div className="dashboard-tool-icon"><Icon className="h-5 w-5" aria-hidden /></div>
-                    <div className="dashboard-tool-copy">
+                <Link key={tool.title} to={tool.to} className="desk-tool-row">
+                    <Icon className="h-5 w-5" aria-hidden />
+                    <div>
                       <h3>{tool.title}</h3>
                       <p>{tool.description}</p>
                     </div>
-                    <span className="dashboard-tool-cta">{tool.cta} <ArrowRight className="h-4 w-4" aria-hidden /></span>
-                  </LiquidGlass>
+                    <ArrowRight className="h-4 w-4" aria-hidden />
                 </Link>
               );
             })}
@@ -158,23 +240,6 @@ export default function Main() {
           </LiquidGlass>
         </section>
 
-        {recentArtifacts.length > 0 && (
-          <LiquidGlass as="section" variant="panel" className="dashboard-recent" aria-labelledby="recent-work-heading">
-            <div className="dashboard-section-heading">
-              <div>
-                <p className="dashboard-kicker">Saved work</p>
-                <h2 id="recent-work-heading">Pick up where you left off</h2>
-              </div>
-              <Link to="/user-settings" className="dashboard-due-link">View all <ArrowRight className="h-4 w-4" aria-hidden /></Link>
-            </div>
-            <SavedWorkList
-              items={recentArtifacts}
-              compact
-              variant="dashboard"
-              onChanged={() => void listStudyArtifactsDetailed().then(({ items }) => setRecentArtifacts(items.slice(0, 4)))}
-            />
-          </LiquidGlass>
-        )}
       </div>
     </>
   );

@@ -1,171 +1,46 @@
-# VertexED Motion System
+# Motion: trace the next attempt
 
-## Principle
+Folio opening: desktop fine-pointer tilt reuses the bounded surface handler. Passive scroll moves it at most 45px over the hero's full scroll range, settling over 450ms. Focus flattens it. Explicit stage selection gets one 350ms entrance. Reduced motion and Effects off remove both. Mobile uses no perspective. No wheel interception or idle animation is added.
 
-VertexED should feel continuous, responsive, and liquid without looking soft or decorative. Motion exists to preserve context between study objects and explain change.
+Planner refinement, 9 September 2026: never scroll the schedule after idle time or on a periodic clock update. “Jump to current time” is an explicit action. It uses immediate scrolling under reduced motion. Task entry and editing reuse the existing modal focus trap; native date/time controls remain available in both themes. Pressing Delete on a task does not mark it complete.
 
-The landing page can be expressive. Focused product workflows should be quieter.
+## Current implementation: fluid desk
 
-## Motion vocabulary
+Latest refinement: the dye field is 128 by 80 cells, with bounded curl confinement and at most eight interpolated splats per pointer event. Its blue palette changes with the actual light/dark theme; a four-pixel filter retains more detail. Existing 30fps and 2.4-second idle limits remain. Floating surfaces use at most two degrees of pointer tilt with a 400ms settle. Updates are animation-frame batched, never an idle loop. Clear tilt on focus, pointer leave, blur, resize, preference changes, hidden tabs, effects-off and unmount. Fine pointers and widths above 700px only; reduced motion, reduced transparency and forced colours turn pointer depth off. Active dock feedback is informational and remains with effects off. Tool detail changes use a finite 300ms entrance, with no autoplay, and inherit reduced-motion behaviour.
 
-### Carry
+The expanded landing removes all grid masks and pointer-grid tracking. The wide desk starts at five degrees of X-axis perspective and settles towards flat over passive scroll depth, with at most 20px of translation. It becomes flat while keyboard focus is inside. New starting-point panels use the existing tabs and a finite 500ms example-sheet entrance. FAQ disclosures use native details. No added autoplay timer, revolving carousel or animation library. These details supersede the older narrow desk's Y-axis rotation below.
 
-An object keeps visual identity while moving into the next workflow state. Example: a weak topic from Answer Reviewer can carry into a new planner task.
+This section supersedes previous landing timing and cursor implementation notes. The cursor now uses a bounded 112 by 72 CPU dye grid with advection, pressure projection and dissipation. This is a small decorative simulation, not Inspira's GPU implementation or a scientific result. It updates at most about 30 times per second, stops after 2.4 idle seconds, and clears on blur, hidden tab, resize, preference change, effects-off and unmount. No WebGL dependency or background loop runs without pointer input. Touch, coarse pointers, forced colours, reduced transparency and reduced motion disable it.
 
-### Trace
+Desktop desk perspective and passive scroll depth settle over 400ms, giving visual resistance while document scrolling remains native. Do not intercept wheel/touch input. The gallery's native horizontal scroll snap supplies the tactile stopping points. The glass section dock sticks below navigation. The headline arrives in 850ms, underline draws once, selected margin annotations settle in 400ms, highlights wipe once on entering view, and buttons shimmer on hover with a pressed-state ripple. No looping scramble/typewriter text. Modals enter over 350ms and preserve focus trapping, Escape, background inertness and return focus.
 
-A thin blue trajectory reveals the relationship between Plan, Focus, Practise, Review, and Remember.
+Effects-off and reduced motion remove animation and animated scrolling. Content is never dependent on an entrance animation to become visible. On mobile, remove the 3D desk transformation. Preserve the native pointer and text selection.
 
-### Focus
+## User-requested ink effects, 8 September 2026
 
-Selecting an object increases its clarity while nearby context compresses or fades. Do not make the surrounding interface disappear completely.
+This explicit request supersedes the earlier no-cursor-effect and no-entrance rules on the landing only. A cobalt canvas ribbon follows fine-pointer movement with bounded interpolated points. It is a fluid-looking ink trail, not a physical fluid simulation. Keep the native cursor, pointer events and text selection. Stop drawing after one idle second, on blur, when hidden, on unmount and when effects are disabled. Cap device pixel ratio at 1.5 and points at 40. Do not run on touch, reduced-motion, reduced-transparency or forced-colour devices.
 
-### Flow
+The visible Effects toggle disables all landing animation. Heading settles over 750ms, its underline draws once over 1000ms, and tab annotations move 14px over 450ms. Supported browsers introduce sections by 36px using view timelines; content never depends on animation to be visible. No scroll hijacking, random particles, flashing, autoplay carousel or endless animation. Study routes remain unaffected.
 
-Containers may reshape, expand, and contract instead of being abruptly replaced. Use shared spatial origin whenever possible.
+Motion explains movement between Attempt, Review and Retry. The topic and document frame stay in place. A blue line draws toward the selected stage and the answer sheet settles into position. This is the signature motion, derived from the retry workflow.
 
-### Resolve
+- Landing: the document is immediately readable. No entrance delay, endless animation, fake typing or random particles.
+- Stage selection: the cobalt trace changes width over 220ms to follow the controlled active tab. Keep the document frame stable. Animate only the relationship, not the answer text.
+- Buttons: 160ms color/border changes. No magnetic cursor, scroll hijacking, cursor replacement or hover-dependent content.
+- Study tools: focus indication and state transitions only. Never move an answer while the student reads or types.
+- Reduced motion: no line draw or paper translation. Content appears immediately. Reduced transparency: opaque surfaces. Keyboard users get the same content and state as pointer users.
+- Do not communicate completion with motion alone. Tab labels and selected state remain available to assistive technology.
 
-A completed action settles into a quieter state instead of celebrating with confetti or large decorative motion.
+Landing refinement: the wide revision desk changes the selected tab underline and replaces the answer and margin together. The document frame remains still; no content arrival or idle animation. The anchor to the example respects the browser's normal scrolling. No scroll interception or parallax. The older compact trace may keep its 220ms line transition outside the landing.
 
-## Timing
+## Apex motion extension, 9 September 2026
 
-Micro interaction: 90 to 180ms
+Apex, formerly Vee, is still by default. Hover or keyboard focus triggers one 460ms greeting, a lift of at most 7px with rotations bounded to 6 degrees. Opening his panel plays the same greeting once. Explicit Hop, Wiggle and Spin buttons add a 700ms hop with a 20px rise and soft landing, a 650ms alternating tilt bounded to 12 degrees, and an 800ms full spin with a small overshoot. Repeated presses replay the chosen action. These are transforms of the original raster, not generated pose frames. No perpetual idle animation, pointer following, wandering across answers, audio or timer.
 
-- hover
-- press
-- focus
-- checkbox
-- compact toggle
+Respect both operating-system reduced motion and the saved reduced-motion setting. Reduced motion stops active reactions, keeps the image still and disables the three play controls with a visible explanation. Simple Mode removes the character. The shortcut sheet remains static and keyboard-operable; Escape closes it and restores focus. Hiding Apex restores focus to his footer visibility control, because the floating launcher no longer exists.
 
-Interface transition: 180 to 360ms
+## Apex direct manipulation, 9 September 2026
 
-- tab
-- drawer
-- contextual panel
-- selected study object
-- compact navigation change
+Apex follows pointer movement directly and does not add inertia, spring overshoot or a trailing effect. Clamp the complete launcher to an eight-pixel viewport gap. Store the final relative position only when a drag ends; do not write device storage on every pointer move. A five-pixel threshold separates a drag from opening the shortcut sheet. Arrow keys move by 16 pixels and Shift plus an arrow moves by 48 pixels. Resizing recalculates the saved relative point and keeps the launcher visible.
 
-Expressive transition: 420 to 1000ms
-
-- landing section transition
-- major shared-layout transformation
-- Vertex Field reveal
-- narrative product demonstration
-
-Longer motion needs a clear storytelling or spatial reason.
-
-## Easing
-
-Prefer curves with fast intent and controlled settling. Avoid spring motion as the universal default.
-
-Suggested families:
-
-- enter: cubic-bezier(0.16, 1, 0.3, 1)
-- move: cubic-bezier(0.22, 1, 0.36, 1)
-- exit: cubic-bezier(0.4, 0, 1, 1)
-
-Tune per interaction after rendering. The values are a starting vocabulary, not a requirement to make every transition identical.
-
-## Landing choreography
-
-The landing experience should behave as one connected study trajectory.
-
-Good uses:
-
-- the hero trajectory continues into the next section
-- study stages become interface fragments as the user scrolls
-- selected stages cause related text and product objects to respond
-- blue field geometry changes with section context
-- interface previews retain spatial origin between states
-- large typography may mask or reveal the field when readability remains strong
-
-Do not create a collection of unrelated animation tricks.
-
-## Liquid behavior
-
-Liquid means continuity, not blobs.
-
-Good:
-
-- one panel becoming another state
-- geometry stretching along the study path
-- blue light following a real active connection
-- a task chip becoming the header of its destination
-- a context ribbon compressing during focus
-
-Bad:
-
-- gooey buttons
-- random blobs
-- cursor trails with no meaning
-- floating particles
-- constant ambient movement
-
-## Scroll
-
-Scroll-linked effects must remain usable with a trackpad, mouse wheel, touch, keyboard, and reduced-motion preferences.
-
-Do not hijack scrolling.
-
-Avoid locking the user into long animation sequences. Prefer progressive transformation based on normal document flow.
-
-## Hover
-
-Hover can reveal depth, relationship, or action. It must not be required to understand core content.
-
-Prefer small translation, border response, field activation, and text contrast changes over scaling every card.
-
-## Navigation
-
-Navigation transitions should preserve location. The Context Ribbon or equivalent may carry subject and topic identity across related routes.
-
-Do not delay route entry for a cinematic animation.
-
-## Loading
-
-Loading states should show structure, not generic pulsing rectangles everywhere. Skeletons should resemble the incoming content. When progress is knowable, expose it directly.
-
-## Data motion
-
-When charts or mastery views change range, preserve object identity and animate between states if the mapping is truthful. Do not animate fabricated intermediate values as if they were measurements.
-
-## Reduced motion
-
-`prefers-reduced-motion: reduce` is mandatory.
-
-When reduced motion is enabled:
-
-- remove parallax
-- remove continuous field drift
-- replace morphs with direct state changes or short fades
-- remove scale-heavy transitions
-- retain focus, selected, and progress state through static contrast
-
-The product must remain fully understandable without motion.
-
-## Performance rules
-
-Prefer transform and opacity for frequent animation.
-
-Avoid:
-
-- layout thrashing on scroll
-- unbounded requestAnimationFrame loops
-- several simultaneous canvas effects
-- large WebGL scenes for decorative value
-- high-resolution video used as background texture
-
-Heavy landing effects should lazy load, pause when offscreen where possible, and degrade cleanly on constrained devices.
-
-## Motion test
-
-For every visible effect ask:
-
-1. What changed?
-2. Why should the user notice?
-3. Does the motion preserve or explain context?
-4. Does it remain clear without motion?
-5. Is it worth the performance cost?
-
-If the effect has no good answer, remove it.
+Blink lasts 420ms. Turn page lasts 820ms. Both swap to an appearance-matched raster frame, run once and return to the resting frame. Reduced motion disables all reaction controls and frame swaps, but never disables direct dragging or keyboard positioning.

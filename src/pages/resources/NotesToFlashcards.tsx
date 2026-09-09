@@ -9,7 +9,7 @@ export default function NotesToFlashcardsArticle() {
     <>
       <SEO
         title="From notes to flashcards and quizzes | VertexED"
-        description="Turn lecture notes into flashcards and short quizzes the same session — then schedule spaced review before the forgetting curve wins."
+        description="Turn lecture notes into flashcards and short quizzes the same session - then schedule spaced review before the forgetting curve wins."
         canonical={canonical}
         ogType="article"
         jsonLd={{
@@ -28,21 +28,21 @@ export default function NotesToFlashcardsArticle() {
         }}
       />
   <BreadcrumbsJsonLd />
-      <Article title="From notes to flashcards (and quizzes)" subtitle="Same-session workflow — capture, structure, retrieve, schedule — without exporting between apps." kicker="Guides">
+      <Article title="From notes to flashcards (and quizzes)" subtitle="Same-session workflow - capture, structure, retrieve, schedule - without exporting between apps." kicker="Guides">
         <p className="lead">
           Most students collect notes; fewer turn them into practice. Exams test recall under time, not
           how neatly your folder is organized. This guide walks through VertexED&apos;s Notetaker flow:
-          structured summaries, flashcards, and a short quiz in one sitting — then spaced review on the
-          Planner before you forget what you just learned.
+          structured summaries, flashcards, and a short quiz in one sitting. Study Mode then schedules
+          each card from the rating you give your answer.
         </p>
 
         <h2>What you can do with VertexED</h2>
         <ul>
           <li><strong>Capture</strong> lecture text, textbook excerpts, or transcripts from short audio recordings.</li>
           <li><strong>Structure</strong> using Smart Notes, Cornell, Quick bullets, or Mapping formats.</li>
-          <li><strong>Generate</strong> flashcards automatically from highlights or headings.</li>
-          <li><strong>Practice</strong> with instant quizzes that mirror what your flashcards target.</li>
-          <li><strong>Review</strong> on a spaced schedule coordinated by the <Link to="/planner">AI Study Planner</Link>.</li>
+          <li><strong>Generate</strong> an editable set of flashcards from the source you provide.</li>
+          <li><strong>Practice</strong> with a short AI-generated quiz from the same material.</li>
+          <li><strong>Review</strong> cards in Study Mode, where each rating sets the next due date.</li>
         </ul>
 
         <h2>A complete workflow (10–20 minutes)</h2>
@@ -57,21 +57,20 @@ export default function NotesToFlashcardsArticle() {
             VertexED transcribes and cleans the text so you don’t waste time formatting.
           </li>
           <li>
-            <strong>Refine.</strong> Use the built‑in editor to tighten long sentences, add headings, or mark key ideas
-            with a single click. The “Key points” action extracts exam‑relevant lines automatically.
+            <strong>Refine.</strong> Read the generated notes, correct mistakes, and edit anything that is unclear or
+            unsupported. Keep the source nearby for important details.
           </li>
           <li>
-            <strong>Make flashcards.</strong> Select highlights → “Make flashcards”. VertexED generates front/back pairs
-            that focus on definitions, relationships, and typical exam prompts. You can edit the front to be more
-            challenging (cloze deletions work well).
+            <strong>Make flashcards.</strong> Generate front/back pairs from the notes, then edit vague or overloaded
+            cards before studying them.
           </li>
           <li>
             <strong>Quick quiz.</strong> Switch to Quiz to create a short check (3–7 items). This closes the loop on the
             same session, so you don’t leave with an illusion of learning.
           </li>
           <li>
-            <strong>Schedule the review.</strong> Send the deck to the <Link to="/planner">Planner</Link>. VertexED places
-            micro‑reviews on your calendar right before your forgetting curve dips.
+            <strong>Schedule the review.</strong> Open Study Mode and rate each response. The deck calculates the next
+            due date; add a <Link to="/planner">Planner</Link> block yourself if you want calendar time protected.
           </li>
         </ol>
 
@@ -118,14 +117,13 @@ export default function NotesToFlashcardsArticle() {
         <h2>Review intervals (practical)</h2>
         <p>
           A simple cadence works well: Day 0 learn, Day 2 review misses, Day 6 mixed quiz, Day 14 interleaved review.
-          The <Link to="/planner">Planner</Link> schedules this automatically given your calendar.
+          Study Mode calculates card due dates. The Planner remains an editable calendar rather than an automatic scheduler for the deck.
         </p>
 
         <h2>Spaced review without spreadsheets</h2>
         <p>
-          You don’t need to micro‑manage intervals. When you send a deck to the Planner, VertexED schedules reviews
-          across days or weeks based on your availability and exam date. If you miss a session, it gently reschedules
-          — no guilt, no lost streaks.
+          You do not need to calculate every interval yourself. Rate a card after answering and Study Mode updates its due date.
+          Missed reviews stay due until you return; VertexED does not quietly move calendar events for you.
         </p>
 
         <h2>Example: 15‑minute Biology block</h2>
@@ -134,21 +132,21 @@ export default function NotesToFlashcardsArticle() {
           <li>Auto‑summarise to Smart Notes; mark 5 key lines.</li>
           <li>Generate 6 flashcards (definitions + one compare/contrast).</li>
           <li>Run a 5‑question quiz; note one gap for review.</li>
-          <li>Send deck to Planner; a 3‑minute micro‑review appears two days later.</li>
+          <li>Rate the cards in Study Mode and check the due count when you return.</li>
         </ol>
 
         <h2>Why one workspace matters</h2>
         <p>
-          Tools that split notes, cards, and quizzes across apps add friction — export here, import there,
+          Tools that split notes, cards, and quizzes across apps add friction - export here, import there,
           forget to schedule review. VertexED keeps capture → structure → recall → schedule in one loop so
           you spend revision time on ideas, not file management.
         </p>
 
         <h3>What you gain in practice</h3>
         <ul>
-          <li>Notes, cards, quizzes, and planner in one place — no switching cost.</li>
+          <li>Notes, cards, quizzes, and planner in one place - no switching cost.</li>
           <li>AI card suggestions weighted toward exam-scorable facts.</li>
-          <li>Calendar-aware spaced repetition instead of manual interval spreadsheets.</li>
+          <li>Due-card scheduling based on your own recall ratings.</li>
         </ul>
 
         <h2>FAQ</h2>
@@ -159,7 +157,7 @@ export default function NotesToFlashcardsArticle() {
         <h2>Get started</h2>
         <p>
           Open the Notetaker, choose a topic, and try a three‑card deck. If it feels easy, increase the specificity of
-          your prompts or add a contrast card. In a week you’ll have a small, high‑quality deck — the kind that wins
+          your prompts or add a contrast card. In a week you’ll have a small, high‑quality deck - the kind that wins
           points on exam day.
         </p>
 
@@ -171,14 +169,14 @@ export default function NotesToFlashcardsArticle() {
 
         <h2 className="mt-10">Evidence & references</h2>
         <ul>
-          <li>Leitner, S. (1972): So lernt man lernen — the foundation of the "Leitner System" for flashcards.</li>
+          <li>Leitner, S. (1972): So lernt man lernen - the foundation of the "Leitner System" for flashcards.</li>
           <li>Brown, Roediger, & McDaniel (2014): Make It Stick: The Science of Successful Learning.</li>
         </ul>
 
         <div className="article-footer">
           Editorial note: Examples and prompts are illustrative and designed to be unique to VertexED’s workflows.
           Always verify subject specifics against your syllabus.
-          <div className="mt-1">Last updated: 2025-12-24 · Author: VertexED Team</div>
+          <div className="mt-1">Product walkthrough checked: 6 September 2026 · VertexED Team</div>
         </div>
 
         <hr className="article-divider" />

@@ -1,3 +1,4 @@
+import { localDayKey, currentStreak } from '@/lib/studyDates.mjs';
 import { userContentStorageKeys } from '@/lib/userContentStorageScope.mjs';
 
 export type StudyStats = {
@@ -20,7 +21,7 @@ function readJson<T>(key: string, fallback: T): T {
 }
 
 function todayKey(): string {
-  return new Date().toISOString().slice(0, 10);
+  return localDayKey();
 }
 
 /** Reset daily habit completion flags at the start of a new day. */
@@ -51,7 +52,7 @@ export function recordStudySession(): void {
 
   const yesterday = new Date();
   yesterday.setDate(yesterday.getDate() - 1);
-  const yesterdayKey = yesterday.toISOString().slice(0, 10);
+  const yesterdayKey = localDayKey(yesterday);
 
   if (last === yesterdayKey) streak += 1;
   else streak = 1;
@@ -83,7 +84,7 @@ export function getStudyStats(): StudyStats {
     habitsDoneToday: currentHabits.filter((h) => h.completed).length,
     activityEntries: entries.length,
     quickNotes: notes.length,
-    studyStreak: streak,
+    studyStreak: currentStreak(streak, lastStudy),
     lastStudyDate: lastStudy,
   };
 }

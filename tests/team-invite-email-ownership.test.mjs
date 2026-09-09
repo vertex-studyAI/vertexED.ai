@@ -49,11 +49,13 @@ test('shared team invite never creates an auto-confirmed password account', () =
   assert.ok(teamStart >= 0 && waitlistStart > teamStart, 'team and waitlist branches must remain distinguishable');
 
   const teamBranch = handlerSource.slice(teamStart, waitlistStart);
-  assert.match(teamBranch, /auth\.admin\.inviteUserByEmail\(normalizedEmail/);
+  assert.match(teamBranch, /createTeamInvitedUser\(supabase,/);
   assert.match(teamBranch, /requiresEmailVerification:\s*true/);
   assert.doesNotMatch(teamBranch, /auth\.admin\.createUser/);
   assert.doesNotMatch(teamBranch, /email_confirm\s*:\s*true/);
   assert.doesNotMatch(teamBranch, /password\s*:\s*pwd/);
+  assert.match(waitlistSignupSource, /auth\.admin\.inviteUserByEmail\(email/);
+  assert.match(waitlistSignupSource, /auth_user_id:\s*userId/);
 });
 
 test('waitlist bearer-token flow retains its separate password creation path', () => {

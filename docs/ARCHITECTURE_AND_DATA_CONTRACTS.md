@@ -1,11 +1,11 @@
 # VertexED architecture and data contracts
 
 **Canonical source:** `vertex-studyAI/vertexED.ai`
-**Contract version:** `vertexed.grading.v1`
+**Contract version:** `vertexed.grading.v2`
 
 ## Canonical runtime
 
-VertexED is one React 19/Vite client and one Vercel catch-all serverless function. `src/app/App.tsx` is the route authority. `api/[[...path]].js` delegates only to the allowlisted route registry in `api/_lib/routes.js`; individual files under `api/_handlers/` are not independent public functions. Supabase Auth owns identity, while `public.profiles` and `public.user_study_artifacts` hold user-owned state. Every privileged database query derives ownership from the verified bearer token rather than request data.
+VertexED is one React 19/Vite client and one Vercel catch-all serverless function. `src/app/App.tsx` is the route authority. `api/[[...path]].js` delegates only to the allowlisted route registry in `api/_lib/routes.js`; individual files under `api/_handlers/` are not independent public functions. Supabase Auth owns identity, while `public.profiles`, `public.user_study_artifacts`, and `public.learner_state_items` hold user-owned state. Every privileged database query derives ownership from the verified bearer token rather than request data.
 
 ```text
 Browser → React routes → authFetch → /api/[[...path]] → route allowlist → handler
@@ -21,13 +21,16 @@ There is no second canonical application surface. `/learning-hub` and `/world-mo
 1. The browser is untrusted. Client-supplied `user_id`, admin claims, scores, and artifact ownership are never authoritative.
 2. The API verifies the Supabase bearer token before privileged work and applies endpoint-specific rate limits and body limits.
 3. Service-role database access must include the verified user ID in every read, update, and delete predicate.
-4. RLS remains enabled as defense in depth even where server handlers use the service role.
+4. RLS remains enabled for non-service access. The service role bypasses it; server owner filters are mandatory and independently tested.
 5. AI output is untrusted data. Grading is normalized by `api/_lib/verifiedGrading.js`; unsupported evidence or low confidence produces `PROVISIONAL` status and human-review escalation.
 6. Build identity is immutable and fail-closed in production. `/api/health` and readiness headers are the release identity contract.
+7. Provider requests have bounded deadlines. Operational telemetry stores only fixed categories, provider/model identity, status, and duration—never prompts, answers, uploads, emails, or raw provider bodies.
 
 ## Typed domain contracts
 
 The canonical compile-time contracts live in `src/types/domain.ts` and `src/types/learning.ts`. They cover identity/profile, course/subject, mock assessment, learner response, criterion feedback, notes, study plans, evidence spans, coverage, provenance, and privacy-safe AI run metadata.
+
+`src/contracts/domain.ts` contains stricter schema definitions for incremental boundary adoption, not universal enforcement of historical payloads. `contracts/learningOutputs.js` validates newly generated quiz and notebook structures before they are accepted. See `CANONICAL_ARCHITECTURE.md` for the device/cloud conflict and corruption-recovery contract.
 
 Persisted learner artifacts use the envelope below:
 
@@ -45,9 +48,11 @@ Persisted learner artifacts use the envelope below:
 
 The database supplies `id`, `user_id`, and timestamps. Clients cannot set ownership. Payloads are bounded to 256 KiB and request bodies to 512 KiB. Artifact creation retries reuse an owner-scoped idempotency key; identical replays return the existing row, while key reuse with different content fails with `409`. Planner and notebook singleton replacement is owner-scoped and updates the existing snapshot without delete-before-insert data loss.
 
+`GET /api/account-export` exhausts bounded pages for every cloud artifact and learner-state row. It fails explicitly above its safety cap instead of labelling a partial response complete. The client adds only the current account's allowlisted device-persistence keys. Invite tokens, Auth sessions, password material, service metadata, and observability rows are excluded. Account deletion revokes refresh sessions before deleting the Auth identity; foreign keys cascade learner content and the linked waitlist row.
+
 ## Grading and learning evidence
 
-Each awarded criterion carries exact character spans copied from the submitted answer. A positive criterion score without an exact span is not verified. Confidence below `0.70` is escalated. Provisional scores are shown as guidance but excluded from mastery history and coverage. Only verified grades update weakness/mastery state. Error codes route to a bounded remediation taxonomy instead of unconstrained generation.
+Each awarded criterion carries exact character spans copied from the submitted answer. A positive criterion score without an exact span remains provisional. Exact spans plus the structural checks produce `EVIDENCE_LINKED` guidance, never a self-verified grade. Only a teacher-confirmed mark, an official-mark-scheme confirmation, or a validated deterministic answer key creates `MEASURED` mastery evidence. Error codes route to a bounded remediation taxonomy instead of unconstrained generation.
 
 Generated quiz artifacts identify their board, subject, source, generator/version, model where applicable, and objective IDs. If the provider is missing or fails, VertexED returns deterministic retrieval prompts derived from the learner's notes with a SHA-256 source digest; it never fabricates a successful AI run.
 

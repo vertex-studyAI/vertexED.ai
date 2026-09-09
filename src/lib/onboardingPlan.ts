@@ -32,7 +32,7 @@ function formatTime(totalMinutes: number): string {
 export function createFirstStudyPlan(preference: CurriculumPreference): PlannerSnapshot {
   const subjects = preference.subjects.slice(0, 6);
   const daysLeft = daysUntilExam(preference.examDate);
-  const examIsNear = daysLeft !== null && daysLeft <= 21;
+  const examIsNear = daysLeft !== null && daysLeft >= 0 && daysLeft <= 21;
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 

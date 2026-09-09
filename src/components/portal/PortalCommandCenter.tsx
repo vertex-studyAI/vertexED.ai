@@ -43,7 +43,7 @@ export default function PortalCommandCenter({ brief, pulse, intel }: Props) {
           <div className="flex-1 min-w-0">
             <p className="portal-eyebrow mb-3">
               <Sparkles className="h-3.5 w-3.5 inline mr-1.5 -mt-0.5" aria-hidden />
-              Your dashboard · {intel.readinessIndex}% · {intel.readinessLabel}
+              Your dashboard · {intel.readinessIndex}% preparation activity · {intel.readinessLabel}
             </p>
             <h1 className="portal-hero-title">
               {brief.greeting}, {brief.profile.displayName}
@@ -96,8 +96,8 @@ export default function PortalCommandCenter({ brief, pulse, intel }: Props) {
                 <Bot className="h-4 w-4" />
                 Ask Apex
               </button>
-              <Link to="/learning-hub" className="btn-glass text-sm">
-                Learning Hub →
+              <Link to="/exam-prep" className="btn-glass text-sm">
+                Exam prep →
               </Link>
             </div>
           </div>
@@ -105,7 +105,7 @@ export default function PortalCommandCenter({ brief, pulse, intel }: Props) {
           <div className="portal-command-rings shrink-0 w-full lg:w-auto flex flex-col sm:flex-row lg:flex-col gap-4 items-center">
             <div className="portal-ring-card">
               <ExamReadinessRing readiness={pulse.readiness} size="md" ringOnly />
-              <p className="text-xs text-muted-foreground mt-2 text-center">Exam readiness</p>
+              <p className="text-xs text-muted-foreground mt-2 text-center">Preparation activity</p>
             </div>
             <div className="portal-ring-card">
               <div

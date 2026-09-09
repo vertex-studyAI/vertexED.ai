@@ -2,6 +2,23 @@
 -- Purpose: make production backend verification repeatable without mutating data.
 -- Run against the intended Supabase project and review results before any launch claim.
 
+-- 0) Check required capabilities without calling a function that might be missing.
+-- This is catalog evidence, not proof of successful writes or correct RLS behavior.
+select
+  to_regclass('public.learner_state_items') is not null as learner_state_storage,
+  to_regclass('public.observability_events') is not null as observability_storage,
+  to_regprocedure('public.vertexed_readiness()') is not null as readiness_rpc,
+  to_regprocedure('public.sync_learner_state_items(uuid,jsonb)') is not null as batch_sync_rpc,
+  to_regprocedure('public.consume_waitlist_rate_limit(text,timestamptz,integer,timestamptz)') is not null as atomic_rate_limit_rpc,
+  to_regclass('public.user_study_artifacts_singleton_kind_idx') is not null as singleton_index;
+
+-- Shared Auth triggers must be reviewed before applying a product migration ledger.
+select t.tgname as trigger_name, n.nspname as function_schema, p.proname as function_name
+from pg_catalog.pg_trigger t
+join pg_catalog.pg_proc p on p.oid = t.tgfoid
+join pg_catalog.pg_namespace n on n.oid = p.pronamespace
+where t.tgrelid = 'auth.users'::regclass and not t.tgisinternal;
+
 -- 1) Every public base table should have RLS enabled.
 select
   n.nspname as schema_name,

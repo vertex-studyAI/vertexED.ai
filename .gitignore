@@ -9,7 +9,11 @@ node_modules/
 # Build output
 dist/
 dist-ssr/
+.vertexed-test-dist/
 /public/neurocad/
+.tmp/
+test-results/
+playwright-report/
 
 # Logs
 logs/

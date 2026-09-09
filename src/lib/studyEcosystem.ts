@@ -125,7 +125,7 @@ export function buildEcosystemBrief(
   const examDaysLeft = daysUntilExam(curriculum.examDate);
   if (examDaysLeft !== null && examDaysLeft >= 0 && examDaysLeft <= 21) {
     suggestions.unshift(
-      `${examDaysLeft} day${examDaysLeft === 1 ? '' : 's'} to exam — run a timed mock and review weak topics`,
+      `${examDaysLeft} day${examDaysLeft === 1 ? '' : 's'} to exam - run a timed mock and review weak topics`,
     );
   }
   if (curriculum.board && !curriculum.subjects.length) {

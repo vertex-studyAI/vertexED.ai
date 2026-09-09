@@ -60,7 +60,7 @@ export default function ProtectedRoute({ children }: { children: React.JSX.Eleme
       .then(async (response) => {
         const data = await response.json();
         if (!response.ok) throw new Error(data.error);
-        if (active) setAccess(data.status === "approved" ? "approved" : data.status === "rejected" ? "rejected" : "pending");
+        if (active) setAccess(data.status === "approved" ? "approved" : data.status === "pending" ? "pending" : "rejected");
       })
       .catch(() => active && setAccess("unavailable"));
     return () => { active = false; };

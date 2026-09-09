@@ -55,7 +55,7 @@ export default function SavedWorkList({
   if (!visible.length) {
     return (
       <p className="text-sm text-muted-foreground">
-        Generate notes, papers, or reviews — they&apos;ll appear here automatically.
+        Generate notes, papers, or reviews - they&apos;ll appear here automatically.
       </p>
     );
   }
