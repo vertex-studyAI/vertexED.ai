@@ -27,6 +27,9 @@ export default function ApexCompanion({ suspended, onOpenTutor }: ApexCompanionP
   const [imageFailed, setImageFailed] = useState(false);
   const [reaction, setReaction] = useState<{ name: Reaction; take: number }>({ name: 'greeting', take: 0 });
   const visible = settings.studyCompanion && !settings.simpleMode;
+  const spriteSrc = settings.apexAppearance === 'ink'
+    ? '/companions/apex-ink-v3.png'
+    : '/companions/apex-paper-v3.png';
 
   useEffect(() => {
     if (settings.reducedMotion) setReaction(previous => ({ name: 'rest', take: previous.take + 1 }));
@@ -63,7 +66,7 @@ export default function ApexCompanion({ suspended, onOpenTutor }: ApexCompanionP
         <button id="vee-launcher" type="button" className={`vee-launcher ${settings.reducedMotion ? 'vee-still' : ''}`}
           aria-label="Open Apex study shortcuts" aria-haspopup="dialog" aria-expanded={open}
           onClick={() => { play('greeting'); setOpen(true); }}>
-          {!imageFailed && <img className="vee-sprite" src="/companions/vee.png" alt="" width="96" height="96"
+          {!imageFailed && <img className="vee-sprite" src={spriteSrc} alt="" width="96" height="96"
             decoding="async" fetchPriority="low" draggable={false} onError={() => setImageFailed(true)} />}
           <span className="vee-name">Apex <span aria-hidden="true">↗</span></span>
         </button>, document.body,
@@ -76,9 +79,14 @@ export default function ApexCompanion({ suspended, onOpenTutor }: ApexCompanionP
           </button>
           <div className="vee-intro">
             {!imageFailed && <img key={reaction.take} data-reaction={reaction.name} className="vee-reaction-sprite"
-              src="/companions/vee.png" alt="" width="112" height="112" draggable={false} />}
+              src={spriteSrc} alt="" width="112" height="112" draggable={false} />}
             <div><p className="vee-eyebrow">YOUR STUDY COMPANION</p><h2 id="vee-title">Meet Apex.</h2></div>
           </div>
+          {!imageFailed && <fieldset className="vee-appearance">
+            <legend>Appearance</legend>
+            <label><input type="radio" name="apex-appearance" value="paper" checked={settings.apexAppearance === 'paper'} onChange={() => update({ apexAppearance: 'paper' })} /> Paper</label>
+            <label><input type="radio" name="apex-appearance" value="ink" checked={settings.apexAppearance === 'ink'} onChange={() => update({ apexAppearance: 'ink' })} /> Ink</label>
+          </fieldset>}
           {!imageFailed && <div className="vee-play" role="group" aria-label="Play with Apex">
             {reactions.map(name => <button key={name} type="button" aria-disabled={settings.reducedMotion}
               aria-label={`Apex: ${name}`} onClick={() => play(name)}>{name[0].toUpperCase() + name.slice(1)}</button>)}

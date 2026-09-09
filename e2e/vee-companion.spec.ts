@@ -65,7 +65,7 @@ test('Apex stays usable if artwork or preference storage is unavailable', async 
   await page.addInitScript(() => {
     Storage.prototype.setItem = () => { throw new DOMException('Storage is blocked', 'SecurityError'); };
   });
-  await page.route('**/companions/vee.png', route => route.abort());
+  await page.route('**/companions/apex-paper-v3.png', route => route.abort());
   await page.goto('/');
   const launcher = page.getByRole('button', { name: 'Open Apex study shortcuts' });
   await expect(launcher).toBeVisible();
@@ -135,4 +135,15 @@ test('Apex hop, wiggle and spin play once, replay on demand and stop under reduc
   expect(await dialog.locator('img').evaluate(img => getComputedStyle(img).animationName)).toBe('none');
   await page.keyboard.press('Escape');
   await expect(page.getByRole('button', { name: 'Open Apex study shortcuts' })).toBeFocused();
+});
+
+test('Apex persists the selected paper or ink appearance', async ({ page }) => {
+  await page.goto('/');
+  await page.getByRole('button', { name: 'Open Apex study shortcuts' }).click();
+  const dialog = page.getByRole('dialog', { name: 'Meet Apex.' });
+  await dialog.getByRole('radio', { name: 'Ink' }).check();
+  await expect(dialog.locator('img')).toHaveAttribute('src', '/companions/apex-ink-v3.png');
+  await page.keyboard.press('Escape');
+  await page.reload();
+  await expect(page.getByRole('button', { name: 'Open Apex study shortcuts' }).locator('img')).toHaveAttribute('src', '/companions/apex-ink-v3.png');
 });

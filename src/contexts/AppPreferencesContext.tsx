@@ -9,6 +9,7 @@ export type AccessibilitySettings = {
   fontSize: 'base' | 'large' | 'xlarge';
   simpleMode: boolean;
   studyCompanion: boolean;
+  apexAppearance: 'paper' | 'ink';
 };
 
 const STORAGE_KEY = 'vertex_a11y_settings';
@@ -21,6 +22,7 @@ const DEFAULTS: AccessibilitySettings = {
   fontSize: 'base',
   simpleMode: false,
   studyCompanion: true,
+  apexAppearance: 'paper',
 };
 
 function readSettings(): AccessibilitySettings {

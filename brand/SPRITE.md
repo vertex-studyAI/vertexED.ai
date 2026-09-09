@@ -2,20 +2,22 @@
 
 Created 9 September 2026 at the user's request. Original raster artwork generated with the built-in image-generation tool in one request. No Codex artwork, external character, reference image or proprietary graphic was supplied or copied. This is an application companion, not a new product logo.
 
-The user subsequently named him Apex. Vee was the working name in the original generation prompt below; that prompt is preserved verbatim for provenance. The `/companions/vee.png` URL and internal `vee-` selectors are retained for compatibility, not used as interface copy. The original artwork is unchanged. Greeting, Hop, Wiggle and Spin use finite CSS transforms of that image, with reduced-motion controls and no animation library.
+The user subsequently named him Apex. Vee was the working name in the original generation prompt below; that prompt is preserved for provenance. The original `/companions/vee.png` URL and internal `vee-` selectors are retained for compatibility, not used as interface copy. The active artwork is the original `apex-v2.png` vertex companion. Greeting, Hop, Wiggle and Spin use finite CSS transforms of that image, with reduced-motion controls and no animation library.
 
 ## Asset and implementation
 
-- Delivered asset: `public/companions/vee.png`, 1254 by 1254 pixels, genuine alpha transparency.
-- Generated master retained outside the checkout: `/Users/ryan/.codex/generated_images/01a0841e-2aa3-7851-a9fb-09d1f8a29547/exec-1968c932-d209-4f97-a9bf-a2e6a6de43f5.png`.
+- Active assets: `public/companions/apex-paper-v3.png` and `public/companions/apex-ink-v3.png`, each 1254 by 1254 pixels with genuine alpha transparency.
+- Paper is the default. Ink is an alternate midnight reading surface. This choice is stored only in the existing device-preferences object.
+- Previous assets: `public/companions/apex-v2.png` and `public/companions/vee.png`, retained for rollback and compatibility.
+- Generated masters retained outside the checkout: `/Users/ryan/.codex/generated_images/01a075cb-d93d-7731-a7a1-cddfefafd58f/exec-56b32f2c-ec5f-40c6-b4ff-9a3ce0ecbb70.png` and `/Users/ryan/.codex/generated_images/01a075cb-d93d-7731-a7a1-cddfefafd58f/exec-b341627e-cd40-44eb-8084-9351d42086c5.png`.
 - UI: `src/components/ApexCompanion.tsx` and `src/styles/vee.css`.
 - Shared visibility preference: `studyCompanion` in the existing `vertex_a11y_settings` device preferences. This does not add database records, tracking, AI calls or learner-state writes.
 - Existing tutor integration: `SiteLayout.tsx` and `GlobalChatPanel.tsx`.
 - Browser coverage: `e2e/vee-companion.spec.ts` and the Vee handoff case in `e2e/auth-return.spec.ts`.
 
-The master is a pixel-art-style rendering, not a literal 64px source or multi-frame sprite sheet. It uses intermediate blue shades as well as the requested palette. The face and upper corners have an owl-like reading; the folded pages and bookmark establish the workbook identity. The greeting animates this one image with a finite CSS transform, not an AI-generated multi-pose animation.
+The active masters are 32-bit-style pixel illustrations, not literal 32px source sprites or multi-frame sheets. They use intentional square clusters and a restricted cobalt, sky-blue, navy and white palette. Paper and Ink preserve the same silhouette so an appearance change is not a character change. The greeting animates each image with a finite CSS transform, not an AI-generated multi-pose animation.
 
-## Exact generation prompt
+## Original generation prompt: Vee (archived)
 
 ```text
 Use case: stylized-concept
@@ -27,4 +29,20 @@ Style/medium: 64px-game-sprite aesthetic with crisp, deliberate, hard-edged squa
 Composition/framing: one single subject centred; neutral friendly front/three-quarter standing pose with slight asymmetry. Entire body and bookmark tail visible. Only 8–12% transparent padding around the character; no large empty margins.
 Color palette: strictly cobalt #225dcc, deep navy #132d64, blue #82b5f5 and pure white #ffffff. No purple, rainbow, beige or warm tints.
 Constraints: original design; recognizably a folded open-workbook creature, not a robot, orb, generic round ghost, owl or copy of the Codex character. No text, logo, badge, watermark, floor, ground shadow, background, separate prop, extra character, variants, or sprite-sheet layout. Exactly one transparent raster sprite.
+```
+
+## Exact generation prompt: Apex v2
+
+```text
+Use case: stylized-concept
+Asset type: transparent PNG mascot sprite for the VertexED ed-tech web app
+Primary request: Create Apex, an original compact study companion with a distinctive vertex / triangular prism silhouette. A friendly small floating creature, not human, not animal-derived, with a faceted blue-and-white body, a single subtle glowing cyan study-core at its center, small orbiting page-tab fins, and a calm focused expression. It should feel like a rigorous study partner rather than a gaming mascot.
+Scene/backdrop: genuinely transparent background, no shadow plate
+Style/medium: premium polished 3D-meets-illustration, clean vector-like silhouette and crisp material rendering, designed to read beautifully at 72-112px
+Composition/framing: full character centered, square canvas, generous transparent margin
+Lighting/mood: clear cool studio lighting, quietly energetic
+Color palette: VertexED cobalt blue, royal blue, cyan accent, white, very small navy outlines only
+Text: none
+Constraints: make it an entirely new original character; no owl, no bird, no robot with a face screen, no resemblance to Codex, no logos, no lettering, no watermark
+Avoid: generic AI mascot, corporate stock illustration, black background, grid background, overly cute childlike expression, hands, busy details
 ```

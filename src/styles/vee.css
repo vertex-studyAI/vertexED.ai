@@ -9,7 +9,7 @@
   border-radius: 12px;
   isolation: isolate;
 }
-.vee-sprite { width: 96px; height: 96px; object-fit: contain; transform-origin: 50% 90%; image-rendering: pixelated; }
+.vee-sprite { width: 96px; height: 96px; object-fit: contain; transform-origin: 50% 90%; }
 .vee-name {
   display: flex;
   gap: 16px;
@@ -54,8 +54,12 @@
 .vee-close { position: absolute; top: 8px; right: 8px; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 8px; }
 .vee-close:hover { background: hsl(var(--muted)); }
 .vee-intro { display: flex; align-items: center; gap: 16px; margin: 10px 0 20px; }
-.vee-intro img { flex: none; width: 96px; height: 96px; object-fit: contain; image-rendering: pixelated; }
+.vee-intro img { flex: none; width: 96px; height: 96px; object-fit: contain; }
 .vee-reaction-sprite { transform-origin: 50% 80%; }
+.vee-appearance { margin: 0 0 20px; padding: 0; border: 0; }
+.vee-appearance legend { margin-bottom: 8px; font-size: 12px; font-weight: 600; letter-spacing: .06em; color: hsl(var(--muted-foreground)); }
+.vee-appearance label { display: inline-flex; align-items: center; gap: 6px; min-height: 32px; margin-right: 12px; font-size: 14px; color: hsl(var(--foreground)); cursor: pointer; }
+.vee-appearance input { width: 16px; height: 16px; accent-color: hsl(var(--primary)); }
 .vee-play { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 20px; }
 .vee-play button { flex: 1; min-height: 44px; border: 1px solid hsl(var(--border)); border-radius: 8px; font-size: 14px; color: hsl(var(--primary)); background: hsl(var(--primary) / .05); }
 .vee-play button:hover:not([aria-disabled="true"]) { background: hsl(var(--primary) / .12); border-color: hsl(var(--primary)); }
