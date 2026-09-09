@@ -166,43 +166,55 @@ export class PercyStore {
     return Number(this.db.prepare("SELECT COUNT(*) AS n FROM tasks WHERE status IN ('CLAIMED','RUNNING')").get().n);
   }
 
-  resumeStale() {
+  _recoverInterruptedAt(t) {
+    const rows = this.db.prepare(`SELECT id,status,attempts,max_attempts,owner_id,error FROM tasks
+      WHERE status='STALE'
+        OR (status IN ('CLAIMED','RUNNING') AND lease_expires_at IS NOT NULL AND lease_expires_at <= ?)
+        OR (status='READY' AND attempts >= max_attempts)
+      ORDER BY created_at,id`).all(t);
+    const update = this.db.prepare(`UPDATE tasks
+      SET status=?, owner_id=NULL, lease_expires_at=NULL, heartbeat_at=NULL,
+        available_at=?, error=?, updated_at=?
+      WHERE id=?`);
+    const recordFailure = this.db.prepare(
+      'INSERT INTO failures(task_id,owner_id,attempt,error,created_at) VALUES(?,?,?,?,?)',
+    );
+
+    let requeued = 0;
+    let failed = 0;
+    for (const row of rows) {
+      const exhausted = Number(row.attempts) >= Number(row.max_attempts);
+      const target = exhausted ? 'FAILED' : 'READY';
+      const reason = row.error ?? (
+        row.status === 'STALE'
+          ? 'stale task recovered'
+          : row.status === 'READY'
+            ? 'retry budget exhausted'
+            : 'stale lease recovered'
+      );
+      update.run(target, t, reason, t, row.id);
+      recordFailure.run(row.id, row.owner_id, row.attempts, reason, t);
+      if (exhausted) failed += 1;
+      else requeued += 1;
+    }
+    return { recovered: rows.length, requeued, failed };
+  }
+
+  recoverInterrupted() {
     const t = now();
     this.db.exec('BEGIN IMMEDIATE');
     try {
-      const rows = this.db.prepare(`SELECT id,status,attempts,max_attempts,owner_id,error FROM tasks
-        WHERE status='STALE'
-          OR (status IN ('CLAIMED','RUNNING') AND lease_expires_at IS NOT NULL AND lease_expires_at <= ?)
-          OR (status='READY' AND attempts >= max_attempts)
-        ORDER BY created_at,id`).all(t);
-      const update = this.db.prepare(`UPDATE tasks
-        SET status=?, owner_id=NULL, lease_expires_at=NULL, heartbeat_at=NULL,
-          available_at=?, error=?, updated_at=?
-        WHERE id=?`);
-      const recordFailure = this.db.prepare(
-        'INSERT INTO failures(task_id,owner_id,attempt,error,created_at) VALUES(?,?,?,?,?)',
-      );
-
-      for (const row of rows) {
-        const exhausted = Number(row.attempts) >= Number(row.max_attempts);
-        const target = exhausted ? 'FAILED' : 'READY';
-        const reason = row.error ?? (
-          row.status === 'STALE'
-            ? 'stale task recovered'
-            : row.status === 'READY'
-              ? 'retry budget exhausted'
-              : 'stale lease recovered'
-        );
-        update.run(target, t, reason, t, row.id);
-        recordFailure.run(row.id, row.owner_id, row.attempts, reason, t);
-      }
-
+      const result = this._recoverInterruptedAt(t);
       this.db.exec('COMMIT');
-      return rows.length;
+      return result;
     } catch (error) {
       try { this.db.exec('ROLLBACK'); } catch {}
       throw error;
     }
+  }
+
+  resumeStale() {
+    return this.recoverInterrupted().recovered;
   }
 
   claim(workerId, leaseMs = 30_000) {
@@ -212,9 +224,7 @@ export class PercyStore {
     const t = now();
     this.db.exec('BEGIN IMMEDIATE');
     try {
-      this.db.prepare(`UPDATE tasks SET status='READY', owner_id=NULL, lease_expires_at=NULL, heartbeat_at=NULL,
-        error=COALESCE(error,'stale lease recovered'), updated_at=?
-        WHERE status IN ('CLAIMED','RUNNING') AND lease_expires_at IS NOT NULL AND lease_expires_at <= ?`).run(t, t);
+      this._recoverInterruptedAt(t);
       const active = Number(this.db.prepare("SELECT COUNT(*) AS n FROM tasks WHERE status IN ('CLAIMED','RUNNING')").get().n);
       if (active >= this.maxActive) { this.db.exec('COMMIT'); return null; }
       const row = this.db.prepare(`SELECT * FROM tasks WHERE status='READY' AND available_at <= ? AND attempts < max_attempts ORDER BY created_at,id LIMIT 1`).get(t);
