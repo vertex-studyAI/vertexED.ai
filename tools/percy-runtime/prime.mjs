@@ -2,8 +2,9 @@
 import { PercyStore, executeBoundedTask } from './core.mjs';
 import {
   backupDatabase, ClassLimiter, JsonlLogger, parseClassLimits,
-  restoreDatabase, runWorkerLoop, safeSubmit,
+  runWorkerLoop, safeSubmit,
 } from './advanced.mjs';
+import { restoreVerifiedDatabase } from './restore.mjs';
 
 const args = process.argv.slice(2);
 const cmd = args.shift() ?? 'doctor';
@@ -53,7 +54,7 @@ if (cmd === 'restore') {
   const from = take('--from');
   if (!from) throw new Error('--from required');
   assertNoUnexpectedArgs();
-  const result = await restoreDatabase(from, dbPath);
+  const result = await restoreVerifiedDatabase(from, dbPath);
   console.log(JSON.stringify({ restored: true, ...result }, null, 2));
   process.exit(0);
 }
