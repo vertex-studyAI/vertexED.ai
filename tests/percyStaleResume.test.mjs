@@ -166,7 +166,7 @@ test('work-one automatically recovers signal-stale work before claiming the retr
   }
 });
 
-test('resume heals an exhausted READY row left by legacy lease recovery', () => {
+test('claim terminalizes an exhausted expired lease before it can become legacy READY work', () => {
   const fixture = fresh();
   try {
     fixture.store.submit({ id: 'task', maxAttempts: 1 });
@@ -175,22 +175,25 @@ test('resume heals an exhausted READY row left by legacy lease recovery', () => 
     fixture.store.db.prepare('UPDATE tasks SET lease_expires_at=0 WHERE id=?').run('task');
 
     assert.equal(fixture.store.claim('worker-b', 1_000), null);
-    assert.equal(fixture.store.get('task').status, 'READY');
+    assert.equal(fixture.store.get('task').status, 'FAILED');
     assert.equal(fixture.store.get('task').attempts, 1);
+    assert.deepEqual(failures(fixture.store, 'task'), [
+      { owner_id: 'worker-a', attempt: 1, error: 'stale lease recovered' },
+    ]);
     fixture.store.close();
     fixture.store = null;
 
     assert.deepEqual(runResume(fixture.db), {
       resumed: true,
-      recovered: 1,
+      recovered: 0,
       requeued: 0,
-      failed: 1,
+      failed: 0,
     });
 
     fixture.store = new PercyStore(fixture.db);
     assert.equal(fixture.store.get('task').status, 'FAILED');
     assert.deepEqual(failures(fixture.store, 'task'), [
-      { owner_id: null, attempt: 1, error: 'stale lease recovered' },
+      { owner_id: 'worker-a', attempt: 1, error: 'stale lease recovered' },
     ]);
   } finally {
     cleanup(fixture);
