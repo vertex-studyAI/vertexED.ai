@@ -1,5 +1,4 @@
-import { appendFileSync, mkdirSync, readFileSync, statSync } from 'node:fs';
-import { backup } from 'node:sqlite';
+import { appendFileSync, mkdirSync, readFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { createHash } from 'node:crypto';
 
@@ -130,14 +129,6 @@ export class JsonlLogger {
 
 export function sha256File(path) {
   return createHash('sha256').update(readFileSync(path)).digest('hex');
-}
-
-export async function backupDatabase(sourceDb, destination) {
-  if (!sourceDb || typeof sourceDb.prepare !== 'function') throw new TypeError('open DatabaseSync source required');
-  const dest = resolve(destination);
-  mkdirSync(dirname(dest), { recursive: true });
-  const pages = await backup(sourceDb, dest);
-  return { path: dest, bytes: statSync(dest).size, sha256: sha256File(dest), pages };
 }
 
 export class ClassLimiter {

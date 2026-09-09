@@ -1,18 +1,18 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { mkdtempSync, readFileSync, rmSync } from 'node:fs';
-import { DatabaseSync } from 'node:sqlite';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { PercyStore } from '../tools/percy-runtime/core.mjs';
 import {
-  backupDatabase, ClassLimiter, JsonlLogger, parseClassLimits, payloadBytes,
+  ClassLimiter, JsonlLogger, parseClassLimits, payloadBytes,
   runWorkerLoop, safeSubmit, validateSubmission,
 } from '../tools/percy-runtime/advanced.mjs';
 
-test('advanced runtime does not expose the legacy unverified restore primitive', async () => {
+test('advanced runtime does not expose unverified backup or restore primitives', async () => {
   const advancedRuntime = await import('../tools/percy-runtime/advanced.mjs');
   assert.equal('restoreDatabase' in advancedRuntime, false);
+  assert.equal('backupDatabase' in advancedRuntime, false);
 });
 
 test('class limits parse and validate', () => {
@@ -61,22 +61,6 @@ test('JSONL logger redacts credentials embedded inside provider error strings', 
     assert.equal(row.detail[1], 'password=[REDACTED]');
     assert.equal(row.detail[2], 'safe diagnostic');
   } finally { rmSync(dir, { recursive: true, force: true }); }
-});
-
-test('online SQLite backup preserves a committed snapshot', async () => {
-  const dir = mkdtempSync(join(tmpdir(), 'percy-backup-'));
-  let db;
-  try {
-    const path = join(dir, 'db.sqlite'); const bak = join(dir, 'backups', 'db.sqlite');
-    db = new DatabaseSync(path); db.exec('CREATE TABLE t(x TEXT); INSERT INTO t VALUES (\'a\'),(\'b\');');
-    const result = await backupDatabase(db, bak);
-    db.exec('INSERT INTO t VALUES (\'c\');');
-    const backupDb = new DatabaseSync(bak, { readOnly: true });
-    try { assert.equal(backupDb.prepare('SELECT COUNT(*) AS n FROM t').get().n, 2); } finally { backupDb.close(); }
-    assert.equal(result.path, bak);
-    assert.equal(result.bytes > 0, true);
-    assert.equal(result.sha256.length, 64);
-  } finally { try { db?.close(); } catch (error) { void error; } rmSync(dir, { recursive: true, force: true }); }
 });
 
 test('ClassLimiter enforces per-class concurrency', async () => {
