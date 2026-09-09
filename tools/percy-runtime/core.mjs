@@ -166,12 +166,16 @@ export class PercyStore {
     return Number(this.db.prepare("SELECT COUNT(*) AS n FROM tasks WHERE status IN ('CLAIMED','RUNNING')").get().n);
   }
 
-  _recoverInterruptedAt(t) {
-    const rows = this.db.prepare(`SELECT id,status,attempts,max_attempts,owner_id,error FROM tasks
-      WHERE status='STALE'
+  _recoverInterruptedAt(t, taskId = null) {
+    const suffix = taskId == null ? '' : ' AND id=?';
+    const statement = this.db.prepare(`SELECT id,status,attempts,max_attempts,owner_id,error FROM tasks
+      WHERE (
+        status='STALE'
         OR (status IN ('CLAIMED','RUNNING') AND lease_expires_at IS NOT NULL AND lease_expires_at <= ?)
         OR (status='READY' AND attempts >= max_attempts)
-      ORDER BY created_at,id`).all(t);
+      )${suffix}
+      ORDER BY created_at,id`);
+    const rows = taskId == null ? statement.all(t) : statement.all(t, taskId);
     const update = this.db.prepare(`UPDATE tasks
       SET status=?, owner_id=NULL, lease_expires_at=NULL, heartbeat_at=NULL,
         available_at=?, error=?, updated_at=?
@@ -360,7 +364,21 @@ export class PercyStore {
   }
 
   requeueStale(taskId) {
-    return this.db.prepare("UPDATE tasks SET status='READY', updated_at=? WHERE id=? AND status='STALE'").run(now(), taskId).changes === 1;
+    const t = now();
+    this.db.exec('BEGIN IMMEDIATE');
+    try {
+      const stale = this.db.prepare("SELECT 1 AS present FROM tasks WHERE id=? AND status='STALE'").get(taskId);
+      if (!stale) {
+        this.db.exec('COMMIT');
+        return false;
+      }
+      const result = this._recoverInterruptedAt(t, taskId);
+      this.db.exec('COMMIT');
+      return result.recovered === 1;
+    } catch (error) {
+      try { this.db.exec('ROLLBACK'); } catch {}
+      throw error;
+    }
   }
 
   cancel(taskId) {
