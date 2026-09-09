@@ -1,6 +1,6 @@
 import { backup, DatabaseSync } from 'node:sqlite';
-import { existsSync, mkdirSync, rmSync } from 'node:fs';
-import { dirname, resolve } from 'node:path';
+import { existsSync, mkdirSync, mkdtempSync, renameSync, rmSync } from 'node:fs';
+import { basename, dirname, join, resolve } from 'node:path';
 
 const TABLES = ['meta', 'tasks', 'evidence', 'failures'];
 
@@ -29,6 +29,32 @@ function removeBackupArtifacts(output) {
   for (const path of backupArtifacts(output)) rmSync(path, { force: true });
 }
 
+function installVerifiedBackup(stagedOutput, output, { overwrite }) {
+  const rollbackToken = `${process.pid}-${Date.now()}`;
+  const displaced = [];
+
+  try {
+    if (overwrite) {
+      for (const path of backupArtifacts(output)) {
+        if (!existsSync(path)) continue;
+        const rollbackPath = `${path}.previous-${rollbackToken}`;
+        renameSync(path, rollbackPath);
+        displaced.push([path, rollbackPath]);
+      }
+    }
+
+    renameSync(stagedOutput, output);
+  } catch (error) {
+    removeBackupArtifacts(output);
+    for (const [originalPath, rollbackPath] of displaced.reverse()) {
+      if (existsSync(rollbackPath)) renameSync(rollbackPath, originalPath);
+    }
+    throw error;
+  }
+
+  for (const [, rollbackPath] of displaced) rmSync(rollbackPath, { force: true });
+}
+
 export async function createVerifiedBackup(
   sourceDb,
   sourcePath,
@@ -49,7 +75,6 @@ export async function createVerifiedBackup(
   }
 
   mkdirSync(dirname(output), { recursive: true });
-  if (overwrite) removeBackupArtifacts(output);
 
   const sourceIntegrity = sourceDb.prepare('PRAGMA integrity_check').all().map((row) => row.integrity_check);
   if (sourceIntegrity.length !== 1 || sourceIntegrity[0] !== 'ok') {
@@ -57,21 +82,28 @@ export async function createVerifiedBackup(
   }
   assertPercySchema(sourceDb);
 
+  const stagingDir = mkdtempSync(join(dirname(output), '.percy-backup-'));
+  const stagedOutput = join(stagingDir, basename(output));
+
   try {
-    const pages = await backup(sourceDb, output);
-    const copy = new DatabaseSync(output, { readOnly: true });
+    const pages = await backup(sourceDb, stagedOutput);
+    const copy = new DatabaseSync(stagedOutput, { readOnly: true });
+    let integrity;
+    let counts;
     try {
-      const integrity = copy.prepare('PRAGMA integrity_check').all().map((row) => row.integrity_check);
+      integrity = copy.prepare('PRAGMA integrity_check').all().map((row) => row.integrity_check);
       if (integrity.length !== 1 || integrity[0] !== 'ok') {
         throw new Error(`backup integrity check failed: ${integrity.join(', ')}`);
       }
       assertPercySchema(copy);
-      return { output, pages, integrity, counts: tableCounts(copy) };
+      counts = tableCounts(copy);
     } finally {
       copy.close();
     }
-  } catch (error) {
-    removeBackupArtifacts(output);
-    throw error;
+
+    installVerifiedBackup(stagedOutput, output, { overwrite });
+    return { output, pages, integrity, counts };
+  } finally {
+    rmSync(stagingDir, { recursive: true, force: true });
   }
 }

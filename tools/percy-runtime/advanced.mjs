@@ -1,5 +1,5 @@
-import { appendFileSync, existsSync, mkdirSync, readFileSync, statSync } from 'node:fs';
-import { backup, DatabaseSync } from 'node:sqlite';
+import { appendFileSync, mkdirSync, readFileSync, statSync } from 'node:fs';
+import { backup } from 'node:sqlite';
 import { dirname, resolve } from 'node:path';
 import { createHash } from 'node:crypto';
 
@@ -103,13 +103,13 @@ function redactString(value) {
     .replace(/\bsk-[A-Za-z0-9_-]{12,}\b/g, '[REDACTED]');
 }
 
-function redact(value) {
+export function redactSensitive(value) {
   if (typeof value === 'string') return redactString(value);
-  if (Array.isArray(value)) return value.map(redact);
+  if (Array.isArray(value)) return value.map(redactSensitive);
   if (value && typeof value === 'object') {
     return Object.fromEntries(Object.entries(value).map(([key, val]) => {
       if (/(token|secret|password|authorization|api[_-]?key|cookie)/i.test(key)) return [key, '[REDACTED]'];
-      return [key, redact(val)];
+      return [key, redactSensitive(val)];
     }));
   }
   return value;
@@ -122,7 +122,7 @@ export class JsonlLogger {
   }
 
   write(event, data = {}) {
-    const row = { at: new Date().toISOString(), event, ...redact(data) };
+    const row = { at: new Date().toISOString(), event, ...redactSensitive(data) };
     appendFileSync(this.path, `${JSON.stringify(row)}\n`, 'utf8');
     return row;
   }
@@ -138,20 +138,6 @@ export async function backupDatabase(sourceDb, destination) {
   mkdirSync(dirname(dest), { recursive: true });
   const pages = await backup(sourceDb, dest);
   return { path: dest, bytes: statSync(dest).size, sha256: sha256File(dest), pages };
-}
-
-export async function restoreDatabase(backupPath, destination) {
-  const source = resolve(backupPath);
-  const dest = resolve(destination);
-  if (!existsSync(source)) throw new Error(`backup not found: ${source}`);
-  mkdirSync(dirname(dest), { recursive: true });
-  const sourceDb = new DatabaseSync(source, { readOnly: true });
-  try {
-    const pages = await backup(sourceDb, dest);
-    return { path: dest, bytes: statSync(dest).size, sha256: sha256File(dest), pages };
-  } finally {
-    sourceDb.close();
-  }
 }
 
 export class ClassLimiter {

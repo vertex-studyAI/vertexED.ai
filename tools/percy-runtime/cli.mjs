@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 import { PercyStore, executeBoundedTask } from './core.mjs';
 import { createVerifiedBackup } from './backup.mjs';
-import { JsonlLogger } from './advanced.mjs';
+import { JsonlLogger, redactSensitive } from './advanced.mjs';
+import { recoverInterruptedTasks } from './recovery.mjs';
 
 const args = process.argv.slice(2);
 const cmd = args.shift() ?? 'status';
@@ -49,7 +50,7 @@ try {
       active: store.activeCount(),
       queued: store.queueDepth(),
       counts: store.counts(),
-      tasks: store.list(20),
+      tasks: redactSensitive(store.list(20)),
     }, null, 2));
   } else if (cmd === 'integrity') {
     const rows = store.integrityCheck();
@@ -65,13 +66,18 @@ try {
     store.setPaused(true);
     console.log('paused');
   } else if (cmd === 'resume') {
+    const recovery = recoverInterruptedTasks(store);
     store.setPaused(false);
-    console.log(JSON.stringify({ resumed: true, staleRecovered: store.resumeStale() }));
+    console.log(JSON.stringify({ resumed: true, ...recovery }));
   } else if (cmd === 'verify') {
     const taskId = take('--task-id');
     if (!taskId) throw new Error('--task-id required');
     const ok = store.verifyComplete(taskId);
-    console.log(JSON.stringify({ taskId, complete: ok, evidence: store.listEvidence(taskId) }, null, 2));
+    console.log(JSON.stringify({
+      taskId,
+      complete: ok,
+      evidence: redactSensitive(store.listEvidence(taskId)),
+    }, null, 2));
     if (!ok) process.exitCode = 2;
   } else if (cmd === 'work-one') {
     const workerId = take('--worker-id', `worker-${process.pid}`);
@@ -79,7 +85,9 @@ try {
     const timeoutMs = Number(take('--timeout-ms', '10000'));
     const logPath = take('--log', process.env.PERCY_LOG ?? '.percy/events.jsonl');
     const logger = new JsonlLogger(logPath);
+    if (!store.isPaused()) recoverInterruptedTasks(store);
     const task = store.claim(workerId, leaseMs);
+    if (!store.isPaused()) recoverInterruptedTasks(store);
     if (!task) {
       logger.write('worker_idle', { workerId });
       console.log(JSON.stringify({ workerId, status: 'idle' }));

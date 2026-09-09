@@ -59,6 +59,7 @@ export class PercyStore {
         kind TEXT NOT NULL,
         value TEXT NOT NULL,
         sha256 TEXT NOT NULL,
+        attempt INTEGER NOT NULL DEFAULT 0,
         metadata TEXT NOT NULL,
         created_at INTEGER NOT NULL
       );
@@ -74,11 +75,29 @@ export class PercyStore {
     `);
   }
 
+  ensureEvidenceAttemptColumn() {
+    this.db.exec('BEGIN IMMEDIATE');
+    try {
+      const columns = new Set(
+        this.db.prepare('PRAGMA table_info(evidence)').all().map((row) => row.name),
+      );
+      if (!columns.has('attempt')) {
+        this.db.exec('ALTER TABLE evidence ADD COLUMN attempt INTEGER NOT NULL DEFAULT 0;');
+      }
+      this.db.exec('CREATE INDEX IF NOT EXISTS idx_evidence_task_attempt ON evidence(task_id, attempt, created_at);');
+      this.db.exec('COMMIT');
+    } catch (error) {
+      try { this.db.exec('ROLLBACK'); } catch {}
+      throw error;
+    }
+  }
+
   migrate() {
     const existing = this.db.prepare("SELECT sql FROM sqlite_master WHERE type='table' AND name='tasks'").get()?.sql ?? '';
     const legacy = existing.includes("'queued'") || existing.includes("'succeeded'");
     if (!legacy) {
       this.createSchema();
+      this.ensureEvidenceAttemptColumn();
       return;
     }
 
@@ -109,6 +128,7 @@ export class PercyStore {
       try { this.db.exec('ROLLBACK'); } catch {}
       throw error;
     }
+    this.ensureEvidenceAttemptColumn();
   }
 
   close() { this.db.close(); }
@@ -146,12 +166,59 @@ export class PercyStore {
     return Number(this.db.prepare("SELECT COUNT(*) AS n FROM tasks WHERE status IN ('CLAIMED','RUNNING')").get().n);
   }
 
-  resumeStale() {
+  _recoverInterruptedAt(t, taskId = null) {
+    const suffix = taskId == null ? '' : ' AND id=?';
+    const statement = this.db.prepare(`SELECT id,status,attempts,max_attempts,owner_id,error FROM tasks
+      WHERE (
+        status='STALE'
+        OR (status IN ('CLAIMED','RUNNING') AND lease_expires_at IS NOT NULL AND lease_expires_at <= ?)
+        OR (status='READY' AND attempts >= max_attempts)
+      )${suffix}
+      ORDER BY created_at,id`);
+    const rows = taskId == null ? statement.all(t) : statement.all(t, taskId);
+    const update = this.db.prepare(`UPDATE tasks
+      SET status=?, owner_id=NULL, lease_expires_at=NULL, heartbeat_at=NULL,
+        available_at=?, error=?, updated_at=?
+      WHERE id=?`);
+    const recordFailure = this.db.prepare(
+      'INSERT INTO failures(task_id,owner_id,attempt,error,created_at) VALUES(?,?,?,?,?)',
+    );
+
+    let requeued = 0;
+    let failed = 0;
+    for (const row of rows) {
+      const exhausted = Number(row.attempts) >= Number(row.max_attempts);
+      const target = exhausted ? 'FAILED' : 'READY';
+      const reason = row.error ?? (
+        row.status === 'STALE'
+          ? 'stale task recovered'
+          : row.status === 'READY'
+            ? 'retry budget exhausted'
+            : 'stale lease recovered'
+      );
+      update.run(target, t, reason, t, row.id);
+      recordFailure.run(row.id, row.owner_id, row.attempts, reason, t);
+      if (exhausted) failed += 1;
+      else requeued += 1;
+    }
+    return { recovered: rows.length, requeued, failed };
+  }
+
+  recoverInterrupted() {
     const t = now();
-    const result = this.db.prepare(`UPDATE tasks SET status='READY', owner_id=NULL, lease_expires_at=NULL, heartbeat_at=NULL,
-      error=COALESCE(error,'stale lease recovered'), updated_at=?
-      WHERE status IN ('CLAIMED','RUNNING') AND lease_expires_at IS NOT NULL AND lease_expires_at <= ?`).run(t, t);
-    return Number(result.changes);
+    this.db.exec('BEGIN IMMEDIATE');
+    try {
+      const result = this._recoverInterruptedAt(t);
+      this.db.exec('COMMIT');
+      return result;
+    } catch (error) {
+      try { this.db.exec('ROLLBACK'); } catch {}
+      throw error;
+    }
+  }
+
+  resumeStale() {
+    return this.recoverInterrupted().recovered;
   }
 
   claim(workerId, leaseMs = 30_000) {
@@ -161,9 +228,7 @@ export class PercyStore {
     const t = now();
     this.db.exec('BEGIN IMMEDIATE');
     try {
-      this.db.prepare(`UPDATE tasks SET status='READY', owner_id=NULL, lease_expires_at=NULL, heartbeat_at=NULL,
-        error=COALESCE(error,'stale lease recovered'), updated_at=?
-        WHERE status IN ('CLAIMED','RUNNING') AND lease_expires_at IS NOT NULL AND lease_expires_at <= ?`).run(t, t);
+      this._recoverInterruptedAt(t);
       const active = Number(this.db.prepare("SELECT COUNT(*) AS n FROM tasks WHERE status IN ('CLAIMED','RUNNING')").get().n);
       if (active >= this.maxActive) { this.db.exec('COMMIT'); return null; }
       const row = this.db.prepare(`SELECT * FROM tasks WHERE status='READY' AND available_at <= ? AND attempts < max_attempts ORDER BY created_at,id LIMIT 1`).get(t);
@@ -197,13 +262,14 @@ export class PercyStore {
 
   addEvidence(taskId, kind, value, metadata = {}) {
     if (!kind) throw new TypeError('evidence kind required');
-    if (!this.db.prepare('SELECT id FROM tasks WHERE id=?').get(taskId)) throw new Error(`unknown task: ${taskId}`);
+    const task = this.db.prepare('SELECT id,attempts FROM tasks WHERE id=?').get(taskId);
+    if (!task) throw new Error(`unknown task: ${taskId}`);
     const id = randomUUID();
     const packed = json(value);
     const digest = sha256(packed);
-    this.db.prepare('INSERT INTO evidence(id,task_id,kind,value,sha256,metadata,created_at) VALUES(?,?,?,?,?,?,?)')
-      .run(id, taskId, kind, packed, digest, json(metadata), now());
-    return { id, task_id: taskId, kind, sha256: digest };
+    this.db.prepare('INSERT INTO evidence(id,task_id,kind,value,sha256,attempt,metadata,created_at) VALUES(?,?,?,?,?,?,?,?)')
+      .run(id, taskId, kind, packed, digest, task.attempts, json(metadata), now());
+    return { id, task_id: taskId, kind, sha256: digest, attempt: Number(task.attempts) };
   }
 
   addOwnedEvidence(taskId, workerId, kind, value, metadata = {}) {
@@ -216,17 +282,17 @@ export class PercyStore {
 
     this.db.exec('BEGIN IMMEDIATE');
     try {
-      const owned = this.db.prepare(`SELECT id FROM tasks
+      const owned = this.db.prepare(`SELECT id,attempts FROM tasks
         WHERE id=? AND status IN ('CLAIMED','RUNNING') AND owner_id=?
           AND lease_expires_at IS NOT NULL AND lease_expires_at > ?`).get(taskId, workerId, t);
       if (!owned) {
         this.db.exec('ROLLBACK');
         return null;
       }
-      this.db.prepare('INSERT INTO evidence(id,task_id,kind,value,sha256,metadata,created_at) VALUES(?,?,?,?,?,?,?)')
-        .run(id, taskId, kind, packed, digest, json(metadata), t);
+      this.db.prepare('INSERT INTO evidence(id,task_id,kind,value,sha256,attempt,metadata,created_at) VALUES(?,?,?,?,?,?,?,?)')
+        .run(id, taskId, kind, packed, digest, owned.attempts, json(metadata), t);
       this.db.exec('COMMIT');
-      return { id, task_id: taskId, kind, sha256: digest };
+      return { id, task_id: taskId, kind, sha256: digest, attempt: Number(owned.attempts) };
     } catch (error) {
       try { this.db.exec('ROLLBACK'); } catch {}
       throw error;
@@ -247,7 +313,12 @@ export class PercyStore {
   }
 
   verifyComplete(taskId) {
-    const count = Number(this.db.prepare('SELECT COUNT(*) AS n FROM evidence WHERE task_id=?').get(taskId).n);
+    const task = this.db.prepare("SELECT attempts FROM tasks WHERE id=? AND status='VERIFYING'").get(taskId);
+    if (!task) return false;
+    const count = Number(
+      this.db.prepare('SELECT COUNT(*) AS n FROM evidence WHERE task_id=? AND attempt=?')
+        .get(taskId, task.attempts).n,
+    );
     if (count < 1) return false;
     return this.db.prepare("UPDATE tasks SET status='COMPLETE', updated_at=? WHERE id=? AND status='VERIFYING'")
       .run(now(), taskId).changes === 1;
@@ -293,7 +364,21 @@ export class PercyStore {
   }
 
   requeueStale(taskId) {
-    return this.db.prepare("UPDATE tasks SET status='READY', updated_at=? WHERE id=? AND status='STALE'").run(now(), taskId).changes === 1;
+    const t = now();
+    this.db.exec('BEGIN IMMEDIATE');
+    try {
+      const stale = this.db.prepare("SELECT 1 AS present FROM tasks WHERE id=? AND status='STALE'").get(taskId);
+      if (!stale) {
+        this.db.exec('COMMIT');
+        return false;
+      }
+      const result = this._recoverInterruptedAt(t, taskId);
+      this.db.exec('COMMIT');
+      return result.recovered === 1;
+    } catch (error) {
+      try { this.db.exec('ROLLBACK'); } catch {}
+      throw error;
+    }
   }
 
   cancel(taskId) {

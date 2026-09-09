@@ -1,9 +1,11 @@
 #!/usr/bin/env node
 import { PercyStore, executeBoundedTask } from './core.mjs';
 import {
-  backupDatabase, ClassLimiter, JsonlLogger, parseClassLimits,
-  restoreDatabase, runWorkerLoop, safeSubmit,
+  ClassLimiter, JsonlLogger, parseClassLimits,
+  runWorkerLoop, safeSubmit,
 } from './advanced.mjs';
+import { createVerifiedBackup } from './backup.mjs';
+import { restoreVerifiedDatabase } from './restore.mjs';
 
 const args = process.argv.slice(2);
 const cmd = args.shift() ?? 'doctor';
@@ -14,6 +16,12 @@ const take = (name, fallback) => {
   const value = args[i + 1];
   args.splice(i, 2);
   return value;
+};
+const flag = (name) => {
+  const i = args.indexOf(name);
+  if (i < 0) return false;
+  args.splice(i, 1);
+  return true;
 };
 const assertNoUnexpectedArgs = () => {
   if (args.length === 0) return;
@@ -53,7 +61,7 @@ if (cmd === 'restore') {
   const from = take('--from');
   if (!from) throw new Error('--from required');
   assertNoUnexpectedArgs();
-  const result = await restoreDatabase(from, dbPath);
+  const result = await restoreVerifiedDatabase(from, dbPath);
   console.log(JSON.stringify({ restored: true, ...result }, null, 2));
   process.exit(0);
 }
@@ -79,9 +87,10 @@ try {
     console.log(JSON.stringify(safeSubmit(store, { kind, payload, maxAttempts }, { maxReady, maxPayloadBytes }), null, 2));
   } else if (cmd === 'backup') {
     const to = take('--to', `${dbPath}.backup`);
+    const overwrite = flag('--overwrite');
     assertNoUnexpectedArgs();
-    const result = await backupDatabase(store.db, to);
-    console.log(JSON.stringify({ backedUp: true, ...result }, null, 2));
+    const result = await createVerifiedBackup(store.db, store.path, to, { overwrite });
+    console.log(JSON.stringify({ status: 'BACKUP_VERIFIED', ...result }, null, 2));
   } else if (cmd === 'work') {
     const workers = Number(take('--workers', String(maxActive)));
     const leaseMs = parseTimerMs('--lease-ms', take('--lease-ms', '30000'), 100);
