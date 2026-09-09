@@ -7,8 +7,13 @@ import { join } from 'node:path';
 import { PercyStore } from '../tools/percy-runtime/core.mjs';
 import {
   backupDatabase, ClassLimiter, JsonlLogger, parseClassLimits, payloadBytes,
-  restoreDatabase, runWorkerLoop, safeSubmit, validateSubmission,
+  runWorkerLoop, safeSubmit, validateSubmission,
 } from '../tools/percy-runtime/advanced.mjs';
+
+test('advanced runtime does not expose the legacy unverified restore primitive', async () => {
+  const advancedRuntime = await import('../tools/percy-runtime/advanced.mjs');
+  assert.equal('restoreDatabase' in advancedRuntime, false);
+});
 
 test('class limits parse and validate', () => {
   const m = parseClassLimits('default=2,remote=4,local=1');
@@ -58,18 +63,19 @@ test('JSONL logger redacts credentials embedded inside provider error strings', 
   } finally { rmSync(dir, { recursive: true, force: true }); }
 });
 
-test('online SQLite backup and restore preserve committed rows', async () => {
+test('online SQLite backup preserves a committed snapshot', async () => {
   const dir = mkdtempSync(join(tmpdir(), 'percy-backup-'));
   let db;
   try {
-    const path = join(dir, 'db.sqlite'); const bak = join(dir, 'backups', 'db.sqlite'); const restored = join(dir, 'restored.sqlite');
+    const path = join(dir, 'db.sqlite'); const bak = join(dir, 'backups', 'db.sqlite');
     db = new DatabaseSync(path); db.exec('CREATE TABLE t(x TEXT); INSERT INTO t VALUES (\'a\'),(\'b\');');
-    const b = await backupDatabase(db, bak);
+    const result = await backupDatabase(db, bak);
     db.exec('INSERT INTO t VALUES (\'c\');');
-    const r = await restoreDatabase(bak, restored);
-    const restoredDb = new DatabaseSync(restored, { readOnly: true });
-    try { assert.equal(restoredDb.prepare('SELECT COUNT(*) AS n FROM t').get().n, 2); } finally { restoredDb.close(); }
-    assert.equal(b.sha256, r.sha256);
+    const backupDb = new DatabaseSync(bak, { readOnly: true });
+    try { assert.equal(backupDb.prepare('SELECT COUNT(*) AS n FROM t').get().n, 2); } finally { backupDb.close(); }
+    assert.equal(result.path, bak);
+    assert.equal(result.bytes > 0, true);
+    assert.equal(result.sha256.length, 64);
   } finally { try { db?.close(); } catch (error) { void error; } rmSync(dir, { recursive: true, force: true }); }
 });
 
