@@ -20,6 +20,7 @@ test('runtime source, API, database, and production build-script changes continu
     'scripts/generate-study-guide-sitemap.mjs',
     'scripts/generate-study-guide-provenance.mjs',
     'contracts/studyArtifact.js',
+    'scripts/immutable-revision.mjs',
     'scripts/validate-vercel-functions.mjs',
     'scripts/vercel-ignore-build.mjs',
   ]) assert.equal(isRuntimeRelevant(file), true, file);
@@ -129,6 +130,10 @@ test('deployment diff falls back to the previous commit outside Vercel', () => {
 
 test('deployment diff rejects a malformed Vercel previous SHA', () => {
   assert.throws(() => readChangedFiles({ previousSha: 'not-a-sha', runGit: () => '' }), /invalid VERCEL_GIT_PREVIOUS_SHA/);
+});
+
+test('deployment diff rejects an abbreviated Vercel previous SHA', () => {
+  assert.throws(() => readChangedFiles({ previousSha: '1234567', runGit: () => '' }), /invalid VERCEL_GIT_PREVIOUS_SHA/);
 });
 
 test('latest runtime revision skips newer operations-only commits', () => {

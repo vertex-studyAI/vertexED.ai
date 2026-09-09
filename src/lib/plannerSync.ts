@@ -1,4 +1,8 @@
 import { authFetchWithAccessToken, getAccessToken } from '@/lib/apiAuth';
+import { createRequestDeadline } from '@/lib/apiRequestRecovery.mjs';
+
+const PLANNER_SYNC_TIMEOUT_MS = 15_000;
+const PLANNER_SYNC_TIMEOUT_MESSAGE = 'Cloud sync timed out; using planner saved on this device';
 import { getUserContentStorageScope } from '@/lib/userContentStorageScope.mjs';
 import { readSnapshotArray, backupSnapshotBytes, readSnapshotMetadata, writeSnapshotMetadata, reconcileSnapshot, serializeSnapshotWrite, captureSnapshotRevision, expectedSnapshotRevision } from '@/lib/snapshotConcurrency.mjs';
 import type { TaskItem } from '@/features/study-calendar/components/Schedule';
@@ -87,9 +91,10 @@ export async function loadPlannerSnapshot(storageScope?: string | null, acceptCl
   const accessToken = await getAccessToken().catch(() => null);
   if (!resolvedScope || !accessToken || getUserContentStorageScope() !== resolvedScope) return { snapshot: local, cloudSynced: false, readOnly: localReadFailed, error: 'Account changed or session unavailable.' };
   const metadataKey = plannerStorageKeys(resolvedScope).updatedAt;
+  const deadline = createRequestDeadline(undefined, PLANNER_SYNC_TIMEOUT_MS);
 
   try {
-    const res = await authFetchWithAccessToken('/api/user-content?kind=planner&limit=1', accessToken);
+    const res = await authFetchWithAccessToken('/api/user-content?kind=planner&limit=1', accessToken, { signal: deadline.signal });
     const data = await res.json().catch(() => null);
     if (!res.ok) {
       trackPlannerRetrieved({
@@ -131,8 +136,10 @@ export async function loadPlannerSnapshot(storageScope?: string | null, acceptCl
       snapshot: local,
       cloudSynced: false,
       readOnly: localReadFailed,
-      error: err instanceof Error ? err.message : 'Planner saved on this device only',
+      error: deadline.didTimeout() ? PLANNER_SYNC_TIMEOUT_MESSAGE : err instanceof Error ? err.message : 'Planner saved on this device only',
     };
+  } finally {
+    deadline.cleanup();
   }
 }
 
@@ -151,6 +158,7 @@ export async function savePlannerSnapshot(
     writeSnapshotMetadata(localStorage, metadataKey, { ...metadata, pending: true });
   } catch (error) { return { ok: false, cloudSynced: false, error: error instanceof Error ? error.message : 'Browser storage is unavailable. Export your work before leaving.' }; }
   return serializeSnapshotWrite(metadataKey, async () => {
+    const deadline = createRequestDeadline(undefined, PLANNER_SYNC_TIMEOUT_MS);
     try {
       if (getUserContentStorageScope() !== resolvedScope) return { ok: true, cloudSynced: false, error: 'Account changed. Work remains on this device.' };
       const token = accessToken || await getAccessToken();
@@ -159,6 +167,7 @@ export async function savePlannerSnapshot(
       const payload = { tasks: snapshot.tasks, mode: snapshot.mode, version: 1 };
       if (new TextEncoder().encode(JSON.stringify(payload)).length > 256 * 1024) return { ok: true, cloudSynced: false, error: 'This collection exceeds the cloud save limit. Export a backup and reduce its size to resume sync.' };
       const res = await authFetchWithAccessToken('/api/user-content', token, {
+        signal: deadline.signal,
         method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ kind: 'planner', title: 'Study Planner', replace: true, expectedUpdatedAt: expectedSnapshotRevision(metadataKey, metadata.revision), payload }),
       });
@@ -172,6 +181,9 @@ export async function savePlannerSnapshot(
       writeSnapshotMetadata(localStorage, metadataKey, { revision: data.item.updated_at, pending, syncedLocalTime: snapshot.updatedAt });
       trackPlannerSaved({ cloudSynced: !pending, taskCount: snapshot.tasks.length });
       return { ok: true, cloudSynced: !pending };
-    } catch (err) { return { ok: true, cloudSynced: false, error: err instanceof Error ? err.message : 'Saved on this device only' }; }
+    } catch (err) { return { ok: true, cloudSynced: false, error: deadline.didTimeout() ? PLANNER_SYNC_TIMEOUT_MESSAGE : err instanceof Error ? err.message : 'Saved on this device only' }; }
+    finally {
+      deadline.cleanup();
+    }
   });
 }

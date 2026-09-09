@@ -7,6 +7,9 @@ on:
       - 'api/_handlers/health.js'
       - 'scripts/smoke-deploy.mjs'
       - 'scripts/vercel-ignore-build.mjs'
+      - 'scripts/immutable-revision.mjs'
+      - 'scripts/validate-immutable-revision.mjs'
+      - 'tests/immutableRevision.test.mjs'
   push:
     branches:
       - main
@@ -15,6 +18,9 @@ on:
       - 'api/_handlers/health.js'
       - 'scripts/smoke-deploy.mjs'
       - 'scripts/vercel-ignore-build.mjs'
+      - 'scripts/immutable-revision.mjs'
+      - 'scripts/validate-immutable-revision.mjs'
+      - 'tests/immutableRevision.test.mjs'
   schedule:
     # Offset from the top of the hour to reduce scheduler congestion.
     - cron: '17 * * * *'
@@ -29,28 +35,40 @@ concurrency:
   cancel-in-progress: true
 
 env:
+  SOURCE_SHA: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
   SMOKE_BASE_URL: https://www.vertexed.app
   SMOKE_TIMEOUT_MS: '20000'
   INCIDENT_TITLE: Production health monitor failure
 
 jobs:
   monitor:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 8
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - name: Checkout exact source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
+          ref: ${{ env.SOURCE_SHA }}
           persist-credentials: false
           fetch-depth: 0
+
+      - name: Verify exact source binding
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "${SOURCE_SHA}"
 
       - name: Setup Node.js
         uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
         with:
           node-version: '22'
 
+      - name: Verify immutable revision contract
+        run: node --test tests/immutableRevision.test.mjs
+
       - name: Run canonical public production smoke checks
+        if: github.event_name != 'pull_request'
         id: probe
         continue-on-error: true
         shell: bash
@@ -64,7 +82,8 @@ jobs:
           expected_revision='not-enforced-for-this-ref'
 
           if [ "${GITHUB_REF}" = 'refs/heads/main' ]; then
-            expected_revision="$(node scripts/vercel-ignore-build.mjs --print-latest-runtime-revision)"
+            deploy_revision="$(node scripts/vercel-ignore-build.mjs --print-latest-runtime-revision)"
+            expected_revision="$(node scripts/validate-immutable-revision.mjs "$deploy_revision")"
             export EXPECTED_VERTEXED_REVISION="$expected_revision"
           else
             unset EXPECTED_VERTEXED_REVISION || true
@@ -108,7 +127,7 @@ jobs:
           fi
 
       - name: Upload probe evidence
-        if: always()
+        if: always() && github.event_name != 'pull_request'
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
           name: production-health-${{ github.run_id }}
@@ -134,7 +153,7 @@ jobs:
           - Evidence artifact: production-health-${GITHUB_RUN_ID}
           - Workflow commit: ${GITHUB_SHA}
 
-          On main, the retained log also records the latest deploy-relevant revision derived from the same path contract used by the Vercel ignored-build guard and requires the live health endpoint to serve that exact SHA. Review the evidence and production logs before changing or rolling back production. Authenticated product journeys remain tracked separately in issue #13.
+          On main, the retained log also records the latest deploy-relevant revision derived from the same path contract used by the Vercel ignored-build guard and requires the live health endpoint to serve that exact immutable 40-character Git SHA. Review the evidence and production logs before changing or rolling back production. Authenticated product journeys remain tracked separately in issue #13.
 
           This incident body is updated in place on repeated failures so the hourly monitor does not flood the issue timeline with duplicate alerts. GitHub Actions and retained artifacts remain the chronological evidence trail.
           EOF
@@ -188,5 +207,5 @@ jobs:
           fi
 
       - name: Fail workflow when production is unhealthy
-        if: steps.probe.outcome == 'failure'
+        if: github.event_name != 'pull_request' && steps.probe.outcome == 'failure'
         run: exit 1

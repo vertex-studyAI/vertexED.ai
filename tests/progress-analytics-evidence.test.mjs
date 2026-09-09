@@ -5,6 +5,7 @@ import {
   estimateStudyMinutes,
   formatMeasuredMastery,
   summarizeHeatmapMastery,
+  summarizeMasteryVelocity,
   summarizeSnapshotMastery,
 } from '../src/lib/progressAnalyticsCore.mjs';
 
@@ -67,6 +68,46 @@ test('legacy synthetic 50 with zero reviews is excluded from evidence', () => {
     masteryTrend: 'flat',
     measuredCount: 1,
   });
+});
+
+test('mastery velocity stays absent until two measured snapshots exist', () => {
+  assert.deepEqual(summarizeMasteryVelocity([]), {
+    delta: null,
+    trend: 'flat',
+    measuredCount: 0,
+  });
+
+  assert.deepEqual(
+    summarizeMasteryVelocity([
+      { reviewsCompleted: 0, avgMastery: 50 },
+      { reviewsCompleted: 1, avgMastery: 78 },
+      { reviewsCompleted: 0, avgMastery: null },
+    ]),
+    { delta: null, trend: 'flat', measuredCount: 1 },
+  );
+});
+
+test('mastery velocity uses only measured endpoints and never coerces missing values to zero', () => {
+  assert.deepEqual(
+    summarizeMasteryVelocity([
+      { reviewsCompleted: 0, avgMastery: null },
+      { reviewsCompleted: 1, avgMastery: 62 },
+      { reviewsCompleted: 0, avgMastery: 50 },
+      { reviewsCompleted: 2, avgMastery: 74 },
+      { reviewsCompleted: 0, avgMastery: null },
+    ]),
+    { delta: 12, trend: 'up', measuredCount: 2 },
+  );
+});
+
+test('small measured mastery changes remain flat while preserving the measured delta', () => {
+  assert.deepEqual(
+    summarizeMasteryVelocity([
+      { reviewsCompleted: 1, avgMastery: 70 },
+      { reviewsCompleted: 1, avgMastery: 73 },
+    ]),
+    { delta: 3, trend: 'flat', measuredCount: 2 },
+  );
 });
 
 test('heatmap mastery requires actual attempts', () => {

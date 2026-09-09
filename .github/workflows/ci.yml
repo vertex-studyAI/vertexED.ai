@@ -13,6 +13,9 @@ concurrency:
   group: ci-${{ github.ref }}
   cancel-in-progress: true
 
+env:
+  SOURCE_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
@@ -22,6 +25,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
         with:
+          ref: ${{ env.SOURCE_SHA }}
           persist-credentials: false
 
       - name: Setup Node.js
@@ -47,6 +51,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
         with:
+          ref: ${{ env.SOURCE_SHA }}
           persist-credentials: false
 
       - name: Setup Node.js
@@ -110,6 +115,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
         with:
+          ref: ${{ env.SOURCE_SHA }}
           persist-credentials: false
 
       - name: Setup Node.js
@@ -140,6 +146,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
         with:
+          ref: ${{ env.SOURCE_SHA }}
           persist-credentials: false
 
       - name: Setup Node.js
@@ -168,6 +175,80 @@ jobs:
           if-no-files-found: ignore
           retention-days: 14
 
+  browser-production:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    needs: build-and-test
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+
+    steps:
+      - name: Checkout exact source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ env.SOURCE_SHA }}
+          persist-credentials: false
+
+      - name: Verify exact source binding
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "${SOURCE_SHA}"
+
+      - name: Setup Node.js
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install dependencies without duplicate advisory fetch
+        run: npm ci --no-audit --fund=false
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Run production browser certification
+        shell: bash
+        env:
+          PLAYWRIGHT_BASE_URL: https://www.vertexed.app
+          PLAYWRIGHT_API_URL: https://www.vertexed.app
+        run: |
+          set -o pipefail
+          mkdir -p ci-evidence/production-browser
+          browser_log="ci-evidence/production-browser/playwright-production.log"
+
+          if npm run test:e2e 2>&1 | tee "$browser_log"; then
+            exit 0
+          fi
+
+          {
+            echo "### Production browser certification failure"
+            echo
+            echo "- source SHA: \`${SOURCE_SHA}\`"
+            echo "- target: \`${PLAYWRIGHT_BASE_URL}\`"
+            echo "- retained log: \`${browser_log}\`"
+            echo
+            echo '<details><summary>Last 120 log lines</summary>'
+            echo
+            echo '```text'
+            tail -n 120 "$browser_log"
+            echo '```'
+            echo '</details>'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          exit 1
+
+      - name: Upload browser evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: playwright-production-report
+          path: |
+            playwright-report
+            test-results
+            ci-evidence/production-browser
+          if-no-files-found: ignore
+          retention-days: 14
+
   smoke-production:
     runs-on: ubuntu-latest
     timeout-minutes: 12
@@ -179,6 +260,7 @@ jobs:
         uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
         with:
           fetch-depth: 0
+          ref: ${{ env.SOURCE_SHA }}
           persist-credentials: false
 
       - name: Setup Node.js

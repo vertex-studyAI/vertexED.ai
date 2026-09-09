@@ -1,0 +1,8 @@
+button.calendar-day {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  margin: 0;
+  border: 0;
+  background-color: transparent;
+}

@@ -1,0 +1,67 @@
+import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+import test from 'node:test';
+
+const panel = readFileSync(new URL('../src/components/notebook/NotebookOutputPanel.tsx', import.meta.url), 'utf8');
+
+test('generated notebook outputs expose a stable accessible region name', () => {
+  assert.match(panel, /const generatedRegionLabel = `Generated \$\{outputKindLabel\(output\.kind\)\}`;/);
+  assert.equal((panel.match(/aria-label=\{generatedRegionLabel\}/g) ?? []).length, 3);
+});
+
+test('generated quiz cards bind each question to its disclosure control and answer', () => {
+  assert.match(panel, /const questionId = `notebook-quiz-\$\{output\.id\}-question-\$\{i\}`;/);
+  assert.match(panel, /const answerId = `notebook-quiz-\$\{output\.id\}-answer-\$\{i\}`;/);
+  assert.match(panel, /aria-labelledby=\{questionId\}/);
+  assert.match(panel, /aria-expanded=\{show\}/);
+  assert.match(panel, /aria-controls=\{answerId\}/);
+  assert.match(panel, /<div id=\{answerId\}/);
+});
+
+test('quiz disclosure state does not trust model-generated ids for interaction identity', () => {
+  assert.match(panel, /revealed: Set<number>/);
+  assert.match(panel, /const show = revealedQuiz\.has\(i\);/);
+  assert.match(panel, /onClick=\{\(\) => toggleQuiz\(i\)\}/);
+  assert.doesNotMatch(panel, /revealedQuiz\.has\(q\.id\)/);
+  assert.doesNotMatch(panel, /toggleQuiz\(q\.id\)/);
+});
+
+test('quiz disclosure state is isolated by generated output identity without an effect window', () => {
+  assert.match(
+    panel,
+    /const \[quizDisclosure, setQuizDisclosure\] = useState<QuizDisclosureState>\(\(\) => \(\{\s*outputId: output\.id,\s*revealed: new Set\(\),\s*\}\)\);/,
+  );
+  assert.match(
+    panel,
+    /const revealedQuiz = quizDisclosure\.outputId === output\.id \? quizDisclosure\.revealed : new Set<number>\(\);/,
+  );
+  assert.match(
+    panel,
+    /const next = prev\.outputId === output\.id \? new Set\(prev\.revealed\) : new Set<number>\(\);/,
+  );
+});
+
+test('quiz aria ids do not embed model-generated question ids', () => {
+  assert.doesNotMatch(panel, /notebook-quiz-question-\$\{q\.id\}/);
+  assert.doesNotMatch(panel, /notebook-quiz-answer-\$\{q\.id\}/);
+  assert.match(panel, /key=\{`\$\{q\.id\}-\$\{i\}`\}/);
+});
+
+test('suggested-question controls are not exposed as actionable when no ask handler exists', () => {
+  assert.match(panel, /const canAskQuestion = typeof onAskQuestion === 'function';/);
+  assert.match(panel, /disabled=\{!canAskQuestion\}/);
+  assert.match(panel, /\? 'Tap a question to ask Apex with your sources attached\.'/);
+  assert.match(panel, /: 'Suggested questions generated from your sources\.'/);
+});
+
+test('duplicate suggested question text cannot create duplicate React keys', () => {
+  assert.match(panel, /output\.suggestedQuestions\.map\(\(q, i\) => \(/);
+  assert.match(panel, /key=\{`\$\{q\}-\$\{i\}`\}/);
+  assert.doesNotMatch(panel, /key=\{q\}/);
+});
+
+test('decorative generated-content icons stay out of the accessibility tree', () => {
+  assert.match(panel, /<ChevronDown className="h-3 w-3" aria-hidden \/>/);
+  assert.match(panel, /<ChevronRight className="h-3 w-3" aria-hidden \/>/);
+  assert.match(panel, /<Layers className="h-3\.5 w-3\.5" aria-hidden \/>/);
+});

@@ -8,6 +8,8 @@ const launchViewports = [
   { width: 1440, height: 900 },
 ];
 
+const visualEvidenceWidths = new Set([390, 1024, 1440]);
+
 async function expectNoHorizontalOverflow(page: Page) {
   const dimensions = await page.evaluate(() => ({
     viewportWidth: window.innerWidth,
@@ -115,13 +117,24 @@ test.describe('local keyboard accessibility', () => {
   });
 
   for (const viewport of launchViewports) {
-    test(`public auth surfaces keep visible keyboard focus and fit at ${viewport.width}px`, async ({ page }) => {
+    test(`public auth surfaces keep visible keyboard focus and fit at ${viewport.width}px`, async ({ page }, testInfo) => {
       await page.setViewportSize(viewport);
 
       for (const path of ['/', '/login', '/signup']) {
         await page.goto(path);
         await page.waitForLoadState('networkidle');
         await expectNoHorizontalOverflow(page);
+
+        if (path === '/' && visualEvidenceWidths.has(viewport.width)) {
+          await expect(page.locator('.vertex-hero')).toBeVisible();
+          await expect(page.locator('.vertex-field')).toBeVisible();
+          await expect(page.locator('.vertex-tools-section')).toBeVisible();
+          await page.screenshot({
+            path: testInfo.outputPath(`landing-${viewport.width}x${viewport.height}.png`),
+            fullPage: true,
+            animations: 'disabled',
+          });
+        }
 
         await page.keyboard.press('Tab');
         const focused = page.locator(':focus');

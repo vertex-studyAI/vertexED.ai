@@ -63,7 +63,7 @@ export default function AccessibleModal({
     trapModalFocus(event, dialogRef.current);
   };
 
-  return createPortal(
+  const modal = (
     <div className={overlayClassName} role="presentation">
       <div
         ref={dialogRef}
@@ -79,7 +79,8 @@ export default function AccessibleModal({
       >
         {children}
       </div>
-    </div>,
-    document.body,
+    </div>
   );
+
+  return typeof document === "undefined" ? modal : createPortal(modal, document.body);
 }

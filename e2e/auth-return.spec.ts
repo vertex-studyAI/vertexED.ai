@@ -93,7 +93,7 @@ test('manual planner works without AI, preserves midnight, rejects clashes and s
   await dialog.getByRole('button', { name: 'Add task', exact: true }).click();
   await expect.poll(() => page.evaluate(id => JSON.parse(localStorage.getItem(`vertex_planner:${id}:tasks`) || '[]').length, id)).toBe(1);
   await page.reload();
-  const task = page.getByRole('button', { name: /^Cell transport recall starting/ });
+  const task = page.getByRole('button', { name: /^Edit Cell transport recall, starting/ });
   await expect(task).toBeVisible();
   await task.focus();
   await page.keyboard.press('Delete');

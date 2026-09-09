@@ -58,8 +58,8 @@ test("mock-exam overlays do not depend on planner-only CSS", () => {
 });
 
 test("mock-exam actions stay above global toast and tutor overlays", () => {
-  assert.match(modalSource, /return createPortal\(/);
-  assert.match(mockExamSource, /fixed inset-0 z-\[110\]/);
+  assert.match(modalSource, /createPortal\(modal, document\.body\)/);
+  assert.match(mockExamSource, /fixed inset-0 z-\[120\]/);
   assert.match(toastSource, /fixed top-0 z-\[100\]/);
   assert.match(globalStyles, /\.apex-fab\s*{[^}]*z-index:\s*60;/s);
 });
