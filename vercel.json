@@ -8,6 +8,7 @@
   },
   "buildCommand": "VERTEXED_REQUIRE_BUILD_REVISION=1 ROLLUP_SKIP_NODEJS_NATIVE=true npm run build",
   "installCommand": "npm ci",
+  "outputDirectory": "dist",
   "ignoreCommand": "node scripts/vercel-ignore-build.mjs",
   "framework": null,
   "functions": {

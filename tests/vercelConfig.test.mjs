@@ -21,3 +21,7 @@ test('Vercel build remains fail-closed on immutable revision identity', () => {
   assert.match(vercelConfig.buildCommand, /npm run build/);
   assert.match(packageJson.scripts.prebuild, /node scripts\/generate-build-revision\.mjs/);
 });
+
+test('Vercel publishes the directory produced by Vite', () => {
+  assert.equal(vercelConfig.outputDirectory, 'dist');
+});
