@@ -28,6 +28,12 @@ jobs:
           ref: ${{ env.SOURCE_SHA }}
           persist-credentials: false
 
+      - name: Verify exact source binding
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "${SOURCE_SHA}"
+
       - name: Setup Node.js
         uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
         with:
@@ -53,6 +59,12 @@ jobs:
         with:
           ref: ${{ env.SOURCE_SHA }}
           persist-credentials: false
+
+      - name: Verify exact source binding
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "${SOURCE_SHA}"
 
       - name: Setup Node.js
         uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
@@ -117,6 +129,12 @@ jobs:
         with:
           ref: ${{ env.SOURCE_SHA }}
           persist-credentials: false
+
+      - name: Verify exact source binding
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "${SOURCE_SHA}"
 
       - name: Setup Node.js
         uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
@@ -195,6 +213,12 @@ jobs:
         with:
           ref: ${{ env.SOURCE_SHA }}
           persist-credentials: false
+
+      - name: Verify exact source binding
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "${SOURCE_SHA}"
 
       - name: Setup Node.js
         uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
@@ -309,6 +333,12 @@ jobs:
           fetch-depth: 0
           ref: ${{ env.SOURCE_SHA }}
           persist-credentials: false
+
+      - name: Verify exact source binding
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "${SOURCE_SHA}"
 
       - name: Setup Node.js
         uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
