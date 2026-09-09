@@ -72,7 +72,26 @@ test('learner-state reads are owner scoped and bounded', async () => {
     ['from', 'learner_state_items'],
     ['select', 'state_type, state_key, payload, client_revision, client_updated_at, updated_at'],
     ['eq', 'user_id', 'owner-id'],
-    ['order', 'updated_at', { ascending: false }],
-    ['limit', 500],
+    ['order', 'state_type', { ascending: true }],
+    ['order', 'state_key', { ascending: true }],
+    ['limit', 501],
   ]);
+});
+
+test('pagination returns every row across the boundary and rejects injected cursor syntax', async () => {
+  const rows = Array.from({ length: 501 }, (_, i) => ({ state_type: 'retry', state_key: `retry:${String(i).padStart(3, '0')}` }));
+  let cursorFilter = null;
+  const db = { from() { return {
+    select() { return this; }, eq() { return this; }, order() { return this; },
+    or(value) { cursorFilter = value; return this; },
+    async limit() { return { data: cursorFilter ? rows.slice(500) : rows, error: null }; },
+  }; } };
+  const first = await listLearnerStateItems(db, 'owner');
+  assert.equal(first.data.length, 500);
+  assert.equal(first.nextCursor, 'retry:retry:499');
+  const second = await listLearnerStateItems(db, 'owner', first.nextCursor);
+  assert.deepEqual(second.data, [rows[500]]);
+  assert.equal(second.nextCursor, null);
+  assert.equal(cursorFilter, 'state_type.gt.retry,and(state_type.eq.retry,state_key.gt.retry:499)');
+  await assert.rejects(listLearnerStateItems(db, 'owner', 'retry:x),user_id.neq.owner'), /Invalid learner-state cursor/);
 });

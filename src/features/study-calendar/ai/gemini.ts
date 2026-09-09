@@ -37,6 +37,7 @@ export type WeekPlanInput = {
   weaknesses: string[];
   subjects: string[];
   examDaysLeft: number | null;
+  examTargets?: Array<{ subject: string; paper: string; date: string }>;
   hoursPerDay?: number;
   existingTasks: unknown[];
 };

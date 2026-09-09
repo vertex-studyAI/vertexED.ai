@@ -14,7 +14,7 @@ const neutralBuildRevision = [
 
 let result;
 try {
-  result = spawnSync(process.execPath, [viteCli, 'build'], {
+  result = spawnSync(process.execPath, [viteCli, 'build', ...process.argv.slice(2)], {
     env: { ...process.env, ROLLUP_SKIP_NODEJS_NATIVE: 'true' },
     stdio: 'inherit',
   });

@@ -6,7 +6,7 @@ export default function PrivacyPolicy() {
   return (
     <>
       <SEO
-        title="Privacy Policy — VertexED"
+        title="Privacy Policy - VertexED"
         description="How VertexED collects, uses, and protects your study data."
         canonical="https://www.vertexed.app/privacy"
       />

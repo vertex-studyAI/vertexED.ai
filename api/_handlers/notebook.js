@@ -2,6 +2,7 @@ import { verifyAuthUser, readJsonBody, rejectOversizedJsonBody } from '../_lib/a
 import { rateLimitUserEndpoint } from '../_lib/rateLimit.js';
 import { formatSourcesForPrompt, NOTEBOOK_OUTPUT_MODES } from '../_lib/grounding.js';
 import { fetchProvider } from '../_lib/providerRequest.js';
+import { validateNotebookOutput } from '../../contracts/learningOutputs.js';
 
 const ALLOWED_MODES = new Set(Object.keys(NOTEBOOK_OUTPUT_MODES));
 
@@ -100,6 +101,10 @@ ${sourceBlock}`;
         const end = raw.lastIndexOf('}') + 1;
         if (start >= 0 && end > start) parsed = JSON.parse(raw.slice(start, end));
       }
+
+      const validated = validateNotebookOutput(mode, parsed);
+      if (!validated.success) return res.status(502).json({ error: 'Generated material was incomplete or invalid. Your sources are unchanged; please retry.' });
+      parsed = validated.data;
 
       if (spec.questions) {
         const questions = (parsed.questions || [])

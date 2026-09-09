@@ -1,5 +1,5 @@
 /**
- * Optional error monitoring — no-ops when VITE_SENTRY_DSN is unset.
+ * Privacy-safe client telemetry with best-effort delivery.
  */
 export function initMonitoring(): void {
   if (typeof window === 'undefined') return;
@@ -39,6 +39,8 @@ type AiRunReport = {
   durationMs: number;
   networkError?: boolean;
   timedOut?: boolean;
+  degraded?: boolean;
+  invalidOutput?: boolean;
 };
 
 function sendTelemetry(payload: Record<string, unknown>): void {
@@ -81,6 +83,8 @@ export function reportAiRun({
   durationMs,
   networkError = false,
   timedOut = false,
+  degraded = false,
+  invalidOutput = false,
 }: AiRunReport): void {
   const ok = Number.isInteger(status) && Number(status) >= 200 && Number(status) < 300;
   const statusClass = Number.isInteger(status) && Number(status) >= 100 && Number(status) <= 599
@@ -90,8 +94,8 @@ export function reportAiRun({
     event: 'ai_run',
     route: typeof window === 'undefined' ? 'unknown' : window.location.pathname,
     capability,
-    errorClass: timedOut ? 'timeout' : networkError ? 'network_error' : ok ? 'none' : `http_${statusClass}`,
-    outcome: timedOut || networkError ? 'failed' : ok ? 'success' : 'failed',
+    errorClass: invalidOutput ? 'invalid_output' : degraded ? 'degraded_output' : timedOut ? 'timeout' : networkError ? 'network_error' : ok ? 'none' : `http_${statusClass}`,
+    outcome: timedOut || networkError || invalidOutput ? 'failed' : degraded ? 'degraded' : ok ? 'success' : 'failed',
     durationMs,
   });
 }

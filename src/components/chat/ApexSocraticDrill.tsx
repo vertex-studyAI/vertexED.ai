@@ -36,7 +36,7 @@ export default function ApexSocraticDrill() {
     setActive(true);
     setRound(1);
     await sendMessage(
-      `[Socratic drill — round 1 of ${MAX_ROUNDS} on "${t}"] Ask me ONE question to test my understanding. Do not explain yet.`,
+      `[Socratic drill - round 1 of ${MAX_ROUNDS} on "${t}"] Ask me ONE question to test my understanding. Do not explain yet.`,
     );
   };
 
@@ -56,7 +56,7 @@ export default function ApexSocraticDrill() {
     }
 
     await sendMessage(
-      `${text}\n\n[Round ${nextRound} of ${MAX_ROUNDS}] One follow-up question only — probe the weakest part of my reasoning.`,
+      `${text}\n\n[Round ${nextRound} of ${MAX_ROUNDS}] One follow-up question only - probe the weakest part of my reasoning.`,
     );
   };
 
@@ -76,7 +76,7 @@ export default function ApexSocraticDrill() {
         <div>
           <h2 className="text-lg font-semibold text-foreground">Socratic Drill</h2>
           <p className="text-sm text-muted-foreground">
-            Apex asks — you think aloud. No answers until you&apos;ve tried. Five rounds, then a gap summary.
+            Apex asks - you think aloud. No answers until you&apos;ve tried. Five rounds, then a gap summary.
           </p>
         </div>
       </div>
@@ -85,7 +85,7 @@ export default function ApexSocraticDrill() {
         <div className="flex flex-col sm:flex-row gap-2 mb-4">
           <input
             className="neu-input-el flex-1 text-sm"
-            placeholder="Topic — e.g. electrophilic addition, essay thesis, Newton's laws…"
+            placeholder="Topic - e.g. electrophilic addition, essay thesis, Newton's laws…"
             value={topic}
             onChange={(e) => setTopic(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && void startDrill()}

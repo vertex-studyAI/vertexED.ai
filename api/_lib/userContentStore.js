@@ -63,59 +63,26 @@ const SINGLETON_ARTIFACT_KINDS = new Set(['planner', 'notebook']);
 
 export async function replaceSingletonArtifact(
   supabase,
-  { userId, kind, title, payload, updatedAt = new Date().toISOString() },
+  { userId, kind, title, payload, expectedUpdatedAt = null, updatedAt = new Date().toISOString() },
 ) {
-  if (!SINGLETON_ARTIFACT_KINDS.has(kind)) {
-    throw new TypeError('Only planner and notebook artifacts can use singleton replacement.');
+  if (!SINGLETON_ARTIFACT_KINDS.has(kind)) throw new TypeError('Only planner and notebook artifacts can use singleton replacement.');
+  const conflict = () => ({ data: null, error: null, created: false, conflict: true });
+  if (expectedUpdatedAt === null) {
+    const { data, error } = await supabase.from('user_study_artifacts')
+      .insert({ user_id: userId, kind, title, payload, updated_at: updatedAt })
+      .select(ARTIFACT_RETURN_FIELDS).single();
+    if (error?.code === '23505') return conflict();
+    return { data, error, created: !error };
   }
-  const findExisting = () => supabase
-    .from('user_study_artifacts')
-    .select('id')
-    .eq('user_id', userId)
-    .eq('kind', kind)
-    .order('updated_at', { ascending: false })
-    .limit(1)
-    .maybeSingle();
-  const updateExisting = (id) => supabase
-    .from('user_study_artifacts')
-    .update({ title, payload, updated_at: updatedAt })
-    .eq('id', id)
-    .eq('user_id', userId)
-    .select(ARTIFACT_RETURN_FIELDS)
-    .single();
-
-  const { data: existing, error: lookupError } = await findExisting();
-
-  if (lookupError) {
-    return { data: null, error: lookupError, created: false };
-  }
-
-  if (existing?.id) {
-    const { data, error } = await updateExisting(existing.id);
-    return { data, error, created: false };
-  }
-
-  const { data, error } = await supabase
-    .from('user_study_artifacts')
-    .insert({
-      user_id: userId,
-      kind,
-      title,
-      payload,
-      updated_at: updatedAt,
-    })
-    .select(ARTIFACT_RETURN_FIELDS)
-    .single();
-  if (!error || error.code !== '23505') return { data, error, created: !error };
-
-  // A concurrent first write can win after our lookup. The partial unique index
-  // turns that race into a safe retry against the single winning row.
-  const collision = await findExisting();
-  if (collision.error || !collision.data?.id) {
-    return { data: null, error: collision.error || error, created: false };
-  }
-  const retry = await updateExisting(collision.data.id);
-  return { data: retry.data, error: retry.error, created: false };
+  // One conditional UPDATE is the concurrency boundary. Never retry a stale
+  // snapshot against a newer row: that would silently erase another edit.
+  const nextTime = new Date(Math.max(Date.parse(updatedAt), Date.parse(expectedUpdatedAt) + 1)).toISOString();
+  const { data, error } = await supabase.from('user_study_artifacts')
+    .update({ title, payload, updated_at: nextTime })
+    .eq('user_id', userId).eq('kind', kind).eq('updated_at', expectedUpdatedAt)
+    .select(ARTIFACT_RETURN_FIELDS).maybeSingle();
+  if (!error && !data) return conflict();
+  return { data, error, created: false };
 }
 
 export function replacePlannerArtifact(supabase, options) {

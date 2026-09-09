@@ -3,6 +3,7 @@ import { Link } from 'react-router';
 import { ChevronDown, ChevronRight, Layers } from 'lucide-react';
 import ChatMarkdown from '@/components/chat/ChatMarkdown';
 import NotebookTtsPlayer from '@/components/notebook/NotebookTtsPlayer';
+import ConceptMap from '@/components/notebook/ConceptMap';
 import type { NotebookOutput, NotebookOutputKind } from '@/lib/notebook';
 import { NOTEBOOK_OUTPUT_META } from '@/lib/notebook';
 import { mergeFlashcardsIntoDeck } from '@/lib/srDeck';
@@ -41,6 +42,8 @@ export default function NotebookOutputPanel({ output, notebookTitle, onAskQuesti
     output.kind === 'audio-brief' ||
     output.kind === 'audio-critique' ||
     output.kind === 'audio-debate';
+
+  if (output.kind === 'mind-map') return <ConceptMap source={output.content} />;
 
   if (output.kind === 'quiz' && output.quiz?.length) {
     return (

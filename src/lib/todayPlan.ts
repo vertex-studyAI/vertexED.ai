@@ -1,3 +1,4 @@
+import { localDayKey } from '@/lib/studyDates.mjs';
 import type { AdaptiveRecommendation } from '@/lib/adaptiveLearning';
 import type { PlannerTaskPreview } from '@/lib/studyEcosystem';
 import { userContentStorageKeys } from '@/lib/userContentStorageScope.mjs';
@@ -16,7 +17,7 @@ function storageKey() {
 }
 
 function todayKey() {
-  return new Date().toISOString().slice(0, 10);
+  return localDayKey();
 }
 
 function readDone(): Record<string, string[]> {

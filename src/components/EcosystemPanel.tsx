@@ -64,7 +64,7 @@ export default function EcosystemPanel({
             </ul>
           ) : (
             <p className="text-sm text-muted-foreground mb-4">
-              No sessions logged yet — open Study Zone, run a timer, and note what you covered.
+              No sessions logged yet - open Study Zone, run a timer, and note what you covered.
             </p>
           )}
 
@@ -93,7 +93,7 @@ export default function EcosystemPanel({
             </ul>
           ) : (
             <p className="text-sm text-muted-foreground">
-              Log wins in Study Zone — they&apos;ll show up here.
+              Log wins in Study Zone - they&apos;ll show up here.
             </p>
           )}
           <Link
@@ -147,6 +147,6 @@ function formatRelativeTime(iso: string): string {
     if (hours < 24) return `${hours}h ago`;
     return new Date(iso).toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
   } catch {
-    return '—';
+    return ' - ';
   }
 }

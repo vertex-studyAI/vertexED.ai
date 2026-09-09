@@ -1,4 +1,5 @@
 import { authFetchWithAccessToken, getAccessToken } from '@/lib/apiAuth';
+import { mergeExamSessionHistory, normalizeExamSession, readStoredExamSessionHistory } from './examSessionHistory.mjs';
 import {
   getUserContentStorageScope,
   userContentStorageKeys,
@@ -9,7 +10,7 @@ import {
   putDurableOutboxRecord,
 } from '@/lib/durableOutbox';
 
-export type LearnerStateType = 'weakness' | 'retry' | 'mock_draft';
+export type LearnerStateType = 'weakness' | 'retry' | 'mock_draft' | 'exam_session';
 
 export type LearnerStateWrite = {
   stateType: LearnerStateType;
@@ -129,6 +130,7 @@ export async function syncLearnerState(): Promise<{ synced: number; remaining: n
     const pending = await readCombinedOutbox(scope);
     let synced = 0;
     for (let offset = 0; offset < pending.length; offset += 50) {
+      if (getUserContentStorageScope() !== scope) break;
       const batch = pending.slice(offset, offset + 50);
       const response = await authFetchWithAccessToken('/api/learner-state', accessToken, {
         method: 'POST',
@@ -191,12 +193,25 @@ export async function hydrateLearnerState(): Promise<number> {
   if (typeof window === 'undefined' || !scope) return 0;
   const accessToken = await getAccessToken();
   if (!accessToken || getUserContentStorageScope() !== scope) return 0;
-  const response = await authFetchWithAccessToken('/api/learner-state', accessToken);
-  if (!response.ok) return 0;
-  const data = await response.json().catch(() => null);
-  const items = Array.isArray(data?.items) ? data.items as RemoteLearnerStateItem[] : [];
+  const items: RemoteLearnerStateItem[] = [];
+  let cursor: string | null = null;
+  const seen = new Set<string>();
+  do {
+    if (getUserContentStorageScope() !== scope) return 0;
+    const url = cursor ? `/api/learner-state?cursor=${encodeURIComponent(cursor)}` : '/api/learner-state';
+    const response = await authFetchWithAccessToken(url, accessToken);
+    if (!response.ok) throw new Error('Learner-state recovery could not finish. Retry when connected.');
+    const data = await response.json();
+    if (!Array.isArray(data?.items)) throw new Error('Invalid learner-state recovery response.');
+    items.push(...data.items);
+    cursor = typeof data.nextCursor === 'string' ? data.nextCursor : null;
+    if (cursor && seen.has(cursor)) throw new Error('Learner-state recovery cursor did not advance.');
+    if (cursor) seen.add(cursor);
+  } while (cursor);
   if (getUserContentStorageScope() !== scope) return 0;
   const pending = new Map((await readCombinedOutbox(scope)).map((item) => [compositeKey(item), item]));
+  if (getUserContentStorageScope() !== scope) return 0;
+  let recoveryFailures = 0;
   for (const item of items) {
     const localPending = pending.get(compositeKey(item));
     if (localPending && localPending.clientUpdatedAt >= item.clientUpdatedAt) continue;
@@ -204,11 +219,18 @@ export async function hydrateLearnerState(): Promise<number> {
       if (item.stateType === 'weakness') applyWeakness(item, scope);
       if (item.stateType === 'retry') applyRetry(item, scope);
       if (item.stateType === 'mock_draft') applyMockDraft(item, scope);
+      if (item.stateType === 'exam_session') {
+        const key = userContentStorageKeys(scope).examPrepHistory;
+        const current = readStoredExamSessionHistory(window.localStorage, key);
+        if (!normalizeExamSession(item.payload) || item.payload.id !== item.stateKey) throw new Error('Invalid exam session returned by account sync.');
+        window.localStorage.setItem(key, JSON.stringify(mergeExamSessionHistory(current, item.payload)));
+      }
     } catch {
-      // A malformed remote item is isolated rather than breaking all hydration.
+      recoveryFailures += 1;
     }
   }
   notifyChanged();
+  if (recoveryFailures) throw new Error(`${recoveryFailures} learner records could not be restored on this device. Free browser storage and retry account sync.`);
   return items.length;
 }
 
@@ -216,7 +238,7 @@ export async function initializeLearnerStateSync() {
   if (typeof window === 'undefined' || !getUserContentStorageScope()) return;
   if (!listenersInstalled) {
     window.addEventListener('online', () => {
-      void initializeLearnerStateSync();
+      void initializeLearnerStateSync().catch(() => notifyChanged());
     });
     listenersInstalled = true;
   }

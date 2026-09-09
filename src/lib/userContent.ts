@@ -165,14 +165,14 @@ export function consumeArtifactRestore(): StudyArtifact | null {
 export function formatArtifactDate(iso: string): string {
   try {
     const date = new Date(iso);
-    if (Number.isNaN(date.getTime())) return '—';
+    if (Number.isNaN(date.getTime())) return ' - ';
     return date.toLocaleDateString(undefined, {
       month: 'short',
       day: 'numeric',
       year: 'numeric',
     });
   } catch {
-    return '—';
+    return ' - ';
   }
 }
 
@@ -225,7 +225,7 @@ export async function updateStudyArtifact(
 
 export function localSaveMessage(result: SaveArtifactResult): string | null {
   if (result.localOnly) {
-    return result.error || 'Saved on this device only — cloud sync is unavailable.';
+    return result.error || 'Saved on this device only - cloud sync is unavailable.';
   }
   return null;
 }
@@ -406,7 +406,7 @@ export async function listStudyArtifactsDetailed(
         ok: local.length > 0,
         items: local,
         cloudUnavailable: true,
-        error: data?.error || 'Cloud sync unavailable — showing device saves',
+        error: data?.error || 'Cloud sync unavailable - showing device saves',
       };
     }
     const cloud = Array.isArray(data?.items) ? (data.items as StudyArtifact[]) : [];
@@ -421,7 +421,7 @@ export async function listStudyArtifactsDetailed(
       ok: local.length > 0,
       items: local,
       cloudUnavailable: true,
-      error: err instanceof Error ? err.message : 'Cloud sync unavailable — showing device saves',
+      error: err instanceof Error ? err.message : 'Cloud sync unavailable - showing device saves',
     };
   }
 }

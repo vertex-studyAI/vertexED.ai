@@ -230,7 +230,7 @@ export default function PaperMaker({ priorPapers = [] }) {
         setPaper(paperData);
         setRaw(null);
         if (data?.generation?.degraded) {
-          setSaveStatus("Deterministic fallback — verify against the current syllabus");
+          setSaveStatus("Deterministic fallback - verify against the current syllabus");
           toast({
             title: "Practice scaffold generated",
             description: "The AI provider was unavailable. Questions contain no asserted factual answer key and require syllabus verification.",
@@ -252,7 +252,7 @@ export default function PaperMaker({ priorPapers = [] }) {
             toast({
               title: r.localOnly ? "Saved on this device" : "Paper saved",
               description: r.localOnly
-                ? "Cloud sync pending — your paper is stored locally for now."
+                ? "Cloud sync pending - your paper is stored locally for now."
                 : "Your mock paper is in your account.",
             });
           } else if (r.error) {
@@ -345,10 +345,10 @@ export default function PaperMaker({ priorPapers = [] }) {
   return (
     <>
       <Helmet>
-        <title>IB/IGCSE Practice Paper Generator — VertexED</title>
+        <title>IB/IGCSE Practice Paper Generator - VertexED</title>
         <meta name="description" content="Create board-shaped IB, IGCSE, CBSE, and A-Level practice papers, then attempt them under time and review your answers." />
         <link rel="canonical" href="https://www.vertexed.app/paper-maker" />
-        <meta property="og:title" content="IB/IGCSE Practice Paper Generator — VertexED" />
+        <meta property="og:title" content="IB/IGCSE Practice Paper Generator - VertexED" />
         <meta property="og:description" content="Build configurable practice papers with a separate mark scheme and timed attempt mode." />
         <meta property="og:url" content="https://www.vertexed.app/paper-maker" />
         <meta property="og:image" content="https://www.vertexed.app/socialpreview.jpg" />
@@ -503,7 +503,7 @@ export default function PaperMaker({ priorPapers = [] }) {
                   <div ref={previewRef} id="paper-preview" className="space-y-4 text-foreground">
                     <div className="flex items-start justify-between">
                       <div>
-                        <h3 className="text-lg font-semibold">{paper.title || `${paper.metadata.board} — Grade ${paper.metadata.grade}`}</h3>
+                        <h3 className="text-lg font-semibold">{paper.title || `${paper.metadata.board} - Grade ${paper.metadata.grade}`}</h3>
                         <div className="text-sm text-muted-foreground">{paper.metadata.subject} • {paper.metadata.format} • {paper.metadata.numQuestions} questions</div>
                       </div>
                       <div className="text-xs text-muted-foreground">Generated: {new Date().toLocaleString()}</div>
@@ -521,7 +521,7 @@ export default function PaperMaker({ priorPapers = [] }) {
 
                     {paper.generation?.degraded ? (
                       <div className="rounded-xl border border-amber-400/40 bg-amber-500/10 p-3 text-sm text-amber-800 dark:text-amber-200" role="status">
-                        Deterministic fallback scaffold — the AI provider was unavailable. Verify every prompt and rubric note against the current syllabus before timed or graded use.
+                        Deterministic fallback scaffold - the AI provider was unavailable. Verify every prompt and rubric note against the current syllabus before timed or graded use.
                       </div>
                     ) : null}
 
@@ -533,7 +533,7 @@ export default function PaperMaker({ priorPapers = [] }) {
                           {s.questions.map((q) => (
                             <li key={q.id}>
                               <div className="font-medium">{q.question}</div>
-                              <div className="text-xs text-muted-foreground">Marks: {q.marks ?? "(see criteria)"} • Time: {q.approxTime ?? "—"}</div>
+                              <div className="text-xs text-muted-foreground">Marks: {q.marks ?? "(see criteria)"} • Time: {q.approxTime ?? " - "}</div>
                               {showMarkScheme && q.modelAnswerOutline ? (
                                 <div className="mt-2 rounded-lg border border-amber-500/25 bg-amber-500/10 p-3 text-sm text-foreground">
                                   <span className="font-medium">Marking guidance:</span> {q.modelAnswerOutline}

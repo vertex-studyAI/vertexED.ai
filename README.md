@@ -23,7 +23,7 @@ This project brings together AI assisted study utilities (notes, quiz, paper gen
 
 ## Design Tokens & Theming
 
-The UI relies on CSS custom properties defined globally in `src/index.css`. Core tokens include:
+The UI uses global tokens in `src/index.css`, the blue workbook system in `src/styles/workbook.css`, and landing-only rules in `src/styles/landing.css`. Read the four files in `brand/` before interface changes. Core tokens include:
 
 ```
 --background
@@ -41,11 +41,11 @@ New product surfaces should use these tokens, solid card backgrounds, high-contr
 Files of interest:
 
 - `src/pages/StudyPlanner.tsx` (page wrapper)
-- `src/app/.../PlannerView.tsx` (main orchestrator – calendar, schedule, widgets, AI modal)
-- `src/app/.../Calendar.tsx`
-- `src/app/.../Schedule.tsx`
-- `src/app/.../TimeLeftWidget.tsx`
-- `planner.css` (theme-aligned custom rules – font, layout refinements, glass surfaces, focus rings)
+- `src/features/study-calendar/PlannerView.tsx` (calendar, schedule, widgets and AI modal)
+- `src/features/study-calendar/components/Calendar.tsx`
+- `src/features/study-calendar/components/Schedule.tsx`
+- `src/features/study-calendar/components/TimeLeftWidget.tsx`
+- `src/features/study-calendar/styles/planner.css` (layout, glass surfaces and focus rings)
 
 ### Fonts
 The application uses the system-first Inter stack declared in `src/index.css`. New controls should inherit it.
@@ -124,10 +124,10 @@ Copy `.env.example` to `.env.local` for local development. The same variables mu
 | Variable | Where | Purpose |
 |----------|-------|---------|
 | `VITE_SUPABASE_URL` | Client | Supabase project URL |
-| `VITE_SUPABASE_ANON_KEY` | Client | Supabase anon key (auth) |
+| `VITE_SUPABASE_PUBLISHABLE_KEY` | Client | Preferred public auth key; `VITE_SUPABASE_ANON_KEY` is a supported fallback |
 | `SUPABASE_URL` | Server | Same URL, for `/api/waitlist` and JWT verification |
 | `SUPABASE_SERVICE_ROLE_KEY` | Server | Service role key for server-owned database operations — never expose |
-| `SUPABASE_ANON_KEY` | Server | Anon key for verifying user JWTs on AI API routes |
+| `SUPABASE_PUBLISHABLE_KEY` | Server | Public auth key for JWT verification; `SUPABASE_ANON_KEY` and the client public-key variables are supported fallbacks |
 | `ADMIN_EMAILS` | Server | Comma-separated emails allowed to use `/admin/waitlist` |
 | `OPENAI_API_KEY` / `ChatbotKey` | Server | AI features (chatbot, notes, quiz, review, papers) |
 | `GEMINI_API_KEY` | Server | Study Planner AI (`/api/planner`) — do not use `VITE_` prefix |
@@ -142,9 +142,10 @@ See `.env.example` for the full list and optional overrides.
    - Never paste an individual migration or a stale schema snapshot into SQL Editor as a substitute for the migration ledger.
 3. Enable **Email** auth under Authentication → Providers.
    - Keep direct email and general account signup disabled for private beta; accounts are created only by the server after waitlist approval or a verified team invitation.
-4. Enable **Google** OAuth if using Google login; set redirect URL to:
-   - Local: `http://localhost:8080/auth/callback`
-   - Production: `https://www.vertexed.app/auth/callback`
+4. Enable **Google** OAuth for linked-account sign-in. Google Cloud's authorized redirect URI is the Supabase provider callback, `https://<project-ref>.supabase.co/auth/v1/callback`, not the application page.
+   - In Supabase Auth URL Configuration, set Site URL to `https://www.vertexed.app` and allow `https://www.vertexed.app/auth/callback`, plus its `?recovery=1` and `?invite=1` variants.
+   - Allow local callbacks separately. The checked-in local configuration covers ports 8080 and 5173. A preview on another port needs its own allowlist entry.
+   - Enable manual identity linking if offering Connect Google for existing beta accounts. Keep direct signup disabled.
 5. Copy **Project URL**, **anon key**, and **service role key** into your env file.
 6. Waitlist signups (`/signup`) write to the `waitlist` table via `/api/waitlist` using the service role key.
 7. Manage waitlist at **`/admin/waitlist`** (set `ADMIN_EMAILS` in Vercel to your login email) or via Supabase Table Editor.
@@ -164,7 +165,7 @@ See `.env.example` for the full list and optional overrides.
 - `/api/waitlist` remains public (no auth).
 - `/api/waitlist-admin` requires auth + email in `ADMIN_EMAILS`.
 - `GET /api/health` is public (deploy monitoring).
-- Set `SUPABASE_ANON_KEY` on the server (same value as `VITE_SUPABASE_ANON_KEY`) for JWT verification.
+- Set a public Supabase key on the server for JWT verification. Publishable-key aliases are listed in `docs/ENVIRONMENT_MATRIX.md`; service credentials must never be used as browser keys.
 - `GEMINI_API_KEY` is server-only; never expose Gemini keys with a `VITE_` prefix.
 
 ## Deployment (Vercel)
@@ -180,15 +181,19 @@ GitHub Actions runs on push/PR to `main`:
 
 | Command | Purpose |
 |---------|---------|
-| `npm test` | Unit + handler smoke tests (auth, waitlist validation, `/api/ask` 401) |
+| `npm run test:app` | VertexED unit, domain, and handler contracts |
+| `npm test` | App tests plus preserved cross-project quarantine checks; quarantine is outside app certification |
 | `npm run build:ci` | Production build without SEO ping side effects |
 | `npm run lint:ci` | Lint the complete application, API, scripts, evals, and tests |
 | `npm run db:test` | Rebuild and verify the local Supabase schema (requires `npx supabase start`) |
-| `npm run test:e2e:authenticated-golden` | Run the mocked authenticated candidate journey |
+| `npm run test:e2e:authenticated-golden` | Fresh production build, SDK callback regressions and mocked authenticated learner journey on exclusive local port 14174 |
+| `npm run test:e2e:local-accessibility` | Keyboard, responsive layout, and contrast checks against the current build (local port 4175) |
 | `npm run ci` | Candidate gate: lint + types + security audit + unit/eval checks + build + bundle budget |
 | `npm run test:smoke` | Live checks against `https://www.vertexed.app` (or `SMOKE_BASE_URL`) |
 
 Pre-deploy QA: see [`docs/QA_CHECKLIST.md`](docs/QA_CHECKLIST.md).
+
+Current implementation evidence and remaining release gates: [`PROJECT_FINISH_CHECKLIST.md`](PROJECT_FINISH_CHECKLIST.md).
 
 Learner-loop and recovery contract: [`docs/LEARNER_LOOP_AND_RECOVERY.md`](docs/LEARNER_LOOP_AND_RECOVERY.md).
 

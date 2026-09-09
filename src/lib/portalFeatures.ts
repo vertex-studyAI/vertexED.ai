@@ -120,13 +120,13 @@ function buildApexBrief(pulse: RetrievalPulse, profile: LearnerProfile): string 
   }
   if (pulse.loopGap) {
     const step = LOOP_STEPS.find((s) => s.id === pulse.loopGap);
-    return `${name}, you haven't "${step?.label ?? pulse.loopGap}" this week yet — that's the best thing to do tonight.`;
+    return `${name}, you haven't "${step?.label ?? pulse.loopGap}" this week yet - that's the best thing to do tonight.`;
   }
   if (pulse.signals.some((s) => s.urgency === 'high')) {
     const urgent = pulse.signals.find((s) => s.urgency === 'high');
     return `${name}, ${urgent?.value ?? 'one priority'} needs attention before you add new content.`;
   }
-  return `${name} — ${pulse.nextAction.reason}`;
+  return `${name} - ${pulse.nextAction.reason}`;
 }
 
 export function buildPortalIntelligence(
@@ -162,8 +162,8 @@ export function buildPortalIntelligence(
     velocityTrend === 'up'
       ? `+${delta}% mastery this week`
       : velocityTrend === 'down'
-        ? `${delta}% dip — schedule a review block`
-        : 'Steady — add one deliberate practice session';
+        ? `${delta}% dip - schedule a review block`
+        : 'Steady - add one deliberate practice session';
 
   const marksGaps: MarksGap[] = adaptivePlan.masteryBySubject
     .map((m) => ({
@@ -188,7 +188,7 @@ export function buildPortalIntelligence(
     subjects: interleaveSubjects,
     reason:
       interleaveSubjects.length >= 2
-        ? 'Mixing two subjects in one session helps long-term retention — try 25 minutes each with a short break.'
+        ? 'Mixing two subjects in one session helps long-term retention - try 25 minutes each with a short break.'
         : 'Add at least two subjects in settings to get an interleaved session plan.',
   };
 
@@ -198,7 +198,7 @@ export function buildPortalIntelligence(
           active: true,
           items: [
             { id: 'pack-id', label: 'Pack ID, pens, calculator (if allowed)' },
-            { id: 'command-sheet', label: 'Skim your command-term sheet — no new content tonight' },
+            { id: 'command-sheet', label: 'Skim your command-term sheet - no new content tonight' },
             { id: 'retrieval', label: 'Run 10-minute retrieval on your weakest topic only' },
             { id: 'alarm', label: 'Set alarm with buffer time for travel' },
             { id: 'sleep', label: 'Sleep beats one more chapter' },
@@ -339,5 +339,5 @@ export function exportLearnerSnapshot(profile: LearnerProfile, stats: StudyStats
 export function masteryLabel(m: SubjectMastery): string {
   if (m.mastery >= 80) return 'On target (80%+)';
   if (m.mastery >= 65) return 'Building';
-  return 'Below target — drill this';
+  return 'Below target - drill this';
 }

@@ -15,6 +15,7 @@ export function formatSourcesForPrompt(sources, maxChars = DEFAULT_MAX_CHARS) {
   const blocks = [];
 
   for (const source of sources) {
+    if (!source || typeof source !== 'object') continue;
     const title =
       typeof source.title === 'string' && source.title.trim()
         ? source.title.trim().slice(0, 120)
@@ -117,8 +118,10 @@ Show how topics connect for revision planning.`,
   'mind-map': {
     label: 'Concept Map',
     instruction: `Create a concept map as a Mermaid flowchart showing how ideas in the sources connect.
-Return markdown with a \`\`\`mermaid code block only (flowchart TD or mindmap).
-Max 20 nodes. Label edges with relationship verbs.`,
+Return a \`\`\`mermaid code block only, beginning with flowchart TD.
+Use only declarations such as A["Cell"] and separate edges such as A -->|contains| B.
+Use alphanumeric node IDs, short plain-text labels, at most 20 nodes and 40 edges.
+Do not use HTML, styling, click handlers, subgraphs, or other Mermaid syntax. Label edges with relationship verbs.`,
   },
   compare: {
     label: 'Source Compare',

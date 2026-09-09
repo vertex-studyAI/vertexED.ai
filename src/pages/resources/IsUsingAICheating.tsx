@@ -8,7 +8,7 @@ export default function IsUsingAICheating() {
     <>
       <SEO
         title="Is using AI cheating? A student guide to academic integrity | VertexED"
-        description="Where AI crosses into plagiarism — finished essays, exam use, fake citations — and where it stays on the right side: brainstorming, Socratic help, and rubric feedback."
+        description="Where AI crosses into plagiarism - finished essays, exam use, fake citations - and where it stays on the right side: brainstorming, Socratic help, and rubric feedback."
         canonical="https://www.vertexed.app/resources/is-using-ai-cheating"
         keywords="is using AI cheating, AI plagiarism, Turnitin AI detection, academic integrity AI, ChatGPT in schools, ethical AI use for students, university AI policies, VertexED"
         jsonLd={[
@@ -16,7 +16,7 @@ export default function IsUsingAICheating() {
             "@context": "https://schema.org",
             "@type": "Article",
             headline: "Is using AI cheating? A student guide to academic integrity",
-            description: "The line between AI-assisted learning and plagiarism — and how school policies treat each.",
+            description: "The line between AI-assisted learning and plagiarism - and how school policies treat each.",
             author: {
               "@type": "Organization",
               name: "VertexED Team",
@@ -42,7 +42,7 @@ export default function IsUsingAICheating() {
                 name: "Will VertexED get me banned?",
                 acceptedAnswer: {
                   "@type": "Answer",
-                  text: "VertexED is built for study — quizzes, planning, rubric feedback — not for generating work you submit as your own."
+                  text: "VertexED is built for study - quizzes, planning, rubric feedback - not for generating work you submit as your own."
                 }
               },
               {
@@ -50,7 +50,7 @@ export default function IsUsingAICheating() {
                 name: "Can teachers tell if I used AI?",
                 acceptedAnswer: {
                   "@type": "Answer",
-                  text: "Often yes — not always via detectors, but because voice and vocabulary shift. If your essay suddenly uses words you never use in class, it raises questions."
+                  text: "Often yes - not always via detectors, but because voice and vocabulary shift. If your essay suddenly uses words you never use in class, it raises questions."
                 }
               },
               {
@@ -67,13 +67,13 @@ export default function IsUsingAICheating() {
       />
       <Article
         title="Is using AI cheating?"
-        subtitle="The line between study help and academic misconduct — and what exam boards actually care about."
+        subtitle="The line between study help and academic misconduct - and what exam boards actually care about."
         kicker="Ethics &amp; Policy"
       >
         <p className="lead">
-          &ldquo;Is using AI cheating?&rdquo; depends on what you are doing with it — like a calculator in
+          &ldquo;Is using AI cheating?&rdquo; depends on what you are doing with it - like a calculator in
           a mental maths test vs a calculus exam. Copy-pasting a finished essay is misconduct. Using AI to
-          explain a concept, stress-test a thesis, or read rubric feedback is a different category — and
+          explain a concept, stress-test a thesis, or read rubric feedback is a different category - and
           many schools now allow it for revision with disclosure.
         </p>
 
@@ -84,7 +84,7 @@ export default function IsUsingAICheating() {
         <ul className="list-disc pl-6 space-y-2">
           <li><strong>Copy-pasting essays:</strong> Asking ChatGPT to write your Hamlet essay and submitting it unchanged.</li>
           <li><strong>AI during exams:</strong> Using a chatbot in a timed, closed-book assessment.</li>
-          <li><strong>Fake citations:</strong> AI-generated bibliographies — models often invent books that do not exist.</li>
+          <li><strong>Fake citations:</strong> AI-generated bibliographies - models often invent books that do not exist.</li>
         </ul>
 
         <h2>What usually counts as ethical use</h2>
@@ -115,7 +115,7 @@ export default function IsUsingAICheating() {
           False positives worry students. Here is the practical picture:
         </p>
         <ul>
-          <li><strong>How they work:</strong> They look for predictable, uniform prose — common in AI output, less common in messy human drafts.</li>
+          <li><strong>How they work:</strong> They look for predictable, uniform prose - common in AI output, less common in messy human drafts.</li>
           <li><strong>The risk:</strong> Generic writing you wrote yourself can still look suspicious.</li>
           <li><strong>Protection:</strong> Write in your own voice. Use specific class references and anecdotes. Keep Google Docs version history.</li>
         </ul>
@@ -127,8 +127,8 @@ export default function IsUsingAICheating() {
         </p>
 
         <h2>FAQ</h2>
-        <p><strong>Will VertexED get me banned?</strong> VertexED is built for study — quizzes, planning, rubric feedback — not for generating work you submit as your own.</p>
-        <p><strong>Can teachers tell if I used AI?</strong> Often yes — voice and vocabulary shift. Sudden formal diction you never use in class raises questions.</p>
+        <p><strong>Will VertexED get me banned?</strong> VertexED is built for study - quizzes, planning, rubric feedback - not for generating work you submit as your own.</p>
+        <p><strong>Can teachers tell if I used AI?</strong> Often yes - voice and vocabulary shift. Sudden formal diction you never use in class raises questions.</p>
         <p><strong>What if I&apos;m falsely accused?</strong> Show version history, planning notes, and discuss the material verbally.</p>
 
         <div className="not-prose mt-8 flex gap-3 flex-wrap">
@@ -138,7 +138,7 @@ export default function IsUsingAICheating() {
 
         <h2 className="mt-10">Evidence &amp; references</h2>
         <ul>
-          <li>IBO (2023): Academic Integrity Policy — Appendix on Artificial Intelligence.</li>
+          <li>IBO (2023): Academic Integrity Policy - Appendix on Artificial Intelligence.</li>
           <li>Turnitin (2024): The False Positive Problem in AI Detection.</li>
           <li>UNESCO (2023): Guidance for Generative AI in Education.</li>
         </ul>

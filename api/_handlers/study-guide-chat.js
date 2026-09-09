@@ -23,6 +23,7 @@ export default async function handler(req, res) {
     const trimmedQuestion = question.trim();
     const currentGuidePath = typeof context?.guidePath === 'string' ? context.guidePath : undefined;
     const passages = await retrieveStudyGuideContext(trimmedQuestion, { currentGuidePath });
+    if (!passages.length) return res.status(200).json({ answer: 'No approved study-guide passage is available for this question yet. Check your teacher or current official syllabus. The guide collection is still undergoing editorial review.', sources: [], generation: { degraded: true, reason: 'no-approved-source' } });
     const sourceText = passages.length
       ? passages.map((source, index) => `[${index + 1}] ${source.label} (${source.path})\n${source.text}`).join('\n\n')
       : 'No directly matching guide passage was found.';

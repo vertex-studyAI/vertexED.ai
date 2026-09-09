@@ -7,7 +7,7 @@ export default function TermsOfService() {
   return (
     <>
       <SEO
-        title="Terms of Service — VertexED"
+        title="Terms of Service - VertexED"
         description="Terms governing use of VertexED study tools and AI features."
         canonical="https://www.vertexed.app/terms"
       />

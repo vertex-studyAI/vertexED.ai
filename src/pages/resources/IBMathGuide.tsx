@@ -8,7 +8,7 @@ export default function IBMathGuide() {
     <>
       <SEO
         title="IB Math AA and AI revision guide | VertexED"
-        description="Practical revision for Analysis &amp; Approaches and Applications &amp; Interpretation — spiral review, IA planning, Paper 1 non-calculator drills, and GDC working checks."
+        description="Practical revision for Analysis &amp; Approaches and Applications &amp; Interpretation - spiral review, IA planning, Paper 1 non-calculator drills, and GDC working checks."
         canonical="https://www.vertexed.app/resources/ib-math-aa-ai-guide"
         keywords="IB Math AA, IB Math AI, IB Math Analysis and Approaches, IB Math Applications and Interpretation, IB Math HL, IB Math SL, IB Math past papers, IB Math revision, IB Math IA ideas, IB Math exploration, AI for IB Math, VertexED, math practice questions, IB exam prep, International Baccalaureate"
       />
@@ -35,7 +35,7 @@ export default function IBMathGuide() {
             <ul className="space-y-2 text-sm">
               <li><strong>Focus:</strong> Algebraic methods, calculus, trigonometry, proof.</li>
               <li><strong>Typical path:</strong> Engineering, physics, pure maths, some economics.</li>
-              <li><strong>Exam pressure:</strong> Paper 1 is non-calculator — mental maths and manipulation must be solid.</li>
+              <li><strong>Exam pressure:</strong> Paper 1 is non-calculator - mental maths and manipulation must be solid.</li>
             </ul>
           </div>
           <div className="article-callout">
@@ -59,7 +59,7 @@ export default function IBMathGuide() {
           <li><strong>Week 3:</strong> Study Topic 3 (Trig) + one question each from Topics 1 and 2.</li>
         </ol>
         <p>
-          Use <Link to="/paper-maker">Paper Maker</Link> to generate mixed papers — select IB Math AA or AI and
+          Use <Link to="/paper-maker">Paper Maker</Link> to generate mixed papers - select IB Math AA or AI and
           tick Algebra, Functions, and Trig. Forcing topic switches mirrors real papers.
         </p>
 
@@ -90,13 +90,13 @@ export default function IBMathGuide() {
           Speed matters. You cannot afford to stall on arithmetic.
         </p>
         <ul>
-          <li><strong>Tip:</strong> Know your unit circle — $\sin(\pi/3)$ should be instant.</li>
+          <li><strong>Tip:</strong> Know your unit circle - $\sin(\pi/3)$ should be instant.</li>
           <li><strong>Drill:</strong> Use <Link to="/notetaker">Notetaker</Link> for quick-fire trig and log rule quizzes.</li>
         </ul>
 
         <h3>Paper 2 &amp; 3: GDC papers</h3>
         <p>
-          In AI (and AA Paper 2), your calculator is essential — but answers alone lose method marks.
+          In AI (and AA Paper 2), your calculator is essential - but answers alone lose method marks.
         </p>
         <ul>
           <li><strong>Common mistake:</strong> Writing only the GDC output.</li>
@@ -111,8 +111,8 @@ export default function IBMathGuide() {
         </p>
 
         <h2>FAQ</h2>
-        <p><strong>Can I use AI for my IA?</strong> Brainstorming, maths checks, and structural feedback — yes. Writing the IA text — no. That is plagiarism.</p>
-        <p><strong>Does VertexED support HL and SL?</strong> Yes — Paper Maker and Apex distinguish Standard and Higher Level content.</p>
+        <p><strong>Can I use AI for my IA?</strong> Brainstorming, maths checks, and structural feedback - yes. Writing the IA text - no. That is plagiarism.</p>
+        <p><strong>Does VertexED support HL and SL?</strong> Yes - Paper Maker and Apex distinguish Standard and Higher Level content.</p>
         <p><strong>How accurate is the mark scheme generator?</strong> It follows IB-style phrasing and point allocation, but always compare against official mark schemes for calibration.</p>
 
         <div className="not-prose mt-8 flex gap-3 flex-wrap">

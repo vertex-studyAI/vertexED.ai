@@ -8,13 +8,13 @@ export default function StudyTechniquesActiveRecall() {
     <>
       <SEO
         title="Active recall and spaced repetition for IB/IGCSE | VertexED"
-        description="Why rereading fails under exam pressure — and how to build retrieval, spacing, and interleaving into a weekly loop with VertexED."
+        description="Why rereading fails under exam pressure - and how to build retrieval, spacing, and interleaving into a weekly loop with VertexED."
         canonical={canonical}
         ogType="article"
         jsonLd={{
           "@context": "https://schema.org",
           "@type": "TechArticle",
-          headline: "Active Recall & Spaced Repetition — IB/IGCSE Guide",
+          headline: "Active Recall & Spaced Repetition - IB/IGCSE Guide",
           datePublished: "2025-10-11",
           dateModified: "2025-10-11",
           author: { "@type": "Organization", name: "VertexED" },
@@ -24,7 +24,7 @@ export default function StudyTechniquesActiveRecall() {
       />
       <Article
         title="Active recall and spaced repetition"
-        subtitle="Retrieval beats rereading — a weekly template for IB and IGCSE with VertexED workflows."
+        subtitle="Retrieval beats rereading - a weekly template for IB and IGCSE with VertexED workflows."
         kicker="Study Techniques"
       >
         <p className="lead">
@@ -99,10 +99,10 @@ export default function StudyTechniquesActiveRecall() {
 
         <h2>Common pitfalls</h2>
         <ul>
-          <li>Don’t review everything every day—space it.</li>
-          <li>Don’t only do recognition—force production (explain/write/solve).</li>
-          <li>Don’t avoid errors—use them to tune the next session.</li>
-          <li>Don’t keep cards too easy—rewrite to demand recall and reasoning.</li>
+          <li>Don’t review everything every day - space it.</li>
+          <li>Don’t only do recognition - force production (explain/write/solve).</li>
+          <li>Don’t avoid errors - use them to tune the next session.</li>
+          <li>Don’t keep cards too easy - rewrite to demand recall and reasoning.</li>
         </ul>
 
         <h2>IB/IGCSE‑specific tips</h2>
@@ -115,7 +115,7 @@ export default function StudyTechniquesActiveRecall() {
         <h2>FAQ</h2>
         <p><strong>How many cards per subject?</strong> Start with 30–50 high‑value cards that cover definitions, formulas, and common misconceptions. Grow slowly.</p>
         <p><strong>How long should sessions be?</strong> 20–30 minutes is enough for focused recall. Stop before fatigue kills quality.</p>
-        <p><strong>What about burnout?</strong> Mix modalities—verbal explanation, drawing, and mixed quizzes keep energy higher than pure reading.</p>
+        <p><strong>What about burnout?</strong> Mix modalities - verbal explanation, drawing, and mixed quizzes keep energy higher than pure reading.</p>
 
         <div className="not-prose mt-8 flex gap-3 flex-wrap">
           <Link to="/planner" className="neu-button">Plan spaced sessions</Link>
@@ -126,9 +126,9 @@ export default function StudyTechniquesActiveRecall() {
 
         <h2 className="mt-10">Evidence & references</h2>
         <ul>
-          <li>Roediger & Karpicke (2006): On the testing effect — retrieval practice improves long‑term retention.</li>
-          <li>Cepeda et al. (2006): Spacing effect — distributed practice yields better learning than massed practice.</li>
-          <li>Bjork (1994 onward): Desirable difficulties — making learning effortful can enhance retention.</li>
+          <li>Roediger & Karpicke (2006): On the testing effect - retrieval practice improves long‑term retention.</li>
+          <li>Cepeda et al. (2006): Spacing effect - distributed practice yields better learning than massed practice.</li>
+          <li>Bjork (1994 onward): Desirable difficulties - making learning effortful can enhance retention.</li>
         </ul>
 
         <div className="article-footer">

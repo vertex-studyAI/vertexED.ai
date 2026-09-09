@@ -123,7 +123,7 @@ export const REVISION_WEEK = [
   {
     day: "Monday",
     title: "Map the week",
-    text: "Open the planner. Drop in the mock on Thursday, the essay draft due Friday, and two lighter evenings for sport. Assign chemistry retrieval to Tuesday and Thursday — 25 minutes each, not a heroic four-hour block.",
+    text: "Open the planner. Drop in the mock on Thursday, the essay draft due Friday, and two lighter evenings for sport. Assign chemistry retrieval to Tuesday and Thursday - 25 minutes each, not a heroic four-hour block.",
   },
   {
     day: "Tuesday",
@@ -133,7 +133,7 @@ export const REVISION_WEEK = [
   {
     day: "Wednesday",
     title: "Deliberate with Apex",
-    text: "Essay introduction feels vague. Ask Apex to stress-test your thesis against the question stem. Rewrite one paragraph. No new content — just sharper argument.",
+    text: "Essay introduction feels vague. Ask Apex to stress-test your thesis against the question stem. Rewrite one paragraph. No new content - just sharper argument.",
   },
   {
     day: "Thursday",
@@ -162,7 +162,7 @@ export const SCATTERED_VS_VERTEX = [
   },
   {
     scattered: "AI that answers the question and ends the thinking",
-    vertex: "Apex explains steps and invites follow-up — you still do the work",
+    vertex: "Apex explains steps and invites follow-up - you still do the work",
   },
   {
     scattered: "Revision plan lives in your head until panic sets in",
@@ -189,7 +189,7 @@ export const FEATURE_FAQ = [
   },
   {
     q: "Is using AI cheating?",
-    a: "Using AI to skip thinking is a bad trade. Using it to check reasoning, structure an essay, or understand a step you almost had — that's closer to a tutor. We bias the product toward the second.",
+    a: "Using AI to skip thinking is a bad trade. Using it to check reasoning, structure an essay, or understand a step you almost had - that's closer to a tutor. We bias the product toward the second.",
   },
   {
     q: "What about handwritten work?",
@@ -197,7 +197,7 @@ export const FEATURE_FAQ = [
   },
   {
     q: "Can parents or teachers see my work?",
-    a: "Your account is yours. We don't sell student data. Sharing is opt-in — export or show a session when you choose to.",
+    a: "Your account is yours. We don't sell student data. Sharing is opt-in - export or show a session when you choose to.",
   },
   {
     q: "How is this different from Anki or Notion?",
@@ -205,7 +205,7 @@ export const FEATURE_FAQ = [
   },
   {
     q: "Does it work on mobile?",
-    a: "Yes for reading, planning, and shorter sessions. Long mocks and photo uploads work best on a laptop or tablet — same as most serious revision.",
+    a: "Yes for reading, planning, and shorter sessions. Long mocks and photo uploads work best on a laptop or tablet - same as most serious revision.",
   },
 ] as const;
 
@@ -249,7 +249,7 @@ export const PLATFORM_FEATURES: Feature[] = [
     title: "Study Zone",
     tagline: "One room for deep work",
     icon: Timer,
-    lead: "Two hours before bed. One tab open. Timer running, calculator nearby, session logged — no hunting through bookmarks.",
+    lead: "Two hours before bed. One tab open. Timer running, calculator nearby, session logged - no hunting through bookmarks.",
     body: "Study Zone keeps the small tools used during a revision block on one page: timers, calculator, graphing, daily habits, quick notes, and a short activity log.",
     detail: "We built this because every productivity stack we tried meant leaving the desk to find another tool. Study Zone keeps friction low so attention stays on the material.",
     scenario: "Sunday afternoon: 90-minute chemistry block. Start the timer, log the topic, use the calculator for a quick enthalpy check, note what still felt shaky in the activity log. Next session, you know exactly where to pick up.",
@@ -270,7 +270,7 @@ export const PLATFORM_FEATURES: Feature[] = [
       "Checking a graph or calculation without opening another app",
       "Logging what you covered so Wednesday doesn't start from zero",
     ],
-    notFor: "Replacing your textbook — it's the bench you work on, not the syllabus itself.",
+    notFor: "Replacing your textbook - it's the bench you work on, not the syllabus itself.",
     connectsTo: [
       { id: "planner", label: "Sessions planned in the calendar" },
       { id: "notes", label: "Quick captures feed into notes" },
@@ -286,7 +286,7 @@ export const PLATFORM_FEATURES: Feature[] = [
     lead: "Sometimes you need the next step explained clearly, with enough room to ask why it works.",
     body: "Apex can explain a concept, question an argument, or work through a problem with you. It receives the study context you have saved, but its answers can still be wrong and should be checked when accuracy matters.",
     detail: "Board, subject, goal, and response-style preferences can be included in the prompt context. That helps make replies relevant without turning the model into an examiner or an official source.",
-    scenario: "You're rewriting a history paragraph and the argument feels thin. Apex helps you test whether each sentence earns its place, suggests where evidence is missing, and pushes you to link back to the question stem — the kind of feedback you'd want before handing it in.",
+    scenario: "You're rewriting a history paragraph and the argument feels thin. Apex helps you test whether each sentence earns its place, suggests where evidence is missing, and pushes you to link back to the question stem - the kind of feedback you'd want before handing it in.",
     outcomes: [
       "Explanations you can test in a follow-up question",
       "Clearer essays and structured science responses",
@@ -296,7 +296,7 @@ export const PLATFORM_FEATURES: Feature[] = [
       "Follow-up questions instead of one-shot dumps",
       "Board-aware terminology and rubric language",
       "Strong for humanities debate, science models, and math intuition",
-      "Floats across tools — context follows the page you're on",
+      "Floats across tools - context follows the page you're on",
       "Study Assistant panel on dashboard routes",
     ],
     whenToUse: [
@@ -304,7 +304,7 @@ export const PLATFORM_FEATURES: Feature[] = [
       "Testing an essay argument before you hand it in",
       "Clarifying a mark-scheme phrase you don't fully understand",
     ],
-    notFor: "Generating full assignments to submit unchanged — that's a shortcut you'll regret.",
+    notFor: "Generating full assignments to submit unchanged - that's a shortcut you'll regret.",
     connectsTo: [
       { id: "answer-reviewer", label: "Discuss reviewer feedback" },
       { id: "paper-maker", label: "Unpack mock questions" },
@@ -318,7 +318,7 @@ export const PLATFORM_FEATURES: Feature[] = [
     title: "Study Planner",
     tagline: "An editable week",
     icon: Calendar,
-    lead: "The problem isn't that students don't plan. It's that plans ignore real life — matches, labs, the mock that moved to Thursday.",
+    lead: "The problem isn't that students don't plan. It's that plans ignore real life - matches, labs, the mock that moved to Thursday.",
     body: "Add tasks and deadlines to a calendar, then request suggested study blocks when you want help getting started. Every suggested task remains editable, so you decide what fits and what moves.",
     detail: "The planner is a place to make revision concrete. It does not resolve timetable conflicts automatically or know how much energy you will have on a given evening.",
     scenario: "Three subjects and two assessments land in the same fortnight. You add the deadlines, accept the useful suggested blocks, shorten Friday's work, and reserve Saturday morning for a mock.",
@@ -337,9 +337,9 @@ export const PLATFORM_FEATURES: Feature[] = [
     whenToUse: [
       "Exam season when everything competes for the same two weeks",
       "Sunday planning for a realistic week ahead",
-      "After a mock — slot retries for weak topics",
+      "After a mock - slot retries for weak topics",
     ],
-    notFor: "Micromanaging every minute of your day — it's structure, not surveillance.",
+    notFor: "Micromanaging every minute of your day - it's structure, not surveillance.",
     connectsTo: [
       { id: "study-zone", label: "Planned blocks → focus sessions" },
       { id: "paper-maker", label: "Mock slots on the calendar" },
@@ -373,7 +373,7 @@ export const PLATFORM_FEATURES: Feature[] = [
       "Drilling one weak topic until the method is automatic",
       "Building stamina for long papers",
     ],
-    notFor: "Predicting exact exam questions — it trains technique and coverage, not clairvoyance.",
+    notFor: "Predicting exact exam questions - it trains technique and coverage, not clairvoyance.",
     connectsTo: [
       { id: "answer-reviewer", label: "Submit responses for rubric feedback" },
       { id: "planner", label: "Schedule the next mock attempt" },
@@ -408,7 +408,7 @@ export const PLATFORM_FEATURES: Feature[] = [
       "Before submitting coursework drafts",
       "When you're practising extended responses",
     ],
-    notFor: "A score without explanation — if feedback isn't actionable, we failed.",
+    notFor: "A score without explanation - if feedback isn't actionable, we failed.",
     connectsTo: [
       { id: "paper-maker", label: "Review mock paper answers" },
       { id: "apex", label: "Ask how to fix a weak paragraph" },
@@ -443,7 +443,7 @@ export const PLATFORM_FEATURES: Feature[] = [
       "Commute-friendly flashcard reviews",
       "Weekly quiz to honest-check what stuck",
     ],
-    notFor: "Storing PDFs you never open again — if it doesn't become retrieval, it doesn't count.",
+    notFor: "Storing PDFs you never open again - if it doesn't become retrieval, it doesn't count.",
     connectsTo: [
       { id: "planner", label: "Due cards appear in your week" },
       { id: "study-zone", label: "Run reviews in a focus session" },
@@ -474,7 +474,7 @@ export const ECOSYSTEM_EXTRAS: EcosystemExtra[] = [
     id: "study-tools",
     title: "Study Tools Hub",
     summary: "Formula sheets, technique guides, and shortcuts into every tool.",
-    detail: "Quick-reference maths, physics, chemistry, and biology — plus exam-day checklists when you need a fast lookup before a mock.",
+    detail: "Quick-reference maths, physics, chemistry, and biology - plus exam-day checklists when you need a fast lookup before a mock.",
     href: "/study-tools",
     icon: Wrench,
   },
@@ -492,7 +492,7 @@ export const PROBLEM_INSIGHTS = [
   {
     stat: "01",
     title: "Resources without structure",
-    text: "PDFs, playlists, and problem sets multiply every term. Without a sequence — read, mock, review, retrieve — students cannot tell if tonight moved them closer to a full mark on Paper 2.",
+    text: "PDFs, playlists, and problem sets multiply every term. Without a sequence - read, mock, review, retrieve - students cannot tell if tonight moved them closer to a full mark on Paper 2.",
   },
   {
     stat: "02",
@@ -502,7 +502,7 @@ export const PROBLEM_INSIGHTS = [
   {
     stat: "03",
     title: "Practice on the wrong shape",
-    text: "Generic quizzes rarely mirror command words, mark schemes, or timing. You train on easy wins — then the hall feels unfamiliar when the stem says evaluate or justify.",
+    text: "Generic quizzes rarely mirror command words, mark schemes, or timing. You train on easy wins - then the hall feels unfamiliar when the stem says evaluate or justify.",
   },
 ];
 

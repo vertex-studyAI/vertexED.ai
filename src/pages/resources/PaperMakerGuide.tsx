@@ -16,7 +16,7 @@ export default function PaperMakerGuide() {
         jsonLd={{
           "@context": "https://schema.org",
           "@type": "TechArticle",
-          headline: "IB/IGCSE Paper Maker — Guide",
+          headline: "IB/IGCSE Paper Maker - Guide",
           datePublished: "2025-10-11",
           dateModified: "2025-10-11",
           author: { "@type": "Organization", name: "VertexED" },
@@ -30,10 +30,10 @@ export default function PaperMakerGuide() {
         }}
       />
   <BreadcrumbsJsonLd />
-      <Article title="IB and IGCSE Paper Maker" subtitle="Board-shaped mocks by topic — export, attempt under time, review against mark schemes." kicker="Guides">
+      <Article title="IB and IGCSE Paper Maker" subtitle="Board-shaped mocks by topic - export, attempt under time, review against mark schemes." kicker="Guides">
         <p className="lead">
           Past papers run out. Paper Maker generates style-alike questions for your board, grade, and topic
-          tags — then exports to PDF or DOCX for timed practice. Treat generated items as rehearsal material;
+          tags - then exports to PDF or DOCX for timed practice. Treat generated items as rehearsal material;
           calibrate phrasing and mark distribution against official papers.
         </p>
 
@@ -105,8 +105,8 @@ export default function PaperMakerGuide() {
 
         <h2 className="mt-10">Evidence & references</h2>
         <ul>
-          <li>Roediger, H. L., & Karpicke, J. D. (2006): Test-enhanced learning — taking memory tests improves long-term retention.</li>
-          <li>Agarwal, P. K. (2019): Retrieval Practice Guide — practical applications of cognitive science in the classroom.</li>
+          <li>Roediger, H. L., & Karpicke, J. D. (2006): Test-enhanced learning - taking memory tests improves long-term retention.</li>
+          <li>Agarwal, P. K. (2019): Retrieval Practice Guide - practical applications of cognitive science in the classroom.</li>
         </ul>
 
         <div className="article-footer">

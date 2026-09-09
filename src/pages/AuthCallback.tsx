@@ -2,10 +2,11 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { Helmet } from "react-helmet-async";
 import type { AuthChangeEvent, Session } from "@supabase/supabase-js";
-import { supabase } from "@/lib/supabaseClient";
+import { supabase, authRecoveryEvent } from "@/lib/supabaseClient";
 import { isOnboardingComplete } from "@/lib/onboardingStatus.js";
 import { isVerifiedInviteSession } from "@/lib/inviteAcceptance.mjs";
 import { markPasswordRecoveryVerified } from "@/lib/passwordRecovery";
+import { consumeGoogleLinkReturn } from "@/lib/authReturn.mjs";
 import ResetPassword from "@/pages/ResetPassword";
 import SetInitialPassword from "@/pages/SetInitialPassword";
 
@@ -16,13 +17,10 @@ export default function AuthCallback() {
   const [inviteReady, setInviteReady] = useState(false);
 
   useEffect(() => {
-    if (!supabase) {
-      setError("Auth is disabled: Supabase not configured.");
-      return;
-    }
-
     let cancelled = false;
     let completed = false;
+    let initializationChecked = false;
+    let pendingAuthEvent: { session: Session; event: AuthChangeEvent } | undefined;
     let timeout: number | undefined;
     const unsubscribeRef: { current?: () => void } = {};
 
@@ -46,26 +44,53 @@ export default function AuthCallback() {
         : "/auth/callback";
     window.history.replaceState({}, document.title, safeCallbackPath);
 
+    if (!supabase) {
+      setError("Sign-in is unavailable because this deployment is missing its authentication configuration.");
+      return;
+    }
+
     if (recoveryHint && inviteHint) {
       setError("This authentication link contains conflicting account actions. Request a fresh link and try again.");
       return;
     }
 
+    const authError = ["error", "error_code", "error_description"].some(
+      key => searchParams.has(key) || hashParams.has(key),
+    );
+    // Fail before subscribing: an existing cached session must not turn a
+    // rejected provider return into an apparent successful sign-in.
+    if (authError) {
+      setError("Authentication could not be completed. Return to login and try again.");
+      return;
+    }
+
     const clearCallbackTimeout = () => {
-      if (timeout) {
+      if (timeout !== undefined) {
         window.clearTimeout(timeout);
         timeout = undefined;
       }
     };
 
+    const fail = (message: string) => {
+      if (cancelled || completed) return;
+      completed = true;
+      clearCallbackTimeout();
+      unsubscribeRef.current?.();
+      setError(message);
+    };
+
     const armCallbackTimeout = (message: string) => {
       clearCallbackTimeout();
       timeout = window.setTimeout(() => {
-        if (!cancelled && !completed) setError(message);
+        fail(message);
       }, 20_000);
     };
 
-    const finish = async (
+    // The deadline covers initialization AND exchange/getSession, including a
+    // stalled network request. Late responses cannot navigate after failure.
+    armCallbackTimeout("Sign-in took too long. Return to login and try again when your connection is available.");
+
+    const finish = (
       session: Session,
       event?: AuthChangeEvent,
     ) => {
@@ -102,15 +127,21 @@ export default function AuthCallback() {
       unsubscribeRef.current?.();
 
       if (event === "PASSWORD_RECOVERY") {
-        markPasswordRecoveryVerified(session.user.id);
+        try {
+          markPasswordRecoveryVerified(session.user.id);
+        } catch {
+          setError("Your browser could not keep this password reset session. Allow site storage, then request a new link.");
+          return;
+        }
         window.history.replaceState({}, document.title, "/auth/callback?recovery=1");
         setRecoveryReady(true);
         return;
       }
 
-      const returnAfterGoogleLink = sessionStorage.getItem("vertex_google_link_return");
+      // Getting the storage object itself can also throw in restricted browsers.
+      let returnAfterGoogleLink: string | null = null;
+      try { returnAfterGoogleLink = consumeGoogleLinkReturn(window.sessionStorage); } catch { /* use normal destination */ }
       if (returnAfterGoogleLink) {
-        sessionStorage.removeItem("vertex_google_link_return");
         navigate(returnAfterGoogleLink, { replace: true });
         return;
       }
@@ -118,32 +149,30 @@ export default function AuthCallback() {
     };
 
     const { data: authSubscription } = supabase.auth.onAuthStateChange((event, session) => {
-      if (session) void finish(session, event);
+      if (!session) return;
+      if (!initializationChecked) {
+        // Preserve PASSWORD_RECOVERY if INITIAL_SESSION follows it.
+        if (pendingAuthEvent?.event !== "PASSWORD_RECOVERY") pendingAuthEvent = { session, event };
+        return;
+      }
+      finish(session, event);
     });
     unsubscribeRef.current = () => authSubscription.subscription.unsubscribe();
 
     const run = async () => {
       try {
-        const authError =
-          searchParams.get("error") ||
-          hashParams.get("error") ||
-          searchParams.get("error_description") ||
-          hashParams.get("error_description");
-        if (authError) {
-          // Provider text can contain implementation details. Keep the UI stable
-          // and actionable without reflecting third-party error payloads.
-          setError("Authentication could not be completed. Return to login and try again.");
-          return;
-        }
         const code = searchParams.get("code");
 
         if (code) {
           const { data, error: exchangeError } = await supabase.auth.exchangeCodeForSession(code);
           if (cancelled || completed) return;
           if (exchangeError) {
-            setError("The authentication link could not be verified. Return to login and try again.");
+            fail("The authentication link could not be verified. Return to login and try again.");
             return;
           }
+          initializationChecked = true;
+          if (pendingAuthEvent?.event === "PASSWORD_RECOVERY") finish(pendingAuthEvent.session, pendingAuthEvent.event);
+          if (completed) return;
           if (data.session && !recoveryHint) {
             void finish(data.session);
             return;
@@ -154,9 +183,27 @@ export default function AuthCallback() {
             );
             return;
           }
+        } else {
+          // getSession alone hides errors from SDK URL initialization (for
+          // example an expired implicit token returned to the site's root).
+          const { error: initializationError } = await supabase.auth.initialize();
+          if (cancelled || completed) return;
+          if (initializationError) {
+            fail("The authentication link could not be verified. Return to login and try again.");
+            return;
+          }
+          initializationChecked = true;
+          if (pendingAuthEvent) finish(pendingAuthEvent.session, pendingAuthEvent.event);
+          if (completed) return;
         }
 
         if (recoveryHint) {
+          const { data: recoveryData } = await supabase.auth.getSession();
+          if (cancelled || completed) return;
+          if (recoveryData.session && authRecoveryEvent.consume(recoveryData.session.user.id)) {
+            finish(recoveryData.session, "PASSWORD_RECOVERY");
+            return;
+          }
           armCallbackTimeout(
             "The password recovery link did not establish a verified recovery session. Request a new link and try again.",
           );
@@ -166,7 +213,7 @@ export default function AuthCallback() {
         const { data, error: sessionError } = await supabase.auth.getSession();
         if (cancelled || completed) return;
         if (sessionError) {
-          setError("Your authenticated session could not be verified. Return to login and try again.");
+          fail("Your authenticated session could not be verified. Return to login and try again.");
           return;
         }
         if (data.session) {
@@ -181,7 +228,7 @@ export default function AuthCallback() {
         );
       } catch (e: unknown) {
         if (!cancelled && !completed) {
-          setError("Authentication could not be completed. Return to login and try again.");
+          fail("Authentication could not be completed. Return to login and try again.");
         }
       }
     };
@@ -213,8 +260,8 @@ export default function AuthCallback() {
             </>
           ) : (
             <>
-              <div className="text-red-400 font-medium mb-2">Authentication error</div>
-              <div className="text-sm text-muted-foreground">{error}</div>
+              <h1 className="text-xl text-foreground font-semibold mb-3">Authentication error</h1>
+              <div role="alert" className="text-base text-muted-foreground">{error}</div>
               <button
                 type="button"
                 className="neu-button mt-4 px-4 py-2"

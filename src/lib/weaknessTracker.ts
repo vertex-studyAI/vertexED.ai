@@ -18,6 +18,7 @@ import { queueLearnerStateWrite } from '@/lib/learnerStateSync';
 
 export type WeaknessEntry = {
   id: string;
+  attemptId?: string;
   topic: string;
   subject: string;
   board?: string;
@@ -47,6 +48,10 @@ function readEntries(): WeaknessEntry[] {
   } catch {
     return [];
   }
+}
+
+export function getMeasuredEntries(): WeaknessEntry[] {
+  return readEntries().map(normalizeMeasuredWeaknessEntry).filter(Boolean) as WeaknessEntry[];
 }
 
 function writeEntries(entries: WeaknessEntry[]) {

@@ -22,9 +22,9 @@ export const BOARD_GUIDE_CATALOG: Partial<Record<ExamBoard, BoardGuideTopic[]>> 
     { id: 'myp-interdisciplinary', subject: 'MYP', title: 'Interdisciplinary Units & Global Contexts', description: 'How to connect subjects and write IDU reflections that score on all four criteria.', estimatedWords: 1000, tags: ['IDU', 'contexts'] },
   ],
   IGCSE: [
-    { id: 'igcse-math-extended', subject: 'Mathematics', title: 'IGCSE Extended Mathematics: Full Topic Map', description: 'Algebra through vectors — pacing guide, formula sheet habits, and Paper 2 extended techniques.', estimatedWords: 1600, tags: ['math', 'extended'] },
+    { id: 'igcse-math-extended', subject: 'Mathematics', title: 'IGCSE Extended Mathematics: Full Topic Map', description: 'Algebra through vectors - pacing guide, formula sheet habits, and Paper 2 extended techniques.', estimatedWords: 1600, tags: ['math', 'extended'] },
     { id: 'igcse-science-triple', subject: 'Sciences', title: 'IGCSE Triple Science: Practical & Theory Balance', description: 'Core vs extended content, required practicals, and how to structure 6-mark questions.', estimatedWords: 1400, tags: ['physics', 'chemistry', 'biology'] },
-    { id: 'igcse-english-lang', subject: 'English', title: 'IGCSE English Language: Reading & Writing Papers', description: 'Summary, directed writing, and composition — timing and mark-scheme alignment.', estimatedWords: 1200, tags: ['english', 'writing'] },
+    { id: 'igcse-english-lang', subject: 'English', title: 'IGCSE English Language: Reading & Writing Papers', description: 'Summary, directed writing, and composition - timing and mark-scheme alignment.', estimatedWords: 1200, tags: ['english', 'writing'] },
   ],
   AP: [
     { id: 'ap-calc-ab-frq', subject: 'Calculus AB', title: 'AP Calculus AB: FRQ Playbook by Unit', description: 'Unit-by-unit FRQ patterns, calculator vs non-calculator strategy, and common partial-credit traps.', estimatedWords: 1500, tags: ['calculus', 'FRQ'] },

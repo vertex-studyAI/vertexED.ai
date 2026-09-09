@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import handler, { HEALTH_CONTRACT_VERSION, getDeploymentRevision, getReadinessSnapshot } from '../api/_handlers/health.js';
+import handler, { HEALTH_CONTRACT_VERSION, getDeploymentRevision, getReadinessSnapshot, getDeepReadinessSnapshot } from '../api/_handlers/health.js';
 import { createMocks } from './helpers/mock-http.mjs';
 
 const HEALTH_ENV_KEYS = [
@@ -174,6 +174,7 @@ test('readiness returns 200 when all production capabilities are configured', as
       atomicRateLimitRpc: true,
       learnerStateStorage: true,
       batchLearnerStateSync: true,
+      examSessionStorage: true,
       observabilityStorage: true,
       singletonIntegrity: true,
     }), { status: 200, headers: { 'content-type': 'application/json' } });
@@ -194,5 +195,41 @@ test('readiness returns 200 when all production capabilities are configured', as
     assert.ok(Object.values(getJson().checks).every(Boolean));
     assert.equal(getHeaders()['X-VertexED-Health'], 'ready');
     assert.equal(getHeaders()['X-VertexED-Health-Contract'], HEALTH_CONTRACT_VERSION);
+  });
+});
+
+test('a legacy database readiness response cannot certify exam-session support', async () => {
+  await withHealthEnv({
+    SUPABASE_URL: 'https://example.supabase.co', SUPABASE_ANON_KEY: 'fixture',
+    SUPABASE_SERVICE_ROLE_KEY: 'fixture', OPENAI_API_KEY: 'fixture', GEMINI_API_KEY: 'fixture', WAITLIST_RATE_LIMIT_SALT: 'fixture',
+  }, async () => {
+    const originalFetch = globalThis.fetch;
+    globalThis.fetch = async () => new Response(JSON.stringify({ atomicRateLimitRpc: true, learnerStateStorage: true, batchLearnerStateSync: true, observabilityStorage: true, singletonIntegrity: true }), { headers: { 'content-type': 'application/json' } });
+    try {
+      const result = await getDeepReadinessSnapshot();
+      assert.equal(result.ready, false);
+      assert.equal(result.checks.examSessionStorage, false);
+    } finally { globalThis.fetch = originalFetch; }
+  });
+});
+
+test('deep readiness uses the documented secret-key and browser-URL aliases in the actual admin client', async () => {
+  await withHealthEnv({
+    VITE_SUPABASE_URL: 'https://alias-fixture.supabase.co', SUPABASE_PUBLISHABLE_KEY: 'public-fixture',
+    SUPABASE_SECRET_KEY: 'secret-fixture', OPENAI_API_KEY: 'fixture', GEMINI_API_KEY: 'fixture', WAITLIST_RATE_LIMIT_SALT: 'fixture',
+  }, async () => {
+    const originalFetch = globalThis.fetch;
+    let calls = 0;
+    globalThis.fetch = async (input, init) => {
+      calls += 1;
+      assert.equal(String(input), 'https://alias-fixture.supabase.co/rest/v1/rpc/vertexed_readiness');
+      assert.equal(new Headers(init.headers).get('apikey'), 'secret-fixture');
+      return new Response(JSON.stringify({ atomicRateLimitRpc: true, learnerStateStorage: true, batchLearnerStateSync: true, examSessionStorage: true, observabilityStorage: true, singletonIntegrity: true }), { headers: { 'content-type': 'application/json' } });
+    };
+    try {
+      const result = await getDeepReadinessSnapshot();
+      assert.equal(result.ready, true);
+      assert.equal(calls, 1);
+    } finally { globalThis.fetch = originalFetch; }
   });
 });

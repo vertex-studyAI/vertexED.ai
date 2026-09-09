@@ -33,8 +33,8 @@ export default function About(): React.JSX.Element {
   return (
     <>
       <SEO
-        title="About VertexED — founding team and story"
-        description="VertexED started as a hackathon project between three students who wanted one workspace for exam season — planning, mocks, rubric feedback, and retrieval without tab overload."
+        title="About VertexED - founding team and story"
+        description="VertexED started as a hackathon project between three students who wanted one workspace for exam season - planning, mocks, rubric feedback, and retrieval without tab overload."
         canonical="https://www.vertexed.app/about"
         jsonLd={[
           {
@@ -61,7 +61,7 @@ export default function About(): React.JSX.Element {
         </h1>
 
         <p className="text-lg md:text-xl max-w-3xl leading-relaxed text-muted-foreground">
-          VertexED began as a late-night hackathon build — three classmates who wanted planning,
+          VertexED began as a late-night hackathon build - three classmates who wanted planning,
           notes, flashcards, timed mocks, and evidence-linked AI feedback in one place they would use during exam season.
           The prototype became an ongoing student-led product because we were still using it
           ourselves the week before mocks.

@@ -46,20 +46,23 @@ export default function LearningCommandCenter({
             <h2 id="learning-command-heading" className="text-xl font-semibold text-foreground">What needs attention</h2>
           </div>
           <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground">
-            <ShieldCheck className="h-3.5 w-3.5" aria-hidden /> Based on confirmed work
+            <ShieldCheck className="h-3.5 w-3.5" aria-hidden /> Saved work and confirmed scores
           </span>
         </div>
 
-        <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
-          <article className="rounded-2xl border border-border/60 bg-background/45 p-4">
+        <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+          <article className="measured-retry md:col-span-2 xl:col-span-3">
             <p className="text-xs uppercase tracking-wider text-muted-foreground">Retry queue</p>
             {nextRetry ? (
               <>
-                <h3 className="mt-2 line-clamp-2 font-semibold text-foreground">{nextRetry.topic}</h3>
-                <p className="mt-1 text-xs text-muted-foreground">{nextRetry.subject} · {nextRetry.scorePercent}% · {dueLabel(nextRetry.dueAt)}</p>
-                <Link to={retryTargetRoute(nextRetry)} className="mt-3 inline-flex items-center gap-1 text-sm text-primary hover:underline">Start retry <ArrowRight className="h-3.5 w-3.5" aria-hidden /></Link>
+                <div className="measured-retry-heading"><div><h3>{nextRetry.topic}</h3><p>{nextRetry.subject}</p></div><Link to={retryTargetRoute(nextRetry)} className="btn-solid">Start retry <ArrowRight className="h-4 w-4" aria-hidden /></Link></div>
+                <dl className="measured-retry-trace">
+                  <div><dt>01 / Previous attempt</dt><dd>{nextRetry.scorePercent}%</dd><p>Recorded score, not a predicted grade</p></div>
+                  <div><dt>02 / Topic history</dt><dd>{nextRetry.measuredAttempts} measured attempt{nextRetry.measuredAttempts === 1 ? '' : 's'}</dd><p>For this topic and subject</p></div>
+                  <div><dt>03 / Next retry</dt><dd>{dueLabel(nextRetry.dueAt)}</dd><p>Return to this topic in Answer Reviewer</p></div>
+                </dl>
               </>
-            ) : <p className="mt-2 text-sm text-muted-foreground">No measured retries scheduled yet.</p>}
+            ) : <div className="measured-retry-empty"><h3>No measured retries scheduled yet.</h3><p>Confirm a review or complete a validated assessment before a retry appears here.</p><Link to="/paper-maker" className="text-link">Open Paper Maker <ArrowRight className="h-4 w-4" aria-hidden /></Link></div>}
           </article>
 
           <article className="rounded-2xl border border-border/60 bg-background/45 p-4">

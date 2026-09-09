@@ -8,6 +8,7 @@ export type AccessibilitySettings = {
   dyslexiaFont: boolean;
   fontSize: 'base' | 'large' | 'xlarge';
   simpleMode: boolean;
+  studyCompanion: boolean;
 };
 
 const STORAGE_KEY = 'vertex_a11y_settings';
@@ -19,6 +20,7 @@ const DEFAULTS: AccessibilitySettings = {
   dyslexiaFont: false,
   fontSize: 'base',
   simpleMode: false,
+  studyCompanion: true,
 };
 
 function readSettings(): AccessibilitySettings {
@@ -73,7 +75,8 @@ export function AppPreferencesProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     applyAccessibilityClasses(settings);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(settings));
+    // Device preferences still work for this visit if browser storage is blocked.
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(settings)); } catch { /* No learner data is stored here. */ }
   }, [settings]);
 
   const isDark = useMemo(() => resolveIsDark(settings.theme), [settings.theme]);

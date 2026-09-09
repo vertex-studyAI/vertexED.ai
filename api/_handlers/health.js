@@ -3,6 +3,7 @@ import { API_VERSION, ROUTES } from '../_lib/routes.js';
 import { getQueryParam } from '../_lib/query.js';
 import { applyApiSecurityHeaders, isProduction } from '../_lib/security.js';
 import { getSupabaseAdmin } from '../_lib/supabaseAdmin.js';
+import { hasServerSupabaseConfig } from '../_lib/serverSupabase.js';
 
 export const HEALTH_CONTRACT_VERSION = '2';
 
@@ -29,14 +30,13 @@ export function getDeploymentRevision(env = process.env, buildRevision = BUILD_R
 export function getReadinessSnapshot(env = process.env) {
   const hasSupabaseUrl = hasValue(env.SUPABASE_URL) || hasValue(env.VITE_SUPABASE_URL);
   const hasSupabaseAnonKey = hasValue(env.SUPABASE_PUBLISHABLE_KEY) || hasValue(env.SUPABASE_ANON_KEY) || hasValue(env.VITE_SUPABASE_PUBLISHABLE_KEY) || hasValue(env.VITE_SUPABASE_ANON_KEY);
-  const hasSupabaseServiceRole = hasValue(env.SUPABASE_SERVICE_ROLE_KEY) || hasValue(env.SUPABASE_SECRET_KEY);
   const hasOpenAi = hasValue(env.OPENAI_API_KEY) || hasValue(env.ChatbotKey);
   const hasGemini = hasValue(env.GEMINI_API_KEY);
   const hasRateLimitSalt = hasValue(env.WAITLIST_RATE_LIMIT_SALT);
 
   const checks = {
     authentication: hasSupabaseUrl && hasSupabaseAnonKey,
-    waitlist: hasSupabaseUrl && hasSupabaseServiceRole,
+    waitlist: hasServerSupabaseConfig(env),
     coreAi: hasOpenAi,
     plannerAi: hasGemini,
     durableRateLimiting: hasRateLimitSalt,
@@ -55,6 +55,7 @@ export async function getDeepReadinessSnapshot(env = process.env) {
     atomicRateLimitRpc: false,
     learnerStateStorage: false,
     batchLearnerStateSync: false,
+    examSessionStorage: false,
     observabilityStorage: false,
     singletonIntegrity: false,
   };
@@ -70,6 +71,7 @@ export async function getDeepReadinessSnapshot(env = process.env) {
       databaseChecks.atomicRateLimitRpc = snapshot?.atomicRateLimitRpc === true;
       databaseChecks.learnerStateStorage = snapshot?.learnerStateStorage === true;
       databaseChecks.batchLearnerStateSync = snapshot?.batchLearnerStateSync === true;
+      databaseChecks.examSessionStorage = snapshot?.examSessionStorage === true;
       databaseChecks.observabilityStorage = snapshot?.observabilityStorage === true;
       databaseChecks.singletonIntegrity = snapshot?.singletonIntegrity === true;
     } catch (error) {

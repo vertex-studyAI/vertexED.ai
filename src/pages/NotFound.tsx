@@ -24,7 +24,7 @@ const NotFound = () => {
   return (
     <>
       <Helmet>
-        <title>404 — Page Not Found | VertexED</title>
+        <title>404 - Page Not Found | VertexED</title>
         <meta name="robots" content="noindex, nofollow" />
         <link rel="canonical" href={`https://www.vertexed.app${location.pathname}`} />
       </Helmet>
@@ -33,7 +33,7 @@ const NotFound = () => {
           <p className="text-6xl font-bold mb-2 brand-text-gradient tracking-tight">404</p>
           <h1 className="text-2xl font-semibold text-foreground mb-4">Page not found</h1>
           <p className="text-base text-muted-foreground mb-8 leading-relaxed">
-            That URL isn&apos;t on VertexED — the page may have moved, or the link might be mistyped.
+            That URL isn&apos;t on VertexED - the page may have moved, or the link might be mistyped.
             Use one of the shortcuts below, or return to the homepage.
           </p>
           

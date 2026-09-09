@@ -40,7 +40,22 @@ export function getExamPrepPhase(daysToExam) {
   return 'foundation';
 }
 
-export function chooseExamMission({ pendingMock, dueRetry, weakestTopic, dueCards = 0, subject = '' }) {
+export function examDayKey(date = new Date()) {
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+}
+
+export function examSessionKey({ day, subject, minutes, mission }) {
+  return JSON.stringify([day, subject, minutes, mission.kind, mission.title, mission.retryId ?? null]);
+}
+
+export function chooseExamMission({ pendingMock, dueRetry, weakestTopic, dueCards = 0, subject = '', mode = 'recommended' }) {
+  if (mode === 'diagnostic') return { kind: 'diagnostic', title: `Try a short ${subject || 'subject'} baseline`, detail: 'Optional practice to identify topics to review. This is not a validated diagnostic assessment.' };
+  if (mode === 'revision') return { kind: 'revision', title: `Revise ${subject || 'one topic'}`, detail: 'Recall a topic from memory, then check your explanation against your course notes.' };
+  if (mode === 'practice') return { kind: 'practice', title: `Practise ${subject || 'one subject'}`, detail: 'Choose a topic and attempt an exam-style question. A diagnostic is not required.' };
+  const matches = (item) => item && (!subject || item.subject?.trim().toLowerCase() === subject.trim().toLowerCase());
+  if (!matches(pendingMock)) pendingMock = null;
+  if (!matches(dueRetry)) dueRetry = null;
+  if (!matches(weakestTopic)) weakestTopic = null;
   if (pendingMock?.status === 'awaiting_review') {
     return {
       kind: 'review-mock',
@@ -63,24 +78,24 @@ export function chooseExamMission({ pendingMock, dueRetry, weakestTopic, dueCard
       retryId: dueRetry.id,
     };
   }
-  if (weakestTopic) {
+  if (weakestTopic && Number.isFinite(weakestTopic.avgPercent) && weakestTopic.avgPercent < 70) {
     return {
       kind: 'weak-topic',
       title: `Work on ${weakestTopic.topic}`,
-      detail: `Your verified attempts average ${Math.round(weakestTopic.avgPercent)}% here.`,
+      detail: `Your recorded marks average ${Math.round(weakestTopic.avgPercent)}% here.`,
     };
   }
   if (dueCards > 0) {
     return {
       kind: 'flashcards',
-      title: `Retrieve ${dueCards} due card${dueCards === 1 ? '' : 's'}`,
-      detail: 'Clear the cards that are scheduled for today before adding more material.',
+      title: `Retrieve ${dueCards} due card${dueCards === 1 ? '' : 's'} across subjects`,
+      detail: 'This is your mixed-subject flashcard queue, not a subject-specific recommendation.',
     };
   }
   return {
-    kind: 'diagnostic',
-    title: `Run a short ${subject || 'subject'} diagnostic`,
-    detail: 'Start with a timed attempt. Verified feedback will make the next session more specific.',
+    kind: 'practice',
+    title: `Practise ${subject || 'one subject'}`,
+    detail: 'Choose a topic and attempt a question. You can select an optional baseline instead.',
   };
 }
 

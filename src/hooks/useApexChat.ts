@@ -174,7 +174,7 @@ export function useApexChat({ context, threadKey, sources, onSessionRecord }: Op
         const answer =
           typeof data?.answer === 'string' && data.answer.trim()
             ? data.answer.trim()
-            : "Sorry — I couldn't generate a response.";
+            : "Sorry - I couldn't generate a response.";
 
         const firstChar = answer.slice(0, 1);
         setMessages((prev) =>

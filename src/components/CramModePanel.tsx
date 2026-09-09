@@ -19,7 +19,7 @@ export default function CramModePanel({ board, examDaysLeft }: Props) {
       <div className="flex items-center gap-2 mb-3">
         <Zap className="h-5 w-5 text-amber-500 dark:text-amber-400" aria-hidden />
         <h3 className="font-semibold text-foreground">
-          Exam cram mode — {examDaysLeft} day{examDaysLeft === 1 ? '' : 's'} left
+          Exam cram mode - {examDaysLeft} day{examDaysLeft === 1 ? '' : 's'} left
         </h3>
       </div>
       <p className="text-sm text-muted-foreground mb-4 leading-relaxed">

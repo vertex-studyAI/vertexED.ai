@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 
 import { useAuth } from '@/contexts/AuthContext';
+import ExamEvidence from '@/components/ExamEvidence';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { boardLabel, daysUntilExam } from '@/lib/curriculum';
 import {
@@ -24,9 +25,15 @@ import {
   chooseExamMission,
   getExamPrepPhase,
   summarizePreparationEvidence,
+  examDayKey,
+  examSessionKey,
 } from '@/lib/examPrepCore.mjs';
 import { getPendingMockReview } from '@/lib/examFlow';
+import { nextExamTarget } from '@/lib/examTargets.mjs';
 import { getLearnerProfile } from '@/lib/learnerProfile';
+import { readExamSessionHistoryState, saveExamSessionHistory } from '@/lib/examSessionStore';
+import { normalizeExamSession } from '@/lib/examSessionHistory.mjs';
+import { getPendingLearnerStateCount, initializeLearnerStateSync } from '@/lib/learnerStateSync';
 import { getDueRetries, retryTargetRoute } from '@/lib/retryQueue';
 import { getDueFlashcardCount } from '@/lib/srDeck';
 import { getLoopWeekStatus, recordLoopStep } from '@/lib/studyLoopTracker';
@@ -35,16 +42,21 @@ import { userContentStorageKeys } from '@/lib/userContentStorageScope.mjs';
 import { getWeaknessHeatmap } from '@/lib/weaknessTracker';
 
 type SessionState = {
+  id?: string;
+  startedAt?: string;
+  updatedAt?: string;
   day: string;
   subject: string;
   minutes: number;
   completed: string[];
+  mission?: Mission;
+  mode?: string;
 };
 
 type Mission = ReturnType<typeof chooseExamMission>;
 
 const SESSION_LENGTHS = [25, 45, 75];
-const todayKey = () => new Date().toISOString().slice(0, 10);
+const todayKey = examDayKey;
 
 function countdownCopy(days: number | null) {
   if (days === null) return 'No exam date set';
@@ -62,6 +74,7 @@ function missionRoute(mission: Mission, subject: string) {
     if (retry) return retryTargetRoute(retry);
   }
   if (mission.kind === 'flashcards') return '/notetaker?mode=study';
+  if (mission.kind === 'revision') return `/notetaker?${new URLSearchParams({ subject })}`;
   if (mission.kind === 'weak-topic') {
     return `/answer-reviewer?${new URLSearchParams({ subject, topic: mission.title.replace(/^Work on /, '') })}`;
   }
@@ -69,20 +82,49 @@ function missionRoute(mission: Mission, subject: string) {
 }
 
 export default function ExamPrep() {
+  const [, refreshEvidence] = useState(0);
+  useEffect(() => {
+    const refresh = () => refreshEvidence((value) => value + 1);
+    window.addEventListener('vertexed:learner-state-changed', refresh);
+    window.addEventListener('storage', refresh);
+    return () => {
+      window.removeEventListener('vertexed:learner-state-changed', refresh);
+      window.removeEventListener('storage', refresh);
+    };
+  }, []);
+  const [currentDay, setCurrentDay] = useState(todayKey);
+  useEffect(() => {
+    let timer: ReturnType<typeof setTimeout>;
+    const refresh = () => {
+      setCurrentDay(todayKey());
+      clearTimeout(timer);
+      const now = new Date();
+      const midnight = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+      timer = setTimeout(refresh, midnight.getTime() - now.getTime() + 50);
+    };
+    refresh();
+    document.addEventListener('visibilitychange', refresh);
+    return () => { clearTimeout(timer); document.removeEventListener('visibilitychange', refresh); };
+  }, []);
   const { user, loading: authLoading } = useAuth();
   const profile = useMemo(() => getLearnerProfile(user), [user]);
   const subjects = profile.curriculum.subjects;
   const storageKey = userContentStorageKeys(authLoading ? undefined : user?.id ?? null).examPrepSession;
-  const [savedSession, setSavedSession] = useLocalStorage<SessionState>(storageKey, {
+  const defaultSession: SessionState = {
     day: todayKey(),
     subject: subjects[0] ?? '',
     minutes: profile.preferences.sessionMinutes,
     completed: [],
-  });
+  };
+  const [rawSavedSession, setSavedSession] = useLocalStorage<SessionState>(storageKey, defaultSession);
+  const savedSession = rawSavedSession && typeof rawSavedSession === 'object' ? rawSavedSession : defaultSession;
+  const [historyError, setHistoryError] = useState<string | null>(null);
+  const history = readExamSessionHistoryState();
   const [subject, setSubject] = useState(savedSession.subject || subjects[0] || 'General preparation');
   const [minutes, setMinutes] = useState(
     SESSION_LENGTHS.includes(savedSession.minutes) ? savedSession.minutes : profile.preferences.sessionMinutes,
   );
+  const [mode, setMode] = useState(savedSession.mode ?? 'recommended');
 
   useEffect(() => {
     const nextSubject = subjects.includes(savedSession.subject)
@@ -90,56 +132,73 @@ export default function ExamPrep() {
       : subjects[0] || 'General preparation';
     setSubject(nextSubject);
     setMinutes(SESSION_LENGTHS.includes(savedSession.minutes) ? savedSession.minutes : 25);
-  }, [savedSession.minutes, savedSession.subject, storageKey, subjects]);
+    setMode(savedSession.mode ?? 'recommended');
+  }, [savedSession.minutes, savedSession.subject, savedSession.mode, storageKey, subjects]);
 
-  const days = daysUntilExam(profile.curriculum.examDate ?? null);
+  const examTarget = nextExamTarget(profile.curriculum.examTargets ?? [], subject, currentDay);
+  const examDate = examTarget?.date ?? profile.curriculum.examDate ?? null;
+  const days = daysUntilExam(examDate);
   const phaseKey = getExamPrepPhase(days);
   const phase = EXAM_PREP_PHASES[phaseKey];
-  const weaknesses = getWeaknessHeatmap(20);
+  const weaknesses = getWeaknessHeatmap(500);
   const subjectWeaknesses = weaknesses.filter((item) => !subject || item.subject === subject);
-  const weakestTopic = subjectWeaknesses[0] ?? weaknesses[0] ?? null;
+  const weakestTopic = subjectWeaknesses.find((item) => item.avgPercent < 70) ?? null;
   const dueRetries = getDueRetries();
-  const dueRetry = dueRetries.find((item) => !subject || item.subject === subject) ?? dueRetries[0] ?? null;
+  const dueRetry = dueRetries.find((item) => !subject || item.subject === subject) ?? null;
   const dueCards = getDueFlashcardCount();
-  const pendingMock = getPendingMockReview();
+  const savedMock = getPendingMockReview();
+  const pendingMock = savedMock?.subject === subject ? savedMock : null;
   const loop = getLoopWeekStatus();
   const profileReady = Boolean(
-    profile.curriculum.board && profile.curriculum.examDate && profile.curriculum.subjects.length,
+    profile.curriculum.board && examDate && profile.curriculum.subjects.length,
   );
-  const mission = chooseExamMission({ pendingMock, dueRetry, weakestTopic, dueCards, subject });
+  const recommendation = chooseExamMission({ pendingMock, dueRetry, weakestTopic, dueCards, subject, mode });
+  const savedMatches = savedSession.day === currentDay && savedSession.subject === subject && savedSession.minutes === minutes && (savedSession.mode ?? 'recommended') === mode;
+  const validSnapshot = normalizeExamSession(savedSession);
+  const mission = savedMatches && validSnapshot ? validSnapshot.mission : recommendation;
+  const sessionKey = examSessionKey({ day: currentDay, subject, minutes, mission });
   const blocks = buildExamSession({ minutes, phase: phaseKey, mission });
   const evidence = summarizePreparationEvidence({
     profileReady,
     loopSteps: loop.completed.length,
-    measuredTopics: weaknesses.length,
+    measuredTopics: subjectWeaknesses.length,
     reviewedWork: Boolean(pendingMock || dueRetry),
   });
-  const currentDay = todayKey();
-  const completed = savedSession.day === currentDay ? savedSession.completed : [];
-  const completedCount = blocks.filter((block) => completed.includes(`${subject}:${block.id}`)).length;
+  const completed = savedMatches && validSnapshot ? validSnapshot.completed : [];
+  const completedCount = blocks.filter((block) => completed.includes(`${sessionKey}:${block.id}`)).length;
 
   const persistSession = (next: Partial<SessionState>) => {
-    setSavedSession((previous) => ({
+    const now = new Date().toISOString();
+    const snapshot = {
+      id: savedMatches && validSnapshot ? validSnapshot.id : crypto.randomUUID(),
+      startedAt: savedMatches && validSnapshot ? validSnapshot.startedAt : now,
+      updatedAt: now,
       day: currentDay,
       subject,
       minutes,
-      completed: previous.day === currentDay ? previous.completed : [],
+      mode,
+      mission,
+      completed: savedMatches && Array.isArray(savedSession.completed) ? savedSession.completed : [],
       ...next,
-    }));
+    };
+    setSavedSession(snapshot);
+    if (snapshot.mission && !saveExamSessionHistory(snapshot)) {
+      setHistoryError('Session history could not be saved on this device. Keep this page open and export account data before trying recovery.');
+    }
   };
 
   const selectSubject = (nextSubject: string) => {
     setSubject(nextSubject);
-    persistSession({ subject: nextSubject });
+    persistSession({ subject: nextSubject, mission: undefined, completed: [] });
   };
 
   const selectMinutes = (nextMinutes: number) => {
     setMinutes(nextMinutes);
-    persistSession({ minutes: nextMinutes });
+    persistSession({ minutes: nextMinutes, mission: undefined, completed: [] });
   };
 
   const toggleBlock = (id: string) => {
-    const key = `${subject}:${id}`;
+    const key = `${sessionKey}:${id}`;
     const wasComplete = completed.includes(key);
     const next = wasComplete
       ? completed.filter((item) => item !== key)
@@ -175,6 +234,7 @@ export default function ExamPrep() {
               <span><CalendarClock className="h-4 w-4" aria-hidden /> {countdownCopy(days)}</span>
               <span>{boardLabel(profile.curriculum.board) ?? 'Board not set'}</span>
               {profile.curriculum.grade ? <span>Year {profile.curriculum.grade}</span> : null}
+              {examTarget ? <span>{examTarget.subject}{examTarget.paper ? `: ${examTarget.paper}` : ''} · {examTarget.date}</span> : null}
             </div>
           </div>
           <div className="exam-prep-phase-card">
@@ -198,6 +258,17 @@ export default function ExamPrep() {
         <div className="exam-prep-layout">
           <div className="exam-prep-main">
             <section className="exam-prep-panel" aria-labelledby="mission-title">
+              <label className="block mb-4 text-sm">Session choice
+                <select className="form-select mt-2 w-full" value={mode} onChange={(event) => {
+                  setMode(event.target.value);
+                  persistSession({ mode: event.target.value, mission: undefined, completed: [] });
+                }}>
+                  <option value="recommended">Use a recommendation</option>
+                  <option value="practice">Practice</option>
+                  <option value="revision">Revision</option>
+                  <option value="diagnostic">Optional baseline practice</option>
+                </select>
+              </label>
               <div className="exam-prep-section-head">
                 <div>
                   <p className="exam-prep-kicker"><Gauge className="h-4 w-4" aria-hidden /> Recommended next</p>
@@ -236,7 +307,7 @@ export default function ExamPrep() {
 
               <ol className="exam-prep-blocks">
                 {blocks.map((block, index) => {
-                  const isDone = completed.includes(`${subject}:${block.id}`);
+                  const isDone = completed.includes(`${sessionKey}:${block.id}`);
                   return (
                     <li key={block.id} className={isDone ? 'is-done' : ''}>
                       <button type="button" onClick={() => toggleBlock(block.id)} aria-pressed={isDone}>
@@ -258,11 +329,31 @@ export default function ExamPrep() {
               <div className="exam-prep-session-footer">
                 <span>{completedCount}/{blocks.length} steps checked off on this device today</span>
                 {completedCount > 0 && (
-                  <button type="button" onClick={() => persistSession({ completed: [] })}>
-                    <RotateCcw className="h-3.5 w-3.5" aria-hidden /> Reset
+                  <button type="button" onClick={() => persistSession({ id: crypto.randomUUID(), startedAt: new Date().toISOString(), completed: [], mission: undefined })}>
+                    <RotateCcw className="h-3.5 w-3.5" aria-hidden /> Start another session
                   </button>
                 )}
               </div>
+            </section>
+            <ExamEvidence subject={subject} />
+            <section className="exam-prep-panel" aria-labelledby="session-history-title">
+              <h2 id="session-history-title">Session history</h2>
+              <p className="exam-prep-supporting-copy">Checked steps are self-reported activity, not proof of learning. Recent session snapshots are kept on this device and queued for account sync.</p>
+              {historyError && <p role="alert" className="mt-3 text-destructive">{historyError}</p>}
+              <p className="mt-3 text-sm" role="status">{getPendingLearnerStateCount()} learner changes awaiting sync</p>
+              <button type="button" className="text-sm text-primary underline mt-2" onClick={() => {
+                setHistoryError(null);
+                void initializeLearnerStateSync().catch(() => setHistoryError('Account sync could not finish. Your pending changes have been kept for another attempt.'));
+              }}>Retry account sync</button>
+              {history.error ? <p role="alert" className="mt-4 text-sm">{history.error} <Link to="/user-settings" className="text-primary underline">Open account data export</Link></p> : history.entries.filter((entry) => entry.subject === subject).length === 0 ? <p className="mt-4 text-sm">No session history for {subject} yet.</p> : (
+                <ol className="mt-4 divide-y divide-border">
+                  {history.entries.filter((entry) => entry.subject === subject).map((entry) => <li key={entry.id} className="py-3 text-sm">
+                    <p className="font-medium">{entry.mission.title}</p>
+                    <p>{entry.day} · {entry.minutes} minutes planned · {entry.completed.length}/3 steps checked</p>
+                    <p className="text-muted-foreground">Started {new Date(entry.startedAt).toLocaleString()}</p>
+                  </li>)}
+                </ol>
+              )}
             </section>
           </div>
 
@@ -297,9 +388,9 @@ export default function ExamPrep() {
                 ))}
               </ul>
               <div className="exam-prep-facts">
-                <span><strong>{weaknesses.length}</strong> verified topics</span>
-                <span><strong>{dueRetries.length}</strong> retries due</span>
-                <span><strong>{dueCards}</strong> cards due</span>
+                <span><strong>{subjectWeaknesses.length}</strong> topics with recorded marks in {subject}</span>
+                <span><strong>{dueRetries.filter((retry) => retry.subject === subject).length}</strong> retries due in {subject}</span>
+                <span><strong>{dueCards}</strong> cards due across subjects</span>
               </div>
             </section>
           </aside>

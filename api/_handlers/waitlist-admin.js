@@ -128,7 +128,8 @@ export default async function handler(req, res) {
         emailSent = Boolean(notify.sent);
       }
 
-      const { invite_token: _inviteToken, ...safeEntry } = data;
+      const safeEntry = { ...data };
+      delete safeEntry.invite_token;
       return res.status(200).json({ entry: safeEntry, inviteLink, emailSent });
     }
 

@@ -78,6 +78,12 @@ export default async function handler(req, res) {
         return res.status(413).json({ error: 'Artifact payload is too large.' });
       }
 
+      if ((kind === 'planner' || kind === 'notebook') && body?.replace === true) {
+        if (!Object.hasOwn(body, 'expectedUpdatedAt')) return res.status(428).json({ error: 'Reload this page before saving; a snapshot revision is required.' });
+        if (body.expectedUpdatedAt !== null && (typeof body.expectedUpdatedAt !== 'string' || !Number.isFinite(Date.parse(body.expectedUpdatedAt)))) {
+          return res.status(400).json({ error: 'Invalid snapshot revision.' });
+        }
+      }
       const updatedAt = new Date().toISOString();
       const writeResult = (kind === 'planner' || kind === 'notebook') && body?.replace === true
         ? await replaceSingletonArtifact(supabase, {
@@ -86,6 +92,7 @@ export default async function handler(req, res) {
             title,
             payload: payloadValue,
             updatedAt,
+            expectedUpdatedAt: body.expectedUpdatedAt,
           })
         : await createStudyArtifact(supabase, {
             userId: user.id,
@@ -99,7 +106,7 @@ export default async function handler(req, res) {
       const { data, error, replayed = false, conflict = false } = writeResult;
       if (conflict) {
         return res.status(409).json({
-          error: 'Idempotency key was already used for different artifact content.',
+          error: body?.replace === true ? 'Cloud work changed on another device. Your local copy is preserved; export it or reload the cloud copy before continuing.' : 'Idempotency key was already used for different artifact content.',
         });
       }
       if (error) {
@@ -153,6 +160,8 @@ export default async function handler(req, res) {
         .update(updates)
         .eq('id', id)
         .eq('user_id', user.id)
+        // Singleton snapshots must use the revision-checked replacement route.
+        .not('kind', 'in', '(planner,notebook)')
         .select('id, kind, title, created_at, updated_at')
         .maybeSingle();
 

@@ -7,7 +7,7 @@ import tseslint from "typescript-eslint";
 export default tseslint.config(
   { ignores: ["dist", "node_modules", ".tmp", "test-results", "playwright-report"] },
   {
-    files: ["api/_lib/**/*.js", "tests/**/*.mjs"],
+    files: ["api/**/*.js", "tests/**/*.mjs", "scripts/**/*.mjs", "evals/**/*.mjs", "contracts/**/*.js"],
     languageOptions: {
       ecmaVersion: 2022,
       globals: globals.node,
@@ -16,6 +16,11 @@ export default tseslint.config(
     rules: {
       ...js.configs.recommended.rules,
     },
+  },
+  {
+    files: ["src/**/*.{js,mjs}"],
+    languageOptions: { ecmaVersion: 2022, globals: globals.browser, sourceType: "module" },
+    rules: { ...js.configs.recommended.rules },
   },
   {
     extends: [js.configs.recommended, ...tseslint.configs.recommended],

@@ -1,3 +1,4 @@
+import { reconcileSnapshot } from '../src/lib/snapshotConcurrency.mjs';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -17,7 +18,7 @@ const onboardingSource = fs.readFileSync('src/pages/Onboarding.tsx', 'utf8');
 const apiAuthSource = fs.readFileSync('src/lib/apiAuth.ts', 'utf8');
 const authContextSource = fs.readFileSync('src/contexts/AuthContext.tsx', 'utf8');
 
-test('planner snapshot merge prefers newest updatedAt', () => {
+test('planner recovers cloud changes when the local baseline has no pending edits', () => {
   const local = {
     tasks: [{ id: 'local', 'task name': 'Local task' }],
     mode: 'Day',
@@ -29,9 +30,7 @@ test('planner snapshot merge prefers newest updatedAt', () => {
     updatedAt: '2026-02-01T00:00:00.000Z',
   };
 
-  const localTime = new Date(local.updatedAt).getTime();
-  const cloudTime = new Date(cloud.updatedAt).getTime();
-  const snapshot = cloudTime >= localTime ? cloud : local;
+  const { snapshot } = reconcileSnapshot({ local, cloud, metadata: { pending: false, revision: local.updatedAt, syncedLocalTime: local.updatedAt } });
 
   assert.equal(snapshot.tasks[0].id, 'cloud');
   assert.equal(snapshot.mode, 'Week');
@@ -78,7 +77,7 @@ test('onboarding planner save uses the verified auth identity without reacquirin
       < onboardingSource.indexOf('supabase.auth.updateUser({ data: metadata })'),
     'the authenticated plan save must complete before the serialized auth mutation starts',
   );
-  assert.match(plannerSyncSource, /accessToken \? \{ Authorization: `Bearer \$\{accessToken\}` \} : \{\}/);
+  assert.match(plannerSyncSource, /authFetchWithAccessToken/);
   assert.match(apiAuthSource, /if \(headers\.has\('Authorization'\)\) return headers/);
 });
 

@@ -185,9 +185,9 @@ export function getProfileCompleteness(profile: LearnerProfile): ProfileComplete
     const first = missing[0];
     nudge =
       first === 'exam date'
-        ? 'Add your exam date — countdown, cram mode, and tonight\'s plan use it.'
+        ? 'Add your exam date - countdown, cram mode, and tonight\'s plan use it.'
         : first === 'subjects'
-          ? 'Add subjects — mastery charts and interleaving need them.'
+          ? 'Add subjects - mastery charts and interleaving need them.'
           : `Add your ${first} in settings for sharper recommendations.`;
   }
 
@@ -203,8 +203,8 @@ export function getPersonalizedSubline(profile: LearnerProfile): string {
 
   if (examDays != null && examDays >= 0 && examDays <= 14) {
       return examDays === 0
-      ? `Exam day — light retrieval, sleep, and calm execution.`
-      : `${examDays} day${examDays === 1 ? '' : 's'} to ${boardLabel ?? 'your exam'} — prioritise timed mocks and rubric review.`;
+      ? `Exam day - light retrieval, sleep, and calm execution.`
+      : `${examDays} day${examDays === 1 ? '' : 's'} to ${boardLabel ?? 'your exam'} - prioritise timed mocks and rubric review.`;
   }
 
   switch (goal) {
@@ -283,7 +283,7 @@ export function getGoalLearningPath(goal: StudyGoal | null): LearningPathStep[] 
     case 'catch_up':
       return [
         { phase: 'learn', title: 'Condense notes', description: 'Generate or paste notes on one gap topic only.', to: '/notetaker' },
-        { phase: 'practice', title: 'Topic quiz', description: 'Ten questions — honest scoring, no re-read first.', to: '/notetaker' },
+        { phase: 'practice', title: 'Topic quiz', description: 'Ten questions - honest scoring, no re-read first.', to: '/notetaker' },
         { phase: 'review', title: 'Ask Apex', description: 'One Socratic pass on what you missed.', to: '/chatbot' },
         { phase: 'remember', title: 'Exemplars', description: 'See how strong answers are structured.', to: '/archives' },
       ];

@@ -65,6 +65,7 @@ export function mockExamAnswersStorageKey() {
 }
 
 export type PendingMockReview = {
+  subject?: string;
   paperTitle: string;
   answered: number;
   total: number;
@@ -132,11 +133,17 @@ export function clearMockExamDraft(): void {
 
 export function getPendingMockReview(): PendingMockReview | null {
   if (typeof window === 'undefined') return null;
-  const raw = sessionStorage.getItem(mockExamAnswersStorageKey())
-    || sessionStorage.getItem(LEGACY_MOCK_EXAM_ANSWERS_KEY);
+  let raw: string | null = null;
+  try {
+    raw = sessionStorage.getItem(mockExamAnswersStorageKey())
+      || sessionStorage.getItem(LEGACY_MOCK_EXAM_ANSWERS_KEY);
+  } catch {
+    // A blocked session store must not prevent recovery from the local draft.
+  }
   if (raw) {
     try {
       const parsed = JSON.parse(raw) as {
+        subject?: string;
         paperTitle?: string;
         answers?: Record<string, string>;
         questions?: unknown[];
@@ -145,6 +152,7 @@ export function getPendingMockReview(): PendingMockReview | null {
       const answered = Object.values(answers).filter((answer) => typeof answer === 'string' && answer.trim()).length;
       const total = Array.isArray(parsed.questions) ? parsed.questions.length : Object.keys(answers).length;
       return {
+        subject: parsed.subject,
         paperTitle: parsed.paperTitle?.trim() || 'Practice paper',
         answered,
         total,
@@ -157,6 +165,7 @@ export function getPendingMockReview(): PendingMockReview | null {
 
   const draft = loadMockExamDraft();
   return draft ? {
+    subject: draft.subject,
     paperTitle: draft.paperTitle,
     answered: draft.answered,
     total: draft.total,

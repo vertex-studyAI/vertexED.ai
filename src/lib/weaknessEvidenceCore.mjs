@@ -83,5 +83,5 @@ export function summarizeMeasuredWeakness(entries, limit = 12) {
   return Array.from(byTopic.values())
     .sort((a, b) => a.avgPercent - b.avgPercent)
     .slice(0, safeLimit)
-    .map(({ total: _total, ...rest }) => rest);
+    .map(entry => { const result = { ...entry }; delete result.total; return result; });
 }

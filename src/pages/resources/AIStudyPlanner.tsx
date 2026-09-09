@@ -28,7 +28,7 @@ export default function AIStudyPlannerArticle() {
         }}
       />
   <BreadcrumbsJsonLd />
-      <Article title="AI study planner and calendar" subtitle="Block mocks, retrieval, and focus sessions around real life — not six-hour fantasy study days." kicker="Guides">
+      <Article title="AI study planner and calendar" subtitle="Block mocks, retrieval, and focus sessions around real life - not six-hour fantasy study days." kicker="Guides">
         <p className="lead">
           A useful revision plan says what you will do, when you will do it, and how long it should take.
           VertexED gives you an editable calendar for that work and can suggest study tasks from your profile and saved study signals.
@@ -79,8 +79,8 @@ export default function AIStudyPlannerArticle() {
           In VertexED:
         </p>
         <ol>
-          <li>Add “IGCSE Physics — Waves recap” due Fri; set intensity to “standard”.</li>
-          <li>Add “IB History — Essay outline (Cold War)” due Mon; intensity “deep”.</li>
+          <li>Add “IGCSE Physics - Waves recap” due Fri; set intensity to “standard”.</li>
+          <li>Add “IB History - Essay outline (Cold War)” due Mon; intensity “deep”.</li>
           <li>Check school and sport in your own calendar, then keep the evenings you can actually use.</li>
           <li>Add four sessions: two short Physics blocks, one History reading, and one outline.</li>
         </ol>
@@ -101,7 +101,7 @@ export default function AIStudyPlannerArticle() {
 
         <h2>How it fits a revision week</h2>
         <ul>
-          <li>Schedules work you can finish — not overloaded days that collapse by midweek.</li>
+          <li>Schedules work you can finish - not overloaded days that collapse by midweek.</li>
           <li>Coordinates notes, flashcards, and quizzes across the same calendar.</li>
           <li>Links to timed practice in <Link to="/paper-maker">Paper Maker</Link> and rubric feedback in <Link to="/answer-reviewer">Answer Reviewer</Link>.</li>
         </ul>
@@ -127,8 +127,8 @@ export default function AIStudyPlannerArticle() {
 
         <h2 className="mt-10">Evidence & references</h2>
         <ul>
-          <li>Ebbinghaus, H. (1885): Memory: A Contribution to Experimental Psychology — the origin of the Forgetting Curve.</li>
-          <li>Karpicke, J. D., & Roediger, H. L. (2008): The critical importance of retrieval for learning — why planning for <em>output</em> is better than planning for <em>input</em>.</li>
+          <li>Ebbinghaus, H. (1885): Memory: A Contribution to Experimental Psychology - the origin of the Forgetting Curve.</li>
+          <li>Karpicke, J. D., & Roediger, H. L. (2008): The critical importance of retrieval for learning - why planning for <em>output</em> is better than planning for <em>input</em>.</li>
         </ul>
 
         <div className="article-footer">

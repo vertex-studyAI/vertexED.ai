@@ -1,7 +1,7 @@
 const PSEUDONYMOUS_ID = /^[A-Za-z0-9_-]{6,64}$/;
 const ISO_TIMESTAMP = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{3})?Z$/;
 const GIT_REVISION = /^(?:[0-9a-f]{40}|[0-9a-f]{64})$/i;
-const DANGEROUS_CSV_PREFIX = /^[\u0009\u000A\u000D ]*[=+\-@]/;
+const DANGEROUS_CSV_PREFIX = /^\s*[=+\-@]/;
 
 export const PILOT_EXPORT_SCHEMA = 'vertexed-pilot-analytics-v1';
 

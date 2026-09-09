@@ -1,13 +1,10 @@
 import { checkDbRateLimit } from './dbRateLimit.js';
+import { hasServerSupabaseConfig } from './serverSupabase.js';
 
 const buckets = new Map();
 
 const DEFAULT_LIMIT = 60;
 const WINDOW_MS = 60_000;
-
-function hasSupabaseConfig() {
-  return Boolean(process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY);
-}
 
 function isProductionRuntime() {
   return process.env.NODE_ENV === 'production' || process.env.VERCEL_ENV === 'production';
@@ -36,7 +33,7 @@ function checkInMemoryRateLimit(key, limit, windowMs) {
  * in-memory bucket is not a safe enforcement boundary across serverless instances.
  */
 export async function checkRateLimit(key, limit = DEFAULT_LIMIT, windowMs = WINDOW_MS) {
-  if (hasSupabaseConfig()) {
+  if (hasServerSupabaseConfig()) {
     return checkDbRateLimit('api-rate', key, limit, windowMs);
   }
 

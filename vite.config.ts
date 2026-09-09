@@ -11,6 +11,9 @@ export default defineConfig(({ mode }) => {
     server: {
       host: "::",
       port: 8080,
+      // Vite handles OPTIONS before configureServer hooks. Let the canonical
+      // API handler own preflight; other dev assets remain same-origin only.
+      cors: false,
     },
     plugins: [
       react(),
@@ -18,67 +21,13 @@ export default defineConfig(({ mode }) => {
         name: 'api-middleware',
         configureServer(server) {
           server.middlewares.use('/api', (req, res, next) => {
-            // Connect mounts this middleware at /api, so req.url is already
-            // relative (for example, /study-guide-chat rather than
-            // /api/study-guide-chat). Treating it as an absolute URL caused
-            // every local API request to fall through to Vite's HTML 404.
-            const pathname = req.url.split('?')[0];
-            const search = req.url.includes('?') ? req.url.slice(req.url.indexOf('?') + 1) : '';
-            const routeKey = pathname.replace(/^\/api\/?/, '') || 'health';
-            const isMultipart = String(req.headers['content-type'] || '').includes('multipart/form-data');
-            const queryParams = Object.fromEntries(new URLSearchParams(search));
-
-            const run = async (body: unknown) => {
-              try {
-                const { dispatchRoute, API_VERSION } = await import('./api/_lib/routes.js');
-                // Preserve IncomingMessage's prototype methods (`on`, async
-                // iteration) so raw multipart handlers work in local dev.
-                const nextReq = req as typeof req & { query?: Record<string, unknown>; body?: unknown };
-                nextReq.query = { ...queryParams, path: routeKey.split('/').filter(Boolean) };
-                nextReq.body = body;
-                const nextRes = {
-                  status: (code: number) => { res.statusCode = code; return nextRes; },
-                  json: (data: unknown) => {
-                    res.setHeader('Content-Type', 'application/json');
-                    res.end(JSON.stringify(data));
-                    return nextRes;
-                  },
-                  setHeader: (k: string, v: string | number | readonly string[]) => res.setHeader(k, v),
-                  end: (data?: unknown) => res.end(data as string | undefined),
-                  get headersSent() { return res.headersSent; },
-                };
-                res.setHeader('X-Vertex-API', API_VERSION);
-                await dispatchRoute(routeKey, nextReq, nextRes);
-              } catch (e: unknown) {
-                const message = e instanceof Error ? e.message : String(e);
-                console.error(`/api/${routeKey} Error:`, e);
-                if (!res.headersSent) {
-                  res.statusCode = 500;
-                  res.setHeader('Content-Type', 'application/json');
-                  res.end(JSON.stringify({ error: message }));
-                }
-              }
-            };
-
-            if (req.method === 'GET' || req.method === 'HEAD') {
-              void run(undefined);
-              return;
-            }
-
-            if (isMultipart) {
-              void run(undefined);
-              return;
-            }
-
-            let body = '';
-            req.on('data', (chunk) => { body += chunk; });
-            req.on('end', () => {
-              try {
-                const parsed = body ? JSON.parse(body) : {};
-                void run(parsed);
-              } catch {
-                void run(body);
-              }
+            void import('./api/_lib/nodeAdapter.js').then(({ nodeApiMiddleware }) => {
+              return nodeApiMiddleware(req, res);
+            }).catch(() => {
+              if (res.headersSent) return next();
+              res.statusCode = 500;
+              res.setHeader('Content-Type', 'application/json');
+              res.end(JSON.stringify({ error: 'API could not be loaded locally.' }));
             });
           });
         }

@@ -63,11 +63,11 @@ export default function Onboarding() {
   const canSave = canAdvanceStep1 && curriculumValid;
 
   const helperText = useMemo(() => {
-    if (!trimmedUsername) return "Letters, numbers, underscores, dots, or hyphens — 3 to 20 characters.";
+    if (!trimmedUsername) return "Letters, numbers, underscores, dots, or hyphens - 3 to 20 characters.";
     if (trimmedUsername.length < 3) return "At least 3 characters required.";
     if (trimmedUsername.length > 20) return "Maximum 20 characters.";
     if (!USERNAME_REGEX.test(trimmedUsername)) return "Only letters, numbers, underscores, dots, and hyphens.";
-    return "Available format — continue when ready.";
+    return "Available format - continue when ready.";
   }, [trimmedUsername]);
 
   const save = async () => {
@@ -150,12 +150,12 @@ export default function Onboarding() {
   if (redirecting) {
     return (
       <>
-        <Helmet><title>Welcome — Let&apos;s personalize</title><meta name="robots" content="noindex, nofollow" /></Helmet>
+        <Helmet><title>Welcome - Let&apos;s personalize</title><meta name="robots" content="noindex, nofollow" /></Helmet>
         <PageSection className="relative flex min-h-[70vh] items-center justify-center px-4">
           <div className="glass-panel w-full max-w-md p-8 text-center">
             <div className="mx-auto mb-4 h-12 w-12 animate-spin rounded-full border-2 border-border border-t-primary" />
             <h1 className="text-2xl font-semibold text-foreground">Taking you to your dashboard…</h1>
-            <p className="mt-2 text-sm text-muted-foreground">You&apos;re already set up — heading to your dashboard.</p>
+            <p className="mt-2 text-sm text-muted-foreground">You&apos;re already set up - heading to your dashboard.</p>
           </div>
         </PageSection>
       </>
@@ -164,7 +164,7 @@ export default function Onboarding() {
 
   return (
     <>
-      <Helmet><title>Welcome — Let&apos;s personalize</title><meta name="robots" content="noindex, nofollow" /></Helmet>
+      <Helmet><title>Welcome - Let&apos;s personalize</title><meta name="robots" content="noindex, nofollow" /></Helmet>
       <PageSection className="relative min-h-[80vh] overflow-hidden px-4 py-10">
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,hsl(var(--primary)/0.12),transparent_35%),radial-gradient(circle_at_80%_20%,hsl(var(--accent)/0.08),transparent_30%)]" />
         <div className="relative mx-auto w-full max-w-2xl">

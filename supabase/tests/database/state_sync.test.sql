@@ -1,6 +1,6 @@
 begin;
 
-select plan(8);
+select plan(10);
 
 insert into auth.users (id, email)
 values ('33333333-3333-4333-8333-333333333333', 'state@example.test');
@@ -60,6 +60,18 @@ select throws_ok(
 select ok(
   (select bool_and(value::boolean) from jsonb_each_text(public.vertexed_readiness())),
   'deep database readiness reports every required object'
+);
+
+select lives_ok(
+  $$select * from public.sync_learner_state_items(
+    '33333333-3333-4333-8333-333333333333',
+    '[{"stateType":"exam_session","stateKey":"session-1","payload":{"id":"session-1","tasks":[]},"clientRevision":"state:1788681900000:aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa","clientUpdatedAt":"2026-09-06T00:05:00Z"}]'::jsonb
+  )$$,
+  'batch RPC accepts exam session history after its migration'
+);
+select is(
+  public.vertexed_readiness()->>'examSessionStorage', 'true',
+  'readiness explicitly certifies exam session storage support'
 );
 
 select * from finish();

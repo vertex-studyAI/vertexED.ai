@@ -43,6 +43,7 @@ export default function CurriculumSelector({
       board,
       grade: null,
       subjects: [],
+      examTargets: [],
     });
   };
 
@@ -51,7 +52,7 @@ export default function CurriculumSelector({
       const next = value.subjects.includes(subject)
         ? value.subjects.filter((s) => s !== subject)
         : [...value.subjects, subject];
-      onChange({ ...value, subjects: next });
+      onChange({ ...value, subjects: next, examTargets: value.examTargets?.filter((target) => next.includes(target.subject)) });
     } else {
       onChange({ ...value, subjects: [subject] });
     }
@@ -93,6 +94,7 @@ export default function CurriculumSelector({
                   ...value,
                   grade: e.target.value ? parseInt(e.target.value, 10) : null,
                   subjects: [],
+                  examTargets: [],
                 })
               }
             >
@@ -149,6 +151,29 @@ export default function CurriculumSelector({
             })}
           </div>
         </div>
+      )}
+      {showExamDate && value.subjects.length > 0 && (
+        <fieldset className="space-y-3">
+          <legend className="form-label">Subject and paper dates</legend>
+          <p className="text-sm text-muted-foreground">Add dates from your exam timetable. These take priority over your general exam date.</p>
+          {(value.examTargets ?? []).map((target, index) => (
+            <div key={target.id} className="grid gap-3 rounded-xl border border-border p-3 sm:grid-cols-2">
+              <label className="form-label">Subject
+                <select className="form-control-select" value={target.subject} onChange={(event) => onChange({ ...value, examTargets: value.examTargets?.map((item) => item.id === target.id ? { ...item, subject: event.target.value } : item) })}>
+                  {value.subjects.map((subject) => <option key={subject}>{subject}</option>)}
+                </select>
+              </label>
+              <label className="form-label">Paper (optional)
+                <input className="form-control" maxLength={100} value={target.paper} placeholder="Paper 1" onChange={(event) => onChange({ ...value, examTargets: value.examTargets?.map((item) => item.id === target.id ? { ...item, paper: event.target.value } : item) })} />
+              </label>
+              <label className="form-label">Exam date
+                <input className="form-control" type="date" required value={target.date} onChange={(event) => onChange({ ...value, examTargets: value.examTargets?.map((item) => item.id === target.id ? { ...item, date: event.target.value } : item) })} />
+              </label>
+              <button className="text-sm text-primary underline self-center" type="button" aria-label={`Remove exam date ${index + 1}`} onClick={() => onChange({ ...value, examTargets: value.examTargets?.filter((item) => item.id !== target.id) })}>Remove date</button>
+            </div>
+          ))}
+          <button className="btn-secondary" type="button" disabled={(value.examTargets?.length ?? 0) >= 50} onClick={() => onChange({ ...value, examTargets: [...(value.examTargets ?? []), { id: crypto.randomUUID(), subject: value.subjects[0], paper: '', date: '' }] })}>Add exam date</button>
+        </fieldset>
       )}
     </div>
   );

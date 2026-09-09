@@ -33,7 +33,7 @@ import { resolveAdaptiveNoteTarget } from "@/lib/adaptiveNotes.mjs";
 import { getLearnerProfile } from "@/lib/learnerProfile";
 import { useAuth } from "@/contexts/AuthContext";
 import {
-  cardsFromFlashcards,
+  mergeReviewCards,
   dueCards,
   rateCard,
   type SrCard,
@@ -189,6 +189,7 @@ export default function NotetakerQuiz(): React.JSX.Element {
   const [quizType, setQuizType] = useState<(typeof QUIZ_TYPES)[number]>("Adaptive Learning");
   const [quizDifficulty, setQuizDifficulty] = useState<(typeof QUIZ_DIFFICULTIES)[number]>("Medium");
   const [frqLength, setFrqLength] = useState<"short" | "medium" | "long">("short");
+  const [quizDegraded, setQuizDegraded] = useState(false);
   const [generatedQuestions, setGeneratedQuestions] = useState<QuizQuestion[]>([]);
   const [flashcards, setFlashcards] = useState<Flashcard[]>([]);
   const [loading, setLoading] = useState(false);
@@ -529,7 +530,7 @@ export default function NotetakerQuiz(): React.JSX.Element {
           toast({
             title: r.localOnly ? "Saved on this device" : "Notes saved",
             description: r.localOnly
-              ? "Cloud sync pending — your notes are stored locally for now."
+              ? "Cloud sync pending - your notes are stored locally for now."
               : "Your notes are stored in your account.",
           });
         } else if (r.error) {
@@ -586,6 +587,7 @@ export default function NotetakerQuiz(): React.JSX.Element {
       if (!res.ok) throw new Error(`Failed: ${res.status}`);
       const data = await res.json();
       const questions = Array.isArray(data.questions) ? data.questions : [];
+      setQuizDegraded(data?.generation?.degraded === true);
       setGeneratedQuestions(questions);
       setUserAnswers({});
       setQuizSubmitted(false);
@@ -664,11 +666,11 @@ export default function NotetakerQuiz(): React.JSX.Element {
       recordMeasuredResults(localResults);
       recordStudySession();
       recordLoopStep("practise");
-      void saveStudyArtifact("review", `Quiz review — ${topic.trim() || "study notes"}`, {
+      void saveStudyArtifact("review", `Quiz review - ${topic.trim() || "study notes"}`, {
         contractVersion: "vertexed.quiz.deterministic.v1",
         questions: generatedQuestions,
         results: localResults,
-        degraded: false,
+        degraded: quizDegraded,
         provenance: {
           board: learner.curriculum.board,
           subjects: learner.curriculum.subjects,
@@ -727,7 +729,7 @@ export default function NotetakerQuiz(): React.JSX.Element {
       recordStudySession();
       recordLoopStep("practise");
 
-      void saveStudyArtifact("review", `Quiz review — ${topic.trim() || "study notes"}`, {
+      void saveStudyArtifact("review", `Quiz review - ${topic.trim() || "study notes"}`, {
         contractVersion: gradeData?.contractVersion || "vertexed.grading.v2",
         questions: generatedQuestions,
         results: merged,
@@ -776,17 +778,8 @@ export default function NotetakerQuiz(): React.JSX.Element {
   };
 
   useEffect(() => {
-    if (!flashcards.length) return;
     const deckId = topic.trim() || "default";
-    setSrDeck((prev) => {
-      if (
-        prev.length === flashcards.length &&
-        prev.every((c, i) => c.front === flashcards[i]?.front && c.back === flashcards[i]?.back)
-      ) {
-        return prev;
-      }
-      return cardsFromFlashcards(flashcards, deckId);
-    });
+    setSrDeck((prev) => mergeReviewCards(prev, flashcards, deckId));
   }, [flashcards, topic, setSrDeck]);
 
   const dueCount = useMemo(() => dueCards(srDeck).length, [srDeck]);
@@ -1142,7 +1135,7 @@ export default function NotetakerQuiz(): React.JSX.Element {
   return (
     <>
       <Helmet>
-        <title>AI Notes, Flashcards, and Quizzes — VertexED</title>
+        <title>AI Notes, Flashcards, and Quizzes - VertexED</title>
         <meta name="description" content="Turn notes into smart summaries, flashcards, quizzes, and audio-assisted study material." />
         <link rel="canonical" href="https://www.vertexed.app/notetaker" />
       </Helmet>
@@ -1189,7 +1182,7 @@ export default function NotetakerQuiz(): React.JSX.Element {
                   Topic and Format
                 </h2>
                 <div className="text-sm text-muted-foreground leading-relaxed max-w-xl">
-                  Enter a topic or paste material. Choose a note shape, generate, then build flashcards and a quiz from the same source — export or schedule cards for spaced review.
+                  Enter a topic or paste material. Choose a note shape, generate, then build flashcards and a quiz from the same source - export or schedule cards for spaced review.
                 </div>
               </div>
 
@@ -1210,7 +1203,7 @@ export default function NotetakerQuiz(): React.JSX.Element {
               <div>
                 <label htmlFor="notes-topic" className="mb-2 block text-sm font-medium text-foreground">Topic or source material</label>
                 <div className="neu-input">
-                  <input id="notes-topic" className="neu-input-el h-11" placeholder="e.g. IB Biology — photosynthesis" value={topic} onChange={(e) => setTopic(e.target.value)} />
+                  <input id="notes-topic" className="neu-input-el h-11" placeholder="e.g. IB Biology - photosynthesis" value={topic} onChange={(e) => setTopic(e.target.value)} />
                 </div>
               </div>
 
@@ -1350,7 +1343,7 @@ export default function NotetakerQuiz(): React.JSX.Element {
                     value={notes}
                     onChange={(e) => handleNotesChange(e.target.value)}
                     onBlur={handleNotesBlur}
-                    placeholder="Notes appear here after generation — edit, then create flashcards and quiz from this text"
+                    placeholder="Notes appear here after generation - edit, then create flashcards and quiz from this text"
                   />
 
                   <div className="mt-4 flex flex-wrap items-center gap-2">
@@ -1407,7 +1400,7 @@ export default function NotetakerQuiz(): React.JSX.Element {
                     Flashcards <CheckCircle size={16} />
                   </h2>
                   <div className="flex items-center gap-2 text-sm">
-                    <span className="opacity-70">{flashcards.length} cards</span>
+                    <span className="opacity-70">{flashcards.length} cards · review schedule saved on this device</span>
                     {dueCount > 0 && (
                       <span className="rounded-full bg-primary/20 text-primary px-2 py-0.5 text-xs font-medium">
                         {dueCount} due
@@ -1436,7 +1429,7 @@ export default function NotetakerQuiz(): React.JSX.Element {
                       </AnimatePresence>
                     </>
                   ) : (
-                    <div className="text-sm text-muted-foreground">No flashcards yet — generate notes first and we'll build them for you.</div>
+                    <div className="text-sm text-muted-foreground">No flashcards yet - generate notes first and we'll build them for you.</div>
                   )}
 
                   <div className="mt-4 flex flex-wrap items-center gap-2">
@@ -1493,7 +1486,7 @@ export default function NotetakerQuiz(): React.JSX.Element {
                       <button className="neu-button px-3 py-2" onClick={() => sendNotesToCards(flashCount)}>
                         Generate Flashcards
                       </button>
-                      <div className="self-center text-sm text-muted-foreground">Generate notes first — flashcards and quiz use the same source material.</div>
+                      <div className="self-center text-sm text-muted-foreground">Generate notes first - flashcards and quiz use the same source material.</div>
                     </div>
                   ) : null}
                 </div>
@@ -1729,6 +1722,7 @@ export default function NotetakerQuiz(): React.JSX.Element {
               </div>
 
               <div className="space-y-3">
+                {quizDegraded && <p role="status" className="text-sm text-amber-700 dark:text-amber-300">Source-extraction fallback: these practice prompts are not a verified exam question set. Check them against your course material.</p>}
                 {generatedQuestions.length ? (
                   generatedQuestions.map((q, idx) => {
                     const res = quizResultsById.get(q.id);
@@ -1778,7 +1772,7 @@ export default function NotetakerQuiz(): React.JSX.Element {
                                 )}
                                 {res.humanReviewRequired && (
                                   <div className="text-xs text-amber-700 dark:text-amber-300" role="status">
-                                    Human review recommended{res.escalationReason ? ` — ${res.escalationReason}` : "."}
+                                    Human review recommended{res.escalationReason ? ` - ${res.escalationReason}` : "."}
                                   </div>
                                 )}
                                 {res.feedback && <div className="text-xs text-muted-foreground">Feedback: {res.feedback}</div>}
@@ -1792,14 +1786,14 @@ export default function NotetakerQuiz(): React.JSX.Element {
                     );
                   })
                 ) : (
-                  <div className="rounded-2xl border border-dashed border-border/60 bg-foreground/[0.03] p-4 text-sm text-muted-foreground">No questions yet — generate a quiz from your notes to get started.</div>
+                  <div className="rounded-2xl border border-dashed border-border/60 bg-foreground/[0.03] p-4 text-sm text-muted-foreground">No questions yet - generate a quiz from your notes to get started.</div>
                 )}
               </div>
 
               {quizSubmitted && (
                 <div className="mt-4 space-y-3">
                   <div className="flex flex-wrap items-center gap-3">
-                    <div className="text-sm">Practice score (not mastery): <strong>{accuracy ?? "—"}%</strong></div>
+                    <div className="text-sm">Practice score (not mastery): <strong>{accuracy ?? " - "}%</strong></div>
                     <div className="ml-auto flex flex-wrap items-center gap-2">
                       <button className="neu-button px-3 py-2" onClick={() => { setGeneratedQuestions([]); setQuizSubmitted(false); setQuizResults(null); }}>Reset</button>
                       <button className="neu-button px-3 py-2" onClick={() => exportToWord(JSON.stringify(quizResults ?? [], null, 2), [])}>Export Results</button>

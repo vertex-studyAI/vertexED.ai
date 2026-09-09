@@ -1,4 +1,6 @@
-const STATE_TYPES = new Set(['weakness', 'retry', 'mock_draft']);
+import { normalizeExamSession } from '../../src/lib/examSessionHistory.mjs';
+
+const STATE_TYPES = new Set(['weakness', 'retry', 'mock_draft', 'exam_session']);
 const STATE_KEY = /^[A-Za-z0-9][A-Za-z0-9._:-]{0,159}$/;
 const REVISION = /^state:[0-9]{13}:[A-Za-z0-9-]{8,64}$/;
 const MAX_PAYLOAD_BYTES = 256 * 1024;
@@ -20,6 +22,7 @@ export function normalizeLearnerStateItem(value) {
   if (!STATE_TYPES.has(stateType) || !STATE_KEY.test(stateKey) || !REVISION.test(clientRevision)) return null;
   if (!payload || typeof payload !== 'object' || Array.isArray(payload) || !clientUpdatedAt) return null;
   if (Buffer.byteLength(JSON.stringify(payload), 'utf8') > MAX_PAYLOAD_BYTES) return null;
+  if (stateType === 'exam_session' && (!normalizeExamSession(payload) || payload.id !== stateKey)) return null;
   return { stateType, stateKey, payload, clientRevision, clientUpdatedAt };
 }
 
@@ -43,11 +46,21 @@ export async function syncLearnerStateItems(supabase, userId, items) {
   });
 }
 
-export async function listLearnerStateItems(supabase, userId) {
-  return supabase
+export async function listLearnerStateItems(supabase, userId, cursor = null) {
+  let query = supabase
     .from('learner_state_items')
     .select('state_type, state_key, payload, client_revision, client_updated_at, updated_at')
     .eq('user_id', userId)
-    .order('updated_at', { ascending: false })
-    .limit(500);
+    .order('state_type', { ascending: true })
+    .order('state_key', { ascending: true });
+  if (cursor) {
+    const [type, ...parts] = cursor.split(':');
+    const key = parts.join(':');
+    if (!STATE_TYPES.has(type) || !STATE_KEY.test(key)) throw new TypeError('Invalid learner-state cursor');
+    query = query.or(`state_type.gt.${type},and(state_type.eq.${type},state_key.gt.${key})`);
+  }
+  const { data, error } = await query.limit(501);
+  const items = (data || []).slice(0, 500);
+  const last = items.at(-1);
+  return { data: items, error, nextCursor: data?.length > 500 ? `${last.state_type}:${last.state_key}` : null };
 }

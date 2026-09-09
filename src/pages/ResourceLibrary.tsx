@@ -54,7 +54,7 @@ export default function ResourceLibrary() {
     setActiveTopic(topic);
     setError(null);
 
-    const cached = getCachedGuide(board, topic.id);
+    const cached = getCachedGuide(board, topic.id, pref.grade);
     if (cached) {
       setGuide(cached);
       return;
@@ -75,7 +75,7 @@ export default function ResourceLibrary() {
   return (
     <>
       <Helmet>
-        <title>Board Resource Library — VertexED</title>
+        <title>Board Resource Library - VertexED</title>
         <meta
           name="description"
           content="Independent AI-drafted practice guides by exam board and topic. Check every board-specific detail against the current official specification."
@@ -108,7 +108,7 @@ export default function ResourceLibrary() {
             Board Resource Library
           </div>
           <h1 className="text-3xl md:text-4xl font-bold tracking-tight mb-3">
-            Board guides — technique, not trivia
+            Board guides - technique, not trivia
           </h1>
           <p className="text-muted-foreground max-w-2xl text-base leading-relaxed">
             Draft a study guide for a board and topic, then use it as a starting point for practice. These guides are

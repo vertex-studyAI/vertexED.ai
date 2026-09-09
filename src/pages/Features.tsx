@@ -94,7 +94,7 @@ export default function Features() {
   return (
     <>
       <SEO
-        title="Features · VertexED — Full study ecosystem"
+        title="VertexED study tools"
         description="See how Exam Prep, Study Zone, Apex, Planner, Paper Maker, Answer Reviewer, Notes, the dashboard, and study resources connect."
         canonical="https://www.vertexed.app/features"
       />

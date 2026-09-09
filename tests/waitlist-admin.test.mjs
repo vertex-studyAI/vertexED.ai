@@ -41,7 +41,7 @@ test('waitlist list and update responses do not disclose stored invite tokens', 
     adminSource.indexOf("if (action === 'update')"),
   );
   assert.doesNotMatch(listBlock, /\.select\([^\n]*invite_token/);
-  assert.match(adminSource, /const \{ invite_token: _inviteToken, \.\.\.safeEntry \} = data/);
+  assert.match(adminSource, /delete safeEntry\.invite_token/);
   assert.doesNotMatch(adminUiSource, /entry\.invite_token/);
 });
 

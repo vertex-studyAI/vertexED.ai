@@ -70,7 +70,7 @@ export default function FeedbackLauncher() {
       setCategory("idea");
       setOpen(false);
       toast({
-        title: "Thanks — feedback saved",
+        title: "Thanks - feedback saved",
         description: "Your note is tied to your account for follow-up, but its text is not sent to product analytics.",
       });
     } catch {

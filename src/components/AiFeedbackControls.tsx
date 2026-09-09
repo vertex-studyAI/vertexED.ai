@@ -36,7 +36,7 @@ export default function AiFeedbackControls({ capability }: Props) {
   };
 
   if (submitted) {
-    return <p className="text-xs text-emerald-600 dark:text-emerald-400" role="status">Thanks — feedback recorded.</p>;
+    return <p className="text-xs text-emerald-600 dark:text-emerald-400" role="status">Thanks - feedback recorded.</p>;
   }
 
   return (

@@ -8,7 +8,7 @@ export default function IBTOKGuide() {
     <>
       <SEO
         title="Using AI for IB TOK essays and exhibitions | VertexED"
-        description="Brainstorm real-life situations, knowledge questions, and counter-claims — then write the analysis yourself so it sounds like TOK, not a Wikipedia summary."
+        description="Brainstorm real-life situations, knowledge questions, and counter-claims - then write the analysis yourself so it sounds like TOK, not a Wikipedia summary."
         canonical="https://www.vertexed.app/resources/ib-tok-guide-ai"
         keywords="IB TOK, Theory of Knowledge, TOK Essay AI, TOK Exhibition AI, Real Life Situations RLS, Knowledge Questions, Areas of Knowledge, Ways of Knowing, IB Diploma, VertexED"
         jsonLd={[
@@ -42,7 +42,7 @@ export default function IBTOKGuide() {
                 name: "Can I use AI examples?",
                 acceptedAnswer: {
                   "@type": "Answer",
-                  text: "Yes, but verify them. AI can invent studies or events — Google every RLS before you cite it."
+                  text: "Yes, but verify them. AI can invent studies or events - Google every RLS before you cite it."
                 }
               },
               {
@@ -50,7 +50,7 @@ export default function IBTOKGuide() {
                 name: "What if my RLS is too common?",
                 acceptedAnswer: {
                   "@type": "Answer",
-                  text: "Ask for less overused examples. Flat Earth and Mandela Effect appear on every TOK draft — examiners have seen them."
+                  text: "Ask for less overused examples. Flat Earth and Mandela Effect appear on every TOK draft - examiners have seen them."
                 }
               },
               {
@@ -58,7 +58,7 @@ export default function IBTOKGuide() {
                 name: "How do I structure the essay?",
                 acceptedAnswer: {
                   "@type": "Answer",
-                  text: "Intro, Body 1 (claim + counter + mini-conclusion), Body 2 (same), conclusion. Use AI to check flow — not to write paragraphs."
+                  text: "Intro, Body 1 (claim + counter + mini-conclusion), Body 2 (same), conclusion. Use AI to check flow - not to write paragraphs."
                 }
               }
             ]
@@ -67,11 +67,11 @@ export default function IBTOKGuide() {
       />
       <Article
         title="Using AI for IB TOK: essays and exhibitions"
-        subtitle="AI helps you find examples and test arguments — you still do the TOK linking yourself."
+        subtitle="AI helps you find examples and test arguments - you still do the TOK linking yourself."
         kicker="IB Diploma"
       >
         <p className="lead">
-          TOK asks how we know what we know — abstract by design. The hard part is finding credible
+          TOK asks how we know what we know - abstract by design. The hard part is finding credible
           real-life situations (RLS) and connecting them to knowledge questions (KQ). AI is useful for
           brainstorming and structure checks. The analysis and linking must be yours, or it reads like
           generic encyclopedia prose.
@@ -83,15 +83,15 @@ export default function IBTOKGuide() {
         </p>
         <p>
           <strong>Brainstorm prompt:</strong>
-          <br /><em>&ldquo;Prompt: &lsquo;To what extent is certainty attainable?&rsquo; I am interested in physics and history. Suggest five specific, tangible objects — not abstract concepts — for each field.&rdquo;</em>
+          <br /><em>&ldquo;Prompt: &lsquo;To what extent is certainty attainable?&rsquo; I am interested in physics and history. Suggest five specific, tangible objects - not abstract concepts - for each field.&rdquo;</em>
         </p>
         <p>
-          <strong>Example:</strong> Heisenberg&apos;s 1927 uncertainty paper (physics) vs. a 1940 propaganda poster claiming certain victory (history — false certainty).
+          <strong>Example:</strong> Heisenberg&apos;s 1927 uncertainty paper (physics) vs. a 1940 propaganda poster claiming certain victory (history - false certainty).
         </p>
 
         <h2>TOK essay: counter-claims and perspectives</h2>
         <p>
-          Strong essays argue a position, test a counter-claim, then synthesize — not a one-sided essay.
+          Strong essays argue a position, test a counter-claim, then synthesize - not a one-sided essay.
         </p>
         <h3>Workflow</h3>
         <ol>
@@ -100,7 +100,7 @@ export default function IBTOKGuide() {
           <li><strong>Develop counter-claims:</strong> <em>&ldquo;I argue emotion is an obstacle to knowledge in history. When is emotion essential for historical understanding?&rdquo;</em></li>
         </ol>
 
-        <h2>Areas of Knowledge (AOK) — methodology prompts</h2>
+        <h2>Areas of Knowledge (AOK) - methodology prompts</h2>
         <p>
           Use AI to clarify how each AOK builds knowledge:
         </p>
@@ -112,15 +112,15 @@ export default function IBTOKGuide() {
 
         <h2>Warning: generic TOK voice</h2>
         <p>
-          TOK examiners penalize vague, flowery language — the kind AI defaults to.
+          TOK examiners penalize vague, flowery language - the kind AI defaults to.
           <br /><strong>Do not</strong> let AI write your essay. Use it for examples and structure checks;
           write the links between RLS, KQ, and AOK yourself.
         </p>
 
         <h2>FAQ</h2>
-        <p><strong>Can I use AI examples?</strong> Yes, but verify them. AI can invent studies or events — Google every RLS before you cite it.</p>
+        <p><strong>Can I use AI examples?</strong> Yes, but verify them. AI can invent studies or events - Google every RLS before you cite it.</p>
         <p><strong>What if my RLS is too common?</strong> Ask for less overused examples. Flat Earth and Mandela Effect appear on every TOK draft.</p>
-        <p><strong>How do I structure the essay?</strong> Intro, two body sections (claim + counter + mini-conclusion each), conclusion. Use AI to check flow — not to write paragraphs.</p>
+        <p><strong>How do I structure the essay?</strong> Intro, two body sections (claim + counter + mini-conclusion each), conclusion. Use AI to check flow - not to write paragraphs.</p>
 
         <div className="not-prose mt-8 flex gap-3 flex-wrap">
           <Link to="/chatbot" className="neu-button">Brainstorm RLS</Link>

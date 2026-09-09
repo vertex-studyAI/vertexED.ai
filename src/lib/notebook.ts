@@ -4,7 +4,9 @@
  */
 
 import type { StudyArtifact } from '@/lib/userContent';
-import { notebookStorageKeys } from '@/lib/notebookStorageScope.mjs';
+import { notebookStorageKeys } from './notebookStorageScope.mjs';
+import { validateNotebooks } from './snapshotValidation.mjs';
+import { readSnapshotArray } from './snapshotConcurrency.mjs';
 
 export type NotebookSourceType = 'text' | 'paste' | 'artifact' | 'transcript' | 'file';
 
@@ -127,7 +129,7 @@ export const NOTEBOOK_OUTPUT_META: Record<
   },
   briefing: {
     label: 'Briefing Doc',
-    description: 'One-page summary — key claims, definitions, and open questions from your sources',
+    description: 'One-page summary - key claims, definitions, and open questions from your sources',
     icon: 'file',
   },
   faq: {
@@ -162,7 +164,7 @@ export const NOTEBOOK_OUTPUT_META: Record<
   },
   flashcards: {
     label: 'Flashcards',
-    description: 'Retrieval-ready cards — push to your SR deck',
+    description: 'Retrieval-ready cards - push to your SR deck',
     icon: 'layers',
   },
   quiz: {
@@ -192,12 +194,12 @@ export const NOTEBOOK_OUTPUT_META: Record<
   },
   'suggested-questions': {
     label: 'Ask This',
-    description: 'Starter questions for the AI tutor — grounded in what your sources actually say',
+    description: 'Starter questions for the AI tutor - grounded in what your sources actually say',
     icon: 'spark',
   },
   'board-deep-dive': {
     label: 'Exam-board guide',
-    description: 'Long-form guide for your board — command words, mark bands, and common traps',
+    description: 'Long-form guide for your board - command words, mark bands, and common traps',
     icon: 'graduation',
   },
 };
@@ -213,8 +215,7 @@ function normalizeNotebook(nb: StudyNotebook): StudyNotebook {
 function readAll(): StudyNotebook[] {
   if (typeof window === 'undefined') return [];
   try {
-    const raw = localStorage.getItem(activeNotebookStorageKey());
-    const list = raw ? (JSON.parse(raw) as StudyNotebook[]) : [];
+    const list = validateNotebooks(readSnapshotArray(localStorage, activeNotebookStorageKey())) as StudyNotebook[];
     return list.map(normalizeNotebook);
   } catch {
     return [];
@@ -223,7 +224,13 @@ function readAll(): StudyNotebook[] {
 
 function writeAll(notebooks: StudyNotebook[]) {
   if (typeof window === 'undefined') return;
-  localStorage.setItem(activeNotebookStorageKey(), JSON.stringify(notebooks.slice(0, MAX_NOTEBOOKS)));
+  // A read fallback may keep the page usable, but must never authorize replacing
+  // an unreadable collection with an empty or partial one.
+  validateNotebooks(readSnapshotArray(localStorage, activeNotebookStorageKey()));
+  validateNotebooks(notebooks);
+  if (notebooks.length > MAX_NOTEBOOKS) throw new Error('You have reached the 12-notebook limit. Export and delete a notebook before creating another.');
+  localStorage.setItem(activeNotebookStorageKey(), JSON.stringify(notebooks));
+  localStorage.setItem(notebookStorageKeys(activeStorageScope).updatedAt, new Date().toISOString());
 }
 
 function newId(prefix: string) {
@@ -289,11 +296,12 @@ export function addTextSource(
   const idx = notebooks.findIndex((n) => n.id === notebookId);
   if (idx < 0) return null;
 
-  const trimmed = content.trim().slice(0, MAX_SOURCE_CHARS);
+  const trimmed = content.trim();
+  if (trimmed.length > MAX_SOURCE_CHARS) throw new Error('Each source can contain up to 50,000 characters. Split it into smaller sources.');
   if (!trimmed) return notebooks[idx];
 
   const nb = notebooks[idx];
-  if (nb.sources.length >= MAX_SOURCES_PER_NOTEBOOK) return nb;
+  if (nb.sources.length >= MAX_SOURCES_PER_NOTEBOOK) throw new Error('This notebook has 20 sources. Remove a source or create another notebook.');
 
   const source: NotebookSource = {
     id: newId('src'),

@@ -426,7 +426,7 @@ test('approved learner completes the golden study journey and resumes saved work
 
   await expect(page).toHaveURL(/\/main$/);
   await expect(page.getByRole('heading', { name: 'Your study desk' })).toBeVisible();
-  for (const width of [390, 768, 1440]) {
+  for (const width of [390, 1024, 1440]) {
     await page.setViewportSize({ width, height: 900 });
     await page.goto('/main');
     await expect(page.getByRole('heading', { name: 'Your study desk' })).toBeVisible();
@@ -459,7 +459,7 @@ test('approved learner completes the golden study journey and resumes saved work
   await page.locator('a[href="/notetaker"]').filter({ hasText: 'Notes, flashcards & quizzes' }).click();
   await expect(page).toHaveURL(/\/notetaker$/);
 
-  await page.getByPlaceholder(/IB Biology — photosynthesis/).fill('IB Biology photosynthesis');
+  await page.getByPlaceholder(/IB Biology - photosynthesis/).fill('IB Biology photosynthesis');
   await page.getByRole('button', { name: 'Build notes' }).click();
   await expect(page.getByText('Photosynthesis converts light energy')).toBeVisible();
   await expect(page.getByText('Notes saved', { exact: true })).toBeVisible();
@@ -477,7 +477,7 @@ test('approved learner completes the golden study journey and resumes saved work
   await page.getByRole('banner').getByRole('link', { name: 'Dashboard', exact: true }).click();
   await expect(page).toHaveURL(/\/main$/);
   await expect(page.getByRole('link', { name: /^Build adaptive notes:/ })).toHaveCount(0);
-  await expect(page.getByText(/Confirm a review or complete a validated assessment/i)).toBeVisible();
+  await expect(page.getByText('Confirm a review or complete a validated assessment before a retry appears here.', { exact: true })).toBeVisible();
 
   // A forged adaptive URL cannot manufacture a target without matching measured evidence.
   await page.goto('/notetaker?adaptive=1&subject=Biology&topic=FORGED_TOPIC');
@@ -495,7 +495,7 @@ test('approved learner completes the golden study journey and resumes saved work
   await expect(page).toHaveURL(/\/main$/);
   await expect(page.getByRole('heading', { name: 'Continue studying' })).toBeVisible();
   await expect(page.getByText('IB Biology photosynthesis', { exact: true })).toBeVisible();
-  await expect(page.getByText('Quiz review — IB Biology photosynthesis', { exact: true })).toBeVisible();
+  await expect(page.getByText('Quiz review - IB Biology photosynthesis', { exact: true })).toBeVisible();
 
   await page.goto('/answer-reviewer');
   await expect(page.getByRole('heading', { name: 'Answer Reviewer' })).toBeVisible();
@@ -547,7 +547,14 @@ test('approved learner completes the golden study journey and resumes saved work
   await page.goto('/main');
   const retryCard = page.locator('article').filter({ hasText: 'Retry queue' });
   await expect(retryCard).toContainText('Scientific explanation');
-  await expect(retryCard).toContainText('Biology · 100%');
+  await expect(retryCard).toContainText('Biology');
+  await expect(retryCard).toContainText('100%');
+  await expect(retryCard).toContainText('Recorded score, not a predicted grade');
+  for (const width of [390, 1024, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width + 1);
+    await retryCard.screenshot({ path: `test-results/retry-trace-${width}.png` });
+  }
   await expect(retryCard.getByRole('link', { name: 'Start retry' })).toHaveAttribute(
     'href',
     /\/answer-reviewer\?.*retry=retry%3Abiology%3Ascientific-explanation/,
@@ -584,6 +591,31 @@ test('approved learner completes the golden study journey and resumes saved work
     evidence: 'measured-v2',
     verification: { method: 'official-mark-scheme' },
   });
+
+  await page.goto('/exam-prep');
+  await expect(page.getByRole('heading', { name: 'Exam preparation', exact: true })).toBeVisible();
+  await page.getByLabel('Session choice').selectOption('practice');
+  await expect(page.locator('#mission-title')).toHaveText('Practise Biology');
+  const retrievalStep = page.getByRole('button', { name: /Retrieve before reviewing/ });
+  await retrievalStep.click();
+  await expect(retrievalStep).toHaveAttribute('aria-pressed', 'true');
+  await page.reload();
+  await expect(retrievalStep).toHaveAttribute('aria-pressed', 'true');
+  await page.getByRole('button', { name: '45m', exact: true }).click();
+  await expect(retrievalStep).toHaveAttribute('aria-pressed', 'false');
+  await retrievalStep.click();
+  await page.getByRole('button', { name: 'Start another session' }).click();
+  await expect(retrievalStep).toHaveAttribute('aria-pressed', 'false');
+  await page.getByLabel('Session choice').selectOption('diagnostic');
+  await expect(page.getByText(/not a validated diagnostic assessment/)).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Topic evidence and mistakes' })).toBeVisible();
+  await page.getByText('Scientific explanation (1 recorded attempts)', { exact: false }).click();
+  await expect(page.getByText('Recorded verification: official mark scheme')).toBeVisible();
+  for (const width of [1440, 1024, 390]) {
+    await page.setViewportSize({ width, height: 900 });
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width + 1);
+    await page.screenshot({ path: `test-results/exam-prep-${width}.png`, fullPage: true });
+  }
 
   expect(harness.observed).toMatchObject({
     inviteValidated: true,

@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import { toast } from "./use-toast";
 import { userContentStorageKeys } from "@/lib/userContentStorageScope.mjs";
 
 function resolveScopedKey(key: string): string {
@@ -51,26 +52,42 @@ export function useLocalStorage<T>(key: string, initial: T): [T, (value: T | ((p
 
   useEffect(() => {
     if (hydratedKeyRef.current !== resolvedKey) {
-      // Never write the previous account's state into a newly selected key.
       hydratedKeyRef.current = resolvedKey;
       setStored(readLocalValue(resolvedKey, initialRef.current));
-      return;
     }
-
-    try {
-      window.localStorage.setItem(resolvedKey, JSON.stringify(stored));
-    } catch (err) {
-      console.warn(`localStorage write failed for "${resolvedKey}":`, err);
-    }
-  }, [resolvedKey, stored]);
+    const refresh = (event: Event) => {
+      const changedKey = event instanceof StorageEvent ? event.key : (event as CustomEvent<string>).detail;
+      if (changedKey && changedKey !== resolvedKey) return;
+      setStored(readLocalValue(resolvedKey, initialRef.current));
+    };
+    window.addEventListener('storage', refresh);
+    window.addEventListener('vertexed:storage-changed', refresh);
+    return () => {
+      window.removeEventListener('storage', refresh);
+      window.removeEventListener('vertexed:storage-changed', refresh);
+    };
+  }, [resolvedKey]);
 
   const setScopedStored = useCallback(
     (value: T | ((prev: T) => T)) => {
-      // A scope transition is rehydrated by the effect above; reject writes until then.
       if (hydratedKeyRef.current !== resolvedKey) return;
-      setStored(value);
+      if (resolveScopedKey(key) !== resolvedKey) return;
+      // Read the latest persisted value so notebook imports and another tab's
+      // completed reviews are retained when applying a functional update.
+      const previous = readLocalValue(resolvedKey, initialRef.current);
+      const next = typeof value === 'function' ? (value as (prev: T) => T)(previous) : value;
+      try {
+        window.localStorage.setItem(resolvedKey, JSON.stringify(next));
+        setStored(next);
+        window.dispatchEvent(new CustomEvent('vertexed:storage-changed', { detail: resolvedKey }));
+      } catch (err) {
+        console.warn(`localStorage write failed for "${resolvedKey}":`, err);
+        // Keep edits available in memory for export and show a recoverable status.
+        setStored(next);
+        toast({ title: 'Browser storage is unavailable', description: 'This change could not be saved. Keep this page open and export your work before leaving.', variant: 'destructive' });
+      }
     },
-    [resolvedKey],
+    [key, resolvedKey],
   );
 
   // During a key transition, render the safe empty/default value rather than the

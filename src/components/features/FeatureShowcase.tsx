@@ -121,7 +121,7 @@ export default function FeatureShowcase({ feature, index, compact = false }: Pro
             <ul className="space-y-2.5 text-sm text-foreground/85 border-t border-border/60 pt-5">
               {feature.bullets.map((b) => (
                 <li key={b} className="flex gap-3">
-                  <span className="text-primary shrink-0 mt-0.5">—</span>
+                  <span className="text-primary shrink-0 mt-0.5"> - </span>
                   <span>{b}</span>
                 </li>
               ))}

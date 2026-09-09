@@ -1,18 +1,20 @@
 # VertexED production environment matrix
 
-Last repository verification: 2026-09-06
+Last repository verification: 2026-09-08. Production values remain unverified.
 
 This file is the authoritative list of runtime configuration expected by the current code. It records variable names and risk only; values must never be committed or copied into logs.
 
 `Production present` remains **Unknown** until verified in the relevant Vercel project or through a live behavior that uniquely proves the variable is configured.
 
+A read-only connector audit on 8 September reached the configured Supabase project and found critical schema capabilities absent. This proves database drift, not that the Vercel production environment points at this project or has the required secrets. The project also serves another application; schema changes need cross-application review. See [the execution report](./ASTRA_EXECUTION_2026-09-08.md).
+
 | Variable | Surface | Required | Used by | Production present | Risk if absent or wrong |
 | --- | --- | --- | --- | --- | --- |
 | `VITE_SUPABASE_URL` | Client, public | Yes | Browser Supabase client | Unknown | Login, OAuth, and client auth fail. Safe to expose only because it is the project URL. |
-| `VITE_SUPABASE_ANON_KEY` | Client, public | Yes | Browser Supabase client | Unknown | Login and browser auth fail. Must be the anon/publishable key, never the service-role key. |
+| `VITE_SUPABASE_PUBLISHABLE_KEY` / `VITE_SUPABASE_ANON_KEY` | Client, public | One required | Browser Supabase client, publishable key preferred | Unknown | Login and browser auth fail. Never use a service-role/secret key here. |
 | `SUPABASE_URL` | Server | Yes | JWT verification, waitlist, signup, admin, artifact persistence | Unknown | Protected routes or account creation return configuration errors. |
-| `SUPABASE_ANON_KEY` | Server | Yes | Server-side JWT verification | Unknown | Authenticated AI and content routes cannot verify sessions. May match the browser anon key. |
-| `SUPABASE_SERVICE_ROLE_KEY` | Server secret | Yes | Admin client, waitlist approval, account creation, artifacts, learner-state sync, observability, readiness | Unknown | Server-owned persistence and deep readiness fail. Critical: exposure grants privileged database access. |
+| `SUPABASE_PUBLISHABLE_KEY` / `SUPABASE_ANON_KEY` | Server, public key | One public key required; client aliases supported | Server-side JWT verification | Unknown | Authenticated AI and content routes cannot verify sessions. |
+| `SUPABASE_SERVICE_ROLE_KEY` / `SUPABASE_SECRET_KEY` | Server secret | One required | Admin client, waitlist approval, account creation, artifacts, learner-state sync, observability, readiness | Unknown | Server-owned persistence and deep readiness fail. Critical: exposure grants privileged database access. |
 | `WAITLIST_RATE_LIMIT_SALT` | Server secret | Yes | Hashes rate-limit identities | Unknown | Production rate-limited routes fail closed without a dedicated salt. |
 | `ADMIN_EMAILS` | Server | Yes for admin flow | `/api/admin-status`, `/api/waitlist-admin` | Unknown | No administrator is authorized, or the wrong accounts receive admin access. |
 | `SIGNUP_INVITE_CODE` | Server secret | Required for team-code signup | `/api/signup-invite` | Unknown | Team invite signup returns `503`; approved waitlist links still work. Rotate if disclosed. |

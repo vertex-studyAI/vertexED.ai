@@ -9,7 +9,7 @@ export default function NotesToFlashcardsArticle() {
     <>
       <SEO
         title="From notes to flashcards and quizzes | VertexED"
-        description="Turn lecture notes into flashcards and short quizzes the same session — then schedule spaced review before the forgetting curve wins."
+        description="Turn lecture notes into flashcards and short quizzes the same session - then schedule spaced review before the forgetting curve wins."
         canonical={canonical}
         ogType="article"
         jsonLd={{
@@ -28,7 +28,7 @@ export default function NotesToFlashcardsArticle() {
         }}
       />
   <BreadcrumbsJsonLd />
-      <Article title="From notes to flashcards (and quizzes)" subtitle="Same-session workflow — capture, structure, retrieve, schedule — without exporting between apps." kicker="Guides">
+      <Article title="From notes to flashcards (and quizzes)" subtitle="Same-session workflow - capture, structure, retrieve, schedule - without exporting between apps." kicker="Guides">
         <p className="lead">
           Most students collect notes; fewer turn them into practice. Exams test recall under time, not
           how neatly your folder is organized. This guide walks through VertexED&apos;s Notetaker flow:
@@ -137,14 +137,14 @@ export default function NotesToFlashcardsArticle() {
 
         <h2>Why one workspace matters</h2>
         <p>
-          Tools that split notes, cards, and quizzes across apps add friction — export here, import there,
+          Tools that split notes, cards, and quizzes across apps add friction - export here, import there,
           forget to schedule review. VertexED keeps capture → structure → recall → schedule in one loop so
           you spend revision time on ideas, not file management.
         </p>
 
         <h3>What you gain in practice</h3>
         <ul>
-          <li>Notes, cards, quizzes, and planner in one place — no switching cost.</li>
+          <li>Notes, cards, quizzes, and planner in one place - no switching cost.</li>
           <li>AI card suggestions weighted toward exam-scorable facts.</li>
           <li>Due-card scheduling based on your own recall ratings.</li>
         </ul>
@@ -157,7 +157,7 @@ export default function NotesToFlashcardsArticle() {
         <h2>Get started</h2>
         <p>
           Open the Notetaker, choose a topic, and try a three‑card deck. If it feels easy, increase the specificity of
-          your prompts or add a contrast card. In a week you’ll have a small, high‑quality deck — the kind that wins
+          your prompts or add a contrast card. In a week you’ll have a small, high‑quality deck - the kind that wins
           points on exam day.
         </p>
 
@@ -169,7 +169,7 @@ export default function NotesToFlashcardsArticle() {
 
         <h2 className="mt-10">Evidence & references</h2>
         <ul>
-          <li>Leitner, S. (1972): So lernt man lernen — the foundation of the "Leitner System" for flashcards.</li>
+          <li>Leitner, S. (1972): So lernt man lernen - the foundation of the "Leitner System" for flashcards.</li>
           <li>Brown, Roediger, & McDaniel (2014): Make It Stick: The Science of Successful Learning.</li>
         </ul>
 

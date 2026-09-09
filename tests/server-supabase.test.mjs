@@ -3,8 +3,21 @@ import test from 'node:test';
 
 import {
   createServerSupabaseClient,
+  getServerSupabaseConfig,
+  hasServerSupabaseConfig,
   SUPABASE_REQUEST_TIMEOUT_MS,
 } from '../api/_lib/serverSupabase.js';
+
+test('server credentials accept documented aliases without promoting public keys', () => {
+  assert.deepEqual(getServerSupabaseConfig({ VITE_SUPABASE_URL: 'https://fixture.supabase.co', SUPABASE_SECRET_KEY: ' secret-fixture ' }), {
+    url: 'https://fixture.supabase.co', key: 'secret-fixture',
+  });
+  assert.deepEqual(getServerSupabaseConfig({ SUPABASE_URL: 'https://server.supabase.co', VITE_SUPABASE_URL: 'https://browser.supabase.co', SUPABASE_SERVICE_ROLE_KEY: 'legacy-fixture', SUPABASE_SECRET_KEY: 'new-fixture' }), {
+    url: 'https://server.supabase.co', key: 'legacy-fixture',
+  });
+  assert.equal(hasServerSupabaseConfig({ SUPABASE_URL: 'https://fixture.supabase.co', VITE_SUPABASE_PUBLISHABLE_KEY: 'public-fixture' }), false);
+  assert.equal(hasServerSupabaseConfig({ SUPABASE_URL: ' ', SUPABASE_SECRET_KEY: 'secret-fixture' }), false);
+});
 
 test('server Supabase clients disable browser session persistence and use bounded fetch', () => {
   let captured;

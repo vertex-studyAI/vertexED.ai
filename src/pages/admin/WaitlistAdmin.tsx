@@ -207,7 +207,7 @@ export default function WaitlistAdmin() {
               )}
               {emailSent === false && (
                 <span className="text-xs text-amber-300 self-center">
-                  Email not sent — set RESEND_API_KEY or share the link manually
+                  Email not sent - set RESEND_API_KEY or share the link manually
                 </span>
               )}
             </div>

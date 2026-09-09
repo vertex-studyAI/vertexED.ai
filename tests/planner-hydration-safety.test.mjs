@@ -9,14 +9,14 @@ test('planner blocks mutation until the current account snapshot has hydrated', 
   assert.match(planner, /const currentUserId = user\?\.id \?\? null/);
   assert.match(planner, /const hydratedUserIdRef = useRef<string \| null>\(null\)/);
   assert.match(planner, /const plannerReady = !plannerLoading && hydratedUserIdRef\.current === currentUserId/);
-  assert.match(planner, /hydratedUserIdRef\.current = hydrationUserId/);
+  assert.match(planner, /hydratedUserIdRef\.current = readOnly \? null : hydrationUserId/);
   assert.match(planner, /if \(!plannerReady\) return;/);
   assert.match(planner, /searchParams\.get\("suggest"\) !== "1" \|\| !plannerReady \|\| weekPlanTriggered\.current/);
   assert.match(planner, /disabled=\{!plannerReady\}/);
-  assert.match(planner, /disabled=\{!plannerReady \|\| weekPlanBusy\}/);
+  assert.match(planner, /disabled=\{!plannerReady \|\| weekPlanBusy \|\| aiBusy\}/);
   assert.match(planner, /!plannerReady \? \(/);
   assert.match(planner, /Loading your saved planner/);
-  assert.match(planner, /aria-busy=\{!plannerReady\}/);
+  assert.match(planner, /aria-busy=\{plannerLoading\}/);
 });
 
 test('account changes close stale planner editing surfaces before hydration', () => {
@@ -32,6 +32,8 @@ test('planner task controls expose complete keyboard and accessible names', () =
   assert.match(schedule, /event\.key === 'Enter' \|\| event\.key === ' '/);
   assert.match(schedule, /event\.preventDefault\(\)/);
   assert.match(schedule, /aria-label=\{`Mark \$\{name\} complete`\}/);
-  assert.match(schedule, /Press Enter or Space to edit, or Delete to complete/);
+  assert.match(schedule, /Press Enter or Space to edit\./);
+  assert.doesNotMatch(schedule, /or Delete to complete/);
+  assert.match(schedule, /if \(event\.target !== event\.currentTarget\) return/);
   assert.match(schedule, /aria-label=\{`\$\{mode\} planner schedule for/);
 });

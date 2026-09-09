@@ -12,28 +12,28 @@ type Article = {
 };
 
 const ARTICLES: Article[] = [
-  { to: "/resources/best-ai-study-tools-2025", title: "Choosing AI study tools in 2025", blurb: "What to look for in a study stack — rubric feedback, board-shaped mocks, and retrieval — not feature count.", category: "tools" },
-  { to: "/resources/automated-note-taking-guide", title: "Automated note taking: capture, then learn", blurb: "Turn lectures and PDFs into summaries you review the same day — then flashcards, not a highlight graveyard.", category: "tools" },
-  { to: "/resources/how-to-use-ai-for-studying", title: "How to use AI for studying", blurb: "Five-step framework — plan, learn, retrieve, mock, review — without outsourcing answers you can't reproduce.", category: "tools" },
-  { to: "/resources/ai-chatbot-tutor", title: "Using Apex for study help", blurb: "How to get Socratic explanations, rubric sense, and exam technique — without outsourcing your thinking.", category: "tools" },
-  { to: "/resources/ai-study-planner", title: "AI study planner and calendar", blurb: "Block mocks, retrieval, and focus sessions around school, sport, and sleep — tasks link to the right tool.", category: "tools" },
-  { to: "/resources/ib-igcse-paper-maker", title: "IB/IGCSE Paper Maker", blurb: "Generate syllabus-aligned mocks with command words, mark totals, and topics you choose — then sit them under time.", category: "tools" },
+  { to: "/resources/best-ai-study-tools-2025", title: "Choosing AI study tools in 2025", blurb: "What to look for in a study stack - rubric feedback, board-shaped mocks, and retrieval - not feature count.", category: "tools" },
+  { to: "/resources/automated-note-taking-guide", title: "Automated note taking: capture, then learn", blurb: "Turn lectures and PDFs into summaries you review the same day - then flashcards, not a highlight graveyard.", category: "tools" },
+  { to: "/resources/how-to-use-ai-for-studying", title: "How to use AI for studying", blurb: "Five-step framework - plan, learn, retrieve, mock, review - without outsourcing answers you can't reproduce.", category: "tools" },
+  { to: "/resources/ai-chatbot-tutor", title: "Using Apex for study help", blurb: "How to get Socratic explanations, rubric sense, and exam technique - without outsourcing your thinking.", category: "tools" },
+  { to: "/resources/ai-study-planner", title: "AI study planner and calendar", blurb: "Block mocks, retrieval, and focus sessions around school, sport, and sleep - tasks link to the right tool.", category: "tools" },
+  { to: "/resources/ib-igcse-paper-maker", title: "IB/IGCSE Paper Maker", blurb: "Generate syllabus-aligned mocks with command words, mark totals, and topics you choose - then sit them under time.", category: "tools" },
   { to: "/resources/notes-to-flashcards", title: "From Notes to Flashcards (and Quizzes)", blurb: "Same source material → notes → spaced cards → short quizzes. Built for retrieval, not re-reading.", category: "tools" },
-  { to: "/resources/ai-answer-reviewer", title: "AI Answer Reviewer", blurb: "Paste or photograph answers; get feedback aligned to mark schemes — structure, evidence, command terms.", category: "tools" },
+  { to: "/resources/ai-answer-reviewer", title: "AI Answer Reviewer", blurb: "Paste or photograph answers; get feedback aligned to mark schemes - structure, evidence, command terms.", category: "tools" },
   { to: "/resources/active-recall-spaced-repetition", title: "Active Recall & Spaced Repetition", blurb: "Why testing beats highlighting, how intervals work, and how VertexED schedules cards before you forget.", category: "methods" },
-  { to: "/resources/exam-strategy-time-management", title: "Exam Strategy & Time Management", blurb: "Skim the paper, allocate by marks, watch command terms — routines that survive in the hall.", category: "methods" },
-  { to: "/resources/how-to-cram-effectively", title: "How to cram when the exam is tomorrow", blurb: "High-mark topics, timed questions, and sleep — not one more unread chapter.", category: "methods" },
-  { to: "/resources/how-to-memorize-anything-fast", title: "Memory techniques for exam revision", blurb: "Memory palace for one-off lists vs spaced repetition for syllabus content — when each earns its time.", category: "methods" },
-  { to: "/resources/best-ai-prompts-for-students", title: "AI prompts that help with revision", blurb: "Maths working, essay structure, mark-scheme gaps — prompts that critique your attempt, not copy-paste answers.", category: "methods" },
-  { to: "/resources/ib-math-aa-ai-guide", title: "IB Math AA and AI: revision guide", blurb: "Calculus, statistics, and proofs — show-your-working practice and IB command words.", category: "subjects" },
-  { to: "/resources/igcse-science-revision", title: "IGCSE Sciences Revision", blurb: "Biology, Chemistry, and Physics — practicals, definitions, and structured answers for top-band marks.", category: "subjects" },
-  { to: "/resources/essay-writing-with-ai", title: "Essay writing with AI", blurb: "History, English, Psychology — thesis, evidence, and conclusion under time without losing your voice.", category: "subjects" },
-  { to: "/resources/alevel-ap-exam-prep", title: "A-Level and AP exam prep", blurb: "What each qualification demands — FRQs, essays, synoptic questions, and mark-scheme habits.", category: "subjects" },
-  { to: "/resources/subject-guides-common-mistakes", title: "Common exam mistakes", blurb: "Repeated mark losses in maths working, science units, and humanities analysis — and how to fix them.", category: "subjects" },
-  { to: "/resources/ib-tok-guide-ai", title: "Using AI for IB TOK", blurb: "Brainstorm RLS and knowledge questions for the essay and exhibition — without letting AI write the argument.", category: "subjects" },
+  { to: "/resources/exam-strategy-time-management", title: "Exam Strategy & Time Management", blurb: "Skim the paper, allocate by marks, watch command terms - routines that survive in the hall.", category: "methods" },
+  { to: "/resources/how-to-cram-effectively", title: "How to cram when the exam is tomorrow", blurb: "High-mark topics, timed questions, and sleep - not one more unread chapter.", category: "methods" },
+  { to: "/resources/how-to-memorize-anything-fast", title: "Memory techniques for exam revision", blurb: "Memory palace for one-off lists vs spaced repetition for syllabus content - when each earns its time.", category: "methods" },
+  { to: "/resources/best-ai-prompts-for-students", title: "AI prompts that help with revision", blurb: "Maths working, essay structure, mark-scheme gaps - prompts that critique your attempt, not copy-paste answers.", category: "methods" },
+  { to: "/resources/ib-math-aa-ai-guide", title: "IB Math AA and AI: revision guide", blurb: "Calculus, statistics, and proofs - show-your-working practice and IB command words.", category: "subjects" },
+  { to: "/resources/igcse-science-revision", title: "IGCSE Sciences Revision", blurb: "Biology, Chemistry, and Physics - practicals, definitions, and structured answers for top-band marks.", category: "subjects" },
+  { to: "/resources/essay-writing-with-ai", title: "Essay writing with AI", blurb: "History, English, Psychology - thesis, evidence, and conclusion under time without losing your voice.", category: "subjects" },
+  { to: "/resources/alevel-ap-exam-prep", title: "A-Level and AP exam prep", blurb: "What each qualification demands - FRQs, essays, synoptic questions, and mark-scheme habits.", category: "subjects" },
+  { to: "/resources/subject-guides-common-mistakes", title: "Common exam mistakes", blurb: "Repeated mark losses in maths working, science units, and humanities analysis - and how to fix them.", category: "subjects" },
+  { to: "/resources/ib-tok-guide-ai", title: "Using AI for IB TOK", blurb: "Brainstorm RLS and knowledge questions for the essay and exhibition - without letting AI write the argument.", category: "subjects" },
   { to: "/resources/is-using-ai-cheating", title: "Is using AI cheating?", blurb: "School policies, Turnitin, and where AI support crosses into work you can't defend orally or in the hall.", category: "wellness" },
-  { to: "/resources/academic-burnout-guide", title: "Academic burnout: signs and recovery", blurb: "When you're depleted — minimum viable studying, sleep, and when to stop for the night.", category: "wellness" },
-  { to: "/resources/college-essays-with-ai", title: "College Essays with AI", blurb: "Brainstorm Common App angles and structure drafts — keep the story yours for admissions readers.", category: "wellness" },
+  { to: "/resources/academic-burnout-guide", title: "Academic burnout: signs and recovery", blurb: "When you're depleted - minimum viable studying, sleep, and when to stop for the night.", category: "wellness" },
+  { to: "/resources/college-essays-with-ai", title: "College Essays with AI", blurb: "Brainstorm Common App angles and structure drafts - keep the story yours for admissions readers.", category: "wellness" },
 ];
 
 const CATEGORIES = [
@@ -80,7 +80,7 @@ export default function ResourcesIndex() {
           Resources
         </h1>
         <p className="text-muted-foreground mb-6 max-w-2xl leading-relaxed">
-          Guides written for real exam prep — tool walkthroughs, study methods, subject specifics, and integrity.
+          Guides written for real exam prep - tool walkthroughs, study methods, subject specifics, and integrity.
           Search by topic or filter by category; each article links back into the matching VertexED tool where it applies.
         </p>
 

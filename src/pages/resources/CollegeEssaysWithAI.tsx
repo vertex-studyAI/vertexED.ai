@@ -8,7 +8,7 @@ export default function CollegeEssaysWithAI() {
     <>
       <SEO
         title="College essays with AI: Common App and Personal Statement | VertexED"
-        description="Use AI to mine memories, spot clichés, and check structure — while keeping a voice admissions officers can tell is yours."
+        description="Use AI to mine memories, spot clichés, and check structure - while keeping a voice admissions officers can tell is yours."
         canonical="https://www.vertexed.app/resources/college-essays-with-ai"
         keywords="college essay AI, Common App essay AI, UCAS personal statement AI, university application help, AI for admissions essays, brainstorming college essays, VertexED, ethical AI for college prep"
         jsonLd={[
@@ -42,7 +42,7 @@ export default function CollegeEssaysWithAI() {
                 name: "Do colleges check for AI?",
                 acceptedAnswer: {
                   "@type": "Answer",
-                  text: "Some do. Even without detectors, generic AI prose — perfect grammar, no specific detail — reads differently from a real 17-year-old's draft."
+                  text: "Some do. Even without detectors, generic AI prose - perfect grammar, no specific detail - reads differently from a real 17-year-old's draft."
                 }
               },
               {
@@ -50,7 +50,7 @@ export default function CollegeEssaysWithAI() {
                 name: "Can I use AI for supplemental essays?",
                 acceptedAnswer: {
                   "@type": "Answer",
-                  text: "Yes, for research and structure — e.g., finding specific professors or clubs for a 'Why Us?' essay. You still write the sentences."
+                  text: "Yes, for research and structure - e.g., finding specific professors or clubs for a 'Why Us?' essay. You still write the sentences."
                 }
               },
               {
@@ -58,7 +58,7 @@ export default function CollegeEssaysWithAI() {
                 name: "Should I mention AI in my essay?",
                 acceptedAnswer: {
                   "@type": "Answer",
-                  text: "Generally no — unless building AI is genuinely central to your application story."
+                  text: "Generally no - unless building AI is genuinely central to your application story."
                 }
               }
             ]
@@ -67,25 +67,25 @@ export default function CollegeEssaysWithAI() {
       />
       <Article
         title="College essays with AI: keep your voice"
-        subtitle="Admissions officers read thousands of drafts. AI can help you find your story — not replace it."
+        subtitle="Admissions officers read thousands of drafts. AI can help you find your story - not replace it."
         kicker="University Prep"
       >
         <p className="lead">
           The Common App essay or UCAS Personal Statement is where grades stop speaking and you start.
           Asking ChatGPT to write the whole piece produces flat, interchangeable prose. Using AI to
-          interview you, flag clichés, and check structure is different — and usually defensible if your
+          interview you, flag clichés, and check structure is different - and usually defensible if your
           school allows AI for brainstorming.
         </p>
 
         <h2>Phase 1: Memory mining</h2>
         <p>
-          When you do not know what to write about, treat AI like an interviewer — not a ghostwriter.
-          <br /><em>&ldquo;I need a personal statement about resilience. Ask me ten probing questions about my childhood, hobbies, and failures — one at a time.&rdquo;</em>
+          When you do not know what to write about, treat AI like an interviewer - not a ghostwriter.
+          <br /><em>&ldquo;I need a personal statement about resilience. Ask me ten probing questions about my childhood, hobbies, and failures - one at a time.&rdquo;</em>
         </p>
 
         <h2>Phase 2: Cliché check</h2>
         <p>
-          Admissions teams see the same stories repeatedly — sports injury comeback, generic service trip.
+          Admissions teams see the same stories repeatedly - sports injury comeback, generic service trip.
           <br /><strong>Prompt:</strong> &ldquo;I am thinking of writing about [topic]. What clichés attach to this? How could I make it specific to me?&rdquo;
         </p>
 
@@ -108,9 +108,9 @@ export default function CollegeEssaysWithAI() {
         </p>
 
         <h2>FAQ</h2>
-        <p><strong>Do colleges check for AI?</strong> Some do. Even without detectors, generic AI prose — perfect grammar, no specific detail — reads differently from a real draft.</p>
-        <p><strong>Can I use AI for supplemental essays?</strong> Yes, for research and structure — especially &ldquo;Why Us?&rdquo; essays where you need specific professors or clubs. You still write the sentences.</p>
-        <p><strong>Should I mention AI in my essay?</strong> Generally no — unless building AI is genuinely central to your application story.</p>
+        <p><strong>Do colleges check for AI?</strong> Some do. Even without detectors, generic AI prose - perfect grammar, no specific detail - reads differently from a real draft.</p>
+        <p><strong>Can I use AI for supplemental essays?</strong> Yes, for research and structure - especially &ldquo;Why Us?&rdquo; essays where you need specific professors or clubs. You still write the sentences.</p>
+        <p><strong>Should I mention AI in my essay?</strong> Generally no - unless building AI is genuinely central to your application story.</p>
 
         <div className="not-prose mt-8 flex gap-3 flex-wrap">
           <Link to="/chatbot" className="neu-button">Brainstorm topics</Link>

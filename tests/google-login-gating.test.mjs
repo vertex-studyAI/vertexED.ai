@@ -28,7 +28,7 @@ test('Google identity linking preserves the initiating account-settings route', 
   );
   assert.match(
     callbackSource,
-    /sessionStorage\.getItem\("vertex_google_link_return"\)/,
+    /consumeGoogleLinkReturn\(window\.sessionStorage\)/,
   );
   assert.match(callbackSource, /navigate\(returnAfterGoogleLink, \{ replace: true \}\)/);
 });

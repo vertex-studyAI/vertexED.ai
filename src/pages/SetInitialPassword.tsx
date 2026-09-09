@@ -19,7 +19,7 @@ export default function SetInitialPassword() {
 
     const verifyInviteSession = async () => {
       if (!supabase) {
-        setError("Account invitation is unavailable — auth is not configured.");
+        setError("Account invitation is unavailable - auth is not configured.");
         setChecking(false);
         return;
       }
@@ -87,7 +87,7 @@ export default function SetInitialPassword() {
   return (
     <>
       <Helmet>
-        <title>Finish account setup — VertexED</title>
+        <title>Finish account setup - VertexED</title>
         <meta name="description" content="Finish your verified VertexED invitation by choosing a password." />
         <meta name="robots" content="noindex, nofollow" />
       </Helmet>

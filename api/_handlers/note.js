@@ -87,7 +87,7 @@ async function generateNotesRaw(apiKey, systemMessage, userMessage) {
       raw: await callNotesResponsesApi(apiKey, systemMessage, userMessage, PRIMARY_NOTE_MODEL),
       model: PRIMARY_NOTE_MODEL,
     };
-  } catch (primaryErr) {
+  } catch {
     console.warn('Primary note model failed; retrying configured fallback.');
     try {
       return {
@@ -307,7 +307,7 @@ Flashcards: 4–${safeFlashCount}`,
           parsed = JSON.parse(
             flashJsonText.replace(/```json|```/g, "")
           );
-        } catch {}
+        } catch { parsed = { flashcards: [], tables: [], charts: [] }; }
       }
     }
 

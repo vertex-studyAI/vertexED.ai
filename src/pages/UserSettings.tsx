@@ -20,6 +20,7 @@ import {
   type ExplanationDepth,
 } from "@/lib/learnerProfile";
 import { buildCurriculumMetadata } from "@/lib/curriculum";
+import { validExamDate } from "@/lib/examTargets.mjs";
 import type { CurriculumPreference } from "@/types/curriculum";
 import { supabase } from "@/lib/supabaseClient";
 import { toast } from "@/hooks/use-toast";
@@ -31,12 +32,12 @@ import {
   type StudyArtifactKind,
 } from "@/lib/userContent";
 import { authFetch, authFetchWithAccessToken, getAccessToken } from "@/lib/apiAuth";
-import { collectDeviceStudyData, downloadAccountExport } from "@/lib/accountExport";
+import { collectCompleteDeviceStudyData, clearDeviceAccountData, downloadAccountExport } from "@/lib/accountExport";
 import { getUserContentStorageScope } from "@/lib/userContentStorageScope.mjs";
 import { logoutWithLocalFallback } from "@/lib/logoutFlow.mjs";
 
 function formatMemberSince(createdAt?: string | null): string {
-  if (!createdAt) return "—";
+  if (!createdAt) return " - ";
   try {
     return new Date(createdAt).toLocaleDateString(undefined, {
       year: "numeric",
@@ -44,7 +45,7 @@ function formatMemberSince(createdAt?: string | null): string {
       day: "numeric",
     });
   } catch {
-    return "—";
+    return " - ";
   }
 }
 
@@ -90,6 +91,9 @@ export default function UserSettings() {
     if (!supabase || !user) return;
     setSavingCurriculum(true);
     try {
+      if (curriculum.examTargets?.some((target) => !validExamDate(target.date))) {
+        throw new Error('Choose a valid date for each exam, or remove the unfinished entry.');
+      }
       const metadata = buildCurriculumMetadata(curriculum, user?.user_metadata ?? {});
       const { error } = await supabase.auth.updateUser({ data: metadata });
       if (error) throw error;
@@ -226,6 +230,9 @@ export default function UserSettings() {
     );
     if (!confirmed) return;
 
+    if (!user) return;
+    const deletedUserId = user.id;
+    let cloudDeleted = false;
     setDeletingAccount(true);
     try {
       const res = await authFetch("/api/account", {
@@ -237,14 +244,14 @@ export default function UserSettings() {
       if (!res.ok) {
         throw new Error(data?.error || "Account deletion failed");
       }
-      // The server already revoked refresh sessions and deleted the identity.
-      // Only clear this browser's persisted auth state now.
-      await logout({ localOnly: true });
+      cloudDeleted = true;
+      try { await clearDeviceAccountData(deletedUserId); }
+      finally { await logout({ localOnly: true }); }
       toast({ title: "Account deleted" });
       navigate("/", { replace: true });
     } catch (err) {
       toast({
-        title: "Could not delete account",
+        title: cloudDeleted ? "Cloud account deleted; browser cleanup needs attention" : "Could not delete account",
         description: err instanceof Error ? err.message : "Try again or contact support.",
         variant: "destructive",
       });
@@ -268,7 +275,7 @@ export default function UserSettings() {
       }
       downloadAccountExport({
         ...data,
-        deviceData: collectDeviceStudyData(window.localStorage, expectedUserId),
+        deviceData: await collectCompleteDeviceStudyData(expectedUserId),
       });
       toast({ title: "Account data exported" });
     } catch (error) {
@@ -282,6 +289,17 @@ export default function UserSettings() {
     }
   };
 
+  const exportDeviceBackup = async () => {
+    if (!user) return;
+    setExportingAccount(true);
+    try {
+      downloadAccountExport({ exportScope: 'current-device-only', exportedAt: new Date().toISOString(), deviceData: await collectCompleteDeviceStudyData(user.id) });
+      toast({ title: 'Device backup exported', description: 'Cloud-only records are not included in this backup.' });
+    } catch (error) {
+      toast({ title: 'Could not export device backup', description: error instanceof Error ? error.message : 'Check browser storage access.', variant: 'destructive' });
+    } finally { setExportingAccount(false); }
+  };
+
   const displayName =
     (user?.user_metadata?.username as string | undefined) ||
     profile?.full_name ||
@@ -289,13 +307,13 @@ export default function UserSettings() {
     "Student";
 
   const memberSince = formatMemberSince(profile?.created_at ?? user?.created_at);
-  const studyGoalDisplay = studyGoalLabel(learnerProfile.studyGoal) || "—";
-  const gradeLevelDisplay = gradeLevelLabel(learnerProfile.gradeLevel) || "—";
+  const studyGoalDisplay = studyGoalLabel(learnerProfile.studyGoal) || " - ";
+  const gradeLevelDisplay = gradeLevelLabel(learnerProfile.gradeLevel) || " - ";
 
   return (
     <>
       <Helmet>
-        <title>Vertex — Account Settings</title>
+        <title>Vertex - Account Settings</title>
         <meta name="description" content="Manage your Vertex account settings and preferences." />
         <link rel="canonical" href="https://www.vertexed.app/user-settings" />
         <meta name="robots" content="noindex, nofollow" />
@@ -342,7 +360,7 @@ export default function UserSettings() {
                   {learnerProfile.curriculum.board ? (
                     <BoardBadge board={learnerProfile.curriculum.board} />
                   ) : (
-                    "—"
+                    " - "
                   )}
                 </span>
               </div>
@@ -419,9 +437,9 @@ export default function UserSettings() {
                   value={aiStyle}
                   onChange={(e) => setAiStyle(e.target.value as AiStyle)}
                 >
-                  <option value="socratic">Socratic — asks what you&apos;ve tried first</option>
-                  <option value="balanced">Balanced — mix of hints and explanations</option>
-                  <option value="direct">Direct — clear steps when you&apos;re stuck</option>
+                  <option value="socratic">Socratic - asks what you&apos;ve tried first</option>
+                  <option value="balanced">Balanced - mix of hints and explanations</option>
+                  <option value="direct">Direct - clear steps when you&apos;re stuck</option>
                 </select>
               </label>
               <label className="block">
@@ -431,9 +449,9 @@ export default function UserSettings() {
                   value={explanationDepth}
                   onChange={(e) => setExplanationDepth(e.target.value as ExplanationDepth)}
                 >
-                  <option value="concise">Concise — bullet points and key steps</option>
-                  <option value="standard">Standard — balanced detail</option>
-                  <option value="detailed">Detailed — full walkthroughs</option>
+                  <option value="concise">Concise - bullet points and key steps</option>
+                  <option value="standard">Standard - balanced detail</option>
+                  <option value="detailed">Detailed - full walkthroughs</option>
                 </select>
               </label>
               <label className="block">
@@ -519,7 +537,7 @@ export default function UserSettings() {
           <NeumorphicCard className="p-8" title="Saved Study Work">
             {cloudUnavailable && (
               <p className="text-xs text-primary/90 mb-3">
-                Cloud sync is off — your work is saved on this device and can be reopened anytime.
+                Cloud sync is off - your work is saved on this device and can be reopened anytime.
               </p>
             )}
             {loadingArtifacts ? (
@@ -545,7 +563,7 @@ export default function UserSettings() {
               <div className="space-y-3">
                 <ArtifactKindFilter value={kindFilter} onChange={setKindFilter} />
                 <p className="text-sm text-muted-foreground">
-                  No saved {kindFilter === "all" ? "work" : `${kindFilter}s`} yet — generate some in the tools above.
+                  No saved {kindFilter === "all" ? "work" : `${kindFilter}s`} yet - generate some in the tools above.
                 </p>
               </div>
             ) : (
@@ -609,6 +627,15 @@ export default function UserSettings() {
                 title="Download a complete account and study-data export"
               >
                 {exportingAccount ? "Preparing complete export…" : "Export Account Data"}
+              </button>
+
+              <button
+                onClick={() => void exportDeviceBackup()}
+                disabled={exportingAccount}
+                className="w-full neu-button text-left justify-start gap-3 py-4"
+                title="Download current-device study work, including unsynced changes, without contacting the server"
+              >
+                Export Device Backup
               </button>
 
               <button

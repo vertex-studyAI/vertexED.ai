@@ -8,7 +8,7 @@ export default function MemorizationTechniques() {
     <>
       <SEO
         title="Memory techniques for exam revision | VertexED"
-        description="When to use a memory palace, spaced repetition, or teaching-back — three approaches that match how recall actually works under exam pressure."
+        description="When to use a memory palace, spaced repetition, or teaching-back - three approaches that match how recall actually works under exam pressure."
         canonical="https://www.vertexed.app/resources/how-to-memorize-anything-fast"
         keywords="how to memorize for exams, memory palace technique, method of loci, spaced repetition, active recall, mnemonics, VertexED, remembering facts"
         jsonLd={[
@@ -42,7 +42,7 @@ export default function MemorizationTechniques() {
                 name: "Can I combine them?",
                 acceptedAnswer: {
                   "@type": "Answer",
-                  text: "Yes — encode sequences with a memory palace, then put the facts on spaced-repetition flashcards in Notetaker."
+                  text: "Yes - encode sequences with a memory palace, then put the facts on spaced-repetition flashcards in Notetaker."
                 }
               },
               {
@@ -67,13 +67,13 @@ export default function MemorizationTechniques() {
       />
       <Article
         title="Memory techniques for exam revision"
-        subtitle="Memory palace for sequences, spaced repetition for definitions, teaching-back for concepts — pick the tool that fits the material."
+        subtitle="Memory palace for sequences, spaced repetition for definitions, teaching-back for concepts - pick the tool that fits the material."
         kicker="Study Techniques"
       >
         <p className="lead">
           Your brain retains places and stories more easily than textbook definitions. That is why you
           remember a film plot from years ago but blank on a definition you read yesterday. Different
-          exam content needs different techniques — not one generic &ldquo;study harder&rdquo; approach.
+          exam content needs different techniques - not one generic &ldquo;study harder&rdquo; approach.
         </p>
 
         <h2>Technique 1: Memory palace (method of loci)</h2>
@@ -106,13 +106,13 @@ export default function MemorizationTechniques() {
         <p>
           <strong>How it works:</strong> Review at increasing intervals (1 day, 3 days, 1 week, 1 month).
           <br />
-          <strong>In VertexED:</strong> Send decks to the <Link to="/planner">Planner</Link> — it schedules
+          <strong>In VertexED:</strong> Send decks to the <Link to="/planner">Planner</Link>  - it schedules
           reviews before you would otherwise forget.
         </p>
 
         <h2>Technique 3: Teaching back (Feynman method)</h2>
         <p>
-          <strong>Best for:</strong> Complex concepts — quantum topics, economics models, long biology pathways.
+          <strong>Best for:</strong> Complex concepts - quantum topics, economics models, long biology pathways.
         </p>
         <p>
           <strong>How it works:</strong> Explain the idea in plain language. Where you stumble, you do not know it yet.
@@ -141,7 +141,7 @@ export default function MemorizationTechniques() {
         </div>
 
         <h2>FAQ</h2>
-        <p><strong>Can I combine them?</strong> Yes — encode sequences with a memory palace, then put the facts on spaced-repetition flashcards in <Link to="/notetaker">Notetaker</Link>.</p>
+        <p><strong>Can I combine them?</strong> Yes - encode sequences with a memory palace, then put the facts on spaced-repetition flashcards in <Link to="/notetaker">Notetaker</Link>.</p>
         <p><strong>Why do I forget so fast?</strong> The forgetting curve is steep. Retrieve new material within a day or two, not at the end of the unit.</p>
         <p><strong>Is photographic memory real?</strong> Rarely as people imagine. Strong recall usually comes from deliberate practice, not innate ability.</p>
 

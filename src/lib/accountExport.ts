@@ -1,4 +1,31 @@
 import { getUserContentStorageScope, userContentStorageKeys } from '@/lib/userContentStorageScope.mjs';
+import { collectAccountStorage, clearAccountStorage } from '@/lib/deviceAccountData.mjs';
+import { listDurableOutboxRecords, clearDurableAccountData } from '@/lib/durableOutbox';
+
+export async function collectCompleteDeviceStudyData(scope: string) {
+  const [artifacts, learnerState] = await Promise.all([
+    listDurableOutboxRecords('artifact', scope, true),
+    listDurableOutboxRecords('learner-state', scope, true),
+  ]);
+  if (getUserContentStorageScope() !== scope) throw new Error('Account changed during export.');
+  return {
+    ...collectDeviceStudyData(window.localStorage, scope),
+    schemaVersion: 2,
+    accountStorage: collectAccountStorage(window.localStorage, scope),
+    sessionStorage: collectAccountStorage(window.sessionStorage, scope),
+    durableOutbox: [...artifacts, ...learnerState],
+  };
+}
+
+export async function clearDeviceAccountData(scope: string) {
+  // All stores are attempted even if one is unavailable.
+  const results = await Promise.allSettled([
+    clearDurableAccountData(scope),
+    Promise.resolve().then(() => clearAccountStorage(window.localStorage, scope)),
+    Promise.resolve().then(() => clearAccountStorage(window.sessionStorage, scope)),
+  ]);
+  if (results.some(result => result.status === 'rejected')) throw new Error('Your cloud account was deleted, but some browser data could not be cleared. Clear this site’s storage in browser settings.');
+}
 
 const TRANSIENT_FIELDS = new Set(['restore', 'chatHandoff', 'apexPrefill', 'mockReviewHandoff']);
 

@@ -10,6 +10,7 @@ export type DurableOutboxRecord<T = unknown> = {
 
 const DATABASE_NAME = 'vertexed-recovery-v1';
 const STORE_NAME = 'outbox';
+const deletedScopes = new Set<string>();
 
 function recordId(channel: DurableOutboxRecord['channel'], scope: string, logicalKey: string) {
   return JSON.stringify([channel, scope, logicalKey]);
@@ -32,8 +33,10 @@ function openDatabase(): Promise<IDBDatabase | null> {
 export async function putDurableOutboxRecord<T>(
   record: Omit<DurableOutboxRecord<T>, 'id'>,
 ): Promise<boolean> {
+  if (deletedScopes.has(record.scope)) return false;
   const database = await openDatabase();
   if (!database) return false;
+  if (deletedScopes.has(record.scope)) { database.close(); return false; }
   return new Promise((resolve) => {
     const transaction = database.transaction(STORE_NAME, 'readwrite');
     transaction.objectStore(STORE_NAME).put({
@@ -49,18 +52,43 @@ export async function putDurableOutboxRecord<T>(
 export async function listDurableOutboxRecords<T>(
   channel: DurableOutboxRecord['channel'],
   scope: string,
+  strict = false,
 ): Promise<Array<DurableOutboxRecord<T>>> {
   const database = await openDatabase();
-  if (!database) return [];
-  return new Promise((resolve) => {
+  if (!database) { if (strict && typeof indexedDB !== 'undefined') throw new Error('Recovery storage is unavailable; export could be incomplete.'); return []; }
+  return new Promise((resolve, reject) => {
     const transaction = database.transaction(STORE_NAME, 'readonly');
     const request = transaction.objectStore(STORE_NAME).getAll();
     request.onsuccess = () => resolve((request.result as Array<DurableOutboxRecord<T>>)
       .filter((record) => record.channel === channel && record.scope === scope));
-    request.onerror = () => resolve([]);
+    request.onerror = () => strict ? reject(new Error('Could not read recovery storage.')) : resolve([]);
     transaction.oncomplete = () => database.close();
-    transaction.onerror = () => database.close();
-    transaction.onabort = () => database.close();
+    transaction.onerror = transaction.onabort = () => {
+      database.close();
+      if (strict) reject(new Error('Could not finish reading recovery storage.'));
+      else resolve([]);
+    };
+  });
+}
+
+export async function clearDurableAccountData(scope: string): Promise<void> {
+  deletedScopes.add(scope);
+  const database = await openDatabase();
+  if (!database) {
+    if (typeof indexedDB !== 'undefined') throw new Error('Account deleted, but recovery storage could not be cleared. Clear this site’s browser storage.');
+    return;
+  }
+  return new Promise((resolve, reject) => {
+    const transaction = database.transaction(STORE_NAME, 'readwrite');
+    const request = transaction.objectStore(STORE_NAME).openCursor();
+    request.onsuccess = () => {
+      const cursor = request.result;
+      if (!cursor) return;
+      if (cursor.value.scope === scope) cursor.delete();
+      cursor.continue();
+    };
+    transaction.oncomplete = () => { database.close(); resolve(); };
+    transaction.onerror = transaction.onabort = () => { database.close(); reject(new Error('Could not clear recovery records. Clear this site’s browser storage.')); };
   });
 }
 

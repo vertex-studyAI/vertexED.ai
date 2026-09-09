@@ -41,7 +41,7 @@ export default function RevisionWeekTimeline({ embedded = false }: { embedded?: 
           What using the full loop actually looks like
         </h2>
         <p className="text-muted-foreground leading-relaxed max-w-2xl mb-10">
-          Not a fantasy schedule — a plausible five days with school, sport, and a mock on Thursday.
+          Not a fantasy schedule - a plausible five days with school, sport, and a mock on Thursday.
           Each step uses a different part of VertexED; none of it requires heroic discipline.
         </p>
 
@@ -76,7 +76,7 @@ export function ScatterCompare({ embedded = false }: { embedded?: boolean }) {
           Twelve tabs vs one loop
         </h2>
         <p className="text-muted-foreground mb-8 max-w-2xl leading-relaxed">
-          Most students already have the apps. What&apos;s missing is the connection between them — and feedback
+          Most students already have the apps. What&apos;s missing is the connection between them - and feedback
           that actually changes the next session.
         </p>
         <div className="feat-compare-grid">

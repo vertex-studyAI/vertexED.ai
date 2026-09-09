@@ -1,4 +1,4 @@
-import { verifyAuthUser, readJsonBody, rejectOversizedJsonBody } from '../_lib/auth.js';
+import { verifyAuthUser, rejectOversizedJsonBody } from '../_lib/auth.js';
 import { rateLimitUserEndpoint } from '../_lib/rateLimit.js';
 import {
   GRADING_CONTRACT_VERSION,
@@ -6,6 +6,7 @@ import {
   normalizeGradeAudits,
 } from '../_lib/verifiedGrading.js';
 import { fetchProvider } from '../_lib/providerRequest.js';
+import { validateGeneratedQuiz } from '../../contracts/learningOutputs.js';
 
 function parseJsonBody(req) {
   let body = req.body ?? {};
@@ -95,7 +96,7 @@ async function handleGenerate(body, apiKey, res) {
     return res.status(400).json({ error: "Missing notes" });
   }
 
-  const optionCount = Math.max(2, Math.min(5, Number(mcqOptionCount) || 4));
+  const optionCount = Math.max(2, Math.min(5, Math.floor(Number(mcqOptionCount) || 4)));
   const counts = questionCounts(frqLength);
 
   const adaptiveHint =
@@ -103,7 +104,7 @@ async function handleGenerate(body, apiKey, res) {
       ? `\nPrioritize these weak/high-yield topics: ${adaptiveTopics.join(", ")}.`
       : "";
   const boardHint = board
-    ? `\nStudent board: ${board}. Subjects: ${(subjects || []).join(", ") || "general"}. Use board-appropriate command terms.`
+    ? `\nStudent board: ${board}. Subjects: ${(Array.isArray(subjects) ? subjects : []).join(", ") || "general"}. Use board-appropriate command terms.`
     : "";
 
   const fallbackQuestions = () => buildDeterministicQuizFallback({ notes, board, subjects });
@@ -150,10 +151,10 @@ ${String(notes).slice(0, 12000)}`;
   try {
     const raw = await callOpenAI(apiKey, [{ role: "user", content: prompt }], 3000);
     const parsed = extractJson(raw);
-    const questions = Array.isArray(parsed?.questions) ? parsed.questions : [];
+    const questions = validateGeneratedQuiz(parsed, counts, optionCount);
 
-    if (!questions.length) {
-      return res.status(502).json({ error: "Quiz provider returned an invalid response." });
+    if (!questions) {
+      throw new Error('Quiz provider returned invalid question structure.');
     }
 
     const model = process.env.OPENAI_MODEL || "gpt-4o-mini";

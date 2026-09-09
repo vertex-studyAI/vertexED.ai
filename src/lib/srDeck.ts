@@ -1,4 +1,4 @@
-import { dueCards, cardsFromFlashcards, type SrCard } from "@/lib/spacedRepetition";
+import { dueCards, mergeReviewCards, repairCardIds, type SrCard } from "@/lib/spacedRepetition";
 import { userContentStorageKeys } from "@/lib/userContentStorageScope.mjs";
 
 function deckKey() {
@@ -9,7 +9,10 @@ export function loadSrDeck(): SrCard[] {
   if (typeof window === "undefined") return [];
   try {
     const raw = window.localStorage.getItem(deckKey());
-    return raw ? (JSON.parse(raw) as SrCard[]) : [];
+    const cards = raw ? JSON.parse(raw) as SrCard[] : [];
+    const repaired = repairCardIds(cards);
+    if (JSON.stringify(cards) !== JSON.stringify(repaired)) saveSrDeck(repaired);
+    return repaired;
   } catch {
     return [];
   }
@@ -18,6 +21,7 @@ export function loadSrDeck(): SrCard[] {
 export function saveSrDeck(cards: SrCard[]) {
   if (typeof window === "undefined") return;
   window.localStorage.setItem(deckKey(), JSON.stringify(cards));
+  window.dispatchEvent(new CustomEvent('vertexed:storage-changed', { detail: deckKey() }));
 }
 
 export function getDueFlashcardCount(): number {
@@ -41,10 +45,7 @@ export function mergeFlashcardsIntoDeck(
   deckPrefix: string,
 ): number {
   const existing = loadSrDeck();
-  const incoming = cardsFromFlashcards(flashcards, deckPrefix);
-  const seen = new Set(existing.map((c) => `${c.front}::${c.back}`));
-  const toAdd = incoming.filter((c) => !seen.has(`${c.front}::${c.back}`));
-  if (toAdd.length === 0) return 0;
-  saveSrDeck([...toAdd, ...existing]);
-  return toAdd.length;
+  const merged = mergeReviewCards(existing, flashcards, deckPrefix);
+  saveSrDeck(merged);
+  return merged.length - existing.length;
 }

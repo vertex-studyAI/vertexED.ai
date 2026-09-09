@@ -82,7 +82,7 @@ export function buildRetrievalPulse(
 
   let nextAction = { label: 'Open Study Zone', href: '/study-zone', reason: 'Start with a focused 25-minute block on one topic.' };
   let headline = 'Your retrieval pulse';
-  let narrative = 'One honest session today — timed practice or due cards — beats a long plan you never run.';
+  let narrative = 'One honest session today - timed practice or due cards - beats a long plan you never run.';
   let apexPrompt = 'I have 25 minutes tonight. What should I do first for the best return on marks?';
 
   const topRec = adaptiveRecs[0];
@@ -90,7 +90,7 @@ export function buildRetrievalPulse(
     nextAction = { label: topRec.title, href: topRec.to, reason: topRec.description };
     apexPrompt = `Help me with: ${topRec.title}. ${topRec.description}`;
   } else if (dueCards >= 8) {
-    nextAction = { label: 'Review flashcards', href: '/notetaker', reason: `${dueCards} cards are due — retrieval before new content.` };
+    nextAction = { label: 'Review flashcards', href: '/notetaker', reason: `${dueCards} cards are due - retrieval before new content.` };
     headline = 'Memory is calling';
     narrative = 'Due cards mean material you almost knew is about to fade. A short review now compounds.';
     apexPrompt = `I have ${dueCards} flashcards due. Help me prioritise which topics to hit first in 20 minutes.`;
@@ -108,20 +108,20 @@ export function buildRetrievalPulse(
     nextAction = {
       label: step.label,
       href: step.href,
-      reason: `You haven't ${step.verb.toLowerCase()} yet this week — the loop only works closed.`,
+      reason: `You haven't ${step.verb.toLowerCase()} yet this week - the loop only works closed.`,
     };
     headline = 'Close the loop';
     narrative = `This week's loop is ${loop.completionPercent}% complete. The missing piece: ${step.label.toLowerCase()}.`;
     apexPrompt = `I haven't done the "${step.label}" step in my revision loop this week. What should a realistic ${step.label.toLowerCase()} session look like tonight?`;
   } else if (examDays != null && examDays >= 0 && examDays <= 14) {
-    nextAction = { label: 'Mock under time', href: '/paper-maker', reason: 'Exam fortnight — pace and rubric shape matter now.' };
+    nextAction = { label: 'Mock under time', href: '/paper-maker', reason: 'Exam fortnight - pace and rubric shape matter now.' };
     headline = 'Exam fortnight';
     narrative = `${examDays} days left. Prioritise timed practice and rubric feedback over new content.`;
     apexPrompt = `My exam is in ${examDays} days. Help me plan today and tomorrow for maximum marks without burning out.`;
   } else if (readiness.score >= 72) {
     headline = 'Strong rhythm';
     narrative = 'Loop, streak, and retrieval are in decent shape. Push depth on your weakest topic or run a Socratic drill with Apex.';
-    apexPrompt = 'Quiz me Socratic-style on my weakest topic — one question at a time, no answers until I try.';
+    apexPrompt = 'Quiz me Socratic-style on my weakest topic - one question at a time, no answers until I try.';
   }
 
   return {

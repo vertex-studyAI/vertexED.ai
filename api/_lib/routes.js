@@ -78,6 +78,7 @@ export const ROUTES = {
   'user-content': {
     loader: () => import('../_handlers/user-content.js'),
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+    maxBodyBytes: 512 * 1024,
   },
   'learner-state': {
     loader: () => import('../_handlers/learner-state.js'),

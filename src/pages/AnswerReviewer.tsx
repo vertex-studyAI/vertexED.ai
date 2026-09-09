@@ -1,3 +1,4 @@
+import { resolveConfirmedCriteria } from '@/lib/confirmedReview.mjs';
 import { Helmet } from "react-helmet-async";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import PageSection from "@/components/PageSection";
@@ -137,6 +138,8 @@ export default function AIAnswerReview() {
   const [submitCount, setSubmitCount] = useState(0);
   const [examImportNote, setExamImportNote] = useState<string | null>(null);
   const [reviewSource, setReviewSource] = useState<"review" | "mock">("review");
+  const [confirmedMarks, setConfirmedMarks] = useState<Record<string, string>>({});
+  const [confirmationReference, setConfirmationReference] = useState("");
   const [confirmationMethod, setConfirmationMethod] = useState<"" | "teacher-confirmed" | "official-mark-scheme">("");
   const [masteryConfirmed, setMasteryConfirmed] = useState(false);
   const responseRef = useRef<HTMLDivElement | null>(null);
@@ -218,7 +221,7 @@ export default function AIAnswerReview() {
         question: metadata.question || prev.question,
         answer: metadata.answer || prev.answer,
       }));
-      setExamImportNote("Saved review restored — you can re-run or discuss in chat.");
+      setExamImportNote("Saved review restored - you can re-run or discuss in chat.");
       return;
     }
 
@@ -255,7 +258,7 @@ export default function AIAnswerReview() {
             : "",
         ].join(""),
       }));
-      setExamImportNote("Mock exam answers imported — run a review when you're ready.");
+      setExamImportNote("Mock exam answers imported - run a review when you're ready.");
       return;
     }
 
@@ -274,7 +277,7 @@ export default function AIAnswerReview() {
         additional: "Imported from Paper Maker mock exam.",
       }));
       if (handoff.board) setBoard(handoff.board);
-      setExamImportNote("Mock paper imported — add your answers and submit for rubric feedback.");
+      setExamImportNote("Mock paper imported - add your answers and submit for rubric feedback.");
     }
   }, []);
 
@@ -450,6 +453,8 @@ export default function AIAnswerReview() {
       setStructuredReview(audit);
       setConfirmationMethod("");
       setMasteryConfirmed(false);
+    setConfirmedMarks({});
+    setConfirmationReference("");
       setDegradedReview(Boolean(data && typeof data === "object" && data.degraded));
       setResponse(out);
       setLastSubmittedAt(new Date().toLocaleString());
@@ -508,7 +513,12 @@ export default function AIAnswerReview() {
     if (!audit || audit.scoreStatus !== "EVIDENCE_LINKED" || degradedReview || !confirmationMethod) return;
     const confirmedAt = new Date().toISOString();
     const subject = formData.subject.trim() || "General";
-    const measurements = audit.criteria
+    const correctedCriteria = resolveConfirmedCriteria(audit.criteria, confirmedMarks);
+    if (!correctedCriteria) {
+      toast({ title: "Check your confirmed marks", description: "Each criterion needs a mark between zero and its maximum.", variant: "destructive" });
+      return;
+    }
+    const measurements = correctedCriteria
       .filter((criterion) => Number.isFinite(criterion.score)
         && Number.isFinite(criterion.maxScore)
         && criterion.maxScore > 0
@@ -522,6 +532,7 @@ export default function AIAnswerReview() {
     }];
 
     const recorded = safeMeasurements.every((measurement) => recordWeakness({
+      attemptId: audit.auditId,
       topic: measurement.topic,
       subject,
       board: board || undefined,
@@ -532,14 +543,14 @@ export default function AIAnswerReview() {
       verification: {
         method: confirmationMethod,
         confirmedAt,
-        reference: confirmationMethod === "teacher-confirmed" ? "Teacher-confirmed mark" : "Official mark scheme checked",
+        reference: confirmationReference.trim() || (confirmationMethod === "teacher-confirmed" ? "Learner attests teacher checked the mark" : "Learner attests official mark scheme checked"),
       },
     }));
 
     if (recorded) {
       const retryId = searchParams.get("retry");
       if (retryId) {
-        completeRetry(retryId, Math.round((audit.score / Math.max(1, audit.maxScore)) * 100));
+        completeRetry(retryId, Math.round((safeMeasurements.reduce((sum, item) => sum + item.score, 0) / Math.max(1, safeMeasurements.reduce((sum, item) => sum + item.maxScore, 0))) * 100));
       }
       setMasteryConfirmed(true);
       toast({
@@ -585,8 +596,8 @@ export default function AIAnswerReview() {
   return (
     <>
       <Helmet>
-        <title>Answer Reviewer — VertexED</title>
-        <meta name="description" content="Submit handwritten or typed answers for mark-scheme feedback — structure, command terms, evidence, and what to rewrite before the next attempt." />
+        <title>Answer Reviewer - VertexED</title>
+        <meta name="description" content="Submit handwritten or typed answers for mark-scheme feedback - structure, command terms, evidence, and what to rewrite before the next attempt." />
       </Helmet>
 
       <PageSection>
@@ -610,7 +621,7 @@ export default function AIAnswerReview() {
                     <Badge><Shield size={12} /> Not an official grade</Badge>
                   </div>
                   <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-                    Paste the question and your answer — typed or from a photo. VertexED suggests where marks may have been
+                    Paste the question and your answer - typed or from a photo. VertexED suggests where marks may have been
                     earned or missed, flags command-term gaps, and gives you a concrete retry. Check the result against your current mark scheme or teacher guidance.
                   </p>
                 </div>
@@ -951,6 +962,14 @@ export default function AIAnswerReview() {
                                   <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
                                     Only confirm after checking the suggested mark against a teacher decision or the current official mark scheme.
                                   </p>
+                                  <p className="mt-2 text-xs text-muted-foreground">This records your attestation, not an authenticated teacher approval. Correct the suggested marks before confirming.</p>
+                                  <div className="mt-3 grid gap-2 sm:grid-cols-2">
+                                    {structuredReview.criteria.map(criterion => <label key={criterion.id} className="grid gap-1 text-xs">
+                                      {criterion.label}  - confirmed mark out of {criterion.maxScore}
+                                      <input type="number" min={0} max={criterion.maxScore} step="any" className="neu-input-el px-3 py-2" disabled={masteryConfirmed} value={confirmedMarks[criterion.id] ?? String(criterion.score)} onChange={event => setConfirmedMarks(previous => ({ ...previous, [criterion.id]: event.target.value }))} />
+                                    </label>)}
+                                    <label className="grid gap-1 text-xs">Source or teacher reference (optional)<input className="neu-input-el px-3 py-2" maxLength={160} value={confirmationReference} disabled={masteryConfirmed} onChange={event => setConfirmationReference(event.target.value)} /></label>
+                                  </div>
                                   <div className="mt-3 flex flex-wrap items-end gap-2">
                                     <label className="grid gap-1 text-xs text-muted-foreground">
                                       Verification method

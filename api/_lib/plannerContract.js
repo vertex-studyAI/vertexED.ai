@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { validExamDate } from '../../src/lib/examTargets.mjs';
 
 const Time12Schema = z.string().trim().regex(/^(?:0?[1-9]|1[0-2]):[0-5][0-9]\s+(?:AM|PM)$/i).max(11);
 const DateSchema = z.string().trim().regex(/^(?:0?[1-9]|1[0-2])\/(?:0?[1-9]|[12][0-9]|3[01])\/(?:20[0-9]{2}|2100)$/).max(10);
@@ -16,6 +17,11 @@ const WeekRequestSchema = z.object({
   weaknesses: z.array(z.string()).max(20).default([]),
   subjects: z.array(z.string()).max(20).default([]),
   examDaysLeft: z.number().int().min(0).max(3_650).nullable().default(null),
+  examTargets: z.array(z.object({
+    subject: ShortText,
+    paper: z.string().trim().max(100),
+    date: z.string().refine(validExamDate),
+  }).strict()).max(50).optional(),
   hoursPerDay: z.number().min(1).max(6).optional(),
   existingTasks: z.array(z.unknown()).max(200).default([]),
 }).strict();

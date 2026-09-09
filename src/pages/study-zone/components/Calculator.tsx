@@ -87,7 +87,7 @@ const Calculator: React.FC<CalculatorProps> = () => {
 		>
 			<div>
 				<h2 className="zone-heading">Scientific Calculator</h2>
-				<p className="zone-subtle">Trig, logs, square roots, constants — the math you reach for most often.</p>
+				<p className="zone-subtle">Trig, logs, square roots, constants - the math you reach for most often.</p>
 			</div>
 
 			<div className="zone-calc-display">

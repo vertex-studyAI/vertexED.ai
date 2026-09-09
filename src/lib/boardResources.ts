@@ -8,6 +8,7 @@ export type BoardGuide = {
   id: string;
   board: ExamBoard;
   topicId: string;
+  grade?: number | null;
   title: string;
   subject: string;
   content: string;
@@ -47,10 +48,10 @@ function writeCache(guides: BoardGuide[]) {
   localStorage.setItem(cacheKey(), JSON.stringify(guides.slice(0, MAX_CACHED)));
 }
 
-export function getCachedGuide(board: ExamBoard, topicId: string): BoardGuide | null {
+export function getCachedGuide(board: ExamBoard, topicId: string, grade?: number | null): BoardGuide | null {
   const now = Date.now();
   return readCache().find((g) => (
-    g.board === board && g.topicId === topicId && Date.parse(g.expiresAt) > now
+    g.board === board && g.topicId === topicId && (g.grade ?? null) === (grade ?? null) && Date.parse(g.expiresAt) > now
   )) ?? null;
 }
 
@@ -64,7 +65,7 @@ export async function generateBoardGuide(
   topic: BoardGuideTopic,
   grade?: number | null,
 ): Promise<BoardGuide> {
-  const cached = getCachedGuide(board, topic.id);
+  const cached = getCachedGuide(board, topic.id, grade);
   if (cached) return cached;
 
   const config = BOARD_CONFIGS[board];
@@ -103,6 +104,7 @@ export async function generateBoardGuide(
     id: `guide-${board}-${topic.id}`,
     board,
     topicId: topic.id,
+    grade: grade ?? null,
     title: topic.title,
     subject: topic.subject,
     content: data.content ?? '',
@@ -117,12 +119,12 @@ export async function generateBoardGuide(
     },
   };
 
-  writeCache([guide, ...readCache().filter((g) => !(g.board === board && g.topicId === topic.id))]);
+  writeCache([guide, ...readCache().filter((g) => !(g.board === board && g.topicId === topic.id && (g.grade ?? null) === (grade ?? null)))]);
   return guide;
 }
 
 export function exportGuideMarkdown(guide: BoardGuide): void {
-  const blob = new Blob([`# ${guide.title}\n\n${guide.content}`], { type: 'text/markdown' });
+  const blob = new Blob([`# ${guide.title}\n\n> AI-generated, unverified study material. Check against the current official syllabus.\n> Generated: ${guide.generatedAt}; model: ${guide.generation.model}; board: ${guide.board}; grade: ${guide.grade ?? "unspecified"}.\n\n${guide.content}`], { type: 'text/markdown' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;

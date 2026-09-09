@@ -61,6 +61,7 @@ test('planner replace updates the current owned row without a destructive pre-de
   const { client, calls } = fakeSupabase({ existing: { id: 'planner-1' }, updateError });
 
   const result = await replacePlannerArtifact(client, {
+    expectedUpdatedAt: '2026-08-22T00:00:00Z',
     userId: 'user-1',
     title: 'Study Planner',
     payload: { tasks: [{ id: 't1' }] },
@@ -72,7 +73,7 @@ test('planner replace updates the current owned row without a destructive pre-de
   assert.equal(calls.filter(([name]) => name === 'insert').length, 0);
   assert.equal(calls.some(([name]) => name === 'delete'), false);
   assert.ok(calls.some(([name, field, value]) => name === 'eq' && field === 'user_id' && value === 'user-1'));
-  assert.ok(calls.some(([name, field, value]) => name === 'eq' && field === 'id' && value === 'planner-1'));
+  assert.ok(calls.some(([name, field, value]) => name === 'eq' && field === 'updated_at' && value === '2026-08-22T00:00:00Z'));
 });
 
 test('planner replace inserts only when no current planner exists', async () => {
@@ -94,25 +95,19 @@ test('planner replace inserts only when no current planner exists', async () => 
   assert.equal(insert.kind, 'planner');
 });
 
-test('planner replace fails closed on lookup errors before any write', async () => {
-  const lookupError = new Error('lookup failed');
-  const { client, calls } = fakeSupabase({ lookupError });
-
-  const result = await replacePlannerArtifact(client, {
-    userId: 'user-3',
-    title: 'Study Planner',
-    payload: { tasks: [] },
-  });
-
-  assert.equal(result.error, lookupError);
+test('planner replace propagates insertion errors without overwriting existing data', async () => {
+  const insertError = new Error('database unavailable');
+  const { client, calls } = fakeSupabase({ insertError });
+  const result = await replacePlannerArtifact(client, { userId: 'user-3', title: 'Plan', payload: { tasks: [] } });
+  assert.equal(result.error, insertError);
   assert.equal(calls.filter(([name]) => name === 'update').length, 0);
-  assert.equal(calls.filter(([name]) => name === 'insert').length, 0);
 });
 
 test('notebook replacement updates the owned singleton instead of inserting an autosave duplicate', async () => {
   const { client, calls } = fakeSupabase({ existing: { id: 'notebook-1' } });
 
   const result = await replaceSingletonArtifact(client, {
+    expectedUpdatedAt: '2026-08-22T00:00:00Z',
     userId: 'user-4',
     kind: 'notebook',
     title: 'Study Notebooks',
@@ -139,7 +134,7 @@ test('singleton replacement rejects non-singleton artifact kinds before database
   assert.equal(calls.length, 0);
 });
 
-test('singleton replacement recovers when a concurrent insert wins the unique-index race', async () => {
+test('singleton replacement reports conflict when a concurrent insert wins', async () => {
   const duplicate = { code: '23505', message: 'duplicate key' };
   const { client, calls } = fakeSupabase({
     lookupSequence: [null, { id: 'winner-1' }],
@@ -156,6 +151,6 @@ test('singleton replacement recovers when a concurrent insert wins the unique-in
   assert.equal(result.error, null);
   assert.equal(result.created, false);
   assert.equal(calls.filter(([name]) => name === 'insert').length, 1);
-  assert.equal(calls.filter(([name]) => name === 'update').length, 1);
-  assert.ok(calls.some(([name, field, value]) => name === 'eq' && field === 'id' && value === 'winner-1'));
+  assert.equal(result.conflict, true);
+  assert.equal(calls.filter(([name]) => name === 'update').length, 0);
 });

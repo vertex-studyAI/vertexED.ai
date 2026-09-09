@@ -65,6 +65,8 @@ Each task: { "task name", "start time" (hh:mm AM/PM), "task duration" (minutes),
 Student has ~${hoursPerDay} hours/day. Exam in ${examDaysLeft ?? 'unknown'} days.
 Weak topics: ${weaknesses.join(', ') || 'none yet'}.
 Subjects: ${subjects.join(', ') || 'general'}.
+Student-entered exam timetable (not official dates): ${JSON.stringify(body.examTargets ?? [])}.
+Prioritise upcoming subject papers. Do not invent missing exam dates.
 Avoid overlaps with: ${JSON.stringify(existingTasks)}.
 Balance: learn → practice → review → flashcards. Return ONLY JSON: { "tasks": [...] }`;
 

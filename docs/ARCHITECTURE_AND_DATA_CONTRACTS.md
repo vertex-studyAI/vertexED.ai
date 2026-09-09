@@ -21,7 +21,7 @@ There is no second canonical application surface. `/learning-hub` and `/world-mo
 1. The browser is untrusted. Client-supplied `user_id`, admin claims, scores, and artifact ownership are never authoritative.
 2. The API verifies the Supabase bearer token before privileged work and applies endpoint-specific rate limits and body limits.
 3. Service-role database access must include the verified user ID in every read, update, and delete predicate.
-4. RLS remains enabled as defense in depth even where server handlers use the service role.
+4. RLS remains enabled for non-service access. The service role bypasses it; server owner filters are mandatory and independently tested.
 5. AI output is untrusted data. Grading is normalized by `api/_lib/verifiedGrading.js`; unsupported evidence or low confidence produces `PROVISIONAL` status and human-review escalation.
 6. Build identity is immutable and fail-closed in production. `/api/health` and readiness headers are the release identity contract.
 7. Provider requests have bounded deadlines. Operational telemetry stores only fixed categories, provider/model identity, status, and duration—never prompts, answers, uploads, emails, or raw provider bodies.
@@ -29,6 +29,8 @@ There is no second canonical application surface. `/learning-hub` and `/world-mo
 ## Typed domain contracts
 
 The canonical compile-time contracts live in `src/types/domain.ts` and `src/types/learning.ts`. They cover identity/profile, course/subject, mock assessment, learner response, criterion feedback, notes, study plans, evidence spans, coverage, provenance, and privacy-safe AI run metadata.
+
+`src/contracts/domain.ts` contains stricter schema definitions for incremental boundary adoption, not universal enforcement of historical payloads. `contracts/learningOutputs.js` validates newly generated quiz and notebook structures before they are accepted. See `CANONICAL_ARCHITECTURE.md` for the device/cloud conflict and corruption-recovery contract.
 
 Persisted learner artifacts use the envelope below:
 

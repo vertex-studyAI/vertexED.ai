@@ -1,14 +1,11 @@
 import { readJsonBody, rejectOversizedJsonBody } from '../_lib/auth.js';
 import { getSupabaseAdmin } from '../_lib/supabaseAdmin.js';
+import { hasServerSupabaseConfig } from '../_lib/serverSupabase.js';
 import { checkDbRateLimit } from '../_lib/dbRateLimit.js';
 import { isInviteCodeConfiguredSafely, verifyInviteCode } from '../_lib/inviteCode.js';
 import { getWaitlistEntryByToken } from '../_lib/waitlistAccess.js';
 import { createApprovedWaitlistUser, createTeamInvitedUser } from '../_lib/waitlistSignup.js';
 import { getClientIp, normalizeEmail, validatePassword } from '../_lib/security.js';
-
-function hasSignupBackendConfig() {
-  return Boolean(process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY);
-}
 
 function getTeamInviteRedirectUrl() {
   const appUrl = process.env.APP_URL || process.env.SITE_URL || 'https://www.vertexed.app';
@@ -44,7 +41,7 @@ export default async function handler(req, res) {
       if (!inviteToken) {
         return res.status(400).json({ error: 'Approval token is required.' });
       }
-      if (!hasSignupBackendConfig()) {
+      if (!hasServerSupabaseConfig()) {
         return res.status(503).json({ error: 'Account creation is temporarily unavailable. Please try again later.' });
       }
 
@@ -90,7 +87,7 @@ export default async function handler(req, res) {
         return res.status(400).json({ error: 'Enter a valid email address.' });
       }
 
-      if (!hasSignupBackendConfig()) {
+      if (!hasServerSupabaseConfig()) {
         return res.status(503).json({ error: 'Account creation is temporarily unavailable. Please try again later.' });
       }
 
@@ -133,7 +130,7 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: passwordCheck.error });
     }
 
-    if (!hasSignupBackendConfig()) {
+    if (!hasServerSupabaseConfig()) {
       return res.status(503).json({ error: 'Account creation is temporarily unavailable. Please try again later.' });
     }
 

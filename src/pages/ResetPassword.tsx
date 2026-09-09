@@ -23,7 +23,7 @@ export default function ResetPassword() {
 
     const verifyRecoverySession = async () => {
       if (!supabase) {
-        setError("Password recovery is unavailable — auth is not configured.");
+        setError("Password recovery is unavailable - auth is not configured.");
         setChecking(false);
         return;
       }
@@ -100,7 +100,7 @@ export default function ResetPassword() {
   return (
     <>
       <Helmet>
-        <title>Reset password — VertexED</title>
+        <title>Reset password - VertexED</title>
         <meta name="description" content="Securely choose a new password for your VertexED account." />
         <meta name="robots" content="noindex, nofollow" />
       </Helmet>

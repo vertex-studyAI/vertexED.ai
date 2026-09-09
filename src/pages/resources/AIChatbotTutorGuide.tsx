@@ -7,14 +7,14 @@ export default function AIChatbotTutorGuide() {
   return (
     <>
       <SEO
-        title="Using Apex for study help — Socratic AI | VertexED"
-        description="How to use VertexED's Apex chat for explanations, rubric feedback, and exam technique — without outsourcing answers you can't reproduce in the hall."
+        title="Using Apex for study help - Socratic AI | VertexED"
+        description="How to use VertexED's Apex chat for explanations, rubric feedback, and exam technique - without outsourcing answers you can't reproduce in the hall."
         canonical="https://www.vertexed.app/resources/ai-chatbot-tutor"
         keywords="Apex, study chatbot, Socratic tutoring, IB help, IGCSE revision, AP exam prep, mark scheme feedback, VertexED, exam technique, active recall"
       />
       <Article
         title="Using Apex: Socratic help instead of copy-paste answers"
-        subtitle="Apex is built to ask what you've tried, walk through reasoning, and stress-test essays against rubrics — not to finish homework for you."
+        subtitle="Apex is built to ask what you've tried, walk through reasoning, and stress-test essays against rubrics - not to finish homework for you."
         kicker="Guides"
       >
         <p className="lead">
@@ -105,8 +105,8 @@ export default function AIChatbotTutorGuide() {
 
         <h2 className="mt-10">Evidence & references</h2>
         <ul>
-          <li>Chi, M. T. H. et al. (2001): Learning from Human Tutoring — the effectiveness of Socratic dialogue.</li>
-          <li>Sal Khan (2023): Harnessing AI for Education (TED Talk) — the potential of AI as a personalized tutor.</li>
+          <li>Chi, M. T. H. et al. (2001): Learning from Human Tutoring - the effectiveness of Socratic dialogue.</li>
+          <li>Sal Khan (2023): Harnessing AI for Education (TED Talk) - the potential of AI as a personalized tutor.</li>
         </ul>
 
         <div className="article-footer">
@@ -124,7 +124,7 @@ export default function AIChatbotTutorGuide() {
 
         <h2>Bottom line</h2>
         <p>
-          Apex works when you treat it like office hours — bring your attempt, accept questions before answers, and retry without AI afterward.
+          Apex works when you treat it like office hours - bring your attempt, accept questions before answers, and retry without AI afterward.
           Generic prompts get generic replies; specific attempts get mark-scheme-aware help.
         </p>
       </Article>

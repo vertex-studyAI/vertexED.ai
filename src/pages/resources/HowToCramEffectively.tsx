@@ -8,7 +8,7 @@ export default function HowToCramEffectively() {
     <>
       <SEO
         title="How to cram when the exam is tomorrow | VertexED"
-        description="Not ideal — but if you are down to one day, triage high-yield topics, blurting, cheat sheets, and six hours of sleep beat an all-nighter."
+        description="Not ideal - but if you are down to one day, triage high-yield topics, blurting, cheat sheets, and six hours of sleep beat an all-nighter."
         canonical="https://www.vertexed.app/resources/how-to-cram-effectively"
         keywords="how to cram for exams, last minute study tips, emergency revision, high yield studying, exam panic, VertexED"
         jsonLd={[
@@ -16,7 +16,7 @@ export default function HowToCramEffectively() {
             "@context": "https://schema.org",
             "@type": "Article",
             headline: "How to cram when the exam is tomorrow",
-            description: "Triage, blurting, cheat sheets, and sleep — an honest emergency protocol when revision week never happened.",
+            description: "Triage, blurting, cheat sheets, and sleep - an honest emergency protocol when revision week never happened.",
             author: {
               "@type": "Organization",
               name: "VertexED Team",
@@ -42,7 +42,7 @@ export default function HowToCramEffectively() {
                 name: "Should I drink coffee?",
                 acceptedAnswer: {
                   "@type": "Answer",
-                  text: "A moderate amount can help — but stop six hours before you plan to sleep. Jitters plus exam anxiety rarely help."
+                  text: "A moderate amount can help - but stop six hours before you plan to sleep. Jitters plus exam anxiety rarely help."
                 }
               },
               {
@@ -58,7 +58,7 @@ export default function HowToCramEffectively() {
                 name: "How do I prevent this next time?",
                 acceptedAnswer: {
                   "@type": "Answer",
-                  text: "Block revision across the term in the Planner — mocks, retrieval slots, and lighter evenings built in from the start."
+                  text: "Block revision across the term in the Planner - mocks, retrieval slots, and lighter evenings built in from the start."
                 }
               }
             ]
@@ -67,13 +67,13 @@ export default function HowToCramEffectively() {
       />
       <Article
         title="How to cram when the exam is tomorrow"
-        subtitle="Cramming is a survival tactic, not a strategy — but if you are here, this is the least-bad protocol."
+        subtitle="Cramming is a survival tactic, not a strategy - but if you are here, this is the least-bad protocol."
         kicker="Study Strategy"
       >
         <p className="lead">
           Ideally you would have used the <Link to="/planner">Planner</Link> across the term. You did not.
           The exam is tomorrow. Panic wastes the energy you need for retrieval. This is an honest
-          emergency protocol — triage, blurting, cheat sheets, and sleep.
+          emergency protocol - triage, blurting, cheat sheets, and sleep.
         </p>
 
         <h2>Step 1: Triage (pick your battles)</h2>
@@ -102,7 +102,7 @@ export default function HowToCramEffectively() {
         <p>
           You do not have time for the full textbook.
           <br /><strong>Action:</strong> Upload notes to <Link to="/notetaker">Notetaker</Link>.
-          <br /><em>&ldquo;Summarize this unit into one page — definitions, formulas, and key dates only.&rdquo;</em>
+          <br /><em>&ldquo;Summarize this unit into one page - definitions, formulas, and key dates only.&rdquo;</em>
         </p>
 
         <h2>Step 4: Sleep (non-negotiable)</h2>
@@ -121,9 +121,9 @@ export default function HowToCramEffectively() {
         </p>
 
         <h2>FAQ</h2>
-        <p><strong>Should I drink coffee?</strong> A moderate amount can help — stop six hours before sleep. Jitters plus exam anxiety rarely help.</p>
+        <p><strong>Should I drink coffee?</strong> A moderate amount can help - stop six hours before sleep. Jitters plus exam anxiety rarely help.</p>
         <p><strong>What if I don&apos;t understand a concept?</strong> If it takes more than fifteen minutes, park it. Focus on facts you can retain overnight.</p>
-        <p><strong>How do I prevent this next time?</strong> Block revision across the term in the <Link to="/planner">Planner</Link> — mocks, retrieval, and realistic evenings from week one.</p>
+        <p><strong>How do I prevent this next time?</strong> Block revision across the term in the <Link to="/planner">Planner</Link>  - mocks, retrieval, and realistic evenings from week one.</p>
 
         <div className="not-prose mt-8 flex gap-3 flex-wrap">
           <Link to="/notetaker" className="neu-button">Build cheat sheet</Link>
@@ -132,7 +132,7 @@ export default function HowToCramEffectively() {
 
         <h2 className="mt-10">Evidence &amp; references</h2>
         <ul>
-          <li>Walker, M. (2017): Why We Sleep — sleep deprivation and memory formation.</li>
+          <li>Walker, M. (2017): Why We Sleep - sleep deprivation and memory formation.</li>
           <li>Dunlosky et al. (2013): Re-reading scores low; self-testing scores high.</li>
         </ul>
 

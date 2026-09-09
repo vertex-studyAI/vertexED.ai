@@ -46,5 +46,6 @@ export function userContentStorageKeys(scope = activeScope) {
     habitsResetDate: `${prefix}:habits_reset_date`,
     boardGuides: `${prefix}:board_guides`,
     examPrepSession: `${prefix}:exam_prep_session`,
+    examPrepHistory: `${prefix}:exam_prep_history`,
   };
 }

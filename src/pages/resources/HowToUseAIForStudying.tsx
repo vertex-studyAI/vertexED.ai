@@ -7,14 +7,14 @@ export default function HowToUseAIForStudying() {
   return (
     <>
       <SEO
-        title="How to use AI for studying — a revision-week framework | VertexED"
-        description="Where AI helps in exam prep — planning, Socratic explanations, mocks, rubric feedback, and flashcards — and where it crosses into work you cannot defend in the hall."
+        title="How to use AI for studying - a revision-week framework | VertexED"
+        description="Where AI helps in exam prep - planning, Socratic explanations, mocks, rubric feedback, and flashcards - and where it crosses into work you cannot defend in the hall."
         canonical="https://www.vertexed.app/resources/how-to-use-ai-for-studying"
         keywords="how to use AI for studying, exam prep, Socratic tutoring, rubric feedback, active recall, VertexED"
       />
       <Article
         title="How to use AI for studying without skipping the thinking"
-        subtitle="A five-step framework tied to a real revision week — plan, learn, retrieve, practise under time, review against rubrics."
+        subtitle="A five-step framework tied to a real revision week - plan, learn, retrieve, practise under time, review against rubrics."
         kicker="Guides"
       >
         <p className="lead">
@@ -30,7 +30,7 @@ export default function HowToUseAIForStudying() {
         <ul>
           <li><strong>You start:</strong> Name the topic, state what you already tried, and set a time box (usually 25 minutes).</li>
           <li><strong>AI middle:</strong> Explains, asks a guiding question, generates cards, or critiques a draft against a rubric.</li>
-          <li><strong>You finish:</strong> Retry without AI, log what stuck, schedule retrieval — flashcards or a mock question on the same topic.</li>
+          <li><strong>You finish:</strong> Retry without AI, log what stuck, schedule retrieval - flashcards or a mock question on the same topic.</li>
         </ul>
         <p>
           If you skip the last step, you saved time tonight and lost it on exam day.
@@ -49,7 +49,7 @@ export default function HowToUseAIForStudying() {
           <li>One lighter evening after sport or a long school day</li>
         </ul>
         <p>
-          Ask Apex: <em>&ldquo;I have chemistry and history assessments in ten days — suggest a realistic week with 25-minute blocks.&rdquo;</em>
+          Ask Apex: <em>&ldquo;I have chemistry and history assessments in ten days - suggest a realistic week with 25-minute blocks.&rdquo;</em>
         </p>
 
         <h2>Step 2: Learn with Socratic help, not answer dumps</h2>
@@ -82,17 +82,17 @@ export default function HowToUseAIForStudying() {
 
         <h2>Step 4: Practise under time</h2>
         <p>
-          Use <Link to="/paper-maker">Paper Maker</Link> for board-shaped mocks — choose topics, marks, and question count.
+          Use <Link to="/paper-maker">Paper Maker</Link> for board-shaped mocks - choose topics, marks, and question count.
           Sit the paper in <Link to="/study-zone">Study Zone</Link> with a timer. Phone away. Same posture as the hall.
         </p>
 
         <h2>Step 5: Review against rubrics</h2>
         <p>
           Upload or paste answers to the <Link to="/answer-reviewer">Answer Reviewer</Link>. Read which marks were earned and lost.
-          Book a retry slot in the planner for the gaps it names — structure, evidence, units, command terms.
+          Book a retry slot in the planner for the gaps it names - structure, evidence, units, command terms.
         </p>
         <p>
-          Prompt for follow-up in Apex: <em>&ldquo;The reviewer said I lost analysis marks — what would an 8/8 paragraph include for this question?&rdquo;</em>
+          Prompt for follow-up in Apex: <em>&ldquo;The reviewer said I lost analysis marks - what would an 8/8 paragraph include for this question?&rdquo;</em>
         </p>
 
         <h2>Subject notes</h2>
@@ -104,12 +104,12 @@ export default function HowToUseAIForStudying() {
 
         <h3>History and English</h3>
         <p>
-          Stress-test thesis and evidence: <em>&ldquo;Here is my intro — where is the line of argument weak against the question stem?&rdquo;</em>
+          Stress-test thesis and evidence: <em>&ldquo;Here is my intro - where is the line of argument weak against the question stem?&rdquo;</em>
         </p>
 
         <h3>Languages</h3>
         <p>
-          Short roleplay for grammar correction works — but follow with a written paragraph you compose yourself.
+          Short roleplay for grammar correction works - but follow with a written paragraph you compose yourself.
         </p>
 
         <h2>FAQ</h2>
@@ -125,7 +125,7 @@ export default function HowToUseAIForStudying() {
 
         <h2 className="mt-10">References</h2>
         <ul>
-          <li>Mollick (2023): Assigning AI — human-in-the-loop patterns for students.</li>
+          <li>Mollick (2023): Assigning AI - human-in-the-loop patterns for students.</li>
           <li>Roediger &amp; Karpicke: Testing effect and retrieval practice.</li>
         </ul>
 

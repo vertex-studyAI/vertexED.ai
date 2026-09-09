@@ -16,7 +16,7 @@ export default function AcademicBurnoutGuide() {
             "@context": "https://schema.org",
             "@type": "Article",
             headline: "Academic burnout: signs and recovery",
-            description: "How to spot burnout vs ordinary tiredness — and a practical recovery path for exam season.",
+            description: "How to spot burnout vs ordinary tiredness - and a practical recovery path for exam season.",
             author: {
               "@type": "Organization",
               name: "VertexED Team",
@@ -42,7 +42,7 @@ export default function AcademicBurnoutGuide() {
                 name: "Should I take a gap year?",
                 acceptedAnswer: {
                   "@type": "Answer",
-                  text: "That is a major decision. Try a full week off revision first — complete detachment often clarifies whether you need a longer break."
+                  text: "That is a major decision. Try a full week off revision first - complete detachment often clarifies whether you need a longer break."
                 }
               },
               {
@@ -50,7 +50,7 @@ export default function AcademicBurnoutGuide() {
                 name: "Is it my fault?",
                 acceptedAnswer: {
                   "@type": "Answer",
-                  text: "Burnout is a response to sustained pressure — coursework, mocks, university applications stacked together. It is not a character flaw."
+                  text: "Burnout is a response to sustained pressure - coursework, mocks, university applications stacked together. It is not a character flaw."
                 }
               },
               {
@@ -67,12 +67,12 @@ export default function AcademicBurnoutGuide() {
       />
       <Article
         title="Academic burnout: signs and recovery"
-        subtitle="Exhaustion that sleep does not fix — and how to scale back without dropping everything."
+        subtitle="Exhaustion that sleep does not fix - and how to scale back without dropping everything."
         kicker="Mental Health"
       >
         <p className="lead">
           Tiredness clears with a good night&apos;s sleep. Burnout often does not. If you feel cynical,
-          detached from your subjects, and ineffective even after a weekend off, you may be burnt out —
+          detached from your subjects, and ineffective even after a weekend off, you may be burnt out,
           not lazy. Recovery means scaling back deliberately, not pretending nothing is wrong.
         </p>
 
@@ -81,9 +81,9 @@ export default function AcademicBurnoutGuide() {
           The Maslach Burnout Inventory describes three components:
         </p>
         <ol>
-          <li><strong>Exhaustion:</strong> Emotional and physical drain — &ldquo;I cannot face another revision block.&rdquo;</li>
-          <li><strong>Cynicism:</strong> Detachment from schoolwork — &ldquo;None of this matters.&rdquo;</li>
-          <li><strong>Inefficacy:</strong> Feeling that effort does not pay off — &ldquo;I try hard and still fail.&rdquo;</li>
+          <li><strong>Exhaustion:</strong> Emotional and physical drain - &ldquo;I cannot face another revision block.&rdquo;</li>
+          <li><strong>Cynicism:</strong> Detachment from schoolwork - &ldquo;None of this matters.&rdquo;</li>
+          <li><strong>Inefficacy:</strong> Feeling that effort does not pay off - &ldquo;I try hard and still fail.&rdquo;</li>
         </ol>
 
         <h2>Minimum viable studying (MVS)</h2>
@@ -92,21 +92,21 @@ export default function AcademicBurnoutGuide() {
           sustainable level.
         </p>
         <p>
-          <strong>The rule:</strong> Do only what prevents failing — not what maximizes marks.
+          <strong>The rule:</strong> Do only what prevents failing - not what maximizes marks.
         </p>
         <ul>
           <li><strong>Pause:</strong> Polished notes, extra reading, perfectionism on non-assessed work.</li>
           <li><strong>Continue:</strong> Assigned homework. Use <Link to="/notetaker">AI summaries</Link> for readings you cannot face in full.</li>
         </ul>
         <p>
-          Set <Link to="/planner">Planner</Link> intensity to &ldquo;Low&rdquo; — it strips the schedule to essentials.
+          Set <Link to="/planner">Planner</Link> intensity to &ldquo;Low&rdquo; - it strips the schedule to essentials.
         </p>
 
         <h2>Reduce input overload</h2>
         <p>
           Burnout often follows overstimulation, not just hours studied.
           <br /><strong>One-week experiment:</strong> Remove short-form scrolling during study breaks.
-          Replace with low-stimulation recovery — a walk, a nap, nothing. Boredom can reset attention
+          Replace with low-stimulation recovery - a walk, a nap, nothing. Boredom can reset attention
           when feeds have trained your brain to need constant novelty.
         </p>
 
@@ -118,7 +118,7 @@ export default function AcademicBurnoutGuide() {
         </p>
 
         <h2>FAQ</h2>
-        <p><strong>Should I take a gap year?</strong> Major decision — try a full week off revision first. Complete detachment often clarifies what you actually need.</p>
+        <p><strong>Should I take a gap year?</strong> Major decision - try a full week off revision first. Complete detachment often clarifies what you actually need.</p>
         <p><strong>Is it my fault?</strong> Burnout responds to sustained pressure. It is not a character flaw.</p>
         <p><strong>How do I explain this to my parents?</strong> Be specific: you are reducing load to return to focused revision, not avoiding work. Rest now prevents a worse crash before exams.</p>
 
@@ -130,7 +130,7 @@ export default function AcademicBurnoutGuide() {
         <h2 className="mt-10">Evidence &amp; references</h2>
         <ul>
           <li>Maslach, C., &amp; Leiter, M. P. (2016): Understanding the burnout experience.</li>
-          <li>Huberman, A. (2023): Dopamine Nation — motivation, fatigue, and recovery.</li>
+          <li>Huberman, A. (2023): Dopamine Nation - motivation, fatigue, and recovery.</li>
         </ul>
 
         <div className="article-footer">

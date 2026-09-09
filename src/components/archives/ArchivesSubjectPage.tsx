@@ -13,16 +13,16 @@ const ARCHIVE_SAMPLES: Record<string, Record<string, SampleItem[]>> = {
   LnL: {
     Overview: [
       { title: "What makes a strong literary analysis?", body: "Lead with a precise thesis on authorial choice (structure, imagery, tone), then anchor each paragraph in a short quoted evidence line with explicit technique naming.", tag: "IB MYP" },
-      { title: "Comparing prose vs poetry responses", body: "Prose rewards narrative voice and pacing commentary; poetry rewards sound devices, line breaks, and connotation chains. Keep comparison balanced — one paragraph per text minimum.", tag: "Guide" },
+      { title: "Comparing prose vs poetry responses", body: "Prose rewards narrative voice and pacing commentary; poetry rewards sound devices, line breaks, and connotation chains. Keep comparison balanced - one paragraph per text minimum.", tag: "Guide" },
       { title: "Paper 1 timing", body: "15 min reading + planning, 75 min writing. Allocate marks-per-minute: a 20-mark response deserves roughly 25–30 minutes.", tag: "Exam" },
     ],
     "Close Readings": [
       { title: "Annotating for Paper 1", body: "Label: T (tone shift), I (image cluster), S (structure pivot). Circle verbs that carry emotional load. Margin-note 'so what?' after every observation.", tag: "Technique" },
-      { title: "Sample prompt — Unseen prose", body: "How does the writer create a sense of unease in lines 1–18? Plan: diction of threat → syntax shortening → focalization narrowing.", tag: "Practice" },
+      { title: "Sample prompt - Unseen prose", body: "How does the writer create a sense of unease in lines 1–18? Plan: diction of threat → syntax shortening → focalization narrowing.", tag: "Practice" },
     ],
     "Sample Essays": [
-      { title: "Exemplar opener (Level 7 style)", body: "Rather than presenting the storm as mere backdrop, the writer embeds environmental volatility in the protagonist's syntax — short clauses mirror fractured control.", tag: "Exemplar" },
-      { title: "Conclusion that evaluates", body: "End by weighing which technique is most significant for the overall effect — don't introduce new evidence in the final paragraph.", tag: "Technique" },
+      { title: "Exemplar opener (Level 7 style)", body: "Rather than presenting the storm as mere backdrop, the writer embeds environmental volatility in the protagonist's syntax - short clauses mirror fractured control.", tag: "Exemplar" },
+      { title: "Conclusion that evaluates", body: "End by weighing which technique is most significant for the overall effect - don't introduce new evidence in the final paragraph.", tag: "Technique" },
     ],
     "Practice Questions": [
       { title: "Paper 1 style Q", body: "Explore how the writer uses imagery to convey the speaker's attitude toward memory. [20 marks]", tag: "IB" },
@@ -35,14 +35,14 @@ const ARCHIVE_SAMPLES: Record<string, Record<string, SampleItem[]>> = {
       { title: "Compare two causes", body: "Use a two-column plan: Factor A evidence vs Factor B evidence. Conclude with a ranked judgement, not a summary.", tag: "Structure" },
     ],
     Timelines: [
-      { title: "Cold War — core sequence", body: "1945 Potsdam → 1947 Truman Doctrine → 1949 NATO → 1962 Cuban Missile Crisis → 1972 détente → 1989 fall of Berlin Wall.", tag: "Timeline" },
+      { title: "Cold War - core sequence", body: "1945 Potsdam → 1947 Truman Doctrine → 1949 NATO → 1962 Cuban Missile Crisis → 1972 détente → 1989 fall of Berlin Wall.", tag: "Timeline" },
       { title: "WWI causes chain", body: "Militarism → Alliances → Imperialism → Nationalism (MAIN) → assassination as trigger. Distinguish long-term vs short-term.", tag: "Causes" },
     ],
     "Source Analysis": [
       { title: "OPCVL in 4 sentences", body: "Origin + purpose in one line; content summary; limitation from bias/context; value for the specific historical question.", tag: "Method" },
     ],
     "Model Responses": [
-      { title: "To what extent — structure", body: "Thesis with extent qualifier → 2 paragraphs 'to a great extent' → 1 counter paragraph → weighted conclusion with criteria.", tag: "Exemplar" },
+      { title: "To what extent - structure", body: "Thesis with extent qualifier → 2 paragraphs 'to a great extent' → 1 counter paragraph → weighted conclusion with criteria.", tag: "Exemplar" },
     ],
   },
   Geography: {
@@ -51,8 +51,8 @@ const ARCHIVE_SAMPLES: Record<string, Record<string, SampleItem[]>> = {
       { title: "9-mark structure", body: "Define key term → describe process with data → explain impact → brief evaluation with a named example.", tag: "IGCSE" },
     ],
     "Case Studies": [
-      { title: "River flooding — UK example", body: "Somerset Levels 2014: prolonged rainfall, saturated catchment, managed vs natural floodplain debate, EA recovery schemes.", tag: "Case study" },
-      { title: "Urbanisation — Lagos", body: "Rapid growth, informal settlements, infrastructure strain, government responses including Eko Atlantic and transport investment.", tag: "Urban" },
+      { title: "River flooding - UK example", body: "Somerset Levels 2014: prolonged rainfall, saturated catchment, managed vs natural floodplain debate, EA recovery schemes.", tag: "Case study" },
+      { title: "Urbanisation - Lagos", body: "Rapid growth, informal settlements, infrastructure strain, government responses including Eko Atlantic and transport investment.", tag: "Urban" },
     ],
     "Maps & Diagrams": [
       { title: "Sketch map checklist", body: "Compass, scale bar, key, shading for relief, arrows for flow/process, labelled title with figure number.", tag: "Skills" },
@@ -84,7 +84,7 @@ export default function ArchivesSubjectPage({
   return (
     <>
       <Helmet>
-        <title>{title} — Archives</title>
+        <title>{title}  - Archives</title>
         <meta name="description" content={`${title} archive: curated notes, exemplars, and practice questions.`} />
       </Helmet>
 
@@ -169,7 +169,7 @@ export default function ArchivesSubjectPage({
         </div>
 
         <p className="text-xs text-muted-foreground mt-8">
-          Starter archive set — student-contributed expansion coming. Use{" "}
+          Starter archive set - student-contributed expansion coming. Use{" "}
           <Link to="/paper-maker" className="text-primary hover:underline">Paper Maker</Link> for custom practice.
         </p>
       </PageSection>

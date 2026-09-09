@@ -23,7 +23,7 @@ export function buildCramSession(
     items.push({
       type: 'flashcard',
       title: `${cramCards.length} high-yield flashcards`,
-      description: 'Hardest due cards first — skip what you already know',
+      description: 'Hardest due cards first - skip what you already know',
       to: '/notetaker?mode=study&cram=1',
       minutes: Math.min(cramCards.length * 2, 20),
     });
@@ -33,7 +33,7 @@ export function buildCramSession(
     items.push({
       type: 'weak-topic',
       title: w.topic.slice(0, 50),
-      description: `${w.subject} — ${Math.round(w.avgPercent)}% mastery`,
+      description: `${w.subject} - ${Math.round(w.avgPercent)}% mastery`,
       to: '/answer-reviewer',
       minutes: 15,
     });
@@ -54,7 +54,7 @@ export function buildCramSession(
     type: 'mock',
     title: 'Mini timed mock',
     description: examDaysLeft !== null && examDaysLeft >= 0 && examDaysLeft <= 3
-      ? 'Full conditions — review immediately after'
+      ? 'Full conditions - review immediately after'
       : '20-minute focused practice paper',
     to: '/paper-maker',
     minutes: examDaysLeft !== null && examDaysLeft >= 0 && examDaysLeft <= 3 ? 60 : 20,

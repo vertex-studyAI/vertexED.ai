@@ -11,7 +11,9 @@ function tokens(text) {
 async function loadGuideDocuments() {
   const root = join(process.cwd(), 'public');
   const manifest = JSON.parse(await readFile(join(root, 'study-guides/myp/manifest.json'), 'utf8'));
-  const pages = await Promise.all(manifest.subjects.flatMap((subject) => subject.pages.map(async (page) => ({
+  const ledger = JSON.parse(await readFile(join(root, 'study-guides/myp/provenance-ledger.json'), 'utf8'));
+  const approved = new Set(ledger.entries.filter(isApprovedGuide).map(entry => entry.path));
+  const pages = await Promise.all(manifest.subjects.flatMap((subject) => subject.pages.filter(page => approved.has(page.path)).map(async (page) => ({
     subject: subject.name,
     title: page.title,
     relativePath: page.relativePath,
@@ -84,4 +86,11 @@ export async function retrieveStudyGuideContext(question, { currentGuidePath } =
     path: document.relativePath,
     text: excerpt(document, question),
   }));
+}
+
+export function isApprovedGuide(entry) {
+  return entry?.editorialStatus === 'approved'
+    && Boolean(entry.source && entry.factualReviewer && entry.reviewedAt)
+    && entry.license !== 'unknown' && Boolean(entry.license)
+    && entry.permittedUse !== 'not-yet-determined' && Boolean(entry.permittedUse);
 }

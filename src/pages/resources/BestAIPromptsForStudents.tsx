@@ -8,7 +8,7 @@ export default function BestAIPromptsForStudents() {
     <>
       <SEO
         title="AI prompts that actually help with revision | VertexED"
-        description="Copy-paste prompts for Socratic tutoring, rubric feedback, quiz generation, and essay critique — structured so AI asks first instead of handing you finished answers."
+        description="Copy-paste prompts for Socratic tutoring, rubric feedback, quiz generation, and essay critique - structured so AI asks first instead of handing you finished answers."
         canonical="https://www.vertexed.app/resources/best-ai-prompts-for-students"
         keywords="AI prompts for students, ChatGPT study prompts, Socratic tutoring prompts, essay feedback prompts, exam revision, VertexED"
         jsonLd={[
@@ -42,7 +42,7 @@ export default function BestAIPromptsForStudents() {
                 name: "Can I save these prompts?",
                 acceptedAnswer: {
                   "@type": "Answer",
-                  text: "Yes — keep a small prompt library in your notes app, or use VertexED's built-in templates in Apex."
+                  text: "Yes - keep a small prompt library in your notes app, or use VertexED's built-in templates in Apex."
                 }
               },
               {
@@ -67,13 +67,13 @@ export default function BestAIPromptsForStudents() {
       />
       <Article
         title="AI prompts that actually help with revision"
-        subtitle="A copy-paste library for maths, sciences, essays, and languages — each prompt keeps you doing the thinking."
+        subtitle="A copy-paste library for maths, sciences, essays, and languages - each prompt keeps you doing the thinking."
         kicker="Guides"
       >
         <p className="lead">
           Most students ask AI like a search engine: &ldquo;What is mitochondria?&rdquo; That gets you a paragraph you
           will not remember. Better prompts treat AI like a tutor who asks first, grades against a rubric, or
-          generates practice — then you retry without help. Here are prompts that fit a real revision week.
+          generates practice - then you retry without help. Here are prompts that fit a real revision week.
         </p>
 
         <h2>General study prompts</h2>
@@ -133,7 +133,7 @@ export default function BestAIPromptsForStudents() {
         </ol>
 
         <h2>FAQ</h2>
-        <p><strong>Can I save these prompts?</strong> Yes — keep a small library in your notes app, or use VertexED&apos;s built-in templates in Apex.</p>
+        <p><strong>Can I save these prompts?</strong> Yes - keep a small library in your notes app, or use VertexED&apos;s built-in templates in Apex.</p>
         <p><strong>Why does AI sometimes ignore constraints?</strong> Models drop instructions on long threads. Reply with: &ldquo;You forgot the constraint: [constraint]. Try again.&rdquo;</p>
         <p><strong>Which model is best?</strong> For logic and maths, use a stronger model (GPT-4o or Claude 3.5, both available in VertexED). For vocabulary swaps or brainstorming, lighter models are usually fine.</p>
 
@@ -144,7 +144,7 @@ export default function BestAIPromptsForStudents() {
 
         <h2 className="mt-10">Evidence &amp; references</h2>
         <ul>
-          <li>Mollick, E. (2024): Co-Intelligence — working with AI as a study partner.</li>
+          <li>Mollick, E. (2024): Co-Intelligence - working with AI as a study partner.</li>
           <li>OpenAI (2023): Prompt Engineering Guide.</li>
         </ul>
 

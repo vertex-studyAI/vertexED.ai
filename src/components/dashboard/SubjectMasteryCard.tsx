@@ -81,7 +81,7 @@ export default function SubjectMasteryCard({ mastery, focusSubject, className }:
 
         {mastery.some((m) => m.attempts === 0) && (
           <p className="text-xs text-muted-foreground mt-4">
-            Subjects without reviews use a baseline — submit an answer review or mock to sharpen these scores.
+            Subjects without reviews use a baseline - submit an answer review or mock to sharpen these scores.
           </p>
         )}
       </div>

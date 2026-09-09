@@ -1,4 +1,5 @@
 import { verifyAuthUser, readJsonBody, rejectOversizedJsonBody } from '../_lib/auth.js';
+import { getQueryParam } from '../_lib/query.js';
 import { rateLimitUserEndpoint } from '../_lib/rateLimit.js';
 import { getSupabaseAdmin } from '../_lib/supabaseAdmin.js';
 import {
@@ -28,13 +29,17 @@ export default async function handler(req, res) {
 
   try {
     if (req.method === 'GET') {
-      const { data, error } = await listLearnerStateItems(supabase, user.id);
+      let page;
+      try { page = await listLearnerStateItems(supabase, user.id, getQueryParam(req, 'cursor')); }
+      catch (error) { if (error instanceof TypeError) return res.status(400).json({ error: error.message }); throw error; }
+      const { data, error, nextCursor } = page;
       if (error) {
         if (migrationUnavailable(error)) return res.status(503).json({ error: 'Learner-state migration is not applied.' });
         throw error;
       }
       return res.status(200).json({
         contractVersion: 'vertexed.learner-state.v1',
+        nextCursor,
         items: (data ?? []).map((item) => ({
           stateType: item.state_type,
           stateKey: item.state_key,

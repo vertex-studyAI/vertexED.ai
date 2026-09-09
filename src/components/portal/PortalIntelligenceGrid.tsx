@@ -63,7 +63,7 @@ export default function PortalIntelligenceGrid({ intel, profile, stats }: Props)
           </ul>
         ) : (
           <p className="text-xs text-muted-foreground mt-3">
-            No fading topics yet — keep retrieving on schedule and this stays empty.
+            No fading topics yet - keep retrieving on schedule and this stays empty.
           </p>
         )}
         <Link to="/notetaker?mode=study" className="portal-widget-cta mt-3">Review flashcards →</Link>
@@ -163,7 +163,7 @@ export default function PortalIntelligenceGrid({ intel, profile, stats }: Props)
             ))}
           </ul>
         ) : (
-          <p className="text-xs text-muted-foreground mt-3">No due cards — generate flashcards from your notes first.</p>
+          <p className="text-xs text-muted-foreground mt-3">No due cards - generate flashcards from your notes first.</p>
         )}
         <Link to="/notetaker?mode=study" className="portal-widget-cta mt-3">Open study deck →</Link>
       </PortalWidget>
@@ -189,7 +189,7 @@ export default function PortalIntelligenceGrid({ intel, profile, stats }: Props)
         <PortalWidget id="exam-night" span={2}>
           <WidgetHeader icon={<Moon className="h-4 w-4" />} title="Exam Night Protocol" subtitle="72 hours or less" />
           <p className="text-xs text-muted-foreground mt-2 mb-3">
-            Check items off as you go — your progress saves on this device.
+            Check items off as you go - your progress saves on this device.
           </p>
           <ul className="mt-2 space-y-2">
             {intel.examNight.items.map((item) => {
@@ -218,7 +218,7 @@ export default function PortalIntelligenceGrid({ intel, profile, stats }: Props)
       <PortalWidget id="data-export" span={1}>
         <WidgetHeader icon={<Download className="h-4 w-4" />} title="Data Portability" subtitle="Your learner JSON" />
         <p className="text-xs text-muted-foreground mt-3 leading-relaxed">
-          Export weakness, progress, confidence ratings, and loop data — yours to keep or share with a tutor.
+          Export weakness, progress, confidence ratings, and loop data - yours to keep or share with a tutor.
         </p>
         <button
           type="button"

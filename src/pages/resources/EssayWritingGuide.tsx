@@ -8,18 +8,18 @@ export default function EssayWritingGuide() {
     <>
       <SEO
         title="Essay writing with AI for IB, A-Level, and AP | VertexED"
-        description="Use AI to stress-test your thesis, check PEEL structure, and read rubric feedback — without outsourcing the argument you have to defend in the exam hall."
+        description="Use AI to stress-test your thesis, check PEEL structure, and read rubric feedback - without outsourcing the argument you have to defend in the exam hall."
         canonical="https://www.vertexed.app/resources/essay-writing-with-ai"
         keywords="essay writing AI, IB History essay, English Literature essay, Psychology essay, A-Level essay tips, thesis statement, essay structure, PEEL paragraph, essay feedback AI, VertexED, humanities study guide, academic writing"
       />
       <Article
         title="Essay writing with AI for History, English, and Psychology"
-        subtitle="AI works best as editor and examiner — you still build the argument, evidence, and links."
+        subtitle="AI works best as editor and examiner - you still build the argument, evidence, and links."
         kicker="Humanities"
       >
         <p className="lead">
           In History, English Literature, and Psychology, the essay carries most of the marks. The gap
-          between a B and an A* is rarely missing facts — it is weak argument. Many students list evidence;
+          between a B and an A* is rarely missing facts - it is weak argument. Many students list evidence;
           stronger scripts construct a line of reasoning examiners can follow. AI can help you test structure
           and rubric depth if you keep doing the writing.
         </p>
@@ -35,7 +35,7 @@ export default function EssayWritingGuide() {
           <strong>Prompt:</strong> &ldquo;I am writing an essay on [topic]. My initial stance is [your opinion]. Play devil&apos;s advocate and give me three strong counter-arguments.&rdquo;
         </div>
         <p>
-          <em>Why this works:</em> Seeing counter-arguments early lets you refine a nuanced thesis — e.g.,
+          <em>Why this works:</em> Seeing counter-arguments early lets you refine a nuanced thesis - e.g.,
           &ldquo;While X is true, Y is more significant because&hellip;&rdquo;
         </p>
 
@@ -76,7 +76,7 @@ export default function EssayWritingGuide() {
 
         <h2>Phase 4: Rubric feedback before you submit</h2>
         <p>
-          Once you have a draft, you need examiner-style critique — not praise.
+          Once you have a draft, you need examiner-style critique - not praise.
         </p>
         <p>
           Upload to <Link to="/answer-reviewer">Answer Reviewer</Link>:
@@ -91,7 +91,7 @@ export default function EssayWritingGuide() {
           <br />
           1. It is plagiarism.
           <br />
-          2. AI prose is often flat — examiners notice missing voice.
+          2. AI prose is often flat - examiners notice missing voice.
           <br />
           3. You will not learn to think under time pressure.
           <br />
@@ -101,7 +101,7 @@ export default function EssayWritingGuide() {
         <h2>FAQ</h2>
         <p><strong>Can AI check my citations?</strong> It can format them (e.g., &ldquo;Format this in MLA 9&rdquo;), but verify every source exists. AI can invent book titles.</p>
         <p><strong>Will Turnitin detect this?</strong> Copy-pasting AI output, yes. Using AI for feedback while you write yourself, no. VertexED is built for the second case.</p>
-        <p><strong>How do I improve vocabulary?</strong> Ask for academic synonyms in context — e.g., &ldquo;Give five alternatives to &lsquo;shows&apos; in analytical writing.&rdquo;</p>
+        <p><strong>How do I improve vocabulary?</strong> Ask for academic synonyms in context - e.g., &ldquo;Give five alternatives to &lsquo;shows&apos; in analytical writing.&rdquo;</p>
 
         <div className="not-prose mt-8 flex gap-3 flex-wrap">
           <Link to="/chatbot" className="neu-button">Stress-test thesis</Link>
@@ -111,7 +111,7 @@ export default function EssayWritingGuide() {
         <h2 className="mt-10">Evidence &amp; references</h2>
         <ul>
           <li>Purdue OWL: Academic Writing and Citation Guide.</li>
-          <li>Turnitin (2023): AI Writing Detection Capabilities — limits of detection tools.</li>
+          <li>Turnitin (2023): AI Writing Detection Capabilities - limits of detection tools.</li>
         </ul>
 
         <div className="article-footer">
@@ -129,7 +129,7 @@ export default function EssayWritingGuide() {
 
         <h2>Conclusion</h2>
         <p>
-          Essay writing is a skill you build under feedback loops — thesis, paragraph, rubric, rewrite.
+          Essay writing is a skill you build under feedback loops - thesis, paragraph, rubric, rewrite.
           VertexED gives you the tools to run those loops faster; you still supply the argument.
         </p>
       </Article>
