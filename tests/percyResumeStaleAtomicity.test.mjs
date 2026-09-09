@@ -107,3 +107,49 @@ test('resumeStale heals legacy exhausted READY rows instead of leaving them uncl
     f.close();
   }
 });
+
+test('claim terminalizes an expired final attempt before selecting new work', () => {
+  const f = fixture();
+  try {
+    f.store.submit({ id: 'expired-final', maxAttempts: 1 });
+    assert.equal(f.store.claim('w1', 60_000).id, 'expired-final');
+    assert.equal(f.store.start('expired-final', 'w1'), true);
+    f.store.db.prepare('UPDATE tasks SET lease_expires_at=? WHERE id=?').run(Date.now() - 1, 'expired-final');
+
+    assert.equal(f.store.claim('w2', 60_000), null);
+    const task = f.store.get('expired-final');
+    assert.equal(task.status, 'FAILED');
+    assert.equal(task.owner_id, null);
+    assert.equal(task.attempts, 1);
+
+    const failures = f.store.db.prepare('SELECT owner_id,attempt,error FROM failures WHERE task_id=?').all('expired-final');
+    assert.deepEqual(failures.map((row) => ({ ...row })), [
+      { owner_id: 'w1', attempt: 1, error: 'stale lease recovered' },
+    ]);
+  } finally {
+    f.close();
+  }
+});
+
+test('claim recovers a signal-stale task and immediately assigns its permitted retry', () => {
+  const f = fixture();
+  try {
+    f.store.submit({ id: 'signal-claim', maxAttempts: 2 });
+    assert.equal(f.store.claim('w1', 60_000).id, 'signal-claim');
+    assert.equal(f.store.start('signal-claim', 'w1'), true);
+    assert.equal(f.store.markStale('signal-claim', 'w1', 'worker received SIGINT'), true);
+
+    const retry = f.store.claim('w2', 60_000);
+    assert.equal(retry.id, 'signal-claim');
+    assert.equal(retry.status, 'CLAIMED');
+    assert.equal(retry.owner_id, 'w2');
+    assert.equal(retry.attempts, 2);
+
+    const failures = f.store.db.prepare('SELECT attempt,error FROM failures WHERE task_id=?').all('signal-claim');
+    assert.deepEqual(failures.map((row) => ({ ...row })), [
+      { attempt: 1, error: 'worker received SIGINT' },
+    ]);
+  } finally {
+    f.close();
+  }
+});
