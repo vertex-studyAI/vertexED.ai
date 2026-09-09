@@ -55,9 +55,14 @@ test('expired owner cannot append failure history or mutate task state', () => {
     const recovered = f.store.claim('worker-b', 10_000);
     assert.equal(recovered.id, 'task');
     assert.equal(recovered.owner_id, 'worker-b');
+    assert.deepEqual(failureRows(f.store, 'task'), [
+      { owner_id: 'worker-a', attempt: 1, error: 'stale lease recovered' },
+    ]);
+
     assert.equal(f.store.start('task', 'worker-b'), true);
     assert.equal(f.store.fail('task', 'worker-b', new Error('real failure'), 0), true);
     assert.deepEqual(failureRows(f.store, 'task'), [
+      { owner_id: 'worker-a', attempt: 1, error: 'stale lease recovered' },
       { owner_id: 'worker-b', attempt: 2, error: 'real failure' },
     ]);
   } finally { cleanup(f); }
