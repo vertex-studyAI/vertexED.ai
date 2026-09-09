@@ -85,6 +85,34 @@ node tools/percy-runtime/cli.mjs backup --output .percy/backups/percy-$(date +%Y
 
 The backup command refuses the live database path and refuses an existing output by default. Use `--overwrite` only when replacement is intentional. A backup is reported as `BACKUP_VERIFIED` only after the live database passes `PRAGMA integrity_check`, SQLite's online backup completes, the copy independently passes `PRAGMA integrity_check`, and the required Percy tables (`meta`, `tasks`, `evidence`, `failures`) are present. Snapshot row counts are returned as evidence but are intentionally not compared with a pre-backup count because legitimate concurrent writes can occur during an online backup. A failed verification removes the invalid copy.
 
+### Restore operator sequence
+
+Restore is deliberately stricter than backup. The operator-facing `prime restore` path will not install over an existing destination unless that destination is durably paused, has zero `CLAIMED`/`RUNNING` tasks, and can acquire an immediate SQLite write boundary. A separate restore lock also prevents two restores from racing. The verified replacement is installed with `paused=1`, so a successful restore never implicitly resumes claims.
+
+Use this sequence:
+
+```bash
+# 1. Stop admitting new claims.
+node tools/percy-runtime/cli.mjs pause --db .percy/percy.sqlite
+
+# 2. Let already-owned work drain normally; do not kill workers or delete leases.
+node tools/percy-runtime/cli.mjs status --db .percy/percy.sqlite
+
+# 3. When CLAIMED/RUNNING counts are zero, install the verified backup.
+node tools/percy-runtime/prime.mjs restore \
+  --db .percy/percy.sqlite \
+  --from .percy/backups/percy-YYYYMMDD-HHMMSS.sqlite
+
+# 4. Inspect the restored database before allowing new claims.
+node tools/percy-runtime/cli.mjs integrity --db .percy/percy.sqlite
+node tools/percy-runtime/cli.mjs status --db .percy/percy.sqlite
+
+# 5. Resume only after the restored state is accepted.
+node tools/percy-runtime/cli.mjs resume --db .percy/percy.sqlite
+```
+
+Restore fails closed if the destination is not paused, still has owned work, is busy with another SQLite writer, or another restore holds the destination lock. It does not kill processes, cancel work, clear task leases, or alter retry/failure provenance to manufacture quiescence. Candidate integrity/schema/count verification and rollback-safe replacement remain mandatory before installation.
+
 Pause/resume new claims:
 
 ```bash
@@ -124,6 +152,7 @@ Real provider adapters must use stronger evidence kinds—tests, benchmark outpu
 node --test tests/percyRuntime.test.mjs
 node --test tests/percyRuntimeAdvanced.test.mjs
 node --test tests/percyRuntimeCliLogging.test.mjs
+node --test tests/percyRestore.test.mjs
 ```
 
 The current regression matrix covers:
@@ -135,6 +164,8 @@ The current regression matrix covers:
 - payload-byte rejection before insertion;
 - verified online backup plus restore of task, evidence, and failure history;
 - refusal to overwrite an existing backup or back up onto the live DB path accidentally;
+- verified restore refusal when the destination is unpaused, has owned work, or has a competing SQLite writer;
+- restore candidate integrity/schema/count verification and rollback-safe replacement;
 - duplicate-claim prevention;
 - expired-lease recovery;
 - stale-owner transition rejection;
