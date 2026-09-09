@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 import { PercyStore, executeBoundedTask } from './core.mjs';
 import {
-  backupDatabase, ClassLimiter, JsonlLogger, parseClassLimits,
+  ClassLimiter, JsonlLogger, parseClassLimits,
   runWorkerLoop, safeSubmit,
 } from './advanced.mjs';
+import { createVerifiedBackup } from './backup.mjs';
 import { restoreVerifiedDatabase } from './restore.mjs';
 
 const args = process.argv.slice(2);
@@ -15,6 +16,12 @@ const take = (name, fallback) => {
   const value = args[i + 1];
   args.splice(i, 2);
   return value;
+};
+const flag = (name) => {
+  const i = args.indexOf(name);
+  if (i < 0) return false;
+  args.splice(i, 1);
+  return true;
 };
 const assertNoUnexpectedArgs = () => {
   if (args.length === 0) return;
@@ -80,9 +87,10 @@ try {
     console.log(JSON.stringify(safeSubmit(store, { kind, payload, maxAttempts }, { maxReady, maxPayloadBytes }), null, 2));
   } else if (cmd === 'backup') {
     const to = take('--to', `${dbPath}.backup`);
+    const overwrite = flag('--overwrite');
     assertNoUnexpectedArgs();
-    const result = await backupDatabase(store.db, to);
-    console.log(JSON.stringify({ backedUp: true, ...result }, null, 2));
+    const result = await createVerifiedBackup(store.db, store.path, to, { overwrite });
+    console.log(JSON.stringify({ status: 'BACKUP_VERIFIED', ...result }, null, 2));
   } else if (cmd === 'work') {
     const workers = Number(take('--workers', String(maxActive)));
     const leaseMs = parseTimerMs('--lease-ms', take('--lease-ms', '30000'), 100);
