@@ -127,6 +127,53 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Prepare isolated local migration replay
+        shell: bash
+        run: |
+          set -euo pipefail
+          workdir="${RUNNER_TEMP}/vertexed-supabase-ci"
+          mkdir -p "$workdir"
+          cp -R supabase "$workdir/supabase"
+          migration_dir="$workdir/supabase/migrations"
+
+          while IFS= read -r day; do
+            mapfile -t files < <(find "$migration_dir" -maxdepth 1 -type f -name "${day}_*.sql" -printf '%f\n' | sort)
+            for index in "${!files[@]}"; do
+              source_name="${files[$index]}"
+              suffix="$(printf '%06d' "$index")"
+              target_name="${day}${suffix}_${source_name#*_}"
+              if [[ -e "$migration_dir/$target_name" ]]; then
+                echo "Migration normalization collision: $target_name" >&2
+                exit 1
+              fi
+              mv "$migration_dir/$source_name" "$migration_dir/$target_name"
+            done
+          done < <(
+            find "$migration_dir" -maxdepth 1 -type f -printf '%f\n' \
+              | sed -nE 's/^([0-9]{8})_.*/\1/p' \
+              | sort -u
+          )
+
+          if find "$migration_dir" -maxdepth 1 -type f -printf '%f\n' | grep -Eq '^[0-9]{8}_'; then
+            echo 'Unnormalized legacy migration filename remains' >&2
+            exit 1
+          fi
+
+          duplicate_versions="$(
+            find "$migration_dir" -maxdepth 1 -type f -printf '%f\n' \
+              | sed -nE 's/^([0-9]{14})_.*/\1/p' \
+              | sort \
+              | uniq -d
+          )"
+          if [[ -n "$duplicate_versions" ]]; then
+            echo "Duplicate migration versions remain:" >&2
+            printf '%s\n' "$duplicate_versions" >&2
+            exit 1
+          fi
+
+          git diff --exit-code -- supabase/migrations
+          echo "SUPABASE_WORKDIR=$workdir" >> "$GITHUB_ENV"
+
       - name: Start local Supabase
         run: npx supabase start -x gotrue,realtime,storage-api,imgproxy,kong,mailpit,postgrest,postgres-meta,studio,edge-runtime,logflare,vector,supavisor
 
