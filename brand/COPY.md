@@ -1,5 +1,9 @@
 # VertexED copy contract
 
+Chapter introduction: “Keep the question. Follow the gap.” Explain immediately that the biology answer is an example shown in three stages. The starting-point heading is “Your notes. Your next question.” Do not import institutional or research claims from a design reference.
+
+Current hero subtext: “Put your notes to the test. Practise a question, check your reasoning and come back to what you missed.” This supersedes earlier subtext. The folio says “Example” and “Illustration only. Nothing is saved.” Its text is illustrative, not feedback computed from a visitor's answer.
+
 Planner entry labels are “Manual entry” and “AI suggestion”. Manual tasks do not use AI; saving and cloud sync are still separate states. State scheduling conflicts directly and name the conflicting task. AI-added task notices expose actual dates and times. An unreadable session history must say that original device data is preserved, not “No history yet”. Completion is a learner action, not a measured improvement in knowledge.
 
 Write for a student choosing a topic, attempting a paper or reviewing an answer. Name the action and object. Preserve the established tool names. Use British English for practise and personalised. Labels may use the existing Practice route convention where compatibility requires it.

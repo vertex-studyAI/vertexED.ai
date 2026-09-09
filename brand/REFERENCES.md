@@ -1,5 +1,11 @@
 # Reference ledger
 
+## BU1LD structural reference, 9 September 2026
+
+[The BU1LD](https://thebu1ld.com/) was readable through the public text response. Browser security prevented rendered inspection; no screenshot, visual palette or animation timing is claimed. The useful properties visible in the document were numbered editorial chapters, a clear primary action, and an illustrative staged journey. VertexED adapts those properties into a chapter introduction to its own answer/review/retry example and stronger section rules. No BU1LD logo, copy, graphics, research themes or institutional claims were reused.
+
+9 September folio pass: rechecked Fluid Cursor, Liquid Glass and Shimmer Button documentation; Floating Card remained unavailable. Kept the local bounded dye field and finite button treatment. Liquid Glass requires cross-browser fallbacks, so the folio keeps an opaque reading sheet instead of distorting text. Shallow paper depth frames the product's Attempt/Review/Retry sequence. The previous 39-reference decision table remains applicable; not all 39 effects are installed.
+
 9 September naming follow-up: the user named the character Apex and requested more animations. Reused the original workbook raster, local CSS transforms and native buttons. The three explicit actions use anticipation, a soft landing and a bounded overshoot, without new assets, libraries or external visual references. The previous working name Vee remains only in the historical generation prompt and compatibility filenames/selectors.
 
 9 September Vee extension: the user mentioned Codex's sprite as an interaction reference. The transferred property is a small optional character that belongs to its workspace, not Codex's character design, artwork or behaviour. No Codex sprite asset was inspected or copied. Vee's silhouette is derived from VertexED's workbook and blue revision annotations. The artwork was generated once with built-in image generation; see `brand/SPRITE.md` for the exact prompt. Reused the local AccessibleModal, router links and Apex tutor, with no component or animation dependency. Earlier statements rejecting generated landing decoration still apply to generic backgrounds, not this explicitly requested companion.

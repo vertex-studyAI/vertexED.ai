@@ -182,7 +182,7 @@ GitHub Actions runs on push/PR to `main`:
 | Command | Purpose |
 |---------|---------|
 | `npm run test:app` | VertexED unit, domain, and handler contracts |
-| `npm test` | App tests plus preserved cross-project quarantine checks; quarantine is outside app certification |
+| `npm test` | VertexED application tests; unrelated project tests are rejected by the scope guard |
 | `npm run build:ci` | Production build without SEO ping side effects |
 | `npm run lint:ci` | Lint the complete application, API, scripts, evals, and tests |
 | `npm run db:test` | Rebuild and verify the local Supabase schema (requires `npx supabase start`) |

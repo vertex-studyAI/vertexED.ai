@@ -28,7 +28,7 @@ export default function StudyEntry() {
   return <section className="landing-section study-entry" aria-labelledby="entry-title" data-reveal>
     <div className="section-intro entry-intro">
       <p className="section-kicker">01 / Start with your work</p>
-      <h2 id="entry-title">Come as you are.<br/><span className="ink-highlight">Leave with a task.</span></h2>
+      <h2 id="entry-title">Your notes.<br/><span className="ink-highlight">Your next question.</span></h2>
       <p>A page of notes, a topic to practise, an answer to check. There is a place to start with each.</p>
     </div>
     <Tabs defaultValue="notes" className="entry-workspace">

@@ -1,5 +1,11 @@
 # VertexED: the revision trace
 
+The BU1LD-inspired structural pass adds a numbered editorial introduction before the revision desk. Oversized study-specific type pairs with a short explanatory column, then the real interactive example. Thin blue chapter rules connect the sections. This extends the folio direction without replacing the logo, palette or study objects. Mobile uses a single reading column.
+
+## Folio opening, 9 September 2026
+
+This supersedes the centred opening below. Pair the headline with an interactive example folio. The three stages describe an attempt, a review and a retry, never saved progress. A cobalt paper edge and thin elliptical paths frame the document without a decorative grid. Keep the full revision desk below. Mobile stacks headline and folio, removes perspective and retains all controls. Both themes use opaque reading surfaces and existing primary tokens.
+
 ## Planner task entry, 9 September 2026
 
 Planner creation opens in manual mode. Date, start time and duration are first-class controls; AI suggestion is an optional entry method, not a prerequisite for scheduling. Reuse AccessibleModal and native inputs. The task form has an opaque reading surface, a cobalt primary action, 16px input text and 14px labels. Date and time pickers follow the active colour scheme. Mobile stacks the fields without hiding them. Existing notebook and planner recovery states continue to preserve damaged records instead of presenting them as an empty collection.

@@ -8,6 +8,7 @@ import AnswerCompare from '@/components/landing/AnswerCompare';
 import ToolGallery from '@/components/landing/ToolGallery';
 import StudyEntry from '@/components/landing/StudyEntry';
 import LandingDock from '@/components/landing/LandingDock';
+import StudyFolio from '@/components/landing/StudyFolio';
 import { useLandingMotion } from '@/hooks/useLandingMotion';
 import { ArrowUpRight, ArrowDown, ArrowRight, BookOpen, ScanLine, SlidersHorizontal, Check } from 'lucide-react';
 import '@/styles/landing.css';
@@ -41,15 +42,23 @@ export default function Home() {
       <LandingInk enabled={effects} />
       <div className="landing-edition"><span><i aria-hidden/> THE REVISION WORKSPACE</span><button type="button" aria-pressed={effects} onClick={toggleEffects}><SlidersHorizontal size={15} aria-hidden/> Effects {effects ? 'on' : 'off'}</button></div>
       <section className="landing-hero" aria-labelledby="home-title">
+        <div className="hero-opening">
         <div className="hero-copy">
           <p className="hero-eyebrow"><span>Private beta</span> Plan. Practise. Review.</p>
           <h1 id="home-title"><span className="heading-line">You’ve read it.</span><span className="heading-line hero-blue">Now try it.<svg viewBox="0 0 500 24" preserveAspectRatio="none" aria-hidden><path d="M4 16 Q190 0 496 11 M58 22 Q252 10 456 17" /></svg></span></h1>
-          <p className="hero-subtext">Turn your notes into an attempt.<br/>Work through the gaps, then try again without help.</p>
+          <p className="hero-subtext">Put your notes to the test. Practise a question, check your reasoning and come back to what you missed.</p>
           <div className="landing-actions"><Link to="/signup" className="landing-primary"><span>Join the private beta</span><ArrowUpRight size={19} aria-hidden/></Link><a href="#revision-example" className="landing-secondary">Try the revision loop <ArrowDown size={17} aria-hidden/></a></div>
         </div>
+        <StudyFolio />
+        </div>
         <div className="hero-desk" id="revision-example">
+          <div className="revision-chapter" data-reveal>
+            <p className="section-kicker"><span>00</span> / The work between attempts</p>
+            <h2>Keep the question.<br/><em>Follow the gap.</em></h2>
+            <div><p>One biology question, shown three ways. Start with the answer, inspect the explanation, then choose what to try again.</p><a href="#revision-sheet" className="landing-secondary">Explore the example <ArrowDown size={17} aria-hidden/></a></div>
+          </div>
           <div className="desk-overline"><span>ONE TOPIC. ATTEMPT, REVIEW, RETRY.</span><span>Try the tabs <ArrowDown size={13} aria-hidden/></span></div>
-          <div className="desk-depth" data-float><RevisionTrace /></div>
+          <div className="desk-depth" id="revision-sheet" data-float><RevisionTrace /></div>
           <div className="desk-under"><span aria-hidden>↳</span> The next attempt starts with what this one missed.</div>
         </div>
       </section>

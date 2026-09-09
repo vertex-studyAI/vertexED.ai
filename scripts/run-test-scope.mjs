@@ -52,6 +52,9 @@ function run(scope) {
   }
 
   const files = groups[scope].map((file) => resolve('tests', file));
+  if (scope === 'app' && groups.quarantine.length) {
+    throw new Error(`Unrelated project tests are present: ${groups.quarantine.join(', ')}`);
+  }
   if (files.length === 0) throw new Error(`No ${scope} tests were classified.`);
   const label = scope === 'app' ? 'canonical VertexED' : 'quarantined cross-project';
   process.stdout.write(`[tests] Running ${files.length} ${label} test files.\n`);

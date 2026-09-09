@@ -1,5 +1,33 @@
 import { expect, test } from '@playwright/test';
 
+test('editorial chapter links to the working revision desk at each viewport', async ({ page }) => {
+  for (const width of [1440, 1024, 390]) {
+    await page.setViewportSize({ width, height: 1000 });
+    await page.goto('/');
+    const chapter = page.locator('.revision-chapter');
+    await chapter.scrollIntoViewIfNeeded();
+    await expect(chapter.getByRole('heading')).toHaveText('Keep the question.Follow the gap.');
+    await page.screenshot({ path: `test-results/chapter-${width}.png` });
+    await chapter.getByRole('link', { name: 'Explore the example' }).focus();
+    await page.keyboard.press('Enter');
+    await expect(page).toHaveURL(/#revision-sheet$/);
+    await expect(page.locator('#revision-sheet')).toBeInViewport();
+  }
+});
+
+test('folio stages are keyboard operable and explicitly illustrative', async ({ page }) => {
+  await page.goto('/');
+  const stages = page.getByRole('group', { name: 'Explore the example stages' });
+  await stages.getByRole('button', { name: 'Review' }).focus();
+  await page.keyboard.press('Enter');
+  await expect(page.getByRole('heading', { name: 'Find the missing connection.' })).toBeVisible();
+  await expect(stages.getByRole('button', { name: 'Review' })).toHaveAttribute('aria-pressed', 'true');
+  await page.keyboard.press('Tab');
+  await page.keyboard.press('Space');
+  await expect(page.getByRole('heading', { name: 'Explain it without your notes.' })).toBeVisible();
+  await expect(page.getByText('Illustration only. Nothing is saved.')).toBeVisible();
+});
+
 for (const width of [1440, 1024, 390]) for (const theme of ['light', 'dark']) {
   test(`immersive landing ${width}px ${theme}`, async ({ page }) => {
     // Six large image captures need an I/O budget separate from action timeouts.

@@ -1,5 +1,7 @@
 # Motion: trace the next attempt
 
+Folio opening: desktop fine-pointer tilt reuses the bounded surface handler. Passive scroll moves it at most 45px over the hero's full scroll range, settling over 450ms. Focus flattens it. Explicit stage selection gets one 350ms entrance. Reduced motion and Effects off remove both. Mobile uses no perspective. No wheel interception or idle animation is added.
+
 Planner refinement, 9 September 2026: never scroll the schedule after idle time or on a periodic clock update. “Jump to current time” is an explicit action. It uses immediate scrolling under reduced motion. Task entry and editing reuse the existing modal focus trap; native date/time controls remain available in both themes. Pressing Delete on a task does not mark it complete.
 
 ## Current implementation: fluid desk

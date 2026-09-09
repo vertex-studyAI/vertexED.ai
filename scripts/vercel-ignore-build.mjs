@@ -5,6 +5,7 @@ import { pathToFileURL } from 'node:url';
 
 const RUNTIME_PREFIXES = [
   'api/',
+  'contracts/',
   'public/',
   'src/',
   'supabase/',
@@ -19,7 +20,7 @@ const RUNTIME_FILES = new Set([
   'scripts/build.mjs',
   'scripts/generate-build-revision.mjs',
   'scripts/generate-study-guide-sitemap.mjs',
-  'scripts/publish-neurocad-alpha.mjs',
+  'scripts/generate-study-guide-provenance.mjs',
   'scripts/validate-vercel-functions.mjs',
   'scripts/vercel-ignore-build.mjs',
   'vercel.json',

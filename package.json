@@ -15,9 +15,8 @@
     "test:copy": "node --test tests/copy-lint.test.mjs",
     "lint:ci": "eslint . && npm run lint:copy && npm run test:copy",
     "typecheck": "tsc --noEmit -p tsconfig.app.json",
-    "test": "npm run test:app && npm run test:quarantine",
+    "test": "npm run test:app",
     "test:app": "node scripts/run-test-scope.mjs app",
-    "test:quarantine": "node scripts/run-test-scope.mjs quarantine",
     "test:scope": "node scripts/run-test-scope.mjs list",
     "test:eval": "node --test evals/tests/*.test.mjs",
     "eval:ask": "node evals/scripts/run-ask-eval.mjs",
@@ -73,7 +72,6 @@
     "remark-math": "6.0.0",
     "tailwind-merge": "^2.6.0",
     "tailwindcss-animate": "^1.0.7",
-    "three": "^0.185.1",
     "zod": "^3.25.76"
   },
   "devDependencies": {
