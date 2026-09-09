@@ -3,11 +3,12 @@
  */
 
 import { normalizeEmail } from './security.js';
+import { hashInviteToken } from './inviteToken.js';
 
 export async function getWaitlistEntry(supabase, email) {
   const { data, error } = await supabase
     .from('waitlist')
-    .select('id, status, invite_token')
+    .select('id, status, invite_token, invite_token_hash, invite_expires_at')
     .eq('email', email)
     .maybeSingle();
 
@@ -17,14 +18,29 @@ export async function getWaitlistEntry(supabase, email) {
 
 export async function getWaitlistEntryByToken(supabase, token) {
   if (!token || typeof token !== 'string') return null;
-  const { data, error } = await supabase
+  const normalized = token.trim();
+  const tokenHash = hashInviteToken(normalized);
+  if (!tokenHash) return null;
+
+  const { data: hashed, error: hashedError } = await supabase
     .from('waitlist')
-    .select('id, email, status, invite_token')
-    .eq('invite_token', token.trim())
+    .select('id, email, status')
+    .eq('invite_token_hash', tokenHash)
+    .gt('invite_expires_at', new Date().toISOString())
     .maybeSingle();
 
-  if (error) throw error;
-  return data;
+  if (hashedError) throw hashedError;
+  if (hashed) return { ...hashed, tokenStorage: 'hash', inviteTokenHash: tokenHash };
+
+  // Compatibility path for links issued before digest storage was deployed.
+  const { data: legacy, error: legacyError } = await supabase
+    .from('waitlist')
+    .select('id, email, status, invite_token')
+    .eq('invite_token', normalized)
+    .maybeSingle();
+
+  if (legacyError) throw legacyError;
+  return legacy ? { ...legacy, tokenStorage: 'legacy' } : null;
 }
 
 /**
@@ -82,7 +98,13 @@ export async function assertWaitlistSignupAllowed(supabase, email, options = {})
   const { inviteToken } = options;
   const entry = await getWaitlistEntry(supabase, email);
 
-  if (inviteToken && entry?.invite_token && entry.invite_token === inviteToken.trim()) {
+  const suppliedHash = hashInviteToken(inviteToken?.trim());
+  const activeHash = entry?.invite_token_hash
+    && entry.invite_expires_at
+    && Date.parse(entry.invite_expires_at) > Date.now()
+    && suppliedHash === entry.invite_token_hash;
+  const activeLegacyToken = entry?.invite_token && entry.invite_token === inviteToken?.trim();
+  if (inviteToken && (activeHash || activeLegacyToken)) {
     if (entry.status === 'approved') {
       return { allowed: true, entry };
     }

@@ -10,6 +10,7 @@ export type AccessibilitySettings = {
   simpleMode: boolean;
   studyCompanion: boolean;
   apexAppearance: 'paper' | 'ink';
+  apexPosition: { x: number; y: number } | null;
 };
 
 const STORAGE_KEY = 'vertex_a11y_settings';
@@ -23,6 +24,7 @@ const DEFAULTS: AccessibilitySettings = {
   simpleMode: false,
   studyCompanion: true,
   apexAppearance: 'paper',
+  apexPosition: null,
 };
 
 function readSettings(): AccessibilitySettings {

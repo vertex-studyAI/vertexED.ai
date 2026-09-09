@@ -7,7 +7,7 @@ test('Apex is readable in both themes and three viewports, with keyboard and red
   await page.goto('/');
   const launcher = page.getByRole('button', { name: 'Open Apex study shortcuts', exact: true });
   await expect(launcher.locator('img')).toBeVisible();
-  expect(await launcher.locator('img').evaluate((img: HTMLImageElement) => img.complete && img.naturalWidth > 0)).toBe(true);
+  await expect.poll(() => launcher.locator('img').evaluate((img: HTMLImageElement) => img.complete && img.naturalWidth > 0)).toBe(true);
   for (const width of [1440, 1024, 390]) {
     await page.setViewportSize({ width, height: 900 });
     for (const theme of ['light', 'dark']) {
@@ -109,10 +109,14 @@ test('Apex hop, wiggle and spin play once, replay on demand and stop under reduc
     await page.keyboard.press('Enter');
     const sprite = dialog.locator('img');
     await expect(sprite).toHaveAttribute('data-reaction', name);
+    await expect.poll(() => sprite.evaluate(img => getComputedStyle(img).animationName)).toBe(`apex-${name}`);
     const animation = await sprite.evaluate(img => {
-      const animation = img.getAnimations()[0];
-      const timing = animation?.effect?.getTiming();
-      return { name: getComputedStyle(img).animationName, iterations: timing?.iterations, duration: timing?.duration };
+      const style = getComputedStyle(img);
+      return {
+        name: style.animationName,
+        iterations: Number(style.animationIterationCount),
+        duration: Number.parseFloat(style.animationDuration) * 1000,
+      };
     });
     expect(animation.name).toBe(`apex-${name}`);
     expect(animation.iterations).toBe(1);
@@ -146,4 +150,66 @@ test('Apex persists the selected paper or ink appearance', async ({ page }) => {
   await page.keyboard.press('Escape');
   await page.reload();
   await expect(page.getByRole('button', { name: 'Open Apex study shortcuts' }).locator('img')).toHaveAttribute('src', '/companions/apex-ink-v3.png');
+});
+
+test('Apex blink and page-turn frames return to the selected resting artwork', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await page.goto('/');
+  await page.getByRole('button', { name: 'Open Apex study shortcuts' }).click();
+  const dialog = page.getByRole('dialog', { name: 'Meet Apex.' });
+  const sprite = dialog.locator('.vee-reaction-sprite');
+
+  await dialog.getByRole('button', { name: 'Apex: blink' }).click();
+  await expect(sprite).toHaveAttribute('src', '/companions/apex-paper-blink-v4.png');
+  await expect.poll(() => sprite.getAttribute('src')).toBe('/companions/apex-paper-v3.png');
+
+  await dialog.getByRole('radio', { name: 'Ink' }).check();
+  await dialog.getByRole('button', { name: 'Apex: page-turn' }).click();
+  await expect(sprite).toHaveAttribute('src', '/companions/apex-ink-page-turn-v4.png');
+  await expect.poll(() => sprite.getAttribute('src')).toBe('/companions/apex-ink-v3.png');
+});
+
+test('Apex can be dragged, nudged by keyboard, reset and restored inside the viewport', async ({ page }) => {
+  await page.setViewportSize({ width: 1024, height: 768 });
+  await page.goto('/');
+  const launcher = page.getByRole('button', { name: 'Open Apex study shortcuts' });
+  const start = await launcher.boundingBox();
+  expect(start).not.toBeNull();
+
+  await page.mouse.move(start!.x + start!.width / 2, start!.y + start!.height / 2);
+  await page.mouse.down();
+  await page.mouse.move(180, 220, { steps: 8 });
+  await page.mouse.up();
+  await expect(page.getByRole('dialog')).toHaveCount(0);
+
+  const dragged = await launcher.boundingBox();
+  expect(dragged!.x).toBeGreaterThanOrEqual(8);
+  expect(dragged!.y).toBeGreaterThanOrEqual(8);
+  expect(dragged!.x + dragged!.width).toBeLessThanOrEqual(1016);
+  expect(dragged!.y + dragged!.height).toBeLessThanOrEqual(760);
+  expect(Math.abs(dragged!.x - start!.x)).toBeGreaterThan(100);
+  expect(await page.evaluate(() => JSON.parse(localStorage.getItem('vertex_a11y_settings') || '{}').apexPosition)).toEqual({
+    x: expect.any(Number),
+    y: expect.any(Number),
+  });
+
+  await launcher.focus();
+  await page.waitForTimeout(500);
+  const beforeKey = Number.parseFloat(await launcher.evaluate(element => element.style.left));
+  await page.keyboard.press('ArrowRight');
+  await expect.poll(() => launcher.evaluate(element => Number.parseFloat(element.style.left))).toBeGreaterThanOrEqual(beforeKey + 15);
+  const afterKey = await launcher.boundingBox();
+  await page.reload();
+  const restored = await launcher.boundingBox();
+  // Relative storage tolerates small label/font measurement changes across reload.
+  expect(Math.abs(restored!.x - afterKey!.x)).toBeLessThanOrEqual(16);
+  expect(Math.abs(restored!.y - afterKey!.y)).toBeLessThanOrEqual(16);
+
+  await launcher.click();
+  const dialog = page.getByRole('dialog', { name: 'Meet Apex.' });
+  await dialog.getByRole('button', { name: 'Reset position' }).click();
+  await page.keyboard.press('Escape');
+  const reset = await launcher.boundingBox();
+  expect(reset!.x).toBeGreaterThan(880);
+  expect(reset!.y).toBeGreaterThan(620);
 });

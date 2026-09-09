@@ -36,3 +36,9 @@ Landing refinement: the wide revision desk changes the selected tab underline an
 Apex, formerly Vee, is still by default. Hover or keyboard focus triggers one 460ms greeting, a lift of at most 7px with rotations bounded to 6 degrees. Opening his panel plays the same greeting once. Explicit Hop, Wiggle and Spin buttons add a 700ms hop with a 20px rise and soft landing, a 650ms alternating tilt bounded to 12 degrees, and an 800ms full spin with a small overshoot. Repeated presses replay the chosen action. These are transforms of the original raster, not generated pose frames. No perpetual idle animation, pointer following, wandering across answers, audio or timer.
 
 Respect both operating-system reduced motion and the saved reduced-motion setting. Reduced motion stops active reactions, keeps the image still and disables the three play controls with a visible explanation. Simple Mode removes the character. The shortcut sheet remains static and keyboard-operable; Escape closes it and restores focus. Hiding Apex restores focus to his footer visibility control, because the floating launcher no longer exists.
+
+## Apex direct manipulation, 9 September 2026
+
+Apex follows pointer movement directly and does not add inertia, spring overshoot or a trailing effect. Clamp the complete launcher to an eight-pixel viewport gap. Store the final relative position only when a drag ends; do not write device storage on every pointer move. A five-pixel threshold separates a drag from opening the shortcut sheet. Arrow keys move by 16 pixels and Shift plus an arrow moves by 48 pixels. Resizing recalculates the saved relative point and keeps the launcher visible.
+
+Blink lasts 420ms. Turn page lasts 820ms. Both swap to an appearance-matched raster frame, run once and return to the resting frame. Reduced motion disables all reaction controls and frame swaps, but never disables direct dragging or keyboard positioning.

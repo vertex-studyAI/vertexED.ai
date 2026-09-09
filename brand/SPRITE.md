@@ -15,7 +15,82 @@ The user subsequently named him Apex. Vee was the working name in the original g
 - Existing tutor integration: `SiteLayout.tsx` and `GlobalChatPanel.tsx`.
 - Browser coverage: `e2e/vee-companion.spec.ts` and the Vee handoff case in `e2e/auth-return.spec.ts`.
 
-The active masters are 32-bit-style pixel illustrations, not literal 32px source sprites or multi-frame sheets. They use intentional square clusters and a restricted cobalt, sky-blue, navy and white palette. Paper and Ink preserve the same silhouette so an appearance change is not a character change. The greeting animates each image with a finite CSS transform, not an AI-generated multi-pose animation.
+The active masters are 32-bit-style pixel illustrations, not literal 32px source sprites or multi-frame sheets. They use intentional square clusters and a restricted cobalt, sky-blue, navy and white palette. Paper and Ink preserve the same silhouette so an appearance change is not a character change. The greeting animates each image with a finite CSS transform. Blink and Turn page use generated pose frames and return to the resting asset.
+
+## Animation frames, 9 September 2026
+
+- `public/companions/apex-paper-blink-v4.png`, master `/Users/ryan/.codex/generated_images/01a075cb-d93d-7731-a7a1-cddfefafd58f/exec-3c35ca08-fdd0-431d-92bd-6ac55fa72974.png`
+- `public/companions/apex-ink-blink-v4.png`, master `/Users/ryan/.codex/generated_images/01a075cb-d93d-7731-a7a1-cddfefafd58f/exec-b68f7964-5a49-45b4-b354-95e10cd0c386.png`
+- `public/companions/apex-paper-page-turn-v4.png`, master `/Users/ryan/.codex/generated_images/01a075cb-d93d-7731-a7a1-cddfefafd58f/exec-bb42d933-e654-4517-9b2b-0044c6083dec.png`
+- `public/companions/apex-ink-page-turn-v4.png`, master `/Users/ryan/.codex/generated_images/01a075cb-d93d-7731-a7a1-cddfefafd58f/exec-2fda01eb-db65-461f-87a8-d0d9df967b37.png`
+
+All final files are 1254 by 1254 RGBA PNGs with verified alpha. The first Ink page-turn output painted a checkerboard and was rejected. The final Ink frame used the background-extraction correction below.
+
+### Exact Paper blink prompt
+
+```text
+Use case: precise-object-edit
+Asset type: transparent raster animation frame for the Apex web companion
+Input image: the existing Paper Apex sprite is the edit target and identity reference.
+Primary request: create a blink frame. Change only the expression so both eyes are gently closed as short dark-navy horizontal pixel lines, and lift the bookmark tail very slightly as if acknowledging the learner.
+Style/medium: preserve the exact 32-bit pixel-art treatment, hard square pixel clusters, shading, silhouette, proportions, pose, and camera.
+Composition/framing: preserve the exact square canvas, character size, centre, and transparent padding so it overlays the base frame without jumping.
+Color palette: preserve the existing pure white, cobalt, sky blue, and deep navy only.
+Constraints: genuine transparent alpha background; exactly one character; no text; no shadow; no new prop; no extra limbs; no sprite sheet. Keep the face, cover, pages, feet, triangular chest mark, and overall identity unchanged except the specified eyes and subtle tail lift.
+Avoid: anti-aliased repainting, blur, gradients beyond the existing sprite, warm colours, black background, checkerboard, watermark.
+```
+
+### Exact Ink blink prompt
+
+```text
+Use case: precise-object-edit
+Asset type: transparent raster animation frame for the Apex web companion
+Input image: the existing Ink Apex sprite is the edit target and identity reference.
+Primary request: create a blink frame. Change only the expression so both eyes are gently closed as short bright-blue horizontal pixel lines, and lift the bookmark tail very slightly as if acknowledging the learner.
+Style/medium: preserve the exact 32-bit pixel-art treatment, hard square pixel clusters, shading, silhouette, proportions, pose, and camera.
+Composition/framing: preserve the exact square canvas, character size, centre, and transparent padding so it overlays the base frame without jumping.
+Color palette: preserve the existing midnight navy, cobalt, sky blue, and white only.
+Constraints: genuine transparent alpha background; exactly one character; no text; no shadow; no new prop; no extra limbs; no sprite sheet. Keep the face, cover, pages, feet, triangular chest mark, and overall identity unchanged except the specified eyes and subtle tail lift.
+Avoid: anti-aliased repainting, blur, warm colours, black background, checkerboard, watermark.
+```
+
+### Exact Paper page-turn prompt
+
+```text
+Use case: precise-object-edit
+Asset type: transparent raster animation frame for the Apex web companion
+Input image: the existing Paper Apex sprite is the edit target and identity reference.
+Primary request: create a page-turn action frame. Raise one thin white page from the upper centre of the open workbook in a small curved pixel-art flip, angle the bookmark tail upward, and make the eyes look up toward the moving page. Keep the change restrained and readable at 72 pixels.
+Style/medium: preserve the exact 32-bit pixel-art treatment, hard square pixel clusters, shading, silhouette, proportions, and camera.
+Composition/framing: preserve the exact square canvas, character size, centre, feet position, and transparent padding so it overlays the base frame without jumping.
+Color palette: preserve the existing pure white, cobalt, sky blue, and deep navy only.
+Constraints: genuine transparent alpha background; exactly one character; one attached turning page only; no text; no shadow; no separate prop; no extra limbs; no sprite sheet. Keep the cover, face shape, feet, triangular chest mark, and identity unchanged.
+Avoid: paper flying away, anti-aliased repainting, blur, warm colours, black background, checkerboard, watermark.
+```
+
+### Exact Ink page-turn prompt
+
+```text
+Use case: precise-object-edit
+Asset type: transparent raster animation frame for the Apex web companion
+Input image: the existing Ink Apex sprite is the edit target and identity reference.
+Primary request: create a page-turn action frame. Raise one thin midnight-blue page with a bright sky-blue edge from the upper centre of the open workbook in a small curved pixel-art flip, angle the bookmark tail upward, and make the eyes look up toward the moving page. Keep the change restrained and readable at 72 pixels.
+Style/medium: preserve the exact 32-bit pixel-art treatment, hard square pixel clusters, shading, silhouette, proportions, and camera.
+Composition/framing: preserve the exact square canvas, character size, centre, feet position, and transparent padding so it overlays the base frame without jumping.
+Color palette: preserve the existing midnight navy, cobalt, sky blue, and white only.
+Constraints: genuine transparent alpha background; exactly one character; one attached turning page only; no text; no shadow; no separate prop; no extra limbs; no sprite sheet. Keep the cover, face shape, feet, triangular chest mark, and identity unchanged.
+Avoid: paper flying away, anti-aliased repainting, blur, warm colours, black background, checkerboard, watermark.
+```
+
+### Exact Ink alpha correction prompt
+
+```text
+Use case: background-extraction
+Asset type: corrected transparent raster animation frame for the Apex web companion
+Primary request: remove the entire grey checkerboard background and replace it with genuine alpha transparency.
+Constraints: change only the background. Preserve every character pixel, pose, dimensions, placement, page-turn shape, face, palette, pixel edges, and transparent padding exactly. Return one PNG with actual alpha transparency.
+Avoid: checkerboard pixels, solid background, crop, repaint, smoothing, blur, shadow, text, watermark.
+```
 
 ## Original generation prompt: Vee (archived)
 

@@ -49,3 +49,5 @@ Avoid: vague promises, grade guarantees, unnamed evidence and ornamental three-p
 ## Apex copy extension, 9 September 2026
 
 The user named the optional workbook companion Apex, retiring the working name Vee. Use "Open Apex study shortcuts", "Show Apex" and "Hide Apex" for controls. "The book in your corner" refers to his folded-workbook form. Keep Plan, Focus, Practise and AI tutor labels concrete. Apex is also the existing tutor's name, but opening the companion is navigation, not an AI conversation. Never imply that the sprite has inspected work, observed study time, assessed a learner or generated advice. His shortcut text is static navigation, not personalised feedback. Hop, Wiggle and Spin are literal animation controls, not rewards or progress claims. The appearance field is labelled “Appearance”, with “Paper” and “Ink” options. It changes only the local companion artwork.
+
+Use “Drag Apex anywhere on screen” for position guidance. Follow with the keyboard equivalent in a separate sentence. “Blink” and “Turn page” describe literal finite frames. Do not present movement or reactions as learner progress, attention, emotion detection or personalised advice.

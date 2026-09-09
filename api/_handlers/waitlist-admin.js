@@ -3,7 +3,7 @@ import { requireAdmin } from '../_lib/admin.js';
 import { getSupabaseAdmin } from '../_lib/supabaseAdmin.js';
 import { sendWaitlistApprovedEmail } from '../_lib/notify.js';
 import { isValidUuid } from '../_lib/security.js';
-import { buildInviteSignupUrl, generateInviteToken } from '../_lib/inviteToken.js';
+import { buildInviteSignupUrl, generateInviteToken, getInviteExpiry, hashInviteToken } from '../_lib/inviteToken.js';
 import { rateLimitUserEndpoint } from '../_lib/rateLimit.js';
 
 const VALID_STATUSES = new Set(['pending', 'approved', 'rejected']);
@@ -97,19 +97,28 @@ export default async function handler(req, res) {
       if (existingError) throw existingError;
       if (!existing) return res.status(404).json({ error: 'Waitlist entry not found.' });
 
-      const updates = { status, updated_at: new Date().toISOString() };
+      const issuedAt = new Date();
+      const updates = { status, updated_at: issuedAt.toISOString() };
+      let inviteToken = null;
       if (status === 'approved' && existing.signup_method !== 'google') {
-        updates.invite_token = generateInviteToken();
+        inviteToken = generateInviteToken();
+        updates.invite_token = null;
+        updates.invite_token_hash = hashInviteToken(inviteToken);
+        updates.invite_issued_at = issuedAt.toISOString();
+        updates.invite_expires_at = getInviteExpiry(issuedAt);
       }
       if (status === 'pending' || status === 'rejected') {
         updates.invite_token = null;
+        updates.invite_token_hash = null;
+        updates.invite_issued_at = null;
+        updates.invite_expires_at = null;
       }
 
       const { data, error } = await supabase
         .from('waitlist')
         .update(updates)
         .eq('id', id)
-        .select('id, email, status, signup_method, invite_token, created_at, updated_at')
+        .select('id, email, status, signup_method, created_at, updated_at')
         .maybeSingle();
 
       if (error) throw error;
@@ -118,8 +127,8 @@ export default async function handler(req, res) {
       }
 
       const origin = process.env.APP_URL || process.env.SITE_URL || 'https://www.vertexed.app';
-      const inviteLink = data.invite_token
-        ? buildInviteSignupUrl(origin, data.invite_token)
+      const inviteLink = inviteToken
+        ? buildInviteSignupUrl(origin, inviteToken)
         : null;
 
       let emailSent = false;
@@ -128,9 +137,7 @@ export default async function handler(req, res) {
         emailSent = Boolean(notify.sent);
       }
 
-      const safeEntry = { ...data };
-      delete safeEntry.invite_token;
-      return res.status(200).json({ entry: safeEntry, inviteLink, emailSent });
+      return res.status(200).json({ entry: data, inviteLink, emailSent });
     }
 
     return res.status(400).json({ error: 'Unknown action. Use "list" or "update".' });

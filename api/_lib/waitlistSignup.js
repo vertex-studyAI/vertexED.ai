@@ -27,10 +27,16 @@ export async function createApprovedWaitlistUser(
     .update({
       auth_user_id: userId,
       invite_token: null,
+      invite_token_hash: null,
+      invite_issued_at: null,
+      invite_expires_at: null,
       updated_at: updatedAt,
     })
     .eq('id', inviteEntry.id)
-    .eq('invite_token', inviteToken)
+    .eq(
+      inviteEntry.tokenStorage === 'hash' ? 'invite_token_hash' : 'invite_token',
+      inviteEntry.tokenStorage === 'hash' ? inviteEntry.inviteTokenHash : inviteToken,
+    )
     .eq('status', 'approved')
     .select('id')
     .maybeSingle();
@@ -105,6 +111,9 @@ export async function createTeamInvitedUser(
           signup_method: 'email',
           auth_user_id: userId,
           invite_token: null,
+          invite_token_hash: null,
+          invite_issued_at: null,
+          invite_expires_at: null,
           legacy_access: false,
           updated_at: updatedAt,
         })
@@ -119,6 +128,9 @@ export async function createTeamInvitedUser(
           signup_method: 'email',
           auth_user_id: userId,
           invite_token: null,
+          invite_token_hash: null,
+          invite_issued_at: null,
+          invite_expires_at: null,
           legacy_access: false,
           updated_at: updatedAt,
         })

@@ -64,6 +64,26 @@ test('approved waitlist signup consumes the exact invite before reporting succes
   const update = calls.find(([name]) => name === 'update')?.[1];
   assert.equal(update.auth_user_id, 'auth-user-1');
   assert.equal(update.invite_token, null);
+  assert.equal(update.invite_token_hash, null);
+  assert.equal(update.invite_expires_at, null);
+});
+
+test('approved waitlist signup atomically consumes a hashed invite', async () => {
+  const { client, calls } = fakeSupabase();
+  const result = await createApprovedWaitlistUser(client, {
+    ...signupInput,
+    inviteEntry: {
+      ...signupInput.inviteEntry,
+      tokenStorage: 'hash',
+      inviteTokenHash: 'a'.repeat(64),
+    },
+  });
+
+  assert.equal(result.stage, 'complete');
+  assert.ok(calls.some(([name, field, value]) => name === 'eq'
+    && field === 'invite_token_hash'
+    && value === 'a'.repeat(64)));
+  assert.equal(calls.some(([name, field]) => name === 'eq' && field === 'invite_token'), false);
 });
 
 test('invite finalization failure rolls back the newly created auth user', async () => {

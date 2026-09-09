@@ -35,13 +35,15 @@ test('waitlist admin rejects unauthenticated requests', async () => {
   assert.match(getJson().error, /log in/i);
 });
 
-test('waitlist list and update responses do not disclose stored invite tokens', () => {
+test('waitlist responses never select stored invite credentials', () => {
   const listBlock = adminSource.slice(
     adminSource.indexOf("if (action === 'list')"),
     adminSource.indexOf("if (action === 'update')"),
   );
   assert.doesNotMatch(listBlock, /\.select\([^\n]*invite_token/);
-  assert.match(adminSource, /delete safeEntry\.invite_token/);
+  assert.doesNotMatch(adminSource, /\.select\([^\n]*(invite_token|invite_token_hash)/);
+  assert.match(adminSource, /updates\.invite_token_hash = hashInviteToken\(inviteToken\)/);
+  assert.match(adminSource, /updates\.invite_expires_at = getInviteExpiry\(issuedAt\)/);
   assert.doesNotMatch(adminUiSource, /entry\.invite_token/);
 });
 
