@@ -10,6 +10,11 @@ import {
   runWorkerLoop, safeSubmit, validateSubmission,
 } from '../tools/percy-runtime/advanced.mjs';
 
+test('advanced runtime does not expose the legacy unverified restore primitive', async () => {
+  const advancedRuntime = await import('../tools/percy-runtime/advanced.mjs');
+  assert.equal('restoreDatabase' in advancedRuntime, false);
+});
+
 test('class limits parse and validate', () => {
   const m = parseClassLimits('default=2,remote=4,local=1');
   assert.equal(m.get('default'), 2); assert.equal(m.get('remote'), 4); assert.equal(m.get('local'), 1);
