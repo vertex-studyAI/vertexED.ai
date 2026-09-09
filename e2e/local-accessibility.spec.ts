@@ -100,20 +100,20 @@ test.describe('local keyboard accessibility', () => {
     await expect(navigation).toHaveJSProperty('inert', true);
   });
 
-  test('AI tutor dialog receives focus, closes on Escape, and restores its opener', async ({ page }) => {
-    await page.goto('/study-guides');
+  test('tool detail dialog receives focus, closes on Escape, and restores its opener', async ({ page }) => {
+    await page.goto('/');
 
-    const opener = page.getByRole('button', { name: 'Open study guide AI tutor' });
+    const opener = page.getByRole('button', { name: 'About Exam Prep' });
     await expect(opener).toBeVisible();
     await opener.click();
 
-    const dialog = page.getByRole('dialog', { name: 'AI tutor' });
+    const dialog = page.getByRole('dialog', { name: 'Exam Prep' });
     await expect(dialog).toBeVisible();
-    await expect(dialog).toBeFocused();
+    await expect(page.getByRole('button', { name: 'Close tool details' })).toBeFocused();
 
     await page.keyboard.press('Escape');
     await expect(dialog).toHaveCount(0);
-    await expect(page.getByRole('button', { name: 'Open study guide AI tutor' })).toBeFocused();
+    await expect(opener).toBeFocused();
   });
 
   for (const viewport of launchViewports) {
@@ -126,9 +126,9 @@ test.describe('local keyboard accessibility', () => {
         await expectNoHorizontalOverflow(page);
 
         if (path === '/' && visualEvidenceWidths.has(viewport.width)) {
-          await expect(page.locator('.vertex-hero')).toBeVisible();
-          await expect(page.locator('.vertex-field')).toBeVisible();
-          await expect(page.locator('.vertex-tools-section')).toBeVisible();
+          await expect(page.locator('.landing-hero')).toBeVisible();
+          await expect(page.locator('.study-entry')).toBeVisible();
+          await expect(page.locator('.tools-section')).toBeVisible();
           await page.screenshot({
             path: testInfo.outputPath(`landing-${viewport.width}x${viewport.height}.png`),
             fullPage: true,
