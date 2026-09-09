@@ -1,5 +1,5 @@
-import { appendFileSync, existsSync, mkdirSync, readFileSync, statSync } from 'node:fs';
-import { backup, DatabaseSync } from 'node:sqlite';
+import { appendFileSync, mkdirSync, readFileSync, statSync } from 'node:fs';
+import { backup } from 'node:sqlite';
 import { dirname, resolve } from 'node:path';
 import { createHash } from 'node:crypto';
 
@@ -138,20 +138,6 @@ export async function backupDatabase(sourceDb, destination) {
   mkdirSync(dirname(dest), { recursive: true });
   const pages = await backup(sourceDb, dest);
   return { path: dest, bytes: statSync(dest).size, sha256: sha256File(dest), pages };
-}
-
-export async function restoreDatabase(backupPath, destination) {
-  const source = resolve(backupPath);
-  const dest = resolve(destination);
-  if (!existsSync(source)) throw new Error(`backup not found: ${source}`);
-  mkdirSync(dirname(dest), { recursive: true });
-  const sourceDb = new DatabaseSync(source, { readOnly: true });
-  try {
-    const pages = await backup(sourceDb, dest);
-    return { path: dest, bytes: statSync(dest).size, sha256: sha256File(dest), pages };
-  } finally {
-    sourceDb.close();
-  }
 }
 
 export class ClassLimiter {
