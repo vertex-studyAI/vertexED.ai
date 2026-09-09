@@ -14,10 +14,12 @@ import torch
 from space_jepa.baselines import persistence_error, robust_zscore
 from space_jepa.config import SpaceJEPAConfig
 from space_jepa.data import RobustScaler
-from space_jepa.esa_adb import CHANNEL_PRESETS, ESAADBTable, load_esa_adb_csv
-from space_jepa.metrics import auroc, average_precision, event_f1, point_metrics, threshold_from_nominal
+from space_jepa.esa_adb import CHANNEL_PRESETS, load_esa_adb_csv
+from space_jepa.metrics import threshold_from_nominal
 from space_jepa.model import SpaceJEPA
 from space_jepa.training import score_series, train_model
+
+TIMESTAMP_COLUMN = "timestamp"
 
 
 def sha256(path: Path) -> str:
@@ -53,41 +55,82 @@ def valid_scores(scores: np.ndarray, coverage: np.ndarray) -> np.ndarray:
     return selected
 
 
+def load_test_telemetry_only(
+    path: Path,
+    channels: tuple[str, ...],
+) -> tuple[np.ndarray, np.ndarray]:
+    """Materialize only frozen test telemetry and timestamps.
+
+    ESA-ADB's preprocessed test CSV interleaves held-out ``is_anomaly_*`` columns
+    with telemetry. Pandas still opens and tokenizes that same source file, but this
+    loader selects only timestamp + frozen telemetry columns, so annotation values
+    are never materialized or exposed to the runner/model. Official outcome
+    evaluation is a separate, explicitly gated step.
+    """
+
+    header = tuple(str(column) for column in pd.read_csv(path, nrows=0).columns)
+    missing = [channel for channel in channels if channel not in header]
+    if missing:
+        raise ValueError(f"ESA-ADB test CSV is missing frozen telemetry channels: {missing}")
+    if TIMESTAMP_COLUMN not in header:
+        raise ValueError("official ESA-ADB test CSV is missing timestamp column")
+
+    usecols = [TIMESTAMP_COLUMN, *channels]
+    dtypes: dict[str, object] = {TIMESTAMP_COLUMN: "string"}
+    dtypes.update({channel: np.float32 for channel in channels})
+    frame = pd.read_csv(path, usecols=usecols, dtype=dtypes)
+
+    telemetry = frame.loc[:, list(channels)].to_numpy(dtype=np.float32, copy=True)
+    timestamps = frame[TIMESTAMP_COLUMN].astype(str).to_numpy(copy=True)
+    if telemetry.ndim != 2 or telemetry.shape[1] != len(channels) or len(telemetry) < 1:
+        raise ValueError("telemetry-only test read produced invalid geometry")
+    if len(timestamps) != len(telemetry):
+        raise ValueError("test timestamps must align with telemetry rows")
+    return telemetry, timestamps
+
+
+def telemetry_projection_sha256(
+    timestamps: np.ndarray,
+    telemetry: np.ndarray,
+    channels: tuple[str, ...],
+) -> str:
+    """Hash only the label-blind test projection already loaded by the runner."""
+
+    if len(timestamps) != len(telemetry):
+        raise ValueError("test timestamps must align with telemetry rows")
+    if telemetry.ndim != 2 or telemetry.shape[1] != len(channels):
+        raise ValueError("telemetry projection geometry does not match frozen channels")
+
+    digest = hashlib.sha256()
+    digest.update(b"space-jepa-esa-test-telemetry-projection-v1\0")
+    for channel in channels:
+        digest.update(channel.encode("utf-8"))
+        digest.update(b"\0")
+    for timestamp, row in zip(timestamps, telemetry, strict=True):
+        digest.update(str(timestamp).encode("utf-8"))
+        digest.update(b"\0")
+        digest.update(np.asarray(row, dtype="<f4").tobytes(order="C"))
+    return digest.hexdigest()
+
+
 def warm_start_test(train: np.ndarray, test: np.ndarray, context_length: int) -> np.ndarray:
     if len(train) < context_length:
         raise ValueError("training data is shorter than context_length")
     return np.concatenate([train[-context_length:], test], axis=0)
 
 
-def local_evaluate(
-    table: ESAADBTable,
-    scores: np.ndarray,
-    threshold: float,
-    *,
-    include_rare_events: bool,
-) -> dict[str, float]:
-    labels = table.binary_labels(include_rare_events=include_rare_events)
-    mask = table.diagnostic_valid_mask() & np.isfinite(scores)
-    y = labels[mask]
-    s = scores[mask]
-    result = point_metrics(y, s, threshold)
-    result.update(event_f1(y, s, threshold))
-    result["auroc"] = auroc(y, s)
-    result["average_precision"] = average_precision(y, s)
-    result["rows_evaluated"] = float(mask.sum())
-    return result
-
-
 def write_prediction_csv(
     path: Path,
-    table: ESAADBTable,
+    timestamps: np.ndarray,
     scores: dict[str, np.ndarray],
     thresholds: dict[str, float],
 ) -> None:
-    if table.timestamps is None:
+    if len(timestamps) == 0:
         raise ValueError("timestamps are required for ESA-ADB prediction export")
-    payload: dict[str, object] = {"timestamp": table.timestamps}
+    payload: dict[str, object] = {"timestamp": timestamps}
     for name, values in scores.items():
+        if len(values) != len(timestamps):
+            raise ValueError(f"{name} score length does not match test timestamps")
         payload[f"{name}_score"] = values
         payload[f"{name}_pred"] = (values >= thresholds[name]).astype(np.uint8)
     pd.DataFrame(payload).to_csv(path, index=False)
@@ -95,7 +138,10 @@ def write_prediction_csv(
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="Run Space-JEPA on official ESA-ADB preprocessed train/test CSV files."
+        description=(
+            "Run Space-JEPA on official ESA-ADB preprocessed train/test CSV files without "
+            "materializing held-out test annotation values. Official metric evaluation is separate."
+        )
     )
     parser.add_argument("train_csv", type=Path)
     parser.add_argument("test_csv", type=Path)
@@ -121,18 +167,19 @@ def main() -> None:
         explicit_channels = tuple(c.strip() for c in args.channels.split(",") if c.strip())
         preset = None
 
+    # Training annotations may exist in the official preprocessed file, but are not model
+    # features. Test annotation values are stricter: this runner does not materialize or
+    # expose them, although pandas necessarily opens/tokenizes the interleaved source CSV.
     train = load_esa_adb_csv(
         args.train_csv, channels=explicit_channels, preset=preset, load_timestamps=False
     )
-    test = load_esa_adb_csv(
-        args.test_csv, channels=explicit_channels, preset=preset, load_timestamps=True
+    test_telemetry, test_timestamps = load_test_telemetry_only(
+        args.test_csv, train.feature_names
     )
-    if train.feature_names != test.feature_names:
-        raise ValueError("train/test ESA-ADB feature order differs")
 
     scaler = RobustScaler.fit(train.telemetry)
     train_x = scaler.transform(train.telemetry)
-    test_x = scaler.transform(test.telemetry)
+    test_x = scaler.transform(test_telemetry)
     cfg = SpaceJEPAConfig(n_features=train_x.shape[1], **dict(experiment["model"])).validate()
     model = SpaceJEPA(cfg)
 
@@ -167,7 +214,7 @@ def main() -> None:
         raise RuntimeError("test scoring left uncovered rows; use scoring stride=1 for retained ESA runs")
 
     z_train, _ = robust_zscore(train.telemetry, train.telemetry)
-    _, z_test = robust_zscore(train.telemetry, test.telemetry)
+    _, z_test = robust_zscore(train.telemetry, test_telemetry)
     z_threshold = threshold_from_nominal(z_train, quantile)
 
     persistence_train = persistence_error(train_x)[1:]
@@ -186,20 +233,10 @@ def main() -> None:
         "robust_zscore": z_test,
         "persistence": persistence_warmed,
     }
-    diagnostics = {
-        "anomaly_only": {
-            name: local_evaluate(test, scores, thresholds[name], include_rare_events=False)
-            for name, scores in score_map.items()
-        },
-        "anomaly_plus_rare_event": {
-            name: local_evaluate(test, scores, thresholds[name], include_rare_events=True)
-            for name, scores in score_map.items()
-        },
-    }
 
     args.out_dir.mkdir(parents=True, exist_ok=True)
     predictions_path = args.out_dir / "predictions.csv"
-    write_prediction_csv(predictions_path, test, score_map, thresholds)
+    write_prediction_csv(predictions_path, test_timestamps, score_map, thresholds)
     checkpoint_path = args.out_dir / "model.pt"
     torch.save({"state_dict": model.state_dict(), "config": cfg.to_dict()}, checkpoint_path)
 
@@ -212,9 +249,21 @@ def main() -> None:
             "preset": preset,
             "channels": list(train.feature_names),
             "annotation_columns_used_as_features": False,
+            "test_source_contains_interleaved_annotations": True,
+            "test_annotation_values_materialized": False,
+            "test_annotation_values_exposed_to_model": False,
+            "test_source_io_scope": "INTERLEAVED_CSV_TOKENIZED_TELEMETRY_TIMESTAMP_PROJECTION_ONLY",
         },
         "train": {"path": str(args.train_csv), "sha256": sha256(args.train_csv), "rows": len(train.telemetry)},
-        "test": {"path": str(args.test_csv), "sha256": sha256(args.test_csv), "rows": len(test.telemetry)},
+        "test": {
+            "path": str(args.test_csv),
+            "label_blind_projection_sha256": telemetry_projection_sha256(
+                test_timestamps, test_telemetry, train.feature_names
+            ),
+            "full_source_sha256": None,
+            "full_source_sha256_status": "NOT_COMPUTED_PRE_OUTCOME_TO_AVOID_FULL_FILE_BYTE_READ",
+            "rows": len(test_telemetry),
+        },
         "experiment_config": experiment,
         "resolved_model_config": cfg.to_dict(),
         "seed": args.seed,
@@ -229,7 +278,9 @@ def main() -> None:
             **thresholds,
             "source": f"label-blind-training-score-quantile-{quantile}",
         },
-        "repository_native_diagnostics": diagnostics,
+        "repository_native_diagnostics": {
+            "status": "NOT_COMPUTED_PRE_OUTCOME_LABEL_ACCESS_BLOCKED"
+        },
         "artifacts": {"predictions": predictions_path.name, "checkpoint": checkpoint_path.name},
     }
     (args.out_dir / "run.json").write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
