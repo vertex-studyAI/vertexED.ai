@@ -28,25 +28,40 @@ test('Study Notebook does not surface raw saved-work backend errors', () => {
 
 test('Study Notebook prevents overlapping saved-work discovery requests', () => {
   assert.match(source, /const importableRequestInFlightRef = useRef\(false\)/);
+  assert.match(source, /const importableRequestScopeRef = useRef<string \| null>\(null\)/);
   assert.match(
     source,
-    /if \(importableRequestInFlightRef\.current\) return;[\s\S]*?importableRequestInFlightRef\.current = true;[\s\S]*?await listStudyArtifactsDetailed\(\)/,
+    /if \(importableRequestInFlightRef\.current && importableRequestScopeRef\.current === requestScope\) return;[\s\S]*?importableRequestInFlightRef\.current = true;[\s\S]*?importableRequestScopeRef\.current = requestScope;[\s\S]*?await listStudyArtifactsDetailed\(\)/,
   );
   assert.match(
     source,
-    /finally \{[\s\S]*?importableRequestInFlightRef\.current = false;[\s\S]*?setImportableLoading\(false\)/,
+    /finally \{[\s\S]*?if \(importableRequestScopeRef\.current === requestScope\)[\s\S]*?importableRequestInFlightRef\.current = false;[\s\S]*?importableRequestScopeRef\.current = null;[\s\S]*?setImportableLoading\(false\)/,
   );
   assert.match(
     source,
     /aria-label="Import saved work as a source"[\s\S]*?disabled=\{!notebookHydrated \|\| importableLoading\}/,
   );
 
-  const guardCheck = source.indexOf('if (importableRequestInFlightRef.current) return;');
+  const guardCheck = source.indexOf('if (importableRequestInFlightRef.current && importableRequestScopeRef.current === requestScope) return;');
   const guardAcquire = source.indexOf('importableRequestInFlightRef.current = true;', guardCheck);
-  const loadingStart = source.indexOf('setImportableLoading(true);', guardAcquire);
-  const guardRelease = source.indexOf('importableRequestInFlightRef.current = false;', loadingStart);
-  const loadingEnd = source.indexOf('setImportableLoading(false);', guardRelease);
-  assert.ok(guardCheck >= 0 && guardCheck < guardAcquire, 're-entry must be rejected before acquiring the guard');
-  assert.ok(guardAcquire < loadingStart, 'guard must be acquired before React loading state can lag behind');
-  assert.ok(guardRelease < loadingEnd, 'guard must be released in the same finalization path as loading state');
+  const scopeAcquire = source.indexOf('importableRequestScopeRef.current = requestScope;', guardAcquire);
+  const loadingStart = source.indexOf('setImportableLoading(true);', scopeAcquire);
+  assert.ok(guardCheck >= 0 && guardCheck < guardAcquire, 'same-scope re-entry must be rejected before acquiring the guard');
+  assert.ok(guardAcquire < scopeAcquire && scopeAcquire < loadingStart, 'request ownership must be captured before React loading state can lag behind');
+});
+
+test('Study Notebook drops saved-work results after an account scope change', () => {
+  assert.match(
+    source,
+    /useEffect\(\(\) => \{[\s\S]*?setShowImport\(false\);[\s\S]*?setImportable\(\[\]\);[\s\S]*?setImportableLoading\(false\);[\s\S]*?setImportableError\(null\);[\s\S]*?\}, \[user\?\.id\]\)/,
+  );
+  assert.match(source, /const requestScope = getUserContentStorageScope\(\)/);
+  assert.match(
+    source,
+    /const result = await listStudyArtifactsDetailed\(\);[\s\S]*?if \(getUserContentStorageScope\(\) !== requestScope\) return;/,
+  );
+  assert.match(
+    source,
+    /catch \{[\s\S]*?if \(getUserContentStorageScope\(\) !== requestScope\) return;[\s\S]*?setImportable\(\[\]\)/,
+  );
 });
