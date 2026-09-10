@@ -26,14 +26,16 @@ export type BoardGuide = {
 const MAX_CACHED = 24;
 const CACHE_LIFETIME_MS = 30 * 24 * 60 * 60 * 1000;
 
-function cacheKey() {
-  return userContentStorageKeys().boardGuides;
+function cacheKey(storageScope?: string | null) {
+  return storageScope === undefined
+    ? userContentStorageKeys().boardGuides
+    : userContentStorageKeys(storageScope).boardGuides;
 }
 
-function readCache(): BoardGuide[] {
+function readCache(storageScope?: string | null): BoardGuide[] {
   if (typeof window === 'undefined') return [];
   try {
-    const raw = localStorage.getItem(cacheKey());
+    const raw = localStorage.getItem(cacheKey(storageScope));
     const parsed = raw ? (JSON.parse(raw) as BoardGuide[]) : [];
     return Array.isArray(parsed)
       ? parsed.filter((guide) => guide?.status === 'AI_GENERATED_UNVERIFIED' && Boolean(guide.expiresAt))
@@ -43,20 +45,25 @@ function readCache(): BoardGuide[] {
   }
 }
 
-function writeCache(guides: BoardGuide[]) {
+function writeCache(guides: BoardGuide[], storageScope?: string | null) {
   if (typeof window === 'undefined') return;
-  localStorage.setItem(cacheKey(), JSON.stringify(guides.slice(0, MAX_CACHED)));
+  localStorage.setItem(cacheKey(storageScope), JSON.stringify(guides.slice(0, MAX_CACHED)));
 }
 
-export function getCachedGuide(board: ExamBoard, topicId: string, grade?: number | null): BoardGuide | null {
+export function getCachedGuide(
+  board: ExamBoard,
+  topicId: string,
+  grade?: number | null,
+  storageScope?: string | null,
+): BoardGuide | null {
   const now = Date.now();
-  return readCache().find((g) => (
+  return readCache(storageScope).find((g) => (
     g.board === board && g.topicId === topicId && (g.grade ?? null) === (grade ?? null) && Date.parse(g.expiresAt) > now
   )) ?? null;
 }
 
-export function listCachedGuides(board?: ExamBoard): BoardGuide[] {
-  const all = readCache();
+export function listCachedGuides(board?: ExamBoard, storageScope?: string | null): BoardGuide[] {
+  const all = readCache(storageScope);
   return board ? all.filter((g) => g.board === board) : all;
 }
 
@@ -64,8 +71,9 @@ export async function generateBoardGuide(
   board: ExamBoard,
   topic: BoardGuideTopic,
   grade?: number | null,
+  storageScope?: string | null,
 ): Promise<BoardGuide> {
-  const cached = getCachedGuide(board, topic.id, grade);
+  const cached = getCachedGuide(board, topic.id, grade, storageScope);
   if (cached) return cached;
 
   const config = BOARD_CONFIGS[board];
@@ -119,7 +127,15 @@ export async function generateBoardGuide(
     },
   };
 
-  writeCache([guide, ...readCache().filter((g) => !(g.board === board && g.topicId === topic.id && (g.grade ?? null) === (grade ?? null)))]);
+  writeCache(
+    [
+      guide,
+      ...readCache(storageScope).filter(
+        (g) => !(g.board === board && g.topicId === topic.id && (g.grade ?? null) === (grade ?? null)),
+      ),
+    ],
+    storageScope,
+  );
   return guide;
 }
 
