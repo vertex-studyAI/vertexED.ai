@@ -197,7 +197,7 @@ export default function Onboarding() {
                   <h1 className="text-3xl font-semibold tracking-tight text-foreground md:text-4xl">Build your first study plan</h1>
                   <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground md:text-base">Choose your curriculum, subjects, and exam date. We&apos;ll create a focused first-week plan that you can edit anytime.</p>
                 </div>
-                <form className="space-y-6" onSubmit={(event) => { event.preventDefault(); void save(); }}>
+                <form className="space-y-6" aria-busy={loading} onSubmit={(event) => { event.preventDefault(); void save(); }}>
                   <CurriculumSelector value={curriculum} onChange={setCurriculum} showExamDate showSubjects />
                   <p className="text-sm text-muted-foreground">Select at least one subject. The available subjects update for the curriculum and grade you choose.</p>
                   {error && <div className="alert-error" role="alert">{error}</div>}
@@ -205,6 +205,7 @@ export default function Onboarding() {
                     <button type="button" onClick={() => setStep(1)} disabled={loading} className="w-full btn-glass py-3 disabled:cursor-not-allowed disabled:opacity-50">Back</button>
                     <button type="submit" disabled={!canSave} className="w-full btn-solid py-3 disabled:cursor-not-allowed disabled:opacity-50">{loading ? "Creating your plan…" : "Create my study plan"}</button>
                   </div>
+                  {loading && <p role="status" aria-live="polite" className="text-center text-sm leading-relaxed text-muted-foreground">Saving your starter plan. On a slow connection this can take a moment; keep this page open.</p>}
                   <p className="text-center text-xs leading-relaxed text-muted-foreground">Your curriculum and plan are saved to your account. You can update them anytime in settings and the planner.</p>
                 </form>
               </>
