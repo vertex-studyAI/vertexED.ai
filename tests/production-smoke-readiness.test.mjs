@@ -21,3 +21,11 @@ test('production smoke certifies HEAD health identity', () => {
   assert.match(smokeSource, /x-vertexed-revision/);
   assert.match(smokeSource, /EXPECTED_REVISION/);
 });
+
+test('production smoke retains privacy-safe transport failure diagnostics', () => {
+  assert.match(smokeSource, /function describeRequestError\(error\)/);
+  assert.match(smokeSource, /\['code', 'syscall', 'hostname', 'address'\]/);
+  assert.match(smokeSource, /Number\.isInteger\(cause\.port\)/);
+  assert.match(smokeSource, /throw new Error\(describeRequestError\(error\), \{ cause: error \}\)/);
+  assert.doesNotMatch(smokeSource, /cause\.message/);
+});
