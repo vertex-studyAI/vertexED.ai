@@ -7,7 +7,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router";
 import { User, LogOut, Settings, RefreshCw, AlertTriangle, Save, Trash2 } from "lucide-react";
 import PageSection from "@/components/PageSection";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   getLearnerProfile,
   getProfileCompleteness,
@@ -60,6 +60,10 @@ export default function UserSettings() {
   const [artifactTotal, setArtifactTotal] = useState(0);
   const [nextArtifactOffset, setNextArtifactOffset] = useState<number | null>(null);
   const [loadingMoreArtifacts, setLoadingMoreArtifacts] = useState(false);
+  const artifactRequestIdRef = useRef(0);
+  const [artifactScope, setArtifactScope] = useState<string | null>(() => getUserContentStorageScope());
+  const currentArtifactScope = getUserContentStorageScope();
+  const artifactScopeIsCurrent = artifactScope === currentArtifactScope;
   const learnerProfile = getLearnerProfile(user);
   const profileCompleteness = getProfileCompleteness(learnerProfile);
   const [curriculum, setCurriculum] = useState<CurriculumPreference>(learnerProfile.curriculum);
@@ -152,33 +156,57 @@ export default function UserSettings() {
   };
 
   const loadArtifacts = useCallback(async (offset = 0) => {
-    if (offset === 0) setLoadingArtifacts(true);
-    else setLoadingMoreArtifacts(true);
-    const result = await listStudyArtifactsDetailed(
-      kindFilter === "all" ? undefined : kindFilter,
-      { offset, limit: 30 },
-    );
-    setArtifacts((current) => {
-      if (offset === 0) return result.items;
-      const byId = new Map(current.map((item) => [item.id, item]));
-      for (const item of result.items) byId.set(item.id, item);
-      return [...byId.values()];
-    });
-    if (offset === 0 || result.ok) {
-      setArtifactTotal(result.total ?? result.items.length);
-      setNextArtifactOffset(result.nextOffset ?? null);
+    const requestId = ++artifactRequestIdRef.current;
+    const requestScope = getUserContentStorageScope();
+    setArtifactScope(requestScope);
+    setArtifactError(null);
+    if (offset === 0) {
+      setLoadingArtifacts(true);
+      setLoadingMoreArtifacts(false);
+    } else {
+      setLoadingArtifacts(false);
+      setLoadingMoreArtifacts(true);
     }
-    setCloudUnavailable(Boolean(result.cloudUnavailable));
-    setArtifactError(
-      result.cloudUnavailable
-        ? null
-        : result.ok
+
+    try {
+      const result = await listStudyArtifactsDetailed(
+        kindFilter === "all" ? undefined : kindFilter,
+        { offset, limit: 30 },
+      );
+      if (artifactRequestIdRef.current !== requestId || getUserContentStorageScope() !== requestScope) return;
+
+      setArtifacts((current) => {
+        if (offset === 0) return result.items;
+        const byId = new Map(current.map((item) => [item.id, item]));
+        for (const item of result.items) byId.set(item.id, item);
+        return [...byId.values()];
+      });
+      if (offset === 0 || result.ok) {
+        setArtifactTotal(result.total ?? result.items.length);
+        setNextArtifactOffset(result.nextOffset ?? null);
+      }
+      setCloudUnavailable(Boolean(result.cloudUnavailable));
+      setArtifactError(
+        result.cloudUnavailable || result.ok
           ? null
-          : result.error || "Unable to load saved work.",
-    );
-    if (offset === 0) setLoadingArtifacts(false);
-    else setLoadingMoreArtifacts(false);
-  }, [kindFilter]);
+          : "Unable to load saved work. Try again.",
+      );
+    } catch {
+      if (artifactRequestIdRef.current !== requestId || getUserContentStorageScope() !== requestScope) return;
+      setCloudUnavailable(false);
+      setArtifactError("Unable to load saved work. Try again.");
+      if (offset === 0) {
+        setArtifacts([]);
+        setArtifactTotal(0);
+        setNextArtifactOffset(null);
+      }
+    } finally {
+      if (artifactRequestIdRef.current === requestId && getUserContentStorageScope() === requestScope) {
+        if (offset === 0) setLoadingArtifacts(false);
+        else setLoadingMoreArtifacts(false);
+      }
+    }
+  }, [kindFilter, user?.id]);
 
   useEffect(() => {
     void loadArtifacts();
@@ -535,19 +563,19 @@ export default function UserSettings() {
           </NeumorphicCard>
 
           <NeumorphicCard className="p-8" title="Saved Study Work">
-            {cloudUnavailable && (
+            {cloudUnavailable && artifactScopeIsCurrent && (
               <p className="text-xs text-primary/90 mb-3">
                 Cloud sync is off - your work is saved on this device and can be reopened anytime.
               </p>
             )}
-            {loadingArtifacts ? (
-              <div className="space-y-2">
+            {loadingArtifacts || !artifactScopeIsCurrent ? (
+              <div className="space-y-2" role="status" aria-live="polite" aria-label="Loading saved study work">
                 <div className="h-4 w-3/4 rounded skeleton-shimmer" />
                 <div className="h-4 w-1/2 rounded skeleton-shimmer" />
               </div>
             ) : artifactError ? (
               <div className="space-y-3">
-                <p className="text-sm text-destructive flex items-start gap-2">
+                <p className="text-sm text-destructive flex items-start gap-2" role="alert">
                   <AlertTriangle className="h-4 w-4 mt-0.5 shrink-0" aria-hidden />
                   <span>{artifactError}</span>
                 </p>
