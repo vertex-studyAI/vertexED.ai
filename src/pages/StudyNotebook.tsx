@@ -87,6 +87,8 @@ export default function StudyNotebook() {
   const [pasteContent, setPasteContent] = useState('');
   const [showImport, setShowImport] = useState(false);
   const [importable, setImportable] = useState<Array<{ id: string; title: string; content: string }>>([]);
+  const [importableLoading, setImportableLoading] = useState(false);
+  const [importableError, setImportableError] = useState<string | null>(null);
   const [previewSourceId, setPreviewSourceId] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const chatScrollRef = useRef<HTMLDivElement>(null);
@@ -266,14 +268,23 @@ export default function StudyNotebook() {
 
   const loadImportable = async () => {
     setShowImport(true);
-    const result = await listStudyArtifactsDetailed();
-    const items = result.items
-      .map((a) => {
-        const parsed = sourceFromArtifact(a);
-        return parsed ? { id: a.id, title: parsed.title, content: parsed.content } : null;
-      })
-      .filter(Boolean) as Array<{ id: string; title: string; content: string }>;
-    setImportable(items);
+    setImportableLoading(true);
+    setImportableError(null);
+    try {
+      const result = await listStudyArtifactsDetailed();
+      const items = result.items
+        .map((a) => {
+          const parsed = sourceFromArtifact(a);
+          return parsed ? { id: a.id, title: parsed.title, content: parsed.content } : null;
+        })
+        .filter(Boolean) as Array<{ id: string; title: string; content: string }>;
+      setImportable(items);
+    } catch {
+      setImportable([]);
+      setImportableError('Saved work could not be loaded. Check your connection and try again.');
+    } finally {
+      setImportableLoading(false);
+    }
   };
 
   const importArtifact = (item: { title: string; content: string }) => runNotebookMutation(() => {
@@ -495,9 +506,24 @@ export default function StudyNotebook() {
                 </div>
 
                 {showImport && (
-                  <div className="rounded-xl border border-border/60 bg-foreground/[0.03] p-3 space-y-2">
+                  <div
+                    className="rounded-xl border border-border/60 bg-foreground/[0.03] p-3 space-y-2"
+                    aria-busy={importableLoading}
+                  >
                     <p className="text-xs font-medium">Import saved work</p>
-                    {importable.length === 0 ? (
+                    {importableLoading ? (
+                      <p role="status" aria-live="polite" className="text-xs text-muted-foreground inline-flex items-center gap-1.5">
+                        <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden />
+                        Loading saved work…
+                      </p>
+                    ) : importableError ? (
+                      <div role="alert" className="space-y-2">
+                        <p className="text-xs text-muted-foreground">{importableError}</p>
+                        <button type="button" className="text-xs text-primary hover:underline" onClick={() => void loadImportable()}>
+                          Try again
+                        </button>
+                      </div>
+                    ) : importable.length === 0 ? (
                       <p className="text-xs text-muted-foreground">No importable artifacts yet.</p>
                     ) : (
                       importable.slice(0, 8).map((item) => (
