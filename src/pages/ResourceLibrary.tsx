@@ -45,10 +45,12 @@ export default function ResourceLibrary() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const guideRequestIdRef = useRef(0);
+  const storageScopeRef = useRef(storageScope);
 
   const topics = useMemo(() => getGuidesForBoard(board), [board]);
 
   useEffect(() => {
+    storageScopeRef.current = storageScope;
     guideRequestIdRef.current += 1;
     setLoading(false);
     setError(null);
@@ -72,7 +74,7 @@ export default function ResourceLibrary() {
     const requestId = guideRequestIdRef.current + 1;
     guideRequestIdRef.current = requestId;
     const requestBoard = board;
-    const requestStorageScope = storageScope;
+    const requestStorageScope = storageScopeRef.current;
 
     setActiveTopic(topic);
     setError(null);
@@ -88,13 +90,13 @@ export default function ResourceLibrary() {
     setGuide(null);
     try {
       const generated = await generateBoardGuide(requestBoard, topic, pref.grade, requestStorageScope);
-      if (guideRequestIdRef.current !== requestId || storageScope !== requestStorageScope) return;
+      if (guideRequestIdRef.current !== requestId || storageScopeRef.current !== requestStorageScope) return;
       setGuide(generated);
     } catch (err) {
-      if (guideRequestIdRef.current !== requestId || storageScope !== requestStorageScope) return;
+      if (guideRequestIdRef.current !== requestId || storageScopeRef.current !== requestStorageScope) return;
       setError(err instanceof Error ? err.message : 'Could not generate guide');
     } finally {
-      if (guideRequestIdRef.current === requestId && storageScope === requestStorageScope) {
+      if (guideRequestIdRef.current === requestId && storageScopeRef.current === requestStorageScope) {
         setLoading(false);
       }
     }
