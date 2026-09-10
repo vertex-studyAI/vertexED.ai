@@ -40,14 +40,11 @@ function describeRequestError(error) {
   }
 
   if (cause && typeof cause === 'object') {
-    for (const field of ['code', 'syscall', 'hostname', 'address']) {
+    for (const field of ['code', 'syscall', 'hostname']) {
       const value = cause[field];
       if (typeof value === 'string' && value.trim()) {
         details.push(`${field}=${value.trim()}`);
       }
-    }
-    if (Number.isInteger(cause.port)) {
-      details.push(`port=${cause.port}`);
     }
   }
 
