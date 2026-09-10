@@ -40,4 +40,13 @@ test('Study Notebook prevents overlapping saved-work discovery requests', () => 
     source,
     /aria-label="Import saved work as a source"[\s\S]*?disabled=\{!notebookHydrated \|\| importableLoading\}/,
   );
+
+  const guardCheck = source.indexOf('if (importableRequestInFlightRef.current) return;');
+  const guardAcquire = source.indexOf('importableRequestInFlightRef.current = true;', guardCheck);
+  const loadingStart = source.indexOf('setImportableLoading(true);', guardAcquire);
+  const guardRelease = source.indexOf('importableRequestInFlightRef.current = false;', loadingStart);
+  const loadingEnd = source.indexOf('setImportableLoading(false);', guardRelease);
+  assert.ok(guardCheck >= 0 && guardCheck < guardAcquire, 're-entry must be rejected before acquiring the guard');
+  assert.ok(guardAcquire < loadingStart, 'guard must be acquired before React loading state can lag behind');
+  assert.ok(guardRelease < loadingEnd, 'guard must be released in the same finalization path as loading state');
 });
