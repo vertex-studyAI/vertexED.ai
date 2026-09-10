@@ -30,10 +30,12 @@ test('generated board guides have a visible and server-side provenance boundary'
 test('board guide generation is owned by the latest topic, board, and account scope', () => {
   assert.match(resourceLibrary, /const storageScope = user\?\.id \?\? null;/);
   assert.match(resourceLibrary, /const guideRequestIdRef = useRef\(0\)/);
+  assert.match(resourceLibrary, /const storageScopeRef = useRef\(storageScope\)/);
+  assert.match(resourceLibrary, /storageScopeRef\.current = storageScope;/);
   assert.match(resourceLibrary, /const requestId = guideRequestIdRef\.current \+ 1;/);
   assert.match(resourceLibrary, /guideRequestIdRef\.current = requestId;/);
   assert.match(resourceLibrary, /const requestBoard = board;/);
-  assert.match(resourceLibrary, /const requestStorageScope = storageScope;/);
+  assert.match(resourceLibrary, /const requestStorageScope = storageScopeRef\.current;/);
   assert.match(
     resourceLibrary,
     /getCachedGuide\(requestBoard, topic\.id, pref\.grade, requestStorageScope\)/,
@@ -43,16 +45,16 @@ test('board guide generation is owned by the latest topic, board, and account sc
     /generateBoardGuide\(requestBoard, topic, pref\.grade, requestStorageScope\)/,
   );
   assert.equal(
-    [...resourceLibrary.matchAll(/if \(guideRequestIdRef\.current !== requestId \|\| storageScope !== requestStorageScope\) return;/g)].length,
+    [...resourceLibrary.matchAll(/if \(guideRequestIdRef\.current !== requestId \|\| storageScopeRef\.current !== requestStorageScope\) return;/g)].length,
     2,
   );
   assert.match(
     resourceLibrary,
-    /finally \{\s*if \(guideRequestIdRef\.current === requestId && storageScope === requestStorageScope\) \{\s*setLoading\(false\);/,
+    /finally \{\s*if \(guideRequestIdRef\.current === requestId && storageScopeRef\.current === requestStorageScope\) \{\s*setLoading\(false\);/,
   );
   assert.match(
     resourceLibrary,
-    /guideRequestIdRef\.current \+= 1;\s*setLoading\(false\);\s*setError\(null\);\s*setActiveTopic\(null\);\s*setGuide\(null\);\s*setBoard\(pref\.board\);\s*}, \[storageScope, pref\.board\]\);/,
+    /storageScopeRef\.current = storageScope;\s*guideRequestIdRef\.current \+= 1;\s*setLoading\(false\);\s*setError\(null\);\s*setActiveTopic\(null\);\s*setGuide\(null\);\s*setBoard\(pref\.board\);\s*}, \[storageScope, pref\.board\]\);/,
   );
   assert.match(
     resourceLibrary,
