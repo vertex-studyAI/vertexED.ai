@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link } from 'react-router';
 import { Helmet } from 'react-helmet-async';
 import {
@@ -43,19 +43,32 @@ export default function ResourceLibrary() {
   const [guide, setGuide] = useState<BoardGuide | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const guideRequestIdRef = useRef(0);
 
   const topics = useMemo(() => getGuidesForBoard(board), [board]);
+
+  useEffect(() => {
+    return () => {
+      guideRequestIdRef.current += 1;
+    };
+  }, []);
 
   const openTopic = async (topic: BoardGuideTopic) => {
     if (!board) {
       setError('Pick your exam board first.');
       return;
     }
+
+    const requestId = guideRequestIdRef.current + 1;
+    guideRequestIdRef.current = requestId;
+    const requestBoard = board;
+
     setActiveTopic(topic);
     setError(null);
 
-    const cached = getCachedGuide(board, topic.id, pref.grade);
+    const cached = getCachedGuide(requestBoard, topic.id, pref.grade);
     if (cached) {
+      setLoading(false);
       setGuide(cached);
       return;
     }
@@ -63,12 +76,16 @@ export default function ResourceLibrary() {
     setLoading(true);
     setGuide(null);
     try {
-      const generated = await generateBoardGuide(board, topic, pref.grade);
+      const generated = await generateBoardGuide(requestBoard, topic, pref.grade);
+      if (guideRequestIdRef.current !== requestId) return;
       setGuide(generated);
     } catch (err) {
+      if (guideRequestIdRef.current !== requestId) return;
       setError(err instanceof Error ? err.message : 'Could not generate guide');
     } finally {
-      setLoading(false);
+      if (guideRequestIdRef.current === requestId) {
+        setLoading(false);
+      }
     }
   };
 
@@ -123,6 +140,9 @@ export default function ResourceLibrary() {
                 key={b}
                 type="button"
                 onClick={() => {
+                  guideRequestIdRef.current += 1;
+                  setLoading(false);
+                  setError(null);
                   setBoard(b);
                   setActiveTopic(null);
                   setGuide(null);
