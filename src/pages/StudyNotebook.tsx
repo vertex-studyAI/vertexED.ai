@@ -272,6 +272,11 @@ export default function StudyNotebook() {
     setImportableError(null);
     try {
       const result = await listStudyArtifactsDetailed();
+      if (!result.ok && result.items.length === 0) {
+        setImportable([]);
+        setImportableError('Saved work could not be loaded. Check your connection and try again.');
+        return;
+      }
       const items = result.items
         .map((a) => {
           const parsed = sourceFromArtifact(a);
