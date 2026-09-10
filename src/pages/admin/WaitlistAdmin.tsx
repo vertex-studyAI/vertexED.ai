@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router';
 import PageSection from '@/components/PageSection';
 import SEO from '@/components/SEO';
@@ -17,6 +17,7 @@ type StatusFilter = 'all' | WaitlistEntry['status'];
 type DatabaseSource = { url: string; schema: string; table: string };
 type WaitlistCounts = Record<StatusFilter, number>;
 type Pagination = { page: number; pageSize: number; total: number; totalPages: number };
+type ListQuery = { filter: StatusFilter; search: string; page: number };
 
 const PAGE_SIZE = 50;
 
@@ -33,8 +34,14 @@ export default function WaitlistAdmin() {
   const [database, setDatabase] = useState<DatabaseSource | null>(null);
   const [counts, setCounts] = useState<WaitlistCounts>({ all: 0, pending: 0, approved: 0, rejected: 0 });
   const [pagination, setPagination] = useState<Pagination>({ page: 1, pageSize: PAGE_SIZE, total: 0, totalPages: 1 });
+  const listRequestIdRef = useRef(0);
+  const latestListQueryRef = useRef<ListQuery>({ filter, search, page: pagination.page });
+
+  latestListQueryRef.current = { filter, search, page: pagination.page };
 
   const loadEntries = useCallback(async () => {
+    const requestId = ++listRequestIdRef.current;
+    const query = latestListQueryRef.current;
     setLoading(true);
     setError(null);
 
@@ -42,10 +49,17 @@ export default function WaitlistAdmin() {
       const response = await authFetch('/api/waitlist-admin', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'list', status: filter === 'all' ? undefined : filter, search, page: pagination.page, pageSize: PAGE_SIZE }),
+        body: JSON.stringify({
+          action: 'list',
+          status: query.filter === 'all' ? undefined : query.filter,
+          search: query.search,
+          page: query.page,
+          pageSize: PAGE_SIZE,
+        }),
       });
 
       const data = await response.json();
+      if (requestId !== listRequestIdRef.current) return;
 
       if (response.status === 403) {
         setError('You do not have admin access. Set ADMIN_EMAILS on the server to include your login email.');
@@ -62,16 +76,22 @@ export default function WaitlistAdmin() {
       setCounts(data.counts ?? { all: 0, pending: 0, approved: 0, rejected: 0 });
       setPagination(data.pagination ?? { page: 1, pageSize: PAGE_SIZE, total: 0, totalPages: 1 });
     } catch (err) {
+      if (requestId !== listRequestIdRef.current) return;
       setError(err instanceof Error ? err.message : 'Failed to load waitlist');
       setEntries([]);
     } finally {
-      setLoading(false);
+      if (requestId === listRequestIdRef.current) {
+        setLoading(false);
+      }
     }
-  }, [filter, pagination.page, search]);
+  }, []);
 
   useEffect(() => {
-    loadEntries();
-  }, [loadEntries]);
+    void loadEntries();
+    return () => {
+      listRequestIdRef.current += 1;
+    };
+  }, [filter, search, pagination.page, loadEntries]);
 
   const updateStatus = async (id: string, status: WaitlistEntry['status']) => {
     setUpdatingId(id);
