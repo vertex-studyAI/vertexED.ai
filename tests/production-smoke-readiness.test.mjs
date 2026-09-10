@@ -24,8 +24,9 @@ test('production smoke certifies HEAD health identity', () => {
 
 test('production smoke retains privacy-safe transport failure diagnostics', () => {
   assert.match(smokeSource, /function describeRequestError\(error\)/);
-  assert.match(smokeSource, /\['code', 'syscall', 'hostname', 'address'\]/);
-  assert.match(smokeSource, /Number\.isInteger\(cause\.port\)/);
+  assert.match(smokeSource, /\['code', 'syscall', 'hostname'\]/);
   assert.match(smokeSource, /throw new Error\(describeRequestError\(error\), \{ cause: error \}\)/);
   assert.doesNotMatch(smokeSource, /cause\.message/);
+  assert.doesNotMatch(smokeSource, /cause\.address/);
+  assert.doesNotMatch(smokeSource, /cause\.port/);
 });
