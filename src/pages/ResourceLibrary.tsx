@@ -38,6 +38,7 @@ const ALL_BOARDS: ExamBoard[] = [
 export default function ResourceLibrary() {
   const { user } = useAuth();
   const pref = getCurriculumPreference(user);
+  const storageScope = user?.id ?? null;
   const [board, setBoard] = useState<ExamBoard | null>(pref.board);
   const [activeTopic, setActiveTopic] = useState<BoardGuideTopic | null>(null);
   const [guide, setGuide] = useState<BoardGuide | null>(null);
@@ -46,6 +47,15 @@ export default function ResourceLibrary() {
   const guideRequestIdRef = useRef(0);
 
   const topics = useMemo(() => getGuidesForBoard(board), [board]);
+
+  useEffect(() => {
+    guideRequestIdRef.current += 1;
+    setLoading(false);
+    setError(null);
+    setActiveTopic(null);
+    setGuide(null);
+    setBoard(pref.board);
+  }, [storageScope, pref.board]);
 
   useEffect(() => {
     return () => {
@@ -62,11 +72,12 @@ export default function ResourceLibrary() {
     const requestId = guideRequestIdRef.current + 1;
     guideRequestIdRef.current = requestId;
     const requestBoard = board;
+    const requestStorageScope = storageScope;
 
     setActiveTopic(topic);
     setError(null);
 
-    const cached = getCachedGuide(requestBoard, topic.id, pref.grade);
+    const cached = getCachedGuide(requestBoard, topic.id, pref.grade, requestStorageScope);
     if (cached) {
       setLoading(false);
       setGuide(cached);
@@ -76,14 +87,14 @@ export default function ResourceLibrary() {
     setLoading(true);
     setGuide(null);
     try {
-      const generated = await generateBoardGuide(requestBoard, topic, pref.grade);
-      if (guideRequestIdRef.current !== requestId) return;
+      const generated = await generateBoardGuide(requestBoard, topic, pref.grade, requestStorageScope);
+      if (guideRequestIdRef.current !== requestId || storageScope !== requestStorageScope) return;
       setGuide(generated);
     } catch (err) {
-      if (guideRequestIdRef.current !== requestId) return;
+      if (guideRequestIdRef.current !== requestId || storageScope !== requestStorageScope) return;
       setError(err instanceof Error ? err.message : 'Could not generate guide');
     } finally {
-      if (guideRequestIdRef.current === requestId) {
+      if (guideRequestIdRef.current === requestId && storageScope === requestStorageScope) {
         setLoading(false);
       }
     }
