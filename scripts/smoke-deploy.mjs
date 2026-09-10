@@ -27,6 +27,33 @@ function pass(message) {
   console.log(`[smoke] OK: ${message}`);
 }
 
+function describeRequestError(error) {
+  const message = error instanceof Error ? error.message : String(error);
+  const name = error && typeof error === 'object' && typeof error.name === 'string'
+    ? error.name
+    : null;
+  const cause = error && typeof error === 'object' ? error.cause : null;
+  const details = [];
+
+  if (name && name !== 'Error' && name !== 'TypeError') {
+    details.push(`name=${name}`);
+  }
+
+  if (cause && typeof cause === 'object') {
+    for (const field of ['code', 'syscall', 'hostname', 'address']) {
+      const value = cause[field];
+      if (typeof value === 'string' && value.trim()) {
+        details.push(`${field}=${value.trim()}`);
+      }
+    }
+    if (Number.isInteger(cause.port)) {
+      details.push(`port=${cause.port}`);
+    }
+  }
+
+  return details.length > 0 ? `${message} (${details.join(', ')})` : message;
+}
+
 async function request(path, options = {}) {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
@@ -50,6 +77,8 @@ async function request(path, options = {}) {
     }
 
     return { status: response.status, body, headers: response.headers };
+  } catch (error) {
+    throw new Error(describeRequestError(error), { cause: error });
   } finally {
     clearTimeout(timer);
   }
