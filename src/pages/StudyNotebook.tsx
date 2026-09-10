@@ -89,6 +89,7 @@ export default function StudyNotebook() {
   const [importable, setImportable] = useState<Array<{ id: string; title: string; content: string }>>([]);
   const [importableLoading, setImportableLoading] = useState(false);
   const [importableError, setImportableError] = useState<string | null>(null);
+  const importableRequestInFlightRef = useRef(false);
   const [previewSourceId, setPreviewSourceId] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const chatScrollRef = useRef<HTMLDivElement>(null);
@@ -267,6 +268,8 @@ export default function StudyNotebook() {
   };
 
   const loadImportable = async () => {
+    if (importableRequestInFlightRef.current) return;
+    importableRequestInFlightRef.current = true;
     setShowImport(true);
     setImportableLoading(true);
     setImportableError(null);
@@ -288,6 +291,7 @@ export default function StudyNotebook() {
       setImportable([]);
       setImportableError('Saved work could not be loaded. Check your connection and try again.');
     } finally {
+      importableRequestInFlightRef.current = false;
       setImportableLoading(false);
     }
   };
@@ -490,7 +494,7 @@ export default function StudyNotebook() {
                       onClick={() => void loadImportable()}
                       className="btn-glass text-xs px-2.5"
                       aria-label="Import saved work as a source"
-                      disabled={!notebookHydrated}
+                      disabled={!notebookHydrated || importableLoading}
                       title="Import saved work"
                     >
                       <BookOpen className="h-3.5 w-3.5" aria-hidden />
