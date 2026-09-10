@@ -81,6 +81,17 @@ test('onboarding planner save uses the verified auth identity without reacquirin
   assert.match(apiAuthSource, /if \(headers\.has\('Authorization'\)\) return headers/);
 });
 
+test('onboarding exposes an accessible slow-network save state', () => {
+  assert.match(onboardingSource, /<form className="space-y-6" aria-busy=\{loading\}/);
+  assert.match(onboardingSource, /loading && <p role="status" aria-live="polite"/);
+  assert.match(
+    onboardingSource,
+    /Saving your starter plan\. On a slow connection this can take a moment; keep this page open\./,
+  );
+  assert.match(onboardingSource, /disabled=\{loading\}[\s\S]*?>Back<\/button>/);
+  assert.match(onboardingSource, /loading \? "Creating your plan…" : "Create my study plan"/);
+});
+
 test('authenticated API calls use the auth-event token before consulting session storage', () => {
   assert.match(apiAuthSource, /let currentAccessToken: string \| null = null/);
   assert.ok(
