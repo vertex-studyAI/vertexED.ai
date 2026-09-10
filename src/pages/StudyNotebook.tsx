@@ -90,6 +90,7 @@ export default function StudyNotebook() {
   const [importableLoading, setImportableLoading] = useState(false);
   const [importableError, setImportableError] = useState<string | null>(null);
   const importableRequestInFlightRef = useRef(false);
+  const importableRequestScopeRef = useRef<string | null>(null);
   const [previewSourceId, setPreviewSourceId] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const chatScrollRef = useRef<HTMLDivElement>(null);
@@ -130,6 +131,13 @@ export default function StudyNotebook() {
     return () => {
       cancelled = true;
     };
+  }, [user?.id]);
+
+  useEffect(() => {
+    setShowImport(false);
+    setImportable([]);
+    setImportableLoading(false);
+    setImportableError(null);
   }, [user?.id]);
 
   useEffect(() => {
@@ -268,13 +276,16 @@ export default function StudyNotebook() {
   };
 
   const loadImportable = async () => {
-    if (importableRequestInFlightRef.current) return;
+    const requestScope = getUserContentStorageScope();
+    if (importableRequestInFlightRef.current && importableRequestScopeRef.current === requestScope) return;
     importableRequestInFlightRef.current = true;
+    importableRequestScopeRef.current = requestScope;
     setShowImport(true);
     setImportableLoading(true);
     setImportableError(null);
     try {
       const result = await listStudyArtifactsDetailed();
+      if (getUserContentStorageScope() !== requestScope) return;
       if (!result.ok && result.items.length === 0) {
         setImportable([]);
         setImportableError('Saved work could not be loaded. Check your connection and try again.');
@@ -288,11 +299,15 @@ export default function StudyNotebook() {
         .filter(Boolean) as Array<{ id: string; title: string; content: string }>;
       setImportable(items);
     } catch {
+      if (getUserContentStorageScope() !== requestScope) return;
       setImportable([]);
       setImportableError('Saved work could not be loaded. Check your connection and try again.');
     } finally {
-      importableRequestInFlightRef.current = false;
-      setImportableLoading(false);
+      if (importableRequestScopeRef.current === requestScope) {
+        importableRequestInFlightRef.current = false;
+        importableRequestScopeRef.current = null;
+        setImportableLoading(false);
+      }
     }
   };
 
