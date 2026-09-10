@@ -13,6 +13,19 @@ import { reportAiRun } from '@/lib/monitoring';
 
 let currentAccessToken: string | null = null;
 
+class AccountScopeChangedError extends Error {
+  constructor() {
+    super('Account changed while the request was in flight. Try again in the current account.');
+    this.name = 'AccountScopeChangedError';
+  }
+}
+
+function assertAccountScope(accountScope: ReturnType<typeof getUserContentStorageScope>) {
+  if (getUserContentStorageScope() !== accountScope) {
+    throw new AccountScopeChangedError();
+  }
+}
+
 export function setAuthAccessToken(token?: string | null) {
   currentAccessToken = typeof token === 'string' && token ? token : null;
 }
@@ -126,23 +139,26 @@ export async function authFetch(input: RequestInfo | URL, init?: RequestInit): P
     });
 
   try {
-    if (getUserContentStorageScope() !== accountScope) throw new Error('Account changed before the request. Try again in the current account.');
+    assertAccountScope(accountScope);
     let response = await performRequest(headers);
+    assertAccountScope(accountScope);
     let retried = false;
 
     if (
-      getUserContentStorageScope() === accountScope && shouldRetryAfterUnauthorized({
+      shouldRetryAfterUnauthorized({
         status: response.status,
         hasAuthorization: hadAuthorization,
         alreadyRetried: retried,
       })
     ) {
       const refreshedToken = await refreshAccessToken();
-      if (refreshedToken && getUserContentStorageScope() === accountScope) {
+      assertAccountScope(accountScope);
+      if (refreshedToken) {
         retried = true;
         const retryHeaders = new Headers(headers);
         retryHeaders.set('Authorization', `Bearer ${refreshedToken}`);
         response = await performRequest(retryHeaders);
+        assertAccountScope(accountScope);
       }
     }
 
@@ -153,6 +169,7 @@ export async function authFetch(input: RequestInfo | URL, init?: RequestInit): P
         durationMs,
       });
       const resultBody = response.ok ? await response.clone().json().catch(() => null) : null;
+      assertAccountScope(accountScope);
       reportAiRun({
         degraded: resultBody?.degraded === true || resultBody?.generation?.degraded === true,
         invalidOutput: response.ok && !resultBody,
@@ -167,10 +184,12 @@ export async function authFetch(input: RequestInfo | URL, init?: RequestInit): P
         status: response.status,
       });
     }
+    assertAccountScope(accountScope);
     return response;
   } catch (error) {
     const timedOut = deadline?.didTimeout() ?? false;
-    if (shouldTrackAiRequest) {
+    const accountScopeChanged = error instanceof AccountScopeChangedError;
+    if (shouldTrackAiRequest && !accountScopeChanged) {
       const durationMs = Date.now() - startedAt;
       trackAiRequestOutcome(input, {
         durationMs,
@@ -184,7 +203,7 @@ export async function authFetch(input: RequestInfo | URL, init?: RequestInit): P
         timedOut,
       });
     }
-    if (shouldTrackAccountDeletion) {
+    if (shouldTrackAccountDeletion && !accountScopeChanged) {
       trackAccountDeletion({ outcome: 'failure', networkError: true });
     }
     throw toRequestError(error, timedOut);
