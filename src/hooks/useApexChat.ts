@@ -72,6 +72,8 @@ export function useApexChat({ context, threadKey, sources, onSessionRecord }: Op
   const typingRef = useRef<number | null>(null);
   const requestRef = useRef(0);
   const requestAbortRef = useRef<AbortController | null>(null);
+  const storageKeyRef = useRef(storageKey);
+  storageKeyRef.current = storageKey;
 
   useEffect(() => {
     // Account or thread changes invalidate and abort in-flight output before loading the new scope.
@@ -89,8 +91,12 @@ export function useApexChat({ context, threadKey, sources, onSessionRecord }: Op
   }, [storageKey]);
 
   useEffect(() => {
-    saveMessages(storageKey, messages);
-  }, [messages, storageKey]);
+    // Persist only after the message state itself changes. A storage-key-only
+    // render still holds the prior scope's messages until the scope effect above
+    // hydrates the new account/thread, so writing on that render could briefly
+    // copy one account's history into another account's session key.
+    saveMessages(storageKeyRef.current, messages);
+  }, [messages]);
 
   useEffect(() => {
     return () => {
@@ -136,6 +142,7 @@ export function useApexChat({ context, threadKey, sources, onSessionRecord }: Op
 
       const requestId = requestRef.current + 1;
       requestRef.current = requestId;
+      const requestStorageKey = storageKey;
       requestAbortRef.current?.abort();
       const requestController = new AbortController();
       requestAbortRef.current = requestController;
@@ -170,7 +177,7 @@ export function useApexChat({ context, threadKey, sources, onSessionRecord }: Op
           sources,
           signal: requestController.signal,
         });
-        if (requestRef.current !== requestId) return false;
+        if (requestRef.current !== requestId || storageKeyRef.current !== requestStorageKey) return false;
         const answer =
           typeof data?.answer === 'string' && data.answer.trim()
             ? data.answer.trim()
@@ -192,7 +199,7 @@ export function useApexChat({ context, threadKey, sources, onSessionRecord }: Op
         }
         return true;
       } catch (err) {
-        if (requestRef.current !== requestId) return false;
+        if (requestRef.current !== requestId || storageKeyRef.current !== requestStorageKey) return false;
         const status = err instanceof ChatbotApiError ? err.status : null;
         const message =
           status === 401
@@ -216,13 +223,13 @@ export function useApexChat({ context, threadKey, sources, onSessionRecord }: Op
         if (requestAbortRef.current === requestController) {
           requestAbortRef.current = null;
         }
-        if (requestRef.current === requestId) {
+        if (requestRef.current === requestId && storageKeyRef.current === requestStorageKey) {
           setLoading(false);
           setStreamingMessageId(null);
         }
       }
     },
-    [authLoading, context, sources, input, loading, messages, onSessionRecord],
+    [authLoading, context, sources, input, loading, messages, onSessionRecord, storageKey],
   );
 
   return {
