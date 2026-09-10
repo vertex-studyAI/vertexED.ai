@@ -25,3 +25,19 @@ test('Study Notebook does not surface raw saved-work backend errors', () => {
   assert.match(source, /Saved work could not be loaded\. Check your connection and try again\./);
   assert.doesNotMatch(source, /setImportableError\(result\.error/);
 });
+
+test('Study Notebook prevents overlapping saved-work discovery requests', () => {
+  assert.match(source, /const importableRequestInFlightRef = useRef\(false\)/);
+  assert.match(
+    source,
+    /if \(importableRequestInFlightRef\.current\) return;[\s\S]*?importableRequestInFlightRef\.current = true;[\s\S]*?await listStudyArtifactsDetailed\(\)/,
+  );
+  assert.match(
+    source,
+    /finally \{[\s\S]*?importableRequestInFlightRef\.current = false;[\s\S]*?setImportableLoading\(false\)/,
+  );
+  assert.match(
+    source,
+    /aria-label="Import saved work as a source"[\s\S]*?disabled=\{!notebookHydrated \|\| importableLoading\}/,
+  );
+});
