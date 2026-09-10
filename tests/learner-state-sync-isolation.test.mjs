@@ -21,3 +21,22 @@ test('bound auth requests never refresh into a different active account', () => 
   assert.match(block, /headers\.set\('Authorization', `Bearer \$\{accessToken\}`\)/);
   assert.doesNotMatch(block, /refreshAccessToken/);
 });
+
+test('general auth requests reject stale responses after the active account changes', () => {
+  const block = authSource.match(/export async function authFetch\(input[\s\S]*?\n}\n/)?.[0] ?? '';
+
+  assert.match(authSource, /class AccountScopeChangedError extends Error/);
+  assert.match(authSource, /function assertAccountScope\(accountScope:/);
+  assert.match(block, /assertAccountScope\(accountScope\);\n    let response = await performRequest\(headers\);\n    assertAccountScope\(accountScope\);/);
+  assert.match(block, /response = await performRequest\(retryHeaders\);\n        assertAccountScope\(accountScope\);/);
+  assert.match(block, /const resultBody = response\.ok \? await response\.clone\(\)\.json\(\)\.catch\(\(\) => null\) : null;\n      assertAccountScope\(accountScope\);/);
+  assert.match(block, /assertAccountScope\(accountScope\);\n    return response;/);
+});
+
+test('account switches are not mislabeled as network or deletion failures', () => {
+  const block = authSource.match(/export async function authFetch\(input[\s\S]*?\n}\n/)?.[0] ?? '';
+
+  assert.match(block, /const accountScopeChanged = error instanceof AccountScopeChangedError;/);
+  assert.match(block, /if \(shouldTrackAiRequest && !accountScopeChanged\)/);
+  assert.match(block, /if \(shouldTrackAccountDeletion && !accountScopeChanged\)/);
+});
