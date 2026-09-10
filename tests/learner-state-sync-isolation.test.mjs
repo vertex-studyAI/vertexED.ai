@@ -27,10 +27,10 @@ test('general auth requests reject stale responses after the active account chan
 
   assert.match(authSource, /class AccountScopeChangedError extends Error/);
   assert.match(authSource, /function assertAccountScope\(accountScope:/);
-  assert.match(block, /assertAccountScope\(accountScope\);\n    let response = await performRequest\(headers\);\n    assertAccountScope\(accountScope\);/);
-  assert.match(block, /response = await performRequest\(retryHeaders\);\n        assertAccountScope\(accountScope\);/);
-  assert.match(block, /const resultBody = response\.ok \? await response\.clone\(\)\.json\(\)\.catch\(\(\) => null\) : null;\n      assertAccountScope\(accountScope\);/);
-  assert.match(block, /assertAccountScope\(accountScope\);\n    return response;/);
+  assert.match(block, /assertAccountScope\(accountScope\);\n {4}let response = await performRequest\(headers\);\n {4}assertAccountScope\(accountScope\);/);
+  assert.match(block, /response = await performRequest\(retryHeaders\);\n {8}assertAccountScope\(accountScope\);/);
+  assert.match(block, /const resultBody = response\.ok \? await response\.clone\(\)\.json\(\)\.catch\(\(\) => null\) : null;\n {6}assertAccountScope\(accountScope\);/);
+  assert.match(block, /assertAccountScope\(accountScope\);\n {4}return response;/);
 });
 
 test('account switches are not mislabeled as network or deletion failures', () => {
