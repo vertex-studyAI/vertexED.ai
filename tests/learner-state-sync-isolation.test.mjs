@@ -16,9 +16,12 @@ test('background learner sync binds account scope and token for the entire reque
   assert.match(syncSource, /deleteDurableOutboxRecord/);
 });
 
-test('bound auth requests never refresh into a different active account', () => {
+test('bound auth requests never refresh into or return responses to a different active account', () => {
   const block = authSource.match(/export async function authFetchWithAccessToken[\s\S]*?\n}\n/)?.[0] ?? '';
+  assert.match(block, /const accountScope = getUserContentStorageScope\(\)/);
   assert.match(block, /headers\.set\('Authorization', `Bearer \$\{accessToken\}`\)/);
+  assert.match(block, /assertAccountScope\(accountScope\);\s*const response = await fetch/);
+  assert.match(block, /const response = await fetch[\s\S]*?assertAccountScope\(accountScope\);[\s\S]*?await response\.clone\(\)\.arrayBuffer\(\);\s*assertAccountScope\(accountScope\);\s*return response;/);
   assert.doesNotMatch(block, /refreshAccessToken/);
 });
 

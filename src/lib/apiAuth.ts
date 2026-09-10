@@ -58,7 +58,9 @@ export async function authHeaders(init?: HeadersInit): Promise<Headers> {
 /**
  * Performs one request with an already captured access token. This deliberately
  * does not refresh on 401: background persistence must never retry an old
- * account's payload with credentials from a newly active account.
+ * account's payload with credentials from a newly active account. The returned
+ * response is also bound to the account scope that initiated this request so a
+ * late old-account response cannot be consumed by newly active account UI.
  */
 export async function authFetchWithAccessToken(
   input: RequestInfo | URL,
@@ -66,14 +68,18 @@ export async function authFetchWithAccessToken(
   init?: RequestInit,
 ): Promise<Response> {
   if (!accessToken) throw new Error('A bound access token is required.');
+  const accountScope = getUserContentStorageScope();
   const headers = new Headers(init?.headers);
   headers.set('Authorization', `Bearer ${accessToken}`);
   const deadline = createRequestDeadline(init?.signal, 30_000);
   try {
+    assertAccountScope(accountScope);
     const response = await fetch(input, { ...init, headers, signal: deadline.signal });
+    assertAccountScope(accountScope);
     // Persistence/export responses are finite JSON. Keep the deadline active
     // through the body so a stalled response cannot block the save queue.
     await response.clone().arrayBuffer();
+    assertAccountScope(accountScope);
     return response;
   } catch (error) {
     throw toRequestError(error, deadline.didTimeout());
