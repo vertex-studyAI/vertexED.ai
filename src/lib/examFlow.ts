@@ -3,8 +3,6 @@ import { boardToApiLabel } from '@/lib/curriculum';
 import { userContentStorageKeys } from '@/lib/userContentStorageScope.mjs';
 import { queueLearnerStateWrite } from '@/lib/learnerStateSync';
 
-const LEGACY_MOCK_EXAM_ANSWERS_KEY = 'vertex_exam_answers';
-
 /**
  * Handoff payload for mock exam → answer reviewer flow (Phase 2).
  */
@@ -135,8 +133,7 @@ export function getPendingMockReview(): PendingMockReview | null {
   if (typeof window === 'undefined') return null;
   let raw: string | null = null;
   try {
-    raw = sessionStorage.getItem(mockExamAnswersStorageKey())
-      || sessionStorage.getItem(LEGACY_MOCK_EXAM_ANSWERS_KEY);
+    raw = sessionStorage.getItem(mockExamAnswersStorageKey());
   } catch {
     // A blocked session store must not prevent recovery from the local draft.
   }
@@ -184,11 +181,9 @@ export function saveMockReviewHandoff(handoff: MockReviewHandoff) {
 export function consumeMockExamAnswers(): MockExamAnswersHandoff | null {
   if (typeof window === 'undefined') return null;
   const scopedAnswersKey = mockExamAnswersStorageKey();
-  const raw = sessionStorage.getItem(scopedAnswersKey)
-    || sessionStorage.getItem(LEGACY_MOCK_EXAM_ANSWERS_KEY);
+  const raw = sessionStorage.getItem(scopedAnswersKey);
 
   sessionStorage.removeItem(scopedAnswersKey);
-  sessionStorage.removeItem(LEGACY_MOCK_EXAM_ANSWERS_KEY);
   if (!raw) return null;
 
   try {
