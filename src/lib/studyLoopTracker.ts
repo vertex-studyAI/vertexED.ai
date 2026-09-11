@@ -1,3 +1,5 @@
+import { resolveLocalStorage, safeStorageGet, safeStorageSet } from '@/lib/browserStorage.mjs';
+import { normalizeStudyLoopWeek } from '@/lib/studyLoopStorage.mjs';
 import { userContentStorageKeys } from '@/lib/userContentStorageScope.mjs';
 
 export type LoopStep = 'plan' | 'focus' | 'practise' | 'review' | 'remember';
@@ -29,25 +31,22 @@ function weekKey(): string {
 }
 
 function readWeek(): WeekRecord {
-  if (typeof window === 'undefined') {
-    return { weekKey: weekKey(), steps: {} };
-  }
+  const current = weekKey();
+  if (typeof window === 'undefined') return { weekKey: current, steps: {} };
+  const storage = resolveLocalStorage(window);
   try {
-    const raw = window.localStorage.getItem(storageKey());
-    const parsed = raw ? (JSON.parse(raw) as WeekRecord) : null;
-    const current = weekKey();
-    if (!parsed || parsed.weekKey !== current) {
-      return { weekKey: current, steps: {} };
-    }
-    return parsed;
+    const raw = safeStorageGet(storage, storageKey());
+    const parsed: unknown = raw ? JSON.parse(raw) : null;
+    return normalizeStudyLoopWeek(parsed, current) as WeekRecord;
   } catch {
-    return { weekKey: weekKey(), steps: {} };
+    return { weekKey: current, steps: {} };
   }
 }
 
 function writeWeek(record: WeekRecord) {
-  if (typeof window === 'undefined') return;
-  window.localStorage.setItem(storageKey(), JSON.stringify(record));
+  if (typeof window === 'undefined') return false;
+  const storage = resolveLocalStorage(window);
+  return safeStorageSet(storage, storageKey(), JSON.stringify(record));
 }
 
 export function recordLoopStep(step: LoopStep) {
