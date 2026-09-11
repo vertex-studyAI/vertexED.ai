@@ -3,6 +3,12 @@ import { CloudOff, X } from "lucide-react";
 import { useLocation } from "react-router";
 
 import { useAuth } from "@/contexts/AuthContext";
+import {
+  resolveSessionStorage,
+  safeStorageGet,
+  safeStorageRemove,
+  safeStorageSet,
+} from "@/lib/browserStorage.mjs";
 import { listStudyArtifactsDetailed } from "@/lib/userContent";
 
 const DISMISS_KEY_PREFIX = "vertex_cloud_banner_dismissed";
@@ -27,13 +33,11 @@ export default function CloudSaveBanner() {
       return;
     }
 
-    try {
-      setDismissedForKey(sessionStorage.getItem(dismissKey) === "1" ? dismissKey : null);
-      // A historical unscoped dismissal cannot be attributed to the current account.
-      sessionStorage.removeItem(LEGACY_DISMISS_KEY);
-    } catch {
-      setDismissedForKey(null);
-    }
+    const storage = resolveSessionStorage(window);
+    setDismissedForKey(safeStorageGet(storage, dismissKey) === "1" ? dismissKey : null);
+    // A historical unscoped dismissal cannot be attributed to the current account.
+    // Its cleanup is independent from the current account-scoped dismissal read.
+    safeStorageRemove(storage, LEGACY_DISMISS_KEY);
   }, [dismissKey]);
 
   const showOnRoute =
@@ -96,11 +100,8 @@ export default function CloudSaveBanner() {
         type="button"
         onClick={() => {
           if (dismissKey) {
-            try {
-              sessionStorage.setItem(dismissKey, "1");
-            } catch {
-              // A blocked sessionStorage write should not break dismissal for this render.
-            }
+            const storage = typeof window === "undefined" ? null : resolveSessionStorage(window);
+            safeStorageSet(storage, dismissKey, "1");
             setDismissedForKey(dismissKey);
           }
         }}
