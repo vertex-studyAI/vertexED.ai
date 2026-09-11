@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { normalizeActivityLogEntries } from "@/lib/activityLogStorage.mjs";
 import { recordStudySession } from "@/lib/studyStats";
 import { userContentStorageKeys } from "@/lib/userContentStorageScope.mjs";
 
@@ -17,12 +18,17 @@ interface ActivityLogProps {
 const ActivityLog: React.FC<ActivityLogProps> = ({ accent }) => {
 	const { user, loading: authLoading } = useAuth();
 	const activityKey = userContentStorageKeys(authLoading ? undefined : user?.id ?? null).activity;
-	const [entries, setEntries] = useLocalStorage<ActivityLogEntry[]>(activityKey, []);
+	const [storedEntries, setEntries] = useLocalStorage<unknown>(activityKey, []);
 	const [draft, setDraft] = useState("");
 
 	useEffect(() => {
 		setDraft("");
 	}, [activityKey]);
+
+	const entries = useMemo(
+		() => normalizeActivityLogEntries(storedEntries) as ActivityLogEntry[],
+		[storedEntries],
+	);
 
 	const addEntry = () => {
 		const trimmed = draft.trim();
@@ -34,16 +40,16 @@ const ActivityLog: React.FC<ActivityLogProps> = ({ accent }) => {
 			message: trimmed,
 			createdAt: new Date().toISOString(),
 		};
-		setEntries((prev) => [entry, ...prev]);
+		setEntries((prev) => normalizeActivityLogEntries([entry, ...normalizeActivityLogEntries(prev)]));
 		setDraft("");
 		recordStudySession();
 	};
 
 	const removeEntry = (id: string) => {
-		setEntries((prev) => prev.filter((entry) => entry.id !== id));
+		setEntries((prev) => normalizeActivityLogEntries(prev).filter((entry) => entry.id !== id));
 	};
 
-	const formattedEntries = useMemo(() => entries, [entries]);
+	const formattedEntries = entries;
 
 	return (
 		<div className="zone-stack">
