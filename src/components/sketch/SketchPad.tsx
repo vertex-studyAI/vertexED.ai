@@ -7,27 +7,13 @@ import {
   createNotebook,
   listNotebooks,
 } from '@/lib/notebook';
+import { readSketchStrokes, writeSketchStrokes } from '@/lib/sketchStorage.mjs';
 import { userContentStorageKeys } from '@/lib/userContentStorageScope.mjs';
 
 type Point = { x: number; y: number; pressure: number };
 type Stroke = { color: string; width: number; tool: 'pen' | 'eraser'; points: Point[] };
 
 const COLORS = ['#e8f4ff', '#7dd3fc', '#a78bfa', '#fbbf24', '#f87171', '#34d399', '#1e293b'];
-
-function loadStrokes(storageKey: string): Stroke[] {
-  if (typeof window === 'undefined') return [];
-  try {
-    const raw = localStorage.getItem(storageKey);
-    return raw ? (JSON.parse(raw) as Stroke[]) : [];
-  } catch {
-    return [];
-  }
-}
-
-function saveStrokes(storageKey: string, strokes: Stroke[]) {
-  if (typeof window === 'undefined') return;
-  localStorage.setItem(storageKey, JSON.stringify(strokes.slice(-400)));
-}
 
 function drawStroke(ctx: CanvasRenderingContext2D, stroke: Stroke, dpr: number) {
   if (stroke.points.length < 2) return;
@@ -98,7 +84,7 @@ export default function SketchPad({ accent = 'hsl(266 72% 74%)' }: Props) {
   }, []);
 
   useEffect(() => {
-    strokesRef.current = loadStrokes(storageKey);
+    strokesRef.current = readSketchStrokes(window, storageKey) as Stroke[];
     activeStroke.current = null;
     drawing.current = false;
     setCaption('');
@@ -143,13 +129,13 @@ export default function SketchPad({ accent = 'hsl(266 72% 74%)' }: Props) {
     if (!drawing.current || !activeStroke.current) return;
     drawing.current = false;
     strokesRef.current = [...strokesRef.current, activeStroke.current];
-    saveStrokes(storageKey, strokesRef.current);
+    writeSketchStrokes(window, storageKey, strokesRef.current);
     activeStroke.current = null;
   };
 
   const clearPad = () => {
     strokesRef.current = [];
-    saveStrokes(storageKey, []);
+    writeSketchStrokes(window, storageKey, []);
     const canvas = canvasRef.current;
     if (canvas) redraw(canvas, []);
   };
