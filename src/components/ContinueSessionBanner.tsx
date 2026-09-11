@@ -44,18 +44,24 @@ export default function ContinueSessionBanner() {
               </p>
               <p className="mt-0.5 text-xs leading-relaxed text-muted-foreground">
                 {handoff.deviceOnly
-                  ? 'You can start using it now. Keep this browser data until cloud sync is available, then save again from the planner.'
-                  : 'Open the planner to review your first-week tasks, adjust deadlines, and begin your first focused session.'}
+                  ? 'You can start practising now. Keep this browser data until cloud sync is available, then save again from the planner.'
+                  : 'Start with one focused practice task, or review your first-week plan before you begin.'}
               </p>
             </div>
           </div>
-          <div className="flex items-center gap-2 sm:shrink-0">
+          <div className="flex flex-wrap items-center gap-2 sm:shrink-0">
+            <Link
+              to="/exam-prep"
+              className="inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-primary px-4 py-2 text-sm text-primary-foreground transition hover:opacity-90 sm:flex-none"
+            >
+              Try one question
+              <ArrowRight className="h-3.5 w-3.5" aria-hidden />
+            </Link>
             <Link
               to="/planner"
               className="inline-flex flex-1 items-center justify-center gap-2 rounded-full border border-border bg-foreground/[0.06] px-4 py-2 text-sm text-foreground transition hover:bg-foreground/[0.1] sm:flex-none"
             >
               Review plan
-              <ArrowRight className="h-3.5 w-3.5" aria-hidden />
             </Link>
             <button
               type="button"
