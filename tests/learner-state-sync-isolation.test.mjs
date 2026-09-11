@@ -16,6 +16,16 @@ test('background learner sync binds account scope and token for the entire reque
   assert.match(syncSource, /deleteDurableOutboxRecord/);
 });
 
+test('learner-state recovery normalizes corrupt local mirrors without silently accepting failed writes', () => {
+  assert.match(syncSource, /parseStoredArray\(safeStorageGet\(storage, key\)\)/);
+  assert.match(syncSource, /parseStoredObject\(safeStorageGet\(storage, key\)\)/);
+  assert.match(syncSource, /function requireStorageWrite\(ok: boolean\)/);
+  assert.match(syncSource, /requireStorageWrite\(safeStorageSet\(storage, key/);
+  assert.match(syncSource, /requireStorageWrite\(safeStorageRemove\(storage, key\)\)/);
+  assert.doesNotMatch(syncSource, /window\.localStorage\.(?:getItem|setItem|removeItem)/);
+  assert.match(syncSource, /if \(recoveryFailures\) throw new Error/);
+});
+
 test('bound auth requests never refresh into or return responses to a different active account', () => {
   const block = authSource.match(/export async function authFetchWithAccessToken[\s\S]*?\n}\n/)?.[0] ?? '';
   assert.match(block, /const accountScope = getUserContentStorageScope\(\)/);
