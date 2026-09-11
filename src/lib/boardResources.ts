@@ -2,6 +2,7 @@ import type { ExamBoard } from '@/types/curriculum';
 import { BOARD_CONFIGS, boardToApiLabel } from '@/lib/curriculum';
 import { authFetch } from '@/lib/apiAuth';
 import type { BoardGuideTopic } from '@/content/boardResourceCatalog';
+import { resolveLocalStorage, safeStorageGet, safeStorageSet } from '@/lib/browserStorage.mjs';
 import { userContentStorageKeys } from '@/lib/userContentStorageScope.mjs';
 
 export type BoardGuide = {
@@ -32,10 +33,13 @@ function cacheKey(storageScope?: string | null) {
     : userContentStorageKeys(storageScope).boardGuides;
 }
 
+function storage() {
+  return typeof window === 'undefined' ? null : resolveLocalStorage(window);
+}
+
 function readCache(storageScope?: string | null): BoardGuide[] {
-  if (typeof window === 'undefined') return [];
   try {
-    const raw = localStorage.getItem(cacheKey(storageScope));
+    const raw = safeStorageGet(storage(), cacheKey(storageScope));
     const parsed = raw ? (JSON.parse(raw) as BoardGuide[]) : [];
     return Array.isArray(parsed)
       ? parsed.filter((guide) => guide?.status === 'AI_GENERATED_UNVERIFIED' && Boolean(guide.expiresAt))
@@ -45,9 +49,8 @@ function readCache(storageScope?: string | null): BoardGuide[] {
   }
 }
 
-function writeCache(guides: BoardGuide[], storageScope?: string | null) {
-  if (typeof window === 'undefined') return;
-  localStorage.setItem(cacheKey(storageScope), JSON.stringify(guides.slice(0, MAX_CACHED)));
+function writeCache(guides: BoardGuide[], storageScope?: string | null): boolean {
+  return safeStorageSet(storage(), cacheKey(storageScope), JSON.stringify(guides.slice(0, MAX_CACHED)));
 }
 
 export function getCachedGuide(
