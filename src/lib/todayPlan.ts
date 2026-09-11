@@ -2,6 +2,7 @@ import { localDayKey } from '@/lib/studyDates.mjs';
 import type { AdaptiveRecommendation } from '@/lib/adaptiveLearning';
 import type { PlannerTaskPreview } from '@/lib/studyEcosystem';
 import { userContentStorageKeys } from '@/lib/userContentStorageScope.mjs';
+import { parseTodayPlanDone } from '@/lib/todayPlanCore.mjs';
 
 export type TodayPlanItem = {
   id: string;
@@ -23,18 +24,22 @@ function todayKey() {
 function readDone(): Record<string, string[]> {
   if (typeof window === 'undefined') return {};
   try {
-    const raw = localStorage.getItem(storageKey());
-    if (!raw) return {};
-    const parsed = JSON.parse(raw) as Record<string, string[]>;
-    return parsed && typeof parsed === 'object' ? parsed : {};
+    return parseTodayPlanDone(localStorage.getItem(storageKey())) as Record<string, string[]>;
   } catch {
     return {};
   }
 }
 
-function writeDone(data: Record<string, string[]>) {
-  if (typeof window === 'undefined') return;
-  localStorage.setItem(storageKey(), JSON.stringify(data));
+function writeDone(data: Record<string, string[]>): boolean {
+  if (typeof window === 'undefined') return false;
+  try {
+    localStorage.setItem(storageKey(), JSON.stringify(data));
+    return true;
+  } catch {
+    // Completion state is optional local UI state. A full/blocked storage area
+    // must not turn the dashboard checkbox into an application error.
+    return false;
+  }
 }
 
 export function getTodayPlanDoneIds(): Set<string> {
