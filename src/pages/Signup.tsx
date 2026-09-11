@@ -171,7 +171,6 @@ export default function Signup() {
       trackProductEvent("Account Created", {
         invite_type: "waitlist",
       });
-      sessionStorage.setItem("vertex_welcome", "1");
       navigate("/connect-google", { replace: true });
     } catch (err) {
       setError((err as Error).message);
