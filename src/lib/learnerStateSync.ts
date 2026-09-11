@@ -1,4 +1,12 @@
 import { authFetchWithAccessToken, getAccessToken } from '@/lib/apiAuth';
+import {
+  parseStoredArray,
+  parseStoredObject,
+  resolveLocalStorage,
+  safeStorageGet,
+  safeStorageRemove,
+  safeStorageSet,
+} from '@/lib/browserStorage.mjs';
 import { mergeExamSessionHistory, normalizeExamSession, readStoredExamSessionHistory } from './examSessionHistory.mjs';
 import {
   getUserContentStorageScope,
@@ -40,22 +48,18 @@ function outboxKey(scope?: string) {
 
 function readOutbox(scope?: string): LearnerStateWrite[] {
   if (typeof window === 'undefined') return [];
-  try {
-    const parsed = JSON.parse(window.localStorage.getItem(outboxKey(scope)) || '[]');
-    return Array.isArray(parsed) ? parsed : [];
-  } catch {
-    return [];
-  }
+  return parseStoredArray(
+    safeStorageGet(resolveLocalStorage(window), outboxKey(scope)),
+  ) as LearnerStateWrite[];
 }
 
 function writeOutbox(items: LearnerStateWrite[], scope?: string) {
   if (typeof window === 'undefined') return false;
-  try {
-    window.localStorage.setItem(outboxKey(scope), JSON.stringify(items));
-    return true;
-  } catch {
-    return false;
-  }
+  return safeStorageSet(
+    resolveLocalStorage(window),
+    outboxKey(scope),
+    JSON.stringify(items),
+  );
 }
 
 async function readCombinedOutbox(scope: string): Promise<LearnerStateWrite[]> {
@@ -156,36 +160,52 @@ export async function syncLearnerState(): Promise<{ synced: number; remaining: n
   return promise;
 }
 
+function requireStorageWrite(ok: boolean) {
+  if (!ok) throw new Error('Browser storage is unavailable for learner-state recovery.');
+}
+
 function applyWeakness(item: RemoteLearnerStateItem, scope: string) {
+  const storage = resolveLocalStorage(window);
   const key = userContentStorageKeys(scope).weaknessHeatmap;
-  const current = JSON.parse(window.localStorage.getItem(key) || '[]');
-  const entries = Array.isArray(current) ? current : [];
+  const entries = parseStoredArray(safeStorageGet(storage, key));
   const id = String(item.payload.id || item.stateKey);
   const merged = [{ ...item.payload, id }, ...entries.filter((entry) => String(entry?.id || '') !== id)]
     .sort((a, b) => String(b.recordedAt || '').localeCompare(String(a.recordedAt || '')))
     .slice(0, 500);
-  window.localStorage.setItem(key, JSON.stringify(merged));
+  requireStorageWrite(safeStorageSet(storage, key, JSON.stringify(merged)));
 }
 
 function applyRetry(item: RemoteLearnerStateItem, scope: string) {
+  const storage = resolveLocalStorage(window);
   const key = userContentStorageKeys(scope).retryQueue;
-  const current = JSON.parse(window.localStorage.getItem(key) || '[]');
-  const entries = Array.isArray(current) ? current : [];
+  const entries = parseStoredArray(safeStorageGet(storage, key));
   const incomingUpdatedAt = String(item.payload.updatedAt || item.clientUpdatedAt);
   const existing = entries.find((entry) => entry?.id === item.stateKey);
   if (existing && String(existing.updatedAt || '') > incomingUpdatedAt) return;
   const merged = [{ ...item.payload, id: item.stateKey, updatedAt: incomingUpdatedAt }, ...entries.filter((entry) => entry?.id !== item.stateKey)];
-  window.localStorage.setItem(key, JSON.stringify(merged.slice(0, 200)));
+  requireStorageWrite(safeStorageSet(storage, key, JSON.stringify(merged.slice(0, 200))));
 }
 
 function applyMockDraft(item: RemoteLearnerStateItem, scope: string) {
+  const storage = resolveLocalStorage(window);
   const key = userContentStorageKeys(scope).mockExamDraft;
-  const existing = JSON.parse(window.localStorage.getItem(key) || 'null');
+  const existing = parseStoredObject(safeStorageGet(storage, key));
   const incomingUpdatedAt = String(item.payload.updatedAt || item.payload.savedAt || item.clientUpdatedAt);
   const existingUpdatedAt = String(existing?.updatedAt || existing?.savedAt || '');
   if (existingUpdatedAt > incomingUpdatedAt) return;
-  if (item.payload.deleted === true) window.localStorage.removeItem(key);
-  else window.localStorage.setItem(key, JSON.stringify({ ...item.payload, updatedAt: incomingUpdatedAt }));
+  if (item.payload.deleted === true) requireStorageWrite(safeStorageRemove(storage, key));
+  else requireStorageWrite(safeStorageSet(storage, key, JSON.stringify({ ...item.payload, updatedAt: incomingUpdatedAt })));
+}
+
+function applyExamSession(item: RemoteLearnerStateItem, scope: string) {
+  const storage = resolveLocalStorage(window);
+  if (!storage) throw new Error('Browser storage is unavailable for learner-state recovery.');
+  const key = userContentStorageKeys(scope).examPrepHistory;
+  const current = readStoredExamSessionHistory(storage, key);
+  if (!normalizeExamSession(item.payload) || item.payload.id !== item.stateKey) {
+    throw new Error('Invalid exam session returned by account sync.');
+  }
+  requireStorageWrite(safeStorageSet(storage, key, JSON.stringify(mergeExamSessionHistory(current, item.payload))));
 }
 
 export async function hydrateLearnerState(): Promise<number> {
@@ -219,12 +239,7 @@ export async function hydrateLearnerState(): Promise<number> {
       if (item.stateType === 'weakness') applyWeakness(item, scope);
       if (item.stateType === 'retry') applyRetry(item, scope);
       if (item.stateType === 'mock_draft') applyMockDraft(item, scope);
-      if (item.stateType === 'exam_session') {
-        const key = userContentStorageKeys(scope).examPrepHistory;
-        const current = readStoredExamSessionHistory(window.localStorage, key);
-        if (!normalizeExamSession(item.payload) || item.payload.id !== item.stateKey) throw new Error('Invalid exam session returned by account sync.');
-        window.localStorage.setItem(key, JSON.stringify(mergeExamSessionHistory(current, item.payload)));
-      }
+      if (item.stateType === 'exam_session') applyExamSession(item, scope);
     } catch {
       recoveryFailures += 1;
     }
