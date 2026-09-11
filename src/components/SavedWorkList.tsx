@@ -134,7 +134,7 @@ export function ArtifactKindFilter({
           type="button"
           onClick={() => onChange(opt.value)}
           aria-pressed={value === opt.value}
-          className={cn}(
+          className={cn(
             "rounded-full px-3 py-1 text-xs capitalize transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
             value === opt.value
               ? "bg-primary/20 text-primary border border-primary/30"
