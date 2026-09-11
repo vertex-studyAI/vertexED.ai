@@ -125,7 +125,7 @@ export function summarizeMasteryVelocity(snapshots) {
   }
 
   const first = measured[0].avgMastery;
-  const last = measured.at(-1).avgMastery;
+  const last = measured[measured.length - 1].avgMastery;
   const delta = last - first;
   const trend = delta > 3 ? 'up' : delta < -3 ? 'down' : 'flat';
 
