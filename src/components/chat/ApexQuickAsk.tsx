@@ -4,7 +4,8 @@ import ApexPromptChips from '@/components/chat/ApexPromptChips';
 import { getStudyContext } from '@/lib/studyContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { APEX_TAGLINE } from '@/content/apex';
-import { userContentStorageKeys } from '@/lib/userContentStorageScope.mjs';
+import { storeApexPrefill } from '@/lib/apexPrefillStorage.mjs';
+import { toast } from '@/hooks/use-toast';
 
 export default function ApexQuickAsk() {
   const { user } = useAuth();
@@ -32,7 +33,14 @@ export default function ApexQuickAsk() {
         <ApexPromptChips
           context={context}
           onSelect={(text) => {
-            sessionStorage.setItem(userContentStorageKeys(user?.id ?? null).apexPrefill, text);
+            if (!storeApexPrefill(window, user?.id ?? null, text)) {
+              toast({
+                title: 'Could not carry this prompt into Apex',
+                description: 'Temporary browser storage is unavailable. Open the full chat and paste your question instead.',
+                variant: 'destructive',
+              });
+              return;
+            }
             window.location.assign('/chatbot');
           }}
         />

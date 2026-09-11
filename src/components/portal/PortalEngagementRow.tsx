@@ -5,7 +5,8 @@ import { getCommandTermsForBoard } from '@/lib/commandTerms';
 import { getConfidenceRatings, setConfidenceRating } from '@/lib/portalFeatures';
 import type { LearnerProfile } from '@/lib/learnerProfile';
 import { useAuth } from '@/contexts/AuthContext';
-import { userContentStorageKeys } from '@/lib/userContentStorageScope.mjs';
+import { storeApexPrefill } from '@/lib/apexPrefillStorage.mjs';
+import { toast } from '@/hooks/use-toast';
 import PortalWidget from '@/components/portal/PortalWidget';
 
 type Props = {
@@ -25,12 +26,18 @@ export default function PortalEngagementRow({ profile }: Props) {
   const [drillIndex, setDrillIndex] = useState(0);
   const [drillRevealed, setDrillRevealed] = useState(false);
   const term = terms[drillIndex % terms.length];
-  const apexPrefillKey = userContentStorageKeys(user?.id ?? null).apexPrefill;
 
   const sendToApex = () => {
     const text = capture.trim();
     if (!text) return;
-    sessionStorage.setItem(apexPrefillKey, text);
+    if (!storeApexPrefill(window, user?.id ?? null, text)) {
+      toast({
+        title: 'Could not carry this question into Apex',
+        description: 'Temporary browser storage is unavailable. Open the AI Tutor and paste your question instead.',
+        variant: 'destructive',
+      });
+      return;
+    }
     navigate('/chatbot');
   };
 
