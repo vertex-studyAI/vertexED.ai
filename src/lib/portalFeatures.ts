@@ -14,6 +14,7 @@ import { getLoopWeekStatus, LOOP_STEPS, type LoopStep } from '@/lib/studyLoopTra
 import { loadSrDeck, getDueFlashcardCount } from '@/lib/srDeck';
 import { dueCards } from '@/lib/spacedRepetition';
 import { daysUntilExam, BOARD_CONFIGS } from '@/lib/curriculum';
+import { parseStoredArray, resolveLocalStorage, safeStorageGet, safeStorageSet } from '@/lib/browserStorage.mjs';
 import { userContentStorageKeys } from '@/lib/userContentStorageScope.mjs';
 
 const TARGET_MARK = 80;
@@ -68,21 +69,23 @@ const BOARD_TIPS: Record<string, string> = {
   CBSE: 'Use current school and board material to confirm required answer structure and diagram conventions.',
 };
 
+function storage() {
+  return typeof window === 'undefined' ? null : resolveLocalStorage(window);
+}
+
 function daysSince(iso: string): number {
   const ms = Date.now() - new Date(iso).getTime();
   return Math.max(0, Math.floor(ms / 86400000));
 }
 
 function readActivityDates(limit = 14): string[] {
-  if (typeof window === 'undefined') return [];
-  try {
-    const raw = localStorage.getItem(userContentStorageKeys().activity);
-    if (!raw) return [];
-    const entries = JSON.parse(raw) as Array<{ createdAt: string }>;
-    return entries.slice(0, limit).map((e) => e.createdAt.slice(0, 10));
-  } catch {
-    return [];
-  }
+  const entries = parseStoredArray(safeStorageGet(storage(), userContentStorageKeys().activity));
+  return entries
+    .filter((entry): entry is { createdAt: string } => (
+      typeof entry === 'object' && entry !== null && typeof (entry as { createdAt?: unknown }).createdAt === 'string'
+    ))
+    .slice(0, limit)
+    .map((entry) => entry.createdAt.slice(0, 10));
 }
 
 function buildStreakCalendar(stats: StudyStats): PortalIntelligence['streakCalendar'] {
@@ -267,21 +270,15 @@ export function buildPortalIntelligence(
 }
 
 export function getExamNightDone(): Set<string> {
-  if (typeof window === 'undefined') return new Set();
-  try {
-    const raw = localStorage.getItem(userContentStorageKeys().examNightChecklist);
-    const parsed = raw ? (JSON.parse(raw) as string[]) : [];
-    return new Set(parsed);
-  } catch {
-    return new Set();
-  }
+  const parsed = parseStoredArray(safeStorageGet(storage(), userContentStorageKeys().examNightChecklist));
+  return new Set(parsed.filter((item): item is string => typeof item === 'string'));
 }
 
 export function toggleExamNightItem(id: string): Set<string> {
   const done = getExamNightDone();
   if (done.has(id)) done.delete(id);
   else done.add(id);
-  localStorage.setItem(userContentStorageKeys().examNightChecklist, JSON.stringify([...done]));
+  safeStorageSet(storage(), userContentStorageKeys().examNightChecklist, JSON.stringify([...done]));
   return done;
 }
 
@@ -293,11 +290,27 @@ export type ConfidenceRating = {
   updatedAt: string;
 };
 
+function isConfidenceRating(subject: string, value: unknown): value is ConfidenceRating {
+  if (typeof value !== 'object' || value === null || Array.isArray(value)) return false;
+  const candidate = value as Partial<ConfidenceRating>;
+  return candidate.subject === subject
+    && Number.isInteger(candidate.rating)
+    && (candidate.rating ?? 0) >= 1
+    && (candidate.rating ?? 0) <= 5
+    && typeof candidate.updatedAt === 'string';
+}
+
 function readConfidence(): Record<string, ConfidenceRating> {
-  if (typeof window === 'undefined') return {};
+  const raw = safeStorageGet(storage(), userContentStorageKeys().confidenceCheckin);
+  if (!raw) return {};
   try {
-    const raw = localStorage.getItem(userContentStorageKeys().confidenceCheckin);
-    return raw ? (JSON.parse(raw) as Record<string, ConfidenceRating>) : {};
+    const parsed = JSON.parse(raw) as unknown;
+    if (typeof parsed !== 'object' || parsed === null || Array.isArray(parsed)) return {};
+    const valid: Record<string, ConfidenceRating> = {};
+    for (const [subject, value] of Object.entries(parsed)) {
+      if (isConfidenceRating(subject, value)) valid[subject] = value;
+    }
+    return valid;
   } catch {
     return {};
   }
@@ -311,7 +324,7 @@ export function getConfidenceRatings(subjects: string[]): ConfidenceRating[] {
 export function setConfidenceRating(subject: string, rating: 1 | 2 | 3 | 4 | 5) {
   const store = readConfidence();
   store[subject] = { subject, rating, updatedAt: new Date().toISOString() };
-  localStorage.setItem(userContentStorageKeys().confidenceCheckin, JSON.stringify(store));
+  safeStorageSet(storage(), userContentStorageKeys().confidenceCheckin, JSON.stringify(store));
 }
 
 // ── Data export ──────────────────────────────────────────────────────
