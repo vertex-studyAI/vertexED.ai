@@ -1,8 +1,14 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Check, Plus, Trash2 } from 'lucide-react';
 
 import { useAuth } from '@/contexts/AuthContext';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
+import {
+  MAX_HABITS,
+  normalizeHabits,
+  readHabitResetDate,
+  writeHabitResetDate,
+} from '@/lib/habitStorage.mjs';
 import { recordStudySession } from '@/lib/studyStats';
 import { userContentStorageKeys } from '@/lib/userContentStorageScope.mjs';
 
@@ -15,14 +21,22 @@ type Habit = {
 
 type Props = { accent: string };
 
-const MAX_HABITS = 8;
 const todayKey = () => new Date().toISOString().slice(0, 10);
 
 export default function HabitTracker({ accent }: Props) {
   const { user, loading: authLoading } = useAuth();
   const keys = userContentStorageKeys(authLoading ? undefined : user?.id ?? null);
-  const [habits, setHabits] = useLocalStorage<Habit[]>(keys.habits, []);
+  const [storedHabits, setStoredHabits] = useLocalStorage<unknown>(keys.habits, []);
+  const habits = useMemo(() => normalizeHabits(storedHabits) as Habit[], [storedHabits]);
   const [draft, setDraft] = useState('');
+
+  const updateHabits = useCallback((value: Habit[] | ((current: Habit[]) => Habit[])) => {
+    setStoredHabits((current) => {
+      const previous = normalizeHabits(current) as Habit[];
+      const next = typeof value === 'function' ? value(previous) : value;
+      return normalizeHabits(next);
+    });
+  }, [setStoredHabits]);
 
   useEffect(() => {
     setDraft('');
@@ -31,10 +45,10 @@ export default function HabitTracker({ accent }: Props) {
   useEffect(() => {
     if (typeof window === 'undefined') return;
     const today = todayKey();
-    if (window.localStorage.getItem(keys.habitsResetDate) === today) return;
-    setHabits((current) => current.map((habit) => ({ ...habit, completed: false })));
-    window.localStorage.setItem(keys.habitsResetDate, today);
-  }, [keys.habitsResetDate, setHabits]);
+    if (readHabitResetDate(window, keys.habitsResetDate) === today) return;
+    updateHabits((current) => current.map((habit) => ({ ...habit, completed: false })));
+    writeHabitResetDate(window, keys.habitsResetDate, today);
+  }, [keys.habitsResetDate, updateHabits]);
 
   useEffect(() => {
     window.dispatchEvent(new Event('vertexed:learner-state-changed'));
@@ -45,7 +59,7 @@ export default function HabitTracker({ accent }: Props) {
   const addHabit = () => {
     const name = draft.trim().replace(/\s+/g, ' ').slice(0, 60);
     if (!name || habits.length >= MAX_HABITS) return;
-    setHabits((current) => [
+    updateHabits((current) => [
       ...current,
       {
         id: typeof crypto !== 'undefined' && 'randomUUID' in crypto
@@ -61,7 +75,7 @@ export default function HabitTracker({ accent }: Props) {
 
   const toggleHabit = (id: string) => {
     const habit = habits.find((item) => item.id === id);
-    setHabits((current) => current.map((item) => (
+    updateHabits((current) => current.map((item) => (
       item.id === id ? { ...item, completed: !item.completed } : item
     )));
     if (habit && !habit.completed) recordStudySession();
@@ -133,7 +147,7 @@ export default function HabitTracker({ accent }: Props) {
               </button>
               <button
                 type="button"
-                onClick={() => setHabits((current) => current.filter((item) => item.id !== habit.id))}
+                onClick={() => updateHabits((current) => current.filter((item) => item.id !== habit.id))}
                 className="zone-btn-ghost !p-2.5"
                 aria-label={`Remove ${habit.name}`}
               >
