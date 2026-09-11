@@ -49,10 +49,13 @@ test('password update validates the shared policy and confirmation, then verifie
   assert.match(resetSource, /Sign in with your new password to continue/);
 });
 
-test('recovery authorization marker is session-only and account-bound', () => {
-  assert.match(markerSource, /sessionStorage\.setItem\(PASSWORD_RECOVERY_MARKER, normalizedUserId\)/);
-  assert.match(markerSource, /sessionStorage\.getItem\(PASSWORD_RECOVERY_MARKER\) === normalizedUserId/);
-  assert.match(markerSource, /sessionStorage\.removeItem\(PASSWORD_RECOVERY_MARKER\)/);
-  assert.doesNotMatch(markerSource, /setItem\(PASSWORD_RECOVERY_MARKER, '1'\)/);
+test('recovery authorization marker is session-only, account-bound, and storage-failure safe', () => {
+  assert.match(markerSource, /resolveSessionStorage/);
+  assert.match(markerSource, /safeStorageSet\(getRecoveryStorage\(\), PASSWORD_RECOVERY_MARKER, normalizedUserId\)/);
+  assert.match(markerSource, /safeStorageGet\(getRecoveryStorage\(\), PASSWORD_RECOVERY_MARKER\) === normalizedUserId/);
+  assert.match(markerSource, /safeStorageRemove\(getRecoveryStorage\(\), PASSWORD_RECOVERY_MARKER\)/);
+  assert.match(markerSource, /if \(!safeStorageSet[\s\S]*?throw new Error/);
+  assert.doesNotMatch(markerSource, /window\.sessionStorage/);
   assert.doesNotMatch(markerSource, /localStorage/);
+  assert.doesNotMatch(markerSource, /setItem\(PASSWORD_RECOVERY_MARKER, '1'\)/);
 });
