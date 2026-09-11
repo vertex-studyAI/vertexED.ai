@@ -1,3 +1,4 @@
+import { resolveSessionStorage, safeStorageRemove } from '@/lib/browserStorage.mjs';
 import { supabase } from '@/lib/supabaseClient';
 
 const LEGACY_SHARED_SESSION_KEYS = [
@@ -11,8 +12,9 @@ let activeUserId: string | null | undefined;
 
 export function clearLegacySharedSessionHandoffs() {
   if (typeof window === 'undefined') return;
+  const storage = resolveSessionStorage(window);
   for (const key of LEGACY_SHARED_SESSION_KEYS) {
-    window.sessionStorage.removeItem(key);
+    safeStorageRemove(storage, key);
   }
 }
 
