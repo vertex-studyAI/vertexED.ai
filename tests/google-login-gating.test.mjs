@@ -17,7 +17,8 @@ test('private-beta signup stays invite-gated while Google is presented as linked
   assert.doesNotMatch(loginSource, /Continue with Google/);
 });
 
-test('Google identity linking preserves the initiating account-settings route', () => {
+test('only account settings owns the Google-link return marker', () => {
+  assert.doesNotMatch(connectGoogleSource, /vertex_google_link_return/);
   assert.match(
     userSettingsSource,
     /sessionStorage\.setItem\("vertex_google_link_return", "\/user-settings"\)/,
