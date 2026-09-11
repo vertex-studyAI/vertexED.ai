@@ -5,7 +5,7 @@ import test from 'node:test';
 const source = fs.readFileSync('src/components/SavedWorkList.tsx', 'utf8');
 
 test('saved work restore handoff fails closed when temporary storage throws', () => {
-  const openItem = source.match(/const openItem = \(item: StudyArtifact\) => \{([\s\S]*?)\n  \};/);
+  const openItem = source.match(/const openItem = \(item: StudyArtifact\) => \{([\s\S]*?)\n\s*\};/);
   assert.ok(openItem, 'openItem handler must exist');
   assert.match(openItem[1], /try\s*\{/);
   assert.match(openItem[1], /queueArtifactRestore\(item\);\s*\n\s*navigate\(artifactTargetRoute\(item\.kind\)\);/);
