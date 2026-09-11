@@ -120,10 +120,10 @@ test('shared study helpers read direct learner content from the active account s
   assert.match(studyStatsSource, /activity,/);
   assert.match(studyStatsSource, /quickNotes,/);
   assert.match(studyStatsSource, /\} = userContentStorageKeys\(\)/);
-  assert.match(studyStatsSource, /readJson<unknown\[]>\(activity, \[\]\)/);
-  assert.match(studyStatsSource, /readJson<unknown\[]>\(quickNotes, \[\]\)/);
-  assert.doesNotMatch(studyStatsSource, /readJson<unknown\[]>\("studyzone_activity"/);
-  assert.doesNotMatch(studyStatsSource, /readJson<unknown\[]>\("studyzone_notes"/);
+  assert.match(studyStatsSource, /readArray\(activity\)/);
+  assert.match(studyStatsSource, /readArray\(quickNotes\)/);
+  assert.doesNotMatch(studyStatsSource, /readArray\("studyzone_activity"/);
+  assert.doesNotMatch(studyStatsSource, /readArray\("studyzone_notes"/);
 });
 
 test('dashboard ecosystem reads planner and activity from the same active account scopes', () => {
