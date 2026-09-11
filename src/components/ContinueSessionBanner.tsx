@@ -1,15 +1,29 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router';
 import { ArrowRight, CheckCircle2, CloudOff, Sparkles, X } from 'lucide-react';
 
+import { useAuth } from '@/contexts/AuthContext';
 import { consumeFirstSessionHandoff } from '@/lib/firstSessionHandoff.mjs';
 import { getLastStudySession } from '@/lib/studyActivity';
 
+type FirstSessionHandoff = {
+  showWelcome: boolean;
+  deviceOnly: boolean;
+};
+
 export default function ContinueSessionBanner() {
   const location = useLocation();
-  const [handoff, setHandoff] = useState(() =>
-    typeof window === 'undefined' ? null : consumeFirstSessionHandoff(window.sessionStorage),
-  );
+  const { user, loading: authLoading } = useAuth();
+  const [handoff, setHandoff] = useState<FirstSessionHandoff | null>(null);
+
+  useEffect(() => {
+    if (typeof window === 'undefined' || authLoading || !user?.id) {
+      setHandoff(null);
+      return;
+    }
+
+    setHandoff(consumeFirstSessionHandoff(window.sessionStorage, user.id));
+  }, [authLoading, user?.id]);
 
   if (handoff) {
     const Icon = handoff.deviceOnly ? CloudOff : CheckCircle2;

@@ -11,6 +11,7 @@ import { isOnboardingComplete } from "@/lib/onboardingStatus.js";
 import { savePlannerSnapshot } from "@/lib/plannerSync";
 import { buildCurriculumProfileUpsert } from "@/lib/profileRecovery.mjs";
 import { trackProductEvent } from "@/lib/productAnalytics.mjs";
+import { markFirstSessionSyncNotice, markFirstSessionWelcome } from "@/lib/firstSessionHandoff.mjs";
 import type { CurriculumPreference } from "@/types/curriculum";
 
 const USERNAME_REGEX = /^([a-zA-Z0-9_.-]{3,20})$/;
@@ -127,10 +128,7 @@ export default function Onboarding() {
       if (updateError) throw updateError;
 
       if (!planResult.cloudSynced) {
-        sessionStorage.setItem(
-          "vertex_plan_sync_notice",
-          "Your starter plan is saved on this device and will sync when the connection is available.",
-        );
+        markFirstSessionSyncNotice(sessionStorage, user.id);
       }
 
       trackProductEvent("Onboarding Completed", {
@@ -138,7 +136,7 @@ export default function Onboarding() {
         subject_count: curriculum.subjects.length,
         planner_sync: planResult.cloudSynced ? "cloud" : "device",
       });
-      sessionStorage.setItem("vertex_welcome", "1");
+      markFirstSessionWelcome(sessionStorage, user.id);
       navigate("/main", { replace: true });
     } catch (err) {
       setError(getErrorMessage(err));
