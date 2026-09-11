@@ -136,6 +136,8 @@ test("dashboard handoff follows the authenticated account and resolves session s
   assert.match(source, /\[authLoading, user\?\.id\]/);
   assert.match(source, /aria-live="polite"/);
   assert.match(source, /aria-labelledby="first-session-handoff-title"/);
+  assert.match(source, /to="\/exam-prep"/);
+  assert.match(source, />\s*Try one question\s*</);
   assert.match(source, /to="\/planner"/);
   assert.match(source, />\s*Review plan\s*</);
   assert.match(source, /aria-label="Dismiss starter plan message"/);
