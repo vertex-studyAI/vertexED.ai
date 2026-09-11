@@ -6,7 +6,7 @@ import {
   buildReviewHandoffFromPaper,
   clearMockExamDraft,
   loadMockExamDraft,
-  mockExamAnswersStorageKey,
+  saveMockExamAnswersHandoff,
   saveMockExamDraft,
   saveMockReviewHandoff,
 } from "@/lib/examFlow";
@@ -58,19 +58,18 @@ function saveExamHandoff(
   board: ExamBoard | null | undefined,
   subject: string | undefined,
   grade: number | null | undefined,
-) {
-  sessionStorage.setItem(
-    mockExamAnswersStorageKey(),
-    JSON.stringify({
-      paperTitle: paper.title,
-      answers,
-      questions,
-      rubricNotes: paper.rubricNotes ?? [],
-      board: board ? boardToApiLabel(board) : paper.metadata?.board,
-      subject: subject ?? paper.metadata?.subject,
-      grade: grade ?? paper.metadata?.grade,
-    }),
-  );
+): boolean {
+  const handoffStored = saveMockExamAnswersHandoff({
+    paperTitle: paper.title,
+    answers,
+    questions,
+    rubricNotes: paper.rubricNotes ?? [],
+    board: board ? boardToApiLabel(board) : paper.metadata?.board,
+    subject: subject ?? paper.metadata?.subject,
+    grade: grade ?? paper.metadata?.grade,
+  });
+  if (!handoffStored) return false;
+
   clearMockExamDraft();
 
   if (board) {
@@ -78,6 +77,7 @@ function saveExamHandoff(
       buildReviewHandoffFromPaper(board, subject ?? paper.metadata?.subject ?? "", grade ?? null, paper),
     );
   }
+  return true;
 }
 
 const CENTERED_OVERLAY =
@@ -106,6 +106,7 @@ export default function MockExamMode({ paper, onClose, board, subject, grade, cr
   const [index, setIndex] = useState(() => Math.min(restoredDraft?.currentIndex ?? 0, Math.max(0, questions.length - 1)));
   const [answers, setAnswers] = useState<Record<string, string>>(() => restoredDraft?.answers ?? {});
   const [submitted, setSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const [showRubric, setShowRubric] = useState(false);
   const timerStartedRef = useRef(false);
   const titleRef = useRef<HTMLHeadingElement>(null);
@@ -148,8 +149,12 @@ export default function MockExamMode({ paper, onClose, board, subject, grade, cr
 
   useEffect(() => {
     if (!submitted && secondsLeft === 0 && timerStartedRef.current) {
-      saveExamHandoff(paper, questions, answers, board, subject, grade ?? null);
-      setSubmitted(true);
+      if (saveExamHandoff(paper, questions, answers, board, subject, grade ?? null)) {
+        setSubmitError(null);
+        setSubmitted(true);
+      } else {
+        setSubmitError('Your browser blocked temporary exam storage. Your answers are still here; allow site storage and submit again.');
+      }
     }
   }, [answers, board, grade, paper, questions, secondsLeft, subject, submitted]);
 
@@ -159,8 +164,12 @@ export default function MockExamMode({ paper, onClose, board, subject, grade, cr
   const ss = String(secondsLeft % 60).padStart(2, "0");
 
   const handleComplete = () => {
-    saveExamHandoff(paper, questions, answers, board, subject, grade ?? null);
-    setSubmitted(true);
+    if (saveExamHandoff(paper, questions, answers, board, subject, grade ?? null)) {
+      setSubmitError(null);
+      setSubmitted(true);
+    } else {
+      setSubmitError('Your browser blocked temporary exam storage. Your answers are still here; allow site storage and submit again.');
+    }
   };
 
   if (!questions.length) {
@@ -339,6 +348,11 @@ export default function MockExamMode({ paper, onClose, board, subject, grade, cr
             );
           })}
         </nav>
+        {submitError && (
+          <p role="alert" className="rounded-lg border border-destructive/30 bg-destructive/10 px-3 py-2 text-sm text-destructive">
+            {submitError}
+          </p>
+        )}
       </main>
 
       <footer className="flex shrink-0 justify-between gap-3 border-t border-border/60 px-4 py-3">

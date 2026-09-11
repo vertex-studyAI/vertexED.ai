@@ -6,6 +6,14 @@ export function resolveLocalStorage(owner) {
   }
 }
 
+export function resolveSessionStorage(owner) {
+  try {
+    return owner?.sessionStorage ?? null;
+  } catch {
+    return null;
+  }
+}
+
 export function safeStorageGet(storage, key) {
   try {
     return storage?.getItem(key) ?? null;
@@ -18,6 +26,16 @@ export function safeStorageSet(storage, key, value) {
   try {
     if (!storage) return false;
     storage.setItem(key, value);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+export function safeStorageRemove(storage, key) {
+  try {
+    if (!storage) return false;
+    storage.removeItem(key);
     return true;
   } catch {
     return false;
