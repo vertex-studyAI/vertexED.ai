@@ -52,6 +52,35 @@ export function summarizeMeasuredSubjects(entries) {
   });
 }
 
+function isCalendarDay(value) {
+  if (typeof value !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
+  const parsed = new Date(`${value}T00:00:00.000Z`);
+  return Number.isFinite(parsed.getTime()) && parsed.toISOString().slice(0, 10) === value;
+}
+
+function isFiniteNonNegative(value) {
+  return typeof value === 'number' && Number.isFinite(value) && value >= 0;
+}
+
+export function normalizeProgressSnapshots(values) {
+  if (!Array.isArray(values)) return [];
+  return values.flatMap((value) => {
+    if (!value || typeof value !== 'object' || Array.isArray(value)) return [];
+    const { date, studyStreak, habitsDone, habitCount, reviewsCompleted, avgMastery } = value;
+    if (
+      !isCalendarDay(date) ||
+      !isFiniteNonNegative(studyStreak) ||
+      !isFiniteNonNegative(habitsDone) ||
+      !isFiniteNonNegative(habitCount) ||
+      !isFiniteNonNegative(reviewsCompleted) ||
+      !(avgMastery === null || (typeof avgMastery === 'number' && Number.isFinite(avgMastery)))
+    ) {
+      return [];
+    }
+    return [{ date, studyStreak, habitsDone, habitCount, reviewsCompleted, avgMastery }];
+  });
+}
+
 export function summarizeHeatmapMastery(heatmap) {
   const reviewsCompleted = heatmap.reduce((sum, item) => sum + item.attempts, 0);
   const avgMastery =
@@ -96,7 +125,7 @@ export function summarizeMasteryVelocity(snapshots) {
   }
 
   const first = measured[0].avgMastery;
-  const last = measured[measured.length - 1].avgMastery;
+  const last = measured.at(-1).avgMastery;
   const delta = last - first;
   const trend = delta > 3 ? 'up' : delta < -3 ? 'down' : 'flat';
 
