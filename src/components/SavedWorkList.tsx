@@ -31,8 +31,16 @@ export default function SavedWorkList({
   const visible = limit ? items.slice(0, limit) : items;
 
   const openItem = (item: StudyArtifact) => {
-    queueArtifactRestore(item);
-    navigate(artifactTargetRoute(item.kind));
+    try {
+      queueArtifactRestore(item);
+      navigate(artifactTargetRoute(item.kind));
+    } catch {
+      toast({
+        title: "Could not open saved work",
+        description: "Temporary browser storage is unavailable. Your saved work was not changed; try again after storage access is restored.",
+        variant: "destructive",
+      });
+    }
   };
 
   const removeItem = async (item: StudyArtifact) => {
