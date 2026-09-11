@@ -8,7 +8,8 @@ import ExamCountdown from '@/components/curriculum/ExamCountdown';
 import BoardBadge from '@/components/curriculum/BoardBadge';
 import LiquidGlass from '@/components/LiquidGlass';
 import { useAuth } from '@/contexts/AuthContext';
-import { userContentStorageKeys } from '@/lib/userContentStorageScope.mjs';
+import { storeApexPrefill } from '@/lib/apexPrefillStorage.mjs';
+import { toast } from '@/hooks/use-toast';
 import {
   getPersonalizedSubline,
   getProfileCompleteness,
@@ -29,7 +30,18 @@ export default function PortalCommandCenter({ brief, pulse, intel }: Props) {
   const board = brief.profile.curriculum.board;
   const completeness = getProfileCompleteness(brief.profile);
   const subline = getPersonalizedSubline(brief.profile);
-  const apexPrefillKey = userContentStorageKeys(user?.id ?? null).apexPrefill;
+
+  const askApex = () => {
+    if (!storeApexPrefill(window, user?.id ?? null, pulse.apexPrompt)) {
+      toast({
+        title: 'Could not carry this prompt into Apex',
+        description: 'Temporary browser storage is unavailable. Open the AI Tutor and paste your question instead.',
+        variant: 'destructive',
+      });
+      return;
+    }
+    window.location.assign('/chatbot');
+  };
 
   return (
     <LiquidGlass
@@ -88,10 +100,7 @@ export default function PortalCommandCenter({ brief, pulse, intel }: Props) {
               <button
                 type="button"
                 className="btn-glass inline-flex items-center gap-2"
-                onClick={() => {
-                  sessionStorage.setItem(apexPrefillKey, pulse.apexPrompt);
-                  window.location.assign('/chatbot');
-                }}
+                onClick={askApex}
               >
                 <Bot className="h-4 w-4" />
                 Ask Apex
