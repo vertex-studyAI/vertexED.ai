@@ -56,3 +56,29 @@ test('study stats routes browser storage through fail-closed helpers', () => {
   assert.match(source, /parseStoredArray/);
   assert.doesNotMatch(source, /window\.localStorage\.(?:getItem|setItem)/);
 });
+
+test('learner deck, weakness, and retry persistence use the fail-closed storage boundary', () => {
+  for (const relativePath of [
+    '../src/lib/srDeck.ts',
+    '../src/lib/weaknessTracker.ts',
+    '../src/lib/retryQueue.ts',
+  ]) {
+    const source = fs.readFileSync(fileURLToPath(new URL(relativePath, import.meta.url)), 'utf8');
+    assert.match(source, /resolveLocalStorage/);
+    assert.match(source, /safeStorageSet/);
+    assert.doesNotMatch(source, /window\.localStorage\.(?:getItem|setItem)/);
+  }
+
+  const retrySource = fs.readFileSync(
+    fileURLToPath(new URL('../src/lib/retryQueue.ts', import.meta.url)),
+    'utf8',
+  );
+  assert.match(retrySource, /persist\(next\);[\s\S]*queueLearnerStateWrite\('retry'/);
+
+  const weaknessSource = fs.readFileSync(
+    fileURLToPath(new URL('../src/lib/weaknessTracker.ts', import.meta.url)),
+    'utf8',
+  );
+  assert.match(weaknessSource, /writeEntries\(entries\);[\s\S]*scheduleRetry\(/);
+  assert.match(weaknessSource, /queueLearnerStateWrite\('weakness'/);
+});
