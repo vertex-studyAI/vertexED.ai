@@ -13,6 +13,19 @@ export type NotebookSnapshot = {
 
 let hydratedStorageScope: string | null | undefined;
 
+function emptySnapshot(): NotebookSnapshot {
+  return { notebooks: [], updatedAt: new Date(0).toISOString() };
+}
+
+function accountChangedNotebookResult() {
+  return {
+    snapshot: emptySnapshot(),
+    cloudSynced: false,
+    readOnly: true,
+    error: 'Account changed during recovery.',
+  };
+}
+
 async function resolveStorageScope(explicitScope?: string | null): Promise<string | null> {
   if (typeof explicitScope === 'string' && explicitScope.trim()) return explicitScope;
   if (!supabase) return null;
@@ -26,7 +39,7 @@ async function resolveStorageScope(explicitScope?: string | null): Promise<strin
 
 function readLocalSnapshot(storageScope?: string | null): NotebookSnapshot {
   if (typeof window === 'undefined') {
-    return { notebooks: [], updatedAt: new Date(0).toISOString() };
+    return emptySnapshot();
   }
   setNotebookStorageScope(storageScope);
   const keys = notebookStorageKeys(storageScope);
@@ -67,7 +80,7 @@ export async function loadNotebookSnapshot(storageScope?: string | null, acceptC
   // Invalidate write ownership synchronously before any account/session lookup or network work.
   hydratedStorageScope = undefined;
   const resolvedScope = await resolveStorageScope(storageScope);
-  if (getUserContentStorageScope() !== resolvedScope) return { snapshot: { notebooks: [], updatedAt: new Date(0).toISOString() }, cloudSynced: false, error: 'Account changed during recovery.' };
+  if (!resolvedScope || getUserContentStorageScope() !== resolvedScope) return accountChangedNotebookResult();
   setNotebookStorageScope(resolvedScope);
   const keys = notebookStorageKeys(resolvedScope);
   let local: NotebookSnapshot;
@@ -76,14 +89,14 @@ export async function loadNotebookSnapshot(storageScope?: string | null, acceptC
     local = readLocalSnapshot(resolvedScope);
   } catch {
     localReadFailed = true;
-    const empty = { notebooks: [], updatedAt: new Date(0).toISOString() };
+    const empty = emptySnapshot();
     if (!acceptCloud) return { snapshot: empty, cloudSynced: false, readOnly: true, error: 'Device notebooks could not be read. Export account data or reload the cloud copy. Original device data is preserved.' };
     try { backupSnapshotBytes(localStorage, keys, `${keys.updatedAt}:conflict:${Date.now()}`); }
     catch { return { snapshot: empty, cloudSynced: false, readOnly: true, error: 'Cannot preserve a device backup. Allow browser storage or export account data before recovery.' }; }
     local = empty;
   }
   const accessToken = await getAccessToken().catch(() => null);
-  if (!resolvedScope || getUserContentStorageScope() !== resolvedScope) return { snapshot: local, cloudSynced: false, error: 'Account changed or session unavailable.' };
+  if (getUserContentStorageScope() !== resolvedScope) return accountChangedNotebookResult();
   if (!accessToken) {
     if (!localReadFailed) hydratedStorageScope = resolvedScope;
     return { snapshot: local, cloudSynced: false, readOnly: localReadFailed, error: localReadFailed ? 'Device recovery needs a cloud connection. Original device data is preserved.' : 'Device work recovered. Sign in again to resume cloud sync.' };
@@ -96,14 +109,16 @@ export async function loadNotebookSnapshot(storageScope?: string | null, acceptC
     error?: string;
     readOnly?: boolean;
   }) => {
+    if (getUserContentStorageScope() !== resolvedScope) return accountChangedNotebookResult();
     const readOnly = result.readOnly || (localReadFailed && !result.cloudSynced);
-    if (!readOnly && getUserContentStorageScope() === resolvedScope) hydratedStorageScope = resolvedScope;
+    if (!readOnly) hydratedStorageScope = resolvedScope;
     return { ...result, readOnly };
   };
 
   try {
     const res = await authFetchWithAccessToken('/api/user-content?kind=notebook&limit=1', accessToken);
     const data = await res.json().catch(() => null);
+    if (getUserContentStorageScope() !== resolvedScope) return accountChangedNotebookResult();
     if (!res.ok) {
       return finish({
         snapshot: local,
@@ -112,13 +127,12 @@ export async function loadNotebookSnapshot(storageScope?: string | null, acceptC
       });
     }
 
-    if (getUserContentStorageScope() !== resolvedScope) throw new Error('Account changed during recovery.');
     if (!Array.isArray(data?.items)) throw new Error('Invalid cloud response. Local work was preserved.');
     const item = data.items[0] ?? null;
     const cloud = item ? parseCloudSnapshot(item) : null;
     if (item && !cloud) throw new Error('Invalid cloud snapshot. Local work was preserved.');
     const metadata = readSnapshotMetadata(localStorage, metadataKey);
-    if (acceptCloud && !cloud) return { snapshot: local, cloudSynced: false, readOnly: true, error: 'No cloud notebooks are available. Original device data is preserved in your account export.' };
+    if (acceptCloud && !cloud) return finish({ snapshot: local, cloudSynced: false, readOnly: true, error: 'No cloud notebooks are available. Original device data is preserved in your account export.' });
     const merged = reconcileSnapshot({ local: acceptCloud ? local : readLocalSnapshot(resolvedScope), cloud, metadata, acceptCloud });
     if (acceptCloud && cloud) backupSnapshotBytes(localStorage, keys, `${metadataKey}:conflict:${Date.now()}`);
     captureSnapshotRevision(metadataKey, merged.metadata.revision);
@@ -129,6 +143,7 @@ export async function loadNotebookSnapshot(storageScope?: string | null, acceptC
       error: merged.conflict ? 'Cloud work changed. Export your local copy or reload the cloud copy; a local backup will be kept.' : merged.cloudSynced ? undefined : 'Local edits are waiting to sync.' };
     return finish(result);
   } catch (err) {
+    if (getUserContentStorageScope() !== resolvedScope) return accountChangedNotebookResult();
     return finish({
       snapshot: local,
       cloudSynced: false,
