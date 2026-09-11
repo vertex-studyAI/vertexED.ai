@@ -16,6 +16,11 @@ import {
 import { buildAdaptivePlan, type AdaptivePlan } from '@/lib/adaptiveLearning';
 import { plannerStorageKeys } from '@/lib/plannerStorageScope.mjs';
 import { userContentStorageKeys } from '@/lib/userContentStorageScope.mjs';
+import {
+  parseStoredArray,
+  resolveLocalStorage,
+  safeStorageGet,
+} from '@/lib/browserStorage.mjs';
 
 export type { ActivityEntry };
 
@@ -49,39 +54,45 @@ function todayUsDate(): string {
   });
 }
 
-function readJson<T>(key: string, fallback: T): T {
-  if (typeof window === 'undefined') return fallback;
-  try {
-    const raw = window.localStorage.getItem(key);
-    return raw ? (JSON.parse(raw) as T) : fallback;
-  } catch {
-    return fallback;
-  }
+function readStoredArray(key: string): unknown[] {
+  if (typeof window === 'undefined') return [];
+  const storage = resolveLocalStorage(window);
+  return parseStoredArray(safeStorageGet(storage, key));
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return Boolean(value) && typeof value === 'object' && !Array.isArray(value);
+}
+
+function isActivityEntry(value: unknown): value is ActivityEntry {
+  return isRecord(value)
+    && typeof value.id === 'string'
+    && typeof value.message === 'string'
+    && typeof value.createdAt === 'string'
+    && Number.isFinite(Date.parse(value.createdAt));
 }
 
 export function getTodayPlannerTasks(): PlannerTaskPreview[] {
   const today = todayUsDate();
-  const tasks = readJson<Array<Record<string, unknown>>>(plannerStorageKeys().tasks, []);
-  return tasks
-    .filter((task) => task.date === today)
+  return readStoredArray(plannerStorageKeys().tasks)
+    .filter(isRecord)
+    .filter((task) => task.date === today && typeof task.id === 'string' && task.id.trim())
     .map((task) => ({
-      id: String(task.id ?? ''),
-      name: String(task['task name'] || task.taskName || 'Study task'),
+      id: task.id as string,
+      name: typeof task['task name'] === 'string'
+        ? task['task name']
+        : typeof task.taskName === 'string'
+          ? task.taskName
+          : 'Study task',
       startTime: typeof task['start time'] === 'string' ? task['start time'] : undefined,
-    }))
-    .filter((task) => task.id);
+    }));
 }
 
 export function getRecentActivity(limit = 4): ActivityEntry[] {
-  if (typeof window === 'undefined') return [];
   const { activity } = userContentStorageKeys();
-  try {
-    const raw = window.localStorage.getItem(activity);
-    const entries = raw ? (JSON.parse(raw) as ActivityEntry[]) : [];
-    return entries.slice(0, limit);
-  } catch {
-    return [];
-  }
+  return readStoredArray(activity)
+    .filter(isActivityEntry)
+    .slice(0, Math.max(0, Math.floor(limit)));
 }
 
 export function buildEcosystemBrief(
