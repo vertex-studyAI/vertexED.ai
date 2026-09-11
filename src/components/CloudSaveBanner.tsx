@@ -1,22 +1,43 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { CloudOff, X } from "lucide-react";
 import { useLocation } from "react-router";
 
 import { useAuth } from "@/contexts/AuthContext";
 import { listStudyArtifactsDetailed } from "@/lib/userContent";
 
-const DISMISS_KEY = "vertex_cloud_banner_dismissed";
+const DISMISS_KEY_PREFIX = "vertex_cloud_banner_dismissed";
+const LEGACY_DISMISS_KEY = DISMISS_KEY_PREFIX;
+
+function cloudBannerDismissKey(userId?: string | null) {
+  const accountId = typeof userId === "string" ? userId.trim() : "";
+  return accountId ? `${DISMISS_KEY_PREFIX}:${encodeURIComponent(accountId)}` : null;
+}
 
 export default function CloudSaveBanner() {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, user } = useAuth();
   const location = useLocation();
   const [message, setMessage] = useState<string | null>(null);
-  const [dismissed, setDismissed] = useState(
-    () => typeof window !== "undefined" && sessionStorage.getItem(DISMISS_KEY) === "1",
-  );
+  const [dismissed, setDismissed] = useState(false);
+  const dismissKey = useMemo(() => cloudBannerDismissKey(user?.id), [user?.id]);
+
+  useEffect(() => {
+    if (typeof window === "undefined" || !dismissKey) {
+      setDismissed(false);
+      return;
+    }
+
+    try {
+      setDismissed(sessionStorage.getItem(dismissKey) === "1");
+      // A historical unscoped dismissal cannot be attributed to the current account.
+      sessionStorage.removeItem(LEGACY_DISMISS_KEY);
+    } catch {
+      setDismissed(false);
+    }
+  }, [dismissKey]);
 
   const showOnRoute =
     isAuthenticated &&
+    Boolean(user?.id) &&
     !["/", "/login", "/signup", "/home", "/about", "/features"].includes(location.pathname) &&
     !location.pathname.startsWith("/resources");
 
@@ -51,7 +72,7 @@ export default function CloudSaveBanner() {
     return () => {
       cancelled = true;
     };
-  }, [showOnRoute, dismissed, location.pathname]);
+  }, [showOnRoute, dismissed, location.pathname, user?.id]);
 
   if (!showOnRoute || dismissed || !message) return null;
 
@@ -73,7 +94,13 @@ export default function CloudSaveBanner() {
       <button
         type="button"
         onClick={() => {
-          sessionStorage.setItem(DISMISS_KEY, "1");
+          if (dismissKey) {
+            try {
+              sessionStorage.setItem(dismissKey, "1");
+            } catch {
+              // A blocked sessionStorage write should not break dismissal for this render.
+            }
+          }
           setDismissed(true);
         }}
         className="shrink-0 rounded-lg p-1.5 hover:bg-sky-500/20 transition"
