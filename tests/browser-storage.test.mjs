@@ -5,6 +5,7 @@ import { fileURLToPath } from 'node:url';
 
 import {
   parseStoredArray,
+  parseStoredObject,
   resolveLocalStorage,
   resolveSessionStorage,
   safeStorageGet,
@@ -56,6 +57,17 @@ test('persisted stat arrays reject malformed or object-shaped payloads', () => {
   assert.deepEqual(parseStoredArray('{}'), []);
   assert.deepEqual(parseStoredArray('"not-an-array"'), []);
   assert.deepEqual(parseStoredArray('[{"completed":true},null]'), [{ completed: true }, null]);
+});
+
+test('persisted objects reject malformed, primitive, and array-shaped payloads', () => {
+  assert.equal(parseStoredObject(null), null);
+  assert.equal(parseStoredObject('{broken'), null);
+  assert.equal(parseStoredObject('null'), null);
+  assert.equal(parseStoredObject('[]'), null);
+  assert.equal(parseStoredObject('"not-an-object"'), null);
+  assert.deepEqual(parseStoredObject('{"updatedAt":"2026-09-11T00:00:00.000Z"}'), {
+    updatedAt: '2026-09-11T00:00:00.000Z',
+  });
 });
 
 test('study stats routes browser storage through fail-closed helpers', () => {
