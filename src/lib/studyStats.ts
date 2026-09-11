@@ -1,4 +1,10 @@
 import { localDayKey, currentStreak } from '@/lib/studyDates.mjs';
+import {
+  parseStoredArray,
+  resolveLocalStorage,
+  safeStorageGet,
+  safeStorageSet,
+} from '@/lib/browserStorage.mjs';
 import { userContentStorageKeys } from '@/lib/userContentStorageScope.mjs';
 
 export type StudyStats = {
@@ -10,14 +16,20 @@ export type StudyStats = {
   lastStudyDate: string | null;
 };
 
-function readJson<T>(key: string, fallback: T): T {
-  if (typeof window === "undefined") return fallback;
-  try {
-    const raw = window.localStorage.getItem(key);
-    return raw ? (JSON.parse(raw) as T) : fallback;
-  } catch {
-    return fallback;
-  }
+type HabitRow = { completed?: boolean };
+
+function storage() {
+  return typeof window === 'undefined' ? null : resolveLocalStorage(window);
+}
+
+function readArray(key: string): unknown[] {
+  return parseStoredArray(safeStorageGet(storage(), key));
+}
+
+function readHabits(key: string): HabitRow[] {
+  return readArray(key).filter(
+    (value): value is HabitRow => Boolean(value) && typeof value === 'object' && !Array.isArray(value),
+  );
 }
 
 function todayKey(): string {
@@ -26,27 +38,30 @@ function todayKey(): string {
 
 /** Reset daily habit completion flags at the start of a new day. */
 export function ensureDailyHabitReset(): void {
-  if (typeof window === "undefined") return;
+  const local = storage();
+  if (!local) return;
   const { habits, habitsResetDate } = userContentStorageKeys();
   const today = todayKey();
-  const lastReset = window.localStorage.getItem(habitsResetDate);
+  const lastReset = safeStorageGet(local, habitsResetDate);
   if (lastReset === today) return;
 
-  const currentHabits = readJson<Array<{ completed?: boolean }>>(habits, []);
+  const currentHabits = readHabits(habits);
   if (currentHabits.some((habit) => habit.completed)) {
     const reset = currentHabits.map((habit) => ({ ...habit, completed: false }));
-    window.localStorage.setItem(habits, JSON.stringify(reset));
+    if (!safeStorageSet(local, habits, JSON.stringify(reset))) return;
   }
-  window.localStorage.setItem(habitsResetDate, today);
+  safeStorageSet(local, habitsResetDate, today);
 }
 
 /** Call when user completes a meaningful study action. */
 export function recordStudySession(): void {
-  if (typeof window === "undefined") return;
+  const local = storage();
+  if (!local) return;
   const { studyStreak, lastStudyDate } = userContentStorageKeys();
   const today = todayKey();
-  const last = window.localStorage.getItem(lastStudyDate);
-  let streak = Number(window.localStorage.getItem(studyStreak) || "0");
+  const last = safeStorageGet(local, lastStudyDate);
+  let streak = Number(safeStorageGet(local, studyStreak) || '0');
+  if (!Number.isFinite(streak) || streak < 0) streak = 0;
 
   if (last === today) return;
 
@@ -57,8 +72,10 @@ export function recordStudySession(): void {
   if (last === yesterdayKey) streak += 1;
   else streak = 1;
 
-  window.localStorage.setItem(studyStreak, String(streak));
-  window.localStorage.setItem(lastStudyDate, today);
+  // Keep the date/streak pair coherent: if the streak cannot be stored, do not
+  // advance the date marker and suppress a later retry with partial state.
+  if (!safeStorageSet(local, studyStreak, String(streak))) return;
+  safeStorageSet(local, lastStudyDate, today);
 }
 
 export function getStudyStats(): StudyStats {
@@ -70,18 +87,17 @@ export function getStudyStats(): StudyStats {
     studyStreak,
     lastStudyDate,
   } = userContentStorageKeys();
-  const currentHabits = readJson<{ completed?: boolean }[]>(habits, []);
-  const entries = readJson<unknown[]>(activity, []);
-  const notes = readJson<unknown[]>(quickNotes, []);
-  const streak = Number(
-    typeof window !== "undefined" ? window.localStorage.getItem(studyStreak) || "0" : "0",
-  );
-  const lastStudy =
-    typeof window !== "undefined" ? window.localStorage.getItem(lastStudyDate) : null;
+  const local = storage();
+  const currentHabits = readHabits(habits);
+  const entries = readArray(activity);
+  const notes = readArray(quickNotes);
+  const rawStreak = Number(safeStorageGet(local, studyStreak) || '0');
+  const streak = Number.isFinite(rawStreak) && rawStreak >= 0 ? rawStreak : 0;
+  const lastStudy = safeStorageGet(local, lastStudyDate);
 
   return {
     habitCount: currentHabits.length,
-    habitsDoneToday: currentHabits.filter((h) => h.completed).length,
+    habitsDoneToday: currentHabits.filter((habit) => habit.completed).length,
     activityEntries: entries.length,
     quickNotes: notes.length,
     studyStreak: currentStreak(streak, lastStudy),
