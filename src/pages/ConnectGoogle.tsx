@@ -13,13 +13,11 @@ export default function ConnectGoogle() {
   const connectGoogle = async () => {
     if (!supabase) return;
     setConnecting(true);
-    sessionStorage.setItem("vertex_google_link_return", "/onboarding");
     const { error } = await supabase.auth.linkIdentity({
       provider: "google",
       options: { redirectTo: `${window.location.origin}/auth/callback` },
     });
     if (error) {
-      sessionStorage.removeItem("vertex_google_link_return");
       setConnecting(false);
       toast({ title: "Could not connect Google", description: error.message, variant: "destructive" });
     }
