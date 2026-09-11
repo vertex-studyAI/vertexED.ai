@@ -1,3 +1,4 @@
+import { resolveLocalStorage, safeStorageGet, safeStorageSet } from '@/lib/browserStorage.mjs';
 import { localDayKey } from '@/lib/studyDates.mjs';
 import { getStudyStats } from '@/lib/studyStats';
 import { userContentStorageKeys } from '@/lib/userContentStorageScope.mjs';
@@ -5,6 +6,7 @@ import { getWeaknessHeatmap, getMeasuredEntries } from '@/lib/weaknessTracker';
 import {
   countRecentAttempts,
   estimateStudyMinutes,
+  normalizeProgressSnapshots,
   summarizeHeatmapMastery,
   summarizeSnapshotMastery,
 } from '@/lib/progressAnalyticsCore.mjs';
@@ -34,23 +36,26 @@ function storageKey() {
   return userContentStorageKeys().progressSnapshots;
 }
 
+function storage() {
+  return typeof window === 'undefined' ? null : resolveLocalStorage(window);
+}
+
 function todayKey(): string {
   return localDayKey();
 }
 
 function readSnapshots(): DailySnapshot[] {
-  if (typeof window === 'undefined') return [];
+  const raw = safeStorageGet(storage(), storageKey());
+  if (!raw) return [];
   try {
-    const raw = window.localStorage.getItem(storageKey());
-    return raw ? (JSON.parse(raw) as DailySnapshot[]) : [];
+    return normalizeProgressSnapshots(JSON.parse(raw)) as DailySnapshot[];
   } catch {
     return [];
   }
 }
 
 function writeSnapshots(snapshots: DailySnapshot[]) {
-  if (typeof window === 'undefined') return;
-  window.localStorage.setItem(storageKey(), JSON.stringify(snapshots.slice(-30)));
+  safeStorageSet(storage(), storageKey(), JSON.stringify(snapshots.slice(-30)));
 }
 
 export function recordDailySnapshot() {
