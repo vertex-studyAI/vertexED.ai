@@ -17,6 +17,21 @@ test('cloud save degradation stays user-facing, accessible, and fail-safe', asyn
   assert.match(source, /Cloud sync will resume when the service is available again\./);
 });
 
+test('cloud save banner dismissal and status are rebound to the current account', async () => {
+  const source = await readSource('src/components/CloudSaveBanner.tsx');
+
+  assert.match(source, /cloudBannerDismissKey\(user\?\.id\)/);
+  assert.match(source, /const dismissed = Boolean\(dismissKey && dismissedForKey === dismissKey\)/);
+  assert.match(source, /sessionStorage\.getItem\(dismissKey\) === "1" \? dismissKey : null/);
+  assert.match(source, /sessionStorage\.setItem\(dismissKey, "1"\)/);
+  assert.match(source, /setDismissedForKey\(dismissKey\)/);
+  assert.match(source, /sessionStorage\.removeItem\(LEGACY_DISMISS_KEY\)/);
+  assert.match(source, /\[dismissKey\]/);
+  assert.match(source, /\[showOnRoute, dismissed, location\.pathname, user\?\.id\]/);
+  assert.doesNotMatch(source, /sessionStorage\.getItem\(DISMISS_KEY_PREFIX\)/);
+  assert.doesNotMatch(source, /sessionStorage\.setItem\(DISMISS_KEY_PREFIX/);
+});
+
 test('adaptive recommendations expose generated updates and list semantics', async () => {
   const source = await readSource('src/components/AdaptiveLearningPanel.tsx');
 
