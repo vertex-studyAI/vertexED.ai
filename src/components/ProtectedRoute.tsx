@@ -47,26 +47,45 @@ export default function ProtectedRoute({ children }: { children: React.JSX.Eleme
   const { user, loading } = useAuth();
   const location = useLocation();
   const [access, setAccess] = useState<"checking" | "approved" | "pending" | "rejected" | "unavailable">("checking");
+  const [accessUserId, setAccessUserId] = useState<string | null>(null);
   const [retryAttempt, setRetryAttempt] = useState(0);
 
   useEffect(() => {
-    if (!user) { setAccess("checking"); return; }
+    if (!user) {
+      setAccess("checking");
+      setAccessUserId(null);
+      return;
+    }
     setAccess("checking");
     // The waitlist backend is intentionally not required during local development,
     // so the product can be tested before Supabase access is available.
-    if (import.meta.env.DEV) { setAccess("approved"); return; }
+    if (import.meta.env.DEV) {
+      setAccess("approved");
+      setAccessUserId(user.id);
+      return;
+    }
     let active = true;
     void authFetch("/api/waitlist-status")
       .then(async (response) => {
         const data = await response.json();
         if (!response.ok) throw new Error(data.error);
-        if (active) setAccess(data.status === "approved" ? "approved" : data.status === "pending" ? "pending" : "rejected");
+        if (active) {
+          setAccess(data.status === "approved" ? "approved" : data.status === "pending" ? "pending" : "rejected");
+          setAccessUserId(user.id);
+        }
       })
-      .catch(() => active && setAccess("unavailable"));
+      .catch(() => {
+        if (active) {
+          setAccess("unavailable");
+          setAccessUserId(user.id);
+        }
+      });
     return () => { active = false; };
   }, [user, retryAttempt]);
 
-  if (loading || (user && access === "checking")) return <PageLoader label="Checking your access" />;
+  const accessDecisionIsCurrent = Boolean(user && accessUserId === user.id);
+
+  if (loading || (user && (!accessDecisionIsCurrent || access === "checking"))) return <PageLoader label="Checking your access" />;
   if (!user) return <Navigate to="/login" replace state={{ from: location.pathname }} />;
   if (access === "unavailable") return <WaitlistUnavailable onRetry={() => setRetryAttempt((attempt) => attempt + 1)} />;
   if (access === "rejected") return <WaitlistRejected />;
