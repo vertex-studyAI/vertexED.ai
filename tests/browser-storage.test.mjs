@@ -3,7 +3,12 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { fileURLToPath } from 'node:url';
 
-import { resolveLocalStorage, safeStorageGet, safeStorageSet } from '../src/lib/browserStorage.mjs';
+import {
+  parseStoredArray,
+  resolveLocalStorage,
+  safeStorageGet,
+  safeStorageSet,
+} from '../src/lib/browserStorage.mjs';
 
 test('browser storage helpers fail closed when storage access or operations throw', () => {
   const blockedOwner = {};
@@ -32,6 +37,14 @@ test('browser storage helpers preserve normal read/write behavior', () => {
   assert.equal(safeStorageGet(storage, 'k'), 'v');
 });
 
+test('persisted stat arrays reject malformed or object-shaped payloads', () => {
+  assert.deepEqual(parseStoredArray(null), []);
+  assert.deepEqual(parseStoredArray('{broken'), []);
+  assert.deepEqual(parseStoredArray('{}'), []);
+  assert.deepEqual(parseStoredArray('"not-an-array"'), []);
+  assert.deepEqual(parseStoredArray('[{"completed":true},null]'), [{ completed: true }, null]);
+});
+
 test('study stats routes browser storage through fail-closed helpers', () => {
   const source = fs.readFileSync(
     fileURLToPath(new URL('../src/lib/studyStats.ts', import.meta.url)),
@@ -40,5 +53,6 @@ test('study stats routes browser storage through fail-closed helpers', () => {
   assert.match(source, /resolveLocalStorage/);
   assert.match(source, /safeStorageGet/);
   assert.match(source, /safeStorageSet/);
+  assert.match(source, /parseStoredArray/);
   assert.doesNotMatch(source, /window\.localStorage\.(?:getItem|setItem)/);
 });
