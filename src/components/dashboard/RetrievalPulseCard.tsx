@@ -7,7 +7,8 @@ import StudyLoopRing from '@/components/dashboard/StudyLoopRing';
 import ApexPromptChips from '@/components/chat/ApexPromptChips';
 import { getStudyContext } from '@/lib/studyContext';
 import { useAuth } from '@/contexts/AuthContext';
-import { userContentStorageKeys } from '@/lib/userContentStorageScope.mjs';
+import { storeApexPrefill } from '@/lib/apexPrefillStorage.mjs';
+import { toast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 import { LOOP_STEPS } from '@/lib/studyLoopTracker';
 
@@ -26,10 +27,16 @@ export default function RetrievalPulseCard({ pulse, className }: Props) {
   const { user } = useAuth();
   const navigate = useNavigate();
   const context = getStudyContext('/main', user);
-  const apexPrefillKey = userContentStorageKeys(user?.id ?? null).apexPrefill;
 
-  const askApex = () => {
-    sessionStorage.setItem(apexPrefillKey, pulse.apexPrompt);
+  const openApexWith = (text: string) => {
+    if (!storeApexPrefill(window, user?.id ?? null, text)) {
+      toast({
+        title: 'Could not carry this prompt into Apex',
+        description: 'Temporary browser storage is unavailable. Open the AI Tutor and paste your question instead.',
+        variant: 'destructive',
+      });
+      return;
+    }
     navigate('/chatbot');
   };
 
@@ -78,7 +85,7 @@ export default function RetrievalPulseCard({ pulse, className }: Props) {
                 Go
                 <ArrowRight className="h-3.5 w-3.5" />
               </Link>
-              <button type="button" onClick={askApex} className="btn-glass text-sm inline-flex items-center gap-1.5">
+              <button type="button" onClick={() => openApexWith(pulse.apexPrompt)} className="btn-glass text-sm inline-flex items-center gap-1.5">
                 <Bot className="h-3.5 w-3.5" />
                 Ask Apex why
               </button>
@@ -99,10 +106,7 @@ export default function RetrievalPulseCard({ pulse, className }: Props) {
         <ApexPromptChips
           context={context}
           compact
-          onSelect={(text) => {
-            sessionStorage.setItem(apexPrefillKey, text);
-            navigate('/chatbot');
-          }}
+          onSelect={openApexWith}
         />
       </div>
     </LiquidGlass>
