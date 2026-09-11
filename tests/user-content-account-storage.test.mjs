@@ -100,8 +100,8 @@ test('Apex session history is account-scoped and abandons unsafe legacy migratio
 test('sketch pad loads and saves strokes only inside the resolved account key', () => {
   assert.match(sketchSource, /const \{ user, loading: authLoading \} = useAuth\(\)/);
   assert.match(sketchSource, /userContentStorageKeys\(authLoading \? undefined : user\?\.id \?\? null\)\.sketchPad/);
-  assert.match(sketchSource, /strokesRef\.current = loadStrokes\(storageKey\)/);
-  assert.match(sketchSource, /saveStrokes\(storageKey, strokesRef\.current\)/);
+  assert.match(sketchSource, /strokesRef\.current = readSketchStrokes\(window, storageKey\)/);
+  assert.match(sketchSource, /writeSketchStrokes\(window, storageKey, strokesRef\.current\)/);
   assert.doesNotMatch(sketchSource, /vertex_sketch_pad_v1/);
 });
 
