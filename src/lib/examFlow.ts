@@ -69,6 +69,15 @@ export function mockExamAnswersStorageKey() {
   return userContentStorageKeys().mockExamAnswers;
 }
 
+export function saveMockExamAnswersHandoff(handoff: MockExamAnswersHandoff): boolean {
+  if (typeof window === 'undefined') return false;
+  return safeStorageSet(
+    resolveSessionStorage(window),
+    mockExamAnswersStorageKey(),
+    JSON.stringify(handoff),
+  );
+}
+
 export type PendingMockReview = {
   subject?: string;
   paperTitle: string;
