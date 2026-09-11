@@ -1,5 +1,10 @@
 import { localDayKey, currentStreak } from '@/lib/studyDates.mjs';
-import { resolveLocalStorage, safeStorageGet, safeStorageSet } from '@/lib/browserStorage.mjs';
+import {
+  parseStoredArray,
+  resolveLocalStorage,
+  safeStorageGet,
+  safeStorageSet,
+} from '@/lib/browserStorage.mjs';
 import { userContentStorageKeys } from '@/lib/userContentStorageScope.mjs';
 
 export type StudyStats = {
@@ -18,14 +23,7 @@ function storage() {
 }
 
 function readArray(key: string): unknown[] {
-  try {
-    const raw = safeStorageGet(storage(), key);
-    if (!raw) return [];
-    const parsed: unknown = JSON.parse(raw);
-    return Array.isArray(parsed) ? parsed : [];
-  } catch {
-    return [];
-  }
+  return parseStoredArray(safeStorageGet(storage(), key));
 }
 
 function readHabits(key: string): HabitRow[] {
