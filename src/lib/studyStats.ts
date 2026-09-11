@@ -11,17 +11,27 @@ export type StudyStats = {
   lastStudyDate: string | null;
 };
 
+type HabitRow = { completed?: boolean };
+
 function storage() {
   return typeof window === 'undefined' ? null : resolveLocalStorage(window);
 }
 
-function readJson<T>(key: string, fallback: T): T {
+function readArray(key: string): unknown[] {
   try {
     const raw = safeStorageGet(storage(), key);
-    return raw ? (JSON.parse(raw) as T) : fallback;
+    if (!raw) return [];
+    const parsed: unknown = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed : [];
   } catch {
-    return fallback;
+    return [];
   }
+}
+
+function readHabits(key: string): HabitRow[] {
+  return readArray(key).filter(
+    (value): value is HabitRow => Boolean(value) && typeof value === 'object' && !Array.isArray(value),
+  );
 }
 
 function todayKey(): string {
@@ -37,7 +47,7 @@ export function ensureDailyHabitReset(): void {
   const lastReset = safeStorageGet(local, habitsResetDate);
   if (lastReset === today) return;
 
-  const currentHabits = readJson<Array<{ completed?: boolean }>>(habits, []);
+  const currentHabits = readHabits(habits);
   if (currentHabits.some((habit) => habit.completed)) {
     const reset = currentHabits.map((habit) => ({ ...habit, completed: false }));
     if (!safeStorageSet(local, habits, JSON.stringify(reset))) return;
@@ -80,16 +90,16 @@ export function getStudyStats(): StudyStats {
     lastStudyDate,
   } = userContentStorageKeys();
   const local = storage();
-  const currentHabits = readJson<{ completed?: boolean }[]>(habits, []);
-  const entries = readJson<unknown[]>(activity, []);
-  const notes = readJson<unknown[]>(quickNotes, []);
+  const currentHabits = readHabits(habits);
+  const entries = readArray(activity);
+  const notes = readArray(quickNotes);
   const rawStreak = Number(safeStorageGet(local, studyStreak) || '0');
   const streak = Number.isFinite(rawStreak) && rawStreak >= 0 ? rawStreak : 0;
   const lastStudy = safeStorageGet(local, lastStudyDate);
 
   return {
     habitCount: currentHabits.length,
-    habitsDoneToday: currentHabits.filter((h) => h.completed).length,
+    habitsDoneToday: currentHabits.filter((habit) => habit.completed).length,
     activityEntries: entries.length,
     quickNotes: notes.length,
     studyStreak: currentStreak(streak, lastStudy),
