@@ -48,17 +48,21 @@ test('timed mock answers remain account-scoped through reviewer consumption', ()
   assert.match(examFlowSource, /userContentStorageKeys\(\)\.mockExamAnswers/);
   assert.match(examFlowSource, /const scopedAnswersKey = mockExamAnswersStorageKey\(\)/);
   assert.match(examFlowSource, /sessionStorage\.getItem\(scopedAnswersKey\)/);
-  assert.doesNotMatch(examFlowSource, /sessionStorage\.setItem\(LEGACY_MOCK_EXAM_ANSWERS_KEY/);
+  assert.doesNotMatch(examFlowSource, /vertex_exam_answers/);
   assert.match(mockExamModeSource, /mockExamAnswersStorageKey\(\)/);
   assert.doesNotMatch(mockExamModeSource, /sessionStorage\.setItem\(\s*['"]vertex_exam_answers['"]/);
   assert.doesNotMatch(answerReviewerSource, /sessionStorage\.(getItem|setItem)\(['"]vertex_exam_answers['"]/);
 });
 
 test('completed timed mock answers take precedence over the question-only handoff', () => {
-  assert.match(examFlowSource, /LEGACY_MOCK_EXAM_ANSWERS_KEY = 'vertex_exam_answers'/);
-  assert.match(examFlowSource, /sessionStorage\.getItem\(LEGACY_MOCK_EXAM_ANSWERS_KEY\)/);
   assert.match(examFlowSource, /sessionStorage\.removeItem\(mockReviewStorageKey\(\)\)/);
   assert.match(answerReviewerSource, /const examAnswers = consumeMockExamAnswers\(\);[\s\S]*const handoff = consumeMockReviewHandoff\(\)/);
+});
+
+test('legacy shared timed mock answers are purge-only and never consumed', () => {
+  assert.doesNotMatch(examFlowSource, /vertex_exam_answers/);
+  assert.match(isolationSource, /'vertex_exam_answers'/);
+  assert.match(isolationSource, /clearLegacySharedSessionHandoffs\(\)/);
 });
 
 test('timed mock handoff preserves the selected board for answer review', () => {
