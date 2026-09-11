@@ -1,5 +1,12 @@
 import type { ExamBoard } from '@/types/curriculum';
 import { boardToApiLabel } from '@/lib/curriculum';
+import {
+  resolveLocalStorage,
+  resolveSessionStorage,
+  safeStorageGet,
+  safeStorageRemove,
+  safeStorageSet,
+} from '@/lib/browserStorage.mjs';
 import { userContentStorageKeys } from '@/lib/userContentStorageScope.mjs';
 import { queueLearnerStateWrite } from '@/lib/learnerStateSync';
 
@@ -90,7 +97,7 @@ function mockExamDraftStorageKey() {
 export function loadMockExamDraft(): MockExamDraft | null {
   if (typeof window === 'undefined') return null;
   try {
-    const raw = localStorage.getItem(mockExamDraftStorageKey());
+    const raw = safeStorageGet(resolveLocalStorage(window), mockExamDraftStorageKey());
     if (!raw) return null;
     const draft = JSON.parse(raw) as MockExamDraft;
     if (!draft?.paper || !Array.isArray((draft.paper as { sections?: unknown }).sections)) return null;
@@ -103,26 +110,26 @@ export function loadMockExamDraft(): MockExamDraft | null {
 
 export function saveMockExamDraft(draft: Omit<MockExamDraft, 'status' | 'savedAt' | 'updatedAt'>): boolean {
   if (typeof window === 'undefined') return false;
-  try {
-    const now = new Date();
-    const saved = {
-      ...draft,
-      status: 'in_progress',
-      savedAt: now.toISOString(),
-      updatedAt: now.toISOString(),
-    } satisfies MockExamDraft;
-    localStorage.setItem(mockExamDraftStorageKey(), JSON.stringify(saved));
-    queueLearnerStateWrite('mock_draft', 'active', saved as unknown as Record<string, unknown>, now);
-    return true;
-  } catch {
-    return false;
-  }
+  const now = new Date();
+  const saved = {
+    ...draft,
+    status: 'in_progress',
+    savedAt: now.toISOString(),
+    updatedAt: now.toISOString(),
+  } satisfies MockExamDraft;
+  const stored = safeStorageSet(
+    resolveLocalStorage(window),
+    mockExamDraftStorageKey(),
+    JSON.stringify(saved),
+  );
+  queueLearnerStateWrite('mock_draft', 'active', saved as unknown as Record<string, unknown>, now);
+  return stored;
 }
 
 export function clearMockExamDraft(): void {
   if (typeof window === 'undefined') return;
   const now = new Date();
-  localStorage.removeItem(mockExamDraftStorageKey());
+  safeStorageRemove(resolveLocalStorage(window), mockExamDraftStorageKey());
   queueLearnerStateWrite('mock_draft', 'active', {
     deleted: true,
     updatedAt: now.toISOString(),
@@ -131,12 +138,7 @@ export function clearMockExamDraft(): void {
 
 export function getPendingMockReview(): PendingMockReview | null {
   if (typeof window === 'undefined') return null;
-  let raw: string | null = null;
-  try {
-    raw = sessionStorage.getItem(mockExamAnswersStorageKey());
-  } catch {
-    // A blocked session store must not prevent recovery from the local draft.
-  }
+  const raw = safeStorageGet(resolveSessionStorage(window), mockExamAnswersStorageKey());
   if (raw) {
     try {
       const parsed = JSON.parse(raw) as {
@@ -172,18 +174,23 @@ export function getPendingMockReview(): PendingMockReview | null {
 
 export function saveMockReviewHandoff(handoff: MockReviewHandoff) {
   if (typeof window === 'undefined') return;
-  sessionStorage.setItem(mockReviewStorageKey(), JSON.stringify({
-    ...handoff,
-    boardLabel: boardToApiLabel(handoff.board),
-  }));
+  safeStorageSet(
+    resolveSessionStorage(window),
+    mockReviewStorageKey(),
+    JSON.stringify({
+      ...handoff,
+      boardLabel: boardToApiLabel(handoff.board),
+    }),
+  );
 }
 
 export function consumeMockExamAnswers(): MockExamAnswersHandoff | null {
   if (typeof window === 'undefined') return null;
+  const storage = resolveSessionStorage(window);
   const scopedAnswersKey = mockExamAnswersStorageKey();
-  const raw = sessionStorage.getItem(scopedAnswersKey);
+  const raw = safeStorageGet(storage, scopedAnswersKey);
 
-  sessionStorage.removeItem(scopedAnswersKey);
+  safeStorageRemove(storage, scopedAnswersKey);
   if (!raw) return null;
 
   try {
@@ -193,7 +200,7 @@ export function consumeMockExamAnswers(): MockExamAnswersHandoff | null {
     }
     // A completed timed exam is richer than the question-only review handoff.
     // Remove the latter so it cannot appear as a stale second import.
-    sessionStorage.removeItem(mockReviewStorageKey());
+    safeStorageRemove(storage, mockReviewStorageKey());
     return parsed as MockExamAnswersHandoff;
   } catch {
     return null;
@@ -202,10 +209,11 @@ export function consumeMockExamAnswers(): MockExamAnswersHandoff | null {
 
 export function consumeMockReviewHandoff(): (MockReviewHandoff & { boardLabel?: string }) | null {
   if (typeof window === 'undefined') return null;
+  const storage = resolveSessionStorage(window);
   const storageKey = mockReviewStorageKey();
-  const raw = sessionStorage.getItem(storageKey);
+  const raw = safeStorageGet(storage, storageKey);
   if (!raw) return null;
-  sessionStorage.removeItem(storageKey);
+  safeStorageRemove(storage, storageKey);
   try {
     return JSON.parse(raw);
   } catch {
