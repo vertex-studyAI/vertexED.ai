@@ -1,4 +1,4 @@
-// Exact-head verification refresh: account-isolation behavior, 11 September 2026.
+// Exact-head verification refresh: account-isolation behavior, 12 September 2026.
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import test from 'node:test';
@@ -13,6 +13,7 @@ const mockExamModeSource = fs.readFileSync('src/components/MockExamMode.tsx', 'u
 const chatbotSource = fs.readFileSync('src/pages/AIChatbot.tsx', 'utf8');
 const answerReviewerSource = fs.readFileSync('src/pages/AnswerReviewer.tsx', 'utf8');
 const examFlowSource = fs.readFileSync('src/lib/examFlow.ts', 'utf8');
+const apexPrefillStorageSource = fs.readFileSync('src/lib/apexPrefillStorage.mjs', 'utf8');
 const isolationSource = fs.readFileSync('src/lib/transientSessionIsolation.ts', 'utf8');
 const mainSource = fs.readFileSync('src/main.tsx', 'utf8');
 
@@ -27,14 +28,28 @@ test('transient learner handoffs use distinct account-scoped keys', () => {
   }
 });
 
-test('all authenticated Apex prefill entry points use account-scoped session keys', () => {
+test('all authenticated Apex prefill entry points use the account-scoped fail-closed handoff', () => {
   for (const source of [quickAskSource, retrievalPulseSource, portalEngagementSource, portalCommandSource]) {
-    assert.match(source, /userContentStorageKeys\(user\?\.id \?\? null\)\.apexPrefill|const apexPrefillKey = userContentStorageKeys\(user\?\.id \?\? null\)\.apexPrefill/);
-    assert.doesNotMatch(source, /sessionStorage\.setItem\(['"]vertex_apex_prefill['"]/);
+    assert.match(source, /storeApexPrefill\(/);
+    assert.match(source, /if \(!storeApexPrefill\(/);
+    assert.doesNotMatch(source, /sessionStorage\.(?:getItem|setItem|removeItem)/);
   }
 
-  assert.match(chatbotSource, /userContentStorageKeys\(user\?\.id \?\? null\)\.apexPrefill/);
-  assert.doesNotMatch(chatbotSource, /sessionStorage\.(getItem|setItem)\(['"]vertex_apex_prefill['"]/);
+  assert.match(chatbotSource, /consumeApexPrefill\(window, user\?\.id \?\? null\)/);
+  assert.doesNotMatch(chatbotSource, /sessionStorage\.(?:getItem|setItem|removeItem)/);
+
+  assert.match(apexPrefillStorageSource, /userContentStorageKeys\(userId \?\? null\)\.apexPrefill/);
+  assert.match(apexPrefillStorageSource, /resolveSessionStorage\(owner\)/);
+  assert.match(apexPrefillStorageSource, /safeStorageSet\(storage,/);
+  assert.match(apexPrefillStorageSource, /safeStorageGet\(storage,/);
+  assert.match(apexPrefillStorageSource, /safeStorageRemove\(storage,/);
+  assert.doesNotMatch(apexPrefillStorageSource, /sessionStorage\.(?:getItem|setItem|removeItem)/);
+});
+
+test('Apex prefill producers stay put and surface a recoverable error when temporary storage is unavailable', () => {
+  for (const source of [quickAskSource, retrievalPulseSource, portalEngagementSource, portalCommandSource]) {
+    assert.match(source, /if \(!storeApexPrefill\([\s\S]*?\)\) \{[\s\S]*?toast\(\{[\s\S]*?variant: 'destructive'[\s\S]*?return;/);
+  }
 });
 
 test('mock-review handoff follows the active authenticated content scope through fail-closed storage', () => {
