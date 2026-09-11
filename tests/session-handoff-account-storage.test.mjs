@@ -1,4 +1,4 @@
-// Exact-head verification refresh: account-isolation behavior, 12 August 2026.
+// Exact-head verification refresh: account-isolation behavior, 11 September 2026.
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import test from 'node:test';
@@ -37,25 +37,38 @@ test('all authenticated Apex prefill entry points use account-scoped session key
   assert.doesNotMatch(chatbotSource, /sessionStorage\.(getItem|setItem)\(['"]vertex_apex_prefill['"]/);
 });
 
-test('mock-review handoff follows the active authenticated content scope', () => {
+test('mock-review handoff follows the active authenticated content scope through fail-closed storage', () => {
   assert.match(examFlowSource, /userContentStorageKeys\(\)\.mockReviewHandoff/);
   assert.doesNotMatch(examFlowSource, /return ['"]vertex_mock_review_handoff['"]/);
-  assert.match(examFlowSource, /sessionStorage\.setItem\(mockReviewStorageKey\(\)/);
-  assert.match(examFlowSource, /sessionStorage\.getItem\(storageKey\)/);
+  assert.match(examFlowSource, /resolveSessionStorage\(window\)/);
+  assert.match(examFlowSource, /safeStorageSet\([\s\S]*mockReviewStorageKey\(\)/);
+  assert.match(examFlowSource, /safeStorageGet\(storage, storageKey\)/);
+  assert.doesNotMatch(examFlowSource, /sessionStorage\.(?:getItem|setItem|removeItem)/);
 });
 
-test('timed mock answers remain account-scoped through reviewer consumption', () => {
+test('timed mock answers remain account-scoped and fail closed when temporary storage is blocked', () => {
   assert.match(examFlowSource, /userContentStorageKeys\(\)\.mockExamAnswers/);
+  assert.match(examFlowSource, /saveMockExamAnswersHandoff/);
+  assert.match(examFlowSource, /safeStorageSet\([\s\S]*mockExamAnswersStorageKey\(\)/);
   assert.match(examFlowSource, /const scopedAnswersKey = mockExamAnswersStorageKey\(\)/);
-  assert.match(examFlowSource, /sessionStorage\.getItem\(scopedAnswersKey\)/);
+  assert.match(examFlowSource, /safeStorageGet\(storage, scopedAnswersKey\)/);
+  assert.match(examFlowSource, /safeStorageRemove\(storage, scopedAnswersKey\)/);
   assert.doesNotMatch(examFlowSource, /vertex_exam_answers/);
-  assert.match(mockExamModeSource, /mockExamAnswersStorageKey\(\)/);
-  assert.doesNotMatch(mockExamModeSource, /sessionStorage\.setItem\(\s*['"]vertex_exam_answers['"]/);
+  assert.match(mockExamModeSource, /saveMockExamAnswersHandoff\(/);
+  assert.doesNotMatch(mockExamModeSource, /sessionStorage\.(?:getItem|setItem|removeItem)/);
   assert.doesNotMatch(answerReviewerSource, /sessionStorage\.(getItem|setItem)\(['"]vertex_exam_answers['"]/);
 });
 
+test('blocked timed-answer handoff preserves the draft and does not claim submission succeeded', () => {
+  assert.match(mockExamModeSource, /const handoffStored = saveMockExamAnswersHandoff\(/);
+  assert.match(mockExamModeSource, /if \(!handoffStored\) return false;[\s\S]*clearMockExamDraft\(\)/);
+  assert.match(mockExamModeSource, /if \(saveExamHandoff\([\s\S]*setSubmitted\(true\)/);
+  assert.match(mockExamModeSource, /role="alert"/);
+  assert.match(mockExamModeSource, /Your browser blocked temporary exam storage/);
+});
+
 test('completed timed mock answers take precedence over the question-only handoff', () => {
-  assert.match(examFlowSource, /sessionStorage\.removeItem\(mockReviewStorageKey\(\)\)/);
+  assert.match(examFlowSource, /safeStorageRemove\(storage, mockReviewStorageKey\(\)\)/);
   assert.match(answerReviewerSource, /const examAnswers = consumeMockExamAnswers\(\);[\s\S]*const handoff = consumeMockReviewHandoff\(\)/);
 });
 
@@ -69,6 +82,15 @@ test('timed mock handoff preserves the selected board for answer review', () => 
   assert.match(mockExamModeSource, /board: board \? boardToApiLabel\(board\) : paper\.metadata\?\.board/);
   assert.match(answerReviewerSource, /boardFromApiLabel\(examAnswers\.board\)/);
   assert.match(answerReviewerSource, /curriculum: importedBoard \? boardToApiLabel\(importedBoard\)/);
+});
+
+test('mock draft persistence remains account-scoped and durable sync is not suppressed by local storage failure', () => {
+  assert.match(examFlowSource, /resolveLocalStorage\(window\)/);
+  assert.match(examFlowSource, /safeStorageSet\([\s\S]*mockExamDraftStorageKey\(\)/);
+  assert.match(examFlowSource, /safeStorageRemove\(resolveLocalStorage\(window\), mockExamDraftStorageKey\(\)\)/);
+  assert.match(examFlowSource, /safeStorageSet\([\s\S]*queueLearnerStateWrite\('mock_draft'/);
+  assert.match(examFlowSource, /safeStorageRemove\([\s\S]*queueLearnerStateWrite\('mock_draft'/);
+  assert.doesNotMatch(examFlowSource, /localStorage\.(?:getItem|setItem|removeItem)/);
 });
 
 test('legacy shared handoffs are cleared at bootstrap and whenever auth ownership changes', () => {
