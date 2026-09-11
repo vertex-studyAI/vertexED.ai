@@ -17,21 +17,22 @@ export default function CloudSaveBanner() {
   const { isAuthenticated, user } = useAuth();
   const location = useLocation();
   const [message, setMessage] = useState<string | null>(null);
-  const [dismissed, setDismissed] = useState(false);
+  const [dismissedForKey, setDismissedForKey] = useState<string | null>(null);
   const dismissKey = useMemo(() => cloudBannerDismissKey(user?.id), [user?.id]);
+  const dismissed = Boolean(dismissKey && dismissedForKey === dismissKey);
 
   useEffect(() => {
     if (typeof window === "undefined" || !dismissKey) {
-      setDismissed(false);
+      setDismissedForKey(null);
       return;
     }
 
     try {
-      setDismissed(sessionStorage.getItem(dismissKey) === "1");
+      setDismissedForKey(sessionStorage.getItem(dismissKey) === "1" ? dismissKey : null);
       // A historical unscoped dismissal cannot be attributed to the current account.
       sessionStorage.removeItem(LEGACY_DISMISS_KEY);
     } catch {
-      setDismissed(false);
+      setDismissedForKey(null);
     }
   }, [dismissKey]);
 
@@ -100,8 +101,8 @@ export default function CloudSaveBanner() {
             } catch {
               // A blocked sessionStorage write should not break dismissal for this render.
             }
+            setDismissedForKey(dismissKey);
           }
-          setDismissed(true);
         }}
         className="shrink-0 rounded-lg p-1.5 hover:bg-sky-500/20 transition"
         aria-label="Dismiss sync notice"
