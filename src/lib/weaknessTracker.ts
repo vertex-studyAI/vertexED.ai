@@ -6,6 +6,7 @@
  * Legacy or heuristic records remain stored but are ignored as measured data.
  */
 
+import { resolveLocalStorage, safeStorageGet, safeStorageSet } from '@/lib/browserStorage.mjs';
 import { userContentStorageKeys } from '@/lib/userContentStorageScope.mjs';
 import {
   MEASURED_WEAKNESS_EVIDENCE,
@@ -40,8 +41,9 @@ function storageKey() {
 
 function readEntries(): WeaknessEntry[] {
   if (typeof window === 'undefined') return [];
+  const storage = resolveLocalStorage(window);
   try {
-    const raw = window.localStorage.getItem(storageKey());
+    const raw = safeStorageGet(storage, storageKey());
     if (!raw) return [];
     const parsed = JSON.parse(raw);
     return Array.isArray(parsed) ? (parsed as WeaknessEntry[]) : [];
@@ -55,8 +57,9 @@ export function getMeasuredEntries(): WeaknessEntry[] {
 }
 
 function writeEntries(entries: WeaknessEntry[]) {
-  if (typeof window === 'undefined') return;
-  window.localStorage.setItem(storageKey(), JSON.stringify(retainNewestWeaknessEntries(entries, 500)));
+  if (typeof window === 'undefined') return false;
+  const storage = resolveLocalStorage(window);
+  return safeStorageSet(storage, storageKey(), JSON.stringify(retainNewestWeaknessEntries(entries, 500)));
 }
 
 function measurementId() {
