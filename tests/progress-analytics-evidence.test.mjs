@@ -1,13 +1,17 @@
 import assert from 'node:assert/strict';
+import fs from 'node:fs';
 import test from 'node:test';
 
 import {
   estimateStudyMinutes,
   formatMeasuredMastery,
+  normalizeProgressSnapshots,
   summarizeHeatmapMastery,
   summarizeMasteryVelocity,
   summarizeSnapshotMastery,
 } from '../src/lib/progressAnalyticsCore.mjs';
+
+const progressSource = fs.readFileSync('src/lib/progressAnalytics.ts', 'utf8');
 
 test('empty learner history reports no measured mastery', () => {
   assert.deepEqual(summarizeHeatmapMastery([]), {
@@ -123,6 +127,40 @@ test('heatmap mastery requires actual attempts', () => {
     ]),
     { reviewsCompleted: 3, avgMastery: 85 },
   );
+});
+
+test('persisted progress snapshots reject malformed rows without discarding valid history', () => {
+  const valid = {
+    date: '2026-09-11',
+    studyStreak: 3,
+    habitsDone: 2,
+    habitCount: 4,
+    reviewsCompleted: 5,
+    avgMastery: 82,
+  };
+
+  assert.deepEqual(
+    normalizeProgressSnapshots([
+      null,
+      'bad',
+      { ...valid, date: '2026-02-31' },
+      { ...valid, studyStreak: -1 },
+      { ...valid, reviewsCompleted: '5' },
+      { ...valid, avgMastery: Number.NaN },
+      valid,
+      { ...valid, date: '2026-09-12', avgMastery: null },
+    ]),
+    [valid, { ...valid, date: '2026-09-12', avgMastery: null }],
+  );
+  assert.deepEqual(normalizeProgressSnapshots({}), []);
+});
+
+test('progress snapshot storage uses fail-closed helpers instead of direct localStorage writes', () => {
+  assert.match(progressSource, /resolveLocalStorage/);
+  assert.match(progressSource, /safeStorageGet/);
+  assert.match(progressSource, /safeStorageSet/);
+  assert.match(progressSource, /normalizeProgressSnapshots/);
+  assert.doesNotMatch(progressSource, /window\.localStorage\.(?:getItem|setItem)/);
 });
 
 test('study minutes remain explicitly heuristic input-derived output', () => {
