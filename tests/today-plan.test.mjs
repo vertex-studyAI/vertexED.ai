@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { parseTodayPlanDone } from '../src/lib/todayPlanCore.mjs';
 
 function buildTodayPlanItems(tasks, recommendations, pulseAction) {
   const items = [];
@@ -70,4 +71,25 @@ test('buildTodayPlanItems merges pulse, planner, and adaptive sources', () => {
   assert.equal(items[0].priority, 'urgent');
   assert.ok(items.some((i) => i.source === 'planner'));
   assert.ok(items.some((i) => i.source === 'adaptive'));
+});
+
+test('persisted today-plan state ignores malformed day values instead of crashing Set construction', () => {
+  assert.deepEqual(parseTodayPlanDone(null), {});
+  assert.deepEqual(parseTodayPlanDone('{broken'), {});
+  assert.deepEqual(parseTodayPlanDone('[]'), {});
+  assert.deepEqual(parseTodayPlanDone(JSON.stringify({
+    '2026-09-11': 'planner:t1',
+    '2026-09-12': { id: 'planner:t2' },
+    '2026-09-13': ['planner:t3', null, 'planner:t3', '', 'adaptive:r1'],
+  })), {
+    '2026-09-13': ['planner:t3', 'adaptive:r1'],
+  });
+});
+
+test('persisted completion lists are bounded before dashboard hydration', () => {
+  const ids = Array.from({ length: 250 }, (_, index) => `planner:${index}`);
+  const parsed = parseTodayPlanDone(JSON.stringify({ '2026-09-11': ids }));
+  assert.equal(parsed['2026-09-11'].length, 200);
+  assert.equal(parsed['2026-09-11'][0], 'planner:0');
+  assert.equal(parsed['2026-09-11'][199], 'planner:199');
 });
