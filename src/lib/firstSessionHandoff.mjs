@@ -1,3 +1,9 @@
+import {
+  safeStorageGet,
+  safeStorageRemove,
+  safeStorageSet,
+} from "./browserStorage.mjs";
+
 export const FIRST_SESSION_WELCOME_KEY = "vertex_welcome";
 export const FIRST_SESSION_SYNC_NOTICE_KEY = "vertex_plan_sync_notice";
 
@@ -17,36 +23,32 @@ export function firstSessionSyncNoticeKey(userId) {
 
 export function markFirstSessionWelcome(storage, userId) {
   const key = firstSessionWelcomeKey(userId);
-  if (!key || !storage || typeof storage.setItem !== "function") return false;
-  storage.setItem(key, "1");
-  return true;
+  if (!key) return false;
+  return safeStorageSet(storage, key, "1");
 }
 
 export function markFirstSessionSyncNotice(storage, userId) {
   const key = firstSessionSyncNoticeKey(userId);
-  if (!key || !storage || typeof storage.setItem !== "function") return false;
-  storage.setItem(key, "1");
-  return true;
+  if (!key) return false;
+  return safeStorageSet(storage, key, "1");
 }
 
 export function consumeFirstSessionHandoff(storage, userId) {
-  if (!storage || typeof storage.getItem !== "function") return null;
-
   const welcomeKey = firstSessionWelcomeKey(userId);
   const syncNoticeKey = firstSessionSyncNoticeKey(userId);
   if (!welcomeKey || !syncNoticeKey) return null;
 
-  const showWelcome = storage.getItem(welcomeKey) === "1";
-  const deviceOnly = Boolean(storage.getItem(syncNoticeKey));
+  const showWelcome = safeStorageGet(storage, welcomeKey) === "1";
+  const deviceOnly = Boolean(safeStorageGet(storage, syncNoticeKey));
 
-  storage.removeItem?.(welcomeKey);
-  storage.removeItem?.(syncNoticeKey);
+  safeStorageRemove(storage, welcomeKey);
+  safeStorageRemove(storage, syncNoticeKey);
 
   // Legacy unscoped markers cannot be safely attributed to an account. Discard them
   // once an authenticated account reaches the dashboard rather than letting them
   // cross an account boundary.
-  storage.removeItem?.(FIRST_SESSION_WELCOME_KEY);
-  storage.removeItem?.(FIRST_SESSION_SYNC_NOTICE_KEY);
+  safeStorageRemove(storage, FIRST_SESSION_WELCOME_KEY);
+  safeStorageRemove(storage, FIRST_SESSION_SYNC_NOTICE_KEY);
 
   if (!showWelcome && !deviceOnly) return null;
 
