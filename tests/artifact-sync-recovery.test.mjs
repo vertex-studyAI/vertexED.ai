@@ -40,6 +40,46 @@ test('offline recovery does not impose a lossy item-count cap', () => {
   assert.match(source, /listDurableOutboxRecords/);
 });
 
+test('corrupted local artifact mirrors fail closed before recovery consumers', () => {
+  const readBlock = source.slice(
+    source.indexOf('function readRawLocalArtifacts'),
+    source.indexOf('function writeLocalArtifacts'),
+  );
+  assert.match(readBlock, /resolveLocalStorage\(window\)/);
+  assert.match(readBlock, /parseStoredArray\(safeStorageGet\(storage, artifacts\)\)/);
+  assert.match(readBlock, /\.map\(normalizeStoredArtifact\)/);
+  assert.doesNotMatch(readBlock, /JSON\.parse\(raw\) as StudyArtifact\[\]/);
+
+  const normalizer = source.slice(
+    source.indexOf('function normalizeStoredArtifact'),
+    source.indexOf('export function createArtifactIdempotencyKey'),
+  );
+  assert.match(normalizer, /STORED_ARTIFACT_KINDS\.has/);
+  assert.match(normalizer, /isPlainStoredObject\(value\.payload\)/);
+  assert.match(normalizer, /isStoredTimestamp\(value\.created_at\)/);
+  assert.match(normalizer, /isStoredTimestamp\(value\.updated_at\)/);
+});
+
+test('durable recovery records are validated before they enter the merge map', () => {
+  const recoveryBlock = source.slice(
+    source.indexOf('async function readRecoveryArtifacts'),
+    source.indexOf('async function saveLocalArtifact'),
+  );
+  assert.match(recoveryBlock, /const item = normalizeStoredArtifact\(record\.payload\)/);
+  assert.match(recoveryBlock, /item\.id !== record\.logicalKey/);
+  assert.doesNotMatch(recoveryBlock, /byId\.set\(record\.logicalKey, record\.payload\)/);
+});
+
+test('artifact recovery writes use the fail-closed browser storage boundary', () => {
+  const writeBlock = source.slice(
+    source.indexOf('function writeLocalArtifacts'),
+    source.indexOf('async function readRecoveryArtifacts'),
+  );
+  assert.match(writeBlock, /resolveLocalStorage\(window\)/);
+  assert.match(writeBlock, /safeStorageSet\(storage, artifacts, JSON\.stringify\(stripped\)\)/);
+  assert.doesNotMatch(writeBlock, /window\.localStorage\.setItem/);
+});
+
 test('dashboard exposes pending device saves and an explicit retry control', () => {
   assert.match(dashboard, /Sync & recovery/);
   assert.match(dashboard, /device save/);

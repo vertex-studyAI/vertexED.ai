@@ -1,6 +1,12 @@
 import { authFetchWithAccessToken, getAccessToken } from '@/lib/apiAuth';
 import { getUserContentStorageScope, userContentStorageKeys } from '@/lib/userContentStorageScope.mjs';
 import {
+  parseStoredArray,
+  resolveLocalStorage,
+  safeStorageGet,
+  safeStorageSet,
+} from '@/lib/browserStorage.mjs';
+import {
   deleteDurableOutboxRecord,
   listDurableOutboxRecords,
   putDurableOutboxRecord,
@@ -39,6 +45,7 @@ export type SaveArtifactResult = {
 };
 
 const ACCOUNT_CHANGED_ERROR = 'Account changed while study work was being processed. Try again in the current account.';
+const STORED_ARTIFACT_KINDS = new Set<StudyArtifactKind>(['note', 'review', 'paper', 'planner', 'notebook']);
 
 function isCurrentUserContentScope(scope: string): boolean {
   return getUserContentStorageScope() === scope;
@@ -52,6 +59,42 @@ function accountChangedListResult(): StudyArtifactListResult {
   return { ok: false, items: [], cloudUnavailable: true, error: ACCOUNT_CHANGED_ERROR };
 }
 
+function isPlainStoredObject(value: unknown): value is Record<string, unknown> {
+  return value !== null && typeof value === 'object' && !Array.isArray(value);
+}
+
+function isStoredTimestamp(value: unknown): value is string {
+  return typeof value === 'string' && !Number.isNaN(Date.parse(value));
+}
+
+function normalizeStoredArtifact(value: unknown): StudyArtifact | null {
+  if (!isPlainStoredObject(value)) return null;
+  if (typeof value.id !== 'string' || value.id.length === 0 || value.id.length > 200) return null;
+  if (typeof value.kind !== 'string' || !STORED_ARTIFACT_KINDS.has(value.kind as StudyArtifactKind)) return null;
+  if (value.title !== null && (typeof value.title !== 'string' || value.title.length > 200)) return null;
+  if (!isPlainStoredObject(value.payload)) return null;
+  if (!isStoredTimestamp(value.created_at) || !isStoredTimestamp(value.updated_at)) return null;
+  if (value.localOnly !== undefined && typeof value.localOnly !== 'boolean') return null;
+  if (value.idempotencyKey !== undefined && typeof value.idempotencyKey !== 'string') return null;
+  if (value.idempotency_key !== undefined && value.idempotency_key !== null && typeof value.idempotency_key !== 'string') return null;
+  if (value.localRevision !== undefined && typeof value.localRevision !== 'string') return null;
+
+  return {
+    id: value.id,
+    kind: value.kind as StudyArtifactKind,
+    title: value.title as string | null,
+    payload: value.payload,
+    created_at: value.created_at,
+    updated_at: value.updated_at,
+    ...(typeof value.localOnly === 'boolean' ? { localOnly: value.localOnly } : {}),
+    ...(typeof value.idempotencyKey === 'string' ? { idempotencyKey: value.idempotencyKey } : {}),
+    ...(typeof value.idempotency_key === 'string' || value.idempotency_key === null
+      ? { idempotency_key: value.idempotency_key as string | null }
+      : {}),
+    ...(typeof value.localRevision === 'string' ? { localRevision: value.localRevision } : {}),
+  };
+}
+
 export function createArtifactIdempotencyKey(): string {
   if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
     return `artifact:${crypto.randomUUID()}`;
@@ -62,26 +105,20 @@ export function createArtifactIdempotencyKey(): string {
 function readRawLocalArtifacts(scope = getUserContentStorageScope()): StudyArtifact[] {
   if (typeof window === 'undefined') return [];
   const { artifacts } = userContentStorageKeys(scope);
-  try {
-    const raw = window.localStorage.getItem(artifacts);
-    return raw ? (JSON.parse(raw) as StudyArtifact[]) : [];
-  } catch {
-    return [];
-  }
+  const storage = resolveLocalStorage(window);
+  return parseStoredArray(safeStorageGet(storage, artifacts))
+    .map(normalizeStoredArtifact)
+    .filter((item): item is StudyArtifact => item !== null);
 }
 
 function writeLocalArtifacts(items: StudyArtifact[], scope = getUserContentStorageScope()): boolean {
   if (typeof window === 'undefined') return false;
   const { artifacts } = userContentStorageKeys(scope);
+  const storage = resolveLocalStorage(window);
   const stripped = items.map(({ localOnly: _localOnly, ...rest }) => rest);
   // This is a recovery outbox, not a recent-items cache. Never silently evict
   // unsynced work because a learner crossed an arbitrary item count.
-  try {
-    window.localStorage.setItem(artifacts, JSON.stringify(stripped));
-    return true;
-  } catch {
-    return false;
-  }
+  return safeStorageSet(storage, artifacts, JSON.stringify(stripped));
 }
 
 async function readRecoveryArtifacts(scope: string): Promise<StudyArtifact[]> {
@@ -89,9 +126,11 @@ async function readRecoveryArtifacts(scope: string): Promise<StudyArtifact[]> {
   const durable = await listDurableOutboxRecords<StudyArtifact>('artifact', scope);
   const byId = new Map(local.map((item) => [item.id, item]));
   for (const record of durable) {
-    const existing = byId.get(record.logicalKey);
-    if (!existing || String(existing.updated_at) <= String(record.payload.updated_at)) {
-      byId.set(record.logicalKey, record.payload);
+    const item = normalizeStoredArtifact(record.payload);
+    if (!item || item.id !== record.logicalKey) continue;
+    const existing = byId.get(item.id);
+    if (!existing || String(existing.updated_at) <= String(item.updated_at)) {
+      byId.set(item.id, item);
     }
   }
   return [...byId.values()].sort((a, b) => String(b.updated_at).localeCompare(String(a.updated_at)));
