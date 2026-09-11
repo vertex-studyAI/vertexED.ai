@@ -75,7 +75,6 @@ export default function SetInitialPassword() {
       const { error: updateError } = await supabase.auth.updateUser({ password });
       if (updateError) throw updateError;
 
-      sessionStorage.setItem("vertex_welcome", "1");
       navigate("/onboarding", { replace: true });
     } catch (err) {
       setError(err instanceof Error ? err.message : "Could not set your password. Open a fresh invite and try again.");
