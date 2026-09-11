@@ -12,6 +12,7 @@ import { savePlannerSnapshot } from "@/lib/plannerSync";
 import { buildCurriculumProfileUpsert } from "@/lib/profileRecovery.mjs";
 import { trackProductEvent } from "@/lib/productAnalytics.mjs";
 import { markFirstSessionSyncNotice, markFirstSessionWelcome } from "@/lib/firstSessionHandoff.mjs";
+import { resolveSessionStorage } from "@/lib/browserStorage.mjs";
 import type { CurriculumPreference } from "@/types/curriculum";
 
 const USERNAME_REGEX = /^([a-zA-Z0-9_.-]{3,20})$/;
@@ -127,8 +128,12 @@ export default function Onboarding() {
       const { error: updateError } = await supabase.auth.updateUser({ data: metadata });
       if (updateError) throw updateError;
 
+      // These markers only drive optional dashboard messaging. Once planner,
+      // profile, and auth state are durable, blocked session storage must not
+      // make onboarding look failed or prevent navigation to the dashboard.
+      const handoffStorage = typeof window === "undefined" ? null : resolveSessionStorage(window);
       if (!planResult.cloudSynced) {
-        markFirstSessionSyncNotice(sessionStorage, user.id);
+        markFirstSessionSyncNotice(handoffStorage, user.id);
       }
 
       trackProductEvent("Onboarding Completed", {
@@ -136,7 +141,7 @@ export default function Onboarding() {
         subject_count: curriculum.subjects.length,
         planner_sync: planResult.cloudSynced ? "cloud" : "device",
       });
-      markFirstSessionWelcome(sessionStorage, user.id);
+      markFirstSessionWelcome(handoffStorage, user.id);
       navigate("/main", { replace: true });
     } catch (err) {
       setError(getErrorMessage(err));
