@@ -17,12 +17,14 @@ The first useful artifact is the starter planner snapshot created during onboard
 
 ## State contract
 
-Onboarding writes two short-lived session markers:
+Onboarding writes two short-lived, account-scoped session markers:
 
-- `vertex_welcome=1` means onboarding completed and the starter plan exists.
-- presence of `vertex_plan_sync_notice` means cloud persistence failed and the device copy is currently authoritative.
+- `vertex_welcome:<account-id>=1` means onboarding completed for that account and the starter plan exists.
+- presence of `vertex_plan_sync_notice:<account-id>` means cloud persistence failed for that account and its device copy is currently authoritative.
 
-`consumeFirstSessionHandoff()` reads and removes both markers on the first dashboard render. It returns booleans only. Stored notice text is never rendered, preventing arbitrary session-storage content from entering the page.
+`consumeFirstSessionHandoff()` requires the current authenticated account id, reads and removes only that account's markers, and returns booleans only. A marker belonging to account A cannot be consumed as account B. The dashboard also re-resolves the handoff when authentication identity changes so an already-rendered account-A handoff cannot remain visible after a switch to B.
+
+Legacy unscoped `vertex_welcome` / `vertex_plan_sync_notice` markers are deliberately discarded when an authenticated dashboard consumes handoff state; they are never attributed to the current user because their original owner cannot be proven. Stored notice text is never rendered.
 
 ## Accessibility contract
 
@@ -37,6 +39,6 @@ The handoff:
 
 ## Evidence
 
-- `tests/first-session-handoff.test.mjs` verifies one-time consumption, device-only reduction, sync-only recovery, live-region semantics, planner navigation, and dismissal labelling.
+- `tests/first-session-handoff.test.mjs` verifies one-time account-scoped consumption, cross-account isolation, legacy-marker disposal, device-only reduction, sync-only recovery, authenticated-account rebinding, live-region semantics, planner navigation, and dismissal labelling.
 - The canonical release gate verifies TypeScript, application tests, deterministic evaluations, production dependencies, and the production build.
-- Live browser certification remains required before merge.
+- Live browser certification remains required before a production-release claim.
