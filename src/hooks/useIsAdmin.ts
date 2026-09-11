@@ -16,6 +16,7 @@ export function useIsAdmin() {
   const { user, loading: authLoading } = useAuth();
   const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [resolvedUserId, setResolvedUserId] = useState<string | null | undefined>(undefined);
 
   useEffect(() => {
     let cancelled = false;
@@ -25,6 +26,7 @@ export function useIsAdmin() {
       if (!user) {
         if (!cancelled) {
           setIsAdmin(false);
+          setResolvedUserId(null);
           setLoading(false);
         }
         return;
@@ -42,6 +44,7 @@ export function useIsAdmin() {
                 clientAllowlistMatch: isAdminUser(user),
               }),
             );
+            setResolvedUserId(user.id);
             setLoading(false);
           }
           return;
@@ -59,6 +62,7 @@ export function useIsAdmin() {
             clientAllowlistMatch: isAdminUser(user),
           }),
         );
+        setResolvedUserId(user.id);
         setLoading(false);
       }
     }
@@ -71,5 +75,11 @@ export function useIsAdmin() {
     };
   }, [authLoading, user]);
 
-  return { isAdmin, loading: authLoading || loading };
+  const currentUserId = user?.id ?? null;
+  const adminDecisionIsCurrent = !authLoading && resolvedUserId === currentUserId;
+
+  return {
+    isAdmin: adminDecisionIsCurrent ? isAdmin : false,
+    loading: authLoading || loading || !adminDecisionIsCurrent,
+  };
 }
