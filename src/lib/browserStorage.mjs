@@ -23,3 +23,13 @@ export function safeStorageSet(storage, key, value) {
     return false;
   }
 }
+
+export function parseStoredArray(raw) {
+  if (!raw) return [];
+  try {
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+}
