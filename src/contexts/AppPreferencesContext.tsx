@@ -1,4 +1,6 @@
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
+import { normalizeAppPreferences } from '@/lib/appPreferencesStorage.mjs';
+import { parseStoredObject, resolveLocalStorage, safeStorageGet, safeStorageSet } from '@/lib/browserStorage.mjs';
 import { applyThemeClass, getThemeMetaColor, resolveIsDark, type ThemeMode } from '@/lib/theme';
 
 export type AccessibilitySettings = {
@@ -29,12 +31,10 @@ const DEFAULTS: AccessibilitySettings = {
 
 function readSettings(): AccessibilitySettings {
   if (typeof window === 'undefined') return DEFAULTS;
-  try {
-    const raw = window.localStorage.getItem(STORAGE_KEY);
-    return raw ? { ...DEFAULTS, ...(JSON.parse(raw) as Partial<AccessibilitySettings>) } : DEFAULTS;
-  } catch {
-    return DEFAULTS;
-  }
+  const stored = parseStoredObject(
+    safeStorageGet(resolveLocalStorage(window), STORAGE_KEY),
+  );
+  return normalizeAppPreferences(stored, DEFAULTS) as AccessibilitySettings;
 }
 
 function applyAccessibilityClasses(settings: AccessibilitySettings) {
@@ -80,7 +80,7 @@ export function AppPreferencesProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     applyAccessibilityClasses(settings);
     // Device preferences still work for this visit if browser storage is blocked.
-    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(settings)); } catch { /* No learner data is stored here. */ }
+    safeStorageSet(resolveLocalStorage(window), STORAGE_KEY, JSON.stringify(settings));
   }, [settings]);
 
   const isDark = useMemo(() => resolveIsDark(settings.theme), [settings.theme]);
