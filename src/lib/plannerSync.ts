@@ -21,6 +21,15 @@ function emptySnapshot(): PlannerSnapshot {
   return { tasks: [], mode: 'Day', updatedAt: new Date(0).toISOString() };
 }
 
+function accountChangedPlannerResult() {
+  return {
+    snapshot: emptySnapshot(),
+    cloudSynced: false,
+    readOnly: true,
+    error: 'Account changed during recovery.',
+  };
+}
+
 async function resolveStorageScope(explicitScope?: string | null): Promise<string | null> {
   if (typeof explicitScope === 'string' && explicitScope.trim()) return explicitScope;
   if (!supabase) return null;
@@ -76,6 +85,7 @@ export async function loadPlannerSnapshot(storageScope?: string | null, acceptCl
   readOnly?: boolean;
 }> {
   const resolvedScope = await resolveStorageScope(storageScope);
+  if (!resolvedScope || getUserContentStorageScope() !== resolvedScope) return accountChangedPlannerResult();
   const keys = plannerStorageKeys(resolvedScope);
   let local: PlannerSnapshot;
   let localReadFailed = false;
@@ -89,13 +99,15 @@ export async function loadPlannerSnapshot(storageScope?: string | null, acceptCl
     local = emptySnapshot();
   }
   const accessToken = await getAccessToken().catch(() => null);
-  if (!resolvedScope || !accessToken || getUserContentStorageScope() !== resolvedScope) return { snapshot: local, cloudSynced: false, readOnly: localReadFailed, error: 'Account changed or session unavailable.' };
+  if (getUserContentStorageScope() !== resolvedScope) return accountChangedPlannerResult();
+  if (!accessToken) return { snapshot: local, cloudSynced: false, readOnly: localReadFailed, error: 'Your session is unavailable.' };
   const metadataKey = plannerStorageKeys(resolvedScope).updatedAt;
   const deadline = createRequestDeadline(undefined, PLANNER_SYNC_TIMEOUT_MS);
 
   try {
     const res = await authFetchWithAccessToken('/api/user-content?kind=planner&limit=1', accessToken, { signal: deadline.signal });
     const data = await res.json().catch(() => null);
+    if (getUserContentStorageScope() !== resolvedScope) return accountChangedPlannerResult();
     if (!res.ok) {
       trackPlannerRetrieved({
         source: localPlannerSource(local),
@@ -110,7 +122,6 @@ export async function loadPlannerSnapshot(storageScope?: string | null, acceptCl
       };
     }
 
-    if (getUserContentStorageScope() !== resolvedScope) throw new Error('Account changed during recovery.');
     if (!Array.isArray(data?.items)) throw new Error('Invalid cloud response. Local work was preserved.');
     const item = data.items[0] ?? null;
     const cloud = item ? parseCloudSnapshot(item) : null;
@@ -127,6 +138,7 @@ export async function loadPlannerSnapshot(storageScope?: string | null, acceptCl
       error: merged.conflict ? 'Cloud work changed. Export your local copy or reload the cloud copy; a local backup will be kept.' : merged.cloudSynced ? undefined : 'Local edits are waiting to sync.' };
     return result;
   } catch (err) {
+    if (getUserContentStorageScope() !== resolvedScope) return accountChangedPlannerResult();
     trackPlannerRetrieved({
       source: localPlannerSource(local),
       cloudStatus: 'error',
