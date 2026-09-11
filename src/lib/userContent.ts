@@ -38,6 +38,20 @@ export type SaveArtifactResult = {
   replayed?: boolean;
 };
 
+const ACCOUNT_CHANGED_ERROR = 'Account changed while study work was being processed. Try again in the current account.';
+
+function isCurrentUserContentScope(scope: string): boolean {
+  return getUserContentStorageScope() === scope;
+}
+
+function accountChangedSaveResult(): SaveArtifactResult {
+  return { ok: false, error: ACCOUNT_CHANGED_ERROR };
+}
+
+function accountChangedListResult(): StudyArtifactListResult {
+  return { ok: false, items: [], cloudUnavailable: true, error: ACCOUNT_CHANGED_ERROR };
+}
+
 export function createArtifactIdempotencyKey(): string {
   if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
     return `artifact:${crypto.randomUUID()}`;
@@ -90,6 +104,7 @@ async function saveLocalArtifact(
   idempotencyKey: string,
   scope: string,
 ): Promise<StudyArtifact | null> {
+  if (!isCurrentUserContentScope(scope)) return null;
   const now = new Date().toISOString();
   const item: StudyArtifact = {
     id: `local-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`,
@@ -110,6 +125,7 @@ async function saveLocalArtifact(
     payload: item,
     updatedAt: now,
   });
+  if (!isCurrentUserContentScope(scope)) return null;
   const mirrored = writeLocalArtifacts([item, ...readRawLocalArtifacts(scope)], scope);
   return durable || mirrored ? item : null;
 }
@@ -184,6 +200,7 @@ export async function updateStudyArtifact(
   if (!scope) return { ok: false, error: 'Sign in before saving study work.' };
   if (id.startsWith('local-')) {
     const items = await readRecoveryArtifacts(scope);
+    if (!isCurrentUserContentScope(scope)) return accountChangedSaveResult();
     const idx = items.findIndex((item) => item.id === id);
     if (idx === -1) return { ok: false, error: 'Artifact not found' };
     const now = new Date().toISOString();
@@ -199,6 +216,7 @@ export async function updateStudyArtifact(
     const durable = await putDurableOutboxRecord({
       channel: 'artifact', scope, logicalKey: id, revision: updated.localRevision!, payload: updated, updatedAt: now,
     });
+    if (!isCurrentUserContentScope(scope)) return accountChangedSaveResult();
     const mirrored = writeLocalArtifacts(items, scope);
     return durable || mirrored
       ? { ok: true, id, localOnly: true }
@@ -207,6 +225,7 @@ export async function updateStudyArtifact(
 
   try {
     const accessToken = await getAccessToken();
+    if (!isCurrentUserContentScope(scope)) return accountChangedSaveResult();
     if (!accessToken) return { ok: false, error: 'Your session is unavailable.' };
     const res = await authFetchWithAccessToken('/api/user-content', accessToken, {
       method: 'PUT',
@@ -214,11 +233,13 @@ export async function updateStudyArtifact(
       body: JSON.stringify({ id, ...patch }),
     });
     const data = await res.json().catch(() => null);
+    if (!isCurrentUserContentScope(scope)) return accountChangedSaveResult();
     if (!res.ok) {
       return { ok: false, error: data?.error || 'Update failed' };
     }
     return { ok: true, id: data?.item?.id ?? id };
   } catch (err) {
+    if (!isCurrentUserContentScope(scope)) return accountChangedSaveResult();
     return { ok: false, error: err instanceof Error ? err.message : 'Update failed' };
   }
 }
@@ -240,7 +261,10 @@ export async function saveStudyArtifact(
   if (!scope) return { ok: false, error: 'Sign in before saving study work.' };
   const idempotencyKey = options.idempotencyKey || createArtifactIdempotencyKey();
   const accessToken = await getAccessToken();
+  if (!isCurrentUserContentScope(scope)) return accountChangedSaveResult();
+
   const request = () => {
+    if (!isCurrentUserContentScope(scope)) throw new Error(ACCOUNT_CHANGED_ERROR);
     if (!accessToken) throw new Error('Your session is unavailable.');
     return authFetchWithAccessToken('/api/user-content', accessToken, {
       method: 'POST',
@@ -248,17 +272,21 @@ export async function saveStudyArtifact(
       body: JSON.stringify({ kind, title, payload, idempotencyKey }),
     });
   };
+
   try {
     let res: Response;
     try {
       res = await request();
-    } catch {
+    } catch (err) {
+      if (!isCurrentUserContentScope(scope)) throw err;
       // A committed response can be lost in transit. One retry with the same key is safe.
       res = await request();
     }
     const data = await res.json().catch(() => null);
+    if (!isCurrentUserContentScope(scope)) return accountChangedSaveResult();
     if (!res.ok) {
       const local = await saveLocalArtifact(kind, title, payload, idempotencyKey, scope);
+      if (!isCurrentUserContentScope(scope)) return accountChangedSaveResult();
       if (!local) return { ok: false, error: 'Device recovery storage is full or unavailable.' };
       return {
         ok: true,
@@ -269,7 +297,9 @@ export async function saveStudyArtifact(
     }
     return { ok: true, id: data?.item?.id, replayed: data?.replayed === true };
   } catch (err) {
+    if (!isCurrentUserContentScope(scope)) return accountChangedSaveResult();
     const local = await saveLocalArtifact(kind, title, payload, idempotencyKey, scope);
+    if (!isCurrentUserContentScope(scope)) return accountChangedSaveResult();
     if (!local) return { ok: false, error: 'Device recovery storage is full or unavailable.' };
     return {
       ok: true,
@@ -299,14 +329,26 @@ export async function syncLocalStudyArtifacts(): Promise<ArtifactSyncResult> {
   const scope = getUserContentStorageScope();
   if (!scope) return { attempted: 0, synced: 0, remaining: 0 };
   const pending = await readRecoveryArtifacts(scope);
+  if (!isCurrentUserContentScope(scope)) {
+    return { attempted: pending.length, synced: 0, remaining: pending.length, error: ACCOUNT_CHANGED_ERROR };
+  }
   const accessToken = await getAccessToken();
-  if (!accessToken || getUserContentStorageScope() !== scope) {
-    return { attempted: pending.length, synced: 0, remaining: pending.length, error: 'Authenticated sync is unavailable.' };
+  if (!accessToken || !isCurrentUserContentScope(scope)) {
+    return {
+      attempted: pending.length,
+      synced: 0,
+      remaining: pending.length,
+      error: isCurrentUserContentScope(scope) ? 'Authenticated sync is unavailable.' : ACCOUNT_CHANGED_ERROR,
+    };
   }
   let synced = 0;
   let lastError: string | undefined;
 
   for (const item of pending) {
+    if (!isCurrentUserContentScope(scope)) {
+      lastError = ACCOUNT_CHANGED_ERROR;
+      break;
+    }
     const idempotencyKey = item.idempotencyKey || `artifact:sync:${item.id.replace(/[^A-Za-z0-9._:-]/g, '-').slice(0, 100)}`;
     const attemptedRevision = item.localRevision || idempotencyKey;
     try {
@@ -321,6 +363,10 @@ export async function syncLocalStudyArtifacts(): Promise<ArtifactSyncResult> {
         }),
       });
       const data = await res.json().catch(() => null);
+      if (!isCurrentUserContentScope(scope)) {
+        lastError = ACCOUNT_CHANGED_ERROR;
+        break;
+      }
       if (!res.ok) {
         lastError = data?.error || `Sync failed (${res.status})`;
         continue;
@@ -328,10 +374,27 @@ export async function syncLocalStudyArtifacts(): Promise<ArtifactSyncResult> {
       writeLocalArtifacts(readRawLocalArtifacts(scope).filter((candidate) =>
         candidate.id !== item.id || (candidate.localRevision || candidate.idempotencyKey) !== attemptedRevision), scope);
       await deleteDurableOutboxRecord('artifact', scope, item.id, attemptedRevision);
+      if (!isCurrentUserContentScope(scope)) {
+        lastError = ACCOUNT_CHANGED_ERROR;
+        break;
+      }
       synced += 1;
     } catch (err) {
+      if (!isCurrentUserContentScope(scope)) {
+        lastError = ACCOUNT_CHANGED_ERROR;
+        break;
+      }
       lastError = err instanceof Error ? err.message : 'Cloud sync unavailable';
     }
+  }
+
+  if (!isCurrentUserContentScope(scope)) {
+    return {
+      attempted: pending.length,
+      synced,
+      remaining: Math.max(0, pending.length - synced),
+      error: ACCOUNT_CHANGED_ERROR,
+    };
   }
 
   return {
@@ -350,11 +413,13 @@ export async function deleteStudyArtifact(
   if (id.startsWith('local-')) {
     writeLocalArtifacts(readRawLocalArtifacts(scope).filter((item) => item.id !== id), scope);
     await deleteDurableOutboxRecord('artifact', scope, id);
+    if (!isCurrentUserContentScope(scope)) return { ok: false, error: ACCOUNT_CHANGED_ERROR };
     return { ok: true };
   }
 
   try {
     const accessToken = await getAccessToken();
+    if (!isCurrentUserContentScope(scope)) return { ok: false, error: ACCOUNT_CHANGED_ERROR };
     if (!accessToken) return { ok: false, error: 'Your session is unavailable.' };
     const res = await authFetchWithAccessToken('/api/user-content', accessToken, {
       method: 'DELETE',
@@ -362,11 +427,13 @@ export async function deleteStudyArtifact(
       body: JSON.stringify({ id }),
     });
     const data = await res.json().catch(() => null);
+    if (!isCurrentUserContentScope(scope)) return { ok: false, error: ACCOUNT_CHANGED_ERROR };
     if (!res.ok) {
       return { ok: false, error: data?.error || 'Delete failed' };
     }
     return { ok: true };
   } catch (err) {
+    if (!isCurrentUserContentScope(scope)) return { ok: false, error: ACCOUNT_CHANGED_ERROR };
     return { ok: false, error: err instanceof Error ? err.message : 'Delete failed' };
   }
 }
@@ -385,6 +452,7 @@ export async function listStudyArtifactsDetailed(
   const limit = Math.max(1, Math.min(50, Math.floor(options.limit ?? 30)));
   const offset = Math.max(0, Math.floor(options.offset ?? 0));
   const recovered = await readRecoveryArtifacts(scope);
+  if (!isCurrentUserContentScope(scope)) return accountChangedListResult();
   const local = offset === 0
     ? (kind ? recovered.filter((item) => item.kind === kind) : recovered)
       .map((item) => ({ ...item, localOnly: true }))
@@ -392,15 +460,14 @@ export async function listStudyArtifactsDetailed(
 
   try {
     const accessToken = await getAccessToken();
+    if (!isCurrentUserContentScope(scope)) return accountChangedListResult();
     if (!accessToken) throw new Error('Your session is unavailable.');
     const search = new URLSearchParams({ limit: String(limit), offset: String(offset) });
     if (kind) search.set('kind', kind);
     const qs = `?${search.toString()}`;
     const res = await authFetchWithAccessToken(`/api/user-content${qs}`, accessToken);
     const data = await res.json().catch(() => null);
-    if (getUserContentStorageScope() !== scope) {
-      return { ok: false, items: [], cloudUnavailable: true, error: 'Account changed while study work was loading.' };
-    }
+    if (!isCurrentUserContentScope(scope)) return accountChangedListResult();
     if (!res.ok) {
       return {
         ok: local.length > 0,
@@ -417,6 +484,7 @@ export async function listStudyArtifactsDetailed(
       nextOffset: typeof data?.nextOffset === 'number' ? data.nextOffset : null,
     };
   } catch (err) {
+    if (!isCurrentUserContentScope(scope)) return accountChangedListResult();
     return {
       ok: local.length > 0,
       items: local,
