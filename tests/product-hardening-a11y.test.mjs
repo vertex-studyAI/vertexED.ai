@@ -22,14 +22,14 @@ test('cloud save banner dismissal and status are rebound to the current account'
 
   assert.match(source, /cloudBannerDismissKey\(user\?\.id\)/);
   assert.match(source, /const dismissed = Boolean\(dismissKey && dismissedForKey === dismissKey\)/);
-  assert.match(source, /sessionStorage\.getItem\(dismissKey\) === "1" \? dismissKey : null/);
-  assert.match(source, /sessionStorage\.setItem\(dismissKey, "1"\)/);
+  assert.match(source, /resolveSessionStorage\(window\)/);
+  assert.match(source, /safeStorageGet\(storage, dismissKey\) === "1" \? dismissKey : null/);
+  assert.match(source, /safeStorageSet\(storage, dismissKey, "1"\)/);
   assert.match(source, /setDismissedForKey\(dismissKey\)/);
-  assert.match(source, /sessionStorage\.removeItem\(LEGACY_DISMISS_KEY\)/);
+  assert.match(source, /safeStorageRemove\(storage, LEGACY_DISMISS_KEY\)/);
   assert.match(source, /\[dismissKey\]/);
   assert.match(source, /\[showOnRoute, dismissed, location\.pathname, user\?\.id\]/);
-  assert.doesNotMatch(source, /sessionStorage\.getItem\(DISMISS_KEY_PREFIX\)/);
-  assert.doesNotMatch(source, /sessionStorage\.setItem\(DISMISS_KEY_PREFIX/);
+  assert.doesNotMatch(source, /sessionStorage\.(?:getItem|setItem|removeItem)/);
 });
 
 test('adaptive recommendations expose generated updates and list semantics', async () => {
