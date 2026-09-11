@@ -1,3 +1,4 @@
+import { resolveLocalStorage, safeStorageGet, safeStorageSet } from '@/lib/browserStorage.mjs';
 import { userContentStorageKeys } from '@/lib/userContentStorageScope.mjs';
 import {
   dueRetryItems,
@@ -34,12 +35,19 @@ function storageKey() {
 
 function read(): RetryItem[] {
   if (typeof window === 'undefined') return [];
+  const storage = resolveLocalStorage(window);
   try {
-    const raw = window.localStorage.getItem(storageKey());
+    const raw = safeStorageGet(storage, storageKey());
     return validRetryItems(raw ? JSON.parse(raw) : []) as RetryItem[];
   } catch {
     return [];
   }
+}
+
+function persist(items: RetryItem[]) {
+  if (typeof window === 'undefined') return false;
+  const storage = resolveLocalStorage(window);
+  return safeStorageSet(storage, storageKey(), JSON.stringify(items));
 }
 
 export function getRetryQueue(): RetryItem[] {
@@ -56,16 +64,14 @@ export function getDueRetries(now = new Date()): RetryItem[] {
 
 export function scheduleRetry(entry: WeaknessEntry, now = new Date()): RetryItem[] {
   const next = scheduleMeasuredRetry(read(), entry, now) as RetryItem[];
-  if (typeof window !== 'undefined') {
-    window.localStorage.setItem(storageKey(), JSON.stringify(next));
-  }
+  persist(next);
   const changed = next.find((item) => item.id === retryIdForWeakness(entry));
   if (changed) queueLearnerStateWrite('retry', changed.id, changed as unknown as Record<string, unknown>, now);
   return next;
 }
 
 function writeTransition(next: RetryItem[], id: string, now: Date) {
-  if (typeof window !== 'undefined') window.localStorage.setItem(storageKey(), JSON.stringify(next));
+  persist(next);
   const changed = next.find((item) => item.id === id);
   if (changed) queueLearnerStateWrite('retry', changed.id, changed as unknown as Record<string, unknown>, now);
   return changed ?? null;

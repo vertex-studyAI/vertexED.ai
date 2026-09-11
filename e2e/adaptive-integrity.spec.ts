@@ -111,7 +111,12 @@ function measuredWeakness(topic: string) {
     score: 4,
     maxScore: 10,
     source: 'quiz',
-    evidence: 'measured-v1',
+    evidence: 'measured-v2',
+    verification: {
+      method: 'validated-answer-key',
+      confirmedAt: '2026-09-08T00:00:00.000Z',
+      reference: 'VX-206 deterministic test fixture',
+    },
     recordedAt: '2026-09-08T00:00:00.000Z',
   };
 }
@@ -126,11 +131,11 @@ test('adaptive note URL state requires matching measured weakness', async ({ pag
 
   await page.goto('/notetaker?adaptive=1&subject=Mathematics&topic=Quadratic%20factorisation');
   await expect(page.getByLabel('Topic or source material')).toHaveValue('Quadratic factorisation');
-  await expect(page.getByText(/Based on your verified quiz results/)).toBeVisible();
+  await expect(page.locator('#notes-brief')).toHaveValue(/Adaptive revision for Mathematics\.[\s\S]*Recent measured attempts average 40% across 1 attempt\./);
 
   await page.goto('/notetaker?adaptive=1&subject=Mathematics&topic=Fabricated%20mastery');
   await expect(page.getByLabel('Topic or source material')).toHaveValue('');
-  await expect(page.getByText(/Based on your verified quiz results/)).toHaveCount(0);
+  await expect(page.locator('#notes-brief')).toHaveValue('');
 });
 
 test('timed mock completion does not manufacture mastery data', async ({ page }) => {

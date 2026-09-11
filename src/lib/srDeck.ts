@@ -1,4 +1,10 @@
 import { dueCards, mergeReviewCards, repairCardIds, type SrCard } from "@/lib/spacedRepetition";
+import {
+  parseStoredArray,
+  resolveLocalStorage,
+  safeStorageGet,
+  safeStorageSet,
+} from "@/lib/browserStorage.mjs";
 import { userContentStorageKeys } from "@/lib/userContentStorageScope.mjs";
 
 function deckKey() {
@@ -7,20 +13,17 @@ function deckKey() {
 
 export function loadSrDeck(): SrCard[] {
   if (typeof window === "undefined") return [];
-  try {
-    const raw = window.localStorage.getItem(deckKey());
-    const cards = raw ? JSON.parse(raw) as SrCard[] : [];
-    const repaired = repairCardIds(cards);
-    if (JSON.stringify(cards) !== JSON.stringify(repaired)) saveSrDeck(repaired);
-    return repaired;
-  } catch {
-    return [];
-  }
+  const storage = resolveLocalStorage(window);
+  const cards = parseStoredArray(safeStorageGet(storage, deckKey())) as SrCard[];
+  const repaired = repairCardIds(cards);
+  if (JSON.stringify(cards) !== JSON.stringify(repaired)) saveSrDeck(repaired);
+  return repaired;
 }
 
 export function saveSrDeck(cards: SrCard[]) {
   if (typeof window === "undefined") return;
-  window.localStorage.setItem(deckKey(), JSON.stringify(cards));
+  const storage = resolveLocalStorage(window);
+  if (!safeStorageSet(storage, deckKey(), JSON.stringify(cards))) return;
   window.dispatchEvent(new CustomEvent('vertexed:storage-changed', { detail: deckKey() }));
 }
 
