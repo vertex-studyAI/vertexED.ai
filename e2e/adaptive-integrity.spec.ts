@@ -111,7 +111,12 @@ function measuredWeakness(topic: string) {
     score: 4,
     maxScore: 10,
     source: 'quiz',
-    evidence: 'measured-v1',
+    evidence: 'measured-v2',
+    verification: {
+      method: 'validated-answer-key',
+      confirmedAt: '2026-09-08T00:00:00.000Z',
+      reference: 'VX-206 deterministic test fixture',
+    },
     recordedAt: '2026-09-08T00:00:00.000Z',
   };
 }
