@@ -27,7 +27,7 @@ test('protected routes distinguish pending, rejected, and unavailable access tru
   const source = await readSource('src/components/ProtectedRoute.tsx');
 
   assert.match(source, /"pending" \| "rejected" \| "unavailable"/);
-  assert.match(source, /\.catch\(\(\) => active && setAccess\("unavailable"\)\)/);
+  assert.match(source, /\.catch\(\(\) => \{[\s\S]*setAccess\("unavailable"\);[\s\S]*setAccessUserId\(user\.id\);[\s\S]*\}\);/);
   assert.match(source, /if \(access === "unavailable"\) return <WaitlistUnavailable/);
   assert.match(source, /if \(access === "rejected"\) return <WaitlistRejected/);
   assert.match(source, /if \(access === "pending"\) return <WaitlistPending/);
