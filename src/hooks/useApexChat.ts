@@ -4,6 +4,11 @@ import { ChatbotApiError, fetchChatbotAnswer, type ChatbotMessage } from '@/lib/
 import type { StudyPageContext } from '@/lib/studyContext';
 import { animateTypewriter } from '@/lib/typewriter';
 import { normalizeUserContentStorageScope } from '@/lib/userContentStorageScope.mjs';
+import {
+  clearApexChatMessages,
+  loadApexChatMessages,
+  saveApexChatMessages,
+} from '@/lib/apexChatStorage.mjs';
 
 export type ApexChatMessage = {
   id: string;
@@ -12,7 +17,6 @@ export type ApexChatMessage = {
 };
 
 const MAIN_THREAD_KEY = 'apex-main';
-const MAX_STORED = 40;
 
 export function apexChatStorageKey(
   page: string,
@@ -34,23 +38,12 @@ export function apexChatStorageKey(
 
 function loadMessages(storageKey: string): ApexChatMessage[] {
   if (typeof window === 'undefined') return [];
-  try {
-    const raw = sessionStorage.getItem(storageKey);
-    if (!raw) return [];
-    const parsed = JSON.parse(raw) as ApexChatMessage[];
-    return Array.isArray(parsed) ? parsed.slice(-MAX_STORED) : [];
-  } catch {
-    return [];
-  }
+  return loadApexChatMessages(window, storageKey) as ApexChatMessage[];
 }
 
 function saveMessages(storageKey: string, messages: ApexChatMessage[]) {
   if (typeof window === 'undefined') return;
-  try {
-    sessionStorage.setItem(storageKey, JSON.stringify(messages.slice(-MAX_STORED)));
-  } catch (err) {
-    console.warn('Failed to persist Apex chat messages:', err);
-  }
+  saveApexChatMessages(window, storageKey, messages);
 }
 
 type Options = {
@@ -119,7 +112,7 @@ export function useApexChat({ context, threadKey, sources, onSessionRecord }: Op
     setLoading(false);
     setStreamingMessageId(null);
     if (typeof window !== 'undefined') {
-      sessionStorage.removeItem(storageKey);
+      clearApexChatMessages(window, storageKey);
     }
   }, [storageKey]);
 
