@@ -31,8 +31,16 @@ export default function SavedWorkList({
   const visible = limit ? items.slice(0, limit) : items;
 
   const openItem = (item: StudyArtifact) => {
-    queueArtifactRestore(item);
-    navigate(artifactTargetRoute(item.kind));
+    try {
+      queueArtifactRestore(item);
+      navigate(artifactTargetRoute(item.kind));
+    } catch {
+      toast({
+        title: "Could not open saved work",
+        description: "Temporary browser storage is unavailable. Your saved work was not changed; try again after storage access is restored.",
+        variant: "destructive",
+      });
+    }
   };
 
   const removeItem = async (item: StudyArtifact) => {
@@ -126,7 +134,7 @@ export function ArtifactKindFilter({
           type="button"
           onClick={() => onChange(opt.value)}
           aria-pressed={value === opt.value}
-          className={cn(
+          className={cn}(
             "rounded-full px-3 py-1 text-xs capitalize transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
             value === opt.value
               ? "bg-primary/20 text-primary border border-primary/30"
