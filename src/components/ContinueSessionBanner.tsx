@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router';
 import { ArrowRight, CheckCircle2, CloudOff, Sparkles, X } from 'lucide-react';
 
 import { useAuth } from '@/contexts/AuthContext';
+import { resolveSessionStorage } from '@/lib/browserStorage.mjs';
 import { consumeFirstSessionHandoff } from '@/lib/firstSessionHandoff.mjs';
 import { getLastStudySession } from '@/lib/studyActivity';
 
@@ -22,7 +23,7 @@ export default function ContinueSessionBanner() {
       return;
     }
 
-    setHandoff(consumeFirstSessionHandoff(window.sessionStorage, user.id));
+    setHandoff(consumeFirstSessionHandoff(resolveSessionStorage(window), user.id));
   }, [authLoading, user?.id]);
 
   if (handoff) {
