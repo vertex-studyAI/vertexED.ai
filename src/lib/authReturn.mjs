@@ -12,11 +12,51 @@ export function authCallbackLocation(location) {
   return `/auth/callback${location.search}${location.hash}`;
 }
 
-/** Only the account-settings workflow currently stores a Google-link return. */
-export function consumeGoogleLinkReturn(storage) {
+const GOOGLE_LINK_RETURN_KEY = 'vertex_google_link_return';
+
+function normalizeAccountId(userId) {
+  return typeof userId === 'string' && userId.trim() ? userId.trim() : null;
+}
+
+export function googleLinkReturnKey(userId) {
+  const accountId = normalizeAccountId(userId);
+  return accountId ? `${GOOGLE_LINK_RETURN_KEY}:${encodeURIComponent(accountId)}` : null;
+}
+
+/** Retain only the fixed account-settings destination, scoped to the account that initiated linking. */
+export function markGoogleLinkReturn(storage, userId, destination = '/user-settings') {
+  const key = googleLinkReturnKey(userId);
+  if (!key || destination !== '/user-settings') return false;
   try {
-    const destination = storage.getItem('vertex_google_link_return');
-    storage.removeItem('vertex_google_link_return');
+    storage.setItem(key, destination);
+    // Never leave an old unscoped marker available to a later account.
+    storage.removeItem(GOOGLE_LINK_RETURN_KEY);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+export function clearGoogleLinkReturn(storage, userId) {
+  const key = googleLinkReturnKey(userId);
+  try {
+    if (key) storage.removeItem(key);
+    storage.removeItem(GOOGLE_LINK_RETURN_KEY);
+  } catch {
+    // Blocked storage must not turn a failed provider start into another error.
+  }
+}
+
+/** Only the account-settings workflow stores a Google-link return.
+ * Consume only the marker owned by the account that actually completed the callback.
+ */
+export function consumeGoogleLinkReturn(storage, userId) {
+  const key = googleLinkReturnKey(userId);
+  try {
+    const destination = key ? storage.getItem(key) : null;
+    if (key) storage.removeItem(key);
+    // Discard historical unscoped markers instead of attributing them to this account.
+    storage.removeItem(GOOGLE_LINK_RETURN_KEY);
     return destination === '/user-settings' ? destination : null;
   } catch {
     // Blocked storage must not turn a successful login into a stuck callback.
