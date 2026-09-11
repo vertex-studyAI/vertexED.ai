@@ -128,3 +128,14 @@ test("onboarding writes only account-scoped first-session markers", async () => 
   assert.doesNotMatch(source, /sessionStorage\.setItem\(\s*["']vertex_plan_sync_notice["']/);
   assert.doesNotMatch(source, /sessionStorage\.setItem\(\s*["']vertex_welcome["']/);
 });
+
+test("pre-onboarding auth flows never create legacy unscoped welcome markers", async () => {
+  const sources = await Promise.all([
+    readFile(new URL("../src/pages/Signup.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../src/pages/SetInitialPassword.tsx", import.meta.url), "utf8"),
+  ]);
+
+  for (const source of sources) {
+    assert.doesNotMatch(source, /sessionStorage\.setItem\(\s*["']vertex_welcome["']/);
+  }
+});
