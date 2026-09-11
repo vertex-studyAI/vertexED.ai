@@ -33,6 +33,20 @@ function createStorage(entries = {}) {
   };
 }
 
+function createThrowingStorage() {
+  return {
+    getItem() {
+      throw new Error("storage read blocked");
+    },
+    setItem() {
+      throw new Error("storage write blocked");
+    },
+    removeItem() {
+      throw new Error("storage remove blocked");
+    },
+  };
+}
+
 test("first-session handoff consumes the current account welcome marker once", () => {
   const storage = createStorage();
   assert.equal(markFirstSessionWelcome(storage, ACCOUNT_A), true);
@@ -101,14 +115,24 @@ test("invalid account identity cannot create or consume a handoff", () => {
   assert.equal(consumeFirstSessionHandoff(storage, null), null);
 });
 
-test("dashboard handoff follows the authenticated account and exposes status semantics", async () => {
+test("blocked session storage cannot break optional first-session handoffs", () => {
+  const storage = createThrowingStorage();
+
+  assert.equal(markFirstSessionWelcome(storage, ACCOUNT_A), false);
+  assert.equal(markFirstSessionSyncNotice(storage, ACCOUNT_A), false);
+  assert.equal(consumeFirstSessionHandoff(storage, ACCOUNT_A), null);
+});
+
+test("dashboard handoff follows the authenticated account and resolves session storage safely", async () => {
   const source = await readFile(
     new URL("../src/components/ContinueSessionBanner.tsx", import.meta.url),
     "utf8",
   );
 
   assert.match(source, /useAuth\(\)/);
-  assert.match(source, /consumeFirstSessionHandoff\(window\.sessionStorage, user\.id\)/);
+  assert.match(source, /resolveSessionStorage\(window\)/);
+  assert.match(source, /consumeFirstSessionHandoff\(resolveSessionStorage\(window\), user\.id\)/);
+  assert.doesNotMatch(source, /window\.sessionStorage/);
   assert.match(source, /\[authLoading, user\?\.id\]/);
   assert.match(source, /aria-live="polite"/);
   assert.match(source, /aria-labelledby="first-session-handoff-title"/);
@@ -117,14 +141,17 @@ test("dashboard handoff follows the authenticated account and exposes status sem
   assert.match(source, /aria-label="Dismiss starter plan message"/);
 });
 
-test("onboarding writes only account-scoped first-session markers", async () => {
+test("onboarding treats account-scoped first-session markers as optional UX", async () => {
   const source = await readFile(
     new URL("../src/pages/Onboarding.tsx", import.meta.url),
     "utf8",
   );
 
-  assert.match(source, /markFirstSessionSyncNotice\(sessionStorage, user\.id\)/);
-  assert.match(source, /markFirstSessionWelcome\(sessionStorage, user\.id\)/);
+  assert.match(source, /resolveSessionStorage\(window\)/);
+  assert.match(source, /markFirstSessionSyncNotice\(handoffStorage, user\.id\)/);
+  assert.match(source, /markFirstSessionWelcome\(handoffStorage, user\.id\)/);
+  assert.doesNotMatch(source, /markFirstSessionSyncNotice\(sessionStorage/);
+  assert.doesNotMatch(source, /markFirstSessionWelcome\(sessionStorage/);
   assert.doesNotMatch(source, /sessionStorage\.setItem\(\s*["']vertex_plan_sync_notice["']/);
   assert.doesNotMatch(source, /sessionStorage\.setItem\(\s*["']vertex_welcome["']/);
 });
