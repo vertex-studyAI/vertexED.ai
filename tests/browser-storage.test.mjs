@@ -6,7 +6,9 @@ import { fileURLToPath } from 'node:url';
 import {
   parseStoredArray,
   resolveLocalStorage,
+  resolveSessionStorage,
   safeStorageGet,
+  safeStorageRemove,
   safeStorageSet,
 } from '../src/lib/browserStorage.mjs';
 
@@ -15,26 +17,37 @@ test('browser storage helpers fail closed when storage access or operations thro
   Object.defineProperty(blockedOwner, 'localStorage', {
     get() { throw new Error('blocked'); },
   });
+  Object.defineProperty(blockedOwner, 'sessionStorage', {
+    get() { throw new Error('blocked'); },
+  });
   assert.equal(resolveLocalStorage(blockedOwner), null);
+  assert.equal(resolveSessionStorage(blockedOwner), null);
 
   const throwingStorage = {
     getItem() { throw new Error('blocked read'); },
     setItem() { throw new Error('quota'); },
+    removeItem() { throw new Error('blocked remove'); },
   };
   assert.equal(safeStorageGet(throwingStorage, 'k'), null);
   assert.equal(safeStorageSet(throwingStorage, 'k', 'v'), false);
+  assert.equal(safeStorageRemove(throwingStorage, 'k'), false);
   assert.equal(safeStorageSet(null, 'k', 'v'), false);
+  assert.equal(safeStorageRemove(null, 'k'), false);
 });
 
-test('browser storage helpers preserve normal read/write behavior', () => {
+test('browser storage helpers preserve normal read/write/remove behavior', () => {
   const values = new Map();
   const storage = {
     getItem(key) { return values.has(key) ? values.get(key) : null; },
     setItem(key, value) { values.set(key, String(value)); },
+    removeItem(key) { values.delete(key); },
   };
   assert.equal(resolveLocalStorage({ localStorage: storage }), storage);
+  assert.equal(resolveSessionStorage({ sessionStorage: storage }), storage);
   assert.equal(safeStorageSet(storage, 'k', 'v'), true);
   assert.equal(safeStorageGet(storage, 'k'), 'v');
+  assert.equal(safeStorageRemove(storage, 'k'), true);
+  assert.equal(safeStorageGet(storage, 'k'), null);
 });
 
 test('persisted stat arrays reject malformed or object-shaped payloads', () => {
