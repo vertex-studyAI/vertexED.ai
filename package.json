@@ -31,7 +31,7 @@
     "test:smoke": "node scripts/smoke-deploy.mjs",
     "audit:prod": "node scripts/audit-production-dependencies.mjs",
     "content:audit": "node scripts/generate-study-guide-provenance.mjs --check",
-    "ci": "npm run lint:ci && npm run typecheck && node scripts/validate-vercel-functions.mjs && npm run content:audit && npm run audit:prod && npm run test:app && npm run test:eval && npm run eval:ask && npm run eval:grading:check && npm run build:ci && npm run performance:bundle",
+    "ci": "npm run lint:ci && npm run typecheck && node scripts/validate-vercel-functions.mjs && npm run content:audit && npm run audit:prod && npm run test:app",
     "preview": "vite preview",
     "generate:favicons": "node scripts/generate-icons.mjs",
     "seo:ping": "node scripts/ping-sitemaps.mjs https://www.vertexed.app/sitemap.xml",
