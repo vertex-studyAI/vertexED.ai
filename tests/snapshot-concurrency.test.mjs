@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { reconcileSnapshot, serializeSnapshotWrite } from '../src/lib/snapshotConcurrency.mjs';
+import { reconcileSnapshot, serializeSnapshotWrite, writeSnapshotValues } from '../src/lib/snapshotConcurrency.mjs';
 import { replaceSingletonArtifact } from '../api/_lib/userContentStore.js';
 import { collectAccountStorage, clearAccountStorage } from '../src/lib/deviceAccountData.mjs';
 import { isApprovedGuide } from '../api/_lib/studyGuideRetrieval.js';
@@ -25,6 +25,24 @@ test('offline dirty snapshot keeps its changes when remote baseline has not chan
  assert.equal(result.snapshot, local);
  assert.equal(result.conflict, false);
  assert.equal(result.cloudSynced, false);
+});
+
+test('multi-key snapshot writes roll back earlier keys when a later write fails', () => {
+ const map = new Map([['tasks', 'old-tasks'], ['mode', 'old-mode'], ['updated', 'old-time']]);
+ const storage = {
+  getItem: key => map.has(key) ? map.get(key) : null,
+  setItem(key, value) {
+   if (key === 'mode' && value === 'new-mode') throw new Error('quota');
+   map.set(key, value);
+  },
+  removeItem: key => map.delete(key),
+ };
+ assert.throws(() => writeSnapshotValues(storage, [
+  ['tasks', 'new-tasks'],
+  ['mode', 'new-mode'],
+  ['updated', 'new-time'],
+ ]), /quota/);
+ assert.deepEqual(Object.fromEntries(map), { tasks: 'old-tasks', mode: 'old-mode', updated: 'old-time' });
 });
 
 test('writes run sequentially even after the previous write failed', async () => {
