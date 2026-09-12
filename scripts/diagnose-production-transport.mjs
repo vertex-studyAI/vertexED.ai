@@ -145,9 +145,9 @@ async function diagnoseTcp(hostname, port) {
   });
 }
 
-async function diagnoseTls(hostname, port) {
+async function diagnoseTls(hostname, port, connectHost = hostname) {
   return new Promise((resolve) => {
-    const socket = tls.connect({ host: hostname, port, servername: hostname, rejectUnauthorized: true });
+    const socket = tls.connect({ host: connectHost, port, servername: hostname, rejectUnauthorized: true });
     let settled = false;
 
     const finish = (result) => {
@@ -174,9 +174,18 @@ async function diagnoseTls(hostname, port) {
   });
 }
 
-async function diagnoseHttps(url) {
+async function diagnoseHttps(url, connectHost = url.hostname) {
   return new Promise((resolve) => {
-    const request = https.get(url, { timeout: TIMEOUT_MS }, (response) => {
+    const request = https.get({
+      protocol: url.protocol,
+      hostname: connectHost,
+      port: Number(url.port || 443),
+      path: `${url.pathname}${url.search}`,
+      servername: url.hostname,
+      rejectUnauthorized: true,
+      headers: { Host: url.host },
+      timeout: TIMEOUT_MS,
+    }, (response) => {
       response.resume();
       response.once('end', () => {
         resolve({
@@ -198,6 +207,22 @@ async function diagnoseHttps(url) {
   });
 }
 
+async function diagnoseAddress(hostname, port, healthUrl, { address, family }) {
+  const [tcpResult, tlsResult, httpsResult] = await Promise.all([
+    diagnoseTcp(address, port),
+    diagnoseTls(hostname, port, address),
+    diagnoseHttps(healthUrl, address),
+  ]);
+
+  return {
+    address,
+    family,
+    tcp: tcpResult,
+    tls: tlsResult,
+    https: httpsResult,
+  };
+}
+
 async function main() {
   if (TARGET_URL.protocol !== 'https:') {
     throw new Error(`Transport diagnostics require HTTPS, got ${TARGET_URL.protocol}`);
@@ -211,6 +236,9 @@ async function main() {
   const tcpResult = await diagnoseTcp(TARGET_URL.hostname, port);
   const tlsResult = await diagnoseTls(TARGET_URL.hostname, port);
   const httpsResult = await diagnoseHttps(healthUrl);
+  const perAddress = await Promise.all((dnsResult.addresses || []).map((entry) => (
+    diagnoseAddress(TARGET_URL.hostname, port, healthUrl, entry)
+  )));
 
   const report = {
     checkedAt,
@@ -222,6 +250,7 @@ async function main() {
       tcp: tcpResult,
       tls: tlsResult,
       https: httpsResult,
+      perAddress,
     },
   };
 

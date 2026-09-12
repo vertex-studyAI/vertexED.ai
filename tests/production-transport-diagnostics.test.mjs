@@ -36,6 +36,16 @@ test('DNS evidence preserves bounded CNAME routing without making CNAME absence 
   assert.doesNotMatch(scriptSource, /ok: addresses\.length > 0 && cname\.ok/);
 });
 
+test('per-address probes preserve SNI and Host while binding transport to each resolved address', () => {
+  assert.match(scriptSource, /diagnoseTls\(hostname, port, address\)/);
+  assert.match(scriptSource, /diagnoseHttps\(healthUrl, address\)/);
+  assert.match(scriptSource, /servername: hostname/);
+  assert.match(scriptSource, /servername: url\.hostname/);
+  assert.match(scriptSource, /headers: \{ Host: url\.host \}/);
+  assert.match(scriptSource, /perAddress/);
+  assert.doesNotMatch(scriptSource, /rejectUnauthorized: false/);
+});
+
 test('transport diagnostic preserves nested network error causes without exposing secrets', () => {
   assert.match(scriptSource, /current\.cause/);
   assert.match(scriptSource, /current\.errors/);
