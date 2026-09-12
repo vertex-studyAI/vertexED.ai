@@ -50,12 +50,17 @@ export function getTodayPlanDoneIds(): Set<string> {
 export function toggleTodayPlanDone(id: string): Set<string> {
   const day = todayKey();
   const all = readDone();
-  const current = new Set(all[day] ?? []);
-  if (current.has(id)) current.delete(id);
-  else current.add(id);
-  all[day] = Array.from(current);
-  writeDone(all);
-  return current;
+  const previous = new Set(all[day] ?? []);
+  const next = new Set(previous);
+  if (next.has(id)) next.delete(id);
+  else next.add(id);
+  all[day] = Array.from(next);
+
+  // Do not show a completion state that was never persisted. If optional
+  // browser storage is unavailable, keep the current UI state truthful while
+  // still failing softly instead of throwing through the dashboard control.
+  if (!writeDone(all)) return previous;
+  return next;
 }
 
 export function buildTodayPlanItems(
