@@ -4,7 +4,7 @@ import { createRequestDeadline } from '@/lib/apiRequestRecovery.mjs';
 const PLANNER_SYNC_TIMEOUT_MS = 15_000;
 const PLANNER_SYNC_TIMEOUT_MESSAGE = 'Cloud sync timed out; using planner saved on this device';
 import { getUserContentStorageScope } from '@/lib/userContentStorageScope.mjs';
-import { readSnapshotArray, backupSnapshotBytes, readSnapshotMetadata, writeSnapshotMetadata, reconcileSnapshot, serializeSnapshotWrite, captureSnapshotRevision, expectedSnapshotRevision } from '@/lib/snapshotConcurrency.mjs';
+import { readSnapshotArray, backupSnapshotBytes, readSnapshotMetadata, writeSnapshotMetadata, writeSnapshotValues, reconcileSnapshot, serializeSnapshotWrite, captureSnapshotRevision, expectedSnapshotRevision } from '@/lib/snapshotConcurrency.mjs';
 import type { TaskItem } from '@/features/study-calendar/components/Schedule';
 import { trackPlannerRetrieved, trackPlannerSaved } from '@/lib/plannerPersistenceAnalytics.mjs';
 import { plannerStorageKeys } from '@/lib/plannerStorageScope.mjs';
@@ -60,9 +60,11 @@ export function writeLocalPlannerSnapshot(
   if (typeof window === 'undefined') return;
   snapshot = validatePlannerSnapshot(snapshot);
   const keys = plannerStorageKeys(storageScope);
-  localStorage.setItem(keys.tasks, JSON.stringify(snapshot.tasks));
-  localStorage.setItem(keys.mode, snapshot.mode);
-  localStorage.setItem(keys.updatedAt, snapshot.updatedAt);
+  writeSnapshotValues(localStorage, [
+    [keys.tasks, JSON.stringify(snapshot.tasks)],
+    [keys.mode, snapshot.mode],
+    [keys.updatedAt, snapshot.updatedAt],
+  ]);
 }
 
 function parseCloudSnapshot(item: {
