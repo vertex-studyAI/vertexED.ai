@@ -1,4 +1,10 @@
-import { resolveLocalStorage, safeStorageGet, safeStorageSet } from './browserStorage.mjs';
+import {
+  resolveLocalStorage,
+  resolveSessionStorage,
+  safeStorageGet,
+  safeStorageRemove,
+  safeStorageSet,
+} from './browserStorage.mjs';
 import { normalizeUserContentStorageScope } from './userContentStorageScope.mjs';
 import { trackProductEvent } from './productAnalytics.mjs';
 
@@ -19,6 +25,12 @@ const ALLOWED_ENTRIES = new Set([
 ]);
 const ALLOWED_RESULTS = new Set(['completed', 'degraded']);
 
+function accountScopedKey(accountId, suffix) {
+  if (typeof accountId !== 'string' || !accountId.trim()) return null;
+  const scope = normalizeUserContentStorageScope(accountId);
+  return `vertex_content:${scope}:${suffix}`;
+}
+
 export function buildFirstCoreActionProperties(input) {
   if (!input || typeof input !== 'object' || Array.isArray(input)) return null;
 
@@ -34,9 +46,38 @@ export function buildFirstCoreActionProperties(input) {
 }
 
 export function firstCoreActionReceiptKey(accountId) {
-  if (typeof accountId !== 'string' || !accountId.trim()) return null;
-  const scope = normalizeUserContentStorageScope(accountId);
-  return `vertex_content:${scope}:first_core_action_completed`;
+  return accountScopedKey(accountId, 'first_core_action_completed');
+}
+
+export function firstCoreActionEntryKey(accountId) {
+  return accountScopedKey(accountId, 'first_core_action_entry');
+}
+
+export function rememberFirstCoreActionEntry({
+  accountId,
+  entry,
+  owner = typeof window === 'undefined' ? null : window,
+} = {}) {
+  if (!ALLOWED_ENTRIES.has(entry)) return false;
+  const key = firstCoreActionEntryKey(accountId);
+  if (!key) return false;
+
+  const storage = resolveSessionStorage(owner);
+  if (!storage) return false;
+
+  const existing = safeStorageGet(storage, key);
+  if (ALLOWED_ENTRIES.has(existing)) return true;
+  return safeStorageSet(storage, key, entry);
+}
+
+export function readFirstCoreActionEntry({
+  accountId,
+  owner = typeof window === 'undefined' ? null : window,
+} = {}) {
+  const key = firstCoreActionEntryKey(accountId);
+  if (!key) return null;
+  const entry = safeStorageGet(resolveSessionStorage(owner), key);
+  return ALLOWED_ENTRIES.has(entry) ? entry : null;
 }
 
 export function recordFirstCoreActionCompleted({
@@ -66,5 +107,30 @@ export function recordFirstCoreActionCompleted({
   } catch {
     // Product completion must never fail because analytics is unavailable.
   }
+  return true;
+}
+
+export function recordAttributedFirstCoreActionCompleted({
+  accountId,
+  kind,
+  result,
+  owner = typeof window === 'undefined' ? null : window,
+  track = trackProductEvent,
+} = {}) {
+  const entry = readFirstCoreActionEntry({ accountId, owner });
+  if (!entry) return false;
+
+  const recorded = recordFirstCoreActionCompleted({
+    accountId,
+    kind,
+    entry,
+    result,
+    owner,
+    track,
+  });
+  if (!recorded) return false;
+
+  const entryKey = firstCoreActionEntryKey(accountId);
+  if (entryKey) safeStorageRemove(resolveSessionStorage(owner), entryKey);
   return true;
 }
