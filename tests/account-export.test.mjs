@@ -53,3 +53,20 @@ test('client export collects an explicit account-scoped key set', () => {
   assert.match(source, /TRANSIENT_FIELDS/);
   assert.doesNotMatch(source, /for \(let .*localStorage\.length/);
 });
+
+test('client export resolves browser storage through the fail-closed storage boundary', () => {
+  const source = fs.readFileSync('src/lib/accountExport.ts', 'utf8');
+  assert.match(source, /resolveLocalStorage/);
+  assert.match(source, /resolveSessionStorage/);
+  assert.match(source, /cannot prove a complete device-data snapshot/);
+  assert.doesNotMatch(source, /window\.localStorage/);
+  assert.doesNotMatch(source, /window\.sessionStorage/);
+});
+
+test('post-deletion browser cleanup treats unavailable storage as an unproven cleanup', () => {
+  const source = fs.readFileSync('src/lib/accountExport.ts', 'utf8');
+  assert.match(source, /Promise\.allSettled/);
+  assert.match(source, /Browser local storage is unavailable/);
+  assert.match(source, /Browser session storage is unavailable/);
+  assert.match(source, /some browser data could not be cleared/);
+});
