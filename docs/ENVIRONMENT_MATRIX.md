@@ -1,6 +1,6 @@
 # VertexED production environment matrix
 
-Last repository verification: 2026-09-08. Production values remain unverified.
+Last repository verification: 2026-09-12. Production values remain unverified.
 
 This file is the authoritative list of runtime configuration expected by the current code. It records variable names and risk only; values must never be committed or copied into logs.
 
@@ -21,17 +21,31 @@ A read-only connector audit on 8 September reached the configured Supabase proje
 | `OPENAI_API_KEY` | Server secret | Yes for OpenAI-backed features | Review and OpenAI handlers | Unknown | Affected AI features return provider/configuration errors. |
 | `ChatbotKey` | Server secret, legacy alias | No | OpenAI-backed handlers accept it as a fallback | Unknown | `OPENAI_API_KEY` is preferred; the alias can be removed from the environment after migration. |
 | `GEMINI_API_KEY` | Server secret | Yes for planner | `/api/planner` | Unknown | AI study planner generation fails. |
-| `CHATBOT_MODEL` | Server | No | Primary chatbot model override | Unknown | Repository default model is used. An invalid model causes provider errors. |
-| `CHATBOT_FALLBACK_MODEL` | Server | No | Chatbot fallback model | Unknown | Repository default fallback is used. |
+| `CHATBOT_MODEL` | Server | No | Default Apex chatbot model | Unknown | Repository default model is used. An invalid model causes provider errors. |
+| `CHATBOT_FALLBACK_MODEL` | Server | No | Default Apex fallback model | Unknown | Repository default fallback is used. |
+| `CHATBOT_FAST_MODEL` / `CHATBOT_FAST_FALLBACK_MODEL` | Server | No | Apex `quick` mode | Unknown | When absent, the default chatbot model/fallback is used. Invalid IDs break only quick-mode requests. |
+| `CHATBOT_TUTOR_MODEL` / `CHATBOT_TUTOR_FALLBACK_MODEL` | Server | No | Apex `tutor` mode | Unknown | When absent, the default chatbot model/fallback is used. Invalid IDs break tutor-mode requests. |
+| `CHATBOT_REASONING_MODEL` / `CHATBOT_REASONING_FALLBACK_MODEL` | Server | No | Apex `deep` mode | Unknown | When absent, the default chatbot model/fallback is used. Invalid IDs break deep-mode requests. |
 | `OPENAI_MODEL` | Server | No | General OpenAI model override | Unknown | Repository default is used. |
+| `OPENAI_REVIEW_MODEL` | Server | No | Structured Answer Reviewer grading | Unknown | When absent, the reviewer falls back to `OPENAI_MODEL` and then its existing default. An invalid model degrades the review result. |
+| `OPENAI_REVIEW_VISION_MODEL` | Server | No | Answer Reviewer image transcription | Unknown | When absent, the existing vision default is used. The configured model must support image input. |
 | `RESEND_API_KEY` | Server secret | Recommended | Waitlist approval email | Unknown | Approval still returns a one-time link to the authorized admin, but no email is delivered. Recipient addresses and invite links are not logged. |
 | `RESEND_FROM` | Server | Recommended with Resend | Approval email sender | Unknown | Email sending may fail domain/sender validation. |
 | `APP_URL` | Server | Yes for production links | Approval-link generation and email | Unknown | Generated links may point at the wrong origin. Expected: `https://www.vertexed.app`. |
 | `ALLOWED_ORIGINS` | Server | No | Additional CORS origins | Unknown | Defaults allow only the two VertexED production origins; add only trusted origins. |
-| `VITE_CHATBOT_API_URL` | Client, public | No | Chatbot API URL override | Unknown | Same-origin `/api/ask` path is used. Wrong value can break chat or send traffic elsewhere. |
+| `VITE_CHATBOT_API_URL` | Client, public | No | Chatbot API path override | Unknown | Cross-origin overrides are ignored in favor of same-origin `/api/ask`; prefer a relative `/api/...` value. |
 | `VITE_ADMIN_EMAILS` | Client, public | No | Navigation hint only | Unknown | Admin navigation may be hidden or shown incorrectly; server authorization remains authoritative. |
 | `VERCEL_ENV` | Platform | Automatic | Production detection and secure failure behavior | Platform-managed | Incorrect local emulation can change fallback behavior. |
 | `NODE_ENV` | Platform/build | Automatic | Production detection and framework behavior | Platform-managed | Incorrect value can enable development behavior. |
+
+## AI routing rules
+
+- Browser clients request only a semantic mode: `quick`, `tutor`, or `deep`.
+- Model IDs, API keys, provider base URLs, and provider selection remain server-side.
+- Missing role-specific model overrides fall back to `CHATBOT_MODEL` and `CHATBOT_FALLBACK_MODEL`, preserving current behavior.
+- A role can select another model within the configured provider, but routing does not silently switch providers.
+- Answer Reviewer grading and vision transcription can be upgraded independently from the general OpenAI model.
+- Change a role- or capability-specific model only after it passes the relevant VertexED evals and an intentional live benchmark.
 
 ## Required production verification
 
@@ -42,6 +56,7 @@ A read-only connector audit on 8 September reached the configured Supabase proje
 5. Require `/api/health?readiness=1` to prove the live database RPCs/tables, not only the presence of environment variables.
 6. After changes, redeploy and run `npm run test:smoke` plus the authenticated Playwright certification job.
 7. Confirm direct signup is disabled in Supabase Auth; private-beta accounts must originate from `/api/signup-invite`.
+8. For each role- or capability-specific AI model enabled in production, record the corresponding eval/benchmark evidence before rollout.
 
 ## Configuration rules
 

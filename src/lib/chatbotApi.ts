@@ -1,6 +1,9 @@
 import { authFetch } from '@/lib/apiAuth';
+import { resolveSameOriginApiPath } from '@/lib/sameOriginApi.mjs';
 import type { StudyPageContext } from '@/lib/studyContext';
 import type { GroundedSourcePayload } from '@/lib/notebook';
+
+export type ChatbotMode = 'quick' | 'tutor' | 'deep';
 
 export interface ChatbotMessage {
   role: 'user' | 'assistant';
@@ -12,6 +15,7 @@ export interface ChatbotRequest {
   history?: ChatbotMessage[];
   context?: StudyPageContext;
   sources?: GroundedSourcePayload[];
+  mode?: ChatbotMode;
   signal?: AbortSignal;
 }
 
@@ -33,15 +37,12 @@ export class ChatbotApiError extends Error {
 
 const DEFAULT_ENDPOINT = "/api/ask";
 const STUDY_GUIDE_ENDPOINT = "/api/study-guide-chat";
-const FALLBACK_ENDPOINT = "https://www.vertexed.app/api/ask";
 
 const buildEndpoints = (): string[] => {
-	const endpoints = [DEFAULT_ENDPOINT];
-	const configuredFallback = typeof import.meta !== "undefined" ? import.meta.env?.VITE_CHATBOT_API_URL : undefined;
-	if (configuredFallback) {
-		endpoints.push(configuredFallback);
-	}
-	return Array.from(new Set(endpoints.filter(Boolean)));
+	const configured = typeof import.meta !== "undefined" ? import.meta.env?.VITE_CHATBOT_API_URL : undefined;
+  const currentOrigin = typeof window !== 'undefined' ? window.location.origin : undefined;
+  const safeConfigured = resolveSameOriginApiPath(configured, DEFAULT_ENDPOINT, currentOrigin);
+	return Array.from(new Set([DEFAULT_ENDPOINT, safeConfigured]));
 };
 
 const parseJsonSafe = async (response: Response): Promise<ChatbotResponse | null> => {
@@ -69,6 +70,7 @@ export const fetchChatbotAnswer = async (
     history: request.history?.slice(-10),
     context: request.context,
     sources: request.sources?.slice(0, 20),
+    mode: request.mode,
   });
 
 	const endpoints = isStudyGuideChat ? [STUDY_GUIDE_ENDPOINT] : buildEndpoints();

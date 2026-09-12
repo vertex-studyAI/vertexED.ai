@@ -15,8 +15,12 @@ function getApiKey() {
   return process.env.OPENAI_API_KEY || process.env.ChatbotKey || process.env.CHATBOT_KEY;
 }
 
+function getReviewModel() {
+  return process.env.OPENAI_REVIEW_MODEL || process.env.OPENAI_MODEL || 'gpt-4o-mini';
+}
+
 async function requestStructuredReview(apiKey: string, prompt: string) {
-  const model = process.env.OPENAI_MODEL || 'gpt-4o-mini';
+  const model = getReviewModel();
   const startedAt = Date.now();
   let response: Response;
   try {
@@ -118,7 +122,7 @@ export default async function handler(req: any, res: any) {
     } catch {
       console.error('[review-safe] Structured review provider failed');
       return res.status(200).json(createAnswerReviewResult({
-        input, model: process.env.OPENAI_MODEL || 'unavailable', degraded: true,
+        input, model: getReviewModel() || 'unavailable', degraded: true,
       }));
     }
   } catch {

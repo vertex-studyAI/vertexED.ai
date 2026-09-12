@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
-import { ChatbotApiError, fetchChatbotAnswer, type ChatbotMessage } from '@/lib/chatbotApi';
+import { ChatbotApiError, fetchChatbotAnswer, type ChatbotMessage, type ChatbotMode } from '@/lib/chatbotApi';
 import type { StudyPageContext } from '@/lib/studyContext';
 import { animateTypewriter } from '@/lib/typewriter';
 import { normalizeUserContentStorageScope } from '@/lib/userContentStorageScope.mjs';
@@ -51,10 +51,12 @@ type Options = {
   /** Optional sub-thread id (e.g. socratic-drill) within the same page. */
   threadKey?: string;
   sources?: import('@/lib/notebook').GroundedSourcePayload[];
+  /** Semantic model role. Provider/model selection stays server-side. */
+  mode?: ChatbotMode;
   onSessionRecord?: () => void;
 };
 
-export function useApexChat({ context, threadKey, sources, onSessionRecord }: Options) {
+export function useApexChat({ context, threadKey, sources, mode, onSessionRecord }: Options) {
   const { user, loading: authLoading } = useAuth();
   const accountScope = authLoading ? undefined : user?.id ?? null;
   const storageKey = apexChatStorageKey(context.page, threadKey, accountScope);
@@ -168,6 +170,7 @@ export function useApexChat({ context, threadKey, sources, onSessionRecord }: Op
           history: priorHistory,
           context,
           sources,
+          mode,
           signal: requestController.signal,
         });
         if (requestRef.current !== requestId || storageKeyRef.current !== requestStorageKey) return false;
@@ -222,7 +225,7 @@ export function useApexChat({ context, threadKey, sources, onSessionRecord }: Op
         }
       }
     },
-    [authLoading, context, sources, input, loading, messages, onSessionRecord, storageKey],
+    [authLoading, context, sources, mode, input, loading, messages, onSessionRecord, storageKey],
   );
 
   return {

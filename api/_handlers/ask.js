@@ -2,6 +2,7 @@ import { verifyAuthUser, readJsonBody, rejectOversizedJsonBody } from '../_lib/a
 import { rateLimitUserEndpoint } from '../_lib/rateLimit.js';
 import { callChatProvider, extractChatAnswer, resolveChatProvider } from '../_lib/aiProviders.js';
 import { buildAskMessages } from '../_lib/askPrompt.js';
+import { resolveChatRoute } from '../_lib/modelPolicy.js';
 import { logProviderRun } from '../_lib/providerTelemetry.js';
 
 const MAX_QUESTION_CHARS = 4000;
@@ -34,7 +35,7 @@ export default async function handler(req, res) {
   try {
     const body = readJsonBody(req);
 
-    const { question, history, context, sources } = body ?? {};
+    const { question, history, context, sources, mode } = body ?? {};
 
     if (typeof question !== "string" || !question.trim()) {
       return res.status(400).json({ error: "No question provided" });
@@ -45,10 +46,11 @@ export default async function handler(req, res) {
     }
 
     const trimmedQuestion = question.trim();
-
+    const route = resolveChatRoute({ mode, providerConfig, env: process.env });
+    const telemetryRoute = `ask/${route.mode}`;
     const chatMessages = buildAskMessages({ question: trimmedQuestion, history, context, sources });
-    const PRIMARY_MODEL = providerConfig.primaryModel;
-    const FALLBACK_MODEL = providerConfig.fallbackModel;
+    const PRIMARY_MODEL = route.primaryModel;
+    const FALLBACK_MODEL = route.fallbackModel;
 
     const callProvider = async (model) => {
       const startedAt = Date.now();
@@ -62,6 +64,7 @@ export default async function handler(req, res) {
         });
         await logProviderRun({
           capability: 'chatbot',
+          route: telemetryRoute,
           provider: result.provider,
           model: result.model,
           status: result.response.status,
@@ -71,6 +74,7 @@ export default async function handler(req, res) {
       } catch (error) {
         await logProviderRun({
           capability: 'chatbot',
+          route: telemetryRoute,
           provider: providerConfig.name,
           model,
           durationMs: Date.now() - startedAt,
@@ -80,21 +84,21 @@ export default async function handler(req, res) {
       }
     };
 
-    let { response, raw, model, provider } = await callProvider(PRIMARY_MODEL);
+    let { response, raw, model: resolvedModel, provider } = await callProvider(PRIMARY_MODEL);
 
-    // Preserve the existing OpenAI fallback behavior and allow an explicitly configured
-    // provider-specific fallback without ever switching providers implicitly.
+    // Fallback remains inside the explicitly configured provider. Routing chooses a
+    // model role, never a different provider, so provider changes cannot happen silently.
     if (!response.ok && FALLBACK_MODEL && FALLBACK_MODEL !== PRIMARY_MODEL && response.status !== 401) {
       console.warn(
-        `⚠️ Primary chatbot model failed (${provider}/${PRIMARY_MODEL}, status ${response.status}). Retrying with fallback model (${FALLBACK_MODEL}).`,
+        `⚠️ Primary chatbot model failed (${provider}/${PRIMARY_MODEL}, mode ${route.mode}, status ${response.status}). Retrying with fallback model (${FALLBACK_MODEL}).`,
       );
-      ({ response, raw, model, provider } = await callProvider(FALLBACK_MODEL));
+      ({ response, raw, model: resolvedModel, provider } = await callProvider(FALLBACK_MODEL));
     }
 
-    console.log("AI provider status:", response.status, "provider:", provider, "model:", model);
+    console.log("AI provider status:", response.status, "provider:", provider, "model:", resolvedModel, "mode:", route.mode);
 
     if (!response.ok) {
-      console.error("❌ AI provider error:", response.status, provider, model);
+      console.error("❌ AI provider error:", response.status, provider, resolvedModel);
       return respondAiFailure(res);
     }
 
@@ -102,7 +106,7 @@ export default async function handler(req, res) {
     try {
       data = JSON.parse(raw);
     } catch {
-      console.error("❌ Invalid JSON from AI provider:", provider, model);
+      console.error("❌ Invalid JSON from AI provider:", provider, resolvedModel);
       return res.status(500).json({ error: "Invalid AI response format" });
     }
 
@@ -110,28 +114,28 @@ export default async function handler(req, res) {
 
     // Some models can return empty output. Treat that as failure and retry only
     // with an explicitly configured fallback model on the same provider.
-    if (!answer && FALLBACK_MODEL && FALLBACK_MODEL !== model) {
+    if (!answer && FALLBACK_MODEL && FALLBACK_MODEL !== resolvedModel) {
       console.warn(
-        `⚠️ Model returned empty output (${provider}/${model}). Retrying with fallback model (${FALLBACK_MODEL}).`,
+        `⚠️ Model returned empty output (${provider}/${resolvedModel}, mode ${route.mode}). Retrying with fallback model (${FALLBACK_MODEL}).`,
       );
 
       const fallbackCall = await callProvider(FALLBACK_MODEL);
-      model = fallbackCall.model;
+      resolvedModel = fallbackCall.model;
       raw = fallbackCall.raw;
       response = fallbackCall.response;
       provider = fallbackCall.provider;
 
-      console.log("AI provider status:", response.status, "provider:", provider, "model:", model);
+      console.log("AI provider status:", response.status, "provider:", provider, "model:", resolvedModel, "mode:", route.mode);
 
       if (!response.ok) {
-        console.error("❌ AI provider fallback error:", response.status, provider, model);
+        console.error("❌ AI provider fallback error:", response.status, provider, resolvedModel);
         return respondAiFailure(res);
       }
 
       try {
         data = JSON.parse(raw);
       } catch {
-        console.error("❌ Invalid JSON from AI provider fallback:", provider, model);
+        console.error("❌ Invalid JSON from AI provider fallback:", provider, resolvedModel);
         return res.status(500).json({ error: "Invalid AI response format" });
       }
 
@@ -139,7 +143,7 @@ export default async function handler(req, res) {
     }
 
     if (!answer) {
-      console.error("❌ No answer in AI provider response:", provider, model);
+      console.error("❌ No answer in AI provider response:", provider, resolvedModel);
       return res.status(500).json({
         error: "AI returned no answer",
       });
