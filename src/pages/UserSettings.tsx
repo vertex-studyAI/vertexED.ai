@@ -35,6 +35,7 @@ import { authFetch, authFetchWithAccessToken, getAccessToken } from "@/lib/apiAu
 import { collectCompleteDeviceStudyData, clearDeviceAccountData, downloadAccountExport } from "@/lib/accountExport";
 import { getUserContentStorageScope } from "@/lib/userContentStorageScope.mjs";
 import { logoutWithLocalFallback } from "@/lib/logoutFlow.mjs";
+import { clearGoogleLinkReturn, prepareGoogleLinkReturn } from "@/lib/authReturn.mjs";
 
 function formatMemberSince(createdAt?: string | null): string {
   if (!createdAt) return " - ";
@@ -234,7 +235,15 @@ export default function UserSettings() {
   const linkGoogleIdentity = async () => {
     if (!supabase || !user) return;
     setLinkingGoogle(true);
-    sessionStorage.setItem("vertex_google_link_return", "/user-settings");
+    if (!prepareGoogleLinkReturn(window)) {
+      toast({
+        title: "Could not connect Google",
+        description: "Your browser could not keep the temporary return marker. Allow site storage and try again.",
+        variant: "destructive",
+      });
+      setLinkingGoogle(false);
+      return;
+    }
     try {
       const { error } = await supabase.auth.linkIdentity({
         provider: "google",
@@ -242,7 +251,7 @@ export default function UserSettings() {
       });
       if (error) throw error;
     } catch (err) {
-      sessionStorage.removeItem("vertex_google_link_return");
+      clearGoogleLinkReturn(window);
       toast({
         title: "Could not connect Google",
         description: err instanceof Error ? err.message : "Try again.",

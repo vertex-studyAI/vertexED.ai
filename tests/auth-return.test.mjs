@@ -1,6 +1,12 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { authCallbackLocation, consumeGoogleLinkReturn, createRecoveryEventLatch } from '../src/lib/authReturn.mjs';
+import {
+  authCallbackLocation,
+  clearGoogleLinkReturn,
+  consumeGoogleLinkReturn,
+  createRecoveryEventLatch,
+  prepareGoogleLinkReturn,
+} from '../src/lib/authReturn.mjs';
 
 test('provider returns to Site URL reach the callback without creating a new URL target', () => {
   for (const suffix of ['#access_token=fixture&refresh_token=fixture', '?error=access_denied', '#error_code=expired', '?code=fixture']) {
@@ -34,13 +40,54 @@ test('recovery events survive lazy route loading but stay account-bound, short-l
   assert.equal(latch.consume('account-a'), false);
 });
 
-test('Google-link returns are consumed once, fail closed and tolerate blocked storage', () => {
-  for (const value of ['/user-settings', '//evil.test', 'https://evil.test', '/\\evil.test', '/main', null]) {
+test('Google-link returns are written and consumed once through the fail-closed storage boundary', () => {
+  let stored = null;
+  const owner = {
+    sessionStorage: {
+      getItem: () => stored,
+      setItem: (_key, value) => { stored = value; },
+      removeItem: () => { stored = null; },
+    },
+  };
+
+  assert.equal(prepareGoogleLinkReturn(owner), true);
+  assert.equal(stored, '/user-settings');
+  assert.equal(consumeGoogleLinkReturn(owner), '/user-settings');
+  assert.equal(stored, null);
+  assert.equal(consumeGoogleLinkReturn(owner), null);
+});
+
+test('Google-link return rejects untrusted destinations and cleanup failures', () => {
+  for (const value of ['//evil.test', 'https://evil.test', '/\\evil.test', '/main']) {
     let stored = value;
-    const storage = { getItem: () => stored, removeItem: () => { stored = null; } };
-    assert.equal(consumeGoogleLinkReturn(storage), value === '/user-settings' ? value : null);
+    const owner = {
+      sessionStorage: {
+        getItem: () => stored,
+        setItem: (_key, next) => { stored = next; },
+        removeItem: () => { stored = null; },
+      },
+    };
+    assert.equal(consumeGoogleLinkReturn(owner), null);
     assert.equal(stored, null);
-    assert.equal(consumeGoogleLinkReturn(storage), null);
   }
-  assert.equal(consumeGoogleLinkReturn({ getItem() { throw new Error('Blocked'); } }), null);
+
+  const removeBlocked = {
+    sessionStorage: {
+      getItem: () => '/user-settings',
+      setItem: () => {},
+      removeItem() { throw new Error('Blocked'); },
+    },
+  };
+  assert.equal(consumeGoogleLinkReturn(removeBlocked), null);
+});
+
+test('Google-link storage failures never start or restore a return flow', () => {
+  const blockedOwner = {};
+  Object.defineProperty(blockedOwner, 'sessionStorage', {
+    get() { throw new Error('Blocked'); },
+  });
+
+  assert.equal(prepareGoogleLinkReturn(blockedOwner), false);
+  assert.equal(consumeGoogleLinkReturn(blockedOwner), null);
+  assert.equal(clearGoogleLinkReturn(blockedOwner), false);
 });

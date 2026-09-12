@@ -138,9 +138,7 @@ export default function AuthCallback() {
         return;
       }
 
-      // Getting the storage object itself can also throw in restricted browsers.
-      let returnAfterGoogleLink: string | null = null;
-      try { returnAfterGoogleLink = consumeGoogleLinkReturn(window.sessionStorage); } catch { /* use normal destination */ }
+      const returnAfterGoogleLink = consumeGoogleLinkReturn(window);
       if (returnAfterGoogleLink) {
         navigate(returnAfterGoogleLink, { replace: true });
         return;
