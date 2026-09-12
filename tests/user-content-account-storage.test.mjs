@@ -137,7 +137,10 @@ test('scoped localStorage hook renders the safe default during key transitions',
   assert.match(localStorageHookSource, /const resolvedKey = resolveScopedKey\(key\)/);
   assert.match(localStorageHookSource, /const keyIsHydrated = hydratedKeyRef\.current === resolvedKey/);
   assert.match(localStorageHookSource, /if \(hydratedKeyRef\.current !== resolvedKey\)/);
-  assert.match(localStorageHookSource, /setStored\(readLocalValue\(resolvedKey, initialRef\.current\)\)/);
+  assert.match(localStorageHookSource, /const hydrated = readLocalValue\(resolvedKey, initialRef\.current\)/);
+  assert.match(localStorageHookSource, /dirtyRef\.current = false/);
+  assert.match(localStorageHookSource, /storedRef\.current = hydrated/);
+  assert.match(localStorageHookSource, /setStored\(hydrated\)/);
   assert.match(localStorageHookSource, /if \(hydratedKeyRef\.current !== resolvedKey\) return/);
   assert.match(localStorageHookSource, /return \[keyIsHydrated \? stored : initialRef\.current, setScopedStored\]/);
 });
