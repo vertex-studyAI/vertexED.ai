@@ -18,6 +18,7 @@ This document defines the small, privacy-safe event set used to measure whether 
 | `Waitlist Joined` | The waitlist API accepts a submission | `method` |
 | `Account Created` | Invite-backed account creation and automatic login complete | `invite_type` |
 | `Onboarding Completed` | Profile metadata and the first planner snapshot are saved | `curriculum`, `subject_count`, `planner_sync` |
+| `First Core Action Completed` | The learner has received an actual learner-visible result from a supported core study workflow | `kind`, `entry`, `result` |
 | `Planner Saved` | A planner snapshot is saved to cloud storage or falls back to device storage | `destination`, `cloud_status`, `task_count_bucket` |
 | `Planner Retrieved` | Planner loading resolves to a cloud snapshot, device snapshot, or empty state | `source`, `cloud_status`, `task_count_bucket` |
 | `AI Request Completed` | An authenticated POST to a fixed AI feature endpoint returns, times out, or fails at the network boundary | `feature`, `outcome`, `status_class`, `duration_bucket` |
@@ -25,6 +26,22 @@ This document defines the small, privacy-safe event set used to measure whether 
 | `ai_feedback` telemetry | A learner rates an AI result | `route`, `capability`, `outcome`, fixed `feedback`, fixed `reason` |
 | `Logout Completed` | The centralized logout operation succeeds or fails | `outcome`, `backend` |
 | `Account Deletion Completed` | `DELETE /api/account` returns or fails at the network boundary | `outcome`, `status_class` |
+
+## First core action categories
+
+`First Core Action Completed` is a user-level activation event. It is deliberately separate from page views, CTA clicks, provider requests, generation starts, self-reported session checkboxes, and other intent signals.
+
+Allowed properties are fixed enums only:
+
+- `kind`: `deterministic_quiz`, `answer_review`, `mock_review`, or `practice_session`.
+- `entry`: `onboarding_handoff`, `dashboard`, `planner`, or `exam_prep`.
+- `result`: `completed` or `degraded`.
+
+The event never includes subject, topic, score, prompt, answer, user ID, artifact ID, free-form feedback, provider/model identity, or raw error text. Unknown properties or enum values fail closed.
+
+The client keeps an account-scoped device receipt before attempting the analytics emission. The account identifier exists only inside the local storage key; it is never included in the analytics payload. If the receipt cannot be written, the event is not emitted because VertexED cannot prove once-per-account deduplication. Analytics-provider failure still never blocks the completed product action.
+
+A feature surface may call the recorder only after it can prove that a learner-visible result exists. Merely navigating from the first-session handoff to `/exam-prep`, opening a task, sending a provider request, or checking off a self-reported session block does not qualify.
 
 ## Account lifecycle categories
 
@@ -71,16 +88,20 @@ The first production activation funnel is:
 2. `Waitlist Joined`
 3. `Account Created`
 4. `Onboarding Completed`
-5. `Planner Saved` with `destination=cloud`
-6. A later `Planner Retrieved` with `source=cloud`
-7. Subsequent protected feature page views
-8. `Logout Completed` with `outcome=success`
+5. `Planner Saved` for the starter planner, whether the durable destination is cloud or device fallback
+6. Dashboard first-session handoff shown
+7. `First Core Action Completed`
+8. A second protected session
+9. D1 return
+10. D7 return
+
+Cloud planner retrieval remains an important durability metric, but it is not required to count a learner who completed a useful device-backed first action while cloud sync was degraded.
 
 Treat `Account Deletion Completed` as a separate safety and compliance journey rather than a desired activation step. Use `AI Request Completed` separately to compare success rate and latency bucket by feature without joining to user identity or study content.
 
 ## Verification
 
-- `tests/product-analytics.test.mjs` verifies event-name bounds, sensitive-key removal, the fixed AI endpoint allowlist, status reduction, timeout categorization, and duration bucketing.
+- `tests/product-analytics.test.mjs` verifies event-name bounds, sensitive-key removal, the fixed first-core-action schema and enum rejection, account-scoped once-only deduplication, fail-closed behavior when the receipt cannot be persisted, the fixed AI endpoint allowlist, status reduction, timeout categorization, and duration bucketing.
 - `tests/planner-sync.test.mjs` verifies planner count bucketing and the fixed save/retrieval property allowlists.
 - `tests/account-lifecycle-analytics.test.mjs` verifies exact endpoint matching, status reduction, and fixed logout/deletion categories.
 - `tests/api-request-recovery.test.mjs` verifies the one-retry session contract and stable timeout error.
