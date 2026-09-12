@@ -48,6 +48,14 @@ export type SaveArtifactResult = {
 
 const ACCOUNT_CHANGED_ERROR = 'Account changed while study work was being processed. Try again in the current account.';
 const STORED_ARTIFACT_KINDS = new Set<StudyArtifactKind>(['note', 'review', 'paper', 'planner', 'notebook']);
+const CHAT_HANDOFF_LIMITS = {
+  source: 100,
+  subject: 200,
+  question: 12_000,
+  answer: 12_000,
+  feedback: 4_000,
+} as const;
+const CHAT_HANDOFF_FIELDS = new Set(Object.keys(CHAT_HANDOFF_LIMITS));
 
 function isCurrentUserContentScope(scope: string): boolean {
   return getUserContentStorageScope() === scope;
@@ -95,6 +103,25 @@ function normalizeStoredArtifact(value: unknown): StudyArtifact | null {
       : {}),
     ...(typeof value.localRevision === 'string' ? { localRevision: value.localRevision } : {}),
   };
+}
+
+function normalizeChatHandoff(value: unknown): Record<string, string> | null {
+  if (!isPlainStoredObject(value)) return null;
+  if (Object.keys(value).some((key) => !CHAT_HANDOFF_FIELDS.has(key))) return null;
+
+  const source = value.source;
+  if (typeof source !== 'string' || source.trim().length === 0 || source.length > CHAT_HANDOFF_LIMITS.source) {
+    return null;
+  }
+
+  const normalized: Record<string, string> = { source };
+  for (const field of ['subject', 'question', 'answer', 'feedback'] as const) {
+    const candidate = value[field];
+    if (candidate === undefined) continue;
+    if (typeof candidate !== 'string' || candidate.length > CHAT_HANDOFF_LIMITS[field]) return null;
+    normalized[field] = candidate;
+  }
+  return normalized;
 }
 
 export function createArtifactIdempotencyKey(): string {
@@ -549,20 +576,32 @@ export function setChatHandoff(context: {
   question?: string;
   answer?: string;
   feedback?: string;
-}) {
-  if (typeof sessionStorage === 'undefined') return;
+}): void {
+  if (typeof window === 'undefined') {
+    throw new Error('Temporary browser storage is unavailable.');
+  }
+  const normalized = normalizeChatHandoff(context);
+  if (!normalized) {
+    throw new Error('Chat context is invalid.');
+  }
   const { chatHandoff } = userContentStorageKeys();
-  sessionStorage.setItem(chatHandoff, JSON.stringify(context));
+  const storage = resolveSessionStorage(window);
+  if (!safeStorageSet(storage, chatHandoff, JSON.stringify(normalized))) {
+    throw new Error('Temporary browser storage is unavailable.');
+  }
 }
 
 export function consumeChatHandoff(): Record<string, string> | null {
-  if (typeof sessionStorage === 'undefined') return null;
+  if (typeof window === 'undefined') return null;
   const { chatHandoff } = userContentStorageKeys();
-  const raw = sessionStorage.getItem(chatHandoff);
+  const storage = resolveSessionStorage(window);
+  const raw = safeStorageGet(storage, chatHandoff);
   if (!raw) return null;
-  sessionStorage.removeItem(chatHandoff);
+  // A chat handoff is one-time. If cleanup fails, fail closed rather than
+  // reusing stale context on a later chat mount.
+  if (!safeStorageRemove(storage, chatHandoff)) return null;
   try {
-    return JSON.parse(raw) as Record<string, string>;
+    return normalizeChatHandoff(JSON.parse(raw));
   } catch {
     return null;
   }
