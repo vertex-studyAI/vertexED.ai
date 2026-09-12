@@ -7,16 +7,28 @@ function browserOwner() {
   return typeof window === 'undefined' ? null : window;
 }
 
+function incompleteSnapshotError(kind: 'local' | 'session') {
+  return new Error(`Browser ${kind} storage is unavailable. Account export cannot prove a complete device-data snapshot.`);
+}
+
 function requireLocalStorage(): Storage {
   const storage = resolveLocalStorage(browserOwner());
-  if (!storage) throw new Error('Browser local storage is unavailable. Account export cannot prove a complete device-data snapshot.');
+  if (!storage) throw incompleteSnapshotError('local');
   return storage;
 }
 
 function requireSessionStorage(): Storage {
   const storage = resolveSessionStorage(browserOwner());
-  if (!storage) throw new Error('Browser session storage is unavailable. Account export cannot prove a complete device-data snapshot.');
+  if (!storage) throw incompleteSnapshotError('session');
   return storage;
+}
+
+function collectRequiredAccountStorage(storage: Storage, scope: string, kind: 'local' | 'session') {
+  try {
+    return collectAccountStorage(storage, scope);
+  } catch {
+    throw incompleteSnapshotError(kind);
+  }
 }
 
 export async function collectCompleteDeviceStudyData(scope: string) {
@@ -34,8 +46,8 @@ export async function collectCompleteDeviceStudyData(scope: string) {
   return {
     ...collectDeviceStudyData(localStorage, scope),
     schemaVersion: 2,
-    accountStorage: collectAccountStorage(localStorage, scope),
-    sessionStorage: collectAccountStorage(sessionStorage, scope),
+    accountStorage: collectRequiredAccountStorage(localStorage, scope, 'local'),
+    sessionStorage: collectRequiredAccountStorage(sessionStorage, scope, 'session'),
     durableOutbox: [...artifacts, ...learnerState],
   };
 }
@@ -73,19 +85,23 @@ function parseStoredValue(value: string): unknown {
 export function collectDeviceStudyData(storage?: Storage | null, scope = getUserContentStorageScope()) {
   if (!scope) throw new Error('Account storage is not hydrated. Sign in again before exporting.');
   const resolvedStorage = storage ?? resolveLocalStorage(browserOwner());
-  if (!resolvedStorage) throw new Error('Browser local storage is unavailable. Account export cannot prove a complete device-data snapshot.');
+  if (!resolvedStorage) throw incompleteSnapshotError('local');
 
   const keys = userContentStorageKeys(scope) as Record<string, string>;
   const values: Record<string, unknown> = {};
 
-  for (const [field, key] of Object.entries(keys)) {
-    if (TRANSIENT_FIELDS.has(field)) continue;
-    const stored = resolvedStorage.getItem(key);
-    if (stored !== null) values[field] = parseStoredValue(stored);
-  }
+  try {
+    for (const [field, key] of Object.entries(keys)) {
+      if (TRANSIENT_FIELDS.has(field)) continue;
+      const stored = resolvedStorage.getItem(key);
+      if (stored !== null) values[field] = parseStoredValue(stored);
+    }
 
-  const accessibility = resolvedStorage.getItem('vertex_a11y_settings');
-  if (accessibility !== null) values.accessibility = parseStoredValue(accessibility);
+    const accessibility = resolvedStorage.getItem('vertex_a11y_settings');
+    if (accessibility !== null) values.accessibility = parseStoredValue(accessibility);
+  } catch {
+    throw incompleteSnapshotError('local');
+  }
 
   return { storageScope: scope, values };
 }
