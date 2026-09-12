@@ -3,20 +3,16 @@ export function resolveSameOriginApiPath(configured, fallback, currentOrigin) {
   if (typeof configured !== 'string' || !configured.trim()) return fallbackPath;
 
   const candidate = configured.trim();
-
-  if (candidate.startsWith('/') && !candidate.startsWith('//')) {
-    return candidate;
-  }
-
   const origin =
     typeof currentOrigin === 'string' && currentOrigin.trim()
-      ? currentOrigin.trim().replace(/\/$/, '')
+      ? currentOrigin.trim()
       : '';
   if (!origin) return fallbackPath;
 
   try {
-    const url = new URL(candidate, origin);
-    if (url.origin !== origin) return fallbackPath;
+    const originUrl = new URL(origin);
+    const url = new URL(candidate, originUrl);
+    if (url.origin !== originUrl.origin) return fallbackPath;
     return `${url.pathname}${url.search}${url.hash}` || fallbackPath;
   } catch {
     return fallbackPath;
