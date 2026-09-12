@@ -4,6 +4,7 @@ import { ArrowRight, CheckCircle2, CloudOff, Sparkles, X } from 'lucide-react';
 
 import { useAuth } from '@/contexts/AuthContext';
 import { resolveSessionStorage } from '@/lib/browserStorage.mjs';
+import { rememberFirstCoreActionEntry } from '@/lib/firstCoreActionAnalytics.mjs';
 import { consumeFirstSessionHandoff } from '@/lib/firstSessionHandoff.mjs';
 import { getLastStudySession } from '@/lib/studyActivity';
 
@@ -52,6 +53,14 @@ export default function ContinueSessionBanner() {
           <div className="flex flex-wrap items-center gap-2 sm:shrink-0">
             <Link
               to="/exam-prep"
+              onClick={() => {
+                if (user?.id) {
+                  rememberFirstCoreActionEntry({
+                    accountId: user.id,
+                    entry: 'onboarding_handoff',
+                  });
+                }
+              }}
               className="inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-primary px-4 py-2 text-sm text-primary-foreground transition hover:opacity-90 sm:flex-none"
             >
               Try one question

@@ -7,10 +7,35 @@ import {
   getAiFeatureForRequest,
 } from "../src/lib/aiRequestAnalytics.mjs";
 import {
+  FIRST_CORE_ACTION_EVENT,
+  buildFirstCoreActionProperties,
+  firstCoreActionEntryKey,
+  firstCoreActionReceiptKey,
+  readFirstCoreActionEntry,
+  recordAttributedFirstCoreActionCompleted,
+  recordFirstCoreActionCompleted,
+  rememberFirstCoreActionEntry,
+} from "../src/lib/firstCoreActionAnalytics.mjs";
+import {
   normalizeAnalyticsEventName,
   sanitizeAnalyticsProperties,
   trackProductEvent,
 } from "../src/lib/productAnalytics.mjs";
+
+function memoryStorage() {
+  const values = new Map();
+  return {
+    getItem(key) {
+      return values.has(key) ? values.get(key) : null;
+    },
+    setItem(key, value) {
+      values.set(key, String(value));
+    },
+    removeItem(key) {
+      values.delete(key);
+    },
+  };
+}
 
 test("analytics event names are normalized and bounded", () => {
   const normalized = normalizeAnalyticsEventName(`  Account     Created ${"x".repeat(100)}  `);
@@ -57,6 +82,228 @@ test("analytics properties keep only bounded primitive values", () => {
 
 test("analytics is a no-op during server-side execution", () => {
   assert.doesNotThrow(() => trackProductEvent("Login Succeeded", { method: "password" }));
+});
+
+test("first core action accepts only the fixed privacy-safe schema", () => {
+  assert.deepEqual(
+    buildFirstCoreActionProperties({
+      kind: "deterministic_quiz",
+      entry: "exam_prep",
+      result: "completed",
+    }),
+    {
+      kind: "deterministic_quiz",
+      entry: "exam_prep",
+      result: "completed",
+    },
+  );
+
+  assert.equal(
+    buildFirstCoreActionProperties({
+      kind: "deterministic_quiz",
+      entry: "exam_prep",
+      result: "completed",
+      subject: "mathematics",
+    }),
+    null,
+  );
+  assert.equal(
+    buildFirstCoreActionProperties({
+      kind: "deterministic_quiz",
+      entry: "exam_prep",
+      result: "completed",
+      score: 100,
+    }),
+    null,
+  );
+  assert.equal(
+    buildFirstCoreActionProperties({
+      kind: "quiz",
+      entry: "exam_prep",
+      result: "completed",
+    }),
+    null,
+  );
+  assert.equal(
+    buildFirstCoreActionProperties({
+      kind: "deterministic_quiz",
+      entry: "direct",
+      result: "completed",
+    }),
+    null,
+  );
+});
+
+test("first core action keys are account scoped without entering the analytics payload", () => {
+  assert.equal(
+    firstCoreActionReceiptKey("account-a"),
+    "vertex_content:account-a:first_core_action_completed",
+  );
+  assert.equal(
+    firstCoreActionEntryKey("account-a"),
+    "vertex_content:account-a:first_core_action_entry",
+  );
+  assert.equal(firstCoreActionReceiptKey(""), null);
+  assert.equal(firstCoreActionEntryKey(""), null);
+});
+
+test("first core action keeps the first trustworthy entry attribution", () => {
+  const sessionStorage = memoryStorage();
+  const owner = { sessionStorage };
+
+  assert.equal(
+    rememberFirstCoreActionEntry({
+      accountId: "account-a",
+      entry: "onboarding_handoff",
+      owner,
+    }),
+    true,
+  );
+  assert.equal(
+    rememberFirstCoreActionEntry({
+      accountId: "account-a",
+      entry: "exam_prep",
+      owner,
+    }),
+    true,
+  );
+  assert.equal(readFirstCoreActionEntry({ accountId: "account-a", owner }), "onboarding_handoff");
+  assert.equal(
+    rememberFirstCoreActionEntry({
+      accountId: "account-a",
+      entry: "direct",
+      owner,
+    }),
+    false,
+  );
+});
+
+test("first core action emits at most once per account", () => {
+  const localStorage = memoryStorage();
+  const calls = [];
+  const track = (name, properties) => calls.push({ name, properties });
+
+  const first = recordFirstCoreActionCompleted({
+    accountId: "account-a",
+    kind: "deterministic_quiz",
+    entry: "exam_prep",
+    result: "completed",
+    owner: { localStorage },
+    track,
+  });
+  const duplicate = recordFirstCoreActionCompleted({
+    accountId: "account-a",
+    kind: "practice_session",
+    entry: "dashboard",
+    result: "completed",
+    owner: { localStorage },
+    track,
+  });
+  const otherAccount = recordFirstCoreActionCompleted({
+    accountId: "account-b",
+    kind: "practice_session",
+    entry: "dashboard",
+    result: "degraded",
+    owner: { localStorage },
+    track,
+  });
+
+  assert.equal(first, true);
+  assert.equal(duplicate, false);
+  assert.equal(otherAccount, true);
+  assert.deepEqual(calls, [
+    {
+      name: FIRST_CORE_ACTION_EVENT,
+      properties: {
+        kind: "deterministic_quiz",
+        entry: "exam_prep",
+        result: "completed",
+      },
+    },
+    {
+      name: FIRST_CORE_ACTION_EVENT,
+      properties: {
+        kind: "practice_session",
+        entry: "dashboard",
+        result: "degraded",
+      },
+    },
+  ]);
+  assert.equal("accountId" in calls[0].properties, false);
+});
+
+test("attributed first core action consumes entry only after a completed event is recorded", () => {
+  const localStorage = memoryStorage();
+  const sessionStorage = memoryStorage();
+  const owner = { localStorage, sessionStorage };
+  const calls = [];
+
+  rememberFirstCoreActionEntry({
+    accountId: "account-a",
+    entry: "onboarding_handoff",
+    owner,
+  });
+
+  assert.equal(
+    recordAttributedFirstCoreActionCompleted({
+      accountId: "account-a",
+      kind: "deterministic_quiz",
+      result: "completed",
+      owner,
+      track: (name, properties) => calls.push({ name, properties }),
+    }),
+    true,
+  );
+  assert.equal(readFirstCoreActionEntry({ accountId: "account-a", owner }), null);
+  assert.deepEqual(calls, [
+    {
+      name: FIRST_CORE_ACTION_EVENT,
+      properties: {
+        kind: "deterministic_quiz",
+        entry: "onboarding_handoff",
+        result: "completed",
+      },
+    },
+  ]);
+
+  assert.equal(
+    recordAttributedFirstCoreActionCompleted({
+      accountId: "account-a",
+      kind: "practice_session",
+      result: "completed",
+      owner,
+      track: (name, properties) => calls.push({ name, properties }),
+    }),
+    false,
+  );
+  assert.equal(calls.length, 1);
+});
+
+test("first core action fails closed when a durable dedupe receipt cannot be written", () => {
+  const calls = [];
+  const owner = {
+    localStorage: {
+      getItem() {
+        return null;
+      },
+      setItem() {
+        throw new Error("storage unavailable");
+      },
+    },
+  };
+
+  assert.equal(
+    recordFirstCoreActionCompleted({
+      accountId: "account-a",
+      kind: "deterministic_quiz",
+      entry: "exam_prep",
+      result: "completed",
+      owner,
+      track: (...args) => calls.push(args),
+    }),
+    false,
+  );
+  assert.deepEqual(calls, []);
 });
 
 test("AI analytics maps only fixed feature endpoints", () => {
