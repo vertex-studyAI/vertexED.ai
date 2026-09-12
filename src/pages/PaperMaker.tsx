@@ -24,6 +24,7 @@ import {
 import type { ExamBoard } from "@/types/curriculum";
 import AiFeedbackControls from "@/components/AiFeedbackControls";
 import { loadMockExamDraft } from "@/lib/examFlow";
+import { exportTextPdf, type PdfTextBlock } from '@/lib/pdfTextExport';
 
 export default function PaperMaker({ priorPapers = [] }) {
   const { user } = useAuth();
@@ -51,7 +52,6 @@ export default function PaperMaker({ priorPapers = [] }) {
   const [saveStatus, setSaveStatus] = useState("");
   const examDaysLeft = daysUntilExam(getCurriculumPreference(user).examDate);
 
-  const previewRef = useRef(null);
   const prevBoardRef = useRef(board);
   const boardApiLabel = boardToApiLabel(board);
   const criteriaOptions = BOARD_CONFIGS[board].criteria ?? [];
@@ -277,21 +277,27 @@ export default function PaperMaker({ priorPapers = [] }) {
   }
 
   async function exportPDF() {
-    if (!paper && !previewRef.current) return;
+    if (!paper) return;
     try {
-      const html2canvas = (await import("html2canvas")).default;
-      const jsPDF = (await import("jspdf")).jsPDF;
-      const node = previewRef.current;
-      const canvas = await html2canvas(node, { scale: 2, useCORS: true });
-      const imgData = canvas.toDataURL("image/png");
-      const pdf = new jsPDF({ unit: "pt", format: "a4" });
-      const pageWidth = pdf.internal.pageSize.getWidth();
-      const pageHeight = pdf.internal.pageSize.getHeight();
-      const ratio = Math.min(pageWidth / canvas.width, pageHeight / canvas.height);
-      const w = canvas.width * ratio;
-      const h = canvas.height * ratio;
-      pdf.addImage(imgData, "PNG", (pageWidth - w) / 2, 20, w, h);
-      pdf.save(`${(paper?.title || "practice-paper").replace(/\s+/g, "_")}.pdf`);
+      const blocks: PdfTextBlock[] = [
+        { text: paper.title || 'Practice Paper', style: 'title' },
+        { text: `Board: ${paper?.metadata?.board || boardApiLabel}`, style: 'small' },
+        { text: `Grade: ${paper?.metadata?.grade || grade || ''}`, style: 'small' },
+      ];
+      let questionNumber = 1;
+      for (const section of paper.sections || []) {
+        blocks.push({ text: section.title || 'Section', style: 'heading' });
+        if (section.instructions) blocks.push({ text: section.instructions, style: 'body' });
+        for (const question of section.questions || []) {
+          const marksLabel = Number.isFinite(question.marks) ? ` [${question.marks} marks]` : '';
+          blocks.push({ text: `${questionNumber}. ${question.question || ''}${marksLabel}`, style: 'body' });
+          questionNumber += 1;
+        }
+      }
+      await exportTextPdf({
+        filename: `${paper.title || 'practice-paper'}.pdf`,
+        blocks,
+      });
     } catch (err) {
       setError("PDF export failed: " + String(err));
     }
@@ -500,7 +506,7 @@ export default function PaperMaker({ priorPapers = [] }) {
                 <div className="text-sm text-amber-700 dark:text-amber-300"><pre className="whitespace-pre-wrap">{raw}</pre></div>
               ) : (
                 <div>
-                  <div ref={previewRef} id="paper-preview" className="space-y-4 text-foreground">
+                  <div id="paper-preview" className="space-y-4 text-foreground">
                     <div className="flex items-start justify-between">
                       <div>
                         <h3 className="text-lg font-semibold">{paper.title || `${paper.metadata.board} - Grade ${paper.metadata.grade}`}</h3>

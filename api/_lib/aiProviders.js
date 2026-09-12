@@ -2,7 +2,7 @@ import { fetchWithTimeout } from './fetchWithTimeout.js';
 
 const DEFAULT_OPENAI_BASE_URL = 'https://api.openai.com/v1';
 const DEFAULT_NVIDIA_BASE_URL = 'https://integrate.api.nvidia.com/v1';
-const DEFAULT_OPENAI_PRIMARY_MODEL = 'ft:gpt-4.1-mini-2025-04-14:verteded:apex-chatbot:CSgJ1mRt';
+const DEFAULT_OPENAI_PRIMARY_MODEL = 'gpt-4.1-mini';
 const DEFAULT_OPENAI_FALLBACK_MODEL = 'gpt-4o-mini';
 
 function normalizeBaseUrl(value, fallback) {
@@ -85,7 +85,9 @@ export async function callChatProvider({
     model,
     messages,
     temperature,
-    max_tokens: maxTokens,
+    ...(config.name === 'openai'
+      ? { max_completion_tokens: maxTokens }
+      : { max_tokens: maxTokens }),
   };
 
   const executeFetch = fetchImpl || ((url, options) => fetchWithTimeout(url, options, timeoutMs));

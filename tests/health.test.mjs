@@ -14,6 +14,7 @@ const HEALTH_ENV_KEYS = [
   'SUPABASE_SECRET_KEY',
   'OPENAI_API_KEY',
   'ChatbotKey',
+  'CHATBOT_KEY',
   'GEMINI_API_KEY',
   'WAITLIST_RATE_LIMIT_SALT',
   'VERCEL_GIT_COMMIT_SHA',
@@ -49,6 +50,12 @@ test('getDeploymentRevision exposes only validated non-secret commit identifiers
     }, 'fedcba9'),
     '1234567890abcdef1234567890abcdef12345678',
   );
+});
+
+test('one OpenAI key can satisfy core and planner AI readiness', () => {
+  const snapshot = getReadinessSnapshot({ CHATBOT_KEY: 'openai-key' });
+  assert.equal(snapshot.checks.coreAi, true);
+  assert.equal(snapshot.checks.plannerAi, true);
 });
 
 test('getReadinessSnapshot reports each required production capability', () => {

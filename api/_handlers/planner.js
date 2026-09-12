@@ -3,6 +3,7 @@ import { normalizePlannerRequest, normalizePlannerTask } from '../_lib/plannerCo
 import { logProviderRun } from '../_lib/providerTelemetry.js';
 import { fetchWithTimeout } from '../_lib/fetchWithTimeout.js';
 import { rateLimitUserEndpoint } from '../_lib/rateLimit.js';
+import { callChatProvider, extractChatAnswer, resolveChatProvider } from '../_lib/aiProviders.js';
 
 const TRY_MODELS = [
   'gemini-2.5-flash',
@@ -11,8 +12,20 @@ const TRY_MODELS = [
   'gemini-1.5-flash',
 ];
 
-function getGeminiKey() {
-  return process.env.GEMINI_API_KEY;
+export function resolvePlannerProvider(env = process.env) {
+  const geminiKey = env.GEMINI_API_KEY;
+  if (geminiKey) return { name: 'google', apiKey: geminiKey, models: TRY_MODELS };
+
+  try {
+    const config = resolveChatProvider(env);
+    return {
+      name: config.name,
+      config,
+      models: [...new Set([config.primaryModel, config.fallbackModel].filter(Boolean))],
+    };
+  } catch {
+    return null;
+  }
 }
 
 function extractText(resp) {
@@ -32,12 +45,35 @@ function extractText(resp) {
   );
 }
 
-async function generateContent(apiKey, model, prompt) {
+async function generateContent(provider, model, prompt) {
+  if (provider.name !== 'google') {
+    const result = await callChatProvider({
+      config: provider.config,
+      model,
+      messages: [
+        { role: 'system', content: 'Return only valid JSON matching the requested planner contract.' },
+        { role: 'user', content: prompt },
+      ],
+      temperature: 0.2,
+      maxTokens: 2200,
+    });
+    if (!result.response.ok) throw new Error(`${provider.name} provider returned ${result.response.status}.`);
+    let data;
+    try {
+      data = JSON.parse(result.raw);
+    } catch {
+      throw new Error('PROVIDER_RESPONSE_INVALID');
+    }
+    const text = extractChatAnswer(data);
+    if (!text) throw new Error('MODEL_OUTPUT_INVALID');
+    return { text };
+  }
+
   const response = await fetchWithTimeout(
     `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`,
     {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'x-goog-api-key': apiKey },
+      headers: { 'Content-Type': 'application/json', 'x-goog-api-key': provider.apiKey },
       body: JSON.stringify({
         contents: [{ role: 'user', parts: [{ text: prompt }] }],
         generationConfig: { responseMimeType: 'application/json' },
@@ -49,7 +85,7 @@ async function generateContent(apiKey, model, prompt) {
   return response.json();
 }
 
-async function handleWeekPlan(body, apiKey, res) {
+async function handleWeekPlan(body, provider, res) {
   const { weaknesses, subjects, examDaysLeft, existingTasks } = body;
   const hoursPerDay = body.hoursPerDay ?? 2;
 
@@ -72,10 +108,10 @@ Balance: learn → practice → review → flashcards. Return ONLY JSON: { "task
 
   let lastErr;
 
-  for (const model of TRY_MODELS) {
+  for (const model of provider.models) {
     const startedAt = Date.now();
     try {
-      const resp = await generateContent(apiKey, model, sysPrompt);
+      const resp = await generateContent(provider, model, sysPrompt);
       const text = extractText(resp);
       let raw;
       try {
@@ -90,11 +126,11 @@ Balance: learn → practice → review → flashcards. Return ONLY JSON: { "task
         .map((task) => normalizePlannerTask(task, { fallbackName: 'Study block', fallbackDate: currentDate, maxDuration: 120 }))
         .filter(Boolean);
       if (!tasks.length) throw new Error('MODEL_OUTPUT_INVALID');
-      await logProviderRun({ capability: 'planner_week', provider: 'google', model, status: 200, durationMs: Date.now() - startedAt });
+      await logProviderRun({ capability: 'planner_week', provider: provider.name, model, status: 200, durationMs: Date.now() - startedAt });
       return res.status(200).json({ tasks });
     } catch (e) {
       lastErr = e;
-      await logProviderRun({ capability: 'planner_week', provider: 'google', model, status: null, durationMs: Date.now() - startedAt, error: true });
+      await logProviderRun({ capability: 'planner_week', provider: provider.name, model, status: null, durationMs: Date.now() - startedAt, error: true });
       const msg = String(e?.message || e || '');
       const retryable = /404|not\s*found|not\s*supported|MODEL_OUTPUT_INVALID/i.test(msg);
       if (!retryable) break;
@@ -119,13 +155,13 @@ export default async function handler(req, res) {
   const body = normalizePlannerRequest(readJsonBody(req));
   if (!body) return res.status(400).json({ error: 'Invalid planner request.' });
 
-  const apiKey = getGeminiKey();
-  if (!apiKey) return res.status(503).json({ error: 'Planner AI is not configured on the server.' });
+  const provider = resolvePlannerProvider();
+  if (!provider) return res.status(503).json({ error: 'Planner AI is not configured on the server.' });
 
   const mode = body.mode;
 
   if (mode === 'week') {
-    return handleWeekPlan(body, apiKey, res);
+    return handleWeekPlan(body, provider, res);
   }
 
   const { prompt, tags, existingTasks } = body;
@@ -143,10 +179,10 @@ export default async function handler(req, res) {
 
   let lastErr;
 
-  for (const model of TRY_MODELS) {
+  for (const model of provider.models) {
     const startedAt = Date.now();
     try {
-      const resp = await generateContent(apiKey, model, `${sysPrompt}\n\nUser: ${prompt}`);
+      const resp = await generateContent(provider, model, `${sysPrompt}\n\nUser: ${prompt}`);
 
       const text = extractText(resp);
       let raw;
@@ -160,11 +196,11 @@ export default async function handler(req, res) {
 
       const task = normalizePlannerTask(raw, { fallbackName: prompt, fallbackDate: currentDate, allowedTags: tags });
       if (!task) throw new Error('MODEL_OUTPUT_INVALID');
-      await logProviderRun({ capability: 'planner_single', provider: 'google', model, status: 200, durationMs: Date.now() - startedAt });
+      await logProviderRun({ capability: 'planner_single', provider: provider.name, model, status: 200, durationMs: Date.now() - startedAt });
       return res.status(200).json(task);
     } catch (e) {
       lastErr = e;
-      await logProviderRun({ capability: 'planner_single', provider: 'google', model, status: null, durationMs: Date.now() - startedAt, error: true });
+      await logProviderRun({ capability: 'planner_single', provider: provider.name, model, status: null, durationMs: Date.now() - startedAt, error: true });
       const msg = String(e?.message || e || '');
       const retryable = /404|not\s*found|not\s*supported|MODEL_OUTPUT_INVALID/i.test(msg);
       if (!retryable) break;

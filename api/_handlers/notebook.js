@@ -1,6 +1,11 @@
 import { verifyAuthUser, readJsonBody, rejectOversizedJsonBody } from '../_lib/auth.js';
 import { rateLimitUserEndpoint } from '../_lib/rateLimit.js';
-import { formatSourcesForPrompt, NOTEBOOK_OUTPUT_MODES } from '../_lib/grounding.js';
+import {
+  formatSourcesForPrompt,
+  NOTEBOOK_OUTPUT_MODES,
+  validateSourceCitations,
+  validateStructuredSourceIds,
+} from '../_lib/grounding.js';
 import { fetchProvider } from '../_lib/providerRequest.js';
 import { validateNotebookOutput } from '../../contracts/learningOutputs.js';
 
@@ -45,7 +50,10 @@ export default async function handler(req, res) {
     }
 
     const spec = NOTEBOOK_OUTPUT_MODES[mode];
-    const userPrompt = `${spec.instruction}
+    const citationInstruction = spec.json
+      ? ''
+      : '\nCite factual claims inline as [Source: id], using only exact IDs from SOURCE headers.';
+    const userPrompt = `${spec.instruction}${citationInstruction}
 
 NOTEBOOK: ${notebookTitle}
 ${customPrompt ? `STUDENT INSTRUCTIONS: ${customPrompt}` : ''}
@@ -106,6 +114,18 @@ ${sourceBlock}`;
       if (!validated.success) return res.status(502).json({ error: 'Generated material was incomplete or invalid. Your sources are unchanged; please retry.' });
       parsed = validated.data;
 
+      const structuredSourceIds = spec.quiz
+        ? parsed.questions.flatMap((question) => question.sourceIds)
+        : spec.flashcards
+          ? parsed.flashcards.flatMap((card) => card.sourceIds)
+          : [];
+      const grounding = spec.quiz || spec.flashcards
+        ? validateStructuredSourceIds(structuredSourceIds, sources)
+        : null;
+      if (grounding && grounding.status !== 'verified') {
+        return res.status(502).json({ error: 'Generated material contained unverifiable source references. Your sources are unchanged; please retry.' });
+      }
+
       if (spec.questions) {
         const questions = (parsed.questions || [])
           .map((q) => String(q).trim())
@@ -129,6 +149,7 @@ ${sourceBlock}`;
           answer: String(q.answer || '').trim().slice(0, 300),
           explanation: String(q.explanation || '').trim().slice(0, 500),
           marks: typeof q.marks === 'number' ? q.marks : 1,
+          sourceIds: q.sourceIds,
           id: `q-${i}`,
         })).filter((q) => q.question);
 
@@ -149,6 +170,8 @@ ${sourceBlock}`;
           content,
           quiz: questions,
           generatedAt: new Date().toISOString(),
+          citations: grounding?.citations,
+          sources: grounding?.sources,
         });
       }
 
@@ -158,6 +181,7 @@ ${sourceBlock}`;
         .map((c) => ({
           front: String(c.front).trim().slice(0, 300),
           back: String(c.back).trim().slice(0, 500),
+          sourceIds: c.sourceIds,
         }));
 
       const markdown = flashcards
@@ -170,7 +194,14 @@ ${sourceBlock}`;
         content: markdown,
         flashcards,
         generatedAt: new Date().toISOString(),
+        citations: grounding?.citations,
+        sources: grounding?.sources,
       });
+    }
+
+    const grounding = validateSourceCitations(raw, sources);
+    if (grounding.status !== 'verified') {
+      return res.status(502).json({ error: 'Generated material contained missing or unverifiable source references. Your sources are unchanged; please retry.' });
     }
 
     const isAudio =
@@ -185,6 +216,8 @@ ${sourceBlock}`;
       content: raw,
       isAudioScript: isAudio,
       generatedAt: new Date().toISOString(),
+      citations: grounding.citations,
+      sources: grounding.sources,
     });
   } catch (err) {
     console.error('Notebook handler error:', err instanceof Error ? err.name : 'UnknownError');

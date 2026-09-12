@@ -2,6 +2,7 @@ import { verifyAuthUser, readJsonBody, rejectOversizedJsonBody } from '../_lib/a
 import { rateLimitUserEndpoint } from '../_lib/rateLimit.js';
 import { callChatProvider, extractChatAnswer, resolveChatProvider } from '../_lib/aiProviders.js';
 import { buildAskMessages } from '../_lib/askPrompt.js';
+import { validateSourceCitations } from '../_lib/grounding.js';
 import { logProviderRun } from '../_lib/providerTelemetry.js';
 
 const MAX_QUESTION_CHARS = 4000;
@@ -145,7 +146,20 @@ export default async function handler(req, res) {
       });
     }
 
-    return res.status(200).json({ answer });
+    const grounding = validateSourceCitations(answer, sources);
+    if (grounding.status === 'invalid' || grounding.status === 'missing') {
+      console.error('Invalid grounded answer:', grounding.status, grounding.invalidCitations);
+      return res.status(502).json({
+        error: 'AI returned an answer with unverifiable source references. Please try again.',
+      });
+    }
+
+    return res.status(200).json({
+      answer,
+      ...(grounding.status === 'verified'
+        ? { citations: grounding.citations, sources: grounding.sources }
+        : {}),
+    });
   } catch (err) {
     console.error("❌ Chat handler failed:", err instanceof Error ? err.name : 'UnknownError');
     return res.status(502).json({ error: "AI request failed. Please try again shortly." });

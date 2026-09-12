@@ -18,10 +18,12 @@ function validOutput(value) {
   return record(value) && id(value.id) && outputKinds.has(value.kind) && text(value.title) && text(value.content) && time(value.generatedAt)
     && (value.suggestedQuestions === undefined || texts(value.suggestedQuestions))
     && (value.isAudioScript === undefined || typeof value.isAudioScript === 'boolean')
-    && (value.flashcards === undefined || Array.isArray(value.flashcards) && value.flashcards.every(card => record(card) && text(card.front) && text(card.back)))
+    && (value.flashcards === undefined || Array.isArray(value.flashcards) && value.flashcards.every(card => record(card) && text(card.front) && text(card.back)
+      && (card.sourceIds === undefined || texts(card.sourceIds))))
     && (value.quiz === undefined || Array.isArray(value.quiz) && value.quiz.every(question => record(question) && id(question.id)
       && ['mcq', 'short'].includes(question.type) && text(question.question) && texts(question.options)
-      && text(question.answer) && text(question.explanation) && Number.isFinite(question.marks) && question.marks > 0));
+      && text(question.answer) && text(question.explanation) && Number.isFinite(question.marks) && question.marks > 0
+      && (question.sourceIds === undefined || texts(question.sourceIds))));
 }
 
 export function validateNotebooks(value) {

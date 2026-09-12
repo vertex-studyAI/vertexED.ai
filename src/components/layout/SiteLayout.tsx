@@ -42,6 +42,18 @@ export default function SiteLayout() {
   const companionEligible = ['/', '/home', '/about', '/features', '/main', '/planner', '/exam-prep', '/study-zone', '/study-notebook', '/notetaker', '/paper-maker', '/answer-reviewer', '/resource-library'].includes(location.pathname) || isStudyGuideRoute;
   const companionVisible = companionEligible && settings.studyCompanion && !settings.simpleMode;
 
+  useEffect(() => {
+    const frame = window.requestAnimationFrame(() => {
+      const targetId = location.hash.replace(/^#/, "");
+      if (targetId) {
+        document.getElementById(targetId)?.scrollIntoView({ block: "start", behavior: "auto" });
+        return;
+      }
+      window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, [location.pathname, location.hash]);
+
   const handleLogout = async () => {
     try {
       const result = await logoutWithLocalFallback(logout);

@@ -7,6 +7,13 @@ export interface ChatbotMessage {
   text: string;
 }
 
+export interface ChatbotSource {
+  id: string;
+  title: string;
+  excerpt?: string;
+  path?: string;
+}
+
 export interface ChatbotRequest {
   question: string;
   history?: ChatbotMessage[];
@@ -18,6 +25,8 @@ export interface ChatbotRequest {
 interface ChatbotResponse {
 	answer?: string;
 	error?: string;
+	citations?: ChatbotSource[];
+	sources?: ChatbotSource[];
 	[key: string]: unknown;
 }
 

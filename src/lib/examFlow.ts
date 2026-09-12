@@ -193,6 +193,20 @@ export function saveMockReviewHandoff(handoff: MockReviewHandoff) {
   );
 }
 
+export function savePracticeReviewHandoff(handoff: MockExamAnswersHandoff): boolean {
+  if (typeof window === 'undefined') return false;
+  const storage = resolveSessionStorage(window);
+  const stored = safeStorageSet(
+    storage,
+    mockExamAnswersStorageKey(),
+    JSON.stringify(handoff),
+  );
+  if (!stored) return false;
+
+  safeStorageRemove(storage, mockReviewStorageKey());
+  return true;
+}
+
 export function consumeMockExamAnswers(): MockExamAnswersHandoff | null {
   if (typeof window === 'undefined') return null;
   const storage = resolveSessionStorage(window);

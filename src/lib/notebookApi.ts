@@ -13,10 +13,12 @@ export type NotebookGenerateResponse = {
   title: string;
   content: string;
   generatedAt: string;
-  flashcards?: Array<{ front: string; back: string }>;
+  flashcards?: Array<{ front: string; back: string; sourceIds?: string[] }>;
   quiz?: import('@/lib/notebook').QuizQuestion[];
   suggestedQuestions?: string[];
   isAudioScript?: boolean;
+  citations?: Array<{ id: string; title: string }>;
+  sources?: Array<{ id: string; title: string }>;
   error?: string;
 };
 

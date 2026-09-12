@@ -30,10 +30,11 @@ export function validateNotebookOutput(mode, value) {
     question: text(1_000), type: z.enum(['mcq', 'short']),
     options: z.array(text(300)).max(6).default([]), answer: text(1_000),
     explanation: z.string().max(2_000).default(''), marks: z.number().int().min(1).max(100).default(1),
+    sourceIds: z.array(text(160)).min(1).max(12),
   }).superRefine((q, ctx) => {
     if (q.type === 'mcq' && (q.options.length < 2 || new Set(q.options).size !== q.options.length || !q.options.includes(q.answer))) {
       ctx.addIssue({ code: z.ZodIssueCode.custom, message: 'Quiz answer must match a distinct option.' });
     }
   })).min(1).max(12) }).safeParse(value);
-  return z.object({ flashcards: z.array(z.object({ front: text(300), back: text(1_000) })).min(1).max(20) }).safeParse(value);
+  return z.object({ flashcards: z.array(z.object({ front: text(300), back: text(1_000), sourceIds: z.array(text(160)).min(1).max(12) })).min(1).max(20) }).safeParse(value);
 }

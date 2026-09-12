@@ -32,6 +32,7 @@ export function userContentStorageKeys(scope = activeScope) {
     quickNotes: `${prefix}:quick_notes`,
     lastStudySession: `${prefix}:last_study_session`,
     srDeck: `${prefix}:sr_deck`,
+    mypPracticeDrafts: `${prefix}:myp_practice_drafts`,
     weaknessHeatmap: `${prefix}:weakness_heatmap`,
     retryQueue: `${prefix}:retry_queue`,
     learnerStateOutbox: `${prefix}:learner_state_outbox`,

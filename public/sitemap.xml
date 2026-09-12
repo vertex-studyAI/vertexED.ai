@@ -21,6 +21,16 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://www.vertexed.app/myp</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.vertexed.app/myp/eassessment</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
     <loc>https://www.vertexed.app/study-tools</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -159,6 +169,11 @@
     <loc>https://www.vertexed.app/resources/ib-tok-guide-ai</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.vertexed.app/resources/ib-myp-humanities-guide</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.vertexed.app/resources/best-ai-prompts-for-students</loc>

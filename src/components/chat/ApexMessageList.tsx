@@ -3,6 +3,7 @@ import type { ApexChatMessage } from '@/hooks/useApexChat';
 import { APEX_TAGLINE } from '@/content/apex';
 import type { StudyPageContext } from '@/lib/studyContext';
 import AiFeedbackControls from '@/components/AiFeedbackControls';
+import { BookOpenCheck } from 'lucide-react';
 
 type Props = {
   messages: ApexChatMessage[];
@@ -51,6 +52,22 @@ export default function ApexMessageList({
               )
             ) : (
               <p className="text-sm text-foreground/95 whitespace-pre-wrap">{msg.text}</p>
+            )}
+            {msg.role === 'assistant' && !isStreamingAssistant && msg.sources && msg.sources.length > 0 && (
+              <details className="mt-3 border-t border-border/50 pt-2 text-xs">
+                <summary className="flex cursor-pointer items-center gap-2 font-semibold text-foreground">
+                  <BookOpenCheck className="h-4 w-4" aria-hidden />
+                  Evidence used ({msg.sources.length})
+                </summary>
+                <ul className="mt-2 space-y-2">
+                  {msg.sources.map((source) => (
+                    <li key={source.id} className="border-l-2 border-primary/30 pl-3">
+                      <strong className="block text-foreground">{source.title}</strong>
+                      {source.excerpt && <span className="mt-1 block text-muted-foreground">{source.excerpt}</span>}
+                    </li>
+                  ))}
+                </ul>
+              </details>
             )}
             {msg.role === 'assistant' && !isStreamingAssistant && msg.text && !compact && (
               <div className="mt-3 border-t border-border/50 pt-2">

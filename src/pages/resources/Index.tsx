@@ -26,6 +26,7 @@ const ARTICLES: Article[] = [
   { to: "/resources/how-to-memorize-anything-fast", title: "Memory techniques for exam revision", blurb: "Memory palace for one-off lists vs spaced repetition for syllabus content - when each earns its time.", category: "methods" },
   { to: "/resources/best-ai-prompts-for-students", title: "AI prompts that help with revision", blurb: "Maths working, essay structure, mark-scheme gaps - prompts that critique your attempt, not copy-paste answers.", category: "methods" },
   { to: "/resources/ib-math-aa-ai-guide", title: "IB Math AA and AI: revision guide", blurb: "Calculus, statistics, and proofs - show-your-working practice and IB command words.", category: "subjects" },
+  { to: "/resources/ib-myp-humanities-guide", title: "IB MYP Humanities answer studio", blurb: "Shape research questions, evaluate sources with OPVL, and plan short and extended History or Geography responses.", category: "subjects" },
   { to: "/resources/igcse-science-revision", title: "IGCSE Sciences Revision", blurb: "Biology, Chemistry, and Physics - practicals, definitions, and structured answers for top-band marks.", category: "subjects" },
   { to: "/resources/essay-writing-with-ai", title: "Essay writing with AI", blurb: "History, English, Psychology - thesis, evidence, and conclusion under time without losing your voice.", category: "subjects" },
   { to: "/resources/alevel-ap-exam-prep", title: "A-Level and AP exam prep", blurb: "What each qualification demands - FRQs, essays, synoptic questions, and mark-scheme habits.", category: "subjects" },
@@ -87,7 +88,10 @@ export default function ResourcesIndex() {
         <div className="flex flex-col sm:flex-row gap-3 mb-6">
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <label htmlFor="resource-search" className="sr-only">Search study guides</label>
             <input
+              id="resource-search"
+              type="search"
               className="neu-input-el w-full pl-10"
               placeholder="Search guides…"
               value={query}
@@ -110,6 +114,7 @@ export default function ResourcesIndex() {
                   ? "bg-primary/20 text-primary border border-primary/30"
                   : "surface-chip text-muted-foreground hover:text-foreground"
               }`}
+              aria-pressed={category === cat.id}
             >
               <cat.icon className="h-3.5 w-3.5" />
               {cat.label}

@@ -44,6 +44,7 @@ const ALevelAPGuide = lazy(() => import("@/pages/resources/ALevelAPGuide"));
 const IsUsingAICheating = lazy(() => import("@/pages/resources/IsUsingAICheating"));
 const HowToCramEffectively = lazy(() => import("@/pages/resources/HowToCramEffectively"));
 const IBTOKGuide = lazy(() => import("@/pages/resources/IBTOKGuide"));
+const IBMYPHumanitiesGuide = lazy(() => import("@/pages/resources/IBMYPHumanitiesGuide"));
 const BestAIPromptsForStudents = lazy(() => import("@/pages/resources/BestAIPromptsForStudents"));
 const AcademicBurnoutGuide = lazy(() => import("@/pages/resources/AcademicBurnoutGuide"));
 const MemorizationTechniques = lazy(() => import("@/pages/resources/MemorizationTechniques"));
@@ -58,6 +59,9 @@ const WaitlistAdmin = lazy(() => import("@/pages/admin/WaitlistAdmin"));
 const PrivacyPolicy = lazy(() => import("@/pages/PrivacyPolicy"));
 const TermsOfService = lazy(() => import("@/pages/TermsOfService"));
 const ExamPrep = lazy(() => import("@/pages/ExamPrep"));
+const MYPHub = lazy(() => import("@/pages/MYPHub"));
+const MYPSubject = lazy(() => import("@/pages/MYPSubject"));
+const MYPEAssessment = lazy(() => import("@/pages/MYPEAssessment"));
 import { AuthProvider } from "@/contexts/AuthContext";
 import { AppPreferencesProvider } from "@/contexts/AppPreferencesContext";
 import AdminRoute from "@/components/AdminRoute";
@@ -159,12 +163,17 @@ return (
 						<Route path="resources/is-using-ai-cheating" element={<IsUsingAICheating />} />
 						<Route path="resources/how-to-cram-effectively" element={<HowToCramEffectively />} />
 						<Route path="resources/ib-tok-guide-ai" element={<IBTOKGuide />} />
+						<Route path="resources/ib-myp-humanities-guide" element={<IBMYPHumanitiesGuide />} />
 						<Route path="resources/best-ai-prompts-for-students" element={<BestAIPromptsForStudents />} />
 						<Route path="resources/academic-burnout-guide" element={<AcademicBurnoutGuide />} />
 						<Route path="resources/how-to-memorize-anything-fast" element={<MemorizationTechniques />} />
 						<Route path="resources/college-essays-with-ai" element={<CollegeEssaysWithAI />} />
 						<Route path="curricula" element={<CurriculumToolsIndex />} />
 						<Route path="curricula/:curriculum/:feature" element={<CurriculumFeature />} />
+						<Route path="myp" element={<MYPHub />} />
+						<Route path="myp/eassessment" element={<MYPEAssessment />} />
+						<Route path="myp/subjects/:subjectSlug" element={<MYPSubject />} />
+						<Route path="myp/subjects/:subjectSlug/:topicSlug" element={<MYPSubject />} />
 <Route path="login" element={<Login />} />
 <Route path="signup" element={<Signup />} />
 <Route path="waitlist-pending" element={<WaitlistPending />} />

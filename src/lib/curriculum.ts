@@ -28,7 +28,7 @@ export const BOARD_CONFIGS: Record<ExamBoard, BoardConfig> = {
     ],
     criteria: ['Criterion A', 'Criterion B', 'Criterion C', 'Criterion D'],
     commandTerms: ['Analyse', 'Apply', 'Demonstrate', 'Describe', 'Discuss', 'Evaluate', 'Examine', 'Explain', 'Identify', 'Outline', 'State', 'Suggest'],
-    features: ['TOK links', 'Criterion-based assessment', 'Interdisciplinary units'],
+    features: ['Criterion-based assessment', 'Interdisciplinary learning', 'Inquiry and source evaluation'],
   },
   IB_DP: {
     id: 'IB_DP',

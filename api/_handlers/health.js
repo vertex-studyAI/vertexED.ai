@@ -30,7 +30,7 @@ export function getDeploymentRevision(env = process.env, buildRevision = BUILD_R
 export function getReadinessSnapshot(env = process.env) {
   const hasSupabaseUrl = hasValue(env.SUPABASE_URL) || hasValue(env.VITE_SUPABASE_URL);
   const hasSupabaseAnonKey = hasValue(env.SUPABASE_PUBLISHABLE_KEY) || hasValue(env.SUPABASE_ANON_KEY) || hasValue(env.VITE_SUPABASE_PUBLISHABLE_KEY) || hasValue(env.VITE_SUPABASE_ANON_KEY);
-  const hasOpenAi = hasValue(env.OPENAI_API_KEY) || hasValue(env.ChatbotKey);
+  const hasOpenAi = hasValue(env.OPENAI_API_KEY) || hasValue(env.ChatbotKey) || hasValue(env.CHATBOT_KEY);
   const hasGemini = hasValue(env.GEMINI_API_KEY);
   const hasRateLimitSalt = hasValue(env.WAITLIST_RATE_LIMIT_SALT);
 
@@ -38,7 +38,7 @@ export function getReadinessSnapshot(env = process.env) {
     authentication: hasSupabaseUrl && hasSupabaseAnonKey,
     waitlist: hasServerSupabaseConfig(env),
     coreAi: hasOpenAi,
-    plannerAi: hasGemini,
+    plannerAi: hasGemini || hasOpenAi,
     durableRateLimiting: hasRateLimitSalt,
   };
 

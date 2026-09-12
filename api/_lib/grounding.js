@@ -4,22 +4,26 @@
 
 const DEFAULT_MAX_CHARS = 80_000;
 
+function normalizeSourceId(value, index) {
+  const normalized = typeof value === 'string'
+    ? value.trim().toLowerCase().replace(/[^a-z0-9_-]+/g, '-').replace(/(^-|-$)/g, '')
+    : '';
+  return normalized || `source-${index + 1}`;
+}
+
 /**
+ * Build the canonical source registry used by both the prompt and response validator.
+ * Duplicate client IDs are made unique so one citation can never resolve ambiguously.
+ *
  * @param {Array<{ id?: string; title?: string; excerpt?: string; content?: string }>} sources
- * @param {number} maxChars
  */
-export function formatSourcesForPrompt(sources, maxChars = DEFAULT_MAX_CHARS) {
-  if (!Array.isArray(sources) || sources.length === 0) return '';
+export function buildSourceRegistry(sources) {
+  if (!Array.isArray(sources)) return [];
 
-  let used = 0;
-  const blocks = [];
+  const usedIds = new Set();
+  return sources.flatMap((source, index) => {
+    if (!source || typeof source !== 'object') return [];
 
-  for (const source of sources) {
-    if (!source || typeof source !== 'object') continue;
-    const title =
-      typeof source.title === 'string' && source.title.trim()
-        ? source.title.trim().slice(0, 120)
-        : 'Untitled source';
     const text = (
       typeof source.excerpt === 'string'
         ? source.excerpt
@@ -27,14 +31,44 @@ export function formatSourcesForPrompt(sources, maxChars = DEFAULT_MAX_CHARS) {
           ? source.content
           : ''
     ).trim();
+    if (!text) return [];
 
-    if (!text) continue;
+    const baseId = normalizeSourceId(source.id, index);
+    let id = baseId;
+    let suffix = 2;
+    while (usedIds.has(id)) {
+      id = `${baseId}-${suffix}`;
+      suffix += 1;
+    }
+    usedIds.add(id);
 
-    const header = `--- SOURCE: ${title} ---\n`;
+    const title = typeof source.title === 'string' && source.title.trim()
+      ? source.title.trim().replace(/[\r\n]+/g, ' ').slice(0, 120)
+      : 'Untitled source';
+
+    return [{ id, title, text }];
+  });
+}
+
+/**
+ * @param {Array<{ id?: string; title?: string; excerpt?: string; content?: string }>} sources
+ * @param {number} maxChars
+ */
+export function formatSourcesForPrompt(sources, maxChars = DEFAULT_MAX_CHARS) {
+  const registry = buildSourceRegistry(sources);
+  if (registry.length === 0) return '';
+
+  let used = 0;
+  const blocks = [];
+
+  for (const source of registry) {
+    const header = `--- SOURCE [${source.id}]: ${source.title} ---\n`;
     const remaining = maxChars - used - header.length - 2;
     if (remaining <= 200) break;
 
-    const slice = text.length > remaining ? `${text.slice(0, remaining)}\n[truncated]` : text;
+    const slice = source.text.length > remaining
+      ? `${source.text.slice(0, remaining)}\n[truncated]`
+      : source.text;
     blocks.push(`${header}${slice}`);
     used += header.length + slice.length + 2;
   }
@@ -42,9 +76,85 @@ export function formatSourcesForPrompt(sources, maxChars = DEFAULT_MAX_CHARS) {
   return blocks.join('\n\n');
 }
 
+/**
+ * Resolve model-produced citations against the exact sources included in the request.
+ *
+ * @param {string} answer
+ * @param {Array<{ id?: string; title?: string; excerpt?: string; content?: string }>} sources
+ */
+export function validateSourceCitations(answer, sources) {
+  const registry = buildSourceRegistry(sources);
+  if (registry.length === 0) {
+    return { status: 'not-grounded', citations: [], invalidCitations: [], sources: [] };
+  }
+
+  const knownSources = new Map(registry.map(({ id, title, text }) => [id, {
+    id,
+    title,
+    excerpt: text.slice(0, 320),
+  }]));
+  const citedIds = [];
+  const citationPattern = /\[Source:\s*([^\]\r\n]+)\]/gi;
+  let match;
+  while ((match = citationPattern.exec(typeof answer === 'string' ? answer : '')) !== null) {
+    const id = normalizeSourceId(match[1], 0);
+    if (!citedIds.includes(id)) citedIds.push(id);
+  }
+
+  const invalidCitations = citedIds.filter((id) => !knownSources.has(id));
+  const citations = citedIds.flatMap((id) => {
+    const source = knownSources.get(id);
+    return source ? [source] : [];
+  });
+  const status = invalidCitations.length > 0
+    ? 'invalid'
+    : citations.length === 0
+      ? 'missing'
+      : 'verified';
+
+  return {
+    status,
+    citations,
+    invalidCitations,
+    sources: [...knownSources.values()],
+  };
+}
+
+/**
+ * Resolve source IDs carried by structured generated items such as quiz questions.
+ *
+ * @param {unknown} sourceIds
+ * @param {Array<{ id?: string; title?: string; excerpt?: string; content?: string }>} sources
+ */
+export function validateStructuredSourceIds(sourceIds, sources) {
+  const registry = buildSourceRegistry(sources);
+  if (registry.length === 0) {
+    return { status: 'not-grounded', citations: [], invalidCitations: [], sources: [] };
+  }
+  const knownSources = new Map(registry.map(({ id, title, text }) => [id, {
+    id,
+    title,
+    excerpt: text.slice(0, 320),
+  }]));
+  const citedIds = Array.isArray(sourceIds)
+    ? [...new Set(sourceIds.filter((id) => typeof id === 'string').map((id) => normalizeSourceId(id, 0)))]
+    : [];
+  const invalidCitations = citedIds.filter((id) => !knownSources.has(id));
+  const citations = citedIds.flatMap((id) => {
+    const source = knownSources.get(id);
+    return source ? [source] : [];
+  });
+  return {
+    status: invalidCitations.length ? 'invalid' : citations.length ? 'verified' : 'missing',
+    citations,
+    invalidCitations,
+    sources: [...knownSources.values()],
+  };
+}
+
 export const GROUNDED_CHAT_RULES = `
 GROUNDED MODE — the student attached study sources below.
-- Prefer answers grounded in the sources; cite as [Source: title].
+- Prefer answers grounded in the sources; cite factual claims as [Source: id], using only the ID shown in each source header.
 - If a question cannot be answered from the sources, say so clearly, then offer a brief general study hint.
 - Do not invent facts, quotes, or citations not present in the sources.
 - Keep the Socratic, exam-focused tone.`;
@@ -86,7 +196,8 @@ Return markdown: each entry as **Date/Step** — description (1-2 sentences). Or
   flashcards: {
     label: 'Flashcard Deck',
     instruction: `Create 12-16 flashcards from the sources.
-Return ONLY valid JSON: { "flashcards": [ { "front": "...", "back": "..." } ] }`,
+Return ONLY valid JSON: { "flashcards": [ { "front": "...", "back": "...", "sourceIds": ["exact-source-id"] } ] }
+Every card must include at least one exact source ID from a SOURCE header.`,
     json: true,
     flashcards: true,
   },
@@ -95,10 +206,10 @@ Return ONLY valid JSON: { "flashcards": [ { "front": "...", "back": "..." } ] }`
     instruction: `Create an exam-style practice quiz from the sources.
 Return ONLY valid JSON: {
   "questions": [
-    { "question": "...", "type": "mcq|short", "options": ["A","B","C","D"], "answer": "...", "explanation": "...", "marks": 2 }
+    { "question": "...", "type": "mcq|short", "options": ["A","B","C","D"], "answer": "...", "explanation": "...", "marks": 2, "sourceIds": ["exact-source-id"] }
   ]
 }
-Include 8-10 questions mixing MCQ and short answer. Ground every question in the sources.`,
+Include 8-10 questions mixing MCQ and short answer. Ground every question in the sources and include at least one exact source ID from a SOURCE header.`,
     json: true,
     quiz: true,
   },

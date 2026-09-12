@@ -46,6 +46,7 @@ export type QuizQuestion = {
   answer: string;
   explanation: string;
   marks: number;
+  sourceIds?: string[];
 };
 
 export type NotebookOutput = {
@@ -54,7 +55,7 @@ export type NotebookOutput = {
   title: string;
   content: string;
   generatedAt: string;
-  flashcards?: Array<{ front: string; back: string }>;
+  flashcards?: Array<{ front: string; back: string; sourceIds?: string[] }>;
   quiz?: QuizQuestion[];
   suggestedQuestions?: string[];
   isAudioScript?: boolean;

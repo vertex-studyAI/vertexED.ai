@@ -7,13 +7,13 @@ import {
   resolveChatProvider,
 } from '../api/_lib/aiProviders.js';
 
-test('OpenAI remains the default provider and preserves legacy key/model behavior', () => {
+test('OpenAI remains the default provider with a generally available model', () => {
   const config = resolveChatProvider({ ChatbotKey: 'legacy-key' });
 
   assert.equal(config.name, 'openai');
   assert.equal(config.apiKey, 'legacy-key');
   assert.equal(config.baseUrl, 'https://api.openai.com/v1');
-  assert.match(config.primaryModel, /^ft:gpt-4\.1-mini-/);
+  assert.equal(config.primaryModel, 'gpt-4.1-mini');
   assert.equal(config.fallbackModel, 'gpt-4o-mini');
 });
 
@@ -88,6 +88,27 @@ test('chat provider call uses OpenAI-compatible request shape without switching 
   assert.deepEqual(payload.messages, [{ role: 'user', content: 'hello' }]);
   assert.equal(payload.temperature, 0.4);
   assert.equal(payload.max_tokens, 1200);
+});
+
+test('OpenAI chat requests use the current completion-token field', async () => {
+  let payload;
+  const config = resolveChatProvider({ OPENAI_API_KEY: 'openai-key' });
+  await callChatProvider({
+    config,
+    model: config.primaryModel,
+    messages: [{ role: 'user', content: 'hello' }],
+    fetchImpl: async (_url, options) => {
+      payload = JSON.parse(options.body);
+      return {
+        ok: true,
+        status: 200,
+        text: async () => JSON.stringify({ choices: [{ message: { content: 'ok' } }] }),
+      };
+    },
+  });
+
+  assert.equal(payload.max_completion_tokens, 1200);
+  assert.equal('max_tokens' in payload, false);
 });
 
 test('answer extraction supports chat-completions and response-style payloads', () => {

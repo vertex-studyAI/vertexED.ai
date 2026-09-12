@@ -176,6 +176,11 @@ export const routeHeadingsMap: Record<string, HeadingEntry> = {
     h2: ["Rubric feedback", "Command terms"],
     h3: ["Retry strategy", "Marks earned and lost"],
   },
+  "/resources/ib-myp-humanities-guide": {
+    title: "IB MYP Humanities answer studio",
+    h2: ["Research question", "Source evaluation", "Answer planning"],
+    h3: ["OPVL", "History and Geography"],
+  },
 };
 
 export function getHeadingsForPath(pathname: string): HeadingEntry {

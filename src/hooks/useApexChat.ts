@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
-import { ChatbotApiError, fetchChatbotAnswer, type ChatbotMessage } from '@/lib/chatbotApi';
+import { ChatbotApiError, fetchChatbotAnswer, type ChatbotMessage, type ChatbotSource } from '@/lib/chatbotApi';
 import type { StudyPageContext } from '@/lib/studyContext';
 import { animateTypewriter } from '@/lib/typewriter';
 import { normalizeUserContentStorageScope } from '@/lib/userContentStorageScope.mjs';
@@ -14,6 +14,7 @@ export type ApexChatMessage = {
   id: string;
   role: 'user' | 'assistant';
   text: string;
+  sources?: ChatbotSource[];
 };
 
 const MAIN_THREAD_KEY = 'apex-main';
@@ -175,10 +176,23 @@ export function useApexChat({ context, threadKey, sources, onSessionRecord }: Op
           typeof data?.answer === 'string' && data.answer.trim()
             ? data.answer.trim()
             : "Sorry - I couldn't generate a response.";
+        const citationIds = new Set(
+          Array.isArray(data.citations)
+            ? data.citations.filter((citation) => citation && typeof citation.id === 'string').map((citation) => citation.id)
+            : [],
+        );
+        const citedSources = Array.isArray(data.sources)
+          ? data.sources.filter((source): source is ChatbotSource => (
+            Boolean(source)
+            && typeof source.id === 'string'
+            && typeof source.title === 'string'
+            && (citationIds.size === 0 || citationIds.has(source.id))
+          ))
+          : [];
 
         const firstChar = answer.slice(0, 1);
         setMessages((prev) =>
-          prev.map((m) => (m.id === botId ? { ...m, text: firstChar } : m)),
+          prev.map((m) => (m.id === botId ? { ...m, text: firstChar, sources: citedSources } : m)),
         );
 
         if (answer.length > 1) {

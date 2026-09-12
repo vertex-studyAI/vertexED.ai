@@ -4,9 +4,6 @@ import { Link } from "react-router";
 import NeumorphicCard from "@/components/NeumorphicCard";
 import PageSection from "@/components/PageSection";
 import { authFetch } from "@/lib/apiAuth";
-import { Document, Packer, Paragraph, TextRun } from "docx";
-import { saveAs } from "file-saver";
-import jsPDF from "jspdf";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -26,6 +23,7 @@ import ReactMarkdown from "react-markdown";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { exportTextPdf, type PdfTextBlock } from '@/lib/pdfTextExport';
 import { useSearchParams } from "react-router";
 import { getCramDueCards } from "@/lib/srDeck";
 import { getAdaptiveTopicsForQuiz } from "@/lib/adaptiveLearning";
@@ -387,7 +385,11 @@ export default function NotetakerQuiz(): React.JSX.Element {
 
   const exportToWord = async (notesText: string, cards: Flashcard[]) => {
     try {
-      const children: Paragraph[] = [
+      const [{ Document, Packer, Paragraph, TextRun }, { saveAs }] = await Promise.all([
+        import('docx'),
+        import('file-saver'),
+      ]);
+      const children = [
         new Paragraph({ children: [new TextRun({ text: "Study Notes", bold: true, size: 28 })] }),
         new Paragraph(notesText || "No notes available."),
       ];
@@ -421,49 +423,26 @@ export default function NotetakerQuiz(): React.JSX.Element {
     }
   };
 
-  const exportToPDF = async (elementId: string) => {
+  const exportToPDF = async (notesText: string, cards: Flashcard[]) => {
     try {
-      const element = document.getElementById(elementId);
-      if (!element) {
+      if (!notesText.trim() && cards.length === 0) {
         alert("Nothing to export");
         return;
       }
-
-      const html2canvas = (await import("html2canvas")).default;
-      const canvas = await html2canvas(element, { scale: 2, useCORS: true, logging: false, backgroundColor: null });
-      const imgData = canvas.toDataURL("image/png");
-      const pdf = new jsPDF("p", "mm", "a4");
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = pdf.internal.pageSize.getHeight();
-      const imgHeightMm = (canvas.height * pdfWidth) / canvas.width;
-
-      if (imgHeightMm <= pdfHeight) {
-        pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, imgHeightMm);
-        pdf.save("vertexed-notes.pdf");
-        return;
+      const blocks: PdfTextBlock[] = [
+        { text: 'Study Notes', style: 'title' },
+        ...notesText.split(/\n{2,}/).map((text) => ({ text, style: 'body' as const })),
+      ];
+      if (cards.length) {
+        blocks.push({ text: 'Flashcards', style: 'heading' });
+        cards.forEach((card, index) => {
+          blocks.push(
+            { text: `Q${index + 1}: ${safeText(card.front)}`, style: 'heading' },
+            { text: `A: ${safeText(card.back)}`, style: 'body' },
+          );
+        });
       }
-
-      const pxPerMm = canvas.height / imgHeightMm;
-      const pageHeightPx = Math.floor(pdfHeight * pxPerMm);
-      let yPosPx = 0;
-
-      while (yPosPx < canvas.height) {
-        const sliceHeight = Math.min(pageHeightPx, canvas.height - yPosPx);
-        const pageCanvas = document.createElement("canvas");
-        pageCanvas.width = canvas.width;
-        pageCanvas.height = sliceHeight;
-        const ctx = pageCanvas.getContext("2d");
-        if (!ctx) break;
-
-        ctx.drawImage(canvas, 0, yPosPx, canvas.width, sliceHeight, 0, 0, canvas.width, sliceHeight);
-        const pageImg = pageCanvas.toDataURL("image/png");
-        const pageImgHeightMm = (sliceHeight * pdfWidth) / canvas.width;
-        pdf.addImage(pageImg, "PNG", 0, 0, pdfWidth, pageImgHeightMm);
-        yPosPx += sliceHeight;
-        if (yPosPx < canvas.height) pdf.addPage();
-      }
-
-      pdf.save("vertexed-notes.pdf");
+      await exportTextPdf({ filename: 'vertexed-notes.pdf', blocks });
     } catch (err) {
       console.error("PDF export failed", err);
       alert("PDF export failed");
@@ -1328,7 +1307,7 @@ export default function NotetakerQuiz(): React.JSX.Element {
                         <DownloadCloud size={16} />
                         <span>Word</span>
                       </button>
-                      <button className="neu-button inline-flex items-center gap-2 px-3 py-2 text-sm" onClick={() => exportToPDF("notes-section-export") }>
+                      <button className="neu-button inline-flex items-center gap-2 px-3 py-2 text-sm" onClick={() => exportToPDF(notes, flashcards)}>
                         <DownloadCloud size={16} />
                         <span>PDF</span>
                       </button>
@@ -1797,7 +1776,7 @@ export default function NotetakerQuiz(): React.JSX.Element {
                     <div className="ml-auto flex flex-wrap items-center gap-2">
                       <button className="neu-button px-3 py-2" onClick={() => { setGeneratedQuestions([]); setQuizSubmitted(false); setQuizResults(null); }}>Reset</button>
                       <button className="neu-button px-3 py-2" onClick={() => exportToWord(JSON.stringify(quizResults ?? [], null, 2), [])}>Export Results</button>
-                      <button className="neu-button px-3 py-2" onClick={() => exportToPDF("notes-section-export")}>Export PDF</button>
+                      <button className="neu-button px-3 py-2" onClick={() => exportToPDF(notes, flashcards)}>Export PDF</button>
                     </div>
                   </div>
                   {quizResults?.some((result) => result.feedback || result.scoreStatus === "PROVISIONAL") && (

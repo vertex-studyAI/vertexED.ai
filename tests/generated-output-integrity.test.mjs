@@ -18,7 +18,8 @@ test('notebook outputs reject non-array data and invalid assessment keys', () =>
  assert.equal(validateNotebookOutput('flashcards', { flashcards: {} }).success, false);
  assert.equal(validateNotebookOutput('suggested-questions', { questions: [] }).success, false);
  assert.equal(validateNotebookOutput('quiz', { questions: [{ question: 'Q', type: 'mcq', options: ['A','B'], answer: 'C' }] }).success, false);
- assert.equal(validateNotebookOutput('flashcards', { flashcards: [{ front: 'Q', back: 'A' }] }).success, true);
+ assert.equal(validateNotebookOutput('flashcards', { flashcards: [{ front: 'Q', back: 'A' }] }).success, false);
+ assert.equal(validateNotebookOutput('flashcards', { flashcards: [{ front: 'Q', back: 'A', sourceIds: ['source-1'] }] }).success, true);
 });
 test('bounded concept maps render relationships as text and reject executable directives', () => {
  const graph = parseConceptMap('```mermaid\nflowchart TD\nA["Cell"]\nB["Nucleus"]\nA -->|contains| B\n```');
