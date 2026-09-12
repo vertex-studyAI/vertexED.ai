@@ -301,7 +301,7 @@ export async function updateStudyArtifact(
 
   try {
     const accessToken = await getAccessToken();
-    if (!isCurrentUserContentScope(scope)) return { ok: false, error: ACCOUNT_CHANGED_ERROR };
+    if (!isCurrentUserContentScope(scope)) return accountChangedSaveResult();
     if (!accessToken) return { ok: false, error: 'Your session is unavailable.' };
     const res = await authFetchWithAccessToken('/api/user-content', accessToken, {
       method: 'PUT',
@@ -309,13 +309,13 @@ export async function updateStudyArtifact(
       body: JSON.stringify({ id, ...patch }),
     });
     const data = await res.json().catch(() => null);
-    if (!isCurrentUserContentScope(scope)) return { ok: false, error: ACCOUNT_CHANGED_ERROR };
+    if (!isCurrentUserContentScope(scope)) return accountChangedSaveResult();
     if (!res.ok) {
       return { ok: false, error: data?.error || 'Update failed' };
     }
     return { ok: true, id: data?.item?.id ?? id };
   } catch (err) {
-    if (!isCurrentUserContentScope(scope)) return { ok: false, error: ACCOUNT_CHANGED_ERROR };
+    if (!isCurrentUserContentScope(scope)) return accountChangedSaveResult();
     return { ok: false, error: err instanceof Error ? err.message : 'Update failed' };
   }
 }
