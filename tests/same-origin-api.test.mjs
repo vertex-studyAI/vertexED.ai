@@ -31,6 +31,14 @@ test('rejects protocol-relative cross-origin URLs', () => {
   );
 });
 
+test('rejects backslash-confused paths that the URL parser treats as cross-origin', () => {
+  assert.equal(
+    resolveSameOriginApiPath('/\\api.example.com/ask', '/api/ask', 'https://www.vertexed.app'),
+    '/api/ask',
+  );
+});
+
 test('fails closed to the fallback when runtime origin is unavailable', () => {
   assert.equal(resolveSameOriginApiPath('https://www.vertexed.app/api/ask', '/api/ask'), '/api/ask');
+  assert.equal(resolveSameOriginApiPath('/api/custom', '/api/ask'), '/api/ask');
 });
