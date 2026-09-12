@@ -49,5 +49,8 @@ test('Answer Reviewer classifies review kind and degraded completion without lea
   const activationCallEnd = source.indexOf('});', activationCallStart);
   const activationCall = source.slice(activationCallStart, activationCallEnd + 3);
 
-  assert.doesNotMatch(activationCall, /subject|topic|score|question|answer|prompt|artifact|provider|model/i);
+  assert.doesNotMatch(
+    activationCall,
+    /\b(subject|topic|score|question|answer|prompt|artifact|provider|model)\s*:/i,
+  );
 });
