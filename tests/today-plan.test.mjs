@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import { parseTodayPlanDone } from '../src/lib/todayPlanCore.mjs';
 
 function buildTodayPlanItems(tasks, recommendations, pulseAction) {
@@ -92,4 +93,12 @@ test('persisted completion lists are bounded before dashboard hydration', () => 
   assert.equal(parsed['2026-09-11'].length, 200);
   assert.equal(parsed['2026-09-11'][0], 'planner:0');
   assert.equal(parsed['2026-09-11'][199], 'planner:199');
+});
+
+test('today-plan completion does not expose an unpersisted optimistic state', () => {
+  const source = readFileSync(new URL('../src/lib/todayPlan.ts', import.meta.url), 'utf8');
+  assert.match(source, /const previous = new Set\(all\[day\] \?\? \[\]\);/);
+  assert.match(source, /const next = new Set\(previous\);/);
+  assert.match(source, /if \(!writeDone\(all\)\) return previous;/);
+  assert.match(source, /return next;/);
 });
