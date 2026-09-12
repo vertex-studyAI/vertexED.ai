@@ -67,6 +67,7 @@ jobs:
 
       - name: Summarize retained diagnostic
         if: always()
+        shell: bash
         run: |
           {
             echo '# VertexED production transport diagnostic'
@@ -77,6 +78,57 @@ jobs:
             echo '- Layers captured: DNS address lookup plus bounded CNAME chain, TCP connect, authenticated TLS handshake, HTTPS `/api/health`.'
             echo '- This workflow observes transport only; it does not deploy, mutate production, or weaken health/revision checks.'
           } >> "$GITHUB_STEP_SUMMARY"
+
+          if [[ -f artifacts/production-transport/transport.json ]]; then
+            node --input-type=module <<'NODE' >> "$GITHUB_STEP_SUMMARY"
+          import { readFile } from 'node:fs/promises';
+
+          const report = JSON.parse(await readFile('artifacts/production-transport/transport.json', 'utf8'));
+          const clean = (value) => String(value ?? '')
+            .replaceAll('\r', ' ')
+            .replaceAll('\n', ' ')
+            .replaceAll('|', '\\|')
+            .slice(0, 240);
+          const networkStatus = (layer) => {
+            if (!layer) return 'not captured';
+            if (layer.ok) return 'ok';
+            return `failed: ${clean(layer.error || 'unknown error')}`;
+          };
+          const httpsStatus = (layer) => {
+            if (!layer) return 'not captured';
+            if (!layer.ok) return `failed: ${clean(layer.error || 'unknown error')}`;
+            return `reachable: HTTP ${clean(layer.status ?? 'unknown')}`;
+          };
+
+          console.log('');
+          console.log('## Captured result');
+          console.log('');
+          console.log(`- Target: ${clean(report.target || 'unknown')}`);
+          console.log(`- DNS: ${networkStatus(report.layers?.dns)}`);
+          console.log(`- Hostname TCP: ${networkStatus(report.layers?.tcp)}`);
+          console.log(`- Hostname TLS: ${networkStatus(report.layers?.tls)}`);
+          console.log(`- Hostname HTTPS: ${httpsStatus(report.layers?.https)}`);
+          console.log('');
+          console.log('| Address | Family | TCP | TLS | HTTPS |');
+          console.log('| --- | --- | --- | --- | --- |');
+
+          const perAddress = report.layers?.perAddress || [];
+          if (perAddress.length === 0) {
+            console.log('| none resolved | — | — | — | — |');
+          } else {
+            for (const entry of perAddress) {
+              console.log(`| ${clean(entry.address)} | ${clean(entry.family)} | ${networkStatus(entry.tcp)} | ${networkStatus(entry.tls)} | ${httpsStatus(entry.https)} |`);
+            }
+          }
+          NODE
+          else
+            {
+              echo
+              echo '## Captured result'
+              echo
+              echo '- Structured transport payload was not produced; inspect the capture step and retained context artifact.'
+            } >> "$GITHUB_STEP_SUMMARY"
+          fi
 
       - name: Upload transport evidence
         if: always()
