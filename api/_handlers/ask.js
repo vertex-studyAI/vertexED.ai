@@ -47,6 +47,7 @@ export default async function handler(req, res) {
 
     const trimmedQuestion = question.trim();
     const route = resolveChatRoute({ mode, providerConfig, env: process.env });
+    const telemetryRoute = `ask/${route.mode}`;
     const chatMessages = buildAskMessages({ question: trimmedQuestion, history, context, sources });
     const PRIMARY_MODEL = route.primaryModel;
     const FALLBACK_MODEL = route.fallbackModel;
@@ -63,6 +64,7 @@ export default async function handler(req, res) {
         });
         await logProviderRun({
           capability: 'chatbot',
+          route: telemetryRoute,
           provider: result.provider,
           model: result.model,
           status: result.response.status,
@@ -72,6 +74,7 @@ export default async function handler(req, res) {
       } catch (error) {
         await logProviderRun({
           capability: 'chatbot',
+          route: telemetryRoute,
           provider: providerConfig.name,
           model,
           durationMs: Date.now() - startedAt,
