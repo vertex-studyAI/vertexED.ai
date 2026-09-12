@@ -61,3 +61,54 @@ test('actual storage hook retains imported cards, responds to other tabs, and re
     delete globalThis.IS_REACT_ACT_ENVIRONMENT;
   }
 });
+
+test('failed writes preserve unsaved in-memory edits until persistence recovers', async () => {
+  const dom = new JSDOM('<div id="root"></div>', { url: 'https://example.test' });
+  const { window } = dom;
+  const { document, StorageEvent } = window;
+  globalThis.window = dom.window;
+  globalThis.document = dom.window.document;
+  globalThis.StorageEvent = dom.window.StorageEvent;
+  globalThis.CustomEvent = dom.window.CustomEvent;
+  globalThis.IS_REACT_ACT_ENVIRONMENT = true;
+  setUserContentStorageScope('first');
+  const key = userContentStorageKeys().srDeck;
+  window.localStorage.setItem(key, JSON.stringify([{ id: 'first' }]));
+  let value, update;
+  function Harness() { [value, update] = useLocalStorage('vertex_sr_deck', []); return React.createElement('span', null, value.length); }
+  const root = createRoot(document.getElementById('root'));
+  const originalSetItem = window.Storage.prototype.setItem;
+  try {
+    await act(async () => root.render(React.createElement(Harness)));
+    window.Storage.prototype.setItem = function (storageKey, storageValue) {
+      if (storageKey === key) throw new Error('simulated quota failure');
+      return originalSetItem.call(this, storageKey, storageValue);
+    };
+
+    await act(async () => update(previous => previous.map(card => ({ ...card, repetitions: 1 }))));
+    assert.deepEqual(value, [{ id: 'first', repetitions: 1 }]);
+
+    await act(async () => update(previous => [...previous, { id: 'second' }]));
+    assert.deepEqual(value, [{ id: 'first', repetitions: 1 }, { id: 'second' }]);
+
+    // Another tab/storage event must not silently replace recoverable unsaved state.
+    originalSetItem.call(window.localStorage, key, JSON.stringify([{ id: 'external' }]));
+    await act(async () => window.dispatchEvent(new StorageEvent('storage', { key })));
+    assert.deepEqual(value, [{ id: 'first', repetitions: 1 }, { id: 'second' }]);
+
+    // Once storage recovers, the next update persists the whole unsaved chain.
+    window.Storage.prototype.setItem = originalSetItem;
+    await act(async () => update(previous => [...previous, { id: 'third' }]));
+    const expected = [{ id: 'first', repetitions: 1 }, { id: 'second' }, { id: 'third' }];
+    assert.deepEqual(value, expected);
+    assert.deepEqual(JSON.parse(window.localStorage.getItem(key)), expected);
+  } finally {
+    window.Storage.prototype.setItem = originalSetItem;
+    await act(async () => root.unmount());
+    dom.window.close();
+    setUserContentStorageScope(null);
+    delete globalThis.window; delete globalThis.document;
+    delete globalThis.StorageEvent; delete globalThis.CustomEvent;
+    delete globalThis.IS_REACT_ACT_ENVIRONMENT;
+  }
+});
