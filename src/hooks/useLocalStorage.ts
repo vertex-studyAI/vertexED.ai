@@ -50,7 +50,6 @@ export function useLocalStorage<T>(key: string, initial: T): [T, (value: T | ((p
   const [stored, setStored] = useState<T>(() => readLocalValue(resolvedKey, initial));
   const storedRef = useRef(stored);
   const dirtyRef = useRef(false);
-  storedRef.current = stored;
   const keyIsHydrated = hydratedKeyRef.current === resolvedKey;
 
   useEffect(() => {
