@@ -10,6 +10,7 @@ import { recordStudySession } from "@/lib/studyStats";
 import { recordLoopStep } from "@/lib/studyLoopTracker";
 import { logStudyActivity } from "@/lib/studyActivity";
 import { consumeMockExamAnswers, consumeMockReviewHandoff } from "@/lib/examFlow";
+import { recordAttributedFirstCoreActionCompleted } from "@/lib/firstCoreActionAnalytics.mjs";
 import { Link, useNavigate, useSearchParams } from "react-router";
 import { useAuth } from "@/contexts/AuthContext";
 import {
@@ -446,19 +447,36 @@ export default function AIAnswerReview() {
         return;
       }
 
-      const out = toApiSafeString(data).trim() || text.trim() || "No response received.";
+      const rawOut = toApiSafeString(data).trim() || text.trim();
+      const out = rawOut || "No response received.";
       const audit = data && typeof data === "object" && data.review && typeof data.review === "object"
         ? data.review as StructuredReview
         : null;
       setStructuredReview(audit);
       setConfirmationMethod("");
       setMasteryConfirmed(false);
-    setConfirmedMarks({});
-    setConfirmationReference("");
+      setConfirmedMarks({});
+      setConfirmationReference("");
       setDegradedReview(Boolean(data && typeof data === "object" && data.degraded));
       setResponse(out);
       setLastSubmittedAt(new Date().toLocaleString());
       setSubmitCount((c) => c + 1);
+
+      if (
+        user?.id &&
+        rawOut &&
+        !(data && typeof data === "object" && data.blocked === true)
+      ) {
+        try {
+          recordAttributedFirstCoreActionCompleted({
+            accountId: user.id,
+            kind: reviewSource === "mock" ? "mock_review" : "answer_review",
+            result: data && typeof data === "object" && data.degraded === true ? "degraded" : "completed",
+          });
+        } catch {
+          // Analytics must never interfere with a completed learner-visible review.
+        }
+      }
 
       try {
         if (typeof out === "string" && out.trim()) {
