@@ -2,6 +2,8 @@ import { authFetch } from '@/lib/apiAuth';
 import type { StudyPageContext } from '@/lib/studyContext';
 import type { GroundedSourcePayload } from '@/lib/notebook';
 
+export type ChatbotMode = 'quick' | 'tutor' | 'deep';
+
 export interface ChatbotMessage {
   role: 'user' | 'assistant';
   text: string;
@@ -12,6 +14,7 @@ export interface ChatbotRequest {
   history?: ChatbotMessage[];
   context?: StudyPageContext;
   sources?: GroundedSourcePayload[];
+  mode?: ChatbotMode;
   signal?: AbortSignal;
 }
 
@@ -69,6 +72,7 @@ export const fetchChatbotAnswer = async (
     history: request.history?.slice(-10),
     context: request.context,
     sources: request.sources?.slice(0, 20),
+    mode: request.mode,
   });
 
 	const endpoints = isStudyGuideChat ? [STUDY_GUIDE_ENDPOINT] : buildEndpoints();
