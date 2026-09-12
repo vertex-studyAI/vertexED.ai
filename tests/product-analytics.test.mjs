@@ -9,8 +9,12 @@ import {
 import {
   FIRST_CORE_ACTION_EVENT,
   buildFirstCoreActionProperties,
+  firstCoreActionEntryKey,
   firstCoreActionReceiptKey,
+  readFirstCoreActionEntry,
+  recordAttributedFirstCoreActionCompleted,
   recordFirstCoreActionCompleted,
+  rememberFirstCoreActionEntry,
 } from "../src/lib/firstCoreActionAnalytics.mjs";
 import {
   normalizeAnalyticsEventName,
@@ -130,12 +134,48 @@ test("first core action accepts only the fixed privacy-safe schema", () => {
   );
 });
 
-test("first core action receipt is account scoped without entering the analytics payload", () => {
+test("first core action keys are account scoped without entering the analytics payload", () => {
   assert.equal(
     firstCoreActionReceiptKey("account-a"),
     "vertex_content:account-a:first_core_action_completed",
   );
+  assert.equal(
+    firstCoreActionEntryKey("account-a"),
+    "vertex_content:account-a:first_core_action_entry",
+  );
   assert.equal(firstCoreActionReceiptKey(""), null);
+  assert.equal(firstCoreActionEntryKey(""), null);
+});
+
+test("first core action keeps the first trustworthy entry attribution", () => {
+  const sessionStorage = memoryStorage();
+  const owner = { sessionStorage };
+
+  assert.equal(
+    rememberFirstCoreActionEntry({
+      accountId: "account-a",
+      entry: "onboarding_handoff",
+      owner,
+    }),
+    true,
+  );
+  assert.equal(
+    rememberFirstCoreActionEntry({
+      accountId: "account-a",
+      entry: "exam_prep",
+      owner,
+    }),
+    true,
+  );
+  assert.equal(readFirstCoreActionEntry({ accountId: "account-a", owner }), "onboarding_handoff");
+  assert.equal(
+    rememberFirstCoreActionEntry({
+      accountId: "account-a",
+      entry: "direct",
+      owner,
+    }),
+    false,
+  );
 });
 
 test("first core action emits at most once per account", () => {
@@ -190,6 +230,53 @@ test("first core action emits at most once per account", () => {
     },
   ]);
   assert.equal("accountId" in calls[0].properties, false);
+});
+
+test("attributed first core action consumes entry only after a completed event is recorded", () => {
+  const localStorage = memoryStorage();
+  const sessionStorage = memoryStorage();
+  const owner = { localStorage, sessionStorage };
+  const calls = [];
+
+  rememberFirstCoreActionEntry({
+    accountId: "account-a",
+    entry: "onboarding_handoff",
+    owner,
+  });
+
+  assert.equal(
+    recordAttributedFirstCoreActionCompleted({
+      accountId: "account-a",
+      kind: "deterministic_quiz",
+      result: "completed",
+      owner,
+      track: (name, properties) => calls.push({ name, properties }),
+    }),
+    true,
+  );
+  assert.equal(readFirstCoreActionEntry({ accountId: "account-a", owner }), null);
+  assert.deepEqual(calls, [
+    {
+      name: FIRST_CORE_ACTION_EVENT,
+      properties: {
+        kind: "deterministic_quiz",
+        entry: "onboarding_handoff",
+        result: "completed",
+      },
+    },
+  ]);
+
+  assert.equal(
+    recordAttributedFirstCoreActionCompleted({
+      accountId: "account-a",
+      kind: "practice_session",
+      result: "completed",
+      owner,
+      track: (name, properties) => calls.push({ name, properties }),
+    }),
+    false,
+  );
+  assert.equal(calls.length, 1);
 });
 
 test("first core action fails closed when a durable dedupe receipt cannot be written", () => {
