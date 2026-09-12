@@ -3,7 +3,9 @@ import { getUserContentStorageScope, userContentStorageKeys } from '@/lib/userCo
 import {
   parseStoredArray,
   resolveLocalStorage,
+  resolveSessionStorage,
   safeStorageGet,
+  safeStorageRemove,
   safeStorageSet,
 } from '@/lib/browserStorage.mjs';
 import {
@@ -199,19 +201,27 @@ export function artifactTargetRoute(kind: StudyArtifactKind): string {
 }
 
 export function queueArtifactRestore(item: StudyArtifact): void {
-  if (typeof sessionStorage === 'undefined') return;
+  if (typeof window === 'undefined') {
+    throw new Error('Temporary browser storage is unavailable.');
+  }
   const { restore } = userContentStorageKeys();
-  sessionStorage.setItem(restore, JSON.stringify(item));
+  const storage = resolveSessionStorage(window);
+  if (!safeStorageSet(storage, restore, JSON.stringify(item))) {
+    throw new Error('Temporary browser storage is unavailable.');
+  }
 }
 
 export function consumeArtifactRestore(): StudyArtifact | null {
-  if (typeof sessionStorage === 'undefined') return null;
+  if (typeof window === 'undefined') return null;
   const { restore } = userContentStorageKeys();
-  const raw = sessionStorage.getItem(restore);
+  const storage = resolveSessionStorage(window);
+  const raw = safeStorageGet(storage, restore);
   if (!raw) return null;
-  sessionStorage.removeItem(restore);
+  // A restore handoff is one-time. If cleanup fails, fail closed rather than
+  // reusing a stale payload on a later route mount.
+  if (!safeStorageRemove(storage, restore)) return null;
   try {
-    return JSON.parse(raw) as StudyArtifact;
+    return normalizeStoredArtifact(JSON.parse(raw));
   } catch {
     return null;
   }
