@@ -13,19 +13,10 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  changed-app-test:
-    name: changed-app-test (${{ matrix.file }})
+  sequential-app-tests:
+    name: sequential app tests
     runs-on: ubuntu-latest
-    timeout-minutes: 10
-    strategy:
-      fail-fast: false
-      matrix:
-        file:
-          - ai-model-policy.test.mjs
-          - apex-cancel-contract.test.mjs
-          - provider-telemetry.test.mjs
-          - review-vision.test.mjs
-          - same-origin-api.test.mjs
+    timeout-minutes: 30
     steps:
       - name: Checkout exact diagnostic head
         uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
@@ -38,5 +29,23 @@ jobs:
           cache: npm
       - name: Install dependencies
         run: npm ci
-      - name: Run changed test in isolation
-        run: node --test "tests/${{ matrix.file }}"
+      - name: Run every app test file sequentially
+        shell: bash
+        run: |
+          set -euo pipefail
+          mapfile -t files < <(find tests -type f -name '*.test.mjs' | sort)
+          for file in "${files[@]}"; do
+            case "$file" in
+              tests/apex-companion-legacy.test.mjs|tests/study-groups-authz-api.test.mjs|tests/study-groups-enterprise-contract.test.mjs|tests/study-groups-relationship-state.test.mjs)
+                echo "Skipping quarantined $file"
+                continue
+                ;;
+            esac
+            echo "::group::$file"
+            if ! node --test "$file"; then
+              echo "::error title=Sequential app test failure::$file failed independently"
+              echo "FAILED_TEST=$file"
+              exit 1
+            fi
+            echo "::endgroup::"
+          done
