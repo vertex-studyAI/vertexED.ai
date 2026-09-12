@@ -1,6 +1,6 @@
 import { authFetchWithAccessToken, getAccessToken } from '@/lib/apiAuth';
 import { getUserContentStorageScope } from '@/lib/userContentStorageScope.mjs';
-import { readSnapshotArray, backupSnapshotBytes, readSnapshotMetadata, writeSnapshotMetadata, reconcileSnapshot, serializeSnapshotWrite, captureSnapshotRevision, expectedSnapshotRevision } from '@/lib/snapshotConcurrency.mjs';
+import { readSnapshotArray, backupSnapshotBytes, readSnapshotMetadata, writeSnapshotMetadata, writeSnapshotValues, reconcileSnapshot, serializeSnapshotWrite, captureSnapshotRevision, expectedSnapshotRevision } from '@/lib/snapshotConcurrency.mjs';
 import { setNotebookStorageScope, type StudyNotebook } from '@/lib/notebook';
 import { notebookStorageKeys } from '@/lib/notebookStorageScope.mjs';
 import { validateNotebookSnapshot } from '@/lib/snapshotValidation.mjs';
@@ -58,8 +58,10 @@ export function writeLocalNotebookSnapshot(
   snapshot = validateNotebookSnapshot(snapshot);
   setNotebookStorageScope(storageScope);
   const keys = notebookStorageKeys(storageScope);
-  localStorage.setItem(keys.notebooks, JSON.stringify(snapshot.notebooks));
-  localStorage.setItem(keys.updatedAt, snapshot.updatedAt);
+  writeSnapshotValues(localStorage, [
+    [keys.notebooks, JSON.stringify(snapshot.notebooks)],
+    [keys.updatedAt, snapshot.updatedAt],
+  ]);
 }
 
 function parseCloudSnapshot(item: {
