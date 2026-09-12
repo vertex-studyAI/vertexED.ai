@@ -18,6 +18,32 @@ export function backupSnapshotBytes(storage, keys, backupKey) {
   storage.setItem(backupKey, JSON.stringify({ format: 'vertexed.raw-snapshot.v1', raw }));
 }
 
+export function writeSnapshotValues(storage, entries) {
+  const previous = entries.map(([key]) => [key, storage.getItem(key)]);
+  let written = 0;
+  try {
+    for (const [key, value] of entries) {
+      storage.setItem(key, value);
+      written += 1;
+    }
+  } catch (error) {
+    let rollbackFailed = false;
+    for (let index = written - 1; index >= 0; index -= 1) {
+      const [key, previousValue] = previous[index];
+      try {
+        if (previousValue === null) storage.removeItem(key);
+        else storage.setItem(key, previousValue);
+      } catch {
+        rollbackFailed = true;
+      }
+    }
+    if (rollbackFailed) {
+      throw new Error('Device storage write failed and the previous snapshot could not be fully restored. Export your account data before continuing.');
+    }
+    throw error;
+  }
+}
+
 export function captureSnapshotRevision(key, revision) {
   revisions.set(key, revision);
 }
