@@ -70,3 +70,15 @@ test('workflow runs only after failed main release checks or explicit manual dis
   assert.doesNotMatch(workflowSource, /pull_request:/);
   assert.doesNotMatch(workflowSource, /push:/);
 });
+
+test('workflow summary exposes bounded hostname and per-address results without secret context', () => {
+  assert.match(workflowSource, /artifacts\/production-transport\/transport\.json/);
+  assert.match(workflowSource, /report\.layers\?\.perAddress \|\| \[\]/);
+  assert.match(workflowSource, /\| Address \| Family \| TCP \| TLS \| HTTPS \|/);
+  assert.match(workflowSource, /Hostname TCP/);
+  assert.match(workflowSource, /Hostname TLS/);
+  assert.match(workflowSource, /Hostname HTTPS/);
+  assert.match(workflowSource, /\.slice\(0, 240\)/);
+  assert.match(workflowSource, /Structured transport payload was not produced/);
+  assert.doesNotMatch(workflowSource, /secrets\./);
+});
