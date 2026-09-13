@@ -6,6 +6,7 @@ import LandingInk from '@/components/LandingInk';
 import RevisionStack from '@/components/RevisionStack';
 import ConceptLens from '@/components/ConceptLens';
 import RevisionHero from '@/components/landing/RevisionHero';
+import StudyGallery from '@/components/landing/StudyGallery';
 import { useAuth } from '@/contexts/AuthContext';
 import { useLandingMotion } from '@/hooks/useLandingMotion';
 import { MYP5_SUBJECTS, topicSlug } from '@/content/myp5';
@@ -66,15 +67,16 @@ export default function Home() {
       <div className="vh-page-trace" aria-hidden="true"><i /></div>
       <div className="vh-utility"><span><i aria-hidden /> VERTEXED / PRIVATE BETA STUDY SYSTEM</span><span className="vh-utility-note">Motion follows your device settings</span></div>
       <nav className="vh-scroll-island" aria-label="Landing page sections">
-        <a href="#curriculum">Curriculum</a><a href="#learning">Method</a><a href="#subjects">Subjects</a><a href="#study-ai">AI</a><a href="#beta">Beta</a>
+        <a href="#concept-lens">Lens</a><a href="#curriculum">Courses</a><a href="#learning">Method</a><a href="#study-examples">Try it</a><a href="#beta">Beta</a>
       </nav>
       <section className="vh-hero landing-hero" aria-labelledby="home-title">
         <div className="vh-hero-copy"><p className="vh-kicker">Curriculum. Practice. Revision.</p><h1 id="home-title"><span>You have read it.</span><em>Now try it.</em></h1><p>Put your notes to the test. Practise a question, check your reasoning and come back to what you missed.</p><div className="vh-actions"><Link to="/signup" className="vh-primary">Join the private beta <ArrowUpRight aria-hidden /></Link><a href="#curriculum" className="vh-secondary">Explore subjects <ArrowDown aria-hidden /></a></div><nav className="vh-quick" aria-label="Programme shortcuts"><Link to="/myp" data-preview="Seventeen MYP subject paths with topic-led practice.">See MYP 5 <ArrowRight aria-hidden /></Link><Link to="/curricula/ib-dp/paper-maker" data-preview="Build original practice around a subject and command term.">Explore IB Diploma <ArrowRight aria-hidden /></Link></nav></div>
         <RevisionHero /><div className="vh-scroll-cue"><span>IB MYP · IB Diploma · A levels · IGCSE · GCSE</span><ArrowDown aria-hidden /></div>
       </section>
 
-      <section className="vh-statement" data-reveal><p>01 / The system</p><h2>A syllabus is a map.<br /><em className="vh-media-text">Learning is the route through it.</em></h2><p>VertexED connects the course structure to the work students actually do: understand, attempt, inspect, retry.</p></section>
       <ConceptLens />
+      <StudyGallery />
+      <section className="vh-statement" data-reveal><p>01 / Beyond the paper</p><h2>Learn for the exam.<br /><em className="vh-media-text">Keep it for life.</em></h2><p>Connect curriculum practice to lasting understanding. Explain the method, test it without help and recognise where the same idea appears outside the classroom.</p></section>
 
       <section className="vh-curriculum" id="curriculum" aria-labelledby="curriculum-title" data-reveal>
         <header><div><p className="vh-kicker">02 / Interactive curriculum explorer</p><h2 id="curriculum-title">Go from programme<br />to the exact resource.</h2></div><div className="vh-programme-switch" role="group" aria-label="Programme"><button type="button" aria-pressed={programme === 'MYP'} onClick={() => { setProgramme('MYP'); setSubjectIndex(0); }}>MYP</button><button type="button" aria-pressed={programme === 'DP'} onClick={() => { setProgramme('DP'); setSubjectIndex(0); }}>DP</button></div></header>

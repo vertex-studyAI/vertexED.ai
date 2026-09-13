@@ -1,13 +1,22 @@
-.vertex-navigation { background:hsl(var(--background)/.86); backdrop-filter:blur(22px) saturate(135%); border-bottom:1px solid hsl(var(--primary)/.16); box-shadow:0 8px 30px -24px hsl(var(--primary)/.5); }
-.vertex-navigation>div:first-child { height:76px; }
-.vertex-navigation nav[aria-label="Main navigation"] { padding:5px; border:1px solid hsl(var(--border)/.75); border-radius:16px; background:hsl(var(--background)/.6); box-shadow:inset 0 1px hsl(var(--foreground)/.04); }
-.vertex-navigation .nav-link-pill { position:relative; isolation:isolate; border-radius:10px; padding:11px 15px; transition:color .18s,background .18s,box-shadow .18s; }
+.vertex-navigation { width:calc(100% - 32px); max-width:1320px; margin:12px auto 0; top:12px; border:1px solid hsl(var(--primary)/.18); border-radius:20px; background:hsl(var(--background)/.94); backdrop-filter:blur(24px) saturate(125%); box-shadow:0 12px 36px -28px hsl(var(--primary)/.55),inset 0 1px hsl(var(--foreground)/.04); }
+.vertex-navigation>div:first-child { height:68px; padding-inline:20px; gap:32px; }
+.site-shell>.vertex-navigation { width:calc(100% - 32px); background:#fffffff0; }
+.dark .site-shell>.vertex-navigation { background:#07142ef0; border-color:#29426f; }
+.vertex-navigation>div:first-child>a>span { font-size:18px; letter-spacing:-.045em; }
+.vertex-navigation nav[aria-label="Main navigation"] { flex:1; gap:4px; justify-content:flex-end; padding:0; border:0; border-radius:0; background:none; box-shadow:none; }
+.vertex-navigation .nav-link-pill { position:relative; isolation:isolate; border:0; border-radius:8px; padding:12px; font-size:14px; background:transparent; box-shadow:none; transition:color .18s,background .18s; }
 .vertex-navigation .nav-link-pill::after { content:''; position:absolute; left:16px; right:16px; bottom:5px; height:2px; border-radius:2px; background:hsl(var(--primary)); transform:scaleX(0); transform-origin:left; transition:transform .24s ease; }
 .vertex-navigation .nav-link-pill:is(:hover,:focus-visible,.is-active)::after { transform:scaleX(1); }
-.vertex-navigation .nav-link-pill.is-active { background:hsl(var(--primary)/.1); border-color:transparent; color:hsl(var(--primary)); box-shadow:inset 0 1px hsl(var(--primary)/.14); }
+.vertex-navigation .nav-link-pill.is-active { background:hsl(var(--primary)/.055); color:hsl(var(--primary)); box-shadow:none; }
+.vertex-navigation[data-authenticated=false] nav[aria-label="Main navigation"]>a[href="/login"] { margin-left:24px; border-left:1px solid hsl(var(--border)); border-radius:0; padding-left:24px; }
 .vertex-navigation .brand-cta { position:relative; overflow:hidden; border-radius:10px; min-height:44px; display:inline-flex; align-items:center; }
 .vertex-navigation .brand-cta::after { content:''; position:absolute; inset:0; background:linear-gradient(115deg,transparent 20%,#fff5 50%,transparent 80%); transform:translateX(-120%); }
 .vertex-navigation .brand-cta:hover::after { transform:translateX(120%); transition:transform .65s ease; }
-@media(max-width:1279px) { .vertex-navigation>div:first-child { height:68px; }.vertex-navigation #mobile-nav { background:hsl(var(--background)); border-top:1px solid hsl(var(--border)); }.vertex-navigation #mobile-nav a { min-height:46px; } }
+.vertex-navigation #mobile-nav { padding:16px; gap:6px; max-height:calc(100dvh - 110px); overflow-y:auto; border-radius:0 0 20px 20px; background:hsl(var(--background)); }
+.vertex-navigation #mobile-nav a { min-height:46px; font-size:16px; border-radius:8px; }
+@media(min-width:1000px) { .vertex-navigation[data-authenticated=false] nav[aria-label="Main navigation"] { display:flex; }.vertex-navigation[data-authenticated=false]>div:first-child>div:last-child { display:none; } }
+@media(max-width:999px) { .vertex-navigation { width:calc(100% - 24px); top:8px; margin-top:8px; border-radius:16px; }.vertex-navigation>div:first-child { padding-inline:12px; gap:12px; height:60px; }.vertex-navigation>div:first-child>a>span { font-size:16px; } }
+.dark .vertex-navigation #mobile-nav { background:#07142e; }
 @media(prefers-reduced-motion:reduce) { .vertex-navigation *,.vertex-navigation *::after { transition:none!important; animation:none!important; } }
 @media(prefers-reduced-transparency:reduce),(forced-colors:active) { .vertex-navigation,.vertex-navigation nav[aria-label="Main navigation"] { background:hsl(var(--background)); backdrop-filter:none; } }
+@media(prefers-reduced-transparency:reduce),(forced-colors:active) { .site-shell>.vertex-navigation { background:#fff; backdrop-filter:none; }.dark .site-shell>.vertex-navigation { background:#07142e; } }

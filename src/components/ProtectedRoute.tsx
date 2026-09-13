@@ -36,7 +36,7 @@ function WaitlistUnavailable({ onRetry }: { onRetry: () => void }) {
       <section className="glass-panel w-full p-8 text-center" role="alert">
         <p className="text-sm font-semibold text-amber-500">Connection problem</p>
         <h1 className="mt-2 text-2xl font-semibold text-foreground">We could not verify your access</h1>
-        <p className="mt-3 text-sm leading-relaxed text-muted-foreground">Your access status was not changed. Check your connection and try again.</p>
+        <p className="mt-3 text-sm leading-relaxed text-muted-foreground">You are signed in, but the access service could not confirm your beta approval. Your access status was not changed. Try again or contact support if this continues.</p>
         <button type="button" className="neu-button mt-5 px-4 py-2" onClick={onRetry}>Try again</button>
       </section>
     </div>
@@ -65,7 +65,9 @@ export default function ProtectedRoute({ children }: { children: React.JSX.Eleme
       return;
     }
     let active = true;
-    void authFetch("/api/waitlist-status")
+    const controller = new AbortController();
+    const timeout = window.setTimeout(() => controller.abort(), 12000);
+    void authFetch("/api/waitlist-status", { signal: controller.signal })
       .then(async (response) => {
         const data = await response.json();
         if (!response.ok) throw new Error(data.error);
@@ -79,8 +81,9 @@ export default function ProtectedRoute({ children }: { children: React.JSX.Eleme
           setAccess("unavailable");
           setAccessUserId(user.id);
         }
-      });
-    return () => { active = false; };
+      })
+      .finally(() => window.clearTimeout(timeout));
+    return () => { active = false; controller.abort(); window.clearTimeout(timeout); };
   }, [user, retryAttempt]);
 
   const accessDecisionIsCurrent = Boolean(user && accessUserId === user.id);

@@ -13,15 +13,14 @@ for (const width of [1440, 1024, 390]) {
     await page.evaluate(() => document.documentElement.classList.add('dark'));
     await page.screenshot({ path: `/tmp/vertexed-profile-dark-${width}.png`, fullPage: true });
     await page.goto('/');
-    const lens = page.getByRole('button', { name: 'Inspect the slope' });
+    const lens = page.getByRole('button', { name: 'Show the whole curve' });
     await lens.focus();
-    await page.keyboard.press('Enter');
     await expect(page.getByRole('button', { name: 'Show the whole curve' })).toHaveAttribute('aria-pressed', 'true');
     await page.locator('.vh-concept-lens').scrollIntoViewIfNeeded();
     await page.screenshot({ path: `/tmp/vertexed-lens-${width}.png` });
     await page.emulateMedia({ reducedMotion: 'reduce' });
     await page.getByRole('button', { name: 'Show the whole curve' }).click();
-    await expect(lens).toHaveAttribute('aria-pressed', 'false');
+    await expect(page.getByRole('button', { name: 'Inspect the slope' })).toHaveAttribute('aria-pressed', 'false');
   });
 }
 

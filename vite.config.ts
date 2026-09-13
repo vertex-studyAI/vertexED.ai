@@ -1,6 +1,19 @@
-import { defineConfig, loadEnv } from "vite";
+import { defineConfig, loadEnv, type ViteDevServer, type PreviewServer } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
+
+function attachLocalApi(server: ViteDevServer | PreviewServer) {
+  server.middlewares.use('/api', (req, res, next) => {
+    void import('./api/_lib/nodeAdapter.js').then(({ nodeApiMiddleware }) => {
+      return nodeApiMiddleware(req, res);
+    }).catch(() => {
+      if (res.headersSent) return next();
+      res.statusCode = 500;
+      res.setHeader('Content-Type', 'application/json');
+      res.end(JSON.stringify({ error: 'API could not be loaded locally.' }));
+    });
+  });
+}
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
@@ -15,22 +28,13 @@ export default defineConfig(({ mode }) => {
       // API handler own preflight; other dev assets remain same-origin only.
       cors: false,
     },
+    preview: { cors: false },
     plugins: [
       react(),
       {
         name: 'api-middleware',
-        configureServer(server) {
-          server.middlewares.use('/api', (req, res, next) => {
-            void import('./api/_lib/nodeAdapter.js').then(({ nodeApiMiddleware }) => {
-              return nodeApiMiddleware(req, res);
-            }).catch(() => {
-              if (res.headersSent) return next();
-              res.statusCode = 500;
-              res.setHeader('Content-Type', 'application/json');
-              res.end(JSON.stringify({ error: 'API could not be loaded locally.' }));
-            });
-          });
-        }
+        configureServer: attachLocalApi,
+        configurePreviewServer: attachLocalApi,
       }
     ],
     resolve: {

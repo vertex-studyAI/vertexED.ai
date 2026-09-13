@@ -88,3 +88,13 @@ The landing hero uses one large illustrative revision card, with a random initia
 Apex now opens a prompt-first sheet. Character appearance and finite reactions remain under a disclosure so they do not compete with the study action. Study requests render bounded concept/example/practice/application/recap cards through the existing Markdown renderer. These are temporary drafts, with learner-controlled hints, answers, layout and Markdown downloads. No model-authored executable UI or silent saved action is permitted. Google sign-in requires a separate explicit button and retains existing beta access checks.
 
 The main navigation uses translucent blue chrome, a stable active-link surface and a finite underline/shimmer. Features shares the restrained pointer ink and a finite coloured heading wipe, plus a usable cubic-factorisation lesson. Keep learning-card body text at 16px and retain the close control while scrolling a long Apex sheet.
+
+The user-requested coloured blocks use a small cyan, amber and periwinkle palette inside the game only. Cobalt remains the brand action colour. The concept lens combines magnification, a cooling-rate question, explanatory feedback and an everyday application. This original example is temporary, not measured progress or an official question.
+
+## Visible interactions and navigation refinement
+
+The current navbar is one floating, blue-glass surface with side margins, not a nested pill container. Public desktop navigation is available at 1000px; longer authenticated navigation retains the larger breakpoint. Mobile navigation supports Escape, focus cycling and closes on resize. Preserve the original logo and existing route labels.
+
+The lens starts magnified immediately after the revision hero and has explicit navigation links. The original study-example carousel opens algebra, osmosis and source-analysis questions in accessible dialogs with temporary working, hints, explanations and transfer prompts. Close clears the draft. No generated result or account data is implied.
+
+The gallery heading owns the bounded image and line trails and a small neural-style software field. Existing Apex imagery also supplies the image-clipped statement heading. These effects never cover form input. The complete local adaptation map is `docs/INC_UI_AUDIT.md`; do not describe this as installing the Inspira Vue components.

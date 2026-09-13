@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ArrowDown, ArrowLeft, ArrowRight, RotateCw } from 'lucide-react';
 
 const WIDTH = 10;
@@ -16,10 +16,10 @@ const SHAPES = [
 type Cell = readonly [number, number];
 type Piece = { cells: ReadonlyArray<Cell>; x: number; y: number; kind: number };
 
-const emptyBoard = () => Array.from({ length: HEIGHT }, () => Array(WIDTH).fill(false) as boolean[]);
+const emptyBoard = () => Array.from({ length: HEIGHT }, () => Array(WIDTH).fill(0) as number[]);
 const nextPiece = (kind: number): Piece => ({ cells: SHAPES[kind % SHAPES.length], x: 3, y: 0, kind });
 
-function collides(board: boolean[][], piece: Piece) {
+function collides(board: number[][], piece: Piece) {
   return piece.cells.some(([cx, cy]) => {
     const x = piece.x + cx;
     const y = piece.y + cy;
@@ -35,10 +35,14 @@ function rotated(piece: Piece): Piece {
 }
 
 export default function RevisionStack() {
+  const section = useRef<HTMLElement>(null);
+  const [inView, setInView] = useState(false);
+  const [pageVisible, setPageVisible] = useState(true);
   const [board, setBoard] = useState(emptyBoard);
   const [piece, setPiece] = useState(() => nextPiece(0));
   const [score, setScore] = useState(0);
-  const [running, setRunning] = useState(false);
+  const [running, setRunning] = useState(true);
+  const [demo, setDemo] = useState(true);
   const [gameOver, setGameOver] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
 
@@ -63,11 +67,11 @@ export default function RevisionStack() {
     current.cells.forEach(([cx, cy]) => {
       const x = current.x + cx;
       const y = current.y + cy;
-      if (y >= 0 && y < HEIGHT && x >= 0 && x < WIDTH) merged[y][x] = true;
+      if (y >= 0 && y < HEIGHT && x >= 0 && x < WIDTH) merged[y][x] = current.kind % SHAPES.length + 1;
     });
     const openRows = merged.filter(row => !row.every(Boolean));
     const cleared = HEIGHT - openRows.length;
-    while (openRows.length < HEIGHT) openRows.unshift(Array(WIDTH).fill(false));
+    while (openRows.length < HEIGHT) openRows.unshift(Array(WIDTH).fill(0));
     setBoard(openRows);
     if (cleared) setScore(value => value + cleared * 100);
     setPiece(previous => nextPiece(previous.kind + 1));
@@ -94,19 +98,30 @@ export default function RevisionStack() {
   }, [board, piece, settle, gameOver]);
 
   useEffect(() => {
-    if (!running || reducedMotion) return;
-    const timer = window.setInterval(() => move(0, 1), 720);
+    if (!running || reducedMotion || !inView || !pageVisible) return;
+    const timer = window.setInterval(() => {
+      // A quiet demo spreads pieces across the board. Input takes over instantly.
+      const target = (piece.kind * 3) % 7;
+      if (demo && piece.x !== target && !collides(board, { ...piece, x: piece.x + Math.sign(target - piece.x) })) move(Math.sign(target - piece.x), 0);
+      else move(0, 1);
+    }, demo ? 280 : 720);
     return () => window.clearInterval(timer);
-  }, [move, reducedMotion, running]);
+  }, [move, reducedMotion, running, inView, pageVisible, demo, piece, board]);
 
   useEffect(() => {
-    if (collides(board, piece)) { setGameOver(true); setRunning(false); }
-  }, [board, piece]);
+    if (collides(board, piece)) {
+      if (demo) { setBoard(emptyBoard()); setPiece(nextPiece(piece.kind + 1)); setScore(0); }
+      else { setGameOver(true); setRunning(false); }
+    }
+  }, [board, piece, demo]);
 
   useEffect(() => {
-    const pause = () => { if (document.hidden) setRunning(false); };
+    const pause = () => setPageVisible(!document.hidden);
+    pause();
+    const observer = new IntersectionObserver(([entry]) => setInView(entry.isIntersecting), { threshold: 0.15 });
+    if (section.current) observer.observe(section.current);
     document.addEventListener('visibilitychange', pause);
-    return () => document.removeEventListener('visibilitychange', pause);
+    return () => { observer.disconnect(); document.removeEventListener('visibilitychange', pause); };
   }, []);
 
   const visible = useMemo(() => {
@@ -114,7 +129,7 @@ export default function RevisionStack() {
     piece.cells.forEach(([cx, cy]) => {
       const x = piece.x + cx;
       const y = piece.y + cy;
-      if (y >= 0 && y < HEIGHT && x >= 0 && x < WIDTH) cells[y][x] = true;
+      if (y >= 0 && y < HEIGHT && x >= 0 && x < WIDTH) cells[y][x] = piece.kind % SHAPES.length + 1;
     });
     return cells;
   }, [board, piece]);
@@ -128,28 +143,29 @@ export default function RevisionStack() {
     const action = actions[event.key];
     if (!action) return;
     event.preventDefault();
+    setDemo(false);
     setRunning(true);
     action();
   };
 
   return (
-    <section className="vh-stack" aria-labelledby="revision-stack-title" data-reveal>
+    <section ref={section} className="vh-stack" aria-labelledby="revision-stack-title" data-reveal>
       <div className="vh-stack-copy">
         <p className="vh-kicker"><span className="vh-encrypted" aria-label="Revision signal" /> / 08 / Revision stack</p>
         <h2 id="revision-stack-title">Build the idea.<br /><em>Clear the gap.</em></h2>
-        <p>Learning is more than the next paper. Make room to explore, connect ideas and try again. The blocks beside these notes are yours to play with whenever you want a short break.</p>
-        <div className="vh-stack-status" aria-live="polite"><span>{gameOver ? 'Stack complete. Reset to play again.' : 'Break score'}</span><strong>{score}</strong></div>
+        <p>Practise for the paper. Keep the understanding for what comes after. Connect ideas, test an explanation and return to the gaps. When you need a moment, take over the blocks.</p>
+        <div className="vh-stack-status"><span>{demo ? 'Automatic demo' : gameOver ? 'Stack complete. Reset to play again.' : 'Break score'}</span><strong>{demo ? '▶' : score}</strong></div>
         <div className="vh-stack-actions">
           <button type="button" disabled={gameOver} onClick={() => setRunning(value => !value)}>{running ? 'Pause blocks' : 'Play blocks'}</button>
-          <button type="button" onClick={reset}>Reset</button>
+          <button type="button" onClick={() => { reset(); setDemo(false); setRunning(true); }}>{demo ? 'Take over' : 'Reset'}</button>
         </div>
         {reducedMotion && <p className="vh-stack-note">Automatic movement is paused by your reduced-motion setting. Manual controls remain available.</p>}
       </div>
       <div className="vh-stack-game" tabIndex={0} onKeyDown={onKeyDown} aria-label="Revision Stack game. Use arrow keys to move, up arrow to rotate and Space to place a block.">
         <div className="vh-stack-board" aria-hidden="true">
-          {visible.flatMap((row, y) => row.map((filled, x) => <i className={filled ? 'is-filled' : ''} key={`${x}-${y}`} />))}
+          {visible.flatMap((row, y) => row.map((filled, x) => <i className={filled ? 'is-filled' : ''} data-piece={filled || undefined} key={`${x}-${y}`} />))}
         </div>
-        <div className="vh-stack-controls" aria-label="Revision Stack controls">
+        <div className="vh-stack-controls" aria-label="Revision Stack controls" onClick={() => { setDemo(false); setRunning(true); }}>
           <button type="button" aria-label="Move left" onClick={() => move(-1, 0)}><ArrowLeft aria-hidden /></button>
           <button type="button" aria-label="Rotate" onClick={turn}><RotateCw aria-hidden /></button>
           <button type="button" aria-label="Move right" onClick={() => move(1, 0)}><ArrowRight aria-hidden /></button>

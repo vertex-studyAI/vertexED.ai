@@ -30,6 +30,7 @@ export default function SiteLayout() {
   const [tutorOpen, setTutorOpen] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement | null>(null);
   const mobileNavRef = useRef<HTMLElement | null>(null);
+  const headerRef = useRef<HTMLElement | null>(null);
   const isActive = (to: string) =>
     location.pathname === to || (to !== "/" && location.pathname.startsWith(`${to}/`));
   const isStudyGuideRoute = location.pathname.startsWith("/study-guides");
@@ -83,9 +84,23 @@ export default function SiteLayout() {
   }, [menuOpen]);
 
   useEffect(() => {
+    const close = () => setMenuOpen(false);
+    window.addEventListener('resize', close);
+    return () => window.removeEventListener('resize', close);
+  }, []);
+
+  useEffect(() => {
     if (!menuOpen) return;
 
     const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Tab') {
+        const controls = [...(headerRef.current?.querySelectorAll<HTMLElement>('a[href], button:not([disabled])') ?? [])].filter(element => element.getClientRects().length && !element.closest('[inert]'));
+        const first = controls[0];
+        const last = controls[controls.length - 1];
+        if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus(); }
+        else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }
+        return;
+      }
       if (event.key !== "Escape") return;
       event.preventDefault();
       setMenuOpen(false);
@@ -108,6 +123,7 @@ export default function SiteLayout() {
     : [
         { to: "/", label: "Home" },
         { to: "/features", label: "Features" },
+        { to: "/#concept-lens", label: "Try the lens" },
         { to: "/about", label: "About" },
         { to: "/login", label: "Login" },
       ];
@@ -136,7 +152,7 @@ export default function SiteLayout() {
 
       <BreadcrumbsJsonLd />
 
-      <header className="vertex-navigation w-full z-50 sticky top-0 glass-nav">
+      <header ref={headerRef} data-authenticated={isAuthenticated} className="vertex-navigation w-full z-50 sticky top-0 glass-nav">
         <div className="mx-auto w-full max-w-[1400px] px-4 md:px-6 h-16 flex items-center justify-between gap-4">
           <Link to={isAuthenticated ? "/main" : "/"} className="flex items-center gap-2.5 shrink-0 group">
             <img

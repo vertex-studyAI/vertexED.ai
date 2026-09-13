@@ -53,3 +53,7 @@ The floating section island uses native anchors. Scrolling is never intercepted,
 The page trace follows native document position and the section island marks the chapter crossing the reading band. Neither moves focus, triggers navigation, or changes application state. The active chapter is also exposed through `aria-current`. Under reduced motion, values update without animated transitions.
 
 The concept lens follows the pointer only after explicit activation, within the diagram. It has no inertia, idle loop or animation. Keyboard and touch can toggle a fixed magnified view. The exercise answer and application fields remain static.
+
+September 13 follow-up: the explicit automatic-block request permits a contained demo while the section is visible. Pause on hidden tabs, offscreen sections and reduced motion. Manual takeover ends the demo and keeps keyboard and touch controls. The lens now also has a native range for keyboard exploration. No animation is added to study answers.
+
+Gallery follow-up: pointer movement over its heading may draw a neural-style 112×64 field at no more than roughly 14 frames per second, expiring after 1.8 seconds without input. Up to four image-trail frames and a recent-pointer line expire after 800ms. Pointer leave, hidden tabs, blur and accessibility preference changes clear the effects. The native cursor stays visible. Card hover uses nearest-edge entry, while keyboard focus removes tilt. Carousel scrolling is native and immediate under reduced motion.

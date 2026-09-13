@@ -28,8 +28,8 @@ export default function Login() {
       setError("Enter a valid email address.");
       return;
     }
-    if (password.length < 8) {
-      setError("Password must be at least 8 characters.");
+    if (!password) {
+      setError("Enter your password.");
       return;
     }
 
@@ -90,10 +90,10 @@ export default function Login() {
           onSubmit={handleSubmit}
         >
           <h1 className="text-3xl font-semibold mb-2 text-center text-foreground">
-            Log in
+            Pick up where you left off.
           </h1>
           <p className="text-center mb-6 text-sm text-muted-foreground leading-relaxed">
-            Return to your planner, practice attempts, and review queue.
+            Sign in to revisit your notes, work through a question and return to what needs practice.
           </p>
 
           <div className="space-y-4">
