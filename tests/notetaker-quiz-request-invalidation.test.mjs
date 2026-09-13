@@ -9,7 +9,7 @@ test('notetaker async work is account/config/unmount owned', () => {
   assert.match(source, /const quizRequestIdRef = useRef\(0\);/);
   assert.match(source, /const gradeRequestIdRef = useRef\(0\);/);
   assert.match(source, /const currentAsyncAccountIdRef = useRef<string \| null>\(user\?\.id \?\? null\);/);
-  assert.match(source, /useLayoutEffect\(\(\) => \{[\s\S]*currentAsyncAccountIdRef\.current !== nextAccountId[\s\S]*invalidateNoteRequest\(\);[\s\S]*invalidateQuizRequest\(\);[\s\S]*invalidateGradeRequest\(\);[\s\S]*\}, \[user\?\.id,/);
+  assert.match(source, /useLayoutEffect\(\(\) => \{[\s\S]*currentAsyncAccountIdRef\.current === nextAccountId\) return;[\s\S]*currentAsyncAccountIdRef\.current = nextAccountId;[\s\S]*invalidateNoteRequest\(\);[\s\S]*invalidateQuizRequest\(\);[\s\S]*invalidateGradeRequest\(\);[\s\S]*\}, \[user\?\.id,/);
   assert.match(source, /useEffect\(\(\) => \(\) => \{[\s\S]*noteRequestIdRef\.current \+= 1;[\s\S]*quizRequestIdRef\.current \+= 1;[\s\S]*gradeRequestIdRef\.current \+= 1;/);
   assert.match(source, /previousNoteConfigKeyRef[\s\S]*noteConfigKey[\s\S]*invalidateNoteRequest\(\);/);
   assert.match(source, /previousQuizConfigKeyRef[\s\S]*quizConfigKey[\s\S]*invalidateQuizRequest\(\);/);
