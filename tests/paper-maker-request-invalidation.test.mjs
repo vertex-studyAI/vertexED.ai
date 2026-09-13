@@ -21,6 +21,6 @@ test('paper maker gates async generation, persistence, and loading by request id
   assert.match(source, /const isCurrentRequest = \(\) =>[\s\S]*generationRequestIdRef\.current === requestId[\s\S]*currentGenerationAccountIdRef\.current === requestAccountId/);
   assert.match(source, /await authFetch\("\/api\/paper-generator"[\s\S]*if \(!isCurrentRequest\(\)\) return;[\s\S]*await res\.json\(\);[\s\S]*if \(!isCurrentRequest\(\)\) return;/);
   assert.match(source, /if \(!isCurrentRequest\(\)\) return;\s*const saved = await saveStudyArtifact/);
-  assert.match(source, /const saved = await saveStudyArtifact[\s\S]*if \(!isCurrentRequest\(\)\) return;[\s\S]*if \(saved\.ok\)/);
+  assert.match(source, /const saved = await saveStudyArtifact[\s\S]*if \(!isCurrentRequest\(\)\) \{[\s\S]*if \(saved\.ok && saved\.id\) \{[\s\S]*await deleteStudyArtifact\(saved\.id\);[\s\S]*\}[\s\S]*return;[\s\S]*\}[\s\S]*recordStudySession\(\);[\s\S]*recordLoopStep\("practise"\);/);
   assert.match(source, /catch \(err\) \{\s*if \(!isCurrentRequest\(\)\) return;[\s\S]*\} finally \{\s*if \(isCurrentRequest\(\)\) setLoading\(false\);\s*\}/);
 });
