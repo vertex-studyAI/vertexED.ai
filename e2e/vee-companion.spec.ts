@@ -32,8 +32,6 @@ test('Apex is readable in both themes and three viewports, with keyboard and red
       await page.keyboard.press('Enter');
       const dialog = apexDialog(page);
       await expect(dialog).toBeVisible();
-      await expandCharacterSettings(dialog);
-      await expect(dialog.getByRole('button', { name: 'Apex: hop' })).toBeDisabled();
       expect(await page.evaluate(() => document.body.style.overflow)).toBe('hidden');
       const close = dialog.getByRole('button', { name: 'Close Apex study shortcuts' });
       await expect(close).toBeFocused();
@@ -41,6 +39,8 @@ test('Apex is readable in both themes and three viewports, with keyboard and red
       await expect(dialog.getByRole('button', { name: 'Hide Apex', exact: true })).toBeFocused();
       await page.keyboard.press('Tab');
       await expect(close).toBeFocused();
+      await expandCharacterSettings(dialog);
+      await expect(dialog.getByRole('button', { name: 'Apex: hop' })).toBeDisabled();
       expect(await dialog.getByRole('link', { name: /Practise/ }).getAttribute('href')).toBe('/exam-prep');
       await page.screenshot({ path: `test-results/vee-sheet-${theme}-${width}.png`, animations: 'disabled' });
       const sheet = await dialog.boundingBox();
