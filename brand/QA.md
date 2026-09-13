@@ -92,3 +92,50 @@ Generated and inspected one transparent workbook character. Rendered and inspect
 Verified keyboard opening, modal focus wrapping, Escape/focus return, persistent hide/show across reloads, Simple Mode exclusion, operating-system reduced motion, one finite hover greeting, image-load failure fallback, blocked preference-storage fallback and protected navigation to login. The existing tutor opens from Vee, suppresses the companion while open and remains available through the original button when Vee is hidden. No duplicate tutor launcher or new AI implementation was introduced. The final four companion browser tests passed without retries after hook cleanup; the expanded 14-case golden suite also passed. Authenticated tests use synthetic network fixtures, not a live Google account.
 
 All 599 app tests passed. Copy lint scanned 251 source files with zero findings; its two regression tests passed. Typecheck, lint, production build and frozen bundle budgets passed. No new dependency, database migration, live account mutation or production deployment was made. The source image is 1254px with alpha and is requested at low priority; the runtime uses finite CSS transforms, not a multi-frame sprite sheet. It does not provide measured personalisation or speak on the learner's behalf.
+## Landing immersion verification, 13 September 2026
+
+Local implementation evidence only. Nothing in this pass was pushed or published to the production domain.
+
+- TypeScript, focused ESLint, and `git diff --check` passed.
+- Copy lint scanned 273 source files with zero findings before the final browser correction pass.
+- The focused Playwright run completed with 19 passed, 1 desktop-inapplicable case skipped, and 0 failed. Coverage includes the landing at 1440px, 1024px, and 390px; keyboard stage tabs; Revision Stack keyboard and pointer controls; reduced motion; public auth surfaces; curriculum routes; and the MYP learning flow.
+- The correction pass removed entrance blur from the primary heading and moved the mobile section island clear of Apex.
+- No new package, remote component source, customer quote, outcome metric, database change, or production deployment was introduced.
+- The complete `npm run ci` gate passed after the browser run. It covered lint, TypeScript, Vercel function validation, 245-file content provenance, production dependency audit, 177 canonical app-test files, evaluation checks, production build, and frozen bundle budgets. Final gzip measurements were 234,329 bytes initial JavaScript, 38,533 bytes initial CSS, 129,034 bytes largest JavaScript chunk, and 818,261 bytes total JavaScript.
+- Full lint retains one non-blocking `react-hooks/exhaustive-deps` warning in `UserSettings.tsx`. The account-scoping contract test requires that dependency so saved work reloads when identity changes; its four dedicated tests pass.
+
+### Revision atelier correction pass
+
+- Inspected full-page renders at 1440px and 390px in light mode and 1440px in dark mode, then inspected close 390px light and dark views. Stable night surfaces removed the previous theme-to-theme inversion inconsistency.
+- A close mobile render exposed Apex overlapping the lower landing controls. Its landing-only mobile footprint was reduced from 72px to 52px, preserving the full-size companion elsewhere and leaving clear space beside the section island.
+- The final focused browser run passed 20 cases, with 1 desktop-inapplicable case skipped and 0 failed. It covers three required widths, active chapter reporting without focus movement, tab keyboard behavior, Revision Stack input, reduced motion, public authentication, curriculum, and MYP learning.
+- The complete repository CI gate passed after the correction. Final gzip measurements were 234,587 bytes initial JavaScript, 39,198 bytes initial CSS, 129,034 bytes largest JavaScript chunk, and 818,502 bytes total JavaScript, all within the frozen budgets.
+
+## Application, routing and practice pass, 13 September 2026
+
+- Full CI passed, including 849 app tests across 182 files, evaluation gates, TypeScript, dependency advisory audit, production build and bundle budgets. The first sandboxed advisory request failed to return metadata; the network-enabled retry passed with no high or critical production vulnerabilities.
+- Copy lint: 277 files, zero findings. The existing UserSettings account-rebind dependency warning remains; it was not hidden or removed.
+- Eleven public browser cases passed, covering the waitlist payload, lens keyboard control, reduced motion, stage navigation and responsive layout. The authenticated golden journey passed with the new practice controls, worked-reasoning disclosure and draft clearing.
+- Captured and inspected application, lens and practice views at 1440px, 1024px and 390px. Also inspected application and practice in dark mode. Corrected the cooling-curve geometry, explicit select labels, ES2020 string compatibility, muted-text token and pre-submit application copy.
+- Practice scratch state is keyed by account and subject. Diagnosis filters curriculum identity rather than combining similarly named topics across boards.
+- Final gzip budgets: 235,381 bytes initial JavaScript; 39,400 bytes initial CSS; 129,034 bytes largest chunk; 825,297 bytes total JavaScript. No new dependency.
+- Provider tests are mocked, not live model-quality certification. Migration storage behavior has handler-level tests, but SQL execution remains unverified because the local Docker daemon is unavailable. No production migration or deployment was performed.
+- Full curriculum approval and calibrated grade/paper forecasts are not implemented. Existing provenance audit: 245 guide files, zero approved, 53 flagged for review. See `docs/EXPERIENCE_ARCHITECTURE.md` for the remaining boundaries.
+## September 13 revision-card follow-up
+
+- One illustrative revision card with random opening subject, manual subject selection and keyboard-operable stages; cobalt/white/navy retained.
+- Captured and inspected card layouts at 1440, 1024 and 390 pixels, including light/dark variants. Correction pass added scroll clearance and completed the GCSE badge list.
+- Restored fluid canvas has its own loaded styles. Dedicated browser test passes pointer painting, idle fade and accessibility preference cleanup.
+- Block game now preserves game-over score, pauses on hidden documents, includes seven shapes and does not steal Space from its child buttons.
+- Final build, TypeScript, copy lint (280 files, zero findings), dependency audit and bundle budget checks pass. ESLint retains one pre-existing UserSettings hook-dependency warning.
+- App regression suite: 852 passing after serializing build and tests. Final selected public browser suite: 18 passing; fluid lifecycle: 1 passing. Legacy browser specs for replaced landing structures were not all run.
+- School matching and profile normalization have local tests. Database migrations remain unapplied and require database integration validation. Desmos API code is wired but live key/CSP validation remains pending; 3D remains an iframe.
+- Content inventory remains 245 guides, zero editorial approvals and 53 flags. No claim of complete feature verification, verified exam prediction, or production publication.
+## Apex command and Features continuation
+
+- Added prompt-first Apex sheet, bounded generated learning cards, optional hints/answers, retained working across card switches, Markdown downloads, explicit Google confirmation and fixed navigation targets.
+- Features includes a working original cubic-factorisation lesson, coloured heading wipe and bounded fluid cursor. Navbar uses a consistent active state, underline and finite CTA sheen.
+- Captured and inspected Apex at 1440, 1024 and 390 in light/dark themes. Correction pass retained a visible close button while scrolling and raised learning-card prose to 16px.
+- Latest build, typecheck and copy lint pass (283 files, zero findings). One pre-existing UserSettings hook-dependency warning remains.
+- Five new public browser checks pass. The authenticated student journey passes against the existing build with all Supabase/API traffic mocked, including generated card request/rendering. Three learning-panel contract tests pass.
+- The separate cold-build golden configuration timed out before running; the existing-build harness was used instead. Live provider output, OAuth configuration, pending database migrations and educational-content approval remain release gates. Universal autonomous app actions, cloud-saving generated panels and automatic multi-action continuation through OAuth are not implemented or claimed.

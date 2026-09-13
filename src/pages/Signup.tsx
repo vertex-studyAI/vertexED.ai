@@ -39,6 +39,7 @@ export default function Signup() {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [teamInviteSent, setTeamInviteSent] = useState(false);
+  const [studyProfile, setStudyProfile] = useState({ school: '', country: '', curriculum: '', curriculumOther: '', grade: '', age: '', consent: false });
 
   useEffect(() => {
     if (!waitlistInviteToken) return;
@@ -82,7 +83,7 @@ export default function Signup() {
       const res = await fetch("/api/waitlist", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: normalizedEmail, method: "email", website: honeypot }),
+        body: JSON.stringify({ email: normalizedEmail, method: "email", website: honeypot, profile: { ...studyProfile, age: Number(studyProfile.age) } }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Failed to join waitlist.");
@@ -221,13 +222,13 @@ export default function Signup() {
         <meta name="robots" content="noindex, nofollow" />
       </Helmet>
       <PageSection className="relative min-h-[70vh] flex items-center justify-center px-4 py-12">
-        <form className="relative liquid-glass neu-card w-full max-w-md p-8 md:p-10" onSubmit={isAccountSignup ? submitInvite : submitWaitlist}>
+        <form className="relative liquid-glass neu-card w-full max-w-xl p-6 md:p-10" onSubmit={isAccountSignup ? submitInvite : submitWaitlist}>
           <h1 className="text-3xl font-semibold mb-2 text-center text-foreground">
             {isAccountSignup ? "Create your account" : "Join the waitlist"}
           </h1>
           <p className="text-center mb-6 text-sm text-muted-foreground leading-relaxed">
             {!isAccountSignup
-              ? "Join with your email. We'll send an account-creation link when a private-beta spot opens."
+              ? "Tell us about your studies so we can prepare a useful beta for you. Submit your application below. We will email an account invitation when a spot opens."
               : hasWaitlistInvite
                 ? email
                   ? <>Your private approval link is active for <span className="font-medium text-foreground">{email}</span>. Choose a username and password.</>
@@ -267,6 +268,17 @@ export default function Signup() {
                   </div>
                 </div>
               )}
+              {!isAccountSignup && <fieldset className="grid grid-cols-1 sm:grid-cols-2 gap-4 border-t border-border pt-5">
+                <legend className="px-2 text-base font-semibold">Your study profile</legend>
+                <div className="sm:col-span-2"><label htmlFor="waitlist-school" className="form-label">School <span className="text-muted-foreground font-normal">(optional)</span></label><input id="waitlist-school" className="neu-input-el border border-border rounded-lg mt-1" value={studyProfile.school} onChange={event => setStudyProfile({ ...studyProfile, school: event.target.value })} autoComplete="organization" maxLength={160} placeholder="School name or home education" /></div>
+                <div><label htmlFor="waitlist-country" className="form-label">Country</label><input id="waitlist-country" className="neu-input-el border border-border rounded-lg mt-1" value={studyProfile.country} onChange={event => setStudyProfile({ ...studyProfile, country: event.target.value })} autoComplete="country-name" maxLength={80} required /></div>
+                <div><label htmlFor="waitlist-curriculum" className="form-label">Curriculum</label><select id="waitlist-curriculum" className="neu-input-el border border-border rounded-lg mt-1" value={studyProfile.curriculum} onChange={event => setStudyProfile({ ...studyProfile, curriculum: event.target.value })} required><option value="">Choose curriculum</option>{['IB MYP', 'IB DP', 'A levels', 'IGCSE', 'GCSE', 'AP', 'CBSE', 'ICSE', 'Other'].map(value => <option key={value}>{value}</option>)}</select></div>
+                {studyProfile.curriculum === 'Other' && <div className="sm:col-span-2"><label htmlFor="waitlist-other" className="form-label">Which curriculum do you study?</label><input id="waitlist-other" className="neu-input-el border border-border rounded-lg mt-1" maxLength={100} required value={studyProfile.curriculumOther} onChange={event => setStudyProfile({ ...studyProfile, curriculumOther: event.target.value })} /><p className="text-sm text-muted-foreground mt-2">We will record your request. This does not mean resources for this curriculum are available yet.</p></div>}
+                <div><label htmlFor="waitlist-grade" className="form-label">Grade or year</label><input id="waitlist-grade" className="neu-input-el border border-border rounded-lg mt-1" value={studyProfile.grade} onChange={event => setStudyProfile({ ...studyProfile, grade: event.target.value })} maxLength={40} placeholder="For example, MYP 5" required /></div>
+                <div><label htmlFor="waitlist-age" className="form-label">Age</label><input id="waitlist-age" className="neu-input-el border border-border rounded-lg mt-1" type="number" min={13} max={100} step={1} value={studyProfile.age} onChange={event => setStudyProfile({ ...studyProfile, age: event.target.value })} aria-describedby="waitlist-profile-notice" required /></div>
+                <p id="waitlist-profile-notice" className="sm:col-span-2 text-sm text-muted-foreground">The private beta is for ages 13 and above. Your profile is visible to the VertexED team for beta planning. It is not sent to AI tools. School is optional.</p>
+                <label className="sm:col-span-2 flex items-start gap-3 text-sm leading-relaxed"><input type="checkbox" className="mt-1 h-4 w-4 shrink-0" checked={studyProfile.consent} onChange={event => setStudyProfile({ ...studyProfile, consent: event.target.checked })} required /><span>I agree to storage of my application details as described in the <Link className="text-primary underline" to="/privacy">privacy policy</Link>.</span></label>
+              </fieldset>}
               {isAccountSignup && (
                 <>
                   <div>

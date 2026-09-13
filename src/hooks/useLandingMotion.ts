@@ -44,13 +44,27 @@ export function useLandingMotion(rootRef: RefObject<HTMLDivElement | null>, enab
       frame = 0;
       const hero = root.querySelector<HTMLElement>('.landing-hero');
       const progress = hero ? Math.min(1, Math.max(0, -hero.getBoundingClientRect().top / hero.offsetHeight)) : 0;
+      const rootBounds = root.getBoundingClientRect();
+      const pageRange = Math.max(1, root.scrollHeight - window.innerHeight);
+      const pageProgress = Math.min(1, Math.max(0, -rootBounds.top / pageRange));
       root.style.setProperty('--scroll-depth', String(enabled && !reduced.matches ? progress : 0));
+      root.style.setProperty('--page-progress', String(pageProgress));
     };
     const scroll = () => { if (!frame) frame = requestAnimationFrame(render); };
     const observer = new IntersectionObserver(entries => entries.forEach(entry => {
       if (entry.isIntersecting) { entry.target.classList.add('has-entered'); observer.unobserve(entry.target); }
     }), { threshold: .08 });
+    const sectionObserver = new IntersectionObserver(entries => entries.forEach(entry => {
+      if (!entry.isIntersecting || !(entry.target instanceof HTMLElement) || !entry.target.id) return;
+      root.querySelectorAll<HTMLAnchorElement>('.vh-scroll-island a').forEach(anchor => {
+        const active = anchor.hash === `#${entry.target.id}`;
+        anchor.toggleAttribute('data-active', active);
+        if (active) anchor.setAttribute('aria-current', 'location');
+        else anchor.removeAttribute('aria-current');
+      });
+    }), { rootMargin: '-38% 0px -52% 0px' });
     root.querySelectorAll('[data-reveal]').forEach(element => observer.observe(element));
+    root.querySelectorAll('section[id]').forEach(element => sectionObserver.observe(element));
     window.addEventListener('scroll', scroll, { passive: true });
     root.addEventListener('pointermove', move, { passive: true });
     root.addEventListener('pointerleave', resetSurface);
@@ -61,13 +75,13 @@ export function useLandingMotion(rootRef: RefObject<HTMLDivElement | null>, enab
     [reduced, pointer, transparency].forEach(query => query.addEventListener('change', resetSurface));
     reduced.addEventListener('change', render); render();
     return () => {
-      resetSurface(); cancelAnimationFrame(frame); observer.disconnect();
+      resetSurface(); cancelAnimationFrame(frame); observer.disconnect(); sectionObserver.disconnect();
       window.removeEventListener('scroll', scroll); reduced.removeEventListener('change', render);
       root.removeEventListener('pointermove', move); root.removeEventListener('pointerleave', resetSurface);
       root.removeEventListener('focusin', resetSurface); window.removeEventListener('blur', resetSurface);
       window.removeEventListener('resize', resetSurface); document.removeEventListener('visibilitychange', resetSurface);
       [reduced, pointer, transparency].forEach(query => query.removeEventListener('change', resetSurface));
-      root.style.removeProperty('--scroll-depth');
+      root.style.removeProperty('--scroll-depth'); root.style.removeProperty('--page-progress');
     };
   }, [rootRef, enabled]);
 }

@@ -6,6 +6,7 @@ import {
   normalizeGeneratedPaper,
 } from '../_lib/learningArtifactFallbacks.js';
 import { fetchProvider } from '../_lib/providerRequest.js';
+import { routeAiRequest } from '../_lib/aiRouting.js';
 
 const OPENAI_URL = "https://api.openai.com/v1/chat/completions";
 const DEFAULT_MODEL = "gpt-4.1";
@@ -267,7 +268,9 @@ export default async function handler(req, res) {
       return res.status(200).json(fallbackPaperResponse(data, 'provider_unconfigured'));
     }
 
-    const model = process.env.OPENAI_MODEL || DEFAULT_MODEL;
+    // Image-bearing requests retain the existing vision-capable model.
+    const route = routeAiRequest({ capability: 'paper-generator', defaultModel: process.env.OPENAI_MODEL || DEFAULT_MODEL, maxTokens: 3500, env: data.images.length ? {} : process.env });
+    const model = route.model;
     let openaiResp;
     try {
       openaiResp = await fetchProvider({
@@ -282,7 +285,7 @@ export default async function handler(req, res) {
         body: JSON.stringify({
           model,
           temperature: 0.15,
-          max_tokens: 3500,
+          max_tokens: route.maxTokens,
           messages: [
             { role: "system", content: buildSystemPrompt() },
             { role: "user", content: buildUserPrompt(data) },
@@ -369,7 +372,7 @@ export default async function handler(req, res) {
     const generation = buildGenerationMetadata({
       capability: 'paper',
       mode: 'model',
-      model: process.env.OPENAI_MODEL || DEFAULT_MODEL,
+      model,
       source,
     });
     parsedPaper.provenance = {
@@ -387,7 +390,7 @@ export default async function handler(req, res) {
       paper: parsedPaper,
       images: data.images,
       openai: {
-        model: process.env.OPENAI_MODEL || DEFAULT_MODEL,
+        model,
         usage: result.usage ?? null,
       },
       generation,

@@ -1,6 +1,8 @@
 import { getClientIp, normalizeEmail } from '../_lib/security.js';
 import { getSupabaseAdmin } from '../_lib/supabaseAdmin.js';
 import { checkDbRateLimit } from '../_lib/dbRateLimit.js';
+import { normalizeWaitlistProfile } from '../_lib/waitlistProfile.js';
+import { resolveSchool } from '../_lib/schoolDirectory.js';
 
 const RATE_LIMIT_MAX = 5;
 const RATE_LIMIT_WINDOW_MS = 60_000;
@@ -32,6 +34,9 @@ export default async function handler(req, res) {
   const email = normalizeEmail(body.email);
 
   if (!email) return res.status(400).json({ error: 'Please enter a valid email address.' });
+  let applicationProfile;
+  try { applicationProfile = normalizeWaitlistProfile(body.profile); }
+  catch (error) { return res.status(400).json({ error: error.message }); }
   try {
     const rate = await checkDbRateLimit('waitlist', getClientIp(req), RATE_LIMIT_MAX, RATE_LIMIT_WINDOW_MS);
     if (!rate.allowed) {
@@ -55,11 +60,15 @@ export default async function handler(req, res) {
       return res.status(409).json({ error: 'This email is already registered. Try logging in or check your inbox.' });
     }
 
+    const schoolId = await resolveSchool(supabase, applicationProfile);
     const { error: insertError } = await supabase.from('waitlist').insert({
       email,
       status: 'pending',
       signup_method: method,
       auth_user_id: null,
+      application_profile: applicationProfile,
+      school_id: schoolId,
+      profile_collected_at: new Date().toISOString(),
     });
     if (insertError) throw insertError;
 

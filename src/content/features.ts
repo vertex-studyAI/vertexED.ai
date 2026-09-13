@@ -84,12 +84,13 @@ export const STUDY_LOOP = [
 
 export const SUPPORTED_BOARDS = [
   "IB MYP",
-  "IBDP",
+  "IB DP",
+  "A levels",
   "IGCSE",
+  "GCSE",
   "ICSE",
   "CBSE",
   "AP",
-  "A Level",
 ] as const;
 
 export const BOARD_SPOTLIGHTS = [

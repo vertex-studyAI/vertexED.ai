@@ -12,18 +12,24 @@ import {
 } from '../../api/_lib/aiProviders.js';
 import { formatSourcesForPrompt, GROUNDED_CHAT_RULES } from '../../api/_lib/grounding.js';
 import { scoreResponse } from './score.mjs';
+import {
+  createRequestEvidence,
+  createResponseEvidence,
+  sha256Json,
+} from '../research/provider-evidence.mjs';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const root = resolve(here, '..', '..');
 const goldenPath = resolve(root, 'evals/ask/golden.jsonl');
 
 function parseArgs(argv) {
-  const out = { provider: 'both', out: '', limit: 0 };
+  const out = { provider: 'both', out: '', limit: 0, sourceRevision: '' };
   for (let i = 0; i < argv.length; i += 1) {
     const arg = argv[i];
     if (arg === '--provider') out.provider = argv[++i] || 'both';
     else if (arg === '--out') out.out = argv[++i] || '';
     else if (arg === '--limit') out.limit = Number.parseInt(argv[++i] || '0', 10) || 0;
+    else if (arg === '--source-revision') out.sourceRevision = argv[++i] || '';
   }
   return out;
 }
@@ -105,11 +111,19 @@ async function runProvider(providerName, prompts) {
     let model = config.primaryModel;
     let usage = { inputTokens: 0, outputTokens: 0, totalTokens: 0 };
 
+    const messages = buildMessages(prompt.request);
+    const requestEvidence = createRequestEvidence({
+      provider: providerName,
+      model,
+      temperature: 0.4,
+      maxTokens: 1200,
+      messages,
+    });
     try {
       const call = await callChatProvider({
         config,
         model,
-        messages: buildMessages(prompt.request),
+        messages,
         temperature: 0.4,
         maxTokens: 1200,
       });
@@ -139,6 +153,8 @@ async function runProvider(providerName, prompts) {
       latencyMs: Number(latencyMs.toFixed(1)),
       outputChars: answer.length,
       usage,
+      ...requestEvidence,
+      ...createResponseEvidence(answer, { retainText: true }),
     });
 
     const marker = rows.at(-1).passed ? 'PASS' : 'FAIL';
@@ -183,6 +199,10 @@ if (!allowed.has(args.provider)) {
   console.error('Usage: run-ask-provider-benchmark.mjs --provider openai|nvidia|both [--limit N] [--out report.json]');
   process.exit(2);
 }
+if (args.out && !args.sourceRevision) {
+  console.error('Retained provider reports require --source-revision <commit-or-release-id>.');
+  process.exit(2);
+}
 
 const prompts = loadGolden(args.limit);
 const providers = args.provider === 'both' ? ['openai', 'nvidia'] : [args.provider];
@@ -194,8 +214,13 @@ for (const provider of providers) {
 }
 
 const report = {
+  schema: 'vertexed.provider_benchmark.v2',
   generatedAt: new Date().toISOString(),
+  sourceRevision: args.sourceRevision || 'UNBOUND_LOCAL_SOURCE',
+  sourceBound: Boolean(args.sourceRevision),
   goldenPath: 'evals/ask/golden.jsonl',
+  goldenSetSha256: sha256Json(prompts),
+  requestConfig: { temperature: 0.4, maxTokens: 1200 },
   promptCount: prompts.length,
   runs,
 };

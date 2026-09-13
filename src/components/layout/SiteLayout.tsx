@@ -13,6 +13,7 @@ import PageLoader from "@/components/PageLoader";
 import { useStudySessionTracker } from "@/hooks/useStudySessionTracker";
 import { toast } from "@/hooks/use-toast";
 import { logoutWithLocalFallback } from "@/lib/logoutFlow.mjs";
+import '@/styles/navigation.css';
 
 const GlobalChatPanel = lazy(() => import("@/components/chat/GlobalChatPanel"));
 const ApexCompanion = lazy(() => import("@/components/ApexCompanion"));
@@ -112,7 +113,8 @@ export default function SiteLayout() {
       ];
 
   return (
-    <div className={`relative min-h-screen flex flex-col text-foreground ${['/', '/home'].includes(location.pathname) ? 'site-landing' : 'bg-transparent overflow-x-hidden'}`}>
+    <div className={`site-shell relative min-h-screen flex flex-col text-foreground ${['/', '/home'].includes(location.pathname) ? 'site-landing' : 'site-workspace bg-transparent overflow-x-hidden'}`}>
+      <div className="site-atmosphere" aria-hidden="true"><i /><i /><i /></div>
       <a
         href="#main-content"
         className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[100] focus:rounded-lg focus:bg-primary focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-primary-foreground"
@@ -134,7 +136,7 @@ export default function SiteLayout() {
 
       <BreadcrumbsJsonLd />
 
-      <header className="w-full z-50 sticky top-0 glass-nav">
+      <header className="vertex-navigation w-full z-50 sticky top-0 glass-nav">
         <div className="mx-auto w-full max-w-[1400px] px-4 md:px-6 h-16 flex items-center justify-between gap-4">
           <Link to={isAuthenticated ? "/main" : "/"} className="flex items-center gap-2.5 shrink-0 group">
             <img
@@ -324,7 +326,7 @@ export default function SiteLayout() {
       <main
         id="main-content"
         tabIndex={-1}
-        className="relative z-10 flex-1 container mx-auto px-4 md:px-6 pt-6 md:pt-8 pb-10"
+        className="immersive-main relative z-10 flex-1 container mx-auto px-4 md:px-6 pt-6 md:pt-8 pb-10"
       >
         <CloudSaveBanner />
         <RouteErrorBoundary>

@@ -1,6 +1,7 @@
 import { verifyAuthUser, readJsonBody, rejectOversizedJsonBody } from '../_lib/auth.js';
 import { rateLimitUserEndpoint } from '../_lib/rateLimit.js';
 import { fetchProvider } from '../_lib/providerRequest.js';
+import { routeAiRequest } from '../_lib/aiRouting.js';
 
 function countWords(text) {
   return String(text).trim().split(/\s+/).filter(Boolean).length;
@@ -56,7 +57,8 @@ REQUIREMENTS:
 - End with "Quick wins this week" — 5 actionable bullets
 - Tone: direct, student-friendly, exam-focused`;
 
-    const model = process.env.BOARD_RESOURCE_MODEL || 'gpt-4o-mini';
+    const route = routeAiRequest({ capability: 'board-resource', text: description, defaultModel: process.env.BOARD_RESOURCE_MODEL || 'gpt-4o-mini', maxTokens: 4000 });
+    const model = route.model;
     const response = await fetchProvider({
       capability: 'board_resource', provider: 'openai', model,
       url: 'https://api.openai.com/v1/chat/completions',
@@ -76,7 +78,7 @@ REQUIREMENTS:
           { role: 'user', content: prompt },
         ],
         temperature: 0.45,
-        max_tokens: 4000,
+        max_tokens: route.maxTokens,
       }),
       },
     });

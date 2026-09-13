@@ -145,6 +145,8 @@
 @media (max-width: 639px) {
   .vee-launcher { right: max(12px, env(safe-area-inset-right)); bottom: max(12px, env(safe-area-inset-bottom)); }
   .vee-sprite { width: 72px; height: 72px; }
+  body:has(.vertex-home) .vee-sprite { width: 52px; height: 52px; }
+  body:has(.vertex-home) .vee-name { gap: 10px; padding-inline: 9px; font-size: 12px; }
   .vee-overlay { padding: 12px; padding-bottom: max(12px, env(safe-area-inset-bottom)); }
   .vee-sheet { padding: 24px; max-height: calc(100dvh - 24px); }
   .vee-intro { gap: 12px; }
@@ -152,3 +154,23 @@
   .vee-intro h2 { font-size: 22px; }
   .vee-position { align-items: flex-start; }
 }
+.vee-sheet:has(.apex-command) { width:min(100%,640px); border-radius:24px; }
+.vee-sheet:has(.apex-command) .vee-close { position:sticky; top:0; float:right; z-index:5; margin:-12px -12px 0 0; background:hsl(var(--background)); border:1px solid hsl(var(--border)); box-shadow:0 3px 12px hsl(var(--foreground)/.1); }
+.apex-learning-card .prose { font-size:1rem; line-height:1.75; }
+.apex-command { margin-top:24px; }
+.apex-command form>label { display:block; margin-bottom:10px; font-size:16px; font-weight:650; }
+.apex-command textarea,.apex-command select,.apex-working textarea { width:100%; border:1px solid hsl(var(--border)); border-radius:12px; padding:12px; background:hsl(var(--background)); color:hsl(var(--foreground)); font-size:16px; resize:vertical; }
+.apex-command textarea:focus-visible,.apex-command select:focus-visible { outline:2px solid hsl(var(--primary)); outline-offset:3px; }
+.apex-command-actions { display:flex; align-items:end; gap:12px; margin-top:12px; }.apex-command-actions label { flex:1; font-size:14px; }.apex-command-actions select { margin-top:5px; font-size:14px; }.apex-command-actions button { min-height:46px; }
+.apex-command-scope { font-size:14px; color:hsl(var(--muted-foreground)); margin:14px 0; }
+.apex-sample-button { text-align:left; color:hsl(var(--primary)); padding:12px 0; font-size:14px; text-decoration:underline; text-underline-offset:4px; }
+.apex-command-status { margin-block:16px; padding:14px; border-left:3px solid hsl(var(--primary)); background:hsl(var(--primary)/.06); }
+.apex-character-settings { margin-top:24px; border-block:1px solid hsl(var(--border)); padding-block:14px; }.apex-character-settings>summary { cursor:pointer; font-size:14px; color:hsl(var(--muted-foreground)); }.apex-character-settings[open]>summary { margin-bottom:20px; }
+.apex-workspace { margin-top:24px; border-top:2px solid hsl(var(--primary)); padding-top:20px; }.apex-workspace h3 { font-size:24px; font-weight:650; line-height:1.25; margin:10px 0; }.apex-workspace h4 { font-size:20px; font-weight:600; margin:10px 0 16px; }
+.apex-layout-switch,.apex-step-controls { display:flex; gap:8px; align-items:center; margin:18px 0; }.apex-layout-switch button,.apex-step-controls button { min-height:44px; border:1px solid hsl(var(--border)); border-radius:8px; padding:8px 12px; font-size:14px; }.apex-layout-switch button[aria-pressed=true] { background:hsl(var(--primary)/.12); color:hsl(var(--primary)); }.apex-step-controls { justify-content:space-between; }.apex-step-controls button:disabled { opacity:.4; }
+.apex-learning-card { padding:20px; margin-top:12px; background:hsl(var(--primary)/.035); border:1px solid hsl(var(--border)); border-radius:12px; overflow-wrap:anywhere; }.apex-learning-card details { margin-top:16px; border-top:1px solid hsl(var(--border)); padding-top:12px; }.apex-learning-card summary { cursor:pointer; color:hsl(var(--primary)); min-height:32px; }.apex-working { display:block; margin-top:18px; font-size:14px; }.apex-working textarea { margin-top:8px; }
+.vee-intro { position:relative; }.apex-math-glyphs { display:none; position:absolute; top:32px; left:27px; color:hsl(var(--primary)); background:hsl(var(--background)); padding:0 3px; font:700 16px/1 monospace; border-radius:4px; }
+.vee-intro[data-math=true] .apex-math-glyphs { display:block; animation:apex-equation 1.6s ease both; }
+@keyframes apex-equation { 0%,100% { opacity:0; transform:scaleY(.15); } 20%,80% { opacity:1; transform:scaleY(1); } 50% { letter-spacing:3px; } }
+@media(max-width:639px) { .apex-command-actions { flex-wrap:wrap; }.apex-command-actions label { flex-basis:100%; }.apex-command-actions button { width:100%; }.apex-learning-card { padding:16px; } }
+@media(prefers-reduced-motion:reduce) { .apex-math-glyphs { display:none!important; animation:none!important; } }

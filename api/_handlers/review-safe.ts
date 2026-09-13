@@ -8,6 +8,7 @@ import {
 } from '../_lib/answerReview.js';
 import { logProviderRun } from '../_lib/providerTelemetry.js';
 import { fetchWithTimeout } from '../_lib/fetchWithTimeout.js';
+import { routeAiRequest } from '../_lib/aiRouting.js';
 
 export const config = { maxDuration: 60, runtime: 'nodejs' };
 
@@ -16,7 +17,8 @@ function getApiKey() {
 }
 
 async function requestStructuredReview(apiKey: string, prompt: string) {
-  const model = process.env.OPENAI_MODEL || 'gpt-4o-mini';
+  const route = routeAiRequest({ capability: 'grading', defaultModel: process.env.OPENAI_MODEL || 'gpt-4o-mini', maxTokens: 2400 });
+  const model = route.model;
   const startedAt = Date.now();
   let response: Response;
   try {
@@ -27,7 +29,7 @@ async function requestStructuredReview(apiKey: string, prompt: string) {
         model,
         messages: [{ role: 'user', content: prompt }],
         temperature: 0.2,
-        max_tokens: 2400,
+        max_tokens: route.maxTokens,
         response_format: { type: 'json_object' },
       }),
     }, 30_000);
@@ -118,7 +120,7 @@ export default async function handler(req: any, res: any) {
     } catch {
       console.error('[review-safe] Structured review provider failed');
       return res.status(200).json(createAnswerReviewResult({
-        input, model: process.env.OPENAI_MODEL || 'unavailable', degraded: true,
+        input, model: routeAiRequest({ capability: 'grading', defaultModel: process.env.OPENAI_MODEL || 'gpt-4o-mini', maxTokens: 2400 }).model, degraded: true,
       }));
     }
   } catch {

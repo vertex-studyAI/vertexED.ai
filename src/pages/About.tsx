@@ -6,27 +6,28 @@ import PageSection from "@/components/PageSection";
 interface Person {
   name: string;
   role: string;
-  bio: string;
+  bio?: string;
   linkedin?: string;
 }
 
 export default function About(): React.JSX.Element {
   const team: Person[] = [
     {
-      name: "Ryan Gomez",
-      role: "Co-founder · CFO · Head of AI Product Development",
-      bio: `Ryan leads the AI product and financial planning work behind VertexED. His focus is turning model output into study workflows that label uncertainty, preserve learner work, and remain useful when providers are unavailable.`,
+      name: "Ritayush",
+      role: "Co-founder",
+    },
+    {
+      name: "Ryan",
+      role: "Co-founder",
       linkedin: "https://www.linkedin.com/in/ryan-gomez-03701b363/?originalSubdomain=in",
     },
     {
-      name: "Pratyush Vel Shankar",
-      role: "Co-founder · CEO · Head of Vision",
-      bio: `Pratyush leads product vision for VertexED: one coherent workspace for planning, notes, practice, and review instead of a collection of disconnected study tabs.`,
+      name: "Pratyush",
+      role: "Co-founder",
     },
     {
-      name: "Ritayush Dey",
-      role: "Co-founder · CTO · Finance Oversight",
-      bio: `Ritayush leads the engineering systems work: application structure, operational reliability, and the technical decisions needed to turn product ideas into maintainable releases.`,
+      name: "Aadi",
+      role: "Co-founder",
     },
   ];
 
@@ -34,7 +35,7 @@ export default function About(): React.JSX.Element {
     <>
       <SEO
         title="About VertexED - founding team and story"
-        description="VertexED started as a hackathon project between three students who wanted one workspace for exam season - planning, mocks, rubric feedback, and retrieval without tab overload."
+        description="Meet the co-founders of VertexED, a learning workspace built for curriculum-led practice, exam preparation and understanding that lasts beyond the paper."
         canonical="https://www.vertexed.app/about"
         jsonLd={[
           {
@@ -61,22 +62,22 @@ export default function About(): React.JSX.Element {
         </h1>
 
         <p className="text-lg md:text-xl max-w-3xl leading-relaxed text-muted-foreground">
-          VertexED began as a late-night hackathon build - three classmates who wanted planning,
-          notes, flashcards, timed mocks, and evidence-linked AI feedback in one place they would use during exam season.
-          The prototype became an ongoing student-led product because we were still using it
-          ourselves the week before mocks.
+          Better preparation for the next exam. Deeper understanding for what comes after it.
+          VertexED brings curriculum-led practice, thoughtful feedback and revision into one learning space.
+          Our purpose is to help students strengthen their exam performance while building knowledge
+          they can retain, connect and use in everyday life.
         </p>
         <p className="mt-5 text-lg md:text-xl max-w-3xl leading-relaxed text-foreground/90">
           We are building study infrastructure, not a teacher replacement. The useful work is practical: keeping materials together,
           making feedback specific, and ensuring saved work is still there when a provider or network connection fails.
         </p>
 
-        <div className="grid md:grid-cols-3 gap-10 mt-20">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-20">
           {team.map((person) => (
             <article key={person.name} className="rounded-3xl p-8 glass-tile">
               <h3 className="text-xl font-semibold text-foreground mb-2">{person.name}</h3>
               <p className="text-sm text-primary/90 mb-4">{person.role}</p>
-              <p className="text-sm leading-relaxed text-muted-foreground mb-6">{person.bio}</p>
+              {person.bio && <p className="text-sm leading-relaxed text-muted-foreground mb-6">{person.bio}</p>}
 
               {person.linkedin && (
                 <a

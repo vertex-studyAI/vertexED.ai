@@ -4,6 +4,7 @@ import { callChatProvider, extractChatAnswer, resolveChatProvider } from '../_li
 import { buildAskMessages } from '../_lib/askPrompt.js';
 import { validateSourceCitations } from '../_lib/grounding.js';
 import { logProviderRun } from '../_lib/providerTelemetry.js';
+import { routeAiRequest } from '../_lib/aiRouting.js';
 
 const MAX_QUESTION_CHARS = 4000;
 
@@ -48,7 +49,8 @@ export default async function handler(req, res) {
     const trimmedQuestion = question.trim();
 
     const chatMessages = buildAskMessages({ question: trimmedQuestion, history, context, sources });
-    const PRIMARY_MODEL = providerConfig.primaryModel;
+    const route = routeAiRequest({ capability: 'chatbot', text: trimmedQuestion, provider: providerConfig.name, defaultModel: providerConfig.primaryModel });
+    const PRIMARY_MODEL = route.model;
     const FALLBACK_MODEL = providerConfig.fallbackModel;
 
     const callProvider = async (model) => {
@@ -59,7 +61,7 @@ export default async function handler(req, res) {
           model,
           messages: chatMessages,
           temperature: 0.4,
-          maxTokens: 1200,
+          maxTokens: route.maxTokens,
         });
         await logProviderRun({
           capability: 'chatbot',

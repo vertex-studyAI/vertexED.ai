@@ -4,6 +4,7 @@ import { logProviderRun } from '../_lib/providerTelemetry.js';
 import { fetchWithTimeout } from '../_lib/fetchWithTimeout.js';
 import { rateLimitUserEndpoint } from '../_lib/rateLimit.js';
 import { callChatProvider, extractChatAnswer, resolveChatProvider } from '../_lib/aiProviders.js';
+import { routeAiRequest } from '../_lib/aiRouting.js';
 
 const TRY_MODELS = [
   'gemini-2.5-flash',
@@ -14,14 +15,18 @@ const TRY_MODELS = [
 
 export function resolvePlannerProvider(env = process.env) {
   const geminiKey = env.GEMINI_API_KEY;
-  if (geminiKey) return { name: 'google', apiKey: geminiKey, models: TRY_MODELS };
+  if (geminiKey) {
+    const route = routeAiRequest({ capability: 'planner', provider: 'google', defaultModel: TRY_MODELS[0], env });
+    return { name: 'google', apiKey: geminiKey, models: [...new Set([route.model, ...TRY_MODELS])].slice(0, 2) };
+  }
 
   try {
     const config = resolveChatProvider(env);
+    const route = routeAiRequest({ capability: 'planner', provider: config.name, defaultModel: config.primaryModel, env });
     return {
       name: config.name,
       config,
-      models: [...new Set([config.primaryModel, config.fallbackModel].filter(Boolean))],
+      models: [...new Set([route.model, config.fallbackModel].filter(Boolean))],
     };
   } catch {
     return null;

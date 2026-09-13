@@ -219,3 +219,24 @@ body::before, body::after { display: none; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
 }
+
+/* Shared atmosphere keeps every route inside the same blue revision world. */
+.site-shell { isolation: isolate; background: hsl(var(--background)); }
+.site-atmosphere { position: fixed; z-index: 0; inset: 0; overflow: hidden; pointer-events: none; opacity: .72; }
+.site-atmosphere i { position: absolute; display: block; border-radius: 50%; filter: blur(2px); }
+.site-atmosphere i:nth-child(1) { width: min(60vw, 760px); aspect-ratio: 1; right: -20vw; top: 8vh; background: radial-gradient(circle, hsl(var(--primary) / .1), transparent 68%); }
+.site-atmosphere i:nth-child(2) { width: min(44vw, 560px); aspect-ratio: 1; left: -18vw; top: 54vh; border: 1px solid hsl(var(--primary) / .1); box-shadow: 0 0 90px hsl(var(--primary) / .07); }
+.site-atmosphere i:nth-child(3) { width: 42vw; height: 1px; left: 28vw; top: 36vh; background: linear-gradient(90deg, transparent, hsl(var(--primary) / .2), transparent); transform: rotate(-18deg); transform-origin: center; }
+.site-landing .site-atmosphere { display: none; }
+.site-workspace .immersive-main::before { content: ""; position: absolute; z-index: -1; inset: 14px 10px auto; height: min(54vh, 520px); border: 1px solid hsl(var(--primary) / .08); border-radius: 28px; background: linear-gradient(145deg, hsl(var(--card) / .28), transparent 70%); box-shadow: inset 0 1px hsl(var(--card) / .55); pointer-events: none; }
+@supports ((backdrop-filter: blur(18px)) or (-webkit-backdrop-filter: blur(18px))) {
+  .site-workspace .immersive-main::before { backdrop-filter: blur(18px) saturate(115%); -webkit-backdrop-filter: blur(18px) saturate(115%); }
+}
+@media (max-width: 640px) {
+  .site-workspace .immersive-main::before { inset-inline: 4px; border-radius: 20px; }
+  .site-atmosphere i:nth-child(3) { display: none; }
+}
+@media (prefers-reduced-transparency: reduce), (forced-colors: active) {
+  .site-atmosphere { display: none; }
+  .site-workspace .immersive-main::before { background: transparent; backdrop-filter: none; -webkit-backdrop-filter: none; box-shadow: none; }
+}

@@ -1,11 +1,12 @@
 import { Helmet } from "react-helmet-async";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router";
 import PageSection from "@/components/PageSection";
 import CurriculumSelector from "@/components/curriculum/CurriculumSelector";
 import { supabase } from "@/lib/supabaseClient";
-import { buildCurriculumMetadata } from "@/lib/curriculum";
+import { buildCurriculumMetadata, boardFromApiLabel, getGradesForBoard } from "@/lib/curriculum";
+import { authFetch } from "@/lib/apiAuth";
 import { createFirstStudyPlan } from "@/lib/onboardingPlan";
 import { isOnboardingComplete } from "@/lib/onboardingStatus.js";
 import { savePlannerSnapshot } from "@/lib/plannerSync";
@@ -46,6 +47,27 @@ export default function Onboarding() {
   const [loading, setLoading] = useState(false);
   const [redirecting, setRedirecting] = useState(false);
   const [touched, setTouched] = useState(false);
+  const curriculumEdited = useRef(false);
+  const [applicationNotice, setApplicationNotice] = useState('');
+
+  useEffect(() => {
+    if (!user?.id) return;
+    const controller = new AbortController();
+    curriculumEdited.current = false;
+    setCurriculum(emptyCurriculum);
+    setApplicationNotice('');
+    void authFetch('/api/waitlist-status?profile=1', { signal: controller.signal }).then(async response => {
+      if (!response.ok) return;
+      const { applicationProfile: application } = await response.json();
+      if (controller.signal.aborted || curriculumEdited.current || !application) return;
+      const board = boardFromApiLabel(application.curriculum === 'A levels' ? 'A Levels' : application.curriculum);
+      const match = typeof application.grade === 'string' ? application.grade.match(/^(?:(?:MYP|DP|Grade|Year)\s*)?(\d{1,2})$/i) : null;
+      const candidate = match ? Number(match[1]) : null;
+      if (board) setCurriculum({ ...emptyCurriculum, board, grade: candidate !== null && getGradesForBoard(board).includes(candidate) ? candidate : null });
+      setApplicationNotice(board ? 'We brought your curriculum across from your application. Check your year and choose your subjects below.' : 'Your requested curriculum is recorded. Choose an available programme only if it matches your course.');
+    }).catch(() => { /* Application prefill is optional. Manual setup remains available. */ });
+    return () => controller.abort();
+  }, [user?.id]);
 
   useEffect(() => {
     // Updating user metadata during save also refreshes AuthContext. Do not let
@@ -201,7 +223,8 @@ export default function Onboarding() {
                   <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground md:text-base">Choose your curriculum, subjects, and exam date. We&apos;ll create a focused first-week plan that you can edit anytime.</p>
                 </div>
                 <form className="space-y-6" aria-busy={loading} onSubmit={(event) => { event.preventDefault(); void save(); }}>
-                  <CurriculumSelector value={curriculum} onChange={setCurriculum} showExamDate showSubjects />
+                  {applicationNotice && <p className="text-sm text-muted-foreground" role="status">{applicationNotice}</p>}
+                  <CurriculumSelector value={curriculum} onChange={value => { curriculumEdited.current = true; setCurriculum(value); }} showExamDate showSubjects />
                   <p className="text-sm text-muted-foreground">Select at least one subject. The available subjects update for the curriculum and grade you choose.</p>
                   {error && <div className="alert-error" role="alert">{error}</div>}
                   <div className="flex flex-col gap-3 sm:flex-row">

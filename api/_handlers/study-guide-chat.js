@@ -4,6 +4,7 @@ import { retrieveStudyGuideContext } from '../_lib/studyGuideRetrieval.js';
 import { fetchProvider } from '../_lib/providerRequest.js';
 import { formatSourcesForPrompt, validateSourceCitations } from '../_lib/grounding.js';
 import { callChatProvider, extractChatAnswer, resolveChatProvider } from '../_lib/aiProviders.js';
+import { routeAiRequest } from '../_lib/aiRouting.js';
 
 const MAX_QUESTION_CHARS = 2000;
 
@@ -53,7 +54,8 @@ export default async function handler(req, res) {
     let response;
     let answer;
     if (googleApiKey) {
-      const model = process.env.GEMINI_STUDY_GUIDE_MODEL || 'gemini-3.1-flash-lite';
+      const route = routeAiRequest({ capability: 'study-guide-chat', provider: 'google', text: trimmedQuestion, defaultModel: process.env.GEMINI_STUDY_GUIDE_MODEL || 'gemini-3.1-flash-lite', maxTokens: 700 });
+      const model = route.model;
       response = await fetchProvider({
         capability: 'study_guide_chat', provider: 'google', model,
         url: `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`,
@@ -63,14 +65,15 @@ export default async function handler(req, res) {
           body: JSON.stringify({
             systemInstruction: { parts: [{ text: 'You are VertexED\'s MYP study-guide tutor. Do not invent guide content or claim to have read passages not provided.' }] },
             contents: [{ role: 'user', parts: [{ text: prompt }] }],
-            generationConfig: { temperature: 0.2, maxOutputTokens: 700 },
+            generationConfig: { temperature: 0.2, maxOutputTokens: route.maxTokens },
           }),
         },
       });
       const data = await response.json();
       answer = data?.candidates?.[0]?.content?.parts?.map((part) => part.text || '').join('').trim();
     } else {
-      const models = [...new Set([openAiConfig.primaryModel, openAiConfig.fallbackModel].filter(Boolean))];
+      const route = routeAiRequest({ capability: 'study-guide-chat', provider: openAiConfig.name, text: trimmedQuestion, defaultModel: openAiConfig.primaryModel, maxTokens: 700 });
+      const models = [...new Set([route.model, openAiConfig.fallbackModel].filter(Boolean))];
       for (const model of models) {
         const result = await callChatProvider({
           config: openAiConfig,
@@ -80,7 +83,7 @@ export default async function handler(req, res) {
             { role: 'user', content: prompt },
           ],
           temperature: 0.2,
-          maxTokens: 700,
+          maxTokens: route.maxTokens,
         });
         response = result.response;
         if (response.ok) {

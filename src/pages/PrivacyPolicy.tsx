@@ -21,6 +21,7 @@ export default function PrivacyPolicy() {
           </p>
 
           <h2>Information we collect</h2>
+          <p>Waitlist applications include your email, country, curriculum, grade or school year, age in whole years, and optional school name. We also record the name of an unlisted curriculum when you provide it. The VertexED team uses these details to plan beta access and curriculum coverage. Matching school names and countries link to a private school directory, without sharing applicants or study work. Application details remain linked when your account is created, help prefill your curriculum setup and are included in your account export. We do not send this application profile to AI providers.</p>
           <ul>
             <li><strong>Account and profile data:</strong> email address, display name, sign-in provider, board, year, subjects, exam date, study goal, and response preferences.</li>
             <li><strong>Study content:</strong> planner tasks, notes, flashcards, quizzes, notebook sources, generated papers, answers, reviews, and items you choose to save.</li>

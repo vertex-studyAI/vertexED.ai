@@ -1,0 +1,10 @@
+.features-immersive>.landing-ink { position:fixed; inset:0; width:100%; height:100dvh; z-index:20; pointer-events:none; opacity:.22; filter:blur(3px); }
+.features-immersive .feature-block-title { position:relative; font-size:clamp(2.5rem,4.5vw,4.75rem); line-height:1.06; letter-spacing:-.055em; width:fit-content; }
+.feature-block-title em { display:inline-block; position:relative; color:hsl(var(--primary)); font-family:Georgia,serif; font-weight:400; }
+.feature-block-title em::after { content:''; position:absolute; inset:0; background:hsl(var(--primary)); transform:scaleX(0); transform-origin:right; animation:feature-ink-wipe .85s ease both; }
+@keyframes feature-ink-wipe { 0% { transform:scaleX(1); } 100% { transform:scaleX(0); } }
+.features-lesson { padding-top:48px; }.features-lesson>.apex-workspace { padding:28px; border:1px solid hsl(var(--border)); border-top:3px solid hsl(var(--primary)); border-radius:24px; background:hsl(var(--background)); box-shadow:0 30px 80px -60px hsl(var(--primary)); }
+.features-lesson .apex-learning-card { min-height:220px; }.features-lesson .apex-working textarea { min-height:120px; }
+@media(max-width:650px) { .features-lesson>.apex-workspace { padding:18px; }.features-immersive .feature-block-title { font-size:2.6rem; } }
+@media(prefers-reduced-motion:reduce),(hover:none),(pointer:coarse),(forced-colors:active) { .features-immersive>.landing-ink { display:none; } }
+@media(prefers-reduced-motion:reduce) { .feature-block-title em::after { animation:none; transform:scaleX(0); } }

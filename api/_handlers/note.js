@@ -8,6 +8,7 @@ import {
   buildGenerationMetadata,
 } from '../_lib/learningArtifactFallbacks.js';
 import { fetchProvider } from '../_lib/providerRequest.js';
+import { routeAiRequest } from '../_lib/aiRouting.js';
 
 const PRIMARY_NOTE_MODEL = process.env.NOTE_MODEL || 'ft:gpt-4o-mini-2024-07-18:verteded:notes:CRuakY3O';
 const FALLBACK_NOTE_MODEL = process.env.NOTE_FALLBACK_MODEL || 'gpt-4o-mini';
@@ -33,7 +34,7 @@ async function extractResponsesText(response) {
   return raw;
 }
 
-async function callNotesResponsesApi(apiKey, systemMessage, userMessage, model) {
+async function callNotesResponsesApi(apiKey, systemMessage, userMessage, model, maxTokens = 1600) {
   const response = await fetchProvider({
     capability: 'note', provider: 'openai', model,
     url: 'https://api.openai.com/v1/responses',
@@ -47,7 +48,7 @@ async function callNotesResponsesApi(apiKey, systemMessage, userMessage, model) 
       model,
       input: [systemMessage, userMessage],
       temperature: 0.45,
-      max_output_tokens: 1600,
+      max_output_tokens: maxTokens,
     }),
     },
   });
@@ -82,10 +83,11 @@ async function callNotesChatFallback(apiKey, systemMessage, userMessage) {
 }
 
 async function generateNotesRaw(apiKey, systemMessage, userMessage) {
+  const route = routeAiRequest({ capability: 'note', text: userMessage.content, defaultModel: PRIMARY_NOTE_MODEL, maxTokens: 1600 });
   try {
     return {
-      raw: await callNotesResponsesApi(apiKey, systemMessage, userMessage, PRIMARY_NOTE_MODEL),
-      model: PRIMARY_NOTE_MODEL,
+      raw: await callNotesResponsesApi(apiKey, systemMessage, userMessage, route.model, route.maxTokens),
+      model: route.model,
     };
   } catch {
     console.warn('Primary note model failed; retrying configured fallback.');
@@ -167,8 +169,9 @@ Return ONLY JSON: { "flashcards": [ { "front": "...", "back": "..." } ] }
 NOTES:
 ${String(text).slice(0, 10000)}`;
 
+      const flashRoute = routeAiRequest({ capability: 'flashcards', defaultModel: 'gpt-4o-mini', maxTokens: 1200 });
       const flashResponse = await fetchProvider({
-        capability: 'flashcards', provider: 'openai', model: 'gpt-4o-mini',
+        capability: 'flashcards', provider: 'openai', model: flashRoute.model,
         url: "https://api.openai.com/v1/chat/completions",
         options: {
         method: "POST",
@@ -177,10 +180,10 @@ ${String(text).slice(0, 10000)}`;
           Authorization: `Bearer ${OPENAI_API_KEY}`,
         },
         body: JSON.stringify({
-          model: "gpt-4o-mini",
+          model: flashRoute.model,
           messages: [{ role: "user", content: flashPrompt }],
           temperature: 0.35,
-          max_tokens: 1200,
+          max_tokens: flashRoute.maxTokens,
           response_format: { type: "json_object" },
         }),
         },
@@ -214,7 +217,7 @@ ${String(text).slice(0, 10000)}`;
         generation: buildGenerationMetadata({
           capability: 'flashcards',
           mode: 'model',
-          model: 'gpt-4o-mini',
+          model: flashRoute.model,
           source: text,
         }),
       });

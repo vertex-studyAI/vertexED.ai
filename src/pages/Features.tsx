@@ -1,4 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import LandingInk from '@/components/LandingInk';
+import LearningPanels from '@/components/chat/LearningPanels';
+import { cubicLesson } from '@/lib/learningPanels.mjs';
+import { useLandingMotion } from '@/hooks/useLandingMotion';
+import '@/styles/vee.css';
+import '@/styles/features-immersion.css';
 import { Helmet } from "react-helmet-async";
 import SEO from "@/components/SEO";
 import { Link } from "react-router";
@@ -74,6 +80,8 @@ function FeaturePanel({ activeId }: { activeId: string }) {
 }
 
 export default function Features() {
+  const root = useRef<HTMLDivElement>(null);
+  useLandingMotion(root, true);
   const [activeId, setActiveId] = useState(PLATFORM_FEATURES[0]?.id ?? "");
 
   useEffect(() => {
@@ -87,12 +95,13 @@ export default function Features() {
   const selectSection = (id: string) => {
     setActiveId(id);
     if (typeof window !== "undefined") {
-      window.history.replaceState(null, "", `#${id}`);
+      window.history.replaceState(window.history.state, "", `#${id}`);
     }
   };
 
   return (
-    <>
+    <div className="features-immersive" ref={root}>
+      <LandingInk enabled />
       <SEO
         title="VertexED study tools"
         description="See how Exam Prep, Study Zone, Apex, Planner, Paper Maker, Answer Reviewer, Notes, the dashboard, and study resources connect."
@@ -105,9 +114,9 @@ export default function Features() {
       <section className="feat-hero workbook-features px-4 md:px-6 pt-8 pb-8">
         <div className="max-w-6xl mx-auto">
           <p className="text-xs uppercase tracking-[0.22em] text-primary mb-5">How VertexED works</p>
-          <h1 className="text-3xl md:text-4xl font-semibold text-foreground tracking-tight">Find the right tool for the task.</h1>
+          <h1 className="feature-block-title text-3xl md:text-4xl font-semibold text-foreground tracking-tight">Find the right tool<br /><em>for the way you learn.</em></h1>
           <p className="mt-6 text-lg md:text-xl text-foreground/88 leading-relaxed max-w-2xl">
-            Explore how each tool works, when to use it, and what to check in its output.
+            Prepare for the paper. Keep the understanding. Connect your curriculum, practice and feedback in a workspace built for both.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Link to="/signup" className="btn-solid">Join the private beta</Link>
@@ -186,6 +195,12 @@ export default function Features() {
 
       <BoardSpotlights />
 
+      <section className="features-lesson max-w-4xl mx-auto px-4 md:px-6 pb-16" aria-labelledby="feature-lesson-title">
+        <p className="text-sm text-primary">Try an actual learning workflow</p>
+        <h2 id="feature-lesson-title" className="text-3xl font-semibold mt-3">From an explanation to your own attempt.</h2>
+        <p className="mt-4 text-muted-foreground">Explore a short original lesson. Keep your working, reveal a hint only when you need it, then check the method. Apex can organise your own study requests into this format after sign-in.</p>
+        <LearningPanels workspace={cubicLesson} example />
+      </section>
       <section className="px-4 md:px-6 pb-16 reveal-section">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-3 text-center">Math in context</h2>
@@ -218,6 +233,6 @@ export default function Features() {
           </div>
         </div>
       </section>
-    </>
+    </div>
   );
 }

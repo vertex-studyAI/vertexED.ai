@@ -11,6 +11,7 @@ type WaitlistEntry = {
   signup_method?: 'email' | 'google';
   created_at: string;
   updated_at: string;
+  application_profile?: { school?: string; country?: string; curriculum?: string; curriculumOther?: string; grade?: string; age?: number };
 };
 
 type StatusFilter = 'all' | WaitlistEntry['status'];
@@ -261,7 +262,7 @@ export default function WaitlistAdmin() {
               <tbody>
                 {entries.map((entry) => (
                   <tr key={entry.id} className="border-t border-border/60">
-                    <td className="px-4 py-3 font-mono text-xs sm:text-sm">{entry.email}</td>
+                    <td className="px-4 py-3 text-sm"><p>{entry.email}</p>{entry.application_profile && <details className="mt-2 text-muted-foreground"><summary className="cursor-pointer text-primary">Study profile</summary><dl className="mt-2 space-y-1">{Object.entries(entry.application_profile).filter(([key]) => ['school', 'country', 'curriculum', 'curriculumOther', 'grade', 'age'].includes(key)).map(([key, value]) => <div key={key}><dt className="inline capitalize">{key === 'curriculumOther' ? 'Requested curriculum' : key}: </dt><dd className="inline">{String(value || 'Not supplied')}</dd></div>)}</dl></details>}</td>
                     <td className="px-4 py-3 capitalize text-muted-foreground">{entry.signup_method ?? "email"}</td><td className="px-4 py-3">
                       <span
                         className={`inline-flex rounded-full px-2.5 py-1 text-xs font-medium capitalize ${

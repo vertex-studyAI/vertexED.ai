@@ -71,7 +71,9 @@ async function installExternalServiceHarness(page: Page) {
     authHeaders: 0,
   };
 
-  await page.route('https://vertexed-e2e.supabase.co/**', async (route) => {
+  // Intercept every Supabase host so the harness cannot send writes to a real
+  // project when run against an already-built local preview.
+  await page.route(/^https:\/\/[^/]+\.supabase\.co\//, async (route) => {
     const request = route.request();
     const url = new URL(request.url());
 
@@ -436,6 +438,21 @@ test('approved learner completes the golden study journey and resumes saved work
     await expect(page.getByRole('heading', { name: 'Exam preparation', exact: true })).toBeVisible();
     await page.getByRole('button', { name: '45m', exact: true }).click();
     await expect(page.getByRole('heading', { name: 'A 45-minute exam block' })).toBeVisible();
+    const practice = page.getByRole('region', { name: 'Fix a step. Test the transfer.' });
+    await expect(practice).toBeVisible();
+    await practice.getByLabel('Programme', { exact: true }).selectOption('IB MYP');
+    await practice.getByLabel('Target', { exact: true }).selectOption('myp-chem-collisions');
+    await practice.getByLabel('Your explanation').fill('More particles have enough energy to react.');
+    await practice.getByRole('button', { name: 'Compare with worked reasoning' }).click();
+    await expect(practice.getByText('Check your explanation', { exact: true })).toBeVisible();
+    await practice.scrollIntoViewIfNeeded();
+    await page.screenshot({ path: `/tmp/vertexed-exam-practice-${width}.png` });
+    await page.evaluate(() => document.documentElement.classList.add('dark'));
+    await page.screenshot({ path: `/tmp/vertexed-exam-practice-dark-${width}.png` });
+    await page.evaluate(() => document.documentElement.classList.remove('dark'));
+    await practice.getByLabel('Target', { exact: true }).selectOption('myp-chem-design');
+    await expect(practice.getByLabel('Your explanation')).toHaveValue('');
+    await expect(practice.getByRole('button', { name: 'Compare with worked reasoning' })).toHaveAttribute('aria-expanded', 'false');
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width + 1);
     await page.screenshot({ path: `test-results/exam-prep-${width}.png`, fullPage: true });
   }
@@ -616,6 +633,23 @@ test('approved learner completes the golden study journey and resumes saved work
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width + 1);
     await page.screenshot({ path: `test-results/exam-prep-${width}.png`, fullPage: true });
   }
+
+  // Exercise the new renderer through the real authenticated request adapter.
+  await page.route('**/api/ask', async route => {
+    expect(route.request().headers().authorization).toMatch(/^Bearer /);
+    const body = route.request().postDataJSON();
+    expect(body.question).toContain('cubic factorisation');
+    await json(route, { answer: JSON.stringify({ title: 'A focused cubic lesson', cards: [
+      { kind: 'concept', title: 'Find a root', body: 'If f(a) = 0, then (x − a) is a factor.' },
+      { kind: 'practice', title: 'Try a factor', body: 'Factorise x³ − x.', answer: 'x(x − 1)(x + 1)' },
+    ] }) });
+  });
+  await page.getByRole('button', { name: 'Open Apex study shortcuts' }).click();
+  await page.getByLabel('What are we working on?').fill('Teach me cubic factorisation');
+  await page.getByRole('button', { name: 'Ask Apex', exact: true }).click();
+  await expect(page.getByRole('heading', { name: 'A focused cubic lesson' })).toBeVisible();
+  await expect(page.getByText('AI-generated study draft', { exact: true })).toBeVisible();
+  await page.keyboard.press('Escape');
 
   expect(harness.observed).toMatchObject({
     inviteValidated: true,

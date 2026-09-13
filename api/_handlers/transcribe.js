@@ -1,6 +1,7 @@
 import { verifyAuthUser } from '../_lib/auth.js';
 import { rateLimitUserEndpoint } from '../_lib/rateLimit.js';
 import { fetchProvider } from '../_lib/providerRequest.js';
+import { routeAiRequest } from '../_lib/aiRouting.js';
 import { parseTranscriptionRequest, TranscriptionInputError } from '../_lib/transcriptionInput.js';
 
 const TRANSCRIPTION_MODEL = 'gpt-4o-mini-transcribe';
@@ -22,20 +23,21 @@ function parseFlashcards(raw, limit) {
 }
 
 async function generateNotes(apiKey, transcript, noteFormat, noteLength) {
+  const route = routeAiRequest({ capability: 'note', defaultModel: ENRICHMENT_MODEL, maxTokens: 2200 });
   const response = await fetchProvider({
-    capability: 'transcription_notes', provider: 'openai', model: ENRICHMENT_MODEL,
+    capability: 'transcription_notes', provider: 'openai', model: route.model,
     url: 'https://api.openai.com/v1/chat/completions',
     options: {
       method: 'POST',
       headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        model: ENRICHMENT_MODEL,
+        model: route.model,
         messages: [
           { role: 'system', content: 'You are a precise academic notetaker. Preserve facts from the transcript and never add unsupported claims.' },
           { role: 'user', content: `Convert this transcript into ${noteFormat} notes with ${noteLength} detail. Keep chronological order and key points.\n\n${transcript.slice(0, 30_000)}` },
         ],
         temperature: 0.3,
-        max_tokens: 2200,
+        max_tokens: route.maxTokens,
       }),
     },
   });
@@ -47,17 +49,18 @@ async function generateNotes(apiKey, transcript, noteFormat, noteLength) {
 }
 
 async function generateFlashcards(apiKey, content, count) {
+  const route = routeAiRequest({ capability: 'flashcards', defaultModel: ENRICHMENT_MODEL, maxTokens: 1200 });
   const response = await fetchProvider({
-    capability: 'transcription_flashcards', provider: 'openai', model: ENRICHMENT_MODEL,
+    capability: 'transcription_flashcards', provider: 'openai', model: route.model,
     url: 'https://api.openai.com/v1/chat/completions',
     options: {
       method: 'POST',
       headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        model: ENRICHMENT_MODEL,
+        model: route.model,
         messages: [{ role: 'user', content: `Create ${count} flashcards from the content. Return only JSON as {"flashcards":[{"front":"...","back":"..."}]}.\n\n${content.slice(0, 10_000)}` }],
         temperature: 0.35,
-        max_tokens: 1200,
+        max_tokens: route.maxTokens,
         response_format: { type: 'json_object' },
       }),
     },

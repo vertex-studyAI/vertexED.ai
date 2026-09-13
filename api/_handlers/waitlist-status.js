@@ -26,7 +26,15 @@ export default async function handler(req, res) {
     // rows by migration/signup. A missing row is not authorization: this also
     // fails closed if hosted Auth signup is accidentally enabled.
     const status = entry?.status ?? 'unregistered';
-    return res.status(200).json({ status, method: entry?.signup_method ?? null, access: status === 'approved' });
+    let applicationProfile;
+    if (req.query?.profile === '1' && status === 'approved') {
+      const own = await supabase.from('waitlist').select('application_profile').eq('auth_user_id', user.id).maybeSingle();
+      if (own.error) throw own.error;
+      const profile = own.data?.application_profile;
+      if (profile) applicationProfile = { school: profile.school, curriculum: profile.curriculum, curriculumOther: profile.curriculumOther, grade: profile.grade };
+    }
+    res.setHeader('Cache-Control', 'private, no-store');
+    return res.status(200).json({ status, method: entry?.signup_method ?? null, access: status === 'approved', ...(applicationProfile ? { applicationProfile } : {}) });
   } catch (err) {
     console.error('waitlist-status error:', err?.code || (err instanceof Error ? err.name : 'UnknownError'));
     return res.status(500).json({ error: 'Could not verify account access.' });

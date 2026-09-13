@@ -100,20 +100,13 @@ test.describe('local keyboard accessibility', () => {
     await expect(navigation).toHaveJSProperty('inert', true);
   });
 
-  test('tool detail dialog receives focus, closes on Escape, and restores its opener', async ({ page }) => {
+  test('landing stage tabs move focus and update their panel', async ({ page }) => {
     await page.goto('/');
-
-    const opener = page.getByRole('button', { name: 'About Exam Prep' });
-    await expect(opener).toBeVisible();
-    await opener.click();
-
-    const dialog = page.getByRole('dialog', { name: 'Exam Prep' });
-    await expect(dialog).toBeVisible();
-    await expect(page.getByRole('button', { name: 'Close tool details' })).toBeFocused();
-
-    await page.keyboard.press('Escape');
-    await expect(dialog).toHaveCount(0);
-    await expect(opener).toBeFocused();
+    const firstStage = page.getByRole('tab', { name: /Learn/ });
+    await firstStage.focus();
+    await page.keyboard.press('ArrowRight');
+    await expect(page.getByRole('tab', { name: /Practise/ })).toBeFocused();
+    await expect(page.getByRole('heading', { name: 'Make the first attempt.' })).toBeVisible();
   });
 
   for (const viewport of launchViewports) {
@@ -127,8 +120,8 @@ test.describe('local keyboard accessibility', () => {
 
         if (path === '/' && visualEvidenceWidths.has(viewport.width)) {
           await expect(page.locator('.landing-hero')).toBeVisible();
-          await expect(page.locator('.study-entry')).toBeVisible();
-          await expect(page.locator('.tools-section')).toBeVisible();
+          await expect(page.locator('.vh-learning')).toBeVisible();
+          await expect(page.locator('.vh-subjects')).toBeVisible();
           await page.screenshot({
             path: testInfo.outputPath(`landing-${viewport.width}x${viewport.height}.png`),
             fullPage: true,

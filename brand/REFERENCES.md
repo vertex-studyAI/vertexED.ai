@@ -93,3 +93,16 @@ All 39 supplied URLs were requested. The public documentation was used as an int
 | [lens](https://inspira-ui.com/docs/en/components/miscellaneous/lens) | Magnification would duplicate readable answer text. The explicit comparison control better serves the task. |
 | [compare](https://inspira-ui.com/docs/en/components/miscellaneous/compare) | A native range reveals two labelled answers. A Read both answers button makes either version fully readable. |
 | [animated-modal](https://inspira-ui.com/docs/en/components/miscellaneous/animated-modal) | Shallow depth entrance applied to the existing modal, with focus return and background interaction blocked. |
+## Inspira immersion synthesis, 13 September 2026
+
+The supplied Inspira documentation was reviewed as interaction research. No Vue source, artwork, dependency, or reference layout was copied. The landing adapts the relevant properties with local React and CSS: organic bounded pointer ink, shallow parallax float, a compact glass section island, link-preview annotations, a late-page marquee, media-text treatment, morphing study-stage tabs, a scroll trace, glowing boundaries, progressive blur, finite reveal motion, direction-aware cards, and ripple or shimmer action feedback.
+
+The requested Tetris idea is implemented as a contained, playable `Revision Stack` study break in VertexED blue. It is not a decorative site-wide grid, a learning outcome, or a progress claim. The neural and dither references inform only restrained light and texture behind product content. Native document scrolling remains intact because simulated resistance or wheel interception would damage keyboard, touch, and motion accessibility.
+
+No customer endorsement was invented. The requested testimonial marquee is instead a clearly labelled private-beta research-question marquee that says it is not testimonials or measured outcomes. This preserves the product's evidence boundary while retaining the intended late-page rhythm.
+
+## Lens and application pass, 13 September 2026
+
+The latest request reinstates lens and SVG-mask exploration. Lens and SVG Mask documentation requests timed out; the Container Text Flip page exposed its short description. No unavailable demo or source is claimed as inspected. A locally authored SVG mask now magnifies an original cooling-curve illustration at 1.65×. A native toggle exposes the same detail on keyboard and touch. No copied asset or new dependency. The curve was corrected during visual review to match the stated steep-to-gentle cooling trend.
+
+The new waitlist profile and exam practice controls use existing paper surfaces, blue action colours, native selects and persistent labels. They do not animate student answers or send application demographics to AI.

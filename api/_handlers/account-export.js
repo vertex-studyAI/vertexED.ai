@@ -4,7 +4,7 @@ import { rateLimitUserEndpoint } from '../_lib/rateLimit.js';
 import { buildAccountExport, listAllOwnedRows } from '../_lib/accountExport.js';
 
 const PROFILE_FIELDS = 'id, email, full_name, avatar_url, board, grade, subjects, exam_date, created_at, updated_at';
-const WAITLIST_FIELDS = 'id, email, status, signup_method, created_at, updated_at';
+const WAITLIST_FIELDS = 'id, email, status, signup_method, school_id, application_profile, profile_collected_at, created_at, updated_at';
 const ARTIFACT_FIELDS = 'id, kind, title, payload, idempotency_key, created_at, updated_at';
 const STATE_FIELDS = 'state_type, state_key, payload, client_revision, client_updated_at, created_at, updated_at';
 

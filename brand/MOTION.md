@@ -44,3 +44,12 @@ Respect both operating-system reduced motion and the saved reduced-motion settin
 Apex follows pointer movement directly and does not add inertia, spring overshoot or a trailing effect. Clamp the complete launcher to an eight-pixel viewport gap. Store the final relative position only when a drag ends; do not write device storage on every pointer move. A five-pixel threshold separates a drag from opening the shortcut sheet. Arrow keys move by 16 pixels and Shift plus an arrow moves by 48 pixels. Resizing recalculates the saved relative point and keeps the launcher visible.
 
 Blink lasts 420ms. Turn page lasts 820ms. Both swap to an appearance-matched raster frame, run once and return to the resting frame. Reduced motion disables all reaction controls and frame swaps, but never disables direct dragging or keyboard positioning.
+## Natural immersion pass, 13 September 2026
+
+Landing motion now follows operating-system preferences without an in-product effects toggle. Fine pointers receive bounded ink and shallow surface depth. Touch and coarse pointers keep native interaction. Reduced motion removes automatic falling blocks, marquee movement, depth, shimmer, ripple, tracing, and reveal animation while keeping every control and piece of content usable.
+
+The floating section island uses native anchors. Scrolling is never intercepted, slowed, or given synthetic resistance. Passive visual depth may respond to normal scroll position, but the document remains controlled by the browser. Revision Stack accepts pointer, touch, and keyboard input; automatic falling pauses under reduced motion while manual play remains available. Motion is finite or input-driven, and no essential meaning is communicated by animation alone.
+
+The page trace follows native document position and the section island marks the chapter crossing the reading band. Neither moves focus, triggers navigation, or changes application state. The active chapter is also exposed through `aria-current`. Under reduced motion, values update without animated transitions.
+
+The concept lens follows the pointer only after explicit activation, within the diagram. It has no inertia, idle loop or animation. Keyboard and touch can toggle a fixed magnified view. The exercise answer and application fields remain static.

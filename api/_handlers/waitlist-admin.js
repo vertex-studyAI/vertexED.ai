@@ -44,7 +44,7 @@ export default async function handler(req, res) {
       const from = (page - 1) * pageSize;
       let query = supabase
         .from('waitlist')
-        .select('id, email, status, signup_method, created_at, updated_at', { count: 'exact' })
+        .select('id, email, status, signup_method, application_profile, profile_collected_at, created_at, updated_at', { count: 'exact' })
         .order('created_at', { ascending: false })
         .range(from, from + pageSize - 1);
 

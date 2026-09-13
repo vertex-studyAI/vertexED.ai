@@ -174,6 +174,81 @@ export function normalizeGradeAudits({ questions = [], userAnswers = {}, rawGrad
   return { audits, coverage: buildCoverageMap(questions, audits) };
 }
 
+function validatedHumanCriteria(criteria) {
+  if (!Array.isArray(criteria) || criteria.length === 0) {
+    throw new TypeError('human review requires at least one criterion');
+  }
+  return criteria.map((criterion) => {
+    const score = Number(criterion?.score);
+    const maxScore = Number(criterion?.maxScore);
+    if (!Number.isFinite(score) || !Number.isFinite(maxScore) || maxScore <= 0 || score < 0 || score > maxScore) {
+      throw new RangeError('human criterion scores must be finite and within range');
+    }
+    return { ...criterion, score, maxScore };
+  });
+}
+
+export function confirmGradeAudit({ audit, reviewerReference, criteria, decision = 'confirmed', rationale = '' }, now = new Date()) {
+  const reviewer = cleanText(reviewerReference, 200);
+  if (!audit || !reviewer) throw new TypeError('human review requires an audit and reviewer reference');
+  if (!['confirmed', 'overridden'].includes(decision)) throw new RangeError('invalid human review decision');
+  const reviewedCriteria = validatedHumanCriteria(criteria);
+  const score = reviewedCriteria.reduce((sum, criterion) => sum + criterion.score, 0);
+  const maxScore = reviewedCriteria.reduce((sum, criterion) => sum + criterion.maxScore, 0);
+  return {
+    ...audit,
+    criteria: reviewedCriteria,
+    score,
+    maxScore,
+    scoreStatus: 'MEASURED',
+    humanReviewRequired: false,
+    measurementEligible: true,
+    evidenceState: 'HUMAN_CONFIRMED',
+    humanReview: {
+      decision,
+      reviewerReferenceHash: stableId(reviewer),
+      rationale: cleanText(rationale, 2_000),
+      reviewedAt: now.toISOString(),
+    },
+    appeal: { status: 'AVAILABLE' },
+  };
+}
+
+export function openGradeAppeal(audit, reason, now = new Date()) {
+  const appealReason = cleanText(reason, 2_000);
+  if (!audit?.measurementEligible || !appealReason) {
+    throw new TypeError('only a measured grade with a reason can be appealed');
+  }
+  return {
+    ...audit,
+    scoreStatus: 'UNDER_APPEAL',
+    measurementEligible: false,
+    appeal: { status: 'OPEN', reason: appealReason, openedAt: now.toISOString() },
+  };
+}
+
+export function resolveGradeAppeal({ audit, reviewerReference, outcome, criteria, rationale = '' }, now = new Date()) {
+  if (audit?.appeal?.status !== 'OPEN') throw new TypeError('appeal must be open');
+  if (!['upheld', 'revised'].includes(outcome)) throw new RangeError('invalid appeal outcome');
+  const resolved = confirmGradeAudit({
+    audit,
+    reviewerReference,
+    criteria: outcome === 'upheld' ? audit.criteria : criteria,
+    decision: outcome === 'upheld' ? 'confirmed' : 'overridden',
+    rationale,
+  }, now);
+  return {
+    ...resolved,
+    appeal: {
+      ...audit.appeal,
+      status: 'RESOLVED',
+      outcome,
+      resolvedAt: now.toISOString(),
+      reviewerReferenceHash: resolved.humanReview.reviewerReferenceHash,
+    },
+  };
+}
+
 function noteSegments(notes) {
   return cleanText(notes, 12_000)
     .split(/(?<=[.!?])\s+|\n+/)

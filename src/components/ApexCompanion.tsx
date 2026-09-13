@@ -10,6 +10,7 @@ import { Link } from 'react-router';
 import { createPortal } from 'react-dom';
 import { ArrowUpRight, X } from 'lucide-react';
 import AccessibleModal from '@/components/AccessibleModal';
+import ApexCommandBar from '@/components/chat/ApexCommandBar';
 import { useAppPreferences } from '@/contexts/AppPreferencesContext';
 import '@/styles/vee.css';
 
@@ -30,6 +31,7 @@ const reactions = [
   { name: 'spin', label: 'Spin' },
   { name: 'blink', label: 'Blink' },
   { name: 'page-turn', label: 'Turn page' },
+  { name: 'math', label: 'Math eyes' },
 ] as const;
 type Reaction = 'rest' | 'greeting' | typeof reactions[number]['name'];
 type PixelPosition = { left: number; top: number };
@@ -47,7 +49,7 @@ function clamp(value: number, minimum: number, maximum: number) {
   return Math.min(Math.max(value, minimum), Math.max(minimum, maximum));
 }
 
-/** Apex is navigation, not an AI persona or a source of learning claims. */
+/** Workbook companion for explicit app actions and labelled study drafts. */
 export default function ApexCompanion({ suspended, onOpenTutor }: ApexCompanionProps) {
   const { settings, update } = useAppPreferences();
   const [open, setOpen] = useState(false);
@@ -106,10 +108,10 @@ export default function ApexCompanion({ suspended, onOpenTutor }: ApexCompanionP
   }, [settings.reducedMotion]);
 
   useEffect(() => {
-    if (reaction.name !== 'blink' && reaction.name !== 'page-turn') return;
+    if (reaction.name !== 'blink' && reaction.name !== 'page-turn' && reaction.name !== 'math') return;
     const timer = window.setTimeout(
       () => setReaction(previous => ({ name: 'rest', take: previous.take + 1 })),
-      reaction.name === 'blink' ? 420 : 820,
+      reaction.name === 'blink' ? 420 : reaction.name === 'math' ? 1600 : 820,
     );
     return () => window.clearTimeout(timer);
   }, [reaction.name, reaction.take]);
@@ -248,11 +250,15 @@ export default function ApexCompanion({ suspended, onOpenTutor }: ApexCompanionP
           <button className="vee-close" type="button" aria-label="Close Apex study shortcuts" onClick={() => setOpen(false)}>
             <X size={18} aria-hidden="true" />
           </button>
-          <div className="vee-intro">
+          <div className="vee-intro" data-math={reaction.name === 'math' && !settings.reducedMotion}>
             {!imageFailed && <img key={reaction.take} data-reaction={reaction.name} className="vee-reaction-sprite"
               src={reactionSpriteSrc} alt="" width="112" height="112" draggable={false} />}
-            <div><p className="vee-eyebrow">YOUR STUDY COMPANION</p><h2 id="vee-title">Meet Apex.</h2></div>
+            <span className="apex-math-glyphs" aria-hidden="true">× + −</span>
+            <div><p className="vee-eyebrow">YOUR STUDY COMPANION</p><h2 id="vee-title">Think it through.</h2></div>
           </div>
+          <p id="vee-description">The book in your corner. Turn a question into a learning workspace.</p>
+          <ApexCommandBar />
+          <details className="apex-character-settings"><summary>Appearance and animations</summary>
           {!imageFailed && <fieldset className="vee-appearance">
             <legend>Appearance</legend>
             <label><input type="radio" name="apex-appearance" value="paper" checked={settings.apexAppearance === 'paper'} onChange={() => update({ apexAppearance: 'paper' })} /> Paper</label>
@@ -270,7 +276,7 @@ export default function ApexCompanion({ suspended, onOpenTutor }: ApexCompanionP
               update({ apexPosition: null });
             }}>Reset position</button>
           </div>
-          <p id="vee-description">The book in your corner. Pick a place to start.</p>
+          </details>
           <nav className="vee-shortcuts" aria-label="Apex study shortcuts">
             {shortcuts.map(({ to, stage, detail }) => (
               <Link key={to} to={to} onClick={() => setOpen(false)}>

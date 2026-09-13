@@ -6,8 +6,11 @@ import {
   HUMAN_REVIEW_CONFIDENCE_THRESHOLD,
   buildCoverageMap,
   buildDeterministicQuizFallback,
+  confirmGradeAudit,
   normalizeEvidenceSpans,
   normalizeGradeAudits,
+  openGradeAppeal,
+  resolveGradeAppeal,
 } from '../api/_lib/verifiedGrading.js';
 
 const question = {
@@ -169,4 +172,37 @@ test('fallback emits bounded questions with objectives and criteria', () => {
 test('every audit advertises the frozen contract version', () => {
   const { audits } = normalizeGradeAudits({ questions: [question], userAnswers: {}, rawGrades: [] });
   assert.equal(audits[0].contractVersion, GRADING_CONTRACT_VERSION);
+});
+
+test('only an explicit human review can promote an AI audit to measured', () => {
+  const { audits } = normalizeGradeAudits({ questions: [question], userAnswers: { q1: 'Water moves.' }, rawGrades: [] });
+  const measured = confirmGradeAudit({
+    audit: audits[0], reviewerReference: 'teacher-opaque-17',
+    criteria: [{ id: 'accuracy', score: 3, maxScore: 4 }], rationale: 'Checked against the mark scheme.',
+  }, new Date('2026-09-13T00:00:00Z'));
+  assert.equal(measured.scoreStatus, 'MEASURED');
+  assert.equal(measured.measurementEligible, true);
+  assert.equal(measured.score, 3);
+  assert.notEqual(measured.humanReview.reviewerReferenceHash, 'teacher-opaque-17');
+});
+
+test('an appeal suspends measurement until a second human resolution', () => {
+  const base = { id: 'q1', measurementEligible: true, scoreStatus: 'MEASURED', criteria: [{ id: 'a', score: 2, maxScore: 4 }] };
+  const appealed = openGradeAppeal(base, 'The criterion was applied inconsistently.', new Date('2026-09-13T00:00:00Z'));
+  assert.equal(appealed.measurementEligible, false);
+  assert.equal(appealed.scoreStatus, 'UNDER_APPEAL');
+  const resolved = resolveGradeAppeal({
+    audit: appealed, reviewerReference: 'appeal-reviewer-2', outcome: 'revised',
+    criteria: [{ id: 'a', score: 3, maxScore: 4 }], rationale: 'Evidence supports one additional mark.',
+  }, new Date('2026-09-13T01:00:00Z'));
+  assert.equal(resolved.appeal.status, 'RESOLVED');
+  assert.equal(resolved.appeal.outcome, 'revised');
+  assert.equal(resolved.measurementEligible, true);
+  assert.equal(resolved.score, 3);
+});
+
+test('malformed human overrides and appeals fail closed', () => {
+  assert.throws(() => confirmGradeAudit({ audit: {}, reviewerReference: 'r', criteria: [{ score: 5, maxScore: 4 }] }), /within range/);
+  assert.throws(() => openGradeAppeal({ measurementEligible: false }, 'reason'), /measured grade/);
+  assert.throws(() => resolveGradeAppeal({ audit: {}, reviewerReference: 'r', outcome: 'upheld' }), /open/);
 });

@@ -6,6 +6,7 @@ import {
   normalizeGradeAudits,
 } from '../_lib/verifiedGrading.js';
 import { fetchProvider } from '../_lib/providerRequest.js';
+import { routeAiRequest } from '../_lib/aiRouting.js';
 import { validateGeneratedQuiz } from '../../contracts/learningOutputs.js';
 
 function parseJsonBody(req) {
@@ -40,10 +41,10 @@ function extractJson(raw) {
   }
 }
 
-async function callOpenAI(apiKey, messages, maxTokens = 2500) {
-  const model = process.env.OPENAI_MODEL || "gpt-4o-mini";
+async function callOpenAI(apiKey, messages, route) {
+  const { model, maxTokens } = route;
   const response = await fetchProvider({
-    capability: 'quiz', provider: 'openai', model,
+    capability: route.capability, provider: 'openai', model,
     url: "https://api.openai.com/v1/chat/completions",
     options: {
     method: "POST",
@@ -149,7 +150,8 @@ NOTES:
 ${String(notes).slice(0, 12000)}`;
 
   try {
-    const raw = await callOpenAI(apiKey, [{ role: "user", content: prompt }], 3000);
+    const route = routeAiRequest({ capability: 'quiz', text: String(notes).slice(0, 12000), defaultModel: process.env.OPENAI_MODEL || 'gpt-4o-mini', maxTokens: 3000 });
+    const raw = await callOpenAI(apiKey, [{ role: "user", content: prompt }], route);
     const parsed = extractJson(raw);
     const questions = validateGeneratedQuiz(parsed, counts, optionCount);
 
@@ -157,7 +159,7 @@ ${String(notes).slice(0, 12000)}`;
       throw new Error('Quiz provider returned invalid question structure.');
     }
 
-    const model = process.env.OPENAI_MODEL || "gpt-4o-mini";
+    const model = route.model;
     const generatedAt = new Date().toISOString();
     const normalizedQuestions = questions.map((question, index) => ({
       ...question,
@@ -210,7 +212,8 @@ async function handleGrade(body, apiKey, res) {
     return res.status(200).json({ grades: [], coverage: [], contractVersion: GRADING_CONTRACT_VERSION });
   }
 
-  const model = process.env.OPENAI_MODEL || "gpt-4o-mini";
+  const route = routeAiRequest({ capability: 'grading', defaultModel: process.env.OPENAI_MODEL || 'gpt-4o-mini', maxTokens: 2000 });
+  const model = route.model;
   if (!apiKey) {
     const normalized = normalizeGradeAudits({ questions: toGrade, userAnswers, rawGrades: [], model: 'unavailable' });
     return res.status(200).json({
@@ -254,7 +257,7 @@ ${JSON.stringify(
 )}`;
 
   try {
-    const raw = await callOpenAI(apiKey, [{ role: "user", content: prompt }], 2000);
+    const raw = await callOpenAI(apiKey, [{ role: "user", content: prompt }], route);
     const parsed = extractJson(raw);
     const rawGrades = Array.isArray(parsed?.grades) ? parsed.grades : [];
     const normalized = normalizeGradeAudits({ questions: toGrade, userAnswers, rawGrades, model });

@@ -7,6 +7,7 @@ import {
   validateStructuredSourceIds,
 } from '../_lib/grounding.js';
 import { fetchProvider } from '../_lib/providerRequest.js';
+import { routeAiRequest } from '../_lib/aiRouting.js';
 import { validateNotebookOutput } from '../../contracts/learningOutputs.js';
 
 const ALLOWED_MODES = new Set(Object.keys(NOTEBOOK_OUTPUT_MODES));
@@ -61,7 +62,8 @@ ${customPrompt ? `STUDENT INSTRUCTIONS: ${customPrompt}` : ''}
 SOURCES:
 ${sourceBlock}`;
 
-    const model = process.env.NOTEBOOK_MODEL || 'gpt-4o-mini';
+    const route = routeAiRequest({ capability: 'notebook', text: customPrompt, defaultModel: process.env.NOTEBOOK_MODEL || 'gpt-4o-mini', maxTokens: spec.json ? 2000 : 2500 });
+    const model = route.model;
     const response = await fetchProvider({
       capability: 'notebook', provider: 'openai', model,
       url: 'https://api.openai.com/v1/chat/completions',
@@ -82,7 +84,7 @@ ${sourceBlock}`;
           { role: 'user', content: userPrompt },
         ],
         temperature: 0.35,
-        max_tokens: spec.json ? 2000 : 2500,
+        max_tokens: route.maxTokens,
         ...(spec.json ? { response_format: { type: 'json_object' } } : {}),
       }),
       },
