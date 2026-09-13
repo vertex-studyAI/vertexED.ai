@@ -10,6 +10,7 @@ on:
       - 'scripts/immutable-revision.mjs'
       - 'scripts/validate-immutable-revision.mjs'
       - 'tests/immutableRevision.test.mjs'
+      - 'tests/productionHealthWorkflow.test.mjs'
   push:
     branches:
       - main
@@ -21,6 +22,7 @@ on:
       - 'scripts/immutable-revision.mjs'
       - 'scripts/validate-immutable-revision.mjs'
       - 'tests/immutableRevision.test.mjs'
+      - 'tests/productionHealthWorkflow.test.mjs'
   schedule:
     # Offset from the top of the hour to reduce scheduler congestion.
     - cron: '17 * * * *'
@@ -64,13 +66,12 @@ jobs:
         with:
           node-version: '22'
 
-      - name: Verify immutable revision contract
-        run: node --test tests/immutableRevision.test.mjs
+      - name: Verify production health contracts
+        run: node --test tests/immutableRevision.test.mjs tests/productionHealthWorkflow.test.mjs
 
-      - name: Run canonical public production smoke checks
+      - name: Collect canonical public production health evidence
         if: github.event_name != 'pull_request'
         id: probe
-        continue-on-error: true
         shell: bash
         run: |
           set -uo pipefail
@@ -78,7 +79,7 @@ jobs:
           mkdir -p health-evidence
           log_path='health-evidence/production-smoke.log'
           checked_at="$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
-          passed=0
+          healthy='false'
           expected_revision='not-enforced-for-this-ref'
 
           if [ "${GITHUB_REF}" = 'refs/heads/main' ]; then
@@ -100,7 +101,7 @@ jobs:
           for attempt in 1 2 3; do
             echo "[monitor] Attempt ${attempt}/3" | tee -a "$log_path"
             if node scripts/smoke-deploy.mjs 2>&1 | tee -a "$log_path"; then
-              passed=1
+              healthy='true'
               break
             fi
 
@@ -117,14 +118,12 @@ jobs:
             echo "- Workflow commit: ${GITHUB_SHA}"
             echo "- Expected deploy revision: ${expected_revision}"
             echo "- Attempts allowed: 3"
-            echo "- Result: $([ "$passed" -eq 1 ] && echo PASS || echo FAIL)"
+            echo "- Result: $([ "$healthy" = 'true' ] && echo PASS || echo FAIL)"
             echo
             echo 'Coverage: deployed revision identity when running on main, health/router identity, API 404 behavior, homepage availability, malformed waitlist rejection, logged-out AI/user/admin protection, and untrusted-origin rejection.'
           } >> "$GITHUB_STEP_SUMMARY"
 
-          if [ "$passed" -ne 1 ]; then
-            exit 1
-          fi
+          echo "healthy=${healthy}" >> "$GITHUB_OUTPUT"
 
       - name: Upload probe evidence
         if: always() && github.event_name != 'pull_request'
@@ -136,7 +135,7 @@ jobs:
           retention-days: 14
 
       - name: Open or update production incident
-        if: github.event_name != 'pull_request' && steps.probe.outcome == 'failure'
+        if: github.event_name != 'pull_request' && steps.probe.outputs.healthy == 'false'
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
@@ -179,7 +178,7 @@ jobs:
           fi
 
       - name: Close recovered production incident
-        if: github.event_name != 'pull_request' && steps.probe.outcome == 'success'
+        if: github.event_name != 'pull_request' && steps.probe.outputs.healthy == 'true'
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
@@ -206,6 +205,6 @@ jobs:
               >/dev/null
           fi
 
-      - name: Fail workflow when production is unhealthy
-        if: github.event_name != 'pull_request' && steps.probe.outcome == 'failure'
+      - name: Enforce production health gate
+        if: github.event_name != 'pull_request' && steps.probe.outputs.healthy == 'false'
         run: exit 1

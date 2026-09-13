@@ -30,6 +30,24 @@ test('describeReviewImages returns trimmed evidence and forwards every image', a
   assert.equal(captured.messages[0].content[2].image_url.url, images[1]);
 });
 
+test('describeReviewImages supports a review-specific vision model override', async () => {
+  const previous = process.env.OPENAI_REVIEW_VISION_MODEL;
+  process.env.OPENAI_REVIEW_VISION_MODEL = 'review-vision-model';
+  let captured;
+  const client = mockClient(async (request) => {
+    captured = request;
+    return { choices: [{ message: { content: 'evidence' } }] };
+  });
+
+  try {
+    await describeReviewImages(client, ['data:image/png;base64,AAAA']);
+    assert.equal(captured.model, 'review-vision-model');
+  } finally {
+    if (previous === undefined) delete process.env.OPENAI_REVIEW_VISION_MODEL;
+    else process.env.OPENAI_REVIEW_VISION_MODEL = previous;
+  }
+});
+
 test('describeReviewImages fails closed on provider errors', async () => {
   const client = mockClient(async () => {
     throw new Error('provider unavailable');

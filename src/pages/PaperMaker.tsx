@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link, useSearchParams } from "react-router";
 import { motion } from "framer-motion";
@@ -7,7 +7,7 @@ import NeumorphicCard from "@/components/NeumorphicCard";
 import PageSection from "@/components/PageSection";
 import { authFetch } from "@/lib/apiAuth";
 import MockExamMode from "@/components/MockExamMode";
-import { saveStudyArtifact, consumeArtifactRestore } from "@/lib/userContent";
+import { deleteStudyArtifact, saveStudyArtifact, consumeArtifactRestore } from "@/lib/userContent";
 import { recordStudySession } from "@/lib/studyStats";
 import { recordLoopStep } from "@/lib/studyLoopTracker";
 import { toast } from "@/hooks/use-toast";
@@ -53,12 +53,80 @@ export default function PaperMaker({ priorPapers = [] }) {
   const examDaysLeft = daysUntilExam(getCurriculumPreference(user).examDate);
 
   const prevBoardRef = useRef(board);
+  const generationRequestIdRef = useRef(0);
+  const currentGenerationAccountIdRef = useRef<string | null>(user?.id ?? null);
+  const previousGenerationConfigKeyRef = useRef<string | null>(null);
   const boardApiLabel = boardToApiLabel(board);
   const criteriaOptions = BOARD_CONFIGS[board].criteria ?? [];
+
+  const invalidateGenerationRequest = useCallback(() => {
+    generationRequestIdRef.current += 1;
+    setLoading(false);
+  }, []);
 
   const gradesForBoard = useMemo(() => getGradesForBoard(board), [board]);
 
   const subjectsForBoard = useMemo(() => getSubjectsForBoard(board, grade), [board, grade]);
+
+  const generationConfigKey = useMemo(() => JSON.stringify({
+    board,
+    grade,
+    subject,
+    topics,
+    marks,
+    numQuestions,
+    format,
+    difficulty,
+    criteria,
+    useCriteria,
+    anythingElse,
+    files: files.map((file) => ({ name: file.name, mime: file.mime, b64: file.b64 })),
+    priorPapers,
+  }), [
+    board,
+    grade,
+    subject,
+    topics,
+    marks,
+    numQuestions,
+    format,
+    difficulty,
+    criteria,
+    useCriteria,
+    anythingElse,
+    files,
+    priorPapers,
+  ]);
+
+  useLayoutEffect(() => {
+    const nextAccountId = user?.id ?? null;
+    if (currentGenerationAccountIdRef.current !== nextAccountId) {
+      currentGenerationAccountIdRef.current = nextAccountId;
+      invalidateGenerationRequest();
+      setPaper(null);
+      setRaw(null);
+      setSaveStatus("");
+      setError("");
+    }
+  }, [user?.id, invalidateGenerationRequest]);
+
+  useEffect(() => () => {
+    generationRequestIdRef.current += 1;
+  }, []);
+
+  useEffect(() => {
+    if (previousGenerationConfigKeyRef.current === null) {
+      previousGenerationConfigKeyRef.current = generationConfigKey;
+      return;
+    }
+    if (previousGenerationConfigKeyRef.current === generationConfigKey) return;
+    previousGenerationConfigKeyRef.current = generationConfigKey;
+    invalidateGenerationRequest();
+    setPaper(null);
+    setRaw(null);
+    setSaveStatus("");
+    setError("");
+  }, [generationConfigKey, invalidateGenerationRequest]);
 
   useEffect(() => {
     const pref = user?.user_metadata;
@@ -180,11 +248,19 @@ export default function PaperMaker({ priorPapers = [] }) {
 
   async function handleGenerate(e) {
     e?.preventDefault?.();
+    const requestId = generationRequestIdRef.current + 1;
+    generationRequestIdRef.current = requestId;
+    const requestAccountId = currentGenerationAccountIdRef.current;
+    const isCurrentRequest = () =>
+      generationRequestIdRef.current === requestId &&
+      currentGenerationAccountIdRef.current === requestAccountId;
+
     setError("");
     setLoading(true);
     setPaper(null);
     setRaw(null);
     setShowMarkScheme(false);
+    setSaveStatus("");
 
     const payload = {
       board: boardApiLabel,
@@ -207,7 +283,11 @@ export default function PaperMaker({ priorPapers = [] }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
+      if (!isCurrentRequest()) return;
+
       const data = await res.json();
+      if (!isCurrentRequest()) return;
+
       if (!data.success) {
         setError(data.error || "Generation failed");
         setRaw(data?.raw ?? null);
@@ -219,6 +299,7 @@ export default function PaperMaker({ priorPapers = [] }) {
         try {
           paperData = JSON.parse(paperData);
         } catch {
+          if (!isCurrentRequest()) return;
           setRaw(paperData);
           setError("Could not parse generated paper JSON.");
           return;
@@ -226,6 +307,7 @@ export default function PaperMaker({ priorPapers = [] }) {
       }
 
       if (paperData && typeof paperData === "object") {
+        if (!isCurrentRequest()) return;
         paperData = { ...paperData, generation: data?.generation ?? null };
         setPaper(paperData);
         setRaw(null);
@@ -236,43 +318,56 @@ export default function PaperMaker({ priorPapers = [] }) {
             description: "The AI provider was unavailable. Questions contain no asserted factual answer key and require syllabus verification.",
           });
         }
-        recordStudySession();
-        recordLoopStep("practise");
         const title = paperData.title || `${boardApiLabel} ${subject} paper`;
-        saveStudyArtifact("paper", title, {
+        if (!isCurrentRequest()) return;
+        const saved = await saveStudyArtifact("paper", title, {
           paper: paperData,
           board: boardApiLabel,
           subject,
           grade,
           provenance: paperData.provenance ?? null,
           generation: data?.generation ?? null,
-        }).then((r) => {
-          if (r.ok) {
-            setSaveStatus(r.localOnly ? "Saved on this device" : "Saved to your account");
-            toast({
-              title: r.localOnly ? "Saved on this device" : "Paper saved",
-              description: r.localOnly
-                ? "Cloud sync pending - your paper is stored locally for now."
-                : "Your mock paper is in your account.",
-            });
-          } else if (r.error) {
-            toast({
-              title: "Save failed",
-              description: r.error,
-              variant: "destructive",
-            });
-          }
         });
+        if (!isCurrentRequest()) {
+          if (saved.ok && saved.id) {
+            try {
+              await deleteStudyArtifact(saved.id);
+            } catch (cleanupError) {
+              console.warn("Failed to clean up stale generated paper:", cleanupError);
+            }
+          }
+          return;
+        }
+        recordStudySession();
+        recordLoopStep("practise");
+        if (saved.ok) {
+          setSaveStatus(saved.localOnly ? "Saved on this device" : "Saved to your account");
+          toast({
+            title: saved.localOnly ? "Saved on this device" : "Paper saved",
+            description: saved.localOnly
+              ? "Cloud sync pending - your paper is stored locally for now."
+              : "Your mock paper is in your account.",
+          });
+        } else if (saved.error) {
+          toast({
+            title: "Save failed",
+            description: saved.error,
+            variant: "destructive",
+          });
+        }
       } else if (data.raw) {
+        if (!isCurrentRequest()) return;
         setRaw(data.raw);
       } else {
+        if (!isCurrentRequest()) return;
         setError("Generation returned an unexpected format.");
       }
     } catch (err) {
+      if (!isCurrentRequest()) return;
       console.error("Paper generation failed", err);
       setError("The paper could not be generated. Check your connection and try again.");
     } finally {
-      setLoading(false);
+      if (isCurrentRequest()) setLoading(false);
     }
   }
 

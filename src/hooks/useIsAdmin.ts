@@ -3,13 +3,15 @@ import { useAuth } from '@/contexts/AuthContext';
 import { authFetch } from '@/lib/apiAuth';
 import { isAdminUser } from '@/lib/admin';
 import { resolveAdminAccess } from '@/lib/adminAccessPolicy.mjs';
+import { resolveSameOriginApiPath } from '@/lib/sameOriginApi.mjs';
 
 function getApiBase() {
   const override = import.meta.env.VITE_CHATBOT_API_URL;
-  if (override) {
-    return override.replace(/\/ask\/?$/, '');
-  }
-  return '/api';
+  const currentOrigin = typeof window !== 'undefined' ? window.location.origin : undefined;
+  const endpoint = resolveSameOriginApiPath(override, '/api/ask', currentOrigin);
+  const path = endpoint.split(/[?#]/, 1)[0];
+  const base = path.replace(/\/ask\/?$/, '');
+  return base || '/api';
 }
 
 export function useIsAdmin() {

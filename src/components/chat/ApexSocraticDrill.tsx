@@ -24,6 +24,7 @@ export default function ApexSocraticDrill() {
   const { messages, input, setInput, loading, streamingMessageId, sendMessage, clearChat } = useApexChat({
     context: drillContext,
     threadKey: 'socratic-drill',
+    mode: 'deep',
     onSessionRecord: recordStudySession,
   });
 

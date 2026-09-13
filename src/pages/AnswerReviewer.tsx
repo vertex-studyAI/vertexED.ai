@@ -1,6 +1,6 @@
 import { resolveConfirmedCriteria } from '@/lib/confirmedReview.mjs';
 import { Helmet } from "react-helmet-async";
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import PageSection from "@/components/PageSection";
 import NeumorphicCard from "@/components/NeumorphicCard";
 import { authFetch } from "@/lib/apiAuth";
@@ -146,6 +146,13 @@ export default function AIAnswerReview() {
   const responseRef = useRef<HTMLDivElement | null>(null);
   const fileInputQuestionRef = useRef<HTMLInputElement | null>(null);
   const fileInputAnswerRef = useRef<HTMLInputElement | null>(null);
+  const reviewRequestIdRef = useRef(0);
+  const currentReviewAccountIdRef = useRef<string | null>(user?.id ?? null);
+
+  const invalidateReviewRequest = useCallback(() => {
+    reviewRequestIdRef.current += 1;
+    setLoading(false);
+  }, []);
 
   const gradeNum = formData.grade ? parseInt(formData.grade, 10) : null;
   const subjectOptions = useMemo(
@@ -156,6 +163,18 @@ export default function AIAnswerReview() {
     () => (board ? getGradesForBoard(board).map(String) : []),
     [board],
   );
+
+  useLayoutEffect(() => {
+    const nextAccountId = user?.id ?? null;
+    if (currentReviewAccountIdRef.current !== nextAccountId) {
+      currentReviewAccountIdRef.current = nextAccountId;
+      invalidateReviewRequest();
+    }
+  }, [user?.id, invalidateReviewRequest]);
+
+  useEffect(() => () => {
+    reviewRequestIdRef.current += 1;
+  }, []);
 
   useEffect(() => {
     const pref = user?.user_metadata;
@@ -385,6 +404,7 @@ export default function AIAnswerReview() {
   };
 
   const resetAll = () => {
+    invalidateReviewRequest();
     setFormData(initialFormState);
     setQuestionImages([]);
     setAnswerImages([]);
@@ -405,6 +425,13 @@ export default function AIAnswerReview() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const requestId = reviewRequestIdRef.current + 1;
+    reviewRequestIdRef.current = requestId;
+    const requestAccountId = currentReviewAccountIdRef.current;
+    const isCurrentRequest = () =>
+      reviewRequestIdRef.current === requestId &&
+      currentReviewAccountIdRef.current === requestAccountId;
+
     setLoading(true);
     setResponse("");
     setStructuredReview(null);
@@ -429,8 +456,11 @@ export default function AIAnswerReview() {
           answerImages,
         }),
       });
+      if (!isCurrentRequest()) return;
 
       const text = await res.text();
+      if (!isCurrentRequest()) return;
+
       let data: ApiResponseLike = null;
       try {
         data = text ? JSON.parse(text) : {};
@@ -462,6 +492,7 @@ export default function AIAnswerReview() {
       setLastSubmittedAt(new Date().toLocaleString());
       setSubmitCount((c) => c + 1);
 
+      if (!isCurrentRequest()) return;
       if (
         user?.id &&
         rawOut &&
@@ -478,6 +509,7 @@ export default function AIAnswerReview() {
         }
       }
 
+      if (!isCurrentRequest()) return;
       try {
         if (typeof out === "string" && out.trim()) {
           const title = `${formData.curriculum || "Review"} ${formData.subject || ""}`.trim() || "Answer review";
@@ -495,6 +527,7 @@ export default function AIAnswerReview() {
               answer: formData.answer,
             },
           });
+          if (!isCurrentRequest()) return;
           if (saved.ok) {
             setSavedPost(true);
             recordStudySession();
@@ -515,14 +548,15 @@ export default function AIAnswerReview() {
           }
         }
       } catch (err) {
-        console.warn("Failed to save review:", err);
+        if (isCurrentRequest()) console.warn("Failed to save review:", err);
       }
     } catch (err) {
+      if (!isCurrentRequest()) return;
       console.error("Submit error:", err);
       setError("Could not get review. Please try again.");
       setResponse("Error: Could not get review. Please try again.");
     } finally {
-      setLoading(false);
+      if (isCurrentRequest()) setLoading(false);
     }
   };
 

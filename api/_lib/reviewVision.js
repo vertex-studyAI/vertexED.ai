@@ -17,11 +17,12 @@ export class ReviewImageProcessingError extends Error {
 export async function describeReviewImages(client, images, contentRole = 'submitted material') {
   if (!Array.isArray(images) || images.length === 0) return '';
 
+  const model = process.env.OPENAI_REVIEW_VISION_MODEL || 'gpt-4o';
   let response;
   const startedAt = Date.now();
   try {
     response = await client.chat.completions.create({
-      model: 'gpt-4o',
+      model,
       messages: [{
         role: 'user',
         content: [
@@ -39,7 +40,7 @@ export async function describeReviewImages(client, images, contentRole = 'submit
     await logProviderRun({
       capability: 'answer_review_vision',
       provider: 'openai',
-      model: 'gpt-4o',
+      model,
       status: 200,
       durationMs: Date.now() - startedAt,
     });
@@ -47,7 +48,7 @@ export async function describeReviewImages(client, images, contentRole = 'submit
     await logProviderRun({
       capability: 'answer_review_vision',
       provider: 'openai',
-      model: 'gpt-4o',
+      model,
       durationMs: Date.now() - startedAt,
       error: true,
     });

@@ -26,3 +26,18 @@ test('provider telemetry exposes quality signals without accepting content field
     recordedAt: '2026-09-06T00:00:00.000Z',
   });
 });
+
+test('provider telemetry records a sanitized semantic route when supplied', () => {
+  const event = createProviderRunEvent({
+    capability: 'chatbot',
+    route: 'Ask/Deep',
+    provider: 'OpenAI',
+    model: 'reasoning-model',
+    status: 200,
+    durationMs: 42,
+  }, new Date('2026-09-12T00:00:00Z'));
+
+  assert.equal(event.route, 'ask/deep');
+  assert.equal(event.capability, 'chatbot');
+  assert.equal(event.outcome, 'success');
+});

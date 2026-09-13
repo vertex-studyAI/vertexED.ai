@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router";
 import { Bot, Trash2 } from "lucide-react";
 import PageSection from "@/components/PageSection";
@@ -9,6 +9,7 @@ import { getStudyContext } from "@/lib/studyContext";
 import { consumeChatHandoff } from "@/lib/userContent";
 import { consumeApexPrefill } from "@/lib/apexPrefillStorage.mjs";
 import { useApexChat } from "@/hooks/useApexChat";
+import type { ChatbotMode } from "@/lib/chatbotApi";
 import { APEX_TAGLINE, formatHandoffPrefill } from "@/content/apex";
 import { recordStudySession } from "@/lib/studyStats";
 import ApexMessageList from "@/components/chat/ApexMessageList";
@@ -16,15 +17,23 @@ import ApexPromptChips from "@/components/chat/ApexPromptChips";
 import ApexChatInput from "@/components/chat/ApexChatInput";
 import ApexSocraticDrill from "@/components/chat/ApexSocraticDrill";
 
+const APEX_MODES: Array<{ value: ChatbotMode; label: string; description: string }> = [
+  { value: 'quick', label: 'Quick', description: 'Fast, concise help' },
+  { value: 'tutor', label: 'Tutor', description: 'Step-by-step teaching' },
+  { value: 'deep', label: 'Deep', description: 'Harder reasoning' },
+];
+
 export default function AIChatbot() {
   const { user } = useAuth();
   const studyContext = getStudyContext("/chatbot", user);
   const chatPanelRef = useRef<HTMLDivElement | null>(null);
   const handoffHandled = useRef(false);
+  const [mode, setMode] = useState<ChatbotMode>('tutor');
 
   const { messages, input, setInput, loading, streamingMessageId, sendMessage, cancelMessage, clearChat } = useApexChat({
     context: studyContext,
     threadKey: 'apex-main',
+    mode,
     onSessionRecord: recordStudySession,
   });
 
@@ -72,6 +81,28 @@ export default function AIChatbot() {
                 <p className="text-xs text-primary/80 mt-2">
                   Discussion-first · step-by-step · board-aware when you mention yours
                 </p>
+                <div className="mt-3 flex flex-wrap items-center gap-2" role="group" aria-label="AI response mode">
+                  {APEX_MODES.map((option) => (
+                    <button
+                      key={option.value}
+                      type="button"
+                      aria-pressed={mode === option.value}
+                      disabled={loading}
+                      title={option.description}
+                      onClick={() => setMode(option.value)}
+                      className={`rounded-full border px-3 py-1.5 text-xs font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 disabled:cursor-not-allowed disabled:opacity-60 ${
+                        mode === option.value
+                          ? 'border-primary/50 bg-primary/15 text-primary'
+                          : 'border-border/60 bg-background/40 text-muted-foreground hover:text-foreground'
+                      }`}
+                    >
+                      {option.label}
+                    </button>
+                  ))}
+                  <span className="text-xs text-muted-foreground" aria-live="polite">
+                    {APEX_MODES.find((option) => option.value === mode)?.description}
+                  </span>
+                </div>
               </div>
             </div>
             {messages.length > 0 && (

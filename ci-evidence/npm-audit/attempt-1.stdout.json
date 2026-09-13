@@ -1,22 +1,7 @@
 {
-  "auditReportVersion": 2,
-  "vulnerabilities": {},
-  "metadata": {
-    "vulnerabilities": {
-      "info": 0,
-      "low": 0,
-      "moderate": 0,
-      "high": 0,
-      "critical": 0,
-      "total": 0
-    },
-    "dependencies": {
-      "prod": 318,
-      "dev": 281,
-      "optional": 90,
-      "peer": 0,
-      "peerOptional": 0,
-      "total": 604
-    }
+  "message": "request to https://registry.npmjs.org/-/npm/v1/security/audits/quick failed, reason: getaddrinfo ENOTFOUND registry.npmjs.org",
+  "error": {
+    "summary": "",
+    "detail": ""
   }
 }

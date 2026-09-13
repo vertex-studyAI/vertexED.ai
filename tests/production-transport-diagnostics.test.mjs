@@ -36,6 +36,16 @@ test('DNS evidence preserves bounded CNAME routing without making CNAME absence 
   assert.doesNotMatch(scriptSource, /ok: addresses\.length > 0 && cname\.ok/);
 });
 
+test('per-address probes preserve SNI and Host while binding transport to each resolved address', () => {
+  assert.match(scriptSource, /diagnoseTls\(hostname, port, address\)/);
+  assert.match(scriptSource, /diagnoseHttps\(healthUrl, address\)/);
+  assert.match(scriptSource, /servername: hostname/);
+  assert.match(scriptSource, /servername: url\.hostname/);
+  assert.match(scriptSource, /headers: \{ Host: url\.host \}/);
+  assert.match(scriptSource, /perAddress/);
+  assert.doesNotMatch(scriptSource, /rejectUnauthorized: false/);
+});
+
 test('transport diagnostic preserves nested network error causes without exposing secrets', () => {
   assert.match(scriptSource, /current\.cause/);
   assert.match(scriptSource, /current\.errors/);
@@ -59,4 +69,16 @@ test('workflow runs only after failed main release checks or explicit manual dis
   assert.match(workflowSource, /actions\/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a/);
   assert.doesNotMatch(workflowSource, /pull_request:/);
   assert.doesNotMatch(workflowSource, /push:/);
+});
+
+test('workflow summary exposes bounded hostname and per-address results without secret context', () => {
+  assert.match(workflowSource, /artifacts\/production-transport\/transport\.json/);
+  assert.match(workflowSource, /report\.layers\?\.perAddress \|\| \[\]/);
+  assert.match(workflowSource, /\| Address \| Family \| TCP \| TLS \| HTTPS \|/);
+  assert.match(workflowSource, /Hostname TCP/);
+  assert.match(workflowSource, /Hostname TLS/);
+  assert.match(workflowSource, /Hostname HTTPS/);
+  assert.match(workflowSource, /\.slice\(0, 240\)/);
+  assert.match(workflowSource, /Structured transport payload was not produced/);
+  assert.doesNotMatch(workflowSource, /secrets\./);
 });

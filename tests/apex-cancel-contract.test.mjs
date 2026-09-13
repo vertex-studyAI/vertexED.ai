@@ -10,6 +10,14 @@ test('chatbot API propagates an optional AbortSignal through authFetch', () => {
   assert.match(apiSource, /signal: request\.signal/);
 });
 
+test('chatbot API and Apex hook propagate only the semantic model mode', () => {
+  assert.match(apiSource, /export type ChatbotMode = 'quick' \| 'tutor' \| 'deep'/);
+  assert.match(apiSource, /mode\?: ChatbotMode/);
+  assert.match(apiSource, /mode: request\.mode/);
+  assert.match(hookSource, /mode\?: ChatbotMode/);
+  assert.match(hookSource, /mode,/);
+});
+
 test('Apex owns and releases one abort controller per in-flight request', () => {
   assert.match(hookSource, /useRef<AbortController \| null>\(null\)/);
   assert.match(hookSource, /const requestController = new AbortController\(\)/);

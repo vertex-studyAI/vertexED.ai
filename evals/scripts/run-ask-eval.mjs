@@ -4,7 +4,8 @@
  * ask-specific golden set and baseline fixture.
  *
  * By default uses the fixture (offline / regression mode). Pass --live to
- * call the configured provider directly with the same prompt builder as the API.
+ * call the configured provider directly with the same prompt builder and
+ * role-based model policy as the API.
  */
 
 import { resolve, dirname } from 'node:path';
@@ -40,6 +41,7 @@ let handler = null;
 if (isLive) {
   const { buildAskMessages } = await import('../../api/_lib/askPrompt.js');
   const { callChatProvider, extractChatAnswer, resolveChatProvider } = await import('../../api/_lib/aiProviders.js');
+  const { resolveChatRoute } = await import('../../api/_lib/modelPolicy.js');
   let providerConfig;
   try {
     providerConfig = resolveChatProvider(process.env);
@@ -50,6 +52,7 @@ if (isLive) {
 
   handler = async (req) => {
     const messages = buildAskMessages(req);
+    const route = resolveChatRoute({ mode: req.mode, providerConfig, env: process.env });
     const run = (model) => callChatProvider({
       config: providerConfig,
       model,
@@ -58,17 +61,17 @@ if (isLive) {
       maxTokens: 1200,
     });
 
-    let result = await run(providerConfig.primaryModel);
-    if (!result.response.ok && providerConfig.fallbackModel && result.response.status !== 401) {
-      result = await run(providerConfig.fallbackModel);
+    let result = await run(route.primaryModel);
+    if (!result.response.ok && route.fallbackModel && route.fallbackModel !== route.primaryModel && result.response.status !== 401) {
+      result = await run(route.fallbackModel);
     }
     if (!result.response.ok) {
       throw new Error(`${result.provider}/${result.model} returned HTTP ${result.response.status}`);
     }
     const parsed = JSON.parse(result.raw);
     let answer = extractChatAnswer(parsed);
-    if (!answer && providerConfig.fallbackModel && result.model !== providerConfig.fallbackModel) {
-      result = await run(providerConfig.fallbackModel);
+    if (!answer && route.fallbackModel && result.model !== route.fallbackModel) {
+      result = await run(route.fallbackModel);
       if (!result.response.ok) throw new Error(`${result.provider}/${result.model} returned HTTP ${result.response.status}`);
       answer = extractChatAnswer(JSON.parse(result.raw));
     }

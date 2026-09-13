@@ -16,8 +16,12 @@ function getApiKey() {
   return process.env.OPENAI_API_KEY || process.env.ChatbotKey || process.env.CHATBOT_KEY;
 }
 
+function getReviewModel() {
+  return process.env.OPENAI_REVIEW_MODEL || process.env.OPENAI_MODEL || 'gpt-4o-mini';
+}
+
 async function requestStructuredReview(apiKey: string, prompt: string) {
-  const route = routeAiRequest({ capability: 'grading', defaultModel: process.env.OPENAI_MODEL || 'gpt-4o-mini', maxTokens: 2400 });
+  const route = routeAiRequest({ capability: 'grading', defaultModel: getReviewModel(), maxTokens: 2400 });
   const model = route.model;
   const startedAt = Date.now();
   let response: Response;
@@ -120,7 +124,7 @@ export default async function handler(req: any, res: any) {
     } catch {
       console.error('[review-safe] Structured review provider failed');
       return res.status(200).json(createAnswerReviewResult({
-        input, model: routeAiRequest({ capability: 'grading', defaultModel: process.env.OPENAI_MODEL || 'gpt-4o-mini', maxTokens: 2400 }).model, degraded: true,
+        input, model: routeAiRequest({ capability: 'grading', defaultModel: getReviewModel(), maxTokens: 2400 }).model, degraded: true,
       }));
     }
   } catch {
