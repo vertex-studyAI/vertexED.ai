@@ -62,23 +62,45 @@ test('planner sync derives account scope before reading or writing device state'
   assert.doesNotMatch(plannerSyncSource, /localStorage\.getItem\('planner_tasks'\)/);
 });
 
-test('onboarding planner save uses the verified auth identity without reacquiring the session', () => {
+test('onboarding planner save stays bound to the initiating authenticated account', () => {
   assert.match(onboardingSource, /if \(!user\?\.id \|\| !session\?\.access_token\)/);
+  assert.match(onboardingSource, /const accountId = user\.id;/);
+  assert.match(onboardingSource, /const accessToken = session\.access_token;/);
+  assert.match(onboardingSource, /const saveRequestIdRef = useRef\(0\)/);
+  assert.match(onboardingSource, /const saveAccountIdRef = useRef<string \| null>\(user\?\.id \?\? null\)/);
   assert.match(
     onboardingSource,
-    /savePlannerSnapshot\([\s\S]*?createFirstStudyPlan\(curriculum\),[\s\S]*?user\.id,[\s\S]*?session\.access_token,[\s\S]*?\)/,
+    /savePlannerSnapshot\([\s\S]*?createFirstStudyPlan\(curriculum\),[\s\S]*?accountId,[\s\S]*?accessToken,[\s\S]*?\)/,
   );
-  assert.doesNotMatch(
-    onboardingSource,
-    /savePlannerSnapshot\(createFirstStudyPlan\(curriculum\)\)/,
-  );
+  assert.match(onboardingSource, /const stillOwnsAuthSession = async \(\) =>/);
+  assert.match(onboardingSource, /const \{ data, error: sessionError \} = await supabase\.auth\.getSession\(\)/);
+  assert.match(onboardingSource, /return data\.session\?\.user\.id === accountId;/);
+  assert.match(onboardingSource, /if \(!isCurrentSave\(\) \|\| !\(await stillOwnsAuthSession\(\)\)\) return;/);
+  assert.match(onboardingSource, /if \(!\(await stillOwnsAuthSession\(\)\)\) return;[\s\S]*?supabase\.auth\.updateUser\(\{ data: metadata \}\)/);
+  assert.match(onboardingSource, /if \(!isCurrentSave\(\)\) return;[\s\S]*?if \(updateError\) throw updateError;/);
+  assert.match(onboardingSource, /if \(requestId === saveRequestIdRef\.current\) \{[\s\S]*?setLoading\(false\);/);
   assert.ok(
     onboardingSource.indexOf('const planResult = await savePlannerSnapshot(')
       < onboardingSource.indexOf('supabase.auth.updateUser({ data: metadata })'),
-    'the authenticated plan save must complete before the serialized auth mutation starts',
+    'the account-bound planner save must complete before the serialized auth mutation starts',
   );
   assert.match(plannerSyncSource, /authFetchWithAccessToken/);
   assert.match(apiAuthSource, /if \(headers\.has\('Authorization'\)\) return headers/);
+});
+
+test('onboarding invalidates stale save ownership on account change and unmount', () => {
+  assert.match(
+    onboardingSource,
+    /const nextAccountId = user\?\.id \?\? null;[\s\S]*?saveAccountIdRef\.current = nextAccountId;[\s\S]*?saveRequestIdRef\.current \+= 1;/,
+  );
+  assert.match(onboardingSource, /\}, \[user\?\.id\]\);/);
+  assert.match(
+    onboardingSource,
+    /useEffect\(\(\) => \(\) => \{[\s\S]*?saveRequestIdRef\.current \+= 1;[\s\S]*?\}, \[\]\);/,
+  );
+  assert.match(onboardingSource, /if \(!isCurrentSave\(\)\) return;[\s\S]*?setError\(getErrorMessage\(err\)\);/);
+  assert.match(onboardingSource, /markFirstSessionSyncNotice\(handoffStorage, accountId\)/);
+  assert.match(onboardingSource, /markFirstSessionWelcome\(handoffStorage, accountId\)/);
 });
 
 test('onboarding exposes an accessible slow-network save state', () => {
