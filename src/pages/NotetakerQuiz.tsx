@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router";
 import NeumorphicCard from "@/components/NeumorphicCard";
@@ -39,7 +39,7 @@ import {
 } from "@/lib/spacedRepetition";
 import { recordStudySession } from "@/lib/studyStats";
 import { recordLoopStep } from "@/lib/studyLoopTracker";
-import { saveStudyArtifact, consumeArtifactRestore } from "@/lib/userContent";
+import { deleteStudyArtifact, saveStudyArtifact, consumeArtifactRestore } from "@/lib/userContent";
 import { getWeakestTopics, recordWeakness, type TopicHeat } from "@/lib/weaknessTracker";
 import { MEASURED_WEAKNESS_EVIDENCE } from "@/lib/weaknessEvidenceCore.mjs";
 import { toast } from "@/hooks/use-toast";
@@ -231,6 +231,14 @@ export default function NotetakerQuiz(): React.JSX.Element {
   const [mcqOptionCount, setMcqOptionCount] = useState<number>(4);
   const [recordingSeconds, setRecordingSeconds] = useState<number>(0);
   const recordingTimerRef = useRef<number | null>(null);
+  const noteRequestIdRef = useRef(0);
+  const quizRequestIdRef = useRef(0);
+  const gradeRequestIdRef = useRef(0);
+  const currentAsyncAccountIdRef = useRef<string | null>(user?.id ?? null);
+  const loadingOwnerRef = useRef<{ kind: "note" | "quiz" | "grade"; id: number } | null>(null);
+  const previousNoteConfigKeyRef = useRef<string | null>(null);
+  const previousQuizConfigKeyRef = useRef<string | null>(null);
+  const previousGradeConfigKeyRef = useRef<string | null>(null);
   useEffect(() => {
     const target = resolveAdaptiveNoteTarget(searchParams, getWeakestTopics(12));
     if (!target) {
@@ -255,6 +263,126 @@ export default function NotetakerQuiz(): React.JSX.Element {
   const [notesCollapsedMobile, setNotesCollapsedMobile] = useState(false);
 
   const displayFormatLabel = format === "Custom" ? (customFormatText.trim() || "Custom") : format;
+
+  const curriculumKey = useMemo(() => JSON.stringify({
+    board: learner.curriculum.board,
+    subjects: learner.curriculum.subjects,
+  }), [learner.curriculum.board, learner.curriculum.subjects]);
+
+  const noteConfigKey = useMemo(() => JSON.stringify({
+    topic,
+    format,
+    customFormatText,
+    notesLength,
+    flashCount,
+    additionalInfo,
+    curriculumKey,
+  }), [topic, format, customFormatText, notesLength, flashCount, additionalInfo, curriculumKey]);
+
+  const quizConfigKey = useMemo(() => JSON.stringify({
+    notes,
+    quizType,
+    quizDifficulty,
+    frqLength,
+    gradingLeniency,
+    examStyle,
+    mcqOptionCount,
+    curriculumKey,
+  }), [notes, quizType, quizDifficulty, frqLength, gradingLeniency, examStyle, mcqOptionCount, curriculumKey]);
+
+  const gradeConfigKey = useMemo(() => JSON.stringify({
+    generatedQuestions,
+    userAnswers,
+    gradingLeniency,
+    examStyle,
+    curriculumKey,
+  }), [generatedQuestions, userAnswers, gradingLeniency, examStyle, curriculumKey]);
+
+  const invalidateNoteRequest = useCallback(() => {
+    noteRequestIdRef.current += 1;
+    if (loadingOwnerRef.current?.kind === "note") {
+      loadingOwnerRef.current = null;
+      setLoading(false);
+    }
+  }, []);
+
+  const invalidateQuizRequest = useCallback(() => {
+    quizRequestIdRef.current += 1;
+    if (loadingOwnerRef.current?.kind === "quiz") {
+      loadingOwnerRef.current = null;
+      setLoading(false);
+    }
+  }, []);
+
+  const invalidateGradeRequest = useCallback(() => {
+    gradeRequestIdRef.current += 1;
+    if (loadingOwnerRef.current?.kind === "grade") {
+      loadingOwnerRef.current = null;
+      setLoading(false);
+    }
+  }, []);
+
+  const releaseLoadingOwner = useCallback((kind: "note" | "quiz" | "grade", requestId: number) => {
+    if (loadingOwnerRef.current?.kind === kind && loadingOwnerRef.current.id === requestId) {
+      loadingOwnerRef.current = null;
+      setLoading(false);
+    }
+  }, []);
+
+  useLayoutEffect(() => {
+    const nextAccountId = user?.id ?? null;
+    if (currentAsyncAccountIdRef.current === nextAccountId) return;
+    currentAsyncAccountIdRef.current = nextAccountId;
+    invalidateNoteRequest();
+    invalidateQuizRequest();
+    invalidateGradeRequest();
+    setNotes("");
+    setNotesHistory([]);
+    setHistoryIndex(-1);
+    setIsDirty(false);
+    setFlashcards([]);
+    setGeneratedQuestions([]);
+    setUserAnswers({});
+    setQuizSubmitted(false);
+    setQuizResults(null);
+  }, [user?.id, invalidateNoteRequest, invalidateQuizRequest, invalidateGradeRequest]);
+
+  useEffect(() => () => {
+    noteRequestIdRef.current += 1;
+    quizRequestIdRef.current += 1;
+    gradeRequestIdRef.current += 1;
+    loadingOwnerRef.current = null;
+  }, []);
+
+  useEffect(() => {
+    if (previousNoteConfigKeyRef.current === null) {
+      previousNoteConfigKeyRef.current = noteConfigKey;
+      return;
+    }
+    if (previousNoteConfigKeyRef.current === noteConfigKey) return;
+    previousNoteConfigKeyRef.current = noteConfigKey;
+    invalidateNoteRequest();
+  }, [noteConfigKey, invalidateNoteRequest]);
+
+  useEffect(() => {
+    if (previousQuizConfigKeyRef.current === null) {
+      previousQuizConfigKeyRef.current = quizConfigKey;
+      return;
+    }
+    if (previousQuizConfigKeyRef.current === quizConfigKey) return;
+    previousQuizConfigKeyRef.current = quizConfigKey;
+    invalidateQuizRequest();
+  }, [quizConfigKey, invalidateQuizRequest]);
+
+  useEffect(() => {
+    if (previousGradeConfigKeyRef.current === null) {
+      previousGradeConfigKeyRef.current = gradeConfigKey;
+      return;
+    }
+    if (previousGradeConfigKeyRef.current === gradeConfigKey) return;
+    previousGradeConfigKeyRef.current = gradeConfigKey;
+    invalidateGradeRequest();
+  }, [gradeConfigKey, invalidateGradeRequest]);
 
   useEffect(() => {
     setMounted(true);
@@ -465,6 +593,13 @@ export default function NotetakerQuiz(): React.JSX.Element {
       return;
     }
 
+    const requestId = noteRequestIdRef.current + 1;
+    noteRequestIdRef.current = requestId;
+    const requestAccountId = currentAsyncAccountIdRef.current;
+    const isCurrentRequest = () =>
+      noteRequestIdRef.current === requestId &&
+      currentAsyncAccountIdRef.current === requestAccountId;
+    loadingOwnerRef.current = { kind: "note", id: requestId };
     setLoading(true);
     try {
       const res = await authFetch("/api/note", {
@@ -472,9 +607,11 @@ export default function NotetakerQuiz(): React.JSX.Element {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(generateNotesPayload()),
       });
+      if (!isCurrentRequest()) return;
 
       if (!res.ok) throw new Error(`Failed: ${res.status}`);
       const data = await res.json();
+      if (!isCurrentRequest()) return;
       const plainNotes = safeText(data?.result).trim();
       const prefix = notes.trim();
       const divider = prefix
@@ -491,40 +628,50 @@ export default function NotetakerQuiz(): React.JSX.Element {
       setQuizResults(null);
       setFlashRevealed(false);
       pushNotesSnapshot(nextNotes);
-      recordStudySession();
       if (data?.generation?.degraded) {
         toast({
           title: "Offline scaffold generated",
           description: "The AI provider was unavailable. Verify this source-bound scaffold against your syllabus before use.",
         });
       }
-      void saveStudyArtifact("note", topic.trim(), {
+      const saved = await saveStudyArtifact("note", topic.trim(), {
         notes: nextNotes,
         format: displayFormatLabel,
         flashcards: data?.flashcards ?? [],
         provenance: data?.provenance ?? null,
         generation: data?.generation ?? null,
-      }).then((r) => {
-        if (r.ok) {
-          toast({
-            title: r.localOnly ? "Saved on this device" : "Notes saved",
-            description: r.localOnly
-              ? "Cloud sync pending - your notes are stored locally for now."
-              : "Your notes are stored in your account.",
-          });
-        } else if (r.error) {
-          toast({
-            title: "Save failed",
-            description: r.error,
-            variant: "destructive",
-          });
-        }
       });
+      if (!isCurrentRequest()) {
+        if (saved.ok && saved.id && currentAsyncAccountIdRef.current === requestAccountId) {
+          try {
+            await deleteStudyArtifact(saved.id);
+          } catch (cleanupError) {
+            console.warn("Failed to clean up stale generated notes:", cleanupError);
+          }
+        }
+        return;
+      }
+      recordStudySession();
+      if (saved.ok) {
+        toast({
+          title: saved.localOnly ? "Saved on this device" : "Notes saved",
+          description: saved.localOnly
+            ? "Cloud sync pending - your notes are stored locally for now."
+            : "Your notes are stored in your account.",
+        });
+      } else if (saved.error) {
+        toast({
+          title: "Save failed",
+          description: saved.error,
+          variant: "destructive",
+        });
+      }
     } catch (err) {
+      if (!isCurrentRequest()) return;
       console.error(err);
       alert("Failed to generate notes. Please try again.");
     } finally {
-      setLoading(false);
+      releaseLoadingOwner("note", requestId);
     }
   };
 
@@ -534,6 +681,13 @@ export default function NotetakerQuiz(): React.JSX.Element {
       return;
     }
 
+    const requestId = quizRequestIdRef.current + 1;
+    quizRequestIdRef.current = requestId;
+    const requestAccountId = currentAsyncAccountIdRef.current;
+    const isCurrentRequest = () =>
+      quizRequestIdRef.current === requestId &&
+      currentAsyncAccountIdRef.current === requestAccountId;
+    loadingOwnerRef.current = { kind: "quiz", id: requestId };
     setLoading(true);
     try {
       const adaptiveTopics =
@@ -562,9 +716,11 @@ export default function NotetakerQuiz(): React.JSX.Element {
           subjects: learner.curriculum.subjects,
         }),
       });
+      if (!isCurrentRequest()) return;
 
       if (!res.ok) throw new Error(`Failed: ${res.status}`);
       const data = await res.json();
+      if (!isCurrentRequest()) return;
       const questions = Array.isArray(data.questions) ? data.questions : [];
       setQuizDegraded(data?.generation?.degraded === true);
       setGeneratedQuestions(questions);
@@ -572,11 +728,12 @@ export default function NotetakerQuiz(): React.JSX.Element {
       setQuizSubmitted(false);
       setQuizResults(null);
     } catch (err) {
+      if (!isCurrentRequest()) return;
       console.error(err);
       alert("Failed to generate quiz. Please try again.");
       setGeneratedQuestions([]);
     } finally {
-      setLoading(false);
+      releaseLoadingOwner("quiz", requestId);
     }
   };
 
@@ -659,6 +816,13 @@ export default function NotetakerQuiz(): React.JSX.Element {
       return;
     }
 
+    const requestId = gradeRequestIdRef.current + 1;
+    gradeRequestIdRef.current = requestId;
+    const requestAccountId = currentAsyncAccountIdRef.current;
+    const isCurrentRequest = () =>
+      gradeRequestIdRef.current === requestId &&
+      currentAsyncAccountIdRef.current === requestAccountId;
+    loadingOwnerRef.current = { kind: "grade", id: requestId };
     setLoading(true);
     try {
       const gradeRes = await authFetch("/api/quiz", {
@@ -672,9 +836,11 @@ export default function NotetakerQuiz(): React.JSX.Element {
           examStyle,
         }),
       });
+      if (!isCurrentRequest()) return;
 
       if (!gradeRes.ok) throw new Error(`Grade failed: ${gradeRes.status}`);
       const gradeData = await gradeRes.json();
+      if (!isCurrentRequest()) return;
       const grades = Array.isArray(gradeData?.grades) ? gradeData.grades : [];
 
       const merged: QuizResult[] = localResults.map((r): QuizResult => {
@@ -697,6 +863,7 @@ export default function NotetakerQuiz(): React.JSX.Element {
         };
       });
 
+      if (!isCurrentRequest()) return;
       setQuizResults(merged);
       setQuizSubmitted(true);
       const scoredGuidance = merged.filter((result) => result.scoreStatus !== "PROVISIONAL");
@@ -704,11 +871,7 @@ export default function NotetakerQuiz(): React.JSX.Element {
       const totalMax = scoredGuidance.reduce((sum, r) => sum + (Number(r.maxScore) || 0), 0);
       if (totalMax > 0) setQuizHistory((h) => [...h, Math.round((totalScore / totalMax) * 100)]);
 
-      recordMeasuredResults(merged);
-      recordStudySession();
-      recordLoopStep("practise");
-
-      void saveStudyArtifact("review", `Quiz review - ${topic.trim() || "study notes"}`, {
+      const saved = await saveStudyArtifact("review", `Quiz review - ${topic.trim() || "study notes"}`, {
         contractVersion: gradeData?.contractVersion || "vertexed.grading.v2",
         questions: generatedQuestions,
         results: merged,
@@ -720,11 +883,25 @@ export default function NotetakerQuiz(): React.JSX.Element {
           recordedAt: new Date().toISOString(),
         },
       });
+      if (!isCurrentRequest()) {
+        if (saved.ok && saved.id && currentAsyncAccountIdRef.current === requestAccountId) {
+          try {
+            await deleteStudyArtifact(saved.id);
+          } catch (cleanupError) {
+            console.warn("Failed to clean up stale quiz review:", cleanupError);
+          }
+        }
+        return;
+      }
+      recordMeasuredResults(merged);
+      recordStudySession();
+      recordLoopStep("practise");
     } catch (err) {
+      if (!isCurrentRequest()) return;
       console.error("Grading failed:", err);
       alert("Failed to grade FRQ. Try again.");
     } finally {
-      setLoading(false);
+      releaseLoadingOwner("grade", requestId);
     }
   };
 
