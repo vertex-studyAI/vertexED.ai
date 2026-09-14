@@ -14,7 +14,7 @@
   "functions": {
     "api/[[...path]].js": {
       "maxDuration": 300,
-      "includeFiles": "public/study-guides/myp/**"
+      "includeFiles": "public/study-guides/**"
     }
   },
   "rewrites": [
