@@ -3,6 +3,10 @@ import { readFileSync } from 'node:fs';
 import test from 'node:test';
 
 const workflow = readFileSync(new URL('../.github/workflows/production-health.yml', import.meta.url), 'utf8');
+const transportWorkflow = readFileSync(
+  new URL('../.github/workflows/production-transport-diagnostics.yml', import.meta.url),
+  'utf8',
+);
 
 function between(source, start, end) {
   const startIndex = source.indexOf(start);
@@ -48,4 +52,14 @@ test('workflow changes retrigger their own release-contract test', () => {
     workflow,
     /node --test tests\/immutableRevision\.test\.mjs tests\/productionHealthWorkflow\.test\.mjs/,
   );
+});
+
+test('production monitoring workflows pin the declared Node runtime floor', () => {
+  for (const [name, source] of [
+    ['production health', workflow],
+    ['production transport diagnostics', transportWorkflow],
+  ]) {
+    assert.match(source, /node-version:\s*'22\.22\.0'/, `${name} must pin Node 22.22.0`);
+    assert.doesNotMatch(source, /node-version:\s*'22'/, `${name} must not float on Node 22`);
+  }
 });
