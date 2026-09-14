@@ -134,20 +134,20 @@ export default function Onboarding() {
       return;
     }
 
-    const accountId = user.id;
-    const accessToken = session.access_token;
+    const initiatingAccountId = user.id;
+    const initiatingAccessToken = session.access_token;
     const requestId = saveRequestIdRef.current + 1;
     saveRequestIdRef.current = requestId;
-    saveAccountIdRef.current = accountId;
+    saveAccountIdRef.current = initiatingAccountId;
     const isCurrentSave = () => (
       requestId === saveRequestIdRef.current
-      && saveAccountIdRef.current === accountId
+      && saveAccountIdRef.current === initiatingAccountId
     );
     const stillOwnsAuthSession = async () => {
       const { data, error: sessionError } = await supabase.auth.getSession();
       if (!isCurrentSave()) return false;
       if (sessionError) throw sessionError;
-      return data.session?.user.id === accountId;
+      return data.session?.user.id === initiatingAccountId;
     };
 
     try {
@@ -157,8 +157,8 @@ export default function Onboarding() {
       // otherwise wait behind the metadata refresh lock.
       const planResult = await savePlannerSnapshot(
         createFirstStudyPlan(curriculum),
-        accountId,
-        accessToken,
+        initiatingAccountId,
+        initiatingAccessToken,
       );
       if (!isCurrentSave() || !(await stillOwnsAuthSession())) return;
 
@@ -191,7 +191,7 @@ export default function Onboarding() {
       // make onboarding look failed or prevent navigation to the dashboard.
       const handoffStorage = typeof window === "undefined" ? null : resolveSessionStorage(window);
       if (!planResult.cloudSynced) {
-        markFirstSessionSyncNotice(handoffStorage, accountId);
+        markFirstSessionSyncNotice(handoffStorage, initiatingAccountId);
       }
 
       trackProductEvent("Onboarding Completed", {
@@ -199,7 +199,7 @@ export default function Onboarding() {
         subject_count: curriculum.subjects.length,
         planner_sync: planResult.cloudSynced ? "cloud" : "device",
       });
-      markFirstSessionWelcome(handoffStorage, accountId);
+      markFirstSessionWelcome(handoffStorage, initiatingAccountId);
       navigate("/main", { replace: true });
     } catch (err) {
       if (!isCurrentSave()) return;
