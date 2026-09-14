@@ -1,4 +1,14 @@
-import { expect, test } from '@playwright/test';
+import { expect, test, type Locator, type Page } from '@playwright/test';
+
+const apexDialog = (page: Page) => page.getByRole('dialog', { name: 'Think it through.' });
+
+async function expandCharacterSettings(dialog: Locator) {
+  const details = dialog.locator('details.apex-character-settings');
+  if (!(await details.evaluate((element: HTMLDetailsElement) => element.open))) {
+    await details.locator('summary').click();
+  }
+  await expect(details).toHaveAttribute('open', '');
+}
 
 test('Apex is readable in both themes and three viewports, with keyboard and reduced motion', async ({ page }) => {
   const errors: string[] = [];
@@ -20,9 +30,8 @@ test('Apex is readable in both themes and three viewports, with keyboard and red
       expect(bounds!.y).toBeGreaterThan(650);
       await launcher.focus();
       await page.keyboard.press('Enter');
-      const dialog = page.getByRole('dialog', { name: 'Meet Apex.' });
+      const dialog = apexDialog(page);
       await expect(dialog).toBeVisible();
-      await expect(dialog.getByRole('button', { name: 'Apex: hop' })).toBeDisabled();
       expect(await page.evaluate(() => document.body.style.overflow)).toBe('hidden');
       const close = dialog.getByRole('button', { name: 'Close Apex study shortcuts' });
       await expect(close).toBeFocused();
@@ -30,6 +39,8 @@ test('Apex is readable in both themes and three viewports, with keyboard and red
       await expect(dialog.getByRole('button', { name: 'Hide Apex', exact: true })).toBeFocused();
       await page.keyboard.press('Tab');
       await expect(close).toBeFocused();
+      await expandCharacterSettings(dialog);
+      await expect(dialog.getByRole('button', { name: 'Apex: hop' })).toBeDisabled();
       expect(await dialog.getByRole('link', { name: /Practise/ }).getAttribute('href')).toBe('/exam-prep');
       await page.screenshot({ path: `test-results/vee-sheet-${theme}-${width}.png`, animations: 'disabled' });
       const sheet = await dialog.boundingBox();
@@ -102,7 +113,8 @@ test('Apex hop, wiggle and spin play once, replay on demand and stop under reduc
   await page.setViewportSize({ width: 390, height: 900 });
   await page.goto('/');
   await page.getByRole('button', { name: 'Open Apex study shortcuts' }).click();
-  const dialog = page.getByRole('dialog', { name: 'Meet Apex.' });
+  const dialog = apexDialog(page);
+  await expandCharacterSettings(dialog);
   for (const name of ['hop', 'wiggle', 'spin', 'spin']) {
     const control = dialog.getByRole('button', { name: `Apex: ${name}`, exact: true });
     await control.focus();
@@ -144,7 +156,8 @@ test('Apex hop, wiggle and spin play once, replay on demand and stop under reduc
 test('Apex persists the selected paper or ink appearance', async ({ page }) => {
   await page.goto('/');
   await page.getByRole('button', { name: 'Open Apex study shortcuts' }).click();
-  const dialog = page.getByRole('dialog', { name: 'Meet Apex.' });
+  const dialog = apexDialog(page);
+  await expandCharacterSettings(dialog);
   await dialog.getByRole('radio', { name: 'Ink' }).check();
   await expect(dialog.locator('img')).toHaveAttribute('src', '/companions/apex-ink-v3.png');
   await page.keyboard.press('Escape');
@@ -156,7 +169,8 @@ test('Apex blink and page-turn frames return to the selected resting artwork', a
   await page.emulateMedia({ reducedMotion: 'no-preference' });
   await page.goto('/');
   await page.getByRole('button', { name: 'Open Apex study shortcuts' }).click();
-  const dialog = page.getByRole('dialog', { name: 'Meet Apex.' });
+  const dialog = apexDialog(page);
+  await expandCharacterSettings(dialog);
   const sprite = dialog.locator('.vee-reaction-sprite');
 
   await dialog.getByRole('button', { name: 'Apex: blink' }).click();
@@ -206,7 +220,8 @@ test('Apex can be dragged, nudged by keyboard, reset and restored inside the vie
   expect(Math.abs(restored!.y - afterKey!.y)).toBeLessThanOrEqual(16);
 
   await launcher.click();
-  const dialog = page.getByRole('dialog', { name: 'Meet Apex.' });
+  const dialog = apexDialog(page);
+  await expandCharacterSettings(dialog);
   await dialog.getByRole('button', { name: 'Reset position' }).click();
   await page.keyboard.press('Escape');
   const reset = await launcher.boundingBox();
