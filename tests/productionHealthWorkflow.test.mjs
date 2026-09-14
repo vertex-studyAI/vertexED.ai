@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { readFileSync, readdirSync } from 'node:fs';
 import test from 'node:test';
 
 const workflow = readFileSync(new URL('../.github/workflows/production-health.yml', import.meta.url), 'utf8');
@@ -7,6 +7,7 @@ const transportWorkflow = readFileSync(
   new URL('../.github/workflows/production-transport-diagnostics.yml', import.meta.url),
   'utf8',
 );
+const workflowsDir = new URL('../.github/workflows/', import.meta.url);
 
 function between(source, start, end) {
   const startIndex = source.indexOf(start);
@@ -60,6 +61,19 @@ test('production monitoring workflows pin the declared Node runtime floor', () =
     ['production transport diagnostics', transportWorkflow],
   ]) {
     assert.match(source, /node-version:\s*'22\.22\.0'/, `${name} must pin Node 22.22.0`);
-    assert.doesNotMatch(source, /node-version:\s*'22'/, `${name} must not float on Node 22`);
   }
+});
+
+test('GitHub workflows never float on the Node 22 major', () => {
+  const workflowFiles = readdirSync(workflowsDir).filter((name) => /\.ya?ml$/.test(name));
+  const floatingNode22 = [];
+
+  for (const name of workflowFiles) {
+    const source = readFileSync(new URL(name, workflowsDir), 'utf8');
+    if (/node-version:\s*(['"]?)22\1\s*(?:#.*)?$/m.test(source)) {
+      floatingNode22.push(name);
+    }
+  }
+
+  assert.deepEqual(floatingNode22, []);
 });
