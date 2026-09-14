@@ -64,17 +64,17 @@ test('planner sync derives account scope before reading or writing device state'
 
 test('onboarding planner save stays bound to the initiating authenticated account', () => {
   assert.match(onboardingSource, /if \(!user\?\.id \|\| !session\?\.access_token\)/);
-  assert.match(onboardingSource, /const accountId = user\.id;/);
-  assert.match(onboardingSource, /const accessToken = session\.access_token;/);
+  assert.match(onboardingSource, /const initiatingAccountId = user\.id;/);
+  assert.match(onboardingSource, /const initiatingAccessToken = session\.access_token;/);
   assert.match(onboardingSource, /const saveRequestIdRef = useRef\(0\)/);
   assert.match(onboardingSource, /const saveAccountIdRef = useRef<string \| null>\(user\?\.id \?\? null\)/);
   assert.match(
     onboardingSource,
-    /savePlannerSnapshot\([\s\S]*?createFirstStudyPlan\(curriculum\),[\s\S]*?accountId,[\s\S]*?accessToken,[\s\S]*?\)/,
+    /savePlannerSnapshot\([\s\S]*?createFirstStudyPlan\(curriculum\),[\s\S]*?initiatingAccountId,[\s\S]*?initiatingAccessToken,[\s\S]*?\)/,
   );
   assert.match(onboardingSource, /const stillOwnsAuthSession = async \(\) =>/);
   assert.match(onboardingSource, /const \{ data, error: sessionError \} = await supabase\.auth\.getSession\(\)/);
-  assert.match(onboardingSource, /return data\.session\?\.user\.id === accountId;/);
+  assert.match(onboardingSource, /return data\.session\?\.user\.id === initiatingAccountId;/);
   assert.match(onboardingSource, /if \(!isCurrentSave\(\) \|\| !\(await stillOwnsAuthSession\(\)\)\) return;/);
   assert.match(onboardingSource, /if \(!\(await stillOwnsAuthSession\(\)\)\) return;[\s\S]*?supabase\.auth\.updateUser\(\{ data: metadata \}\)/);
   assert.match(onboardingSource, /if \(!isCurrentSave\(\)\) return;[\s\S]*?if \(updateError\) throw updateError;/);
@@ -99,8 +99,8 @@ test('onboarding invalidates stale save ownership on account change and unmount'
     /useEffect\(\(\) => \(\) => \{[\s\S]*?saveRequestIdRef\.current \+= 1;[\s\S]*?\}, \[\]\);/,
   );
   assert.match(onboardingSource, /if \(!isCurrentSave\(\)\) return;[\s\S]*?setError\(getErrorMessage\(err\)\);/);
-  assert.match(onboardingSource, /markFirstSessionSyncNotice\(handoffStorage, accountId\)/);
-  assert.match(onboardingSource, /markFirstSessionWelcome\(handoffStorage, accountId\)/);
+  assert.match(onboardingSource, /markFirstSessionSyncNotice\(handoffStorage, initiatingAccountId\)/);
+  assert.match(onboardingSource, /markFirstSessionWelcome\(handoffStorage, initiatingAccountId\)/);
 });
 
 test('onboarding exposes an accessible slow-network save state', () => {
