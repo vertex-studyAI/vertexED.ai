@@ -7,6 +7,58 @@ const assertId = (value, label) => {
   return value.trim();
 };
 
+const sha256 = value => createHash('sha256').update(value).digest('hex');
+
+export function generateBalancedAssignments(participantIds, {
+  seed,
+  conditions = ['vertexed', 'control'],
+} = {}) {
+  if (!Array.isArray(participantIds) || participantIds.length === 0) {
+    throw new TypeError('participantIds must be a non-empty array');
+  }
+  const normalized = participantIds.map(participantId => assertId(participantId, 'participant_id'));
+  if (new Set(normalized).size !== normalized.length) throw new Error('participantIds must be unique');
+  const normalizedSeed = assertId(seed, 'seed');
+  if (!Array.isArray(conditions) || conditions.length < 2) {
+    throw new TypeError('conditions must contain at least two arms');
+  }
+  const normalizedConditions = conditions.map(condition => assertId(condition, 'condition'));
+  if (new Set(normalizedConditions).size !== normalizedConditions.length) {
+    throw new Error('conditions must be unique');
+  }
+
+  const ranked = normalized
+    .map(participantId => ({
+      participant_id: participantId,
+      rank_key: sha256(`vertexed-assignment-v1\0${normalizedSeed}\0${participantId}`),
+    }))
+    .sort((left, right) => left.rank_key.localeCompare(right.rank_key));
+
+  const assignments = ranked.map((row, index) => ({
+    participant_id: row.participant_id,
+    planned_condition: normalizedConditions[index % normalizedConditions.length],
+    assignment_token: sha256(`vertexed-token-v1\0${normalizedSeed}\0${row.participant_id}`).slice(0, 24),
+  }));
+
+  return {
+    schema_version: 'vertexed-balanced-randomization-v1',
+    algorithm: 'sha256-rank-then-cyclic-balanced-assignment',
+    seed_commitment_sha256: sha256(normalizedSeed),
+    participant_manifest_sha256: sha256(JSON.stringify([...normalized].sort())),
+    conditions: normalizedConditions,
+    assignments,
+    arm_counts: Object.fromEntries(normalizedConditions.map(condition => [
+      condition,
+      assignments.filter(row => row.planned_condition === condition).length,
+    ])),
+    guard: (
+      'For confirmatory use, choose the seed independently and commit its SHA-256 plus the participant '
+      + 'manifest before treatment exposure or outcome inspection. Disclose the seed later for audit. '
+      + 'This function makes the assignment reproducible; it cannot prove the seed was chosen prospectively.'
+    ),
+  };
+}
+
 export function validateTrialManifest(rows, {
   requiredMinutes = 60,
   allowedConditions = ['vertexed', 'control'],
