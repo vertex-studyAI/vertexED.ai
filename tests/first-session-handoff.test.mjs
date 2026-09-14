@@ -150,8 +150,8 @@ test("onboarding treats account-scoped first-session markers as optional UX", as
   );
 
   assert.match(source, /resolveSessionStorage\(window\)/);
-  assert.match(source, /markFirstSessionSyncNotice\(handoffStorage, user\.id\)/);
-  assert.match(source, /markFirstSessionWelcome\(handoffStorage, user\.id\)/);
+  assert.match(source, /markFirstSessionSyncNotice\(handoffStorage, initiatingAccountId\)/);
+  assert.match(source, /markFirstSessionWelcome\(handoffStorage, initiatingAccountId\)/);
   assert.doesNotMatch(source, /markFirstSessionSyncNotice\(sessionStorage/);
   assert.doesNotMatch(source, /markFirstSessionWelcome\(sessionStorage/);
   assert.doesNotMatch(source, /sessionStorage\.setItem\(\s*["']vertex_plan_sync_notice["']/);
