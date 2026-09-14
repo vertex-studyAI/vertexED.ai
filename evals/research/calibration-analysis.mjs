@@ -30,6 +30,13 @@ function summarizeSubset(rows) {
   };
 }
 
+function inBin(row, binIndex, bins) {
+  const lower = binIndex / bins;
+  const upper = (binIndex + 1) / bins;
+  return row.confidence >= lower
+    && (binIndex === bins - 1 ? row.confidence <= upper : row.confidence < upper);
+}
+
 export function analyzeCalibration(rows, { bins = 10 } = {}) {
   if (!Array.isArray(rows) || rows.length === 0) {
     throw new TypeError('calibration rows must be a non-empty array');
@@ -60,10 +67,7 @@ export function analyzeCalibration(rows, { bins = 10 } = {}) {
   const table = Array.from({ length: bins }, (_, binIndex) => {
     const lower = binIndex / bins;
     const upper = (binIndex + 1) / bins;
-    const subset = normalized.filter(row => (
-      row.confidence >= lower
-      && (binIndex === bins - 1 ? row.confidence <= upper : row.confidence < upper)
-    ));
+    const subset = normalized.filter(row => inBin(row, binIndex, bins));
     if (!subset.length) {
       return { bin: binIndex, lower, upper, n: 0, mean_confidence: null, accuracy: null, absolute_gap: null };
     }
@@ -77,6 +81,24 @@ export function analyzeCalibration(rows, { bins = 10 } = {}) {
       mean_confidence: confidence,
       accuracy,
       absolute_gap: Math.abs(confidence - accuracy),
+    };
+  });
+
+  // This is the direct data surface for the Moritz-style visualization:
+  // observation density on confidence, separated by observed outcome.
+  const outcomeDensityBins = Array.from({ length: bins }, (_, binIndex) => {
+    const lower = binIndex / bins;
+    const upper = (binIndex + 1) / bins;
+    const subset = normalized.filter(row => inBin(row, binIndex, bins));
+    return {
+      bin: binIndex,
+      lower,
+      upper,
+      n: subset.length,
+      correct: subset.filter(row => row.correct).length,
+      incorrect: subset.filter(row => !row.correct).length,
+      with_support: subset.filter(row => row.support_present).length,
+      without_support: subset.filter(row => !row.support_present).length,
     };
   });
 
@@ -95,10 +117,11 @@ export function analyzeCalibration(rows, { bins = 10 } = {}) {
   ]));
 
   return {
-    schema_version: 'vertexed-calibration-analysis-v1',
+    schema_version: 'vertexed-calibration-analysis-v2',
     input_sha256: createHash('sha256').update(JSON.stringify(normalized)).digest('hex'),
     overall: { ...overall, expected_calibration_error: ece },
     reliability_bins: table,
+    confidence_outcome_density_bins: outcomeDensityBins,
     support_strata: {
       with_support: withSupport,
       without_support: withoutSupport,
