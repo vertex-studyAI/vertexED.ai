@@ -3,9 +3,17 @@ import { rateLimitUserEndpoint } from '../_lib/rateLimit.js';
 import { fetchProvider } from '../_lib/providerRequest.js';
 import { routeAiRequest } from '../_lib/aiRouting.js';
 import { parseTranscriptionRequest, TranscriptionInputError } from '../_lib/transcriptionInput.js';
+import { callChatProvider, createOpenAiHeaders, createSafetyIdentifier, extractChatAnswer, resolveOpenAiConfig } from '../_lib/aiProviders.js';
+import { VERTEX_AGENTS } from '../_lib/vertexAgents.js';
 
 const TRANSCRIPTION_MODEL = 'gpt-4o-mini-transcribe';
-const ENRICHMENT_MODEL = 'gpt-4o-mini';
+const ENRICHMENT_MODEL = process.env.OPENAI_MODEL || 'gpt-5.6-terra';
+const FLASHCARD_SCHEMA = {
+  type: 'object', properties: { flashcards: { type: 'array', items: {
+    type: 'object', properties: { front: { type: 'string' }, back: { type: 'string' } },
+    required: ['front', 'back'], additionalProperties: false,
+  } } }, required: ['flashcards'], additionalProperties: false,
+};
 
 function parseFlashcards(raw, limit) {
   try {
@@ -22,52 +30,37 @@ function parseFlashcards(raw, limit) {
   }
 }
 
-async function generateNotes(apiKey, transcript, noteFormat, noteLength) {
+async function generateNotes(config, userId, transcript, noteFormat, noteLength) {
   const route = routeAiRequest({ capability: 'note', defaultModel: ENRICHMENT_MODEL, maxTokens: 2200 });
-  const response = await fetchProvider({
-    capability: 'transcription_notes', provider: 'openai', model: route.model,
-    url: 'https://api.openai.com/v1/chat/completions',
-    options: {
-      method: 'POST',
-      headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: route.model,
-        messages: [
-          { role: 'system', content: 'You are a precise academic notetaker. Preserve facts from the transcript and never add unsupported claims.' },
-          { role: 'user', content: `Convert this transcript into ${noteFormat} notes with ${noteLength} detail. Keep chronological order and key points.\n\n${transcript.slice(0, 30_000)}` },
-        ],
-        temperature: 0.3,
-        max_tokens: route.maxTokens,
-      }),
-    },
+  const result = await callChatProvider({
+    config, model: route.model,
+    messages: [
+      { role: 'system', content: VERTEX_AGENTS.transcriptionAssistant.instructions },
+      { role: 'user', content: `Convert this transcript into ${noteFormat} notes with ${noteLength} detail. Keep chronological order and key points.\n\n${transcript.slice(0, 30_000)}` },
+    ],
+    temperature: 0.3, maxTokens: route.maxTokens, safetyIdentifier: createSafetyIdentifier(userId), capability: 'transcription-notes',
+    fetchImpl: (url, options) => fetchProvider({ capability: 'transcription_notes', provider: 'openai', model: route.model, url, options }),
   });
-  if (!response.ok) throw new Error(`Note enrichment returned ${response.status}.`);
-  const data = await response.json();
-  const result = data?.choices?.[0]?.message?.content;
-  if (typeof result !== 'string' || !result.trim()) throw new Error('Note enrichment was empty.');
-  return result.trim();
+  if (!result.response.ok) throw new Error(`Note enrichment returned ${result.response.status}.`);
+  const text = extractChatAnswer(JSON.parse(result.raw));
+  if (!text) throw new Error('Note enrichment was empty.');
+  return text;
 }
 
-async function generateFlashcards(apiKey, content, count) {
+async function generateFlashcards(config, userId, content, count) {
   const route = routeAiRequest({ capability: 'flashcards', defaultModel: ENRICHMENT_MODEL, maxTokens: 1200 });
-  const response = await fetchProvider({
-    capability: 'transcription_flashcards', provider: 'openai', model: route.model,
-    url: 'https://api.openai.com/v1/chat/completions',
-    options: {
-      method: 'POST',
-      headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: route.model,
-        messages: [{ role: 'user', content: `Create ${count} flashcards from the content. Return only JSON as {"flashcards":[{"front":"...","back":"..."}]}.\n\n${content.slice(0, 10_000)}` }],
-        temperature: 0.35,
-        max_tokens: route.maxTokens,
-        response_format: { type: 'json_object' },
-      }),
-    },
+  const result = await callChatProvider({
+    config, model: route.model,
+    messages: [
+      { role: 'system', content: VERTEX_AGENTS.quizBuilder.instructions },
+      { role: 'user', content: `Create ${count} flashcards from the content. Return only JSON as {"flashcards":[{"front":"...","back":"..."}]}.\n\n${content.slice(0, 10_000)}` },
+    ],
+    temperature: 0.35, maxTokens: route.maxTokens, safetyIdentifier: createSafetyIdentifier(userId), capability: 'transcription-flashcards',
+    jsonSchema: FLASHCARD_SCHEMA, schemaName: 'vertexed_transcription_flashcards',
+    fetchImpl: (url, options) => fetchProvider({ capability: 'transcription_flashcards', provider: 'openai', model: route.model, url, options }),
   });
-  if (!response.ok) throw new Error(`Flashcard enrichment returned ${response.status}.`);
-  const data = await response.json();
-  return parseFlashcards(data?.choices?.[0]?.message?.content ?? '{}', count);
+  if (!result.response.ok) throw new Error(`Flashcard enrichment returned ${result.response.status}.`);
+  return parseFlashcards(extractChatAnswer(JSON.parse(result.raw)) ?? '{}', count);
 }
 
 export default async function handler(req, res) {
@@ -77,8 +70,12 @@ export default async function handler(req, res) {
   if (!user) return;
   if (!(await rateLimitUserEndpoint(user.id, 'transcribe', res, { limit: 20, windowMs: 60 * 60 * 1000 }))) return;
 
-  const apiKey = process.env.ChatbotKey || process.env.OPENAI_API_KEY || process.env.CHATBOT_KEY;
-  if (!apiKey) return res.status(503).json({ error: 'Transcription is not configured.' });
+  let openAiConfig;
+  try {
+    openAiConfig = resolveOpenAiConfig(process.env);
+  } catch {
+    return res.status(503).json({ error: 'Transcription is not configured.' });
+  }
 
   try {
     const input = await parseTranscriptionRequest(req);
@@ -91,7 +88,7 @@ export default async function handler(req, res) {
       capability: 'transcription', provider: 'openai', model: TRANSCRIPTION_MODEL,
       url: 'https://api.openai.com/v1/audio/transcriptions',
       timeoutMs: 60_000,
-      options: { method: 'POST', headers: { Authorization: `Bearer ${apiKey}` }, body: formData },
+      options: { method: 'POST', headers: createOpenAiHeaders(openAiConfig, { json: false }), body: formData },
     });
     if (!response.ok) {
       console.error('Transcription provider rejected request:', response.status);
@@ -105,7 +102,7 @@ export default async function handler(req, res) {
     let notesDegraded = false;
     if (input.createNotes) {
       try {
-        notes = await generateNotes(apiKey, transcript, input.noteFormat, input.noteLength);
+        notes = await generateNotes(openAiConfig, user.id, transcript, input.noteFormat, input.noteLength);
       } catch (error) {
         notesDegraded = true;
         console.error('Transcription note enrichment failed:', error instanceof Error ? error.name : 'UnknownError');
@@ -116,7 +113,7 @@ export default async function handler(req, res) {
     let flashcardsDegraded = false;
     if (input.createCards) {
       try {
-        flashcards = await generateFlashcards(apiKey, notes, input.flashCount);
+        flashcards = await generateFlashcards(openAiConfig, user.id, notes, input.flashCount);
         flashcardsDegraded = flashcards.length === 0;
       } catch (error) {
         flashcardsDegraded = true;

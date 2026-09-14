@@ -1,6 +1,6 @@
 import { verifyAuthUser, readJsonBody, rejectOversizedJsonBody } from '../_lib/auth.js';
 import { rateLimitUserEndpoint } from '../_lib/rateLimit.js';
-import { callChatProvider, extractChatAnswer, resolveChatProvider } from '../_lib/aiProviders.js';
+import { callChatProvider, createSafetyIdentifier, extractChatAnswer, resolveChatProvider } from '../_lib/aiProviders.js';
 import { buildAskMessages } from '../_lib/askPrompt.js';
 import { validateSourceCitations } from '../_lib/grounding.js';
 import { resolveChatRoute } from '../_lib/modelPolicy.js';
@@ -69,6 +69,8 @@ export default async function handler(req, res) {
           messages: chatMessages,
           temperature: 0.4,
           maxTokens: route.maxTokens,
+          safetyIdentifier: createSafetyIdentifier(user.id),
+          capability: 'apex-tutor',
         });
         await logProviderRun({
           capability: 'chatbot',

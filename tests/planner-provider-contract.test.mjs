@@ -18,7 +18,7 @@ test('planner uses the shared OpenAI provider when Gemini is absent', () => {
   const provider = resolvePlannerProvider({ OPENAI_API_KEY: 'openai-key' });
 
   assert.equal(provider.name, 'openai');
-  assert.deepEqual(provider.models, ['gpt-4.1-mini', 'gpt-4o-mini']);
+  assert.deepEqual(provider.models, ['gpt-5.6-terra', 'gpt-5.6-luna']);
   assert.equal(provider.config.apiKey, 'openai-key');
 });
 

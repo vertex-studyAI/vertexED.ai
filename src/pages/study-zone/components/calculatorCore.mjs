@@ -44,7 +44,7 @@ function tokenize(raw) {
   return tokens;
 }
 
-function parseExpressionTokens(tokens) {
+function parseExpressionTokens(tokens, variables = {}) {
   let index = 0;
   const current = () => tokens[index];
   const consume = (value) => {
@@ -99,6 +99,11 @@ function parseExpressionTokens(tokens) {
     }
     if (token.kind === 'identifier') {
       const identifier = consume().value;
+      if (Object.prototype.hasOwnProperty.call(variables, identifier)) {
+        const variable = Number(variables[identifier]);
+        if (!Number.isFinite(variable)) throw new Error('Invalid variable');
+        return variable;
+      }
       if (identifier === 'pi') return Math.PI;
       if (identifier === 'e') return Math.E;
       const fn = functions[identifier];
@@ -116,8 +121,8 @@ function parseExpressionTokens(tokens) {
   return result;
 }
 
-export function evaluateExpression(raw) {
-  const result = parseExpressionTokens(tokenize(raw));
+export function evaluateExpression(raw, variables = {}) {
+  const result = parseExpressionTokens(tokenize(raw), variables);
   if (typeof result !== 'number' || Number.isNaN(result) || !Number.isFinite(result)) {
     throw new Error('Invalid result');
   }

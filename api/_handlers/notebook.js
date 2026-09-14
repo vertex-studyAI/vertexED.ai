@@ -9,11 +9,39 @@ import {
 import { fetchProvider } from '../_lib/providerRequest.js';
 import { routeAiRequest } from '../_lib/aiRouting.js';
 import { validateNotebookOutput } from '../../contracts/learningOutputs.js';
+import { callChatProvider, createSafetyIdentifier, DEFAULT_OPENAI_PRIMARY_MODEL, extractChatAnswer, resolveOpenAiConfig } from '../_lib/aiProviders.js';
+import { VERTEX_AGENTS } from '../_lib/vertexAgents.js';
 
 const ALLOWED_MODES = new Set(Object.keys(NOTEBOOK_OUTPUT_MODES));
 
-function getOpenAiKey() {
-  return process.env.ChatbotKey || process.env.OPENAI_API_KEY || process.env.CHATBOT_KEY;
+const NOTEBOOK_SCHEMAS = {
+  'suggested-questions': {
+    type: 'object', properties: { questions: { type: 'array', minItems: 1, maxItems: 15, items: { type: 'string' } } },
+    required: ['questions'], additionalProperties: false,
+  },
+  quiz: {
+    type: 'object', properties: { questions: { type: 'array', minItems: 1, maxItems: 12, items: {
+      type: 'object',
+      properties: {
+        question: { type: 'string' }, type: { enum: ['mcq', 'short'] }, options: { type: 'array', items: { type: 'string' } },
+        answer: { type: 'string' }, explanation: { type: 'string' }, marks: { type: 'integer' }, sourceIds: { type: 'array', minItems: 1, items: { type: 'string' } },
+      },
+      required: ['question', 'type', 'options', 'answer', 'explanation', 'marks', 'sourceIds'], additionalProperties: false,
+    } } }, required: ['questions'], additionalProperties: false,
+  },
+  flashcards: {
+    type: 'object', properties: { flashcards: { type: 'array', minItems: 1, maxItems: 20, items: {
+      type: 'object',
+      properties: { front: { type: 'string' }, back: { type: 'string' }, sourceIds: { type: 'array', minItems: 1, items: { type: 'string' } } },
+      required: ['front', 'back', 'sourceIds'], additionalProperties: false,
+    } } }, required: ['flashcards'], additionalProperties: false,
+  },
+};
+
+function schemaForNotebookMode(mode) {
+  if (mode === 'suggested-questions') return NOTEBOOK_SCHEMAS['suggested-questions'];
+  if (mode === 'quiz') return NOTEBOOK_SCHEMAS.quiz;
+  return NOTEBOOK_SCHEMAS.flashcards;
 }
 
 export default async function handler(req, res) {
@@ -27,8 +55,10 @@ export default async function handler(req, res) {
   if (rejectOversizedJsonBody(req, res, 512 * 1024)) return;
   if (!(await rateLimitUserEndpoint(user.id, 'notebook', res))) return;
 
-  const OPENAI_API_KEY = getOpenAiKey();
-  if (!OPENAI_API_KEY) {
+  let openAiConfig;
+  try {
+    openAiConfig = resolveOpenAiConfig(process.env);
+  } catch {
     return res.status(503).json({ error: 'AI not configured' });
   }
 
@@ -62,41 +92,29 @@ ${customPrompt ? `STUDENT INSTRUCTIONS: ${customPrompt}` : ''}
 SOURCES:
 ${sourceBlock}`;
 
-    const route = routeAiRequest({ capability: 'notebook', text: customPrompt, defaultModel: process.env.NOTEBOOK_MODEL || 'gpt-4o-mini', maxTokens: spec.json ? 2000 : 2500 });
+    const route = routeAiRequest({ capability: 'notebook', text: customPrompt, defaultModel: process.env.NOTEBOOK_MODEL || process.env.OPENAI_MODEL || DEFAULT_OPENAI_PRIMARY_MODEL, maxTokens: spec.json ? 2000 : 2500 });
     const model = route.model;
-    const response = await fetchProvider({
-      capability: 'notebook', provider: 'openai', model,
-      url: 'https://api.openai.com/v1/chat/completions',
-      options: {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${OPENAI_API_KEY}`,
-      },
-      body: JSON.stringify({
-        model,
-        messages: [
-          {
-            role: 'system',
-            content:
-              'You are Apex, VertexED\'s study intelligence. Generate high-quality, exam-focused study materials grounded strictly in the provided sources. Never fabricate content outside the sources.',
-          },
-          { role: 'user', content: userPrompt },
-        ],
-        temperature: 0.35,
-        max_tokens: route.maxTokens,
-        ...(spec.json ? { response_format: { type: 'json_object' } } : {}),
-      }),
-      },
+    const result = await callChatProvider({
+      config: openAiConfig,
+      model,
+      messages: [
+        { role: 'system', content: VERTEX_AGENTS.notebookResearcher.instructions },
+        { role: 'user', content: userPrompt },
+      ],
+      temperature: 0.35,
+      maxTokens: route.maxTokens,
+      safetyIdentifier: createSafetyIdentifier(user.id),
+      capability: 'notebook',
+      ...(spec.json ? { jsonSchema: schemaForNotebookMode(mode), schemaName: `vertexed_notebook_${mode}` } : {}),
+      fetchImpl: (url, options) => fetchProvider({ capability: 'notebook', provider: 'openai', model, url, options }),
     });
 
-    if (!response.ok) {
-      console.error('Notebook generation failed:', response.status);
+    if (!result.response.ok) {
+      console.error('Notebook generation failed:', result.response.status);
       return res.status(502).json({ error: 'Generation failed. Try again shortly.' });
     }
 
-    const data = await response.json();
-    const raw = data.choices?.[0]?.message?.content?.trim() ?? '';
+    const raw = extractChatAnswer(JSON.parse(result.raw)) ?? '';
 
     if (!raw) {
       return res.status(502).json({ error: 'AI returned empty output.' });

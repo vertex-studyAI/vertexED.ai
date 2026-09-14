@@ -520,6 +520,7 @@ All colors MUST be HSL.
   .exam-prep-facts span { color: hsl(var(--muted-foreground)); font-size: 0.68rem; line-height: 1.35; }
   .exam-prep-facts strong { display: block; color: hsl(var(--foreground)); font-size: 1.15rem; }
 
+
   @media (min-width: 1024px) {
     .dashboard-tool-7 { grid-column: auto; }
     .dashboard-tool-8 { grid-column: span 2; }
@@ -1344,6 +1345,14 @@ All colors MUST be HSL.
     width: 2rem;
     height: 2rem;
     border-radius: 0.65rem;
+  }
+  .apex-avatar-inline {
+    width: 1.5rem;
+    height: 1.5rem;
+    border: 0;
+    border-radius: 0.4rem;
+    background: hsl(var(--primary-foreground) / 0.16);
+    box-shadow: none;
   }
 
   .apex-fab {

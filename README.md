@@ -117,6 +117,9 @@ Build:
 npm run build
 ```
 
+Local production-build preview: `npm run preview -- --host 127.0.0.1 --port 4175 --strictPort`.
+Both Vite development and preview mount the canonical API adapter. Preview is not static-only: API actions use the configured backend, including real writes after authentication. Keep server credentials out of `VITE_` variables. The anonymous `/api/waitlist-status` check must return JSON with HTTP 401, not the SPA HTML. Restart preview after changing its configuration or environment.
+
 ## Environment Variables
 
 Copy `.env.example` to `.env.local` for local development. The same variables must be set in **Vercel → Project → Settings → Environment Variables** for production.
@@ -129,7 +132,8 @@ Copy `.env.example` to `.env.local` for local development. The same variables mu
 | `SUPABASE_SERVICE_ROLE_KEY` | Server | Service role key for server-owned database operations — never expose |
 | `SUPABASE_PUBLISHABLE_KEY` | Server | Public auth key for JWT verification; `SUPABASE_ANON_KEY` and the client public-key variables are supported fallbacks |
 | `ADMIN_EMAILS` | Server | Comma-separated emails allowed to use `/admin/waitlist` |
-| `OPENAI_API_KEY` / `ChatbotKey` | Server | AI features (chatbot, notes, quiz, review, papers) |
+| `OPENAI_API_KEY` / `ChatbotKey` | Server | AI features (chatbot, notes, quiz, review, papers); prefer `OPENAI_API_KEY` |
+| `OPENAI_PROJECT_ID` / `OPENAI_ORGANIZATION_ID` | Server | Optional routing for the VertexED OpenAI project or legacy organization |
 | `GEMINI_API_KEY` | Server | Study Planner AI (`/api/planner`) — do not use `VITE_` prefix |
 
 See `.env.example` for the full list and optional overrides.
@@ -144,7 +148,7 @@ See `.env.example` for the full list and optional overrides.
    - Keep direct email and general account signup disabled for private beta; accounts are created only by the server after waitlist approval or a verified team invitation.
 4. Enable **Google** OAuth for linked-account sign-in. Google Cloud's authorized redirect URI is the Supabase provider callback, `https://<project-ref>.supabase.co/auth/v1/callback`, not the application page.
    - In Supabase Auth URL Configuration, set Site URL to `https://www.vertexed.app` and allow `https://www.vertexed.app/auth/callback`, plus its `?recovery=1` and `?invite=1` variants.
-   - Allow local callbacks separately. The checked-in local configuration covers ports 8080 and 5173. A preview on another port needs its own allowlist entry.
+   - Allow local callbacks separately. The checked-in local configuration covers ports 8080, 5173 and 4175. A preview on another port needs its own allowlist entry. This file does not update a hosted project: when using hosted Supabase locally, also allow `http://127.0.0.1:4175/auth/callback` and its recovery/invite variants in that project's Auth URL Configuration.
    - Enable manual identity linking if offering Connect Google for existing beta accounts. Keep direct signup disabled.
 5. Copy **Project URL**, **anon key**, and **service role key** into your env file.
 6. Waitlist signups (`/signup`) write to the `waitlist` table via `/api/waitlist` using the service role key.

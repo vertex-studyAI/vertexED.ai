@@ -5,7 +5,7 @@ import { applyApiSecurityHeaders, isProduction } from '../_lib/security.js';
 import { getSupabaseAdmin } from '../_lib/supabaseAdmin.js';
 import { hasServerSupabaseConfig } from '../_lib/serverSupabase.js';
 
-export const HEALTH_CONTRACT_VERSION = '2';
+export const HEALTH_CONTRACT_VERSION = '3';
 
 function hasValue(value) {
   return typeof value === 'string' && value.trim().length > 0;
@@ -45,6 +45,13 @@ export function getReadinessSnapshot(env = process.env) {
   return {
     ready: Object.values(checks).every(Boolean),
     checks,
+    ai: {
+      provider: hasOpenAi ? 'openai' : 'unconfigured',
+      api: 'responses',
+      projectRouting: hasValue(env.OPENAI_PROJECT_ID) ? 'explicit-project' : 'key-default',
+      organizationRouting: hasValue(env.OPENAI_ORGANIZATION_ID) ? 'explicit-organization' : 'key-default',
+      responseStorage: false,
+    },
   };
 }
 
@@ -83,6 +90,7 @@ export async function getDeepReadinessSnapshot(env = process.env) {
   return {
     ready: Object.values(checks).every(Boolean),
     checks,
+    ai: base.ai,
     ...(databaseError ? { databaseError } : {}),
   };
 }
@@ -135,6 +143,7 @@ export default async function handler(req, res) {
 
   if (readiness) {
     payload.checks = readiness.checks;
+    payload.ai = readiness.ai;
     if (readiness.databaseError) payload.databaseError = readiness.databaseError;
   } else if (!isProduction()) {
     payload.routes = Object.keys(ROUTES).length;

@@ -24,6 +24,7 @@ import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { exportTextPdf, type PdfTextBlock } from '@/lib/pdfTextExport';
+import { formatFriendlyMath } from '@/lib/friendlyMath.mjs';
 import { useSearchParams } from "react-router";
 import { getCramDueCards } from "@/lib/srDeck";
 import { getAdaptiveTopicsForQuiz } from "@/lib/adaptiveLearning";
@@ -217,7 +218,7 @@ export default function NotetakerQuiz(): React.JSX.Element {
   const [examStyle, setExamStyle] = useState("Generic");
   const [mounted, setMounted] = useState(false);
   const [quizHistory, setQuizHistory] = useState<number[]>([]);
-  const [showPreview, setShowPreview] = useState(false);
+  const [showPreview, setShowPreview] = useState(true);
   const [recording, setRecording] = useState(false);
   const [lastAudioBlob, setLastAudioBlob] = useState<Blob | null>(null);
   const [audioURL, setAudioURL] = useState<string | null>(null);
@@ -353,7 +354,7 @@ export default function NotetakerQuiz(): React.JSX.Element {
   };
 
   const handleNotesChange = (val: string) => {
-    setNotes(val);
+    setNotes(formatFriendlyMath(val));
     setIsDirty(true);
   };
 
@@ -385,17 +386,24 @@ export default function NotetakerQuiz(): React.JSX.Element {
 
   const exportToWord = async (notesText: string, cards: Flashcard[]) => {
     try {
-      const [{ Document, Packer, Paragraph, TextRun }, { saveAs }] = await Promise.all([
+      const [{ Document, Packer, Paragraph, TextRun, HeadingLevel }, { saveAs }] = await Promise.all([
         import('docx'),
         import('file-saver'),
       ]);
-      const children = [
-        new Paragraph({ children: [new TextRun({ text: "Study Notes", bold: true, size: 28 })] }),
-        new Paragraph(notesText || "No notes available."),
-      ];
+      const children = [new Paragraph({ text: topic.trim() || 'Study Notes', heading: HeadingLevel.TITLE })];
+      for (const line of (notesText || 'No notes available.').split('\n')) {
+        const heading = line.match(/^(#{1,3})\s+(.+)/);
+        if (heading) {
+          children.push(new Paragraph({ text: heading[2], heading: heading[1].length === 1 ? HeadingLevel.HEADING_1 : HeadingLevel.HEADING_2 }));
+        } else if (/^[-*•]\s+/.test(line)) {
+          children.push(new Paragraph({ text: line.replace(/^[-*•]\s+/, ''), bullet: { level: 0 } }));
+        } else {
+          children.push(new Paragraph({ children: [new TextRun({ text: line || ' ' })] }));
+        }
+      }
 
       if (cards.length) {
-        children.push(new Paragraph({ children: [new TextRun({ text: "Flashcards", bold: true, size: 24 })] }));
+        children.push(new Paragraph({ text: 'Flashcards', heading: HeadingLevel.HEADING_1, pageBreakBefore: true }));
         cards.forEach((f, i) => {
           children.push(
             new Paragraph({
@@ -414,9 +422,10 @@ export default function NotetakerQuiz(): React.JSX.Element {
         });
       }
 
-      const doc = new Document({ sections: [{ children }] });
+      const doc = new Document({ creator: 'VertexED', title: topic.trim() || 'Study Notes', subject: 'Study notes and flashcards', description: 'Learner-edited VertexED study material', sections: [{ children }] });
       const blob = await Packer.toBlob(doc);
-      saveAs(blob, "vertexed-notes.docx");
+      const name = (topic.trim() || 'study-notes').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 60) || 'study-notes';
+      saveAs(blob, `vertexed-${name}-${new Date().toISOString().slice(0, 10)}.docx`);
     } catch (err) {
       console.error("Word export failed", err);
       alert("Word export failed");
@@ -442,7 +451,8 @@ export default function NotetakerQuiz(): React.JSX.Element {
           );
         });
       }
-      await exportTextPdf({ filename: 'vertexed-notes.pdf', blocks });
+      const name = (topic.trim() || 'study-notes').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 60) || 'study-notes';
+      await exportTextPdf({ filename: `vertexed-${name}-${new Date().toISOString().slice(0, 10)}.pdf`, blocks });
     } catch (err) {
       console.error("PDF export failed", err);
       alert("PDF export failed");
@@ -1327,8 +1337,11 @@ export default function NotetakerQuiz(): React.JSX.Element {
 
                   <div className="mt-4 flex flex-wrap items-center gap-2">
                     <div className="text-sm text-muted-foreground">Insert:</div>
-                    <button className="neu-button px-3 py-2 text-sm" onClick={() => insertAtCursor("$$E = mc^2$$")}>LaTeX</button>
-                    <button className="neu-button px-3 py-2 text-sm" onClick={() => insertAtCursor("$$\\int_a^b f(x)\\,dx$$")}>Integral</button>
+                    <button type="button" className="neu-button px-3 py-2 text-sm" onClick={() => insertAtCursor("x²")}>Squared</button>
+                    <button type="button" className="neu-button px-3 py-2 text-sm" onClick={() => insertAtCursor("√(x)")}>Root</button>
+                    <button type="button" className="neu-button px-3 py-2 text-sm" onClick={() => insertAtCursor("a⁄b")}>Fraction</button>
+                    <button type="button" className="neu-button px-3 py-2 text-sm" onClick={() => insertAtCursor("$$\\int_a^b f(x)\\,dx$$")}>Integral</button>
+                    <button type="button" className="neu-button px-3 py-2 text-sm" onClick={() => insertAtCursor("$$E = mc^2$$")}>Advanced LaTeX</button>
                     <button className="neu-button px-3 py-2 text-sm" onClick={() => insertAtCursor("**Table (Markdown)**\n\n| Header 1 | Header 2 |\n|---|---|\n| Row1Col1 | Row1Col2 |\n")}>Table</button>
                     <button className="neu-button px-3 py-2 text-sm" onClick={() => insertAtCursor("• Bullet 1\n• Bullet 2\n")}>Bullets</button>
 
@@ -1362,7 +1375,7 @@ export default function NotetakerQuiz(): React.JSX.Element {
                   </AnimatePresence>
 
                   <div className="mt-3 flex items-center gap-2 text-xs text-muted-foreground">
-                    <div>Tip: Use $$...$$ for LaTeX.</div>
+                    <div>Try typing “x squared” for x². Raw $$...$$ LaTeX remains available.</div>
                     <div className="ml-auto flex items-center gap-2">
                       <span>Autosave</span>
                       <div className="h-2 w-2 rounded-full bg-emerald-400" />
@@ -1401,7 +1414,7 @@ export default function NotetakerQuiz(): React.JSX.Element {
                           animate={{ opacity: 1, y: 0 }}
                           exit={{ opacity: 0, y: -6 }}
                           transition={{ duration: 0.18 }}
-                          className="mt-3 min-h-10 text-sm text-muted-foreground"
+                          className="mt-3 max-h-48 min-h-10 overflow-y-auto whitespace-pre-wrap break-words text-sm leading-relaxed text-muted-foreground"
                         >
                           {flashRevealed ? safeText(flashcards[currentFlashIndex]?.back) : <span>Reveal the answer</span>}
                         </motion.div>
@@ -1576,8 +1589,8 @@ export default function NotetakerQuiz(): React.JSX.Element {
                   </button>
 
                   <div className="text-center">
-                    <div className="mb-4 text-2xl font-semibold text-foreground">{safeText(flashcards[currentFlashIndex]?.front) || "No card"}</div>
-                    <div className={`mb-6 text-lg leading-relaxed text-foreground transition-opacity ${flashRevealed ? "opacity-100" : "opacity-50"}`}>
+                    <div className="mb-4 max-h-[32vh] overflow-y-auto whitespace-pre-wrap break-words text-2xl font-semibold leading-snug text-foreground">{safeText(flashcards[currentFlashIndex]?.front) || "No card"}</div>
+                    <div className={`mb-6 max-h-[38vh] overflow-y-auto whitespace-pre-wrap break-words text-lg leading-relaxed text-foreground transition-opacity ${flashRevealed ? "opacity-100" : "opacity-50"}`}>
                       {flashRevealed ? safeText(flashcards[currentFlashIndex]?.back) : "Click Reveal to see the answer"}
                     </div>
                     <div className="flex flex-wrap justify-center gap-4">

@@ -235,6 +235,10 @@ jobs:
       - name: Run authenticated candidate journey
         run: npm run test:e2e:authenticated-golden
 
+      - name: Bind browser evidence to CI identity
+        if: always()
+        run: node scripts/build-ci-evidence-manifest.mjs --evidence-dir ci-evidence/production-browser
+
       - name: Upload browser evidence
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
@@ -372,6 +376,10 @@ jobs:
 
           echo "[smoke] Production smoke tests failed after ${max_attempts} attempts"
           exit 1
+
+      - name: Bind production smoke evidence to CI identity
+        if: always()
+        run: node scripts/build-ci-evidence-manifest.mjs --evidence-dir ci-evidence
 
       - name: Upload production smoke evidence
         if: always()

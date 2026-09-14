@@ -3,8 +3,9 @@ import { rateLimitUserEndpoint } from '../_lib/rateLimit.js';
 import { retrieveStudyGuideContext } from '../_lib/studyGuideRetrieval.js';
 import { fetchProvider } from '../_lib/providerRequest.js';
 import { formatSourcesForPrompt, validateSourceCitations } from '../_lib/grounding.js';
-import { callChatProvider, extractChatAnswer, resolveChatProvider } from '../_lib/aiProviders.js';
+import { callChatProvider, createSafetyIdentifier, extractChatAnswer, resolveChatProvider } from '../_lib/aiProviders.js';
 import { routeAiRequest } from '../_lib/aiRouting.js';
+import { VERTEX_AGENTS } from '../_lib/vertexAgents.js';
 
 const MAX_QUESTION_CHARS = 2000;
 
@@ -63,7 +64,7 @@ export default async function handler(req, res) {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'x-goog-api-key': googleApiKey },
           body: JSON.stringify({
-            systemInstruction: { parts: [{ text: 'You are VertexED\'s MYP study-guide tutor. Do not invent guide content or claim to have read passages not provided.' }] },
+            systemInstruction: { parts: [{ text: VERTEX_AGENTS.guideTutor.instructions }] },
             contents: [{ role: 'user', parts: [{ text: prompt }] }],
             generationConfig: { temperature: 0.2, maxOutputTokens: route.maxTokens },
           }),
@@ -79,11 +80,13 @@ export default async function handler(req, res) {
           config: openAiConfig,
           model,
           messages: [
-            { role: 'system', content: 'You are VertexED\'s MYP study-guide tutor. Use only supplied passages for factual claims and cite exact source IDs.' },
+            { role: 'system', content: VERTEX_AGENTS.guideTutor.instructions },
             { role: 'user', content: prompt },
           ],
           temperature: 0.2,
           maxTokens: route.maxTokens,
+          safetyIdentifier: createSafetyIdentifier(user.id),
+          capability: 'study-guide-chat',
         });
         response = result.response;
         if (response.ok) {

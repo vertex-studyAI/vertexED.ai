@@ -10,12 +10,16 @@ import {
   Circle,
   Clock3,
   Gauge,
+  Pause,
+  Play,
+  Plus,
   RotateCcw,
   Settings2,
   Target,
 } from 'lucide-react';
 
 import { useAuth } from '@/contexts/AuthContext';
+import ExamAssessmentSetup from '@/components/ExamAssessmentSetup';
 import ExamEvidence from '@/components/ExamEvidence';
 import ExamPracticeLab from '@/components/ExamPracticeLab';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
@@ -41,6 +45,7 @@ import { getLoopWeekStatus, recordLoopStep } from '@/lib/studyLoopTracker';
 import { recordStudySession } from '@/lib/studyStats';
 import { userContentStorageKeys } from '@/lib/userContentStorageScope.mjs';
 import { getWeaknessHeatmap } from '@/lib/weaknessTracker';
+import '@/styles/exam-assessment.css';
 
 type SessionState = {
   id?: string;
@@ -52,12 +57,23 @@ type SessionState = {
   completed: string[];
   mission?: Mission;
   mode?: string;
+  pacing?: 'timed' | 'untimed';
 };
 
 type Mission = ReturnType<typeof chooseExamMission>;
 
 const SESSION_LENGTHS = [25, 45, 75];
 const todayKey = examDayKey;
+
+function validSessionMinutes(value: unknown, fallback = 25) {
+  const minutes = Number(value);
+  return Number.isInteger(minutes) && minutes >= 10 && minutes <= 240 ? minutes : fallback;
+}
+
+function timerCopy(seconds: number) {
+  const minutes = Math.floor(seconds / 60);
+  return `${String(minutes).padStart(2, '0')}:${String(seconds % 60).padStart(2, '0')}`;
+}
 
 function countdownCopy(days: number | null) {
   if (days === null) return 'No exam date set';
@@ -121,20 +137,45 @@ export default function ExamPrep() {
   const savedSession = rawSavedSession && typeof rawSavedSession === 'object' ? rawSavedSession : defaultSession;
   const [historyError, setHistoryError] = useState<string | null>(null);
   const history = readExamSessionHistoryState();
-  const [subject, setSubject] = useState(savedSession.subject || subjects[0] || 'General preparation');
-  const [minutes, setMinutes] = useState(
-    SESSION_LENGTHS.includes(savedSession.minutes) ? savedSession.minutes : profile.preferences.sessionMinutes,
-  );
+  const [subject, setSubject] = useState(savedSession.subject || subjects[0] || '');
+  const [minutes, setMinutes] = useState(validSessionMinutes(savedSession.minutes, validSessionMinutes(profile.preferences.sessionMinutes)));
   const [mode, setMode] = useState(savedSession.mode ?? 'recommended');
+  const [pacing, setPacing] = useState<'timed' | 'untimed'>(savedSession.pacing === 'timed' ? 'timed' : 'untimed');
+  const [remainingSeconds, setRemainingSeconds] = useState(minutes * 60);
+  const [timerRunning, setTimerRunning] = useState(false);
 
   useEffect(() => {
     const nextSubject = subjects.includes(savedSession.subject)
       ? savedSession.subject
-      : subjects[0] || 'General preparation';
+      : subjects[0] || '';
     setSubject(nextSubject);
-    setMinutes(SESSION_LENGTHS.includes(savedSession.minutes) ? savedSession.minutes : 25);
+    setMinutes(validSessionMinutes(savedSession.minutes));
     setMode(savedSession.mode ?? 'recommended');
-  }, [savedSession.minutes, savedSession.subject, savedSession.mode, storageKey, subjects]);
+    setPacing(savedSession.pacing === 'timed' ? 'timed' : 'untimed');
+  }, [savedSession.minutes, savedSession.subject, savedSession.mode, savedSession.pacing, storageKey, subjects]);
+
+  useEffect(() => {
+    setRemainingSeconds(minutes * 60);
+    setTimerRunning(false);
+  }, [minutes, pacing, subject]);
+
+  useEffect(() => {
+    if (!timerRunning || pacing !== 'timed' || remainingSeconds <= 0) return undefined;
+    const timer = window.setInterval(() => setRemainingSeconds((seconds) => Math.max(0, seconds - 1)), 1000);
+    return () => window.clearInterval(timer);
+  }, [pacing, remainingSeconds, timerRunning]);
+
+  useEffect(() => {
+    if (remainingSeconds === 0) setTimerRunning(false);
+  }, [remainingSeconds]);
+
+  useEffect(() => {
+    const pauseWhenHidden = () => {
+      if (document.hidden) setTimerRunning(false);
+    };
+    document.addEventListener('visibilitychange', pauseWhenHidden);
+    return () => document.removeEventListener('visibilitychange', pauseWhenHidden);
+  }, []);
 
   const examTarget = nextExamTarget(profile.curriculum.examTargets ?? [], subject, currentDay);
   const examDate = examTarget?.date ?? profile.curriculum.examDate ?? null;
@@ -178,6 +219,7 @@ export default function ExamPrep() {
       subject,
       minutes,
       mode,
+      pacing,
       mission,
       completed: savedMatches && Array.isArray(savedSession.completed) ? savedSession.completed : [],
       ...next,
@@ -250,14 +292,20 @@ export default function ExamPrep() {
             <Settings2 className="h-5 w-5" aria-hidden />
             <div>
               <h2 id="exam-setup-title">Finish your exam setup</h2>
-              <p>Add your board, subjects, and exam date to tailor your plan. You can still start a practice session now.</p>
+              <p>Add your board, subjects, and exam date to tailor your plan. VertexED will not invent a subject-specific plan without them.</p>
             </div>
             <Link to="/user-settings">Update profile <ArrowRight className="h-4 w-4" aria-hidden /></Link>
           </section>
         )}
 
-        <div className="exam-prep-layout">
+        {subjects.length === 0 ? <section className="exam-prep-panel exam-first-subject" aria-labelledby="first-subject-title">
+          <p className="exam-prep-kicker">Setup required</p>
+          <h2 id="first-subject-title">Set up your first subject for exam prep</h2>
+          <p className="exam-prep-supporting-copy">Your exam plan stays empty until you choose a real subject. This prevents generic tasks from being presented as personal recommendations.</p>
+          <Link className="exam-prep-action" to="/user-settings">Add a subject <Plus className="h-4 w-4" aria-hidden /></Link>
+        </section> : <div className="exam-prep-layout">
           <div className="exam-prep-main">
+            <ExamAssessmentSetup subject={subject} programme={boardLabel(profile.curriculum.board) ?? ''} grade={String(profile.curriculum.grade ?? '')} />
             <section className="exam-prep-panel" aria-labelledby="mission-title">
               <label className="block mb-4 text-sm">Session choice
                 <select className="form-select mt-2 w-full" value={mode} onChange={(event) => {
@@ -305,6 +353,23 @@ export default function ExamPrep() {
                   ))}
                 </div>
               </div>
+
+              <div className="exam-session-options">
+                <fieldset>
+                  <legend>Pacing</legend>
+                  <button type="button" className={pacing === 'untimed' ? 'is-active' : ''} aria-pressed={pacing === 'untimed'} onClick={() => { setPacing('untimed'); persistSession({ pacing: 'untimed', completed: [] }); }}>Untimed</button>
+                  <button type="button" className={pacing === 'timed' ? 'is-active' : ''} aria-pressed={pacing === 'timed'} onClick={() => { setPacing('timed'); persistSession({ pacing: 'timed', completed: [] }); }}>Timed</button>
+                </fieldset>
+                <label htmlFor="exam-custom-minutes">Custom minutes<input id="exam-custom-minutes" type="number" min="10" max="240" value={minutes} onChange={(event) => selectMinutes(validSessionMinutes(event.target.value, minutes))} /></label>
+              </div>
+
+              {pacing === 'timed' && <div className="exam-session-timer" role="timer" aria-live={remainingSeconds === 0 ? 'assertive' : 'off'} aria-label={`${timerCopy(remainingSeconds)} remaining`}>
+                <div><span>Time remaining</span><strong>{timerCopy(remainingSeconds)}</strong><small>{remainingSeconds === 0 ? 'Time is up. Finish the current thought, then review.' : timerRunning ? 'Timer running' : 'Timer paused'}</small></div>
+                <div>
+                  <button type="button" onClick={() => setTimerRunning((running) => !running)} disabled={remainingSeconds === 0}>{timerRunning ? <><Pause className="h-4 w-4" aria-hidden /> Pause</> : <><Play className="h-4 w-4" aria-hidden /> {remainingSeconds === minutes * 60 ? 'Start' : 'Resume'}</>}</button>
+                  <button type="button" onClick={() => { setTimerRunning(false); setRemainingSeconds(minutes * 60); }}><RotateCcw className="h-4 w-4" aria-hidden /> Reset</button>
+                </div>
+              </div>}
 
               <ol className="exam-prep-blocks">
                 {blocks.map((block, index) => {
@@ -364,7 +429,7 @@ export default function ExamPrep() {
               <p className="exam-prep-kicker">Session subject</p>
               <h2 id="subject-title">What are you studying?</h2>
               <div className="exam-prep-subjects">
-                {(subjects.length ? subjects : ['General preparation']).map((item) => (
+                {subjects.map((item) => (
                   <button
                     key={item}
                     type="button"
@@ -376,6 +441,7 @@ export default function ExamPrep() {
                   </button>
                 ))}
               </div>
+              <Link className="exam-add-subject" to="/user-settings"><Plus className="h-4 w-4" aria-hidden /> Add subject</Link>
             </section>
 
             <section className="exam-prep-panel" aria-labelledby="evidence-title">
@@ -396,7 +462,7 @@ export default function ExamPrep() {
               </div>
             </section>
           </aside>
-        </div>
+        </div>}
       </div>
     </>
   );

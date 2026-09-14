@@ -3,6 +3,7 @@ import test from 'node:test';
 
 import {
   callChatProvider,
+  createSafetyIdentifier,
   extractChatAnswer,
   resolveChatProvider,
 } from '../api/_lib/aiProviders.js';
@@ -13,8 +14,8 @@ test('OpenAI remains the default provider with a generally available model', () 
   assert.equal(config.name, 'openai');
   assert.equal(config.apiKey, 'legacy-key');
   assert.equal(config.baseUrl, 'https://api.openai.com/v1');
-  assert.equal(config.primaryModel, 'gpt-4.1-mini');
-  assert.equal(config.fallbackModel, 'gpt-4o-mini');
+  assert.equal(config.primaryModel, 'gpt-5.6-terra');
+  assert.equal(config.fallbackModel, 'gpt-5.6-luna');
 });
 
 test('NVIDIA provider is opt-in and requires both API key and model identity', () => {
@@ -90,14 +91,27 @@ test('chat provider call uses OpenAI-compatible request shape without switching 
   assert.equal(payload.max_tokens, 1200);
 });
 
-test('OpenAI chat requests use the current completion-token field', async () => {
+test('OpenAI requests use the Responses API without storing learner content', async () => {
   let payload;
-  const config = resolveChatProvider({ OPENAI_API_KEY: 'openai-key' });
+  let requestUrl;
+  let requestHeaders;
+  const config = resolveChatProvider({
+    OPENAI_API_KEY: 'openai-key',
+    OPENAI_PROJECT_ID: 'proj_vertexed',
+    OPENAI_ORGANIZATION_ID: 'org_vertexed',
+  });
   await callChatProvider({
     config,
     model: config.primaryModel,
-    messages: [{ role: 'user', content: 'hello' }],
-    fetchImpl: async (_url, options) => {
+    messages: [
+      { role: 'system', content: 'Teach clearly.' },
+      { role: 'user', content: 'hello' },
+    ],
+    safetyIdentifier: createSafetyIdentifier('learner-123'),
+    capability: 'apex-tutor',
+    fetchImpl: async (url, options) => {
+      requestUrl = url;
+      requestHeaders = options.headers;
       payload = JSON.parse(options.body);
       return {
         ok: true,
@@ -107,8 +121,44 @@ test('OpenAI chat requests use the current completion-token field', async () => 
     },
   });
 
-  assert.equal(payload.max_completion_tokens, 1200);
+  assert.equal(requestUrl, 'https://api.openai.com/v1/responses');
+  assert.equal(requestHeaders['OpenAI-Project'], 'proj_vertexed');
+  assert.equal(requestHeaders['OpenAI-Organization'], 'org_vertexed');
+  assert.equal(payload.max_output_tokens, 1200);
+  assert.equal(payload.store, false);
+  assert.equal(payload.instructions, 'Teach clearly.');
+  assert.deepEqual(payload.input, [{ role: 'user', content: 'hello' }]);
+  assert.equal(payload.metadata.product, 'vertexed');
+  assert.equal(payload.metadata.capability, 'apex-tutor');
+  assert.match(payload.safety_identifier, /^[a-f0-9]{64}$/);
+  assert.notEqual(payload.safety_identifier, 'learner-123');
   assert.equal('max_tokens' in payload, false);
+  assert.equal('messages' in payload, false);
+  assert.equal('temperature' in payload, false);
+});
+
+test('OpenAI structured requests use strict JSON schema output', async () => {
+  let payload;
+  const config = resolveChatProvider({ OPENAI_API_KEY: 'openai-key' });
+  await callChatProvider({
+    config,
+    model: config.primaryModel,
+    messages: [{ role: 'user', content: 'make a plan' }],
+    jsonSchema: {
+      type: 'object',
+      properties: { task: { type: 'string' } },
+      required: ['task'],
+      additionalProperties: false,
+    },
+    schemaName: 'study plan',
+    fetchImpl: async (_url, options) => {
+      payload = JSON.parse(options.body);
+      return { ok: true, status: 200, text: async () => JSON.stringify({ output_text: '{"task":"review"}' }) };
+    },
+  });
+  assert.equal(payload.text.format.type, 'json_schema');
+  assert.equal(payload.text.format.name, 'study_plan');
+  assert.equal(payload.text.format.strict, true);
 });
 
 test('answer extraction supports chat-completions and response-style payloads', () => {
@@ -117,5 +167,6 @@ test('answer extraction supports chat-completions and response-style payloads', 
     'chat answer',
   );
   assert.equal(extractChatAnswer({ output_text: ' response answer ' }), 'response answer');
+  assert.equal(extractChatAnswer({ output: [{ type: 'reasoning' }, { content: [{ type: 'output_text', text: ' nested answer ' }] }] }), 'nested answer');
   assert.equal(extractChatAnswer({ choices: [{ message: { content: '' } }] }), null);
 });

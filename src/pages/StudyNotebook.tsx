@@ -174,6 +174,27 @@ export default function StudyNotebook() {
     }
   };
 
+  const createNewNotebook = () => runNotebookMutation(() => {
+    const nb = createNotebook(`Notebook ${notebooks.length + 1}`);
+    setActiveId(nb.id);
+    refresh();
+    toast({ title: 'Notebook created', description: notebookCloudSynced ? 'Ready to add sources.' : 'Saved locally. Cloud sync will retry when available.' });
+  });
+
+  const retryNotebookSync = () => {
+    if (!notebookHydrated || notebookSaving) return;
+    setNotebookSaving(true);
+    void saveNotebookSnapshot({ notebooks, updatedAt: new Date().toISOString() }, user?.id).then((result) => {
+      setNotebookCloudSynced(result.cloudSynced);
+      setNotebookSyncError(result.error ?? null);
+      setNotebookSaving(false);
+      toast({
+        title: result.cloudSynced ? 'Notebooks synced' : 'Notebooks remain saved locally',
+        description: result.error,
+      });
+    });
+  };
+
   const reloadCloudNotebooks = () => {
     if (!window.confirm('Load cloud notebooks? Your local copy will be kept in your account export as a recovery backup.')) return;
     setNotebookHydrated(false);
@@ -386,11 +407,7 @@ export default function StudyNotebook() {
                     className="p-1.5 rounded-lg hover:bg-foreground/5 text-primary"
                     aria-label="New notebook"
                     disabled={!notebookHydrated}
-                    onClick={() => runNotebookMutation(() => {
-                      const nb = createNotebook(`Notebook ${notebooks.length + 1}`);
-                      setActiveId(nb.id);
-                      refresh();
-                    })}
+                    onClick={createNewNotebook}
                   >
                     <Plus className="h-4 w-4" />
                   </button>
@@ -616,7 +633,7 @@ export default function StudyNotebook() {
                       <span>. {notebookSyncError}</span>
                     )}
                   </span>
-                  {!notebookCloudSynced && <button type="button" className="btn-glass text-xs" onClick={reloadCloudNotebooks}>Reload cloud copy</button>}
+                  {!notebookCloudSynced && <button type="button" className="btn-glass text-xs" disabled={notebookSaving} onClick={retryNotebookSync}>Retry sync</button>}
                   <button
                     type="button"
                     className="btn-glass text-xs"
@@ -638,7 +655,7 @@ export default function StudyNotebook() {
                 </div>
               )}
 
-              <div className="border-b border-border/40">
+              {active ? <><div className="border-b border-border/40">
                 <div className="flex gap-1 p-2 overflow-x-auto">
                   <StudioTabButton
                     active={studioTab === 'chat'}
@@ -803,7 +820,20 @@ export default function StudyNotebook() {
                     )}
                   </div>
                 )}
-              </div>
+              </div></> : (
+                <div className="flex flex-1 items-center justify-center p-6 md:p-10">
+                  <div className="max-w-lg text-center">
+                    <BookMarked className="mx-auto mb-4 h-12 w-12 text-primary" aria-hidden />
+                    <h2 className="text-2xl font-semibold text-foreground">Create a new notebook</h2>
+                    <p className="mt-3 text-sm leading-relaxed text-muted-foreground">Start a source-based workspace for class notes, PDF excerpts, saved practice, and cited study materials. It saves on this device first and syncs to your account when cloud storage is available.</p>
+                    <button type="button" className="btn-solid mt-6 inline-flex min-h-11 items-center gap-2" disabled={!notebookHydrated} onClick={createNewNotebook}>
+                      <Plus className="h-4 w-4" aria-hidden />
+                      {notebookHydrated ? 'Create notebook' : 'Loading saved notebooks'}
+                    </button>
+                    {notebookHydrated && notebookSyncError && <p role="status" className="mt-4 text-xs text-muted-foreground">Cloud sync is unavailable. New work will remain saved locally.</p>}
+                  </div>
+                </div>
+              )}
             </LiquidGlass>
           </main>
         </div>

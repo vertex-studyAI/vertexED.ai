@@ -12,6 +12,7 @@ import { ArrowUpRight, X } from 'lucide-react';
 import AccessibleModal from '@/components/AccessibleModal';
 import ApexCommandBar from '@/components/chat/ApexCommandBar';
 import { useAppPreferences } from '@/contexts/AppPreferencesContext';
+import { APEX_APPEARANCES, getApexAppearance } from '@/lib/apexAppearance';
 import '@/styles/vee.css';
 
 type ApexCompanionProps = {
@@ -67,13 +68,11 @@ export default function ApexCompanion({ suspended, onOpenTutor }: ApexCompanionP
   } | null>(null);
   const suppressClickRef = useRef(false);
   const visible = settings.studyCompanion && !settings.simpleMode;
-  const restSpriteSrc = settings.apexAppearance === 'ink'
-    ? '/companions/apex-ink-v3.png'
-    : '/companions/apex-paper-v3.png';
-  const reactionSpriteSrc = reaction.name === 'blink'
-    ? `/companions/apex-${settings.apexAppearance}-blink-v4.png`
-    : reaction.name === 'page-turn'
-      ? `/companions/apex-${settings.apexAppearance}-page-turn-v4.png`
+  const restSpriteSrc = getApexAppearance(settings.apexAppearance).src;
+  const reactionSpriteSrc = settings.apexAppearance === 'paper' && reaction.name === 'blink'
+    ? '/companions/apex-paper-blink-v4.png'
+    : settings.apexAppearance === 'paper' && reaction.name === 'page-turn'
+      ? '/companions/apex-paper-page-turn-v4.png'
       : restSpriteSrc;
 
   const getBounds = () => {
@@ -256,13 +255,26 @@ export default function ApexCompanion({ suspended, onOpenTutor }: ApexCompanionP
             <span className="apex-math-glyphs" aria-hidden="true">× + −</span>
             <div><p className="vee-eyebrow">YOUR STUDY COMPANION</p><h2 id="vee-title">Think it through.</h2></div>
           </div>
-          <p id="vee-description">The book in your corner. Turn a question into a learning workspace.</p>
+          <p id="vee-description">A study guide in your corner. Turn a question into a learning workspace.</p>
           <ApexCommandBar />
           <details className="apex-character-settings"><summary>Appearance and animations</summary>
           {!imageFailed && <fieldset className="vee-appearance">
             <legend>Appearance</legend>
-            <label><input type="radio" name="apex-appearance" value="paper" checked={settings.apexAppearance === 'paper'} onChange={() => update({ apexAppearance: 'paper' })} /> Paper</label>
-            <label><input type="radio" name="apex-appearance" value="ink" checked={settings.apexAppearance === 'ink'} onChange={() => update({ apexAppearance: 'ink' })} /> Ink</label>
+            <div className="vee-appearance-grid">
+              {APEX_APPEARANCES.map((appearance) => (
+                <label key={appearance.id} data-selected={settings.apexAppearance === appearance.id}>
+                  <input
+                    type="radio"
+                    name="apex-appearance"
+                    value={appearance.id}
+                    checked={settings.apexAppearance === appearance.id}
+                    onChange={() => update({ apexAppearance: appearance.id })}
+                  />
+                  <img src={appearance.src} alt="" width="56" height="56" draggable={false} />
+                  <span><strong>{appearance.name}</strong><small>{appearance.description}</small></span>
+                </label>
+              ))}
+            </div>
           </fieldset>}
           {!imageFailed && <div className="vee-play" role="group" aria-label="Play with Apex">
             {reactions.map(({ name, label }) => <button key={name} type="button" aria-disabled={settings.reducedMotion}

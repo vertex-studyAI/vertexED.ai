@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router";
-import { Bot, Trash2 } from "lucide-react";
+import { Trash2 } from "lucide-react";
 import PageSection from "@/components/PageSection";
 import SEO from "@/components/SEO";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -16,6 +16,7 @@ import ApexMessageList from "@/components/chat/ApexMessageList";
 import ApexPromptChips from "@/components/chat/ApexPromptChips";
 import ApexChatInput from "@/components/chat/ApexChatInput";
 import ApexSocraticDrill from "@/components/chat/ApexSocraticDrill";
+import ApexAvatar from "@/components/chat/ApexAvatar";
 
 const APEX_MODES: Array<{ value: ChatbotMode; label: string; description: string }> = [
   { value: 'quick', label: 'Quick', description: 'Fast, concise help' },
@@ -72,9 +73,7 @@ export default function AIChatbot() {
         <div className="neu-card p-6 md:p-8">
           <div className="flex flex-wrap items-start justify-between gap-4 mb-6">
             <div className="flex items-start gap-3">
-              <span className="apex-avatar">
-                <Bot className="h-6 w-6" aria-hidden />
-              </span>
+              <ApexAvatar />
               <div>
                 <h1 className="text-2xl md:text-3xl font-bold text-foreground">AI Tutor</h1>
                 <p className="text-sm text-muted-foreground max-w-2xl mt-1">{APEX_TAGLINE}</p>

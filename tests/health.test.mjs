@@ -15,6 +15,8 @@ const HEALTH_ENV_KEYS = [
   'OPENAI_API_KEY',
   'ChatbotKey',
   'CHATBOT_KEY',
+  'OPENAI_PROJECT_ID',
+  'OPENAI_ORGANIZATION_ID',
   'GEMINI_API_KEY',
   'WAITLIST_RATE_LIMIT_SALT',
   'VERCEL_GIT_COMMIT_SHA',
@@ -56,6 +58,25 @@ test('one OpenAI key can satisfy core and planner AI readiness', () => {
   const snapshot = getReadinessSnapshot({ CHATBOT_KEY: 'openai-key' });
   assert.equal(snapshot.checks.coreAi, true);
   assert.equal(snapshot.checks.plannerAi, true);
+  assert.deepEqual(snapshot.ai, {
+    provider: 'openai',
+    api: 'responses',
+    projectRouting: 'key-default',
+    organizationRouting: 'key-default',
+    responseStorage: false,
+  });
+});
+
+test('readiness exposes explicit OpenAI project routing without exposing an identifier', () => {
+  const snapshot = getReadinessSnapshot({
+    OPENAI_API_KEY: 'openai-key',
+    OPENAI_PROJECT_ID: 'proj-private-value',
+    OPENAI_ORGANIZATION_ID: 'org-private-value',
+  });
+
+  assert.equal(snapshot.ai.projectRouting, 'explicit-project');
+  assert.equal(snapshot.ai.organizationRouting, 'explicit-organization');
+  assert.doesNotMatch(JSON.stringify(snapshot), /proj-private-value|org-private-value/);
 });
 
 test('getReadinessSnapshot reports each required production capability', () => {
@@ -162,6 +183,8 @@ test('readiness returns 503 and capability evidence when configuration is incomp
     assert.equal(getJson().healthContract, HEALTH_CONTRACT_VERSION);
     assert.equal(getJson().checks.authentication, false);
     assert.equal(getJson().checks.waitlist, false);
+    assert.equal(getJson().ai.api, 'responses');
+    assert.equal(getJson().ai.responseStorage, false);
     assert.equal(getHeaders()['X-VertexED-Health'], 'degraded');
     assert.equal(getHeaders()['X-VertexED-Health-Contract'], HEALTH_CONTRACT_VERSION);
   });

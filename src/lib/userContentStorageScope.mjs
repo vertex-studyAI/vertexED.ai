@@ -48,5 +48,7 @@ export function userContentStorageKeys(scope = activeScope) {
     boardGuides: `${prefix}:board_guides`,
     examPrepSession: `${prefix}:exam_prep_session`,
     examPrepHistory: `${prefix}:exam_prep_history`,
+    examPrepSetup: `${prefix}:exam_prep_setup`,
+    studyZoneLayout: `${prefix}:study_zone_layout`,
   };
 }

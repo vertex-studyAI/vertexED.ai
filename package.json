@@ -26,6 +26,8 @@
     "pilot:report": "node scripts/report-pilot-quality.mjs",
     "test:research-evidence": "node --test tests/research-evidence-analysis.test.mjs",
     "test:provider-evidence": "node --test tests/provider-evidence.test.mjs tests/provider-telemetry.test.mjs",
+    "test:ci-evidence": "node --test tests/ci-evidence-manifest.test.mjs",
+    "test:staging-receipt": "node --test tests/staging-receipt.test.mjs",
     "eval:provider:compare": "node evals/scripts/compare-provider-benchmarks.mjs",
     "db:test": "supabase db reset && supabase test db && supabase db lint --local --level warning --fail-on error",
     "test:e2e": "playwright test e2e/smoke.spec.ts",

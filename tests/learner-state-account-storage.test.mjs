@@ -40,6 +40,8 @@ test('learner-derived state keys are different for different accounts', () => {
     'habitsResetDate',
     'boardGuides',
     'examPrepSession',
+    'examPrepSetup',
+    'studyZoneLayout',
   ];
 
   for (const key of stateKeys) {

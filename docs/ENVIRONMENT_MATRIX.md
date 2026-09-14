@@ -1,6 +1,6 @@
 # VertexED production environment matrix
 
-Last repository verification: 2026-09-12. Production values remain unverified.
+Last repository verification: 2026-09-14. Production values remain unverified.
 
 This file is the authoritative list of runtime configuration expected by the current code. It records variable names and risk only; values must never be committed or copied into logs.
 
@@ -19,16 +19,18 @@ A read-only connector audit on 8 September reached the configured Supabase proje
 | `ADMIN_EMAILS` | Server | Yes for admin flow | `/api/admin-status`, `/api/waitlist-admin` | Unknown | No administrator is authorized, or the wrong accounts receive admin access. |
 | `SIGNUP_INVITE_CODE` | Server secret | Required for team-code signup | `/api/signup-invite` | Unknown | Team invite signup returns `503`; approved waitlist links still work. Rotate if disclosed. |
 | `OPENAI_API_KEY` | Server secret | Yes for OpenAI-backed features | Review and OpenAI handlers | Unknown | Affected AI features return provider/configuration errors. |
+| `OPENAI_PROJECT_ID` | Server | Recommended for members of multiple OpenAI projects | Adds the OpenAI project header to Responses API requests | Unknown | Requests may be billed or governed by the API key's default project instead of the intended VertexED project. |
+| `OPENAI_ORGANIZATION_ID` | Server | Optional for legacy multi-organization access | Adds the OpenAI organization header to Responses API requests | Unknown | Legacy user keys may select the wrong organization. Project-scoped keys normally do not require this. |
 | `ChatbotKey` | Server secret, legacy alias | No | OpenAI-backed handlers accept it as a fallback | Unknown | `OPENAI_API_KEY` is preferred; the alias can be removed from the environment after migration. |
 | `GEMINI_API_KEY` | Server secret | Yes for planner | `/api/planner` | Unknown | AI study planner generation fails. |
-| `CHATBOT_MODEL` | Server | No | Default Apex chatbot model | Unknown | Repository default model is used. An invalid model causes provider errors. |
-| `CHATBOT_FALLBACK_MODEL` | Server | No | Default Apex fallback model | Unknown | Repository default fallback is used. |
+| `CHATBOT_MODEL` | Server | No | Default Apex chatbot model | Unknown | Repository default `gpt-5.6-terra` is used. An invalid or inaccessible model causes provider errors. |
+| `CHATBOT_FALLBACK_MODEL` | Server | No | Default Apex fallback model | Unknown | Repository default `gpt-5.6-luna` is used. |
 | `CHATBOT_FAST_MODEL` / `CHATBOT_FAST_FALLBACK_MODEL` | Server | No | Apex `quick` mode | Unknown | When absent, the default chatbot model/fallback is used. Invalid IDs break only quick-mode requests. |
 | `CHATBOT_TUTOR_MODEL` / `CHATBOT_TUTOR_FALLBACK_MODEL` | Server | No | Apex `tutor` mode | Unknown | When absent, the default chatbot model/fallback is used. Invalid IDs break tutor-mode requests. |
 | `CHATBOT_REASONING_MODEL` / `CHATBOT_REASONING_FALLBACK_MODEL` | Server | No | Apex `deep` mode | Unknown | When absent, the default chatbot model/fallback is used. Invalid IDs break deep-mode requests. |
-| `OPENAI_MODEL` | Server | No | General OpenAI model override | Unknown | Repository default is used. |
-| `OPENAI_REVIEW_MODEL` | Server | No | Structured Answer Reviewer grading | Unknown | When absent, the reviewer falls back to `OPENAI_MODEL` and then its existing default. An invalid model degrades the review result. |
-| `OPENAI_REVIEW_VISION_MODEL` | Server | No | Answer Reviewer image transcription | Unknown | When absent, the existing vision default is used. The configured model must support image input. |
+| `OPENAI_MODEL` | Server | No | General OpenAI model override | Unknown | Repository default `gpt-5.6-terra` is used. |
+| `OPENAI_REVIEW_MODEL` | Server | No | Structured Answer Reviewer grading | Unknown | When absent, the reviewer falls back to `OPENAI_MODEL` and then `gpt-5.6-terra`. An invalid model degrades the review result. |
+| `OPENAI_REVIEW_VISION_MODEL` | Server | No | Answer Reviewer image transcription | Unknown | When absent, `OPENAI_MODEL` and then `gpt-5.6-terra` are used. The configured model must support image input. |
 | `RESEND_API_KEY` | Server secret | Recommended | Waitlist approval email | Unknown | Approval still returns a one-time link to the authorized admin, but no email is delivered. Recipient addresses and invite links are not logged. |
 | `RESEND_FROM` | Server | Recommended with Resend | Approval email sender | Unknown | Email sending may fail domain/sender validation. |
 | `APP_URL` | Server | Yes for production links | Approval-link generation and email | Unknown | Generated links may point at the wrong origin. Expected: `https://www.vertexed.app`. |
@@ -42,6 +44,9 @@ A read-only connector audit on 8 September reached the configured Supabase proje
 
 - Browser clients request only a semantic mode: `quick`, `tutor`, or `deep`.
 - Model IDs, API keys, provider base URLs, and provider selection remain server-side.
+- OpenAI text generation uses the Responses API with `store: false`, a hashed per-learner safety identifier, and optional project or organization headers.
+- Current repository aliases use `gpt-5.6-terra` for balanced tutoring/generation and `gpt-5.6-luna` as the cost-sensitive fallback; production should pin exact evaluated snapshots when OpenAI publishes suitable snapshot IDs.
+- Planner requests use strict JSON schema output on OpenAI and retain server validation for every returned task.
 - Missing role-specific model overrides fall back to `CHATBOT_MODEL` and `CHATBOT_FALLBACK_MODEL`, preserving current behavior.
 - A role can select another model within the configured provider, but routing does not silently switch providers.
 - Answer Reviewer grading and vision transcription can be upgraded independently from the general OpenAI model.
@@ -57,6 +62,7 @@ A read-only connector audit on 8 September reached the configured Supabase proje
 6. After changes, redeploy and run `npm run test:smoke` plus the authenticated Playwright certification job.
 7. Confirm direct signup is disabled in Supabase Auth; private-beta accounts must originate from `/api/signup-invite`.
 8. For each role- or capability-specific AI model enabled in production, record the corresponding eval/benchmark evidence before rollout.
+9. When explicit VertexED project routing is required, confirm `/api/health?readiness=1` reports `ai.projectRouting` as `explicit-project`; the endpoint never returns the project identifier itself.
 
 ## Configuration rules
 

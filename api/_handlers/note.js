@@ -9,98 +9,59 @@ import {
 } from '../_lib/learningArtifactFallbacks.js';
 import { fetchProvider } from '../_lib/providerRequest.js';
 import { routeAiRequest } from '../_lib/aiRouting.js';
+import {
+  callChatProvider,
+  createSafetyIdentifier,
+  DEFAULT_OPENAI_FALLBACK_MODEL,
+  DEFAULT_OPENAI_PRIMARY_MODEL,
+  extractChatAnswer,
+  resolveOpenAiConfig,
+} from '../_lib/aiProviders.js';
+import { VERTEX_AGENTS } from '../_lib/vertexAgents.js';
 
-const PRIMARY_NOTE_MODEL = process.env.NOTE_MODEL || 'ft:gpt-4o-mini-2024-07-18:verteded:notes:CRuakY3O';
-const FALLBACK_NOTE_MODEL = process.env.NOTE_FALLBACK_MODEL || 'gpt-4o-mini';
+const PRIMARY_NOTE_MODEL = process.env.NOTE_MODEL || process.env.OPENAI_MODEL || DEFAULT_OPENAI_PRIMARY_MODEL;
+const FALLBACK_NOTE_MODEL = process.env.NOTE_FALLBACK_MODEL || process.env.CHATBOT_FALLBACK_MODEL || DEFAULT_OPENAI_FALLBACK_MODEL;
 
-async function extractResponsesText(response) {
-  if (!response.ok) {
-    throw new Error(`Note provider returned ${response.status}.`);
-  }
-  const data = await response.json();
-  let raw = '';
-  if (Array.isArray(data.output)) {
-    for (const item of data.output) {
-      if (item.content) {
-        for (const block of item.content) {
-          if (block.type === 'output_text' && block.text) {
-            raw += block.text;
-          }
-        }
-      }
-    }
-  }
-  if (!raw.trim()) throw new Error('Empty model output');
+const FLASHCARD_SCHEMA = {
+  type: 'object', properties: { flashcards: { type: 'array', items: {
+    type: 'object', properties: { front: { type: 'string' }, back: { type: 'string' } },
+    required: ['front', 'back'], additionalProperties: false,
+  } } }, required: ['flashcards'], additionalProperties: false,
+};
+
+async function callNotesResponsesApi(config, userId, systemMessage, userMessage, model, maxTokens = 1600) {
+  const result = await callChatProvider({
+    config,
+    model,
+    messages: [systemMessage, userMessage],
+    temperature: 0.45,
+    maxTokens,
+    safetyIdentifier: createSafetyIdentifier(userId),
+    capability: 'notes',
+    fetchImpl: (url, options) => fetchProvider({ capability: 'note', provider: 'openai', model, url, options }),
+  });
+  if (!result.response.ok) throw new Error(`Note provider returned ${result.response.status}.`);
+  const raw = extractChatAnswer(JSON.parse(result.raw));
+  if (!raw) throw new Error('Empty model output');
   return raw;
 }
 
-async function callNotesResponsesApi(apiKey, systemMessage, userMessage, model, maxTokens = 1600) {
-  const response = await fetchProvider({
-    capability: 'note', provider: 'openai', model,
-    url: 'https://api.openai.com/v1/responses',
-    options: {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${apiKey}`,
-    },
-    body: JSON.stringify({
-      model,
-      input: [systemMessage, userMessage],
-      temperature: 0.45,
-      max_output_tokens: maxTokens,
-    }),
-    },
-  });
-  return extractResponsesText(response);
-}
-
-async function callNotesChatFallback(apiKey, systemMessage, userMessage) {
-  const response = await fetchProvider({
-    capability: 'note', provider: 'openai', model: FALLBACK_NOTE_MODEL,
-    url: 'https://api.openai.com/v1/chat/completions',
-    options: {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${apiKey}`,
-    },
-    body: JSON.stringify({
-      model: FALLBACK_NOTE_MODEL,
-      messages: [systemMessage, userMessage],
-      temperature: 0.45,
-      max_tokens: 1600,
-    }),
-    },
-  });
-  if (!response.ok) {
-    throw new Error(`Note fallback provider returned ${response.status}.`);
-  }
-  const data = await response.json();
-  const raw = data.choices?.[0]?.message?.content ?? '';
-  if (!raw.trim()) throw new Error('Empty fallback model output');
-  return raw;
-}
-
-async function generateNotesRaw(apiKey, systemMessage, userMessage) {
+async function generateNotesRaw(config, userId, systemMessage, userMessage) {
   const route = routeAiRequest({ capability: 'note', text: userMessage.content, defaultModel: PRIMARY_NOTE_MODEL, maxTokens: 1600 });
   try {
     return {
-      raw: await callNotesResponsesApi(apiKey, systemMessage, userMessage, route.model, route.maxTokens),
+      raw: await callNotesResponsesApi(config, userId, systemMessage, userMessage, route.model, route.maxTokens),
       model: route.model,
     };
   } catch {
     console.warn('Primary note model failed; retrying configured fallback.');
     try {
       return {
-        raw: await callNotesResponsesApi(apiKey, systemMessage, userMessage, FALLBACK_NOTE_MODEL),
+        raw: await callNotesResponsesApi(config, userId, systemMessage, userMessage, FALLBACK_NOTE_MODEL),
         model: FALLBACK_NOTE_MODEL,
       };
     } catch {
-      return {
-        raw: await callNotesChatFallback(apiKey, systemMessage, userMessage),
-        model: FALLBACK_NOTE_MODEL,
-      };
+      throw new Error('Note generation failed for primary and fallback models.');
     }
   }
 }
@@ -147,8 +108,8 @@ export default async function handler(req, res) {
       subjects,
     } = body;
 
-    const OPENAI_API_KEY =
-      process.env.ChatbotKey || process.env.OPENAI_API_KEY || process.env.CHATBOT_KEY;
+    let openAiConfig = null;
+    try { openAiConfig = resolveOpenAiConfig(process.env); } catch { openAiConfig = null; }
 
     if (mode === "flashcards" && source === "notes" && text?.trim()) {
       const safeFlashCount = Math.max(4, Math.min(16, Number(flashCount || 8)));
@@ -159,40 +120,33 @@ export default async function handler(req, res) {
           capability: 'flashcards',
           mode: 'deterministic-fallback',
           source: text,
-          failureClass: OPENAI_API_KEY ? 'provider_failure' : 'provider_unconfigured',
+          failureClass: openAiConfig ? 'provider_failure' : 'provider_unconfigured',
         }),
       });
-      if (!OPENAI_API_KEY) return res.status(200).json(deterministicFlashcards());
+      if (!openAiConfig) return res.status(200).json(deterministicFlashcards());
       const flashPrompt = `Create ${safeFlashCount} study flashcards from the notes below.
 Return ONLY JSON: { "flashcards": [ { "front": "...", "back": "..." } ] }
 
 NOTES:
 ${String(text).slice(0, 10000)}`;
 
-      const flashRoute = routeAiRequest({ capability: 'flashcards', defaultModel: 'gpt-4o-mini', maxTokens: 1200 });
-      const flashResponse = await fetchProvider({
-        capability: 'flashcards', provider: 'openai', model: flashRoute.model,
-        url: "https://api.openai.com/v1/chat/completions",
-        options: {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${OPENAI_API_KEY}`,
-        },
-        body: JSON.stringify({
-          model: flashRoute.model,
-          messages: [{ role: "user", content: flashPrompt }],
-          temperature: 0.35,
-          max_tokens: flashRoute.maxTokens,
-          response_format: { type: "json_object" },
-        }),
-        },
+      const flashRoute = routeAiRequest({ capability: 'flashcards', defaultModel: process.env.OPENAI_MODEL || DEFAULT_OPENAI_PRIMARY_MODEL, maxTokens: 1200 });
+      const flashResult = await callChatProvider({
+        config: openAiConfig,
+        model: flashRoute.model,
+        messages: [{ role: 'system', content: VERTEX_AGENTS.quizBuilder.instructions }, { role: "user", content: flashPrompt }],
+        temperature: 0.35,
+        maxTokens: flashRoute.maxTokens,
+        safetyIdentifier: createSafetyIdentifier(user.id),
+        capability: 'flashcards',
+        jsonSchema: FLASHCARD_SCHEMA,
+        schemaName: 'vertexed_flashcards',
+        fetchImpl: (url, options) => fetchProvider({ capability: 'flashcards', provider: 'openai', model: flashRoute.model, url, options }),
       });
 
-      if (!flashResponse.ok) return res.status(200).json(deterministicFlashcards());
+      if (!flashResult.response.ok) return res.status(200).json(deterministicFlashcards());
 
-      const flashData = await flashResponse.json();
-      const rawFlash = flashData.choices?.[0]?.message?.content ?? "{}";
+      const rawFlash = extractChatAnswer(JSON.parse(flashResult.raw)) ?? '{}';
       let parsedFlash = { flashcards: [] };
       try {
         parsedFlash = JSON.parse(rawFlash);
@@ -248,7 +202,7 @@ ${String(text).slice(0, 10000)}`;
     const systemMessage = {
       role: "system",
       content:
-        "You are an expert study assistant. " +
+        VERTEX_AGENTS.notesArchitect.instructions + " " +
         "Produce study notes with clear structure: short headings, bullet lists, examples. " +
         "Preserve LaTeX $$...$$. " +
         "Return exactly two blocks:\n\n" +
@@ -269,7 +223,7 @@ Extra info: ${noteAdditionalInfo || "none"}
 Flashcards: 4–${safeFlashCount}`,
     };
 
-    if (!OPENAI_API_KEY) {
+    if (!openAiConfig) {
       return res.status(200).json(fallbackNoteResponse({
         topic: noteTopic,
         additionalInfo: noteAdditionalInfo,
@@ -280,7 +234,7 @@ Flashcards: 4–${safeFlashCount}`,
     }
 
     // ---- OpenAI Responses API (with fallback) ----
-    const generated = await generateNotesRaw(OPENAI_API_KEY, systemMessage, userMessage);
+    const generated = await generateNotesRaw(openAiConfig, user.id, systemMessage, userMessage);
     const raw = generated.raw;
     // ---- Protect LaTeX ----
     const latexBlocks = [];

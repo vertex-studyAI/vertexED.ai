@@ -143,6 +143,68 @@
     @apply absolute inset-0 h-full w-full border-0;
     background: hsl(var(--background));
   }
+  .zone-graph-form {
+    @apply grid items-end gap-3 md:grid-cols-[minmax(0,1fr)_10rem_auto];
+  }
+  .zone-graph-form label {
+    @apply min-w-0 text-sm font-medium text-foreground;
+  }
+  .zone-graph-presets {
+    @apply flex flex-wrap gap-2;
+  }
+  .zone-graph-presets button {
+    @apply min-h-10 rounded-lg border px-3 font-mono text-sm text-foreground;
+    border-color: hsl(var(--border) / .7);
+    background: hsl(var(--foreground) / .035);
+  }
+  .zone-graph-presets button:hover {
+    border-color: hsl(var(--primary) / .45);
+    background: hsl(var(--primary) / .08);
+  }
+  .zone-graph-local {
+    padding-top: 0;
+    aspect-ratio: 720 / 460;
+    background: hsl(var(--background));
+    color: hsl(var(--foreground));
+  }
+  .zone-graph-local svg {
+    @apply block h-full w-full;
+  }
+  .zone-graph-axis {
+    stroke: hsl(var(--foreground) / .55);
+    stroke-width: 1.5;
+  }
+  .zone-graph-path {
+    fill: none;
+    stroke: var(--widget-accent, hsl(var(--primary)));
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .zone-graph-local text {
+    fill: hsl(var(--muted-foreground));
+    font: 18px ui-monospace, monospace;
+  }
+  .zone-graph-error {
+    @apply absolute inset-0 grid place-content-center gap-2 p-6 text-center text-muted-foreground;
+  }
+  .zone-graph-error strong {
+    @apply text-foreground;
+  }
+  .zone-graph-values {
+    @apply rounded-xl border p-4 text-sm;
+    border-color: hsl(var(--border) / .65);
+  }
+  .zone-graph-values summary {
+    @apply cursor-pointer font-medium text-primary;
+  }
+  .zone-graph-values table {
+    @apply mt-3 w-full border-collapse text-left font-mono;
+  }
+  .zone-graph-values :is(th, td) {
+    @apply border-b py-2;
+    border-color: hsl(var(--border) / .5);
+  }
 
   .zone-note-btn {
     @apply flex cursor-pointer flex-col gap-1.5 rounded-2xl border px-4 py-3.5 text-left text-foreground transition-all duration-200;

@@ -7,14 +7,46 @@ import {
 } from '../_lib/learningArtifactFallbacks.js';
 import { fetchProvider } from '../_lib/providerRequest.js';
 import { routeAiRequest } from '../_lib/aiRouting.js';
+import { callChatProvider, createSafetyIdentifier, DEFAULT_OPENAI_PRIMARY_MODEL, extractChatAnswer, resolveOpenAiConfig } from '../_lib/aiProviders.js';
+import { VERTEX_AGENTS } from '../_lib/vertexAgents.js';
 
-const OPENAI_URL = "https://api.openai.com/v1/chat/completions";
-const DEFAULT_MODEL = "gpt-4.1";
+const DEFAULT_MODEL = DEFAULT_OPENAI_PRIMARY_MODEL;
 const MAX_BASE64_BYTES = 3 * 1024 * 1024;
 const MAX_IMAGES = 10;
 const REQUEST_TIMEOUT_MS = 30_000;
 const ALLOWED_IMAGE_MIME_TYPES = new Set(["image/jpeg", "image/png", "image/webp"]);
 const BASE64_RE = /^[A-Za-z0-9+/]*={0,2}$/;
+const PAPER_SCHEMA = {
+  type: 'object',
+  properties: {
+    title: { type: 'string' },
+    metadata: {
+      type: 'object',
+      properties: {
+        board: { type: 'string' }, grade: { type: ['number', 'string'] }, subject: { type: 'string' },
+        format: { type: 'string' }, difficulty: { enum: ['Easy', 'Medium', 'Hard'] }, numQuestions: { type: 'integer' },
+        totalMarks: { type: ['integer', 'null'] }, criteriaMode: { type: 'boolean' },
+      },
+      required: ['board', 'grade', 'subject', 'format', 'difficulty', 'numQuestions', 'totalMarks', 'criteriaMode'],
+      additionalProperties: false,
+    },
+    sections: { type: 'array', minItems: 1, items: {
+      type: 'object', properties: {
+        id: { type: 'string' }, title: { type: 'string' }, instructions: { type: 'string' }, questions: { type: 'array', items: {
+          type: 'object', properties: {
+            id: { type: 'string' }, question: { type: 'string' }, marks: { type: ['integer', 'null'] }, approxTime: { type: ['string', 'null'] },
+            modelAnswerOutline: { type: 'string' }, imageRefs: { type: 'array', items: { type: 'string' } }, objectiveIds: { type: 'array', items: { type: 'string' } },
+          },
+          required: ['id', 'question', 'marks', 'approxTime', 'modelAnswerOutline', 'imageRefs', 'objectiveIds'], additionalProperties: false,
+        } },
+      }, required: ['id', 'title', 'instructions', 'questions'], additionalProperties: false,
+    } },
+    rubricNotes: { type: 'array', items: { type: 'string' } },
+    images: { type: 'array', maxItems: 0, items: { type: 'string' } },
+  },
+  required: ['title', 'metadata', 'sections', 'rubricNotes', 'images'],
+  additionalProperties: false,
+};
 
 class InputValidationError extends Error {
   constructor(message) {
@@ -133,7 +165,8 @@ Core rules:
 - If criteriaMode = true:
   - metadata.totalMarks MUST be null
   - rubricNotes MUST include weights
-- imageRefs may ONLY reference provided image names.
+  - imageRefs may ONLY reference provided image names.
+  - images MUST be an empty array. Uploaded images are attached by the server after validation.
 `;
 }
 
@@ -263,68 +296,39 @@ export default async function handler(req, res) {
       images: validateImages(payload.images),
     };
 
-    const apiKey = process.env.OPENAI_API_KEY || process.env.ChatbotKey;
-    if (!apiKey) {
+    let openAiConfig = null;
+    try { openAiConfig = resolveOpenAiConfig(process.env); } catch { openAiConfig = null; }
+    if (!openAiConfig) {
       return res.status(200).json(fallbackPaperResponse(data, 'provider_unconfigured'));
     }
 
     // Image-bearing requests retain the existing vision-capable model.
     const route = routeAiRequest({ capability: 'paper-generator', defaultModel: process.env.OPENAI_MODEL || DEFAULT_MODEL, maxTokens: 3500, env: data.images.length ? {} : process.env });
     const model = route.model;
-    let openaiResp;
+    let openaiResult;
     try {
-      openaiResp = await fetchProvider({
-        capability: 'paper', provider: 'openai', model, url: OPENAI_URL,
+      const userContent = [
+        { type: 'text', text: buildUserPrompt(data) },
+        ...data.images.map((image) => ({
+          type: 'image_url',
+          image_url: { url: image.url || `data:${image.mime};base64,${image.b64}` },
+        })),
+      ];
+      openaiResult = await callChatProvider({
+        config: openAiConfig,
+        model,
+        messages: [
+          { role: 'system', content: `${VERTEX_AGENTS.paperDesigner.instructions}\n\n${buildSystemPrompt()}` },
+          { role: 'user', content: userContent },
+        ],
+        temperature: 0.15,
+        maxTokens: route.maxTokens,
+        safetyIdentifier: createSafetyIdentifier(user.id),
+        capability: 'paper-generator',
+        jsonSchema: PAPER_SCHEMA,
+        schemaName: 'vertexed_exam_paper',
         timeoutMs: REQUEST_TIMEOUT_MS,
-        options: {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${apiKey}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          model,
-          temperature: 0.15,
-          max_tokens: route.maxTokens,
-          messages: [
-            { role: "system", content: buildSystemPrompt() },
-            { role: "user", content: buildUserPrompt(data) },
-          ],
-          response_format: {
-            type: "json_schema",
-            json_schema: {
-              name: "exam_paper",
-              schema: {
-                type: "object",
-                required: ["title", "metadata", "sections", "rubricNotes", "images"],
-                properties: {
-                  title: { type: "string" },
-                  metadata: {
-                    type: "object",
-                    required: [
-                      "board", "grade", "subject", "format", "difficulty",
-                      "numQuestions", "totalMarks", "criteriaMode",
-                    ],
-                    properties: {
-                      board: { type: "string" },
-                      grade: { type: ["number", "string"] },
-                      subject: { type: "string" },
-                      format: { type: "string" },
-                      difficulty: { enum: ["Easy", "Medium", "Hard"] },
-                      numQuestions: { type: "integer" },
-                      totalMarks: { type: ["integer", "null"] },
-                      criteriaMode: { type: "boolean" },
-                    },
-                  },
-                  sections: { type: "array" },
-                  rubricNotes: { type: "array" },
-                  images: { type: "array" },
-                },
-              },
-            },
-          },
-        }),
-        },
+        fetchImpl: (url, options) => fetchProvider({ capability: 'paper', provider: 'openai', model, url, options, timeoutMs: REQUEST_TIMEOUT_MS }),
       });
     } catch (error) {
       return res.status(200).json(fallbackPaperResponse(
@@ -333,17 +337,18 @@ export default async function handler(req, res) {
       ));
     }
 
-    if (!openaiResp.ok) {
+    if (!openaiResult.response.ok) {
       return res.status(200).json(fallbackPaperResponse(data, 'provider_failure'));
     }
 
-    let result;
+    let rawPaper;
+    let providerPayload;
     try {
-      result = await openaiResp.json();
+      providerPayload = JSON.parse(openaiResult.raw);
+      rawPaper = extractChatAnswer(providerPayload);
     } catch {
       return res.status(200).json(fallbackPaperResponse(data, 'malformed_provider_response'));
     }
-    const rawPaper = result?.choices?.[0]?.message?.content;
 
     if (!rawPaper) {
       return res.status(200).json(fallbackPaperResponse(data, 'empty_model_output'));
@@ -391,7 +396,7 @@ export default async function handler(req, res) {
       images: data.images,
       openai: {
         model,
-        usage: result.usage ?? null,
+        usage: providerPayload.usage ?? null,
       },
       generation,
     });

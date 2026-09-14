@@ -8,6 +8,8 @@ import {
 import { fetchProvider } from '../_lib/providerRequest.js';
 import { routeAiRequest } from '../_lib/aiRouting.js';
 import { validateGeneratedQuiz } from '../../contracts/learningOutputs.js';
+import { callChatProvider, createSafetyIdentifier, DEFAULT_OPENAI_PRIMARY_MODEL, extractChatAnswer, resolveOpenAiConfig } from '../_lib/aiProviders.js';
+import { VERTEX_AGENTS } from '../_lib/vertexAgents.js';
 
 function parseJsonBody(req) {
   let body = req.body ?? {};
@@ -21,9 +23,31 @@ function parseJsonBody(req) {
   return body;
 }
 
-function getApiKey() {
-  return process.env.OPENAI_API_KEY || process.env.ChatbotKey || process.env.CHATBOT_KEY;
-}
+const QUIZ_SCHEMA = {
+  type: 'object', properties: { questions: { type: 'array', items: {
+    type: 'object',
+    properties: {
+      id: { type: 'string' }, type: { enum: ['multiple_choice', 'frq', 'interactive'] }, prompt: { type: 'string' },
+      choices: { type: 'array', items: { type: 'string' } }, answer: { type: 'string' }, maxScore: { type: 'integer' },
+    },
+    required: ['id', 'type', 'prompt', 'choices', 'answer', 'maxScore'], additionalProperties: false,
+  } } }, required: ['questions'], additionalProperties: false,
+};
+
+const GRADE_SCHEMA = {
+  type: 'object', properties: { grades: { type: 'array', items: {
+    type: 'object', properties: {
+      id: { type: 'string' }, score: { type: 'number' }, maxScore: { type: 'number' }, feedback: { type: 'string' },
+      includes: { type: 'string' }, confidence: { type: 'number' }, evidenceQuotes: { type: 'array', items: { type: 'string' } },
+      errorCodes: { type: 'array', items: { type: 'string' } }, criteria: { type: 'array', items: {
+        type: 'object', properties: {
+          id: { type: 'string' }, label: { type: 'string' }, score: { type: 'number' }, maxScore: { type: 'number' },
+          feedback: { type: 'string' }, evidenceQuotes: { type: 'array', items: { type: 'string' } },
+        }, required: ['id', 'label', 'score', 'maxScore', 'feedback', 'evidenceQuotes'], additionalProperties: false,
+      } },
+    }, required: ['id', 'score', 'maxScore', 'feedback', 'includes', 'confidence', 'criteria', 'evidenceQuotes', 'errorCodes'], additionalProperties: false,
+  } } }, required: ['grades'], additionalProperties: false,
+};
 
 function extractJson(raw) {
   if (!raw || typeof raw !== "string") return null;
@@ -41,33 +65,25 @@ function extractJson(raw) {
   }
 }
 
-async function callOpenAI(apiKey, messages, route) {
+async function callOpenAI(config, messages, route, userId, jsonSchema, schemaName) {
   const { model, maxTokens } = route;
-  const response = await fetchProvider({
-    capability: route.capability, provider: 'openai', model,
-    url: "https://api.openai.com/v1/chat/completions",
-    options: {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      model,
-      messages,
-      temperature: 0.35,
-      max_tokens: maxTokens,
-      response_format: { type: "json_object" },
-    }),
-    },
+  const result = await callChatProvider({
+    config,
+    model,
+    messages,
+    temperature: 0.35,
+    maxTokens,
+    safetyIdentifier: createSafetyIdentifier(userId),
+    capability: route.capability,
+    jsonSchema,
+    schemaName,
+    fetchImpl: (url, options) => fetchProvider({ capability: route.capability, provider: 'openai', model, url, options }),
   });
 
-  if (!response.ok) {
-    throw new Error(`Quiz provider returned ${response.status}.`);
+  if (!result.response.ok) {
+    throw new Error(`Quiz provider returned ${result.response.status}.`);
   }
-
-  const data = await response.json();
-  return data.choices?.[0]?.message?.content ?? "";
+  return extractChatAnswer(JSON.parse(result.raw)) ?? '';
 }
 
 function questionCounts(frqLength) {
@@ -80,7 +96,7 @@ function questionCounts(frqLength) {
   return { mcq: 4, frq: 2, interactive: 0 };
 }
 
-async function handleGenerate(body, apiKey, res) {
+async function handleGenerate(body, openAiConfig, userId, res) {
   const {
     notes,
     quizType = "Adaptive Learning",
@@ -110,7 +126,7 @@ async function handleGenerate(body, apiKey, res) {
 
   const fallbackQuestions = () => buildDeterministicQuizFallback({ notes, board, subjects });
 
-  if (!apiKey) {
+  if (!openAiConfig) {
     const questions = fallbackQuestions();
     if (!questions.length) return res.status(400).json({ error: "Notes need at least one complete idea." });
     return res.status(200).json({
@@ -150,8 +166,11 @@ NOTES:
 ${String(notes).slice(0, 12000)}`;
 
   try {
-    const route = routeAiRequest({ capability: 'quiz', text: String(notes).slice(0, 12000), defaultModel: process.env.OPENAI_MODEL || 'gpt-4o-mini', maxTokens: 3000 });
-    const raw = await callOpenAI(apiKey, [{ role: "user", content: prompt }], route);
+    const route = routeAiRequest({ capability: 'quiz', text: String(notes).slice(0, 12000), defaultModel: process.env.OPENAI_MODEL || DEFAULT_OPENAI_PRIMARY_MODEL, maxTokens: 3000 });
+    const raw = await callOpenAI(openAiConfig, [
+      { role: 'system', content: VERTEX_AGENTS.quizBuilder.instructions },
+      { role: 'user', content: prompt },
+    ], route, userId, QUIZ_SCHEMA, 'vertexed_quiz');
     const parsed = extractJson(raw);
     const questions = validateGeneratedQuiz(parsed, counts, optionCount);
 
@@ -166,8 +185,8 @@ ${String(notes).slice(0, 12000)}`;
       objectiveIds: Array.isArray(question?.objectiveIds) ? question.objectiveIds : [`generated:${index + 1}`],
       provenance: {
         source: 'learner-notes',
-        generator: 'openai-chat-completions',
-        generatorVersion: '1.0.0',
+        generator: 'openai-responses',
+        generatorVersion: '2.0.0',
         model,
         generatedAt,
         board: board || 'Generic',
@@ -196,7 +215,7 @@ ${String(notes).slice(0, 12000)}`;
   }
 }
 
-async function handleGrade(body, apiKey, res) {
+async function handleGrade(body, openAiConfig, userId, res) {
   const {
     questions = [],
     userAnswers = {},
@@ -212,9 +231,9 @@ async function handleGrade(body, apiKey, res) {
     return res.status(200).json({ grades: [], coverage: [], contractVersion: GRADING_CONTRACT_VERSION });
   }
 
-  const route = routeAiRequest({ capability: 'grading', defaultModel: process.env.OPENAI_MODEL || 'gpt-4o-mini', maxTokens: 2000 });
+  const route = routeAiRequest({ capability: 'grading', defaultModel: process.env.OPENAI_MODEL || DEFAULT_OPENAI_PRIMARY_MODEL, maxTokens: 2000 });
   const model = route.model;
-  if (!apiKey) {
+  if (!openAiConfig) {
     const normalized = normalizeGradeAudits({ questions: toGrade, userAnswers, rawGrades: [], model: 'unavailable' });
     return res.status(200).json({
       grades: normalized.audits,
@@ -257,7 +276,7 @@ ${JSON.stringify(
 )}`;
 
   try {
-    const raw = await callOpenAI(apiKey, [{ role: "user", content: prompt }], route);
+    const raw = await callOpenAI(openAiConfig, [{ role: "user", content: prompt }], route, userId, GRADE_SCHEMA, 'vertexed_quiz_grades');
     const parsed = extractJson(raw);
     const rawGrades = Array.isArray(parsed?.grades) ? parsed.grades : [];
     const normalized = normalizeGradeAudits({ questions: toGrade, userAnswers, rawGrades, model });
@@ -292,13 +311,18 @@ export default async function handler(req, res) {
 
   const body = parseJsonBody(req);
   const action = body?.action;
-  const apiKey = getApiKey();
+  let openAiConfig = null;
+  try {
+    openAiConfig = resolveOpenAiConfig(process.env);
+  } catch {
+    openAiConfig = null;
+  }
 
   if (action === "generate") {
-    return handleGenerate(body, apiKey, res);
+    return handleGenerate(body, openAiConfig, user.id, res);
   }
   if (action === "grade") {
-    return handleGrade(body, apiKey, res);
+    return handleGrade(body, openAiConfig, user.id, res);
   }
 
   return res.status(400).json({ error: 'Invalid action. Use "generate" or "grade".' });
