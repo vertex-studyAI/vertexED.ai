@@ -1,0 +1,80 @@
+name: One-shot Undici lock refresh
+
+on:
+  push:
+    branches:
+      - eng/undici-7-29-1-lock-refresh-20260915
+
+permissions:
+  contents: write
+
+jobs:
+  refresh-lock:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout exact branch head
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          persist-credentials: true
+          fetch-depth: 1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: '22.22.0'
+          cache: npm
+
+      - name: Generate narrow package-manager lock refresh
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm --version
+          npm update undici --package-lock-only --ignore-scripts --no-audit --no-fund
+          node --input-type=module - <<'NODE'
+          import fs from 'node:fs';
+          const lock = JSON.parse(fs.readFileSync('package-lock.json', 'utf8'));
+          const version = lock.packages?.['node_modules/undici']?.version;
+          console.log(`locked undici=${version}`);
+          if (!version) throw new Error('undici is missing from package-lock.json');
+          const [major, minor, patch] = version.split('.').map(Number);
+          if (major < 7 || (major === 7 && (minor < 29 || (minor === 29 && patch < 1)))) {
+            throw new Error(`undici ${version} is below patched floor 7.29.1`);
+          }
+          NODE
+          test -z "$(git diff --name-only -- package.json)"
+          changed="$(git diff --name-only)"
+          printf 'changed files:\n%s\n' "$changed"
+          test "$changed" = "package-lock.json"
+
+      - name: Verify locked install and audit patched package
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm ci --ignore-scripts --no-audit --no-fund
+          set +e
+          npm audit --json > /tmp/npm-audit.json
+          audit_status=$?
+          set -e
+          node --input-type=module - <<'NODE'
+          import fs from 'node:fs';
+          const audit = JSON.parse(fs.readFileSync('/tmp/npm-audit.json', 'utf8'));
+          console.log('audit vulnerability counts:', JSON.stringify(audit.metadata?.vulnerabilities ?? {}));
+          if (audit.vulnerabilities?.undici) {
+            console.error(JSON.stringify(audit.vulnerabilities.undici, null, 2));
+            throw new Error('undici remains present in npm audit vulnerabilities');
+          }
+          NODE
+          echo "npm audit exit status: ${audit_status} (residual findings, if any, remain visible above and will be handled separately)"
+
+      - name: Commit generated lockfile
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add package-lock.json
+          git diff --cached --exit-code && { echo 'No lockfile change generated'; exit 1; } || true
+          git commit -m "fix(deps): refresh undici security patch"
+          git push origin HEAD:eng/undici-7-29-1-lock-refresh-20260915
