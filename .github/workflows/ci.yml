@@ -18,7 +18,7 @@ env:
 
 jobs:
   build-and-test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 20
 
     steps:
@@ -49,7 +49,7 @@ jobs:
           ROLLUP_SKIP_NODEJS_NATIVE: 'true'
 
   browser-local-accessibility:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 20
     needs: build-and-test
 
@@ -119,7 +119,7 @@ jobs:
           retention-days: 14
 
   database-contract:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 25
     needs: build-and-test
 
@@ -203,7 +203,7 @@ jobs:
         run: npx supabase stop
 
   browser-authenticated-golden:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 20
     needs: build-and-test
 
@@ -321,7 +321,7 @@ jobs:
           retention-days: 14
 
   smoke-production:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 12
     needs: [build-and-test, database-contract, browser-local-accessibility, browser-authenticated-golden]
     if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
