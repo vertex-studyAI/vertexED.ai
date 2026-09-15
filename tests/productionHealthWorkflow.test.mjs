@@ -77,3 +77,17 @@ test('GitHub workflows never float on the Node 22 major', () => {
 
   assert.deepEqual(floatingNode22, []);
 });
+
+test('engineering-owned Study Notebook regressions pin Ubuntu 24.04', () => {
+  const workflowFiles = [
+    'apply-study-notebook-sync-status.yml',
+    'apply-study-notebook-control-labels.yml',
+    'apply-study-notebook-source-preview-a11y.yml',
+  ];
+
+  for (const name of workflowFiles) {
+    const source = readFileSync(new URL(name, workflowsDir), 'utf8');
+    assert.match(source, /runs-on:\s*ubuntu-24\.04/, `${name} must pin Ubuntu 24.04`);
+    assert.doesNotMatch(source, /runs-on:\s*ubuntu-latest/, `${name} must not float on ubuntu-latest`);
+  }
+});
