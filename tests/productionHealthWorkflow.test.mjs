@@ -1,8 +1,14 @@
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { readFileSync, readdirSync } from 'node:fs';
 import test from 'node:test';
 
 const workflow = readFileSync(new URL('../.github/workflows/production-health.yml', import.meta.url), 'utf8');
+const transportWorkflow = readFileSync(
+  new URL('../.github/workflows/production-transport-diagnostics.yml', import.meta.url),
+  'utf8',
+);
+const canonicalCiWorkflow = readFileSync(new URL('../.github/workflows/ci.yml', import.meta.url), 'utf8');
+const workflowsDir = new URL('../.github/workflows/', import.meta.url);
 
 function between(source, start, end) {
   const startIndex = source.indexOf(start);
@@ -48,4 +54,65 @@ test('workflow changes retrigger their own release-contract test', () => {
     workflow,
     /node --test tests\/immutableRevision\.test\.mjs tests\/productionHealthWorkflow\.test\.mjs/,
   );
+});
+
+test('production monitoring workflows pin the declared Node runtime floor', () => {
+  for (const [name, source] of [
+    ['production health', workflow],
+    ['production transport diagnostics', transportWorkflow],
+  ]) {
+    assert.match(source, /node-version:\s*'22\.22\.0'/, `${name} must pin Node 22.22.0`);
+  }
+});
+
+test('GitHub workflows never float on the Node 22 major', () => {
+  const workflowFiles = readdirSync(workflowsDir).filter((name) => /\.ya?ml$/.test(name));
+  const floatingNode22 = [];
+
+  for (const name of workflowFiles) {
+    const source = readFileSync(new URL(name, workflowsDir), 'utf8');
+    if (/node-version:\s*(['"]?)22\1\s*(?:#.*)?$/m.test(source)) {
+      floatingNode22.push(name);
+    }
+  }
+
+  assert.deepEqual(floatingNode22, []);
+});
+
+test('canonical CI engineering jobs pin Ubuntu 24.04', () => {
+  const jobNames = [
+    'build-and-test',
+    'browser-local-accessibility',
+    'database-contract',
+    'browser-authenticated-golden',
+    'browser-production',
+    'smoke-production',
+  ];
+
+  for (let index = 0; index < jobNames.length; index += 1) {
+    const name = jobNames[index];
+    const nextName = jobNames[index + 1];
+    const start = `  ${name}:`;
+    const end = nextName ? `  ${nextName}:` : '\n  __end_of_jobs__:';
+    const source = nextName
+      ? between(canonicalCiWorkflow, start, end)
+      : canonicalCiWorkflow.slice(canonicalCiWorkflow.indexOf(start));
+
+    assert.match(source, /runs-on:\s*ubuntu-24\.04/, `${name} must pin Ubuntu 24.04`);
+    assert.doesNotMatch(source, /runs-on:\s*ubuntu-latest/, `${name} must not float on ubuntu-latest`);
+  }
+});
+
+test('engineering-owned Study Notebook regressions pin Ubuntu 24.04', () => {
+  const workflowFiles = [
+    'apply-study-notebook-sync-status.yml',
+    'apply-study-notebook-control-labels.yml',
+    'apply-study-notebook-source-preview-a11y.yml',
+  ];
+
+  for (const name of workflowFiles) {
+    const source = readFileSync(new URL(name, workflowsDir), 'utf8');
+    assert.match(source, /runs-on:\s*ubuntu-24\.04/, `${name} must pin Ubuntu 24.04`);
+    assert.doesNotMatch(source, /runs-on:\s*ubuntu-latest/, `${name} must not float on ubuntu-latest`);
+  }
 });
