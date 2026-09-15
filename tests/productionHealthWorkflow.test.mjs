@@ -7,6 +7,7 @@ const transportWorkflow = readFileSync(
   new URL('../.github/workflows/production-transport-diagnostics.yml', import.meta.url),
   'utf8',
 );
+const canonicalCiWorkflow = readFileSync(new URL('../.github/workflows/ci.yml', import.meta.url), 'utf8');
 const workflowsDir = new URL('../.github/workflows/', import.meta.url);
 
 function between(source, start, end) {
@@ -76,6 +77,30 @@ test('GitHub workflows never float on the Node 22 major', () => {
   }
 
   assert.deepEqual(floatingNode22, []);
+});
+
+test('canonical CI engineering jobs pin Ubuntu 24.04', () => {
+  const jobNames = [
+    'build-and-test',
+    'browser-local-accessibility',
+    'database-contract',
+    'browser-authenticated-golden',
+    'browser-production',
+    'smoke-production',
+  ];
+
+  for (let index = 0; index < jobNames.length; index += 1) {
+    const name = jobNames[index];
+    const nextName = jobNames[index + 1];
+    const start = `  ${name}:`;
+    const end = nextName ? `  ${nextName}:` : '\n  __end_of_jobs__:';
+    const source = nextName
+      ? between(canonicalCiWorkflow, start, end)
+      : canonicalCiWorkflow.slice(canonicalCiWorkflow.indexOf(start));
+
+    assert.match(source, /runs-on:\s*ubuntu-24\.04/, `${name} must pin Ubuntu 24.04`);
+    assert.doesNotMatch(source, /runs-on:\s*ubuntu-latest/, `${name} must not float on ubuntu-latest`);
+  }
 });
 
 test('engineering-owned Study Notebook regressions pin Ubuntu 24.04', () => {
