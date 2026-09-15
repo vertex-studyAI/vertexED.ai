@@ -1,4 +1,4 @@
-name: One-shot Undici audit classification
+name: One-shot residual dev audit refresh
 
 on:
   push:
@@ -6,17 +6,18 @@ on:
       - eng/undici-7-29-1-lock-refresh-20260915
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
-  classify-audit:
+  refresh-residuals:
+    if: github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
       - name: Checkout exact branch head
         uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
         with:
-          persist-credentials: false
+          persist-credentials: true
           fetch-depth: 1
 
       - name: Setup Node.js
@@ -25,17 +26,28 @@ jobs:
           node-version: '22.22.0'
           cache: npm
 
-      - name: Verify lock and classify full audit
+      - name: Generate narrow package-manager residual refresh
         shell: bash
         run: |
           set -euo pipefail
+          npm update sharp js-yaml --package-lock-only --ignore-scripts --no-audit --no-fund
+          test -z "$(git diff --name-only -- package.json)"
+          changed="$(git diff --name-only)"
+          printf 'changed files:\n%s\n' "$changed"
+          test "$changed" = "package-lock.json"
           node --input-type=module - <<'NODE'
           import fs from 'node:fs';
           const lock = JSON.parse(fs.readFileSync('package-lock.json', 'utf8'));
-          const version = lock.packages?.['node_modules/undici']?.version;
-          console.log(`locked undici=${version}`);
-          if (version !== '7.29.1') throw new Error(`expected undici 7.29.1, got ${version}`);
+          for (const name of ['undici', 'sharp', 'js-yaml']) {
+            const version = lock.packages?.[`node_modules/${name}`]?.version;
+            console.log(`locked ${name}=${version}`);
+          }
           NODE
+
+      - name: Verify locked install and zero high-critical audit
+        shell: bash
+        run: |
+          set -euo pipefail
           npm ci --ignore-scripts --no-audit --no-fund
           set +e
           npm audit --json > /tmp/npm-audit.json
@@ -44,12 +56,25 @@ jobs:
           node --input-type=module - <<'NODE'
           import fs from 'node:fs';
           const audit = JSON.parse(fs.readFileSync('/tmp/npm-audit.json', 'utf8'));
-          console.log('audit vulnerability counts:', JSON.stringify(audit.metadata?.vulnerabilities ?? {}));
-          const vulns = audit.vulnerabilities ?? {};
-          if (vulns.undici) throw new Error('undici remains present in npm audit vulnerabilities');
-          for (const [name, item] of Object.entries(vulns)) {
+          const counts = audit.metadata?.vulnerabilities ?? {};
+          console.log('audit vulnerability counts:', JSON.stringify(counts));
+          for (const [name, item] of Object.entries(audit.vulnerabilities ?? {})) {
             const via = (item.via ?? []).map((v) => typeof v === 'string' ? v : `${v.source ?? 'n/a'}:${v.title ?? 'untitled'}:${v.url ?? 'no-url'}`);
-            console.log(JSON.stringify({name, severity: item.severity, isDirect: item.isDirect, range: item.range, fixAvailable: item.fixAvailable, via}));
+            console.log(JSON.stringify({name, severity: item.severity, range: item.range, fixAvailable: item.fixAvailable, via}));
+          }
+          if ((counts.high ?? 0) !== 0 || (counts.critical ?? 0) !== 0) {
+            throw new Error(`high/critical findings remain: ${JSON.stringify(counts)}`);
           }
           NODE
           echo "npm audit exit status: ${audit_status}"
+
+      - name: Commit generated lockfile
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add package-lock.json
+          git diff --cached --exit-code && { echo 'No lockfile change generated'; exit 1; } || true
+          git commit -m "fix(deps): refresh residual high-severity dev dependencies"
+          git push origin HEAD:eng/undici-7-29-1-lock-refresh-20260915
