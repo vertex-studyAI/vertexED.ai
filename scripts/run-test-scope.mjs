@@ -58,7 +58,11 @@ function run(scope) {
   if (files.length === 0) throw new Error(`No ${scope} tests were classified.`);
   const label = scope === 'app' ? 'canonical VertexED' : 'quarantined cross-project';
   process.stdout.write(`[tests] Running ${files.length} ${label} test files.\n`);
-  const result = spawnSync(process.execPath, ['--test', ...files], { stdio: 'inherit' });
+  // App tests import a small set of `.ts` modules under `src/`. Node 22 requires
+  // explicit type-stripping for those imports; without the flag, `npm run test:app`
+  // fails closed with ERR_UNKNOWN_FILE_EXTENSION before any assertions run.
+  const nodeArgs = ['--experimental-strip-types', '--test', ...files];
+  const result = spawnSync(process.execPath, nodeArgs, { stdio: 'inherit' });
   if (result.error) throw result.error;
   process.exitCode = result.status ?? 1;
 }
