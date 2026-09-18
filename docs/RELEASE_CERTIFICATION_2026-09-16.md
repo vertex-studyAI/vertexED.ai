@@ -2,9 +2,11 @@
 
 ## Current truth
 
-Canonical main: `a2f6672660beea114068c7cca22abdba0b2ba509`.
+Canonical main at the latest repository verification point: `7a468fd8c9a45f650963c42bede4d668d3eaa370`.
 
 Repository/application-facing certification on current main is green. The public production path at `www.vertexed.app` is not certified: DNS and TCP/443 succeed, but authenticated TLS/HTTPS reset before application HTTP. This is a provider/domain/certificate/backend-path incident, not evidence for another product-source rollback.
+
+This document is a release-control snapshot, not an automatic live pointer. Before acting on any readiness or deployment claim, re-read the current `main` head and bind evidence to that exact SHA.
 
 ## P0 production recovery
 
@@ -43,9 +45,9 @@ Bind the complete journey to one immutable deployed SHA.
 
 ## Current review queue
 
-Repository-green PRs remain human-review gated. Do not treat green CI as merge authorization while main is unprotected.
+Repository-green PRs remain human-review gated. Do not treat green CI, mechanical mergeability, or transient Draft/Ready metadata as merge authorization while main is unprotected.
 
-Current Ready engineering/product surfaces include fixes for:
+Current open engineering/product surfaces include fixes for:
 
 - stale Notetaker/Quiz async work;
 - stale onboarding account-owned saves;
@@ -54,7 +56,7 @@ Current Ready engineering/product surfaces include fixes for:
 - exact engineering workflow runtime pins;
 - development-dependency audit findings.
 
-Integrate through ordinary review, preserve exact-head verification, then run merged-main certification.
+Their GitHub Draft/Ready state is operational metadata and may change independently of source. Integrate only through ordinary review, preserve exact-head verification, then run merged-main certification.
 
 ## Branch governance
 
