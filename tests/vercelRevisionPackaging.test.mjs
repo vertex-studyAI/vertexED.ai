@@ -50,12 +50,12 @@ test('fixture browser builds are isolated from the normal local preview', async 
   assert.match(ignored, /^\.vertexed-test-dist\/$/m);
 });
 
-test('Vercel catch-all function keeps schema-valid includeFiles configuration', async () => {
+test('Vercel catch-all function packages every study-guide curriculum', async () => {
   const config = await readVercelConfig();
   const fn = config.functions?.['api/[[...path]].js'];
   assert.ok(fn, 'catch-all Vercel function config must exist');
   assert.equal(typeof fn.includeFiles, 'string');
-  assert.equal(fn.includeFiles, 'public/study-guides/myp/**');
+  assert.equal(fn.includeFiles, 'public/study-guides/**');
 });
 
 test('health handler directly imports the generated revision module for function tracing', async () => {
