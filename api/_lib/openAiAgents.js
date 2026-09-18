@@ -67,13 +67,12 @@ export async function listOpenAiProjectAgents({
       throw error;
     }
 
-    const page = Array.isArray(payload?.data)
-      ? payload.data.filter((agent) => isOpenAiAgentId(agent?.id)).map(publicAgent)
-      : [];
+    const rawPage = Array.isArray(payload?.data) ? payload.data : [];
+    const page = rawPage.filter((agent) => isOpenAiAgentId(agent?.id)).map(publicAgent);
     agents.push(...page);
 
     const lastId = typeof payload?.last_id === 'string' ? payload.last_id : '';
-    if (!payload?.has_more || !lastId || lastId === after || page.length === 0) break;
+    if (!payload?.has_more || !lastId || lastId === after || rawPage.length === 0) break;
     after = lastId;
   }
 
