@@ -16,6 +16,7 @@ import ApexMessageList from "@/components/chat/ApexMessageList";
 import ApexPromptChips from "@/components/chat/ApexPromptChips";
 import ApexChatInput from "@/components/chat/ApexChatInput";
 import ApexSocraticDrill from "@/components/chat/ApexSocraticDrill";
+import AgentNetworkPanel from "@/components/chat/AgentNetworkPanel";
 
 const APEX_MODES: Array<{ value: ChatbotMode; label: string; description: string }> = [
   { value: 'quick', label: 'Quick', description: 'Fast, concise help' },
@@ -124,6 +125,9 @@ export default function AIChatbot() {
               <TabsTrigger value="drill" className="data-[state=active]:bg-primary/15 data-[state=active]:text-primary">
                 Socratic Drill
               </TabsTrigger>
+              <TabsTrigger value="agents" className="data-[state=active]:bg-primary/15 data-[state=active]:text-primary">
+                Agent network
+              </TabsTrigger>
             </TabsList>
 
             <TabsContent value="chat" className="mt-0">
@@ -182,6 +186,10 @@ export default function AIChatbot() {
 
             <TabsContent value="drill" className="mt-0">
               <ApexSocraticDrill />
+            </TabsContent>
+
+            <TabsContent value="agents" className="mt-0">
+              <AgentNetworkPanel />
             </TabsContent>
           </Tabs>
         </div>
