@@ -61,6 +61,41 @@ test('project agent inventory paginates and returns only public metadata', async
   assert.equal('instructions' in agents[0], false);
 });
 
+test('pagination continues when a page contains only filtered agent ids', async () => {
+  const requests = [];
+  const pages = [
+    {
+      data: [{ id: '../private-agent', name: 'Filtered', model: 'gpt-test', tools: [] }],
+      has_more: true,
+      last_id: '../private-agent',
+    },
+    {
+      data: [{ id: 'agent_visible', name: 'Visible', model: 'gpt-test-2', tools: [], updated_at: 789 }],
+      has_more: false,
+      last_id: 'agent_visible',
+    },
+  ];
+
+  const agents = await listOpenAiProjectAgents({
+    config,
+    fetchImpl: async (url) => {
+      requests.push(url);
+      const body = pages.shift();
+      return {
+        ok: true,
+        status: 200,
+        text: async () => JSON.stringify(body),
+      };
+    },
+  });
+
+  assert.equal(requests.length, 2);
+  assert.match(requests[1], /after=..%2Fprivate-agent|after=..%2fprivate-agent|after=..%2Fprivate-agent/);
+  assert.deepEqual(agents, [
+    { id: 'agent_visible', name: 'Visible', model: 'gpt-test-2', toolTypes: [], updatedAt: 789 },
+  ]);
+});
+
 test('project agent provider failures are bounded', async () => {
   await assert.rejects(
     listOpenAiProjectAgents({
