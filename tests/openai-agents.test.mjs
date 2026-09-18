@@ -96,6 +96,45 @@ test('pagination continues when a page contains only filtered agent ids', async 
   ]);
 });
 
+test('provider pagination is bounded when filtered pages never yield public agents', async () => {
+  let requestCount = 0;
+  const agents = await listOpenAiProjectAgents({
+    config,
+    maxPages: 3,
+    fetchImpl: async () => {
+      requestCount += 1;
+      return {
+        ok: true,
+        status: 200,
+        text: async () => JSON.stringify({
+          data: [{ id: `../private-agent-${requestCount}`, name: 'Filtered', model: 'gpt-test', tools: [] }],
+          has_more: true,
+          last_id: `private-agent-${requestCount}`,
+        }),
+      };
+    },
+  });
+
+  assert.equal(requestCount, 3);
+  assert.deepEqual(agents, []);
+});
+
+test('invalid pagination limits fail before any provider request', async () => {
+  let requested = false;
+  await assert.rejects(
+    listOpenAiProjectAgents({
+      config,
+      maxPages: 0,
+      fetchImpl: async () => {
+        requested = true;
+        return { ok: true, status: 200, text: async () => '{"data":[]}' };
+      },
+    }),
+    /Invalid OpenAI project pagination limit/,
+  );
+  assert.equal(requested, false);
+});
+
 test('project agent provider failures are bounded', async () => {
   await assert.rejects(
     listOpenAiProjectAgents({
