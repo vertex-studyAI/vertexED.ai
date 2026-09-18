@@ -51,13 +51,13 @@ test('plain text accepts one remote version per line and rejects ambiguous CLI t
 
   assert.throws(
     () => parseLedgerText('20260901000000 | 20260901000000 | 2026-09-01'),
-    (error) => error instanceof MigrationLedgerError && /exactly one 14-digit remote migration version/.test(error.message),
+    (error) => error instanceof MigrationLedgerError && /exactly one 8- or 14-digit remote migration version/.test(error.message),
   );
 });
 
 test('local migration reader fails closed on malformed SQL migration filenames', () => {
   withMigrationDir(
-    ['20260901000000_valid.sql', 'manual_patch.sql'],
+    ['20260708_legacy_valid.sql', '20260901000000_valid.sql', 'manual_patch.sql'],
     (dir) => {
       assert.throws(
         () => readLocalMigrations(dir),
