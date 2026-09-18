@@ -2,8 +2,8 @@ import { readFileSync, readdirSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const MIGRATION_FILENAME = /^(\d{14})_(.+)\.sql$/;
-const VERSION = /^\d{14}$/;
+const MIGRATION_FILENAME = /^(\d{8}(?:\d{6})?)_(.+)\.sql$/;
+const VERSION = /^(?:\d{8}|\d{14})$/;
 
 export class MigrationLedgerError extends Error {}
 
@@ -44,7 +44,7 @@ function versionFromJsonRow(row, index) {
 
   for (const key of ['name', 'filename']) {
     if (typeof row[key] === 'string') {
-      const match = row[key].match(/^(\d{14})(?:_|$)/);
+      const match = row[key].match(/^(\d{8}(?:\d{6})?)(?:_|$)/);
       if (match) return normalizeVersion(match[1], `ledger[${index}].${key}`);
     }
   }
@@ -70,7 +70,7 @@ export function parseLedgerText(text) {
   for (const [index, rawLine] of source.split(/\r?\n/).entries()) {
     const line = rawLine.trim();
     if (!line || line.startsWith('#')) continue;
-    const matches = [...line.matchAll(/\b\d{14}\b/g)].map((match) => match[0]);
+    const matches = [...line.matchAll(/\b(?:\d{14}|\d{8})\b/g)].map((match) => match[0]);
     if (matches.length !== 1) {
       throw new MigrationLedgerError(
         `plain-text ledger line ${index + 1} must contain exactly one 8- or 14-digit remote migration version; found ${matches.length}`,
