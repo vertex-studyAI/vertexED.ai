@@ -158,9 +158,11 @@ test('invalid operational limits fail before any provider request', async () => 
   const invalidCases = [
     [{ timeoutMs: 0 }, /Invalid OpenAI project request timeout/],
     [{ totalTimeoutMs: 0 }, /Invalid OpenAI project total timeout/],
+    [{ totalTimeoutMs: 30_001 }, /Invalid OpenAI project total timeout/],
     [{ maxAgents: 0 }, /Invalid OpenAI project agent limit/],
     [{ maxAgents: 501 }, /Invalid OpenAI project agent limit/],
     [{ maxPages: 0 }, /Invalid OpenAI project pagination limit/],
+    [{ maxPages: 21 }, /Invalid OpenAI project pagination limit/],
     [{ now: null }, /Invalid OpenAI project clock/],
   ];
 
