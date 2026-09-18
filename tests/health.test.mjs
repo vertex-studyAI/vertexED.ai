@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import handler, { HEALTH_CONTRACT_VERSION, getDeploymentRevision, getReadinessSnapshot, getDeepReadinessSnapshot } from '../api/_handlers/health.js';
+import handler, { HEALTH_CONTRACT_VERSION, getDeploymentRevision, getReadinessSnapshot, getDeepReadinessSnapshot, classifyDatabaseReadinessError } from '../api/_handlers/health.js';
 import { createMocks } from './helpers/mock-http.mjs';
 
 const HEALTH_ENV_KEYS = [
@@ -36,6 +36,16 @@ async function withHealthEnv(values, callback) {
     }
   }
 }
+
+test('classifyDatabaseReadinessError maps missing RPC codes for operators', () => {
+  assert.equal(classifyDatabaseReadinessError({ code: 'PGRST202' }), 'readiness_rpc_missing');
+  assert.equal(classifyDatabaseReadinessError({ code: '42883' }), 'readiness_rpc_missing');
+  assert.equal(classifyDatabaseReadinessError({ code: 'PGRST205' }), 'readiness_relation_missing');
+  assert.equal(classifyDatabaseReadinessError({ code: '42P01' }), 'readiness_relation_missing');
+  assert.equal(classifyDatabaseReadinessError({ code: '42501' }), 'readiness_permission_denied');
+  assert.equal(classifyDatabaseReadinessError({ code: '57014' }), '57014');
+  assert.equal(classifyDatabaseReadinessError({}), 'unavailable');
+});
 
 test('getDeploymentRevision exposes only validated non-secret commit identifiers', () => {
   assert.equal(getDeploymentRevision({}, null), null);
@@ -238,5 +248,28 @@ test('deep readiness uses the documented secret-key and browser-URL aliases in t
       assert.equal(result.ready, true);
       assert.equal(calls, 1);
     } finally { globalThis.fetch = originalFetch; }
+  });
+});
+
+test('deep readiness surfaces a stable token when vertexed_readiness RPC is missing', async () => {
+  await withHealthEnv({
+    SUPABASE_URL: 'https://example.supabase.co', SUPABASE_ANON_KEY: 'fixture',
+    SUPABASE_SERVICE_ROLE_KEY: 'fixture', OPENAI_API_KEY: 'fixture', GEMINI_API_KEY: 'fixture', WAITLIST_RATE_LIMIT_SALT: 'fixture',
+  }, async () => {
+    const originalFetch = globalThis.fetch;
+    globalThis.fetch = async () => new Response(JSON.stringify({
+      code: 'PGRST202',
+      message: 'Could not find the function public.vertexed_readiness without parameters in the schema cache',
+      details: null,
+      hint: null,
+    }), { status: 404, headers: { 'content-type': 'application/json' } });
+    try {
+      const result = await getDeepReadinessSnapshot();
+      assert.equal(result.ready, false);
+      assert.equal(result.databaseError, 'readiness_rpc_missing');
+      assert.equal(result.checks.databaseConnection, false);
+    } finally {
+      globalThis.fetch = originalFetch;
+    }
   });
 });

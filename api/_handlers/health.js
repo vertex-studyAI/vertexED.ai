@@ -11,6 +11,16 @@ function hasValue(value) {
   return typeof value === 'string' && value.trim().length > 0;
 }
 
+/** Map PostgREST/Postgres codes to stable operator-facing tokens (never secrets). */
+export function classifyDatabaseReadinessError(error) {
+  const code = typeof error?.code === 'string' ? error.code : null;
+  if (!code) return 'unavailable';
+  if (code === 'PGRST202' || code === '42883') return 'readiness_rpc_missing';
+  if (code === 'PGRST205' || code === '42P01') return 'readiness_relation_missing';
+  if (code === '42501') return 'readiness_permission_denied';
+  return code;
+}
+
 function normalizeRevision(value) {
   if (typeof value !== 'string') return null;
   const revision = value.trim().toLowerCase();
@@ -75,7 +85,7 @@ export async function getDeepReadinessSnapshot(env = process.env) {
       databaseChecks.observabilityStorage = snapshot?.observabilityStorage === true;
       databaseChecks.singletonIntegrity = snapshot?.singletonIntegrity === true;
     } catch (error) {
-      databaseError = typeof error?.code === 'string' ? error.code : 'unavailable';
+      databaseError = classifyDatabaseReadinessError(error);
     }
   }
 
