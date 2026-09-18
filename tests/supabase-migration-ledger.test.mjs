@@ -113,16 +113,32 @@ test('duplicate remote ledger versions fail closed', () => {
   assert.deepEqual(report.remoteDuplicates, ['20260901000000']);
 });
 
-test('the checked-in VertexED migration directory is parseable and can be certified against an exact ledger', () => {
+test('duplicate local migration versions fail closed', () => {
+  const local = [
+    { version: '20260711', filename: '20260711_a.sql' },
+    { version: '20260711', filename: '20260711_b.sql' },
+  ];
+  const report = compareMigrationLedger(local, ['20260711']);
+  assert.equal(report.ok, false);
+  assert.deepEqual(report.localDuplicates, ['20260711']);
+});
+
+test('the checked-in VertexED migration directory is parseable and a full synthetic ledger has no missing required versions', () => {
   const local = readLocalMigrations(resolve('supabase/migrations'));
   assert.ok(local.length > 0);
 
   const report = compareMigrationLedger(
     local,
-    [...local.map((migration) => migration.version), '20991231235959'],
+    [...new Set(local.map((migration) => migration.version)), '20991231235959'],
   );
 
-  assert.equal(report.ok, true);
+  // The repository currently has historical duplicate local versions tracked in #916.
+  // The operator command must continue to fail on those duplicates; this integration
+  // assertion only proves the checked-in directory parses and that the comparison
+  // does not invent missing migrations when every distinct local version is supplied.
   assert.equal(report.missingRequired.length, 0);
   assert.deepEqual(report.remoteOnly, ['20991231235959']);
+  if (report.localDuplicates.length > 0) {
+    assert.equal(report.ok, false);
+  }
 });
