@@ -36,7 +36,7 @@ export async function listOpenAiProjectAgents({
   totalTimeoutMs = MAX_PROJECT_AGENT_TOTAL_TIMEOUT_MS,
   maxAgents = MAX_PROJECT_AGENTS,
   maxPages = MAX_PROJECT_AGENT_PAGES,
-  now = Date.now,
+  now = () => performance.now(),
 }) {
   if (!config?.baseUrl || !config?.apiKey) {
     throw new Error('Invalid OpenAI project configuration');
@@ -44,13 +44,13 @@ export async function listOpenAiProjectAgents({
   if (!Number.isInteger(timeoutMs) || timeoutMs < 1) {
     throw new Error('Invalid OpenAI project request timeout');
   }
-  if (!Number.isInteger(totalTimeoutMs) || totalTimeoutMs < 1) {
+  if (!Number.isInteger(totalTimeoutMs) || totalTimeoutMs < 1 || totalTimeoutMs > MAX_PROJECT_AGENT_TOTAL_TIMEOUT_MS) {
     throw new Error('Invalid OpenAI project total timeout');
   }
   if (!Number.isInteger(maxAgents) || maxAgents < 1 || maxAgents > MAX_PROJECT_AGENTS) {
     throw new Error('Invalid OpenAI project agent limit');
   }
-  if (!Number.isInteger(maxPages) || maxPages < 1) {
+  if (!Number.isInteger(maxPages) || maxPages < 1 || maxPages > MAX_PROJECT_AGENT_PAGES) {
     throw new Error('Invalid OpenAI project pagination limit');
   }
   if (typeof now !== 'function') {
