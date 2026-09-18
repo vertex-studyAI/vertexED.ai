@@ -10,7 +10,7 @@ export class MigrationLedgerError extends Error {}
 function normalizeVersion(value, label = 'migration version') {
   const text = String(value ?? '').trim();
   if (!VERSION.test(text)) {
-    throw new MigrationLedgerError(`${label} must be exactly 14 digits; received ${JSON.stringify(text)}`);
+    throw new MigrationLedgerError(`${label} must be exactly 8 or 14 digits; received ${JSON.stringify(text)}`);
   }
   return text;
 }
@@ -73,7 +73,7 @@ export function parseLedgerText(text) {
     const matches = [...line.matchAll(/\b\d{14}\b/g)].map((match) => match[0]);
     if (matches.length !== 1) {
       throw new MigrationLedgerError(
-        `plain-text ledger line ${index + 1} must contain exactly one 14-digit remote migration version; found ${matches.length}`,
+        `plain-text ledger line ${index + 1} must contain exactly one 8- or 14-digit remote migration version; found ${matches.length}`,
       );
     }
     versions.push(matches[0]);
@@ -106,7 +106,7 @@ export function readLocalMigrations(migrationsDir = resolve('supabase/migrations
 
   if (malformed.length) {
     throw new MigrationLedgerError(
-      `migration filenames must use <14-digit-version>_<name>.sql; invalid: ${malformed.join(', ')}`,
+      `migration filenames must use <8-or-14-digit-version>_<name>.sql; invalid: ${malformed.join(', ')}`,
     );
   }
 
