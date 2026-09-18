@@ -119,20 +119,56 @@ test('provider pagination is bounded when filtered pages never yield public agen
   assert.deepEqual(agents, []);
 });
 
-test('invalid pagination limits fail before any provider request', async () => {
-  let requested = false;
+test('total pagination deadline stops before another provider request', async () => {
+  let requestCount = 0;
+  const ticks = [1_000, 1_000, 11_000];
+  let tickIndex = 0;
+
   await assert.rejects(
     listOpenAiProjectAgents({
       config,
-      maxPages: 0,
+      totalTimeoutMs: 10_000,
+      now: () => ticks[Math.min(tickIndex++, ticks.length - 1)],
       fetchImpl: async () => {
-        requested = true;
-        return { ok: true, status: 200, text: async () => '{"data":[]}' };
+        requestCount += 1;
+        return {
+          ok: true,
+          status: 200,
+          text: async () => JSON.stringify({
+            data: [{ id: `agent_${requestCount}`, name: 'Visible', model: 'gpt-test', tools: [] }],
+            has_more: true,
+            last_id: `agent_${requestCount}`,
+          }),
+        };
       },
     }),
-    /Invalid OpenAI project pagination limit/,
+    (error) => error instanceof Error && error.name === 'ProviderTimeoutError' && error.code === 'PROVIDER_TIMEOUT',
   );
-  assert.equal(requested, false);
+
+  assert.equal(requestCount, 1);
+});
+
+test('invalid operational limits fail before any provider request', async () => {
+  let requestCount = 0;
+  const fetchImpl = async () => {
+    requestCount += 1;
+    return { ok: true, status: 200, text: async () => '{"data":[]}' };
+  };
+
+  const invalidCases = [
+    [{ timeoutMs: 0 }, /Invalid OpenAI project request timeout/],
+    [{ totalTimeoutMs: 0 }, /Invalid OpenAI project total timeout/],
+    [{ maxAgents: 0 }, /Invalid OpenAI project agent limit/],
+    [{ maxAgents: 501 }, /Invalid OpenAI project agent limit/],
+    [{ maxPages: 0 }, /Invalid OpenAI project pagination limit/],
+    [{ now: null }, /Invalid OpenAI project clock/],
+  ];
+
+  for (const [options, expected] of invalidCases) {
+    await assert.rejects(listOpenAiProjectAgents({ config, fetchImpl, ...options }), expected);
+  }
+
+  assert.equal(requestCount, 0);
 });
 
 test('project agent provider failures are bounded', async () => {
