@@ -25,3 +25,18 @@ test('Vercel build remains fail-closed on immutable revision identity', () => {
 test('Vercel publishes the directory produced by Vite', () => {
   assert.equal(vercelConfig.outputDirectory, 'dist');
 });
+
+test('host redirects never swallow /api onto www while TLS is recovering', () => {
+  const redirects = vercelConfig.redirects;
+  assert.ok(Array.isArray(redirects));
+  assert.equal(redirects.length, 2);
+
+  for (const rule of redirects) {
+    assert.match(rule.source, /\(\?!api/);
+    assert.match(rule.destination, /\$1$/);
+    assert.notEqual(rule.source, '/:path*');
+  }
+
+  const hosts = redirects.map((rule) => rule.has?.[0]?.value).sort();
+  assert.deepEqual(hosts, ['vertex-ai-rho.vercel.app', 'vertexed.app']);
+});
