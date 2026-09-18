@@ -1,5 +1,7 @@
 # VertexED Project Truth
 
+> **Historical snapshot — not the current release control point.** This document records evidence captured on 2026-09-03 and is retained for audit history. For current release/deployment truth, use the newest dated release-certification or execution-control document on `main`, currently `docs/RELEASE_CERTIFICATION_2026-09-16.md`, and verify it against the current branch head before making deployment or readiness claims.
+
 Evidence timestamp: 2026-09-03 16:52 IST
 
 Canonical repository: `https://github.com/vertex-studyAI/vertexED.ai.git`

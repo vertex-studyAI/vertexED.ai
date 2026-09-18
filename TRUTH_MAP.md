@@ -1,5 +1,7 @@
 # VertexED Truth Map
 
+> **Historical capability snapshot — not the current release control point.** This map reflects evidence dated 2026-09-02. Preserve it for capability/audit history, but use the newest dated release-certification or execution-control document on `main` for current deployment/readiness decisions; currently see `docs/RELEASE_CERTIFICATION_2026-09-16.md` and verify against the current branch head.
+
 **Evidence date:** 2026-09-02
 
 **Interpretation:** “verified” below means reproduced in this repository or its deterministic production-preview harness. It does not imply that the canonical live deployment serves this revision.
