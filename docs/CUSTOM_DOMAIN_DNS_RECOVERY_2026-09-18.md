@@ -39,6 +39,20 @@ Canonical tracker: GitHub issue **#44** (and monitor **#652**).
    - `EXPECTED_VERTEXED_REVISION=<deploy-relevant-sha> npm run test:smoke`
 8. Close #44 only when application HTTP works on `www.vertexed.app` **and** the served immutable revision matches the intended deploy-relevant SHA.
 
+## Separate gate — dependency readiness (VX-205 adjacent)
+
+Even when a Vercel default host serves `/api/health` alive, deep readiness can still be **degraded**. Verified 2026-09-18 against `https://vertex-ed-ai.vercel.app/api/health?readiness=1`:
+
+| Check | Result |
+|---|---|
+| Liveness `/api/health` | HTTP 200 `alive` |
+| Readiness `?readiness=1` | HTTP 503 `degraded` |
+| `databaseError` | `PGRST202` (PostgREST: function not in schema cache) |
+| `durableRateLimiting` | `false` → `WAITLIST_RATE_LIMIT_SALT` missing in that project env |
+| DB capability flags | all `false` (RPC never succeeded) |
+
+Source migrations define `public.vertexed_readiness()` (see `supabase/migrations/*`). Applying those migrations / setting the rate-limit salt requires authorized Supabase + Vercel env access. Do not weaken smoke readiness assertions to greenwash this.
+
 ## Repository-side note (this pass)
 
 `vercel.json` host redirects must **not** catch-all `/api/*` from preview/apex hosts onto `www.vertexed.app`. Otherwise a healthy Vercel deployment becomes undiagnosable whenever custom-domain TLS is down. HTML canonicalization to `www` may remain.
