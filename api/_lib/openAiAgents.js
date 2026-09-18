@@ -1,6 +1,7 @@
 import { fetchWithTimeout } from './fetchWithTimeout.js';
 
 const MAX_PROJECT_AGENTS = 500;
+const MAX_PROJECT_AGENT_PAGES = 20;
 const AGENT_ID_PATTERN = /^[A-Za-z0-9_-]{1,64}$/;
 
 function publicAgent(agent) {
@@ -32,16 +33,22 @@ export async function listOpenAiProjectAgents({
   fetchImpl,
   timeoutMs = 15_000,
   maxAgents = MAX_PROJECT_AGENTS,
+  maxPages = MAX_PROJECT_AGENT_PAGES,
 }) {
   if (!config?.baseUrl || !config?.apiKey) {
     throw new Error('Invalid OpenAI project configuration');
+  }
+  if (!Number.isInteger(maxPages) || maxPages < 1) {
+    throw new Error('Invalid OpenAI project pagination limit');
   }
 
   const executeFetch = fetchImpl || ((url, options) => fetchWithTimeout(url, options, timeoutMs));
   const agents = [];
   let after = '';
+  let pagesFetched = 0;
 
-  while (agents.length < maxAgents) {
+  while (agents.length < maxAgents && pagesFetched < maxPages) {
+    pagesFetched += 1;
     const url = new URL(`${config.baseUrl}/agents`);
     url.searchParams.set('limit', String(Math.min(100, maxAgents - agents.length)));
     url.searchParams.set('order', 'asc');
