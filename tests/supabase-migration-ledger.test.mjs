@@ -25,10 +25,10 @@ function withMigrationDir(filenames, fn) {
   }
 }
 
-test('parses JSON ledgers from primitive versions and row objects', () => {
+test('parses JSON ledgers from legacy date versions, timestamp versions, and row objects', () => {
   assert.deepEqual(
-    parseLedgerText(JSON.stringify(['20260901000000', 20260902000000])),
-    ['20260901000000', '20260902000000'],
+    parseLedgerText(JSON.stringify(['20260708', '20260901000000', 20260902000000])),
+    ['20260708', '20260901000000', '20260902000000'],
   );
 
   assert.deepEqual(
@@ -45,8 +45,8 @@ test('parses JSON ledgers from primitive versions and row objects', () => {
 
 test('plain text accepts one remote version per line and rejects ambiguous CLI tables', () => {
   assert.deepEqual(
-    parseLedgerText('# sanitized remote ledger\n20260901000000\nversion=20260902000000\n'),
-    ['20260901000000', '20260902000000'],
+    parseLedgerText('# sanitized remote ledger\n20260708\n20260901000000\nversion=20260902000000\n'),
+    ['20260708', '20260901000000', '20260902000000'],
   );
 
   assert.throws(
