@@ -11,7 +11,6 @@ const MAX_AGENT_MODEL_LENGTH = 120;
 const MAX_AGENT_TOOL_TYPES = 32;
 const MAX_AGENT_TOOL_TYPE_LENGTH = 64;
 const AGENT_ID_PATTERN = /^[A-Za-z0-9_-]{1,64}$/;
-const CONTROL_CHARACTER_PATTERN = /[\u0000-\u001F\u007F]/;
 
 function boundedText(value, maximum, fallback = '') {
   if (typeof value !== 'string') return fallback;
@@ -123,11 +122,19 @@ async function readBoundedProviderBody(response, timeoutMs, timeoutLabelMs) {
   return raw;
 }
 
+function hasControlCharacter(value) {
+  for (let index = 0; index < value.length; index += 1) {
+    const code = value.charCodeAt(index);
+    if (code <= 0x1f || code === 0x7f) return true;
+  }
+  return false;
+}
+
 function validProviderCursor(value) {
   return typeof value === 'string' &&
     value.length > 0 &&
     value.length <= MAX_PROJECT_AGENT_CURSOR_LENGTH &&
-    !CONTROL_CHARACTER_PATTERN.test(value);
+    !hasControlCharacter(value);
 }
 
 export function isOpenAiAgentId(value) {
