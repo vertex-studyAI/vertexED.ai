@@ -48,8 +48,6 @@ export default function Onboarding() {
   const [redirecting, setRedirecting] = useState(false);
   const [touched, setTouched] = useState(false);
   const curriculumEdited = useRef(false);
-  const saveRequestIdRef = useRef(0);
-  const saveAccountIdRef = useRef<string | null>(user?.id ?? null);
   const [applicationNotice, setApplicationNotice] = useState('');
 
   useEffect(() => {
@@ -70,19 +68,6 @@ export default function Onboarding() {
     }).catch(() => { /* Application prefill is optional. Manual setup remains available. */ });
     return () => controller.abort();
   }, [user?.id]);
-
-  useEffect(() => {
-    const nextAccountId = user?.id ?? null;
-    if (saveAccountIdRef.current === nextAccountId) return;
-    saveAccountIdRef.current = nextAccountId;
-    saveRequestIdRef.current += 1;
-    setLoading(false);
-    setError(null);
-  }, [user?.id]);
-
-  useEffect(() => () => {
-    saveRequestIdRef.current += 1;
-  }, []);
 
   useEffect(() => {
     // Updating user metadata during save also refreshes AuthContext. Do not let
@@ -134,22 +119,6 @@ export default function Onboarding() {
       return;
     }
 
-    const initiatingAccountId = user.id;
-    const initiatingAccessToken = session.access_token;
-    const requestId = saveRequestIdRef.current + 1;
-    saveRequestIdRef.current = requestId;
-    saveAccountIdRef.current = initiatingAccountId;
-    const isCurrentSave = () => (
-      requestId === saveRequestIdRef.current
-      && saveAccountIdRef.current === initiatingAccountId
-    );
-    const stillOwnsAuthSession = async () => {
-      const { data, error: sessionError } = await supabase.auth.getSession();
-      if (!isCurrentSave()) return false;
-      if (sessionError) throw sessionError;
-      return data.session?.user.id === initiatingAccountId;
-    };
-
     try {
       setLoading(true);
       // Persist while the existing session is stable. Supabase serializes auth
@@ -157,11 +126,9 @@ export default function Onboarding() {
       // otherwise wait behind the metadata refresh lock.
       const planResult = await savePlannerSnapshot(
         createFirstStudyPlan(curriculum),
-        initiatingAccountId,
-        initiatingAccessToken,
+        user.id,
+        session.access_token,
       );
-      if (!isCurrentSave() || !(await stillOwnsAuthSession())) return;
-
       const metadata = buildCurriculumMetadata(curriculum, {
         ...(user?.user_metadata ?? {}),
         username: trimmedUsername,
@@ -178,12 +145,9 @@ export default function Onboarding() {
       const { error: profileError } = await supabase
         .from("profiles")
         .upsert(profilePayload, { onConflict: "id" });
-      if (!isCurrentSave()) return;
       if (profileError) throw profileError;
-      if (!(await stillOwnsAuthSession())) return;
 
       const { error: updateError } = await supabase.auth.updateUser({ data: metadata });
-      if (!isCurrentSave()) return;
       if (updateError) throw updateError;
 
       // These markers only drive optional dashboard messaging. Once planner,
@@ -191,7 +155,7 @@ export default function Onboarding() {
       // make onboarding look failed or prevent navigation to the dashboard.
       const handoffStorage = typeof window === "undefined" ? null : resolveSessionStorage(window);
       if (!planResult.cloudSynced) {
-        markFirstSessionSyncNotice(handoffStorage, initiatingAccountId);
+        markFirstSessionSyncNotice(handoffStorage, user.id);
       }
 
       trackProductEvent("Onboarding Completed", {
@@ -199,15 +163,12 @@ export default function Onboarding() {
         subject_count: curriculum.subjects.length,
         planner_sync: planResult.cloudSynced ? "cloud" : "device",
       });
-      markFirstSessionWelcome(handoffStorage, initiatingAccountId);
+      markFirstSessionWelcome(handoffStorage, user.id);
       navigate("/main", { replace: true });
     } catch (err) {
-      if (!isCurrentSave()) return;
       setError(getErrorMessage(err));
     } finally {
-      if (requestId === saveRequestIdRef.current) {
-        setLoading(false);
-      }
+      setLoading(false);
     }
   };
 
