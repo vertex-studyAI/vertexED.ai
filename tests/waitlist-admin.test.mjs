@@ -51,6 +51,11 @@ test('waitlist administration has a durable per-admin request limit', () => {
   assert.match(adminSource, /rateLimitUserEndpoint\(user\.id, 'waitlist-admin', res/);
 });
 
+test('waitlist admin list does not expose Supabase project URL', () => {
+  assert.doesNotMatch(adminSource, /databaseUrl|database:\s*\{\s*url:/);
+  assert.match(adminSource, /database:\s*\{\s*schema:\s*'public',\s*table:\s*'waitlist'\s*\}/);
+});
+
 test('notification fallback logs neither recipient email nor one-time invite link', () => {
   const fallbackLog = notifySource.match(/console\.info\([^\n]+/)?.[0] ?? '';
   assert.doesNotMatch(fallbackLog, /,\s*email\b/);
