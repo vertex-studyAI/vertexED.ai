@@ -96,3 +96,13 @@ test('account settings toasts sanitize logout, Google link, delete, and export f
   assert.match(source, /authUiError\(error, ['"]export-device['"]\)/);
   assert.doesNotMatch(source, /description:\s*(?:error|err) instanceof Error \? (?:error|err)\.message/);
 });
+
+test('account settings toasts sanitize curriculum and profile save failures', async () => {
+  const source = await import('node:fs').then((fs) =>
+    fs.readFileSync(new URL('../src/pages/UserSettings.tsx', import.meta.url), 'utf8'),
+  );
+  assert.match(source, /authUiError\(e, "save-curriculum"\)/);
+  assert.match(source, /authUiError\(e, "save-profile"\)/);
+  assert.doesNotMatch(authUiError(new Error('Postgrest secret detail'), 'save-curriculum'), /Postgrest secret detail/);
+  assert.match(authUiError(new Error('Postgrest secret detail'), 'save-curriculum'), /curriculum/i);
+});

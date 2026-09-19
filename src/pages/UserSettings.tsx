@@ -121,7 +121,7 @@ export default function UserSettings() {
 
       toast({ title: "Curriculum saved", description: "Your board and subjects are updated across all tools." });
     } catch (e) {
-      toast({ title: "Could not save", description: e instanceof Error ? e.message : "Try again.", variant: "destructive" });
+      toast({ title: "Could not save", description: authUiError(e, "save-curriculum"), variant: "destructive" });
     } finally {
       setSavingCurriculum(false);
     }
@@ -152,7 +152,7 @@ export default function UserSettings() {
     } catch (e) {
       toast({
         title: "Could not save",
-        description: e instanceof Error ? e.message : "Try again.",
+        description: authUiError(e, "save-profile"),
         variant: "destructive",
       });
     } finally {

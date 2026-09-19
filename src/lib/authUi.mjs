@@ -63,5 +63,11 @@ export function authUiError(error, action = 'login') {
   if (action === 'export-device') {
     return 'Could not export the device backup. Check browser storage access and try again.';
   }
+  if (action === 'save-curriculum') {
+    return 'Could not save your curriculum. Check your connection and try again.';
+  }
+  if (action === 'save-profile') {
+    return 'Could not save your learning profile. Check your connection and try again.';
+  }
   return 'We could not sign you in. Try again, use Google sign-in, or reset your password.';
 }
