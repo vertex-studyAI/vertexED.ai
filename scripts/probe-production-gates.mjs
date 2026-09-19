@@ -14,7 +14,9 @@ import { join } from 'node:path';
 
 import {
   agentsGatePasses,
+  canonicalDomainGatePasses,
   classifyAgentsDeployment,
+  classifyCanonicalDomain,
 } from './probe-production-gates-core.mjs';
 
 const HOSTS = {
@@ -85,7 +87,7 @@ function digA(host) {
     .filter(Boolean);
 }
 
-function classifyWww(probe, records) {
+function classifyWww(probe) {
   if (probe.curlExit !== 0 || probe.httpCode === '000') {
     if (/SSL_ERROR_SYSCALL|SSL_connect|Connection reset/i.test(probe.errormsg)) {
       return 'TLS_FAIL_BEFORE_HTTP';
@@ -94,9 +96,6 @@ function classifyWww(probe, records) {
       return 'DNS_NXDOMAIN_OR_EMPTY';
     }
     return 'UNREACHABLE';
-  }
-  if (records.length && !records.some((ip) => ip.includes('vercel') || ip.startsWith('76.'))) {
-    // Heuristic only — Vercel IPs vary; non-empty A without HTTP success stays TLS/DNS class.
   }
   if (Number(probe.httpCode) >= 200 && Number(probe.httpCode) < 500) {
     return 'HTTP_REACHABLE';
@@ -128,6 +127,7 @@ const dig = {
 };
 
 const wwwApp = curlMeta(HOSTS.wwwApp);
+const wwwAppHealth = curlMeta(`${HOSTS.wwwApp}/api/health`);
 const apexApp = curlMeta(HOSTS.apexApp);
 const wwwAi = curlMeta(HOSTS.wwwAi);
 const apexAi = curlMeta(HOSTS.apexAi);
@@ -138,26 +138,34 @@ const rhoShallow = curlMeta(`${HOSTS.rho}/api/health`);
 const rhoReady = curlMeta(`${HOSTS.rho}/api/health`, { query: '?readiness=1' });
 const edAgents = curlMeta(`${HOSTS.edAi}/api/agents`);
 
+const wwwAppClass = classifyWww(wwwApp);
+const gate1aVerdict = classifyCanonicalDomain({
+  rootClass: wwwAppClass,
+  healthProbe: wwwAppHealth,
+  canonicalRevision: edShallow.json?.revision ?? null,
+});
+
 const report = {
   probedAt: new Date().toISOString(),
   gate1a_custom_domain: {
     www_vertexed_app: {
-      class: classifyWww(wwwApp, dig['www.vertexed.app']),
+      class: wwwAppClass,
       aRecords: dig['www.vertexed.app'],
       probe: { httpCode: wwwApp.httpCode, errormsg: wwwApp.errormsg || null },
+      health: summarizeHealth(wwwAppHealth, 'www-vertexed-app-health'),
     },
     apex_vertexed_app: {
-      class: classifyWww(apexApp, dig['vertexed.app']),
+      class: classifyWww(apexApp),
       aRecords: dig['vertexed.app'],
       probe: { httpCode: apexApp.httpCode, errormsg: apexApp.errormsg || null },
     },
     www_vertexed_ai: {
-      class: classifyWww(wwwAi, dig['www.vertexed.ai']),
+      class: classifyWww(wwwAi),
       aRecords: dig['www.vertexed.ai'],
       probe: { httpCode: wwwAi.httpCode, errormsg: wwwAi.errormsg || null },
     },
     apex_vertexed_ai: {
-      class: classifyWww(apexAi, dig['vertexed.ai']),
+      class: classifyWww(apexAi),
       aRecords: dig['vertexed.ai'],
       probe: { httpCode: apexAi.httpCode, errormsg: apexAi.errormsg || null },
     },
@@ -184,13 +192,7 @@ const report = {
     },
   },
   verdict: {
-    gate1a: (() => {
-      const wwwClass = classifyWww(wwwApp, dig['www.vertexed.app']);
-      if (wwwClass === 'HTTP_REACHABLE') return 'WWW_HTTP_OK_CONFIRM_CERT_AND_REVISION';
-      if (wwwClass === 'TLS_FAIL_BEFORE_HTTP') return 'BLOCKED_TLS_FAIL_BEFORE_HTTP';
-      if (wwwClass === 'DNS_NXDOMAIN_OR_EMPTY') return 'BLOCKED_DNS_EMPTY';
-      return `BLOCKED_${wwwClass}`;
-    })(),
+    gate1a: gate1aVerdict,
     gate1b: (() => {
       const checks = edReady.json?.checks;
       const allChecks =
@@ -219,7 +221,7 @@ if (asJson) {
 } else {
   process.stdout.write(`VertexED production gate probe @ ${report.probedAt}\n`);
   process.stdout.write(`Gate1a verdict: ${report.verdict.gate1a}\n`);
-  process.stdout.write(`  www.vertexed.app: ${report.gate1a_custom_domain.www_vertexed_app.class} A=${report.gate1a_custom_domain.www_vertexed_app.aRecords.join(',') || '(none)'}\n`);
+  process.stdout.write(`  www.vertexed.app: ${report.gate1a_custom_domain.www_vertexed_app.class} A=${report.gate1a_custom_domain.www_vertexed_app.aRecords.join(',') || '(none)'} healthRevision=${report.gate1a_custom_domain.www_vertexed_app.health.revision || '(none)'}\n`);
   process.stdout.write(`  www.vertexed.ai:  ${report.gate1a_custom_domain.www_vertexed_ai.class} A=${report.gate1a_custom_domain.www_vertexed_ai.aRecords.join(',') || '(none)'}\n`);
   process.stdout.write(`Gate1b verdict: ${report.verdict.gate1b}\n`);
   process.stdout.write(`  ed-ai readiness: http=${report.gate1b_readiness.ed_ai_readiness.httpCode} status=${report.gate1b_readiness.ed_ai_readiness.status} dbErr=${report.gate1b_readiness.ed_ai_readiness.databaseError}\n`);
@@ -233,7 +235,7 @@ if (asJson) {
 }
 
 const failed =
-  report.verdict.gate1a.startsWith('BLOCKED') ||
+  !canonicalDomainGatePasses(report.verdict.gate1a) ||
   report.verdict.gate1b.startsWith('BLOCKED') ||
   !agentsGatePasses(report.verdict.agents);
 process.exit(failed ? 2 : 0);
