@@ -119,7 +119,7 @@ test('Apex hop, wiggle and spin play once, replay on demand and stop under reduc
     const control = dialog.getByRole('button', { name: `Apex: ${name}`, exact: true });
     await control.focus();
     await page.keyboard.press('Enter');
-    const sprite = dialog.locator('img');
+    const sprite = dialog.locator('.vee-reaction-sprite');
     await expect(sprite).toHaveAttribute('data-reaction', name);
     await expect.poll(() => sprite.evaluate(img => getComputedStyle(img).animationName)).toBe(`apex-${name}`);
     const animation = await sprite.evaluate(img => {
@@ -140,29 +140,29 @@ test('Apex hop, wiggle and spin play once, replay on demand and stop under reduc
   await dialog.getByRole('button', { name: 'Apex: hop' }).click();
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await expect(dialog.getByRole('button', { name: 'Apex: hop' })).toBeDisabled();
-  expect(await dialog.locator('img').evaluate(img => getComputedStyle(img).animationName)).toBe('none');
+  expect(await dialog.locator('.vee-reaction-sprite').evaluate(img => getComputedStyle(img).animationName)).toBe('none');
   await expect(dialog.getByText('Animations are off with reduced motion.')).toBeVisible();
   // Disabling motion must not eject keyboard focus or restart the last reaction later.
   await expect(dialog.getByRole('button', { name: 'Apex: hop' })).toBeFocused();
   await page.keyboard.press('Enter');
-  expect(await dialog.locator('img').evaluate(img => getComputedStyle(img).animationName)).toBe('none');
+  expect(await dialog.locator('.vee-reaction-sprite').evaluate(img => getComputedStyle(img).animationName)).toBe('none');
   await page.emulateMedia({ reducedMotion: 'no-preference' });
   await expect(dialog.getByRole('button', { name: 'Apex: hop' })).toBeEnabled();
-  expect(await dialog.locator('img').evaluate(img => getComputedStyle(img).animationName)).toBe('none');
+  expect(await dialog.locator('.vee-reaction-sprite').evaluate(img => getComputedStyle(img).animationName)).toBe('none');
   await page.keyboard.press('Escape');
   await expect(page.getByRole('button', { name: 'Open Apex study shortcuts' })).toBeFocused();
 });
 
-test('Apex persists the selected paper or ink appearance', async ({ page }) => {
+test('Apex persists the selected paper or stack appearance', async ({ page }) => {
   await page.goto('/');
   await page.getByRole('button', { name: 'Open Apex study shortcuts' }).click();
   const dialog = apexDialog(page);
   await expandCharacterSettings(dialog);
-  await dialog.getByRole('radio', { name: 'Ink' }).check();
-  await expect(dialog.locator('img')).toHaveAttribute('src', '/companions/apex-ink-v3.png');
+  await dialog.getByRole('radio', { name: 'Stack' }).check();
+  await expect(dialog.locator('.vee-reaction-sprite')).toHaveAttribute('src', '/companions/apex-stack-v1.png');
   await page.keyboard.press('Escape');
   await page.reload();
-  await expect(page.getByRole('button', { name: 'Open Apex study shortcuts' }).locator('img')).toHaveAttribute('src', '/companions/apex-ink-v3.png');
+  await expect(page.getByRole('button', { name: 'Open Apex study shortcuts' }).locator('img')).toHaveAttribute('src', '/companions/apex-stack-v1.png');
 });
 
 test('Apex blink and page-turn frames return to the selected resting artwork', async ({ page }) => {
@@ -177,10 +177,9 @@ test('Apex blink and page-turn frames return to the selected resting artwork', a
   await expect(sprite).toHaveAttribute('src', '/companions/apex-paper-blink-v4.png');
   await expect.poll(() => sprite.getAttribute('src')).toBe('/companions/apex-paper-v3.png');
 
-  await dialog.getByRole('radio', { name: 'Ink' }).check();
   await dialog.getByRole('button', { name: 'Apex: page-turn' }).click();
-  await expect(sprite).toHaveAttribute('src', '/companions/apex-ink-page-turn-v4.png');
-  await expect.poll(() => sprite.getAttribute('src')).toBe('/companions/apex-ink-v3.png');
+  await expect(sprite).toHaveAttribute('src', '/companions/apex-paper-page-turn-v4.png');
+  await expect.poll(() => sprite.getAttribute('src')).toBe('/companions/apex-paper-v3.png');
 });
 
 test('Apex can be dragged, nudged by keyboard, reset and restored inside the viewport', async ({ page }) => {
@@ -223,8 +222,12 @@ test('Apex can be dragged, nudged by keyboard, reset and restored inside the vie
   const dialog = apexDialog(page);
   await expandCharacterSettings(dialog);
   await dialog.getByRole('button', { name: 'Reset position' }).click();
-  await page.keyboard.press('Escape');
+  await dialog.getByRole('button', { name: 'Close Apex study shortcuts' }).click();
+  await expect(apexDialog(page)).toBeHidden();
   const reset = await launcher.boundingBox();
-  expect(reset!.x).toBeGreaterThan(880);
-  expect(reset!.y).toBeGreaterThan(620);
+  // Default corner is bottom-right with an edge gap; tolerate launcher width/font metrics.
+  expect(reset!.x + reset!.width).toBeGreaterThan(1000);
+  expect(reset!.y + reset!.height).toBeGreaterThan(740);
+  expect(reset!.x).toBeGreaterThan(820);
+  expect(reset!.y).toBeGreaterThan(600);
 });

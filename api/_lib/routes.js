@@ -54,6 +54,10 @@ export const ROUTES = {
     loader: () => import('../_handlers/ask.js'),
     methods: ['POST'],
   },
+  agents: {
+    loader: () => import('../_handlers/agents.js'),
+    methods: ['GET'],
+  },
   quiz: {
     loader: () => import('../_handlers/quiz.js'),
     methods: ['POST'],

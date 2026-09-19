@@ -218,11 +218,11 @@ export default function UserSettings() {
         else setLoadingMoreArtifacts(false);
       }
     }
-  }, [kindFilter, user?.id]);
+  }, [kindFilter]);
 
   useEffect(() => {
     void loadArtifacts();
-  }, [loadArtifacts]);
+  }, [loadArtifacts, user?.id]);
 
   const handleLogout = async () => {
     try {
