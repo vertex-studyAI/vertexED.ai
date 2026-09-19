@@ -5,11 +5,13 @@ const MAX_PROJECT_AGENT_PAGES = 20;
 const MAX_PROJECT_AGENT_PAGE_SIZE = 100;
 const MAX_PROJECT_AGENT_TOTAL_TIMEOUT_MS = 30_000;
 const MAX_PROJECT_AGENT_RESPONSE_BYTES = 4 * 1024 * 1024;
+const MAX_PROJECT_AGENT_CURSOR_LENGTH = 256;
 const MAX_AGENT_NAME_LENGTH = 120;
 const MAX_AGENT_MODEL_LENGTH = 120;
 const MAX_AGENT_TOOL_TYPES = 32;
 const MAX_AGENT_TOOL_TYPE_LENGTH = 64;
 const AGENT_ID_PATTERN = /^[A-Za-z0-9_-]{1,64}$/;
+const CONTROL_CHARACTER_PATTERN = /[\u0000-\u001F\u007F]/;
 
 function boundedText(value, maximum, fallback = '') {
   if (typeof value !== 'string') return fallback;
@@ -121,6 +123,13 @@ async function readBoundedProviderBody(response, timeoutMs, timeoutLabelMs) {
   return raw;
 }
 
+function validProviderCursor(value) {
+  return typeof value === 'string' &&
+    value.length > 0 &&
+    value.length <= MAX_PROJECT_AGENT_CURSOR_LENGTH &&
+    !CONTROL_CHARACTER_PATTERN.test(value);
+}
+
 export function isOpenAiAgentId(value) {
   return typeof value === 'string' && AGENT_ID_PATTERN.test(value.trim());
 }
@@ -221,8 +230,12 @@ export async function listOpenAiProjectAgents({
       if (agents.length >= maxAgents) break;
     }
 
-    const lastId = typeof payload.last_id === 'string' ? payload.last_id : '';
-    if (!payload.has_more || !lastId || lastId === after || rawPage.length === 0) break;
+    if (!payload.has_more || rawPage.length === 0) break;
+    const lastId = payload.last_id;
+    if (!validProviderCursor(lastId)) {
+      throw new Error('OpenAI project agents returned an invalid pagination cursor');
+    }
+    if (lastId === after) break;
     after = lastId;
   }
 
