@@ -151,6 +151,14 @@ const report = {
     ed_ai_readiness: summarizeHealth(edReady, 'ed-ai-readiness'),
     rho_shallow: summarizeHealth(rhoShallow, 'rho-shallow'),
     rho_readiness: summarizeHealth(rhoReady, 'rho-readiness'),
+    operatorHints: [
+      edReady.json?.databaseError === 'readiness_rpc_missing'
+        ? 'apply public.vertexed_readiness() migrations on the linked Supabase project'
+        : null,
+      edReady.json?.checks?.durableRateLimiting === false
+        ? 'set WAITLIST_RATE_LIMIT_SALT in the Vercel project env'
+        : null,
+    ].filter(Boolean),
   },
   agents_pr_917: {
     ed_ai_agents: {
@@ -167,15 +175,25 @@ const report = {
       if (wwwClass === 'DNS_NXDOMAIN_OR_EMPTY') return 'BLOCKED_DNS_EMPTY';
       return `BLOCKED_${wwwClass}`;
     })(),
-    gate1b:
-      edReady.json?.ok === true &&
-      (edReady.json?.status === 'ready' || edReady.json?.status === 'alive') &&
-      edReady.json?.checks &&
-      Object.values(edReady.json.checks).every(Boolean)
-        ? 'READY'
-        : edReady.json?.databaseError === 'readiness_rpc_missing'
-          ? 'BLOCKED_READINESS_RPC_MISSING'
-          : 'BLOCKED_DEGRADED',
+    gate1b: (() => {
+      const checks = edReady.json?.checks;
+      const allChecks =
+        checks && typeof checks === 'object' && Object.values(checks).every(Boolean);
+      if (
+        edReady.json?.ok === true &&
+        edReady.json?.status === 'ready' &&
+        allChecks
+      ) {
+        return 'READY';
+      }
+      if (edReady.json?.databaseError === 'readiness_rpc_missing') {
+        return 'BLOCKED_READINESS_RPC_MISSING';
+      }
+      if (checks && checks.durableRateLimiting === false) {
+        return 'BLOCKED_MISSING_WAITLIST_RATE_LIMIT_SALT_OR_DEGRADED';
+      }
+      return 'BLOCKED_DEGRADED';
+    })(),
     agents: edAgents.httpCode === '200' ? 'LIVE' : 'NOT_IN_PRODUCTION',
   },
 };
@@ -190,6 +208,11 @@ if (asJson) {
   process.stdout.write(`Gate1b verdict: ${report.verdict.gate1b}\n`);
   process.stdout.write(`  ed-ai readiness: http=${report.gate1b_readiness.ed_ai_readiness.httpCode} status=${report.gate1b_readiness.ed_ai_readiness.status} dbErr=${report.gate1b_readiness.ed_ai_readiness.databaseError}\n`);
   process.stdout.write(`  ed-ai revision:  ${report.gate1b_readiness.ed_ai_shallow.revision}\n`);
+  if (report.gate1b_readiness.operatorHints.length) {
+    for (const hint of report.gate1b_readiness.operatorHints) {
+      process.stdout.write(`  hint: ${hint}\n`);
+    }
+  }
   process.stdout.write(`Agents: ${report.verdict.agents} (http ${report.agents_pr_917.ed_ai_agents.httpCode})\n`);
 }
 
