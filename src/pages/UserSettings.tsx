@@ -62,6 +62,7 @@ export default function UserSettings() {
   const [nextArtifactOffset, setNextArtifactOffset] = useState<number | null>(null);
   const [loadingMoreArtifacts, setLoadingMoreArtifacts] = useState(false);
   const artifactRequestIdRef = useRef(0);
+  const artifactAccountId = user?.id ?? null;
   const [artifactScope, setArtifactScope] = useState<string | null>(() => getUserContentStorageScope());
   const currentArtifactScope = getUserContentStorageScope();
   const artifactScopeIsCurrent = artifactScope === currentArtifactScope;
@@ -207,11 +208,15 @@ export default function UserSettings() {
         else setLoadingMoreArtifacts(false);
       }
     }
-  }, [kindFilter, user?.id]);
+  }, [kindFilter]);
 
   useEffect(() => {
+    // Invalidate work started for the previous account before issuing the
+    // replacement request. The storage-scope checks inside loadArtifacts keep
+    // late results from painting after the account transition.
+    artifactRequestIdRef.current += 1;
     void loadArtifacts();
-  }, [loadArtifacts]);
+  }, [artifactAccountId, loadArtifacts]);
 
   const handleLogout = async () => {
     try {

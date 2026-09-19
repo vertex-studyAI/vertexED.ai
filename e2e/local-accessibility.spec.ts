@@ -67,6 +67,19 @@ test.describe('local keyboard accessibility', () => {
     await expect(page.locator('#main-content')).toBeFocused();
   });
 
+  test('client-side route changes move focus to the new main landmark', async ({ page }) => {
+    await page.goto('/');
+    if ((page.viewportSize()?.width ?? 1440) >= 1280) {
+      await page.getByRole('navigation', { name: 'Main navigation' }).getByRole('link', { name: 'Features' }).click();
+    } else {
+      await page.getByRole('button', { name: 'Open navigation menu' }).click();
+      await page.getByRole('navigation', { name: 'Mobile navigation' }).getByRole('link', { name: 'Features' }).click();
+    }
+    await expect(page).toHaveURL(/\/features$/);
+    await expect(page.locator('#main-content')).toBeFocused();
+    await expect(page.getByRole('heading', { name: 'Find the right tool for the way you learn.' })).toBeVisible();
+  });
+
   test('closed mobile navigation is inert and Escape restores the trigger', async ({ page }) => {
     test.skip((page.viewportSize()?.width ?? 1440) >= 1280, 'Collapsed navigation is rendered below 1280px.');
 

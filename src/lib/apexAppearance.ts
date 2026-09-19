@@ -1,4 +1,4 @@
-export type ApexAppearance = 'paper' | 'stack' | 'focus' | 'compass';
+export type ApexAppearance = 'paper' | 'ink';
 
 export const APEX_APPEARANCES: ReadonlyArray<{
   id: ApexAppearance;
@@ -13,22 +13,10 @@ export const APEX_APPEARANCES: ReadonlyArray<{
     src: '/companions/apex-paper-v3.png',
   },
   {
-    id: 'stack',
-    name: 'Stack',
-    description: 'A set of revision cards.',
-    src: '/companions/apex-stack-v1.png',
-  },
-  {
-    id: 'focus',
-    name: 'Focus',
-    description: 'A study timer for focused work.',
-    src: '/companions/apex-focus-v1.png',
-  },
-  {
-    id: 'compass',
-    name: 'Compass',
-    description: 'A guide through your next study move.',
-    src: '/companions/apex-compass-v1.png',
+    id: 'ink',
+    name: 'Ink',
+    description: 'The midnight reading-surface version.',
+    src: '/companions/apex-ink-v3.png',
   },
 ];
 

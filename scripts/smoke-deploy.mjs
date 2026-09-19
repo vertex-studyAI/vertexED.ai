@@ -124,13 +124,35 @@ async function main() {
       'databaseConnection', 'atomicRateLimitRpc', 'learnerStateStorage', 'batchLearnerStateSync',
       'examSessionStorage', 'observabilityStorage', 'singletonIntegrity'];
     const missingChecks = requiredChecks.filter((key) => checks?.[key] !== true);
+    const databaseError = typeof readiness.body?.databaseError === 'string'
+      ? readiness.body.databaseError.trim()
+      : '';
 
-    if (readiness.status !== 200 || !readiness.body?.ok || readiness.body?.status !== 'ready') {
-      fail(`/api/health?readiness=1 returned ${readiness.status} with status ${readiness.body?.status ?? 'missing'}`);
-    } else if (readiness.headers.get('x-vertexed-health') !== 'ready') {
-      fail('/api/health?readiness=1 missing X-VertexED-Health: ready');
-    } else if (missingChecks.length > 0) {
-      fail(`/api/health?readiness=1 missing ready capability checks: ${missingChecks.join(', ')}`);
+    const readinessHealthy = readiness.status === 200
+      && readiness.body?.ok === true
+      && readiness.body?.status === 'ready'
+      && readiness.headers.get('x-vertexed-health') === 'ready'
+      && missingChecks.length === 0;
+
+    if (!readinessHealthy) {
+      const details = [
+        `http=${readiness.status}`,
+        `status=${readiness.body?.status ?? 'missing'}`,
+        `header=${readiness.headers.get('x-vertexed-health') ?? 'missing'}`,
+      ];
+      if (missingChecks.length > 0) {
+        details.push(`failedChecks=${missingChecks.join(',')}`);
+      }
+      if (databaseError) {
+        details.push(`databaseError=${databaseError}`);
+        if (databaseError === 'readiness_rpc_missing' || databaseError === 'PGRST202') {
+          details.push('hint=apply public.vertexed_readiness() migrations on the linked Supabase project');
+        }
+      }
+      if (checks && checks.durableRateLimiting !== true) {
+        details.push('hint=set WAITLIST_RATE_LIMIT_SALT in the Vercel project env');
+      }
+      fail(`/api/health?readiness=1 not ready (${details.join('; ')})`);
     } else {
       pass('/api/health?readiness=1 reports all required capabilities, including exam-session storage');
     }

@@ -12,7 +12,8 @@ test('account settings saved-work requests are latest-request and account scoped
     source,
     /await listStudyArtifactsDetailed\([\s\S]*?if \(artifactRequestIdRef\.current !== requestId \|\| getUserContentStorageScope\(\) !== requestScope\) return;/,
   );
-  assert.match(source, /\}, \[kindFilter, user\?\.id\]\)/);
+  assert.match(source, /const artifactAccountId = user\?\.id \?\? null/);
+  assert.match(source, /artifactRequestIdRef\.current \+= 1;[\s\S]*?void loadArtifacts\(\);[\s\S]*?\}, \[artifactAccountId, loadArtifacts\]\)/);
 
   const requestId = source.indexOf('const requestId = ++artifactRequestIdRef.current;');
   const requestScope = source.indexOf('const requestScope = getUserContentStorageScope();', requestId);

@@ -274,8 +274,10 @@ test('corrupt planner data pauses editing and exposes recovery instead of an end
     await page.getByRole('button', { name: 'Reload cloud copy' }).focus();
     await expect(page.getByRole('button', { name: 'Reload cloud copy' })).toBeFocused();
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width + 1);
-    const recovery = await page.getByRole('alert').boundingBox();
-    expect(recovery!.width).toBeGreaterThan(width < 500 ? width * 0.7 : 400);
+    await expect.poll(async () => {
+      const recovery = await page.getByRole('alert').boundingBox();
+      return recovery?.width ?? 0;
+    }).toBeGreaterThan(width < 500 ? width * 0.7 : 400);
     for (const control of await page.locator('.planner-header button').all()) {
       const bounds = await control.boundingBox();
       if (bounds) {

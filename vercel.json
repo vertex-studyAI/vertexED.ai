@@ -72,15 +72,15 @@
   ],
   "redirects": [
     {
-      "source": "/:path*",
+      "source": "/((?!api(?:/|$)).*)",
       "has": [ { "type": "host", "value": "vertex-ai-rho.vercel.app" } ],
-      "destination": "https://www.vertexed.app/:path*",
+      "destination": "https://www.vertexed.app/$1",
       "permanent": true
     },
     {
-      "source": "/:path*",
+      "source": "/((?!api(?:/|$)).*)",
       "has": [ { "type": "host", "value": "vertexed.app" } ],
-      "destination": "https://www.vertexed.app/:path*",
+      "destination": "https://www.vertexed.app/$1",
       "permanent": true
     }
   ]

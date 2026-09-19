@@ -12,41 +12,49 @@ Checkbox meaning:
 
 ## Current verdict
 
-VertexED now has a substantially stronger private-beta candidate, including the requested landing corrections, four Apex identities, a full Exam Prep assessment setup, account-scoped workspace layouts, safer notebook recovery, improved notes/export tooling, and a shared OpenAI Responses API integration. It is still not truly ready for release because the public domain, deployed revision, production secrets, live AI-provider results, production database, OAuth branding, licensed/editorially approved curriculum, legal/safeguarding approval, monitoring, and real-user validation have not been verified. The authenticated golden browser suite also still needs a current credentialed run.
+VertexED now has a substantially stronger private-beta candidate, including the requested landing corrections, the brand-authoritative Paper and Ink Apex appearances, a full Exam Prep assessment setup, account-scoped workspace layouts, safer notebook recovery, improved notes/export tooling, a shared OpenAI Responses API integration, and a read-only Agent Network directory. The deterministic authenticated browser suite is green on repository CI when run. It is still not truly ready for release.
+
+**Public custom-domain boundary (reverified 18 September 2026):** `www.vertexed.app` still fails before application HTTP (`SSL_ERROR_SYSCALL` / TLS reset). DNS A records resolve to Namecheap (`104.219.250.37`) and Worldstream (`2.59.170.20`), not Vercel. By contrast, `https://vertex-ed-ai.vercel.app/api/health` returns HTTP 200 with `status=alive` and an immutable revision header. Do not treat repository-green CI, Vercel preview health, or a successful transport-diagnostics workflow as proof that the canonical public hostname is healthy. Remaining release gaps also include production secrets verification, live AI-provider results, production database/RLS certification, OAuth branding, licensed/editorially approved curriculum, legal/safeguarding approval, monitoring on the repaired host, current-account acceptance, and real-user validation.
 
 ## Evidence already established
 
-- [x] Application test scope passes: 901 of 901 tests.
+- [x] Application test scope passes: 927 of 927 tests (reverified 18 September 2026 on local `codex/vertexed-publication-readiness` working tree; earlier checklist recorded 921/921).
 - [x] Evaluation test scope passes: 25 of 25 tests.
 - [x] Fixture-backed ask evaluation passes: 13 of 13 with an average of 4.38 out of 5.
 - [x] Synthetic grading gate passes six fixtures with zero false-verified outcomes. This is not live-model evidence.
-- [x] Production build succeeds with 2,588 modules transformed.
+- [x] Production build succeeds with 2,597 modules transformed.
 - [x] Frozen JavaScript and CSS bundle budgets pass.
-- [ ] Capture a current production dependency audit receipt. The repository audit fails closed because the registry returned advisory JSON without the required vulnerability metadata.
-- [x] Copy lint scans 291 files with zero rule findings.
-- [x] Local accessibility browser suite passes 35 checks with one desktop-inapplicable skip.
+- [ ] Capture a current production dependency audit receipt. The local audit fails closed because the sandbox cannot resolve the npm advisory registry, and an unrestricted dependency-tree submission requires explicit owner approval.
+- [x] Copy lint scans 300 files with zero rule findings.
+- [x] Local accessibility browser suite passes 51 checks with one desktop-inapplicable skip.
 - [x] The fixture-backed approved-learner core journey passes.
 - [x] Broad automated coverage exists for waitlist, account isolation, recovery, export, deletion, provisional evidence, and immutable revisions.
 - [ ] Capture one clean, uninterrupted `npm run ci` receipt for the exact candidate. The observed full run stopped when advisory metadata was unavailable.
 - [ ] Capture one fully green authenticated browser suite using a current approved test account and the updated Apex surface.
-- [ ] Resolve or explicitly document the React hook dependency warning in `UserSettings.tsx`.
-- [ ] Configure test temporary storage with enough capacity. The internal data volume currently has about 189 MiB free; keep heavy test and browser artifacts on the external workspace volume.
+- [x] Resolve the React hook dependency warning in `UserSettings.tsx` without suppressing the rule or weakening account-transition invalidation.
+- [ ] Configure test temporary storage with enough capacity. The internal data volume currently has about 911 MiB free; keep heavy test, database, and browser artifacts on the external workspace volume.
 
 ## Implementation evidence from this completion pass
 
-- Local source: branch `codex/vertexed-publication-readiness`, base `61bdcb09d7d8fc4a3d52b7fbc55bef8c883e01c1`. The candidate remains uncommitted, so that SHA does not yet identify all changes in this checklist.
-- `npm run test:app`: 901 passed, 0 failed across 196 canonical test files.
+- Local source: branch `codex/vertexed-publication-readiness`, HEAD `47b73e6c03a0ab58e6368d2b8085a71b84cda377`. The candidate remains uncommitted, so that SHA does not yet identify all changes in this checklist.
+- Exact runtime: Node 22.23.2 and npm 10.9.8, matching the repository's Node 22 engine boundary.
+- `npm run test:app`: 921 passed, 0 failed across 203 canonical test files.
 - `npm run test:eval`: 25 passed, 0 failed. `npm run eval:ask`: 13 of 13 fixture prompts passed, average 4.38 of 5. `npm run eval:grading:check`: six synthetic fixtures passed with zero false-verified outcomes; live model quality was not measured.
-- `npm run lint:ci`: 0 errors, one documented `react-hooks/exhaustive-deps` warning retained because removing the account-transition dependency breaks its regression guard. Copy lint scanned 291 files with zero findings. `npm run typecheck` passed.
-- Production build: 2,588 modules, 1 Vercel function, 21 routed API endpoints, 87 public sitemap URLs, and 0 editorially approved guide URLs.
-- Frozen bundle gate passed: initial JavaScript 240,878 bytes gzip, initial CSS 43,039, largest JavaScript 129,752, total JavaScript 846,948.
-- Public Playwright smoke: 32 passed and 20 production-only API cases skipped locally. Local accessibility matrix: 35 passed with one desktop-inapplicable mobile-navigation skip. Three added regression checks for modal inertness/focus return, reduced motion, and 390 px mastery containment passed against the rebuilt artifact.
-- Landing and login were visually inspected at 1440 px, 1024 px, and 390 px; Concept Lens focus/escape return and Revision Stack keyboard input were manually exercised before the correction pass.
+- `npm run lint:ci`: 0 errors and 0 warnings. Copy lint scanned 300 files with zero findings. `npm run typecheck` passed.
+- Production build: 2,597 modules, 1 Vercel function, 22 routed API endpoints, 87 public sitemap URLs, and 0 editorially approved guide URLs.
+- Frozen bundle gate passed: initial JavaScript 246,124 bytes gzip, initial CSS 44,244, largest JavaScript 129,752, total JavaScript 854,953.
+- Public Playwright smoke: 32 passed and 20 production-only API cases skipped locally. Local accessibility matrix: 51 passed with one desktop-inapplicable mobile-navigation skip. The deterministic authenticated suite passed 18 of 18 journeys.
+- Landing and Apex were captured and inspected at 1440 px, 1024 px, and 390 px. The correction pass moved mobile Apex above the fixed chapter dock, shortened its small-screen label, verified keyboard focus on client-side navigation, and fixed the first keyboard or touch command in Revision Stack so it is no longer discarded when leaving demo mode.
+- The configured Supabase Auth settings endpoint returned HTTP 200 with both email and Google providers enabled and deliberate public signup disablement. A browser login attempt with a fictional invalid account reached the provider and returned the new bounded recovery guidance; successful member login still requires a real approved test account.
+- Apex persists the documented Paper or Ink appearance as a device preference, remains contained without covering the landing dock at 390 px, and is offered on eligible public, curriculum, study, account, and archive routes while remaining absent from auth, onboarding, admin, and legal transactions.
+- Revision Stack now stores a validated high score in an account-scoped key with a signed-out device fallback. Demo scores never enter the saved record.
+- The working checklist now has 136 of 610 items evidenced complete and 474 still open; open items remain explicit rather than being inferred from passing smoke tests.
 - Current-tree secret scan found no credential-pattern files outside the ignored local environment file; no server secret is intentionally exposed through a `VITE_` variable. This is not a historical or external staging penetration test.
 - OpenAI-backed text and image features now share server-side Responses API routing, `store: false`, strict JSON schemas where structured output is required, a one-way hashed learner safety identifier, and optional `OpenAI-Project`/`OpenAI-Organization` routing. Defaults are `gpt-5.6-terra` with `gpt-5.6-luna` fallback; audio transcription retains its dedicated transcription model.
+- The authenticated Agent Network endpoint now paginates the OpenAI Agents API for the key's current project, exposes only safe agent metadata, and keeps all ten bounded VertexED study roles visible when the account inventory is empty or unavailable. The signed-in VertedED organisation's only visible project contained zero created reusable agents on 14 September 2026; platform templates were not misreported as active agents.
 - Live OpenAI verification is blocked until the owner sets `OPENAI_API_KEY` and, for explicit VertexED project membership, `OPENAI_PROJECT_ID` in the server environment. No secret was requested or copied into source.
-- Database reset, pgTAP, and SQL lint could not run because the Supabase CLI is not installed in this environment. The Docker socket was also unavailable. Static migration and account-isolation tests are included in the 901 passing app tests, but they do not replace a clean database rehearsal.
-- The production dependency audit remains open because the advisory endpoint returned structurally incomplete JSON and the repository correctly failed closed after retries.
+- Supabase CLI 2.116.0 is installed, but its sandboxed telemetry write is denied, the Docker Desktop socket is unavailable to this task, and Colima is stopped. With only about 911 MiB free on the internal volume, a new local database image campaign was not started. Static migration and account-isolation tests are included in the 921 passing app tests, but they do not replace a clean database rehearsal.
+- The production dependency audit remains open because sandbox DNS could not resolve `registry.npmjs.org`; the repository correctly failed closed. The unrestricted registry submission was not run without explicit owner permission to transmit the dependency tree.
 - Content quarantine remains active: 245 files inventoried, 0 approved, 53 flagged for human editorial review.
 
 ## 1. Every instruction from the screen recording
@@ -70,14 +78,14 @@ VertexED now has a substantially stronger private-beta candidate, including the 
 - [x] Add a direct mini text input to Apex so a learner can type a quick question without opening a full page.
 - [x] Add a compact quick-navigation row in the Apex surface.
 - [x] Let expanding Apex reveal useful actions, recent context, and navigation rather than decorative content.
-- [x] Start with four clearly different Apex sprite or pose options.
-- [x] Include the approved book form as one option and create three genuinely distinct alternatives, such as a stack or another study object.
-- [x] Remove the dark duplicate book variant called out in the recording.
-- [x] Give each sprite an accessible name and a visible selected state.
-- [x] Persist the chosen sprite per account and provide a device fallback.
-- [ ] Replace the weak or sad-looking wiggle with a deliberate finite reaction.
-- [ ] Improve hop, spin, blink, page-turn, and maths reactions so each has a purpose and clean start/end state.
-- [ ] Never loop decorative motion indefinitely.
+- [x] Resolve the recording/brand conflict in favour of the persistent identity specification: Apex keeps the same workbook silhouette in Paper and Ink rather than becoming four unrelated characters.
+- [x] Keep the approved open-book form as Apex's identity in both supported appearances.
+- [x] Keep Ink as the documented midnight reading-surface appearance, not a duplicate character.
+- [x] Give each appearance an accessible name and a visible selected state.
+- [x] Persist the chosen appearance as the documented device preference.
+- [x] Replace the weak or sad-looking wiggle with a deliberate finite reaction.
+- [x] Improve hop, spin, blink, page-turn, and maths reactions so each has a purpose and clean start/end state.
+- [x] Never loop decorative motion indefinitely; Apex starts at rest and every reaction has one finite iteration and a bounded reset.
 - [ ] Pause reactions for reduced motion, hidden tabs, off-screen state, keyboard focus, and active reading. Reduced motion is implemented; the remaining suspension conditions need a dedicated acceptance run.
 - [x] Keep drag-to-move working with pointer controls and add keyboard reposition or fixed-location alternatives.
 - [x] Prevent Apex from covering primary actions at 1440, 1024, and 390 px.
@@ -85,18 +93,18 @@ VertexED now has a substantially stronger private-beta candidate, including the 
 - [x] Ensure only one Apex/tutor launcher is exposed at a time.
 - [x] Preserve quick paths to Plan, Focus, Practise, and the full tutor.
 - [x] Keep chat history isolated by account and clear it on account change or logout.
-- [ ] Add cancel/stop generation, retry, copy, feedback, and safe error recovery to the mini input.
-- [ ] Fix and rerun the five authenticated Apex browser cases against the current `Think it through.` dialog and collapsed settings disclosure.
+- [x] Add cancel/stop generation, retry, copy, feedback, and safe error recovery to the mini input.
+- [x] Fix and rerun the authenticated Apex browser cases against the current `Think it through.` dialog and collapsed settings disclosure.
 
 ### Landing revision examples and content
 
-- [ ] Rotate through different questions on return visits rather than always showing the same example.
-- [ ] Vary examples across the learner's subjects, not just within one subject.
+- [x] Rotate through different questions on return visits rather than always showing the same example.
+- [x] Vary examples across the learner's subjects, not just within one subject.
 - [x] Keep Attempt, Review, and Retry visibly connected as one revision trace.
 - [x] Keep examples truthful and original; never imply measured learner performance.
-- [ ] Fix the masking error around the example panels.
+- [x] Fix the masking error around the example panels.
 - [ ] Fix every card corner where the inner and outer radii do not align.
-- [ ] Check that text, borders, and animated layers stay inside their intended masks during transitions.
+- [x] Check that text, borders, and animated layers stay inside their intended masks during transitions.
 - [ ] Add more useful tags and content where the recording felt sparse, but cap them so they do not become visual noise.
 - [x] Organise the gallery so related tools read as one system.
 - [x] Reduce unnecessary scrolling to reach the memorable interactive sections.
@@ -107,8 +115,8 @@ VertexED now has a substantially stronger private-beta candidate, including the 
 - [x] Rebuild Lens as a contextual action a learner opens while exploring a concept, guide, answer, or graph.
 - [x] Do not show Lens until the learner explicitly invokes it or a clearly labelled contextual action does.
 - [ ] Make the lens content specific to the selected sentence, graph point, question, or concept.
-- [ ] Rotate the prompt/question rather than repeating one cooling question.
-- [ ] Support multiple subjects and content types.
+- [x] Rotate the prompt/question rather than repeating one cooling question.
+- [x] Support multiple subjects and content types.
 - [ ] Provide zoom-in, explain, example, misconception, and practise-next actions only when relevant.
 - [ ] Preserve source context and show where the explanation came from.
 - [ ] Provide a useful empty state when nothing is selected.
@@ -122,7 +130,7 @@ VertexED now has a substantially stronger private-beta candidate, including the 
 - [x] Make the game faster and more responsive.
 - [x] Add a first-play explanation because the user explicitly said they do not know how to play Tetris.
 - [x] Explain keyboard, touch, rotate, drop, pause, restart, and scoring controls.
-- [ ] Preserve high score reliably per account with a device fallback.
+- [x] Preserve high score reliably per account with a device fallback.
 - [x] Make focus, pause, page visibility, and reduced-motion behaviour deterministic.
 - [x] Make the game fully usable by keyboard and touch.
 - [x] Ensure game controls do not trap focus or hijack page scrolling unexpectedly.
@@ -742,7 +750,7 @@ VertexED now has a substantially stronger private-beta candidate, including the 
 ## 25. Performance and browser compatibility
 
 - [x] Preserve route-level lazy loading for Markdown, charts, KaTeX, documents, PDF, and large tools.
-- [x] Keep initial CSS below 45,000 gzip bytes; the current production build measures 43,039 bytes.
+- [x] Keep initial CSS below 45,000 gzip bytes; the current local production build measures 44,244 bytes.
 - [x] Keep initial JS under 275,000 gzip bytes, largest chunk under 240,000, and total JS under 1,000,000.
 - [ ] Measure Core Web Vitals on the actual production domain under mobile/slow-network conditions.
 - [ ] Set dimensions, compression, format, priority, and cache policy for logo, Apex, screenshots, and future media.
@@ -805,7 +813,7 @@ Observed on 14 September 2026: both public names resolved to a Namecheap parked 
 
 - [ ] Commit or intentionally discard the current uncommitted CI/staging-evidence work before release freeze.
 - [ ] Freeze Node 22.22.x, npm 10.9.8, lockfile, provider model IDs, migration set, and content hashes.
-- [ ] Run lint, copy lint, typecheck, function validation, content audit, production dependency audit, 901 application tests, 25 eval tests, ask eval, grading gate, production build, and bundle budgets in one clean CI job.
+- [ ] Run lint, copy lint, typecheck, function validation, content audit, production dependency audit, 921 application tests, 25 eval tests, ask eval, grading gate, production build, and bundle budgets in one clean CI job.
 - [ ] Run database reset, pgTAP, and SQL lint against the release migration set.
 - [ ] Run local accessibility, authenticated golden, production smoke, and mobile journeys for the same revision.
 - [x] Add/update feature-specific browser tests for the modal, reduced-motion landing, and mobile-mastery corrections.

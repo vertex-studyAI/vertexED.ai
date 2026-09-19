@@ -42,7 +42,7 @@ test('app preference normalization preserves only supported persisted values', (
     fontSize: 'xlarge',
     simpleMode: true,
     studyCompanion: false,
-    apexAppearance: 'compass',
+    apexAppearance: 'ink',
     apexPosition: { x: 125.5, y: -24 },
     ignored: 'value',
   }, DEFAULTS), {
@@ -53,7 +53,7 @@ test('app preference normalization preserves only supported persisted values', (
     fontSize: 'xlarge',
     simpleMode: true,
     studyCompanion: false,
-    apexAppearance: 'compass',
+    apexAppearance: 'ink',
     apexPosition: { x: 125.5, y: -24 },
   });
 });

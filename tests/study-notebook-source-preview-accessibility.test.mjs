@@ -33,7 +33,9 @@ test("source preview exposes a named close control and scrollable content", () =
 });
 
 test("shared modal traps focus, closes on Escape, and restores the opener", () => {
-  assert.match(modalSource, /event\.key === "Escape"/);
+  assert.match(modalSource, /event\.key !== "Escape"/);
+  assert.match(modalSource, /document\.addEventListener\("keydown", closeOnEscape\)/);
+  assert.match(modalSource, /document\.removeEventListener\("keydown", closeOnEscape\)/);
   assert.match(modalSource, /trapModalFocus\(event, dialogRef\.current\)/);
   assert.match(modalSource, /restoreModalFocus\(returnTarget\)/);
   assert.match(modalSource, /focusInitialModalElement/);

@@ -8,6 +8,13 @@ export type MypSubject = {
   skills: string[];
 };
 
+export type MypLearningFrame = {
+  keyConcepts: [string, string];
+  globalContext: string;
+  atlFocus: [string, string];
+  framingQuestion: string;
+};
+
 export const MYP5_SUBJECTS: MypSubject[] = [
   { slug: 'mathematics', name: 'Mathematics', group: 'Mathematics', accent: '#2359d6', summary: 'Reason with number, structure, space, data and models.', topics: ['Number', 'Algebra', 'Functions', 'Coordinate geometry', 'Geometry', 'Trigonometry', 'Statistics', 'Probability', 'Sequences', 'Patterns', 'Mathematical modelling', 'Financial mathematics', 'Problem solving', 'Mathematical communication', 'Investigation strategies'], skills: ['Knowing and understanding', 'Investigating patterns', 'Communicating', 'Applying mathematics'] },
   { slug: 'physics', name: 'Physics', group: 'Sciences', accent: '#075fbd', summary: 'Explain physical systems and test ideas with measured evidence.', topics: ['Motion', 'Forces', 'Energy', 'Work and power', 'Momentum', 'Waves', 'Light', 'Sound', 'Electricity', 'Magnetism', 'Thermal physics', 'Atomic and nuclear concepts', 'Experimental design', 'Data analysis', 'Uncertainty', 'Graph interpretation'], skills: ['Knowing and understanding', 'Inquiring and designing', 'Processing and evaluating', 'Reflecting on impacts'] },
@@ -29,6 +36,32 @@ export const MYP5_SUBJECTS: MypSubject[] = [
 ];
 
 export const MYP_GROUPS = [...new Set(MYP5_SUBJECTS.map((subject) => subject.group))];
+
+const MYP_LEARNING_FRAMES: Record<string, MypLearningFrame> = {
+  mathematics: { keyConcepts: ['Logic', 'Relationships'], globalContext: 'Scientific and technical innovation', atlFocus: ['Make reasoning visible', 'Test a result against constraints'], framingQuestion: 'How can a representation reveal a relationship and its limits?' },
+  physics: { keyConcepts: ['Systems', 'Change'], globalContext: 'Scientific and technical innovation', atlFocus: ['Model a physical system', 'Evaluate measurement uncertainty'], framingQuestion: 'How can a model explain change while remaining accountable to measured evidence?' },
+  chemistry: { keyConcepts: ['Relationships', 'Change'], globalContext: 'Globalization and sustainability', atlFocus: ['Move between particle and observable scales', 'Evaluate experimental evidence'], framingQuestion: 'How do particle-level interactions produce observable change?' },
+  biology: { keyConcepts: ['Systems', 'Relationships'], globalContext: 'Identities and relationships', atlFocus: ['Connect structure to function', 'Evaluate biological evidence'], framingQuestion: 'How do interacting structures sustain a living system?' },
+  'integrated-sciences': { keyConcepts: ['Systems', 'Connections'], globalContext: 'Globalization and sustainability', atlFocus: ['Transfer models across sciences', 'Reconcile evidence at different scales'], framingQuestion: 'What becomes visible when one system is examined through several sciences?' },
+  'english-language-literature': { keyConcepts: ['Communication', 'Perspective'], globalContext: 'Personal and cultural expression', atlFocus: ['Select precise textual evidence', 'Qualify an interpretation'], framingQuestion: 'How do choices in language and form position an audience?' },
+  spanish: { keyConcepts: ['Communication', 'Culture'], globalContext: 'Identities and relationships', atlFocus: ['Retrieve language in context', 'Monitor and repair meaning'], framingQuestion: 'How does language choice shape identity, relationship and action?' },
+  economics: { keyConcepts: ['Systems', 'Global interactions'], globalContext: 'Fairness and development', atlFocus: ['Trace incentives and consequences', 'Evaluate distribution and evidence'], framingQuestion: 'How do choices inside a system distribute costs, benefits and power?' },
+  geography: { keyConcepts: ['Systems', 'Time, place and space'], globalContext: 'Globalization and sustainability', atlFocus: ['Interpret spatial evidence', 'Connect processes across scales'], framingQuestion: 'Why does a process create different patterns in different places?' },
+  history: { keyConcepts: ['Time, place and space', 'Perspective'], globalContext: 'Orientation in space and time', atlFocus: ['Interrogate provenance', 'Build a qualified causal argument'], framingQuestion: 'How does evidence shape what can be claimed about change over time?' },
+  'integrated-humanities': { keyConcepts: ['Connections', 'Perspective'], globalContext: 'Fairness and development', atlFocus: ['Synthesize disciplinary evidence', 'Make uncertainty explicit'], framingQuestion: 'How does combining lenses change an explanation of a shared problem?' },
+  design: { keyConcepts: ['Development', 'Systems'], globalContext: 'Scientific and technical innovation', atlFocus: ['Define measurable criteria', 'Iterate from test evidence'], framingQuestion: 'How can evidence turn a human need into a defensible design decision?' },
+  'visual-arts': { keyConcepts: ['Aesthetics', 'Communication'], globalContext: 'Personal and cultural expression', atlFocus: ['Document visual inquiry', 'Evaluate choices against intention'], framingQuestion: 'How do material and compositional choices develop meaning?' },
+  music: { keyConcepts: ['Aesthetics', 'Communication'], globalContext: 'Personal and cultural expression', atlFocus: ['Locate audible evidence', 'Develop and compare musical ideas'], framingQuestion: 'How do musical relationships create structure and expressive meaning?' },
+  drama: { keyConcepts: ['Communication', 'Identity'], globalContext: 'Personal and cultural expression', atlFocus: ['Record exact performance evidence', 'Revise against intention and audience'], framingQuestion: 'How do choices in body, voice, space and design shape an audience response?' },
+  'physical-health-education': { keyConcepts: ['Development', 'Relationships'], globalContext: 'Identities and relationships', atlFocus: ['Plan from a baseline', 'Adjust action using wellbeing evidence'], framingQuestion: 'How do deliberate choices connect performance, recovery and wellbeing?' },
+  'personal-project': { keyConcepts: ['Development', 'Identity'], globalContext: 'Personal and cultural expression', atlFocus: ['Plan independent inquiry', 'Maintain a traceable evidence record'], framingQuestion: 'How can a personal interest become rigorous, ethical and demonstrable learning?' },
+};
+
+export function learningFrameFor(subject: MypSubject): MypLearningFrame {
+  const frame = MYP_LEARNING_FRAMES[subject.slug];
+  if (!frame) throw new Error(`Missing learning frame for ${subject.slug}`);
+  return frame;
+}
 
 export function topicSlug(topic: string) {
   return topic.toLowerCase().replace(/&/g, 'and').replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');

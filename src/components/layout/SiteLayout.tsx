@@ -10,9 +10,11 @@ import { useIsAdmin } from "@/hooks/useIsAdmin";
 import CloudSaveBanner from "@/components/CloudSaveBanner";
 import ThemeToggle from "@/components/ThemeToggle";
 import PageLoader from "@/components/PageLoader";
+import GlobalStudySearch from "@/components/GlobalStudySearch";
 import { useStudySessionTracker } from "@/hooks/useStudySessionTracker";
 import { toast } from "@/hooks/use-toast";
 import { logoutWithLocalFallback } from "@/lib/logoutFlow.mjs";
+import { shouldOfferApex } from "@/lib/apexRoute.mjs";
 import '@/styles/navigation.css';
 
 const GlobalChatPanel = lazy(() => import("@/components/chat/GlobalChatPanel"));
@@ -31,17 +33,21 @@ export default function SiteLayout() {
   const menuButtonRef = useRef<HTMLButtonElement | null>(null);
   const mobileNavRef = useRef<HTMLElement | null>(null);
   const headerRef = useRef<HTMLElement | null>(null);
-  const isActive = (to: string) =>
-    location.pathname === to || (to !== "/" && location.pathname.startsWith(`${to}/`));
+  const isActive = (to: string) => {
+    const [pathname, hash] = to.split('#');
+    if (hash) return location.pathname === pathname && location.hash === `#${hash}`;
+    return location.pathname === pathname || (pathname !== "/" && location.pathname.startsWith(`${pathname}/`));
+  };
   const isStudyGuideRoute = location.pathname.startsWith("/study-guides");
   const chatEligibleRoute =
+    shouldOfferApex(location.pathname) &&
     location.pathname !== "/chatbot" &&
     !["/login", "/signup", "/auth/callback", "/onboarding", "/", "/home", "/about", "/features"].includes(
       location.pathname,
     ) &&
     !location.pathname.startsWith("/resources");
   const shouldLoadGlobalChat = chatEligibleRoute && (isAuthenticated || isStudyGuideRoute);
-  const companionEligible = ['/', '/home', '/about', '/features', '/main', '/planner', '/exam-prep', '/study-zone', '/study-notebook', '/notetaker', '/paper-maker', '/answer-reviewer', '/resource-library'].includes(location.pathname) || isStudyGuideRoute;
+  const companionEligible = shouldOfferApex(location.pathname);
   const companionVisible = companionEligible && settings.studyCompanion && !settings.simpleMode;
 
   useEffect(() => {
@@ -55,6 +61,14 @@ export default function SiteLayout() {
     });
     return () => window.cancelAnimationFrame(frame);
   }, [location.pathname, location.hash]);
+
+  useEffect(() => {
+    if (location.key === 'default' || location.hash) return;
+    const frame = window.requestAnimationFrame(() => {
+      document.getElementById('main-content')?.focus({ preventScroll: true });
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, [location.key, location.hash]);
 
   const handleLogout = async () => {
     try {
@@ -152,7 +166,7 @@ export default function SiteLayout() {
 
       <BreadcrumbsJsonLd />
 
-      <header ref={headerRef} data-authenticated={isAuthenticated} className="vertex-navigation w-full z-50 sticky top-0 glass-nav">
+      <header ref={headerRef} data-authenticated={isAuthenticated} data-surface={isAuthenticated ? 'account' : 'public'} className="vertex-navigation w-full z-50 sticky top-0 glass-nav">
         <div className="mx-auto w-full max-w-[1400px] px-4 md:px-6 h-16 flex items-center justify-between gap-4">
           <Link to={isAuthenticated ? "/main" : "/"} className="flex items-center gap-2.5 shrink-0 group">
             <img
@@ -226,7 +240,7 @@ export default function SiteLayout() {
             {!isAuthenticated && (
               <Link
                 to="/signup"
-                className="rounded-full px-3 py-1.5 text-xs font-semibold brand-cta brand-ink-dark"
+                className="mobile-join-link rounded-full px-3 py-1.5 text-xs font-semibold brand-cta brand-ink-dark"
               >
                 Join
               </Link>
@@ -261,6 +275,8 @@ export default function SiteLayout() {
             </button>
           </div>
         </div>
+
+        <GlobalStudySearch />
 
         <div
           aria-hidden={!menuOpen}
@@ -345,7 +361,7 @@ export default function SiteLayout() {
         className="immersive-main relative z-10 flex-1 container mx-auto px-4 md:px-6 pt-6 md:pt-8 pb-10"
       >
         <CloudSaveBanner />
-        <RouteErrorBoundary>
+        <RouteErrorBoundary resetKey={`${location.pathname}${location.search}${location.hash}`}>
           <Suspense fallback={<PageLoader label="Opening" />}>
             <Outlet />
           </Suspense>
@@ -382,7 +398,7 @@ export default function SiteLayout() {
             <a href="mailto:vertexed.25@gmail.com" className="hover:text-foreground transition">Contact</a>
             {companionEligible && (
               <Suspense fallback={null}>
-                <ApexCompanion key={location.pathname} suspended={menuOpen || (shouldLoadGlobalChat && tutorOpen)}
+                <ApexCompanion suspended={menuOpen || (shouldLoadGlobalChat && tutorOpen)}
                   onOpenTutor={shouldLoadGlobalChat ? () => setTutorRequest((request) => request + 1) : undefined} />
               </Suspense>
             )}

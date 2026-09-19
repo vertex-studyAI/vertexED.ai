@@ -1,6 +1,6 @@
 const THEMES = new Set(['light', 'dark', 'system']);
 const FONT_SIZES = new Set(['base', 'large', 'xlarge']);
-const APEX_APPEARANCES = new Set(['paper', 'stack', 'focus', 'compass']);
+const APEX_APPEARANCES = new Set(['paper', 'ink']);
 const BOOLEAN_KEYS = Object.freeze([
   'reducedMotion',
   'highContrast',

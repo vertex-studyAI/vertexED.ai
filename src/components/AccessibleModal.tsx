@@ -1,6 +1,6 @@
 import {
   type CSSProperties,
-  type KeyboardEvent,
+  type KeyboardEvent as ReactKeyboardEvent,
   type PropsWithChildren,
   type RefObject,
   useEffect,
@@ -70,13 +70,18 @@ export default function AccessibleModal({
     };
   }, [initialFocusRef]);
 
-  const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
-    if (event.key === "Escape") {
+  useEffect(() => {
+    const closeOnEscape = (event: globalThis.KeyboardEvent) => {
+      if (event.key !== "Escape") return;
       event.preventDefault();
       event.stopPropagation();
       onClose();
-      return;
-    }
+    };
+    document.addEventListener("keydown", closeOnEscape);
+    return () => document.removeEventListener("keydown", closeOnEscape);
+  }, [onClose]);
+
+  const handleKeyDown = (event: ReactKeyboardEvent<HTMLDivElement>) => {
     trapModalFocus(event, dialogRef.current);
   };
 

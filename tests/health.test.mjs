@@ -1,6 +1,12 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import handler, { HEALTH_CONTRACT_VERSION, getDeploymentRevision, getReadinessSnapshot, getDeepReadinessSnapshot } from '../api/_handlers/health.js';
+import handler, {
+  HEALTH_CONTRACT_VERSION,
+  classifyDatabaseReadinessError,
+  getDeploymentRevision,
+  getReadinessSnapshot,
+  getDeepReadinessSnapshot,
+} from '../api/_handlers/health.js';
 import { createMocks } from './helpers/mock-http.mjs';
 
 const HEALTH_ENV_KEYS = [
@@ -52,6 +58,16 @@ test('getDeploymentRevision exposes only validated non-secret commit identifiers
     }, 'fedcba9'),
     '1234567890abcdef1234567890abcdef12345678',
   );
+});
+
+test('database readiness errors map to stable operator tokens without leaking details', () => {
+  assert.equal(classifyDatabaseReadinessError({ code: 'PGRST202' }), 'readiness_rpc_missing');
+  assert.equal(classifyDatabaseReadinessError({ code: '42883' }), 'readiness_rpc_missing');
+  assert.equal(classifyDatabaseReadinessError({ code: 'PGRST205' }), 'readiness_relation_missing');
+  assert.equal(classifyDatabaseReadinessError({ code: '42501' }), 'readiness_permission_denied');
+  assert.equal(classifyDatabaseReadinessError({ code: 'XX000' }), 'XX000');
+  assert.equal(classifyDatabaseReadinessError({ message: 'secret connection string' }), 'unavailable');
+  assert.doesNotMatch(classifyDatabaseReadinessError({ message: 'secret connection string' }), /secret/);
 });
 
 test('one OpenAI key can satisfy core and planner AI readiness', () => {

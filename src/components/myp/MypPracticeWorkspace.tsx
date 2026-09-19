@@ -1,23 +1,28 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router';
-import { Check, ChevronLeft, ChevronRight, Lightbulb, Save, Send } from 'lucide-react';
+import { CalendarClock, ChevronLeft, ChevronRight, Lightbulb, Save, Send } from 'lucide-react';
 import type { MypLesson } from '@/content/myp5Lessons';
+import { useAuth } from '@/contexts/AuthContext';
 import { savePracticeReviewHandoff } from '@/lib/examFlow';
-import { getUserContentStorageScope, userContentStorageKeys } from '@/lib/userContentStorageScope.mjs';
+import { readMypPracticeProgress, saveMypPracticeProgress } from '@/lib/mypPracticeProgress.mjs';
+import { userContentStorageKeys } from '@/lib/userContentStorageScope.mjs';
 
 type Draft = { answer: string; updatedAt: string };
 type DraftMap = Record<string, Draft>;
 
-function draftStore(): Storage | null {
+type Confidence = '' | 'not-yet' | 'developing' | 'secure';
+
+function draftStore(scope: string | null | undefined): Storage | null {
   if (typeof window === 'undefined') return null;
-  return getUserContentStorageScope() ? window.localStorage : window.sessionStorage;
+  if (scope === undefined) return null;
+  return scope ? window.localStorage : window.sessionStorage;
 }
 
-function readDraft(questionId: string): Draft | null {
-  const storage = draftStore();
+function readDraft(questionId: string, scope: string | null | undefined): Draft | null {
+  const storage = draftStore(scope);
   if (!storage) return null;
   try {
-    const raw = storage.getItem(userContentStorageKeys().mypPracticeDrafts);
+    const raw = storage.getItem(userContentStorageKeys(scope).mypPracticeDrafts);
     const value = raw ? JSON.parse(raw) as DraftMap : {};
     const draft = value[questionId];
     return draft && typeof draft.answer === 'string' && Number.isFinite(Date.parse(draft.updatedAt))
@@ -28,11 +33,11 @@ function readDraft(questionId: string): Draft | null {
   }
 }
 
-function writeDraft(questionId: string, answer: string): string | null {
-  const storage = draftStore();
+function writeDraft(questionId: string, answer: string, scope: string | null | undefined): string | null {
+  const storage = draftStore(scope);
   if (!storage) return null;
   try {
-    const key = userContentStorageKeys().mypPracticeDrafts;
+    const key = userContentStorageKeys(scope).mypPracticeDrafts;
     const raw = storage.getItem(key);
     const parsed: unknown = raw ? JSON.parse(raw) : {};
     const current = parsed && typeof parsed === 'object' && !Array.isArray(parsed)
@@ -60,27 +65,50 @@ export default function MypPracticeWorkspace({
   sectionNumber: number;
 }) {
   const navigate = useNavigate();
+  const { user, loading: authLoading } = useAuth();
+  const storageScope = authLoading ? undefined : user?.id ?? null;
   const [questionIndex, setQuestionIndex] = useState(0);
   const question = lesson.practice[questionIndex];
-  const restoredDraft = useMemo(() => readDraft(question.id), [question.id]);
+  const restoredDraft = useMemo(() => readDraft(question.id, storageScope), [question.id, storageScope]);
   const [answer, setAnswer] = useState(restoredDraft?.answer ?? '');
   const [showHints, setShowHints] = useState(false);
   const [showSolution, setShowSolution] = useState(false);
+  const [checkedCriteria, setCheckedCriteria] = useState<string[]>([]);
+  const [confidence, setConfidence] = useState<Confidence>('');
   const [status, setStatus] = useState(restoredDraft ? 'Draft restored.' : '');
 
   useEffect(() => {
-    const draft = readDraft(question.id);
+    const draft = readDraft(question.id, storageScope);
+    const progress = storageScope === undefined ? null : readMypPracticeProgress(window, storageScope, question.id);
     setAnswer(draft?.answer ?? '');
     setStatus(draft ? 'Draft restored.' : '');
     setShowHints(false);
     setShowSolution(false);
-  }, [question.id]);
+    setCheckedCriteria(progress?.checkedCriteria ?? []);
+    setConfidence(progress?.confidence ?? '');
+    if (progress) setStatus(`Review restored. Retry due ${new Date(progress.retryAt).toLocaleDateString()}.`);
+  }, [question.id, storageScope]);
 
   const saveDraft = () => {
-    const savedAt = writeDraft(question.id, answer);
+    const savedAt = writeDraft(question.id, answer, storageScope);
     setStatus(savedAt
-      ? `${getUserContentStorageScope() ? 'Saved on this device for your account' : 'Saved for this browser session'} at ${new Date(savedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}.`
+      ? `${storageScope ? 'Saved on this device for your account' : 'Saved for this browser session'} at ${new Date(savedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}.`
       : 'Draft could not be saved on this device.');
+  };
+
+  const scheduleRetry = (retryDays: 1 | 3 | 7) => {
+    if (!showSolution) {
+      setStatus('Compare your attempt with the worked solution before recording a review.');
+      return;
+    }
+    if (!confidence) {
+      setStatus('Choose a confidence level before scheduling the retry.');
+      return;
+    }
+    const result = saveMypPracticeProgress(window, storageScope, question.id, { confidence, checkedCriteria, retryDays });
+    setStatus(result.saved && result.progress
+      ? `Review saved. Retry due ${new Date(result.progress.retryAt).toLocaleDateString()}. This is a self-report, not a mastery score.`
+      : 'Review could not be saved on this device.');
   };
 
   const sendToReview = () => {
@@ -164,14 +192,35 @@ export default function MypPracticeWorkspace({
 
       <div className="myp-self-review">
         <div>
-          <h3>Success criteria</h3>
-          <ul>{question.successCriteria.map((criterion) => <li key={criterion}><Check aria-hidden /> {criterion}</li>)}</ul>
+          <h3>Check the evidence in your answer</h3>
+          <p>Reveal the worked solution, then mark only criteria you can point to in your own response.</p>
+          <ul>{question.successCriteria.map((criterion, index) => {
+            const checked = checkedCriteria.includes(criterion);
+            return <li key={criterion}><input id={`${question.id}-criterion-${index}`} type="checkbox" checked={checked} disabled={!showSolution} onChange={() => setCheckedCriteria((current) => checked ? current.filter((item) => item !== criterion) : [...current, criterion])} /><label htmlFor={`${question.id}-criterion-${index}`}>{criterion}</label></li>;
+          })}</ul>
         </div>
         <div>
           <button type="button" onClick={() => setShowSolution((value) => !value)} aria-expanded={showSolution}>
             {showSolution ? 'Hide worked solution' : 'Compare with the worked solution'}
           </button>
           {showSolution && <ol className="myp-solution">{question.solution.map((step) => <li key={step}>{step}</li>)}</ol>}
+        </div>
+      </div>
+
+      <div className="myp-retry-planner" aria-labelledby={`retry-${question.id}`}>
+        <div><CalendarClock aria-hidden /><div><h3 id={`retry-${question.id}`}>Close the loop</h3><p>Record a self-assessment and choose when to attempt the question again without notes.</p></div></div>
+        <label>Confidence after checking
+          <select value={confidence} onChange={(event) => setConfidence(event.target.value as Confidence)}>
+            <option value="">Choose one</option>
+            <option value="not-yet">Not yet</option>
+            <option value="developing">Developing</option>
+            <option value="secure">Secure for this attempt</option>
+          </select>
+        </label>
+        <div className="myp-retry-actions" role="group" aria-label="Schedule another attempt">
+          <button type="button" onClick={() => scheduleRetry(1)}>Retry tomorrow</button>
+          <button type="button" onClick={() => scheduleRetry(3)}>Retry in 3 days</button>
+          <button type="button" onClick={() => scheduleRetry(7)}>Retry in 1 week</button>
         </div>
       </div>
 
