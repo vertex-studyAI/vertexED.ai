@@ -48,7 +48,25 @@ function declaredContentLength(response) {
   return Number.isSafeInteger(parsed) && parsed >= 0 ? parsed : null;
 }
 
-async function readBoundedProviderBody(response) {
+async function withBodyDeadline(task, timeoutMs, timeoutLabelMs, onTimeout) {
+  let timeoutId;
+  const timeout = new Promise((_, reject) => {
+    timeoutId = setTimeout(async () => {
+      try {
+        await onTimeout?.();
+      } finally {
+        reject(new ProviderTimeoutError(timeoutLabelMs));
+      }
+    }, timeoutMs);
+  });
+  try {
+    return await Promise.race([task, timeout]);
+  } finally {
+    clearTimeout(timeoutId);
+  }
+}
+
+async function readBoundedProviderBody(response, timeoutMs, timeoutLabelMs) {
   const declaredBytes = declaredContentLength(response);
   if (declaredBytes !== null && declaredBytes > MAX_PROJECT_AGENT_RESPONSE_BYTES) {
     throw oversizedProviderResponse();
@@ -59,7 +77,7 @@ async function readBoundedProviderBody(response) {
     const decoder = new TextDecoder();
     let totalBytes = 0;
     let raw = '';
-    try {
+    const readStream = async () => {
       while (true) {
         const { done, value } = await reader.read();
         if (done) break;
@@ -73,15 +91,18 @@ async function readBoundedProviderBody(response) {
       }
       raw += decoder.decode();
       return raw;
+    };
+    try {
+      return await withBodyDeadline(readStream(), timeoutMs, timeoutLabelMs, () => reader.cancel?.());
     } finally {
       reader.releaseLock?.();
     }
   }
 
   // Test doubles and older fetch implementations may expose text() without a
-  // readable stream. Preserve the same contract, though native fetch takes the
-  // streaming path above so oversized bodies are stopped before full buffering.
-  const raw = await response.text();
+  // readable stream. Native fetch takes the streaming path above. Keep the
+  // caller bounded in either case even when the fallback body source stalls.
+  const raw = await withBodyDeadline(response.text(), timeoutMs, timeoutLabelMs);
   if (new TextEncoder().encode(raw).byteLength > MAX_PROJECT_AGENT_RESPONSE_BYTES) {
     throw oversizedProviderResponse();
   }
@@ -155,7 +176,14 @@ export async function listOpenAiProjectAgents({
       throw error;
     }
 
-    const raw = await readBoundedProviderBody(response);
+    const elapsedAfterHeadersMs = Math.max(0, now() - startedAt);
+    const remainingBodyMs = totalTimeoutMs - elapsedAfterHeadersMs;
+    if (remainingBodyMs <= 0) {
+      await response.body?.cancel?.();
+      throw new ProviderTimeoutError(totalTimeoutMs);
+    }
+
+    const raw = await readBoundedProviderBody(response, remainingBodyMs, totalTimeoutMs);
     let payload = null;
     try {
       payload = raw ? JSON.parse(raw) : null;
