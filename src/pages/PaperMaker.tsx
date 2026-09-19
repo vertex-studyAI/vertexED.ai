@@ -352,7 +352,7 @@ export default function PaperMaker({ priorPapers = [] }) {
         } else if (saved.error) {
           toast({
             title: "Save failed",
-            description: saved.error,
+            description: paperMakerError(saved.error, "save"),
             variant: "destructive",
           });
         }

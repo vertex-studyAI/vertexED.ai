@@ -16,6 +16,8 @@ test('paperMakerError never echoes raw provider/export details', () => {
   assert.doesNotMatch(paperMakerError(new Error('Packer crash stack'), 'docx'), /Packer crash/);
   assert.match(paperMakerError(new Error('upstream dump'), 'generate'), /could not be generated/i);
   assert.doesNotMatch(paperMakerError(new Error('upstream dump'), 'generate'), /upstream dump/);
+  assert.match(paperMakerError(new Error('ECONNREFUSED secret-host'), 'save'), /could not be saved/i);
+  assert.doesNotMatch(paperMakerError(new Error('ECONNREFUSED secret-host'), 'save'), /secret-host|ECONNREFUSED/);
 });
 
 test('PaperMaker wires paperMakerError for generate and export failures', async () => {
@@ -26,7 +28,9 @@ test('PaperMaker wires paperMakerError for generate and export failures', async 
   assert.match(source, /paperMakerError\(err, ['"]generate['"]\)/);
   assert.match(source, /paperMakerError\(err, ['"]pdf['"]\)/);
   assert.match(source, /paperMakerError\(err, ['"]docx['"]\)/);
+  assert.match(source, /paperMakerError\(saved\.error, ['"]save['"]\)/);
   assert.doesNotMatch(source, /PDF export failed: ["'] \+ String\(err\)/);
   assert.doesNotMatch(source, /DOCX export failed: ["'] \+ String\(err\)/);
   assert.doesNotMatch(source, /setError\(data\.error \|\| ["']Generation failed["']\)/);
+  assert.doesNotMatch(source, /description:\s*saved\.error/);
 });

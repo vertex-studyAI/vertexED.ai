@@ -25,5 +25,8 @@ export function paperMakerError(error, action = 'generate') {
   if (action === 'docx') {
     return 'DOCX export failed. Try again, or download as PDF instead.';
   }
+  if (action === 'save') {
+    return 'The paper was generated but could not be saved. Check your connection and try again.';
+  }
   return 'The paper could not be generated. Check your connection and try again.';
 }
