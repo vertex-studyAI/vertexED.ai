@@ -74,3 +74,25 @@ test('ConnectGoogle toasts authUiError for linkIdentity failures', async () => {
   assert.match(source, /authUiError\(error, ["']link-google["']\)/);
   assert.doesNotMatch(source, /description:\s*error\.message/);
 });
+
+test('account settings toasts sanitize logout, Google link, delete, and export failures', async () => {
+  assert.match(authUiError(new Error('AuthApiError: session revoke failed'), 'logout'), /signing out/i);
+  assert.doesNotMatch(authUiError(new Error('AuthApiError: session revoke failed'), 'logout'), /session revoke failed/);
+  assert.match(authUiError(new Error('postgres detail leak'), 'delete-account'), /delete the cloud account/i);
+  assert.doesNotMatch(authUiError(new Error('postgres detail leak'), 'delete-account'), /postgres detail leak/);
+  assert.match(authUiError(new Error('storage QuotaExceededError'), 'export-device'), /device backup/i);
+  assert.doesNotMatch(authUiError(new Error('storage QuotaExceededError'), 'export-device'), /QuotaExceededError/);
+
+  const { readFile } = await import('node:fs/promises');
+  const { fileURLToPath } = await import('node:url');
+  const { dirname, join } = await import('node:path');
+  const root = join(dirname(fileURLToPath(import.meta.url)), '..');
+  const source = await readFile(join(root, 'src/pages/UserSettings.tsx'), 'utf8');
+  assert.match(source, /import \{ authUiError \} from "@\/lib\/authUi\.mjs"/);
+  assert.match(source, /authUiError\(error, ["']logout["']\)/);
+  assert.match(source, /authUiError\(err, ["']link-google["']\)/);
+  assert.match(source, /authUiError\(err, cloudDeleted \? ["']delete-account-cleanup["'] : ["']delete-account["']\)/);
+  assert.match(source, /authUiError\(error, ["']export-account["']\)/);
+  assert.match(source, /authUiError\(error, ['"]export-device['"]\)/);
+  assert.doesNotMatch(source, /description:\s*(?:error|err) instanceof Error \? (?:error|err)\.message/);
+});

@@ -48,5 +48,20 @@ export function authUiError(error, action = 'login') {
   if (action === 'link-google') {
     return 'Could not connect Google to this VertexED account. Try again, or skip and connect later from Account Settings.';
   }
+  if (action === 'logout') {
+    return 'Could not finish signing out. Check your connection and try again, or close this browser tab.';
+  }
+  if (action === 'delete-account') {
+    return 'Could not delete the cloud account. Try again, or contact support if the problem continues.';
+  }
+  if (action === 'delete-account-cleanup') {
+    return 'The cloud account was deleted, but this browser still needs a manual storage cleanup. Sign out elsewhere if needed.';
+  }
+  if (action === 'export-account') {
+    return 'Could not export account data. Check your connection and try again.';
+  }
+  if (action === 'export-device') {
+    return 'Could not export the device backup. Check browser storage access and try again.';
+  }
   return 'We could not sign you in. Try again, use Google sign-in, or reset your password.';
 }

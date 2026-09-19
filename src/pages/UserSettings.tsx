@@ -36,6 +36,7 @@ import { collectCompleteDeviceStudyData, clearDeviceAccountData, downloadAccount
 import { getUserContentStorageScope } from "@/lib/userContentStorageScope.mjs";
 import { logoutWithLocalFallback } from "@/lib/logoutFlow.mjs";
 import { clearGoogleLinkReturn, prepareGoogleLinkReturn } from "@/lib/authReturn.mjs";
+import { authUiError } from "@/lib/authUi.mjs";
 
 function formatMemberSince(createdAt?: string | null): string {
   if (!createdAt) return " - ";
@@ -237,7 +238,7 @@ export default function UserSettings() {
     } catch (error) {
       toast({
         title: "Could not sign out",
-        description: error instanceof Error ? error.message : "Please try again.",
+        description: authUiError(error, "logout"),
         variant: "destructive",
       });
     }
@@ -265,7 +266,7 @@ export default function UserSettings() {
       clearGoogleLinkReturn(window);
       toast({
         title: "Could not connect Google",
-        description: err instanceof Error ? err.message : "Try again.",
+        description: authUiError(err, "link-google"),
         variant: "destructive",
       });
       setLinkingGoogle(false);
@@ -300,7 +301,7 @@ export default function UserSettings() {
     } catch (err) {
       toast({
         title: cloudDeleted ? "Cloud account deleted; browser cleanup needs attention" : "Could not delete account",
-        description: err instanceof Error ? err.message : "Try again or contact support.",
+        description: authUiError(err, cloudDeleted ? "delete-account-cleanup" : "delete-account"),
         variant: "destructive",
       });
     } finally {
@@ -329,7 +330,7 @@ export default function UserSettings() {
     } catch (error) {
       toast({
         title: "Could not export account data",
-        description: error instanceof Error ? error.message : "Try again later.",
+        description: authUiError(error, "export-account"),
         variant: "destructive",
       });
     } finally {
@@ -344,7 +345,7 @@ export default function UserSettings() {
       downloadAccountExport({ exportScope: 'current-device-only', exportedAt: new Date().toISOString(), deviceData: await collectCompleteDeviceStudyData(user.id) });
       toast({ title: 'Device backup exported', description: 'Cloud-only records are not included in this backup.' });
     } catch (error) {
-      toast({ title: 'Could not export device backup', description: error instanceof Error ? error.message : 'Check browser storage access.', variant: 'destructive' });
+      toast({ title: 'Could not export device backup', description: authUiError(error, 'export-device'), variant: 'destructive' });
     } finally { setExportingAccount(false); }
   };
 
