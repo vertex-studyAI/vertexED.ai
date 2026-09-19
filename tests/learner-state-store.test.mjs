@@ -92,6 +92,20 @@ test('pagination returns every row across the boundary and rejects injected curs
   const second = await listLearnerStateItems(db, 'owner', first.nextCursor);
   assert.deepEqual(second.data, [rows[500]]);
   assert.equal(second.nextCursor, null);
-  assert.equal(cursorFilter, 'state_type.gt.retry,and(state_type.eq.retry,state_key.gt.retry:499)');
+  assert.equal(cursorFilter, 'state_type.gt."retry",and(state_type.eq."retry",state_key.gt."retry:499")');
   await assert.rejects(listLearnerStateItems(db, 'owner', 'retry:x),user_id.neq.owner'), /Invalid learner-state cursor/);
+});
+
+test('pagination cursor values are quoted against PostgREST operator injection', async () => {
+  let cursorFilter = null;
+  const db = { from() { return {
+    select() { return this; }, eq() { return this; }, order() { return this; },
+    or(value) { cursorFilter = value; return this; },
+    async limit() { return { data: [], error: null }; },
+  }; } };
+  await listLearnerStateItems(db, 'owner', 'retry:item.with.dots:and:colons');
+  assert.equal(
+    cursorFilter,
+    'state_type.gt."retry",and(state_type.eq."retry",state_key.gt."item.with.dots:and:colons")',
+  );
 });

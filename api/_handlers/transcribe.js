@@ -140,7 +140,25 @@ export default async function handler(req, res) {
     });
   } catch (error) {
     if (error instanceof TranscriptionInputError) {
-      return res.status(error.status).json({ error: error.message });
+      const PUBLIC_MESSAGES = new Set([
+        'Request body is unavailable.',
+        'flashCount must be an integer from 4 to 16.',
+        'Unsupported audio type. Use WebM, MP3, MP4/M4A, WAV, OGG, AAC, or FLAC.',
+        'audioBase64 must be valid base64.',
+        'Audio is empty.',
+        'Unsupported note format.',
+        'length must be short, medium, or long.',
+        'Invalid language code.',
+        'Audio file too large (max 15 MB).',
+        'Audio upload too large (max 15 MB).',
+        'Malformed multipart upload.',
+        'No audio file found in upload.',
+        'Malformed JSON request body.',
+      ]);
+      const message = PUBLIC_MESSAGES.has(error.message)
+        ? error.message
+        : 'Invalid transcription request.';
+      return res.status(error.status).json({ error: message });
     }
     console.error('Transcribe error:', error instanceof Error ? error.name : 'UnknownError');
     return res.status(502).json({ error: 'Transcription is temporarily unavailable.' });

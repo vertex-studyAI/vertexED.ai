@@ -44,6 +44,7 @@ export function useIsAdmin() {
                 apiDecision: Boolean(data.admin),
                 isDevelopment: import.meta.env.DEV,
                 clientAllowlistMatch: isAdminUser(user),
+                allowClientFallback: import.meta.env.VITE_ALLOW_CLIENT_ADMIN_FALLBACK === '1',
               }),
             );
             setResolvedUserId(user.id);
@@ -62,6 +63,7 @@ export function useIsAdmin() {
             apiDecision: null,
             isDevelopment: import.meta.env.DEV,
             clientAllowlistMatch: isAdminUser(user),
+            allowClientFallback: import.meta.env.VITE_ALLOW_CLIENT_ADMIN_FALLBACK === '1',
           }),
         );
         setResolvedUserId(user.id);
