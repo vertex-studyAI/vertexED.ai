@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Bot, BrainCircuit, Cloud, RefreshCw, ShieldCheck } from 'lucide-react';
 import { fetchAgentNetwork, type AgentNetwork } from '@/lib/agentNetworkApi';
+import { agentNetworkError } from '@/lib/agentNetworkError.mjs';
 import '@/styles/vee.css';
 
 const CAPABILITY_LABELS: Record<string, string> = {
@@ -29,7 +30,7 @@ export default function AgentNetworkPanel() {
       .then((result) => setNetwork(result))
       .catch((reason) => {
         if (controller.signal.aborted) return;
-        setError(reason instanceof Error ? reason.message : 'The agent directory is temporarily unavailable.');
+        setError(agentNetworkError(reason));
       });
     return () => controller.abort();
   }, [attempt]);
