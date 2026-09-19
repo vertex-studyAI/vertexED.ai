@@ -48,4 +48,17 @@ Do these in order. Code/CI already fall back to `https://vertex-ed-ai.vercel.app
 2. `npm run test:smoke` / CI production browser+smoke  
 3. Agents authenticated E2E  
 4. Learner-state save/reload E2E  
-5. Durable rate-limit RPC confirmation  
+5. Durable rate-limit RPC confirmation
+
+## Agent re-probe (2026-09-19 06:52 UTC)
+
+| Check | Result |
+|-------|--------|
+| `https://www.vertexed.app` | TLS FAIL (`SSL_ERROR_SYSCALL`); A records still parking (`104.219.250.37`, `2.59.170.20`) |
+| `https://vertex-ed-ai.vercel.app/api/health` | alive; **revision `922a5782`** (lags tip) |
+| `https://vertex-ed-ai.vercel.app/api/health?readiness=1` | **degraded**; `databaseError=readiness_rpc_missing`; durable DB checks false |
+| tip `origin/main` | `1518800d` (+ later if advanced) |
+| Vercel org previews | Other projects deploying Ready; VertexED live still behind tip (quota/lag) |
+
+Still HUMAN: Gate 1a DNS/TLS, Gate 1b readiness RPC + `WAITLIST_RATE_LIMIT_SALT`, then prod smoke.
+

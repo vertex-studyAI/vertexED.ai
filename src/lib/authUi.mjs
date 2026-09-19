@@ -78,7 +78,7 @@ export function authUiError(error, action = 'login') {
   if (action === 'invite-signup') {
     return 'Could not create your account from this invite. Check the form and try again.';
   }
-  if (action === 'save-curriculum' || action === 'save-profile') {
+  if (action === 'save-curriculum' || action === 'save-profile' || action === 'onboarding') {
     // Preserve known client-side validation copy; never echo Auth/Postgres details.
     if (source === 'Choose a valid date for each exam, or remove the unfinished entry.') {
       return source;
@@ -88,6 +88,9 @@ export function authUiError(error, action = 'login') {
     }
     if (message.includes('rate limit') || message.includes('too many')) {
       return 'Too many save attempts were made. Wait a moment, then try again.';
+    }
+    if (action === 'onboarding') {
+      return 'Could not save your setup. Check your connection and try again.';
     }
     return action === 'save-curriculum'
       ? 'Could not save your curriculum. Check your connection and try again.'

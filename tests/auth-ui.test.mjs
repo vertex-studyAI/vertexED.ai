@@ -76,6 +76,22 @@ test('SetInitialPassword wires authUiError for invite session and password attac
   assert.doesNotMatch(source, /authUiError\([^)]*,\s*"password-update"/);
 });
 
+test('Onboarding wires authUiError and never echoes Auth/Postgres save failures', async () => {
+  assert.match(authUiError(new Error('duplicate key value violates unique constraint "profiles_pkey"'), 'onboarding'), /save your setup/i);
+  assert.doesNotMatch(authUiError(new Error('duplicate key value violates unique constraint "profiles_pkey"'), 'onboarding'), /duplicate key|profiles_pkey/);
+  assert.match(authUiError(new Error('Failed to fetch'), 'onboarding'), /connection/);
+
+  const { readFile } = await import('node:fs/promises');
+  const { fileURLToPath } = await import('node:url');
+  const { dirname, join } = await import('node:path');
+  const root = join(dirname(fileURLToPath(import.meta.url)), '..');
+  const source = await readFile(join(root, 'src/pages/Onboarding.tsx'), 'utf8');
+  assert.match(source, /import \{ authUiError \} from "@\/lib\/authUi\.mjs"/);
+  assert.match(source, /authUiError\(err, "onboarding"\)/);
+  assert.doesNotMatch(source, /function getErrorMessage/);
+  assert.doesNotMatch(source, /\(err as \{ message: string \}\)\.message/);
+});
+
 test('ConnectGoogle toasts authUiError for linkIdentity failures', async () => {
   const { readFile } = await import('node:fs/promises');
   const { fileURLToPath } = await import('node:url');
