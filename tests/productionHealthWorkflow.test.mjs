@@ -103,6 +103,23 @@ test('canonical CI engineering jobs pin Ubuntu 24.04', () => {
   }
 });
 
+test('browser-production resolves live app base before Playwright', () => {
+  const browserProduction = between(
+    canonicalCiWorkflow,
+    '  browser-production:',
+    '  smoke-production:',
+  );
+
+  assert.match(browserProduction, /Resolve live app origin for browser certification/);
+  assert.match(browserProduction, /scripts\/resolve-live-app-base\.mjs --print-json/);
+  assert.match(browserProduction, /PLAYWRIGHT_BASE_URL:\s*\$\{\{\s*steps\.live_app\.outputs\.base\s*\}\}/);
+  assert.match(browserProduction, /PLAYWRIGHT_API_URL:\s*\$\{\{\s*steps\.live_app\.outputs\.base\s*\}\}/);
+  assert.doesNotMatch(
+    browserProduction,
+    /PLAYWRIGHT_BASE_URL:\s*https:\/\/www\.vertexed\.app/,
+  );
+});
+
 test('engineering-owned Study Notebook regressions pin Ubuntu 24.04', () => {
   const workflowFiles = [
     'apply-study-notebook-sync-status.yml',
