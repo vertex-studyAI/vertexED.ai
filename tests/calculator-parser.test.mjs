@@ -18,6 +18,13 @@ test('calculator rejects code, unknown identifiers, malformed numbers, and non-f
   }
 });
 
+test('calculator safely evaluates explicitly supplied graph variables', () => {
+  assert.equal(evaluateExpression('x^2 + 2*x + 1', { x: 3 }), 16);
+  assert.ok(Math.abs(evaluateExpression('sin(x)', { x: Math.PI / 2 }) - 1) < 1e-12);
+  assert.throws(() => evaluateExpression('x + 1'));
+  assert.throws(() => evaluateExpression('x + 1', { x: Number.POSITIVE_INFINITY }));
+});
+
 test('calculator implementation is compatible with a CSP that forbids unsafe-eval', async () => {
   const { readFile } = await import('node:fs/promises');
   const source = await readFile(new URL('../src/pages/study-zone/components/calculatorCore.mjs', import.meta.url), 'utf8');

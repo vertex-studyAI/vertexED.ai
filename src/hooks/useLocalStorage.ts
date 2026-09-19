@@ -27,6 +27,8 @@ function resolveScopedKey(key: string): string {
       return scoped.habits;
     case "studyzone_habits_reset_date":
       return scoped.habitsResetDate;
+    case "studyzone_widget_order_v1":
+      return scoped.studyZoneLayout;
     default:
       return key;
   }
