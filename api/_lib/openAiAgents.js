@@ -48,15 +48,22 @@ function declaredContentLength(response) {
   return Number.isSafeInteger(parsed) && parsed >= 0 ? parsed : null;
 }
 
+function cancelWithoutBlocking(cancel) {
+  if (typeof cancel !== 'function') return;
+  try {
+    Promise.resolve(cancel()).catch(() => {});
+  } catch {
+    // Cancellation is best-effort cleanup; it must never replace the bounded
+    // provider error or delay the request deadline.
+  }
+}
+
 async function withBodyDeadline(task, timeoutMs, timeoutLabelMs, onTimeout) {
   let timeoutId;
   const timeout = new Promise((_, reject) => {
-    timeoutId = setTimeout(async () => {
-      try {
-        await onTimeout?.();
-      } finally {
-        reject(new ProviderTimeoutError(timeoutLabelMs));
-      }
+    timeoutId = setTimeout(() => {
+      cancelWithoutBlocking(onTimeout);
+      reject(new ProviderTimeoutError(timeoutLabelMs));
     }, timeoutMs);
   });
   try {
@@ -84,7 +91,7 @@ async function readBoundedProviderBody(response, timeoutMs, timeoutLabelMs) {
         const chunk = value instanceof Uint8Array ? value : new Uint8Array(value ?? []);
         totalBytes += chunk.byteLength;
         if (totalBytes > MAX_PROJECT_AGENT_RESPONSE_BYTES) {
-          await reader.cancel?.();
+          cancelWithoutBlocking(() => reader.cancel?.());
           throw oversizedProviderResponse();
         }
         raw += decoder.decode(chunk, { stream: true });
@@ -95,7 +102,12 @@ async function readBoundedProviderBody(response, timeoutMs, timeoutLabelMs) {
     try {
       return await withBodyDeadline(readStream(), timeoutMs, timeoutLabelMs, () => reader.cancel?.());
     } finally {
-      reader.releaseLock?.();
+      try {
+        reader.releaseLock?.();
+      } catch {
+        // A timed-out custom stream may keep an internal read pending even after
+        // best-effort cancel. Preserve the timeout as the authoritative error.
+      }
     }
   }
 
@@ -179,7 +191,7 @@ export async function listOpenAiProjectAgents({
     const elapsedAfterHeadersMs = Math.max(0, now() - startedAt);
     const remainingBodyMs = totalTimeoutMs - elapsedAfterHeadersMs;
     if (remainingBodyMs <= 0) {
-      await response.body?.cancel?.();
+      cancelWithoutBlocking(() => response.body?.cancel?.());
       throw new ProviderTimeoutError(totalTimeoutMs);
     }
 
