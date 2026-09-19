@@ -8,6 +8,14 @@
  *   node scripts/probe-production-gates.mjs --json
  */
 import { spawnSync } from 'node:child_process';
+import { mkdtempSync, readFileSync, rmSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+
+import {
+  agentsGatePasses,
+  classifyAgentsDeployment,
+} from './probe-production-gates-core.mjs';
 
 const HOSTS = {
   edAi: 'https://vertex-ed-ai.vercel.app',
@@ -20,10 +28,12 @@ const HOSTS = {
 
 function curlMeta(url, { follow = false, query = '' } = {}) {
   const target = `${url}${query}`;
+  const tempDir = mkdtempSync(join(tmpdir(), 'vertexed-gate-probe-'));
+  const outputPath = join(tempDir, 'body.txt');
   const args = [
     '-sS',
     '-o',
-    '/tmp/vertexed-gate-probe-body.txt',
+    outputPath,
     '-w',
     '%{http_code}|%{ssl_verify_result}|%{errormsg}',
     '--connect-timeout',
@@ -31,19 +41,25 @@ function curlMeta(url, { follow = false, query = '' } = {}) {
     '--max-time',
     '25',
   ];
-  if (!follow) args.push('--max-redirs', '0');
+  if (follow) args.push('-L');
+  else args.push('--max-redirs', '0');
   args.push(target);
-  const result = spawnSync('curl', args, { encoding: 'utf8' });
-  const raw = (result.stdout || '').trim();
-  const [httpCode, sslVerify, errormsg] = raw.split('|');
+
+  let result = { status: null, stdout: '', stderr: '' };
   let body = '';
   try {
-    body = spawnSync('head', ['-c', '2000', '/tmp/vertexed-gate-probe-body.txt'], {
-      encoding: 'utf8',
-    }).stdout || '';
-  } catch {
-    body = '';
+    result = spawnSync('curl', args, { encoding: 'utf8' });
+    try {
+      body = readFileSync(outputPath, 'utf8').slice(0, 2000);
+    } catch {
+      body = '';
+    }
+  } finally {
+    rmSync(tempDir, { recursive: true, force: true });
   }
+
+  const raw = (result.stdout || '').trim();
+  const [httpCode, sslVerify, errormsg] = raw.split('|');
   let json = null;
   try {
     json = JSON.parse(body);
@@ -153,7 +169,7 @@ const report = {
     rho_readiness: summarizeHealth(rhoReady, 'rho-readiness'),
     operatorHints: [
       edReady.json?.databaseError === 'readiness_rpc_missing'
-        ? 'apply public.vertexed_readiness() migrations on the linked Supabase project'
+        ? 'rehearse the checked-in readiness migration chain against a production-equivalent database before any production apply'
         : null,
       edReady.json?.checks?.durableRateLimiting === false
         ? 'set WAITLIST_RATE_LIMIT_SALT in the Vercel project env'
@@ -164,7 +180,7 @@ const report = {
     ed_ai_agents: {
       httpCode: edAgents.httpCode,
       bodyPreview: edAgents.bodyPreview,
-      note: 'Expect 404 until PR #917 is merged and deployed',
+      note: 'Before deployment expect 404; once the authenticated route is live, an unauthenticated probe must return 401',
     },
   },
   verdict: {
@@ -194,7 +210,7 @@ const report = {
       }
       return 'BLOCKED_DEGRADED';
     })(),
-    agents: edAgents.httpCode === '200' ? 'LIVE' : 'NOT_IN_PRODUCTION',
+    agents: classifyAgentsDeployment(edAgents),
   },
 };
 
@@ -219,5 +235,5 @@ if (asJson) {
 const failed =
   report.verdict.gate1a.startsWith('BLOCKED') ||
   report.verdict.gate1b.startsWith('BLOCKED') ||
-  report.verdict.agents !== 'LIVE';
+  !agentsGatePasses(report.verdict.agents);
 process.exit(failed ? 2 : 0);
