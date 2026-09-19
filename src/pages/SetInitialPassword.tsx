@@ -28,7 +28,11 @@ export default function SetInitialPassword() {
       const { data, error: sessionError } = await supabase.auth.getSession();
       if (cancelled) return;
       if (sessionError || !data.session) {
-        setError(sessionError?.message || "This invitation session has expired. Open a fresh invite from your email.");
+        setError(
+          sessionError
+            ? authUiError(sessionError, "invite-session")
+            : "This invitation session has expired. Open a fresh invite from your email.",
+        );
         setChecking(false);
         return;
       }
