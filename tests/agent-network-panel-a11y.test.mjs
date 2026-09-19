@@ -7,8 +7,10 @@ const panelSource = readFileSync(new URL('../src/components/chat/AgentNetworkPan
 test('agent network panel exposes alert semantics and a labeled retry control on failure', () => {
   assert.match(panelSource, /aria-busy=\{!network && !error\}/);
   assert.match(panelSource, /role="alert"/);
-  assert.match(panelSource, /aria-label="Retry loading the agent network directory"/);
-  assert.match(panelSource, /Try again/);
+  assert.match(panelSource, /agentNetworkError\(reason\)/);
+  assert.match(panelSource, /aria-label=\{rateLimited \? 'Retry loading the agent network directory after rate limit' : 'Retry loading the agent network directory'\}/);
+  assert.match(panelSource, /rateLimited \? 'Try again later' : 'Try again'/);
+  assert.match(panelSource, /AgentNetworkRequestError/);
 });
 
 test('agent network panel keeps loading feedback as polite status, not alert', () => {
