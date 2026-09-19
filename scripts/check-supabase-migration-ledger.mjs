@@ -4,6 +4,9 @@ import { fileURLToPath } from 'node:url';
 
 const MIGRATION_FILENAME = /^(\d{8}(?:\d{6})?)_(.+)\.sql$/;
 const VERSION = /^(?:\d{8}|\d{14})$/;
+const JSON_LEDGER_ARRAY_KEYS = ['versions', 'migrations', 'rows', 'data'];
+const JSON_LEDGER_VERSION_KEYS = ['version', 'migration_version', 'id'];
+const JSON_LEDGER_FILENAME_KEYS = ['name', 'filename'];
 
 export class MigrationLedgerError extends Error {}
 
@@ -21,8 +24,12 @@ function extractJsonRows(value) {
     throw new MigrationLedgerError('ledger JSON must be an array or an object containing versions, migrations, rows, or data');
   }
 
-  for (const key of ['versions', 'migrations', 'rows', 'data']) {
-    if (Array.isArray(value[key])) return value[key];
+  const populatedArrays = JSON_LEDGER_ARRAY_KEYS.filter((key) => Array.isArray(value[key]));
+  if (populatedArrays.length === 1) return value[populatedArrays[0]];
+  if (populatedArrays.length > 1) {
+    throw new MigrationLedgerError(
+      `ledger JSON object is ambiguous; provide exactly one of versions, migrations, rows, or data (found ${populatedArrays.join(', ')})`,
+    );
   }
 
   throw new MigrationLedgerError('ledger JSON object must contain an array field named versions, migrations, rows, or data');
@@ -36,20 +43,31 @@ function versionFromJsonRow(row, index) {
     throw new MigrationLedgerError(`ledger[${index}] must be a version string/number or an object with a version field`);
   }
 
-  for (const key of ['version', 'migration_version', 'id']) {
+  const candidates = [];
+  for (const key of JSON_LEDGER_VERSION_KEYS) {
     if (row[key] != null && row[key] !== '') {
-      return normalizeVersion(row[key], `ledger[${index}].${key}`);
+      candidates.push(normalizeVersion(row[key], `ledger[${index}].${key}`));
     }
   }
 
-  for (const key of ['name', 'filename']) {
+  for (const key of JSON_LEDGER_FILENAME_KEYS) {
     if (typeof row[key] === 'string') {
       const match = row[key].match(/^(\d{8}(?:\d{6})?)(?:_|$)/);
-      if (match) return normalizeVersion(match[1], `ledger[${index}].${key}`);
+      if (match) candidates.push(normalizeVersion(match[1], `ledger[${index}].${key}`));
     }
   }
 
-  throw new MigrationLedgerError(`ledger[${index}] does not contain a recognized migration version field`);
+  if (!candidates.length) {
+    throw new MigrationLedgerError(`ledger[${index}] does not contain a recognized migration version field`);
+  }
+
+  const distinct = [...new Set(candidates)];
+  if (distinct.length !== 1) {
+    throw new MigrationLedgerError(
+      `ledger[${index}] contains conflicting migration versions: ${distinct.join(', ')}`,
+    );
+  }
+  return distinct[0];
 }
 
 export function parseLedgerText(text) {
