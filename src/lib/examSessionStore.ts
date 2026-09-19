@@ -8,13 +8,10 @@ export type ExamSessionRecord = NonNullable<ReturnType<typeof normalizeExamSessi
 export function readExamSessionHistoryState(): { entries: ExamSessionRecord[]; error: string | null } {
   try {
     return { entries: readStoredExamSessionHistory(localStorage, userContentStorageKeys().examPrepHistory), error: null };
-  } catch (error) {
+  } catch {
     return {
       entries: [],
-      error: studySyncError(
-        (error instanceof Error && error.message) ? error : 'Session history is unavailable on this device.',
-        'load',
-      ),
+      error: studySyncError('Session history is unavailable on this device.', 'load'),
     };
   }
 }

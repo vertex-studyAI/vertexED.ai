@@ -10,7 +10,8 @@ test('examSessionStore sanitizes history read failures', async () => {
   const root = join(dirname(fileURLToPath(import.meta.url)), '..');
   const source = await readFile(join(root, 'src/lib/examSessionStore.ts'), 'utf8');
   assert.match(source, /studySyncError\(/);
-  assert.doesNotMatch(source, /error instanceof Error \? error\.message : 'Session history/);
+  assert.doesNotMatch(source, /instanceof Error/);
+  assert.match(source, /Session history is unavailable on this device/);
 });
 
 test('studySyncError preserves session-history unavailable copy', () => {
