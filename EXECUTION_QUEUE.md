@@ -2,7 +2,14 @@
 
 Updated: 2026-09-18. This is the current product execution control point; older cross-portfolio and pre-September status files are historical unless reconfirmed against current `main`.
 
-Current exact source at reconciliation: `main@779cb66044e655f6bfcca989fab52f05cbf6f762`.
+Current exact source at reconciliation: `main@049dcfe05a9f5734affdae25e9c0c0bce9d82d72` (includes #909 DNS runbook, #910 strip-types, #912 readiness_rpc_missing mapping).
+
+## Verified 2026-09-18 (later pass)
+
+- Local on tip: typecheck PASS; `npm run test:app` **899/899**; `npm audit` **0**; `npm run build:ci` PASS; eslint 0 errors (UserSettings account-scope loader strengthened this pass).
+- Live `vertex-ed-ai` liveness: HTTP 200 revision `049dcfe…`.
+- Live deep readiness: HTTP 503 `degraded`, `databaseError=readiness_rpc_missing`, `durableRateLimiting=false` (Supabase RPC + `WAITLIST_RATE_LIMIT_SALT` still required — see DNS recovery doc).
+- `www.vertexed.app` still TLS-fails before application HTTP (Namecheap/Worldstream A records unchanged).
 
 ## Verified 2026-09-18
 
@@ -50,3 +57,10 @@ Do not create sentinel/no-op commits, weaken revision/readiness assertions, or a
 2. Read that project’s exact custom-domain DNS target; replace the current Namecheap/Worldstream A records only after ownership is proven.
 3. Detach or clearly demote the non-canonical duplicate project after ownership is proven.
 4. Re-run production health monitor and smoke against `www.vertexed.app` on one immutable SHA.
+
+## Worktree ownership (2026-09-19)
+
+- Canonical mainline worktree for uncommitted eng slices: `GitHub-Every-Repo/VertexED-main`.
+- Do **not** run concurrent agents that `stash`/`checkout`/`reset` this worktree while a PR branch is dirty.
+- `VertexED` (`codex/vertexed-publication-readiness`) and `VertexED-main-verify` (`work/heavy-exec`) are separate lineages — verify on the intended tree only.
+

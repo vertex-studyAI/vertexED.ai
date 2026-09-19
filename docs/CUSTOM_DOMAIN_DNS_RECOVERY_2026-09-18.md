@@ -45,13 +45,28 @@ Even when a Vercel default host serves `/api/health` alive, deep readiness can s
 
 | Check | Result |
 |---|---|
-| Liveness `/api/health` | HTTP 200 `alive` |
+| Liveness `/api/health` | HTTP 200 `alive` on tip `049dcfe…` |
 | Readiness `?readiness=1` | HTTP 503 `degraded` |
-| `databaseError` | `PGRST202` (PostgREST: function not in schema cache) |
+| `databaseError` | `readiness_rpc_missing` (stable operator token; underlying PostgREST schema-cache miss for `public.vertexed_readiness()`) |
 | `durableRateLimiting` | `false` → `WAITLIST_RATE_LIMIT_SALT` missing in that project env |
 | DB capability flags | all `false` (RPC never succeeded) |
 
-Source migrations define `public.vertexed_readiness()` (see `supabase/migrations/*`). Applying those migrations / setting the rate-limit salt requires authorized Supabase + Vercel env access. Do not weaken smoke readiness assertions to greenwash this.
+### Supabase migration gate (authorized access required)
+
+Apply the repository migrations that define/replace `public.vertexed_readiness()` on the linked production project (see, in order of evolution):
+
+- `supabase/migrations/20260906101155_learner_state_and_telemetry.sql`
+- `supabase/migrations/20260906112000_batch_state_and_privileges.sql`
+- `supabase/migrations/20260908165433_exam_session_readiness.sql`
+- `supabase/migrations/20260909103238_harden_waitlist_tokens_and_timestamps.sql`
+
+Then set `WAITLIST_RATE_LIMIT_SALT` in the owning Vercel project env, redeploy if needed, and re-probe:
+
+```bash
+curl -sS 'https://vertex-ed-ai.vercel.app/api/health?readiness=1'
+```
+
+Expect `status` not `degraded` and `databaseError` absent once the RPC and salt are present. Do not weaken smoke readiness assertions to greenwash this.
 
 ## Repository-side note (this pass)
 

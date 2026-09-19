@@ -62,6 +62,9 @@ export default function UserSettings() {
   const [nextArtifactOffset, setNextArtifactOffset] = useState<number | null>(null);
   const [loadingMoreArtifacts, setLoadingMoreArtifacts] = useState(false);
   const artifactRequestIdRef = useRef(0);
+  // Live account id for in-flight request cancellation (closure user is stale mid-flight).
+  const currentAccountIdRef = useRef<string | null>(user?.id ?? null);
+  currentAccountIdRef.current = user?.id ?? null;
   const [artifactScope, setArtifactScope] = useState<string | null>(() => getUserContentStorageScope());
   const currentArtifactScope = getUserContentStorageScope();
   const artifactScopeIsCurrent = artifactScope === currentArtifactScope;
@@ -159,6 +162,9 @@ export default function UserSettings() {
   const loadArtifacts = useCallback(async (offset = 0) => {
     const requestId = ++artifactRequestIdRef.current;
     const requestScope = getUserContentStorageScope();
+    // Capture account identity so this loader recreates on sign-in/sign-out and
+    // rejects in-flight results after an account switch (not only storage-scope churn).
+    const requestAccountId = user?.id ?? null;
     setArtifactScope(requestScope);
     setArtifactError(null);
     if (offset === 0) {
@@ -169,12 +175,17 @@ export default function UserSettings() {
       setLoadingMoreArtifacts(true);
     }
 
+    const isCurrentRequest = () =>
+      artifactRequestIdRef.current === requestId &&
+      getUserContentStorageScope() === requestScope &&
+      currentAccountIdRef.current === requestAccountId;
+
     try {
       const result = await listStudyArtifactsDetailed(
         kindFilter === "all" ? undefined : kindFilter,
         { offset, limit: 30 },
       );
-      if (artifactRequestIdRef.current !== requestId || getUserContentStorageScope() !== requestScope) return;
+      if (!isCurrentRequest()) return;
 
       setArtifacts((current) => {
         if (offset === 0) return result.items;
@@ -193,7 +204,7 @@ export default function UserSettings() {
           : "Unable to load saved work. Try again.",
       );
     } catch {
-      if (artifactRequestIdRef.current !== requestId || getUserContentStorageScope() !== requestScope) return;
+      if (!isCurrentRequest()) return;
       setCloudUnavailable(false);
       setArtifactError("Unable to load saved work. Try again.");
       if (offset === 0) {
@@ -202,7 +213,7 @@ export default function UserSettings() {
         setNextArtifactOffset(null);
       }
     } finally {
-      if (artifactRequestIdRef.current === requestId && getUserContentStorageScope() === requestScope) {
+      if (isCurrentRequest()) {
         if (offset === 0) setLoadingArtifacts(false);
         else setLoadingMoreArtifacts(false);
       }
