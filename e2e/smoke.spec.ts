@@ -17,7 +17,7 @@ test.describe('public launch journey', () => {
     await expect(page.getByRole('link', { name: /join|waitlist|start/i }).first()).toBeVisible();
 
     await page.goto('/login');
-    await expect(page.getByRole('heading', { name: 'Log in', exact: true })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Pick up where you left off.', exact: true })).toBeVisible();
     await expect(page.getByLabel('Email')).toBeVisible();
     await expect(page.getByLabel('Password')).toBeVisible();
 
