@@ -1760,22 +1760,43 @@ export default function NotetakerQuiz(): React.JSX.Element {
                 exit={{ opacity: 0 }}
                 className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-6 backdrop-blur-sm"
               >
-                <motion.div initial={{ scale: 0.96, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.96, opacity: 0 }} transition={{ duration: 0.18 }} className="relative w-full max-w-3xl rounded-3xl glass-panel p-6 font-sans shadow-2xl">
-                  <button className="absolute right-4 top-4 neu-button px-3 py-2" onClick={() => setFlashFullscreen(false)}>
-                    <X size={14} />
+                <motion.div
+                  initial={{ scale: 0.96, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  exit={{ scale: 0.96, opacity: 0 }}
+                  transition={{ duration: 0.18 }}
+                  role="dialog"
+                  aria-modal="true"
+                  aria-label="Fullscreen flashcard study"
+                  className="relative w-full max-w-3xl rounded-3xl glass-panel p-6 font-sans shadow-2xl"
+                >
+                  <button
+                    type="button"
+                    className="absolute right-4 top-4 neu-button px-3 py-2"
+                    onClick={() => setFlashFullscreen(false)}
+                    aria-label="Close Fullscreen flashcard study"
+                  >
+                    <X size={14} aria-hidden />
                   </button>
 
                   <div className="text-center">
-                    <div className="mb-4 max-h-[32vh] overflow-y-auto whitespace-pre-wrap break-words text-2xl font-semibold leading-snug text-foreground">{safeText(flashcards[currentFlashIndex]?.front) || "No card"}</div>
-                    <div className={`mb-6 max-h-[38vh] overflow-y-auto whitespace-pre-wrap break-words text-lg leading-relaxed text-foreground transition-opacity ${flashRevealed ? "opacity-100" : "opacity-50"}`}>
+                    <div className="mb-4 max-h-[32vh] overflow-y-auto whitespace-pre-wrap break-words text-2xl font-semibold leading-snug text-foreground" aria-live="polite">
+                      {safeText(flashcards[currentFlashIndex]?.front) || "No card"}
+                    </div>
+                    <div
+                      className={`mb-6 max-h-[38vh] overflow-y-auto whitespace-pre-wrap break-words text-lg leading-relaxed text-foreground transition-opacity ${flashRevealed ? "opacity-100" : "opacity-50"}`}
+                      aria-live="polite"
+                    >
                       {flashRevealed ? safeText(flashcards[currentFlashIndex]?.back) : "Click Reveal to see the answer"}
                     </div>
                     <div className="flex flex-wrap justify-center gap-4">
-                      <button className="neu-button px-4 py-2" onClick={prevFlash}>Previous</button>
-                      <button className="neu-button px-4 py-2" onClick={() => (flashRevealed ? nextFlash() : revealFlash())}>{flashRevealed ? "Next" : "Reveal"}</button>
-                      <button className="neu-button px-4 py-2" onClick={nextFlash}>Next</button>
+                      <button type="button" className="neu-button px-4 py-2" onClick={prevFlash}>Previous</button>
+                      <button type="button" className="neu-button px-4 py-2" onClick={() => (flashRevealed ? nextFlash() : revealFlash())}>{flashRevealed ? "Next" : "Reveal"}</button>
+                      <button type="button" className="neu-button px-4 py-2" onClick={nextFlash}>Next</button>
                     </div>
-                    <div className="mt-6 text-sm text-muted-foreground">Card {currentFlashIndex + 1}/{flashcards.length}</div>
+                    <div className="mt-6 text-sm text-muted-foreground" role="status" aria-live="polite">
+                      Card {currentFlashIndex + 1}/{flashcards.length}
+                    </div>
                   </div>
                 </motion.div>
               </motion.div>
@@ -1794,27 +1815,31 @@ export default function NotetakerQuiz(): React.JSX.Element {
                   initial={{ scale: 0.96, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
                   exit={{ scale: 0.96, opacity: 0 }}
+                  role="dialog"
+                  aria-modal="true"
+                  aria-label="Spaced repetition study mode"
                   className="relative w-full max-w-lg rounded-3xl glass-panel border border-primary/20 p-6 shadow-2xl"
                 >
                   <button
                     type="button"
                     className="absolute right-4 top-4 neu-button px-3 py-2"
                     onClick={() => setStudyModeOpen(false)}
+                    aria-label="Close Spaced repetition study mode"
                   >
-                    <X size={14} />
+                    <X size={14} aria-hidden />
                   </button>
 
                   <p className="text-xs text-primary mb-2 uppercase tracking-wider">Spaced Repetition · Study Mode</p>
-                  <p className="text-sm text-muted-foreground mb-4">
+                  <p className="text-sm text-muted-foreground mb-4" role="status" aria-live="polite">
                     Card {studyIndex + 1} of {studyQueue.length}
                   </p>
 
-                  <div className="text-xl font-semibold text-foreground mb-4 min-h-[4rem]">
+                  <div className="text-xl font-semibold text-foreground mb-4 min-h-[4rem]" aria-live="polite">
                     {studyQueue[studyIndex].front}
                   </div>
 
                   {studyRevealed ? (
-                    <div className="text-base text-muted-foreground mb-6 border-t border-border/60 pt-4">
+                    <div className="text-base text-muted-foreground mb-6 border-t border-border/60 pt-4" aria-live="polite">
                       {studyQueue[studyIndex].back}
                     </div>
                   ) : (
@@ -1828,13 +1853,14 @@ export default function NotetakerQuiz(): React.JSX.Element {
                   )}
 
                   {studyRevealed && (
-                    <div className="grid grid-cols-2 gap-2">
+                    <div className="grid grid-cols-2 gap-2" role="group" aria-label="Rate this flashcard">
                       {(["again", "hard", "good", "easy"] as SrRating[]).map((rating) => (
                         <button
                           key={rating}
                           type="button"
                           className="neu-button py-2.5 text-sm capitalize"
                           onClick={() => rateStudyCard(rating)}
+                          aria-label={`Rate card ${rating}`}
                         >
                           {rating}
                         </button>
