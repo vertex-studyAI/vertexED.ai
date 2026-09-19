@@ -107,8 +107,11 @@ export async function listOpenAiProjectAgents({
       error.status = response.status;
       throw error;
     }
+    if (!payload || typeof payload !== 'object' || Array.isArray(payload) || !Array.isArray(payload.data)) {
+      throw new Error('OpenAI project agents returned an invalid response');
+    }
 
-    const rawPage = Array.isArray(payload?.data) ? payload.data : [];
+    const rawPage = payload.data;
     for (const rawAgent of rawPage) {
       if (!isOpenAiAgentId(rawAgent?.id)) continue;
       const agent = publicAgent(rawAgent);
@@ -118,8 +121,8 @@ export async function listOpenAiProjectAgents({
       if (agents.length >= maxAgents) break;
     }
 
-    const lastId = typeof payload?.last_id === 'string' ? payload.last_id : '';
-    if (!payload?.has_more || !lastId || lastId === after || rawPage.length === 0) break;
+    const lastId = typeof payload.last_id === 'string' ? payload.last_id : '';
+    if (!payload.has_more || !lastId || lastId === after || rawPage.length === 0) break;
     after = lastId;
   }
 
