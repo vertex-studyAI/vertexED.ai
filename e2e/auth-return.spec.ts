@@ -123,6 +123,10 @@ test('manual planner works without AI, preserves midnight, rejects clashes and s
   expect(aiRequests).toBe(0);
   await dialog.getByRole('button', { name: 'AI suggestion', exact: true }).click();
   await dialog.getByRole('button', { name: 'Suggest and add' }).click();
+  const consent = page.getByRole('dialog', { name: 'Before you use AI' });
+  await expect(consent).toBeVisible();
+  expect(aiRequests).toBe(0);
+  await consent.getByRole('button', { name: 'Allow AI for my requests', exact: true }).click();
   await expect(dialog.getByRole('alert')).toContainText('AI is unavailable');
   await dialog.getByRole('button', { name: 'Manual entry', exact: true }).click();
   await dialog.getByLabel('Start time', { exact: true }).fill('01:00');
@@ -178,6 +182,10 @@ test('late AI week suggestions cannot overwrite a plan edited while the request 
   await expect(page).toHaveURL(/\/main$/);
   await page.goto('/planner');
   await page.getByRole('button', { name: 'AI week plan' }).click();
+  const consent = page.getByRole('dialog', { name: 'Before you use AI' });
+  await expect(consent).toBeVisible();
+  expect(started).toBe(false);
+  await consent.getByRole('button', { name: 'Allow AI for my requests', exact: true }).click();
   await expect.poll(() => started).toBe(true);
   await page.getByRole('button', { name: 'New Task', exact: true }).click();
   const dialog = page.getByRole('dialog');

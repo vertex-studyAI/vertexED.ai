@@ -5,6 +5,7 @@ import PageSection from "@/components/PageSection";
 
 interface Person {
   name: string;
+  fullName?: string;
   role: string;
   bio?: string;
   linkedin?: string;
@@ -18,7 +19,9 @@ export default function About(): React.JSX.Element {
     },
     {
       name: "Ryan",
+      fullName: "Ryan Gomez",
       role: "Co-founder",
+      bio: "Ryan Gomez is a 16 year old who likes to larp being a polymath. He's founded the BU1LD; a machine learning institution which has raised over $50 million in computational credits, assets, grants and valuation of projects with researchers at Stanford, MIT, Nvidia (you get the idea). He runs Finance4all across 20 countries in every continent (except Antarctica for now), Obscured Records: A news agency with over 5 millions reads, and has interned at YC backed companies and VC firms. He also plays football having once travelled to Spain for it, and leads the Model UN Club at his school having won Outstanding Delegate at Harvard MUN, alongside quite a few events and roles as well. He loves Math and has qualified for the AIME with distinction He has a life outside this as well; he likes making pizza, playing mariokart and playing the guitar to name a few.",
       linkedin: "https://www.linkedin.com/in/ryan-gomez-03701b363/?originalSubdomain=in",
     },
     {
@@ -49,7 +52,6 @@ export default function About(): React.JSX.Element {
               "@type": "Person",
               name: p.name,
               jobTitle: p.role,
-              description: p.bio,
               sameAs: p.linkedin ? [p.linkedin] : [],
             })),
           },
@@ -77,7 +79,6 @@ export default function About(): React.JSX.Element {
             <article key={person.name} className="rounded-3xl p-8 glass-tile">
               <h3 className="text-xl font-semibold text-foreground mb-2">{person.name}</h3>
               <p className="text-sm text-primary/90 mb-4">{person.role}</p>
-              {person.bio && <p className="text-sm leading-relaxed text-muted-foreground mb-6">{person.bio}</p>}
 
               {person.linkedin && (
                 <a
@@ -93,6 +94,13 @@ export default function About(): React.JSX.Element {
             </article>
           ))}
         </div>
+        {team.filter(person => person.bio).map(person => (
+          <article key={person.name} className="mt-12 max-w-4xl border-t border-border pt-10">
+            <p className="text-sm text-primary mb-3">Meet the co-founders</p>
+            <h2 className="text-3xl font-semibold mb-6">{person.fullName ?? person.name}</h2>
+            <p className="text-base md:text-lg leading-loose text-muted-foreground">{person.bio}</p>
+          </article>
+        ))}
       </PageSection>
     </>
   );

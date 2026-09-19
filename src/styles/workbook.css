@@ -235,9 +235,10 @@ body::before, body::after { display: none; }
 }
 @media (max-width: 640px) {
   .site-workspace .immersive-main::before { inset-inline: 4px; border-radius: 20px; }
-  .site-workspace .immersive-main::after { top: 30px; right: 20px; font-size: .52rem; }
+  .site-workspace .immersive-main::after { display: none; }
   .site-atmosphere i:nth-child(3) { display: none; }
 }
+.site-workspace .reading-main::before,.site-workspace .reading-main::after { content: none; }
 @media (prefers-reduced-transparency: reduce), (forced-colors: active) {
   .site-atmosphere { display: none; }
   .site-workspace .immersive-main::before { background: transparent; backdrop-filter: none; -webkit-backdrop-filter: none; box-shadow: none; }

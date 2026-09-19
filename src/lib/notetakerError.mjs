@@ -2,6 +2,7 @@
  * Safe user-facing copy for Study Notes / Quiz failures.
  */
 export function notetakerError(error, action = 'generate') {
+  if (error?.name === 'AiConsentDeclinedError') return 'AI processing was not allowed. Your draft is unchanged. You can continue with manual study tools.';
   const source = typeof error === 'string'
     ? error
     : error && typeof error === 'object' && 'message' in error

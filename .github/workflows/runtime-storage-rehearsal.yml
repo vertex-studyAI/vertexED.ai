@@ -1,0 +1,64 @@
+name: Runtime storage repair rehearsal
+on:
+  push:
+    branches: [codex/vertexed-product-completion]
+    paths:
+      - docs/vertexed-runtime-storage-repair.sql
+      - scripts/db-rehearsal/**
+      - .github/workflows/runtime-storage-rehearsal.yml
+  pull_request:
+    paths:
+      - docs/vertexed-runtime-storage-repair.sql
+      - scripts/db-rehearsal/**
+      - .github/workflows/runtime-storage-rehearsal.yml
+permissions:
+  contents: read
+jobs:
+  isolated-postgres:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    services:
+      postgres:
+        image: postgres:17.4
+        env:
+          POSTGRES_PASSWORD: rehearsal-only
+          POSTGRES_DB: rehearsal
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd pg_isready --health-interval 5s
+          --health-timeout 5s --health-retries 12
+    env:
+      PGHOST: localhost
+      PGPORT: '5432'
+      PGUSER: postgres
+      PGPASSWORD: rehearsal-only
+      PGDATABASE: rehearsal
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - name: Recreate relevant production schema with synthetic records
+        run: psql -X -v ON_ERROR_STOP=1 -f scripts/db-rehearsal/baseline.sql
+      - name: Rehearse atomic abort on pre-existing duplicate planners
+        shell: bash
+        run: |
+          set -euo pipefail
+          psql -X -v ON_ERROR_STOP=1 -c "insert into public.user_study_artifacts(user_id,kind,title) values ('00000000-0000-4000-8000-000000000001','planner','Synthetic duplicate');"
+          if psql -X -v ON_ERROR_STOP=1 -1 -f docs/vertexed-runtime-storage-repair.sql > /tmp/duplicate-rehearsal.log 2>&1; then
+            echo 'FAIL: migration accepted duplicate planners'; exit 1
+          fi
+          grep -F 'Duplicate planner/notebook artifacts require manual reconciliation' /tmp/duplicate-rehearsal.log
+          psql -X -v ON_ERROR_STOP=1 -c "do \$\$ begin if to_regclass('public.learner_state_items') is not null then raise exception 'Partial DDL survived abort'; end if; end \$\$; delete from public.user_study_artifacts where title='Synthetic duplicate';"
+      - name: Apply exact repair in one transaction
+        run: |
+          sha256sum docs/vertexed-runtime-storage-repair.sql
+          psql -X -v ON_ERROR_STOP=1 -1 -f docs/vertexed-runtime-storage-repair.sql
+      - name: Verify role boundaries and storage behavior
+        run: psql -X -v ON_ERROR_STOP=1 -f scripts/db-rehearsal/verify.sql
+      - name: Verify concurrent limit of three across twelve requests
+        shell: bash
+        run: |
+          set -euo pipefail
+          seq 1 12 | xargs -P 12 -I '{}' sh -c 'psql -X -v ON_ERROR_STOP=1 -q -c "set role service_role; select * from public.consume_waitlist_rate_limit('\''synthetic-concurrent-key'\'',now()-interval '\''1 hour'\'',3,now());"'
+          psql -X -v ON_ERROR_STOP=1 -c "do \$\$ begin if (select count(*) from public.waitlist_rate_limits where ip_hash='synthetic-concurrent-key') <> 3 then raise exception 'Concurrent rate limit failed'; end if; end \$\$;"

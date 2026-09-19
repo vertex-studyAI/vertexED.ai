@@ -21,6 +21,8 @@ export function userContentStorageKeys(scope = activeScope) {
   const prefix = `vertex_content:${normalized}`;
   return {
     artifacts: `${prefix}:artifacts`,
+    aiConsent: `${prefix}:ai_consent`,
+    workingTraceEvidence: `${prefix}:working_trace_evidence`,
     restore: `${prefix}:restore`,
     chatHandoff: `${prefix}:chat_handoff`,
     apexPrefill: `${prefix}:apex_prefill`,

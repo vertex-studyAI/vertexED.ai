@@ -12,7 +12,7 @@ export default function PrivacyPolicy() {
       />
       <PageSection className="max-w-3xl mx-auto py-10">
         <Article title="Privacy Policy">
-          <p><em>Last updated: 6 September 2026</em></p>
+          <p><em>Last updated: 19 September 2026</em></p>
 
           <h2>Overview</h2>
           <p>
@@ -51,9 +51,12 @@ export default function PrivacyPolicy() {
           <p>
             When you run an AI feature, the material needed for that request is sent from VertexED&apos;s server to the configured
             provider. OpenAI is used for several tutoring, notes, paper, transcription, and review flows. Google Gemini is used
-            for planner and study-guide features where configured. Do not submit information you are not allowed to share.
+            for planner and study-guide features where configured. NVIDIA can provide Apex responses when selected by the server configuration. Do not submit information you are not allowed to share.
             Generated output can be incomplete or wrong, and board-specific details are not treated as official.
           </p>
+
+          <p>Before your first AI request on this device, VertexED asks whether you allow AI processing. This choice is stored for your account on this device and can be turned off in User Settings. Declining leaves manual study tools and the local Working Trace checker available. Turning permission off stops future requests; it cannot recall material already sent to a provider.</p>
+          <p>Working Trace checks typed algebra and dimensions in your browser without sending that working to an AI provider. If you choose to save an attempt, its steps, result, confidence and suggested retry date are stored on this device for your account. These records are included in the device portion of your account export and can be cleared from Your Learning Evidence.</p>
 
           <h2>Retention and deletion</h2>
           <p>
@@ -71,7 +74,7 @@ export default function PrivacyPolicy() {
           <h2>Third-party services</h2>
           <p>
             The current product uses Supabase for authentication and database services, Vercel for hosting and product analytics,
-            OpenAI for configured AI and transcription requests, and Google Gemini for configured generation requests. These
+            OpenAI for configured AI and transcription requests, Google Gemini for configured generation requests, and NVIDIA for configured Apex requests. These
             companies process data under their own terms and privacy commitments. Provider choice can vary by feature and configuration.
           </p>
 

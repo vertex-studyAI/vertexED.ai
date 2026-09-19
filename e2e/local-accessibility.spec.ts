@@ -100,23 +100,25 @@ test.describe('local keyboard accessibility', () => {
     await expect(navigation).toHaveJSProperty('inert', true);
   });
 
-  test('landing stage tabs move focus and update their panel', async ({ page }) => {
+  test('curriculum selection is keyboard usable and updates its content', async ({ page }) => {
     await page.goto('/');
-    const firstStage = page.getByRole('tab', { name: /Learn/ });
+    const firstStage = page.getByRole('button', { name: 'DP', exact: true });
     await firstStage.focus();
-    await page.keyboard.press('ArrowRight');
-    await expect(page.getByRole('tab', { name: /Practise/ })).toBeFocused();
-    await expect(page.getByRole('heading', { name: 'Make the first attempt.' })).toBeVisible();
+    await page.keyboard.press('Enter');
+    await expect(firstStage).toBeFocused();
+    await expect(firstStage).toHaveAttribute('aria-pressed', 'true');
+    await expect(page.getByText('Functions, differentiation and integration. Revisit the algebra underneath the method.')).toBeVisible();
   });
 
-  test('Concept Lens traps focus, hides the background, closes on Escape, and returns focus', async ({ page }) => {
+  test('AI consent traps focus, hides the background, closes on Escape, and returns focus', async ({ page }) => {
     await page.goto('/');
-    const trigger = page.getByRole('button', { name: 'Open concept lens' }).first();
-    await trigger.click();
+    const trigger = page.getByRole('button', { name: 'Check each step' });
+    await trigger.focus();
+    await page.evaluate(() => window.dispatchEvent(new CustomEvent('vertexed:ai-consent-request', { detail: { scope: null, resolve: () => {} } })));
 
-    const dialog = page.getByRole('dialog', { name: 'Notice the change. Explain the why.' });
+    const dialog = page.getByRole('dialog', { name: 'Before you use AI' });
     await expect(dialog).toBeVisible();
-    await expect(dialog.getByRole('button', { name: 'Close concept lens' })).toBeFocused();
+    await expect(dialog.locator(':focus')).toBeVisible();
     await expect(page.locator('#root')).toHaveAttribute('aria-hidden', 'true');
     await expect(page.locator('#root')).toHaveJSProperty('inert', true);
 
@@ -138,18 +140,16 @@ test.describe('local keyboard accessibility', () => {
       rootAnimations: (document.querySelector('.vertex-home') as HTMLElement)
         .getAnimations({ subtree: true })
         .filter((animation) => animation.playState === 'running').length,
-      marqueeOverflow: getComputedStyle(document.querySelector('.vh-marquee') as HTMLElement).overflowX,
-      stackTransform: getComputedStyle(document.querySelector('.vh-stack-game') as HTMLElement).transform,
+      paperTransform: getComputedStyle(document.querySelector('.product-opening-paper') as HTMLElement).transform,
     }));
     expect(motion.rootAnimations).toBe(0);
-    expect(motion.marqueeOverflow).toBe('auto');
-    expect(motion.stackTransform).toBe('none');
+    expect(motion.paperTransform).toBe('none');
   });
 
-  test('mobile mastery content stays inside the viewport', async ({ page }) => {
+  test('mobile working trace stays inside the viewport', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto('/');
-    const dimensions = await page.locator('.vh-mastery-copy').evaluate((element) => {
+    const dimensions = await page.locator('.working-trace').evaluate((element) => {
       const rect = element.getBoundingClientRect();
       return { left: rect.left, right: rect.right, viewport: window.innerWidth };
     });
@@ -167,9 +167,9 @@ test.describe('local keyboard accessibility', () => {
         await expectNoHorizontalOverflow(page);
 
         if (path === '/' && visualEvidenceWidths.has(viewport.width)) {
-          await expect(page.locator('.landing-hero')).toBeVisible();
-          await expect(page.locator('.vh-learning')).toBeVisible();
-          await expect(page.locator('.vh-subjects')).toBeVisible();
+          await expect(page.locator('.product-opening')).toBeVisible();
+          await expect(page.locator('.working-trace')).toBeVisible();
+          await expect(page.locator('.product-course-list')).toBeVisible();
           await page.screenshot({
             path: testInfo.outputPath(`landing-${viewport.width}x${viewport.height}.png`),
             fullPage: true,

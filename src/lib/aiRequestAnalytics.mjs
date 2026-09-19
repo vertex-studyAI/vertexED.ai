@@ -64,6 +64,7 @@ export function buildAiRequestAnalyticsProperties({
   durationMs,
   networkError = false,
   timedOut = false,
+  degraded = false,
 }) {
   const validStatus = Number.isInteger(status) && status >= 100 && status <= 599;
   const transportFailure = networkError || timedOut;
@@ -75,7 +76,7 @@ export function buildAiRequestAnalyticsProperties({
       : networkError
         ? "network_error"
         : validStatus && status >= 200 && status < 300
-          ? "success"
+          ? (degraded ? "degraded" : "success")
           : "failure",
     status_class: transportFailure
       ? "network"
