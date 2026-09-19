@@ -23,6 +23,7 @@ import {
   getCachedGuide,
   type BoardGuide,
 } from '@/lib/boardResources';
+import { resourceGuideError } from '@/lib/resourceGuideError.mjs';
 
 const ALL_BOARDS: ExamBoard[] = [
   'IB_DP',
@@ -94,7 +95,7 @@ export default function ResourceLibrary() {
       setGuide(generated);
     } catch (err) {
       if (guideRequestIdRef.current !== requestId || storageScopeRef.current !== requestStorageScope) return;
-      setError(err instanceof Error ? err.message : 'Could not generate guide');
+      setError(resourceGuideError(err));
     } finally {
       if (guideRequestIdRef.current === requestId && storageScopeRef.current === requestStorageScope) {
         setLoading(false);
