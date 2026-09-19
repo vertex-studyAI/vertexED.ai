@@ -9,6 +9,7 @@ import {
   loadApexChatMessages,
   saveApexChatMessages,
 } from '@/lib/apexChatStorage.mjs';
+import { apexChatError } from '@/lib/apexChatError.mjs';
 
 export type ApexChatMessage = {
   id: string;
@@ -211,18 +212,7 @@ export function useApexChat({ context, threadKey, sources, mode, onSessionRecord
       } catch (err) {
         if (requestRef.current !== requestId || storageKeyRef.current !== requestStorageKey) return false;
         const status = err instanceof ChatbotApiError ? err.status : null;
-        const message =
-          status === 401
-            ? 'Please log in again to use the AI tutor.'
-            : status === 429
-              ? 'You are sending messages too quickly. Wait a moment and try again.'
-              : status === 503 && err instanceof Error
-                ? err.message
-              : status && status >= 500
-                ? 'The AI service is temporarily unavailable. Try again shortly.'
-                : err instanceof Error
-                  ? err.message
-                  : 'The AI service is temporarily unavailable. Try again shortly.';
+        const message = apexChatError(err, status);
         setMessages((prev) =>
           prev.map((m) =>
             m.id === botId ? { ...m, text: message } : m,
