@@ -30,13 +30,16 @@ test("mock exam reuses the shared accessible modal in every rendered state", () 
 test("shared modal accepts a self-contained overlay without weakening defaults", () => {
   assert.match(modalSource, /overlayClassName\?: string/);
   assert.match(modalSource, /overlayClassName = "blur-background"/);
-  assert.match(modalSource, /<div className={overlayClassName} role="presentation">/);
+  assert.match(modalSource, /<div ref={overlayRef} className={overlayClassName} role="presentation">/);
   assert.match(modalSource, /role="dialog"/);
   assert.match(modalSource, /aria-modal="true"/);
   assert.match(modalSource, /trapModalFocus/);
   assert.match(modalSource, /restoreModalFocus/);
   assert.match(modalSource, /import { createPortal } from "react-dom"/);
   assert.match(modalSource, /document\.body/);
+  assert.match(modalSource, /sibling\.inert = true/);
+  assert.match(modalSource, /sibling\.setAttribute\('aria-hidden', 'true'\)/);
+  assert.match(modalSource, /element\.inert = inert/);
 });
 
 test("generated mock-exam content has screen-reader labels", () => {
