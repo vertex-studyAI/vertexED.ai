@@ -105,3 +105,17 @@ test('authUiError sanitizes waitlist and invite actions', () => {
   assert.match(authUiError(new Error('duplicate key'), 'invite-signup'), /create your account|invite/i);
   assert.doesNotMatch(authUiError(new Error('duplicate key secret'), 'invite-signup'), /secret|duplicate key/i);
 });
+
+
+test('ApexCommandBar sanitizes Google sign-in and card-prep failures', async () => {
+  const { readFile } = await import('node:fs/promises');
+  const { fileURLToPath } = await import('node:url');
+  const { dirname, join } = await import('node:path');
+  const root = join(dirname(fileURLToPath(import.meta.url)), '..');
+  const source = await readFile(join(root, 'src/components/chat/ApexCommandBar.tsx'), 'utf8');
+  assert.match(source, /import \{ authUiError \} from '@\/lib\/authUi\.mjs'/);
+  assert.match(source, /loginWithGoogle\(\); \} catch \(error\) \{ setStatus\(authUiError\(error\)\);/);
+  assert.match(source, /message\.startsWith\('The response could not be organised'\)/);
+  assert.doesNotMatch(source, /Google sign-in could not start/);
+  assert.doesNotMatch(source, /setStatus\(error instanceof Error \? error\.message/);
+});
