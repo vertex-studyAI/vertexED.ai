@@ -1,5 +1,11 @@
 # Reference ledger
 
+## Product completion pass, 19 September 2026
+
+Revisited [21st.dev](https://21st.dev/) as a component-discovery reference and [Inspira Liquid Glass](https://inspira-ui.com/docs/en/components/visualization/liquid-glass) for layered navigation chrome and its documented browser limitations. The 21st hero search and Inspira dock pages were unavailable; no inspection of their source or live demos is claimed. No library or copied component was installed.
+
+The locally authored revision uses a stable paper example, one primary action, generous reading widths and a compact section index. Glass is confined to existing navigation with an opaque fallback; the checker and teaching text use solid surfaces. On mobile, the section index joins document flow. Removed the headline wipe, named Lens marketing, fictional testimonial preview and unrelated landing game. Blue/white, the logo, Apex and the revision trace remain. The action-button styling was corrected after inspecting the first screenshot pass. Keyboard, reduced-motion and 390/1024/1440 light/dark evidence accompanies the change.
+
 ## BU1LD structural reference, 9 September 2026
 
 [The BU1LD](https://thebu1ld.com/) was readable through the public text response. Browser security prevented rendered inspection; no screenshot, visual palette or animation timing is claimed. The useful properties visible in the document were numbered editorial chapters, a clear primary action, and an illustrative staged journey. VertexED adapts those properties into a chapter introduction to its own answer/review/retry example and stronger section rules. No BU1LD logo, copy, graphics, research themes or institutional claims were reused.

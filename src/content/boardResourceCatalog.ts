@@ -12,8 +12,8 @@ export type BoardGuideTopic = {
 /** Curated deep-dive topics per board — AI expands to 1000+ words on demand */
 export const BOARD_GUIDE_CATALOG: Partial<Record<ExamBoard, BoardGuideTopic[]>> = {
   IB_DP: [
-    { id: 'ib-tok-framework', subject: 'TOK', title: 'TOK Knowledge Frameworks Masterclass', description: 'Areas of knowledge, ways of knowing, and how to structure a TOK essay that examiners reward.', estimatedWords: 1400, tags: ['TOK', 'essay', 'frameworks'] },
-    { id: 'ib-math-aa-hl', subject: 'Math AA', title: 'IB Math AA HL: Calculus & Proof Strategy', description: 'Paper 1 non-calculator tactics, proof structures, and the topics that separate 6s from 7s.', estimatedWords: 1500, tags: ['math', 'calculus', 'HL'] },
+    { id: 'ib-tok-framework', subject: 'TOK', title: 'TOK Knowledge Frameworks', description: 'Explore knowledge questions, compare perspectives and organise an argument. Check your current course guide for assessment requirements.', estimatedWords: 1400, tags: ['TOK', 'essay', 'frameworks'] },
+    { id: 'ib-math-aa-hl', subject: 'Math AA', title: 'IB Math AA HL: Calculus & Proof Practice', description: 'Practise algebraic working, calculus reasoning and proof structures. Generated guidance is not an official mark scheme.', estimatedWords: 1500, tags: ['math', 'calculus', 'HL'] },
     { id: 'ib-ee-guide', subject: 'Extended Essay', title: 'Extended Essay: From Research Question to Rubric', description: 'How to pick a viable RQ, structure 4000 words, and hit every criterion without padding.', estimatedWords: 1300, tags: ['EE', 'research'] },
     { id: 'ib-bio-ia', subject: 'Biology', title: 'Biology IA: Experimental Design & Analysis', description: 'Personal engagement, methodology, uncertainty, and statistical tests that satisfy moderators.', estimatedWords: 1200, tags: ['IA', 'sciences'] },
   ],
@@ -36,7 +36,7 @@ export const BOARD_GUIDE_CATALOG: Partial<Record<ExamBoard, BoardGuideTopic[]>> 
     { id: 'icse-math-algebra', subject: 'Mathematics', title: 'ICSE Mathematics: Algebra to Trigonometry Mastery', description: 'Board-style step marking, factorisation patterns, and proving identities under time pressure.', estimatedWords: 1400, tags: ['math', 'algebra'] },
     { id: 'icse-physics-numericals', subject: 'Physics', title: 'ICSE Physics: Numericals & Diagrams Guide', description: 'Units, ray diagrams, circuits, and how to show working for full method marks.', estimatedWords: 1300, tags: ['physics'] },
     { id: 'icse-history-essays', subject: 'History', title: 'ICSE History: Source-Based & Essay Answers', description: 'Cause–event–consequence chains, timeline revision, and 5-mark vs 8-mark structure.', estimatedWords: 1200, tags: ['history'] },
-    { id: 'icse-english-lit', subject: 'English', title: 'ICSE English Literature: Unseen & Prescribed Texts', description: 'Character analysis, theme paragraphs, and quotation integration ICSE examiners reward.', estimatedWords: 1100, tags: ['english', 'literature'] },
+    { id: 'icse-english-lit', subject: 'English', title: 'ICSE English Literature: Unseen & Prescribed Texts', description: 'Practise character analysis, develop paragraphs about themes and support interpretations with quotations.', estimatedWords: 1100, tags: ['english', 'literature'] },
   ],
   GCSE: [
     { id: 'gcse-math-higher', subject: 'Mathematics', title: 'GCSE Maths Higher: Grade 7–9 Topic Sprint', description: 'Proof, vectors, trig identities, and the problem-solving questions that decide top grades.', estimatedWords: 1300, tags: ['math', 'higher'] },

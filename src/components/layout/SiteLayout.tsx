@@ -8,6 +8,8 @@ import BreadcrumbsJsonLd from "@/components/BreadcrumbsJsonLd";
 import RouteErrorBoundary from "@/components/RouteErrorBoundary";
 import { useIsAdmin } from "@/hooks/useIsAdmin";
 import CloudSaveBanner from "@/components/CloudSaveBanner";
+import AiConsentDialog from '@/components/AiConsentDialog';
+import AiRunNotice from '@/components/AiRunNotice';
 import ThemeToggle from "@/components/ThemeToggle";
 import PageLoader from "@/components/PageLoader";
 import GlobalStudySearch from "@/components/GlobalStudySearch";
@@ -138,7 +140,7 @@ export default function SiteLayout() {
     : [
         { to: "/", label: "Home" },
         { to: "/features", label: "Features" },
-        { to: "/#concept-lens", label: "Try the lens" },
+        { to: "/#working-trace", label: "Check your working" },
         { to: "/about", label: "About" },
         { to: "/login", label: "Login" },
       ];
@@ -364,6 +366,8 @@ export default function SiteLayout() {
         <CloudSaveBanner />
         <RouteErrorBoundary resetKey={`${location.pathname}${location.search}${location.hash}`}>
           <Suspense fallback={<PageLoader label="Opening" />}>
+            <AiConsentDialog />
+            <AiRunNotice />
             <Outlet />
           </Suspense>
         </RouteErrorBoundary>

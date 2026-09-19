@@ -478,6 +478,11 @@ test('approved learner completes the golden study journey and resumes saved work
 
   await page.getByPlaceholder(/IB Biology - photosynthesis/).fill('IB Biology photosynthesis');
   await page.getByRole('button', { name: 'Build notes' }).click();
+  await expect(page.getByRole('dialog', { name: 'Before you use AI' })).toBeVisible();
+  await page.getByRole('button', { name: 'Continue without AI', exact: true }).click();
+  expect(harness.observed.notesSaved).toBe(false);
+  await page.getByRole('button', { name: 'Build notes' }).click();
+  await page.getByRole('button', { name: 'Allow AI for my requests', exact: true }).click();
   await expect(page.getByRole('textbox', { name: 'Editable study notes' })).toContainText('Photosynthesis converts light energy');
   await expect(page.getByText('Notes saved', { exact: true })).toBeVisible();
 
@@ -521,6 +526,7 @@ test('approved learner completes the golden study journey and resumes saved work
   await page.getByLabel('Your answer').fill('Carbon dioxide becomes limiting, so extra light cannot increase the rate.');
   await page.getByLabel(/Mark scheme or context/).fill('Award for naming and explaining another limiting factor.');
   await page.getByRole('button', { name: 'Review my answer' }).click();
+  await expect(page.getByRole('dialog', { name: 'Before you use AI' })).toHaveCount(0);
   await expect(page.getByText('Evidence-linked AI review', { exact: true })).toBeVisible();
   await expect(page.getByText('94% confidence')).toBeVisible();
   await expect(page.locator('blockquote').filter({ hasText: 'Carbon dioxide becomes limiting' })).toBeVisible();
@@ -667,4 +673,41 @@ test('approved learner completes the golden study journey and resumes saved work
     expect.arrayContaining(['planner', 'note', 'review']),
   );
   expect(browserErrors).toEqual([]);
+});
+
+test('Working Trace evidence saves, resets and preserves unreadable device data', async ({ page }) => {
+  await installExternalServiceHarness(page);
+  await page.goto('/login');
+  await page.getByLabel('Email').fill(learnerEmail);
+  await page.getByLabel('Password').fill(learnerPassword);
+  await page.getByRole('button', { name: 'Log in', exact: true }).click();
+  await expect(page).toHaveURL(/\/main$/);
+  await page.goto('/onboarding');
+  await page.locator('#curriculum-board').selectOption('IB_MYP');
+  await page.locator('#curriculum-grade').selectOption('10');
+  await page.getByRole('button', { name: 'Biology', exact: true }).click();
+  await page.getByRole('button', { name: 'Create my study plan' }).click();
+  await expect(page).toHaveURL(/\/main$/);
+  await page.goto('/working-trace');
+  await page.getByRole('button', { name: 'Check each step' }).click();
+  await page.getByRole('button', { name: 'Save this attempt and retry tomorrow' }).click();
+  await expect(page.getByText('Saved on this device for your account. Retry this objective tomorrow.')).toBeVisible();
+  await page.getByRole('link', { name: 'View or clear my device evidence' }).click();
+  await expect(page.getByText('Self-reported confidence: unsure')).toBeVisible();
+  await page.getByRole('button', { name: 'Clear my Working Trace evidence' }).click();
+  await page.getByRole('button', { name: 'Keep attempts' }).click();
+  await expect(page.getByText('Self-reported confidence: unsure')).toBeVisible();
+  await page.getByRole('button', { name: 'Clear my Working Trace evidence' }).click();
+  await page.getByRole('button', { name: 'Confirm clear' }).click();
+  await expect(page.getByText('No saved attempts yet.', { exact: false })).toBeVisible();
+  const key = `vertex_content:${learnerId}:working_trace_evidence`;
+  await page.evaluate(key => localStorage.setItem(key, '{damaged'), key);
+  await page.reload();
+  await expect(page.getByRole('alert')).toContainText('It has not been overwritten or removed');
+  expect(await page.evaluate(key => localStorage.getItem(key), key)).toBe('{damaged');
+  await page.goto('/working-trace');
+  await page.getByRole('button', { name: 'Check each step' }).click();
+  await page.getByRole('button', { name: 'Save this attempt and retry tomorrow' }).click();
+  await expect(page.getByText('Could not save. Existing device data has been preserved.')).toBeVisible();
+  expect(await page.evaluate(key => localStorage.getItem(key), key)).toBe('{damaged');
 });

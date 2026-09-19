@@ -379,6 +379,7 @@ export default function StudyNotebook() {
               Source-based studio
             </p>
             <h1 className="portal-hero-title text-3xl md:text-4xl">Study Notebook</h1>
+            <a href="/working-trace" className="inline-flex mt-4 text-primary underline text-sm">Check a maths step with Working Trace</a>
             <p className="portal-hero-brief mt-3 text-sm md:text-base max-w-3xl leading-relaxed">
               Add lecture notes, PDF excerpts, or saved mocks as sources. Chat with citations, then generate study guides,
               flashcards, quizzes, concept maps, glossaries, comparisons, and audio overviews - grounded in what you uploaded, not the open web.

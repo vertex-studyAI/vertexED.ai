@@ -4,6 +4,7 @@ import { Link } from "react-router";
 import NeumorphicCard from "@/components/NeumorphicCard";
 import PageSection from "@/components/PageSection";
 import { authFetch } from "@/lib/apiAuth";
+import { isAiConsentDeclined } from '@/lib/aiConsent';
 import { notetakerError } from "@/lib/notetakerError.mjs";
 import {
   Chart as ChartJS,
@@ -676,7 +677,7 @@ export default function NotetakerQuiz(): React.JSX.Element {
       }
     } catch (err) {
       if (!isCurrentRequest()) return;
-      console.error(err);
+      if (!isAiConsentDeclined(err)) console.error(err);
       alert(notetakerError(err, "generate"));
     } finally {
       releaseLoadingOwner("note", requestId);
@@ -737,7 +738,7 @@ export default function NotetakerQuiz(): React.JSX.Element {
       setQuizResults(null);
     } catch (err) {
       if (!isCurrentRequest()) return;
-      console.error(err);
+      if (!isAiConsentDeclined(err)) console.error(err);
       alert(notetakerError(err, "quiz"));
       setGeneratedQuestions([]);
     } finally {
@@ -906,7 +907,7 @@ export default function NotetakerQuiz(): React.JSX.Element {
       recordLoopStep("practise");
     } catch (err) {
       if (!isCurrentRequest()) return;
-      console.error("Grading failed:", err);
+      if (!isAiConsentDeclined(err)) console.error("Grading failed:", err);
       alert(notetakerError(err, "grade"));
     } finally {
       releaseLoadingOwner("grade", requestId);
@@ -1075,7 +1076,7 @@ export default function NotetakerQuiz(): React.JSX.Element {
       const json = await r.json();
       applyTranscriptionResult(json);
     } catch (err) {
-      console.error("Upload error:", err);
+      if (!isAiConsentDeclined(err)) console.error("Upload error:", err);
       alert("Upload failed. Please try again.");
     } finally {
       setLoading(false);
@@ -1212,7 +1213,7 @@ export default function NotetakerQuiz(): React.JSX.Element {
         ? "Source-bound fallback flashcards generated. Verify them before use."
         : "Flashcards generated successfully.");
     } catch (err) {
-      console.error("sendNotesToCards error:", err);
+      if (!isAiConsentDeclined(err)) console.error("sendNotesToCards error:", err);
       alert(notetakerError(err, "flashcards"));
     }
   };

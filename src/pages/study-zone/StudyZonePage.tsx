@@ -190,6 +190,7 @@ const StudyZonePage: React.FC = () => {
       </div>
 
       <header className="flex flex-col gap-3">
+        <Link to="/working-trace" className="text-sm text-primary underline">Open Working Trace for maths and units</Link>
         <span className="text-xs uppercase tracking-[0.18em] text-primary font-medium">
           {focusMode ? "Focus session" : "Focus tools"}
         </span>
