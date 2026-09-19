@@ -90,25 +90,35 @@ test('chat provider call uses OpenAI-compatible request shape without switching 
   assert.equal(payload.max_tokens, 1200);
 });
 
-test('OpenAI chat requests use the current completion-token field', async () => {
-  let payload;
-  const config = resolveChatProvider({ OPENAI_API_KEY: 'openai-key' });
+test('OpenAI chat requests use the Responses API with output token limits', async () => {
+  let captured;
+  const config = resolveChatProvider({
+    OPENAI_API_KEY: 'openai-key',
+    OPENAI_PROJECT_ID: 'proj_test',
+    OPENAI_ORGANIZATION_ID: 'org_test',
+  });
   await callChatProvider({
     config,
     model: config.primaryModel,
     messages: [{ role: 'user', content: 'hello' }],
-    fetchImpl: async (_url, options) => {
-      payload = JSON.parse(options.body);
+    safetyIdentifier: 'hashed-user',
+    fetchImpl: async (url, options) => {
+      captured = { url, payload: JSON.parse(options.body), headers: options.headers };
       return {
         ok: true,
         status: 200,
-        text: async () => JSON.stringify({ choices: [{ message: { content: 'ok' } }] }),
+        text: async () => JSON.stringify({ output_text: 'ok' }),
       };
     },
   });
 
-  assert.equal(payload.max_completion_tokens, 1200);
-  assert.equal('max_tokens' in payload, false);
+  assert.match(captured.url, /\/responses$/);
+  assert.equal(captured.payload.max_output_tokens, 1200);
+  assert.equal(captured.payload.store, false);
+  assert.equal(captured.payload.safety_identifier, 'hashed-user');
+  assert.deepEqual(captured.payload.input, [{ role: 'user', content: 'hello' }]);
+  assert.equal(captured.headers['OpenAI-Project'], 'proj_test');
+  assert.equal(captured.headers['OpenAI-Organization'], 'org_test');
 });
 
 test('answer extraction supports chat-completions and response-style payloads', () => {
