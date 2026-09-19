@@ -7,6 +7,7 @@ import PageSection from "@/components/PageSection";
 import RichMarkdown from "@/components/RichMarkdown";
 import SEO from "@/components/SEO";
 import { isPublishableGuide, publicationFilteredManifest } from "@/lib/studyGuidePublication.mjs";
+import { studyGuideLoadError } from '@/lib/studyGuideLoadError.mjs';
 
 type GuidePage = {
   title: string;
@@ -211,7 +212,7 @@ function StudyGuidesLibrary({ routePath }: { routePath?: string }) {
       })
       .catch((cause: unknown) => {
         if (cause instanceof DOMException && cause.name === "AbortError") return;
-        setError(cause instanceof Error ? cause.message : "The MYP guide index could not be loaded.");
+        setError(studyGuideLoadError(cause, "index"));
       })
       .finally(() => !controller.signal.aborted && setLoading(false));
     return () => controller.abort();
@@ -289,7 +290,7 @@ function StudyGuidesLibrary({ routePath }: { routePath?: string }) {
       })
       .catch((cause: unknown) => {
         if (cause instanceof DOMException && cause.name === "AbortError") return;
-        setError(cause instanceof Error ? cause.message : "This guide page could not be loaded.");
+        setError(studyGuideLoadError(cause, "page"));
       })
       .finally(() => !controller.signal.aborted && setPageLoading(false));
     return () => controller.abort();
