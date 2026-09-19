@@ -42,6 +42,21 @@ Do these in order. Code/CI already fall back to `https://vertex-ed-ai.vercel.app
 
 **Done when:** `GET https://vertex-ed-ai.vercel.app/api/health?readiness=1` reports readiness fields true (and salt-backed waitlist limits work). Then re-point smoke at www once Gate 1a is green.
 
+## 3b) Feedback RLS / FORCE RLS migrations (ops confirm)
+
+Migrations are on `main` but **prod apply is unconfirmed** while readiness RPC is missing:
+
+- `supabase/migrations/20260919055925_feedback_service_grants_and_force_rls.sql`
+
+After Gate 1b ledger apply, confirm remotely:
+
+```sql
+select relrowsecurity, relforcerowsecurity
+from pg_class where oid = 'public.product_feedback'::regclass;
+```
+
+Expect both true; `service_role` has select/insert/delete; `authenticated` insert-only.
+
 ## After human steps — agent can finish
 
 1. Confirm live revision == tip  
