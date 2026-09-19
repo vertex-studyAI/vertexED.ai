@@ -127,6 +127,13 @@ test('smoke-production resolves live app base before smoke' , () => {
   assert.doesNotMatch(smoke, /SMOKE_BASE_URL:\s*https:\/\/www\.vertexed\.app/);
 });
 
+test('production readiness detail token is wired into both smoke monitors', () => {
+  const smoke = canonicalCiWorkflow.slice(canonicalCiWorkflow.indexOf('  smoke-production:'));
+  const secretBinding = /HEALTH_READINESS_TOKEN:\s*\$\{\{\s*secrets\.HEALTH_READINESS_TOKEN\s*\}\}/;
+  assert.match(smoke, secretBinding);
+  assert.match(workflow, secretBinding);
+});
+
 test('engineering-owned Study Notebook regressions pin Ubuntu 24.04', () => {
   const workflowFiles = [
     'apply-study-notebook-sync-status.yml',
