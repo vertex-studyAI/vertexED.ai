@@ -10,6 +10,7 @@ import { useIsAdmin } from "@/hooks/useIsAdmin";
 import CloudSaveBanner from "@/components/CloudSaveBanner";
 import ThemeToggle from "@/components/ThemeToggle";
 import PageLoader from "@/components/PageLoader";
+import GlobalStudySearch from "@/components/GlobalStudySearch";
 import { useStudySessionTracker } from "@/hooks/useStudySessionTracker";
 import { toast } from "@/hooks/use-toast";
 import { logoutWithLocalFallback } from "@/lib/logoutFlow.mjs";
@@ -261,6 +262,8 @@ export default function SiteLayout() {
             </button>
           </div>
         </div>
+
+        <GlobalStudySearch />
 
         <div
           aria-hidden={!menuOpen}
