@@ -36,8 +36,9 @@ test('user-content deletes require both artifact id and verified user ownership'
   const deleteBranch = source.slice(source.lastIndexOf("if (req.method === 'DELETE')"));
   assert.match(
     deleteBranch,
-    /from\('user_study_artifacts'\)[\s\S]*?\.delete\(\)[\s\S]*?\.eq\('id', id\)[\s\S]*?\.eq\('user_id', user\.id\)/,
+    /from\('user_study_artifacts'\)[\s\S]*?\.delete\(\)[\s\S]*?\.eq\('id', id\)[\s\S]*?\.eq\('user_id', user\.id\)[\s\S]*?\.select\('id'\)[\s\S]*?\.maybeSingle\(\)/,
   );
+  assert.match(deleteBranch, /status\(404\)\.json\(\{\s*error:\s*'Artifact not found'\s*\}\)/);
 });
 
 test('planner and notebook replacement delegate to the non-destructive owner-scoped helper', () => {

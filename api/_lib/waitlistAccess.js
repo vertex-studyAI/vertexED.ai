@@ -33,14 +33,21 @@ export async function getWaitlistEntryByToken(supabase, token) {
   if (hashed) return { ...hashed, tokenStorage: 'hash', inviteTokenHash: tokenHash };
 
   // Compatibility path for links issued before digest storage was deployed.
+  // Fail closed on missing/expired windows: forever-valid plaintext tokens are
+  // not an authorization grant once digest+TTL issuance is the durable contract.
   const { data: legacy, error: legacyError } = await supabase
     .from('waitlist')
-    .select('id, email, status, invite_token')
+    .select('id, email, status, invite_token, invite_expires_at')
     .eq('invite_token', normalized)
+    .gt('invite_expires_at', new Date().toISOString())
     .maybeSingle();
 
   if (legacyError) throw legacyError;
-  return legacy ? { ...legacy, tokenStorage: 'legacy' } : null;
+  if (!legacy) return null;
+  if (!legacy.invite_expires_at || !(Date.parse(legacy.invite_expires_at) > Date.now())) {
+    return null;
+  }
+  return { ...legacy, tokenStorage: 'legacy' };
 }
 
 /**
@@ -103,7 +110,12 @@ export async function assertWaitlistSignupAllowed(supabase, email, options = {})
     && entry.invite_expires_at
     && Date.parse(entry.invite_expires_at) > Date.now()
     && suppliedHash === entry.invite_token_hash;
-  const activeLegacyToken = entry?.invite_token && entry.invite_token === inviteToken?.trim();
+  const activeLegacyToken = Boolean(
+    entry?.invite_token
+    && entry.invite_token === inviteToken?.trim()
+    && entry.invite_expires_at
+    && Date.parse(entry.invite_expires_at) > Date.now(),
+  );
   if (inviteToken && (activeHash || activeLegacyToken)) {
     if (entry.status === 'approved') {
       return { allowed: true, entry };
@@ -112,6 +124,14 @@ export async function assertWaitlistSignupAllowed(supabase, email, options = {})
       allowed: false,
       status: 403,
       error: 'This invite link is not active yet. Contact support if you were approved recently.',
+    };
+  }
+
+  if (inviteToken) {
+    return {
+      allowed: false,
+      status: 403,
+      error: 'This invite link has expired or is invalid. Request a fresh invite or contact support.',
     };
   }
 
