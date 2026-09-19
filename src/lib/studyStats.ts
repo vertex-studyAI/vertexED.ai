@@ -5,6 +5,7 @@ import {
   safeStorageGet,
   safeStorageSet,
 } from '@/lib/browserStorage.mjs';
+import { normalizeQuickNotes } from '@/lib/quickNotesStorage.mjs';
 import { userContentStorageKeys } from '@/lib/userContentStorageScope.mjs';
 
 export type StudyStats = {
@@ -90,7 +91,7 @@ export function getStudyStats(): StudyStats {
   const local = storage();
   const currentHabits = readHabits(habits);
   const entries = readArray(activity);
-  const notes = readArray(quickNotes);
+  const notes = normalizeQuickNotes(readArray(quickNotes));
   const rawStreak = Number(safeStorageGet(local, studyStreak) || '0');
   const streak = Number.isFinite(rawStreak) && rawStreak >= 0 ? rawStreak : 0;
   const lastStudy = safeStorageGet(local, lastStudyDate);
