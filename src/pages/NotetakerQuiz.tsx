@@ -4,6 +4,7 @@ import { Link } from "react-router";
 import NeumorphicCard from "@/components/NeumorphicCard";
 import PageSection from "@/components/PageSection";
 import { authFetch } from "@/lib/apiAuth";
+import { notetakerError } from "@/lib/notetakerError.mjs";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -169,11 +170,6 @@ const markdownComponents = {
   ),
   p: ({ children }: any) => <p className="leading-relaxed text-muted-foreground">{children}</p>,
 };
-
-function getApiError(err: unknown) {
-  if (err instanceof Error) return err.message;
-  return "Something went wrong.";
-}
 
 export default function NotetakerQuiz(): React.JSX.Element {
   const { user } = useAuth();
@@ -674,14 +670,14 @@ export default function NotetakerQuiz(): React.JSX.Element {
       } else if (saved.error) {
         toast({
           title: "Save failed",
-          description: saved.error,
+          description: notetakerError(saved.error, "save"),
           variant: "destructive",
         });
       }
     } catch (err) {
       if (!isCurrentRequest()) return;
       console.error(err);
-      alert("Failed to generate notes. Please try again.");
+      alert(notetakerError(err, "generate"));
     } finally {
       releaseLoadingOwner("note", requestId);
     }
@@ -742,7 +738,7 @@ export default function NotetakerQuiz(): React.JSX.Element {
     } catch (err) {
       if (!isCurrentRequest()) return;
       console.error(err);
-      alert("Failed to generate quiz. Please try again.");
+      alert(notetakerError(err, "quiz"));
       setGeneratedQuestions([]);
     } finally {
       releaseLoadingOwner("quiz", requestId);
@@ -911,7 +907,7 @@ export default function NotetakerQuiz(): React.JSX.Element {
     } catch (err) {
       if (!isCurrentRequest()) return;
       console.error("Grading failed:", err);
-      alert("Failed to grade FRQ. Try again.");
+      alert(notetakerError(err, "grade"));
     } finally {
       releaseLoadingOwner("grade", requestId);
     }
@@ -1217,7 +1213,7 @@ export default function NotetakerQuiz(): React.JSX.Element {
         : "Flashcards generated successfully.");
     } catch (err) {
       console.error("sendNotesToCards error:", err);
-      alert("Failed to generate flashcards.");
+      alert(notetakerError(err, "flashcards"));
     }
   };
 
