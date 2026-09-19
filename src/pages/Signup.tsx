@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router";
 import PageSection from "@/components/PageSection";
 import { useAuth } from "@/contexts/AuthContext";
+import { authUiError } from "@/lib/authUi.mjs";
 import { trackProductEvent } from "@/lib/productAnalytics.mjs";
 import { shouldOfferInvalidInviteRecovery } from "@/lib/signupInviteRecovery";
 
@@ -168,7 +169,13 @@ export default function Signup() {
         throw new Error("This approval flow unexpectedly requires another verification step. Please use the latest approval link.");
       }
 
-      await login(normalizedEmail, password);
+      try {
+        await login(normalizedEmail, password);
+      } catch (loginErr) {
+        setError(authUiError(loginErr, "signup"));
+        setLoading(false);
+        return;
+      }
       trackProductEvent("Account Created", {
         invite_type: "waitlist",
       });
