@@ -71,6 +71,13 @@ function approvedMembershipResponse() {
   }), { status: 200, headers: { 'content-type': 'application/json' } });
 }
 
+function allowedRateLimitResponse() {
+  return new Response(JSON.stringify({
+    allowed: true,
+    retry_after_sec: 0,
+  }), { status: 200, headers: { 'content-type': 'application/json' } });
+}
+
 function isAuthRequest(url) {
   return String(url).includes('/auth/v1/user');
 }
@@ -78,6 +85,11 @@ function isAuthRequest(url) {
 function isMembershipRequest(url) {
   const parsed = new URL(String(url));
   return parsed.pathname === '/rest/v1/waitlist';
+}
+
+function isRateLimitRpcRequest(url) {
+  const parsed = new URL(String(url));
+  return parsed.pathname === '/rest/v1/rpc/consume_waitlist_rate_limit';
 }
 
 test('deterministic note fallback extracts only supplied ideas and carries no factual invention', () => {
@@ -155,6 +167,7 @@ test('note endpoint returns a provenance-bound scaffold when the provider is unc
     global.fetch = async (url) => {
       if (isAuthRequest(url)) return authResponse();
       if (isMembershipRequest(url)) return approvedMembershipResponse();
+      if (isRateLimitRpcRequest(url)) return allowedRateLimitResponse();
       throw new Error(`Unexpected request ${url}`);
     };
     const { req, res, getStatus, getJson } = authenticatedMocks({
@@ -178,6 +191,7 @@ test('paper endpoint returns a usable deterministic paper when the provider is u
     global.fetch = async (url) => {
       if (isAuthRequest(url)) return authResponse();
       if (isMembershipRequest(url)) return approvedMembershipResponse();
+      if (isRateLimitRpcRequest(url)) return allowedRateLimitResponse();
       throw new Error(`Unexpected request ${url}`);
     };
     const { req, res, getStatus, getJson } = authenticatedMocks({
@@ -199,6 +213,7 @@ test('malformed paper model output degrades without returning raw provider conte
     global.fetch = async (url) => {
       if (isAuthRequest(url)) return authResponse();
       if (isMembershipRequest(url)) return approvedMembershipResponse();
+      if (isRateLimitRpcRequest(url)) return allowedRateLimitResponse();
       return new Response(JSON.stringify({ choices: [{ message: { content: 'PRIVATE malformed output' } }] }), {
         status: 200,
         headers: { 'content-type': 'application/json' },
@@ -221,6 +236,7 @@ test('note provider errors degrade without leaking provider response text', asyn
     global.fetch = async (url) => {
       if (isAuthRequest(url)) return authResponse();
       if (isMembershipRequest(url)) return approvedMembershipResponse();
+      if (isRateLimitRpcRequest(url)) return allowedRateLimitResponse();
       return new Response('PRIVATE provider diagnostic', { status: 500 });
     };
     const { req, res, getStatus, getJson } = authenticatedMocks({
