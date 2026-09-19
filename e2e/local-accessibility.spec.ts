@@ -109,6 +109,54 @@ test.describe('local keyboard accessibility', () => {
     await expect(page.getByRole('heading', { name: 'Make the first attempt.' })).toBeVisible();
   });
 
+  test('Concept Lens traps focus, hides the background, closes on Escape, and returns focus', async ({ page }) => {
+    await page.goto('/');
+    const trigger = page.getByRole('button', { name: 'Open concept lens' }).first();
+    await trigger.click();
+
+    const dialog = page.getByRole('dialog', { name: 'Notice the change. Explain the why.' });
+    await expect(dialog).toBeVisible();
+    await expect(dialog.getByRole('button', { name: 'Close concept lens' })).toBeFocused();
+    await expect(page.locator('#root')).toHaveAttribute('aria-hidden', 'true');
+    await expect(page.locator('#root')).toHaveJSProperty('inert', true);
+
+    await page.keyboard.press('Tab');
+    await expect(dialog.locator(':focus')).toBeVisible();
+    await page.keyboard.press('Escape');
+    await expect(dialog).toBeHidden();
+    await expect(trigger).toBeFocused();
+    await expect(page.locator('#root')).not.toHaveAttribute('aria-hidden', 'true');
+    await expect(page.locator('#root')).toHaveJSProperty('inert', false);
+  });
+
+  test('reduced motion removes landing animation and keeps horizontal alternatives usable', async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await page.goto('/');
+    await expect(page.locator('.vertex-home')).toBeVisible();
+
+    const motion = await page.evaluate(() => ({
+      rootAnimations: (document.querySelector('.vertex-home') as HTMLElement)
+        .getAnimations({ subtree: true })
+        .filter((animation) => animation.playState === 'running').length,
+      marqueeOverflow: getComputedStyle(document.querySelector('.vh-marquee') as HTMLElement).overflowX,
+      stackTransform: getComputedStyle(document.querySelector('.vh-stack-game') as HTMLElement).transform,
+    }));
+    expect(motion.rootAnimations).toBe(0);
+    expect(motion.marqueeOverflow).toBe('auto');
+    expect(motion.stackTransform).toBe('none');
+  });
+
+  test('mobile mastery content stays inside the viewport', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto('/');
+    const dimensions = await page.locator('.vh-mastery-copy').evaluate((element) => {
+      const rect = element.getBoundingClientRect();
+      return { left: rect.left, right: rect.right, viewport: window.innerWidth };
+    });
+    expect(dimensions.left).toBeGreaterThanOrEqual(0);
+    expect(dimensions.right).toBeLessThanOrEqual(dimensions.viewport + 1);
+  });
+
   for (const viewport of launchViewports) {
     test(`public auth surfaces keep visible keyboard focus and fit at ${viewport.width}px`, async ({ page }, testInfo) => {
       await page.setViewportSize(viewport);
