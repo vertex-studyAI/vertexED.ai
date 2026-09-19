@@ -1,5 +1,6 @@
 import { authFetchWithAccessToken, getAccessToken } from '@/lib/apiAuth';
 import { createRequestDeadline } from '@/lib/apiRequestRecovery.mjs';
+import { studySyncError } from '@/lib/studySyncError.mjs';
 
 const PLANNER_SYNC_TIMEOUT_MS = 15_000;
 const PLANNER_SYNC_TIMEOUT_MESSAGE = 'Cloud sync timed out; using planner saved on this device';
@@ -150,7 +151,7 @@ export async function loadPlannerSnapshot(storageScope?: string | null, acceptCl
       snapshot: local,
       cloudSynced: false,
       readOnly: localReadFailed,
-      error: deadline.didTimeout() ? PLANNER_SYNC_TIMEOUT_MESSAGE : err instanceof Error ? err.message : 'Planner saved on this device only',
+      error: deadline.didTimeout() ? PLANNER_SYNC_TIMEOUT_MESSAGE : studySyncError(err, 'local-fallback'),
     };
   } finally {
     deadline.cleanup();
@@ -170,7 +171,7 @@ export async function savePlannerSnapshot(
     const metadata = readSnapshotMetadata(localStorage, metadataKey);
     writeLocalPlannerSnapshot(snapshot, resolvedScope);
     writeSnapshotMetadata(localStorage, metadataKey, { ...metadata, pending: true });
-  } catch (error) { return { ok: false, cloudSynced: false, error: error instanceof Error ? error.message : 'Browser storage is unavailable. Export your work before leaving.' }; }
+  } catch (error) { return { ok: false, cloudSynced: false, error: studySyncError(error, 'sync') }; }
   return serializeSnapshotWrite(metadataKey, async () => {
     const deadline = createRequestDeadline(undefined, PLANNER_SYNC_TIMEOUT_MS);
     try {
@@ -195,7 +196,7 @@ export async function savePlannerSnapshot(
       writeSnapshotMetadata(localStorage, metadataKey, { revision: data.item.updated_at, pending, syncedLocalTime: snapshot.updatedAt });
       trackPlannerSaved({ cloudSynced: !pending, taskCount: snapshot.tasks.length });
       return { ok: true, cloudSynced: !pending };
-    } catch (err) { return { ok: true, cloudSynced: false, error: deadline.didTimeout() ? PLANNER_SYNC_TIMEOUT_MESSAGE : err instanceof Error ? err.message : 'Saved on this device only' }; }
+    } catch (err) { return { ok: true, cloudSynced: false, error: deadline.didTimeout() ? PLANNER_SYNC_TIMEOUT_MESSAGE : studySyncError(err, 'local-fallback') }; }
     finally {
       deadline.cleanup();
     }

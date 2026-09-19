@@ -1,5 +1,6 @@
 import { authFetchWithAccessToken, getAccessToken } from '@/lib/apiAuth';
 import { getUserContentStorageScope, userContentStorageKeys } from '@/lib/userContentStorageScope.mjs';
+import { studySyncError } from '@/lib/studySyncError.mjs';
 import {
   parseStoredArray,
   resolveLocalStorage,
@@ -311,12 +312,12 @@ export async function updateStudyArtifact(
     const data = await res.json().catch(() => null);
     if (!isCurrentUserContentScope(scope)) return accountChangedSaveResult();
     if (!res.ok) {
-      return { ok: false, error: data?.error || 'Update failed' };
+      return { ok: false, error: studySyncError(data?.error || 'Update failed', 'update') };
     }
     return { ok: true, id: data?.item?.id ?? id };
   } catch (err) {
     if (!isCurrentUserContentScope(scope)) return accountChangedSaveResult();
-    return { ok: false, error: err instanceof Error ? err.message : 'Update failed' };
+    return { ok: false, error: studySyncError(err, 'update') };
   }
 }
 
@@ -368,7 +369,7 @@ export async function saveStudyArtifact(
         ok: true,
         id: local.id,
         localOnly: true,
-        error: data?.error || 'Saved on this device only',
+        error: studySyncError(data?.error || 'Saved on this device only', 'local-fallback'),
       };
     }
     return { ok: true, id: data?.item?.id, replayed: data?.replayed === true };
@@ -381,7 +382,7 @@ export async function saveStudyArtifact(
       ok: true,
       id: local.id,
       localOnly: true,
-      error: err instanceof Error ? err.message : 'Saved on this device only',
+      error: studySyncError(err, 'local-fallback'),
     };
   }
 }
@@ -460,7 +461,7 @@ export async function syncLocalStudyArtifacts(): Promise<ArtifactSyncResult> {
         lastError = ACCOUNT_CHANGED_ERROR;
         break;
       }
-      lastError = err instanceof Error ? err.message : 'Cloud sync unavailable';
+      lastError = studySyncError(err, 'sync');
     }
   }
 
@@ -505,12 +506,12 @@ export async function deleteStudyArtifact(
     const data = await res.json().catch(() => null);
     if (!isCurrentUserContentScope(scope)) return { ok: false, error: ACCOUNT_CHANGED_ERROR };
     if (!res.ok) {
-      return { ok: false, error: data?.error || 'Delete failed' };
+      return { ok: false, error: studySyncError(data?.error || 'Delete failed', 'delete') };
     }
     return { ok: true };
   } catch (err) {
     if (!isCurrentUserContentScope(scope)) return { ok: false, error: ACCOUNT_CHANGED_ERROR };
-    return { ok: false, error: err instanceof Error ? err.message : 'Delete failed' };
+    return { ok: false, error: studySyncError(err, 'delete') };
   }
 }
 
@@ -565,7 +566,7 @@ export async function listStudyArtifactsDetailed(
       ok: local.length > 0,
       items: local,
       cloudUnavailable: true,
-      error: err instanceof Error ? err.message : 'Cloud sync unavailable - showing device saves',
+      error: studySyncError(err, 'load'),
     };
   }
 }

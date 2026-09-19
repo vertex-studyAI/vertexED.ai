@@ -1,5 +1,6 @@
 import { authFetchWithAccessToken, getAccessToken } from '@/lib/apiAuth';
 import { getUserContentStorageScope } from '@/lib/userContentStorageScope.mjs';
+import { studySyncError } from '@/lib/studySyncError.mjs';
 import { readSnapshotArray, backupSnapshotBytes, readSnapshotMetadata, writeSnapshotMetadata, writeSnapshotValues, reconcileSnapshot, serializeSnapshotWrite, captureSnapshotRevision, expectedSnapshotRevision } from '@/lib/snapshotConcurrency.mjs';
 import { setNotebookStorageScope, type StudyNotebook } from '@/lib/notebook';
 import { notebookStorageKeys } from '@/lib/notebookStorageScope.mjs';
@@ -149,7 +150,7 @@ export async function loadNotebookSnapshot(storageScope?: string | null, acceptC
     return finish({
       snapshot: local,
       cloudSynced: false,
-      error: err instanceof Error ? err.message : 'Notebooks saved on this device only',
+      error: studySyncError(err, 'local-fallback'),
     });
   }
 }
@@ -167,7 +168,7 @@ export async function saveNotebookSnapshot(
     const metadata = readSnapshotMetadata(localStorage, metadataKey);
     writeLocalNotebookSnapshot(snapshot, resolvedScope);
     writeSnapshotMetadata(localStorage, metadataKey, { ...metadata, pending: true });
-  } catch (error) { return { ok: false, cloudSynced: false, error: error instanceof Error ? error.message : 'Browser storage is unavailable. Export your work before leaving.' }; }
+  } catch (error) { return { ok: false, cloudSynced: false, error: studySyncError(error, 'sync') }; }
   return serializeSnapshotWrite(metadataKey, async () => {
     try {
       if (getUserContentStorageScope() !== resolvedScope) return { ok: true, cloudSynced: false, error: 'Account changed. Work remains on this device.' };
@@ -190,6 +191,6 @@ export async function saveNotebookSnapshot(
       writeSnapshotMetadata(localStorage, metadataKey, { revision: data.item.updated_at, pending, syncedLocalTime: snapshot.updatedAt });
 
       return { ok: true, cloudSynced: !pending };
-    } catch (err) { return { ok: true, cloudSynced: false, error: err instanceof Error ? err.message : 'Saved on this device only' }; }
+    } catch (err) { return { ok: true, cloudSynced: false, error: studySyncError(err, 'local-fallback') }; }
   });
 }
