@@ -18,7 +18,7 @@ test('root app errors provide an accessible recovery path', async () => {
   assert.match(boundary, /role="alert"/);
   assert.match(boundary, /aria-labelledby="app-error-title"/);
   assert.match(boundary, /aria-describedby="app-error-description"/);
-  assert.match(boundary, /this\.headingRef\.current\?\.focus\(\)/);
+  assert.match(boundary, /window\.requestAnimationFrame\(\(\) => this\.headingRef\.current\?\.focus\(\{ preventScroll: true \}\)\)/);
   assert.match(boundary, /tabIndex=\{-1\}/);
   assert.match(boundary, /window\.location\.reload\(\)/);
   assert.match(boundary, />\s*Reload page\s*</);
