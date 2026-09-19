@@ -3,6 +3,7 @@ import { rateLimitUserEndpoint } from '../_lib/rateLimit.js';
 import { fetchProvider } from '../_lib/providerRequest.js';
 import { routeAiRequest } from '../_lib/aiRouting.js';
 import { parseTranscriptionRequest, TranscriptionInputError } from '../_lib/transcriptionInput.js';
+import { VERTEX_AGENTS } from '../_lib/vertexAgents.js';
 
 const TRANSCRIPTION_MODEL = 'gpt-4o-mini-transcribe';
 const ENRICHMENT_MODEL = 'gpt-4o-mini';
@@ -33,7 +34,7 @@ async function generateNotes(apiKey, transcript, noteFormat, noteLength) {
       body: JSON.stringify({
         model: route.model,
         messages: [
-          { role: 'system', content: 'You are a precise academic notetaker. Preserve facts from the transcript and never add unsupported claims.' },
+          { role: 'system', content: VERTEX_AGENTS.transcriptionAssistant.instructions },
           { role: 'user', content: `Convert this transcript into ${noteFormat} notes with ${noteLength} detail. Keep chronological order and key points.\n\n${transcript.slice(0, 30_000)}` },
         ],
         temperature: 0.3,
