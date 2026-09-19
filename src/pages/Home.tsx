@@ -55,9 +55,21 @@ export default function Home() {
   const [masteryStep, setMasteryStep] = useState(0);
   const [exampleIndex, setExampleIndex] = useState(0);
   const [lensOpen, setLensOpen] = useState(false);
+  const [effectsOn, setEffectsOn] = useState(() => {
+    if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') return true;
+    return !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  });
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
-  useLandingMotion(root, true);
+  useEffect(() => {
+    if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') return;
+    const query = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const sync = () => setEffectsOn(!query.matches);
+    sync();
+    query.addEventListener('change', sync);
+    return () => query.removeEventListener('change', sync);
+  }, []);
+  useLandingMotion(root, effectsOn);
   useEffect(() => { if (isAuthenticated) navigate('/main', { replace: true }); }, [isAuthenticated, navigate]);
   const subjects = useMemo(() => programme === 'MYP' ? MYP5_SUBJECTS.slice(0, 8).map((item) => item.name) : dpSubjects, [programme]);
   const activeSubject = subjects[Math.min(subjectIndex, subjects.length - 1)];
@@ -74,8 +86,8 @@ export default function Home() {
 
   return <>
     <SEO title="IB MYP and Diploma study platform | VertexED" description="Learn curriculum concepts, practise original questions, review answers and return to the exact gaps in your understanding." canonical="https://www.vertexed.app/" jsonLd={{ '@context': 'https://schema.org', '@type': 'WebSite', name: 'VertexED', url: 'https://www.vertexed.app/' }} />
-    <div className="vertex-home" ref={root} data-effects="on">
-      <LandingInk enabled />
+    <div className="vertex-home" ref={root} data-effects={effectsOn ? 'on' : 'off'}>
+      <LandingInk enabled={effectsOn} />
       <div className="vh-page-trace" aria-hidden="true"><i /></div>
       <nav className="vh-scroll-island" aria-label="Landing page sections">
         <a href="#concept-lens">Lens</a><a href="#curriculum">Courses</a><a href="#learning">Method</a><a href="#study-examples">Try it</a><a href="#beta">Beta</a>
