@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useMemo, useState, type ReactNode
 import { normalizeAppPreferences } from '@/lib/appPreferencesStorage.mjs';
 import { parseStoredObject, resolveLocalStorage, safeStorageGet, safeStorageSet } from '@/lib/browserStorage.mjs';
 import { applyThemeClass, getThemeMetaColor, resolveIsDark, type ThemeMode } from '@/lib/theme';
+import type { ApexAppearance } from '@/lib/apexAppearance';
 
 export type AccessibilitySettings = {
   theme: ThemeMode;
@@ -11,7 +12,7 @@ export type AccessibilitySettings = {
   fontSize: 'base' | 'large' | 'xlarge';
   simpleMode: boolean;
   studyCompanion: boolean;
-  apexAppearance: 'paper' | 'ink';
+  apexAppearance: ApexAppearance;
   apexPosition: { x: number; y: number } | null;
 };
 

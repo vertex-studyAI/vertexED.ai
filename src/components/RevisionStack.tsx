@@ -104,7 +104,7 @@ export default function RevisionStack() {
       const target = (piece.kind * 3) % 7;
       if (demo && piece.x !== target && !collides(board, { ...piece, x: piece.x + Math.sign(target - piece.x) })) move(Math.sign(target - piece.x), 0);
       else move(0, 1);
-    }, demo ? 280 : 720);
+    }, demo ? 220 : 440);
     return () => window.clearInterval(timer);
   }, [move, reducedMotion, running, inView, pageVisible, demo, piece, board]);
 
@@ -162,6 +162,7 @@ export default function RevisionStack() {
         {reducedMotion && <p className="vh-stack-note">Automatic movement is paused by your reduced-motion setting. Manual controls remain available.</p>}
       </div>
       <div className="vh-stack-game" tabIndex={0} onKeyDown={onKeyDown} aria-label="Revision Stack game. Use arrow keys to move, up arrow to rotate and Space to place a block.">
+        <p className="vh-stack-instructions"><strong>How to play</strong><span>Move: ← → · Rotate: ↑ · Faster: ↓ · Place: Space</span></p>
         <div className="vh-stack-board" aria-hidden="true">
           {visible.flatMap((row, y) => row.map((filled, x) => <i className={filled ? 'is-filled' : ''} data-piece={filled || undefined} key={`${x}-${y}`} />))}
         </div>
@@ -170,6 +171,7 @@ export default function RevisionStack() {
           <button type="button" aria-label="Rotate" onClick={turn}><RotateCw aria-hidden /></button>
           <button type="button" aria-label="Move right" onClick={() => move(1, 0)}><ArrowRight aria-hidden /></button>
           <button type="button" aria-label="Move down" onClick={() => move(0, 1)}><ArrowDown aria-hidden /></button>
+          <button type="button" aria-label="Place block" onClick={drop}>Place</button>
         </div>
       </div>
     </section>
