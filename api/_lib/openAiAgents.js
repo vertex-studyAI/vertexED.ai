@@ -3,25 +3,35 @@ import { ProviderTimeoutError, fetchWithTimeout } from './fetchWithTimeout.js';
 const MAX_PROJECT_AGENTS = 500;
 const MAX_PROJECT_AGENT_PAGES = 20;
 const MAX_PROJECT_AGENT_TOTAL_TIMEOUT_MS = 30_000;
+const MAX_AGENT_NAME_LENGTH = 120;
+const MAX_AGENT_MODEL_LENGTH = 120;
+const MAX_AGENT_TOOL_TYPES = 32;
+const MAX_AGENT_TOOL_TYPE_LENGTH = 64;
 const AGENT_ID_PATTERN = /^[A-Za-z0-9_-]{1,64}$/;
+
+function boundedText(value, maximum, fallback = '') {
+  if (typeof value !== 'string') return fallback;
+  const text = value.trim();
+  return text ? text.slice(0, maximum) : fallback;
+}
 
 function publicAgent(agent) {
   const tools = Array.isArray(agent?.tools)
     ? Array.from(
         new Set(
           agent.tools
-            .map((tool) => String(tool?.type || '').trim())
+            .map((tool) => boundedText(tool?.type, MAX_AGENT_TOOL_TYPE_LENGTH))
             .filter(Boolean),
         ),
-      )
+      ).slice(0, MAX_AGENT_TOOL_TYPES)
     : [];
 
   return {
-    id: String(agent?.id || ''),
-    name: typeof agent?.name === 'string' && agent.name.trim() ? agent.name.trim() : 'Unnamed agent',
-    model: typeof agent?.model === 'string' ? agent.model.trim() : '',
+    id: String(agent?.id || '').trim(),
+    name: boundedText(agent?.name, MAX_AGENT_NAME_LENGTH, 'Unnamed agent'),
+    model: boundedText(agent?.model, MAX_AGENT_MODEL_LENGTH),
     toolTypes: tools,
-    updatedAt: Number.isFinite(agent?.updated_at) ? agent.updated_at : null,
+    updatedAt: Number.isInteger(agent?.updated_at) && agent.updated_at >= 0 ? agent.updated_at : null,
   };
 }
 
@@ -59,6 +69,7 @@ export async function listOpenAiProjectAgents({
 
   const startedAt = now();
   const agents = [];
+  const seenAgentIds = new Set();
   let after = '';
   let pagesFetched = 0;
 
@@ -98,8 +109,14 @@ export async function listOpenAiProjectAgents({
     }
 
     const rawPage = Array.isArray(payload?.data) ? payload.data : [];
-    const page = rawPage.filter((agent) => isOpenAiAgentId(agent?.id)).map(publicAgent);
-    agents.push(...page);
+    for (const rawAgent of rawPage) {
+      if (!isOpenAiAgentId(rawAgent?.id)) continue;
+      const agent = publicAgent(rawAgent);
+      if (seenAgentIds.has(agent.id)) continue;
+      seenAgentIds.add(agent.id);
+      agents.push(agent);
+      if (agents.length >= maxAgents) break;
+    }
 
     const lastId = typeof payload?.last_id === 'string' ? payload.last_id : '';
     if (!payload?.has_more || !lastId || lastId === after || rawPage.length === 0) break;
