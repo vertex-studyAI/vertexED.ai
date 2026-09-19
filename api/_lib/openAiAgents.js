@@ -37,6 +37,10 @@ function publicAgent(agent) {
   };
 }
 
+function oversizedProviderResponse() {
+  return new Error('OpenAI project agents returned an oversized response');
+}
+
 function declaredContentLength(response) {
   const value = response?.headers?.get?.('content-length');
   if (value == null || value === '') return null;
@@ -47,12 +51,39 @@ function declaredContentLength(response) {
 async function readBoundedProviderBody(response) {
   const declaredBytes = declaredContentLength(response);
   if (declaredBytes !== null && declaredBytes > MAX_PROJECT_AGENT_RESPONSE_BYTES) {
-    throw new Error('OpenAI project agents returned an oversized response');
+    throw oversizedProviderResponse();
   }
 
+  const reader = response?.body?.getReader?.();
+  if (reader) {
+    const decoder = new TextDecoder();
+    let totalBytes = 0;
+    let raw = '';
+    try {
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        const chunk = value instanceof Uint8Array ? value : new Uint8Array(value ?? []);
+        totalBytes += chunk.byteLength;
+        if (totalBytes > MAX_PROJECT_AGENT_RESPONSE_BYTES) {
+          await reader.cancel?.();
+          throw oversizedProviderResponse();
+        }
+        raw += decoder.decode(chunk, { stream: true });
+      }
+      raw += decoder.decode();
+      return raw;
+    } finally {
+      reader.releaseLock?.();
+    }
+  }
+
+  // Test doubles and older fetch implementations may expose text() without a
+  // readable stream. Preserve the same contract, though native fetch takes the
+  // streaming path above so oversized bodies are stopped before full buffering.
   const raw = await response.text();
   if (new TextEncoder().encode(raw).byteLength > MAX_PROJECT_AGENT_RESPONSE_BYTES) {
-    throw new Error('OpenAI project agents returned an oversized response');
+    throw oversizedProviderResponse();
   }
   return raw;
 }
