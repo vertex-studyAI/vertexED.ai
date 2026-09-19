@@ -9,10 +9,19 @@ import PageLoader from "@/components/PageLoader";
 function WaitlistPending() {
   return (
     <div className="mx-auto flex min-h-[55vh] max-w-lg items-center px-5">
-      <section className="glass-panel w-full p-8 text-center">
+      <section
+        className="glass-panel w-full p-8 text-center"
+        role="status"
+        aria-labelledby="waitlist-pending-title"
+        aria-describedby="waitlist-pending-description"
+      >
         <p className="text-sm font-semibold text-primary">Private beta</p>
-        <h1 className="mt-2 text-2xl font-semibold text-foreground">Your access is pending</h1>
-        <p className="mt-3 text-sm leading-relaxed text-muted-foreground">We have your request. We will email an account-creation link once it is approved.</p>
+        <h1 id="waitlist-pending-title" className="mt-2 text-2xl font-semibold text-foreground">
+          Your access is pending
+        </h1>
+        <p id="waitlist-pending-description" className="mt-3 text-sm leading-relaxed text-muted-foreground">
+          We have your request. We will email an account-creation link once it is approved.
+        </p>
       </section>
     </div>
   );
@@ -21,10 +30,19 @@ function WaitlistPending() {
 function WaitlistRejected() {
   return (
     <div className="mx-auto flex min-h-[55vh] max-w-lg items-center px-5">
-      <section className="glass-panel w-full p-8 text-center" role="alert">
+      <section
+        className="glass-panel w-full p-8 text-center"
+        role="alert"
+        aria-labelledby="waitlist-rejected-title"
+        aria-describedby="waitlist-rejected-description"
+      >
         <p className="text-sm font-semibold text-destructive">Private beta</p>
-        <h1 className="mt-2 text-2xl font-semibold text-foreground">Access is not approved</h1>
-        <p className="mt-3 text-sm leading-relaxed text-muted-foreground">This account does not currently have beta access. Contact support if you believe this is a mistake.</p>
+        <h1 id="waitlist-rejected-title" className="mt-2 text-2xl font-semibold text-foreground">
+          Access is not approved
+        </h1>
+        <p id="waitlist-rejected-description" className="mt-3 text-sm leading-relaxed text-muted-foreground">
+          This account does not currently have beta access. Contact support if you believe this is a mistake.
+        </p>
       </section>
     </div>
   );
@@ -33,10 +51,19 @@ function WaitlistRejected() {
 function WaitlistUnavailable({ onRetry }: { onRetry: () => void }) {
   return (
     <div className="mx-auto flex min-h-[55vh] max-w-lg items-center px-5">
-      <section className="glass-panel w-full p-8 text-center" role="alert">
+      <section
+        className="glass-panel w-full p-8 text-center"
+        role="alert"
+        aria-labelledby="waitlist-unavailable-title"
+        aria-describedby="waitlist-unavailable-description"
+      >
         <p className="text-sm font-semibold text-amber-500">Connection problem</p>
-        <h1 className="mt-2 text-2xl font-semibold text-foreground">We could not verify your access</h1>
-        <p className="mt-3 text-sm leading-relaxed text-muted-foreground">You are signed in, but the access service could not confirm your beta approval. Your access status was not changed. Try again or contact support if this continues.</p>
+        <h1 id="waitlist-unavailable-title" className="mt-2 text-2xl font-semibold text-foreground">
+          We could not verify your access
+        </h1>
+        <p id="waitlist-unavailable-description" className="mt-3 text-sm leading-relaxed text-muted-foreground">
+          You are signed in, but the access service could not confirm your beta approval. Your access status was not changed. Try again or contact support if this continues.
+        </p>
         <button type="button" className="neu-button mt-5 px-4 py-2" onClick={onRetry}>Try again</button>
       </section>
     </div>
