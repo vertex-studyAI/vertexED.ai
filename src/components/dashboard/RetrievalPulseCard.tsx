@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router';
-import { ArrowRight, Bot, Zap } from 'lucide-react';
+import { ArrowRight, Zap } from 'lucide-react';
 import type { RetrievalPulse } from '@/lib/retrievalPulse';
 import LiquidGlass from '@/components/LiquidGlass';
 import ExamReadinessRing from '@/components/dashboard/ExamReadinessRing';
@@ -11,6 +11,7 @@ import { storeApexPrefill } from '@/lib/apexPrefillStorage.mjs';
 import { toast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 import { LOOP_STEPS } from '@/lib/studyLoopTracker';
+import ApexAvatar from '@/components/chat/ApexAvatar';
 
 type Props = {
   pulse: RetrievalPulse;
@@ -86,7 +87,7 @@ export default function RetrievalPulseCard({ pulse, className }: Props) {
                 <ArrowRight className="h-3.5 w-3.5" />
               </Link>
               <button type="button" onClick={() => openApexWith(pulse.apexPrompt)} className="btn-glass text-sm inline-flex items-center gap-1.5">
-                <Bot className="h-3.5 w-3.5" />
+                <ApexAvatar className="apex-avatar-inline" />
                 Ask Apex why
               </button>
             </div>
