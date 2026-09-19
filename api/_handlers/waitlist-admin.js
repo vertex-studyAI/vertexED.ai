@@ -136,7 +136,14 @@ export default async function handler(req, res) {
         emailSent = Boolean(notify.sent);
       }
 
-      return res.status(200).json({ entry: data, inviteLink, emailSent });
+      // Never return the raw invite bearer in JSON when email delivery succeeded.
+      // Only surface the link as a manual fallback when mail was not sent.
+      return res.status(200).json({
+        entry: data,
+        emailSent,
+        tokenIssued: Boolean(inviteToken),
+        ...(inviteLink && !emailSent ? { inviteLink } : {}),
+      });
     }
 
     return res.status(400).json({ error: 'Unknown action. Use "list" or "update".' });

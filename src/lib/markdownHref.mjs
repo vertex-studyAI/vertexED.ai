@@ -12,7 +12,7 @@ export function safeMarkdownHref(href) {
   }
   try {
     const url = new URL(value);
-    if (url.protocol === 'https:' || url.protocol === 'http:' || url.protocol === 'mailto:') {
+  if (url.protocol === 'https:' || url.protocol === 'mailto:') {
       return url.href;
     }
   } catch {

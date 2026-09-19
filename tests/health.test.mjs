@@ -292,6 +292,38 @@ test('readiness detail requires HEALTH_READINESS_TOKEN when configured', async (
   });
 });
 
+test('Vercel production redacts readiness detail when HEALTH_READINESS_TOKEN is unset', async () => {
+  await withHealthEnv({
+    SUPABASE_URL: 'https://example.supabase.co',
+    SUPABASE_ANON_KEY: 'anon-key',
+    SUPABASE_SERVICE_ROLE_KEY: 'service-role-key',
+    ChatbotKey: 'openai-key',
+    GEMINI_API_KEY: 'gemini-key',
+    WAITLIST_RATE_LIMIT_SALT: 'rate-limit-salt',
+    VERCEL_ENV: 'production',
+  }, async () => {
+    const originalFetch = globalThis.fetch;
+    globalThis.fetch = async () => new Response(JSON.stringify({
+      atomicRateLimitRpc: true,
+      learnerStateStorage: true,
+      batchLearnerStateSync: true,
+      examSessionStorage: true,
+      observabilityStorage: true,
+      singletonIntegrity: true,
+    }), { status: 200, headers: { 'content-type': 'application/json' } });
+    try {
+      const { req, res, getJson } = createMocks({ method: 'GET' });
+      req.query = { readiness: '1' };
+      req.url = '/api/health?readiness=1';
+      await handler(req, res);
+      assert.equal(getJson().detail, 'redacted');
+      assert.equal(getJson().checks, undefined);
+    } finally {
+      globalThis.fetch = originalFetch;
+    }
+  });
+});
+
 test('a legacy database readiness response cannot certify exam-session support', async () => {
   await withHealthEnv({
     SUPABASE_URL: 'https://example.supabase.co', SUPABASE_ANON_KEY: 'fixture',

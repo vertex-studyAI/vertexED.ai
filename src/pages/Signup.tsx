@@ -27,7 +27,8 @@ export default function Signup() {
   const { login } = useAuth();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const waitlistInviteToken = searchParams.get("invite")?.trim() || "";
+  // Capture invite once, then scrub it from the address bar to limit history/log leakage.
+  const [waitlistInviteToken] = useState(() => searchParams.get("invite")?.trim() || "");
   const hasWaitlistInvite = Boolean(waitlistInviteToken);
   const [useTeamInvite, setUseTeamInvite] = useState(false);
   const isAccountSignup = hasWaitlistInvite || useTeamInvite;
@@ -38,6 +39,15 @@ export default function Signup() {
   const [honeypot, setHoneypot] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (!waitlistInviteToken || typeof window === "undefined") return;
+    const url = new URL(window.location.href);
+    if (!url.searchParams.has("invite")) return;
+    url.searchParams.delete("invite");
+    const next = `${url.pathname}${url.search}${url.hash}`;
+    window.history.replaceState(window.history.state, "", next);
+  }, [waitlistInviteToken]);
   const [success, setSuccess] = useState(false);
   const [teamInviteSent, setTeamInviteSent] = useState(false);
   const [studyProfile, setStudyProfile] = useState({ school: '', country: '', curriculum: '', curriculumOther: '', grade: '', age: '', consent: false });
