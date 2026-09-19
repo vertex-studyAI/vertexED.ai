@@ -46,6 +46,16 @@ export async function syncLearnerStateItems(supabase, userId, items) {
   });
 }
 
+/**
+ * Batch sync returns per-item applied flags under HTTP 200 for partial success.
+ * When every mutation lost the CAS race, surface a conflict instead of looking
+ * like a successful write.
+ */
+export function learnerStateMutationHttpStatus(results) {
+  if (!Array.isArray(results) || results.length === 0) return 500;
+  return results.some((item) => item?.applied === true) ? 200 : 409;
+}
+
 export async function listLearnerStateItems(supabase, userId, cursor = null) {
   let query = supabase
     .from('learner_state_items')

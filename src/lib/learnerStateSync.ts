@@ -17,6 +17,7 @@ import {
   listDurableOutboxRecords,
   putDurableOutboxRecord,
 } from '@/lib/durableOutbox';
+import { partitionLearnerStateSyncResults } from '@/lib/learnerStateSyncResult.mjs';
 
 export type LearnerStateType = 'weakness' | 'retry' | 'mock_draft' | 'exam_session';
 
@@ -141,15 +142,18 @@ export async function syncLearnerState(): Promise<{ synced: number; remaining: n
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ items: batch }),
       });
-      if (!response.ok) break;
       const data = await response.json().catch(() => null);
-      const acknowledged = new Set(
-        Array.isArray(data?.results) ? data.results.map((item: { requestedRevision?: string }) => item.requestedRevision) : [],
-      );
-      const confirmed = batch.filter((item) => acknowledged.has(item.clientRevision));
-      await removeConfirmedWrites(confirmed, scope);
-      synced += confirmed.length;
-      if (confirmed.length !== batch.length) break;
+      // 409 = every write lost the CAS race (still includes per-item results).
+      // Other non-OK statuses must not clear the outbox.
+      if (!response.ok && response.status !== 409) break;
+      // applied:false still includes requestedRevision under HTTP 200/409 — never
+      // treat those as durable success. Drop obsolete losing revisions from the
+      // outbox without incrementing synced; keep unresolved rows for retry.
+      const { applied, rejected, unresolved } = partitionLearnerStateSyncResults(batch, data?.results);
+      await removeConfirmedWrites([...applied, ...rejected], scope);
+      synced += applied.length;
+      if (unresolved.length || applied.length + rejected.length !== batch.length) break;
+      if (rejected.length || response.status === 409) break;
     }
     notifyChanged();
     return { synced, remaining: (await readCombinedOutbox(scope)).length };

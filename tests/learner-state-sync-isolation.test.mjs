@@ -9,7 +9,8 @@ test('background learner sync binds account scope and token for the entire reque
   assert.match(syncSource, /const scope = getUserContentStorageScope\(\)/);
   assert.match(syncSource, /const accessToken = await getAccessToken\(\)/);
   assert.match(syncSource, /authFetchWithAccessToken\('\/api\/learner-state', accessToken/);
-  assert.match(syncSource, /removeConfirmedWrites\(confirmed, scope\)/);
+  assert.match(syncSource, /removeConfirmedWrites\(\[\.\.\.applied, \.\.\.rejected\], scope\)/);
+  assert.match(syncSource, /partitionLearnerStateSyncResults\(batch, data\?\.results\)/);
   assert.match(syncSource, /userContentStorageKeys\(scope\)/);
   assert.match(syncSource, /getUserContentStorageScope\(\) !== scope/);
   assert.match(syncSource, /putDurableOutboxRecord/);
