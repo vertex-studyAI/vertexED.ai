@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router';
-import { ArrowDown, ArrowRight, ArrowUpRight, BookOpen, BrainCircuit, ChevronRight, CircleDot, Play, Sparkles } from 'lucide-react';
+import { ArrowDown, ArrowRight, ArrowUpRight, BookOpen, BrainCircuit, ChevronRight, CircleDot, Play, Search, Sparkles, X } from 'lucide-react';
 import SEO from '@/components/SEO';
+import AccessibleModal from '@/components/AccessibleModal';
 import LandingInk from '@/components/LandingInk';
 import RevisionStack from '@/components/RevisionStack';
 import ConceptLens from '@/components/ConceptLens';
@@ -44,6 +45,7 @@ export default function Home() {
   const [subjectIndex, setSubjectIndex] = useState(0);
   const [stage, setStage] = useState(0);
   const [masteryStep, setMasteryStep] = useState(0);
+  const [lensOpen, setLensOpen] = useState(false);
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
   useLandingMotion(root, true);
@@ -65,7 +67,6 @@ export default function Home() {
     <div className="vertex-home" ref={root} data-effects="on">
       <LandingInk enabled />
       <div className="vh-page-trace" aria-hidden="true"><i /></div>
-      <div className="vh-utility"><span><i aria-hidden /> VERTEXED / PRIVATE BETA STUDY SYSTEM</span><span className="vh-utility-note">Motion follows your device settings</span></div>
       <nav className="vh-scroll-island" aria-label="Landing page sections">
         <a href="#concept-lens">Lens</a><a href="#curriculum">Courses</a><a href="#learning">Method</a><a href="#study-examples">Try it</a><a href="#beta">Beta</a>
       </nav>
@@ -74,8 +75,12 @@ export default function Home() {
         <RevisionHero /><div className="vh-scroll-cue"><span>IB MYP · IB Diploma · A levels · IGCSE · GCSE</span><ArrowDown aria-hidden /></div>
       </section>
 
-      <ConceptLens />
+      <section className="vh-lens-launcher" id="concept-lens" aria-labelledby="lens-launcher-title" data-reveal>
+        <div><p className="vh-kicker">Contextual study tool</p><h2 id="lens-launcher-title">Open the lens<br /><em>when you need it.</em></h2></div>
+        <div><p>Inspect a difficult visual without leaving the learning step. The example only opens when you choose it.</p><button type="button" className="vh-primary" onClick={() => setLensOpen(true)}><Search aria-hidden /> Open concept lens</button></div>
+      </section>
       <StudyGallery />
+      <RevisionStack />
       <section className="vh-statement" data-reveal><p>01 / Beyond the paper</p><h2>Learn for the exam.<br /><em className="vh-media-text">Keep it for life.</em></h2><p>Connect curriculum practice to lasting understanding. Explain the method, test it without help and recognise where the same idea appears outside the classroom.</p></section>
 
       <section className="vh-curriculum" id="curriculum" aria-labelledby="curriculum-title" data-reveal>
@@ -83,7 +88,7 @@ export default function Home() {
         <div className="vh-curriculum-body"><div className="vh-subject-rail" role="list" aria-label={`${programme} subjects`}>{subjects.map((subject, index) => <button role="listitem" type="button" aria-pressed={subjectIndex === index} onClick={() => setSubjectIndex(index)} key={subject}><span>{String(index + 1).padStart(2, '0')}</span>{subject}<ChevronRight aria-hidden /></button>)}</div><div className="vh-curriculum-path" aria-live="polite"><div className="vh-path-line"><span>{programme}</span><i /><span>{activeSubject}</span><i /><span>{programme === 'MYP' ? mypSubject.topics[0] : 'Core concepts'}</span></div><div className="vh-topic-sheet"><p>Selected subject</p><h3>{activeSubject}</h3><p>{programme === 'MYP' ? mypSubject.summary : 'Move from syllabus statements to focused explanations, original practice and review.'}</p><ol><li><span>Unit</span><strong>{programme === 'MYP' ? mypSubject.topics[0] : 'Foundations'}</strong></li><li><span>Topic</span><strong>{programme === 'MYP' ? mypSubject.topics[1] ?? mypSubject.topics[0] : 'Core concepts'}</strong></li><li><span>Concept</span><strong>Explanation and worked method</strong></li><li><span>Resource</span><strong>Practice, solution and mastery check</strong></li></ol>{programme === 'MYP' ? <Link to={`/myp/subjects/${mypSubject.slug}/${topicSlug(mypSubject.topics[0])}`}>Open {activeSubject} <ArrowRight aria-hidden /></Link> : <Link to="/curricula/ib-dp/paper-maker">Explore Diploma tools <ArrowRight aria-hidden /></Link>}</div></div></div>
       </section>
 
-      <section className="vh-learning" id="learning" aria-labelledby="learning-title" data-reveal><header><p className="vh-kicker">03 / The learning experience</p><h2 id="learning-title">Six moves.<br /><em>One visible thread.</em></h2></header><div className="vh-stage-layout"><div className="vh-stage-tabs" role="tablist" aria-label="Learning stages" style={{ '--active-x': `${(stage % 3) * 100 / 3}%`, '--active-y': stage >= 3 ? '50%' : '0px' } as React.CSSProperties}>{learningStages.map((item, index) => <button role="tab" type="button" aria-selected={stage === index} aria-controls="learning-stage-panel" id={`learning-stage-${index}`} tabIndex={stage === index ? 0 : -1} onKeyDown={event => moveStageFocus(event, index)} onClick={() => setStage(index)} key={item.name}><span>{item.code}</span>{item.name}</button>)}</div><div className="vh-stage-panel" role="tabpanel" id="learning-stage-panel" aria-labelledby={`learning-stage-${stage}`}><div><p>{learningStages[stage].name}</p><h3>{learningStages[stage].title}</h3><p>{learningStages[stage].copy}</p></div><div className="vh-stage-demo" data-float><span>{learningStages[stage].sample[0]} / Example</span><strong>{learningStages[stage].sample[1]}</strong><p><CircleDot aria-hidden /> {learningStages[stage].sample[2]}</p></div></div></div></section>
+      <section className="vh-learning" id="learning" aria-labelledby="learning-title" data-reveal><header><p className="vh-kicker">03 / The learning experience</p><h2 id="learning-title">Six moves.<br /><em>One visible thread.</em></h2></header><div className="vh-stage-layout"><div className="vh-stage-tabs" role="tablist" aria-label="Learning stages" style={{ '--active-x': `${(stage % 3) * 100 / 3}%`, '--active-y': stage >= 3 ? '50%' : '0px' } as React.CSSProperties}>{learningStages.map((item, index) => <button role="tab" type="button" aria-selected={stage === index} aria-controls="learning-stage-panel" id={`learning-stage-${index}`} tabIndex={stage === index ? 0 : -1} onKeyDown={event => moveStageFocus(event, index)} onClick={() => setStage(index)} key={item.name}><span>{item.code}</span>{item.name}</button>)}</div><div className="vh-stage-panel" role="tabpanel" id="learning-stage-panel" aria-labelledby={`learning-stage-${stage}`}><div><p>{learningStages[stage].name}</p><h3>{learningStages[stage].title}</h3><p>{learningStages[stage].copy}</p>{['Learn', 'Review', 'Diagnose'].includes(learningStages[stage].name) && <button type="button" className="vh-stage-lens" onClick={() => setLensOpen(true)}><Search aria-hidden /> Inspect the example with Concept Lens</button>}</div><div className="vh-stage-demo" data-float><span>{learningStages[stage].sample[0]} / Example</span><strong>{learningStages[stage].sample[1]}</strong><p><CircleDot aria-hidden /> {learningStages[stage].sample[2]}</p></div></div></div></section>
 
       <section className="vh-subjects" id="subjects" aria-labelledby="subjects-title" data-reveal><header><div><p className="vh-kicker">04 / Subject universe</p><h2 id="subjects-title">Each discipline<br />has its own logic.</h2></div><p>Colour supports orientation. The shared revision trace keeps the learning workflow familiar across subjects.</p></header><div className="vh-subject-scroll">{MYP5_SUBJECTS.map((subject, index) => <Link to={`/myp/subjects/${subject.slug}`} className="vh-subject-card" data-float style={{ '--subject': subject.accent } as React.CSSProperties} key={subject.slug}><div><span>{String(index + 1).padStart(2, '0')}</span><BookOpen aria-hidden /></div><p>{subject.group}</p><h3>{subject.name}</h3><p>{subject.summary}</p><ul><li>{subject.topics.length} mapped topics</li><li>Practice and revision resources</li><li>Criterion-linked skills</li><li>Mastery checklist</li></ul><span>Explore <ArrowUpRight aria-hidden /></span></Link>)}</div></section>
 
@@ -98,9 +103,8 @@ export default function Home() {
         <div className="vh-marquee" tabIndex={0} aria-label="Fictional sample testimonials. Focus to pause scrolling."><div>{[...betaQuestions, ...betaQuestions].map(([label, question], index) => <article key={`${label}-${index}`} aria-hidden={index >= betaQuestions.length}><span>{label}</span><p>{question}</p></article>)}</div></div>
       </section>
 
-      <RevisionStack />
-
       <section className="vh-final" aria-labelledby="final-title" data-reveal><Sparkles aria-hidden /><p className="vh-kicker">Choose the next subject</p><h2 id="final-title">The next attempt<br /><em>starts with one concept.</em></h2><p>Enter MYP 5 through the subject you are studying now.</p><div className="vh-final-links">{MYP5_SUBJECTS.slice(0, 6).map((subject) => <Link to={`/myp/subjects/${subject.slug}`} data-preview={`${subject.group}. ${subject.topics.length} mapped topics.`} key={subject.slug}>{subject.name}<ArrowRight aria-hidden /></Link>)}</div><Link to="/myp" className="vh-final-all">Explore all MYP 5 subjects <ArrowUpRight aria-hidden /></Link></section>
+      {lensOpen && <AccessibleModal titleId="concept-lens-title" onClose={() => setLensOpen(false)} overlayClassName="vh-lens-overlay" className="vh-lens-dialog"><button type="button" className="vh-lens-close" aria-label="Close concept lens" onClick={() => setLensOpen(false)}><X aria-hidden /></button><ConceptLens id="concept-lens-dialog" /></AccessibleModal>}
     </div>
   </>;
 }
