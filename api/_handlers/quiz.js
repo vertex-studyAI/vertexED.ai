@@ -8,6 +8,7 @@ import {
 import { fetchProvider } from '../_lib/providerRequest.js';
 import { routeAiRequest } from '../_lib/aiRouting.js';
 import { validateGeneratedQuiz } from '../../contracts/learningOutputs.js';
+import { VERTEX_AGENTS } from '../_lib/vertexAgents.js';
 
 function parseJsonBody(req) {
   let body = req.body ?? {};
@@ -151,7 +152,10 @@ ${String(notes).slice(0, 12000)}`;
 
   try {
     const route = routeAiRequest({ capability: 'quiz', text: String(notes).slice(0, 12000), defaultModel: process.env.OPENAI_MODEL || 'gpt-4o-mini', maxTokens: 3000 });
-    const raw = await callOpenAI(apiKey, [{ role: "user", content: prompt }], route);
+    const raw = await callOpenAI(apiKey, [
+      { role: 'system', content: VERTEX_AGENTS.quizBuilder.instructions },
+      { role: 'user', content: prompt },
+    ], route);
     const parsed = extractJson(raw);
     const questions = validateGeneratedQuiz(parsed, counts, optionCount);
 
