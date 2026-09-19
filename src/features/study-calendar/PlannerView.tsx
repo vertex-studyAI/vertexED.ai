@@ -17,6 +17,7 @@ import { getWeakestTopics } from "@/lib/weaknessTracker";
 import { useSearchParams } from "react-router";
 import { loadPlannerSnapshot, savePlannerSnapshot } from "@/lib/plannerSync";
 import { createPlannerTask, placeSuggestedTasks, plannerDateToInput, plannerTimeToInput } from "@/lib/plannerTasks.mjs";
+import { plannerPlanError } from "@/lib/plannerPlanError.mjs";
 
 function getOrdinalSuffix(day: number) {
   if (day > 3 && day < 21) return 'th';
@@ -222,7 +223,7 @@ const PlannerView: React.FC = () => {
         return next;
       }, { replace: true });
     } catch (e) {
-      if (revision === requestRevision.current) setPlanError(e instanceof Error ? e.message : "Could not generate a week plan. You can still add tasks manually.");
+      if (revision === requestRevision.current) setPlanError(plannerPlanError(e));
     } finally {
       if (revision === requestRevision.current) setWeekPlanBusy(false);
     }
